@@ -1,0 +1,134 @@
+ /*
+  * Copyright (c) 2018 Elastos Foundation
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a copy
+  * of this software and associated documentation files (the "Software"), to deal
+  * in the Software without restriction, including without limitation the rights
+  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  * copies of the Software, and to permit persons to whom the Software is
+  * furnished to do so, subject to the following conditions:
+  *
+  * The above copyright notice and this permission notice shall be included in all
+  * copies or substantial portions of the Software.
+  *
+  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  * SOFTWARE.
+  */
+
+
+package org.elastos.trinity.dapprt;
+
+import java.util.ArrayList;
+
+public class AppInfo {
+
+    public static final String TID = "tid";
+    public static final String APP_TID = "app_tid";
+    public static final String APP_ID = "app_id";
+    public static final String VERSION = "version";
+    public static final String NAME = "name";
+    public static final String DESCRIPTION = "description";
+    public static final String LAUNCHER_PATH = "launch_path";
+    public static final String BIG_ICON = "big_icon";
+    public static final String SMALL_ICON = "small_icon";
+    public static final String AUTHOR_NAME = "author_name";
+    public static final String AUTHOR_EMAIL = "author_email";
+    public static final String DEFAULT_LOCAL = "default_locale";
+    public static final String IS_FIXED = "is_fixed";
+
+    public static final String PLUGIN = "plugin";
+    public static final String URL = "url";
+    public static final String AUTHORITY = "authority";
+
+
+    public static final int MSG_PARAMS = 0;
+    public static final int MSG_RETURN = 1;
+    public static final int MSG_URL_AUTHORITY = 2;
+    public static final int MSG_PLUGIN_AUTHORITY = 3;
+
+    public long tid;
+    public String app_id;
+    public String version;
+    public String name;
+    public String description;
+    public String launch_path;
+    public String big_icon;
+    public String small_icon;
+    public String author_name;
+    public String author_email;
+    public String default_locale;
+    public int    is_fixed;
+
+    public static final int AUTHORITY_NOEXIST = -1;
+    public static final int AUTHORITY_NOINIT = 0;
+    public static final int AUTHORITY_ASK = 1;
+    public static final int AUTHORITY_ALLOW = 2;
+    public static final int AUTHORITY_DENY = 3;
+
+    public class PluginAuth {
+        public String plugin = "";
+        public int authority = AUTHORITY_NOINIT;
+
+        PluginAuth() {}
+
+        PluginAuth(String plugin, int authority) {
+            this.plugin = plugin;
+            this.authority = authority;
+        }
+    }
+
+    public class UrlAuth {
+        public String url;
+        public int authority = AUTHORITY_NOINIT;
+
+        UrlAuth(String url, int authority) {
+            this.url = url;
+            this.authority = authority;
+        }
+    }
+
+    public ArrayList<PluginAuth> plugins = new ArrayList<PluginAuth>(20);
+    public ArrayList<UrlAuth> urls = new ArrayList<UrlAuth>(20);
+
+    public void addPlugin(String plugin, int authority) {
+        plugins.add(new PluginAuth(plugin, authority));
+    }
+
+    public void addUrl(String url, int authority) {
+        urls.add(new UrlAuth(url, authority));
+    }
+
+//    public static final int EVETN_ALER_PLUGIN_AUTH = 0;
+//    public static final int EVETN_ALER_URL_AUTH = 1;
+//
+//    public class Event {
+//        public int type;
+//        public String param;
+//
+//        Event(int type, String param) {
+//            this.type = type;
+//            this.param = param;
+//        }
+//    }
+//    public ArrayList<Event> events = new ArrayList<Event>(20);
+//    public void addEvent(int type, String param) {
+//        events.add(new Event(type, param));
+//    }
+//    public void processEvents() {
+//        for(Event event: events) {
+//            switch(event.type) {
+//                case EVETN_ALER_PLUGIN_AUTH:
+//                    WebViewActivity.activity.alertUrlAuth(this.app_id, event.param);
+//
+//                case EVETN_ALER_URL_AUTH:
+//                    WebViewActivity.activity.alertUrlAuth(this.app_id, event.param);
+//            }
+//            events.remove(event);
+//        }
+//    }
+}

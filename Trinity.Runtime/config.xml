@@ -7,7 +7,7 @@
     <author email="chendongxiao@elastos.org" href="http://www.elastos.org">
         Elastos System Team
     </author>
-    <content src="index.html" />
+    <content src="launcher_demo/index.html" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -23,4 +23,9 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+    <plugin name="elastos-trinity-plugins-appmanager" spec="https://github.com/elastos/Elastos.Trinity.Runtime.Plugins.AppManager.git#dev" />
+    <plugin name="elastos-trinity-plugins-appservice" spec="https://github.com/elastos/Elastos.Trinity.Runtime.Plugins.AppService.git#dev" />
+    <plugin name="elastos-trinity-plugins-plugindemo" spec="https://github.com/elastos/Elastos.Trinity.Runtime.Plugins.PluginDemo.git#dev" />
+    <engine name="android" spec="^7.1.1" />
+    <engine name="ios" spec="^4.5.5" />
 </widget>

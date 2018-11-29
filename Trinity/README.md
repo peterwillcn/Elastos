@@ -3,7 +3,7 @@ Elastos Trinity Runs DApps
 
 Elastos.Trinity is composite repository to Elastos Trinity infrastructure, which can be divided into the following submodules:
 
-* [Elastos.Trinity.Runtime](https://github.com/elastos/Elastos.Trinity.ToolChains)
+* [Elastos.Trinity.Runtime](https://github.com/elastos/Elastos.Trinity.Runtime)
 * Elastos.Trinity.DApps
 * [Elastos.Trinity.Plugins](https://github.com/elastos/Elastos.Trinity.Plugins)
 * [Elastos.Trinity.Toolchains](https://github.com/elastos/Elastos.Trinity.Toolchains)

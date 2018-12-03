@@ -84,7 +84,10 @@ public class AppInstaller {
                     fmd.mkdirs();
                 }
                 else {
-                    FileOutputStream fout = new FileOutputStream(filepath);
+                    File file = new File(filepath);
+                    file.getParentFile().mkdirs();
+
+                    FileOutputStream fout = new FileOutputStream(file);
 
                     // cteni zipu a zapis
                     while ((count = zis.read(buffer)) != -1) {
@@ -145,6 +148,9 @@ public class AppInstaller {
 
         String temp = "tmp_" + random.nextInt();
         String path = appPath + temp + "/";
+
+        File fmd = new File(path);
+        fmd.mkdirs();
 
         if (unpackZip(inputStream, path)) {
             AppXmlParser parser = new AppXmlParser();

@@ -1,0 +1,3 @@
+[submodule "Elastos.ELA.SPV.Cpp"]
+	path = CR.Elastos-Unity-Wallet/Elastos.ELA.SPV.Cpp
+	url = https://github.com/elastos/Elastos.ELA.SPV.Cpp

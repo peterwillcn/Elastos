@@ -68,7 +68,7 @@ public class AppManager {
 //        dbAdapter.clean();
 
         if (dbAdapter.helper.isCreatedTables) {
-            saveFixedAppInfos();
+            saveBuiltInAppInfos();
         }
 
         appList = dbAdapter.getAppInfos();
@@ -92,6 +92,7 @@ public class AppManager {
     }
 
     public boolean unInstall(String id) {
+        //TODO:: close if running
         boolean ret = installer.unInstall(appInfos.get(id));
         if (ret) {
             appInfos.remove(id);
@@ -99,7 +100,7 @@ public class AppManager {
         return ret;
     }
 
-    private String resetFixedPath(String filePath, String original) {
+    private String resetBuiltInPath(String filePath, String original) {
         if (original.indexOf("http://") != 0 && original.indexOf("https://") != 0
                 && original.indexOf("file:///") != 0) {
             while (original.startsWith("/")) {
@@ -109,23 +110,23 @@ public class AppManager {
         }
         return original;
     }
-    private void resetFixedPaths(AppInfo info) {
-        String path = "file:///android_asset/www/fixed-apps/" + info.app_id + "/";
-        info.big_icon = resetFixedPath(path, info.big_icon);
-        info.small_icon = resetFixedPath(path, info.small_icon);
-        info.launch_path = resetFixedPath(path, info.launch_path);
+    private void resetBuiltInPaths(AppInfo info) {
+        String path = "file:///android_asset/www/built-in/" + info.app_id + "/";
+        info.big_icon = resetBuiltInPath(path, info.big_icon);
+        info.small_icon = resetBuiltInPath(path, info.small_icon);
+        info.launch_path = resetBuiltInPath(path, info.launch_path);
     }
 
-    public void saveFixedAppInfos(){
+    public void saveBuiltInAppInfos(){
         AssetManager manager = activity.getAssets();
         try {
-            String[] appdirs= manager.list("www/fixed-apps");
+            String[] appdirs= manager.list("www/built-in");
             for (String appdir : appdirs) {
                 AppXmlParser parser = new AppXmlParser();
-                InputStream inputStream = manager.open("www/fixed-apps/" + appdir + "/manifest.xml");
+                InputStream inputStream = manager.open("www/built-in/" + appdir + "/manifest.xml");
                 AppInfo info = parser.parse(inputStream);
-                info.is_fixed = 1;
-                resetFixedPaths(info);
+                info.built_in = 1;
+                resetBuiltInPaths(info);
                 dbAdapter.addAppInfo(info);
             }
 
@@ -146,8 +147,8 @@ public class AppManager {
         return appsPath + info.app_id;
     }
     public String getAppUrl(AppInfo info) {
-        if (info.is_fixed == 1) {
-            return "file:///android_asset/www/fixed-apps/" + info.app_id + "/";
+        if (info.built_in == 1) {
+            return "file:///android_asset/www/built-in/" + info.app_id + "/";
         }
         else {
             return "file://" + appsPath + info.app_id + "/";
@@ -162,8 +163,7 @@ public class AppManager {
 
 
     public boolean loadLauncher() {
-        start("launcher");
-        return true;
+        return start("launcher");
     }
 
     private WebViewFragment findFragmentById(String id) {
@@ -314,11 +314,11 @@ public class AppManager {
         }
     }
 
-    public void runAlertPluginAuth(AppInfo info, String url) {
+    public void runAlertPluginAuth(AppInfo info, String plugin) {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                alertPluginAuth(info, url);
+                alertPluginAuth(info, plugin);
             }
         });
     }

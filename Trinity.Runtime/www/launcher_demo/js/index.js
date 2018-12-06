@@ -104,7 +104,7 @@ function string_app_info(info) {
           "<br/>     authorName:" + info.authorName +
           "<br/>    authorEmail:" + info.authorEmail +
           "<br/>  defaultLocale:" + info.defaultLocale +
-          "<br/>        isFixed:" + info.isFixed +
+          "<br/>        builtIn:" + info.builtIn +
           "<br/>        plugins:" + info.plugins +
           "<br/>           urls:" + info.urls;
     return msg;

@@ -67,7 +67,7 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
                 AppInfo.AUTHOR_NAME + " varchar(128), " +
                 AppInfo.AUTHOR_EMAIL + " varchar(128), " +
                 AppInfo.DEFAULT_LOCAL + " varchar(16), " +
-                AppInfo.IS_FIXED + " integer)";
+                AppInfo.BUILT_IN + " integer)";
         db.execSQL(strSQL);
 
         isCreatedTables = true;

@@ -77,8 +77,8 @@ public class AppWhitelist extends Whitelist {
                         String path = m.group(9);
                         if (scheme == null) {
                             // XXX making it stupid friendly for people who forget to include protocol/SSL
-                            whiteList.put(origin, new URLPattern("http", host, port, path));
-                            whiteList.put(origin, new URLPattern("https", host, port, path));
+                            // whiteList.put(origin, new URLPattern("http", host, port, path));
+                            // whiteList.put(origin, new URLPattern("https", host, port, path));
                         } else {
                             whiteList.put(origin, new URLPattern(scheme, host, port, path));
                         }

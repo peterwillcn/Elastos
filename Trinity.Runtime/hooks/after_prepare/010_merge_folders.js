@@ -13,9 +13,9 @@
 var folders_to_copy = [{
     "platform_res/android":
     "platforms/android"
-// },{
-//     "platform_res/ios":
-//     "platforms/ios"
+},{
+    "platform_res/ios":
+    "platforms/ios"
 }]
 // no need to configure below
 

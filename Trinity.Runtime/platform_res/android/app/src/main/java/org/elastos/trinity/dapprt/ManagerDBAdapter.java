@@ -57,7 +57,7 @@ public class ManagerDBAdapter {
             contentValues.put(AppInfo.AUTHOR_NAME, info.author_name);
             contentValues.put(AppInfo.AUTHOR_EMAIL, info.author_email);
             contentValues.put(AppInfo.DEFAULT_LOCAL, info.default_locale);
-            contentValues.put(AppInfo.IS_FIXED, info.is_fixed);
+            contentValues.put(AppInfo.BUILT_IN, info.built_in);
             long tid = db.insert(ManagerDBHelper.APP_TABLE, null, contentValues);
 
             if (tid == -1) {
@@ -91,7 +91,7 @@ public class ManagerDBAdapter {
         SQLiteDatabase db = helper.getWritableDatabase();
         String[] columns = {AppInfo.TID, AppInfo.APP_ID, AppInfo.VERSION, AppInfo.NAME, AppInfo.DESCRIPTION, AppInfo.LAUNCHER_PATH,
                 AppInfo.BIG_ICON, AppInfo.SMALL_ICON, AppInfo.AUTHOR_NAME, AppInfo.AUTHOR_EMAIL,
-                AppInfo.DEFAULT_LOCAL, AppInfo.IS_FIXED};
+                AppInfo.DEFAULT_LOCAL, AppInfo.BUILT_IN};
         Cursor cursor = db.query(ManagerDBHelper.APP_TABLE, columns,selection, selectionArgs,null,null,null);
         AppInfo infos[] = new AppInfo[cursor.getCount()];
         int count = 0;
@@ -108,7 +108,7 @@ public class ManagerDBAdapter {
             info.author_name = cursor.getString(cursor.getColumnIndex(AppInfo.AUTHOR_NAME));
             info.author_email = cursor.getString(cursor.getColumnIndex(AppInfo.AUTHOR_EMAIL));
             info.default_locale = cursor.getString(cursor.getColumnIndex(AppInfo.DEFAULT_LOCAL));
-            info.is_fixed = cursor.getInt(cursor.getColumnIndex(AppInfo.IS_FIXED));
+            info.built_in = cursor.getInt(cursor.getColumnIndex(AppInfo.BUILT_IN));
             infos[count++] = info;
 
             String[] columns1 = {AppInfo.PLUGIN, AppInfo.AUTHORITY};

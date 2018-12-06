@@ -84,10 +84,7 @@ public class AppInstaller {
                     fmd.mkdirs();
                 }
                 else {
-                    File file = new File(filepath);
-                    file.getParentFile().mkdirs();
-
-                    FileOutputStream fout = new FileOutputStream(file);
+                    FileOutputStream fout = new FileOutputStream(filepath);
 
                     // cteni zipu a zapis
                     while ((count = zis.read(buffer)) != -1) {
@@ -149,9 +146,6 @@ public class AppInstaller {
         String temp = "tmp_" + random.nextInt();
         String path = appPath + temp + "/";
 
-        File fmd = new File(path);
-        fmd.mkdirs();
-
         if (unpackZip(inputStream, path)) {
             AppXmlParser parser = new AppXmlParser();
             info = parser.parse(path);
@@ -169,7 +163,7 @@ public class AppInstaller {
                 }
                 from.renameTo(to);
                 resetPaths(info);
-                info.is_fixed = 0;
+                info.built_in = 0;
                 dbAdapter.addAppInfo(info);
                 return info;
             }
@@ -208,7 +202,7 @@ public class AppInstaller {
     }
 
     public boolean unInstall(AppInfo info) {
-        if (info == null || info.is_fixed == 1) {
+        if (info == null || info.built_in == 1) {
             return false;
         }
         int count = dbAdapter.removeAppInfo(info);

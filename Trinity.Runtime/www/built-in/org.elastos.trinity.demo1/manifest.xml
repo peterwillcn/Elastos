@@ -3,10 +3,10 @@
     xmlns="http://elastos.org/ns/dapps/1.0">
     <name>demo1</name>
     <description>My sample app1</description>
-    <launch_path>demo1.html</launch_path>>
+    <launch_path>demo1.html</launch_path>
     <icons>
-        <big>/img/avatar01.png</big>
-        <small>/img/icon-128.png</small>
+        <big>img/avatar01.png</big>
+        <small>img/avatar01.png</small>
     </icons>
     <author name = "ChenDongxiao" email = "chendongxiao@elastos.org">
     Elastos System Team

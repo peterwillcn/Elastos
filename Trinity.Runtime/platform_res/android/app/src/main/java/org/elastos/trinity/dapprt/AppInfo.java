@@ -39,7 +39,7 @@ public class AppInfo {
     public static final String AUTHOR_NAME = "author_name";
     public static final String AUTHOR_EMAIL = "author_email";
     public static final String DEFAULT_LOCAL = "default_locale";
-    public static final String IS_FIXED = "is_fixed";
+    public static final String BUILT_IN = "built_in";
 
     public static final String PLUGIN = "plugin";
     public static final String URL = "url";
@@ -62,7 +62,7 @@ public class AppInfo {
     public String author_name;
     public String author_email;
     public String default_locale;
-    public int    is_fixed;
+    public int    built_in;
 
     public static final int AUTHORITY_NOEXIST = -1;
     public static final int AUTHORITY_NOINIT = 0;

@@ -89,15 +89,7 @@ class AppManager {
     }
     
     func getStartPath(_ info: AppInfo) -> String {
-        var ret = info.launch_path;
-        if (!ret.hasPrefix("http://") && !ret.hasPrefix("https://")
-            && !ret.hasPrefix("file:///")) {
-            while (ret.first == "/") {
-                ret.remove(at: ret.startIndex);
-            }
-            ret = getAppUrl(info) + ret;
-        }
-        return ret;
+        return resetPath(getAppUrl(info), info.launch_path);
     }
     
     func getDataPath(_ info: AppInfo) -> String {

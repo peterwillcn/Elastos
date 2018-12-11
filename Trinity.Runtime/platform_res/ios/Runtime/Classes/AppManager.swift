@@ -121,14 +121,18 @@ class AppManager {
         return ret;
     }
     
-    func switchContent(_ to: TrinityViewController, _ id: String) {
-        mainViewController.switchController(from: curController!, to: to)
+    func removeLastlistItem(_ id: String) {
         for (index, item) in lastList.enumerated() {
             if item == id {
                 lastList.remove(at: index);
                 break;
             }
         }
+    }
+    
+    func switchContent(_ to: TrinityViewController, _ id: String) {
+        mainViewController.switchController(from: curController!, to: to)
+        removeLastlistItem(id);
         lastList.insert(id, at: 0);
     }
 
@@ -153,6 +157,7 @@ class AppManager {
             
             mainViewController.add(viewController!)
             viewControllers[id] = viewController;
+            lastList.insert(id, at: 0);
         }
         else {
             if (curController != viewController) {
@@ -181,11 +186,13 @@ class AppManager {
             if (viewController2 == nil) {
                 return false;
             }
-            mainViewController.switchController(from: curController!, to: viewController2!);
+            switchContent(viewController2!, id2);
         }
-
+        
+        removeLastlistItem(id);
         viewControllers[id] = nil;
         viewController!.remove();
+        
         return true;
     }
     

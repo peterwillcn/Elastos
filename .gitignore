@@ -5,3 +5,5 @@
 /platforms
 /plugins
 
+# Mac
+.DS_Store

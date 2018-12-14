@@ -1,0 +1,77 @@
+diff -uraN orig_platfroms/android/CordovaLib/build.gradle platforms/android/CordovaLib/build.gradle
+--- orig_platfroms/android/CordovaLib/build.gradle	2018-12-13 23:25:09.179386040 +0800
++++ platforms/android/CordovaLib/build.gradle	2018-12-13 23:26:24.205524423 +0800
+@@ -24,6 +24,7 @@
+ 
+ buildscript {
+     repositories {
++        google()
+         maven {
+             url "https://maven.google.com"
+         }
+@@ -31,7 +32,7 @@
+     }
+ 
+     dependencies {
+-        classpath 'com.android.tools.build:gradle:3.0.1'
++        classpath 'com.android.tools.build:gradle:3.2.1'
+         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+     }
+diff -uraN orig_platfroms/android/app/build.gradle platforms/android/app/build.gradle
+--- orig_platfroms/android/app/build.gradle	2018-12-13 23:25:09.061661382 +0800
++++ platforms/android/app/build.gradle	2018-12-13 23:26:24.208399745 +0800
+@@ -21,6 +21,7 @@
+ 
+ buildscript {
+     repositories {
++        google()
+         mavenCentral()
+         maven {
+             url "https://maven.google.com"
+@@ -29,7 +30,7 @@
+     }
+ 
+     dependencies {
+-        classpath 'com.android.tools.build:gradle:3.0.1'
++        classpath 'com.android.tools.build:gradle:3.2.1'
+     }
+ }
+ 
+@@ -169,6 +170,8 @@
+ 
+         if (cdvMinSdkVersion != null) {
+             minSdkVersion cdvMinSdkVersion
++        } else {
++            minSdkVersion 19
+         }
+     }
+ 
+@@ -266,6 +269,7 @@
+     // SUB-PROJECT DEPENDENCIES START
+     implementation(project(path: ":CordovaLib"))
+     // SUB-PROJECT DEPENDENCIES END
++    implementation 'com.android.support:support-v4:27.1.1'
+ }
+ 
+ def promptForReleaseKeyPassword() {
+diff -uraN orig_platfroms/android/build.gradle platforms/android/build.gradle
+--- orig_platfroms/android/build.gradle	2018-12-13 23:25:09.176518670 +0800
++++ platforms/android/build.gradle	2018-12-13 23:26:24.205038944 +0800
+@@ -20,6 +20,7 @@
+ 
+ buildscript {
+     repositories {
++        google()
+         maven {
+             url "https://maven.google.com"
+         }
+@@ -29,7 +30,7 @@
+ 
+         // NOTE: Do not place your application dependencies here; they belong
+         // in the individual module build.gradle files
+-        classpath 'com.android.tools.build:gradle:3.0.1'
++        classpath 'com.android.tools.build:gradle:3.2.1'
+     }
+ }
+ 

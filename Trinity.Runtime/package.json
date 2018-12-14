@@ -15,7 +15,8 @@
         "cordova-android": "^7.1.1",
         "cordova-ios": "^4.5.5",
         "cordova-plugin-whitelist": "^1.3.3",
-        "plugindemo": "git+https://github.com/elastos/Elastos.Trinity.Runtime.Plugins.PluginDemo.git#dev"
+        "plugindemo": "git+https://github.com/elastos/Elastos.Trinity.Runtime.Plugins.PluginDemo.git#dev",
+        "xcode": "^1.0.0"
     },
     "cordova": {
         "plugins": {

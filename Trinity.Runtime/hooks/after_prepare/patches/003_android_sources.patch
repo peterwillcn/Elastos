@@ -1,0 +1,24 @@
+diff -uraN orig_platfroms/android/CordovaLib/src/org/apache/cordova/PluginEntry.java platforms/android/CordovaLib/src/org/apache/cordova/PluginEntry.java
+--- orig_platfroms/android/CordovaLib/src/org/apache/cordova/PluginEntry.java	2018-12-13 23:25:09.199555071 +0800
++++ platforms/android/CordovaLib/src/org/apache/cordova/PluginEntry.java	2018-12-13 23:26:24.202390925 +0800
+@@ -61,7 +61,7 @@
+         this(service, pluginClass, onload, null);
+     }
+ 
+-    private PluginEntry(String service, String pluginClass, boolean onload, CordovaPlugin plugin) {
++    public PluginEntry(String service, String pluginClass, boolean onload, CordovaPlugin plugin) {
+         this.service = service;
+         this.pluginClass = pluginClass;
+         this.onload = onload;
+diff -uraN orig_platfroms/android/CordovaLib/src/org/apache/cordova/Whitelist.java platforms/android/CordovaLib/src/org/apache/cordova/Whitelist.java
+--- orig_platfroms/android/CordovaLib/src/org/apache/cordova/Whitelist.java	2018-12-13 23:25:09.194535268 +0800
++++ platforms/android/CordovaLib/src/org/apache/cordova/Whitelist.java	2018-12-13 23:26:24.201302366 +0800
+@@ -29,7 +29,7 @@
+ import android.net.Uri;
+ 
+ public class Whitelist {
+-    private static class URLPattern {
++    protected static class URLPattern {
+         public Pattern scheme;
+         public Pattern host;
+         public Integer port;

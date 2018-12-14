@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --use_strict
 
 //
 // This hook copies various resource files/folders

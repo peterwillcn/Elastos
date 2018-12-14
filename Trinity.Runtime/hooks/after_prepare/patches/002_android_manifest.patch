@@ -1,0 +1,18 @@
+diff -uraN orig_platfroms/android/CordovaLib/AndroidManifest.xml platforms/android/CordovaLib/AndroidManifest.xml
+--- orig_platfroms/android/CordovaLib/AndroidManifest.xml	2018-12-13 23:25:09.178080350 +0800
++++ platforms/android/CordovaLib/AndroidManifest.xml	2018-12-13 23:26:24.207230305 +0800
+@@ -19,5 +19,4 @@
+ -->
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+       package="org.apache.cordova" android:versionName="1.0" android:versionCode="1">
+-    <uses-sdk android:minSdkVersion="19" />
+ </manifest>
+diff -uraN orig_platfroms/android/app/src/main/AndroidManifest.xml platforms/android/app/src/main/AndroidManifest.xml
+--- orig_platfroms/android/app/src/main/AndroidManifest.xml	2018-12-13 23:25:09.105107398 +0800
++++ platforms/android/app/src/main/AndroidManifest.xml	2018-12-13 23:26:24.206059949 +0800
+@@ -10,5 +10,4 @@
+             </intent-filter>
+         </activity>
+     </application>
+-    <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="27" />
+ </manifest>

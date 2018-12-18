@@ -214,12 +214,22 @@ public class AppManager {
                 transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                         .show(fragment);
             }
-            transaction.addToBackStack(null);
+//            transaction.addToBackStack(null);
             transaction.commit();
             mCurrent = fragment;
         }
         lastList.remove(id);
         lastList.add(0, id);
+    }
+
+    public boolean doBackPressed() {
+        if (mCurrent.id.equals("launcher")) {
+            return true;
+        }
+        else {
+            switchContent(findFragmentById("launcher"), "launcher");
+            return false;
+        }
     }
 
     public boolean close(String id) {

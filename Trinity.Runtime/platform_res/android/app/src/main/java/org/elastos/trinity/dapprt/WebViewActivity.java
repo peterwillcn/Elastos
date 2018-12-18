@@ -63,6 +63,13 @@ public class WebViewActivity extends FragmentActivity {
 //        loadUrl((url.matches("^(.*://|javascript:)[\\s\\S]*$") ? "" : "file:///android_asset/www/" + (isPluginCryptFileActive() ? "+++/" : "")) + url);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (appManager.doBackPressed()) {
+            super.onBackPressed();
+        }
+    }
+
 //    protected void onSaveInstanceState(Bundle outState) {
 //        cordovaInterface.onSaveInstanceState(outState);
 //        super.onSaveInstanceState(outState);

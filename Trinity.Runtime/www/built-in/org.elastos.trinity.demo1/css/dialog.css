@@ -14,7 +14,7 @@ li{list-style:none;}
 .menu a:hover{text-decoration:none;background-color:#ffffff;}
 .ui-loader h1{display:none;}
 .avatar_{margin-top:15px;height: 45px;}
-.content-reply-box{width:100%;overflow:hidden;}
+.content-reply-box{width:100%;overflow:hidden;word-wrap: break-word;word-break: normal;}
 .content-reply-box li{width:100%;overflow:hidden;margin-bottom:2em;}
 .content-reply-box li.other .user{float:left;margin-right:10px;}
 .content-reply-box li.me .user{float:right;margin-left:10px;}

@@ -1,5 +1,5 @@
-diff -uraN orig_platfroms/android/CordovaLib/build.gradle platforms/android/CordovaLib/build.gradle
---- orig_platfroms/android/CordovaLib/build.gradle	2018-12-13 23:25:09.179386040 +0800
+diff -uraN origin_platforms/android/CordovaLib/build.gradle platforms/android/CordovaLib/build.gradle
+--- origin_platforms/android/CordovaLib/build.gradle	2018-12-13 23:25:09.179386040 +0800
 +++ platforms/android/CordovaLib/build.gradle	2018-12-13 23:26:24.205524423 +0800
 @@ -24,6 +24,7 @@
  
@@ -18,8 +18,8 @@ diff -uraN orig_platfroms/android/CordovaLib/build.gradle platforms/android/Cord
          classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
          classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
      }
-diff -uraN orig_platfroms/android/app/build.gradle platforms/android/app/build.gradle
---- orig_platfroms/android/app/build.gradle	2018-12-13 23:25:09.061661382 +0800
+diff -uraN origin_platforms/android/app/build.gradle platforms/android/app/build.gradle
+--- origin_platforms/android/app/build.gradle	2018-12-13 23:25:09.061661382 +0800
 +++ platforms/android/app/build.gradle	2018-12-13 23:26:24.208399745 +0800
 @@ -21,6 +21,7 @@
  
@@ -55,8 +55,8 @@ diff -uraN orig_platfroms/android/app/build.gradle platforms/android/app/build.g
  }
  
  def promptForReleaseKeyPassword() {
-diff -uraN orig_platfroms/android/build.gradle platforms/android/build.gradle
---- orig_platfroms/android/build.gradle	2018-12-13 23:25:09.176518670 +0800
+diff -uraN origin_platforms/android/build.gradle platforms/android/build.gradle
+--- origin_platforms/android/build.gradle	2018-12-13 23:25:09.176518670 +0800
 +++ platforms/android/build.gradle	2018-12-13 23:26:24.205038944 +0800
 @@ -20,6 +20,7 @@
  

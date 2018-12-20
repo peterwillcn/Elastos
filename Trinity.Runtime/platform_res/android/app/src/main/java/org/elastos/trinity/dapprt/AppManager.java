@@ -41,6 +41,18 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AppManager {
+
+    /** The internal message */
+    public static final int MSG_TYPE_INTERNAL = 1;
+    /** The internal return message. */
+    public static final int MSG_TYPE_IN_RETURN = 2;
+    /** The external launcher message */
+    public static final int MSG_TYPE_EXTERNAL_LAUNCHER = 3;
+    /** The external install message */
+    public static final int MSG_TYPE_EXTERNAL_INSTALL = 4;
+    /** The external return message. */
+    public static final int MSG_TYPE_EX_RETURN = 5;
+
     public static AppManager appManager;
     private WebViewActivity activity;
     private WebViewFragment mCurrent = null;
@@ -56,6 +68,9 @@ public class AppManager {
     protected HashMap<String, AppInfo> appInfos;
     private ArrayList<String> lastList;
     public AppInfo[] appList;
+
+    private ArrayList<String>  installUriList = new ArrayList<String>();
+    private boolean launcherReady = false;
 
     AppManager(WebViewActivity activity) {
         AppManager.appManager = this;
@@ -164,6 +179,23 @@ public class AppManager {
 
     public boolean loadLauncher() {
         return start("launcher");
+    }
+
+    public void addInstallUir(String uri) {
+        installUriList.add(uri);
+    }
+
+    public boolean isLauncherReady() {
+        return launcherReady;
+    }
+
+    public void setLauncherReady() {
+        launcherReady = true;
+
+        for (int i = 0; i < installUriList.size(); i++) {
+            String uri = installUriList.get(i);
+            sendMessage("launcher", AppManager.MSG_TYPE_EXTERNAL_INSTALL, uri, "system");
+        }
     }
 
     private WebViewFragment findFragmentById(String id) {

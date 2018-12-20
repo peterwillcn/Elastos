@@ -17,14 +17,4 @@ This layout only contains a Cordova WebView that takes up all available space of
         android:layout_height="match_parent"
         android:layout_weight="1" />
 
-    <!--<fragment-->
-        <!--android:id="@+id/fragment1"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent" />-->
-
-    <!--<fragment-->
-        <!--android:id="@+id/fragment2"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent" />-->
-
 </LinearLayout>

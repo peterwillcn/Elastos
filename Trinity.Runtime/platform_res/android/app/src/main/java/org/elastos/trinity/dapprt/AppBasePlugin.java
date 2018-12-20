@@ -84,9 +84,15 @@ public class AppBasePlugin extends CordovaPlugin {
         PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
         pluginResult.setKeepCallback(true);
         callbackContext.sendPluginResult(pluginResult);
+
+        if (id.equals("launcher")) {
+            AppManager.appManager.setLauncherReady();
+        }
     }
 
     public void onReceive(String msg, int type, String from) {
+        if (mMessageContext == null) return;
+
         JSONObject r = new JSONObject();
         try {
             r.put("message", msg);
@@ -101,8 +107,8 @@ public class AppBasePlugin extends CordovaPlugin {
     }
 
     @Override
-    public Object onMessage(String id, Object data) {
-        if (id.equals("onPageFinished")) {
+    public Object onMessage(String event, Object data) {
+        if (event.equals("onPageFinished")) {
             webView.loadUrl("javascript:(function(){\n" +
                     "    var head = document.getElementsByTagName('head')[0];\n" +
                     "    var script = document.createElement('script');\n" +

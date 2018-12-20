@@ -23,6 +23,8 @@
 package org.elastos.trinity.dapprt;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
@@ -35,6 +37,18 @@ public class WebViewActivity extends FragmentActivity {
     static Dialog dialog;
     protected AppManager appManager;
 
+    private String getInstallUri() {
+        Intent intent = getIntent();
+        String action=intent.getAction();
+        if (action.equals("android.intent.action.VIEW")) {
+            Uri uri = intent.getData();
+            if (uri != null) {
+                return uri.toString();
+            }
+        }
+        return null;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -43,6 +57,12 @@ public class WebViewActivity extends FragmentActivity {
 
         setContentView(R.layout.home_view_frag);
         appManager = new AppManager(this);
+
+        String uri = getInstallUri();
+        if (uri != null) {
+            appManager.addInstallUir(uri);
+        }
+
 
 //        Bundle b = getIntent().getExtras();
 //        String url = b.getString("url");
@@ -61,6 +81,20 @@ public class WebViewActivity extends FragmentActivity {
 //        this.keepRunning = preferences.getBoolean("KeepRunning", true);
 
 //        loadUrl((url.matches("^(.*://|javascript:)[\\s\\S]*$") ? "" : "file:///android_asset/www/" + (isPluginCryptFileActive() ? "+++/" : "")) + url);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        String uri = getInstallUri();
+        if (uri != null) {
+            if (appManager.isLauncherReady()) {
+                appManager.sendMessage("launcher", AppManager.MSG_TYPE_EXTERNAL_INSTALL, uri, "system");
+            } else {
+                appManager.addInstallUir(uri);
+            }
+        }
     }
 
     @Override

@@ -1,5 +1,5 @@
-diff -uraN orig_platfroms/android/CordovaLib/AndroidManifest.xml platforms/android/CordovaLib/AndroidManifest.xml
---- orig_platfroms/android/CordovaLib/AndroidManifest.xml	2018-12-13 23:25:09.178080350 +0800
+diff -uraN origin_platforms/android/CordovaLib/AndroidManifest.xml platforms/android/CordovaLib/AndroidManifest.xml
+--- origin_platforms/android/CordovaLib/AndroidManifest.xml	2018-12-13 23:25:09.178080350 +0800
 +++ platforms/android/CordovaLib/AndroidManifest.xml	2018-12-13 23:26:24.207230305 +0800
 @@ -19,5 +19,4 @@
  -->
@@ -7,12 +7,57 @@ diff -uraN orig_platfroms/android/CordovaLib/AndroidManifest.xml platforms/andro
        package="org.apache.cordova" android:versionName="1.0" android:versionCode="1">
 -    <uses-sdk android:minSdkVersion="19" />
  </manifest>
-diff -uraN orig_platfroms/android/app/src/main/AndroidManifest.xml platforms/android/app/src/main/AndroidManifest.xml
---- orig_platfroms/android/app/src/main/AndroidManifest.xml	2018-12-13 23:25:09.105107398 +0800
-+++ platforms/android/app/src/main/AndroidManifest.xml	2018-12-13 23:26:24.206059949 +0800
-@@ -10,5 +10,4 @@
+diff -uraN origin_platforms/android/app/src/main/AndroidManifest.xml platforms/android/app/src/main/AndroidManifest.xml
+--- origin_platforms/android/app/src/main/AndroidManifest.xml	2018-12-20 14:39:26.000000000 +0800
++++ platforms/android/app/src/main/AndroidManifest.xml	2018-12-20 10:35:51.000000000 +0800
+@@ -1,14 +1,43 @@
+-<?xml version='1.0' encoding='utf-8'?>
+-<manifest android:hardwareAccelerated="true" android:versionCode="10000" android:versionName="1.0.0" package="org.elastos.trinity.runtime" xmlns:android="http://schemas.android.com/apk/res/android">
+-    <supports-screens android:anyDensity="true" android:largeScreens="true" android:normalScreens="true" android:resizeable="true" android:smallScreens="true" android:xlargeScreens="true" />
++<?xml version="1.0" encoding="utf-8"?>
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    package="org.elastos.trinity.runtime"
++    android:hardwareAccelerated="true"
++    android:versionCode="10000"
++    android:versionName="1.0.0">
++
++    <supports-screens
++        android:anyDensity="true"
++        android:largeScreens="true"
++        android:normalScreens="true"
++        android:resizeable="true"
++        android:smallScreens="true"
++        android:xlargeScreens="true" />
++
+     <uses-permission android:name="android.permission.INTERNET" />
+-    <application android:hardwareAccelerated="true" android:icon="@mipmap/icon" android:label="@string/app_name" android:supportsRtl="true">
+-        <activity android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale" android:label="@string/activity_name" android:launchMode="singleTop" android:name="MainActivity" android:theme="@android:style/Theme.DeviceDefault.NoActionBar" android:windowSoftInputMode="adjustResize">
++
++    <application
++        android:hardwareAccelerated="true"
++        android:icon="@mipmap/icon"
++        android:label="@string/app_name"
++        android:supportsRtl="true">
++        <activity
++            android:name=".MainActivity"
++            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale"
++            android:label="@string/activity_name"
++            android:launchMode="singleTask"
++            android:theme="@android:style/Theme.DeviceDefault.NoActionBar"
++            android:windowSoftInputMode="adjustResize">
+             <intent-filter android:label="@string/launcher_name">
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
              </intent-filter>
++            <intent-filter>
++                <action android:name="android.intent.action.VIEW" />
++                <category android:name="android.intent.category.DEFAULT" />
++                <data android:scheme="file" android:host="*" android:mimeType="*/*" android:pathPattern=".*\\.epk"/>
++            </intent-filter>
          </activity>
++
      </application>
 -    <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="27" />
- </manifest>
+-</manifest>
++
++</manifest>

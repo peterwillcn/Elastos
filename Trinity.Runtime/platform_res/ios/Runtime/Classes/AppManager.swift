@@ -78,8 +78,6 @@ import Foundation
             }
         }
         
-        }
-        
         installer = AppInstaller(appsPath, dataPath, dbAdapter);
 
         appList = dbAdapter.getAppInfos();

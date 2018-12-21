@@ -4,6 +4,7 @@
 # Cordova
 /platforms
 /plugins
+/origin_platforms
 
 # Mac
 .DS_Store

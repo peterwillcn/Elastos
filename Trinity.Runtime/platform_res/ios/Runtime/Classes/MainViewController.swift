@@ -47,15 +47,15 @@ import Foundation
  
 @objc(MainViewController)
 class MainViewController: UIViewController {
-
+    var appManager: AppManager? = nil;
+    
     convenience init() {
         self.init(nibName: nil, bundle: nil)
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        
+        appManager = AppManager(self);
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -64,8 +64,11 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let appManager = AppManager(self);
-        appManager.loadLauncher();
+        appManager!.loadLauncher();
+    }
+    
+    @objc func openURL(_ url: String) {
+        appManager!.setInstallUri(url);
     }
     
 }

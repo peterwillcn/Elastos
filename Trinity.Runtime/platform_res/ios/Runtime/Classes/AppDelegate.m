@@ -36,4 +36,9 @@
     return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotationm {
+    [(MainViewController*)self.viewController openURL:url.absoluteString];
+    return YES;
+}
+
 @end

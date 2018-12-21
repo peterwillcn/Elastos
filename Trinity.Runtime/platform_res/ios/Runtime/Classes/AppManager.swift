@@ -22,9 +22,19 @@
 
 import Foundation
 
- 
-class AppManager {
+ class AppManager {
     public static var appManager: AppManager?;
+    
+    /** The internal message */
+    static let MSG_TYPE_INTERNAL = 1;
+    /** The internal return message. */
+    static let MSG_TYPE_IN_RETURN = 2;
+    /** The external launcher message */
+    static let MSG_TYPE_EXTERNAL_LAUNCHER = 3;
+    /** The external install message */
+    static let MSG_TYPE_EXTERNAL_INSTALL = 4;
+    /** The external return message. */
+    static let MSG_TYPE_EX_RETURN = 5;
     
     let mainViewController: MainViewController;
     var viewControllers = [String: TrinityViewController]();
@@ -41,11 +51,34 @@ class AppManager {
     var lastList = [String]();
     let installer: AppInstaller;
     
+    var installUriList = [String]();
+    var launcherReady = false;
     
     init(_ mainViewController: MainViewController) {
         self.mainViewController = mainViewController;
-        appsPath = NSHomeDirectory() + "/apps/";
-        dataPath = NSHomeDirectory() + "/data/";
+        appsPath = NSHomeDirectory() + "/Documents/apps/";
+        dataPath = NSHomeDirectory() + "/Documents/data/";
+        
+        let fileManager = FileManager.default
+        if (!fileManager.fileExists(atPath: appsPath)) {
+            do {
+                try fileManager.createDirectory(atPath: appsPath, withIntermediateDirectories: true, attributes: nil)
+            }
+            catch let error {
+                print("Make appsPath error: \(error)");
+            }
+        }
+        
+        if (!fileManager.fileExists(atPath: dataPath)) {
+            do {
+                try fileManager.createDirectory(atPath: dataPath, withIntermediateDirectories: true, attributes: nil)
+            }
+            catch let error {
+                print("Make dataPath error: \(error)");
+            }
+        }
+        
+        }
         
         installer = AppInstaller(appsPath, dataPath, dbAdapter);
 
@@ -75,6 +108,10 @@ class AppManager {
         return appInfos;
     }
     
+    func getStartPath(_ info: AppInfo) -> String {
+        return resetPath(getAppUrl(info), info.launch_path);
+    }
+    
     func getAppPath(_ info: AppInfo) -> String {
         return appsPath + info.id;
     }
@@ -86,10 +123,6 @@ class AppManager {
         else {
             return "file://" + appsPath + info.id + "/";
         }
-    }
-    
-    func getStartPath(_ info: AppInfo) -> String {
-        return resetPath(getAppUrl(info), info.launch_path);
     }
     
     func getDataPath(_ info: AppInfo) -> String {
@@ -199,6 +232,27 @@ class AppManager {
     
     func loadLauncher() -> Bool {
         return start("launcher");
+    }
+    
+    func setInstallUri(_ uri: String) {
+        if launcherReady {
+            self.sendMessage("launcher", AppManager.MSG_TYPE_EXTERNAL_INSTALL, uri, "system");
+        }
+        else {
+            installUriList.append(uri);
+        }
+    }
+    
+    func isLauncherReady() -> Bool {
+        return launcherReady;
+    }
+    
+    func setLauncherReady() {
+        launcherReady = true;
+    
+        for uri in installUriList {
+            self.sendMessage("launcher", AppManager.MSG_TYPE_EXTERNAL_INSTALL, uri, "system");
+        }
     }
 
     func getAbsolutePath(_ path: String, _ type: String? = nil) -> String {

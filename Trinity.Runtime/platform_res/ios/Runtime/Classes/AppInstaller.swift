@@ -31,20 +31,6 @@
         self.appPath = appPath;
         self.dataPath = dataPath;
         self.dbAdapter = dbAdapter;
-        
-        let fileManager = FileManager.default
-        if (!fileManager.fileExists(atPath: appPath)) {
-            //TODO: add catch
-            try?
-                fileManager.createDirectory(atPath: appPath, withIntermediateDirectories: true, attributes: nil)
-        }
-
-        if (!fileManager.fileExists(atPath: dataPath)) {
-            //TODO: add catch
-            try?
-                fileManager.createDirectory(atPath: dataPath, withIntermediateDirectories: true, attributes: nil)
-        }
-        
     }
     
     func unpackZip(_ srcZip: String, _ destPath: String) -> Bool {
@@ -52,7 +38,7 @@
     }
     
     func deleteAllFiles(_ path: String) {
-        let  fileManager = FileManager.default;
+        let fileManager = FileManager.default;
         do {
             try fileManager.removeItem(atPath: path)
         } catch {

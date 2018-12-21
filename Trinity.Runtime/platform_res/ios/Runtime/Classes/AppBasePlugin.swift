@@ -131,9 +131,17 @@
         let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT);
         result?.setKeepCallbackAs(true);
         self.commandDelegate.send(result, callbackId: command.callbackId)
+        
+        if (id == "launcher") {
+            AppManager.appManager!.setLauncherReady();
+        }
     }
     
     func onReceive(_ msg: String, _ type: Int, _ from: String) {
+        guard self.callbackId != nil else {
+            return;
+        }
+        
         let ret = [
             "message": msg,
             "type": type,

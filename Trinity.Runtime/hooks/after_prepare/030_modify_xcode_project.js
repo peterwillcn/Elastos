@@ -41,25 +41,25 @@ runtimeProj.parse(function (err) {
     runtimeProj.removeSourceFile("MainViewController.h",      {}, classesGroupKey);
     runtimeProj.removeSourceFile("MainViewController.m",      {}, classesGroupKey);
 
-    runtimeProj.addSourceFile("AppBasePlugin.swift",          {}, classesGroupKey);
-    runtimeProj.addSourceFile("AppInfo.swift",                {}, classesGroupKey);
-    runtimeProj.addSourceFile("AppInstaller.swift",           {}, classesGroupKey);
-    runtimeProj.addSourceFile("AppManager.swift",             {}, classesGroupKey);
-    runtimeProj.addSourceFile("AppViewController.swift",      {}, classesGroupKey);
-    runtimeProj.addSourceFile("AppWhitelist.swift",           {}, classesGroupKey);
-    runtimeProj.addSourceFile("AppXmlParser.swift",           {}, classesGroupKey);
-    runtimeProj.addSourceFile("AuthorityPlugin.swift",        {}, classesGroupKey);
-    runtimeProj.addSourceFile("LauncherViewController.swift", {}, classesGroupKey);
-    runtimeProj.addSourceFile("MainViewController.swift",     {}, classesGroupKey);
-    runtimeProj.addSourceFile("ManagerDBAdapter.swift",       {}, classesGroupKey);
-    runtimeProj.addSourceFile("NullPlugin.swift",             {}, classesGroupKey);
-    runtimeProj.addSourceFile("Runtime-Bridging-Header.h",    {}, classesGroupKey);
-    runtimeProj.addSourceFile("TrinityPlugin.h",              {}, classesGroupKey);
-    runtimeProj.addSourceFile("TrinityPlugin.m",              {}, classesGroupKey);
-    runtimeProj.addSourceFile("TrinityViewController.swift",  {}, classesGroupKey);
-    runtimeProj.addSourceFile("Utility.swift",                {}, classesGroupKey);
-    runtimeProj.addSourceFile("WhitelistFilter.swift",        {}, classesGroupKey);
-
+    let classesPath = "../../../../platform_src/ios/Runtime/Classes/";
+    runtimeProj.addSourceFile(classesPath + "AppBasePlugin.swift",          {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "AppInfo.swift",                {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "AppInstaller.swift",           {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "AppManager.swift",             {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "AppViewController.swift",      {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "AppWhitelist.swift",           {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "AppXmlParser.swift",           {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "AuthorityPlugin.swift",        {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "LauncherViewController.swift", {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "MainViewController.swift",     {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "ManagerDBAdapter.swift",       {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "NullPlugin.swift",             {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "Runtime-Bridging-Header.h",    {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "TrinityPlugin.h",              {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "TrinityPlugin.m",              {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "TrinityViewController.swift",  {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "Utility.swift",                {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "WhitelistFilter.swift",        {}, classesGroupKey);
 
     //
     // Add header and source files for "SSZipArchive"

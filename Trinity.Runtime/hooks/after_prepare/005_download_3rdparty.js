@@ -104,6 +104,7 @@ const rootdir = process.argv[2];
     console.log("File %s is ready!", obj.filename);
     if (fs.existsSync(rootdir) && fs.lstatSync(rootdir).isDirectory()) {
       let targetPath = path.join(rootdir, obj.targetDir);
+      mkdirp.sync(targetPath);
       if (fs.existsSync(targetPath) && fs.lstatSync(targetPath).isDirectory()) {
         console.log("Unziping file %s", obj.filename);
         yauzl.open(zipFilePath, {lazyEntries: true}, function(err, zipfile) {

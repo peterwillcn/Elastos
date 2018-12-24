@@ -19,8 +19,8 @@ diff -uraN origin_platforms/android/CordovaLib/build.gradle platforms/android/Co
          classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
      }
 diff -uraN origin_platforms/android/app/build.gradle platforms/android/app/build.gradle
---- origin_platforms/android/app/build.gradle	2018-12-13 23:25:09.061661382 +0800
-+++ platforms/android/app/build.gradle	2018-12-13 23:26:24.208399745 +0800
+--- origin_platforms/android/app/build.gradle	2018-12-13 23:53:12.242333232 +0800
++++ platforms/android/app/build.gradle	2018-12-24 14:28:15.983916027 +0800
 @@ -21,6 +21,7 @@
  
  buildscript {
@@ -38,7 +38,7 @@ diff -uraN origin_platforms/android/app/build.gradle platforms/android/app/build
      }
  }
  
-@@ -169,6 +170,8 @@
+@@ -169,9 +170,15 @@
  
          if (cdvMinSdkVersion != null) {
              minSdkVersion cdvMinSdkVersion
@@ -47,7 +47,14 @@ diff -uraN origin_platforms/android/app/build.gradle platforms/android/app/build
          }
      }
  
-@@ -266,6 +269,7 @@
++    sourceSets {
++        main.java.srcDirs += '../../../platform_src/android/app/src/main/java'
++    }
++
+     lintOptions {
+       abortOnError false;
+     }
+@@ -266,6 +273,7 @@
      // SUB-PROJECT DEPENDENCIES START
      implementation(project(path: ":CordovaLib"))
      // SUB-PROJECT DEPENDENCIES END

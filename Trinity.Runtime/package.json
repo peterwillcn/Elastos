@@ -1,6 +1,6 @@
 {
     "name": "org.elastos.trinity.runtime",
-    "displayName": "Runtime",
+    "displayName": "Elastos",
     "version": "1.0.0",
     "description": "A elastos dapps runtime.",
     "main": "index.js",

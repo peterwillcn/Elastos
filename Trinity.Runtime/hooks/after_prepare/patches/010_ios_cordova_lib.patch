@@ -197,9 +197,9 @@ diff -uraN origin_platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.m platfor
          }
      }
  
-diff -uraN origin_platforms/ios/Runtime/Bridging-Header.h platforms/ios/Runtime/Bridging-Header.h
---- origin_platforms/ios/Runtime/Bridging-Header.h	2018-12-13 23:25:08.756478744 +0800
-+++ platforms/ios/Runtime/Bridging-Header.h	2018-12-13 23:26:24.208989942 +0800
+diff -uraN origin_platforms/ios/Elastos/Bridging-Header.h platforms/ios/Elastos/Bridging-Header.h
+--- origin_platforms/ios/Elastos/Bridging-Header.h	2018-12-13 23:25:08.756478744 +0800
++++ platforms/ios/Elastos/Bridging-Header.h	2018-12-13 23:26:24.208989942 +0800
 @@ -26,3 +26,5 @@
  //
  

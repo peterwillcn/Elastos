@@ -4,7 +4,7 @@
 let xcode = require('xcode'),
     fs = require('fs'),
     path = require('path'),
-    runtimeProjPath = 'platforms/ios/Runtime.xcodeproj/project.pbxproj',
+    runtimeProjPath = 'platforms/ios/Elastos.xcodeproj/project.pbxproj',
     runtimeProj = xcode.project(runtimeProjPath),
     cordovaProjPath = 'platforms/ios/CordovaLib/CordovaLib.xcodeproj/project.pbxproj',
     cordovaProj = xcode.project(cordovaProjPath);
@@ -41,7 +41,7 @@ runtimeProj.parse(function (err) {
     runtimeProj.removeSourceFile("MainViewController.h",      {}, classesGroupKey);
     runtimeProj.removeSourceFile("MainViewController.m",      {}, classesGroupKey);
 
-    let classesPath = "../../../../platform_src/ios/Runtime/Classes/";
+    let classesPath = "../../../../platform_src/ios/Elastos/Classes/";
     runtimeProj.addSourceFile(classesPath + "AppBasePlugin.swift",          {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "AppInfo.swift",                {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "AppInstaller.swift",           {}, classesGroupKey);
@@ -54,7 +54,7 @@ runtimeProj.parse(function (err) {
     runtimeProj.addSourceFile(classesPath + "MainViewController.swift",     {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "ManagerDBAdapter.swift",       {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "NullPlugin.swift",             {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "Runtime-Bridging-Header.h",    {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "Elastos-Bridging-Header.h",    {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "TrinityPlugin.h",              {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "TrinityPlugin.m",              {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "TrinityViewController.swift",  {}, classesGroupKey);

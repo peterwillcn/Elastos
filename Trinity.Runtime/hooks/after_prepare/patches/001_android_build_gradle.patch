@@ -18,6 +18,7 @@ diff -uraN origin_platforms/android/CordovaLib/build.gradle platforms/android/Co
          classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
          classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
      }
+diff -uraN origin_platforms/android/app/build.gradle platforms/android/app/build.gradle
 --- origin_platforms/android/app/build.gradle	2018-12-13 23:53:12.242333232 +0800
 +++ platforms/android/app/build.gradle	2018-12-24 14:28:15.983916027 +0800
 @@ -21,6 +21,7 @@

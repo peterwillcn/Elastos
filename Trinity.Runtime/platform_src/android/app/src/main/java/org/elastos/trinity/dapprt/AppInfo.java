@@ -23,6 +23,8 @@
 
 package org.elastos.trinity.dapprt;
 
+import android.graphics.drawable.Icon;
+
 import java.util.ArrayList;
 
 public class AppInfo {
@@ -32,14 +34,21 @@ public class AppInfo {
     public static final String APP_ID = "app_id";
     public static final String VERSION = "version";
     public static final String NAME = "name";
+    public static final String SHORT_NAME = "short_name";
     public static final String DESCRIPTION = "description";
-    public static final String LAUNCHER_PATH = "launch_path";
-    public static final String BIG_ICON = "big_icon";
-    public static final String SMALL_ICON = "small_icon";
+    public static final String START_URL = "start_url";
     public static final String AUTHOR_NAME = "author_name";
     public static final String AUTHOR_EMAIL = "author_email";
     public static final String DEFAULT_LOCAL = "default_locale";
+    public static final String BACKGROUND_COLOR = "background_color";
+    public static final String THEME_DISPLAY = "theme_display";
+    public static final String THEME_COLOR = "theme_color";
     public static final String BUILT_IN = "built_in";
+
+    public static final String SRC = "src";
+    public static final String SIZES = "sizes";
+    public static final String TYPE = "type";
+
 
     public static final String PLUGIN = "plugin";
     public static final String URL = "url";
@@ -55,13 +64,15 @@ public class AppInfo {
     public String app_id;
     public String version;
     public String name;
+    public String short_name;
     public String description;
-    public String launch_path;
-    public String big_icon;
-    public String small_icon;
+    public String start_url;
     public String author_name;
     public String author_email;
     public String default_locale;
+    public String background_color;
+    public String theme_display;
+    public String theme_color;
     public int    built_in;
 
     public static final int AUTHORITY_NOEXIST = -1;
@@ -69,6 +80,21 @@ public class AppInfo {
     public static final int AUTHORITY_ASK = 1;
     public static final int AUTHORITY_ALLOW = 2;
     public static final int AUTHORITY_DENY = 3;
+
+
+    public class Icon {
+        public String src = "";
+        public String sizes = "";
+        public String type = "";
+
+        Icon() {}
+
+        Icon(String src, String sizes, String type) {
+            this.src = src;
+            this.sizes = sizes;
+            this.type = type;
+        }
+    }
 
     public class PluginAuth {
         public String plugin = "";
@@ -92,8 +118,13 @@ public class AppInfo {
         }
     }
 
+    public ArrayList<Icon> icons = new ArrayList<Icon>(8);
     public ArrayList<PluginAuth> plugins = new ArrayList<PluginAuth>(20);
     public ArrayList<UrlAuth> urls = new ArrayList<UrlAuth>(20);
+
+    public void addIcon(String src, String sizes, String type) {
+        icons.add(new Icon(src, sizes, type));
+    }
 
     public void addPlugin(String plugin, int authority) {
         plugins.add(new PluginAuth(plugin, authority));
@@ -102,33 +133,4 @@ public class AppInfo {
     public void addUrl(String url, int authority) {
         urls.add(new UrlAuth(url, authority));
     }
-
-//    public static final int EVETN_ALER_PLUGIN_AUTH = 0;
-//    public static final int EVETN_ALER_URL_AUTH = 1;
-//
-//    public class Event {
-//        public int type;
-//        public String param;
-//
-//        Event(int type, String param) {
-//            this.type = type;
-//            this.param = param;
-//        }
-//    }
-//    public ArrayList<Event> events = new ArrayList<Event>(20);
-//    public void addEvent(int type, String param) {
-//        events.add(new Event(type, param));
-//    }
-//    public void processEvents() {
-//        for(Event event: events) {
-//            switch(event.type) {
-//                case EVETN_ALER_PLUGIN_AUTH:
-//                    WebViewActivity.activity.alertUrlAuth(this.app_id, event.param);
-//
-//                case EVETN_ALER_URL_AUTH:
-//                    WebViewActivity.activity.alertUrlAuth(this.app_id, event.param);
-//            }
-//            events.remove(event);
-//        }
-//    }
 }

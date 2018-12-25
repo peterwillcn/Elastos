@@ -31,6 +31,7 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     public static final String AUTH_PLUGIN_TABLE = "auth_plugin";
     public static final String AUTH_URL_TABLE = "auth_url";
+    public static final String AUTH_ICONS_TABLE = "icons";
     public static final String APP_TABLE = "app";
     public boolean isCreatedTables = false;
 
@@ -56,17 +57,26 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
                 AppInfo.AUTHORITY + " integer)";
         db.execSQL(strSQL);
 
+        strSQL =  "create table " + AUTH_ICONS_TABLE + "(tid integer primary key autoincrement, " +
+                AppInfo.APP_TID + " integer, " +
+                AppInfo.SRC + " varchar(256), " +
+                AppInfo.SIZES + " varchar(32), " +
+                AppInfo.TYPE + " varchar(32))";
+        db.execSQL(strSQL);
+
         strSQL = "create table " + APP_TABLE + "(tid integer primary key autoincrement, " +
                 AppInfo.APP_ID + " varchar(128) UNIQUE, " +
                 AppInfo.VERSION + " varchar(32), " +
                 AppInfo.NAME + " varchar(128), " +
+                AppInfo.SHORT_NAME + " varchar(64), " +
                 AppInfo.DESCRIPTION + " varchar(256), " +
-                AppInfo.LAUNCHER_PATH + " varchar(128), " +
-                AppInfo.BIG_ICON + " varchar(256), " +
-                AppInfo.SMALL_ICON + " varchar(256), " +
+                AppInfo.START_URL + " varchar(128), " +
                 AppInfo.AUTHOR_NAME + " varchar(128), " +
                 AppInfo.AUTHOR_EMAIL + " varchar(128), " +
                 AppInfo.DEFAULT_LOCAL + " varchar(16), " +
+                AppInfo.BACKGROUND_COLOR + " varchar(32), " +
+                AppInfo.THEME_DISPLAY + " varchar(32), " +
+                AppInfo.THEME_COLOR + " varchar(32), " +
                 AppInfo.BUILT_IN + " integer)";
         db.execSQL(strSQL);
 
@@ -76,6 +86,7 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
     public void dropAllTabel(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS " + AUTH_PLUGIN_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + AUTH_URL_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + AUTH_ICONS_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + APP_TABLE);
         isCreatedTables = false;
     }

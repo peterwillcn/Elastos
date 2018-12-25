@@ -25,13 +25,19 @@ package org.elastos.trinity.dapprt;
 import android.content.Context;
 import android.content.res.AssetManager;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Random;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -49,16 +55,6 @@ public class AppInstaller {
         this.appPath = appPath;
         this.dataPath = dataPath;
         this.dbAdapter = dbAdapter;
-
-        File destDir = new File(appPath);
-        if (!destDir.exists()) {
-            destDir.mkdirs();
-        }
-        destDir = new File(dataPath);
-        if (!destDir.exists()) {
-            destDir.mkdirs();
-        }
-
 
         random = new Random();
 
@@ -118,9 +114,9 @@ public class AppInstaller {
     }
     private void resetPaths(AppInfo info) {
         String path = "file:///" + appPath + info.app_id + "/";
-        info.big_icon = resetPath(path, info.big_icon);
-        info.small_icon = resetPath(path, info.small_icon);
-        info.launch_path = resetPath(path, info.launch_path);
+//        info.big_icon = resetPath(path, info.big_icon);
+//        info.small_icon = resetPath(path, info.small_icon);
+        info.start_url = resetPath(path, info.start_url);
     }
 
     public AppInfo install(AppManager appManager, String url)  {
@@ -153,8 +149,14 @@ public class AppInstaller {
         fmd.mkdirs();
 
         if (unpackZip(inputStream, path)) {
-            AppXmlParser parser = new AppXmlParser();
-            info = parser.parse(path);
+            String manifest = path + "manifest.json";
+            InputStream file = null;
+            try {
+                file = new FileInputStream(manifest);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            info = parseManifest(file);
             File from = new File(appPath, temp);
             if (info == null || info.app_id == null || info.app_id.equals("launcher")
                     || appManager.getAppInfo(info.app_id) != null) {
@@ -220,5 +222,63 @@ public class AppInstaller {
             return true;
         }
         return false;
+    }
+
+    public AppInfo parseManifest(InputStream inputStream) {
+        AppInfo appInfo = new AppInfo();
+        try {
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream,"UTF-8");
+            BufferedReader bufReader = new BufferedReader(inputStreamReader);
+            String line;
+            StringBuilder builder = new StringBuilder();
+            while((line = bufReader.readLine()) != null){
+                builder.append(line);
+            }
+            bufReader.close();
+            inputStreamReader.close();
+
+            JSONObject json = new JSONObject(builder.toString());
+            appInfo.app_id = json.getString("id");
+            appInfo.version = json.getString(AppInfo.VERSION);
+            appInfo.name = json.getString(AppInfo.NAME);
+            appInfo.short_name = json.getString(AppInfo.SHORT_NAME);
+            appInfo.description = json.getString(AppInfo.DESCRIPTION);
+            appInfo.start_url = json.getString(AppInfo.START_URL);
+
+            JSONArray array = json.getJSONArray("icons");
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject icon = array.getJSONObject(i);
+                String src = icon.getString(AppInfo.SRC);
+                String sizes = icon.getString(AppInfo.SIZES);
+                String type = icon.getString(AppInfo.TYPE);
+                appInfo.addIcon(src, sizes, type);
+            }
+
+            appInfo.default_locale = json.getString(AppInfo.DEFAULT_LOCAL);
+            JSONObject author = json.getJSONObject("author");
+            appInfo.author_name = author.getString("name");
+            appInfo.author_email = author.getString("email");
+
+            array = json.getJSONArray("plugins");
+            for (int i = 0; i < array.length(); i++) {
+                String plugin = array.getString(i);
+                appInfo.addPlugin(plugin, AppInfo.AUTHORITY_NOINIT);
+            }
+
+            array = json.getJSONArray("urls");
+            for (int i = 0; i < array.length(); i++) {
+                String url = array.getString(i);
+                appInfo.addUrl(url, AppInfo.AUTHORITY_NOINIT);
+            }
+
+            appInfo.background_color = json.getString(AppInfo.BACKGROUND_COLOR);
+            appInfo.theme_display = json.getString(AppInfo.THEME_DISPLAY);
+            appInfo.theme_color = json.getString(AppInfo.THEME_COLOR);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return appInfo;
     }
 }

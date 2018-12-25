@@ -28,13 +28,15 @@ class AppInfo: Object {
     @objc dynamic var id = "";
     @objc dynamic var version = "";
     @objc dynamic var name = "";
+    @objc dynamic var short_name = "";
     @objc dynamic var desc = "";
-    @objc dynamic var launch_path = "";
-    @objc dynamic var big_icon = "";
-    @objc dynamic var small_icon = "";
+    @objc dynamic var start_url = "";
     @objc dynamic var author_name = "";
     @objc dynamic var author_email = "";
     @objc dynamic var default_locale = "";
+    @objc dynamic var background_color = "";
+    @objc dynamic var theme_display = "";
+    @objc dynamic var theme_color = "";
     @objc dynamic var built_in = false;
  
     override class func primaryKey() -> String? {
@@ -47,8 +49,19 @@ class AppInfo: Object {
     static let AUTHORITY_ALLOW = 2;
     static let AUTHORITY_DENY = 3;
     
+    let icons = List<Icon>();
     let plugins = List<PluginAuth>();
     let urls = List<UrlAuth>();
+    
+    func addIcon(_ src: String, _ sizes: String, _ type: String) {
+        let icon = Icon();
+        icon.id = self.id;
+        icon.src = src.lowercased();
+        icon.sizes = sizes.lowercased();
+        icon.type = type.lowercased();
+        icon.owner = self;
+        self.icons.append(icon);
+    }
     
     func addPlugin(_ plugin: String, _ authority: Int) {
         let pluginAuth = PluginAuth();
@@ -67,6 +80,16 @@ class AppInfo: Object {
         urlAuth.owner = self;
         self.urls.append(urlAuth);
     }
+ }
+ 
+ @objc(Icon)
+ class Icon: Object {
+    @objc dynamic var id = "";
+    @objc dynamic var src = "";
+    @objc dynamic var sizes = "";
+    @objc dynamic var type = "";
+    
+    @objc dynamic var owner: AppInfo?
  }
  
  @objc(PluginAuth)

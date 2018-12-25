@@ -50,13 +50,15 @@ public class ManagerDBAdapter {
             contentValues.put(AppInfo.APP_ID, info.app_id);
             contentValues.put(AppInfo.VERSION, info.version);
             contentValues.put(AppInfo.NAME, info.name);
+            contentValues.put(AppInfo.SHORT_NAME, info.short_name);
             contentValues.put(AppInfo.DESCRIPTION, info.description);
-            contentValues.put(AppInfo.LAUNCHER_PATH, info.launch_path);
-            contentValues.put(AppInfo.BIG_ICON, info.big_icon);
-            contentValues.put(AppInfo.SMALL_ICON, info.small_icon);
+            contentValues.put(AppInfo.START_URL, info.start_url);
             contentValues.put(AppInfo.AUTHOR_NAME, info.author_name);
             contentValues.put(AppInfo.AUTHOR_EMAIL, info.author_email);
             contentValues.put(AppInfo.DEFAULT_LOCAL, info.default_locale);
+            contentValues.put(AppInfo.BACKGROUND_COLOR, info.background_color);
+            contentValues.put(AppInfo.THEME_DISPLAY, info.theme_display);
+            contentValues.put(AppInfo.THEME_COLOR, info.theme_color);
             contentValues.put(AppInfo.BUILT_IN, info.built_in);
             long tid = db.insert(ManagerDBHelper.APP_TABLE, null, contentValues);
 
@@ -64,6 +66,15 @@ public class ManagerDBAdapter {
                 return false;
             }
             info.tid = tid;
+
+            for (AppInfo.Icon icon : info.icons) {
+                contentValues = new ContentValues();
+                contentValues.put(AppInfo.APP_TID, tid);
+                contentValues.put(AppInfo.SRC, icon.src);
+                contentValues.put(AppInfo.SIZES, icon.sizes);
+                contentValues.put(AppInfo.TYPE, icon.type);
+                db.insert(ManagerDBHelper.AUTH_ICONS_TABLE, null, contentValues);
+            }
 
             for (AppInfo.PluginAuth pluginAuth : info.plugins) {
                 contentValues = new ContentValues();
@@ -89,9 +100,9 @@ public class ManagerDBAdapter {
 
     private AppInfo[] getInfos(String selection, String[] selectionArgs) {
         SQLiteDatabase db = helper.getWritableDatabase();
-        String[] columns = {AppInfo.TID, AppInfo.APP_ID, AppInfo.VERSION, AppInfo.NAME, AppInfo.DESCRIPTION, AppInfo.LAUNCHER_PATH,
-                AppInfo.BIG_ICON, AppInfo.SMALL_ICON, AppInfo.AUTHOR_NAME, AppInfo.AUTHOR_EMAIL,
-                AppInfo.DEFAULT_LOCAL, AppInfo.BUILT_IN};
+        String[] columns = {AppInfo.TID, AppInfo.APP_ID, AppInfo.VERSION, AppInfo.NAME, AppInfo.SHORT_NAME, AppInfo.DESCRIPTION, AppInfo.START_URL,
+                AppInfo.AUTHOR_NAME, AppInfo.AUTHOR_EMAIL, AppInfo.DEFAULT_LOCAL,
+                AppInfo.BACKGROUND_COLOR, AppInfo.THEME_DISPLAY, AppInfo.THEME_COLOR, AppInfo.BUILT_IN};
         Cursor cursor = db.query(ManagerDBHelper.APP_TABLE, columns,selection, selectionArgs,null,null,null);
         AppInfo infos[] = new AppInfo[cursor.getCount()];
         int count = 0;
@@ -101,26 +112,36 @@ public class ManagerDBAdapter {
             info.app_id = cursor.getString(cursor.getColumnIndex(AppInfo.APP_ID));
             info.version = cursor.getString(cursor.getColumnIndex(AppInfo.VERSION));
             info.name = cursor.getString(cursor.getColumnIndex(AppInfo.NAME));
+            info.short_name = cursor.getString(cursor.getColumnIndex(AppInfo.SHORT_NAME));
             info.description = cursor.getString(cursor.getColumnIndex(AppInfo.DESCRIPTION));
-            info.launch_path = cursor.getString(cursor.getColumnIndex(AppInfo.LAUNCHER_PATH));
-            info.big_icon = cursor.getString(cursor.getColumnIndex(AppInfo.BIG_ICON));
-            info.small_icon = cursor.getString(cursor.getColumnIndex(AppInfo.SMALL_ICON));
+            info.start_url = cursor.getString(cursor.getColumnIndex(AppInfo.START_URL));
             info.author_name = cursor.getString(cursor.getColumnIndex(AppInfo.AUTHOR_NAME));
             info.author_email = cursor.getString(cursor.getColumnIndex(AppInfo.AUTHOR_EMAIL));
             info.default_locale = cursor.getString(cursor.getColumnIndex(AppInfo.DEFAULT_LOCAL));
+            info.background_color = cursor.getString(cursor.getColumnIndex(AppInfo.BACKGROUND_COLOR));
+            info.theme_display = cursor.getString(cursor.getColumnIndex(AppInfo.THEME_DISPLAY));
+            info.theme_color = cursor.getString(cursor.getColumnIndex(AppInfo.THEME_COLOR));
             info.built_in = cursor.getInt(cursor.getColumnIndex(AppInfo.BUILT_IN));
             infos[count++] = info;
 
-            String[] columns1 = {AppInfo.PLUGIN, AppInfo.AUTHORITY};
+            String[] columns1 = {AppInfo.SRC, AppInfo.SIZES, AppInfo.TYPE};
             String[] args1 = {String.valueOf(info.tid)};
 
-            Cursor cursor1 = db.query(ManagerDBHelper.AUTH_PLUGIN_TABLE, columns1,AppInfo.APP_TID + "=?", args1,null,null,null);
+            Cursor cursor1 = db.query(ManagerDBHelper.AUTH_ICONS_TABLE, columns1,AppInfo.APP_TID + "=?", args1,null,null,null);
+            while (cursor1.moveToNext()) {
+                info.addIcon(cursor1.getString(cursor1.getColumnIndex(AppInfo.SRC)),
+                        cursor1.getString(cursor1.getColumnIndex(AppInfo.SIZES)),
+                        cursor1.getString(cursor1.getColumnIndex(AppInfo.TYPE)));
+            }
+
+            String[] columns2 = {AppInfo.PLUGIN, AppInfo.AUTHORITY};
+            cursor1 = db.query(ManagerDBHelper.AUTH_PLUGIN_TABLE, columns2,AppInfo.APP_TID + "=?", args1,null,null,null);
             while (cursor1.moveToNext()) {
                 info.addPlugin(cursor1.getString(cursor1.getColumnIndex(AppInfo.PLUGIN)), cursor1.getInt(cursor1.getColumnIndex(AppInfo.AUTHORITY)));
             }
 
-            String[] columns2 = {AppInfo.URL, AppInfo.AUTHORITY};
-            cursor1 = db.query(ManagerDBHelper.AUTH_URL_TABLE, columns2,AppInfo.APP_TID + "=?", args1,null,null,null);
+            String[] columns3 = {AppInfo.URL, AppInfo.AUTHORITY};
+            cursor1 = db.query(ManagerDBHelper.AUTH_URL_TABLE, columns3,AppInfo.APP_TID + "=?", args1,null,null,null);
             while (cursor1.moveToNext()) {
                 info.addUrl(cursor1.getString(cursor1.getColumnIndex(AppInfo.URL)), cursor1.getInt(cursor1.getColumnIndex(AppInfo.AUTHORITY)));
             }
@@ -144,18 +165,6 @@ public class ManagerDBAdapter {
     public AppInfo[] getAppInfos()
     {
         return getInfos(null, null);
-    }
-
-    public int deleteApp(int tid)
-    {
-        SQLiteDatabase db = helper.getWritableDatabase();
-        String[] whereArgs ={String.valueOf(tid)};
-
-        db.delete(ManagerDBHelper.AUTH_PLUGIN_TABLE ,AppInfo.APP_TID + " = ?", whereArgs);
-        db.delete(ManagerDBHelper.AUTH_URL_TABLE ,AppInfo.APP_TID + " = ?", whereArgs);
-        db.delete(ManagerDBHelper.APP_TABLE ,AppInfo.TID + " = ?", whereArgs);
-
-        return  0;
     }
 
     public int updatePluginAuth(long tid, String plugin, int authority)
@@ -187,6 +196,7 @@ public class ManagerDBAdapter {
         String[] whereArgs= {String.valueOf(info.tid)};
         int count = db.delete(ManagerDBHelper.AUTH_URL_TABLE, where, whereArgs);
         count = db.delete(ManagerDBHelper.AUTH_PLUGIN_TABLE, where, whereArgs);
+        db.delete(ManagerDBHelper.AUTH_ICONS_TABLE, where, whereArgs);
         where = AppInfo.TID + "=?";
         count = db.delete(ManagerDBHelper.APP_TABLE, where, whereArgs);
         return count;

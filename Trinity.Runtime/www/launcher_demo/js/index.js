@@ -45,6 +45,7 @@ var commands = [
 
     { cmd: "msg", fn: send_message, help: "msg [No.] message" },
     { cmd: "info", fn: info, help: "info [No.]" },
+    { cmd: "infos", fn: infos, help: "infos" },
     { cmd: "close", fn: close, help: "close [No.]" },
     { cmd: "list", fn: app_list, help: "list" },
     { cmd: "running", fn: running_list, help: "running" },
@@ -90,23 +91,53 @@ function getId(No) {
     return "org.elastos.trinity.demo" + No;
 }
 
+function string_icons_info(icons) {
+    var str = ""
+    for (var i = 0; i < icons.length; i++) {
+        str += "<br/>              icon[" + i + "]:" +
+        "<br/>                  src:" + icons[i].src +
+        "<br/>                sizes:" + icons[i].sizes  +
+        "<br/>                 type:" + icons[i].type;
+    }
+    return str;
+}
 
+function string_plugins_info(plugins) {
+    var str = ""
+    for (var i = 0; i < plugins.length; i++) {
+        str += "<br/>              plugin[" + i + "]:" +
+        "<br/>                  name:" + plugins[i].plugin +
+        "<br/>             authority:" + plugins[i].authority ;
+    }
+    return str;
+}
 
+function string_urls_info(urls) {
+    var str = ""
+    for (var i = 0; i < urls.length; i++) {
+        str += "<br/>              url[" + i + "]:" +
+        "<br/>                  name:" + urls[i].url +
+        "<br/>             authority:" + urls[i].authority ;
+    }
+    return str;
+}
 
 function string_app_info(info) {
-    var msg = "             id:" + info.id +
+    var msg = "              id:" + info.id +
           "<br/>        version:" + info.version +
           "<br/>           name:" + info.name +
           "<br/>    description:" + info.description +
-          "<br/>     launchPath:" + info.launchPath +
-          "<br/>        bigIcon:" + info.bigIcon +
-          "<br/>      smallIcon:" + info.smallIcon +
+          "<br/>       startUrl:" + info.startUrl +
+          "<br/>          icons:" + string_icons_info(info.icons) +
           "<br/>     authorName:" + info.authorName +
           "<br/>    authorEmail:" + info.authorEmail +
           "<br/>  defaultLocale:" + info.defaultLocale +
-          "<br/>        builtIn:" + info.builtIn +
-          "<br/>        plugins:" + info.plugins +
-          "<br/>           urls:" + info.urls;
+          "<br/>        plugins:" + string_plugins_info(info.plugins) +
+          "<br/>           urls:" + string_urls_info(info.urls) +
+          "<br/>backgroundColor:" + info.backgroundColor +
+          "<br/>   themeDisplay:" + info.themeDisplay +
+          "<br/>     themeColor:" + info.themeColor +
+          "<br/>        builtIn:" + info.builtIn;
     return msg;
 }
 
@@ -119,6 +150,26 @@ function info(argv) {
             display_others_msg("getAppInfo fail!");
         };
         appManager.getAppInfo(getId(argv[1]), success, error);
+    }
+    else {
+        display_others_msg("Invalid command syntax.");
+    }
+}
+
+function infos(argv) {
+    if (argv.length == 1) {
+        var success = function (infos) {
+            var str = ""
+            for (var id in infos) {
+                str += "info[" + id + "]:<br/>"
+                str += string_app_info(infos[id]);
+            }
+            display_others_msg(str);
+        };
+        var error = function (error) {
+            display_others_msg("getAppInfos fail!");
+        };
+        appManager.getAppInfos(success, error);
     }
     else {
         display_others_msg("Invalid command syntax.");
@@ -232,7 +283,7 @@ function setInstalledItem(appInfo) {
     var No = appInfo.name.charAt(appInfo.name.length - 1);
     var demo = document.getElementById("demo" + No);
     if (demo && demo != null) {
-        demo.src = appInfo.bigIcon;
+        demo.src = appInfo.icons[0].src;
         demo.appInfo = appInfo;
         demo.status = INSTALLED;
     }

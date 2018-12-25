@@ -34,6 +34,7 @@ import android.support.v4.app.FragmentTransaction;
 import org.apache.cordova.CordovaWebView;
 import org.elastos.trinity.runtime.R;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class AppManager {
 
     public static AppManager appManager;
     private WebViewActivity activity;
-    private WebViewFragment mCurrent = null;
+    private WebViewFragment curFragment = null;
     ManagerDBAdapter dbAdapter = null;
 
     public String appsPath = null;
@@ -64,9 +65,8 @@ public class AppManager {
     private AppInstaller installer;
 
     protected HashMap<String, CordovaWebView> appViews;
-    //    protected HashMap<String, AppManager> managerPlugins;
     protected HashMap<String, AppInfo> appInfos;
-    private ArrayList<String> lastList;
+    private ArrayList<String> lastList = new ArrayList<String>();
     public AppInfo[] appList;
 
     private ArrayList<String>  installUriList = new ArrayList<String>();
@@ -79,74 +79,34 @@ public class AppManager {
         appsPath = activity.getFilesDir() + "/apps/";
         dataPath = activity.getFilesDir() + "/data/";
 
+        File destDir = new File(appsPath);
+        if (!destDir.exists()) {
+            destDir.mkdirs();
+        }
+        destDir = new File(dataPath);
+        if (!destDir.exists()) {
+            destDir.mkdirs();
+        }
+
         dbAdapter = new ManagerDBAdapter(activity);
 //        dbAdapter.clean();
+
+        installer = new AppInstaller();
+        installer.init(activity, dbAdapter, appsPath, dataPath);
 
         if (dbAdapter.helper.isCreatedTables) {
             saveBuiltInAppInfos();
         }
 
+        refreashInfos();
+    }
+
+
+    private void refreashInfos() {
         appList = dbAdapter.getAppInfos();
         appInfos = new HashMap();
         for (int i = 0; i < appList.length; i++) {
             appInfos.put(appList[i].app_id, appList[i]);
-        }
-
-        lastList = new ArrayList<String>();
-
-        installer = new AppInstaller();
-        installer.init(activity, dbAdapter, appsPath, dataPath);
-    }
-
-    public AppInfo install(String url) {
-        AppInfo info = installer.install(this, url);
-        if (info != null) {
-            appInfos.put(info.app_id, info);
-        }
-        return info;
-    }
-
-    public boolean unInstall(String id) {
-        //TODO:: close if running
-        boolean ret = installer.unInstall(appInfos.get(id));
-        if (ret) {
-            appInfos.remove(id);
-        }
-        return ret;
-    }
-
-    private String resetBuiltInPath(String filePath, String original) {
-        if (original.indexOf("http://") != 0 && original.indexOf("https://") != 0
-                && original.indexOf("file:///") != 0) {
-            while (original.startsWith("/")) {
-                original = original.substring(1);
-            }
-            original = filePath + original;
-        }
-        return original;
-    }
-    private void resetBuiltInPaths(AppInfo info) {
-        String path = "file:///android_asset/www/built-in/" + info.app_id + "/";
-        info.big_icon = resetBuiltInPath(path, info.big_icon);
-        info.small_icon = resetBuiltInPath(path, info.small_icon);
-        info.launch_path = resetBuiltInPath(path, info.launch_path);
-    }
-
-    public void saveBuiltInAppInfos(){
-        AssetManager manager = activity.getAssets();
-        try {
-            String[] appdirs= manager.list("www/built-in");
-            for (String appdir : appdirs) {
-                AppXmlParser parser = new AppXmlParser();
-                InputStream inputStream = manager.open("www/built-in/" + appdir + "/manifest.xml");
-                AppInfo info = parser.parse(inputStream);
-                info.built_in = 1;
-                resetBuiltInPaths(info);
-                dbAdapter.addAppInfo(info);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -161,6 +121,7 @@ public class AppManager {
     public String getAppPath(AppInfo info) {
         return appsPath + info.app_id;
     }
+
     public String getAppUrl(AppInfo info) {
         if (info.built_in == 1) {
             return "file:///android_asset/www/built-in/" + info.app_id + "/";
@@ -169,33 +130,64 @@ public class AppManager {
             return "file://" + appsPath + info.app_id + "/";
         }
     }
+
     public String getDataPath(AppInfo info) {
         return dataPath + info.app_id;
     }
+
     public String getDataUrl(AppInfo info) {
         return "file://" + dataPath + info.app_id + "/";
     }
 
-
-    public boolean loadLauncher() {
-        return start("launcher");
-    }
-
-    public void addInstallUir(String uri) {
-        installUriList.add(uri);
-    }
-
-    public boolean isLauncherReady() {
-        return launcherReady;
-    }
-
-    public void setLauncherReady() {
-        launcherReady = true;
-
-        for (int i = 0; i < installUriList.size(); i++) {
-            String uri = installUriList.get(i);
-            sendMessage("launcher", AppManager.MSG_TYPE_EXTERNAL_INSTALL, uri, "system");
+    public String resetPath(String dir, String origin) {
+        if (origin.indexOf("http://") != 0 && origin.indexOf("https://") != 0
+                && origin.indexOf("file:///") != 0) {
+            while (origin.startsWith("/")) {
+                origin = origin.substring(1);
+            }
+            origin = dir + origin;
         }
+        return origin;
+    }
+
+    public void saveBuiltInAppInfos(){
+        AssetManager manager = activity.getAssets();
+        try {
+            String[] appdirs= manager.list("www/built-in");
+            for (String appdir : appdirs) {
+                InputStream inputStream = manager.open("www/built-in/" + appdir + "/manifest.json");
+                AppInfo info = installer.parseManifest(inputStream);
+                if (info == null) {
+                    return;
+                }
+
+                info.built_in = 1;
+                dbAdapter.addAppInfo(info);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public AppInfo install(String url) {
+        AppInfo info = installer.install(this, url);
+        if (info != null) {
+            refreashInfos();
+        }
+        return info;
+    }
+
+    public boolean unInstall(String id) {
+        if (!close(id)) {
+            return false;
+        }
+
+        boolean ret = installer.unInstall(appInfos.get(id));
+        if (ret) {
+            refreashInfos();
+        }
+        return ret;
     }
 
     private WebViewFragment findFragmentById(String id) {
@@ -208,6 +200,37 @@ public class AppManager {
             }
         }
         return null;
+    }
+
+    public void switchContent(WebViewFragment fragment, String id) {
+        FragmentManager manager = activity.getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        if ((curFragment != null) && (curFragment != fragment)) {
+            transaction.hide(curFragment);
+        }
+        if (curFragment != fragment) {
+            if (!fragment.isAdded()) {
+                transaction.add(R.id.content, fragment, id);
+            } else if (curFragment != fragment) {
+                transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                        .show(fragment);
+            }
+//            transaction.addToBackStack(null);
+            transaction.commit();
+            curFragment = fragment;
+        }
+        lastList.remove(id);
+        lastList.add(0, id);
+    }
+
+    public boolean doBackPressed() {
+        if (curFragment.id.equals("launcher")) {
+            return true;
+        }
+        else {
+            switchContent(findFragmentById("launcher"), "launcher");
+            return false;
+        }
     }
 
     public boolean start(String id) {
@@ -232,39 +255,11 @@ public class AppManager {
         return true;
     }
 
-    public void switchContent(WebViewFragment fragment, String id) {
-//        FragmentManager manager = activity.getFragmentManager();
-        FragmentManager manager = activity.getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        if ((mCurrent != null) && (mCurrent != fragment)) {
-            transaction.hide(mCurrent);
-        }
-        if (mCurrent != fragment) {
-            if (!fragment.isAdded()) {
-                transaction.add(R.id.content, fragment, id);
-            } else if (mCurrent != fragment) {
-                transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                        .show(fragment);
-            }
-//            transaction.addToBackStack(null);
-            transaction.commit();
-            mCurrent = fragment;
-        }
-        lastList.remove(id);
-        lastList.add(0, id);
-    }
-
-    public boolean doBackPressed() {
-        if (mCurrent.id.equals("launcher")) {
-            return true;
-        }
-        else {
-            switchContent(findFragmentById("launcher"), "launcher");
+    public boolean close(String id) {
+        if (id.equals("launcher")) {
             return false;
         }
-    }
 
-    public boolean close(String id) {
         AppInfo info = appInfos.get(id);
         if (info == null) {
             return false;
@@ -276,7 +271,7 @@ public class AppManager {
             return false;
         }
 
-        if (fragment == mCurrent) {
+        if (fragment == curFragment) {
             String id2 = lastList.get(1);
             WebViewFragment fragment2 = findFragmentById(id2);
             if (fragment2 == null) {
@@ -288,9 +283,39 @@ public class AppManager {
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.remove(fragment);
         transaction.commit();
+        lastList.remove(id);
 
         return true;
     }
+
+    public boolean loadLauncher() {
+        return start("launcher");
+    }
+
+    public void setInstallUri(String uri) {
+        if (uri == null) return;
+
+        if (launcherReady) {
+            sendMessage("launcher", MSG_TYPE_EXTERNAL_INSTALL, uri, "system");
+        }
+        else {
+            installUriList.add(uri);
+        }
+    }
+
+    public boolean isLauncherReady() {
+        return launcherReady;
+    }
+
+    public void setLauncherReady() {
+        launcherReady = true;
+
+        for (int i = 0; i < installUriList.size(); i++) {
+            String uri = installUriList.get(i);
+            sendMessage("launcher", MSG_TYPE_EXTERNAL_INSTALL, uri, "system");
+        }
+    }
+
 
     public boolean sendMessage(String toId, int type, String msg, String fromId) {
         FragmentManager manager = activity.getSupportFragmentManager();

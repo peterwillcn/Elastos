@@ -1,0 +1,35 @@
+{
+  "id": "org.elastos.trinity.demo1",
+  "version": "0.0.2",
+  "name": "Demo1",
+  "short_name": "demo1",
+  "description": "My sample app1",
+  "start_url": "demo1.html",
+  "icons": [
+    {
+        "src": "img/avatar01.png",
+        "sizes": "512x512",
+        "type": "image/png"
+    },
+    {
+      "src": "img/avatar01.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }
+  ],
+  "author": {
+      "name": "ChenDongxiao",
+      "email": "chendongxiao@elastos.org"
+  },
+  "default_locale": "en",
+  "plugins": [
+      "PluginDemo"
+  ],
+  "urls": [
+    "http://www.baidu.com/*",
+    "https://www.google.com"
+  ],
+  "background_color": "#4e8ef7",
+  "theme_display": "show",
+  "theme_color": "#4e8ef7"
+}

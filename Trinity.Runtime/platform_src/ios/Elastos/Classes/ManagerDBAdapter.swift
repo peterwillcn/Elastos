@@ -33,7 +33,7 @@ import RealmSwift
 //
 //        Realm.Configuration.defaultConfiguration = config
     
-        realm = try! Realm()
+        realm = try! Realm() 
         print(realm.configuration.fileURL ?? "");
 
     }
@@ -41,6 +41,7 @@ import RealmSwift
     func addAppInfo(_ appInfo: AppInfo) {
         do {
             try realm.write {
+                realm.add(appInfo.icons);
                 realm.add(appInfo.plugins);
                 realm.add(appInfo.urls);
                 realm.add(appInfo);
@@ -83,11 +84,13 @@ import RealmSwift
     func removeAppInfo(_ info: AppInfo) {
         let plugins = realm.objects(PluginAuth.self).filter("id = %@", info.id);
         let urls = realm.objects(UrlAuth.self).filter("id = %@", info.id);
+        let icons = realm.objects(Icon.self).filter("id = %@", info.id);
         
         do {
             try realm.write {
                 realm.delete(plugins);
                 realm.delete(urls);
+                realm.delete(icons);
                 realm.delete(info);
             }
         }

@@ -58,17 +58,14 @@
         let temPath = appPath + temp;
     
         if (unpackZip(zipPath, temPath)) {
-            let parser = AppXmlParser();
-            
-
             let fileManager = FileManager.default;
-            let ret = fileManager.fileExists(atPath: temPath + "/manifest.xml")
+            let ret = fileManager.fileExists(atPath: temPath + "/manifest.json")
             guard ret else {
                 deleteAllFiles(temPath);
                 return nil;
             }
             
-            let info = parser.parseSettings(temPath + "/manifest.xml");
+            let info = parseManifest(temPath + "/manifest.json");
             guard (info != nil && info!.id != "" && info!.id != "launcher"
                     && appManager.getAppInfo(info!.id) == nil) else {
                 deleteAllFiles(temPath);
@@ -103,6 +100,58 @@
         dbAdapter.removeAppInfo(info!);
         deleteAllFiles(path);
         return true;
+    }
+    
+    func parseManifest(_ path: String) -> AppInfo? {
+        let appInfo = AppInfo();
+        let url = URL.init(fileURLWithPath: path)
+
+        do {
+            let data = try Data(contentsOf: url);
+            let json = try JSONSerialization.jsonObject(with: data,
+                                                        options: []) as! [String: Any];
+            appInfo.id = json["id"] as! String;
+            appInfo.version = json["version"] as! String;
+            appInfo.name = json["name"] as! String;
+            appInfo.short_name = json["short_name"] as! String;
+            appInfo.desc = json["description"] as! String;
+            appInfo.start_url = json["start_url"] as! String;
+
+            let icons = json["icons"] as! [Dictionary<String, String>];
+            for icon in icons {
+                let src = icon["src"];
+                let sizes = icon["sizes"];
+                let type = icon["type"];
+                appInfo.addIcon(src!, sizes!, type!);
+            }
+            
+            appInfo.default_locale = json["default_locale"] as! String;
+            let author = json["author"] as! [String: Any];
+            appInfo.author_name = author["name"] as! String;
+            appInfo.author_email = author["email"] as! String;
+            
+            let plugins = json["plugins"] as! [String];
+            for plugin in plugins {
+                appInfo.addPlugin(plugin, AppInfo.AUTHORITY_NOINIT);
+            }
+            
+            let urls = json["urls"] as! [String];
+            for url in urls {
+                appInfo.addUrl(url, AppInfo.AUTHORITY_NOINIT);
+            }
+            
+            appInfo.background_color =  json["background_color"] as! String;
+            appInfo.theme_display =  json["theme_display"] as! String;
+            appInfo.theme_color =  json["theme_color"] as! String;
+        }
+        catch let error {
+            print("Parse Manifest.json error: \(error)");
+        }
+
+
+        
+        
+        return appInfo;
     }
  }
  

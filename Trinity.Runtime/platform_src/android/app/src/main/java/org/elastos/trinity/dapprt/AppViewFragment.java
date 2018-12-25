@@ -78,7 +78,7 @@ public class AppViewFragment extends WebViewFragment {
         // If keepRunning
         this.keepRunning = preferences.getBoolean("KeepRunning", true);
 
-        appView.loadUrlIntoView(appInfo.launch_path, true);
+        appView.loadUrlIntoView(appInfo.start_url, true);
         return appView.getView();
     }
 

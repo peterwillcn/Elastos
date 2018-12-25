@@ -107,7 +107,7 @@ import Foundation
     }
     
     func getStartPath(_ info: AppInfo) -> String {
-        return resetPath(getAppUrl(info), info.launch_path);
+        return resetPath(getAppUrl(info), info.start_url);
     }
     
     func getAppPath(_ info: AppInfo) -> String {
@@ -130,6 +130,28 @@ import Foundation
     func getDataUrl(_ info: AppInfo) -> String {
         return "file://" + dataPath + info.id + "/";
     }
+    
+    func saveBuiltInAppInfos() {
+        let path = getAbsolutePath("www/built-in") + "/";
+        
+        let fileManager = FileManager.default;
+        let dirs = try? fileManager.contentsOfDirectory(atPath: path);
+        guard dirs != nil else {
+            return;
+        }
+        
+        for dir in dirs! {
+//            let parser = AppXmlParser();
+//            let info = parser.parseSettings(path +  dir + "/manifest.xml");
+            let info = installer.parseManifest(path +  dir + "/manifest.json")
+            guard (info != nil || info!.id != "") else {
+                return;
+            }
+            
+            info!.built_in = true;
+            dbAdapter.addAppInfo(info!);
+        }
+    }
 
     func install(_ url: String) -> AppInfo? {
         let info = installer.install(self, url);
@@ -140,9 +162,8 @@ import Foundation
     }
     
     func unInstall(_ id: String) -> Bool {
-        let viewController = viewControllers[id]
-        if (viewController != nil) {
-            close(id);
+        if (!close(id)) {
+            return false;
         }
         
         let ret = installer.unInstall(appInfos[id]);
@@ -168,7 +189,6 @@ import Foundation
     }
 
     func start(_ id: String) -> Bool {
-        
         var viewController = viewControllers[id]
         if viewController == nil {
             if (id == "launcher") {
@@ -201,6 +221,10 @@ import Foundation
     }
     
     func close(_ id: String) -> Bool {
+        if (id == "launcher") {
+            return false;
+        }
+        
         let info = appInfos[id];
         if (info == nil) {
             return false;
@@ -263,29 +287,7 @@ import Foundation
         }
         return path;
     }
-    
-    func saveBuiltInAppInfos() {
-        let path = getAbsolutePath("www/built-in") + "/";
-        
-        
-        let fileManager = FileManager.default;
-        let dirs = try? fileManager.contentsOfDirectory(atPath: path);
-        guard dirs != nil else {
-            return;
-        }
-        
-        for dir in dirs! {
-            let parser = AppXmlParser();
-            let info = parser.parseSettings(path +  dir + "/manifest.xml");
-            guard (info != nil || info!.id != "") else {
-                return;
-            }
-            
-            info!.built_in = true;
-            dbAdapter.addAppInfo(info!);
-        }
-    }
-    
+
     func sendMessage(_ toId: String, _ type: Int, _ msg: String, _ fromId: String) -> Bool {
         let viewController = viewControllers[toId]
         if (viewController != nil) {

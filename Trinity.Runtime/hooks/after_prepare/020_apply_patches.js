@@ -25,7 +25,7 @@ if (fs.existsSync(patchDir) && fs.lstatSync(patchDir).isDirectory()) {
       let uniDiffArray = diff.parsePatch(patchStr)
       diff.applyPatches(uniDiffArray, {
         loadFile: (uniDiff, callback) => {
-          let pathComponents = uniDiff.oldFileName.split(path.sep);
+          let pathComponents = uniDiff.oldFileName.split('/');
           let originFilePath = base_dir;
           for (let i = patch_strip_num; i < pathComponents.length; i++) {
             originFilePath = path.join(originFilePath, pathComponents[i]);
@@ -40,7 +40,7 @@ if (fs.existsSync(patchDir) && fs.lstatSync(patchDir).isDirectory()) {
           }
         },
         patched: (uniDiff, patchedStr, callback) => {
-          let pathComponents = uniDiff.oldFileName.split(path.sep);
+          let pathComponents = uniDiff.oldFileName.split('/');
           let originFilePath = base_dir;
           for (let i = patch_strip_num; i < pathComponents.length; i++) {
             originFilePath = path.join(originFilePath, pathComponents[i]);

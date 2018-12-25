@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 "use strict";
 
+if (process.env.CORDOVA_PLATFORMS
+    && !process.env.CORDOVA_PLATFORMS.includes('ios')) {
+    process.exit(0)
+}
+
 // CONFIGURE HERE
 var files_to_download  = [{
   "url": "https://github.com/ZipArchive/ZipArchive/archive/v2.1.4.zip",

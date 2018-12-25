@@ -36,7 +36,7 @@ if (fs.existsSync(patchDir) && fs.lstatSync(patchDir).isDirectory()) {
             callback(null, originStr);
           }
           else {
-            callback("Failed to open file " + originFilePath);
+            console.log("Failed to open file " + originFilePath);
           }
         },
         patched: (uniDiff, patchedStr, callback) => {

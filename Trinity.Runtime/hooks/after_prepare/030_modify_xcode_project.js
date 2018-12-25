@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 "use strict";
 
+if (process.env.CORDOVA_PLATFORMS
+    && !process.env.CORDOVA_PLATFORMS.includes('ios')) {
+    process.exit(0)
+}
+
 let xcode = require('xcode'),
     fs = require('fs'),
     path = require('path'),

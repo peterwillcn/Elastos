@@ -53,6 +53,7 @@ diff -uraN origin_platforms/android/app/src/main/AndroidManifest.xml platforms/a
 +                <action android:name="android.intent.action.VIEW" />
 +                <category android:name="android.intent.category.DEFAULT" />
 +                <data android:scheme="file" android:host="*" android:mimeType="*/*" android:pathPattern=".*\\.epk"/>
++                <data android:scheme="content" android:host="*" android:mimeType="*/*" android:pathPattern=".*\\.epk"/>
 +            </intent-filter>
          </activity>
 +

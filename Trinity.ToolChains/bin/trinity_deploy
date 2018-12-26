@@ -34,7 +34,7 @@ try:
             print("Error: The MANIFEST_FILE is not a file.")
             exit()
 
-        zipf.write(args.manifest_file, 'manifest.xml')
+        zipf.write(args.manifest_file, 'manifest.json')
 
     zipf.close()
 except:

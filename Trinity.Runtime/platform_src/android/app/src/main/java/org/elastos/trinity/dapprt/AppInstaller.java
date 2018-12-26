@@ -105,20 +105,6 @@ public class AppInstaller {
         return true;
     }
 
-    private String resetPath(String filePath, String original) {
-        if (!original.startsWith("http://") && !original.startsWith("https://")
-                && !original.startsWith("file:///")) {
-            original = filePath + original;
-        }
-        return original;
-    }
-    private void resetPaths(AppInfo info) {
-        String path = "file:///" + appPath + info.app_id + "/";
-//        info.big_icon = resetPath(path, info.big_icon);
-//        info.small_icon = resetPath(path, info.small_icon);
-        info.start_url = resetPath(path, info.start_url);
-    }
-
     public AppInfo install(AppManager appManager, String url)  {
         InputStream inputStream;
         AppInfo info = null;
@@ -170,7 +156,6 @@ public class AppInstaller {
                     to = new File(appPath, info.app_id);
                 }
                 from.renameTo(to);
-                resetPaths(info);
                 info.built_in = 0;
                 dbAdapter.addAppInfo(info);
                 return info;

@@ -141,8 +141,6 @@ import Foundation
         }
         
         for dir in dirs! {
-//            let parser = AppXmlParser();
-//            let info = parser.parseSettings(path +  dir + "/manifest.xml");
             let info = installer.parseManifest(path +  dir + "/manifest.json")
             guard (info != nil || info!.id != "") else {
                 return;

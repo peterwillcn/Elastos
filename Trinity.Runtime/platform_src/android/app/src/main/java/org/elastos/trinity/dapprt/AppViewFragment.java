@@ -81,7 +81,8 @@ public class AppViewFragment extends WebViewFragment {
         // If keepRunning
         this.keepRunning = preferences.getBoolean("KeepRunning", true);
 
-        appView.loadUrlIntoView(appInfo.start_url, true);
+        String startPage = AppManager.appManager.getStartPath(appInfo);
+        appView.loadUrlIntoView(startPage, true);
 
         LinearLayout rootView = new LinearLayout(this.getContext());
         rootView.setOrientation(LinearLayout.VERTICAL);

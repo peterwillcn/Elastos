@@ -118,6 +118,10 @@ public class AppManager {
         return appInfos;
     }
 
+    public String getStartPath(AppInfo info) {
+        return resetPath(getAppUrl(info), info.start_url);
+    }
+
     public String getAppPath(AppInfo info) {
         return appsPath + info.app_id;
     }

@@ -39,11 +39,6 @@ public class LauncherViewFragment extends WebViewFragment {
 
     public static WebViewFragment newInstance() {
         LauncherViewFragment fragment = new LauncherViewFragment();
-//        if (name != null) {
-//            Bundle bundle = new Bundle();
-//            bundle.putString("name", name);
-//            fragment.setArguments(bundle);
-//        }
         return fragment;
     }
 
@@ -74,12 +69,6 @@ public class LauncherViewFragment extends WebViewFragment {
 
         appView.loadUrlIntoView(launchUrl, true);
 
-//        View view = new View(getContext());
-//        view.setLayoutParams(new FrameLayout.LayoutParams(
-//                ViewGroup.LayoutParams.MATCH_PARENT,
-//                ViewGroup.LayoutParams.MATCH_PARENT));
-//        RelativeLayout rly = (RelativeLayout) findViewById(R.id.RelativeLayout1);
-//        view.addView(btnOne,lp2);
         LauncherViewFragment.allPluginEntries = pluginEntries;
         return appView.getView();
     }

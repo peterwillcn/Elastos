@@ -26,11 +26,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.apache.cordova.CordovaInterfaceImpl;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginEntry;
 import org.elastos.trinity.plugins.appservice.AppServicePlugin;
+import org.elastos.trinity.runtime.R;
 
 
 import java.util.ArrayList;
@@ -79,7 +82,16 @@ public class AppViewFragment extends WebViewFragment {
         this.keepRunning = preferences.getBoolean("KeepRunning", true);
 
         appView.loadUrlIntoView(appInfo.start_url, true);
-        return appView.getView();
+
+        LinearLayout rootView = new LinearLayout(this.getContext());
+        rootView.setOrientation(LinearLayout.VERTICAL);
+
+        View titlebar = inflater.inflate(R.layout.title_bar, null);
+
+//        rootView.addView(titlebar);
+        rootView.addView(appView.getView());
+
+        return rootView;
     }
 
     protected void loadConfig(String id) {

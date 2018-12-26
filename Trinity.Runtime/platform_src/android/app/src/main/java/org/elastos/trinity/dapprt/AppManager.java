@@ -268,7 +268,7 @@ public class AppManager {
         FragmentManager manager = activity.getSupportFragmentManager();
         WebViewFragment fragment = findFragmentById(id);
         if (fragment == null) {
-            return false;
+            return true;
         }
 
         if (fragment == curFragment) {

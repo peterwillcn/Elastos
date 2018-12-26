@@ -232,7 +232,7 @@ import Foundation
     
         let viewController = viewControllers[id]
         if (viewController == nil) {
-            return false;
+            return true;
         }
     
         if (viewController == curController) {

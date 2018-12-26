@@ -54,7 +54,7 @@ public class WebViewActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         //Aqui debo crear el loading
 
-        setContentView(R.layout.home_view_frag);
+        setContentView(R.layout.fragments_view);
         appManager = new AppManager(this);
 
         getInstallUri();

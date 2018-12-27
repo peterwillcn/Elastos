@@ -15,8 +15,8 @@ var folders_to_copy = [{
     "platform_res/android":
     "platforms/android"
 },{
-   "platform_res/ios":
-   "platforms/ios"
+    "platform_res/ios":
+    "platforms/ios"
 }]
 // no need to configure below
 
@@ -67,6 +67,14 @@ function copyFolderRecursiveSync( source, target ) {
 folders_to_copy.forEach(function(obj) {
     Object.keys(obj).forEach(function(key) {
         var val = obj[key];
+
+        if (process.env.CORDOVA_PLATFORMS
+            && !process.env.CORDOVA_PLATFORMS.includes('ios')
+            && val.startsWith("platforms/ios")) {
+            console.log("Skipped IOS platform folder merging.");
+            return;
+        }
+
         var srcfile = path.join(rootdir, key);
         var destfile = path.join(rootdir, val);
         // console.log("Copying " + srcfile + " to " + destfile);

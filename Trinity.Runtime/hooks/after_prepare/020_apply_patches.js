@@ -25,6 +25,13 @@ if (fs.existsSync(patchDir) && fs.lstatSync(patchDir).isDirectory()) {
       let uniDiffArray = diff.parsePatch(patchStr)
       diff.applyPatches(uniDiffArray, {
         loadFile: (uniDiff, callback) => {
+          if (process.env.CORDOVA_PLATFORMS
+            && !process.env.CORDOVA_PLATFORMS.includes('ios')
+            && uniDiff.newFileName.startsWith("platforms/ios")) {
+            console.log("Skipped IOS platform file patching.");
+            return;
+          }
+
           let pathComponents = uniDiff.oldFileName.split('/');
           let originFilePath = base_dir;
           for (let i = patch_strip_num; i < pathComponents.length; i++) {
@@ -36,7 +43,7 @@ if (fs.existsSync(patchDir) && fs.lstatSync(patchDir).isDirectory()) {
             callback(null, originStr);
           }
           else {
-            console.log("Failed to open file " + originFilePath);
+            callback("Failed to open file " + originFilePath);
           }
         },
         patched: (uniDiff, patchedStr, callback) => {
@@ -51,7 +58,7 @@ if (fs.existsSync(patchDir) && fs.lstatSync(patchDir).isDirectory()) {
               fs.writeFileSync(originFilePath, patchedStr);
             }
             else {
-              console.log("Failed to patch file " + originFilePath);
+              callback("Failed to patch file " + originFilePath);
             }
             // Ignore any patch error, continue to proceed the next patch.
             callback();

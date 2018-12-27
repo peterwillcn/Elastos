@@ -3,6 +3,7 @@
 
 if (process.env.CORDOVA_PLATFORMS
     && !process.env.CORDOVA_PLATFORMS.includes('ios')) {
+    console.log("Skipped modify XCode project for non-IOS platform.")
     process.exit(0)
 }
 

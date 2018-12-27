@@ -26,6 +26,22 @@
     <plugin name="elastos-trinity-plugins-appmanager" spec="https://github.com/elastos/Elastos.Trinity.Runtime.Plugins.AppManager.git#dev" />
     <plugin name="elastos-trinity-plugins-appservice" spec="https://github.com/elastos/Elastos.Trinity.Runtime.Plugins.AppService.git#dev" />
     <plugin name="elastos-trinity-plugins-plugindemo" spec="https://github.com/elastos/Elastos.Trinity.Runtime.Plugins.PluginDemo.git#dev" />
+    <plugin name="elastos-trinity-plugins-dialogs" spec="https://github.com/elastos/Elastos.Trinity.Plugins.Dialog.git#dev" />
+    <plugin name="elastos-trinity-plugins-qrscanner" spec="https://github.com/elastos/Elastos.Trinity.Plugins.QRScanner.git#dev" />
+    <plugin name="elastos-trinity-plugins-geolocation" spec="https://github.com/elastos/Elastos.Trinity.Plugins.Geolocation.git#dev" />
+    <plugin name="elastos-trinity-plugins-media" spec="https://github.com/elastos/Elastos.Trinity.Plugins.Media.git#dev" />
+    <plugin name="elastos-trinity-plugins-flashlight" spec="https://github.com/elastos/Elastos.Trinity.Plugins.Flashlight.git#dev" />
+    <plugin name="elastos-trinity-plugins-device" spec="https://github.com/elastos/Elastos.Trinity.Plugins.Device.git#dev" />
+    <plugin name="elastos-trinity-plugins-vibration" spec="https://github.com/elastos/Elastos.Trinity.Plugins.Vibration.git#dev" />
+    <plugin name="elastos-trinity-plugins-statusbar" spec="https://github.com/elastos/Elastos.Trinity.Plugins.Statusbar.git#dev" />
+    <plugin name="elastos-trinity-plugins-camera" spec="https://github.com/elastos/Elastos.Trinity.Plugins.Camera.git#dev" />
+    <plugin name="elastos-trinity-plugins-device-motion" spec="https://github.com/elastos/Elastos.Trinity.Plugins.DeviceMotion.git#dev" />
+    <plugin name="elastos-trinity-plugins-splashscreen" spec="https://github.com/elastos/Elastos.Trinity.Plugins.SplashScreen.git#dev" />
+    <plugin name="elastos-trinity-plugins-battery-status" spec="https://github.com/elastos/Elastos.Trinity.Plugins.BatteryStatus.git#dev" />
+    <plugin name="elastos-trinity-plugins-capture" spec="https://github.com/elastos/Elastos.Trinity.Plugins.MediaCapture.git#dev" />
+    <plugin name="elastos-trinity-plugins-screen-orientation" spec="https://github.com/elastos/Elastos.Trinity.Plugins.ScreenOrientation.git#dev" />
+    <plugin name="elastos-trinity-plugins-inappbrowser" spec="https://github.com/elastos/Elastos.Trinity.Plugins.InappBrowser.git#dev" />
+    <plugin name="elastos-trinity-plugins-network-information" spec="https://github.com/elastos/Elastos.Trinity.Plugins.NetWorkInformation.git#dev" />
     <engine name="android" spec="^7.1.1" />
     <engine name="ios" spec="^4.5.5" />
 </widget>

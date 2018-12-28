@@ -24,6 +24,7 @@ package org.elastos.trinity.dapprt;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.net.Uri;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -105,27 +106,28 @@ public class AppInstaller {
         return true;
     }
 
-    public AppInfo install(AppManager appManager, String url)  {
+    public AppInfo install(AppManager appManager, String url) {
         InputStream inputStream;
         AppInfo info = null;
 
-        if (url.startsWith("assets://")) {
-            AssetManager manager = context.getAssets();
-            String substr = url.substring(9);
-            try {
+        try {
+            if (url.startsWith("assets://")) {
+                AssetManager manager = context.getAssets();
+                String substr = url.substring(9);
                 inputStream = manager.open(substr);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
+
+            }
+            else if (url.startsWith("content://")) {
+                Uri uri = Uri.parse(url);
+                inputStream = context.getContentResolver().openInputStream(uri);
+            }
+            else {
+                inputStream = new FileInputStream(url);
             }
         }
-        else {
-            try {
-                inputStream = new FileInputStream(url);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                return null;
-            }
+        catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
 
         String temp = "tmp_" + random.nextInt();

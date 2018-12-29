@@ -36,8 +36,7 @@ function copyFileSync( source, target ) {
     }
 
     // console.log("copyFileSync: Copying " + source + " to " + targetFile);
-    fs.createReadStream(source).pipe(
-        fs.createWriteStream(targetFile));
+    fs.copyFileSync(source, targetFile);
 }
 
 function copyFolderRecursiveSync( source, target ) {

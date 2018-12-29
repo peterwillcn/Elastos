@@ -42,6 +42,6 @@
     <plugin name="elastos-trinity-plugins-screen-orientation" spec="https://github.com/elastos/Elastos.Trinity.Plugins.ScreenOrientation.git#dev" />
     <plugin name="elastos-trinity-plugins-inappbrowser" spec="https://github.com/elastos/Elastos.Trinity.Plugins.InappBrowser.git#dev" />
     <plugin name="elastos-trinity-plugins-network-information" spec="https://github.com/elastos/Elastos.Trinity.Plugins.NetWorkInformation.git#dev" />
-    <engine name="android" spec="^7.1.1" />
-    <engine name="ios" spec="^4.5.5" />
+    <engine name="android" spec="7.1.4" />
+    <engine name="ios" spec="4.5.5" />
 </widget>

@@ -1,5 +1,5 @@
-diff -uraN origin_platforms/ios/Elastos/Elastos-Info.plist platforms/ios/Elastos/Elastos-Info.plist
---- origin_platforms/ios/Elastos/Elastos-Info.plist	2018-12-20 14:39:26.000000000 +0800
+diff -u platforms/ios/Elastos/Elastos-Info.plist.orig platforms/ios/Elastos/Elastos-Info.plist
+--- platforms/ios/Elastos/Elastos-Info.plist.orig	2018-12-20 14:39:26.000000000 +0800
 +++ platforms/ios/Elastos/Elastos-Info.plist	2018-12-21 14:21:57.000000000 +0800
 @@ -13,7 +13,7 @@
      <key>CFBundleIcons~ipad</key>

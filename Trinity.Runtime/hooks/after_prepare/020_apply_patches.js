@@ -7,8 +7,7 @@ const path = require('path');
 const patchDir = path.join(__dirname, "patches");
 const diff = require("diff");
 
-const base_dir = "platforms";
-const patch_strip_num = 1;
+const rootdir = process.argv[2];
 
 if (fs.existsSync(patchDir) && fs.lstatSync(patchDir).isDirectory()) {
   let files = fs.readdirSync(patchDir);
@@ -16,7 +15,8 @@ if (fs.existsSync(patchDir) && fs.lstatSync(patchDir).isDirectory()) {
     let patchFile = path.join(patchDir, file);
     if (fs.existsSync(patchFile) && fs.lstatSync(patchFile).isFile()
         && path.extname(patchFile) == ".patch") {
-      console.log("Applying patch " + file);
+      let relativePatchFile = path.relative(rootdir, patchFile);
+      console.log("Applying patch " + relativePatchFile);
       let patchStr = fs.readFileSync(patchFile, "utf8");
 
       // Remove the diff header for each chunks
@@ -32,39 +32,38 @@ if (fs.existsSync(patchDir) && fs.lstatSync(patchDir).isDirectory()) {
             return;
           }
 
-          let pathComponents = uniDiff.oldFileName.split('/');
-          let originFilePath = base_dir;
-          for (let i = patch_strip_num; i < pathComponents.length; i++) {
-            originFilePath = path.join(originFilePath, pathComponents[i]);
+          let oldFilePath = uniDiff.oldFileName.split('/').join(path.sep);
+          let newFilePath = uniDiff.newFileName.split('/').join(path.sep);
+          if (!fs.existsSync(oldFilePath)) {
+            if (fs.existsSync(newFilePath)
+                && fs.lstatSync(newFilePath).isFile()) {
+              console.log("Backup origin file to " + oldFilePath);
+              fs.copyFileSync(newFilePath, oldFilePath);
+            }
+            else {
+              callback("Failed to open file " + newFilePath);
+            }
           }
-          if (fs.existsSync(originFilePath)
-              && fs.lstatSync(originFilePath).isFile()) {
-            let originStr = fs.readFileSync(originFilePath, "utf8");
+
+          if (fs.existsSync(oldFilePath)
+              && fs.lstatSync(oldFilePath).isFile()) {
+            console.log("Patching file from " + oldFilePath);
+            let originStr = fs.readFileSync(oldFilePath, "utf8");
             callback(null, originStr);
           }
           else {
-            callback("Failed to open file " + originFilePath);
+            callback("Failed to open file " + oldFilePath);
           }
         },
         patched: (uniDiff, patchedStr, callback) => {
-          let pathComponents = uniDiff.oldFileName.split('/');
-          let originFilePath = base_dir;
-          for (let i = patch_strip_num; i < pathComponents.length; i++) {
-            originFilePath = path.join(originFilePath, pathComponents[i]);
-          }
-          if (fs.existsSync(originFilePath) && fs.lstatSync(patchFile).isFile()) {
-            if (patchedStr) {
-              console.log("Patched file " + originFilePath);
-              fs.writeFileSync(originFilePath, patchedStr);
-            }
-            else {
-              callback("Failed to patch file " + originFilePath);
-            }
-            // Ignore any patch error, continue to proceed the next patch.
+          let newFilePath = uniDiff.newFileName.split('/').join(path.sep);
+          if (patchedStr) {
+            console.log("Patched file " + newFilePath);
+            fs.writeFileSync(newFilePath, patchedStr);
             callback();
           }
           else {
-            callback("Failed to open file " + originFilePath);
+            callback("Failed to patch file " + newFilePath);
           }
         },
         complete: (err) => {

@@ -1,5 +1,5 @@
-diff -uraN origin_platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndNavigationFilter/CDVIntentAndNavigationFilter.h platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndNavigationFilter/CDVIntentAndNavigationFilter.h
---- origin_platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndNavigationFilter/CDVIntentAndNavigationFilter.h	2018-12-13 23:25:08.820141864 +0800
+diff -u platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndNavigationFilter/CDVIntentAndNavigationFilter.h.orig platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndNavigationFilter/CDVIntentAndNavigationFilter.h
+--- platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndNavigationFilter/CDVIntentAndNavigationFilter.h.orig	2018-12-13 23:25:08.820141864 +0800
 +++ platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndNavigationFilter/CDVIntentAndNavigationFilter.h	2018-12-13 23:27:51.717358005 +0800
 @@ -28,6 +28,9 @@
  
@@ -11,8 +11,8 @@ diff -uraN origin_platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndN
  + (CDVIntentAndNavigationFilterValue) filterUrl:(NSURL*)url intentsWhitelist:(CDVWhitelist*)intentsWhitelist navigationsWhitelist:(CDVWhitelist*)navigationsWhitelist;
  + (BOOL)shouldOverrideLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType filterValue:(CDVIntentAndNavigationFilterValue)filterValue;
  + (BOOL)shouldOpenURLRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType;
-diff -uraN origin_platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndNavigationFilter/CDVIntentAndNavigationFilter.m platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndNavigationFilter/CDVIntentAndNavigationFilter.m
---- origin_platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndNavigationFilter/CDVIntentAndNavigationFilter.m	2018-12-13 23:25:08.819783900 +0800
+diff -u platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndNavigationFilter/CDVIntentAndNavigationFilter.m.orig platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndNavigationFilter/CDVIntentAndNavigationFilter.m
+--- platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndNavigationFilter/CDVIntentAndNavigationFilter.m.orig	2018-12-13 23:25:08.819783900 +0800
 +++ platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndNavigationFilter/CDVIntentAndNavigationFilter.m	2018-12-13 23:27:51.715870699 +0800
 @@ -24,8 +24,8 @@
  
@@ -25,8 +25,8 @@ diff -uraN origin_platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndN
  
  @end
  
-diff -uraN origin_platforms/ios/CordovaLib/Classes/Public/CDV.h platforms/ios/CordovaLib/Classes/Public/CDV.h
---- origin_platforms/ios/CordovaLib/Classes/Public/CDV.h	2018-12-13 23:25:08.806549404 +0800
+diff -u platforms/ios/CordovaLib/Classes/Public/CDV.h.orig platforms/ios/CordovaLib/Classes/Public/CDV.h
+--- platforms/ios/CordovaLib/Classes/Public/CDV.h.orig	2018-12-13 23:25:08.806549404 +0800
 +++ platforms/ios/CordovaLib/Classes/Public/CDV.h	2018-12-13 23:27:51.769480559 +0800
 @@ -30,3 +30,6 @@
  #import "CDVScreenOrientationDelegate.h"
@@ -35,8 +35,8 @@ diff -uraN origin_platforms/ios/CordovaLib/Classes/Public/CDV.h platforms/ios/Co
 +//Trinity::
 +#import "CDVConfigParser.h"
 +#import "CDVIntentAndNavigationFilter.h"
-diff -uraN origin_platforms/ios/CordovaLib/Classes/Public/CDVCommandQueue.m platforms/ios/CordovaLib/Classes/Public/CDVCommandQueue.m
---- origin_platforms/ios/CordovaLib/Classes/Public/CDVCommandQueue.m	2018-12-13 23:25:08.800276803 +0800
+diff -u platforms/ios/CordovaLib/Classes/Public/CDVCommandQueue.m.orig platforms/ios/CordovaLib/Classes/Public/CDVCommandQueue.m
+--- platforms/ios/CordovaLib/Classes/Public/CDVCommandQueue.m.orig	2018-12-13 23:25:08.800276803 +0800
 +++ platforms/ios/CordovaLib/Classes/Public/CDVCommandQueue.m	2018-12-13 23:27:51.762552839 +0800
 @@ -180,9 +180,17 @@
          // [obj performSelector:normalSelector withObject:command];
@@ -59,8 +59,8 @@ diff -uraN origin_platforms/ios/CordovaLib/Classes/Public/CDVCommandQueue.m plat
      }
      double elapsed = [[NSDate date] timeIntervalSince1970] * 1000.0 - started;
      if (elapsed > 10) {
-diff -uraN origin_platforms/ios/CordovaLib/Classes/Public/CDVViewController.h platforms/ios/CordovaLib/Classes/Public/CDVViewController.h
---- origin_platforms/ios/CordovaLib/Classes/Public/CDVViewController.h	2018-12-13 23:25:08.803044914 +0800
+diff -u platforms/ios/CordovaLib/Classes/Public/CDVViewController.h.orig platforms/ios/CordovaLib/Classes/Public/CDVViewController.h
+--- platforms/ios/CordovaLib/Classes/Public/CDVViewController.h.orig	2018-12-13 23:25:08.803044914 +0800
 +++ platforms/ios/CordovaLib/Classes/Public/CDVViewController.h	2018-12-13 23:27:51.765743896 +0800
 @@ -39,9 +39,10 @@
  
@@ -84,8 +84,8 @@ diff -uraN origin_platforms/ios/CordovaLib/Classes/Public/CDVViewController.h pl
 +- (void)loadSettings;
 +
  @end
-diff -uraN origin_platforms/ios/CordovaLib/Classes/Public/CDVViewController.m platforms/ios/CordovaLib/Classes/Public/CDVViewController.m
---- origin_platforms/ios/CordovaLib/Classes/Public/CDVViewController.m	2018-12-13 23:25:08.814551466 +0800
+diff -u platforms/ios/CordovaLib/Classes/Public/CDVViewController.m.orig platforms/ios/CordovaLib/Classes/Public/CDVViewController.m
+--- platforms/ios/CordovaLib/Classes/Public/CDVViewController.m.orig	2018-12-13 23:25:08.814551466 +0800
 +++ platforms/ios/CordovaLib/Classes/Public/CDVViewController.m	2018-12-13 23:27:51.786988740 +0800
 @@ -34,10 +34,10 @@
  }
@@ -111,8 +111,8 @@ diff -uraN origin_platforms/ios/CordovaLib/Classes/Public/CDVViewController.m pl
  
          if (obj != nil) {
              [self registerPlugin:obj withClassName:className];
-diff -uraN origin_platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.h platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.h
---- origin_platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.h	2018-12-13 23:25:08.798428371 +0800
+diff -u platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.h.orig platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.h
+--- platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.h.orig	2018-12-13 23:25:08.798428371 +0800
 +++ platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.h	2018-12-13 23:27:51.760549679 +0800
 @@ -25,6 +25,10 @@
  
@@ -125,8 +125,8 @@ diff -uraN origin_platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.h platfor
  - (id)initWithArray:(NSArray*)array;
  - (BOOL)schemeIsAllowed:(NSString*)scheme;
  - (BOOL)URLIsAllowed:(NSURL*)url;
-diff -uraN origin_platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.m platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.m
---- origin_platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.m	2018-12-13 23:25:08.809226994 +0800
+diff -u platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.m.orig platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.m
+--- platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.m.orig	2018-12-13 23:25:08.809226994 +0800
 +++ platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.m	2018-12-13 23:27:51.773597506 +0800
 @@ -107,13 +107,14 @@
  
@@ -197,8 +197,8 @@ diff -uraN origin_platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.m platfor
          }
      }
  
-diff -uraN origin_platforms/ios/Elastos/Bridging-Header.h platforms/ios/Elastos/Bridging-Header.h
---- origin_platforms/ios/Elastos/Bridging-Header.h	2018-12-13 23:25:08.756478744 +0800
+diff -u platforms/ios/Elastos/Bridging-Header.h.orig platforms/ios/Elastos/Bridging-Header.h
+--- platforms/ios/Elastos/Bridging-Header.h.orig	2018-12-13 23:25:08.756478744 +0800
 +++ platforms/ios/Elastos/Bridging-Header.h	2018-12-13 23:26:24.208989942 +0800
 @@ -26,3 +26,5 @@
  //

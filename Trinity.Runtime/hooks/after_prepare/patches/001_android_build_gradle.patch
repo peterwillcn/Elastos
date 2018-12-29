@@ -1,5 +1,5 @@
-diff -uraN origin_platforms/android/CordovaLib/build.gradle platforms/android/CordovaLib/build.gradle
---- origin_platforms/android/CordovaLib/build.gradle	2018-12-13 23:25:09.179386040 +0800
+diff -u platforms/android/CordovaLib/build.gradle.orig platforms/android/CordovaLib/build.gradle
+--- platforms/android/CordovaLib/build.gradle.orig	2018-12-13 23:25:09.179386040 +0800
 +++ platforms/android/CordovaLib/build.gradle	2018-12-13 23:26:24.205524423 +0800
 @@ -24,6 +24,7 @@
  
@@ -18,8 +18,8 @@ diff -uraN origin_platforms/android/CordovaLib/build.gradle platforms/android/Co
          classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
          classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
      }
-diff -ur origin_platforms/android/app/build.gradle platforms/android/app/build.gradle
---- origin_platforms/android/app/build.gradle	2018-12-27 17:36:31.998999613 +0800
+diff -u platforms/android/app/build.gradle.orig platforms/android/app/build.gradle
+--- platforms/android/app/build.gradle.orig	2018-12-27 17:36:31.998999613 +0800
 +++ platforms/android/app/build.gradle	2018-12-28 22:59:37.481225957 +0800
 @@ -21,6 +21,7 @@
  
@@ -63,8 +63,8 @@ diff -ur origin_platforms/android/app/build.gradle platforms/android/app/build.g
      // SUB-PROJECT DEPENDENCIES END
  }
  
-diff -ur origin_platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gradle platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gradle
---- origin_platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gradle	2018-12-27 17:35:26.194181377 +0800
+diff -u platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gradle.orig platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gradle
+--- platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gradle.orig	2018-12-27 17:35:26.194181377 +0800
 +++ platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gradle	2018-12-28 22:57:25.080430928 +0800
 @@ -3,10 +3,10 @@
  }
@@ -81,8 +81,8 @@ diff -ur origin_platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrsc
 -}
 \ No newline at end of file
 +}
-diff -uraN origin_platforms/android/build.gradle platforms/android/build.gradle
---- origin_platforms/android/build.gradle	2018-12-13 23:25:09.176518670 +0800
+diff -u platforms/android/build.gradle.orig platforms/android/build.gradle
+--- platforms/android/build.gradle.orig	2018-12-13 23:25:09.176518670 +0800
 +++ platforms/android/build.gradle	2018-12-13 23:26:24.205038944 +0800
 @@ -20,6 +20,7 @@
  

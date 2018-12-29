@@ -18,9 +18,9 @@ diff -uraN origin_platforms/android/CordovaLib/build.gradle platforms/android/Co
          classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
          classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
      }
-diff -uraN origin_platforms/android/app/build.gradle platforms/android/app/build.gradle
+diff -ur origin_platforms/android/app/build.gradle platforms/android/app/build.gradle
 --- origin_platforms/android/app/build.gradle	2018-12-27 17:36:31.998999613 +0800
-+++ platforms/android/app/build.gradle	2018-12-27 18:27:32.327781390 +0800
++++ platforms/android/app/build.gradle	2018-12-28 22:59:37.481225957 +0800
 @@ -21,6 +21,7 @@
  
  buildscript {
@@ -54,16 +54,33 @@ diff -uraN origin_platforms/android/app/build.gradle platforms/android/app/build
      lintOptions {
        abortOnError false;
      }
-@@ -266,8 +273,8 @@
+@@ -266,7 +273,7 @@
      implementation fileTree(dir: 'libs', include: '*.jar')
      // SUB-PROJECT DEPENDENCIES START
      implementation(project(path: ":CordovaLib"))
 -    compile "com.android.support:support-v4:27.+"
++    implementation 'com.android.support:support-v4:27.+'
      // SUB-PROJECT DEPENDENCIES END
-+    implementation 'com.android.support:support-v4:27.1.1'
  }
  
- def promptForReleaseKeyPassword() {
+diff -ur origin_platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gradle platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gradle
+--- origin_platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gradle	2018-12-27 17:35:26.194181377 +0800
++++ platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gradle	2018-12-28 22:57:25.080430928 +0800
+@@ -3,10 +3,10 @@
+ }
+ 
+ dependencies {
+-    compile 'com.journeyapps:zxing-android-embedded:3.3.0'
+-    compile 'com.android.support:appcompat-v7:23.1.0'
++    implementation 'com.journeyapps:zxing-android-embedded:3.3.0'
++    implementation 'com.android.support:appcompat-v7:23.1.0'
+ }
+ 
+ android {
+     buildToolsVersion '23.0.2' // Older versions may give compile errors
+-}
+\ No newline at end of file
++}
 diff -uraN origin_platforms/android/build.gradle platforms/android/build.gradle
 --- origin_platforms/android/build.gradle	2018-12-13 23:25:09.176518670 +0800
 +++ platforms/android/build.gradle	2018-12-13 23:26:24.205038944 +0800

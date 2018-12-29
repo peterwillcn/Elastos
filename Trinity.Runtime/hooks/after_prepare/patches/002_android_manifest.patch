@@ -9,11 +9,14 @@ diff -uraN origin_platforms/android/CordovaLib/AndroidManifest.xml platforms/and
  </manifest>
 diff -uraN origin_platforms/android/app/src/main/AndroidManifest.xml platforms/android/app/src/main/AndroidManifest.xml
 --- origin_platforms/android/app/src/main/AndroidManifest.xml	2018-12-27 17:37:23.240146537 +0800
-+++ platforms/android/app/src/main/AndroidManifest.xml	2018-12-27 17:59:27.120733562 +0800
-@@ -1,19 +1,47 @@
++++ platforms/android/app/src/main/AndroidManifest.xml	2018-12-28 23:35:20.363710666 +0800
+@@ -1,20 +1,46 @@
 -<?xml version='1.0' encoding='utf-8'?>
 -<manifest android:hardwareAccelerated="true" android:versionCode="10000" android:versionName="1.0.0" package="org.elastos.trinity.runtime" xmlns:android="http://schemas.android.com/apk/res/android">
 -    <supports-screens android:anyDensity="true" android:largeScreens="true" android:normalScreens="true" android:resizeable="true" android:smallScreens="true" android:xlargeScreens="true" />
+-    <uses-permission android:name="android.permission.INTERNET" />
+-    <application android:hardwareAccelerated="true" android:icon="@mipmap/icon" android:label="@string/app_name" android:supportsRtl="true">
+-        <activity android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale" android:label="@string/activity_name" android:launchMode="singleTop" android:name="MainActivity" android:theme="@android:style/Theme.DeviceDefault.NoActionBar" android:windowSoftInputMode="adjustResize">
 +<?xml version="1.0" encoding="utf-8"?>
 +<manifest xmlns:android="http://schemas.android.com/apk/res/android"
 +    package="org.elastos.trinity.runtime"
@@ -28,10 +31,6 @@ diff -uraN origin_platforms/android/app/src/main/AndroidManifest.xml platforms/a
 +        android:resizeable="true"
 +        android:smallScreens="true"
 +        android:xlargeScreens="true" />
-+
-     <uses-permission android:name="android.permission.INTERNET" />
--    <application android:hardwareAccelerated="true" android:icon="@mipmap/icon" android:label="@string/app_name" android:supportsRtl="true">
--        <activity android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale" android:label="@string/activity_name" android:launchMode="singleTop" android:name="MainActivity" android:theme="@android:style/Theme.DeviceDefault.NoActionBar" android:windowSoftInputMode="adjustResize">
 +
 +    <application
 +        android:hardwareAccelerated="true"
@@ -61,6 +60,8 @@ diff -uraN origin_platforms/android/app/src/main/AndroidManifest.xml platforms/a
          </provider>
      </application>
 -    <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="27" />
-     <uses-permission android:name="android.permission.CAMERA" android:required="false" />
+-    <uses-permission android:name="android.permission.CAMERA" android:required="false" />
++    <uses-permission android:name="android.permission.INTERNET" />
      <uses-feature android:name="android.hardware.camera" android:required="false" />
      <uses-feature android:name="android.hardware.camera.front" android:required="false" />
+     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

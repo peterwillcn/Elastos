@@ -133,7 +133,7 @@ public class AppInstaller {
         String temp = "tmp_" + random.nextInt();
         String path = appPath + temp + "/";
 
-        File fmd = new File(path);
+           File fmd = new File(path);
         fmd.mkdirs();
 
         if (unpackZip(inputStream, path)) {

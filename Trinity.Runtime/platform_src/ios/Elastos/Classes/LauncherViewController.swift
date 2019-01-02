@@ -24,7 +24,6 @@
  
  class LauncherViewController : TrinityViewController {
     
-
     override func loadSettings() {
         super.loadSettings();
         self.id = "launcher";

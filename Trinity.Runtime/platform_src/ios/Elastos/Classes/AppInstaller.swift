@@ -148,9 +148,6 @@
             print("Parse Manifest.json error: \(error)");
         }
 
-
-        
-        
         return appInfo;
     }
  }

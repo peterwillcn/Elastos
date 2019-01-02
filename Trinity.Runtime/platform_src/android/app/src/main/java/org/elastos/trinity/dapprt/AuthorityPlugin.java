@@ -22,10 +22,25 @@
 
 package org.elastos.trinity.dapprt;
 
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.net.Uri;
+import android.os.Bundle;
+
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaArgs;
+import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaPreferences;
+import org.apache.cordova.CordovaResourceApi;
+import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.ICordovaClientCertRequest;
+import org.apache.cordova.ICordovaHttpAuthHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class AuthorityPlugin extends CordovaPlugin {
 
@@ -60,19 +75,184 @@ public class AuthorityPlugin extends CordovaPlugin {
     }
 
     @Override
-    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+    public final void privateInitialize(String serviceName, CordovaInterface cordova,
+                                        CordovaWebView webView, CordovaPreferences preferences) {
+        originalPlugin.privateInitialize(serviceName, cordova, webView, preferences);
+    }
+
+    @Override
+    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        originalPlugin.initialize(cordova, webView);
+    }
+
+    @Override
+    public String getServiceName() {
+        return originalPlugin.getServiceName();
+    }
+
+    private boolean checkAuthority(CallbackContext callbackContext) {
         if (originalPlugin != null) {
             int authority = AppManager.appManager.getPluginAuthority(appInfo.app_id, pluginName);
             if (authority == AppInfo.AUTHORITY_ALLOW) {
-                return originalPlugin.execute(action, args, callbackContext);
+                return true;
             }
             else if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
                 AppManager.appManager.runAlertPluginAuth(appInfo, pluginName);
-//                AppManager.appManager.sendMessage("launcher", AppInfo.MSG_PLUGIN_AUTHORITY,
-//                        "{plugin:" + pluginName + ", authority:" + authority + "}", appId);
             }
             callbackContext.error("Plugin:'" + pluginName + "' have not run authority.");
         }
         return false;
+    }
+
+    @Override
+    public boolean execute(String action, String rawArgs, CallbackContext callbackContext) throws JSONException {
+        if (checkAuthority(callbackContext)) {
+            return originalPlugin.execute(action, rawArgs, callbackContext);
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (checkAuthority(callbackContext)) {
+            return originalPlugin.execute(action, args, callbackContext);
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean execute(String action, CordovaArgs args, CallbackContext callbackContext) throws JSONException {
+        if (checkAuthority(callbackContext)) {
+            return originalPlugin.execute(action, args, callbackContext);
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
+    public void onPause(boolean multitasking) {
+        originalPlugin.onPause(multitasking);
+    }
+
+    @Override
+    public void onResume(boolean multitasking) {
+        originalPlugin.onResume(multitasking);
+    }
+
+    @Override
+    public void onStart() {
+        originalPlugin.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        originalPlugin.onStop();
+    }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        originalPlugin.onNewIntent(intent);
+    }
+
+    @Override
+    public void onDestroy() {
+        originalPlugin.onDestroy();
+    }
+
+    @Override
+    public Bundle onSaveInstanceState() {
+        return originalPlugin.onSaveInstanceState();
+    }
+
+    @Override
+    public void onRestoreStateForActivityResult(Bundle state, CallbackContext callbackContext) {
+        originalPlugin.onRestoreStateForActivityResult(state, callbackContext);
+    }
+
+    @Override
+    public Object onMessage(String id, Object data) {
+        return originalPlugin.onMessage(id, data);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        originalPlugin.onActivityResult(requestCode, resultCode, intent);
+    }
+
+    @Override
+    public Boolean shouldAllowRequest(String url) {
+        return originalPlugin.shouldAllowRequest(url);
+    }
+
+    @Override
+    public Boolean shouldAllowNavigation(String url) {
+        return originalPlugin.shouldAllowNavigation(url);
+    }
+
+    @Override
+    public Boolean shouldAllowBridgeAccess(String url) {
+        return originalPlugin.shouldAllowBridgeAccess(url);
+    }
+
+    @Override
+    public Boolean shouldOpenExternalUrl(String url) {
+        return originalPlugin.shouldOpenExternalUrl(url);
+    }
+
+    @Override
+    public boolean onOverrideUrlLoading(String url) {
+        return originalPlugin.onOverrideUrlLoading(url);
+    }
+
+    @Override
+    public Uri remapUri(Uri uri) {
+        return originalPlugin.remapUri(uri);
+    }
+
+    @Override
+    public CordovaResourceApi.OpenForReadResult handleOpenForRead(Uri uri) throws IOException {
+        return originalPlugin.handleOpenForRead(uri);
+    }
+
+    @Override
+    public void onReset() {
+        originalPlugin.onReset();
+    }
+
+    @Override
+    public boolean onReceivedHttpAuthRequest(CordovaWebView view, ICordovaHttpAuthHandler handler, String host, String realm) {
+        return originalPlugin.onReceivedHttpAuthRequest(view, handler, host, realm);
+    }
+
+    @Override
+    public boolean onReceivedClientCertRequest(CordovaWebView view, ICordovaClientCertRequest request) {
+        return originalPlugin.onReceivedClientCertRequest(view, request);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        originalPlugin.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void requestPermissions(int requestCode) {
+        originalPlugin.requestPermissions(requestCode);
+    }
+
+    @Override
+    public boolean hasPermisssion() {
+        return originalPlugin.hasPermisssion();
+    }
+
+    @Override
+    public void onRequestPermissionResult(int requestCode, String[] permissions,
+                                       int[] grantResults) throws JSONException {
+        originalPlugin.onRequestPermissionResult(requestCode, permissions, grantResults);
+
     }
 }

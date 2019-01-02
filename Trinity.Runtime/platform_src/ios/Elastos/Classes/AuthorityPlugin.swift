@@ -52,4 +52,62 @@
         }
         return true;
     }
+    
+//    @objc override var webView: UIView? {
+//        get {
+//            return originalPlugin!.webView;
+//        }
+//    }
+    
+//    @objc override var viewController: UIViewController? {
+//        get{
+//            return originalPlugin!.viewController;
+//        }
+//    }
+    
+//    @property (nonatomic, readonly, weak) id <CDVWebViewEngineProtocol> webViewEngine;
+//
+//    @property (nonatomic, weak) UIViewController* viewController;
+//
+//    @property (readonly, assign) BOOL hasPendingOperation;
+
+    
+//    @objc override var hasPendingOperation: Bool? {
+//        get {
+//            return originalPlugin!.hasPendingOperation;
+//        }
+//    }
+    
+    @objc override func pluginInitialize() {
+        return originalPlugin!.pluginInitialize();
+    }
+    
+    @objc override func dispose() {
+        originalPlugin!.dispose();
+    }
+
+    @objc override func handleOpenURL(_ notification: Notification) {
+        originalPlugin!.handleOpenURL(notification);
+    }
+    
+    @objc override func handleOpenURL(withApplicationSourceAndAnnotation notification: Notification) {
+        originalPlugin!.handleOpenURL(withApplicationSourceAndAnnotation: notification);
+    }
+    
+    @objc override func onAppTerminate() {
+        originalPlugin!.onAppTerminate();
+    }
+    
+    @objc override func onMemoryWarning() {
+        originalPlugin!.onMemoryWarning();
+    }
+    
+    @objc override func onReset() {
+        originalPlugin!.onReset();
+    }
+    
+    @objc override func appDelegate() -> Any {
+        return originalPlugin!.appDelegate();
+    }
+    
  }

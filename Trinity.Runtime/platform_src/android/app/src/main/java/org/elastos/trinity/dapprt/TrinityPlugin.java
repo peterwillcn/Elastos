@@ -22,7 +22,10 @@
 
 package org.elastos.trinity.dapprt;
 
+import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaPreferences;
+import org.apache.cordova.CordovaWebView;
 
 public class TrinityPlugin extends CordovaPlugin {
     private AppWhitelistPlugin whitelistPlugin;
@@ -33,5 +36,11 @@ public class TrinityPlugin extends CordovaPlugin {
 
     public Boolean isAllowAccess(String url) {
         return whitelistPlugin.shouldAllowNavigation(url);
+    }
+
+    @Override
+    public final void privateInitialize(String serviceName, CordovaInterface cordova,
+                                        CordovaWebView webView, CordovaPreferences preferences) {
+        super.privateInitialize(serviceName, cordova, webView, preferences);
     }
 }

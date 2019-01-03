@@ -50,7 +50,8 @@ var commands = [
     { cmd: "list", fn: app_list, help: "list" },
     { cmd: "running", fn: running_list, help: "running" },
     { cmd: "last", fn: last_list, help: "last" },
-
+    { cmd: "pluginauth", fn: plugin_auth, help: "pluginauth [No.] pluginanme authority" },
+    { cmd: "urlauth", fn: url_auth, help: "urlauth [No.] url authority" },
 ]
 
 function do_command(input) {
@@ -222,6 +223,28 @@ function last_list() {
     };
 
     appManager.getLastList(success, error);
+}
+
+function plugin_auth(argv) {
+    var success = function (ret) {
+        display_others_msg(ret.toString());
+    };
+    var error = function (error) {
+        display_others_msg("setPluginAuthority fail!");
+    };
+
+    appManager.setPluginAuthority(getId(argv[1]), argv[2], argv[3], success, error);
+}
+
+function url_auth(argv) {
+    var success = function (ret) {
+        display_others_msg(ret.toString());
+    };
+    var error = function (error) {
+        display_others_msg("setUrlAuthority fail!");
+    };
+
+    appManager.setUrlAuthority(getId(argv[1]), argv[2], argv[3], success, error);
 }
 
 function send_message(argv) {

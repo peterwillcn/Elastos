@@ -357,20 +357,21 @@ public class AppManager {
         return AppInfo.AUTHORITY_NOEXIST;
     }
 
-    public void setPluginAuthority(String id, String plugin, int authority) {
+    public boolean setPluginAuthority(String id, String plugin, int authority) {
         AppInfo info = appInfos.get(id);
         if (info != null) {
             dbAdapter.updatePluginAuth(info.tid, plugin, authority);
             for (AppInfo.PluginAuth pluginAuth : info.plugins) {
                 if (pluginAuth.plugin.equals(plugin)) {
                     pluginAuth.authority = authority;
-                    return;
+                    return true;
                 }
             }
         }
+        return false;
     }
 
-    public void setUrlAuthority(String id, String url, int authority) {
+    public boolean setUrlAuthority(String id, String url, int authority) {
         AppInfo info = appInfos.get(id);
         if (info != null) {
             int count = dbAdapter.updateURLAuth(info.tid, url, authority);
@@ -378,11 +379,12 @@ public class AppManager {
                 for (AppInfo.UrlAuth urlAuth : info.urls) {
                     if (urlAuth.url.equals(url)) {
                         urlAuth.authority = authority;
-                        return;
+                        return true;
                     }
                 }
             }
         }
+        return false;
     }
 
     public void runAlertPluginAuth(AppInfo info, String plugin) {

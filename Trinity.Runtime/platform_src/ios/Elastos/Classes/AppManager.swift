@@ -321,28 +321,30 @@ import Foundation
         return AppInfo.AUTHORITY_NOEXIST;
     }
     
-    func setPluginAuthority(_ id: String, _ plugin: String, _ authority: Int) {
+    func setPluginAuthority(_ id: String, _ plugin: String, _ authority: Int) -> Bool {
         let info = appInfos[id];
         if (info != nil) {
             for pluginAuth in info!.plugins {
                 if (pluginAuth.plugin == plugin) {
                     dbAdapter.updatePluginAuth(pluginAuth, authority);
-                    return;
+                    return true;
                 }
             }
         }
+        return false;
     }
     
-    func setUrlAuthority(_ id: String, _ url: String, _ authority: Int) {
+    func setUrlAuthority(_ id: String, _ url: String, _ authority: Int)  -> Bool {
         let info = appInfos[id];
         if (info != nil) {
             for urlAuth in info!.urls {
                 if (urlAuth.url == url) {
                     dbAdapter.updateUrlAuth(urlAuth, authority);
-                    return;
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     func runAlertPluginAuth(_ info: AppInfo, _ plugin: String) {

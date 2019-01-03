@@ -53,30 +53,44 @@
         return true;
     }
     
-//    @objc override var webView: UIView? {
+    @objc override weak var webView: UIView? {
+        get {
+            return originalPlugin!.webView;
+        }
+    }
+ 
+    @objc override weak var webViewEngine: CDVWebViewEngineProtocol? {
+        get {
+            return originalPlugin!.webViewEngine;
+        }
+    }
+    
+//    @objc override weak var commandDelegate: CDVCommandDelegate {
 //        get {
-//            return originalPlugin!.webView;
+//            return originalPlugin!.commandDelegate;
+//        }
+//        set(value) {
+//            originalPlugin!.commandDelegate = value;
 //        }
 //    }
     
-//    @objc override var viewController: UIViewController? {
+//    @objc override weak var viewController: UIViewController? {
 //        get{
 //            return originalPlugin!.viewController;
 //        }
-//    }
-    
-//    @property (nonatomic, readonly, weak) id <CDVWebViewEngineProtocol> webViewEngine;
-//
-//    @property (nonatomic, weak) UIViewController* viewController;
-//
-//    @property (readonly, assign) BOOL hasPendingOperation;
-
-    
-//    @objc override var hasPendingOperation: Bool? {
-//        get {
-//            return originalPlugin!.hasPendingOperation;
+//        set(value){
+//            originalPlugin!.viewController = value;
 //        }
 //    }
+
+//
+//    @property (nonatomic, weak) UIViewController* viewController;
+    
+    @objc override var hasPendingOperation: Bool {
+        get {
+            return originalPlugin!.hasPendingOperation;
+        }
+    }
     
     @objc override func pluginInitialize() {
         return originalPlugin!.pluginInitialize();

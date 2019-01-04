@@ -1,6 +1,6 @@
-diff -u platforms/android/CordovaLib/build.gradle.orig platforms/android/CordovaLib/build.gradle
---- platforms/android/CordovaLib/build.gradle.orig	2018-12-13 23:25:09.179386040 +0800
-+++ platforms/android/CordovaLib/build.gradle	2018-12-13 23:26:24.205524423 +0800
+===================================================================
+--- origin_platforms/android/CordovaLib/build.gradle	null
++++ platforms/android/CordovaLib/build.gradle	null
 @@ -24,6 +24,7 @@
  
  buildscript {
@@ -18,9 +18,9 @@ diff -u platforms/android/CordovaLib/build.gradle.orig platforms/android/Cordova
          classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
          classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
      }
-diff -u platforms/android/app/build.gradle.orig platforms/android/app/build.gradle
---- platforms/android/app/build.gradle.orig	2018-12-27 17:36:31.998999613 +0800
-+++ platforms/android/app/build.gradle	2018-12-28 22:59:37.481225957 +0800
+===================================================================
+--- origin_platforms/android/app/build.gradle	null
++++ platforms/android/app/build.gradle	null
 @@ -21,6 +21,7 @@
  
  buildscript {
@@ -63,10 +63,10 @@ diff -u platforms/android/app/build.gradle.orig platforms/android/app/build.grad
      // SUB-PROJECT DEPENDENCIES END
  }
  
-diff -u platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gradle.orig platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gradle
---- platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gradle.orig	2018-12-27 17:35:26.194181377 +0800
-+++ platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gradle	2018-12-28 22:57:25.080430928 +0800
-@@ -3,10 +3,10 @@
+===================================================================
+--- origin_platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gradle	null
++++ platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gradle	null
+@@ -3,8 +3,8 @@
  }
  
  dependencies {
@@ -77,13 +77,9 @@ diff -u platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gr
  }
  
  android {
-     buildToolsVersion '23.0.2' // Older versions may give compile errors
--}
-\ No newline at end of file
-+}
-diff -u platforms/android/build.gradle.orig platforms/android/build.gradle
---- platforms/android/build.gradle.orig	2018-12-13 23:25:09.176518670 +0800
-+++ platforms/android/build.gradle	2018-12-13 23:26:24.205038944 +0800
+===================================================================
+--- origin_platforms/android/build.gradle	null
++++ platforms/android/build.gradle	null
 @@ -20,6 +20,7 @@
  
  buildscript {

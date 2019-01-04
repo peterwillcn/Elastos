@@ -6,6 +6,7 @@ const path = require('path');
 
 const patchDir = path.join(__dirname, "patches");
 const diff = require("diff");
+const mkdirp = require("mkdirp");
 
 const rootdir = process.argv[2];
 
@@ -38,6 +39,11 @@ if (fs.existsSync(patchDir) && fs.lstatSync(patchDir).isDirectory()) {
             if (fs.existsSync(newFilePath)
                 && fs.lstatSync(newFilePath).isFile()) {
               console.log("Backup origin file to " + oldFilePath);
+              let oldFileDir = path.dirname(oldFilePath);
+              if (!fs.existsSync(oldFileDir)) {
+                console.log("Making directory " + oldFileDir);
+                mkdirp.sync(oldFileDir);
+              }
               fs.copyFileSync(newFilePath, oldFilePath);
             }
             else {

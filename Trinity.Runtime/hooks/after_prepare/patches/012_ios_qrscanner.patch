@@ -1,6 +1,6 @@
-diff -u platforms/ios/Elastos/Plugins/elastos-trinity-plugins-qrscanner/QRScanner.swift.orig platforms/ios/Elastos/Plugins/elastos-trinity-plugins-qrscanner/QRScanner.swift
---- platforms/ios/Elastos/Plugins/elastos-trinity-plugins-qrscanner/QRScanner.swift.orig	2018-12-27 17:35:31.074765245 +0800
-+++ platforms/ios/Elastos/Plugins/elastos-trinity-plugins-qrscanner/QRScanner.swift	2018-12-27 18:17:35.719972328 +0800
+===================================================================
+--- origin_platforms/ios/Elastos/Plugins/elastos-trinity-plugins-qrscanner/QRScanner.swift	null
++++ platforms/ios/Elastos/Plugins/elastos-trinity-plugins-qrscanner/QRScanner.swift	null
 @@ -30,12 +30,12 @@
                  }
              }

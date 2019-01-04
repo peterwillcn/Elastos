@@ -1,6 +1,6 @@
-diff -u platforms/android/CordovaLib/src/org/apache/cordova/PluginEntry.java.orig platforms/android/CordovaLib/src/org/apache/cordova/PluginEntry.java
---- platforms/android/CordovaLib/src/org/apache/cordova/PluginEntry.java.orig	2018-12-13 23:25:09.199555071 +0800
-+++ platforms/android/CordovaLib/src/org/apache/cordova/PluginEntry.java	2018-12-13 23:26:24.202390925 +0800
+===================================================================
+--- origin_platforms/android/CordovaLib/src/org/apache/cordova/PluginEntry.java	null
++++ platforms/android/CordovaLib/src/org/apache/cordova/PluginEntry.java	null
 @@ -61,7 +61,7 @@
          this(service, pluginClass, onload, null);
      }
@@ -10,9 +10,9 @@ diff -u platforms/android/CordovaLib/src/org/apache/cordova/PluginEntry.java.ori
          this.service = service;
          this.pluginClass = pluginClass;
          this.onload = onload;
-diff -u platforms/android/CordovaLib/src/org/apache/cordova/Whitelist.java.orig platforms/android/CordovaLib/src/org/apache/cordova/Whitelist.java
---- platforms/android/CordovaLib/src/org/apache/cordova/Whitelist.java.orig	2018-12-13 23:25:09.194535268 +0800
-+++ platforms/android/CordovaLib/src/org/apache/cordova/Whitelist.java	2018-12-13 23:26:24.201302366 +0800
+===================================================================
+--- origin_platforms/android/CordovaLib/src/org/apache/cordova/Whitelist.java	null
++++ platforms/android/CordovaLib/src/org/apache/cordova/Whitelist.java	null
 @@ -29,7 +29,7 @@
  import android.net.Uri;
  
@@ -22,9 +22,9 @@ diff -u platforms/android/CordovaLib/src/org/apache/cordova/Whitelist.java.orig 
          public Pattern scheme;
          public Pattern host;
          public Integer port;
-diff -u platforms/android/CordovaLib/src/org/apache/cordova/CordovaPlugin.java.orig platforms/android/CordovaLib/src/org/apache/cordova/CordovaPlugin.java
---- platforms/android/CordovaLib/src/org/apache/cordova/CordovaPlugin.java.orig	2019-01-02 17:05:11.000000000 +0800
-+++ platforms/android/CordovaLib/src/org/apache/cordova/CordovaPlugin.java	2019-01-02 11:41:23.000000000 +0800
+===================================================================
+--- origin_platforms/android/CordovaLib/src/org/apache/cordova/CordovaPlugin.java	null
++++ platforms/android/CordovaLib/src/org/apache/cordova/CordovaPlugin.java	null
 @@ -48,7 +48,8 @@
       * Call this after constructing to initialize the plugin.
       * Final because we want to be able to change args without breaking plugins.

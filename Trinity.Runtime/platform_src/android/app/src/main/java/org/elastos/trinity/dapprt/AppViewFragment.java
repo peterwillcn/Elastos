@@ -41,6 +41,14 @@ import java.util.ArrayList;
 public class AppViewFragment extends WebViewFragment {
     public AppInfo appInfo;
 
+    final String[] defaultPlugins = {
+            "SplashScreen"
+//            "StatusBar",
+//            "Device",
+//            "NetworkStatus",
+//            "File"
+    };
+
     public static WebViewFragment newInstance(String id) {
         if (id != null) {
             AppViewFragment fragment = new AppViewFragment();
@@ -95,6 +103,24 @@ public class AppViewFragment extends WebViewFragment {
         return rootView;
     }
 
+    private boolean isCheckAuthority(String name) {
+        for (AppInfo.PluginAuth pluginAuth : appInfo.plugins) {
+            if (pluginAuth.plugin.equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isDefaultPlugin(String name) {
+        for (String plugin : defaultPlugins) {
+            if (plugin.equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected void loadConfig(String id) {
 
         appInfo = AppManager.appManager.getAppInfo(id);
@@ -117,16 +143,16 @@ public class AppViewFragment extends WebViewFragment {
                 pluginEntries.add(new PluginEntry(entry.service, entry.pluginClass, true, basePlugin));
             }
             else {
-                pluginClass = "org.elastos.plugins.appmanager.NullPlugin";
+                pluginClass = entry.pluginClass;
                 CordovaPlugin plugin = null;
-                for (AppInfo.PluginAuth pluginAuth : appInfo.plugins) {
-                    if (pluginAuth.plugin.equals(entry.service)) {
-                        pluginClass = "org.elastos.plugins.appmanager.AuthorityPlugin";;
+                if (isCheckAuthority(entry.service)) {
+                    if (!isDefaultPlugin(entry.service))  {
+                        pluginClass = "org.elastos.plugins.appmanager.AuthorityPlugin";
                         plugin = new AuthorityPlugin(entry.pluginClass, appInfo, entry.service, whitelistPlugin);
-                        break;
                     }
                 }
-                if (plugin == null) {
+                else {
+                    pluginClass = "org.elastos.plugins.appmanager.NullPlugin";
                     plugin = new NullPlugin(entry.service);
                 }
                 pluginEntries.add(new PluginEntry(entry.service, pluginClass, entry.onload, plugin));

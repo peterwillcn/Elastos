@@ -39,6 +39,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Random;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -106,20 +107,52 @@ public class AppInstaller {
         return true;
     }
 
+    private boolean downloadDAppPackage(String url, String destFile) {
+        try {
+            BufferedInputStream in = new BufferedInputStream(new URL(url).openStream());
+            FileOutputStream fileOutputStream = new FileOutputStream(destFile);
+            byte dataBuffer[] = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
+                fileOutputStream.write(dataBuffer, 0, bytesRead);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    private void deleteDAppPackage(String packagePath) {
+        if (packagePath != null && !packagePath.isEmpty()) {
+            File file = new File(packagePath);
+            file.delete();
+        }
+    }
+
     public AppInfo install(AppManager appManager, String url) {
         InputStream inputStream;
         AppInfo info = null;
+        String downloadPkgPath = null;
 
         try {
             if (url.startsWith("assets://")) {
                 AssetManager manager = context.getAssets();
                 String substr = url.substring(9);
                 inputStream = manager.open(substr);
-
             }
             else if (url.startsWith("content://")) {
                 Uri uri = Uri.parse(url);
                 inputStream = context.getContentResolver().openInputStream(uri);
+            }
+            else if (url.startsWith("http://") || url.startsWith("https://")) {
+                downloadPkgPath = appPath + "tmp_" + random.nextInt() + ".epk";
+                if (downloadDAppPackage(url, downloadPkgPath)) {
+                    inputStream = new FileInputStream(downloadPkgPath);
+                }
+                else {
+                    return null;
+                }
             }
             else {
                 inputStream = new FileInputStream(url);
@@ -133,7 +166,7 @@ public class AppInstaller {
         String temp = "tmp_" + random.nextInt();
         String path = appPath + temp + "/";
 
-           File fmd = new File(path);
+        File fmd = new File(path);
         fmd.mkdirs();
 
         if (unpackZip(inputStream, path)) {
@@ -149,6 +182,7 @@ public class AppInstaller {
             if (info == null || info.app_id == null || info.app_id.equals("launcher")
                     || appManager.getAppInfo(info.app_id) != null) {
                 deleteAllFiles(from);
+                deleteDAppPackage(downloadPkgPath);
                 return null;
             }
             else {
@@ -160,9 +194,11 @@ public class AppInstaller {
                 from.renameTo(to);
                 info.built_in = 0;
                 dbAdapter.addAppInfo(info);
+                deleteDAppPackage(downloadPkgPath);
                 return info;
             }
         }
+        deleteDAppPackage(downloadPkgPath);
         return null;
     }
 

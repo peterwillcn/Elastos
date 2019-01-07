@@ -199,7 +199,7 @@ public class AppManager {
         List<Fragment> fragments = manager.getFragments();
         for (int i = 0; i < fragments.size(); i++) {
             WebViewFragment fragment = (WebViewFragment)fragments.get(i);
-            if (fragment.id.equals(id)) {
+            if ((fragment != null) && (fragment.id.equals(id))) {
                 return fragment;
             }
         }

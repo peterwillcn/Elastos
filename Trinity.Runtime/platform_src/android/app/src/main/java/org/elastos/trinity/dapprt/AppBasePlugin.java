@@ -22,6 +22,8 @@
 
 package org.elastos.trinity.dapprt;
 
+import android.net.Uri;
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
@@ -108,14 +110,32 @@ public class AppBasePlugin extends CordovaPlugin {
 
     @Override
     public Object onMessage(String event, Object data) {
-        if (event.equals("onPageFinished")) {
-            webView.loadUrl("javascript:(function(){\n" +
-                    "    var head = document.getElementsByTagName('head')[0];\n" +
-                    "    var script = document.createElement('script');\n" +
-                    "    script.type = 'text/javascript';\n" +
-                    "    script.src = \"file:///android_asset/www/cordova.js\";\n" +
-                    "    head.appendChild(script);\n" +
-                    "    })();");
+//        if (event.equals("onPageFinished")) {
+//            webView.loadUrl("javascript:(function(){\n" +
+//                    "    var head = document.getElementsByTagName('head')[0];\n" +
+//                    "    var script = document.createElement('script');\n" +
+//                    "    script.type = 'text/javascript';\n" +
+//                    "    script.src = \"file:///android_asset/www/cordova.js\";\n" +
+//                    "    head.appendChild(script);\n" +
+//                    "    })();");
+//        }
+        return null;
+    }
+
+    @Override
+    public Boolean shouldAllowRequest(String url) {
+        if (url.startsWith("assets://www/cordova") || url.startsWith("assets://www/plugins")) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Uri remapUri(Uri uri) {
+        if ("assets".equals(uri.getScheme())) {
+            String path = uri.getPath();
+            uri = Uri.parse("file:///android_asset/www" + path);
+            return uri;
         }
         return null;
     }

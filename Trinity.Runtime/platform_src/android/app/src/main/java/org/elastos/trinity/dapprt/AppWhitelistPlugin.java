@@ -39,10 +39,10 @@ public class AppWhitelistPlugin extends CordovaPlugin {
         allowedRequests.addWhiteListEntry(appPath, false);
         allowedRequests.addWhiteListEntry(dataPath, false);
         // allowedRequests.addWhiteListEntry("file:///android_asset/www/public/*", false);
-        allowedRequests.addWhiteListEntry("file:///android_asset/www/plugins/*", false);
-        allowedRequests.addWhiteListEntry("file:///android_asset/www/cordova*", false);
+//        allowedRequests.addWhiteListEntry("file:///android_asset/www/plugins/*", false);
+//        allowedRequests.addWhiteListEntry("file:///android_asset/www/cordova*", false);
 //        allowedRequests.addWhiteListEntry("file:///android_asset/www/cordova-js-src/*", false);
-//        allowedRequests.addWhiteListEntry("file:///android_asset/www/cordova.js", false);
+//        allowedRequests.addWhiteListEntry("assets://cordova.js", false);
 //        allowedRequests.addWhiteListEntry("file:///android_asset/www/cordova_plugins.js", false);
 
        for (AppInfo.UrlAuth urlAuth : info.urls) {

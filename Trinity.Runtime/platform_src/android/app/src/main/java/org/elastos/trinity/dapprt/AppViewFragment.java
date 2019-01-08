@@ -27,7 +27,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import org.apache.cordova.CordovaInterfaceImpl;
 import org.apache.cordova.CordovaPlugin;
@@ -41,12 +40,10 @@ import java.util.ArrayList;
 public class AppViewFragment extends WebViewFragment {
     public AppInfo appInfo;
 
-    final String[] defaultPlugins = {
-            "SplashScreen"
-//            "StatusBar",
-//            "Device",
-//            "NetworkStatus",
-//            "File"
+    final String[] pluginWhitelist = {
+            "Device",
+            "NetworkStatus",
+            "SplashScreen",
     };
 
     public static WebViewFragment newInstance(String id) {
@@ -112,8 +109,8 @@ public class AppViewFragment extends WebViewFragment {
         return false;
     }
 
-    private boolean isDefaultPlugin(String name) {
-        for (String plugin : defaultPlugins) {
+    private boolean isAllowPlugin(String name) {
+        for (String plugin : pluginWhitelist) {
             if (plugin.equals(name)) {
                 return true;
             }
@@ -146,7 +143,7 @@ public class AppViewFragment extends WebViewFragment {
                 pluginClass = entry.pluginClass;
                 CordovaPlugin plugin = null;
                 if (isCheckAuthority(entry.service)) {
-                    if (!isDefaultPlugin(entry.service))  {
+                    if (!isAllowPlugin(entry.service))  {
                         pluginClass = "org.elastos.plugins.appmanager.AuthorityPlugin";
                         plugin = new AuthorityPlugin(entry.pluginClass, appInfo, entry.service, whitelistPlugin);
                     }

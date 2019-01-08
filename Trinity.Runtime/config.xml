@@ -26,6 +26,7 @@
     <plugin name="elastos-trinity-plugins-appmanager" spec="https://github.com/elastos/Elastos.Trinity.Runtime.Plugins.AppManager.git#dev" />
     <plugin name="elastos-trinity-plugins-appservice" spec="https://github.com/elastos/Elastos.Trinity.Runtime.Plugins.AppService.git#dev" />
     <plugin name="elastos-trinity-plugins-plugindemo" spec="https://github.com/elastos/Elastos.Trinity.Runtime.Plugins.PluginDemo.git#dev" />
+    <plugin name="elastos-trinity-plugins-file" spec="https://github.com/elastos/Elastos.Trinity.Plugins.File.git#dev" />
     <plugin name="elastos-trinity-plugins-dialogs" spec="https://github.com/elastos/Elastos.Trinity.Plugins.Dialog.git#dev" />
     <plugin name="elastos-trinity-plugins-qrscanner" spec="https://github.com/elastos/Elastos.Trinity.Plugins.QRScanner.git#dev" />
     <plugin name="elastos-trinity-plugins-geolocation" spec="https://github.com/elastos/Elastos.Trinity.Plugins.Geolocation.git#dev" />

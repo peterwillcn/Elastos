@@ -79,16 +79,23 @@ public class LauncherViewFragment extends WebViewFragment {
         preferences = parser.getPreferences();
         preferences.setPreferencesBundle(getActivity().getIntent().getExtras());
         launchUrl = parser.getLaunchUrl();
-        pluginEntries = parser.getPluginEntries();
+        ArrayList<PluginEntry> entries = parser.getPluginEntries();
         cfgPreferences = preferences;
-        cfgPluginEntries = pluginEntries;
+//        cfgPluginEntries = pluginEntries;
+        cfgPluginEntries = new ArrayList<PluginEntry>();
+        pluginEntries = new ArrayList<PluginEntry>();
 
-        for(PluginEntry entry:pluginEntries) {
+        for(PluginEntry entry:entries) {
             if (entry.service.equals("AppManager")) {
-                pluginEntries.remove(entry);
                 basePlugin = new AppManagerPlugin();
                 pluginEntries.add(new PluginEntry(entry.service, entry.pluginClass, true, basePlugin));
-                break;
+            }
+            else if (entry.service.equals("AppService")) {
+                cfgPluginEntries.add(entry);
+            }
+            else {
+                pluginEntries.add(entry);
+                cfgPluginEntries.add(entry);
             }
         }
 //        Config.parser = parser;

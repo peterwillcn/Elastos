@@ -300,6 +300,7 @@ public class AppInstaller {
 
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
 
         return appInfo;

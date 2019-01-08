@@ -108,8 +108,8 @@ public class AppBasePlugin extends CordovaPlugin {
         }
     }
 
-    @Override
-    public Object onMessage(String event, Object data) {
+//    @Override
+//    public Object onMessage(String event, Object data) {
 //        if (event.equals("onPageFinished")) {
 //            webView.loadUrl("javascript:(function(){\n" +
 //                    "    var head = document.getElementsByTagName('head')[0];\n" +
@@ -119,8 +119,8 @@ public class AppBasePlugin extends CordovaPlugin {
 //                    "    head.appendChild(script);\n" +
 //                    "    })();");
 //        }
-        return null;
-    }
+//        return null;
+//    }
 
     @Override
     public Boolean shouldAllowRequest(String url) {

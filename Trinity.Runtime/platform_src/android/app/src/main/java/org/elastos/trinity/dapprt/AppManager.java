@@ -284,6 +284,10 @@ public class AppManager {
             switchContent(fragment2, id2);
         }
 
+        if (fragment.appView != null) {
+            fragment.appView.handleDestroy();
+        }
+
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.remove(fragment);
         transaction.commit();

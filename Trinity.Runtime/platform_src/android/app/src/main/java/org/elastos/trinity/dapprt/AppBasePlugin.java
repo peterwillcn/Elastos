@@ -127,7 +127,7 @@ public class AppBasePlugin extends CordovaPlugin {
         if (url.startsWith("assets://www/cordova") || url.startsWith("assets://www/plugins")) {
             return true;
         }
-        return false;
+        return null;
     }
 
     @Override

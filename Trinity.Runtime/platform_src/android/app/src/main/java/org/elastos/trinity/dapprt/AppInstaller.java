@@ -155,6 +155,9 @@ public class AppInstaller {
                 }
             }
             else {
+                if (url.startsWith("file://")) {
+                    url = url.substring(7);
+                }
                 inputStream = new FileInputStream(url);
             }
         }

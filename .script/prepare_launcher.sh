@@ -5,7 +5,7 @@ SCRIPT_PATH="$(cd "$(dirname "$0")/.." && pwd -P )"
 PROJECT_DIRNAME="$(dirname "${SCRIPT_PATH}")"
 
 if [ ! -d $PROJECT_DIRNAME"/Elastos.Trinity.DApps.Launcher" ];then
-    git clone --depth=50 --branch=feat_launcher https://github.com/elastos/Elastos.Trinity.DApps.Launcher.git $PROJECT_DIRNAME/Elastos.Trinity.DApps.Launcher
+    git clone --depth=10 --branch=dev https://github.com/elastos/Elastos.Trinity.DApps.Launcher.git $PROJECT_DIRNAME/Elastos.Trinity.DApps.Launcher
 fi
 
 cd $PROJECT_DIRNAME/Elastos.Trinity.DApps.Launcher

@@ -33,4 +33,21 @@
     }
     return ret;
  }
+
+func getAbsolutePath(_ path: String, _ type: String? = nil) -> String {
+    let nsPath: NSString = path as NSString;
+    if !nsPath.isAbsolutePath {
+        let absolutePath = Bundle.main.path(forResource: path, ofType: nil)
+        if absolutePath != nil {
+            return absolutePath!;
+        }
+    }
+    return path;
+}
+
+ func getAssetsPath(_ url: String) -> String {
+    let index = url.index(url.startIndex, offsetBy: 9)
+    let substr = url[index ..< url.endIndex];
+    return getAbsolutePath(String(substr));
+ }
  

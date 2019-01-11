@@ -65,7 +65,16 @@
         }
     }
     
-//    @objc override weak var commandDelegate: CDVCommandDelegate {
+//    @objc override weak var test: CDVCommandDelegate? {
+//        get {
+//            return originalPlugin!.commandDelegate;
+//        }
+//        set(value) {
+////            originalPlugin!.webView = newValue;
+//        }
+//    }
+    
+//    @objc override var commandDelegate: CDVCommandDelegate? {
 //        get {
 //            return originalPlugin!.commandDelegate;
 //        }
@@ -92,9 +101,9 @@
         }
     }
     
-    @objc override func pluginInitialize() {
-        return originalPlugin!.pluginInitialize();
-    }
+//    @objc override func pluginInitialize() {
+//        return originalPlugin!.pluginInitialize();
+//    }
     
     @objc override func dispose() {
         originalPlugin!.dispose();

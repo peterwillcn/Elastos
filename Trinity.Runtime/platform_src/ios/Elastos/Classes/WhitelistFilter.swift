@@ -30,7 +30,7 @@
     func setList(_ info: AppInfo) {
         let appPath = AppManager.appManager!.getAppUrl(info) + "*";
         let dataPath = AppManager.appManager!.getDataUrl(info) + "*";
-        let wwwPath = "file://" + AppManager.appManager!.getAbsolutePath("www");
+        let wwwPath = "file://" + getAbsolutePath("www");
         let pluginsPath = wwwPath + "/plugins/*";
         let cordovaPath = wwwPath + "/cordova*";
         

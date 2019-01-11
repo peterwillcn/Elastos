@@ -49,9 +49,11 @@
     func  install(_ appManager: AppManager, _ url: String) -> AppInfo? {
         var zipPath = url;
         if (url.hasPrefix("assets://")) {
-            let index = url.index(url.startIndex, offsetBy: 9)
-            let substr = url[index ..< url.endIndex];
-            zipPath = appManager.getAbsolutePath(String(substr));
+            zipPath = getAssetsPath(url);
+        }
+        else if (url.hasPrefix("file://")) {
+            let index = url.index(url.startIndex, offsetBy: 7)
+            zipPath = String(url[index ..< url.endIndex]);
         }
 
         let temp = "tmp_" + UUID().uuidString

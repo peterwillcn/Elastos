@@ -27,24 +27,6 @@
     var callbackId: String?
     var id: String?
     
-    override func pluginInitialize() {
-        NotificationCenter.default.addObserver(self, selector: #selector(AppBasePlugin.applicationPageDidLoad),
-                                               name: NSNotification.Name.CDVPageDidLoad, object: nil)
-    }
-    
-    @objc func applicationPageDidLoad(_ notification: Notification) {
-        let path: String = (AppManager.appManager?.getAbsolutePath("www/cordova.js"))!;
-        let js = "(function(){\n" +
-            "    var head = document.getElementsByTagName('head')[0];\n" +
-            "    var script = document.createElement('script');\n" +
-            "    script.type = 'text/javascript';\n" +
-            "    script.src = \"file://" + path + "\";\n" +
-            "    head.appendChild(script);\n" +
-            "    })();"
-        
-        self.webViewEngine.evaluateJavaScript(js, completionHandler: nil)
-    }
-    
     func success(_ command: CDVInvokedUrlCommand, _ retAsString: String) {
         let result = CDVPluginResult(status: CDVCommandStatus_OK,
                                      messageAs: retAsString);

@@ -38,7 +38,13 @@
         "intentandnavigationfilter",
         "appservice",
         "authorityplugin",
-    ]
+    ];
+    
+    let pluginWhitelist = [
+        "device",
+        "networkstatus",
+        "splashscreen",
+    ];
     
     func setInfo(_ id: String, _ appInfo: AppInfo) {
         self.id = id;
@@ -79,6 +85,16 @@
         self.pluginObjects = NSMutableDictionary(capacity: 30);
     }
     
+    private func isAllowPlugin(_ pluginName: String) -> Bool {
+        let name = pluginName.lowercased();
+        for plugin in pluginWhitelist {
+            if (plugin == name) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     override func getCommandInstance(_ name: String) -> Any {
         let pluginName = name.lowercased();
         let className = self.pluginsMap[pluginName];
@@ -108,14 +124,16 @@
         
         if trinityPlugin != nil {
             trinityPlugin!.setWhitelistFilter(self.whitelistFilter);
-            let authorityPlugin = super.getCommandInstance("authorityplugin") as? AuthorityPlugin
-            guard authorityPlugin != nil else {
-                return authorityPlugin as Any;
+            if !isAllowPlugin(pluginName) {
+                let authorityPlugin = super.getCommandInstance("authorityplugin") as? AuthorityPlugin
+                guard authorityPlugin != nil else {
+                    return authorityPlugin as Any;
+                }
+                authorityPlugin!.setInfo(pluginName, trinityPlugin!, appInfo!);
+                self.pluginObjects[className as Any] = authorityPlugin;
+                self.pluginObjects["AuthorityPlugin"] = nil
+                obj = authorityPlugin;
             }
-            authorityPlugin!.setInfo(pluginName, trinityPlugin!, appInfo!);
-            self.pluginObjects[className as Any] = authorityPlugin;
-            self.pluginObjects["AuthorityPlugin"] = nil
-            obj = authorityPlugin;
         }
 
         return obj as Any;

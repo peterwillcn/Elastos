@@ -116,7 +116,7 @@ import Foundation
     
     func getAppUrl(_ info: AppInfo) -> String {
         if (info.built_in) {
-            return "file://" + self.getAbsolutePath("www/built-in")  + "/" + info.id + "/";
+            return "file://" + getAbsolutePath("www/built-in")  + "/" + info.id + "/";
         }
         else {
             return "file://" + appsPath + info.id + "/";
@@ -275,16 +275,7 @@ import Foundation
         }
     }
 
-    func getAbsolutePath(_ path: String, _ type: String? = nil) -> String {
-        let nsPath: NSString = path as NSString;
-        if !nsPath.isAbsolutePath {
-            let absolutePath = Bundle.main.path(forResource: path, ofType: nil)
-            if absolutePath != nil {
-                return absolutePath!;
-            }
-        }
-        return path;
-    }
+    
 
     func sendMessage(_ toId: String, _ type: Int, _ msg: String, _ fromId: String) -> Bool {
         let viewController = viewControllers[toId]

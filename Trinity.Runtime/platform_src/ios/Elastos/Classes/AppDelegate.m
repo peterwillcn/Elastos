@@ -33,6 +33,7 @@
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
     self.viewController = (CDVViewController*)[[MainViewController alloc] init];
+    [NSURLProtocol registerClass:[TrinityURLProtocol class]];
     return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 

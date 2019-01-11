@@ -65,6 +65,7 @@ runtimeProj.parse(function (err) {
     runtimeProj.addSourceFile(classesPath + "NullPlugin.swift",             {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "TrinityPlugin.h",              {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "TrinityPlugin.m",              {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "TrinityURLProtocol.swift",     {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "TrinityViewController.swift",  {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "Utility.swift",                {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "WhitelistFilter.swift",        {}, classesGroupKey);

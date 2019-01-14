@@ -23,11 +23,11 @@
  import Foundation
  
  @objc class WhitelistFilter: CDVIntentAndNavigationFilter {
-    override func pluginInitialize() {
-        
-    }
+    var appInfo: AppInfo?;
     
     func setList(_ info: AppInfo) {
+        self.appInfo = info;
+        
         let appPath = AppManager.appManager!.getAppUrl(info) + "*";
         let dataPath = AppManager.appManager!.getDataUrl(info) + "*";
         let wwwPath = "file://" + getAbsolutePath("www");
@@ -68,5 +68,16 @@
             return false;
         }
         
+    }
+    
+    @objc func checkPluginAuthority(_ pluginName: String) -> Bool {
+        let authority = AppManager.appManager!.getPluginAuthority(appInfo!.id, pluginName);
+        if (authority == AppInfo.AUTHORITY_ALLOW) {
+            return true;
+        }
+        else if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
+            AppManager.appManager!.runAlertPluginAuth(appInfo!, pluginName);
+        }
+        return false;
     }
  }

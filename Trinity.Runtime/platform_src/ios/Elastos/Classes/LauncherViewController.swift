@@ -64,7 +64,7 @@
         let trinityPlugin = obj as? TrinityPlugin
         
         if trinityPlugin != nil {
-            trinityPlugin!.setWhitelistFilter(self.whitelistFilter);
+            trinityPlugin!.trinityInitialize(pluginName, whitelistFilter:self.whitelistFilter, checkAuthority:false);
         }
         
         return obj as Any;

@@ -43,7 +43,7 @@
             else if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
                 AppManager.appManager!.runAlertPluginAuth(appInfo!, pluginName!);
             }
-            let err = "The plugin:'" + pluginName! + "' isn't add plugin access list!!"
+            let err = "Plugin:'" + pluginName! + "' have not run authority."
             let result = CDVPluginResult(status: CDVCommandStatus_ERROR,
                                          messageAs: err);
             if command.callbackId != nil {

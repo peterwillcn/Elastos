@@ -27,7 +27,8 @@
 
 @interface TrinityPlugin : CDVPlugin
 
-- (void)setWhitelistFilter:(CDVPlugin *)filter;
+- (void)trinityInitialize:(NSString*)pluginName
+          whitelistFilter:(CDVPlugin *)filter checkAuthority:(BOOL)check;
 - (BOOL)isAllowAccess:(NSString *)url;
 - (BOOL)trinityExecute:(CDVInvokedUrlCommand*)command;
 

@@ -26,14 +26,21 @@
 
 @interface TrinityPlugin()
 @property (nonatomic, readwrite, strong) WhitelistFilter* filter;
+@property (nonatomic, readwrite) BOOL checkAuthority;
+@property (nonatomic, readwrite, copy) NSString* pluginName;
 @end
 
 @implementation TrinityPlugin
 
 @synthesize filter;
+@synthesize checkAuthority;
+@synthesize pluginName;
 
-- (void)setWhitelistFilter:(WhitelistFilter *)filter {
+- (void)trinityInitialize:(NSString*)pluginName
+          whitelistFilter:(WhitelistFilter *)filter checkAuthority:(BOOL)check  {
+    self.pluginName = pluginName;
     self.filter = filter;
+    self.checkAuthority = check;
 }
 
 - (BOOL)isAllowAccess:(NSString *)url {
@@ -42,6 +49,15 @@
 
 - (BOOL)trinityExecute:(CDVInvokedUrlCommand*)command
 {
+    if (checkAuthority) {
+        if (![self.filter checkPluginAuthority:self.pluginName]) {
+            NSString* msg = [NSString stringWithFormat:@"Plugin:'%@' have not run authority.", pluginName];
+            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:msg];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+            return NO;
+        }
+    }
+    
     NSString* methodName = [NSString stringWithFormat:@"%@:", command.methodName];
     SEL normalSelector = NSSelectorFromString(methodName);
     if ([self respondsToSelector:normalSelector]) {

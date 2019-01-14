@@ -123,17 +123,9 @@
         let trinityPlugin = obj as? TrinityPlugin
         
         if trinityPlugin != nil {
-            trinityPlugin!.setWhitelistFilter(self.whitelistFilter);
-            if !isAllowPlugin(pluginName) {
-                let authorityPlugin = super.getCommandInstance("authorityplugin") as? AuthorityPlugin
-                guard authorityPlugin != nil else {
-                    return authorityPlugin as Any;
-                }
-                authorityPlugin!.setInfo(pluginName, trinityPlugin!, appInfo!);
-                self.pluginObjects[className as Any] = authorityPlugin;
-                self.pluginObjects["AuthorityPlugin"] = nil
-                obj = authorityPlugin;
-            }
+            trinityPlugin!.trinityInitialize(pluginName,
+                whitelistFilter:self.whitelistFilter,
+                checkAuthority:!isAllowPlugin(pluginName));
         }
 
         return obj as Any;

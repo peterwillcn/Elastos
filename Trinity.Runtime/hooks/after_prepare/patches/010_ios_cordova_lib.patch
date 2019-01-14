@@ -38,19 +38,31 @@
 ===================================================================
 --- origin_platforms/ios/CordovaLib/Classes/Public/CDVCommandQueue.m	null
 +++ platforms/ios/CordovaLib/Classes/Public/CDVCommandQueue.m	null
-@@ -180,9 +180,17 @@
+@@ -173,16 +173,25 @@
+     }
+     BOOL retVal = YES;
+     double started = [[NSDate date] timeIntervalSince1970] * 1000.0;
+-    // Find the proper selector to call.
+-    NSString* methodName = [NSString stringWithFormat:@"%@:", command.methodName];
+-    SEL normalSelector = NSSelectorFromString(methodName);
++    
++    //Trinity::
++    NSString* action = @"trinityExecute:";
++    SEL normalSelector = NSSelectorFromString(action);
+     if ([obj respondsToSelector:normalSelector]) {
          // [obj performSelector:normalSelector withObject:command];
-         ((void (*)(id, SEL, id))objc_msgSend)(obj, normalSelector, command);
+-        ((void (*)(id, SEL, id))objc_msgSend)(obj, normalSelector, command);
++        retVal = ((BOOL (*)(id, SEL, id))objc_msgSend)(obj, normalSelector, command);
      } else {
 -        // There's no method to call, so throw an error.
 -        NSLog(@"ERROR: Method '%@' not defined in Plugin '%@'", methodName, command.className);
 -        retVal = NO;
-+        //Trinity::
-+        NSString* action = @"trinityExecute:";
-+        normalSelector = NSSelectorFromString(action);
++        // Find the proper selector to call.
++        NSString* methodName = [NSString stringWithFormat:@"%@:", command.methodName];
++        normalSelector = NSSelectorFromString(methodName);
 +        if ([obj respondsToSelector:normalSelector]) {
 +            // [obj performSelector:normalSelector withObject:command];
-+            retVal = ((BOOL (*)(id, SEL, id))objc_msgSend)(obj, normalSelector, command);
++            ((void (*)(id, SEL, id))objc_msgSend)(obj, normalSelector, command);
 +        } else {
 +            // There's no method to call, so throw an error.
 +            NSLog(@"ERROR: Method '%@' not defined in Plugin '%@'", methodName, command.className);

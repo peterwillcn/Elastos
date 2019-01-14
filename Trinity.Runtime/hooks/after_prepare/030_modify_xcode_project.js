@@ -58,7 +58,6 @@ runtimeProj.parse(function (err) {
     runtimeProj.addSourceFile(classesPath + "AppManager.swift",             {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "AppViewController.swift",      {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "AppWhitelist.swift",           {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "AuthorityPlugin.swift",        {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "LauncherViewController.swift", {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "MainViewController.swift",     {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "ManagerDBAdapter.swift",       {}, classesGroupKey);

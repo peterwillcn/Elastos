@@ -33,3 +33,20 @@ while category **Plugins** includes the following repostiories:
 * [Elastos.Trinity.Plugins.BatteryStatus](https://github.com/elastos/Elastos.Trinity.Plugins.BatteryStatus)
 * [Elastos.Trinity.Plugins.NetWorkInformation](https://github.com/elastos/Elastos.Trinity.Plugins.NetWorkInformation)
 * [Elastos.Trinity.Plugins.Runtime](https://github.com/elastos/Elastos.Trinity.Plugins.Runtime)
+
+TL;DR
+-----
+
+To clone current project with submodules, type:
+
+```bash
+git clone --recurse-submodules -b dev -j8 git@github.com:elastos/Elastos.Trinity.git
+```
+
+To update submodules with the lastest changes, type:
+
+```bash
+git submodule update --rebase --remote
+```
+
+And then use git add, commit and push to submit your changes to current project.

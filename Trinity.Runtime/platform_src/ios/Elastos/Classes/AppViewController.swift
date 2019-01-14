@@ -112,7 +112,7 @@
                 }
             }
             if !setPlugin {
-                let nullPlugin = NullPlugin("pluginName");
+                let nullPlugin = NullPlugin(pluginName);
                 self.pluginObjects[className as Any] = nullPlugin;
                 return nullPlugin;
             }

@@ -1,0 +1,24 @@
+image:
+  - Visual Studio 2017
+
+environment:
+  ANDROID_HOME: "C:\\ProgramData\\Microsoft\\AndroidSDK\\25"
+
+install:
+  - echo y | "%ANDROID_HOME%\tools\android.bat" update sdk -u -a -t tools
+  - echo y | "%ANDROID_HOME%\tools\android.bat" update sdk -u -a -t platform-tools
+  - echo y | "%ANDROID_HOME%\tools\android.bat" update sdk -u -a -t build-tools-27.0.0
+  - echo y | "%ANDROID_HOME%\tools\android.bat" update sdk -u -a -t build-tools-28.0.3
+  - echo y | "%ANDROID_HOME%\tools\android.bat" update sdk -u -a -t android-27
+  -  git submodule update --init --recursive
+
+build_script:
+  - ps: (new-object net.webclient).DownloadFile('https://services.gradle.org/distributions/gradle-4.6-bin.zip', 'C:\projects\gradle-4.6-bin.zip')
+  - cmd: unzip -q C:\projects\gradle-4.6-bin.zip -d  C:\projects\
+  - cmd: set Path=C:\projects\gradle-4.6\bin;C:\ProgramData\Microsoft\AndroidSDK\25\tools;C:\ProgramData\Microsoft\AndroidSDK\25\build-tools;C:\ProgramData\Microsoft\AndroidSDK\25\platform-tools;%Path%
+  - cmd: npm install -g cordova ionic
+  # - cmd: python --version
+  - cmd: python ToolChains/bin/build all
+  - cmd: cd Runtime/platforms/android
+  - cmd: gradle assembleRelease
+  - cmd: ls -l app/build/outputs/apk/release/

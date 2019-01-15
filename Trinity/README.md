@@ -1,5 +1,8 @@
 Elastos Trinity Runs DApps
 ==========================
+|Android & IOS|Android(Windows)|
+|:-:|:-:|
+|[![Build Status](https://travis-ci.org/elastos/Elastos.Trinity.svg)](https://travis-ci.org/elastos/Elastos.Trinity)|[![Build status](https://ci.appveyor.com/api/projects/status/hjyv761on883jors?svg=true)](https://ci.appveyor.com/project/Elastos/elastos-trinity)|
 
 Elastos.Trinity is composite repository to Elastos Trinity infrastructure, which can be divided into the following submodules:
 

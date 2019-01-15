@@ -1,0 +1,58 @@
+language: node_js
+
+matrix:
+  include:
+    # - os: osx
+    #   osx_image: xcode10.1
+    #   env: NODEJS_VERSION=8
+
+    - os: osx
+      osx_image: xcode10.1
+      env: NODEJS_VERSION=9
+
+    - os: osx
+      osx_image: xcode10.1
+      env: NODEJS_VERSION=10
+
+    - os: osx
+      osx_image: xcode10.1
+      env: NODEJS_VERSION=11
+
+    - language: android
+      sudo: true
+      android:
+        components:
+          - tools
+          - platform-tools
+          - build-tools-28.0.3
+          - android-27
+      env: NODEJS_VERSION=10
+
+    - language: android
+      sudo: true
+      android:
+        components:
+          - tools
+          - platform-tools
+          - build-tools-28.0.3
+          - android-27
+      env: NODEJS_VERSION=11
+
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      wget https://services.gradle.org/distributions/gradle-4.6-bin.zip;
+      sudo unzip gradle-4.6-bin.zip -d  /opt/gradle/;
+      export PATH=/opt/gradle/gradle-4.6/bin:$PATH;
+    fi
+
+install:
+  - nvm install ${NODEJS_VERSION}
+  - npm install -g cordova ionic
+
+script:
+  - ./ToolChains/bin/build all
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      cd Runtime/platforms/android && gradle assembleRelease && ls -l app/build/outputs/apk/release/;
+    else
+      cd Runtime/platforms/ios && xcodebuild -showsdks && xcodebuild -scheme Elastos build -sdk iphonesimulator12.1;
+    fi

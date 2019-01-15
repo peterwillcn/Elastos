@@ -89,3 +89,7 @@
 	path = Trinity/Plugins/NetWorkInformation
 	url = ../Elastos.Trinity.Plugins.NetWorkInformation.git
 	branch = dev
+[submodule "Plugins/Carrier"]
+	path = Plugins/Carrier
+	url = ../Elastos.Trinity.Plugins.Carrier.git
+	branch = dev

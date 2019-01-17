@@ -434,7 +434,7 @@ public class AppManager {
         ab.setPositiveButton("Allow", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                setPluginAuthority(info.app_id, plugin, AppInfo.AUTHORITY_ALLOW);
+                setPluginAuthority(info.app_id, plugin, AppInfo.AUTHORITY_ALLOW);
                 synchronized (lock) {
                     lock.authority = AppInfo.AUTHORITY_ALLOW;
                     lock.notify();

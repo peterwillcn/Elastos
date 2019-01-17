@@ -23,6 +23,17 @@
  import Foundation
  
  class AppInstaller {
+    
+    let pluginWhitelist = [
+        "device",
+        "networkstatus",
+        "splashscreen",
+        ];
+    
+    let urlWhitelist = [
+        "http://www.elastos.org/*",
+        ];
+    
     var appPath: String = "";
     var dataPath: String = "";
     var dbAdapter: ManagerDBAdapter;
@@ -104,6 +115,26 @@
         return true;
     }
     
+    private func isAllowPlugin(_ pluginName: String) -> Bool {
+        let name = pluginName.lowercased();
+        for item in pluginWhitelist {
+            if (item == name) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private func isAllowUrl(_ urlString: String) -> Bool {
+        let url = urlString.lowercased();
+        for item in urlWhitelist {
+            if (item == url) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     func parseManifest(_ path: String) -> AppInfo? {
         let appInfo = AppInfo();
         let url = URL.init(fileURLWithPath: path)
@@ -133,13 +164,22 @@
             appInfo.author_email = author["email"] as! String;
             
             let plugins = json["plugins"] as! [String];
+            var authority = AppInfo.AUTHORITY_NOINIT;
             for plugin in plugins {
-                appInfo.addPlugin(plugin, AppInfo.AUTHORITY_NOINIT);
+                authority = AppInfo.AUTHORITY_NOINIT;
+                if (isAllowPlugin(plugin)) {
+                    authority = AppInfo.AUTHORITY_ALLOW;
+                }
+                appInfo.addPlugin(plugin, authority);
             }
             
             let urls = json["urls"] as! [String];
             for url in urls {
-                appInfo.addUrl(url, AppInfo.AUTHORITY_NOINIT);
+                authority = AppInfo.AUTHORITY_NOINIT;
+                if (isAllowUrl(url)) {
+                    authority = AppInfo.AUTHORITY_ALLOW;
+                }
+                appInfo.addUrl(url, authority);
             }
             
             appInfo.background_color =  json["background_color"] as! String;

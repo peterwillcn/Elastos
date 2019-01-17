@@ -109,11 +109,12 @@ public class AppWhitelist extends Whitelist {
             String url = entry.getKey();
             if (p.matches(parsedUri)) {
                 int authority = AppManager.appManager.getUrlAuthority(appInfo.app_id, entry.getKey());
+                if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
+                    authority = AppManager.appManager.runAlertUrlAuth(appInfo, url, authority);
+                }
+
                 if (authority == AppInfo.AUTHORITY_ALLOW) {
                     return true;
-                }
-                else if (authority != AppInfo.AUTHORITY_DENY) {
-                    AppManager.appManager.runAlertUrlAuth(appInfo, url);
                 }
                 break;
             }

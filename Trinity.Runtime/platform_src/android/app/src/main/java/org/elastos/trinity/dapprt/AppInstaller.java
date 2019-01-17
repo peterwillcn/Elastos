@@ -45,6 +45,17 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class AppInstaller {
+
+    final String[] pluginWhitelist = {
+            "device",
+            "networkstatus",
+            "splashscreen",
+    };
+
+    final String[] urlWhitelist = {
+            "http://www.elastos.org/*",
+    };
+
     private String appPath = null;
     private String dataPath = null;
     private ManagerDBAdapter dbAdapter = null;
@@ -250,6 +261,26 @@ public class AppInstaller {
         return false;
     }
 
+    private boolean isAllowPlugin(String name) {
+        String pluginName = name.toLowerCase();
+        for (String item : pluginWhitelist) {
+            if (item.equals(pluginName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isAllowUrl(String url) {
+        url = url.toLowerCase();
+        for (String item : urlWhitelist) {
+            if (item.equals(url)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public AppInfo parseManifest(InputStream inputStream) {
         AppInfo appInfo = new AppInfo();
         try {
@@ -288,13 +319,21 @@ public class AppInstaller {
             array = json.getJSONArray("plugins");
             for (int i = 0; i < array.length(); i++) {
                 String plugin = array.getString(i);
-                appInfo.addPlugin(plugin, AppInfo.AUTHORITY_NOINIT);
+                int authority = AppInfo.AUTHORITY_NOINIT;
+                if (isAllowPlugin(plugin)) {
+                    authority = AppInfo.AUTHORITY_ALLOW;
+                }
+                appInfo.addPlugin(plugin, authority);
             }
 
             array = json.getJSONArray("urls");
             for (int i = 0; i < array.length(); i++) {
                 String url = array.getString(i);
-                appInfo.addUrl(url, AppInfo.AUTHORITY_NOINIT);
+                int authority = AppInfo.AUTHORITY_NOINIT;
+                if (isAllowUrl(url)) {
+                    authority = AppInfo.AUTHORITY_ALLOW;
+                }
+                appInfo.addUrl(url, authority);
             }
 
             appInfo.background_color = json.getString(AppInfo.BACKGROUND_COLOR);

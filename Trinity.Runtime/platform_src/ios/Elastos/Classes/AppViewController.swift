@@ -40,12 +40,6 @@
         "authorityplugin",
     ];
     
-    let pluginWhitelist = [
-        "device",
-        "networkstatus",
-        "splashscreen",
-    ];
-    
     func setInfo(_ id: String, _ appInfo: AppInfo) {
         self.id = id;
         self.appInfo = appInfo;
@@ -85,16 +79,6 @@
         self.pluginObjects = NSMutableDictionary(capacity: 30);
     }
     
-    private func isAllowPlugin(_ pluginName: String) -> Bool {
-        let name = pluginName.lowercased();
-        for plugin in pluginWhitelist {
-            if (plugin == name) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
     override func getCommandInstance(_ name: String) -> Any {
         let pluginName = name.lowercased();
         let className = self.pluginsMap[pluginName];
@@ -125,7 +109,7 @@
         if trinityPlugin != nil {
             trinityPlugin!.trinityInitialize(pluginName,
                 whitelistFilter:self.whitelistFilter,
-                checkAuthority:!isAllowPlugin(pluginName));
+                checkAuthority:true);
         }
 
         return obj as Any;

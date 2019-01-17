@@ -40,12 +40,6 @@ import java.util.ArrayList;
 public class AppViewFragment extends WebViewFragment {
     public AppInfo appInfo;
 
-    final String[] pluginWhitelist = {
-            "Device",
-            "NetworkStatus",
-            "SplashScreen",
-    };
-
     public static WebViewFragment newInstance(String id) {
         if (id != null) {
             AppViewFragment fragment = new AppViewFragment();
@@ -109,15 +103,6 @@ public class AppViewFragment extends WebViewFragment {
         return false;
     }
 
-    private boolean isAllowPlugin(String name) {
-        for (String plugin : pluginWhitelist) {
-            if (plugin.equals(name)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     protected void loadConfig(String id) {
 
         appInfo = AppManager.appManager.getAppInfo(id);
@@ -143,10 +128,8 @@ public class AppViewFragment extends WebViewFragment {
                 pluginClass = entry.pluginClass;
                 CordovaPlugin plugin = null;
                 if (isCheckAuthority(entry.service)) {
-                    if (!isAllowPlugin(entry.service))  {
-                        pluginClass = "org.elastos.plugins.appmanager.AuthorityPlugin";
-                        plugin = new AuthorityPlugin(entry.pluginClass, appInfo, entry.service, whitelistPlugin);
-                    }
+                    pluginClass = "org.elastos.plugins.appmanager.AuthorityPlugin";
+                    plugin = new AuthorityPlugin(entry.pluginClass, appInfo, entry.service, whitelistPlugin);
                 }
                 else {
                     pluginClass = "org.elastos.plugins.appmanager.NullPlugin";

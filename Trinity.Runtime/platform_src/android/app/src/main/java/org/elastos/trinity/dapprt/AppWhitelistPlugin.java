@@ -46,9 +46,9 @@ public class AppWhitelistPlugin extends CordovaPlugin {
         allowedRequests.addWhiteListEntry("assets://www/plugins/*", false);
 //        allowedRequests.addWhiteListEntry("file:///android_asset/www/cordova_plugins.js", false);
 
-       for (AppInfo.UrlAuth urlAuth : info.urls) {
-           allowedRequests.addWhiteListEntry(urlAuth.url, false);
-       }
+//       for (AppInfo.UrlAuth urlAuth : info.urls) {
+//           allowedRequests.addWhiteListEntry(urlAuth.url, false);
+//       }
 
         allowedNavigations = allowedRequests;
         allowedIntents = new Whitelist();

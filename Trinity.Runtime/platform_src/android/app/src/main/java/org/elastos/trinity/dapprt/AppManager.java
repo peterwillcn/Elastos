@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class AppManager {
@@ -65,7 +66,7 @@ public class AppManager {
     private AppInstaller installer;
 
     protected HashMap<String, CordovaWebView> appViews;
-    protected HashMap<String, AppInfo> appInfos;
+    protected LinkedHashMap<String, AppInfo> appInfos;
     private ArrayList<String> lastList = new ArrayList<String>();
     public AppInfo[] appList;
 
@@ -104,7 +105,7 @@ public class AppManager {
 
     private void refreashInfos() {
         appList = dbAdapter.getAppInfos();
-        appInfos = new HashMap();
+        appInfos = new LinkedHashMap();
         for (int i = 0; i < appList.length; i++) {
             appInfos.put(appList[i].app_id, appList[i]);
         }
@@ -284,9 +285,9 @@ public class AppManager {
             switchContent(fragment2, id2);
         }
 
-        if (fragment.appView != null) {
-            fragment.appView.handleDestroy();
-        }
+//        if (fragment.appView != null) {
+//            fragment.appView.handleDestroy();
+//        }
 
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.remove(fragment);
@@ -391,45 +392,91 @@ public class AppManager {
         return false;
     }
 
-    public void runAlertPluginAuth(AppInfo info, String plugin) {
+    private static void print(String msg) {
+        String name = Thread.currentThread().getName();
+        System.out.println(name + ": " + msg);
+    }
+
+
+    private class LockObj {
+        int authority = AppInfo.AUTHORITY_NOINIT;
+    }
+
+    public synchronized int runAlertPluginAuth(AppInfo info, String plugin, int originAuthority) {
+        LockObj lock = new LockObj();
+        lock.authority = originAuthority;
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                alertPluginAuth(info, plugin);
+                alertPluginAuth(info, plugin, lock);
             }
         });
+        try {
+            synchronized (lock) {
+                if (lock.authority == originAuthority) {
+                    lock.wait();
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return originAuthority;
+        }
+        return lock.authority;
     }
 
-    public void alertPluginAuth(AppInfo info, String plugin) {
+    public void alertPluginAuth(AppInfo info, String plugin, LockObj lock) {
         AlertDialog.Builder ab = new AlertDialog.Builder(activity);
         ab.setTitle("Plugin authority request");
         ab.setMessage("App:'" + info.name + "' request plugin:'" + plugin + "' access authority.");
         ab.setIcon(android.R.drawable.ic_dialog_info);
+
+
         ab.setPositiveButton("Allow", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                setPluginAuthority(info.app_id, plugin, AppInfo.AUTHORITY_ALLOW);
+//                setPluginAuthority(info.app_id, plugin, AppInfo.AUTHORITY_ALLOW);
+                synchronized (lock) {
+                    lock.authority = AppInfo.AUTHORITY_ALLOW;
+                    lock.notify();
+                }
             }
         });
         ab.setNegativeButton("Refuse", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 setPluginAuthority(info.app_id, plugin, AppInfo.AUTHORITY_DENY);
+                synchronized (lock) {
+                    lock.authority = AppInfo.AUTHORITY_DENY;
+                    lock.notify();
+                }
             }
         });
         ab.show();
     }
 
-    public void runAlertUrlAuth(AppInfo info, String url) {
+    public synchronized int runAlertUrlAuth(AppInfo info, String url, int originAuthority) {
+        LockObj lock = new LockObj();
+        lock.authority = originAuthority;
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                alertUrlAuth(info, url);
+                alertUrlAuth(info, url, lock);
             }
         });
+        try {
+            synchronized (lock) {
+                if (lock.authority == originAuthority) {
+                    lock.wait();
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return originAuthority;
+        }
+        return lock.authority;
     }
 
-    public void alertUrlAuth(AppInfo info, String url) {
+    public void alertUrlAuth(AppInfo info, String url, LockObj lock) {
         AlertDialog.Builder ab = new AlertDialog.Builder(activity);
         ab.setTitle("Url authority request");
         ab.setMessage("App:'" + info.name + "' request url:'" + url + "' access authority.");
@@ -438,12 +485,20 @@ public class AppManager {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 setUrlAuthority(info.app_id, url, AppInfo.AUTHORITY_ALLOW);
+                synchronized (lock) {
+                    lock.authority = AppInfo.AUTHORITY_ALLOW;
+                    lock.notify();
+                }
             }
         });
         ab.setNegativeButton("Refuse", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 setUrlAuthority(info.app_id, url, AppInfo.AUTHORITY_DENY);
+                synchronized (lock) {
+                    lock.authority = AppInfo.AUTHORITY_DENY;
+                    lock.notify();
+                }
             }
         });
         ab.show();

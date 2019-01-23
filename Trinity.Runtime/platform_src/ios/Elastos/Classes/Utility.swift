@@ -20,9 +20,9 @@
   * SOFTWARE.
   */
  
- import Foundation
+import Foundation
  
- func resetPath(_ dir: String, _ origin: String) -> String {
+func resetPath(_ dir: String, _ origin: String) -> String {
     var ret = origin;
     if (!ret.hasPrefix("http://") && !ret.hasPrefix("https://")
         && !ret.hasPrefix("file:///")) {
@@ -32,7 +32,7 @@
         ret = dir + ret;
     }
     return ret;
- }
+}
 
 func getAbsolutePath(_ path: String, _ type: String? = nil) -> String {
     let nsPath: NSString = path as NSString;
@@ -45,9 +45,9 @@ func getAbsolutePath(_ path: String, _ type: String? = nil) -> String {
     return path;
 }
 
- func getAssetsPath(_ url: String) -> String {
+func getAssetsPath(_ url: String) -> String {
     let index = url.index(url.startIndex, offsetBy: 9)
     let substr = url[index ..< url.endIndex];
     return getAbsolutePath(String(substr));
- }
+}
  

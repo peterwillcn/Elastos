@@ -22,7 +22,7 @@
 
 import Foundation
 
- class AppManager {
+class AppManager {
     public static var appManager: AppManager?;
     
     /** The internal message */
@@ -338,22 +338,34 @@ import Foundation
         return false;
     }
 
-    func runAlertPluginAuth(_ info: AppInfo, _ plugin: String) {
+    func runAlertPluginAuth(_ info: AppInfo, _ pluginName: String,
+                            _ plugin: TrinityPlugin,
+                            _ command: CDVInvokedUrlCommand) {
+
         func doAllowHandler(alerAction:UIAlertAction) {
-            setPluginAuthority(info.id, plugin, AppInfo.AUTHORITY_ALLOW);
+            setPluginAuthority(info.id, pluginName, AppInfo.AUTHORITY_ALLOW);
+            plugin.execute(command);
+            let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT);
+            result?.setKeepCallbackAs(false);
+            plugin.commandDelegate?.send(result, callbackId:command.callbackId);
         }
         
         func doRefuseHandler(alerAction:UIAlertAction) {
-            setPluginAuthority(info.id, plugin, AppInfo.AUTHORITY_DENY);
+            setPluginAuthority(info.id, pluginName, AppInfo.AUTHORITY_DENY);
+            let result = CDVPluginResult(status: CDVCommandStatus_ERROR,
+                                         messageAs: "Plugin:'" + pluginName + "' have not run authority.");
+            result?.setKeepCallbackAs(false);
+            plugin.commandDelegate.send(result, callbackId: command.callbackId)
         }
         
         let alertController = UIAlertController(title: "Plugin authority request",
-                message: "App:'" + info.name + "' request plugin:'" + plugin + "' access authority.",
+                message: "App:'" + info.name + "' request plugin:'" + pluginName + "' access authority.",
                 preferredStyle: UIAlertController.Style.alert)
         let cancelAlertAction = UIAlertAction(title: "Refuse", style: UIAlertAction.Style.cancel, handler: doRefuseHandler)
         alertController.addAction(cancelAlertAction)
         let sureAlertAction = UIAlertAction(title: "Allow", style: UIAlertAction.Style.default, handler: doAllowHandler)
         alertController.addAction(sureAlertAction)
+        
         self.mainViewController.present(alertController, animated: true, completion: nil)
     }
     

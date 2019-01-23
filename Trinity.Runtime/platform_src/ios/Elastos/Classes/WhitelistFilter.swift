@@ -67,17 +67,15 @@
         else {
             return false;
         }
-        
     }
     
-    @objc func checkPluginAuthority(_ pluginName: String) -> Bool {
+    @objc func getPluginAuthority(_ pluginName: String,
+                    trinityPlugin plugin: TrinityPlugin,
+                    invokedUrlCommand command: CDVInvokedUrlCommand) -> Int {
         let authority = AppManager.appManager!.getPluginAuthority(appInfo!.id, pluginName);
-        if (authority == AppInfo.AUTHORITY_ALLOW) {
-            return true;
+        if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
+            AppManager.appManager!.runAlertPluginAuth(appInfo!, pluginName, plugin, command);
         }
-        else if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
-            AppManager.appManager!.runAlertPluginAuth(appInfo!, pluginName);
-        }
-        return false;
+        return authority;
     }
  }

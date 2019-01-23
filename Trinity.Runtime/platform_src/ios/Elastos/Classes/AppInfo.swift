@@ -43,11 +43,11 @@ class AppInfo: Object {
         return "id"
     }
     
-    static let AUTHORITY_NOEXIST = -1;
-    static let AUTHORITY_NOINIT = 0;
-    static let AUTHORITY_ASK = 1;
-    static let AUTHORITY_ALLOW = 2;
-    static let AUTHORITY_DENY = 3;
+    @objc static let AUTHORITY_NOEXIST = -1;
+    @objc static let AUTHORITY_NOINIT = 0;
+    @objc static let AUTHORITY_ASK = 1;
+    @objc static let AUTHORITY_ALLOW = 2;
+    @objc static let AUTHORITY_DENY = 3;
     
     let icons = List<Icon>();
     let plugins = List<PluginAuth>();

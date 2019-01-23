@@ -30,6 +30,7 @@
 - (void)trinityInitialize:(NSString*)pluginName
           whitelistFilter:(CDVPlugin *)filter checkAuthority:(BOOL)check;
 - (BOOL)isAllowAccess:(NSString *)url;
+- (BOOL)execute:(CDVInvokedUrlCommand*)command;
 - (BOOL)trinityExecute:(CDVInvokedUrlCommand*)command;
 
 @end

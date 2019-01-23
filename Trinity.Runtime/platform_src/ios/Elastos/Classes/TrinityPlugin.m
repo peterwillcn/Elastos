@@ -47,27 +47,43 @@
     return [self.filter shouldAllowNavigation:url];
 }
 
-- (BOOL)trinityExecute:(CDVInvokedUrlCommand*)command
+- (BOOL)execute:(CDVInvokedUrlCommand*)command
 {
-    if (checkAuthority) {
-        if (![self.filter checkPluginAuthority:self.pluginName]) {
-            NSString* msg = [NSString stringWithFormat:@"Plugin:'%@' have not run authority.", pluginName];
-            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:msg];
-            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-            return NO;
-        }
-    }
-    
     NSString* methodName = [NSString stringWithFormat:@"%@:", command.methodName];
     SEL normalSelector = NSSelectorFromString(methodName);
     if ([self respondsToSelector:normalSelector]) {
         ((void (*)(id, SEL, id))objc_msgSend)(self, normalSelector, command);
         return YES;
     } else {
-        NSLog(@"ERROR: Method '%@' not defined in Plugin '%@'", methodName, command.className);
-        return NO;
+        NSString* msg = [NSString stringWithFormat:@"ERROR: Method '%@' not defined in Plugin '%@'", methodName, command.className];
+        NSLog(@"%@", msg);
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:msg];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        return YES;
     }
-   
+}
+
+- (BOOL)trinityExecute:(CDVInvokedUrlCommand*)command
+{
+    if (checkAuthority) {
+        int authority = [self.filter getPluginAuthority:self.pluginName
+                                        trinityPlugin: self
+                                        invokedUrlCommand: command];
+        if (authority == AppInfo.AUTHORITY_ASK) {
+            NSString* msg = [NSString stringWithFormat:@"Plugin:'%@' have not run authority.", pluginName];
+            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:msg];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+            return YES;
+        }
+        else if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
+            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
+            [result setKeepCallbackAsBool:YES];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+            return YES;
+        }
+    }
+    
+    return [self execute:command];
 }
 @end
 

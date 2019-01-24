@@ -5,7 +5,7 @@
 [submodule "Runtime"]
 	path = Trinity/Runtime
 	url = ../Elastos.Trinity.Runtime.git
-	branch = dev_app
+	branch = dev
 [submodule "Launcher"]
 	path = Trinity/Launcher
 	url = ../Elastos.Trinity.DApps.Launcher.git

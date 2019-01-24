@@ -33,22 +33,17 @@ import RealmSwift
 //
 //        Realm.Configuration.defaultConfiguration = config
     
-        realm = try! Realm() 
+        realm = try! Realm()
         print(realm.configuration.fileURL ?? "");
 
     }
     
-    func addAppInfo(_ appInfo: AppInfo) {
-        do {
-            try realm.write {
-                realm.add(appInfo.icons);
-                realm.add(appInfo.plugins);
-                realm.add(appInfo.urls);
-                realm.add(appInfo);
-            }
-        }
-        catch let error {
-            print("Database addAppInfo error: \(error)");
+    func addAppInfo(_ appInfo: AppInfo) throws {
+        try realm.write {
+            realm.add(appInfo.icons);
+            realm.add(appInfo.plugins);
+            realm.add(appInfo.urls);
+            realm.add(appInfo);
         }
     }
     
@@ -69,33 +64,28 @@ import RealmSwift
         return infos;
     }
     
-    func updatePluginAuth(_ item: PluginAuth, _ authority: Int) {
-        try! realm.write {
+    func updatePluginAuth(_ item: PluginAuth, _ authority: Int) throws {
+        try realm.write {
             item.authority = authority;
         }
     }
     
-    func updateUrlAuth(_ item: UrlAuth, _ authority: Int) {
-        try! realm.write {
+    func updateUrlAuth(_ item: UrlAuth, _ authority: Int) throws {
+        try realm.write {
             item.authority = authority;
         }
     }
     
-    func removeAppInfo(_ info: AppInfo) {
+    func removeAppInfo(_ info: AppInfo) throws {
         let plugins = realm.objects(PluginAuth.self).filter("id = %@", info.id);
         let urls = realm.objects(UrlAuth.self).filter("id = %@", info.id);
         let icons = realm.objects(Icon.self).filter("id = %@", info.id);
         
-        do {
-            try realm.write {
-                realm.delete(plugins);
-                realm.delete(urls);
-                realm.delete(icons);
-                realm.delete(info);
-            }
-        }
-        catch let error {
-            print("Database removeAppInfo error: \(error)");
+        try realm.write {
+            realm.delete(plugins);
+            realm.delete(urls);
+            realm.delete(icons);
+            realm.delete(info);
         }
     }
 

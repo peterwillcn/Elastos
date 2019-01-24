@@ -138,6 +138,9 @@ function string_app_info(info) {
           "<br/>backgroundColor:" + info.backgroundColor +
           "<br/>   themeDisplay:" + info.themeDisplay +
           "<br/>     themeColor:" + info.themeColor +
+          "<br/>  themeFontName:" + info.themeFontName +
+          "<br/> themeFontColor:" + info.themeFontColor +
+          "<br/>    installTime:" + info.installTime +
           "<br/>        builtIn:" + info.builtIn;
     return msg;
 }

@@ -81,9 +81,7 @@ class AppManager {
         installer = AppInstaller(appsPath, dataPath, dbAdapter);
 
         appList = dbAdapter.getAppInfos();
-        if (appList.count < 1) {
-            saveBuiltInAppInfos();
-        }
+        saveBuiltInAppInfos();
 //        dbAdapter.removeAppInfo(appList[0]);
         refreashInfos();
         
@@ -140,35 +138,45 @@ class AppManager {
             return;
         }
         
-        for dir in dirs! {
-            let info = installer.parseManifest(path +  dir + "/manifest.json")
-            guard (info != nil || info!.id != "") else {
-                return;
+        do {
+            for dir in dirs! {
+                var needInstall = true;
+                for info in appList {
+                    if info.id == dir {
+                        needInstall = false;
+                        break;
+                    }
+                }
+                
+                if (needInstall) {
+                    let info = try installer.parseManifest(path +  dir + "/manifest.json")
+                    guard (info != nil || info!.id != "") else {
+                        return;
+                    }
+                    
+                    info!.built_in = true;
+                    try dbAdapter.addAppInfo(info!);
+                }
             }
-            
-            info!.built_in = true;
-            dbAdapter.addAppInfo(info!);
+        } catch AppError.error(let err) {
+            print(err);
+        } catch let error {
+            print(error.localizedDescription);
         }
     }
 
-    func install(_ url: String) -> AppInfo? {
-        let info = installer.install(self, url);
+    func install(_ url: String) throws -> AppInfo? {
+        let info = try! installer.install(self, url);
         if (info != nil) {
             refreashInfos();
         }
         return info;
     }
     
-    func unInstall(_ id: String) -> Bool {
-        if (!close(id)) {
-            return false;
-        }
-        
-        let ret = installer.unInstall(appInfos[id]);
-        if (ret) {
-            refreashInfos();
-        }
-        return ret;
+    func unInstall(_ id: String) throws {
+        try close(id);
+        try installer.unInstall(appInfos[id]);
+        refreashInfos();
     }
     
     func removeLastlistItem(_ id: String) {
@@ -186,7 +194,7 @@ class AppManager {
         lastList.insert(id, at: 0);
     }
 
-    func start(_ id: String) -> Bool {
+    func start(_ id: String) throws {
         var viewController = viewControllers[id]
         if viewController == nil {
             if (id == "launcher") {
@@ -195,8 +203,7 @@ class AppManager {
             else {
                 let appInfo = appInfos[id];
                 guard appInfo != nil else {
-                    print("No app of id = " + id);
-                    return false;
+                    throw AppError.error("No such app!");
                 }
                 let appViewController = AppViewController();
                 appViewController.setInfo(id, appInfo!);
@@ -215,29 +222,28 @@ class AppManager {
         }
         
         curController = viewController
-        return true;
     }
     
-    func close(_ id: String) -> Bool {
+    func close(_ id: String) throws {
         if (id == "launcher") {
-            return false;
+            throw AppError.error("Launcher can't close!");
         }
         
         let info = appInfos[id];
         if (info == nil) {
-            return false;
+            throw AppError.error("No such app!");
         }
     
         let viewController = viewControllers[id]
         if (viewController == nil) {
-            return true;
+            return;
         }
     
         if (viewController == curController) {
             let id2 = lastList[1];
             let viewController2 = viewControllers[id2]
             if (viewController2 == nil) {
-                return false;
+                throw AppError.error("RT inner error!");
             }
             switchContent(viewController2!, id2);
         }
@@ -245,18 +251,16 @@ class AppManager {
         removeLastlistItem(id);
         viewControllers[id] = nil;
         viewController!.remove();
-        
-        return true;
     }
     
     
-    func loadLauncher() -> Bool {
-        return start("launcher");
+    func loadLauncher() throws {
+        try start("launcher");
     }
     
     func setInstallUri(_ uri: String) {
         if launcherReady {
-            self.sendMessage("launcher", AppManager.MSG_TYPE_EXTERNAL_INSTALL, uri, "system");
+            try? self.sendMessage("launcher", AppManager.MSG_TYPE_EXTERNAL_INSTALL, uri, "system");
         }
         else {
             installUriList.append(uri);
@@ -271,20 +275,19 @@ class AppManager {
         launcherReady = true;
     
         for uri in installUriList {
-            self.sendMessage("launcher", AppManager.MSG_TYPE_EXTERNAL_INSTALL, uri, "system");
+            try? self.sendMessage("launcher", AppManager.MSG_TYPE_EXTERNAL_INSTALL, uri, "system");
         }
     }
 
     
 
-    func sendMessage(_ toId: String, _ type: Int, _ msg: String, _ fromId: String) -> Bool {
+    func sendMessage(_ toId: String, _ type: Int, _ msg: String, _ fromId: String) throws {
         let viewController = viewControllers[toId]
         if (viewController != nil) {
             viewController!.basePlugin!.onReceive(msg, type, fromId);
-            return true;
         }
         else {
-            return false;
+            throw AppError.error(toId + " isn't running!");
         }
     }
     
@@ -312,30 +315,34 @@ class AppManager {
         return AppInfo.AUTHORITY_NOEXIST;
     }
     
-    func setPluginAuthority(_ id: String, _ plugin: String, _ authority: Int) -> Bool {
+    func setPluginAuthority(_ id: String, _ plugin: String, _ authority: Int) throws {
         let info = appInfos[id];
-        if (info != nil) {
-            for pluginAuth in info!.plugins {
-                if (pluginAuth.plugin == plugin) {
-                    dbAdapter.updatePluginAuth(pluginAuth, authority);
-                    return true;
-                }
+        guard (info != nil) else {
+            throw AppError.error("No such app!");
+        }
+        
+        for pluginAuth in info!.plugins {
+            if (pluginAuth.plugin == plugin) {
+                try dbAdapter.updatePluginAuth(pluginAuth, authority);
+                return;
             }
         }
-        return false;
+        throw AppError.error("The plugin isn't in list!");
     }
     
-    func setUrlAuthority(_ id: String, _ url: String, _ authority: Int)  -> Bool {
+    func setUrlAuthority(_ id: String, _ url: String, _ authority: Int) throws {
         let info = appInfos[id];
-        if (info != nil) {
-            for urlAuth in info!.urls {
-                if (urlAuth.url == url) {
-                    dbAdapter.updateUrlAuth(urlAuth, authority);
-                    return true;
-                }
+        guard (info != nil) else {
+            throw AppError.error("No such app!");
+        }
+        
+        for urlAuth in info!.urls {
+            if (urlAuth.url == url) {
+                try dbAdapter.updateUrlAuth(urlAuth, authority);
+                return;
             }
         }
-        return false;
+        throw AppError.error("The url isn't in list!");
     }
 
     func runAlertPluginAuth(_ info: AppInfo, _ pluginName: String,
@@ -343,7 +350,7 @@ class AppManager {
                             _ command: CDVInvokedUrlCommand) {
 
         func doAllowHandler(alerAction:UIAlertAction) {
-            setPluginAuthority(info.id, pluginName, AppInfo.AUTHORITY_ALLOW);
+            try? setPluginAuthority(info.id, pluginName, AppInfo.AUTHORITY_ALLOW);
             plugin.execute(command);
             let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT);
             result?.setKeepCallbackAs(false);
@@ -351,7 +358,7 @@ class AppManager {
         }
         
         func doRefuseHandler(alerAction:UIAlertAction) {
-            setPluginAuthority(info.id, pluginName, AppInfo.AUTHORITY_DENY);
+            try? setPluginAuthority(info.id, pluginName, AppInfo.AUTHORITY_DENY);
             let result = CDVPluginResult(status: CDVCommandStatus_ERROR,
                                          messageAs: "Plugin:'" + pluginName + "' have not run authority.");
             result?.setKeepCallbackAs(false);
@@ -371,11 +378,11 @@ class AppManager {
     
     func runAlertUrlAuth(_ info: AppInfo, _ url: String) {
         func doAllowHandler(alerAction:UIAlertAction) {
-            setUrlAuthority(info.id, url, AppInfo.AUTHORITY_ALLOW);
+            try? setUrlAuthority(info.id, url, AppInfo.AUTHORITY_ALLOW);
         }
         
         func doRefuseHandler(alerAction:UIAlertAction) {
-            setUrlAuthority(info.id, url, AppInfo.AUTHORITY_DENY);
+            try? setUrlAuthority(info.id, url, AppInfo.AUTHORITY_DENY);
         }
         
         let alertController = UIAlertController(title: "Url authority request",

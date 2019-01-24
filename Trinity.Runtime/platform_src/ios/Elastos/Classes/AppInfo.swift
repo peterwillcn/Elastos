@@ -37,6 +37,9 @@ class AppInfo: Object {
     @objc dynamic var background_color = "";
     @objc dynamic var theme_display = "";
     @objc dynamic var theme_color = "";
+    @objc dynamic var theme_font_name = "";
+    @objc dynamic var theme_font_color = "";
+    @objc dynamic var install_time = 0;
     @objc dynamic var built_in = false;
  
     override class func primaryKey() -> String? {

@@ -95,9 +95,8 @@ public class AppManager {
         installer = new AppInstaller();
         installer.init(activity, dbAdapter, appsPath, dataPath);
 
-        if (dbAdapter.helper.isCreatedTables) {
-            saveBuiltInAppInfos();
-        }
+        appList = dbAdapter.getAppInfos();
+        saveBuiltInAppInfos();
 
         refreashInfos();
     }
@@ -160,22 +159,29 @@ public class AppManager {
         try {
             String[] appdirs= manager.list("www/built-in");
             for (String appdir : appdirs) {
-                InputStream inputStream = manager.open("www/built-in/" + appdir + "/manifest.json");
-                AppInfo info = installer.parseManifest(inputStream);
-                if (info == null) {
-                    return;
+                boolean needInstall = true;
+                for (int i = 0; i < appList.length; i++) {
+                    if (appdir.equals(appList[i].app_id)) {
+                        needInstall = false;
+                        break;
+                    }
                 }
 
-                info.built_in = 1;
-                dbAdapter.addAppInfo(info);
+                if (needInstall) {
+                    InputStream inputStream = manager.open("www/built-in/" + appdir + "/manifest.json");
+                    AppInfo info = installer.parseManifest(inputStream);
+
+                    info.built_in = 1;
+                    dbAdapter.addAppInfo(info);
+                }
             }
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public AppInfo install(String url) {
+    public AppInfo install(String url) throws Exception  {
         AppInfo info = installer.install(this, url);
         if (info != null) {
             refreashInfos();
@@ -183,16 +189,10 @@ public class AppManager {
         return info;
     }
 
-    public boolean unInstall(String id) {
-        if (!close(id)) {
-            return false;
-        }
-
-        boolean ret = installer.unInstall(appInfos.get(id));
-        if (ret) {
-            refreashInfos();
-        }
-        return ret;
+    public void unInstall(String id) throws Exception {
+        close(id);
+        installer.unInstall(appInfos.get(id));
+        refreashInfos();
     }
 
     private WebViewFragment findFragmentById(String id) {
@@ -238,49 +238,44 @@ public class AppManager {
         }
     }
 
-    public boolean start(String id) {
-        if (!id.equals("launcher")) {
-            AppInfo info = appInfos.get(id);
-            if (info == null) {
-                return false;
-            }
-        }
-
+    public void start(String id) throws Exception {
         WebViewFragment fragment = findFragmentById(id);
         if (fragment == null) {
             if (id.equals("launcher")) {
                 fragment = LauncherViewFragment.newInstance();
             }
             else {
+                AppInfo info = appInfos.get(id);
+                if (info == null) {
+                    throw new Exception("No such app!");
+                }
                 fragment = AppViewFragment.newInstance(id);
             }
         }
         switchContent(fragment, id);
-
-        return true;
     }
 
-    public boolean close(String id) {
+    public void close(String id) throws Exception {
         if (id.equals("launcher")) {
-            return false;
+            throw new Exception("Launcher can't close!");
         }
 
         AppInfo info = appInfos.get(id);
         if (info == null) {
-            return false;
+            throw new Exception("No such app!");
         }
 
         FragmentManager manager = activity.getSupportFragmentManager();
         WebViewFragment fragment = findFragmentById(id);
         if (fragment == null) {
-            return true;
+            return;
         }
 
         if (fragment == curFragment) {
             String id2 = lastList.get(1);
             WebViewFragment fragment2 = findFragmentById(id2);
             if (fragment2 == null) {
-                return false;
+                throw new Exception("RT inner error!");
             }
             switchContent(fragment2, id2);
         }
@@ -293,19 +288,22 @@ public class AppManager {
         transaction.remove(fragment);
         transaction.commit();
         lastList.remove(id);
-
-        return true;
     }
 
-    public boolean loadLauncher() {
-        return start("launcher");
+    public void loadLauncher() throws Exception {
+        start("launcher");
     }
 
     public void setInstallUri(String uri) {
         if (uri == null) return;
 
         if (launcherReady) {
-            sendMessage("launcher", MSG_TYPE_EXTERNAL_INSTALL, uri, "system");
+            try {
+                sendMessage("launcher", MSG_TYPE_EXTERNAL_INSTALL, uri, "system");
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         else {
             installUriList.add(uri);
@@ -321,20 +319,24 @@ public class AppManager {
 
         for (int i = 0; i < installUriList.size(); i++) {
             String uri = installUriList.get(i);
-            sendMessage("launcher", MSG_TYPE_EXTERNAL_INSTALL, uri, "system");
+            try {
+                sendMessage("launcher", MSG_TYPE_EXTERNAL_INSTALL, uri, "system");
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
 
-    public boolean sendMessage(String toId, int type, String msg, String fromId) {
+    public void sendMessage(String toId, int type, String msg, String fromId) throws Exception {
         FragmentManager manager = activity.getSupportFragmentManager();
         WebViewFragment fragment = (WebViewFragment)manager.findFragmentByTag(toId);
         if (fragment != null) {
             fragment.basePlugin.onReceive(msg, type, fromId);
-            return true;
         }
         else {
-            return false;
+            throw new Exception(toId + " isn't running!");
         }
     }
 
@@ -362,34 +364,38 @@ public class AppManager {
         return AppInfo.AUTHORITY_NOEXIST;
     }
 
-    public boolean setPluginAuthority(String id, String plugin, int authority) {
+    public void setPluginAuthority(String id, String plugin, int authority) throws Exception {
         AppInfo info = appInfos.get(id);
-        if (info != null) {
-            dbAdapter.updatePluginAuth(info.tid, plugin, authority);
-            for (AppInfo.PluginAuth pluginAuth : info.plugins) {
-                if (pluginAuth.plugin.equals(plugin)) {
-                    pluginAuth.authority = authority;
-                    return true;
-                }
+        if (info == null) {
+            throw new Exception("No such app!");
+        }
+
+        dbAdapter.updatePluginAuth(info.tid, plugin, authority);
+        for (AppInfo.PluginAuth pluginAuth : info.plugins) {
+            if (pluginAuth.plugin.equals(plugin)) {
+                pluginAuth.authority = authority;
+                return;
             }
         }
-        return false;
+        throw new Exception("The plugin isn't in list!");
     }
 
-    public boolean setUrlAuthority(String id, String url, int authority) {
+    public void setUrlAuthority(String id, String url, int authority)  throws Exception {
         AppInfo info = appInfos.get(id);
-        if (info != null) {
-            int count = dbAdapter.updateURLAuth(info.tid, url, authority);
-            if (count > 0) {
-                for (AppInfo.UrlAuth urlAuth : info.urls) {
-                    if (urlAuth.url.equals(url)) {
-                        urlAuth.authority = authority;
-                        return true;
-                    }
+        if (info == null) {
+            throw new Exception("No such app!");
+        }
+
+        int count = dbAdapter.updateURLAuth(info.tid, url, authority);
+        if (count > 0) {
+            for (AppInfo.UrlAuth urlAuth : info.urls) {
+                if (urlAuth.url.equals(url)) {
+                    urlAuth.authority = authority;
+                    return ;
                 }
             }
         }
-        return false;
+        throw new Exception("The plugin isn't in list!");
     }
 
     private static void print(String msg) {
@@ -434,7 +440,12 @@ public class AppManager {
         ab.setPositiveButton("Allow", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                setPluginAuthority(info.app_id, plugin, AppInfo.AUTHORITY_ALLOW);
+                try {
+                    setPluginAuthority(info.app_id, plugin, AppInfo.AUTHORITY_ALLOW);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
                 synchronized (lock) {
                     lock.authority = AppInfo.AUTHORITY_ALLOW;
                     lock.notify();
@@ -444,7 +455,12 @@ public class AppManager {
         ab.setNegativeButton("Refuse", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                setPluginAuthority(info.app_id, plugin, AppInfo.AUTHORITY_DENY);
+                try {
+                    setPluginAuthority(info.app_id, plugin, AppInfo.AUTHORITY_DENY);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
                 synchronized (lock) {
                     lock.authority = AppInfo.AUTHORITY_DENY;
                     lock.notify();
@@ -481,10 +497,16 @@ public class AppManager {
         ab.setTitle("Url authority request");
         ab.setMessage("App:'" + info.name + "' request url:'" + url + "' access authority.");
         ab.setIcon(android.R.drawable.ic_dialog_info);
+
         ab.setPositiveButton("Allow", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                setUrlAuthority(info.app_id, url, AppInfo.AUTHORITY_ALLOW);
+                try {
+                    setUrlAuthority(info.app_id, url, AppInfo.AUTHORITY_ALLOW);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
                 synchronized (lock) {
                     lock.authority = AppInfo.AUTHORITY_ALLOW;
                     lock.notify();
@@ -494,7 +516,12 @@ public class AppManager {
         ab.setNegativeButton("Refuse", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                setUrlAuthority(info.app_id, url, AppInfo.AUTHORITY_DENY);
+                try {
+                    setUrlAuthority(info.app_id, url, AppInfo.AUTHORITY_DENY);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
                 synchronized (lock) {
                     lock.authority = AppInfo.AUTHORITY_DENY;
                     lock.notify();

@@ -48,6 +48,11 @@ public class MainActivity extends WebViewActivity
         }
 
         // Set by <content src="index.html" /> in config.xml
-        appManager.loadLauncher();
+        try {
+            appManager.loadLauncher();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

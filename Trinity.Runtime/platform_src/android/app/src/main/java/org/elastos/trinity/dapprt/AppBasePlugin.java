@@ -35,52 +35,48 @@ public class AppBasePlugin extends CordovaPlugin {
     protected CallbackContext mMessageContext = null;
     protected String id;
 
-    protected void launcher(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if (AppManager.appManager.loadLauncher()) {
-            callbackContext.success("ok");
-        }
-        else {
-            callbackContext.error("error");
-        }
+    protected void launcher(JSONArray args, CallbackContext callbackContext) throws Exception {
+        AppManager.appManager.loadLauncher();
+        callbackContext.success("ok");
     }
 
-    protected void start(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    protected void start(JSONArray args, CallbackContext callbackContext) throws Exception {
         String id = args.getString(0);
-        if (!id.equals("launcher") && AppManager.appManager.start(id)) {
-            callbackContext.success("ok");
+
+        if (id == null || id.equals("")) {
+            callbackContext.error("Invalid id.");
+        }
+        else if (id.equals("launcher")) {
+            callbackContext.error("Can't start launcher! Please use launcher().");
         }
         else {
-            callbackContext.error("error");
+            AppManager.appManager.start(id);
+            callbackContext.success("ok");
         }
     }
 
-    protected void close(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    protected void close(JSONArray args, CallbackContext callbackContext) throws Exception {
         String appId = this.id;
         if (id.equals("launcher")) {
             appId = args.getString(0);
         }
 
-        if (appId != null && AppManager.appManager.close(appId)) {
-            callbackContext.success("ok");
+        if (appId == null || appId.equals("")) {
+            callbackContext.error("Invalid id.");
         }
-        else {
-            callbackContext.error("error");
-        }
+        AppManager.appManager.close(appId);
+        callbackContext.success("ok");
     }
 
-    protected void sendMessage(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    protected void sendMessage(JSONArray args, CallbackContext callbackContext) throws Exception {
         String toId = args.getString(0);
         Integer type = args.getInt(1);
         String msg = args.getString(2);
-        if (AppManager.appManager.sendMessage(toId, type, msg, this.id)) {
-            callbackContext.success("ok");
-        }
-        else {
-            callbackContext.error("error");
-        }
+        AppManager.appManager.sendMessage(toId, type, msg, this.id);
+        callbackContext.success("ok");
     }
 
-    protected void setListener(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    protected void setListener(CallbackContext callbackContext) {
         mMessageContext = callbackContext;
 
         PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);

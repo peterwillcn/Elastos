@@ -48,16 +48,12 @@
         return SSZipArchive.unzipFile(atPath: srcZip, toDestination: destPath);
     }
     
-    func deleteAllFiles(_ path: String) {
+    func deleteAllFiles(_ path: String) throws {
         let fileManager = FileManager.default;
-        do {
-            try fileManager.removeItem(atPath: path)
-        } catch {
-            print("delete false")
-        }
+        try fileManager.removeItem(atPath: path)
     }
     
-    func  install(_ appManager: AppManager, _ url: String) -> AppInfo? {
+    func  install(_ appManager: AppManager, _ url: String) throws -> AppInfo? {
         var zipPath = url;
         if (url.hasPrefix("assets://")) {
             zipPath = getAssetsPath(url);
@@ -70,49 +66,49 @@
         let temp = "tmp_" + UUID().uuidString
         let temPath = appPath + temp;
     
-        if (unpackZip(zipPath, temPath)) {
-            let fileManager = FileManager.default;
-            let ret = fileManager.fileExists(atPath: temPath + "/manifest.json")
-            guard ret else {
-                deleteAllFiles(temPath);
-                return nil;
-            }
-            
-            let info = parseManifest(temPath + "/manifest.json");
-            guard (info != nil && info!.id != "" && info!.id != "launcher"
-                    && appManager.getAppInfo(info!.id) == nil) else {
-                deleteAllFiles(temPath);
-                return nil;
-            }
-            
-            let path = appPath + info!.id;
-            if (fileManager.fileExists(atPath: path)) {
-                deleteAllFiles(path);
-            }
-            
-            do {
-                try fileManager.moveItem(atPath: temPath, toPath: path);
-            }
-            catch let error {
-                print("Install rename dir error: \(error)");
-            }
+        if (!unpackZip(zipPath, temPath)) {
+            throw AppError.error("UnpackZip fail!");
+        }
+        
+        let fileManager = FileManager.default;
+        let ret = fileManager.fileExists(atPath: temPath + "/manifest.json")
+        guard ret else {
+            try deleteAllFiles(temPath);
+            throw AppError.error("manifest.json no exist!");
+        }
+        
+        let info = try parseManifest(temPath + "/manifest.json");
+        guard (info != nil && info!.id != "" && info!.id != "launcher"
+                && appManager.getAppInfo(info!.id) == nil) else {
+            try deleteAllFiles(temPath);
+            throw AppError.error("App alreadey exist!");
+        }
+        
+        let path = appPath + info!.id;
+        if (fileManager.fileExists(atPath: path)) {
+            try deleteAllFiles(path);
+        }
+        
+        try fileManager.moveItem(atPath: temPath, toPath: path);
 //            let dirs = try! fileManager.contentsOfDirectory(atPath: path);
 
-            info!.built_in = false;
-            appManager.dbAdapter.addAppInfo(info!);
-            return info;
-        }
-        return nil;
+        info!.built_in = false;
+        try appManager.dbAdapter.addAppInfo(info!);
+        return info!;
     }
     
-    func unInstall(_ info: AppInfo?) -> Bool {
-        guard info != nil && !info!.built_in else {
-            return false;
+    func unInstall(_ info: AppInfo?) throws {
+        guard info != nil else {
+            throw AppError.error("No such app!");
         }
+        
+        guard !info!.built_in else {
+            throw AppError.error("App is a built in!");
+        }
+        
         let path = self.dataPath + info!.id
-        dbAdapter.removeAppInfo(info!);
-        deleteAllFiles(path);
-        return true;
+        try dbAdapter.removeAppInfo(info!);
+        try deleteAllFiles(path);
     }
     
     private func isAllowPlugin(_ pluginName: String) -> Bool {
@@ -135,60 +131,124 @@
         return false;
     }
     
-    func parseManifest(_ path: String) -> AppInfo? {
+    private func getMustStrValue(_ json: [String: Any], _ name: String) throws -> String {
+        let value = json[name] as? String;
+        if (value != nil) {
+            return value!
+        }
+        else {
+            throw AppError.error("Parse Manifest.json error: '\(name)' no exist!");
+        }
+    }
+    
+    func parseManifest(_ path: String) throws -> AppInfo? {
         let appInfo = AppInfo();
         let url = URL.init(fileURLWithPath: path)
+        var value: String?;
 
-        do {
-            let data = try Data(contentsOf: url);
-            let json = try JSONSerialization.jsonObject(with: data,
-                                                        options: []) as! [String: Any];
-            appInfo.id = json["id"] as! String;
-            appInfo.version = json["version"] as! String;
-            appInfo.name = json["name"] as! String;
-            appInfo.short_name = json["short_name"] as! String;
-            appInfo.desc = json["description"] as! String;
-            appInfo.start_url = json["start_url"] as! String;
+        let data = try Data(contentsOf: url);
+        let json = try JSONSerialization.jsonObject(with: data,
+                                                    options: []) as! [String: Any];
+        
+        //Must
+        appInfo.id = try getMustStrValue(json, "id");
+        appInfo.version = try getMustStrValue(json, "version");
+        appInfo.name = try getMustStrValue(json, "name");
+        appInfo.start_url = try getMustStrValue(json, "start_url");
 
-            let icons = json["icons"] as! [Dictionary<String, String>];
-            for icon in icons {
+        let icons = json["icons"] as? [Dictionary<String, String>];
+        if icons != nil {
+            for icon in icons! {
                 let src = icon["src"];
                 let sizes = icon["sizes"];
                 let type = icon["type"];
                 appInfo.addIcon(src!, sizes!, type!);
             }
-            
-            appInfo.default_locale = json["default_locale"] as! String;
-            let author = json["author"] as! [String: Any];
-            appInfo.author_name = author["name"] as! String;
-            appInfo.author_email = author["email"] as! String;
-            
-            let plugins = json["plugins"] as! [String];
-            var authority = AppInfo.AUTHORITY_NOINIT;
-            for plugin in plugins {
+        }
+        else {
+            throw AppError.error("Parse Manifest.json error: 'icons' no exist!");
+        }
+        
+        //Optional
+        value = json["short_name"] as? String;
+        if value != nil {
+            appInfo.short_name = value!;
+        }
+        
+        value = json["description"] as? String;
+        if value != nil {
+            appInfo.desc = value!;
+        }
+        
+        value = json["default_locale"] as? String;
+        if value != nil {
+            appInfo.default_locale = value!;
+        }
+        
+        let author = json["author"] as? [String: Any];
+        if author != nil {
+            value = author!["name"] as? String;
+            if value != nil {
+                appInfo.author_name = value!;
+            }
+            value = author!["email"] as? String;
+            if value != nil {
+                appInfo.author_email = value!;
+            }
+        }
+        
+        var authority = AppInfo.AUTHORITY_NOINIT;
+        let plugins = json["plugins"] as? [String];
+        if (plugins != nil) {
+            for plugin in plugins! {
                 authority = AppInfo.AUTHORITY_NOINIT;
                 if (isAllowPlugin(plugin)) {
                     authority = AppInfo.AUTHORITY_ALLOW;
                 }
                 appInfo.addPlugin(plugin, authority);
             }
-            
-            let urls = json["urls"] as! [String];
-            for url in urls {
+        }
+        
+        let urls = json["urls"] as? [String];
+        if (urls != nil) {
+            for url in urls! {
                 authority = AppInfo.AUTHORITY_NOINIT;
                 if (isAllowUrl(url)) {
                     authority = AppInfo.AUTHORITY_ALLOW;
                 }
                 appInfo.addUrl(url, authority);
             }
-            
-            appInfo.background_color =  json["background_color"] as! String;
-            appInfo.theme_display =  json["theme_display"] as! String;
-            appInfo.theme_color =  json["theme_color"] as! String;
         }
-        catch let error {
-            print("Parse Manifest.json error: \(error)");
+        
+        
+        value = json["background_color"] as? String;
+        if value != nil {
+            appInfo.background_color = value!;
         }
+        
+        let theme = json["theme"] as? [String: Any];
+        if (theme != nil) {
+            value = theme!["display"] as? String;
+            if value != nil {
+                appInfo.theme_display = value!;
+            }
+            value = theme!["color"] as? String;
+            if value != nil {
+                appInfo.theme_color = value!;
+            }
+
+            value = theme!["font_name"] as? String;
+            if value != nil {
+                appInfo.theme_font_name = value!;
+            }
+
+            value = theme!["font_color"] as? String;
+            if value != nil {
+                appInfo.theme_font_color = value!;
+            }
+        }
+        
+        appInfo.install_time = Int(Date().timeIntervalSince1970);
 
         return appInfo;
     }

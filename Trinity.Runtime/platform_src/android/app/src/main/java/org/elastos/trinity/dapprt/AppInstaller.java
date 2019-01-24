@@ -35,7 +35,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -77,6 +76,7 @@ public class AppInstaller {
     private boolean unpackZip(InputStream srcZip, String destPath) {
         InputStream is;
         ZipInputStream zis;
+
         try
         {
             String filepath;
@@ -118,18 +118,13 @@ public class AppInstaller {
         return true;
     }
 
-    private boolean downloadDAppPackage(String url, String destFile) {
-        try {
-            BufferedInputStream in = new BufferedInputStream(new URL(url).openStream());
-            FileOutputStream fileOutputStream = new FileOutputStream(destFile);
-            byte dataBuffer[] = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
-                fileOutputStream.write(dataBuffer, 0, bytesRead);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+    private boolean downloadDAppPackage(String url, String destFile) throws Exception {
+        BufferedInputStream in = new BufferedInputStream(new URL(url).openStream());
+        FileOutputStream fileOutputStream = new FileOutputStream(destFile);
+        byte dataBuffer[] = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
+            fileOutputStream.write(dataBuffer, 0, bytesRead);
         }
         return true;
     }
@@ -141,40 +136,31 @@ public class AppInstaller {
         }
     }
 
-    public AppInfo install(AppManager appManager, String url) {
-        InputStream inputStream;
+    public AppInfo install(AppManager appManager, String url) throws Exception {
+        InputStream inputStream = null;
         AppInfo info = null;
         String downloadPkgPath = null;
 
-        try {
-            if (url.startsWith("assets://")) {
-                AssetManager manager = context.getAssets();
-                String substr = url.substring(9);
-                inputStream = manager.open(substr);
-            }
-            else if (url.startsWith("content://")) {
-                Uri uri = Uri.parse(url);
-                inputStream = context.getContentResolver().openInputStream(uri);
-            }
-            else if (url.startsWith("http://") || url.startsWith("https://")) {
-                downloadPkgPath = appPath + "tmp_" + random.nextInt() + ".epk";
-                if (downloadDAppPackage(url, downloadPkgPath)) {
-                    inputStream = new FileInputStream(downloadPkgPath);
-                }
-                else {
-                    return null;
-                }
-            }
-            else {
-                if (url.startsWith("file://")) {
-                    url = url.substring(7);
-                }
-                inputStream = new FileInputStream(url);
+        if (url.startsWith("assets://")) {
+            AssetManager manager = context.getAssets();
+            String substr = url.substring(9);
+            inputStream = manager.open(substr);
+        }
+        else if (url.startsWith("content://")) {
+            Uri uri = Uri.parse(url);
+            inputStream = context.getContentResolver().openInputStream(uri);
+        }
+        else if (url.startsWith("http://") || url.startsWith("https://")) {
+            downloadPkgPath = appPath + "tmp_" + random.nextInt() + ".epk";
+            if (downloadDAppPackage(url, downloadPkgPath)) {
+                inputStream = new FileInputStream(downloadPkgPath);
             }
         }
-        catch (IOException e) {
-            e.printStackTrace();
-            return null;
+        else {
+            if (url.startsWith("file://")) {
+                url = url.substring(7);
+            }
+            inputStream = new FileInputStream(url);
         }
 
         String temp = "tmp_" + random.nextInt();
@@ -183,40 +169,38 @@ public class AppInstaller {
         File fmd = new File(path);
         fmd.mkdirs();
 
-        if (unpackZip(inputStream, path)) {
-            String manifest = path + "manifest.json";
-            InputStream file = null;
-            try {
-                file = new FileInputStream(manifest);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            info = parseManifest(file);
-            File from = new File(appPath, temp);
-            if (info == null || info.app_id == null || info.app_id.equals("launcher")
-                    || appManager.getAppInfo(info.app_id) != null) {
-                deleteAllFiles(from);
-                deleteDAppPackage(downloadPkgPath);
-                return null;
-            }
-            else {
-                File to = new File(appPath, info.app_id);
-                if (to.exists()) {
-                    deleteAllFiles(to);
-                    to = new File(appPath, info.app_id);
-                }
-                from.renameTo(to);
-                info.built_in = 0;
-                dbAdapter.addAppInfo(info);
-                deleteDAppPackage(downloadPkgPath);
-                return info;
-            }
+        if (!unpackZip(inputStream, path)) {
+            deleteDAppPackage(downloadPkgPath);
+            throw new Exception("UnpackZip fail!");
         }
-        deleteDAppPackage(downloadPkgPath);
-        return null;
+
+        String manifest = path + "manifest.json";
+        InputStream file = null;
+        file = new FileInputStream(manifest);
+
+        info = parseManifest(file);
+        File from = new File(appPath, temp);
+        if (info == null || info.app_id == null || info.app_id.equals("launcher")
+                || appManager.getAppInfo(info.app_id) != null) {
+            deleteAllFiles(from);
+            deleteDAppPackage(downloadPkgPath);
+            throw new Exception("App alreadey exist!");
+        }
+        else {
+            File to = new File(appPath, info.app_id);
+            if (to.exists()) {
+                deleteAllFiles(to);
+                to = new File(appPath, info.app_id);
+            }
+            from.renameTo(to);
+            info.built_in = 0;
+            dbAdapter.addAppInfo(info);
+            deleteDAppPackage(downloadPkgPath);
+            return info;
+        }
     }
 
-    private boolean deleteAllFiles(File root) {
+    private boolean deleteAllFiles(File root) throws Exception {
         if (!root.exists()) {
             return false;
         }
@@ -225,11 +209,7 @@ public class AppInstaller {
         if (files != null) {
             for (File f : files) {
                 if (f.isFile() && f.exists()) {
-                    try {
-                        f.delete();
-                    } catch (Exception e) {
-                        return false;
-                    }
+                    f.delete();
                 }
                 else {
                     deleteAllFiles(f);
@@ -237,28 +217,28 @@ public class AppInstaller {
             }
         }
 
-        try {
-            root.delete();
-        }
-        catch (Exception e) {
-            return false;
-        }
+        root.delete();
+
         return true;
     }
 
-    public boolean unInstall(AppInfo info) {
-        if (info == null || info.built_in == 1) {
-            return false;
+    public void unInstall(AppInfo info)  throws Exception {
+        if (info == null) {
+            throw new Exception("No such app!");
+        }
+
+        if (info.built_in == 1) {
+            throw new Exception("App is a built in!");
         }
         int count = dbAdapter.removeAppInfo(info);
-        if (count > 0) {
-            File root = new File(appPath + info.app_id);
-            deleteAllFiles(root);
-            root = new File(dataPath + info.app_id);
-            deleteAllFiles(root);
-            return true;
+        if (count < 1) {
+            throw new Exception("Databashe error!");
         }
-        return false;
+
+        File root = new File(appPath + info.app_id);
+        deleteAllFiles(root);
+        root = new File(dataPath + info.app_id);
+        deleteAllFiles(root);
     }
 
     private boolean isAllowPlugin(String name) {
@@ -281,27 +261,38 @@ public class AppInstaller {
         return false;
     }
 
-    public AppInfo parseManifest(InputStream inputStream) {
+
+    private String getMustStrValue(JSONObject json, String name) throws Exception {
+        if (json.has(name)) {
+            return json.getString(name);
+        } else {
+            throw new Exception("Parse Manifest.json error: '" + name + "' no exist!");
+        }
+    }
+
+    public AppInfo parseManifest(InputStream inputStream) throws Exception {
         AppInfo appInfo = new AppInfo();
-        try {
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream,"UTF-8");
-            BufferedReader bufReader = new BufferedReader(inputStreamReader);
-            String line;
-            StringBuilder builder = new StringBuilder();
-            while((line = bufReader.readLine()) != null){
-                builder.append(line);
-            }
-            bufReader.close();
-            inputStreamReader.close();
 
-            JSONObject json = new JSONObject(builder.toString());
-            appInfo.app_id = json.getString("id");
-            appInfo.version = json.getString(AppInfo.VERSION);
-            appInfo.name = json.getString(AppInfo.NAME);
-            appInfo.short_name = json.getString(AppInfo.SHORT_NAME);
-            appInfo.description = json.getString(AppInfo.DESCRIPTION);
-            appInfo.start_url = json.getString(AppInfo.START_URL);
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+        BufferedReader bufReader = new BufferedReader(inputStreamReader);
+        String line;
+        StringBuilder builder = new StringBuilder();
+        while ((line = bufReader.readLine()) != null) {
+            builder.append(line);
+        }
+        bufReader.close();
+        inputStreamReader.close();
 
+
+        JSONObject json = new JSONObject(builder.toString());
+
+        //Must
+        appInfo.app_id = getMustStrValue(json, "id");
+        appInfo.version = getMustStrValue(json, "version");
+        appInfo.name = getMustStrValue(json, "name");
+        appInfo.start_url = getMustStrValue(json, "start_url");
+
+        if (json.has(AppInfo.SHORT_NAME)) {
             JSONArray array = json.getJSONArray("icons");
             for (int i = 0; i < array.length(); i++) {
                 JSONObject icon = array.getJSONObject(i);
@@ -310,13 +301,36 @@ public class AppInstaller {
                 String type = icon.getString(AppInfo.TYPE);
                 appInfo.addIcon(src, sizes, type);
             }
+        }
+        else {
+            throw new Exception("Parse Manifest.json error: 'icons' no exist!");
+        }
 
+        //Optional
+        if (json.has(AppInfo.SHORT_NAME)) {
+            appInfo.short_name = json.getString(AppInfo.SHORT_NAME);
+        }
+
+        if (json.has(AppInfo.DESCRIPTION)) {
+            appInfo.description = json.getString(AppInfo.DESCRIPTION);
+        }
+
+        if (json.has(AppInfo.DEFAULT_LOCAL)) {
             appInfo.default_locale = json.getString(AppInfo.DEFAULT_LOCAL);
-            JSONObject author = json.getJSONObject("author");
-            appInfo.author_name = author.getString("name");
-            appInfo.author_email = author.getString("email");
+        }
 
-            array = json.getJSONArray("plugins");
+        if (json.has("author")) {
+            JSONObject author = json.getJSONObject("author");
+            if (author.has("name")) {
+                appInfo.author_name = author.getString("name");
+            }
+            if (author.has("email")) {
+                appInfo.author_email = author.getString("email");
+            }
+        }
+
+        if (json.has("plugins")) {
+            JSONArray array = json.getJSONArray("plugins");
             for (int i = 0; i < array.length(); i++) {
                 String plugin = array.getString(i);
                 int authority = AppInfo.AUTHORITY_NOINIT;
@@ -325,8 +339,10 @@ public class AppInstaller {
                 }
                 appInfo.addPlugin(plugin, authority);
             }
+        }
 
-            array = json.getJSONArray("urls");
+        if (json.has("urls")) {
+            JSONArray array = json.getJSONArray("urls");
             for (int i = 0; i < array.length(); i++) {
                 String url = array.getString(i);
                 int authority = AppInfo.AUTHORITY_NOINIT;
@@ -335,15 +351,29 @@ public class AppInstaller {
                 }
                 appInfo.addUrl(url, authority);
             }
-
-            appInfo.background_color = json.getString(AppInfo.BACKGROUND_COLOR);
-            appInfo.theme_display = json.getString(AppInfo.THEME_DISPLAY);
-            appInfo.theme_color = json.getString(AppInfo.THEME_COLOR);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         }
+
+        if (json.has(AppInfo.BACKGROUND_COLOR)) {
+            appInfo.background_color = json.getString(AppInfo.BACKGROUND_COLOR);
+        }
+
+        if (json.has("theme")) {
+            JSONObject theme = json.getJSONObject("theme");
+            if (theme.has(AppInfo.THEME_DISPLAY)) {
+                appInfo.theme_display = json.getString(AppInfo.THEME_DISPLAY);
+            }
+            if (theme.has(AppInfo.THEME_COLOR)) {
+                appInfo.theme_color = json.getString(AppInfo.THEME_COLOR);
+            }
+            if (theme.has(AppInfo.THEME_FONT_NAME)) {
+                appInfo.theme_font_name = json.getString(AppInfo.THEME_FONT_NAME);
+            }
+            if (theme.has(AppInfo.THEME_FONT_COLOR)) {
+                appInfo.theme_font_color = json.getString(AppInfo.THEME_FONT_COLOR);
+            }
+        }
+
+        appInfo.install_time = System.currentTimeMillis() / 1000;
 
         return appInfo;
     }

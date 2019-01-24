@@ -51,3 +51,7 @@ func getAssetsPath(_ url: String) -> String {
     return getAbsolutePath(String(substr));
 }
  
+ enum AppError: Error {
+    case error(String)
+ }
+ 

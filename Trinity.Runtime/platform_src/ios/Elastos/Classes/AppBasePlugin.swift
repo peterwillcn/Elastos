@@ -57,23 +57,35 @@
     
     @objc(launcher:)
     func launcher(_ command: CDVInvokedUrlCommand) {
-        if (AppManager.appManager!.loadLauncher()) {
+        do {
+            try AppManager.appManager!.loadLauncher();
             self.success(command, "ok");
-        }
-        else {
-            self.error(command, "error");
+        } catch AppError.error(let err) {
+            self.error(command, err);
+        } catch let error {
+            self.error(command, error.localizedDescription);
         }
     }
     
     @objc(start:)
     func start(_ command: CDVInvokedUrlCommand) {
         let id = command.arguments[0] as? String ?? ""
- 
-        if (id != "launcher" && AppManager.appManager!.start(id)) {
-            self.success(command, "ok");
+        
+        if (id == "") {
+            self.error(command, "Invalid id.")
+        }
+        else if (id == "launcher") {
+            self.error(command, "Can't start launcher! Please use launcher().")
         }
         else {
-            self.error(command, "error");
+            do {
+                try AppManager.appManager!.start(id);
+                self.success(command, "ok");
+            } catch AppError.error(let err) {
+                self.error(command, err);
+            } catch let error {
+                self.error(command, error.localizedDescription);
+            }
         }
     }
     
@@ -84,11 +96,18 @@
             appId = command.arguments[0] as? String ?? "";
         }
         
-        if (appId != nil && AppManager.appManager!.close(appId!)) {
-            self.success(command, "ok");
+        if (appId == nil || appId == "") {
+            self.error(command, "Invalid id.")
+            return
         }
-        else {
-            self.error(command, "error");
+        
+        do {
+            try AppManager.appManager!.close(appId!);
+            self.success(command, "ok");
+        } catch AppError.error(let err) {
+            self.error(command, err);
+        } catch let error {
+            self.error(command, error.localizedDescription);
         }
     }
     
@@ -98,11 +117,18 @@
         let type = command.arguments[1] as? Int ?? -1;
         let msg = command.arguments[2] as? String ?? "";
         
-        if (AppManager.appManager!.sendMessage(toId, type, msg, self.id!)) {
-            self.success(command, "ok");
+        if (toId == "") {
+            self.error(command, "Invalid id.")
+            return
         }
-        else {
-            self.error(command, "error");
+        
+        do {
+            try AppManager.appManager!.sendMessage(toId, type, msg, self.id!);
+            self.success(command, "ok");
+        } catch AppError.error(let err) {
+            self.error(command, err);
+        } catch let error {
+            self.error(command, error.localizedDescription);
         }
     }
 

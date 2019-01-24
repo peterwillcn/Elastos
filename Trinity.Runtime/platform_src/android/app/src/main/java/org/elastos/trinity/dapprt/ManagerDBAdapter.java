@@ -59,6 +59,9 @@ public class ManagerDBAdapter {
             contentValues.put(AppInfo.BACKGROUND_COLOR, info.background_color);
             contentValues.put(AppInfo.THEME_DISPLAY, info.theme_display);
             contentValues.put(AppInfo.THEME_COLOR, info.theme_color);
+            contentValues.put(AppInfo.THEME_FONT_NAME, info.theme_font_name);
+            contentValues.put(AppInfo.THEME_FONT_COLOR, info.theme_font_color);
+            contentValues.put(AppInfo.INSTALL_TIME, info.install_time);
             contentValues.put(AppInfo.BUILT_IN, info.built_in);
             long tid = db.insert(ManagerDBHelper.APP_TABLE, null, contentValues);
 
@@ -101,8 +104,9 @@ public class ManagerDBAdapter {
     private AppInfo[] getInfos(String selection, String[] selectionArgs) {
         SQLiteDatabase db = helper.getWritableDatabase();
         String[] columns = {AppInfo.TID, AppInfo.APP_ID, AppInfo.VERSION, AppInfo.NAME, AppInfo.SHORT_NAME, AppInfo.DESCRIPTION, AppInfo.START_URL,
-                AppInfo.AUTHOR_NAME, AppInfo.AUTHOR_EMAIL, AppInfo.DEFAULT_LOCAL,
-                AppInfo.BACKGROUND_COLOR, AppInfo.THEME_DISPLAY, AppInfo.THEME_COLOR, AppInfo.BUILT_IN};
+                AppInfo.AUTHOR_NAME, AppInfo.AUTHOR_EMAIL, AppInfo.DEFAULT_LOCAL, AppInfo.BACKGROUND_COLOR,
+                AppInfo.THEME_DISPLAY, AppInfo.THEME_COLOR, AppInfo.THEME_FONT_NAME, AppInfo.THEME_FONT_COLOR,
+                AppInfo.INSTALL_TIME, AppInfo.BUILT_IN};
         Cursor cursor = db.query(ManagerDBHelper.APP_TABLE, columns,selection, selectionArgs,null,null,null);
         AppInfo infos[] = new AppInfo[cursor.getCount()];
         int count = 0;
@@ -120,7 +124,10 @@ public class ManagerDBAdapter {
             info.default_locale = cursor.getString(cursor.getColumnIndex(AppInfo.DEFAULT_LOCAL));
             info.background_color = cursor.getString(cursor.getColumnIndex(AppInfo.BACKGROUND_COLOR));
             info.theme_display = cursor.getString(cursor.getColumnIndex(AppInfo.THEME_DISPLAY));
-            info.theme_color = cursor.getString(cursor.getColumnIndex(AppInfo.THEME_COLOR));
+            info.theme_font_name = cursor.getString(cursor.getColumnIndex(AppInfo.THEME_FONT_NAME));
+            info.theme_font_color = cursor.getString(cursor.getColumnIndex(AppInfo.THEME_FONT_COLOR));     info.theme_color = cursor.getString(cursor.getColumnIndex(AppInfo.THEME_COLOR));
+
+            info.install_time = cursor.getLong(cursor.getColumnIndex(AppInfo.INSTALL_TIME));
             info.built_in = cursor.getInt(cursor.getColumnIndex(AppInfo.BUILT_IN));
             infos[count++] = info;
 

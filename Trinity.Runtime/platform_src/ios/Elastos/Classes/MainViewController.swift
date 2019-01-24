@@ -64,7 +64,7 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        appManager!.loadLauncher();
+        try! appManager!.loadLauncher();
     }
     
     @objc func openURL(_ url: String) {

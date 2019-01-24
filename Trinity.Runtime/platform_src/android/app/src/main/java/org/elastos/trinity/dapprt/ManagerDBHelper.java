@@ -33,7 +33,6 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
     public static final String AUTH_URL_TABLE = "auth_url";
     public static final String AUTH_ICONS_TABLE = "icons";
     public static final String APP_TABLE = "app";
-    public boolean isCreatedTables = false;
 
     public ManagerDBHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
@@ -65,22 +64,23 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
         db.execSQL(strSQL);
 
         strSQL = "create table " + APP_TABLE + "(tid integer primary key autoincrement, " +
-                AppInfo.APP_ID + " varchar(128) UNIQUE, " +
-                AppInfo.VERSION + " varchar(32), " +
-                AppInfo.NAME + " varchar(128), " +
+                AppInfo.APP_ID + " varchar(128) UNIQUE NOT NULL, " +
+                AppInfo.VERSION + " varchar(32) NOT NULL, " +
+                AppInfo.NAME + " varchar(128) NOT NULL, " +
                 AppInfo.SHORT_NAME + " varchar(64), " +
                 AppInfo.DESCRIPTION + " varchar(256), " +
-                AppInfo.START_URL + " varchar(128), " +
+                AppInfo.START_URL + " varchar(256) NOT NULL, " +
                 AppInfo.AUTHOR_NAME + " varchar(128), " +
                 AppInfo.AUTHOR_EMAIL + " varchar(128), " +
                 AppInfo.DEFAULT_LOCAL + " varchar(16), " +
                 AppInfo.BACKGROUND_COLOR + " varchar(32), " +
                 AppInfo.THEME_DISPLAY + " varchar(32), " +
                 AppInfo.THEME_COLOR + " varchar(32), " +
+                AppInfo.THEME_FONT_NAME + " varchar(64), " +
+                AppInfo.THEME_FONT_COLOR + " varchar(32), " +
+                AppInfo.INSTALL_TIME + " integer, " +
                 AppInfo.BUILT_IN + " integer)";
         db.execSQL(strSQL);
-
-        isCreatedTables = true;
     }
 
     public void dropAllTabel(SQLiteDatabase db) {
@@ -88,7 +88,6 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + AUTH_URL_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + AUTH_ICONS_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + APP_TABLE);
-        isCreatedTables = false;
     }
 
     @Override

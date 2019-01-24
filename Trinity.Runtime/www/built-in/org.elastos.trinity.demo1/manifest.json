@@ -1,5 +1,5 @@
 {
-  "id": "org.elastos.trinity.demo1",
+  "id": "org.elastos.trinity.demo1", 
   "version": "0.0.2",
   "name": "Demo1",
   "short_name": "demo1",
@@ -30,6 +30,10 @@
     "https://www.google.com"
   ],
   "background_color": "#4e8ef7",
-  "theme_display": "show",
-  "theme_color": "#4e8ef7"
+  "theme": {
+    "display": "show",
+    "color": "#4e8ef7",
+    "font_name": "default",
+    "font_color": "#4e8ef7"
+  }
 }

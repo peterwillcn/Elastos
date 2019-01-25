@@ -100,4 +100,12 @@ public class LauncherViewFragment extends WebViewFragment {
         }
 //        Config.parser = parser;
     }
+
+    @Override
+    public Object onMessage(String id, Object data) {
+        if ("exit".equals(id)) {
+            getActivity().finish();
+        }
+        return null;
+    }
 }

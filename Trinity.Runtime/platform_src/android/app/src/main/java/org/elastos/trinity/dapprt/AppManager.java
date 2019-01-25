@@ -30,12 +30,12 @@ import android.content.res.AssetManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 
 import org.apache.cordova.CordovaWebView;
 import org.elastos.trinity.runtime.R;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,7 +57,7 @@ public class AppManager {
 
     public static AppManager appManager;
     private WebViewActivity activity;
-    private WebViewFragment curFragment = null;
+    public WebViewFragment curFragment = null;
     ManagerDBAdapter dbAdapter = null;
 
     public String appsPath = null;
@@ -554,5 +554,19 @@ public class AppManager {
     public String[] getLastList() {
         String[] ids = new String[lastList.size()];
         return lastList.toArray(ids);
+    }
+
+
+    public void flingTheme() {
+        if (curFragment.id.equals("launcher")) {
+            return;
+        }
+
+        AppViewFragment fragment = (AppViewFragment) curFragment;
+        if (fragment.titlebar.getVisibility() == View.VISIBLE) {
+            fragment.titlebar.setVisibility(View.GONE);
+        } else {
+            fragment.titlebar.setVisibility(View.VISIBLE);
+        }
     }
 }

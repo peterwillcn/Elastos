@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import org.apache.cordova.CordovaInterfaceImpl;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 
 public class AppViewFragment extends WebViewFragment {
     public AppInfo appInfo;
+    View titlebar;
 
     public static WebViewFragment newInstance(String id) {
         if (id != null) {
@@ -86,9 +88,24 @@ public class AppViewFragment extends WebViewFragment {
         LinearLayout rootView = new LinearLayout(this.getContext());
         rootView.setOrientation(LinearLayout.VERTICAL);
 
-        View titlebar = inflater.inflate(R.layout.title_bar, null);
+        titlebar = inflater.inflate(R.layout.title_bar, null);
 
-//        rootView.addView(titlebar);
+        rootView.addView(titlebar);
+        titlebar.setVisibility(View.GONE);
+
+        Button btnClose =(Button) titlebar.findViewById(R.id.btnClose);
+        btnClose.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    AppManager.appManager.close(id);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         rootView.addView(appView.getView());
 
         return rootView;
@@ -139,4 +156,43 @@ public class AppViewFragment extends WebViewFragment {
             }
         }
     }
+
+    //------------------------
+//    public boolean onDown (MotionEvent e) {
+//        return false;
+//    }
+//
+//    public void onShowPress(MotionEvent e) {
+//
+//    }
+//
+//    public boolean onSingleTapUp(MotionEvent e) {
+//        return false;
+//    }
+//
+//    public boolean onScroll(MotionEvent e1, MotionEvent e2,
+//                            float distanceX, float distanceY) {
+//        return false;
+//    }
+//
+//    public void onLongPress(MotionEvent e)  {
+//
+//    }
+//
+//
+//
+//    public boolean onFling(MotionEvent e1, MotionEvent e2,
+//                           float velocityX, float velocityY) {
+//
+//        try {
+//            if (e1.getY() - e2.getY() < -89) {
+//                flingTop();
+//                return true;
+//            }
+//
+//        } catch (Exception e) {
+//        }
+//        return false;
+//    }
+
 }

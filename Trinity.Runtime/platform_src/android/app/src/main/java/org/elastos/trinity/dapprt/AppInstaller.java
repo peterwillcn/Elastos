@@ -292,7 +292,7 @@ public class AppInstaller {
         appInfo.name = getMustStrValue(json, "name");
         appInfo.start_url = getMustStrValue(json, "start_url");
 
-        if (json.has(AppInfo.SHORT_NAME)) {
+        if (json.has("icons")) {
             JSONArray array = json.getJSONArray("icons");
             for (int i = 0; i < array.length(); i++) {
                 JSONObject icon = array.getJSONObject(i);

@@ -27,6 +27,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 
 import org.elastos.trinity.runtime.R;
 
@@ -36,6 +38,7 @@ import org.elastos.trinity.runtime.R;
 public class WebViewActivity extends FragmentActivity {
     static Dialog dialog;
     protected AppManager appManager;
+    private GestureDetector gestureDetector;
 
     private void getInstallUri() {
         Intent intent = getIntent();
@@ -58,6 +61,8 @@ public class WebViewActivity extends FragmentActivity {
         appManager = new AppManager(this);
 
         getInstallUri();
+
+        gestureDetector = new GestureDetector(this, onGestureListener);
 
 //        Bundle b = getIntent().getExtras();
 //        String url = b.getString("url");
@@ -165,4 +170,27 @@ public class WebViewActivity extends FragmentActivity {
             return false;
         }
     }
+
+    @Override
+    public boolean dispatchTouchEvent (MotionEvent ev) {
+        if (!appManager.curFragment.id.equals("launcher")) {
+            gestureDetector.onTouchEvent(ev);
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private GestureDetector.OnGestureListener onGestureListener =
+            new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+                                       float velocityY) {
+                    float x = e2.getX() - e1.getX();
+                    float y = e2.getY() - e1.getY();
+
+                    if (y > 80) {
+                        appManager.flingTheme();
+                    }
+                    return true;
+                }
+            };
 }

@@ -38,7 +38,7 @@
      }
  }
  
-@@ -170,9 +171,15 @@
+@@ -169,9 +170,15 @@
  
          if (cdvMinSdkVersion != null) {
              minSdkVersion cdvMinSdkVersion
@@ -54,29 +54,6 @@
      lintOptions {
        abortOnError false;
      }
-@@ -266,7 +273,7 @@
-     implementation fileTree(dir: 'libs', include: '*.jar')
-     // SUB-PROJECT DEPENDENCIES START
-     implementation(project(path: ":CordovaLib"))
--    compile "com.android.support:support-v4:27.+"
-+    implementation 'com.android.support:support-v4:27.+'
-     // SUB-PROJECT DEPENDENCIES END
- }
- 
-===================================================================
---- origin_platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gradle	null
-+++ platforms/android/elastos-trinity-plugins-qrscanner/runtime-qrscanner.gradle	null
-@@ -3,8 +3,8 @@
- }
- 
- dependencies {
--    compile 'com.journeyapps:zxing-android-embedded:3.3.0'
--    compile 'com.android.support:appcompat-v7:23.1.0'
-+    implementation 'com.journeyapps:zxing-android-embedded:3.3.0'
-+    implementation 'com.android.support:appcompat-v7:23.1.0'
- }
- 
- android {
 ===================================================================
 --- origin_platforms/android/build.gradle	null
 +++ platforms/android/build.gradle	null

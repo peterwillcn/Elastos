@@ -14,6 +14,8 @@
         "appservice": "file:../Plugins/AppService",
         "cordova-android": "7.1.4",
         "cordova-ios": "4.5.5",
+        "cordova-plugin-add-swift-support": "^1.7.2",
+        "cordova-plugin-compat": "^1.2.0",
         "cordova-plugin-file": "file:../Plugins/File",
         "cordova-plugin-whitelist": "^1.3.3",
         "diff": "^3.5.0",
@@ -33,6 +35,7 @@
         "elastos-trinity-plugins-splashscreen": "file:../Plugins/SplashScreen",
         "elastos-trinity-plugins-statusbar": "file:../Plugins/Statusbar",
         "elastos-trinity-plugins-vibration": "file:../Plugins/Vibration",
+        "es6-promise-plugin": "^4.2.2",
         "md5-file": "^4.0.0",
         "mkdirp": "^0.5.1",
         "node-wget-promise": "^0.1.6",
@@ -43,26 +46,32 @@
     "cordova": {
         "plugins": {
             "cordova-plugin-whitelist": {},
-            "elastos-trinity-plugins-appmanager": {},
+            "elastos-trinity-plugins-appmanager": {
+                "ANDROID_SUPPORT_V4_VERSION": "27.+"
+            },
             "elastos-trinity-plugins-appservice": {},
-            "elastos-trinity-plugins-battery-status": {},
-            "elastos-trinity-plugins-camera": {},
-            "elastos-trinity-plugins-device": {},
-            "elastos-trinity-plugins-device-motion": {},
-            "elastos-trinity-plugins-dialogs": {},
-            "cordova-plugin-file": {},
-            "elastos-trinity-plugins-flashlight": {},
-            "elastos-trinity-plugins-geolocation": {},
-            "elastos-trinity-plugins-inappbrowser": {},
-            "elastos-trinity-plugins-media": {},
-            "elastos-trinity-plugins-capture": {},
-            "elastos-trinity-plugins-network-information": {},
             "elastos-trinity-plugins-plugindemo": {},
-            "elastos-trinity-plugins-qrscanner": {},
-            "elastos-trinity-plugins-screen-orientation": {},
-            "elastos-trinity-plugins-splashscreen": {},
+            "cordova-plugin-file": {},
+            "elastos-trinity-plugins-dialogs": {},
+            "elastos-trinity-plugins-geolocation": {},
+            "elastos-trinity-plugins-media": {
+                "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO"
+            },
+            "elastos-trinity-plugins-flashlight": {},
+            "elastos-trinity-plugins-device": {},
+            "elastos-trinity-plugins-vibration": {},
             "elastos-trinity-plugins-statusbar": {},
-            "elastos-trinity-plugins-vibration": {}
+            "elastos-trinity-plugins-device-motion": {},
+            "elastos-trinity-plugins-splashscreen": {},
+            "elastos-trinity-plugins-battery-status": {},
+            "elastos-trinity-plugins-capture": {},
+            "elastos-trinity-plugins-screen-orientation": {},
+            "elastos-trinity-plugins-inappbrowser": {},
+            "elastos-trinity-plugins-network-information": {},
+            "elastos-trinity-plugins-camera": {
+                "ANDROID_SUPPORT_V4_VERSION": "27.+"
+            },
+            "elastos-trinity-plugins-qrscanner": {}
         },
         "platforms": [
             "android",

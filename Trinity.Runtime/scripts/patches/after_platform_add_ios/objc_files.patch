@@ -172,11 +172,8 @@
          self.permittedSchemes = nil;
      } else { // specific access
          NSRegularExpression* parts = [NSRegularExpression regularExpressionWithPattern:@"^((\\*|[A-Za-z-]+):/?/?)?(((\\*\\.)?[^*/:]+)|\\*)?(:(\\d+))?(/.*)?" options:0 error:nil];
-@@ -205,9 +207,12 @@
-             if (scheme == nil) {
-                 // XXX making it stupid friendly for people who forget to include protocol/SSL
+@@ -207,7 +209,9 @@
                  [self.whitelist addObject:[[CDVWhitelistPattern alloc] initWithScheme:@"http" host:host port:port path:path]];
-+          
                  [self.whitelist addObject:[[CDVWhitelistPattern alloc] initWithScheme:@"https" host:host port:port path:path]];
              } else {
 -                [self.whitelist addObject:[[CDVWhitelistPattern alloc] initWithScheme:scheme host:host port:port path:path]];
@@ -186,7 +183,7 @@
              }
  
              if (self.permittedSchemes != nil) {
-@@ -238,6 +243,11 @@
+@@ -238,6 +242,11 @@
      return [self URLIsAllowed:url logFailure:YES];
  }
  
@@ -198,7 +195,7 @@
  - (BOOL)URLIsAllowed:(NSURL*)url logFailure:(BOOL)logFailure
  {
      // Shortcut acceptance: Are all urls whitelisted ("*" in whitelist)?
-@@ -266,7 +276,9 @@
+@@ -266,7 +275,9 @@
      // Check the url against patterns in the whitelist
      for (CDVWhitelistPattern* p in self.whitelist) {
          if ([p matches:url]) {

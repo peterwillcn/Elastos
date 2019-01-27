@@ -1,29 +1,31 @@
-#!/usr/bin/env node
 "use strict";
 
-if (process.env.CORDOVA_PLATFORMS
-    && !process.env.CORDOVA_PLATFORMS.includes('ios')) {
-    console.log("Skipped modify XCode project for non-IOS platform.")
-    process.exit(0)
-}
+module.exports = function(ctx) {
+  // console.log(JSON.stringify(ctx, null, 2));
 
-let xcode = require('xcode'),
-    fs = require('fs'),
-    path = require('path'),
-    runtimeProjPath = 'platforms/ios/Elastos.xcodeproj/project.pbxproj',
-    runtimeProj = xcode.project(runtimeProjPath),
-    cordovaProjPath = 'platforms/ios/CordovaLib/CordovaLib.xcodeproj/project.pbxproj',
-    cordovaProj = xcode.project(cordovaProjPath);
+  // make sure ios platform is part of platform add
+  if (!ctx.opts.platforms.some((val) => val.startsWith("ios"))) {
+    return;
+  }
 
-runtimeProj.parse(function (err) {
+  const fs = ctx.requireCordovaModule('fs'),
+        path = ctx.requireCordovaModule('path'),
+        xcode = require('xcode');
+
+  let runtimeProjPath = 'platforms/ios/Elastos.xcodeproj/project.pbxproj',
+      runtimeProj = xcode.project(runtimeProjPath),
+      cordovaProjPath = 'platforms/ios/CordovaLib/CordovaLib.xcodeproj/project.pbxproj',
+      cordovaProj = xcode.project(cordovaProjPath);
+
+  runtimeProj.parse(function (err) {
     //
     // Embed frameworks and binaries
     //
     let embed = true;
     let existsEmbedFrameworks = runtimeProj.buildPhaseObject('PBXCopyFilesBuildPhase', 'Embed Frameworks');
     if (!existsEmbedFrameworks && embed) {
-        // "Embed Frameworks" Build Phase (Embedded Binaries) does not exist, creating it.
-        runtimeProj.addBuildPhase([], 'PBXCopyFilesBuildPhase', 'Embed Frameworks', null, 'frameworks');
+      // "Embed Frameworks" Build Phase (Embedded Binaries) does not exist, creating it.
+      runtimeProj.addBuildPhase([], 'PBXCopyFilesBuildPhase', 'Embed Frameworks', null, 'frameworks');
     }
 
     let options = { customFramework: true, embed: embed };
@@ -75,22 +77,22 @@ runtimeProj.parse(function (err) {
     let sourceDirectory = "platforms/ios/SSZipArchive";
 
     function fromDir(startPath,filter,callback){
-        if (!fs.existsSync(startPath)){
-            console.log("no dir ",startPath);
-            return;
-        }
+      if (!fs.existsSync(startPath)){
+        console.log("no dir ",startPath);
+        return;
+      }
 
-        let files=fs.readdirSync(startPath);
-        for(let i=0;i<files.length;i++){
-            let filename = files[i];
-            let filepath = path.join(startPath,filename);
-            let stat = fs.lstatSync(filepath);
-            if (stat.isDirectory()){
-                callback(startPath, filename);
-                fromDir(filepath,filter,callback); //recurse
-            }
-            else if (filter.test(filepath)) callback(startPath, filename);
-        };
+      let files=fs.readdirSync(startPath);
+      for(let i=0;i<files.length;i++){
+        let filename = files[i];
+        let filepath = path.join(startPath,filename);
+        let stat = fs.lstatSync(filepath);
+        if (stat.isDirectory()){
+          callback(startPath, filename);
+          fromDir(filepath,filter,callback); //recurse
+        }
+        else if (filter.test(filepath)) callback(startPath, filename);
+      };
     };
 
     fromDir(sourceDirectory,/(\.h$|\.m$|\.c$)/,function(startPath,filename){
@@ -100,26 +102,26 @@ runtimeProj.parse(function (err) {
         let parentGroupName = path.basename(relativePath);
         let parentGroupKey = runtimeProj.findPBXGroupKeyAndType({ name: parentGroupName }, 'PBXGroup');
         if (!parentGroupKey) {
-            let parentGroupPath = '"' +parentGroupName + '"';
-            let newGroup = runtimeProj.addPbxGroup([], parentGroupName, parentGroupPath, 'SOURCE_ROOT');
-            let customTemplate = runtimeProj.findPBXGroupKeyAndType({ name: 'CustomTemplate' }, 'PBXGroup');
-            runtimeProj.addToPbxGroup(newGroup.uuid, customTemplate, 'PBXGroup');
-            parentGroupKey = newGroup.uuid;
+          let parentGroupPath = '"' +parentGroupName + '"';
+          let newGroup = runtimeProj.addPbxGroup([], parentGroupName, parentGroupPath, 'SOURCE_ROOT');
+          let customTemplate = runtimeProj.findPBXGroupKeyAndType({ name: 'CustomTemplate' }, 'PBXGroup');
+          runtimeProj.addToPbxGroup(newGroup.uuid, customTemplate, 'PBXGroup');
+          parentGroupKey = newGroup.uuid;
         }
 
         let stat = fs.lstatSync(filepath);
         if (stat.isDirectory()){
-            let groupName = filename;
-            let groupPath = '"' + path.join(relativePath, groupName) + '"';
-            let newGroup = runtimeProj.addPbxGroup([], groupName, groupPath, 'SOURCE_ROOT');
-            runtimeProj.addToPbxGroup(newGroup.uuid, parentGroupKey, 'PBXGroup');
-            return;
+          let groupName = filename;
+          let groupPath = '"' + path.join(relativePath, groupName) + '"';
+          let newGroup = runtimeProj.addPbxGroup([], groupName, groupPath, 'SOURCE_ROOT');
+          runtimeProj.addToPbxGroup(newGroup.uuid, parentGroupKey, 'PBXGroup');
+          return;
         } else {
-            let groupName = path.basename(startPath);
-            let groupKey = runtimeProj.findPBXGroupKeyAndType({ name: groupName }, 'PBXGroup');
-            if (groupKey) {
-                runtimeProj.addSourceFile(filename, {}, groupKey);
-            }
+          let groupName = path.basename(startPath);
+          let groupKey = runtimeProj.findPBXGroupKeyAndType({ name: groupName }, 'PBXGroup');
+          if (groupKey) {
+            runtimeProj.addSourceFile(filename, {}, groupKey);
+          }
         }
     });
 
@@ -128,8 +130,8 @@ runtimeProj.parse(function (err) {
     // Add a "Run Script" build phase
     //
     options = {
-        shellPath: '/bin/sh',
-        shellScript: 'bash "${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework/strip-frameworks.sh"'
+      shellPath: '/bin/sh',
+      shellScript: 'bash "${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework/strip-frameworks.sh"'
     };
     runtimeProj.addBuildPhase([], 'PBXShellScriptBuildPhase', 'Run Script', runtimeProj.getFirstTarget().uuid, options).buildPhase;
 
@@ -137,24 +139,27 @@ runtimeProj.parse(function (err) {
     //
     // Write back the new XCode project
     //
+    console.log("Writing to " + runtimeProjPath);
     fs.writeFileSync(runtimeProjPath, runtimeProj.writeSync());
-});
+  });
 
-cordovaProj.parse(function (err) {
+  cordovaProj.parse(function (err) {
     //
     // Make the "CDVIntentAndNavigationFilter.h" file public
     //
     let uuid;
     for (uuid in cordovaProj.pbxBuildFileSection()) {
-        if (cordovaProj.pbxBuildFileSection()[uuid].fileRef_comment == 'CDVIntentAndNavigationFilter.h') {
-            let file = cordovaProj.pbxBuildFileSection()[uuid];
-            file.settings =  { ATTRIBUTES: [ 'Public' ] };
-        }
+      if (cordovaProj.pbxBuildFileSection()[uuid].fileRef_comment == 'CDVIntentAndNavigationFilter.h') {
+        let file = cordovaProj.pbxBuildFileSection()[uuid];
+        file.settings =  { ATTRIBUTES: [ 'Public' ] };
+      }
     }
 
 
     //
     // Write back the new XCode project
     //
+    console.log("Writing to " + cordovaProjPath);
     fs.writeFileSync(cordovaProjPath, cordovaProj.writeSync());
-});
+  });
+}

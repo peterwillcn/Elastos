@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 import os
 import sys
@@ -64,6 +64,7 @@ if args.target == "all":
 
 if args.target == "runtime" or args.target == "all":
     os.chdir(RUNTIME_DIR_PATH)
-    run_cmd("cordova prepare", ignore_error=True)
+    run_cmd("cordova prepare")
+    run_cmd("cordova build android")
 
 print("Done")

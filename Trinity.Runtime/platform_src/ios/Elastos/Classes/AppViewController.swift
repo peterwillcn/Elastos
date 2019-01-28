@@ -27,6 +27,8 @@
     static var originalStartupPluginNames = [String]();
     static var originalSettings: NSMutableDictionary?;
     
+    var titlebar: UIView?;
+    
     var appInfo: AppInfo?;
     var trinityPluginsMap = [String: String]();
     let defaultPlugins = [
@@ -115,23 +117,41 @@
         return obj as Any;
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);
         
-//        let frame = self.view.bounds;
-//        let titleHeight = CGFloat(20);
-//        print(frame.origin.y);
-//        
-//        let labelRect = CGRect(x: frame.origin.x, y: frame.origin.y,
-//                               width: frame.size.width, height: titleHeight);
-//        let label = UILabel.init(frame: labelRect);
-//        label.text = "Text";
-//        self.view.addSubview(label)
+        let frame = self.view.bounds;
+        let titleHeight = CGFloat(45);
+        print(frame.origin.y);
+        
+        let titleRect = CGRect(x: frame.origin.x, y: frame.origin.y + 20,
+                               width: frame.size.width, height: titleHeight);
+        titlebar = UIView(frame: titleRect);
+        titlebar!.backgroundColor = UIColor(red: 0 / 255.0, green: 0 / 255.0, blue: 0 / 255.0, alpha: 0.5)
+        
+        let btnClose = UIButton(type: .custom);
+        btnClose.frame = CGRect(x:frame.size.width - 80, y: 5, width:70, height:35);
+        btnClose.setTitle("Close", for:.normal);
+        btnClose.backgroundColor = UIColor.black;
+        btnClose.layer.cornerRadius = 5;
+        btnClose.addTarget(self, action:#selector(btnClick), for:.touchDown);
+        
+        titlebar!.addSubview(btnClose);
+        titlebar!.isHidden = true;
+        self.view.addSubview(titlebar!);
+        self.view.bringSubviewToFront(titlebar!);
 //        self.webViewEngine.engineWebView.frame = CGRect(x: frame.origin.x,
 //                                                        y: frame.origin.y + titleHeight,
 //                                                        width: frame.width,
 //                                                        height: frame.height - titleHeight);
         
+        
+    }
+    
+    
+    @objc func btnClick(){
+        try? AppManager.appManager!.close(id);
     }
     
     override func viewDidLoad() {
@@ -143,5 +163,18 @@
                 self.basePlugin = plugin;
             }
         }
+        
+        let swipe = UISwipeGestureRecognizer(target:self, action:#selector(handleSwipes(_:)));
+        swipe.direction = .down;
+        self.webView.addGestureRecognizer(swipe);
+        self.webView.scrollView.panGestureRecognizer.require(toFail: swipe);
+    }
+    
+    @objc func handleSwipes(_ recognizer:UISwipeGestureRecognizer){
+//        print("swipe ok")
+//        let point=recognizer.location(in: self.view)
+//        print(point.x)
+//        print(point.y)
+        titlebar!.isHidden = !titlebar!.isHidden;
     }
  }

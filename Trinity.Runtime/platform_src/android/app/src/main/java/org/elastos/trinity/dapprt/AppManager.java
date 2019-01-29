@@ -27,13 +27,15 @@ import android.app.AlertDialog;
 //import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
-import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.PluginManager;
 import org.elastos.trinity.runtime.R;
+import org.json.JSONException;
 
 import java.io.File;
 import java.io.InputStream;
@@ -65,7 +67,6 @@ public class AppManager {
 
     private AppInstaller installer;
 
-    protected HashMap<String, CordovaWebView> appViews;
     protected LinkedHashMap<String, AppInfo> appInfos;
     private ArrayList<String> lastList = new ArrayList<String>();
     public AppInfo[] appList;
@@ -569,4 +570,33 @@ public class AppManager {
             fragment.titlebar.setVisibility(View.VISIBLE);
         }
     }
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        FragmentManager manager = activity.getSupportFragmentManager();
+        List<Fragment> fragments = manager.getFragments();
+
+        for (int i = 0; i < fragments.size(); i++) {
+            WebViewFragment fragment = (WebViewFragment)fragments.get(i);
+            if (fragment != null && fragment.appView != null) {
+                PluginManager pm = fragment.appView.getPluginManager();
+                if (pm != null) {
+                    pm.onConfigurationChanged(newConfig);
+                }
+            }
+        }
+    }
+
+    public void onRequestPermissionResult(int requestCode, String permissions[],
+                                           int[] grantResults) throws JSONException {
+        FragmentManager manager = activity.getSupportFragmentManager();
+        List<Fragment> fragments = manager.getFragments();
+
+        for (int i = 0; i < fragments.size(); i++) {
+            WebViewFragment fragment = (WebViewFragment)fragments.get(i);
+            if (fragment != null) {
+                fragment.onRequestPermissionResult(requestCode, permissions, grantResults);;
+            }
+        }
+    }
+
 }

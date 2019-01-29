@@ -39,6 +39,8 @@ import org.elastos.trinity.runtime.R;
 import java.util.ArrayList;
 
 public class AppViewFragment extends WebViewFragment {
+    public static String TAG = "AppViewFragment";
+
     public AppInfo appInfo;
     View titlebar;
 
@@ -70,24 +72,18 @@ public class AppViewFragment extends WebViewFragment {
 
         id = getArguments().getString("id");
 
-        cordovaInterface =  new CordovaInterfaceImpl(getActivity());
-        if(savedInstanceState != null) {
-            cordovaInterface.restoreInstanceState(savedInstanceState);
-        }
-
-        pluginEntries = new ArrayList<PluginEntry>(20);
-        loadConfig(id);
-        init();
-
-        // If keepRunning
-        this.keepRunning = preferences.getBoolean("KeepRunning", true);
-
-        String startPage = AppManager.appManager.getStartPath(appInfo);
-        appView.loadUrlIntoView(startPage, true);
+        super.onCreateView(inflater, container, savedInstanceState);
 
         LinearLayout rootView = new LinearLayout(this.getContext());
         rootView.setOrientation(LinearLayout.VERTICAL);
 
+        addTitleBar(inflater, rootView);
+        rootView.addView(appView.getView());
+
+        return rootView;
+    }
+
+    private void addTitleBar(LayoutInflater inflater, LinearLayout rootView) {
         titlebar = inflater.inflate(R.layout.title_bar, null);
 
         rootView.addView(titlebar);
@@ -105,10 +101,6 @@ public class AppViewFragment extends WebViewFragment {
                 }
             }
         });
-
-        rootView.addView(appView.getView());
-
-        return rootView;
     }
 
     private boolean isCheckAuthority(String name) {
@@ -120,12 +112,14 @@ public class AppViewFragment extends WebViewFragment {
         return false;
     }
 
-    protected void loadConfig(String id) {
+    @Override
+    protected void loadConfig() {
 
+        pluginEntries = new ArrayList<PluginEntry>(20);
         appInfo = AppManager.appManager.getAppInfo(id);
         preferences = cfgPreferences;
 
-
+        launchUrl = AppManager.appManager.getStartPath(appInfo);
         String pluginClass;
 
         AppWhitelistPlugin whitelistPlugin = new AppWhitelistPlugin(appInfo);

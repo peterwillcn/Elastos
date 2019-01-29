@@ -46,13 +46,5 @@ public class MainActivity extends WebViewActivity
             if (0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE))
             { WebView.setWebContentsDebuggingEnabled(true); }
         }
-
-        // Set by <content src="index.html" /> in config.xml
-        try {
-            appManager.loadLauncher();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
     }
 }

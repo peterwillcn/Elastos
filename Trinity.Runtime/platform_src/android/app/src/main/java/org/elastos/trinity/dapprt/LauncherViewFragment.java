@@ -22,19 +22,23 @@
 
 package org.elastos.trinity.dapprt;
 
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.apache.cordova.ConfigXmlParser;
-import org.apache.cordova.CordovaInterfaceImpl;
+import org.apache.cordova.LOG;
 import org.apache.cordova.PluginEntry;
 import org.elastos.trinity.plugins.appmanager.AppManagerPlugin;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class LauncherViewFragment extends WebViewFragment {
+ public class LauncherViewFragment extends WebViewFragment {
+    public static String TAG = "LauncherViewFragment";
+
     static ArrayList<PluginEntry> allPluginEntries;
 
     public static WebViewFragment newInstance() {
@@ -45,40 +49,21 @@ public class LauncherViewFragment extends WebViewFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        View view = super.onCreateView(inflater, container, savedInstanceState);
-
-        cordovaInterface =  new CordovaInterfaceImpl(getActivity());
-        if(savedInstanceState != null) {
-            cordovaInterface.restoreInstanceState(savedInstanceState);
-        }
-
         id = "launcher";
-
-//        super.onActivityCreated(savedInstanceState);
-//        // Restore State Here
-//        if (!restoreStateFromArguments()) {
-//            // First Time running, Initialize something here
-//        }
-
-        loadConfig();
-
-        init();
-
-        // If keepRunning
-        this.keepRunning = preferences.getBoolean("KeepRunning", true);
-
-        appView.loadUrlIntoView(launchUrl, true);
+        super.onCreateView(inflater, container, savedInstanceState);
 
         LauncherViewFragment.allPluginEntries = pluginEntries;
         return appView.getView();
     }
 
+    @Override
     protected void loadConfig() {
         ConfigXmlParser parser = new ConfigXmlParser();
         parser.parse(getActivity());
         preferences = parser.getPreferences();
         preferences.setPreferencesBundle(getActivity().getIntent().getExtras());
         launchUrl = parser.getLaunchUrl();
+
         ArrayList<PluginEntry> entries = parser.getPluginEntries();
         cfgPreferences = preferences;
 //        cfgPluginEntries = pluginEntries;
@@ -98,11 +83,23 @@ public class LauncherViewFragment extends WebViewFragment {
                 cfgPluginEntries.add(entry);
             }
         }
+
+        String logLevel = preferences.getString("loglevel", "ERROR");
+        LOG.setLogLevel(logLevel);
+
+        // Wire the hardware volume controls to control media if desired.
+        String volumePref = preferences.getString("DefaultVolumeStream", "");
+        if ("media".equals(volumePref.toLowerCase(Locale.ENGLISH))) {
+            getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        }
+
 //        Config.parser = parser;
     }
 
     @Override
     public Object onMessage(String id, Object data) {
+        super.onMessage(id, data);
+
         if ("exit".equals(id)) {
             getActivity().finish();
         }

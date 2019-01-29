@@ -22,21 +22,25 @@
 
 package org.elastos.trinity.dapprt;
 
-import android.app.Dialog;
+
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
+import org.apache.cordova.LOG;
 import org.elastos.trinity.runtime.R;
+import org.json.JSONException;
 
 //import android.support.v4.view.ViewPager;
 //import android.support.v4.app.FragmentPagerAdapter;
 
 public class WebViewActivity extends FragmentActivity {
-    static Dialog dialog;
+    public static String TAG = "WebViewActivity";
+
     protected AppManager appManager;
     private GestureDetector gestureDetector;
 
@@ -63,6 +67,15 @@ public class WebViewActivity extends FragmentActivity {
         getInstallUri();
 
         gestureDetector = new GestureDetector(this, onGestureListener);
+
+        // Set by <content src="index.html" /> in config.xml
+        try {
+            appManager.loadLauncher();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
 
 //        Bundle b = getIntent().getExtras();
 //        String url = b.getString("url");
@@ -97,10 +110,38 @@ public class WebViewActivity extends FragmentActivity {
         }
     }
 
-//    protected void onSaveInstanceState(Bundle outState) {
-//        cordovaInterface.onSaveInstanceState(outState);
-//        super.onSaveInstanceState(outState);
-//    }
+    /**
+     * Called by the system when the device configuration changes while your activity is running.
+     *
+     * @param newConfig The new device configuration
+     */
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        appManager.onConfigurationChanged(newConfig);
+    }
+
+    /**
+     * Called by the system when the user grants permissions
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[],
+                                           int[] grantResults) {
+        try
+        {
+            appManager.onRequestPermissionResult(requestCode, permissions, grantResults);
+        }
+        catch (JSONException e)
+        {
+            LOG.d(TAG, "JSONException: Parameters fed into the method are not valid");
+            e.printStackTrace();
+        }
+
+    }
 
 //    public static boolean showLoading() {
 //        // Loading spinner

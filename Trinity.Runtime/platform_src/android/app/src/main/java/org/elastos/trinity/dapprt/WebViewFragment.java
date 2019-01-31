@@ -22,17 +22,11 @@
 
 package org.elastos.trinity.dapprt;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.content.Context;
-import android.content.ContextWrapper;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,55 +35,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import org.apache.cordova.CallbackMap;
-import org.apache.cordova.ConfigXmlParser;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaInterfaceImpl;
-import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaPreferences;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CordovaWebViewEngine;
 import org.apache.cordova.CordovaWebViewImpl;
-import org.apache.cordova.CoreAndroid;
 import org.apache.cordova.LOG;
 import org.apache.cordova.PluginEntry;
-import org.apache.cordova.PluginManager;
-import org.apache.cordova.PluginResult;
-import org.apache.cordova.ResumeCallback;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 
 /**
  * This is the Home section fragment that implements {@link CordovaInterface} and uses a layout that contains
  * a {@link CordovaWebView}.
  *
  */
-public class WebViewFragment extends Fragment implements CordovaInterface {
+public class WebViewFragment extends Fragment {
     private static final String TAG = "WebViewFragment";
 
     protected static CordovaPreferences cfgPreferences;
     protected static ArrayList<PluginEntry> cfgPluginEntries;
 
-    // Plugin to call when activity result is received
-    protected CordovaPlugin activityResultCallback = null;
-    protected boolean activityResultKeepRunning;
-
-
     protected Activity activity;
-    protected PluginManager pluginManager;
-
-    protected ActivityResultHolder savedResult;
-    protected CallbackMap permissionResultCallbacks = new CallbackMap();
-    protected String initCallbackService;
-    protected int activityResultRequestCode;
-    protected boolean activityWasDestroyed = false;
-    protected Bundle savedPluginState;
 
     // Keep app running when pause is received. (default = true)
     // If true, then the JavaScript and native code continue to run in the background
@@ -101,15 +70,10 @@ public class WebViewFragment extends Fragment implements CordovaInterface {
     protected int viewId = 100;
     protected CordovaPreferences preferences;
     protected ArrayList<PluginEntry> pluginEntries;
-//    protected CordovaInterface cordovaInterface;
+    protected CordovaInterfaceImpl cordovaInterface;
     protected String launchUrl;
     protected AppBasePlugin basePlugin;
     protected String id;
-
-    private final ExecutorService threadPool = Executors.newCachedThreadPool();
-    private String url;
-
-//    Bundle savedState;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -127,20 +91,16 @@ public class WebViewFragment extends Fragment implements CordovaInterface {
      */
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        activity = getActivity();
-
-        if(savedInstanceState != null) {
-            restoreInstanceState(savedInstanceState);
-        }
+        activity = AppManager.appManager.activity;
 
         loadConfig();
 
-        // If keepRunning
-        this.keepRunning = preferences.getBoolean("KeepRunning", true);
+        cordovaInterface = makeCordovaInterface();
+        if (savedInstanceState != null) {
+            cordovaInterface.restoreInstanceState(savedInstanceState);
+        }
 
-        init();
-
-        appView.loadUrlIntoView(launchUrl, true);
+        loadUrl(launchUrl);
 
         return appView.getView();
     }
@@ -153,9 +113,9 @@ public class WebViewFragment extends Fragment implements CordovaInterface {
         appView = makeWebView();
         createViews();
         if (!appView.isInitialized()) {
-            appView.init(this, pluginEntries, preferences);
+            appView.init(cordovaInterface, pluginEntries, preferences);
         }
-//        cordovaInterface.onCordovaInit(appView.getPluginManager());
+        cordovaInterface.onCordovaInit(appView.getPluginManager());
     }
 
 
@@ -190,6 +150,30 @@ public class WebViewFragment extends Fragment implements CordovaInterface {
         return CordovaWebViewImpl.createEngine(getActivity(), preferences);
     }
 
+    protected CordovaInterfaceImpl makeCordovaInterface() {
+        return new CordovaInterfaceImpl(activity) {
+            @Override
+            public Object onMessage(String id, Object data) {
+                // Plumb this to CordovaActivity.onMessage for backwards compatibility
+                return WebViewFragment.this.onMessage(id, data);
+            }
+        };
+    }
+
+    /**
+     * Load the url into the webview.
+     */
+    public void loadUrl(String url) {
+        if (appView == null) {
+            init();
+        }
+
+        // If keepRunning
+        this.keepRunning = preferences.getBoolean("KeepRunning", true);
+
+        appView.loadUrlIntoView(url, true);
+    }
+
     /**
      * Called when the system is about to start resuming a previous activity.
      */
@@ -201,7 +185,7 @@ public class WebViewFragment extends Fragment implements CordovaInterface {
         if (this.appView != null) {
             // CB-9382 If there is an activity that started for result and main activity is waiting for callback
             // result, we shoudn't stop WebView Javascript timers, as activity for result might be using them
-            boolean keepRunning = this.keepRunning || this.activityResultCallback != null;
+//            boolean keepRunning = this.keepRunning || this.cordovaInterface.activityResultCallback != null;
             this.appView.handlePause(keepRunning);
         }
     }
@@ -292,10 +276,10 @@ public class WebViewFragment extends Fragment implements CordovaInterface {
         return true;
     }
 
-
-    //
-    // Cordova
-    //
+    @Override
+    public Context getContext() {
+        return activity;
+    }
 
     /**
      * Called when a message is sent to plugin.
@@ -316,253 +300,8 @@ public class WebViewFragment extends Fragment implements CordovaInterface {
         return null;
     }
 
-    // Cordova Interface Events
-    @Override
-    public ExecutorService getThreadPool() {
-        return threadPool;
-    }
-
-    /**
-     * Dispatches any pending onActivityResult callbacks and sends the resume event if the
-     * Activity was destroyed by the OS.
-     */
-    public void onCordovaInit(PluginManager pluginManager) {
-        this.pluginManager = pluginManager;
-        if (savedResult != null) {
-            onActivityResult(savedResult.requestCode, savedResult.resultCode, savedResult.intent);
-        } else if(activityWasDestroyed) {
-            // If there was no Activity result, we still need to send out the resume event if the
-            // Activity was destroyed by the OS
-            activityWasDestroyed = false;
-            if(pluginManager != null)
-            {
-                CoreAndroid appPlugin = (CoreAndroid) pluginManager.getPlugin(CoreAndroid.PLUGIN_NAME);
-                if(appPlugin != null) {
-                    JSONObject obj = new JSONObject();
-                    try {
-                        obj.put("action", "resume");
-                    } catch (JSONException e) {
-                        LOG.e(TAG, "Failed to create event message", e);
-                    }
-                    appPlugin.sendResumeEvent(new PluginResult(PluginResult.Status.OK, obj));
-                }
-            }
-
-        }
-    }
-//    @Override
-//    /**
-//     * Called when an activity you launched exits, giving you the requestCode you started it with,
-//     * the resultCode it returned, and any additional data from it.
-//     *
-//     * @param requestCode       The request code originally supplied to startActivityForResult(),
-//     *                          allowing you to identify who this result came from.
-//     * @param resultCode        The integer result code returned by the child activity through its setResult().
-//     * @param data              An Intent, which can return result data to the caller (various data can be attached to Intent "extras").
-//     */
-//    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-//        super.onActivityResult(requestCode, resultCode, intent);
-//        CordovaPlugin callback = this.activityResultCallback;
-//        if (callback != null) {
-//            callback.onActivityResult(requestCode, resultCode, intent);
-//        }
-//    }
-
-    /**
-     * Routes the result to the awaiting plugin. Returns false if no plugin was waiting.
-     */
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        CordovaPlugin callback = activityResultCallback;
-        if(callback == null && initCallbackService != null) {
-            // The application was restarted, but had defined an initial callback
-            // before being shut down.
-            savedResult = new ActivityResultHolder(requestCode, resultCode, intent);
-            if (pluginManager != null) {
-                callback = pluginManager.getPlugin(initCallbackService);
-                if(callback != null) {
-                    callback.onRestoreStateForActivityResult(savedPluginState.getBundle(callback.getServiceName()),
-                            new ResumeCallback(callback.getServiceName(), pluginManager));
-                }
-            }
-        }
-        activityResultCallback = null;
-
-        if (callback != null) {
-            LOG.d(TAG, "Sending activity result to plugin");
-            initCallbackService = null;
-            savedResult = null;
-            callback.onActivityResult(requestCode, resultCode, intent);
-            return;
-        }
-        LOG.w(TAG, "Got an activity result, but no plugin was registered to receive it" + (savedResult != null ? " yet!" : "."));
-        return;
-    }
-
-    /**
-     * Call this from your startActivityForResult() overload. This is required to catch the case
-     * where plugins use Activity.startActivityForResult() + CordovaInterface.setActivityResultCallback()
-     * rather than CordovaInterface.startActivityForResult().
-     */
-    public void setActivityResultRequestCode(int requestCode) {
-        activityResultRequestCode = requestCode;
-    }
-
-    /**
-     * Saves parameters for startActivityForResult().
-     */
-    public void onSaveInstanceState(Bundle outState) {
-        if (activityResultCallback != null) {
-            String serviceName = activityResultCallback.getServiceName();
-            outState.putString("callbackService", serviceName);
-        }
-        if(pluginManager != null){
-            outState.putBundle("plugin", pluginManager.onSaveInstanceState());
-        }
-
-    }
-
-    /**
-     * Call this from onCreate() so that any saved startActivityForResult parameters will be restored.
-     */
-    public void restoreInstanceState(Bundle savedInstanceState) {
-        initCallbackService = savedInstanceState.getString("callbackService");
-        savedPluginState = savedInstanceState.getBundle("plugin");
-        activityWasDestroyed = true;
-    }
-
-    private static class ActivityResultHolder {
-        private int requestCode;
-        private int resultCode;
-        private Intent intent;
-
-        public ActivityResultHolder(int requestCode, int resultCode, Intent intent) {
-            this.requestCode = requestCode;
-            this.resultCode = resultCode;
-            this.intent = intent;
-        }
-    }
-
-    /**
-     * Called by the system when the user grants permissions
-     *
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
-     */
-    public void onRequestPermissionResult(int requestCode, String[] permissions,
+    public void onRequestPermissionResult(int requestCode, String permissions[],
                                           int[] grantResults) throws JSONException {
-        Pair<CordovaPlugin, Integer> callback = permissionResultCallbacks.getAndRemoveCallback(requestCode);
-        if(callback != null) {
-            callback.first.onRequestPermissionResult(callback.second, permissions, grantResults);
-        }
-    }
-
-    public void requestPermission(CordovaPlugin plugin, int requestCode, String permission) {
-        String[] permissions = new String [1];
-        permissions[0] = permission;
-        requestPermissions(plugin, requestCode, permissions);
-    }
-
-    @SuppressLint("NewApi")
-    public void requestPermissions(CordovaPlugin plugin, int requestCode, String [] permissions) {
-        int mappedRequestCode = permissionResultCallbacks.registerCallback(plugin, requestCode);
-        getActivity().requestPermissions(permissions, mappedRequestCode);
-    }
-
-    public boolean hasPermission(String permission)
-    {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            int result = activity.checkSelfPermission(permission);
-            return PackageManager.PERMISSION_GRANTED == result;
-        }
-        else
-        {
-            return true;
-        }
-    }
-
-    @Override
-    public void setActivityResultCallback(CordovaPlugin plugin) {
-        this.activityResultCallback = plugin;
-    }
-
-    /**
-     * Launch an activity for which you would like a result when it finished. When this activity exits,
-     * your onActivityResult() method is called.
-     *
-     * @param command           The command object
-     * @param intent            The intent to start
-     * @param requestCode       The request code that is passed to callback to identify the activity
-     */
-    public void startActivityForResult(CordovaPlugin command, Intent intent, int requestCode) {
-        this.activityResultCallback = command;
-        this.activityResultKeepRunning = this.keepRunning;
-
-        // If multitasking turned on, then disable it for activities that return results
-        if (command != null) {
-            this.keepRunning = false;
-        }
-
-        // Start activity
-        super.startActivityForResult(intent, requestCode);
-
-    }
-
-
-
-    /**
-     * A {@link ContextWrapper} that also implements {@link CordovaInterface} and acts as a proxy between the base
-     * activity context and the fragment that contains a {@link CordovaWebView}.
-     *
-     */
-    class CordovaContext extends ContextWrapper implements CordovaInterface
-    {
-        CordovaInterface cordova;
-        Context context;
-
-        public CordovaContext(Context base, CordovaInterface cordova) {
-            super(base);
-            this.context = base;
-            this.cordova = cordova;
-        }
-        public void startActivityForResult(CordovaPlugin command,
-                                           Intent intent, int requestCode) {
-            cordova.startActivityForResult(command, intent, requestCode);
-        }
-        public void setActivityResultCallback(CordovaPlugin plugin) {
-            cordova.setActivityResultCallback(plugin);
-        }
-        public Activity getActivity() {
-            return cordova.getActivity();
-        }
-
-        @Override
-        public Context getContext() {
-            return this.context;
-        }
-
-        public Object onMessage(String id, Object data) {
-            return cordova.onMessage(id, data);
-        }
-        public ExecutorService getThreadPool() {
-            return cordova.getThreadPool();
-        }
-
-        @Override
-        public void requestPermission(CordovaPlugin plugin, int requestCode, String permission) {
-
-        }
-
-        @Override
-        public void requestPermissions(CordovaPlugin plugin, int requestCode, String[] permissions) {
-
-        }
-
-        @Override
-        public boolean hasPermission(String permission) {
-            return false;
-        }
-
+        cordovaInterface.onRequestPermissionResult(requestCode, permissions, grantResults);
     }
 }

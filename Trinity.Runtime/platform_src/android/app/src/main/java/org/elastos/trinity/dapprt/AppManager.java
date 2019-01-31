@@ -58,7 +58,7 @@ public class AppManager {
     public static final int MSG_TYPE_EX_RETURN = 5;
 
     public static AppManager appManager;
-    private WebViewActivity activity;
+    public WebViewActivity activity;
     public WebViewFragment curFragment = null;
     ManagerDBAdapter dbAdapter = null;
 
@@ -594,7 +594,7 @@ public class AppManager {
         for (int i = 0; i < fragments.size(); i++) {
             WebViewFragment fragment = (WebViewFragment)fragments.get(i);
             if (fragment != null) {
-                fragment.onRequestPermissionResult(requestCode, permissions, grantResults);;
+                fragment.onRequestPermissionResult(requestCode, permissions, grantResults);
             }
         }
     }

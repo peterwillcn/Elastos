@@ -151,42 +151,18 @@ public class AppViewFragment extends WebViewFragment {
         }
     }
 
-    //------------------------
-//    public boolean onDown (MotionEvent e) {
-//        return false;
-//    }
-//
-//    public void onShowPress(MotionEvent e) {
-//
-//    }
-//
-//    public boolean onSingleTapUp(MotionEvent e) {
-//        return false;
-//    }
-//
-//    public boolean onScroll(MotionEvent e1, MotionEvent e2,
-//                            float distanceX, float distanceY) {
-//        return false;
-//    }
-//
-//    public void onLongPress(MotionEvent e)  {
-//
-//    }
-//
-//
-//
-//    public boolean onFling(MotionEvent e1, MotionEvent e2,
-//                           float velocityX, float velocityY) {
-//
-//        try {
-//            if (e1.getY() - e2.getY() < -89) {
-//                flingTop();
-//                return true;
-//            }
-//
-//        } catch (Exception e) {
-//        }
-//        return false;
-//    }
+    @Override
+    public Object onMessage(String id, Object data) {
+        super.onMessage(id, data);
+
+        if ("exit".equals(id)) {
+            try {
+                AppManager.appManager.loadLauncher();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 
 }

@@ -1,48 +1,54 @@
 language: node_js
+sudo: true
 
 matrix:
   include:
-    # - os: osx
-    #   osx_image: xcode10.1
-    #   env: NODEJS_VERSION=8
-
-    - os: osx
-      osx_image: xcode10.1
-      env: NODEJS_VERSION=9
-
     - os: osx
       osx_image: xcode10.1
       env: NODEJS_VERSION=10
+      addons:
+        homebrew:
+          taps: homebrew/cask-versions
+          casks: java8
 
     - os: osx
       osx_image: xcode10.1
       env: NODEJS_VERSION=11
+      addons:
+        homebrew:
+          taps: homebrew/cask-versions
+          casks: java8
 
     - language: android
-      sudo: true
+      env: NODEJS_VERSION=10
       android:
         components:
           - tools
           - platform-tools
           - build-tools-28.0.3
           - android-27
-      env: NODEJS_VERSION=10
 
     - language: android
-      sudo: true
+      env: NODEJS_VERSION=11
       android:
         components:
           - tools
           - platform-tools
           - build-tools-28.0.3
           - android-27
-      env: NODEJS_VERSION=11
 
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      wget https://services.gradle.org/distributions/gradle-4.6-bin.zip;
-      sudo unzip gradle-4.6-bin.zip -d  /opt/gradle/;
-      export PATH=/opt/gradle/gradle-4.6/bin:$PATH;
+  - wget -q https://services.gradle.org/distributions/gradle-4.6-bin.zip
+  - sudo unzip -q gradle-4.6-bin.zip -d $TRAVIS_HOME/gradle/
+  - export PATH=$TRAVIS_HOME/gradle/gradle-4.6/bin:$PATH
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      brew cask uninstall java;
+      wget -q https://dl.google.com/android/repository/sdk-tools-darwin-4333796.zip;
+      sudo unzip -q sdk-tools-darwin-4333796.zip -d $TRAVIS_HOME/android-sdk/;
+      export ANDROID_HOME=$TRAVIS_HOME/android-sdk;
+      sudo chmod -R 777 $ANDROID_HOME;
+      export PATH=$ANDROID_HOME/tools/bin:$ANDROID_HOME/tools:$ANDROID_HOME/build-tools:$PATH;
+      echo yes | sudo sdkmanager "build-tools;28.0.3";
     fi
 
 install:
@@ -51,8 +57,8 @@ install:
 
 script:
   - ./ToolChains/bin/build all
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      cd Runtime/platforms/android && gradle assembleRelease && ls -l app/build/outputs/apk/release/;
-    else
-      cd Runtime/platforms/ios && xcodebuild -showsdks && xcodebuild -scheme Elastos build -sdk iphonesimulator12.1;
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      cd $TRAVIS_BUILD_DIR/Runtime/platforms/ios && xcodebuild -showsdks && xcodebuild -scheme Elastos build -sdk iphonesimulator12.1;
     fi
+  # - cd $TRAVIS_BUILD_DIR/Runtime/platforms/android && gradle assembleRelease &&
+  - ls -l $TRAVIS_BUILD_DIR/Runtime/platforms/android/app/build/outputs/apk/debug/

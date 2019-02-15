@@ -45,37 +45,47 @@ You could follow these instructions:
 
    Please remember the `External` URL. It's needed for the next step.
 
-1. Create a `manifest_debug.xml` like this:
+1. Create a `manifest_debug.json` like this:
 
-   ```xml
-   <?xml version='1.0' encoding='utf-8'?>
-   <dapp id="com.mycompany.myapp" version="0.0.1"
-       xmlns="http://mycompany.com/ns/dapps/1.0">
-       <name>My App</name>
-       <description>My Sample App</description>
-       <launch_path>http://192.168.0.2:8100</launch_path>>
-       <icons>
-           <big>logo.png</big>
-           <small>logo.png</small>
-       </icons>
-       <author name = "MyName" email = "myname@mycompany.com">
-       My Name
-       </author>
-       <default_locale>en</default_locale>
-       <urls>
-           <access href="http://192.168.0.2:8100/*" />
-       </urls>
-   </dapp>
+   ```json
+   {
+     "id": "com.mycompany.myapp",
+     "version": "0.0.1",
+     "name": "My App",
+     "short_name": "My App",
+     "description": "My Sample App",
+     "start_url": "http://192.168.0.2:8100",
+     "icons": [
+       {
+         "src": "logo.png",
+         "sizes": "512x512",
+         "type": "image/png"
+       }
+     ],
+     "author": {
+       "name": "MyName",
+       "email": "myname@mycompany.com"
+     },
+     "default_locale": "en",
+     "urls": [
+       "http://192.168.0.2:8100/*"
+     ],
+     "background_color": "#4e8ef7",
+     "theme": {
+       "theme_display": "show",
+       "theme_color": "#4e8ef7"
+     }
+   }
    ```
 
-   The `launch_path` of the `manifest_debug.xml` is intended set to the external URL of the previous step.
+   The `start_url ` of the `manifest_debug.json` is intended set to the external URL of the previous step.
 
-1. Create a wrapper app with the debug manifest XML file
+1. Create a wrapper app with the debug manifest json file
 
-   We only pack the XML and a logo file to the EPK.
+   We only pack the json and logo file to the EPK.
 
    ```bash
-   $ trinity_deploy --manifest manifest_debug.xml --root-dir helloWorld/src/assets/imgs/ helloWorld_wrapper.epk
+   $ trinity_deploy --manifest manifest_debug.json --root-dir src/assets/imgs/ helloWorld_wrapper.epk
    ```
 
    NOTE: You could type `trinity_deploy --help` for more details.
@@ -94,26 +104,41 @@ You could follow these instructions:
 
 After test, you may want to deploy your DApp as a product.
 
-1. Create a production manifest XML file
+1. Create a production manifest json file
 
-   Create a `manifest_prod.xml` like this:
+   Create a `manifest_prod.json` like this:
 
-   ```xml
-   <?xml version='1.0' encoding='utf-8'?>
-   <dapp id="com.mycompany.myapp" version="0.0.1"
-      xmlns="http://mycompany.com/ns/dapps/1.0">
-      <name>My App</name>
-      <description>My Sample App</description>
-      <launch_path>index.html</launch_path>>
-      <icons>
-          <big>assets/imgs/logo.png</big>
-          <small>assets/imgs/logo.png</small>
-      </icons>
-      <author name = "MyName" email = "myname@mycompany.com">
-      My Name
-      </author>
-      <default_locale>en</default_locale>
-   </dapp>
+   ```json
+   {
+     "id": "com.mycompany.myapp",
+     "version": "0.0.1",
+     "name": "My App",
+     "short_name": "My App",
+     "description": "My Sample App",
+     "start_url": "index.html",
+     "icons": [
+       {
+         "src": "assets/imgs/logo.png",
+         "sizes": "512x512",
+         "type": "image/png"
+       },
+       {
+         "src": "assets/imgs/logo.png",
+         "sizes": "128x128",
+         "type": "image/png"
+       }
+     ],
+     "author": {
+       "name": "MyName",
+       "email": "myname@mycompany.com"
+     },
+     "default_locale": "en",
+     "background_color": "#4e8ef7",
+     "theme": {
+       "theme_display": "show",
+       "theme_color": "#4e8ef7"
+     }
+   }
    ```
 
 1. Generate production code
@@ -127,5 +152,5 @@ After test, you may want to deploy your DApp as a product.
 1. Create a production EPK file
 
    ```bash
-   $ trinity_deploy --manifest manifest_prod.xml --root-dir helloWorld/www/ helloWorld.epk
+   $ trinity_deploy --manifest manifest_prod.json --root-dir www/ helloWorld.epk
    ```

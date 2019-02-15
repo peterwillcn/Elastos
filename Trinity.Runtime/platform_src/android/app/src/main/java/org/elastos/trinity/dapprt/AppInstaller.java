@@ -360,16 +360,16 @@ public class AppInstaller {
         if (json.has("theme")) {
             JSONObject theme = json.getJSONObject("theme");
             if (theme.has(AppInfo.THEME_DISPLAY)) {
-                appInfo.theme_display = json.getString(AppInfo.THEME_DISPLAY);
+                appInfo.theme_display = theme.getString(AppInfo.THEME_DISPLAY);
             }
             if (theme.has(AppInfo.THEME_COLOR)) {
-                appInfo.theme_color = json.getString(AppInfo.THEME_COLOR);
+                appInfo.theme_color = theme.getString(AppInfo.THEME_COLOR);
             }
             if (theme.has(AppInfo.THEME_FONT_NAME)) {
-                appInfo.theme_font_name = json.getString(AppInfo.THEME_FONT_NAME);
+                appInfo.theme_font_name = theme.getString(AppInfo.THEME_FONT_NAME);
             }
             if (theme.has(AppInfo.THEME_FONT_COLOR)) {
-                appInfo.theme_font_color = json.getString(AppInfo.THEME_FONT_COLOR);
+                appInfo.theme_font_color = theme.getString(AppInfo.THEME_FONT_COLOR);
             }
         }
 

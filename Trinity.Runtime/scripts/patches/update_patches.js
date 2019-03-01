@@ -12,7 +12,6 @@ const rootdir = path.join(patchDir, "..", "..");
 const patches_to_update  = [
   "after_platform_add_android",
   "after_platform_add_ios",
-  "after_plugin_install_qrscanner_ios",
 ]
 
 const configure_patches = {
@@ -79,14 +78,6 @@ const configure_patches = {
         "platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.h",
         "platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.m",
         "platforms/ios/Elastos/Bridging-Header.h",
-      ]
-    }
-  ],
-  "after_plugin_install_qrscanner_ios": [
-    {
-      "patch_file": "qrscanner.patch",
-      "source_files": [
-        "platforms/ios/Elastos/Plugins/elastos-trinity-plugins-qrscanner/QRScanner.swift",
       ]
     }
   ]

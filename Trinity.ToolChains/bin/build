@@ -51,6 +51,8 @@ if args.target == "clean":
     remove_tree("Runtime/origin_platforms")
     remove_tree("Runtime/platforms")
     remove_tree("Runtime/plugins")
+    remove_tree("Runtime/www/built-in")
+    remove_tree("Runtime/www/launcher")
 
 if args.target == "launcher" or args.target == "all":
     os.chdir(LAUNCHER_DIR_PATH)
@@ -61,6 +63,11 @@ if args.target == "all":
     os.chdir(PROJECT_DIR_PATH)
     copy_tree("Launcher/demos", "Runtime/www/built-in/")
     copy_tree("Launcher/www", "Runtime/www/launcher/")
+
+if args.target == "runtime":
+    os.chdir(RUNTIME_DIR_PATH)
+    copy_tree("samples/dapp_demos", "www/built-in/")
+    copy_tree("samples/launcher_demo", "www/launcher/")
 
 if args.target == "runtime" or args.target == "all":
     os.chdir(RUNTIME_DIR_PATH)

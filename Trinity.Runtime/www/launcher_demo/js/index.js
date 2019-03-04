@@ -89,7 +89,10 @@ function help(args) {
     }
 }
 function getId(No) {
-    return "org.elastos.trinity.demo" + No;
+    var demo = document.getElementById("demo" + No);
+    if (demo.status == INSTALLED) {
+        return demo.appInfo.id;
+    }
 }
 
 function string_icons_info(icons) {
@@ -141,7 +144,9 @@ function string_app_info(info) {
           "<br/>  themeFontName:" + info.themeFontName +
           "<br/> themeFontColor:" + info.themeFontColor +
           "<br/>    installTime:" + info.installTime +
-          "<br/>        builtIn:" + info.builtIn;
+          "<br/>        builtIn:" + info.builtIn +
+          "<br/>        appPath:" + info.appPath +
+          "<br/>       dataPath:" + info.dataPath;
     return msg;
 }
 
@@ -292,11 +297,21 @@ function setNoInstallItem(No) {
         udemo.appInfo = null;
         udemo.status = NOINSTALL;
     }
+
+    var name = document.getElementById("name" + No);
+    if (name && name != null) {
+        name.innerHTML = "Demo" + No;
+    }
 }
 
 function setRetNoInstallItem(id) {
-   var No = id.charAt(id.length - 1);
-   setNoInstallItem(No);
+   for (var i = 1; i < 5; i++ ) {
+        var demo = document.getElementById("demo" + i);
+        if (demo.status == INSTALLED && demo.appInfo.id == id) {
+            setNoInstallItem(i);
+            break;
+        }
+   }
 }
 
 function setNoInstallItems() {
@@ -306,18 +321,22 @@ function setNoInstallItems() {
  }
 
 function setInstalledItem(appInfo) {
-    var No = appInfo.name.charAt(appInfo.name.length - 1);
-    var demo = document.getElementById("demo" + No);
-    if (demo && demo != null) {
-        demo.src = appInfo.icons[0].src;
-        demo.appInfo = appInfo;
-        demo.status = INSTALLED;
-    }
-    var udemo = document.getElementById("udemo" + No);
-    if (udemo && udemo != null) {
-        udemo.src = "img/uninstall_enable.png";
-        udemo.appInfo = appInfo;
-        udemo.status = INSTALLED;
+    for (var i = 1; i < 5; i++ ) {
+        var demo = document.getElementById("demo" + i);
+        if (demo.status != INSTALLED) {
+            demo.src = appInfo.icons[0].src;
+            demo.appInfo = appInfo;
+            demo.status = INSTALLED;
+
+            var udemo = document.getElementById("udemo" + i);
+            udemo.src = "img/uninstall_enable.png";
+            udemo.appInfo = appInfo;
+            udemo.status = INSTALLED;
+
+            var name = document.getElementById("name" + i);
+            name.innerHTML = appInfo.name;
+            break;
+        }
     }
 }
 

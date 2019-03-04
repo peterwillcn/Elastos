@@ -249,6 +249,16 @@
         }
         
         appInfo.install_time = Int(Date().timeIntervalSince1970);
+        
+        let fileManager = FileManager.default
+        if (!fileManager.fileExists(atPath: dataPath + appInfo.id)) {
+            do {
+                try fileManager.createDirectory(atPath: dataPath + appInfo.id, withIntermediateDirectories: true, attributes: nil)
+            }
+            catch let error {
+                print("Make dataPath error: \(error)");
+            }
+        }
 
         return appInfo;
     }

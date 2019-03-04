@@ -21,6 +21,7 @@
   */
  
  import Foundation
+ import RealmSwift
  
  @objc(AppBasePlugin)
  class AppBasePlugin : CDVPlugin {
@@ -108,6 +109,83 @@
             self.error(command, err);
         } catch let error {
             self.error(command, error.localizedDescription);
+        }
+    }
+    
+    func jsonAppPlugins(_ plugins: List<PluginAuth>) -> [Dictionary<String, Any>] {
+        var ret = [Dictionary<String, Any>]()
+        
+        for pluginAuth in plugins {
+            ret.append(["plugin": pluginAuth.plugin,
+                        "authority": pluginAuth.authority])
+        }
+        
+        return ret;
+    }
+    
+    func jsonAppUrls(_ urls: List<UrlAuth>) -> [Dictionary<String, Any>] {
+        var ret = [Dictionary<String, Any>]()
+        
+        for urlAuth in urls {
+            ret.append(["url": urlAuth.url,
+                        "authority": urlAuth.authority])
+        }
+        
+        return ret;
+    }
+    
+    func jsonAppIcons(_ info: AppInfo) -> [Dictionary<String, String>] {
+        var ret = [Dictionary<String, String>]()
+        let appUrl = AppManager.appManager!.getAppUrl(info);
+        for icon in info.icons {
+            ret.append(["src": resetPath(appUrl, icon.src),
+                        "sizes": icon.sizes,
+                        "type": icon.type])
+        }
+        
+        return ret;
+    }
+    
+    func jsonAppInfo(_ info: AppInfo) -> [String : Any] {
+        let appUrl = AppManager.appManager!.getAppUrl(info);
+        let dataUrl = AppManager.appManager!.getDataUrl(info);
+        return [
+            "id": info.id,
+            "version": info.version,
+            "name": info.name,
+            "shortName": info.short_name,
+            "description": info.desc,
+            "startUrl": resetPath(appUrl, info.start_url),
+            "icons": jsonAppIcons(info),
+            "authorName": info.author_name,
+            "authorEmail": info.author_email,
+            "defaultLocale": info.default_locale,
+            "plugins": jsonAppPlugins(info.plugins),
+            "urls": jsonAppUrls(info.urls),
+            "backgroundColor": info.background_color,
+            "themeDisplay": info.theme_display,
+            "themeColor": info.theme_color,
+            "themeFontName": info.theme_font_name,
+            "themeFontColor": info.theme_font_color,
+            "installTime": info.install_time,
+            "builtIn": info.built_in,
+            "appPath": appUrl,
+            "dataPath": dataUrl,
+            ] as [String : Any]
+    }
+    
+    @objc func getAppInfo(_ command: CDVInvokedUrlCommand) {
+        var appId = self.id!;
+        if (appId == "launcher") {
+            appId = command.arguments[0] as? String ?? ""
+        }
+        let info = AppManager.appManager!.getAppInfo(appId);
+        
+        if (info != nil) {
+            self.success(command, retAsDict: jsonAppInfo(info!));
+        }
+        else {
+            self.error(command, "No such app!");
         }
     }
     

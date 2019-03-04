@@ -375,6 +375,11 @@ public class AppInstaller {
 
         appInfo.install_time = System.currentTimeMillis() / 1000;
 
+        File destDir = new File(dataPath + appInfo.app_id);
+        if (!destDir.exists()) {
+            destDir.mkdirs();
+        }
+
         return appInfo;
     }
 }

@@ -46,6 +46,8 @@ function display_others_msg(content) {
 var commands = [
     { cmd: "help", fn: help, help: "help [cmd]" },
 
+    { cmd: "info", fn: info, help: "info" },
+
     { cmd: "msg", fn: send_message, help: "msg [No.] message" },
     { cmd: "check", fn: check, help: "check url" },
 //    { cmd: "test", fn:test,          help: "test" },
@@ -87,8 +89,69 @@ function help(args) {
         display_others_msg(msg);
     }
 }
+function string_icons_info(icons) {
+    var str = ""
+    for (var i = 0; i < icons.length; i++) {
+        str += "<br/>              icon[" + i + "]:" +
+        "<br/>                  src:" + icons[i].src +
+        "<br/>                sizes:" + icons[i].sizes  +
+        "<br/>                 type:" + icons[i].type;
+    }
+    return str;
+}
 
-function exit(args) {
+function string_plugins_info(plugins) {
+    var str = ""
+    for (var i = 0; i < plugins.length; i++) {
+        str += "<br/>              plugin[" + i + "]:" +
+        "<br/>                  name:" + plugins[i].plugin +
+        "<br/>             authority:" + plugins[i].authority ;
+    }
+    return str;
+}
+
+function string_urls_info(urls) {
+    var str = ""
+    for (var i = 0; i < urls.length; i++) {
+        str += "<br/>              url[" + i + "]:" +
+        "<br/>                  name:" + urls[i].url +
+        "<br/>             authority:" + urls[i].authority ;
+    }
+    return str;
+}
+
+function string_app_info(info) {
+    var msg = "              id:" + info.id +
+          "<br/>        version:" + info.version +
+          "<br/>           name:" + info.name +
+          "<br/>    description:" + info.description +
+          "<br/>       startUrl:" + info.startUrl +
+          "<br/>          icons:" + string_icons_info(info.icons) +
+          "<br/>     authorName:" + info.authorName +
+          "<br/>    authorEmail:" + info.authorEmail +
+          "<br/>  defaultLocale:" + info.defaultLocale +
+          "<br/>        plugins:" + string_plugins_info(info.plugins) +
+          "<br/>           urls:" + string_urls_info(info.urls) +
+          "<br/>backgroundColor:" + info.backgroundColor +
+          "<br/>   themeDisplay:" + info.themeDisplay +
+          "<br/>     themeColor:" + info.themeColor +
+          "<br/>  themeFontName:" + info.themeFontName +
+          "<br/> themeFontColor:" + info.themeFontColor +
+          "<br/>    installTime:" + info.installTime +
+          "<br/>        builtIn:" + info.builtIn +
+          "<br/>        appPath:" + info.appPath +
+          "<br/>       dataPath:" + info.dataPath;
+    return msg;
+}
+
+function info(argv) {
+    var success = function (ret) {
+        display_others_msg(string_app_info(ret));
+    };
+    var error = function (error) {
+        display_others_msg("getAppInfo fail!");
+    };
+    appService.getAppInfo(success, error);
 }
 
 function check(args) {

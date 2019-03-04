@@ -599,4 +599,64 @@ public class AppManager {
         }
     }
 
+    public void onPause() {
+        FragmentManager manager = activity.getSupportFragmentManager();
+        List<Fragment> fragments = manager.getFragments();
+
+        for (int i = 0; i < fragments.size(); i++) {
+            WebViewFragment fragment = (WebViewFragment)fragments.get(i);
+            if (fragment != null) {
+                fragment.onPause();
+            }
+        }
+    }
+
+    public void onResume() {
+        FragmentManager manager = activity.getSupportFragmentManager();
+        List<Fragment> fragments = manager.getFragments();
+
+        for (int i = 0; i < fragments.size(); i++) {
+            WebViewFragment fragment = (WebViewFragment)fragments.get(i);
+            if (fragment != null) {
+                fragment.onResume();
+            }
+        }
+    }
+
+    public void onStop() {
+        FragmentManager manager = activity.getSupportFragmentManager();
+        List<Fragment> fragments = manager.getFragments();
+
+        for (int i = 0; i < fragments.size(); i++) {
+            WebViewFragment fragment = (WebViewFragment)fragments.get(i);
+            if (fragment != null) {
+                fragment.onStop();
+            }
+        }
+    }
+
+    public void onStart() {
+        FragmentManager manager = activity.getSupportFragmentManager();
+        List<Fragment> fragments = manager.getFragments();
+
+        for (int i = 0; i < fragments.size(); i++) {
+            WebViewFragment fragment = (WebViewFragment)fragments.get(i);
+            if (fragment != null) {
+                fragment.onStart();
+            }
+        }
+    }
+
+    public void onDestroy() {
+        FragmentManager manager = activity.getSupportFragmentManager();
+        List<Fragment> fragments = manager.getFragments();
+
+        for (int i = 0; i < fragments.size(); i++) {
+            WebViewFragment fragment = (WebViewFragment)fragments.get(i);
+            if (fragment != null) {
+                fragment.onDestroy();
+            }
+        }
+    }
+
 }

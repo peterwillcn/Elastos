@@ -143,6 +143,60 @@ public class WebViewActivity extends FragmentActivity {
 
     }
 
+    /**
+     * Called when the system is about to start resuming a previous activity.
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LOG.d(TAG, "Paused the activity.");
+
+        appManager.onPause();
+    }
+
+    /**
+     * Called when the activity will start interacting with the user.
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LOG.d(TAG, "Resumed the activity.");
+
+        appManager.onResume();
+    }
+
+    /**
+     * Called when the activity is no longer visible to the user.
+     */
+    @Override
+    protected void onStop() {
+        super.onStop();
+        LOG.d(TAG, "Stopped the activity.");
+
+        appManager.onStop();
+    }
+
+    /**
+     * Called when the activity is becoming visible to the user.
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LOG.d(TAG, "Started the activity.");
+
+        appManager.onStart();
+    }
+
+    /**
+     * The final call you receive before your activity is destroyed.
+     */
+    @Override
+    public void onDestroy() {
+        LOG.d(TAG, "Activity onDestroy");
+        super.onDestroy();
+
+        appManager.onDestroy();
+    }
 //    public static boolean showLoading() {
 //        // Loading spinner
 //        activity.runOnUiThread(new Runnable() {

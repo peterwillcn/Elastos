@@ -88,7 +88,7 @@ var commands = [
     { cmd: "invite", fn: invite, help: "invite userid data" },
     { cmd: "ireply", fn: reply_invite, help: "ireply userid [confirm message | refuse reason]" },
 
-    { cmd: "sinit", fn: session_init, help: "sinit" },
+    // { cmd: "sinit", fn: session_init, help: "sinit" },
     { cmd: "snew", fn: session_new, help: "snew userid" },
     { cmd: "speer", fn: session_peer, help: "speer" },
     { cmd: "srequest", fn: session_request, help: "srequest" },
@@ -128,16 +128,16 @@ function do_command(input) {
 
     for (var i = 1; i < args.length; i++) {
         if (args[i] == "address") {
-            args[i] = "BuHHVnFzEGRe3rzgAAHQ5Sjjb8cbYuTYPohu8UND8qpuPV3btZjU";
+            args[i] = "Y3P7rBL9jN1vtmXJey5dS4AUZPJMiUdyZiHh6hTTh6dCWHiPXKQY";
         }
         else if (args[i] == "userid") {
-            args[i] = "5xfqtPawFv1pS2djzHtZKf2wSogTX3Z1zrXjrY9gaZTM";
+            args[i] = "F885rheKL2ejtwqp1gfYaTDnuwyreH7biQKqvybtJH7g";
         }
         else if (args[i] == "addri") {
-            args[i] = "UdYy66FvtGTWFMgtdhj35ZSLXjBHzcHSFwsy75SG1CEjJnRQbBSN";
+            args[i] = "3Jmz5s2duMVNPC6yfCAxkgcbpFMtBu4DGn12o43hwevLWaPbqTC5";
         }
         else if (args[i] == "useri") {
-            args[i] = "Da7g1B6B7rXLXpvv8f4zD9imfPi8HJSL6aQ4MYrMNh8j";
+            args[i] = "23s7kXkWMXWs9cpBAyGgQan2HAJQ6WX99ezC52uMUJRu";
         }
     }
 
@@ -1203,14 +1203,15 @@ function fmt_str_blank(string, length) {
     return string;
 }
 
-function display_friends(friends) {
+function display_friends(ret) {
+    var friends = ret.friends;
     if (typeof friends == "string") {
         friends = JSON.parse(friends);
     }
 
     var msg = "Friends: <br/>";
-    var id = "", i = 0;
-    for (id in friends) {
+    var i = 0;
+    for (var id in friends) {
         msg += "No." + i++ + "<br/> -------------------- <br/>";
         msg += string_friend_info(friends[id]);
         msg += "<br/><br/>";
@@ -1256,7 +1257,7 @@ function friend_presence_callback(event) {
 }
 
 function friend_request_callback(event) {
-    var msg = "Friend request from user[" + event.userInfo.name ? event.userInfo.name : event.userId + "] with HELLO: " + event.hello + ".<br/>"
+    var msg = "Friend request from user[" + event.userId + "] with HELLO: " + event.hello + ".<br/>"
         + "Reply use following commands:<br/>"
         + "  faccept " + event.userId;
     display_others_msg(msg);
@@ -1313,7 +1314,10 @@ var callbacks = {
 
 
 function onClose() {
-    carrier.destroy();
+    if (carrier != null) {
+        carrier.destroy();
+    }
+    
     appService.close();
 }
 

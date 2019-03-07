@@ -833,17 +833,24 @@ function stream_get_info(argv) {
         return;
     }
 
-    var info = stream.transportInfo;
-    var msg = "Stream transport information:"
-        + "<br/>    Network: " + topology_name[info.topology]
-        + "<br/>      Local: " + addr_type[info.localAddr.type] + " " + info.localAddr.address + ":" + info.localAddr.port;
-    if (info.localAddr.relatedAddress)
-        msg += "<br/>       related " + info.localAddr.relatedAddress + ":" + info.localAddr.relatedPort;
+    var success = function(info) {
+        var msg = "Stream transport information:"
+            + "<br/>    Network: " + topology_name[info.topology]
+            + "<br/>      Local: " + addr_type[info.localAddr.type] + " " + info.localAddr.address + ":" + info.localAddr.port;
+        if (info.localAddr.relatedAddress)
+            msg += "<br/>       related " + info.localAddr.relatedAddress + ":" + info.localAddr.relatedPort;
 
-    msg += "<br/>     Remote: " + addr_type[info.remoteAddr.type] + " " + info.remoteAddr.address + ":" + info.remoteAddr.port;
-    if (info.remoteAddr.relatedAddress)
-        msg += "<br/>       related " + info.remoteAddr.relatedAddress + ":" + info.remoteAddr.relatedPort;
-    display_others_msg(msg);
+        msg += "<br/>     Remote: " + addr_type[info.remoteAddr.type] + " " + info.remoteAddr.address + ":" + info.remoteAddr.port;
+        if (info.remoteAddr.relatedAddress)
+            msg += "<br/>       related " + info.remoteAddr.relatedAddress + ":" + info.remoteAddr.relatedPort;
+        display_others_msg(msg);
+    };
+
+    var error = function (error) {
+        display_others_msg("get state failed.");
+    };
+    
+    stream.getTransportInfo(success, error);
 }
 
 function stream_get_type(argv) {

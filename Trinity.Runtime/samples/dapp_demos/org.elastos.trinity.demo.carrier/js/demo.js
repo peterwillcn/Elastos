@@ -120,11 +120,12 @@ var commands = [
 ]
 
 function do_command(input) {
-    input = input.toLowerCase()
     var args = input.trim().match(/[^\s"]+|"([^"]*)"/g);
     if (!args || args[0] == "") {
         return;
     }
+
+    args[0] = args[0].toLowerCase()
 
     for (var i = 1; i < args.length; i++) {
         if (args[i] == "address") {
@@ -187,8 +188,9 @@ function string_user_info(info) {
 
 function string_friend_info(info) {
     var msg = string_user_info(info.userInfo)
-        + "<br/>     Presence: " + presence_name[info.presence];
-    + "<br/>   Connection: " + connection_name[info.status];
+        + "<br/>     Label: " + info.label
+        + "<br/>     Presence: " + presence_name[info.presence]
+        + "<br/>   Connection: " + connection_name[info.status];
     return msg;
 }
 
@@ -197,8 +199,8 @@ function get_version(args) {
         function (version) {
             display_others_msg(version);
         },
-        function (erro) {
-            display_others_msg("getVersion error!");
+        function (error) {
+            display_others_msg("getVersion error! " + error);
         }
     );
 }
@@ -545,7 +547,7 @@ function on_channel_close(event) {
 }
 
 function on_channel_data(event) {
-    display_others_msg("Channel " + event.stream.id + ":" + event.channel + " received data [" + window.atob(data) + "]");
+    display_others_msg("Channel " + event.stream.id + ":" + event.channel + " received data [" + window.atob(event.data) + "]");
     return true;
 }
 
@@ -596,7 +598,7 @@ function session_new(argv) {
         session_ctx.unchanged_streams = 0;
     };
     var error = function (error) {
-        display_others_msg("Create session failed.");
+        display_others_msg("Create session failed. " + error);
     };
     carrier.newSession(success, error, argv[1]);
 }
@@ -613,7 +615,7 @@ function session_close(argv) {
             session = null;
         };
         var error = function (error) {
-            display_others_msg("Session closed failed.");
+            display_others_msg("Session closed failed. " + error);
         };
         session.close(success, error);
     }
@@ -674,7 +676,7 @@ function stream_add(argv) {
         display_others_msg("Add stream successfully and stream id " + stream.id);
     };
     var error = function (error) {
-        display_others_msg("Add stream failed.");
+        display_others_msg("Add stream failed. " + error);
     };
     session.addStream(success, error, carrierPlugin.StreamType.TEXT, options, callbacks);
 }
@@ -699,9 +701,9 @@ function stream_remove(argv) {
         display_others_msg("Remove stream " + stream.id + " success.");
     };
     var error = function (error) {
-        display_others_msg("Remove stream " + stream.id + " failed.");
+        display_others_msg("Remove stream " + stream.id + " failed. " + error);
     };
-    stream.remove(success, error);
+    session.removeStream(success, error, stream);
 }
 
 function session_peer(argv) {
@@ -728,7 +730,7 @@ function session_request(argv) {
         display_others_msg("session request successfully.");
     };
     var error = function (error) {
-        display_others_msg("session request failed.");
+        display_others_msg("session request failed. " + error);
     };
     session.request(success, error, session_request_complete_callback);
 }
@@ -758,7 +760,7 @@ function session_reply_request(argv) {
             }
         };
         var error = function (error) {
-            display_others_msg("response invite failed.");
+            display_others_msg("response invite failed. " + error);
         };
         session.replyRequest(success, error, 0, null);
     }
@@ -767,7 +769,7 @@ function session_reply_request(argv) {
             display_others_msg("response invite successuflly.");
         };
         var error = function (error) {
-            display_others_msg("response invite failed.");
+            display_others_msg("response invite failed. " + error);
         };
         session.replyRequest(success, error, 1, argv[2]);
     }
@@ -798,7 +800,7 @@ function stream_write(argv) {
         display_others_msg("write data successfully.written: " + info.written);
     };
     var error = function (error) {
-        display_others_msg("write data failed.");
+        display_others_msg("write data failed. " + error);
     };
     stream.write(success, error, buf);
 }
@@ -847,9 +849,9 @@ function stream_get_info(argv) {
     };
 
     var error = function (error) {
-        display_others_msg("get state failed.");
+        display_others_msg("get state failed. " + error);
     };
-    
+
     stream.getTransportInfo(success, error);
 }
 
@@ -917,7 +919,7 @@ function stream_get_state(argv) {
         display_others_msg("Stream state: " + state_name[info.state]);
     };
     var error = function (error) {
-        display_others_msg("get state failed.");
+        display_others_msg("get state failed. " + error);
     };
     stream.getState(success, error);
 }
@@ -945,7 +947,7 @@ function stream_open_channel(argv) {
         display_others_msg("Channel " + info.channel + " created.");
     };
     var error = function (error) {
-        display_others_msg("Create channel failed.");
+        display_others_msg("Create channel failed. " + error);
     };
     stream.openChannel(success, error, cookie);
 }
@@ -970,7 +972,7 @@ function stream_close_channel(argv) {
         display_others_msg("Channel " + argv[2] + " closed.");
     };
     var error = function (error) {
-        display_others_msg("Close channel failed.");
+        display_others_msg("Close channel failed. " + error);
     };
     stream.closeChannel(success, error, parseInt(argv[2]));
 }
@@ -996,7 +998,7 @@ function stream_write_channel(argv) {
         display_others_msg("Channel " + argv[2] + " write successfully.");
     };
     var error = function (error) {
-        display_others_msg("Write channel failed.");
+        display_others_msg("Write channel failed. " + error);
     };
     stream.writeChannel(success, error, parseInt(argv[2]), buf);
 }
@@ -1021,7 +1023,7 @@ function stream_pend_channel(argv) {
         display_others_msg("Channel " + argv[2] + " input is pending.", );
     };
     var error = function (error) {
-        display_others_msg("Pend channel failed.");
+        display_others_msg("Pend channel failed. " + error);
     };
     stream.pendChannel(success, error, parseInt(argv[2]));
 }
@@ -1046,7 +1048,7 @@ function stream_resume_channel(argv) {
         display_others_msg("Channel " + argv[2] + " input is resumed.");
     };
     var error = function (error) {
-        display_others_msg("Resume channel(input) failed.");
+        display_others_msg("Resume channel(input) failed. " + error);
     };
     stream.resumeChannel(success, error, parseInt(argv[2]));
 }
@@ -1075,7 +1077,7 @@ function session_add_service(argv) {
         display_others_msg("Add service " + argv[1] + " success.");
     };
     var error = function (error) {
-        display_others_msg("Add service " + argv[1] + " failed.");
+        display_others_msg("Add service " + argv[1] + " failed. " + error);
     };
     session.addService(success, error, argv[1], protocol, argv[3], argv[4]);
 }
@@ -1095,7 +1097,7 @@ function session_remove_service(argv) {
         display_others_msg("Remove service " + argv[1] + " success.");
     };
     var error = function (error) {
-        display_others_msg("Remove service " + argv[1] + " failed.");
+        display_others_msg("Remove service " + argv[1] + " failed. " + error);
     };
     session.removeService(success, error, argv[1]);
 }
@@ -1130,7 +1132,7 @@ function portforwarding_open(argv) {
         display_others_msg("Open portforwarding to service " + argv[2] + " <<== " + argv[4] + ":" + argv[5] + " success, id is " + info.pfId);
     };
     var error = function (error) {
-        display_others_msg("Open portforwarding to service " + argv[2] + " <<== " + argv[4] + ":" + argv[5] + " failed.");
+        display_others_msg("Open portforwarding to service " + argv[2] + " <<== " + argv[4] + ":" + argv[5] + " failed. " + error);
     };
     stream.openPortForwarding(success, error, argv[2], protocol, argv[4], argv[5]);
 }
@@ -1163,7 +1165,7 @@ function portforwarding_close(argv) {
         display_others_msg("Portforwarding " + pfid + " closed success.");
     };
     var error = function (error) {
-        display_others_msg("Portforwarding " + pfid + " closed failed.");
+        display_others_msg("Portforwarding " + pfid + " closed failed. " + error);
     };
     stream.closePortForwarding(success, error, pfid);
 }
@@ -1316,7 +1318,7 @@ var callbacks = {
     onFriendRemoved: friend_removed_callback,
     onFriendMessage: message_callback,
     onFriendInviteRequest: invite_request_callback,
-    onSessionRequest: null,
+    onSessionRequest: session_request_callback,
 }
 
 
@@ -1324,7 +1326,7 @@ function onClose() {
     if (carrier != null) {
         carrier.destroy();
     }
-    
+
     appService.close();
 }
 

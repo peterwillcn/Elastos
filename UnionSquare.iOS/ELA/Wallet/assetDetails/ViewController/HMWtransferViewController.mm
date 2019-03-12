@@ -1,0 +1,280 @@
+//
+//  HMWtransferViewController.m
+//  ELA
+//
+//  Created by 韩铭文 on 2018/12/26.
+//  Copyright © 2018 HMW. All rights reserved.
+//
+
+#import "HMWtransferViewController.h"
+#import "HMWtransferDetailsPopupView.h"
+#import "HMWSendSuccessPopuView.h"
+#import "HMWChooseSideChainViewController.h"
+#import "ELWalletManager.h"
+#import <Cordova/CDV.h>
+#import "WCQRCodeScanningVC.h"
+
+
+@interface HMWtransferViewController ()<HMWtransferDetailsPopupViewDelegate,HMWChooseSideChainViewControllerDelegate,UITextFieldDelegate>
+@property (weak, nonatomic) IBOutlet UITextField *transferTheAddressTextField;
+@property (weak, nonatomic) IBOutlet UIButton *theContactButton;
+@property (weak, nonatomic) IBOutlet UITextField *theAmountOfTextField;
+@property (weak, nonatomic) IBOutlet UITextField *noteTextField;
+@property (weak, nonatomic) IBOutlet UIButton *theNextStepButton;
+@property (weak, nonatomic) IBOutlet UIButton *maxButton;
+
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)HMWtransferDetailsPopupView *transferDetailsPopupV;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)HMWSendSuccessPopuView *sendSuccessPopuV;
+
+@property (weak, nonatomic) IBOutlet UILabel *isVoteBlanceTextLabel;
+@property (weak, nonatomic) IBOutlet UISwitch *isAddSwitch;
+
+@end
+
+@implementation HMWtransferViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+      [self defultWhite];
+    [self setBackgroundImg:@"asset_bg"];
+    self.title=NSLocalizedString(@"转账", nil);
+    self.isVoteBlanceTextLabel.text=NSLocalizedString(@"是否使用投票utxo", nil);
+    
+    self.isAddSwitch.layer.borderColor=[UIColor whiteColor].CGColor;
+    self.isAddSwitch.layer.borderWidth=2.f;
+    self.isAddSwitch.layer.cornerRadius=15.f; self.isAddSwitch.layer.masksToBounds=YES;
+    self.isAddSwitch.transform=CGAffineTransformMakeScale(0.75, 0.75);
+//    [self loadCanUserBlanceLoadDataSource];
+     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"setting_adding_scan"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(scanView)];
+       self.theAmountOfTextField.placeholder=[NSString stringWithFormat:@"%@%@ %@)",NSLocalizedString(@"请输入金额（可用", nil),[[FLTools share]elaScaleConversionWith:self.model.iconBlance],self.model.iconName];
+    [[HMWCommView share] makeTextFieldPlaceHoTextColorWithTextField:self.transferTheAddressTextField];
+    
+    [[HMWCommView share] makeTextFieldPlaceHoTextColorWithTextField:self.theAmountOfTextField];
+   [[HMWCommView share] makeTextFieldPlaceHoTextColorWithTextField:self.noteTextField];
+    [[HMWCommView share]makeBordersWithView:self.theNextStepButton];
+    [[HMWCommView share]makeBordersWithView:self.maxButton];
+    [self.theNextStepButton setTitle:NSLocalizedString(@"下一步", nil) forState:UIControlStateNormal];
+   
+    self.noteTextField.placeholder=NSLocalizedString(@"请输入备注", nil);
+    self.theAmountOfTextField.delegate=self;
+    
+    self.transferTheAddressTextField.placeholder=NSLocalizedString(@"请输入收款人地址", nil);
+    
+}
+//- (IBAction)isAddOrCloseEvent:(id)sender {
+//   
+//}
+-(void)loadCanUserBlanceLoadDataSource{
+    
+    CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@0] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];
+    CDVPluginResult * result =[[ELWalletManager share]getBalance:mommand];
+    
+    NSString *status=[NSString stringWithFormat:@"%@",result.status];
+    if ([status isEqualToString:@"1"]){
+        
+        
+        
+        NSString *blanceString=[NSString stringWithFormat:@"%@",result.message[@"success"]];
+        
+        self.theAmountOfTextField.placeholder=[NSString stringWithFormat:@"%@%@ %@)",NSLocalizedString(@"请输入金额（可用", nil),[[FLTools share]elaScaleConversionWith:blanceString],self.model.iconName];
+        self.model.iconBlance=blanceString;
+
+    }
+    
+}
+-(void)scanView{
+    
+    
+        __weak __typeof__(self) weakSelf = self;
+    WCQRCodeScanningVC *WCVC = [[WCQRCodeScanningVC alloc] init];
+    WCVC.scanBack = ^(NSString *addr) {
+        
+    weakSelf.transferTheAddressTextField.text=addr;
+        
+    };
+    [self QRCodeScanVC:WCVC];
+}
+- (IBAction)pasteEvent:(id)sender {
+    
+    
+    self.transferTheAddressTextField.text=[[FLTools share]pastingTextFromTheClipboard];
+}
+- (IBAction)theContactEvent:(id)sender {
+    self.theContactButton.userInteractionEnabled=NO;
+    HMWChooseSideChainViewController *chooseSideChainVC=[[HMWChooseSideChainViewController alloc]init];
+    chooseSideChainVC.type=chooseFriendsType;
+    chooseSideChainVC.supportOfTheCurrencyArray=self.supportOfTheCurrencyArray;
+    chooseSideChainVC.delegate=self;
+    [self.navigationController pushViewController:chooseSideChainVC animated:YES]; self.theContactButton.userInteractionEnabled=YES;
+}
+- (IBAction)maxAmountEvent:(id)sender {
+    self.theAmountOfTextField.text=[[FLTools share]elaScaleConversionWith:self.model.iconBlance];
+}
+- (IBAction)theNextStepEvent:(id)sender {
+    if (self.transferTheAddressTextField.text.length==0) {
+        return;
+    }
+    
+    if ([self.theAmountOfTextField.text doubleValue]>[[[FLTools share]elaScaleConversionWith:self.model.iconBlance] doubleValue]) {
+        
+       [[FLTools share]showErrorInfo:NSLocalizedString(@"余额不足", nil)];
+        return;
+    }
+    NSString *isUtxo=@"1";
+//    if (self.isAddSwitch.isOn) {
+//        isUtxo=@"1";
+//    }
+    CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[NSString stringWithFormat:@"%f",[self.theAmountOfTextField.text doubleValue]*100000000],self.noteTextField.text,@"22",isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+    CDVPluginResult * result =[[ELWalletManager share]accessFees:mommand];
+    NSString *status=[NSString stringWithFormat:@"%@",result.status];
+    if (![status isEqualToString:@"1"]) {
+        return;
+    }
+    NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",result.message[@"success"]]];
+
+    
+    [self.transferDetailsPopupV transferDetailsWithToAddress:self.transferTheAddressTextField.text withTheAmountOf:[NSString stringWithFormat:@"%@ %@",  self.theAmountOfTextField.text,self.model.iconName] withFee:[NSString stringWithFormat:@"%@%@",fee,self.model.iconName]];
+    
+    UIView *manView=[self mainWindow];
+    
+    [manView addSubview:self.transferDetailsPopupV];
+    [self.transferDetailsPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.left.right.top.bottom.equalTo(manView);
+    }];
+}
+-(HMWtransferDetailsPopupView *)transferDetailsPopupV{
+    if (!_transferDetailsPopupV) {
+        _transferDetailsPopupV =[[HMWtransferDetailsPopupView alloc]init];
+        _transferDetailsPopupV.delegate=self;
+    }
+    
+    return _transferDetailsPopupV;
+}
+-(HMWSendSuccessPopuView *)sendSuccessPopuV{
+    if (!_sendSuccessPopuV) {
+        _sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
+        
+        
+        
+    }
+    
+    return _sendSuccessPopuV;
+}
+-(void)showSendSuccessPopuV{
+    UIView *manView=[self mainWindow];
+    [manView addSubview:self.sendSuccessPopuV];
+    [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(manView);
+    }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.sendSuccessPopuV removeFromSuperview];
+        self.sendSuccessPopuV =nil;
+        [self.navigationController popViewControllerAnimated:YES];
+    });
+    
+}
+-(void)hiddenSendSuccessPopuV{
+    [self.sendSuccessPopuV removeFromSuperview];
+    self.sendSuccessPopuV=nil;
+    
+    
+}
+#pragma mark ---------HMWtransferDetailsPopupViewDelegate----------
+
+-(void)closeThePage{
+    
+    
+    [self.transferDetailsPopupV removeFromSuperview];
+    self.transferDetailsPopupV=nil;
+}
+-(void)pwdAndInfoWithPWD:(NSString *)pwd{
+    [self.transferDetailsPopupV removeFromSuperview];
+    NSString *isUtxo=@"1";
+//    if (self.isAddSwitch.isOn) {
+//        isUtxo=@"1";
+//    }
+    self.transferDetailsPopupV=nil;
+     CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[NSString stringWithFormat:@"%f",[self.theAmountOfTextField.text doubleValue]*100000000],self.noteTextField.text,@"22",pwd,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+    
+    CDVPluginResult *result = [[ELWalletManager share]CreateTransaction:mommand];
+    NSString *statue=[NSString stringWithFormat:@"%@",result.status];
+    
+    if ([statue isEqualToString:@"1"]) {
+        [self showSendSuccessPopuV];
+    }
+    
+    
+
+    
+}
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    
+    [self.view endEditing:YES];
+}
+-(void)setCurrentWallet:(FLWallet *)currentWallet{
+    _currentWallet=currentWallet;
+    
+}
+-(void)setModel:(assetsListModel *)model{
+    _model=model;
+    
+}
+
+-(void)choosedFriedsMode:(friendsModel*)model{
+self.transferTheAddressTextField.text=model.address;
+}
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    
+    
+    
+    NSCharacterSet *cs;
+    
+    if ([textField isEqual:self.theAmountOfTextField]) {
+        
+        NSUInteger nDotLoc = [textField.text rangeOfString:@"."].location;
+        
+        if (NSNotFound == nDotLoc && 0 != range.location) {
+            
+            cs = [[NSCharacterSet characterSetWithCharactersInString:myDotNumbers] invertedSet];
+            
+        }
+        
+        else {
+            
+            cs = [[NSCharacterSet characterSetWithCharactersInString:myNumbers] invertedSet];
+            
+        }
+        
+        NSString *filtered = [[string componentsSeparatedByCharactersInSet:cs] componentsJoinedByString:@""];
+        
+        BOOL basicTest = [string isEqualToString:filtered];
+        
+        if (!basicTest) {
+            
+            
+            
+            //            [self showMyMessage:@"只能输入数字和小数点"];
+            
+            return NO;
+            
+        }
+        
+        if (NSNotFound != nDotLoc && range.location > nDotLoc + 4) {
+            
+            //            [self showMyMessage:@"小数点后最多三位"];
+            
+            return NO;
+            
+        }
+        
+    }
+    
+    return YES;
+}
+@end

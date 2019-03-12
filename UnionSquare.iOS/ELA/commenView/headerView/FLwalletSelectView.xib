@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="FLwalletSelectView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bnc-YX-Paj">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="160"/>
+                    <subviews>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="TO4-J9-Gi9">
+                            <rect key="frame" x="0.0" y="28" width="375" height="90"/>
+                            <color key="backgroundColor" red="0.078431372550000003" green="0.1333333333" blue="0.18039215689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="90" id="LpO-KY-8UF"/>
+                            </constraints>
+                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="trQ-y1-GY8">
+                                <size key="itemSize" width="50" height="50"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                        </collectionView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ajS-Yq-rd1">
+                            <rect key="frame" x="0.0" y="128" width="187" height="26"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="26" id="B8P-HL-FDz"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <inset key="titleEdgeInsets" minX="4" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="管理钱包" image="manage">
+                                <color key="titleColor" red="0.84705882349999995" green="0.69019607839999997" blue="0.49019607840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="click:" destination="iN0-l3-epB" eventType="touchUpInside" id="CwD-5O-Def"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U15-NA-xRN">
+                            <rect key="frame" x="188" y="127" width="187" height="29"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <inset key="titleEdgeInsets" minX="4" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="创建钱包" image="钱包管理">
+                                <color key="titleColor" red="0.84705882349999995" green="0.69019607839999997" blue="0.49019607840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="click2:" destination="iN0-l3-epB" eventType="touchUpInside" id="9lq-ZB-S54"/>
+                            </connections>
+                        </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I8d-jQ-QIz">
+                            <rect key="frame" x="187" y="131" width="1" height="20"/>
+                            <color key="backgroundColor" red="0.84705882349999995" green="0.69019607839999997" blue="0.49019607840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="ZLr-Vz-f0h"/>
+                                <constraint firstAttribute="width" constant="1" id="gCo-ue-kRW"/>
+                            </constraints>
+                        </view>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5s8-Q9-qIA">
+                            <rect key="frame" x="0.0" y="120" width="375" height="1"/>
+                            <color key="backgroundColor" red="0.84705882349999995" green="0.69019607839999997" blue="0.49019607840000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="GNS-3u-TpA"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.078431372550000003" green="0.1333333333" blue="0.18039215689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="5s8-Q9-qIA" firstAttribute="leading" secondItem="Bnc-YX-Paj" secondAttribute="leading" id="6dA-Du-iOU"/>
+                        <constraint firstItem="I8d-jQ-QIz" firstAttribute="centerX" secondItem="Bnc-YX-Paj" secondAttribute="centerX" id="BcM-Fk-G6f"/>
+                        <constraint firstItem="TO4-J9-Gi9" firstAttribute="leading" secondItem="Bnc-YX-Paj" secondAttribute="leading" id="JQa-Nd-fbu"/>
+                        <constraint firstAttribute="trailing" secondItem="5s8-Q9-qIA" secondAttribute="trailing" id="M2T-lj-YLm"/>
+                        <constraint firstAttribute="trailing" secondItem="TO4-J9-Gi9" secondAttribute="trailing" id="Vaz-e9-ESh"/>
+                        <constraint firstItem="U15-NA-xRN" firstAttribute="leading" secondItem="I8d-jQ-QIz" secondAttribute="trailing" id="dMJ-O6-6b6"/>
+                        <constraint firstAttribute="height" constant="160" id="eF8-7t-mTd"/>
+                        <constraint firstItem="5s8-Q9-qIA" firstAttribute="top" secondItem="TO4-J9-Gi9" secondAttribute="bottom" constant="2" id="eUd-zQ-SAh"/>
+                        <constraint firstAttribute="trailing" secondItem="U15-NA-xRN" secondAttribute="trailing" id="eqS-Kd-K6E"/>
+                        <constraint firstItem="ajS-Yq-rd1" firstAttribute="leading" secondItem="Bnc-YX-Paj" secondAttribute="leading" id="i31-XB-PQT"/>
+                        <constraint firstItem="U15-NA-xRN" firstAttribute="centerY" secondItem="ajS-Yq-rd1" secondAttribute="centerY" id="kt5-q8-IsQ"/>
+                        <constraint firstItem="I8d-jQ-QIz" firstAttribute="centerY" secondItem="ajS-Yq-rd1" secondAttribute="centerY" id="lQj-gX-JDW"/>
+                        <constraint firstAttribute="bottom" secondItem="ajS-Yq-rd1" secondAttribute="bottom" constant="6" id="nTF-ZY-A5o"/>
+                        <constraint firstItem="I8d-jQ-QIz" firstAttribute="leading" secondItem="ajS-Yq-rd1" secondAttribute="trailing" id="ogl-0l-6Xk"/>
+                        <constraint firstAttribute="bottom" secondItem="U15-NA-xRN" secondAttribute="bottom" constant="4" id="uAe-YK-cSb"/>
+                        <constraint firstItem="ajS-Yq-rd1" firstAttribute="top" secondItem="TO4-J9-Gi9" secondAttribute="bottom" constant="10" id="xCO-zo-51K"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.36274614729999999" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Bnc-YX-Paj" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="CJ9-ed-vlI"/>
+                <constraint firstItem="Bnc-YX-Paj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="lzE-N9-EsW"/>
+                <constraint firstItem="Bnc-YX-Paj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="tZ6-Fo-ar5"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="c51-ol-WU4"/>
+            <connections>
+                <outlet property="btn1" destination="ajS-Yq-rd1" id="pBB-pC-4Ue"/>
+                <outlet property="btn2" destination="U15-NA-xRN" id="9vz-Wr-x8t"/>
+                <outlet property="collection" destination="TO4-J9-Gi9" id="Tvc-My-ib9"/>
+                <outlet property="flow" destination="trQ-y1-GY8" id="P6k-Wr-Uog"/>
+                <outlet property="menuView" destination="Bnc-YX-Paj" id="OXp-xx-q3I"/>
+            </connections>
+            <point key="canvasLocation" x="-12.5" y="5.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="manage" width="17" height="17"/>
+        <image name="钱包管理" width="17" height="15"/>
+    </resources>
+</document>

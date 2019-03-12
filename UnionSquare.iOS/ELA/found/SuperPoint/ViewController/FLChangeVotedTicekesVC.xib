@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FLChangeVotedTicekesVC">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fAO-ss-45I">
+                    <rect key="frame" x="16" y="35" width="343" height="582"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lva-Sh-ZwV">
+                    <rect key="frame" x="0.0" y="625" width="375" height="42"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q21-f0-RlK">
+                            <rect key="frame" x="250" y="0.0" width="125" height="42"/>
+                            <color key="backgroundColor" red="0.29334878920000002" green="0.35568827390000002" blue="0.43992537259999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <state key="normal" title="立即投票">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FfD-ev-6q1">
+                            <rect key="frame" x="0.0" y="0.0" width="125" height="42"/>
+                            <color key="backgroundColor" red="0.11643937980000001" green="0.16756013040000001" blue="0.23900625110000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <state key="normal" title="全选">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 已选择" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FfG-e8-0iS">
+                            <rect key="frame" x="125" y="0.0" width="125" height="42"/>
+                            <color key="backgroundColor" red="0.11643937980000001" green="0.16756013040000001" blue="0.23900625110000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="FfG-e8-0iS" firstAttribute="leading" secondItem="FfD-ev-6q1" secondAttribute="trailing" id="4HP-1g-M28"/>
+                        <constraint firstAttribute="bottom" secondItem="q21-f0-RlK" secondAttribute="bottom" id="HW9-QH-Zmo"/>
+                        <constraint firstItem="q21-f0-RlK" firstAttribute="width" secondItem="FfD-ev-6q1" secondAttribute="width" id="RZ7-dE-PVX"/>
+                        <constraint firstItem="FfD-ev-6q1" firstAttribute="leading" secondItem="Lva-Sh-ZwV" secondAttribute="leading" id="Tgl-S9-xuJ"/>
+                        <constraint firstItem="FfG-e8-0iS" firstAttribute="width" secondItem="FfD-ev-6q1" secondAttribute="width" id="UnR-E9-QbX"/>
+                        <constraint firstAttribute="trailing" secondItem="q21-f0-RlK" secondAttribute="trailing" id="YVo-fd-LgM"/>
+                        <constraint firstItem="q21-f0-RlK" firstAttribute="top" secondItem="Lva-Sh-ZwV" secondAttribute="top" id="d7A-Oe-Bs2"/>
+                        <constraint firstItem="FfD-ev-6q1" firstAttribute="top" secondItem="Lva-Sh-ZwV" secondAttribute="top" id="d8B-bm-JYS"/>
+                        <constraint firstAttribute="bottom" secondItem="FfG-e8-0iS" secondAttribute="bottom" id="eZc-hq-bus"/>
+                        <constraint firstItem="q21-f0-RlK" firstAttribute="leading" secondItem="FfG-e8-0iS" secondAttribute="trailing" id="l7T-qA-Cxz"/>
+                        <constraint firstItem="FfG-e8-0iS" firstAttribute="top" secondItem="Lva-Sh-ZwV" secondAttribute="top" id="td0-ah-ZF2"/>
+                        <constraint firstAttribute="bottom" secondItem="FfD-ev-6q1" secondAttribute="bottom" id="wuN-ts-ulq"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="fAO-ss-45I" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="15" id="9Ha-Dh-leY"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="fAO-ss-45I" secondAttribute="bottom" constant="50" id="WrU-xo-xtA"/>
+                <constraint firstItem="fAO-ss-45I" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="16" id="bp9-Sc-k5g"/>
+                <constraint firstItem="Lva-Sh-ZwV" firstAttribute="top" secondItem="fAO-ss-45I" secondAttribute="bottom" constant="8" id="lMu-Sa-nWD"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="fAO-ss-45I" secondAttribute="trailing" constant="16" id="lgT-hL-46Z"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="Lva-Sh-ZwV" secondAttribute="trailing" id="siL-Qg-kCm"/>
+                <constraint firstAttribute="bottom" secondItem="Lva-Sh-ZwV" secondAttribute="bottom" id="tmT-s9-pgF"/>
+                <constraint firstItem="Lva-Sh-ZwV" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="xrk-gl-SVd"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
+            <point key="canvasLocation" x="24.800000000000001" y="48.125937031484263"/>
+        </view>
+    </objects>
+</document>

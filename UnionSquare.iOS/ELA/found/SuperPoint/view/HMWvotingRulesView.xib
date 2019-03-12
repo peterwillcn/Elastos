@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="HMWvotingRulesView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="投票规则" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Gs-fT-WjF">
+                    <rect key="frame" x="154.5" y="203" width="66" height="16"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="16" id="L7L-oh-g1j"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kKz-bX-ufG">
+                    <rect key="frame" x="319" y="39" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="3Vt-a9-egQ"/>
+                        <constraint firstAttribute="width" constant="50" id="Qf0-ST-F7x"/>
+                        <constraint firstAttribute="height" constant="50" id="djj-By-35S"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="ogb-Bq-DA5"/>
+                    </constraints>
+                    <state key="normal" image="window_54_close"/>
+                    <connections>
+                        <action selector="closeViewEvent:" destination="iN0-l3-epB" eventType="touchUpInside" id="3MR-h9-Ogx"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Zk-Ba-xiP">
+                    <rect key="frame" x="43.5" y="252" width="288" height="99"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="99" id="Don-4z-VRl"/>
+                        <constraint firstAttribute="width" constant="288" id="N74-yV-Jqe"/>
+                    </constraints>
+                    <string key="text">参与ELA超级节点投票，需锁仓ELA。投票不消耗ELA数量；
+
+
+每次投票最多可选择 30 个超级节点，撤销或更改再次投票生效有</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9ua-8I-xRi">
+                    <rect key="frame" x="29" y="260" width="6" height="6"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="6" id="0Ij-it-9M3"/>
+                        <constraint firstAttribute="width" constant="6" id="BfH-Bv-IBO"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="3"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PaK-Du-DYh">
+                    <rect key="frame" x="29" y="323" width="6" height="6"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="6" id="Cb6-Bo-F3b"/>
+                        <constraint firstAttribute="height" constant="6" id="KqF-lQ-v3u"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.7970145089285714" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="4Zk-Ba-xiP" firstAttribute="leading" secondItem="9ua-8I-xRi" secondAttribute="trailing" constant="8.5" id="46Z-4X-PRG"/>
+                <constraint firstItem="4Zk-Ba-xiP" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="7k8-mr-HGW"/>
+                <constraint firstItem="0Gs-fT-WjF" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Mbn-Pf-ce0"/>
+                <constraint firstItem="PaK-Du-DYh" firstAttribute="top" secondItem="9ua-8I-xRi" secondAttribute="bottom" constant="57" id="T4n-Z4-RDL"/>
+                <constraint firstItem="kKz-bX-ufG" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="19" id="T70-AL-ZxG"/>
+                <constraint firstItem="4Zk-Ba-xiP" firstAttribute="leading" secondItem="PaK-Du-DYh" secondAttribute="trailing" constant="8.5" id="d8B-pG-MJf"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="kKz-bX-ufG" secondAttribute="trailing" constant="6" id="dBq-fa-8FU"/>
+                <constraint firstItem="0Gs-fT-WjF" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="183" id="jVe-zx-5Uc"/>
+                <constraint firstItem="9ua-8I-xRi" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="240" id="jxg-wm-Vuy"/>
+                <constraint firstItem="4Zk-Ba-xiP" firstAttribute="top" secondItem="0Gs-fT-WjF" secondAttribute="bottom" constant="33" id="xvD-Qb-tCh"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="closeButton" destination="kKz-bX-ufG" id="Ff2-Vy-FYh"/>
+                <outlet property="lab1" destination="0Gs-fT-WjF" id="Lxx-e2-4k5"/>
+                <outlet property="lab2" destination="4Zk-Ba-xiP" id="AmY-wB-hU5"/>
+            </connections>
+            <point key="canvasLocation" x="53.600000000000001" y="48.125937031484263"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="window_54_close" width="16" height="16"/>
+    </resources>
+</document>

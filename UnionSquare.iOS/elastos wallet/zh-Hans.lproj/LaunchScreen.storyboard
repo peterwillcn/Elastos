@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Lanch Screen View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController storyboardIdentifier="launch" id="01J-lp-oVM" customClass="lanchScreenViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Llm-lL-Icb"/>
+                        <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="zhImage" translatesAutoresizingMaskIntoConstraints="NO" id="5Zh-QT-fPQ">
+                                <rect key="frame" x="16" y="20" width="343" height="647"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="5Zh-QT-fPQ" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" id="9pv-P2-C9b"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="5Zh-QT-fPQ" secondAttribute="bottom" id="9rm-PG-Zou"/>
+                            <constraint firstItem="5Zh-QT-fPQ" firstAttribute="trailing" secondItem="Ze5-6b-2t3" secondAttribute="trailingMargin" id="AZv-e3-RQ2"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="5Zh-QT-fPQ" secondAttribute="bottom" id="K2t-TH-Vda"/>
+                            <constraint firstItem="5Zh-QT-fPQ" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" id="SMk-p6-jrh"/>
+                            <constraint firstItem="5Zh-QT-fPQ" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" id="TRi-7H-1ev"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="5Zh-QT-fPQ" secondAttribute="trailing" id="Vlj-r8-mME"/>
+                            <constraint firstItem="5Zh-QT-fPQ" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" id="yIV-rN-GMJ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="lanchScreenImageView" destination="5Zh-QT-fPQ" id="hPT-Ua-2I7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="53" y="375"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="zhImage" width="640" height="960"/>
+    </resources>
+</document>

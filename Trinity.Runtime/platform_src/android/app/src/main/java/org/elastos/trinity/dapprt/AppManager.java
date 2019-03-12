@@ -213,6 +213,9 @@ public class AppManager {
         FragmentTransaction transaction = manager.beginTransaction();
         if ((curFragment != null) && (curFragment != fragment)) {
             transaction.hide(curFragment);
+            if (!curFragment.id.equals("launcher")) {
+                curFragment.onPause();
+            }
         }
         if (curFragment != fragment) {
             if (!fragment.isAdded()) {
@@ -223,6 +226,9 @@ public class AppManager {
             }
 //            transaction.addToBackStack(null);
             transaction.commit();
+            if (!id.equals("launcher")) {
+                fragment.onResume();
+            }
             curFragment = fragment;
         }
         lastList.remove(id);
@@ -598,65 +604,4 @@ public class AppManager {
             }
         }
     }
-
-    public void onPause() {
-        FragmentManager manager = activity.getSupportFragmentManager();
-        List<Fragment> fragments = manager.getFragments();
-
-        for (int i = 0; i < fragments.size(); i++) {
-            WebViewFragment fragment = (WebViewFragment)fragments.get(i);
-            if (fragment != null) {
-                fragment.onPause();
-            }
-        }
-    }
-
-    public void onResume() {
-        FragmentManager manager = activity.getSupportFragmentManager();
-        List<Fragment> fragments = manager.getFragments();
-
-        for (int i = 0; i < fragments.size(); i++) {
-            WebViewFragment fragment = (WebViewFragment)fragments.get(i);
-            if (fragment != null) {
-                fragment.onResume();
-            }
-        }
-    }
-
-    public void onStop() {
-        FragmentManager manager = activity.getSupportFragmentManager();
-        List<Fragment> fragments = manager.getFragments();
-
-        for (int i = 0; i < fragments.size(); i++) {
-            WebViewFragment fragment = (WebViewFragment)fragments.get(i);
-            if (fragment != null) {
-                fragment.onStop();
-            }
-        }
-    }
-
-    public void onStart() {
-        FragmentManager manager = activity.getSupportFragmentManager();
-        List<Fragment> fragments = manager.getFragments();
-
-        for (int i = 0; i < fragments.size(); i++) {
-            WebViewFragment fragment = (WebViewFragment)fragments.get(i);
-            if (fragment != null) {
-                fragment.onStart();
-            }
-        }
-    }
-
-    public void onDestroy() {
-        FragmentManager manager = activity.getSupportFragmentManager();
-        List<Fragment> fragments = manager.getFragments();
-
-        for (int i = 0; i < fragments.size(); i++) {
-            WebViewFragment fragment = (WebViewFragment)fragments.get(i);
-            if (fragment != null) {
-                fragment.onDestroy();
-            }
-        }
-    }
-
 }

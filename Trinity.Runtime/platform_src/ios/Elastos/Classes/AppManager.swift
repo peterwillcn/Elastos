@@ -108,8 +108,8 @@ class AppManager {
         return resetPath(getAppUrl(info), info.start_url);
     }
     
-    func getAppPath(_ info: AppInfo) -> String {
-        return appsPath + info.id;
+    func getAppPath(_ id: String) -> String {
+        return appsPath + id + "/";
     }
     
     func getAppUrl(_ info: AppInfo) -> String {
@@ -121,8 +121,8 @@ class AppManager {
         }
     }
     
-    func getDataPath(_ info: AppInfo) -> String {
-        return dataPath + info.id;
+    func getDataPath(_ id: String) -> String {
+        return dataPath + id + "/";
     }
     
     func getDataUrl(_ info: AppInfo) -> String {

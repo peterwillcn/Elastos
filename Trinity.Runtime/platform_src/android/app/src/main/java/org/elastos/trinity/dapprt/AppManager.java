@@ -123,8 +123,8 @@ public class AppManager {
         return resetPath(getAppUrl(info), info.start_url);
     }
 
-    public String getAppPath(AppInfo info) {
-        return appsPath + info.app_id;
+    public String getAppPath(String id) {
+        return appsPath + id + "/";
     }
 
     public String getAppUrl(AppInfo info) {
@@ -136,8 +136,8 @@ public class AppManager {
         }
     }
 
-    public String getDataPath(AppInfo info) {
-        return dataPath + info.app_id;
+    public String getDataPath(String id) {
+        return dataPath + id + "/";
     }
 
     public String getDataUrl(AppInfo info) {

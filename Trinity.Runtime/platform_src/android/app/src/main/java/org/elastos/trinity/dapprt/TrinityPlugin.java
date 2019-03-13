@@ -29,9 +29,14 @@ import org.apache.cordova.CordovaWebView;
 
 public class TrinityPlugin extends CordovaPlugin {
     private AppWhitelistPlugin whitelistPlugin;
+    public String dataPath = null;
 
     public void setWhitelistPlugin(AppWhitelistPlugin appWhitelistPlugin) {
         this.whitelistPlugin = appWhitelistPlugin;
+    }
+
+    public void setDataPath(String path) {
+        this.dataPath = path;
     }
 
     public Boolean isAllowAccess(String url) {

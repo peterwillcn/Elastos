@@ -51,10 +51,11 @@ public class AuthorityPlugin extends CordovaPlugin {
     AuthorityPlugin(String className, AppInfo info, String name, AppWhitelistPlugin whitelistPlugin) {
         appInfo = info;
         pluginName = name;
-        originalPlugin = instantiatePlugin(className, whitelistPlugin);
+        String path = AppManager.appManager.getDataPath(info.app_id);
+        originalPlugin = instantiatePlugin(className, whitelistPlugin, path);
     }
 
-    private TrinityPlugin instantiatePlugin(String className, AppWhitelistPlugin whitelistPlugin) {
+    private TrinityPlugin instantiatePlugin(String className, AppWhitelistPlugin whitelistPlugin, String dataPath) {
         TrinityPlugin ret = null;
         try {
             Class<?> c = null;
@@ -70,6 +71,7 @@ public class AuthorityPlugin extends CordovaPlugin {
         }
         if (ret != null) {
             ret.setWhitelistPlugin(whitelistPlugin);
+            ret.setDataPath(dataPath);
         }
         return ret;
     }

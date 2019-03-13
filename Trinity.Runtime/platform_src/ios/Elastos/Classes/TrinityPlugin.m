@@ -28,6 +28,7 @@
 @property (nonatomic, readwrite, strong) WhitelistFilter* filter;
 @property (nonatomic, readwrite) BOOL checkAuthority;
 @property (nonatomic, readwrite, copy) NSString* pluginName;
+@property (nonatomic, readwrite) NSString* dataPath;
 @end
 
 @implementation TrinityPlugin
@@ -35,12 +36,14 @@
 @synthesize filter;
 @synthesize checkAuthority;
 @synthesize pluginName;
+@synthesize dataPath;
 
-- (void)trinityInitialize:(NSString*)pluginName
-          whitelistFilter:(WhitelistFilter *)filter checkAuthority:(BOOL)check  {
+- (void)trinityInitialize:(NSString*)pluginName whitelistFilter:(CDVPlugin *)filter
+        checkAuthority:(BOOL)check dataPath:(NSString*)path {
     self.pluginName = pluginName;
-    self.filter = filter;
+    self.filter = (WhitelistFilter*)filter;
     self.checkAuthority = check;
+    self.dataPath = path;
 }
 
 - (BOOL)isAllowAccess:(NSString *)url {

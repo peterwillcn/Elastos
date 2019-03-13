@@ -27,11 +27,14 @@
 
 @interface TrinityPlugin : CDVPlugin
 
-- (void)trinityInitialize:(NSString*)pluginName
-          whitelistFilter:(CDVPlugin *)filter checkAuthority:(BOOL)check;
+- (void)trinityInitialize:(NSString*)pluginName whitelistFilter:(CDVPlugin *)filter
+           checkAuthority:(BOOL)check dataPath:(NSString*)path;
+
 - (BOOL)isAllowAccess:(NSString *)url;
 - (BOOL)execute:(CDVInvokedUrlCommand*)command;
 - (BOOL)trinityExecute:(CDVInvokedUrlCommand*)command;
+
+@property (nonatomic, readonly) NSString* dataPath;
 
 @end
 

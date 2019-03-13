@@ -213,9 +213,9 @@ public class AppManager {
         FragmentTransaction transaction = manager.beginTransaction();
         if ((curFragment != null) && (curFragment != fragment)) {
             transaction.hide(curFragment);
-            if (!curFragment.id.equals("launcher")) {
-                curFragment.onPause();
-            }
+//            if (!curFragment.id.equals("launcher")) {
+//                curFragment.onPause();
+//            }
         }
         if (curFragment != fragment) {
             if (!fragment.isAdded()) {
@@ -226,9 +226,9 @@ public class AppManager {
             }
 //            transaction.addToBackStack(null);
             transaction.commit();
-            if (!id.equals("launcher")) {
-                fragment.onResume();
-            }
+//            if (!id.equals("launcher")) {
+//                fragment.onResume();
+//            }
             curFragment = fragment;
         }
         lastList.remove(id);
@@ -258,6 +258,9 @@ public class AppManager {
                 }
                 fragment = AppViewFragment.newInstance(id);
             }
+        }
+        else if (!id.equals("launcher")) {
+            fragment.onResume();
         }
         switchContent(fragment, id);
     }

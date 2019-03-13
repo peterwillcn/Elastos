@@ -175,10 +175,13 @@ public class AppInstaller {
         }
 
         String manifest = path + "manifest.json";
-        InputStream file = null;
-        file = new FileInputStream(manifest);
+        File file = new File(manifest);
+        if (!file.exists()) {
+            throw new Exception("File 'manifest.json' no exist!");
+        }
 
-        info = parseManifest(file);
+        InputStream input = new FileInputStream(manifest);
+        info = parseManifest(input);
         File from = new File(appPath, temp);
         if (info == null || info.app_id == null || info.app_id.equals("launcher")
                 || appManager.getAppInfo(info.app_id) != null) {

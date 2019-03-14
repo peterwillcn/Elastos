@@ -561,7 +561,7 @@ static FLTools *tool;
     
 }
 -(NSString*)elaScaleConversionWith:(NSString*)el{
-    
+    el=[NSString stringWithFormat:@"%@",el];
     NSDecimalNumber *num1 = [NSDecimalNumber decimalNumberWithString:el];
       NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:8 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:YES];
      NSDecimalNumber *num2 = [num1 decimalNumberByDividingBy:[NSDecimalNumber decimalNumberWithString:@"100000000"] withBehavior:roundDown];

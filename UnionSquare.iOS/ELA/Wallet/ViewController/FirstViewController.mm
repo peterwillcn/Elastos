@@ -347,18 +347,6 @@
     [super viewWillDisappear:animated];
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
--(void)ScanQRView{
-    WCQRCodeScanningVC *WCVC = [[WCQRCodeScanningVC alloc] init];
-    WCVC.scanBack = ^(NSString *addr) {
-//        if (![addr hasPrefix:@"0x"]) {
-//            [[FLTools share]showErrorInfo:@"不是地址"];
-//        }else{
-//           // [self jumpToSelectTradeBiVC:addr];
-//        }
-    };
-    [self QRCodeScanVC:WCVC];
-  
-}
 -(void)swichWallet{
     HMWTheWalletListViewController *theWalletListVC=[[HMWTheWalletListViewController alloc]init];
     theWalletListVC.delegate=self;

@@ -23,7 +23,7 @@
     webWiew.backgroundColor=[UIColor clearColor];
 //    目前用的是这个url  https://blockchain-regtest.elastos.org/
 //    https://blockchain.elastos.org/tx/56d5ec82443405f4629600187e37975322204dff9f86984df952fa310d5981b6
-    NSURL *url =[NSURL URLWithString:[NSString stringWithFormat:@"https://blockchain-regtest.elastos.org/%@",self.urlString]];
+    NSURL *url =[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",transUrl,self.urlString]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
 
     [self.view addSubview:webWiew];

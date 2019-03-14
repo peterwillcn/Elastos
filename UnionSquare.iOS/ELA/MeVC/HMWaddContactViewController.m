@@ -9,7 +9,7 @@
 #import "HMWaddContactViewController.h"
 #import "HMWFMDBManager.h"
 #import "friendsModel.h"
-#import "WCQRCodeScanningVC.h"
+#import "ScanQRCodeViewController.h"
 
 @interface HMWaddContactViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nickNameTextField;
@@ -68,16 +68,14 @@
 }
 - (IBAction)sweepTheQRCodeEvent:(id)sender {
 
-    WCQRCodeScanningVC *WCVC = [[WCQRCodeScanningVC alloc] init];
-    WCVC.scanBack = ^(NSString *addr) {
-        self.theWalletAddressTextField.text=addr;
-//        if (![addr hasPrefix:@"0x"]) {
-//            [[FLTools share]showErrorInfo:@"不是地址"];
-//        }else{
-//            // [self jumpToSelectTradeBiVC:addr];
-//        }
+    __weak __typeof__(self) weakSelf = self;
+    ScanQRCodeViewController *scanQRCodeVC = [[ScanQRCodeViewController alloc]init];
+    scanQRCodeVC.scanBack = ^(NSString *addr) {
+        
+        weakSelf.theWalletAddressTextField.text=addr;
+    
     };
-    [self QRCodeScanVC:WCVC];
+    [self QRCodeScanVC:scanQRCodeVC];
 }
 
 - (IBAction)pasteTheEvent:(id)sender {

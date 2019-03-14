@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -12,8 +13,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HMWverifyTheMnemonicWordViewController">
             <connections>
                 <outlet property="BGView" destination="Doq-Jf-AEQ" id="KdI-8v-4gx"/>
+                <outlet property="collect" destination="zO8-XB-is5" id="d9f-h8-AdR"/>
                 <outlet property="showInfoTextLabel" destination="FrN-mQ-PUf" id="lI9-nY-ikR"/>
-                <outlet property="textView" destination="M3w-t3-cd2" id="A6d-dd-cnD"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -31,23 +32,24 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Doq-Jf-AEQ">
                     <rect key="frame" x="40" y="192" width="295" height="90"/>
                     <subviews>
-                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="M3w-t3-cd2">
-                            <rect key="frame" x="40" y="15" width="215" height="60"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                        </textView>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="zO8-XB-is5">
+                            <rect key="frame" x="4" y="4" width="287" height="82"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Vfe-rx-dCg">
+                                <size key="itemSize" width="50" height="50"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                        </collectionView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="M3w-t3-cd2" firstAttribute="centerY" secondItem="Doq-Jf-AEQ" secondAttribute="centerY" id="2NA-AQ-f4o"/>
+                        <constraint firstAttribute="bottom" secondItem="zO8-XB-is5" secondAttribute="bottom" constant="4" id="PZp-BO-RjU"/>
+                        <constraint firstItem="zO8-XB-is5" firstAttribute="leading" secondItem="Doq-Jf-AEQ" secondAttribute="leading" constant="4" id="RIY-P5-Pjs"/>
                         <constraint firstAttribute="height" constant="90" id="Yxw-gc-eCF"/>
-                        <constraint firstItem="M3w-t3-cd2" firstAttribute="top" secondItem="Doq-Jf-AEQ" secondAttribute="top" constant="15" id="aYo-Sv-sus"/>
-                        <constraint firstItem="M3w-t3-cd2" firstAttribute="centerX" secondItem="Doq-Jf-AEQ" secondAttribute="centerX" id="bAj-t7-IBd"/>
-                        <constraint firstItem="M3w-t3-cd2" firstAttribute="leading" secondItem="Doq-Jf-AEQ" secondAttribute="leading" constant="40" id="bYq-uD-KCU"/>
-                        <constraint firstAttribute="trailing" secondItem="M3w-t3-cd2" secondAttribute="trailing" constant="40" id="cCg-Lr-ZLp"/>
-                        <constraint firstAttribute="bottom" secondItem="M3w-t3-cd2" secondAttribute="bottom" constant="15" id="cfL-1d-yxb"/>
+                        <constraint firstItem="zO8-XB-is5" firstAttribute="top" secondItem="Doq-Jf-AEQ" secondAttribute="top" constant="4" id="fn8-Vo-9Ja"/>
+                        <constraint firstAttribute="trailing" secondItem="zO8-XB-is5" secondAttribute="trailing" constant="4" id="zSf-vs-mAG"/>
                     </constraints>
                 </view>
             </subviews>

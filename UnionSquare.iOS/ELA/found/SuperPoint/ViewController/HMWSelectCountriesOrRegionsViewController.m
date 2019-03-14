@@ -370,7 +370,7 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
         [_baseTableView registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
         
         [_baseTableView setSectionIndexColor: [UIColor whiteColor]];
-//        _baseTableView.sectionIndexBackgroundColor = [UIColor clearColor];
+        _baseTableView.sectionIndexBackgroundColor = [UIColor clearColor];
         
         [self.view addSubview:_baseTableView];
         [_baseTableView mas_makeConstraints:^(MASConstraintMaker *make) {

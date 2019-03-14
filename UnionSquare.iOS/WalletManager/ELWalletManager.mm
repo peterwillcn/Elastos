@@ -1421,7 +1421,7 @@ static uint64_t feePerKB = 10000;
         nlohmann::json payload = ELA->GenerateProducerPayload(pubKey, nodePubKey, nickName, url, ipAddress,
                                                                              location, [model.pwd UTF8String]);
         
-        nlohmann::json tx = ELA->CreateUpdateProducerTransaction("", payload, "", "heropan update producer");
+        nlohmann::json tx = ELA->CreateUpdateProducerTransaction("", payload, "", [model.mark UTF8String]);
         
         uint64_t fee = ELA->CalculateTransactionFee(tx, feePerKB);
         tx = ELA->UpdateTransactionFee(tx, fee, "");
@@ -1450,7 +1450,7 @@ static uint64_t feePerKB = 10000;
         
         nlohmann::json payload = mainchainSubWallet->GenerateCancelProducerPayload(pubKey, [pwd UTF8String]);
         
-        nlohmann::json tx = mainchainSubWallet->CreateCancelProducerTransaction("", payload, "", "heropan update producer");
+        nlohmann::json tx = mainchainSubWallet->CreateCancelProducerTransaction("", payload, "", "");
         
         uint64_t fee = mainchainSubWallet->CalculateTransactionFee(tx, feePerKB);
         

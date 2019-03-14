@@ -76,7 +76,7 @@
 "修改钱包名称"="Change wallet name";
 "修改钱包密码"="Change wallet password";
 "导出Keystore"="Export Keystore";
-"导出助记词"="Export Seed Phrase";
+"导出助记词"="Export Mnemonics";
 "删除钱包"="Delete Wallet";
 "是否删除当前钱包？"="Delete this wallet?";
 "请输入新的钱包名称"="Enter new wallet name";
@@ -91,20 +91,20 @@
 "确认导出"="Confirm export";
 "请将此文本复制到一个安全的地方"="Please copy this file to a safe place";
 "复制到剪贴板"="Please copy this file to a safe place";
-"抄写下您的钱包助记词"="Please write down this seed phrase";
-"请在纸上抄下您的助记词 \n 助记词丢失您将永远失去自己的钱包"="Please write down your seed phrase. \n If you forget your seed phrase, you will lose access to your wallet.";
-"助记词密码（可选）"="Seed phrase password (Optional)";
-"助记词密码"="Seed phrase password";
+"抄写下您的钱包助记词"="Please write down this Mnemonics";
+"请在纸上抄下您的助记词 \n 助记词丢失您将永远失去自己的钱包"="Please write down your Mnemonics. \n If you forget your Mnemonics, you will lose access to your wallet.";
+"助记词密码（可选）"="Mnemonics password (Optional)";
+"助记词密码"="Mnemonics password";
 "请设置8至16位助记词密码"="Please create a password of 8 to 16 characters";
 "请设置8至16位助记词密码1"="a password of 8 to 16 characters";
 "请重复已输入的助记词密码"="Please confirm your password";
 "须包含大、小写字母，数字"="Must include capital and lowercase letters, numbers.";
 "长度8-16位，且至少包含字母、数字和特殊字符中的2种"="8-16 bits long and contains at least two letters, Numbers, and special characters";
 
-"导出助记词"="Export Seed Phrase";
-"验证助记词"="Verify Seed Phrase";
-"请按照顺序点击您的助记词"="Input your seed phrase in the correct order";
-"请按照顺序点击您的助记词"="Input your seed phrase in the correct order";
+"导出助记词"="Export Mnemonics";
+"验证助记词"="Verify Mnemonics";
+"请按照顺序点击您的助记词"="Input your Mnemonics in the correct order";
+"请按照顺序点击您的助记词"="Input your Mnemonics in the correct order";
 
 "请输入钱包名称"="Wallet Name";
 "请输入8至16位钱包密码"="Create a password with 8 to 16 characters";
@@ -117,12 +117,12 @@
 "备份钱包:请将「助记词」抄写到安全的地方,干万不要保存在网络上。建议从转入,转出小额资产开始使用。"="Backup wallet: please copy 「mnemonic」to a safe place, do not do Save on the network.Suggest from turn in, turn out petty assets to begin to use.";
 "立即备份您的钱包"="Backup your wallet now";
 "备份助记词"="Backup Seed Phrase";
-"助记词"="Seed Phrase";
+"助记词"="Mnemonics";
 "助记词之间请使用空格隔开"="Please separate each word with a single space";
 "确认你的钱包助记词"="Confirm your wallet mnemonic word";
 "请输入Keystore文本内容"="Please enter Keystore text content";
 "请输入Keystore密码"="Please enter your keystore password";
-"请输入当前钱包的助记词密码"="Enter your seed phrase password";
+"请输入当前钱包的助记词密码"="Enter your Mnemonics password";
 "未识别"="Did not identify";
 "导入成功"="import successful";
 "你备份的助记词顺序验证正确"="Your backup mnemonic verify correct word order";
@@ -159,7 +159,7 @@
 "更新参选交易"="Update for trading";
 "取回参选优质抵押资产交易"="Retrieve the running quality mortgage assets transaction";
 "修改失败！"="Modify the failure!";
-"暂无充值记录"="No record yet";
+"暂无交易记录"="No record yet";
 "报名押金"="The registration deposit";
 
 

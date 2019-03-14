@@ -28,9 +28,12 @@
 #define Http_IP   @"https://52.81.8.194:442"
 //regtext
 //#define Http_IP @"https://123.206.52.29"
+#define transUrl @"https://blockchain-beta.elastos.org/tx/"
+
 #else
 //regtext
 #define Http_IP @"https://123.206.52.29"
+#define transUrl @"https://blockchain-regtest.elastos.org/"
 
 #define DLog(...)
 

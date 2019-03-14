@@ -50,11 +50,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self defultWhite];
+    self.navigationItem.title = @"扫一扫";
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self.view addSubview:self.scanningView];
-    [self setupNavigationBar];
+//    [self setupNavigationBar];
     [self.view addSubview:self.promptLabel];
     /// 为了 UI 效果
     [self.view addSubview:self.bottomView];
@@ -90,7 +91,7 @@
     self.manager = [SGQRCodeScanManager sharedManager];
     NSArray *arr = @[AVMetadataObjectTypeQRCode, AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeCode128Code];
     // AVCaptureSessionPreset1920x1080 推荐使用，对于小型的二维码读取率较高
-    [_manager setupSessionPreset:AVCaptureSessionPreset1920x1080 metadataObjectTypes:arr currentController:self];
+    [_manager setupSessionPreset:AVCaptureSessionPreset3840x2160 metadataObjectTypes:arr currentController:self];
     _manager.delegate = self;
 }
 

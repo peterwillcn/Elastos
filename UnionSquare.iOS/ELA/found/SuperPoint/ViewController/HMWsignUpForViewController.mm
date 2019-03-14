@@ -248,6 +248,7 @@
     
     [self.transferDetailsPopupV removeFromSuperview];
     self.transferDetailsPopupV=nil;
+    [self.navigationController popViewControllerAnimated:YES];
 
 }
 

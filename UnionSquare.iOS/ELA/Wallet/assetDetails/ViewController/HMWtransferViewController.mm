@@ -13,6 +13,7 @@
 #import "ELWalletManager.h"
 #import <Cordova/CDV.h>
 #import "WCQRCodeScanningVC.h"
+#import "ScanQRCodeViewController.h"
 
 
 @interface HMWtransferViewController ()<HMWtransferDetailsPopupViewDelegate,HMWChooseSideChainViewControllerDelegate,UITextFieldDelegate>
@@ -89,16 +90,14 @@
     
 }
 -(void)scanView{
-    
-    
-        __weak __typeof__(self) weakSelf = self;
-    WCQRCodeScanningVC *WCVC = [[WCQRCodeScanningVC alloc] init];
-    WCVC.scanBack = ^(NSString *addr) {
+            __weak __typeof__(self) weakSelf = self;
+    ScanQRCodeViewController *scanQRCodeVC = [[ScanQRCodeViewController alloc]init];
+   scanQRCodeVC.scanBack = ^(NSString *addr) {
         
-    weakSelf.transferTheAddressTextField.text=addr;
+        weakSelf.transferTheAddressTextField.text=addr;
         
     };
-    [self QRCodeScanVC:WCVC];
+    [self QRCodeScanVC:scanQRCodeVC];
 }
 - (IBAction)pasteEvent:(id)sender {
     

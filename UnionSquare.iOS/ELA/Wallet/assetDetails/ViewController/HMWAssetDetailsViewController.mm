@@ -102,7 +102,7 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
      [self.collectionButton setTitle:NSLocalizedString(@"收款", nil) forState:UIControlStateNormal];
     self.transactionRecordsTextLabel.text=NSLocalizedString(@"交易记录", nil);
     self.topUpButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-  self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无充值记录", nil);
+  self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无交易记录", nil);
    
 }
 

@@ -129,7 +129,7 @@
 //    if (self.isAddSwitch.isOn) {
 //        isUtxo=@"1";
 //    }
-    CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[NSString stringWithFormat:@"%f",[self.theAmountOfTextField.text doubleValue]*100000000],self.noteTextField.text,@"22",isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+    CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[NSString stringWithFormat:@"%f",[self.theAmountOfTextField.text doubleValue]*100000000],self.noteTextField.text,self.noteTextField.text,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
     CDVPluginResult * result =[[ELWalletManager share]accessFees:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if (![status isEqualToString:@"1"]) {
@@ -199,7 +199,7 @@
 //        isUtxo=@"1";
 //    }
     self.transferDetailsPopupV=nil;
-     CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[NSString stringWithFormat:@"%f",[self.theAmountOfTextField.text doubleValue]*100000000],self.noteTextField.text,@"22",pwd,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+     CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[NSString stringWithFormat:@"%f",[self.theAmountOfTextField.text doubleValue]*100000000],self.noteTextField.text,self.noteTextField.text,pwd,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
     
     CDVPluginResult *result = [[ELWalletManager share]CreateTransaction:mommand];
     NSString *statue=[NSString stringWithFormat:@"%@",result.status];

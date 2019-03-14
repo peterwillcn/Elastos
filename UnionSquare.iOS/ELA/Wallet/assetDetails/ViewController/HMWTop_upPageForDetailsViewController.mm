@@ -102,14 +102,14 @@
    
     CDVPluginResult * result;
     if (self.type==sideChainTop_upType) {
-            CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.fromModel.iconName,self.selectmModel.iconName,@"",self.addressTextField.text,[NSString stringWithFormat:@"%f",[self.enterTheAmountTextField.text doubleValue]*100000000],self.noteTextField.text,@"22",@"0"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"sideChainTop_UpFee"];
+            CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.fromModel.iconName,self.selectmModel.iconName,@"",self.addressTextField.text,[NSString stringWithFormat:@"%f",[self.enterTheAmountTextField.text doubleValue]*100000000],self.noteTextField.text,self.noteTextField.text,@"0"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"sideChainTop_UpFee"];
         
   result=[[ELWalletManager share]sideChainTop_UpFee:mommand];
         
       
     }
     if (self.type==mainChainWithdrawalType) {
-            CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.fromModel.iconName,self.substringAddress,self.addressTextField.text,[NSString stringWithFormat:@"%f",[self.enterTheAmountTextField.text doubleValue]*100000000],self.noteTextField.text,@"22"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"sideChainTop_UpFee"];
+            CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.fromModel.iconName,self.substringAddress,self.addressTextField.text,[NSString stringWithFormat:@"%f",[self.enterTheAmountTextField.text doubleValue]*100000000],self.noteTextField.text,self.noteTextField.text] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"sideChainTop_UpFee"];
   result=[[ELWalletManager share]mainChainWithdrawalFee:mommand];
        
         
@@ -191,7 +191,7 @@
     self.transferDetailsPopupV=nil;
     
     if (self.type==sideChainTop_upType) {
-            CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.fromModel.iconName,self.selectmModel.iconName,self.addressArray.firstObject,self.addressTextField.text,[NSString stringWithFormat:@"%f",[self.enterTheAmountTextField.text doubleValue]*100000000],self.noteTextField.text,@"22",pwd,@"0"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"sideChainTop_Up"];
+            CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.fromModel.iconName,self.selectmModel.iconName,self.addressArray.firstObject,self.addressTextField.text,[NSString stringWithFormat:@"%f",[self.enterTheAmountTextField.text doubleValue]*100000000],self.noteTextField.text,self.noteTextField.text,pwd,@"0"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"sideChainTop_Up"];
         
             CDVPluginResult *result = [[ELWalletManager share]sideChainTop_Up:mommand];
             NSString *statue=[NSString stringWithFormat:@"%@",result.status];
@@ -203,7 +203,7 @@
         
     }
     if (self.type==mainChainWithdrawalType) {
-        CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.fromModel.iconName,@"",self.addressTextField.text,[NSString stringWithFormat:@"%f",[self.enterTheAmountTextField.text doubleValue]*100000000],self.noteTextField.text,@"22",pwd,@"0"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"mainChainWithdrawal"];
+        CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.fromModel.iconName,@"",self.addressTextField.text,[NSString stringWithFormat:@"%f",[self.enterTheAmountTextField.text doubleValue]*100000000],self.noteTextField.text,self.noteTextField.text,pwd,@"0"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"mainChainWithdrawal"];
         
         CDVPluginResult *result = [[ELWalletManager share]mainChainWithdrawal:mommand];
         NSString *statue=[NSString stringWithFormat:@"%@",result.status];

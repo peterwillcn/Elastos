@@ -116,7 +116,7 @@
 "备份钱包"="Backup Wallet";
 "备份钱包:请将「助记词」抄写到安全的地方,干万不要保存在网络上。建议从转入,转出小额资产开始使用。"="Backup wallet: please copy 「mnemonic」to a safe place, do not do Save on the network.Suggest from turn in, turn out petty assets to begin to use.";
 "立即备份您的钱包"="Backup your wallet now";
-"备份助记词"="Backup Seed Phrase";
+"备份助记词"="Backup Mnemonics";
 "助记词"="Mnemonics";
 "助记词之间请使用空格隔开"="Please separate each word with a single space";
 "确认你的钱包助记词"="Confirm your wallet mnemonic word";

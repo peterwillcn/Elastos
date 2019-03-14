@@ -252,13 +252,6 @@
 		4202CAD921F6EF2B009E5932 /* HMWMyVoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C9D621F6EF29009E5932 /* HMWMyVoteViewController.xib */; };
 		4202CADB21F6EF2B009E5932 /* HMWfoundViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C9DD21F6EF29009E5932 /* HMWfoundViewController.mm */; };
 		4202CADE21F6F0D2009E5932 /* ElaSubWalletCallback.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202CADC21F6F0D2009E5932 /* ElaSubWalletCallback.mm */; };
-		421299C0221FE8730070572C /* 1242_2208.png in Resources */ = {isa = PBXBuildFile; fileRef = 421299B9221FE8730070572C /* 1242_2208.png */; };
-		421299C1221FE8730070572C /* 1125_2436.png in Resources */ = {isa = PBXBuildFile; fileRef = 421299BA221FE8730070572C /* 1125_2436.png */; };
-		421299C2221FE8730070572C /* 750_1334.png in Resources */ = {isa = PBXBuildFile; fileRef = 421299BB221FE8730070572C /* 750_1334.png */; };
-		421299C3221FE8730070572C /* 640_960.png in Resources */ = {isa = PBXBuildFile; fileRef = 421299BC221FE8730070572C /* 640_960.png */; };
-		421299C4221FE8730070572C /* 828_1792.png in Resources */ = {isa = PBXBuildFile; fileRef = 421299BD221FE8730070572C /* 828_1792.png */; };
-		421299C5221FE8730070572C /* 1242_2688.png in Resources */ = {isa = PBXBuildFile; fileRef = 421299BE221FE8730070572C /* 1242_2688.png */; };
-		421299C6221FE8730070572C /* 640_1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 421299BF221FE8730070572C /* 640_1136.png */; };
 		4228AA4121F88C86002866B5 /* YYDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 4228A9F321F88C86002866B5 /* YYDiskCache.m */; };
 		4228AA4221F88C86002866B5 /* YYCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 4228A9F521F88C86002866B5 /* YYCache.m */; };
 		4228AA4321F88C86002866B5 /* YYKVStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4228A9F921F88C86002866B5 /* YYKVStorage.m */; };
@@ -821,13 +814,6 @@
 		4202C9DD21F6EF29009E5932 /* HMWfoundViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HMWfoundViewController.mm; sourceTree = "<group>"; };
 		4202CADC21F6F0D2009E5932 /* ElaSubWalletCallback.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ElaSubWalletCallback.mm; sourceTree = "<group>"; };
 		4202CADD21F6F0D2009E5932 /* ElaSubWalletCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElaSubWalletCallback.h; sourceTree = "<group>"; };
-		421299B9221FE8730070572C /* 1242_2208.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1242_2208.png; sourceTree = "<group>"; };
-		421299BA221FE8730070572C /* 1125_2436.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1125_2436.png; sourceTree = "<group>"; };
-		421299BB221FE8730070572C /* 750_1334.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 750_1334.png; sourceTree = "<group>"; };
-		421299BC221FE8730070572C /* 640_960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 640_960.png; sourceTree = "<group>"; };
-		421299BD221FE8730070572C /* 828_1792.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 828_1792.png; sourceTree = "<group>"; };
-		421299BE221FE8730070572C /* 1242_2688.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1242_2688.png; sourceTree = "<group>"; };
-		421299BF221FE8730070572C /* 640_1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 640_1136.png; sourceTree = "<group>"; };
 		422492B021FEDE2C00754977 /* ISubWalletCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISubWalletCallback.h; sourceTree = "<group>"; };
 		422492B121FEDE2C00754977 /* IMasterWalletManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMasterWalletManager.h; sourceTree = "<group>"; };
 		422492B221FEDE2C00754977 /* IIdAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIdAgent.h; sourceTree = "<group>"; };
@@ -1172,7 +1158,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				421299B8221FE7640070572C /* lanchImageView */,
 				0207DA571B56EA530066E2B4 /* Images.xcassets */,
 				3047A50E1AB8057F00498E2A /* config */,
 				8D1107310486CEB800E47090 /* elastos wallet-Info.plist */,
@@ -2305,20 +2290,6 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
-		421299B8221FE7640070572C /* lanchImageView */ = {
-			isa = PBXGroup;
-			children = (
-				421299BC221FE8730070572C /* 640_960.png */,
-				421299BF221FE8730070572C /* 640_1136.png */,
-				421299BB221FE8730070572C /* 750_1334.png */,
-				421299BD221FE8730070572C /* 828_1792.png */,
-				421299BA221FE8730070572C /* 1125_2436.png */,
-				421299B9221FE8730070572C /* 1242_2208.png */,
-				421299BE221FE8730070572C /* 1242_2688.png */,
-			);
-			path = lanchImageView;
-			sourceTree = "<group>";
-		};
 		422492AE21FEDE2C00754977 /* spvsdk-iOS-v0.3.0 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2840,11 +2811,9 @@
 				4202CA6F21F6EF2B009E5932 /* HMWtransferTransactionDetailsFootView.xib in Resources */,
 				4202CA4621F6EF2A009E5932 /* FLGoToIdentyAlertView.xib in Resources */,
 				4202CA5221F6EF2A009E5932 /* FLAssetTableCell.xib in Resources */,
-				421299C0221FE8730070572C /* 1242_2208.png in Resources */,
 				4202CA6721F6EF2B009E5932 /* HMWtransferTransactionMultipleAddressDetailsTableViewCell.xib in Resources */,
 				4250B3F32238D32700B6858F /* zbar-helpicons.png in Resources */,
 				4202CA9C21F6EF2B009E5932 /* FLSelectWordCollectCell.xib in Resources */,
-				421299C1221FE8730070572C /* 1125_2436.png in Resources */,
 				4202CA4F21F6EF2A009E5932 /* FLtradeResultView.xib in Resources */,
 				4202CA6E21F6EF2B009E5932 /* HMWtransferTransactionSingleAddressDetailsView.xib in Resources */,
 				4202CAD721F6EF2B009E5932 /* HMWsignUpForViewController.xib in Resources */,
@@ -2863,7 +2832,6 @@
 				4202CA0821F6EF2A009E5932 /* SGQRCode.bundle in Resources */,
 				4202CA7521F6EF2B009E5932 /* HMWAssetDetailsViewController.xib in Resources */,
 				4202CA8621F6EF2B009E5932 /* HMWSecurityVerificationPopView.xib in Resources */,
-				421299C5221FE8730070572C /* 1242_2688.png in Resources */,
 				4202CAD321F6EF2B009E5932 /* HMWtheSuperNodeElectionViewController.xib in Resources */,
 				4202CA2521F6EF2A009E5932 /* HMWshowAddContactTextTableViewCell.xib in Resources */,
 				4202CA9421F6EF2B009E5932 /* HMWModifyTheWalletPasswordViewController.xib in Resources */,
@@ -2878,7 +2846,6 @@
 				4202CA6321F6EF2A009E5932 /* HMWpwdPopupView.xib in Resources */,
 				4202CA2721F6EF2A009E5932 /* FLTableViewDefultCell.xib in Resources */,
 				4202CAA221F6EF2B009E5932 /* HMWImKeystoreView.xib in Resources */,
-				421299C3221FE8730070572C /* 640_960.png in Resources */,
 				4202CA5421F6EF2A009E5932 /* FLSearchContractTableCell.xib in Resources */,
 				4202CA4221F6EF2A009E5932 /* FLwalletSelectView.xib in Resources */,
 				4202CACB21F6EF2B009E5932 /* HMWVotingListView.xib in Resources */,
@@ -2898,7 +2865,6 @@
 				4202CA2021F6EF2A009E5932 /* HMWaddContactViewController.xib in Resources */,
 				4202CA8921F6EF2B009E5932 /* HMWTheWalletListViewController.xib in Resources */,
 				4202CA8121F6EF2B009E5932 /* HMWaddWalletListTableViewCell.xib in Resources */,
-				421299C6221FE8730070572C /* 640_1136.png in Resources */,
 				4202CAA721F6EF2B009E5932 /* FLPrepareVC.xib in Resources */,
 				429F79802228D69A00A1814F /* LaunchScreen.storyboard in Resources */,
 				4202CA2921F6EF2A009E5932 /* HMWNotAddContactTableViewCell.xib in Resources */,
@@ -2910,7 +2876,6 @@
 				4202CA2B21F6EF2A009E5932 /* HMWmyContactListTableViewCell.xib in Resources */,
 				4202CAC221F6EF2B009E5932 /* HMWinputVotesPopupWindowView.xib in Resources */,
 				4202CA8421F6EF2B009E5932 /* HMWToDeleteTheWalletPopView.xib in Resources */,
-				421299C4221FE8730070572C /* 828_1792.png in Resources */,
 				4202CA7721F6EF2B009E5932 /* HMWTop_upPageForDetailsViewController.xib in Resources */,
 				4202CA5621F6EF2A009E5932 /* FLAssetManageTableCell.xib in Resources */,
 				4202CA9821F6EF2B009E5932 /* FLCreatAcountVC.xib in Resources */,
@@ -2920,7 +2885,6 @@
 				422D609E21FC405A00DD07FF /* FLManageSelectPointNodeInformationVC.xib in Resources */,
 				4202CA6B21F6EF2B009E5932 /* HMWSideChainAndTheContactTableViewCell.xib in Resources */,
 				CBD25EFE221542F500EDA0F5 /* FLChangeVotedTicketsVC.xib in Resources */,
-				421299C2221FE8730070572C /* 750_1334.png in Resources */,
 				4250B3F52238D32700B6858F /* zbar-help.html in Resources */,
 				4202CA4B21F6EF2A009E5932 /* FLCopyPrivateKeyView.xib in Resources */,
 				4202CA2421F6EF2A009E5932 /* HMWClassificationOfLanguageTableViewCell.xib in Resources */,

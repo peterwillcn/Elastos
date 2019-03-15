@@ -17,6 +17,10 @@
                 <outlet property="confirmToRunButton" destination="ZkN-wd-SuV" id="1Yi-kJ-JCa"/>
                 <outlet property="countriesTextField" destination="uca-RU-gCv" id="5su-wN-Iki"/>
                 <outlet property="ipAddressTextField" destination="sGq-6v-TS3" id="4Wd-iM-Ifg"/>
+                <outlet property="offHight" destination="Usi-GX-MYY" id="cyX-hN-huG"/>
+                <outlet property="offY" destination="qhV-pi-Ngv" id="ebN-23-jQA"/>
+                <outlet property="theNameOfTheNodeMakeView" destination="324-hd-ueE" id="QeG-xB-E8f"/>
+                <outlet property="theNameOfTheNodeTextField" destination="MG1-1v-YIs" id="QRX-3a-dya"/>
                 <outlet property="thePublicKeyTextField" destination="uKn-aw-2HC" id="cE5-1d-PMg"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -27,17 +31,17 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wYb-Oq-bDK">
-                    <rect key="frame" x="30" y="30" width="315" height="240"/>
+                    <rect key="frame" x="30" y="30" width="315" height="300"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oag-gB-faT">
-                            <rect key="frame" x="15" y="111" width="285" height="1"/>
+                            <rect key="frame" x="15" y="167" width="285" height="1"/>
                             <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="MTG-qX-SgM"/>
                             </constraints>
                         </view>
                         <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请选择国家/地区" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uca-RU-gCv">
-                            <rect key="frame" x="15" y="112" width="285" height="55"/>
+                            <rect key="frame" x="15" y="168" width="285" height="55"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="xOp-Jo-XFw"/>
                             </constraints>
@@ -46,21 +50,21 @@
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w6X-0n-pS4">
-                            <rect key="frame" x="15" y="167" width="285" height="1"/>
+                            <rect key="frame" x="15" y="223" width="285" height="1"/>
                             <color key="backgroundColor" white="1" alpha="0.50334821429999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="K5Q-ct-W0c"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OGo-fs-WHm">
-                            <rect key="frame" x="15" y="223" width="285" height="1"/>
+                            <rect key="frame" x="15" y="279" width="285" height="1"/>
                             <color key="backgroundColor" white="1" alpha="0.50334821429999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="Jal-Vg-fwI"/>
                             </constraints>
                         </view>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入节点官网URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UFx-Id-SIK">
-                            <rect key="frame" x="15" y="168" width="285" height="55"/>
+                            <rect key="frame" x="15" y="224" width="285" height="55"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="oc6-Dc-qZJ"/>
                             </constraints>
@@ -69,7 +73,7 @@
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入节点公钥" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="uKn-aw-2HC">
-                            <rect key="frame" x="15" y="0.0" width="300" height="55"/>
+                            <rect key="frame" x="15" y="56" width="300" height="55"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="NQS-bz-Jia"/>
                             </constraints>
@@ -78,7 +82,7 @@
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入网络地址（必填）" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sGq-6v-TS3">
-                            <rect key="frame" x="15" y="56" width="285" height="55"/>
+                            <rect key="frame" x="15" y="112" width="285" height="55"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="Zz0-3B-v5G"/>
                             </constraints>
@@ -87,23 +91,39 @@
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="setting_list_arrow_fold" translatesAutoresizingMaskIntoConstraints="NO" id="4AC-0C-wwm">
-                            <rect key="frame" x="283" y="128.5" width="22" height="22"/>
+                            <rect key="frame" x="283" y="184.5" width="22" height="22"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="22" id="VU7-Pd-inP"/>
                                 <constraint firstAttribute="height" constant="22" id="slg-zr-Hbh"/>
                             </constraints>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dO6-E8-Hb3">
-                            <rect key="frame" x="15" y="112" width="290" height="56"/>
+                            <rect key="frame" x="15" y="168" width="290" height="56"/>
                             <connections>
                                 <action selector="chooseTheCountryEvent:" destination="-1" eventType="touchUpInside" id="y5W-pE-MiH"/>
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="frK-xL-5xg">
-                            <rect key="frame" x="15" y="55" width="285" height="1"/>
+                            <rect key="frame" x="15" y="111" width="285" height="1"/>
                             <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="1Qs-DI-L2O"/>
+                            </constraints>
+                        </view>
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入节点名称（必填）" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="MG1-1v-YIs">
+                            <rect key="frame" x="15" y="0.0" width="285" height="55"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="55" id="3Ep-qv-DyO"/>
+                            </constraints>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="324-hd-ueE">
+                            <rect key="frame" x="15" y="55" width="285" height="1"/>
+                            <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="t4a-9I-PDb"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -113,20 +133,25 @@
                         <constraint firstItem="dO6-E8-Hb3" firstAttribute="top" secondItem="Oag-gB-faT" secondAttribute="bottom" id="3In-d6-rje"/>
                         <constraint firstItem="uKn-aw-2HC" firstAttribute="leading" secondItem="wYb-Oq-bDK" secondAttribute="leading" constant="15" id="4nf-3H-ICi"/>
                         <constraint firstItem="frK-xL-5xg" firstAttribute="top" secondItem="uKn-aw-2HC" secondAttribute="bottom" id="5oT-ZX-Im7"/>
+                        <constraint firstItem="MG1-1v-YIs" firstAttribute="leading" secondItem="wYb-Oq-bDK" secondAttribute="leading" constant="15" id="6fA-Uz-AzM"/>
                         <constraint firstItem="4AC-0C-wwm" firstAttribute="centerY" secondItem="uca-RU-gCv" secondAttribute="centerY" id="725-Q3-dhp"/>
                         <constraint firstItem="OGo-fs-WHm" firstAttribute="top" secondItem="UFx-Id-SIK" secondAttribute="bottom" id="7CX-3R-C94"/>
                         <constraint firstItem="UFx-Id-SIK" firstAttribute="leading" secondItem="wYb-Oq-bDK" secondAttribute="leading" constant="15" id="Ano-US-yfh"/>
+                        <constraint firstItem="324-hd-ueE" firstAttribute="leading" secondItem="wYb-Oq-bDK" secondAttribute="leading" constant="15" id="BJA-uU-TSt"/>
                         <constraint firstAttribute="trailing" secondItem="uKn-aw-2HC" secondAttribute="trailing" id="C2t-kW-hmM"/>
                         <constraint firstAttribute="trailing" secondItem="OGo-fs-WHm" secondAttribute="trailing" constant="15" id="CqA-BZ-Kg7"/>
                         <constraint firstItem="Oag-gB-faT" firstAttribute="top" secondItem="sGq-6v-TS3" secondAttribute="bottom" id="Ctl-GU-3PF"/>
+                        <constraint firstAttribute="trailing" secondItem="MG1-1v-YIs" secondAttribute="trailing" constant="15" id="HGj-Eh-P3w"/>
                         <constraint firstAttribute="trailing" secondItem="frK-xL-5xg" secondAttribute="trailing" constant="15" id="Lcl-gn-8k0"/>
                         <constraint firstItem="uca-RU-gCv" firstAttribute="leading" secondItem="wYb-Oq-bDK" secondAttribute="leading" constant="15" id="O8M-L2-ECo"/>
                         <constraint firstItem="Oag-gB-faT" firstAttribute="leading" secondItem="wYb-Oq-bDK" secondAttribute="leading" constant="15" id="OBL-s7-hW3"/>
+                        <constraint firstAttribute="trailing" secondItem="324-hd-ueE" secondAttribute="trailing" constant="15" id="PZJ-IB-z3N"/>
                         <constraint firstItem="UFx-Id-SIK" firstAttribute="top" secondItem="w6X-0n-pS4" secondAttribute="bottom" id="Pcy-JD-yM3"/>
+                        <constraint firstItem="MG1-1v-YIs" firstAttribute="top" secondItem="wYb-Oq-bDK" secondAttribute="top" id="Ppf-pt-b6k"/>
                         <constraint firstItem="uca-RU-gCv" firstAttribute="top" secondItem="Oag-gB-faT" secondAttribute="bottom" id="QfM-lm-vDH"/>
                         <constraint firstAttribute="trailing" secondItem="w6X-0n-pS4" secondAttribute="trailing" constant="15" id="QhI-lZ-mxy"/>
                         <constraint firstAttribute="bottom" secondItem="OGo-fs-WHm" secondAttribute="bottom" constant="15" id="Ta2-Ok-DXz"/>
-                        <constraint firstAttribute="height" constant="240" id="Usi-GX-MYY"/>
+                        <constraint firstAttribute="height" constant="300" id="Usi-GX-MYY"/>
                         <constraint firstAttribute="trailing" secondItem="Oag-gB-faT" secondAttribute="trailing" constant="15" id="VPo-HD-oFa"/>
                         <constraint firstAttribute="trailing" secondItem="uca-RU-gCv" secondAttribute="trailing" constant="15" id="Wo0-1U-8f8"/>
                         <constraint firstItem="frK-xL-5xg" firstAttribute="leading" secondItem="wYb-Oq-bDK" secondAttribute="leading" constant="15" id="arN-IQ-XEY"/>
@@ -137,9 +162,10 @@
                         <constraint firstAttribute="trailing" secondItem="UFx-Id-SIK" secondAttribute="trailing" constant="15" id="h9Z-Xg-ClG"/>
                         <constraint firstAttribute="trailing" secondItem="4AC-0C-wwm" secondAttribute="trailing" constant="10" id="hnJ-hE-57U"/>
                         <constraint firstAttribute="trailing" secondItem="dO6-E8-Hb3" secondAttribute="trailing" constant="10" id="qYO-5l-lbR"/>
-                        <constraint firstItem="uKn-aw-2HC" firstAttribute="top" secondItem="wYb-Oq-bDK" secondAttribute="top" id="qhV-pi-Ngv"/>
+                        <constraint firstItem="uKn-aw-2HC" firstAttribute="top" secondItem="wYb-Oq-bDK" secondAttribute="top" constant="56" id="qhV-pi-Ngv"/>
                         <constraint firstItem="dO6-E8-Hb3" firstAttribute="leading" secondItem="wYb-Oq-bDK" secondAttribute="leading" constant="15" id="rsT-r2-lRQ"/>
                         <constraint firstItem="w6X-0n-pS4" firstAttribute="top" secondItem="uca-RU-gCv" secondAttribute="bottom" id="s5Q-vx-vNh"/>
+                        <constraint firstItem="324-hd-ueE" firstAttribute="top" secondItem="MG1-1v-YIs" secondAttribute="bottom" id="svC-QW-NKc"/>
                         <constraint firstItem="w6X-0n-pS4" firstAttribute="leading" secondItem="wYb-Oq-bDK" secondAttribute="leading" constant="15" id="y8Z-CL-in0"/>
                     </constraints>
                 </view>

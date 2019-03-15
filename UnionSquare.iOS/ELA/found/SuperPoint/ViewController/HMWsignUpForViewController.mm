@@ -15,6 +15,7 @@
 #import "HMWSelectCountriesOrRegionsViewController.h"
 #import "HMWpwdPopupView.h"
 @interface HMWsignUpForViewController ()<HMWSelectCountriesOrRegionsViewControllerDelegate,FLJoinToChoseTransferViewDelegate,HMWpwdPopupViewDelegate>
+@property (weak, nonatomic) IBOutlet UIView *theNameOfTheNodeMakeView;
 /*
  *<# #>
  */
@@ -37,6 +38,9 @@
 
 @property(strong,nonatomic)HMWpwdPopupView *pwdPopupV;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *offY;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *offHight;
 
 @end
 
@@ -67,6 +71,12 @@
     IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
       NSString * nodePubKey = [NSString stringWithCString:mainchainSubWallet->GetPublicKeyForVote().c_str() encoding:NSUTF8StringEncoding];
     self.thePublicKeyTextField.text=nodePubKey;
+    if (self.model.nickName.length!=0) {
+        self.theNameOfTheNodeTextField.alpha=0.f;
+        self.theNameOfTheNodeMakeView.alpha=0.f;
+        self.offY.constant=0.f;
+        self.offHight.constant=240;
+    }
 
 }
 
@@ -298,7 +308,7 @@
 -(void)setModel:(FLJoinVoteInfoModel *)model
 {
     _model= model;
-    self.theNameOfTheNodeTextField.text = model.nickName;
+ self.theNameOfTheNodeTextField.text = model.nickName;
     self.theNameOfTheNodeTextField.enabled = NO;
     NSString *mainid = [ELWalletManager share].currentWallet.masterWalletID;
     IMainchainSubWallet *mainWallet = [[ELWalletManager share]getWalletELASubWallet:mainid];

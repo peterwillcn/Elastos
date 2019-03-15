@@ -102,6 +102,7 @@
     }else{
     
         HMWsignUpForViewController *vc=[[HMWsignUpForViewController alloc]init];
+        vc.model=nil;
         [self.navigationController pushViewController:vc animated:YES];
 
     }

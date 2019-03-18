@@ -85,10 +85,10 @@ You could follow these instructions:
    We only pack the json and logo file to the EPK.
 
    ```bash
-   $ trinity_deploy --manifest manifest_debug.json --root-dir src/assets/imgs/ helloWorld_wrapper.epk
+   $ pack_epk --manifest manifest_debug.json --root-dir src/assets/imgs/ helloWorld_wrapper.epk
    ```
 
-   NOTE: You could type `trinity_deploy --help` for more details.
+   NOTE: You could type `pack_epk --help` for more details.
 
 1. Install and test your app
 
@@ -152,5 +152,5 @@ After test, you may want to deploy your DApp as a product.
 1. Create a production EPK file
 
    ```bash
-   $ trinity_deploy --manifest manifest_prod.json --root-dir www/ helloWorld.epk
+   $ pack_epk --manifest manifest_prod.json --root-dir www/ helloWorld.epk
    ```

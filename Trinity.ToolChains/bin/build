@@ -51,8 +51,8 @@ if args.target == "clean":
     remove_tree("Runtime/origin_platforms")
     remove_tree("Runtime/platforms")
     remove_tree("Runtime/plugins")
-    remove_tree("Runtime/www/built-in")
-    remove_tree("Runtime/www/launcher")
+    remove_tree("Runtime/www")
+    remove_tree("Plugins/QRScanner/node_modules")
 
 if args.target == "launcher" or args.target == "all":
     os.chdir(LAUNCHER_DIR_PATH)

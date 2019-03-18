@@ -5,6 +5,7 @@
 /platforms
 /plugins
 /origin_platforms
+/www
 
 # Mac
 .DS_Store

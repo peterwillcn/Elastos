@@ -30,10 +30,10 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Doq-Jf-AEQ">
-                    <rect key="frame" x="40" y="192" width="295" height="90"/>
+                    <rect key="frame" x="40" y="192" width="295" height="120"/>
                     <subviews>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="zO8-XB-is5">
-                            <rect key="frame" x="4" y="4" width="287" height="82"/>
+                            <rect key="frame" x="4" y="4" width="287" height="112"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Vfe-rx-dCg">
                                 <size key="itemSize" width="50" height="50"/>
@@ -47,7 +47,7 @@
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="zO8-XB-is5" secondAttribute="bottom" constant="4" id="PZp-BO-RjU"/>
                         <constraint firstItem="zO8-XB-is5" firstAttribute="leading" secondItem="Doq-Jf-AEQ" secondAttribute="leading" constant="4" id="RIY-P5-Pjs"/>
-                        <constraint firstAttribute="height" constant="90" id="Yxw-gc-eCF"/>
+                        <constraint firstAttribute="height" constant="120" id="Yxw-gc-eCF"/>
                         <constraint firstItem="zO8-XB-is5" firstAttribute="top" secondItem="Doq-Jf-AEQ" secondAttribute="top" constant="4" id="fn8-Vo-9Ja"/>
                         <constraint firstAttribute="trailing" secondItem="zO8-XB-is5" secondAttribute="trailing" constant="4" id="zSf-vs-mAG"/>
                     </constraints>

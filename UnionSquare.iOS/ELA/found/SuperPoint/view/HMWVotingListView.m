@@ -30,7 +30,7 @@ static NSString *cellString=@"HMWVotingListCollectionViewCell";
         self.baseCollectionView.delegate=self;
         self.baseCollectionView.dataSource=self;
         [self.baseCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HMWVotingListCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:cellString];
-        self.taglab1.text = NSLocalizedString(@"全网投票占例", nil);
+        self.taglab1.text = NSLocalizedString(@"全网投票占比", nil);
         self.taglab3.text = NSLocalizedString(@"当前票数", nil);
 
 

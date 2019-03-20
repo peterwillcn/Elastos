@@ -76,6 +76,10 @@
         self.theNameOfTheNodeMakeView.alpha=0.f;
         self.offY.constant=0.f;
         self.offHight.constant=240;
+        self.URLTextField.text=self.model.url;
+        self.countriesTextField.text=[[FLTools share]contryNameTransLateByCode:self.model.contryCode.integerValue];
+        self.chooseTheCountryBuuton.userInteractionEnabled=NO;
+        
     }
 
 }
@@ -310,6 +314,7 @@
     _model= model;
  self.theNameOfTheNodeTextField.text = model.nickName;
     self.theNameOfTheNodeTextField.enabled = NO;
+ 
     NSString *mainid = [ELWalletManager share].currentWallet.masterWalletID;
     IMainchainSubWallet *mainWallet = [[ELWalletManager share]getWalletELASubWallet:mainid];
     

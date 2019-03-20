@@ -50,6 +50,10 @@ static NSString *cellString=@"HMWtransferTransactionMultipleAddressDetailsTableV
  *<# #>
  */
 @property(assign,nonatomic)NSInteger outputsISOpenCount;
+/*
+ *<# #>
+ */
+//@property(assign,nonatomic)NSInteger outputsISOpenCount;
 @end
 
 @implementation HMWtransferTransactionDetailsViewController

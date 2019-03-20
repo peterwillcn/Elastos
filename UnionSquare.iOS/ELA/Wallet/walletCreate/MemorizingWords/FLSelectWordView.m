@@ -8,6 +8,7 @@
 
 #import "FLSelectWordView.h"
 #import "Masonry.h"
+#import "DAConfig.h"
 
 @implementation WordModel
 @end
@@ -114,8 +115,8 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    NSArray *dataArray=[[NSUserDefaults standardUserDefaults]objectForKey:@"AppleLanguages"];
-    NSString *languageString=dataArray.firstObject;
+ 
+    NSString *languageString=[DAConfig userLanguage];
     if ([languageString  containsString:@"en"]) {
         
         WordModel *model = self.dataSource[indexPath.row];

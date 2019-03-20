@@ -176,7 +176,7 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
     
     if (![self.title isEqualToString:@"ELA"]) {
         HMWTop_upPageForDetailsViewController *top_upPageForDetailsVC=[[HMWTop_upPageForDetailsViewController alloc]init];
-        top_upPageForDetailsVC.title=@"主链提现";
+        top_upPageForDetailsVC.title=NSLocalizedString(@"主链提现", nil);
         top_upPageForDetailsVC.selectmModel=self.elaModel;
         top_upPageForDetailsVC.currentWallet=self.currentWallet;
         top_upPageForDetailsVC.fromModel=self.model;
@@ -371,13 +371,9 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
             break;
     }
     detailsM.Timestamp=[[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:detailsM.Timestamp];
-//    transactionSingleIntoType,// 自转
-//    transactionSingleRollOutType,// 转出
-//    transactionMultipleIntoType,//转入
     transferTransactionDetailsVC.model=detailsM;
     if ([detailsM.Direction isEqualToString:@"Received"]) {
-        transferTransactionDetailsVC.type=transactionMultipleIntoType;
-        
+transferTransactionDetailsVC.type=transactionMultipleIntoType;
     }else if ([detailsM.Direction isEqualToString:@"Sent"]){
       
         transferTransactionDetailsVC.type=transactionSingleRollOutType;

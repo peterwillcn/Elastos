@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -31,7 +32,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENypaH8BKvhjXFQRCybvpFaxJTGbhdYC6r" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nab-L2-PmV">
-                                <rect key="frame" x="87.5" y="0.0" width="217.5" height="43.5"/>
+                                <rect key="frame" x="92.5" y="0.0" width="212.5" height="43.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="10"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -44,7 +45,7 @@
                             <constraint firstAttribute="trailing" secondItem="Nab-L2-PmV" secondAttribute="trailing" constant="15" id="aDj-Uv-bJY"/>
                             <constraint firstItem="MRn-7a-o0O" firstAttribute="leading" secondItem="6vm-Cf-wPB" secondAttribute="leading" constant="15" id="awx-0S-DCf"/>
                             <constraint firstAttribute="bottom" secondItem="Nab-L2-PmV" secondAttribute="bottom" id="hBt-DJ-Pni"/>
-                            <constraint firstItem="Nab-L2-PmV" firstAttribute="leading" secondItem="MRn-7a-o0O" secondAttribute="trailing" constant="15" id="laN-5e-yGd"/>
+                            <constraint firstItem="Nab-L2-PmV" firstAttribute="leading" secondItem="MRn-7a-o0O" secondAttribute="trailing" constant="20" id="laN-5e-yGd"/>
                             <constraint firstItem="Nab-L2-PmV" firstAttribute="top" secondItem="6vm-Cf-wPB" secondAttribute="top" id="u0a-EI-eX0"/>
                         </constraints>
                     </view>

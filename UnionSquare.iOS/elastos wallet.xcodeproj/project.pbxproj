@@ -313,9 +313,11 @@
 		4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4250B3F82238D3E900B6858F /* libiconv.tbd */; };
 		4264A73E221BDC24008D5C7B /* DAConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 4264A73D221BDC24008D5C7B /* DAConfig.m */; };
 		4264A741221BDC8D008D5C7B /* NSBundle+DAUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4264A740221BDC8D008D5C7B /* NSBundle+DAUtils.m */; };
+		428054D42242296500E74F0E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 428054D62242296500E74F0E /* InfoPlist.strings */; };
+		428054D922422B8E00E74F0E /* LaunchScreen-English.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 428054D822422B8E00E74F0E /* LaunchScreen-English.storyboard */; };
+		428054DB22422BA700E74F0E /* LaunchScreen-Chinese.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 428054DA22422BA700E74F0E /* LaunchScreen-Chinese.storyboard */; };
 		42885A562216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42885A542216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.m */; };
 		42885A572216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42885A552216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib */; };
-		429F79802228D69A00A1814F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 429F79822228D69A00A1814F /* LaunchScreen.storyboard */; };
 		42B57AB422150C1C004CF089 /* NSObject+KVOCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B57A9622150C1C004CF089 /* NSObject+KVOCrash.m */; };
 		42B57AB522150C1C004CF089 /* NSTimer+Crash.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B57A9722150C1C004CF089 /* NSTimer+Crash.m */; };
 		42B57AB622150C1C004CF089 /* NSObject+SelectorCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B57A9822150C1C004CF089 /* NSObject+SelectorCrash.m */; };
@@ -955,12 +957,14 @@
 		4264A73D221BDC24008D5C7B /* DAConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DAConfig.m; sourceTree = "<group>"; };
 		4264A73F221BDC8D008D5C7B /* NSBundle+DAUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSBundle+DAUtils.h"; sourceTree = "<group>"; };
 		4264A740221BDC8D008D5C7B /* NSBundle+DAUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+DAUtils.m"; sourceTree = "<group>"; };
+		428054D52242296500E74F0E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		428054D72242296700E74F0E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		428054D822422B8E00E74F0E /* LaunchScreen-English.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "LaunchScreen-English.storyboard"; sourceTree = "<group>"; };
+		428054DA22422BA700E74F0E /* LaunchScreen-Chinese.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "LaunchScreen-Chinese.storyboard"; sourceTree = "<group>"; };
 		42885A532216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTransactionDetailsURLViewController.h; sourceTree = "<group>"; };
 		42885A542216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTransactionDetailsURLViewController.m; sourceTree = "<group>"; };
 		42885A552216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTransactionDetailsURLViewController.xib; sourceTree = "<group>"; };
 		4293CA67221FF8730045A8D9 /* libspvsdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspvsdk.a; path = "elastos wallet/spvsdk-iOS-v0.3.0/iOS/lib/libspvsdk.a"; sourceTree = "<group>"; };
-		429F79812228D69A00A1814F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		429F79832228D6A600A1814F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.storyboard"; sourceTree = "<group>"; };
 		42B57A9422150C1C004CF089 /* WOCrashLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WOCrashLog.h; sourceTree = "<group>"; };
 		42B57A9522150C1C004CF089 /* NSObject+NSNotificationCrash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+NSNotificationCrash.h"; sourceTree = "<group>"; };
 		42B57A9622150C1C004CF089 /* NSObject+KVOCrash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+KVOCrash.m"; sourceTree = "<group>"; };
@@ -1161,7 +1165,8 @@
 				0207DA571B56EA530066E2B4 /* Images.xcassets */,
 				3047A50E1AB8057F00498E2A /* config */,
 				8D1107310486CEB800E47090 /* elastos wallet-Info.plist */,
-				429F79822228D69A00A1814F /* LaunchScreen.storyboard */,
+				428054D822422B8E00E74F0E /* LaunchScreen-English.storyboard */,
+				428054DA22422BA700E74F0E /* LaunchScreen-Chinese.storyboard */,
 			);
 			name = Resources;
 			path = "elastos wallet/Resources";
@@ -1193,6 +1198,7 @@
 				3047A50F1AB8059700498E2A /* build-debug.xcconfig */,
 				3047A5101AB8059700498E2A /* build-release.xcconfig */,
 				3047A5111AB8059700498E2A /* build.xcconfig */,
+				428054D62242296500E74F0E /* InfoPlist.strings */,
 			);
 			name = config;
 			sourceTree = "<group>";
@@ -2799,7 +2805,9 @@
 				4202CA4521F6EF2A009E5932 /* FLMeHeadView.xib in Resources */,
 				302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */,
 				4250B3F42238D32700B6858F /* zbar-samples.png in Resources */,
+				428054D42242296500E74F0E /* InfoPlist.strings in Resources */,
 				4202CA4021F6EF2A009E5932 /* FLCapitalView.xib in Resources */,
+				428054DB22422BA700E74F0E /* LaunchScreen-Chinese.storyboard in Resources */,
 				4202CA3021F6EF2A009E5932 /* HMWtheContactInformationViewController.xib in Resources */,
 				4202CAC121F6EF2B009E5932 /* HMWvotingRulesView.xib in Resources */,
 				4202CA3221F6EF2A009E5932 /* FLSugarTableCell.xib in Resources */,
@@ -2838,6 +2846,7 @@
 				4202CA8E21F6EF2B009E5932 /* HMWCopyKeyStoreViewController.xib in Resources */,
 				4202CA9721F6EF2B009E5932 /* HMWImportTheWalletViewController.xib in Resources */,
 				4202CAC421F6EF2B009E5932 /* HMWmyVoteStatisticsTableViewCell.xib in Resources */,
+				428054D922422B8E00E74F0E /* LaunchScreen-English.storyboard in Resources */,
 				4202CA3E21F6EF2A009E5932 /* FLNetErrorView.xib in Resources */,
 				CBD48D86221406F000BF3B11 /* FLJoinToChoseTransferInfoView.xib in Resources */,
 				4202CA5A21F6EF2A009E5932 /* FLItemCollectionCell.xib in Resources */,
@@ -2866,7 +2875,6 @@
 				4202CA8921F6EF2B009E5932 /* HMWTheWalletListViewController.xib in Resources */,
 				4202CA8121F6EF2B009E5932 /* HMWaddWalletListTableViewCell.xib in Resources */,
 				4202CAA721F6EF2B009E5932 /* FLPrepareVC.xib in Resources */,
-				429F79802228D69A00A1814F /* LaunchScreen.storyboard in Resources */,
 				4202CA2921F6EF2A009E5932 /* HMWNotAddContactTableViewCell.xib in Resources */,
 				4202CA4E21F6EF2A009E5932 /* FLQRVC.strings in Resources */,
 				4202C9E721F6EF2A009E5932 /* MJRefresh.bundle in Resources */,
@@ -3201,15 +3209,14 @@
 			name = FLQRVC.strings;
 			sourceTree = "<group>";
 		};
-		429F79822228D69A00A1814F /* LaunchScreen.storyboard */ = {
+		428054D62242296500E74F0E /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				429F79812228D69A00A1814F /* en */,
-				429F79832228D6A600A1814F /* zh-Hans */,
+				428054D52242296500E74F0E /* en */,
+				428054D72242296700E74F0E /* zh-Hans */,
 			);
-			name = LaunchScreen.storyboard;
-			path = "elastos wallet";
-			sourceTree = SOURCE_ROOT;
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
 		};
 		42B7AD97221BAA61006959B8 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;

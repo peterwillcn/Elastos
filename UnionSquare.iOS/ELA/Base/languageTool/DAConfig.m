@@ -11,7 +11,7 @@
 #import "AppDelegate.h"
 #import "FLFLTabBarVC.h"
 
-static NSString *const UWUserLanguageKey = @"UWUserLanguageKey";
+
 #define STANDARD_USER_DEFAULT  [NSUserDefaults standardUserDefaults]
 
 @implementation DAConfig
@@ -27,15 +27,19 @@ static NSString *const UWUserLanguageKey = @"UWUserLanguageKey";
      [STANDARD_USER_DEFAULT removeObjectForKey:UWUserLanguageKey];
     //用户自定义
     [STANDARD_USER_DEFAULT setValue:userLanguage forKey:UWUserLanguageKey];
-    
-    [STANDARD_USER_DEFAULT setValue:@[userLanguage] forKey:@"AppleLanguages"];
+//        [STANDARD_USER_DEFAULT removeObjectForKey:UWUserLanguageKey];
+//    [STANDARD_USER_DEFAULT setValue:@[userLanguage] forKey:UWUserLanguageKey];
   
     [STANDARD_USER_DEFAULT synchronize];
-    [self resetSystemLanguage];
+    
+//    [self resetSystemLanguage];
 }
 
 + (NSString *)userLanguage
 {
+//    [STANDARD_USER_DEFAULT removeObjectForKey:@"AppleLanguages"];
+//      [STANDARD_USER_DEFAULT removeObjectForKey:UWUserLanguageKey];
+//    return @"en";
     return [STANDARD_USER_DEFAULT valueForKey:UWUserLanguageKey];
 }
 
@@ -47,14 +51,16 @@ static NSString *const UWUserLanguageKey = @"UWUserLanguageKey";
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isOpen"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     FLFLTabBarVC *tabVC = [[FLFLTabBarVC alloc]init];
-    UIApplication *app = [UIApplication sharedApplication];
+    
+    AppDelegate *appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+
     //解决奇怪的动画bug。异步执行
     dispatch_async(dispatch_get_main_queue(), ^{
-        [app keyWindow].rootViewController = tabVC;
+        appdelegate.window.rootViewController = tabVC;
 
         
         tabVC.selectedIndex=2;
-     
+       
 //        NSLog(@"已切换到语言 %@", [NSBundle currentLanguage]);
     });
 }

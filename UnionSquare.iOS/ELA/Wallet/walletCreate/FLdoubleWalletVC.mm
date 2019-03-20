@@ -9,6 +9,7 @@
 #import "FLdoubleWalletVC.h"
 #import "FLPastWordVC.h"
 #import "ELWalletManager.h"
+#import "DAConfig.h"
 @interface FLdoubleWalletVC ()
 @property (weak, nonatomic) IBOutlet UIButton *PastWalletBtn;
 
@@ -29,8 +30,8 @@
     self.Wallet.walletID=[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
     
     NSString *languageStringMword;
-    NSArray *dataArray=[[NSUserDefaults standardUserDefaults]objectForKey:@"AppleLanguages"];
-    NSString *languageString=dataArray.firstObject;
+
+    NSString *languageString=[DAConfig userLanguage];
     if ([languageString  containsString:@"en"]) {
       languageStringMword=@"english";  
     }else if ([languageString  containsString:@"zh"]){

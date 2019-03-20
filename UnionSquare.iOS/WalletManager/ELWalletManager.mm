@@ -1116,9 +1116,18 @@ static uint64_t feePerKB = 10000;
 }
 - (Json)PublishTransaction:(ISubWallet*)subWallet :(Json)json withPWD:(String)payPasswd withFromAddress:(String)address
 {
-    Json signedTx=[self CalculateFeeAndSign:subWallet :json withPWD:payPasswd withFromAddress:address];
+    Json signedTx;
+    try {
+        
+        signedTx=[self CalculateFeeAndSign:subWallet :json withPWD:payPasswd withFromAddress:address];
+        
+        
+    } catch (const std:: exception &e) {
+        throw e;
+        
+    }
+  
     Json result;
-    
     try {
         
         result = subWallet->PublishTransaction(signedTx);
@@ -1505,7 +1514,7 @@ static uint64_t feePerKB = 10000;
     IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:mainchainSubWalletId];
     
     try {
-        nlohmann::json tx = mainchainSubWallet->CreateVoteProducerTransaction("", stake*unitNumber,Json::parse(keys), "","ds", change);
+        nlohmann::json tx = mainchainSubWallet->CreateVoteProducerTransaction("", stake*unitNumber,Json::parse(keys), "","", change);
         
         uint64_t fee = mainchainSubWallet->CalculateTransactionFee(tx, 10000);
         tx = mainchainSubWallet->UpdateTransactionFee(tx, fee, "");

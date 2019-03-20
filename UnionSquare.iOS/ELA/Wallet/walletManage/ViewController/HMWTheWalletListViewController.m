@@ -126,6 +126,7 @@ static NSString *celladdString=@"HMWaddWalletListTableViewCell";
     }else{
         self.needUpdate=NO;
     }
+    [self.navigationController popToRootViewControllerAnimated:YES];
     
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

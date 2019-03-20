@@ -184,6 +184,7 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
      model.isAdd=!model.isAdd;
     self.addTheCurrencyList[index.section]=model;
     self.needUpdate=YES;
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];

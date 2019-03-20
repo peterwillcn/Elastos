@@ -40,23 +40,29 @@
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
-    NSArray *dataArray=[[NSUserDefaults standardUserDefaults]objectForKey:@"AppleLanguages"];
-    NSString *languageString=dataArray.firstObject;
+    
+
+    NSString *languageString=[DAConfig userLanguage];
+  
 
 
     if ([languageString  containsString:@"en"]) {
-       [[NSUserDefaults standardUserDefaults] setValue:@[@"en"] forKey:@"AppleLanguages"];
-     
+
+//       [[NSUserDefaults standardUserDefaults] setValue:@[@"en"] forKey:UWUserLanguageKey];
+        [DAConfig setUserLanguage:@"en"];
      
     }else if ([languageString  containsString:@"zh"]){
-        [[NSUserDefaults standardUserDefaults] setValue:@[@"zh-Hans"] forKey:@"AppleLanguages"];
+//        [[NSUserDefaults standardUserDefaults] setValue:@[@"zh-Hans"] forKey:UWUserLanguageKey];
+        [DAConfig setUserLanguage:@"zh-Hans"];
         
     }else{
          NSString *localeLanguageCode = [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
         if ([localeLanguageCode  containsString:@"en"]) {
-        [[NSUserDefaults standardUserDefaults] setValue:@[@"en"] forKey:@"AppleLanguages"];
+             [DAConfig setUserLanguage:@"en"];
+//        [[NSUserDefaults standardUserDefaults] setValue:@[@"en"] forKey:@"UWUserLanguageKey"];
         }else if ([localeLanguageCode  containsString:@"zh"]){
-               [[NSUserDefaults standardUserDefaults] setValue:@[@"zh-Hans"] forKey:@"AppleLanguages"];
+            [DAConfig setUserLanguage:@"zh-Hans"];
+//               [[NSUserDefaults standardUserDefaults] setValue:@[@"zh-Hans"] forKey:UWUserLanguageKey];
             
         }
         
@@ -100,6 +106,10 @@
   return UIInterfaceOrientationMaskPortrait;
     
 }
-
+- (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(nullable NSDictionary *)launchOptions{
+    
+    
+    
+}
 
 @end

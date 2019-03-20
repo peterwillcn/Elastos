@@ -15,6 +15,7 @@
 #import "HMWFMDBManager.h"
 #import "FMDBWalletModel.h"
 #import "sideChainInfoModel.h"
+#import "DAConfig.h"
 
 
 @interface FLPastWordVC ()<FLSetMenmoryWordPassViewDelegate>
@@ -49,8 +50,8 @@
     if (!_theMnemonicWordLabel) {
         _theMnemonicWordLabel =[[UILabel alloc]init];
         _theMnemonicWordLabel.textColor=[UIColor whiteColor];
-        NSArray *dataArray=[[NSUserDefaults standardUserDefaults]objectForKey:@"AppleLanguages"];
-        NSString *languageString=dataArray.firstObject;
+  
+        NSString *languageString=[DAConfig userLanguage];
         if ([languageString  containsString:@"en"]) {
       
              _theMnemonicWordLabel.numberOfLines=0; _theMnemonicWordLabel.textAlignment=NSTextAlignmentLeft;

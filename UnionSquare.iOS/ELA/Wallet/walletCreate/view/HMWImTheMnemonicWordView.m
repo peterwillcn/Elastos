@@ -62,7 +62,7 @@
         self.againPWDTextField.placeholder=NSLocalizedString(@"请再次输入确认密码", nil);
         self.whetherTheSingleAddressButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
         [self.whetherTheSingleAddressButton setTitle:NSLocalizedString(@"单地址钱包", nil) forState:UIControlStateNormal];
-        self.pwdShowInfoTextLabel.text=NSLocalizedString(@"须包含大、小写字母，数字", nil);
+        self.pwdShowInfoTextLabel.text=NSLocalizedString(@"长度8-16位，且至少包含字母、数字和特殊字符中的2种", nil);
         self.theMnemonicWordPWDTextField.delegate=self;
     }
     

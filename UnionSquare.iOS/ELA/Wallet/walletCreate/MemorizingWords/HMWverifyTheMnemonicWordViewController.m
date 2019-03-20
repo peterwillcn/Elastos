@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "FLFLTabBarVC.h"
 #import "FLPrepareVC.h"
+#import "DAConfig.h"
 
 @interface HMWverifyTheMnemonicWordViewController ()<UITextViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
 /*
@@ -49,7 +50,7 @@
     [self.view addSubview:self.view2];
     [self.view2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.equalTo(self.view);
-        make.top.equalTo(self.BGView.mas_bottom).offset(40);
+        make.top.equalTo(self.BGView.mas_bottom).offset(20);
         
     }];
     [self setSubView];
@@ -190,8 +191,8 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    NSArray *dataArray=[[NSUserDefaults standardUserDefaults]objectForKey:@"AppleLanguages"];
-    NSString *languageString=dataArray.firstObject;
+ 
+    NSString *languageString=[DAConfig userLanguage];
     if ([languageString  containsString:@"en"]) {
         
         WordModel *model = self.inputMutableArray[indexPath.row];

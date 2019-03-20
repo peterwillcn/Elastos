@@ -33,12 +33,14 @@
     // Configure the view for the selected state
 }
 - (IBAction)selectChiness:(id)sender {
-//    [self selectChinssStatBG];
+
   [DAConfig setUserLanguage:@"zh"];
+  [DAConfig resetSystemLanguage];
 }
 - (IBAction)selectEnglish:(id)sender {
-//    [self selectEnglishStatBG];
+
   [DAConfig setUserLanguage:@"en"];
+  [DAConfig resetSystemLanguage];
 }
 -(void)selectChinssStatBG{
     
@@ -53,8 +55,8 @@
 }
 -(void)layoutSubviews{
     
-    NSArray *dataArray=[[NSUserDefaults standardUserDefaults]objectForKey:@"AppleLanguages"];
-    NSString *languageString=dataArray.firstObject;
+
+    NSString *languageString=[DAConfig userLanguage];
     if ([languageString  containsString:@"en"]) {
         [self selectEnglishStatBG];
     }else if ([languageString  containsString:@"zh"]){

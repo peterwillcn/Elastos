@@ -31,6 +31,8 @@
            checkAuthority:(BOOL)check dataPath:(NSString*)path;
 
 - (BOOL)isAllowAccess:(NSString *)url;
+- (NSString*)getDataAbsolutePath:(NSString*)dir error:(NSError * _Nullable *)error;
+- (NSString*)getDataRelativePath:(NSString*)path error:(NSError * _Nullable *)error;
 - (BOOL)execute:(CDVInvokedUrlCommand*)command;
 - (BOOL)trinityExecute:(CDVInvokedUrlCommand*)command;
 

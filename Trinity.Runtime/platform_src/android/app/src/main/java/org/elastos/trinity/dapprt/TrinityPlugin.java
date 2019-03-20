@@ -27,9 +27,14 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaPreferences;
 import org.apache.cordova.CordovaWebView;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class TrinityPlugin extends CordovaPlugin {
     private AppWhitelistPlugin whitelistPlugin;
     public String dataPath = null;
+    private String canonicalDataPath = null;
 
     public void setWhitelistPlugin(AppWhitelistPlugin appWhitelistPlugin) {
         this.whitelistPlugin = appWhitelistPlugin;
@@ -37,10 +42,38 @@ public class TrinityPlugin extends CordovaPlugin {
 
     public void setDataPath(String path) {
         this.dataPath = path;
+        File file = new File(path);
+        try {
+            canonicalDataPath = file.getCanonicalPath();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Boolean isAllowAccess(String url) {
         return whitelistPlugin.shouldAllowNavigation(url);
+    }
+
+    public String getDataAbsolutePath(String dir) throws Exception {
+        File file = new File(dataPath, dir);
+        String path = file.getCanonicalPath();
+        if (!path.startsWith(canonicalDataPath)) {
+            throw new Exception("Dir is invalid!");
+        }
+        String substr = path.substring(canonicalDataPath.length() + 1);
+        path = dataPath + substr;
+        return path;
+    }
+
+    public String getDataRelativePath(String path) throws Exception {
+        File file = new File(path);
+        path = file.getCanonicalPath() ;
+        if (!path.startsWith(canonicalDataPath)) {
+            throw new Exception("Path is invalid!");
+        }
+        String dir  = path.substring(canonicalDataPath.length());
+        return dir;
     }
 
     @Override

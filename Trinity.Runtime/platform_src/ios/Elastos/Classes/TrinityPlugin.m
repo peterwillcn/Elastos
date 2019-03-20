@@ -50,6 +50,40 @@
     return [self.filter shouldAllowNavigation:url];
 }
 
+- (NSString*)getDataAbsolutePath:(NSString*)dir error:(NSError * _Nullable *)error {
+    NSString* path = [dataPath stringByAppendingPathComponent:dir];
+    path = [path stringByStandardizingPath];
+    if (![path hasPrefix:dataPath]) {
+        
+        NSString *domain = @"";
+        NSString *desc = NSLocalizedString(@"Dir is invalid!", @"");
+        NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : desc };
+        
+        *error = [NSError errorWithDomain:domain
+                                             code:-101
+                                         userInfo:userInfo];
+        return nil;
+    }
+    return path;
+}
+
+- (NSString*)getDataRelativePath:(NSString*)path error:(NSError * _Nullable *)error {
+    path = [path stringByStandardizingPath];
+    if (![path hasPrefix:dataPath]) {
+        
+        NSString *domain = @"";
+        NSString *desc = NSLocalizedString(@"Dir is invalid!", @"");
+        NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : desc };
+        
+        *error = [NSError errorWithDomain:domain
+                                     code:-102
+                                 userInfo:userInfo];
+        return nil;
+    }
+    NSString* dir = [path substringFromIndex: [dataPath length] - 1];
+    return dir;
+}
+
 - (BOOL)execute:(CDVInvokedUrlCommand*)command
 {
     NSString* methodName = [NSString stringWithFormat:@"%@:", command.methodName];

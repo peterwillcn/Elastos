@@ -26,6 +26,10 @@
     [super viewDidLoad];
     [self defultWhite];
     [self setBackgroundImg:@"asset_bg"];
+    self.oldPWDTextField.secureTextEntry =YES;
+    
+   self.nPWDTextField.secureTextEntry =YES;
+   self.againPWDTextField.secureTextEntry =YES;;
     self.oldPWDTextField.placeholder=NSLocalizedString(@"请输入原钱包密码", nil);
     self.nPWDTextField.placeholder=NSLocalizedString(@"请输入新的钱包密码", nil);
     self.againPWDTextField.placeholder=NSLocalizedString(@"请再次输入确认钱包密码", nil);

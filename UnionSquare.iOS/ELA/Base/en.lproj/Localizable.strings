@@ -100,7 +100,7 @@
 "请设置8至16位助记词密码1"="a password of 8 to 16 characters";
 "请重复已输入的助记词密码"="Please confirm your password";
 "须包含大、小写字母，数字"="Must include capital and lowercase letters, numbers.";
-"长度8-16位，且至少包含字母、数字和特殊字符中的2种"="8-16 bits long and contains at least two letters, Numbers, and special characters";
+" 长度8-16位，且至少包含字母、数字和特殊字符中的2种"=" 8-16 bits long and contains at least two letters, Numbers, and special characters";
 
 "导出助记词"="Export Mnemonics";
 "验证助记词"="Verify Mnemonics";
@@ -112,7 +112,7 @@
 "请再次输入确认密码"="Please confirm your password";
 "单地址钱包"="Single address wallet";
 
-"   密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="    Password is used to protect private keys and authorize transactions. It’s very important to use a strong password. Elastos does not store your password, and cannot help you retrieve it. Please remember your password.";
+"     密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="      Password is used to protect private keys and authorize transactions. It’s very important to use a strong password. Elastos does not store your password, and cannot help you retrieve it. Please remember your password.";
 "确认创建"="Create Wallet";
 "备份钱包"="Backup Wallet";
 "备份钱包:请将「助记词」抄写到安全的地方,干万不要保存在网络上。建议从转入,转出小额资产开始使用。"="Backup wallet: please copy 「mnemonic」to a safe place, do not do Save on the network.Suggest from turn in, turn out petty assets to begin to use.";

@@ -16,5 +16,6 @@
 -(void)setTestFilePlaceStringColor:(UITextField*)file color:(UIColor*)color;
 - (UIImage *)resetImageWithOriginalImage:(UIImage *)originalImage withScaleSize:(CGSize)size;
 -(void)makeBordersWithView:(UIView*)view;
+-(void)setLabelSpace:(UILabel*)label withValue:(NSString*)str withFont:(UIFont*)font;
 
 @end

@@ -31,13 +31,14 @@
     self.pwdfield1.placeholder=NSLocalizedString(@"请输入8至16位钱包密码", nil);
     self.pwdfield2.placeholder=NSLocalizedString(@"请再次输入确认钱包密码", nil);
     self.sigainAddressLabel.text=NSLocalizedString(@"单地址钱包", nil); self.nameField.delegate = self;
-    self.pwdShowInfoTextLabel.text=NSLocalizedString(@"长度8-16位，且至少包含字母、数字和特殊字符中的2种", nil);
+    self.pwdShowInfoTextLabel.text=NSLocalizedString(@" 长度8-16位，且至少包含字母、数字和特殊字符中的2种", nil);
+    
     [self.btn1 setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.15] boldColor:[UIColor whiteColor] corner:0];
     self.pwdfield1.secureTextEntry=YES;
     self.pwdfield2.secureTextEntry=YES;
     [self.pwdfield1 addTarget:self action:@selector(pwdfieldValuChange) forControlEvents:UIControlEventEditingChanged];
-    self.showInfoTextLabel.text=NSLocalizedString(@"   密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记", nil);
-    
+//    self.showInfoTextLabel.text=NSLocalizedString(@"     密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记", nil);
+    [self.view setLabelSpace:self.showInfoTextLabel withValue:NSLocalizedString(@"     密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记", nil) withFont:[UIFont systemFontOfSize:10]];
     [self.btn1 setTitle:NSLocalizedString(@"确认创建", nil) forState:UIControlStateNormal];
    
 }

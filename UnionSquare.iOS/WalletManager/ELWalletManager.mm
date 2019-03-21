@@ -321,6 +321,7 @@ static uint64_t feePerKB = 10000;
     try {
       mMasterWalletManager = new MasterWalletManager(rootPath);
     } catch (const std:: exception & e) {
+        
         DLog(@"%s",e.what());
     }
    
@@ -1074,7 +1075,7 @@ static uint64_t feePerKB = 10000;
     try {
        subWallet->RemoveCallback(new ElaSubWalletCallback(callBackID));
     } catch (const std:: exception & e) {
-        [self errInfoToDic:e.what() with:command];
+       return [self errInfoToDic:e.what() with:command];
     }
     if (subWallet == nil) {
         NSString *msg = [NSString stringWithFormat:@"%@ %@ %@", @"Import", [self formatWalletName:masterWalletID], @"with mnemonic"];
@@ -1089,27 +1090,25 @@ static uint64_t feePerKB = 10000;
     String chainID        = [self cstringWithString:args[idx++]];
     String fromAddress = [self cstringWithString:args[idx++]];
     String toAddress = [self cstringWithString:args[idx++]];
-    long amount = [args[idx++] floatValue];
+    long amount = [args[idx++] doubleValue];
     String memo = [self cstringWithString:args[idx++]];
     String remark = [self cstringWithString:args[idx++]];
     String PWD = [self cstringWithString:args[idx++]];
     Boolean useVotedUTXO =  [args[idx++] boolValue];
     ISubWallet * suWall;
     Json josn;
-    
         suWall = [self getSubWallet:masterWalletID :chainID];
-        
-   
     try {
         josn=suWall->CreateTransaction(fromAddress, toAddress, amount, memo, remark,useVotedUTXO);
     } catch (const std:: exception & e) {
        return  [self errInfoToDic:e.what() with:command];
     }
-    
-    
-    Json result = [self PublishTransaction:suWall :josn withPWD:PWD withFromAddress:fromAddress];
-    
-    
+    Json result;
+    try {
+    result= [self PublishTransaction:suWall :josn withPWD:PWD withFromAddress:fromAddress];
+    } catch (const std:: exception &e) {
+       return  [self errInfoToDic:e.what() with:command];
+    }
     NSString *jsonString = [self stringWithCString:result.dump()];
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
     return [self successProcess:command msg:dic];
@@ -1117,6 +1116,7 @@ static uint64_t feePerKB = 10000;
 - (Json)PublishTransaction:(ISubWallet*)subWallet :(Json)json withPWD:(String)payPasswd withFromAddress:(String)address
 {
     Json signedTx;
+    Json  result;
     try {
         
         signedTx=[self CalculateFeeAndSign:subWallet :json withPWD:payPasswd withFromAddress:address];
@@ -1126,17 +1126,20 @@ static uint64_t feePerKB = 10000;
         throw e;
         
     }
+//    if (signedTx) {
+        try {
+            
+            result = subWallet->PublishTransaction(signedTx);
+            
+            
+        } catch (const std:: exception &e) {
+            throw e;
+            
+        }
+//    }
+   
+   
   
-    Json result;
-    try {
-        
-        result = subWallet->PublishTransaction(signedTx);
-        
-        
-    } catch (const std:: exception &e) {
-        throw e;
-        DLog(@"%s",e.what());
-    }
     
     return result;
     
@@ -1180,7 +1183,7 @@ static uint64_t feePerKB = 10000;
     String fromAddress = [self cstringWithString:args[idx++]];
    fromAddress=[self cstringWithString:@""];
     String toAddress = [self cstringWithString:args[idx++]];
-    long amount = [args[idx++] floatValue];
+    long amount = [args[idx++] doubleValue];
     NSString *memoString=args[idx++];
     if (memoString.length==0) {
         memoString=@"11";
@@ -1218,7 +1221,7 @@ static uint64_t feePerKB = 10000;
     String toSubWalletID = [self cstringWithString:args[idx++]];
     String from = [self cstringWithString:args[idx++]];
     String sidechainAddress = [self cstringWithString:args[idx++]];
-    long amount = [args[idx++] floatValue];
+    long amount = [args[idx++] doubleValue];
     String memo=[self cstringWithString:args[idx++]];
     String remark=[self cstringWithString:args[idx++]];
     String pwd=[self cstringWithString:args[idx++]];
@@ -1250,8 +1253,14 @@ static uint64_t feePerKB = 10000;
     } catch (const std:: exception & e) {
         return [self errInfoToDic:e.what() with:command];
     }
+    Json result;
+    try {
+       result = [self PublishTransaction:fromSubWallet :tx withPWD:pwd withFromAddress:from];
+        
+    } catch (const std:: exception & e) {
+        return [self errInfoToDic:e.what() with:command];
+    }
     
-    Json result = [self PublishTransaction:fromSubWallet :tx withPWD:pwd withFromAddress:from];
     NSString *jsonString = [self stringWithCString:result.dump()];
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
     return [self successProcess:command msg:dic];
@@ -1266,7 +1275,7 @@ static uint64_t feePerKB = 10000;
     String toSubWalletID = [self cstringWithString:args[idx++]];
     String from = [self cstringWithString:args[idx++]];
     String sidechainAddress = [self cstringWithString:args[idx++]];
-    long amount = [args[idx++] floatValue];
+    long amount = [args[idx++] doubleValue];
      BOOL singleAddress =  [args[idx++] boolValue];
     String memo=[self cstringWithString:args[idx++]];
     String remark=[self cstringWithString:args[idx++]];
@@ -1311,7 +1320,7 @@ static uint64_t feePerKB = 10000;
     
     String from = [self cstringWithString:args[idx++]];
     String mainchainAddress = [self cstringWithString:args[idx++]];
-    long amount = [args[idx++] floatValue];
+    long amount = [args[idx++] doubleValue];
     String memo=[self cstringWithString:args[idx++]];
     String remark=[self cstringWithString:args[idx++]];
     String pwd=[self cstringWithString:args[idx++]];
@@ -1335,8 +1344,14 @@ static uint64_t feePerKB = 10000;
     } catch (const std:: exception & e) {
         return  [self errInfoToDic:e.what() with:command];
     }
-  
-    Json result = [self PublishTransaction:fromSubWallet :tx withPWD:pwd withFromAddress:from];
+     Json result;
+    try {
+         result = [self PublishTransaction:fromSubWallet :tx withPWD:pwd withFromAddress:from];
+      
+    } catch (const std:: exception & e) {
+        return  [self errInfoToDic:e.what() with:command];
+    }
+   
     NSString *jsonString = [self stringWithCString:result.dump()];
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
     return [self successProcess:command msg:dic];
@@ -1349,7 +1364,7 @@ static uint64_t feePerKB = 10000;
     
     String from = [self cstringWithString:args[idx++]];
     String mainchainAddress = [self cstringWithString:args[idx++]];
-    long amount = [args[idx++] floatValue];
+    long amount = [args[idx++] doubleValue];
     String memo=[self cstringWithString:args[idx++]];
     String remark=[self cstringWithString:args[idx++]];
     ISubWallet * fromSubWallet=[self getSubWallet:masterWalletID :fromSubWalletID];

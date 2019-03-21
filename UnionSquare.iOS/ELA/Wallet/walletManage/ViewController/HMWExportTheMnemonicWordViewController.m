@@ -36,7 +36,7 @@
     self.walletWordSwitchInfoTextLabel.text=NSLocalizedString(@"助记词密码", nil);
     self.pwdTextField.placeholder=NSLocalizedString(@"请设置8至16位助记词密码1", nil);
     self.againTextField.placeholder=NSLocalizedString(@"请重复已输入的助记词密码", nil);
-   self.theRulesInfoTextLabel.text=NSLocalizedString(@"长度8-16位，且至少包含字母、数字和特殊字符中的2种", nil);
+   self.theRulesInfoTextLabel.text=NSLocalizedString(@" 长度8-16位，且至少包含字母、数字和特殊字符中的2种", nil);
     
     [[HMWCommView share]makeBordersWithView:self.theMnemonicWordLabel];
     [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.pwdTextField];

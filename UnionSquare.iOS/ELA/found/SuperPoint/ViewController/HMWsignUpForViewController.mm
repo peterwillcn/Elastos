@@ -72,13 +72,15 @@
       NSString * nodePubKey = [NSString stringWithCString:mainchainSubWallet->GetPublicKeyForVote().c_str() encoding:NSUTF8StringEncoding];
     self.thePublicKeyTextField.text=nodePubKey;
     if (self.model.nickName.length!=0) {
+        [self.confirmToRunButton setTitle:NSLocalizedString(@"更新信息", nil) forState:UIControlStateNormal];
+        self.title = NSLocalizedString(@"更新信息", nil);
         self.theNameOfTheNodeTextField.alpha=0.f;
         self.theNameOfTheNodeMakeView.alpha=0.f;
         self.offY.constant=0.f;
         self.offHight.constant=240;
         self.URLTextField.text=self.model.url;
         self.countriesTextField.text=[[FLTools share]contryNameTransLateByCode:self.model.contryCode.integerValue];
-        self.chooseTheCountryBuuton.userInteractionEnabled=NO;
+        self.theNameOfTheNodeTextField.text=self.model.nickName;
         
     }
 
@@ -293,19 +295,10 @@
 -(void)selectTheCountryAreasModel:(NSDictionary *)modelDic{
     
     self.mobCodeString = modelDic[@"mobileCode"];
-    //    if (self.mobCodeString.length>4) {
-    //        self.mobCodeString = [self.mobCodeString substringWithRange:NSMakeRange(self.mobCodeString.length-4, 4)];
-    //    }
-    //    if (self.mobCodeString.length<4) {
-    //        if (self.mobCodeString.length==2) {
-    //            self.mobCodeString=[NSString stringWithFormat:@"00%@",self.mobCodeString];
-    //        }else if(self.mobCodeString.length==3){
-    //            self.mobCodeString=[NSString stringWithFormat:@"0%@",mobCodeString];
-    //        }
-    //    }
+  
     
-    self.countriesTextField.text = modelDic[@"countries"];
-    //    [self.countryPhoneCodeButton setTitle:[NSString stringWithFormat:@"+%@",mobCodeString] forState:UIControlStateNormal];
+    self.countriesTextField.text = NSLocalizedString(modelDic[@"countries"], nil);
+
     
     
 }
@@ -325,8 +318,7 @@
     self.URLTextField.placeholder           = model.url;
     self.ipAddressTextField.placeholder     =model.ipAddress;
     
-    [self.confirmToRunButton setTitle:NSLocalizedString(@"更新信息", nil) forState:UIControlStateNormal];
-    self.title = NSLocalizedString(@"更新信息", nil);
+   
     
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{

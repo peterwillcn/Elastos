@@ -53,7 +53,7 @@ static NSString *cellString=@"HMWtransferTransactionMultipleAddressDetailsTableV
 /*
  *<# #>
  */
-//@property(assign,nonatomic)NSInteger outputsISOpenCount;
+@property(assign,nonatomic)CGFloat baseTabeleHeightFloat;
 @end
 
 @implementation HMWtransferTransactionDetailsViewController
@@ -117,8 +117,14 @@ static NSString *cellString=@"HMWtransferTransactionMultipleAddressDetailsTableV
 self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
 
         allCount=self.listTextArray.count+OutputsArrayCount;
+    }else if (self.type==rotationToVoteType){
+        self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"投票数量-1", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入地址", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
+        allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount;
+        
+        
     }
     self.baseTableHeight.constant=allCount*44+20;
+    self.baseTabeleHeightFloat=self.baseTableHeight.constant;
     self.baseTable.delegate=self;
     self.baseTable.dataSource=self;
     self.baseTable.rowHeight=44;
@@ -274,7 +280,7 @@ self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"�
         
     }
   
-
+    
     
     NSString * imageString;
     
@@ -284,7 +290,11 @@ self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"�
             imageString=@"setting_linkman_detail_click";
         }
     [button setImage:[UIImage imageNamed:imageString] forState:UIControlStateNormal];
-    
+    if ((self.listTextArray.count+self.outputsISOpenCount+self.inputsISOpenCount)*44>(AppHeight-110)) {
+        self.baseTableHeight.constant=(AppHeight-110);
+    }else{ self.baseTableHeight.constant=(self.listTextArray.count+self.outputsISOpenCount+self.inputsISOpenCount)*44;
+        
+    }
     NSIndexSet * indexSet=[[NSIndexSet alloc]initWithIndex:button.tag];
     [self.baseTable reloadSections:indexSet withRowAnimation: UITableViewRowAnimationAutomatic];
     
@@ -303,6 +313,11 @@ self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"�
         
     }
     NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:button.tag];
+    if ((self.listTextArray.count+self.outputsISOpenCount+self.inputsISOpenCount)*44>(AppHeight-110)) {
+        self.baseTableHeight.constant=(AppHeight-110);
+    }else{ self.baseTableHeight.constant=(self.listTextArray.count+self.outputsISOpenCount+self.inputsISOpenCount)*44;
+        
+    }
     [self.baseTable reloadSections:indexSet withRowAnimation: UITableViewRowAnimationAutomatic];
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -311,8 +326,7 @@ self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"�
     cell.backgroundColor=[UIColor clearColor];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.orderDetailsLabel.textColor=[UIColor whiteColor];
-    
-    cell.textLabel.text=self.listTextArray[indexPath.section];
+cell.textLabel.text=self.listTextArray[indexPath.section];
     if (indexPath.row!=0) {
         cell.textLabel.alpha=0.f;
     }else{
@@ -320,13 +334,10 @@ self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"�
         
     }
      cell.orderDetailsLabel.font=[UIFont systemFontOfSize:14];
-
     if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"交易号", nil)]) {
         cell.orderDetailsLabel.numberOfLines=1;
         cell.orderDetailsLabel.text=self.model.TxHash;
         cell.orderDetailsLabel.textColor=RGB(28, 164, 252);
-
-
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"交易金额", nil)]){
         cell.orderDetailsLabel.text=self.model.Amount;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"手续费", nil)]){
@@ -338,14 +349,15 @@ self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"�
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"确认时间", nil)]){
         cell.orderDetailsLabel.text=self.model.Timestamp;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"确认次数", nil)]){
-        cell.orderDetailsLabel.text=self.model.ConfirmStatus;
+    cell.orderDetailsLabel.text=self.model.ConfirmStatus;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"交易类型", nil)]){
         cell.orderDetailsLabel.text=self.model.Type;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"备注", nil)]){
         cell.orderDetailsLabel.text=self.model.Remark;
+    }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"投票数量-1", nil)]){
+        cell.orderDetailsLabel.text=self.votesString;
     }
     return cell;
-    
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *titiString=NSLocalizedString(@"交易号", nil);
@@ -366,13 +378,11 @@ self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"�
 -(void)setModel:(assetDetailsModel *)model{
     _model=model;
     NSDictionary *OutputsDic=[[NSDictionary alloc]initWithDictionary:model.Outputs];
-    for(NSString *key in OutputsDic){
+ for(NSString *key in OutputsDic){
         NSString *elaKey=[NSString stringWithFormat:@"%@\n%@ %@",key,[[FLTools share] elaScaleConversionWith:OutputsDic[key]],self.iconNameString];
-      
+        
         [self.OutputsArray addObject:elaKey];
     }
-  
-
      NSDictionary *InputsDic=[[NSDictionary alloc]initWithDictionary:model.Inputs];
     for(NSString *key in InputsDic){
   NSString *elaKey=[NSString stringWithFormat:@"%@\n%@ %@",key,[[FLTools share] elaScaleConversionWith:InputsDic[key]],self.iconNameString];
@@ -390,6 +400,10 @@ self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"�
          self.outputsISOpenCount=self.OutputsArray.count;
         
     }
+    
+}
+-(void)setVotesString:(NSString *)votesString{
+    _votesString=votesString;
     
 }
 @end

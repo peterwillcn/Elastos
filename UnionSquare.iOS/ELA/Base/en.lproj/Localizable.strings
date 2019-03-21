@@ -251,8 +251,8 @@
 "当前票数"="Current votes";
 "投票占比"="Vote percentage";
 "确定"="Sure";
-"更新信息"="update NoteInfo";
-
+"更新信息"="Update information";
+"投票数量-1"="Number of voting";
 "全选"="All";
 "已选择"="Selected";
 "立即投票"= "Vote";
@@ -298,7 +298,7 @@
 "阿根廷"="Argentina";
 "亚美尼亚"="Armenia";
 "阿鲁巴"="Aruba";
-"阿森松"="Australia";
+"澳大利亚"="Australia";
 "奥地利"="Austria";
 "阿塞拜疆"="Azerbaijan";
 "巴哈马"="Bahamas";
@@ -334,6 +334,7 @@
 "哥伦比亚"="Colombia";
 "科摩罗"="Comoros";
 "刚果"="Congo";
+"刚果民主共和国"="The democratic republic of Congo";
 "库克群岛"="Cook Islands";
 "哥斯达黎加"="Costa Rica";
 "克罗地亚"="Croatia";
@@ -382,7 +383,7 @@
 "冰岛"="Iceland";
 "印度"="India";
 "印度尼西亚"="Indonesia";
-"伊朗（伊斯兰共和国）"="Iran (Islamic Republic of)";
+"伊朗（伊斯兰共和国)"="Iran (Islamic Republic of)";
 "伊拉克"="Iraq";
 "爱尔兰"="Ireland";
 "以色列"="Israel";

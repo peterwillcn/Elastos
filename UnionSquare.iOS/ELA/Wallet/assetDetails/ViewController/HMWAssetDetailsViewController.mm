@@ -311,6 +311,7 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
     CDVPluginResult * result =[[ELWalletManager share]getAllTransaction:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     
+    NSArray * OutputPayload=[NSArray arrayWithArray:result.message[@"success"][@"Transactions"][0][@"OutputPayload"]];
     
     if (![status isEqualToString:@"1"]) {
         return;
@@ -375,10 +376,13 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
     if ([detailsM.Direction isEqualToString:@"Received"]) {
 transferTransactionDetailsVC.type=transactionMultipleIntoType;
     }else if ([detailsM.Direction isEqualToString:@"Sent"]){
-      
-        transferTransactionDetailsVC.type=transactionSingleRollOutType;
-    }else{
-           transferTransactionDetailsVC.type=transactionSingleIntoType;
+transferTransactionDetailsVC.type=transactionSingleRollOutType;
+    }else if (OutputPayload.count>0){
+    transferTransactionDetailsVC.type=rotationToVoteType;
+        transferTransactionDetailsVC.votesString=[[FLTools share]elaScaleConversionWith:OutputPayload[0][@"Amount"]];
+    }
+    else{
+transferTransactionDetailsVC.type=transactionSingleIntoType;
     }
     
     

@@ -276,7 +276,7 @@
                   moduleName = "elastos_wallet"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hiphone/Documents/Elastos.App.UnionSquare.iOS/WalletManager/ELWalletManager.mm"
-                  timestampString = "574769567.9752491"
+                  timestampString = "574849421.543362"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1443"
@@ -291,7 +291,7 @@
                   moduleName = "elastos_wallet"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hiphone/Documents/Elastos.App.UnionSquare.iOS/WalletManager/ELWalletManager.mm"
-                  timestampString = "574769567.977212"
+                  timestampString = "574849421.545107"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1443"
@@ -420,28 +420,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ELA/Wallet/assetDetails/ViewController/HMWtransferTransactionDetailsViewController.m"
-            timestampString = "574769567.514756"
+            timestampString = "574849421.205848"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
-            landmarkName = "-OutputsOpenOrCloseAction:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ELA/Wallet/assetDetails/ViewController/HMWtransferTransactionDetailsViewController.m"
-            timestampString = "574769567.514835"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "270"
-            endingLineNumber = "270"
-            landmarkName = "-OutputsOpenOrCloseAction:"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "-makeView"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger,transactionSingleType ) {
     transactionSingleIntoType,// 自转
     transactionSingleRollOutType,// 转出
      transactionMultipleIntoType,//转入
-    
+    rotationToVoteType,//自转投票
 };
 NS_ASSUME_NONNULL_BEGIN
 
@@ -38,7 +38,10 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(copy,nonatomic)NSString *iconNameString;
-
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *votesString;
 @end
 
 NS_ASSUME_NONNULL_END

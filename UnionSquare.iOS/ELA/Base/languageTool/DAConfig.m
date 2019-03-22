@@ -55,13 +55,13 @@
     AppDelegate *appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
 
     //解决奇怪的动画bug。异步执行
-    dispatch_async(dispatch_get_main_queue(), ^{
+//    dispatch_async(dispatch_get_main_queue(), ^{
         appdelegate.window.rootViewController = tabVC;
 
         
         tabVC.selectedIndex=2;
        
 //        NSLog(@"已切换到语言 %@", [NSBundle currentLanguage]);
-    });
+//    });
 }
 @end

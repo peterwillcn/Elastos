@@ -122,6 +122,8 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
  *<# #>
  */
 @property(strong,nonatomic)FLWallet *currentWallet;
+@property(copy,nonatomic)NSString *estimatedHeight;
+
 +(instancetype)share;
 - (void)pluginInitialize;
 - (CDVPluginResult *)coolMethod:(CDVInvokedUrlCommand *)command;

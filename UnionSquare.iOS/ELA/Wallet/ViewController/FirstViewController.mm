@@ -137,10 +137,12 @@
  
      NSString *  progress=dic[@"progress"];
     assetsListModel *model=self.dataSoureArray[index];
-    
+ 
     
     if ([model.iconName isEqualToString:chainID]&&[self.currentWallet.masterWalletID isEqualToString:walletID]){
-       
+        if ([chainID isEqualToString:@"ELA"]) {
+            [ELWalletManager share].estimatedHeight=currentBlockHeight;
+        }
  
         model.thePercentageMax=[progress floatValue];
         model.thePercentageCurr=[currentBlockHeight floatValue];

@@ -219,10 +219,16 @@ static HMWFMDBManager * _manager =nil;
 -(BOOL)updateRecord:(friendsModel *)person{
 //nameString,address,mobilePhoneNo,email,note
     
-    NSString *sql =@"Update Person set nameString=? and address=? and mobilePhoneNo=? and email=? and note=? where ID=? ";
+    NSString *Nsql =@"Update Person set nameString=? where ID=? ";
+
+    NSString *Asql =@"Update Person set address=? where ID=? ";
+       NSString *msql =@"Update Person set mobilePhoneNo=? where ID=? ";
+  NSString *esql =@"Update Person set email=? where ID=? ";
+      NSString *notesql =@"Update Person set note=? where ID=? ";
     
-    
-    if ([self executeUpdate:sql,person.nameString,person.address,person.mobilePhoneNo,person.email,person.note,person.ID]) {
+    if ([self executeUpdate:Nsql,person.nameString,
+//         person.address,person.mobilePhoneNo,person.email,person.note,
+         person.ID]&&[self executeUpdate:Asql,person.address,person.ID]&&[self executeUpdate:msql,person.mobilePhoneNo,person.ID]&&[self executeUpdate:msql,person.mobilePhoneNo,person.ID]&&[self executeUpdate:esql,person.email,person.ID]&&[self executeUpdate:notesql,person.note,person.ID]) {
         
         
           [[NSNotificationCenter defaultCenter]postNotificationName:myfriendNeedUpdate object:nil];

@@ -10,77 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.45822"
+            timestampString = "574946837.126953"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "25"
             endingLineNumber = "25"
             landmarkName = "ELWalletManager"
             landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.458776"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "686"
-            endingLineNumber = "686"
-            landmarkName = "-createAddress:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.459059"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "720"
-            endingLineNumber = "720"
-            landmarkName = "-getAllSubWalletAddress:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.4593"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "756"
-            endingLineNumber = "756"
-            landmarkName = "-getGenesisAddress:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.4595391"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "761"
-            endingLineNumber = "761"
-            landmarkName = "-getGenesisAddress:"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -100,11 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.459776"
+            timestampString = "574946837.12702"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "919"
-            endingLineNumber = "919"
+            startingLineNumber = "943"
+            endingLineNumber = "943"
             landmarkName = "-importWalletWithKeystore:"
             landmarkType = "7">
          </BreakpointContent>
@@ -116,28 +52,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.4600151"
+            timestampString = "574946837.127069"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "952"
-            endingLineNumber = "952"
+            startingLineNumber = "976"
+            endingLineNumber = "976"
             landmarkName = "-importWalletWithMnemonic:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.460254"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "728"
-            endingLineNumber = "728"
-            landmarkName = "-getAllSubWalletAddress:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -180,43 +100,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.460517"
+            timestampString = "574946837.127152"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1156"
-            endingLineNumber = "1156"
-            landmarkName = "-CalculateFeeAndSign::withPWD:withFromAddress:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.460757"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1429"
-            endingLineNumber = "1429"
-            landmarkName = "-RegisterProducerWithMainchainSubWallet:With:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.460994"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1458"
-            endingLineNumber = "1458"
+            startingLineNumber = "1540"
+            endingLineNumber = "1540"
             landmarkName = "-UpdateProducerWithMainchainSubWallet:With:"
             landmarkType = "7">
             <Locations>
@@ -228,11 +116,11 @@
                   moduleName = "elastos_wallet"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hiphone/Documents/Elastos.App.UnionSquare.iOS/WalletManager/ELWalletManager.mm"
-                  timestampString = "574917839.5391099"
+                  timestampString = "574946837.424847"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1458"
-                  endingLineNumber = "1458"
+                  startingLineNumber = "1540"
+                  endingLineNumber = "1540"
                   offsetFromSymbolStart = "2424">
                </Location>
                <Location
@@ -243,11 +131,11 @@
                   moduleName = "elastos_wallet"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hiphone/Documents/Elastos.App.UnionSquare.iOS/WalletManager/ELWalletManager.mm"
-                  timestampString = "574917839.541669"
+                  timestampString = "574946837.426603"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1458"
-                  endingLineNumber = "1458"
+                  startingLineNumber = "1540"
+                  endingLineNumber = "1540"
                   offsetFromSymbolStart = "3156">
                </Location>
             </Locations>
@@ -260,11 +148,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.461233"
+            timestampString = "574946837.127197"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1512"
-            endingLineNumber = "1512"
+            startingLineNumber = "1594"
+            endingLineNumber = "1594"
             landmarkName = "-RetrieveDeposit:acount:Pwd:"
             landmarkType = "7">
          </BreakpointContent>
@@ -308,11 +196,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.461494"
+            timestampString = "574946837.127266"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1031"
-            endingLineNumber = "1031"
+            startingLineNumber = "1055"
+            endingLineNumber = "1055"
             landmarkName = "-DestroySubWallet:"
             landmarkType = "7">
          </BreakpointContent>
@@ -340,11 +228,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.461746"
+            timestampString = "574946837.1273251"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1437"
-            endingLineNumber = "1437"
+            startingLineNumber = "1519"
+            endingLineNumber = "1519"
             landmarkName = "-UpdateProducerWithMainchainSubWallet:With:"
             landmarkType = "7">
          </BreakpointContent>
@@ -388,11 +276,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.4620121"
+            timestampString = "574946837.127396"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1261"
-            endingLineNumber = "1261"
+            startingLineNumber = "1297"
+            endingLineNumber = "1297"
             landmarkName = "-sideChainTop_Up:"
             landmarkType = "7">
          </BreakpointContent>
@@ -404,155 +292,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.462252"
+            timestampString = "574946837.127442"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1104"
-            endingLineNumber = "1104"
-            landmarkName = "-CreateTransaction:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.462487"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1110"
-            endingLineNumber = "1110"
-            landmarkName = "-CreateTransaction:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.4627219"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1108"
-            endingLineNumber = "1108"
-            landmarkName = "-CreateTransaction:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.462955"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1172"
-            endingLineNumber = "1172"
-            landmarkName = "-CalculateFeeAndSign::withPWD:withFromAddress:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.4631881"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1101"
-            endingLineNumber = "1101"
-            landmarkName = "-CreateTransaction:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.463424"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1094"
-            endingLineNumber = "1094"
-            landmarkName = "-CreateTransaction:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.4636559"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1186"
-            endingLineNumber = "1186"
-            landmarkName = "-accessFees:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.463889"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1225"
-            endingLineNumber = "1225"
-            landmarkName = "-sideChainTop_Up:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.464124"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1279"
-            endingLineNumber = "1279"
-            landmarkName = "-sideChainTop_UpFee:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "574858048.4643559"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1324"
-            endingLineNumber = "1324"
+            startingLineNumber = "1360"
+            endingLineNumber = "1360"
             landmarkName = "-mainChainWithdrawal:"
             landmarkType = "7">
          </BreakpointContent>
@@ -580,12 +324,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ELA/found/SuperPoint/ViewController/DrawBackVoteMoneyVC.mm"
-            timestampString = "574917839.025203"
+            timestampString = "574938109.976449"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "67"
             endingLineNumber = "67"
             landmarkName = "-iconInfoUpdate:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ELA/Base/DBManager/HMWFMDBManager.m"
+            timestampString = "574946837.127514"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
+            landmarkName = "-updateRecord:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ELA/Base/DBManager/HMWFMDBManager.m"
+            timestampString = "574946837.12756"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "233"
+            endingLineNumber = "233"
+            landmarkName = "-updateRecord:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

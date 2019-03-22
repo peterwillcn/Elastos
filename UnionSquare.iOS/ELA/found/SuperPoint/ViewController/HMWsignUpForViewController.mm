@@ -50,6 +50,7 @@
     [super viewDidLoad];
     [self defultWhite];
     [self setBackgroundImg:@"tab_bg"];
+//     self.pwdPopupV.userInteractionEnabled=NO;
     self.title=NSLocalizedString(@"报名参选", nil);
     self.theNameOfTheNodeTextField.placeholder =NSLocalizedString(@"请输入节点名称（必填）", nil);
     self.thePublicKeyTextField.placeholder    =NSLocalizedString(@"请输入节点公钥（必填）", nil);
@@ -178,9 +179,11 @@
     if (pwd.length==0) {
         return;
     }
+    self.pwdPopupV.userInteractionEnabled=NO;
     if (self.model) {
         
         [self updataNodeInfo:pwd];
+        
         
     }else{
         
@@ -211,14 +214,16 @@
     [self.transferDetailsPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(self.view);
     }];
+        if (self.delegate) {
+            [self.delegate hasSignUp];
+        }
     
     [self.transferDetailsPopupV transferDetailsWithTheAmountOf:@"5000" withFee: @(free/unitNumber).stringValue];
     }
     
-//    if (self.delegate) {
-//        [self.delegate pwdAndInfoWithPWD:pwd];
-//        [self cancelThePWDPageView];
-//    }
+     self.pwdPopupV.userInteractionEnabled=NO;
+    
+
     
 }
 -(void)updataNodeInfo:(NSString*)pwd{

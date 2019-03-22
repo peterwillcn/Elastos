@@ -7,11 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+@protocol HMWsignUpForViewControllerDelegate<NSObject>
 
-NS_ASSUME_NONNULL_BEGIN
+-(void)hasSignUp;
+
+@end
+
 @class FLJoinVoteInfoModel;
 @interface HMWsignUpForViewController : UIViewController
 @property(nonatomic,strong)FLJoinVoteInfoModel* model;
-@end
+/*
+ *<# #>
+ */
+@property(weak,nonatomic)id <HMWsignUpForViewControllerDelegate> delegate;
 
-NS_ASSUME_NONNULL_END
+@end

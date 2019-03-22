@@ -47,9 +47,12 @@ static uint64_t feePerKB = 10000;
     }
     try {
        return  mMasterWalletManager->GetWallet(masterWalletID);
-    } catch (const std:: exception &e) {
-        return nil;
+    } catch (const std:: exception & e ) {
         
+        NSString *errString=[self stringWithCString:e.what()];
+        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+        [[FLTools share]showErrorInfo:dic[@"Message"]];
+        return 0;
     }
     
     return nil;
@@ -65,9 +68,12 @@ static uint64_t feePerKB = 10000;
     ISubWalletVector subWalletList;
     try {
          subWalletList = masterWallet->GetAllSubWallets();
-    } catch (const std:: exception &e) {
-        throw e;
-         DLog(@"%s",e.what());
+    } catch (const std:: exception & e ) {
+        
+        NSString *errString=[self stringWithCString:e.what()];
+        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+        [[FLTools share]showErrorInfo:dic[@"Message"]];
+        return 0;
     }
 //   subWalletList = masterWallet->GetAllSubWallets();
     for (int i = 0; i < subWalletList.size(); i++)
@@ -77,8 +83,12 @@ static uint64_t feePerKB = 10000;
         
         try {
             getChainID =iSubWallet->GetChainId();
-        } catch (const std:: exception &e) {
-            DLog(@"%s",e.what());
+        } catch (const std:: exception & e ) {
+            
+            NSString *errString=[self stringWithCString:e.what()];
+            NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+            [[FLTools share]showErrorInfo:dic[@"Message"]];
+            return 0;
         }
         
         NSString *getChainIDString = [self stringWithCString:getChainID];
@@ -105,8 +115,12 @@ static uint64_t feePerKB = 10000;
     Json json;
     try {
         masterWallet->GetBasicInfo();
-    } catch (const std:: exception &e) {
-        DLog(@"%s",e.what());
+    } catch (const std:: exception & e ) {
+        
+        NSString *errString=[self stringWithCString:e.what()];
+        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+        [[FLTools share]showErrorInfo:dic[@"Message"]];
+        return 0;
     }
   
     NSString *jsonString = [self stringWithCString:json.dump()];
@@ -320,9 +334,12 @@ static uint64_t feePerKB = 10000;
     const char  *rootPath = [mRootPath UTF8String];
     try {
       mMasterWalletManager = new MasterWalletManager(rootPath);
-    } catch (const std:: exception & e) {
+    } catch (const std:: exception & e ) {
         
-        DLog(@"%s",e.what());
+        NSString *errString=[self stringWithCString:e.what()];
+        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+        [[FLTools share]showErrorInfo:dic[@"Message"]];
+        return ;
     }
    
 }
@@ -378,8 +395,12 @@ static uint64_t feePerKB = 10000;
         }
         NSString *msg = [self arrayToJSONString:masterWalletListJson];
         return [self successProcess:command msg:msg];
-    } catch (std::exception &e) {
-        DLog(@"%s",e.what());
+    } catch (const std:: exception & e ) {
+        
+        NSString *errString=[self stringWithCString:e.what()];
+        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+        [[FLTools share]showErrorInfo:dic[@"Message"]];
+        return 0;
     }
     
 }
@@ -403,9 +424,12 @@ static uint64_t feePerKB = 10000;
     try {
         masterWallet = mMasterWalletManager->CreateMasterWallet(
                                                                 masterWalletID, mnemonic, phrasePassword, payPassword, singleAddress);
-    } catch (const std:: exception &e) {
-        DLog(@"%s",e.what());
+     } catch (const std:: exception & e ) {
         
+        NSString *errString=[self stringWithCString:e.what()];
+        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+        [[FLTools share]showErrorInfo:dic[@"Message"]];
+        return 0;
     }
   
     
@@ -1120,27 +1144,26 @@ static uint64_t feePerKB = 10000;
     try {
         
         signedTx=[self CalculateFeeAndSign:subWallet :json withPWD:payPasswd withFromAddress:address];
-        
-        
-    } catch (const std:: exception &e) {
-        throw e;
-        
-    }
-//    if (signedTx) {
         try {
             
             result = subWallet->PublishTransaction(signedTx);
             
             
-        } catch (const std:: exception &e) {
-            throw e;
+        } catch (const std:: exception & e ) {
             
+            NSString *errString=[self stringWithCString:e.what()];
+            NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+            [[FLTools share]showErrorInfo:dic[@"Message"]];
+            return 0;
         }
-//    }
-   
-   
-  
-    
+        
+     } catch (const std:: exception & e ) {
+        
+        NSString *errString=[self stringWithCString:e.what()];
+        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+        [[FLTools share]showErrorInfo:dic[@"Message"]];
+        return 0;
+    }
     return result;
     
     
@@ -1148,29 +1171,42 @@ static uint64_t feePerKB = 10000;
 - (Json)CalculateFeeAndSign:(ISubWallet*)subWallet :(Json)json withPWD:(String)payPasswd withFromAddress:(String)address
 {
     uint64_t fee;
+       Json tmpTx;
+    Json retJson;
     try {
         
         fee = subWallet->CalculateTransactionFee(json, feePerKB);
+        try {
+            
+            tmpTx = subWallet->UpdateTransactionFee(json, fee, address);
+            try {
+                retJson=  subWallet->SignTransaction(tmpTx, payPasswd);
+            } catch (const std:: exception & e ) {
+                
+                NSString *errString=[self stringWithCString:e.what()];
+                NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+                [[FLTools share]showErrorInfo:dic[@"Message"]];
+                return 0;
+            }
+            
+        } catch (const std:: exception & e ) {
+            
+            NSString *errString=[self stringWithCString:e.what()];
+            NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+            [[FLTools share]showErrorInfo:dic[@"Message"]];
+            return 0;
+        }
+    } catch (const std:: exception & e ) {
         
-    } catch (const std:: exception &e) {
-        throw e;
-        //        [self errInfo:c];
+        NSString *errString=[self stringWithCString:e.what()];
+        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+        [[FLTools share]showErrorInfo:dic[@"Message"]];
+        return 0;
     }
-    Json tmpTx;
-    try {
-        
-        tmpTx = subWallet->UpdateTransactionFee(json, fee, address);
-        
-    } catch (const std:: exception &e) {
-         throw e;
-        
-    }
-    Json retJson;
-    try {
-      retJson=  subWallet->SignTransaction(tmpTx, payPasswd);
-    } catch (const std:: exception &e) {
-        throw e;
-    }
+ 
+    
+    
+    
 
     return retJson;
 }
@@ -1408,28 +1444,74 @@ static uint64_t feePerKB = 10000;
 
 //参加投票
 -(NSInteger)RegisterProducerWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model{
+    Json payload;
+    Json tx;
+    uint64_t fee;
+    Json signedTx;
+    Json result;
     try {
-        Json payload = ELA->GenerateProducerPayload([model.pubKey UTF8String], [model.nodePubKey UTF8String],[model.nickName UTF8String], [model.url UTF8String], [model.ipAddress UTF8String], model.contryCode.integerValue, [model.pwd UTF8String]);
+       payload= ELA->GenerateProducerPayload([model.pubKey UTF8String], [model.nodePubKey UTF8String],[model.nickName UTF8String], [model.url UTF8String], [model.ipAddress UTF8String], model.contryCode.integerValue, [model.pwd UTF8String]);
         
-        Json tx = ELA->CreateRegisterProducerTransaction("", payload, model.acount*unitNumber,
-                                                         "",[model.mark UTF8String],false);
-        
-        uint64_t fee = ELA->CalculateTransactionFee(tx, 10000);
-        tx = ELA->UpdateTransactionFee(tx, fee, "");
-        
-        Json signedTx = ELA->SignTransaction(tx, [model.pwd UTF8String]);
-        
-        Json result = ELA->PublishTransaction(signedTx);
-      //  NSDictionary *param = [self dictionaryWithJsonString:   [NSString stringWithCString:result.dump().c_str()  encoding:NSUTF8StringEncoding]];
-
-        return fee;
     } catch (const std:: exception & e ) {
+        
         NSString *errString=[self stringWithCString:e.what()];
         NSDictionary *dic=  [self dictionaryWithJsonString:errString];
-//        DLog(@"dddddd:%@",dic);
         [[FLTools share]showErrorInfo:dic[@"Message"]];
         return 0;
     }
+        
+    try {
+        
+        tx = ELA->CreateRegisterProducerTransaction("", payload, model.acount*unitNumber,
+                                                         "",[model.mark UTF8String],false);
+    } catch (const std:: exception & e ) {
+        
+        NSString *errString=[self stringWithCString:e.what()];
+        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+        [[FLTools share]showErrorInfo:dic[@"Message"]];
+        return 0;
+    }
+    try {
+ 
+         fee = ELA->CalculateTransactionFee(tx, 10000);
+} catch (const std:: exception & e ) {
+    
+    NSString *errString=[self stringWithCString:e.what()];
+    NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+    [[FLTools share]showErrorInfo:dic[@"Message"]];
+    return 0;
+}
+    try {
+        
+    tx = ELA->UpdateTransactionFee(tx, fee, "");
+    } catch (const std:: exception & e ) {
+        
+        NSString *errString=[self stringWithCString:e.what()];
+        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+        [[FLTools share]showErrorInfo:dic[@"Message"]];
+        return 0;
+    }
+    try {
+        signedTx = ELA->SignTransaction(tx, [model.pwd UTF8String]);
+    } catch (const std:: exception & e ) {
+        
+        NSString *errString=[self stringWithCString:e.what()];
+        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+        [[FLTools share]showErrorInfo:dic[@"Message"]];
+        return 0;
+    }
+    try {
+         result = ELA->PublishTransaction(signedTx);
+    } catch (const std:: exception & e ) {
+        
+        NSString *errString=[self stringWithCString:e.what()];
+        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+        [[FLTools share]showErrorInfo:dic[@"Message"]];
+        return 0;
+    }
+
+        return fee;
+ 
     
 }
 -(NSInteger)UpdateProducerWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model

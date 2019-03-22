@@ -13,7 +13,13 @@
 #import "HMWToDeleteTheWalletPopView.h"
 #import "FLJoinVoteInfoModel.h"
 #import "HMWsignUpForViewController.h"
+#import "FLCoinPointInfoModel.h"
 @interface FLManageSelectPointNodeInformationVC()<HMWToDeleteTheWalletPopViewDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *votesLabel;
+@property (weak, nonatomic) IBOutlet UILabel *votesNumberLabel;
+@property (weak, nonatomic) IBOutlet UILabel *voteOfBTextLabel;
+@property (weak, nonatomic) IBOutlet UILabel *voteOfBNumberLabel;
+
 
 @property (weak, nonatomic) IBOutlet UILabel *leftLab1;
 
@@ -50,6 +56,8 @@
     self.leftLab1.text =NSLocalizedString(@"节点名称", nil) ;
      self.leftLab2.text =NSLocalizedString(@"节点公钥", nil) ;
      self.leftLab3.text =NSLocalizedString(@"国家/地区", nil) ;
+    self.votesLabel.text=NSLocalizedString(@"当前票数", nil);
+    self.voteOfBTextLabel.text=NSLocalizedString(@"投票占比", nil);
     [self.lookAtTheCandidateListButton setTitle:NSLocalizedString(@"注销", nil) forState:UIControlStateNormal];
     [self.updataTheCandidateListButton setTitle:NSLocalizedString(@"更新信息", nil) forState:UIControlStateNormal];
     [[HMWCommView share]makeBordersWithView:self.updataTheCandidateListButton];
@@ -84,7 +92,7 @@
     self.model.contryCode = Location;
     self.model.ipAddress = infoDic[@"IpAddress"];
     
-    
+    [self getNetCoinPointArrayWithPubKey:OwnerPublickKey];
     
     
     self.OwnerPublickKeyLab.text = NickName;
@@ -92,6 +100,27 @@
     self.URLLab.text = URL;
     self.LocationLab.text = [[FLTools share]contryNameTransLateByCode:Location.integerValue];
     
+}
+-(void)getNetCoinPointArrayWithPubKey:(NSString *)OwnerPublickKey{
+    
+    [HttpUrl NetPOSTHost:Http_IP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1"} showHUD:NO WithSuccessBlock:^(id data) {
+        NSDictionary *param = data[@"data"];
+        NSArray *dataSource= [NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];
+        for (FLCoinPointInfoModel *model in dataSource) {
+            if ([model.ownerpublickey isEqualToString:OwnerPublickKey]) {
+                self.votesNumberLabel.text=[NSString stringWithFormat:@"%@", model.votes]; self.voteOfBNumberLabel.text=[NSString stringWithFormat:@"%.3f %@" ,[model.voterate floatValue]*100,@"%"];
+                break;
+            }
+            
+        }
+
+//        self.votingListV.lab1.text = [NSString stringWithFormat:@"%.3f %@" ,[param[@"result"][@"totalvoterate"] floatValue]*100,@"%"];
+        // self.votingListV.lab2.text = [param[@"result"][@"totalvotes"]stringValue ];
+//        self.votingListV.lab3.text = param[@"result"][@"totalvotes"];
+       
+    } WithFailBlock:^(id data) {
+        
+    }];
 }
 - (IBAction)copyURLEvent:(id)sender {
     

@@ -15,13 +15,16 @@
 #import "ELWalletManager.h"
 #import "DrawBackVoteMoneyVC.h"
 #import "assetDetailsModel.h"
-@interface FLSelectSuperPointVC ()
+@interface FLSelectSuperPointVC ()<HMWsignUpForViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *goingToVoteButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *signUpForButton;
 @property (weak, nonatomic) IBOutlet UIButton *manageVoteBtn;
 @property(nonatomic,assign)NSInteger  type; //1选举管理
-
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)BOOL hasSing;
 @end
 
 @implementation FLSelectSuperPointVC
@@ -100,8 +103,14 @@
         [self.navigationController pushViewController:vc animated:YES];
 
     }else{
-    
+        if (self.hasSing) {
+            
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"已参选", nil) ];
+            return;
+        }
         HMWsignUpForViewController *vc=[[HMWsignUpForViewController alloc]init];
+        vc.delegate=self;
+        self.hasSing=NO;
         vc.model=nil;
         [self.navigationController pushViewController:vc animated:YES];
 
@@ -118,5 +127,9 @@
     HMWtheSuperNodeElectionViewController*theSuperNodeElectionVC=[[HMWtheSuperNodeElectionViewController alloc]init];
     
     [self.navigationController pushViewController:theSuperNodeElectionVC animated:YES];
+}
+-(void)hasSignUp{
+    self.hasSing=YES;
+    
 }
 @end

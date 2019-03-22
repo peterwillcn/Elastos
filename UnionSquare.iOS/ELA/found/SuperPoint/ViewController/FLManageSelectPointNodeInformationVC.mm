@@ -108,7 +108,8 @@
         NSArray *dataSource= [NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];
         for (FLCoinPointInfoModel *model in dataSource) {
             if ([model.ownerpublickey isEqualToString:OwnerPublickKey]) {
-                self.votesNumberLabel.text=[NSString stringWithFormat:@"%@", model.votes]; self.voteOfBNumberLabel.text=[NSString stringWithFormat:@"%.3f %@" ,[model.voterate floatValue]*100,@"%"];
+                self.votesNumberLabel.text=[NSString stringWithFormat:@"%@", model.votes];
+    self.voteOfBNumberLabel.text=[NSString stringWithFormat:@"%.5lf %@" ,[model.voterate doubleValue]*100,@"%"];
                 break;
             }
             

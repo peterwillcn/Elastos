@@ -28,7 +28,7 @@ module.exports = function(ctx) {
       runtimeProj.addBuildPhase([], 'PBXCopyFilesBuildPhase', 'Embed Frameworks', null, 'frameworks');
     }
 
-    let options = { customFramework: true, embed: embed };
+    let options = { customFramework: true, embed: embed, sign: true };
     runtimeProj.addFramework('RealmSwift.framework', options);
     runtimeProj.addFramework('Realm.framework', options);
     runtimeProj.addFramework('libz.tbd');

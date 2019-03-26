@@ -57,6 +57,9 @@
     self.theInputNumberTextField.text = @(self.votes).stringValue;
 }
 - (IBAction)theNextStepEvent:(id)sender {
+    if ([self.theInputNumberTextField.text integerValue]<1) {
+        return;
+    }
     if (self.delegate) {
         [self.delegate didHadInputVoteTicket:self.theInputNumberTextField.text];
     }

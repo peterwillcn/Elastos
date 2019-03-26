@@ -20,7 +20,7 @@
   * SOFTWARE.
   */
 
-package org.elastos.trinity.dapprt;
+package org.elastos.trinity.runtime;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;

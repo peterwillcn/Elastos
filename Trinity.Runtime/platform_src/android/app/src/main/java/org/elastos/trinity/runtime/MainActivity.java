@@ -27,7 +27,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.webkit.WebView;
 
-import org.elastos.trinity.dapprt.WebViewActivity;
+import org.elastos.trinity.runtime.WebViewActivity;
 
 public class MainActivity extends WebViewActivity
 {

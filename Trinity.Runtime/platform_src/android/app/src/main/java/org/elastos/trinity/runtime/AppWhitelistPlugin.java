@@ -20,7 +20,7 @@
   * SOFTWARE.
   */
 
-package org.elastos.trinity.dapprt;
+package org.elastos.trinity.runtime;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.Whitelist;

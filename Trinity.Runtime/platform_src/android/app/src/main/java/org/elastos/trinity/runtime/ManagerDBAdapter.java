@@ -20,7 +20,7 @@
   * SOFTWARE.
   */
 
-package org.elastos.trinity.dapprt;
+package org.elastos.trinity.runtime;
 
 import android.content.ContentValues;
 import android.content.Context;

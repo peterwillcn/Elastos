@@ -21,7 +21,7 @@
   */
 
 
- package org.elastos.trinity.dapprt;
+ package org.elastos.trinity.runtime;
 
  import android.graphics.drawable.Icon;
 

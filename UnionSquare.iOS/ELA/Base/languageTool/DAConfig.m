@@ -12,7 +12,7 @@
 #import "FLFLTabBarVC.h"
 
 
-#define STANDARD_USER_DEFAULT  [NSUserDefaults standardUserDefaults]
+
 
 @implementation DAConfig
 

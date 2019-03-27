@@ -66,9 +66,15 @@
 //    [self NewStateView:defultColor];
 
 //    [self setWallet];
-   
     
-    [self loadTheWalletInformationWithIndex:0];
+    NSInteger selectIndex=
+    [[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue];
+    
+    
+    if (selectIndex<0) {
+        selectIndex=0;
+    }
+    [self loadTheWalletInformationWithIndex:selectIndex];
   
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataWalletListInfo:) name:updataWallet object:nil];
     
@@ -221,6 +227,11 @@
         
         return;
     }
+    [STANDARD_USER_DEFAULT setValue:[NSString stringWithFormat:@"%ld",inde] forKey:selectIndexWallet];
+    [STANDARD_USER_DEFAULT synchronize];
+    NSInteger selectIndex=
+    [[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue];
+    
     self.currentWalletIndex=inde;
     FMDBWalletModel *model=self.walletIDListArray[inde];
     

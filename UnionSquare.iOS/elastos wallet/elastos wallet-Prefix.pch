@@ -70,7 +70,8 @@
 #define AccountBalanceChanges    @"AccountBalanceChanges"
 #define OnTxPublishedResult      @"OnTxPublishedResult"
 #define  UWUserLanguageKey  @"UWUserLanguageKey"
-
+#define  selectIndexWallet  @"selectIndexWallet"
+#define STANDARD_USER_DEFAULT  [NSUserDefaults standardUserDefaults]
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "Masonry.h"

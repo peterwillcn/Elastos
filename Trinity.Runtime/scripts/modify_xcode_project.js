@@ -8,8 +8,8 @@ module.exports = function(ctx) {
     return;
   }
 
-  const fs = ctx.requireCordovaModule('fs'),
-        path = ctx.requireCordovaModule('path'),
+  const fs = require('fs'),
+        path = require('path'),
         xcode = require('xcode');
 
   let runtimeProjPath = 'platforms/ios/Elastos.xcodeproj/project.pbxproj',

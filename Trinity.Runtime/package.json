@@ -36,9 +36,11 @@
         "elastos-trinity-plugins-statusbar": "file:../Plugins/Statusbar",
         "elastos-trinity-plugins-vibration": "file:../Plugins/Vibration",
         "es6-promise-plugin": "^4.2.2",
+        "fs": "0.0.1-security",
         "md5-file": "^4.0.0",
         "mkdirp": "^0.5.1",
         "node-wget-promise": "^0.1.6",
+        "path": "^0.12.7",
         "plugindemo": "file:../Plugins/PluginDemo",
         "xcode": "^1.0.0",
         "yauzl": "^2.10.0"

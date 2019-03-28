@@ -35,15 +35,19 @@
 #import "ELWalletManager.h"
 #import "WOCrashProtectorManager.h"
 #import "DAConfig.h"
-
+#define KYRect  [UIScreen mainScreen].bounds
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
-    
 
-    NSString *languageString=[DAConfig userLanguage];
-  
+
+        //初始化一个imageView，并添加到window上
+    
+    
+        
+    
+   NSString *languageString=[DAConfig userLanguage];
 
 
     if ([languageString  containsString:@"en"]) {
@@ -72,6 +76,7 @@
       
     self.window = [[UIWindow alloc]init];
     self.window.backgroundColor = [UIColor whiteColor];
+    
     CDVPluginResult *re=[[ELWalletManager share] getAllMasterWallets:nil];
     NSArray  *array =[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet];
     //    [[FLTools share]stringToArray:re.message[@"success"]];
@@ -97,6 +102,12 @@
     }
     [WOCrashProtectorManager makeAllEffective];
     [self.window makeKeyAndVisible];
+//    UIImageView *imgView = [[UIImageView alloc]initWithFrame:[UIApplication sharedApplication].keyWindow.bounds];
+//    imgView.image = [UIImage imageNamed:@"LimageEN"];
+//    [self.window addSubview:imgView];
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [imgView removeFromSuperview];
+//    });
 }
 
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window

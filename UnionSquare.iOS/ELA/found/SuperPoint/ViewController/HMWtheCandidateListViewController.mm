@@ -216,9 +216,9 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     }
     NSString *walletId = [ELWalletManager share].currentWallet.masterWalletID;
    BOOL ret = [[ELWalletManager share]useMainchainSubWallet:walletId ToVote:stringArray tickets:self.ticket pwd:pwd isChangeVote:YES];
-//    if (ret) {
-//        [self showSendSuccessPopuV];
-//    }
+    if (ret) {
+        [self showSendSuccessPopuV];
+    }
     [self.pwdPopupV removeFromSuperview];
     self.pwdPopupV =  nil;
 }

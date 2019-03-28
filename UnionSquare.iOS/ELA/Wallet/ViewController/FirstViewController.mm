@@ -229,8 +229,6 @@
     }
     [STANDARD_USER_DEFAULT setValue:[NSString stringWithFormat:@"%ld",inde] forKey:selectIndexWallet];
     [STANDARD_USER_DEFAULT synchronize];
-    NSInteger selectIndex=
-    [[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue];
     
     self.currentWalletIndex=inde;
     FMDBWalletModel *model=self.walletIDListArray[inde];

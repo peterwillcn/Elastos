@@ -14,7 +14,6 @@
         "appservice": "file:../Plugins/AppService",
         "cordova-android": "7.1.4",
         "cordova-ios": "4.5.5",
-        "cordova-plugin-add-swift-support": "^1.7.2",
         "cordova-plugin-compat": "^1.2.0",
         "cordova-plugin-file": "file:../Plugins/File",
         "cordova-plugin-whitelist": "^1.3.3",
@@ -42,7 +41,7 @@
         "node-wget-promise": "^0.1.6",
         "path": "^0.12.7",
         "plugindemo": "file:../Plugins/PluginDemo",
-        "xcode": "^1.0.0",
+        "xcode": "^1.1.0",
         "yauzl": "^2.10.0"
     },
     "cordova": {

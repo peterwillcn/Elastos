@@ -123,8 +123,13 @@ public class AppManager {
         return resetPath(getAppUrl(info), info.start_url);
     }
 
-    public String getAppPath(String id) {
-        return appsPath + id + "/";
+    public String getAppPath(AppInfo info) {
+        if (info.built_in == 1) {
+            return "assets://www/built-in/" + info.app_id + "/";
+        }
+        else {
+            return appsPath + info.app_id + "/";
+        }
     }
 
     public String getAppUrl(AppInfo info) {

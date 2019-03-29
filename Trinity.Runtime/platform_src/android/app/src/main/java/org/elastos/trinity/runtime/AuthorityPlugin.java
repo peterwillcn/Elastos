@@ -71,7 +71,7 @@ public class AuthorityPlugin extends CordovaPlugin {
         }
         if (ret != null) {
             ret.setWhitelistPlugin(whitelistPlugin);
-            ret.setDataPath(dataPath);
+            ret.setInfo(appInfo);
         }
         return ret;
     }

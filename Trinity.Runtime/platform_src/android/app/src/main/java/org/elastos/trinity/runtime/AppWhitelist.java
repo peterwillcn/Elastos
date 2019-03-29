@@ -42,7 +42,9 @@ public class AppWhitelist extends Whitelist {
         this.whiteList = new HashMap();
         appInfo = info;
         for (AppInfo.UrlAuth urlAuth : info.urls) {
-            addWhiteListEntry(urlAuth.url, false);
+            if (!urlAuth.url.startsWith("file://")) {
+                addWhiteListEntry(urlAuth.url, false);
+            }
         }
     }
 

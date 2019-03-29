@@ -34,46 +34,88 @@ import java.nio.file.Paths;
 public class TrinityPlugin extends CordovaPlugin {
     private AppWhitelistPlugin whitelistPlugin;
     public String dataPath = null;
-    private String canonicalDataPath = null;
+    public String appPath = null;
+    private AppInfo appInfo = null;
 
     public void setWhitelistPlugin(AppWhitelistPlugin appWhitelistPlugin) {
         this.whitelistPlugin = appWhitelistPlugin;
     }
 
-    public void setDataPath(String path) {
-        this.dataPath = path;
-        File file = new File(path);
-        try {
-            canonicalDataPath = file.getCanonicalPath();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void setInfo(AppInfo info) {
+        this.appInfo = info;
+        this.dataPath = AppManager.appManager.getDataPath(info.app_id);
+        this.appPath = AppManager.appManager.getAppPath(info);
+    }
+
+    public String getDataPath() {
+        return dataPath;
+    }
+
+    public String getAppPath() {
+        return appPath;
     }
 
     public Boolean isAllowAccess(String url) {
         return whitelistPlugin.shouldAllowNavigation(url);
     }
 
-    public String getDataAbsolutePath(String dir) throws Exception {
-        File file = new File(dataPath, dir);
-        String path = file.getCanonicalPath();
-        if (!path.startsWith(canonicalDataPath)) {
+    private String getCanonicalDir(String path, String header) throws Exception {
+        File file = new File(path);
+        path = file.getCanonicalPath();
+        if (!header.startsWith("/")) {
+            path = path.substring(1);
+        }
+        if (!path.startsWith(header)) {
             throw new Exception("Dir is invalid!");
         }
-        String substr = path.substring(canonicalDataPath.length() + 1);
-        path = dataPath + substr;
-        return path;
+        String dir = path.substring(header.length());
+        return dir;
     }
 
-    public String getDataRelativePath(String path) throws Exception {
-        File file = new File(path);
-        path = file.getCanonicalPath() ;
-        if (!path.startsWith(canonicalDataPath)) {
-            throw new Exception("Path is invalid!");
+    public String getCanonicalPath(String path) throws Exception {
+        String ret = null;
+        if (path.startsWith("assets/")) {
+            String dir = getCanonicalDir(path, "assets/");
+            ret = appPath + dir;
         }
-        String dir  = path.substring(canonicalDataPath.length());
-        return dir;
+        else if (path.startsWith("data/")) {
+            String dir = getCanonicalDir(path, "data/");
+            ret = dataPath + dir;
+        }
+        else if (!(path.startsWith("/")) && !(path.startsWith("assets://")) && (path.indexOf("://") != -1)) {
+            if (whitelistPlugin.shouldAllowNavigation(path)) {
+                ret = path;
+            }
+        }
+        if (ret == null) {
+            throw new Exception("Dir is invalid!");
+        }
+        return ret;
+    }
+
+    public String getRelativePath(String path) throws Exception {
+        String ret = null;
+        if (path.startsWith(appPath)) {
+            String header = appPath;
+            if (appInfo.built_in == 1) {
+                path = path.substring(8);
+                header = header.substring(8);
+            }
+            String dir = getCanonicalDir(path, header);
+            ret = "asserts/" + dir;
+        }
+        else if (path.startsWith(dataPath)) {
+            ret = "data/" + getCanonicalDir(path, dataPath);
+        }
+        else if (!(path.startsWith("/")) && !(path.startsWith("assets://")) && (path.indexOf("://") != -1)) {
+            if (whitelistPlugin.shouldAllowNavigation(path)) {
+                ret = path;
+            }
+        }
+        if (ret == null) {
+            throw new Exception("Dir is invalid!");
+        }
+        return ret;
     }
 
     @Override

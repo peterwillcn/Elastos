@@ -42,6 +42,11 @@
 //      [STANDARD_USER_DEFAULT removeObjectForKey:UWUserLanguageKey];
 //    return @"en";
 //    NSArray *languageArray=[STANDARD_USER_DEFAULT valueForKey:UWUserLanguageKey];
+    NSObject * ojg =[STANDARD_USER_DEFAULT valueForKey:UWUserLanguageKey];
+    if ([ojg isKindOfClass:[NSArray class]]) {
+        NSArray *ojbArr=[STANDARD_USER_DEFAULT valueForKey:UWUserLanguageKey];
+        return ojbArr.firstObject;
+    }
     return [STANDARD_USER_DEFAULT valueForKey:UWUserLanguageKey];
 }
 
@@ -50,8 +55,8 @@
  */
 + (void)resetSystemLanguage
 {
-//    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isOpen"];
-//    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isOpen"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     FLFLTabBarVC *tabVC = [[FLFLTabBarVC alloc]init];
     
     AppDelegate *appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;

@@ -73,6 +73,8 @@
 "添加币种"="Add token";
 "钱包列表"="Wallet List";
 "创建钱包"="Create Wallet";
+"创建钱包(推荐)"="Create Wallet(Recommend)";
+
 "导入钱包"="Import Wallet";
 "钱包管理"="Wallet Setting";
 "修改钱包名称"="Change wallet name";
@@ -101,7 +103,8 @@
 "请设置8至16位助记词密码1"="a password of 8 to 16 characters";
 "请重复已输入的助记词密码"="Please confirm your password";
 "须包含大、小写字母，数字"="Must include capital and lowercase letters, numbers.";
-" 长度8-16位，且至少包含字母、数字和特殊字符中的2种"=" 8-16 bits long and contains at least two letters, Numbers, and special characters";
+"长度8-16位，且至少包含字母、数字和特殊字符中的2种"="8-16 bits long and contains at least two letters, Numbers, and special characters";
+"助记词导入钱包同步速度缓慢，建议创建新钱包或使用Keystore导入"="Creating new wallet or import using keystore is recommended for quick synchronization";
 
 "导出助记词"="Export Mnemonics";
 "验证助记词"="Verify Mnemonics";

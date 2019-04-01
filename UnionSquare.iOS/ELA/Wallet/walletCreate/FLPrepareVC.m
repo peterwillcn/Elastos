@@ -26,7 +26,7 @@
     
     [self.btn1 setBackgroundColor:RGBA(255, 255, 255, 0.15) boldColor:[UIColor whiteColor] corner:0];
     [self.btn2 setBackgroundColor:RGBA(255, 255, 255, 0.15) boldColor:[UIColor whiteColor] corner:0];
-    [self.btn1 setTitle:NSLocalizedString(@"创建钱包", nil) forState:UIControlStateNormal];
+    [self.btn1 setTitle:NSLocalizedString(@"创建钱包(推荐)", nil) forState:UIControlStateNormal];
      [self.btn2 setTitle:NSLocalizedString(@"导入钱包", nil) forState:UIControlStateNormal];
     
    // [self defultWhite];

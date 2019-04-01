@@ -29,6 +29,7 @@
  */
 @property(copy,nonatomic)NSString *palceString;
 @property (weak, nonatomic) IBOutlet UILabel *pwdShowInfoTextLabel;
+@property (weak, nonatomic) IBOutlet UILabel *theMnemonicWordShowInfo;
 
 @end
 
@@ -38,7 +39,7 @@
     self =[super init];
     if (self) {
         self =[[NSBundle mainBundle]loadNibNamed:@"HMWImTheMnemonicWordView" owner:nil options:nil].firstObject;
-    self.walletWordSwitchInfoTextLabel.text=NSLocalizedString(@"助记词密码（可选）", nil);
+   self.theMnemonicWordShowInfo.text=NSLocalizedString(@"助记词导入钱包同步速度缓慢，建议创建新钱包或使用Keystore导入", nil); self.walletWordSwitchInfoTextLabel.text=NSLocalizedString(@"助记词密码（可选）", nil);
         self.palceString=NSLocalizedString(@"助记词之间请使用空格隔开", nil);
       self.theMnemonicWordPWDTextField.placeholder=NSLocalizedString(@"请输入当前钱包的助记词密码", nil); self.pwdTextFiedl.placeholder=NSLocalizedString(@"请输入8至16位钱包密码", nil); self.theMnemonicWordTextView.text=self.palceString;
         [self.confirmTheImportButton setTitle:NSLocalizedString(@"确认导入", nil) forState:UIControlStateNormal];
@@ -62,7 +63,7 @@
         self.againPWDTextField.placeholder=NSLocalizedString(@"请再次输入确认密码", nil);
         self.whetherTheSingleAddressButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
         [self.whetherTheSingleAddressButton setTitle:NSLocalizedString(@"单地址钱包", nil) forState:UIControlStateNormal];
-        self.pwdShowInfoTextLabel.text=NSLocalizedString(@" 长度8-16位，且至少包含字母、数字和特殊字符中的2种", nil);
+        self.pwdShowInfoTextLabel.text=NSLocalizedString(@"长度8-16位，且至少包含字母、数字和特殊字符中的2种", nil);
         self.theMnemonicWordPWDTextField.delegate=self;
     }
     

@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -51,17 +52,17 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wallet_notice" translatesAutoresizingMaskIntoConstraints="NO" id="UVg-EB-7hE">
-                    <rect key="frame" x="82.5" y="307" width="12" height="12"/>
+                    <rect key="frame" x="77.5" y="307" width="12" height="12"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="12" id="2og-q9-frU"/>
                         <constraint firstAttribute="width" constant="12" id="9xJ-8s-1pi"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z2p-cz-I7M">
-                    <rect key="frame" x="97.5" y="307" width="180" height="27"/>
+                    <rect key="frame" x="92.5" y="305" width="190" height="27"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="27" id="U7g-aS-47R"/>
-                        <constraint firstAttribute="width" constant="180" id="fTi-Da-l9f"/>
+                        <constraint firstAttribute="width" constant="190" id="fTi-Da-l9f"/>
                     </constraints>
                     <string key="text">请在纸上抄下您的助记词
 助记词丢失您将永远失去自己的钱包</string>
@@ -70,7 +71,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QMq-PX-aHx">
-                    <rect key="frame" x="30" y="362" width="315" height="50"/>
+                    <rect key="frame" x="30" y="360" width="315" height="50"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="助记词密码（可选）" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SEh-ou-a4i">
                             <rect key="frame" x="15" y="0.0" width="129" height="50"/>
@@ -111,7 +112,7 @@
                     </connections>
                 </button>
                 <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oIc-ar-9kQ">
-                    <rect key="frame" x="30" y="417" width="315" height="135"/>
+                    <rect key="frame" x="30" y="415" width="315" height="135"/>
                     <subviews>
                         <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t0T-eB-QnY">
                             <rect key="frame" x="15" y="55" width="285" height="1"/>
@@ -206,7 +207,7 @@
                 <constraint firstItem="oIc-ar-9kQ" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="30" id="i6c-2u-llP"/>
                 <constraint firstItem="UVg-EB-7hE" firstAttribute="top" secondItem="FRf-j5-ESN" secondAttribute="bottom" constant="18" id="paA-54-Sp9"/>
                 <constraint firstItem="FRf-j5-ESN" firstAttribute="top" secondItem="UhC-D6-GKR" secondAttribute="bottom" constant="26" id="r3Z-1t-uiE"/>
-                <constraint firstItem="z2p-cz-I7M" firstAttribute="top" secondItem="FRf-j5-ESN" secondAttribute="bottom" constant="18" id="rDV-LW-cmJ"/>
+                <constraint firstItem="z2p-cz-I7M" firstAttribute="top" secondItem="FRf-j5-ESN" secondAttribute="bottom" constant="16" id="rDV-LW-cmJ"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="Gp0-Da-Jh6" secondAttribute="trailing" constant="63" id="wRc-6B-eNy"/>
                 <constraint firstItem="Gp0-Da-Jh6" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="63" id="xmt-Z2-Rfw"/>
             </constraints>

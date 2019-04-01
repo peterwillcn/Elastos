@@ -43,7 +43,7 @@
    
     self.textfield1.placeholder=NSLocalizedString(@"请设置8至16位助记词密码1", nil);
     self.textfield2.placeholder=NSLocalizedString(@"请重复已输入的助记词密码", nil);
-    self.theRulesInfoTextLabel.text=NSLocalizedString(@" 长度8-16位，且至少包含字母、数字和特殊字符中的2种", nil);
+    self.theRulesInfoTextLabel.text=NSLocalizedString(@"长度8-16位，且至少包含字母、数字和特殊字符中的2种", nil);
      [self.nextBtn setTitle:NSLocalizedString(@"下一步", nil) forState:UIControlStateNormal];
     self.textfield1.delegate=self;
     self.textfield2.delegate=self;

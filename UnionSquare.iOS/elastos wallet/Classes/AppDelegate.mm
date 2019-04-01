@@ -60,15 +60,18 @@
         [DAConfig setUserLanguage:@"zh-Hans"];
         
     }else{
-         NSString *localeLanguageCode = [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
-        if ([localeLanguageCode  containsString:@"en"]) {
-             [DAConfig setUserLanguage:@"en"];
+//         NSString *localeLanguageCode = [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
+//        if ([localeLanguageCode  containsString:@"en"]) {
+//             [DAConfig setUserLanguage:@"en"];
 //        [[NSUserDefaults standardUserDefaults] setValue:@[@"en"] forKey:@"UWUserLanguageKey"];
-        }else if ([localeLanguageCode  containsString:@"zh"]){
-            [DAConfig setUserLanguage:@"zh-Hans"];
-//               [[NSUserDefaults standardUserDefaults] setValue:@[@"zh-Hans"] forKey:UWUserLanguageKey];
-            
-        }
+//        }else if ([localeLanguageCode  containsString:@"zh"]){
+//            [DAConfig setUserLanguage:@"zh-Hans"];
+////               [[NSUserDefaults standardUserDefaults] setValue:@[@"zh-Hans"] forKey:UWUserLanguageKey];
+//
+//        }else{
+        
+           [DAConfig setUserLanguage:@"en"];
+//        }
         
         
         

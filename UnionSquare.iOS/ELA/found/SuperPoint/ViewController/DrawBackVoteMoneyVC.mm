@@ -34,7 +34,7 @@
     [super viewDidLoad];
     [self setBackgroundImg:@"tab_bg"];
     self.title= NSLocalizedString(@"选举管理", nil);
-    self.tagNote.text = NSLocalizedString(@"注销报名72小时后，方可提取报名基金", nil);
+    self.tagNote.text = NSLocalizedString(@"注销报名72小时后，方可提取报名质押金", nil);
     self.tagNodeNameLab.text = NSLocalizedString(@"节点名称", nil);
     self.drawBtn.enabled = NO;
     [self.drawBtn setTitle:NSLocalizedString(@"取回质押金", nil) forState:UIControlStateNormal];

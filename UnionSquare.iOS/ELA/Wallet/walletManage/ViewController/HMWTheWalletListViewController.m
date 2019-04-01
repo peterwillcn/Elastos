@@ -99,6 +99,7 @@ static NSString *celladdString=@"HMWaddWalletListTableViewCell";
     
     HMWtheWalletListTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
     cell.model=self.walletIDListArray[indexPath.section];
+    cell.selectView.alpha=0.f;
     if (self.currentWalletIndex==indexPath.section) {
         cell.selectView.alpha=1.f;
     }
@@ -164,6 +165,11 @@ static NSString *celladdString=@"HMWaddWalletListTableViewCell";
             [self.delegate needUpdateInfo:wallet withSelectIndex: self.selectIndex.section];
         }
     }
+    
+}
+- (void)setCurrentWalletIndex:(NSInteger)currentWalletIndex{
+    _currentWalletIndex=currentWalletIndex;
+    
     
 }
 @end

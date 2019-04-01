@@ -75,10 +75,11 @@
     if (self.model.nickName.length!=0) {
         [self.confirmToRunButton setTitle:NSLocalizedString(@"更新信息", nil) forState:UIControlStateNormal];
         self.title = NSLocalizedString(@"更新信息", nil);
-        self.theNameOfTheNodeTextField.alpha=0.f;
-        self.theNameOfTheNodeMakeView.alpha=0.f;
-        self.offY.constant=0.f;
-        self.offHight.constant=240;
+//        self.theNameOfTheNodeTextField.alpha=0.f;
+        self.theNameOfTheNodeTextField.enabled=NO;
+//        self.theNameOfTheNodeMakeView.alpha=0.f;
+//        self.offY.constant=0.f;
+//        self.offHight.constant=240;
         self.URLTextField.text=self.model.url;
         self.countriesTextField.text=[[FLTools share]contryNameTransLateByCode:self.model.contryCode.integerValue];
         self.theNameOfTheNodeTextField.text=self.model.nickName;

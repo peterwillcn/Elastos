@@ -67,11 +67,11 @@
     
     
     CDVPluginResult *result= [[ELWalletManager share]changePassword:mommand];
-//    NSString *status=[NSString stringWithFormat:@"%@",result.status];
-//    if([status isEqualToString:@"1"]){
-//
-//        [self successfulSwitchingRootVC];
-//    }
+    NSString *status=[NSString stringWithFormat:@"%@",result.status];
+    if([status isEqualToString:@"1"]){
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"修改成功！", nil)];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
     
     
     self.nPWDTextField.secureTextEntry=YES;

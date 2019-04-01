@@ -204,16 +204,16 @@ static HMWFMDBManager * _manager =nil;
 }
 //改
 -(BOOL)sideChainUpdate:(sideChainInfoModel *)model{
-    //nameString,address,mobilePhoneNo,email,note
+    NSString *sql =@"Update sideChain set sideChainNameTime=? where walletID=?";
     
-    NSString *sql =[NSString stringWithFormat:@"Update sideChain set sideChainNameTime=\'%@\' where ID=\'%@\'",model.sideChainNameTime,model.walletID];
-
-    
-    if ([self executeUpdate:sql,model.sideChainNameTime,model.ID]) {
- 
+    if ( [self executeUpdate:sql,model.sideChainNameTime,model.walletID]) {
+        //        NSLog(@"删除完成!");
         return YES;
-    }
-    return NO;
+        
+    }else{
+        //        NSLog(@"删除失败!");
+        return NO;
+    };
 }
 //改
 -(BOOL)updateRecord:(friendsModel *)person{

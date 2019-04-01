@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "575361683.377395"
+            timestampString = "575793402.301577"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "25"
@@ -36,7 +36,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "575361683.3778419"
+            timestampString = "575793402.3016371"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "943"
@@ -52,7 +52,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "575361683.378127"
+            timestampString = "575793402.30169"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "976"
@@ -100,7 +100,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "575361683.378419"
+            timestampString = "575793402.3017631"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1540"
@@ -116,7 +116,7 @@
                   moduleName = "elastos_wallet"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hiphone/Documents/Elastos.App.UnionSquare.iOS/WalletManager/ELWalletManager.mm"
-                  timestampString = "575531167.463702"
+                  timestampString = "575797370.59899"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1540"
@@ -131,7 +131,7 @@
                   moduleName = "elastos_wallet"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hiphone/Documents/Elastos.App.UnionSquare.iOS/WalletManager/ELWalletManager.mm"
-                  timestampString = "575531167.465785"
+                  timestampString = "575797370.600904"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1540"
@@ -148,7 +148,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "575361683.378675"
+            timestampString = "575793402.301805"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1594"
@@ -196,7 +196,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "575361683.3791209"
+            timestampString = "575793402.3018661"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1055"
@@ -212,7 +212,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ELA/Wallet/walletCreate/HMWImportTheWalletViewController.mm"
-            timestampString = "574743523.10791"
+            timestampString = "575796484.694135"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "158"
@@ -228,7 +228,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "575361683.3793941"
+            timestampString = "575793402.301919"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1519"
@@ -260,28 +260,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "575361683.379658"
+            timestampString = "575793402.301971"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1297"
             endingLineNumber = "1297"
             landmarkName = "-sideChainTop_Up:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "575361683.3799"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1360"
-            endingLineNumber = "1360"
-            landmarkName = "-mainChainWithdrawal:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -308,23 +292,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ELA/Base/DBManager/HMWFMDBManager.m"
-            timestampString = "575368344.254545"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
-            landmarkName = "-updateRecord:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ELA/Base/DBManager/HMWFMDBManager.m"
-            timestampString = "575368344.2546149"
+            timestampString = "575797370.1892461"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "233"
@@ -355,13 +323,45 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ELA/Base/DBManager/HMWFMDBManager.m"
-            timestampString = "575368344.254711"
+            filePath = "ELA/found/SuperPoint/ViewController/HMWsignUpForViewController.mm"
+            timestampString = "575793513.2586451"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
-            landmarkName = "-sideChainUpdate:"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ELA/Base/DBManager/HMWFMDBManager.m"
+            timestampString = "575797370.189373"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "285"
+            endingLineNumber = "285"
+            landmarkName = "-updateRecordWallet:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ELA/Base/DBManager/HMWFMDBManager.m"
+            timestampString = "575797370.189433"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "290"
+            endingLineNumber = "290"
+            landmarkName = "-updateRecordWallet:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

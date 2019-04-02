@@ -270,9 +270,9 @@ public class AppManager {
                 fragment = AppViewFragment.newInstance(id);
             }
         }
-        else if (!id.equals("launcher")) {
-            fragment.onResume();
-        }
+//        else if (!id.equals("launcher")) {
+//            fragment.onResume();
+//        }
         switchContent(fragment, id);
     }
 

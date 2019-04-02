@@ -213,13 +213,13 @@ public class AppBasePlugin extends CordovaPlugin {
             url = "file:///android_asset/www" + uri.getPath();
 
         }
-        else if (url.startsWith("file:///assets/")) {
+        else if (url.startsWith("trinity:///assets/")) {
             AppInfo info = AppManager.appManager.getAppInfo(id);
-            url = AppManager.appManager.getAppUrl(info) + url.substring(15);
+            url = AppManager.appManager.getAppUrl(info) + url.substring(18);
         }
-//        else if (url.startsWith("file:///data/")) {、
-//            url = AppManager.appManager.getDataUrl(id) + url.substring(15);
-//        }
+        else if (url.startsWith("trinity:///data/")) {
+            url = AppManager.appManager.getDataUrl(id) + url.substring(16);
+        }
         else {
             return null;
         }

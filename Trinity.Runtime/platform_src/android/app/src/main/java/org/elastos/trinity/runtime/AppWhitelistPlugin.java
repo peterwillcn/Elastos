@@ -34,22 +34,16 @@ public class AppWhitelistPlugin extends CordovaPlugin {
 
     public AppWhitelistPlugin(AppInfo info) {
         String appPath = AppManager.appManager.getAppUrl(info) + "*";
-        String dataPath = AppManager.appManager.getDataUrl(info) + "*";
+        String dataPath = AppManager.appManager.getDataUrl(info.app_id) + "*";
         allowedRequests  = new Whitelist();
         allowedRequests.addWhiteListEntry(appPath, false);
         allowedRequests.addWhiteListEntry(dataPath, false);
-        // allowedRequests.addWhiteListEntry("file:///android_asset/www/public/*", false);
-//        allowedRequests.addWhiteListEntry("file:///android_asset/www/plugins/*", false);
-//        allowedRequests.addWhiteListEntry("file:///android_asset/www/cordova*", false);
-//        allowedRequests.addWhiteListEntry("file:///android_asset/www/cordova-js-src/*", false);
         allowedRequests.addWhiteListEntry("assets://www/cordova*", false);
         allowedRequests.addWhiteListEntry("assets://www/plugins/*", false);
-//        allowedRequests.addWhiteListEntry("file:///android_asset/www/cordova_plugins.js", false);
 
-//       for (AppInfo.UrlAuth urlAuth : info.urls) {
-//           allowedRequests.addWhiteListEntry(urlAuth.url, false);
-//       }
-
+        allowedRequests.addWhiteListEntry("trinity:///assets/*", false);
+        allowedRequests.addWhiteListEntry("trinity:///data/*", false);
+        
         allowedNavigations = allowedRequests;
         allowedIntents = new Whitelist();
 

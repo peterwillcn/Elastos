@@ -63,6 +63,7 @@ public class ManagerDBAdapter {
             contentValues.put(AppInfo.THEME_FONT_COLOR, info.theme_font_color);
             contentValues.put(AppInfo.INSTALL_TIME, info.install_time);
             contentValues.put(AppInfo.BUILT_IN, info.built_in);
+            contentValues.put(AppInfo.REMOTE, info.remote);
             long tid = db.insert(ManagerDBHelper.APP_TABLE, null, contentValues);
 
             if (tid == -1) {
@@ -106,7 +107,7 @@ public class ManagerDBAdapter {
         String[] columns = {AppInfo.TID, AppInfo.APP_ID, AppInfo.VERSION, AppInfo.NAME, AppInfo.SHORT_NAME, AppInfo.DESCRIPTION, AppInfo.START_URL,
                 AppInfo.AUTHOR_NAME, AppInfo.AUTHOR_EMAIL, AppInfo.DEFAULT_LOCAL, AppInfo.BACKGROUND_COLOR,
                 AppInfo.THEME_DISPLAY, AppInfo.THEME_COLOR, AppInfo.THEME_FONT_NAME, AppInfo.THEME_FONT_COLOR,
-                AppInfo.INSTALL_TIME, AppInfo.BUILT_IN};
+                AppInfo.INSTALL_TIME, AppInfo.BUILT_IN, AppInfo.REMOTE};
         Cursor cursor = db.query(ManagerDBHelper.APP_TABLE, columns,selection, selectionArgs,null,null,null);
         AppInfo infos[] = new AppInfo[cursor.getCount()];
         int count = 0;
@@ -129,6 +130,7 @@ public class ManagerDBAdapter {
 
             info.install_time = cursor.getLong(cursor.getColumnIndex(AppInfo.INSTALL_TIME));
             info.built_in = cursor.getInt(cursor.getColumnIndex(AppInfo.BUILT_IN));
+            info.remote = cursor.getInt(cursor.getColumnIndex(AppInfo.REMOTE));
             infos[count++] = info;
 
             String[] columns1 = {AppInfo.SRC, AppInfo.SIZES, AppInfo.TYPE};

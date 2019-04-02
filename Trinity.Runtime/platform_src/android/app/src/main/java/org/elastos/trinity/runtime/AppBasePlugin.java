@@ -106,14 +106,14 @@ public class AppBasePlugin extends CordovaPlugin {
 
     protected JSONObject jsonAppInfo(AppInfo info) throws JSONException {
         String appUrl = AppManager.appManager.getAppUrl(info);
-        String dataUrl = AppManager.appManager.getDataUrl(info);
+        String dataUrl = AppManager.appManager.getDataUrl(info.app_id);
         JSONObject r = new JSONObject();
         r.put("id", info.app_id);
         r.put("version", info.version);
         r.put("name", info.name);
         r.put("shortName", info.short_name);
         r.put("description", info.description);
-        r.put("startUrl", AppManager.appManager.resetPath(appUrl, info.start_url));
+        r.put("startUrl", AppManager.appManager.getStartPath(info));
         r.put("icons", jsonAppIcons(info));
         r.put("authorName", info.author_name);
         r.put("authorEmail", info.author_email);
@@ -127,6 +127,7 @@ public class AppBasePlugin extends CordovaPlugin {
         r.put("themeFontColor", info.theme_font_color);
         r.put("installTime", info.install_time);
         r.put("builtIn", info.built_in);
+        r.put("remote", info.remote);
         r.put("appPath", appUrl);
         r.put("dataPath", dataUrl);
         return r;
@@ -207,12 +208,24 @@ public class AppBasePlugin extends CordovaPlugin {
 
     @Override
     public Uri remapUri(Uri uri) {
+        String url = uri.toString();
         if ("assets".equals(uri.getScheme())) {
-            String path = uri.getPath();
-            uri = Uri.parse("file:///android_asset/www" + path);
-            return uri;
+            url = "file:///android_asset/www" + uri.getPath();
+
         }
-        return null;
+        else if (url.startsWith("file:///assets/")) {
+            AppInfo info = AppManager.appManager.getAppInfo(id);
+            url = AppManager.appManager.getAppUrl(info) + url.substring(15);
+        }
+//        else if (url.startsWith("file:///data/")) {、
+//            url = AppManager.appManager.getDataUrl(id) + url.substring(15);
+//        }
+        else {
+            return null;
+        }
+
+        uri = Uri.parse(url);
+        return uri;
     }
 
 }

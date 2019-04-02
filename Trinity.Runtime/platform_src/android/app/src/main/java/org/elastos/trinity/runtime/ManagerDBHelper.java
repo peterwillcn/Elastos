@@ -79,7 +79,8 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
                 AppInfo.THEME_FONT_NAME + " varchar(64), " +
                 AppInfo.THEME_FONT_COLOR + " varchar(32), " +
                 AppInfo.INSTALL_TIME + " integer, " +
-                AppInfo.BUILT_IN + " integer)";
+                AppInfo.BUILT_IN + " integer, " +
+                AppInfo.REMOTE + " integer)";
         db.execSQL(strSQL);
     }
 

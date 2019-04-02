@@ -38,6 +38,7 @@ import org.elastos.trinity.runtime.R;
 import org.json.JSONException;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -120,33 +121,37 @@ public class AppManager {
     }
 
     public String getStartPath(AppInfo info) {
-        return resetPath(getAppUrl(info), info.start_url);
+        if (info.remote == 0) {
+            return getAppUrl(info) + info.start_url;
+        }
+        else {
+            return info.start_url;
+        }
     }
 
     public String getAppPath(AppInfo info) {
-        if (info.built_in == 1) {
-            return "assets://www/built-in/" + info.app_id + "/";
+        if (info.remote == 0) {
+            return appsPath + info.app_id + "/";
         }
         else {
-            return appsPath + info.app_id + "/";
+            return info.start_url.substring(0, info.start_url.lastIndexOf("/") + 1);
         }
     }
 
     public String getAppUrl(AppInfo info) {
-        if (info.built_in == 1) {
-            return "file:///android_asset/www/built-in/" + info.app_id + "/";
+        String url = getAppPath(info);
+        if (info.remote == 0) {
+            url = "file://" + url;
         }
-        else {
-            return "file://" + appsPath + info.app_id + "/";
-        }
+        return url;
     }
 
     public String getDataPath(String id) {
         return dataPath + id + "/";
     }
 
-    public String getDataUrl(AppInfo info) {
-        return "file://" + dataPath + info.app_id + "/";
+    public String getDataUrl(String id) {
+        return "file://" + getDataPath(id);
     }
 
     public String resetPath(String dir, String origin) {
@@ -174,8 +179,9 @@ public class AppManager {
                 }
 
                 if (needInstall) {
-                    InputStream inputStream = manager.open("www/built-in/" + appdir + "/manifest.json");
-                    AppInfo info = installer.parseManifest(inputStream);
+                    installer.copyAssetsFolder("www/built-in/" + appdir, appsPath + appdir);
+                    InputStream input = new FileInputStream(appsPath + appdir + "/manifest.json");
+                    AppInfo info = installer.parseManifest(input);
 
                     info.built_in = 1;
                     dbAdapter.addAppInfo(info);

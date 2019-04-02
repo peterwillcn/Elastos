@@ -36,6 +36,7 @@ public class TrinityPlugin extends CordovaPlugin {
     public String dataPath = null;
     public String appPath = null;
     private AppInfo appInfo = null;
+    private AppManager appManager = null;
 
     public void setWhitelistPlugin(AppWhitelistPlugin appWhitelistPlugin) {
         this.whitelistPlugin = appWhitelistPlugin;
@@ -45,6 +46,7 @@ public class TrinityPlugin extends CordovaPlugin {
         this.appInfo = info;
         this.dataPath = AppManager.appManager.getDataPath(info.app_id);
         this.appPath = AppManager.appManager.getAppPath(info);
+        this.appManager = AppManager.appManager;
     }
 
     public String getDataPath() {
@@ -74,44 +76,49 @@ public class TrinityPlugin extends CordovaPlugin {
 
     public String getCanonicalPath(String path) throws Exception {
         String ret = null;
-        if (path.startsWith("assets/")) {
-            String dir = getCanonicalDir(path, "assets/");
+        if (path.startsWith("trinity:///assets/")) {
+            String dir = getCanonicalDir(path.substring(10), "/assets/");
             ret = appPath + dir;
         }
-        else if (path.startsWith("data/")) {
-            String dir = getCanonicalDir(path, "data/");
+        else if (path.startsWith("trinity:///data/")) {
+            String dir = getCanonicalDir(path.substring(10), "/data/");
             ret = dataPath + dir;
         }
-        else if (!(path.startsWith("/")) && !(path.startsWith("assets://")) && (path.indexOf("://") != -1)) {
-            if (whitelistPlugin.shouldAllowNavigation(path)) {
+        else if ((path.indexOf("://") != -1)) {
+            if (!(path.startsWith("assets://")) && whitelistPlugin.shouldAllowNavigation(path)) {
                 ret = path;
             }
         }
+        else if (!path.startsWith("/")) {
+            String dir = getCanonicalDir("/assets/" + path, "/assets/");
+            ret = appPath + dir;
+        }
+
         if (ret == null) {
             throw new Exception("Dir is invalid!");
         }
+
         return ret;
     }
 
     public String getRelativePath(String path) throws Exception {
         String ret = null;
-        if (path.startsWith(appPath)) {
-            String header = appPath;
-            if (appInfo.built_in == 1) {
-                path = path.substring(8);
-                header = header.substring(8);
-            }
-            String dir = getCanonicalDir(path, header);
-            ret = "asserts/" + dir;
-        }
-        else if (path.startsWith(dataPath)) {
-            ret = "data/" + getCanonicalDir(path, dataPath);
-        }
-        else if (!(path.startsWith("/")) && !(path.startsWith("assets://")) && (path.indexOf("://") != -1)) {
+        if (!(path.startsWith("assets://")) && (path.indexOf("://") != -1)) {
             if (whitelistPlugin.shouldAllowNavigation(path)) {
                 ret = path;
             }
         }
+        else if (path.startsWith(appPath)) {
+            File file = new File(appPath);
+            String header = file.getCanonicalPath() + "/";
+            ret = "trinity:///assets/" + getCanonicalDir(path, header);
+        }
+        else if (path.startsWith(dataPath)) {
+            File file = new File(dataPath);
+            String header = file.getCanonicalPath() + "/";
+            ret = "trinity:///data/" + getCanonicalDir(path, header);
+        }
+
         if (ret == null) {
             throw new Exception("Dir is invalid!");
         }

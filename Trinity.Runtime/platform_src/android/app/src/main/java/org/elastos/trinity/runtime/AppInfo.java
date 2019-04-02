@@ -47,6 +47,7 @@
      public static final String THEME_FONT_COLOR = "theme_font_color";
      public static final String INSTALL_TIME = "install_time";
      public static final String BUILT_IN = "built_in";
+     public static final String REMOTE = "remote";
 
      public static final String SRC = "src";
      public static final String SIZES = "sizes";
@@ -80,6 +81,7 @@
      public String theme_font_color;
      public long   install_time;
      public int    built_in;
+     public int    remote;
 
      public static final int AUTHORITY_NOEXIST = -1;
      public static final int AUTHORITY_NOINIT = 0;

@@ -38,6 +38,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.Random;
 import java.util.zip.ZipEntry;
@@ -133,6 +134,32 @@ public class AppInstaller {
         if (packagePath != null && !packagePath.isEmpty()) {
             File file = new File(packagePath);
             file.delete();
+        }
+    }
+
+    public void copyAssetsFolder(String src, String dest) throws IOException {
+        AssetManager manager = context.getAssets();
+        String fileNames[] = manager.list(src);
+        if (fileNames.length > 0) {
+            File file = new File(dest);
+            file.mkdirs();
+            for (String fileName : fileNames) {
+                copyAssetsFolder(src + "/" + fileName, dest + "/" + fileName);
+            }
+        }
+        else {
+            InputStream in = manager.open(src);
+            OutputStream out = new FileOutputStream(dest);
+
+            byte[] buffer = new byte[1024];
+
+            int length;
+
+            while ((length = in.read(buffer)) > 0) {
+                out.write(buffer, 0, length);
+            }
+            in.close();
+            out.close();
         }
     }
 
@@ -294,6 +321,12 @@ public class AppInstaller {
         appInfo.version = getMustStrValue(json, "version");
         appInfo.name = getMustStrValue(json, "name");
         appInfo.start_url = getMustStrValue(json, "start_url");
+        if (appInfo.start_url.indexOf("://") != -1) {
+            appInfo.remote = 1;
+        }
+        else {
+            appInfo.remote = 0;
+        }
 
         if (json.has("icons")) {
             JSONArray array = json.getJSONArray("icons");

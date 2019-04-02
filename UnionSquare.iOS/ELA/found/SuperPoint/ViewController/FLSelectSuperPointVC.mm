@@ -53,6 +53,10 @@
         self.signUpForButton.hidden = YES;
     }else if([Status isEqualToString:@"Unregistered"]){
         self.manageVoteBtn.hidden = YES;
+    }else if ([Status isEqualToString:@"ReturnDeposit"]){
+        self.manageVoteBtn.hidden = YES;
+        self.signUpForButton.hidden = YES;
+        
     }
     
 }

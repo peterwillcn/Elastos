@@ -38,30 +38,44 @@
     self.tagNodeNameLab.text = NSLocalizedString(@"节点名称", nil);
     self.drawBtn.enabled = NO;
     [self.drawBtn setTitle:NSLocalizedString(@"取回质押金", nil) forState:UIControlStateNormal];
+    
+    
     ELWalletManager *manager   =  [ELWalletManager share];
     
     IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
     
-    Json result = mainchainSubWallet->GetAllTransaction(0, 500,"");
-    NSString *dataStr = [NSString stringWithUTF8String:result.dump().c_str()];
+    nlohmann::json info = mainchainSubWallet->GetRegisteredProducerInfo();
+    NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
     
     NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-    NSArray *tranList=[NSArray modelArrayWithClass:assetDetailsModel.class json:param[@"Transactions"]];
+    
+//    ELWalletManager *manager   =  [ELWalletManager share];
+//
+//    IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
+    
+//    Json result = mainchainSubWallet->GetAllTransaction(0, 500,"");
+//    NSString *dataStr = [NSString stringWithUTF8String:result.dump().c_str()];
+//
+//    NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+//    NSArray *tranList=[NSArray modelArrayWithClass:assetDetailsModel.class json:param[@"Transactions"]];
     
     //取 注销记录
-    for (int i=0; i < tranList.count; i++) {
-        assetDetailsModel *model1 = tranList[i];
-        if (model1.Type.integerValue==10 && model1.ConfirmStatus.integerValue>=1) {
-            self.model = model1;
-            break;
-        }
+//    for (int i=0; i < tranList.count; i++) {
+//        assetDetailsModel *model1 = tranList[i];
+//        if (model1.Type.integerValue==10 && model1.ConfirmStatus.integerValue>=1) {
+//            self.model = model1;
+//            break;
+//        }
+//    }
+//    if (self.model==nil) {
+//        self.drawBtn.enabled = NO;
+//        return;
+//    }
+    if ([param[@"Info"][@"Confirms"] integerValue]>2160) {
+        self.drawBtn.enabled=YES;
+    }else{
+        self.drawBtn.enabled=NO;
     }
-    if (self.model==nil) {
-        self.drawBtn.enabled = NO;
-        return;
-    }
-    self.drawBtn.enabled = ([manager.estimatedHeight integerValue]-self.model.Height.integerValue>=2160);
-    
 }
 -(void)iconInfoUpdate:(NSNotification*)notice{
     

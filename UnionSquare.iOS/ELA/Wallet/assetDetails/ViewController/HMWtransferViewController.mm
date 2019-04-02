@@ -195,9 +195,6 @@
 -(void)pwdAndInfoWithPWD:(NSString *)pwd{
     [self.transferDetailsPopupV removeFromSuperview];
     NSString *isUtxo=@"1";
-//    if (self.isAddSwitch.isOn) {
-//        isUtxo=@"1";
-//    }
     self.transferDetailsPopupV=nil;
      CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[NSString stringWithFormat:@"%f",[self.theAmountOfTextField.text doubleValue]*100000000],self.noteTextField.text,self.noteTextField.text,pwd,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
     

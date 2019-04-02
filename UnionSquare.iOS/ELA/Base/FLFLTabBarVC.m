@@ -51,11 +51,11 @@
     NSDictionary *param =notice.object;
     
     NSInteger code =[ param[@"result"][@"Code"] integerValue];
-    if (code == 0||code ==18) {
-        [[FLTools share]showErrorInfo:[NSString stringWithFormat:        NSLocalizedString(@"交易成功", nil)]];
-    }else{
-        [[FLTools share]showErrorInfo:[NSString stringWithFormat:        NSLocalizedString(@"交易失败", nil)]];
-    }
+//    if (code == 0||code ==18) {
+//        [[FLTools share]showErrorInfo:[NSString stringWithFormat:        NSLocalizedString(@"交易成功", nil)]];
+//    }else{
+//        [[FLTools share]showErrorInfo:[NSString stringWithFormat:        NSLocalizedString(@"交易失败", nil)]];
+//    }
     
     
 }

@@ -371,20 +371,22 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
         default:
             break;
     }
+    
     detailsM.Timestamp=[[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:detailsM.Timestamp];
-    transferTransactionDetailsVC.model=detailsM;
+
     if ([detailsM.Direction isEqualToString:@"Received"]) {
 transferTransactionDetailsVC.type=transactionMultipleIntoType;
     }else if ([detailsM.Direction isEqualToString:@"Sent"]){
 transferTransactionDetailsVC.type=transactionSingleRollOutType;
     }else if (OutputPayload.count>0){
+        detailsM.Type=@"投票交易";
     transferTransactionDetailsVC.type=rotationToVoteType;
         transferTransactionDetailsVC.votesString=[[FLTools share]elaScaleConversionWith:OutputPayload[0][@"Amount"]];
     }
     else{
 transferTransactionDetailsVC.type=transactionSingleIntoType;
     }
-    
+        transferTransactionDetailsVC.model=detailsM;
     
     [self.navigationController pushViewController:transferTransactionDetailsVC animated:YES];
     

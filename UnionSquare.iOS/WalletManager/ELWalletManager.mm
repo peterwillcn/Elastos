@@ -1018,11 +1018,7 @@ static uint64_t feePerKB = 10000;
     
     
     return nil;
-    
-    
-    //    NSString *jsonString = [self getBasicInfo:subWallet];
-    //    [self createDIDManager:masterWallet];
-    //    return [self successProcess:command msg:jsonString];
+
     
 }
 - (CDVPluginResult *)DestroySubWallet:(CDVInvokedUrlCommand *)command{
@@ -1128,88 +1124,145 @@ static uint64_t feePerKB = 10000;
        return  [self errInfoToDic:e.what() with:command];
     }
     Json result;
+//    try {
+//    result= [self PublishTransaction:suWall :josn withPWD:PWD withFromAddress:fromAddress];
+//    } catch (const std:: exception e) {
+//       return  [self errInfoToDic:e.what() with:command];
+//    }
+    
+    Json signedTx;
+   
     try {
-    result= [self PublishTransaction:suWall :josn withPWD:PWD withFromAddress:fromAddress];
-    } catch (const std:: exception &e) {
+        
+//        signedTx=[self CalculateFeeAndSign:subWallet :json withPWD:payPasswd withFromAddress:address];
+        
+        uint64_t fee;
+        Json tmpTx;
+//        Json retJson;
+        try {
+            
+            fee = suWall->CalculateTransactionFee(josn, feePerKB);
+            try {
+                
+                tmpTx = suWall->UpdateTransactionFee(josn, fee, fromAddress);
+                try {
+                    signedTx=  suWall->SignTransaction(tmpTx, PWD);
+                } catch (const std:: exception & e ) {
+                    
+                return  [self errInfoToDic:e.what() with:command];
+                }
+                
+            } catch (const std:: exception & e ) {
+                
+              return  [self errInfoToDic:e.what() with:command];
+            }
+        } catch (const std:: exception & e ) {
+          return  [self errInfoToDic:e.what() with:command];
+        }
+        
+        
+        
+        
+        try {
+            
+            result = suWall->PublishTransaction(signedTx);
+            
+            
+        } catch (const std:: exception & e ) {
+          return  [self errInfoToDic:e.what() with:command];
+        }
+        
+    } catch (const std:: exception & e ) {
        return  [self errInfoToDic:e.what() with:command];
     }
+   
+    
+    
+    
+    
     NSString *jsonString = [self stringWithCString:result.dump()];
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
     return [self successProcess:command msg:dic];
 }
-- (Json)PublishTransaction:(ISubWallet*)subWallet :(Json)json withPWD:(String)payPasswd withFromAddress:(String)address
-{
-    Json signedTx;
-    Json  result;
-    try {
-        
-        signedTx=[self CalculateFeeAndSign:subWallet :json withPWD:payPasswd withFromAddress:address];
-        try {
-            
-            result = subWallet->PublishTransaction(signedTx);
-            
-            
-        } catch (const std:: exception & e ) {
-            
-            NSString *errString=[self stringWithCString:e.what()];
-            NSDictionary *dic=  [self dictionaryWithJsonString:errString];
-            [[FLTools share]showErrorInfo:dic[@"Message"]];
-            return 0;
-        }
-        
-     } catch (const std:: exception & e ) {
-        
-        NSString *errString=[self stringWithCString:e.what()];
-        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
-        [[FLTools share]showErrorInfo:dic[@"Message"]];
-        return 0;
-    }
-    return result;
-    
-    
-}
-- (Json)CalculateFeeAndSign:(ISubWallet*)subWallet :(Json)json withPWD:(String)payPasswd withFromAddress:(String)address
-{
-    uint64_t fee;
-       Json tmpTx;
-    Json retJson;
-    try {
-        
-        fee = subWallet->CalculateTransactionFee(json, feePerKB);
-        try {
-            
-            tmpTx = subWallet->UpdateTransactionFee(json, fee, address);
-            try {
-                retJson=  subWallet->SignTransaction(tmpTx, payPasswd);
-            } catch (const std:: exception & e ) {
-                
-                NSString *errString=[self stringWithCString:e.what()];
-                NSDictionary *dic=  [self dictionaryWithJsonString:errString];
-                [[FLTools share]showErrorInfo:dic[@"Message"]];
-                return 0;
-            }
-            
-        } catch (const std:: exception & e ) {
-            
-            NSString *errString=[self stringWithCString:e.what()];
-            NSDictionary *dic=  [self dictionaryWithJsonString:errString];
-            [[FLTools share]showErrorInfo:dic[@"Message"]];
-            return 0;
-        }
-    } catch (const std:: exception & e ) {
-        
-        NSString *errString=[self stringWithCString:e.what()];
-        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
-        [[FLTools share]showErrorInfo:dic[@"Message"]];
-        return 0;
-    }
- 
-    
-    
-    
-
-    return retJson;
-}
+//- (Json)PublishTransaction:(ISubWallet*)subWallet :(Json)json withPWD:(String)payPasswd withFromAddress:(String)address
+//{
+//    Json signedTx;
+//    Json  result;
+//    try {
+//
+//        signedTx=[self CalculateFeeAndSign:subWallet :json withPWD:payPasswd withFromAddress:address];
+//        try {
+//
+//            result = subWallet->PublishTransaction(signedTx);
+//
+//
+//        } catch (const std:: exception & e ) {
+//
+//            NSString *errString=[self stringWithCString:e.what()];
+//            NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+//            [[FLTools share]showErrorInfo:dic[@"Message"]];
+//            throw e;
+//            return 0;
+//        }
+//
+//     } catch (const std:: exception & e ) {
+//
+////        NSString *errString=[self stringWithCString:e.what()];
+////        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+////        [[FLTools share]showErrorInfo:dic[@"Message"]];
+//          throw e;
+//        return 0;
+//    }
+//    return result;
+//
+//
+//}
+//- (Json)CalculateFeeAndSign:(ISubWallet*)subWallet :(Json)json withPWD:(String)payPasswd withFromAddress:(String)address
+//{
+//    uint64_t fee;
+//       Json tmpTx;
+//    Json retJson;
+//    try {
+//
+//        fee = subWallet->CalculateTransactionFee(json, feePerKB);
+//        try {
+//
+//            tmpTx = subWallet->UpdateTransactionFee(json, fee, address);
+//            try {
+//                retJson=  subWallet->SignTransaction(tmpTx, payPasswd);
+//            } catch (const std:: exception & e ) {
+//
+//                NSString *errString=[self stringWithCString:e.what()];
+//                NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+////                [[FLTools share]showErrorInfo:dic[@"Message"]];
+//                 throw e;
+//
+//                return 0;
+//            }
+//
+//        } catch (const std:: exception & e ) {
+//
+////            NSString *errString=[self stringWithCString:e.what()];
+////            NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+////            [[FLTools share]showErrorInfo:dic[@"Message"]];
+//             throw e;
+//            return 0;
+//        }
+//    } catch (const std:: exception & e ) {
+//
+////        NSString *errString=[self stringWithCString:e.what()];
+////        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+////        [[FLTools share]showErrorInfo:dic[@"Message"]];
+//         throw e;
+//        return 0;
+//    }
+//
+//
+//
+//
+//
+//    return retJson;
+//}
 -(CDVPluginResult *)accessFees:(CDVInvokedUrlCommand *)command{
     
     NSArray *args = command.arguments;
@@ -1290,12 +1343,65 @@ static uint64_t feePerKB = 10000;
         return [self errInfoToDic:e.what() with:command];
     }
     Json result;
+//    try {
+//       result = [self PublishTransaction:fromSubWallet :tx withPWD:pwd withFromAddress:from];
+//
+//    } catch (const std:: exception & e) {
+//        return [self errInfoToDic:e.what() with:command];
+//    }
+    
+    Json signedTx;
     try {
-       result = [self PublishTransaction:fromSubWallet :tx withPWD:pwd withFromAddress:from];
         
-    } catch (const std:: exception & e) {
+//        signedTx=[self CalculateFeeAndSign:fromSubWallet :json withPWD:payPasswd withFromAddress:address];
+        
+        uint64_t fee;
+        Json tmpTx;
+//        Json retJson;
+        try {
+            
+            fee = fromSubWallet->CalculateTransactionFee(tx, feePerKB);
+            try {
+                
+                tmpTx = fromSubWallet->UpdateTransactionFee(tx, fee, from);
+                try {
+                   signedTx=  fromSubWallet->SignTransaction(tmpTx, pwd);
+                } catch (const std:: exception & e ) {
+                    
+                 return [self errInfoToDic:e.what() with:command];
+                }
+                
+            } catch (const std:: exception & e ) {
+                return [self errInfoToDic:e.what() with:command];
+            }
+        } catch (const std:: exception & e ) {
+           return [self errInfoToDic:e.what() with:command];
+        }
+        
+        
+        
+        
+        
+
+        
+        
+        
+        
+        try {
+            
+            result = fromSubWallet->PublishTransaction(signedTx);
+            
+            
+        } catch (const std:: exception & e ) {
+            return [self errInfoToDic:e.what() with:command];
+        }
+        
+    } catch (const std:: exception & e ) {
         return [self errInfoToDic:e.what() with:command];
+   
     }
+  
+    
     
     NSString *jsonString = [self stringWithCString:result.dump()];
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
@@ -1380,13 +1486,63 @@ static uint64_t feePerKB = 10000;
     } catch (const std:: exception & e) {
         return  [self errInfoToDic:e.what() with:command];
     }
-     Json result;
+//     Json result;
+//    try {
+//         result = [self PublishTransaction:fromSubWallet :tx withPWD:pwd withFromAddress:from];
+//
+//    } catch (const std:: exception & e) {
+//        return  [self errInfoToDic:e.what() with:command];
+//    }
+    
+    Json signedTx;
+//     Json tmpTx;
+    Json  result;
     try {
-         result = [self PublishTransaction:fromSubWallet :tx withPWD:pwd withFromAddress:from];
-      
-    } catch (const std:: exception & e) {
-        return  [self errInfoToDic:e.what() with:command];
+        
+//        signedTx=[self CalculateFeeAndSign:fromSubWallet :tx withPWD:pwd withFromAddress:from];
+        
+        uint64_t fee;
+       
+        Json retJson;
+        try {
+            
+            fee = fromSubWallet->CalculateTransactionFee(tx, feePerKB);
+            try {
+                
+                signedTx = fromSubWallet->UpdateTransactionFee(tx, fee, from);
+                try {
+                    retJson=  fromSubWallet->SignTransaction(signedTx, pwd);
+                } catch (const std:: exception & e ) {
+                    
+                return  [self errInfoToDic:e.what() with:command];
+                    
+            
+                }
+                
+            } catch (const std:: exception & e ) {
+                
+            return  [self errInfoToDic:e.what() with:command];
+            }
+        } catch (const std:: exception & e ) {
+            
+         return  [self errInfoToDic:e.what() with:command];
+        }
+        
+        try {
+            
+            result = fromSubWallet->PublishTransaction(signedTx);
+            
+            
+        } catch (const std:: exception & e ) {
+          return  [self errInfoToDic:e.what() with:command];
+        }
+        
+    } catch (const std:: exception & e ) {
+        
+      return  [self errInfoToDic:e.what() with:command];
     }
+    
+    
    
     NSString *jsonString = [self stringWithCString:result.dump()];
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];

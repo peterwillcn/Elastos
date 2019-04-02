@@ -30,18 +30,18 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wYb-Oq-bDK">
-                    <rect key="frame" x="30" y="30" width="315" height="300"/>
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wYb-Oq-bDK">
+                    <rect key="frame" x="30" y="30" width="315" height="245"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oag-gB-faT">
-                            <rect key="frame" x="15" y="167" width="285" height="1"/>
+                            <rect key="frame" x="15" y="112" width="285" height="1"/>
                             <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="MTG-qX-SgM"/>
                             </constraints>
                         </view>
                         <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请选择国家/地区" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uca-RU-gCv">
-                            <rect key="frame" x="15" y="168" width="285" height="55"/>
+                            <rect key="frame" x="15" y="113" width="285" height="55"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="xOp-Jo-XFw"/>
                             </constraints>
@@ -50,21 +50,21 @@
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w6X-0n-pS4">
-                            <rect key="frame" x="15" y="223" width="285" height="1"/>
+                            <rect key="frame" x="15" y="168" width="285" height="1"/>
                             <color key="backgroundColor" white="1" alpha="0.50334821429999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="K5Q-ct-W0c"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OGo-fs-WHm">
-                            <rect key="frame" x="15" y="279" width="285" height="1"/>
+                            <rect key="frame" x="15" y="224" width="285" height="1"/>
                             <color key="backgroundColor" white="1" alpha="0.50334821429999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="Jal-Vg-fwI"/>
                             </constraints>
                         </view>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入节点官网URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UFx-Id-SIK">
-                            <rect key="frame" x="15" y="224" width="285" height="55"/>
+                            <rect key="frame" x="15" y="169" width="285" height="55"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="oc6-Dc-qZJ"/>
                             </constraints>
@@ -72,7 +72,7 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
-                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入节点公钥" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="uKn-aw-2HC">
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入节点公钥" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="uKn-aw-2HC">
                             <rect key="frame" x="15" y="56" width="300" height="55"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="NQS-bz-Jia"/>
@@ -81,24 +81,24 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
-                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入网络地址（必填）" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sGq-6v-TS3">
-                            <rect key="frame" x="15" y="112" width="285" height="55"/>
+                        <textField opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入网络地址（必填）" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sGq-6v-TS3">
+                            <rect key="frame" x="15" y="112" width="285" height="0.0"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="55" id="Zz0-3B-v5G"/>
+                                <constraint firstAttribute="height" id="Zz0-3B-v5G"/>
                             </constraints>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="setting_list_arrow_fold" translatesAutoresizingMaskIntoConstraints="NO" id="4AC-0C-wwm">
-                            <rect key="frame" x="283" y="184.5" width="22" height="22"/>
+                            <rect key="frame" x="283" y="129.5" width="22" height="22"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="22" id="VU7-Pd-inP"/>
                                 <constraint firstAttribute="height" constant="22" id="slg-zr-Hbh"/>
                             </constraints>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dO6-E8-Hb3">
-                            <rect key="frame" x="15" y="168" width="290" height="56"/>
+                            <rect key="frame" x="15" y="113" width="290" height="56"/>
                             <connections>
                                 <action selector="chooseTheCountryEvent:" destination="-1" eventType="touchUpInside" id="y5W-pE-MiH"/>
                             </connections>
@@ -151,7 +151,7 @@
                         <constraint firstItem="uca-RU-gCv" firstAttribute="top" secondItem="Oag-gB-faT" secondAttribute="bottom" id="QfM-lm-vDH"/>
                         <constraint firstAttribute="trailing" secondItem="w6X-0n-pS4" secondAttribute="trailing" constant="15" id="QhI-lZ-mxy"/>
                         <constraint firstAttribute="bottom" secondItem="OGo-fs-WHm" secondAttribute="bottom" constant="15" id="Ta2-Ok-DXz"/>
-                        <constraint firstAttribute="height" constant="300" id="Usi-GX-MYY"/>
+                        <constraint firstAttribute="height" constant="260" id="Usi-GX-MYY"/>
                         <constraint firstAttribute="trailing" secondItem="Oag-gB-faT" secondAttribute="trailing" constant="15" id="VPo-HD-oFa"/>
                         <constraint firstAttribute="trailing" secondItem="uca-RU-gCv" secondAttribute="trailing" constant="15" id="Wo0-1U-8f8"/>
                         <constraint firstItem="frK-xL-5xg" firstAttribute="leading" secondItem="wYb-Oq-bDK" secondAttribute="leading" constant="15" id="arN-IQ-XEY"/>

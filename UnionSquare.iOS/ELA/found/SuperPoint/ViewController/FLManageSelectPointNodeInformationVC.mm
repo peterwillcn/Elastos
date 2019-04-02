@@ -102,6 +102,7 @@
     
 }
 -(void)getNetCoinPointArrayWithPubKey:(NSString *)OwnerPublickKey{
+
     
     [HttpUrl NetPOSTHost:Http_IP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1"} showHUD:NO WithSuccessBlock:^(id data) {
         NSDictionary *param = data[@"data"];

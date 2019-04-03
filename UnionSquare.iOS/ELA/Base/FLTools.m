@@ -570,6 +570,15 @@ static FLTools *tool;
 //    NSString * outNumber = [NSString stringWithFormat:@"%@",nsNumber];
 //    return outNumber;
 }
+-(NSString *)elsToSela:(NSString*)ela{
+    ela=[NSString stringWithFormat:@"%@",ela];
+    NSDecimalNumber *num1 = [NSDecimalNumber decimalNumberWithString:ela];
+    NSString *uNmuber=[NSString stringWithFormat:@"%d",unitNumber];
+      NSDecimalNumber *num2 = [NSDecimalNumber decimalNumberWithString:uNmuber];
+    NSDecimalNumber *num = [num1 decimalNumberByMultiplyingBy:num2];
+
+    return num.stringValue;
+}
 -(NSString *)contryNameTransLateByCode:(NSInteger)code{
     NSArray *A=[NSArray arrayWithObjects:
                 @{@"countries":@"阿富汗",@"mobileCode":@"0093"},

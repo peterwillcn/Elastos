@@ -113,4 +113,5 @@
 -(NSString*)elaScaleConversionWith:(NSString*)el;
 
 -(NSString *)contryNameTransLateByCode:(NSInteger)code;
+-(NSString *)elsToSela:(NSString*)ela;
 @end

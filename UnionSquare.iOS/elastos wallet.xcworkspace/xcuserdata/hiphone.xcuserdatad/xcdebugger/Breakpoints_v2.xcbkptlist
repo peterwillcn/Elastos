@@ -132,7 +132,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ELA/found/SuperPoint/ViewController/HMWsignUpForViewController.mm"
-            timestampString = "575793513.2586451"
+            timestampString = "575974014.345366"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "76"
@@ -170,22 +170,6 @@
             startingLineNumber = "290"
             endingLineNumber = "290"
             landmarkName = "-updateRecordWallet:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ElaSubWalletCallback.mm"
-            timestampString = "575900592.290328"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
-            landmarkName = "ElaSubWalletCallback::OnTxPublished(const std::string &amp;hash, const nlohmann::json &amp;result)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

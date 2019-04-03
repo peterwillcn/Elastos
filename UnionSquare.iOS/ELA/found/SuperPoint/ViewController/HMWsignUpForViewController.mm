@@ -127,10 +127,10 @@
         return;
     }
     
-    if (self.ipAddressTextField.text.length==0) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入网络地址（必填）", nil)];
-        return;
-    }
+//    if (self.ipAddressTextField.text.length==0) {
+//        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入网络地址（必填）", nil)];
+//        return;
+//    }
     if (self.countriesTextField.text.length==0) {
         [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择国家/地区", nil)];
 

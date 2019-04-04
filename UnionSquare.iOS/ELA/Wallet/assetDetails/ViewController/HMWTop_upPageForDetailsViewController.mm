@@ -12,6 +12,7 @@
 #import <Cordova/CDV.h>
 #import "HMWtransferDetailsPopupView.h"
 #import "HMWSendSuccessPopuView.h"
+#import "ScanQRCodeViewController.h"
 
 
 
@@ -49,6 +50,7 @@
     [super viewDidLoad];
     [self defultWhite];
     [self setBackgroundImg:@"asset_bg"];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"setting_adding_scan"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(scanView)];
     self.toUpNameLabel.text=[NSString stringWithFormat:@"%@：%@",NSLocalizedString(@"充值到", nil),self.selectmModel.iconName];
     [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.addressTextField];
     [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.enterTheAmountTextField];
@@ -70,6 +72,16 @@
     self.enterTheAmountTextField.delegate=self;
     self.theExchangeRateLabel.text=[NSString stringWithFormat:@"%@ 1:1",NSLocalizedString(@"汇率", nil)];
     
+}
+-(void)scanView{
+    __weak __typeof__(self) weakSelf = self;
+    ScanQRCodeViewController *scanQRCodeVC = [[ScanQRCodeViewController alloc]init];
+    scanQRCodeVC.scanBack = ^(NSString *addr) {
+        
+        weakSelf.addressTextField.text=addr;
+        
+    };
+    [self QRCodeScanVC:scanQRCodeVC];
 }
 
 - (IBAction)ChooseSideChainEvent:(id)sender {

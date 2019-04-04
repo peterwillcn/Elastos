@@ -887,5 +887,21 @@ static FLTools *tool;
     return @"";
 
 }
+-(BOOL)changeisEnglish:(NSString*)m{
+    
+    NSString *checkString = m;
+    // 1.创建正则表达式，[0-9]:表示‘0’到‘9’的字符的集合
+    NSString *pattern = @"[a-zA-Z]";
+    // 1.1将正则表达式设置为OC规则
+    NSRegularExpression *regular = [[NSRegularExpression alloc] initWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
+    // 2.利用规则测试字符串获取匹配结果
+    NSArray *results = [regular matchesInString:checkString options:0 range:NSMakeRange(0, checkString.length)];
+    if (results.count>0) {
+        return YES;
+    }
+    return NO;
+    
+    
+}
 
 @end

@@ -882,6 +882,7 @@ static uint64_t feePerKB = 10000;
         return [self errInfoToDic:e.what() with:command];
     }
     NSString *jsonString = [self stringWithCString:json.dump()];
+    
     return [self successProcess:command msg:jsonString];
     
 }
@@ -979,7 +980,10 @@ static uint64_t feePerKB = 10000;
         NSString *msg = [NSString stringWithFormat:@"%@ %@ %@", @"Import", [self formatWalletName:masterWalletID], @"with mnemonic"];
         return [self errorProcess:command code:errCodeImportFromMnemonic msg:msg];
     }
+
     NSString *jsonString = [self getBasicInfo:masterWallet];
+    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"”" withString:@""];
     [self createDIDManager:masterWallet];
     return [self successProcess:command msg:jsonString];
     

@@ -114,19 +114,35 @@
 }
 #pragma mark ---------HMWImTheMnemonicWordViewDelegate----------
 - (void)ImTheMnemonicWordViewCompWithWallet:(FLWallet *)wallet{
+    
     NSString *isSingleAddress=@"NO";
     if(wallet.isSingleAddress){
         
         isSingleAddress=@"YES";
         
     }
+     NSString *temp;
+    if ([[FLTools share]changeisEnglish:wallet.mnemonic]) {
+        temp = [wallet.mnemonic stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        temp = [temp stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+        temp = [temp stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        NSArray *components = [wallet.mnemonic componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        
+        components = [components filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self <> ''"]];
+        
+        temp = [components componentsJoinedByString:@" "];
+       
+
+    }else{
+        temp = [wallet.mnemonic stringByReplacingOccurrencesOfString:@" " withString:@""];
+        temp = [temp stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+        temp = [temp stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        temp=[[FLTools share]formattermnemonicWord:temp];
+    }
   wallet.walletID=[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
 
-    NSString *temp = [wallet.mnemonic stringByReplacingOccurrencesOfString:@" " withString:@""];
-    temp = [temp stringByReplacingOccurrencesOfString:@"\r" withString:@""];
-    temp = [temp stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-    temp=[[FLTools share]formattermnemonicWord:temp];
-  
+
+//
     wallet.masterWalletID=[[FLTools share]getRandomStringWithNum:6];
     
     

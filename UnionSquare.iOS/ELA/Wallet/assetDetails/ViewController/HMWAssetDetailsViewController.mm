@@ -379,8 +379,8 @@ transferTransactionDetailsVC.type=transactionMultipleIntoType;
     }else if ([detailsM.Direction isEqualToString:@"Sent"]){
 transferTransactionDetailsVC.type=transactionSingleRollOutType;
     }else if (OutputPayload.count>0){
-        detailsM.Type=@"投票交易";
-    transferTransactionDetailsVC.type=rotationToVoteType;
+        detailsM.Type=NSLocalizedString(@"投票交易", nil);
+        transferTransactionDetailsVC.type=rotationToVoteType;
         transferTransactionDetailsVC.votesString=[[FLTools share]elaScaleConversionWith:OutputPayload[0][@"Amount"]];
     }
     else{

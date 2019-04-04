@@ -58,7 +58,8 @@
 "转账地址"="To address";
 "金额"="Value";
 "汇率"="Exchange rate";
-"输入密码"="Exchange rate";
+"输入密码"="Password";
+"投票交易"="Vote trading";
 "请输入您的钱包密码"="Please enter your wallet password";
 "交易发送成功，\n 请耐心等待交易确认"="Transaction initiated successfully,\n Please wait for confirmation.";
 "选择侧链"="Select Sidechain";

@@ -190,17 +190,10 @@
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
- 
-    NSString *languageString=[DAConfig userLanguage];
-    if ([languageString  containsString:@"en"]) {
-        
         WordModel *model = self.inputMutableArray[indexPath.row];
-        
+    if ([[FLTools share]changeisEnglish:model.word]) {
         return  CGSizeMake(model.word.length*12,20);
     }
-    
-    
     
     return  CGSizeMake(30,30);
 }

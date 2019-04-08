@@ -882,7 +882,8 @@ static uint64_t feePerKB = 10000;
         return [self errInfoToDic:e.what() with:command];
     }
     NSString *jsonString = [self stringWithCString:json.dump()];
-    
+    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"”" withString:@""];
     return [self successProcess:command msg:jsonString];
     
 }

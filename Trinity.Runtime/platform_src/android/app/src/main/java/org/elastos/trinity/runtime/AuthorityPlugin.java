@@ -55,6 +55,10 @@ public class AuthorityPlugin extends CordovaPlugin {
         originalPlugin = instantiatePlugin(className, whitelistPlugin, path);
     }
 
+    public CordovaPlugin getOriginalPlugin() {
+        return originalPlugin;
+    }
+
     private TrinityPlugin instantiatePlugin(String className, AppWhitelistPlugin whitelistPlugin, String dataPath) {
         TrinityPlugin ret = null;
         try {

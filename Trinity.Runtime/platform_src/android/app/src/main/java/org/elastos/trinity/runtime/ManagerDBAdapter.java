@@ -158,8 +158,7 @@ public class ManagerDBAdapter {
         return infos;
     }
 
-    public AppInfo getAppInfo(String id)
-    {
+    public AppInfo getAppInfo(String id) {
         String selection = AppInfo.APP_ID + "=?";
         String[] args = {String.valueOf(id)};
         AppInfo infos[] = getInfos(selection, args);
@@ -171,8 +170,7 @@ public class ManagerDBAdapter {
         }
     }
 
-    public AppInfo[] getAppInfos()
-    {
+    public AppInfo[] getAppInfos() {
         return getInfos(null, null);
     }
 

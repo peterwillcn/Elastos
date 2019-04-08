@@ -22,7 +22,11 @@
 
 package org.elastos.trinity.runtime;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
@@ -33,10 +37,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
 import org.apache.cordova.CordovaInterface;
-import org.apache.cordova.CordovaInterfaceImpl;
 import org.apache.cordova.CordovaPreferences;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CordovaWebViewEngine;
@@ -70,7 +74,7 @@ public class WebViewFragment extends Fragment {
     protected int viewId = 100;
     protected CordovaPreferences preferences;
     protected ArrayList<PluginEntry> pluginEntries;
-    protected CordovaInterfaceImpl cordovaInterface;
+    protected TrinityCordovaInterfaceImpl cordovaInterface;
     protected String launchUrl;
     protected AppBasePlugin basePlugin;
     protected String id;
@@ -150,8 +154,8 @@ public class WebViewFragment extends Fragment {
         return CordovaWebViewImpl.createEngine(getActivity(), preferences);
     }
 
-    protected CordovaInterfaceImpl makeCordovaInterface() {
-        return new CordovaInterfaceImpl(activity) {
+    protected TrinityCordovaInterfaceImpl makeCordovaInterface() {
+        return new TrinityCordovaInterfaceImpl(activity, this) {
             @Override
             public Object onMessage(String id, Object data) {
                 // Plumb this to CordovaActivity.onMessage for backwards compatibility
@@ -303,5 +307,103 @@ public class WebViewFragment extends Fragment {
     public void onRequestPermissionResult(int requestCode, String permissions[],
                                           int[] grantResults) throws JSONException {
         cordovaInterface.onRequestPermissionResult(requestCode, permissions, grantResults);
+    }
+
+    @SuppressLint("NewApi")
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
+        // Capture requestCode here so that it is captured in the setActivityResultCallback() case.
+        cordovaInterface.setActivityResultRequestCode(requestCode);
+        super.startActivityForResult(intent, requestCode, options);
+    }
+
+    /**
+     * Called when an activity you launched exits, giving you the requestCode you started it with,
+     * the resultCode it returned, and any additional data from it.
+     *
+     * @param requestCode The request code originally supplied to startActivityForResult(),
+     *                    allowing you to identify who this result came from.
+     * @param resultCode  The integer result code returned by the child activity through its setResult().
+     * @param intent      An Intent, which can return result data to the caller (various data can be attached to Intent "extras").
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        LOG.d(TAG, "Incoming Result. Request code = " + requestCode);
+        super.onActivityResult(requestCode, resultCode, intent);
+        cordovaInterface.onActivityResult(requestCode, resultCode, intent);
+    }
+
+    /**
+     * Report an error to the host application. These errors are unrecoverable (i.e. the main resource is unavailable).
+     * The errorCode parameter corresponds to one of the ERROR_* constants.
+     *
+     * @param errorCode   The error code corresponding to an ERROR_* value.
+     * @param description A String describing the error.
+     * @param failingUrl  The url that failed to load.
+     */
+    public void onReceivedError(final int errorCode, final String description, final String failingUrl) {
+        final WebViewFragment me = this;
+
+        // If errorUrl specified, then load it
+        final String errorUrl = preferences.getString("errorUrl", null);
+        if ((errorUrl != null) && (!failingUrl.equals(errorUrl)) && (appView != null)) {
+            // Load URL on UI thread
+            me.activity.runOnUiThread(new Runnable() {
+                public void run() {
+                    me.appView.showWebPage(errorUrl, false, true, null);
+                }
+            });
+        }
+        // If not, then display error dialog
+        else {
+            final boolean exit = !(errorCode == WebViewClient.ERROR_HOST_LOOKUP);
+            me.activity.runOnUiThread(new Runnable() {
+                public void run() {
+                    if (exit) {
+                        me.appView.getView().setVisibility(View.GONE);
+                        me.displayError("Application Error", description + " (" + failingUrl + ")", "OK", exit);
+                    }
+                }
+            });
+        }
+    }
+
+    public void finish() {
+        try {
+            AppManager.appManager.close(id);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Display an error dialog and optionally exit application.
+     */
+    public void displayError(final String title, final String message, final String button, final boolean exit) {
+        final WebViewFragment me = this;
+        me.activity.runOnUiThread(new Runnable() {
+            public void run() {
+                try {
+                    AlertDialog.Builder dlg = new AlertDialog.Builder(me.activity);
+                    dlg.setMessage(message);
+                    dlg.setTitle(title);
+                    dlg.setCancelable(false);
+                    dlg.setPositiveButton(button,
+                            new AlertDialog.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    if (exit) {
+                                        me.finish();
+                                    }
+                                }
+                            });
+                    dlg.create();
+                    dlg.show();
+                } catch (Exception e) {
+                    me.finish();
+                }
+            }
+        });
     }
 }

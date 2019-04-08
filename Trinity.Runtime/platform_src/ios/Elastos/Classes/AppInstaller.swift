@@ -78,13 +78,13 @@
         }
         
         let info = try parseManifest(temPath + "/manifest.json");
-        guard (info != nil && info!.id != "" && info!.id != "launcher"
-                && appManager.getAppInfo(info!.id) == nil) else {
+        guard (info != nil && info!.app_id != "" && info!.app_id != "launcher"
+                && appManager.getAppInfo(info!.app_id) == nil) else {
             try deleteAllFiles(temPath);
             throw AppError.error("App alreadey exist!");
         }
         
-        let path = appPath + info!.id;
+        let path = appPath + info!.app_id;
         if (fileManager.fileExists(atPath: path)) {
             try deleteAllFiles(path);
         }
@@ -106,23 +106,21 @@
             throw AppError.error("App is a built in!");
         }
         
-        let path = self.dataPath + info!.id
+        let path = self.dataPath + info!.app_id
         try dbAdapter.removeAppInfo(info!);
         try deleteAllFiles(path);
     }
     
-    private func isAllowPlugin(_ pluginName: String) -> Bool {
-        let name = pluginName.lowercased();
+    private func isAllowPlugin(_ plugin: String) -> Bool {
         for item in pluginWhitelist {
-            if (item == name) {
+            if (item == plugin) {
                 return true;
             }
         }
         return false;
     }
     
-    private func isAllowUrl(_ urlString: String) -> Bool {
-        let url = urlString.lowercased();
+    private func isAllowUrl(_ url: String) -> Bool {
         for item in urlWhitelist {
             if (item == url) {
                 return true;
@@ -151,7 +149,7 @@
                                                     options: []) as! [String: Any];
         
         //Must
-        appInfo.id = try getMustStrValue(json, "id");
+        appInfo.app_id = try getMustStrValue(json, "id");
         appInfo.version = try getMustStrValue(json, "version");
         appInfo.name = try getMustStrValue(json, "name");
         appInfo.start_url = try getMustStrValue(json, "start_url");
@@ -202,10 +200,11 @@
         if (plugins != nil) {
             for plugin in plugins! {
                 authority = AppInfo.AUTHORITY_NOINIT;
-                if (isAllowPlugin(plugin)) {
+                let pluginName = plugin.lowercased();
+                if (isAllowPlugin(pluginName)) {
                     authority = AppInfo.AUTHORITY_ALLOW;
                 }
-                appInfo.addPlugin(plugin, authority);
+                appInfo.addPlugin(pluginName, authority);
             }
         }
         
@@ -213,10 +212,11 @@
         if (urls != nil) {
             for url in urls! {
                 authority = AppInfo.AUTHORITY_NOINIT;
-                if (isAllowUrl(url)) {
+                let urlString = url.lowercased();
+                if (isAllowUrl(urlString)) {
                     authority = AppInfo.AUTHORITY_ALLOW;
                 }
-                appInfo.addUrl(url, authority);
+                appInfo.addUrl(urlString, authority);
             }
         }
         
@@ -248,12 +248,12 @@
             }
         }
         
-        appInfo.install_time = Int(Date().timeIntervalSince1970);
+        appInfo.install_time = Int64(Date().timeIntervalSince1970);
         
         let fileManager = FileManager.default
-        if (!fileManager.fileExists(atPath: dataPath + appInfo.id)) {
+        if (!fileManager.fileExists(atPath: dataPath + appInfo.app_id)) {
             do {
-                try fileManager.createDirectory(atPath: dataPath + appInfo.id, withIntermediateDirectories: true, attributes: nil)
+                try fileManager.createDirectory(atPath: dataPath + appInfo.app_id, withIntermediateDirectories: true, attributes: nil)
             }
             catch let error {
                 print("Make dataPath error: \(error)");

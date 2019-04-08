@@ -44,7 +44,7 @@ class AppManager {
     
     var curController: TrinityViewController?;
     
-    var dbAdapter = ManagerDBAdapter();
+    let dbAdapter: ManagerDBAdapter;
     
     var appList: [AppInfo];
     var appInfos = [String: AppInfo]();
@@ -78,9 +78,11 @@ class AppManager {
             }
         }
         
+        dbAdapter = ManagerDBAdapter(dataPath);
+        
         installer = AppInstaller(appsPath, dataPath, dbAdapter);
 
-        appList = dbAdapter.getAppInfos();
+        appList = try! dbAdapter.getAppInfos();
         saveBuiltInAppInfos();
 //        dbAdapter.removeAppInfo(appList[0]);
         refreashInfos();
@@ -89,10 +91,10 @@ class AppManager {
     }
     
     func refreashInfos() {
-        appList = dbAdapter.getAppInfos();
+        appList = try! dbAdapter.getAppInfos();
         appInfos = [String: AppInfo]();
         for info in appList {
-            appInfos[info.id] = info;
+            appInfos[info.app_id] = info;
         }
     }
     
@@ -114,10 +116,10 @@ class AppManager {
     
     func getAppUrl(_ info: AppInfo) -> String {
         if (info.built_in) {
-            return "file://" + getAbsolutePath("www/built-in")  + "/" + info.id + "/";
+            return "file://" + getAbsolutePath("www/built-in")  + "/" + info.app_id + "/";
         }
         else {
-            return "file://" + appsPath + info.id + "/";
+            return "file://" + appsPath + info.app_id + "/";
         }
     }
     
@@ -126,7 +128,7 @@ class AppManager {
     }
     
     func getDataUrl(_ info: AppInfo) -> String {
-        return "file://" + dataPath + info.id + "/";
+        return "file://" + dataPath + info.app_id + "/";
     }
     
     func saveBuiltInAppInfos() {
@@ -142,7 +144,7 @@ class AppManager {
             for dir in dirs! {
                 var needInstall = true;
                 for info in appList {
-                    if info.id == dir {
+                    if info.app_id == dir {
                         needInstall = false;
                         break;
                     }
@@ -150,7 +152,7 @@ class AppManager {
                 
                 if (needInstall) {
                     let info = try installer.parseManifest(path +  dir + "/manifest.json")
-                    guard (info != nil || info!.id != "") else {
+                    guard (info != nil || info!.app_id != "") else {
                         return;
                     }
                     
@@ -350,7 +352,7 @@ class AppManager {
                             _ command: CDVInvokedUrlCommand) {
 
         func doAllowHandler(alerAction:UIAlertAction) {
-            try? setPluginAuthority(info.id, pluginName, AppInfo.AUTHORITY_ALLOW);
+            try? setPluginAuthority(info.app_id, pluginName, AppInfo.AUTHORITY_ALLOW);
             plugin.execute(command);
             let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT);
             result?.setKeepCallbackAs(false);
@@ -358,7 +360,7 @@ class AppManager {
         }
         
         func doRefuseHandler(alerAction:UIAlertAction) {
-            try? setPluginAuthority(info.id, pluginName, AppInfo.AUTHORITY_DENY);
+            try? setPluginAuthority(info.app_id, pluginName, AppInfo.AUTHORITY_DENY);
             let result = CDVPluginResult(status: CDVCommandStatus_ERROR,
                                          messageAs: "Plugin:'" + pluginName + "' have not run authority.");
             result?.setKeepCallbackAs(false);
@@ -378,11 +380,11 @@ class AppManager {
     
     func runAlertUrlAuth(_ info: AppInfo, _ url: String) {
         func doAllowHandler(alerAction:UIAlertAction) {
-            try? setUrlAuthority(info.id, url, AppInfo.AUTHORITY_ALLOW);
+            try? setUrlAuthority(info.app_id, url, AppInfo.AUTHORITY_ALLOW);
         }
         
         func doRefuseHandler(alerAction:UIAlertAction) {
-            try? setUrlAuthority(info.id, url, AppInfo.AUTHORITY_DENY);
+            try? setUrlAuthority(info.app_id, url, AppInfo.AUTHORITY_DENY);
         }
         
         let alertController = UIAlertController(title: "Url authority request",
@@ -406,7 +408,7 @@ class AppManager {
     func getAppList() -> [String] {
         var ret = [String]();
         for info in appList {
-            ret.append(info.id);
+            ret.append(info.app_id);
         }
         return ret;
     }

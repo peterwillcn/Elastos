@@ -10,14 +10,13 @@ const files_to_download  = [{
   "targetDir": "platforms/ios",
   "md5": "2ab5ae7e5eb096b1a807d17e4bd83a16"
 },{
-  "url": "https://github.com/realm/realm-cocoa/releases/download/v3.13.0/realm-swift-3.13.0.zip",
-  "filename": "realm-swift-3.13.0.zip",
+  "url": "https://github.com/stephencelis/SQLite.swift/archive/0.11.5.zip",
+  "filename": "SQLite.swift-0.11.5.zip",
   "sourceDirs": [
-    "realm-swift-3.13.0/ios/swift-4.2.1/RealmSwift.framework",
-    "realm-swift-3.13.0/ios/swift-4.2.1/Realm.framework"
+    "SQLite.swift-0.11.5",
   ],
   "targetDir": "platforms/ios",
-  "md5": "c91b3ec712d9014ae935255dae59d571"
+  "md5": "0e0ba441cdb466dff1f9f6eecf2c9e55"
 }]
 // no need to configure below
 

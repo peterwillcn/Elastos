@@ -21,7 +21,6 @@
   */
  
  import Foundation
- import RealmSwift
  
  @objc(AppBasePlugin)
  class AppBasePlugin : CDVPlugin {
@@ -112,28 +111,28 @@
         }
     }
     
-    func jsonAppPlugins(_ plugins: List<PluginAuth>) -> [Dictionary<String, Any>] {
+    func jsonAppPlugins(_ plugins: [PluginAuth]) -> [Dictionary<String, Any>] {
         var ret = [Dictionary<String, Any>]()
-        
+
         for pluginAuth in plugins {
             ret.append(["plugin": pluginAuth.plugin,
                         "authority": pluginAuth.authority])
         }
-        
+
         return ret;
     }
-    
-    func jsonAppUrls(_ urls: List<UrlAuth>) -> [Dictionary<String, Any>] {
+
+    func jsonAppUrls(_ urls: [UrlAuth]) -> [Dictionary<String, Any>] {
         var ret = [Dictionary<String, Any>]()
-        
+
         for urlAuth in urls {
             ret.append(["url": urlAuth.url,
                         "authority": urlAuth.authority])
         }
-        
+
         return ret;
     }
-    
+
     func jsonAppIcons(_ info: AppInfo) -> [Dictionary<String, String>] {
         var ret = [Dictionary<String, String>]()
         let appUrl = AppManager.appManager!.getAppUrl(info);
@@ -142,7 +141,7 @@
                         "sizes": icon.sizes,
                         "type": icon.type])
         }
-        
+
         return ret;
     }
     
@@ -150,7 +149,7 @@
         let appUrl = AppManager.appManager!.getAppUrl(info);
         let dataUrl = AppManager.appManager!.getDataUrl(info);
         return [
-            "id": info.id,
+            "id": info.app_id,
             "version": info.version,
             "name": info.name,
             "shortName": info.short_name,
@@ -182,7 +181,7 @@
         let info = AppManager.appManager!.getAppInfo(appId);
         
         if (info != nil) {
-            self.success(command, retAsDict: jsonAppInfo(info!));
+           self.success(command, retAsDict: jsonAppInfo(info!));
         }
         else {
             self.error(command, "No such app!");

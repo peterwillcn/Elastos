@@ -36,7 +36,7 @@
         
         for (url, pattern) in self.appWhitelist as! [String: NSObject] {
             if (pattern == obj) {
-                let authority = AppManager.appManager!.getUrlAuthority(appInfo!.id, url);
+                let authority = AppManager.appManager!.getUrlAuthority(appInfo!.app_id, url);
                 if (authority == AppInfo.AUTHORITY_ALLOW) {
                     return true;
                 }

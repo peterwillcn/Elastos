@@ -72,7 +72,7 @@
     @objc func getPluginAuthority(_ pluginName: String,
                     trinityPlugin plugin: TrinityPlugin,
                     invokedUrlCommand command: CDVInvokedUrlCommand) -> Int {
-        let authority = AppManager.appManager!.getPluginAuthority(appInfo!.id, pluginName);
+        let authority = AppManager.appManager!.getPluginAuthority(appInfo!.app_id, pluginName);
         if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
             AppManager.appManager!.runAlertPluginAuth(appInfo!, pluginName, plugin, command);
         }

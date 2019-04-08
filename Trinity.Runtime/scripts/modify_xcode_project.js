@@ -29,8 +29,6 @@ module.exports = function(ctx) {
     }
 
     let options = { customFramework: true, embed: embed, sign: true };
-    runtimeProj.addFramework('RealmSwift.framework', options);
-    runtimeProj.addFramework('Realm.framework', options);
     runtimeProj.addFramework('libz.tbd');
 
 
@@ -75,6 +73,7 @@ module.exports = function(ctx) {
     // Add header and source files for "SSZipArchive"
     //
     let sourceDirectory = "platforms/ios/SSZipArchive";
+    let customTemplate = runtimeProj.findPBXGroupKeyAndType({ name: 'CustomTemplate' }, 'PBXGroup');
 
     function fromDir(startPath,filter,callback){
       if (!fs.existsSync(startPath)){
@@ -95,45 +94,52 @@ module.exports = function(ctx) {
       };
     };
 
-    fromDir(sourceDirectory,/(\.h$|\.m$|\.c$)/,function(startPath,filename){
-        let filepath = path.join(startPath,filename);
-        let relativePath = startPath.replace(/platforms\/ios\//g, '');
+    function fromDirCallback(startPath,filename){
+      let filepath = path.join(startPath,filename);
+      let relativePath = startPath.replace(/platforms\/ios\//g, '');
 
-        let parentGroupName = path.basename(relativePath);
-        let parentGroupKey = runtimeProj.findPBXGroupKeyAndType({ name: parentGroupName }, 'PBXGroup');
-        if (!parentGroupKey) {
-          let parentGroupPath = '"' +parentGroupName + '"';
-          let newGroup = runtimeProj.addPbxGroup([], parentGroupName, parentGroupPath, 'SOURCE_ROOT');
-          let customTemplate = runtimeProj.findPBXGroupKeyAndType({ name: 'CustomTemplate' }, 'PBXGroup');
-          runtimeProj.addToPbxGroup(newGroup.uuid, customTemplate, 'PBXGroup');
-          parentGroupKey = newGroup.uuid;
+      let parentGroupName = path.basename(relativePath);
+      let parentGroupKey = runtimeProj.findPBXGroupKeyAndType({ name: parentGroupName }, 'PBXGroup');
+      if (!parentGroupKey) {
+        let parentGroupPath = '"' +parentGroupName + '"';
+        let newGroup = runtimeProj.addPbxGroup([], parentGroupName, parentGroupPath, 'SOURCE_ROOT');
+        runtimeProj.addToPbxGroup(newGroup.uuid, customTemplate, 'PBXGroup');
+        parentGroupKey = newGroup.uuid;
+      }
+
+      let stat = fs.lstatSync(filepath);
+      if (stat.isDirectory()){
+        let groupName = filename;
+        let groupPath = '"' + path.join(relativePath, groupName) + '"';
+        let newGroup = runtimeProj.addPbxGroup([], groupName, groupPath, 'SOURCE_ROOT');
+        runtimeProj.addToPbxGroup(newGroup.uuid, parentGroupKey, 'PBXGroup');
+        return;
+      } else {
+        let groupName = path.basename(startPath);
+        let groupKey = runtimeProj.findPBXGroupKeyAndType({ name: groupName }, 'PBXGroup');
+        if (groupKey) {
+          runtimeProj.addSourceFile(filename, {}, groupKey);
         }
+      }
+    }
 
-        let stat = fs.lstatSync(filepath);
-        if (stat.isDirectory()){
-          let groupName = filename;
-          let groupPath = '"' + path.join(relativePath, groupName) + '"';
-          let newGroup = runtimeProj.addPbxGroup([], groupName, groupPath, 'SOURCE_ROOT');
-          runtimeProj.addToPbxGroup(newGroup.uuid, parentGroupKey, 'PBXGroup');
-          return;
-        } else {
-          let groupName = path.basename(startPath);
-          let groupKey = runtimeProj.findPBXGroupKeyAndType({ name: groupName }, 'PBXGroup');
-          if (groupKey) {
-            runtimeProj.addSourceFile(filename, {}, groupKey);
-          }
-        }
-    });
+    fromDir(sourceDirectory,/(\.h$|\.m$|\.c$)/,fromDirCallback);
 
+    //
+    // Add files for "SQLite.xcodeproj"
+    //
+    runtimeProj.addSourceFile("SQLite.swift-0.11.5/SQLite.xcodeproj", {}, customTemplate);
+    options = { customFramework: true, embed: embed, sign: true };
+    runtimeProj.addFramework('SQLite.framework', options);
 
     //
     // Add a "Run Script" build phase
     //
-    options = {
-      shellPath: '/bin/sh',
-      shellScript: 'bash "${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework/strip-frameworks.sh"'
-    };
-    runtimeProj.addBuildPhase([], 'PBXShellScriptBuildPhase', 'Run Script', runtimeProj.getFirstTarget().uuid, options).buildPhase;
+    // options = {
+    //   shellPath: '/bin/sh',
+    //   shellScript: 'bash "${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework/strip-frameworks.sh"'
+    // };
+    // runtimeProj.addBuildPhase([], 'PBXShellScriptBuildPhase', 'Run Script', runtimeProj.getFirstTarget().uuid, options).buildPhase;
 
 
     //

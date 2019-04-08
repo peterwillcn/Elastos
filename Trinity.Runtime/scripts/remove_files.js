@@ -16,7 +16,11 @@ var files_to_remove = [
       "platforms/ios/Elastos/Classes/AppDelegate.h",
       "platforms/ios/Elastos/Classes/AppDelegate.m",
       "platforms/ios/Elastos/Classes/MainViewController.h",
-      "platforms/ios/Elastos/Classes/MainViewController.m"
+      "platforms/ios/Elastos/Classes/MainViewController.m",
+      "platforms/ios/SQLite.swift-0.11.5/SQLite.xcodeproj/xcshareddata/xcschemes/SQLite Mac.xcscheme",
+      "platforms/ios/SQLite.swift-0.11.5/SQLite.xcodeproj/xcshareddata/xcschemes/SQLite iOS.xcscheme",
+      "platforms/ios/SQLite.swift-0.11.5/SQLite.xcodeproj/xcshareddata/xcschemes/SQLite watchOS.xcscheme",
+      "platforms/ios/SQLite.swift-0.11.5/SQLite.xcodeproj/xcshareddata/xcschemes/SQLite tvOS.xcscheme"
     ]
   },
 ]
@@ -58,9 +62,9 @@ module.exports = function(ctx) {
 
 // const fs = require('fs'),
 //       path = require('path');
-// 
+//
 // let rootdir = process.argv[2];
-// 
+//
 // for (const file of files_to_remove) {
 //     let filePath = path.join(rootdir, file);
 //     if (process.env.CORDOVA_PLATFORMS

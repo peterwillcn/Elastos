@@ -41,6 +41,8 @@ module.exports = function(ctx) {
 
   let promise = new Promise(function(resolve, reject) {
     (async () => {
+      let zip_file_count = 0;
+      let downloaded_all_files = false;
       for (const obj of files_to_download) {
         let zipFilePath = path.join(cachePath, obj.filename)
 
@@ -118,9 +120,10 @@ module.exports = function(ctx) {
           if (fs.existsSync(targetPath) && fs.lstatSync(targetPath).isDirectory()) {
             console.log("Unziping file %s", obj.filename);
             yauzl.open(zipFilePath, {lazyEntries: true}, function(err, zipfile) {
-              if (err) throw err;
+              if (err) reject(err);
+              zip_file_count++;
               zipfile.readEntry();
-              zipfile.on("entry", function(entry) {
+              zipfile.on("entry", async (entry) => {
                 if (/\/$/.test(entry.fileName)) {
                   // Directory file names end with '/'.
                   // Note that entires for directories themselves are optional.
@@ -139,8 +142,8 @@ module.exports = function(ctx) {
                       let outputPath = path.join(targetPath, relativePath);
                       mkdirp.sync(outputDir);
                       openedReadStream = true;
-                      zipfile.openReadStream(entry, function(err, readStream) {
-                        if (err) throw err;
+                      await zipfile.openReadStream(entry, function(err, readStream) {
+                        if (err) reject(err);
                         readStream.on("end", function() {
                           zipfile.readEntry();
                         });
@@ -155,15 +158,24 @@ module.exports = function(ctx) {
                   }
                 }
               });
+              zipfile.on("end", () => {
+                zip_file_count--;
+                if (zip_file_count == 0 && downloaded_all_files) {
+                  console.log("Finish download and unzip 3rdparties.");
+                  resolve();
+                }
+              });
             });
-            console.log("Unzip finished.");
           }
           else {
             reject("targetDir not exist");
           }
         }
       }
-      return resolve();
+      downloaded_all_files = true;
+      if (zip_file_count == 0) {
+        resolve();
+      }
     })();
   });
 

@@ -129,18 +129,8 @@ module.exports = function(ctx) {
     // Add files for "SQLite.xcodeproj"
     //
     runtimeProj.addSourceFile("SQLite.swift-0.11.5/SQLite.xcodeproj", {}, customTemplate);
-    options = { customFramework: true, embed: embed, sign: true };
-    runtimeProj.addFramework('SQLite.framework', options);
-
-    //
-    // Add a "Run Script" build phase
-    //
-    // options = {
-    //   shellPath: '/bin/sh',
-    //   shellScript: 'bash "${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework/strip-frameworks.sh"'
-    // };
-    // runtimeProj.addBuildPhase([], 'PBXShellScriptBuildPhase', 'Run Script', runtimeProj.getFirstTarget().uuid, options).buildPhase;
-
+    // options = { customFramework: true, embed: embed, sign: true };
+    // runtimeProj.addFramework('SQLite.framework', options);
 
     //
     // Write back the new XCode project

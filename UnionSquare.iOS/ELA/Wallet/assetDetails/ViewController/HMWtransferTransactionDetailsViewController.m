@@ -409,7 +409,7 @@ cell.textLabel.text=self.listTextArray[indexPath.section];
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *titiString=NSLocalizedString(@"交易号", nil);
-    if ( [self.listTextArray[indexPath.section] isEqualToString:titiString]) {
+    if ( [self.listTextArray[indexPath.section] isEqualToString:titiString]&&[self.iconNameString isEqualToString:@"ELA"]) {
         HWMTransactionDetailsURLViewController *transactionDetailsURLVC=[[HWMTransactionDetailsURLViewController alloc]init];
         transactionDetailsURLVC.urlString=self.model.TxHash;
         [self.navigationController pushViewController:transactionDetailsURLVC animated:YES];
@@ -427,13 +427,13 @@ cell.textLabel.text=self.listTextArray[indexPath.section];
     _model=model;
     NSDictionary *OutputsDic=[[NSDictionary alloc]initWithDictionary:model.Outputs];
  for(NSString *key in OutputsDic){
-        NSString *elaKey=[NSString stringWithFormat:@"%@\n%@ %@",key,[[FLTools share] elaScaleConversionWith:OutputsDic[key]],self.iconNameString];
+        NSString *elaKey=[NSString stringWithFormat:@"%@\n%@ %@",key,[[FLTools share] elaScaleConversionWith:OutputsDic[key]],@"ELA"];
         
         [self.OutputsArray addObject:elaKey];
     }
      NSDictionary *InputsDic=[[NSDictionary alloc]initWithDictionary:model.Inputs];
     for(NSString *key in InputsDic){
-  NSString *elaKey=[NSString stringWithFormat:@"%@\n%@ %@",key,[[FLTools share] elaScaleConversionWith:InputsDic[key]],self.iconNameString];
+  NSString *elaKey=[NSString stringWithFormat:@"%@\n%@ %@",key,[[FLTools share] elaScaleConversionWith:InputsDic[key]],@"ELA"];
         
         [self.InputsArray addObject:elaKey];
     }

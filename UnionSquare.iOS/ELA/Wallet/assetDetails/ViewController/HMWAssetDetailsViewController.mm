@@ -325,8 +325,8 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
     
     detailsM.Amount=[NSString stringWithFormat:@"%@ELA",[[FLTools share]elaScaleConversionWith:detailsM.Amount]];
     detailsM.Fee=[NSString stringWithFormat:@"%@ELA",[[FLTools share]elaScaleConversionWith:detailsM.Fee]];
-    transferTransactionDetailsVC.iconNameString=@"ELA";
-//    transferTransactionDetailsVC.iconNameString=self.model.iconName;
+//    transferTransactionDetailsVC.iconNameString=@"ELA";
+    transferTransactionDetailsVC.iconNameString=self.model.iconName;
     int type=[detailsM.Type intValue];
     switch (type) {
             

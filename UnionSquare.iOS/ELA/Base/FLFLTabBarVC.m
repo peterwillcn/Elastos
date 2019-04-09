@@ -49,8 +49,9 @@
 -(void)onTxPublish:(NSNotification*)notice{
     
     NSDictionary *param =notice.object;
+    DLog(@"%@",param);
     
-    NSInteger code =[ param[@"result"][@"Code"] integerValue];
+//    NSInteger code =[ param[@"result"][@"Code"] integerValue];
 //    if (code == 0||code ==18) {
 //        [[FLTools share]showErrorInfo:[NSString stringWithFormat:        NSLocalizedString(@"交易成功", nil)]];
 //    }else{

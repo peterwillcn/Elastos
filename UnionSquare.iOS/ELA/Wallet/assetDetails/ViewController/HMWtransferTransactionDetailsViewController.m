@@ -179,9 +179,24 @@ self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"�
         }
          return 40;
     }
+    if (self.type == rotationToVoteType&&section==4&&self.InputsArray.count>2) {
+        if (self.inputsISOpen) {
+            return 80;
+        }
+        return 40;
+    }
+    if (self.type == rotationToVoteType &&section==5&&self.OutputsArray.count>2) {
+        if (self.outputsISOpen) {
+            return 80;
+        }
+        return 40;
+    }
+    
     return 0.01;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    
     if (self.type == transactionSingleIntoType&&section==3) {
         return self.inputsISOpenCount;
     }
@@ -197,6 +212,13 @@ self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"�
     if (self.type == transactionMultipleIntoType &&section==2) {
         return self.outputsISOpenCount;
     }
+    if (self.type == rotationToVoteType &&section==4) {
+        return self.inputsISOpenCount;
+    }
+    if (self.type == rotationToVoteType &&section==5) {
+        return self.outputsISOpenCount;
+    }
+    
     
     return 1;
 }
@@ -265,6 +287,32 @@ self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"�
         [openOrCloseButton addTarget:self action:@selector(OutputsOpenOrCloseAction:) forControlEvents:UIControlEventTouchUpInside];
        return  openOrCloseButton;
     }
+    
+    if (self.type == rotationToVoteType&&section==4&&self.InputsArray.count>2) {
+        if (self.inputsISOpen) {
+            imageString=@"asset_list_unfold";
+            
+        }else{
+            imageString=@"setting_linkman_detail_click";
+        }
+        [openOrCloseButton setImage:[UIImage imageNamed:imageString] forState:UIControlStateNormal];
+        [openOrCloseButton addTarget:self action:@selector(inputsOpenOrCloseAction:) forControlEvents:UIControlEventTouchUpInside];
+        
+        return  openOrCloseButton;
+    }
+    if (self.type == rotationToVoteType &&section==5&&self.OutputsArray.count>2) {
+        if (self.outputsISOpen) {
+            imageString=@"asset_list_unfold";
+        }else{
+            imageString=@"setting_linkman_detail_click";
+        }
+        [openOrCloseButton setImage:[UIImage imageNamed:imageString] forState:UIControlStateNormal];
+        [openOrCloseButton addTarget:self action:@selector(OutputsOpenOrCloseAction:) forControlEvents:UIControlEventTouchUpInside];
+        
+        return  openOrCloseButton;
+    }
+    
+    
     return NULL;
 }
 -(void)OutputsOpenOrCloseAction:(UIButton*)button{

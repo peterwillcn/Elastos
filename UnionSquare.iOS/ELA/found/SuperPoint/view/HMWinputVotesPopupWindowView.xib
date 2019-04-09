@@ -91,7 +91,13 @@
                                 <action selector="shutDownViewEvent:" destination="iN0-l3-epB" eventType="touchUpInside" id="I5K-Iq-hfB"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNa-tP-EJZ">
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入票数" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oGM-q9-x9g">
+                            <rect key="frame" x="87.5" y="48" width="264.5" height="57"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                        </textField>
+                        <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNa-tP-EJZ">
                             <rect key="frame" x="320" y="55" width="40" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="aVl-Na-LSt"/>
@@ -102,12 +108,6 @@
                                 <action selector="maxEvent:" destination="iN0-l3-epB" eventType="touchUpInside" id="34F-Zr-kyU"/>
                             </connections>
                         </button>
-                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入票数" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oGM-q9-x9g">
-                            <rect key="frame" x="87.5" y="48" width="224.5" height="57"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                        </textField>
                     </subviews>
                     <color key="backgroundColor" red="0.14899927377700806" green="0.14903163909912109" blue="0.14899474382400513" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
@@ -118,7 +118,7 @@
                         <constraint firstAttribute="trailing" secondItem="Imu-Td-d3x" secondAttribute="trailing" id="COm-ad-B5N"/>
                         <constraint firstItem="3w2-3M-RYp" firstAttribute="top" secondItem="BoX-Dp-zqf" secondAttribute="bottom" constant="5" id="E6e-en-wfY"/>
                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="SXF-TZ-3b0" secondAttribute="trailing" constant="30" id="F0R-Xs-JmD"/>
-                        <constraint firstItem="aNa-tP-EJZ" firstAttribute="leading" secondItem="oGM-q9-x9g" secondAttribute="trailing" constant="8" id="FE6-Ge-BRL"/>
+                        <constraint firstItem="aNa-tP-EJZ" firstAttribute="leading" secondItem="oGM-q9-x9g" secondAttribute="trailing" constant="-32" id="FE6-Ge-BRL"/>
                         <constraint firstItem="d4Z-cR-EDG" firstAttribute="leading" secondItem="2i6-lA-9T1" secondAttribute="leading" id="GoY-yd-U0s"/>
                         <constraint firstItem="Imu-Td-d3x" firstAttribute="top" secondItem="d4Z-cR-EDG" secondAttribute="bottom" id="PiA-kp-UdZ"/>
                         <constraint firstAttribute="trailing" secondItem="M3g-4e-yIs" secondAttribute="trailing" constant="63" id="QkO-bu-Bv8"/>

@@ -88,7 +88,8 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
         
         IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
        [self.view.window addSubview:self.inputVoteTicketView];
-        NSUInteger balance = mainchainSubWallet->GetBalance();
+//        Elastos::ElaWallet::BalanceType type = Elastos::ElaWallet::Total;
+        NSUInteger balance = mainchainSubWallet->GetBalance(Elastos::ElaWallet::Total);
         self.inputVoteTicketView.votes = balance/unitNumber;
 
         self.inputVoteTicketView.accountBalanceLab.text = [NSLocalizedString(@"最大表决票权 ",nil ) stringByAppendingString: @(balance/unitNumber).stringValue];

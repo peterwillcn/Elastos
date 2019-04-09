@@ -93,7 +93,8 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
 //    }
     self.isUpdate=NO;
     self.balanceLabel.text=[NSString stringWithFormat:@"%@",[[FLTools share]elaScaleConversionWith: self.model.iconBlance]];
-    self.currencyNameLabel.text=self.model.iconName;
+//    self.currencyNameLabel.text=self.model.iconName;
+    self.currencyNameLabel.text=@"ELA";
     self.updateTimeLabel.text=self.model.updateTime;
     self.currentIndex=0;
     [self loadAllTransactionWithIndex:self.currentIndex];
@@ -108,7 +109,7 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
 
 -(void)lockVoiteLoadDataSource{
     
-    CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@1] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];
+    CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@0] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];
     CDVPluginResult * result =[[ELWalletManager share]getBalance:mommand];
     
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
@@ -292,7 +293,8 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
     HMWAssetDetailsTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
-    cell.niceNameString=self.model.iconName;
+//    cell.niceNameString=self.model.iconName;
+    cell.niceNameString=@"ELA";
     cell.model=self.allListArray[indexPath.row];
     return cell;
     
@@ -323,7 +325,8 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
     
     detailsM.Amount=[NSString stringWithFormat:@"%@ELA",[[FLTools share]elaScaleConversionWith:detailsM.Amount]];
     detailsM.Fee=[NSString stringWithFormat:@"%@ELA",[[FLTools share]elaScaleConversionWith:detailsM.Fee]];
-    transferTransactionDetailsVC.iconNameString=self.model.iconName;
+    transferTransactionDetailsVC.iconNameString=@"ELA";
+//    transferTransactionDetailsVC.iconNameString=self.model.iconName;
     int type=[detailsM.Type intValue];
     switch (type) {
             

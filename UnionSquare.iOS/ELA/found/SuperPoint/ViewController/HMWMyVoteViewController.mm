@@ -47,7 +47,7 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     [self makeView];
     FLWallet *waller = [ELWalletManager share].currentWallet;
     IMainchainSubWallet *subWallet = [[ELWalletManager share]getWalletELASubWallet:waller.masterWalletID];
-    NSInteger balance = subWallet->GetBalance();
+    NSInteger balance = subWallet->GetBalance(Elastos::ElaWallet::Total);
     self.nameOfTheWalletLabel.text = waller.walletName;
     self.votesLabel.text = [NSLocalizedString(@"表决票权：", nil) stringByAppendingString:@(balance/unitNumber).stringValue];
     

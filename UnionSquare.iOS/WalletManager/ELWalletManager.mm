@@ -1476,13 +1476,13 @@ static uint64_t feePerKB = 10000;
     ISubWallet * fromSubWallet=[self getSubWallet:masterWalletID :fromSubWalletID];
     ISidechainSubWallet *sidechainSubWallet = dynamic_cast<ISidechainSubWallet *>(fromSubWallet);
     
-    Json mainchainAccounts;
-    mainchainAccounts.push_back(mainchainAddress);
-    
-    Json mainchainAmounts;
-    mainchainAmounts.push_back(amount);
-    Json mainchainIndexs;
-    mainchainIndexs.push_back(0);
+//    Json mainchainAccounts;
+//    mainchainAccounts.push_back(mainchainAddress);
+//
+//    Json mainchainAmounts;
+//    mainchainAmounts.push_back(amount);
+//    Json mainchainIndexs;
+//    mainchainIndexs.push_back(0);
     Json tx;
     
     try {
@@ -1502,8 +1502,8 @@ static uint64_t feePerKB = 10000;
     Json signedTx;
 //     Json tmpTx;
     Json  result;
-    try {
-        
+//    try {
+    
 //        signedTx=[self CalculateFeeAndSign:fromSubWallet :tx withPWD:pwd withFromAddress:from];
         
         uint64_t fee;
@@ -1512,40 +1512,43 @@ static uint64_t feePerKB = 10000;
         try {
             
             fee = fromSubWallet->CalculateTransactionFee(tx, feePerKB);
-            try {
-                
-                signedTx = fromSubWallet->UpdateTransactionFee(tx, fee, from);
-                try {
-                    retJson=  fromSubWallet->SignTransaction(signedTx, pwd);
-                } catch (const std:: exception & e ) {
-                    
-                return  [self errInfoToDic:e.what() with:command];
-                    
-            
-                }
-                
-            } catch (const std:: exception & e ) {
-                
-            return  [self errInfoToDic:e.what() with:command];
-            }
+           
         } catch (const std:: exception & e ) {
             
          return  [self errInfoToDic:e.what() with:command];
         }
+        try {
+            
+            signedTx = fromSubWallet->UpdateTransactionFee(tx, fee, from);
+            
+            
+        } catch (const std:: exception & e ) {
+            
+            return  [self errInfoToDic:e.what() with:command];
+        }
+        
+        try {
+            retJson=  fromSubWallet->SignTransaction(signedTx, pwd);
+        } catch (const std:: exception & e ) {
+            
+            return  [self errInfoToDic:e.what() with:command];
+            
+            
+        }
         
         try {
             
-            result = fromSubWallet->PublishTransaction(signedTx);
+            result = fromSubWallet->PublishTransaction(retJson);
             
             
         } catch (const std:: exception & e ) {
           return  [self errInfoToDic:e.what() with:command];
         }
         
-    } catch (const std:: exception & e ) {
-        
-      return  [self errInfoToDic:e.what() with:command];
-    }
+//    } catch (const std:: exception & e ) {
+//
+//      return  [self errInfoToDic:e.what() with:command];
+//    }
     
     
    
@@ -1567,13 +1570,13 @@ static uint64_t feePerKB = 10000;
     ISubWallet * fromSubWallet=[self getSubWallet:masterWalletID :fromSubWalletID];
     ISidechainSubWallet *sidechainSubWallet = dynamic_cast<ISidechainSubWallet *>(fromSubWallet);
     
-    Json mainchainAccounts;
-    mainchainAccounts.push_back(mainchainAddress);
-    
-    Json mainchainAmounts;
-    mainchainAmounts.push_back(amount);
-    Json mainchainIndexs;
-    mainchainIndexs.push_back(0);
+//    Json mainchainAccounts;
+//    mainchainAccounts.push_back(mainchainAddress);
+//
+//    Json mainchainAmounts;
+//    mainchainAmounts.push_back(amount);
+//    Json mainchainIndexs;
+//    mainchainIndexs.push_back(0);
     Json tx;
     try {
         

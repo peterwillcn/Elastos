@@ -107,28 +107,38 @@ class AppManager {
     }
     
     func getStartPath(_ info: AppInfo) -> String {
-        return resetPath(getAppUrl(info), info.start_url);
+        if (!info.remote) {
+            return getAppUrl(info) + info.start_url;
+        }
+        else {
+            return info.start_url;
+        }
     }
     
-    func getAppPath(_ id: String) -> String {
-        return appsPath + id + "/";
+    func getAppPath(_ info: AppInfo) -> String {
+        if (!info.remote) {
+            return appsPath + info.app_id + "/";
+        }
+        else {
+            let index = info.start_url.range(of: "/", options: .backwards)?.lowerBound
+            return String(info.start_url[info.start_url.startIndex ..< index!]);
+        }
     }
     
     func getAppUrl(_ info: AppInfo) -> String {
-        if (info.built_in) {
-            return "file://" + getAbsolutePath("www/built-in")  + "/" + info.app_id + "/";
+        var url = getAppPath(info);
+        if (!info.remote) {
+            url = "file://" + url;
         }
-        else {
-            return "file://" + appsPath + info.app_id + "/";
-        }
+        return url;
     }
     
     func getDataPath(_ id: String) -> String {
         return dataPath + id + "/";
     }
     
-    func getDataUrl(_ info: AppInfo) -> String {
-        return "file://" + dataPath + info.app_id + "/";
+    func getDataUrl(_ id: String) -> String {
+        return "file://" + getDataPath(id);
     }
     
     func saveBuiltInAppInfos() {
@@ -151,7 +161,8 @@ class AppManager {
                 }
                 
                 if (needInstall) {
-                    let info = try installer.parseManifest(path +  dir + "/manifest.json")
+                    try installer.copyAssetsFolder(path +  dir, appsPath + dir);
+                    let info = try installer.parseManifest(appsPath +  dir + "/manifest.json")
                     guard (info != nil || info!.app_id != "") else {
                         return;
                     }
@@ -326,6 +337,7 @@ class AppManager {
         for pluginAuth in info!.plugins {
             if (pluginAuth.plugin == plugin) {
                 try dbAdapter.updatePluginAuth(pluginAuth, authority);
+                pluginAuth.authority = authority;
                 return;
             }
         }
@@ -341,6 +353,7 @@ class AppManager {
         for urlAuth in info!.urls {
             if (urlAuth.url == url) {
                 try dbAdapter.updateUrlAuth(urlAuth, authority);
+                urlAuth.authority = authority;
                 return;
             }
         }

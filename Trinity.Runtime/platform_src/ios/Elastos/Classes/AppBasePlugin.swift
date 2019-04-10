@@ -147,7 +147,7 @@
     
     func jsonAppInfo(_ info: AppInfo) -> [String : Any] {
         let appUrl = AppManager.appManager!.getAppUrl(info);
-        let dataUrl = AppManager.appManager!.getDataUrl(info);
+        let dataUrl = AppManager.appManager!.getDataUrl(info.app_id);
         return [
             "id": info.app_id,
             "version": info.version,
@@ -237,5 +237,6 @@
         result?.setKeepCallbackAs(true);
         self.commandDelegate?.send(result, callbackId:self.callbackId);
     }
+
     
  }

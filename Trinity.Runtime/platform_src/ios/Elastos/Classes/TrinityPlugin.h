@@ -28,11 +28,14 @@
 @interface TrinityPlugin : CDVPlugin
 
 - (void)trinityInitialize:(NSString*)pluginName whitelistFilter:(CDVPlugin *)filter
-           checkAuthority:(BOOL)check dataPath:(NSString*)path;
+           checkAuthority:(BOOL)check dataPath:(NSString*)path
+           appPath:(NSString*)appPath;
 
 - (BOOL)isAllowAccess:(NSString *)url;
-- (NSString*)getDataAbsolutePath:(NSString*)dir error:(NSError * _Nullable *)error;
-- (NSString*)getDataRelativePath:(NSString*)path error:(NSError * _Nullable *)error;
+- (NSString*)getDataPath;
+- (NSString*)getAppPath;
+- (NSString*)getCanonicalPath:(NSString*)path error:(NSError * _Nullable *)error;
+- (NSString*)getRelativePath:(NSString*)path error:(NSError * _Nullable *)error;
 - (BOOL)execute:(CDVInvokedUrlCommand*)command;
 - (BOOL)trinityExecute:(CDVInvokedUrlCommand*)command;
 

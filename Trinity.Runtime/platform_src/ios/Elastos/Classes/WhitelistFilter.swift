@@ -29,7 +29,7 @@
         self.appInfo = info;
         
         let appPath = AppManager.appManager!.getAppUrl(info) + "*";
-        let dataPath = AppManager.appManager!.getDataUrl(info) + "*";
+        let dataPath = AppManager.appManager!.getDataUrl(info.app_id) + "*";
         let wwwPath = "file://" + getAbsolutePath("www");
         let pluginsPath = wwwPath + "/plugins/*";
         let cordovaPath = wwwPath + "/cordova*";
@@ -39,6 +39,8 @@
         allowNavigations.append(dataPath);
         allowNavigations.append(pluginsPath);
         allowNavigations.append(cordovaPath);
+        allowNavigations.append("trinity:///assets/*");
+        allowNavigations.append("trinity:///data/*");
         
         for urlAuth in info.urls {
             allowNavigations.append(urlAuth.url);

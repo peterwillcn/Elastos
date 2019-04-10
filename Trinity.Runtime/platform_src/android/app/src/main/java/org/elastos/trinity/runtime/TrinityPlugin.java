@@ -49,16 +49,16 @@ public class TrinityPlugin extends CordovaPlugin {
         this.appManager = AppManager.appManager;
     }
 
+    public Boolean isAllowAccess(String url) {
+        return whitelistPlugin.shouldAllowNavigation(url);
+    }
+
     public String getDataPath() {
         return dataPath;
     }
 
     public String getAppPath() {
         return appPath;
-    }
-
-    public Boolean isAllowAccess(String url) {
-        return whitelistPlugin.shouldAllowNavigation(url);
     }
 
     private String getCanonicalDir(String path, String header) throws Exception {

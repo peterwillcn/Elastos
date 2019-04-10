@@ -109,10 +109,11 @@
         let trinityPlugin = obj as? TrinityPlugin
         
         if trinityPlugin != nil {
-            let path = AppManager.appManager!.getDataPath(self.id);
-            trinityPlugin!.trinityInitialize(pluginName,
-                whitelistFilter:self.whitelistFilter,
-                checkAuthority:true, dataPath:path);
+            let dataPath = AppManager.appManager!.getDataPath(self.id);
+            let appPath = AppManager.appManager!.getAppPath(self.appInfo!);
+            trinityPlugin!.trinityInitialize(pluginName, 
+                whitelistFilter:self.whitelistFilter, checkAuthority:true, 
+                dataPath:dataPath, appPath:appPath);
         }
 
         return obj as Any;

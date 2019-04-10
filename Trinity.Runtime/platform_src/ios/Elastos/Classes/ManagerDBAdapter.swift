@@ -116,44 +116,46 @@ import SQLite
     }
     
     func addAppInfo(_ info: AppInfo) throws {
-        info.tid = try db.run(apps.insert(app_id <- info.app_id,
-                    app_id <- info.app_id,
-                    version <- info.version,
-                    name <- info.name,
-                    short_name <- info.short_name,
-                    description <- info.desc,
-                    start_url <- info.start_url,
-                    author_name <- info.author_name,
-                    author_email <- info.author_email,
-                    default_locale <- info.app_id,
-                    background_color <- info.background_color,
-                    theme_display <- info.theme_display,
-                    theme_color <- info.theme_color,
-                    theme_font_name <- info.theme_font_name,
-                    theme_font_color <- info.theme_font_color,
-                    install_time <- info.install_time,
-                    built_in <- info.built_in,
-                    remote <- info.remote));
-        
-        print("inserted id: \(info.tid)")
-        
-        for icon in info.icons {
-            try db.run(icons.insert(app_tid <- info.tid,
-                    src <- icon.src,
-                    sizes <- icon.sizes,
-                    type <- icon.type));
-        }
-        
-        for pluginAuth in info.plugins {
-            try db.run(plugins.insert(app_tid <- info.tid,
-                    plugin <- pluginAuth.plugin,
-                    authority <- pluginAuth.authority));
-        }
+        try db.transaction {
+            info.tid = try db.run(apps.insert(app_id <- info.app_id,
+                        app_id <- info.app_id,
+                        version <- info.version,
+                        name <- info.name,
+                        short_name <- info.short_name,
+                        description <- info.desc,
+                        start_url <- info.start_url,
+                        author_name <- info.author_name,
+                        author_email <- info.author_email,
+                        default_locale <- info.app_id,
+                        background_color <- info.background_color,
+                        theme_display <- info.theme_display,
+                        theme_color <- info.theme_color,
+                        theme_font_name <- info.theme_font_name,
+                        theme_font_color <- info.theme_font_color,
+                        install_time <- info.install_time,
+                        built_in <- info.built_in,
+                        remote <- info.remote));
+            
+            print("inserted id: \(info.tid)")
+            
+            for icon in info.icons {
+                try db.run(icons.insert(app_tid <- info.tid,
+                        src <- icon.src,
+                        sizes <- icon.sizes,
+                        type <- icon.type));
+            }
+            
+            for pluginAuth in info.plugins {
+                try db.run(plugins.insert(app_tid <- info.tid,
+                        plugin <- pluginAuth.plugin,
+                        authority <- pluginAuth.authority));
+            }
 
-        for urlAuth in info.urls {
-            try db.run(urls.insert(app_tid <- info.tid,
-                    url <- urlAuth.url,
-                    authority <- urlAuth.authority));
+            for urlAuth in info.urls {
+                try db.run(urls.insert(app_tid <- info.tid,
+                        url <- urlAuth.url,
+                        authority <- urlAuth.authority));
+            }
         }
     }
     
@@ -216,24 +218,30 @@ import SQLite
     }
     
     func updatePluginAuth(_ item: PluginAuth, _ auth: Int) throws {
-        let pluginAuth = plugins.filter(plugin == item.plugin);
-        try db.run(pluginAuth.update(authority <- auth));
+        try db.transaction {
+            let pluginAuth = plugins.filter(plugin == item.plugin);
+            try db.run(pluginAuth.update(authority <- auth));
+        }
     }
     
     func updateUrlAuth(_ item: UrlAuth, _ auth: Int) throws {
-        let urlAuth = urls.filter(url == item.url);
-        try db.run(urlAuth.update(authority <- auth));
+        try db.transaction {
+            let urlAuth = urls.filter(url == item.url);
+            try db.run(urlAuth.update(authority <- auth));
+        }
     }
     
     func removeAppInfo(_ info: AppInfo) throws {
-        var items = plugins.filter(app_tid == info.tid);
-        try db.run(items.delete());
-        items = urls.filter(app_tid == info.tid);
-        try db.run(items.delete());
-        items = icons.filter(app_tid == info.tid);
-        try db.run(items.delete());
-        items = apps.filter(app_tid == info.tid);
-        try db.run(items.delete());
+        try db.transaction {
+            var items = plugins.filter(app_tid == info.tid);
+            try db.run(items.delete());
+            items = urls.filter(app_tid == info.tid);
+            try db.run(items.delete());
+            items = icons.filter(app_tid == info.tid);
+            try db.run(items.delete());
+            items = apps.filter(app_tid == info.tid);
+            try db.run(items.delete());
+        }
     }
 
  }

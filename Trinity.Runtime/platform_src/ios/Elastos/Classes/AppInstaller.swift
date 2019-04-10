@@ -53,6 +53,15 @@
         try fileManager.removeItem(atPath: path)
     }
     
+    func copyAssetsFolder(_ src: String, _ dest: String) throws {
+        let fileManager = FileManager.default
+        if fileManager.fileExists(atPath: dest){
+            try fileManager.removeItem(atPath: dest)
+        }
+        
+        try fileManager.copyItem(atPath: src, toPath: dest)
+    }
+    
     func  install(_ appManager: AppManager, _ url: String) throws -> AppInfo? {
         var zipPath = url;
         if (url.hasPrefix("assets://")) {
@@ -153,6 +162,13 @@
         appInfo.version = try getMustStrValue(json, "version");
         appInfo.name = try getMustStrValue(json, "name");
         appInfo.start_url = try getMustStrValue(json, "start_url");
+        let range = appInfo.start_url.range(of: "://");
+        if range != nil{
+            appInfo.remote = true;
+        }
+        else {
+            appInfo.remote = false;
+        }
 
         let icons = json["icons"] as? [Dictionary<String, String>];
         if icons != nil {

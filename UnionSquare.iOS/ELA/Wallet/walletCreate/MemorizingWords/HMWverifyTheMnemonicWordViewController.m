@@ -113,7 +113,9 @@
               FLFLTabBarVC *tabVC = [[FLFLTabBarVC alloc]init];
             appdelegate.window.rootViewController=tabVC;
         }else{
-          [[NSNotificationCenter defaultCenter]postNotificationName:updataCreateWallet object:nil ];
+            if ([self.FormeType isEqualToString:@"1"]) {
+                [[NSNotificationCenter defaultCenter]postNotificationName:updataCreateWallet object:nil ];}
+
       [self.navigationController popToRootViewControllerAnimated:YES];
 
         }
@@ -196,5 +198,9 @@
     }
     
     return  CGSizeMake(30,30);
+}
+- (void)setFormeType:(NSString *)FormeType{
+    _FormeType=FormeType;
+    
 }
 @end

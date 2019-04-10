@@ -206,7 +206,7 @@
     self.transferDetailsPopupV=nil;
     
     if (self.type==sideChainTop_upType) {
-            CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.fromModel.iconName,self.selectmModel.iconName,self.addressArray.firstObject,self.addressTextField.text,[[FLTools share]elsToSela:self.enterTheAmountTextField.text],self.noteTextField.text,self.noteTextField.text,pwd,@"0"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"sideChainTop_Up"];
+            CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.fromModel.iconName,self.selectmModel.iconName,self.addressArray.firstObject,self.addressTextField.text,[[FLTools share]elsToSela:self.enterTheAmountTextField.text],self.noteTextField.text,self.noteTextField.text,pwd,@"1"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"sideChainTop_Up"];
         
             CDVPluginResult *result = [[ELWalletManager share]sideChainTop_Up:mommand];
             NSString *statue=[NSString stringWithFormat:@"%@",result.status];

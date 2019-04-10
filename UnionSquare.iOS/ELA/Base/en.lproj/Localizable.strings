@@ -5,7 +5,7 @@
   Created by 韩铭文 on 2019/2/19.
   
 */
-//NSLocalizedString(@"暂无充值记录", nil);
+//NSLocalizedString(@"暂无数据,请耐心等待!", nil);
 
 
 "UILaunchStoryboardName"="LaunchScreen-English";
@@ -60,6 +60,8 @@
 "汇率"="Exchange rate";
 "输入密码"="Password";
 "投票交易"="Vote trading";
+"暂无数据,请耐心等待!"="No data available, please be patient!";
+
 "请输入您的钱包密码"="Please enter your wallet password";
 "交易发送成功，\n 请耐心等待交易确认"="Transaction initiated successfully,\n Please wait for confirmation.";
 "选择侧链"="Select Sidechain";
@@ -274,6 +276,8 @@
 "参与ELA超级节点投票，需锁仓ELA。投票不消耗ELA数量；每次投票最多可选择 30 个超级节点，撤销或更改再次投票生效有" = "To vote for ELA supernode, you need to lockup your ELA. Voting itself doesn’t cost any ELA. Each vote can be cast to a maximum of 30 supernodes. To cancel or change your votes, it will delay the outcome.";
 "投票地址数量" = "Number of Vote Addresses";
 "全网投票占比"= "Total Network Vote Percentage";
+"目标地址"= "Target address";
+
 "删除成功"="Delete successed";
 "金额"="Value";
 "手续费"="Fee";

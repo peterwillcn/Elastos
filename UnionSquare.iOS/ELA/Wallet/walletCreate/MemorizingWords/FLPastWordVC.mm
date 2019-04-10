@@ -245,7 +245,7 @@ __weak __typeof__(self) weakSelf = self;
     if (self.Wallet.masterWalletID.length==6) {
         HMWverifyTheMnemonicWordViewController *verifyTheMnemonicWordVC=[[HMWverifyTheMnemonicWordViewController alloc]init];
         verifyTheMnemonicWordVC.Wallet=self.Wallet;
-        
+        verifyTheMnemonicWordVC.FormeType=@"1";
         [self.navigationController pushViewController:verifyTheMnemonicWordVC animated:YES];
     }else{
     [self creatWallet];
@@ -298,7 +298,7 @@ __weak __typeof__(self) weakSelf = self;
             
             HMWverifyTheMnemonicWordViewController *verifyTheMnemonicWordVC=[[HMWverifyTheMnemonicWordViewController alloc]init];
             verifyTheMnemonicWordVC.Wallet=self.Wallet;
-            
+            verifyTheMnemonicWordVC.FormeType=@"1";
             [self.navigationController pushViewController:verifyTheMnemonicWordVC animated:YES];
         }
         

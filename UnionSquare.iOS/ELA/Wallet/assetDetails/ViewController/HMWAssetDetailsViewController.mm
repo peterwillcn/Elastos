@@ -320,6 +320,10 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
     }
 
       NSArray *tranList=[NSArray modelArrayWithClass:assetDetailsModel.class json:result.message[@"success"][@"Transactions"]];
+    if (tranList.count==0) {
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"暂无数据,请耐心等待!", nil)];
+         return;
+    }
     assetDetailsModel *detailsM=tranList.firstObject;
     HMWtransferTransactionDetailsViewController *transferTransactionDetailsVC=[[HMWtransferTransactionDetailsViewController alloc]init];
     
@@ -328,6 +332,7 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
 //    transferTransactionDetailsVC.iconNameString=@"ELA";
     transferTransactionDetailsVC.iconNameString=self.model.iconName;
     int type=[detailsM.Type intValue];
+    transferTransactionDetailsVC.TypeString=[NSString stringWithFormat:@"%@",detailsM.Type];
     switch (type) {
             
         case 0:
@@ -355,7 +360,7 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
              detailsM.Type=NSLocalizedString(@"侧链提现交易", nil);
             break;
         case 8:
-            
+     transferTransactionDetailsVC.PayloadInfoString=[NSString stringWithFormat:@"%@\n%@ %@",result.message[@"success"][@"Transactions"][0][@"Payload"][@"CrossChainAddress"][0],[[FLTools share] elaScaleConversionWith:result.message[@"success"][@"Transactions"][0][@"Payload"][@"CrossChainAmount"][0]],@"ELA"];
             detailsM.Type=NSLocalizedString(@"跨链交易", nil);
             break;
         case 9:

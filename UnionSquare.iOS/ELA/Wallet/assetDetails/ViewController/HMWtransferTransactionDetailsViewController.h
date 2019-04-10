@@ -42,6 +42,14 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(copy,nonatomic)NSString *votesString;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *TypeString;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *PayloadInfoString;
 @end
 
 NS_ASSUME_NONNULL_END

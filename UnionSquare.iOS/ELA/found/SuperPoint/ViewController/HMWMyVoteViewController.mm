@@ -18,7 +18,8 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
 @property (weak, nonatomic) IBOutlet UILabel *theWalletAddressLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *waitingForTheImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *largeStateImageView;
-@property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *stateIconImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *stateIconImageView;
+
 @property (weak, nonatomic) IBOutlet UILabel *votesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *voteInTotalLabel;
 @property (weak, nonatomic) IBOutlet UITableView *baseTableView;
@@ -78,6 +79,12 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     }
     self.voteInTotalLabel.text = @(total/unitNumber).stringValue;
     self.dataSource = showlistdata;
+    if (self.dataSource.count==0) {
+     self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_unlocked"];
+    }else{
+        
+        self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_going_on"];
+    }
     [self.baseTableView reloadData];
     self.placeHolderLab.hidden  = self.dataSource.count==0? NO: YES;
     

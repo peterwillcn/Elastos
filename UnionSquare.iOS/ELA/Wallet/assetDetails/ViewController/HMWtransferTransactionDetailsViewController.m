@@ -111,12 +111,24 @@ static NSString *cellString=@"HMWtransferTransactionMultipleAddressDetailsTableV
         allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount;
        
     }else if (self.type==transactionSingleRollOutType){//转出
-        self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入地址", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
-        allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount;
+        if ([self.TypeString isEqualToString:@"8"]) {
+           self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入地址", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"目标地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)]; allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount+1;
+        }else{ self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入地址", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
+            allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount;
+        }
     }else if (self.type==transactionMultipleIntoType){// 转入
-self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
 
-        allCount=self.listTextArray.count+OutputsArrayCount;
+        if ([self.TypeString isEqualToString:@"8"]) {
+            self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"目标地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
+            
+            allCount=self.listTextArray.count+OutputsArrayCount+1;
+        }else{
+            
+            self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
+            
+            allCount=self.listTextArray.count+OutputsArrayCount;
+        }
+        
     }else if (self.type==rotationToVoteType){
         self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"投票数量-1", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入地址", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
         allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount;
@@ -404,6 +416,8 @@ cell.textLabel.text=self.listTextArray[indexPath.section];
         cell.orderDetailsLabel.text=self.model.Remark;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"投票数量-1", nil)]){
         cell.orderDetailsLabel.text=self.votesString;
+    }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"目标地址", nil)]){
+        cell.orderDetailsLabel.font=[UIFont systemFontOfSize:10]; cell.orderDetailsLabel.text=self.OutputsArray[indexPath.row];
     }
     return cell;
 }
@@ -452,6 +466,14 @@ cell.textLabel.text=self.listTextArray[indexPath.section];
 }
 -(void)setVotesString:(NSString *)votesString{
     _votesString=votesString;
+    
+}
+-(void)setTypeString:(NSString *)TypeString{
+    _TypeString=TypeString;
+    
+}
+-(void)setPayloadInfoString:(NSString *)PayloadInfoString{
+    _PayloadInfoString=PayloadInfoString;
     
 }
 @end

@@ -16,6 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(strong,nonatomic)NSString *mnemonic;
 @property (nonatomic, strong)FLWallet*Wallet;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *FormeType;
 
 @end
 

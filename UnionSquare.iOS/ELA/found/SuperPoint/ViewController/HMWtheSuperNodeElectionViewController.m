@@ -74,7 +74,7 @@
        self.dataSource= [NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];
         
         self.votingListV.dataSource = self.dataSource;
-        self.votingListV.lab1.text = [NSString stringWithFormat:@"%.3f %@" ,[param[@"result"][@"totalvoterate"] floatValue]*100,@"%"];
+        self.votingListV.lab1.text = [NSString stringWithFormat:@"%.5f %@" ,[param[@"result"][@"totalvoterate"] floatValue]*100,@"%"];
        // self.votingListV.lab2.text = [param[@"result"][@"totalvotes"]stringValue ];
         self.votingListV.lab3.text = param[@"result"][@"totalvotes"];
         [self UpdataLocalOwerlist];

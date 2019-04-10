@@ -64,6 +64,7 @@ HMWverifyTheMnemonicWordViewController*VerifyTheMnemonicWordVC=[[HMWverifyTheMne
     FLWallet *wallet=[[FLWallet alloc]init];
 wallet.mnemonic=self.theMnemonicWord;
 VerifyTheMnemonicWordVC.Wallet=wallet;
+    VerifyTheMnemonicWordVC.FormeType=@"2";
     [self.navigationController pushViewController:VerifyTheMnemonicWordVC animated:YES];
 }
 

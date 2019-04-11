@@ -103,7 +103,7 @@
         
         
     }
-//    [WOCrashProtectorManager makeAllEffective];
+    [WOCrashProtectorManager makeAllEffective];
     [self.window makeKeyAndVisible];
 //    UIImageView *imgView = [[UIImageView alloc]initWithFrame:[UIApplication sharedApplication].keyWindow.bounds];
 //    imgView.image = [UIImage imageNamed:@"LimageEN"];

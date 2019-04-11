@@ -417,7 +417,7 @@ cell.textLabel.text=self.listTextArray[indexPath.section];
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"投票数量-1", nil)]){
         cell.orderDetailsLabel.text=self.votesString;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"目标地址", nil)]){
-        cell.orderDetailsLabel.font=[UIFont systemFontOfSize:10]; cell.orderDetailsLabel.text=self.OutputsArray[indexPath.row];
+        cell.orderDetailsLabel.font=[UIFont systemFontOfSize:10]; cell.orderDetailsLabel.text=self.PayloadInfoString;
     }
     return cell;
 }

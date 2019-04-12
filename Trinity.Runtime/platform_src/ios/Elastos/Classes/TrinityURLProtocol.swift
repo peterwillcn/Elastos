@@ -30,6 +30,9 @@ class TrinityURLProtocol: URLProtocol {
         if (url.absoluteString.hasPrefix("assets://")) {
             return true;
         }
+        else if (url.absoluteString.hasPrefix("trinity://")) {
+            return true;
+        }
         
         return false
     }
@@ -41,28 +44,62 @@ class TrinityURLProtocol: URLProtocol {
     @objc override class func requestIsCacheEquivalent(_ a: URLRequest, to b: URLRequest) -> Bool {
         return super.requestIsCacheEquivalent(a, to: b);
     }
+    
+    func loadFile(_ path: String) {
+        let fileUrl = URL.init(fileURLWithPath: path)
+        
+        do {
+            let data = try Data(contentsOf: fileUrl);
+            let response = URLResponse(url: self.request.url!, mimeType: "text/plain", expectedContentLength: data.count, textEncodingName: nil)
+            
+            self.client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: URLCache.StoragePolicy.allowed)
+            self.client?.urlProtocol(self, didLoad: data);
+            self.client?.urlProtocolDidFinishLoading(self);
+        }
+        catch let error {
+            print("loadFile: \(error)");
+        }
+    }
 
     @objc override func startLoading() {
         let url = self.request.url!.absoluteString;
         if (url.hasPrefix("assets://")) {
             let path = getAssetsPath(url);
-            let fileUrl = URL.init(fileURLWithPath: path)
-
-            do {
-                let data = try Data(contentsOf: fileUrl);
-                let response = URLResponse(url: self.request.url!, mimeType: "text/plain", expectedContentLength: data.count, textEncodingName: nil)
-
-                self.client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: URLCache.StoragePolicy.allowed)
-                self.client?.urlProtocol(self, didLoad: data);
-                self.client?.urlProtocolDidFinishLoading(self);
+            loadFile(path);
+        }
+        else if (url.hasPrefix("trinity://")) {
+            let path = getTrinityPath(url, self.request.mainDocumentURL!.absoluteString);
+            if path.range(of: "://") != nil {
+                let request = URLRequest(url: NSURL(string: path)! as URL);
+                let session: URLSession = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: nil);
+                let task = session.dataTask(with: request);
+                task.resume();
             }
-            catch let error {
-                print("Parse Manifest.json error: \(error)");
+            else if path.hasPrefix("/") {
+                loadFile(path);
             }
         }
- 
+
     }
     
     @objc override func stopLoading() {
     }
 }
+ 
+ extension TrinityURLProtocol: URLSessionDataDelegate {
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
+        self.client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: URLCache.StoragePolicy.allowed)
+        completionHandler(URLSession.ResponseDisposition.allow);
+    }
+    
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        self.client?.urlProtocol(self, didLoad: data);
+    }
+    
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        if error != nil {
+            print("session error");
+        }
+        self.client?.urlProtocolDidFinishLoading(self);
+    }
+ }

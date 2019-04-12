@@ -56,10 +56,10 @@
                             <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="节点公钥" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rfi-gO-KEl">
-                            <rect key="frame" x="15" y="142" width="70" height="13"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="所有人公钥" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rfi-gO-KEl">
+                            <rect key="frame" x="15" y="142" width="72" height="13"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="70" id="eC5-gd-bKh"/>
+                                <constraint firstAttribute="width" constant="72" id="eC5-gd-bKh"/>
                                 <constraint firstAttribute="height" constant="13" id="kVI-Y7-yXh"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -115,11 +115,10 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0x373b3550fa1f3cfd285e48a 057d382e1b6d5bcb0" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lvW-50-Clu">
-                            <rect key="frame" x="132" y="131" width="198" height="35"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0x373b3550fa1f3cfd285e48a 057d382e1b6d5bcb0" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lvW-50-Clu">
+                            <rect key="frame" x="97" y="118.5" width="233" height="60"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="35" id="bWt-Gz-I5D"/>
-                                <constraint firstAttribute="width" constant="198" id="heW-wh-BHL"/>
+                                <constraint firstAttribute="height" constant="60" id="bWt-Gz-I5D"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -189,6 +188,7 @@
                         <constraint firstAttribute="trailing" secondItem="CJ7-Hn-7l9" secondAttribute="trailing" constant="15" id="MY3-X7-hcA"/>
                         <constraint firstAttribute="trailing" secondItem="lvW-50-Clu" secondAttribute="trailing" constant="15" id="Mpr-gS-WpM"/>
                         <constraint firstAttribute="height" constant="390" id="P2J-uO-WEQ"/>
+                        <constraint firstItem="lvW-50-Clu" firstAttribute="leading" secondItem="rfi-gO-KEl" secondAttribute="trailing" constant="10" id="Sh1-vm-dJy"/>
                         <constraint firstAttribute="trailing" secondItem="51Q-Zf-wKR" secondAttribute="trailing" constant="15" id="TJt-n5-c6d"/>
                         <constraint firstItem="vyJ-K4-G36" firstAttribute="centerX" secondItem="MYJ-3d-yeN" secondAttribute="centerX" id="U1d-Rs-hfO"/>
                         <constraint firstItem="8Rg-MC-Nlj" firstAttribute="leading" secondItem="ZsH-fP-zE3" secondAttribute="trailing" constant="10" id="UZE-hv-lox"/>

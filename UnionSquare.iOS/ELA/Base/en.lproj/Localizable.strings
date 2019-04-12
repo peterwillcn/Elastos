@@ -61,6 +61,7 @@
 "输入密码"="Password";
 "投票交易"="Vote trading";
 "暂无数据,请耐心等待!"="No data available, please be patient!";
+"所有人公钥"="OwnerPublicKey";
 
 "请输入您的钱包密码"="Please enter your wallet password";
 "交易发送成功，\n 请耐心等待交易确认"="Transaction initiated successfully,\n Please wait for confirmation.";

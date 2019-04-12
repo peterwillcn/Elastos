@@ -56,12 +56,12 @@
     self.iconImageView.layer.borderColor   =RGBA(255, 255, 255, 0.8).CGColor;
     
    self.tagNickNameLab.text  =NSLocalizedString(@"节点名称", nil);
-   self.tagNodePubKeyLab.text=NSLocalizedString(@"节点公钥", nil);
+   self.tagNodePubKeyLab.text=NSLocalizedString(@"所有人公钥", nil);
    self.tagTicketNumbLab.text=NSLocalizedString(@"当前票数", nil);
    self.tagTicketRateLab.text=NSLocalizedString(@"投票占比", nil);
    self.tagContryCodeLab.text=NSLocalizedString(@"国家/地区", nil);
     self.nickNameLab.text   = self.model.nickname;
-    self.nodePubKeyLab.text = self.model.nodepublickey;
+    self.nodePubKeyLab.text = self.model.ownerpublickey;
     self.urlLab.text        = self.model.url;
     self.ticketNumbLab.text = self.model.votes;
     self.ticketRateLab.text = [NSString stringWithFormat:@"%.5lf %@",self.model.voterate.doubleValue*100,@"%"] ;

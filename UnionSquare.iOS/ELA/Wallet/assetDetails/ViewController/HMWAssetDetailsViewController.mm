@@ -140,13 +140,9 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
     }
 //    self.allTotalMAXCount=[result.message[@"success"][@"MaxCount"] integerValue];
         NSInteger a=[result.message[@"success"][@"MaxCount"] integerValue];
-////        NSInteger b=a%20;
-//        NSInteger c=a/20;
-////        if (b!=0) {
-//            c=c+1;
-////        }
     self.allTotal=a;
     NSArray *tranList=[NSArray modelArrayWithClass:assetDetailsModel.class json:result.message[@"success"][@"Transactions"]];
+    self.currentIndex=self.currentIndex+tranList.count;
     [self.allListArray addObjectsFromArray:tranList];
     if (self.allListArray.count==0) {
         self.noDataSourceTextLabel.alpha=1.f;
@@ -259,10 +255,11 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
         __strong __typeof(_self) self = _self;
          self.isUpdate=NO;
         
-        if (self.currentIndex==0) {
-            self.currentIndex=20;
-        }
-        if (self.allTotal<self.currentIndex) {
+//        if (self.currentIndex==0) {
+//            self.currentIndex=20;
+//        }
+
+        if (self.allTotal<=self.currentIndex) {
             
             [self  baseTableViewEndRF];
             
@@ -320,6 +317,7 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
     }
 
       NSArray *tranList=[NSArray modelArrayWithClass:assetDetailsModel.class json:result.message[@"success"][@"Transactions"]];
+   
     if (tranList.count==0) {
         [[FLTools share]showErrorInfo:NSLocalizedString(@"暂无数据,请耐心等待!", nil)];
          return;

@@ -63,6 +63,7 @@
         self.againPWDTextField.placeholder=NSLocalizedString(@"请再次输入确认密码", nil);
         self.whetherTheSingleAddressButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
         [self.whetherTheSingleAddressButton setTitle:NSLocalizedString(@"单地址钱包", nil) forState:UIControlStateNormal];
+            [self.whetherTheSingleAddressButton setTitle:NSLocalizedString(@"单地址钱包", nil) forState:UIControlStateSelected];
         self.pwdShowInfoTextLabel.text=NSLocalizedString(@"长度8-16位，且至少包含字母、数字和特殊字符中的2种", nil);
         self.theMnemonicWordPWDTextField.delegate=self;
     }
@@ -124,6 +125,7 @@
     
 }
 - (IBAction)whetherTheSingleAddressEvent:(id)sender {
+//   "单地址钱包"
     self.whetherTheSingleAddressButton.selected=!self.whetherTheSingleAddressButton.selected;
 }
 

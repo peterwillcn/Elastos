@@ -39,6 +39,7 @@ import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,8 +86,18 @@ public class AppManager {
         File destDir = new File(appsPath);
         if (!destDir.exists()) {
             destDir.mkdirs();
+            try {
+                AppInstaller.copyAssetsFolder(activity, "www/launcher", appsPath + "launcher");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         destDir = new File(dataPath);
+        if (!destDir.exists()) {
+            destDir.mkdirs();
+        }
+
+        destDir = new File(dataPath + "launcher");
         if (!destDir.exists()) {
             destDir.mkdirs();
         }
@@ -102,7 +113,6 @@ public class AppManager {
 
         refreashInfos();
     }
-
 
     private void refreashInfos() {
         appList = dbAdapter.getAppInfos();
@@ -146,6 +156,14 @@ public class AppManager {
         return url;
     }
 
+    public String getLauncherPath() {
+        return appsPath + "launcher/";
+    }
+
+    public String getLauncherUrl() {
+        return "file://" + getLauncherPath();
+    }
+
     public String getDataPath(String id) {
         return dataPath + id + "/";
     }
@@ -179,7 +197,7 @@ public class AppManager {
                 }
 
                 if (needInstall) {
-                    installer.copyAssetsFolder("www/built-in/" + appdir, appsPath + appdir);
+                    AppInstaller.copyAssetsFolder(activity,"www/built-in/" + appdir, appsPath + appdir);
                     InputStream input = new FileInputStream(appsPath + appdir + "/manifest.json");
                     AppInfo info = installer.parseManifest(input);
 

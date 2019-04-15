@@ -33,6 +33,7 @@ import org.apache.cordova.LOG;
 import org.apache.cordova.PluginEntry;
 import org.elastos.trinity.plugins.appmanager.AppManagerPlugin;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -62,7 +63,8 @@ import java.util.Locale;
         parser.parse(getActivity());
         preferences = parser.getPreferences();
         preferences.setPreferencesBundle(getActivity().getIntent().getExtras());
-        launchUrl = parser.getLaunchUrl();
+
+        launchUrl = AppManager.appManager.getLauncherUrl() + "index.html";
 
         ArrayList<PluginEntry> entries = parser.getPluginEntries();
         cfgPreferences = preferences;

@@ -128,6 +128,11 @@ public class TrinityPlugin extends CordovaPlugin {
     @Override
     public final void privateInitialize(String serviceName, CordovaInterface cordova,
                                         CordovaWebView webView, CordovaPreferences preferences) {
+        if (appInfo == null) {
+            this.dataPath = AppManager.appManager.getDataPath("launcher");
+            this.appPath = AppManager.appManager.getLauncherPath();
+            this.appManager = AppManager.appManager;
+        }
         super.privateInitialize(serviceName, cordova, webView, preferences);
     }
 }

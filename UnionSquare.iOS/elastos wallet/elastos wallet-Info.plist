@@ -42,13 +42,13 @@
 		</dict>
 	</dict>
 	<key>NSAppleMusicUsageDescription</key>
-	<string>App需要您的同意,才能访问媒体资料库</string>
+	<string>App scan qr code function need your approval to access to the media database</string>
 	<key>NSCameraUsageDescription</key>
-	<string>App需要您的同意,才能访问相机</string>
+	<string>App sweep qr code function need your approval to access the camera</string>
 	<key>NSMainNibFile~ipad</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>App需要您的同意,才能访问相册</string>
+	<string>AppSweep qr code function need your approval to access photo album</string>
 	<key>UIInterfaceOrientation</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

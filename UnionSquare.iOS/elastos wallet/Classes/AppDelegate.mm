@@ -51,30 +51,15 @@
 
 
     if ([languageString  containsString:@"en"]) {
-
-//       [[NSUserDefaults standardUserDefaults] setValue:@[@"en"] forKey:UWUserLanguageKey];
         [DAConfig setUserLanguage:@"en"];
      
     }else if ([languageString  containsString:@"zh"]){
-//        [[NSUserDefaults standardUserDefaults] setValue:@[@"zh-Hans"] forKey:UWUserLanguageKey];
+
         [DAConfig setUserLanguage:@"zh-Hans"];
         
     }else{
-//         NSString *localeLanguageCode = [[NSLocale currentLocale] objectForKey:NSLocaleLanguageCode];
-//        if ([localeLanguageCode  containsString:@"en"]) {
-//             [DAConfig setUserLanguage:@"en"];
-//        [[NSUserDefaults standardUserDefaults] setValue:@[@"en"] forKey:@"UWUserLanguageKey"];
-//        }else if ([localeLanguageCode  containsString:@"zh"]){
-//            [DAConfig setUserLanguage:@"zh-Hans"];
-////               [[NSUserDefaults standardUserDefaults] setValue:@[@"zh-Hans"] forKey:UWUserLanguageKey];
-//
-//        }else{
         
            [DAConfig setUserLanguage:@"en"];
-//        }
-        
-        
-        
     }
       
     self.window = [[UIWindow alloc]init];
@@ -105,12 +90,6 @@
     }
     [WOCrashProtectorManager makeAllEffective];
     [self.window makeKeyAndVisible];
-//    UIImageView *imgView = [[UIImageView alloc]initWithFrame:[UIApplication sharedApplication].keyWindow.bounds];
-//    imgView.image = [UIImage imageNamed:@"LimageEN"];
-//    [self.window addSubview:imgView];
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [imgView removeFromSuperview];
-//    });
 }
 
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window

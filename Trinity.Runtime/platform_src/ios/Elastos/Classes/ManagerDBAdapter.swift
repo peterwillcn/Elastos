@@ -53,6 +53,7 @@ import SQLite
     let install_time = Expression<Int64>(AppInfo.INSTALL_TIME)
     let built_in = Expression<Bool>(AppInfo.BUILT_IN)
     let remote = Expression<Bool>(AppInfo.REMOTE)
+    let launcher = Expression<Bool>(AppInfo.LAUNCHER)
     
     let plugin = Expression<String>(AppInfo.PLUGIN)
     let url = Expression<String>(AppInfo.URL)
@@ -112,6 +113,7 @@ import SQLite
             t.column(install_time)
             t.column(built_in)
             t.column(remote)
+            t.column(launcher)
         })
     }
     
@@ -134,7 +136,8 @@ import SQLite
                         theme_font_color <- info.theme_font_color,
                         install_time <- info.install_time,
                         built_in <- info.built_in,
-                        remote <- info.remote));
+                        remote <- info.remote,
+                        launcher <- info.launcher));
             
             print("inserted id: \(info.tid)")
             
@@ -180,6 +183,7 @@ import SQLite
             info.install_time = app[install_time];
             info.built_in = app[built_in];
             info.remote = app[remote];
+            info.launcher = app[launcher];
             
             for icon in try db.prepare(icons.select(*).filter(app_tid == info.tid)) {
                 info.addIcon(icon[src], icon[sizes], icon[type]);
@@ -201,9 +205,8 @@ import SQLite
     }
     
     func getAppInfo(_ id: String) throws -> AppInfo? {
-        
         let query = apps.select(*)
-            .filter(app_id == id)
+            .filter(app_id == id && !launcher)
         let rows = try db.prepare(query);
         let infos = try getInfos(rows);
         guard infos.count > 0 else {
@@ -213,8 +216,21 @@ import SQLite
     }
         
     func getAppInfos() throws -> [AppInfo] {
-        let rows = try db.prepare(apps);
+        let query = apps.select(*)
+            .filter(!launcher)
+        let rows = try db.prepare(query);
         return try getInfos(rows);
+    }
+    
+    func getLauncherInfo() throws -> AppInfo? {
+        let query = apps.select(*)
+            .filter(launcher)
+        let rows = try db.prepare(query);
+        let infos = try getInfos(rows);
+        guard infos.count > 0 else {
+            return nil;
+        }
+        return infos[0];
     }
     
     func updatePluginAuth(_ item: PluginAuth, _ auth: Int) throws {

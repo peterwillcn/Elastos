@@ -27,6 +27,7 @@
     override func loadSettings() {
         super.loadSettings();
         self.id = "launcher";
+        self.appInfo = AppManager.getShareInstance().getLauncherInfo();
         
         let obj = super.getCommandInstance("intentandnavigationfilter");
         self.whitelistFilter = WhitelistFilter();
@@ -50,6 +51,11 @@
         self.startupPluginNames.remove("appservice");
         
         AppViewController.originalSettings = self.settings;
+        
+        if(self.wwwFolderName == nil){
+            self.wwwFolderName = "www";
+        }
+        self.startPage = AppManager.getShareInstance().getStartPath(self.appInfo!);
     }
     
     override func getCommandInstance(_ name: String) -> Any {
@@ -64,9 +70,10 @@
         let trinityPlugin = obj as? TrinityPlugin
         
         if trinityPlugin != nil {
-            let dataPath = AppManager.appManager!.getDataPath(self.id);
+            let dataPath = AppManager.getShareInstance().getDataPath(self.id);
+            let launcherPath = AppManager.getShareInstance().getAppPath(self.appInfo!);
             trinityPlugin!.trinityInitialize(pluginName, whitelistFilter:self.whitelistFilter,
-                checkAuthority:false, dataPath:dataPath, appPath:nil);
+                checkAuthority:false, dataPath:dataPath, appPath:launcherPath);
         }
         
         return obj as Any;

@@ -25,6 +25,7 @@
  class TrinityViewController : CDVViewController {
     var basePlugin: AppBasePlugin?;
     var id = "";
+    var appInfo: AppInfo?;
     var whitelistFilter: WhitelistFilter?;
     
     convenience init() {

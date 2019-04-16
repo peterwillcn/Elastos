@@ -59,7 +59,7 @@ public class AppManager {
     /** The external return message. */
     public static final int MSG_TYPE_EX_RETURN = 5;
 
-    public static AppManager appManager;
+    private static AppManager appManager;
     public WebViewActivity activity;
     public WebViewFragment curFragment = null;
     ManagerDBAdapter dbAdapter = null;
@@ -73,6 +73,8 @@ public class AppManager {
     private ArrayList<String> lastList = new ArrayList<String>();
     public AppInfo[] appList;
 
+    private AppInfo launcherInfo;
+
     private ArrayList<String>  installUriList = new ArrayList<String>();
     private boolean launcherReady = false;
 
@@ -83,14 +85,11 @@ public class AppManager {
         appsPath = activity.getFilesDir() + "/apps/";
         dataPath = activity.getFilesDir() + "/data/";
 
+        Boolean first = false;
         File destDir = new File(appsPath);
         if (!destDir.exists()) {
             destDir.mkdirs();
-            try {
-                AppInstaller.copyAssetsFolder(activity, "www/launcher", appsPath + "launcher");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            first = true;
         }
         destDir = new File(dataPath);
         if (!destDir.exists()) {
@@ -108,10 +107,39 @@ public class AppManager {
         installer = new AppInstaller();
         installer.init(activity, dbAdapter, appsPath, dataPath);
 
+        if (first) {
+            saveLauncherInfo();
+        }
+
         appList = dbAdapter.getAppInfos();
         saveBuiltInAppInfos();
 
         refreashInfos();
+    }
+
+    public static AppManager getShareInstance() {
+        return AppManager.appManager;
+    }
+
+    private void saveLauncherInfo() {
+        AssetManager manager = activity.getAssets();
+        try {
+            InputStream input = manager.open("www/launcher/manifest.json");
+            AppInfo info = installer.parseManifest(input, 1);
+            installer.copyAssetsFolder("www/launcher", appsPath + info.app_id);
+            info.built_in = 1;
+            dbAdapter.addAppInfo(info);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public AppInfo getLauncherInfo() {
+        if (launcherInfo == null) {
+            launcherInfo = dbAdapter.getLauncherInfo();
+        }
+        return launcherInfo;
     }
 
     private void refreashInfos() {
@@ -123,7 +151,12 @@ public class AppManager {
     }
 
     public AppInfo getAppInfo(String id) {
-        return appInfos.get(id);
+        if (id == "launcher") {
+            return getLauncherInfo();
+        }
+        else {
+            return appInfos.get(id);
+        }
     }
 
     public HashMap<String, AppInfo> getAppInfos() {
@@ -165,6 +198,9 @@ public class AppManager {
     }
 
     public String getDataPath(String id) {
+        if (id == "launcher") {
+            id = getLauncherInfo().app_id;
+        }
         return dataPath + id + "/";
     }
 
@@ -197,9 +233,9 @@ public class AppManager {
                 }
 
                 if (needInstall) {
-                    AppInstaller.copyAssetsFolder(activity,"www/built-in/" + appdir, appsPath + appdir);
+                    installer.copyAssetsFolder("www/built-in/" + appdir, appsPath + appdir);
                     InputStream input = new FileInputStream(appsPath + appdir + "/manifest.json");
-                    AppInfo info = installer.parseManifest(input);
+                    AppInfo info = installer.parseManifest(input, 0);
 
                     info.built_in = 1;
                     dbAdapter.addAppInfo(info);

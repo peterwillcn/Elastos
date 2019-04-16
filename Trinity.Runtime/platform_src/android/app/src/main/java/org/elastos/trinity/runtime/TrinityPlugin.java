@@ -44,9 +44,9 @@ public class TrinityPlugin extends CordovaPlugin {
 
     public void setInfo(AppInfo info) {
         this.appInfo = info;
-        this.dataPath = AppManager.appManager.getDataPath(info.app_id);
-        this.appPath = AppManager.appManager.getAppPath(info);
-        this.appManager = AppManager.appManager;
+        this.appManager = AppManager.getShareInstance();
+        this.dataPath = appManager.getDataPath(info.app_id);
+        this.appPath = appManager.getAppPath(info);
     }
 
     public Boolean isAllowAccess(String url) {
@@ -129,9 +129,7 @@ public class TrinityPlugin extends CordovaPlugin {
     public final void privateInitialize(String serviceName, CordovaInterface cordova,
                                         CordovaWebView webView, CordovaPreferences preferences) {
         if (appInfo == null) {
-            this.dataPath = AppManager.appManager.getDataPath("launcher");
-            this.appPath = AppManager.appManager.getLauncherPath();
-            this.appManager = AppManager.appManager;
+            setInfo(AppManager.getShareInstance().getLauncherInfo());
         }
         super.privateInitialize(serviceName, cordova, webView, preferences);
     }

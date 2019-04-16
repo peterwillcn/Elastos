@@ -24,12 +24,18 @@
  
  @objc class WhitelistFilter: CDVIntentAndNavigationFilter {
     var appInfo: AppInfo?;
+    var appManager: AppManager;
+    
+    override init() {
+        self.appManager = AppManager.getShareInstance();
+        super.init();
+    }
     
     func setList(_ info: AppInfo) {
         self.appInfo = info;
         
-        let appPath = AppManager.appManager!.getAppUrl(info) + "*";
-        let dataPath = AppManager.appManager!.getDataUrl(info.app_id) + "*";
+        let appPath = self.appManager.getAppUrl(info) + "*";
+        let dataPath = self.appManager.getDataUrl(info.app_id) + "*";
         let wwwPath = "file://" + getAbsolutePath("www");
         let pluginsPath = wwwPath + "/plugins/*";
         let cordovaPath = wwwPath + "/cordova*";
@@ -74,9 +80,9 @@
     @objc func getPluginAuthority(_ pluginName: String,
                     trinityPlugin plugin: TrinityPlugin,
                     invokedUrlCommand command: CDVInvokedUrlCommand) -> Int {
-        let authority = AppManager.appManager!.getPluginAuthority(appInfo!.app_id, pluginName);
+        let authority = self.appManager.getPluginAuthority(appInfo!.app_id, pluginName);
         if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
-            AppManager.appManager!.runAlertPluginAuth(appInfo!, pluginName, plugin, command);
+            self.appManager.runAlertPluginAuth(appInfo!, pluginName, plugin, command);
         }
         return authority;
     }

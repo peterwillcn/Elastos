@@ -52,18 +52,18 @@ func getAssetsPath(_ url: String) -> String {
 }
  
  func getTrinityPath(_ url: String, _ mainUrl: String) -> String {
-    for (id, view) in AppManager.appManager!.viewControllers {
+    let appManager = AppManager.getShareInstance();
+    for (id, view) in appManager.viewControllers {
         if (view.startPage == mainUrl) {
             var offset = 0;
             var path = "";
-            let appView = view as! AppViewController
             if url.hasPrefix("trinity:///assets/") {
                 offset = 18;
-                path = AppManager.appManager!.getAppPath(appView.appInfo!);
+                path = appManager.getAppPath(view.appInfo!);
             }
             else if url.hasPrefix("trinity:///data/") {
                 offset = 16;
-                path = AppManager.appManager!.getDataPath(id);
+                path = appManager.getDataPath(id);
             }
             else {
                 return ""

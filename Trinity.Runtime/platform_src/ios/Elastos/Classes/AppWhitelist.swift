@@ -36,12 +36,13 @@
         
         for (url, pattern) in self.appWhitelist as! [String: NSObject] {
             if (pattern == obj) {
-                let authority = AppManager.appManager!.getUrlAuthority(appInfo!.app_id, url);
+                let appManager = AppManager.getShareInstance();
+                let authority = appManager.getUrlAuthority(appInfo!.app_id, url);
                 if (authority == AppInfo.AUTHORITY_ALLOW) {
                     return true;
                 }
                 else if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
-                    AppManager.appManager!.runAlertUrlAuth(appInfo!, url);
+                    appManager.runAlertUrlAuth(appInfo!, url);
                 }
                 break;
             }

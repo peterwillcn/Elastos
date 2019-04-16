@@ -23,7 +23,7 @@
 import Foundation
 
 class AppManager {
-    public static var appManager: AppManager?;
+    private static var appManager: AppManager?;
     
     /** The internal message */
     static let MSG_TYPE_INTERNAL = 1;
@@ -51,6 +51,8 @@ class AppManager {
     var lastList = [String]();
     let installer: AppInstaller;
     
+    private var launcherInfo: AppInfo? = nil;
+    
     var installUriList = [String]();
     var launcherReady = false;
     
@@ -60,13 +62,15 @@ class AppManager {
         dataPath = NSHomeDirectory() + "/Documents/data/";
         
         let fileManager = FileManager.default
+        var first = false;
         if (!fileManager.fileExists(atPath: appsPath)) {
             do {
                 try fileManager.createDirectory(atPath: appsPath, withIntermediateDirectories: true, attributes: nil)
+                first = true;
             }
             catch let error {
                 print("Make appsPath error: \(error)");
-            }
+            }     
         }
         
         if (!fileManager.fileExists(atPath: dataPath)) {
@@ -79,15 +83,41 @@ class AppManager {
         }
         
         dbAdapter = ManagerDBAdapter(dataPath);
-        
         installer = AppInstaller(appsPath, dataPath, dbAdapter);
-
         appList = try! dbAdapter.getAppInfos();
+        
+        if first {
+            saveLauncherInfo();
+        }
+        
         saveBuiltInAppInfos();
-//        dbAdapter.removeAppInfo(appList[0]);
         refreashInfos();
         
         AppManager.appManager = self;
+    }
+    
+    static func getShareInstance() -> AppManager {
+        return AppManager.appManager!;
+    }
+    
+    func saveLauncherInfo() {
+        let path = getAbsolutePath("www/launcher");
+        do {
+            let info = try installer.parseManifest(path + "/manifest.json", true)!;
+            try installer.copyAssetsFolder(path, appsPath + info.app_id);
+            info.built_in = true;
+            try dbAdapter.addAppInfo(info);
+        }
+        catch let error {
+            print("Copy launcher error: \(error)");
+        }
+    }
+    
+    func getLauncherInfo() -> AppInfo {
+        if launcherInfo == nil {
+            launcherInfo = try! dbAdapter.getLauncherInfo();
+        }
+        return launcherInfo!;
     }
     
     func refreashInfos() {
@@ -99,7 +129,12 @@ class AppManager {
     }
     
     func getAppInfo(_ id: String) -> AppInfo? {
-        return appInfos[id];
+        if (id == "launcher") {
+            return getLauncherInfo();
+        }
+        else {
+            return appInfos[id];
+        }
     }
     
     func getAppInfos() -> [String: AppInfo] {
@@ -134,7 +169,11 @@ class AppManager {
     }
     
     func getDataPath(_ id: String) -> String {
-        return dataPath + id + "/";
+        var appId = id;
+        if (id == "launcher") {
+            appId = getLauncherInfo().app_id;
+        }
+        return dataPath + appId + "/";
     }
     
     func getDataUrl(_ id: String) -> String {
@@ -291,8 +330,6 @@ class AppManager {
             try? self.sendMessage("launcher", AppManager.MSG_TYPE_EXTERNAL_INSTALL, uri, "system");
         }
     }
-
-    
 
     func sendMessage(_ toId: String, _ type: Int, _ msg: String, _ fromId: String) throws {
         let viewController = viewControllers[toId]

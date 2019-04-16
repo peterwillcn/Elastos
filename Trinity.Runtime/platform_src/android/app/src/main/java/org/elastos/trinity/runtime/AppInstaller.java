@@ -137,14 +137,14 @@ public class AppInstaller {
         }
     }
 
-    public static void copyAssetsFolder(Context context, String src, String dest) throws IOException {
+    public void copyAssetsFolder(String src, String dest) throws IOException {
         AssetManager manager = context.getAssets();
         String fileNames[] = manager.list(src);
         if (fileNames.length > 0) {
             File file = new File(dest);
             file.mkdirs();
             for (String fileName : fileNames) {
-                copyAssetsFolder(context, src + "/" + fileName, dest + "/" + fileName);
+                copyAssetsFolder(src + "/" + fileName, dest + "/" + fileName);
             }
         }
         else {
@@ -208,7 +208,7 @@ public class AppInstaller {
         }
 
         InputStream input = new FileInputStream(manifest);
-        info = parseManifest(input);
+        info = parseManifest(input, 0);
         File from = new File(appPath, temp);
         if (info == null || info.app_id == null || info.app_id.equals("launcher")
                 || appManager.getAppInfo(info.app_id) != null) {
@@ -300,7 +300,7 @@ public class AppInstaller {
         }
     }
 
-    public AppInfo parseManifest(InputStream inputStream) throws Exception {
+    public AppInfo parseManifest(InputStream inputStream, int launcher) throws Exception {
         AppInfo appInfo = new AppInfo();
 
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
@@ -328,18 +328,19 @@ public class AppInstaller {
             appInfo.remote = 0;
         }
 
-        if (json.has("icons")) {
-            JSONArray array = json.getJSONArray("icons");
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject icon = array.getJSONObject(i);
-                String src = icon.getString(AppInfo.SRC);
-                String sizes = icon.getString(AppInfo.SIZES);
-                String type = icon.getString(AppInfo.TYPE);
-                appInfo.addIcon(src, sizes, type);
+        if (launcher == 0) {
+            if (json.has("icons")) {
+                JSONArray array = json.getJSONArray("icons");
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject icon = array.getJSONObject(i);
+                    String src = icon.getString(AppInfo.SRC);
+                    String sizes = icon.getString(AppInfo.SIZES);
+                    String type = icon.getString(AppInfo.TYPE);
+                    appInfo.addIcon(src, sizes, type);
+                }
+            } else {
+                throw new Exception("Parse Manifest.json error: 'icons' no exist!");
             }
-        }
-        else {
-            throw new Exception("Parse Manifest.json error: 'icons' no exist!");
         }
 
         //Optional
@@ -410,6 +411,7 @@ public class AppInstaller {
         }
 
         appInfo.install_time = System.currentTimeMillis() / 1000;
+        appInfo.launcher = launcher;
 
         File destDir = new File(dataPath + appInfo.app_id);
         if (!destDir.exists()) {

@@ -29,7 +29,6 @@
     
     var titlebar: UIView?;
     
-    var appInfo: AppInfo?;
     var trinityPluginsMap = [String: String]();
     let defaultPlugins = [
         "gesturehandler",
@@ -69,13 +68,7 @@
         
         self.settings = AppViewController.originalSettings
         
-        // And the start folder/page.
-        if(self.wwwFolderName == nil){
-            self.wwwFolderName = "www";
-        }
-        if (self.startPage == nil){
-            self.startPage = AppManager.appManager!.getStartPath(self.appInfo!);
-        }
+        self.startPage = AppManager.getShareInstance().getStartPath(self.appInfo!);
         
         // Initialize the plugin objects dict.
         self.pluginObjects = NSMutableDictionary(capacity: 30);
@@ -109,8 +102,8 @@
         let trinityPlugin = obj as? TrinityPlugin
         
         if trinityPlugin != nil {
-            let dataPath = AppManager.appManager!.getDataPath(self.id);
-            let appPath = AppManager.appManager!.getAppPath(self.appInfo!);
+            let dataPath = AppManager.getShareInstance().getDataPath(self.id);
+            let appPath = AppManager.getShareInstance().getAppPath(self.appInfo!);
             trinityPlugin!.trinityInitialize(pluginName, 
                 whitelistFilter:self.whitelistFilter, checkAuthority:true, 
                 dataPath:dataPath, appPath:appPath);
@@ -153,7 +146,7 @@
     
     
     @objc func btnClick(){
-        try? AppManager.appManager!.close(id);
+        try? AppManager.getShareInstance().close(id);
     }
     
     override func viewDidLoad() {
@@ -173,10 +166,6 @@
     }
     
     @objc func handleSwipes(_ recognizer:UISwipeGestureRecognizer){
-//        print("swipe ok")
-//        let point=recognizer.location(in: self.view)
-//        print(point.x)
-//        print(point.y)
         titlebar!.isHidden = !titlebar!.isHidden;
     }
  }

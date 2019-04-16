@@ -64,6 +64,7 @@ public class ManagerDBAdapter {
             contentValues.put(AppInfo.INSTALL_TIME, info.install_time);
             contentValues.put(AppInfo.BUILT_IN, info.built_in);
             contentValues.put(AppInfo.REMOTE, info.remote);
+            contentValues.put(AppInfo.LAUNCHER, info.launcher);
             long tid = db.insert(ManagerDBHelper.APP_TABLE, null, contentValues);
 
             if (tid == -1) {
@@ -107,7 +108,7 @@ public class ManagerDBAdapter {
         String[] columns = {AppInfo.TID, AppInfo.APP_ID, AppInfo.VERSION, AppInfo.NAME, AppInfo.SHORT_NAME, AppInfo.DESCRIPTION, AppInfo.START_URL,
                 AppInfo.AUTHOR_NAME, AppInfo.AUTHOR_EMAIL, AppInfo.DEFAULT_LOCAL, AppInfo.BACKGROUND_COLOR,
                 AppInfo.THEME_DISPLAY, AppInfo.THEME_COLOR, AppInfo.THEME_FONT_NAME, AppInfo.THEME_FONT_COLOR,
-                AppInfo.INSTALL_TIME, AppInfo.BUILT_IN, AppInfo.REMOTE};
+                AppInfo.INSTALL_TIME, AppInfo.BUILT_IN, AppInfo.REMOTE, AppInfo.LAUNCHER};
         Cursor cursor = db.query(ManagerDBHelper.APP_TABLE, columns,selection, selectionArgs,null,null,null);
         AppInfo infos[] = new AppInfo[cursor.getCount()];
         int count = 0;
@@ -131,6 +132,7 @@ public class ManagerDBAdapter {
             info.install_time = cursor.getLong(cursor.getColumnIndex(AppInfo.INSTALL_TIME));
             info.built_in = cursor.getInt(cursor.getColumnIndex(AppInfo.BUILT_IN));
             info.remote = cursor.getInt(cursor.getColumnIndex(AppInfo.REMOTE));
+            info.launcher = cursor.getInt(cursor.getColumnIndex(AppInfo.LAUNCHER));
             infos[count++] = info;
 
             String[] columns1 = {AppInfo.SRC, AppInfo.SIZES, AppInfo.TYPE};
@@ -159,7 +161,7 @@ public class ManagerDBAdapter {
     }
 
     public AppInfo getAppInfo(String id) {
-        String selection = AppInfo.APP_ID + "=?";
+        String selection = AppInfo.APP_ID + "=? && " + AppInfo.LAUNCHER + "=0";
         String[] args = {String.valueOf(id)};
         AppInfo infos[] = getInfos(selection, args);
         if (infos.length > 0) {
@@ -171,8 +173,21 @@ public class ManagerDBAdapter {
     }
 
     public AppInfo[] getAppInfos() {
-        return getInfos(null, null);
+        String selection = AppInfo.LAUNCHER + "=0";
+        return getInfos(selection, null);
     }
+
+    public AppInfo getLauncherInfo() {
+        String selection = AppInfo.LAUNCHER + "=1";
+        AppInfo infos[] = getInfos(selection, null);
+        if (infos.length > 0) {
+            return infos[0];
+        }
+        else {
+            return null;
+        }
+    }
+
 
     public int updatePluginAuth(long tid, String plugin, int authority)
     {

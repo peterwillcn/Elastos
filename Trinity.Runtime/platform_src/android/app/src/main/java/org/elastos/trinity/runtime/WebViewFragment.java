@@ -78,6 +78,7 @@ public class WebViewFragment extends Fragment {
     protected String launchUrl;
     protected AppBasePlugin basePlugin;
     protected String id;
+    protected AppInfo appInfo;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -95,7 +96,7 @@ public class WebViewFragment extends Fragment {
      */
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        activity = AppManager.appManager.activity;
+        activity = AppManager.getShareInstance().activity;
 
         loadConfig();
 
@@ -370,7 +371,7 @@ public class WebViewFragment extends Fragment {
 
     public void finish() {
         try {
-            AppManager.appManager.close(id);
+            AppManager.getShareInstance().close(id);
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -48,6 +48,7 @@
      public static final String INSTALL_TIME = "install_time";
      public static final String BUILT_IN = "built_in";
      public static final String REMOTE = "remote";
+     public static final String LAUNCHER = "launcher";
 
      public static final String SRC = "src";
      public static final String SIZES = "sizes";
@@ -82,6 +83,7 @@
      public long   install_time;
      public int    built_in;
      public int    remote;
+     public int    launcher;
 
      public static final int AUTHORITY_NOEXIST = -1;
      public static final int AUTHORITY_NOINIT = 0;
@@ -95,8 +97,6 @@
          public String sizes = "";
          public String type = "";
 
-         Icon() {}
-
          Icon(String src, String sizes, String type) {
              this.src = src;
              this.sizes = sizes;
@@ -107,8 +107,6 @@
      public class PluginAuth {
          public String plugin = "";
          public int authority = AUTHORITY_NOINIT;
-
-         PluginAuth() {}
 
          PluginAuth(String plugin, int authority) {
              this.plugin = plugin;

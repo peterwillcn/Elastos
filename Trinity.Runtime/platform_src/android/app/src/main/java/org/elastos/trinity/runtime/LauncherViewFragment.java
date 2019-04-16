@@ -50,6 +50,7 @@ import java.util.Locale;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        appInfo = AppManager.getShareInstance().getLauncherInfo();
         id = "launcher";
         super.onCreateView(inflater, container, savedInstanceState);
 
@@ -64,11 +65,10 @@ import java.util.Locale;
         preferences = parser.getPreferences();
         preferences.setPreferencesBundle(getActivity().getIntent().getExtras());
 
-        launchUrl = AppManager.appManager.getLauncherUrl() + "index.html";
+        launchUrl = AppManager.getShareInstance().getStartPath(appInfo);
 
         ArrayList<PluginEntry> entries = parser.getPluginEntries();
         cfgPreferences = preferences;
-//        cfgPluginEntries = pluginEntries;
         cfgPluginEntries = new ArrayList<PluginEntry>();
         pluginEntries = new ArrayList<PluginEntry>();
 

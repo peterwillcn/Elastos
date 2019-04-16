@@ -44,6 +44,7 @@ class AppInfo: NSObject {
     @objc static let INSTALL_TIME = "install_time";
     @objc static let BUILT_IN = "built_in";
     @objc static let REMOTE = "remote";
+    @objc static let LAUNCHER = "launcher";
     
     @objc static let SRC = "src";
     @objc static let SIZES = "sizes";
@@ -71,6 +72,7 @@ class AppInfo: NSObject {
     @objc dynamic var install_time: Int64 = 0;
     @objc dynamic var built_in = false;
     @objc dynamic var remote = false;
+    @objc dynamic var launcher = false;
 
     @objc static let AUTHORITY_NOEXIST = -1;
     @objc static let AUTHORITY_NOINIT = 0;

@@ -41,7 +41,6 @@ import java.util.ArrayList;
 public class AppViewFragment extends WebViewFragment {
     public static String TAG = "AppViewFragment";
 
-    public AppInfo appInfo;
     View titlebar;
 
     public static WebViewFragment newInstance(String id) {
@@ -71,6 +70,7 @@ public class AppViewFragment extends WebViewFragment {
         }
 
         id = getArguments().getString("id");
+        appInfo = AppManager.getShareInstance().getAppInfo(id);
 
         super.onCreateView(inflater, container, savedInstanceState);
 
@@ -94,7 +94,7 @@ public class AppViewFragment extends WebViewFragment {
             @Override
             public void onClick(View v) {
                 try {
-                    AppManager.appManager.close(id);
+                    AppManager.getShareInstance().close(id);
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -114,19 +114,17 @@ public class AppViewFragment extends WebViewFragment {
 
     @Override
     protected void loadConfig() {
-
         pluginEntries = new ArrayList<PluginEntry>(20);
-        appInfo = AppManager.appManager.getAppInfo(id);
         preferences = cfgPreferences;
 
-        launchUrl = AppManager.appManager.getStartPath(appInfo);
-        String pluginClass;
+        launchUrl = AppManager.getShareInstance().getStartPath(appInfo);
 
+        String pluginClass;
         AppWhitelistPlugin whitelistPlugin = new AppWhitelistPlugin(appInfo);
         for(PluginEntry entry:cfgPluginEntries) {
             if (entry.service.equals("Whitelist")) {
-
-                pluginEntries.add(new PluginEntry("Whitelist", "org.elastos.plugins.appmanager.AppWhitelistPlugin", entry.onload, whitelistPlugin));
+                pluginEntries.add(new PluginEntry("Whitelist",
+                        "org.elastos.plugins.appmanager.AppWhitelistPlugin", entry.onload, whitelistPlugin));
             }
             else if (entry.service.equals("AppManager")) {
                 continue;
@@ -157,7 +155,7 @@ public class AppViewFragment extends WebViewFragment {
 
         if ("exit".equals(id)) {
             try {
-                AppManager.appManager.loadLauncher();
+                AppManager.getShareInstance().loadLauncher();
             } catch (Exception e) {
                 e.printStackTrace();
             }

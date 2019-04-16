@@ -51,7 +51,7 @@ public class AuthorityPlugin extends CordovaPlugin {
     AuthorityPlugin(String className, AppInfo info, String name, AppWhitelistPlugin whitelistPlugin) {
         appInfo = info;
         pluginName = name;
-        String path = AppManager.appManager.getDataPath(info.app_id);
+        String path = AppManager.getShareInstance().getDataPath(info.app_id);
         originalPlugin = instantiatePlugin(className, whitelistPlugin, path);
     }
 
@@ -98,9 +98,9 @@ public class AuthorityPlugin extends CordovaPlugin {
 
     private boolean checkAuthority(CallbackContext callbackContext) {
         if (originalPlugin != null) {
-            int authority = AppManager.appManager.getPluginAuthority(appInfo.app_id, pluginName);
+            int authority = AppManager.getShareInstance().getPluginAuthority(appInfo.app_id, pluginName);
             if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
-                authority = AppManager.appManager.runAlertPluginAuth(appInfo, pluginName, authority);
+                authority = AppManager.getShareInstance().runAlertPluginAuth(appInfo, pluginName, authority);
             }
 
             if (authority == AppInfo.AUTHORITY_ALLOW) {

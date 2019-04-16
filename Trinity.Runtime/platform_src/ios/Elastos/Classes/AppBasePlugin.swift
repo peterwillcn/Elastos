@@ -58,7 +58,7 @@
     @objc(launcher:)
     func launcher(_ command: CDVInvokedUrlCommand) {
         do {
-            try AppManager.appManager!.loadLauncher();
+            try AppManager.getShareInstance().loadLauncher();
             self.success(command, "ok");
         } catch AppError.error(let err) {
             self.error(command, err);
@@ -79,7 +79,7 @@
         }
         else {
             do {
-                try AppManager.appManager!.start(id);
+                try AppManager.getShareInstance().start(id);
                 self.success(command, "ok");
             } catch AppError.error(let err) {
                 self.error(command, err);
@@ -102,7 +102,7 @@
         }
         
         do {
-            try AppManager.appManager!.close(appId!);
+            try AppManager.getShareInstance().close(appId!);
             self.success(command, "ok");
         } catch AppError.error(let err) {
             self.error(command, err);
@@ -135,7 +135,7 @@
 
     func jsonAppIcons(_ info: AppInfo) -> [Dictionary<String, String>] {
         var ret = [Dictionary<String, String>]()
-        let appUrl = AppManager.appManager!.getAppUrl(info);
+        let appUrl = AppManager.getShareInstance().getAppUrl(info);
         for icon in info.icons {
             ret.append(["src": resetPath(appUrl, icon.src),
                         "sizes": icon.sizes,
@@ -146,8 +146,8 @@
     }
     
     func jsonAppInfo(_ info: AppInfo) -> [String : Any] {
-        let appUrl = AppManager.appManager!.getAppUrl(info);
-        let dataUrl = AppManager.appManager!.getDataUrl(info.app_id);
+        let appUrl = AppManager.getShareInstance().getAppUrl(info);
+        let dataUrl = AppManager.getShareInstance().getDataUrl(info.app_id);
         return [
             "id": info.app_id,
             "version": info.version,
@@ -178,7 +178,7 @@
         if (appId == "launcher") {
             appId = command.arguments[0] as? String ?? ""
         }
-        let info = AppManager.appManager!.getAppInfo(appId);
+        let info = AppManager.getShareInstance().getAppInfo(appId);
         
         if (info != nil) {
            self.success(command, retAsDict: jsonAppInfo(info!));
@@ -200,7 +200,7 @@
         }
         
         do {
-            try AppManager.appManager!.sendMessage(toId, type, msg, self.id!);
+            try AppManager.getShareInstance().sendMessage(toId, type, msg, self.id!);
             self.success(command, "ok");
         } catch AppError.error(let err) {
             self.error(command, err);
@@ -218,7 +218,7 @@
         self.commandDelegate.send(result, callbackId: command.callbackId)
         
         if (id == "launcher") {
-            AppManager.appManager!.setLauncherReady();
+            AppManager.getShareInstance().setLauncherReady();
         }
     }
     

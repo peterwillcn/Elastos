@@ -33,8 +33,9 @@ public class AppWhitelistPlugin extends CordovaPlugin {
     private Whitelist allowedRequests;
 
     public AppWhitelistPlugin(AppInfo info) {
-        String appPath = AppManager.appManager.getAppUrl(info) + "*";
-        String dataPath = AppManager.appManager.getDataUrl(info.app_id) + "*";
+        AppManager appManager = AppManager.getShareInstance();
+        String appPath = appManager.getAppUrl(info) + "*";
+        String dataPath = appManager.getDataUrl(info.app_id) + "*";
         allowedRequests  = new Whitelist();
         allowedRequests.addWhiteListEntry(appPath, false);
         allowedRequests.addWhiteListEntry(dataPath, false);

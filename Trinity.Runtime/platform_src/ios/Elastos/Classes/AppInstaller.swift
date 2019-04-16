@@ -148,7 +148,7 @@
         }
     }
     
-    func parseManifest(_ path: String) throws -> AppInfo? {
+    func parseManifest(_ path: String, _ launcher:Bool = false) throws -> AppInfo? {
         let appInfo = AppInfo();
         let url = URL.init(fileURLWithPath: path)
         var value: String?;
@@ -171,16 +171,18 @@
         }
 
         let icons = json["icons"] as? [Dictionary<String, String>];
-        if icons != nil {
-            for icon in icons! {
-                let src = icon["src"];
-                let sizes = icon["sizes"];
-                let type = icon["type"];
-                appInfo.addIcon(src!, sizes!, type!);
+        if !launcher {
+            if icons != nil {
+                for icon in icons! {
+                    let src = icon["src"];
+                    let sizes = icon["sizes"];
+                    let type = icon["type"];
+                    appInfo.addIcon(src!, sizes!, type!);
+                }
             }
-        }
-        else {
-            throw AppError.error("Parse Manifest.json error: 'icons' no exist!");
+            else {
+                throw AppError.error("Parse Manifest.json error: 'icons' no exist!");
+            }
         }
         
         //Optional
@@ -265,6 +267,7 @@
         }
         
         appInfo.install_time = Int64(Date().timeIntervalSince1970);
+        appInfo.launcher = launcher;
         
         let fileManager = FileManager.default
         if (!fileManager.fileExists(atPath: dataPath + appInfo.app_id)) {

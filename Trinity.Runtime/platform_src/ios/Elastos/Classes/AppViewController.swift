@@ -76,7 +76,7 @@
     
     override func getCommandInstance(_ name: String) -> Any {
         let pluginName = name.lowercased();
-        let className = self.pluginsMap[pluginName];
+        let className = self.pluginsMap[pluginName] as! String;
         var obj = self.pluginObjects[className as Any];
         guard obj == nil else {
             return obj as Any;
@@ -92,7 +92,7 @@
             }
             if !setPlugin {
                 let nullPlugin = NullPlugin(pluginName);
-                self.pluginObjects[className as Any] = nullPlugin;
+                self.register(nullPlugin, withClassName: className);
                 return nullPlugin;
             }
             
@@ -136,12 +136,6 @@
         titlebar!.isHidden = true;
         self.view.addSubview(titlebar!);
         self.view.bringSubviewToFront(titlebar!);
-//        self.webViewEngine.engineWebView.frame = CGRect(x: frame.origin.x,
-//                                                        y: frame.origin.y + titleHeight,
-//                                                        width: frame.width,
-//                                                        height: frame.height - titleHeight);
-        
-        
     }
     
     

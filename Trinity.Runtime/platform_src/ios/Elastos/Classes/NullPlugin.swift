@@ -21,8 +21,9 @@
   */
  
 import Foundation
- 
-@objc class NullPlugin : CDVPlugin {
+
+@objc(NullPlugin)
+class NullPlugin : CDVPlugin {
     var pluginName: String?
     
     init(_ pluginName: String) {
@@ -30,7 +31,7 @@ import Foundation
         self.pluginName = pluginName;
     }
     
-    @objc func trinityExecute(_ command: CDVInvokedUrlCommand, _ action: String) -> Bool {
+    @objc func trinityExecute(_ command: CDVInvokedUrlCommand) -> Bool {
         let err = "The plugin:'" + pluginName! + "' isn't add plugin access list!!"
         let result = CDVPluginResult(status: CDVCommandStatus_ERROR,
                                      messageAs: err);

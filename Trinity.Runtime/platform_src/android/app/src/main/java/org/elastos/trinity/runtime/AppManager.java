@@ -641,6 +641,7 @@ public class AppManager {
         if (fragment.titlebar.getVisibility() == View.VISIBLE) {
             fragment.titlebar.setVisibility(View.GONE);
         } else {
+            fragment.titlebar.bringToFront();//for qrscanner
             fragment.titlebar.setVisibility(View.VISIBLE);
         }
     }

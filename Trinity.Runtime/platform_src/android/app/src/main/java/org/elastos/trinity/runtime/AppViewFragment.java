@@ -27,13 +27,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 
-import org.apache.cordova.CordovaInterfaceImpl;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginEntry;
 import org.elastos.trinity.plugins.appservice.AppServicePlugin;
-import org.elastos.trinity.runtime.R;
 
 
 import java.util.ArrayList;
@@ -74,16 +72,15 @@ public class AppViewFragment extends WebViewFragment {
 
         super.onCreateView(inflater, container, savedInstanceState);
 
-        LinearLayout rootView = new LinearLayout(this.getContext());
-        rootView.setOrientation(LinearLayout.VERTICAL);
+        FrameLayout rootView = new FrameLayout(this.getContext());
 
-        addTitleBar(inflater, rootView);
         rootView.addView(appView.getView());
+        addTitleBar(inflater, rootView);
 
         return rootView;
     }
 
-    private void addTitleBar(LayoutInflater inflater, LinearLayout rootView) {
+    private void addTitleBar(LayoutInflater inflater, FrameLayout rootView) {
         titlebar = inflater.inflate(R.layout.title_bar, null);
 
         rootView.addView(titlebar);

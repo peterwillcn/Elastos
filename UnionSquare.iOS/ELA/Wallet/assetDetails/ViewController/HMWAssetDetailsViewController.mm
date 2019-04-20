@@ -196,14 +196,23 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
     }
 }
 - (IBAction)collectionEvent:(id)sender {
-     self.collectionButton.userInteractionEnabled=NO;
-     HMWcollectionViewController*collectionVC=[[HMWcollectionViewController alloc]init];
-    NSArray *addrestStringArray=[NSArray arrayWithArray:self.allAddressAaary];
-    if (addrestStringArray.count==0) {
-        self.allAddressAaary=nil;
-    }
-     collectionVC.addrestStringArray=self.allAddressAaary;
-     [self.navigationController pushViewController:collectionVC animated:YES];
+    self.collectionButton.userInteractionEnabled=NO;
+        CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.elaModel.iconName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"createAddress"];
+        CDVPluginResult * result =[[ELWalletManager share]createAddress:mommand];
+        NSString *status=[NSString stringWithFormat:@"%@",result.status];
+        if ([status isEqualToString:@"1"]) {
+            HMWcollectionViewController*collectionVC=[[HMWcollectionViewController alloc]init];
+            NSArray *addrestStringArray=[NSArray arrayWithArray:self.allAddressAaary];
+            if (addrestStringArray.count==0) {
+                self.allAddressAaary=nil;
+            }
+            collectionVC.addrestStringArray=self.allAddressAaary;
+            collectionVC.iconAddress=[NSString stringWithFormat:@"%@",result.message[@"success"]];
+            [self.navigationController pushViewController:collectionVC animated:YES];
+        }
+
+    
+    
       self.collectionButton.userInteractionEnabled=YES;
 }
 -(NSArray *)allAddressAaary{

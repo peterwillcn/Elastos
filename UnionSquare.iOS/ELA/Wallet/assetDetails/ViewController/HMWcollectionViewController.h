@@ -15,6 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(copy,nonatomic)NSArray *addrestStringArray;
+
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *iconAddress;
 @end
 
 NS_ASSUME_NONNULL_END

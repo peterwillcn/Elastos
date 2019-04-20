@@ -10,6 +10,7 @@
 #import "SGQRCodeGenerateManager.h"
 #import "HMWAddressListViewController.h"
 
+
 @interface HMWcollectionViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UIButton *CopyTheAddressButton;
@@ -28,8 +29,11 @@
      [self defultWhite];
   [self setBackgroundImg:@"asset_bg"];
     
-    self.title=NSLocalizedString(@"充值", nil);
-     self.FirstaddressString=self.addrestStringArray[0];
+    
+
+    
+    self.title=NSLocalizedString(@"收款", nil);
+    self.FirstaddressString=self.iconAddress;
     self.addressLabel.layer.cornerRadius=15.f;
     self.addressLabel.layer.masksToBounds=YES;
     self.addressLabel.text=self.FirstaddressString;
@@ -73,5 +77,4 @@
     // Pass the selected object to the new view controller.
 }
 */
-
 @end

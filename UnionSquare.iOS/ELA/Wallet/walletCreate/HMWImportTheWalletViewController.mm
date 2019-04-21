@@ -48,6 +48,7 @@
         make.left.right.bottom.equalTo(self.view);
     }];
     [self.view insertSubview:self.imTheMnemonicWordV aboveSubview:self.imKeystoreV];
+    [self.view addSubview:self.imTheMnemonicWordV];
     [self.imTheMnemonicWordV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top).offset(106);
         make.left.right.bottom.equalTo(self.view);

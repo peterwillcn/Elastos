@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -27,16 +27,16 @@
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hMl-Wz-w1M">
-                    <rect key="frame" x="48" y="160" width="279" height="235"/>
+                    <rect key="frame" x="48" y="156.5" width="279" height="235"/>
                     <subviews>
-                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lkH-TJ-8d6">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lkH-TJ-8d6">
                             <rect key="frame" x="15" y="55" width="249" height="1"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.79534040179999999" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="hQa-37-ZII"/>
                             </constraints>
                         </view>
-                        <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入钱包名称" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LTg-Wp-KXm">
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入钱包名称" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LTg-Wp-KXm">
                             <rect key="frame" x="15" y="0.0" width="249" height="55"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="7CG-VB-qfL"/>
@@ -45,14 +45,14 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
-                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qlB-ts-enr">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qlB-ts-enr">
                             <rect key="frame" x="15" y="110" width="249" height="1"/>
                             <color key="backgroundColor" white="1" alpha="0.79534040179999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="KJU-Is-Fa8"/>
                             </constraints>
                         </view>
-                        <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请设置8至16位钱包密码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ysq-6y-5WF">
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请设置8至16位钱包密码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ysq-6y-5WF">
                             <rect key="frame" x="15" y="55" width="249" height="55"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="eyQ-rT-eID"/>
@@ -61,15 +61,15 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="wallet_notice" translatesAutoresizingMaskIntoConstraints="NO" id="qCG-c8-ZPv">
-                            <rect key="frame" x="15" y="123" width="12" height="12"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wallet_notice" translatesAutoresizingMaskIntoConstraints="NO" id="qCG-c8-ZPv">
+                            <rect key="frame" x="15" y="117" width="12" height="12"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="12" id="QEk-nO-XOb"/>
                                 <constraint firstAttribute="width" constant="12" id="iQZ-F7-HmJ"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="须包含大、小写字母，数字须包含大、小写字母，数字" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="85c-Rr-ayA">
-                            <rect key="frame" x="35" y="119" width="229" height="27"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="须包含大、小写字母，数字须包含大、小写字母，数字" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="85c-Rr-ayA">
+                            <rect key="frame" x="35" y="114.5" width="229" height="27"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="27" id="uIN-BN-D3Z"/>
                             </constraints>
@@ -77,15 +77,15 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cKZ-2D-SgK">
-                            <rect key="frame" x="15" y="196" width="249" height="1"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cKZ-2D-SgK">
+                            <rect key="frame" x="15" y="203.5" width="249" height="1"/>
                             <color key="backgroundColor" white="1" alpha="0.79534040179999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="cg6-fl-V7G"/>
                             </constraints>
                         </view>
-                        <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请再次输入确认密码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ISy-Px-De5">
-                            <rect key="frame" x="15" y="141" width="249" height="55"/>
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请再次输入确认密码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ISy-Px-De5">
+                            <rect key="frame" x="15" y="148.5" width="249" height="55"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="yvm-0G-2uB"/>
                             </constraints>
@@ -93,8 +93,8 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
-                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wkV-zU-3lm">
-                            <rect key="frame" x="16" y="201" width="85" height="22"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wkV-zU-3lm">
+                            <rect key="frame" x="16" y="208.5" width="85" height="22"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="22" id="LaM-3E-mhB"/>
                             </constraints>
@@ -118,6 +118,7 @@
                         <constraint firstAttribute="height" constant="235" id="D4j-p6-JEx"/>
                         <constraint firstItem="qlB-ts-enr" firstAttribute="top" secondItem="Ysq-6y-5WF" secondAttribute="bottom" id="F2L-1z-iVv"/>
                         <constraint firstItem="Ysq-6y-5WF" firstAttribute="leading" secondItem="hMl-Wz-w1M" secondAttribute="leading" constant="15" id="Fyv-ke-DUx"/>
+                        <constraint firstItem="LTg-Wp-KXm" firstAttribute="top" secondItem="hMl-Wz-w1M" secondAttribute="top" id="IfT-N5-97i"/>
                         <constraint firstAttribute="trailing" secondItem="lkH-TJ-8d6" secondAttribute="trailing" constant="15" id="LbB-pt-SPY"/>
                         <constraint firstAttribute="trailing" secondItem="Ysq-6y-5WF" secondAttribute="trailing" constant="15" id="P5I-fa-mNJ"/>
                         <constraint firstItem="LTg-Wp-KXm" firstAttribute="leading" secondItem="hMl-Wz-w1M" secondAttribute="leading" constant="15" id="STK-hH-UiD"/>
@@ -142,7 +143,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tlu-Xm-soy">
-                    <rect key="frame" x="30" y="405" width="315" height="50"/>
+                    <rect key="frame" x="30" y="401.5" width="315" height="50"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="助记词密码（可选）" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pOy-Rb-f70">
                             <rect key="frame" x="15" y="0.0" width="129" height="50"/>
@@ -183,7 +184,7 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NjW-Za-vaB">
-                    <rect key="frame" x="30" y="460" width="315" height="55"/>
+                    <rect key="frame" x="30" y="456.5" width="315" height="55"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xwp-9h-dwT">
                             <rect key="frame" x="15" y="44" width="285" height="1"/>
@@ -214,7 +215,7 @@
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="助记词导入钱包同步速度缓慢，建议创建新钱包或使用Keystore导入" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UhM-mz-RP9">
-                    <rect key="frame" x="63" y="140" width="249" height="30"/>
+                    <rect key="frame" x="63" y="140" width="249" height="26.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
@@ -231,7 +232,6 @@
                 <constraint firstAttribute="trailing" secondItem="NjW-Za-vaB" secondAttribute="trailing" constant="30" id="HNa-Mw-uF2"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="UhM-mz-RP9" secondAttribute="trailing" constant="63" id="ICR-PR-5k9"/>
                 <constraint firstItem="hMl-Wz-w1M" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="48" id="Jo2-ve-n6t"/>
-                <constraint firstItem="hMl-Wz-w1M" firstAttribute="top" secondItem="P4U-IQ-V1f" secondAttribute="bottom" constant="30" id="Kfa-Io-oJX"/>
                 <constraint firstItem="hMl-Wz-w1M" firstAttribute="top" secondItem="UhM-mz-RP9" secondAttribute="bottom" constant="-10" id="QOu-75-E1r"/>
                 <constraint firstItem="NjW-Za-vaB" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="30" id="XIz-ci-8YI"/>
                 <constraint firstItem="UhM-mz-RP9" firstAttribute="top" secondItem="P4U-IQ-V1f" secondAttribute="bottom" constant="10" id="Zd3-BE-pCJ"/>

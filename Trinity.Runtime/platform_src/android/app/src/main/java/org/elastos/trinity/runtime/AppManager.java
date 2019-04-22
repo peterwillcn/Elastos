@@ -66,6 +66,7 @@ public class AppManager {
 
     public String appsPath = null;
     public String dataPath = null;
+    public String tempPath = null;
 
     private AppInstaller installer;
 
@@ -84,6 +85,7 @@ public class AppManager {
 
         appsPath = activity.getFilesDir() + "/apps/";
         dataPath = activity.getFilesDir() + "/data/";
+        tempPath = activity.getFilesDir() + "/temp/";
 
         Boolean first = false;
         File destDir = new File(appsPath);
@@ -92,6 +94,10 @@ public class AppManager {
             first = true;
         }
         destDir = new File(dataPath);
+        if (!destDir.exists()) {
+            destDir.mkdirs();
+        }
+        destDir = new File(tempPath);
         if (!destDir.exists()) {
             destDir.mkdirs();
         }
@@ -105,7 +111,7 @@ public class AppManager {
 //        dbAdapter.clean();
 
         installer = new AppInstaller();
-        installer.init(activity, dbAdapter, appsPath, dataPath);
+        installer.init(activity, dbAdapter, appsPath, dataPath, tempPath);
 
         if (first) {
             saveLauncherInfo();
@@ -189,14 +195,6 @@ public class AppManager {
         return url;
     }
 
-    public String getLauncherPath() {
-        return appsPath + "launcher/";
-    }
-
-    public String getLauncherUrl() {
-        return "file://" + getLauncherPath();
-    }
-
     public String getDataPath(String id) {
         if (id == "launcher") {
             id = getLauncherInfo().app_id;
@@ -206,6 +204,18 @@ public class AppManager {
 
     public String getDataUrl(String id) {
         return "file://" + getDataPath(id);
+    }
+
+
+    public String getTempPath(String id) {
+        if (id == "launcher") {
+            id = getLauncherInfo().app_id;
+        }
+        return tempPath + id + "/";
+    }
+
+    public String getTempUrl(String id) {
+        return "file://" + getTempPath(id);
     }
 
     public String resetPath(String dir, String origin) {

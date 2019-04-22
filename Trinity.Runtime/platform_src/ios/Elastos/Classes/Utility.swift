@@ -65,6 +65,10 @@ func getAssetsPath(_ url: String) -> String {
                 offset = 16;
                 path = appManager.getDataPath(id);
             }
+            else if url.hasPrefix("trinity:///temp/") {
+                offset = 16;
+                path = appManager.getTempPath(id);
+            }
             else {
                 return ""
             }

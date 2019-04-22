@@ -187,7 +187,8 @@ public class AppBasePlugin extends CordovaPlugin {
     @Override
     public Boolean shouldAllowRequest(String url) {
         if (url.startsWith("assets://www/cordova") || url.startsWith("assets://www/plugins")
-                || url.startsWith("trinity:///assets/") || url.startsWith("trinity:///data/")) {
+                || url.startsWith("trinity:///assets/") || url.startsWith("trinity:///data/")
+                || url.startsWith("trinity:///temp/")) {
             return true;
         }
 
@@ -207,6 +208,9 @@ public class AppBasePlugin extends CordovaPlugin {
         }
         else if (url.startsWith("trinity:///data/")) {
             url = AppManager.getShareInstance().getDataUrl(id) + url.substring(16);
+        }
+        else if (url.startsWith("trinity:///temp/")) {
+            url = AppManager.getShareInstance().getTempUrl(id) + url.substring(16);
         }
         else {
             return null;

@@ -58,15 +58,18 @@ public class AppInstaller {
 
     private String appPath = null;
     private String dataPath = null;
+    private String tempPath = null;
     private ManagerDBAdapter dbAdapter = null;
     private Context context = null;
 
     private Random random =new Random();
 
-    public boolean init(Context context, ManagerDBAdapter dbAdapter, String appPath, String dataPath) {
+    public boolean init(Context context, ManagerDBAdapter dbAdapter,
+                        String appPath, String dataPath, String tempPath) {
         this.context = context;
         this.appPath = appPath;
         this.dataPath = dataPath;
+        this.tempPath = tempPath;
         this.dbAdapter = dbAdapter;
 
         random = new Random();
@@ -230,7 +233,7 @@ public class AppInstaller {
         }
     }
 
-    private boolean deleteAllFiles(File root) throws Exception {
+    public boolean deleteAllFiles(File root) throws Exception {
         if (!root.exists()) {
             return false;
         }
@@ -414,6 +417,10 @@ public class AppInstaller {
         appInfo.launcher = launcher;
 
         File destDir = new File(dataPath + appInfo.app_id);
+        if (!destDir.exists()) {
+            destDir.mkdirs();
+        }
+        destDir = new File(tempPath + appInfo.app_id);
         if (!destDir.exists()) {
             destDir.mkdirs();
         }

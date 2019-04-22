@@ -102,11 +102,12 @@
         let trinityPlugin = obj as? TrinityPlugin
         
         if trinityPlugin != nil {
-            let dataPath = AppManager.getShareInstance().getDataPath(self.id);
             let appPath = AppManager.getShareInstance().getAppPath(self.appInfo!);
+            let dataPath = AppManager.getShareInstance().getDataPath(self.id);
+            let tempPath = AppManager.getShareInstance().getTempPath(self.id);
             trinityPlugin!.trinityInitialize(pluginName, 
                 whitelistFilter:self.whitelistFilter, checkAuthority:true, 
-                dataPath:dataPath, appPath:appPath);
+                appPath:appPath, dataPath:dataPath, tempPath:tempPath);
         }
 
         return obj as Any;

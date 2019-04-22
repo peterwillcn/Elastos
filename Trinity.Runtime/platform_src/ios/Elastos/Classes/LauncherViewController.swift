@@ -70,10 +70,12 @@
         let trinityPlugin = obj as? TrinityPlugin
         
         if trinityPlugin != nil {
-            let dataPath = AppManager.getShareInstance().getDataPath(self.id);
             let launcherPath = AppManager.getShareInstance().getAppPath(self.appInfo!);
+            let dataPath = AppManager.getShareInstance().getDataPath(self.id);
+            let tempPath = AppManager.getShareInstance().getTempPath(self.id);
             trinityPlugin!.trinityInitialize(pluginName, whitelistFilter:self.whitelistFilter,
-                checkAuthority:false, dataPath:dataPath, appPath:launcherPath);
+                checkAuthority:false, appPath:launcherPath,
+                dataPath:dataPath, tempPath:tempPath);
         }
         
         return obj as Any;

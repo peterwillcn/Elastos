@@ -35,6 +35,7 @@ public class TrinityPlugin extends CordovaPlugin {
     private AppWhitelistPlugin whitelistPlugin;
     public String dataPath = null;
     public String appPath = null;
+    public String tempPath = null;
     private AppInfo appInfo = null;
     private AppManager appManager = null;
 
@@ -45,20 +46,27 @@ public class TrinityPlugin extends CordovaPlugin {
     public void setInfo(AppInfo info) {
         this.appInfo = info;
         this.appManager = AppManager.getShareInstance();
-        this.dataPath = appManager.getDataPath(info.app_id);
         this.appPath = appManager.getAppPath(info);
+        this.dataPath = appManager.getDataPath(info.app_id);
+        this.tempPath = appManager.getTempPath(info.app_id);
     }
 
     public Boolean isAllowAccess(String url) {
         return whitelistPlugin.shouldAllowNavigation(url);
     }
 
+
+
+    public String getAppPath() {
+        return appPath;
+    }
+
     public String getDataPath() {
         return dataPath;
     }
 
-    public String getAppPath() {
-        return appPath;
+    public String getTempPath() {
+        return tempPath;
     }
 
     private String getCanonicalDir(String path, String header) throws Exception {
@@ -83,6 +91,10 @@ public class TrinityPlugin extends CordovaPlugin {
         else if (path.startsWith("trinity:///data/")) {
             String dir = getCanonicalDir(path.substring(10), "/data/");
             ret = dataPath + dir;
+        }
+        else if (path.startsWith("trinity:///temp/")) {
+            String dir = getCanonicalDir(path.substring(10), "/temp/");
+            ret = tempPath + dir;
         }
         else if ((path.indexOf("://") != -1)) {
             if (!(path.startsWith("assets://")) && whitelistPlugin.shouldAllowNavigation(path)) {
@@ -117,6 +129,11 @@ public class TrinityPlugin extends CordovaPlugin {
             File file = new File(dataPath);
             String header = file.getCanonicalPath() + "/";
             ret = "trinity:///data/" + getCanonicalDir(path, header);
+        }
+        else if (path.startsWith(tempPath)) {
+            File file = new File(tempPath);
+            String header = file.getCanonicalPath() + "/";
+            ret = "trinity:///temp/" + getCanonicalDir(path, header);
         }
 
         if (ret == null) {

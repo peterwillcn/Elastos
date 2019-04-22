@@ -36,11 +36,13 @@
     
     var appPath: String = "";
     var dataPath: String = "";
+    var tempPath: String = "";
     var dbAdapter: ManagerDBAdapter;
     
-    init(_ appPath: String, _ dataPath: String, _ dbAdapter: ManagerDBAdapter) {
+    init(_ appPath: String, _ dataPath: String, _ tempPath: String, _ dbAdapter: ManagerDBAdapter) {
         self.appPath = appPath;
         self.dataPath = dataPath;
+        self.tempPath = tempPath;
         self.dbAdapter = dbAdapter;
     }
     
@@ -278,6 +280,15 @@
                 print("Make dataPath error: \(error)");
             }
         }
+        if (!fileManager.fileExists(atPath: tempPath + appInfo.app_id)) {
+            do {
+                try fileManager.createDirectory(atPath: tempPath + appInfo.app_id, withIntermediateDirectories: true, attributes: nil)
+            }
+            catch let error {
+                print("Make tempPath error: \(error)");
+            }
+        }
+
 
         return appInfo;
     }

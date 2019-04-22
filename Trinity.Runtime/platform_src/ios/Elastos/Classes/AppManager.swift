@@ -41,6 +41,7 @@ class AppManager {
     
     let appsPath: String;
     let dataPath: String;
+    let tempPath: String;
     
     var curController: TrinityViewController?;
     
@@ -60,6 +61,7 @@ class AppManager {
         self.mainViewController = mainViewController;
         appsPath = NSHomeDirectory() + "/Documents/apps/";
         dataPath = NSHomeDirectory() + "/Documents/data/";
+        tempPath = NSHomeDirectory() + "/Documents/temp/";
         
         let fileManager = FileManager.default
         var first = false;
@@ -82,8 +84,17 @@ class AppManager {
             }
         }
         
+        if (!fileManager.fileExists(atPath: tempPath)) {
+            do {
+                try fileManager.createDirectory(atPath: tempPath, withIntermediateDirectories: true, attributes: nil)
+            }
+            catch let error {
+                print("Make tempPath error: \(error)");
+            }
+        }
+        
         dbAdapter = ManagerDBAdapter(dataPath);
-        installer = AppInstaller(appsPath, dataPath, dbAdapter);
+        installer = AppInstaller(appsPath, dataPath, tempPath, dbAdapter);
         appList = try! dbAdapter.getAppInfos();
         
         if first {
@@ -178,6 +189,18 @@ class AppManager {
     
     func getDataUrl(_ id: String) -> String {
         return "file://" + getDataPath(id);
+    }
+    
+    func getTempPath(_ id: String) -> String {
+        var appId = id;
+        if (id == "launcher") {
+            appId = getLauncherInfo().app_id;
+        }
+        return tempPath + appId + "/";
+    }
+    
+    func getTempUrl(_ id: String) -> String {
+        return "file://" + getTempPath(id);
     }
     
     func saveBuiltInAppInfos() {

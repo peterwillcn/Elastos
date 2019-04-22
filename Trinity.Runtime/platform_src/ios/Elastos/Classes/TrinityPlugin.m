@@ -28,8 +28,9 @@
 @property (nonatomic, readwrite, strong) WhitelistFilter* filter;
 @property (nonatomic, readwrite) BOOL checkAuthority;
 @property (nonatomic, readwrite, copy) NSString* pluginName;
-@property (nonatomic, readwrite) NSString* dataPath;
 @property (nonatomic, readwrite) NSString* appPath;
+@property (nonatomic, readwrite) NSString* dataPath;
+@property (nonatomic, readwrite) NSString* tempPath;
 @end
 
 @implementation TrinityPlugin
@@ -37,29 +38,35 @@
 @synthesize filter;
 @synthesize checkAuthority;
 @synthesize pluginName;
-@synthesize dataPath;
 @synthesize appPath;
+@synthesize dataPath;
+@synthesize tempPath;
 
 - (void)trinityInitialize:(NSString*)pluginName whitelistFilter:(CDVPlugin *)filter
-        checkAuthority:(BOOL)check dataPath:(NSString*)dataPath
-        appPath:(NSString*)appPath {
+        checkAuthority:(BOOL)check appPath:(NSString*)appPath
+        dataPath:(NSString*)dataPath tempPath:(NSString*)tempPath {
     self.pluginName = pluginName;
     self.filter = (WhitelistFilter*)filter;
     self.checkAuthority = check;
-    self.dataPath = dataPath;
     self.appPath = appPath;
+    self.dataPath = dataPath;
+    self.tempPath = tempPath;
 }
 
 - (BOOL)isAllowAccess:(NSString *)url {
     return [self.filter shouldAllowNavigation:url];
 }
 
+- (NSString*)getAppPath {
+    return appPath;
+}
+
 - (NSString*)getDataPath {
     return dataPath;
 }
 
-- (NSString*)getAppPath {
-    return appPath;
+- (NSString*)getTempPath {
+    return tempPath;
 }
 
 - (void)setError:(NSError * _Nullable *)error {
@@ -96,6 +103,12 @@
         NSString* dir = [self getCanonicalDir:[path substringFromIndex:10] header:@"/data/" error:error];
         if (dir != nil) {
             ret = [dataPath stringByAppendingString:dir];
+        }
+    }
+    else if ([path hasPrefix:@"trinity:///temp/"]) {
+        NSString* dir = [self getCanonicalDir:[path substringFromIndex:10] header:@"/temp/" error:error];
+        if (dir != nil) {
+            ret = [tempPath stringByAppendingString:dir];
         }
     }
     else if ([path rangeOfString:@"://"].length > 0) {
@@ -135,6 +148,12 @@
         NSString* dir = [self getCanonicalDir:path  header:dataPath error:error];
         if (dir != nil) {
             ret = [@"trinity:///data/" stringByAppendingString:dir];
+        }
+    }
+    else if ([path hasPrefix:tempPath]) {
+        NSString* dir = [self getCanonicalDir:path  header:tempPath error:error];
+        if (dir != nil) {
+            ret = [@"trinity:///temp/" stringByAppendingString:dir];
         }
     }
     if (ret == nil) {

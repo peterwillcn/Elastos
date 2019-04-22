@@ -9,7 +9,7 @@ matrix:
       addons:
         homebrew:
           taps: homebrew/cask-versions
-          casks: java8
+          casks: adoptopenjdk8
 
     - os: osx
       osx_image: xcode10.1
@@ -17,7 +17,7 @@ matrix:
       addons:
         homebrew:
           taps: homebrew/cask-versions
-          casks: java8
+          casks: adoptopenjdk8
 
     - language: android
       env: NODEJS_VERSION=10

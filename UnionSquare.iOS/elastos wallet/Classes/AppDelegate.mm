@@ -66,7 +66,18 @@
     self.window.backgroundColor = [UIColor whiteColor];
     
     CDVPluginResult *re=[[ELWalletManager share] getAllMasterWallets:nil];
+    NSArray *reArray=[[FLTools share]stringToArray: re.message[@"success"]];
+    
     NSArray  *array =[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet];
+    for (int i=0; i<array.count; i++) {
+         BOOL isbool = [reArray containsObject: array[i]];
+        if (isbool==NO) {
+            FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
+            model.walletID=[NSString stringWithFormat:@"%@",array[i]];
+            [[HMWFMDBManager sharedManagerType:walletType]delectRecordWallet: model];
+        }
+        
+    }
     //    [[FLTools share]stringToArray:re.message[@"success"]];
     
     if (array.count==0) {
@@ -88,7 +99,7 @@
         
         
     }
-    [WOCrashProtectorManager makeAllEffective];
+//    [WOCrashProtectorManager makeAllEffective];
     [self.window makeKeyAndVisible];
 }
 

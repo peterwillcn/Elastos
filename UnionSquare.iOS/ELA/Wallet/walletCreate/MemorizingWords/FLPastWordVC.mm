@@ -102,7 +102,8 @@ __weak __typeof__(self) weakSelf = self;
     NSInteger leftSpace = 20;
     UILabel *la1 = [UIView FLLab_TextColor:[UIColor whiteColor] Fort:15];
     la1.textAlignment = NSTextAlignmentCenter;
-    la1.numberOfLines = 2; la1.text =NSLocalizedString(@"抄写下您的钱包助记词", nil);
+    la1.numberOfLines = 2;
+    la1.text =NSLocalizedString(@"抄写下您的钱包助记词", nil);
     [self.view addSubview:la1];
     [la1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(img.mas_bottom).offset(20);

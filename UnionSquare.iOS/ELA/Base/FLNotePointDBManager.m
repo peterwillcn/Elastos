@@ -50,7 +50,7 @@ static FLNotePointDBManager *manager;
 
 -(BOOL)addRecord:(FLCoinPointInfoModel *)person{
 
-    NSString *sql =[NSString stringWithFormat: @"insert into NotePoint (nodepublickey ,ownerpublickey,nickname ,url ,location ,active ,netaddress ,votes,indexx,voterate) values (\'%@\',\'%@\',\'%@\',\'%@\',\'%@\',%ld,\'%@\',\'%@\',%d,\'%@\');", person.nodepublickey,person.ownerpublickey,person.nickname,person.url,person.location,(long)person.active,person.netaddress,person.votes,(int)person.index,person.voterate];
+    NSString *sql =[NSString stringWithFormat: @"insert into NotePoint (nodepublickey ,ownerpublickey,nickname ,url ,location ,active ,netaddress ,votes,indexx,voterate) values (\"%@\",\"%@\",\"%@\",\"%@\",\"%@\",%d,\"%@\",\"%@\",%d,\"%@\");", person.nodepublickey,person.ownerpublickey,person.nickname,person.url,person.location,(int)person.active,person.netaddress,person.votes,(int)person.index,person.voterate];
     if ([manager  executeUpdate:sql]) {
         return YES;
     }else{

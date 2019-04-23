@@ -72,6 +72,11 @@ public class TrinityPlugin extends CordovaPlugin {
     private String getCanonicalDir(String path, String header) throws Exception {
         File file = new File(path);
         path = file.getCanonicalPath();
+
+        if (header.equals(path + "/")) {
+            return "";
+        }
+
         if (!header.startsWith("/")) {
             path = path.substring(1);
         }

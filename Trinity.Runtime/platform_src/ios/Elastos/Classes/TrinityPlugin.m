@@ -81,6 +81,11 @@
 
 - (NSString*)getCanonicalDir:(NSString *)path header:(NSString*)header error:(NSError * _Nullable *)error {
     path = [path stringByStandardizingPath];
+    
+    if ([header isEqualToString: [path stringByAppendingString:@"/"]]) {
+        return @"";
+    }
+    
     if (![header hasPrefix:@"/"]) {
         path = [path substringFromIndex:1];
     }

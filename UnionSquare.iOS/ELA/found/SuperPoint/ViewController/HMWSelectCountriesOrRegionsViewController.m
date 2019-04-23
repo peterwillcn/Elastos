@@ -50,7 +50,7 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
                     @{@"countries":@"安提瓜和巴布达",@"mobileCode":@"001268"},
                     @{@"countries":@"阿根廷",@"mobileCode":@"0054"},
                     @{@"countries":@"亚美尼亚",@"mobileCode":@"00374"},
-                    @{@"countries":@"阿鲁巴",@"mobileCode":@"0297"},
+                    @{@"countries":@"阿鲁巴",@"mobileCode":@"00374"},
                     @{@"countries":@"澳大利亚",@"mobileCode":@"0061"},
                     @{@"countries":@"奥地利",@"mobileCode":@"0043"},
                     @{@"countries":@"阿塞拜疆",@"mobileCode":@"00994"},
@@ -75,7 +75,7 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
                     @{@"countries":@"保加利亚",@"mobileCode":@"00359"},
                     @{@"countries":@"布基纳法索",@"mobileCode":@"00226"},
                     @{@"countries":@"布隆迪",@"mobileCode":@"00257"},
-                    @{@"countries":@"泽西岛",@"mobileCode":@"1044"},
+                    @{@"countries":@"泽西岛",@"mobileCode":@"0044"},
                     
                     nil];
         NSArray *C=[NSArray arrayWithObjects:
@@ -88,12 +88,12 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
                     @{@"countries":@"乍得",@"mobileCode":@"00235"},
                     @{@"countries":@"智利",@"mobileCode":@"0056"},
                     @{@"countries":@"中国",@"mobileCode":@"0086"},
-                    @{@"countries":@"圣延岛",@"mobileCode":@"6724"},
-                    @{@"countries":@"科科斯群岛",@"mobileCode":@"61891"},
+                    @{@"countries":@"圣延岛",@"mobileCode":@"0061"},
+                    @{@"countries":@"科科斯群岛",@"mobileCode":@"0061"},
                     @{@"countries":@"哥伦比亚",@"mobileCode":@"0057"},
                     @{@"countries":@"科摩罗",@"mobileCode":@"00269"},
-                    
                     @{@"countries":@"刚果",@"mobileCode":@"00242"},
+                    @{@"countries":@"刚果民主共和国",@"mobileCode":@"00243"},
                     @{@"countries":@"库克群岛",@"mobileCode":@"00682"},
                     @{@"countries":@"哥斯达黎加",@"mobileCode":@"00506"},
                     @{@"countries":@"Cote D'Ivoire",@"mobileCode":@"00225"},
@@ -124,7 +124,7 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
                     @{@"countries":@"斐济",@"mobileCode":@"00679"},
                     @{@"countries":@"芬兰",@"mobileCode":@"00358"},
                     @{@"countries":@"法国",@"mobileCode":@"0033"},
-//                    @{@"countries":@"法国大都会",@"mobileCode":@"0033"},
+                    @{@"countries":@"法国大都会",@"mobileCode":@"0033"},
                     @{@"countries":@"法属圭亚那",@"mobileCode":@"00594"},
                     @{@"countries":@"法属玻里尼西亚",@"mobileCode":@"00689"},
                     nil];
@@ -136,7 +136,7 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
                     @{@"countries":@"加纳",@"mobileCode":@"00233"},
                     @{@"countries":@"直布罗陀",@"mobileCode":@"00350"},
                     @{@"countries":@"希腊",@"mobileCode":@"0030"},
-                    @{@"countries":@"格陵兰",@"mobileCode":@"1-0045"},
+                    @{@"countries":@"格陵兰",@"mobileCode":@"0045"},
                     @{@"countries":@"格林纳达",@"mobileCode":@"001473"},
                     @{@"countries":@"瓜德罗普岛",@"mobileCode":@"00590"},
                     @{@"countries":@"关岛",@"mobileCode":@"001671"},
@@ -235,7 +235,7 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
                     @{@"countries":@"巴拉圭",@"mobileCode":@"00595"},
                     @{@"countries":@"秘鲁",@"mobileCode":@"0051"},
                     @{@"countries":@"菲律宾共和国",@"mobileCode":@"0063"},
-                    @{@"countries":@"皮特凯恩岛",@"mobileCode":@"10064"},
+                    @{@"countries":@"皮特凯恩岛",@"mobileCode":@"0064"},
                     @{@"countries":@"波兰",@"mobileCode":@"0048"},
                     @{@"countries":@"葡萄牙",@"mobileCode":@"00351"},
                     @{@"countries":@"波多黎各",@"mobileCode":@"001787"},
@@ -246,11 +246,11 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
         NSArray *R=[NSArray arrayWithObjects:
                     @{@"countries":@"留尼汪岛",@"mobileCode":@"00262"},
                     @{@"countries":@"罗马尼亚",@"mobileCode":@"0040"},
-                    @{@"countries":@"俄罗斯联邦",@"mobileCode":@"1007"},
+                    @{@"countries":@"俄罗斯联邦",@"mobileCode":@"007"},
                     @{@"countries":@"卢旺达",@"mobileCode":@"00250"},
                     nil];
         NSArray *S=[NSArray arrayWithObjects:
-                    @{@"countries":@"美属萨摩亚",@"mobileCode":@"10684"},
+                    @{@"countries":@"美属萨摩亚",@"mobileCode":@"00685"},
                     @{@"countries":@"圣马力诺共和国",@"mobileCode":@"00378"},
                     @{@"countries":@"沙特阿拉伯",@"mobileCode":@"00966"},
                     @{@"countries":@"塞内加尔",@"mobileCode":@"00221"},
@@ -289,12 +289,11 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
                     @{@"countries":@"土库曼",@"mobileCode":@"00993"},
                     @{@"countries":@"土克斯及开科斯群岛",@"mobileCode":@"001809"},
                     @{@"countries":@"图瓦卢",@"mobileCode":@"00688"},
-                    @{@"countries":@"阿布哈兹",@"mobileCode":@"2007"},
-                    @{@"countries":@"南奥赛梯",@"mobileCode":@"3007"},
+                    @{@"countries":@"阿布哈兹",@"mobileCode":@"007"},
+                    @{@"countries":@"南奥赛梯",@"mobileCode":@"007"},
                     @{@"countries":@"马其顿",@"mobileCode":@"00389"},
                     @{@"countries":@"圣基茨和尼维斯",@"mobileCode":@"001869"},
                     @{@"countries":@"南苏丹共和国",@"mobileCode":@"00211"},
-                      @{@"countries":@"刚果民主共和国",@"mobileCode":@"00243"},
                     nil];
         
         NSArray *U=[NSArray arrayWithObjects:
@@ -302,13 +301,13 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
                     @{@"countries":@"乌克兰",@"mobileCode":@"00380"},
                     @{@"countries":@"阿拉伯联合酋长国",@"mobileCode":@"00971"},
                     @{@"countries":@"英国",@"mobileCode":@"0044"},
-                    @{@"countries":@"美国",@"mobileCode":@"1001"},
+                    @{@"countries":@"美国",@"mobileCode":@"001"},
                     @{@"countries":@"乌拉圭",@"mobileCode":@"00598"},
                     @{@"countries":@"乌兹别克斯坦",@"mobileCode":@"00998"},
                     nil];
         NSArray *V=[NSArray arrayWithObjects:
                     @{@"countries":@"瓦努阿图",@"mobileCode":@"00678"},
-                    @{@"countries":@"梵蒂冈(罗马教廷)",@"mobileCode":@"10039"},
+                    @{@"countries":@"梵蒂冈(罗马教廷)",@"mobileCode":@"0039"},
                     @{@"countries":@"委内瑞拉",@"mobileCode":@"0058"},
                     @{@"countries":@"越南",@"mobileCode":@"0084"},
                     //                @{@"countries":@"维尔京群岛(英国)",@"mobileCode":@"01284"},
@@ -321,13 +320,12 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
         NSArray *X=[[NSArray alloc]init];
         NSArray *Y=[NSArray arrayWithObjects:
                     @{@"countries":@"也门",@"mobileCode":@"00967"},
-                    @{@"countries":@"南斯拉夫",@"mobileCode":@"00338"},
+                    @{@"countries":@"南斯拉夫",@"mobileCode":@"00381"},
                     nil];
         NSArray *Z=[NSArray arrayWithObjects:
                     @{@"countries":@"赞比亚",@"mobileCode":@"00260"},
                     @{@"countries":@"津巴布韦",@"mobileCode":@"00263"},
                     nil];
-        
         
         
        _CountryCodeArray=@[A,B,C,D,E,F,G,H,I,J,K,M,L,N,O,P,Q,R,S,T,U,V,W,X,Y,Z];

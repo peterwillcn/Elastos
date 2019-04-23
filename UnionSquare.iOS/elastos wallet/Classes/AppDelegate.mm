@@ -99,7 +99,7 @@
         
         
     }
-//    [WOCrashProtectorManager makeAllEffective];
+    [WOCrashProtectorManager makeAllEffective];
     [self.window makeKeyAndVisible];
 }
 

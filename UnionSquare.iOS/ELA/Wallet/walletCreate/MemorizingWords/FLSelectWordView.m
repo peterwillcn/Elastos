@@ -116,7 +116,7 @@
 {
     WordModel *model = self.dataSource[indexPath.row];
     if ([[FLTools share]changeisEnglish:model.word]) {
-      return  CGSizeMake(model.word.length*12,20);
+      return  CGSizeMake(model.word.length*15,20);
     }
     return  CGSizeMake(30,30);
 }

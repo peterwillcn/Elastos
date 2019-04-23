@@ -383,7 +383,7 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     HMWChooseTheCountryAreasTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
     cell.moDict=self.CountryCodeArray[indexPath.section][indexPath.row];
-    cell.selectionStyle=UITableViewCellSelectionStyleNone;
+ cell.selectionStyle=UITableViewCellSelectionStyleNone;
     return cell;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

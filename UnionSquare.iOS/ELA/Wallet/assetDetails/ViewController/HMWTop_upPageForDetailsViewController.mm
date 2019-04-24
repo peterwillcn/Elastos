@@ -42,6 +42,10 @@
 @property(strong,nonatomic)HMWSendSuccessPopuView *sendSuccessPopuV;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *BGViewHeight;
 @property (weak, nonatomic) IBOutlet UIImageView *assetIconImageView;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *fee;
 @end
 
 @implementation HMWTop_upPageForDetailsViewController
@@ -133,6 +137,12 @@
     }
     
     NSString *fee=[[FLTools share]elaScaleConversionWith: [NSString stringWithFormat:@"%@",result.message[@"success"]]];
+    self.fee=fee;
+    if ([self.enterTheAmountTextField.text doubleValue]+[self.fee doubleValue]>[[[FLTools share]elaScaleConversionWith:self.fromModel.iconBlance] doubleValue]) {
+        
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"余额不足", nil)];
+        return;
+    }
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if (![status isEqualToString:@"1"]) {
         return;

@@ -35,7 +35,10 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *isVoteBlanceTextLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *isAddSwitch;
-
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *fee;
 @end
 
 @implementation HMWtransferViewController
@@ -136,8 +139,12 @@
         return;
     }
     NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",result.message[@"success"]]];
-
-    
+    self.fee=fee;
+    if ([self.theAmountOfTextField.text doubleValue]+[self.fee doubleValue]>[[[FLTools share]elaScaleConversionWith:self.model.iconBlance] doubleValue]) {
+        
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"余额不足", nil)];
+        return;
+    }
     [self.transferDetailsPopupV transferDetailsWithToAddress:self.transferTheAddressTextField.text withTheAmountOf:[NSString stringWithFormat:@"%@ %@",  self.theAmountOfTextField.text,@"ELA"] withFee:[NSString stringWithFormat:@"%@%@",fee,@"ELA"]];
     
     UIView *manView=[self mainWindow];

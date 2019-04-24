@@ -31,7 +31,8 @@
     
   self.coinNameLabel.text = model.nickname;
 //  self.theValueOfLabel.text = model.votes;
-    self.votesLabel.text = [model.votes stringByAppendingString:NSLocalizedString(@"ELA", nil)];
+    NSString *votes =[NSString stringWithFormat:@"%ld",(long)[model.votes integerValue]];
+    self.votesLabel.text = [votes stringByAppendingString:NSLocalizedString(@"ELA", nil)];
     if (model.index==1) {
         self.iconImageView.image = [UIImage imageNamed:@"gold"];
     }else if (model.index==2){

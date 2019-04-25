@@ -32,7 +32,7 @@
  *<# #>
  */
 @property(strong,nonatomic)HMWvotingRulesView *votingRulesV;
-@property(nonatomic,strong)NSArray *dataSource;
+@property(nonatomic,strong)NSMutableArray *dataSource;
 
 @end
 
@@ -59,8 +59,52 @@
         make.top.equalTo(self.view).offset(10);
     }];
     [self getNetCoinPointArray];
-}
 
+}
+-(NSMutableArray *)dataSource{
+    if (!_dataSource) {
+        _dataSource =[[NSMutableArray alloc]init];
+    }
+    return _dataSource;
+}
+-(void)loadAllImageInfo:(NSMutableArray*)allListInfoArray{
+    
+dispatch_queue_t queue = dispatch_queue_create("net.bujige.testQueue", DISPATCH_QUEUE_SERIAL);
+    dispatch_async(queue, ^{
+        for (int i=0; i<allListInfoArray.count; i++) {
+            FLCoinPointInfoModel *model =allListInfoArray[i];
+            if (model.url.length>0) {
+                
+            
+            NSString *urlString=[model.url substringFromIndex:[model.url length]-1];
+            if ([urlString isEqualToString:@"/"] ) {
+                model.iconImageUrl= [self getImageViewURLWithURL:[NSString stringWithFormat:@"%@bpinfo.json",model.url]];
+            }else{
+                model.iconImageUrl= [self getImageViewURLWithURL:[NSString stringWithFormat:@"%@/bpinfo.json",model.url]];
+            }
+                
+            }
+            
+            allListInfoArray[i]=model;
+        }
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            self.votingListV.dataSource=allListInfoArray;
+        });
+    });
+    
+    
+}
+-(NSString *)getImageViewURLWithURL:(NSString*)urlString{
+     NSURL *url=  [NSURL URLWithString:urlString];
+    NSData *data=[NSData dataWithContentsOfURL:url];
+    if (data==nil) {
+        return @"";
+    }
+    NSError *error;
+    id jsonClass = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+    return [NSString stringWithFormat:@"%@",jsonClass[@"org"][@"branding"][@"logo_256"]];
+}
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -71,13 +115,16 @@
     
     [HttpUrl NetPOSTHost:Http_IP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1"} showHUD:NO WithSuccessBlock:^(id data) {
         NSDictionary *param = data[@"data"];
-       self.dataSource= [NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];
+        NSArray *dataArray =[NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];
+        [self loadAllImageInfo:[NSMutableArray arrayWithArray:dataArray]];
+        self.dataSource= [NSMutableArray arrayWithArray:dataArray];
         
         self.votingListV.dataSource = self.dataSource;
         self.votingListV.lab1.text = [NSString stringWithFormat:@"%.5f %@" ,[param[@"result"][@"totalvoterate"] floatValue]*100,@"%"];
        // self.votingListV.lab2.text = [param[@"result"][@"totalvotes"]stringValue ];
         self.votingListV.lab3.text = param[@"result"][@"totalvotes"];
         [self UpdataLocalOwerlist];
+        
     } WithFailBlock:^(id data) {
         
     }];

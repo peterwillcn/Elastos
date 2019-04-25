@@ -22,10 +22,10 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AP1-gV-qoP">
                         <rect key="frame" x="0.0" y="0.0" width="120" height="135"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="found_vote_initial" translatesAutoresizingMaskIntoConstraints="NO" id="L7s-HE-06b">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="found_vote_initial" translatesAutoresizingMaskIntoConstraints="NO" id="L7s-HE-06b">
                                 <rect key="frame" x="5" y="5" width="110" height="60"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="V5R-qa-UtP"/>
+                                    <constraint firstAttribute="width" secondItem="L7s-HE-06b" secondAttribute="height" multiplier="22:12" id="5UB-Uo-QgA"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="203486票" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DLL-8G-ni2">
@@ -56,10 +56,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="L7s-HE-06b" secondAttribute="trailing" constant="5" id="0gp-6Z-6AK"/>
                             <constraint firstItem="DLL-8G-ni2" firstAttribute="leading" secondItem="AP1-gV-qoP" secondAttribute="leading" constant="9" id="9IX-kQ-0rc"/>
                             <constraint firstAttribute="bottom" secondItem="DLL-8G-ni2" secondAttribute="bottom" constant="10" id="EoP-Tw-oIg"/>
-                            <constraint firstAttribute="trailing" secondItem="L7s-HE-06b" secondAttribute="trailing" constant="5" id="NOF-iT-ISB"/>
-                            <constraint firstItem="L7s-HE-06b" firstAttribute="centerX" secondItem="AP1-gV-qoP" secondAttribute="centerX" id="TGv-aJ-we0"/>
                             <constraint firstAttribute="trailing" secondItem="LF1-oD-zIH" secondAttribute="trailing" constant="4" id="Zva-e3-fS1"/>
                             <constraint firstItem="L7s-HE-06b" firstAttribute="leading" secondItem="AP1-gV-qoP" secondAttribute="leading" constant="5" id="afY-Pr-v1m"/>
                             <constraint firstAttribute="trailing" secondItem="ypY-HT-rwX" secondAttribute="trailing" id="axP-I4-pDb"/>

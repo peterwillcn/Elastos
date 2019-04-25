@@ -7,6 +7,7 @@
 //
 
 #import "HMWVotingListCollectionViewCell.h"
+#import "UIImageView+WebCache.h"
 
 @interface HMWVotingListCollectionViewCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
@@ -28,7 +29,9 @@
 -(void)setModel:(FLCoinPointInfoModel *)model
 {
     _model = model;
-    
+    if (model.iconImageUrl.length>0) {
+        [self.coinIconImageView sd_setImageWithURL:[NSURL URLWithString:model.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
+    }
   self.coinNameLabel.text = model.nickname;
 //  self.theValueOfLabel.text = model.votes;
     NSString *votes =[NSString stringWithFormat:@"%ld",(long)[model.votes integerValue]];

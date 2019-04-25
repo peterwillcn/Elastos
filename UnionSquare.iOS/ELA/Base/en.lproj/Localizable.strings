@@ -108,7 +108,7 @@
 "请重复已输入的助记词密码"="Please confirm your password";
 "须包含大、小写字母，数字"="Must include uppercase and lowercase letters and numbers.";
 "长度8-16位，且至少包含字母、数字和特殊字符中的2种"="8-16 characters long and contains at least two letters, numbers, and special characters";
-"助记词导入钱包同步速度缓慢，建议创建新钱包或使用Keystore导入"="Creating a new wallet or importing using keystore is recommended for quick synchronization";
+"助记词导入钱包同步速度缓慢，建议创建新钱包或使用Keystore导入"="Creating a new wallet or importing using existing keystore is recommended for quick synchronization";
 
 "导出助记词"="Export Mnemonics";
 "验证助记词"="Verify Mnemonics";
@@ -137,7 +137,7 @@
 "你备份的助记词顺序验证正确"="The order of your backup mnemonic is verified";
 "你备份的助记词顺序验证错误,请从新校验"="The order of your backup mnemonic cannot be verified, please check again";
 "备份成功"="The backup is successful";
-"keyStore密码不能为空"="keyStore password cannot be empty";
+"keyStore密码不能为空"="KeyStore password cannot be empty";
 "收款地址已复制成功"="Receiving address has been copied successfully";
 "密码不能为空"="Password cannot be empty";
 "密码格式错误"="Password format error";
@@ -274,7 +274,7 @@
 "重新投票"= "revote";
 "变更成功" = "change successed";
 "注销报名72小时后，方可提取质押金"="The registration fund can be withdrawn 72 hours after the registration is cancelled";
-"参与ELA超级节点投票，需锁仓ELA。投票不消耗ELA数量；每次投票最多可选择 30 个超级节点，撤销或更改再次投票生效有" = "To vote for ELA supernode, you need to lockup your ELA. Voting itself doesn’t cost any ELA. Each vote can be cast to a maximum of 30 supernodes. To cancel or change your votes, it will delay the outcome.";
+"参与ELA超级节点投票，需锁仓ELA。投票不消耗ELA数量；每次投票最多可选择 36 个超级节点，撤销或更改再次投票生效有" = "When you participate in ELA supernode voting, the ELA in your wallet address are locked in a sense. Voting does not consume ELA other than a small voting transaction fee associated with each time you initiate a new voting transaction. Each vote can be cast to a maximum of 36 supernodes. If you cancel or change your votes, the actual result will take time to propagate.";
 "投票地址数量" = "Number of Vote Addresses";
 "全网投票占比"= "Total Network Vote Percentage";
 "目标地址"= "Target address";

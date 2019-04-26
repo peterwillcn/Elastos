@@ -62,7 +62,7 @@ if args.target == "clean":
             remove_tree("Dapps/" + dir + "/node_modules")
 
 if args.target == "launcher" or args.target == "all":
-    os.chdir(args.target == "runtime")
+    os.chdir(LAUNCHER_DIR_PATH)
     run_cmd("npm install")
     run_cmd("ionic build --prod")
 

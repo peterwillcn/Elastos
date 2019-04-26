@@ -93,7 +93,7 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     self.baseTableView.delegate=self;
     self.baseTableView.dataSource=self;
     self.baseTableView.rowHeight=70;
-    self.baseTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+   self.baseTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     [self.baseTableView registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
     self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     self.baseTableView.bounces = NO;

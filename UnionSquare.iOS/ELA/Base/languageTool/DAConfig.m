@@ -67,8 +67,6 @@
 
         
         tabVC.selectedIndex=2;
-       
-//        NSLog(@"已切换到语言 %@", [NSBundle currentLanguage]);
     });
 }
 @end

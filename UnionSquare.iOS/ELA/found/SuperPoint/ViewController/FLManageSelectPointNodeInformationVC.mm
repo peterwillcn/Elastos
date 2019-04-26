@@ -79,11 +79,11 @@
     NSDictionary *infoDic = param[@"Info"];
     
     NSString *OwnerPublickKey = infoDic[@"OwnerPublicKey"];
-    NSString *NodePublickKey   =infoDic[@"NodePublicKey"];
+    NSString *NodePublickKey  =infoDic[@"NodePublicKey"];
 
     NSString *URL             = infoDic[@"URL"];
     
-    NSString *Location      =infoDic[@"Location"];
+    NSString *Location        =infoDic[@"Location"];
     NSString *NickName        = infoDic[@"NickName"];
     
     self.model = [[FLJoinVoteInfoModel alloc]init];
@@ -96,7 +96,7 @@
     
     
     self.OwnerPublickKeyLab.text = NickName;
-    self.NodePublickKeyLab.text = NodePublickKey;
+    self.NodePublickKeyLab.text  = NodePublickKey;
     self.URLLab.text = URL;
     self.LocationLab.text = [[FLTools share]contryNameTransLateByCode:Location.integerValue];
     [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:[[FLTools share] getImageViewURLWithURL:self.model.url]] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];

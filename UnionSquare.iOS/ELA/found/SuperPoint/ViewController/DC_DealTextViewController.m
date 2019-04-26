@@ -43,9 +43,9 @@
     if (!_webView) {
         _webView =[[UIWebView alloc]initWithFrame:self.view.frame];
         _webView.backgroundColor=[UIColor whiteColor];
-   _webView.delegate = self;
-_webView.dataDetectorTypes = UIDataDetectorTypeAll;
-   _webView.scalesPageToFit = YES;
+        _webView.delegate = self;
+        _webView.dataDetectorTypes = UIDataDetectorTypeAll;
+        _webView.scalesPageToFit = YES;
         [self.view addSubview:_webView];
         [_webView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.top.bottom.equalTo(self.view);

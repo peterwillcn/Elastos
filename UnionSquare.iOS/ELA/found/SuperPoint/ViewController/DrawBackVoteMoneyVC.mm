@@ -62,8 +62,10 @@
 //    NSString *NickName        = infoDic[@"NickName"];
 
     if ([param[@"Info"][@"Confirms"] integerValue]>2160) {
+        self.drawBtn.alpha=1.f;
         self.drawBtn.enabled=YES;
     }else{
+        self.drawBtn.alpha=0.f;
         self.drawBtn.enabled=NO;
     }
     [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:URL] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];

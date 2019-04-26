@@ -66,7 +66,7 @@ if args.target == "launcher" or args.target == "all":
     run_cmd("npm install")
     run_cmd("ionic build --prod")
 
-if args.target == "dapp" # or args.target == "all" or args.target == "runtime":
+if args.target == "dapp": # or args.target == "all" or args.target == "runtime":
     dirs = os.listdir(DAPPS_DIR_PATH)
     for dir in dirs:
         if not os.path.isfile(dir):

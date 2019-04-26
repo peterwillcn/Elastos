@@ -8,8 +8,8 @@ import distutils.dir_util as dir_util
 
 parser = argparse.ArgumentParser(description='Build the Elastor.Trinity project.',
                                  formatter_class=argparse.RawTextHelpFormatter)
-parser.add_argument('target', metavar='TARGET', choices=['all', 'clean', 'launcher', "runtime"],
-                    help='Specify the target to build.\nPossible values are "all", "clean", "launcher" and "runtime".')
+parser.add_argument('target', metavar='TARGET', choices=['all', 'clean', 'launcher', "runtime", "dapp"],
+                    help='Specify the target to build.\nPossible values are "all", "clean", "launcher", "runtime" and "dapp".')
 
 args = parser.parse_args()
 
@@ -19,6 +19,7 @@ TOOLCHAINS_DIR_NAME=os.path.basename(TOOLCHAINS_DIR_PATH)
 PROJECT_DIR_PATH=os.path.join(TOOLCHAINS_DIR_PATH, "..")
 RUNTIME_DIR_PATH=os.path.join(PROJECT_DIR_PATH, "Runtime")
 LAUNCHER_DIR_PATH=os.path.join(PROJECT_DIR_PATH, "Launcher")
+DAPPS_DIR_PATH=os.path.join(PROJECT_DIR_PATH, "Dapps")
 
 def run_cmd(cmd, ignore_error=False):
     print("Running: " + cmd)
@@ -54,10 +55,26 @@ if args.target == "clean":
     remove_tree("Runtime/www")
     remove_tree("Plugins/QRScanner/node_modules")
 
+    dirs = os.listdir(DAPPS_DIR_PATH)
+    for dir in dirs:
+        if not os.path.isfile(dir):
+            remove_tree("Dapps/" + dir + "/www")
+            remove_tree("Dapps/" + dir + "/node_modules")
+
 if args.target == "launcher" or args.target == "all":
-    os.chdir(LAUNCHER_DIR_PATH)
+    os.chdir(args.target == "runtime")
     run_cmd("npm install")
     run_cmd("ionic build --prod")
+
+if args.target == "dapp" # or args.target == "all" or args.target == "runtime":
+    dirs = os.listdir(DAPPS_DIR_PATH)
+    for dir in dirs:
+        if not os.path.isfile(dir):
+            print("Building dapp: " + dir)
+            os.chdir(os.path.join(DAPPS_DIR_PATH, dir))
+            run_cmd("npm install")
+            run_cmd("ionic build --prod")
+            copy_tree("www", "../../Runtime/www/built-in/org.elastos.trinity.dapp." + dir.lower())
 
 if args.target == "all":
     os.chdir(PROJECT_DIR_PATH)

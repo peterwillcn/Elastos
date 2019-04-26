@@ -99,6 +99,7 @@
     self.NodePublickKeyLab.text = NodePublickKey;
     self.URLLab.text = URL;
     self.LocationLab.text = [[FLTools share]contryNameTransLateByCode:Location.integerValue];
+    [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:[[FLTools share] getImageViewURLWithURL:self.model.url]] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
     
 }
 -(void)getNetCoinPointArrayWithPubKey:(NSString *)OwnerPublickKey{

@@ -81,6 +81,7 @@
     }else{
         self.joinTheCandidateListButton.enabled = YES;
     }
+[self.iconImageView sd_setImageWithURL:[NSURL URLWithString:[[FLTools share] getImageViewURLWithURL:self.model.url]] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
     
 }
 - (IBAction)copyURLEvent:(id)sender {

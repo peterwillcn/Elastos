@@ -75,13 +75,7 @@ dispatch_queue_t queue = dispatch_queue_create("net.bujige.testQueue", DISPATCH_
             FLCoinPointInfoModel *model =allListInfoArray[i];
             if (model.url.length>0) {
                 
-            
-            NSString *urlString=[model.url substringFromIndex:[model.url length]-1];
-            if ([urlString isEqualToString:@"/"] ) {
-                model.iconImageUrl= [self getImageViewURLWithURL:[NSString stringWithFormat:@"%@bpinfo.json",model.url]];
-            }else{
-                model.iconImageUrl= [self getImageViewURLWithURL:[NSString stringWithFormat:@"%@/bpinfo.json",model.url]];
-            }
+            model.iconImageUrl= [[FLTools share] getImageViewURLWithURL:model.url];
                 
             }
             
@@ -94,16 +88,6 @@ dispatch_queue_t queue = dispatch_queue_create("net.bujige.testQueue", DISPATCH_
     });
     
     
-}
--(NSString *)getImageViewURLWithURL:(NSString*)urlString{
-     NSURL *url=  [NSURL URLWithString:urlString];
-    NSData *data=[NSData dataWithContentsOfURL:url];
-    if (data==nil) {
-        return @"";
-    }
-    NSError *error;
-    id jsonClass = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-    return [NSString stringWithFormat:@"%@",jsonClass[@"org"][@"branding"][@"logo_256"]];
 }
 -(void)viewWillAppear:(BOOL)animated
 {

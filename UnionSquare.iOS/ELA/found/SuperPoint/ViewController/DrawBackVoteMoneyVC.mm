@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *drawBtn;
 
 @property(nonatomic,strong) assetDetailsModel *model;
+@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 
 @end
 
@@ -49,33 +50,23 @@
     
     NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
     
-//    ELWalletManager *manager   =  [ELWalletManager share];
-//
-//    IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
+   
+    NSDictionary *infoDic = param[@"Info"];
     
-//    Json result = mainchainSubWallet->GetAllTransaction(0, 500,"");
-//    NSString *dataStr = [NSString stringWithUTF8String:result.dump().c_str()];
-//
-//    NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-//    NSArray *tranList=[NSArray modelArrayWithClass:assetDetailsModel.class json:param[@"Transactions"]];
+//    NSString *OwnerPublickKey = infoDic[@"OwnerPublicKey"];
+//    NSString *NodePublickKey   =infoDic[@"NodePublicKey"];
     
-    //取 注销记录
-//    for (int i=0; i < tranList.count; i++) {
-//        assetDetailsModel *model1 = tranList[i];
-//        if (model1.Type.integerValue==10 && model1.ConfirmStatus.integerValue>=1) {
-//            self.model = model1;
-//            break;
-//        }
-//    }
-//    if (self.model==nil) {
-//        self.drawBtn.enabled = NO;
-//        return;
-//    }
+    NSString *URL             = infoDic[@"URL"];
+    
+//    NSString *Location      =infoDic[@"Location"];
+//    NSString *NickName        = infoDic[@"NickName"];
+
     if ([param[@"Info"][@"Confirms"] integerValue]>2160) {
         self.drawBtn.enabled=YES;
     }else{
         self.drawBtn.enabled=NO;
     }
+    [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:URL] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
 }
 -(void)iconInfoUpdate:(NSNotification*)notice{
     

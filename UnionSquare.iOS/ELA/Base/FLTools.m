@@ -902,5 +902,21 @@ static FLTools *tool;
     
     
 }
-
+-(NSString *)getImageViewURLWithURL:(NSString*)urlString{
+    NSLog(@"=======%@",urlString);
+    NSString *urlLaString=[urlString substringFromIndex:[urlString length]-1];
+    if ([urlLaString isEqualToString:@"/"] ) {
+        urlString= [NSString stringWithFormat:@"%@bpinfo.json",urlString];
+    }else{
+        urlString= [NSString stringWithFormat:@"%@/bpinfo.json",urlString];
+    }
+    NSURL *url=  [NSURL URLWithString:urlString];
+    NSData *data=[NSData dataWithContentsOfURL:url];
+    if (data==nil) {
+        return @"";
+    }
+    NSError *error;
+    id jsonClass = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+    return [NSString stringWithFormat:@"%@",jsonClass[@"org"][@"branding"][@"logo_256"]];
+}
 @end

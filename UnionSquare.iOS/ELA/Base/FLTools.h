@@ -115,4 +115,5 @@
 -(NSString *)contryNameTransLateByCode:(NSInteger)code;
 -(NSString *)elsToSela:(NSString*)ela;
 -(BOOL)changeisEnglish:(NSString*)m;
+-(NSString *)getImageViewURLWithURL:(NSString*)urlString;
 @end

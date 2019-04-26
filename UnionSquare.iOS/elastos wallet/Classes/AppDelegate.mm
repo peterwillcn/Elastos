@@ -90,8 +90,8 @@
     }else{
         FLFLTabBarVC *tabVC = [[FLFLTabBarVC alloc]init];
         
-        BaseNavigationVC *firstNAVC=tabVC.viewControllers.firstObject;
-        FirstViewController *firstVC=firstNAVC.viewControllers.firstObject;
+//        BaseNavigationVC *firstNAVC=tabVC.viewControllers.firstObject;
+//        FirstViewController *firstVC=firstNAVC.viewControllers.firstObject;
         //        firstVC.walletIDListArray=array;
         
         self.window.rootViewController = tabVC;

@@ -903,7 +903,6 @@ static FLTools *tool;
     
 }
 -(NSString *)getImageViewURLWithURL:(NSString*)urlString{
-    NSLog(@"=======%@",urlString);
     NSString *urlLaString=[urlString substringFromIndex:[urlString length]-1];
     if ([urlLaString isEqualToString:@"/"] ) {
         urlString= [NSString stringWithFormat:@"%@bpinfo.json",urlString];

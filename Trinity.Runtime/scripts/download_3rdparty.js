@@ -17,6 +17,14 @@ const files_to_download  = [{
   ],
   "targetDir": "platforms/ios",
   "md5": "0e0ba441cdb466dff1f9f6eecf2c9e55"
+},{
+  "url": "https://github.com/elastos/Elastos.NET.Carrier.iOS.SDK/releases/download/release-v5.2.4/ElastosCarrier-framework.zip",
+  "filename": "ElastosCarrier-framework.zip",
+  "sourceDirs": [
+    "ElastosCarrier-framework/ElastosCarrierSDK.framework"
+  ],
+  "targetDir": "../Plugins/Carrier/src/ios/libs",
+  "md5": "ef6184f0903ed6885f7207077c413c01"
 }]
 // no need to configure below
 

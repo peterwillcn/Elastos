@@ -30,6 +30,7 @@ module.exports = function(ctx) {
 
     let options = { customFramework: true, embed: embed, sign: true };
     runtimeProj.addFramework('libz.tbd');
+    runtimeProj.addFramework('Elastos/Plugins/elastos-trinity-plugins-carrier/ElastosCarrierSDK.framework', options);
 
 
     //

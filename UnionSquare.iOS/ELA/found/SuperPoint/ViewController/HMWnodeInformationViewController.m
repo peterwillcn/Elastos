@@ -63,7 +63,7 @@
     self.nickNameLab.text   = self.model.nickname;
     self.nodePubKeyLab.text = self.model.ownerpublickey;
     self.urlLab.text        = self.model.url;
-    self.ticketNumbLab.text = self.model.votes;
+    self.ticketNumbLab.text = [NSString stringWithFormat:@"%ld",(long)[self.model.votes integerValue]];
     self.ticketRateLab.text = [NSString stringWithFormat:@"%.5lf %@",self.model.voterate.doubleValue*100,@"%"] ;
     self.contryCodeLab.text =  [[FLTools share]contryNameTransLateByCode:  self.model.location.integerValue];
     

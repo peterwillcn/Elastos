@@ -34,28 +34,29 @@
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
     </plugin>
     <plugin name="elastos-trinity-plugins-appservice" spec="../Plugins/AppService" />
-    <plugin name="elastos-trinity-plugins-plugindemo" spec="../Plugins/PluginDemo" />
-    <plugin name="cordova-plugin-file" spec="../Plugins/File" />
-    <plugin name="elastos-trinity-plugins-dialogs" spec="../Plugins/Dialog" />
-    <plugin name="elastos-trinity-plugins-geolocation" spec="../Plugins/Geolocation" />
-    <plugin name="elastos-trinity-plugins-media" spec="../Plugins/Media">
-        <variable name="KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE" value="NO" />
-    </plugin>
-    <plugin name="elastos-trinity-plugins-flashlight" spec="../Plugins/Flashlight" />
-    <plugin name="elastos-trinity-plugins-device" spec="../Plugins/Device" />
-    <plugin name="elastos-trinity-plugins-vibration" spec="../Plugins/Vibration" />
-    <plugin name="elastos-trinity-plugins-statusbar" spec="../Plugins/Statusbar" />
-    <plugin name="elastos-trinity-plugins-device-motion" spec="../Plugins/DeviceMotion" />
-    <plugin name="elastos-trinity-plugins-splashscreen" spec="../Plugins/SplashScreen" />
     <plugin name="elastos-trinity-plugins-battery-status" spec="../Plugins/BatteryStatus" />
-    <plugin name="elastos-trinity-plugins-capture" spec="../Plugins/MediaCapture" />
-    <plugin name="elastos-trinity-plugins-screen-orientation" spec="../Plugins/ScreenOrientation" />
-    <plugin name="elastos-trinity-plugins-inappbrowser" spec="../Plugins/InappBrowser" />
-    <plugin name="elastos-trinity-plugins-network-information" spec="../Plugins/NetWorkInformation" />
+    <plugin name="cordova-plugin-file" spec="../Plugins/File" />
     <plugin name="elastos-trinity-plugins-camera" spec="../Plugins/Camera">
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
     </plugin>
+    <plugin name="elastos-trinity-plugins-carrier" spec="../Plugins/Carrier" />
+    <plugin name="elastos-trinity-plugins-device" spec="../Plugins/Device" />
+    <plugin name="elastos-trinity-plugins-device-motion" spec="../Plugins/DeviceMotion" />
+    <plugin name="elastos-trinity-plugins-dialogs" spec="../Plugins/Dialog" />
+    <plugin name="elastos-trinity-plugins-geolocation" spec="../Plugins/Geolocation" />
+    <plugin name="elastos-trinity-plugins-flashlight" spec="../Plugins/Flashlight" />
+    <plugin name="elastos-trinity-plugins-inappbrowser" spec="../Plugins/InappBrowser" />
+    <plugin name="elastos-trinity-plugins-media" spec="../Plugins/Media">
+        <variable name="KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE" value="NO" />
+    </plugin>
+    <plugin name="elastos-trinity-plugins-capture" spec="../Plugins/MediaCapture" />
+    <plugin name="elastos-trinity-plugins-network-information" spec="../Plugins/NetWorkInformation" />
+    <plugin name="elastos-trinity-plugins-plugindemo" spec="../Plugins/PluginDemo" />
     <plugin name="elastos-trinity-plugins-qrscanner" spec="../Plugins/QRScanner" />
+    <plugin name="elastos-trinity-plugins-screen-orientation" spec="../Plugins/ScreenOrientation" />
+    <plugin name="elastos-trinity-plugins-splashscreen" spec="../Plugins/SplashScreen" />
+    <plugin name="elastos-trinity-plugins-statusbar" spec="../Plugins/Statusbar" />
+    <plugin name="elastos-trinity-plugins-vibration" spec="../Plugins/Vibration" />
     <engine name="android" spec="7.1.4" />
     <engine name="ios" spec="4.5.5" />
 </widget>

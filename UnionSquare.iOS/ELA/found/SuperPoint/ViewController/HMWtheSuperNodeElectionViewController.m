@@ -131,6 +131,7 @@ dispatch_queue_t queue = dispatch_queue_create("net.bujige.testQueue", DISPATCH_
         }
         
         if (curentmodel) {
+            [[FLNotePointDBManager defult]updateRecord:model];
             continue;
         }else{
             [[FLNotePointDBManager defult]delectRecord:model];

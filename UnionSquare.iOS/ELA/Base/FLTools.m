@@ -598,7 +598,7 @@ static FLTools *tool;
                 @{@"countries":@"安提瓜和巴布达",@"mobileCode":@"1268"},
                 @{@"countries":@"阿根廷",@"mobileCode":@"54"},
                 @{@"countries":@"亚美尼亚",@"mobileCode":@"374"},
-                @{@"countries":@"阿鲁巴",@"mobileCode":@"0297"},
+                @{@"countries":@"阿鲁巴",@"mobileCode":@"297"},
                 @{@"countries":@"澳大利亚",@"mobileCode":@"61"},
                 @{@"countries":@"奥地利",@"mobileCode":@"43"},
                 @{@"countries":@"阿塞拜疆",@"mobileCode":@"994"},

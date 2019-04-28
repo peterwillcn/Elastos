@@ -44,7 +44,7 @@
     self.BGView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.15];
     if (selected) {
         
-          [self.isSelectBtn setImage:[UIImage imageNamed:@"asset_linkman_select"] forState:UIControlStateNormal];
+          [self.isSelectBtn setImage:[UIImage imageNamed:@"found_vote_select"] forState:UIControlStateNormal];
     }else{
       [self.isSelectBtn setImage:[UIImage imageNamed:@"asset_linkman"] forState:UIControlStateNormal];
     }

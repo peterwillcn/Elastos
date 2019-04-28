@@ -80,9 +80,10 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     self.voteInTotalLabel.text = @(total/unitNumber).stringValue;
     self.dataSource = showlistdata;
     if (self.dataSource.count==0) {
+        self.changeVotesButton.alpha=0.f;
      self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_unlocked"];
     }else{
-        
+         self.changeVotesButton.alpha=1.f;
         self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_going_on"];
     }
     [self.baseTableView reloadData];

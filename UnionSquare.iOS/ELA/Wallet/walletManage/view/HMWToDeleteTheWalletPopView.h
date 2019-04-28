@@ -27,6 +27,7 @@ typedef NS_ENUM(NSInteger, HMWToDeleteType) {
    deleteTheWallet,         // slow at beginning and end
  deleteFriends,            // slow at beginning
   deleteSelectVote,
+    moreThan36SelectList
    
 };
 

@@ -13,8 +13,9 @@
 #import "ELWalletManager.h"
 #import "HMWpwdPopupView.h"
 #import "HMWSendSuccessPopuView.h"
+#import "HMWToDeleteTheWalletPopView.h"
 static NSString *cellString=@"HMWtheCandidateListTableViewCell";
-@interface HMWtheCandidateListViewController ()<UITableViewDelegate,UITableViewDataSource,HMWpwdPopupViewDelegate,VotesPopupViewDelegate>
+@interface HMWtheCandidateListViewController ()<UITableViewDelegate,UITableViewDataSource,HMWpwdPopupViewDelegate,VotesPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate>
 @property(strong,nonatomic)HMWSendSuccessPopuView *sendSuccessPopuV;//交易成功 提示;
 @property (weak, nonatomic) IBOutlet UILabel *TagtatolVoteLab;
 
@@ -38,6 +39,10 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 
 @property (weak, nonatomic) IBOutlet UIProgressView *progress;
 @property (weak, nonatomic) IBOutlet UILabel *persentLab;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)HMWToDeleteTheWalletPopView *moreThan36View;
 
 @end
 
@@ -60,6 +65,39 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     self.persentLab.text = self.persent;
 //    self.persentLab.text = [self.persent stringByAppendingString:@"%"];
 }
+-(HMWToDeleteTheWalletPopView *)moreThan36View{
+    if (!_moreThan36View) {
+        _moreThan36View =[[HMWToDeleteTheWalletPopView alloc]init];
+        _moreThan36View.delegate=self;
+        _moreThan36View.deleteType=moreThan36SelectList;
+    }
+    return _moreThan36View;
+}
+-(void)selectMoreThan36{
+    UIView *maView=[self mainWindow];
+    [maView addSubview:self.moreThan36View];
+    [self.moreThan36View mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(maView);
+    }];
+   
+    
+}
+#pragma mark ---------HMWToDeleteTheWalletPopViewDelegate----------
+-(void)sureToDeleteViewWithPWD:(NSString*)pwd{
+     [self clearVoteArray];
+    for (int i= 0; i<36; i++) {
+        NSIndexPath *index = [NSIndexPath indexPathForRow:i inSection:0];
+        [self.baseTableView selectRowAtIndexPath:index animated:YES scrollPosition:UITableViewScrollPositionNone];
+        [self tableView:self.baseTableView didSelectRowAtIndexPath:index];
+    }
+    self.selectAllBtn.selected=YES;
+    [self toCancelOrCloseDelegate];
+}
+-(void)toCancelOrCloseDelegate{
+    [self.moreThan36View removeFromSuperview];
+    self.moreThan36View=nil;
+}
+
 -(void)getDBRecored{
     self.dataSource  = [[NSMutableArray alloc]initWithArray: [[FLNotePointDBManager defult]allRecord]];
     [self.baseTableView reloadData];
@@ -83,6 +121,10 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
         if (self.voteArray.count == 0) {
             return;
         }
+        if (self.voteArray.count>36) {
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"最多可选36个节点", nil)];
+            return;
+        }
         
         ELWalletManager *manager   =  [ELWalletManager share];
         
@@ -98,11 +140,13 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     
 }
 
+
 - (IBAction)selectAllAction:(UIButton*)sender {
 
-    [self clearVoteArray];
-    
+   
+  
     if (sender.isSelected) {
+         [self clearVoteArray];
         sender.selected = NO;
         for (int i= 0; i<self.dataSource.count; i++) {
             NSIndexPath *index = [NSIndexPath indexPathForRow:i inSection:0];
@@ -110,7 +154,13 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
             [self tableView:self.baseTableView didDeselectRowAtIndexPath:index];
         }
     }else{
-        sender.selected = YES;
+        
+        if (self.dataSource.count>36) {
+            [self  selectMoreThan36];
+            return;
+        }
+         [self clearVoteArray];
+       sender.selected = YES;
 
     for (int i= 0; i<self.dataSource.count; i++) {
         NSIndexPath *index = [NSIndexPath indexPathForRow:i inSection:0];
@@ -301,13 +351,5 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     return _placeHolferImage;
     
 }
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+
 @end

@@ -18,6 +18,7 @@
 */
 @property(strong,nonatomic)HMWSecurityVerificationPopView *securityVerificationPopV;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewHeight;
 
 @end
 @implementation HMWToDeleteTheWalletPopView
@@ -64,7 +65,7 @@
             make.left.right.top.bottom.equalTo(self);
         }];
     }else if (self.deleteType==deleteFriends){
-        self.titlePopLabel.text=NSLocalizedString(@"是否删除当前联系人？", nil);;
+        self.titlePopLabel.text=NSLocalizedString(@"是否删除当前联系人？", nil);
         if (self.delegate) {
             [self.delegate sureToDeleteViewWithPWD:@""];
         }
@@ -73,6 +74,12 @@
         [self.securityVerificationPopV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.top.bottom.equalTo(self);
         }];
+    }else if (self.deleteType==moreThan36SelectList){
+//        self.titlePopLabel.text=NSLocalizedString(@"超出投票选择上限，是否在已选列表中按排名顺序选择前36名？", nil);
+        if(self.delegate){
+            [self.delegate sureToDeleteViewWithPWD:@""];
+        }
+        
     }
   
 
@@ -102,6 +109,9 @@
         
     }else if (deleteType==deleteSelectVote){
         self.titlePopLabel.text= NSLocalizedString(@"是否确认注销候选资格?\n候选资格一旦注销，所有投票清零且不可恢复。", nil);
+        
+    }else if (deleteType==moreThan36SelectList){
+        self.viewHeight.constant=160; self.titlePopLabel.text=NSLocalizedString(@"超出投票选择上限，是否在已选列表中按排名顺序选择前36名？", nil);
         
     }
     

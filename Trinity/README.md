@@ -6,7 +6,7 @@ Elastos Trinity
 
 ## Introduction
 
-Elastos Trinity integrates all the services that Elastos provides and combines them into a singular framework for DApp developers to use. For this reason, DApp developers only need to write their application using ionic javascript framework and have only one set of Runtime APIs to manage. 
+Elastos Trinity integrates all the services that Elastos provides and combines them into a singular framework for DApp developers to use. For this reason, DApp developers only need to write their application using ionic javascript framework and have only one set of Runtime APIs to manage.
 
 Elastos Trinity is supported on both Android and iOS, DApp developers only need to develop their application using one set of code in order to run on both platforms.
 
@@ -92,7 +92,7 @@ Open project from YOU-PATH/Elastos.Trinity/Runtime/platforms/android
 
 Open project from YOU-PATH/Elastos.Trinity/Runtime/platforms/ios
 
-    
+
 ### Build on Windows Host
 
 ```shell
@@ -104,7 +104,7 @@ python ToolChain/bin/build all
 
 Open project from YOU-PATH/Elastos.Trinity/Runtime/platforms/android
 
-## [How to develop dapp](#https://github.com/elastos/Elastos.Trinity.ToolChains/blob/master/README.md)
+## [How to develop dapp](https://github.com/elastos/Elastos.Trinity.ToolChains/blob/master/README.md)
 
 ## Repositories
 

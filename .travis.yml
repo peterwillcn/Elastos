@@ -4,7 +4,7 @@ sudo: true
 matrix:
   include:
     - os: osx
-      osx_image: xcode10.1
+      osx_image: xcode10.2
       env: NODEJS_VERSION=10
       addons:
         homebrew:
@@ -12,7 +12,7 @@ matrix:
           casks: adoptopenjdk8
 
     - os: osx
-      osx_image: xcode10.1
+      osx_image: xcode10.2
       env: NODEJS_VERSION=11
       addons:
         homebrew:

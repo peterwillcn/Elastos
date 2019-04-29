@@ -64,6 +64,8 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     self.progress.progress = self.persent.floatValue;
     self.persentLab.text = self.persent;
 //    self.persentLab.text = [self.persent stringByAppendingString:@"%"];
+    [self.selectAllBtn setImage:[UIImage imageNamed:@"found_vote_selected"] forState:UIControlStateSelected];
+    [self.selectAllBtn setImage:[UIImage imageNamed:@"found_vote_border"] forState:UIControlStateNormal];
 }
 -(HMWToDeleteTheWalletPopView *)moreThan36View{
     if (!_moreThan36View) {

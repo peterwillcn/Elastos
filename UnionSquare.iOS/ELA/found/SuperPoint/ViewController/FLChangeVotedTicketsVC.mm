@@ -50,6 +50,8 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     [[HMWCommView share]makeBordersWithView:self.immediatelyChangeBtn];
     [self getDBRecored];
     [self makeView];
+     [self.selectAllBtn setImage:[UIImage imageNamed:@"found_vote_selected"] forState:UIControlStateSelected];
+     [self.selectAllBtn setImage:[UIImage imageNamed:@"found_vote_border"] forState:UIControlStateNormal];
     
 }
 
@@ -121,6 +123,7 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     if (sender.isSelected) {
         [self clearVoteArray];
         sender.selected = NO;
+       
         for (int i= 0; i<self.dataSource.count; i++) {
             NSIndexPath *index = [NSIndexPath indexPathForRow:i inSection:0];
             [self.baseTableView deselectRowAtIndexPath:index animated:YES];

@@ -2019,12 +2019,12 @@
 		4202C93B21F6EF29009E5932 /* view */ = {
 			isa = PBXGroup;
 			children = (
-				4202C93C21F6EF29009E5932 /* HMWToDeleteTheWalletPopView.xib */,
-				4202C93D21F6EF29009E5932 /* HMWToDeleteTheWalletPopView.h */,
 				4202C93E21F6EF29009E5932 /* HMWSecurityVerificationPopView.h */,
-				4202C93F21F6EF29009E5932 /* HMWToDeleteTheWalletPopView.m */,
-				4202C94021F6EF29009E5932 /* HMWSecurityVerificationPopView.xib */,
 				4202C94121F6EF29009E5932 /* HMWSecurityVerificationPopView.m */,
+				4202C94021F6EF29009E5932 /* HMWSecurityVerificationPopView.xib */,
+				4202C93D21F6EF29009E5932 /* HMWToDeleteTheWalletPopView.h */,
+				4202C93F21F6EF29009E5932 /* HMWToDeleteTheWalletPopView.m */,
+				4202C93C21F6EF29009E5932 /* HMWToDeleteTheWalletPopView.xib */,
 			);
 			path = view;
 			sourceTree = "<group>";

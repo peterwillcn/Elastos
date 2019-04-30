@@ -42,6 +42,7 @@
 @implementation HMWnodeInformationViewController
 - (void)viewDidLoad {
    [super viewDidLoad];
+    NSLog(@"*(*(*(*(*开始");
   [self defultWhite];
     [self setBackgroundImg:@"tab_bg"];
      self.title=NSLocalizedString(@"节点信息", nil) ;

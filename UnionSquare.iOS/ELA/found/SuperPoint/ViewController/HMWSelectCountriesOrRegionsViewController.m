@@ -327,7 +327,7 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
         
         
         
-       _CountryCodeArray=@[A,B,C,D,E,F,G,H,I,J,K,M,L,N,O,P,Q,R,S,T,U,V,W,X,Y,Z];
+       _CountryCodeArray=@[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z];
         
     
         
@@ -342,7 +342,7 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
 //        NSDictionary *nationalMobilePhoneAreaCodeDict = [NSDictionary dictionaryWithContentsOfFile:path];
 //        NSArray *allArra=[NSArray arrayWithArray:nationalMobilePhoneAreaCodeDict[@"allMobileCode"]];
 ////        NSLog(@"%@",allArra);
-        _headSectionArray =[NSArray arrayWithObjects:@"A", @"B", @"C", @"D", @"E", @"F", @"G",@"H",@"I",@"J",@"K",@"M",@"L",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z", nil];
+        _headSectionArray =[NSArray arrayWithObjects:@"A", @"B", @"C", @"D", @"E", @"F", @"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z", nil];
     }
     return _headSectionArray;
 }

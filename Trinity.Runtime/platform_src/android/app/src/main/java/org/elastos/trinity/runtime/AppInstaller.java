@@ -33,14 +33,16 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Random;
+import java.util.TreeMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -77,12 +79,18 @@ public class AppInstaller {
         return true;
     }
 
-    private boolean unpackZip(InputStream srcZip, String destPath) {
-        InputStream is;
+    private boolean unpackZip(InputStream srcZip, String destPath, boolean verifyDigest) {
         ZipInputStream zis;
+        MessageDigest md = null;
+        TreeMap<String, String> digest_map = null;
+        String filelist_sha = "";
 
         try
         {
+            if (verifyDigest) {
+                md = MessageDigest.getInstance("SHA-256");
+                digest_map = new TreeMap<String, String>();
+            }
             String filepath;
             zis = new ZipInputStream(new BufferedInputStream(srcZip));
             ZipEntry ze;
@@ -90,7 +98,8 @@ public class AppInstaller {
             int count;
 
             while ((ze = zis.getNextEntry()) != null) {
-                filepath = destPath + ze.getName();
+                String entry_name = ze.getName();
+                filepath = destPath + entry_name;
 
                 if (ze.isDirectory()) {
                     File fmd = new File(filepath);
@@ -102,9 +111,28 @@ public class AppInstaller {
 
                     FileOutputStream fout = new FileOutputStream(file);
 
-                    // cteni zipu a zapis
+                    if (verifyDigest && !entry_name.startsWith("EPK-SIGN/")) {
+                        md.reset();
+                    }
                     while ((count = zis.read(buffer)) != -1) {
+                        if (verifyDigest) {
+                            if (!entry_name.startsWith("EPK-SIGN/")) {
+                                md.update(buffer, 0, count);
+                            } else if (entry_name.equals("EPK-SIGN/FILELIST.SHA")) {
+                                filelist_sha = new String(buffer, 0, count);
+                            }
+                        }
                         fout.write(buffer, 0, count);
+                    }
+                    if (verifyDigest && !entry_name.startsWith("EPK-SIGN/")) {
+                        byte[] digest = md.digest();
+                        StringBuilder sb = new StringBuilder(2 * digest.length);
+                        for (byte b : digest) {
+                            sb.append("0123456789abcdef".charAt((b & 0xF0) >> 4));
+                            sb.append("0123456789abcdef".charAt((b & 0x0F)));
+                        }
+                        String hex = sb.toString();
+                        digest_map.put(entry_name, hex);
                     }
 
                     fout.close();
@@ -113,8 +141,32 @@ public class AppInstaller {
             }
 
             zis.close();
+
+            if (verifyDigest) {
+                StringBuilder filelist_inf = new StringBuilder();
+                md.reset();
+                for (String file : digest_map.keySet()) {
+                    filelist_inf.append(digest_map.get(file) + " " + file + "\n");
+                }
+                md.update(filelist_inf.toString().getBytes("UTF-8"));
+
+                byte[] digest = md.digest();
+                StringBuilder sb = new StringBuilder(2 * digest.length);
+                for (byte b : digest) {
+                    sb.append("0123456789abcdef".charAt((b & 0xF0) >> 4));
+                    sb.append("0123456789abcdef".charAt((b & 0x0F)));
+                }
+                String hex = sb.toString();
+                if (!hex.equals(filelist_sha)) {
+                    // Verify digest failed!
+                    return false;
+                }
+            }
         }
         catch(IOException e) {
+            e.printStackTrace();
+            return false;
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return false;
         }
@@ -203,7 +255,7 @@ public class AppInstaller {
         File fmd = new File(path);
         fmd.mkdirs();
 
-        if (!unpackZip(inputStream, path)) {
+        if (!unpackZip(inputStream, path, true)) {
             deleteDAppPackage(downloadPkgPath);
             throw new Exception("UnpackZip fail!");
         }

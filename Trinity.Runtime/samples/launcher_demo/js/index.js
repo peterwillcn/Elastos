@@ -353,7 +353,7 @@ function touchDemo(No) {
         appManager.start(demo.appInfo.id);
     }
     else {
-        appManager.install("assets://www/install-file/demo" + No + ".zip", setInstalledItem);
+        appManager.install("assets://www/install-files/demo" + No + ".epk", setInstalledItem);
     }
 }
 

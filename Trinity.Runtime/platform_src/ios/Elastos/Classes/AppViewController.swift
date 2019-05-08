@@ -74,14 +74,7 @@
         self.pluginObjects = NSMutableDictionary(capacity: 30);
     }
     
-    override func getCommandInstance(_ name: String) -> Any {
-        let pluginName = name.lowercased();
-        let className = self.pluginsMap[pluginName] as! String;
-        var obj = self.pluginObjects[className as Any];
-        guard obj == nil else {
-            return obj as Any;
-        }
-        
+    override func filterPlugin(_ pluginName: String, _ className: String) -> NullPlugin? {
         if !self.defaultPlugins.contains(pluginName) {
             var setPlugin = false;
             for pluginAuth in (appInfo?.plugins)! {
@@ -97,22 +90,8 @@
             }
             
         }
-        
-        obj = super.getCommandInstance(pluginName)
-        let trinityPlugin = obj as? TrinityPlugin
-        
-        if trinityPlugin != nil {
-            let appPath = AppManager.getShareInstance().getAppPath(self.appInfo!);
-            let dataPath = AppManager.getShareInstance().getDataPath(self.id);
-            let tempPath = AppManager.getShareInstance().getTempPath(self.id);
-            trinityPlugin!.trinityInitialize(pluginName, 
-                whitelistFilter:self.whitelistFilter, checkAuthority:true, 
-                appPath:appPath, dataPath:dataPath, tempPath:tempPath);
-        }
-
-        return obj as Any;
+        return nil;
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);

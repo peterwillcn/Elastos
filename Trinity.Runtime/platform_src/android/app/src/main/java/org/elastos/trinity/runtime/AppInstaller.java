@@ -140,11 +140,15 @@ public class AppInstaller {
         }
     }
 
-    public void copyAssetsFolder(String src, String dest) throws IOException {
+    public void copyAssetsFolder(String src, String dest) throws Exception {
         AssetManager manager = context.getAssets();
         String fileNames[] = manager.list(src);
+
         if (fileNames.length > 0) {
             File file = new File(dest);
+            if (file.exists()) {
+                deleteAllFiles(file);
+            }
             file.mkdirs();
             for (String fileName : fileNames) {
                 copyAssetsFolder(src + "/" + fileName, dest + "/" + fileName);

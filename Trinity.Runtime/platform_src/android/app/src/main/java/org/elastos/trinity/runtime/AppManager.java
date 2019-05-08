@@ -66,6 +66,7 @@ public class AppManager {
 
     public String appsPath = null;
     public String dataPath = null;
+    public String configPath = null;
     public String tempPath = null;
 
     private AppInstaller installer;
@@ -85,6 +86,7 @@ public class AppManager {
 
         appsPath = activity.getFilesDir() + "/apps/";
         dataPath = activity.getFilesDir() + "/data/";
+        configPath = activity.getFilesDir() + "/config/";
         tempPath = activity.getFilesDir() + "/temp/";
 
         Boolean first = false;
@@ -94,6 +96,10 @@ public class AppManager {
             first = true;
         }
         destDir = new File(dataPath);
+        if (!destDir.exists()) {
+            destDir.mkdirs();
+        }
+        destDir = new File(configPath);
         if (!destDir.exists()) {
             destDir.mkdirs();
         }
@@ -115,6 +121,7 @@ public class AppManager {
 
         if (first) {
             saveLauncherInfo();
+            copyConfigFiles();
         }
 
         appList = dbAdapter.getAppInfos();
@@ -135,6 +142,15 @@ public class AppManager {
             installer.copyAssetsFolder("www/launcher", appsPath + info.app_id);
             info.built_in = 1;
             dbAdapter.addAppInfo(info);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void copyConfigFiles() {
+        try {
+            installer.copyAssetsFolder("www/config", configPath);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -216,6 +232,10 @@ public class AppManager {
 
     public String getTempUrl(String id) {
         return "file://" + getTempPath(id);
+    }
+
+    public String getConfigPath() {
+        return configPath;
     }
 
     public String resetPath(String dir, String origin) {

@@ -30,6 +30,7 @@
 @property (nonatomic, readwrite, copy) NSString* pluginName;
 @property (nonatomic, readwrite) NSString* appPath;
 @property (nonatomic, readwrite) NSString* dataPath;
+@property (nonatomic, readwrite) NSString* configPath;
 @property (nonatomic, readwrite) NSString* tempPath;
 @end
 
@@ -40,22 +41,31 @@
 @synthesize pluginName;
 @synthesize appPath;
 @synthesize dataPath;
+@synthesize configPath;
 @synthesize tempPath;
 
-- (void)trinityInitialize:(NSString*)pluginName whitelistFilter:(CDVPlugin *)filter
-        checkAuthority:(BOOL)check appPath:(NSString*)appPath
-        dataPath:(NSString*)dataPath tempPath:(NSString*)tempPath {
-    self.pluginName = pluginName;
+- (void)setInfo:(CDVPlugin *)filter checkAuthority:(BOOL)check
+        appPath:(NSString*)appPath dataPath:(NSString*)dataPath
+     configPath:(NSString*)configPath tempPath:(NSString*)tempPath {
     self.filter = (WhitelistFilter*)filter;
     self.checkAuthority = check;
     self.appPath = appPath;
     self.dataPath = dataPath;
+    self.configPath = configPath;
     self.tempPath = tempPath;
+}
+
+-(void)setName:(NSString*)name {
+    self.pluginName = name;
 }
 
 - (BOOL)isAllowAccess:(NSString *)url {
     return [self.filter shouldAllowNavigation:url];
 }
+
+//- (void)setViewController:(UIViewController*)viewController{
+//    self.viewController = viewController;
+//}
 
 - (NSString*)getAppPath {
     return appPath;
@@ -69,7 +79,14 @@
     return tempPath;
 }
 
+- (NSString*)getConfigPath {
+    return configPath;
+}
+
 - (void)setError:(NSError * _Nullable *)error {
+    if (error == NULL) {
+        return;
+    }
     NSString *domain = @"";
     NSString *desc = NSLocalizedString(@"Dir is invalid!", @"");
     NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : desc };
@@ -90,29 +107,34 @@
         path = [path substringFromIndex:1];
     }
     if (![path hasPrefix:header]) {
-        return nil;
+        return NULL;
     }
     NSString* dir = [path substringFromIndex:header.length];
     return dir;
 }
 
 - (NSString*)getCanonicalPath:(NSString*)path error:(NSError * _Nullable *)error {
-    NSString* ret = nil;
+    NSString* ret = NULL;
+    if (path == NULL) {
+        [self setError:error];
+        return NULL;
+    }
+    
     if ([path hasPrefix:@"trinity:///assets/"]) {
         NSString* dir = [self getCanonicalDir:[path substringFromIndex:10] header:@"/assets/" error:error];
-        if (dir != nil) {
+        if (dir != NULL) {
             ret = [appPath stringByAppendingString:dir];
         }
     }
     else if ([path hasPrefix:@"trinity:///data/"]) {
         NSString* dir = [self getCanonicalDir:[path substringFromIndex:10] header:@"/data/" error:error];
-        if (dir != nil) {
+        if (dir != NULL) {
             ret = [dataPath stringByAppendingString:dir];
         }
     }
     else if ([path hasPrefix:@"trinity:///temp/"]) {
         NSString* dir = [self getCanonicalDir:[path substringFromIndex:10] header:@"/temp/" error:error];
-        if (dir != nil) {
+        if (dir != NULL) {
             ret = [tempPath stringByAppendingString:dir];
         }
     }
@@ -123,21 +145,34 @@
     }
     else if (![path  hasPrefix:@"/"]) {
         NSString* dir = [self getCanonicalDir:[@"/assets/" stringByAppendingString:path] header:@"/assets/" error:error];
-        if (dir != nil) {
+        if (dir != NULL) {
             ret = [appPath stringByAppendingString:dir];
         }
     }
     
-    if (ret == nil) {
+    if (ret == NULL) {
         [self setError:error];
-        return nil;
+        return NULL;
     }
 
     return ret;
 }
 
+- (NSString*)getDataCanonicalPath:(NSString*)path error:(NSError * _Nullable *)error {
+    if (path ==NULL || ![path hasPrefix:@"trinity:///data/"]) {
+        [self setError:error];
+        return nil;
+    }
+    return [self getCanonicalPath:path error:error];
+}
+
 - (NSString*)getRelativePath:(NSString*)path error:(NSError * _Nullable *)error {
     NSString* ret = nil;
+    if (path == NULL) {
+        [self setError:error];
+        return nil;
+    }
+    
     if (![path hasPrefix:@"assets://"] && [path rangeOfString:@"://"].length > 0) {
         if ([self.filter shouldAllowNavigation:path]) {
             ret = path;

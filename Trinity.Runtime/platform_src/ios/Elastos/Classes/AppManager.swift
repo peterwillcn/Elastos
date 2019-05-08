@@ -41,6 +41,7 @@ class AppManager {
     
     let appsPath: String;
     let dataPath: String;
+    let configPath: String;
     let tempPath: String;
     
     var curController: TrinityViewController?;
@@ -61,6 +62,7 @@ class AppManager {
         self.mainViewController = mainViewController;
         appsPath = NSHomeDirectory() + "/Documents/apps/";
         dataPath = NSHomeDirectory() + "/Documents/data/";
+        configPath = NSHomeDirectory() + "/Documents/config/";
         tempPath = NSHomeDirectory() + "/Documents/temp/";
         
         let fileManager = FileManager.default
@@ -84,6 +86,15 @@ class AppManager {
             }
         }
         
+        if (!fileManager.fileExists(atPath: configPath)) {
+            do {
+                try fileManager.createDirectory(atPath: configPath, withIntermediateDirectories: true, attributes: nil)
+            }
+            catch let error {
+                print("Make configPath error: \(error)");
+            }
+        }
+        
         if (!fileManager.fileExists(atPath: tempPath)) {
             do {
                 try fileManager.createDirectory(atPath: tempPath, withIntermediateDirectories: true, attributes: nil)
@@ -94,11 +105,13 @@ class AppManager {
         }
         
         dbAdapter = ManagerDBAdapter(dataPath);
+//        try! dbAdapter.clean();
         installer = AppInstaller(appsPath, dataPath, tempPath, dbAdapter);
         appList = try! dbAdapter.getAppInfos();
         
         if first {
             saveLauncherInfo();
+            copyConfigFiles();
         }
         
         saveBuiltInAppInfos();
@@ -121,6 +134,16 @@ class AppManager {
         }
         catch let error {
             print("Copy launcher error: \(error)");
+        }
+    }
+    
+    func copyConfigFiles() {
+        let path = getAbsolutePath("www/config");
+        do {
+            try installer.copyAssetsFolder(path, configPath);
+        }
+        catch let error {
+            print("Copy configPath error: \(error)");
         }
     }
     
@@ -197,6 +220,10 @@ class AppManager {
             appId = getLauncherInfo().app_id;
         }
         return tempPath + appId + "/";
+    }
+    
+    func getConfigPath() -> String {
+        return configPath;
     }
     
     func getTempUrl(_ id: String) -> String {

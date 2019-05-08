@@ -28,14 +28,13 @@ import org.apache.cordova.CordovaPreferences;
 import org.apache.cordova.CordovaWebView;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class TrinityPlugin extends CordovaPlugin {
     private AppWhitelistPlugin whitelistPlugin;
     public String dataPath = null;
     public String appPath = null;
     public String tempPath = null;
+    public String configPath = null;
     private AppInfo appInfo = null;
     private AppManager appManager = null;
 
@@ -48,6 +47,7 @@ public class TrinityPlugin extends CordovaPlugin {
         this.appManager = AppManager.getShareInstance();
         this.appPath = appManager.getAppPath(info);
         this.dataPath = appManager.getDataPath(info.app_id);
+        this.configPath = appManager.getConfigPath();
         this.tempPath = appManager.getTempPath(info.app_id);
     }
 
@@ -55,14 +55,16 @@ public class TrinityPlugin extends CordovaPlugin {
         return whitelistPlugin.shouldAllowNavigation(url);
     }
 
-
-
     public String getAppPath() {
         return appPath;
     }
 
     public String getDataPath() {
         return dataPath;
+    }
+
+    public String getConfigPath() {
+        return configPath;
     }
 
     public String getTempPath() {
@@ -116,6 +118,13 @@ public class TrinityPlugin extends CordovaPlugin {
         }
 
         return ret;
+    }
+
+    public String getDataCanonicalPath(String path) throws Exception {
+        if (!path.startsWith("trinity:///data/"))  {
+            throw new Exception("Dir is invalid!");
+        }
+        return getCanonicalPath(path);
     }
 
     public String getRelativePath(String path) throws Exception {

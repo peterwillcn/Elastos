@@ -58,29 +58,6 @@
         self.startPage = AppManager.getShareInstance().getStartPath(self.appInfo!);
     }
     
-    override func getCommandInstance(_ name: String) -> Any {
-        let pluginName = name.lowercased();
-        let className = self.pluginsMap[pluginName];
-        var obj = self.pluginObjects[className as Any];
-        guard obj == nil else {
-            return obj as Any;
-        }
-        
-        obj = super.getCommandInstance(pluginName)
-        let trinityPlugin = obj as? TrinityPlugin
-        
-        if trinityPlugin != nil {
-            let launcherPath = AppManager.getShareInstance().getAppPath(self.appInfo!);
-            let dataPath = AppManager.getShareInstance().getDataPath(self.id);
-            let tempPath = AppManager.getShareInstance().getTempPath(self.id);
-            trinityPlugin!.trinityInitialize(pluginName, whitelistFilter:self.whitelistFilter,
-                checkAuthority:false, appPath:launcherPath,
-                dataPath:dataPath, tempPath:tempPath);
-        }
-        
-        return obj as Any;
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad();
         for (name , value) in self.pluginObjects as! [String: CDVPlugin] {

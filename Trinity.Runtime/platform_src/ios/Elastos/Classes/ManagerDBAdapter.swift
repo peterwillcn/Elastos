@@ -71,22 +71,25 @@ import SQLite
     init(_ dataPath: String) {
         let path = dataPath + ManagerDBAdapter.DATABASE_NAME;
         db = try! Connection(path)
+        try! creatTables();
+    }
     
-        try! db.run(plugins.create(ifNotExists: true) { t in
+    func creatTables() throws {
+        try db.run(plugins.create(ifNotExists: true) { t in
             t.column(tid, primaryKey: .autoincrement)
             t.column(app_tid)
             t.column(plugin)
             t.column(authority)
         })
         
-        try! db.run(urls.create(ifNotExists: true) { t in
+        try db.run(urls.create(ifNotExists: true) { t in
             t.column(tid, primaryKey: .autoincrement)
             t.column(app_tid)
             t.column(url)
             t.column(authority)
         })
         
-        try! db.run(icons.create(ifNotExists: true) { t in
+        try db.run(icons.create(ifNotExists: true) { t in
             t.column(tid, primaryKey: .autoincrement)
             t.column(app_tid)
             t.column(src)
@@ -94,7 +97,7 @@ import SQLite
             t.column(type)
         })
         
-        try! db.run(apps.create(ifNotExists: true) { t in
+        try db.run(apps.create(ifNotExists: true) { t in
             t.column(tid, primaryKey: .autoincrement)
             t.column(app_id, unique: true)
             t.column(version)
@@ -115,6 +118,13 @@ import SQLite
             t.column(remote)
             t.column(launcher)
         })
+    }
+    
+    func dropTables() throws {
+        try db.run(plugins.drop());
+        try db.run(urls.drop());
+        try db.run(icons.drop());
+        try db.run(apps.drop());
     }
     
     func addAppInfo(_ info: AppInfo) throws {
@@ -258,6 +268,11 @@ import SQLite
             items = apps.filter(app_tid == info.tid);
             try db.run(items.delete());
         }
+    }
+    
+    func clean() throws {
+        try dropTables();
+        try creatTables();
     }
 
  }

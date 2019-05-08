@@ -40,4 +40,55 @@
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    private func setTrinityPluginInfo(_ plugin:CDVPlugin!) {
+        let trinityPlugin = plugin as? TrinityPlugin
+        let isApp = self is AppViewController
+        
+        if trinityPlugin != nil {
+            let launcherPath = AppManager.getShareInstance().getAppPath(self.appInfo!);
+            let dataPath = AppManager.getShareInstance().getDataPath(self.id);
+            let tempPath = AppManager.getShareInstance().getTempPath(self.id);
+            let configPath = AppManager.getShareInstance().getConfigPath();
+            trinityPlugin!.setInfo(self.whitelistFilter, checkAuthority:isApp, appPath:launcherPath, dataPath:dataPath,
+                configPath:configPath,tempPath:tempPath);
+        }
+    }
+    
+    override func register(_ plugin:CDVPlugin!, withClassName className:String!) {
+        setTrinityPluginInfo(plugin);
+        return super.register(plugin, withClassName: className);
+    }
+    
+    override func register(_ plugin:CDVPlugin!, withPluginName pluginName:String!) {
+        setTrinityPluginInfo(plugin);
+        return super.register(plugin, withPluginName: pluginName);
+    }
+    
+    func filterPlugin(_ pluginName: String, _ className: String) -> NullPlugin? {
+        return nil;
+    }
+    
+    override func getCommandInstance(_ name: String) -> Any {
+        let pluginName = name.lowercased();
+        let className = self.pluginsMap[pluginName] as! String;
+        var obj = self.pluginObjects[className as Any];
+        guard obj == nil else {
+            return obj as Any;
+        }
+        
+        obj = filterPlugin(pluginName, className)
+        guard obj == nil else {
+            return obj as Any;
+        }
+        
+        obj = super.getCommandInstance(pluginName)
+        let trinityPlugin = obj as? TrinityPlugin
+        if trinityPlugin != nil {
+            trinityPlugin?.setName(pluginName);
+        }
+        
+        return obj as Any;
+    }
+    
  }

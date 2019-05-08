@@ -56,7 +56,7 @@
     self.isAddSwitch.transform=CGAffineTransformMakeScale(0.75, 0.75);
 //    [self loadCanUserBlanceLoadDataSource];
      self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"setting_adding_scan"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(scanView)];
-       self.theAmountOfTextField.placeholder=[NSString stringWithFormat:@"%@%@ %@)",NSLocalizedString(@"请输入金额（可用", nil),[[FLTools share]elaScaleConversionWith:self.model.iconBlance],@"ELA"];
+       self.theAmountOfTextField.placeholder=[NSString stringWithFormat:@"%@%@ %@",NSLocalizedString(@"请输入金额 可用", nil),[[FLTools share]elaScaleConversionWith:self.model.iconBlance],@"ELA"];
     [[HMWCommView share] makeTextFieldPlaceHoTextColorWithTextField:self.transferTheAddressTextField];
     
     [[HMWCommView share] makeTextFieldPlaceHoTextColorWithTextField:self.theAmountOfTextField];
@@ -86,7 +86,7 @@
         
         NSString *blanceString=[NSString stringWithFormat:@"%@",result.message[@"success"]];
         
-        self.theAmountOfTextField.placeholder=[NSString stringWithFormat:@"%@%@ %@)",NSLocalizedString(@"请输入金额（可用", nil),[[FLTools share]elaScaleConversionWith:blanceString],@"ELA"];
+        self.theAmountOfTextField.placeholder=[NSString stringWithFormat:@"%@%@ %@",NSLocalizedString(@"请输入金额 可用", nil),[[FLTools share]elaScaleConversionWith:blanceString],@"ELA"];
         self.model.iconBlance=blanceString;
 
     }

@@ -6,9 +6,7 @@
 #define __ELASTOS_SDK_IDAGENT_H__
 
 #include <string>
-
 #include "nlohmann/json.hpp"
-
 namespace Elastos {
 	namespace ElaWallet {
 

@@ -30,9 +30,8 @@ static FLNotePointDBManager *manager;
         NSString  *dataBaseName=@"friendsss.db";
         NSString *sql;
         path = [path stringByAppendingPathComponent:dataBaseName];
-        DLog(@"sdfasdf:%@",path);
         manager = [FLNotePointDBManager databaseWithPath:path];
-        sql =@"create table if not exists NotePoint(nodepublickey text primary key ,ownerpublickey text,nickname text,url text,location text,active integer,netaddress text,votes text,indexx integer,voterate text)";
+        sql =@"create table if not exists NotePoint(nodepublickey text primary key ,ownerpublickey text,nickname text,url text,location text,active text,netaddress text,votes text,indexx text,voterate text)";
 
         [manager open];
         if ([manager executeUpdate:sql]) {
@@ -73,7 +72,7 @@ static FLNotePointDBManager *manager;
 -(NSArray*)allRecord{
     //数组 ， 这个数据用来存放查询结果转换的模型
     NSMutableArray *allRecords=[[NSMutableArray alloc]init];
-    NSString *sql =@"select * from NotePoint";
+    NSString *sql =@"select * from NotePoint  order by indexx asc ";
     FMResultSet *set=[self executeQuery:sql];
     //    一条一条的读取数据 并专程模型
     while (set.next) {
@@ -112,6 +111,7 @@ static FLNotePointDBManager *manager;
 }
 //改
 -(BOOL)updateRecord:(FLCoinPointInfoModel *)person{
+    BOOL re=YES;
 /*    ownerpublickey
     nodepublickey
     nickname
@@ -122,9 +122,106 @@ static FLNotePointDBManager *manager;
     netaddresss
   */
     
-    NSString *sql =@"Update NotePoint set nodepublickey=?  nodepublickey=?  nickname=? url=? location=? active=? votes=? netaddress=? indexx=? voterate=? where ownerpublickey=?";
+//    NSString *sql =@"Update NotePoint set  nodepublickey=?  nickname=? url=? location=? active=? votes=? netaddress=? indexx=? voterate=? where ownerpublickey=?";
+    NSString *nodepublickey =@"Update NotePoint set nodepublickey=? where ownerpublickey=? ";
     
-    return  [manager executeUpdate:sql,person.nodepublickey,person.nodepublickey,person.nickname,person.url,person.location,person.active,person.votes,person.netaddress,person.index,person.voterate,person.ownerpublickey];
+    NSString *nickname =@"Update NotePoint set nickname=? where ownerpublickey=? ";
+    NSString *url =@"Update NotePoint set url=? where ownerpublickey=? ";
+    NSString *location =@"Update NotePoint set location=? where ownerpublickey=? ";
+    NSString *active =@"Update NotePoint set active=? where ownerpublickey=? ";
+    
+    NSString *votes =@"Update NotePoint set votes=? where ownerpublickey=? ";
+    NSString *netaddress =@"Update NotePoint set netaddress=? where ownerpublickey=? ";
+    NSString *indexx =@"Update NotePoint set indexx=? where ownerpublickey=? ";
+    NSString *voterate =@"Update NotePoint set voterate=? where ownerpublickey=? ";
+    if (person.url.length>0) {
+        if ( [self executeQuery:url,person.url,person.ownerpublickey]) {
+            
+        }else{
+            
+            re=NO;
+        }
+       
+        
+        
+    }
+    if (person.nodepublickey.length>0) {
+        if ( [self executeQuery:nodepublickey,person.nodepublickey,person.ownerpublickey]) {
+            
+        }else{
+            
+            re=NO;
+        }
+        
+        
+        
+    }
+    if (person.nickname.length>0) {
+        if ([self executeQuery:nickname,person.nickname,person.ownerpublickey]) {
+            
+        }else{
+            
+            re=NO;
+        }
+        
+        
+        
+    }
+    if (person.location.length>0) {
+        if ([self executeQuery:location,person.location,person.ownerpublickey]) {
+            
+        }else{
+            
+            re=NO;
+        }
+        
+        
+        
+    }
+   
+    if (person.votes.length>0) {
+        if ([self executeQuery:votes,person.votes,person.ownerpublickey]) {
+            
+        }else{
+            
+            re=NO;
+        }
+        
+        
+        
+    }
+    if (person.netaddress.length>0) {
+        if ([self executeQuery:netaddress,person.netaddress,person.ownerpublickey]) {
+            
+        }else{
+            
+            re=NO;
+        }
+        
+    }
+    
+    if (person.voterate.length>0) {
+        if ([self executeQuery:voterate,person.voterate,person.ownerpublickey]) {
+            
+        }else{
+            
+            re=NO;
+        }
+        
+        
+    }
+    
+    if ([self executeQuery:indexx,[NSString stringWithFormat:@"%ld",person.index],person.ownerpublickey]&&[self executeQuery:active,[NSString stringWithFormat:@"%ld",person.active],person.ownerpublickey]){
+
+    }else{
+
+        re=NO;
+    }
+    
+    
+    return re;
+    
+   
     
   
 }

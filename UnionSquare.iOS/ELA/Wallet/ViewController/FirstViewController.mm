@@ -136,6 +136,7 @@
     NSString *walletID=infoArray.firstObject;
     NSString *chainID=infoArray[1];
     NSInteger index = [infoArray[2] integerValue];
+    NSString *lastBlockTimeString=dic[@"lastBlockTimeString"];
     if (self.dataSoureArray.count<index) {
         return;
     }
@@ -152,16 +153,19 @@
  
         model.thePercentageMax=[progress floatValue];
         model.thePercentageCurr=[currentBlockHeight floatValue];
-        if (model.thePercentageMax==model.thePercentageCurr) {
+        if (lastBlockTimeString.length>0) {
             sideChainInfoModel *smodel=[[sideChainInfoModel alloc]init];
             smodel.walletID=self.currentWallet.masterWalletID;
             smodel.sideChainName=model.iconName;
-            smodel.sideChainNameTime=[[FLTools share]getCurrentTimes];
+            smodel.sideChainNameTime=lastBlockTimeString;
             
             [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
-               model.updateTime=[NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"上次同步时间", nil),smodel.sideChainNameTime];
-            
+            model.updateTime=[NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"上次同步时间", nil),smodel.sideChainNameTime];
         }
+//        if (model.thePercentageMax==model.thePercentageCurr) {
+        
+            
+//        }
         self.dataSoureArray[index]=model;
         NSIndexPath *indexP=[NSIndexPath indexPathForRow:index inSection:0];
     

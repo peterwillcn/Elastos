@@ -106,7 +106,7 @@ dispatch_queue_t queue = dispatch_queue_create("net.bujige.testQueue", DISPATCH_
         self.votingListV.dataSource = self.dataSource;
         self.votingListV.lab1.text = [NSString stringWithFormat:@"%.5f %@" ,[param[@"result"][@"totalvoterate"] floatValue]*100,@"%"];
        // self.votingListV.lab2.text = [param[@"result"][@"totalvotes"]stringValue ];
-        self.votingListV.lab3.text =[NSString stringWithFormat:@"%ld", [param[@"result"][@"totalvotes"] integerValue]];
+        self.votingListV.lab3.text =[NSString stringWithFormat:@"%ld", (long)[param[@"result"][@"totalvotes"] integerValue]];
         [self UpdataLocalOwerlist];
         
     } WithFailBlock:^(id data) {

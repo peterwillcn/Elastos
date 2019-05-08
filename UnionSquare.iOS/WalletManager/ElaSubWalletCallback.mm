@@ -28,7 +28,6 @@ ElaSubWalletCallback::~ElaSubWalletCallback()
 {
     
 }
-
 void ElaSubWalletCallback:: OnTransactionStatusChanged( const std::string &txid,
                                                        const std::string &status,
                                                        const nlohmann::json &desc,
@@ -49,11 +48,13 @@ void ElaSubWalletCallback::OnBlockSyncStarted()
     
 }
 
-void ElaSubWalletCallback::OnBlockSyncProgress(uint32_t currentBlockHeight, uint32_t estimatedHeight)
+void ElaSubWalletCallback::OnBlockSyncProgress(uint32_t currentBlockHeight, uint32_t estimatedHeight, time_t lastBlockTime)
 {
     NSString *walletIDString = [NSString stringWithCString:_callBackInfo.c_str() encoding:NSUTF8StringEncoding];
     
-    NSDictionary *dic=@{@"currentBlockHeight":@(currentBlockHeight),@"progress":@(estimatedHeight),@"callBackInfo":walletIDString};
+    NSString *lastBlockTimeString =[NSString stringWithFormat:@"%ld",lastBlockTime];
+        NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:lastBlockTimeString];
+    NSDictionary *dic=@{@"currentBlockHeight":@(currentBlockHeight),@"progress":@(estimatedHeight),@"callBackInfo":walletIDString,@"lastBlockTimeString":YYMMSS};
     
     [[NSNotificationCenter defaultCenter] postNotificationName:progressBarcallBackInfo object:dic];
     

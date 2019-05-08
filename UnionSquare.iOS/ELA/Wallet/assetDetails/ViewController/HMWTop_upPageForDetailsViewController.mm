@@ -64,8 +64,8 @@
     [[HMWCommView share] makeBordersWithView:self.theNextStepButton];
     [self.theNextStepButton setTitle:NSLocalizedString(@"下一步", nil) forState:UIControlStateNormal];
      self.noteTextField.placeholder=NSLocalizedString(@"请输入备注", nil);
-//    self.enterTheAmountTextField.placeholder=[NSString stringWithFormat:@"%@：%@ %@）",NSLocalizedString(@"请输入金额（可用", nil),[[FLTools share] elaScaleConversionWith:self.fromModel.iconBlance],self.fromModel.iconName];
-       self.enterTheAmountTextField.placeholder=[NSString stringWithFormat:@"%@：%@ %@）",NSLocalizedString(@"请输入金额（可用", nil),[[FLTools share] elaScaleConversionWith:self.fromModel.iconBlance],@"ELA"];
+
+       self.enterTheAmountTextField.placeholder=[NSString stringWithFormat:@"%@：%@ %@",NSLocalizedString(@"请输入金额 可用", nil),[[FLTools share] elaScaleConversionWith:self.fromModel.iconBlance],@"ELA"];
     
     if (self.type==mainChainWithdrawalType) {
        self.addressTextField.placeholder=NSLocalizedString(@"请输入主链提现地址", nil);

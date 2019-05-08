@@ -51,7 +51,7 @@
 "进入地址列表"="Address list";
 "地址列表"="Address list";
 "请输入收款人地址"="To address";
-"请输入金额（可用"="Value (Available)";
+"请输入金额 可用"="Value (Balance)";
 "请输入备注"="Add note";
 "下一步"="Next";
 "转账详情"="Details";
@@ -170,6 +170,7 @@
 "修改失败！"="Modify the failure!";
 "暂无交易记录"="No transaction history";
 "报名押金"="Registration deposit";
+"票"="Ticket";
 
 
 

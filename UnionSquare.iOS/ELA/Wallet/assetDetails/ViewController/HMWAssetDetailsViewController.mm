@@ -197,7 +197,7 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
 }
 - (IBAction)collectionEvent:(id)sender {
     self.collectionButton.userInteractionEnabled=NO;
-        CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.elaModel.iconName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"createAddress"];
+        CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"createAddress"];
         CDVPluginResult * result =[[ELWalletManager share]createAddress:mommand];
         NSString *status=[NSString stringWithFormat:@"%@",result.status];
         if ([status isEqualToString:@"1"]) {

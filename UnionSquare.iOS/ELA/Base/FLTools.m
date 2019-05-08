@@ -112,7 +112,7 @@ static FLTools *tool;
     
     NSDateFormatter *formatter = [NSDateFormatter new];
     
-    [formatter setDateFormat:@"YYYY/MM/dd HH:mm:ss"];
+    [formatter setDateFormat:@"YYYY.MM.dd HH:mm:ss"];
     
     //将时间转换为字符串
     

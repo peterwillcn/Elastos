@@ -54,7 +54,7 @@
     
     IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
    self.walletBalance = mainchainSubWallet->GetBalance();
-    self.theAmountOfTextField.placeholder=[NSString stringWithFormat:@"%@%@ ELA)",NSLocalizedString(@"请输入金额（可用", nil),[[FLTools share]elaScaleConversionWith:[@(self.walletBalance) stringValue]]];
+    self.theAmountOfTextField.placeholder=[NSString stringWithFormat:@"%@%@ ELA)",NSLocalizedString(@"请输入金额 可用", nil),[[FLTools share]elaScaleConversionWith:[@(self.walletBalance) stringValue]]];
     self.transferTheAddressTextField.placeholder=NSLocalizedString(@"请输入收款人地址", nil);
     
 }

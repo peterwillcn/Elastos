@@ -35,6 +35,7 @@ typedef std::vector<String> StringVector;
 
 
 typedef Elastos::ElaWallet::ElaSubWalletCallback ElaSubWalletCallback;
+
 typedef Elastos::ElaWallet::ISubWalletCallback ISubWalletCallback;
 typedef Elastos::ElaWallet::ISidechainSubWallet ISidechainSubWallet;
 typedef Elastos::ElaWallet::IMainchainSubWallet IMainchainSubWallet;

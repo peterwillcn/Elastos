@@ -35,3 +35,20 @@
          assert this.cordova == null;
          this.serviceName = serviceName;
          this.cordova = cordova;
+===================================================================
+--- origin_platforms/android/CordovaLib/src/org/apache/cordova/PluginManager.java	null
++++ platforms/android/CordovaLib/src/org/apache/cordova/PluginManager.java	null
+@@ -194,10 +194,11 @@
+      */
+     public void addService(PluginEntry entry) {
+         this.entryMap.put(entry.service, entry);
+-        if (entry.plugin != null) {
+-            entry.plugin.privateInitialize(entry.service, ctx, app, app.getPreferences());
+-            pluginMap.put(entry.service, entry.plugin);
+-        }
++//Trinity::
++//        if (entry.plugin != null) {
++//            entry.plugin.privateInitialize(entry.service, ctx, app, app.getPreferences());
++//            pluginMap.put(entry.service, entry.plugin);
++//        }
+     }

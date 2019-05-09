@@ -85,6 +85,7 @@ if args.target == "all":
 if args.target == "runtime":
     os.chdir(RUNTIME_DIR_PATH)
     copy_tree("samples/dapp_demos", "www/built-in/")
+    copy_tree("samples/install-files", "www/install-files/")
     copy_tree("samples/launcher_demo", "www/launcher/")
 
 if args.target == "runtime" or args.target == "all":

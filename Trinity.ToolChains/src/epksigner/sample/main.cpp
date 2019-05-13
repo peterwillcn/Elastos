@@ -15,9 +15,13 @@ int main() {
     const char* signature = ela_sign_message(msg.c_str(), encryptedKeystore, passwd.c_str());
 
     // Verify
-    const char* pubkey = "02644bccfc0abc15fe9b800ba41d323665c3935aacf761900320c036879e4db1ab";
+    const char* pubkey = ela_get_pubkey(encryptedKeystore, passwd.c_str());
 
     success = ela_verify_message(pubkey, msg.c_str(), signature);
-    if (!success) return 2;
+    if (!success) {
+        std::cout << "Failed to verify signature." << std::endl;
+        return 2;
+    }
+    std::cout << "Sign and verify message successfully." << std::endl;
     return 0;
 }

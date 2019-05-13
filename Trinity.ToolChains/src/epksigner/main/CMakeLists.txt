@@ -26,7 +26,7 @@ endif(UNIX AND NOT APPLE)
 
 set(LIBRARY_NAME epksign)
 
-add_library(${LIBRARY_NAME} SHARED WalletCoreLib.cpp Log.cpp)
+add_library(${LIBRARY_NAME} SHARED WalletCoreLib.cpp)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   get_filename_component(_internal_install_prefix "../.."

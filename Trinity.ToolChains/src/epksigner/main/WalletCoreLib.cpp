@@ -49,11 +49,11 @@ const char* ela_sign_message(const char* message, const char* keystore, const ch
 
         // Sign
 #if 1
-        HDKeychain requestKey = rootKey.getChild("1'/0");
+        HDKeychain requestKey = rootKey.getChild("44'/0'/0'/0/0");
         Key key = requestKey;
 #else
     //        Key key;
-    //        bytes_t prvKey = rootKey.getChild("1'/0").privkey();
+    //        bytes_t prvKey = rootKey.getChild("44'/0'/0'/0/0").privkey();
     //        key.SetPrvKey(prvKey);
 #endif
         bytes_t signature = key.Sign(message);
@@ -99,11 +99,11 @@ const char* ela_get_pubkey(const char* keystore, const char* password) {
 
         // Sign
 #if 1
-        HDKeychain requestKey = rootKey.getChild("1'/0");
+        HDKeychain requestKey = rootKey.getChild("44'/0'/0'/0/0");
         Key key = requestKey;
 #else
     //        Key key;
-    //        bytes_t prvKey = rootKey.getChild("1'/0").privkey();
+    //        bytes_t prvKey = rootKey.getChild("44'/0'/0'/0/0").privkey();
     //        key.SetPrvKey(prvKey);
 #endif
 

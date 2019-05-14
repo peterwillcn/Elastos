@@ -1859,7 +1859,7 @@
 				4202C92F21F6EF29009E5932 /* walletManage */,
 				4202C95821F6EF29009E5932 /* walletCreate */,
 				4202C97B21F6EF29009E5932 /* model */,
-				4202C98621F6EF29009E5932 /* New Group */,
+				4202C98621F6EF29009E5932 /* View */,
 				4202C98A21F6EF29009E5932 /* ViewController */,
 			);
 			path = Wallet;
@@ -2150,14 +2150,14 @@
 			path = model;
 			sourceTree = "<group>";
 		};
-		4202C98621F6EF29009E5932 /* New Group */ = {
+		4202C98621F6EF29009E5932 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				4202C98721F6EF29009E5932 /* HMWaddFooterView.h */,
 				4202C98921F6EF29009E5932 /* HMWaddFooterView.m */,
 				4202C98821F6EF29009E5932 /* HMWaddFooterView.xib */,
 			);
-			path = "New Group";
+			path = View;
 			sourceTree = "<group>";
 		};
 		4202C98A21F6EF29009E5932 /* ViewController */ = {

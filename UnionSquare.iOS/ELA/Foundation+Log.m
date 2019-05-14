@@ -13,7 +13,7 @@
 //重写系统的方法控制输出
 -(NSString *)descriptionWithLocale:(id)locale indent:(NSUInteger)level
 {
-//    return @"你大爷是你大姐";
+
     NSMutableString *string = [NSMutableString string];
     
     //{}
@@ -44,7 +44,6 @@
 //重写系统的方法控制输出
 -(NSString *)descriptionWithLocale:(id)locale indent:(NSUInteger)level
 {
-    //    return @"你大爷是你大姐";
     NSMutableString *string = [NSMutableString string];
     
     //{}

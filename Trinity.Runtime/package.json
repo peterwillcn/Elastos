@@ -35,6 +35,7 @@
         "elastos-trinity-plugins-splashscreen": "file:../Plugins/SplashScreen",
         "elastos-trinity-plugins-statusbar": "file:../Plugins/Statusbar",
         "elastos-trinity-plugins-vibration": "file:../Plugins/Vibration",
+        "elastos-trinity-plugins-wallet": "file:../Plugins/Wallet",
         "es6-promise-plugin": "^4.2.2",
         "fs": "0.0.1-security",
         "md5-file": "^4.0.0",
@@ -74,7 +75,8 @@
             "elastos-trinity-plugins-screen-orientation": {},
             "elastos-trinity-plugins-splashscreen": {},
             "elastos-trinity-plugins-statusbar": {},
-            "elastos-trinity-plugins-vibration": {}
+            "elastos-trinity-plugins-vibration": {},
+            "elastos-trinity-plugins-wallet": {}
         },
         "platforms": [
             "android",

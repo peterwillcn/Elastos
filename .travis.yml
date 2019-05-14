@@ -3,24 +3,33 @@ sudo: true
 
 matrix:
   include:
+    # - os: osx
+    #   osx_image: xcode10.2
+    #   env: NODEJS_VERSION=10
+    #   addons:
+    #     homebrew:
+    #       taps: homebrew/cask-versions
+    #       casks: adoptopenjdk8
+
     - os: osx
       osx_image: xcode10.2
-      env: NODEJS_VERSION=10
+      env: NODEJS_VERSION=11 BUILD_EPKSIGNER=ON
       addons:
         homebrew:
           taps: homebrew/cask-versions
           casks: adoptopenjdk8
 
-    - os: osx
-      osx_image: xcode10.2
-      env: NODEJS_VERSION=11
-      addons:
-        homebrew:
-          taps: homebrew/cask-versions
-          casks: adoptopenjdk8
+    # - language: android
+    #   env: NODEJS_VERSION=10
+    #   android:
+    #     components:
+    #       - tools
+    #       - platform-tools
+    #       - build-tools-28.0.3
+    #       - android-27
 
     - language: android
-      env: NODEJS_VERSION=10
+      env: NODEJS_VERSION=11
       android:
         components:
           - tools
@@ -28,19 +37,21 @@ matrix:
           - build-tools-28.0.3
           - android-27
 
-    - language: android
-      env: NODEJS_VERSION=11
-      android:
-        components:
-          - tools
-          - platform-tools
-          - build-tools-28.0.3
-          - android-27
+    - language: cpp
+      dist: xenial
+      env: BUILD_EPKSIGNER
+      before_install:
+      install:
+      script:
+        - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/build.sh
+        - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/_build/sample/sample
+
 
 before_install:
   - wget -q https://services.gradle.org/distributions/gradle-4.6-bin.zip
   - sudo unzip -q gradle-4.6-bin.zip -d $TRAVIS_HOME/gradle/
   - export PATH=$TRAVIS_HOME/gradle/gradle-4.6/bin:$PATH
+
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew cask uninstall java;
       wget -q https://dl.google.com/android/repository/sdk-tools-darwin-4333796.zip;
@@ -56,8 +67,14 @@ install:
   - npm install -g cordova ionic
 
 script:
-  - ./ToolChains/bin/build all
+  - if [[ "$BUILD_EPKSIGNER" == "ON" ]]; then
+      $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/build.sh;
+      $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/_build/sample/sample;
+    fi
+  - $TRAVIS_BUILD_DIR/ToolChains/bin/build all
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/build.sh;
+      $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/_build/sample/sample;
       cd $TRAVIS_BUILD_DIR/Runtime/platforms/ios && xcodebuild -showsdks;
       sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer/;
       xcodebuild -scheme Elastos build -sdk iphonesimulator;

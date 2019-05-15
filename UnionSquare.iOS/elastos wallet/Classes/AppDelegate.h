@@ -28,6 +28,8 @@
 #import <Cordova/CDVViewController.h>
 #import <Cordova/CDVAppDelegate.h>
 
-@interface AppDelegate : CDVAppDelegate {}
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
+
+@property (strong, nonatomic) UIWindow *window;
 
 @end

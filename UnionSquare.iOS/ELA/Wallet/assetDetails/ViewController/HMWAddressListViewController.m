@@ -26,6 +26,7 @@ static NSString *cellString=@"HMWaddressListTableViewCell";
 
     [self makeView];
 }
+
 -(void)makeView{
     self.baseTable.delegate=self;
     self.baseTable.dataSource=self;

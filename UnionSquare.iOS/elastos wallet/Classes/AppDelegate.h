@@ -25,8 +25,6 @@
 //  Copyright ___ORGANIZATIONNAME___ ___YEAR___. All rights reserved.
 //
 
-#import <Cordova/CDVViewController.h>
-#import <Cordova/CDVAppDelegate.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

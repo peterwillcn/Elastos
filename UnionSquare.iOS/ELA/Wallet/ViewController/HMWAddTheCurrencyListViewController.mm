@@ -11,7 +11,6 @@
 #import "ELWalletManager.h"
 #import "assetsListModel.h"
 #import "AddTheCurrencyListModel.h"
-#import <Cordova/CDV.h>
 #import "sideChainInfoModel.h"
 #import "HMWFMDBManager.h"
 

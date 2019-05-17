@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Cordova/CDV.h>
+//#import <Cordova/CDV.h>
 #import "MyUtil.h"
 #import "IMasterWallet.h"
 #import "IDidManager.h"
@@ -22,6 +22,9 @@
 #import <map>
 #import "ElaSubWalletCallback.h"
 #import "FLJoinVoteInfoModel.h"
+#import "CDVPluginResult.h"
+#import "CDVInvokedUrlCommand.h"
+
 
 typedef Elastos::ElaWallet::IMasterWallet IMasterWallet;
 typedef Elastos::DID::DIDManagerSupervisor DIDManagerSupervisor;

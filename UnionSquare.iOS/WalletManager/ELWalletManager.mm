@@ -8,7 +8,6 @@
 
 #import "ELWalletManager.h"
 
-#import <Cordova/CDVCommandDelegate.h>
 static ELWalletManager *tool;
 static uint64_t feePerKB = 10000;
 #pragma mark - ELWalletManager

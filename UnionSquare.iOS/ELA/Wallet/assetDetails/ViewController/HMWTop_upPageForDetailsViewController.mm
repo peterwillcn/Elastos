@@ -9,7 +9,6 @@
 #import "HMWTop_upPageForDetailsViewController.h"
 #import "HMWChooseSideChainViewController.h"
 #import "ELWalletManager.h"
-#import <Cordova/CDV.h>
 #import "HMWtransferDetailsPopupView.h"
 #import "HMWSendSuccessPopuView.h"
 #import "ScanQRCodeViewController.h"

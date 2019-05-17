@@ -7,7 +7,7 @@
 //
 
 #import "HMWModifyTheWalletPasswordViewController.h"
-#import <Cordova/CDV.h>
+
 #import "ELWalletManager.h"
 
 

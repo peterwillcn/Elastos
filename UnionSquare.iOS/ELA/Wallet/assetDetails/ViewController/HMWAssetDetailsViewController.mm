@@ -16,7 +16,7 @@
 #import "HMWTop_upPageForDetailsViewController.h"
 
 
-#import <Cordova/CDV.h>
+//#import <Cordova/CDV.h>
 #import "ELWalletManager.h"
 
 

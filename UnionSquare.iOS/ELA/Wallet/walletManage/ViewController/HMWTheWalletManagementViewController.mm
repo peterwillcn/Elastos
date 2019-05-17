@@ -14,7 +14,6 @@
 #import "HMWModifyTheWalletPasswordViewController.h"
 #import "HMWsettingKeyStorePWDViewController.h"
 #import "HMWExportTheMnemonicWordViewController.h"
-#import <Cordova/CDV.h>
 #import "ELWalletManager.h"
 #import "HMWFMDBManager.h"
 #import "FMDBWalletModel.h"

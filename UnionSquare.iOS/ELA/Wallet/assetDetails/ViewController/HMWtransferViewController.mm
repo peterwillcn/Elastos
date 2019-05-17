@@ -11,7 +11,6 @@
 #import "HMWSendSuccessPopuView.h"
 #import "HMWChooseSideChainViewController.h"
 #import "ELWalletManager.h"
-#import <Cordova/CDV.h>
 #import "WCQRCodeScanningVC.h"
 #import "ScanQRCodeViewController.h"
 

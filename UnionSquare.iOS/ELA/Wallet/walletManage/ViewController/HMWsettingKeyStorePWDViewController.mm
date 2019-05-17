@@ -8,7 +8,6 @@
 
 #import "HMWsettingKeyStorePWDViewController.h"
 #import "HMWCopyKeyStoreViewController.h"
-#import <Cordova/CDV.h>
 #import "ELWalletManager.h"
 
 @interface HMWsettingKeyStorePWDViewController ()

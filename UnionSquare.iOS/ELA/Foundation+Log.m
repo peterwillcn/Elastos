@@ -1,6 +1,6 @@
 //
 //  NSDictionary+Log.m
-//  红包app
+//  
 //
 //  Created by hiphone on 17/2/16.
 //  Copyright © 2017年 HMW. All rights reserved.

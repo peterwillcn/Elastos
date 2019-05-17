@@ -28,7 +28,7 @@
 //// 54.223.244.60  测试备用ip
 #define Http_IP   @"https://52.81.8.194:442"
 ////regtext
-////#define Http_IP @"https://123.206.52.29"
+//#define Http_IP @"https://123.206.52.29"
 #define transUrl @"https://blockchain-beta.elastos.org/tx/"
 //#define Http_IP @"https://unionsquare.elastos.org"
 //#define transUrl @"https://blockchain.elastos.org/tx/"
@@ -90,5 +90,6 @@
 #import "AFNetworking.h"
 #import "HttpUrl.h"
 #import "UIImageView+WebCache.h"
-
+#import "CDVPluginResult.h"
+#import "CDVInvokedUrlCommand.h"
 #endif

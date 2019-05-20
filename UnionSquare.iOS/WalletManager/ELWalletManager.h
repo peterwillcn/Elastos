@@ -182,6 +182,7 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 //上链
 //-(void)PublishTransactionWith:(NSString*)mainchainSubWalletId tx:(Json*)tx;
 -(CDVPluginResult *)GetAssetDetails:(CDVInvokedUrlCommand *)command;
+-(void)EMWMSaveConfigs;
 @end
 
 

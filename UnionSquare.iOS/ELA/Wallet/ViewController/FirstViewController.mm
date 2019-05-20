@@ -362,6 +362,7 @@
     [super viewWillDisappear:animated];
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
+
 -(void)swichWallet{
     HMWTheWalletListViewController *theWalletListVC=[[HMWTheWalletListViewController alloc]init];
     theWalletListVC.delegate=self;

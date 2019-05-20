@@ -115,5 +115,8 @@
     
     
 }
-
+-(void)applicationWillTerminate:(UIApplication *)application{
+    
+    [[ELWalletManager share] EMWMSaveConfigs];
+}
 @end

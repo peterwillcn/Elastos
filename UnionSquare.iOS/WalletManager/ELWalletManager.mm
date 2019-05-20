@@ -1819,7 +1819,10 @@ static uint64_t feePerKB = 10000;
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
     return [self successProcess:command msg:dic];
 }
-
+-(void)EMWMSaveConfigs{
+    mMasterWalletManager->SaveConfigs();
+    
+}
 @end
 
 

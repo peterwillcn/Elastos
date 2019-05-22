@@ -57,8 +57,6 @@ void ElaSubWalletCallback::OnBlockSyncProgress(uint32_t currentBlockHeight, uint
     NSDictionary *dic=@{@"currentBlockHeight":@(currentBlockHeight),@"progress":@(estimatedHeight),@"callBackInfo":walletIDString,@"lastBlockTimeString":YYMMSS};
     
     [[NSNotificationCenter defaultCenter] postNotificationName:progressBarcallBackInfo object:dic];
-    
-    //    NSLog(@"%u%d",currentBlockHeight,progress);
 }
 
 void ElaSubWalletCallback::OnBlockSyncStopped()
@@ -82,24 +80,6 @@ void ElaSubWalletCallback::OnTxDeleted(const std::string &hash, bool notifyUser,
     
     
 }
-
-/**
- * Callback method fired when best block chain height increased. This callback could be used to show progress.
- * @param currentBlockHeight is the of current block when callback fired.
- * @param progress is current progress when block height increased.
- */
-// void ElaSubWalletCallback:: OnBlockHeightIncreased(uint32_t currentBlockHeight, int progress)
-//{
-//
-////   NSString *walletIDString = [NSString stringWithCString:_walletID.c_str() encoding:NSUTF8StringEncoding];
-////
-////    NSDictionary *dic=@{@"currentBlockHeight":@(currentBlockHeight),@"progress":@(progress),@"walletID":walletIDString};
-////
-////    [[NSNotificationCenter defaultCenter] postNotificationName:progressBarcallBackInfo object:dic];
-////
-////    NSLog(@"%u%d",currentBlockHeight,progress);
-//}
-
 /**
  * Callback method fired when block end synchronizing with a peer. This callback could be used to show progress.
  */

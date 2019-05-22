@@ -30,10 +30,10 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8mR-p3-new">
                     <rect key="frame" x="15" y="20" width="345" height="46"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100.02%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mem-Hf-rqo">
-                            <rect key="frame" x="257" y="8" width="80" height="13"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100.02%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mem-Hf-rqo">
+                            <rect key="frame" x="283.5" y="8" width="53.5" height="13"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="80" id="iXV-YX-U6Y"/>
                                 <constraint firstAttribute="height" constant="13" id="pre-2t-9th"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
@@ -43,7 +43,6 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="全网投票比例：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hvY-28-VYF">
                             <rect key="frame" x="8" y="8" width="93" height="13"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="93" id="pGq-PI-QD6"/>
                                 <constraint firstAttribute="height" constant="13" id="x8Z-7x-Vgv"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>

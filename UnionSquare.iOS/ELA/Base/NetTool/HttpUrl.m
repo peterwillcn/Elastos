@@ -152,7 +152,7 @@ NSInteger timeOut = 20;
             }
         }
         
-//        NSLog(@"图片data:%@", data);
+
         //上传的参数(上传图片，以文件流的格式)
         [formData appendPartWithFileData:data
                                     name:@"files"
@@ -216,7 +216,6 @@ NSInteger timeOut = 20;
                     data=UIImageJPEGRepresentation(img, 0.9);
                 }
             }
-            //        NSLog(@"图片data:%@", data);
             //上传的参数(上传图片，以文件流的格式)
              NSString *fileName = [NSString stringWithFormat:@"%@%d.jpg", [formatter stringFromDate:[NSDate date]],i];
             [formData appendPartWithFileData:data

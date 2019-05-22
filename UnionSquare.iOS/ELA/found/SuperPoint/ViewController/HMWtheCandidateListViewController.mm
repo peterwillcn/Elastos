@@ -61,8 +61,11 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     [self makeView];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:self.editBtn];
-    self.progress.progress = self.persent.floatValue;
+    
+    CGFloat proFlo=[[self.persent substringToIndex:self.persent.length-1]floatValue]/100;
+    self.progress.progress = proFlo;
     self.persentLab.text = self.persent;
+
 //    self.persentLab.text = [self.persent stringByAppendingString:@"%"];
     [self.selectAllBtn setImage:[UIImage imageNamed:@"found_vote_selected"] forState:UIControlStateSelected];
     [self.selectAllBtn setImage:[UIImage imageNamed:@"found_vote_border"] forState:UIControlStateNormal];

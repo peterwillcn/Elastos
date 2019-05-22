@@ -7,7 +7,7 @@
 //
 
 #import "ELWalletManager.h"
-
+#include <dispatch/dispatch.h>
 static ELWalletManager *tool;
 static uint64_t feePerKB = 10000;
 #pragma mark - ELWalletManager
@@ -25,9 +25,14 @@ static uint64_t feePerKB = 10000;
 
 
 +(instancetype)share{
+  
     if (!tool) {
-        tool = [[self alloc]init];
-        [tool pluginInitialize];
+//        dispatch_async(dispatch_queue_create(0, NULL
+//                                             ), ^{
+            tool = [[self alloc]init];
+            [tool pluginInitialize];
+//        });
+       
     }
     return tool;
     
@@ -45,6 +50,7 @@ static uint64_t feePerKB = 10000;
         return nil;
     }
     try {
+        
        return  mMasterWalletManager->GetWallet(masterWalletID);
     } catch (const std:: exception & e ) {
         
@@ -149,18 +155,16 @@ static uint64_t feePerKB = 10000;
 - (CDVPluginResult *)successProcess:(CDVInvokedUrlCommand *)command  msg:(id) msg
 {
     
-    
-    
-    
     NSDictionary *dic = [self mkJson:keySuccess value:msg];
     
-    //    NSString *json = [self dicToJSONString:dic];
     CDVPluginResult* pluginResult = nil;
-    //    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:json];
+    
     
     
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
     return pluginResult;
+   
+    
     
 }
 - (CDVPluginResult *)errorProcess:(CDVInvokedUrlCommand *)command  code : (int) code msg:(id) msg
@@ -208,7 +212,6 @@ static uint64_t feePerKB = 10000;
                                                           error:&err];
     if(err)
     {
-//        NSLog(@"json解析失败：%@",err);
         return nil;
     }
     return dic;
@@ -393,6 +396,7 @@ static uint64_t feePerKB = 10000;
             [masterWalletListJson addObject:str];
         }
         NSString *msg = [self arrayToJSONString:masterWalletListJson];
+        
         return [self successProcess:command msg:msg];
     } catch (const std:: exception & e ) {
         
@@ -1748,19 +1752,13 @@ static uint64_t feePerKB = 10000;
     
     try {
         nlohmann::json tx = mainchainSubWallet->CreateRetrieveDepositTransaction(acount*unitNumber, "", "");
-
-//        uint64_t fee = mainchainSubWallet->CalculateTransactionFee(tx, feePerKB);
-//        tx = mainchainSubWallet->UpdateTransactionFee(tx, fee, "");
-        
         Json signedTx = mainchainSubWallet->SignTransaction(tx, [pwd UTF8String]);
-        
         Json result = mainchainSubWallet->PublishTransaction(signedTx);
         return YES;
         
     } catch (const std:: exception & e ) {
         NSString *errString=[self stringWithCString:e.what()];
         NSDictionary *dic=  [self dictionaryWithJsonString:errString];
-        //        DLog(@"dddddd:%@",dic);
         [[FLTools share]showErrorInfo:dic[@"Message"]];
         return NO;
     }
@@ -1790,17 +1788,12 @@ static uint64_t feePerKB = 10000;
     } catch (const std:: exception & e ) {
         NSString *errString=[self stringWithCString:e.what()];
         NSDictionary *dic=  [self dictionaryWithJsonString:errString];
-        //        DLog(@"dddddd:%@",dic);
         [[FLTools share]showErrorInfo:dic[@"Message"]];
         return NO;
     }
     return YES;
-   
 }
-
-
 -(CDVPluginResult *)GetAssetDetails:(CDVInvokedUrlCommand *)command{
-   
     NSArray *args = command.arguments;
     int idx = 0;
     String masterWalletID = [self cstringWithString:args[idx++]];
@@ -1820,9 +1813,16 @@ static uint64_t feePerKB = 10000;
     return [self successProcess:command msg:dic];
 }
 -(void)EMWMSaveConfigs{
+    
     mMasterWalletManager->SaveConfigs();
     
 }
+-(void)elaAsyncNetWorking:(NSObject*)obj{
+  
+    
+}
+
+
 @end
 
 

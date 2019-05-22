@@ -249,6 +249,7 @@
     
 
     CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
+    
   CDVPluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]) {

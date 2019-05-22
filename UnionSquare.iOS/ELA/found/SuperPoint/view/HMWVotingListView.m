@@ -84,12 +84,9 @@ static NSString *cellString=@"HMWVotingListCollectionViewCell";
 //UICollectionView被选中时调用的方法
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"*(*(*(*(*开始");
     if (self.delegate) {
         [self.delegate selectedVotingListWithIndex:indexPath.row];
     }
-//    UICollectionViewCell * cell = (UICollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-//    cell.backgroundColor = [UIColor whiteColor];
 }
 
 ////返回这个UICollectionView是否可以被选择

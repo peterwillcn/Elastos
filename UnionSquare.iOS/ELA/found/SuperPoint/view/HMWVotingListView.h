@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *taglab3;
 
 @property (weak, nonatomic) IBOutlet UILabel *lab3;
-@property(strong,nonatomic)id<HMWVotingListViewDelegate>delegate;
+@property(weak,nonatomic)id<HMWVotingListViewDelegate>delegate;
 
 @property(nonatomic,strong)NSArray *dataSource;
 

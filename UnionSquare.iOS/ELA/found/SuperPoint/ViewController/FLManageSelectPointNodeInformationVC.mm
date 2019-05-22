@@ -139,8 +139,6 @@
         make.left.right.top.bottom.equalTo(maView);
     }];
     
-//    HMWtheCandidateListViewController *theCandidateListVC=[[HMWtheCandidateListViewController alloc]init];
-//    [self.navigationController pushViewController:theCandidateListVC animated:YES];
 }
 -(HMWToDeleteTheWalletPopView *)toDeleteTheWalletPopV{
     if (!_toDeleteTheWalletPopV) {

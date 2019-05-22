@@ -33,24 +33,8 @@ static FLTools *tool;
 }
 -(instancetype)init{
     self = [super init];
-//    self.cache = [YYCache  cacheWithName:@"defultCache"];
-    DLog(@"我创建工具了l:tool");
     return self;
 }
-//-(NSMutableArray*)getWalletList
-//{
-//    NSArray * a  =  (NSArray*)[self.cache objectForKey:FLFLWALLETLIST];
-////    DLog(@"%@",a);
-//    NSMutableArray *c = [NSMutableArray array];
-//    for (NSString *b in a) {
-////        NSLog(@"B======%@",b);
-//        FLWallet *d = [FLWallet modelWithJSON:b];
-//        [c addObject:d];
-////        NSLog(@"blance====%@",d.balance);
-//    }
-//
-//    return c;
-//}
 
 -(void)setWalletList:(NSArray *)list{
 
@@ -566,6 +550,7 @@ static FLTools *tool;
       NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:8 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:YES];
      NSDecimalNumber *num2 = [num1 decimalNumberByDividingBy:[NSDecimalNumber decimalNumberWithString:@"100000000"] withBehavior:roundDown];
     return num2.stringValue;
+    
 //    NSNumber * nsNumber = [num2.stringValue numberValue];
 //    NSString * outNumber = [NSString stringWithFormat:@"%@",nsNumber];
 //    return outNumber;

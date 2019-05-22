@@ -271,7 +271,7 @@
 "我的投票"="My Vote History";
 "我要投票"="Vote";
 "投票规则" = "Rules";
-"票"="votes";
+//"票"="votes";
 "重新投票"= "revote";
 "变更成功" = "change successed";
 "注销报名72小时后，方可提取质押金"="The registration fund can be withdrawn 72 hours after the registration is cancelled";

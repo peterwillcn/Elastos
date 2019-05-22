@@ -227,7 +227,6 @@
 		4202CACC21F6EF2B009E5932 /* HMWVotingListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C9C021F6EF29009E5932 /* HMWVotingListView.m */; };
 		4202CACD21F6EF2B009E5932 /* HMWvotingRulesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C9C321F6EF29009E5932 /* HMWvotingRulesView.m */; };
 		4202CACE21F6EF2B009E5932 /* HMWsignUpForViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C9C521F6EF29009E5932 /* HMWsignUpForViewController.mm */; };
-		4202CACF21F6EF2B009E5932 /* HMWnodeInformationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C9C621F6EF29009E5932 /* HMWnodeInformationViewController.xib */; };
 		4202CAD021F6EF2B009E5932 /* HMWtheSuperNodeElectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C9C721F6EF29009E5932 /* HMWtheSuperNodeElectionViewController.m */; };
 		4202CAD121F6EF2B009E5932 /* HMWMyVoteViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C9CA21F6EF29009E5932 /* HMWMyVoteViewController.mm */; };
 		4202CAD221F6EF2B009E5932 /* HMWnodeInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C9CB21F6EF29009E5932 /* HMWnodeInformationViewController.m */; };
@@ -369,7 +368,7 @@
 /* Begin PBXFileReference section */
 		0207DA571B56EA530066E2B4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "elastos wallet/Images.xcassets"; sourceTree = SOURCE_ROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		1D3623250D0F684500981E51 /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* AppDelegate.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = AppDelegate.mm; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* elastos_wallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = elastos_wallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B97316FDCFA39411CA2CEA /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		3047A50F1AB8059700498E2A /* build-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "build-debug.xcconfig"; path = "cordova/build-debug.xcconfig"; sourceTree = SOURCE_ROOT; };
@@ -742,7 +741,6 @@
 		4202C9C221F6EF29009E5932 /* HMWinputVotesPopupWindowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMWinputVotesPopupWindowView.h; sourceTree = "<group>"; };
 		4202C9C321F6EF29009E5932 /* HMWvotingRulesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMWvotingRulesView.m; sourceTree = "<group>"; };
 		4202C9C521F6EF29009E5932 /* HMWsignUpForViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HMWsignUpForViewController.mm; sourceTree = "<group>"; };
-		4202C9C621F6EF29009E5932 /* HMWnodeInformationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMWnodeInformationViewController.xib; sourceTree = "<group>"; };
 		4202C9C721F6EF29009E5932 /* HMWtheSuperNodeElectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMWtheSuperNodeElectionViewController.m; sourceTree = "<group>"; };
 		4202C9C821F6EF29009E5932 /* HMWtheCandidateListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMWtheCandidateListViewController.h; sourceTree = "<group>"; };
 		4202C9C921F6EF29009E5932 /* FLSelectSuperPointVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLSelectSuperPointVC.h; sourceTree = "<group>"; };
@@ -996,7 +994,7 @@
 		7087D92D21BCDF1B00599316 /* MyUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyUtil.h; sourceTree = "<group>"; };
 		7087D92E21BCDF1B00599316 /* MyUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyUtil.m; sourceTree = "<group>"; };
 		7087D93321BD1BDE00599316 /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Data; path = "elastos wallet/spvsdk-iOS-v0.3.0/Data"; sourceTree = "<group>"; };
-		70F8409521BEAA1B001C0BD6 /* ELWalletManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ELWalletManager.mm; sourceTree = "<group>"; };
+		70F8409521BEAA1B001C0BD6 /* ELWalletManager.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = ELWalletManager.mm; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* elastos wallet-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "elastos wallet-Info.plist"; path = "elastos wallet/elastos wallet-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = SOURCE_ROOT; };
 		8FEFE2C15307426D819C2CA3 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		95B5A24BEEA44AE9AD51A2C8 /* WebKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -2111,7 +2109,6 @@
 				4202C9D621F6EF29009E5932 /* HMWMyVoteViewController.xib */,
 				4202C9D221F6EF29009E5932 /* HMWnodeInformationViewController.h */,
 				4202C9CB21F6EF29009E5932 /* HMWnodeInformationViewController.m */,
-				4202C9C621F6EF29009E5932 /* HMWnodeInformationViewController.xib */,
 				422D609C21FC405A00DD07FF /* HMWSelectCountriesOrRegionsViewController.h */,
 				422D609A21FC405A00DD07FF /* HMWSelectCountriesOrRegionsViewController.m */,
 				4202C9CD21F6EF29009E5932 /* HMWsignUpForViewController.h */,
@@ -2772,7 +2769,6 @@
 				4202CA7821F6EF2B009E5932 /* HMWcollectionViewController.xib in Resources */,
 				4202CA0721F6EF2A009E5932 /* SVProgressHUD.bundle in Resources */,
 				4202CA5E21F6EF2A009E5932 /* HMWtransferTransactionMultipleAddressDetailsView.xib in Resources */,
-				4202CACF21F6EF2B009E5932 /* HMWnodeInformationViewController.xib in Resources */,
 				4202CA6521F6EF2A009E5932 /* HMWaddressListTableViewCell.xib in Resources */,
 				4202CA5521F6EF2A009E5932 /* HMWAddTheCurrencyListTableViewCell.xib in Resources */,
 				4202CA2021F6EF2A009E5932 /* HMWaddContactViewController.xib in Resources */,

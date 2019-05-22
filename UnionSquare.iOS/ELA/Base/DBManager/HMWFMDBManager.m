@@ -55,9 +55,8 @@ static HMWFMDBManager * _manager =nil;
    
     
     if (  [_manager executeUpdate:sql]) {
-        NSLog(@"建表完成");
     }else{
-        NSLog(@"建表失败");
+       
     }
     
     return _manager;
@@ -176,12 +175,12 @@ static HMWFMDBManager * _manager =nil;
     NSString *sql =@"delete from sideChain where ID = ?";
     if ([self executeUpdate:sql,ID]) {
         
-               NSLog(@"删除完成!");
+        
      
         return YES;
  
     }else{
-        NSLog(@"删除失败!");
+     
         return NO;
     }
     
@@ -196,9 +195,9 @@ static HMWFMDBManager * _manager =nil;
        
           [[NSNotificationCenter defaultCenter]postNotificationName:myfriendNeedUpdate object:nil];
          return YES;
-        NSLog(@"删除完成!");
+      
     }else{
-        NSLog(@"删除失败!");
+       
         return NO;
     }
 }
@@ -207,11 +206,10 @@ static HMWFMDBManager * _manager =nil;
     NSString *sql =@"Update sideChain set sideChainNameTime=? where walletID=?";
     
     if ( [self executeUpdate:sql,model.sideChainNameTime,model.walletID]) {
-        //        NSLog(@"删除完成!");
+      
         return YES;
         
     }else{
-        //        NSLog(@"删除失败!");
         return NO;
     };
 }
@@ -282,11 +280,10 @@ static HMWFMDBManager * _manager =nil;
     NSString *sql =@"Update wallet set walletName=? where walletID=? ";
    
     if ( [self executeUpdate:sql,wallet.walletName,wallet.walletID]) {
-//        NSLog(@"删除完成!");
+
         return YES;
         
     }else{
-//        NSLog(@"删除失败!");
             return NO;
     }
 }
@@ -295,10 +292,9 @@ static HMWFMDBManager * _manager =nil;
     
     NSString *sql =@"delete from wallet where walletID = ?";
     if ([self executeUpdate:sql,wallet.walletID]) {
-        NSLog(@"删除完成!");
         return YES;
     }else{
-        NSLog(@"删除失败!");
+      
         return NO;
     }
 }

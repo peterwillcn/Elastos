@@ -118,6 +118,13 @@
 }
 -(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
+    self.interactivePopGestureRecognizer.enabled = YES;
+    if (self.navigationController.viewControllers.firstObject == self) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = false;
+    }else{
+        self.navigationController.interactivePopGestureRecognizer.enabled = true;
+    }
+
     if (self.viewControllers.count>0) {
         viewController.hidesBottomBarWhenPushed = YES;
         UIImage *img = [self capture];

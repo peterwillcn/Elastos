@@ -40,6 +40,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+     [self defultWhite];
     [self setBackgroundImg:@"tab_bg"];
     self.title=NSLocalizedString(@"超级节点选举", nil);
     self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
@@ -68,46 +69,52 @@
     return _dataSource;
 }
 -(void)loadAllImageInfo:(NSMutableArray*)allListInfoArray{
+  
     
-dispatch_queue_t queue = dispatch_queue_create("net.bujige.testQueue", DISPATCH_QUEUE_SERIAL);
-    dispatch_async(queue, ^{
-        for (int i=0; i<allListInfoArray.count; i++) {
-            FLCoinPointInfoModel *model =allListInfoArray[i];
-            if (model.url.length>0) {
-                
-            model.iconImageUrl= [[FLTools share] getImageViewURLWithURL:model.url];
-                
-            }
-            
-            allListInfoArray[i]=model;
+    dispatch_group_t group =  dispatch_group_create();
+   
+    for (int i=0; i<allListInfoArray.count; i++) {
+        FLCoinPointInfoModel *model =allListInfoArray[i];
+        
+        if (model.url.length>0) {
+            dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                model.iconImageUrl= [[FLTools share] getImageViewURLWithURL:model.url];
+                allListInfoArray[i]=model;
+            });
+           
         }
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            self.votingListV.dataSource=allListInfoArray;
-        });
+    }
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+         [self.votingListV setDataSource: allListInfoArray];
     });
-    
-    
-}
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self defultWhite];
-}
 
+    
+    
+    
+    dispatch_queue_t queue = dispatch_queue_create(0, DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(queue, ^{
+
+     [self UpdataLocalOwerlist];
+    });
+
+    
+}
 -(void)getNetCoinPointArray{
     
-    [HttpUrl NetPOSTHost:Http_IP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1"} showHUD:NO WithSuccessBlock:^(id data) {
+    [HttpUrl NetPOSTHost:Http_IP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1"} showHUD:YES WithSuccessBlock:^(id data) {
         NSDictionary *param = data[@"data"];
         NSArray *dataArray =[NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];
-        [self loadAllImageInfo:[NSMutableArray arrayWithArray:dataArray]];
+        
         self.dataSource= [NSMutableArray arrayWithArray:dataArray];
         
         self.votingListV.dataSource = self.dataSource;
         self.votingListV.lab1.text = [NSString stringWithFormat:@"%.5f %@" ,[param[@"result"][@"totalvoterate"] floatValue]*100,@"%"];
        // self.votingListV.lab2.text = [param[@"result"][@"totalvotes"]stringValue ];
         self.votingListV.lab3.text =[NSString stringWithFormat:@"%ld", (long)[param[@"result"][@"totalvotes"] integerValue]];
-        [self UpdataLocalOwerlist];
+        
+        
+        [self loadAllImageInfo:[NSMutableArray arrayWithArray:dataArray]];
         
     } WithFailBlock:^(id data) {
         
@@ -130,7 +137,7 @@ dispatch_queue_t queue = dispatch_queue_create("net.bujige.testQueue", DISPATCH_
             }
         }
         
-        if (curentmodel) {
+        if (curentmodel){
             [[FLNotePointDBManager defult]updateRecord:model];
             continue;
         }else{
@@ -163,13 +170,9 @@ dispatch_queue_t queue = dispatch_queue_create("net.bujige.testQueue", DISPATCH_
 }
 
 - (IBAction)votingRulesEvent:(id)sender {
-//     self.votingRulesV.alpha=1.f;
     DC_DealTextViewController *vc = [[DC_DealTextViewController alloc]init];
     vc.html_url = NSLocalizedString(@"rules", nil); 
     [self.navigationController pushViewController:vc animated:YES];
-
-    
-    
 }
 - (IBAction)myVoteButton:(id)sender {
     HMWtheCandidateListViewController * vc = [[HMWtheCandidateListViewController alloc]init];
@@ -181,24 +184,14 @@ dispatch_queue_t queue = dispatch_queue_create("net.bujige.testQueue", DISPATCH_
     
     self.votingRulesV.alpha=0.f;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 #pragma mark ---------HMWVotingListViewDelegate----------
 
 - (void)selectedVotingListWithIndex:(NSInteger)index {
-    
-    
     HMWnodeInformationViewController *nodeInformationVC=[[HMWnodeInformationViewController alloc]init];
     nodeInformationVC.model = self.dataSource[index];
-    [self.navigationController pushViewController:nodeInformationVC animated:YES];
+      [self.navigationController pushViewController:nodeInformationVC animated:YES];
+    
+  
     
 }
 

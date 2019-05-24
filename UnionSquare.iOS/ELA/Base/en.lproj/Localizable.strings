@@ -42,7 +42,7 @@
 "备注"="Note";
 "手续费"="Fee";
 "发送金额"="Send";
-"上次同步时间"="Last synced";
+"上次同步时间"="Last block time";
 "转账"="Send";
 "侧链充值"="Sidechain Top Up";
 "收款"="Receive";

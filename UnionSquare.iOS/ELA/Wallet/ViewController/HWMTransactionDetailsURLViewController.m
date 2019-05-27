@@ -2,7 +2,7 @@
 //  HWMTransactionDetailsURLViewController.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/2/15.
+//  Created by  on 2019/2/15.
 //
 
 #import "HWMTransactionDetailsURLViewController.h"

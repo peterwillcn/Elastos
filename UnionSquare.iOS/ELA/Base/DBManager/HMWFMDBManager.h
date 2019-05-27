@@ -2,7 +2,7 @@
 //  HMWFMDBManager.h
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/1/12.
+//  Created by  on 2019/1/12.
 //
 
 #import "FMDatabase.h"

@@ -2,7 +2,7 @@
 //  HMWverifyTheMnemonicWordViewController.m
 //  ELA
 //
-//  Created by 韩铭文 on 2019/1/7.
+//  Created by  on 2019/1/7.
 //  Copyright © 2019 HMW. All rights reserved.
 //
 

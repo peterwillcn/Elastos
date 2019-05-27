@@ -2,7 +2,7 @@
 //  DAConfig.h
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/2/19.
+//  Created by  on 2019/2/19.
 //
 
 #import <Foundation/Foundation.h>

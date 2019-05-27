@@ -2,7 +2,7 @@
 //  NSBundle+DAUtils.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/2/19.
+//  Created by  on 2019/2/19.
 //
 
 #import "NSBundle+DAUtils.h"

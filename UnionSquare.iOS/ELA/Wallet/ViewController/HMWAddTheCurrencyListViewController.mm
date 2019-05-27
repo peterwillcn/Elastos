@@ -2,7 +2,7 @@
 //  HMWAddTheCurrencyListViewController.m
 //  ELA
 //
-//  Created by 韩铭文 on 2018/12/28.
+//  Created by  on 2018/12/28.
 //  Copyright © 2018 HMW. All rights reserved.
 //
 

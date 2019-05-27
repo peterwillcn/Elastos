@@ -2,7 +2,7 @@
 //  PluginResult.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/5/27.
+//  Created by  on 2019/5/27.
 //
 
 #import "PluginResult.h"

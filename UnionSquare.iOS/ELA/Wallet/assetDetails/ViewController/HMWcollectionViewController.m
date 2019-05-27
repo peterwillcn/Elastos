@@ -2,7 +2,7 @@
 //  HMWcollectionViewController.m
 //  ELA
 //
-//  Created by 韩铭文 on 2018/12/26.
+//  Created by  on 2018/12/26.
 //  Copyright © 2018 HMW. All rights reserved.
 //
 

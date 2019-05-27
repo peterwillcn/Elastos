@@ -2,8 +2,6 @@
 //  friendsModel.h
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/1/12.
-//
 
 #import <Foundation/Foundation.h>
 

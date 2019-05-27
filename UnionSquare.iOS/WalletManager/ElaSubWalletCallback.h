@@ -2,7 +2,7 @@
 //  ElaSubWalletCallback.h
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/1/21.
+//  Created by  on 2019/1/21.
 //
 
 #import <UIKit/UIKit.h>

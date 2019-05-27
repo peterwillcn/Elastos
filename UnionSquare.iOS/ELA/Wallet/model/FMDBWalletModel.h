@@ -2,7 +2,7 @@
 //  FMDBWalletModel.h
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/1/16.
+//  Created by  on 2019/1/16.
 //
 
 #import <Foundation/Foundation.h>

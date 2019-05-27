@@ -2,7 +2,7 @@
 //  HMWImTheMnemonicWordView.m
 //  ELA
 //
-//  Created by 韩铭文 on 2019/1/4.
+//  Created by  on 2019/1/4.
 //  Copyright © 2019 HMW. All rights reserved.
 //
 

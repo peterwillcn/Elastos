@@ -109,8 +109,8 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
 
 -(void)lockVoiteLoadDataSource{
     
-    CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@0] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];
-    CDVPluginResult * result =[[ELWalletManager share]getBalance:mommand];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@0] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];
+    PluginResult * result =[[ELWalletManager share]getBalance:mommand];
     
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){
@@ -132,8 +132,8 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
 }
 
 -(void)loadAllTransactionWithIndex:(NSInteger)index{
-    CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@(index),@"20",@""] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
-    CDVPluginResult * result =[[ELWalletManager share]getAllTransaction:mommand];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@(index),@"20",@""] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
+    PluginResult * result =[[ELWalletManager share]getAllTransaction:mommand];
 //    NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if (self.isUpdate) {
         [self.allListArray removeAllObjects];
@@ -197,8 +197,8 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
 }
 - (IBAction)collectionEvent:(id)sender {
     self.collectionButton.userInteractionEnabled=NO;
-        CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"createAddress"];
-        CDVPluginResult * result =[[ELWalletManager share]createAddress:mommand];
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"createAddress"];
+        PluginResult * result =[[ELWalletManager share]createAddress:mommand];
         NSString *status=[NSString stringWithFormat:@"%@",result.status];
         if ([status isEqualToString:@"1"]) {
             HMWcollectionViewController*collectionVC=[[HMWcollectionViewController alloc]init];
@@ -225,8 +225,8 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
 }
 -(NSArray*)loadAddress{
 
-    CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"0",@"100"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllSubWalletAddress"];
-    CDVPluginResult * result =[[ELWalletManager share]getAllSubWalletAddress:mommand];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"0",@"100"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllSubWalletAddress"];
+    PluginResult * result =[[ELWalletManager share]getAllSubWalletAddress:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
    
     if ([status isEqualToString:@"1"]) {
@@ -315,8 +315,8 @@ static NSString *cellString=@"HMWAssetDetailsTableViewCell";
 }
 -(void)loadTheOrderDetailsWithIndex:(NSInteger)index{
    assetDetailsModel *model= self.allListArray[index];
-    CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"0",@"20",model.TxHash] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
-    CDVPluginResult * result =[[ELWalletManager share]getAllTransaction:mommand];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"0",@"20",model.TxHash] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
+    PluginResult * result =[[ELWalletManager share]getAllTransaction:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     
     NSArray * OutputPayload=[NSArray arrayWithArray:result.message[@"success"][@"Transactions"][0][@"OutputPayload"]];

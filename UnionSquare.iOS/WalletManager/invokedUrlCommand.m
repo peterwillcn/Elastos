@@ -1,35 +1,19 @@
-/*
- Licensed to the Apache Software Foundation (ASF) under one
- or more contributor license agreements.  See the NOTICE file
- distributed with this work for additional information
- regarding copyright ownership.  The ASF licenses this file
- to you under the Apache License, Version 2.0 (the
- "License"); you may not use this file except in compliance
- with the License.  You may obtain a copy of the License at
+//
+//  invokedUrlCommand.m
+//  elastos wallet
+//
+//  Created by 韩铭文 on 2019/5/27.
+//
 
- http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing,
- software distributed under the License is distributed on an
- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- KIND, either express or implied.  See the License for the
- specific language governing permissions and limitations
- under the License.
- */
-
-#import "CDVInvokedUrlCommand.h"
-#import "CDVJSON_private.h"
-
-@implementation CDVInvokedUrlCommand
-
+#import "invokedUrlCommand.h"
+@implementation invokedUrlCommand
 @synthesize arguments = _arguments;
 @synthesize callbackId = _callbackId;
 @synthesize className = _className;
 @synthesize methodName = _methodName;
-
-+ (CDVInvokedUrlCommand*)commandFromJson:(NSArray*)jsonEntry
++ (invokedUrlCommand*)commandFromJson:(NSArray*)jsonEntry
 {
-    return [[CDVInvokedUrlCommand alloc] initFromJson:jsonEntry];
+    return [[invokedUrlCommand alloc] initFromJson:jsonEntry];
 }
 
 - (id)initFromJson:(NSArray*)jsonEntry
@@ -39,7 +23,7 @@
     NSString* className = [jsonEntry objectAtIndex:1];
     NSString* methodName = [jsonEntry objectAtIndex:2];
     NSMutableArray* arguments = [jsonEntry objectAtIndex:3];
-
+    
     return [self initWithArguments:arguments
                         callbackId:callbackId
                          className:className
@@ -65,14 +49,14 @@
 - (void)massageArguments
 {
     NSMutableArray* newArgs = nil;
-
+    
     for (NSUInteger i = 0, count = [_arguments count]; i < count; ++i) {
         id arg = [_arguments objectAtIndex:i];
         if (![arg isKindOfClass:[NSDictionary class]]) {
             continue;
         }
         NSDictionary* dict = arg;
-        NSString* type = [dict objectForKey:@"CDVType"];
+        NSString* type = [dict objectForKey:@"Type"];
         if (!type || ![type isEqualToString:@"ArrayBuffer"]) {
             continue;
         }
@@ -95,7 +79,7 @@
 
 - (id)argumentAtIndex:(NSUInteger)index withDefault:(id)defaultValue
 {
-    return [self argumentAtIndex:index withDefault:defaultValue andClass:nil];
+   return  [self argumentAtIndex:index withDefault:defaultValue andClass:nil];
 }
 
 - (id)argumentAtIndex:(NSUInteger)index withDefault:(id)defaultValue andClass:(Class)aClass
@@ -112,5 +96,4 @@
     }
     return ret;
 }
-
 @end

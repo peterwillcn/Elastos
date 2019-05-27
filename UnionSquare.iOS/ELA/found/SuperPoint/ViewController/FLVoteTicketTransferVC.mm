@@ -120,7 +120,7 @@
         return;
     }
 //
-//    CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,self.addressArray.firstObject,self.transferTheAddressTextField.text,self.theAmountOfTextField.text,self.noteTextField.text,@"22"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+//    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,self.addressArray.firstObject,self.transferTheAddressTextField.text,self.theAmountOfTextField.text,self.noteTextField.text,@"22"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
 //
 //    NSString *fee=[[FLTools share]elaScaleConversionWith:[[ELWalletManager share]accessFees:mommand]];
 //
@@ -190,9 +190,9 @@
 -(void)pwdAndInfoWithPWD:(NSString *)pwd{
 //    [self.transferDetailsPopupV removeFromSuperview];
 //    self.transferDetailsPopupV=nil;
-//    CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,self.addressArray.firstObject,self.transferTheAddressTextField.text,self.theAmountOfTextField.text,self.noteTextField.text,@"22",pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+//    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,self.addressArray.firstObject,self.transferTheAddressTextField.text,self.theAmountOfTextField.text,self.noteTextField.text,@"22",pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
 //
-//    CDVPluginResult *result = [[ELWalletManager share]CreateTransaction:mommand];
+//    PluginResult *result = [[ELWalletManager share]CreateTransaction:mommand];
 //    NSString *statue=[NSString stringWithFormat:@"%@",result.status];
 //
 //    if ([statue isEqualToString:@"1"]) {
@@ -215,9 +215,6 @@
     [[ELWalletManager share]RegisterProducerWithMainchainSubWallet:mainchainSubWallet With:self.infoModel];
     
     [self showSendSuccessPopuV];
-//    [self.navigationController popToRootViewControllerAnimated:YES];
-    
-    
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     

@@ -20,9 +20,5 @@
 //
 //  Created by ___FULLUSERNAME___ on ___DATE___.
 //  Copyright ___ORGANIZATIONNAME___ ___YEAR___. All rights reserved.
-//
-//
 //  Use this file to import your target's public headers that you would like to expose to Swift.
 //
-
-//#import <Cordova/CDV.h>

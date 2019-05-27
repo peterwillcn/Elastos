@@ -160,7 +160,7 @@
             smodel.sideChainNameTime=lastBlockTimeString;
             
             [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
-            model.updateTime=[NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"上次同步时间", nil),smodel.sideChainNameTime];
+            model.updateTime=[NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"已同步区块时间", nil),smodel.sideChainNameTime];
         }
 //        if (model.thePercentageMax==model.thePercentageCurr) {
         
@@ -248,9 +248,9 @@
   self.navigationItem.title = model.walletName;
     
 
-    CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
     
-  CDVPluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
+  PluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]) {
         
@@ -272,8 +272,8 @@
     int index=0;
     for (NSString *currencyName in arr) {
    
-        CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName,@2] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];
-        CDVPluginResult * result =[[ELWalletManager share]getBalance:mommand];
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName,@2] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];
+        PluginResult * result =[[ELWalletManager share]getBalance:mommand];
         
         NSString *status=[NSString stringWithFormat:@"%@",result.status];
         if ([status isEqualToString:@"1"]){
@@ -288,16 +288,16 @@
             model.thePercentageMax=1.f;
             model.iconBlance=blanceString;
             if ([smodel.sideChainNameTime isEqual: [NSNull null]]||smodel.sideChainNameTime==NULL) {
-                model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"上次同步时间", nil),@"--:--"];
+                model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"已同步区块时间", nil),@"--:--"];
             }else{
-                 model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"上次同步时间", nil),smodel.sideChainNameTime];
+                 model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"已同步区块时间", nil),smodel.sideChainNameTime];
             }
             
             [self.dataSoureArray addObject:model];
             
             
             
-            CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:[NSString stringWithFormat:@"%d",index]];
+            invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:[NSString stringWithFormat:@"%d",index]];
             
             [[ELWalletManager share]registerWalletListener:mommand];
             
@@ -521,7 +521,7 @@
     self.currentWallet=wallet;
     [self loadTheWalletInformationWithIndex:index];
 }
-- (void)sendPluginResult:(CDVPluginResult*)result callbackId:(NSString*)callbackId{
+- (void)sendPluginResult:(PluginResult*)result callbackId:(NSString*)callbackId{
     
     
     

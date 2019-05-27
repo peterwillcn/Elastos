@@ -66,12 +66,12 @@
     }
     
     
-    CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,self.theWalletPasswordTextField.text,self.againKeySPWDTextField.text] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"exportWalletWithKeystore"];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,self.theWalletPasswordTextField.text,self.againKeySPWDTextField.text] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"exportWalletWithKeystore"];
     
     
     
     
-    CDVPluginResult *result= [[ELWalletManager share]exportWalletWithKeystore:mommand];
+    PluginResult *result= [[ELWalletManager share]exportWalletWithKeystore:mommand];
     NSString *staus=[NSString stringWithFormat:@"%@",result.status];
     if ([staus isEqualToString:@"1"]) {
         NSString *keyStoreString=result.message[@"success"];

@@ -75,8 +75,8 @@
 //}
 -(void)loadCanUserBlanceLoadDataSource{
     
-    CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@0] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];
-    CDVPluginResult * result =[[ELWalletManager share]getBalance:mommand];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@0] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];
+    PluginResult * result =[[ELWalletManager share]getBalance:mommand];
     
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){
@@ -131,8 +131,8 @@
 //    if (self.isAddSwitch.isOn) {
 //        isUtxo=@"1";
 //    }
-    CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[[FLTools share]elsToSela:self.theAmountOfTextField.text],self.noteTextField.text,self.noteTextField.text,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
-    CDVPluginResult * result =[[ELWalletManager share]accessFees:mommand];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[[FLTools share]elsToSela:self.theAmountOfTextField.text],self.noteTextField.text,self.noteTextField.text,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+    PluginResult * result =[[ELWalletManager share]accessFees:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if (![status isEqualToString:@"1"]) {
         return;
@@ -202,9 +202,9 @@
     [self.transferDetailsPopupV removeFromSuperview];
     NSString *isUtxo=@"1";
     self.transferDetailsPopupV=nil;
-    CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[[FLTools share]elsToSela:self.theAmountOfTextField.text],self.noteTextField.text,self.noteTextField.text,pwd,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[[FLTools share]elsToSela:self.theAmountOfTextField.text],self.noteTextField.text,self.noteTextField.text,pwd,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
     
-    CDVPluginResult *result = [[ELWalletManager share]CreateTransaction:mommand];
+    PluginResult *result = [[ELWalletManager share]CreateTransaction:mommand];
     NSString *statue=[NSString stringWithFormat:@"%@",result.status];
     
     if ([statue isEqualToString:@"1"]) {

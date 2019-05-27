@@ -148,21 +148,21 @@
     
     
     
-     CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID,temp,wallet.mnemonicPWD,wallet.passWord,isSingleAddress] callbackId:wallet.walletID className:@"Wallet" methodName:@"importWalletWithMnemonic"];
+     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID,temp,wallet.mnemonicPWD,wallet.passWord,isSingleAddress] callbackId:wallet.walletID className:@"Wallet" methodName:@"importWalletWithMnemonic"];
     
    
     
     
-  CDVPluginResult *result= [[ELWalletManager share]importWalletWithMnemonic:mommand];
+  PluginResult *result= [[ELWalletManager share]importWalletWithMnemonic:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if([status isEqualToString:@"1"]){
         FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
         model.walletID=wallet.masterWalletID;
         model.walletName=wallet.walletName;
         
-        CDVInvokedUrlCommand *subCmommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID,@"ELA",@"0"] callbackId:wallet.walletID className:@"Wallet" methodName:@"createMasterWallet"];
+        invokedUrlCommand *subCmommand=[[invokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID,@"ELA",@"0"] callbackId:wallet.walletID className:@"Wallet" methodName:@"createMasterWallet"];
         
-        CDVPluginResult *subResult= [[ELWalletManager share] createSubWallet:subCmommand];
+        PluginResult *subResult= [[ELWalletManager share] createSubWallet:subCmommand];
         NSString *status =[NSString stringWithFormat:@"%@",subResult.status];
     
            if([status isEqualToString:@"1"]){
@@ -188,7 +188,7 @@
   
     
     
-//    CDVPluginResult *re=[[ELWalletManager share] getAllMasterWallets:nil];
+//    PluginResult *re=[[ELWalletManager share] getAllMasterWallets:nil];
 //    NSArray  *array = [[FLTools share]stringToArray:re.message[@"success"]];
    
     AppDelegate *appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -210,8 +210,8 @@
     
     wallet.walletID=[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
     wallet.masterWalletID=[[FLTools share]getRandomStringWithNum:6];
-    CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID,wallet.keyStore,wallet.privateKey,wallet.passWord] callbackId:wallet.walletID className:@"Wallet" methodName:@"importWalletWithKeystore"];
-    CDVPluginResult *result= [[ELWalletManager share]importWalletWithKeystore:mommand];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID,wallet.keyStore,wallet.privateKey,wallet.passWord] callbackId:wallet.walletID className:@"Wallet" methodName:@"importWalletWithKeystore"];
+    PluginResult *result= [[ELWalletManager share]importWalletWithKeystore:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if([status isEqualToString:@"1"]){
         FMDBWalletModel *model=[[FMDBWalletModel alloc]init];

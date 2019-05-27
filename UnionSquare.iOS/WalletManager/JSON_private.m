@@ -17,12 +17,12 @@
  under the License.
  */
 
-#import "CDVJSON_private.h"
+#import "JSON_private.h"
 #import <Foundation/NSJSONSerialization.h>
 
-@implementation NSArray (CDVJSONSerializingPrivate)
+@implementation NSArray (JSONSerializingPrivate)
 
-- (NSString*)cdv_JSONString
+- (NSString*)JSONString
 {
     NSError* error = nil;
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:self
@@ -39,9 +39,9 @@
 
 @end
 
-@implementation NSDictionary (CDVJSONSerializingPrivate)
+@implementation NSDictionary (JSONSerializingPrivate)
 
-- (NSString*)cdv_JSONString
+- (NSString*)JSONString
 {
     NSError* error = nil;
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:self
@@ -58,9 +58,9 @@
 
 @end
 
-@implementation NSString (CDVJSONSerializingPrivate)
+@implementation NSString (JSONSerializingPrivate)
 
-- (id)cdv_JSONObject
+- (id)JSONObject
 {
     NSError* error = nil;
     id object = [NSJSONSerialization JSONObjectWithData:[self dataUsingEncoding:NSUTF8StringEncoding]
@@ -74,7 +74,7 @@
     return object;
 }
 
-- (id)cdv_JSONFragment
+- (id)JSONFragment
 {
     NSError* error = nil;
     id object = [NSJSONSerialization JSONObjectWithData:[self dataUsingEncoding:NSUTF8StringEncoding]

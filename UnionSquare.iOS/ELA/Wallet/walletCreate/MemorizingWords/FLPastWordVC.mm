@@ -262,22 +262,22 @@ __weak __typeof__(self) weakSelf = self;
 
 
     self.Wallet.masterWalletID=[[FLTools share]getRandomStringWithNum:6];
-   CDVInvokedUrlCommand *cmommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.Wallet.masterWalletID,self.Wallet.mnemonic,self.Wallet.mnemonicPWD,self.Wallet.passWord,isSingleAddress] callbackId:self.Wallet.walletID className:@"Wallet" methodName:@"createMasterWallet"];
+   invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.Wallet.masterWalletID,self.Wallet.mnemonic,self.Wallet.mnemonicPWD,self.Wallet.passWord,isSingleAddress] callbackId:self.Wallet.walletID className:@"Wallet" methodName:@"createMasterWallet"];
 
 
     
     
     
-   CDVPluginResult *result= [[ELWalletManager share] createMasterWallet:cmommand];
+   PluginResult *result= [[ELWalletManager share] createMasterWallet:cmommand];
     
     NSString *status =[NSString stringWithFormat:@"%@",result.status];
     
     
     if ([status isEqualToString:@"1"]) {
         
-        CDVInvokedUrlCommand *subCmommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.Wallet.masterWalletID,@"ELA",@"0"] callbackId:self.Wallet.walletID className:@"Wallet" methodName:@"createMasterWallet"];
+        invokedUrlCommand *subCmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.Wallet.masterWalletID,@"ELA",@"0"] callbackId:self.Wallet.walletID className:@"Wallet" methodName:@"createMasterWallet"];
         
-         CDVPluginResult *subResult= [[ELWalletManager share] createSubWallet:subCmommand];
+         PluginResult *subResult= [[ELWalletManager share] createSubWallet:subCmommand];
          NSString *status =[NSString stringWithFormat:@"%@",subResult.status];
         if ([status isEqualToString:@"1"]) {
             FMDBWalletModel*waModel=[[FMDBWalletModel alloc]init];

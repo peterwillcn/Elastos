@@ -318,11 +318,11 @@
 		4264A73E221BDC24008D5C7B /* DAConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 4264A73D221BDC24008D5C7B /* DAConfig.m */; };
 		4264A741221BDC8D008D5C7B /* NSBundle+DAUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4264A740221BDC8D008D5C7B /* NSBundle+DAUtils.m */; };
 		428054D42242296500E74F0E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 428054D62242296500E74F0E /* InfoPlist.strings */; };
-		428231CD228BAF660088F961 /* CDVPluginResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 428231CC228BAF660088F961 /* CDVPluginResult.m */; };
-		428231D2228BB0B60088F961 /* CDVJSON_private.m in Sources */ = {isa = PBXBuildFile; fileRef = 428231D1228BB0B60088F961 /* CDVJSON_private.m */; };
-		428231D9228BB17F0088F961 /* CDVInvokedUrlCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 428231D8228BB17E0088F961 /* CDVInvokedUrlCommand.m */; };
 		42885A562216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42885A542216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.m */; };
 		42885A572216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42885A552216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib */; };
+		428BA711229B84C00091618F /* invokedUrlCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA710229B84C00091618F /* invokedUrlCommand.m */; };
+		428BA726229B91190091618F /* PluginResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA725229B91190091618F /* PluginResult.m */; };
+		428BA729229B92530091618F /* JSON_private.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA727229B92530091618F /* JSON_private.m */; };
 		42B57AB422150C1C004CF089 /* NSObject+KVOCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B57A9622150C1C004CF089 /* NSObject+KVOCrash.m */; };
 		42B57AB522150C1C004CF089 /* NSTimer+Crash.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B57A9722150C1C004CF089 /* NSTimer+Crash.m */; };
 		42B57AB622150C1C004CF089 /* NSObject+SelectorCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B57A9822150C1C004CF089 /* NSObject+SelectorCrash.m */; };
@@ -939,18 +939,15 @@
 		4264A740221BDC8D008D5C7B /* NSBundle+DAUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+DAUtils.m"; sourceTree = "<group>"; };
 		428054D52242296500E74F0E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		428054D72242296700E74F0E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		428231CB228BAF660088F961 /* CDVPluginResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVPluginResult.h; sourceTree = "<group>"; };
-		428231CC228BAF660088F961 /* CDVPluginResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVPluginResult.m; sourceTree = "<group>"; };
-		428231CE228BAFE30088F961 /* CDVAvailability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVAvailability.h; sourceTree = "<group>"; };
-		428231CF228BB03D0088F961 /* CDVAvailabilityDeprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVAvailabilityDeprecated.h; sourceTree = "<group>"; };
-		428231D0228BB0B50088F961 /* CDVJSON_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVJSON_private.h; sourceTree = "<group>"; };
-		428231D1228BB0B60088F961 /* CDVJSON_private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVJSON_private.m; sourceTree = "<group>"; };
-		428231D3228BB0D60088F961 /* CDVDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVDebug.h; sourceTree = "<group>"; };
-		428231D7228BB17E0088F961 /* CDVInvokedUrlCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVInvokedUrlCommand.h; sourceTree = "<group>"; };
-		428231D8228BB17E0088F961 /* CDVInvokedUrlCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVInvokedUrlCommand.m; sourceTree = "<group>"; };
 		42885A532216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTransactionDetailsURLViewController.h; sourceTree = "<group>"; };
 		42885A542216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTransactionDetailsURLViewController.m; sourceTree = "<group>"; };
 		42885A552216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTransactionDetailsURLViewController.xib; sourceTree = "<group>"; };
+		428BA70F229B84C00091618F /* invokedUrlCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = invokedUrlCommand.h; sourceTree = "<group>"; };
+		428BA710229B84C00091618F /* invokedUrlCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = invokedUrlCommand.m; sourceTree = "<group>"; };
+		428BA724229B91190091618F /* PluginResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PluginResult.h; sourceTree = "<group>"; };
+		428BA725229B91190091618F /* PluginResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PluginResult.m; sourceTree = "<group>"; };
+		428BA727229B92530091618F /* JSON_private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSON_private.m; sourceTree = "<group>"; };
+		428BA728229B92530091618F /* JSON_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON_private.h; sourceTree = "<group>"; };
 		4293CA67221FF8730045A8D9 /* libspvsdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspvsdk.a; path = "elastos wallet/spvsdk-iOS-v0.3.0/iOS/lib/libspvsdk.a"; sourceTree = "<group>"; };
 		42B57A9422150C1C004CF089 /* WOCrashLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WOCrashLog.h; sourceTree = "<group>"; };
 		42B57A9522150C1C004CF089 /* NSObject+NSNotificationCrash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+NSNotificationCrash.h"; sourceTree = "<group>"; };
@@ -2557,19 +2554,16 @@
 		705D8C6A21BE863B0062156D /* WalletManager */ = {
 			isa = PBXGroup;
 			children = (
-				428231D7228BB17E0088F961 /* CDVInvokedUrlCommand.h */,
-				428231D8228BB17E0088F961 /* CDVInvokedUrlCommand.m */,
-				428231D3228BB0D60088F961 /* CDVDebug.h */,
-				428231D0228BB0B50088F961 /* CDVJSON_private.h */,
-				428231D1228BB0B60088F961 /* CDVJSON_private.m */,
-				428231CF228BB03D0088F961 /* CDVAvailabilityDeprecated.h */,
-				428231CE228BAFE30088F961 /* CDVAvailability.h */,
-				428231CB228BAF660088F961 /* CDVPluginResult.h */,
-				428231CC228BAF660088F961 /* CDVPluginResult.m */,
+				428BA728229B92530091618F /* JSON_private.h */,
+				428BA727229B92530091618F /* JSON_private.m */,
 				4202CADD21F6F0D2009E5932 /* ElaSubWalletCallback.h */,
 				4202CADC21F6F0D2009E5932 /* ElaSubWalletCallback.mm */,
 				705D8C6C21BE86870062156D /* ELWalletManager.h */,
 				70F8409521BEAA1B001C0BD6 /* ELWalletManager.mm */,
+				428BA70F229B84C00091618F /* invokedUrlCommand.h */,
+				428BA710229B84C00091618F /* invokedUrlCommand.m */,
+				428BA724229B91190091618F /* PluginResult.h */,
+				428BA725229B91190091618F /* PluginResult.m */,
 			);
 			path = WalletManager;
 			sourceTree = "<group>";
@@ -2835,7 +2829,6 @@
 				4202CA8521F6EF2B009E5932 /* HMWToDeleteTheWalletPopView.m in Sources */,
 				422D609021FC401200DD07FF /* HMWTop_upPageForDetailsViewController.mm in Sources */,
 				4202CA3521F6EF2A009E5932 /* FLSugerBannerModel.m in Sources */,
-				428231D2228BB0B60088F961 /* CDVJSON_private.m in Sources */,
 				4202CAAA21F6EF2B009E5932 /* FLAllKindBi.m in Sources */,
 				4202CA0C21F6EF2A009E5932 /* SGQRCodeScanManager.m in Sources */,
 				424910EE2271BFCF00C41E50 /* SDWebImagePrefetcher.m in Sources */,
@@ -2910,6 +2903,7 @@
 				4202CA8321F6EF2B009E5932 /* HMWtheWalletListTableViewCell.m in Sources */,
 				4202CA2621F6EF2A009E5932 /* HMWClassificationOfLanguageTableViewCell.m in Sources */,
 				424910E82271BFCF00C41E50 /* SDWebImageDecoder.m in Sources */,
+				428BA729229B92530091618F /* JSON_private.m in Sources */,
 				4202CA2321F6EF2A009E5932 /* HMWshowAddContactTextTableViewCell.m in Sources */,
 				4202CA8B21F6EF2B009E5932 /* HMWTheWalletManagementViewController.mm in Sources */,
 				424A7D67222FC23B00683B8C /* sideChainInfoModel.m in Sources */,
@@ -2955,7 +2949,6 @@
 				424910F42271BFCF00C41E50 /* SDImageCacheConfig.m in Sources */,
 				4202C9FE21F6EF2A009E5932 /* NSArray+MASAdditions.m in Sources */,
 				4202CA2221F6EF2A009E5932 /* HMWmyContactListTableViewCell.m in Sources */,
-				428231CD228BAF660088F961 /* CDVPluginResult.m in Sources */,
 				424910EF2271BFCF00C41E50 /* SDImageCache.m in Sources */,
 				424910ED2271BFCF00C41E50 /* SDWebImageCompat.m in Sources */,
 				422D609621FC405000DD07FF /* FLJoinVoteInfoModel.m in Sources */,
@@ -2984,6 +2977,7 @@
 				70F8409621BEAA1B001C0BD6 /* ELWalletManager.mm in Sources */,
 				4202CA1B21F6EF2A009E5932 /* FMDatabase.m in Sources */,
 				42B57ABD22150C1C004CF089 /* NSArray+WOCrash.m in Sources */,
+				428BA711229B84C00091618F /* invokedUrlCommand.m in Sources */,
 				4202C9FA21F6EF2A009E5932 /* ViewController+MASAdditions.m in Sources */,
 				4228AA4D21F88C87002866B5 /* UIScrollView+YYAdd.m in Sources */,
 				42885A562216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.m in Sources */,
@@ -3027,7 +3021,6 @@
 				4202C9FF21F6EF2A009E5932 /* View+MASAdditions.m in Sources */,
 				4202C9F921F6EF2A009E5932 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				4202CA5321F6EF2A009E5932 /* FLAssetTableCell.m in Sources */,
-				428231D9228BB17F0088F961 /* CDVInvokedUrlCommand.m in Sources */,
 				4202CA1C21F6EF2A009E5932 /* FMDatabasePool.m in Sources */,
 				422D60A921FC42D100DD07FF /* HMWfoundTableCell.m in Sources */,
 				4202CA4A21F6EF2A009E5932 /* FLMenuView.m in Sources */,
@@ -3047,6 +3040,7 @@
 				4202CA4921F6EF2A009E5932 /* FLVersionAlert.m in Sources */,
 				4202CAA121F6EF2B009E5932 /* FLdoubleWalletVC.mm in Sources */,
 				4202CACD21F6EF2B009E5932 /* HMWvotingRulesView.m in Sources */,
+				428BA726229B91190091618F /* PluginResult.m in Sources */,
 				4202CAB521F6EF2B009E5932 /* FLAllAssetListVC.m in Sources */,
 				424910F32271BFCF00C41E50 /* NSImage+WebCache.m in Sources */,
 				4202C9F221F6EF2A009E5932 /* MJRefreshStateHeader.m in Sources */,

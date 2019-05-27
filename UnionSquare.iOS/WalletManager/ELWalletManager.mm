@@ -146,28 +146,28 @@ static uint64_t feePerKB = 10000;
     return str;
 }
 
-- (CDVPluginResult *)errCodeInvalidArg:(CDVInvokedUrlCommand *)command code:(int)code idx:(int)idx
+- (PluginResult *)errCodeInvalidArg:(invokedUrlCommand *)command code:(int)code idx:(int)idx
 {
     NSString *msg = [NSString stringWithFormat:@"%d %@", idx, @" parameters are expected"];
     return [self errorProcess:command code:code msg:msg];
 }
 
-- (CDVPluginResult *)successProcess:(CDVInvokedUrlCommand *)command  msg:(id) msg
+- (PluginResult *)successProcess:(invokedUrlCommand *)command  msg:(id) msg
 {
     
     NSDictionary *dic = [self mkJson:keySuccess value:msg];
     
-    CDVPluginResult* pluginResult = nil;
+    PluginResult* pluginResult = nil;
     
     
     
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
+    pluginResult = [PluginResult resultWithStatus:CommandStatus_OK messageAsDictionary:dic];
     return pluginResult;
    
     
     
 }
-- (CDVPluginResult *)errorProcess:(CDVInvokedUrlCommand *)command  code : (int) code msg:(id) msg
+- (PluginResult *)errorProcess:(invokedUrlCommand *)command  code : (int) code msg:(id) msg
 {
     
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
@@ -175,16 +175,16 @@ static uint64_t feePerKB = 10000;
     [dic setValue:msg forKey:keyMessage];
     
     NSDictionary *jsonDic = [self mkJson:keyError value:dic];
-    CDVPluginResult* pluginResult = nil;
+    PluginResult* pluginResult = nil;
     
     [[FLTools share]showErrorInfo:msg];
     
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:jsonDic];
+    pluginResult = [PluginResult resultWithStatus:CommandStatus_ERROR messageAsDictionary:jsonDic];
    
     return pluginResult;
 }
 
--(CDVPluginResult *)errInfoToDic:(String)errInfo with:(CDVInvokedUrlCommand *)command{
+-(PluginResult *)errInfoToDic:(String)errInfo with:(invokedUrlCommand *)command{
 
     NSString *errString=[self stringWithCString:errInfo];
   NSDictionary *dic=  [self dictionaryWithJsonString:errString];
@@ -353,36 +353,36 @@ static uint64_t feePerKB = 10000;
 }
     return mMasterWalletManager;
 }
-- (CDVPluginResult *)coolMethod:(CDVInvokedUrlCommand *)command
+- (PluginResult *)coolMethod:(invokedUrlCommand *)command
 {
-    CDVPluginResult* pluginResult = nil;
+    PluginResult* pluginResult = nil;
     NSString* echo = [command.arguments objectAtIndex:0];
     if (echo != nil && [echo length] > 0) {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:echo];
+        pluginResult = [PluginResult resultWithStatus:CommandStatus_OK messageAsString:echo];
     } else {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+        pluginResult = [PluginResult resultWithStatus:CommandStatus_ERROR];
     }
     return pluginResult;
 }
-- (CDVPluginResult *)print:(CDVInvokedUrlCommand *)command
+- (PluginResult *)print:(invokedUrlCommand *)command
 {
-    CDVPluginResult *pluginResult = nil;
+    PluginResult *pluginResult = nil;
     NSString *text = [command.arguments objectAtIndex:0];
     
     if(!text || ![text isEqualToString:@""])
     {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[self parseOneParam:@"text" value:text]];
+        pluginResult = [PluginResult resultWithStatus:CommandStatus_OK messageAsDictionary:[self parseOneParam:@"text" value:text]];
         
     }
     else
     {
         NSString *error = @"Text not can be null";
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error];
+        pluginResult = [PluginResult resultWithStatus:CommandStatus_ERROR messageAsString:error];
     }
     return pluginResult;
 }
 
-- (CDVPluginResult *)getAllMasterWallets:(CDVInvokedUrlCommand *)command
+- (PluginResult *)getAllMasterWallets:(invokedUrlCommand *)command
 {
     
     try{
@@ -407,7 +407,7 @@ static uint64_t feePerKB = 10000;
     }
     
 }
-- (CDVPluginResult *)createMasterWallet:(CDVInvokedUrlCommand *)command
+- (PluginResult *)createMasterWallet:(invokedUrlCommand *)command
 {
     int idx = 0;
     NSArray *array = command.arguments;
@@ -448,7 +448,7 @@ static uint64_t feePerKB = 10000;
     
 }
 
-- (CDVPluginResult *)generateMnemonic:(CDVInvokedUrlCommand *)command
+- (PluginResult *)generateMnemonic:(invokedUrlCommand *)command
 {
     NSArray *args = command.arguments;
     int idx = 0;
@@ -473,11 +473,11 @@ static uint64_t feePerKB = 10000;
     NSString *mnemonicString = [self stringWithCString:mnemonic];
     NSDictionary *dic = [self mkJson:keySuccess value:mnemonicString];
     
-    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dic];
+    PluginResult *pluginResult = [PluginResult resultWithStatus:CommandStatus_OK messageAsDictionary:dic];
     return pluginResult;
     
 }
-- (CDVPluginResult *)createSubWallet:(CDVInvokedUrlCommand *)command
+- (PluginResult *)createSubWallet:(invokedUrlCommand *)command
 {
     NSArray *args = command.arguments;
     int idx = 0;
@@ -517,7 +517,7 @@ static uint64_t feePerKB = 10000;
     return [self successProcess:command msg:jsonString];
     
 }
-- (CDVPluginResult *)getAllSubWallets:(CDVInvokedUrlCommand *)command
+- (PluginResult *)getAllSubWallets:(invokedUrlCommand *)command
 {
     NSArray *args = command.arguments;
     int idx = 0;
@@ -563,7 +563,7 @@ static uint64_t feePerKB = 10000;
     
 }
 
-- (CDVPluginResult *)getBalance:(CDVInvokedUrlCommand *)command
+- (PluginResult *)getBalance:(invokedUrlCommand *)command
 {
     NSArray *args = command.arguments;
     int idx = 0;
@@ -607,7 +607,7 @@ static uint64_t feePerKB = 10000;
     
     return [self successProcess:command msg:balanceStr];
 }
-- (CDVPluginResult *)getSupportedChains:(CDVInvokedUrlCommand *)command
+- (PluginResult *)getSupportedChains:(invokedUrlCommand *)command
 {
     NSArray *args = command.arguments;
     int idx = 0;
@@ -640,7 +640,7 @@ static uint64_t feePerKB = 10000;
     return [self successProcess:command msg:stringArray];
 }
 
-- (CDVPluginResult *)getMasterWalletBasicInfo:(CDVInvokedUrlCommand *)command
+- (PluginResult *)getMasterWalletBasicInfo:(invokedUrlCommand *)command
 {
     NSArray *args = command.arguments;
     int idx = 0;
@@ -661,7 +661,7 @@ static uint64_t feePerKB = 10000;
     
 }
 
-- (CDVPluginResult *)getAllTransaction:(CDVInvokedUrlCommand *)command
+- (PluginResult *)getAllTransaction:(invokedUrlCommand *)command
 {
     NSArray *args = command.arguments;
     int idx = 0;
@@ -695,7 +695,7 @@ static uint64_t feePerKB = 10000;
     return [self successProcess:command msg:dic];
     
 }
-- (CDVPluginResult *)createAddress:(CDVInvokedUrlCommand *)command
+- (PluginResult *)createAddress:(invokedUrlCommand *)command
 {
     NSArray *args = command.arguments;
     int idx = 0;
@@ -726,7 +726,7 @@ static uint64_t feePerKB = 10000;
     
 }
 
-- (CDVPluginResult *)getAllSubWalletAddress:(CDVInvokedUrlCommand *)command
+- (PluginResult *)getAllSubWalletAddress:(invokedUrlCommand *)command
 {
     NSArray *args = command.arguments;
     int idx = 0;
@@ -765,7 +765,7 @@ static uint64_t feePerKB = 10000;
 
 
 
-- (CDVPluginResult *)getGenesisAddress:(CDVInvokedUrlCommand *)command
+- (PluginResult *)getGenesisAddress:(invokedUrlCommand *)command
 {
     NSArray *args = command.arguments;
     int idx = 0;
@@ -800,7 +800,7 @@ static uint64_t feePerKB = 10000;
     
 }
 
-- (CDVPluginResult *)getMasterWalletPublicKey:(CDVInvokedUrlCommand *)command
+- (PluginResult *)getMasterWalletPublicKey:(invokedUrlCommand *)command
 {
     NSArray *args = command.arguments;
     int idx = 0;
@@ -827,7 +827,7 @@ static uint64_t feePerKB = 10000;
     
 }
 
-- (CDVPluginResult *)exportWalletWithKeystore:(CDVInvokedUrlCommand *)command
+- (PluginResult *)exportWalletWithKeystore:(invokedUrlCommand *)command
 {
     NSArray *args = command.arguments;
     int idx = 0;
@@ -859,7 +859,7 @@ static uint64_t feePerKB = 10000;
     
 }
 
-- (CDVPluginResult *)exportWalletWithMnemonic:(CDVInvokedUrlCommand *)command
+- (PluginResult *)exportWalletWithMnemonic:(invokedUrlCommand *)command
 {
     
     NSArray *args = command.arguments;
@@ -890,7 +890,7 @@ static uint64_t feePerKB = 10000;
     return [self successProcess:command msg:jsonString];
     
 }
-- (CDVPluginResult *)changePassword:(CDVInvokedUrlCommand *)command
+- (PluginResult *)changePassword:(invokedUrlCommand *)command
 {
     
     NSArray *args = command.arguments;
@@ -923,7 +923,7 @@ static uint64_t feePerKB = 10000;
     
 }
 
-- (CDVPluginResult *)importWalletWithKeystore:(CDVInvokedUrlCommand *)command
+- (PluginResult *)importWalletWithKeystore:(invokedUrlCommand *)command
 {
     
     NSArray *args = command.arguments;
@@ -956,7 +956,7 @@ static uint64_t feePerKB = 10000;
     return [self successProcess:command msg:jsonString];
 }
 
-- (CDVPluginResult *)importWalletWithMnemonic:(CDVInvokedUrlCommand *)command
+- (PluginResult *)importWalletWithMnemonic:(invokedUrlCommand *)command
 {
     
     NSArray *args = command.arguments;
@@ -992,7 +992,7 @@ static uint64_t feePerKB = 10000;
     return [self successProcess:command msg:jsonString];
     
 }
--(CDVPluginResult *)registerWalletListener:(CDVInvokedUrlCommand *)command{
+-(PluginResult *)registerWalletListener:(invokedUrlCommand *)command{
     
     NSArray *args = command.arguments;
     int idx = 0;
@@ -1029,7 +1029,7 @@ static uint64_t feePerKB = 10000;
 
     
 }
-- (CDVPluginResult *)DestroySubWallet:(CDVInvokedUrlCommand *)command{
+- (PluginResult *)DestroySubWallet:(invokedUrlCommand *)command{
     NSArray *args = command.arguments;
     int idx = 0;
     
@@ -1064,7 +1064,7 @@ static uint64_t feePerKB = 10000;
     
     
 }
--(CDVPluginResult *)DestroyMasterWallet:(CDVInvokedUrlCommand *)command{
+-(PluginResult *)DestroyMasterWallet:(invokedUrlCommand *)command{
     NSArray *args = command.arguments;
     int idx = 0;
     
@@ -1081,7 +1081,7 @@ static uint64_t feePerKB = 10000;
     
     
 }
--(CDVPluginResult *)RemoveCallback:(CDVInvokedUrlCommand *)command{
+-(PluginResult *)RemoveCallback:(invokedUrlCommand *)command{
     
     NSArray *args = command.arguments;
     int idx = 0;
@@ -1111,7 +1111,7 @@ static uint64_t feePerKB = 10000;
     }
     
 }
--(CDVPluginResult *)CreateTransaction:(CDVInvokedUrlCommand *)command{
+-(PluginResult *)CreateTransaction:(invokedUrlCommand *)command{
     NSArray *args = command.arguments;
     int idx = 0;
     String masterWalletID = [self cstringWithString:args[idx++]];
@@ -1271,7 +1271,7 @@ static uint64_t feePerKB = 10000;
 //
 //    return retJson;
 //}
--(CDVPluginResult *)accessFees:(CDVInvokedUrlCommand *)command{
+-(PluginResult *)accessFees:(invokedUrlCommand *)command{
     
     NSArray *args = command.arguments;
     int idx = 0;
@@ -1310,7 +1310,7 @@ static uint64_t feePerKB = 10000;
     
     return [self successProcess:command msg:[NSString stringWithFormat:@"%llu",fee]];
 }
--(CDVPluginResult *)sideChainTop_Up:(CDVInvokedUrlCommand *)command{
+-(PluginResult *)sideChainTop_Up:(invokedUrlCommand *)command{
     NSArray *args = command.arguments;
     int idx = 0;
     String masterWalletID = [self cstringWithString:args[idx++]];
@@ -1418,7 +1418,7 @@ static uint64_t feePerKB = 10000;
     
     
 }
--(CDVPluginResult *)sideChainTop_UpFee:(CDVInvokedUrlCommand *)command{
+-(PluginResult *)sideChainTop_UpFee:(invokedUrlCommand *)command{
     NSArray *args = command.arguments;
     int idx = 0;
     String masterWalletID = [self cstringWithString:args[idx++]];
@@ -1463,7 +1463,7 @@ static uint64_t feePerKB = 10000;
    
    
 }
--(CDVPluginResult *)mainChainWithdrawal:(CDVInvokedUrlCommand *)command{
+-(PluginResult *)mainChainWithdrawal:(invokedUrlCommand *)command{
     NSArray *args = command.arguments;
     int idx = 0;
     String masterWalletID = [self cstringWithString:args[idx++]];
@@ -1560,7 +1560,7 @@ static uint64_t feePerKB = 10000;
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
     return [self successProcess:command msg:dic];
 }
--(CDVPluginResult *)mainChainWithdrawalFee:(CDVInvokedUrlCommand *)command{
+-(PluginResult *)mainChainWithdrawalFee:(invokedUrlCommand *)command{
     NSArray *args = command.arguments;
     int idx = 0;
     String masterWalletID = [self cstringWithString:args[idx++]];
@@ -1793,7 +1793,7 @@ static uint64_t feePerKB = 10000;
     }
     return YES;
 }
--(CDVPluginResult *)GetAssetDetails:(CDVInvokedUrlCommand *)command{
+-(PluginResult *)GetAssetDetails:(invokedUrlCommand *)command{
     NSArray *args = command.arguments;
     int idx = 0;
     String masterWalletID = [self cstringWithString:args[idx++]];

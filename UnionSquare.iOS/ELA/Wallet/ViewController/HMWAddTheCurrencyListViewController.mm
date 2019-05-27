@@ -42,9 +42,9 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
     self.needUpdate=NO;
 }
 -(void)loadTheCurrencyList{
-    CDVInvokedUrlCommand * cmommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"getSupportedChains"];
+    invokedUrlCommand * cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"getSupportedChains"];
 //
-  CDVPluginResult *result=
+  PluginResult *result=
     [[ELWalletManager share]getSupportedChains:cmommand];
     
 
@@ -156,16 +156,16 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
     if (model.isAdd) {
         methodNameString=@"";
     }
-    CDVInvokedUrlCommand * cmommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,model.nameIcon,@"0"] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"methodNameString"];
+    invokedUrlCommand * cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,model.nameIcon,@"0"] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"methodNameString"];
     if (model.isAdd) {
-        CDVPluginResult *result=
+        PluginResult *result=
         [[ELWalletManager share]DestroySubWallet:cmommand];
       
         [[HMWFMDBManager sharedManagerType:sideChain] delectSideChain:self.sideChainID];
         
     }else{
         
-    CDVPluginResult *result = [[ELWalletManager share]createSubWallet:cmommand];
+    PluginResult *result = [[ELWalletManager share]createSubWallet:cmommand];
         
         sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
         sideModel.walletID=self.wallet.masterWalletID;

@@ -52,7 +52,7 @@ static NSString *celladdString=@"HMWaddWalletListTableViewCell";
 -(void)loadAddress{
 //
 //    for (FMDBWalletModel *model in self.walletListArray) {
-////          CDVInvokedUrlCommand *cmommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.Wallet.masterWalletID,self.Wallet.mnemonic,self.Wallet.mnemonicPWD,self.Wallet.passWord,isSingleAddress] callbackId:self.Wallet.walletID className:@"wallet" methodName:@"createMasterWallet"];
+////          invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.Wallet.masterWalletID,self.Wallet.mnemonic,self.Wallet.mnemonicPWD,self.Wallet.passWord,isSingleAddress] callbackId:self.Wallet.walletID className:@"wallet" methodName:@"createMasterWallet"];
 //    }
     
     

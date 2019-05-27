@@ -66,7 +66,7 @@
     self.window = [[UIWindow alloc]init];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    CDVPluginResult *re=[[ELWalletManager share] getAllMasterWallets:nil];
+    PluginResult *re=[[ELWalletManager share] getAllMasterWallets:nil];
     NSArray *reArray=[[FLTools share]stringToArray: re.message[@"success"]];
     
     NSArray  *array =[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet];

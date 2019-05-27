@@ -22,8 +22,8 @@
 #import <map>
 #import "ElaSubWalletCallback.h"
 #import "FLJoinVoteInfoModel.h"
-#import "CDVPluginResult.h"
-#import "CDVInvokedUrlCommand.h"
+#import "PluginResult.h"
+#import "invokedUrlCommand.h"
 
 
 typedef Elastos::ElaWallet::IMasterWallet IMasterWallet;
@@ -130,40 +130,40 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 
 +(instancetype)share;
 - (void)pluginInitialize;
-- (CDVPluginResult *)coolMethod:(CDVInvokedUrlCommand *)command;
-- (CDVPluginResult *)print:(CDVInvokedUrlCommand *)command;
-- (CDVPluginResult *)getAllMasterWallets:(CDVInvokedUrlCommand *)command;
-- (CDVPluginResult *)createMasterWallet:(CDVInvokedUrlCommand *)command;
-- (CDVPluginResult *)generateMnemonic:(CDVInvokedUrlCommand *)command;
-- (CDVPluginResult *)createSubWallet:(CDVInvokedUrlCommand *)command;
-- (CDVPluginResult *)getAllSubWallets:(CDVInvokedUrlCommand *)command;
-- (CDVPluginResult *)getBalance:(CDVInvokedUrlCommand *)command;
-- (CDVPluginResult *)getSupportedChains:(CDVInvokedUrlCommand *)command;
-- (CDVPluginResult *)getMasterWalletBasicInfo:(CDVInvokedUrlCommand *)command;
-- (CDVPluginResult *)getAllTransaction:(CDVInvokedUrlCommand *)command;
-- (CDVPluginResult *)createAddress:(CDVInvokedUrlCommand *)command;
-- (CDVPluginResult *)getGenesisAddress:(CDVInvokedUrlCommand *)command;
-- (CDVPluginResult *)getMasterWalletPublicKey:(CDVInvokedUrlCommand *)command;
-- (CDVPluginResult *)exportWalletWithKeystore:(CDVInvokedUrlCommand *)command;
-- (CDVPluginResult *)exportWalletWithMnemonic:(CDVInvokedUrlCommand *)command;
-- (CDVPluginResult *)changePassword:(CDVInvokedUrlCommand *)command;
-- (CDVPluginResult *)importWalletWithKeystore:(CDVInvokedUrlCommand *)command;
-- (CDVPluginResult *)importWalletWithMnemonic:(CDVInvokedUrlCommand *)command;
--(CDVPluginResult *)registerWalletListener:(CDVInvokedUrlCommand *)command;
--(CDVPluginResult *)DestroySubWallet:(CDVInvokedUrlCommand *)command;
--(CDVPluginResult *)DestroyMasterWallet:(CDVInvokedUrlCommand *)command;
+- (PluginResult *)coolMethod:(invokedUrlCommand *)command;
+- (PluginResult *)print:(invokedUrlCommand *)command;
+- (PluginResult *)getAllMasterWallets:(invokedUrlCommand *)command;
+- (PluginResult *)createMasterWallet:(invokedUrlCommand *)command;
+- (PluginResult *)generateMnemonic:(invokedUrlCommand *)command;
+- (PluginResult *)createSubWallet:(invokedUrlCommand *)command;
+- (PluginResult *)getAllSubWallets:(invokedUrlCommand *)command;
+- (PluginResult *)getBalance:(invokedUrlCommand *)command;
+- (PluginResult *)getSupportedChains:(invokedUrlCommand *)command;
+- (PluginResult *)getMasterWalletBasicInfo:(invokedUrlCommand *)command;
+- (PluginResult *)getAllTransaction:(invokedUrlCommand *)command;
+- (PluginResult *)createAddress:(invokedUrlCommand *)command;
+- (PluginResult *)getGenesisAddress:(invokedUrlCommand *)command;
+- (PluginResult *)getMasterWalletPublicKey:(invokedUrlCommand *)command;
+- (PluginResult *)exportWalletWithKeystore:(invokedUrlCommand *)command;
+- (PluginResult *)exportWalletWithMnemonic:(invokedUrlCommand *)command;
+- (PluginResult *)changePassword:(invokedUrlCommand *)command;
+- (PluginResult *)importWalletWithKeystore:(invokedUrlCommand *)command;
+- (PluginResult *)importWalletWithMnemonic:(invokedUrlCommand *)command;
+-(PluginResult *)registerWalletListener:(invokedUrlCommand *)command;
+-(PluginResult *)DestroySubWallet:(invokedUrlCommand *)command;
+-(PluginResult *)DestroyMasterWallet:(invokedUrlCommand *)command;
 
 
-- (CDVPluginResult *)getAllSubWalletAddress:(CDVInvokedUrlCommand *)command;
+- (PluginResult *)getAllSubWalletAddress:(invokedUrlCommand *)command;
 
 
--(CDVPluginResult *)RemoveCallback:(CDVInvokedUrlCommand *)command;
--(CDVPluginResult *)CreateTransaction:(CDVInvokedUrlCommand *)command;
--(CDVPluginResult *)accessFees:(CDVInvokedUrlCommand *)command;
--(CDVPluginResult *)sideChainTop_Up:(CDVInvokedUrlCommand *)command;
--(CDVPluginResult *)sideChainTop_UpFee:(CDVInvokedUrlCommand *)command;
--(CDVPluginResult *)mainChainWithdrawal:(CDVInvokedUrlCommand *)command;
--(CDVPluginResult *)mainChainWithdrawalFee:(CDVInvokedUrlCommand *)command;
+-(PluginResult *)RemoveCallback:(invokedUrlCommand *)command;
+-(PluginResult *)CreateTransaction:(invokedUrlCommand *)command;
+-(PluginResult *)accessFees:(invokedUrlCommand *)command;
+-(PluginResult *)sideChainTop_Up:(invokedUrlCommand *)command;
+-(PluginResult *)sideChainTop_UpFee:(invokedUrlCommand *)command;
+-(PluginResult *)mainChainWithdrawal:(invokedUrlCommand *)command;
+-(PluginResult *)mainChainWithdrawalFee:(invokedUrlCommand *)command;
 
 -(IMainchainSubWallet*)getWalletELASubWallet:(NSString*)masterWalletID;
 //参加投票
@@ -177,7 +177,7 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(BOOL)RetrieveDeposit:(NSString*)mainchainSubWalletId acount:(double)acount Pwd:(NSString*)pwd;
 //上链
 //-(void)PublishTransactionWith:(NSString*)mainchainSubWalletId tx:(Json*)tx;
--(CDVPluginResult *)GetAssetDetails:(CDVInvokedUrlCommand *)command;
+-(PluginResult *)GetAssetDetails:(invokedUrlCommand *)command;
 -(void)EMWMSaveConfigs;
 @end
 

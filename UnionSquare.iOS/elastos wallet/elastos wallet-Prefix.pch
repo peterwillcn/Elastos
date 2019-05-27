@@ -90,6 +90,6 @@
 #import "AFNetworking.h"
 #import "HttpUrl.h"
 #import "UIImageView+WebCache.h"
-#import "CDVPluginResult.h"
-#import "CDVInvokedUrlCommand.h"
+#import "PluginResult.h"
+#import "invokedUrlCommand.h"
 #endif

@@ -205,8 +205,8 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
         FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
         model.walletID=self.currentWallet.masterWalletID;
         [[HMWFMDBManager sharedManagerType:walletType]delectRecordWallet:model];
-        CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
-        CDVPluginResult *result= [[ELWalletManager share] DestroyMasterWallet:mommand];
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
+        PluginResult *result= [[ELWalletManager share] DestroyMasterWallet:mommand];
         [[FLTools share]showErrorInfo:NSLocalizedString(@"删除成功", nil)];
      [self toCancelOrCloseDelegate];
     
@@ -237,7 +237,7 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
         
         
         
-//        CDVPluginResult *result= [[ELWalletManager share]changePassword:mommand];
+//        PluginResult *result= [[ELWalletManager share]changePassword:mommand];
         
         
         
@@ -248,12 +248,12 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     }else if(self.selectIndex.section==3){
      
         
-        CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwdString] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwdString] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
         
         
         
         
-        CDVPluginResult *result= [[ELWalletManager share] exportWalletWithMnemonic:mommand];
+        PluginResult *result= [[ELWalletManager share] exportWalletWithMnemonic:mommand];
         NSString *status=[NSString stringWithFormat:@"%@",result.status];
         
         if ([status isEqualToString:@"1"]) {

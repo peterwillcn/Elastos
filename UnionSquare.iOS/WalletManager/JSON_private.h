@@ -17,9 +17,15 @@
  under the License.
  */
 
-#ifdef DEBUG
-    #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
-#else
-    #define DLog(...)
-#endif
-#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+@interface NSArray (CDVJSONSerializingPrivate)
+- (NSString*)JSONString;
+@end
+
+@interface NSDictionary (CDVJSONSerializingPrivate)
+- (NSString*)JSONString;
+@end
+
+@interface NSString (CDVJSONSerializingPrivate)
+- (id)JSONObject;
+- (id)JSONFragment;
+@end

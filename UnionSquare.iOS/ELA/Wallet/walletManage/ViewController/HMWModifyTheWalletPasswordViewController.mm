@@ -61,12 +61,12 @@
      self.confirmTheChangeButton.userInteractionEnabled=NO;
     
 
-    CDVInvokedUrlCommand *mommand=[[CDVInvokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.oldPWDTextField.text,self.nPWDTextField.text] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"changePassword"];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.oldPWDTextField.text,self.nPWDTextField.text] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"changePassword"];
     
     
     
     
-    CDVPluginResult *result= [[ELWalletManager share]changePassword:mommand];
+    PluginResult *result= [[ELWalletManager share]changePassword:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if([status isEqualToString:@"1"]){
         [[FLTools share]showErrorInfo:NSLocalizedString(@"修改成功！", nil)];

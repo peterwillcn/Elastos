@@ -29,6 +29,7 @@ matrix:
     #       - android-27
 
     - language: android
+      dist: trusty
       env: NODEJS_VERSION=11
       android:
         components:

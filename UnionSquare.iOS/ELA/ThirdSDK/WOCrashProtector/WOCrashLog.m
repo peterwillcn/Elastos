@@ -2,7 +2,7 @@
 //  WOCrashLog.m
 //  GridGovernance
 //
-//  Created by 吴欧 on 2017/12/15.
+
 //  Copyright © 2017年 Bitvalue. All rights reserved.
 //
 

@@ -24,7 +24,7 @@
     [super viewDidLoad];
     [self defultWhite];
     [self setBackgroundImg:@"asset_bg"];
-    self.title=NSLocalizedString(@"导出Keystore", nil);
+    self.title=NSLocalizedString(@"导出Keystore",nil);
     self.walletNameLabel.text=self.walletName;
     self.KSLabel.text=self.keyStoreString;
     self.showInfoLabel.text=NSLocalizedString(@"请将此文本复制到一个安全的地方", nil);

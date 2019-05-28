@@ -2,7 +2,7 @@
 //  MyUtil.h
 //  elastos wallet
 //
-//  Created by xuhejun on 2018/12/9.
+//  Created by  on 2018/12/9.
 //
 
 #import <Foundation/Foundation.h>

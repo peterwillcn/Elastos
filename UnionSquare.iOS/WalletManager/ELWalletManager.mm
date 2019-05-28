@@ -2,7 +2,7 @@
 //  WalletManager.m
 //  WalletManager
 //
-//  Created by xuhejun on 2018/12/10.
+//  Created by  on 2018/12/10.
 //  Copyright © 2018年 64. All rights reserved.
 //
 
@@ -27,11 +27,8 @@ static uint64_t feePerKB = 10000;
 +(instancetype)share{
   
     if (!tool) {
-//        dispatch_async(dispatch_queue_create(0, NULL
-//                                             ), ^{
             tool = [[self alloc]init];
             [tool pluginInitialize];
-//        });
        
     }
     return tool;

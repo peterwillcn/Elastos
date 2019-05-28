@@ -2,7 +2,7 @@
 //  WalletManager.h
 //  WalletManager
 //
-//  Created by xuhejun on 2018/12/10.
+//  Created by  on 2018/12/10.
 //  Copyright © 2018年 64. All rights reserved.
 //
 

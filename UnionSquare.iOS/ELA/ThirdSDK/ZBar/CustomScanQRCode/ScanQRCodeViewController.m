@@ -115,59 +115,6 @@
         make.bottom.equalTo(_readview).with.offset(0);
     }];
     
-    //照明按钮
-//    _lightingBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [_lightingBtn setTitle:@"照明" forState:UIControlStateNormal];
-//    [_lightingBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
-//    _lightingBtn.layer.borderColor = [UIColor colorWithHexString:@"#3498db"].CGColor;
-//    _lightingBtn.layer.borderWidth = 1.0;
-//    _lightingBtn.layer.cornerRadius = 8.0;
-//    [_lightingBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 20, 0, 0)];
-//    [_lightingBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    [_lightingBtn setBackgroundColor:[UIColor clearColor]];
-//    _lightingBtn.tag = LIGHTBUTTONTAG;
-//    [_lightingBtn addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    [_qrRectView addSubview:_lightingBtn];
-//    [_lightingBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.bottom.equalTo(_qrRectView).with.offset(-100);
-//        make.centerX.equalTo(_qrRectView);
-//        make.size.mas_equalTo(CGSizeMake(88, 28));
-//    }];
-//    UIImageView *lightImage = [[UIImageView alloc] init];
-//    lightImage.image = [UIImage imageNamed:@"bulb"];
-//    [_lightingBtn addSubview:lightImage];
-//    [lightImage mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(_lightingBtn);
-//        make.left.equalTo(_lightingBtn).with.offset(17);
-//        make.width.equalTo(@22);
-//        make.height.equalTo(@22);
-//    }];
-    
-//    //导入二维码图片
-//    _importQRCodeImageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [_importQRCodeImageBtn setTitle:@"导入二维码" forState:UIControlStateNormal];
-//    [_importQRCodeImageBtn.titleLabel setFont:[UIFont systemFontOfSize:12]];
-//    [_importQRCodeImageBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    [_importQRCodeImageBtn setBackgroundColor:[UIColor clearColor]];
-//    _importQRCodeImageBtn.tag = IMPORTBUTTONTAG;
-//    [_importQRCodeImageBtn addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    [_qrRectView addSubview:_importQRCodeImageBtn];
-//    [_importQRCodeImageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.bottom.equalTo(_qrRectView.mas_bottom).with.offset(-32);
-//        make.right.equalTo(_qrRectView.mas_right).with.offset(-20);
-//        make.size.mas_equalTo(CGSizeMake(60, 12));
-//    }];
-//
-//    _importQRCodeImage = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [_importQRCodeImage setBackgroundImage:[UIImage imageNamed:@"album"] forState:UIControlStateNormal];
-//    _importQRCodeImage.tag = IMPORTBUTTONTAG;
-//    [_importQRCodeImage addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    [_qrRectView addSubview:_importQRCodeImage];
-//    [_importQRCodeImage mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.bottom.equalTo(_qrRectView).with.offset(-48);
-//        make.centerX.equalTo(_importQRCodeImageBtn);
-//        make.size.mas_equalTo(CGSizeMake(32, 32));
-//    }];
 }
 
 - (void)buttonClicked:(UIButton *)sender{

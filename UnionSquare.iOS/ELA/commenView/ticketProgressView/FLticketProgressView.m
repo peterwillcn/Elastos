@@ -2,7 +2,7 @@
 //  FLticketProgressView.m
 //  FLWALLET
 //
-//  Created by fxl on 2018/11/15.
+//  Created by  on 2018/11/15.
 //  Copyright © 2018年 HMW. All rights reserved.
 //
 

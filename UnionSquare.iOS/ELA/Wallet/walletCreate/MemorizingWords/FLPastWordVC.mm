@@ -2,8 +2,8 @@
 //  FLPastWordVC.m
 //  FLWALLET
 //
-//  Created by fxl on 2018/8/15.
-//  Copyright © 2018年 fxl. All rights reserved.
+//  Created by  on 2018/8/15.
+//  Copyright © 2018年 . All rights reserved.
 //
 
 #import "FLPastWordVC.h"
@@ -49,27 +49,18 @@
 -(UILabel *)theMnemonicWordLabel{
     if (!_theMnemonicWordLabel) {
         _theMnemonicWordLabel =[[UILabel alloc]init];
-        _theMnemonicWordLabel.textColor=[UIColor whiteColor];
-  
+    _theMnemonicWordLabel.textColor=[UIColor whiteColor];
         NSString *languageString=[DAConfig userLanguage];
         if ([languageString  containsString:@"en"]) {
-      
-             _theMnemonicWordLabel.numberOfLines=0; _theMnemonicWordLabel.textAlignment=NSTextAlignmentLeft;
+      _theMnemonicWordLabel.numberOfLines=0; _theMnemonicWordLabel.textAlignment=NSTextAlignmentLeft;
             
         }else if ([languageString  containsString:@"zh"]){
-            
-            _theMnemonicWordLabel.numberOfLines=2; _theMnemonicWordLabel.textAlignment=NSTextAlignmentCenter;
+        _theMnemonicWordLabel.numberOfLines=2; _theMnemonicWordLabel.textAlignment=NSTextAlignmentCenter;
         }else{
-             _theMnemonicWordLabel.numberOfLines=2; _theMnemonicWordLabel.textAlignment=NSTextAlignmentCenter;
-            
+        _theMnemonicWordLabel.numberOfLines=2; _theMnemonicWordLabel.textAlignment=NSTextAlignmentCenter;
         }
-       
         _theMnemonicWordLabel.font=[UIFont systemFontOfSize:13];
-        
-        
-        
     }
-    
     return _theMnemonicWordLabel ;
 }
 -(void)setText:(NSString*)text lineSpacing:(CGFloat)lineSpacing {

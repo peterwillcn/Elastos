@@ -56,7 +56,7 @@ const char* ela_sign_message(const char* message, const char* keystore, const ch
     //        bytes_t prvKey = rootKey.getChild("44'/0'/0'/0/0").privkey();
     //        key.SetPrvKey(prvKey);
 #endif
-        bytes_t signature = key.Sign(message);
+        bytes_t signature = key.Sign(bytes_t(message));
 
         return strdup(signature.getHex().c_str());
     }
@@ -120,7 +120,7 @@ bool ela_verify_message(const char* public_key, const char* message, const char*
         Key verifyKey;
         verifyKey.SetPubKey(bytes_t(public_key));
 
-        return verifyKey.Verify(message, bytes_t(signature));
+        return verifyKey.Verify(bytes_t(message), bytes_t(signature));
     }
     catch (...) {
         return false;

@@ -38,7 +38,7 @@
      }
  }
  
-@@ -169,9 +170,15 @@
+@@ -169,9 +170,21 @@
  
          if (cdvMinSdkVersion != null) {
              minSdkVersion cdvMinSdkVersion
@@ -49,6 +49,12 @@
  
 +    sourceSets {
 +        main.java.srcDirs += '../../../platform_src/android/app/src/main/java'
++    }
++
++    externalNativeBuild {
++        cmake {
++            path '../../../platform_src/android/app/src/main/cpp/CMakeLists.txt'
++        }
 +    }
 +
      lintOptions {

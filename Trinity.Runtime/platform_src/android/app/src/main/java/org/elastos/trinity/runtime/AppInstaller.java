@@ -25,6 +25,7 @@ package org.elastos.trinity.runtime;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.net.Uri;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,12 +34,16 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
@@ -222,6 +227,37 @@ public class AppInstaller {
         }
     }
 
+    private static String convertStreamToString(InputStream is) throws Exception {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+        final int buffer_size = 1024;
+        char[] cstr = new char[buffer_size];
+        int read_count;
+        while ((read_count = reader.read(cstr, 0, buffer_size)) != -1) {
+            sb.append(cstr, 0, read_count);
+        }
+        reader.close();
+        return sb.toString();
+    }
+
+    private static String getStringFromFile(String filePath) {
+        try {
+            File fl = new File(filePath);
+            FileInputStream fin = null;
+            fin = new FileInputStream(fl);
+            String ret = convertStreamToString(fin);
+            fin.close();
+            return ret;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public AppInfo install(AppManager appManager, String url) throws Exception {
         InputStream inputStream = null;
         AppInfo info = null;
@@ -259,6 +295,17 @@ public class AppInstaller {
             deleteDAppPackage(downloadPkgPath);
             throw new Exception("UnpackZip fail!");
         }
+
+        String public_key = getStringFromFile(path + "EPK-SIGN/SIGN.PUB");
+        String payload = getStringFromFile(path + "EPK-SIGN/FILELIST.SHA");
+        String signed_payload = getStringFromFile(path + "EPK-SIGN/FILELIST.SIGN");
+
+        if (!NativeVerifier.verify(public_key, payload, signed_payload)) {
+            deleteDAppPackage(downloadPkgPath);
+            throw new Exception("Verify signature fail!");
+        }
+
+        Log.d("AppInstaller", "The EPK was signed by " + public_key);
 
         String manifest = path + "manifest.json";
         File file = new File(manifest);

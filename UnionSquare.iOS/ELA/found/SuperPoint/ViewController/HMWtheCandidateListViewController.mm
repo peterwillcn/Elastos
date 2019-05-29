@@ -352,6 +352,10 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 {
     if (!_placeHolferImage) {
         _placeHolferImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed: @"found_vote_empty_list"]];
+        UILabel *textLable=[[UILabel alloc]initWithFrame:CGRectMake(0, 160, 160, 40)];
+        textLable.textColor=RGB(149, 159, 171);
+        textLable.text=NSLocalizedString(@"暂无候选节点", nil);
+        [_placeHolferImage addSubview:textLable];
     }
     return _placeHolferImage;
     

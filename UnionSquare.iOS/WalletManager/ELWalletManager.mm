@@ -830,8 +830,9 @@ static uint64_t feePerKB = 10000;
     int idx = 0;
     
     String masterWalletID = [self cstringWithString:args[idx++]];
-    String backupPassword = [self cstringWithString:args[idx++]];
     String payPassword = [self cstringWithString:args[idx++]];
+     String backupPassword= [self cstringWithString:args[idx++]];
+//    String payPassword = [self cstringWithString:args[idx++]];
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];

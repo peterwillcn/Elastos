@@ -117,4 +117,8 @@
     
     [[ELWalletManager share] EMWMSaveConfigs];
 }
+-(void)applicationDidEnterBackground:(UIApplication *)application {
+ [[ELWalletManager share] EMWMSaveConfigs];
+}
+
 @end

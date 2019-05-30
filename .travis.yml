@@ -5,7 +5,7 @@ matrix:
   include:
     # - os: osx
     #   osx_image: xcode10.2
-    #   env: NODEJS_VERSION=10
+    #   env: NODEJS_VERSION=12 NDK=r18b
     #   addons:
     #     homebrew:
     #       taps: homebrew/cask-versions
@@ -13,7 +13,7 @@ matrix:
 
     - os: osx
       osx_image: xcode10.2
-      env: NODEJS_VERSION=11 BUILD_EPKSIGNER=ON
+      env: NODEJS_VERSION=11 NDK=r18b BUILD_EPKSIGNER=ON
       addons:
         homebrew:
           taps: homebrew/cask-versions
@@ -30,13 +30,17 @@ matrix:
 
     - language: android
       dist: trusty
-      env: NODEJS_VERSION=11
+      env: NODEJS_VERSION=11 NDK=r18b
       android:
         components:
           - tools
           - platform-tools
           - build-tools-28.0.3
           - android-27
+        licenses:
+          - 'android-sdk-preview-license-.+'
+          - 'android-sdk-license-.+'
+          - 'google-gdk-license-.+'
 
     - language: cpp
       dist: xenial
@@ -46,7 +50,6 @@ matrix:
       script:
         - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/build.sh
         - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/_build/sample/sample
-
 
 before_install:
   - wget -q https://services.gradle.org/distributions/gradle-4.6-bin.zip
@@ -59,8 +62,17 @@ before_install:
       sudo unzip -q sdk-tools-darwin-4333796.zip -d $TRAVIS_HOME/android-sdk/;
       export ANDROID_HOME=$TRAVIS_HOME/android-sdk;
       sudo chmod -R 777 $ANDROID_HOME;
+      wget -q https://dl.google.com/android/repository/android-ndk-${NDK}-darwin-x86_64.zip;
+      sudo unzip -q android-ndk-${NDK}-darwin-x86_64.zip -d $TRAVIS_HOME/;
+      export ANDROID_NDK_HOME=$TRAVIS_HOME/android-ndk-${NDK};
       export PATH=$ANDROID_HOME/tools/bin:$ANDROID_HOME/tools:$ANDROID_HOME/build-tools:$PATH;
-      echo yes | sudo sdkmanager "build-tools;28.0.3";
+      echo y | sudo sdkmanager "build-tools;28.0.3";
+    else
+      echo y | sdkmanager "ndk-bundle";
+      echo y | sdkmanager "cmake;3.6.4111459";
+      echo y | sdkmanager --channel=3 --channel=1 "cmake;3.10.2.4988404";
+      echo y | sdkmanager "lldb;3.1";
+      export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle;
     fi
 
 install:

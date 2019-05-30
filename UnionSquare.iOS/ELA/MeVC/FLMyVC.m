@@ -16,7 +16,6 @@
 #import "HMWFMDBManager.h"
 #import "friendsModel.h"
 
-
 static NSString *MyIncomeOrWealthCell=@"HMWMyIncomeOrWealthTableViewCell";
 static NSString *LanguageCell=@"HMWClassificationOfLanguageTableViewCell";
 static NSString *addListCell=@"HMWaddWalletListTableViewCell";
@@ -60,18 +59,13 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
 //    [self.theContactMutableArray addObject:@"1"];
    
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(myfriendNeedUpdateInfo) name:myfriendNeedUpdate object:nil];
-
 }
-
-
 -(void)myfriendNeedUpdateInfo{
-    
     [self.theContactMutableArray removeAllObjects];
     self.theContactMutableArray=nil;
  
      NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:self.selectIndex.section];
     [self.table reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
-    
 }
 -(NSMutableArray *)theContactMutableArray{
     

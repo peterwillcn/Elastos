@@ -49,7 +49,7 @@ NSInteger timeOut = 20;
     AFHTTPSessionManager *manage = [self getManage];
     
     NSDictionary *dataDic = [self addOtherKey:param];
-    DLog(@"---url---%@%@---%@",host,httpUrl, dataDic);
+//    DLog(@"---url---%@%@---%@",host,httpUrl, dataDic);
     NSString *stringUrl = [NSString stringWithFormat:@"%@%@",host, httpUrl];
 
     [manage POST:stringUrl parameters:param headers:header progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -73,7 +73,7 @@ NSInteger timeOut = 20;
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
-        DLog(@"----------------------------->%@",error);
+//        DLog(@"----------------------------->%@",error);
         [[FLTools share]showErrorInfo:errorString];
         FailBlock(error);
     }];
@@ -93,13 +93,13 @@ NSInteger timeOut = 20;
     NSString *stringUrl = [NSString stringWithFormat:@"%@%@",host, httpUrl];
     NSDictionary *dataDic = [self addOtherKey:param];
     
-    DLog(@"---url---%@---%@", stringUrl, dataDic);
+//    DLog(@"---url---%@---%@", stringUrl, dataDic);
 
     [manage GET:stringUrl parameters:dataDic headers:header progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        DLog(@"dic:%@",dic);
+//        DLog(@"dic:%@",dic);
         if (show) {
             [SVProgressHUD dismiss];
         }
@@ -115,7 +115,7 @@ NSInteger timeOut = 20;
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        DLog(@"----------------------------->%@",error);
+//        DLog(@"----------------------------->%@",error);
         [[FLTools share]showErrorInfo:errorString];
         FailBlock(error);
         
@@ -161,12 +161,12 @@ NSInteger timeOut = 20;
         
     } progress:^(NSProgress *_Nonnull uploadProgress) {
         //打印下上传进度
-        DLog(@"%@", uploadProgress);
+//        DLog(@"%@", uploadProgress);
     } success:^(NSURLSessionDataTask *_Nonnull task, id _Nullable responseObject) {
          if (show) {
         [SVProgressHUD dismiss];
     }
-        DLog(@"上传结果:%@", responseObject);
+//        DLog(@"上传结果:%@", responseObject);
         //上传成功
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSInteger code = [dic[@"code"] integerValue];
@@ -178,7 +178,7 @@ NSInteger timeOut = 20;
             [[FLTools share]showErrorInfo:errString];
         }
     } failure:^(NSURLSessionDataTask *_Nullable task, NSError * _Nonnull error) {
-        DLog(@"%@", error);
+//        DLog(@"%@", error);
         //上传失败
         [[FLTools share]showErrorInfo:errorString];
         FailBlock(nil);

@@ -96,4 +96,8 @@
     }
     return ret;
 }
++ (NSString *)description
+{
+    return @"ooxx";
+}
 @end

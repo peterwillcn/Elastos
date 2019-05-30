@@ -35,9 +35,9 @@ static FLNotePointDBManager *manager;
 
         [manager open];
         if ([manager executeUpdate:sql]) {
-            DLog(@"NotePoint 建表完成");
+//            DLog(@"NotePoint 建表完成");
         }else{
-            DLog(@"NotePoint 建表失败");
+//            DLog(@"NotePoint 建表失败");
         }
     });
     
@@ -103,9 +103,9 @@ static FLNotePointDBManager *manager;
     if ([manager executeUpdate:sql]) {
         
         return YES;
-        DLog(@"删除完成!");
+//        DLog(@"删除完成!");
     }else{
-        DLog(@"删除失败!");
+//        DLog(@"删除失败!");
         return NO;
     }
 }

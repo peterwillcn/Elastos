@@ -128,7 +128,7 @@
     // 分享之后的回调
     activityVC.completionWithItemsHandler = ^(UIActivityType  _Nullable activityType, BOOL completed, NSArray * _Nullable returnedItems, NSError * _Nullable activityError) {
         if (completed) {
-            DLog(@"completed");
+           
 //            [HttpUrl NetPOSTHost:Http_UpImage url:@"/api/user/vlink/activity/news/share/reward" dict:@{@"id":@3001} showHUD:NO WithSuccessBlock:^(id data) {
 //
 //            } WithFailBlock:^(id data) {
@@ -152,9 +152,9 @@
                         dispatch_sync(dispatch_get_main_queue(), ^{
                             [self.navigationController pushViewController:scanVC animated:YES];
                         });
-                        DLog(@"用户第一次同意了访问相机权限 - - %@", [NSThread currentThread]);
+//                        DLog(@"用户第一次同意了访问相机权限 - - %@", [NSThread currentThread]);
                     } else {
-                        DLog(@"用户第一次拒绝了访问相机权限 - - %@", [NSThread currentThread]);
+//                        DLog(@"用户第一次拒绝了访问相机权限 - - %@", [NSThread currentThread]);
                     }
                 }];
                 break;

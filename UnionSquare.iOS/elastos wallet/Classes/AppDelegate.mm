@@ -87,20 +87,36 @@
         
     }else{
         FLFLTabBarVC *tabVC = [[FLFLTabBarVC alloc]init];
-        
-//        BaseNavigationVC *firstNAVC=tabVC.viewControllers.firstObject;
-//        FirstViewController *firstVC=firstNAVC.viewControllers.firstObject;
-        //        firstVC.walletIDListArray=array;
-        
         self.window.rootViewController = tabVC;
-        
-        
-        
     }
     [WOCrashProtectorManager makeAllEffective];
+  
+
+ 
+    [self redirectNSlogToDocumentFolder];
     [self.window makeKeyAndVisible];
+    return YES;
+    
 }
 
+- (void)redirectNSlogToDocumentFolder
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = [paths objectAtIndex:0];
+        NSFileManager *defaultManager = [NSFileManager defaultManager];
+    NSString *directryPath = [documentDirectory stringByAppendingPathComponent:@"logo"];
+    if (![defaultManager fileExistsAtPath:directryPath]) {
+          [defaultManager createDirectoryAtPath:directryPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+  
+    NSString *fileName = [NSString stringWithFormat:@"%@.log",[[FLTools share]getCurrentTimes]];
+    NSString *logFilePath = [directryPath stringByAppendingPathComponent:fileName];
+
+    // 将log输入到文件
+    freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding], "a+", stdout);
+    freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding], "a+", stderr);
+    
+}
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 
 {

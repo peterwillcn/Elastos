@@ -49,7 +49,7 @@
 -(void)onTxPublish:(NSNotification*)notice{
     
     NSDictionary *param =notice.object;
-    DLog(@"%@",param);
+//    DLog(@"%@",param);
     
 //    NSInteger code =[ param[@"result"][@"Code"] integerValue];
 //    if (code == 0||code ==18) {

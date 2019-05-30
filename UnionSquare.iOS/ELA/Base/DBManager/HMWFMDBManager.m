@@ -103,13 +103,13 @@ static HMWFMDBManager * _manager =nil;
     
     NSString *sql =@"insert into Person (nameString,address,mobilePhoneNo,email,note) values(?,?,?,?,?)";
     if ([self executeUpdate:sql,person.nameString,person.address,person.mobilePhoneNo,person.email,person.note]) {
-        DLog(@"完成!");
+//        DLog(@"完成!");
         [[NSNotificationCenter defaultCenter]postNotificationName:myfriendNeedUpdate object:nil];
         return YES;
   
         
     }else{ 
-         DLog(@"失败!");
+//         DLog(@"失败!");
         
             return NO;
     }

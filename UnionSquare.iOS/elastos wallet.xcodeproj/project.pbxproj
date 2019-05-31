@@ -318,6 +318,12 @@
 		4250B3F62238D32700B6858F /* zbar-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 4250B3D62238D32600B6858F /* zbar-back.png */; };
 		4250B3F72238D36700B6858F /* libspvsdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4293CA67221FF8730045A8D9 /* libspvsdk.a */; };
 		4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4250B3F82238D3E900B6858F /* libiconv.tbd */; };
+		4261CF3822A15D21006B1DDE /* NSDictionary+NilSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261CF3222A15D20006B1DDE /* NSDictionary+NilSafe.m */; };
+		4261CF3922A15D21006B1DDE /* NSMutableArray+Swizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261CF3522A15D20006B1DDE /* NSMutableArray+Swizzling.m */; };
+		4261CF3A22A15D21006B1DDE /* NSObject+Swizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261CF3722A15D21006B1DDE /* NSObject+Swizzling.m */; };
+		4261CF3C22A16037006B1DDE /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4261CF3B22A16037006B1DDE /* Bugly.framework */; };
+		4261CF3E22A1605D006B1DDE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4261CF3D22A1605C006B1DDE /* SystemConfiguration.framework */; };
+		4261CF4022A16066006B1DDE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4261CF3F22A16066006B1DDE /* Security.framework */; };
 		4264A73E221BDC24008D5C7B /* DAConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 4264A73D221BDC24008D5C7B /* DAConfig.m */; };
 		4264A741221BDC8D008D5C7B /* NSBundle+DAUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4264A740221BDC8D008D5C7B /* NSBundle+DAUtils.m */; };
 		428054D42242296500E74F0E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 428054D62242296500E74F0E /* InfoPlist.strings */; };
@@ -935,6 +941,15 @@
 		4250B3EC2238D32600B6858F /* ZBarSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBarSDK.h; sourceTree = "<group>"; };
 		4250B3ED2238D32600B6858F /* ZBarReaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBarReaderViewController.h; sourceTree = "<group>"; };
 		4250B3F82238D3E900B6858F /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		4261CF3222A15D20006B1DDE /* NSDictionary+NilSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NilSafe.m"; sourceTree = "<group>"; };
+		4261CF3322A15D20006B1DDE /* NSObject+Swizzling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Swizzling.h"; sourceTree = "<group>"; };
+		4261CF3422A15D20006B1DDE /* NSDictionary+NilSafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NilSafe.h"; sourceTree = "<group>"; };
+		4261CF3522A15D20006B1DDE /* NSMutableArray+Swizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Swizzling.m"; sourceTree = "<group>"; };
+		4261CF3622A15D20006B1DDE /* NSMutableArray+Swizzling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Swizzling.h"; sourceTree = "<group>"; };
+		4261CF3722A15D21006B1DDE /* NSObject+Swizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Swizzling.m"; sourceTree = "<group>"; };
+		4261CF3B22A16037006B1DDE /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
+		4261CF3D22A1605C006B1DDE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		4261CF3F22A16066006B1DDE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		4264A734221BD14C008D5C7B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4264A73C221BDC24008D5C7B /* DAConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DAConfig.h; sourceTree = "<group>"; };
 		4264A73D221BDC24008D5C7B /* DAConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DAConfig.m; sourceTree = "<group>"; };
@@ -1040,6 +1055,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4261CF4022A16066006B1DDE /* Security.framework in Frameworks */,
+				4261CF3E22A1605D006B1DDE /* SystemConfiguration.framework in Frameworks */,
+				4261CF3C22A16037006B1DDE /* Bugly.framework in Frameworks */,
 				4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */,
 				4250B3F72238D36700B6858F /* libspvsdk.a in Frameworks */,
 				4250B3F22238D32700B6858F /* libzbar.a in Frameworks */,
@@ -1116,6 +1134,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4261CF3F22A16066006B1DDE /* Security.framework */,
+				4261CF3D22A1605C006B1DDE /* SystemConfiguration.framework */,
 				4250B3F82238D3E900B6858F /* libiconv.tbd */,
 				4293CA67221FF8730045A8D9 /* libspvsdk.a */,
 				95B5A24BEEA44AE9AD51A2C8 /* WebKit.framework */,
@@ -1161,6 +1181,7 @@
 		4202C7D421F6EF28009E5932 /* ThirdSDK */ = {
 			isa = PBXGroup;
 			children = (
+				4261CF3B22A16037006B1DDE /* Bugly.framework */,
 				424910C22271BFCF00C41E50 /* SDWebImage */,
 				4250B3C62238D32600B6858F /* ZBar */,
 				42B57A9322150C1C004CF089 /* WOCrashProtector */,
@@ -2009,6 +2030,12 @@
 		4202C99A21F6EF29009E5932 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				4261CF3422A15D20006B1DDE /* NSDictionary+NilSafe.h */,
+				4261CF3222A15D20006B1DDE /* NSDictionary+NilSafe.m */,
+				4261CF3622A15D20006B1DDE /* NSMutableArray+Swizzling.h */,
+				4261CF3522A15D20006B1DDE /* NSMutableArray+Swizzling.m */,
+				4261CF3322A15D20006B1DDE /* NSObject+Swizzling.h */,
+				4261CF3722A15D21006B1DDE /* NSObject+Swizzling.m */,
 				424A7D62222FC1EE00683B8C /* DBManager */,
 				4264A73B221BDBBF008D5C7B /* languageTool */,
 				CBD48D6021FC396D00BF3B11 /* NetTool */,
@@ -2810,6 +2837,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.mm in Sources */,
+				4261CF3822A15D21006B1DDE /* NSDictionary+NilSafe.m in Sources */,
 				4202CA7E21F6EF2B009E5932 /* HMWTheWalletManagementTableViewCell.m in Sources */,
 				422D60A821FC42D100DD07FF /* HMWChooseTheCountryAreasTableViewCell.m in Sources */,
 				422D609121FC401200DD07FF /* HMWtransferViewController.mm in Sources */,
@@ -2897,6 +2925,7 @@
 				4228AA6221F88C87002866B5 /* NSObject+YYAddForKVO.m in Sources */,
 				4228AA4821F88C87002866B5 /* UIBezierPath+YYAdd.m in Sources */,
 				4202CA8D21F6EF2B009E5932 /* HMWModifyTheWalletPasswordViewController.mm in Sources */,
+				4261CF3A22A15D21006B1DDE /* NSObject+Swizzling.m in Sources */,
 				4250B3F12238D32700B6858F /* UIColor+HEX.m in Sources */,
 				42B57AB522150C1C004CF089 /* NSTimer+Crash.m in Sources */,
 				4202CACE21F6EF2B009E5932 /* HMWsignUpForViewController.mm in Sources */,
@@ -3052,6 +3081,7 @@
 				4202CA0921F6EF2A009E5932 /* UIImage+SGImageSize.m in Sources */,
 				4228AA4721F88C87002866B5 /* UITextField+YYAdd.m in Sources */,
 				4202CAC321F6EF2B009E5932 /* HMWinputVotesPopupWindowView.m in Sources */,
+				4261CF3922A15D21006B1DDE /* NSMutableArray+Swizzling.m in Sources */,
 				4202CAB821F6EF2B009E5932 /* FLFLTabBarVC.m in Sources */,
 				424910EA2271BFCF00C41E50 /* SDWebImageDownloader.m in Sources */,
 				4228AA5221F88C87002866B5 /* UIImage+YYAdd.m in Sources */,
@@ -3111,6 +3141,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ELA/ThirdSDK",
+				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -3153,6 +3187,10 @@
 				COPY_PHASE_STRIP = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ELA/ThirdSDK",
+				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "elastos wallet/elastos wallet-Prefix.pch";

@@ -78,7 +78,6 @@ static uint64_t feePerKB = 10000;
         [[FLTools share]showErrorInfo:dic[@"Message"]];
         return 0;
     }
-//   subWalletList = masterWallet->GetAllSubWallets();
     for (int i = 0; i < subWalletList.size(); i++)
     {
         ISubWallet *iSubWallet = subWalletList[i];

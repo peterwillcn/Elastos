@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "580977095.111462"
+            timestampString = "581002088.804872"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "568"
-            endingLineNumber = "568"
+            startingLineNumber = "567"
+            endingLineNumber = "567"
             landmarkName = "-getBalance:"
             landmarkType = "7">
          </BreakpointContent>
@@ -112,22 +112,6 @@
             startingLineNumber = "218"
             endingLineNumber = "218"
             landmarkName = "-sureToDeleteViewWithPWD:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ELA/Wallet/ViewController/FirstViewController.mm"
-            timestampString = "580977109.908067"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
-            landmarkName = "-loadTheWalletInformationWithIndex:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

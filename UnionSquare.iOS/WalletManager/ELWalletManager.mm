@@ -258,7 +258,14 @@ static uint64_t feePerKB = 10000;
 - (Json)jsonWithString:(NSString *)string
 {
     String std = [self cstringWithString:string];
-    Json json = Json::parse(std);
+    Json json;
+    try {
+      json = Json::parse(std);
+    } catch (const std:: exception & e ) {
+         NSString *errString=[self stringWithCString:e.what()];
+      
+    }
+   
     return json;
 }
 
@@ -1614,7 +1621,7 @@ static uint64_t feePerKB = 10000;
     uint64_t fee;
     Json signedTx;
     Json result;
-NSLog(@"RegisterProducerWithMainchainSubWallet--%@--%@--%@--%@--%@--%@--%@--%@",model.pubKey,model.nodePubKey,model.nickName,model.url,model.ipAddress,model.contryCode,model.pwd,model.acount);
+    NSLog(@"RegisterProducerWithMainchainSubWallet--%@--%@--%@--%@--%@--%@--%@--%ld",model.pubKey,model.nodePubKey,model.nickName,model.url,model.ipAddress,model.contryCode,model.pwd,(long)model.acount);
     try {
        payload= ELA->GenerateProducerPayload([model.pubKey UTF8String], [model.nodePubKey UTF8String],[model.nickName UTF8String], [model.url UTF8String], [model.ipAddress UTF8String], model.contryCode.integerValue, [model.pwd UTF8String]);
         
@@ -1682,7 +1689,7 @@ NSLog(@"RegisterProducerWithMainchainSubWallet--%@--%@--%@--%@--%@--%@--%@--%@",
 }
 -(NSInteger)UpdateProducerWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model
 {
-    NSLog(@"UpdateProducerWithMainchainSubWallet--%@--%@--%@--%@--%@--%@--%@--%@",model.pubKey,model.nodePubKey,model.nickName,model.url,model.ipAddress,model.contryCode,model.pwd,model.acount);
+    NSLog(@"UpdateProducerWithMainchainSubWallet--%@--%@--%@--%@--%@--%@--%@--%ld",model.pubKey,model.nodePubKey,model.nickName,model.url,model.ipAddress,model.contryCode,model.pwd,(long)model.acount);
     try {
         std::string pubKey = ELA->GetPublicKeyForVote();
         std::string nodePubKey = ELA->GetPublicKey();

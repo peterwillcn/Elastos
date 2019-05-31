@@ -96,7 +96,7 @@
     }
     [WOCrashProtectorManager makeAllEffective];
     [self setupBugly];
-//    [self redirectNSlogToDocumentFolder];
+    [self redirectNSlogToDocumentFolder];
     [self.window makeKeyAndVisible];
     return YES;
     

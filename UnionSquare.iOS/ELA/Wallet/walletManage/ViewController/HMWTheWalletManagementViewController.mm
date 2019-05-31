@@ -202,11 +202,24 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
 }
 #pragma mark ---------HMWToDeleteTheWalletPopViewDelegate----------
 -(void)sureToDeleteViewWithPWD:(NSString *)pwd{
-        FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
+    
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
+    
+    PluginResult *result= [[ELWalletManager share] exportWalletWithMnemonic:mommand];
+    NSString *status=[NSString stringWithFormat:@"%@",result.status];
+    
+    if ([status isEqualToString:@"1"]) {
+    
+    FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
         model.walletID=self.currentWallet.masterWalletID;
         [[HMWFMDBManager sharedManagerType:walletType]delectRecordWallet:model];
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
         PluginResult *result= [[ELWalletManager share] DestroyMasterWallet:mommand];
+        NSString *status=[NSString stringWithFormat:@"%@",result.status];
+        if (![status isEqualToString:@"1"]) {
+            return;
+        }
+        
         [[FLTools share]showErrorInfo:NSLocalizedString(@"删除成功", nil)];
      [self toCancelOrCloseDelegate];
     
@@ -216,10 +229,7 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
      
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
-    
-    
-    
-    
+    }
 }
 - (void)toCancelOrCloseDelegate {
     [self.toDeleteTheWalletPopV removeFromSuperview];
@@ -229,6 +239,8 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
 }
 #pragma mark ---------MWSecurityVerificationPopViewDelegate----------
 - (void)makeSureWithPWD:(NSString *)pwdString {
+   
+    
     [self takeOutOrShutDown];
     if (self.selectIndex.section==2) {
         

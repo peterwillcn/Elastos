@@ -231,6 +231,9 @@
         
         return;
     }
+    if (inde>self.dataSoureArray.count) {
+        inde=self.dataSoureArray.count;
+    }
     [STANDARD_USER_DEFAULT setValue:[NSString stringWithFormat:@"%ld",inde] forKey:selectIndexWallet];
     [STANDARD_USER_DEFAULT synchronize];
     

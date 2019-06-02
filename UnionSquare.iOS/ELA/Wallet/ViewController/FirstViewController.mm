@@ -232,7 +232,7 @@
         return;
     }
     if (inde>self.walletIDListArray.count-1) {
-        inde=self.walletIDListArray.count-1;
+        inde=0;
     }
     [STANDARD_USER_DEFAULT setValue:[NSString stringWithFormat:@"%ld",inde] forKey:selectIndexWallet];
     [STANDARD_USER_DEFAULT synchronize];

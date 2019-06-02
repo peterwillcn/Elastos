@@ -929,10 +929,13 @@ static uint64_t feePerKB = 10000;
     int idx = 0;
     
     String masterWalletID = [self cstringWithString:args[idx++]];
-    Json keystoreContent = [self jsonWithString:args[idx++]];
+    
+    NSString *keystoreContentStr=args[idx++];
+    
+    Json keystoreContent = [self jsonWithString:keystoreContentStr];
     String backupPassword = [self cstringWithString:args[idx++]];
     String payPassword = [self cstringWithString:args[idx++]];
-    NSLog(@"importWalletWithKeystore--%@--%@--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:keystoreContent],[self stringWithCString:backupPassword],[self stringWithCString:payPassword]);
+    NSLog(@"importWalletWithKeystore--%@--%@--%@--%@",[self stringWithCString:masterWalletID],keystoreContentStr,[self stringWithCString:backupPassword],[self stringWithCString:payPassword]);
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -1001,7 +1004,7 @@ static uint64_t feePerKB = 10000;
     NSString * chainIDString=args[idx++];
     
     String chainID= [self cstringWithString:chainIDString];
-    NSLog(@"registerWalletListener--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:chainID]);
+    NSLog(@"registerWalletListener--%@--%@",[self stringWithCString:masterWalletID],chainIDString);
     ISubWallet *subWallet = [self getSubWallet:masterWalletID : chainID];
     
     
@@ -1327,7 +1330,7 @@ static uint64_t feePerKB = 10000;
     String pwd=[self cstringWithString:args[idx++]];
 //    Boolean singleAddress =  [args[idx++] boolValue];
     Boolean singleAddress =  true;
-    NSLog(@"sideChainTop_Up--%@--%@--%@--%@--%@--%@--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:fromSubWalletID],[self stringWithCString:toSubWalletID],[self stringWithCString:from],[self stringWithCString:sidechainAddress],[NSString stringWithFormat:@"%ld",amount],[self stringWithCString:memo],[self stringWithCString:remark],[self stringWithCString:pwd]);
+    NSLog(@"sideChainTop_Up--%@--%@--%@--%@--%@--%@--%@--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:fromSubWalletID],[self stringWithCString:toSubWalletID],[self stringWithCString:from],[self stringWithCString:sidechainAddress],[NSString stringWithFormat:@"%ld",amount],[self stringWithCString:memo],[self stringWithCString:remark],[self stringWithCString:pwd]);
     ISubWallet * fromSubWallet=[self getSubWallet:masterWalletID :fromSubWalletID];
     IMainchainSubWallet *mainchainSubWallet = dynamic_cast<IMainchainSubWallet *>(fromSubWallet);
     ISubWallet * toSubWallet=[self getSubWallet:masterWalletID :toSubWalletID];
@@ -1475,11 +1478,12 @@ static uint64_t feePerKB = 10000;
     
     String from = [self cstringWithString:args[idx++]];
     String mainchainAddress = [self cstringWithString:args[idx++]];
-    long amount = [args[idx++] integerValue];
+    NSString *  amountString=args[idx++];
+    long amount = [amountString integerValue];
     String memo=[self cstringWithString:args[idx++]];
     String remark=[self cstringWithString:args[idx++]];
     String pwd=[self cstringWithString:args[idx++]];
-    NSLog(@"mainChainWithdrawal--%@--%@--%@--%@--%@--%@--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:fromSubWalletID],[self stringWithCString:from],[self stringWithCString:mainchainAddress],[NSString stringWithFormat:@"ld", amount],[self stringWithCString:memo],[self stringWithCString:remark],[self stringWithCString:pwd]);
+    NSLog(@"mainChainWithdrawal--%@--%@--%@--%@--%@--%@--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:fromSubWalletID],[self stringWithCString:from],[self stringWithCString:mainchainAddress],amountString,[self stringWithCString:memo],[self stringWithCString:remark],[self stringWithCString:pwd]);
     
     ISubWallet * fromSubWallet=[self getSubWallet:masterWalletID :fromSubWalletID];
     ISidechainSubWallet *sidechainSubWallet = dynamic_cast<ISidechainSubWallet *>(fromSubWallet);

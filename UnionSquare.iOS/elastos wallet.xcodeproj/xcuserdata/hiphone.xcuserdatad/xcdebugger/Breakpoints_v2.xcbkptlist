@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "581010155.358997"
+            timestampString = "581128889.575666"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "574"
@@ -106,13 +106,61 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "581010155.359675"
+            timestampString = "581128889.576131"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "987"
-            endingLineNumber = "987"
+            startingLineNumber = "990"
+            endingLineNumber = "990"
             landmarkName = "-importWalletWithMnemonic:"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WalletManager/ELWalletManager.mm"
+            timestampString = "581128889.576797"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "266"
+            endingLineNumber = "266"
+            landmarkName = "-jsonWithString:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ELWalletManager jsonWithString:]"
+                  moduleName = "elastos_wallet"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiphone/Documents/Elastos.App.UnionSquare.iOS/WalletManager/ELWalletManager.mm"
+                  timestampString = "581128889.9455529"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "267"
+                  endingLineNumber = "267"
+                  offsetFromSymbolStart = "472">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ELWalletManager jsonWithString:]"
+                  moduleName = "elastos_wallet"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiphone/Documents/Elastos.App.UnionSquare.iOS/WalletManager/ELWalletManager.mm"
+                  timestampString = "581128889.9491"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "267"
+                  endingLineNumber = "267"
+                  offsetFromSymbolStart = "480">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

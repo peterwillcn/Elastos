@@ -95,7 +95,7 @@
         self.window.rootViewController = tabVC;
     }
     [WOCrashProtectorManager makeAllEffective];
-    [self setupBugly];
+//    [self setupBugly];
 //    [self redirectNSlogToDocumentFolder];
     [self.window makeKeyAndVisible];
     return YES;

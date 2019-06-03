@@ -258,16 +258,14 @@ import SQLite
     }
     
     func removeAppInfo(_ info: AppInfo) throws {
-        try db.transaction {
-            var items = plugins.filter(app_tid == info.tid);
-            try db.run(items.delete());
-            items = urls.filter(app_tid == info.tid);
-            try db.run(items.delete());
-            items = icons.filter(app_tid == info.tid);
-            try db.run(items.delete());
-            items = apps.filter(app_tid == info.tid);
-            try db.run(items.delete());
-        }
+        var items = plugins.filter(app_tid == info.tid);
+        try db.run(items.delete());
+        items = urls.filter(app_tid == info.tid);
+        try db.run(items.delete());
+        items = icons.filter(app_tid == info.tid);
+        try db.run(items.delete());
+        items = apps.filter(tid == info.tid);
+        try db.run(items.delete());
     }
     
     func clean() throws {

@@ -117,9 +117,11 @@
             throw AppError.error("App is a built in!");
         }
         
-        let path = self.dataPath + info!.app_id
+        let dataPath = self.dataPath + info!.app_id
+        try deleteAllFiles(dataPath);
         try dbAdapter.removeAppInfo(info!);
-        try deleteAllFiles(path);
+        let appPath = self.appPath + info!.app_id
+        try deleteAllFiles(appPath);
     }
     
     private func isAllowPlugin(_ plugin: String) -> Bool {

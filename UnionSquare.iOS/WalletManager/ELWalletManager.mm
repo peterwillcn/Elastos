@@ -8,6 +8,8 @@
 
 #import "ELWalletManager.h"
 #include <dispatch/dispatch.h>
+#import "sideChainInfoModel.h"
+#import "HMWFMDBManager.h"
 static ELWalletManager *tool;
 static uint64_t feePerKB = 10000;
 #pragma mark - ELWalletManager
@@ -27,6 +29,7 @@ static uint64_t feePerKB = 10000;
 +(instancetype)share{
   
     if (!tool) {
+        
             tool = [[self alloc]init];
             [tool pluginInitialize];
        
@@ -118,7 +121,7 @@ static uint64_t feePerKB = 10000;
     Json json;
     try {
 //        NSLog(@"GetBasicInfo");
-        masterWallet->GetBasicInfo();
+   json = masterWallet->GetBasicInfo();
     } catch (const std:: exception & e ) {
         
         NSString *errString=[self stringWithCString:e.what()];
@@ -319,6 +322,44 @@ static uint64_t feePerKB = 10000;
     errCodeInvalidDID                 = 10012;
     errCodeActionNotFound             = 10013;
     errCodeWalletException            = 20000;
+errCodeMasterWalletAlreadyExist = 20001;
+ errCodeInvalidParameters= 20002;
+ errCodeInvalidPassword= 20003;
+errCodeWrongPassword= 20004;
+errCodeIDNotFound= 20005;
+errCodeSPVCreateMasterWalletError= 20006;
+    errCodeMasterWalletAlreadyExist= 20007;
+ errSPVCreateSubWalletError= 20008;
+  errParseJsonArrayError= 20009;
+  errInvalidMnemonic= 20010;
+    errPublickeyFormatError=20011;
+    errPublicKeyLengthError=20012;
+    errSideShainDepositParametersError=20013;
+    errSideChainWithdrawParametersError=20014;
+  errTxSizeTooLarge=20015;
+  errCreateTxError=20016;
+    errInvalidTx=20017;
+    errPathDoNotExist=20018;
+     errRegisterIDPayloadError=20019;
+     errSqliteError=20018;
+     errDerivePurposeError=20019;
+     errWrongAccountType=20020;
+     errWrongNetType=20021;
+     errInvalidCoinType=20022;
+     errNoCurrentMultiSignAccount=20023;
+     errCosignerCountError=20024;
+     errMultiSignError=20025;
+     errKeyStoreError=20026;
+     errLimitGapError=20027;
+     errWalletContainInvalidTx=20028;
+     errKeyError=20029;
+     errHexToStringError=20030;
+     errSignTypeError=20031;
+     errAddressError=20032;
+     errSignError=20033;
+     errkeystoreNeedPhrasePassword=20034;
+     errBalanceNotEnough=20035;
+     errBalanceNotEnough=20036;
     mRootPath = [MyUtil getRootPath];
     const char  *rootPath = [mRootPath UTF8String];
     try {
@@ -473,7 +514,7 @@ static uint64_t feePerKB = 10000;
     
     String masterWalletID = [self cstringWithString:args[idx++]];
     String chainID        = [self cstringWithString:args[idx++]];
-    long feePerKb         = [args[idx++] boolValue];;
+    long feePerKb         = [args[idx++] boolValue];
     
     if (args.count != idx) {
         
@@ -927,15 +968,15 @@ static uint64_t feePerKB = 10000;
     
     NSArray *args = command.arguments;
     int idx = 0;
-    
-    String masterWalletID = [self cstringWithString:args[idx++]];
+    NSString *  masterWalletIDStr=args[idx++];
+    String masterWalletID = [self cstringWithString:masterWalletIDStr];
     
     NSString *keystoreContentStr=args[idx++];
     
     Json keystoreContent = [self jsonWithString:keystoreContentStr];
     String backupPassword = [self cstringWithString:args[idx++]];
     String payPassword = [self cstringWithString:args[idx++]];
-//    NSLog(@"importWalletWithKeystore--%@--%@--%@--%@",[self stringWithCString:masterWalletID],keystoreContentStr,[self stringWithCString:backupPassword],[self stringWithCString:payPassword]);
+    NSString * walletID=args[idx++]; NSLog(@"importWalletWithKeystore--%@--%@--%@--%@",[self stringWithCString:masterWalletID],keystoreContentStr,[self stringWithCString:backupPassword],[self stringWithCString:payPassword]);
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -953,8 +994,10 @@ static uint64_t feePerKB = 10000;
         NSString *msg = [NSString stringWithFormat:@"%@ %@ %@", @"Import", [self formatWalletName:masterWalletID], @"with keystore"];
         return [self errorProcess:command code:errCodeImportFromKeyStore msg:msg];
     }
+    
     NSString *jsonString = [self getBasicInfo:masterWallet];
     [self createDIDManager:masterWallet];
+    
     return [self successProcess:command msg:jsonString];
 }
 
@@ -1627,7 +1670,7 @@ static uint64_t feePerKB = 10000;
     Json result;
 //    NSLog(@"RegisterProducerWithMainchainSubWallet--%@--%@--%@--%@--%@--%@--%@--%ld",model.pubKey,model.nodePubKey,model.nickName,model.url,model.ipAddress,model.contryCode,model.pwd,(long)model.acount);
     try {
-       payload= ELA->GenerateProducerPayload([model.pubKey UTF8String], [model.nodePubKey UTF8String],[model.nickName UTF8String], [model.url UTF8String], [model.ipAddress UTF8String], model.contryCode.integerValue, [model.pwd UTF8String]);
+       payload= ELA->GenerateProducerPayload([model.pubKey UTF8String], [model.nodePubKey UTF8String],[model.nickName UTF8String], [model.url UTF8String], [model.ipAddress UTF8String], [model.contryCode intValue] , [model.pwd UTF8String]);
         
     } catch (const std:: exception & e ) {
         
@@ -1696,13 +1739,13 @@ static uint64_t feePerKB = 10000;
 //    NSLog(@"UpdateProducerWithMainchainSubWallet--%@--%@--%@--%@--%@--%@--%@--%ld",model.pubKey,model.nodePubKey,model.nickName,model.url,model.ipAddress,model.contryCode,model.pwd,(long)model.acount);
     try {
         std::string pubKey = ELA->GetPublicKeyForVote();
-        std::string nodePubKey = ELA->GetPublicKey();
+        std::string nodePublicKey = [model.ownerPublickKey UTF8String];
         std::string nickName = [model.nickName UTF8String];
         std::string url = [model.url UTF8String];
         std::string ipAddress = [model.ipAddress UTF8String];
         uint64_t location =model.contryCode.integerValue;
         
-        nlohmann::json payload = ELA->GenerateProducerPayload(pubKey, nodePubKey, nickName, url, ipAddress,
+        nlohmann::json payload = ELA->GenerateProducerPayload(pubKey, nodePublicKey, nickName, url, ipAddress,
                                                                              location, [model.pwd UTF8String]);
         
         nlohmann::json tx = ELA->CreateUpdateProducerTransaction("", payload, "", [model.mark UTF8String]);

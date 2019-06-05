@@ -91,6 +91,7 @@
     self.model.url = URL;
     self.model.contryCode = Location;
     self.model.ipAddress = infoDic[@"IpAddress"];
+    self.model.ownerPublickKey=OwnerPublickKey;
     
     [self getNetCoinPointArrayWithPubKey:OwnerPublickKey];
     

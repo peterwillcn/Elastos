@@ -266,7 +266,7 @@ __weak __typeof__(self) weakSelf = self;
     
     if ([status isEqualToString:@"1"]) {
         
-        invokedUrlCommand *subCmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.Wallet.masterWalletID,@"ELA",@"0"] callbackId:self.Wallet.walletID className:@"Wallet" methodName:@"createMasterWallet"];
+        invokedUrlCommand *subCmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.Wallet.masterWalletID,@"ELA",@"10000"] callbackId:self.Wallet.walletID className:@"Wallet" methodName:@"createMasterWallet"];
         
          PluginResult *subResult= [[ELWalletManager share] createSubWallet:subCmommand];
          NSString *status =[NSString stringWithFormat:@"%@",subResult.status];

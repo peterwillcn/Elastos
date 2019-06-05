@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,copy)NSString    *pwd;
 @property(nonatomic,assign)NSInteger acount;
 @property(nonatomic,copy)NSString    *mark;
-
+@property(nonatomic,copy)NSString    *ownerPublickKey;
 @end
 
 NS_ASSUME_NONNULL_END

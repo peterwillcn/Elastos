@@ -50,7 +50,6 @@
     [super viewDidLoad];
     [self defultWhite];
     [self setBackgroundImg:@"tab_bg"];
-//     self.pwdPopupV.userInteractionEnabled=NO;
     self.title=NSLocalizedString(@"报名参选", nil);
     self.theNameOfTheNodeTextField.placeholder =NSLocalizedString(@"请输入节点名称（必填）", nil);
     self.thePublicKeyTextField.placeholder    =NSLocalizedString(@"请输入节点公钥（必填）", nil);
@@ -70,16 +69,15 @@
  [[HMWCommView share]makeBordersWithView:self.confirmToRunButton];
     ELWalletManager *manager   =  [ELWalletManager share];
     IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-      NSString * nodePubKey = [NSString stringWithCString:mainchainSubWallet->GetPublicKeyForVote().c_str() encoding:NSUTF8StringEncoding];
-    self.thePublicKeyTextField.text=nodePubKey;
+      NSString * ownerPubKey = [NSString stringWithCString:mainchainSubWallet->GetPublicKeyForVote().c_str() encoding:NSUTF8StringEncoding];
+    self.thePublicKeyTextField.text=ownerPubKey;
     if (self.model.nickName.length!=0) {
         [self.confirmToRunButton setTitle:NSLocalizedString(@"更新信息", nil) forState:UIControlStateNormal];
         self.title = NSLocalizedString(@"更新信息", nil);
 //        self.theNameOfTheNodeTextField.alpha=0.f;
+       self.theNameOfTheNodeTextField.clearButtonMode=UITextFieldViewModeWhileEditing;
         self.theNameOfTheNodeTextField.enabled=NO;
-//        self.theNameOfTheNodeMakeView.alpha=0.f;
-//        self.offY.constant=0.f;
-//        self.offHight.constant=240;
+        self.thePublicKeyTextField.text=self.model.ownerPublickKey;
         self.URLTextField.text=self.model.url;
         self.countriesTextField.text=[[FLTools share]contryNameTransLateByCode:self.model.contryCode.integerValue];
         self.theNameOfTheNodeTextField.text=self.model.nickName;
@@ -96,16 +94,6 @@
     
     return _transferDetailsPopupV;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 - (IBAction)chooseTheCountryEvent:(id)sender {
     HMWSelectCountriesOrRegionsViewController *vc=[[HMWSelectCountriesOrRegionsViewController alloc]init];
     vc.delegate=self;
@@ -113,10 +101,6 @@
 }
 
 - (IBAction)confirmToRunEvent:(id)sender {
-    
-    
-    
-    
     if (self.theNameOfTheNodeTextField.text.length==0) {
         [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入节点名称（必填）", nil)];
         return;
@@ -194,8 +178,8 @@
     
     model.pubKey     =  [NSString stringWithCString:mainchainSubWallet->GetPublicKeyForVote().c_str() encoding:NSUTF8StringEncoding] ;
     
-    model.nodePubKey = self.thePublicKeyTextField.text;
-
+    model.ownerPublickKey = self.thePublicKeyTextField.text;
+model.nodePubKey=self.thePublicKeyTextField.text;
     model.nickName   = self.theNameOfTheNodeTextField.text;
     model.url        = self.URLTextField.text;
     model.contryCode = self.mobCodeString;
@@ -222,7 +206,7 @@
     [self.transferDetailsPopupV transferDetailsWithTheAmountOf:@"5000" withFee: @(free/unitNumber).stringValue];
     }
     
-     self.pwdPopupV.userInteractionEnabled=NO;
+//     self.pwdPopupV.userInteractionEnabled=NO;
     
 
     
@@ -236,7 +220,7 @@
     
     self.model.pubKey     =  [NSString stringWithCString:mainchainSubWallet->GetPublicKeyForVote().c_str() encoding:NSUTF8StringEncoding] ;
     self.model.nodePubKey = self.thePublicKeyTextField.text;
-//    self.model.nodePubKey = [NSString stringWithCString:mainchainSubWallet->GetPublicKeyForVote().c_str() encoding:NSUTF8StringEncoding];
+    self.model.ownerPublickKey=self.thePublicKeyTextField.text;
     self.model.nickName   = self.theNameOfTheNodeTextField.text;
     self.model.url        = self.URLTextField.text;
     self.model.contryCode = self.mobCodeString;
@@ -314,10 +298,10 @@
  self.theNameOfTheNodeTextField.text = model.nickName;
     self.theNameOfTheNodeTextField.enabled = NO;
  
-    NSString *mainid = [ELWalletManager share].currentWallet.masterWalletID;
-    IMainchainSubWallet *mainWallet = [[ELWalletManager share]getWalletELASubWallet:mainid];
+//    NSString *mainid = [ELWalletManager share].currentWallet.masterWalletID;
+//    IMainchainSubWallet *mainWallet = [[ELWalletManager share]getWalletELASubWallet:mainid];
     
-    self.thePublicKeyTextField.text    = [NSString stringWithUTF8String: mainWallet->GetPublicKeyForVote().c_str()];
+    self.thePublicKeyTextField.text    =model.ownerPublickKey;
     
     self.countriesTextField.text       =[[FLTools share]contryNameTransLateByCode:model.contryCode.integerValue];
     self.mobCodeString = model.contryCode;

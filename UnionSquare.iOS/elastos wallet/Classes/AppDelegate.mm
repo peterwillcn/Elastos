@@ -72,15 +72,47 @@
     NSArray *reArray=[[FLTools share]stringToArray: re.message[@"success"]];
     
     NSArray  *array =[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet];
-    for (int i=0; i<array.count; i++) {
-         BOOL isbool = [reArray containsObject: array[i]];
-        if (isbool==NO) {
-            FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
-            model.walletID=[NSString stringWithFormat:@"%@",array[i]];
-            [[HMWFMDBManager sharedManagerType:walletType]delectRecordWallet: model];
+   
+    if (array.count>reArray.count) {
+        for (int i=0; i<array.count; i++) {
+             FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
+             model.walletID=[NSString stringWithFormat:@"%@",array[i]];
+            BOOL isbool = [reArray containsObject: model.walletID];
+            
+            if (isbool==NO) {
+                
+               
+               
+                [[HMWFMDBManager sharedManagerType:walletType]delectRecordWallet: model];
+                
+            }
         }
         
+    }else if(array.count<reArray.count){
+        
+        
+        
+        for (int i=0; i<reArray.count; i++) {
+            FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
+            model.walletID=[NSString stringWithFormat:@"%@",reArray[i]];
+            BOOL isbool = [array containsObject: model.walletID];
+            if (isbool==NO) {
+                
+                sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
+            sideModel.walletID=model.walletID;
+            sideModel.sideChainName=@"ELA";
+        sideModel.sideChainNameTime=@"--:--";
+                
+                [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
+                [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
+                
+            }
+            
+        }
     }
+    
+        
+    
     //    [[FLTools share]stringToArray:re.message[@"success"]];
     
     if (array.count==0) {

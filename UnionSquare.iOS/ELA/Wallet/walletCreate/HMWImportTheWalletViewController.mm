@@ -31,7 +31,6 @@
  */
 @property(strong,nonatomic)HMWImKeystoreView *imKeystoreV;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *wordMnemonicOrKeystoreSegmentedCon;
-
 @end
 
 @implementation HMWImportTheWalletViewController
@@ -160,7 +159,7 @@
         model.walletID=wallet.masterWalletID;
         model.walletName=wallet.walletName;
         
-        invokedUrlCommand *subCmommand=[[invokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID,@"ELA",@"0"] callbackId:wallet.walletID className:@"Wallet" methodName:@"createMasterWallet"];
+        invokedUrlCommand *subCmommand=[[invokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID,@"ELA",@"10000"] callbackId:wallet.walletID className:@"Wallet" methodName:@"createMasterWallet"];
         
         PluginResult *subResult= [[ELWalletManager share] createSubWallet:subCmommand];
         NSString *status =[NSString stringWithFormat:@"%@",subResult.status];
@@ -170,7 +169,6 @@
                sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
                sideModel.walletID=model.walletID;
                sideModel.sideChainName=@"ELA";
-               
                sideModel.sideChainNameTime=@"--:--";
                
                [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
@@ -210,10 +208,58 @@
     
     wallet.walletID=[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
     wallet.masterWalletID=[[FLTools share]getRandomStringWithNum:6];
-    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID,wallet.keyStore,wallet.privateKey,wallet.passWord] callbackId:wallet.walletID className:@"Wallet" methodName:@"importWalletWithKeystore"];
+
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID,wallet.keyStore,wallet.privateKey,wallet.passWord,wallet.walletID] callbackId:wallet.walletID className:@"Wallet" methodName:@"importWalletWithKeystore"];
     PluginResult *result= [[ELWalletManager share]importWalletWithKeystore:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if([status isEqualToString:@"1"]){
+       
+        
+        [self getAllSubWalletsWith:wallet];
+        
+    }
+    
+}
+-(void)getAllSubWalletsWith:(FLWallet*)Wallet{
+    
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[Wallet.masterWalletID] callbackId:Wallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
+    
+    PluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
+    NSString *status=[NSString stringWithFormat:@"%@",result.status];
+    if ([status isEqualToString:@"1"]) {
+        
+        NSArray  *array = [[FLTools share]stringToArray:result.message[@"success"]];
+        
+        if (array.count==0) {
+            [self createSubWallet:Wallet];
+            
+        }else{
+            
+            
+            FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
+            model.walletID=Wallet.masterWalletID;
+            model.walletName=Wallet.walletName;
+            [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
+            sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
+            sideModel.walletID=model.walletID;
+            sideModel.sideChainName=@"ELA";
+            
+            sideModel.sideChainNameTime=@"--:--";
+            
+            [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
+            [self successfulSwitchingRootVC];
+        }
+        
+    }
+}
+-(void)createSubWallet:(FLWallet*)wallet{
+    invokedUrlCommand *subCmommand=[[invokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID,@"ELA",@"10000"] callbackId:wallet.walletID className:@"Wallet" methodName:@"createMasterWallet"];
+    
+    PluginResult *subResult= [[ELWalletManager share] createSubWallet:subCmommand];
+    NSString *status =[NSString stringWithFormat:@"%@",subResult.status];
+    
+    if([status isEqualToString:@"1"]){
+       
         FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
         model.walletID=wallet.masterWalletID;
         model.walletName=wallet.walletName;
@@ -226,7 +272,8 @@
         
         [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
         [self successfulSwitchingRootVC];
+        
+        
     }
-    
 }
 @end

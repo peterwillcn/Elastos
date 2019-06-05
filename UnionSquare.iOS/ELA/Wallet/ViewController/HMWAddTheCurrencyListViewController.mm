@@ -156,7 +156,7 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
     if (model.isAdd) {
         methodNameString=@"";
     }
-    invokedUrlCommand * cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,model.nameIcon,@"0"] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"methodNameString"];
+    invokedUrlCommand * cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,model.nameIcon,@"10000"] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"methodNameString"];
     if (model.isAdd) {
         PluginResult *result=
         [[ELWalletManager share]DestroySubWallet:cmommand];

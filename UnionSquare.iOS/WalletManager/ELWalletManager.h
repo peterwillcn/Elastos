@@ -88,38 +88,37 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
     int  errCodeWrongPassword;
     int  errCodeIDNotFound;
     int  errCodeSPVCreateMasterWalletError;
-//    - 20005: SPV创建主钱包错误 - SPV create master wallet error
-//    - 20006: SPV创建子钱包错误 - SPV create sub wallet error
-//    - 20007: 解析JSON数组错误 - Parse json array error
-//    - 20008: 无效助记词 - Invalid mnemonic
-//    - 20009: 公钥格式错误 - Public key format error
-//    - 20010: 公钥长度错误 - Public key length error
-//    - 20011: 侧链充值参数错误 - Side chain deposit parameters error
-//    - 20012: 侧链提现参数错误 - Side chain withdraw parameters error
-//    - 20013: 创建交易过大 - Tx size too large
-//    - 20014: 创建交易错误 - Create tx error
-//    - 20015: 交易错误 - Invalid tx
-//    - 20016: 目录不存在 - Path do not exist
-//        - 20017: 注册ID payload错误 - Register ID payload error
-//        - 20018: 数据库操作错误 - Sqlite error
-//        - 20019: 衍生purpose错误 - Derive purpose error
-//        - 20020: 错误账户类型 - Wrong account type
-//        - 20021: 错误网络类型 - Wrong net type
-//        - 20022: 无效币种 - Invalid coin type
-//        - 20023: 无当前多签账户 - No current multi sign account
-//        - 20024: 多签参与者数量错误 - Cosigner count error
-//        - 20025: 多签错误 - Multi sign error
-//        - 20026: keystore错误 - Key store error
-//        - 20027: limit gap错误 - Limit gap error
-//        - 20028: 钱包包含无效交易 - Wallet contain invalid tx
-//        - 20029: 私钥错误 - Key error
-//        - 20030: 二进制转字符串错误 - Hex to string error
-//        - 20031: 签名类型错误 - Sign type error
-//        - 20032: 地址错误 - Address error
-//        - 20033: 签名错误 - Sign error
-//        - 20034: keystore需要助记词密语 - keystore need phrase password
-//        - 20035: 余额不足 - Balance not enough
-//
+    int errCodeMasterWalletAlreadyExist;
+    int errSPVCreateSubWalletError;
+    int errParseJsonArrayError;
+    int errInvalidMnemonic;
+    int errPublickeyFormatError;
+    int errPublicKeyLengthError;
+    int errSideShainDepositParametersError;
+    int errSideChainWithdrawParametersError;
+    int errTxSizeTooLarge;
+    int errCreateTxError;
+    int errInvalidTx;
+    int errPathDoNotExist;
+    int errRegisterIDPayloadError;
+    int errSqliteError;
+    int errDerivePurposeError;
+    int errWrongAccountType;
+    int errWrongNetType;
+    int errInvalidCoinType;
+    int errNoCurrentMultiSignAccount;
+    int errCosignerCountError;
+    int errMultiSignError;
+    int errKeyStoreError;
+    int errLimitGapError;
+    int errWalletContainInvalidTx;
+    int errKeyError;
+    int errHexToStringError;
+    int errSignTypeError;
+    int errAddressError;
+    int errSignError;
+    int errkeystoreNeedPhrasePassword;
+    int errBalanceNotEnough;
     
 }
 /*
@@ -179,6 +178,7 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 //-(void)PublishTransactionWith:(NSString*)mainchainSubWalletId tx:(Json*)tx;
 -(PluginResult *)GetAssetDetails:(invokedUrlCommand *)command;
 -(void)EMWMSaveConfigs;
+-(NSString*)GetRegisteredProducerInfo:(NSString *)mainid;
 @end
 
 

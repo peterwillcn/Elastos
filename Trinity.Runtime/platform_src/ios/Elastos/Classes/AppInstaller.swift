@@ -21,7 +21,18 @@
   */
  
  import Foundation
- 
+
+ extension Data {
+    private static let hexAlphabet = "0123456789abcdef".unicodeScalars.map { $0 }
+
+    public func hexEncodedString() -> String {
+        return String(self.reduce(into: "".unicodeScalars, { (result, value) in
+            result.append(Data.hexAlphabet[Int(value/16)])
+            result.append(Data.hexAlphabet[Int(value%16)])
+        }))
+    }
+ }
+
  class AppInstaller {
     
     let pluginWhitelist = [
@@ -48,6 +59,55 @@
     
     func unpackZip(_ srcZip: String, _ destPath: String) -> Bool {
         return SSZipArchive.unzipFile(atPath: srcZip, toDestination: destPath);
+    }
+
+    private func sha256(data : Data) -> Data {
+        var hash = [UInt8](repeating: 0,  count: Int(CC_SHA256_DIGEST_LENGTH))
+        data.withUnsafeBytes {
+            _ = CC_SHA256($0, CC_LONG(data.count), &hash)
+        }
+        return Data(bytes: hash)
+    }
+
+    private func verifyEpk(_ destPath: String) -> Bool {
+        let fileManager = FileManager.default
+
+        let dirEnum = fileManager.enumerator(atPath: destPath)
+        var fileHashMap = [String: String]()
+        var fileListSHA = "EPK-SIGN/FILELIST.SHA not found"
+        while let filePath = dirEnum?.nextObject() as? String {
+            var isDir : ObjCBool = false
+            let fileURL =  NSURL(fileURLWithPath: destPath).appendingPathComponent(filePath)!
+            if (fileManager.fileExists(atPath: fileURL.path, isDirectory: &isDir) && !isDir.boolValue) {
+                do {
+                    let fileData = try Data(contentsOf: fileURL)
+                    let hash = sha256(data: fileData)
+                    let hashString = hash.hexEncodedString()
+                    if (!filePath.starts(with: "EPK-SIGN/")) {
+                        fileHashMap[filePath] = hashString
+                    } else if (filePath == "EPK-SIGN/FILELIST.SHA") {
+                        fileListSHA = String(data: fileData, encoding: .utf8)!
+                    }
+                }
+                catch {
+                    print("Failed to hash file " + fileURL.path)
+                    return false
+                }
+            }
+        }
+
+        var fileList = ""
+        for (k,v) in fileHashMap.sorted(by: {$0.0 < $1.0}) {
+            fileList = "\(fileList)\(v) \(k)\n"
+        }
+
+        let epkHash = sha256(data: fileList.data(using: .utf8)!).hexEncodedString()
+        if (epkHash == fileListSHA) {
+            print("Matched EPK digest with \(fileListSHA)")
+            return true
+        }
+        print("Failed to match EPK digest")
+        return false;
     }
     
     func deleteAllFiles(_ path: String) throws {
@@ -80,7 +140,11 @@
         if (!unpackZip(zipPath, temPath)) {
             throw AppError.error("UnpackZip fail!");
         }
-        
+
+        if (!verifyEpk(temPath)) {
+            throw AppError.error("verifyEpk fail!");
+        }
+
         let fileManager = FileManager.default;
         let ret = fileManager.fileExists(atPath: temPath + "/manifest.json")
         guard ret else {

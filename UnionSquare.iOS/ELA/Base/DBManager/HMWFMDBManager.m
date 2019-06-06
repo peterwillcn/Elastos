@@ -28,7 +28,7 @@ static HMWFMDBManager * _manager =nil;
         
         
     }else if (type==sideChain){
-        sql =@"create table if not exists sideChain(ID integer primary key AUTOINCREMENT,walletID text,sideChainName text,sideChainNameTime text)";
+        sql =@"create table if not exists sideChain(ID integer primary key AUTOINCREMENT,walletID text,sideChainName text,sideChainNameTime text,thePercentageMax text thePercentageCurr text)";
         
         
     }
@@ -204,8 +204,10 @@ static HMWFMDBManager * _manager =nil;
 //改
 -(BOOL)sideChainUpdate:(sideChainInfoModel *)model{
     NSString *sql =@"Update sideChain set sideChainNameTime=? where walletID=?";
-    
-    if ( [self executeUpdate:sql,model.sideChainNameTime,model.walletID]) {
+     NSString *thePercentageCurrSql =@"Update sideChain set thePercentageCurr=? where walletID=?";
+     NSString *thePercentageMaxSql =@"Update sideChain set thePercentageMax=? where walletID=?";
+
+    if ( [self executeUpdate:sql,model.sideChainNameTime,model.walletID]&&[self executeUpdate:thePercentageMaxSql,model.thePercentageMax]&&[self executeUpdate:thePercentageCurrSql,model.thePercentageCurr]) {
       
         return YES;
         

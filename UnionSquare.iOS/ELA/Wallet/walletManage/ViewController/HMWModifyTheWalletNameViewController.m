@@ -41,7 +41,7 @@
     model.walletID=self.wallet.masterWalletID;
     if ([[HMWFMDBManager sharedManagerType:walletType]updateRecordWallet:model]) {
         [[FLTools share]showErrorInfo:NSLocalizedString(@"钱包名修改成功", nil)];
-         [[NSNotificationCenter defaultCenter]postNotificationName:updataWallet object:nil ];
+         [[NSNotificationCenter defaultCenter]postNotificationName:updataWallet object:@"index"];
         [self.navigationController popToRootViewControllerAnimated:NO];
     }else{
         [[FLTools share]showErrorInfo:NSLocalizedString(@"钱包名修改失败", nil)];

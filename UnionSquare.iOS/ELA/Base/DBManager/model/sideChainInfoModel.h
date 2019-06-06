@@ -29,6 +29,15 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(copy,nonatomic)NSString *sideChainNameTime;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *thePercentageCurr;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *thePercentageMax;
+
 @end
 
 NS_ASSUME_NONNULL_END

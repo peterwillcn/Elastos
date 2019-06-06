@@ -146,16 +146,18 @@
     assetsListModel *model=self.dataSoureArray[index];
  
     
-    if ([model.iconName isEqualToString:chainID]&&[self.currentWallet.masterWalletID isEqualToString:walletID]){
+    if ([model.iconName isEqualToString:chainID]&&[self.currentWallet.masterWalletID isEqualToString:model.iconName]){
         if ([chainID isEqualToString:@"ELA"]) {
             [ELWalletManager share].estimatedHeight=currentBlockHeight;
         }
+        
  
         model.thePercentageMax=[progress floatValue];
-        model.thePercentageCurr=[currentBlockHeight floatValue];
+//       NSLog(@"块的更新==%@--%@--%f",model.iconName,model.iconName,model.thePercentageMax); model.thePercentageCurr=[currentBlockHeight floatValue];
         if (lastBlockTimeString.length>0) {
             sideChainInfoModel *smodel=[[sideChainInfoModel alloc]init];
-            smodel.walletID=self.currentWallet.masterWalletID;
+            smodel.thePercentageMax=[NSString stringWithFormat:@"%f",model.thePercentageMax];
+           smodel.thePercentageCurr=[NSString stringWithFormat:@"%f",model.thePercentageCurr]; smodel.walletID=self.currentWallet.masterWalletID;
             smodel.sideChainName=model.iconName;
             smodel.sideChainNameTime=lastBlockTimeString;
             
@@ -290,8 +292,11 @@
             model.thePercentageCurr=0.f;
             model.thePercentageMax=1.f;
             model.iconBlance=blanceString;
+            model.thePercentageCurr=[smodel.thePercentageCurr floatValue];
+            model.thePercentageMax=[smodel.thePercentageMax floatValue];
             if ([smodel.sideChainNameTime isEqual: [NSNull null]]||smodel.sideChainNameTime==NULL) {
                 model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"已同步区块时间", nil),@"--:--"];
+                model.thePercentageMax=100;
             }else{
                  model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"已同步区块时间", nil),smodel.sideChainNameTime];
             }

@@ -171,7 +171,8 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
         sideModel.walletID=self.wallet.masterWalletID;
         sideModel.sideChainName=model.nameIcon;
         sideModel.sideChainNameTime=@"--:--";
-        
+        sideModel.thePercentageMax=@"100";
+        sideModel.thePercentageCurr=@"0";
         
         [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
         

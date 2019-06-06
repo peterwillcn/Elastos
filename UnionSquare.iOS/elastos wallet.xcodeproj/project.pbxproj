@@ -321,7 +321,6 @@
 		4261CF3822A15D21006B1DDE /* NSDictionary+NilSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261CF3222A15D20006B1DDE /* NSDictionary+NilSafe.m */; };
 		4261CF3922A15D21006B1DDE /* NSMutableArray+Swizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261CF3522A15D20006B1DDE /* NSMutableArray+Swizzling.m */; };
 		4261CF3A22A15D21006B1DDE /* NSObject+Swizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261CF3722A15D21006B1DDE /* NSObject+Swizzling.m */; };
-		4261CF3C22A16037006B1DDE /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4261CF3B22A16037006B1DDE /* Bugly.framework */; };
 		4261CF3E22A1605D006B1DDE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4261CF3D22A1605C006B1DDE /* SystemConfiguration.framework */; };
 		4261CF4022A16066006B1DDE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4261CF3F22A16066006B1DDE /* Security.framework */; };
 		4264A73E221BDC24008D5C7B /* DAConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 4264A73D221BDC24008D5C7B /* DAConfig.m */; };
@@ -947,7 +946,6 @@
 		4261CF3522A15D20006B1DDE /* NSMutableArray+Swizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Swizzling.m"; sourceTree = "<group>"; };
 		4261CF3622A15D20006B1DDE /* NSMutableArray+Swizzling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Swizzling.h"; sourceTree = "<group>"; };
 		4261CF3722A15D21006B1DDE /* NSObject+Swizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Swizzling.m"; sourceTree = "<group>"; };
-		4261CF3B22A16037006B1DDE /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
 		4261CF3D22A1605C006B1DDE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4261CF3F22A16066006B1DDE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		4264A734221BD14C008D5C7B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1057,7 +1055,6 @@
 			files = (
 				4261CF4022A16066006B1DDE /* Security.framework in Frameworks */,
 				4261CF3E22A1605D006B1DDE /* SystemConfiguration.framework in Frameworks */,
-				4261CF3C22A16037006B1DDE /* Bugly.framework in Frameworks */,
 				4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */,
 				4250B3F72238D36700B6858F /* libspvsdk.a in Frameworks */,
 				4250B3F22238D32700B6858F /* libzbar.a in Frameworks */,
@@ -1181,7 +1178,6 @@
 		4202C7D421F6EF28009E5932 /* ThirdSDK */ = {
 			isa = PBXGroup;
 			children = (
-				4261CF3B22A16037006B1DDE /* Bugly.framework */,
 				424910C22271BFCF00C41E50 /* SDWebImage */,
 				4250B3C62238D32600B6858F /* ZBar */,
 				42B57A9322150C1C004CF089 /* WOCrashProtector */,

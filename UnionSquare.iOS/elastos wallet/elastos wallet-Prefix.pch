@@ -35,8 +35,8 @@
 
 #else
 //regtext
-#define Http_IP @"https://unionsquare.elastos.org"
-#define transUrl @"https://blockchain.elastos.org/tx/"
+#define Http_IP @"https://52.81.8.194:442"
+#define transUrl @"https://blockchain-beta.elastos.org/tx/"
 
 #define DLog(...)
 

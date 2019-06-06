@@ -152,7 +152,7 @@
 "投票占用:"="VoteAmount:";
 "是否使用投票utxo:"="Whether to use voting utxo";
 "交易类型"="Transaction type";
-"输入地址"="Enter address";
+"输入地址"="Input address";
 "输出地址"="Output address";
 "创币交易"="Currency trading";
 "注册资产交易"="Certified asset trading";
@@ -171,6 +171,7 @@
 "暂无交易记录"="No transaction history";
 "报名押金"="Registration deposit";
 "票"="Tickets";
+"完整信息请点击交易号查看"="Click to see all the details";
 
 
 
@@ -242,7 +243,7 @@
 "已复制到剪贴板" = "Have been copied to the clipboard";
 "余额不足" = "Lack of balance";
 "复制成功" = "Copy success";
-"钱包名修改成功" = "The wallet is changed";
+"钱包名修改成功" = "The wallet name is changed";
 "钱包名修改失败" = "The purse of modified failure";
 "两次密码输入不一致" = "The two passwords don't match";
 "我的投票" = "My Votes";

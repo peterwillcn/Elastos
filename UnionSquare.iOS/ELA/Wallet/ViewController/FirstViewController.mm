@@ -146,14 +146,13 @@
     assetsListModel *model=self.dataSoureArray[index];
  
     
-    if ([model.iconName isEqualToString:chainID]&&[self.currentWallet.masterWalletID isEqualToString:model.iconName]){
+    if ([model.iconName isEqualToString:chainID]&&[self.currentWallet.masterWalletID isEqualToString:walletID]){
         if ([chainID isEqualToString:@"ELA"]) {
             [ELWalletManager share].estimatedHeight=currentBlockHeight;
         }
         
  
         model.thePercentageMax=[progress floatValue];
-//       NSLog(@"块的更新==%@--%@--%f",model.iconName,model.iconName,model.thePercentageMax); model.thePercentageCurr=[currentBlockHeight floatValue];
         if (lastBlockTimeString.length>0) {
             sideChainInfoModel *smodel=[[sideChainInfoModel alloc]init];
             smodel.thePercentageMax=[NSString stringWithFormat:@"%f",model.thePercentageMax];
@@ -164,26 +163,26 @@
             [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
             model.updateTime=[NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"已同步区块时间", nil),smodel.sideChainNameTime];
         }
-//        if (model.thePercentageMax==model.thePercentageCurr) {
-        
-            
-//        }
         self.dataSoureArray[index]=model;
         NSIndexPath *indexP=[NSIndexPath indexPathForRow:index inSection:0];
-    
+        
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.table reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexP,nil] withRowAnimation:UITableViewRowAnimationNone];
-
+            
         });
-        
-      
-     
-        
+    }else{
+        sideChainInfoModel *smodel=[[sideChainInfoModel alloc]init];
+        if (model.thePercentageMax==0) {
+            model.thePercentageMax=1;
+        }
+        smodel.thePercentageMax=[NSString stringWithFormat:@"%f",model.thePercentageMax];
+        smodel.thePercentageCurr=[NSString stringWithFormat:@"%f",model.thePercentageCurr];
+        smodel.walletID=walletID;
+        smodel.sideChainName=chainID;
+        smodel.sideChainNameTime=lastBlockTimeString;
+        [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
         
     }
-
-    
-    
     
 }
 -(void)updataWalletListInfo:(NSNotification *)notification{

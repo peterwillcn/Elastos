@@ -207,7 +207,7 @@ static HMWFMDBManager * _manager =nil;
      NSString *thePercentageCurrSql =@"Update sideChain set thePercentageCurr=? where walletID=?";
      NSString *thePercentageMaxSql =@"Update sideChain set thePercentageMax=? where walletID=?";
 
-    if ( [self executeUpdate:sql,model.sideChainNameTime,model.walletID]&&[self executeUpdate:thePercentageMaxSql,model.thePercentageMax]&&[self executeUpdate:thePercentageCurrSql,model.thePercentageCurr]) {
+    if ( [self executeUpdate:sql,model.sideChainNameTime,model.walletID]&&[self executeUpdate:thePercentageMaxSql,model.thePercentageMax,model.walletID]&&[self executeUpdate:thePercentageCurrSql,model.thePercentageCurr,model.walletID]) {
       
         return YES;
         

@@ -228,7 +228,7 @@
 "节点名称" = "node name";
 "请输入节点公钥（必填）"="Please enter public key of your node(Required)";
 "请输入节点公钥"="Please enter node address";
-"节点公钥" = "node address";
+"节点公钥" = "Node Public Key";
 "请选择国家/地区"="Please select country/region";
 "选择国家/地区"="Select Country/Region";
 "国家/地区" ="country/region";

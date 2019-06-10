@@ -14,11 +14,10 @@ static ELWalletManager *tool;
 static uint64_t feePerKB = 10000;
 #pragma mark - ELWalletManager
 @interface ELWalletManager ()
-
-
-{
-    
-}
+/*
+ *
+ */
+@property(strong,nonatomic)NSMutableArray *resListArray;
 
 @end
 
@@ -41,6 +40,12 @@ static uint64_t feePerKB = 10000;
     self = [super init];
     
     return self;
+}
+-(NSMutableArray *)resListArray{
+    if (!_resListArray) {
+        _resListArray =[[NSMutableArray alloc]init];
+    }
+    return _resListArray;
 }
 #pragma mark -
 - (IMasterWallet *)getIMasterWallet:(String)masterWalletID
@@ -1042,6 +1047,9 @@ errCodeSPVCreateMasterWalletError= 20006;
     NSArray *args = command.arguments;
     int idx = 0;
     NSString * masterWalletIDString=args[idx++];
+    if ([self.resListArray containsObject:masterWalletIDString]) {
+      return  nil;
+    }
     
     String masterWalletID = [self cstringWithString:masterWalletIDString];
     NSString * chainIDString=args[idx++];
@@ -1059,6 +1067,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     String callBackID=[self cstringWithString:callIDString];
     try {
          subWallet->AddCallback(new ElaSubWalletCallback(callBackID));
+        [self.resListArray addObject:masterWalletIDString];
     } catch (const std:: exception & e) {
       return   [self errInfoToDic:e.what() with:command];
     }

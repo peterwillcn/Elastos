@@ -19,16 +19,16 @@
   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   * SOFTWARE.
   */
- 
+
  import Foundation
- 
+
  class AppViewController : TrinityViewController {
     static var originalPluginsMap = [String: String](minimumCapacity: 30);
     static var originalStartupPluginNames = [String]();
     static var originalSettings: NSMutableDictionary?;
-    
+
     var titlebar: UIView?;
-    
+
     var trinityPluginsMap = [String: String]();
     let defaultPlugins = [
         "gesturehandler",
@@ -40,14 +40,14 @@
         "appservice",
         "authorityplugin",
     ];
-    
+
     func setInfo(_ id: String, _ appInfo: AppInfo) {
         self.id = id;
         self.appInfo = appInfo;
         self.whitelistFilter = WhitelistFilter();
         self.whitelistFilter?.setList(appInfo);
     }
-    
+
     override func loadSettings() {
         // Get the plugin dictionary, whitelist and settings from the delegate.
         self.pluginsMap = [String: String]();
@@ -60,20 +60,20 @@
             }
         }
         self.pluginsMap["authorityplugin"] = "AuthorityPlugin";
-        
+
         self.startupPluginNames = NSMutableArray(capacity: 30);
         for name in AppViewController.originalStartupPluginNames {
             self.startupPluginNames.add(name);
         }
-        
+
         self.settings = AppViewController.originalSettings
-        
+
         self.startPage = AppManager.getShareInstance().getStartPath(self.appInfo!);
-        
+
         // Initialize the plugin objects dict.
         self.pluginObjects = NSMutableDictionary(capacity: 30);
     }
-    
+
     override func filterPlugin(_ pluginName: String, _ className: String) -> NullPlugin? {
         if !self.defaultPlugins.contains(pluginName) {
             var setPlugin = false;
@@ -88,41 +88,41 @@
                 self.register(nullPlugin, withClassName: className);
                 return nullPlugin;
             }
-            
+
         }
         return nil;
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);
-        
+
         let frame = self.view.bounds;
         let titleHeight = CGFloat(45);
         print(frame.origin.y);
-        
+
         let titleRect = CGRect(x: frame.origin.x, y: frame.origin.y + 20,
                                width: frame.size.width, height: titleHeight);
         titlebar = UIView(frame: titleRect);
         titlebar!.backgroundColor = UIColor(red: 0 / 255.0, green: 0 / 255.0, blue: 0 / 255.0, alpha: 0.5)
-        
+
         let btnClose = UIButton(type: .custom);
         btnClose.frame = CGRect(x:frame.size.width - 80, y: 5, width:70, height:35);
         btnClose.setTitle("Close", for:.normal);
         btnClose.backgroundColor = UIColor.black;
         btnClose.layer.cornerRadius = 5;
         btnClose.addTarget(self, action:#selector(btnClick), for:.touchDown);
-        
+
         titlebar!.addSubview(btnClose);
         titlebar!.isHidden = true;
         self.view.addSubview(titlebar!);
         self.view.bringSubviewToFront(titlebar!);
     }
-    
-    
+
+
     @objc func btnClick(){
         try? AppManager.getShareInstance().close(id);
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad();
         for (name , value) in self.pluginObjects as! [String: CDVPlugin] {
@@ -132,14 +132,24 @@
                 self.basePlugin = plugin;
             }
         }
-        
+
         let swipe = UISwipeGestureRecognizer(target:self, action:#selector(handleSwipes(_:)));
         swipe.direction = .down;
         self.webView.addGestureRecognizer(swipe);
         self.webView.scrollView.panGestureRecognizer.require(toFail: swipe);
     }
-    
+
     @objc func handleSwipes(_ recognizer:UISwipeGestureRecognizer){
         titlebar!.isHidden = !titlebar!.isHidden;
+    }
+
+    func getPluginAuthority(_ pluginName: String,
+                                  _ plugin: CDVPlugin,
+                                  _ command: CDVInvokedUrlCommand) -> Int {
+        let authority = AppManager.getShareInstance().getPluginAuthority(appInfo!.app_id, pluginName);
+        if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
+            AppManager.getShareInstance().runAlertPluginAuth(appInfo!, pluginName, plugin, command);
+        }
+        return authority;
     }
  }

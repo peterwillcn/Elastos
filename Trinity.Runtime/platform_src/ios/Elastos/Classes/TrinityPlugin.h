@@ -30,7 +30,6 @@
 - (void)setInfo:(CDVPlugin *)filter checkAuthority:(BOOL)check
         appPath:(NSString*)appPath dataPath:(NSString*)dataPath
      configPath:(NSString*)configPath tempPath:(NSString*)tempPath;
--(void)setName:(NSString*)name;
 
 - (BOOL)isAllowAccess:(NSString *)url;
 - (NSString*)getAppPath;
@@ -40,8 +39,7 @@
 - (NSString*)getCanonicalPath:(NSString*)path error:(NSError * _Nullable *)error;
 - (NSString*)getDataCanonicalPath:(NSString*)path error:(NSError * _Nullable *)error;
 - (NSString*)getRelativePath:(NSString*)path error:(NSError * _Nullable *)error;
-- (BOOL)execute:(CDVInvokedUrlCommand*)command;
-- (BOOL)trinityExecute:(CDVInvokedUrlCommand*)command;
+
 
 @property (nonatomic, readonly) NSString* dataPath;
 

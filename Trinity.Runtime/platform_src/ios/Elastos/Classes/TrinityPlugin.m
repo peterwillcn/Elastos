@@ -55,17 +55,9 @@
     self.tempPath = tempPath;
 }
 
--(void)setName:(NSString*)name {
-    self.pluginName = name;
-}
-
 - (BOOL)isAllowAccess:(NSString *)url {
     return [self.filter shouldAllowNavigation:url];
 }
-
-//- (void)setViewController:(UIViewController*)viewController{
-//    self.viewController = viewController;
-//}
 
 - (NSString*)getAppPath {
     return appPath;
@@ -90,7 +82,7 @@
     NSString *domain = @"";
     NSString *desc = NSLocalizedString(@"Dir is invalid!", @"");
     NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : desc };
-    
+
     *error = [NSError errorWithDomain:domain
                                  code:-101
                              userInfo:userInfo];
@@ -98,11 +90,11 @@
 
 - (NSString*)getCanonicalDir:(NSString *)path header:(NSString*)header error:(NSError * _Nullable *)error {
     path = [path stringByStandardizingPath];
-    
+
     if ([header isEqualToString: [path stringByAppendingString:@"/"]]) {
         return @"";
     }
-    
+
     if (![header hasPrefix:@"/"]) {
         path = [path substringFromIndex:1];
     }
@@ -119,9 +111,9 @@
         [self setError:error];
         return NULL;
     }
-    
-    if ([path hasPrefix:@"trinity:///assets/"]) {
-        NSString* dir = [self getCanonicalDir:[path substringFromIndex:10] header:@"/assets/" error:error];
+
+    if ([path hasPrefix:@"trinity:///asset/"]) {
+        NSString* dir = [self getCanonicalDir:[path substringFromIndex:10] header:@"/asset/" error:error];
         if (dir != NULL) {
             ret = [appPath stringByAppendingString:dir];
         }
@@ -139,17 +131,17 @@
         }
     }
     else if ([path rangeOfString:@"://"].length > 0) {
-        if (![path hasPrefix:@"assets://"] && [self.filter shouldAllowNavigation:path]) {
+        if (![path hasPrefix:@"asset://"] && [self.filter shouldAllowNavigation:path]) {
             ret = path;
         }
     }
     else if (![path  hasPrefix:@"/"]) {
-        NSString* dir = [self getCanonicalDir:[@"/assets/" stringByAppendingString:path] header:@"/assets/" error:error];
+        NSString* dir = [self getCanonicalDir:[@"/asset/" stringByAppendingString:path] header:@"/asset/" error:error];
         if (dir != NULL) {
             ret = [appPath stringByAppendingString:dir];
         }
     }
-    
+
     if (ret == NULL) {
         [self setError:error];
         return NULL;
@@ -172,8 +164,8 @@
         [self setError:error];
         return nil;
     }
-    
-    if (![path hasPrefix:@"assets://"] && [path rangeOfString:@"://"].length > 0) {
+
+    if (![path hasPrefix:@"asset://"] && [path rangeOfString:@"://"].length > 0) {
         if ([self.filter shouldAllowNavigation:path]) {
             ret = path;
         }
@@ -181,7 +173,7 @@
     else if ([path hasPrefix:appPath]) {
         NSString* dir = [self getCanonicalDir:path  header:appPath error:error];
         if (dir != nil) {
-            ret = [@"trinity:///assets/" stringByAppendingString:dir];
+            ret = [@"trinity:///asset/" stringByAppendingString:dir];
         }
     }
     else if ([path hasPrefix:dataPath]) {
@@ -200,47 +192,47 @@
         [self setError:error];
         return nil;
     }
-    
+
     return ret;
 }
 
-- (BOOL)execute:(CDVInvokedUrlCommand*)command
-{
-    NSString* methodName = [NSString stringWithFormat:@"%@:", command.methodName];
-    SEL normalSelector = NSSelectorFromString(methodName);
-    if ([self respondsToSelector:normalSelector]) {
-        ((void (*)(id, SEL, id))objc_msgSend)(self, normalSelector, command);
-        return YES;
-    } else {
-        NSString* msg = [NSString stringWithFormat:@"ERROR: Method '%@' not defined in Plugin '%@'", methodName, command.className];
-        NSLog(@"%@", msg);
-        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:msg];
-        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-        return YES;
-    }
-}
-
-- (BOOL)trinityExecute:(CDVInvokedUrlCommand*)command
-{
-    if (checkAuthority) {
-        int authority = [self.filter getPluginAuthority:self.pluginName
-                                        trinityPlugin: self
-                                        invokedUrlCommand: command];
-        if (authority == AppInfo.AUTHORITY_ASK) {
-            NSString* msg = [NSString stringWithFormat:@"Plugin:'%@' have not run authority.", pluginName];
-            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:msg];
-            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-            return YES;
-        }
-        else if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
-            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
-            [result setKeepCallbackAsBool:YES];
-            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-            return YES;
-        }
-    }
-    
-    return [self execute:command];
-}
+//- (BOOL)execute:(CDVInvokedUrlCommand*)command
+//{
+//    NSString* methodName = [NSString stringWithFormat:@"%@:", command.methodName];
+//    SEL normalSelector = NSSelectorFromString(methodName);
+//    if ([self respondsToSelector:normalSelector]) {
+//        ((void (*)(id, SEL, id))objc_msgSend)(self, normalSelector, command);
+//        return YES;
+//    } else {
+//        NSString* msg = [NSString stringWithFormat:@"ERROR: Method '%@' not defined in Plugin '%@'", methodName, command.className];
+//        NSLog(@"%@", msg);
+//        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:msg];
+//        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+//        return YES;
+//    }
+//}
+//
+//- (BOOL)trinityExecute:(CDVInvokedUrlCommand*)command
+//{
+//    if (checkAuthority) {
+//        int authority = [self.filter getPluginAuthority:self.pluginName
+//                                        trinityPlugin: self
+//                                        invokedUrlCommand: command];
+//        if (authority == AppInfo.AUTHORITY_ASK) {
+//            NSString* msg = [NSString stringWithFormat:@"Plugin:'%@' have not run authority.", pluginName];
+//            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:msg];
+//            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+//            return YES;
+//        }
+//        else if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
+//            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
+//            [result setKeepCallbackAsBool:YES];
+//            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+//            return YES;
+//        }
+//    }
+//
+//    return [self execute:command];
+//}
 @end
 

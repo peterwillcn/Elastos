@@ -19,23 +19,22 @@
   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   * SOFTWARE.
   */
- 
+
 import Foundation
 
 @objc(NullPlugin)
 class NullPlugin : CDVPlugin {
-    var pluginName: String?
-    
+
     init(_ pluginName: String) {
         super.init();
         self.pluginName = pluginName;
     }
-    
-    @objc func trinityExecute(_ command: CDVInvokedUrlCommand) -> Bool {
+
+    @objc override func trinityExecute(_ command: CDVInvokedUrlCommand) -> Bool {
         let err = "The plugin:'" + pluginName! + "' isn't add plugin access list!!"
         let result = CDVPluginResult(status: CDVCommandStatus_ERROR,
                                      messageAs: err);
-        
+
         self.commandDelegate.send(result, callbackId: command.callbackId)
         return false;
     }

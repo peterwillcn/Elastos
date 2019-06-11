@@ -59,25 +59,28 @@ public class AuthorityPlugin extends CordovaPlugin {
         return originalPlugin;
     }
 
-    private TrinityPlugin instantiatePlugin(String className, AppWhitelistPlugin whitelistPlugin, String dataPath) {
-        TrinityPlugin ret = null;
+    private CordovaPlugin instantiatePlugin(String className, AppWhitelistPlugin whitelistPlugin, String dataPath) {
+        CordovaPlugin plugin = null;
         try {
             Class<?> c = null;
             if ((className != null) && !("".equals(className))) {
                 c = Class.forName(className);
             }
             if (c != null & CordovaPlugin.class.isAssignableFrom(c)) {
-                ret = (TrinityPlugin) c.newInstance();
+                plugin = (CordovaPlugin) c.newInstance();
             }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error adding plugin " + className + ".");
         }
-        if (ret != null) {
-            ret.setWhitelistPlugin(whitelistPlugin);
-            ret.setInfo(appInfo);
+        if (plugin != null) {
+            if (plugin instanceof TrinityPlugin) {
+                TrinityPlugin trinity = (TrinityPlugin)plugin;
+                trinity.setWhitelistPlugin(whitelistPlugin);
+                trinity.setInfo(appInfo);
+            }
         }
-        return ret;
+        return plugin;
     }
 
     @Override

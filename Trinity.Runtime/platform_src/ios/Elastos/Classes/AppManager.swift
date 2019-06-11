@@ -448,7 +448,7 @@ class AppManager {
     }
 
     func runAlertPluginAuth(_ info: AppInfo, _ pluginName: String,
-                            _ plugin: TrinityPlugin,
+                            _ plugin: CDVPlugin,
                             _ command: CDVInvokedUrlCommand) {
 
         func doAllowHandler(alerAction:UIAlertAction) {

@@ -153,6 +153,7 @@
         
  
         model.thePercentageMax=[progress floatValue];
+        model.thePercentageCurr=[currentBlockHeight floatValue];
         if (lastBlockTimeString.length>0) {
             sideChainInfoModel *smodel=[[sideChainInfoModel alloc]init];
             smodel.thePercentageMax=[NSString stringWithFormat:@"%f",model.thePercentageMax];
@@ -175,8 +176,8 @@
         if (model.thePercentageMax==0) {
             model.thePercentageMax=1;
         }
-        smodel.thePercentageMax=[NSString stringWithFormat:@"%f",model.thePercentageMax];
-        smodel.thePercentageCurr=[NSString stringWithFormat:@"%f",model.thePercentageCurr];
+        smodel.thePercentageMax=[NSString stringWithFormat:@"%@",progress];
+        smodel.thePercentageCurr=[NSString stringWithFormat:@"%@",currentBlockHeight];
         smodel.walletID=walletID;
         smodel.sideChainName=chainID;
         smodel.sideChainNameTime=lastBlockTimeString;
@@ -469,14 +470,17 @@
  cell.biName.text=model.iconName;
    cell.updatetime.text=model.updateTime;
     cell.detailLab.text=[[FLTools share]elaScaleConversionWith: model.iconBlance];
-    cell.progress.progress=model.thePercentageCurr/model.thePercentageMax;
+    
     
     NSString * symbolString=@"%";
     if (cell.progress.progress==1&&model.thePercentageCurr!=model.thePercentageMax) {
+        cell.progress.progress=0.99;
          cell.progressLab.text=[NSString stringWithFormat:@"%.f%@",0.99*100,symbolString];
     }else if ([model.updateTime rangeOfString:@"--:--"].location !=NSNotFound){
+        cell.progress.progress=0;
         cell.progressLab.text=[NSString stringWithFormat:@"0%@",symbolString];
     }else{
+        cell.progress.progress=model.thePercentageCurr/model.thePercentageMax;
          cell.progressLab.text=[NSString stringWithFormat:@"%.f%@",cell.progress.progress*100,symbolString];
     }
    

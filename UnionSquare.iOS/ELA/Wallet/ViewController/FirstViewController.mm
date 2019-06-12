@@ -475,15 +475,16 @@
     NSString * symbolString=@"%";
     if (cell.progress.progress==1&&model.thePercentageCurr!=model.thePercentageMax) {
         cell.progress.progress=0.99;
-         cell.progressLab.text=[NSString stringWithFormat:@"%.f%@",0.99*100,symbolString];
+//         cell.progressLab.text=[NSString stringWithFormat:@"%.f%@",0.99*100,symbolString];
     }else if ([model.updateTime rangeOfString:@"--:--"].location !=NSNotFound){
         cell.progress.progress=0;
-        cell.progressLab.text=[NSString stringWithFormat:@"0%@",symbolString];
+//        cell.progressLab.text=[NSString stringWithFormat:@"0%@",symbolString];
     }else{
         cell.progress.progress=model.thePercentageCurr/model.thePercentageMax;
-         cell.progressLab.text=[NSString stringWithFormat:@"%.f%@",cell.progress.progress*100,symbolString];
+        
     }
-   
+         cell.progressLab.text=[NSString stringWithFormat:@"%.f%@",cell.progress.progress*100,symbolString];
+  
     
     
     return cell;

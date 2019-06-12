@@ -28,7 +28,7 @@ static HMWFMDBManager * _manager =nil;
         
         
     }else if (type==sideChain){
-        sql =@"create table if not exists sideChain(ID integer primary key AUTOINCREMENT,walletID text,sideChainName text,sideChainNameTime text,thePercentageMax text, thePercentageCurr text)";
+        sql =@"create table if not exists sideChain(ID integer primary key AUTOINCREMENT,walletID text,sideChainName text,sideChainNameTime text,thePercentageMax text,thePercentageCurr text)";
 
         
     }

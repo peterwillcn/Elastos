@@ -1056,7 +1056,6 @@ errCodeSPVCreateMasterWalletError= 20006;
         return  nil;
     }
     String chainID= [self cstringWithString:chainIDString];
-    
     NSLog(@"registerWalletListener--%@--%@",[self stringWithCString:masterWalletID],chainIDString);
     ISubWallet *subWallet = [self getSubWallet:masterWalletID : chainID];
     
@@ -1087,16 +1086,15 @@ errCodeSPVCreateMasterWalletError= 20006;
 - (PluginResult *)DestroySubWallet:(invokedUrlCommand *)command{
     NSArray *args = command.arguments;
     int idx = 0;
-    
-    String masterWalletID = [self cstringWithString:args[idx++]];
-    String chainID        = [self cstringWithString:args[idx++]];
+    NSString *masterWalletIDString=args[idx++];
+    String masterWalletID = [self cstringWithString:masterWalletIDString];
+       NSString *chainIDString=args[idx++];
+    String chainID        = [self cstringWithString:chainIDString];
     NSLog(@"DestroySubWallet--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:chainID]);
-    //    long feePerKb         = [args[idx++] boolValue];;
-    
-//    if (args.count != idx) {
-//
-//        return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
-//    }
+    NSString *MID=[NSString stringWithFormat:@"%@%@",masterWalletIDString,chainIDString];
+    if ([self.resListArray containsObject:MID]) {
+        [self.resListArray removeObject:MID];
+    }
     IMasterWallet *masterWallet = [self getIMasterWallet:masterWalletID];
     if (masterWallet == nil) {
         NSString *msg = [NSString stringWithFormat:@"%@ %@", @"Get", [self formatWalletNameWithString:masterWalletID other:chainID]];

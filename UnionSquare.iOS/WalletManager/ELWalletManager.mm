@@ -1047,14 +1047,16 @@ errCodeSPVCreateMasterWalletError= 20006;
     NSArray *args = command.arguments;
     int idx = 0;
     NSString * masterWalletIDString=args[idx++];
-    if ([self.resListArray containsObject:masterWalletIDString]) {
-      return  nil;
-    }
+   
     
     String masterWalletID = [self cstringWithString:masterWalletIDString];
     NSString * chainIDString=args[idx++];
-    
+    NSString *MID=[NSString stringWithFormat:@"%@%@",masterWalletIDString,chainIDString];
+    if ([self.resListArray containsObject:MID]) {
+        return  nil;
+    }
     String chainID= [self cstringWithString:chainIDString];
+    
     NSLog(@"registerWalletListener--%@--%@",[self stringWithCString:masterWalletID],chainIDString);
     ISubWallet *subWallet = [self getSubWallet:masterWalletID : chainID];
     
@@ -1067,12 +1069,10 @@ errCodeSPVCreateMasterWalletError= 20006;
     String callBackID=[self cstringWithString:callIDString];
     try {
          subWallet->AddCallback(new ElaSubWalletCallback(callBackID));
-        [self.resListArray addObject:masterWalletIDString];
+        [self.resListArray addObject:MID];
     } catch (const std:: exception & e) {
       return   [self errInfoToDic:e.what() with:command];
     }
-   
-    
     
     if (subWallet == nil) {
         NSString *msg = [NSString stringWithFormat:@"%@ %@ %@", @"Import", [self formatWalletName:masterWalletID], @"with mnemonic"];

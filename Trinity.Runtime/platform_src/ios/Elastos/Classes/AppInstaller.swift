@@ -69,7 +69,7 @@
         return Data(bytes: hash)
     }
 
-    private func verifyEpk(_ destPath: String) -> Bool {
+    private func verifyEpkDigest(_ destPath: String) -> Bool {
         let fileManager = FileManager.default
 
         let dirEnum = fileManager.enumerator(atPath: destPath)
@@ -109,7 +109,42 @@
         print("Failed to match EPK digest")
         return false;
     }
-    
+
+    private func contentsOf(file fileURL: NSURL) -> String? {
+        let fileManager = FileManager.default
+
+        var isDir : ObjCBool = false
+        if (fileManager.fileExists(atPath: fileURL.path!, isDirectory: &isDir) && !isDir.boolValue) {
+            do {
+                let fileData = try Data(contentsOf: fileURL as URL)
+                return String(data: fileData, encoding: .utf8)
+            }
+            catch {
+                print("Failed to read file " + fileURL.path!)
+                return nil
+            }
+        }
+
+        print("Failed to read file " + fileURL.path!)
+        return nil
+    }
+
+    private func verifyEpkSignature(_ destPath: String) -> Bool {
+        let publicKey = contentsOf(file: NSURL(fileURLWithPath: destPath).appendingPathComponent("EPK-SIGN/SIGN.PUB")! as NSURL)
+        let payload = contentsOf(file: NSURL(fileURLWithPath: destPath).appendingPathComponent("EPK-SIGN/FILELIST.SHA")! as NSURL)
+        let signed_payload = contentsOf(file: NSURL(fileURLWithPath: destPath).appendingPathComponent("EPK-SIGN/FILELIST.SIGN")! as NSURL)
+
+        let succeeded = ela_verify_message(publicKey, payload, signed_payload)
+
+        if (succeeded) {
+            print("Successfully verified EPK signature")
+            print("The public key of the EPK is \(publicKey!)")
+        } else {
+            print("Failed to verify EPK signature")
+        }
+        return succeeded
+    }
+
     func deleteAllFiles(_ path: String) throws {
         let fileManager = FileManager.default;
         try fileManager.removeItem(atPath: path)
@@ -141,8 +176,12 @@
             throw AppError.error("UnpackZip fail!");
         }
 
-        if (!verifyEpk(temPath)) {
-            throw AppError.error("verifyEpk fail!");
+        if (!verifyEpkDigest(temPath)) {
+            throw AppError.error("verifyEpkDigest fail!");
+        }
+
+        if (!verifyEpkSignature(temPath)) {
+            throw AppError.error("verifyEpkSignature fail!");
         }
 
         let fileManager = FileManager.default;

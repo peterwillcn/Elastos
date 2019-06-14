@@ -13,9 +13,11 @@ namespace Elastos {
     namespace ElaWallet {
         class Key {
         public:
-            Key();
+            Key() : _secp256k1_key(nullptr) {}
             bool SetPubKey(const bytes_t &pub);
             bool Verify(const bytes_t &message, const bytes_t &signature) const;
+        private:
+            void *_secp256k1_key;
         };
     }
 }

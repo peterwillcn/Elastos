@@ -209,10 +209,11 @@
 ===================================================================
 --- origin_platforms/ios/Elastos/Bridging-Header.h	null
 +++ platforms/ios/Elastos/Bridging-Header.h	null
-@@ -26,3 +26,6 @@
+@@ -26,3 +26,7 @@
  //
 
  #import <Cordova/CDV.h>
++#import "ElaVerifier.h"
 +#import "SSZipArchive.h"
 +#import "TrinityPlugin.h"
 +#import <CommonCrypto/CommonDigest.h>

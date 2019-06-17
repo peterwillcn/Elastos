@@ -58,6 +58,7 @@
     <plugin name="elastos-trinity-plugins-statusbar" spec="../Plugins/Statusbar" />
     <plugin name="elastos-trinity-plugins-vibration" spec="../Plugins/Vibration" />
     <plugin name="elastos-trinity-plugins-wallet" spec="../Plugins/Wallet" />
+    <plugin name="cordova-plugin-ionic-webview" spec="../Plugins/IonicWebView" />
     <engine name="android" spec="7.1.4" />
     <engine name="ios" spec="4.5.5" />
 </widget>

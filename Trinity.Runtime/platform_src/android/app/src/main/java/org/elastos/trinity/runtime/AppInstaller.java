@@ -46,6 +46,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.TreeMap;
 import java.util.zip.ZipEntry;
@@ -263,7 +264,7 @@ public class AppInstaller {
         AppInfo info = null;
         String downloadPkgPath = null;
 
-        if (url.startsWith("assets://")) {
+        if (url.startsWith("asset://")) {
             AssetManager manager = context.getAssets();
             String substr = url.substring(9);
             inputStream = manager.open(substr);
@@ -307,14 +308,7 @@ public class AppInstaller {
 
         Log.d("AppInstaller", "The EPK was signed by " + public_key);
 
-        String manifest = path + "manifest.json";
-        File file = new File(manifest);
-        if (!file.exists()) {
-            throw new Exception("File 'manifest.json' no exist!");
-        }
-
-        InputStream input = new FileInputStream(manifest);
-        info = parseManifest(input, 0);
+        info = getInfoByManifest(path);
         File from = new File(appPath, temp);
         if (info == null || info.app_id == null || info.app_id.equals("launcher")
                 || appManager.getAppInfo(info.app_id) != null) {
@@ -398,6 +392,28 @@ public class AppInstaller {
     }
 
 
+    public AppInfo getInfoByManifest(String path) throws Exception {
+        String manifest = path + "manifest.json";
+        File file = new File(manifest);
+        if (!file.exists()) {
+            path = path + "assets/";
+            manifest = path + "manifest.json";
+            file = new File(manifest);
+            if (!file.exists()) {
+                throw new Exception("File 'manifest.json' no exist!");
+            }
+        }
+        InputStream input = new FileInputStream(manifest);
+        AppInfo info = parseManifest(input, 0);
+        manifest = path + "manifest.i18n";
+        file = new File(path + "manifest.i18n");
+        if (file.exists()) {
+            input = new FileInputStream(manifest);
+            parseManifestLocale(input, info);
+        }
+        return info;
+    }
+
     private String getMustStrValue(JSONObject json, String name) throws Exception {
         if (json.has(name)) {
             return json.getString(name);
@@ -406,9 +422,7 @@ public class AppInstaller {
         }
     }
 
-    public AppInfo parseManifest(InputStream inputStream, int launcher) throws Exception {
-        AppInfo appInfo = new AppInfo();
-
+    private JSONObject getJsonFromFile(InputStream inputStream) throws Exception {
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
         BufferedReader bufReader = new BufferedReader(inputStreamReader);
         String line;
@@ -418,9 +432,14 @@ public class AppInstaller {
         }
         bufReader.close();
         inputStreamReader.close();
-
-
         JSONObject json = new JSONObject(builder.toString());
+        return json;
+    }
+
+    public AppInfo parseManifest(InputStream inputStream, int launcher) throws Exception {
+        AppInfo appInfo = new AppInfo();
+
+        JSONObject json = getJsonFromFile(inputStream);
 
         //Must
         appInfo.app_id = getMustStrValue(json, "id");
@@ -461,6 +480,9 @@ public class AppInstaller {
         if (json.has(AppInfo.DEFAULT_LOCAL)) {
             appInfo.default_locale = json.getString(AppInfo.DEFAULT_LOCAL);
         }
+        else {
+            appInfo.default_locale = "en";
+        }
 
         if (json.has("author")) {
             JSONObject author = json.getJSONObject("author");
@@ -493,6 +515,15 @@ public class AppInstaller {
                     authority = AppInfo.AUTHORITY_ALLOW;
                 }
                 appInfo.addUrl(url, authority);
+            }
+        }
+
+        if (json.has("framework")) {
+            JSONArray array = json.getJSONArray("framework");
+            for (int i = 0; i < array.length(); i++) {
+                String framework = array.getString(i);
+                String[] element = framework.split("@");
+                appInfo.addFramework(element[0], element[1]);
             }
         }
 
@@ -529,5 +560,31 @@ public class AppInstaller {
         }
 
         return appInfo;
+    }
+
+    public void parseManifestLocale(InputStream inputStream, AppInfo info) throws Exception {
+        JSONObject jsonObject = getJsonFromFile(inputStream);
+
+        Boolean exist = false;
+        Iterator iterator = jsonObject.keys();
+        while(iterator.hasNext()){
+            String language = (String) iterator.next();
+            JSONObject locale = jsonObject.getJSONObject(language);
+
+            String name = getMustStrValue(locale, AppInfo.NAME);
+            String short_name = getMustStrValue(locale, AppInfo.SHORT_NAME);
+            String description = getMustStrValue(locale, AppInfo.DESCRIPTION);
+            String author_name = getMustStrValue(locale, AppInfo.AUTHOR_NAME);
+
+            info.addLocale(language, name, short_name, description, author_name);
+
+            if (language.equals(info.default_locale)) {
+                exist = true;
+            }
+        }
+
+        if (!exist) {
+            info.addLocale(info.default_locale, info.name, info.short_name, info.description, info.author_name);
+        }
     }
 }

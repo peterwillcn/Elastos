@@ -167,11 +167,11 @@ function info(argv) {
 
 function infos(argv) {
     if (argv.length == 1) {
-        var success = function (infos) {
+        var success = function (ret) {
             var str = ""
-            for (var id in infos) {
+            for (var id in ret.infos) {
                 str += "info[" + id + "]:<br/>"
-                str += string_app_info(infos[id]);
+                str += string_app_info(ret.infos[id]);
             }
             display_others_msg(str);
         };
@@ -340,10 +340,10 @@ function setInstalledItem(appInfo) {
     }
 }
 
-function refreshItems(appInfos) {
+function refreshItems(ret) {
     setNoInstallItems();
-    for (id in appInfos) {
-         setInstalledItem(appInfos[id]);
+    for (id in ret.infos) {
+         setInstalledItem(ret.infos[id]);
      }
 }
 

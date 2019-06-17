@@ -34,11 +34,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import org.apache.cordova.PluginManager;
-import org.elastos.trinity.runtime.R;
 import org.json.JSONException;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -52,12 +50,17 @@ public class AppManager {
     public static final int MSG_TYPE_INTERNAL = 1;
     /** The internal return message. */
     public static final int MSG_TYPE_IN_RETURN = 2;
+    /** The internal refresh message. */
+    public static final int MSG_TYPE_IN_REFRESH = 3;
+
+    /** The external message */
+    public static final int MSG_TYPE_EXTERNAL = 11;
     /** The external launcher message */
-    public static final int MSG_TYPE_EXTERNAL_LAUNCHER = 3;
+    public static final int MSG_TYPE_EX_LAUNCHER = 12;
     /** The external install message */
-    public static final int MSG_TYPE_EXTERNAL_INSTALL = 4;
+    public static final int MSG_TYPE_EX_INSTALL = 13;
     /** The external return message. */
-    public static final int MSG_TYPE_EX_RETURN = 5;
+    public static final int MSG_TYPE_EX_RETURN = 14;
 
     private static AppManager appManager;
     public WebViewActivity activity;
@@ -73,6 +76,7 @@ public class AppManager {
 
     protected LinkedHashMap<String, AppInfo> appInfos;
     private ArrayList<String> lastList = new ArrayList<String>();
+    private ArrayList<String> runningList = new ArrayList<String>();
     public AppInfo[] appList;
 
     private AppInfo launcherInfo;
@@ -134,12 +138,32 @@ public class AppManager {
         return AppManager.appManager;
     }
 
+
+    private InputStream getAssetsFile(String path) {
+        InputStream input = null;
+
+        AssetManager manager = activity.getAssets();
+        try {
+            input = manager.open(path);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return input;
+    }
+
     private void saveLauncherInfo() {
         AssetManager manager = activity.getAssets();
         try {
-            InputStream input = manager.open("www/launcher/manifest.json");
+            String path = "www/launcher";
+            InputStream input = getAssetsFile(path + "/manifest.json");
+            if (input == null) {
+                input = getAssetsFile(path + "/assets/manifest.json");
+                if (input == null) return;
+            }
             AppInfo info = installer.parseManifest(input, 1);
-            installer.copyAssetsFolder("www/launcher", appsPath + info.app_id);
+            installer.copyAssetsFolder(path, appsPath + info.app_id);
             info.built_in = 1;
             dbAdapter.addAppInfo(info);
 
@@ -264,9 +288,7 @@ public class AppManager {
 
                 if (needInstall) {
                     installer.copyAssetsFolder("www/built-in/" + appdir, appsPath + appdir);
-                    InputStream input = new FileInputStream(appsPath + appdir + "/manifest.json");
-                    AppInfo info = installer.parseManifest(input, 0);
-
+                    AppInfo info = installer.getInfoByManifest(appsPath + appdir + "/");
                     info.built_in = 1;
                     dbAdapter.addAppInfo(info);
                 }
@@ -282,6 +304,7 @@ public class AppManager {
         if (info != null) {
             refreashInfos();
         }
+        sendRefreshList("installed", info.app_id);
         return info;
     }
 
@@ -289,6 +312,7 @@ public class AppManager {
         close(id);
         installer.unInstall(appInfos.get(id));
         refreashInfos();
+        sendRefreshList("unInstalled", id);
     }
 
     private WebViewFragment findFragmentById(String id) {
@@ -315,7 +339,8 @@ public class AppManager {
         if (curFragment != fragment) {
             if (!fragment.isAdded()) {
                 transaction.add(R.id.content, fragment, id);
-            } else if (curFragment != fragment) {
+            }
+            else if (curFragment != fragment) {
                 transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                         .show(fragment);
             }
@@ -326,8 +351,10 @@ public class AppManager {
 //            }
             curFragment = fragment;
         }
-        lastList.remove(id);
-        lastList.add(0, id);
+
+        if (curFragment == null) {
+            curFragment = fragment;
+        }
     }
 
     public boolean doBackPressed() {
@@ -352,12 +379,17 @@ public class AppManager {
                     throw new Exception("No such app!");
                 }
                 fragment = AppViewFragment.newInstance(id);
+                sendRefreshList("started", id);
             }
         }
-//        else if (!id.equals("launcher")) {
+        else if (!id.equals("launcher")) {
+            runningList.remove(id);
+            lastList.remove(id);
 //            fragment.onResume();
-//        }
+        }
         switchContent(fragment, id);
+        lastList.add(0, id);
+        runningList.add(0, id);
     }
 
     public void close(String id) throws Exception {
@@ -393,6 +425,10 @@ public class AppManager {
         transaction.remove(fragment);
         transaction.commit();
         lastList.remove(id);
+        runningList.remove(id);
+
+        sendRefreshList("closed", id);
+
     }
 
     public void loadLauncher() throws Exception {
@@ -403,12 +439,7 @@ public class AppManager {
         if (uri == null) return;
 
         if (launcherReady) {
-            try {
-                sendMessage("launcher", MSG_TYPE_EXTERNAL_INSTALL, uri, "system");
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+            sendInstallMsg(uri);
         }
         else {
             installUriList.add(uri);
@@ -424,15 +455,28 @@ public class AppManager {
 
         for (int i = 0; i < installUriList.size(); i++) {
             String uri = installUriList.get(i);
-            try {
-                sendMessage("launcher", MSG_TYPE_EXTERNAL_INSTALL, uri, "system");
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+            sendInstallMsg(uri);
         }
     }
 
+    private void sendInstallMsg(String uri) {
+        try {
+            sendMessage("launcher", MSG_TYPE_EX_INSTALL, "{\"uri\":\"" + uri + "\"}", "system");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendRefreshList(String action, String id) {
+        try {
+            sendMessage("launcher", MSG_TYPE_IN_REFRESH,
+                    "{\"action\":\"" + action + "\", \"id\":\"" + id + "\"}", "system");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void sendMessage(String toId, int type, String msg, String fromId) throws Exception {
         FragmentManager manager = activity.getSupportFragmentManager();
@@ -476,6 +520,7 @@ public class AppManager {
         }
 
         dbAdapter.updatePluginAuth(info.tid, plugin, authority);
+        sendRefreshList("authorityChanged", id);
         for (AppInfo.PluginAuth pluginAuth : info.plugins) {
             if (pluginAuth.plugin.equals(plugin)) {
                 pluginAuth.authority = authority;
@@ -492,6 +537,7 @@ public class AppManager {
         }
 
         int count = dbAdapter.updateURLAuth(info.tid, url, authority);
+        sendRefreshList("authorityChanged", id);
         if (count > 0) {
             for (AppInfo.UrlAuth urlAuth : info.urls) {
                 if (urlAuth.url.equals(url)) {
@@ -636,7 +682,7 @@ public class AppManager {
         ab.show();
     }
 
-    public String[] getAppList() {
+    public String[] getAppIdList() {
         String[] ids = new String[appList.length];
         for (int i = 0; i < appList.length; i++) {
             ids[i] = appList[i].app_id;
@@ -644,16 +690,13 @@ public class AppManager {
         return ids;
     }
 
-    public String[] getRunningList() {
-        FragmentManager manager = activity.getSupportFragmentManager();
-        List<Fragment> fragments = manager.getFragments();
-        String[] ids = new String[fragments.size()];
+    public AppInfo[] getAppInfoList() {
+        return appList;
+    }
 
-        for (int i = 0; i < fragments.size(); i++) {
-            WebViewFragment fragment = (WebViewFragment)fragments.get(i);
-            ids[i] = fragment.id;
-        }
-        return ids;
+    public String[] getRunningList() {
+        String[] ids = new String[runningList.size()];
+        return runningList.toArray(ids);
     }
 
     public String[] getLastList() {

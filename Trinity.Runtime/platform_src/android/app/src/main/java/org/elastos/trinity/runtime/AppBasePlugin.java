@@ -27,6 +27,7 @@ import android.net.Uri;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
+import org.elastos.trinity.plugins.appmanager.AppManagerPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,7 +59,8 @@ public class AppBasePlugin extends CordovaPlugin {
 
     protected void close(JSONArray args, CallbackContext callbackContext) throws Exception {
         String appId = this.id;
-        if (id.equals("launcher")) {
+
+        if (this instanceof AppManagerPlugin) {
             appId = args.getString(0);
         }
 
@@ -69,73 +71,87 @@ public class AppBasePlugin extends CordovaPlugin {
         callbackContext.success("ok");
     }
 
-    private List<JSONObject> jsonAppPlugins(ArrayList<AppInfo.PluginAuth> plugins) throws JSONException {
-        List<JSONObject> jsons = new ArrayList<JSONObject>();
+    private JSONArray jsonAppPlugins(ArrayList<AppInfo.PluginAuth> plugins) throws JSONException {
+        JSONArray jsons = new JSONArray();
         for (AppInfo.PluginAuth pluginAuth : plugins) {
-            JSONObject r = new JSONObject();
-            r.put("plugin", pluginAuth.plugin);
-            r.put("authority", pluginAuth.authority);
-            jsons.add(r);
+            JSONObject ret = new JSONObject();
+            ret.put("plugin", pluginAuth.plugin);
+            ret.put("authority", pluginAuth.authority);
+            jsons.put(ret);
         }
         return jsons;
     }
 
-    private List<JSONObject> jsonAppUrls(ArrayList<AppInfo.UrlAuth> plugins) throws JSONException {
-        List<JSONObject> jsons = new ArrayList<JSONObject>();
+    private JSONArray jsonAppUrls(ArrayList<AppInfo.UrlAuth> plugins) throws JSONException {
+        JSONArray jsons = new JSONArray();
         for (AppInfo.UrlAuth urlAuth : plugins) {
-            JSONObject r = new JSONObject();
-            r.put("url", urlAuth.url);
-            r.put("authority", urlAuth.authority);
-            jsons.add(r);
+            JSONObject ret = new JSONObject();
+            ret.put("url", urlAuth.url);
+            ret.put("authority", urlAuth.authority);
+            jsons.put(ret);
         }
         return jsons;
     }
 
-    private List<JSONObject> jsonAppIcons(AppInfo info) throws JSONException {
-        List<JSONObject> jsons = new ArrayList<JSONObject>();
-        String appUrl = AppManager.getShareInstance().getAppUrl(info);
+    protected JSONArray jsonAppIcons(AppInfo info) throws JSONException {
+        JSONArray jsons = new JSONArray();
+
         for (AppInfo.Icon icon : info.icons) {
-            JSONObject r = new JSONObject();
-            r.put("src", AppManager.getShareInstance().resetPath(appUrl, icon.src));
-            r.put("sizes", icon.sizes);
-            r.put("type", icon.type);
-            jsons.add(r);
+            JSONObject ret = new JSONObject();
+            ret.put("src", icon.src);
+            ret.put("sizes", icon.sizes);
+            ret.put("type", icon.type);
+            jsons.put(ret);
         }
         return jsons;
+    }
+
+    private JSONObject jsonAppLocales(ArrayList<AppInfo.Locale> locales) throws JSONException {
+        JSONObject ret = new JSONObject();
+        for (AppInfo.Locale locale : locales) {
+            JSONObject language = new JSONObject();
+            language.put("name", locale.name);
+            language.put("shortName", locale.short_name);
+            language.put("description", locale.description);
+            language.put("authorName", locale.author_name);
+            ret.put(locale.language, language);
+        }
+        return ret;
     }
 
     protected JSONObject jsonAppInfo(AppInfo info) throws JSONException {
         String appUrl = AppManager.getShareInstance().getAppUrl(info);
         String dataUrl = AppManager.getShareInstance().getDataUrl(info.app_id);
-        JSONObject r = new JSONObject();
-        r.put("id", info.app_id);
-        r.put("version", info.version);
-        r.put("name", info.name);
-        r.put("shortName", info.short_name);
-        r.put("description", info.description);
-        r.put("startUrl", AppManager.getShareInstance().getStartPath(info));
-        r.put("icons", jsonAppIcons(info));
-        r.put("authorName", info.author_name);
-        r.put("authorEmail", info.author_email);
-        r.put("defaultLocale", info.default_locale);
-        r.put("plugins", jsonAppPlugins(info.plugins));
-        r.put("urls", jsonAppUrls(info.urls));
-        r.put("backgroundColor", info.background_color);
-        r.put("themeDisplay", info.theme_display);
-        r.put("themeColor", info.theme_color);
-        r.put("themeFontName", info.theme_font_name);
-        r.put("themeFontColor", info.theme_font_color);
-        r.put("installTime", info.install_time);
-        r.put("builtIn", info.built_in);
-        r.put("remote", info.remote);
-        r.put("appPath", appUrl);
-        r.put("dataPath", dataUrl);
-        return r;
+        JSONObject ret = new JSONObject();
+        ret.put("id", info.app_id);
+        ret.put("version", info.version);
+        ret.put("name", info.name);
+        ret.put("shortName", info.short_name);
+        ret.put("description", info.description);
+        ret.put("startUrl", AppManager.getShareInstance().getStartPath(info));
+        ret.put("icons", jsonAppIcons(info));
+        ret.put("authorName", info.author_name);
+        ret.put("authorEmail", info.author_email);
+        ret.put("defaultLocale", info.default_locale);
+        ret.put("plugins", jsonAppPlugins(info.plugins));
+        ret.put("urls", jsonAppUrls(info.urls));
+        ret.put("backgroundColor", info.background_color);
+        ret.put("themeDisplay", info.theme_display);
+        ret.put("themeColor", info.theme_color);
+        ret.put("themeFontName", info.theme_font_name);
+        ret.put("themeFontColor", info.theme_font_color);
+        ret.put("installTime", info.install_time);
+        ret.put("builtIn", info.built_in);
+        ret.put("remote", info.remote);
+        ret.put("appPath", appUrl);
+        ret.put("dataPath", dataUrl);
+        ret.put("locales", jsonAppLocales(info.locales));
+        return ret;
     }
 
     protected void getAppInfo(JSONArray args, CallbackContext callbackContext) throws JSONException {
         String appId = this.id;
-        if (this.id == "launcher") {
+        if (this instanceof AppManagerPlugin) {
             appId = args.getString(0);
         }
 
@@ -162,7 +178,7 @@ public class AppBasePlugin extends CordovaPlugin {
         pluginResult.setKeepCallback(true);
         callbackContext.sendPluginResult(pluginResult);
 
-        if (id.equals("launcher")) {
+        if (this instanceof AppManagerPlugin) {
             AppManager.getShareInstance().setLauncherReady();
         }
     }
@@ -171,12 +187,12 @@ public class AppBasePlugin extends CordovaPlugin {
         if (mMessageContext == null)
             return;
 
-        JSONObject r = new JSONObject();
+        JSONObject ret = new JSONObject();
         try {
-            r.put("message", msg);
-            r.put("type", type);
-            r.put("from", from);
-            PluginResult result = new PluginResult(PluginResult.Status.OK, r);
+            ret.put("message", msg);
+            ret.put("type", type);
+            ret.put("from", from);
+            PluginResult result = new PluginResult(PluginResult.Status.OK, ret);
             result.setKeepCallback(true);
             mMessageContext.sendPluginResult(result);
         } catch (JSONException e) {
@@ -186,8 +202,8 @@ public class AppBasePlugin extends CordovaPlugin {
 
     @Override
     public Boolean shouldAllowRequest(String url) {
-        if (url.startsWith("assets://www/cordova") || url.startsWith("assets://www/plugins")
-                || url.startsWith("trinity:///assets/") || url.startsWith("trinity:///data/")
+        if (url.startsWith("asset://www/cordova") || url.startsWith("asset://www/plugins")
+                || url.startsWith("trinity:///asset/") || url.startsWith("trinity:///data/")
                 || url.startsWith("trinity:///temp/")) {
             return true;
         }
@@ -198,13 +214,12 @@ public class AppBasePlugin extends CordovaPlugin {
     @Override
     public Uri remapUri(Uri uri) {
         String url = uri.toString();
-        if ("assets".equals(uri.getScheme())) {
+        if ("asset".equals(uri.getScheme())) {
             url = "file:///android_asset/www" + uri.getPath();
-
         }
-        else if (url.startsWith("trinity:///assets/")) {
+        else if (url.startsWith("trinity:///asset/")) {
             AppInfo info = AppManager.getShareInstance().getAppInfo(id);
-            url = AppManager.getShareInstance().getAppUrl(info) + url.substring(18);
+            url = AppManager.getShareInstance().getAppUrl(info) + url.substring(17);
         }
         else if (url.startsWith("trinity:///data/")) {
             url = AppManager.getShareInstance().getDataUrl(id) + url.substring(16);

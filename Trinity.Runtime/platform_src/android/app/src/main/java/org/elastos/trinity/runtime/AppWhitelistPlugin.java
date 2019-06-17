@@ -39,12 +39,12 @@ public class AppWhitelistPlugin extends CordovaPlugin {
         allowedRequests  = new Whitelist();
         allowedRequests.addWhiteListEntry(appPath, false);
         allowedRequests.addWhiteListEntry(dataPath, false);
-        allowedRequests.addWhiteListEntry("assets://www/cordova*", false);
-        allowedRequests.addWhiteListEntry("assets://www/plugins/*", false);
+        allowedRequests.addWhiteListEntry("asset://www/cordova*", false);
+        allowedRequests.addWhiteListEntry("asset://www/plugins/*", false);
 
-        allowedRequests.addWhiteListEntry("trinity:///assets/*", false);
+        allowedRequests.addWhiteListEntry("trinity:///asset/*", false);
         allowedRequests.addWhiteListEntry("trinity:///data/*", false);
-        
+
         allowedNavigations = allowedRequests;
         allowedIntents = new Whitelist();
 
@@ -70,7 +70,7 @@ public class AppWhitelistPlugin extends CordovaPlugin {
         else if (allowedAppNavigations.isUrlAllowAuthority(url)) {
             return true;
         }
-        return false; // Default policy
+        return null; // Default policy
     }
 
     @Override
@@ -81,7 +81,7 @@ public class AppWhitelistPlugin extends CordovaPlugin {
         if (allowedRequests.isUrlWhiteListed(url)) {
             return true;
         }
-        return false; // Default policy
+        return null; // Default policy
     }
 
     @Override

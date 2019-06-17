@@ -91,8 +91,8 @@ public class TrinityPlugin extends CordovaPlugin {
 
     public String getCanonicalPath(String path) throws Exception {
         String ret = null;
-        if (path.startsWith("trinity:///assets/")) {
-            String dir = getCanonicalDir(path.substring(10), "/assets/");
+        if (path.startsWith("trinity:///asset/")) {
+            String dir = getCanonicalDir(path.substring(10), "/asset/");
             ret = appPath + dir;
         }
         else if (path.startsWith("trinity:///data/")) {
@@ -104,12 +104,12 @@ public class TrinityPlugin extends CordovaPlugin {
             ret = tempPath + dir;
         }
         else if ((path.indexOf("://") != -1)) {
-            if (!(path.startsWith("assets://")) && whitelistPlugin.shouldAllowNavigation(path)) {
+            if (!(path.startsWith("asset://")) && whitelistPlugin.shouldAllowNavigation(path)) {
                 ret = path;
             }
         }
         else if (!path.startsWith("/")) {
-            String dir = getCanonicalDir("/assets/" + path, "/assets/");
+            String dir = getCanonicalDir("/asset/" + path, "/asset/");
             ret = appPath + dir;
         }
 
@@ -129,7 +129,7 @@ public class TrinityPlugin extends CordovaPlugin {
 
     public String getRelativePath(String path) throws Exception {
         String ret = null;
-        if (!(path.startsWith("assets://")) && (path.indexOf("://") != -1)) {
+        if (!(path.startsWith("asset://")) && (path.indexOf("://") != -1)) {
             if (whitelistPlugin.shouldAllowNavigation(path)) {
                 ret = path;
             }
@@ -137,7 +137,7 @@ public class TrinityPlugin extends CordovaPlugin {
         else if (path.startsWith(appPath)) {
             File file = new File(appPath);
             String header = file.getCanonicalPath() + "/";
-            ret = "trinity:///assets/" + getCanonicalDir(path, header);
+            ret = "trinity:///asset/" + getCanonicalDir(path, header);
         }
         else if (path.startsWith(dataPath)) {
             File file = new File(dataPath);

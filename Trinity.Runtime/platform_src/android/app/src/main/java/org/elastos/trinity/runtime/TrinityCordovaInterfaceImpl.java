@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 
 public class TrinityCordovaInterfaceImpl extends CordovaInterfaceImpl {
 
-    protected WebViewFragment fragment;
+    public WebViewFragment fragment;
 
     public TrinityCordovaInterfaceImpl(Activity activity, WebViewFragment fragment) {
         super(activity);

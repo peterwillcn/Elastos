@@ -49,6 +49,7 @@
      public static final String BUILT_IN = "built_in";
      public static final String REMOTE = "remote";
      public static final String LAUNCHER = "launcher";
+     public static final String LANGUAGE = "language";
 
      public static final String SRC = "src";
      public static final String SIZES = "sizes";
@@ -91,6 +92,21 @@
      public static final int AUTHORITY_ALLOW = 2;
      public static final int AUTHORITY_DENY = 3;
 
+     public class Locale {
+         public String language = "";
+         public String name = "";
+         public String short_name = "";
+         public String description = "";
+         public String author_name = "";
+
+         Locale(String language, String name, String short_name, String description, String author_name) {
+             this.language = language;
+             this.name = name;
+             this.short_name = short_name;
+             this.description = description;
+             this.author_name = author_name;
+         }
+     }
 
      public class Icon {
          public String src = "";
@@ -124,9 +140,21 @@
          }
      }
 
-     public ArrayList<Icon> icons = new ArrayList<Icon>(8);
-     public ArrayList<PluginAuth> plugins = new ArrayList<PluginAuth>(20);
-     public ArrayList<UrlAuth> urls = new ArrayList<UrlAuth>(20);
+     public class Framework {
+         public String name;
+         public String version;
+
+         Framework(String name, String version) {
+             this.name = name;
+             this.version = version;
+         }
+     }
+
+     public ArrayList<Icon> icons = new ArrayList<Icon>(4);
+     public ArrayList<PluginAuth> plugins = new ArrayList<PluginAuth>(4);
+     public ArrayList<UrlAuth> urls = new ArrayList<UrlAuth>(4);
+     public ArrayList<Framework> frameworks = new ArrayList<Framework>(4);
+     public ArrayList<Locale> locales = new ArrayList<Locale>(4);
 
      public void addIcon(String src, String sizes, String type) {
          icons.add(new Icon(src, sizes, type));
@@ -138,5 +166,22 @@
 
      public void addUrl(String url, int authority) {
          urls.add(new UrlAuth(url, authority));
+     }
+
+     public void addFramework(String name, String version) {
+         frameworks.add(new Framework(name, version));
+     }
+
+     public void addLocale(String language, String name, String short_name, String description, String author_name) {
+         locales.add(new Locale(language, name, short_name, description, author_name));
+     }
+
+     public Framework getFramework(String name) {
+         for (Framework item: frameworks) {
+             if (item.name.equals(name)) {
+                 return item;
+             }
+         }
+         return null;
      }
  }

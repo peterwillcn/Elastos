@@ -31,7 +31,9 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     public static final String AUTH_PLUGIN_TABLE = "auth_plugin";
     public static final String AUTH_URL_TABLE = "auth_url";
-    public static final String AUTH_ICONS_TABLE = "icons";
+    public static final String ICONS_TABLE = "icons";
+    public static final String FRAMEWORK_TABLE = "framework";
+    public static final String LACALE_TABLE = "locale";
     public static final String APP_TABLE = "app";
 
     public ManagerDBHelper(Context context) {
@@ -56,11 +58,26 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
                 AppInfo.AUTHORITY + " integer)";
         db.execSQL(strSQL);
 
-        strSQL =  "create table " + AUTH_ICONS_TABLE + "(tid integer primary key autoincrement, " +
+        strSQL =  "create table " + ICONS_TABLE + "(tid integer primary key autoincrement, " +
                 AppInfo.APP_TID + " integer, " +
                 AppInfo.SRC + " varchar(256), " +
                 AppInfo.SIZES + " varchar(32), " +
                 AppInfo.TYPE + " varchar(32))";
+        db.execSQL(strSQL);
+
+        strSQL =  "create table " + FRAMEWORK_TABLE + "(tid integer primary key autoincrement, " +
+                AppInfo.APP_TID + " integer, " +
+                AppInfo.NAME + " varchar(64) NOT NULL, " +
+                AppInfo.VERSION + " varchar(32))";
+        db.execSQL(strSQL);
+
+        strSQL = "create table " + LACALE_TABLE + "(tid integer primary key autoincrement, " +
+                AppInfo.APP_TID + " integer, " +
+                AppInfo.LANGUAGE + " varchar(32) NOT NULL, " +
+                AppInfo.NAME + " varchar(128), " +
+                AppInfo.SHORT_NAME + " varchar(64), " +
+                AppInfo.DESCRIPTION + " varchar(256), " +
+                AppInfo.AUTHOR_NAME + " varchar(128))";
         db.execSQL(strSQL);
 
         strSQL = "create table " + APP_TABLE + "(tid integer primary key autoincrement, " +
@@ -88,7 +105,9 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
     public void dropAllTabel(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS " + AUTH_PLUGIN_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + AUTH_URL_TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + AUTH_ICONS_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + ICONS_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + FRAMEWORK_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + LACALE_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + APP_TABLE);
     }
 

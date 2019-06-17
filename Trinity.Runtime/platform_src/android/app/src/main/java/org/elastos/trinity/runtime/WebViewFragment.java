@@ -75,10 +75,11 @@ public class WebViewFragment extends Fragment {
     protected CordovaPreferences preferences;
     protected ArrayList<PluginEntry> pluginEntries;
     protected TrinityCordovaInterfaceImpl cordovaInterface;
-    protected String launchUrl;
     protected AppBasePlugin basePlugin;
     protected String id;
-    protected AppInfo appInfo;
+
+    public AppInfo appInfo;
+    protected String launchUrl;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -177,6 +178,10 @@ public class WebViewFragment extends Fragment {
         this.keepRunning = preferences.getBoolean("KeepRunning", true);
 
         appView.loadUrlIntoView(url, true);
+    }
+
+    public String getLaunchUrl() {
+        return this.launchUrl;
     }
 
     /**

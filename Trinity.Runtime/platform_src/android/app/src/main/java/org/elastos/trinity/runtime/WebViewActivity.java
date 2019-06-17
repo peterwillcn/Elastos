@@ -225,10 +225,10 @@ public class WebViewActivity extends FragmentActivity {
                 @Override
                 public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
                                        float velocityY) {
-                    float x = e2.getX() - e1.getX();
-                    float y = e2.getY() - e1.getY();
+                    float y1 = e1.getY();
+                    float distance = e2.getY() - e1.getY();
 
-                    if (y > 80) {
+                    if (distance > 200 && y1 < 200) {
                         appManager.flingTheme();
                     }
                     return true;

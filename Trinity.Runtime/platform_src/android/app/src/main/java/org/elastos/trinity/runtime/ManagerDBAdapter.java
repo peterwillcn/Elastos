@@ -42,8 +42,7 @@ public class ManagerDBAdapter {
         helper.onUpgrade(db, 0, 1);
     }
 
-    public boolean addAppInfo(AppInfo info)
-    {
+    public boolean addAppInfo(AppInfo info) {
         if (info != null) {
             SQLiteDatabase db = helper.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
@@ -78,7 +77,7 @@ public class ManagerDBAdapter {
                 contentValues.put(AppInfo.SRC, icon.src);
                 contentValues.put(AppInfo.SIZES, icon.sizes);
                 contentValues.put(AppInfo.TYPE, icon.type);
-                db.insert(ManagerDBHelper.AUTH_ICONS_TABLE, null, contentValues);
+                db.insert(ManagerDBHelper.ICONS_TABLE, null, contentValues);
             }
 
             for (AppInfo.PluginAuth pluginAuth : info.plugins) {
@@ -96,6 +95,26 @@ public class ManagerDBAdapter {
                 contentValues.put(AppInfo.AUTHORITY, urlAuth.authority);
                 db.insert(ManagerDBHelper.AUTH_URL_TABLE, null, contentValues);
             }
+
+            for (AppInfo.Framework framework : info.frameworks) {
+                contentValues = new ContentValues();
+                contentValues.put(AppInfo.APP_TID, tid);
+                contentValues.put(AppInfo.NAME, framework.name);
+                contentValues.put(AppInfo.VERSION, framework.version);
+                db.insert(ManagerDBHelper.FRAMEWORK_TABLE, null, contentValues);
+            }
+
+            for (AppInfo.Locale locale : info.locales) {
+                contentValues = new ContentValues();
+                contentValues.put(AppInfo.APP_TID, tid);
+                contentValues.put(AppInfo.LANGUAGE, locale.language);
+                contentValues.put(AppInfo.NAME, locale.name);
+                contentValues.put(AppInfo.SHORT_NAME, locale.short_name);
+                contentValues.put(AppInfo.DESCRIPTION, locale.description);
+                contentValues.put(AppInfo.AUTHOR_NAME, locale.author_name);
+                db.insert(ManagerDBHelper.LACALE_TABLE, null, contentValues);
+            }
+
             return true;
         }
         else {
@@ -127,7 +146,8 @@ public class ManagerDBAdapter {
             info.background_color = cursor.getString(cursor.getColumnIndex(AppInfo.BACKGROUND_COLOR));
             info.theme_display = cursor.getString(cursor.getColumnIndex(AppInfo.THEME_DISPLAY));
             info.theme_font_name = cursor.getString(cursor.getColumnIndex(AppInfo.THEME_FONT_NAME));
-            info.theme_font_color = cursor.getString(cursor.getColumnIndex(AppInfo.THEME_FONT_COLOR));     info.theme_color = cursor.getString(cursor.getColumnIndex(AppInfo.THEME_COLOR));
+            info.theme_font_color = cursor.getString(cursor.getColumnIndex(AppInfo.THEME_FONT_COLOR));
+            info.theme_color = cursor.getString(cursor.getColumnIndex(AppInfo.THEME_COLOR));
 
             info.install_time = cursor.getLong(cursor.getColumnIndex(AppInfo.INSTALL_TIME));
             info.built_in = cursor.getInt(cursor.getColumnIndex(AppInfo.BUILT_IN));
@@ -135,10 +155,11 @@ public class ManagerDBAdapter {
             info.launcher = cursor.getInt(cursor.getColumnIndex(AppInfo.LAUNCHER));
             infos[count++] = info;
 
-            String[] columns1 = {AppInfo.SRC, AppInfo.SIZES, AppInfo.TYPE};
+
             String[] args1 = {String.valueOf(info.tid)};
 
-            Cursor cursor1 = db.query(ManagerDBHelper.AUTH_ICONS_TABLE, columns1,AppInfo.APP_TID + "=?", args1,null,null,null);
+            String[] columns1 = {AppInfo.SRC, AppInfo.SIZES, AppInfo.TYPE};
+            Cursor cursor1 = db.query(ManagerDBHelper.ICONS_TABLE, columns1,AppInfo.APP_TID + "=?", args1,null,null,null);
             while (cursor1.moveToNext()) {
                 info.addIcon(cursor1.getString(cursor1.getColumnIndex(AppInfo.SRC)),
                         cursor1.getString(cursor1.getColumnIndex(AppInfo.SIZES)),
@@ -155,6 +176,23 @@ public class ManagerDBAdapter {
             cursor1 = db.query(ManagerDBHelper.AUTH_URL_TABLE, columns3,AppInfo.APP_TID + "=?", args1,null,null,null);
             while (cursor1.moveToNext()) {
                 info.addUrl(cursor1.getString(cursor1.getColumnIndex(AppInfo.URL)), cursor1.getInt(cursor1.getColumnIndex(AppInfo.AUTHORITY)));
+            }
+
+            String[] columns4 = {AppInfo.NAME, AppInfo.VERSION};
+            cursor1 = db.query(ManagerDBHelper.FRAMEWORK_TABLE, columns4,AppInfo.APP_TID + "=?", args1,null,null,null);
+            while (cursor1.moveToNext()) {
+                info.addFramework(cursor1.getString(cursor1.getColumnIndex(AppInfo.NAME)),
+                        cursor1.getString(cursor1.getColumnIndex(AppInfo.VERSION)));
+            }
+
+            String[] columns5 = {AppInfo.LANGUAGE, AppInfo.NAME, AppInfo.SHORT_NAME, AppInfo.DESCRIPTION, AppInfo.AUTHOR_NAME};
+            cursor1 = db.query(ManagerDBHelper.LACALE_TABLE, columns5,AppInfo.APP_TID + "=?", args1,null,null,null);
+            while (cursor1.moveToNext()) {
+                info.addLocale(cursor1.getString(cursor1.getColumnIndex(AppInfo.LANGUAGE)),
+                        cursor1.getString(cursor1.getColumnIndex(AppInfo.NAME)),
+                        cursor1.getString(cursor1.getColumnIndex(AppInfo.SHORT_NAME)),
+                        cursor1.getString(cursor1.getColumnIndex(AppInfo.DESCRIPTION)),
+                        cursor1.getString(cursor1.getColumnIndex(AppInfo.AUTHOR_NAME)));
             }
         }
         return infos;
@@ -189,8 +227,7 @@ public class ManagerDBAdapter {
     }
 
 
-    public int updatePluginAuth(long tid, String plugin, int authority)
-    {
+    public int updatePluginAuth(long tid, String plugin, int authority) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(AppInfo.AUTHORITY, authority);
@@ -200,8 +237,7 @@ public class ManagerDBAdapter {
         return count;
     }
 
-    public int updateURLAuth(long tid, String url, int authority)
-    {
+    public int updateURLAuth(long tid, String url, int authority) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(AppInfo.AUTHORITY, authority);
@@ -211,14 +247,15 @@ public class ManagerDBAdapter {
         return count;
     }
 
-    public int removeAppInfo(AppInfo info)
-    {
+    public int removeAppInfo(AppInfo info) {
         SQLiteDatabase db = helper.getWritableDatabase();
         String where = AppInfo.APP_TID + "=?";
         String[] whereArgs= {String.valueOf(info.tid)};
         int count = db.delete(ManagerDBHelper.AUTH_URL_TABLE, where, whereArgs);
         count = db.delete(ManagerDBHelper.AUTH_PLUGIN_TABLE, where, whereArgs);
-        db.delete(ManagerDBHelper.AUTH_ICONS_TABLE, where, whereArgs);
+        db.delete(ManagerDBHelper.ICONS_TABLE, where, whereArgs);
+        db.delete(ManagerDBHelper.FRAMEWORK_TABLE, where, whereArgs);
+        db.delete(ManagerDBHelper.LACALE_TABLE, where, whereArgs);
         where = AppInfo.TID + "=?";
         count = db.delete(ManagerDBHelper.APP_TABLE, where, whereArgs);
         return count;

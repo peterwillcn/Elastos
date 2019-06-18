@@ -106,10 +106,6 @@
 	path = Trinity/Dependency/SPV.Cpp
 	url = ../Elastos.ELA.SPV.Cpp
 	branch = dev
-[submodule "Plugins/IonicWebview"]
-	path = Plugins/IonicWebview
-	url = ../Elastos.Trinity.Plugins.IonicWebview.git
-	branch = dev
 [submodule "Plugins/IonicWebView"]
 	path = Trinity/Plugins/IonicWebView
 	url = ../Elastos.Trinity.Plugins.IonicWebView.git

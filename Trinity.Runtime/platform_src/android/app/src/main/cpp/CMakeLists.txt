@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.4.1)
 
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
 set(PROJECT_ROOT ${CMAKE_CURRENT_LIST_DIR}/../../../../../../../)
 
 get_filename_component(SPVSDK_DIR ../../spvsdk

@@ -110,7 +110,7 @@ class AppManager {
         }
 
         dbAdapter = ManagerDBAdapter(dataPath);
-        try! dbAdapter.clean();
+//        try! dbAdapter.clean();
         installer = AppInstaller(appsPath, dataPath, tempPath, dbAdapter);
         appList = try! dbAdapter.getAppInfos();
 

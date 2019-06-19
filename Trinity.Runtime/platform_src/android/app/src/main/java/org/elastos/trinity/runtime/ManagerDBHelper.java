@@ -32,8 +32,9 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
     public static final String AUTH_PLUGIN_TABLE = "auth_plugin";
     public static final String AUTH_URL_TABLE = "auth_url";
     public static final String ICONS_TABLE = "icons";
-    public static final String FRAMEWORK_TABLE = "framework";
     public static final String LACALE_TABLE = "locale";
+    public static final String FRAMEWORK_TABLE = "framework";
+    public static final String PLATFORM_TABLE = "platform";
     public static final String APP_TABLE = "app";
 
     public ManagerDBHelper(Context context) {
@@ -65,12 +66,6 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
                 AppInfo.TYPE + " varchar(32))";
         db.execSQL(strSQL);
 
-        strSQL =  "create table " + FRAMEWORK_TABLE + "(tid integer primary key autoincrement, " +
-                AppInfo.APP_TID + " integer, " +
-                AppInfo.NAME + " varchar(64) NOT NULL, " +
-                AppInfo.VERSION + " varchar(32))";
-        db.execSQL(strSQL);
-
         strSQL = "create table " + LACALE_TABLE + "(tid integer primary key autoincrement, " +
                 AppInfo.APP_TID + " integer, " +
                 AppInfo.LANGUAGE + " varchar(32) NOT NULL, " +
@@ -78,6 +73,18 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
                 AppInfo.SHORT_NAME + " varchar(64), " +
                 AppInfo.DESCRIPTION + " varchar(256), " +
                 AppInfo.AUTHOR_NAME + " varchar(128))";
+        db.execSQL(strSQL);
+
+        strSQL =  "create table " + FRAMEWORK_TABLE + "(tid integer primary key autoincrement, " +
+                AppInfo.APP_TID + " integer, " +
+                AppInfo.NAME + " varchar(64) NOT NULL, " +
+                AppInfo.VERSION + " varchar(32))";
+        db.execSQL(strSQL);
+
+        strSQL =  "create table " + PLATFORM_TABLE + "(tid integer primary key autoincrement, " +
+                AppInfo.APP_TID + " integer, " +
+                AppInfo.NAME + " varchar(64) NOT NULL, " +
+                AppInfo.VERSION + " varchar(32))";
         db.execSQL(strSQL);
 
         strSQL = "create table " + APP_TABLE + "(tid integer primary key autoincrement, " +
@@ -106,8 +113,9 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + AUTH_PLUGIN_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + AUTH_URL_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + ICONS_TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + FRAMEWORK_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + LACALE_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + FRAMEWORK_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + PLATFORM_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + APP_TABLE);
     }
 

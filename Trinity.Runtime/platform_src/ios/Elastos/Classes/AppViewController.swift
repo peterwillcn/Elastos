@@ -40,12 +40,12 @@
         "appservice",
         "authorityplugin",
     ];
-
-    func setInfo(_ id: String, _ appInfo: AppInfo) {
-        self.id = id;
+    
+    convenience init(_ appInfo: AppInfo, _ filter: WhitelistFilter) {
+        self.init();
         self.appInfo = appInfo;
-        self.whitelistFilter = WhitelistFilter();
-        self.whitelistFilter?.setList(appInfo);
+        self.id = appInfo.app_id;
+        self.whitelistFilter = filter;
     }
 
     override func loadSettings() {
@@ -59,7 +59,7 @@
                 self.pluginsMap[name] = className;
             }
         }
-        self.pluginsMap["authorityplugin"] = "AuthorityPlugin";
+//        self.pluginsMap["authorityplugin"] = "AuthorityPlugin";
 
         self.startupPluginNames = NSMutableArray(capacity: 30);
         for name in AppViewController.originalStartupPluginNames {
@@ -72,6 +72,9 @@
 
         // Initialize the plugin objects dict.
         self.pluginObjects = NSMutableDictionary(capacity: 30);
+        self.pluginObjects["WhitelistFiter"] = self.whitelistFilter;
+        
+//        self.settings["cordovawebviewengine"] = "CDVUIWebViewEngine";
     }
 
     override func filterPlugin(_ pluginName: String, _ className: String) -> NullPlugin? {
@@ -146,6 +149,10 @@
     func getPluginAuthority(_ pluginName: String,
                                   _ plugin: CDVPlugin,
                                   _ command: CDVInvokedUrlCommand) -> Int {
+        if (self.defaultPlugins.contains(pluginName)) {
+            return AppInfo.AUTHORITY_ALLOW;
+        }
+        
         let authority = AppManager.getShareInstance().getPluginAuthority(appInfo!.app_id, pluginName);
         if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
             AppManager.getShareInstance().runAlertPluginAuth(appInfo!, pluginName, plugin, command);

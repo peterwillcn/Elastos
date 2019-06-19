@@ -519,11 +519,31 @@ public class AppInstaller {
         }
 
         if (json.has("framework")) {
-            JSONArray array = json.getJSONArray("framework");
+            JSONArray array = json.getJSONArray("framework");r
             for (int i = 0; i < array.length(); i++) {
                 String framework = array.getString(i);
                 String[] element = framework.split("@");
-                appInfo.addFramework(element[0], element[1]);
+
+                if (element.length == 1) {
+                    appInfo.addFramework(element[0], null);
+                }
+                else if (element.length > 1) {
+                    appInfo.addFramework(element[0], element[1]);
+                }
+            }
+        }
+
+        if (json.has("platform")) {
+            JSONArray array = json.getJSONArray("platform");
+            for (int i = 0; i < array.length(); i++) {
+                String platform = array.getString(i);
+                String[] element = platform.split("@");
+                if (element.length == 1) {
+                    appInfo.addPlatform(element[0], null);
+                }
+                else if (element.length > 1) {
+                    appInfo.addPlatform(element[0], element[1]);
+                }
             }
         }
 

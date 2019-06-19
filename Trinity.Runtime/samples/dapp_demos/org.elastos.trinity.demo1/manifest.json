@@ -4,7 +4,7 @@
   "name": "Demo1",
   "short_name": "demo1",
   "description": "My sample app1",
-  "start_url": "demo1.html",
+  "start_url": "index.html",
   "icons": [
     {
         "src": "img/avatar01.png",

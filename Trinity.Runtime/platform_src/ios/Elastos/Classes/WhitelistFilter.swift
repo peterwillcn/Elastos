@@ -19,71 +19,76 @@
   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   * SOFTWARE.
   */
- 
+
  import Foundation
- 
+
  @objc class WhitelistFilter: CDVIntentAndNavigationFilter {
     var appInfo: AppInfo?;
     var appManager: AppManager;
-    
+    var appWiteList: AppWhitelist?;
+
     override init() {
         self.appManager = AppManager.getShareInstance();
-        super.init();
     }
-    
+
+    convenience init(_ appInfo: AppInfo) {
+        self.init();
+        self.setList(appInfo);
+    }
+
     func setList(_ info: AppInfo) {
         self.appInfo = info;
-        
+
         let appPath = self.appManager.getAppUrl(info) + "*";
         let dataPath = self.appManager.getDataUrl(info.app_id) + "*";
         let wwwPath = "file://" + getAbsolutePath("www");
         let pluginsPath = wwwPath + "/plugins/*";
         let cordovaPath = wwwPath + "/cordova*";
-        
+
         var allowNavigations = [String]();
         allowNavigations.append(appPath);
         allowNavigations.append(dataPath);
         allowNavigations.append(pluginsPath);
         allowNavigations.append(cordovaPath);
-        allowNavigations.append("trinity:///assets/*");
+        allowNavigations.append("trinity:///asset/*");
         allowNavigations.append("trinity:///data/*");
-        
-        for urlAuth in info.urls {
-            allowNavigations.append(urlAuth.url);
-        }
-        
-        let whitelist = AppWhitelist(array: allowNavigations);
-        whitelist?.setInfo(info);
-        
+
+        allowNavigations.append("ionic://*");
+        let whitelist = CDVWhitelist(array: allowNavigations)
+
         self.allowNavigationsWhitelist = whitelist
-        self.allowIntentsWhitelist = CDVWhitelist()
+        self.allowIntentsWhitelist = whitelist
+
+        var allowUrls = [String]();
+        for urlAuth in info.urls {
+            allowUrls.append(urlAuth.url);
+        }
+        self.appWiteList = AppWhitelist(array: allowUrls);
+        self.appWiteList!.setInfo(info);
     }
-    
+
     func setFilter(_ filter: CDVIntentAndNavigationFilter) {
         self.allowIntentsWhitelist = filter.allowIntentsWhitelist;
         self.allowNavigationsWhitelist = filter.allowNavigationsWhitelist;
     }
-    
+
     @objc func shouldAllowNavigation(_ url: String) -> Bool {
         let str = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
-        let urlv = URL(string: str!)
-        let value = CDVIntentAndNavigationFilter.filterUrl(urlv, intentsWhitelist: self.allowIntentsWhitelist,
-                navigationsWhitelist: self.allowNavigationsWhitelist)
-        if value == CDVIntentAndNavigationFilterValue.navigationAllowed {
-            return true;
+        let urlStr = URL(string: str!)
+        var ret = self.allowNavigationsWhitelist.urlisAllowed(urlStr);
+        if (!ret) {
+            ret = self.appWiteList!.urlisAllowed(urlStr);
         }
-        else {
-            return false;
-        }
+        return ret;
     }
-    
-    @objc func getPluginAuthority(_ pluginName: String,
-                    trinityPlugin plugin: TrinityPlugin,
-                    invokedUrlCommand command: CDVInvokedUrlCommand) -> Int {
-        let authority = self.appManager.getPluginAuthority(appInfo!.app_id, pluginName);
-        if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
-            self.appManager.runAlertPluginAuth(appInfo!, pluginName, plugin, command);
-        }
-        return authority;
+
+    @objc func shouldOverrideLoad(request:URLRequest, navigationType:UIWebView.NavigationType )  -> Bool {
+        return self.shouldAllowNavigation(request.url!.absoluteString);
+//        return CDVIntentAndNavigationFilter.shouldOverrideLoad(with: request, navigationType: navigationType, filterValue: self.filterUrl(request.url!));
     }
+
+    @objc func filterUrl(_ url:URL) -> CDVIntentAndNavigationFilterValue {
+        return CDVIntentAndNavigationFilter.filterUrl(url, intentsWhitelist:self.allowIntentsWhitelist, navigationsWhitelist:self.allowNavigationsWhitelist);
+    }
+
  }

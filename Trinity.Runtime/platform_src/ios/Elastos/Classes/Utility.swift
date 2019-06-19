@@ -19,9 +19,10 @@
   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   * SOFTWARE.
   */
- 
+
 import Foundation
- 
+import WebKit
+
 func resetPath(_ dir: String, _ origin: String) -> String {
     var ret = origin;
     if (!ret.hasPrefix("http://") && !ret.hasPrefix("https://")
@@ -45,19 +46,19 @@ func getAbsolutePath(_ path: String, _ type: String? = nil) -> String {
     return path;
 }
 
-func getAssetsPath(_ url: String) -> String {
-    let index = url.index(url.startIndex, offsetBy: 9)
+func getAssetPath(_ url: String) -> String {
+    let index = url.index(url.startIndex, offsetBy: 8)
     let substr = url[index ..< url.endIndex];
     return getAbsolutePath(String(substr));
 }
- 
+
  func getTrinityPath(_ url: String, _ mainUrl: String) -> String {
     let appManager = AppManager.getShareInstance();
     for (id, view) in appManager.viewControllers {
         if (view.startPage == mainUrl) {
             var offset = 0;
             var path = "";
-            if url.hasPrefix("trinity:///assets/") {
+            if url.hasPrefix("trinity:///asset/") {
                 offset = 18;
                 path = appManager.getAppPath(view.appInfo!);
             }
@@ -76,12 +77,52 @@ func getAssetsPath(_ url: String) -> String {
             let substr = url[index ..< url.endIndex];
             return  path + substr;
         }
-        
+
     }
     return "";
  }
  
+ func handleUrlSchemeTask(_ path: String, _ urlSchemeTask: WKURLSchemeTask) {
+    if path.range(of: "://") != nil {
+        let request = URLRequest(url: NSURL(string: path)! as URL);
+        let session: URLSession = URLSession(configuration: URLSessionConfiguration.default);
+        let task = session.dataTask(with: request, completionHandler: {[weak urlSchemeTask] (data, response, error) in
+            guard let urlSchemeTask = urlSchemeTask else {
+                return
+            }
+            
+            if let error = error {
+                urlSchemeTask.didFailWithError(error)
+            } else {
+                if let response = response {
+                    urlSchemeTask.didReceive(response)
+                }
+                
+                if let data = data {
+                    urlSchemeTask.didReceive(data)
+                }
+                urlSchemeTask.didFinish()
+            }
+        })
+        task.resume();
+    }
+    else if path.hasPrefix("/") {
+        do {
+            let fileUrl = URL.init(fileURLWithPath: path)
+            
+            let data = try Data(contentsOf: fileUrl);
+            let response = URLResponse(url: urlSchemeTask.request.url!, mimeType: "text/plain", expectedContentLength: data.count, textEncodingName: nil)
+            urlSchemeTask.didReceive(response);
+            urlSchemeTask.didReceive(data)
+            urlSchemeTask.didFinish();
+        }
+        catch let error {
+            print("HandleUrlSchemeTask: \(error)");
+        }
+    }
+ }
+
  enum AppError: Error {
     case error(String)
  }
- 
+

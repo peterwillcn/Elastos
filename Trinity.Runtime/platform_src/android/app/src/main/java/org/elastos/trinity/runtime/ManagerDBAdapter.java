@@ -96,14 +96,6 @@ public class ManagerDBAdapter {
                 db.insert(ManagerDBHelper.AUTH_URL_TABLE, null, contentValues);
             }
 
-            for (AppInfo.Framework framework : info.frameworks) {
-                contentValues = new ContentValues();
-                contentValues.put(AppInfo.APP_TID, tid);
-                contentValues.put(AppInfo.NAME, framework.name);
-                contentValues.put(AppInfo.VERSION, framework.version);
-                db.insert(ManagerDBHelper.FRAMEWORK_TABLE, null, contentValues);
-            }
-
             for (AppInfo.Locale locale : info.locales) {
                 contentValues = new ContentValues();
                 contentValues.put(AppInfo.APP_TID, tid);
@@ -113,6 +105,23 @@ public class ManagerDBAdapter {
                 contentValues.put(AppInfo.DESCRIPTION, locale.description);
                 contentValues.put(AppInfo.AUTHOR_NAME, locale.author_name);
                 db.insert(ManagerDBHelper.LACALE_TABLE, null, contentValues);
+            }
+
+            for (AppInfo.Framework framework : info.frameworks) {
+                contentValues = new ContentValues();
+                contentValues.put(AppInfo.APP_TID, tid);
+                contentValues.put(AppInfo.NAME, framework.name);
+                contentValues.put(AppInfo.VERSION, framework.version);
+                db.insert(ManagerDBHelper.FRAMEWORK_TABLE, null, contentValues);
+            }
+
+
+            for (AppInfo.Platform platform : info.platforms) {
+                contentValues = new ContentValues();
+                contentValues.put(AppInfo.APP_TID, tid);
+                contentValues.put(AppInfo.NAME, platform.name);
+                contentValues.put(AppInfo.VERSION, platform.version);
+                db.insert(ManagerDBHelper.PLATFORM_TABLE, null, contentValues);
             }
 
             return true;
@@ -178,21 +187,27 @@ public class ManagerDBAdapter {
                 info.addUrl(cursor1.getString(cursor1.getColumnIndex(AppInfo.URL)), cursor1.getInt(cursor1.getColumnIndex(AppInfo.AUTHORITY)));
             }
 
-            String[] columns4 = {AppInfo.NAME, AppInfo.VERSION};
-            cursor1 = db.query(ManagerDBHelper.FRAMEWORK_TABLE, columns4,AppInfo.APP_TID + "=?", args1,null,null,null);
-            while (cursor1.moveToNext()) {
-                info.addFramework(cursor1.getString(cursor1.getColumnIndex(AppInfo.NAME)),
-                        cursor1.getString(cursor1.getColumnIndex(AppInfo.VERSION)));
-            }
-
-            String[] columns5 = {AppInfo.LANGUAGE, AppInfo.NAME, AppInfo.SHORT_NAME, AppInfo.DESCRIPTION, AppInfo.AUTHOR_NAME};
-            cursor1 = db.query(ManagerDBHelper.LACALE_TABLE, columns5,AppInfo.APP_TID + "=?", args1,null,null,null);
+            String[] columns4 = {AppInfo.LANGUAGE, AppInfo.NAME, AppInfo.SHORT_NAME, AppInfo.DESCRIPTION, AppInfo.AUTHOR_NAME};
+            cursor1 = db.query(ManagerDBHelper.LACALE_TABLE, columns4,AppInfo.APP_TID + "=?", args1,null,null,null);
             while (cursor1.moveToNext()) {
                 info.addLocale(cursor1.getString(cursor1.getColumnIndex(AppInfo.LANGUAGE)),
                         cursor1.getString(cursor1.getColumnIndex(AppInfo.NAME)),
                         cursor1.getString(cursor1.getColumnIndex(AppInfo.SHORT_NAME)),
                         cursor1.getString(cursor1.getColumnIndex(AppInfo.DESCRIPTION)),
                         cursor1.getString(cursor1.getColumnIndex(AppInfo.AUTHOR_NAME)));
+            }
+
+            String[] columns5 = {AppInfo.NAME, AppInfo.VERSION};
+            cursor1 = db.query(ManagerDBHelper.FRAMEWORK_TABLE, columns5,AppInfo.APP_TID + "=?", args1,null,null,null);
+            while (cursor1.moveToNext()) {
+                info.addFramework(cursor1.getString(cursor1.getColumnIndex(AppInfo.NAME)),
+                        cursor1.getString(cursor1.getColumnIndex(AppInfo.VERSION)));
+            }
+
+            cursor1 = db.query(ManagerDBHelper.PLATFORM_TABLE, columns5,AppInfo.APP_TID + "=?", args1,null,null,null);
+            while (cursor1.moveToNext()) {
+                info.addFramework(cursor1.getString(cursor1.getColumnIndex(AppInfo.NAME)),
+                        cursor1.getString(cursor1.getColumnIndex(AppInfo.VERSION)));
             }
         }
         return infos;
@@ -254,8 +269,9 @@ public class ManagerDBAdapter {
         int count = db.delete(ManagerDBHelper.AUTH_URL_TABLE, where, whereArgs);
         count = db.delete(ManagerDBHelper.AUTH_PLUGIN_TABLE, where, whereArgs);
         db.delete(ManagerDBHelper.ICONS_TABLE, where, whereArgs);
-        db.delete(ManagerDBHelper.FRAMEWORK_TABLE, where, whereArgs);
         db.delete(ManagerDBHelper.LACALE_TABLE, where, whereArgs);
+        db.delete(ManagerDBHelper.FRAMEWORK_TABLE, where, whereArgs);
+        db.delete(ManagerDBHelper.PLATFORM_TABLE, where, whereArgs);
         where = AppInfo.TID + "=?";
         count = db.delete(ManagerDBHelper.APP_TABLE, where, whereArgs);
         return count;

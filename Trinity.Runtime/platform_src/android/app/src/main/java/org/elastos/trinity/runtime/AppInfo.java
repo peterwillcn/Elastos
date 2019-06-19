@@ -149,12 +149,23 @@
              this.version = version;
          }
      }
+     public class Platform {
+         public String name;
+         public String version;
 
+         Platform(String name, String version) {
+             this.name = name;
+             this.version = version;
+         }
+     }
+
+     public ArrayList<Locale> locales = new ArrayList<Locale>(4);
      public ArrayList<Icon> icons = new ArrayList<Icon>(4);
      public ArrayList<PluginAuth> plugins = new ArrayList<PluginAuth>(4);
      public ArrayList<UrlAuth> urls = new ArrayList<UrlAuth>(4);
-     public ArrayList<Framework> frameworks = new ArrayList<Framework>(4);
-     public ArrayList<Locale> locales = new ArrayList<Locale>(4);
+     public ArrayList<Framework> frameworks = new ArrayList<Framework>(2);
+     public ArrayList<Platform> platforms = new ArrayList<Platform>(2);
+
 
      public void addIcon(String src, String sizes, String type) {
          icons.add(new Icon(src, sizes, type));
@@ -168,16 +179,29 @@
          urls.add(new UrlAuth(url, authority));
      }
 
-     public void addFramework(String name, String version) {
-         frameworks.add(new Framework(name, version));
-     }
-
      public void addLocale(String language, String name, String short_name, String description, String author_name) {
          locales.add(new Locale(language, name, short_name, description, author_name));
      }
 
+     public void addFramework(String name, String version) {
+         frameworks.add(new Framework(name, version));
+     }
+
+     public void addPlatform(String name, String version) {
+         platforms.add(new Platform(name, version));
+     }
+
      public Framework getFramework(String name) {
          for (Framework item: frameworks) {
+             if (item.name.equals(name)) {
+                 return item;
+             }
+         }
+         return null;
+     }
+
+     public Platform getPlatform(String name) {
+         for (Platform item: platforms) {
              if (item.name.equals(name)) {
                  return item;
              }

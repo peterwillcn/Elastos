@@ -40,8 +40,7 @@
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-
+    
     private func setTrinityPluginInfo(_ plugin:CDVPlugin!) {
         let trinityPlugin = plugin as? TrinityPlugin
         let isApp = self is AppViewController

@@ -106,9 +106,9 @@ public class AppBasePlugin extends CordovaPlugin {
         return jsons;
     }
 
-    private JSONObject jsonAppLocales(ArrayList<AppInfo.Locale> locales) throws JSONException {
+    private JSONObject jsonAppLocales(AppInfo info) throws JSONException {
         JSONObject ret = new JSONObject();
-        for (AppInfo.Locale locale : locales) {
+        for (AppInfo.Locale locale : info.locales) {
             JSONObject language = new JSONObject();
             language.put("name", locale.name);
             language.put("shortName", locale.short_name);
@@ -117,6 +117,30 @@ public class AppBasePlugin extends CordovaPlugin {
             ret.put(locale.language, language);
         }
         return ret;
+    }
+
+    protected JSONArray jsonAppFramworks(AppInfo info) throws JSONException {
+        JSONArray jsons = new JSONArray();
+
+        for (AppInfo.Framework framework : info.frameworks) {
+            JSONObject ret = new JSONObject();
+            ret.put("name", framework.name);
+            ret.put("version", framework.version);
+            jsons.put(ret);
+        }
+        return jsons;
+    }
+
+    protected JSONArray jsonAppPlatforms(AppInfo info) throws JSONException {
+        JSONArray jsons = new JSONArray();
+
+        for (AppInfo.Platform platform : info.platforms) {
+            JSONObject ret = new JSONObject();
+            ret.put("name", platform.name);
+            ret.put("version", platform.version);
+            jsons.put(ret);
+        }
+        return jsons;
     }
 
     protected JSONObject jsonAppInfo(AppInfo info) throws JSONException {
@@ -145,7 +169,9 @@ public class AppBasePlugin extends CordovaPlugin {
         ret.put("remote", info.remote);
         ret.put("appPath", appUrl);
         ret.put("dataPath", dataUrl);
-        ret.put("locales", jsonAppLocales(info.locales));
+        ret.put("locales", jsonAppLocales(info));
+        ret.put("frameworks", jsonAppFramworks(info));
+        ret.put("platforms", jsonAppPlatforms(info));
         return ret;
     }
 

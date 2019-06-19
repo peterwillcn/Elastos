@@ -135,13 +135,45 @@
 
     func jsonAppIcons(_ info: AppInfo) -> [Dictionary<String, String>] {
         var ret = [Dictionary<String, String>]()
-        let appUrl = AppManager.getShareInstance().getAppUrl(info);
         for icon in info.icons {
-            ret.append(["src": resetPath(appUrl, icon.src),
+            ret.append(["src": icon.src,
                         "sizes": icon.sizes,
                         "type": icon.type])
         }
 
+        return ret;
+    }
+    
+    func jsonAppLocales(_ info: AppInfo) -> [Dictionary<String, Any>] {
+        var ret = [Dictionary<String, Any>]()
+        for locale in info.locales {
+            let language = ["name": locale.name,
+                             "shortName": locale.short_name,
+                             "description": locale.desc,
+                             "authorName": locale.author_name] as [String : String];
+            ret.append([locale.language: language]);
+        }
+
+        return ret;
+    }
+    
+    func jsonAppFrameworks(_ info: AppInfo) -> [Dictionary<String, String>] {
+        var ret = [Dictionary<String, String>]()
+        for framework in info.frameworks {
+            ret.append(["name": framework.name,
+                        "version": framework.version])
+        }
+        
+        return ret;
+    }
+    
+    func jsonAppPlatforms(_ info: AppInfo) -> [Dictionary<String, String>] {
+        var ret = [Dictionary<String, String>]()
+        for platform in info.platforms {
+            ret.append(["name": platform.name,
+                        "version": platform.version])
+        }
+        
         return ret;
     }
     
@@ -170,6 +202,9 @@
             "builtIn": info.built_in,
             "appPath": appUrl,
             "dataPath": dataUrl,
+            "locales": jsonAppLocales(info),
+            "frameworks": jsonAppFrameworks(info),
+            "platforms": jsonAppPlatforms(info),
             ] as [String : Any]
     }
     

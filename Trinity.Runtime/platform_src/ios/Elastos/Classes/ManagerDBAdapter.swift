@@ -29,7 +29,10 @@ import SQLite
     @objc static let VERSION = 1;
     @objc static let AUTH_PLUGIN_TABLE = "auth_plugin";
     @objc static let AUTH_URL_TABLE = "auth_url";
-    @objc static let AUTH_ICONS_TABLE = "icons";
+    @objc static let ICONS_TABLE = "icons";
+    @objc static let LOCALE_TABLE = "locale";
+    @objc static let FRAMEWORK_TABLE = "framework";
+    @objc static let PLATFORM_TABLE = "platform";
     @objc static let APP_TABLE = "app";
     
     let db: Connection;
@@ -63,9 +66,14 @@ import SQLite
     let sizes = Expression<String>(AppInfo.SIZES)
     let type = Expression<String>(AppInfo.TYPE)
     
+    let language = Expression<String>(AppInfo.LANGUAGE)
+    
     let plugins = Table(ManagerDBAdapter.AUTH_PLUGIN_TABLE)
     let urls = Table(ManagerDBAdapter.AUTH_URL_TABLE)
-    let icons = Table(ManagerDBAdapter.AUTH_ICONS_TABLE)
+    let icons = Table(ManagerDBAdapter.ICONS_TABLE)
+    let locales = Table(ManagerDBAdapter.LOCALE_TABLE)
+    let frameworks = Table(ManagerDBAdapter.FRAMEWORK_TABLE)
+    let platforms = Table(ManagerDBAdapter.PLATFORM_TABLE)
     let apps = Table(ManagerDBAdapter.APP_TABLE)
     
     init(_ dataPath: String) {
@@ -97,6 +105,30 @@ import SQLite
             t.column(type)
         })
         
+        try db.run(locales.create(ifNotExists: true) { t in
+            t.column(tid, primaryKey: .autoincrement)
+            t.column(app_tid)
+            t.column(language)
+            t.column(name)
+            t.column(short_name)
+            t.column(description)
+            t.column(author_name)
+        })
+        
+        try db.run(frameworks.create(ifNotExists: true) { t in
+            t.column(tid, primaryKey: .autoincrement)
+            t.column(app_tid)
+            t.column(name)
+            t.column(version)
+        })
+        
+        try db.run(platforms.create(ifNotExists: true) { t in
+            t.column(tid, primaryKey: .autoincrement)
+            t.column(app_tid)
+            t.column(name)
+            t.column(version)
+        })
+        
         try db.run(apps.create(ifNotExists: true) { t in
             t.column(tid, primaryKey: .autoincrement)
             t.column(app_id, unique: true)
@@ -124,6 +156,9 @@ import SQLite
         try db.run(plugins.drop());
         try db.run(urls.drop());
         try db.run(icons.drop());
+        try db.run(locales.drop());
+        try db.run(frameworks.drop());
+        try db.run(platforms.drop());
         try db.run(apps.drop());
     }
     
@@ -169,6 +204,27 @@ import SQLite
                         url <- urlAuth.url,
                         authority <- urlAuth.authority));
             }
+            
+            for locale in info.locales {
+                try db.run(locales.insert(app_tid <- info.tid,
+                                       language <- locale.language,
+                                       name <- locale.name,
+                                       short_name <- locale.short_name,
+                                       description <- locale.desc,
+                                       author_name <- locale.author_name));
+            }
+            
+            for framework in info.frameworks {
+                try db.run(frameworks.insert(app_tid <- info.tid,
+                                        name <- framework.name,
+                                        version <- framework.version));
+            }
+            
+            for platform in info.platforms {
+                try db.run(platforms.insert(app_tid <- info.tid,
+                                        name <- platform.name,
+                                        version <- platform.version));
+            }
         }
     }
     
@@ -207,6 +263,18 @@ import SQLite
             
             for urlAuth in try db.prepare(urls.select(*).filter(app_tid == info.tid)) {
                 info.addUrl(urlAuth[url], urlAuth[authority]);
+            }
+            
+            for locale in try db.prepare(locales.select(*).filter(app_tid == info.tid)) {
+                info.addLocale(locale[language], locale[name], app[short_name] ?? "", locale[description] ?? "", locale[author_name] ?? "");
+            }
+            
+            for framework in try db.prepare(frameworks.select(*).filter(app_tid == info.tid)) {
+                info.addFramework(framework[name], framework[version]);
+            }
+            
+            for platform in try db.prepare(platforms.select(*).filter(app_tid == info.tid)) {
+                info.addPlatform(platform[name], platform[version]);
             }
             
             infos.append(info);
@@ -263,6 +331,12 @@ import SQLite
         items = urls.filter(app_tid == info.tid);
         try db.run(items.delete());
         items = icons.filter(app_tid == info.tid);
+        try db.run(items.delete());
+        items = locales.filter(app_tid == info.tid);
+        try db.run(items.delete());
+        items = frameworks.filter(app_tid == info.tid);
+        try db.run(items.delete());
+        items = platforms.filter(app_tid == info.tid);
         try db.run(items.delete());
         items = apps.filter(tid == info.tid);
         try db.run(items.delete());

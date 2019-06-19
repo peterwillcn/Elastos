@@ -355,6 +355,11 @@ public class AppManager {
         if (curFragment == null) {
             curFragment = fragment;
         }
+
+        runningList.remove(id);
+        runningList.add(0, id);
+        lastList.remove(id);
+        lastList.add(0, id);
     }
 
     public boolean doBackPressed() {
@@ -381,15 +386,19 @@ public class AppManager {
                 fragment = AppViewFragment.newInstance(id);
                 sendRefreshList("started", id);
             }
+
+            lastList.add(0, id);
+            runningList.add(0, id);
         }
-        else if (!id.equals("launcher")) {
-            runningList.remove(id);
-            lastList.remove(id);
+        else {
+            if (curFragment != fragment) {
+                switchContent(fragment, id);
+            }
+
 //            fragment.onResume();
         }
         switchContent(fragment, id);
-        lastList.add(0, id);
-        runningList.add(0, id);
+
     }
 
     public void close(String id) throws Exception {
@@ -424,7 +433,7 @@ public class AppManager {
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.remove(fragment);
         transaction.commit();
-        lastList.remove(id);
+//        lastList.remove(id);
         runningList.remove(id);
 
         sendRefreshList("closed", id);
@@ -519,11 +528,14 @@ public class AppManager {
             throw new Exception("No such app!");
         }
 
-        dbAdapter.updatePluginAuth(info.tid, plugin, authority);
-        sendRefreshList("authorityChanged", id);
+
         for (AppInfo.PluginAuth pluginAuth : info.plugins) {
             if (pluginAuth.plugin.equals(plugin)) {
-                pluginAuth.authority = authority;
+                int count = dbAdapter.updatePluginAuth(info.tid, plugin, authority);
+                if (count > 0) {
+                    pluginAuth.authority = authority;
+                    sendRefreshList("authorityChanged", id);
+                }
                 return;
             }
         }
@@ -536,14 +548,14 @@ public class AppManager {
             throw new Exception("No such app!");
         }
 
-        int count = dbAdapter.updateURLAuth(info.tid, url, authority);
-        sendRefreshList("authorityChanged", id);
-        if (count > 0) {
-            for (AppInfo.UrlAuth urlAuth : info.urls) {
-                if (urlAuth.url.equals(url)) {
+        for (AppInfo.UrlAuth urlAuth : info.urls) {
+            if (urlAuth.url.equals(url)) {
+                int count = dbAdapter.updateURLAuth(info.tid, url, authority);
+                if (count > 0) {
                     urlAuth.authority = authority;
-                    return ;
+                    sendRefreshList("authorityChanged", id);
                 }
+                return ;
             }
         }
         throw new Exception("The plugin isn't in list!");

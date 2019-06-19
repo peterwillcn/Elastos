@@ -45,6 +45,7 @@ class AppInfo: NSObject {
     @objc static let BUILT_IN = "built_in";
     @objc static let REMOTE = "remote";
     @objc static let LAUNCHER = "launcher";
+    @objc static let LANGUAGE = "language";
     
     @objc static let SRC = "src";
     @objc static let SIZES = "sizes";
@@ -80,10 +81,17 @@ class AppInfo: NSObject {
     @objc static let AUTHORITY_ALLOW = 2;
     @objc static let AUTHORITY_DENY = 3;
 
+    @objc var locales = [Locale]();
     @objc var icons = [Icon]();
     @objc var plugins = [PluginAuth]();
     @objc var urls = [UrlAuth]();
+    @objc var frameworks = [Framework]();
+    @objc var platforms = [Platform]();
 
+    @objc func addLocale(_ language: String, _ name: String, _ short_name: String, _ desc: String, _ author_name: String) {
+        locales.append(Locale(language, name, short_name, desc, author_name));
+    }
+    
     @objc func addIcon(_ src: String, _ sizes: String, _ type: String) {
         icons.append(Icon(src, sizes, type));
     }
@@ -94,6 +102,40 @@ class AppInfo: NSObject {
 
     @objc func addUrl(_ url: String, _ authority: Int) {
         urls.append(UrlAuth(url, authority));
+    }
+    
+    @objc func addFramework(_ name: String, _ version: String) {
+        frameworks.append(Framework(name, version));
+    }
+    
+    @objc func addPlatform(_ name: String, _ version: String) {
+        platforms.append(Platform(name, version));
+    }
+    
+    @objc func getFramework(_ name: String) -> Framework? {
+        for item in frameworks {
+            if (item.name == name) {
+                return item;
+            }
+        }
+        return nil;
+    }
+ }
+ 
+ @objc(Locale)
+ class Locale: NSObject {
+    @objc dynamic var language = "";
+    @objc dynamic var name = "";
+    @objc dynamic var short_name = "";
+    @objc dynamic var desc = "";
+    @objc dynamic var author_name = "";
+    
+    init(_ language: String, _ name: String, _ short_name: String, _ desc: String, _ author_name: String) {
+        self.language = language;
+        self.name = name;
+        self.short_name = short_name;
+        self.desc = desc;
+        self.author_name = author_name;
     }
  }
 
@@ -129,5 +171,27 @@ class AppInfo: NSObject {
     init(_ url: String, _ authority: Int) {
         self.url = url;
         self.authority = authority;
+    }
+ }
+ 
+ @objc(Framework)
+ class Framework: NSObject {
+    @objc dynamic var name = "";
+    @objc dynamic var version = "";
+    
+    init(_ name: String, _ version: String) {
+        self.name = name;
+        self.version = version;
+    }
+ }
+ 
+ @objc(Platform)
+ class Platform: NSObject {
+    @objc dynamic var name = "";
+    @objc dynamic var version = "";
+    
+    init(_ name: String, _ version: String) {
+        self.name = name;
+        self.version = version;
     }
  }

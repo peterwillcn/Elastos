@@ -22,6 +22,7 @@
  
  import Foundation
  
+ @objc(LauncherViewController)
  class LauncherViewController : TrinityViewController {
     
     override func loadSettings() {
@@ -67,5 +68,9 @@
             }
         }
         
+    }
+    
+    @objc func getManagerPlugin() -> AppManagerPlugin {
+        return self.basePlugin as! AppManagerPlugin;
     }
  }

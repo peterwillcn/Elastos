@@ -519,7 +519,7 @@ public class AppInstaller {
         }
 
         if (json.has("framework")) {
-            JSONArray array = json.getJSONArray("framework");r
+            JSONArray array = json.getJSONArray("framework");
             for (int i = 0; i < array.length(); i++) {
                 String framework = array.getString(i);
                 String[] element = framework.split("@");

@@ -15,6 +15,26 @@
 
 using namespace Elastos::ElaWallet;
 
+void ela_init_verifier() {
+#if defined(__ANDROID__)
+    auto console_sink = std::make_shared<spdlog::sinks::android_sink>("spvsdk");
+#else
+    auto console_sink = std::make_shared<spdlog::sinks::ansicolor_stdout_sink_mt>();
+#endif
+    console_sink->set_level(spdlog::level::trace);
+
+    std::vector<spdlog::sink_ptr> sinks = {console_sink};
+
+    auto logger = std::make_shared<spdlog::logger>(SPV_DEFAULT_LOG, sinks.begin(), sinks.end());
+    spdlog::register_logger(logger);
+
+#if defined(__ANDROID__)
+    spdlog::get(SPV_DEFAULT_LOG)->set_pattern("%v");
+#else
+    spdlog::get(SPV_DEFAULT_LOG)->set_pattern("%m-%d %T.%e %P %t %^%L%$ %n %v");
+#endif
+}
+
 const char* ela_sign_message(const char* message, const char* keystore, const char* password) {
     int success;
 

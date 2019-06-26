@@ -11,6 +11,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HMWtheSuperNodeElectionViewController : UIViewController
+/*
+ *
+ */
+@property(copy,nonatomic)NSString *typeString;
 
 @end
 

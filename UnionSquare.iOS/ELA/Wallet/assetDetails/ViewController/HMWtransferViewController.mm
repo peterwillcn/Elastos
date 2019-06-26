@@ -45,7 +45,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
       [self defultWhite];
-    [self setBackgroundImg:@"asset_bg"];
+    [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"转账", nil);
     self.isVoteBlanceTextLabel.text=NSLocalizedString(@"是否使用投票utxo", nil);
     

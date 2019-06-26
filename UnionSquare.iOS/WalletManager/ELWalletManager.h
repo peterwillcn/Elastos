@@ -43,7 +43,7 @@ typedef Elastos::ElaWallet::ISubWalletCallback ISubWalletCallback;
 typedef Elastos::ElaWallet::ISidechainSubWallet ISidechainSubWallet;
 typedef Elastos::ElaWallet::IMainchainSubWallet IMainchainSubWallet;
 typedef std::vector<ISubWalletCallback *> ISubWalletCallbackVector;
-typedef Elastos::ElaWallet::IIdChainSubWallet IIdChainSubWallet;
+typedef Elastos::ElaWallet::IIDChainSubWallet IIdChainSubWallet;
 
 typedef Elastos::DID::IDIDManager IDidManager;
 typedef Elastos::DID::IDID IDID;
@@ -179,6 +179,10 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(PluginResult *)GetAssetDetails:(invokedUrlCommand *)command;
 -(void)EMWMSaveConfigs;
 -(NSString*)GetRegisteredProducerInfo:(NSString *)mainid;
+-(NSString *)GetOwnerAddressWithID:(NSString*)masterWalletID;
+-(PluginResult *)GetAllCoinBaseTransaction:(invokedUrlCommand *)command;
+-(PluginResult *)CreateCombineUTXOTransaction:(invokedUrlCommand *)command;
+-(PluginResult *)GetAllUTXOs:(invokedUrlCommand *)command;
 @end
 
 

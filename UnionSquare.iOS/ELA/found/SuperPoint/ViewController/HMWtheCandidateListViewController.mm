@@ -14,6 +14,7 @@
 #import "HMWpwdPopupView.h"
 #import "HMWSendSuccessPopuView.h"
 #import "HMWToDeleteTheWalletPopView.h"
+#import "HMWFMDBManager.h"
 static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 @interface HMWtheCandidateListViewController ()<UITableViewDelegate,UITableViewDataSource,HMWpwdPopupViewDelegate,VotesPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate>
 @property(strong,nonatomic)HMWSendSuccessPopuView *sendSuccessPopuV;//交易成功 提示;
@@ -51,7 +52,7 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-    [self setBackgroundImg:@"tab_bg"];
+    [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"我的候选列表", nil);
     self.TagtatolVoteLab.text=NSLocalizedString(@"全网投票比例：", nil);
     [self.immediatelyToVoteButton setTitle:NSLocalizedString(@"立即投票", nil) forState:UIControlStateNormal];
@@ -104,7 +105,9 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 }
 
 -(void)getDBRecored{
-    self.dataSource  = [[NSMutableArray alloc]initWithArray: [[FLNotePointDBManager defult]allRecord]];
+    NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+    FMDBWalletModel *model =walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
+    self.dataSource  = [[NSMutableArray alloc]initWithArray: [[FLNotePointDBManager defultWithWalletID:model.walletID]allRecord]];
     [self.baseTableView reloadData];
 }
 - (IBAction)actAction:(UIButton*)sender {
@@ -113,8 +116,9 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 
         for (int i= 0; i<self.voteArray.count; i++) {
             FLCoinPointInfoModel *model = self.voteArray[i];
-
-            [[FLNotePointDBManager defult]delectRecord:model];
+            NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+           FMDBWalletModel *FMDBmodel =walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
+            [[FLNotePointDBManager defultWithWalletID:FMDBmodel.walletID]delectRecord:model];
             [self.dataSource removeObject:model];
         }
         [self.voteArray removeAllObjects];

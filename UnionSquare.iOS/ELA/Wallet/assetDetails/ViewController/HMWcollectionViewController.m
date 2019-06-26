@@ -27,7 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
      [self defultWhite];
-  [self setBackgroundImg:@"asset_bg"];
+  [self setBackgroundImg:@""];
     
     
 

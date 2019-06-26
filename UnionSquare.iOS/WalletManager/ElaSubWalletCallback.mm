@@ -15,23 +15,17 @@ using namespace Elastos::ElaWallet;
 
 //@implementation ElaSubWalletCallback
 
-ElaSubWalletCallback::ElaSubWalletCallback(const std::string &callBackInfo)
-{
-    
-    //    NSString *string=@"";
+ElaSubWalletCallback::ElaSubWalletCallback(const std::string &callBackInfo){
     _callBackInfo=callBackInfo;
-    
-    //    wallID=[NSS]walletID;
 }
-
-ElaSubWalletCallback::~ElaSubWalletCallback()
-{
+ ElaSubWalletCallback::~ElaSubWalletCallback(){
     
 }
-void ElaSubWalletCallback:: OnTransactionStatusChanged( const std::string &txid,
-                                                       const std::string &status,
-                                                       const nlohmann::json &desc,
-                                                       uint32_t confirms){
+void ElaSubWalletCallback::OnTransactionStatusChanged(
+                                                      const std::string &txid,
+                                                      const std::string &status,
+                                                      const nlohmann::json &desc,
+                                                      uint32_t confirms){
 
     NSDictionary *dic=@{@"txid":[NSString stringWithUTF8String:txid.c_str()],
                         @"status":[NSString stringWithUTF8String:status.c_str()],
@@ -63,6 +57,16 @@ void ElaSubWalletCallback::OnBlockSyncStopped()
 {
     
 }
+void ElaSubWalletCallback::OnBalanceChanged(const std::string &asset, const std::string &balance){
+    NSString *walletIDString = [NSString stringWithCString:_callBackInfo.c_str() encoding:NSUTF8StringEncoding];
+    
+    
+    NSString *assetString = [NSString stringWithCString:asset.c_str() encoding:NSUTF8StringEncoding];
+    
+    NSDictionary *dic=@{@"asset":assetString,@"balance":[NSString stringWithCString:balance.c_str() encoding:NSUTF8StringEncoding],@"callBackInfo":walletIDString};
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:AccountBalanceChanges object:dic];
+}
 
 void ElaSubWalletCallback::OnTxPublished(const std::string &hash, const nlohmann::json &result)
 {
@@ -75,29 +79,10 @@ void ElaSubWalletCallback::OnTxPublished(const std::string &hash, const nlohmann
 
 }
 
-void ElaSubWalletCallback::OnTxDeleted(const std::string &hash, bool notifyUser, bool recommendRescan)
-{
-    
-    
-}
 /**
  * Callback method fired when block end synchronizing with a peer. This callback could be used to show progress.
  */
-
-void ElaSubWalletCallback:: OnBalanceChanged(const std::string &asset, uint64_t balance)
-{
-    
-    
-    NSString *walletIDString = [NSString stringWithCString:_callBackInfo.c_str() encoding:NSUTF8StringEncoding];
-    
-    
-       NSString *assetString = [NSString stringWithCString:asset.c_str() encoding:NSUTF8StringEncoding];
-    
-    NSDictionary *dic=@{@"asset":assetString,@"balance":@(balance),@"callBackInfo":walletIDString};
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:AccountBalanceChanges object:dic];
-    
-    
+void ElaSubWalletCallback::OnAssetRegistered(const std::string &asset, const nlohmann::json &info){
     
     
 }

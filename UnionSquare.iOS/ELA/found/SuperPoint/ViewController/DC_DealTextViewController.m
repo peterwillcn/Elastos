@@ -28,7 +28,7 @@
 //    [self setUpSubviews];
 //    self.view.backgroundColor = [UIColor whiteColor];
 //    self.title = @"协议";
-    [self setBackgroundImg:@"tab_bg"];
+    [self setBackgroundImg:@""];
 
     [self loadDataSource];
     // Do any additional setup after loading the view.

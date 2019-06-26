@@ -38,7 +38,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setBackgroundImg:@"asset_bg"];
+    [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"转账", nil);
     
     self.noteTextField.placeholder=NSLocalizedString(@"请输入备注", nil);
@@ -102,14 +102,7 @@
     self.theAmountOfTextField.text=[[FLTools share]elaScaleConversionWith:@(self.walletBalance).stringValue];
 }
 - (IBAction)theNextStepEvent:(id)sender {
-    //    String masterWalletID = [self cstringWithString:args[idx++]];
-    //    String chainID        = [self cstringWithString:args[idx++]];
-    //    String fromAddress = [self cstringWithString:args[idx++]];
-    //    String toAddress = [self cstringWithString:args[idx++]];
-    //    long amount = [args[idx++] boolValue];
-    //    String memo = [self cstringWithString:args[idx++]];
-    //    String remark = [self cstringWithString:args[idx++]];
-    //    String PWD = [self cstringWithString:args[idx++]];
+    
     if (self.transferTheAddressTextField.text.length==0) {
         return;
     }

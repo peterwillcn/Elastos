@@ -41,7 +41,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setBackgroundImg:@"wallet_bg"];
+    [self setBackgroundImg:@""];
         [self defultWhite];
     self.title =NSLocalizedString(@"验证助记词", nil);
     self.mnemonic=self.Wallet.mnemonic;

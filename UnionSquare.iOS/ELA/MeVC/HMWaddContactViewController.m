@@ -26,7 +26,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self defultWhite];
-    [self setBackgroundImg:@"setting_bg"];
+    [self setBackgroundImg:@""];
     self.nickNameTextField.placeholder=NSLocalizedString(@"请输入姓名（必填）", nil);
 //    self.title=@"钱包列表";
     

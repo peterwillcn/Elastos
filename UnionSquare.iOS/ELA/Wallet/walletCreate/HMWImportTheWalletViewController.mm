@@ -38,7 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-    [self setBackgroundImg:@"asset_bg"];
+    [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"导入钱包", nil);
     [self.view addSubview:self.imKeystoreV];
     self.imKeystoreV.alpha=0.f;
@@ -143,7 +143,7 @@
 
 
 //
-    wallet.masterWalletID=[[FLTools share]getRandomStringWithNum:6];
+    wallet.masterWalletID=[[[FLTools share]getRandomStringWithNum:6] stringByAppendingString:wallet.walletID];
     
     
     
@@ -207,7 +207,7 @@
 -(void)imKeystoreViewWithWallet:(FLWallet*)wallet{
     
     wallet.walletID=[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
-    wallet.masterWalletID=[[FLTools share]getRandomStringWithNum:6];
+    wallet.masterWalletID=[[[FLTools share]getRandomStringWithNum:6] stringByAppendingString:wallet.walletID];
 
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID,wallet.keyStore,wallet.privateKey,wallet.passWord,wallet.walletID] callbackId:wallet.walletID className:@"Wallet" methodName:@"importWalletWithKeystore"];
     PluginResult *result= [[ELWalletManager share]importWalletWithKeystore:mommand];

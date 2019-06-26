@@ -79,7 +79,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setBackgroundImg:@"wallet_bg"];
+    [self setBackgroundImg:@""];
     self.title = NSLocalizedString(@"备份助记词", nil);
     self.textWord = [[NSMutableString alloc]initWithString:@""];
     self.view.backgroundColor=[UIColor whiteColor];
@@ -250,9 +250,9 @@ __weak __typeof__(self) weakSelf = self;
     if (self.Wallet.isSingleAddress) {
         isSingleAddress=@"YES";
     }
+    self.Wallet.walletID=[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
 
-
-    self.Wallet.masterWalletID=[[FLTools share]getRandomStringWithNum:6];
+    self.Wallet.masterWalletID=[[[FLTools share]getRandomStringWithNum:6] stringByAppendingString:self.Wallet.walletID];
    invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.Wallet.masterWalletID,self.Wallet.mnemonic,self.Wallet.mnemonicPWD,self.Wallet.passWord,isSingleAddress] callbackId:self.Wallet.walletID className:@"Wallet" methodName:@"createMasterWallet"];
 
 

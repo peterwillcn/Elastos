@@ -119,7 +119,9 @@ static HMWFMDBManager * _manager =nil;
 //查
 -(sideChainInfoModel*)selectAddsideChainWithWalletID:(NSString*)walletID andWithIconName:(NSString*)iconName{
     
-    
+    if ([iconName isEqualToString:@"IDChain"]) {
+        iconName=@"IdChain";
+    }
     
     NSString *sql =[NSString stringWithFormat: @"select * from sideChain where walletID=\'%@\' and sideChainName=\'%@\'" ,walletID,iconName];
     FMResultSet *set=[self executeQuery:sql];

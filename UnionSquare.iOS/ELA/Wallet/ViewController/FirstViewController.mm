@@ -59,7 +59,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
    
-    [self setBackgroundImg:@"tab_bg"];
+    [self setBackgroundImg:@""];
     [self setView];
     self.title = NSLocalizedString(@"资产", nil);
     
@@ -120,13 +120,7 @@
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.table reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexP,nil] withRowAnimation:UITableViewRowAnimationNone];
-            
         });
-        
-        
-        
-        
-        
     }
 }
 -(void)iconInfoUpdate:(NSNotification *)notification{
@@ -150,10 +144,8 @@
         if ([chainID isEqualToString:@"ELA"]) {
             [ELWalletManager share].estimatedHeight=currentBlockHeight;
         }
-        
- 
         model.thePercentageMax=[progress floatValue];
-        model.thePercentageCurr=[currentBlockHeight floatValue];
+    model.thePercentageCurr=[currentBlockHeight floatValue];
         if (lastBlockTimeString.length>0) {
             sideChainInfoModel *smodel=[[sideChainInfoModel alloc]init];
             smodel.thePercentageMax=[NSString stringWithFormat:@"%f",model.thePercentageMax];
@@ -161,13 +153,12 @@
             smodel.sideChainName=model.iconName;
             smodel.sideChainNameTime=lastBlockTimeString;
             
-            [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
             model.updateTime=[NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"已同步区块时间", nil),smodel.sideChainNameTime];
+              [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
         }
         self.dataSoureArray[index]=model;
         NSIndexPath *indexP=[NSIndexPath indexPathForRow:index inSection:0];
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.table reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexP,nil] withRowAnimation:UITableViewRowAnimationNone];
             
         });
@@ -302,15 +293,9 @@
             }
             
             [self.dataSoureArray addObject:model];
-            
-            
-            
             invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:[NSString stringWithFormat:@"%d",index]];
             
             [[ELWalletManager share]registerWalletListener:mommand];
-            
-            
-            
             index++;
             
             

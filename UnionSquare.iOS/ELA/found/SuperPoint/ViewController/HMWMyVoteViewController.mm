@@ -40,7 +40,7 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     [self defultWhite];
     [[HMWCommView share]makeBordersWithView:self.changeVotesButton];
     [[HMWCommView share]makeBordersWithView:self.BGView];
-    [self setBackgroundImg:@"tab_bg"];
+    [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"我的投票", nil) ;
     
     self.lastVoteLab.text =NSLocalizedString(@"上次投票记录", nil);

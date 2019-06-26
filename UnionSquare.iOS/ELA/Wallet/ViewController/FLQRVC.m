@@ -21,7 +21,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setBackgroundImg:@"asset_bg"];
+    [self setBackgroundImg:@""];
     self.title = Localized(@"收款码");
     [self.addrLab setBackgroundColor:nil boldColor:nil corner:5];
     [self.btn1 setBackgroundColor:defultColor boldColor:nil corner:5];

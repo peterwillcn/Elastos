@@ -26,7 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-    [self setBackgroundImg:@"asset_bg"];
+    [self setBackgroundImg:@""];
     NSLocalizedString(@"确认导出", nil);
     
     self.title=NSLocalizedString(@"导出助记词", nil);

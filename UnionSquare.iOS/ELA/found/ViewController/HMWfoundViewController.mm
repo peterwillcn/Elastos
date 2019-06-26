@@ -9,11 +9,22 @@
 #import "HMWfoundViewController.h"
 #import "FLSelectSuperPointVC.h"
 #import "HMWtheSuperNodeElectionViewController.h"
+#import "ELWalletManager.h"
+#import "IMainchainSubWallet.h"
+#import "HMWtheSuperNodeElectionViewController.h"
 
 @interface HMWfoundViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) UITableView *table;
 @property (nonatomic,strong)NSArray *dataSource;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *typeString;
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)BOOL hasSing;
 
 @end
 
@@ -21,9 +32,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   
+    [self loadElectionInfo];
     [self defultWhite];
-    [self setBackgroundImg:@"tab_bg"];
+    [self setBackgroundImg:@""];
         self.title=NSLocalizedString(@"发现", nil);
     
     self.table = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -37,6 +48,29 @@
     self.dataSource = @[@""];
     [self.table registerNib:[UINib nibWithNibName:@"HMWfoundTableCell" bundle:nil] forCellReuseIdentifier:@"HMWfoundTableCell"];
 
+}
+-(void)loadElectionInfo{
+    ELWalletManager *manager   =  [ELWalletManager share];
+    
+    IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
+    
+    nlohmann::json info = mainchainSubWallet->GetRegisteredProducerInfo();
+    NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
+    NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+    NSString *Status = param[@"Status"];
+    if ([Status isEqualToString:@"Registered"]){
+        self.typeString =@"1";
+    }else if([Status isEqualToString:@"Canceled"]){
+    self.typeString =@"2";
+
+    }else if([Status isEqualToString:@"Unregistered"]){
+        self.typeString =@"0";
+
+    }else if ([Status isEqualToString:@"ReturnDeposit"]){
+        self.typeString =@"4";
+        
+    }
+    
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -59,8 +93,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-        FLSelectSuperPointVC*selectSuperPointVC=[[FLSelectSuperPointVC alloc]init];
-        [self.navigationController pushViewController:selectSuperPointVC animated:YES];
+    HMWtheSuperNodeElectionViewController*theSuperNodeElectionVC=[[HMWtheSuperNodeElectionViewController alloc]init];
+    theSuperNodeElectionVC.typeString=self.typeString;
+    [self.navigationController pushViewController:theSuperNodeElectionVC animated:YES];
+//        FLSelectSuperPointVC*selectSuperPointVC=[[FLSelectSuperPointVC alloc]init];
+//        [self.navigationController pushViewController:selectSuperPointVC animated:YES];
     
 }
 @end

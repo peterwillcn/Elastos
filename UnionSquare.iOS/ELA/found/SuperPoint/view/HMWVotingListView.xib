@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -78,8 +79,8 @@
                         <constraint firstItem="fPP-tC-Hl1" firstAttribute="top" secondItem="Nu0-9G-7hP" secondAttribute="top" constant="32" id="xbK-VP-rw3"/>
                     </constraints>
                 </view>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="TOh-zh-fnS">
-                    <rect key="frame" x="-3" y="167" width="375" height="500"/>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="TOh-zh-fnS">
+                    <rect key="frame" x="-3" y="217" width="375" height="450"/>
                     <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="duJ-tz-tS9">
                         <size key="itemSize" width="50" height="50"/>
@@ -88,15 +89,46 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y1c-AI-kpu">
+                    <rect key="frame" x="4" y="183" width="4" height="15"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="15" id="ZrG-Qh-u3V"/>
+                        <constraint firstAttribute="width" constant="4" id="wgN-Je-OXA"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="参选节点列表" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pex-rX-tQF">
+                    <rect key="frame" x="16" y="182" width="86" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MKV-zY-czg">
+                    <rect key="frame" x="325" y="165.5" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="3ra-Zg-N1d"/>
+                        <constraint firstAttribute="height" constant="50" id="gJL-HE-BdD"/>
+                    </constraints>
+                    <state key="normal" image="vote_switch_list"/>
+                    <connections>
+                        <action selector="modifyTheListMode:" destination="iN0-l3-epB" eventType="touchUpInside" id="Sf6-Ic-Btu"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="TOh-zh-fnS" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="6dA-Cb-MPP"/>
+                <constraint firstItem="Pex-rX-tQF" firstAttribute="leading" secondItem="Y1c-AI-kpu" secondAttribute="trailing" constant="8" id="2T7-HE-Vgx"/>
+                <constraint firstItem="MKV-zY-czg" firstAttribute="centerY" secondItem="Pex-rX-tQF" secondAttribute="centerY" id="5PT-1P-PFX"/>
+                <constraint firstItem="TOh-zh-fnS" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="-3" id="6dA-Cb-MPP"/>
                 <constraint firstItem="Nu0-9G-7hP" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="CVP-AG-q2k"/>
                 <constraint firstItem="Nu0-9G-7hP" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="3" id="Cyy-wp-gRe"/>
+                <constraint firstItem="Y1c-AI-kpu" firstAttribute="top" secondItem="Nu0-9G-7hP" secondAttribute="bottom" constant="28" id="MPe-XL-Sm8"/>
+                <constraint firstAttribute="trailing" secondItem="MKV-zY-czg" secondAttribute="trailing" id="NWb-s3-83t"/>
                 <constraint firstAttribute="trailing" secondItem="Nu0-9G-7hP" secondAttribute="trailing" constant="3" id="X87-8o-wZU"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="TOh-zh-fnS" secondAttribute="trailing" id="gB8-Kj-2db"/>
-                <constraint firstItem="TOh-zh-fnS" firstAttribute="top" secondItem="Nu0-9G-7hP" secondAttribute="bottom" constant="12" id="iai-54-pis"/>
+                <constraint firstItem="Y1c-AI-kpu" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="4" id="ayD-eT-ief"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="TOh-zh-fnS" secondAttribute="trailing" constant="3" id="gB8-Kj-2db"/>
+                <constraint firstItem="TOh-zh-fnS" firstAttribute="top" secondItem="Nu0-9G-7hP" secondAttribute="bottom" constant="62" id="iai-54-pis"/>
+                <constraint firstItem="Y1c-AI-kpu" firstAttribute="centerY" secondItem="Pex-rX-tQF" secondAttribute="centerY" id="rRJ-UM-QSr"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="TOh-zh-fnS" secondAttribute="bottom" id="tlx-Ws-xd7"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
@@ -104,9 +136,14 @@
                 <outlet property="baseCollectionView" destination="TOh-zh-fnS" id="OfD-Ug-hjl"/>
                 <outlet property="lab1" destination="3TG-1N-8dC" id="x1q-DA-vGW"/>
                 <outlet property="lab3" destination="73V-SG-wah" id="gdA-zx-FdG"/>
+                <outlet property="modifyTheListModeButton" destination="MKV-zY-czg" id="heb-qc-uxj"/>
+                <outlet property="runningNodeListTextLabel" destination="Pex-rX-tQF" id="fsa-EZ-dID"/>
                 <outlet property="taglab1" destination="fPP-tC-Hl1" id="7xZ-WQ-c5b"/>
                 <outlet property="taglab3" destination="diL-dD-2PJ" id="pO3-9R-EI6"/>
             </connections>
         </view>
     </objects>
+    <resources>
+        <image name="vote_switch_list" width="22" height="22"/>
+    </resources>
 </document>

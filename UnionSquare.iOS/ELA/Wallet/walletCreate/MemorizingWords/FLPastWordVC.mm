@@ -79,7 +79,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setBackgroundImg:@"wallet_bg"];
+    [self setBackgroundImg:@""];
     self.title = NSLocalizedString(@"备份助记词", nil);
     self.textWord = [[NSMutableString alloc]initWithString:@""];
     self.view.backgroundColor=[UIColor whiteColor];

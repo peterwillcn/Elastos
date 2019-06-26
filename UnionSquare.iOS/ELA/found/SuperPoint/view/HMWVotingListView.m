@@ -8,13 +8,22 @@
 
 #import "HMWVotingListView.h"
 #import "HMWVotingListCollectionViewCell.h"
+#import "runningNodeListView.h"
+#import "HMWVotingListTypeCrossCollectionViewCell.h"
 
 
 static NSString *cellString=@"HMWVotingListCollectionViewCell";
 
+static NSString *crossCellString=@"HMWVotingListTypeCrossCollectionViewCell";
 @interface HMWVotingListView ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *baseCollectionView;
+@property (weak, nonatomic) IBOutlet UILabel *runningNodeListTextLabel;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *listType;
+@property (weak, nonatomic) IBOutlet UIButton *modifyTheListModeButton;
 
 @end
 
@@ -30,9 +39,11 @@ static NSString *cellString=@"HMWVotingListCollectionViewCell";
         self.baseCollectionView.delegate=self;
         self.baseCollectionView.dataSource=self;
         [self.baseCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HMWVotingListCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:cellString];
+        [self.baseCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HMWVotingListTypeCrossCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:crossCellString];
         self.taglab1.text = NSLocalizedString(@"全网投票占比", nil);
         self.taglab3.text = NSLocalizedString(@"当前票数", nil);
-
+         self.runningNodeListTextLabel.text=NSLocalizedString(@"参选节点列表", nil);
+        self.listType=@"1";
 
     }
     
@@ -49,6 +60,7 @@ static NSString *cellString=@"HMWVotingListCollectionViewCell";
 {
     return self.dataSource.count;
 }
+
 //定义展示的Section的个数
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -57,28 +69,44 @@ static NSString *cellString=@"HMWVotingListCollectionViewCell";
 //每个UICollectionView展示的内容
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    HMWVotingListCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:cellString forIndexPath:indexPath];
+    if ([self.listType isEqualToString:@"1"]) {
+        HMWVotingListCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:cellString forIndexPath:indexPath];
+        cell.model = self.dataSource[indexPath.row];
+        return cell;
+    }
+    HMWVotingListTypeCrossCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:crossCellString forIndexPath:indexPath];
+    cell.backgroundColor=RGB(51, 51, 51);
     cell.model = self.dataSource[indexPath.row];
     return cell;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
-
-    return 6;
+    if ([self.listType isEqualToString:@"1"]) {
+     return 6;
+    }
+    return 10;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-
-    return 3;
+    if ([self.listType isEqualToString:@"1"]) {
+     return 3;
+    }
+    return 5;
 }
 
 //定义每个UICollectionView 的 margin
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
 
-    return UIEdgeInsetsMake(3, 3, 3, 3);
+    if ([self.listType isEqualToString:@"1"]) {
+           return UIEdgeInsetsMake(3, 8, 3, 3);
+    }
+    return UIEdgeInsetsMake(5, 8, 5, 3);
 }
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    if ([self.listType isEqualToString:@"1"]) {
+        return CGSizeMake((AppWidth-22)/3 ,135/120*AppWidth/3);
+    }
+    return CGSizeMake(AppWidth-13,60);
     
-    return CGSizeMake((AppWidth-16)/3 ,135/120*AppWidth/3);
 }
 #pragma mark --UICollectionViewDelegate
 //UICollectionView被选中时调用的方法
@@ -94,4 +122,14 @@ static NSString *cellString=@"HMWVotingListCollectionViewCell";
 //{
 //    return YES;
 //}
+- (IBAction)modifyTheListMode:(id)sender {
+    if ([self.listType isEqualToString:@"1"]) {
+        [self.modifyTheListModeButton setImage:[UIImage imageNamed:@"vote_switch_squeral"] forState:UIControlStateNormal];
+        self.listType=@"2";
+    }else{
+        [self.modifyTheListModeButton setImage:[UIImage imageNamed:@"vote_switch_list"] forState:UIControlStateNormal];
+      self.listType=@"1";
+    }
+    [self.baseCollectionView reloadData];
+}
 @end

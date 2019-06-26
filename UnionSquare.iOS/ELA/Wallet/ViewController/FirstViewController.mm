@@ -59,7 +59,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
    
-    [self setBackgroundImg:@"tab_bg"];
+    [self setBackgroundImg:@""];
     [self setView];
     self.title = NSLocalizedString(@"资产", nil);
     
@@ -302,15 +302,9 @@
             }
             
             [self.dataSoureArray addObject:model];
-            
-            
-            
             invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:[NSString stringWithFormat:@"%d",index]];
             
             [[ELWalletManager share]registerWalletListener:mommand];
-            
-            
-            
             index++;
             
             

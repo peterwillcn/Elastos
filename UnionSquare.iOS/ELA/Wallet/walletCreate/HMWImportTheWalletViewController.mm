@@ -38,7 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-    [self setBackgroundImg:@"asset_bg"];
+    [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"导入钱包", nil);
     [self.view addSubview:self.imKeystoreV];
     self.imKeystoreV.alpha=0.f;

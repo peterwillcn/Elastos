@@ -29,9 +29,6 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wallet_bg" translatesAutoresizingMaskIntoConstraints="NO" id="7bT-Hr-gAX">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x8g-mg-hxM">
                     <rect key="frame" x="20" y="74" width="335" height="220"/>
                     <subviews>
@@ -211,15 +208,11 @@ elastos不存储密码，也无法帮您找回，请务必牢记</string>
                 <constraint firstItem="ok3-G1-6J1" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="240" id="AUf-au-HcR"/>
                 <constraint firstItem="v9O-M8-WpL" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="40" id="Bn3-FY-lfa"/>
                 <constraint firstItem="hPu-dg-tF1" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="240" id="Ee4-S3-CkZ"/>
-                <constraint firstItem="7bT-Hr-gAX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="OPO-Ru-AMT"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="x8g-mg-hxM" secondAttribute="trailing" constant="20" id="QHJ-U5-7U7"/>
-                <constraint firstAttribute="trailing" secondItem="7bT-Hr-gAX" secondAttribute="trailing" id="Rsr-rA-qBQ"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="v9O-M8-WpL" secondAttribute="bottom" constant="100" id="d9Z-vq-V78"/>
-                <constraint firstAttribute="bottom" secondItem="7bT-Hr-gAX" secondAttribute="bottom" id="i7j-VS-tTb"/>
                 <constraint firstItem="hPu-dg-tF1" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="30" id="k6g-cH-ghb"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="ok3-G1-6J1" secondAttribute="trailing" constant="20" id="nXF-3E-QiU"/>
                 <constraint firstItem="x8g-mg-hxM" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="20" id="pnj-cG-1E7"/>
-                <constraint firstItem="7bT-Hr-gAX" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="tbL-ym-MI6"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="v9O-M8-WpL" secondAttribute="trailing" constant="40" id="uey-Vp-wFC"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
@@ -227,7 +220,6 @@ elastos不存储密码，也无法帮您找回，请务必牢记</string>
         </view>
     </objects>
     <resources>
-        <image name="wallet_bg" width="375" height="667"/>
         <image name="wallet_notice" width="12" height="12"/>
         <image name="wallet_single_address" width="13" height="13"/>
         <image name="wallet_single_address_circle" width="13" height="13"/>

@@ -51,7 +51,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-    [self setBackgroundImg:@"tab_bg"];
+    [self setBackgroundImg:@""];
     self.title= NSLocalizedString(@"选举管理", nil) ;
     self.leftLab1.text =NSLocalizedString(@"节点名称", nil) ;
      self.leftLab2.text =NSLocalizedString(@"节点公钥", nil) ;

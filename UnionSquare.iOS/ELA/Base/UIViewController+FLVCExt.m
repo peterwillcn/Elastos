@@ -46,13 +46,28 @@
     
     bg.image = [UIImage imageNamed:img];
     
-    
+    if (img.length==0) {
+        [self CAGradientColorFrome:RGB(83, 136, 136) withToColor:RGB(16, 47, 58) withView:bg];
+    }
     
     [self.view insertSubview:bg atIndex:0];
+    
     
     [bg mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(self.view);
     }];
+    
+    
+}
+-(void)CAGradientColorFrome:(UIColor*)fclolr withToColor:(UIColor*)tcolor withView:(UIView*)view{
+CAGradientLayer *gl = [CAGradientLayer layer];
+gl.frame = CGRectMake(0,0,AppWidth,AppHeight);
+//gl.startPoint = CGPointMake(0, 0);
+//gl.endPoint = CGPointMake(1, 1);
+gl.colors = @[(__bridge id)fclolr.CGColor,(__bridge id)tcolor.CGColor];
+    gl.locations = @[@(0.0),@(1.0f)];
+    [view.layer addSublayer:gl];
+    
 }
 -(void)setNavBarClearColor{
 //    [self.navigationController.navigationBar setTranslucent:true];

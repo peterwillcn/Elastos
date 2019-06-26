@@ -14,6 +14,7 @@
 -(void)NewStateView:(UIColor*)color;
 -(void)setBackgroundImg:(NSString*)img;
 -(void)setNavBarClearColor;
+-(void)CAGradientColorFrome:(UIColor*)fclolr withToColor:(UIColor*)tcolor withView:(UIView*)view;
 
 -(void)CNTOdefultWhite;
 

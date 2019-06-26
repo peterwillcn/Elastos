@@ -13,8 +13,9 @@
 #import "FLVoteTicketTransferVC.h"
 #import "ELWalletManager.h"
 #import "HMWSelectCountriesOrRegionsViewController.h"
-#import "HMWpwdPopupView.h"
-@interface HMWsignUpForViewController ()<HMWSelectCountriesOrRegionsViewControllerDelegate,FLJoinToChoseTransferViewDelegate,HMWpwdPopupViewDelegate>
+//#import "HMWpwdPopupView.h"
+#import "HMWSecurityVerificationPopView.h"
+@interface HMWsignUpForViewController ()<HMWSelectCountriesOrRegionsViewControllerDelegate,FLJoinToChoseTransferViewDelegate,HMWSecurityVerificationPopViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *theNameOfTheNodeMakeView;
 /*
  *<# #>
@@ -29,6 +30,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *chooseTheCountryBuuton;
 
 @property(nonatomic,assign)NSString *mobCodeString;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)HMWSecurityVerificationPopView *securityVerificationPopV;
 
 
 /*
@@ -36,7 +41,7 @@
  */
 @property(strong,nonatomic)FLJoinToChoseTransferInfoView *transferDetailsPopupV;
 
-@property(strong,nonatomic)HMWpwdPopupView *pwdPopupV;
+//@property(strong,nonatomic)HMWpwdPopupView *pwdPopupV;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offY;
 
@@ -49,7 +54,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-    [self setBackgroundImg:@"tab_bg"];
+    [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"报名参选", nil);
     self.theNameOfTheNodeTextField.placeholder =NSLocalizedString(@"请输入节点名称（必填）", nil);
     self.thePublicKeyTextField.placeholder    =NSLocalizedString(@"请输入节点公钥（必填）", nil);
@@ -69,7 +74,7 @@
  [[HMWCommView share]makeBordersWithView:self.confirmToRunButton];
     ELWalletManager *manager   =  [ELWalletManager share];
     IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-      NSString * ownerPubKey = [NSString stringWithCString:mainchainSubWallet->GetPublicKeyForVote().c_str() encoding:NSUTF8StringEncoding];
+      NSString * ownerPubKey = [NSString stringWithCString:mainchainSubWallet->GetOwnerPublicKey().c_str() encoding:NSUTF8StringEncoding];
     self.thePublicKeyTextField.text=ownerPubKey;
     if (self.model.nickName.length!=0) {
         [self.confirmToRunButton setTitle:NSLocalizedString(@"更新信息", nil) forState:UIControlStateNormal];
@@ -84,6 +89,15 @@
         
     }
 
+}
+-(HMWSecurityVerificationPopView *)securityVerificationPopV{
+    if (!_securityVerificationPopV) {
+        _securityVerificationPopV =[[HMWSecurityVerificationPopView alloc]init];
+        _securityVerificationPopV.backgroundColor=[UIColor clearColor];
+        _securityVerificationPopV.delegate=self;
+    }
+    
+    return _securityVerificationPopV;
 }
 
 -(FLJoinToChoseTransferInfoView *)transferDetailsPopupV{
@@ -126,8 +140,8 @@
         return;
     }
 
-    [self.view addSubview:self.pwdPopupV];
-    [self.pwdPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.view addSubview:self.securityVerificationPopV ];
+    [self.securityVerificationPopV  mas_makeConstraints:^(MASConstraintMaker *make) {
     make.left.right.top.bottom.equalTo(self.view);
     }];
     
@@ -146,25 +160,16 @@
     
 }
 
--(HMWpwdPopupView *)pwdPopupV{
-    if (!_pwdPopupV) {
-        _pwdPopupV=[[HMWpwdPopupView alloc]init];
-        _pwdPopupV.delegate=self;
-    }
-    return _pwdPopupV;
-    
+-(void)takeOutOrShutDown{
+    [self.securityVerificationPopV removeFromSuperview];
+    self.securityVerificationPopV =nil;
 }
 
--(void)cancelThePWDPageView
-{
-    [self.pwdPopupV removeFromSuperview];
-    self.pwdPopupV = nil;
-}
 -(void)makeSureWithPWD:(NSString*)pwd{
     if (pwd.length==0) {
         return;
     }
-    self.pwdPopupV.userInteractionEnabled=NO;
+    self.securityVerificationPopV.userInteractionEnabled=NO;
     if (self.model) {
         
         [self updataNodeInfo:pwd];
@@ -176,7 +181,7 @@
     IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
     FLJoinVoteInfoModel* model = [[FLJoinVoteInfoModel alloc]init];
     
-    model.pubKey     =  [NSString stringWithCString:mainchainSubWallet->GetPublicKeyForVote().c_str() encoding:NSUTF8StringEncoding] ;
+    model.pubKey     =  [NSString stringWithCString:mainchainSubWallet->GetOwnerPublicKey().c_str() encoding:NSUTF8StringEncoding] ;
     
     model.ownerPublickKey = self.thePublicKeyTextField.text;
 model.nodePubKey=self.thePublicKeyTextField.text;
@@ -189,11 +194,11 @@ model.nodePubKey=self.thePublicKeyTextField.text;
     model.acount     = 5000;
     
  CGFloat free   =  [manager RegisterProducerWithMainchainSubWallet:mainchainSubWallet With:model];
-    [self.pwdPopupV removeFromSuperview];
-     self.pwdPopupV  = nil;
+        
     if (free ==0 ) {
         return;
     }
+        [self takeOutOrShutDown];
     
     [self.view addSubview:self.transferDetailsPopupV];
     [self.transferDetailsPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -205,8 +210,7 @@ model.nodePubKey=self.thePublicKeyTextField.text;
     
     [self.transferDetailsPopupV transferDetailsWithTheAmountOf:@"5000" withFee: @(free/unitNumber).stringValue];
     }
-    
-//     self.pwdPopupV.userInteractionEnabled=NO;
+
     
 
     
@@ -218,7 +222,7 @@ model.nodePubKey=self.thePublicKeyTextField.text;
     IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
     
     
-    self.model.pubKey     =  [NSString stringWithCString:mainchainSubWallet->GetPublicKeyForVote().c_str() encoding:NSUTF8StringEncoding] ;
+    self.model.pubKey     =  [NSString stringWithCString:mainchainSubWallet->GetOwnerPublicKey().c_str() encoding:NSUTF8StringEncoding] ;
     self.model.nodePubKey = self.thePublicKeyTextField.text;
     self.model.ownerPublickKey=self.thePublicKeyTextField.text;
     self.model.nickName   = self.theNameOfTheNodeTextField.text;
@@ -231,8 +235,7 @@ model.nodePubKey=self.thePublicKeyTextField.text;
     
  BOOL ret = [manager UpdateProducerWithMainchainSubWallet:mainchainSubWallet With:self.model];
     
-    [self.pwdPopupV removeFromSuperview];
-    self.pwdPopupV  = nil;
+    [self takeOutOrShutDown];
     if (ret) {
         [[FLTools share]showErrorInfo:NSLocalizedString(@"变更成功", nil)];
     }else{

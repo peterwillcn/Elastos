@@ -39,7 +39,7 @@ static NSString *celladdString=@"HMWaddWalletListTableViewCell";
     [super viewDidLoad];
     [self defultWhite];
     self.needUpdate=NO;
-    [self setBackgroundImg:@"asset_bg"];
+    [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"钱包列表", nil);
     [self makeView];
     self.selectIndex=[NSIndexPath indexPathForRow:0 inSection:self.currentWalletIndex];

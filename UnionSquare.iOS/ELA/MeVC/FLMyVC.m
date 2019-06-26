@@ -15,6 +15,7 @@
 #import "HMWtheContactInformationViewController.h"
 #import "HMWFMDBManager.h"
 #import "friendsModel.h"
+#import "AboutELAWalletViewController.h"
 
 static NSString *MyIncomeOrWealthCell=@"HMWMyIncomeOrWealthTableViewCell";
 static NSString *LanguageCell=@"HMWClassificationOfLanguageTableViewCell";
@@ -55,8 +56,8 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
   [self makeUI];
     [self.table reloadData];
     
-//    [self setBackgroundImg:@"tab_bg"];
-//    [self.theContactMutableArray addObject:@"1"];
+    [self setBackgroundImg:@""];
+
    
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(myfriendNeedUpdateInfo) name:myfriendNeedUpdate object:nil];
 }
@@ -89,8 +90,10 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
     self.table.delegate =self;
     self.table.dataSource =self;
     [self.view addSubview:self.table];
-    UIImageView *bgview = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"tab_bg"]];
+    UIImageView *bgview = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@""]];
+   [self CAGradientColorFrome:RGB(83, 136, 136) withToColor:RGB(16, 47, 58) withView:bgview];
     self.table.backgroundView = bgview;
+
     
 
   
@@ -99,7 +102,8 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
     
     self.dataSorse = @[
   @{@"img":@"mine_mission",@"title":NSLocalizedString(@"语言", nil),@"url":@"/app/task.html",@"subTitle":@""},
-  @{@"img":@"mine_sugar",@"title":NSLocalizedString(@"联系人", nil),@"url":@"/app/vlink/wallet.html",@"subTitle":@""}];
+  @{@"img":@"mine_sugar",@"title":NSLocalizedString(@"联系人", nil),@"url":@"/app/vlink/wallet.html",@"subTitle":@""},
+  @{@"img":@"mine_sugar",@"title":NSLocalizedString(@"关于ELAWallet", nil),@"url":@"/app/vlink/wallet.html",@"subTitle":@""}];
   
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -138,7 +142,7 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return 2;
+    return 3;
 }
 
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -291,22 +295,13 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
                  
                  HMWtheContactInformationViewController *theContactInformationVC=[[HMWtheContactInformationViewController alloc]init];
                  theContactInformationVC.model=self.theContactMutableArray[indexPath.row-1];
-                    [self.navigationController pushViewController:theContactInformationVC animated:YES];
-                 
+                    [self.navigationController pushViewController:theContactInformationVC animated:YES];}
+             }}}else if ([name isEqualToString:NSLocalizedString(@"关于ELAWallet", nil)]){
+                 AboutELAWalletViewController* AboutELAWalletVC =[[AboutELAWalletViewController alloc]init];
+                 AboutELAWalletVC.title=name;
+                 [self.navigationController pushViewController:AboutELAWalletVC animated:YES];
                  
              }
-             
-             
-             
-             
-             
-             }
-             
-         }
-        
-      
-        
-    }
    
     
 }

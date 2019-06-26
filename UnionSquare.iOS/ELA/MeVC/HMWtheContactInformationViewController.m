@@ -35,7 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-    [self setBackgroundImg:@"setting_bg"];
+    [self setBackgroundImg:@""];
    self.nickNameTextField.enabled=NO;
 self.theWalletAddressTextField.enabled=NO;
     self.mobilePhoneNOTextField.enabled=NO;

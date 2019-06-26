@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HMWtheSuperNodeElectionViewController">
             <connections>
-                <outlet property="myVoteButton" destination="iHA-DO-aoE" id="s2P-Zi-cZq"/>
+                <outlet property="found_vote_rule" destination="izR-8v-6Ou" id="QrU-19-32J"/>
+                <outlet property="myVoteButton" destination="iHA-DO-aoE" id="hXM-1a-DN4"/>
                 <outlet property="tagMyVotedLab" destination="Sbm-1r-SlD" id="El3-ZW-CSE"/>
                 <outlet property="tagVoteRuleLab" destination="tL0-uh-7MS" id="xZ4-9j-au9"/>
                 <outlet property="toVoteButton" destination="YeH-l1-2u0" id="1W4-Tl-Zf1"/>
@@ -42,7 +44,7 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iHA-DO-aoE">
                             <rect key="frame" x="0.0" y="0.0" width="125" height="50"/>
                             <connections>
-                                <action selector="myVoteEvent:" destination="-1" eventType="touchUpInside" id="7qv-I7-PQD"/>
+                                <action selector="myVoteEvent:" destination="-1" eventType="touchUpInside" id="SBf-QT-efX"/>
                             </connections>
                         </button>
                     </subviews>
@@ -78,7 +80,7 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5sf-bu-fLg">
                             <rect key="frame" x="0.0" y="0.0" width="125" height="50"/>
                             <connections>
-                                <action selector="votingRulesEvent:" destination="-1" eventType="touchUpInside" id="N4Z-cy-Zuq"/>
+                                <action selector="NodeRegisteredState:" destination="-1" eventType="touchUpInside" id="6oP-9G-ZUH"/>
                             </connections>
                         </button>
                     </subviews>

@@ -34,7 +34,7 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
     self.title=NSLocalizedString(@"选择国家/地区", nil);
     self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     self.baseTableView.backgroundColor = [UIColor clearColor];
-    [self setBackgroundImg:@"tab_bg"];
+    [self setBackgroundImg:@""];
 }
 -(NSArray *)CountryCodeArray{
     if (!_CountryCodeArray) {

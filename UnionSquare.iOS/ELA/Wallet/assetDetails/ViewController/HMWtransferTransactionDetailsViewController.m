@@ -64,7 +64,7 @@ static NSString *cellString=@"HMWtransferTransactionMultipleAddressDetailsTableV
     [self defultWhite];
     self.inputsISOpen=NO;
     self.outputsISOpen=NO;
-    [self setBackgroundImg:@"asset_bg"];
+    [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"交易详情", nil);
     [self makeView];
     

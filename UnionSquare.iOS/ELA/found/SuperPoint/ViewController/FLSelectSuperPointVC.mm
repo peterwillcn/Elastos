@@ -62,7 +62,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setBackgroundImg:@"tab_bg"];
+    [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"超级节点选举", nil) ;
     [self.goingToVoteButton setTitle:NSLocalizedString(@"我要投票", nil) forState:UIControlStateNormal];
      [self.signUpForButton setTitle:NSLocalizedString(@"报名参选", nil) forState:UIControlStateNormal];

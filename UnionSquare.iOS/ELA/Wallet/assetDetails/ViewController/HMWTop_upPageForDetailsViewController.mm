@@ -52,7 +52,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-    [self setBackgroundImg:@"asset_bg"];
+    [self setBackgroundImg:@""];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"setting_adding_scan"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(scanView)];
     self.toUpNameLabel.text=[NSString stringWithFormat:@"%@：%@",NSLocalizedString(@"充值到", nil),self.selectmModel.iconName];

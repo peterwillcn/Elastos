@@ -21,7 +21,7 @@ static NSString *cellString=@"HMWaddressListTableViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
       [self defultWhite];
-     [self setBackgroundImg:@"asset_bg"];
+     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"地址列表", nil);
 
     [self makeView];

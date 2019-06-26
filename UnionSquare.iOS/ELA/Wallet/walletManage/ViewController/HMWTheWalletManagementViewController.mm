@@ -57,7 +57,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
     self.view.userInteractionEnabled=YES;
     // Do any additional setup after loading the view from its nib.
     [self defultWhite];
-    [self setBackgroundImg:@"asset_bg"];
+    [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"钱包管理", nil);
     [self makeView];
    

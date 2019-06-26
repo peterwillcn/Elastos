@@ -96,7 +96,7 @@
             model.walletID=[NSString stringWithFormat:@"%@",reArray[i]];
             BOOL isbool = [array containsObject: model.walletID];
             if (isbool==NO) {
-                
+                model.walletName=@"null";
                 sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
             sideModel.walletID=model.walletID;
             sideModel.sideChainName=@"ELA";

@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FLNotePointDBManager : FMDatabase
 
-+(instancetype)defult;
++(instancetype)defultWithWalletID:(NSString*)WalletID;
 
 //增加
 

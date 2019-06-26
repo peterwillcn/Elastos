@@ -26,6 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
+    [self setBackgroundImg:@""];
     self.title = NSLocalizedString(@"备份钱包", nil);
     self.Wallet.walletID=[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
     

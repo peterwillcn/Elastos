@@ -13,6 +13,7 @@
 #import "HMWinputVotesPopupWindowView.h"
 #import "FLNotePointDBManager.h"
 #import "HMWToDeleteTheWalletPopView.h"
+#import "HMWFMDBManager.h"
 static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 
 @interface FLChangeVotedTicketsVC ()<UITableViewDelegate,UITableViewDataSource,VotesPopupViewDelegate,HMWpwdPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate>
@@ -44,7 +45,7 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setBackgroundImg:@"tab_bg"];
+    [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"重新投票",nil);
     [self.immediatelyChangeBtn setTitle:NSLocalizedString(@"重新投票",nil) forState:UIControlStateNormal];
     [[HMWCommView share]makeBordersWithView:self.immediatelyChangeBtn];
@@ -54,6 +55,8 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
      [self.selectAllBtn setImage:[UIImage imageNamed:@"found_vote_border"] forState:UIControlStateNormal];
     
 }
+
+
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -94,7 +97,11 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 }
 
 -(void)getDBRecored{
-    self.dataSource  = [[NSMutableArray alloc]initWithArray: [[FLNotePointDBManager defult]allRecord]];
+    
+    NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+    FMDBWalletModel *FMDBmodel =walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
+    
+    self.dataSource  = [[NSMutableArray alloc]initWithArray: [[FLNotePointDBManager defultWithWalletID:FMDBmodel.walletID]allRecord]];
     [self.baseTableView reloadData];
 }
 - (IBAction)actAction:(UIButton*)sender {

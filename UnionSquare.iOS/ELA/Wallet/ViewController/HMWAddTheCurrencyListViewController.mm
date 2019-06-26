@@ -35,7 +35,7 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-    [self setBackgroundImg:@"asset_bg"];
+    [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"添加币种", nil);
     [self makeView];
     [self loadTheCurrencyList];

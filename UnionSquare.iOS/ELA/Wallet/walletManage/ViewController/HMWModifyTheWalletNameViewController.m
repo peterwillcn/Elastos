@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-    [self setBackgroundImg:@"asset_bg"];
+    [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"修改钱包名称", nil);
     self.nNickNameTextField.placeholder=NSLocalizedString(@"请输入新的钱包名称", nil);
     [self.confirmTheChangeButton setTitle:NSLocalizedString(@"确认修改", nil) forState:UIControlStateNormal];

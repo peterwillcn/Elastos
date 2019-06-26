@@ -29,7 +29,7 @@
     _model  = model;
     self.nickName.text = model.nickname;
     self.contryName.text = [[FLTools share]contryNameTransLateByCode: model.location.integerValue];
-    self.indexLab.text = [@"NO."stringByAppendingString:@(model.index+1).stringValue];
+    self.indexLab.text = [@""stringByAppendingString:@(model.index+1).stringValue];
     self.percentLab.text = [NSString stringWithFormat:@"%.5lf %@",model.voterate.floatValue*100,@"%"];
     
 }

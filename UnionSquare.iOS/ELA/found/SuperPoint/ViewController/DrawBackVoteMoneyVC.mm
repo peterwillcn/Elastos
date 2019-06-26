@@ -33,7 +33,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setBackgroundImg:@"tab_bg"];
+    [self setBackgroundImg:@""];
     self.title= NSLocalizedString(@"选举管理", nil);
     self.tagNote.text = NSLocalizedString(@"注销报名72小时后，方可提取质押金", nil);
     self.tagNodeNameLab.text = NSLocalizedString(@"节点名称", nil);
@@ -145,7 +145,7 @@
     
     NSString *walletId =  manager.currentWallet.masterWalletID;
     IMainchainSubWallet *wallet = [manager getWalletELASubWallet:walletId];
-    NSString *ownerpublickey  =[NSString stringWithCString:wallet->GetPublicKeyForVote().c_str() encoding:NSUTF8StringEncoding];
+    NSString *ownerpublickey  =[NSString stringWithCString:wallet->GetOwnerPublicKey().c_str() encoding:NSUTF8StringEncoding];
     
     [HttpUrl NetPOSTHost:Http_IP url:@"/api/dposnoderpc/check/getdepositcoin" header:@{} body:@{@"ownerpublickey":ownerpublickey} showHUD:YES WithSuccessBlock:^(id data) {
         CGFloat available = [data[@"data"][@"result"][@"available"] doubleValue];

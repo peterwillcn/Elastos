@@ -23,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-    [self setBackgroundImg:@"asset_bg"];
+    [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"导出Keystore",nil);
     self.walletNameLabel.text=self.walletName;
     self.KSLabel.text=self.keyStoreString;

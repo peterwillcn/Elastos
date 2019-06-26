@@ -23,9 +23,6 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wallet_bg" translatesAutoresizingMaskIntoConstraints="NO" id="3yl-7g-7W0">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="备份钱包：导出「助记词」并抄写到安全地方，千万不要保存网络上。然后尝试转入，转出小额资产开始使用。" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1jI-S0-XHI">
                     <rect key="frame" x="40" y="233" width="295" height="47"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -58,16 +55,12 @@
             <constraints>
                 <constraint firstItem="4Gm-6G-GrS" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="60" id="4N5-Qe-Iaz"/>
                 <constraint firstItem="1jI-S0-XHI" firstAttribute="top" secondItem="IVr-ko-tA4" secondAttribute="bottom" constant="30" id="4PO-eh-gf3"/>
-                <constraint firstAttribute="bottom" secondItem="3yl-7g-7W0" secondAttribute="bottom" id="B57-0H-rpy"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="05F-YU-Ele" secondAttribute="trailing" constant="40" id="BEB-nE-xZe"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="05F-YU-Ele" secondAttribute="bottom" constant="120" id="PaQ-p2-8GA"/>
-                <constraint firstAttribute="trailing" secondItem="3yl-7g-7W0" secondAttribute="trailing" id="TjM-W8-YwE"/>
-                <constraint firstItem="3yl-7g-7W0" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Wfk-1y-2bB"/>
                 <constraint firstItem="05F-YU-Ele" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="40" id="bua-GT-Yn5"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="1jI-S0-XHI" secondAttribute="trailing" constant="40" id="fxl-GM-Vh3"/>
                 <constraint firstItem="4Gm-6G-GrS" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="ruz-IN-LMQ"/>
                 <constraint firstItem="IVr-ko-tA4" firstAttribute="top" secondItem="4Gm-6G-GrS" secondAttribute="bottom" constant="30" id="tff-eV-6Sh"/>
-                <constraint firstItem="3yl-7g-7W0" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="wKo-aX-rZp"/>
                 <constraint firstItem="1jI-S0-XHI" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="40" id="xxo-Wi-rWL"/>
                 <constraint firstItem="IVr-ko-tA4" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="yxI-fl-Kpl"/>
             </constraints>
@@ -76,6 +69,5 @@
     </objects>
     <resources>
         <image name="wallet_back_up" width="75" height="75"/>
-        <image name="wallet_bg" width="375" height="667"/>
     </resources>
 </document>

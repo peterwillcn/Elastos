@@ -34,7 +34,7 @@ static NSString *cellString=@"HMWSideChainAndTheContactTableViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-    [self setBackgroundImg:@"asset_bg"];
+    [self setBackgroundImg:@""];
 
     if (self.type==chooseSideChainType) {
            self.title=NSLocalizedString(@"选择侧链", nil);

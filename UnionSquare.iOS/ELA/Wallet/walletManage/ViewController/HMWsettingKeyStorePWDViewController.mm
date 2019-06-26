@@ -26,7 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-    [self setBackgroundImg:@"asset_bg"];
+    [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"导出Keystore",nil);
     self.walletNameLabel.text=self.wallet.walletName;
     self.theWalletPasswordTextField.placeholder=NSLocalizedString(@"请输入钱包密码", nil);

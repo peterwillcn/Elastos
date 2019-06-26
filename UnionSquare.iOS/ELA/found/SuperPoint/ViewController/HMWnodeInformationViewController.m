@@ -10,6 +10,8 @@
 
 #import "HMWtheCandidateListViewController.h"
 #import "FLNotePointDBManager.h"
+#import "HMWFMDBManager.h"
+#import "nodeInformationDetailsView.h"
 @interface HMWnodeInformationViewController ()
 //@property (weak, nonatomic) IBOutlet UIView *infoBGView;
 //
@@ -40,50 +42,49 @@
 /*
  *<# #>
  */
-@property(strong,nonatomic)UILabel *nodeNameTextLabel;
+//@property(strong,nonatomic)UILabel *nodeNameTextLabel;
 /*
  *<# #>
  */
 @property(strong,nonatomic)UILabel *nodeNameLabel;
 /*
  *<# #>
- */
-@property(strong,nonatomic)UILabel *nodeAddressTextLabel;
+// */
+//@property(strong,nonatomic)UILabel *nodeAddressTextLabel;
+///*
+// *<# #>
+// */
+//@property(strong,nonatomic)UILabel *nodeAddressLabel;
+///*
+// *<# #>
+// */
+//@property(strong,nonatomic)UILabel *currantVotesTextLabel;
+///*
+// *<# #>
+// */
+//@property(strong,nonatomic)UILabel *currantVotesLabel;
+///*
+// *<# #>
+// */
+//@property(strong,nonatomic)UILabel *votePercentageTextLabel;
+///*
+// *<# #>
+// */
+//@property(strong,nonatomic)UILabel *votePercentageLabel;
+///*
+// *<# #>
+// */
+//@property(strong,nonatomic)UILabel *countryRegionTextLabel;
+///*
+// *<# #>
+// */
+//@property(strong,nonatomic)UILabel *countryRegionLabel;
+//@property(strong,nonatomic)UILabel *URLTextLabel;
+//@property(strong,nonatomic)UILabel *URLLabel;
 /*
  *<# #>
  */
-@property(strong,nonatomic)UILabel *nodeAddressLabel;
-/*
- *<# #>
- */
-@property(strong,nonatomic)UILabel *currantVotesTextLabel;
-/*
- *<# #>
- */
-@property(strong,nonatomic)UILabel *currantVotesLabel;
-/*
- *<# #>
- */
-@property(strong,nonatomic)UILabel *votePercentageTextLabel;
-/*
- *<# #>
- */
-@property(strong,nonatomic)UILabel *votePercentageLabel;
-/*
- *<# #>
- */
-@property(strong,nonatomic)UILabel *countryRegionTextLabel;
-/*
- *<# #>
- */
-@property(strong,nonatomic)UILabel *countryRegionLabel;
-@property(strong,nonatomic)UILabel *URLTextLabel;
-@property(strong,nonatomic)UILabel *URLLabel;
-/*
- *<# #>
- */
-@property(strong,nonatomic)UIButton
-*copURLButton;
+@property(strong,nonatomic)UIButton*copURLButton;
 /*
  *<# #>
  */
@@ -92,6 +93,11 @@
  *<# #>
  */
 @property(copy,nonatomic)UIButton *lookAtTheCandidateListButton;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)nodeInformationDetailsView *nodeInformationDetailsV;
+
 
 @end
 
@@ -102,7 +108,7 @@
    [super viewDidLoad];
     NSLog(@"viewDidLoad");
   [self defultWhite];
-    [self setBackgroundImg:@"tab_bg"];
+    [self setBackgroundImg:@""];
      self.title=NSLocalizedString(@"节点信息", nil) ;
     [self makeUI];
     
@@ -131,7 +137,11 @@
         _joinTheCandidateListButton.titleLabel.font =[UIFont systemFontOfSize:14];
          [[HMWCommView share]makeBordersWithView:_joinTheCandidateListButton];
         [_joinTheCandidateListButton addTarget:self action:@selector(joinTheCandidateListEvent:) forControlEvents:UIControlEventTouchUpInside];
-           BOOL ret = [[FLNotePointDBManager defult]hasModel:self.model];
+        NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+  
+        
+             FMDBWalletModel *model=walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
+           BOOL ret = [[FLNotePointDBManager defultWithWalletID:model.walletID]hasModel:self.model];
             self.hasModel = ret;
             if (ret) {
                 [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
@@ -175,7 +185,7 @@
         make.top.equalTo(self.view.mas_top).mas_equalTo(74);
         make.left.equalTo(self.view.mas_left).mas_offset(15);
         make.right.equalTo(self.view.mas_right).mas_offset(-15);
-        make.height.mas_equalTo(@385);
+        make.height.mas_equalTo(@400);
     }];
     [BGView addSubview:self.siconImageView];
     [self.siconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -184,107 +194,20 @@
         make.size.mas_equalTo(CGSizeMake(55, 30));
         
     }];
-    self.nodeNameTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"节点名称", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
-    [BGView addSubview:self.nodeNameTextLabel];
-    [self.nodeNameTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(BGView.mas_left).offset(15);
-        make.top.equalTo(self.siconImageView.mas_bottom).offset(40);
-  make.size.mas_equalTo(CGSizeMake(100, 15));
-    }];
-self.nodeNameLabel=[self labeWithTextColor:[UIColor whiteColor] withText:self.model.nickname withTextFont:14 withTextAlignment:NSTextAlignmentRight];
+    self.nodeNameLabel=[self labeWithTextColor:[UIColor whiteColor] withText:self.model.nickname withTextFont:14 withTextAlignment:NSTextAlignmentCenter];
     [BGView addSubview:self.nodeNameLabel];
     [self.nodeNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(BGView.mas_right).offset(-15);
-        make.top.equalTo(self.siconImageView.mas_bottom).offset(40);
+        make.top.equalTo(self.siconImageView.mas_bottom).offset(15);
         make.height.mas_equalTo(@15);
-        make.left.equalTo(self.nodeNameTextLabel.mas_right).offset(10);
-    }];
-self.nodeAddressTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"所有人公钥", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
-    [BGView addSubview:self.nodeAddressTextLabel];
-    [self.nodeAddressTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(BGView.mas_left).offset(15);
-        make.top.equalTo( self.nodeNameTextLabel.mas_bottom).offset(20);
-        make.size.mas_equalTo(CGSizeMake(100, 35));
     }];
-    self.nodeAddressLabel=[self labeWithTextColor:[UIColor whiteColor] withText:self.model.ownerpublickey withTextFont:14 withTextAlignment:NSTextAlignmentRight];
-    [BGView addSubview:self.nodeAddressLabel];
-    [self.nodeAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    [BGView addSubview:self.nodeInformationDetailsV];
+    [self.nodeInformationDetailsV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.nodeNameLabel.mas_bottom).offset(15);
+        make.bottom.equalTo(BGView);
+        make.left.equalTo(BGView.mas_left).offset(15);
         make.right.equalTo(BGView.mas_right).offset(-15);
-        make.centerY.equalTo(self.nodeAddressTextLabel.mas_centerY);
-        make.height.mas_equalTo(@60);
-        make.left.equalTo(self.nodeAddressTextLabel.mas_right).offset(10);
-    }];
-
-    self.currantVotesTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"当前票数", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
-    [BGView addSubview:self.currantVotesTextLabel];
-    [self.currantVotesTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(BGView.mas_left).offset(15);
-        make.top.equalTo( self.nodeAddressTextLabel.mas_bottom).offset(30);
-        make.size.mas_equalTo(CGSizeMake(100, 15));
-    }];
-    self.currantVotesLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[NSString stringWithFormat:@"%ld %@",(long)[self.model.votes integerValue],NSLocalizedString(@"票", nil)] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
-    [BGView addSubview:self.currantVotesLabel];
-    [self.currantVotesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(BGView.mas_right).offset(-15);
-        make.centerY.equalTo(self.self.currantVotesTextLabel.mas_centerY);
-        make.height.mas_equalTo(@30);
-        make.left.equalTo(self.currantVotesTextLabel.mas_right).offset(10);
-    }];
-
-    
-    self.votePercentageTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"投票占比", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
-    [BGView addSubview:self.votePercentageTextLabel];
-    [self.votePercentageTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(BGView.mas_left).offset(15);
-        make.top.equalTo( self.currantVotesTextLabel.mas_bottom).offset(30);
-        make.size.mas_equalTo(CGSizeMake(160, 15));
-    }];
-    self.votePercentageLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[NSString stringWithFormat:@"%.5lf %@",self.model.voterate.doubleValue*100,@"%"] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
-    [BGView addSubview:self.votePercentageLabel];
-    [self.votePercentageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(BGView.mas_right).offset(-15);
-        make.centerY.equalTo(self.votePercentageTextLabel.mas_centerY);
-        make.height.mas_equalTo(@30);
-        make.left.equalTo(self.votePercentageTextLabel.mas_right).offset(10);
-    }];
-
-    self.countryRegionTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"国家/地区", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
-    [BGView addSubview:self.countryRegionTextLabel];
-    [self.countryRegionTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(BGView.mas_left).offset(15);
-        make.top.equalTo( self.votePercentageTextLabel.mas_bottom).offset(30);
-        make.size.mas_equalTo(CGSizeMake(160, 15));
-    }];
-    self.countryRegionLabel=[self labeWithTextColor:[UIColor whiteColor] withText:@"--" withTextFont:14 withTextAlignment:NSTextAlignmentRight];
-    [BGView addSubview:self.countryRegionLabel];
-    [self.countryRegionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(BGView.mas_right).offset(-15);
-        make.centerY.equalTo(self.countryRegionTextLabel.mas_centerY);
-        make.height.mas_equalTo(@30);
-        make.left.equalTo(self.countryRegionTextLabel.mas_right).offset(10);
-    }];
-    self.URLTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:@"URL" withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
-    [BGView addSubview:self.URLTextLabel];
-    [self.URLTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(BGView.mas_left).offset(15);
-        make.top.equalTo( self.countryRegionTextLabel.mas_bottom).offset(30);
-        make.size.mas_equalTo(CGSizeMake(30, 15));
-    }];
-    self.URLLabel=[self labeWithTextColor:RGB(40, 147, 232) withText:self.model.url withTextFont:14 withTextAlignment:NSTextAlignmentRight];
-    [BGView addSubview:self.URLLabel];
-    [self.URLLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(BGView.mas_right).offset(-55);
-        make.centerY.equalTo(self.URLTextLabel.mas_centerY);
-        make.height.mas_equalTo(@30);
-        make.left.equalTo(self.URLTextLabel.mas_right).offset(5);
-    }];
-    
-    
-    [BGView addSubview:self.copURLButton];
-    [self.copURLButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(BGView.mas_right).offset(-10);
-        make.centerY.equalTo(self.URLTextLabel.mas_centerY);
-        make.size.mas_equalTo(CGSizeMake(46, 46));
     }];
     [self.view addSubview:self.lookAtTheCandidateListButton];
     [self.lookAtTheCandidateListButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -298,7 +221,7 @@ self.nodeAddressTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withT
     [self.joinTheCandidateListButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).offset(63);
         make.right.equalTo(self.view.mas_right).offset(-63);
-        make.bottom.equalTo(self.lookAtTheCandidateListButton.mas_top).offset(-20);
+    make.bottom.equalTo(self.lookAtTheCandidateListButton.mas_top).offset(-20);
         make.height.mas_equalTo(@40);
         
     }];
@@ -322,26 +245,26 @@ self.nodeAddressTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withT
     });
     
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        self.countryRegionLabel.text=countries;
+        self.nodeInformationDetailsV.countryRegionLabel.text=countries;
         if (URL.length>0&&self.model.url.length>0) {
            [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:URL] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
         }
     });
+    [self upInfo];
 
 }
+-(nodeInformationDetailsView *)nodeInformationDetailsV{
+    if (!_nodeInformationDetailsV) {
+        _nodeInformationDetailsV =[[nodeInformationDetailsView alloc]init];
+        _nodeInformationDetailsV.model=self.model;
+        [_nodeInformationDetailsV.copURLButton addTarget:self action:@selector(copyURLEvent:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _nodeInformationDetailsV;
+}
 -(void)upInfo{
-    
-//       self.tagNickNameLab.text  =NSLocalizedString(@"节点名称", nil);
-//       self.tagNodePubKeyLab.text=NSLocalizedString(@"所有人公钥", nil);
-//       self.tagTicketNumbLab.text=NSLocalizedString(@"当前票数", nil);
-//       self.tagTicketRateLab.text=NSLocalizedString(@"投票占比", nil);
-//       self.tagContryCodeLab.text=NSLocalizedString(@"国家/地区", nil);
-//        self.nickNameLab.text   = self.model.nickname;
-//        self.nodePubKeyLab.text = self.model.ownerpublickey;
-//        self.urlLab.text        = self.model.url;
-//        self.ticketNumbLab.text = [NSString stringWithFormat:@"%ld %@",(long)[self.model.votes integerValue],NSLocalizedString(@"票", nil)];
-//        self.ticketRateLab.text = [NSString stringWithFormat:@"%.5lf %@",self.model.voterate.doubleValue*100,@"%"] ;
-        BOOL ret = [[FLNotePointDBManager defult]hasModel:self.model];
+    NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+   FMDBWalletModel *model=walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
+        BOOL ret = [[FLNotePointDBManager defultWithWalletID:model.walletID]hasModel:self.model];
         self.hasModel = ret;
 
         [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"加入候选列表", nil)  forState:UIControlStateNormal];
@@ -354,12 +277,7 @@ self.nodeAddressTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withT
         }else{
             self.joinTheCandidateListButton.enabled = YES;
         }
-//        if (self.model.url.length>0) {
-//                [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:[[FLTools share] getImageViewURLWithURL:self.model.url]] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
-//        }
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        self.contryCodeLab.text =  [[FLTools share]contryNameTransLateByCode:  self.model.location.integerValue];
-//    });
+
 
 }
 - (IBAction)copyURLEvent:(id)sender {
@@ -373,9 +291,10 @@ self.nodeAddressTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withT
 }
 - (IBAction)joinTheCandidateListEvent:(id)sender {
     
-    
+    NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+    FMDBWalletModel *model =walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
     if (self.hasModel) {
-        BOOL ret =  [[FLNotePointDBManager defult]delectRecord:self.model];
+        BOOL ret =  [[FLNotePointDBManager defultWithWalletID:model.walletID]delectRecord:self.model];
         if (ret) {
             [[FLTools share]showErrorInfo:NSLocalizedString(@"删除成功",nil)];
 
@@ -386,7 +305,7 @@ self.nodeAddressTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withT
     }else{
        
         
-    BOOL ret =  [[FLNotePointDBManager defult]addRecord:self.model];
+    BOOL ret =  [[FLNotePointDBManager defultWithWalletID:model.walletID]addRecord:self.model];
     if (ret) {
         [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
         self.hasModel = YES;
@@ -410,4 +329,5 @@ self.nodeAddressTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withT
     labe.textColor=color;
     return labe;
 }
+
 @end

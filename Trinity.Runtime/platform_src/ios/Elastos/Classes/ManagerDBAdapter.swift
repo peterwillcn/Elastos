@@ -173,7 +173,7 @@ import SQLite
                         start_url <- info.start_url,
                         author_name <- info.author_name,
                         author_email <- info.author_email,
-                        default_locale <- info.app_id,
+                        default_locale <- info.default_locale,
                         background_color <- info.background_color,
                         theme_display <- info.theme_display,
                         theme_color <- info.theme_color,

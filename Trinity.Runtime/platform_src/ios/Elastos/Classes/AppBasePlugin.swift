@@ -144,14 +144,14 @@
         return ret;
     }
     
-    func jsonAppLocales(_ info: AppInfo) -> [Dictionary<String, Any>] {
-        var ret = [Dictionary<String, Any>]()
+    func jsonAppLocales(_ info: AppInfo) -> Dictionary<String, Any> {
+        var ret = Dictionary<String, Any>()
         for locale in info.locales {
             let language = ["name": locale.name,
                              "shortName": locale.short_name,
                              "description": locale.desc,
                              "authorName": locale.author_name] as [String : String];
-            ret.append([locale.language: language]);
+            ret[locale.language] = language;
         }
 
         return ret;

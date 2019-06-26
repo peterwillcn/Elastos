@@ -45,6 +45,9 @@ public class AppWhitelistPlugin extends CordovaPlugin {
         allowedRequests.addWhiteListEntry("trinity:///asset/*", false);
         allowedRequests.addWhiteListEntry("trinity:///data/*", false);
 
+        allowedRequests.addWhiteListEntry("http://localhost/*", false);
+        allowedRequests.addWhiteListEntry("https://localhost/*", false);
+
         allowedNavigations = allowedRequests;
         allowedIntents = new Whitelist();
 

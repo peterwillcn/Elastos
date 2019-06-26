@@ -207,8 +207,8 @@ class AppManager {
             return appsPath + info.app_id + "/";
         }
         else {
-            let index = info.start_url.range(of: "/", options: .backwards)?.lowerBound
-            return String(info.start_url[info.start_url.startIndex ..< index!]);
+            let index = info.start_url.range(of: "/", options: .backwards)!.lowerBound;
+            return String(info.start_url[info.start_url.startIndex ..< index])  + "/";
         }
     }
 

@@ -245,8 +245,11 @@
 		4217A0EE22C9BD8300C9A5E7 /* Config.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 4217A0E822C9BD8300C9A5E7 /* Config.cfg */; };
 		4217A0EF22C9BD8300C9A5E7 /* mnemonic_chinese.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4217A0E922C9BD8300C9A5E7 /* mnemonic_chinese.txt */; };
 		4217A0F022C9BD8300C9A5E7 /* mnemonic_french.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4217A0EA22C9BD8300C9A5E7 /* mnemonic_french.txt */; };
-		42186FE022BCADBB0063A28D /* AboutELAWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.m */; };
+		42186FE022BCADBB0063A28D /* AboutELAWalletViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.mm */; };
 		42186FE122BCADBB0063A28D /* AboutELAWalletViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42186FDF22BCADBB0063A28D /* AboutELAWalletViewController.xib */; };
+		422672A722C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 422672A522C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m */; };
+		422672A822C9E0CD00179D66 /* HWMVUpdateLogWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 422672A622C9E0CD00179D66 /* HWMVUpdateLogWebViewController.xib */; };
+		422672A922C9E30200179D66 /* libspvsdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42C53FB222C9BAA80006B3B2 /* libspvsdk.a */; };
 		4226A862229BC02E00E93430 /* build-debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4226A85F229BC02D00E93430 /* build-debug.xcconfig */; };
 		4226A863229BC02E00E93430 /* build.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4226A860229BC02D00E93430 /* build.xcconfig */; };
 		4226A864229BC02E00E93430 /* build-release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4226A861229BC02E00E93430 /* build-release.xcconfig */; };
@@ -358,7 +361,6 @@
 		42B57AC122150C1C004CF089 /* NSDictionary+WOCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B57AAF22150C1C004CF089 /* NSDictionary+WOCrash.m */; };
 		42B57AC222150C1C004CF089 /* NSMutableArray+WOCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B57AB022150C1C004CF089 /* NSMutableArray+WOCrash.m */; };
 		42B7AD95221BAA61006959B8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 42B7AD97221BAA61006959B8 /* Localizable.strings */; };
-		42C53FB322C9BAA80006B3B2 /* libspvsdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42C53FB222C9BAA80006B3B2 /* libspvsdk.a */; };
 		42D126A122B7754F000A286C /* runningNodeListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D126A022B7754F000A286C /* runningNodeListView.m */; };
 		42D126A322B7755C000A286C /* runningNodeListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D126A222B7755C000A286C /* runningNodeListView.xib */; };
 		42D126A722B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D126A522B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.m */; };
@@ -788,8 +790,11 @@
 		4217A0E922C9BD8300C9A5E7 /* mnemonic_chinese.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mnemonic_chinese.txt; sourceTree = "<group>"; };
 		4217A0EA22C9BD8300C9A5E7 /* mnemonic_french.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mnemonic_french.txt; sourceTree = "<group>"; };
 		42186FDD22BCADBB0063A28D /* AboutELAWalletViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutELAWalletViewController.h; sourceTree = "<group>"; };
-		42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutELAWalletViewController.m; sourceTree = "<group>"; };
+		42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AboutELAWalletViewController.mm; sourceTree = "<group>"; };
 		42186FDF22BCADBB0063A28D /* AboutELAWalletViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutELAWalletViewController.xib; sourceTree = "<group>"; };
+		422672A422C9E0CD00179D66 /* HWMVUpdateLogWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMVUpdateLogWebViewController.h; sourceTree = "<group>"; };
+		422672A522C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMVUpdateLogWebViewController.m; sourceTree = "<group>"; };
+		422672A622C9E0CD00179D66 /* HWMVUpdateLogWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMVUpdateLogWebViewController.xib; sourceTree = "<group>"; };
 		4226A85F229BC02D00E93430 /* build-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "build-debug.xcconfig"; path = "config/build-debug.xcconfig"; sourceTree = SOURCE_ROOT; };
 		4226A860229BC02D00E93430 /* build.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = build.xcconfig; path = config/build.xcconfig; sourceTree = SOURCE_ROOT; };
 		4226A861229BC02E00E93430 /* build-release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "build-release.xcconfig"; path = "config/build-release.xcconfig"; sourceTree = SOURCE_ROOT; };
@@ -1090,7 +1095,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42C53FB322C9BAA80006B3B2 /* libspvsdk.a in Frameworks */,
+				422672A922C9E30200179D66 /* libspvsdk.a in Frameworks */,
 				4261CF4022A16066006B1DDE /* Security.framework in Frameworks */,
 				4261CF3E22A1605D006B1DDE /* SystemConfiguration.framework in Frameworks */,
 				4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */,
@@ -1509,7 +1514,7 @@
 				4202C88521F6EF28009E5932 /* FLMyVC.h */,
 				4202C89E21F6EF29009E5932 /* FLMyVC.m */,
 				42186FDD22BCADBB0063A28D /* AboutELAWalletViewController.h */,
-				42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.m */,
+				42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.mm */,
 				42186FDF22BCADBB0063A28D /* AboutELAWalletViewController.xib */,
 				4202C89621F6EF28009E5932 /* HMWaddContactViewController.h */,
 				4202C88221F6EF28009E5932 /* HMWaddContactViewController.m */,
@@ -1517,6 +1522,9 @@
 				4202C89F21F6EF29009E5932 /* HMWtheContactInformationViewController.h */,
 				4202C88421F6EF28009E5932 /* HMWtheContactInformationViewController.m */,
 				4202C8A021F6EF29009E5932 /* HMWtheContactInformationViewController.xib */,
+				422672A422C9E0CD00179D66 /* HWMVUpdateLogWebViewController.h */,
+				422672A522C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m */,
+				422672A622C9E0CD00179D66 /* HWMVUpdateLogWebViewController.xib */,
 				4202C89721F6EF28009E5932 /* model */,
 				4202C89A21F6EF28009E5932 /* view */,
 			);
@@ -2747,6 +2755,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = HWM;
 				LastUpgradeCheck = 1020;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
@@ -2887,6 +2896,7 @@
 				4250B3F52238D32700B6858F /* zbar-help.html in Resources */,
 				4202CA4B21F6EF2A009E5932 /* FLCopyPrivateKeyView.xib in Resources */,
 				4261C2FD22C21563008C1532 /* showOwnerAddressTableViewCell.xib in Resources */,
+				422672A822C9E0CD00179D66 /* HWMVUpdateLogWebViewController.xib in Resources */,
 				4202CA2421F6EF2A009E5932 /* HMWClassificationOfLanguageTableViewCell.xib in Resources */,
 				4202CAD921F6EF2B009E5932 /* HMWMyVoteViewController.xib in Resources */,
 				4202CAAE21F6EF2B009E5932 /* HMWaddFooterView.xib in Resources */,
@@ -2944,7 +2954,7 @@
 				42B57ABA22150C1C004CF089 /* WOCrashProtectorManager.m in Sources */,
 				4202CA6921F6EF2B009E5932 /* HMWtransferTransactionMultipleAddressDetailsTableViewCell.m in Sources */,
 				4202CA3721F6EF2A009E5932 /* FLChoseOrVoteVC.m in Sources */,
-				42186FE022BCADBB0063A28D /* AboutELAWalletViewController.m in Sources */,
+				42186FE022BCADBB0063A28D /* AboutELAWalletViewController.mm in Sources */,
 				424910F12271BFCF00C41E50 /* NSData+ImageContentType.m in Sources */,
 				CBD48D5E21FC36BA00BF3B11 /* AFNetworkReachabilityManager.m in Sources */,
 				4202CA9921F6EF2B009E5932 /* HMWImportTheWalletViewController.mm in Sources */,
@@ -3115,6 +3125,7 @@
 				4228AA6421F88C87002866B5 /* CALayer+YYAdd.m in Sources */,
 				4202CA3921F6EF2A009E5932 /* FLticketProgressView.m in Sources */,
 				4202CA6121F6EF2A009E5932 /* HMWtransferTransactionSingleAddressDetailsView.m in Sources */,
+				422672A722C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m in Sources */,
 				4202CA3F21F6EF2A009E5932 /* FLNetErrorView.m in Sources */,
 				4202C9F021F6EF2A009E5932 /* MJRefreshAutoNormalFooter.m in Sources */,
 				4202CA2C21F6EF2A009E5932 /* friendsModel.m in Sources */,
@@ -3231,6 +3242,7 @@
 					"$(PROJECT_DIR)/WalletManager",
 					"$(PROJECT_DIR)/ELA/ThirdSDK/ZBar/ZBarSDK",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
 				PRODUCT_NAME = elastos_wallet;
@@ -3274,6 +3286,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/WalletManager",
 					"$(PROJECT_DIR)/ELA/ThirdSDK/ZBar/ZBarSDK",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;

@@ -418,8 +418,15 @@ errCodeSPVCreateMasterWalletError= 20006;
 {
     
     try{
-//         NSLog(@"GetAllMasterWallets");
-        IMasterWalletVector vector = mMasterWalletManager->GetAllMasterWallets();
+        IMasterWalletVector vector;
+        try {
+            //        NSLog(@"GetAllSubWallets");
+            vector = mMasterWalletManager->GetAllMasterWallets();
+        } catch (const std:: exception &e) {
+            return [self errInfoToDic:e.what() with:command];
+        }
+        
+ 
         NSMutableArray *masterWalletListJson = [[NSMutableArray alloc] init];
         for (int i = 0; i < vector.size(); i++) {
             IMasterWallet *iMasterWallet = vector[i];
@@ -1694,4 +1701,9 @@ errCodeSPVCreateMasterWalletError= 20006;
 -(void)EMWMSaveConfigs{
     mMasterWalletManager->SaveConfigs();
 }
+-(NSString*)EMWMGetVersion{
+    String  Version=mMasterWalletManager->GetVersion();
+    return [self stringWithCString:Version];
+}
+
 @end

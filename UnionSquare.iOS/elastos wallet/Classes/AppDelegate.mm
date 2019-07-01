@@ -46,7 +46,9 @@
 
         //初始化一个imageView，并添加到window上
     
-    
+    if(launchOptions[UIApplicationLaunchOptionsURLKey] != nil){
+        [self application:application handleOpenURL:launchOptions[UIApplicationLaunchOptionsURLKey]];
+    }
         
     
    NSString *languageString=[DAConfig userLanguage];
@@ -137,7 +139,7 @@
 }
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(nullable NSDictionary *)launchOptions{
     
-    
+    return YES;
     
 }
 -(void)applicationWillTerminate:(UIApplication *)application{
@@ -146,6 +148,39 @@
 }
 -(void)applicationDidEnterBackground:(UIApplication *)application {
  [[ELWalletManager share] EMWMSaveConfigs];
+}
+/**
+ iOS 9.0 以下 程序运行过程中调用
+ */
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url{
+    
+    NSLog(@"URL scheme:%@", [url scheme]);
+    NSLog(@"URL host:%@", [url host]);
+    return YES;
+}
+
+/**
+ iOS 9.0 之后 程序运行过程中调用
+ */
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options{
+    
+    NSLog(@"URL scheme:%@", [url scheme]);
+    //参数
+    NSLog(@"URL host:%@", [url host]);
+    
+    NSString * message;
+    if ([[url host] isEqualToString:@"success"]) {
+        message = @"分享成功";
+    }else{
+        message = @"分享失败";
+    }
+    
+    UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:[url host] delegate:self cancelButtonTitle:nil otherButtonTitles:message, nil];
+    [alertView show];
+    return YES;
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
 }
 
 @end

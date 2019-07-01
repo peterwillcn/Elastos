@@ -85,7 +85,7 @@ public class AppInstaller {
         return true;
     }
 
-    private boolean unpackZip(InputStream srcZip, String destPath, boolean verifyDigest) {
+    private boolean unpackZip(InputStream srcZip, String destPath, boolean verifyDigest) throws Exception {
         ZipInputStream zis;
         MessageDigest md = null;
         TreeMap<String, String> digest_map = null;
@@ -165,7 +165,7 @@ public class AppInstaller {
                 String hex = sb.toString();
                 if (!hex.equals(filelist_sha)) {
                     // Verify digest failed!
-                    return false;
+                    throw new Exception("Failed to verify EPK digest!");
                 }
             }
         }
@@ -294,16 +294,17 @@ public class AppInstaller {
 
         if (!unpackZip(inputStream, path, true)) {
             deleteDAppPackage(downloadPkgPath);
-            throw new Exception("UnpackZip fail!");
+            throw new Exception("Failed to unpack EPK!");
         }
 
         String public_key = getStringFromFile(path + "EPK-SIGN/SIGN.PUB");
         String payload = getStringFromFile(path + "EPK-SIGN/FILELIST.SHA");
         String signed_payload = getStringFromFile(path + "EPK-SIGN/FILELIST.SIGN");
 
-        if (!NativeVerifier.verify(public_key, payload, signed_payload)) {
+        if (public_key == null || payload == null || signed_payload == null ||
+                !NativeVerifier.verify(public_key, payload, signed_payload)) {
             deleteDAppPackage(downloadPkgPath);
-            throw new Exception("Verify signature fail!");
+            throw new Exception("Failed to verify EPK signature!");
         }
 
         Log.d("AppInstaller", "The EPK was signed by " + public_key);
@@ -314,7 +315,7 @@ public class AppInstaller {
                 || appManager.getAppInfo(info.app_id) != null) {
             deleteAllFiles(from);
             deleteDAppPackage(downloadPkgPath);
-            throw new Exception("App alreadey exist!");
+            throw new Exception("App already existed!");
         }
         else {
             File to = new File(appPath, info.app_id);

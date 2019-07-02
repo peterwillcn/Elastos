@@ -239,12 +239,6 @@
 		4202CAD921F6EF2B009E5932 /* HMWMyVoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C9D621F6EF29009E5932 /* HMWMyVoteViewController.xib */; };
 		4202CADB21F6EF2B009E5932 /* HMWfoundViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C9DD21F6EF29009E5932 /* HMWfoundViewController.mm */; };
 		4202CADE21F6F0D2009E5932 /* ElaSubWalletCallback.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202CADC21F6F0D2009E5932 /* ElaSubWalletCallback.mm */; };
-		4217A0EB22C9BD8300C9A5E7 /* mnemonic_japanese.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4217A0E522C9BD8300C9A5E7 /* mnemonic_japanese.txt */; };
-		4217A0EC22C9BD8300C9A5E7 /* mnemonic_italian.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4217A0E622C9BD8300C9A5E7 /* mnemonic_italian.txt */; };
-		4217A0ED22C9BD8300C9A5E7 /* mnemonic_spanish.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4217A0E722C9BD8300C9A5E7 /* mnemonic_spanish.txt */; };
-		4217A0EE22C9BD8300C9A5E7 /* Config.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 4217A0E822C9BD8300C9A5E7 /* Config.cfg */; };
-		4217A0EF22C9BD8300C9A5E7 /* mnemonic_chinese.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4217A0E922C9BD8300C9A5E7 /* mnemonic_chinese.txt */; };
-		4217A0F022C9BD8300C9A5E7 /* mnemonic_french.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4217A0EA22C9BD8300C9A5E7 /* mnemonic_french.txt */; };
 		42186FE022BCADBB0063A28D /* AboutELAWalletViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.mm */; };
 		42186FE122BCADBB0063A28D /* AboutELAWalletViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42186FDF22BCADBB0063A28D /* AboutELAWalletViewController.xib */; };
 		422672A722C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 422672A522C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m */; };
@@ -342,6 +336,7 @@
 		428054D42242296500E74F0E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 428054D62242296500E74F0E /* InfoPlist.strings */; };
 		42885A562216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42885A542216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.m */; };
 		42885A572216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42885A552216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib */; };
+		428B4D7122CAFA5D004AE7D0 /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 428B4D7022CAFA5D004AE7D0 /* Data */; };
 		428BA711229B84C00091618F /* invokedUrlCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA710229B84C00091618F /* invokedUrlCommand.m */; };
 		428BA726229B91190091618F /* PluginResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA725229B91190091618F /* PluginResult.m */; };
 		428BA729229B92530091618F /* JSON_private.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA727229B92530091618F /* JSON_private.m */; };
@@ -783,12 +778,6 @@
 		4202C9DD21F6EF29009E5932 /* HMWfoundViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HMWfoundViewController.mm; sourceTree = "<group>"; };
 		4202CADC21F6F0D2009E5932 /* ElaSubWalletCallback.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ElaSubWalletCallback.mm; sourceTree = "<group>"; };
 		4202CADD21F6F0D2009E5932 /* ElaSubWalletCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElaSubWalletCallback.h; sourceTree = "<group>"; };
-		4217A0E522C9BD8300C9A5E7 /* mnemonic_japanese.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mnemonic_japanese.txt; sourceTree = "<group>"; };
-		4217A0E622C9BD8300C9A5E7 /* mnemonic_italian.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mnemonic_italian.txt; sourceTree = "<group>"; };
-		4217A0E722C9BD8300C9A5E7 /* mnemonic_spanish.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mnemonic_spanish.txt; sourceTree = "<group>"; };
-		4217A0E822C9BD8300C9A5E7 /* Config.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Config.cfg; sourceTree = "<group>"; };
-		4217A0E922C9BD8300C9A5E7 /* mnemonic_chinese.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mnemonic_chinese.txt; sourceTree = "<group>"; };
-		4217A0EA22C9BD8300C9A5E7 /* mnemonic_french.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mnemonic_french.txt; sourceTree = "<group>"; };
 		42186FDD22BCADBB0063A28D /* AboutELAWalletViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutELAWalletViewController.h; sourceTree = "<group>"; };
 		42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AboutELAWalletViewController.mm; sourceTree = "<group>"; };
 		42186FDF22BCADBB0063A28D /* AboutELAWalletViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutELAWalletViewController.xib; sourceTree = "<group>"; };
@@ -983,6 +972,7 @@
 		42885A532216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTransactionDetailsURLViewController.h; sourceTree = "<group>"; };
 		42885A542216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTransactionDetailsURLViewController.m; sourceTree = "<group>"; };
 		42885A552216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTransactionDetailsURLViewController.xib; sourceTree = "<group>"; };
+		428B4D7022CAFA5D004AE7D0 /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Data; path = "elastos wallet/spvsdk/Data"; sourceTree = "<group>"; };
 		428BA70F229B84C00091618F /* invokedUrlCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = invokedUrlCommand.h; sourceTree = "<group>"; };
 		428BA710229B84C00091618F /* invokedUrlCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = invokedUrlCommand.m; sourceTree = "<group>"; };
 		428BA724229B91190091618F /* PluginResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PluginResult.h; sourceTree = "<group>"; };
@@ -1129,6 +1119,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				428B4D7022CAFA5D004AE7D0 /* Data */,
 				42C53F8522C9B9820006B3B2 /* spvsdk */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				4202C7D321F6EF28009E5932 /* ELA */,
@@ -2256,19 +2247,6 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
-		4217A0E422C9BD8300C9A5E7 /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				4217A0E522C9BD8300C9A5E7 /* mnemonic_japanese.txt */,
-				4217A0E622C9BD8300C9A5E7 /* mnemonic_italian.txt */,
-				4217A0E722C9BD8300C9A5E7 /* mnemonic_spanish.txt */,
-				4217A0E822C9BD8300C9A5E7 /* Config.cfg */,
-				4217A0E922C9BD8300C9A5E7 /* mnemonic_chinese.txt */,
-				4217A0EA22C9BD8300C9A5E7 /* mnemonic_french.txt */,
-			);
-			path = Data;
-			sourceTree = "<group>";
-		};
 		4228A9F121F88C86002866B5 /* yykit */ = {
 			isa = PBXGroup;
 			children = (
@@ -2611,7 +2589,6 @@
 		42C53F8522C9B9820006B3B2 /* spvsdk */ = {
 			isa = PBXGroup;
 			children = (
-				4217A0E422C9BD8300C9A5E7 /* Data */,
 				42C53F8622C9B9820006B3B2 /* include */,
 			);
 			name = spvsdk;
@@ -2793,7 +2770,6 @@
 				4202CA7921F6EF2B009E5932 /* HMWAddressListViewController.xib in Resources */,
 				4202CA8F21F6EF2B009E5932 /* HMWExportTheMnemonicWordViewController.xib in Resources */,
 				4202CA4521F6EF2A009E5932 /* FLMeHeadView.xib in Resources */,
-				4217A0EF22C9BD8300C9A5E7 /* mnemonic_chinese.txt in Resources */,
 				42D126A322B7755C000A286C /* runningNodeListView.xib in Resources */,
 				4250B3F42238D32700B6858F /* zbar-samples.png in Resources */,
 				428054D42242296500E74F0E /* InfoPlist.strings in Resources */,
@@ -2807,7 +2783,6 @@
 				42B7AD95221BAA61006959B8 /* Localizable.strings in Resources */,
 				4202CA9F21F6EF2B009E5932 /* HMWverifyTheMnemonicWordViewController.xib in Resources */,
 				4202CA6F21F6EF2B009E5932 /* HMWtransferTransactionDetailsFootView.xib in Resources */,
-				4217A0EB22C9BD8300C9A5E7 /* mnemonic_japanese.txt in Resources */,
 				4202CA4621F6EF2A009E5932 /* FLGoToIdentyAlertView.xib in Resources */,
 				4230217C22C0BB0C0004AB65 /* nodeInformationDetailsView.xib in Resources */,
 				4202CA5221F6EF2A009E5932 /* FLAssetTableCell.xib in Resources */,
@@ -2849,7 +2824,6 @@
 				4202CA2721F6EF2A009E5932 /* FLTableViewDefultCell.xib in Resources */,
 				4202CAA221F6EF2B009E5932 /* HMWImKeystoreView.xib in Resources */,
 				4202CA5421F6EF2A009E5932 /* FLSearchContractTableCell.xib in Resources */,
-				4217A0ED22C9BD8300C9A5E7 /* mnemonic_spanish.txt in Resources */,
 				4202CA4221F6EF2A009E5932 /* FLwalletSelectView.xib in Resources */,
 				4202CACB21F6EF2B009E5932 /* HMWVotingListView.xib in Resources */,
 				4202CAA321F6EF2B009E5932 /* HMWImTheMnemonicWordView.xib in Resources */,
@@ -2874,14 +2848,12 @@
 				4202CA2921F6EF2A009E5932 /* HMWNotAddContactTableViewCell.xib in Resources */,
 				4202CA4E21F6EF2A009E5932 /* FLQRVC.strings in Resources */,
 				4202C9E721F6EF2A009E5932 /* MJRefresh.bundle in Resources */,
-				4217A0EE22C9BD8300C9A5E7 /* Config.cfg in Resources */,
 				4202CA8A21F6EF2B009E5932 /* HMWsettingKeyStorePWDViewController.xib in Resources */,
-				4217A0EC22C9BD8300C9A5E7 /* mnemonic_italian.txt in Resources */,
 				4202CA9021F6EF2B009E5932 /* HMWTheWalletManagementViewController.xib in Resources */,
 				4202CA3121F6EF2A009E5932 /* FLChoseOrVoteVC.xib in Resources */,
+				428B4D7122CAFA5D004AE7D0 /* Data in Resources */,
 				4202CA2B21F6EF2A009E5932 /* HMWmyContactListTableViewCell.xib in Resources */,
 				4202CAC221F6EF2B009E5932 /* HMWinputVotesPopupWindowView.xib in Resources */,
-				4217A0F022C9BD8300C9A5E7 /* mnemonic_french.txt in Resources */,
 				4202CA8421F6EF2B009E5932 /* HMWToDeleteTheWalletPopView.xib in Resources */,
 				4202CA7721F6EF2B009E5932 /* HMWTop_upPageForDetailsViewController.xib in Resources */,
 				4202CA5621F6EF2A009E5932 /* FLAssetManageTableCell.xib in Resources */,

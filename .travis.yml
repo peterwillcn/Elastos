@@ -3,30 +3,25 @@ sudo: true
 
 matrix:
   include:
-    # - os: osx
-    #   osx_image: xcode10.2
-    #   env: NODEJS_VERSION=12 NDK=r18b
-    #   addons:
-    #     homebrew:
-    #       taps: homebrew/cask-versions
-    #       casks: adoptopenjdk8
-
     - os: osx
       osx_image: xcode10.2
-      env: NODEJS_VERSION=11 NDK=r18b BUILD_EPKSIGNER=ON
+      env: NODEJS_VERSION=11 NDK=r18b
       addons:
         homebrew:
           taps: homebrew/cask-versions
           casks: adoptopenjdk8
 
-    # - language: android
-    #   env: NODEJS_VERSION=10
-    #   android:
-    #     components:
-    #       - tools
-    #       - platform-tools
-    #       - build-tools-28.0.3
-    #       - android-27
+    - os: osx
+      language: cpp
+      osx_image: xcode10.2
+      env: BUILD_EPKSIGNER
+      before_install:
+      install:
+        - brew install shunit2
+      script:
+        - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/build.sh
+        - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/_build/sample/sample
+        - $TRAVIS_BUILD_DIR/ToolChains/tests/sign_epk_test.sh
 
     - language: android
       dist: trusty
@@ -47,9 +42,11 @@ matrix:
       env: BUILD_EPKSIGNER
       before_install:
       install:
+        - sudo apt-get install shunit2
       script:
         - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/build.sh
         - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/_build/sample/sample
+        - $TRAVIS_BUILD_DIR/ToolChains/tests/sign_epk_test.sh
 
 before_install:
   - wget -q https://services.gradle.org/distributions/gradle-4.6-bin.zip
@@ -80,14 +77,8 @@ install:
   - npm install -g cordova ionic
 
 script:
-  - if [[ "$BUILD_EPKSIGNER" == "ON" ]]; then
-      $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/build.sh;
-      $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/_build/sample/sample;
-    fi
   - $TRAVIS_BUILD_DIR/ToolChains/bin/build all
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/build.sh;
-      $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/_build/sample/sample;
       cd $TRAVIS_BUILD_DIR/Runtime/platforms/ios && xcodebuild -showsdks;
       sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer/;
       xcodebuild -scheme Elastos build -sdk iphonesimulator;

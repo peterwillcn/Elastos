@@ -124,7 +124,7 @@
         FLFLTabBarVC *tabVC = [[FLFLTabBarVC alloc]init];
         self.window.rootViewController = tabVC;
     }
-    [WOCrashProtectorManager makeAllEffective];
+//    [WOCrashProtectorManager makeAllEffective];
     [self.window makeKeyAndVisible];
     return YES;
     

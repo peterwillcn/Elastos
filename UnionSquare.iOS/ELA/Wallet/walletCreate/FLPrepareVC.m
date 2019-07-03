@@ -10,6 +10,8 @@
 #import "FLCreatAcountVC.h"
 #import "BaseNavigationVC.h"
 #import "HMWImportTheWalletViewController.h"
+#import "HWMcreatListViewController.h"
+
 
 @interface FLPrepareVC ()
 
@@ -57,8 +59,10 @@
 
 }
 - (IBAction)clickBtn1:(id)sender {
-    FLCreatAcountVC *vc = [[FLCreatAcountVC alloc]init];
-    [self.navigationController pushViewController:vc animated:YES];
+    HWMcreatListViewController *vc=[[HWMcreatListViewController alloc]init];
+    
+   [self.navigationController pushViewController:vc animated:YES];
+    
 }
 
 - (IBAction)clickBtn2:(id)sender {

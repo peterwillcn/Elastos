@@ -27,7 +27,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self setBackgroundImg:@""];
-    self.title = NSLocalizedString(@"创建钱包", nil);
+    self.title = NSLocalizedString(@"创建单签钱包", nil);
     self.nameField.placeholder=NSLocalizedString(@"请输入钱包名称", nil);
     self.pwdfield1.placeholder=NSLocalizedString(@"请输入8至16位钱包密码", nil);
     self.pwdfield2.placeholder=NSLocalizedString(@"请再次输入确认钱包密码", nil);

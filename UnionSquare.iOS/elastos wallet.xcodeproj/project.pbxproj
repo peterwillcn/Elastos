@@ -239,12 +239,6 @@
 		4202CAD921F6EF2B009E5932 /* HMWMyVoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C9D621F6EF29009E5932 /* HMWMyVoteViewController.xib */; };
 		4202CADB21F6EF2B009E5932 /* HMWfoundViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C9DD21F6EF29009E5932 /* HMWfoundViewController.mm */; };
 		4202CADE21F6F0D2009E5932 /* ElaSubWalletCallback.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202CADC21F6F0D2009E5932 /* ElaSubWalletCallback.mm */; };
-		4217A0EB22C9BD8300C9A5E7 /* mnemonic_japanese.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4217A0E522C9BD8300C9A5E7 /* mnemonic_japanese.txt */; };
-		4217A0EC22C9BD8300C9A5E7 /* mnemonic_italian.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4217A0E622C9BD8300C9A5E7 /* mnemonic_italian.txt */; };
-		4217A0ED22C9BD8300C9A5E7 /* mnemonic_spanish.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4217A0E722C9BD8300C9A5E7 /* mnemonic_spanish.txt */; };
-		4217A0EE22C9BD8300C9A5E7 /* Config.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 4217A0E822C9BD8300C9A5E7 /* Config.cfg */; };
-		4217A0EF22C9BD8300C9A5E7 /* mnemonic_chinese.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4217A0E922C9BD8300C9A5E7 /* mnemonic_chinese.txt */; };
-		4217A0F022C9BD8300C9A5E7 /* mnemonic_french.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4217A0EA22C9BD8300C9A5E7 /* mnemonic_french.txt */; };
 		42186FE022BCADBB0063A28D /* AboutELAWalletViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.mm */; };
 		42186FE122BCADBB0063A28D /* AboutELAWalletViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42186FDF22BCADBB0063A28D /* AboutELAWalletViewController.xib */; };
 		422672A722C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 422672A522C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m */; };
@@ -303,6 +297,17 @@
 		422D60AB21FC42D100DD07FF /* HMWChooseTheCountryAreasTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 422D60A721FC42D100DD07FF /* HMWChooseTheCountryAreasTableViewCell.xib */; };
 		4230217A22C0BB000004AB65 /* nodeInformationDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4230217922C0BB000004AB65 /* nodeInformationDetailsView.m */; };
 		4230217C22C0BB0C0004AB65 /* nodeInformationDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4230217B22C0BB0C0004AB65 /* nodeInformationDetailsView.xib */; };
+		4234720422CC60B5000616CB /* AddressPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4234720122CC60B5000616CB /* AddressPickerView.m */; };
+		4234720522CC60B6000616CB /* AddressPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4234720322CC60B5000616CB /* AddressPickerView.xib */; };
+		4234720922CC86CB000616CB /* HWMAddThePrivateKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4234720722CC86CB000616CB /* HWMAddThePrivateKeyViewController.m */; };
+		4234720A22CC86CB000616CB /* HWMAddThePrivateKeyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4234720822CC86CB000616CB /* HWMAddThePrivateKeyViewController.xib */; };
+		4234720E22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4234720C22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.m */; };
+		4234720F22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4234720D22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.xib */; };
+		4234721322CC8C0D000616CB /* HWMNewPrivateKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4234721122CC8C0D000616CB /* HWMNewPrivateKeyViewController.m */; };
+		4234721422CC8C0D000616CB /* HWMNewPrivateKeyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4234721222CC8C0D000616CB /* HWMNewPrivateKeyViewController.xib */; };
+		4234721822CC9B29000616CB /* HWMImportTheMnemonicWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4234721622CC9B29000616CB /* HWMImportTheMnemonicWordViewController.m */; };
+		4234721922CC9B29000616CB /* HWMImportTheMnemonicWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4234721722CC9B29000616CB /* HWMImportTheMnemonicWordViewController.xib */; };
+		4234721C22CCA2EF000616CB /* HWMSignTheWalletListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4234721B22CCA2EF000616CB /* HWMSignTheWalletListViewController.m */; };
 		424910E72271BFCF00C41E50 /* SDWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 424910C62271BFCF00C41E50 /* SDWebImageManager.m */; };
 		424910E82271BFCF00C41E50 /* SDWebImageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 424910C72271BFCF00C41E50 /* SDWebImageDecoder.m */; };
 		424910E92271BFCF00C41E50 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 424910C92271BFCF00C41E50 /* UIImageView+HighlightedWebCache.m */; };
@@ -342,6 +347,21 @@
 		428054D42242296500E74F0E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 428054D62242296500E74F0E /* InfoPlist.strings */; };
 		42885A562216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42885A542216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.m */; };
 		42885A572216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42885A552216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib */; };
+		428B4D7322CAFC6E004AE7D0 /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 428B4D7222CAFC6E004AE7D0 /* Data */; };
+		428B4D7722CAFCA9004AE7D0 /* HWMcreatListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428B4D7522CAFCA9004AE7D0 /* HWMcreatListViewController.m */; };
+		428B4D7822CAFCA9004AE7D0 /* HWMcreatListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 428B4D7622CAFCA9004AE7D0 /* HWMcreatListViewController.xib */; };
+		428B4D8122CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 428B4D7F22CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.m */; };
+		428B4D8222CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 428B4D8022CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.xib */; };
+		428B4D8622CB0B12004AE7D0 /* HWMSignThePurseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428B4D8422CB0B12004AE7D0 /* HWMSignThePurseViewController.m */; };
+		428B4D8722CB0B12004AE7D0 /* HWMSignThePurseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 428B4D8522CB0B12004AE7D0 /* HWMSignThePurseViewController.xib */; };
+		428B4D8A22CB0CF7004AE7D0 /* HWMSignThePurseHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 428B4D8922CB0CF7004AE7D0 /* HWMSignThePurseHeadView.m */; };
+		428B4D8C22CB0D01004AE7D0 /* HWMSignThePurseHeadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 428B4D8B22CB0D01004AE7D0 /* HWMSignThePurseHeadView.xib */; };
+		428B4D8F22CB2B74004AE7D0 /* HWMaddSignThePurseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 428B4D8E22CB2B74004AE7D0 /* HWMaddSignThePurseView.m */; };
+		428B4D9122CB2B7E004AE7D0 /* HWMaddSignThePurseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 428B4D9022CB2B7E004AE7D0 /* HWMaddSignThePurseView.xib */; };
+		428B4D9622CB2E98004AE7D0 /* HWMaddSignThePurseViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 428B4D9422CB2E98004AE7D0 /* HWMaddSignThePurseViewTableViewCell.m */; };
+		428B4D9722CB2E98004AE7D0 /* HWMaddSignThePurseViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 428B4D9522CB2E98004AE7D0 /* HWMaddSignThePurseViewTableViewCell.xib */; };
+		428B4D9A22CB35B6004AE7D0 /* HWMaddSignThePursefootView.m in Sources */ = {isa = PBXBuildFile; fileRef = 428B4D9922CB35B6004AE7D0 /* HWMaddSignThePursefootView.m */; };
+		428B4D9C22CB35C0004AE7D0 /* HWMaddSignThePursefootView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 428B4D9B22CB35C0004AE7D0 /* HWMaddSignThePursefootView.xib */; };
 		428BA711229B84C00091618F /* invokedUrlCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA710229B84C00091618F /* invokedUrlCommand.m */; };
 		428BA726229B91190091618F /* PluginResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA725229B91190091618F /* PluginResult.m */; };
 		428BA729229B92530091618F /* JSON_private.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA727229B92530091618F /* JSON_private.m */; };
@@ -783,12 +803,6 @@
 		4202C9DD21F6EF29009E5932 /* HMWfoundViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HMWfoundViewController.mm; sourceTree = "<group>"; };
 		4202CADC21F6F0D2009E5932 /* ElaSubWalletCallback.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ElaSubWalletCallback.mm; sourceTree = "<group>"; };
 		4202CADD21F6F0D2009E5932 /* ElaSubWalletCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElaSubWalletCallback.h; sourceTree = "<group>"; };
-		4217A0E522C9BD8300C9A5E7 /* mnemonic_japanese.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mnemonic_japanese.txt; sourceTree = "<group>"; };
-		4217A0E622C9BD8300C9A5E7 /* mnemonic_italian.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mnemonic_italian.txt; sourceTree = "<group>"; };
-		4217A0E722C9BD8300C9A5E7 /* mnemonic_spanish.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mnemonic_spanish.txt; sourceTree = "<group>"; };
-		4217A0E822C9BD8300C9A5E7 /* Config.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Config.cfg; sourceTree = "<group>"; };
-		4217A0E922C9BD8300C9A5E7 /* mnemonic_chinese.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mnemonic_chinese.txt; sourceTree = "<group>"; };
-		4217A0EA22C9BD8300C9A5E7 /* mnemonic_french.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mnemonic_french.txt; sourceTree = "<group>"; };
 		42186FDD22BCADBB0063A28D /* AboutELAWalletViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutELAWalletViewController.h; sourceTree = "<group>"; };
 		42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AboutELAWalletViewController.mm; sourceTree = "<group>"; };
 		42186FDF22BCADBB0063A28D /* AboutELAWalletViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutELAWalletViewController.xib; sourceTree = "<group>"; };
@@ -893,6 +907,23 @@
 		4230217822C0BB000004AB65 /* nodeInformationDetailsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nodeInformationDetailsView.h; sourceTree = "<group>"; };
 		4230217922C0BB000004AB65 /* nodeInformationDetailsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = nodeInformationDetailsView.m; sourceTree = "<group>"; };
 		4230217B22C0BB0C0004AB65 /* nodeInformationDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = nodeInformationDetailsView.xib; sourceTree = "<group>"; };
+		4234720122CC60B5000616CB /* AddressPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressPickerView.m; sourceTree = "<group>"; };
+		4234720222CC60B5000616CB /* AddressPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressPickerView.h; sourceTree = "<group>"; };
+		4234720322CC60B5000616CB /* AddressPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressPickerView.xib; sourceTree = "<group>"; };
+		4234720622CC86CB000616CB /* HWMAddThePrivateKeyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMAddThePrivateKeyViewController.h; sourceTree = "<group>"; };
+		4234720722CC86CB000616CB /* HWMAddThePrivateKeyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMAddThePrivateKeyViewController.m; sourceTree = "<group>"; };
+		4234720822CC86CB000616CB /* HWMAddThePrivateKeyViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMAddThePrivateKeyViewController.xib; sourceTree = "<group>"; };
+		4234720B22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMAddThePrivateKeyTableViewCell.h; sourceTree = "<group>"; };
+		4234720C22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMAddThePrivateKeyTableViewCell.m; sourceTree = "<group>"; };
+		4234720D22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMAddThePrivateKeyTableViewCell.xib; sourceTree = "<group>"; };
+		4234721022CC8C0D000616CB /* HWMNewPrivateKeyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMNewPrivateKeyViewController.h; sourceTree = "<group>"; };
+		4234721122CC8C0D000616CB /* HWMNewPrivateKeyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMNewPrivateKeyViewController.m; sourceTree = "<group>"; };
+		4234721222CC8C0D000616CB /* HWMNewPrivateKeyViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMNewPrivateKeyViewController.xib; sourceTree = "<group>"; };
+		4234721522CC9B29000616CB /* HWMImportTheMnemonicWordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMImportTheMnemonicWordViewController.h; sourceTree = "<group>"; };
+		4234721622CC9B29000616CB /* HWMImportTheMnemonicWordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMImportTheMnemonicWordViewController.m; sourceTree = "<group>"; };
+		4234721722CC9B29000616CB /* HWMImportTheMnemonicWordViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMImportTheMnemonicWordViewController.xib; sourceTree = "<group>"; };
+		4234721A22CCA2EF000616CB /* HWMSignTheWalletListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMSignTheWalletListViewController.h; sourceTree = "<group>"; };
+		4234721B22CCA2EF000616CB /* HWMSignTheWalletListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMSignTheWalletListViewController.m; sourceTree = "<group>"; };
 		424910C32271BFCF00C41E50 /* NSImage+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+WebCache.h"; sourceTree = "<group>"; };
 		424910C42271BFCF00C41E50 /* UIImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WebCache.h"; sourceTree = "<group>"; };
 		424910C52271BFCF00C41E50 /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
@@ -983,13 +1014,34 @@
 		42885A532216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTransactionDetailsURLViewController.h; sourceTree = "<group>"; };
 		42885A542216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTransactionDetailsURLViewController.m; sourceTree = "<group>"; };
 		42885A552216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTransactionDetailsURLViewController.xib; sourceTree = "<group>"; };
+		428B4D7222CAFC6E004AE7D0 /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Data; path = "elastos wallet/spvsdk/Data"; sourceTree = "<group>"; };
+		428B4D7422CAFCA9004AE7D0 /* HWMcreatListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMcreatListViewController.h; sourceTree = "<group>"; };
+		428B4D7522CAFCA9004AE7D0 /* HWMcreatListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMcreatListViewController.m; sourceTree = "<group>"; };
+		428B4D7622CAFCA9004AE7D0 /* HWMcreatListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMcreatListViewController.xib; sourceTree = "<group>"; };
+		428B4D7E22CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMHWMcreatWalletListlTableViewCell.h; sourceTree = "<group>"; };
+		428B4D7F22CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMHWMcreatWalletListlTableViewCell.m; sourceTree = "<group>"; };
+		428B4D8022CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMHWMcreatWalletListlTableViewCell.xib; sourceTree = "<group>"; };
+		428B4D8322CB0B12004AE7D0 /* HWMSignThePurseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMSignThePurseViewController.h; sourceTree = "<group>"; };
+		428B4D8422CB0B12004AE7D0 /* HWMSignThePurseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMSignThePurseViewController.m; sourceTree = "<group>"; };
+		428B4D8522CB0B12004AE7D0 /* HWMSignThePurseViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMSignThePurseViewController.xib; sourceTree = "<group>"; };
+		428B4D8822CB0CF7004AE7D0 /* HWMSignThePurseHeadView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMSignThePurseHeadView.h; sourceTree = "<group>"; };
+		428B4D8922CB0CF7004AE7D0 /* HWMSignThePurseHeadView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMSignThePurseHeadView.m; sourceTree = "<group>"; };
+		428B4D8B22CB0D01004AE7D0 /* HWMSignThePurseHeadView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMSignThePurseHeadView.xib; sourceTree = "<group>"; };
+		428B4D8D22CB2B74004AE7D0 /* HWMaddSignThePurseView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMaddSignThePurseView.h; sourceTree = "<group>"; };
+		428B4D8E22CB2B74004AE7D0 /* HWMaddSignThePurseView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMaddSignThePurseView.m; sourceTree = "<group>"; };
+		428B4D9022CB2B7E004AE7D0 /* HWMaddSignThePurseView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMaddSignThePurseView.xib; sourceTree = "<group>"; };
+		428B4D9322CB2E98004AE7D0 /* HWMaddSignThePurseViewTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMaddSignThePurseViewTableViewCell.h; sourceTree = "<group>"; };
+		428B4D9422CB2E98004AE7D0 /* HWMaddSignThePurseViewTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMaddSignThePurseViewTableViewCell.m; sourceTree = "<group>"; };
+		428B4D9522CB2E98004AE7D0 /* HWMaddSignThePurseViewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMaddSignThePurseViewTableViewCell.xib; sourceTree = "<group>"; };
+		428B4D9822CB35B6004AE7D0 /* HWMaddSignThePursefootView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMaddSignThePursefootView.h; sourceTree = "<group>"; };
+		428B4D9922CB35B6004AE7D0 /* HWMaddSignThePursefootView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMaddSignThePursefootView.m; sourceTree = "<group>"; };
+		428B4D9B22CB35C0004AE7D0 /* HWMaddSignThePursefootView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMaddSignThePursefootView.xib; sourceTree = "<group>"; };
 		428BA70F229B84C00091618F /* invokedUrlCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = invokedUrlCommand.h; sourceTree = "<group>"; };
 		428BA710229B84C00091618F /* invokedUrlCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = invokedUrlCommand.m; sourceTree = "<group>"; };
 		428BA724229B91190091618F /* PluginResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PluginResult.h; sourceTree = "<group>"; };
 		428BA725229B91190091618F /* PluginResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PluginResult.m; sourceTree = "<group>"; };
 		428BA727229B92530091618F /* JSON_private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSON_private.m; sourceTree = "<group>"; };
 		428BA728229B92530091618F /* JSON_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON_private.h; sourceTree = "<group>"; };
-		4293CA67221FF8730045A8D9 /* libspvsdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspvsdk.a; path = "elastos wallet/spvsdk-iOS-v0.3.0/iOS/lib/libspvsdk.a"; sourceTree = "<group>"; };
 		42B57A9422150C1C004CF089 /* WOCrashLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WOCrashLog.h; sourceTree = "<group>"; };
 		42B57A9522150C1C004CF089 /* NSObject+NSNotificationCrash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+NSNotificationCrash.h"; sourceTree = "<group>"; };
 		42B57A9622150C1C004CF089 /* NSObject+KVOCrash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+KVOCrash.m"; sourceTree = "<group>"; };
@@ -1129,6 +1181,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				428B4D7222CAFC6E004AE7D0 /* Data */,
 				42C53F8522C9B9820006B3B2 /* spvsdk */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				4202C7D321F6EF28009E5932 /* ELA */,
@@ -1176,7 +1229,6 @@
 				4261CF3F22A16066006B1DDE /* Security.framework */,
 				4261CF3D22A1605C006B1DDE /* SystemConfiguration.framework */,
 				4250B3F82238D3E900B6858F /* libiconv.tbd */,
-				4293CA67221FF8730045A8D9 /* libspvsdk.a */,
 				95B5A24BEEA44AE9AD51A2C8 /* WebKit.framework */,
 				8FEFE2C15307426D819C2CA3 /* libz.tbd */,
 			);
@@ -1778,6 +1830,9 @@
 				4202C8E621F6EF29009E5932 /* HMWAddTheCurrencyListTableViewCell.h */,
 				4202C8F021F6EF29009E5932 /* HMWAddTheCurrencyListTableViewCell.m */,
 				4202C8EE21F6EF29009E5932 /* HMWAddTheCurrencyListTableViewCell.xib */,
+				428B4D7E22CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.h */,
+				428B4D7F22CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.m */,
+				428B4D8022CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.xib */,
 			);
 			path = cells;
 			sourceTree = "<group>";
@@ -1955,6 +2010,7 @@
 		4202C95821F6EF29009E5932 /* walletCreate */ = {
 			isa = PBXGroup;
 			children = (
+				428B4D9222CB2E7E004AE7D0 /* cell */,
 				4202C97921F6EF29009E5932 /* FLCreatAcountVC.h */,
 				4202C95D21F6EF29009E5932 /* FLCreatAcountVC.m */,
 				4202C95F21F6EF29009E5932 /* FLCreatAcountVC.xib */,
@@ -1970,6 +2026,23 @@
 				4202C95E21F6EF29009E5932 /* HMWImportTheWalletViewController.xib */,
 				4202C96121F6EF29009E5932 /* MemorizingWords */,
 				4202C97021F6EF29009E5932 /* view */,
+				428B4D7422CAFCA9004AE7D0 /* HWMcreatListViewController.h */,
+				428B4D7522CAFCA9004AE7D0 /* HWMcreatListViewController.m */,
+				428B4D7622CAFCA9004AE7D0 /* HWMcreatListViewController.xib */,
+				428B4D8322CB0B12004AE7D0 /* HWMSignThePurseViewController.h */,
+				428B4D8422CB0B12004AE7D0 /* HWMSignThePurseViewController.m */,
+				428B4D8522CB0B12004AE7D0 /* HWMSignThePurseViewController.xib */,
+				4234720622CC86CB000616CB /* HWMAddThePrivateKeyViewController.h */,
+				4234720722CC86CB000616CB /* HWMAddThePrivateKeyViewController.m */,
+				4234720822CC86CB000616CB /* HWMAddThePrivateKeyViewController.xib */,
+				4234721022CC8C0D000616CB /* HWMNewPrivateKeyViewController.h */,
+				4234721122CC8C0D000616CB /* HWMNewPrivateKeyViewController.m */,
+				4234721222CC8C0D000616CB /* HWMNewPrivateKeyViewController.xib */,
+				4234721522CC9B29000616CB /* HWMImportTheMnemonicWordViewController.h */,
+				4234721622CC9B29000616CB /* HWMImportTheMnemonicWordViewController.m */,
+				4234721722CC9B29000616CB /* HWMImportTheMnemonicWordViewController.xib */,
+				4234721A22CCA2EF000616CB /* HWMSignTheWalletListViewController.h */,
+				4234721B22CCA2EF000616CB /* HWMSignTheWalletListViewController.m */,
 			);
 			path = walletCreate;
 			sourceTree = "<group>";
@@ -2018,12 +2091,24 @@
 		4202C97021F6EF29009E5932 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				4234720222CC60B5000616CB /* AddressPickerView.h */,
+				4234720122CC60B5000616CB /* AddressPickerView.m */,
+				4234720322CC60B5000616CB /* AddressPickerView.xib */,
 				4202C97121F6EF29009E5932 /* HMWImKeystoreView.h */,
 				4202C97521F6EF29009E5932 /* HMWImKeystoreView.m */,
 				4202C97321F6EF29009E5932 /* HMWImKeystoreView.xib */,
 				4202C97221F6EF29009E5932 /* HMWImTheMnemonicWordView.h */,
 				4202C97621F6EF29009E5932 /* HMWImTheMnemonicWordView.m */,
 				4202C97421F6EF29009E5932 /* HMWImTheMnemonicWordView.xib */,
+				428B4D8822CB0CF7004AE7D0 /* HWMSignThePurseHeadView.h */,
+				428B4D8922CB0CF7004AE7D0 /* HWMSignThePurseHeadView.m */,
+				428B4D8B22CB0D01004AE7D0 /* HWMSignThePurseHeadView.xib */,
+				428B4D8D22CB2B74004AE7D0 /* HWMaddSignThePurseView.h */,
+				428B4D8E22CB2B74004AE7D0 /* HWMaddSignThePurseView.m */,
+				428B4D9022CB2B7E004AE7D0 /* HWMaddSignThePurseView.xib */,
+				428B4D9822CB35B6004AE7D0 /* HWMaddSignThePursefootView.h */,
+				428B4D9922CB35B6004AE7D0 /* HWMaddSignThePursefootView.m */,
+				428B4D9B22CB35C0004AE7D0 /* HWMaddSignThePursefootView.xib */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -2254,19 +2339,6 @@
 				4202C9DD21F6EF29009E5932 /* HMWfoundViewController.mm */,
 			);
 			path = ViewController;
-			sourceTree = "<group>";
-		};
-		4217A0E422C9BD8300C9A5E7 /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				4217A0E522C9BD8300C9A5E7 /* mnemonic_japanese.txt */,
-				4217A0E622C9BD8300C9A5E7 /* mnemonic_italian.txt */,
-				4217A0E722C9BD8300C9A5E7 /* mnemonic_spanish.txt */,
-				4217A0E822C9BD8300C9A5E7 /* Config.cfg */,
-				4217A0E922C9BD8300C9A5E7 /* mnemonic_chinese.txt */,
-				4217A0EA22C9BD8300C9A5E7 /* mnemonic_french.txt */,
-			);
-			path = Data;
 			sourceTree = "<group>";
 		};
 		4228A9F121F88C86002866B5 /* yykit */ = {
@@ -2563,6 +2635,19 @@
 			path = languageTool;
 			sourceTree = "<group>";
 		};
+		428B4D9222CB2E7E004AE7D0 /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				428B4D9322CB2E98004AE7D0 /* HWMaddSignThePurseViewTableViewCell.h */,
+				428B4D9422CB2E98004AE7D0 /* HWMaddSignThePurseViewTableViewCell.m */,
+				428B4D9522CB2E98004AE7D0 /* HWMaddSignThePurseViewTableViewCell.xib */,
+				4234720B22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.h */,
+				4234720C22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.m */,
+				4234720D22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.xib */,
+			);
+			path = cell;
+			sourceTree = "<group>";
+		};
 		42B57A9322150C1C004CF089 /* WOCrashProtector */ = {
 			isa = PBXGroup;
 			children = (
@@ -2611,7 +2696,6 @@
 		42C53F8522C9B9820006B3B2 /* spvsdk */ = {
 			isa = PBXGroup;
 			children = (
-				4217A0E422C9BD8300C9A5E7 /* Data */,
 				42C53F8622C9B9820006B3B2 /* include */,
 			);
 			name = spvsdk;
@@ -2793,7 +2877,6 @@
 				4202CA7921F6EF2B009E5932 /* HMWAddressListViewController.xib in Resources */,
 				4202CA8F21F6EF2B009E5932 /* HMWExportTheMnemonicWordViewController.xib in Resources */,
 				4202CA4521F6EF2A009E5932 /* FLMeHeadView.xib in Resources */,
-				4217A0EF22C9BD8300C9A5E7 /* mnemonic_chinese.txt in Resources */,
 				42D126A322B7755C000A286C /* runningNodeListView.xib in Resources */,
 				4250B3F42238D32700B6858F /* zbar-samples.png in Resources */,
 				428054D42242296500E74F0E /* InfoPlist.strings in Resources */,
@@ -2807,7 +2890,6 @@
 				42B7AD95221BAA61006959B8 /* Localizable.strings in Resources */,
 				4202CA9F21F6EF2B009E5932 /* HMWverifyTheMnemonicWordViewController.xib in Resources */,
 				4202CA6F21F6EF2B009E5932 /* HMWtransferTransactionDetailsFootView.xib in Resources */,
-				4217A0EB22C9BD8300C9A5E7 /* mnemonic_japanese.txt in Resources */,
 				4202CA4621F6EF2A009E5932 /* FLGoToIdentyAlertView.xib in Resources */,
 				4230217C22C0BB0C0004AB65 /* nodeInformationDetailsView.xib in Resources */,
 				4202CA5221F6EF2A009E5932 /* FLAssetTableCell.xib in Resources */,
@@ -2816,13 +2898,16 @@
 				4202CA9C21F6EF2B009E5932 /* FLSelectWordCollectCell.xib in Resources */,
 				4202CA4F21F6EF2A009E5932 /* FLtradeResultView.xib in Resources */,
 				4202CA6E21F6EF2B009E5932 /* HMWtransferTransactionSingleAddressDetailsView.xib in Resources */,
+				428B4D7822CAFCA9004AE7D0 /* HWMcreatListViewController.xib in Resources */,
 				4202CAD721F6EF2B009E5932 /* HMWsignUpForViewController.xib in Resources */,
 				42D126A822B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.xib in Resources */,
+				4234721922CC9B29000616CB /* HWMImportTheMnemonicWordViewController.xib in Resources */,
 				4202CA6821F6EF2B009E5932 /* HMWAssetDetailsTableViewCell.xib in Resources */,
 				4202CAD621F6EF2B009E5932 /* HMWtheCandidateListViewController.xib in Resources */,
 				42885A572216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib in Resources */,
 				4202CA9521F6EF2B009E5932 /* HMWModifyTheWalletNameViewController.xib in Resources */,
 				42186FE122BCADBB0063A28D /* AboutELAWalletViewController.xib in Resources */,
+				4234720F22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.xib in Resources */,
 				4202CA6D21F6EF2B009E5932 /* HMWtransferDetailsPopupView.xib in Resources */,
 				4202CAC921F6EF2B009E5932 /* HMWtheCandidateListTableViewCell.xib in Resources */,
 				422D60AB21FC42D100DD07FF /* HMWChooseTheCountryAreasTableViewCell.xib in Resources */,
@@ -2836,12 +2921,16 @@
 				4202CA8621F6EF2B009E5932 /* HMWSecurityVerificationPopView.xib in Resources */,
 				4202CAD321F6EF2B009E5932 /* HMWtheSuperNodeElectionViewController.xib in Resources */,
 				4202CA2521F6EF2A009E5932 /* HMWshowAddContactTextTableViewCell.xib in Resources */,
+				428B4D8C22CB0D01004AE7D0 /* HWMSignThePurseHeadView.xib in Resources */,
 				4202CA9421F6EF2B009E5932 /* HMWModifyTheWalletPasswordViewController.xib in Resources */,
 				42EEDA88224B84A50009B18E /* LaunchScreen-Chinese.storyboard in Resources */,
+				4234720522CC60B6000616CB /* AddressPickerView.xib in Resources */,
 				4202CA8E21F6EF2B009E5932 /* HMWCopyKeyStoreViewController.xib in Resources */,
+				428B4D9122CB2B7E004AE7D0 /* HWMaddSignThePurseView.xib in Resources */,
 				4202CA9721F6EF2B009E5932 /* HMWImportTheWalletViewController.xib in Resources */,
 				4202CAC421F6EF2B009E5932 /* HMWmyVoteStatisticsTableViewCell.xib in Resources */,
 				4202CA3E21F6EF2A009E5932 /* FLNetErrorView.xib in Resources */,
+				4234720A22CC86CB000616CB /* HWMAddThePrivateKeyViewController.xib in Resources */,
 				CBD48D86221406F000BF3B11 /* FLJoinToChoseTransferInfoView.xib in Resources */,
 				4202CA5A21F6EF2A009E5932 /* FLItemCollectionCell.xib in Resources */,
 				4202CA6221F6EF2A009E5932 /* HMWSendSuccessPopuView.xib in Resources */,
@@ -2849,7 +2938,6 @@
 				4202CA2721F6EF2A009E5932 /* FLTableViewDefultCell.xib in Resources */,
 				4202CAA221F6EF2B009E5932 /* HMWImKeystoreView.xib in Resources */,
 				4202CA5421F6EF2A009E5932 /* FLSearchContractTableCell.xib in Resources */,
-				4217A0ED22C9BD8300C9A5E7 /* mnemonic_spanish.txt in Resources */,
 				4202CA4221F6EF2A009E5932 /* FLwalletSelectView.xib in Resources */,
 				4202CACB21F6EF2B009E5932 /* HMWVotingListView.xib in Resources */,
 				4202CAA321F6EF2B009E5932 /* HMWImTheMnemonicWordView.xib in Resources */,
@@ -2871,17 +2959,20 @@
 				4202CA8121F6EF2B009E5932 /* HMWaddWalletListTableViewCell.xib in Resources */,
 				4226A862229BC02E00E93430 /* build-debug.xcconfig in Resources */,
 				4202CAA721F6EF2B009E5932 /* FLPrepareVC.xib in Resources */,
+				428B4D8222CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.xib in Resources */,
 				4202CA2921F6EF2A009E5932 /* HMWNotAddContactTableViewCell.xib in Resources */,
 				4202CA4E21F6EF2A009E5932 /* FLQRVC.strings in Resources */,
 				4202C9E721F6EF2A009E5932 /* MJRefresh.bundle in Resources */,
-				4217A0EE22C9BD8300C9A5E7 /* Config.cfg in Resources */,
 				4202CA8A21F6EF2B009E5932 /* HMWsettingKeyStorePWDViewController.xib in Resources */,
-				4217A0EC22C9BD8300C9A5E7 /* mnemonic_italian.txt in Resources */,
+				4234721422CC8C0D000616CB /* HWMNewPrivateKeyViewController.xib in Resources */,
 				4202CA9021F6EF2B009E5932 /* HMWTheWalletManagementViewController.xib in Resources */,
 				4202CA3121F6EF2A009E5932 /* FLChoseOrVoteVC.xib in Resources */,
+				428B4D7322CAFC6E004AE7D0 /* Data in Resources */,
+				428B4D8722CB0B12004AE7D0 /* HWMSignThePurseViewController.xib in Resources */,
+				428B4D9722CB2E98004AE7D0 /* HWMaddSignThePurseViewTableViewCell.xib in Resources */,
 				4202CA2B21F6EF2A009E5932 /* HMWmyContactListTableViewCell.xib in Resources */,
 				4202CAC221F6EF2B009E5932 /* HMWinputVotesPopupWindowView.xib in Resources */,
-				4217A0F022C9BD8300C9A5E7 /* mnemonic_french.txt in Resources */,
+				428B4D9C22CB35C0004AE7D0 /* HWMaddSignThePursefootView.xib in Resources */,
 				4202CA8421F6EF2B009E5932 /* HMWToDeleteTheWalletPopView.xib in Resources */,
 				4202CA7721F6EF2B009E5932 /* HMWTop_upPageForDetailsViewController.xib in Resources */,
 				4202CA5621F6EF2A009E5932 /* FLAssetManageTableCell.xib in Resources */,
@@ -2915,6 +3006,7 @@
 				4261CF3822A15D21006B1DDE /* NSDictionary+NilSafe.m in Sources */,
 				4202CA7E21F6EF2B009E5932 /* HMWTheWalletManagementTableViewCell.m in Sources */,
 				422D60A821FC42D100DD07FF /* HMWChooseTheCountryAreasTableViewCell.m in Sources */,
+				4234721C22CCA2EF000616CB /* HWMSignTheWalletListViewController.m in Sources */,
 				422D609121FC401200DD07FF /* HMWtransferViewController.mm in Sources */,
 				4202CA8521F6EF2B009E5932 /* HMWToDeleteTheWalletPopView.m in Sources */,
 				422D609021FC401200DD07FF /* HMWTop_upPageForDetailsViewController.mm in Sources */,
@@ -2922,6 +3014,7 @@
 				4202CAAA21F6EF2B009E5932 /* FLAllKindBi.m in Sources */,
 				4202CA0C21F6EF2A009E5932 /* SGQRCodeScanManager.m in Sources */,
 				424910EE2271BFCF00C41E50 /* SDWebImagePrefetcher.m in Sources */,
+				4234721322CC8C0D000616CB /* HWMNewPrivateKeyViewController.m in Sources */,
 				4228AA4E21F88C87002866B5 /* UIScreen+YYAdd.m in Sources */,
 				4202CA7221F6EF2B009E5932 /* HMWcollectionViewController.m in Sources */,
 				4228AA5D21F88C87002866B5 /* NSObject+YYAddForARC.m in Sources */,
@@ -2963,11 +3056,14 @@
 				4202CA0221F6EF2A009E5932 /* MASViewAttribute.m in Sources */,
 				4202C9ED21F6EF2A009E5932 /* MJRefreshBackNormalFooter.m in Sources */,
 				4202CA0E21F6EF2A009E5932 /* WCQRCodeScanningVC.m in Sources */,
+				4234720E22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.m in Sources */,
 				CBD48D6D21FEA22400BF3B11 /* FLNotePointDBManager.m in Sources */,
 				CBD48D5B21FC36BA00BF3B11 /* AFHTTPSessionManager.m in Sources */,
 				4202CA5021F6EF2A009E5932 /* FLSearchContractTableCell.m in Sources */,
 				4228AA5421F88C87002866B5 /* UIFont+YYAdd.m in Sources */,
+				4234720922CC86CB000616CB /* HWMAddThePrivateKeyViewController.m in Sources */,
 				4202C9E621F6EF2A009E5932 /* MJRefreshConst.m in Sources */,
+				4234721822CC9B29000616CB /* HWMImportTheMnemonicWordViewController.m in Sources */,
 				42B57ABE22150C1C004CF089 /* NSAttributedString+WOCrash.m in Sources */,
 				4202CA0B21F6EF2A009E5932 /* SGQRCodeScanningView.m in Sources */,
 				4261C2FC22C21563008C1532 /* showOwnerAddressTableViewCell.m in Sources */,
@@ -3024,6 +3120,7 @@
 				4202CA0A21F6EF2A009E5932 /* SGQRCodeHelperTool.m in Sources */,
 				CBD48D6321FC399700BF3B11 /* HttpUrl.m in Sources */,
 				4202CAA021F6EF2B009E5932 /* FLPastWordVC.mm in Sources */,
+				4234720422CC60B5000616CB /* AddressPickerView.m in Sources */,
 				42B57AC022150C1C004CF089 /* NSMutableString+WOCrash.m in Sources */,
 				42B57AC122150C1C004CF089 /* NSDictionary+WOCrash.m in Sources */,
 				4202CABB21F6EF2B009E5932 /* HMWFMDBManager.m in Sources */,
@@ -3031,12 +3128,15 @@
 				4202CA9621F6EF2B009E5932 /* FLCreatAcountVC.m in Sources */,
 				4202CA1A21F6EF2A009E5932 /* FMDatabaseAdditions.m in Sources */,
 				4202CA1F21F6EF2A009E5932 /* HMWaddContactViewController.m in Sources */,
+				428B4D9A22CB35B6004AE7D0 /* HWMaddSignThePursefootView.m in Sources */,
 				4202CA4421F6EF2A009E5932 /* FLwalletSelectView.m in Sources */,
 				4202CA2A21F6EF2A009E5932 /* HMWNotAddContactTableViewCell.m in Sources */,
 				42B57AB422150C1C004CF089 /* NSObject+KVOCrash.m in Sources */,
 				4202C9F121F6EF2A009E5932 /* MJRefreshNormalHeader.m in Sources */,
 				4202CA8C21F6EF2B009E5932 /* HMWTheWalletListViewController.m in Sources */,
 				42B57AB722150C1C004CF089 /* NSObject+WOSwizzle.m in Sources */,
+				428B4D8A22CB0CF7004AE7D0 /* HWMSignThePurseHeadView.m in Sources */,
+				428B4D7722CAFCA9004AE7D0 /* HWMcreatListViewController.m in Sources */,
 				4202CA5C21F6EF2A009E5932 /* HMWtransferDetailsPopupView.m in Sources */,
 				CBD48D5F21FC36BA00BF3B11 /* AFSecurityPolicy.m in Sources */,
 				4202CA2D21F6EF2A009E5932 /* HMWQrCodePopupWindowView.m in Sources */,
@@ -3055,6 +3155,7 @@
 				4202CAD221F6EF2B009E5932 /* HMWnodeInformationViewController.m in Sources */,
 				4228AA4121F88C86002866B5 /* YYDiskCache.m in Sources */,
 				424910F72271BFCF00C41E50 /* UIButton+WebCache.m in Sources */,
+				428B4D8122CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.m in Sources */,
 				4228AA5021F88C87002866B5 /* UIBarButtonItem+YYAdd.m in Sources */,
 				4202CA4C21F6EF2A009E5932 /* FLCopyPrivateKeyView.m in Sources */,
 				4202CA2F21F6EF2A009E5932 /* FLMyVC.m in Sources */,
@@ -3142,6 +3243,7 @@
 				424910F32271BFCF00C41E50 /* NSImage+WebCache.m in Sources */,
 				4202C9F221F6EF2A009E5932 /* MJRefreshStateHeader.m in Sources */,
 				4250B3EE2238D32700B6858F /* QRView.m in Sources */,
+				428B4D9622CB2E98004AE7D0 /* HWMaddSignThePurseViewTableViewCell.m in Sources */,
 				4202CAC021F6EF2B009E5932 /* HMWnoCandidateNodesView.m in Sources */,
 				42B57ABF22150C1C004CF089 /* NSMutableAttributedString+WOCrash.m in Sources */,
 				4202CA5821F6EF2A009E5932 /* FLAssetManageTableCell.m in Sources */,
@@ -3161,10 +3263,12 @@
 				4202CA9221F6EF2B009E5932 /* HMWModifyTheWalletNameViewController.m in Sources */,
 				4202CA0921F6EF2A009E5932 /* UIImage+SGImageSize.m in Sources */,
 				4228AA4721F88C87002866B5 /* UITextField+YYAdd.m in Sources */,
+				428B4D8622CB0B12004AE7D0 /* HWMSignThePurseViewController.m in Sources */,
 				4202CAC321F6EF2B009E5932 /* HMWinputVotesPopupWindowView.m in Sources */,
 				4261CF3922A15D21006B1DDE /* NSMutableArray+Swizzling.m in Sources */,
 				4202CAB821F6EF2B009E5932 /* FLFLTabBarVC.m in Sources */,
 				424910EA2271BFCF00C41E50 /* SDWebImageDownloader.m in Sources */,
+				428B4D8F22CB2B74004AE7D0 /* HWMaddSignThePurseView.m in Sources */,
 				4228AA5221F88C87002866B5 /* UIImage+YYAdd.m in Sources */,
 				4202CA0321F6EF2A009E5932 /* SVRadialGradientLayer.m in Sources */,
 				4202CABF21F6EF2B009E5932 /* UIViewController+FLVCExt.m in Sources */,

@@ -88,6 +88,13 @@
                 </button>
                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Zm-Ev-Rc1">
                     <rect key="frame" x="296" y="109.5" width="51" height="31"/>
+                    <color key="backgroundColor" red="0.36545392870903015" green="0.52155154943466187" blue="0.53323698043823242" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="onTintColor" red="0.36543917655944824" green="0.52155721187591553" blue="0.52931952476501465" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="thumbTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <connections>
+                        <action selector="addSingChuange:" destination="iN0-l3-epB" eventType="valueChanged" id="3as-K2-iQP"/>
+                    </connections>
                 </switch>
                 <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KDC-8P-Oed">
                     <rect key="frame" x="63" y="170" width="249" height="40"/>
@@ -104,7 +111,7 @@
                         <constraint firstAttribute="width" constant="1" id="uNm-JC-Imw"/>
                     </constraints>
                 </view>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="asset_wallet_list_adding" translatesAutoresizingMaskIntoConstraints="NO" id="Fq5-qf-XeB">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="asset_wallet_list_adding" translatesAutoresizingMaskIntoConstraints="NO" id="Fq5-qf-XeB">
                     <rect key="frame" x="93" y="182.5" width="15" height="15"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="15" id="VwU-e7-arH"/>
@@ -154,6 +161,7 @@
                 <outlet property="NumberSignatureLabel" destination="hAG-Re-Qog" id="8q9-rZ-Sd8"/>
                 <outlet property="addPurseButton" destination="KDC-8P-Oed" id="oIJ-m9-nF6"/>
                 <outlet property="changeNumberSignatureButton" destination="wmr-dK-eo5" id="oFX-Mb-yrE"/>
+                <outlet property="iconImageView" destination="Fq5-qf-XeB" id="bgK-cn-47E"/>
                 <outlet property="isAddSwitch" destination="8Zm-Ev-Rc1" id="r0a-MW-H3f"/>
                 <outlet property="numberLabel" destination="0rL-QV-KWu" id="zPA-4u-Icy"/>
                 <outlet property="readOnlyLabel" destination="05y-sD-Eeh" id="krK-dD-9Nm"/>

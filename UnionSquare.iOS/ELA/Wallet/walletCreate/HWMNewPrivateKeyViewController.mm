@@ -6,6 +6,9 @@
 //
 
 #import "HWMNewPrivateKeyViewController.h"
+#import "ELWalletManager.h"
+#import "DAConfig.h"
+#import "HWMSignThePurseViewController.h"
 
 @interface HWMNewPrivateKeyViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *pwdfield1;
@@ -31,6 +34,7 @@
     self.pwdfield2.secureTextEntry=YES;
     [self.view setLabelSpace:self.showInfoTextLabel withValue:NSLocalizedString(@"     密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记", nil) withFont:[UIFont systemFontOfSize:10]];
     [self.btn1 setTitle:NSLocalizedString(@"确认创建", nil) forState:UIControlStateNormal];
+    
 }
 - (IBAction)click1:(id)sender {
     
@@ -44,13 +48,29 @@
         [[FLTools share]showErrorInfo:NSLocalizedString(@"两次密码输入不一致", nil)];
         return;
     }
-//    FLWallet *wallet=[[FLWallet alloc]init];
-//    wallet.walletName=self.nameField.text;
-//    wallet.passWord=self.pwdfield1.text;
-//    wallet.isSingleAddress=self.stateBtn.selected;
-//    FLdoubleWalletVC *vc = [[FLdoubleWalletVC alloc]init];
-//    vc.Wallet=wallet;
-//    [self.navigationController pushViewController:vc animated:YES];
+    NSString *languageStringMword;
+    
+    NSString *languageString=[DAConfig userLanguage];
+    if ([languageString  containsString:@"en"]) {
+        languageStringMword=@"english";
+    }else if ([languageString  containsString:@"zh"]){
+        
+        languageStringMword=@"chinese";
+    }
+    
+    
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[languageStringMword] callbackId:@"" className:@"Wallet" methodName:@"generateMnemonic"];
+    PluginResult *result=[[ELWalletManager share]generateMnemonic:mommand];
+    NSString *mnemonic=result.message[@"success"];
+    if (self.delegate) {
+        [self.delegate backTheMnemonicWord:mnemonic withPWD:self.pwdfield1.text];
+    }
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[HWMSignThePurseViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
+    
 }
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     

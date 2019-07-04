@@ -7,10 +7,21 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
+@protocol HWMaddSignThePurseViewTableViewCellDeleagate <NSObject>
 
-@interface HWMaddSignThePurseViewTableViewCell : UITableViewCell
+-(void)QrCodeIndex:(NSInteger)row;
 
 @end
 
-NS_ASSUME_NONNULL_END
+@interface HWMaddSignThePurseViewTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UITextField *signThePublicKeyTextField;
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)NSInteger row;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)id<HWMaddSignThePurseViewTableViewCellDeleagate> delegate ;
+@end
+

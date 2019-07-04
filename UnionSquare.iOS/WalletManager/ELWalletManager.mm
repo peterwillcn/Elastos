@@ -1682,7 +1682,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     NSArray *args = command.arguments;
     int idx = 0;
     String masterWalletID = [self cstringWithString:args[idx++]];
-    String chainID = [self cstringWithString:args[idx++]];;
+    String chainID = [self cstringWithString:args[idx++]];
     ISubWallet *subWallet=[self getSubWallet:masterWalletID  :chainID];
     NSLog(@"GetAllUTXOs--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:chainID]);
     Json result;
@@ -1697,6 +1697,37 @@ errCodeSPVCreateMasterWalletError= 20006;
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
     return [self successProcess:command msg:dic];
     
+}
+-(PluginResult *)CreateMultiSignMasterWallet:(invokedUrlCommand *)command{
+    NSArray *args = command.arguments;
+    int idx = 0;
+    String masterWalletID = [self cstringWithString:args[idx++]];
+      String mnemonic = [self cstringWithString:args[idx++]];
+      String phrasePassword = [self cstringWithString:args[idx++]];
+    String payPassword = [self cstringWithString:args[idx++]];
+    Json publicKeys = [self cstringWithString:args[idx++]];
+    int   m=[args[idx++] intValue];
+    if (mMasterWalletManager == nil) {
+        NSString *msg = [NSString stringWithFormat:@"%@", @"Master wallet manager has not initialize"];
+        return [self errorProcess:command code:errCodeInvalidMasterWalletManager msg:msg];
+    }
+    IMasterWallet *masterWallet;
+    try {
+       
+        masterWallet = mMasterWalletManager->CreateMultiSignMasterWallet(masterWalletID,mnemonic,phrasePassword,payPassword,publicKeys,m,0);
+    } catch (const std:: exception &e) {
+        return  [self errInfoToDic:e.what() with:command];
+    }
+    
+    if (masterWallet == nil) {
+        NSString *msg = [NSString stringWithFormat:@"%@ %@ %@", @"Import", [self formatWalletName:masterWalletID], @"with mnemonic"];
+        return [self errorProcess:command code:errCodeImportFromMnemonic msg:msg];
+    }
+    
+    NSString *jsonString = [self getBasicInfo:masterWallet];
+    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"”" withString:@""];
+    return [self successProcess:command msg:jsonString];
 }
 -(void)EMWMSaveConfigs{
     mMasterWalletManager->SaveConfigs();

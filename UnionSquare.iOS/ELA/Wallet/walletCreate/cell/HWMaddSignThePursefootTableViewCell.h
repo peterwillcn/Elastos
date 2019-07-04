@@ -1,15 +1,15 @@
 //
-//  HWMaddSignThePursefootView.h
+//  HWMaddSignThePursefootTableViewCell.h
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/7/2.
+//  Created by 韩铭文 on 2019/7/4.
 //
 
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HWMaddSignThePursefootView : UIView
+@interface HWMaddSignThePursefootTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIButton *addButton;
 @property (weak, nonatomic) IBOutlet UIButton *confirmCreateButton;
 @end

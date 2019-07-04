@@ -26,14 +26,25 @@
         self.isAddSwitch.transform=CGAffineTransformMakeScale(0.75, 0.75);
           [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField: self.walletNameTextField];
         self.walletNameTextField.placeholder=NSLocalizedString(@"请设置钱包名称", nil);
-        self.addPurseButton.layer.borderColor=RGBA(255, 255, 255, 0.5).CGColor;
-        self.addPurseButton.layer.borderWidth=0.5;
+        self.addPurseButton.layer.borderColor=RGBA(255, 255, 255, 1).CGColor;
+        self.addPurseButton.layer.borderWidth=1;
         self.addPurseButton.layer.masksToBounds=YES;
+        
     }
     
     return self;
     
     
+}
+- (IBAction)addSingChuange:(id)sender {
+    if (self.isAddSwitch.isOn) {
+        self.addPurseButton.alpha=0.5;
+        self.addPurseButton.userInteractionEnabled=NO;
+    }
+    else{
+        self.addPurseButton.alpha=1;
+        self.addPurseButton.userInteractionEnabled=YES;
+    }
 }
 
 @end

@@ -11,8 +11,9 @@
 #import "HWMImportTheMnemonicWordViewController.h"
 #import "HWMSignTheWalletListViewController.h"
 
+
 static NSString *cellString=@"HWMAddThePrivateKeyTableViewCell";
-@interface HWMAddThePrivateKeyViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface HWMAddThePrivateKeyViewController ()<UITableViewDelegate,UITableViewDataSource,HWMNewPrivateKeyViewControllerDelegate>
 /*
  *<# #>
  */
@@ -78,7 +79,9 @@ cell.typeNameLabel.text=self.dataSourceArray[indexPath.section];
 
     if ([nameString isEqualToString:NSLocalizedString(@"新建私钥", nil)]) {
         HWMNewPrivateKeyViewController *vc=[[HWMNewPrivateKeyViewController alloc]init];
+        vc.delegate=self;
         [self.navigationController pushViewController:vc animated:YES];
+        
     }else if ([nameString isEqualToString:NSLocalizedString(@"导入助记词", nil)]){
         HWMImportTheMnemonicWordViewController *vc=[[HWMImportTheMnemonicWordViewController alloc]init];
         [self.navigationController pushViewController:vc animated:YES];
@@ -110,5 +113,12 @@ cell.typeNameLabel.text=self.dataSourceArray[indexPath.section];
     return [[UIView alloc]initWithFrame:CGRectZero];
     
 }
-
+-(void)backTheMnemonicWord:(NSString *)word withPWD:(NSString*)PWD{
+    if (word.length>0) {
+        if (self.delegate) {
+            [self.delegate backWithWord:word withPWD:PWD];
+        }
+    }
+    
+}
 @end

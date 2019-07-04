@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIButton *addPurseButton;
 @property (weak, nonatomic) IBOutlet UILabel *numberLabel;
 
+@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 @end
 
 NS_ASSUME_NONNULL_END

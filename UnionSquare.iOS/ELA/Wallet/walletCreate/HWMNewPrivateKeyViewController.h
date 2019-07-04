@@ -7,10 +7,17 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
+@protocol HWMNewPrivateKeyViewControllerDelegate <NSObject>
+-(void)backTheMnemonicWord:(NSString*)word withPWD:(NSString*)PWD;
 
-@interface HWMNewPrivateKeyViewController : UIViewController
 
 @end
 
-NS_ASSUME_NONNULL_END
+@interface HWMNewPrivateKeyViewController : UIViewController
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)id<HWMNewPrivateKeyViewControllerDelegate>delegate;
+@end
+
+

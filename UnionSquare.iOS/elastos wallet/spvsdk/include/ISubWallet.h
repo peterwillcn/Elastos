@@ -6,7 +6,6 @@
 #define __ELASTOS_SDK_ISUBWALLET_H__
 
 #include <string>
-
 #include "nlohmann/json.hpp"
 
 #include "ISubWalletCallback.h"

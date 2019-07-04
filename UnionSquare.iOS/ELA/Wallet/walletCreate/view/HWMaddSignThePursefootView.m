@@ -7,18 +7,15 @@
 
 #import "HWMaddSignThePursefootView.h"
 
-@interface HWMaddSignThePursefootView ()
-@property (weak, nonatomic) IBOutlet UIButton *addButton;
-@property (weak, nonatomic) IBOutlet UIButton *confirmCreateButton;
-
-@end
-
 @implementation HWMaddSignThePursefootView
 
 -(instancetype)init{
     self =[super init];
     if (self) {
         self =[[NSBundle mainBundle]loadNibNamed:@"HWMaddSignThePursefootView" owner:nil options:nil].firstObject;
+        self.userInteractionEnabled=YES;
+        self.addButton.userInteractionEnabled=YES;
+        self.confirmCreateButton.userInteractionEnabled=YES;
         [[HMWCommView share]makeBordersWithView:self.confirmCreateButton];
     }
     
@@ -26,9 +23,6 @@
     
     
 }
-- (IBAction)addButtonAction:(id)sender {
-}
-- (IBAction)confirmCreateAction:(id)sender {
-}
+
 
 @end

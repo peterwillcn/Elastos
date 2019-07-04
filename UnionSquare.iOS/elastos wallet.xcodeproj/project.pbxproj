@@ -239,6 +239,8 @@
 		4202CAD921F6EF2B009E5932 /* HMWMyVoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C9D621F6EF29009E5932 /* HMWMyVoteViewController.xib */; };
 		4202CADB21F6EF2B009E5932 /* HMWfoundViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C9DD21F6EF29009E5932 /* HMWfoundViewController.mm */; };
 		4202CADE21F6F0D2009E5932 /* ElaSubWalletCallback.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202CADC21F6F0D2009E5932 /* ElaSubWalletCallback.mm */; };
+		4218668622CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4218668422CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.m */; };
+		4218668722CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4218668522CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.xib */; };
 		42186FE022BCADBB0063A28D /* AboutELAWalletViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.mm */; };
 		42186FE122BCADBB0063A28D /* AboutELAWalletViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42186FDF22BCADBB0063A28D /* AboutELAWalletViewController.xib */; };
 		422672A722C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 422672A522C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m */; };
@@ -303,7 +305,7 @@
 		4234720A22CC86CB000616CB /* HWMAddThePrivateKeyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4234720822CC86CB000616CB /* HWMAddThePrivateKeyViewController.xib */; };
 		4234720E22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4234720C22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.m */; };
 		4234720F22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4234720D22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.xib */; };
-		4234721322CC8C0D000616CB /* HWMNewPrivateKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4234721122CC8C0D000616CB /* HWMNewPrivateKeyViewController.m */; };
+		4234721322CC8C0D000616CB /* HWMNewPrivateKeyViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4234721122CC8C0D000616CB /* HWMNewPrivateKeyViewController.mm */; };
 		4234721422CC8C0D000616CB /* HWMNewPrivateKeyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4234721222CC8C0D000616CB /* HWMNewPrivateKeyViewController.xib */; };
 		4234721822CC9B29000616CB /* HWMImportTheMnemonicWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4234721622CC9B29000616CB /* HWMImportTheMnemonicWordViewController.m */; };
 		4234721922CC9B29000616CB /* HWMImportTheMnemonicWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4234721722CC9B29000616CB /* HWMImportTheMnemonicWordViewController.xib */; };
@@ -803,6 +805,9 @@
 		4202C9DD21F6EF29009E5932 /* HMWfoundViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HMWfoundViewController.mm; sourceTree = "<group>"; };
 		4202CADC21F6F0D2009E5932 /* ElaSubWalletCallback.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ElaSubWalletCallback.mm; sourceTree = "<group>"; };
 		4202CADD21F6F0D2009E5932 /* ElaSubWalletCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElaSubWalletCallback.h; sourceTree = "<group>"; };
+		4218668322CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMaddSignThePursefootTableViewCell.h; sourceTree = "<group>"; };
+		4218668422CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMaddSignThePursefootTableViewCell.m; sourceTree = "<group>"; };
+		4218668522CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMaddSignThePursefootTableViewCell.xib; sourceTree = "<group>"; };
 		42186FDD22BCADBB0063A28D /* AboutELAWalletViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutELAWalletViewController.h; sourceTree = "<group>"; };
 		42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AboutELAWalletViewController.mm; sourceTree = "<group>"; };
 		42186FDF22BCADBB0063A28D /* AboutELAWalletViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutELAWalletViewController.xib; sourceTree = "<group>"; };
@@ -917,7 +922,7 @@
 		4234720C22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMAddThePrivateKeyTableViewCell.m; sourceTree = "<group>"; };
 		4234720D22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMAddThePrivateKeyTableViewCell.xib; sourceTree = "<group>"; };
 		4234721022CC8C0D000616CB /* HWMNewPrivateKeyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMNewPrivateKeyViewController.h; sourceTree = "<group>"; };
-		4234721122CC8C0D000616CB /* HWMNewPrivateKeyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMNewPrivateKeyViewController.m; sourceTree = "<group>"; };
+		4234721122CC8C0D000616CB /* HWMNewPrivateKeyViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HWMNewPrivateKeyViewController.mm; sourceTree = "<group>"; };
 		4234721222CC8C0D000616CB /* HWMNewPrivateKeyViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMNewPrivateKeyViewController.xib; sourceTree = "<group>"; };
 		4234721522CC9B29000616CB /* HWMImportTheMnemonicWordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMImportTheMnemonicWordViewController.h; sourceTree = "<group>"; };
 		4234721622CC9B29000616CB /* HWMImportTheMnemonicWordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMImportTheMnemonicWordViewController.m; sourceTree = "<group>"; };
@@ -2036,7 +2041,7 @@
 				4234720722CC86CB000616CB /* HWMAddThePrivateKeyViewController.m */,
 				4234720822CC86CB000616CB /* HWMAddThePrivateKeyViewController.xib */,
 				4234721022CC8C0D000616CB /* HWMNewPrivateKeyViewController.h */,
-				4234721122CC8C0D000616CB /* HWMNewPrivateKeyViewController.m */,
+				4234721122CC8C0D000616CB /* HWMNewPrivateKeyViewController.mm */,
 				4234721222CC8C0D000616CB /* HWMNewPrivateKeyViewController.xib */,
 				4234721522CC9B29000616CB /* HWMImportTheMnemonicWordViewController.h */,
 				4234721622CC9B29000616CB /* HWMImportTheMnemonicWordViewController.m */,
@@ -2644,6 +2649,9 @@
 				4234720B22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.h */,
 				4234720C22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.m */,
 				4234720D22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.xib */,
+				4218668322CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.h */,
+				4218668422CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.m */,
+				4218668522CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -2894,6 +2902,7 @@
 				4230217C22C0BB0C0004AB65 /* nodeInformationDetailsView.xib in Resources */,
 				4202CA5221F6EF2A009E5932 /* FLAssetTableCell.xib in Resources */,
 				4202CA6721F6EF2B009E5932 /* HMWtransferTransactionMultipleAddressDetailsTableViewCell.xib in Resources */,
+				4218668722CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.xib in Resources */,
 				4250B3F32238D32700B6858F /* zbar-helpicons.png in Resources */,
 				4202CA9C21F6EF2B009E5932 /* FLSelectWordCollectCell.xib in Resources */,
 				4202CA4F21F6EF2A009E5932 /* FLtradeResultView.xib in Resources */,
@@ -3014,7 +3023,7 @@
 				4202CAAA21F6EF2B009E5932 /* FLAllKindBi.m in Sources */,
 				4202CA0C21F6EF2A009E5932 /* SGQRCodeScanManager.m in Sources */,
 				424910EE2271BFCF00C41E50 /* SDWebImagePrefetcher.m in Sources */,
-				4234721322CC8C0D000616CB /* HWMNewPrivateKeyViewController.m in Sources */,
+				4234721322CC8C0D000616CB /* HWMNewPrivateKeyViewController.mm in Sources */,
 				4228AA4E21F88C87002866B5 /* UIScreen+YYAdd.m in Sources */,
 				4202CA7221F6EF2B009E5932 /* HMWcollectionViewController.m in Sources */,
 				4228AA5D21F88C87002866B5 /* NSObject+YYAddForARC.m in Sources */,
@@ -3111,6 +3120,7 @@
 				4202CA9121F6EF2B009E5932 /* HMWsettingKeyStorePWDViewController.mm in Sources */,
 				4202CAD421F6EF2B009E5932 /* FLSelectSuperPointVC.mm in Sources */,
 				4250B3EF2238D32700B6858F /* ScanQRCodeViewController.m in Sources */,
+				4218668622CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.m in Sources */,
 				424910F22271BFCF00C41E50 /* UIImageView+WebCache.m in Sources */,
 				4202CA5F21F6EF2A009E5932 /* HMWtransferTransactionDetailsFootView.m in Sources */,
 				42B57ABC22150C1C004CF089 /* NSMutableDictionary+WOCrash.m in Sources */,

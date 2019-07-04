@@ -9,7 +9,7 @@
 #import "ScanQRCodeViewController.h"
 
 @interface HWMaddSignThePurseViewTableViewCell ()
-@property (weak, nonatomic) IBOutlet UITextField *signThePublicKeyTextField;
+
 @property (weak, nonatomic) IBOutlet UIButton *QrCodeButton;
 @property (weak, nonatomic) IBOutlet UIButton *pasteButton;
 
@@ -31,14 +31,9 @@
     // Configure the view for the selected state
 }
 - (IBAction)QrCodeAction:(id)sender {
-//    __weak __typeof__(self) weakSelf = self;
-//    ScanQRCodeViewController *scanQRCodeVC = [[ScanQRCodeViewController alloc]init];
-//    scanQRCodeVC.scanBack = ^(NSString *addr) {
-//        
-//    weakSelf.signThePublicKeyTextField.text=addr;
-//        
-//    };
-//    [self QRCodeScanVC:scanQRCodeVC];
+    if (self.delegate) {
+        [self.delegate QrCodeIndex:self.row];
+    }
 }
 
 @end

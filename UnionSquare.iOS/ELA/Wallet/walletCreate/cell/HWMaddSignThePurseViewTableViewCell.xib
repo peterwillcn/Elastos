@@ -88,7 +88,7 @@
             <connections>
                 <outlet property="QrCodeButton" destination="b6T-Zm-Ind" id="hmy-5g-Mfn"/>
                 <outlet property="pasteButton" destination="IBU-UO-Zof" id="TTg-Kw-RBw"/>
-                <outlet property="signThePublicKeyTextField" destination="OcM-hM-tBa" id="Ho6-QA-bJG"/>
+                <outlet property="signThePublicKeyTextField" destination="OcM-hM-tBa" id="jqo-NJ-y5n"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="153.68303571428569"/>
         </tableViewCell>

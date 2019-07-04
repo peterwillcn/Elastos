@@ -520,7 +520,7 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     if ([self.leftOrRight isEqualToString:@"0"]) {
         cell.model=self.allListArray[indexPath.row];
     }else{
-        cell.model=self.NodeReturnsMutableArray[indexPath.row-1];
+        cell.model=self.NodeReturnsMutableArray[indexPath.row];
     }
     
    
@@ -534,7 +534,7 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
         if (indexPath.row==0) {
             return;
         }
-        [self loadGetAllCoinBaseTransactionDetailsWithIndex:indexPath.row-1];
+        [self loadGetAllCoinBaseTransactionDetailsWithIndex:indexPath.row];
     }
     
    

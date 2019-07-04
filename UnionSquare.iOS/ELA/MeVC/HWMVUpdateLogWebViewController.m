@@ -16,10 +16,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   [self defultWhite];
+   [self blackBackImageDefultWhite];
 
     NSString *languageString=[DAConfig userLanguage];
-    NSURLRequest *reuURL=[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://download.elastos.org/app/release-notes/ela-wallet/index.html??langua=%@",languageString]]];
+    NSURLRequest *reuURL=[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://download.elastos.org/app/release-notes/ela-wallet/index.html?langua=%@",languageString]]];
     [self.WebView loadRequest:reuURL];
 }
 

@@ -430,7 +430,7 @@ errCodeSPVCreateMasterWalletError= 20006;
         NSMutableArray *masterWalletListJson = [[NSMutableArray alloc] init];
         for (int i = 0; i < vector.size(); i++) {
             IMasterWallet *iMasterWallet = vector[i];
-            String idStr = iMasterWallet->GetId();
+            String idStr = iMasterWallet->GetID();
             NSString *str = [self stringWithCString:idStr];
             [masterWalletListJson addObject:str];
         }

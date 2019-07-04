@@ -59,9 +59,22 @@ And then use git add, commit and push to submit your changes to current project.
 ##### For Android:
 - Java JDK 1.8 or greater
 - Android SDK
+- Android NDK (android-ndk-r16b or higher)
+
+ The supported way of doing this nowadays is to use Android Studio.
+ 
+ Set the ANDROID_HOME environment variable to match the Android SDK path.
+
+ on Mac and Linux, add the following line to your login script (e.g., ~/.bashrc, ~/.bash_profile, etc...):
+
+ ```
+ export ANDROID_HOME="YOU-PATH/sdk"
+ ```
+
+ On Windows, set the environment variable in the control panel.
 
 ##### For iOS:
-- Xcode 10 or greater（swift 4.2）
+- Xcode 10 or higher
 
 ### Build on Ubuntu / Debian / Linux Host
 

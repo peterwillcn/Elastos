@@ -86,4 +86,7 @@ void ElaSubWalletCallback::OnAssetRegistered(const std::string &asset, const nlo
     
     
 }
+void ElaSubWalletCallback::OnConnectStatusChanged(const std::string &status){
+    
+}
 //@end

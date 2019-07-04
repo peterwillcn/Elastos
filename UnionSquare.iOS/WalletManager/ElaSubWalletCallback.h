@@ -60,7 +60,7 @@ namespace Elastos {
          * @param information of asset.
          */
         void OnAssetRegistered(const std::string &asset, const nlohmann::json &info);
-        
+        void OnConnectStatusChanged(const std::string &status);
         ElaSubWalletCallback(const std::string &callBackInfo);
         
         ~ElaSubWalletCallback();

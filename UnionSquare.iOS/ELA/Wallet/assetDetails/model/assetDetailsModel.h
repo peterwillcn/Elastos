@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(copy,nonatomic)NSString *TxHash;
 /*
- *<# #>
+ *Direction
  */
 @property(copy,nonatomic)NSString *Direction;
 /*

@@ -30,7 +30,7 @@ epksigner.ela_verify_message.restype = ctypes.c_bool
 
 parser = argparse.ArgumentParser(description='Verify an Elastos DApp EPK file.')
 parser.add_argument('epk_file', metavar='EPK_FILE',
-                    help='specify the EPK file to be signed')
+                    help='specify the EPK file to be verified')
 
 args = parser.parse_args()
 

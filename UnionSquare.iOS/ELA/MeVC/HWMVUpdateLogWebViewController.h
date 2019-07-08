@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMVUpdateLogWebViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
 @end
 
 NS_ASSUME_NONNULL_END

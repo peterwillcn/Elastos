@@ -29,7 +29,7 @@
     self.appInfoLabel.text=NSLocalizedString(@"ELAWallet是安全、便捷的专业亦来云SPV轻节点客户端钱包，支持亦来云全生态数字资产。", nil);
     [self makeBordersWithView:self.seeTheLogButton];
     [self.seeTheLogButton setTitle:NSLocalizedString(@"查看更新日志", nil) forState:UIControlStateNormal];
-    [self.TheProblemOfFeedbackButton setTitle:NSLocalizedString(@"问题反馈", nil) forState:UIControlStateNormal];
+    [self.TheProblemOfFeedbackButton setTitle:NSLocalizedString(@"反馈邮件", nil) forState:UIControlStateNormal];
     [self.RunLogButton setTitle:NSLocalizedString(@"运行日志", nil) forState:UIControlStateNormal];
     
     self.sdkTheVersionNumberLabel.text=[NSString stringWithFormat:@"%@%@",NSLocalizedString(@"当前sdk版本号：", nil),[[ELWalletManager share] EMWMGetVersion]];

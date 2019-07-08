@@ -33,11 +33,11 @@
     [self.RunLogButton setTitle:NSLocalizedString(@"运行日志", nil) forState:UIControlStateNormal];
     
     self.sdkTheVersionNumberLabel.text=[NSString stringWithFormat:@"%@%@",NSLocalizedString(@"当前sdk版本号：", nil),[[ELWalletManager share] EMWMGetVersion]];
-//    NSString * fileName =@"/spvsdk.TXT";
-//    
-//    NSString * testDirectory = [[MyUtil getRootPath] stringByAppendingPathComponent:fileName];
-//    NSString*oldStr = @"old string ,";
-//    [oldStr writeToFile:testDirectory atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    NSString * fileName =@"/spvsdk.TXT";
+    
+    NSString * testDirectory = [[MyUtil getRootPath] stringByAppendingPathComponent:fileName];
+    NSString*oldStr = @"old string ,";
+    [oldStr writeToFile:testDirectory atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
 }
 - (IBAction)seeTheLogAction:(id)sender {

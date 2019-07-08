@@ -7,8 +7,8 @@
 
 #import "HWMVUpdateLogWebViewController.h"
 #import "DAConfig.h"
-@interface HWMVUpdateLogWebViewController ()
-@property (weak, nonatomic) IBOutlet UIWebView *WebView;
+@interface HWMVUpdateLogWebViewController ()<UIWebViewDelegate>
+
 
 @end
 
@@ -17,20 +17,31 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
    [self blackBackImageDefultWhite];
-
+    
+    self.view.backgroundColor=[UIColor whiteColor];
+    self.webView.delegate=self;
     NSString *languageString=[DAConfig userLanguage];
-    NSURLRequest *reuURL=[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://download.elastos.org/app/release-notes/ela-wallet/index.html?langua=%@",languageString]]];
-    [self.WebView loadRequest:reuURL];
+    NSString *urlString=[NSString stringWithFormat:@"https://download.elastos.org/app/release-notes/ela-wallet/index.html?langua=%@",languageString];
+    NSURLRequest *reuURL=[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    [self.webView loadRequest:reuURL];
+   
+ 
+}
+- (IBAction)backVC:(id)sender {
+    
+    [self.navigationController popViewControllerAnimated:YES];
+     [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+CGFloat height = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight"] floatValue];
+    CGRect frame = webView.frame;
+    frame.size.height = height;
+    [webView setFrame:frame];
 }
-*/
-
 @end

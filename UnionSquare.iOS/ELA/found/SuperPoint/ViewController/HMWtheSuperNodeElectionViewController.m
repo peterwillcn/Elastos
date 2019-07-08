@@ -249,15 +249,21 @@
 }
 
 - (IBAction)votingRulesEvent:(id)sender {
-    DC_DealTextViewController *vc = [[DC_DealTextViewController alloc]init];
-    vc.html_url = NSLocalizedString(@"rules", nil); 
-    [self.navigationController pushViewController:vc animated:YES];
+    NSURL *url=[NSURL URLWithString:NSLocalizedString(@"rules", nil)];
+    if ([[UIDevice currentDevice].systemVersion floatValue]>=10.0) {
+        
+        [[UIApplication sharedApplication]openURL:url options:@{} completionHandler:^(BOOL success) {
+        }];
+    }else{
+        if ([[UIApplication sharedApplication] canOpenURL:url]) {
+            [[UIApplication sharedApplication] openURL:url];
+        }
+    }
 }
 - (IBAction)myVoteButton:(id)sender {
     HMWtheCandidateListViewController * vc = [[HMWtheCandidateListViewController alloc]init];
     vc.persent = self.votingListV.lab1.text ;
     [self.navigationController pushViewController:vc animated:YES];
-    
 }
 -(void)closeViewDele{
     
@@ -268,6 +274,7 @@
 - (void)selectedVotingListWithIndex:(NSInteger)index {
     HMWnodeInformationViewController *nodeInformationVC=[[HMWnodeInformationViewController alloc]init];
     nodeInformationVC.model = self.dataSource[index];
+    nodeInformationVC.Ranking=index+1;
       [self.navigationController pushViewController:nodeInformationVC animated:YES];
     
   

@@ -329,5 +329,8 @@
     labe.textColor=color;
     return labe;
 }
-
+-(void)setRanking:(NSInteger)Ranking{
+    _Ranking=Ranking;
+    
+}
 @end

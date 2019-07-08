@@ -38,7 +38,7 @@
 - (IBAction)seeTheLogAction:(id)sender {
     
     HWMVUpdateLogWebViewController *HWMVUpdateLogWebVC=[[HWMVUpdateLogWebViewController alloc]init];
-   HWMVUpdateLogWebVC.title=NSLocalizedString(@"更新日志", nil);
+//   HWMVUpdateLogWebVC.title=NSLocalizedString(@"更新日志", nil);
     [self.navigationController pushViewController:HWMVUpdateLogWebVC animated:YES];
 }
 - (IBAction)TheProblemOfFeedbackAction:(id)sender {

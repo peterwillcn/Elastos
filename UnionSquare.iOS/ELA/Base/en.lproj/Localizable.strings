@@ -173,19 +173,20 @@
 "票"="Tickets";
 "完整信息请点击交易号查看"="Click to see all the details";
 
-"检测到当前账户存在大量Utxo,是否零钱换整？"="";
-"创建钱包"="";
-"多签钱包"="";
-"单签只读钱包"="";
-"创建单签钱包"="";
-"签名数量"="";
-"只读"="";
-"请设置钱包名称"="";
-"新建私钥"="";
-"使用已有钱包"="";
-"导入助记词"="";
-"添加根私钥"="";
-"编辑根私钥"="";
+"检测到当前账户存在大量Utxo,是否零钱换整？"="There are plentiful Utxo detection to the current account, whether to change in the whole？";
+"创建钱包"="Create wallet";
+"多签钱包"="Sign the purse";
+"单签只读钱包"="Single read-only wallet";
+"创建单签钱包"="Create single wallet";
+"签名数量"="Number signature";
+"只读"="read-only";
+"请设置钱包名称"="Please set the purse name";
+"新建私钥"="New private key";
+"使用已有钱包"="Use the existing wallet";
+"导入助记词"="Import the mnemonic word";
+"添加根私钥"="Add the private key";
+"编辑根私钥"="Edit the private key";
+"参选节点列表"="Running node list";
 
 
 

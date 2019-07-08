@@ -1699,7 +1699,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     
 }
 -(void)EMWMSaveConfigs{
-    mMasterWalletManager->SaveConfigs();
+//    mMasterWalletManager->SaveConfigs();
 }
 -(NSString*)EMWMGetVersion{
     String  Version=mMasterWalletManager->GetVersion();

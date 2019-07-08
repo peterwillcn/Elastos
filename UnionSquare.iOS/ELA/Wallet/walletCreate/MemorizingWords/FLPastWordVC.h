@@ -11,4 +11,5 @@
 @interface FLPastWordVC : UIViewController
 @property (nonatomic, strong)FLWallet*Wallet;
 
+
 @end

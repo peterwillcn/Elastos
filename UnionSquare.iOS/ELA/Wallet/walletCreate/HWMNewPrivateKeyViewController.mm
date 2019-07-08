@@ -9,6 +9,7 @@
 #import "ELWalletManager.h"
 #import "DAConfig.h"
 #import "HWMSignThePurseViewController.h"
+#import "FLdoubleWalletVC.h"
 
 @interface HWMNewPrivateKeyViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *pwdfield1;
@@ -65,11 +66,17 @@
     if (self.delegate) {
         [self.delegate backTheMnemonicWord:mnemonic withPWD:self.pwdfield1.text];
     }
-    for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[HWMSignThePurseViewController class]]) {
-            [self.navigationController popToViewController:controller animated:YES];
-        }
-    }
+    NSString *walletID=[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
+    NSString *masterWalletID=[[[FLTools share]getRandomStringWithNum:6] stringByAppendingString:walletID];
+    FLWallet *wallet=[[FLWallet alloc]init];
+  
+    wallet.passWord=self.pwdfield1.text;
+   
+    wallet.mnemonic=mnemonic;
+    wallet.walletID=masterWalletID;
+    FLdoubleWalletVC *vc = [[FLdoubleWalletVC alloc]init];
+    vc.Wallet=wallet;
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 -(void)textFieldDidBeginEditing:(UITextField *)textField{

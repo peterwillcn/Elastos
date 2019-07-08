@@ -70,6 +70,7 @@
  *<# #>
  */
 @property(copy,nonatomic)NSString *masterWalletID;
+@property (nonatomic, copy)NSString*signType;
 @end
 
 @class YYCache;

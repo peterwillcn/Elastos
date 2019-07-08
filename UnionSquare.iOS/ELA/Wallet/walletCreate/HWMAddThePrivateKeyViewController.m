@@ -13,7 +13,7 @@
 
 
 static NSString *cellString=@"HWMAddThePrivateKeyTableViewCell";
-@interface HWMAddThePrivateKeyViewController ()<UITableViewDelegate,UITableViewDataSource,HWMNewPrivateKeyViewControllerDelegate>
+@interface HWMAddThePrivateKeyViewController ()<UITableViewDelegate,UITableViewDataSource,HWMNewPrivateKeyViewControllerDelegate,HWMSignTheWalletListViewControllerDelegate,HWMImportTheMnemonicWordViewControllerDelegate,HWMSignTheWalletListViewControllerDelegate>
 /*
  *<# #>
  */
@@ -32,7 +32,7 @@ static NSString *cellString=@"HWMAddThePrivateKeyTableViewCell";
     [super viewDidLoad];
     [self defultWhite];
     [self setBackgroundImg:@""];
-    self.title=NSLocalizedString(@"添加主私钥", nil);
+    self.title=NSLocalizedString(@"添加根私钥", nil);
     self.dataSourceArray =[NSArray arrayWithObjects:NSLocalizedString(@"新建私钥", nil),NSLocalizedString(@"导入助记词", nil),NSLocalizedString(@"使用已有钱包", nil), nil];
     [self.baseTableView reloadData];
 }
@@ -84,11 +84,14 @@ cell.typeNameLabel.text=self.dataSourceArray[indexPath.section];
         
     }else if ([nameString isEqualToString:NSLocalizedString(@"导入助记词", nil)]){
         HWMImportTheMnemonicWordViewController *vc=[[HWMImportTheMnemonicWordViewController alloc]init];
+        vc.delegate=self;
         [self.navigationController pushViewController:vc animated:YES];
+        
     }else if ([nameString isEqualToString:NSLocalizedString(@"使用已有钱包", nil)]){
         
         HWMSignTheWalletListViewController*vc=[[HWMSignTheWalletListViewController alloc]init];
-         [self.navigationController pushViewController:vc animated:YES];
+        vc.delegate=self;
+        [self.navigationController pushViewController:vc animated:YES];
         
     }
     
@@ -118,6 +121,19 @@ cell.typeNameLabel.text=self.dataSourceArray[indexPath.section];
         if (self.delegate) {
             [self.delegate backWithWord:word withPWD:PWD];
         }
+    }
+    
+}
+-(void)CallbackWithWalletID:(NSString *)wallet withXPK:(NSString *)XPK withPWD:(NSString * _Nonnull)PWD{
+    if (self.delegate) {
+        [self.delegate CallbackWithWalletID:wallet withXPK:XPK withPWD:PWD];
+    }
+    
+}
+-(void)ImportTheMnemonicWordViewWithMnemonic:(NSString*)Mnemonic withPWD:(NSString*)PWD{
+    
+    if (self.delegate) {
+        [self.delegate ImportTheMnemonicWordViewWithMnemonic:Mnemonic withPWD:PWD];
     }
     
 }

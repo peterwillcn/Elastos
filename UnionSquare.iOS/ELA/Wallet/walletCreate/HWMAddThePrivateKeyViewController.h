@@ -10,15 +10,13 @@
 @protocol HWMAddThePrivateKeyViewControllerDelegate <NSObject>
 
 -(void)backWithWord:(NSString*_Nullable)word withPWD:(NSString*_Nonnull)PWD;
-
+-(void)CallbackWithWalletID:(NSString *_Nullable)wallet withXPK:(NSString *_Nullable)XPK withPWD:(NSString * _Nonnull)PWD;
+-(void)ImportTheMnemonicWordViewWithMnemonic:(NSString*_Nullable)Mnemonic withPWD:(NSString*_Nonnull)PWD;
 @end
-NS_ASSUME_NONNULL_BEGIN
-
 @interface HWMAddThePrivateKeyViewController : UIViewController
 /*
  *<# #>
  */
-@property(strong,nonatomic)id<HWMAddThePrivateKeyViewControllerDelegate> delegate;
+@property(strong,nonatomic)id<HWMAddThePrivateKeyViewControllerDelegate> _Nullable delegate;
 @end
 
-NS_ASSUME_NONNULL_END

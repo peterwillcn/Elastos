@@ -29,6 +29,7 @@
         self.addPurseButton.layer.borderColor=RGBA(255, 255, 255, 1).CGColor;
         self.addPurseButton.layer.borderWidth=1;
         self.addPurseButton.layer.masksToBounds=YES;
+        [self addSingChuange:nil];
         
     }
     

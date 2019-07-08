@@ -16,6 +16,7 @@
 #import "FMDBWalletModel.h"
 #import "sideChainInfoModel.h"
 #import "DAConfig.h"
+#import "HWMSignThePurseViewController.h"
 
 
 @interface FLPastWordVC ()<FLSetMenmoryWordPassViewDelegate>
@@ -246,6 +247,14 @@ __weak __typeof__(self) weakSelf = self;
 }
 
 -(void)creatWallet{
+    if ([self.Wallet.signType isEqualToString:@"2"]) {
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[HWMSignThePurseViewController class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
+        return;
+    }
     NSString *isSingleAddress=@"NO";
     if (self.Wallet.isSingleAddress) {
         isSingleAddress=@"YES";

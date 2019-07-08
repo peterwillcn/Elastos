@@ -7,6 +7,7 @@
 
 #import "HWMImportTheMnemonicWordViewController.h"
 #import "HMWImTheMnemonicWordView.h"
+#import "HWMSignThePurseViewController.h"
 
 @interface HWMImportTheMnemonicWordViewController ()<HMWImTheMnemonicWordViewDelegate>
 /*
@@ -38,8 +39,16 @@
 }
 
 -(void)ImTheMnemonicWordViewCompWithWallet:(FLWallet*)wallet{
-    
+    if (self.delegate) {
+        [self.delegate ImportTheMnemonicWordViewWithMnemonic:wallet.mnemonic withPWD:wallet.passWord];
+    }
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[HWMSignThePurseViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
     
 }
+
 
 @end

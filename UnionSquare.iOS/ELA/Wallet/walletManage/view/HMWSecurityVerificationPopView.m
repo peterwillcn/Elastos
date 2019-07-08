@@ -57,6 +57,10 @@
 }
     
 - (IBAction)determineThePasswordEvent:(id)sender {
+    if (self.pwdTextField.text.length==0) {
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入钱包密码", nil)];
+        return;
+    }
     if ([self.delegate respondsToSelector:@selector(makeSureWithPWD:)]) {
         [self.delegate makeSureWithPWD:self.pwdTextField.text];
     }

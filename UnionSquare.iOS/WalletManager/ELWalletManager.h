@@ -183,6 +183,10 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(PluginResult *)GetAllCoinBaseTransaction:(invokedUrlCommand *)command;
 -(PluginResult *)CreateCombineUTXOTransaction:(invokedUrlCommand *)command;
 -(PluginResult *)GetAllUTXOs:(invokedUrlCommand *)command;
+-(PluginResult *)CreateMultiSignMasterWalletMnemonic:(invokedUrlCommand *)command;
+-(PluginResult *)CreateMultiSignMasterWalletmasterReadonly:(invokedUrlCommand *)command;
+-(PluginResult *)CreateMultiSignMasterWalletmasterMasterWalletId:(invokedUrlCommand *)command;
+-(NSString *)ExportxPrivateKey:(invokedUrlCommand *)command;
 -(NSString*)EMWMGetVersion;
 @end
 

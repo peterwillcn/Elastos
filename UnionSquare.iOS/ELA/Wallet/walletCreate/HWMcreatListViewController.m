@@ -79,6 +79,7 @@ static NSString *cellString=@"HWMHWMcreatWalletListlTableViewCell";
         [self.navigationController pushViewController:vc animated:YES];
     }else if ([nameString isEqualToString:NSLocalizedString(@"多签钱包", nil)]){
         HWMSignThePurseViewController*VC=[[HWMSignThePurseViewController alloc]init];
+        
         [self.navigationController pushViewController:VC animated:YES];
     }else if ([nameString isEqualToString:NSLocalizedString(@"单签只读钱包", nil)]){
         

@@ -8,6 +8,8 @@
 
 #import "FLCreatAcountVC.h"
 #import "FLdoubleWalletVC.h"
+#import "DAConfig.h"
+#import "ELWalletManager.h"
 @interface FLCreatAcountVC ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
 @property (weak, nonatomic) IBOutlet UITextField *pwdfield1;
@@ -18,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *sigainAddressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *showInfoTextLabel;
 @property (weak, nonatomic) IBOutlet UILabel *pwdShowInfoTextLabel;
+
 
 @end
 
@@ -77,10 +80,29 @@
         [[FLTools share]showErrorInfo:NSLocalizedString(@"两次密码输入不一致", nil)];
         return;
     }
+    NSString *walletID=[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
+    NSString *masterWalletID=[[[FLTools share]getRandomStringWithNum:6] stringByAppendingString:walletID];
+    
+    NSString *languageStringMword;
+    
+    NSString *languageString=[DAConfig userLanguage];
+    if ([languageString  containsString:@"en"]) {
+        languageStringMword=@"english";
+    }else if ([languageString  containsString:@"zh"]){
+        
+        languageStringMword=@"chinese";
+    }
+    
+    
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[languageStringMword] callbackId:masterWalletID className:@"Wallet" methodName:@"generateMnemonic"];
+    PluginResult *result=[[ELWalletManager share]generateMnemonic:mommand];
+   NSString *mnemonic=result.message[@"success"];
     FLWallet *wallet=[[FLWallet alloc]init];
     wallet.walletName=self.nameField.text;
     wallet.passWord=self.pwdfield1.text;
     wallet.isSingleAddress=self.stateBtn.selected;
+    wallet.mnemonic=mnemonic;
+    wallet.walletID=masterWalletID;
     FLdoubleWalletVC *vc = [[FLdoubleWalletVC alloc]init];
     vc.Wallet=wallet;
     [self.navigationController pushViewController:vc animated:YES];

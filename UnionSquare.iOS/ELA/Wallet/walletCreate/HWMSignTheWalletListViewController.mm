@@ -8,8 +8,11 @@
 #import "HWMSignTheWalletListViewController.h"
 #import "HMWtheWalletListTableViewCell.h"
 #import "HMWFMDBManager.h"
+#import "HMWSecurityVerificationPopView.h"
+#import "ELWalletManager.h"
+#import "HWMSignThePurseViewController.h"
 static NSString *cellString=@"HMWtheWalletListTableViewCell";
-@interface HWMSignTheWalletListViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface HWMSignTheWalletListViewController ()<UITableViewDelegate,UITableViewDataSource,HMWSecurityVerificationPopViewDelegate>
 /*
  *<# #>
  */
@@ -18,6 +21,14 @@ static NSString *cellString=@"HMWtheWalletListTableViewCell";
  *<# #>
  */
 @property(strong,nonatomic)UITableView *baseTableView;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)HMWSecurityVerificationPopView *securityVerificationPopV;
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)NSIndexPath *selectIndex;
 
 @end
 
@@ -40,6 +51,7 @@ static NSString *cellString=@"HMWtheWalletListTableViewCell";
     return _walletIDListArray;
     
 }
+
 -(UITableView *)baseTableView{
     if (!_baseTableView) {
         _baseTableView =[[UITableView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, AppHeight) style:UITableViewStyleGrouped];
@@ -75,7 +87,7 @@ static NSString *cellString=@"HMWtheWalletListTableViewCell";
     HMWtheWalletListTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
-    cell.selectionStyle=UITableViewCellSeparatorStyleNone;
+//    cell.selectionStyle=UITableViewCellSeparatorStyleNone;
     cell.selectView.alpha=0.f;
     cell.model=self.walletIDListArray[indexPath.section];
     
@@ -83,7 +95,18 @@ static NSString *cellString=@"HMWtheWalletListTableViewCell";
     
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+//    if (self.selectIndex) {
+//        HMWtheWalletListTableViewCell *cell=[tableView cellForRowAtIndexPath:self.selectIndex];
+//        cell.selectView.alpha=0.f;
+//    }
+    self.selectIndex=indexPath;
+//    HMWtheWalletListTableViewCell *cell=[tableView cellForRowAtIndexPath:self.selectIndex];
+//    cell.selectView.alpha=1.f;
+    UIView *mainView=[self mainWindow];
+    [mainView addSubview:self.securityVerificationPopV];
+    [self.securityVerificationPopV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.right.bottom.equalTo(mainView);
+    }];
     
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -106,5 +129,38 @@ static NSString *cellString=@"HMWtheWalletListTableViewCell";
     return [[UIView alloc]initWithFrame:CGRectZero];
     
 }
-
+-(HMWSecurityVerificationPopView *)securityVerificationPopV{
+    if (!_securityVerificationPopV) {
+        _securityVerificationPopV =[[HMWSecurityVerificationPopView alloc]init];
+        _securityVerificationPopV.backgroundColor=[UIColor clearColor];
+        _securityVerificationPopV.delegate=self;
+    }
+    
+    return _securityVerificationPopV;
+}
+-(void)takeOutOrShutDown{
+    [self.securityVerificationPopV removeFromSuperview];
+    self.securityVerificationPopV=nil;
+}
+-(void)makeSureWithPWD:(NSString*)pwdString{
+    
+    [self takeOutOrShutDown];
+    FMDBWalletModel *model=self.walletIDListArray[self.selectIndex.section];
+    NSString *xpk;
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[model.walletID,pwdString] callbackId:model.walletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
+    xpk =[[ELWalletManager share]ExportxPrivateKey:mommand];
+    
+    if (model.walletID.length>0&&xpk.length>0) {
+    if (self.delegate) {
+        [self.delegate CallbackWithWalletID:model.walletID withXPK:xpk withPWD:pwdString];
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[HWMSignThePurseViewController class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
+    }
+        
+    }
+    
+}
 @end

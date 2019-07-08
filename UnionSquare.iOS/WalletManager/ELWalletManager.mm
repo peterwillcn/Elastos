@@ -1698,14 +1698,14 @@ errCodeSPVCreateMasterWalletError= 20006;
     return [self successProcess:command msg:dic];
     
 }
--(PluginResult *)CreateMultiSignMasterWallet:(invokedUrlCommand *)command{
+-(PluginResult *)CreateMultiSignMasterWalletMnemonic:(invokedUrlCommand *)command{
     NSArray *args = command.arguments;
     int idx = 0;
     String masterWalletID = [self cstringWithString:args[idx++]];
       String mnemonic = [self cstringWithString:args[idx++]];
       String phrasePassword = [self cstringWithString:args[idx++]];
     String payPassword = [self cstringWithString:args[idx++]];
-    Json publicKeys = [self cstringWithString:args[idx++]];
+    Json publicKeys = [self jsonWithString:args[idx++]];
     int   m=[args[idx++] intValue];
     if (mMasterWalletManager == nil) {
         NSString *msg = [NSString stringWithFormat:@"%@", @"Master wallet manager has not initialize"];
@@ -1728,6 +1728,103 @@ errCodeSPVCreateMasterWalletError= 20006;
     jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     jsonString = [jsonString stringByReplacingOccurrencesOfString:@"”" withString:@""];
     return [self successProcess:command msg:jsonString];
+}
+-(PluginResult *)CreateMultiSignMasterWalletmasterReadonly:(invokedUrlCommand *)command{
+    NSArray *args = command.arguments;
+    int idx = 0;
+    String masterWalletID = [self cstringWithString:args[idx++]];
+    NSArray *publicKeys=[NSArray arrayWithArray:args[idx++]];
+    Json publicKeysJson;
+    String pkeyS;
+    for (NSString * pkey in publicKeys ) {
+        pkeyS=[self cstringWithString:pkey];
+        publicKeysJson.push_back(pkeyS);
+    }
+    int   m=[args[idx++] intValue];
+    if (mMasterWalletManager == nil) {
+        NSString *msg = [NSString stringWithFormat:@"%@", @"Master wallet manager has not initialize"];
+        return [self errorProcess:command code:errCodeInvalidMasterWalletManager msg:msg];
+    }
+    IMasterWallet *masterWallet;
+    try {
+        
+        masterWallet = mMasterWalletManager->CreateMultiSignMasterWallet(masterWalletID,publicKeysJson,m,0);
+    } catch (const std:: exception &e) {
+        return  [self errInfoToDic:e.what() with:command];
+    }
+    
+    if (masterWallet == nil) {
+        NSString *msg = [NSString stringWithFormat:@"%@ %@ %@", @"Import", [self formatWalletName:masterWalletID], @"with mnemonic"];
+        return [self errorProcess:command code:errCodeImportFromMnemonic msg:msg];
+    }
+    
+    NSString *jsonString = [self getBasicInfo:masterWallet];
+    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"”" withString:@""];
+    return [self successProcess:command msg:jsonString];
+}
+-(PluginResult *)CreateMultiSignMasterWalletmasterMasterWalletId:(invokedUrlCommand *)command{
+    NSArray *args = command.arguments;
+    int idx = 0;
+    String masterWalletID = [self cstringWithString:args[idx++]];
+     String xprv=[self cstringWithString:args[idx++]];
+     String payPassword=[self cstringWithString:args[idx++]];
+    NSArray *publicKeys=[NSArray arrayWithArray:args[idx++]];
+    Json publicKeysJson;
+    String pkeyS;
+    for (NSString * pkey in publicKeys ) {
+        pkeyS=[self cstringWithString:pkey];
+        publicKeysJson.push_back(pkeyS);
+    }
+     int   m=[args[idx++] intValue];
+    if (mMasterWalletManager == nil) {
+        NSString *msg = [NSString stringWithFormat:@"%@", @"Master wallet manager has not initialize"];
+        return [self errorProcess:command code:errCodeInvalidMasterWalletManager msg:msg];
+    }
+    IMasterWallet *masterWallet;
+    try {
+        masterWallet = mMasterWalletManager->CreateMultiSignMasterWallet(masterWalletID,xprv,payPassword,publicKeysJson,m,0);
+    } catch (const std:: exception &e) {
+        return  [self errInfoToDic:e.what() with:command];
+    }
+    if (masterWallet == nil) {
+        NSString *msg = [NSString stringWithFormat:@"%@ %@ %@", @"Import", [self formatWalletName:masterWalletID], @"with WalletId"];
+        return [self errorProcess:command code:errCodeImportFromMnemonic msg:msg];
+    }
+    
+    NSString *jsonString = [self getBasicInfo:masterWallet];
+    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"”" withString:@""];
+    return [self successProcess:command msg:jsonString];
+}
+-(NSString *)ExportxPrivateKey:(invokedUrlCommand *)command{
+    NSArray *args = command.arguments;
+    int idx = 0;
+    String masterWalletID = [self cstringWithString:args[idx++]];
+    String payPassword=[self cstringWithString:args[idx++]];
+    if (mMasterWalletManager == nil) {
+        NSString *msg = [NSString stringWithFormat:@"%@", @"Master wallet manager has not initialize"];
+        return nil;
+    }
+    IMasterWallet *masterWallet;
+    try {
+           masterWallet = mMasterWalletManager->GetMasterWallet(masterWalletID);
+    } catch (const std:: exception &e) {
+//        return  [self errInfoToDic:e.what() with:command];
+        return nil;
+    }
+    if (masterWallet == nil) {
+        NSString *msg = [NSString stringWithFormat:@"%@ %@ %@", @"Import", [self formatWalletName:masterWalletID], @"with WalletId"];
+       
+    }
+    String XPK;
+    try {
+        XPK = mMasterWalletManager->ExportxPrivateKey(masterWallet,payPassword);
+    } catch (const std:: exception &e) {
+       return nil;
+    }
+    
+   return [self stringWithCString:XPK];
 }
 -(void)EMWMSaveConfigs{
     mMasterWalletManager->SaveConfigs();

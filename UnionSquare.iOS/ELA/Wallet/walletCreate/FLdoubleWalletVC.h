@@ -10,4 +10,5 @@
 
 @interface FLdoubleWalletVC : UIViewController
 @property (nonatomic, strong)FLWallet*Wallet;
+@property (nonatomic, copy)NSString*signType;
 @end

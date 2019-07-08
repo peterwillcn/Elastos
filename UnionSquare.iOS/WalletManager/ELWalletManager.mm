@@ -1827,7 +1827,7 @@ errCodeSPVCreateMasterWalletError= 20006;
    return [self stringWithCString:XPK];
 }
 -(void)EMWMSaveConfigs{
-    mMasterWalletManager->SaveConfigs();
+//    mMasterWalletManager->SaveConfigs();
 }
 -(NSString*)EMWMGetVersion{
     String  Version=mMasterWalletManager->GetVersion();

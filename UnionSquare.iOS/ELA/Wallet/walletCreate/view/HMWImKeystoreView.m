@@ -28,9 +28,8 @@
 -(instancetype)init{
     self =[super init];
     if (self) {
-       self.palceString=NSLocalizedString(@"请输入Keystore文本内容", nil);
         self =[[NSBundle mainBundle]loadNibNamed:@"HMWImKeystoreView" owner:nil options:nil].firstObject;
-        
+        self.palceString=NSLocalizedString(@"请输入Keystore文本内容", nil);
         self.keyStoreTextView.text=self.palceString;
         self.walletNameTextField.placeholder=NSLocalizedString(@"请输入钱包名称", nil);
 

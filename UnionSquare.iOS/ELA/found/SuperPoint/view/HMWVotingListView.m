@@ -24,6 +24,8 @@ static NSString *crossCellString=@"HMWVotingListTypeCrossCollectionViewCell";
  */
 @property(copy,nonatomic)NSString *listType;
 @property (weak, nonatomic) IBOutlet UIButton *modifyTheListModeButton;
+@property (weak, nonatomic) IBOutlet UILabel *numberNodesTextLabel;
+@property (weak, nonatomic) IBOutlet UILabel *numberNodesLabel;
 
 @end
 
@@ -43,7 +45,9 @@ static NSString *crossCellString=@"HMWVotingListTypeCrossCollectionViewCell";
         self.taglab1.text = NSLocalizedString(@"全网投票占比", nil);
         self.taglab3.text = NSLocalizedString(@"当前票数", nil);
          self.runningNodeListTextLabel.text=NSLocalizedString(@"参选节点列表", nil);
+       self.numberNodesTextLabel.text=NSLocalizedString(@"节点数量", nil);
         self.listType=@"1";
+       
 
     }
     
@@ -52,6 +56,7 @@ static NSString *crossCellString=@"HMWVotingListTypeCrossCollectionViewCell";
 }
 -(void)setDataSource:(NSArray *)dataSource{
     _dataSource = dataSource;
+    self.numberNodesLabel.text=[NSString stringWithFormat:@"%ld",dataSource.count+1];
     [self.baseCollectionView reloadData];
 }
 #pragma mark -- UICollectionViewDataSource

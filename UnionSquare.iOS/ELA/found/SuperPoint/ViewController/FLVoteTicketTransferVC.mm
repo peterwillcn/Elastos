@@ -53,7 +53,10 @@
     ELWalletManager *manager   =  [ELWalletManager share];
     
     IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-   self.walletBalance = mainchainSubWallet->GetBalance();
+    String balanceSt = mainchainSubWallet->GetBalance(Elastos::ElaWallet::Total);
+    NSString * balanceString= [NSString stringWithCString:balanceSt.c_str() encoding:NSUTF8StringEncoding];
+    NSInteger balance=[balanceString integerValue];
+   self.walletBalance =balance;
     self.theAmountOfTextField.placeholder=[NSString stringWithFormat:@"%@%@ ELA)",NSLocalizedString(@"请输入金额 可用", nil),[[FLTools share]elaScaleConversionWith:[@(self.walletBalance) stringValue]]];
     self.transferTheAddressTextField.placeholder=NSLocalizedString(@"请输入收款人地址", nil);
     

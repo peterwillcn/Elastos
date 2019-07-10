@@ -14,6 +14,11 @@
 #import "ScanQRCodeViewController.h"
 #import "HWMaddSignThePursefootTableViewCell.h"
 #import "ELWalletManager.h"
+#import "FMDBWalletModel.h"
+#import "HMWFMDBManager.h"
+#import "AppDelegate.h"
+#import "FLPrepareVC.h"
+#import "FLFLTabBarVC.h"
 
 static NSString*cellString=@"HWMaddSignThePurseViewTableViewCell";
 static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
@@ -53,7 +58,14 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
  *<# #>
  */
 @property(copy,nonatomic)NSString *xprv;
-
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *mnemonic;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *phrasePassword;
 
 @end
 
@@ -222,6 +234,9 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
     
 }
 -(void)creatReadOnlyWallet{
+    if (![[FLTools share]checkWalletName:self.SignThePurseView.walletNameTextField.text]) {
+        return;
+    }
     NSString *walletID=[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
     NSString *masterWalletID=[[[FLTools share]getRandomStringWithNum:6] stringByAppendingString:walletID];
     NSMutableArray*publicKeysArray=[[NSMutableArray alloc]init];
@@ -235,16 +250,29 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
             return;}
 
     }
-
+    FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
+    model.walletID=masterWalletID;
+    model.walletName=self.SignThePurseView.walletNameTextField.text;
+    model.TypeW=HowSignReadonly;
+   
+    
+   
+    
+    
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[masterWalletID,publicKeysArray,self.SignThePurseView.numberLabel.text] callbackId:masterWalletID className:@"Wallet" methodName:@"CreateMultiSignMasterWalletmasterReadonly"];
     PluginResult * result =[[ELWalletManager share]CreateMultiSignMasterWalletmasterReadonly:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){
-        [[FLTools share]showErrorInfo:@"创建成功"];
+    
+        [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
+        [self successfulSwitchingRootVC];
     }
     
 }
 -(void)creatImportTheMnemonic{
+    if (![[FLTools share]checkWalletName:self.SignThePurseView.walletNameTextField.text]) {
+        return;
+    }
     NSString *walletID=[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
     NSString *masterWalletID=[[[FLTools share]getRandomStringWithNum:6] stringByAppendingString:walletID];
     NSMutableArray*publicKeysArray=[[NSMutableArray alloc]init];
@@ -258,19 +286,22 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
             return;}
         
     }
-    
-    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[masterWalletID,publicKeysArray,self.SignThePurseView.numberLabel.text] callbackId:masterWalletID className:@"Wallet" methodName:@"CreateMultiSignMasterWalletmasterReadonly"];
-    PluginResult * result =[[ELWalletManager share]CreateMultiSignMasterWalletmasterReadonly:mommand];
-    
+    FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
+    model.walletID=masterWalletID;
+    model.walletName=self.SignThePurseView.walletNameTextField.text;
+    model.TypeW=HowSign;
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[masterWalletID,self.mnemonic,self.phrasePassword,self.PWD,publicKeysArray,self.SignThePurseView.numberLabel.text] callbackId:masterWalletID className:@"Wallet" methodName:@"CreateMultiSignMasterWalletMnemonic"];
+    PluginResult * result =[[ELWalletManager share]CreateMultiSignMasterWalletMnemonic:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){
-        
-        [[FLTools share]showErrorInfo:@"创建成功"];
+        [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
+        [self successfulSwitchingRootVC];
     }
-    
 }
 -(void)creatImportWalletID{
-   
+    if (![[FLTools share]checkWalletName:self.SignThePurseView.walletNameTextField.text]) {
+        return;
+    }
     NSMutableArray*publicKeysArray=[[NSMutableArray alloc]init];
     for (int i=0; i<self.SignThePurseInter-1;i++) {
         NSIndexPath* indepa=[NSIndexPath indexPathForRow:i inSection:0];
@@ -279,14 +310,19 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
             [publicKeysArray addObject:cell.signThePublicKeyTextField.text];
         }else{
             [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入多签公钥", nil)];
-            return;}
-        
+            return;
+        }
     }
+    FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
+    model.walletID=self.WalletID;
+    model.walletName=self.SignThePurseView.walletNameTextField.text;
+    model.TypeW=HowSign;
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.WalletID,self.xprv,self.PWD,publicKeysArray,self.SignThePurseView.numberLabel.text] callbackId:self.WalletID className:@"Wallet" methodName:@"CreateMultiSignMasterWalletmasterWalletID"];
     PluginResult * result =[[ELWalletManager share]CreateMultiSignMasterWalletmasterMasterWalletId:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){
-        [[FLTools share]showErrorInfo:@"创建成功"];
+        [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
+        [self successfulSwitchingRootVC];
     }
 }
 -(void)CallbackWithWalletID:(NSString *)wallet withXPK:(NSString *)XPK withPWD:(NSString * _Nonnull)PWD{
@@ -296,16 +332,20 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
     self.PWD=PWD;
     self.typeInt=2;
 }
--(void)backWithWord:(NSString *)word withPWD:(NSString * _Nonnull)PWD{
+-(void)backWithWord:(NSString *)word withPWD:(NSString * _Nonnull)PWD withPhrasePassword:(NSString *)phrasePassword{
     if (word.length>0) {
+        self.mnemonic=word;
         self.typeInt=1;
+         self.PWD=PWD;
+        self.phrasePassword=phrasePassword;
         [self makeButtonKEY];
     }
-    
 }
--(void)ImportTheMnemonicWordViewWithMnemonic:(NSString*)Mnemonic withPWD:(NSString*)PWD{
-    
+-(void)ImportTheMnemonicWordViewWithMnemonic:(NSString*)Mnemonic withPWD:(NSString*)PWD withPhrasePassword:(NSString *)phrasePassword{
+    self.mnemonic=Mnemonic;
     self.typeInt=1;
+     self.PWD=PWD;
+    self.phrasePassword=phrasePassword;
     [self makeButtonKEY];
 }
 -(void)QrCodeIndex:(NSInteger)row{
@@ -315,16 +355,25 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
             NSIndexPath *index = [NSIndexPath indexPathForRow:row inSection:0];
             HWMaddSignThePurseViewTableViewCell *cell = [weakSelf.baseTableView cellForRowAtIndexPath:index];
         cell.signThePublicKeyTextField.text=addr;
-    
         };
         [self QRCodeScanVC:scanQRCodeVC];
-    
 }
 -(void)makeButtonKEY{
-    
     [self.SignThePurseView.addPurseButton setTitle:NSLocalizedString(@"编辑根私钥", nil) forState:UIControlStateNormal];
     self.SignThePurseView.iconImageView.image=[UIImage imageNamed:@"asset_adding_select"];
+}
+-(void)successfulSwitchingRootVC{
+    [[FLTools share]showErrorInfo:NSLocalizedString(@"创建成功", nil)];
+    AppDelegate *appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    UIViewController *rootViewController = appdelegate.window.rootViewController;
+    if ([rootViewController.childViewControllers.firstObject isKindOfClass:[FLPrepareVC class]]) {
+        FLFLTabBarVC *tabVC = [[FLFLTabBarVC alloc]init];
+        appdelegate.window.rootViewController=tabVC;
+    }else{
+        [[NSNotificationCenter defaultCenter]postNotificationName:updataCreateWallet object:nil ];
+        
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
     
 }
-
 @end

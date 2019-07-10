@@ -8,7 +8,7 @@
 #import <UIKit/UIKit.h>
 
 @protocol HWMNewPrivateKeyViewControllerDelegate <NSObject>
--(void)backTheMnemonicWord:(NSString*)word withPWD:(NSString*)PWD;
+-(void)backTheMnemonicWord:(NSString*)word withPWD:(NSString*)PWD withPhrasePassword:(NSString*)phrasePassword;
 
 
 @end

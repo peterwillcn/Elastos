@@ -116,10 +116,10 @@ cell.typeNameLabel.text=self.dataSourceArray[indexPath.section];
     return [[UIView alloc]initWithFrame:CGRectZero];
     
 }
--(void)backTheMnemonicWord:(NSString *)word withPWD:(NSString*)PWD{
+-(void)backTheMnemonicWord:(NSString *)word withPWD:(NSString*)PWD  withPhrasePassword:(NSString*)phrasePassword{
     if (word.length>0) {
         if (self.delegate) {
-            [self.delegate backWithWord:word withPWD:PWD];
+            [self.delegate backWithWord:word withPWD:PWD withPhrasePassword:phrasePassword];
         }
     }
     
@@ -130,10 +130,10 @@ cell.typeNameLabel.text=self.dataSourceArray[indexPath.section];
     }
     
 }
--(void)ImportTheMnemonicWordViewWithMnemonic:(NSString*)Mnemonic withPWD:(NSString*)PWD{
+-(void)ImportTheMnemonicWordViewWithMnemonic:(NSString*)Mnemonic withPWD:(NSString*)PWD withPhrasePassword:(NSString*)phrasePassword{
     
     if (self.delegate) {
-        [self.delegate ImportTheMnemonicWordViewWithMnemonic:Mnemonic withPWD:PWD];
+        [self.delegate ImportTheMnemonicWordViewWithMnemonic:Mnemonic withPWD:PWD withPhrasePassword:phrasePassword];
     }
     
 }

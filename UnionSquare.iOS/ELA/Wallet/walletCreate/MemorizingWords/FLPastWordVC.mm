@@ -284,7 +284,7 @@ __weak __typeof__(self) weakSelf = self;
             waModel.walletName=self.Wallet.walletName;
 //            waModel.walletAddress
             waModel.walletID=self.Wallet.masterWalletID;
-            
+            waModel.TypeW=SingleSign;
             
             [[HMWFMDBManager sharedManagerType:walletType] addWallet:waModel];
             

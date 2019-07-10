@@ -8,7 +8,7 @@
 #import <UIKit/UIKit.h>
 
 @protocol HWMImportTheMnemonicWordViewControllerDelegate <NSObject>
--(void)ImportTheMnemonicWordViewWithMnemonic:(NSString*)Mnemonic withPWD:(NSString*)PWD;
+-(void)ImportTheMnemonicWordViewWithMnemonic:(NSString*)Mnemonic withPWD:(NSString*)PWD withPhrasePassword:(NSString*)phrasePassword;
 
 
 @end

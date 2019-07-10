@@ -111,7 +111,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1333"
             endingLineNumber = "1333"
-            landmarkName = "-mainChainWithdrawal:"
+            landmarkName = "-sideChainTop_UpFee:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -127,8 +127,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1503"
             endingLineNumber = "1503"
-            landmarkName = "-CancelProducer:Pwd:"
-            landmarkType = "7">
+            landmarkName = "@implementation ELWalletManager"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -393,13 +393,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ELA/Wallet/walletCreate/HWMSignThePurseViewController.mm"
-            timestampString = "584007756.733929"
+            filePath = "ELA/Wallet/walletCreate/FLdoubleWalletVC.mm"
+            timestampString = "584007756.733982"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "269"
-            endingLineNumber = "269"
-            landmarkName = "-creatImportTheMnemonic"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "-GoToPastWords:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -409,13 +409,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ELA/Wallet/walletCreate/FLdoubleWalletVC.mm"
-            timestampString = "584007756.733982"
+            filePath = "ELA/Wallet/walletCreate/HWMNewPrivateKeyViewController.mm"
+            timestampString = "584444949.041209"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "-GoToPastWords:"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "-click1:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

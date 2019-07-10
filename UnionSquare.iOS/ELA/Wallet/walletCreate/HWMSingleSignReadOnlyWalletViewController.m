@@ -28,6 +28,10 @@
 }
 
 - (IBAction)ConfirmToCreate:(id)sender {
-    
+    if (![[FLTools share]checkWalletName:self.walletNameTextField.text]) {
+        
+        
+        return;
+    }
 }
 @end

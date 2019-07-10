@@ -158,7 +158,7 @@
         FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
         model.walletID=wallet.masterWalletID;
         model.walletName=wallet.walletName;
-        
+        model.TypeW=SingleSign;
         invokedUrlCommand *subCmommand=[[invokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID,@"ELA",@"10000"] callbackId:wallet.walletID className:@"Wallet" methodName:@"createMasterWallet"];
         
         PluginResult *subResult= [[ELWalletManager share] createSubWallet:subCmommand];
@@ -263,6 +263,7 @@
         FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
         model.walletID=wallet.masterWalletID;
         model.walletName=wallet.walletName;
+        model.TypeW=SingleSign;
         [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
         sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
         sideModel.walletID=model.walletID;

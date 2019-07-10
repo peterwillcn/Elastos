@@ -40,7 +40,7 @@
 
 -(void)ImTheMnemonicWordViewCompWithWallet:(FLWallet*)wallet{
     if (self.delegate) {
-        [self.delegate ImportTheMnemonicWordViewWithMnemonic:wallet.mnemonic withPWD:wallet.passWord];
+        [self.delegate ImportTheMnemonicWordViewWithMnemonic:wallet.mnemonic withPWD:wallet.passWord withPhrasePassword:wallet.mnemonicPWD];
     }
     for (UIViewController *controller in self.navigationController.viewControllers) {
         if ([controller isKindOfClass:[HWMSignThePurseViewController class]]) {

@@ -47,7 +47,7 @@ public class WebViewActivity extends FragmentActivity {
     private void getInstallUri() {
         Intent intent = getIntent();
         String action=intent.getAction();
-        if (action.equals("android.intent.action.VIEW")) {
+        if ((action != null) && action.equals("android.intent.action.VIEW")) {
             Uri uri = intent.getData();
             if (uri != null) {
                 appManager.setInstallUri(uri.toString());

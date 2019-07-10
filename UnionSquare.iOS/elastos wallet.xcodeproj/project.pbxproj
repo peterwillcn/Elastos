@@ -347,6 +347,8 @@
 		4264A73E221BDC24008D5C7B /* DAConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 4264A73D221BDC24008D5C7B /* DAConfig.m */; };
 		4264A741221BDC8D008D5C7B /* NSBundle+DAUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4264A740221BDC8D008D5C7B /* NSBundle+DAUtils.m */; };
 		428054D42242296500E74F0E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 428054D62242296500E74F0E /* InfoPlist.strings */; };
+		42843D2A22D5D6D200674E16 /* HWMSingleSignReadOnlyWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42843D2822D5D6D200674E16 /* HWMSingleSignReadOnlyWalletViewController.m */; };
+		42843D2B22D5D6D200674E16 /* HWMSingleSignReadOnlyWalletViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42843D2922D5D6D200674E16 /* HWMSingleSignReadOnlyWalletViewController.xib */; };
 		42885A562216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42885A542216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.m */; };
 		42885A572216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42885A552216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib */; };
 		428B4D7322CAFC6E004AE7D0 /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 428B4D7222CAFC6E004AE7D0 /* Data */; };
@@ -1016,6 +1018,9 @@
 		4264A740221BDC8D008D5C7B /* NSBundle+DAUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+DAUtils.m"; sourceTree = "<group>"; };
 		428054D52242296500E74F0E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		428054D72242296700E74F0E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		42843D2722D5D6D200674E16 /* HWMSingleSignReadOnlyWalletViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMSingleSignReadOnlyWalletViewController.h; sourceTree = "<group>"; };
+		42843D2822D5D6D200674E16 /* HWMSingleSignReadOnlyWalletViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMSingleSignReadOnlyWalletViewController.m; sourceTree = "<group>"; };
+		42843D2922D5D6D200674E16 /* HWMSingleSignReadOnlyWalletViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMSingleSignReadOnlyWalletViewController.xib; sourceTree = "<group>"; };
 		42885A532216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTransactionDetailsURLViewController.h; sourceTree = "<group>"; };
 		42885A542216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTransactionDetailsURLViewController.m; sourceTree = "<group>"; };
 		42885A552216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTransactionDetailsURLViewController.xib; sourceTree = "<group>"; };
@@ -2048,6 +2053,9 @@
 				4234721722CC9B29000616CB /* HWMImportTheMnemonicWordViewController.xib */,
 				4234721A22CCA2EF000616CB /* HWMSignTheWalletListViewController.h */,
 				4234721B22CCA2EF000616CB /* HWMSignTheWalletListViewController.mm */,
+				42843D2722D5D6D200674E16 /* HWMSingleSignReadOnlyWalletViewController.h */,
+				42843D2822D5D6D200674E16 /* HWMSingleSignReadOnlyWalletViewController.m */,
+				42843D2922D5D6D200674E16 /* HWMSingleSignReadOnlyWalletViewController.xib */,
 			);
 			path = walletCreate;
 			sourceTree = "<group>";
@@ -2933,6 +2941,7 @@
 				428B4D8C22CB0D01004AE7D0 /* HWMSignThePurseHeadView.xib in Resources */,
 				4202CA9421F6EF2B009E5932 /* HMWModifyTheWalletPasswordViewController.xib in Resources */,
 				42EEDA88224B84A50009B18E /* LaunchScreen-Chinese.storyboard in Resources */,
+				42843D2B22D5D6D200674E16 /* HWMSingleSignReadOnlyWalletViewController.xib in Resources */,
 				4234720522CC60B6000616CB /* AddressPickerView.xib in Resources */,
 				4202CA8E21F6EF2B009E5932 /* HMWCopyKeyStoreViewController.xib in Resources */,
 				428B4D9122CB2B7E004AE7D0 /* HWMaddSignThePurseView.xib in Resources */,
@@ -3085,6 +3094,7 @@
 				4202CA2121F6EF2A009E5932 /* HMWtheContactInformationViewController.m in Sources */,
 				4202C9E821F6EF2A009E5932 /* UIScrollView+MJExtension.m in Sources */,
 				4228AA6021F88C87002866B5 /* NSNotificationCenter+YYAdd.m in Sources */,
+				42843D2A22D5D6D200674E16 /* HWMSingleSignReadOnlyWalletViewController.m in Sources */,
 				4230217A22C0BB000004AB65 /* nodeInformationDetailsView.m in Sources */,
 				4202CA4121F6EF2A009E5932 /* FLMeHeadView.m in Sources */,
 				4202CA3A21F6EF2A009E5932 /* FLTradeInfoView.m in Sources */,

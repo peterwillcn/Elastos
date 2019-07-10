@@ -9,6 +9,8 @@
 #import "HWMHWMcreatWalletListlTableViewCell.h"
 #import "FLCreatAcountVC.h"
 #import "HWMSignThePurseViewController.h"
+#import "ScanQRCodeViewController.h"
+#import "HWMSingleSignReadOnlyWalletViewController.h"
 
 static NSString *cellString=@"HWMHWMcreatWalletListlTableViewCell";
 @interface HWMcreatListViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -82,8 +84,21 @@ static NSString *cellString=@"HWMHWMcreatWalletListlTableViewCell";
         
         [self.navigationController pushViewController:VC animated:YES];
     }else if ([nameString isEqualToString:NSLocalizedString(@"单签只读钱包", nil)]){
+        __weak __typeof__(self) weakSelf = self;
+        ScanQRCodeViewController *scanQRCodeVC = [[ScanQRCodeViewController alloc]init];
+        scanQRCodeVC.scanBack = ^(NSString *addr) {
+            [self popSingleSignReadOnlyWalletVCWithAddString:addr];
+        };
+        [weakSelf QRCodeScanVC:scanQRCodeVC];
+       
+       
         
     }
+    
+}
+-(void)popSingleSignReadOnlyWalletVCWithAddString:(NSString*)addS{
+    HWMSingleSignReadOnlyWalletViewController *VC=[[HWMSingleSignReadOnlyWalletViewController alloc]init];
+    [self.navigationController pushViewController:VC animated:YES];
     
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -104,6 +119,11 @@ static NSString *cellString=@"HWMHWMcreatWalletListlTableViewCell";
 }
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     return [[UIView alloc]initWithFrame:CGRectZero];
+    
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
     
 }
 @end

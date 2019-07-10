@@ -24,7 +24,7 @@ static HMWFMDBManager * _manager =nil;
     if (type ==friendsModelType) {
         sql =@"create table if not exists Person(ID integer primary key AUTOINCREMENT,nameString text,address text,mobilePhoneNo text,email text,note text)";
     }else if (type==walletType){
-        sql =@"create table if not exists wallet(ID integer primary key AUTOINCREMENT,walletID text,walletAddress text,walletName text)";
+        sql =@"create table if not exists wallet(ID integer primary key AUTOINCREMENT,walletID text,walletAddress text,walletName text,,walletType text)";
         
         
     }else if (type==sideChain){
@@ -240,9 +240,11 @@ static HMWFMDBManager * _manager =nil;
     return NO;
 }
 -(void)addWallet:(FMDBWalletModel *)wallet{
-
-    NSString *sql =@"insert into wallet(walletID,walletAddress,walletName) values(?,?,?)";
-    if ([self executeUpdate:sql,wallet.walletID,wallet.walletAddress,wallet.walletName]) {
+    /*
+     *
+     */
+    NSString *sql =@"insert into wallet(walletID,walletAddress,walletName,walletType) values(?,?,?,?)";
+    if ([self executeUpdate:sql,wallet.walletID,wallet.walletAddress,wallet.walletName,wallet.TypeW]) {
         
     }else{
         
@@ -267,6 +269,7 @@ static HMWFMDBManager * _manager =nil;
         p.walletID=[set objectForColumn:@"walletID"];
         p.walletAddress =[set objectForColumn:@"walletAddress"];
          p.walletName =[set objectForColumn:@"walletName"];
+        p.TypeW=[set objectForKeyedSubscript:@"walletType"];
         //        添加到数组中
         [allRecords addObject:p];
     }

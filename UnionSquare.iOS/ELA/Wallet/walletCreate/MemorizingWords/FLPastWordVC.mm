@@ -200,6 +200,9 @@ __weak __typeof__(self) weakSelf = self;
         
          [[FLTools share]showErrorInfo:NSLocalizedString(@"你备份的助记词顺序验证正确", nil)];
 //        [self.navigationController popToRootViewControllerAnimated:YES];
+        if (self.delegate) {
+            [self.delegate backTheWallet:self.Wallet];
+        }
        
     }else{
          [[FLTools share]showErrorInfo:NSLocalizedString(@"你备份的助记词顺序验证错误,请从新校验", nil)];

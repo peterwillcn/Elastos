@@ -10,7 +10,7 @@
 #import "FLPastWordVC.h"
 #import "ELWalletManager.h"
 #import "DAConfig.h"
-@interface FLdoubleWalletVC ()
+@interface FLdoubleWalletVC ()<FLPastWordVCDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *PastWalletBtn;
 
 /*
@@ -58,7 +58,7 @@
 - (IBAction)GoToPastWords:(id)sender {
     FLPastWordVC *vc = [[FLPastWordVC alloc]init];
     vc.Wallet=self.Wallet;
-    
+    vc.delegate=self;
     
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -69,6 +69,12 @@
 }
 -(void)setSignType:(NSString *)signType{
     _signType=signType;
+    
+}
+-(void)backTheWallet:(FLWallet*)wallet{
+    if (self.delegate) {
+        [self.delegate backTheWallet:wallet];
+    }
     
 }
 @end

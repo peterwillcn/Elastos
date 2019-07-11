@@ -7,6 +7,9 @@
 
 #import "HWMSingleSignReadOnlyWalletViewController.h"
 #import "ScanQRCodeViewController.h"
+#import "AppDelegate.h"
+#import "FLPrepareVC.h"
+#import "FLFLTabBarVC.h"
 
 @interface HWMSingleSignReadOnlyWalletViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *walletNameTextField;
@@ -33,5 +36,19 @@
         
         return;
     }
+}
+-(void)successfulSwitchingRootVC{
+    [[FLTools share]showErrorInfo:NSLocalizedString(@"创建成功", nil)];
+    AppDelegate *appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    UIViewController *rootViewController = appdelegate.window.rootViewController;
+    if ([rootViewController.childViewControllers.firstObject isKindOfClass:[FLPrepareVC class]]) {
+        FLFLTabBarVC *tabVC = [[FLFLTabBarVC alloc]init];
+        appdelegate.window.rootViewController=tabVC;
+    }else{
+        [[NSNotificationCenter defaultCenter]postNotificationName:updataCreateWallet object:nil ];
+        
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+    
 }
 @end

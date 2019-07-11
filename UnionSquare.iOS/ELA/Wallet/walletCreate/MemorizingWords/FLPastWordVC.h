@@ -8,8 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol FLPastWordVCDelegate <NSObject>
+-(void)backTheWallet:(FLWallet*)wallet;
+
+
+@end
 @interface FLPastWordVC : UIViewController
 @property (nonatomic, strong)FLWallet*Wallet;
-
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)id<FLPastWordVCDelegate>delegate;
 
 @end

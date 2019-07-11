@@ -11,7 +11,7 @@
 #import "HWMSignThePurseViewController.h"
 #import "FLdoubleWalletVC.h"
 
-@interface HWMNewPrivateKeyViewController ()<UITextFieldDelegate>
+@interface HWMNewPrivateKeyViewController ()<UITextFieldDelegate,FLdoubleWalletVCDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *pwdfield1;
 @property (weak, nonatomic) IBOutlet UITextField *pwdfield2;
 @property (weak, nonatomic) IBOutlet UIButton *btn1;
@@ -63,9 +63,7 @@
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[languageStringMword] callbackId:@"" className:@"Wallet" methodName:@"generateMnemonic"];
     PluginResult *result=[[ELWalletManager share]generateMnemonic:mommand];
     NSString *mnemonic=result.message[@"success"];
-//    if (self.delegate) {
-//        [self.delegate backTheMnemonicWord:mnemonic withPWD:self.pwdfield1.text withPhrasePassword:<#(NSString *)#>];
-//    }
+
     NSString *walletID=[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
     NSString *masterWalletID=[[[FLTools share]getRandomStringWithNum:6] stringByAppendingString:walletID];
     FLWallet *wallet=[[FLWallet alloc]init];
@@ -76,6 +74,7 @@
     wallet.walletID=masterWalletID;
     FLdoubleWalletVC *vc = [[FLdoubleWalletVC alloc]init];
     vc.Wallet=wallet;
+    vc.delegate=self;
     [self.navigationController pushViewController:vc animated:YES];
     
 }
@@ -96,5 +95,9 @@
 {
     [self.view endEditing:YES];
 }
-
+-(void)backTheWallet:(FLWallet*)wallet{
+        if (self.delegate) {
+            [self.delegate backTheMnemonicWord:wallet.mnemonic withPWD:wallet.passWord withPhrasePassword:wallet.mnemonicPWD];
+        }
+}
 @end

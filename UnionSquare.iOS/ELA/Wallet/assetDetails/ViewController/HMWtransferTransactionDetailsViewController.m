@@ -134,8 +134,16 @@ static NSString *cellString=@"HMWtransferTransactionMultipleAddressDetailsTableV
         allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount;
         
         
+    }else if (self.type==NodeReturnsType){
+        self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
+        allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount;
+        
     }
-    self.baseTableHeight.constant=allCount*44+20;
+    CGFloat con=allCount*44+20;
+    if (AppHeight-100<con) {
+        con=AppHeight-100;
+    }
+    self.baseTableHeight.constant=con;
     self.baseTabeleHeightFloat=self.baseTableHeight.constant;
     self.baseTable.delegate=self;
     self.baseTable.dataSource=self;
@@ -413,7 +421,7 @@ cell.textLabel.text=self.listTextArray[indexPath.section];
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"交易类型", nil)]){
         cell.orderDetailsLabel.text=self.model.Type;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"备注", nil)]){
-        cell.orderDetailsLabel.text=self.model.Remark;
+        cell.orderDetailsLabel.text=self.model.Memo;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"投票数量-1", nil)]){
         cell.orderDetailsLabel.text=self.votesString;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"目标地址", nil)]){
@@ -461,6 +469,10 @@ cell.textLabel.text=self.listTextArray[indexPath.section];
     }else{
          self.outputsISOpenCount=self.OutputsArray.count;
         
+    }
+    if(self.type ==NodeReturnsType){
+        NSString *elaKey=[NSString stringWithFormat:@"%@",model.Address];
+        [self.OutputsArray addObject:elaKey];
     }
     
 }

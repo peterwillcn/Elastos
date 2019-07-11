@@ -61,7 +61,7 @@
 "输入密码"="Password";
 "投票交易"="Vote trading";
 "暂无数据,请耐心等待!"="No data available, please be patient!";
-"所有人公钥"="OwnerPublicKey";
+"所有人公钥"="Owner Public Key";
 
 "请输入您的钱包密码"="Please enter your wallet password";
 "交易发送成功，\n 请耐心等待交易确认"="Transaction initiated successfully,\n please wait for confirmation.";
@@ -154,7 +154,7 @@
 "交易类型"="Transaction type";
 "输入地址"="Input address";
 "输出地址"="Output address";
-"创币交易"="Currency trading";
+"创币交易"="Coinbase Transaction";
 "注册资产交易"="Certified asset trading";
 "普通转账交易"="General transfer transaction";
 "记录交易"="Record transactions";
@@ -173,25 +173,27 @@
 "票"="Tickets";
 "完整信息请点击交易号查看"="Click to see all the details";
 
-"检测到当前账户存在大量Utxo,是否零钱换整？"="There are plentiful Utxo detection to the current account, whether to change in the whole？";
-"创建钱包"="Create wallet";
-"多签钱包"="Sign the purse";
-"单签只读钱包"="Single read-only wallet";
-"创建单签钱包"="Create single wallet";
-"签名数量"="Number signature";
-"只读"="read-only";
+"检测到当前账户存在大量Utxo,是否零钱换整？"="Too much UTXO detected, Consolidate?";
+"创建钱包"="Create Wallet";
+"多签钱包"="Multi-Sign Wallet";
+"单签只读钱包"="Standard Read-Only Wallet";
+"创建单签钱包"="Create Standard Wallet";
+"签名数量"="Number of Signers";
+"只读"="Read-Only";
 "请设置钱包名称"="Please set the purse name";
-"新建私钥"="New private key";
-"使用已有钱包"="Use the existing wallet";
-"导入助记词"="Import the mnemonic word";
-"添加根私钥"="Add the private key";
-"编辑根私钥"="Edit the private key";
-"参选节点列表"="Running node list";
-"节点数量"="Number Nodes";
-
-
-
-
+"新建私钥"="Create Private Key";
+"使用已有钱包"="Select Existed Wallet";
+"导入助记词"="Import With Mnemonic";
+"添加根私钥"="Add Private Key";
+"编辑根私钥"="Edit Private Key";
+"参选节点列表"="Node List";
+"节点数量"="Number of Node";
+"零钱换整"="Consolidate";
+"关于ELAWallet"="AboutELAWallet";
+"收款人地址错误"="The recipient address wrong";
+"侧链地址错误"="Side chain address errors";
+"金额需要大于0"="Amount needs to be greater than zero";
+"创币收益"="Coinbase Transaction";
 
 
 

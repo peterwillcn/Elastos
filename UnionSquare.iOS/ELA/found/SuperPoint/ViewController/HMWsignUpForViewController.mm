@@ -194,11 +194,11 @@ model.nodePubKey=self.thePublicKeyTextField.text;
     model.acount     = 5000;
     
  CGFloat free   =  [manager RegisterProducerWithMainchainSubWallet:mainchainSubWallet With:model];
-        
+       [self takeOutOrShutDown];
     if (free ==0 ) {
         return;
     }
-        [self takeOutOrShutDown];
+        
     
     [self.view addSubview:self.transferDetailsPopupV];
     [self.transferDetailsPopupV mas_makeConstraints:^(MASConstraintMaker *make) {

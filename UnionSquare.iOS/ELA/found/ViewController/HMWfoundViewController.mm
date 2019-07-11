@@ -58,18 +58,18 @@
     NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
     NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
     NSString *Status = param[@"Status"];
-    if ([Status isEqualToString:@"Registered"]){
-        self.typeString =@"1";
-    }else if([Status isEqualToString:@"Canceled"]){
-    self.typeString =@"2";
-
-    }else if([Status isEqualToString:@"Unregistered"]){
-        self.typeString =@"0";
-
-    }else if ([Status isEqualToString:@"ReturnDeposit"]){
-        self.typeString =@"4";
-        
-    }
+//    if ([Status isEqualToString:@"Registered"]){
+        self.typeString =Status;
+//    }else if([Status isEqualToString:@"Canceled"]){
+//    self.typeString =@"2";
+//
+//    }else if([Status isEqualToString:@"Unregistered"]){
+//        self.typeString =@"0";
+//
+//    }else if ([Status isEqualToString:@"ReturnDeposit"]){
+//        self.typeString =@"4";
+//
+//    }
     
 }
 -(void)viewWillAppear:(BOOL)animated{

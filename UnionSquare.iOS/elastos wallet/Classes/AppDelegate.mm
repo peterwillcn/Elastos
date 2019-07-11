@@ -77,7 +77,8 @@
     if (array.count>reArray.count) {
         for (int i=0; i<array.count; i++) {
              FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
-             model.walletID=[NSString stringWithFormat:@"%@",array[i]];
+            model=array[i];
+             model.walletID=[NSString stringWithFormat:@"%@",model.walletID];
             BOOL isbool = [reArray containsObject: model.walletID];
             
             if (isbool==NO) {
@@ -87,6 +88,7 @@
                 [[HMWFMDBManager sharedManagerType:walletType]delectRecordWallet: model];
                 
             }
+            
         }
         
     }else if(array.count<reArray.count){
@@ -110,9 +112,10 @@
             }
             
         }
+        
     }
     
-    
+    array =[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet];
     if (array.count==0) {
         
         FLPrepareVC *vc=[[FLPrepareVC alloc]init];

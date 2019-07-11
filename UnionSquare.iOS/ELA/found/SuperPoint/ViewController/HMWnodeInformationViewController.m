@@ -108,9 +108,9 @@
    [super viewDidLoad];
     NSLog(@"viewDidLoad");
   [self defultWhite];
-    [self setBackgroundImg:@""];
-     self.title=NSLocalizedString(@"节点信息", nil) ;
-    [self makeUI];
+  [self setBackgroundImg:@""];
+  self.title=NSLocalizedString(@"节点信息", nil) ;
+  [self makeUI];
     
 
    

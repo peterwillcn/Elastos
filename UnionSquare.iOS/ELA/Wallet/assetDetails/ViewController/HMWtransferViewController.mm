@@ -119,9 +119,14 @@
 }
 - (IBAction)theNextStepEvent:(id)sender {
     if (self.transferTheAddressTextField.text.length==0) {
+         [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入收款人地址", nil)];
+        
         return;
     }
-    
+    if ([self.theAmountOfTextField.text doubleValue]==0 ) {
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"金额需要大于0", nil)];
+        return;
+    }
     if ([self.theAmountOfTextField.text doubleValue]>[[[FLTools share]elaScaleConversionWith:self.model.iconBlance] doubleValue]) {
         
        [[FLTools share]showErrorInfo:NSLocalizedString(@"余额不足", nil)];
@@ -200,8 +205,9 @@
 }
 -(void)pwdAndInfoWithPWD:(NSString *)pwd{
     [self.transferDetailsPopupV removeFromSuperview];
-    NSString *isUtxo=@"1";
     self.transferDetailsPopupV=nil;
+    NSString *isUtxo=@"1";
+    
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[[FLTools share]elsToSela:self.theAmountOfTextField.text],self.noteTextField.text,self.noteTextField.text,pwd,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
     
     PluginResult *result = [[ELWalletManager share]CreateTransaction:mommand];

@@ -619,21 +619,9 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     }
     
     detailsM.Timestamp=[[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:detailsM.Timestamp];
-    
-    if ([detailsM.Direction isEqualToString:@"Received"]) {
-        transferTransactionDetailsVC.type=transactionMultipleIntoType;
-    }else if ([detailsM.Direction isEqualToString:@"Sent"]){
-        transferTransactionDetailsVC.type=transactionSingleRollOutType;
-    }else if (OutputPayload.count>0){
-        detailsM.Type=NSLocalizedString(@"投票交易", nil);
-        transferTransactionDetailsVC.type=rotationToVoteType;
-        transferTransactionDetailsVC.votesString=[[FLTools share]elaScaleConversionWith:OutputPayload[0][@"Amount"]];
-    }
-    else{
-        transferTransactionDetailsVC.type=transactionSingleIntoType;
-    }
-    transferTransactionDetailsVC.model=detailsM;
-    
+    transferTransactionDetailsVC.type=NodeReturnsType;
+      transferTransactionDetailsVC.model=detailsM;
+    transferTransactionDetailsVC.votesString=[[FLTools share]elaScaleConversionWith:OutputPayload[0]];
     [self.navigationController pushViewController:transferTransactionDetailsVC animated:YES];
     
 }
@@ -662,55 +650,8 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     detailsM.Fee=[NSString stringWithFormat:@"%@ELA",[[FLTools share]elaScaleConversionWith:detailsM.Fee]];
 //    transferTransactionDetailsVC.iconNameString=@"ELA";
     transferTransactionDetailsVC.iconNameString=self.model.iconName;
-    int type=[detailsM.Type intValue];
     transferTransactionDetailsVC.TypeString=[NSString stringWithFormat:@"%@",detailsM.Type];
-    switch (type) {
-            
-        case 0:
-            detailsM.Type=NSLocalizedString(@"创币交易", nil);
-            break;
-        case 1:
-             detailsM.Type=NSLocalizedString(@"注册资产交易", nil);
-            break;
-        case 2:
-              detailsM.Type=NSLocalizedString(@"普通转账交易", nil);
-            break;
-        case 3:
-            detailsM.Type=NSLocalizedString(@"记录交易", nil);
-            break;
-        case 4:
-             detailsM.Type=NSLocalizedString(@"部署交易", nil);
-            break;
-        case 5:
-             detailsM.Type=NSLocalizedString(@"侧链挖矿交易", nil);
-            break;
-        case 6:
-             detailsM.Type=NSLocalizedString(@"侧链充值交易", nil);
-            break;
-        case 7:
-             detailsM.Type=NSLocalizedString(@"侧链提现交易", nil);
-            break;
-        case 8:
-     transferTransactionDetailsVC.PayloadInfoString=[NSString stringWithFormat:@"%@\n%@ %@",result.message[@"success"][@"Transactions"][0][@"Payload"][@"CrossChainAddress"][0],[[FLTools share] elaScaleConversionWith:result.message[@"success"][@"Transactions"][0][@"Payload"][@"CrossChainAmount"][0]],@"ELA"];
-            detailsM.Type=NSLocalizedString(@"跨链交易", nil);
-            break;
-        case 9:
-             detailsM.Type=NSLocalizedString(@"注册参选交易", nil);
-            break;
-        case 10:
-             detailsM.Type=NSLocalizedString(@"取消参选交易", nil);
-            break;
-        case 11:
-            detailsM.Type=NSLocalizedString(@"更新参选交易", nil);
-            break;
-        case 12:
-             detailsM.Type=NSLocalizedString(@"取回参选优质抵押资产交易", nil);
-            break;
-            
-        default:
-            break;
-    }
-    
+    detailsM.Type=NSLocalizedString(@"创币收益", nil);
     detailsM.Timestamp=[[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:detailsM.Timestamp];
 
     if ([detailsM.Direction isEqualToString:@"Received"]) {
@@ -767,7 +708,6 @@ transferTransactionDetailsVC.type=transactionSingleIntoType;
 }
 - (void)toCancelOrCloseDelegate {
     [self.utxoTheWalletPopV removeFromSuperview];
-    
    self.utxoTheWalletPopV=nil;
     
 }

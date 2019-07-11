@@ -107,9 +107,13 @@
 - (IBAction)theNextStepEvent:(id)sender {
     
     if (self.transferTheAddressTextField.text.length==0) {
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入收款人地址", nil)];
         return;
     }
-    
+    if ([self.theAmountOfTextField.text doubleValue]==0 ) {
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"金额需要大于0", nil)];
+        return;
+    }
     if ([self.theAmountOfTextField.text doubleValue]>[[[FLTools share]elaScaleConversionWith:@(self.walletBalance).stringValue] doubleValue]) {
         
         [[FLTools share]showErrorInfo:NSLocalizedString(@"余额不足", nil)];
@@ -132,13 +136,6 @@
     }];
     
     self.theNextStepButton.userInteractionEnabled=YES;
-    
-//    UIView *manView=[self mainWindow];
-//
-//    [manView addSubview:self.transferDetailsPopupV];
-//    [self.transferDetailsPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.top.bottom.equalTo(manView);
-//    }];
 }
 -(HMWtransferDetailsPopupView *)transferDetailsPopupV{
     if (!_transferDetailsPopupV) {

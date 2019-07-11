@@ -61,6 +61,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy,nonatomic)NSString *Type;
 
 @property(copy,nonatomic)NSString *Height;
+@property(copy,nonatomic)NSString *Address;
+@property(copy,nonatomic)NSString *Memo;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

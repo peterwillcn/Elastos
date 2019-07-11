@@ -16,6 +16,8 @@ typedef NS_ENUM(NSInteger,transactionSingleType ) {
     transactionSingleRollOutType,// 转出
      transactionMultipleIntoType,//转入
     rotationToVoteType,//自转投票
+    NodeReturnsType
+    
 };
 NS_ASSUME_NONNULL_BEGIN
 

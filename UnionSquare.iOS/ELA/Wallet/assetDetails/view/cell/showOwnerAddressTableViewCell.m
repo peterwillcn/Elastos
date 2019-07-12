@@ -17,7 +17,8 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     [[HMWCommView share]makeBordersWithView:self.addreCopyTextButton];
-    
+    [self.addreCopyTextButton setTitle:NSLocalizedString(@"复制收益地址", nil) forState:UIControlStateNormal];
+ 
     // Initialization code
 }
 

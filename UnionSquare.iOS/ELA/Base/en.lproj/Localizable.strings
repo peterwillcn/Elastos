@@ -194,15 +194,15 @@
 "侧链地址错误"="Side chain address errors";
 "金额需要大于0"="Amount needs to be greater than zero";
 "创币收益"="Coinbase Transaction";
-
-
-
-
-
-
-
-
-
+"收益记录"="DPoS Reward Records";
+"暂无收益记录"="Temporarily No Earnings Record";
+"复制收益地址"="Copy address";
+"当前版本号V"="VersionV";
+"ELAWallet是安全、便捷的专业亦来云SPV轻节点客户端钱包，支持亦来云全生态数字资产。"="ELA wallet is a secure and convenient Elastos SPV wallet that supports all the digital currency for Elastos ecosystem.";
+"查看更新日志"="What's New";
+"反馈邮件"="Feedback";
+"运行日志"="Runtime log";
+"当前sdk版本号："="SPVSDK Version:";
 
 
 

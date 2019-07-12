@@ -197,7 +197,7 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     self.baseTableView.allowsMultipleSelection = YES;
     
     [self.baseTableView addSubview:self.placeHolferImage];
-    self.placeHolferImage.center = self.baseTableView.center;
+    self.placeHolferImage.center = self.view.center;
     self.placeHolferImage.hidden = self.dataSource.count!=0;
     
     [self updataBottomBtn];
@@ -360,6 +360,7 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
         _placeHolferImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed: @"found_vote_empty_list"]];
         UILabel *textLable=[[UILabel alloc]initWithFrame:CGRectMake(0, 160, 160, 40)];
         textLable.textColor=RGB(149, 159, 171);
+        textLable.textAlignment=NSTextAlignmentCenter;
         textLable.text=NSLocalizedString(@"暂无候选节点", nil);
         [_placeHolferImage addSubview:textLable];
     }

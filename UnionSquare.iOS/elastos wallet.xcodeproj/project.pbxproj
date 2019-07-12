@@ -331,6 +331,7 @@
 		4261CF3A22A15D21006B1DDE /* NSObject+Swizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261CF3722A15D21006B1DDE /* NSObject+Swizzling.m */; };
 		4261CF3E22A1605D006B1DDE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4261CF3D22A1605C006B1DDE /* SystemConfiguration.framework */; };
 		4261CF4022A16066006B1DDE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4261CF3F22A16066006B1DDE /* Security.framework */; };
+		426365BF22D82FC200352396 /* UIButton+HMWButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 426365BE22D82FC200352396 /* UIButton+HMWButton.m */; };
 		4264A73E221BDC24008D5C7B /* DAConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 4264A73D221BDC24008D5C7B /* DAConfig.m */; };
 		4264A741221BDC8D008D5C7B /* NSBundle+DAUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4264A740221BDC8D008D5C7B /* NSBundle+DAUtils.m */; };
 		428054D42242296500E74F0E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 428054D62242296500E74F0E /* InfoPlist.strings */; };
@@ -962,6 +963,8 @@
 		4261CF3722A15D21006B1DDE /* NSObject+Swizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Swizzling.m"; sourceTree = "<group>"; };
 		4261CF3D22A1605C006B1DDE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4261CF3F22A16066006B1DDE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		426365BD22D82FC200352396 /* UIButton+HMWButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+HMWButton.h"; sourceTree = "<group>"; };
+		426365BE22D82FC200352396 /* UIButton+HMWButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+HMWButton.m"; sourceTree = "<group>"; };
 		4264A734221BD14C008D5C7B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4264A73C221BDC24008D5C7B /* DAConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DAConfig.h; sourceTree = "<group>"; };
 		4264A73D221BDC24008D5C7B /* DAConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DAConfig.m; sourceTree = "<group>"; };
@@ -979,7 +982,6 @@
 		428BA725229B91190091618F /* PluginResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PluginResult.m; sourceTree = "<group>"; };
 		428BA727229B92530091618F /* JSON_private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSON_private.m; sourceTree = "<group>"; };
 		428BA728229B92530091618F /* JSON_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON_private.h; sourceTree = "<group>"; };
-		4293CA67221FF8730045A8D9 /* libspvsdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspvsdk.a; path = "elastos wallet/spvsdk-iOS-v0.3.0/iOS/lib/libspvsdk.a"; sourceTree = "<group>"; };
 		42B57A9422150C1C004CF089 /* WOCrashLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WOCrashLog.h; sourceTree = "<group>"; };
 		42B57A9522150C1C004CF089 /* NSObject+NSNotificationCrash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+NSNotificationCrash.h"; sourceTree = "<group>"; };
 		42B57A9622150C1C004CF089 /* NSObject+KVOCrash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+KVOCrash.m"; sourceTree = "<group>"; };
@@ -1167,7 +1169,6 @@
 				4261CF3F22A16066006B1DDE /* Security.framework */,
 				4261CF3D22A1605C006B1DDE /* SystemConfiguration.framework */,
 				4250B3F82238D3E900B6858F /* libiconv.tbd */,
-				4293CA67221FF8730045A8D9 /* libspvsdk.a */,
 				95B5A24BEEA44AE9AD51A2C8 /* WebKit.framework */,
 				8FEFE2C15307426D819C2CA3 /* libz.tbd */,
 			);
@@ -2068,6 +2069,8 @@
 		4202C99A21F6EF29009E5932 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				426365BD22D82FC200352396 /* UIButton+HMWButton.h */,
+				426365BE22D82FC200352396 /* UIButton+HMWButton.m */,
 				4261CF3422A15D20006B1DDE /* NSDictionary+NilSafe.h */,
 				4261CF3222A15D20006B1DDE /* NSDictionary+NilSafe.m */,
 				4261CF3622A15D20006B1DDE /* NSMutableArray+Swizzling.h */,
@@ -2985,6 +2988,7 @@
 				4202CAA421F6EF2B009E5932 /* HMWImKeystoreView.m in Sources */,
 				4202CA7121F6EF2B009E5932 /* HMWtransferTransactionDetailsViewController.m in Sources */,
 				4202CA9121F6EF2B009E5932 /* HMWsettingKeyStorePWDViewController.mm in Sources */,
+				426365BF22D82FC200352396 /* UIButton+HMWButton.m in Sources */,
 				4202CAD421F6EF2B009E5932 /* FLSelectSuperPointVC.mm in Sources */,
 				4250B3EF2238D32700B6858F /* ScanQRCodeViewController.m in Sources */,
 				424910F22271BFCF00C41E50 /* UIImageView+WebCache.m in Sources */,

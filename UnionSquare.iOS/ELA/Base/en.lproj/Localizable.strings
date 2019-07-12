@@ -120,7 +120,7 @@
 "请再次输入确认密码"="Please confirm your password";
 "单地址钱包"="Single-address wallet";
 
-"     密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="      Password is used to protect private keys and authorize transactions. It’s very important to use a strong password. Elastos does not store your password, and cannot help you retrieve it. Please remember your password.";
+"     密码用x于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="      Password is used to protect private keys and authorize transactions. It’s very important to use a strong password. Elastos does not store your password, and cannot help you retrieve it. Please remember your password.";
 "确认创建"="Create Wallet";
 "备份钱包"="Backup Wallet";
 "备份钱包:请将「助记词」抄写到安全的地方,干万不要保存在网络上。建议从转入,转出小额资产开始使用。"="Backup wallet: please copy 「mnemonic」to a safe place, do not save it on the network.";

@@ -157,12 +157,6 @@
             model.updateTime=[NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"已同步区块时间", nil),smodel.sideChainNameTime];
               [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
         }
-//        self.dataSoureArray[index]=model;
-//        NSIndexPath *indexP=[NSIndexPath indexPathForRow:index inSection:0];
-//dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            [self.table reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexP,nil] withRowAnimation:UITableViewRowAnimationNone];
-//
-//        });
         [self.table reloadData];
     }else{
         sideChainInfoModel *smodel=[[sideChainInfoModel alloc]init];

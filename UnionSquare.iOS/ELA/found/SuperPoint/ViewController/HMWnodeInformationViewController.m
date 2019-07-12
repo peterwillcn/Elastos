@@ -169,10 +169,10 @@
 -(UIImageView *)siconImageView{
     if (!_siconImageView) {
         _siconImageView =[[UIImageView alloc]initWithFrame:CGRectMake(0, 0,30, 30)];
-        _siconImageView.layer.cornerRadius  =1.f;
-        _siconImageView.layer.borderWidth   =1.f;
-        _siconImageView.layer.borderColor   =RGBA(255, 255, 255, 0.8).CGColor;
-        _siconImageView.image=[UIImage imageNamed:@"found_vote_initialF"];
+//        _siconImageView.layer.cornerRadius  =1.f;
+//        _siconImageView.layer.borderWidth   =1.f;
+//        _siconImageView.layer.borderColor   =RGBA(255, 255, 255, 0.8).CGColor;
+        _siconImageView.image=[UIImage imageNamed:@"found_vote_initial_oval"];
     }
     return _siconImageView;
 }
@@ -247,11 +247,10 @@
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
         self.nodeInformationDetailsV.countryRegionLabel.text=countries;
         if (URL.length>0&&self.model.url.length>0) {
-           [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:URL] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
+           [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:URL] placeholderImage:[UIImage imageNamed:@"found_vote_initial_oval"]];
         }
     });
     [self upInfo];
-
 }
 -(nodeInformationDetailsView *)nodeInformationDetailsV{
     if (!_nodeInformationDetailsV) {

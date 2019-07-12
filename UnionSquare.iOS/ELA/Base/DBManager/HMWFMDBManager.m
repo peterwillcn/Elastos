@@ -134,6 +134,7 @@ static HMWFMDBManager * _manager =nil;
         p.walletID=[set objectForColumn:@"walletID"];
         p.sideChainName =[set objectForColumn:@"sideChainName"];
         p.sideChainNameTime=[set objectForColumn:@"sideChainNameTime"];
+        NSLog(@"本地存储时间====%@",p.sideChainNameTime);
         if ([p.sideChainName isEqualToString:iconName]) {
             return p;
         }

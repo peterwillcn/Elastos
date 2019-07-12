@@ -38,7 +38,6 @@
     self.pwdfield1.secureTextEntry=YES;
     self.pwdfield2.secureTextEntry=YES;
     [self.pwdfield1 addTarget:self action:@selector(pwdfieldValuChange) forControlEvents:UIControlEventEditingChanged];
-//    self.showInfoTextLabel.text=NSLocalizedString(@"     密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记", nil);
     [self.view setLabelSpace:self.showInfoTextLabel withValue:NSLocalizedString(@"     密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记", nil) withFont:[UIFont systemFontOfSize:10]];
     [self.btn1 setTitle:NSLocalizedString(@"确认创建", nil) forState:UIControlStateNormal];
    

@@ -134,7 +134,7 @@ static HMWFMDBManager * _manager =nil;
         p.walletID=[set objectForColumn:@"walletID"];
         p.sideChainName =[set objectForColumn:@"sideChainName"];
         p.sideChainNameTime=[set objectForColumn:@"sideChainNameTime"];
-        NSLog(@"本地存储时间====%@",p.sideChainNameTime);
+        
         if ([p.sideChainName isEqualToString:iconName]) {
             return p;
         }
@@ -206,10 +206,10 @@ static HMWFMDBManager * _manager =nil;
 }
 //改
 -(BOOL)sideChainUpdate:(sideChainInfoModel *)model{
-    NSString *sql =@"Update sideChain set sideChainNameTime=? where walletID=?";
+     NSString *sql =@"Update sideChain set sideChainNameTime=? where walletID=?";
      NSString *thePercentageCurrSql =@"Update sideChain set thePercentageCurr=? where walletID=?";
      NSString *thePercentageMaxSql =@"Update sideChain set thePercentageMax=? where walletID=?";
-
+     
     if ( [self executeUpdate:sql,model.sideChainNameTime,model.walletID]&&[self executeUpdate:thePercentageMaxSql,model.thePercentageMax,model.walletID]&&[self executeUpdate:thePercentageCurrSql,model.thePercentageCurr,model.walletID]) {
       
         return YES;

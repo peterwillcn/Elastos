@@ -156,6 +156,7 @@
             
             model.updateTime=[NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"已同步区块时间", nil),smodel.sideChainNameTime];
               [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
+            NSLog(@"修改侧链时间====%@======%@======%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName);
         }
         [self.table reloadData];
     }else{
@@ -273,6 +274,7 @@
             model.iconBlance=blanceString;
             model.thePercentageCurr=[smodel.thePercentageCurr floatValue];
             model.thePercentageMax=[smodel.thePercentageMax floatValue];
+            NSLog(@"本地存储时间====%@====%@====%@",smodel.sideChainNameTime,smodel.sideChainName,self.currentWallet.walletName);
             if ([smodel.sideChainNameTime isEqual: [NSNull null]]||smodel.sideChainNameTime==NULL) {
                 model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"已同步区块时间", nil),@"--:--"];
                 model.thePercentageMax=100;

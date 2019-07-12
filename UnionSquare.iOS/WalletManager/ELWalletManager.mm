@@ -1447,7 +1447,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     String acount=[self cstringWithString:[NSString stringWithFormat:@"%ld",model.acount*unitNumber]];
     try {
         
-        tx = ELA->CreateRegisterProducerTransaction("", payload, acount,[model.mark UTF8String],false);
+        tx = ELA->CreateRegisterProducerTransaction("", payload, acount,[model.mark UTF8String],true);
     } catch (const std:: exception & e ) {
         
         NSString *errString=[self stringWithCString:e.what()];

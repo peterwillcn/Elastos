@@ -19,8 +19,10 @@
                 <outlet property="baseTableView" destination="0PC-z0-hQL" id="gB3-tN-1fk"/>
                 <outlet property="collectionButton" destination="F8y-m9-1vp" id="u8L-Mh-8it"/>
                 <outlet property="currencyNameLabel" destination="HhU-EQ-sgS" id="gMI-C6-LWi"/>
+                <outlet property="enMoneyWidthOffSet" destination="4Bo-be-ct4" id="K61-ow-jBV"/>
                 <outlet property="makeLineView" destination="xHV-g0-Gdm" id="T5T-kG-2dm"/>
                 <outlet property="noDataSourceTextLabel" destination="Qvu-6Q-ItB" id="Lt0-bi-5K9"/>
+                <outlet property="toButtonOffSet" destination="j8n-pi-ZlC" id="7WN-5O-I7c"/>
                 <outlet property="topUpButton" destination="lwe-Ph-LBr" id="qtF-iJ-fCC"/>
                 <outlet property="transactionRecordsBtton" destination="kpf-gI-aUY" id="uxd-fo-cqH"/>
                 <outlet property="transferButton" destination="vcc-4b-6xF" id="Tct-4v-icL"/>
@@ -161,7 +163,7 @@
                         <constraint firstItem="BY2-vp-wfy" firstAttribute="centerY" secondItem="8XU-25-Vw2" secondAttribute="centerY" constant="3" id="cbu-FY-fg2"/>
                         <constraint firstItem="N7E-CI-hIN" firstAttribute="leading" secondItem="8XU-25-Vw2" secondAttribute="trailing" id="d6Q-nh-J65"/>
                         <constraint firstItem="xHV-g0-Gdm" firstAttribute="centerY" secondItem="lwe-Ph-LBr" secondAttribute="centerY" id="fd8-At-rfe"/>
-                        <constraint firstItem="8XU-25-Vw2" firstAttribute="leading" secondItem="lwe-Ph-LBr" secondAttribute="trailing" id="hZw-Bd-GsJ"/>
+                        <constraint firstItem="xHV-g0-Gdm" firstAttribute="leading" secondItem="lwe-Ph-LBr" secondAttribute="trailing" constant="7" id="j8n-pi-ZlC"/>
                         <constraint firstItem="BY2-vp-wfy" firstAttribute="leading" secondItem="8XU-25-Vw2" secondAttribute="trailing" constant="5" id="nFv-Vm-OrS"/>
                         <constraint firstItem="N7E-CI-hIN" firstAttribute="centerY" secondItem="lwe-Ph-LBr" secondAttribute="centerY" id="ndb-i7-EhT"/>
                         <constraint firstItem="Zlg-sx-dcv" firstAttribute="centerX" secondItem="gpy-jX-fsO" secondAttribute="centerX" id="v9Z-pL-Ey2"/>

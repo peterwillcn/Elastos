@@ -117,6 +117,9 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
  */
 @property(strong,nonatomic)HMWSendSuccessPopuView *sendSuccessPopuV;
 @property (weak, nonatomic) IBOutlet UIView *makeLineView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *toButtonOffSet;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *enMoneyWidthOffSet;
+
 @end
 
 @implementation HMWAssetDetailsViewController
@@ -140,7 +143,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     [self.anyChangeInTheWholeButton setTitle:NSLocalizedString(@"零钱换整", nil) forState:UIControlStateNormal];
     [self transactionRecordsAction:nil];
     [self.baseTableView setBackgroundColor:RGB(107, 133, 135)];
-   
+    self.leftOrRight=@"0";
     if ([self.model.iconName isEqualToString:@"ELA"]) {
         [self GetRegisteredProducerInfo];
         [self DetectionOfTheBalance];
@@ -148,6 +151,8 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
         self.anyChangeInTheWholeButton.alpha=0.f;
         self.EarningsRecordButton.alpha=0.f;
         self.makeLineView.alpha=0.f;
+        self.toButtonOffSet.constant=-57;
+        self.enMoneyWidthOffSet.constant=-AppWidth+30;
     }
     
     
@@ -569,6 +574,41 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     detailsM.Fee=[NSString stringWithFormat:@"%@ELA",[[FLTools share]elaScaleConversionWith:detailsM.Fee]];
     //    transferTransactionDetailsVC.iconNameString=@"ELA";
     transferTransactionDetailsVC.iconNameString=self.model.iconName;
+     detailsM.Type=NSLocalizedString(@"创币收益", nil);
+    transferTransactionDetailsVC.TypeString=[NSString stringWithFormat:@"%@",detailsM.Type];
+    detailsM.Timestamp=[[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:detailsM.Timestamp];
+    transferTransactionDetailsVC.type=NodeReturnsType;
+      transferTransactionDetailsVC.model=detailsM;
+    transferTransactionDetailsVC.votesString=[[FLTools share]elaScaleConversionWith:OutputPayload[0]];
+    [self.navigationController pushViewController:transferTransactionDetailsVC animated:YES];
+    
+}
+-(void)loadTheOrderDetailsWithIndex:(NSInteger)index{
+   assetDetailsModel *model= self.allListArray[index];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"0",@"20",model.TxHash] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
+    PluginResult * result =[[ELWalletManager share]getAllTransaction:mommand];
+    NSString *status=[NSString stringWithFormat:@"%@",result.status];
+    
+    NSArray * OutputPayload=[NSArray arrayWithArray:result.message[@"success"][@"Transactions"][0][@"OutputPayload"]];
+    
+    if (![status isEqualToString:@"1"]) {
+        return;
+    }
+
+      NSArray *tranList=[NSArray modelArrayWithClass:assetDetailsModel.class json:result.message[@"success"][@"Transactions"]];
+   
+    if (tranList.count==0) {
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"暂无数据,请耐心等待!", nil)];
+         return;
+    }
+    assetDetailsModel *detailsM=tranList.firstObject;
+    HMWtransferTransactionDetailsViewController *transferTransactionDetailsVC=[[HMWtransferTransactionDetailsViewController alloc]init];
+    
+    detailsM.Amount=[NSString stringWithFormat:@"%@ELA",[[FLTools share]elaScaleConversionWith:detailsM.Amount]];
+    detailsM.Fee=[NSString stringWithFormat:@"%@ELA",[[FLTools share]elaScaleConversionWith:detailsM.Fee]];
+//    transferTransactionDetailsVC.iconNameString=@"ELA";
+    transferTransactionDetailsVC.iconNameString=self.model.iconName;
+    transferTransactionDetailsVC.TypeString=[NSString stringWithFormat:@"%@",detailsM.Type];
     int type=[detailsM.Type intValue];
     transferTransactionDetailsVC.TypeString=[NSString stringWithFormat:@"%@",detailsM.Type];
     switch (type) {
@@ -619,41 +659,9 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     }
     
     detailsM.Timestamp=[[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:detailsM.Timestamp];
-    transferTransactionDetailsVC.type=NodeReturnsType;
-      transferTransactionDetailsVC.model=detailsM;
+    transferTransactionDetailsVC.model=detailsM;
     transferTransactionDetailsVC.votesString=[[FLTools share]elaScaleConversionWith:OutputPayload[0]];
-    [self.navigationController pushViewController:transferTransactionDetailsVC animated:YES];
-    
-}
--(void)loadTheOrderDetailsWithIndex:(NSInteger)index{
-   assetDetailsModel *model= self.allListArray[index];
-    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"0",@"20",model.TxHash] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
-    PluginResult * result =[[ELWalletManager share]getAllTransaction:mommand];
-    NSString *status=[NSString stringWithFormat:@"%@",result.status];
-    
-    NSArray * OutputPayload=[NSArray arrayWithArray:result.message[@"success"][@"Transactions"][0][@"OutputPayload"]];
-    
-    if (![status isEqualToString:@"1"]) {
-        return;
-    }
-
-      NSArray *tranList=[NSArray modelArrayWithClass:assetDetailsModel.class json:result.message[@"success"][@"Transactions"]];
-   
-    if (tranList.count==0) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"暂无数据,请耐心等待!", nil)];
-         return;
-    }
-    assetDetailsModel *detailsM=tranList.firstObject;
-    HMWtransferTransactionDetailsViewController *transferTransactionDetailsVC=[[HMWtransferTransactionDetailsViewController alloc]init];
-    
-    detailsM.Amount=[NSString stringWithFormat:@"%@ELA",[[FLTools share]elaScaleConversionWith:detailsM.Amount]];
-    detailsM.Fee=[NSString stringWithFormat:@"%@ELA",[[FLTools share]elaScaleConversionWith:detailsM.Fee]];
-//    transferTransactionDetailsVC.iconNameString=@"ELA";
-    transferTransactionDetailsVC.iconNameString=self.model.iconName;
-    transferTransactionDetailsVC.TypeString=[NSString stringWithFormat:@"%@",detailsM.Type];
-    detailsM.Type=NSLocalizedString(@"创币收益", nil);
     detailsM.Timestamp=[[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:detailsM.Timestamp];
-
     if ([detailsM.Direction isEqualToString:@"Received"]) {
 transferTransactionDetailsVC.type=transactionMultipleIntoType;
     }else if ([detailsM.Direction isEqualToString:@"Sent"]){

@@ -20,7 +20,7 @@ testSignEpk() {
 testSignEpkOverride() {
   cp ${epk} ${epkCopy}
 
-  ${testCmd} -k ${keystore} -p ${password} ${keystore} ${epkCopy}>${stdoutF} 2>${stderrF}
+  ${testCmd} -k ${keystore} -p ${password} ${epkCopy}>${stdoutF} 2>${stderrF}
 
   th_assertSignEpk ${epkCopy}
 }
@@ -108,8 +108,14 @@ th_assertTrueWithNoStderr() {
 th_assertSignEpk() {
   th_epkfile=$1
   assertTrue 'signed epk missing' "[ -f '${th_epkfile}' ]"
+
   # check FILELIST.inf,FILELIST.SHA,FILELIST.SIGN,SIGN.PUB
-  # todo
+  ${verrifyCmd} ${th_epkfile}>${stdoutF} 2>${stderrF}
+
+  grep "The signer's public key is:" ${stdoutF} >/dev/null
+  rtrn=$?
+
+  assertEquals ${rtrn} 0
 }
 
 oneTimeSetUp() {
@@ -122,6 +128,7 @@ oneTimeSetUp() {
   stderrF="${outputDir}/stderr"
 
   testCmd="${scriptPath}/../bin/sign_epk"  # save command name in variable to make future changes easy
+  verrifyCmd="${scriptPath}/../bin/verify_epk"
 
   epk="${scriptPath}/epks/fortest1.epk"
   epkNoManifest="${scriptPath}/epks/nomanifest.epk"

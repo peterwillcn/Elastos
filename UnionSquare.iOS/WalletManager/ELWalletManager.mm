@@ -1840,6 +1840,39 @@ errCodeSPVCreateMasterWalletError= 20006;
     
    return [self stringWithCString:XPK];
 }
+/**
+ * Import read-only(watch) wallet which does not contain any private keys.
+ * @param masterWalletID is the unique identification of a master wallet object.
+ * @param walletJson generate by ExportReadonlyWallet().
+ */
+//virtual IMasterWallet *ImportReadonlyWallet(
+//                                            const std::string &masterWalletID,
+//                                            const nlohmann::json &walletJson) = 0;
+-(PluginResult *)CreateImportReadonlyWallet:(invokedUrlCommand *)command{
+    NSArray *args = command.arguments;
+    int idx = 0;
+    String masterWalletID = [self cstringWithString:args[idx++]];
+    Json walletJson=[self jsonWithString:args[idx++]];
+    IMasterWallet * masterWallet;
+    if (mMasterWalletManager == nil) {
+        NSString *msg = [NSString stringWithFormat:@"%@", @"Master wallet manager has not initialize"];
+         return [self errorProcess:command code:errCodeImportFromMnemonic msg:msg];
+    }
+    try {
+       masterWallet = mMasterWalletManager->ImportReadonlyWallet(masterWalletID,walletJson);
+    } catch (const std:: exception &e) {
+        return  [self errInfoToDic:e.what() with:command];
+    }
+    if (masterWallet == nil) {
+        NSString *msg = [NSString stringWithFormat:@"%@ %@ %@", @"Import", [self formatWalletName:masterWalletID], @"with WalletId"];
+        return [self errorProcess:command code:errCodeImportFromMnemonic msg:msg];
+    }
+    
+    NSString *jsonString = [self getBasicInfo:masterWallet];
+    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"”" withString:@""];
+    return [self successProcess:command msg:jsonString];
+}
 -(void)EMWMSaveConfigs{
 //    mMasterWalletManager->SaveConfigs();
 }

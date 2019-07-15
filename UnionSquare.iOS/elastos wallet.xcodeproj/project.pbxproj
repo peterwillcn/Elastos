@@ -370,6 +370,8 @@
 		428BA711229B84C00091618F /* invokedUrlCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA710229B84C00091618F /* invokedUrlCommand.m */; };
 		428BA726229B91190091618F /* PluginResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA725229B91190091618F /* PluginResult.m */; };
 		428BA729229B92530091618F /* JSON_private.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA727229B92530091618F /* JSON_private.m */; };
+		42B263B422DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B263B222DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.m */; };
+		42B263B522DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42B263B322DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.xib */; };
 		42B57AB422150C1C004CF089 /* NSObject+KVOCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B57A9622150C1C004CF089 /* NSObject+KVOCrash.m */; };
 		42B57AB522150C1C004CF089 /* NSTimer+Crash.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B57A9722150C1C004CF089 /* NSTimer+Crash.m */; };
 		42B57AB622150C1C004CF089 /* NSObject+SelectorCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B57A9822150C1C004CF089 /* NSObject+SelectorCrash.m */; };
@@ -1055,6 +1057,9 @@
 		428BA725229B91190091618F /* PluginResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PluginResult.m; sourceTree = "<group>"; };
 		428BA727229B92530091618F /* JSON_private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSON_private.m; sourceTree = "<group>"; };
 		428BA728229B92530091618F /* JSON_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON_private.h; sourceTree = "<group>"; };
+		42B263B122DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMSignatureTradingSingleQrCodeViewController.h; sourceTree = "<group>"; };
+		42B263B222DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMSignatureTradingSingleQrCodeViewController.m; sourceTree = "<group>"; };
+		42B263B322DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMSignatureTradingSingleQrCodeViewController.xib; sourceTree = "<group>"; };
 		42B57A9422150C1C004CF089 /* WOCrashLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WOCrashLog.h; sourceTree = "<group>"; };
 		42B57A9522150C1C004CF089 /* NSObject+NSNotificationCrash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+NSNotificationCrash.h"; sourceTree = "<group>"; };
 		42B57A9622150C1C004CF089 /* NSObject+KVOCrash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+KVOCrash.m"; sourceTree = "<group>"; };
@@ -1941,6 +1946,9 @@
 				4202C92921F6EF29009E5932 /* HMWtransferViewController.h */,
 				422D608F21FC401200DD07FF /* HMWtransferViewController.mm */,
 				4202C92E21F6EF29009E5932 /* HMWtransferViewController.xib */,
+				42B263B122DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.h */,
+				42B263B222DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.m */,
+				42B263B322DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.xib */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -2916,6 +2924,7 @@
 				4202CA5221F6EF2A009E5932 /* FLAssetTableCell.xib in Resources */,
 				4202CA6721F6EF2B009E5932 /* HMWtransferTransactionMultipleAddressDetailsTableViewCell.xib in Resources */,
 				4218668722CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.xib in Resources */,
+				42B263B522DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.xib in Resources */,
 				4250B3F32238D32700B6858F /* zbar-helpicons.png in Resources */,
 				4202CA9C21F6EF2B009E5932 /* FLSelectWordCollectCell.xib in Resources */,
 				4202CA4F21F6EF2A009E5932 /* FLtradeResultView.xib in Resources */,
@@ -3091,6 +3100,7 @@
 				4202CA0B21F6EF2A009E5932 /* SGQRCodeScanningView.m in Sources */,
 				4261C2FC22C21563008C1532 /* showOwnerAddressTableViewCell.m in Sources */,
 				4202CA0521F6EF2A009E5932 /* SVProgressHUD.m in Sources */,
+				42B263B422DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.m in Sources */,
 				4202CA0D21F6EF2A009E5932 /* SGQRCodeGenerateManager.m in Sources */,
 				CBD25EFD221542F500EDA0F5 /* FLChangeVotedTicketsVC.mm in Sources */,
 				4228AA5321F88C87002866B5 /* UIControl+YYAdd.m in Sources */,

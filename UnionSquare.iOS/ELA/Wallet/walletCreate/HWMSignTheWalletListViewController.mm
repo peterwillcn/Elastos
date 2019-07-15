@@ -89,7 +89,7 @@ static NSString *cellString=@"HMWtheWalletListTableViewCell";
     cell.backgroundColor=[UIColor clearColor];
 //    cell.selectionStyle=UITableViewCellSeparatorStyleNone;
     cell.selectView.alpha=0.f;
-    cell.model=self.walletIDListArray[indexPath.section];
+    cell.typeString=@"1"; cell.model=self.walletIDListArray[indexPath.section];
     
     return cell;
     

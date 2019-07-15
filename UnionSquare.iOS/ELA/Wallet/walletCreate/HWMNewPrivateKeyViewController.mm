@@ -63,6 +63,7 @@
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[languageStringMword] callbackId:@"" className:@"Wallet" methodName:@"generateMnemonic"];
     PluginResult *result=[[ELWalletManager share]generateMnemonic:mommand];
     NSString *mnemonic=result.message[@"success"];
+
     NSString *walletID=[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
     NSString *masterWalletID=[[[FLTools share]getRandomStringWithNum:6] stringByAppendingString:walletID];
     FLWallet *wallet=[[FLWallet alloc]init];

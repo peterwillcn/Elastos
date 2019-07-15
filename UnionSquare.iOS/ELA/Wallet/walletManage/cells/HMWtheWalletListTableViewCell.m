@@ -10,13 +10,11 @@
 
 
 @interface HMWtheWalletListTableViewCell ()
-@property (weak, nonatomic) IBOutlet UIImageView *iconImageVIew;
 
 @property (weak, nonatomic) IBOutlet UILabel *walletNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *walletAddressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *blanceLabel;
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *labeSuperLeftOffSet;
 @end
 
 @implementation HMWtheWalletListTableViewCell
@@ -36,25 +34,7 @@
       self.blanceLabel.text=model.balanceString;
     }
    
-    NSString *imageName=@"single_wallet";
-    switch (model.TypeW) {
-        case SingleSign:
-            imageName=@"single_wallet";
-            break;
-        case SingleSignReadonly:
-            imageName=@"single_walllet_readonly";
-            break;
-        case HowSign:
-            imageName=@"multi_wallet";
-            break;
-        case HowSignReadonly:
-            imageName=@"";
-            break;
-            
-        default:
-            break;
-    }
-    self.iconImageVIew.image=[UIImage imageNamed:imageName];
+    
     
     
 }
@@ -62,13 +42,6 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
-}
--(void)setTypeString:(NSString *)typeString{
-    if ([typeString isEqualToString:@"1"]) {
-        self.labeSuperLeftOffSet.constant=17;
-        self.iconImageVIew.alpha=0.f;
-    }
-    
 }
 
 @end

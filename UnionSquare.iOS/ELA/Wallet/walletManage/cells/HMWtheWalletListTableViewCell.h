@@ -18,10 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(strong,nonatomic)FMDBWalletModel *model;
-/*
- *<# #>
- */
-@property(copy,nonatomic)NSString *typeString;
 
 @end
 

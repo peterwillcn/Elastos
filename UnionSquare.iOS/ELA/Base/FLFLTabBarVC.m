@@ -23,7 +23,7 @@
     [[UITabBar appearance] setTranslucent:NO];
     self.tabBar.tintColor = [UIColor whiteColor];
     self.tabBar.barTintColor = [[UIColor blackColor]colorWithAlphaComponent:0.3];
-        NSArray *titles=@[NSLocalizedString(@"资产", nil),NSLocalizedString(@"发现", nil) ,NSLocalizedString(@"设置", nil)];
+        NSArray *titles=@[NSLocalizedString(@"社区", nil),NSLocalizedString(@"发现", nil) ,NSLocalizedString(@"设置", nil)];
     
      NSArray *selectImage = @[@"tab_asset_select",@"tab_found_select",@"tab_setting_select"];
     NSArray *normalImage =@[@"tab_asset",@"tab_found",@"tab_setting"];

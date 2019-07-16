@@ -121,12 +121,6 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     return cell;
     
 }
-//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    //    HMWtransferTransactionDetailsViewController *transferTransactionDetailsVC=[[HMWtransferTransactionDetailsViewController alloc]init];
-    //    [self.navigationController pushViewController:transferTransactionDetailsVC animated:YES];
-    
-//}
 -(UILabel *)placeHolderLab
 {
     if (!_placeHolderLab) {

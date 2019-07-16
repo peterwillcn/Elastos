@@ -187,6 +187,7 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(PluginResult *)CreateMultiSignMasterWalletmasterMasterWalletId:(invokedUrlCommand *)command;
 -(NSString *)ExportxPrivateKey:(invokedUrlCommand *)command;
 -(NSString*)EMWMGetVersion;
+-(PluginResult *)ExportReadonlyWallet:(invokedUrlCommand *)command;
 @end
 
 

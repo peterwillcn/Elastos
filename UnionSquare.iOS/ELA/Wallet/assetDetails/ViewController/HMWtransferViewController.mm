@@ -13,6 +13,7 @@
 #import "ELWalletManager.h"
 #import "WCQRCodeScanningVC.h"
 #import "ScanQRCodeViewController.h"
+#import "HWMSignatureTradingSingleQrCodeViewController.h"
 
 
 @interface HMWtransferViewController ()<HMWtransferDetailsPopupViewDelegate,HMWChooseSideChainViewControllerDelegate,UITextFieldDelegate>
@@ -206,15 +207,33 @@
 -(void)pwdAndInfoWithPWD:(NSString *)pwd{
     [self.transferDetailsPopupV removeFromSuperview];
     self.transferDetailsPopupV=nil;
-    NSString *isUtxo=@"1";
-    
-    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[[FLTools share]elsToSela:self.theAmountOfTextField.text],self.noteTextField.text,self.noteTextField.text,pwd,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
-    
-    PluginResult *result = [[ELWalletManager share]CreateTransaction:mommand];
-    NSString *statue=[NSString stringWithFormat:@"%@",result.status];
-    
-    if ([statue isEqualToString:@"1"]) {
-        [self showSendSuccessPopuV];
+//    SingleSign=0,
+//    SingleSignReadonly=1,
+//    HowSign=2,
+//    HowSignReadonly=3
+    if (self.currentWallet.TypeW==0) {
+        NSString *isUtxo=@"1";
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[[FLTools share]elsToSela:self.theAmountOfTextField.text],self.noteTextField.text,self.noteTextField.text,pwd,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+        PluginResult *result = [[ELWalletManager share]CreateTransaction:mommand];
+        NSString *statue=[NSString stringWithFormat:@"%@",result.status];
+        if ([statue isEqualToString:@"1"]) {
+            [self showSendSuccessPopuV];
+        }
+    }else if (self.currentWallet.TypeW==1){
+        HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
+        SignatureTradingSingleQrCodeVC.type=SingleSignReadOnlyToBeSigned;
+        [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
+        
+        
+    }else if (self.currentWallet.TypeW==2){
+        HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
+        SignatureTradingSingleQrCodeVC.type=HowSignToBeSigned;
+        [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
+        
+    }else if (self.currentWallet.TypeW==3){
+        HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
+        SignatureTradingSingleQrCodeVC.type=HowSignToBeSigned;
+        [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
     }
     
     

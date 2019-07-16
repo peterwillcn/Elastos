@@ -19,6 +19,7 @@
 #import "FMDBWalletModel.h"
 #import "FLPrepareVC.h"
 #import "BaseNavigationVC.h"
+#import "HWMSignatureTradingSingleQrCodeViewController.h"
 
 static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
 
@@ -63,7 +64,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
     [self.toDeleteTheWalletButton addGestureRecognizer:delTap];
     [self.view addSubview:self.toDeleteTheWalletButton];
     [self.toDeleteTheWalletButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view.mas_bottom).offset(-145);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-80);
         make.left.equalTo(self.view.mas_left).offset(63);
         make.right.equalTo(self.view.mas_right).offset(-63);
         make.height.equalTo(@40);
@@ -117,7 +118,11 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
                     _dataArray =@[@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},
                                   @{@"title":NSLocalizedString(@"修改钱包密码",nil),@"name":@"",@"type":@"2"},
                                   @{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"},
-                                  @{@"title":NSLocalizedString(@"导出助记词",nil),@"name":@"",@"type":@"1"}];
+                                  @{@"title":NSLocalizedString(@"导出助记词",nil),@"name":@"",@"type":@"1"},
+                                  @{@"title":NSLocalizedString(@"导出只读钱包",nil),@"name":@"",@"type":@"1"},
+                                  @{@"title":NSLocalizedString(@"查看多签公钥",nil),@"name":@"",@"type":@"1"}
+                                  
+                                  ];
                     break;
                 case 1:
 //                    SingleSignReadonly
@@ -200,10 +205,14 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
         }];
         
     }else if ([title isEqualToString:NSLocalizedString(@"导出只读钱包",nil)]){
-        
-        
+        HWMSignatureTradingSingleQrCodeViewController *vc=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
+        vc.type=ExportReadOnlyWallet;
+        [self.navigationController pushViewController:vc animated:YES];
         
     }else if ([title isEqualToString:NSLocalizedString(@"查看多签公钥",nil)]){
+        HWMSignatureTradingSingleQrCodeViewController *vc=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
+        vc.type=LookhHowSignThePublicKey;
+        [self.navigationController pushViewController:vc animated:YES];
         
     }
     

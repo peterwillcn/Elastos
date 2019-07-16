@@ -28,6 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(assign,nonatomic)CGFloat thePercentageCurr;
 @property(assign,nonatomic)CGFloat thePercentageMax;
 @property(assign,nonatomic)CGFloat thePercentFl;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *status;
+
 @end
 
 NS_ASSUME_NONNULL_END

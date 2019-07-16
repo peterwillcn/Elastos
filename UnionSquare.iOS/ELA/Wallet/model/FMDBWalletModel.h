@@ -10,10 +10,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef enum {
-   SingleSign,
-    SingleSignReadonly,
-    HowSign,
-    HowSignReadonly
+   SingleSign=0,
+    SingleSignReadonly=1,
+    HowSign=2,
+    HowSignReadonly=3
 } walletSignType;
 
 @interface FMDBWalletModel : NSObject

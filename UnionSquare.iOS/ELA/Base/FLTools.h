@@ -49,7 +49,6 @@
 @property(copy,nonatomic)NSString *channelId;
 
 @end
-
 @interface FLWallet :NSObject
 @property (nonatomic, copy)NSString *walletAddress;
 @property (nonatomic, copy)NSString *privateKey;
@@ -71,6 +70,7 @@
  */
 @property(copy,nonatomic)NSString *masterWalletID;
 @property (nonatomic, copy)NSString*signType;
+@property(assign,nonatomic)NSInteger TypeW;
 @end
 
 @class YYCache;

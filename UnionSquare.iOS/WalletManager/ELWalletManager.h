@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-//#import <Cordova/CDV.h>
 #import "MyUtil.h"
 #import "IMasterWallet.h"
 #import "IDidManager.h"

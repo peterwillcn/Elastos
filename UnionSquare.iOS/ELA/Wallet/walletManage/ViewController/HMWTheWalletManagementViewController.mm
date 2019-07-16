@@ -55,16 +55,12 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.userInteractionEnabled=YES;
-    // Do any additional setup after loading the view from its nib.
     [self defultWhite];
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"钱包管理", nil);
     [self makeView];
-   
     UITapGestureRecognizer *delTap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(toDeleteTheWalletEvent)];
     [self.toDeleteTheWalletButton addGestureRecognizer:delTap];
-//    [self.toDeleteTheWalletButton addTarget:self action:@selector(toDeleteTheWalletEvent) forControlEvents: UIControlEventTouchUpInside];
-    
     [self.view addSubview:self.toDeleteTheWalletButton];
     [self.toDeleteTheWalletButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view.mas_bottom).offset(-145);
@@ -114,10 +110,34 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
     }
 -(NSArray *)dataArray{
         if (!_dataArray) {
-            _dataArray =@[@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},
-                         @{@"title":NSLocalizedString(@"修改钱包密码",nil),@"name":@"",@"type":@"2"},
-                         @{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"},
-                         @{@"title":NSLocalizedString(@"导出助记词",nil),@"name":@"",@"type":@"1"}];
+          
+            switch (self.currentWallet.TypeW) {
+//                    SingleSign
+                case 0:
+                    _dataArray =@[@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},
+                                  @{@"title":NSLocalizedString(@"修改钱包密码",nil),@"name":@"",@"type":@"2"},
+                                  @{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"},
+                                  @{@"title":NSLocalizedString(@"导出助记词",nil),@"name":@"",@"type":@"1"}];
+                    break;
+                case 1:
+//                    SingleSignReadonly
+                    _dataArray =@[@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},
+                                  @{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"2"},
+                                  @{@"title":NSLocalizedString(@"导出只读钱包",nil),@"name":@"",@"type":@"1"},
+                                  @{@"title":NSLocalizedString(@"查看多签公钥",nil),@"name":@"",@"type":@"1"}];
+                    break;
+                case 2:
+//                   HowSign
+                    _dataArray =@[@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},@{@"title":NSLocalizedString(@"修改钱包密码",nil),@"name":@"",@"type":@"2"},@{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"}];
+                    break;
+                case 3:
+//                    HowSignReadonly
+                    _dataArray =@[@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},@{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"}];
+                    break;
+
+                default:
+                    break;
+            }
         }
         return _dataArray;
     }
@@ -143,7 +163,6 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    
         HMWTheWalletManagementTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
         cell.backgroundColor=[UIColor clearColor];
@@ -155,32 +174,49 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     self.selectIndex=indexPath;
-    if (indexPath.section==3) {
+
+    NSDictionary *dic=self.dataArray[indexPath.section];
+    NSString *title=dic[@"title"];
+    if ([title isEqualToString:NSLocalizedString(@"修改钱包名称", nil)]) {
+        HMWModifyTheWalletNameViewController*modifyTheWalletNameVC=[[HMWModifyTheWalletNameViewController alloc]init];
+        modifyTheWalletNameVC.wallet=self.currentWallet;
+        [self.navigationController pushViewController:modifyTheWalletNameVC animated:YES];
+    }else if ([title isEqualToString:NSLocalizedString(@"修改钱包密码",nil)]){
+        HMWModifyTheWalletPasswordViewController *modifyTheWalletPasswordVC=[[HMWModifyTheWalletPasswordViewController alloc]init];
+        modifyTheWalletPasswordVC.title=NSLocalizedString(@"修改钱包密码",nil);
+        modifyTheWalletPasswordVC.currentWallet=self.currentWallet;
+        [self.navigationController pushViewController:modifyTheWalletPasswordVC animated:YES];
+        
+    }else if ([title isEqualToString:NSLocalizedString(@"导出Keystore",nil)]){
+        HMWsettingKeyStorePWDViewController * settingKeyStorePWDVC=[[HMWsettingKeyStorePWDViewController alloc]init];
+        settingKeyStorePWDVC.wallet=self.currentWallet;
+        [self.navigationController pushViewController:settingKeyStorePWDVC animated:YES];
+        
+    }else if ([title isEqualToString:NSLocalizedString(@"导出助记词",nil)]){
         UIView *mainView=[self mainWindow];
         [mainView addSubview:self.securityVerificationPopV];
         [self.securityVerificationPopV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.top.right.bottom.equalTo(mainView);
         }];
         
+    }else if ([title isEqualToString:NSLocalizedString(@"导出只读钱包",nil)]){
+        
+        
+        
+    }else if ([title isEqualToString:NSLocalizedString(@"查看多签公钥",nil)]){
         
     }
-    if (indexPath.section==2) {
-        HMWsettingKeyStorePWDViewController * settingKeyStorePWDVC=[[HMWsettingKeyStorePWDViewController alloc]init];
-        settingKeyStorePWDVC.wallet=self.currentWallet;
-        [self.navigationController pushViewController:settingKeyStorePWDVC animated:YES];
-        
-    }
-    if (indexPath.section==0) {
-        HMWModifyTheWalletNameViewController*modifyTheWalletNameVC=[[HMWModifyTheWalletNameViewController alloc]init];
-        modifyTheWalletNameVC.wallet=self.currentWallet;
-        [self.navigationController pushViewController:modifyTheWalletNameVC animated:YES];
-    }
-    if (indexPath.section==1) {
-        HMWModifyTheWalletPasswordViewController *modifyTheWalletPasswordVC=[[HMWModifyTheWalletPasswordViewController alloc]init];
-        modifyTheWalletPasswordVC.title=NSLocalizedString(@"修改钱包密码",nil);
-        modifyTheWalletPasswordVC.currentWallet=self.currentWallet;
-            [self.navigationController pushViewController:modifyTheWalletPasswordVC animated:YES];
-    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     

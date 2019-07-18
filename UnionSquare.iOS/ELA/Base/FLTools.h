@@ -117,4 +117,5 @@
 -(NSString *)elsToSela:(NSString*)ela;
 -(BOOL)changeisEnglish:(NSString*)m;
 -(NSString *)getImageViewURLWithURL:(NSString*)urlString;
+-(NSArray*)CreateQrCodeImage:(NSString*)contentString WithType:(NSString*)type;
 @end

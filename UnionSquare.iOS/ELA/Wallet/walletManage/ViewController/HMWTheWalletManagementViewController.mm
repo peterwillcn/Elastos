@@ -205,9 +205,29 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
         }];
         
     }else if ([title isEqualToString:NSLocalizedString(@"导出只读钱包",nil)]){
-        HWMSignatureTradingSingleQrCodeViewController *vc=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
-        vc.type=ExportReadOnlyWallet;
-        [self.navigationController pushViewController:vc animated:YES];
+//      ExportReadonlyWallet
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"ExportReadonlyWallet"];
+        
+        PluginResult *result= [[ELWalletManager share] ExportReadonlyWallet:mommand];
+        NSString *status=[NSString stringWithFormat:@"%@",result.status];
+        if ([status isEqualToString:@"1"]) {
+            NSString *type;
+            if (self.currentWallet.TypeW ==0) {// 单签钱包
+                type=@"1";
+            }
+            NSArray *QrCodeArr= [[FLTools share]CreateQrCodeImage:result.message[@"success"]
+                                                                                        WithType:type];
+            HWMSignatureTradingSingleQrCodeViewController *vc=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
+            vc.type=ExportReadOnlyWallet;
+            if (QrCodeArr.count==1) {
+                vc.QRCodeString=QrCodeArr.lastObject;
+                
+            }
+                    [self.navigationController pushViewController:vc animated:YES];
+           
+            
+        }
+       
         
     }else if ([title isEqualToString:NSLocalizedString(@"查看多签公钥",nil)]){
         HWMSignatureTradingSingleQrCodeViewController *vc=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
@@ -287,24 +307,18 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
    
     
     [self takeOutOrShutDown];
-    if (self.selectIndex.section==2) {
+    
+    NSDictionary *dic=self.dataArray[self.selectIndex.section];
+    NSString *title=dic[@"title"];
+    
+    if ([title isEqualToString:NSLocalizedString(@"修改钱包名称", nil)]) {
         
-      
+    }else if ([title isEqualToString:NSLocalizedString(@"修改钱包密码",nil)]){
         
-        
-        
-        
-//        PluginResult *result= [[ELWalletManager share]changePassword:mommand];
-        
-        
-        
-        
+    }else if ([title isEqualToString:NSLocalizedString(@"导出Keystore",nil)]){
        
         
-        
-    }else if(self.selectIndex.section==3){
-     
-        
+    }else if ([title isEqualToString:NSLocalizedString(@"导出助记词",nil)]){
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwdString] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
         
         
@@ -315,15 +329,22 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
         
         if ([status isEqualToString:@"1"]) {
             NSString *theMnemonicWord=result.message[@"success"];
-               HMWExportTheMnemonicWordViewController *exportTheMnemonicWordVC=[[HMWExportTheMnemonicWordViewController alloc]init];
+            HMWExportTheMnemonicWordViewController *exportTheMnemonicWordVC=[[HMWExportTheMnemonicWordViewController alloc]init];
             exportTheMnemonicWordVC.theMnemonicWord=theMnemonicWord;
-              [self.navigationController pushViewController:exportTheMnemonicWordVC animated:YES];
+            [self.navigationController pushViewController:exportTheMnemonicWordVC animated:YES];
         }
-//        exportWalletWithMnemonic
         
-//        FLPastWordVC *vc = [[FLPastWordVC alloc]init];
-      
+    }else if ([title isEqualToString:NSLocalizedString(@"导出只读钱包",nil)]){
+//        HWMSignatureTradingSingleQrCodeViewController *vc=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
+//        vc.type=ExportReadOnlyWallet;
+//        [self.navigationController pushViewController:vc animated:YES];
+        
     }
+//    else if ([title isEqualToString:NSLocalizedString(@"查看多签公钥",nil)]){
+//
+//
+//    }
+    
   
 }
     

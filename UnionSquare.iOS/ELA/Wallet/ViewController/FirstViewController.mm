@@ -55,6 +55,10 @@
  *<# #>
  */
 @property(strong,nonatomic)UIButton *leftButton;
+    /*
+     *<# #>
+     */
+    @property(assign,nonatomic)double angle;
 
 
 @end
@@ -497,11 +501,16 @@ NSString *imageName=@"single_wallet";
     
     if ([model.status isEqualToString:@"Connected"]) {
         cell.statusLabel.text=model.updateTime;
+        cell.linkImageView.alpha=0.f;
+        
     }else if ([model.status isEqualToString:@"Connecting"]){
         cell.statusLabel.text=NSLocalizedString(@"连接中...", nil);
+    
+        cell.linkImageView.alpha=1.f;
         
     }else if ([model.status isEqualToString:@"DIsconnected"]){
         cell.statusLabel.text=NSLocalizedString(@"丢失...", nil);
+        cell.linkImageView.alpha=1.f;
     }
     NSString * symbolString=@"%";
     if (cell.progress.progress==1&&model.thePercentageCurr!=model.thePercentageMax) {
@@ -569,4 +578,24 @@ NSString *imageName=@"single_wallet";
     
     
 }
+-(void)startAnimationWithView:(UIView*)view{
+   CGAffineTransform endAngle = CGAffineTransformMakeRotation(10* (M_PI / 180.0f));
+    [UIView animateWithDuration:0.01 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        view.transform=endAngle;
+        }completion:^(BOOL finished){
+            self.angle += 10;
+        [self startAnimationWithView:view];
+        
+    }];
+    
+    
+        
+}
+    -(void)endAnimationWithView:(UIView*)view{
+        
+        self.angle += 10;
+        
+        [self startAnimationWithView:view];
+        
+    }
 @end

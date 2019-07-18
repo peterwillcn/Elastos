@@ -911,4 +911,40 @@ static FLTools *tool;
     id jsonClass = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
     return [NSString stringWithFormat:@"%@",jsonClass[@"org"][@"branding"][@"logo_256"]];
 }
+-(NSArray*)CreateQrCodeImage:(NSString*)contentString WithType:(NSString*)type{
+    NSMutableArray *allQRCodeArray=[[NSMutableArray alloc]init];
+//    {type:
+//    data:temecon
+//    max:几张图片
+//        current
+   int max =ceil(contentString.length/1024);
+    int min=floor(contentString.length/1024);
+    for (NSInteger i=0; i<max; i++) {
+        NSString *dataString;
+        if ((i==min && max>min) ) {
+            dataString=[contentString substringWithRange:NSMakeRange(i*1024, contentString.length-i*1024)];
+            
+        }else{
+            dataString=[contentString substringWithRange:NSMakeRange(i*1024,1024)];
+            
+        }
+        NSDictionary *dic=@{@"type":type,
+                            @"data":dataString,
+                            @"max":[NSString stringWithFormat:@"%d",max],
+                            @"current":[NSString stringWithFormat:@"%ld",i+1]
+                            };
+        [allQRCodeArray addObject:dic];
+        
+    }
+    return [NSArray arrayWithArray:allQRCodeArray];
+    
+    
+}
+-(NSString*)DicToString:(NSDictionary*)dic{
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
+    
+    NSString * contentString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    return contentString;
+    
+}
 @end

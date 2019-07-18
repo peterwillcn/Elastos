@@ -58,6 +58,8 @@
             self.backFistButton.alpha=0.f;
             self.showInfoLabel.text=NSLocalizedString(@"扫描二维码可创建单签只读钱包", nil);
             self.navigationController.navigationItem.rightBarButtonItem=nil;
+         
+            
             break;
             
         }

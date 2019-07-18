@@ -139,6 +139,7 @@
                 <outlet property="bgView" destination="Z7M-jG-lzf" id="Du4-ar-JS4"/>
                 <outlet property="biName" destination="VWr-eQ-9TN" id="1Fe-Az-T3v"/>
                 <outlet property="detailLab" destination="mzj-HL-dox" id="3m5-2I-jtx"/>
+                <outlet property="linkImageView" destination="MU0-mG-3GY" id="79y-3V-HlG"/>
                 <outlet property="logoImage" destination="gl4-om-Mnf" id="ULU-Ty-TFn"/>
                 <outlet property="progress" destination="IvQ-qQ-Nwj" id="o5f-Ai-Mez"/>
                 <outlet property="progressLab" destination="VKE-t4-f1r" id="Q6C-4T-5Vm"/>

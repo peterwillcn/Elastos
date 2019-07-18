@@ -1672,7 +1672,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     }
     Json json;
     try {
-        json = subWallet->CreateCombineUTXOTransaction("",false);
+        json = subWallet->CreateConsolidateTransaction("",false);
     } catch (const std:: exception &e) {
         return [self errInfoToDic:e.what() with:command];
     }

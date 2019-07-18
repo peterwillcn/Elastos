@@ -23,6 +23,7 @@
                 <outlet property="makeLineView" destination="xHV-g0-Gdm" id="T5T-kG-2dm"/>
                 <outlet property="noDataSourceTextLabel" destination="Qvu-6Q-ItB" id="Lt0-bi-5K9"/>
                 <outlet property="toButtonOffSet" destination="j8n-pi-ZlC" id="7WN-5O-I7c"/>
+                <outlet property="toUpMoneyButtonWidthdOff" destination="1N4-cw-7qK" id="S0F-bF-0vN"/>
                 <outlet property="topUpButton" destination="lwe-Ph-LBr" id="qtF-iJ-fCC"/>
                 <outlet property="transactionRecordsBtton" destination="kpf-gI-aUY" id="uxd-fo-cqH"/>
                 <outlet property="transferButton" destination="vcc-4b-6xF" id="Tct-4v-icL"/>

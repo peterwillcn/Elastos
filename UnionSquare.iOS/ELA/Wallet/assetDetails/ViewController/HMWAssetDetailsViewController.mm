@@ -119,6 +119,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 @property (weak, nonatomic) IBOutlet UIView *makeLineView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *toButtonOffSet;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *enMoneyWidthOffSet;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *toUpMoneyButtonWidthdOff;
 
 @end
 
@@ -151,8 +152,9 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
         self.anyChangeInTheWholeButton.alpha=0.f;
         self.EarningsRecordButton.alpha=0.f;
         self.makeLineView.alpha=0.f;
-        self.toButtonOffSet.constant=-57;
+        self.toButtonOffSet.constant=-100;
         self.enMoneyWidthOffSet.constant=-AppWidth+30;
+        self.toUpMoneyButtonWidthdOff.constant=200;
     }
     
     
@@ -443,7 +445,7 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
 //        [self.topUpButton setImage:[UIImage imageNamed:@"asset_trade_side_recharge"] forState:UIControlStateNormal];
     }else{
           [self.topUpButton setTitle:NSLocalizedString(@"主链提现", nil) forState:UIControlStateNormal];
-       [self.topUpButton setImage:[UIImage imageNamed:@"asset_trade_main_withdraw"] forState:UIControlStateNormal];
+//       [self.topUpButton setImage:[UIImage imageNamed:@"asset_trade_main_withdraw"] forState:UIControlStateNormal];
     }
     
     
@@ -576,7 +578,12 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     transferTransactionDetailsVC.iconNameString=self.model.iconName;
      detailsM.Type=NSLocalizedString(@"创币收益", nil);
     transferTransactionDetailsVC.TypeString=[NSString stringWithFormat:@"%@",detailsM.Type];
-    detailsM.Timestamp=[[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:detailsM.Timestamp];
+    if ([model.Status isEqualToString:@"Pending"]) {
+        detailsM.Timestamp=@"--:--";
+    }else{
+        detailsM.Timestamp=[[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:detailsM.Timestamp];
+        
+    }
     transferTransactionDetailsVC.type=NodeReturnsType;
       transferTransactionDetailsVC.model=detailsM;
     transferTransactionDetailsVC.votesString=[[FLTools share]elaScaleConversionWith:OutputPayload[0]];
@@ -658,10 +665,21 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
             break;
     }
     
-    detailsM.Timestamp=[[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:detailsM.Timestamp];
+   
+    if ([model.Status isEqualToString:@"Pending"]) {
+        detailsM.Timestamp=@"--:--";
+    }else{
+         detailsM.Timestamp=[[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:detailsM.Timestamp];
+        
+    }
     transferTransactionDetailsVC.model=detailsM;
     transferTransactionDetailsVC.votesString=[[FLTools share]elaScaleConversionWith:OutputPayload[0]];
-    detailsM.Timestamp=[[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:detailsM.Timestamp];
+    if ([model.Status isEqualToString:@"Pending"]) {
+        detailsM.Timestamp=@"--:--";
+    }else{
+        detailsM.Timestamp=[[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:detailsM.Timestamp];
+        
+    }
     if ([detailsM.Direction isEqualToString:@"Received"]) {
 transferTransactionDetailsVC.type=transactionMultipleIntoType;
     }else if ([detailsM.Direction isEqualToString:@"Sent"]){

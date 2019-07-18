@@ -18,6 +18,7 @@
 #import "HMWsignUpForViewController.h"
 #import "FLManageSelectPointNodeInformationVC.h"
 #import "HMWFMDBManager.h"
+#import "DrawBackVoteMoneyVC.h"
 @interface HMWtheSuperNodeElectionViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWsignUpForViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *tagMyVotedLab;
@@ -79,17 +80,16 @@
             self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
             self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
         }else if([self.typeString isEqualToString:@"Canceled"]){
-            self.votingRulesButton.hidden=YES;
-            self.tagVoteRuleLab.hidden=YES;
-            self.found_vote_rule.hidden=YES;
+self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+            self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
         }else if([self.typeString isEqualToString:@"Unregistered"]){
             self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
             self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
     
         }else if ([self.typeString isEqualToString:@"ReturnDeposit"]){
-            self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
-            self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
-    
+            self.votingRulesButton.hidden=YES;
+            self.tagVoteRuleLab.hidden=YES;
+            self.found_vote_rule.hidden=YES;
         }
 
 //    if ([self.typeString isEqualToString:@"0"]) {
@@ -116,7 +116,7 @@
 
 }
 - (IBAction)NodeRegisteredState:(id)sender {
-    if ([self.typeString isEqualToString:@"ReturnDeposit"]||[self.typeString isEqualToString:@"Registered"]){
+    if ([self.typeString isEqualToString:@"Registered"]){
         FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
         [self.navigationController pushViewController:vc animated:YES];
     }else if ([self.typeString isEqualToString:@"Unregistered"]){
@@ -137,6 +137,9 @@
             
         }
         
+    }else if ([self.typeString isEqualToString:@"ReturnDeposit"]){
+        DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
+        [self.navigationController pushViewController:vc animated:YES];
     }
     
     

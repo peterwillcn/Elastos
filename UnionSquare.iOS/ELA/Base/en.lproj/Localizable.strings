@@ -171,7 +171,7 @@
 "暂无交易记录"="No transaction history";
 "报名押金"="Registration deposit";
 "票"="Tickets";
-"完整信息请点击交易号查看"="Click to see all the details";
+"完整信息请点击交易号查看"="Click transaction NO. to see all the details";
 
 "检测到当前账户存在大量Utxo,是否零钱换整？"="Too much UTXO detected, Consolidate?";
 "创建钱包"="Create Wallet";

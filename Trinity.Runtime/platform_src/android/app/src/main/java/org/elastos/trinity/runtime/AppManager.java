@@ -83,6 +83,7 @@ public class AppManager {
 
     private ArrayList<String>  installUriList = new ArrayList<String>();
     private boolean launcherReady = false;
+    private String currentLocale = "en";
 
     AppManager(WebViewActivity activity) {
         AppManager.appManager = this;
@@ -497,6 +498,29 @@ public class AppManager {
             throw new Exception(toId + " isn't running!");
         }
     }
+
+    public void sendMessageToAll(int type, String msg, String fromId) {
+        FragmentManager manager = activity.getSupportFragmentManager();
+        List<Fragment> fragments = manager.getFragments();
+
+        for (int i = 0; i < fragments.size(); i++) {
+            WebViewFragment fragment = (WebViewFragment)fragments.get(i);
+            if (fragment != null && fragment.appView != null) {
+                fragment.basePlugin.onReceive(msg, type, fromId);
+            }
+        }
+    }
+
+    public void setCurrentLocale(String code) {
+        currentLocale = code;
+        sendMessageToAll(MSG_TYPE_IN_REFRESH,
+                "{\"action\":\"currentLocaleChanged\", \"code\":\"" + code + "\"}", "launcher");
+    }
+
+    public String getCurrentLocale() {
+        return currentLocale;
+    }
+
 
     public int getPluginAuthority(String id, String plugin) {
         AppInfo info = appInfos.get(id);

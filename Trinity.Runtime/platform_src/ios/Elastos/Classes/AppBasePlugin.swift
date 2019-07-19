@@ -55,6 +55,29 @@
         self.commandDelegate.send(result, callbackId: command.callbackId)
     }
     
+    func getCurrentLanguage() -> String {
+        let preferredLang = NSLocale.preferredLanguages.first!
+        
+        switch preferredLang {
+        case "en-US", "en-CN":
+            return "en"
+        case "zh-Hans-US","zh-Hans-CN","zh-Hant-CN","zh-TW","zh-HK","zh-Hans":
+            return "zh"
+        default:
+            return "en"
+        }
+    }
+    
+    @objc func getLocale(_ command: CDVInvokedUrlCommand) {
+        let info = AppManager.getShareInstance().getAppInfo(self.id!);
+        let ret = [
+            "defaultLang": info!.default_locale,
+            "currentLang": AppManager.getShareInstance().getCurrentLocale(),
+            "systemLang": getCurrentLanguage()
+            ] as [String : String]
+        self.success(command, retAsDict: ret);
+    }
+    
     @objc(launcher:)
     func launcher(_ command: CDVInvokedUrlCommand) {
         do {

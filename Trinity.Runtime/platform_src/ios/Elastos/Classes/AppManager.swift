@@ -58,6 +58,8 @@ class AppManager {
     var lastList = [String]();
     let installer: AppInstaller;
 
+    private var currentLocale = "en";
+
     private var launcherInfo: AppInfo? = nil;
 
     var installUriList = [String]();
@@ -431,6 +433,23 @@ class AppManager {
         else {
             throw AppError.error(toId + " isn't running!");
         }
+    }
+
+    func sendMessageToAll(_ type: Int, _ msg: String, _ fromId: String) {
+        for id in viewControllers.keys {
+            viewControllers[id]!.basePlugin!.onReceive(msg, type, fromId);
+        }
+    }
+
+    func setCurrentLocale(_ code: String) {
+        currentLocale = code;
+        sendMessageToAll(AppManager.MSG_TYPE_IN_REFRESH,
+                         "{\"action\":\"currentLocaleChanged\", \"code\":\""
+                         + code + "\"}", "launcher");
+    }
+
+    func getCurrentLocale() -> String {
+        return currentLocale;
     }
 
     func getPluginAuthority(_ id: String, _ plugin: String) -> Int {

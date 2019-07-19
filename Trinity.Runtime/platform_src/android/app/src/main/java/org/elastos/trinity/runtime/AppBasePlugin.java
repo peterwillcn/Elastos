@@ -34,6 +34,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AppBasePlugin extends CordovaPlugin {
     protected CallbackContext mMessageContext = null;
@@ -187,6 +188,16 @@ public class AppBasePlugin extends CordovaPlugin {
         } else {
             callbackContext.error("No such app!");
         }
+    }
+
+    protected void getLocale(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        JSONObject ret = new JSONObject();
+        AppInfo info = AppManager.getShareInstance().getAppInfo(this.id);
+        ret.put("defaultLang", info.default_locale);
+        ret.put("currentLang", AppManager.getShareInstance().getCurrentLocale());
+        ret.put("systemLang", Locale.getDefault().getLanguage());
+
+        callbackContext.success(ret);
     }
 
     protected void sendMessage(JSONArray args, CallbackContext callbackContext) throws Exception {

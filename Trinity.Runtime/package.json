@@ -84,7 +84,8 @@
             "elastos-trinity-plugins-statusbar": {},
             "elastos-trinity-plugins-vibration": {},
             "elastos-trinity-plugins-wallet": {},
-            "cordova-plugin-ionic-keyboard": {}
+            "cordova-plugin-ionic-keyboard": {},
+            "cordova-clipboard": {}
         },
         "platforms": [
             "android",

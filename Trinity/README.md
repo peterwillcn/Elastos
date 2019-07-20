@@ -2,7 +2,7 @@ Elastos Trinity
 ==========================
 |Android & IOS|Android(Windows)|
 |:-:|:-:|
-|[![Build Status](https://travis-ci.org/elastos/Elastos.Trinity.svg)](https://travis-ci.org/elastos/Elastos.Trinity)|[![Build status](https://ci.appveyor.com/api/projects/status/hjyv761on883jors?svg=true)](https://ci.appveyor.com/project/Elastos/elastos-trinity)|
+|[![Build Status](https://travis-ci.com/elastos/Elastos.Trinity.svg)](https://travis-ci.com/elastos/Elastos.Trinity)|[![Build status](https://ci.appveyor.com/api/projects/status/hjyv761on883jors?svg=true)](https://ci.appveyor.com/project/Elastos/elastos-trinity)|
 
 ## Introduction
 

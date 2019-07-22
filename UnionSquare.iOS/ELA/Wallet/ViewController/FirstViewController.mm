@@ -158,8 +158,10 @@
               [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
             NSLog(@"修改侧链时间====%@======%@======%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName);
         }
-        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.table reloadData];
+        });
+        
         
     }else{
         sideChainInfoModel *smodel=[[sideChainInfoModel alloc]init];

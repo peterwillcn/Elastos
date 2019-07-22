@@ -254,10 +254,9 @@ model.nodePubKey=self.thePublicKeyTextField.text;
     self.transferDetailsPopupV=nil;
 }
 -(void)nextBtnAction{
+    [self pwdAndInfo];
     
-    [self.transferDetailsPopupV removeFromSuperview];
-    self.transferDetailsPopupV=nil;
-    [self.navigationController popViewControllerAnimated:YES];
+
 
 }
 
@@ -282,6 +281,9 @@ model.nodePubKey=self.thePublicKeyTextField.text;
     [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(manView);
     }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController popViewControllerAnimated:YES];
+    });
     
 }
 

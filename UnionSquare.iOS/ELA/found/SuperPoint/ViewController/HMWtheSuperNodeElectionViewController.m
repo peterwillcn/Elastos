@@ -137,7 +137,7 @@ self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
             
         }
         
-    }else if ([self.typeString isEqualToString:@"ReturnDeposit"]){
+    }else if ([self.typeString isEqualToString:@"Canceled"]){
         DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
         [self.navigationController pushViewController:vc animated:YES];
     }

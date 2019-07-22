@@ -191,7 +191,7 @@ NSString *imageName=@"single_wallet";
     assetsListModel *model;
  
     
-    if ([model.iconName isEqualToString:chainID]&&[self.currentWallet.masterWalletID isEqualToString:walletID]){
+    if ([self.currentWallet.masterWalletID isEqualToString:walletID]){
         if ([chainID isEqualToString:@"ELA"]) {
             [ELWalletManager share].estimatedHeight=currentBlockHeight;
             model=self.dataSoureArray[0];
@@ -211,7 +211,9 @@ NSString *imageName=@"single_wallet";
               [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
             NSLog(@"修改侧链时间====%@======%@======%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName);
         }
-        [self.table reloadData];
+        
+            [self.table reloadData];
+        
     }else{
         sideChainInfoModel *smodel=[[sideChainInfoModel alloc]init];
         if (model.thePercentageMax==0) {

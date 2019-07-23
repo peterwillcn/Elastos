@@ -74,7 +74,7 @@
  [[HMWCommView share]makeBordersWithView:self.confirmToRunButton];
     ELWalletManager *manager   =  [ELWalletManager share];
     IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-      NSString * ownerPubKey = [NSString stringWithCString:mainchainSubWallet->GetOwnerPublicKey().c_str() encoding:NSUTF8StringEncoding];
+      NSString * ownerPubKey = [NSString stringWithCString:mainchainSubWallet->GetPublicKey().c_str() encoding:NSUTF8StringEncoding];
     self.thePublicKeyTextField.text=ownerPubKey;
     if (self.model.nickName.length!=0) {
         [self.confirmToRunButton setTitle:NSLocalizedString(@"更新信息", nil) forState:UIControlStateNormal];

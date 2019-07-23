@@ -221,9 +221,10 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
         [self loadGetOwnerAddress];
       
     }else if([Status isEqualToString:@"Unregistered"]){
-//        self.anyChangeInTheWholeButton.alpha=0.f;
         self.EarningsRecordButton.alpha=0.f;
-//        self.makeLineView.alpha=0.f;
+    
+    self.enMoneyWidthOffSet.constant=-AppWidth+30;
+//        self.toUpMoneyButtonWidthdOff.constant=200;
         
     }else if ([Status isEqualToString:@"ReturnDeposit"]){
         

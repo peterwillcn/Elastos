@@ -177,6 +177,7 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="NFU-S2-zbJ"/>
                     </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <state key="normal" title="转账" image="asset_trade_transfer">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
@@ -249,6 +250,7 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="I9V-tX-KsD"/>
                     </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <state key="normal" title="收款" image="asset_trade_receive">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>

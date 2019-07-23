@@ -197,7 +197,9 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     self.baseTableView.allowsMultipleSelection = YES;
     
     [self.baseTableView addSubview:self.placeHolferImage];
-    self.placeHolferImage.center = self.view.center;
+    CGPoint certer=self.baseTableView.center;
+    certer.x=certer.x-10;
+    self.placeHolferImage.center = certer;
     self.placeHolferImage.hidden = self.dataSource.count!=0;
     
     [self updataBottomBtn];

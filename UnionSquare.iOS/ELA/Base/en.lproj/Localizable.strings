@@ -260,7 +260,6 @@
 "钱包名修改成功" = "The wallet name is changed";
 "钱包名修改失败" = "The purse of modified failure";
 "两次密码输入不一致" = "The two passwords don't match";
-"我的投票" = "My Votes";
 "变更投票"="Change my vote";
 "上次投票记录"="Last vote record";
 "暂无投票记录"="No vote record";
@@ -278,13 +277,13 @@
 "全选"="All";
 "已选择"="Selected";
 "立即投票"= "Vote";
-"全网投票比例："="Total Network Vote Percentage";
+//"全网投票比例："="Total Network Vote Percentage";
+"全网投票占比："="Percentage of Votes Case Online";
 "删除"= "Delete";
 "最大表决票权 " = "Max voting right ";
-"我的投票"="My Vote History";
+"我的投票"="My Vote";
 "我要投票"="Vote";
-"投票规则" = "Rules";
-//"票"="votes";
+"投票规则" = "Voting Rules";
 "重新投票"= "Recast Votes";
 "变更成功" = "change successed";
 "注销报名72小时后，方可提取质押金"="The registration fund can be withdrawn 72 hours after the registration is cancelled";
@@ -309,6 +308,8 @@
 "rules"="https://news.elastos.org/elastos-dpos-supernode-election-process/";
 "最多可选36个节点"="vote for maximum of 36 nodes";
 "超出投票选择上限，是否在已选列表中按排名顺序选择前36名？"="Exceeding the voting selection limit, did you select the top 36?";
+"ELAWallet是安全、便捷的专业亦来云SPV轻节点客户端钱包，支持亦来云全生态数字资产。"="ELA wallet is a secure and convenient Elastos SPV wallet that supports all the digital currency for Elastos ecosystem.";
+
 
 //国家
 "阿富汗"="Afghanistan";

@@ -35,7 +35,7 @@
 //    [self loadElectionInfo];
     [self defultWhite];
     [self setBackgroundImg:@""];
-        self.title=NSLocalizedString(@"发现", nil);
+        self.title=NSLocalizedString(@"社区", nil);
     
     self.table = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.table.separatorStyle= UITableViewCellSeparatorStyleNone;

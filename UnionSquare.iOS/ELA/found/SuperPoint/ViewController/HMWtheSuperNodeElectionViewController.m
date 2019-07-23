@@ -77,43 +77,19 @@
     }];
     [self getNetCoinPointArray];
         if ([self.typeString isEqualToString:@"Registered"]){
-            self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+  self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
             self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
         }else if([self.typeString isEqualToString:@"Canceled"]){
 self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
             self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
         }else if([self.typeString isEqualToString:@"Unregistered"]){
-            self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
+   self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
             self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
-    
         }else if ([self.typeString isEqualToString:@"ReturnDeposit"]){
             self.votingRulesButton.hidden=YES;
             self.tagVoteRuleLab.hidden=YES;
             self.found_vote_rule.hidden=YES;
         }
-
-//    if ([self.typeString isEqualToString:@"0"]) {
-////        @"Unregistered"
-//
-//    }else if ([self.typeString isEqualToString:@"1"]){
-////        @"Registered"
-//          @"ReturnDeposit"
-//        self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
-//        self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
-//
-//    }else if ([self.typeString isEqualToString:@"2"]){
-////        @"Canceled"
-//      self.votingRulesButton.hidden=YES;
-//        self.tagVoteRuleLab.hidden=YES;
-//        self.found_vote_rule.hidden=YES;
-//
-//    }else if ([self.typeString isEqualToString:@"4"]){
-////        @"ReturnDeposit"
-//        self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
-//        self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
-//
-//    }
-
 }
 - (IBAction)NodeRegisteredState:(id)sender {
     if ([self.typeString isEqualToString:@"Registered"]){
@@ -201,7 +177,7 @@ self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
         self.dataSource= [NSMutableArray arrayWithArray:dataArray];
         
         self.votingListV.dataSource = self.dataSource;
-        self.votingListV.lab1.text = [NSString stringWithFormat:@"%.5f %@" ,[param[@"result"][@"totalvoterate"] floatValue]*100,@"%"];
+        self.votingListV.lab1.text = [NSString stringWithFormat:@"%.2f %@" ,[param[@"result"][@"totalvoterate"] floatValue]*100,@"%"];
         self.votingListV.lab3.text =[NSString stringWithFormat:@"%ld", (long)[param[@"result"][@"totalvotes"] integerValue]];
         
         

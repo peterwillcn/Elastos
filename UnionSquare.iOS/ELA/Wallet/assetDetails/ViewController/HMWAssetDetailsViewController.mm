@@ -675,12 +675,6 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     }
     transferTransactionDetailsVC.model=detailsM;
     transferTransactionDetailsVC.votesString=[[FLTools share]elaScaleConversionWith:OutputPayload[0]];
-    if ([model.Status isEqualToString:@"Pending"]) {
-        detailsM.Timestamp=@"--:--";
-    }else{
-        detailsM.Timestamp=[[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:detailsM.Timestamp];
-        
-    }
     if ([detailsM.Direction isEqualToString:@"Received"]) {
 transferTransactionDetailsVC.type=transactionMultipleIntoType;
     }else if ([detailsM.Direction isEqualToString:@"Sent"]){

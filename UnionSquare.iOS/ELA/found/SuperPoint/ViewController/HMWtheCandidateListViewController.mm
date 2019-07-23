@@ -54,7 +54,7 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     [self defultWhite];
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"我的候选列表", nil);
-    self.TagtatolVoteLab.text=NSLocalizedString(@"全网投票比例：", nil);
+    self.TagtatolVoteLab.text=NSLocalizedString(@"全网投票占比：", nil);
     [self.immediatelyToVoteButton setTitle:NSLocalizedString(@"立即投票", nil) forState:UIControlStateNormal];
 
     [[HMWCommView share]makeBordersWithView:self.immediatelyToVoteButton];

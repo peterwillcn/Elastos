@@ -134,7 +134,9 @@ static HMWFMDBManager * _manager =nil;
         p.walletID=[set objectForColumn:@"walletID"];
         p.sideChainName =[set objectForColumn:@"sideChainName"];
         p.sideChainNameTime=[set objectForColumn:@"sideChainNameTime"];
-        
+        p.thePercentageCurr =[set objectForColumn:@"thePercentageCurr"];
+        p.thePercentageMax=[set objectForColumn:@"thePercentageMax"];
+        NSLog(@"本地存储===%@==%@",p.thePercentageCurr,p.thePercentageMax);
         if ([p.sideChainName isEqualToString:iconName]) {
             return p;
         }

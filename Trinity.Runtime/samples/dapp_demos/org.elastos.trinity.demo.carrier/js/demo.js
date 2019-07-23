@@ -1321,6 +1321,9 @@ var callbacks = {
     onSessionRequest: session_request_callback,
 }
 
+function onLauncher() {
+    appService.launcher();
+}
 
 function onClose() {
     if (carrier != null) {

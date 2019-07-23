@@ -156,7 +156,7 @@
             
             model.updateTime=[NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"已同步区块时间", nil),smodel.sideChainNameTime];
               [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
-            NSLog(@"修改侧链时间====%@======%@======%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName);
+            NSLog(@"修改侧链时间====%@======%@======%@====%@====%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
         }
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.table reloadData];
@@ -278,7 +278,7 @@
             model.iconBlance=blanceString;
             model.thePercentageCurr=[smodel.thePercentageCurr floatValue];
             model.thePercentageMax=[smodel.thePercentageMax floatValue];
-            NSLog(@"本地存储时间====%@====%@====%@",smodel.sideChainNameTime,smodel.sideChainName,self.currentWallet.walletName);
+            NSLog(@"本地存储时间====%@====%@====%@====%@=====%@",smodel.sideChainNameTime,smodel.sideChainName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
             if ([smodel.sideChainNameTime isEqual: [NSNull null]]||smodel.sideChainNameTime==NULL) {
                 model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"已同步区块时间", nil),@"--:--"];
                 model.thePercentageMax=100;

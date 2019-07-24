@@ -46,7 +46,7 @@
 "转账"="Transfer";
 "侧链充值"="Sidechain Top Up";
 "收款"="Receive";
-"交易记录"="Transaction History";
+"交易记录"="Transactions";
 "复制收款地址"="Copy Address";
 "进入地址列表"="Address List";
 "地址列表"="Address List";
@@ -170,7 +170,7 @@
 "修改失败！"="Modify failed!";
 "暂无交易记录"="No transaction history";
 "报名押金"="Registration deposit";
-"票"="Tickets";
+"票"="Votes";
 "完整信息请点击交易号查看"="Click transaction NO. to see all the details";
 
 "检测到当前账户存在大量Utxo,是否零钱换整？"="Too much UTXO detected, Consolidate?";
@@ -194,7 +194,7 @@
 "侧链地址错误"="Side chain address errors";
 "金额需要大于0"="Amount needs to be greater than zero";
 "创币收益"="Coinbase Transaction";
-"收益记录"="DPoS Reward Records";
+"收益记录"="DPoS Rewards";
 "暂无收益记录"="Temporarily No Earnings Record";
 "复制收益地址"="Copy Address";
 "当前版本号V"="VersionV";

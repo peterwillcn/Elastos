@@ -21,6 +21,9 @@
     self.view.backgroundColor=[UIColor whiteColor];
     self.webView.delegate=self;
     NSString *languageString=[DAConfig userLanguage];
+    if ([languageString containsString:@"zh"]) {
+        languageString=@"ch";
+    }
     NSString *urlString=[NSString stringWithFormat:@"https://download.elastos.org/app/release-notes/ela-wallet/index.html?langua=%@",languageString];
     NSURLRequest *reuURL=[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     [self.webView loadRequest:reuURL];

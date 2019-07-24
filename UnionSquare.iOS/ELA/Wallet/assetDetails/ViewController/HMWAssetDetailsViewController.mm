@@ -673,7 +673,6 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
          detailsM.Timestamp=[[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:detailsM.Timestamp];
         
     }
-    transferTransactionDetailsVC.model=detailsM;
     transferTransactionDetailsVC.votesString=[[FLTools share]elaScaleConversionWith:OutputPayload[0]];
     if ([detailsM.Direction isEqualToString:@"Received"]) {
 transferTransactionDetailsVC.type=transactionMultipleIntoType;

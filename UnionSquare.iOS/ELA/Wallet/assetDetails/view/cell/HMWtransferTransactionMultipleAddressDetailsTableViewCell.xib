@@ -63,6 +63,7 @@
             <connections>
                 <outlet property="orderDetailsLabel" destination="Nab-L2-PmV" id="o6V-3k-GYb"/>
                 <outlet property="textLabel" destination="MRn-7a-o0O" id="jS1-Wc-eoZ"/>
+                <outlet property="textOffset" destination="laN-5e-yGd" id="KUe-ed-mxt"/>
             </connections>
         </tableViewCell>
     </objects>

@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HMWtransferTransactionMultipleAddressDetailsTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
 @property (weak, nonatomic) IBOutlet UILabel *orderDetailsLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textOffset;
 @end
 
 NS_ASSUME_NONNULL_END

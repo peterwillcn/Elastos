@@ -7,6 +7,7 @@
 //
 
 #import "FLTools.h"
+#import "DAConfig.h"
 //#import "YYCache.h"
 @implementation FLFLUser
 
@@ -95,9 +96,14 @@ static FLTools *tool;
     NSDate *myDate = [NSDate dateWithTimeIntervalSince1970:time];
     
     NSDateFormatter *formatter = [NSDateFormatter new];
+    NSString *languageString=[DAConfig userLanguage];
     
-    [formatter setDateFormat:@"YYYY.MM.dd HH:mm:ss"];
     
+if ([languageString  containsString:@"en"]) {
+        [formatter setDateFormat:@"MM-dd-YYYY HH:mm:ss"];
+  }else if ([languageString  containsString:@"zh"]){
+        [formatter setDateFormat:@"YYYY.MM.dd HH:mm:ss"];
+    }
     //将时间转换为字符串
     
     NSString *timeS = [formatter stringFromDate:myDate];
@@ -130,8 +136,20 @@ static FLTools *tool;
     NSDate *myDate = [NSDate dateWithTimeIntervalSince1970:time];
     
     NSDateFormatter *formatter = [NSDateFormatter new];
+    NSString *languageString=[DAConfig userLanguage];
     
-    [formatter setDateFormat:@"YYYY.MM.dd HH:mm:ss"];
+    
+    if ([languageString  containsString:@"en"]) {
+
+        [formatter setDateFormat:@"MM-dd-YYYY HH:mm:ss"];
+        
+    }else if ([languageString  containsString:@"zh"]){
+        
+        [formatter setDateFormat:@"YYYY.MM.dd HH:mm:ss"];
+        
+    }
+   
+   
     
     //将时间转换为字符串
     
@@ -139,7 +157,34 @@ static FLTools *tool;
     
     return timeS;
 }
+-(NSString *)TimeFormatConversion:(NSString *)timeStr{
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 
+    // 设置为UTC时区
+    // 这里如果不设置为UTC时区，会把要转换的时间字符串定为当前时区的时间（东八区）转换为UTC时区的时间
+//    NSTimeZone *timezone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
+    
+    
+ 
+    NSString *languageString=[DAConfig userLanguage];
+    
+    
+    if ([languageString  containsString:@"en"]) {
+        
+        [formatter setDateFormat:@"MM-dd-YYYY HH:mm:ss"];
+        
+    }else if ([languageString  containsString:@"zh"]){
+        
+        [formatter setDateFormat:@"YYYY.MM.dd HH:mm:ss"];
+        
+    }
+    NSDate *someDay = [formatter dateFromString:timeStr];
+    NSString *timeS = [formatter stringFromDate:someDay];
+    
+    return timeS;
+    
+}
 -(NSString*)getCurrentTimes{
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];

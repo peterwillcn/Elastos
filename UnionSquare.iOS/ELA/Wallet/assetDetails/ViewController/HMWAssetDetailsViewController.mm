@@ -612,8 +612,8 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     assetDetailsModel *detailsM=tranList.firstObject;
     HMWtransferTransactionDetailsViewController *transferTransactionDetailsVC=[[HMWtransferTransactionDetailsViewController alloc]init];
     
-    detailsM.Amount=[NSString stringWithFormat:@"%@ELA",[[FLTools share]elaScaleConversionWith:detailsM.Amount]];
-    detailsM.Fee=[NSString stringWithFormat:@"%@ELA",[[FLTools share]elaScaleConversionWith:detailsM.Fee]];
+    detailsM.Amount=[NSString stringWithFormat:@"%@ ELA",[[FLTools share]elaScaleConversionWith:detailsM.Amount]];
+    detailsM.Fee=[NSString stringWithFormat:@"%@ ELA",[[FLTools share]elaScaleConversionWith:detailsM.Fee]];
 //    transferTransactionDetailsVC.iconNameString=@"ELA";
     transferTransactionDetailsVC.iconNameString=self.model.iconName;
     transferTransactionDetailsVC.TypeString=[NSString stringWithFormat:@"%@",detailsM.Type];

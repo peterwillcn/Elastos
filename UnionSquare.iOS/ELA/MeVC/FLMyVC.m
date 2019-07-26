@@ -103,7 +103,7 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
     self.dataSorse = @[
   @{@"img":@"mine_mission",@"title":NSLocalizedString(@"语言", nil),@"url":@"/app/task.html",@"subTitle":@""},
   @{@"img":@"mine_sugar",@"title":NSLocalizedString(@"联系人", nil),@"url":@"/app/vlink/wallet.html",@"subTitle":@""},
-  @{@"img":@"mine_sugar",@"title":NSLocalizedString(@"关于ELAWallet", nil),@"url":@"/app/vlink/wallet.html",@"subTitle":@""}];
+  @{@"img":@"mine_sugar",@"title":NSLocalizedString(@"关于", nil),@"url":@"/app/vlink/wallet.html",@"subTitle":@""}];
   
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -296,7 +296,7 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
                  HMWtheContactInformationViewController *theContactInformationVC=[[HMWtheContactInformationViewController alloc]init];
                  theContactInformationVC.model=self.theContactMutableArray[indexPath.row-1];
                     [self.navigationController pushViewController:theContactInformationVC animated:YES];}
-             }}}else if ([name isEqualToString:NSLocalizedString(@"关于ELAWallet", nil)]){
+             }}}else if ([name isEqualToString:NSLocalizedString(@"关于", nil)]){
                  AboutELAWalletViewController* AboutELAWalletVC =[[AboutELAWalletViewController alloc]init];
                  AboutELAWalletVC.title=name;
                  [self.navigationController pushViewController:AboutELAWalletVC animated:YES];

@@ -33,7 +33,7 @@
 "编辑联系人"="Edit Contact";
 "确认修改"="Save";
 "交易详情"="Transaction Details";
-"交易号"="Transaction NO.";
+"交易号"="Transaction No.";
 "交易金额"="Amount";
 "接收金额"="Receive";
 "接收地址"="Address";
@@ -152,8 +152,8 @@
 "投票占用:"="Vote Amount:";
 "是否使用投票utxo:"="Whether to use voting utxo";
 "交易类型"="Transaction Type";
-"输入地址"="Input Address";
-"输出地址"="Output Address";
+"输入"="Inputs";
+"输出"="Outputs";
 "创币交易"="Coinbase Transaction";
 "注册资产交易"="Asset Registration Transaction";
 "普通转账交易"="Transfer Transaction";
@@ -189,7 +189,7 @@
 "参选节点列表"="Node List";
 "节点数量"="Number of Node";
 "零钱换整"="Consolidate";
-"关于ELAWallet"="AboutELAWallet";
+"关于"="About";
 "收款人地址错误"="The recipient address wrong";
 "侧链地址错误"="Side chain address errors";
 "金额需要大于0"="Amount needs to be greater than zero";
@@ -197,13 +197,13 @@
 "收益记录"="DPoS Rewards";
 "暂无收益记录"="Temporarily No Earnings Record";
 "复制收益地址"="Copy Address";
-"当前版本号V"="VersionV";
+"当前版本号"="Version";
 "ELA Wallet是安全、可信的SPV轻节点钱包，支持DPoS选举及亦来云全生态数字资产。"="ELA Wallet is a secure and reliable SPV Wallet that supports DPoS elections and all the digital assets in the Elastos ecosystem.";
 "查看更新日志"="What's New";
 "反馈邮件"="Feedback";
-"运行日志"="Runtime log";
-"当前sdk版本号："="SPVSDK Version:";
-"     密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="Password is used to protect private keys and transaction authorization. Please ensure you choose a strong password.Elastos won't store your password and won't be able to retrieve it back.  Please keep your password safe and secure.";
+"运行日志"="Runtime Log";
+"当前sdk版本号"="SPV SDK Version";
+"     密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="     Password is used to protect private keys and transaction authorization. Please ensure you choose a strong password.Elastos won't store your password and won't be able to retrieve it back.  Please keep your password safe and secure.";
 "密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="Password is used to protect private keys and transaction authorization. Please ensure you choose a strong password.Elastos won't store your password and won't be able to retrieve it back.  Please keep your password safe and secure.";
 "的单签钱包"="";
 "的单签只读钱包"="";
@@ -308,9 +308,6 @@
 "rules"="https://news.elastos.org/elastos-dpos-supernode-election-process/";
 "最多可选36个节点"="vote for maximum of 36 nodes";
 "超出投票选择上限，是否在已选列表中按排名顺序选择前36名？"="Exceeding the voting selection limit, did you select the top 36?";
-"ELAWallet是安全、便捷的专业亦来云SPV轻节点客户端钱包，支持亦来云全生态数字资产。"="ELA wallet is a secure and convenient Elastos SPV wallet that supports all the digital currency for Elastos ecosystem.";
-
-
 //国家
 "阿富汗"="Afghanistan";
 "阿尔巴尼亚"="Albania";

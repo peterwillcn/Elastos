@@ -47,4 +47,8 @@ CGFloat height = [[webView stringByEvaluatingJavaScriptFromString:@"document.bod
     frame.size.height = height;
     [webView setFrame:frame];
 }
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+    
+    
+}
 @end

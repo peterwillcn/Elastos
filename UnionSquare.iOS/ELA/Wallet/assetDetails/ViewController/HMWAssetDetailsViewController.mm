@@ -167,7 +167,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){
         NSInteger  MaxCount=[result.message[@"success"][@"MaxCount"] integerValue];
-        if (MaxCount>2000) {
+        if (MaxCount>1500) {
             [self AnyChangeInTheWhole];
         }
     }

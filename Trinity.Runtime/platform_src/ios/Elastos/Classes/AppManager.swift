@@ -249,6 +249,15 @@ class AppManager {
     func getTempUrl(_ id: String) -> String {
         return "file://" + getTempPath(id);
     }
+    
+    func getIconPath(_ info: AppInfo) -> String {
+        if (info.type == "url") {
+            return appsPath + info.app_id + "/";
+        }
+        else {
+            return getAppPath(info);
+        }
+    }
 
     func saveBuiltInAppInfos() {
         let path = getAbsolutePath("www/built-in") + "/";

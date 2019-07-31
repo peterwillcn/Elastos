@@ -326,6 +326,14 @@
             appInfo.default_locale = "en";
         }
 
+        value = json["type"] as? String;
+        if value != nil {
+            appInfo.type = value!;
+        }
+        else {
+            appInfo.type = "app";
+        }
+
         let author = json["author"] as? [String: Any];
         if author != nil {
             value = author!["name"] as? String;
@@ -362,7 +370,7 @@
                 appInfo.addUrl(urlString, authority);
             }
         }
-        
+
         let frameworks = json["framework"] as? [String];
         if (frameworks != nil) {
             for framework in frameworks! {
@@ -375,7 +383,7 @@
                 }
             }
         }
-        
+
         let platforms = json["platform"] as? [String];
         if (platforms != nil) {
             for platform in platforms! {

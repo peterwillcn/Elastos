@@ -263,6 +263,15 @@ public class AppManager {
         return configPath;
     }
 
+    public String getIconUrl(AppInfo info) {
+        if (info.type.equals("url")) {
+            return "file://" + appsPath + info.app_id + "/";
+        }
+        else {
+            return getAppUrl(info);
+        }
+    }
+
     public String resetPath(String dir, String origin) {
         if (origin.indexOf("http://") != 0 && origin.indexOf("https://") != 0
                 && origin.indexOf("file:///") != 0) {

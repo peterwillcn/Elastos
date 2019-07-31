@@ -67,6 +67,7 @@ module.exports = function(ctx) {
     runtimeProj.addSourceFile(classesPath + "MainViewController.swift",     {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "ManagerDBAdapter.swift",       {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "NullPlugin.swift",             {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "TitleBarView.swift",           {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "TrinityPlugin.h",              {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "TrinityPlugin.m",              {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "TrinityURLProtocol.swift",     {}, classesGroupKey);

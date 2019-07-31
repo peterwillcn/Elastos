@@ -137,6 +137,7 @@ import SQLite
             t.column(short_name)
             t.column(description)
             t.column(start_url)
+            t.column(type)
             t.column(author_name)
             t.column(author_email)
             t.column(default_locale)
@@ -171,6 +172,7 @@ import SQLite
                         short_name <- info.short_name,
                         description <- info.desc,
                         start_url <- info.start_url,
+                        type <- info.type,
                         author_name <- info.author_name,
                         author_email <- info.author_email,
                         default_locale <- info.default_locale,
@@ -239,6 +241,7 @@ import SQLite
             info.short_name = app[short_name] ?? "";
             info.desc = app[description] ?? "";
             info.start_url = app[start_url];
+            info.type = app[type];
             info.author_name = app[author_name] ?? "";
             info.author_email = app[author_email] ?? "";
             info.default_locale = app[default_locale] ?? "";

@@ -62,6 +62,7 @@ class AppInfo: NSObject {
     @objc dynamic var short_name = "";
     @objc dynamic var desc = "";
     @objc dynamic var start_url = "";
+    @objc dynamic var type = "";
     @objc dynamic var author_name = "";
     @objc dynamic var author_email = "";
     @objc dynamic var default_locale = "";

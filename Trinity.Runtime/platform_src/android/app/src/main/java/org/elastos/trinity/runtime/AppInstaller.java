@@ -485,6 +485,13 @@ public class AppInstaller {
             appInfo.default_locale = "en";
         }
 
+        if (json.has(AppInfo.TYPE)) {
+            appInfo.type = json.getString(AppInfo.TYPE);
+        }
+        else {
+            appInfo.type = "app";
+        }
+
         if (json.has("author")) {
             JSONObject author = json.getJSONObject("author");
             if (author.has("name")) {

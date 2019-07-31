@@ -35,6 +35,7 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
     public static final String LACALE_TABLE = "locale";
     public static final String FRAMEWORK_TABLE = "framework";
     public static final String PLATFORM_TABLE = "platform";
+    public static final String SETTING_TABLE = "setting";
     public static final String APP_TABLE = "app";
 
     public ManagerDBHelper(Context context) {
@@ -47,6 +48,11 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+//        String strSQL = "create table " + SETTING_TABLE + "(tid integer primary key autoincrement, " +
+//                "current_locale varchar(16))";
+//        db.execSQL(strSQL);
+
         String strSQL = "create table " + AUTH_PLUGIN_TABLE + "(tid integer primary key autoincrement, " +
                 AppInfo.APP_TID + " integer, " +
                 AppInfo.PLUGIN + " varchar(128), " +
@@ -94,6 +100,7 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
                 AppInfo.SHORT_NAME + " varchar(64), " +
                 AppInfo.DESCRIPTION + " varchar(256), " +
                 AppInfo.START_URL + " varchar(256) NOT NULL, " +
+                AppInfo.TYPE + " varchar(16) NOT NULL, " +
                 AppInfo.AUTHOR_NAME + " varchar(128), " +
                 AppInfo.AUTHOR_EMAIL + " varchar(128), " +
                 AppInfo.DEFAULT_LOCAL + " varchar(16), " +

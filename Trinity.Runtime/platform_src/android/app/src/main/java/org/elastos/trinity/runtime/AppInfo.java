@@ -73,6 +73,7 @@
      public String short_name;
      public String description;
      public String start_url;
+     public String type;
      public String author_name;
      public String author_email;
      public String default_locale;

@@ -52,6 +52,7 @@ public class ManagerDBAdapter {
             contentValues.put(AppInfo.SHORT_NAME, info.short_name);
             contentValues.put(AppInfo.DESCRIPTION, info.description);
             contentValues.put(AppInfo.START_URL, info.start_url);
+            contentValues.put(AppInfo.TYPE, info.type);
             contentValues.put(AppInfo.AUTHOR_NAME, info.author_name);
             contentValues.put(AppInfo.AUTHOR_EMAIL, info.author_email);
             contentValues.put(AppInfo.DEFAULT_LOCAL, info.default_locale);
@@ -133,7 +134,8 @@ public class ManagerDBAdapter {
 
     private AppInfo[] getInfos(String selection, String[] selectionArgs) {
         SQLiteDatabase db = helper.getWritableDatabase();
-        String[] columns = {AppInfo.TID, AppInfo.APP_ID, AppInfo.VERSION, AppInfo.NAME, AppInfo.SHORT_NAME, AppInfo.DESCRIPTION, AppInfo.START_URL,
+        String[] columns = {AppInfo.TID, AppInfo.APP_ID, AppInfo.VERSION, AppInfo.NAME, AppInfo.SHORT_NAME,
+                AppInfo.DESCRIPTION, AppInfo.START_URL, AppInfo.TYPE,
                 AppInfo.AUTHOR_NAME, AppInfo.AUTHOR_EMAIL, AppInfo.DEFAULT_LOCAL, AppInfo.BACKGROUND_COLOR,
                 AppInfo.THEME_DISPLAY, AppInfo.THEME_COLOR, AppInfo.THEME_FONT_NAME, AppInfo.THEME_FONT_COLOR,
                 AppInfo.INSTALL_TIME, AppInfo.BUILT_IN, AppInfo.REMOTE, AppInfo.LAUNCHER};
@@ -149,6 +151,7 @@ public class ManagerDBAdapter {
             info.short_name = cursor.getString(cursor.getColumnIndex(AppInfo.SHORT_NAME));
             info.description = cursor.getString(cursor.getColumnIndex(AppInfo.DESCRIPTION));
             info.start_url = cursor.getString(cursor.getColumnIndex(AppInfo.START_URL));
+            info.type = cursor.getString(cursor.getColumnIndex(AppInfo.TYPE));
             info.author_name = cursor.getString(cursor.getColumnIndex(AppInfo.AUTHOR_NAME));
             info.author_email = cursor.getString(cursor.getColumnIndex(AppInfo.AUTHOR_EMAIL));
             info.default_locale = cursor.getString(cursor.getColumnIndex(AppInfo.DEFAULT_LOCAL));

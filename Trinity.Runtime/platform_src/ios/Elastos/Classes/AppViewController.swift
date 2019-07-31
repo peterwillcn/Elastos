@@ -27,7 +27,7 @@
     static var originalStartupPluginNames = [String]();
     static var originalSettings: NSMutableDictionary?;
 
-    var titlebar: UIView?;
+    var titlebar: TitleBarView?;
 
     var trinityPluginsMap = [String: String]();
     let defaultPlugins = [
@@ -39,8 +39,10 @@
         "intentandnavigationfilter",
         "appservice",
         "authorityplugin",
+        "statusbar",
+        "splashscreen",
     ];
-    
+
     convenience init(_ appInfo: AppInfo, _ filter: WhitelistFilter) {
         self.init();
         self.appInfo = appInfo;
@@ -73,7 +75,7 @@
         // Initialize the plugin objects dict.
         self.pluginObjects = NSMutableDictionary(capacity: 30);
         self.pluginObjects["WhitelistFiter"] = self.whitelistFilter;
-        
+
 //        self.settings["cordovawebviewengine"] = "CDVUIWebViewEngine";
     }
 
@@ -96,6 +98,18 @@
         return nil;
     }
 
+    override func getCommandInstance(_ name: String) -> Any {
+        let obj = super.getCommandInstance(name);
+        if (appInfo!.type == "url") {
+            print(name);
+            if (name == "statusbar") {
+                let command = CDVInvokedUrlCommand(arguments: [false] as! [Any], callbackId: nil, className: nil, methodName: "overlaysWebView")!;
+                (obj as! CDVPlugin).execute(command);
+            }
+        }
+        return obj;
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);
 
@@ -103,27 +117,19 @@
         let titleHeight = CGFloat(45);
         print(frame.origin.y);
 
-        let titleRect = CGRect(x: frame.origin.x, y: frame.origin.y + 20,
+        let titleRect = CGRect(x: frame.origin.x, y: frame.origin.y,
                                width: frame.size.width, height: titleHeight);
-        titlebar = UIView(frame: titleRect);
-        titlebar!.backgroundColor = UIColor(red: 0 / 255.0, green: 0 / 255.0, blue: 0 / 255.0, alpha: 0.5)
-
-        let btnClose = UIButton(type: .custom);
-        btnClose.frame = CGRect(x:frame.size.width - 80, y: 5, width:70, height:35);
-        btnClose.setTitle("Close", for:.normal);
-        btnClose.backgroundColor = UIColor.black;
-        btnClose.layer.cornerRadius = 5;
-        btnClose.addTarget(self, action:#selector(btnClick), for:.touchDown);
-
-        titlebar!.addSubview(btnClose);
-        titlebar!.isHidden = true;
+        titlebar = TitleBarView(self, titleRect);
         self.view.addSubview(titlebar!);
         self.view.bringSubviewToFront(titlebar!);
     }
 
 
-    @objc func btnClick(){
-        try? AppManager.getShareInstance().close(id);
+    func addSwipe(_ direction: UInt) {
+        let swipe = UISwipeGestureRecognizer(target:self, action:#selector(handleSwipes(_:)));
+        swipe.direction = UISwipeGestureRecognizer.Direction(rawValue: direction);
+        self.webView.addGestureRecognizer(swipe);
+        self.webView.scrollView.panGestureRecognizer.require(toFail: swipe);
     }
 
     override func viewDidLoad() {
@@ -136,14 +142,23 @@
             }
         }
 
-        let swipe = UISwipeGestureRecognizer(target:self, action:#selector(handleSwipes(_:)));
-        swipe.direction = .down;
-        self.webView.addGestureRecognizer(swipe);
-        self.webView.scrollView.panGestureRecognizer.require(toFail: swipe);
+        if (appInfo!.type == "url") {
+            addSwipe(UISwipeGestureRecognizer.Direction.left.rawValue);
+            addSwipe(UISwipeGestureRecognizer.Direction.right.rawValue);
+        }
+        else {
+            addSwipe(UISwipeGestureRecognizer.Direction.down.rawValue);
+        }
     }
 
     @objc func handleSwipes(_ recognizer:UISwipeGestureRecognizer){
-        titlebar!.isHidden = !titlebar!.isHidden;
+        let v = recognizer.direction;
+        if (recognizer.direction == UISwipeGestureRecognizer.Direction.right) {
+            titlebar!.clickBack();
+        }
+        else {
+            titlebar!.isHidden = !titlebar!.isHidden;
+        }
     }
 
     func getPluginAuthority(_ pluginName: String,
@@ -152,7 +167,7 @@
         if (self.defaultPlugins.contains(pluginName)) {
             return AppInfo.AUTHORITY_ALLOW;
         }
-        
+
         let authority = AppManager.getShareInstance().getPluginAuthority(appInfo!.app_id, pluginName);
         if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
             AppManager.getShareInstance().runAlertPluginAuth(appInfo!, pluginName, plugin, command);

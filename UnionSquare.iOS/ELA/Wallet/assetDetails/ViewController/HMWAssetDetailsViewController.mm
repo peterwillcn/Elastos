@@ -544,7 +544,7 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
         if (indexPath.row==0) {
             return;
         }
-        [self loadGetAllCoinBaseTransactionDetailsWithIndex:indexPath.row];
+        [self loadGetAllCoinBaseTransactionDetailsWithIndex:indexPath.row+1];
     }
     
    
@@ -558,7 +558,7 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     PluginResult * result =[[ELWalletManager share]GetAllCoinBaseTransaction:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     
-    NSArray * OutputPayload=[NSArray arrayWithArray:result.message[@"success"][@"Transactions"][0][@"OutputPayload"]];
+//    NSArray * OutputPayload=[NSArray arrayWithArray:result.message[@"success"][@"Transactions"][0][@"OutputPayload"]];
     
     if (![status isEqualToString:@"1"]) {
         return;
@@ -587,7 +587,7 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     }
     transferTransactionDetailsVC.type=NodeReturnsType;
       transferTransactionDetailsVC.model=detailsM;
-    transferTransactionDetailsVC.votesString=[[FLTools share]elaScaleConversionWith:OutputPayload[0]];
+//    transferTransactionDetailsVC.votesString=[[FLTools share]elaScaleConversionWith:OutputPayload[0]];
     [self.navigationController pushViewController:transferTransactionDetailsVC animated:YES];
     
 }

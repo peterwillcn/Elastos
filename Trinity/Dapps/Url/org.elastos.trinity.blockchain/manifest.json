@@ -1,0 +1,27 @@
+{
+    "id": "org.elastos.trinity.blockchain",
+    "version": "0.0.1",
+    "name": "Blockchain",
+    "short_name": "blockchain",
+    "description": "Blockchain dapp",
+    "start_url": "https://blockchain.elastos.org/",
+    "type": "url",
+    "icons": [
+        {
+            "src": "icon/favicon.ico",
+            "sizes": "120x120",
+            "type": "image/png"
+        }
+    ],
+    "author": {
+        "name": "ChenDongxiao",
+        "email": "chendongxiao@elastos.org"
+    },
+    "default_locale": "en",
+    "plugins": [
+
+    ],
+    "urls": [
+        "http://wallet.elastos.org/*"
+    ]
+}

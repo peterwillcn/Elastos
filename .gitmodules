@@ -94,10 +94,6 @@
 	path = Trinity/Plugins/Carrier
 	url = ../Elastos.Trinity.Plugins.Carrier.git
 	branch = dev
-[submodule "Dapps/Wallet"]
-	path = Trinity/Dapps/Wallet
-	url = ../Elastos.Trinity.Dapps.Wallet.git
-	branch = dev
 [submodule "Plugins/Wallet"]
 	path = Trinity/Plugins/Wallet
 	url = ../Elastos.Trinity.Plugins.Wallet.git
@@ -109,4 +105,8 @@
 [submodule "Plugins/IonicWebView"]
 	path = Trinity/Plugins/IonicWebView
 	url = ../Elastos.Trinity.Plugins.IonicWebView.git
+	branch = dev
+[submodule "Dapps/Ionic/Wallet"]
+	path = Trinity/Dapps/Ionic/Wallet
+	url = ../Elastos.Trinity.Dapps.Wallet.git
 	branch = dev

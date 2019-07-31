@@ -544,7 +544,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
         if (indexPath.row==0) {
             return;
         }
-        [self loadGetAllCoinBaseTransactionDetailsWithIndex:indexPath.row];
+        [self loadGetAllCoinBaseTransactionDetailsWithIndex:indexPath.row+1];
     }
     
     
@@ -558,7 +558,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     PluginResult * result =[[ELWalletManager share]GetAllCoinBaseTransaction:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     
-    NSArray * OutputPayload=[NSArray arrayWithArray:result.message[@"success"][@"Transactions"][0][@"OutputPayload"]];
+//    NSArray * OutputPayload=[NSArray arrayWithArray:result.message[@"success"][@"Transactions"][0][@"OutputPayload"]];
     
     if (![status isEqualToString:@"1"]) {
         return;
@@ -586,8 +586,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
         
     }
     transferTransactionDetailsVC.type=NodeReturnsType;
-    transferTransactionDetailsVC.model=detailsM;
-    transferTransactionDetailsVC.votesString=[[FLTools share]elaScaleConversionWith:OutputPayload[0]];
+      transferTransactionDetailsVC.model=detailsM;
     [self.navigationController pushViewController:transferTransactionDetailsVC animated:YES];
     
 }

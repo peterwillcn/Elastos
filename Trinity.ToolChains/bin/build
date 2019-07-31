@@ -20,6 +20,8 @@ PROJECT_DIR_PATH=os.path.join(TOOLCHAINS_DIR_PATH, "..")
 RUNTIME_DIR_PATH=os.path.join(PROJECT_DIR_PATH, "Runtime")
 LAUNCHER_DIR_PATH=os.path.join(PROJECT_DIR_PATH, "Launcher")
 DAPPS_DIR_PATH=os.path.join(PROJECT_DIR_PATH, "Dapps")
+IONIC_DIR_PATH=os.path.join(DAPPS_DIR_PATH, "Ionic")
+BUILD_IN_DIR_PATH=os.path.join(RUNTIME_DIR_PATH, "www/built-in")
 
 def run_cmd(cmd, ignore_error=False):
     print("Running: " + cmd)
@@ -56,26 +58,29 @@ if args.target == "clean":
     remove_tree("Plugins/QRScanner/node_modules")
     remove_tree("Plugins/Carrier/src/ios/libs/ElastosCarrierSDK.framework")
 
-    dirs = os.listdir(DAPPS_DIR_PATH)
+    os.chdir(IONIC_DIR_PATH)
+    dirs = os.listdir(IONIC_DIR_PATH)
     for dir in dirs:
         if not os.path.isfile(dir):
-            remove_tree("Dapps/" + dir + "/www")
-            remove_tree("Dapps/" + dir + "/node_modules")
+            remove_tree(dir + "/www")
+            remove_tree("/node_modules")
 
 if args.target == "launcher" or args.target == "all":
     os.chdir(LAUNCHER_DIR_PATH)
     run_cmd("npm install")
     run_cmd("ionic build --prod")
 
-if args.target == "dapp": # or args.target == "all" or args.target == "runtime":
-    dirs = os.listdir(DAPPS_DIR_PATH)
+if args.target == "dapp" or args.target == "all" or args.target == "runtime":
+    os.chdir(DAPPS_DIR_PATH)
+    copy_tree("url", BUILD_IN_DIR_PATH)
+    dirs = os.listdir(IONIC_DIR_PATH)
     for dir in dirs:
         if not os.path.isfile(dir):
             print("Building dapp: " + dir)
-            os.chdir(os.path.join(DAPPS_DIR_PATH, dir))
-            run_cmd("npm install") 
+            os.chdir(os.path.join(IONIC_DIR_PATH, dir))
+            run_cmd("npm install")
             run_cmd("ionic build --prod")
-            copy_tree("www", "../../Runtime/www/built-in/org.elastos.trinity.dapp." + dir.lower())
+            copy_tree("www", BUILD_IN_DIR_PATH + "/org.elastos.trinity.dapp." + dir.lower())
 
 if args.target == "all":
     os.chdir(PROJECT_DIR_PATH)
@@ -86,7 +91,7 @@ if args.target == "runtime":
     os.chdir(RUNTIME_DIR_PATH)
     copy_tree("samples/dapp_demos", "www/built-in/")
     copy_tree("samples/install-files", "www/install-files/")
-    copy_tree("samples/launcher_demo", "www/launcher/")
+    copy_tree("samples/launcher_demo", "www/launcher_demo/")
 
 if args.target == "runtime" or args.target == "all":
     os.chdir(RUNTIME_DIR_PATH)

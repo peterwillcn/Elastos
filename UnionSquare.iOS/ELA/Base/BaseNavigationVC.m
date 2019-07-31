@@ -70,6 +70,10 @@
     self.navigationBar.shadowImage = [UIImage new];
     self.navigationBar.tintColor = [UIColor whiteColor];
     self.captureImgArray = [NSMutableArray array];
+    __weak __typeof(self) weakSelf = self;
+    if ([self respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.interactivePopGestureRecognizer.delegate = (id)weakSelf;
+    }
 }
 -(void)dragging:(UIScreenEdgePanGestureRecognizer*)panGesture{
     if (self.viewControllers.count<=1) {
@@ -119,11 +123,11 @@
 -(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     self.interactivePopGestureRecognizer.enabled = YES;
-    if (self.navigationController.viewControllers.firstObject == self) {
-        self.navigationController.interactivePopGestureRecognizer.enabled = false;
-    }else{
-        self.navigationController.interactivePopGestureRecognizer.enabled = true;
-    }
+//    if (self.navigationController.viewControllers.firstObject == self) {
+//        self.navigationController.interactivePopGestureRecognizer.enabled = false;
+//    }else{
+//        self.navigationController.interactivePopGestureRecognizer.enabled = true;
+//    }
 
     if (self.viewControllers.count>0) {
         viewController.hidesBottomBarWhenPushed = YES;

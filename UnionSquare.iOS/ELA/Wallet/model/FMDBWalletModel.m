@@ -8,5 +8,4 @@
 #import "FMDBWalletModel.h"
 
 @implementation FMDBWalletModel
-
 @end

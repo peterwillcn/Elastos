@@ -16,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="285"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xNn-Rd-k2t">
+                <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xNn-Rd-k2t">
                     <rect key="frame" x="0.0" y="0.0" width="207" height="52"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="52" id="reu-ca-zVZ"/>
@@ -29,7 +29,7 @@
                         <action selector="IntroductionOfNodeAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="A0m-Kj-oO7"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C7g-NE-jli">
+                <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C7g-NE-jli">
                     <rect key="frame" x="207" y="0.0" width="207" height="52"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="52" id="LOU-5b-9t4"/>
@@ -42,7 +42,7 @@
                         <action selector="ForInformationAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="VuJ-2D-APJ"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DId-Pz-0RZ">
+                <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DId-Pz-0RZ">
                     <rect key="frame" x="270.5" y="0.0" width="80" height="1"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
@@ -50,7 +50,7 @@
                         <constraint firstAttribute="width" constant="80" id="myo-Ml-Ppf"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x7D-A5-NLW">
+                <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x7D-A5-NLW">
                     <rect key="frame" x="63.5" y="0.0" width="80" height="1"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>

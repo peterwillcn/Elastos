@@ -108,9 +108,9 @@
    [super viewDidLoad];
     NSLog(@"viewDidLoad");
   [self defultWhite];
-    [self setBackgroundImg:@""];
-     self.title=NSLocalizedString(@"节点信息", nil) ;
-    [self makeUI];
+  [self setBackgroundImg:@""];
+  self.title=NSLocalizedString(@"节点信息", nil) ;
+  [self makeUI];
     
 
    
@@ -168,11 +168,11 @@
 }
 -(UIImageView *)siconImageView{
     if (!_siconImageView) {
-        _siconImageView =[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 56, 30)];
-        _siconImageView.layer.cornerRadius  =1.f;
-        _siconImageView.layer.borderWidth   =1.f;
-        _siconImageView.layer.borderColor   =RGBA(255, 255, 255, 0.8).CGColor;
-        _siconImageView.image=[UIImage imageNamed:@"found_vote_initial"];
+        _siconImageView =[[UIImageView alloc]initWithFrame:CGRectMake(0, 0,30, 30)];
+//        _siconImageView.layer.cornerRadius  =1.f;
+//        _siconImageView.layer.borderWidth   =1.f;
+//        _siconImageView.layer.borderColor   =RGBA(255, 255, 255, 0.8).CGColor;
+        _siconImageView.image=[UIImage imageNamed:@"found_vote_initial_oval"];
     }
     return _siconImageView;
 }
@@ -191,7 +191,7 @@
     [self.siconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view.mas_centerX);
         make.top.equalTo(BGView.mas_top).mas_offset(36);
-        make.size.mas_equalTo(CGSizeMake(55, 30));
+        make.size.mas_equalTo(CGSizeMake(30, 30));
         
     }];
     self.nodeNameLabel=[self labeWithTextColor:[UIColor whiteColor] withText:self.model.nickname withTextFont:14 withTextAlignment:NSTextAlignmentCenter];
@@ -247,11 +247,10 @@
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
         self.nodeInformationDetailsV.countryRegionLabel.text=countries;
         if (URL.length>0&&self.model.url.length>0) {
-           [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:URL] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
+           [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:URL] placeholderImage:[UIImage imageNamed:@"found_vote_initial_oval"]];
         }
     });
     [self upInfo];
-
 }
 -(nodeInformationDetailsView *)nodeInformationDetailsV{
     if (!_nodeInformationDetailsV) {
@@ -329,5 +328,8 @@
     labe.textColor=color;
     return labe;
 }
-
+-(void)setRanking:(NSInteger)Ranking{
+    _Ranking=Ranking;
+    
+}
 @end

@@ -31,7 +31,7 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="是否删除当前钱包？" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="1Ik-e4-Kzt">
-                            <rect key="frame" x="0.0" y="45" width="270" height="45"/>
+                            <rect key="frame" x="5" y="45" width="260" height="45"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -69,10 +69,10 @@
                         <constraint firstAttribute="bottom" secondItem="zLy-gd-T3X" secondAttribute="bottom" id="3oj-QF-iRv"/>
                         <constraint firstAttribute="height" constant="140" id="9WS-Dx-b7e"/>
                         <constraint firstItem="qP9-nL-2Tf" firstAttribute="top" secondItem="KFP-ES-FfI" secondAttribute="top" id="Mu0-7k-Cra"/>
-                        <constraint firstItem="1Ik-e4-Kzt" firstAttribute="leading" secondItem="KFP-ES-FfI" secondAttribute="leading" id="P4r-vm-4gk"/>
+                        <constraint firstItem="1Ik-e4-Kzt" firstAttribute="leading" secondItem="KFP-ES-FfI" secondAttribute="leading" constant="5" id="P4r-vm-4gk"/>
                         <constraint firstAttribute="width" constant="270" id="UX0-FY-siH"/>
                         <constraint firstItem="zLy-gd-T3X" firstAttribute="leading" secondItem="3cU-PG-b4e" secondAttribute="trailing" id="VAI-7j-MnH"/>
-                        <constraint firstAttribute="trailing" secondItem="1Ik-e4-Kzt" secondAttribute="trailing" id="Xd4-tt-nT9"/>
+                        <constraint firstAttribute="trailing" secondItem="1Ik-e4-Kzt" secondAttribute="trailing" constant="5" id="Xd4-tt-nT9"/>
                         <constraint firstAttribute="trailing" secondItem="zLy-gd-T3X" secondAttribute="trailing" id="aT2-gJ-mnb"/>
                         <constraint firstItem="zLy-gd-T3X" firstAttribute="width" secondItem="3cU-PG-b4e" secondAttribute="width" id="b0g-Fx-kzv"/>
                         <constraint firstItem="3cU-PG-b4e" firstAttribute="top" secondItem="1Ik-e4-Kzt" secondAttribute="bottom" id="fP3-ZB-Pbq"/>

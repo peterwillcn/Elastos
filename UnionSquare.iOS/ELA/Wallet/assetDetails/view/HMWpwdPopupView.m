@@ -51,6 +51,7 @@
     if (self.delegate) {
         if (self.pwdTextField.text.length==0) {
             self.makeSureButton.userInteractionEnabled=YES;
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入您的钱包密码", nil)];
             return;
         }
         [self.delegate makeSureWithPWD:self.pwdTextField.text];

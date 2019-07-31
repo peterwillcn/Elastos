@@ -119,7 +119,9 @@ static HMWFMDBManager * _manager =nil;
 //查
 -(sideChainInfoModel*)selectAddsideChainWithWalletID:(NSString*)walletID andWithIconName:(NSString*)iconName{
     
-    
+    if ([iconName isEqualToString:@"IDChain"]) {
+        iconName=@"IdChain";
+    }
     
     NSString *sql =[NSString stringWithFormat: @"select * from sideChain where walletID=\'%@\' and sideChainName=\'%@\'" ,walletID,iconName];
     FMResultSet *set=[self executeQuery:sql];
@@ -132,6 +134,9 @@ static HMWFMDBManager * _manager =nil;
         p.walletID=[set objectForColumn:@"walletID"];
         p.sideChainName =[set objectForColumn:@"sideChainName"];
         p.sideChainNameTime=[set objectForColumn:@"sideChainNameTime"];
+        p.thePercentageCurr =[set objectForColumn:@"thePercentageCurr"];
+        p.thePercentageMax=[set objectForColumn:@"thePercentageMax"];
+        NSLog(@"本地存储===%@==%@",p.thePercentageCurr,p.thePercentageMax);
         if ([p.sideChainName isEqualToString:iconName]) {
             return p;
         }
@@ -203,10 +208,10 @@ static HMWFMDBManager * _manager =nil;
 }
 //改
 -(BOOL)sideChainUpdate:(sideChainInfoModel *)model{
-    NSString *sql =@"Update sideChain set sideChainNameTime=? where walletID=?";
+     NSString *sql =@"Update sideChain set sideChainNameTime=? where walletID=?";
      NSString *thePercentageCurrSql =@"Update sideChain set thePercentageCurr=? where walletID=?";
      NSString *thePercentageMaxSql =@"Update sideChain set thePercentageMax=? where walletID=?";
-
+     
     if ( [self executeUpdate:sql,model.sideChainNameTime,model.walletID]&&[self executeUpdate:thePercentageMaxSql,model.thePercentageMax,model.walletID]&&[self executeUpdate:thePercentageCurrSql,model.thePercentageCurr,model.walletID]) {
       
         return YES;
@@ -238,7 +243,9 @@ static HMWFMDBManager * _manager =nil;
     return NO;
 }
 -(void)addWallet:(FMDBWalletModel *)wallet{
-
+    /*
+     *
+     */
     NSString *sql =@"insert into wallet(walletID,walletAddress,walletName) values(?,?,?)";
     if ([self executeUpdate:sql,wallet.walletID,wallet.walletAddress,wallet.walletName]) {
         

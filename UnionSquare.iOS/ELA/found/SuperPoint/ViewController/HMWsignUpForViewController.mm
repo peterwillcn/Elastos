@@ -74,7 +74,7 @@
  [[HMWCommView share]makeBordersWithView:self.confirmToRunButton];
     ELWalletManager *manager   =  [ELWalletManager share];
     IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-      NSString * ownerPubKey = [NSString stringWithCString:mainchainSubWallet->GetOwnerPublicKey().c_str() encoding:NSUTF8StringEncoding];
+      NSString * ownerPubKey = [NSString stringWithCString:mainchainSubWallet->GetPublicKey().c_str() encoding:NSUTF8StringEncoding];
     self.thePublicKeyTextField.text=ownerPubKey;
     if (self.model.nickName.length!=0) {
         [self.confirmToRunButton setTitle:NSLocalizedString(@"更新信息", nil) forState:UIControlStateNormal];
@@ -194,11 +194,11 @@ model.nodePubKey=self.thePublicKeyTextField.text;
     model.acount     = 5000;
     
  CGFloat free   =  [manager RegisterProducerWithMainchainSubWallet:mainchainSubWallet With:model];
-        
+       [self takeOutOrShutDown];
     if (free ==0 ) {
         return;
     }
-        [self takeOutOrShutDown];
+        
     
     [self.view addSubview:self.transferDetailsPopupV];
     [self.transferDetailsPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -254,10 +254,9 @@ model.nodePubKey=self.thePublicKeyTextField.text;
     self.transferDetailsPopupV=nil;
 }
 -(void)nextBtnAction{
+    [self pwdAndInfo];
     
-    [self.transferDetailsPopupV removeFromSuperview];
-    self.transferDetailsPopupV=nil;
-    [self.navigationController popViewControllerAnimated:YES];
+
 
 }
 
@@ -282,6 +281,9 @@ model.nodePubKey=self.thePublicKeyTextField.text;
     [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(manView);
     }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController popViewControllerAnimated:YES];
+    });
     
 }
 

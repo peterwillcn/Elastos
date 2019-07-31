@@ -48,7 +48,9 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     [self makeView];
     FLWallet *waller = [ELWalletManager share].currentWallet;
     IMainchainSubWallet *subWallet = [[ELWalletManager share]getWalletELASubWallet:waller.masterWalletID];
-    NSInteger balance = subWallet->GetBalance(Elastos::ElaWallet::Total);
+    String balanceSt = subWallet->GetBalance(Elastos::ElaWallet::Total);
+    NSString * balanceString= [NSString stringWithCString:balanceSt.c_str() encoding:NSUTF8StringEncoding];
+    NSInteger balance=[balanceString integerValue];
     self.nameOfTheWalletLabel.text = waller.walletName;
     self.votesLabel.text = [NSLocalizedString(@"表决票权：", nil) stringByAppendingString:@(balance/unitNumber).stringValue];
     
@@ -115,7 +117,7 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
     cell.leftLab.text = model.nickname;
-    cell.rightLab.text = @(model.hadVotedNumber/unitNumber).stringValue;
+    cell.rightLab.text =[NSString stringWithFormat:@"NO.%ld",model.index+1];
     return cell;
     
 }

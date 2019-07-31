@@ -54,7 +54,7 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     [self defultWhite];
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"我的候选列表", nil);
-    self.TagtatolVoteLab.text=NSLocalizedString(@"全网投票比例：", nil);
+    self.TagtatolVoteLab.text=NSLocalizedString(@"全网投票占比：", nil);
     [self.immediatelyToVoteButton setTitle:NSLocalizedString(@"立即投票", nil) forState:UIControlStateNormal];
 
     [[HMWCommView share]makeBordersWithView:self.immediatelyToVoteButton];
@@ -140,8 +140,10 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
         IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
        [self.view.window addSubview:self.inputVoteTicketView];
 //        Elastos::ElaWallet::BalanceType type = Elastos::ElaWallet::Total;
-        NSUInteger balance = mainchainSubWallet->GetBalance(Elastos::ElaWallet::Total);
-        self.inputVoteTicketView.votes = balance/unitNumber;
+     String balanceSt = mainchainSubWallet->GetBalance(Elastos::ElaWallet::Total);
+  NSString * balanceString= [NSString stringWithCString:balanceSt.c_str() encoding:NSUTF8StringEncoding];
+        NSInteger balance=[balanceString integerValue];
+        self.inputVoteTicketView.votes =balance/unitNumber;
 
         self.inputVoteTicketView.accountBalanceLab.text = [NSLocalizedString(@"最大表决票权 ",nil ) stringByAppendingString: @(balance/unitNumber).stringValue];
         
@@ -195,7 +197,9 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     self.baseTableView.allowsMultipleSelection = YES;
     
     [self.baseTableView addSubview:self.placeHolferImage];
-    self.placeHolferImage.center = self.baseTableView.center;
+    CGPoint certer=self.baseTableView.center;
+    certer.x=certer.x-10;
+    self.placeHolferImage.center = certer;
     self.placeHolferImage.hidden = self.dataSource.count!=0;
     
     [self updataBottomBtn];
@@ -358,6 +362,7 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
         _placeHolferImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed: @"found_vote_empty_list"]];
         UILabel *textLable=[[UILabel alloc]initWithFrame:CGRectMake(0, 160, 160, 40)];
         textLable.textColor=RGB(149, 159, 171);
+        textLable.textAlignment=NSTextAlignmentCenter;
         textLable.text=NSLocalizedString(@"暂无候选节点", nil);
         [_placeHolferImage addSubview:textLable];
     }

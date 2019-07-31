@@ -10,19 +10,19 @@
 
 "UILaunchStoryboardName"="LaunchScreen-English";
 
-"已参选"="Have to stand for election";
+"已参选"="Election registered";
 "资产"="Assets";
 "发现"="Discover";
 "设置"="Settings";
 "语言"="Language";
 "联系人"="Contacts";
-"您尚未添加联系人"="You have not added a contact yet";
+"您尚未添加联系人"="Without any contact";
 "添加联系人"="New Contact";
-"请输入姓名（必填）"="Name *";
-"请输入钱包地址（必填）"="Wallet Address *";
-"请输入手机号码"="Mobile Number";
+"请输入姓名（必填）"="Name (Required)";
+"请输入钱包地址（必填）"="Wallet address (Required)";
+"请输入手机号码"="Mobile number";
 "请输入邮箱"="Email";
-"请输入备注"="Note";
+"请输入备注"="Remark";
 "添加"="Add";
 "联系人信息"="Contact";
 "编辑"="Edit";
@@ -32,80 +32,80 @@
 "取消"="Cancel";
 "编辑联系人"="Edit Contact";
 "确认修改"="Save";
-"交易详情"="Transaction";
-"交易号"="Transaction ID";
-"交易金额"="Value";
+"交易详情"="Transaction Details";
+"交易号"="Transaction No.";
+"交易金额"="Amount";
 "接收金额"="Receive";
-"接收地址"="To address";
-"确认时间"="Time Stamp";
+"接收地址"="Address";
+"确认时间"="Timestamp";
 "确认次数"="Confirmations";
-"备注"="Note";
+"备注"="Remark";
 "手续费"="Fee";
-"发送金额"="Send";
-"已同步区块时间"="Last block time";
-"转账"="Send";
+"发送金额"="Amount";
+"已同步区块时间"="Last Block Time";
+"转账"="Transfer";
 "侧链充值"="Sidechain Top Up";
 "收款"="Receive";
-"交易记录"="Transaction History";
-"复制收款地址"="Copy address";
-"进入地址列表"="Address list";
-"地址列表"="Address list";
-"请输入收款人地址"="To address";
-"请输入金额 可用"="Value (Balance)";
-"请输入备注"="Add note";
+"交易记录"="Transactions";
+"复制收款地址"="Copy Address";
+"进入地址列表"="Address List";
+"地址列表"="Address List";
+"请输入收款人地址"="Recipient Address";
+"请输入金额 可用"="Amount (Balance)";
+"请输入备注"="Enter remark";
 "下一步"="Next";
-"转账详情"="Details";
-"转账地址"="To address";
-"金额"="Value";
-"汇率"="Exchange rate";
+"转账详情"="Transfer Details";
+"转账地址"="Transfer Address";
+"金额"="Amount";
+"汇率"="Exchange Rate";
 "输入密码"="Password";
-"投票交易"="Vote trading";
+"投票交易"="Vote Transaction";
 "暂无数据,请耐心等待!"="No data available, please be patient!";
-"所有人公钥"="OwnerPublicKey";
+"所有人公钥"="Owner Public Key";
 
-"请输入您的钱包密码"="Please enter your wallet password";
+"请输入您的钱包密码"="Enter your wallet password";
 "交易发送成功，\n 请耐心等待交易确认"="Transaction initiated successfully,\n please wait for confirmation.";
 "选择侧链"="Select Sidechain";
-"充值到"="Top up";
-"请输入侧链充值地址"="Please enter sidechain address";
-"请输入主链提现地址"="Please enter mainchain address";
+"充值到"="Top Up";
+"请输入侧链充值地址"="Enter sidechain address";
+"请输入主链提现地址"="Enter mainchain address";
 "主链提现"="Mainchain Withdrawal";
 "已确认"="Confirmed";
 "确认中"="Pending";
 "未打包"="Unconfirmed";
 "选择联系人"="Select Contact";
-"添加币种"="Add token";
+"添加币种"="Add Token";
 "钱包列表"="Wallet List";
 "创建钱包"="Create Wallet";
-"创建钱包(推荐)"="Create Wallet(Recommend)";
+"创建钱包(推荐)"="Create Wallet (Recommend)";
 
 "导入钱包"="Import Wallet";
 "钱包管理"="Wallet Setting";
-"修改钱包名称"="Change wallet name";
-"修改钱包密码"="Change wallet password";
+"修改钱包名称"="Change Wallet Name";
+"修改钱包密码"="Change Wallet Password";
 "导出Keystore"="Export Keystore";
 "导出助记词"="Export Mnemonics";
 "删除钱包"="Delete Wallet";
 "是否删除当前钱包？"="Delete this wallet?";
 "请输入新的钱包名称"="Enter new wallet name";
 "请输入原钱包密码"="Enter current password";
-"请输入新的钱包密码"="Create new password";
-"请再次输入确认钱包密码"="Please confirm your new password";
-"安全验证"="Security verification";
-"请输入钱包密码"="Please enter your wallet password";
+"请输入新的钱包密码"="Enter new password";
+"请再次输入确认钱包密码"="Re-enter new password";
+"安全验证"="Security Check";
+"请输入钱包密码"="Enter your wallet password";
 "确认1"="Enter";
-"请设置Keystore密码"="Please set a keystore password";
-"请再次输入确认Keystore密码"="Please confirm your keystore password";
+"请设置Keystore密码"="Enter keystore password";
+"请再次输入确认Keystore密码"="Re-enter keystore password";
 "确认导出"="Confirm export";
-"请将此文本复制到一个安全的地方"="Please copy this file to a safe place";
-"复制到剪贴板"="Please copy this file to a safe place";
-"抄写下您的钱包助记词"="Please write down the mnemonics";
-"请在纸上抄下您的助记词 \n 助记词丢失您将永远失去自己的钱包"="Please write down your mnemonics. \n If you forget your mnemonics, you will lose access to your wallet since no one can retrieve the wallet without the mnemonics.";
-"助记词密码（可选）"="Mnemonics password (Optional)";
-"助记词密码"="Mnemonics password";
-"请设置8至16位助记词密码"="Please create a password of 8 to 16 characters";
-"请设置8至16位助记词密码1"="a password of 8 to 16 characters";
-"请重复已输入的助记词密码"="Please confirm your password";
+"请将此文本复制到一个安全的地方"="Save the text to a safe place";
+"复制到剪贴板"="Copy to Clipboard";
+"抄写下您的钱包助记词"="Write down the mnemonics";
+"请在纸上抄下您的助记词 \n 助记词丢失您将永远失去自己的钱包"="Write down your mnemonics. \n losing mnemonic means you lose your wallet";
+"助记词密码（可选）"="Mnemonics Password (Optional)";
+"助记词密码"="Mnemonics Password";
+"请设置8至16位助记词密码"="Enter a password with 8 to 16 characters";
+"请设置8至16位助记词密码1"="Enter a password with 8 to 16 characters";
+"请重复已输入的助记词密码"="Re-enter your password";
 "须包含大、小写字母，数字"="Must include uppercase and lowercase letters and numbers.";
 "长度8-16位，且至少包含字母、数字和特殊字符中的2种"="8-16 characters long and contains at least two letters, numbers, and special characters";
 "助记词导入钱包同步速度缓慢，建议创建新钱包或使用Keystore导入"="Creating a new wallet or importing using existing keystore is recommended for quick synchronization";
@@ -116,22 +116,22 @@
 "请按照顺序点击您的助记词"="Input your Mnemonics in the correct order";
 
 "请输入钱包名称"="Wallet Name";
-"请输入8至16位钱包密码"="Create a password with 8 to 16 characters";
-"请再次输入确认密码"="Please confirm your password";
+"请输入8至16位钱包密码"="Enter a password with 8 to 16 characters";
+"请再次输入确认密码"="Re-enter password";
 "单地址钱包"="Single-address wallet";
 
-"     密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="      Password is used to protect private keys and authorize transactions. It’s very important to use a strong password. Elastos does not store your password, and cannot help you retrieve it. Please remember your password.";
+"     密码用x于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="      Password is used to protect private keys and authorize transactions. It’s very important to use a strong password. Elastos does not store your password, and cannot help you retrieve it. Please remember your password.";
 "确认创建"="Create Wallet";
 "备份钱包"="Backup Wallet";
 "备份钱包:请将「助记词」抄写到安全的地方,干万不要保存在网络上。建议从转入,转出小额资产开始使用。"="Backup wallet: please copy 「mnemonic」to a safe place, do not save it on the network.";
 "立即备份您的钱包"="Backup your wallet now";
 "备份助记词"="Backup Mnemonics";
 "助记词"="Mnemonics";
-"助记词之间请使用空格隔开"="Please separate each word with a single space";
-"确认你的钱包助记词"="Confirm your wallet mnemonic word";
-"请输入Keystore文本内容"="Please enter Keystore text content";
-"请输入Keystore密码"="Please enter your keystore password";
-"请输入当前钱包的助记词密码"="Enter your Mnemonics password";
+"助记词之间请使用空格隔开"="Separate each word with a single space";
+"确认你的钱包助记词"="Confirm wallet mnemonic words";
+"请输入Keystore文本内容"="Enter keystore text content";
+"请输入Keystore密码"="Enter keystore password";
+"请输入当前钱包的助记词密码"="Enter mnemonic password";
 "未识别"="Did not identify";
 "导入成功"="Import successful";
 "你备份的助记词顺序验证正确"="The order of your backup mnemonic is verified";
@@ -148,55 +148,66 @@
 "添加成功"="Add successful";
 "添加失败"="Add failed";
 "确认导入"="Import Wallet";
-"总额:"="TotalAmount:";
-"投票占用:"="VoteAmount:";
+"总额:"="Total Amount:";
+"投票占用:"="Vote Amount:";
 "是否使用投票utxo:"="Whether to use voting utxo";
-"交易类型"="Transaction type";
-"输入地址"="Input address";
-"输出地址"="Output address";
-"创币交易"="Currency trading";
-"注册资产交易"="Certified asset trading";
-"普通转账交易"="General transfer transaction";
-"记录交易"="Record transactions";
-"部署交易"="Deployment of transaction";
-"侧链挖矿交易"="Sidechain mining transaction";
-"侧链充值交易"="Sidechain recharge transaction";
-"侧链提现交易"="Sidechain withdrawal transaction";
-"跨链交易"="Cross-chain trading";
-"注册参选交易"="Node registration transaction";
-"取消参选交易"="Node cancellation transaction";
-"更新参选交易"="Node update transaction";
-"取回参选优质抵押资产交易"="Retrieve deposit";
-"修改失败！"="Modify the failure!";
+"交易类型"="Transaction Type";
+"输入"="Inputs";
+"输出"="Outputs";
+"创币交易"="Coinbase Transaction";
+"注册资产交易"="Asset Registration Transaction";
+"普通转账交易"="Transfer Transaction";
+"记录交易"="Record Transactions";
+"部署交易"="Deployment of Transaction";
+"侧链挖矿交易"="Sidechain Mining Transaction";
+"侧链充值交易"="Sidechain Deposit Transaction";
+"侧链提现交易"="Sidechain Withdrawal Transaction";
+"跨链交易"="Cross-Chain Transaction";
+"注册参选交易"="Node Registration Transaction";
+"取消参选交易"="Node Cancellation Transaction";
+"更新参选交易"="Node Update Transaction";
+"取回参选优质抵押资产交易"="Retrieve Deposit";
+"修改失败！"="Modify failed!";
 "暂无交易记录"="No transaction history";
 "报名押金"="Registration deposit";
-"票"="Tickets";
-"完整信息请点击交易号查看"="Click to see all the details";
+"票"="Votes";
+"完整信息请点击交易号查看"="Click transaction NO. to see all the details";
 
+"检测到当前账户存在大量Utxo,是否零钱换整？"="Too much UTXO detected, Consolidate?";
+"创建钱包"="Create Wallet";
+"多签钱包"="Multi-Sign Wallet";
+"单签只读钱包"="Standard Read-Only Wallet";
+"创建单签钱包"="Create Standard Wallet";
+"签名数量"="Number of Signers";
+"只读"="Read-Only";
+"请设置钱包名称"="Enter wallet name";
+"新建私钥"="Create Private Key";
+"使用已有钱包"="Select Existed Wallet";
+"导入助记词"="Import With Mnemonic";
+"添加根私钥"="Add Private Key";
+"编辑根私钥"="Edit Private Key";
+"参选节点列表"="Node List";
+"节点数量"="Number of Node";
+"零钱换整"="Consolidate";
+"关于"="About";
+"收款人地址错误"="The recipient address wrong";
+"侧链地址错误"="Side chain address errors";
+"金额需要大于0"="Amount needs to be greater than zero";
+"创币收益"="Coinbase Transaction";
+"收益记录"="DPoS Rewards";
+"暂无收益记录"="Temporarily No Earnings Record";
+"复制收益地址"="Copy Address";
+"当前版本号"="Version";
+"ELA Wallet是安全、可信的SPV轻节点钱包，支持DPoS选举及亦来云全生态数字资产。"="ELA Wallet is a secure and reliable SPV Wallet that supports DPoS elections and all the digital assets in the Elastos ecosystem.";
+"查看更新日志"="What's New";
+"反馈邮件"="Feedback";
+"运行日志"="Runtime Log";
+"当前sdk版本号"="SPV SDK Version";
+"     密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="     Password is used to protect private keys and transaction authorization. Please ensure you choose a strong password.Elastos won't store your password and won't be able to retrieve it back.  Please keep your password safe and secure.";
+"密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="Password is used to protect private keys and transaction authorization. Please ensure you choose a strong password.Elastos won't store your password and won't be able to retrieve it back.  Please keep your password safe and secure.";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+"客服邮箱已复制到粘贴板"="Customer service email copied to clipboard.";
+"社区"="Community";
 
 
 
@@ -224,67 +235,66 @@
 "超级节点选举"="Super node election";
 "报名参选" = "Register";
 "选举管理" = "Election management";
-"请输入节点名称（必填）"="Please enter node name (required)";
-"节点名称" = "node name";
-"请输入节点公钥（必填）"="Please enter public key of your node(Required)";
-"请输入节点公钥"="Please enter node address";
+"请输入节点名称（必填）"="Enter node name (Required)";
+"节点名称" = "Node Name";
+"请输入节点公钥（必填）"="Enter public key of your node (Required)";
+"请输入节点公钥"="Enter node address";
 "节点公钥" = "Node Public Key";
-"请选择国家/地区"="Please select country/region";
+"请选择国家/地区"="Select country/region";
 "选择国家/地区"="Select Country/Region";
 "国家/地区" ="country/region";
-"请输入网络地址（必填）"="Please enter your network address (required)";
-"请输入节点官网URL（必填)"="Please enter node website URL (required)";
+"请输入网络地址（必填）"="Enter your network address (Required)";
+"请输入节点官网URL（必填)"="Enter node website URL (Required)";
 "确认参选"="Confirm Registration";
 "注销" = "Delete Candidate";
-"添加成功！" = "Add a success!";
-"修改成功！" = "Modify the success!";
-"删除成功" = "Delete the success";
+"添加成功！" = "Added";
+"修改成功！" = "Modified";
+"删除成功" = "Deleted";
 "私钥已复制成功" = "The private key has been copied successfully";
-"已复制到剪贴板" = "Have been copied to the clipboard";
+"已复制到剪贴板" = "Copied to clipboard";
 "余额不足" = "Lack of balance";
-"复制成功" = "Copy success";
+"复制成功" = "Copy successful";
 "钱包名修改成功" = "The wallet name is changed";
 "钱包名修改失败" = "The purse of modified failure";
 "两次密码输入不一致" = "The two passwords don't match";
-"我的投票" = "My Votes";
 "变更投票"="Change my vote";
 "上次投票记录"="Last vote record";
 "暂无投票记录"="No vote record";
-"表决票权："="Voting right:";
+"表决票权："="Voting Right:";
 "节点信息" = "Node Information";
 "移出候选列表"= "Remove from Candidate List";
 "加入候选列表" ="Add to Candidate List";
 "查看候选列表" = "View Candidate List";
 "我的候选列表"="Candidate List";
-"当前票数"="Current votes";
-"投票占比"="Vote percentage";
-"确定"="Sure";
-"更新信息"="Update information";
-"投票数量-1"="Number of voting";
+"当前票数"="Current Votes";
+"投票占比"="Vote Percentage";
+"确定"="Confirm";
+"更新信息"="Update Information";
+"投票数量-1"="Number of Voting";
 "全选"="All";
 "已选择"="Selected";
 "立即投票"= "Vote";
-"全网投票比例："="Total Network Vote Percentage";
+//"全网投票比例："="Total Network Vote Percentage";
+"全网投票占比："="Percentage of Votes Case Online";
 "删除"= "Delete";
 "最大表决票权 " = "Max voting right ";
-"我的投票"="My Vote History";
+"我的投票"="My Vote";
 "我要投票"="Vote";
-"投票规则" = "Rules";
-//"票"="votes";
-"重新投票"= "revote";
+"投票规则" = "Voting Rules";
+"重新投票"= "Recast Votes";
 "变更成功" = "change successed";
 "注销报名72小时后，方可提取质押金"="The registration fund can be withdrawn 72 hours after the registration is cancelled";
 "参与ELA超级节点投票，需锁仓ELA。投票不消耗ELA数量；每次投票最多可选择 36 个超级节点，撤销或更改再次投票生效有" = "When you participate in ELA supernode voting, the ELA in your wallet address are locked in a sense. Voting does not consume ELA other than a small voting transaction fee associated with each time you initiate a new voting transaction. Each vote can be cast to a maximum of 36 supernodes. If you cancel or change your votes, the actual result will take time to propagate.";
 "投票地址数量" = "Number of Vote Addresses";
 "全网投票占比"= "Total Network Vote Percentage";
-"目标地址"= "Target address";
+"目标地址"= "Target Address";
 
-"删除成功"="Delete successed";
+"删除成功"="Deleted";
 "金额"="Value";
 "手续费"="Fee";
 "转账详情"= "Transaction";
 "下一步"="Next";
-"已复制到粘贴板"= "Copied to the paste board";
+"已复制到粘贴板"= "Copied to clipboard";
 "交易成功"= "tx success";
 "交易失败"="tx failed";
 "请输入票数"="Enter a number";
@@ -295,7 +305,6 @@
 "rules"="https://news.elastos.org/elastos-dpos-supernode-election-process/";
 "最多可选36个节点"="vote for maximum of 36 nodes";
 "超出投票选择上限，是否在已选列表中按排名顺序选择前36名？"="Exceeding the voting selection limit, did you select the top 36?";
-
 //国家
 "阿富汗"="Afghanistan";
 "阿尔巴尼亚"="Albania";
@@ -399,7 +408,7 @@
 "爱尔兰"="Ireland";
 "以色列"="Israel";
 "意大利"="Italy";
-"牙买加"="Jamaica";                                                
+"牙买加"="Jamaica";
 "新加坡"="Singapore";
 "外蒙古"="Mongolia";
 "墨西哥"="Mexico";

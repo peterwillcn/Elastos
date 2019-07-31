@@ -12,6 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HMWnodeInformationViewController : UIViewController
 @property(nonatomic,strong)FLCoinPointInfoModel *model;
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)NSInteger Ranking;
 
 @end
 

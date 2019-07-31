@@ -25,9 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, HMWToDeleteType) {
    deleteTheWallet,         // slow at beginning and end
- deleteFriends,            // slow at beginning
-  deleteSelectVote,
-    moreThan36SelectList
+   deleteFriends,            // slow at beginning
+   deleteSelectVote,
+   moreThan36SelectList,
+   UtxoChangeWhole
+    
    
 };
 

@@ -181,6 +181,9 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(NSString*)GetRegisteredProducerInfo:(NSString *)mainid;
 -(NSString *)GetOwnerAddressWithID:(NSString*)masterWalletID;
 -(PluginResult *)GetAllCoinBaseTransaction:(invokedUrlCommand *)command;
+-(PluginResult *)CreateCombineUTXOTransaction:(invokedUrlCommand *)command;
+-(PluginResult *)GetAllUTXOs:(invokedUrlCommand *)command;
+-(NSString*)EMWMGetVersion;
 @end
 
 

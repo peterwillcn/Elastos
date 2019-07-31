@@ -102,7 +102,7 @@
 }
 -(void)seletcButtonState:(UIButton*)button withView:(UIView*)view{
   [button setTitleColor:RGBA(255, 255, 255, 0.5) forState:UIControlStateNormal];
-    view.alpha=1.f;
+//    view.alpha=1.f;
     
 }
 -(void)normalButtonState:(UIButton*)button withView:(UIView*)view{
@@ -120,7 +120,7 @@
     return _copURLButton;
 }
 -(void)makeUI{
-    self.nodeAddressTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"节点公钥", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
+    self.nodeAddressTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"所有人公钥", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
     [self addSubview:self.nodeAddressTextLabel];
     [self.nodeAddressTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mas_left).offset(0);

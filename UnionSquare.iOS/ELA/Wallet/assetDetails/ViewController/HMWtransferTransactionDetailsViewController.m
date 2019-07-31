@@ -67,8 +67,14 @@ static NSString *cellString=@"HMWtransferTransactionMultipleAddressDetailsTableV
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"交易详情", nil);
     [self makeView];
-    
-    
+    self.baseTable.estimatedRowHeight = 0;
+    self.baseTable.estimatedSectionHeaderHeight = 0;
+    self.baseTable.estimatedSectionFooterHeight = 0;
+    if (@available(iOS 11.0, *)) {
+        self.baseTable.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
 }
 -(NSMutableArray *)InputsArray{
     if (!_InputsArray) {
@@ -107,35 +113,43 @@ static NSString *cellString=@"HMWtransferTransactionMultipleAddressDetailsTableV
     NSInteger allCount = 0;
   
     if (self.type==transactionSingleIntoType) {// 自转
-    self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入地址", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
+    self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入", nil),NSLocalizedString(@"输出", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
         allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount;
        
     }else if (self.type==transactionSingleRollOutType){//转出
         if ([self.TypeString isEqualToString:@"8"]) {
-           self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入地址", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"目标地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)]; allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount+1;
-        }else{ self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入地址", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
+           self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入", nil),NSLocalizedString(@"输出", nil),NSLocalizedString(@"目标地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)]; allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount+1;
+        }else{ self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入", nil),NSLocalizedString(@"输出", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
             allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount;
         }
     }else if (self.type==transactionMultipleIntoType){// 转入
 
         if ([self.TypeString isEqualToString:@"8"]) {
-            self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"目标地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
+            self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"输出", nil),NSLocalizedString(@"目标地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
             
             allCount=self.listTextArray.count+OutputsArrayCount+1;
         }else{
             
-            self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
+            self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"输出", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
             
             allCount=self.listTextArray.count+OutputsArrayCount;
         }
         
     }else if (self.type==rotationToVoteType){
-        self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"投票数量-1", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入地址", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
+        self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"投票数量-1", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入", nil),NSLocalizedString(@"输出", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
         allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount;
         
         
+    }else if (self.type==NodeReturnsType){
+        self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"输出", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
+        allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount;
+        
     }
-    self.baseTableHeight.constant=allCount*44+20;
+    CGFloat con=allCount*44+20;
+    if (AppHeight-100<con) {
+        con=AppHeight-100;
+    }
+    self.baseTableHeight.constant=con;
     self.baseTabeleHeightFloat=self.baseTableHeight.constant;
     self.baseTable.delegate=self;
     self.baseTable.dataSource=self;
@@ -398,25 +412,36 @@ cell.textLabel.text=self.listTextArray[indexPath.section];
         cell.orderDetailsLabel.numberOfLines=1;
         cell.orderDetailsLabel.text=self.model.TxHash;
         cell.orderDetailsLabel.textColor=RGB(28, 164, 252);
+        cell.textOffset.constant=10;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"交易金额", nil)]){
+        cell.textOffset.constant=7;
         cell.orderDetailsLabel.text=self.model.Amount;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"手续费", nil)]){
+        cell.textOffset.constant=7;
         cell.orderDetailsLabel.text=self.model.Fee;
-    }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"输入地址", nil)]){
+    }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"输入", nil)]){
+        cell.textOffset.constant=7;
         cell.orderDetailsLabel.font=[UIFont systemFontOfSize:10]; cell.orderDetailsLabel.text=self.InputsArray[indexPath.row];
-    }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"输出地址", nil)]){
+    }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"输出", nil)]){
+        cell.textOffset.constant=7;
        cell.orderDetailsLabel.font=[UIFont systemFontOfSize:10]; cell.orderDetailsLabel.text=self.OutputsArray[indexPath.row];
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"确认时间", nil)]){
+        cell.textOffset.constant=7;
         cell.orderDetailsLabel.text=self.model.Timestamp;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"确认次数", nil)]){
+        cell.textOffset.constant=7;
     cell.orderDetailsLabel.text=self.model.ConfirmStatus;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"交易类型", nil)]){
+        cell.textOffset.constant=7;
         cell.orderDetailsLabel.text=self.model.Type;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"备注", nil)]){
-        cell.orderDetailsLabel.text=self.model.Remark;
+        cell.textOffset.constant=7;
+        cell.orderDetailsLabel.text=self.model.Memo;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"投票数量-1", nil)]){
+        cell.textOffset.constant=7;
         cell.orderDetailsLabel.text=self.votesString;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"目标地址", nil)]){
+        cell.textOffset.constant=7;
         cell.orderDetailsLabel.font=[UIFont systemFontOfSize:10]; cell.orderDetailsLabel.text=self.PayloadInfoString;
     }
     return cell;
@@ -461,6 +486,10 @@ cell.textLabel.text=self.listTextArray[indexPath.section];
     }else{
          self.outputsISOpenCount=self.OutputsArray.count;
         
+    }
+    if(self.type ==NodeReturnsType){
+        NSString *elaKey=[NSString stringWithFormat:@"%@",model.Address];
+        [self.OutputsArray addObject:elaKey];
     }
     
 }

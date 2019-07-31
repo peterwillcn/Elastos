@@ -112,6 +112,10 @@
     if (self.addressTextField.text.length==0) {
         return;
     }
+    if ([self.enterTheAmountTextField.text doubleValue]==0 ) {
+         [[FLTools share]showErrorInfo:NSLocalizedString(@"金额需要大于0", nil)];
+        return;
+    }
         if ([self.enterTheAmountTextField.text doubleValue]>[[[FLTools share]elaScaleConversionWith:self.fromModel.iconBlance] doubleValue]) {
 
             [[FLTools share]showErrorInfo:NSLocalizedString(@"余额不足", nil)];

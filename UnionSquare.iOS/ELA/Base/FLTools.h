@@ -102,6 +102,7 @@
 
 // YYYY.MM.dd HH:mm:ss
 -(NSString *)YMDCommunityTimeConversToAllFromTimesTamp:(NSString *)timeStr;
+-(NSString *)TimeFormatConversion:(NSString *)timeStr;
 -(void)copiedToTheClipboardWithString:(NSString*)str;
 -(NSString*)pastingTextFromTheClipboard;
 -(BOOL)checkWalletName:(NSString*)walletName;

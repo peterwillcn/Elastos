@@ -41,4 +41,5 @@
 -(void)makeBordersWithView:(UIView*)view;
 -(void)NotificationCenter;
 -(void)reMovNotificationCenter;
+-(void)blackBackImageDefultWhite;
 @end

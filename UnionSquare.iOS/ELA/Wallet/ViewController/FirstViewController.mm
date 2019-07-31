@@ -120,13 +120,7 @@
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.table reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexP,nil] withRowAnimation:UITableViewRowAnimationNone];
-            
         });
-        
-        
-        
-        
-        
     }
 }
 -(void)iconInfoUpdate:(NSNotification *)notification{
@@ -137,23 +131,22 @@
     NSString *chainID=infoArray[1];
     NSInteger index = [infoArray[2] integerValue];
     NSString *lastBlockTimeString=dic[@"lastBlockTimeString"];
-    if (self.dataSoureArray.count<index) {
-        return;
-    }
     NSString * currentBlockHeight=dic[@"currentBlockHeight"];
  
      NSString *  progress=dic[@"progress"];
-    assetsListModel *model=self.dataSoureArray[index];
+    
+    assetsListModel *model;
  
     
-    if ([model.iconName isEqualToString:chainID]&&[self.currentWallet.masterWalletID isEqualToString:walletID]){
+    if ([self.currentWallet.masterWalletID isEqualToString:walletID]){
         if ([chainID isEqualToString:@"ELA"]) {
             [ELWalletManager share].estimatedHeight=currentBlockHeight;
+            model=self.dataSoureArray[0];
+        }else{
+             model=self.dataSoureArray[1];
         }
-        
- 
         model.thePercentageMax=[progress floatValue];
-        model.thePercentageCurr=[currentBlockHeight floatValue];
+    model.thePercentageCurr=[currentBlockHeight floatValue];
         if (lastBlockTimeString.length>0) {
             sideChainInfoModel *smodel=[[sideChainInfoModel alloc]init];
             smodel.thePercentageMax=[NSString stringWithFormat:@"%f",model.thePercentageMax];
@@ -161,16 +154,15 @@
             smodel.sideChainName=model.iconName;
             smodel.sideChainNameTime=lastBlockTimeString;
             
-            [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
             model.updateTime=[NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"已同步区块时间", nil),smodel.sideChainNameTime];
+              [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
+            NSLog(@"修改侧链时间====%@======%@======%@====%@====%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
         }
-        self.dataSoureArray[index]=model;
-        NSIndexPath *indexP=[NSIndexPath indexPathForRow:index inSection:0];
-        
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.table reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexP,nil] withRowAnimation:UITableViewRowAnimationNone];
-            
+            [self.table reloadData];
         });
+        
+        
     }else{
         sideChainInfoModel *smodel=[[sideChainInfoModel alloc]init];
         if (model.thePercentageMax==0) {
@@ -211,14 +203,6 @@
     }
     return _dataSoureArray;
 }
-
-//-(FLWallet *)currentWallet{
-//    if (!_currentWallet) {
-//        _currentWallet =[[FLWallet alloc]init];
-//    }
-//    return _currentWallet;
-//}
-
 -(void)setCurrentWallet:(FLWallet *)currentWallet
 {
     _currentWallet = currentWallet;
@@ -294,6 +278,7 @@
             model.iconBlance=blanceString;
             model.thePercentageCurr=[smodel.thePercentageCurr floatValue];
             model.thePercentageMax=[smodel.thePercentageMax floatValue];
+            NSLog(@"本地存储时间====%@====%@====%@====%@=====%@",smodel.sideChainNameTime,smodel.sideChainName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
             if ([smodel.sideChainNameTime isEqual: [NSNull null]]||smodel.sideChainNameTime==NULL) {
                 model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"已同步区块时间", nil),@"--:--"];
                 model.thePercentageMax=100;
@@ -329,12 +314,6 @@
     addFooterView.delegate=self;
     
     self.table.tableFooterView =addFooterView;
-//    
-//    self.table.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-//        [self  loadTheWalletInformationWithIndex: self.currentWalletIndex];
-//    }];
-    
-   
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"asset_wallet_setting"] style:UIBarButtonItemStyleDone target:self action:@selector(ClickMore:)];
     
   
@@ -469,18 +448,13 @@
     NSString * symbolString=@"%";
     if (cell.progress.progress==1&&model.thePercentageCurr!=model.thePercentageMax) {
         cell.progress.progress=0.99;
-//         cell.progressLab.text=[NSString stringWithFormat:@"%.f%@",0.99*100,symbolString];
     }else if ([model.updateTime rangeOfString:@"--:--"].location !=NSNotFound){
         cell.progress.progress=0;
-//        cell.progressLab.text=[NSString stringWithFormat:@"0%@",symbolString];
     }else{
-        cell.progress.progress=model.thePercentageCurr/model.thePercentageMax;
+    cell.progress.progress=model.thePercentageCurr/model.thePercentageMax;
         
     }
-         cell.progressLab.text=[NSString stringWithFormat:@"%.f%@",cell.progress.progress*100,symbolString];
-  
-    
-    
+    cell.progressLab.text=[NSString stringWithFormat:@"%.f%@",cell.progress.progress*100,symbolString];
     return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

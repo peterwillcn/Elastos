@@ -18,6 +18,7 @@
 #import "HMWsignUpForViewController.h"
 #import "FLManageSelectPointNodeInformationVC.h"
 #import "HMWFMDBManager.h"
+#import "DrawBackVoteMoneyVC.h"
 @interface HMWtheSuperNodeElectionViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWsignUpForViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *tagMyVotedLab;
@@ -75,41 +76,29 @@
         make.top.equalTo(self.view).offset(10);
     }];
     [self getNetCoinPointArray];
-    
-    if ([self.typeString isEqualToString:@"0"]) {
-//        @"Unregistered"
-        self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
-        self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
-    }else if ([self.typeString isEqualToString:@"1"]){
-//        @"Registered"
-        self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
-        self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
-        
-    }else if ([self.typeString isEqualToString:@"2"]){
-//        @"Canceled"
-      self.votingRulesButton.hidden=YES;
-        self.tagVoteRuleLab.hidden=YES;
-        self.found_vote_rule.hidden=YES;
-        
-    }else if ([self.typeString isEqualToString:@"4"]){
-//        @"ReturnDeposit"
-        self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
-        self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
-        
-    }
-
+        if ([self.typeString isEqualToString:@"Registered"]){
+  self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+            self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
+        }else if([self.typeString isEqualToString:@"Canceled"]){
+self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+            self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
+        }else if([self.typeString isEqualToString:@"Unregistered"]){
+   self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
+            self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
+        }else if ([self.typeString isEqualToString:@"ReturnDeposit"]){
+            self.votingRulesButton.hidden=YES;
+            self.tagVoteRuleLab.hidden=YES;
+            self.found_vote_rule.hidden=YES;
+        }
 }
 - (IBAction)NodeRegisteredState:(id)sender {
-    
-    if ([self.typeString isEqualToString:@"4"]||[self.typeString isEqualToString:@"1"]){
+    if ([self.typeString isEqualToString:@"Registered"]){
         FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
         [self.navigationController pushViewController:vc animated:YES];
-        
-    }else if ([self.typeString isEqualToString:@"0"]){
+    }else if ([self.typeString isEqualToString:@"Unregistered"]){
         if (self.type ==1) {
             FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
             [self.navigationController pushViewController:vc animated:YES];
-            
         }else{
             if (self.hasSing) {
                 
@@ -124,6 +113,9 @@
             
         }
         
+    }else if ([self.typeString isEqualToString:@"Canceled"]){
+        DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
+        [self.navigationController pushViewController:vc animated:YES];
     }
     
     
@@ -185,8 +177,7 @@
         self.dataSource= [NSMutableArray arrayWithArray:dataArray];
         
         self.votingListV.dataSource = self.dataSource;
-        self.votingListV.lab1.text = [NSString stringWithFormat:@"%.5f %@" ,[param[@"result"][@"totalvoterate"] floatValue]*100,@"%"];
-       // self.votingListV.lab2.text = [param[@"result"][@"totalvotes"]stringValue ];
+        self.votingListV.lab1.text = [NSString stringWithFormat:@"%.2f %@" ,[param[@"result"][@"totalvoterate"] floatValue]*100,@"%"];
         self.votingListV.lab3.text =[NSString stringWithFormat:@"%ld", (long)[param[@"result"][@"totalvotes"] integerValue]];
         
         
@@ -249,15 +240,21 @@
 }
 
 - (IBAction)votingRulesEvent:(id)sender {
-    DC_DealTextViewController *vc = [[DC_DealTextViewController alloc]init];
-    vc.html_url = NSLocalizedString(@"rules", nil); 
-    [self.navigationController pushViewController:vc animated:YES];
+    NSURL *url=[NSURL URLWithString:NSLocalizedString(@"rules", nil)];
+    if ([[UIDevice currentDevice].systemVersion floatValue]>=10.0) {
+        
+        [[UIApplication sharedApplication]openURL:url options:@{} completionHandler:^(BOOL success) {
+        }];
+    }else{
+        if ([[UIApplication sharedApplication] canOpenURL:url]) {
+            [[UIApplication sharedApplication] openURL:url];
+        }
+    }
 }
 - (IBAction)myVoteButton:(id)sender {
     HMWtheCandidateListViewController * vc = [[HMWtheCandidateListViewController alloc]init];
     vc.persent = self.votingListV.lab1.text ;
     [self.navigationController pushViewController:vc animated:YES];
-    
 }
 -(void)closeViewDele{
     
@@ -268,9 +265,8 @@
 - (void)selectedVotingListWithIndex:(NSInteger)index {
     HMWnodeInformationViewController *nodeInformationVC=[[HMWnodeInformationViewController alloc]init];
     nodeInformationVC.model = self.dataSource[index];
+    nodeInformationVC.Ranking=index+1;
       [self.navigationController pushViewController:nodeInformationVC animated:YES];
-    
-  
     
 }
 #pragma mark -------------------

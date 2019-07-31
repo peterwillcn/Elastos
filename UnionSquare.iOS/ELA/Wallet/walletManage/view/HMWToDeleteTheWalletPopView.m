@@ -80,6 +80,11 @@
             [self.delegate sureToDeleteViewWithPWD:@""];
         }
         
+    }else if (self.deleteType==UtxoChangeWhole){
+        
+        if(self.delegate){
+            [self.delegate sureToDeleteViewWithPWD:@""];
+        }
     }
   
 
@@ -112,6 +117,9 @@
         
     }else if (deleteType==moreThan36SelectList){
         self.viewHeight.constant=160; self.titlePopLabel.text=NSLocalizedString(@"超出投票选择上限，是否在已选列表中按排名顺序选择前36名？", nil);
+        
+    }else if (deleteType==UtxoChangeWhole){
+        self.viewHeight.constant=160; self.titlePopLabel.text=NSLocalizedString(@"检测到当前账户存在大量Utxo,是否零钱换整？", nil);
         
     }
     

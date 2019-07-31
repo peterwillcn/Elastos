@@ -239,8 +239,11 @@
 		4202CAD921F6EF2B009E5932 /* HMWMyVoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C9D621F6EF29009E5932 /* HMWMyVoteViewController.xib */; };
 		4202CADB21F6EF2B009E5932 /* HMWfoundViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C9DD21F6EF29009E5932 /* HMWfoundViewController.mm */; };
 		4202CADE21F6F0D2009E5932 /* ElaSubWalletCallback.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202CADC21F6F0D2009E5932 /* ElaSubWalletCallback.mm */; };
-		42186FE022BCADBB0063A28D /* AboutELAWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.m */; };
+		42186FE022BCADBB0063A28D /* AboutELAWalletViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.mm */; };
 		42186FE122BCADBB0063A28D /* AboutELAWalletViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42186FDF22BCADBB0063A28D /* AboutELAWalletViewController.xib */; };
+		422672A722C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 422672A522C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m */; };
+		422672A822C9E0CD00179D66 /* HWMVUpdateLogWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 422672A622C9E0CD00179D66 /* HWMVUpdateLogWebViewController.xib */; };
+		422672A922C9E30200179D66 /* libspvsdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42C53FB222C9BAA80006B3B2 /* libspvsdk.a */; };
 		4226A862229BC02E00E93430 /* build-debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4226A85F229BC02D00E93430 /* build-debug.xcconfig */; };
 		4226A863229BC02E00E93430 /* build.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4226A860229BC02D00E93430 /* build.xcconfig */; };
 		4226A864229BC02E00E93430 /* build-release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4226A861229BC02E00E93430 /* build-release.xcconfig */; };
@@ -320,7 +323,6 @@
 		4250B3F42238D32700B6858F /* zbar-samples.png in Resources */ = {isa = PBXBuildFile; fileRef = 4250B3D42238D32600B6858F /* zbar-samples.png */; };
 		4250B3F52238D32700B6858F /* zbar-help.html in Resources */ = {isa = PBXBuildFile; fileRef = 4250B3D52238D32600B6858F /* zbar-help.html */; };
 		4250B3F62238D32700B6858F /* zbar-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 4250B3D62238D32600B6858F /* zbar-back.png */; };
-		4250B3F72238D36700B6858F /* libspvsdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4293CA67221FF8730045A8D9 /* libspvsdk.a */; };
 		4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4250B3F82238D3E900B6858F /* libiconv.tbd */; };
 		4261C2FC22C21563008C1532 /* showOwnerAddressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261C2FA22C21563008C1532 /* showOwnerAddressTableViewCell.m */; };
 		4261C2FD22C21563008C1532 /* showOwnerAddressTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4261C2FB22C21563008C1532 /* showOwnerAddressTableViewCell.xib */; };
@@ -329,11 +331,13 @@
 		4261CF3A22A15D21006B1DDE /* NSObject+Swizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261CF3722A15D21006B1DDE /* NSObject+Swizzling.m */; };
 		4261CF3E22A1605D006B1DDE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4261CF3D22A1605C006B1DDE /* SystemConfiguration.framework */; };
 		4261CF4022A16066006B1DDE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4261CF3F22A16066006B1DDE /* Security.framework */; };
+		426365BF22D82FC200352396 /* UIButton+HMWButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 426365BE22D82FC200352396 /* UIButton+HMWButton.m */; };
 		4264A73E221BDC24008D5C7B /* DAConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 4264A73D221BDC24008D5C7B /* DAConfig.m */; };
 		4264A741221BDC8D008D5C7B /* NSBundle+DAUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4264A740221BDC8D008D5C7B /* NSBundle+DAUtils.m */; };
 		428054D42242296500E74F0E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 428054D62242296500E74F0E /* InfoPlist.strings */; };
 		42885A562216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42885A542216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.m */; };
 		42885A572216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42885A552216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib */; };
+		428B4D7122CAFA5D004AE7D0 /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 428B4D7022CAFA5D004AE7D0 /* Data */; };
 		428BA711229B84C00091618F /* invokedUrlCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA710229B84C00091618F /* invokedUrlCommand.m */; };
 		428BA726229B91190091618F /* PluginResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA725229B91190091618F /* PluginResult.m */; };
 		428BA729229B92530091618F /* JSON_private.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA727229B92530091618F /* JSON_private.m */; };
@@ -357,10 +361,10 @@
 		42D126A322B7755C000A286C /* runningNodeListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D126A222B7755C000A286C /* runningNodeListView.xib */; };
 		42D126A722B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D126A522B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.m */; };
 		42D126A822B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D126A622B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.xib */; };
+		42D31BAD22F19444007EB785 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D31BAC22F19444007EB785 /* Bugly.framework */; };
 		42EEDA86224B84790009B18E /* LaunchScreen-English.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42EEDA85224B84790009B18E /* LaunchScreen-English.storyboard */; };
 		42EEDA88224B84A50009B18E /* LaunchScreen-Chinese.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42EEDA87224B84A50009B18E /* LaunchScreen-Chinese.storyboard */; };
 		7087D92F21BCDF1B00599316 /* MyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7087D92E21BCDF1B00599316 /* MyUtil.m */; };
-		7087D93421BD1BDE00599316 /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 7087D93321BD1BDE00599316 /* Data */; };
 		70F8409621BEAA1B001C0BD6 /* ELWalletManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70F8409521BEAA1B001C0BD6 /* ELWalletManager.mm */; };
 		9FD0C828FEE9459B88FB6A2D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B5A24BEEA44AE9AD51A2C8 /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CBD25EFD221542F500EDA0F5 /* FLChangeVotedTicketsVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = CBD25EFB221542F500EDA0F5 /* FLChangeVotedTicketsVC.mm */; };
@@ -777,18 +781,11 @@
 		4202CADC21F6F0D2009E5932 /* ElaSubWalletCallback.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ElaSubWalletCallback.mm; sourceTree = "<group>"; };
 		4202CADD21F6F0D2009E5932 /* ElaSubWalletCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ElaSubWalletCallback.h; sourceTree = "<group>"; };
 		42186FDD22BCADBB0063A28D /* AboutELAWalletViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutELAWalletViewController.h; sourceTree = "<group>"; };
-		42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutELAWalletViewController.m; sourceTree = "<group>"; };
+		42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AboutELAWalletViewController.mm; sourceTree = "<group>"; };
 		42186FDF22BCADBB0063A28D /* AboutELAWalletViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutELAWalletViewController.xib; sourceTree = "<group>"; };
-		422492B021FEDE2C00754977 /* ISubWalletCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISubWalletCallback.h; sourceTree = "<group>"; };
-		422492B121FEDE2C00754977 /* IMasterWalletManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMasterWalletManager.h; sourceTree = "<group>"; };
-		422492B221FEDE2C00754977 /* IIdAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIdAgent.h; sourceTree = "<group>"; };
-		422492B321FEDE2C00754977 /* ISubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISubWallet.h; sourceTree = "<group>"; };
-		422492B421FEDE2C00754977 /* IMainchainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMainchainSubWallet.h; sourceTree = "<group>"; };
-		422492B521FEDE2C00754977 /* IIdChainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIdChainSubWallet.h; sourceTree = "<group>"; };
-		422492B721FEDE2C00754977 /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = json.hpp; sourceTree = "<group>"; };
-		422492B821FEDE2C00754977 /* IMasterWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMasterWallet.h; sourceTree = "<group>"; };
-		422492B921FEDE2C00754977 /* MasterWalletManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterWalletManager.h; sourceTree = "<group>"; };
-		422492BA21FEDE2C00754977 /* ISidechainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISidechainSubWallet.h; sourceTree = "<group>"; };
+		422672A422C9E0CD00179D66 /* HWMVUpdateLogWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMVUpdateLogWebViewController.h; sourceTree = "<group>"; };
+		422672A522C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMVUpdateLogWebViewController.m; sourceTree = "<group>"; };
+		422672A622C9E0CD00179D66 /* HWMVUpdateLogWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMVUpdateLogWebViewController.xib; sourceTree = "<group>"; };
 		4226A85F229BC02D00E93430 /* build-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "build-debug.xcconfig"; path = "config/build-debug.xcconfig"; sourceTree = SOURCE_ROOT; };
 		4226A860229BC02D00E93430 /* build.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = build.xcconfig; path = config/build.xcconfig; sourceTree = SOURCE_ROOT; };
 		4226A861229BC02E00E93430 /* build-release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "build-release.xcconfig"; path = "config/build-release.xcconfig"; sourceTree = SOURCE_ROOT; };
@@ -967,6 +964,8 @@
 		4261CF3722A15D21006B1DDE /* NSObject+Swizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Swizzling.m"; sourceTree = "<group>"; };
 		4261CF3D22A1605C006B1DDE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4261CF3F22A16066006B1DDE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		426365BD22D82FC200352396 /* UIButton+HMWButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+HMWButton.h"; sourceTree = "<group>"; };
+		426365BE22D82FC200352396 /* UIButton+HMWButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+HMWButton.m"; sourceTree = "<group>"; };
 		4264A734221BD14C008D5C7B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4264A73C221BDC24008D5C7B /* DAConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DAConfig.h; sourceTree = "<group>"; };
 		4264A73D221BDC24008D5C7B /* DAConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DAConfig.m; sourceTree = "<group>"; };
@@ -977,13 +976,13 @@
 		42885A532216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTransactionDetailsURLViewController.h; sourceTree = "<group>"; };
 		42885A542216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTransactionDetailsURLViewController.m; sourceTree = "<group>"; };
 		42885A552216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTransactionDetailsURLViewController.xib; sourceTree = "<group>"; };
+		428B4D7022CAFA5D004AE7D0 /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Data; path = "elastos wallet/spvsdk/Data"; sourceTree = "<group>"; };
 		428BA70F229B84C00091618F /* invokedUrlCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = invokedUrlCommand.h; sourceTree = "<group>"; };
 		428BA710229B84C00091618F /* invokedUrlCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = invokedUrlCommand.m; sourceTree = "<group>"; };
 		428BA724229B91190091618F /* PluginResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PluginResult.h; sourceTree = "<group>"; };
 		428BA725229B91190091618F /* PluginResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PluginResult.m; sourceTree = "<group>"; };
 		428BA727229B92530091618F /* JSON_private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSON_private.m; sourceTree = "<group>"; };
 		428BA728229B92530091618F /* JSON_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON_private.h; sourceTree = "<group>"; };
-		4293CA67221FF8730045A8D9 /* libspvsdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspvsdk.a; path = "elastos wallet/spvsdk-iOS-v0.3.0/iOS/lib/libspvsdk.a"; sourceTree = "<group>"; };
 		42B57A9422150C1C004CF089 /* WOCrashLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WOCrashLog.h; sourceTree = "<group>"; };
 		42B57A9522150C1C004CF089 /* NSObject+NSNotificationCrash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+NSNotificationCrash.h"; sourceTree = "<group>"; };
 		42B57A9622150C1C004CF089 /* NSObject+KVOCrash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+KVOCrash.m"; sourceTree = "<group>"; };
@@ -1015,12 +1014,25 @@
 		42B57AB122150C1C004CF089 /* NSObject+SelectorCrash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SelectorCrash.h"; sourceTree = "<group>"; };
 		42B57AB222150C1C004CF089 /* NSObject+WOSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+WOSwizzle.h"; sourceTree = "<group>"; };
 		42B7AD98221BAA64006959B8 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		42C53F8722C9B9820006B3B2 /* ISubWalletCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISubWalletCallback.h; sourceTree = "<group>"; };
+		42C53F8822C9B9820006B3B2 /* IMasterWalletManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMasterWalletManager.h; sourceTree = "<group>"; };
+		42C53F8922C9B9820006B3B2 /* IIdAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIdAgent.h; sourceTree = "<group>"; };
+		42C53F8A22C9B9820006B3B2 /* ISubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISubWallet.h; sourceTree = "<group>"; };
+		42C53F8B22C9B9820006B3B2 /* IMainchainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMainchainSubWallet.h; sourceTree = "<group>"; };
+		42C53F8C22C9B9820006B3B2 /* IIdChainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIdChainSubWallet.h; sourceTree = "<group>"; };
+		42C53F8E22C9B9820006B3B2 /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = json.hpp; sourceTree = "<group>"; };
+		42C53F8F22C9B9820006B3B2 /* IMasterWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMasterWallet.h; sourceTree = "<group>"; };
+		42C53F9022C9B9820006B3B2 /* MasterWalletManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterWalletManager.h; sourceTree = "<group>"; };
+		42C53F9122C9B9820006B3B2 /* ITokenchainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITokenchainSubWallet.h; sourceTree = "<group>"; };
+		42C53F9222C9B9820006B3B2 /* ISidechainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISidechainSubWallet.h; sourceTree = "<group>"; };
+		42C53FB222C9BAA80006B3B2 /* libspvsdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspvsdk.a; path = "elastos wallet/spvsdk/iOS/lib/libspvsdk.a"; sourceTree = "<group>"; };
 		42D1269F22B7754F000A286C /* runningNodeListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = runningNodeListView.h; sourceTree = "<group>"; };
 		42D126A022B7754F000A286C /* runningNodeListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = runningNodeListView.m; sourceTree = "<group>"; };
 		42D126A222B7755C000A286C /* runningNodeListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = runningNodeListView.xib; sourceTree = "<group>"; };
 		42D126A422B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMWVotingListTypeCrossCollectionViewCell.h; sourceTree = "<group>"; };
 		42D126A522B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMWVotingListTypeCrossCollectionViewCell.m; sourceTree = "<group>"; };
 		42D126A622B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HMWVotingListTypeCrossCollectionViewCell.xib; sourceTree = "<group>"; };
+		42D31BAC22F19444007EB785 /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
 		42EEDA85224B84790009B18E /* LaunchScreen-English.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "LaunchScreen-English.storyboard"; sourceTree = "<group>"; };
 		42EEDA87224B84A50009B18E /* LaunchScreen-Chinese.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "LaunchScreen-Chinese.storyboard"; sourceTree = "<group>"; };
 		705D8C6C21BE86870062156D /* ELWalletManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELWalletManager.h; sourceTree = "<group>"; };
@@ -1031,7 +1043,6 @@
 		7087D92B21BCD85500599316 /* IIdManagerCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIdManagerCallback.h; sourceTree = "<group>"; };
 		7087D92D21BCDF1B00599316 /* MyUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyUtil.h; sourceTree = "<group>"; };
 		7087D92E21BCDF1B00599316 /* MyUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyUtil.m; sourceTree = "<group>"; };
-		7087D93321BD1BDE00599316 /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Data; path = "elastos wallet/spvsdk-iOS-v0.3.0/Data"; sourceTree = "<group>"; };
 		70F8409521BEAA1B001C0BD6 /* ELWalletManager.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = ELWalletManager.mm; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* elastos wallet-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "elastos wallet-Info.plist"; path = "elastos wallet/elastos wallet-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = SOURCE_ROOT; };
 		8FEFE2C15307426D819C2CA3 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -1078,12 +1089,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				422672A922C9E30200179D66 /* libspvsdk.a in Frameworks */,
 				4261CF4022A16066006B1DDE /* Security.framework in Frameworks */,
 				4261CF3E22A1605D006B1DDE /* SystemConfiguration.framework in Frameworks */,
 				4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */,
-				4250B3F72238D36700B6858F /* libspvsdk.a in Frameworks */,
 				4250B3F22238D32700B6858F /* libzbar.a in Frameworks */,
 				9FD0C828FEE9459B88FB6A2D /* WebKit.framework in Frameworks */,
+				42D31BAD22F19444007EB785 /* Bugly.framework in Frameworks */,
 				0377F67DC70B4CEFBD787502 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1112,9 +1124,9 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				422492AE21FEDE2C00754977 /* spvsdk-iOS-v0.3.0 */,
+				428B4D7022CAFA5D004AE7D0 /* Data */,
+				42C53F8522C9B9820006B3B2 /* spvsdk */,
 				080E96DDFE201D6D7F000001 /* Classes */,
-				7087D93321BD1BDE00599316 /* Data */,
 				4202C7D321F6EF28009E5932 /* ELA */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				7087D92521BCD85500599316 /* libidchain */,
@@ -1156,10 +1168,10 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				42C53FB222C9BAA80006B3B2 /* libspvsdk.a */,
 				4261CF3F22A16066006B1DDE /* Security.framework */,
 				4261CF3D22A1605C006B1DDE /* SystemConfiguration.framework */,
 				4250B3F82238D3E900B6858F /* libiconv.tbd */,
-				4293CA67221FF8730045A8D9 /* libspvsdk.a */,
 				95B5A24BEEA44AE9AD51A2C8 /* WebKit.framework */,
 				8FEFE2C15307426D819C2CA3 /* libz.tbd */,
 			);
@@ -1203,6 +1215,7 @@
 		4202C7D421F6EF28009E5932 /* ThirdSDK */ = {
 			isa = PBXGroup;
 			children = (
+				42D31BAC22F19444007EB785 /* Bugly.framework */,
 				424910C22271BFCF00C41E50 /* SDWebImage */,
 				4250B3C62238D32600B6858F /* ZBar */,
 				42B57A9322150C1C004CF089 /* WOCrashProtector */,
@@ -1497,7 +1510,7 @@
 				4202C88521F6EF28009E5932 /* FLMyVC.h */,
 				4202C89E21F6EF29009E5932 /* FLMyVC.m */,
 				42186FDD22BCADBB0063A28D /* AboutELAWalletViewController.h */,
-				42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.m */,
+				42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.mm */,
 				42186FDF22BCADBB0063A28D /* AboutELAWalletViewController.xib */,
 				4202C89621F6EF28009E5932 /* HMWaddContactViewController.h */,
 				4202C88221F6EF28009E5932 /* HMWaddContactViewController.m */,
@@ -1505,6 +1518,9 @@
 				4202C89F21F6EF29009E5932 /* HMWtheContactInformationViewController.h */,
 				4202C88421F6EF28009E5932 /* HMWtheContactInformationViewController.m */,
 				4202C8A021F6EF29009E5932 /* HMWtheContactInformationViewController.xib */,
+				422672A422C9E0CD00179D66 /* HWMVUpdateLogWebViewController.h */,
+				422672A522C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m */,
+				422672A622C9E0CD00179D66 /* HWMVUpdateLogWebViewController.xib */,
 				4202C89721F6EF28009E5932 /* model */,
 				4202C89A21F6EF28009E5932 /* view */,
 			);
@@ -2057,6 +2073,8 @@
 		4202C99A21F6EF29009E5932 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				426365BD22D82FC200352396 /* UIButton+HMWButton.h */,
+				426365BE22D82FC200352396 /* UIButton+HMWButton.m */,
 				4261CF3422A15D20006B1DDE /* NSDictionary+NilSafe.h */,
 				4261CF3222A15D20006B1DDE /* NSDictionary+NilSafe.m */,
 				4261CF3622A15D20006B1DDE /* NSMutableArray+Swizzling.h */,
@@ -2234,48 +2252,6 @@
 				4202C9DD21F6EF29009E5932 /* HMWfoundViewController.mm */,
 			);
 			path = ViewController;
-			sourceTree = "<group>";
-		};
-		422492AE21FEDE2C00754977 /* spvsdk-iOS-v0.3.0 */ = {
-			isa = PBXGroup;
-			children = (
-				422492AF21FEDE2C00754977 /* include */,
-				422492BB21FEDE2C00754977 /* iOS */,
-			);
-			name = "spvsdk-iOS-v0.3.0";
-			path = "elastos wallet/spvsdk-iOS-v0.3.0";
-			sourceTree = "<group>";
-		};
-		422492AF21FEDE2C00754977 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				422492B021FEDE2C00754977 /* ISubWalletCallback.h */,
-				422492B121FEDE2C00754977 /* IMasterWalletManager.h */,
-				422492B221FEDE2C00754977 /* IIdAgent.h */,
-				422492B321FEDE2C00754977 /* ISubWallet.h */,
-				422492B421FEDE2C00754977 /* IMainchainSubWallet.h */,
-				422492B521FEDE2C00754977 /* IIdChainSubWallet.h */,
-				422492B621FEDE2C00754977 /* nlohmann */,
-				422492B821FEDE2C00754977 /* IMasterWallet.h */,
-				422492B921FEDE2C00754977 /* MasterWalletManager.h */,
-				422492BA21FEDE2C00754977 /* ISidechainSubWallet.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		422492B621FEDE2C00754977 /* nlohmann */ = {
-			isa = PBXGroup;
-			children = (
-				422492B721FEDE2C00754977 /* json.hpp */,
-			);
-			path = nlohmann;
-			sourceTree = "<group>";
-		};
-		422492BB21FEDE2C00754977 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = iOS;
 			sourceTree = "<group>";
 		};
 		4228A9F121F88C86002866B5 /* yykit */ = {
@@ -2617,6 +2593,41 @@
 			path = WOContainer;
 			sourceTree = "<group>";
 		};
+		42C53F8522C9B9820006B3B2 /* spvsdk */ = {
+			isa = PBXGroup;
+			children = (
+				42C53F8622C9B9820006B3B2 /* include */,
+			);
+			name = spvsdk;
+			path = "elastos wallet/spvsdk";
+			sourceTree = "<group>";
+		};
+		42C53F8622C9B9820006B3B2 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				42C53F8722C9B9820006B3B2 /* ISubWalletCallback.h */,
+				42C53F8822C9B9820006B3B2 /* IMasterWalletManager.h */,
+				42C53F8922C9B9820006B3B2 /* IIdAgent.h */,
+				42C53F8A22C9B9820006B3B2 /* ISubWallet.h */,
+				42C53F8B22C9B9820006B3B2 /* IMainchainSubWallet.h */,
+				42C53F8C22C9B9820006B3B2 /* IIdChainSubWallet.h */,
+				42C53F8D22C9B9820006B3B2 /* nlohmann */,
+				42C53F8F22C9B9820006B3B2 /* IMasterWallet.h */,
+				42C53F9022C9B9820006B3B2 /* MasterWalletManager.h */,
+				42C53F9122C9B9820006B3B2 /* ITokenchainSubWallet.h */,
+				42C53F9222C9B9820006B3B2 /* ISidechainSubWallet.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		42C53F8D22C9B9820006B3B2 /* nlohmann */ = {
+			isa = PBXGroup;
+			children = (
+				42C53F8E22C9B9820006B3B2 /* json.hpp */,
+			);
+			path = nlohmann;
+			sourceTree = "<group>";
+		};
 		705D8C6A21BE863B0062156D /* WalletManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -2728,6 +2739,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = HWM;
 				LastUpgradeCheck = 1020;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
@@ -2814,7 +2826,6 @@
 				4202CA3E21F6EF2A009E5932 /* FLNetErrorView.xib in Resources */,
 				CBD48D86221406F000BF3B11 /* FLJoinToChoseTransferInfoView.xib in Resources */,
 				4202CA5A21F6EF2A009E5932 /* FLItemCollectionCell.xib in Resources */,
-				7087D93421BD1BDE00599316 /* Data in Resources */,
 				4202CA6221F6EF2A009E5932 /* HMWSendSuccessPopuView.xib in Resources */,
 				4202CA6321F6EF2A009E5932 /* HMWpwdPopupView.xib in Resources */,
 				4202CA2721F6EF2A009E5932 /* FLTableViewDefultCell.xib in Resources */,
@@ -2847,6 +2858,7 @@
 				4202CA8A21F6EF2B009E5932 /* HMWsettingKeyStorePWDViewController.xib in Resources */,
 				4202CA9021F6EF2B009E5932 /* HMWTheWalletManagementViewController.xib in Resources */,
 				4202CA3121F6EF2A009E5932 /* FLChoseOrVoteVC.xib in Resources */,
+				428B4D7122CAFA5D004AE7D0 /* Data in Resources */,
 				4202CA2B21F6EF2A009E5932 /* HMWmyContactListTableViewCell.xib in Resources */,
 				4202CAC221F6EF2B009E5932 /* HMWinputVotesPopupWindowView.xib in Resources */,
 				4202CA8421F6EF2B009E5932 /* HMWToDeleteTheWalletPopView.xib in Resources */,
@@ -2863,6 +2875,7 @@
 				4250B3F52238D32700B6858F /* zbar-help.html in Resources */,
 				4202CA4B21F6EF2A009E5932 /* FLCopyPrivateKeyView.xib in Resources */,
 				4261C2FD22C21563008C1532 /* showOwnerAddressTableViewCell.xib in Resources */,
+				422672A822C9E0CD00179D66 /* HWMVUpdateLogWebViewController.xib in Resources */,
 				4202CA2421F6EF2A009E5932 /* HMWClassificationOfLanguageTableViewCell.xib in Resources */,
 				4202CAD921F6EF2B009E5932 /* HMWMyVoteViewController.xib in Resources */,
 				4202CAAE21F6EF2B009E5932 /* HMWaddFooterView.xib in Resources */,
@@ -2920,7 +2933,7 @@
 				42B57ABA22150C1C004CF089 /* WOCrashProtectorManager.m in Sources */,
 				4202CA6921F6EF2B009E5932 /* HMWtransferTransactionMultipleAddressDetailsTableViewCell.m in Sources */,
 				4202CA3721F6EF2A009E5932 /* FLChoseOrVoteVC.m in Sources */,
-				42186FE022BCADBB0063A28D /* AboutELAWalletViewController.m in Sources */,
+				42186FE022BCADBB0063A28D /* AboutELAWalletViewController.mm in Sources */,
 				424910F12271BFCF00C41E50 /* NSData+ImageContentType.m in Sources */,
 				CBD48D5E21FC36BA00BF3B11 /* AFNetworkReachabilityManager.m in Sources */,
 				4202CA9921F6EF2B009E5932 /* HMWImportTheWalletViewController.mm in Sources */,
@@ -2979,6 +2992,7 @@
 				4202CAA421F6EF2B009E5932 /* HMWImKeystoreView.m in Sources */,
 				4202CA7121F6EF2B009E5932 /* HMWtransferTransactionDetailsViewController.m in Sources */,
 				4202CA9121F6EF2B009E5932 /* HMWsettingKeyStorePWDViewController.mm in Sources */,
+				426365BF22D82FC200352396 /* UIButton+HMWButton.m in Sources */,
 				4202CAD421F6EF2B009E5932 /* FLSelectSuperPointVC.mm in Sources */,
 				4250B3EF2238D32700B6858F /* ScanQRCodeViewController.m in Sources */,
 				424910F22271BFCF00C41E50 /* UIImageView+WebCache.m in Sources */,
@@ -3091,6 +3105,7 @@
 				4228AA6421F88C87002866B5 /* CALayer+YYAdd.m in Sources */,
 				4202CA3921F6EF2A009E5932 /* FLticketProgressView.m in Sources */,
 				4202CA6121F6EF2A009E5932 /* HMWtransferTransactionSingleAddressDetailsView.m in Sources */,
+				422672A722C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m in Sources */,
 				4202CA3F21F6EF2A009E5932 /* FLNetErrorView.m in Sources */,
 				4202C9F021F6EF2A009E5932 /* MJRefreshAutoNormalFooter.m in Sources */,
 				4202CA2C21F6EF2A009E5932 /* friendsModel.m in Sources */,
@@ -3200,13 +3215,14 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "elastos wallet/elastos wallet-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/WalletManager",
 					"$(PROJECT_DIR)/ELA/ThirdSDK/ZBar/ZBarSDK",
-					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk-iOS-v0.3.0/iOS/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
 				PRODUCT_NAME = elastos_wallet;
@@ -3244,13 +3260,14 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "elastos wallet/elastos wallet-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/WalletManager",
 					"$(PROJECT_DIR)/ELA/ThirdSDK/ZBar/ZBarSDK",
-					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk-iOS-v0.3.0/iOS/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
 				PRODUCT_NAME = elastos_wallet;

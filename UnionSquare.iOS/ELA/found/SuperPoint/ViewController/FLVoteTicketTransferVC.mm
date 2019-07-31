@@ -53,7 +53,10 @@
     ELWalletManager *manager   =  [ELWalletManager share];
     
     IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-   self.walletBalance = mainchainSubWallet->GetBalance();
+    String balanceSt = mainchainSubWallet->GetBalance(Elastos::ElaWallet::Total);
+    NSString * balanceString= [NSString stringWithCString:balanceSt.c_str() encoding:NSUTF8StringEncoding];
+    NSInteger balance=[balanceString integerValue];
+   self.walletBalance =balance;
     self.theAmountOfTextField.placeholder=[NSString stringWithFormat:@"%@%@ ELA)",NSLocalizedString(@"请输入金额 可用", nil),[[FLTools share]elaScaleConversionWith:[@(self.walletBalance) stringValue]]];
     self.transferTheAddressTextField.placeholder=NSLocalizedString(@"请输入收款人地址", nil);
     
@@ -104,9 +107,13 @@
 - (IBAction)theNextStepEvent:(id)sender {
     
     if (self.transferTheAddressTextField.text.length==0) {
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入收款人地址", nil)];
         return;
     }
-    
+    if ([self.theAmountOfTextField.text doubleValue]==0 ) {
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"金额需要大于0", nil)];
+        return;
+    }
     if ([self.theAmountOfTextField.text doubleValue]>[[[FLTools share]elaScaleConversionWith:@(self.walletBalance).stringValue] doubleValue]) {
         
         [[FLTools share]showErrorInfo:NSLocalizedString(@"余额不足", nil)];
@@ -129,13 +136,6 @@
     }];
     
     self.theNextStepButton.userInteractionEnabled=YES;
-    
-//    UIView *manView=[self mainWindow];
-//
-//    [manView addSubview:self.transferDetailsPopupV];
-//    [self.transferDetailsPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.top.bottom.equalTo(manView);
-//    }];
 }
 -(HMWtransferDetailsPopupView *)transferDetailsPopupV{
     if (!_transferDetailsPopupV) {

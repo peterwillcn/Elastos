@@ -72,7 +72,7 @@ if args.target == "launcher" or args.target == "all":
 
 if args.target == "dapp" or args.target == "all" or args.target == "runtime":
     os.chdir(DAPPS_DIR_PATH)
-    copy_tree("url", BUILD_IN_DIR_PATH)
+    copy_tree("Url", BUILD_IN_DIR_PATH)
     dirs = os.listdir(IONIC_DIR_PATH)
     for dir in dirs:
         if not os.path.isfile(dir):

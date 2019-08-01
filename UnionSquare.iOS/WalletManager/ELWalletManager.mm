@@ -1725,5 +1725,20 @@ errCodeSPVCreateMasterWalletError= 20006;
       return  masterWallet->IsAddressValid(address);
     
 }
+-(void*)SyncStart:(invokedUrlCommand *)command{
+    NSArray *args = command.arguments;
+    int idx = 0;
+    String masterWalletID = [self cstringWithString:args[idx++]];
+    String chainID = [self cstringWithString:args[idx++]];;
+    ISubWallet *subWallet=[self getSubWallet:masterWalletID  :chainID];
+
+
+    try {
+        subWallet->SyncStart();
+    } catch (const std:: exception &e) {
+       
+    }
+    
+}
 
 @end

@@ -183,6 +183,7 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(PluginResult *)GetAllCoinBaseTransaction:(invokedUrlCommand *)command;
 -(PluginResult *)CreateCombineUTXOTransaction:(invokedUrlCommand *)command;
 -(PluginResult *)GetAllUTXOs:(invokedUrlCommand *)command;
+-(void*)SyncStart:(invokedUrlCommand *)command;
 -(NSString*)EMWMGetVersion;
 @end
 

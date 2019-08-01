@@ -367,6 +367,16 @@ NSString *imageName=@"single_wallet";
     negativeSpacer.width =-20;
     NSArray *buttonArray = [[NSArray alloc]initWithObjects:negativeSpacer,ClickMorenButton,saveButton,nil];
     self.navigationItem.rightBarButtonItems = buttonArray;
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"asset_wallet_setting"] style:UIBarButtonItemStyleDone target:self action:@selector(ClickMore:)];
+    
+    __weak __typeof(self) weakSelf = self;
+    self.table.mj_header = [MJRefreshHeader  headerWithRefreshingBlock:^{
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[weakSelf.currentWallet.masterWalletID,@"ELA"] callbackId:weakSelf.currentWallet.walletID className:@"Wallet" methodName:@"SyncStart"];
+        [[ELWalletManager share]SyncStart:mommand];
+        [weakSelf.table.mj_header endRefreshing];
+    }];
+
 }
 //二维码
 -(void)QrCode{
@@ -517,13 +527,11 @@ NSString *imageName=@"single_wallet";
         cell.linkImageView.alpha=1.f;
     }
     NSString * symbolString=@"%";
+    cell.progress.progress=model.thePercentageCurr/model.thePercentageMax;
     if (cell.progress.progress==1&&model.thePercentageCurr!=model.thePercentageMax) {
         cell.progress.progress=0.99;
     }else if ([model.updateTime rangeOfString:@"--:--"].location !=NSNotFound){
         cell.progress.progress=0;
-    }else{
-    cell.progress.progress=model.thePercentageCurr/model.thePercentageMax;
-
     }
     cell.progressLab.text=[NSString stringWithFormat:@"%.f%@",cell.progress.progress*100,symbolString];
 

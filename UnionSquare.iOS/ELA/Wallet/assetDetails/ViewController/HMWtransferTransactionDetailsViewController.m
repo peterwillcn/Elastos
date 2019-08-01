@@ -67,8 +67,14 @@ static NSString *cellString=@"HMWtransferTransactionMultipleAddressDetailsTableV
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"交易详情", nil);
     [self makeView];
-    
-    
+    self.baseTable.estimatedRowHeight = 0;
+    self.baseTable.estimatedSectionHeaderHeight = 0;
+    self.baseTable.estimatedSectionFooterHeight = 0;
+    if (@available(iOS 11.0, *)) {
+        self.baseTable.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
 }
 -(NSMutableArray *)InputsArray{
     if (!_InputsArray) {
@@ -406,10 +412,14 @@ cell.textLabel.text=self.listTextArray[indexPath.section];
         cell.orderDetailsLabel.numberOfLines=1;
         cell.orderDetailsLabel.text=self.model.TxHash;
         cell.orderDetailsLabel.textColor=RGB(28, 164, 252);
+        cell.textOffset.constant=10;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"交易金额", nil)]){
+        cell.textOffset.constant=7;
         cell.orderDetailsLabel.text=self.model.Amount;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"手续费", nil)]){
+        cell.textOffset.constant=7;
         cell.orderDetailsLabel.text=self.model.Fee;
+
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"输入", nil)]){
         cell.textOffset.constant=7;
         cell.orderDetailsLabel.font=[UIFont systemFontOfSize:10]; cell.orderDetailsLabel.text=self.InputsArray[indexPath.row];
@@ -417,16 +427,22 @@ cell.textLabel.text=self.listTextArray[indexPath.section];
         cell.textOffset.constant=7;
        cell.orderDetailsLabel.font=[UIFont systemFontOfSize:10]; cell.orderDetailsLabel.text=self.OutputsArray[indexPath.row];
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"确认时间", nil)]){
+        cell.textOffset.constant=7;
         cell.orderDetailsLabel.text=self.model.Timestamp;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"确认次数", nil)]){
+        cell.textOffset.constant=7;
     cell.orderDetailsLabel.text=self.model.ConfirmStatus;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"交易类型", nil)]){
+        cell.textOffset.constant=7;
         cell.orderDetailsLabel.text=self.model.Type;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"备注", nil)]){
+        cell.textOffset.constant=7;
         cell.orderDetailsLabel.text=self.model.Memo;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"投票数量-1", nil)]){
+        cell.textOffset.constant=7;
         cell.orderDetailsLabel.text=self.votesString;
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"目标地址", nil)]){
+        cell.textOffset.constant=7;
         cell.orderDetailsLabel.font=[UIFont systemFontOfSize:10]; cell.orderDetailsLabel.text=self.PayloadInfoString;
     }
     return cell;

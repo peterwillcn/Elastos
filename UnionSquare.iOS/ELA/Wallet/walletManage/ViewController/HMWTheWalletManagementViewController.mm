@@ -212,13 +212,14 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     
     FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
         model.walletID=self.currentWallet.masterWalletID;
-        [[HMWFMDBManager sharedManagerType:walletType]delectRecordWallet:model];
+       
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
         PluginResult *result= [[ELWalletManager share] DestroyMasterWallet:mommand];
         NSString *status=[NSString stringWithFormat:@"%@",result.status];
         if (![status isEqualToString:@"1"]) {
             return;
         }
+         [[HMWFMDBManager sharedManagerType:walletType]delectRecordWallet:model];
         
         [[FLTools share]showErrorInfo:NSLocalizedString(@"删除成功", nil)];
      [self toCancelOrCloseDelegate];

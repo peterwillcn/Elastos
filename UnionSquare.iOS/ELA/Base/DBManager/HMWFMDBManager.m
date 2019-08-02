@@ -6,14 +6,14 @@
 //
 
 #import "HMWFMDBManager.h"
-
+#import "MyUtil.h"
 static HMWFMDBManager * _manager =nil;
 @implementation HMWFMDBManager
 +(instancetype)sharedManagerType:(FMDatabaseType)type{
-       NSString *path =NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject;
+//       NSString *path =NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject;
 //    NSString *path =NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
-    
-    
+    NSString*path= [MyUtil getRootPath];
+
     NSString *dataBaseName;
     NSString *sql;
     
@@ -29,7 +29,6 @@ static HMWFMDBManager * _manager =nil;
         
     }else if (type==sideChain){
         sql =@"create table if not exists sideChain(ID integer primary key AUTOINCREMENT,walletID text,sideChainName text,sideChainNameTime text,thePercentageMax text,thePercentageCurr text)";
-
         
     }
     static dispatch_once_t onceToken;
@@ -55,17 +54,41 @@ static HMWFMDBManager * _manager =nil;
    
     
     if (  [_manager executeUpdate:sql]) {
+        
     }else{
+        
+
+        
        
     }
+//    if (type==sideChain){
+//        NSString *thePercentageMaxStr = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ INTEGER",@"sideChain",@"thePercentageMax"];
+//        BOOL worked = [_manager executeUpdate:thePercentageMaxStr];
+//        if(worked){
+//            NSLog(@"thePercentageMax插入成功");
+//        }else{
+//            NSLog(@"thePercentageMax插入失败");
+//        }
+//        NSString *thePercentageCurrStr = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ INTEGER",@"sideChain",@"sideChainNameTime"];
+//        BOOL Currworked = [_manager executeUpdate:thePercentageCurrStr];
+//        if(Currworked){
+//            NSLog(@"thePercentageCurr插入成功");
+//        }else{
+//            NSLog(@"thePercentageCurr插入失败");
+//        }
+    
+        
+//    }
     
     return _manager;
     
 }
 
 -(BOOL)addsideChain:(sideChainInfoModel*)model{
-    
-    NSString *sql =[NSString stringWithFormat: @"insert into sideChain (walletID,sideChainName,sideChainNameTime) values (\'%@\',\'%@\',\'%@\');", model.walletID,model.sideChainName,model.sideChainNameTime];
+    if ([self selectAddsideChainWithWalletID:model.walletID andWithIconName:model.sideChainName]) {
+        return YES;
+    }
+    NSString *sql =[NSString stringWithFormat: @"insert into sideChain (walletID,sideChainName,sideChainNameTime,thePercentageMax,thePercentageCurr) values (\'%@\',\'%@\',\'%@\',\'%@\',\'%@\');", model.walletID,model.sideChainName,model.sideChainNameTime,model.thePercentageMax,model.thePercentageCurr];
     if ([self  executeUpdate:sql]) {
         return YES;
     }else{
@@ -118,13 +141,10 @@ static HMWFMDBManager * _manager =nil;
 }
 //查
 -(sideChainInfoModel*)selectAddsideChainWithWalletID:(NSString*)walletID andWithIconName:(NSString*)iconName{
-    
-    if ([iconName isEqualToString:@"IDChain"]) {
-        iconName=@"IdChain";
-    }
-    
     NSString *sql =[NSString stringWithFormat: @"select * from sideChain where walletID=\'%@\' and sideChainName=\'%@\'" ,walletID,iconName];
+
     FMResultSet *set=[self executeQuery:sql];
+        NSMutableArray *allRecords=[[NSMutableArray alloc]init];
     //    一条一条的读取数据 并专程模型
     while (set.next) {
         //        模型
@@ -136,12 +156,27 @@ static HMWFMDBManager * _manager =nil;
         p.sideChainNameTime=[set objectForColumn:@"sideChainNameTime"];
         p.thePercentageCurr =[set objectForColumn:@"thePercentageCurr"];
         p.thePercentageMax=[set objectForColumn:@"thePercentageMax"];
-        NSLog(@"本地存储===%@==%@",p.thePercentageCurr,p.thePercentageMax);
-        if ([p.sideChainName isEqualToString:iconName]) {
-            return p;
-        }
+        [allRecords addObject:p]; NSLog(@"本地存储==%@===%@==%@==%@====%@",p.walletID,p.sideChainName,p.thePercentageCurr,p.thePercentageMax,p.sideChainNameTime);
+     
         
     }
+    if (allRecords.count!=1) {
+        
+        for (sideChainInfoModel *model in allRecords) {
+            
+            if ([model.sideChainName isEqualToString:iconName]) {
+                
+                [self delectSideChain:model.walletID withIconName:nil];
+                return model;
+            }
+        }
+      
+    }else{
+        return allRecords.firstObject;
+    }
+    
+    
+   
     return nil;
         //        添加到数组中
 //        [allRecords addObject:p];
@@ -175,19 +210,34 @@ static HMWFMDBManager * _manager =nil;
     
     return allRecords;
 }
--(BOOL)delectSideChain:(NSString*)ID{
-    
-    NSString *sql =@"delete from sideChain where ID = ?";
-    if ([self executeUpdate:sql,ID]) {
-        
-        
-     
-        return YES;
- 
+-(BOOL)delectSideChain:(NSString*)ID withIconName:(NSString*)iconName{
+    if (iconName.length>0) {
+        NSString *sql =@"delete from sideChain where ID = ? and sideChainName=?";
+        if ([self executeUpdate:sql,ID,iconName]) {
+            
+            
+            
+            return YES;
+            
+        }else{
+            
+            return NO;
+        }
     }else{
-     
-        return NO;
+        NSString *sql =@"delete from sideChain where ID = ?";
+        if ([self executeUpdate:sql,ID]) {
+            
+            
+            
+            return YES;
+            
+        }else{
+            
+            return NO;
+        }
+        
     }
+ 
     
     
 }
@@ -208,17 +258,27 @@ static HMWFMDBManager * _manager =nil;
 }
 //改
 -(BOOL)sideChainUpdate:(sideChainInfoModel *)model{
-     NSString *sql =@"Update sideChain set sideChainNameTime=? where walletID=?";
-     NSString *thePercentageCurrSql =@"Update sideChain set thePercentageCurr=? where walletID=?";
-     NSString *thePercentageMaxSql =@"Update sideChain set thePercentageMax=? where walletID=?";
-     
-    if ( [self executeUpdate:sql,model.sideChainNameTime,model.walletID]&&[self executeUpdate:thePercentageMaxSql,model.thePercentageMax,model.walletID]&&[self executeUpdate:thePercentageCurrSql,model.thePercentageCurr,model.walletID]) {
-      
-        return YES;
-        
+//    return YES;
+    sideChainInfoModel *hasModel=[self selectAddsideChainWithWalletID:model.walletID andWithIconName:model.sideChainName];
+    if (hasModel) {
+        if ([hasModel.sideChainNameTime isEqualToString:model.sideChainNameTime]) {
+            return YES;
+        }
+        NSString *sql =@"Update sideChain set sideChainNameTime='?' ,thePercentageCurr='?',thePercentageMax='?' where walletID='?' and sideChainName='?' ";
+        if ( [self executeUpdate:sql,model.sideChainNameTime,model.thePercentageCurr,model.thePercentageMax,model.walletID,model.sideChainName]) {
+           
+            
+//            [self selectAddsideChainWithWalletID:model.walletID andWithIconName:model.sideChainName];
+             return YES;
+        }else{
+            return NO;
+        };
     }else{
-        return NO;
-    };
+        
+        [self addsideChain:model];
+    }
+    return YES;
+    
 }
 //改
 -(BOOL)updateRecord:(friendsModel *)person{
@@ -301,9 +361,11 @@ static HMWFMDBManager * _manager =nil;
     
     NSString *sql =@"delete from wallet where walletID = ?";
     if ([self executeUpdate:sql,wallet.walletID]) {
+        NSLog(@"成功===删除钱包%@",wallet.walletID);
+        [self delectSideChain:wallet.walletID withIconName:nil];
         return YES;
     }else{
-      
+      NSLog(@"失败===删除钱包%@",wallet.walletID);
         return NO;
     }
 }

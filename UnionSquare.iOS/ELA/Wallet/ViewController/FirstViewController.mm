@@ -16,7 +16,6 @@
 #import "WCQRCodeScanningVC.h"
 #import "FLCapitalView.h"
 #import "FLAllAssetListVC.h"
-#import "IMasterWalletManager.h"
 #import "HMWaddFooterView.h"
 #import "HMWAssetDetailsViewController.h"
 #import "HMWAddTheCurrencyListViewController.h"
@@ -278,7 +277,7 @@
             model.iconBlance=blanceString;
             model.thePercentageCurr=[smodel.thePercentageCurr floatValue];
             model.thePercentageMax=[smodel.thePercentageMax floatValue];
-            NSLog(@"本地存储时间====%@====%@====%@====%@=====%@",smodel.sideChainNameTime,smodel.sideChainName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
+//            NSLog(@"本地存储时间====%@====%@====%@====%@=====%@",smodel.sideChainNameTime,smodel.sideChainName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
             if ([smodel.sideChainNameTime isEqual: [NSNull null]]||smodel.sideChainNameTime==NULL) {
                 model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"已同步区块时间", nil),@"--:--"];
                 model.thePercentageMax=100;
@@ -318,7 +317,7 @@
    
  __weak __typeof(self) weakSelf = self;
     self.table.mj_header = [MJRefreshHeader  headerWithRefreshingBlock:^{
-        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[weakSelf.currentWallet.masterWalletID,@"ELA"] callbackId:weakSelf.currentWallet.walletID className:@"Wallet" methodName:@"SyncStart"];
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[weakSelf.currentWallet.masterWalletID,@"ELA"] callbackId:weakSelf.currentWallet.masterWalletID className:@"Wallet" methodName:@"SyncStart"];
         [[ELWalletManager share]SyncStart:mommand];
         [weakSelf.table.mj_header endRefreshing];
     }];
@@ -452,10 +451,13 @@
     
     NSString * symbolString=@"%";
     cell.progress.progress=model.thePercentageCurr/model.thePercentageMax;
+    
     if (cell.progress.progress==1&&model.thePercentageCurr!=model.thePercentageMax) {
         cell.progress.progress=0.99;
     }else if ([model.updateTime rangeOfString:@"--:--"].location !=NSNotFound){
         cell.progress.progress=0;
+    }else if (model.thePercentageMax==0){
+         cell.progress.progress=0;
     }
     cell.progressLab.text=[NSString stringWithFormat:@"%.f%@",cell.progress.progress*100,symbolString];
     return cell;

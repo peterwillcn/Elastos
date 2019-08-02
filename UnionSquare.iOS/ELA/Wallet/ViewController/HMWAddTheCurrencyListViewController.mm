@@ -161,7 +161,7 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
         PluginResult *result=
         [[ELWalletManager share]DestroySubWallet:cmommand];
       
-        [[HMWFMDBManager sharedManagerType:sideChain] delectSideChain:self.sideChainID];
+        [[HMWFMDBManager sharedManagerType:sideChain] delectSideChain:self.wallet.masterWalletID withIconName:model.nameIcon];
         
     }else{
         

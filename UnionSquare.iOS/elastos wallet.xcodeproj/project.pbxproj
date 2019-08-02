@@ -243,7 +243,6 @@
 		42186FE122BCADBB0063A28D /* AboutELAWalletViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42186FDF22BCADBB0063A28D /* AboutELAWalletViewController.xib */; };
 		422672A722C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 422672A522C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m */; };
 		422672A822C9E0CD00179D66 /* HWMVUpdateLogWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 422672A622C9E0CD00179D66 /* HWMVUpdateLogWebViewController.xib */; };
-		422672A922C9E30200179D66 /* libspvsdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42C53FB222C9BAA80006B3B2 /* libspvsdk.a */; };
 		4226A862229BC02E00E93430 /* build-debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4226A85F229BC02D00E93430 /* build-debug.xcconfig */; };
 		4226A863229BC02E00E93430 /* build.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4226A860229BC02D00E93430 /* build.xcconfig */; };
 		4226A864229BC02E00E93430 /* build-release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4226A861229BC02E00E93430 /* build-release.xcconfig */; };
@@ -361,6 +360,7 @@
 		42D126A322B7755C000A286C /* runningNodeListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D126A222B7755C000A286C /* runningNodeListView.xib */; };
 		42D126A722B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D126A522B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.m */; };
 		42D126A822B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D126A622B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.xib */; };
+		42D1E45922F303720078D5B3 /* libspvsdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D1E45722F2E6050078D5B3 /* libspvsdk.a */; };
 		42D31BAD22F19444007EB785 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42D31BAC22F19444007EB785 /* Bugly.framework */; };
 		42EEDA86224B84790009B18E /* LaunchScreen-English.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42EEDA85224B84790009B18E /* LaunchScreen-English.storyboard */; };
 		42EEDA88224B84A50009B18E /* LaunchScreen-Chinese.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42EEDA87224B84A50009B18E /* LaunchScreen-Chinese.storyboard */; };
@@ -1025,13 +1025,13 @@
 		42C53F9022C9B9820006B3B2 /* MasterWalletManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterWalletManager.h; sourceTree = "<group>"; };
 		42C53F9122C9B9820006B3B2 /* ITokenchainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITokenchainSubWallet.h; sourceTree = "<group>"; };
 		42C53F9222C9B9820006B3B2 /* ISidechainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISidechainSubWallet.h; sourceTree = "<group>"; };
-		42C53FB222C9BAA80006B3B2 /* libspvsdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspvsdk.a; path = "elastos wallet/spvsdk/iOS/lib/libspvsdk.a"; sourceTree = "<group>"; };
 		42D1269F22B7754F000A286C /* runningNodeListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = runningNodeListView.h; sourceTree = "<group>"; };
 		42D126A022B7754F000A286C /* runningNodeListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = runningNodeListView.m; sourceTree = "<group>"; };
 		42D126A222B7755C000A286C /* runningNodeListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = runningNodeListView.xib; sourceTree = "<group>"; };
 		42D126A422B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMWVotingListTypeCrossCollectionViewCell.h; sourceTree = "<group>"; };
 		42D126A522B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMWVotingListTypeCrossCollectionViewCell.m; sourceTree = "<group>"; };
 		42D126A622B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HMWVotingListTypeCrossCollectionViewCell.xib; sourceTree = "<group>"; };
+		42D1E45722F2E6050078D5B3 /* libspvsdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspvsdk.a; path = "elastos wallet/spvsdk/lib/libspvsdk.a"; sourceTree = "<group>"; };
 		42D31BAC22F19444007EB785 /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
 		42EEDA85224B84790009B18E /* LaunchScreen-English.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "LaunchScreen-English.storyboard"; sourceTree = "<group>"; };
 		42EEDA87224B84A50009B18E /* LaunchScreen-Chinese.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "LaunchScreen-Chinese.storyboard"; sourceTree = "<group>"; };
@@ -1089,7 +1089,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				422672A922C9E30200179D66 /* libspvsdk.a in Frameworks */,
+				42D1E45922F303720078D5B3 /* libspvsdk.a in Frameworks */,
 				4261CF4022A16066006B1DDE /* Security.framework in Frameworks */,
 				4261CF3E22A1605D006B1DDE /* SystemConfiguration.framework in Frameworks */,
 				4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */,
@@ -1168,7 +1168,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				42C53FB222C9BAA80006B3B2 /* libspvsdk.a */,
+				42D1E45722F2E6050078D5B3 /* libspvsdk.a */,
 				4261CF3F22A16066006B1DDE /* Security.framework */,
 				4261CF3D22A1605C006B1DDE /* SystemConfiguration.framework */,
 				4250B3F82238D3E900B6858F /* libiconv.tbd */,
@@ -3200,7 +3200,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = K5DE7L29B2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3223,6 +3223,8 @@
 					"$(PROJECT_DIR)/ELA/ThirdSDK/ZBar/ZBarSDK",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
 				PRODUCT_NAME = elastos_wallet;
@@ -3248,7 +3250,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = K5DE7L29B2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3268,6 +3270,8 @@
 					"$(PROJECT_DIR)/ELA/ThirdSDK/ZBar/ZBarSDK",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
 				PRODUCT_NAME = elastos_wallet;

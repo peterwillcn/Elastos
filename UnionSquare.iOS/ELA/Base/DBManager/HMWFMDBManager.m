@@ -10,9 +10,9 @@
 static HMWFMDBManager * _manager =nil;
 @implementation HMWFMDBManager
 +(instancetype)sharedManagerType:(FMDatabaseType)type{
-//       NSString *path =NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject;
+       NSString *path =NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject;
 //    NSString *path =NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
-    NSString*path= [MyUtil getRootPath];
+//    NSString*path= [MyUtil getRootPath];
 
     NSString *dataBaseName;
     NSString *sql;

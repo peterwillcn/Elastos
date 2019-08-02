@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(BOOL)addsideChain:(sideChainInfoModel*)model;
 -(sideChainInfoModel*)selectAddsideChainWithWalletID:(NSString*)walletID andWithIconName:(NSString*)iconName;
--(BOOL)delectSideChain:(NSString*)ID;
+-(BOOL)delectSideChain:(NSString*)ID withIconName:(NSString*)iconName;
 -(BOOL)sideChainUpdate:(sideChainInfoModel *)model;
 @end
 

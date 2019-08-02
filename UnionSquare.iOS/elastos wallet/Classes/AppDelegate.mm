@@ -146,11 +146,9 @@
     
 }
 -(void)applicationWillTerminate:(UIApplication *)application{
-    
-    [[ELWalletManager share] EMWMSaveConfigs];
+   
 }
 -(void)applicationDidEnterBackground:(UIApplication *)application {
- [[ELWalletManager share] EMWMSaveConfigs];
 }
 /**
  iOS 9.0 以下 程序运行过程中调用

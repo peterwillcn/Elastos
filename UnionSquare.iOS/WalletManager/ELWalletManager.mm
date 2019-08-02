@@ -10,6 +10,7 @@
 #include <dispatch/dispatch.h>
 #import "sideChainInfoModel.h"
 #import "HMWFMDBManager.h"
+
 static ELWalletManager *tool;
 static uint64_t feePerKB = 10000;
 #pragma mark - ELWalletManager
@@ -989,7 +990,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     Json keystoreContent = [self jsonWithString:keystoreContentStr];
     String backupPassword = [self cstringWithString:args[idx++]];
     String payPassword = [self cstringWithString:args[idx++]];
-    NSString * walletID=args[idx++]; NSLog(@"importWalletWithKeystore--%@--%@--%@--%@",[self stringWithCString:masterWalletID],keystoreContentStr,[self stringWithCString:backupPassword],[self stringWithCString:payPassword]);
+    NSString * walletID=args[idx++]; NSLog(@"importWalletWithKeystore--%@--%@--%@--%@",[self stringWithCString:masterWalletID],keystoreContentStr,@"backupPassword",@"payPassword");
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -1355,7 +1356,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     String memo=[self cstringWithString:args[idx++]];
     String remark=[self cstringWithString:args[idx++]];
     String pwd=[self cstringWithString:args[idx++]];
-    NSLog(@"mainChainWithdrawal--%@--%@--%@--%@--%@--%@--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:fromSubWalletID],[self stringWithCString:from],[self stringWithCString:mainchainAddress],amountString,[self stringWithCString:memo],[self stringWithCString:remark],[self stringWithCString:pwd]);
+    NSLog(@"mainChainWithdrawal--%@--%@--%@--%@--%@--%@--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:fromSubWalletID],[self stringWithCString:from],[self stringWithCString:mainchainAddress],amountString,[self stringWithCString:memo],[self stringWithCString:remark],@"pwd");
     
     ISubWallet * fromSubWallet=[self getSubWallet:masterWalletID :fromSubWalletID];
     ISidechainSubWallet *sidechainSubWallet = dynamic_cast<ISidechainSubWallet *>(fromSubWallet);
@@ -1432,7 +1433,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     uint64_t fee;
     Json signedTx;
     Json result;
-    NSLog(@"RegisterProducerWithMainchainSubWallet--%@--%@--%@--%@--%@--%@--%@--%ld",model.pubKey,model.nodePubKey,model.nickName,model.url,model.ipAddress,model.contryCode,model.pwd,(long)model.acount);
+    NSLog(@"RegisterProducerWithMainchainSubWallet--%@--%@--%@--%@--%@--%@--%@--%ld",model.pubKey,model.nodePubKey,model.nickName,model.url,model.ipAddress,model.contryCode,@"pwd",(long)model.acount);
    
     try {
        payload= ELA->GenerateProducerPayload([model.pubKey UTF8String], [model.nodePubKey UTF8String],[model.nickName UTF8String], [model.url UTF8String], [model.ipAddress UTF8String], [model.contryCode intValue] , [model.pwd UTF8String]);
@@ -1483,7 +1484,7 @@ errCodeSPVCreateMasterWalletError= 20006;
 }
 -(NSInteger)UpdateProducerWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model
 {
-    NSLog(@"UpdateProducerWithMainchainSubWallet--%@--%@--%@--%@--%@--%@--%@--%ld",model.pubKey,model.nodePubKey,model.nickName,model.url,model.ipAddress,model.contryCode,model.pwd,(long)model.acount);
+    NSLog(@"UpdateProducerWithMainchainSubWallet--%@--%@--%@--%@--%@--%@--%@--%ld",model.pubKey,model.nodePubKey,model.nickName,model.url,model.ipAddress,model.contryCode,@"pwd",(long)model.acount);
     try {
         std::string pubKey = ELA->GetOwnerPublicKey();
         std::string nodePublicKey = [model.ownerPublickKey UTF8String];
@@ -1914,7 +1915,9 @@ errCodeSPVCreateMasterWalletError= 20006;
 
 
     try {
-        subWallet->SyncStart();
+        if (subWallet) {
+            subWallet->SyncStart();
+        }
     } catch (const std:: exception &e) {
        
     }

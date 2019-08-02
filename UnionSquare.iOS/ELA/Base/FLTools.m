@@ -27,6 +27,7 @@ static FLTools *tool;
 
 +(instancetype)share{
     if (!tool) {
+      
         tool = [[self alloc]init];
     }
     return tool;

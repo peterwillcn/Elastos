@@ -193,10 +193,7 @@
     UIViewController *rootViewController = appdelegate.window.rootViewController;
     if ([rootViewController.childViewControllers.firstObject isKindOfClass:[FLPrepareVC class]]) {
         FLFLTabBarVC *tabVC = [[FLFLTabBarVC alloc]init];
-//        BaseNavigationVC *firstNAVC=tabVC.viewControllers.firstObject;
-//        FirstViewController *firstVC=firstNAVC.viewControllers.firstObject;
-//        firstVC.walletIDListArray=array;
-        appdelegate.window.rootViewController=tabVC;
+    appdelegate.window.rootViewController=tabVC;
     }else{
         [[NSNotificationCenter defaultCenter]postNotificationName:updataCreateWallet object:nil ];
    
@@ -213,7 +210,7 @@
     PluginResult *result= [[ELWalletManager share]importWalletWithKeystore:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if([status isEqualToString:@"1"]){
-       
+        NSLog(@"导入钱包成功");
         
         [self getAllSubWalletsWith:wallet];
         
@@ -245,7 +242,7 @@
             sideModel.sideChainName=@"ELA";
             
             sideModel.sideChainNameTime=@"--:--";
-            
+            NSLog(@"添加成功");
             [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
             [self successfulSwitchingRootVC];
         }

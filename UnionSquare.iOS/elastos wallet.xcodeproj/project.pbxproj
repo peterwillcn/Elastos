@@ -396,6 +396,7 @@
 		42D126A822B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D126A622B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.xib */; };
 		42EEDA86224B84790009B18E /* LaunchScreen-English.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42EEDA85224B84790009B18E /* LaunchScreen-English.storyboard */; };
 		42EEDA88224B84A50009B18E /* LaunchScreen-Chinese.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42EEDA87224B84A50009B18E /* LaunchScreen-Chinese.storyboard */; };
+		42FB1F5222F80F9900713355 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42FB1F5122F80F9900713355 /* Bugly.framework */; };
 		7087D92F21BCDF1B00599316 /* MyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7087D92E21BCDF1B00599316 /* MyUtil.m */; };
 		70F8409621BEAA1B001C0BD6 /* ELWalletManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70F8409521BEAA1B001C0BD6 /* ELWalletManager.mm */; };
 		9FD0C828FEE9459B88FB6A2D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B5A24BEEA44AE9AD51A2C8 /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -1108,7 +1109,6 @@
 		42C53F9022C9B9820006B3B2 /* MasterWalletManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterWalletManager.h; sourceTree = "<group>"; };
 		42C53F9122C9B9820006B3B2 /* ITokenchainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITokenchainSubWallet.h; sourceTree = "<group>"; };
 		42C53F9222C9B9820006B3B2 /* ISidechainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISidechainSubWallet.h; sourceTree = "<group>"; };
-		42C53FB222C9BAA80006B3B2 /* libspvsdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspvsdk.a; path = "elastos wallet/spvsdk/iOS/lib/libspvsdk.a"; sourceTree = "<group>"; };
 		42D1269F22B7754F000A286C /* runningNodeListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = runningNodeListView.h; sourceTree = "<group>"; };
 		42D126A022B7754F000A286C /* runningNodeListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = runningNodeListView.m; sourceTree = "<group>"; };
 		42D126A222B7755C000A286C /* runningNodeListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = runningNodeListView.xib; sourceTree = "<group>"; };
@@ -1117,6 +1117,7 @@
 		42D126A622B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HMWVotingListTypeCrossCollectionViewCell.xib; sourceTree = "<group>"; };
 		42EEDA85224B84790009B18E /* LaunchScreen-English.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "LaunchScreen-English.storyboard"; sourceTree = "<group>"; };
 		42EEDA87224B84A50009B18E /* LaunchScreen-Chinese.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "LaunchScreen-Chinese.storyboard"; sourceTree = "<group>"; };
+		42FB1F5122F80F9900713355 /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
 		705D8C6C21BE86870062156D /* ELWalletManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELWalletManager.h; sourceTree = "<group>"; };
 		7087D92721BCD85500599316 /* IDIDManagerSupervisor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDIDManagerSupervisor.h; sourceTree = "<group>"; };
 		7087D92821BCD85500599316 /* idid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = idid.h; sourceTree = "<group>"; };
@@ -1177,6 +1178,7 @@
 				4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */,
 				4250B3F22238D32700B6858F /* libzbar.a in Frameworks */,
 				9FD0C828FEE9459B88FB6A2D /* WebKit.framework in Frameworks */,
+				42FB1F5222F80F9900713355 /* Bugly.framework in Frameworks */,
 				0377F67DC70B4CEFBD787502 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1249,7 +1251,6 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				42C53FB222C9BAA80006B3B2 /* libspvsdk.a */,
 				42A7840422F7FF25008F2F94 /* libspvsdk.a */,
 				4261CF3F22A16066006B1DDE /* Security.framework */,
 				4261CF3D22A1605C006B1DDE /* SystemConfiguration.framework */,
@@ -1297,6 +1298,7 @@
 		4202C7D421F6EF28009E5932 /* ThirdSDK */ = {
 			isa = PBXGroup;
 			children = (
+				42FB1F5122F80F9900713355 /* Bugly.framework */,
 				424910C22271BFCF00C41E50 /* SDWebImage */,
 				4250B3C62238D32600B6858F /* ZBar */,
 				42B57A9322150C1C004CF089 /* WOCrashProtector */,

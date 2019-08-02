@@ -366,16 +366,12 @@ NSString *imageName=@"single_wallet";
     negativeSpacer.width =-20;
     NSArray *buttonArray = [[NSArray alloc]initWithObjects:negativeSpacer,ClickMorenButton,saveButton,nil];
     self.navigationItem.rightBarButtonItems = buttonArray;
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"asset_wallet_setting"] style:UIBarButtonItemStyleDone target:self action:@selector(ClickMore:)];
-    
     __weak __typeof(self) weakSelf = self;
     self.table.mj_header = [MJRefreshHeader  headerWithRefreshingBlock:^{
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[weakSelf.currentWallet.masterWalletID,@"ELA"] callbackId:weakSelf.currentWallet.masterWalletID className:@"Wallet" methodName:@"SyncStart"];
         [[ELWalletManager share]SyncStart:mommand];
         [weakSelf.table.mj_header endRefreshing];
     }];
-
 }
 //二维码
 -(void)QrCode{

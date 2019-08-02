@@ -1893,8 +1893,8 @@ errCodeSPVCreateMasterWalletError= 20006;
     
    return [self stringWithCString:XPK];
 }
--(void)EMWMSaveConfigs{
-//    mMasterWalletManager->SaveConfigs();
+-(void)EMWMFlushData{
+//    mMasterWalletManager->FlushData();
 }
 -(NSString*)EMWMGetVersion{
     String  Version=mMasterWalletManager->GetVersion();

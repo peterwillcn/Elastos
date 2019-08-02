@@ -1713,8 +1713,8 @@ errCodeSPVCreateMasterWalletError= 20006;
     return [self successProcess:command msg:dic];
     
 }
--(void)EMWMSaveConfigs{
-//    mMasterWalletManager->SaveConfigs();
+-(void)EMWMFlushData{
+    mMasterWalletManager->FlushData();
 }
 -(NSString*)EMWMGetVersion{
     String  Version=mMasterWalletManager->GetVersion();

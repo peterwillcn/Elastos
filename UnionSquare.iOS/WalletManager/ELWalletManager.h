@@ -177,7 +177,7 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 //上链
 //-(void)PublishTransactionWith:(NSString*)mainchainSubWalletId tx:(Json*)tx;
 -(PluginResult *)GetAssetDetails:(invokedUrlCommand *)command;
--(void)EMWMSaveConfigs;
+-(void)EMWMFlushData;
 -(NSString*)GetRegisteredProducerInfo:(NSString *)mainid;
 -(NSString *)GetOwnerAddressWithID:(NSString*)masterWalletID;
 -(PluginResult *)GetAllCoinBaseTransaction:(invokedUrlCommand *)command;

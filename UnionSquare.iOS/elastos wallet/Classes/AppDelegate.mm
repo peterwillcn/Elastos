@@ -366,9 +366,10 @@
     
 }
 -(void)applicationWillResignActive:(UIApplication *)application {
+    [[ELWalletManager share]EMWMFlushData];
 }
--(void)applicationWillEnterForeground:(UIApplication *)application {
+- (void)applicationDidBecomeActive:(UIApplication *)application{
+     [[ELWalletManager share]EMWMFlushData];
 }
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-}
+
 @end

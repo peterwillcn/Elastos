@@ -29,37 +29,36 @@
     <hook src="scripts/apply_patches.js" type="after_platform_add" />
     <hook src="scripts/remove_files.js" type="after_platform_add" />
     <hook src="scripts/modify_xcode_project.js" type="after_platform_add" />
-    <hook src="scripts/apply_patches.js" type="after_plugin_install" />
+    <hook src="scripts/apply_patches.js" type="before_plugin_install" />
     <plugin name="elastos-trinity-plugins-appmanager" spec="../Plugins/AppManager">
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
     </plugin>
     <plugin name="elastos-trinity-plugins-appservice" spec="../Plugins/AppService" />
-    <plugin name="elastos-trinity-plugins-battery-status" spec="../Plugins/BatteryStatus" />
     <plugin name="cordova-plugin-file" spec="../Plugins/File" />
-    <plugin name="elastos-trinity-plugins-camera" spec="../Plugins/Camera">
-        <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
-    </plugin>
     <plugin name="elastos-trinity-plugins-carrier" spec="../Plugins/Carrier" />
-    <plugin name="elastos-trinity-plugins-device" spec="../Plugins/Device" />
-    <plugin name="elastos-trinity-plugins-device-motion" spec="../Plugins/DeviceMotion" />
-    <plugin name="elastos-trinity-plugins-dialogs" spec="../Plugins/Dialog" />
-    <plugin name="elastos-trinity-plugins-geolocation" spec="../Plugins/Geolocation" />
-    <plugin name="elastos-trinity-plugins-flashlight" spec="../Plugins/Flashlight" />
     <plugin name="elastos-trinity-plugins-hive" spec="../Plugins/Hive" />
-    <plugin name="elastos-trinity-plugins-inappbrowser" spec="../Plugins/InappBrowser" />
+    <plugin name="elastos-trinity-plugins-ionicwebview" spec="../Plugins/IonicWebView" />
     <plugin name="elastos-trinity-plugins-media" spec="../Plugins/Media">
         <variable name="KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE" value="NO" />
     </plugin>
-    <plugin name="elastos-trinity-plugins-capture" spec="../Plugins/MediaCapture" />
-    <plugin name="elastos-trinity-plugins-network-information" spec="../Plugins/NetWorkInformation" />
-    <plugin name="elastos-trinity-plugins-plugindemo" spec="../Plugins/PluginDemo" />
-    <plugin name="elastos-trinity-plugins-qrscanner" spec="../Plugins/QRScanner" />
-    <plugin name="elastos-trinity-plugins-screen-orientation" spec="../Plugins/ScreenOrientation" />
-    <plugin name="elastos-trinity-plugins-splashscreen" spec="../Plugins/SplashScreen" />
-    <plugin name="elastos-trinity-plugins-statusbar" spec="../Plugins/Statusbar" />
-    <plugin name="elastos-trinity-plugins-vibration" spec="../Plugins/Vibration" />
     <plugin name="elastos-trinity-plugins-wallet" spec="../Plugins/Wallet" />
-    <plugin name="elastos-trinity-plugins-ionicwebview" spec="../Plugins/IonicWebView" />
+    <plugin name="cordova-plugin-battery-status" spec="^2.0.3" />
+    <plugin name="cordova-plugin-camera" spec="^4.1.0">
+        <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
+    </plugin>
+    <plugin name="cordova-plugin-device" spec="^2.0.3" />
+    <plugin name="cordova-plugin-device-motion" spec="^2.0.1" />
+    <plugin name="cordova-plugin-dialogs" spec="^2.0.2" />
+    <plugin name="cordova-plugin-flashlight" spec="^3.2.0" />
+    <plugin name="cordova-plugin-geolocation" spec="^4.0.2" />
+    <plugin name="cordova-plugin-inappbrowser" spec="^3.1.0" />
+    <plugin name="cordova-plugin-media-capture" spec="^3.0.3" />
+    <plugin name="cordova-plugin-network-information" spec="^2.0.2" />
+    <plugin name="elastos-trinity-plugins-qrscanner" spec="../Plugins/QRScanner" />
+    <plugin name="cordova-plugin-splashscreen" spec="^5.0.3" />
+    <plugin name="cordova-plugin-statusbar" spec="^2.4.3" />
+    <plugin name="cordova-plugin-vibration" spec="^3.1.1" />
+    <plugin name="cordova-plugin-screen-orientation" spec="^3.0.2" />
     <engine name="android" spec="7.1.4" />
     <engine name="ios" spec="4.5.5" />
 </widget>

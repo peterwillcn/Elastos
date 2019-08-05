@@ -10,7 +10,7 @@
  	<key>CFBundleInfoDictionaryVersion</key>
  	<string>6.0</string>
  	<key>CFBundleName</key>
-@@ -47,5 +47,40 @@
+@@ -47,5 +47,46 @@
  	</array>
          <key>UIRequiresFullScreen</key>
          <true/>
@@ -49,5 +49,11 @@
 +           </dict>
 +       </dict>
 +   </array>
++   <key>NSLocationWhenInUseUsageDescription</key>
++   <string>Allow the app to know your location.</string>
++   <key>NSMicrophoneUsageDescription</key>
++   <string>Allow the app to access your microphone.</string>
++   <key>NSPhotoLibraryAddUsageDescription</key>
++   <string>Allow the app to access your Photo.</string>
  </dict>
  </plist>

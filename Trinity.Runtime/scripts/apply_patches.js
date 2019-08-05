@@ -13,10 +13,10 @@ const patch_dirs = [
     "patch_dir": "patches/after_platform_add_ios"
   },
   {
-    "hook": "after_plugin_install",
-    "platform": "ios",
-    "plugin_id": "elastos-trinity-plugins-qrscanner",
-    "patch_dir": "patches/after_plugin_install_qrscanner_ios"
+    "hook": "before_plugin_install",
+    "platform": "android",
+    "plugin_id": "cordova-plugin-device",
+    "patch_dir": "patches/before_plugin_install_device"
   }
 ]
 // no need to configure below

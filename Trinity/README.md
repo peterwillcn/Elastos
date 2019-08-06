@@ -80,10 +80,10 @@ And then use git add, commit and push to submit your changes to current project.
 
 ```shell
 cd YOU-PATH/Elastos.Trinity
-./ToolChain/bin/build all
+./ToolChains/bin/build all
 ```
 
-NOTE：You could type `./ToolChain/bin/build --help` for more detail
+NOTE：You could type `./ToolChains/bin/build --help` for more detail
 
 **Using Android Studio:**
 
@@ -94,7 +94,7 @@ Open project from YOU-PATH/Elastos.Trinity/Runtime/platforms/android
 
 ```shell
 cd YOU-PATH/Elastos.Trinity
-./ToolChain/bin/build all
+./ToolChains/bin/build all
 ```
 
 **Using Android Studio:**
@@ -110,7 +110,7 @@ Open project from YOU-PATH/Elastos.Trinity/Runtime/platforms/ios
 
 ```shell
 cd YOU-PATH/Elastos.Trinity
-python ToolChain/bin/build all
+python ToolChains/bin/build all
 ```
 
 **Using Android Studio:**

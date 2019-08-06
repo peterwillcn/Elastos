@@ -84,7 +84,7 @@ if args.target == "dapp" or args.target == "all" or args.target == "runtime":
 
 if args.target == "all":
     os.chdir(PROJECT_DIR_PATH)
-    copy_tree("Launcher/demos", "Runtime/www/built-in/")
+    #copy_tree("Launcher/demos", "Runtime/www/built-in/")
     copy_tree("Launcher/www", "Runtime/www/launcher/")
 
 if args.target == "runtime":

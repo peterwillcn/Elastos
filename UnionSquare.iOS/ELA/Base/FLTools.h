@@ -71,6 +71,7 @@
 @property(copy,nonatomic)NSString *masterWalletID;
 @property (nonatomic, copy)NSString*signType;
 @property(assign,nonatomic)NSInteger TypeW;
+
 @end
 
 @class YYCache;

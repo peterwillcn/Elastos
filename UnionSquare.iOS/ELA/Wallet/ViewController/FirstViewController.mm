@@ -311,7 +311,13 @@ NSString *imageName=@"single_wallet";
             [self getBalanceList:array];
         }
     }
+    PluginResult * resultBase =[[ELWalletManager share]getMasterWalletBasicInfo:mommand];
+    NSString *statusBase=[NSString stringWithFormat:@"%@",result.status];
+    if ([status isEqualToString:@"1"] ) {
+        
+    }
     [self UpWalletType:model];
+    
 }
 -(void)getBalanceList:(NSArray*)arr{
     if (self.dataSoureArray.count>0) {

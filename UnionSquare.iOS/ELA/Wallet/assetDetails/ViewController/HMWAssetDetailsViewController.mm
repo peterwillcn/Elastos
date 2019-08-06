@@ -493,6 +493,12 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
             
         }
     }];
+    __weak __typeof(self) weakSelf = self;
+ self.baseTableView.mj_header = [MJRefreshHeader  headerWithRefreshingBlock:^{
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[weakSelf.currentWallet.masterWalletID,self.model.iconName] callbackId:weakSelf.currentWallet.masterWalletID className:@"Wallet" methodName:@"SyncStart"];
+        [[ELWalletManager share]SyncStart:mommand];
+        [weakSelf.baseTableView.mj_header endRefreshing];
+    }];
     
     self.baseTableView.separatorInset=UIEdgeInsetsMake(-0, 15, 0, 15);
   
@@ -646,7 +652,7 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
             detailsM.Type=NSLocalizedString(@"侧链提现交易", nil);
             break;
         case 8:
-            transferTransactionDetailsVC.PayloadInfoString=[NSString stringWithFormat:@"%@\n%@ %@",result.message[@"success"][@"Transactions"][0][@"Payload"][@"CrossChainAddress"][0],[[FLTools share] elaScaleConversionWith:result.message[@"success"][@"Transactions"][0][@"Payload"][@"CrossChainAmount"][0]],@"ELA"];
+            transferTransactionDetailsVC.PayloadInfoString=[NSString stringWithFormat:@"%@\n%@ %@",result.message[@"success"][@"Transactions"][0][@"Payload"][0][@"CrossChainAddress"],[[FLTools share] elaScaleConversionWith:result.message[@"success"][@"Transactions"][0][@"Payload"][0][@"CrossChainAmount"]],@"ELA"];
             detailsM.Type=NSLocalizedString(@"跨链交易", nil);
             break;
         case 9:

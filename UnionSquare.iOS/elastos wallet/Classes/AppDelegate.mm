@@ -130,7 +130,12 @@
         self.window.rootViewController = tabVC;
     }
     [WOCrashProtectorManager makeAllEffective];
+    //#if DEBUG
+    
     [self setupBugly];
+    
+    //#endif
+    
     [self.window makeKeyAndVisible];
     
     return YES;

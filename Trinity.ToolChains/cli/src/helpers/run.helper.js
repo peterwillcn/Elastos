@@ -40,6 +40,39 @@ module.exports = class RunHelper {
     }
 
     /**
+     * Signs a given EPK using a test signature file.
+     */
+    signEPK(EPKPath) {
+        return new Promise((resolve, reject) => {
+            console.log("Signing the generated EPK with your identity...")
+
+            path.resolve(__dirname, idKeystorePath)
+
+            var rootScriptDirectory = path.dirname(require.main.filename)
+            var idKeystorePath = "";
+
+            const spawn = require("child_process").spawn;
+            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/sign_epk", "-k", idKeystorePath, EPKPath]);
+
+            pythonProcess.stdout.on('data', function (data) { console.log(''+data)});
+            pythonProcess.stderr.on('data', function (data) { console.log(''+data)});
+            pythonProcess.on('error', function(err) { reject(err)})
+
+            pythonProcess.on('exit', function (code) {
+                if (code == 0) {
+                    // Operation completed successfully
+                    console.log("EPK file successfully signed with your identity")
+                    resolve()
+                }
+                else {
+                    console.log('ERROR - child process exited with code ' + code);
+                    reject()
+                }
+            });
+        })
+    }
+
+    /**
      * Uploads a given EPK file to a connected android device, to a temporary location.
      */
     androidUploadEPK(EPKPath) {

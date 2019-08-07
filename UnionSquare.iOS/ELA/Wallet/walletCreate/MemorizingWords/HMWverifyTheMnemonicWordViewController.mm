@@ -12,6 +12,10 @@
 #import "FLFLTabBarVC.h"
 #import "FLPrepareVC.h"
 #import "DAConfig.h"
+#import "FMDBWalletModel.h"
+#import "ELWalletManager.h"
+#import "HMWFMDBManager.h"
+
 
 @interface HMWverifyTheMnemonicWordViewController ()<UITextViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
 /*
@@ -105,7 +109,57 @@
         ret=YES;
     }
     if (ret) {
+        NSString *isSingleAddress=@"NO";
+        if (self.Wallet.isSingleAddress) {
+            isSingleAddress=@"YES";
+        }
+        
+        
+        invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.Wallet.masterWalletID,self.Wallet.mnemonic,self.Wallet.mnemonicPWD,self.Wallet.passWord,isSingleAddress] callbackId:self.Wallet.walletID className:@"Wallet" methodName:@"createMasterWallet"];
+        
+        PluginResult *result= [[ELWalletManager share] createMasterWallet:cmommand];
+        
+        NSString *status =[NSString stringWithFormat:@"%@",result.status];
+        
+        
+        if ([status isEqualToString:@"1"]) {
+            
+            invokedUrlCommand *subCmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.Wallet.masterWalletID,@"ELA",@"10000"] callbackId:self.Wallet.walletID className:@"Wallet" methodName:@"createMasterWallet"];
+            
+            PluginResult *subResult= [[ELWalletManager share] createSubWallet:subCmommand];
+            NSString *status =[NSString stringWithFormat:@"%@",subResult.status];
+            if ([status isEqualToString:@"1"]) {
+                FMDBWalletModel*waModel=[[FMDBWalletModel alloc]init];
+                waModel.walletName=self.Wallet.walletName;
+                //            waModel.walletAddress
+                waModel.walletID=self.Wallet.masterWalletID;
+                
+                
+                [[HMWFMDBManager sharedManagerType:walletType] addWallet:waModel];
+                
+                sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
+                sideModel.walletID=waModel.walletID;
+                sideModel.sideChainName=@"ELA";
+                sideModel.sideChainNameTime=@"--:--";
+                
+                
+                [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
+                
+                
+                HMWverifyTheMnemonicWordViewController *verifyTheMnemonicWordVC=[[HMWverifyTheMnemonicWordViewController alloc]init];
+                verifyTheMnemonicWordVC.Wallet=self.Wallet;
+                verifyTheMnemonicWordVC.FormeType=@"1";
+                [self.navigationController pushViewController:verifyTheMnemonicWordVC animated:YES];
+            }
+            
+            
+        }else{
+            self.Wallet.walletID=NULL;
+            
+        }
+        
         [[FLTools share]showErrorInfo:NSLocalizedString(@"备份成功", nil)];
+        
         AppDelegate *appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         UIViewController *rootViewController1 = appdelegate.window.rootViewController;
         if ([rootViewController1.childViewControllers.firstObject isKindOfClass:[FLPrepareVC class]]) {

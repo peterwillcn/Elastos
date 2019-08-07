@@ -156,6 +156,38 @@ static HMWFMDBManager * _manager =nil;
         p.sideChainNameTime=[set objectForColumn:@"sideChainNameTime"];
         p.thePercentageCurr =[set objectForColumn:@"thePercentageCurr"];
         p.thePercentageMax=[set objectForColumn:@"thePercentageMax"];
+        if (p.sideChainNameTime.length==0) {
+                    NSString *sideChainNameTime = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ INTEGER",@"sideChain",@"sideChainNameTime"];
+                    BOOL worked = [_manager executeUpdate:sideChainNameTime];
+                    if(worked){
+                        NSLog(@"sideChainNameTime插入成功");
+                    }else{
+                        NSLog(@"sideChainNameTime插入失败");
+                    }
+            p.sideChainNameTime=@"--:--";
+        }
+        if (p.thePercentageMax.length==0) {
+                    NSString *thePercentageMax = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ INTEGER",@"sideChain",@"thePercentageMax"];
+            BOOL Currworked = [_manager executeUpdate:thePercentageMax];
+                    if(Currworked){
+                        NSLog(@"thePercentageMax插入成功");
+                    }else{
+                        NSLog(@"thePercentageMax插入失败");
+                    }
+           p.thePercentageMax=@"100";
+            
+        }
+        if (p.thePercentageCurr.length==0) {
+            NSString *thePercentageCurr = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ INTEGER",@"sideChain",@"thePercentageCurr"];
+            BOOL Currworked = [_manager executeUpdate:thePercentageCurr];
+            if(Currworked){
+                NSLog(@"thePercentageCurr插入成功");
+            }else{
+                NSLog(@"thePercentageCurr插入失败");
+            }
+             p.thePercentageCurr=@"100";
+            
+        }
         [allRecords addObject:p]; NSLog(@"本地存储==%@===%@==%@==%@====%@",p.walletID,p.sideChainName,p.thePercentageCurr,p.thePercentageMax,p.sideChainNameTime);
      
         
@@ -264,10 +296,8 @@ static HMWFMDBManager * _manager =nil;
         if ([hasModel.sideChainNameTime isEqualToString:model.sideChainNameTime]) {
             return YES;
         }
-        NSString *sql =@"Update sideChain set sideChainNameTime='?' ,thePercentageCurr='?',thePercentageMax='?' where walletID='?' and sideChainName='?' ";
+        NSString *sql =@"Update sideChain set sideChainNameTime=? ,thePercentageCurr=?,thePercentageMax=? where walletID=? and sideChainName=? ";
         if ( [self executeUpdate:sql,model.sideChainNameTime,model.thePercentageCurr,model.thePercentageMax,model.walletID,model.sideChainName]) {
-           
-            
 //            [self selectAddsideChainWithWalletID:model.walletID andWithIconName:model.sideChainName];
              return YES;
         }else{

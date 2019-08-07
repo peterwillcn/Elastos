@@ -133,7 +133,7 @@
     NSString * currentBlockHeight=dic[@"currentBlockHeight"];
  
      NSString *  progress=dic[@"progress"];
-    
+
     assetsListModel *model;
  
     
@@ -152,8 +152,8 @@
            smodel.thePercentageCurr=[NSString stringWithFormat:@"%f",model.thePercentageCurr]; smodel.walletID=self.currentWallet.masterWalletID;
             smodel.sideChainName=model.iconName;
             smodel.sideChainNameTime=lastBlockTimeString;
-            
-            model.updateTime=[NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"已同步区块时间", nil),smodel.sideChainNameTime];
+             NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:smodel.sideChainNameTime];
+            model.updateTime=[NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
               [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
             NSLog(@"修改侧链时间====%@======%@======%@====%@====%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
         }
@@ -282,7 +282,8 @@
                 model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"已同步区块时间", nil),@"--:--"];
                 model.thePercentageMax=100;
             }else{
-                 model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"已同步区块时间", nil),smodel.sideChainNameTime];
+                     NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:smodel.sideChainNameTime];
+                 model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
             }
             
             [self.dataSoureArray addObject:model];

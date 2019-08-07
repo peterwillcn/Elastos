@@ -182,7 +182,7 @@
 		4202CA9B21F6EF2B009E5932 /* FLSetMenmoryWordPassView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C96621F6EF29009E5932 /* FLSetMenmoryWordPassView.m */; };
 		4202CA9C21F6EF2B009E5932 /* FLSelectWordCollectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C96721F6EF29009E5932 /* FLSelectWordCollectCell.xib */; };
 		4202CA9D21F6EF2B009E5932 /* FLSelectWordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C96821F6EF29009E5932 /* FLSelectWordView.m */; };
-		4202CA9E21F6EF2B009E5932 /* HMWverifyTheMnemonicWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C96921F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.m */; };
+		4202CA9E21F6EF2B009E5932 /* HMWverifyTheMnemonicWordViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C96921F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.mm */; };
 		4202CA9F21F6EF2B009E5932 /* HMWverifyTheMnemonicWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C96A21F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.xib */; };
 		4202CAA021F6EF2B009E5932 /* FLPastWordVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C96C21F6EF29009E5932 /* FLPastWordVC.mm */; };
 		4202CAA121F6EF2B009E5932 /* FLdoubleWalletVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C96D21F6EF29009E5932 /* FLdoubleWalletVC.mm */; };
@@ -685,7 +685,7 @@
 		4202C96621F6EF29009E5932 /* FLSetMenmoryWordPassView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLSetMenmoryWordPassView.m; sourceTree = "<group>"; };
 		4202C96721F6EF29009E5932 /* FLSelectWordCollectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FLSelectWordCollectCell.xib; sourceTree = "<group>"; };
 		4202C96821F6EF29009E5932 /* FLSelectWordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLSelectWordView.m; sourceTree = "<group>"; };
-		4202C96921F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMWverifyTheMnemonicWordViewController.m; sourceTree = "<group>"; };
+		4202C96921F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HMWverifyTheMnemonicWordViewController.mm; sourceTree = "<group>"; };
 		4202C96A21F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMWverifyTheMnemonicWordViewController.xib; sourceTree = "<group>"; };
 		4202C96B21F6EF29009E5932 /* FLPastWordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLPastWordVC.h; sourceTree = "<group>"; };
 		4202C96C21F6EF29009E5932 /* FLPastWordVC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FLPastWordVC.mm; sourceTree = "<group>"; };
@@ -2005,7 +2005,7 @@
 				4202C96621F6EF29009E5932 /* FLSetMenmoryWordPassView.m */,
 				4202C96521F6EF29009E5932 /* FLSetMenmoryWordPassView.xib */,
 				4202C96421F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.h */,
-				4202C96921F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.m */,
+				4202C96921F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.mm */,
 				4202C96A21F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.xib */,
 			);
 			path = MemorizingWords;
@@ -3134,7 +3134,7 @@
 				4202CA2821F6EF2A009E5932 /* FLTableViewDefultCell.m in Sources */,
 				4228AA5621F88C87002866B5 /* NSNumber+YYAdd.m in Sources */,
 				4202C9FD21F6EF2A009E5932 /* MASLayoutConstraint.m in Sources */,
-				4202CA9E21F6EF2B009E5932 /* HMWverifyTheMnemonicWordViewController.m in Sources */,
+				4202CA9E21F6EF2B009E5932 /* HMWverifyTheMnemonicWordViewController.mm in Sources */,
 				4202CA8821F6EF2B009E5932 /* HMWExportTheMnemonicWordViewController.m in Sources */,
 				4202CA9B21F6EF2B009E5932 /* FLSetMenmoryWordPassView.m in Sources */,
 				4202CA0421F6EF2A009E5932 /* SVProgressAnimatedView.m in Sources */,

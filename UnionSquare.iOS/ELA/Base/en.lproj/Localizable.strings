@@ -120,7 +120,7 @@
 "请再次输入确认密码"="Re-enter password";
 "单地址钱包"="Single-address wallet";
 
-"     密码用x于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="      Password is used to protect private keys and authorize transactions. It’s very important to use a strong password. Elastos does not store your password, and cannot help you retrieve it. Please remember your password.";
+"     密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="      Password is used to protect private keys and authorize transactions. It’s very important to use a strong password .  Elastos does not store your password, and cannot help you retrieve it. Please remember your password.";
 "确认创建"="Create Wallet";
 "备份钱包"="Backup Wallet";
 "备份钱包:请将「助记词」抄写到安全的地方,干万不要保存在网络上。建议从转入,转出小额资产开始使用。"="Backup wallet: please copy 「mnemonic」to a safe place, do not save it on the network.";
@@ -173,7 +173,9 @@
 "票"="Votes";
 "完整信息请点击交易号查看"="Click transaction NO. to see all the details";
 
-"检测到当前账户存在大量Utxo,是否零钱换整？"="Too much UTXO detected, Consolidate?";
+"账户Utxo数量为"="The number of UTXO is";
+"，"=",";
+"是否零钱换整？"=" consolidate?";
 "创建钱包"="Create Wallet";
 "多签钱包"="Multi-Sign Wallet";
 "单签只读钱包"="Standard Read-Only Wallet";
@@ -203,8 +205,8 @@
 "反馈邮件"="Feedback";
 "运行日志"="Runtime Log";
 "当前sdk版本号"="SPV SDK Version";
-"     密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="     Password is used to protect private keys and transaction authorization. Please ensure you choose a strong password.Elastos won't store your password and won't be able to retrieve it back.  Please keep your password safe and secure.";
-"密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="Password is used to protect private keys and transaction authorization. Please ensure you choose a strong password.Elastos won't store your password and won't be able to retrieve it back.  Please keep your password safe and secure.";
+"     密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="     Password is used to protect private keys and transaction authorization. Please ensure you choose a strong password. Elastos won't store your password and won't be able to retrieve it back.  Please keep your password safe and secure.";
+"密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="Password is used to protect private keys and transaction authorization. Please ensure you choose a strong password. Elastos won't store your password and won't be able to retrieve it back.  Please keep your password safe and secure.";
 
 "客服邮箱已复制到粘贴板"="Customer service email copied to clipboard.";
 "社区"="Community";
@@ -232,7 +234,7 @@
 
 
 "暂无候选节点"="No candidate nodes";
-"超级节点选举"="Super node election";
+"超级节点选举"="Super Node Election";
 "报名参选" = "Register";
 "选举管理" = "Election management";
 "请输入节点名称（必填）"="Enter node name (Required)";

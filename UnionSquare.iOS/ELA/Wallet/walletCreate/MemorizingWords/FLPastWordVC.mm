@@ -246,64 +246,16 @@ __weak __typeof__(self) weakSelf = self;
 }
 
 -(void)creatWallet{
-    NSString *isSingleAddress=@"NO";
-    if (self.Wallet.isSingleAddress) {
-        isSingleAddress=@"YES";
-    }
     self.Wallet.walletID=[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
 
     self.Wallet.masterWalletID=[[[FLTools share]getRandomStringWithNum:6] stringByAppendingString:self.Wallet.walletID];
-   invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.Wallet.masterWalletID,self.Wallet.mnemonic,self.Wallet.mnemonicPWD,self.Wallet.passWord,isSingleAddress] callbackId:self.Wallet.walletID className:@"Wallet" methodName:@"createMasterWallet"];
-
-
-    
-    
-    
-   PluginResult *result= [[ELWalletManager share] createMasterWallet:cmommand];
-    
-    NSString *status =[NSString stringWithFormat:@"%@",result.status];
-    
-    
-    if ([status isEqualToString:@"1"]) {
-        
-        invokedUrlCommand *subCmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.Wallet.masterWalletID,@"ELA",@"10000"] callbackId:self.Wallet.walletID className:@"Wallet" methodName:@"createMasterWallet"];
-        
-         PluginResult *subResult= [[ELWalletManager share] createSubWallet:subCmommand];
-         NSString *status =[NSString stringWithFormat:@"%@",subResult.status];
-        if ([status isEqualToString:@"1"]) {
-            FMDBWalletModel*waModel=[[FMDBWalletModel alloc]init];
-            waModel.walletName=self.Wallet.walletName;
-//            waModel.walletAddress
-            waModel.walletID=self.Wallet.masterWalletID;
-            
-            
-            [[HMWFMDBManager sharedManagerType:walletType] addWallet:waModel];
-            
-            sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
-            sideModel.walletID=waModel.walletID;
-            sideModel.sideChainName=@"ELA";
-            sideModel.sideChainNameTime=@"--:--";
-            
-            
-            [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
-            
+ 
             
             HMWverifyTheMnemonicWordViewController *verifyTheMnemonicWordVC=[[HMWverifyTheMnemonicWordViewController alloc]init];
             verifyTheMnemonicWordVC.Wallet=self.Wallet;
             verifyTheMnemonicWordVC.FormeType=@"1";
             [self.navigationController pushViewController:verifyTheMnemonicWordVC animated:YES];
-        }
-        
-      
-    }else{
-        self.Wallet.walletID=NULL;
-        
-    }
     
-//    HMWverifyTheMnemonicWordViewController *verifyTheMnemonicWordVC=[[HMWverifyTheMnemonicWordViewController alloc]init];
-//    verifyTheMnemonicWordVC.Wallet=self.Wallet;
-//
-//    [self.navigationController pushViewController:verifyTheMnemonicWordVC animated:YES];
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     

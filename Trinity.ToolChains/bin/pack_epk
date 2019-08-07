@@ -46,13 +46,15 @@ try:
                         # use the --manifest option to specify the MANIFEST_FILE.
                         print('Skipping "' + fullpath + '", use "' + args.manifest_file + '" instead.')
                     have_manifest = True
-                    continue
+                print('Packing ' + relpath)
                 zipf.write(fullpath, relpath)
 
     zipf.close()
 
     if not have_manifest:
         raise RuntimeError('Could not find "' + manifest_name + '". Please use --manifest option to specify one.')
+
+    print('Done')
 
 except RuntimeError as err:
     print("Error: " + err.args[0])

@@ -1,0 +1,73 @@
+#!/usr/bin/env python
+
+import os
+import sys
+import zipfile
+import argparse
+import hashlib
+
+parser = argparse.ArgumentParser(description='Sign an EPK file with given keystore for Elastos DApp.')
+parser.add_argument('epk_file', metavar='EPK_FILE',
+                    help='specify the EPK file to be signed')
+parser.add_argument('-o', '--output', dest='output_file', metavar='OUTPUT_FILE',
+                    help='Optional output file. Default to in place sign the input file.')
+
+args = parser.parse_args()
+
+sign_folder_prefix = "EPK-SIGN/"
+manifest_name = "manifest.json"
+
+try:
+    if args.output_file:
+        zip2read = zipfile.ZipFile(args.epk_file, 'r', zipfile.ZIP_DEFLATED)
+        zip2write = zipfile.ZipFile(args.output_file, 'w', zipfile.ZIP_DEFLATED)
+    else:
+        zip2read = zipfile.ZipFile(args.epk_file, 'a', zipfile.ZIP_DEFLATED)
+        zip2write = zip2read
+
+    filelist = zip2read.namelist()
+
+    if not any(filename == manifest_name for filename in filelist):
+        raise RuntimeError('Could not find "' + manifest_name + '". Not an EPK file?')
+
+    if any(filename.startswith(sign_folder_prefix) for filename in filelist):
+        raise RuntimeError('The EPK file already signed.')
+
+    # Filter out directories
+    filelist = filter( lambda f: not f.endswith('/'), filelist )
+    filelist.sort()
+
+    filelist_sha = ""
+    for filename in filelist:
+        with zip2read.open(filename) as myfile:
+            file_sha = hashlib.sha256()
+            file_buffer = myfile.read()
+            file_sha.update(file_buffer)
+            filelist_sha += file_sha.hexdigest() + " " + filename + "\n"
+            if zip2read != zip2write:
+                zip2write.writestr(filename, file_buffer)
+
+    # print(filelist_sha)
+    zip2write.writestr(sign_folder_prefix + "FILELIST.INF", filelist_sha)
+
+    epk_sha = hashlib.sha256()
+    epk_sha.update(filelist_sha)
+
+    zip2write.writestr(sign_folder_prefix + "FILELIST.SHA", epk_sha.hexdigest())
+
+    zip2read.close()
+    if zip2read != zip2write:
+        zip2write.close()
+
+    print("The SHA-265 digest of the EPK content is:\n    " + epk_sha.hexdigest())
+except RuntimeError as err:
+    print("Error: " + err.args[0])
+    if args.output_file and os.path.exists(args.output_file):
+        os.remove(args.output_file)
+    exit()
+except:
+    print("Unexpected error:", sys.exc_info()[0])
+    if args.output_file and os.path.exists(args.output_file):
+        os.remove(args.output_file)
+    exit()
+

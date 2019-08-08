@@ -56,7 +56,6 @@ static uint64_t feePerKB = 10000;
         return nil;
     }
     try {
-          NSLog(@"GetWallet--%@",[self stringWithCString:masterWalletID]);
        return  mMasterWalletManager->GetMasterWallet(masterWalletID);
     } catch (const std:: exception & e ) {
         
@@ -78,7 +77,6 @@ static uint64_t feePerKB = 10000;
     }
     ISubWalletVector subWalletList;
     try {
-//        NSLog(@"GetAllSubWallets");
          subWalletList = masterWallet->GetAllSubWallets();
     } catch (const std:: exception & e ) {
         
@@ -93,7 +91,6 @@ static uint64_t feePerKB = 10000;
         String  getChainID;
         
         try {
-//             NSLog(@"GetChainId");
             getChainID =iSubWallet->GetChainID();
         } catch (const std:: exception & e ) {
             
@@ -464,7 +461,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     
     IMasterWallet *masterWallet;
     try {
-        NSLog(@"CreateMasterWallet--%@--%@--%@--%@",[self stringWithCString:masterWalletID], [self stringWithCString:mnemonic], [self stringWithCString:phrasePassword], [self stringWithCString:payPassword]);
         masterWallet = mMasterWalletManager->CreateMasterWallet(
                                                                 masterWalletID, mnemonic, phrasePassword, payPassword, singleAddress);
      } catch (const std:: exception & e ) {
@@ -505,7 +501,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     }
     String mnemonic;
     try {
-        NSLog(@"GenerateMnemonic--%@",[self stringWithCString:language]);
         mnemonic = mMasterWalletManager->GenerateMnemonic(language);
     } catch (const std:: exception &e) {
       return  [self errInfoToDic:e.what() with:command];
@@ -538,7 +533,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     }
     ISubWallet *subWallet;
     try {
-        NSLog(@"createSubWallet--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:chainID]);
         subWallet = masterWallet->CreateSubWallet(chainID, feePerKb);
     } catch (const std:: exception &e) {
         return [self errInfoToDic:e.what() with:command];
@@ -550,7 +544,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     }
     Json json;
     try {
-//        NSLog(@"GetBasicInfo");
        json = subWallet->GetBasicInfo();
     } catch (const std:: exception &e) {
         return [self errInfoToDic:e.what() with:command];
@@ -583,7 +576,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     
     
     try {
-//        NSLog(@"GetAllSubWallets");
         subWalletList= masterWallet->GetAllSubWallets();
     } catch (const std:: exception &e) {
         return [self errInfoToDic:e.what() with:command];
@@ -594,7 +586,6 @@ errCodeSPVCreateMasterWalletError= 20006;
         ISubWallet *iSubWallet = subWalletList[i];
         String chainId;
         try {
-//            NSLog(@"GetChainId");
           chainId = iSubWallet->GetChainID();
         } catch (const std:: exception &e) {
             return [self errInfoToDic:e.what() with:command];
@@ -614,11 +605,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     int idx = 0;
     String masterWalletID = [self cstringWithString:args[idx++]];
     String chainID        = [self cstringWithString:args[idx++]];
-    NSLog(@"getBalance--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:chainID]);
-    
-    
-  
-    NSLog(@"getBalance--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:chainID]);
     long type    = [ args[idx++] intValue];
     Elastos::ElaWallet::BalanceType Btype;
     switch (type) {
@@ -664,8 +650,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     NSArray *args = command.arguments;
     int idx = 0;
     
-    String masterWalletID = [self cstringWithString:args[idx++]];;
-    NSLog(@"getSupportedChains--%@",[self stringWithCString:masterWalletID]);
+    String masterWalletID = [self cstringWithString:args[idx++]];
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -723,7 +708,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     int    start          = [args[idx++] intValue];
     int    count          = [args[idx++] intValue];
     String addressOrTxId  = [self cstringWithString:args[idx++]];
-    NSLog(@"getAllTransaction--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:chainID]);
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -752,9 +736,8 @@ errCodeSPVCreateMasterWalletError= 20006;
     NSArray *args = command.arguments;
     int idx = 0;
     
-    String masterWalletID = [self cstringWithString:args[idx++]];;
-    String chainID        = [self cstringWithString:args[idx++]];;
-    NSLog(@"createAddress--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:chainID]);
+    String masterWalletID = [self cstringWithString:args[idx++]];
+    String chainID        = [self cstringWithString:args[idx++]];
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -788,8 +771,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     
     uint32_t start=[args[idx++] intValue];
     uint32_t count =[args[idx++] intValue];
-    NSLog(@"getAllSubWalletAddress--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:chainID]);
-    
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -824,7 +805,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     
     String masterWalletID = [self cstringWithString:args[idx++]];;
     String chainID        = [self cstringWithString:args[idx++]];;
-    NSLog(@"getGenesisAddress--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:chainID]);
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -858,8 +838,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     NSArray *args = command.arguments;
     int idx = 0;
     
-    String masterWalletID = [self cstringWithString:args[idx++]];;
-    NSLog(@"getMasterWalletPublicKey--%@",[self stringWithCString:masterWalletID]);
+    String masterWalletID = [self cstringWithString:args[idx++]];
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -888,7 +867,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     String masterWalletID = [self cstringWithString:args[idx++]];
     String payPassword = [self cstringWithString:args[idx++]];
      String backupPassword= [self cstringWithString:args[idx++]];
-    NSLog(@"exportWalletWithKeystore--%@--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:backupPassword],[self stringWithCString:payPassword]);
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -921,7 +899,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     
     String masterWalletID = [self cstringWithString:args[idx++]];
     String backupPassword = [self cstringWithString:args[idx++]];
-    NSLog(@"exportWalletWithMnemonic--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:backupPassword]);
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -953,7 +930,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     String masterWalletID = [self cstringWithString:args[idx++]];
     String oldPassword = [self cstringWithString:args[idx++]];
     String newPassword = [self cstringWithString:args[idx++]];
-    NSLog(@"exportWalletWithMnemonic--%@--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:oldPassword],[self stringWithCString:newPassword]);
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -990,7 +966,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     Json keystoreContent = [self jsonWithString:keystoreContentStr];
     String backupPassword = [self cstringWithString:args[idx++]];
     String payPassword = [self cstringWithString:args[idx++]];
-    NSString * walletID=args[idx++]; NSLog(@"importWalletWithKeystore--%@--%@--%@--%@",[self stringWithCString:masterWalletID],keystoreContentStr,@"backupPassword",@"payPassword");
+    NSString * walletID=args[idx++];
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -1026,7 +1002,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     String phrasePassword = [self cstringWithString:args[idx++]];
     String payPassword    = [self cstringWithString:args[idx++]];
     Boolean singleAddress =  [args[idx++] boolValue];
-    NSLog(@"importWalletWithMnemonic--%@--%@--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:mnemonic],[self stringWithCString:phrasePassword],[self stringWithCString:payPassword]);
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -1065,7 +1040,6 @@ errCodeSPVCreateMasterWalletError= 20006;
         return  nil;
     }
     String chainID= [self cstringWithString:chainIDString];
-    NSLog(@"registerWalletListener--%@--%@",[self stringWithCString:masterWalletID],chainIDString);
     ISubWallet *subWallet = [self getSubWallet:masterWalletID : chainID];
     NSString *callIDString=[NSString stringWithFormat:@"%@,%@,%@",masterWalletIDString,chainIDString,command.methodName];
     String callBackID=[self cstringWithString:callIDString];
@@ -1093,7 +1067,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     String masterWalletID = [self cstringWithString:masterWalletIDString];
        NSString *chainIDString=args[idx++];
     String chainID        = [self cstringWithString:chainIDString];
-    NSLog(@"DestroySubWallet--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:chainID]);
     NSString *MID=[NSString stringWithFormat:@"%@%@",masterWalletIDString,chainIDString];
     if ([self.resListArray containsObject:MID]) {
         [self.resListArray removeObject:MID];
@@ -1127,8 +1100,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     
     String masterWalletID = [self cstringWithString:args[idx++]];
     try {
-        NSLog(@"DestroyMasterWallet--%@",[self stringWithCString:masterWalletID]);
-         mMasterWalletManager ->DestroyWallet(masterWalletID);
     } catch (const std:: exception & e) {
        return  [self errInfoToDic:e.what() with:command];
     }
@@ -1259,7 +1230,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     String pwd=[self cstringWithString:args[idx++]];
 //    Boolean singleAddress =  [args[idx++] boolValue];
     Boolean singleAddress =  true;
-//    NSLog(@"sideChainTop_Up--%@--%@--%@--%@--%@--%@--%@--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:fromSubWalletID],[self stringWithCString:toSubWalletID],[self stringWithCString:from],[self stringWithCString:sidechainAddress],[NSString stringWithFormat:@"%ld",amount],[self stringWithCString:memo],[self stringWithCString:remark],[self stringWithCString:pwd]);
     ISubWallet * fromSubWallet=[self getSubWallet:masterWalletID :fromSubWalletID];
     IMainchainSubWallet *mainchainSubWallet = dynamic_cast<IMainchainSubWallet *>(fromSubWallet);
     ISubWallet * toSubWallet=[self getSubWallet:masterWalletID :toSubWalletID];
@@ -1356,7 +1326,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     String memo=[self cstringWithString:args[idx++]];
     String remark=[self cstringWithString:args[idx++]];
     String pwd=[self cstringWithString:args[idx++]];
-    NSLog(@"mainChainWithdrawal--%@--%@--%@--%@--%@--%@--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:fromSubWalletID],[self stringWithCString:from],[self stringWithCString:mainchainAddress],amountString,[self stringWithCString:memo],[self stringWithCString:remark],@"pwd");
     
     ISubWallet * fromSubWallet=[self getSubWallet:masterWalletID :fromSubWalletID];
     ISidechainSubWallet *sidechainSubWallet = dynamic_cast<ISidechainSubWallet *>(fromSubWallet);
@@ -1433,7 +1402,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     uint64_t fee;
     Json signedTx;
     Json result;
-    NSLog(@"RegisterProducerWithMainchainSubWallet--%@--%@--%@--%@--%@--%@--%@--%ld",model.pubKey,model.nodePubKey,model.nickName,model.url,model.ipAddress,model.contryCode,@"pwd",(long)model.acount);
    
     try {
        payload= ELA->GenerateProducerPayload([model.pubKey UTF8String], [model.nodePubKey UTF8String],[model.nickName UTF8String], [model.url UTF8String], [model.ipAddress UTF8String], [model.contryCode intValue] , [model.pwd UTF8String]);
@@ -1484,7 +1452,6 @@ errCodeSPVCreateMasterWalletError= 20006;
 }
 -(NSInteger)UpdateProducerWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model
 {
-    NSLog(@"UpdateProducerWithMainchainSubWallet--%@--%@--%@--%@--%@--%@--%@--%ld",model.pubKey,model.nodePubKey,model.nickName,model.url,model.ipAddress,model.contryCode,@"pwd",(long)model.acount);
     try {
         std::string pubKey = ELA->GetOwnerPublicKey();
         std::string nodePublicKey = [model.ownerPublickKey UTF8String];
@@ -1533,7 +1500,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     } catch (const std:: exception & e ) {
         NSString *errString=[self stringWithCString:e.what()];
         NSDictionary *dic=  [self dictionaryWithJsonString:errString];
-        //        NSLog(@"dddddd:%@",dic);
         [[FLTools share]showErrorInfo:dic[@"Message"]];
         return NO;
     }
@@ -1578,8 +1544,6 @@ errCodeSPVCreateMasterWalletError= 20006;
         Json result = mainchainSubWallet->PublishTransaction(signedTx);
         NSString *resultString=[self stringWithCString:result.dump()];
         NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
-   
-//        NSLog(@"投票结束:%@",ssss);
         return YES;
         
     } catch (const std:: exception & e ) {
@@ -1597,7 +1561,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     String chainID = [self cstringWithString:args[idx++]];
     String assetID = [self cstringWithString:args[idx++]];
     ISubWallet *subWallet=[self getSubWallet:masterWalletID  :chainID];
-    NSLog(@"GetAssetDetails--%@--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:chainID],[self stringWithCString:assetID]);
     Json result;
     try {
       result=subWallet->GetAssetInfo(assetID);
@@ -1630,7 +1593,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     int    start          = [args[idx++] intValue];
     int    count          = [args[idx++] intValue];
     String addressOrTxId  = [self cstringWithString:args[idx++]];
-    NSLog(@"GetAllCoinBaseTransaction--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:chainID]);
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -1661,7 +1623,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     String masterWalletID = [self cstringWithString:args[idx++]];
     String chainID        = [self cstringWithString:args[idx++]];
     String PWD        = [self cstringWithString:args[idx++]];
-    NSLog(@"CreateCombineUTXOTransaction--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:chainID]);
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -1699,7 +1660,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     String masterWalletID = [self cstringWithString:args[idx++]];
     String chainID = [self cstringWithString:args[idx++]];
     ISubWallet *subWallet=[self getSubWallet:masterWalletID  :chainID];
-    NSLog(@"GetAllUTXOs--%@--%@",[self stringWithCString:masterWalletID],[self stringWithCString:chainID]);
     Json result;
     try {
         result=subWallet->GetAllUTXOs(0,1,"");

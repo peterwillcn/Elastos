@@ -119,5 +119,9 @@
 -(NSString *)elsToSela:(NSString*)ela;
 -(BOOL)changeisEnglish:(NSString*)m;
 -(NSString *)getImageViewURLWithURL:(NSString*)urlString;
--(NSArray*)CreateQrCodeImage:(NSString*)contentString WithType:(NSString*)type;
+-(NSString*)CreateQrCodeImage:(NSDictionary*)contentString WithType:(NSString*)type;
+//-(NSArray*)CreateQrCodeImage:(NSString*)contentString WithType:(NSString*)type;
+-(NSString*)DicToString:(NSDictionary*)dic;
+- (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
+- (UIImage*)imageWithSize:(CGFloat)size andColorWithRed:(CGFloat)red Green:(CGFloat)green Blue:(CGFloat)blue andQRString:(NSDictionary *)qrDic;
 @end

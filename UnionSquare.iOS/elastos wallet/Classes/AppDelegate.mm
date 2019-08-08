@@ -284,7 +284,7 @@
     
     // NOTE: This is only TEST code for BuglyLog , please UNCOMMENT it in your code.
     
-    [self performSelectorInBackground:@selector(testLogOnBackground) withObject:nil];
+//    [self performSelectorInBackground:@selector(testLogOnBackground) withObject:nil];
     
 }
 

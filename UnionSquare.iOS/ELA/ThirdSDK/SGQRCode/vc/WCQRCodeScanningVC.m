@@ -50,12 +50,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self defultWhite];
-    self.navigationItem.title = @"扫一扫";
+//    self.navigationItem.title = @"扫一扫";
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self.view addSubview:self.scanningView];
-//    [self setupNavigationBar];
+    [self setupNavigationBar];
     [self.view addSubview:self.promptLabel];
     /// 为了 UI 效果
     [self.view addSubview:self.bottomView];
@@ -63,7 +63,7 @@
 
 - (void)setupNavigationBar {
     self.navigationItem.title = @"扫一扫";
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"相册" style:(UIBarButtonItemStyleDone) target:self action:@selector(rightBarButtonItenAction)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"相册" style:(UIBarButtonItemStyleDone) target:self action:@selector(rightBarButtonItenAction)];
 }
 - (SGQRCodeScanningView *)scanningView {
     if (!_scanningView) {
@@ -100,11 +100,14 @@
     [self.view addSubview:self.scanningView];
 }
 - (void)QRCodeAlbumManager:(SGQRCodeAlbumManager *)albumManager didFinishPickingMediaWithResult:(NSString *)result {
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    
+   
 
     if (self.scanBack) {
         self.scanBack(result);
     }
+     [self.navigationController popViewControllerAnimated:YES];
 
 }
 - (void)QRCodeAlbumManagerDidReadQRCodeFailure:(SGQRCodeAlbumManager *)albumManager {
@@ -122,10 +125,13 @@
         [scanManager videoPreviewLayerRemoveFromSuperlayer];
         
         AVMetadataMachineReadableCodeObject *obj = metadataObjects[0];
-        [self.navigationController popViewControllerAnimated:YES];
+        
+        
+       
         if (self.scanBack) {
             self.scanBack([obj stringValue]);
         }
+         [self.navigationController popViewControllerAnimated:YES];
     } else {
 //        DLog(@"暂未识别出扫描的二维码");
     }

@@ -78,8 +78,7 @@
         default:
             break;
     }
-        self.QrCodeImageView.image = [SGQRCodeGenerateManager generateWithDefaultQRCodeData:self.QRCodeString imageViewWidth:self.QrCodeImageView.mj_w];
-    
+    self.QrCodeImageView.image =[[FLTools share] imageWithSize:280.f andColorWithRed:1 Green:0 Blue:0 andQRString:self.QRCodeString];
 }
 -(void)shareInfo{
     [self mq_share:[NSArray arrayWithObject:self.QrCodeImageView.image]];
@@ -169,5 +168,9 @@
     }
     
     return excludeTypesM;
+}
+-(void)setQRCodeString:(NSString *)QRCodeString{
+    _QRCodeString=QRCodeString;
+    
 }
 @end

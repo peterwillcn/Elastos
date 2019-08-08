@@ -38,6 +38,28 @@
     
     // 3、获得滤镜输出的图像
     CIImage *outputImage = [filter outputImage];
+    //4.2设置 filter 容错等级
+    [filter setValue:@"L" forKey:@"inputCorrectionLevel"];
+    
+    return [self createNonInterpolatedUIImageFormCIImage:outputImage withSize:imageViewWidth];
+}
++ (UIImage *)generateWithDefaultQRCodeDicData:(NSDictionary *)dic imageViewWidth:(CGFloat)imageViewWidth {
+    // 1、创建滤镜对象
+    CIFilter *filter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
+    
+    // 恢复滤镜的默认属性
+    [filter setDefaults];
+    
+//    // 2、设置数据
+//    NSString *info = data;
+//    // 将字符串转换成
+//    NSData *infoData = [info dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *infoData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
+    // 通过KVC设置滤镜inputMessage数据
+    [filter setValue:infoData forKeyPath:@"inputMessage"];
+    
+    // 3、获得滤镜输出的图像
+    CIImage *outputImage = [filter outputImage];
     
     return [self createNonInterpolatedUIImageFormCIImage:outputImage withSize:imageViewWidth];
 }

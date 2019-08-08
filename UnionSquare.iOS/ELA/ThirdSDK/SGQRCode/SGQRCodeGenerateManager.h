@@ -20,5 +20,6 @@
 + (UIImage *)generateWithLogoQRCodeData:(NSString *)data logoImageName:(NSString *)logoImageName logoScaleToSuperView:(CGFloat)logoScaleToSuperView;
 /** 生成一张彩色的二维码 */
 + (UIImage *)generateWithColorQRCodeData:(NSString *)data backgroundColor:(CIColor *)backgroundColor mainColor:(CIColor *)mainColor;
++ (UIImage *)generateWithDefaultQRCodeDicData:(NSDictionary *)dic imageViewWidth:(CGFloat)imageViewWidth;
 
 @end

@@ -399,10 +399,20 @@ NSString *imageName=@"single_wallet";
 //二维码
 -(void)QrCode{
     __weak __typeof__(self) weakSelf = self;
-    ScanQRCodeViewController *scanQRCodeVC = [[ScanQRCodeViewController alloc]init];
-    scanQRCodeVC.scanBack = ^(NSString *addr) {// {"type":1,"data":"{\"CoinInfoList\":[{\"ChainID\":\"ELA\",\"EarliestPeerTime\":1561088019,\"FeePerKB\":10000,\"VisibleAssets\":[\"a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0\"]},{\"ChainID\":\"IDChain\",\"EarliestPeerTime\":1562231384,\"FeePerKB\":10000,\"VisibleAssets\":[\"a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0\"]}],\"OwnerPubKey\":\"0315216859941c56b723a36c826d102e24c265978bb79b9a6933eb078f6fb28cf3\",\"SingleAddress\":false,\"m\":1,\"mnemonicHasPassphrase\":false,\"n\":1,\"network\":\"\",\"publicKeyRing\":[{\"requestPubKey\":\"02139b8aee3c6e98523edc57f67076a53aeb058655d8164998973a671d74a684c2\",\"xPubKey\":\"xpub6DJEpruDTPdXTzFSwtACL2snQMDiAUjpTev6as8Kw7L2cgA89ADFn2uCmzTWcWVXKYzdnRaavqLMFwFMqZ7kuLgabTWmYLCZBm28S2oK6m9\"}],\"requestPubKey\":\"02139b8aee3c6e98523edc57f67076a53aeb058655d8164998973a671d74a684c2\",\"xPubKey\":\"xpub6DJEpruDTPdXTzFSwtACL2snQMDiAUjpTev6as8Kw7L2cgA89ADFn2uCmzTWcWVXKYzdnRaavqLMFwFMqZ7kuLgabTWmYLCZBm28S2oK6m9\"}"}
+    WCQRCodeScanningVC *WCQRCode=[[WCQRCodeScanningVC alloc]init];
+    WCQRCode.scanBack=^(NSString *addr) {
+        
+        
+        
     };
-    [weakSelf QRCodeScanVC:scanQRCodeVC];
+    
+//    ScanQRCodeViewController *scanQRCodeVC = [[ScanQRCodeViewController alloc]init];
+//    scanQRCodeVC.scanBack = ^(NSString *addr) {
+//
+//
+//        // {"type":1,"data":"{\"CoinInfoList\":[{\"ChainID\":\"ELA\",\"EarliestPeerTime\":1561088019,\"FeePerKB\":10000,\"VisibleAssets\":[\"a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0\"]},{\"ChainID\":\"IDChain\",\"EarliestPeerTime\":1562231384,\"FeePerKB\":10000,\"VisibleAssets\":[\"a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0\"]}],\"OwnerPubKey\":\"0315216859941c56b723a36c826d102e24c265978bb79b9a6933eb078f6fb28cf3\",\"SingleAddress\":false,\"m\":1,\"mnemonicHasPassphrase\":false,\"n\":1,\"network\":\"\",\"publicKeyRing\":[{\"requestPubKey\":\"02139b8aee3c6e98523edc57f67076a53aeb058655d8164998973a671d74a684c2\",\"xPubKey\":\"xpub6DJEpruDTPdXTzFSwtACL2snQMDiAUjpTev6as8Kw7L2cgA89ADFn2uCmzTWcWVXKYzdnRaavqLMFwFMqZ7kuLgabTWmYLCZBm28S2oK6m9\"}],\"requestPubKey\":\"02139b8aee3c6e98523edc57f67076a53aeb058655d8164998973a671d74a684c2\",\"xPubKey\":\"xpub6DJEpruDTPdXTzFSwtACL2snQMDiAUjpTev6as8Kw7L2cgA89ADFn2uCmzTWcWVXKYzdnRaavqLMFwFMqZ7kuLgabTWmYLCZBm28S2oK6m9\"}"}
+//    };
+    [self QRCodeScanVC:WCQRCode];
 }
 
 -(void)addCurrency:(UIButton*)btn{

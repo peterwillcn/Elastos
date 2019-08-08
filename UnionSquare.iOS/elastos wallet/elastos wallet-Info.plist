@@ -111,7 +111,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>AppSweep qr code function need your approval to access photo album</string>
 	<key>UIFileSharingEnabled</key>
-	<true/>
+	<false/>
 	<key>UIInterfaceOrientation</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

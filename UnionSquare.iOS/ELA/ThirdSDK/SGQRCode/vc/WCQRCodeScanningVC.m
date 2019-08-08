@@ -133,7 +133,7 @@
         }
          [self.navigationController popViewControllerAnimated:YES];
     } else {
-//        DLog(@"暂未识别出扫描的二维码");
+   [[FLTools share]showErrorInfo:NSLocalizedString(@"未识别", nil)];
     }
 }
 - (void)QRCodeScanManager:(SGQRCodeScanManager *)scanManager brightnessValue:(CGFloat)brightnessValue {

@@ -957,7 +957,7 @@ if ([languageString  containsString:@"en"]) {
     id jsonClass = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
     return [NSString stringWithFormat:@"%@",jsonClass[@"org"][@"branding"][@"logo_256"]];
 }
--(NSString*)CreateQrCodeImage:(NSDictionary*)contentString WithType:(NSString*)type{
+-(NSDictionary*)CreateQrCodeImage:(NSDictionary*)contentString WithType:(NSString*)type{
 //    NSMutableArray *allQRCodeArray=[[NSMutableArray alloc]init];
 //    NSInteger maxChar=10240;
 //   int max =ceil(contentString.length/maxChar);
@@ -976,11 +976,12 @@ if ([languageString  containsString:@"en"]) {
                             @"max":@"1",
                             @"current":@"1"
                             };
-        NSString *QRCodeString=[self DicToString:dic];
-//        [allQRCodeArray addObject:QRCodeString];
-//
-//    }
-    return QRCodeString;
+    return dic;
+//        NSString *QRCodeString=[self DicToString:dic];
+////        [allQRCodeArray addObject:QRCodeString];
+////
+////    }
+//    return QRCodeString;
     
     
 }
@@ -991,11 +992,10 @@ if ([languageString  containsString:@"en"]) {
     return contentString;
     
 }
-- (UIImage*)imageWithSize:(CGFloat)size andColorWithRed:(CGFloat)red Green:(CGFloat)green Blue:(CGFloat)blue andQRString:(NSDictionary *)qrDic{
+- (UIImage*)imageWithSize:(CGFloat)size andColorWithRed:(CGFloat)red Green:(CGFloat)green Blue:(CGFloat)blue andQRDic:(NSDictionary *)qrDic{
     
-    UIImage *resultImage;
-//    =
-//    [self createInterPolatedUIImage:[self createQRFromString:qrString] withSize:size];
+    UIImage *resultImage=
+    [self createInterPolatedUIImage:[self createQRFromNSDic:qrDic] withSize:size];
     
     return [self imageBlackToTransParent:resultImage withRed:red andGreen:green andBlur:blue];
 }
@@ -1022,12 +1022,14 @@ if ([languageString  containsString:@"en"]) {
 }
 
 - (CIImage *)createQRFromNSDic:(NSDictionary *)qrSring {
-    NSData *stringData;
-//    = [qrSring dataUsingEncoding:NSUTF8StringEncoding];
+
+    NSError*parseError =nil;
+    
+    NSData*stringData =[NSJSONSerialization dataWithJSONObject:qrSring options:NSJSONWritingPrettyPrinted error:&parseError];
     CIFilter *qrFilter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
     // set内容和纠错级别
     [qrFilter setValue:stringData forKey:@"inputMessage"];
-    [qrFilter setValue:@"M" forKey:@"inputCorrectionLevel"];
+    [qrFilter setValue:@"H" forKey:@"inputCorrectionLevel"];
     return qrFilter.outputImage;
 }
 - (UIImage *)imageBlackToTransParent:(UIImage *)image withRed:(CGFloat)red andGreen:(CGFloat)green andBlur:(CGFloat)blue {

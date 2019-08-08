@@ -78,7 +78,7 @@
         default:
             break;
     }
-    self.QrCodeImageView.image =[[FLTools share] imageWithSize:280.f andColorWithRed:1 Green:0 Blue:0 andQRString:self.QRCodeString];
+    self.QrCodeImageView.image =[[FLTools share] imageWithSize:750.f andColorWithRed:1 Green:3 Blue:5 andQRDic:self.QRCodeDic];
 }
 -(void)shareInfo{
     [self mq_share:[NSArray arrayWithObject:self.QrCodeImageView.image]];
@@ -171,6 +171,10 @@
 }
 -(void)setQRCodeString:(NSString *)QRCodeString{
     _QRCodeString=QRCodeString;
+    
+}
+-(void)setQRCodeDic:(NSDictionary *)QRCodeDic{
+    _QRCodeDic=QRCodeDic;
     
 }
 @end

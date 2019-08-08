@@ -400,9 +400,9 @@ NSString *imageName=@"single_wallet";
 -(void)QrCode{
     __weak __typeof__(self) weakSelf = self;
     WCQRCodeScanningVC *WCQRCode=[[WCQRCodeScanningVC alloc]init];
-    WCQRCode.scanBack=^(NSString *addr) {
+    WCQRCode.scanBack=^(NSString *addr){
         
-        
+        NSLog(@"======%@",addr);
         
     };
     

@@ -215,10 +215,10 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
             if (self.currentWallet.TypeW ==0) {// 单签钱包
                 type=@"1";
             }
-            NSString *jsonString=[[FLTools share]CreateQrCodeImage:result.message[@"success"] WithType:type];
+            NSDictionary *jsonDic=[[FLTools share]CreateQrCodeImage:result.message[@"success"] WithType:type];
             HWMSignatureTradingSingleQrCodeViewController *vc=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
             vc.type=ExportReadOnlyWallet;
-            vc.QRCodeString=jsonString;
+            vc.QRCodeDic=jsonDic;
                     [self.navigationController pushViewController:vc animated:YES];
            
             

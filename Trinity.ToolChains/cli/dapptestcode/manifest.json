@@ -1,15 +1,15 @@
 {
-  "id": "org.elastos.trinity.samples.bencli",
+  "id": "org.elastos.trinity.template.test",
   "version": "0.0.1",
-  "name": "Trinity CLI test",
-  "short_name": "CLI Test",
-  "description": "My sample app1",
-  "start_url": "index.html",
+  "name": "Trinity default template",
+  "short_name": "Default template",
+  "description": "",
+  "start_url": "http://192.168.31.106:8100",
   "icons": [
     {
-        "src": "assets/imgs/logo.png",
-        "sizes": "512x512",
-        "type": "image/png"
+      "src": "assets/imgs/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
     },
     {
       "src": "assets/imgs/logo.png",
@@ -18,13 +18,13 @@
     }
   ],
   "author": {
-      "name": "ChenDongxiao",
-      "email": "chendongxiao@elastos.org"
+    "name": "Elastos",
+    "email": "contact@elastos.org"
   },
   "default_locale": "en",
   "plugins": [
-      "Device",
-	  "SplashScreen"
+    "Device",
+    "SplashScreen"
   ],
   "urls": [
     "http://www.baidu.com/*",

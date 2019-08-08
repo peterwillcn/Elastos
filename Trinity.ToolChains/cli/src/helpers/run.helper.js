@@ -25,7 +25,7 @@ module.exports = class RunHelper {
     /**
      * Packs DApp located in current folder as a EPK file.
      */
-    packEPK() {
+    packEPK(manifestPath) {
         return new Promise((resolve, reject) => {
             console.log("Packaging current folder into a Elastos package (EPK) file...")
 
@@ -40,7 +40,7 @@ module.exports = class RunHelper {
             console.log("Output EPK will generated at: "+outputEPKPath)
 
             const spawn = require("child_process").spawn;
-            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/pack_epk", outputEPKPath, "-r","."]);
+            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/pack_epk", outputEPKPath, "-r",".","--root-dir","www","-m",manifestPath]);
 
             pythonProcess.stdout.on('data', function (data) { console.log(''+data)});
             pythonProcess.stderr.on('data', function (data) { console.log(''+data)});
@@ -101,13 +101,13 @@ module.exports = class RunHelper {
             var destinationPath = "/storage/emulated/0/temp.epk";
 
             const spawn = require("child_process").spawn;
-            const pythonProcess = spawn('adb',["push", EPKPath, destinationPath]);
+            const adbProcess = spawn('adb',["push", EPKPath, destinationPath]);
 
-            pythonProcess.stdout.on('data', function (data) { console.log(''+data)});
-            pythonProcess.stderr.on('data', function (data) { console.log(''+data)});
-            pythonProcess.on('error', function(err) { reject(err)})
+            adbProcess.stdout.on('data', function (data) { console.log(''+data)});
+            adbProcess.stderr.on('data', function (data) { console.log(''+data)});
+            adbProcess.on('error', function(err) { reject(err)})
 
-            pythonProcess.on('exit', function (code) {
+            adbProcess.on('exit', function (code) {
                 if (code == 0) {
                     // Operation completed successfully
                     console.log("EPK file successfully pushed on your android device at "+destinationPath)
@@ -131,13 +131,13 @@ module.exports = class RunHelper {
 
             // Sample command: adb shell am start -a android.intent.action.VIEW -d file:///storage/emulated/0/temp.epk -t *.epk
             const spawn = require("child_process").spawn;
-            const pythonProcess = spawn('adb',["shell","am","start","-a","android.intent.action.VIEW","-d","file:///storage/emulated/0/temp.epk","-t","*.epk"]);
+            const adbProcess = spawn('adb',["shell","am","start","-a","android.intent.action.VIEW","-d","file:///storage/emulated/0/temp.epk","-t","*.epk"]);
 
-            pythonProcess.stdout.on('data', function (data) { console.log(''+data)});
-            pythonProcess.stderr.on('data', function (data) { console.log(''+data)});
-            pythonProcess.on('error', function(err) { reject(err)})
+            adbProcess.stdout.on('data', function (data) { console.log(''+data)});
+            adbProcess.stderr.on('data', function (data) { console.log(''+data)});
+            adbProcess.on('error', function(err) { reject(err)})
 
-            pythonProcess.on('exit', function (code) {
+            adbProcess.on('exit', function (code) {
                 if (code == 0) {
                     // Operation completed successfully
                     console.log("Trinity has received your DApp. Please check your device for further instruction")

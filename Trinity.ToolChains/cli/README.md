@@ -4,7 +4,7 @@
 
 # Development run command
 - `npm getepksigner` (from the cli/ folder - only the first time (no bin folder) or to get new versions of the epksigner)
-- `npm run devprepare && node bin/trinity xxxx` (from the dapp folder (for run command) )
+- `npm run devprepare && cd dapptestcode/ && ../bin/trinity xxxx` (from the dapp folder (for run command) )
 
 # Publishing account
 
@@ -27,6 +27,7 @@
 - MacOS or Linux operating system
 - python
 - adb (Android tool)
+- ionic/node/angular (to create new ionic app)
 - Trinity app installed on android (to be able to deploy EPKs)
 
 # How to execute this tool (for DApp developers)

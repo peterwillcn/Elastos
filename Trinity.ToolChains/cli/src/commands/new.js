@@ -1,5 +1,6 @@
 
 const NewAppHelper = require("../helpers/newapp.helper")
+const ManifestHelper = require("../helpers/manifest.helper")
 
 exports.command = 'new'
 exports.describe = 'Creates a new default Trinity DApp in current folder'
@@ -11,10 +12,14 @@ exports.handler = function (argv) {
 
 function launchAppCreation() {
     var newAppHelper = new NewAppHelper()
+    var manifestHelper = new ManifestHelper()
 
-    newAppHelper.promptAppInformation().then((info)=>{
+    manifestHelper.promptAppInformation().then((info)=>{
         newAppHelper.createFromDefaultAppTemplate(info.packagename).then(()=>{
-            newAppHelper.customizeNewUserAppWithInfo(info).then(()=>{
+            // Location at which to create the new manifest file
+            var manifestDestinationPath = path.join(process.cwd(), "manifest.json")
+
+            manifestHelper.customizeNewUserAppWithInfo(info, manifestDestinationPath).then(()=>{
                 console.log("Congratulations! Your new Trinity DApp is ready. You can start coding now.")
                 console.log("You can now enter your app folder (cd "+info.packagename+"), and call trinity-cli run to send your DApp on your device!")
             })

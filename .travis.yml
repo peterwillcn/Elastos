@@ -83,7 +83,7 @@ script:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       cd $TRAVIS_BUILD_DIR/Runtime/platforms/ios && xcodebuild -showsdks;
       sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer/;
-      xcodebuild -scheme Elastos build -sdk iphonesimulator;
+      xcodebuild -scheme Trinity build -sdk iphonesimulator;
     fi
   # - cd $TRAVIS_BUILD_DIR/Runtime/platforms/android && gradle assembleRelease &&
   - ls -l $TRAVIS_BUILD_DIR/Runtime/platforms/android/app/build/outputs/apk/debug/

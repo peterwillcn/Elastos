@@ -9,11 +9,11 @@ exports.builder = {
     describe: "Platform to deploy to (android|ios)",
     require: true
   },
-  idkeystore: {
+  /*idkeystore: {
     alias: "id",
     describe: "Identity keystore file to be used to sign DApp EPK",
     require: true
-  }
+  }*/
 }
 exports.handler = function (argv) {
     var platform = argv.platform
@@ -34,7 +34,7 @@ function deployAndroidDApp(idKeystorePath) {
     var runHelper = new RunHelper()
 
     runHelper.packEPK().then((outputEPKPath)=>{
-        runHelper.signEPK(outputEPKPath, idKeystorePath).then((outputEPKPath)=>{
+        runHelper.signEPK(outputEPKPath, idKeystorePath).then(()=>{
             runHelper.androidUploadEPK(outputEPKPath).then(()=>{
                 runHelper.androidInstallTempEPK().then(()=>{
                     console.log("RUN OPERATION COMPLETED")

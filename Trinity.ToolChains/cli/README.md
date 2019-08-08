@@ -1,20 +1,31 @@
-# Install
+# Initial setup (for node dependencies)
 
 - `npm install`
 
-# Commands
-- `npm run clean` - Remove `lib/` directory
-- `npm run lint` - Run ESlint with airbnb-config
-- `npm run build` - Babel will transpile ES6 => ES5 and minify the code.
-- `npm run prepublish` - Hook for npm. Do all the checks before publishing your module.
+# Development run command
+- `npm getepksigner` (from the cli/ folder - only the first time (no bin folder) or to get new versions of the epksigner)
+- `npm run devprepare && node bin/trinity xxxx` (from the dapp folder (for run command) )
 
 # Publishing account
 
 - Organization: @elastosfoundation
 - Owner: @benjaminpiette
 
-# Publish to npmjs.com
+# How to publish to npmjs.com
 
-- `npm adduser`
-- `npm login`
+- `npm adduser` (once)
+- `npm login` (once)
+- `npm run prepublish`
 - `npm publish --access=public`
+
+# How to install this tool (for DApp developers)
+
+- `npm install -g @elastosfoundation/trinity-cli`
+
+# How to execute this tool (for DApp developers)
+
+- `trinity-cli`
+
+## Examples
+
+- Deploy a DApp on an android device: `trinity-cli run -p android`

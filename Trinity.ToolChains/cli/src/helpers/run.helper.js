@@ -1,9 +1,25 @@
 const path = require("path")
 const os = require("os")
+const fs = require("fs")
 
 module.exports = class RunHelper {
     getTempEPKPath() {
         return os.tmpdir()+"/temp.epk"
+    }
+
+    /**
+     * Make sure current folder is a DApp, to not try to package some invalid content.
+     */
+    _checkFolderIsDApp() {
+        var manifestPath = path.join(process.cwd(), "manifest.json")
+
+        if (!fs.existsSync(manifestPath)) {
+            return false;
+        }
+
+        // TODO: more advanced checks
+
+        return true; // All checks passed - we are in a trinity DApp folder.
     }
 
     /**
@@ -12,6 +28,11 @@ module.exports = class RunHelper {
     packEPK() {
         return new Promise((resolve, reject) => {
             console.log("Packaging current folder into a Elastos package (EPK) file...")
+
+            if (!this._checkFolderIsDApp()) {
+                reject("ERROR - Current folder is not a trinity dapp.");
+                return;
+            }
 
             var rootScriptDirectory = path.dirname(require.main.filename)
             var outputEPKPath = this.getTempEPKPath()
@@ -46,13 +67,11 @@ module.exports = class RunHelper {
         return new Promise((resolve, reject) => {
             console.log("Signing the generated EPK with your identity...")
 
-            path.resolve(__dirname, idKeystorePath)
-
             var rootScriptDirectory = path.dirname(require.main.filename)
-            var idKeystorePath = "";
+            var idKeystorePath = path.join(rootScriptDirectory, "assets", "web-keystore.aes.json");
 
             const spawn = require("child_process").spawn;
-            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/sign_epk", "-k", idKeystorePath, EPKPath]);
+            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/sign_epk", "-k", idKeystorePath, "-p", "elastos2018", EPKPath]);
 
             pythonProcess.stdout.on('data', function (data) { console.log(''+data)});
             pythonProcess.stderr.on('data', function (data) { console.log(''+data)});
@@ -109,8 +128,6 @@ module.exports = class RunHelper {
     androidInstallTempEPK() {
         return new Promise((resolve, reject) => {
             console.log("Requesting your trinity application to install your DApp...")
-
-            var destinationPath = "/storage/emulated/0/temp.epk";
 
             // Sample command: adb shell am start -a android.intent.action.VIEW -d file:///storage/emulated/0/temp.epk -t *.epk
             const spawn = require("child_process").spawn;

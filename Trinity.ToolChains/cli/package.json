@@ -1,16 +1,17 @@
 {
   "name": "@elastosfoundation/trinity-cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Command line tool to manage Elastos Trinity DApps",
   "main": "./bin/trinity",
   "bin": "./bin/trinity",
   "scripts": {
-    "clean": "rimraf bin",
-    "lint": "eslint src",
     "build": "cross-env BABEL_ENV=production babel src --out-dir bin",
     "rename": "mv bin/trinity.js bin/trinity",
-    "copytoolchain": "mkdir -p src/toolchain && mkdir -p bin/toolchain && cp ../bin/* src/toolchain && cp src/toolchain/* bin/toolchain",
-    "prepublish": "npm run clean && npm run copytoolchain && npm run build && npm run rename"
+    "copytoolchain": "mkdir -p bin/toolchain && cp ../bin/* bin/toolchain",
+    "copyassets": "mkdir -p bin/assets && cp -rf src/assets bin/",
+    "getepksigner": "./scripts/getepksigner.sh", 
+    "prepublish": "npm run devprepare && npm run getepksigner",
+    "devprepare": "npm run copytoolchain && npm run copyassets && npm run build && npm run rename"
   },
   "files": [
     "bin",

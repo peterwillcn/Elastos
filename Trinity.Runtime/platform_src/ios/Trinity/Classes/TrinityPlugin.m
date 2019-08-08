@@ -21,7 +21,7 @@
  */
 
 #import "TrinityPlugin.h"
-#import "Elastos-Swift.h"
+#import "Trinity-Swift.h"
 #include <objc/message.h>
 
 @interface TrinityPlugin()

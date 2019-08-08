@@ -63,7 +63,7 @@ const configure_patches = {
 //    {
 //      "patch_file": "info_plist.patch",
 //      "source_files": [
-//        "platforms/ios/Elastos/Elastos-Info.plist",
+//        "platforms/ios/Trinity/Trinity-Info.plist",
 //      ]
 //    },
     {
@@ -77,7 +77,7 @@ const configure_patches = {
         "platforms/ios/CordovaLib/Classes/Public/CDVViewController.m",
         "platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.h",
         "platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.m",
-        "platforms/ios/Elastos/Bridging-Header.h",
+        "platforms/ios/Trinity/Bridging-Header.h",
       ]
     }
   ]

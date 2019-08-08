@@ -26,7 +26,7 @@
 //
 
 #import "AppDelegate.h"
-#import "Elastos-Swift.h"
+#import "Trinity-Swift.h"
 
 @implementation AppDelegate
 

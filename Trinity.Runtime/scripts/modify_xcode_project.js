@@ -12,7 +12,7 @@ module.exports = function(ctx) {
         path = require('path'),
         xcode = require('xcode');
 
-  let runtimeProjPath = 'platforms/ios/Elastos.xcodeproj/project.pbxproj',
+  let runtimeProjPath = 'platforms/ios/Trinity.xcodeproj/project.pbxproj',
       runtimeProj = xcode.project(runtimeProjPath),
       cordovaProjPath = 'platforms/ios/CordovaLib/CordovaLib.xcodeproj/project.pbxproj',
       cordovaProj = xcode.project(cordovaProjPath);
@@ -30,7 +30,7 @@ module.exports = function(ctx) {
 
     let options = { customFramework: true, embed: embed, sign: true };
     runtimeProj.addFramework('libz.tbd');
-    runtimeProj.addFramework('Elastos/Plugins/elastos-trinity-plugins-carrier/ElastosCarrierSDK.framework', options);
+    runtimeProj.addFramework('Trinity/Plugins/elastos-trinity-plugins-carrier/ElastosCarrierSDK.framework', options);
 
 
     //
@@ -51,7 +51,7 @@ module.exports = function(ctx) {
     runtimeProj.removeSourceFile("MainViewController.h", {}, classesGroupKey);
     runtimeProj.removeSourceFile("MainViewController.m", {}, classesGroupKey);
 
-    let classesPath = "../../../../platform_src/ios/Elastos/Classes/";
+    let classesPath = "../../../../platform_src/ios/Trinity/Classes/";
     runtimeProj.addSourceFile(classesPath + "AppDelegate.h",                {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "AppDelegate.m",                {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "AppBasePlugin.swift",          {}, classesGroupKey);

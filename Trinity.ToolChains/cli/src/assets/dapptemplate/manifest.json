@@ -1,0 +1,36 @@
+{
+  "id": "org.elastos.trinity.template",
+  "version": "0.0.1",
+  "name": "Trinity default template",
+  "short_name": "Default template",
+  "description": "",
+  "start_url": "index.html",
+  "icons": [
+    {
+        "src": "assets/imgs/logo.png",
+        "sizes": "512x512",
+        "type": "image/png"
+    },
+    {
+      "src": "assets/imgs/logo.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }
+  ],
+  "author": {
+      "name": "Elastos",
+      "email": "contact@elastos.org"
+  },
+  "default_locale": "en",
+  "plugins": [
+    "Device",
+    "SplashScreen"
+  ],
+  "urls": [
+    "http://www.baidu.com/*",
+    "https://www.google.com"
+  ],
+  "background_color": "#4e8ef7",
+  "theme_display": "show",
+  "theme_color": "#4e8ef7"
+}

@@ -22,6 +22,12 @@
 
 - `npm install -g @elastosfoundation/trinity-cli`
 
+# Dependencies to run the CLI (for DApp developers)
+
+- MacOS or Linux operating system
+- python
+- adb (Android tool)
+
 # How to execute this tool (for DApp developers)
 
 - `trinity-cli`

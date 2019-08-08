@@ -27,6 +27,7 @@
 - MacOS or Linux operating system
 - python
 - adb (Android tool)
+- Trinity app installed on android (to be able to deploy EPKs)
 
 # How to execute this tool (for DApp developers)
 

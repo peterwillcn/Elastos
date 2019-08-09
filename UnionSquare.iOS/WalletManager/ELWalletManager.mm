@@ -1100,6 +1100,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     
     String masterWalletID = [self cstringWithString:args[idx++]];
     try {
+        mMasterWalletManager ->DestroyWallet(masterWalletID);
     } catch (const std:: exception & e) {
        return  [self errInfoToDic:e.what() with:command];
     }

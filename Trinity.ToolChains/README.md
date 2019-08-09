@@ -55,6 +55,7 @@ You could follow these instructions:
      "short_name": "My App",
      "description": "My Sample App",
      "start_url": "http://192.168.0.2:8100",
+     "type": "url",
      "icons": [
        {
          "src": "logo.png",
@@ -116,6 +117,7 @@ After test, you may want to deploy your DApp as a product.
      "short_name": "My App",
      "description": "My Sample App",
      "start_url": "index.html",
+     "type": "app",
      "icons": [
        {
          "src": "assets/imgs/logo.png",
@@ -154,3 +156,10 @@ After test, you may want to deploy your DApp as a product.
    ```bash
    $ pack_epk --manifest manifest_prod.json --root-dir www/ helloWorld.epk
    ```
+
+1. Sign the EPK file
+
+   ```bash
+   $ sign_epk -k KEYSTORE_FILE -p KEYSTORE_PASSWORD [-o output_file] helloWorld.epk
+   ```
+

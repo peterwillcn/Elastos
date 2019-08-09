@@ -173,7 +173,7 @@
 "票"="Votes";
 "完整信息请点击交易号查看"="Click transaction NO. to see all the details";
 
-"账户Utxo数量为"="The number of UTXO is";
+"账户Utxo数量为"="The number of UTXO is ";
 "，"=",";
 "是否零钱换整？"=" consolidate?";
 "创建钱包"="Create Wallet";

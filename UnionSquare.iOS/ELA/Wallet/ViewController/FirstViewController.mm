@@ -277,8 +277,7 @@
             model.iconBlance=blanceString;
             model.thePercentageCurr=[smodel.thePercentageCurr floatValue];
             model.thePercentageMax=[smodel.thePercentageMax floatValue];
-//            NSLog(@"本地存储时间====%@====%@====%@====%@=====%@",smodel.sideChainNameTime,smodel.sideChainName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
-            if ([smodel.sideChainNameTime isEqual: [NSNull null]]||smodel.sideChainNameTime==NULL) {
+            if ([smodel.sideChainNameTime isEqual: [NSNull null]]||smodel.sideChainNameTime==NULL||[smodel.sideChainNameTime isEqualToString:@"--:--"]) {
                 model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"已同步区块时间", nil),@"--:--"];
                 model.thePercentageMax=100;
             }else{

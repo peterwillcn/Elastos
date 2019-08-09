@@ -5,6 +5,7 @@
   "short_name": "Default template",
   "description": "",
   "start_url": "index.html",
+  "type":"app",
   "icons": [
     {
         "src": "assets/imgs/logo.png",

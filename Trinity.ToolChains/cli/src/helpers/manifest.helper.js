@@ -98,6 +98,7 @@ module.exports = class ManifestHelper {
         var ipAddress = ip.address("public")
 
         manifestJson.set("start_url", "http://"+ipAddress+":8100");
+        manifestJson.set("type", "url");
 
         manifestJson.save(); // synchronous
     }

@@ -19,7 +19,7 @@ function launchAppCreation() {
     manifestHelper.promptAppInformation().then((info)=>{
         newAppHelper.createFromDefaultAppTemplate(info.packagename).then(()=>{
             // Location at which to create the new manifest file
-            var manifestDestinationPath = path.join(process.cwd(), "manifest.json")
+            var manifestDestinationPath = path.join(process.cwd(), info.packagename, "manifest.json")
 
             manifestHelper.createManifestWithInfo(info, manifestDestinationPath).then(()=>{
                 console.log("Congratulations! Your new Trinity DApp is ready. You can start coding now.")

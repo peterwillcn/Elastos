@@ -50,15 +50,26 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self defultWhite];
-//    self.navigationItem.title = @"扫一扫";
+    self.navigationItem.title = @"扫一扫";
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self.view addSubview:self.scanningView];
-    [self setupNavigationBar];
+//    [self setupNavigationBar];
     [self.view addSubview:self.promptLabel];
     /// 为了 UI 效果
     [self.view addSubview:self.bottomView];
+    UIButton *TheCamera =[[UIButton alloc]init];
+    [TheCamera setTitle:NSLocalizedString(@"相册", nil) forState:UIControlStateNormal];
+    [TheCamera setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    TheCamera.titleLabel.font=[UIFont systemFontOfSize:14];
+    [TheCamera addTarget:self action:@selector(rightBarButtonItenAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:TheCamera];
+    [TheCamera mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.view.mas_right).offset(-10);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-10);
+        make.size.mas_equalTo(CGSizeMake(50, 50));
+    }];
 }
 
 - (void)setupNavigationBar {
@@ -68,6 +79,9 @@
 - (SGQRCodeScanningView *)scanningView {
     if (!_scanningView) {
         _scanningView = [[SGQRCodeScanningView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0.9 * self.view.frame.size.height)];
+        _scanningView.cornerColor=RGB(35, 211, 255);
+        _scanningView.borderColor=RGB(35, 211, 255);
+        _scanningView.scanningImageName=@"scan_lightness";
     }
     return _scanningView;
 }
@@ -102,12 +116,12 @@
 - (void)QRCodeAlbumManager:(SGQRCodeAlbumManager *)albumManager didFinishPickingMediaWithResult:(NSString *)result {
     
     
-   
+     [self.navigationController popViewControllerAnimated:YES];
 
     if (self.scanBack) {
         self.scanBack(result);
     }
-     [self.navigationController popViewControllerAnimated:YES];
+   
 
 }
 - (void)QRCodeAlbumManagerDidReadQRCodeFailure:(SGQRCodeAlbumManager *)albumManager {
@@ -127,11 +141,11 @@
         AVMetadataMachineReadableCodeObject *obj = metadataObjects[0];
         
         
-       
+         [self.navigationController popViewControllerAnimated:YES];
         if (self.scanBack) {
             self.scanBack([obj stringValue]);
         }
-         [self.navigationController popViewControllerAnimated:YES];
+       
     } else {
    [[FLTools share]showErrorInfo:NSLocalizedString(@"未识别", nil)];
     }

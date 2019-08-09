@@ -189,6 +189,10 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(void*)SyncStart:(invokedUrlCommand *)command;
 -(NSString*)EMWMGetVersion;
 -(PluginResult *)ExportReadonlyWallet:(invokedUrlCommand *)command;
+-(PluginResult *)ExportMasterPublicKey:(invokedUrlCommand *)command;
+-(PluginResult *)CreateImportReadonlyWallet:(invokedUrlCommand *)command;
+
+
 @end
 
 

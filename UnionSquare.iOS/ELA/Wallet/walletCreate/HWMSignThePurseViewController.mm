@@ -19,6 +19,7 @@
 #import "AppDelegate.h"
 #import "FLPrepareVC.h"
 #import "FLFLTabBarVC.h"
+#import "WCQRCodeScanningVC.h"
 
 static NSString*cellString=@"HWMaddSignThePurseViewTableViewCell";
 static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
@@ -265,7 +266,31 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
     if ([status isEqualToString:@"1"]){
     
         [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
-        [self successfulSwitchingRootVC];
+        invokedUrlCommand *subCmommand=[[invokedUrlCommand alloc]initWithArguments:@[masterWalletID,@"ELA",@"10000"] callbackId:masterWalletID className:@"Wallet" methodName:@"createMasterWallet"];
+        
+        PluginResult *subResult= [[ELWalletManager share] createSubWallet:subCmommand];
+        NSString *status =[NSString stringWithFormat:@"%@",subResult.status];
+        
+        if([status isEqualToString:@"1"]){
+            
+            FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
+            model.walletID=masterWalletID;
+            model.walletName=self.SignThePurseView.walletNameTextField.text;
+            model.TypeW=SingleSign;
+            [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
+            sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
+            sideModel.walletID=model.walletID;
+            sideModel.sideChainName=@"ELA";
+            
+            sideModel.sideChainNameTime=@"--:--";
+            sideModel.thePercentageCurr=@"0";
+            sideModel.thePercentageMax=@"100";
+            
+            [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
+            [self successfulSwitchingRootVC];
+            
+            
+        }
     }
     
 }
@@ -295,9 +320,34 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){
         [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
-        [self successfulSwitchingRootVC];
+        FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
+        model.walletID=masterWalletID;
+        model.walletName=self.SignThePurseView.walletNameTextField.text;
+        model.TypeW=SingleSign;
+        
+        [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
+        invokedUrlCommand *subCmommand=[[invokedUrlCommand alloc]initWithArguments:@[masterWalletID,@"ELA",@"10000"] callbackId:masterWalletID className:@"Wallet" methodName:@"createMasterWallet"];
+        
+        PluginResult *subResult= [[ELWalletManager share] createSubWallet:subCmommand];
+        NSString *status =[NSString stringWithFormat:@"%@",subResult.status];
+        
+        if([status isEqualToString:@"1"]){
+        
+        sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
+        sideModel.walletID=model.walletID;
+        sideModel.sideChainName=@"ELA";
+        
+        sideModel.sideChainNameTime=@"--:--";
+        sideModel.thePercentageCurr=@"0";
+        sideModel.thePercentageMax=@"100";
+        
+        [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
+            [self successfulSwitchingRootVC];
+            
+        }
     }
 }
+
 -(void)creatImportWalletID{
     if (![[FLTools share]checkWalletName:self.SignThePurseView.walletNameTextField.text]) {
         return;
@@ -322,7 +372,29 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){
         [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
-        [self successfulSwitchingRootVC];
+        FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
+        model.walletID=self.WalletID;
+        model.walletName=self.SignThePurseView.walletNameTextField.text;
+        model.TypeW=SingleSign;
+        [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
+        invokedUrlCommand *subCmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.WalletID,@"ELA",@"10000"] callbackId:self.WalletID className:@"Wallet" methodName:@"createMasterWallet"];
+        
+        PluginResult *subResult= [[ELWalletManager share] createSubWallet:subCmommand];
+        NSString *status =[NSString stringWithFormat:@"%@",subResult.status];
+        
+        if([status isEqualToString:@"1"]){
+        sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
+        sideModel.walletID=model.walletID;
+        sideModel.sideChainName=@"ELA";
+        
+        sideModel.sideChainNameTime=@"--:--";
+        sideModel.thePercentageCurr=@"0";
+        sideModel.thePercentageMax=@"100";
+        
+        [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
+            [self successfulSwitchingRootVC];
+            
+        }
     }
 }
 -(void)CallbackWithWalletID:(NSString *)wallet withXPK:(NSString *)XPK withPWD:(NSString * _Nonnull)PWD{
@@ -349,20 +421,22 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
     [self makeButtonKEY];
 }
 -(void)QrCodeIndex:(NSInteger)row{
-        __weak __typeof__(self) weakSelf = self;
-        ScanQRCodeViewController *scanQRCodeVC = [[ScanQRCodeViewController alloc]init];
-        scanQRCodeVC.scanBack = ^(NSString *addr) {
-            NSIndexPath *index = [NSIndexPath indexPathForRow:row inSection:0];
-            HWMaddSignThePurseViewTableViewCell *cell = [weakSelf.baseTableView cellForRowAtIndexPath:index];
+    __weak __typeof__(self) weakSelf = self;
+    WCQRCodeScanningVC *WCQRCode=[[WCQRCodeScanningVC alloc]init];
+    WCQRCode.scanBack=^(NSString *addr){
+        NSIndexPath *index = [NSIndexPath indexPathForRow:row inSection:0];
+        HWMaddSignThePurseViewTableViewCell *cell = [weakSelf.baseTableView cellForRowAtIndexPath:index];
         cell.signThePublicKeyTextField.text=addr;
-        };
-        [self QRCodeScanVC:scanQRCodeVC];
+    };
 }
 -(void)makeButtonKEY{
     [self.SignThePurseView.addPurseButton setTitle:NSLocalizedString(@"编辑根私钥", nil) forState:UIControlStateNormal];
     self.SignThePurseView.iconImageView.image=[UIImage imageNamed:@"asset_adding_select"];
 }
 -(void)successfulSwitchingRootVC{
+    
+    
+    
     [[FLTools share]showErrorInfo:NSLocalizedString(@"创建成功", nil)];
     AppDelegate *appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     UIViewController *rootViewController = appdelegate.window.rootViewController;

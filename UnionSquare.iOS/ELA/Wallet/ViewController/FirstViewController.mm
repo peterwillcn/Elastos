@@ -315,6 +315,9 @@ NSString *imageName=@"single_wallet";
     NSString *statusBase=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"] ) {
         
+        
+        
+        
     }
     [self UpWalletType:model];
     

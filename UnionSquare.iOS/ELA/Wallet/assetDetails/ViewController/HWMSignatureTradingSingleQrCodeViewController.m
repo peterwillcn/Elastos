@@ -67,7 +67,7 @@
         {
             self.title=NSLocalizedString(@"多签公钥", nil);
             self.PublicAddressBGVIEW.alpha=1.f;
-            self.showInfoLabelTopOffSet.constant=99;
+            self.showInfoLabelTopOffSet.constant=120;
             self.PublicAddressLable.text=self.QRCodeString;
             [self.backFistButton setTitle:NSLocalizedString(@"复制多签公钥", nil) forState:UIControlStateNormal];
             self.showInfoLabel.text=NSLocalizedString(@"扫描二维码可创建多签钱包", nil);
@@ -78,7 +78,16 @@
         default:
             break;
     }
-    self.QrCodeImageView.image =[[FLTools share] imageWithSize:1200.f andColorWithRed:1 Green:3 Blue:5 andQRDic:self.QRCodeDic];
+    if (self.QRCodeString.length>0) {
+         self.QrCodeImageView.image = [SGQRCodeGenerateManager generateWithDefaultQRCodeData:self.QRCodeString imageViewWidth:self.QrCodeImageView.mj_w];
+    }else{
+        if (self.QRCodeDic) {
+            self.QrCodeImageView.image =[[FLTools share] imageWithSize:1200.f andColorWithRed:1 Green:3 Blue:5 andQRDic:self.QRCodeDic];
+        }
+        
+     
+    }
+  
 }
 -(void)shareInfo{
     [self mq_share:[NSArray arrayWithObject:self.QrCodeImageView.image]];

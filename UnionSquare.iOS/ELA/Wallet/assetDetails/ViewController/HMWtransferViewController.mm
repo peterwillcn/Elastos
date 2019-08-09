@@ -12,7 +12,6 @@
 #import "HMWChooseSideChainViewController.h"
 #import "ELWalletManager.h"
 #import "WCQRCodeScanningVC.h"
-#import "ScanQRCodeViewController.h"
 #import "HWMSignatureTradingSingleQrCodeViewController.h"
 
 
@@ -93,14 +92,12 @@
     
 }
 -(void)scanView{
-            __weak __typeof__(self) weakSelf = self;
-    ScanQRCodeViewController *scanQRCodeVC = [[ScanQRCodeViewController alloc]init];
-   scanQRCodeVC.scanBack = ^(NSString *addr) {
-        
+    __weak __typeof__(self) weakSelf = self;
+    WCQRCodeScanningVC *WCQRCode=[[WCQRCodeScanningVC alloc]init];
+    WCQRCode.scanBack=^(NSString *addr){
         weakSelf.transferTheAddressTextField.text=addr;
-        
     };
-    [self QRCodeScanVC:scanQRCodeVC];
+    [self QRCodeScanVC:WCQRCode];
 }
 - (IBAction)pasteEvent:(id)sender {
     

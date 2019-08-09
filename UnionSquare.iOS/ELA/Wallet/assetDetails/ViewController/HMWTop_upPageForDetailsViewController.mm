@@ -11,7 +11,7 @@
 #import "ELWalletManager.h"
 #import "HMWtransferDetailsPopupView.h"
 #import "HMWSendSuccessPopuView.h"
-#import "ScanQRCodeViewController.h"
+#import "WCQRCodeScanningVC.h"
 
 
 
@@ -81,13 +81,11 @@
 }
 -(void)scanView{
     __weak __typeof__(self) weakSelf = self;
-    ScanQRCodeViewController *scanQRCodeVC = [[ScanQRCodeViewController alloc]init];
-    scanQRCodeVC.scanBack = ^(NSString *addr) {
-        
-        weakSelf.addressTextField.text=addr;
-        
+    WCQRCodeScanningVC *WCQRCode=[[WCQRCodeScanningVC alloc]init];
+    WCQRCode.scanBack=^(NSString *addr){
+         weakSelf.addressTextField.text=addr;
     };
-    [self QRCodeScanVC:scanQRCodeVC];
+    [self QRCodeScanVC:WCQRCode];
 }
 
 - (IBAction)ChooseSideChainEvent:(id)sender {
@@ -160,11 +158,8 @@
     
     [manView addSubview:self.transferDetailsPopupV];
     [self.transferDetailsPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.equalTo(manView);
+      make.left.right.top.bottom.equalTo(manView);
     }];
-  
-    
-    
 }
 -(HMWtransferDetailsPopupView *)transferDetailsPopupV{
     if (!_transferDetailsPopupV) {

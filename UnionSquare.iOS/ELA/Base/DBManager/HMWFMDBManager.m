@@ -10,10 +10,7 @@
 static HMWFMDBManager * _manager =nil;
 @implementation HMWFMDBManager
 +(instancetype)sharedManagerType:(FMDatabaseType)type{
-//       NSString *path =NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject;
-//    NSString *path =NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
-    NSString*path= [MyUtil getRootPath];
-
+       NSString *path =NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject;
     NSString *dataBaseName;
     NSString *sql;
     
@@ -24,7 +21,7 @@ static HMWFMDBManager * _manager =nil;
     if (type ==friendsModelType) {
         sql =@"create table if not exists Person(ID integer primary key AUTOINCREMENT,nameString text,address text,mobilePhoneNo text,email text,note text)";
     }else if (type==walletType){
-        sql =@"create table if not exists wallet(ID integer primary key AUTOINCREMENT,walletID text,walletAddress text,walletName text,,walletType text)";
+        sql =@"create table if not exists wallet(ID integer primary key AUTOINCREMENT,walletID text,walletAddress text,walletName text)";
         
         
     }else if (type==sideChain){
@@ -90,6 +87,7 @@ static HMWFMDBManager * _manager =nil;
     }
     NSString *sql =[NSString stringWithFormat: @"insert into sideChain (walletID,sideChainName,sideChainNameTime,thePercentageMax,thePercentageCurr) values (\'%@\',\'%@\',\'%@\',\'%@\',\'%@\');", model.walletID,model.sideChainName,model.sideChainNameTime,model.thePercentageMax,model.thePercentageCurr];
     if ([self  executeUpdate:sql]) {
+    
         return YES;
     }else{
         return NO;
@@ -306,7 +304,7 @@ static HMWFMDBManager * _manager =nil;
     /*
      *
      */
-    NSString *sql =@"insert into wallet(walletID,walletAddress,walletName,walletType) values(?,?,?,?)";
+    NSString *sql =@"insert into wallet(walletID,walletAddress,walletName) values(?,?,?)";
     if ([self executeUpdate:sql,wallet.walletID,wallet.walletAddress,wallet.walletName,wallet.TypeW]) {
         
     }else{
@@ -332,7 +330,6 @@ static HMWFMDBManager * _manager =nil;
         p.walletID=[set objectForColumn:@"walletID"];
         p.walletAddress =[set objectForColumn:@"walletAddress"];
          p.walletName =[set objectForColumn:@"walletName"];
-        p.TypeW=[set objectForKeyedSubscript:@"walletType"];
         //        添加到数组中
         [allRecords addObject:p];
     }

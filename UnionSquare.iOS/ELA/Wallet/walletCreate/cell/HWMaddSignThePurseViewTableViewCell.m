@@ -6,7 +6,6 @@
 //
 
 #import "HWMaddSignThePurseViewTableViewCell.h"
-#import "ScanQRCodeViewController.h"
 
 @interface HWMaddSignThePurseViewTableViewCell ()
 

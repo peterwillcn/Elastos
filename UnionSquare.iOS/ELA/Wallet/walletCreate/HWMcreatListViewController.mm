@@ -9,8 +9,8 @@
 #import "HWMHWMcreatWalletListlTableViewCell.h"
 #import "FLCreatAcountVC.h"
 #import "HWMSignThePurseViewController.h"
-#import "ScanQRCodeViewController.h"
 #import "HWMSingleSignReadOnlyWalletViewController.h"
+#import "WCQRCodeScanningVC.h"
 
 static NSString *cellString=@"HWMHWMcreatWalletListlTableViewCell";
 @interface HWMcreatListViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -66,9 +66,7 @@ static NSString *cellString=@"HWMHWMcreatWalletListlTableViewCell";
     
    HWMHWMcreatWalletListlTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-    cell.backgroundColor=[UIColor clearColor];
-    cell.selectionStyle=UITableViewCellSeparatorStyleNone;
-    cell.dic=self.dataSourceArray[indexPath.section];
+    cell.backgroundColor=[UIColor clearColor];    cell.dic=self.dataSourceArray[indexPath.section];
     
     return cell;
     
@@ -85,11 +83,24 @@ static NSString *cellString=@"HWMHWMcreatWalletListlTableViewCell";
         [self.navigationController pushViewController:VC animated:YES];
     }else if ([nameString isEqualToString:NSLocalizedString(@"单签只读钱包", nil)]){
         __weak __typeof__(self) weakSelf = self;
-        ScanQRCodeViewController *scanQRCodeVC = [[ScanQRCodeViewController alloc]init];
-        scanQRCodeVC.scanBack = ^(NSString *addr) {
-            [self popSingleSignReadOnlyWalletVCWithAddString:addr];
+        WCQRCodeScanningVC *WCQRCode=[[WCQRCodeScanningVC alloc]init];
+        WCQRCode.scanBack=^(NSString *addr){
+            
+            NSDictionary *dic=[[FLTools share] dictionaryWithJsonString:addr];
+            if (dic) {
+                if([[dic allKeys] containsObject:@"type"]){
+                    if ([dic[@"type"] isEqualToString:@"1"]) {
+                        [weakSelf popSingleSignReadOnlyWalletVCWithAddString:[[FLTools share] DicToString:dic[@"data"]]];
+                    }
+                }
+                
+            }else{
+                
+            }
+            
         };
-        [weakSelf QRCodeScanVC:scanQRCodeVC];
+    
+        [self QRCodeScanVC:WCQRCode];
        
        
         
@@ -98,6 +109,7 @@ static NSString *cellString=@"HWMHWMcreatWalletListlTableViewCell";
 }
 -(void)popSingleSignReadOnlyWalletVCWithAddString:(NSString*)addS{
     HWMSingleSignReadOnlyWalletViewController *VC=[[HWMSingleSignReadOnlyWalletViewController alloc]init];
+    VC.jsonString=addS;
     [self.navigationController pushViewController:VC animated:YES];
     
 }

@@ -44,8 +44,6 @@ static NSString *cellString=@"HMWtheWalletListTableViewCell";
 }
 -(NSArray *)walletIDListArray{
     if (!_walletIDListArray) {
-        
-        
         _walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
     }
     return _walletIDListArray;

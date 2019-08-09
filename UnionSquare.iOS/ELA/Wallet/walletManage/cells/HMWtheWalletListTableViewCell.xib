@@ -31,10 +31,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gnc-DP-Pqd">
-                                <rect key="frame" x="51" y="25" width="150" height="19.5"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="BPa-jA-cfZ"/>
-                                </constraints>
+                                <rect key="frame" x="51" y="25" width="254" height="19.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -55,6 +52,7 @@
                             <constraint firstItem="itY-Yr-ikt" firstAttribute="centerY" secondItem="xOG-7h-30N" secondAttribute="centerY" id="IPN-Kx-14q"/>
                             <constraint firstItem="rBH-ee-pOt" firstAttribute="leading" secondItem="xOG-7h-30N" secondAttribute="leading" id="WY7-UB-Pku"/>
                             <constraint firstItem="gnc-DP-Pqd" firstAttribute="leading" secondItem="rBH-ee-pOt" secondAttribute="trailing" constant="47" id="iok-Ub-Eoz"/>
+                            <constraint firstAttribute="trailing" secondItem="gnc-DP-Pqd" secondAttribute="trailing" constant="15" id="krC-Ng-xpt"/>
                         </constraints>
                     </view>
                 </subviews>

@@ -123,7 +123,12 @@ static uint64_t feePerKB = 10000;
 {
     Json json;
     try {
+        
    json = masterWallet->GetBasicInfo();
+        
+        
+        
+        
     } catch (const std:: exception & e ) {
         
         NSString *errString=[self stringWithCString:e.what()];
@@ -132,7 +137,11 @@ static uint64_t feePerKB = 10000;
         return 0;
     }
   
+    
+    
+    
     NSString *jsonString = [self stringWithCString:json.dump()];
+    
     return jsonString;
 }
 
@@ -1854,7 +1863,7 @@ errCodeSPVCreateMasterWalletError= 20006;
    return [self stringWithCString:XPK];
 }
 -(void)EMWMFlushData{
-//    mMasterWalletManager->FlushData();
+    mMasterWalletManager->FlushData();
 }
 -(NSString*)EMWMGetVersion{
     String  Version=mMasterWalletManager->GetVersion();
@@ -1883,5 +1892,32 @@ errCodeSPVCreateMasterWalletError= 20006;
     }
     
 }
+-(PluginResult *)ExportMasterPublicKey:(invokedUrlCommand *)command{
+    NSArray *args = command.arguments;
+    int idx = 0;
+    String masterWalletID = [self cstringWithString:args[idx++]];
+    
+    if (mMasterWalletManager == nil) {
+        NSString *msg = [NSString stringWithFormat:@"%@", @"Master wallet manager has not initialize"];
+        return [self errorProcess:command code:errCodeImportFromMnemonic msg:msg];
+    }
+    
+    IMasterWallet *masterWallet = [self getIMasterWallet:masterWalletID];
+    if (masterWallet == nil) {
+        NSString *msg = [NSString stringWithFormat:@"%@ %@ %@", @"Import", [self formatWalletName:masterWalletID], @"with WalletId"];
+        return [self errorProcess:command code:errCodeImportFromMnemonic msg:msg];
+    }
+   std:: string jsonString;
+    try {
+        jsonString = mMasterWalletManager->ExportMasterPublicKey(masterWallet);
+    } catch (const std:: exception &e) {
+        return  [self errInfoToDic:e.what() with:command];
+    }
+    
+    NSString *jsonNString = [self stringWithCString:jsonString];
+
+    return [self successProcess:command msg:jsonNString];
+}
+
 
 @end

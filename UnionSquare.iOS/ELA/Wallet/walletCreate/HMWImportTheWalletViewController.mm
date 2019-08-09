@@ -170,7 +170,8 @@
                sideModel.walletID=model.walletID;
                sideModel.sideChainName=@"ELA";
                sideModel.sideChainNameTime=@"--:--";
-               
+               sideModel.thePercentageCurr=@"0";
+                sideModel.thePercentageMax=@"100";
                [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
         
                [self successfulSwitchingRootVC];
@@ -242,6 +243,8 @@
             sideModel.sideChainName=@"ELA";
             
             sideModel.sideChainNameTime=@"--:--";
+            sideModel.thePercentageCurr=@"0";
+            sideModel.thePercentageMax=@"100";
             NSLog(@"添加成功");
             [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
             [self successfulSwitchingRootVC];
@@ -267,6 +270,8 @@
         sideModel.sideChainName=@"ELA";
         
         sideModel.sideChainNameTime=@"--:--";
+        sideModel.thePercentageCurr=@"0";
+        sideModel.thePercentageMax=@"100";
         
         [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
         [self successfulSwitchingRootVC];

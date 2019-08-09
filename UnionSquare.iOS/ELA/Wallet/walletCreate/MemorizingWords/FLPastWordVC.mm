@@ -295,8 +295,8 @@ __weak __typeof__(self) weakSelf = self;
             sideModel.walletID=waModel.walletID;
             sideModel.sideChainName=@"ELA";
             sideModel.sideChainNameTime=@"--:--";
-            
-            
+            sideModel.thePercentageCurr=@"0";
+             sideModel.thePercentageMax=@"100";
             [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
             
             

@@ -6,7 +6,7 @@
 #import "HMWaddContactViewController.h"
 #import "HMWFMDBManager.h"
 #import "friendsModel.h"
-#import "ScanQRCodeViewController.h"
+#import "WCQRCodeScanningVC.h"
 
 @interface HMWaddContactViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nickNameTextField;
@@ -66,13 +66,11 @@
 - (IBAction)sweepTheQRCodeEvent:(id)sender {
 
     __weak __typeof__(self) weakSelf = self;
-    ScanQRCodeViewController *scanQRCodeVC = [[ScanQRCodeViewController alloc]init];
-    scanQRCodeVC.scanBack = ^(NSString *addr) {
-        
+    WCQRCodeScanningVC *WCQRCode=[[WCQRCodeScanningVC alloc]init];
+    WCQRCode.scanBack=^(NSString *addr){
         weakSelf.theWalletAddressTextField.text=addr;
-    
     };
-    [self QRCodeScanVC:scanQRCodeVC];
+    [self QRCodeScanVC:WCQRCode];
 }
 
 - (IBAction)pasteTheEvent:(id)sender {

@@ -730,14 +730,27 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 }
 #pragma mark ---------HMWpwdPopupViewDelegate----------
 -(void)makeSureWithPWD:(NSString*)pwd{
-    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
+    
+    //    SingleSign=0,
+    //    SingleSignReadonly=1,
+    //    HowSign=2,
+    //    HowSignReadonly=3
+    if (self.currentWallet.TypeW==0) {
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
     PluginResult * result =[[ELWalletManager share]CreateCombineUTXOTransaction:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     [self cancelThePWDPageView];
     if ([status isEqualToString:@"1"]) {
         [self showSendSuccessPopuV];
     }
-    
+        
+    }else if (self.currentWallet.TypeW==1){
+        
+    }else if (self.currentWallet.TypeW==2){
+        
+    }else if (self.currentWallet.TypeW==3){
+        
+    }
 }
 -(void)cancelThePWDPageView{
     [self.pwdPopupV removeFromSuperview];

@@ -226,9 +226,19 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
        
         
     }else if ([title isEqualToString:NSLocalizedString(@"查看多签公钥",nil)]){
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getMasterWalletBasicInfo"];
+        
+        PluginResult *result= [[ELWalletManager share]ExportMasterPublicKey:mommand];
+        NSString *status=[NSString stringWithFormat:@"%@",result.status];
+        if ([status isEqualToString:@"1"]) {
+            
+        
         HWMSignatureTradingSingleQrCodeViewController *vc=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
         vc.type=LookhHowSignThePublicKey;
-        [self.navigationController pushViewController:vc animated:YES];
+        vc.QRCodeString=result.message[@"success"];
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        }
         
     }
     

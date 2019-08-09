@@ -396,10 +396,6 @@
 		42D126A822B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D126A622B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.xib */; };
 		42EEDA86224B84790009B18E /* LaunchScreen-English.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42EEDA85224B84790009B18E /* LaunchScreen-English.storyboard */; };
 		42EEDA88224B84A50009B18E /* LaunchScreen-Chinese.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42EEDA87224B84A50009B18E /* LaunchScreen-Chinese.storyboard */; };
-		42FB1F5222F80F9900713355 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42FB1F5122F80F9900713355 /* Bugly.framework */; };
-		42FB1F5A22F83E9B00713355 /* NENSinglePinger.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FB1F5422F83E9B00713355 /* NENSinglePinger.m */; };
-		42FB1F5B22F83E9B00713355 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FB1F5722F83E9B00713355 /* SimplePing.m */; };
-		42FB1F5C22F83E9B00713355 /* NENPingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 42FB1F5922F83E9B00713355 /* NENPingManager.m */; };
 		7087D92F21BCDF1B00599316 /* MyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7087D92E21BCDF1B00599316 /* MyUtil.m */; };
 		70F8409621BEAA1B001C0BD6 /* ELWalletManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70F8409521BEAA1B001C0BD6 /* ELWalletManager.mm */; };
 		9FD0C828FEE9459B88FB6A2D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B5A24BEEA44AE9AD51A2C8 /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -1120,12 +1116,8 @@
 		42D126A622B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HMWVotingListTypeCrossCollectionViewCell.xib; sourceTree = "<group>"; };
 		42EEDA85224B84790009B18E /* LaunchScreen-English.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "LaunchScreen-English.storyboard"; sourceTree = "<group>"; };
 		42EEDA87224B84A50009B18E /* LaunchScreen-Chinese.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "LaunchScreen-Chinese.storyboard"; sourceTree = "<group>"; };
-		42FB1F5122F80F9900713355 /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
 		42FB1F5422F83E9B00713355 /* NENSinglePinger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NENSinglePinger.m; sourceTree = "<group>"; };
-		42FB1F5522F83E9B00713355 /* SimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePing.h; sourceTree = "<group>"; };
-		42FB1F5622F83E9B00713355 /* NENPingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NENPingManager.h; sourceTree = "<group>"; };
 		42FB1F5722F83E9B00713355 /* SimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePing.m; sourceTree = "<group>"; };
-		42FB1F5822F83E9B00713355 /* NENSinglePinger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NENSinglePinger.h; sourceTree = "<group>"; };
 		42FB1F5922F83E9B00713355 /* NENPingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NENPingManager.m; sourceTree = "<group>"; };
 		705D8C6C21BE86870062156D /* ELWalletManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELWalletManager.h; sourceTree = "<group>"; };
 		7087D92721BCD85500599316 /* IDIDManagerSupervisor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDIDManagerSupervisor.h; sourceTree = "<group>"; };
@@ -1187,7 +1179,6 @@
 				4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */,
 				4250B3F22238D32700B6858F /* libzbar.a in Frameworks */,
 				9FD0C828FEE9459B88FB6A2D /* WebKit.framework in Frameworks */,
-				42FB1F5222F80F9900713355 /* Bugly.framework in Frameworks */,
 				0377F67DC70B4CEFBD787502 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1229,6 +1220,7 @@
 				EB87FDF11871DA420020F90C /* Staging */,
 				7087D92C21BCDEB600599316 /* starter */,
 				705D8C6A21BE863B0062156D /* WalletManager */,
+				42C04D672303E29C00041CCB /* Recovered References */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -1307,8 +1299,6 @@
 		4202C7D421F6EF28009E5932 /* ThirdSDK */ = {
 			isa = PBXGroup;
 			children = (
-				42FB1F5322F83E9B00713355 /* NenPingManager */,
-				42FB1F5122F80F9900713355 /* Bugly.framework */,
 				424910C22271BFCF00C41E50 /* SDWebImage */,
 				4250B3C62238D32600B6858F /* ZBar */,
 				42B57A9322150C1C004CF089 /* WOCrashProtector */,
@@ -2744,6 +2734,16 @@
 			path = WOContainer;
 			sourceTree = "<group>";
 		};
+		42C04D672303E29C00041CCB /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				42FB1F5922F83E9B00713355 /* NENPingManager.m */,
+				42FB1F5722F83E9B00713355 /* SimplePing.m */,
+				42FB1F5422F83E9B00713355 /* NENSinglePinger.m */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		42C53F8522C9B9820006B3B2 /* spvsdk */ = {
 			isa = PBXGroup;
 			children = (
@@ -2777,19 +2777,6 @@
 				42C53F8E22C9B9820006B3B2 /* json.hpp */,
 			);
 			path = nlohmann;
-			sourceTree = "<group>";
-		};
-		42FB1F5322F83E9B00713355 /* NenPingManager */ = {
-			isa = PBXGroup;
-			children = (
-				42FB1F5422F83E9B00713355 /* NENSinglePinger.m */,
-				42FB1F5522F83E9B00713355 /* SimplePing.h */,
-				42FB1F5622F83E9B00713355 /* NENPingManager.h */,
-				42FB1F5722F83E9B00713355 /* SimplePing.m */,
-				42FB1F5822F83E9B00713355 /* NENSinglePinger.h */,
-				42FB1F5922F83E9B00713355 /* NENPingManager.m */,
-			);
-			path = NenPingManager;
 			sourceTree = "<group>";
 		};
 		705D8C6A21BE863B0062156D /* WalletManager */ = {
@@ -3085,7 +3072,6 @@
 				4234721322CC8C0D000616CB /* HWMNewPrivateKeyViewController.mm in Sources */,
 				4228AA4E21F88C87002866B5 /* UIScreen+YYAdd.m in Sources */,
 				4202CA7221F6EF2B009E5932 /* HMWcollectionViewController.m in Sources */,
-				42FB1F5C22F83E9B00713355 /* NENPingManager.m in Sources */,
 				4228AA5D21F88C87002866B5 /* NSObject+YYAddForARC.m in Sources */,
 				4202CA7B21F6EF2B009E5932 /* HMWAssetDetailsViewController.mm in Sources */,
 				424910E92271BFCF00C41E50 /* UIImageView+HighlightedWebCache.m in Sources */,
@@ -3174,7 +3160,6 @@
 				4250B3F12238D32700B6858F /* UIColor+HEX.m in Sources */,
 				42B57AB522150C1C004CF089 /* NSTimer+Crash.m in Sources */,
 				4202CACE21F6EF2B009E5932 /* HMWsignUpForViewController.mm in Sources */,
-				42FB1F5B22F83E9B00713355 /* SimplePing.m in Sources */,
 				424910F02271BFCF00C41E50 /* SDWebImageDownloaderOperation.m in Sources */,
 				4228AA4F21F88C87002866B5 /* UIView+YYAdd.m in Sources */,
 				4228AA6721F88F18002866B5 /* assetDetailsModel.m in Sources */,
@@ -3218,7 +3203,6 @@
 				4202C9FE21F6EF2A009E5932 /* NSArray+MASAdditions.m in Sources */,
 				4202CA2221F6EF2A009E5932 /* HMWmyContactListTableViewCell.m in Sources */,
 				424910EF2271BFCF00C41E50 /* SDImageCache.m in Sources */,
-				42FB1F5A22F83E9B00713355 /* NENSinglePinger.m in Sources */,
 				424910ED2271BFCF00C41E50 /* SDWebImageCompat.m in Sources */,
 				422D609621FC405000DD07FF /* FLJoinVoteInfoModel.m in Sources */,
 				4202C9FB21F6EF2A009E5932 /* MASCompositeConstraint.m in Sources */,

@@ -172,8 +172,9 @@
 "报名押金"="Registration deposit";
 "票"="Votes";
 "完整信息请点击交易号查看"="Click transaction NO. to see all the details";
-
-"检测到当前账户存在大量Utxo,是否零钱换整？"="Too much UTXO detected, Consolidate?";
+"账户Utxo数量为"="The number of UTXO is ";
+"，"=",";
+"是否零钱换整？"=" consolidate?";
 "创建钱包"="Create Wallet";
 "多签钱包"="Multi-Sign Wallet";
 "单签只读钱包"="Standard Read-Only Wallet";

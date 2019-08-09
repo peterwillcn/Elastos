@@ -27,7 +27,7 @@
 #import "FLPrepareVC.h"
 #import "sideChainInfoModel.h"
 #import "ScanQRCodeViewController.h"
-#import "NENPingManager.h"
+//#import "NENPingManager.h"
 
 
 
@@ -60,7 +60,7 @@
      */
     @property(assign,nonatomic)double angle;
 
-@property (nonatomic, strong) NENPingManager* pingManager;
+//@property (nonatomic, strong) NENPingManager* pingManager;
 @end
 
 @implementation FirstViewController
@@ -89,22 +89,22 @@
     
 
 }
--(void)loadPing{
-    NSArray *hostNameArray = @[
-                               @"www.bilibili.com",
-                               @"www.baidu.com",
-                               @"www.youku.com",
-                               @"www.hao123.com",
-                               @"52.80.244.38",
-                               @"54.222.168.99"
-                               ];
-    self.pingManager = [[NENPingManager alloc] init];
-    [self.pingManager getFatestAddress:hostNameArray completionHandler:^(NSString *hostName, NSArray *sortedAddress) {
-        NSLog(@"fastest IP: %@",hostName);
-    }];
-    
-    
-}
+//-(void)loadPing{
+//    NSArray *hostNameArray = @[
+//                               @"www.bilibili.com",
+//                               @"www.baidu.com",
+//                               @"www.youku.com",
+//                               @"www.hao123.com",
+//                               @"52.80.244.38",
+//                               @"54.222.168.99"
+//                               ];
+//    self.pingManager = [[NENPingManager alloc] init];
+//    [self.pingManager getFatestAddress:hostNameArray completionHandler:^(NSString *hostName, NSArray *sortedAddress) {
+//        NSLog(@"fastest IP: %@",hostName);
+//    }];
+//    
+//    
+//}
 -(void)UpWalletType:(FMDBWalletModel*)model{
 NSString *imageName=@"single_wallet";
     switch (model.TypeW) {
@@ -347,8 +347,7 @@ NSString *imageName=@"single_wallet";
             model.iconBlance=blanceString;
             model.thePercentageCurr=[smodel.thePercentageCurr floatValue];
             model.thePercentageMax=[smodel.thePercentageMax floatValue];
-//            NSLog(@"本地存储时间====%@====%@====%@====%@=====%@",smodel.sideChainNameTime,smodel.sideChainName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
-            if ([smodel.sideChainNameTime isEqual: [NSNull null]]||smodel.sideChainNameTime==NULL) {
+            if ([smodel.sideChainNameTime isEqual: [NSNull null]]||smodel.sideChainNameTime==NULL||[smodel.sideChainNameTime isEqualToString:@"--:--"]) {
                 model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"已同步区块时间", nil),@"--:--"];
                 model.thePercentageMax=100;
             }else{

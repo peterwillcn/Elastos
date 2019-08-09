@@ -124,4 +124,9 @@
     }
     
 }
+-(void)setUtxosString:(NSString *)UtxosString{
+//    账户Utxo数量为65535个，
+//    是否零钱换整？
+    self.titlePopLabel.text=[NSString stringWithFormat:@"%@  %@%@",NSLocalizedString(@"账户Utxo数量为", nil),UtxosString,NSLocalizedString(@"，", nil),NSLocalizedString(@"是否零钱换整？", nil)];
+}
 @end

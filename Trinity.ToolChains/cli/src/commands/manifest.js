@@ -3,7 +3,7 @@ const path = require("path");
 const ManifestHelper = require("../helpers/manifest.helper")
 
 exports.command = 'manifest'
-exports.describe = 'Creates or update a Trinity manifest.json inside the ionic app project'
+exports.describe = 'Creates or update a Trinity manifest.json inside the ionic app project. Use this only if you want to enable an existing ionic app as a Trinity DApp'
 exports.builder = {
 }
 exports.handler = function (argv) {

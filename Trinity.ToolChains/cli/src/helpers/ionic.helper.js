@@ -5,7 +5,7 @@ module.exports = class IonicHelper {
      */
     updatedNpmDependencies() {
         return new Promise((resolve, reject) => {
-            console.log("Updated NPM modules for the ionic application...")
+            console.log("Updating NPM modules for the ionic application...")
 
             const spawn = require("child_process").spawn;
             const process = spawn('npm',["install"]);
@@ -61,7 +61,7 @@ module.exports = class IonicHelper {
             console.log("Running ionic serve for hot reload...")
 
             const spawn = require("child_process").spawn;
-            const process = spawn('ionic',["serve"]);
+            const process = spawn('ionic',["serve","--no-open"]);
 
             process.stdout.on('data', function (data) { console.log(''+data)});
             process.stderr.on('data', function (data) { console.log(''+data)});

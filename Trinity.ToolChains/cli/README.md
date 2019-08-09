@@ -5,6 +5,7 @@
 # Development run command
 - `npm getepksigner` (from the cli/ folder - only the first time (no bin folder) or to get new versions of the epksigner)
 - `npm run devprepare && cd dapptestcode/ && ../bin/trinity xxxx` (from the dapp folder (for run command) )
+- `npm run getepksigner` - To get EPK signer dependency libraries (first time, or when an EPK signer update is needed)
 
 # Publishing account
 

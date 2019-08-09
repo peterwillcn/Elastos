@@ -75,7 +75,7 @@ module.exports = class RunHelper {
 
             pythonProcess.stdout.on('data', function (data) { console.log(''+data)});
             pythonProcess.stderr.on('data', function (data) { console.log(''+data)});
-            pythonProcess.on('error', function(err) { reject(err)})
+            pythonProcess.on('error', function(err) { console.log(err); reject(err)})
 
             pythonProcess.on('exit', function (code) {
                 if (code == 0) {

@@ -1,7 +1,0 @@
-{
-  "name": "myToDo",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "ionic-angular"
-}

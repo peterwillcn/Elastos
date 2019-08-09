@@ -42,7 +42,7 @@ git submodule update --init --recursive
 To update submodules with the lastest changes, type:
 
 ```shell
-git submodule update --rebase --remote
+git submodule update --rebase
 ```
 
 And then use git add, commit and push to submit your changes to current project.
@@ -62,7 +62,7 @@ And then use git add, commit and push to submit your changes to current project.
 - Android NDK (android-ndk-r16b or higher)
 
  The supported way of doing this nowadays is to use Android Studio.
- 
+
  Set the ANDROID_HOME environment variable to match the Android SDK path.
 
  on Mac and Linux, add the following line to your login script (e.g., ~/.bashrc, ~/.bash_profile, etc...):

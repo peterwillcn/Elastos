@@ -30,7 +30,7 @@ Elastos Trinity is supported on both Android and iOS, DApp developers only need 
 To clone the repository in your environment:
 
 ```shell
-git clone --recurse-submodules -b dev -j8 git@github.com:elastos/Elastos.Trinity.git
+git clone --recurse-submodules -b master -j8 git@github.com:elastos/Elastos.Trinity.git
 ```
 
 We use --recurse-submodules here because we need to download the submodules as well. If you forgot to use the argument, you could download the submodules later by typing:

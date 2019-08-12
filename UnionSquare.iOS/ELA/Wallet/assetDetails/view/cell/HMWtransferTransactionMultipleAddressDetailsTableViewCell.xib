@@ -22,7 +22,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6vm-Cf-wPB">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transaction ID" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MRn-7a-o0O">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Inputs" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MRn-7a-o0O">
                                 <rect key="frame" x="13" y="0.0" width="95" height="43.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="95" id="TWx-6H-LaC"/>
@@ -63,6 +63,7 @@
             <connections>
                 <outlet property="orderDetailsLabel" destination="Nab-L2-PmV" id="o6V-3k-GYb"/>
                 <outlet property="textLabel" destination="MRn-7a-o0O" id="jS1-Wc-eoZ"/>
+                <outlet property="textLabelWidth" destination="TWx-6H-LaC" id="4Sw-0C-Zmi"/>
                 <outlet property="textOffset" destination="laN-5e-yGd" id="KUe-ed-mxt"/>
             </connections>
         </tableViewCell>

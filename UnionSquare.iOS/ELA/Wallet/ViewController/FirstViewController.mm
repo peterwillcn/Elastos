@@ -340,10 +340,11 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     
     [self defultWhite];
      self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"aaset_wallet_list"] style:UIBarButtonItemStyleDone target:self action:@selector(swichWallet)];
-     [super viewWillAppear:animated];
+ 
     [self.navigationController.navigationBar setBackgroundImage:[self screenShotView:self.view.subviews.firstObject] forBarMetrics:UIBarMetricsDefault];
   
 }
@@ -446,7 +447,7 @@
  cell.biName.text=model.iconName;
    cell.updatetime.text=model.updateTime;
     cell.detailLab.text=[[FLTools share]elaScaleConversionWith: model.iconBlance];
-    NSString * symbolString=@"%";
+    NSString *symbolString=@"%";
     cell.progress.progress=model.thePercentageCurr/model.thePercentageMax;
     
     if (cell.progress.progress==1) {

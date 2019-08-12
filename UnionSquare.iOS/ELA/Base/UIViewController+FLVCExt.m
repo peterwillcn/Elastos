@@ -64,7 +64,6 @@
     [bg mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(self.view);
     }];
-   [self.navigationController.navigationBar setBackgroundImage:[self screenShotView:bg] forBarMetrics:UIBarMetricsDefault];
     
     
 }

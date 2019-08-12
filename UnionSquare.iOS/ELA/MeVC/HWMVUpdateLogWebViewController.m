@@ -36,8 +36,9 @@
      [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 -(void)viewWillAppear:(BOOL)animated{
+      [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
-    [super viewWillAppear:animated];
+  
 }
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView

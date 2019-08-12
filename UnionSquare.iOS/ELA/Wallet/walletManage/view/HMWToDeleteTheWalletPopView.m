@@ -19,6 +19,7 @@
 @property(strong,nonatomic)HMWSecurityVerificationPopView *securityVerificationPopV;
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleButtonConB;
 
 @end
 @implementation HMWToDeleteTheWalletPopView
@@ -119,14 +120,14 @@
         self.viewHeight.constant=160; self.titlePopLabel.text=NSLocalizedString(@"超出投票选择上限，是否在已选列表中按排名顺序选择前36名？", nil);
         
     }else if (deleteType==UtxoChangeWhole){
-        self.viewHeight.constant=160; self.titlePopLabel.text=NSLocalizedString(@"检测到当前账户存在大量Utxo,是否零钱换整？", nil);
-        
+        self.viewHeight.constant=200;
+        self.titlePopLabel.text=@"";
+        self.titleButtonConB.constant=0;
     }
-    
 }
 -(void)setUtxosString:(NSString *)UtxosString{
 //    账户Utxo数量为65535个，
 //    是否零钱换整？
-    self.titlePopLabel.text=[NSString stringWithFormat:@"%@  %@%@",NSLocalizedString(@"账户Utxo数量为", nil),UtxosString,NSLocalizedString(@"，", nil),NSLocalizedString(@"是否零钱换整？", nil)];
+    self.titlePopLabel.text=[NSString stringWithFormat:@"%@ %@%@\n%@",NSLocalizedString(@"账户Utxo数量为", nil),UtxosString,NSLocalizedString(@"，", nil),NSLocalizedString(@"是否零钱换整？", nil)];
 }
 @end

@@ -128,6 +128,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
+     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
     [self setBackgroundImg:@""];
     [self makeView];
     self.isUpdate=NO;
@@ -156,14 +157,56 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
         self.enMoneyWidthOffSet.constant=-AppWidth+30;
         self.toUpMoneyButtonWidthdOff.constant=200;
     }
+   
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(currentWalletAccountBalanceChanges:) name: AccountBalanceChanges object:nil];
     
     
 }
--(void)DetectionOfTheBalance{
+-(void)currentWalletAccountBalanceChanges:(NSNotification *)notification{
     
+    NSDictionary *dic=[[NSDictionary alloc]initWithDictionary:notification.object];
+    NSArray *infoArray=[[FLTools share]stringToArray:dic[@"callBackInfo"]];
+    
+    NSString *walletID=infoArray.firstObject;
+    NSString *chainID=infoArray[1];
+//    NSInteger index = [infoArray[2] integerValue];
+    NSString *  balance=dic[@"balance"];
+    if ([self.title isEqualToString:chainID]&&[self.currentWallet.masterWalletID isEqualToString:walletID]){
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            self.balanceLabel.text=[NSString stringWithFormat:@"%@",[[FLTools share]elaScaleConversionWith: balance]];
+            self.currencyNameLabel.text=@"ELA";
+        });
+    }
+}
+-(void)iconInfoUpdate:(NSNotification *)notification{
+    
+    
+    
+    
+    NSDictionary *dic=[[NSDictionary alloc]initWithDictionary:notification.object];
+    NSArray *infoArray=[[FLTools share]stringToArray:dic[@"callBackInfo"]];
+    NSString *walletID=infoArray.firstObject;
+    NSString *chainID=infoArray[1];
+//    NSInteger index = [infoArray[2] integerValue];
+    NSString *lastBlockTimeString=dic[@"lastBlockTimeString"];
+//    NSString * currentBlockHeight=dic[@"currentBlockHeight"];
+//    NSString *  progress=dic[@"progress"];
+    if ([self.currentWallet.masterWalletID isEqualToString:walletID]){
+        if ([self.title isEqualToString:chainID]) {
+            
+            
+            NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:lastBlockTimeString];
+                      self.model.updateTime=[NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                self.updateTimeLabel.text=self.model.updateTime;
+            });
+            
+        }
+    }
+}
+-(void)DetectionOfTheBalance{
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"GetAllUTXOs"];
     PluginResult * result =[[ELWalletManager share]GetAllUTXOs:mommand];
-    
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){
         NSInteger  MaxCount=[result.message[@"success"][@"MaxCount"] integerValue];
@@ -171,8 +214,6 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
             [self AnyChangeInTheWhole];
         }
     }
-    
-    
 }
 -(HMWpwdPopupView *)pwdPopupV{
     if (!_pwdPopupV) {
@@ -453,10 +494,13 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     self.baseTableView.delegate=self;
     self.baseTableView.dataSource=self;
     self.baseTableView.rowHeight=70;
-    __weak __typeof(self) _self = self;
-    self.baseTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        __strong __typeof(_self) self = _self;
+  __weak __typeof(self) weakSelf = self;
+    MJRefreshNormalHeader *header=[MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        __strong __typeof(self) self =weakSelf;
         if ([self.leftOrRight isEqualToString:@"0"]) {
+            invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[weakSelf.currentWallet.masterWalletID,self.model.iconName] callbackId:weakSelf.currentWallet.masterWalletID className:@"Wallet" methodName:@"SyncStart"];
+            [[ELWalletManager share]SyncStart:mommand];
+
             self.isUpdate=YES;
             
             self.currentIndex=0;
@@ -469,8 +513,9 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
         }
         
     }];
+    self.baseTableView.mj_header=header;
     self.baseTableView.mj_footer=[MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
-        __strong __typeof(_self) self = _self;
+        __strong __typeof(self) self = weakSelf;
         if ([self.leftOrRight isEqualToString:@"0"]) {
             self.isUpdate=NO;
             if (self.allTotal<=self.currentIndex) {
@@ -493,16 +538,10 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
             
         }
     }];
-    
-    self.baseTableView.separatorInset=UIEdgeInsetsMake(-0, 15, 0, 15);
-    
+  self.baseTableView.separatorInset=UIEdgeInsetsMake(-0, 15, 0, 15);
     [self.baseTableView registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
     [self.baseTableView registerNib:[UINib nibWithNibName:showOwnerAddressCellString bundle:nil] forCellReuseIdentifier:showOwnerAddressCellString];
-    
-    
     self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
-    
-    
 }
 -(void)baseTableViewEndRF{
     [self.baseTableView.mj_header endRefreshing];

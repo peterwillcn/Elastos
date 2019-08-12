@@ -30,8 +30,9 @@
                                 <action selector="closeViewEvent:" destination="iN0-l3-epB" eventType="touchUpInside" id="TUd-LE-M9o"/>
                             </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="是否删除当前钱包？" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="1Ik-e4-Kzt">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="是否删除当前钱包？" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="1Ik-e4-Kzt">
                             <rect key="frame" x="5" y="45" width="260" height="45"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -70,12 +71,12 @@
                         <constraint firstAttribute="height" constant="140" id="9WS-Dx-b7e"/>
                         <constraint firstItem="qP9-nL-2Tf" firstAttribute="top" secondItem="KFP-ES-FfI" secondAttribute="top" id="Mu0-7k-Cra"/>
                         <constraint firstItem="1Ik-e4-Kzt" firstAttribute="leading" secondItem="KFP-ES-FfI" secondAttribute="leading" constant="5" id="P4r-vm-4gk"/>
+                        <constraint firstItem="3cU-PG-b4e" firstAttribute="top" secondItem="1Ik-e4-Kzt" secondAttribute="bottom" id="TXy-IB-N0g"/>
                         <constraint firstAttribute="width" constant="270" id="UX0-FY-siH"/>
                         <constraint firstItem="zLy-gd-T3X" firstAttribute="leading" secondItem="3cU-PG-b4e" secondAttribute="trailing" id="VAI-7j-MnH"/>
                         <constraint firstAttribute="trailing" secondItem="1Ik-e4-Kzt" secondAttribute="trailing" constant="5" id="Xd4-tt-nT9"/>
                         <constraint firstAttribute="trailing" secondItem="zLy-gd-T3X" secondAttribute="trailing" id="aT2-gJ-mnb"/>
                         <constraint firstItem="zLy-gd-T3X" firstAttribute="width" secondItem="3cU-PG-b4e" secondAttribute="width" id="b0g-Fx-kzv"/>
-                        <constraint firstItem="3cU-PG-b4e" firstAttribute="top" secondItem="1Ik-e4-Kzt" secondAttribute="bottom" id="fP3-ZB-Pbq"/>
                         <constraint firstItem="3cU-PG-b4e" firstAttribute="leading" secondItem="KFP-ES-FfI" secondAttribute="leading" id="hgc-D7-iMf"/>
                         <constraint firstItem="1Ik-e4-Kzt" firstAttribute="top" secondItem="qP9-nL-2Tf" secondAttribute="bottom" id="lEf-Pb-ueY"/>
                         <constraint firstAttribute="trailing" secondItem="qP9-nL-2Tf" secondAttribute="trailing" id="tlP-zF-QOA"/>
@@ -92,6 +93,7 @@
             <connections>
                 <outlet property="cancelButton" destination="zLy-gd-T3X" id="F35-Nv-GAB"/>
                 <outlet property="sureToDeleteButton" destination="3cU-PG-b4e" id="7Da-ql-Gl2"/>
+                <outlet property="titleButtonConB" destination="TXy-IB-N0g" id="Xew-HD-s2c"/>
                 <outlet property="titlePopLabel" destination="1Ik-e4-Kzt" id="7hF-Wd-7zp"/>
                 <outlet property="viewHeight" destination="9WS-Dx-b7e" id="aMv-y6-X1Y"/>
             </connections>

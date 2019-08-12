@@ -193,7 +193,8 @@
                             <color key="backgroundColor" red="0.35052752494812012" green="0.50160765647888184" blue="0.51911932229995728" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </tableView>
                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="暂无充值记录" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qvu-6Q-ItB">
-                            <rect key="frame" x="0.0" y="0.0" width="330" height="475"/>
+                            <rect key="frame" x="15" y="229" width="315" height="17"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -228,20 +229,17 @@
                         <constraint firstItem="Qvu-6Q-ItB" firstAttribute="leading" secondItem="KTJ-Qy-0Ju" secondAttribute="leading" constant="15" id="5Xx-JR-Qvu"/>
                         <constraint firstAttribute="bottom" secondItem="0PC-z0-hQL" secondAttribute="bottom" id="7qk-WH-6RX"/>
                         <constraint firstItem="0PC-z0-hQL" firstAttribute="leading" secondItem="KTJ-Qy-0Ju" secondAttribute="leading" id="IIO-1x-NXh"/>
-                        <constraint firstItem="Qvu-6Q-ItB" firstAttribute="top" secondItem="KTJ-Qy-0Ju" secondAttribute="top" constant="5" id="IQi-bl-mj7"/>
-                        <constraint firstItem="Qvu-6Q-ItB" firstAttribute="top" secondItem="KTJ-Qy-0Ju" secondAttribute="top" id="QYD-1a-Sq0"/>
                         <constraint firstItem="5xb-E6-mTB" firstAttribute="leading" secondItem="kpf-gI-aUY" secondAttribute="trailing" id="QcA-VJ-fxH"/>
-                        <constraint firstAttribute="trailing" secondItem="Qvu-6Q-ItB" secondAttribute="trailing" id="RLl-Br-B0M"/>
                         <constraint firstItem="5xb-E6-mTB" firstAttribute="top" secondItem="KTJ-Qy-0Ju" secondAttribute="top" id="Tja-vB-flx"/>
                         <constraint firstAttribute="trailing" secondItem="0PC-z0-hQL" secondAttribute="trailing" id="Uto-Ng-Gkf"/>
                         <constraint firstAttribute="trailing" secondItem="5xb-E6-mTB" secondAttribute="trailing" id="VNe-aO-FQl"/>
                         <constraint firstAttribute="trailing" secondItem="Qvu-6Q-ItB" secondAttribute="trailing" constant="15" id="WGN-UL-tdm"/>
                         <constraint firstItem="kpf-gI-aUY" firstAttribute="leading" secondItem="KTJ-Qy-0Ju" secondAttribute="leading" id="Yfj-bD-MbG"/>
-                        <constraint firstAttribute="bottom" secondItem="Qvu-6Q-ItB" secondAttribute="bottom" id="cJw-Rb-Hbi"/>
-                        <constraint firstItem="Qvu-6Q-ItB" firstAttribute="leading" secondItem="KTJ-Qy-0Ju" secondAttribute="leading" id="jwt-0g-ed5"/>
+                        <constraint firstItem="Qvu-6Q-ItB" firstAttribute="centerX" secondItem="KTJ-Qy-0Ju" secondAttribute="centerX" id="ipW-ca-ENV"/>
                         <constraint firstItem="0PC-z0-hQL" firstAttribute="top" secondItem="KTJ-Qy-0Ju" secondAttribute="top" constant="50" id="naZ-Kd-R1c"/>
                         <constraint firstItem="0PC-z0-hQL" firstAttribute="top" secondItem="5xb-E6-mTB" secondAttribute="bottom" id="pjC-hr-K9t"/>
                         <constraint firstItem="0PC-z0-hQL" firstAttribute="top" secondItem="kpf-gI-aUY" secondAttribute="bottom" id="qm6-VU-AZO"/>
+                        <constraint firstItem="Qvu-6Q-ItB" firstAttribute="centerY" secondItem="KTJ-Qy-0Ju" secondAttribute="centerY" id="sAM-9m-N3M"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F8y-m9-1vp">

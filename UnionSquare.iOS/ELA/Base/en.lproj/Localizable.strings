@@ -174,7 +174,7 @@
 "完整信息请点击交易号查看"="Click transaction NO. to see all the details";
 "账户Utxo数量为"="The number of UTXO is ";
 "，"=",";
-"是否零钱换整？"=" consolidate?";
+"是否零钱换整？"="consolidate?";
 "创建钱包"="Create Wallet";
 "多签钱包"="Multi-Sign Wallet";
 "单签只读钱包"="Standard Read-Only Wallet";

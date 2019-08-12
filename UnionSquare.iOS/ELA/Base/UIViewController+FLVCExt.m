@@ -64,8 +64,19 @@
     [bg mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(self.view);
     }];
+   [self.navigationController.navigationBar setBackgroundImage:[self screenShotView:bg] forBarMetrics:UIBarMetricsDefault];
     
     
+}
+//传入需要截取的view
+-(UIImage *)screenShotView:(UIView *)view{
+    UIImage *imageRet = [[UIImage alloc]init];
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(AppWidth, 2), false, 0.0);
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    imageRet = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return imageRet;
 }
 -(void)CAGradientColorFrome:(UIColor*)fclolr withToColor:(UIColor*)tcolor withView:(UIView*)view{
 CAGradientLayer *gl = [CAGradientLayer layer];

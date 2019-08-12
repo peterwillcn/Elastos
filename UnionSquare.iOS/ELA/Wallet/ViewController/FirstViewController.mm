@@ -83,7 +83,6 @@
     
       [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
       [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(currentWalletAccountBalanceChanges:) name: AccountBalanceChanges object:nil];
-       [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
          [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataCreateWalletLoadWalletInfo) name:updataCreateWallet object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(AsnyConnectStatusChanged:) name:ConnectStatusChanged object:nil];
     
@@ -195,18 +194,13 @@ NSString *imageName=@"single_wallet";
 -(void)iconInfoUpdate:(NSNotification *)notification{
     NSDictionary *dic=[[NSDictionary alloc]initWithDictionary:notification.object];
     NSArray *infoArray=[[FLTools share]stringToArray:dic[@"callBackInfo"]];
-    
     NSString *walletID=infoArray.firstObject;
     NSString *chainID=infoArray[1];
     NSInteger index = [infoArray[2] integerValue];
     NSString *lastBlockTimeString=dic[@"lastBlockTimeString"];
     NSString * currentBlockHeight=dic[@"currentBlockHeight"];
- 
-     NSString *  progress=dic[@"progress"];
-    
+    NSString *  progress=dic[@"progress"];
     assetsListModel *model;
- 
-    
     if ([self.currentWallet.masterWalletID isEqualToString:walletID]){
         if ([chainID isEqualToString:@"ELA"]) {
             [ELWalletManager share].estimatedHeight=currentBlockHeight;
@@ -228,7 +222,9 @@ NSString *imageName=@"single_wallet";
             NSLog(@"修改侧链时间====%@======%@======%@====%@====%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
         }
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.table reloadData];
+            NSIndexPath *indexPath=[NSIndexPath indexPathForRow:index inSection:0];
+            [self.table reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
+        
         });
         
         
@@ -278,6 +274,7 @@ NSString *imageName=@"single_wallet";
     [ELWalletManager share].currentWallet = currentWallet;
 }
 -(void)loadTheWalletInformationWithIndex:(NSInteger)inde{
+    self.walletIDListArray=nil;
     if (self.walletIDListArray.count==0) {
         FLPrepareVC *vc=[[FLPrepareVC alloc]init];
         vc.type=creatWalletType;
@@ -382,7 +379,6 @@ NSString *imageName=@"single_wallet";
     addFooterView.delegate=self;
     
     self.table.tableFooterView =addFooterView;
-//    self.navigationItem.rightBarButtonItem =
     UIBarButtonItem *ClickMorenButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"asset_wallet_setting"] style:UIBarButtonItemStyleDone target:self action:@selector(ClickMore:)];
     UIBarButtonItem *saveButton =[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"setting_adding_scan"] style:UIBarButtonItemStyleDone target:self action:@selector(QrCode)];
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
@@ -392,11 +388,12 @@ NSString *imageName=@"single_wallet";
     NSArray *buttonArray = [[NSArray alloc]initWithObjects:negativeSpacer,ClickMorenButton,saveButton,nil];
     self.navigationItem.rightBarButtonItems = buttonArray;
     __weak __typeof(self) weakSelf = self;
-    self.table.mj_header = [MJRefreshHeader  headerWithRefreshingBlock:^{
+  MJRefreshHeader *header = [MJRefreshHeader  headerWithRefreshingBlock:^{
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[weakSelf.currentWallet.masterWalletID,@"ELA"] callbackId:weakSelf.currentWallet.masterWalletID className:@"Wallet" methodName:@"SyncStart"];
         [[ELWalletManager share]SyncStart:mommand];
         [weakSelf.table.mj_header endRefreshing];
     }];
+    self.table.mj_header=header;
 }
 //二维码
 -(void)QrCode{
@@ -432,11 +429,11 @@ NSString *imageName=@"single_wallet";
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+    
     [self defultWhite];
-    self.navigationItem.leftBarButtonItem =[[UIBarButtonItem alloc]initWithCustomView:self.leftButton];;
-
-   
+     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"aaset_wallet_list"] style:UIBarButtonItemStyleDone target:self action:@selector(swichWallet)];
+     [super viewWillAppear:animated];
+    [self.navigationController.navigationBar setBackgroundImage:[self screenShotView:self.view.subviews.firstObject] forBarMetrics:UIBarMetricsDefault];
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -456,9 +453,6 @@ NSString *imageName=@"single_wallet";
     HMWTheWalletManagementViewController *theWalletManagementVC=[[HMWTheWalletManagementViewController alloc]init];
     theWalletManagementVC.currentWallet=self.currentWallet;
     [self.navigationController pushViewController:theWalletManagementVC animated:YES];
-    
-
-    
 }
 
 -(void)capitalViewDidClick:(NSInteger)index
@@ -536,8 +530,6 @@ NSString *imageName=@"single_wallet";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     FLAssetTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FLAssetTableCell"];
-    
-    
     assetsListModel *model=self.dataSoureArray[indexPath.row];
    cell.biName.text=model.iconName;
    
@@ -559,8 +551,13 @@ NSString *imageName=@"single_wallet";
     NSString * symbolString=@"%";
     cell.progress.progress=model.thePercentageCurr/model.thePercentageMax;
     
-    if (cell.progress.progress==1&&model.thePercentageCurr!=model.thePercentageMax) {
-        cell.progress.progress=0.99;
+    if (cell.progress.progress==1) {
+        
+        if (model.thePercentageCurr!=model.thePercentageMax) {
+            cell.progress.progress=0.99;
+        }
+        
+     
     }else if ([model.updateTime rangeOfString:@"--:--"].location !=NSNotFound){
         cell.progress.progress=0;
     }else if (model.thePercentageMax==0){

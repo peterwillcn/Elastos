@@ -42,4 +42,5 @@
 -(void)NotificationCenter;
 -(void)reMovNotificationCenter;
 -(void)blackBackImageDefultWhite;
+-(UIImage *)screenShotView:(UIView *)view;
 @end

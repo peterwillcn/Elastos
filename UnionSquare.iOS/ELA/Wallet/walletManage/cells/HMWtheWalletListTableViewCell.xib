@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -30,29 +31,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gnc-DP-Pqd">
-                                <rect key="frame" x="16" y="25" width="150" height="19.5"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="BPa-jA-cfZ"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w1T-T4-gFm">
-                                <rect key="frame" x="16" y="54.5" width="140" height="9"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="9" id="BlX-9v-UbB"/>
-                                    <constraint firstAttribute="width" constant="140" id="gfi-Ml-Ocg"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Yk-0a-exr">
-                                <rect key="frame" x="174" y="28.5" width="131" height="13"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="13" id="ka2-TB-Kte"/>
-                                </constraints>
+                                <rect key="frame" x="16" y="25" width="289" height="19.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -60,15 +39,11 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.15157645089999999" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="w1T-T4-gFm" firstAttribute="leading" secondItem="rBH-ee-pOt" secondAttribute="trailing" constant="12" id="0oa-gp-ycO"/>
-                            <constraint firstAttribute="trailing" secondItem="5Yk-0a-exr" secondAttribute="trailing" constant="15" id="5mr-Zf-0Rq"/>
                             <constraint firstItem="rBH-ee-pOt" firstAttribute="centerY" secondItem="xOG-7h-30N" secondAttribute="centerY" id="7Vs-hF-kTk"/>
                             <constraint firstItem="gnc-DP-Pqd" firstAttribute="centerY" secondItem="xOG-7h-30N" secondAttribute="centerY" id="HOQ-Gl-GRF"/>
-                            <constraint firstItem="5Yk-0a-exr" firstAttribute="centerY" secondItem="gnc-DP-Pqd" secondAttribute="centerY" id="SVy-rR-ILl"/>
+                            <constraint firstAttribute="trailing" secondItem="gnc-DP-Pqd" secondAttribute="trailing" constant="15" id="Rfw-h0-ZMQ"/>
                             <constraint firstItem="rBH-ee-pOt" firstAttribute="leading" secondItem="xOG-7h-30N" secondAttribute="leading" id="WY7-UB-Pku"/>
-                            <constraint firstItem="w1T-T4-gFm" firstAttribute="top" secondItem="gnc-DP-Pqd" secondAttribute="bottom" constant="10" id="bdB-2d-h6F"/>
                             <constraint firstItem="gnc-DP-Pqd" firstAttribute="leading" secondItem="rBH-ee-pOt" secondAttribute="trailing" constant="12" id="fHw-Xc-89X"/>
-                            <constraint firstItem="5Yk-0a-exr" firstAttribute="leading" secondItem="gnc-DP-Pqd" secondAttribute="trailing" constant="8" id="gQM-WC-pBa"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -82,9 +57,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
-                <outlet property="blanceLabel" destination="5Yk-0a-exr" id="g8K-Mh-5ae"/>
                 <outlet property="selectView" destination="rBH-ee-pOt" id="bwX-lA-Gpw"/>
-                <outlet property="walletAddressLabel" destination="w1T-T4-gFm" id="JM9-dT-A9e"/>
                 <outlet property="walletNameLabel" destination="gnc-DP-Pqd" id="070-Z0-53C"/>
             </connections>
         </tableViewCell>

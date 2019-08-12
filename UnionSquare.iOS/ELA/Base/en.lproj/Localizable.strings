@@ -175,7 +175,7 @@
 
 "账户Utxo数量为"="The number of UTXO is ";
 "，"=",";
-"是否零钱换整？"=" consolidate?";
+"是否零钱换整？"="consolidate?";
 "创建钱包"="Create Wallet";
 "多签钱包"="Multi-Sign Wallet";
 "单签只读钱包"="Standard Read-Only Wallet";

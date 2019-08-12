@@ -21,7 +21,7 @@
     [super awakeFromNib];
     // Initialization code
     self.ProgressCentent.layer.cornerRadius = 5;
-    self.bgView.layer.borderWidth=1.f;
+    self.bgView.layer.borderWidth=0.5f;
     self.bgView.layer.borderColor=RGB(255, 255, 255).CGColor;
     self.bgView.layer.masksToBounds=YES;
     

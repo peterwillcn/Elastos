@@ -19,6 +19,7 @@
 #import "FMDBWalletModel.h"
 #import "FLPrepareVC.h"
 #import "BaseNavigationVC.h"
+#import "AppDelegate.h"
 
 static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
 
@@ -223,13 +224,21 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
         
         [[FLTools share]showErrorInfo:NSLocalizedString(@"删除成功", nil)];
      [self toCancelOrCloseDelegate];
-    
-      [[NSNotificationCenter defaultCenter]postNotificationName:updataWallet object:nil];
-    
+        [[NSNotificationCenter defaultCenter]postNotificationName:updataWallet object:nil];
+        
+     
     if ([[[HMWFMDBManager sharedManagerType:walletType]allRecordWallet] count]!=0) {
      
         [self.navigationController popToRootViewControllerAnimated:YES];
+    }else{
+        
+        FLPrepareVC *vc=[[FLPrepareVC alloc]init];
+        BaseNavigationVC *naVC=[[BaseNavigationVC alloc]initWithRootViewController:vc];
+        vc.type=creatWalletType;
+        AppDelegate *appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+      appdelegate.window.rootViewController= naVC;
     }
+        
     }
 }
 - (void)toCancelOrCloseDelegate {

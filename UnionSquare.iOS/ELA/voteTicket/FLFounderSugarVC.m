@@ -23,9 +23,9 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    
+     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
-    [super viewWillAppear:animated];
+   
     self.title = @"糖果";
   
     

@@ -46,9 +46,10 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+     [super viewWillAppear:animated];
         [self.navigationController setNavigationBarHidden:NO animated:NO];
 //     [self.navigationController setNavigationBarHidden:YES animated:NO];
-    [super viewWillAppear:animated];
+   
     //开始扫描
     [self setZBarReaderViewStart];
 }

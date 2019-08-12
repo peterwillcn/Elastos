@@ -429,10 +429,11 @@ NSString *imageName=@"single_wallet";
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     
     [self defultWhite];
      self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"aaset_wallet_list"] style:UIBarButtonItemStyleDone target:self action:@selector(swichWallet)];
-     [super viewWillAppear:animated];
+ 
     [self.navigationController.navigationBar setBackgroundImage:[self screenShotView:self.view.subviews.firstObject] forBarMetrics:UIBarMetricsDefault];
 }
 -(void)viewWillDisappear:(BOOL)animated
@@ -548,8 +549,9 @@ NSString *imageName=@"single_wallet";
         cell.statusLabel.text=NSLocalizedString(@"丢失...", nil);
         cell.linkImageView.alpha=1.f;
     }
-    NSString * symbolString=@"%";
-    cell.progress.progress=model.thePercentageCurr/model.thePercentageMax;
+   cell.updatetime.text=model.updateTime;
+    NSString *symbolString=@"%";
+ cell.progress.progress=model.thePercentageCurr/model.thePercentageMax;
     
     if (cell.progress.progress==1) {
         

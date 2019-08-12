@@ -155,7 +155,6 @@
  iOS 9.0 以下 程序运行过程中调用
  */
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url{
-    
     NSLog(@"URL scheme:%@", [url scheme]);
     NSLog(@"URL host:%@", [url host]);
     return YES;

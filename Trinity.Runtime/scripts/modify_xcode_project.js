@@ -31,6 +31,10 @@ module.exports = function(ctx) {
     let options = { customFramework: true, embed: embed, sign: true };
     runtimeProj.addFramework('libz.tbd');
     runtimeProj.addFramework('Trinity/Plugins/elastos-trinity-plugins-carrier/ElastosCarrierSDK.framework', options);
+    runtimeProj.addFramework('Trinity/Plugins/elastos-trinity-plugins-hive/Alamofire.framework', options);
+    runtimeProj.addFramework('Trinity/Plugins/elastos-trinity-plugins-hive/ElastosHiveSDK.framework', options);
+    runtimeProj.addFramework('Trinity/Plugins/elastos-trinity-plugins-hive/PromiseKit.framework', options);
+    runtimeProj.addFramework('Trinity/Plugins/elastos-trinity-plugins-hive/Swifter.framework', options);
 
 
     //

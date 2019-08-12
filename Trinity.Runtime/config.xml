@@ -45,6 +45,7 @@
     <plugin name="elastos-trinity-plugins-dialogs" spec="../Plugins/Dialog" />
     <plugin name="elastos-trinity-plugins-geolocation" spec="../Plugins/Geolocation" />
     <plugin name="elastos-trinity-plugins-flashlight" spec="../Plugins/Flashlight" />
+    <plugin name="elastos-trinity-plugins-hive" spec="../Plugins/Hive" />
     <plugin name="elastos-trinity-plugins-inappbrowser" spec="../Plugins/InappBrowser" />
     <plugin name="elastos-trinity-plugins-media" spec="../Plugins/Media">
         <variable name="KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE" value="NO" />

@@ -28,6 +28,7 @@
         "elastos-trinity-plugins-dialogs": "file:../Plugins/Dialog",
         "elastos-trinity-plugins-flashlight": "file:../Plugins/Flashlight",
         "elastos-trinity-plugins-geolocation": "file:../Plugins/Geolocation",
+        "elastos-trinity-plugins-hive": "file:../Plugins/Hive",
         "elastos-trinity-plugins-inappbrowser": "file:../Plugins/InappBrowser",
         "elastos-trinity-plugins-ionicwebview": "file:../Plugins/IonicWebView",
         "elastos-trinity-plugins-media": "file:../Plugins/Media",
@@ -69,6 +70,7 @@
             "elastos-trinity-plugins-dialogs": {},
             "elastos-trinity-plugins-flashlight": {},
             "elastos-trinity-plugins-geolocation": {},
+            "elastos-trinity-plugins-hive": {},
             "elastos-trinity-plugins-inappbrowser": {},
             "elastos-trinity-plugins-ionicwebview": {
                 "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"

@@ -127,8 +127,13 @@ oneTimeSetUp() {
   stdoutF="${outputDir}/stdout"
   stderrF="${outputDir}/stderr"
 
-  testCmd="${scriptPath}/../bin/sign_epk"  # save command name in variable to make future changes easy
-  verrifyCmd="${scriptPath}/../bin/verify_epk"
+  if [ -z "${PYTHON3}" ]; then
+    testCmd="${scriptPath}/../bin/sign_epk"
+    verrifyCmd="${scriptPath}/../bin/verify_epk"
+  else
+    testCmd="python3 ${scriptPath}/../bin/sign_epk"
+    verrifyCmd="python3 ${scriptPath}/../bin/verify_epk"
+  fi
 
   epk="${scriptPath}/epks/fortest1.epk"
   epkNoManifest="${scriptPath}/epks/nomanifest.epk"

@@ -67,7 +67,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   
     [self setBackgroundImg:@""];
     [self setView];
     NSInteger selectIndex=
@@ -278,7 +277,7 @@ NSString *imageName=@"single_wallet";
     if (self.walletIDListArray.count==0) {
         FLPrepareVC *vc=[[FLPrepareVC alloc]init];
         vc.type=creatWalletType;
-        [self.navigationController pushViewController:vc animated:YES];
+        [self.navigationController pushViewController:vc animated:NO];
         return;
     }
     if (inde>self.walletIDListArray.count-1) {
@@ -416,7 +415,7 @@ NSString *imageName=@"single_wallet";
 
 -(void)addCurrency:(UIButton*)btn{
     FLAllAssetListVC  *vc =[[FLAllAssetListVC alloc]init];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self.navigationController pushViewController:vc animated:NO];
 }
 
 -(void)netWorkData{
@@ -429,31 +428,31 @@ NSString *imageName=@"single_wallet";
 
 -(void)viewWillAppear:(BOOL)animated
 {
+       [self firstNav];
     [super viewWillAppear:animated];
-    
-    [self defultWhite];
      self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"aaset_wallet_list"] style:UIBarButtonItemStyleDone target:self action:@selector(swichWallet)];
- 
-    [self.navigationController.navigationBar setBackgroundImage:[self screenShotView:self.view.subviews.firstObject] forBarMetrics:UIBarMetricsDefault];
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
-
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    
+}
 -(void)swichWallet{
     HMWTheWalletListViewController *theWalletListVC=[[HMWTheWalletListViewController alloc]init];
     theWalletListVC.delegate=self;
     theWalletListVC.walletIDListArray=self.walletIDListArray;
     theWalletListVC.currentWalletIndex=self.currentWalletIndex;
-    [self.navigationController pushViewController:theWalletListVC animated:YES];
+    [self.navigationController pushViewController:theWalletListVC animated:NO];
 
 }
 - (void)ClickMore:(UIButton*)sender {
     HMWTheWalletManagementViewController *theWalletManagementVC=[[HMWTheWalletManagementViewController alloc]init];
     theWalletManagementVC.currentWallet=self.currentWallet;
-    [self.navigationController pushViewController:theWalletManagementVC animated:YES];
+    [self.navigationController pushViewController:theWalletManagementVC animated:NO];
 }
 
 -(void)capitalViewDidClick:(NSInteger)index
@@ -466,7 +465,7 @@ NSString *imageName=@"single_wallet";
                 FLQRVC *vc = [[FLQRVC alloc]init];
 //                vc.addr = self.currentWallet.walletAddress;
 //                vc.Wallet = self.currentWallet;
-                [self.navigationController pushViewController:vc animated:YES];
+                [self.navigationController pushViewController:vc animated:NO];
             }
             break;
         case 3:{
@@ -582,7 +581,7 @@ NSString *imageName=@"single_wallet";
     vc.elaModel=self.dataSoureArray.firstObject;
     vc.model=model;
     vc.supportOfTheCurrencyArray=self.dataSoureArray;
-    [self.navigationController pushViewController:vc animated:YES];
+    [self.navigationController pushViewController:vc animated:NO];
 }
 #pragma mark param
 -(FLPrepareVC *)prepare
@@ -609,7 +608,7 @@ NSString *imageName=@"single_wallet";
     HMWAddTheCurrencyListViewController *AddTheCurrencyListVC=[[HMWAddTheCurrencyListViewController alloc]init];
     AddTheCurrencyListVC.wallet=self.currentWallet;
     AddTheCurrencyListVC.openedTheSubstringArrayList=self.dataSoureArray;
-    [self.navigationController pushViewController:AddTheCurrencyListVC animated:YES];
+    [self.navigationController pushViewController:AddTheCurrencyListVC animated:NO];
     
 }
 -(void)needUpdateInfo:(FLWallet *)wallet withSelectIndex:(NSInteger)index{

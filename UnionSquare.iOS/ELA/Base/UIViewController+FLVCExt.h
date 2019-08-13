@@ -17,7 +17,7 @@
 -(void)CAGradientColorFrome:(UIColor*)fclolr withToColor:(UIColor*)tcolor withView:(UIView*)view;
 
 -(void)CNTOdefultWhite;
-
+-(void)firstNav;
 
 -(void)shareArray:(NSArray*)arr;
 -(void)shearText:(NSString*)text;

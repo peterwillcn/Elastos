@@ -98,7 +98,7 @@ module.exports = class RunHelper {
         return new Promise((resolve, reject) => {
             console.log("Trying to upload the EPK file to a connected android device...")
 
-            var destinationPath = "/storage/emulated/0/temp.epk";
+            var destinationPath = "/sdcard/temp.epk";
 
             const spawn = require("child_process").spawn;
             const adbProcess = spawn('adb',["push", EPKPath, destinationPath]);

@@ -300,7 +300,7 @@ class AppManager {
         let info = try! installer.install(self, url);
         if (info != nil) {
             refreashInfos();
-            sendRefreshList("installed", info!.app_id);
+            sendRefreshList("installed", info!);
         }
         return info;
     }
@@ -309,7 +309,7 @@ class AppManager {
         try close(id);
         try installer.unInstall(appInfos[id]);
         refreashInfos();
-        sendRefreshList("unInstalled", id);
+        sendRefreshList("unInstalled", appInfos[id]!);
     }
 
     func removeLastlistItem(_ id: String) {
@@ -342,7 +342,7 @@ class AppManager {
                 let appViewController = AppViewController(appInfo!, WhitelistFilter(appInfo!));
 //                appViewController.setInfo(id, appInfo!);
                 viewController = appViewController;
-                sendRefreshList("started", id);
+                sendRefreshList("started", appInfo!);
 
             }
 
@@ -386,7 +386,7 @@ class AppManager {
 
         viewControllers[id] = nil;
         viewController!.remove();
-        sendRefreshList("closed", id);
+        sendRefreshList("closed", info!);
     }
 
 
@@ -416,7 +416,7 @@ class AppManager {
     }
 
     private func sendInstallMsg(_ uri: String) {
-        let msg = "{\"uri\":\"" + uri + "\"}";
+        let msg = "{\"uri\":\"" + uri + "\", \"dev\":\"false\"}";
         do {
             try sendMessage("launcher", AppManager.MSG_TYPE_EX_INSTALL, msg, "system");
         } catch let error {
@@ -424,8 +424,8 @@ class AppManager {
         }
     }
 
-    private func sendRefreshList(_ action: String, _ id: String ) {
-        let msg = "{\"action\":\"" + action + "\", \"id\":\"" + id + "\"}";
+    private func sendRefreshList(_ action: String, _ info: AppInfo ) {
+        let msg = "{\"action\":\"" + action + "\", \"id\":\"" + info.app_id + "\", \"name\":\"" + info.name + "\"}";
         do {
             try sendMessage("launcher", AppManager.MSG_TYPE_IN_REFRESH, msg, "system");
         }
@@ -495,7 +495,7 @@ class AppManager {
             if (pluginAuth.plugin == plugin) {
                 try dbAdapter.updatePluginAuth(pluginAuth, authority);
                 pluginAuth.authority = authority;
-                sendRefreshList("authorityChanged", id);
+                sendRefreshList("authorityChanged", info!);
                 return;
             }
         }
@@ -512,7 +512,7 @@ class AppManager {
             if (urlAuth.url == url) {
                 try dbAdapter.updateUrlAuth(urlAuth, authority);
                 urlAuth.authority = authority;
-                sendRefreshList("authorityChanged", id);
+                sendRefreshList("authorityChanged", info!);
                 return;
             }
         }

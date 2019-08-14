@@ -17,6 +17,7 @@
 +            <intent-filter>
 +                <action android:name="android.intent.action.VIEW" />
 +                <category android:name="android.intent.category.DEFAULT" />
++                <category android:name="android.intent.category.TEST" />
 +                <data android:host="*" android:mimeType="*/*" android:pathPattern=".*\\.epk" android:scheme="file" />
 +                <data android:host="*" android:mimeType="*/*" android:pathPattern=".*\\.epk" android:scheme="content" />
 +            </intent-filter>

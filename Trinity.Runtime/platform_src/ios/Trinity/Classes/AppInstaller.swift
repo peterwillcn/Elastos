@@ -187,10 +187,14 @@
         let fileManager = FileManager.default;
 
         let info = try getInfoByManifest(temPath);
-        guard (info != nil && info!.app_id != "" && info!.app_id != "launcher"
-                && appManager.getAppInfo(info!.app_id) == nil) else {
+        guard (info != nil && info!.app_id != "" && info!.app_id != "launcher") else {
             try deleteAllFiles(temPath);
-            throw AppError.error("App alreadey exist!");
+            throw AppError.error("App info error!");
+        }
+        
+        guard (appManager.getAppInfo(info!.app_id) == nil) else {
+            try deleteAllFiles(temPath);
+            throw AppError.error("App '" + info!.app_id + "' alreadey exist!");
         }
 
         let path = appPath + info!.app_id;

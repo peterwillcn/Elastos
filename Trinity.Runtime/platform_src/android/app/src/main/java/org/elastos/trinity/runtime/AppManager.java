@@ -489,13 +489,9 @@ public class AppManager {
     }
 
     private void sendInstallMsg(String uri, boolean dev) {
+        String msg = "{\"uri\":\"" + uri + "\", \"dev\":\"" + dev + "\"}";
         try {
-            if (dev) {
-                install(uri, dev);
-            }
-            else {
-                sendMessage("launcher", MSG_TYPE_EX_INSTALL, "{\"uri\":\"" + uri + "\"}", "system");
-            }
+            sendMessage("launcher", MSG_TYPE_EX_INSTALL, msg, "system");
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -513,7 +509,6 @@ public class AppManager {
     }
 
     public void sendMessage(String toId, int type, String msg, String fromId) throws Exception {
-
         // if (toId == "launcher") {
         //     toId = "org.elastos.trinity.remote.launcher";
         // }

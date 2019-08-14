@@ -131,7 +131,8 @@ module.exports = class RunHelper {
 
             // Sample command: adb shell am start -a android.intent.action.VIEW -d file:///storage/emulated/0/temp.epk -t *.epk
             const spawn = require("child_process").spawn;
-            const adbProcess = spawn('adb',["shell","am","start","-a","android.intent.action.VIEW","-d","file:///storage/emulated/0/temp.epk","-t","*.epk"]);
+            // -c android.intent.category.TEST is used to automatically uninstall existing app from trinity
+            const adbProcess = spawn('adb',["shell","am","start","-a","android.intent.action.VIEW","-d","file:///storage/emulated/0/temp.epk","-t","*.epk","-c","android.intent.category.TEST"]);
 
             adbProcess.stdout.on('data', function (data) { console.log(''+data)});
             adbProcess.stderr.on('data', function (data) { console.log(''+data)});

@@ -259,7 +259,7 @@ public class AppInstaller {
         return null;
     }
 
-    public AppInfo install(AppManager appManager, String url) throws Exception {
+    public AppInfo install(String url, boolean dev) throws Exception {
         InputStream inputStream = null;
         AppInfo info = null;
         String downloadPkgPath = null;
@@ -311,24 +311,34 @@ public class AppInstaller {
 
         info = getInfoByManifest(path);
         File from = new File(appPath, temp);
-        if (info == null || info.app_id == null || info.app_id.equals("launcher")
-                || appManager.getAppInfo(info.app_id) != null) {
+        if (info == null || info.app_id == null || info.app_id.equals("launcher")) {
             deleteAllFiles(from);
             deleteDAppPackage(downloadPkgPath);
-            throw new Exception("App already existed!");
+            throw new Exception("App info error!");
         }
-        else {
-            File to = new File(appPath, info.app_id);
-            if (to.exists()) {
-                deleteAllFiles(to);
-                to = new File(appPath, info.app_id);
+
+        AppInfo oldInfo = AppManager.getShareInstance().getAppInfo(info.app_id);
+        if (oldInfo != null) {
+            if (dev) {
+                unInstall(oldInfo);
             }
-            from.renameTo(to);
-            info.built_in = 0;
-            dbAdapter.addAppInfo(info);
-            deleteDAppPackage(downloadPkgPath);
-            return info;
+            else {
+                deleteAllFiles(from);
+                deleteDAppPackage(downloadPkgPath);
+                throw new Exception("App '" + info.app_id + "' already existed!");
+            }
         }
+
+        File to = new File(appPath, info.app_id);
+        if (to.exists()) {
+            deleteAllFiles(to);
+            to = new File(appPath, info.app_id);
+        }
+        from.renameTo(to);
+        info.built_in = 0;
+        dbAdapter.addAppInfo(info);
+        deleteDAppPackage(downloadPkgPath);
+        return info;
     }
 
     public boolean deleteAllFiles(File root) throws Exception {

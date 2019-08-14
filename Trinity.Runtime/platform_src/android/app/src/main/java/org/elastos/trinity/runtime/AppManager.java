@@ -81,7 +81,17 @@ public class AppManager {
 
     private AppInfo launcherInfo;
 
-    private ArrayList<String>  installUriList = new ArrayList<String>();
+    private class InstallInfo {
+        String uri;
+        boolean dev;
+
+        InstallInfo(String uri, boolean dev) {
+            this.uri = uri;
+            this.dev = dev;
+        }
+    }
+
+    private ArrayList<InstallInfo>  installUriList = new ArrayList<InstallInfo>();
     private boolean launcherReady = false;
     private String currentLocale = "en";
 
@@ -309,20 +319,21 @@ public class AppManager {
         }
     }
 
-    public AppInfo install(String url) throws Exception  {
-        AppInfo info = installer.install(this, url);
+    public AppInfo install(String url, boolean dev) throws Exception  {
+        AppInfo info = installer.install(url, dev);
         if (info != null) {
             refreashInfos();
         }
-        sendRefreshList("installed", info.app_id);
+        sendRefreshList("installed", info);
         return info;
     }
 
     public void unInstall(String id) throws Exception {
         close(id);
+        AppInfo info = appInfos.get(id);
         installer.unInstall(appInfos.get(id));
         refreashInfos();
-        sendRefreshList("unInstalled", id);
+        sendRefreshList("unInstalled", info);
     }
 
     private WebViewFragment findFragmentById(String id) {
@@ -394,7 +405,7 @@ public class AppManager {
                     throw new Exception("No such app!");
                 }
                 fragment = AppViewFragment.newInstance(id);
-                sendRefreshList("started", id);
+                sendRefreshList("started", info);
             }
 
             lastList.add(0, id);
@@ -446,22 +457,21 @@ public class AppManager {
 //        lastList.remove(id);
         runningList.remove(id);
 
-        sendRefreshList("closed", id);
-
+        sendRefreshList("closed", info);
     }
 
     public void loadLauncher() throws Exception {
         start("launcher");
     }
 
-    public void setInstallUri(String uri) {
+    public void setInstallUri(String uri, boolean dev) {
         if (uri == null) return;
 
         if (launcherReady) {
-            sendInstallMsg(uri);
+            sendInstallMsg(uri, dev);
         }
         else {
-            installUriList.add(uri);
+            installUriList.add(new InstallInfo(uri, dev));
         }
     }
 
@@ -473,24 +483,29 @@ public class AppManager {
         launcherReady = true;
 
         for (int i = 0; i < installUriList.size(); i++) {
-            String uri = installUriList.get(i);
-            sendInstallMsg(uri);
+            InstallInfo info = installUriList.get(i);
+            sendInstallMsg(info.uri, info.dev);
         }
     }
 
-    private void sendInstallMsg(String uri) {
+    private void sendInstallMsg(String uri, boolean dev) {
         try {
-            sendMessage("launcher", MSG_TYPE_EX_INSTALL, "{\"uri\":\"" + uri + "\"}", "system");
+            if (dev) {
+                install(uri, dev);
+            }
+            else {
+                sendMessage("launcher", MSG_TYPE_EX_INSTALL, "{\"uri\":\"" + uri + "\"}", "system");
+            }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void sendRefreshList(String action, String id) {
+    private void sendRefreshList(String action, AppInfo info) {
         try {
             sendMessage("launcher", MSG_TYPE_IN_REFRESH,
-                    "{\"action\":\"" + action + "\", \"id\":\"" + id + "\"}", "system");
+                    "{\"action\":\"" + action + "\", \"id\":\"" + info.app_id + "\" , \"name\":\"" + info.name + "\"}", "system");
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -498,6 +513,10 @@ public class AppManager {
     }
 
     public void sendMessage(String toId, int type, String msg, String fromId) throws Exception {
+
+        // if (toId == "launcher") {
+        //     toId = "org.elastos.trinity.remote.launcher";
+        // }
         FragmentManager manager = activity.getSupportFragmentManager();
         WebViewFragment fragment = (WebViewFragment)manager.findFragmentByTag(toId);
         if (fragment != null) {
@@ -567,7 +586,7 @@ public class AppManager {
                 int count = dbAdapter.updatePluginAuth(info.tid, plugin, authority);
                 if (count > 0) {
                     pluginAuth.authority = authority;
-                    sendRefreshList("authorityChanged", id);
+                    sendRefreshList("authorityChanged", info);
                 }
                 return;
             }
@@ -586,7 +605,7 @@ public class AppManager {
                 int count = dbAdapter.updateURLAuth(info.tid, url, authority);
                 if (count > 0) {
                     urlAuth.authority = authority;
-                    sendRefreshList("authorityChanged", id);
+                    sendRefreshList("authorityChanged", info);
                 }
                 return ;
             }

@@ -55,16 +55,16 @@ try:
     # Filter out directories
     filelist = filter( lambda f: not f.endswith('/'), filelist )
     # Filter out the signature directory
-    filelist = filter( lambda f: not f.startswith(sign_folder_prefix), filelist )
+    filelist = list(filter( lambda f: not f.startswith(sign_folder_prefix), filelist ))
     filelist.sort()
 
     filelist_dict = {}
     with zip2read.open(sign_folder_prefix + "FILELIST.INF") as myfile:
-        line = myfile.readline()
+        line = myfile.readline().decode('utf8')
         while line:
             file_sha = line.split()
             filelist_dict[file_sha[1]] = file_sha[0]
-            line = myfile.readline()
+            line = myfile.readline().decode('utf8')
     # print(filelist_dict)
 
     filelist_sha = ""
@@ -91,13 +91,13 @@ try:
             raise RuntimeError("The file {} not found.".format(filename))
 
     epk_sha = hashlib.sha256()
-    epk_sha.update(filelist_sha)
+    epk_sha.update(filelist_sha.encode('utf-8'))
 
     # print("The SHA-265 digest of the EPK content is:\n    " + epk_sha.hexdigest())
 
     with zip2read.open(sign_folder_prefix + "FILELIST.SHA") as myfile:
         epk_sha_str = myfile.read()
-        if epk_sha_str != epk_sha.hexdigest():
+        if epk_sha_str != epk_sha.hexdigest().encode('utf-8'):
             raise RuntimeError("The EPK digest not match FILELIST.SHA.")
 
     with zip2read.open(sign_folder_prefix + "FILELIST.SIGN") as myfile:
@@ -118,11 +118,13 @@ try:
 
     zip2read.close()
     print("Done")
-    print("The signer's public key is: " + epk_pubkey)
+    print("The signer's public key is: " + epk_pubkey.decode('utf-8'))
 except RuntimeError as err:
     print("Error: " + err.args[0])
     exit(2)
-except:
+except Exception as err:
+    print("Error: " + str(err))
+    exc_type, exc_obj, exc_tb = sys.exc_info()
     print("Unexpected error:", sys.exc_info()[0])
     exit(3)
 

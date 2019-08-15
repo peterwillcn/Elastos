@@ -26,6 +26,10 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  *<# #>
  */
+@property(copy,nonatomic)NSArray *walletIDListArray;
+/*
+ *<# #>
+ */
 @property(strong,nonatomic)id<HMWTheWalletListViewControllerDelegate>delegate;
 @end
 

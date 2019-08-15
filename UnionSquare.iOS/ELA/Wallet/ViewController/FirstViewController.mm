@@ -49,6 +49,9 @@
  *<# #>
  */
 @property(assign,nonatomic)NSInteger currentWalletIndex;
+/*
+ *
+ */
 @property(copy,nonatomic)NSArray *walletIDListArray;
 @property(nonatomic,strong)FLWallet *currentWallet;
 /*
@@ -68,6 +71,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setBackgroundImg:@""];
+    self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
     [self setView];
 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self addAllCallBack];
@@ -141,7 +145,7 @@ NSString *imageName=@"single_wallet";
     return _leftButton;
 }
 -(void)updataCreateWalletLoadWalletInfo{
-    self.walletIDListArray=nil;
+self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
  
         [self loadTheWalletInformationWithIndex:self.walletIDListArray.count-1];
     
@@ -228,10 +232,8 @@ NSString *imageName=@"single_wallet";
             [self.table reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
         
         });
-        
-        
+    
     }else{
-        
         sideChainInfoModel *smodel=[[sideChainInfoModel alloc]init];
         if (model.thePercentageMax==0) {
             model.thePercentageMax=1;
@@ -247,22 +249,13 @@ NSString *imageName=@"single_wallet";
     
 }
 -(void)updataWalletListInfo:(NSNotification *)notification{
-    self.walletIDListArray=nil;
+       self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
     if (notification.object!=nil) {
         [self loadTheWalletInformationWithIndex:self.currentWalletIndex];
     }else{
         [self loadTheWalletInformationWithIndex:0];
     }
     
-    
-}
--(NSArray *)walletIDListArray{
-    if (!_walletIDListArray) {
-  
-        
-        _walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
-    }
-    return _walletIDListArray;
     
 }
 - (NSMutableArray *)dataSoureArray{
@@ -277,11 +270,17 @@ NSString *imageName=@"single_wallet";
     [ELWalletManager share].currentWallet = currentWallet;
 }
 -(void)loadTheWalletInformationWithIndex:(NSInteger)inde{
-if(self.walletIDListArray.count==0) {
+if(self.walletIDListArray.count==0){
+    self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+    if (self.walletIDListArray.count==0) {
         FLPrepareVC *vc=[[FLPrepareVC alloc]init];
         vc.type=creatWalletType;
         [self.navigationController pushViewController:vc animated:NO];
         return;
+    }else{
+        self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+    }
+    
     }
 if(inde>self.walletIDListArray.count-1) {
         inde=0;
@@ -429,10 +428,9 @@ if(inde>self.walletIDListArray.count-1) {
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    
     [super viewWillAppear:animated];
-      [self firstNav];
-     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"aaset_wallet_list"] style:UIBarButtonItemStyleDone target:self action:@selector(swichWallet)];
+    [self firstNav];
+self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"aaset_wallet_list"] style:UIBarButtonItemStyleDone target:self action:@selector(swichWallet)];
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -446,8 +444,8 @@ self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 -(void)swichWallet{
     HMWTheWalletListViewController *theWalletListVC=[[HMWTheWalletListViewController alloc]init];
     theWalletListVC.delegate=self;
-//    theWalletListVC.walletIDListArray=self.walletIDListArray;
-    theWalletListVC.currentWalletIndex=self.currentWalletIndex;
+theWalletListVC.walletIDListArray=self.walletIDListArray;
+theWalletListVC.currentWalletIndex=self.currentWalletIndex;
     [self.navigationController pushViewController:theWalletListVC animated:NO];
 
 }

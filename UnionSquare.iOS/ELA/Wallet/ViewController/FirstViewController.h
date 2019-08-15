@@ -9,9 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface FirstViewController : UIViewController
-/*
- *
- */
-//@property(copy,nonatomic)NSArray *walletIDListArray;
 @end
 

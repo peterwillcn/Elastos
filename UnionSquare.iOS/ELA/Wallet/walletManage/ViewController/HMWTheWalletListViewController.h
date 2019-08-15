@@ -18,10 +18,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HMWTheWalletListViewController : UIViewController
-/*
- *<# #>
- */
-@property(copy,nonatomic)NSArray *walletIDListArray;
+
 /*
  *<# #>
  */

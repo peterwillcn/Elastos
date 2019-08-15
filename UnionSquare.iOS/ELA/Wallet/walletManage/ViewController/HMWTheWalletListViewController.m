@@ -31,10 +31,7 @@ static NSString *celladdString=@"HMWaddWalletListTableViewCell";
  *
  */
 @property(assign,nonatomic) BOOL needUpdate;
-/*
- *<# #>
- */
-@property(copy,nonatomic)NSArray *walletIDListArray;
+
 @end
 
 @implementation HMWTheWalletListViewController
@@ -51,16 +48,11 @@ static NSString *celladdString=@"HMWaddWalletListTableViewCell";
 //    [self loadAddress];
     
 }
--(NSArray *)walletIDListArray{
-    if (!_walletIDListArray) {
-        
-        
-        _walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
-    }
-    return _walletIDListArray;
+-(void)setWalletIDListArray:(NSArray *)walletIDListArray{
+    _walletIDListArray=walletIDListArray;
+    [self.baseTableView reloadData];
     
 }
-
 -(void)loadAddress{
 //
 //    for (FMDBWalletModel *model in self.walletListArray) {

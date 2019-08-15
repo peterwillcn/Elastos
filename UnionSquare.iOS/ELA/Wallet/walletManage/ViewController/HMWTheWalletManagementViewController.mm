@@ -224,11 +224,10 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
         
         [[FLTools share]showErrorInfo:NSLocalizedString(@"删除成功", nil)];
      [self toCancelOrCloseDelegate];
-        [[NSNotificationCenter defaultCenter]postNotificationName:updataWallet object:nil];
         
      
     if ([[[HMWFMDBManager sharedManagerType:walletType]allRecordWallet] count]!=0) {
-     
+      [[NSNotificationCenter defaultCenter]postNotificationName:updataWallet object:nil];
         [self.navigationController popToRootViewControllerAnimated:YES];
     }else{
         

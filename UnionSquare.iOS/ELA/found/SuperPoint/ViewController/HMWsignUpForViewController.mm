@@ -74,13 +74,13 @@
  [[HMWCommView share]makeBordersWithView:self.confirmToRunButton];
     ELWalletManager *manager   =  [ELWalletManager share];
     IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-      NSString * ownerPubKey = [NSString stringWithCString:mainchainSubWallet->GetPublicKey().c_str() encoding:NSUTF8StringEncoding];
+      NSString * ownerPubKey = [NSString stringWithCString:mainchainSubWallet->GetOwnerPublicKey().c_str() encoding:NSUTF8StringEncoding];
     self.thePublicKeyTextField.text=ownerPubKey;
     if (self.model.nickName.length!=0) {
         [self.confirmToRunButton setTitle:NSLocalizedString(@"更新信息", nil) forState:UIControlStateNormal];
         self.title = NSLocalizedString(@"更新信息", nil);
 //        self.theNameOfTheNodeTextField.alpha=0.f;
-       self.theNameOfTheNodeTextField.clearButtonMode=UITextFieldViewModeWhileEditing;
+  self.theNameOfTheNodeTextField.clearButtonMode=UITextFieldViewModeWhileEditing;
         self.theNameOfTheNodeTextField.enabled=NO;
         self.thePublicKeyTextField.text=self.model.ownerPublickKey;
         self.URLTextField.text=self.model.url;
@@ -195,9 +195,9 @@ model.nodePubKey=self.thePublicKeyTextField.text;
     
  CGFloat free   =  [manager RegisterProducerWithMainchainSubWallet:mainchainSubWallet With:model];
        [self takeOutOrShutDown];
-    if (free ==0 ) {
-        return;
-    }
+//    if (free ==0 ) {
+//        return;
+//    }
         
     
     [self.view addSubview:self.transferDetailsPopupV];
@@ -281,7 +281,9 @@ model.nodePubKey=self.thePublicKeyTextField.text;
     [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(manView);
     }];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.sendSuccessPopuV removeFromSuperview];
+        self.sendSuccessPopuV=nil;
             [self.navigationController popViewControllerAnimated:YES];
     });
     

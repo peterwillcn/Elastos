@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -27,7 +28,7 @@
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D3H-w1-yGE">
                     <rect key="frame" x="63" y="444" width="249" height="50"/>
-                    <color key="backgroundColor" red="0.9999127984046936" green="1" blue="0.99988144636154175" alpha="0.14662388392857142" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.32654017210000003" green="0.5333263278" blue="0.53324335810000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="2J9-Cn-ZB1"/>
                     </constraints>
@@ -38,7 +39,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yrI-xn-1ga">
                     <rect key="frame" x="63" y="514" width="249" height="50"/>
-                    <color key="backgroundColor" red="0.9999127984046936" green="1" blue="0.99988144636154175" alpha="0.14662388392857142" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.32654017210000003" green="0.5333263278" blue="0.53324335810000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="7kr-Kq-elN"/>
                     </constraints>
@@ -49,7 +50,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YCb-AJ-Qeq">
                     <rect key="frame" x="63" y="384" width="249" height="50"/>
-                    <color key="backgroundColor" red="0.99991279840000002" green="1" blue="0.99988144639999998" alpha="0.1466238839" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.32654017210000003" green="0.5333263278" blue="0.53324335810000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="ZPX-Rc-TML"/>
                     </constraints>
@@ -79,6 +80,6 @@
         </view>
     </objects>
     <resources>
-        <image name="wallet_ela_logo" width="122" height="153"/>
+        <image name="wallet_ela_logo" width="122.5" height="153"/>
     </resources>
 </document>

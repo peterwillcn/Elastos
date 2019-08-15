@@ -122,8 +122,9 @@
     if (!_lookAtTheCandidateListButton) {
         _lookAtTheCandidateListButton =[[UIButton alloc]init];
         [_lookAtTheCandidateListButton setTitle:NSLocalizedString(@"查看候选列表", nil) forState:UIControlStateNormal];
-        [_lookAtTheCandidateListButton setImage:[UIImage imageNamed:@"found_vote_look_over"] forState:UIControlStateNormal];
+//        [_lookAtTheCandidateListButton setImage:[UIImage imageNamed:@"found_vote_look_over"] forState:UIControlStateNormal];
        _lookAtTheCandidateListButton.titleLabel.font =[UIFont systemFontOfSize:14];
+        [_lookAtTheCandidateListButton  setBackgroundColor:RGBA(61, 92, 102, 0.5)];
         [[HMWCommView share]makeBordersWithView:_lookAtTheCandidateListButton];
         [_lookAtTheCandidateListButton addTarget:self action:@selector(lookAtTheCandidateListEvent:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -133,10 +134,11 @@
     if (!_joinTheCandidateListButton) {
         _joinTheCandidateListButton =[[UIButton alloc]init];
        
-        [_joinTheCandidateListButton setImage:[UIImage imageNamed:@"found_vote_add"] forState:UIControlStateNormal];
+//        [_joinTheCandidateListButton setImage:[UIImage imageNamed:@"found_vote_add"] forState:UIControlStateNormal];
         _joinTheCandidateListButton.titleLabel.font =[UIFont systemFontOfSize:14];
          [[HMWCommView share]makeBordersWithView:_joinTheCandidateListButton];
         [_joinTheCandidateListButton addTarget:self action:@selector(joinTheCandidateListEvent:) forControlEvents:UIControlEventTouchUpInside];
+        [_joinTheCandidateListButton setBackgroundColor:RGBA(61, 92, 102, 0.5)];
         NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
   
         

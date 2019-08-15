@@ -59,11 +59,9 @@
     [super viewDidLoad];
     [self setBackgroundImg:@""];
     [self setView];
-//    self.title = NSLocalizedString(@"资产", nil);
-    
-//    [self NewStateView:defultColor];
-
-//    [self setWallet];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self addAllCallBack];
+    });
     
     NSInteger selectIndex=
     [[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue];
@@ -81,6 +79,7 @@
 //       [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
          [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataCreateWalletLoadWalletInfo) name:updataCreateWallet object:nil];
 
+
 }
 
 -(void)updataCreateWalletLoadWalletInfo{
@@ -89,6 +88,30 @@
         [self loadTheWalletInformationWithIndex:self.walletIDListArray.count-1];
     
     
+}
+-(void)addAllCallBack{
+    for (FMDBWalletModel *wallet in self.walletIDListArray) {
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[wallet.walletID] callbackId:wallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
+        
+        PluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
+        NSString *status=[NSString stringWithFormat:@"%@",result.status];
+        if ([status isEqualToString:@"1"]) {
+            
+            NSArray  *array = [[FLTools share]stringToArray:result.message[@"success"]];
+            
+            if (array.count>0) {
+                [self RegisterToMonitor:array WithmasterWalletID:wallet.walletID];
+            }
+            
+        }
+    }
+}
+-(void)RegisterToMonitor:(NSArray*)arr WithmasterWalletID:(NSString*)walletID{
+    for (int i =0; i<arr.count; i++) {
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[walletID,arr[i]] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:[NSString stringWithFormat:@"%d",i]];
+        
+        [[ELWalletManager share]registerWalletListener:mommand];
+    }
 }
 -(void)currentWalletAccountBalanceChanges:(NSNotification *)notification{
     
@@ -160,6 +183,7 @@
         
         
     }else{
+        
         sideChainInfoModel *smodel=[[sideChainInfoModel alloc]init];
         if (model.thePercentageMax==0) {
             model.thePercentageMax=1;
@@ -205,18 +229,16 @@
     [ELWalletManager share].currentWallet = currentWallet;
 }
 -(void)loadTheWalletInformationWithIndex:(NSInteger)inde{
-     self.walletIDListArray=nil;
-    if (self.walletIDListArray.count==0) {
+if(self.walletIDListArray.count==0) {
         FLPrepareVC *vc=[[FLPrepareVC alloc]init];
         vc.type=creatWalletType;
         [self.navigationController pushViewController:vc animated:NO];
-        
         return;
     }
-    if (inde>self.walletIDListArray.count-1) {
+if(inde>self.walletIDListArray.count-1) {
         inde=0;
     }
-    [STANDARD_USER_DEFAULT setValue:[NSString stringWithFormat:@"%ld",inde] forKey:selectIndexWallet];
+    [STANDARD_USER_DEFAULT setValue:[NSString stringWithFormat:@"%ld",(long)inde] forKey:selectIndexWallet];
     [STANDARD_USER_DEFAULT synchronize];
     
     self.currentWalletIndex=inde;
@@ -283,12 +305,10 @@
             }
             
             [self.dataSoureArray addObject:model];
-            invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:[NSString stringWithFormat:@"%d",index]];
-            
-            [[ELWalletManager share]registerWalletListener:mommand];
-            index++;
-            
-            
+//            invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:[NSString stringWithFormat:@"%d",index]];
+//
+//            [[ELWalletManager share]registerWalletListener:mommand];
+//            index++;
         }
     }
     [self.table reloadData];
@@ -339,8 +359,9 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-       [self firstNav];
+    
     [super viewWillAppear:animated];
+      [self firstNav];
      self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"aaset_wallet_list"] style:UIBarButtonItemStyleDone target:self action:@selector(swichWallet)];
 
   

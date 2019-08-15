@@ -47,6 +47,7 @@
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avu-Ok-fmF">
                     <rect key="frame" x="63" y="425.33333333333331" width="288" height="40"/>
+                    <color key="backgroundColor" red="0.25557887554168701" green="0.37642312049865723" blue="0.40774798393249512" alpha="0.70112537202380953" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="ubt-sr-MVF"/>
                     </constraints>

@@ -45,7 +45,7 @@
     self.collect.backgroundColor = [UIColor clearColor];
     [self.collect registerNib:[UINib nibWithNibName:@"FLSelectWordCollectCell" bundle:nil] forCellWithReuseIdentifier:@"FLSelectWordCollectCell"];
     UIButton *btn = [UIView FLBtn_Text:NSLocalizedString(@"确定", nil) TextColor:[UIColor whiteColor] Fort:15];
-    [btn setBackgroundColor:RGBA(255, 255, 255, 0.15) boldColor:[UIColor whiteColor] corner:0];
+    [btn setBackgroundColor:RGBA(63, 91, 104, 0.4) boldColor:[UIColor whiteColor] corner:0];
     [self addSubview:btn];
     [btn addTarget:self action:@selector(sureBtn) forControlEvents:UIControlEventTouchUpInside];
     [btn mas_makeConstraints:^(MASConstraintMaker *make) {

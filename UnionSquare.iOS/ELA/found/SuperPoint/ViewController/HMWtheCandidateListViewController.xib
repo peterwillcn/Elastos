@@ -72,7 +72,7 @@
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wGY-5S-jsl">
                     <rect key="frame" x="0.0" y="617" width="125" height="50"/>
-                    <color key="backgroundColor" red="0.11643937975168228" green="0.16756013035774231" blue="0.23900625109672546" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.051640547811985016" green="0.13327953219413757" blue="0.16464591026306152" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="cNT-xg-dWB"/>
                     </constraints>
@@ -88,7 +88,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kQD-yB-2ux">
                     <rect key="frame" x="250" y="617" width="125" height="50"/>
-                    <color key="backgroundColor" red="0.29334878921508789" green="0.35568827390670776" blue="0.43992537260055542" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.32654017210000003" green="0.5333263278" blue="0.53324335810000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="3et-II-er3"/>
                     </constraints>
@@ -101,7 +101,7 @@
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 已选择" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Gg-gb-hQX">
                     <rect key="frame" x="125" y="617" width="125" height="50"/>
-                    <color key="backgroundColor" red="0.11643937975168228" green="0.16756013035774231" blue="0.23900625109672546" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.051640547811985016" green="0.13327953219413757" blue="0.16464591026306152" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="zhY-It-U8Y"/>
                     </constraints>

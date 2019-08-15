@@ -79,7 +79,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
         _toDeleteTheWalletButton.titleLabel.font=[UIFont systemFontOfSize:16 weight:UIFontWeightMedium];
         
            [_toDeleteTheWalletButton addTarget:self action:@selector(toDeleteTheWalletEvent) forControlEvents: UIControlEventTouchUpInside];
-        _toDeleteTheWalletButton.backgroundColor=RGBA(255, 255, 255, 0.15);
+        _toDeleteTheWalletButton.backgroundColor=RGBA(63, 92, 104, 0.5);
         
         
     }

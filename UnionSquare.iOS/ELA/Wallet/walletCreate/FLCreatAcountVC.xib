@@ -181,7 +181,7 @@ elastos不存储密码，也无法帮您找回，请务必牢记</string>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v9O-M8-WpL">
                     <rect key="frame" x="40" y="638" width="295" height="40"/>
-                    <color key="backgroundColor" red="0.066666666669999999" green="0.44705882349999998" blue="0.77647058820000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.32654017210000003" green="0.5333263278" blue="0.53324335810000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="b7e-ef-Tq1"/>
                     </constraints>

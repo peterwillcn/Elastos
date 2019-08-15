@@ -425,11 +425,11 @@ cell.textLabel.text=self.listTextArray[indexPath.section];
 
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"输入", nil)]){
         
-        cell.textLabelWidth.constant=45;
+        cell.textLabelWidth.constant=55;
         cell.textOffset.constant=7;
         cell.orderDetailsLabel.font=[UIFont systemFontOfSize:10]; cell.orderDetailsLabel.text=self.InputsArray[indexPath.row];
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"输出", nil)]){
-        cell.textLabelWidth.constant=45;
+        cell.textLabelWidth.constant=60;
         cell.textOffset.constant=7;
        cell.orderDetailsLabel.font=[UIFont systemFontOfSize:10]; cell.orderDetailsLabel.text=self.OutputsArray[indexPath.row];
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"确认时间", nil)]){

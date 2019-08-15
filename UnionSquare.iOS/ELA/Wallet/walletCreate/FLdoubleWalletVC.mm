@@ -47,7 +47,7 @@
     
     [self.PastWalletBtn setTitle:NSLocalizedString(@"备份钱包", nil) forState:UIControlStateNormal];
     
-    [self.PastWalletBtn setBackgroundColor:RGBA(255, 255, 255, 0.15) boldColor:[UIColor whiteColor] corner:0];
+    [self.PastWalletBtn setBackgroundColor:RGBA(64,93, 101, 0.15) boldColor:[UIColor whiteColor] corner:0];
     
 // PluginResult *result  = [[ELWalletManager share]generateMnemonic:mommand];
 //   self.Wallet.mnemonic=result.message[@"success"];

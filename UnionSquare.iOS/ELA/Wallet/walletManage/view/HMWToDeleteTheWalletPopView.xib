@@ -39,7 +39,7 @@
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3cU-PG-b4e">
                             <rect key="frame" x="0.0" y="90" width="135" height="50"/>
-                            <color key="backgroundColor" red="0.18923404812812805" green="0.48790735006332397" blue="0.63561475276947021" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" red="0.32654017210000003" green="0.5333263278" blue="0.53324335810000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="ejo-1Q-T75"/>
                             </constraints>

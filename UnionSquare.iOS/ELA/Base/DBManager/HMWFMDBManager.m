@@ -212,28 +212,17 @@ static HMWFMDBManager * _manager =nil;
     if (iconName.length>0) {
         NSString *sql =@"delete from sideChain where ID = ? and sideChainName=?";
         if ([self executeUpdate:sql,ID,iconName]) {
-            
-            
-            
             return YES;
-            
         }else{
-            
             return NO;
         }
     }else{
         NSString *sql =@"delete from sideChain where ID = ?";
         if ([self executeUpdate:sql,ID]) {
-            
-            
-            
             return YES;
-            
         }else{
-            
             return NO;
         }
-        
     }
  
     
@@ -244,13 +233,9 @@ static HMWFMDBManager * _manager =nil;
     
     NSString *sql =@"delete from Person where ID = ?";
     if ([self executeUpdate:sql,person.ID]) {
-        
-       
           [[NSNotificationCenter defaultCenter]postNotificationName:myfriendNeedUpdate object:nil];
          return YES;
-      
     }else{
-       
         return NO;
     }
 }
@@ -264,11 +249,11 @@ static HMWFMDBManager * _manager =nil;
         }
         NSString *sql =@"Update sideChain set sideChainNameTime='?' ,thePercentageCurr='?',thePercentageMax='?' where walletID='?' and sideChainName='?' ";
         if ( [self executeUpdate:sql,model.sideChainNameTime,model.thePercentageCurr,model.thePercentageMax,model.walletID,model.sideChainName]) {
-           
-            
+NSLog(@"更新==%@===%@==%@==%@====%@",model.walletID,model.sideChainName,model.thePercentageCurr,model.thePercentageMax,model.sideChainNameTime);
 //            [self selectAddsideChainWithWalletID:model.walletID andWithIconName:model.sideChainName];
              return YES;
         }else{
+            NSLog(@"更新失败==%@===%@==%@==%@====%@",model.walletID,model.sideChainName,model.thePercentageCurr,model.thePercentageMax,model.sideChainNameTime);
             return NO;
         };
     }else{

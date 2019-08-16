@@ -25,8 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  *<# #>
  */
-@property(assign,nonatomic)CGFloat thePercentageCurr;
-@property(assign,nonatomic)CGFloat thePercentageMax;
+@property(assign,nonatomic)double thePercentageCurr;
+@property(assign,nonatomic)double thePercentageMax;
 @property(assign,nonatomic)CGFloat thePercentFl;
 /*
  *<# #>

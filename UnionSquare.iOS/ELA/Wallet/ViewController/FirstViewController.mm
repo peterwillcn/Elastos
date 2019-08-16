@@ -72,14 +72,10 @@
     [super viewDidLoad];
     [self setBackgroundImg:@""];
     self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+    [self addAllCallBack];
     [self setView];
-dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self addAllCallBack];
-    });
     NSInteger selectIndex=
     [[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue];
-    
-    
     if (selectIndex<0) {
         selectIndex=0;
     }
@@ -146,10 +142,7 @@ NSString *imageName=@"single_wallet";
 }
 -(void)updataCreateWalletLoadWalletInfo{
 self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
- 
         [self loadTheWalletInformationWithIndex:self.walletIDListArray.count-1];
-    
-    
 }
 -(void)addAllCallBack{
     for (FMDBWalletModel *wallet in self.walletIDListArray) {
@@ -343,20 +336,20 @@ if(inde>self.walletIDListArray.count-1) {
             model.thePercentageCurr=0.f;
             model.thePercentageMax=1.f;
             model.iconBlance=blanceString;
-            model.thePercentageCurr=[smodel.thePercentageCurr floatValue];
-            model.thePercentageMax=[smodel.thePercentageMax floatValue];
+            model.thePercentageCurr=[smodel.thePercentageCurr doubleValue];
+            model.thePercentageMax=[smodel.thePercentageMax doubleValue];
             if ([smodel.sideChainNameTime isEqual: [NSNull null]]||smodel.sideChainNameTime==NULL||[smodel.sideChainNameTime isEqualToString:@"--:--"]) {
                 model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"已同步区块时间", nil),@"--:--"];
                 model.thePercentageMax=100;
             }else{
-                 model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"已同步区块时间", nil),smodel.sideChainNameTime];
+            NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:smodel.sideChainNameTime];
+                 model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
             }
-            
             [self.dataSoureArray addObject:model];
-//            invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:[NSString stringWithFormat:@"%d",index]];
-//
-//            [[ELWalletManager share]registerWalletListener:mommand];
-//            index++;
+            invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:[NSString stringWithFormat:@"%d",index]];
+
+            [[ELWalletManager share]registerWalletListener:mommand];
+            index++;
         }
     }
     [self.table reloadData];
@@ -550,22 +543,24 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
     }
    cell.updatetime.text=model.updateTime;
     NSString *symbolString=@"%";
- cell.progress.progress=model.thePercentageCurr/model.thePercentageMax;
-    
-    if (cell.progress.progress==1) {
-        
-        if (model.thePercentageCurr!=model.thePercentageMax) {
-            cell.progress.progress=0.99;
-        }
-        
-     
-    }else if ([model.updateTime rangeOfString:@"--:--"].location !=NSNotFound){
+    double prog=model.thePercentageCurr/model.thePercentageMax;
+     if ([model.updateTime rangeOfString:@"--:--"].location !=NSNotFound){
         cell.progress.progress=0;
     }else if (model.thePercentageMax==0){
          cell.progress.progress=0;
+    }else if (prog==1.0||prog>1.0) {
+        if (model.thePercentageCurr!=model.thePercentageMax) {
+            cell.progress.progress=0.99;
+        }else{
+            cell.progress.progress=1.0;
+        }
+        
+    }else{
+        cell.progress.progress=prog;
     }
-    cell.progressLab.text=[NSString stringWithFormat:@"%.f%@",cell.progress.progress*100,symbolString];
-
+    NSLog(@"CELL==%f===%f===%f",model.thePercentageCurr,model.thePercentageMax,cell.progress.progress);
+    cell.progressLab.text=[NSString stringWithFormat:@"%.f%@", cell.progress.progress*100,symbolString];
+    NSLog(@"cell.progressLab.text==%@",cell.progressLab.text);
     return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

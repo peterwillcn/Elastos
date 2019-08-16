@@ -47,10 +47,10 @@ void ElaSubWalletCallback::OnBlockSyncProgress(uint32_t currentBlockHeight, uint
     NSString *walletIDString = [NSString stringWithCString:_callBackInfo.c_str() encoding:NSUTF8StringEncoding];
     
     NSString *lastBlockTimeString =[NSString stringWithFormat:@"%ld",lastBlockTime];
-        NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:lastBlockTimeString];
-    NSDictionary *dic=@{@"currentBlockHeight":@(currentBlockHeight),@"progress":@(estimatedHeight),@"callBackInfo":walletIDString,@"lastBlockTimeString":YYMMSS};
-    
+    NSDictionary *dic=@{@"currentBlockHeight":@(currentBlockHeight),@"progress":@(estimatedHeight),@"callBackInfo":walletIDString,@"lastBlockTimeString":lastBlockTimeString};
+    NSLog(@"call回调数据%@",dic);
     [[NSNotificationCenter defaultCenter] postNotificationName:progressBarcallBackInfo object:dic];
+    
 }
 
 void ElaSubWalletCallback::OnBlockSyncStopped()

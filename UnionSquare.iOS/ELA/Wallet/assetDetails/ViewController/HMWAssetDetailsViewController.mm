@@ -317,8 +317,9 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     NSInteger a=[result.message[@"success"][@"MaxCount"] integerValue];
     self.NodeReturnsAllTotal=a;
     NSArray *tranList=[NSArray modelArrayWithClass:assetDetailsModel.class json:result.message[@"success"][@"Transactions"]];
-    self.NodeReturnsCurrentIndex=self.currentIndex+tranList.count;
+//    self.NodeReturnsCurrentIndex=self.currentIndex+tranList.count;
     [self.NodeReturnsMutableArray addObjectsFromArray:tranList];
+    self.NodeReturnsCurrentIndex=self.NodeReturnsMutableArray.count-1;
     if (self.NodeReturnsMutableArray.count==1) {
 self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
         self.noDataSourceTextLabel.alpha=1.f;
@@ -339,7 +340,7 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
         NSInteger a=[result.message[@"success"][@"MaxCount"] integerValue];
     self.allTotal=a;
     NSArray *tranList=[NSArray modelArrayWithClass:assetDetailsModel.class json:result.message[@"success"][@"Transactions"]];
-    self.currentIndex=self.currentIndex+tranList.count;
+   
     [self.allListArray addObjectsFromArray:tranList];
     if (self.allListArray.count==0) {
         self.noDataSourceTextLabel.alpha=1.f;
@@ -348,6 +349,7 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
         self.noDataSourceTextLabel.alpha=0.f;
         
     }
+    self.currentIndex=self.allListArray.count;
     [self.baseTableView reloadData];
     [self  baseTableViewEndRF];
     

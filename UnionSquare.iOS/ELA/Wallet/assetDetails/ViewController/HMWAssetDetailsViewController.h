@@ -30,7 +30,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(copy,nonatomic)assetsListModel*elaModel;
 
-
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)float synchronousP;
 
 
 @end

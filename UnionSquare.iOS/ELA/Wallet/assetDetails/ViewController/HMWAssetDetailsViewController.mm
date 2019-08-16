@@ -148,7 +148,10 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     self.leftOrRight=@"0";
     if ([self.model.iconName isEqualToString:@"ELA"]) {
         [self GetRegisteredProducerInfo];
-        [self DetectionOfTheBalance];
+        if (self.synchronousP==1) {
+            [self DetectionOfTheBalance];
+        }
+        
     }else{
         self.anyChangeInTheWholeButton.alpha=0.f;
         self.EarningsRecordButton.alpha=0.f;
@@ -811,5 +814,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     [self.sendSuccessPopuV removeFromSuperview];
     self.sendSuccessPopuV=nil;
 }
-
+-(void)setSynchronousP:(float)synchronousP{
+    _synchronousP=synchronousP;
+}
 @end

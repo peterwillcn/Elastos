@@ -456,7 +456,6 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
    cell.updatetime.text=model.updateTime;
     cell.detailLab.text=[[FLTools share]elaScaleConversionWith: model.iconBlance];
     NSString *symbolString=@"%";
-//    cell.progress.progress=model.thePercentageCurr/model.thePercentageMax;
     double prog=model.thePercentageCurr/model.thePercentageMax;
      if ([model.updateTime rangeOfString:@"--:--"].location !=NSNotFound){
         cell.progress.progress=0;
@@ -470,11 +469,14 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
         }
         
     }else{
+        if (prog==0.f&&model.thePercentageCurr>0) {
+            prog=0.1;
+        }
         cell.progress.progress=prog;
     }
     NSLog(@"CELL==%f===%f===%f",model.thePercentageCurr,model.thePercentageMax,cell.progress.progress);
   
-    cell.progressLab.text=[NSString stringWithFormat:@"%.f%@", cell.progress.progress*100,symbolString];
+    cell.progressLab.text=[NSString stringWithFormat:@"%.f%@", floor(cell.progress.progress*100),symbolString];
     NSLog(@"cell.progressLab.text==%@",cell.progressLab.text);
     return cell;
 }
@@ -484,12 +486,14 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HMWAssetDetailsViewController *vc = [[ HMWAssetDetailsViewController alloc]init];
+   FLAssetTableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    HMWAssetDetailsViewController *vc = [[HMWAssetDetailsViewController alloc]init];
       assetsListModel *model=self.dataSoureArray[indexPath.row];
     vc.title=model.iconName;
     vc.currentWallet  = self.currentWallet;
     vc.elaModel=self.dataSoureArray.firstObject;
     vc.model=model;
+    vc.synchronousP=cell.progress.progress;
     vc.supportOfTheCurrencyArray=self.dataSoureArray;
     [self.navigationController pushViewController:vc animated:NO];
 }

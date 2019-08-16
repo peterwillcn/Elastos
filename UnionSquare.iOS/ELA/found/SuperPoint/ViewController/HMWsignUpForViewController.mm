@@ -82,7 +82,7 @@
 //        self.theNameOfTheNodeTextField.alpha=0.f;
   self.theNameOfTheNodeTextField.clearButtonMode=UITextFieldViewModeWhileEditing;
         self.theNameOfTheNodeTextField.enabled=NO;
-        self.thePublicKeyTextField.text=self.model.ownerPublickKey;
+        self.thePublicKeyTextField.text=self.model.nodePubKey;
         self.URLTextField.text=self.model.url;
         self.countriesTextField.text=[[FLTools share]contryNameTransLateByCode:self.model.contryCode.integerValue];
         self.theNameOfTheNodeTextField.text=self.model.nickName;

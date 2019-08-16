@@ -97,6 +97,7 @@
     
     
     self.OwnerPublickKeyLab.text = NickName;
+    self.model.nodePubKey=NodePublickKey;
     self.NodePublickKeyLab.text  = NodePublickKey;
     self.NodePublickKeyLab.numberOfLines=0;
     self.URLLab.text = URL;

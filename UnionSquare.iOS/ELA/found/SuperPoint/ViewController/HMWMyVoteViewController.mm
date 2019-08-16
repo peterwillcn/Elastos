@@ -79,14 +79,35 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
         }
         
     }
+    
+    self.dataSource = [showlistdata sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+         FLCoinPointInfoModel *model1 = obj1;
+        FLCoinPointInfoModel *mode2 = obj2;
+        if (model1.index > mode2.index) {
+            //降序
+//            return NSOrderedAscending;
+            //升序
+                          return NSOrderedDescending;
+            
+        }else if (model1.index < mode2.index){
+            //升序
+                            return NSOrderedAscending;
+            //降序
+//            return NSOrderedDescending;
+        }else{
+            return NSOrderedSame;
+        }
+    }];
     self.voteInTotalLabel.text = @(total/unitNumber).stringValue;
-    self.dataSource = showlistdata;
     if (self.dataSource.count==0) {
         self.changeVotesButton.alpha=0.f;
      self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_unlocked"];
+        self.largeStateImageView.image=[UIImage imageNamed:@"found_vote_mine_go"];
     }else{
          self.changeVotesButton.alpha=1.f;
         self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_going_on"];
+         self.largeStateImageView.image=[UIImage imageNamed:@"my_vote_locked_img"];
+        
     }
     [self.baseTableView reloadData];
     self.placeHolderLab.hidden  = self.dataSource.count==0? NO: YES;

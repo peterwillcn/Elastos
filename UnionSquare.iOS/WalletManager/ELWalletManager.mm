@@ -441,7 +441,7 @@ errCodeSPVCreateMasterWalletError= 20006;
             [masterWalletListJson addObject:str];
         }
         NSString *msg = [self arrayToJSONString:masterWalletListJson];
-        
+        NSLog(@"钱包===%@",msg);
         return [self successProcess:command msg:msg];
     } catch (const std:: exception & e ) {
         

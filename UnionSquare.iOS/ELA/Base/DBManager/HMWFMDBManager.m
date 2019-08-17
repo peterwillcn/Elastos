@@ -315,6 +315,7 @@ NSLog(@"更新==%@===%@==%@==%@====%@",model.walletID,model.sideChainName,model.
         p.walletID=[set objectForColumn:@"walletID"];
         p.walletAddress =[set objectForColumn:@"walletAddress"];
          p.walletName =[set objectForColumn:@"walletName"];
+        NSLog(@"本地存储钱包==%@==%@", p.walletID, p.walletName);
         //        添加到数组中
         [allRecords addObject:p];
     }

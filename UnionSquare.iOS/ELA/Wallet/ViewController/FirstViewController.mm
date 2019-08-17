@@ -432,11 +432,19 @@ if(inde>self.walletIDListArray.count-1) {
     [super viewWillAppear:animated];
     [self firstNav];
 self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"aaset_wallet_list"] style:UIBarButtonItemStyleDone target:self action:@selector(swichWallet)];
+    if (self.isScro) {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            self.isScro =NO;
+            [self.table reloadData];
+        });
+       
+    }
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
 self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    self.isScro=YES;
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];

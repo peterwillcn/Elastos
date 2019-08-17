@@ -334,7 +334,27 @@ static HMWFMDBManager * _manager =nil;
     [[FLTools share]showErrorInfo:NSLocalizedString(@"修改失败！", nil)];
     return NO;
 }
+-(FMDBWalletModel*)selectMastWalletID:(NSString*)walletID{
+    NSString *sql =[NSString stringWithFormat: @"select * from sideChain where walletID=\'%@\'",walletID];
+    
+    FMResultSet *set=[self executeQuery:sql];
+    //    一条一条的读取数据 并专程模型
+    while (set.next) {
+        //        模型
+        FMDBWalletModel * p= [[FMDBWalletModel alloc]init];
+        //        去出表中存放的内容给person赋值
+        p.walletID=[set objectForColumn:@"walletID"];
+        p.walletAddress =[set objectForColumn:@"walletAddress"];
+        p.walletName =[set objectForColumn:@"walletName"];
+        return  p;
+    }
+    return nil;
+   
+};
 -(void)addWallet:(FMDBWalletModel *)wallet{
+    if ([self selectMastWalletID:wallet.walletID]) {
+        return;
+    }
     /*
      *
      */

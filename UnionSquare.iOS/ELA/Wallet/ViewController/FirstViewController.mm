@@ -137,15 +137,14 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
         model.iconBlance=balance;
         
         self.dataSoureArray[index]=model;
-        NSIndexPath *indexP=[NSIndexPath indexPathForRow:index inSection:0];
         
         if (self.isScro==NO) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.table reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexP,nil] withRowAnimation:UITableViewRowAnimationNone];
-        });
-        
-    }
-    }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                     NSIndexPath *indexP=[NSIndexPath indexPathForRow:index inSection:0];
+               [self.table reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexP,nil] withRowAnimation:UITableViewRowAnimationNone];
+            });
+        }
+   }
 }
 -(void)iconInfoUpdate:(NSNotification *)notification{
     NSDictionary *dic=[[NSDictionary alloc]initWithDictionary:notification.object];
@@ -174,16 +173,16 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
             smodel.sideChainNameTime=lastBlockTimeString;
              NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:smodel.sideChainNameTime];
             model.updateTime=[NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
-              [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
-            NSLog(@"修改侧链时间====%@======%@======%@====%@====%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
+                NSLog(@"修改侧链时间====%@======%@======%@====%@====%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
+            });
         }
         if (self.isScro==NO) {
-dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            NSIndexPath *indexPath=[NSIndexPath indexPathForRow:index inSection:0];
-            [self.table reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
-        
-});
-            
+dispatch_async(dispatch_get_main_queue(), ^{
+                NSIndexPath *indexPath=[NSIndexPath indexPathForRow:index inSection:0];
+                [self.table reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
+            });
         }
     
     }else{
@@ -196,7 +195,9 @@ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), di
         smodel.walletID=walletID;
         smodel.sideChainName=chainID;
         smodel.sideChainNameTime=lastBlockTimeString;
-        [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
+        dispatch_async(dispatch_get_main_queue(), ^{
+          [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
+        });
         
     }
     
@@ -359,14 +360,22 @@ if(inde>self.walletIDListArray.count-1) {
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+        [self firstNav];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"aaset_wallet_list"] style:UIBarButtonItemStyleDone target:self action:@selector(swichWallet)];
+  
+    
+}
+-(void)viewDidAppear:(BOOL)animated{
+    
+    [super viewDidAppear:animated];
     [self firstNav];
-self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"aaset_wallet_list"] style:UIBarButtonItemStyleDone target:self action:@selector(swichWallet)];
-    if (self.isScro) {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"aaset_wallet_list"] style:UIBarButtonItemStyleDone target:self action:@selector(swichWallet)];
+    if (self.isScro){
+        dispatch_async(dispatch_get_main_queue(), ^{
             self.isScro =NO;
             [self.table reloadData];
         });
-       
+        
     }
 }
 -(void)viewWillDisappear:(BOOL)animated

@@ -184,7 +184,8 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 -(void)iconInfoUpdate:(NSNotification *)notification{
     
     
-    
+    NSOperationQueue *waitQueue = [[NSOperationQueue alloc] init];
+    [waitQueue addOperationWithBlock:^{
     
     NSDictionary *dic=[[NSDictionary alloc]initWithDictionary:notification.object];
     NSArray *infoArray=[[FLTools share]stringToArray:dic[@"callBackInfo"]];
@@ -200,12 +201,11 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
             
             NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:lastBlockTimeString];
                       self.model.updateTime=[NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                self.updateTimeLabel.text=self.model.updateTime;
+            dispatch_async(dispatch_get_main_queue(), ^{
+              self.updateTimeLabel.text=self.model.updateTime;
             });
-            
         }
-    }
+    }}];
 }
 -(void)DetectionOfTheBalance{
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"GetAllUTXOs"];

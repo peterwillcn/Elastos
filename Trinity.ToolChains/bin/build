@@ -57,6 +57,7 @@ if args.target == "clean":
     remove_tree("Runtime/www")
     remove_tree("Plugins/QRScanner/node_modules")
     remove_tree("Plugins/Carrier/src/ios/libs/ElastosCarrierSDK.framework")
+    remove_tree("Plugins/Hive/src/ios/libs")
 
     os.chdir(IONIC_DIR_PATH)
     dirs = os.listdir(IONIC_DIR_PATH)

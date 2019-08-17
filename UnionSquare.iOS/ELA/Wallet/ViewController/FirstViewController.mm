@@ -62,8 +62,7 @@
      *<# #>
      */
     @property(assign,nonatomic)double angle;
-
-//@property (nonatomic, strong) NENPingManager* pingManager;
+@property(nonatomic,assign)BOOL isScro;
 @end
 
 @implementation FirstViewController
@@ -79,6 +78,7 @@
     if (selectIndex<0) {
         selectIndex=0;
     }
+    self.isScro=NO;
     [self loadTheWalletInformationWithIndex:selectIndex];
   
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataWalletListInfo:) name:updataWallet object:nil];
@@ -89,7 +89,9 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(AsnyConnectStatusChanged:) name:ConnectStatusChanged object:nil];
     
 
-
+    self.table.estimatedRowHeight = 0;
+    self.table.estimatedSectionHeaderHeight = 0;
+    self.table.estimatedSectionFooterHeight = 0;
 }
 //-(void)loadPing{
 //    NSArray *hostNameArray = @[
@@ -185,9 +187,12 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
         model.iconBlance=balance;
         self.dataSoureArray[index]=model;
         NSIndexPath *indexP=[NSIndexPath indexPathForRow:index inSection:0];
+        if (self.isScro==NO) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.table reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexP,nil] withRowAnimation:UITableViewRowAnimationNone];
         });
+        
+    }
     }
 }
 -(void)iconInfoUpdate:(NSNotification *)notification{
@@ -220,11 +225,14 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
               [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
             NSLog(@"修改侧链时间====%@======%@======%@====%@====%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
         }
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (self.isScro==NO) {
+dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             NSIndexPath *indexPath=[NSIndexPath indexPathForRow:index inSection:0];
             [self.table reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
         
-        });
+});
+            
+        }
     
     }else{
         sideChainInfoModel *smodel=[[sideChainInfoModel alloc]init];
@@ -641,4 +649,14 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
         [self startAnimationWithView:view];
         
     }
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    self.isScro=YES;
+    
+    
+}
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    
+    self.isScro=NO;
+    [self.table reloadData];
+}
 @end

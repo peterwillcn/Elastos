@@ -201,8 +201,8 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
             
             NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:lastBlockTimeString];
                       self.model.updateTime=[NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
-            dispatch_async(dispatch_get_main_queue(), ^{
-              self.updateTimeLabel.text=self.model.updateTime;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                self.updateTimeLabel.text=self.model.updateTime;
             });
         }
     }}];

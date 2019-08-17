@@ -364,6 +364,7 @@ static HMWFMDBManager * _manager =nil;
         p.walletID=[set objectForColumn:@"walletID"];
         p.walletAddress =[set objectForColumn:@"walletAddress"];
          p.walletName =[set objectForColumn:@"walletName"];
+        NSLog(@"本地存储钱包==%@==%@", p.walletID, p.walletName);
         //        添加到数组中
         [allRecords addObject:p];
     }

@@ -717,6 +717,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     int    start          = [args[idx++] intValue];
     int    count          = [args[idx++] intValue];
     String addressOrTxId  = [self cstringWithString:args[idx++]];
+    NSLog(@"请求AllTransaction===%d%d",start,count);
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -735,7 +736,7 @@ errCodeSPVCreateMasterWalletError= 20006;
 
     NSString *jsonString = [self stringWithCString:json.dump()];
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
-    
+      NSLog(@"返回AllTransaction===%@",dic);
     
     return [self successProcess:command msg:dic];
     

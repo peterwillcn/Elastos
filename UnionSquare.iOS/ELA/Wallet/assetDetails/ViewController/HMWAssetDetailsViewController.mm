@@ -334,6 +334,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 }
 -(void)loadAllTransactionWithIndex:(NSInteger)index{
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@(index),@"20",@""] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
+   
     PluginResult * result =[[ELWalletManager share]getAllTransaction:mommand];
     if (self.isUpdate) {
         [self.allListArray removeAllObjects];
@@ -588,7 +589,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
         if (indexPath.row==0) {
             return;
         }
-        [self loadGetAllCoinBaseTransactionDetailsWithIndex:indexPath.row+1];
+        [self loadGetAllCoinBaseTransactionDetailsWithIndex:indexPath.row];
     }
     
     
@@ -617,8 +618,8 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     assetDetailsModel *detailsM=tranList.firstObject;
     HMWtransferTransactionDetailsViewController *transferTransactionDetailsVC=[[HMWtransferTransactionDetailsViewController alloc]init];
     
-    detailsM.Amount=[NSString stringWithFormat:@"%@ELA",[[FLTools share]elaScaleConversionWith:detailsM.Amount]];
-    detailsM.Fee=[NSString stringWithFormat:@"%@ELA",[[FLTools share]elaScaleConversionWith:detailsM.Fee]];
+    detailsM.Amount=[NSString stringWithFormat:@"%@ ELA",[[FLTools share]elaScaleConversionWith:detailsM.Amount]];
+    detailsM.Fee=[NSString stringWithFormat:@"%@ ELA",[[FLTools share]elaScaleConversionWith:detailsM.Fee]];
     //    transferTransactionDetailsVC.iconNameString=@"ELA";
     transferTransactionDetailsVC.iconNameString=self.model.iconName;
     detailsM.Type=NSLocalizedString(@"创币收益", nil);

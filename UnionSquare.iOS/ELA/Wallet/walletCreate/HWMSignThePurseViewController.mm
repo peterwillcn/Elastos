@@ -1,7 +1,7 @@
 //
 //  HWMSignThePurseViewController.m
 //  elastos wallet
-//
+//HWMSingleSignReadOnlyWalletViewController
 //  Created by 韩铭文 on 2019/7/2.
 //
 

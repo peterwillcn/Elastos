@@ -23,16 +23,19 @@
 package org.elastos.trinity.runtime;
 
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 import org.apache.cordova.LOG;
-import org.elastos.trinity.runtime.R;
 import org.json.JSONException;
 
 //import android.support.v4.view.ViewPager;
@@ -41,8 +44,12 @@ import org.json.JSONException;
 public class WebViewActivity extends FragmentActivity {
     public static String TAG = "WebViewActivity";
 
+    public static final int REQUESTCODE_STORAGE = 50;
+
     protected AppManager appManager;
     private GestureDetector gestureDetector;
+
+    private String adbUri = "";
 
     private void getInstallUri() {
         Intent intent = getIntent();
@@ -50,7 +57,16 @@ public class WebViewActivity extends FragmentActivity {
         if ((action != null) && action.equals("android.intent.action.VIEW")) {
             Uri uri = intent.getData();
             if (uri != null) {
+
                 boolean dev = intent.hasCategory("android.intent.category.TEST");
+                if (dev) {
+                    if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        this.adbUri = uri.toString();
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUESTCODE_STORAGE);
+                        return;
+                    }
+                }
                 appManager.setInstallUri(uri.toString(), dev);
             }
         }
@@ -132,14 +148,19 @@ public class WebViewActivity extends FragmentActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[],
                                            int[] grantResults) {
-        try
-        {
-            appManager.onRequestPermissionResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUESTCODE_STORAGE && permissions[0].equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            if (grantResults[0] != -1) {
+                appManager.setInstallUri(this.adbUri, true);
+            }
         }
-        catch (JSONException e)
-        {
-            LOG.d(TAG, "JSONException: Parameters fed into the method are not valid");
-            e.printStackTrace();
+        else {
+            try {
+                appManager.onRequestPermissionResult(requestCode, permissions, grantResults);
+            } catch (JSONException e) {
+                LOG.d(TAG, "JSONException: Parameters fed into the method are not valid");
+                e.printStackTrace();
+            }
         }
 
     }

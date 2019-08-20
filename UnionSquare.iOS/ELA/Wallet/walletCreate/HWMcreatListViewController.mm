@@ -13,7 +13,7 @@
 #import "WCQRCodeScanningVC.h"
 
 static NSString *cellString=@"HWMHWMcreatWalletListlTableViewCell";
-@interface HWMcreatListViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface HWMcreatListViewController ()<UITableViewDelegate,UITableViewDataSource,FLCreatAcountVCDelegate>
 /*
  *<# #>
  */
@@ -76,6 +76,7 @@ static NSString *cellString=@"HWMHWMcreatWalletListlTableViewCell";
     NSString *nameString=dic[@"name"];
     if ([nameString isEqualToString:NSLocalizedString(@"单签钱包", nil)]) {
         FLCreatAcountVC *vc = [[FLCreatAcountVC alloc]init];
+        vc.delegate=self;
         [self.navigationController pushViewController:vc animated:YES];
     }else if ([nameString isEqualToString:NSLocalizedString(@"多签钱包", nil)]){
         HWMSignThePurseViewController*VC=[[HWMSignThePurseViewController alloc]init];
@@ -135,6 +136,10 @@ static NSString *cellString=@"HWMHWMcreatWalletListlTableViewCell";
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    
+}
+-(void)backTheWallet:(FLWallet *)wallet{
     
     
 }

@@ -371,7 +371,7 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
     PluginResult * result =[[ELWalletManager share]CreateMultiSignMasterWalletmasterMasterWalletId:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){
-        [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
+      
         FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
         model.walletID=self.WalletID;
         model.walletName=self.SignThePurseView.walletNameTextField.text;
@@ -399,7 +399,9 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
 }
 -(void)CallbackWithWalletID:(NSString *)wallet withXPK:(NSString *)XPK withPWD:(NSString * _Nonnull)PWD{
      [self makeButtonKEY];
-    self.WalletID=wallet;
+    NSString *walletID=[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
+    NSString *masterWalletID=[[[FLTools share]getRandomStringWithNum:6] stringByAppendingString:walletID];
+    self.WalletID=masterWalletID;
     self.xprv=XPK;
     self.PWD=PWD;
     self.typeInt=2;

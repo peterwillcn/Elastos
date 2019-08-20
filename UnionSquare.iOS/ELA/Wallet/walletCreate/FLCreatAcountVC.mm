@@ -10,7 +10,7 @@
 #import "FLdoubleWalletVC.h"
 #import "DAConfig.h"
 #import "ELWalletManager.h"
-@interface FLCreatAcountVC ()<UITextFieldDelegate>
+@interface FLCreatAcountVC ()<UITextFieldDelegate,FLdoubleWalletVCDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
 @property (weak, nonatomic) IBOutlet UITextField *pwdfield1;
 @property (weak, nonatomic) IBOutlet UITextField *pwdfield2;
@@ -104,6 +104,7 @@
     wallet.walletID=masterWalletID;
     FLdoubleWalletVC *vc = [[FLdoubleWalletVC alloc]init];
     vc.Wallet=wallet;
+    vc.delegate=self;
     [self.navigationController pushViewController:vc animated:YES];
 }
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
@@ -161,5 +162,12 @@
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     [self.view endEditing:YES];
+}
+-(void)backTheWallet:(FLWallet *)wallet{
+    
+    if (self.delegate) {
+        [self.delegate backTheWallet:wallet];
+    }
+    
 }
 @end

@@ -17,8 +17,9 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.signThePublicKeyTextField];
     self.signThePublicKeyTextField.placeholder=NSLocalizedString(@"请输入多签公钥", nil);
+    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.signThePublicKeyTextField];
+    
 }
 - (IBAction)pasteAction:(id)sender {
      self.signThePublicKeyTextField.text=[[FLTools share]pastingTextFromTheClipboard];

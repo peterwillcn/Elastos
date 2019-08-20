@@ -19,4 +19,5 @@
  *<# #>
  */
 @property(strong,nonatomic)id<FLdoubleWalletVCDelegate>delegate;
+@property (nonatomic, assign)NSInteger createType;
 @end

@@ -71,7 +71,7 @@
     [super viewDidLoad];
     [self setBackgroundImg:@""];
     self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
-     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"aaset_wallet_list"] style:UIBarButtonItemStyleDone target:self action:@selector(swichWallet)];
+     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:self.leftButton];
     [self addAllCallBack];
     [self setView];
     NSInteger selectIndex=
@@ -108,9 +108,9 @@
 //    
 //    
 //}
--(void)UpWalletType:(FMDBWalletModel*)model{
+-(void)UpWalletType{
 NSString *imageName=@"single_wallet";
-    switch (model.TypeW) {
+    switch (self.currentWallet.TypeW) {
         case SingleSign:
             imageName=@"single_wallet";
            break;
@@ -125,7 +125,7 @@ NSString *imageName=@"single_wallet";
             break;
         default:
             break;}
-    [self.leftButton setTitle:model.walletName forState:UIControlStateNormal];
+    [self.leftButton setTitle:self.currentWallet.walletName forState:UIControlStateNormal];
     [self.leftButton setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
 }
 -(UIButton *)leftButton{
@@ -283,27 +283,22 @@ if(self.walletIDListArray.count==0){
     }else{
         self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
     }
-    
     }
 if(inde>self.walletIDListArray.count-1) {
         inde=0;
     }
     [STANDARD_USER_DEFAULT setValue:[NSString stringWithFormat:@"%ld",(long)inde] forKey:selectIndexWallet];
     [STANDARD_USER_DEFAULT synchronize];
-    
     self.currentWalletIndex=inde;
     FMDBWalletModel *model=self.walletIDListArray[inde];
-    
     FLWallet *wallet =[[FLWallet alloc]init];
     wallet.masterWalletID =model.walletID;
     wallet.walletName     =model.walletName;
     wallet.walletAddress  = model.walletAddress;
-    
     wallet.walletID       =[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
      wallet.TypeW  = model.TypeW;
     self.currentWallet = wallet;
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
-    
   PluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]) {
@@ -313,15 +308,28 @@ if(inde>self.walletIDListArray.count-1) {
         }
     }
     PluginResult * resultBase =[[ELWalletManager share]getMasterWalletBasicInfo:mommand];
-    NSString *statusBase=[NSString stringWithFormat:@"%@",result.status];
-    if ([status isEqualToString:@"1"] ) {
-        
-        
-        
-        
+    NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
+    NSDictionary *baseDic=[[NSDictionary alloc]init];
+    if ([statusBase isEqualToString:@"1"] ) {
+     baseDic=[[FLTools share]dictionaryWithJsonString:resultBase.message[@"success"]];
+        NSString *Readonly=[NSString stringWithFormat:@"%@",baseDic[@"Readonly"]];
+        if ([Readonly isEqualToString:@"0"]) {
+            if ([baseDic[@"M"] integerValue]==1) {
+                self.currentWallet.TypeW=0;
+            }else{
+                self.currentWallet.TypeW=2;
+            }
+        }else{
+            if ([baseDic[@"M"] integerValue]==1) {
+                self.currentWallet.TypeW=1;
+            }else{
+                self.currentWallet.TypeW=3;
+            }
+        }
+        self.currentWallet.M=[baseDic[@"M"] integerValue];
+        self.currentWallet.N=[baseDic[@"N"] integerValue];
+        [self UpWalletType];
     }
-    [self UpWalletType:model];
-    
 }
 -(void)getBalanceList:(NSArray*)arr{
     if (self.dataSoureArray.count>0) {
@@ -340,7 +348,6 @@ if(inde>self.walletIDListArray.count-1) {
             
             [[HMWFMDBManager sharedManagerType:sideChain] selectAddsideChainWithWalletID:self.currentWallet.masterWalletID andWithIconName:currencyName];
             NSString *blanceString=[NSString stringWithFormat:@"%@",result.message[@"success"]];
-            
             assetsListModel *model=[[assetsListModel alloc]init];
             model.iconName=currencyName;
             model.thePercentageCurr=0.f;
@@ -357,7 +364,6 @@ if(inde>self.walletIDListArray.count-1) {
             }
             [self.dataSoureArray addObject:model];
             invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:[NSString stringWithFormat:@"%d",index]];
-
             [[ELWalletManager share]registerWalletListener:mommand];
             index++;
         }

@@ -133,7 +133,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
                     break;
                 case 2:
 //                   HowSign
-                    _dataArray =@[@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},@{@"title":NSLocalizedString(@"修改钱包密码",nil),@"name":@"",@"type":@"2"},@{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"}];
+                    _dataArray =@[@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},@{@"title":NSLocalizedString(@"修改钱包密码",nil),@"name":@"",@"type":@"2"},@{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"},@{@"title":NSLocalizedString(@"查看钱包公钥",nil),@"name":@"",@"type":@"1"}];
                     break;
                 case 3:
 //                    HowSignReadonly
@@ -239,6 +239,9 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
             [self.navigationController pushViewController:vc animated:YES];
             
         }
+        
+    }else if ([title isEqualToString:NSLocalizedString(@"查看钱包公钥",nil)]){
+        
         
     }
     

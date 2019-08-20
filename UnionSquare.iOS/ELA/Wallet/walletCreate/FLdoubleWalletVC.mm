@@ -59,7 +59,7 @@
     FLPastWordVC *vc = [[FLPastWordVC alloc]init];
     vc.Wallet=self.Wallet;
     vc.delegate=self;
-    
+    vc.createType=self.createType;
     [self.navigationController pushViewController:vc animated:YES];
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -75,6 +75,10 @@
     if (self.delegate) {
         [self.delegate backTheWallet:wallet];
     }
+    
+}
+-(void)setCreateType:(NSInteger)createType{
+    _createType=createType;
     
 }
 @end

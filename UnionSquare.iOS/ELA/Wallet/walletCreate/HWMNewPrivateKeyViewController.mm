@@ -73,6 +73,7 @@
     wallet.walletID=masterWalletID;
     FLdoubleWalletVC *vc = [[FLdoubleWalletVC alloc]init];
     vc.Wallet=wallet;
+    vc.createType=3;
     vc.delegate=self;
     [self.navigationController pushViewController:vc animated:YES];
     

@@ -200,9 +200,9 @@ __weak __typeof__(self) weakSelf = self;
         
          [[FLTools share]showErrorInfo:NSLocalizedString(@"你备份的助记词顺序验证正确", nil)];
 //        [self.navigationController popToRootViewControllerAnimated:YES];
-        if (self.delegate) {
-            [self.delegate backTheWallet:self.Wallet];
-        }
+//        if (self.delegate) {
+//            [self.delegate backTheWallet:self.Wallet];
+//        }
        
     }else{
          [[FLTools share]showErrorInfo:NSLocalizedString(@"你备份的助记词顺序验证错误,请从新校验", nil)];
@@ -244,20 +244,30 @@ __weak __typeof__(self) weakSelf = self;
         verifyTheMnemonicWordVC.FormeType=@"1";
         [self.navigationController pushViewController:verifyTheMnemonicWordVC animated:YES];
     }else{
-    [self creatWallet];
+        if (self.createType==3) {
+            [self privateKey];
+        }else{
+            [self creatWallet];}
     }
     
 }
+-(void)privateKey{
+    
+    if (self.delegate) {
+        [self.delegate backTheWallet:self.Wallet];
+    }
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[HWMSignThePurseViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+            
+        }
+        
+    }
+        
+}
 
 -(void)creatWallet{
-    if ([self.Wallet.signType isEqualToString:@"2"]) {
-        for (UIViewController *controller in self.navigationController.viewControllers) {
-            if ([controller isKindOfClass:[HWMSignThePurseViewController class]]) {
-                [self.navigationController popToViewController:controller animated:YES];
-            }
-        }
-        return;
-    }
+   
     NSString *isSingleAddress=@"NO";
     if (self.Wallet.isSingleAddress) {
         isSingleAddress=@"YES";
@@ -320,6 +330,10 @@ __weak __typeof__(self) weakSelf = self;
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
     [self.view endEditing:YES];
+    
+}
+-(void)setCreateType:(NSInteger)createType{
+    _createType=createType;
     
 }
 @end

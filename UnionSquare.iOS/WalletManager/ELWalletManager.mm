@@ -1848,6 +1848,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     try {
            masterWallet = mMasterWalletManager->GetMasterWallet(masterWalletID);
     } catch (const std:: exception &e) {
+        [[FLTools share]showErrorInfo:[self stringWithCString:e.what()]];
 //        return  [self errInfoToDic:e.what() with:command];
         return nil;
     }
@@ -1859,6 +1860,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     try {
         XPK = mMasterWalletManager->ExportxPrivateKey(masterWallet,payPassword);
     } catch (const std:: exception &e) {
+         [[FLTools share]showErrorInfo:[self stringWithCString:e.what()]];
        return nil;
     }
     

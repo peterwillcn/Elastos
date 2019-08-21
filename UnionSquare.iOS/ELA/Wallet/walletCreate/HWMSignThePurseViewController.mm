@@ -217,18 +217,19 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
         }
         
     }
-    if (self.SignThePurseView.addPurseButton.userInteractionEnabled==NO){} {
+    if (self.SignThePurseView.addPurseButton.userInteractionEnabled==NO){
         if (self.SignThePurseInter<[self.SignThePurseView.numberLabel.text intValue]) {
             [[FLTools share]showErrorInfo:NSLocalizedString(@"公钥数量过少", nil)];
         }
     }
+    
     if (self.typeInt==0) {
         [self creatReadOnlyWallet];
     }else if (self.typeInt==2){
         [self creatImportWalletID];
         
     }else{
-        
+        [self creatImportTheMnemonic];
         
     }
     

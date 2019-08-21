@@ -27,7 +27,7 @@
 #import "FLPrepareVC.h"
 #import "sideChainInfoModel.h"
 #import "ScanQRCodeViewController.h"
-//#import "NENPingManager.h"
+#import "NENPingManager.h"
 
 
 
@@ -63,6 +63,14 @@
      */
     @property(assign,nonatomic)double angle;
 @property(nonatomic,assign)BOOL isScro;
+/*
+ *
+ */
+@property(strong,nonatomic)UIView *leftView;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)NENPingManager *pingManager;
 @end
 
 @implementation FirstViewController
@@ -71,7 +79,7 @@
     [super viewDidLoad];
     [self setBackgroundImg:@""];
     self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
-     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:self.leftButton];
+     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:self.leftView];
     [self addAllCallBack];
     [self setView];
     NSInteger selectIndex=
@@ -92,22 +100,56 @@
     self.table.estimatedSectionHeaderHeight = 0;
     self.table.estimatedSectionFooterHeight = 0;
 }
-//-(void)loadPing{
-//    NSArray *hostNameArray = @[
-//                               @"www.bilibili.com",
-//                               @"www.baidu.com",
-//                               @"www.youku.com",
-//                               @"www.hao123.com",
-//                               @"52.80.244.38",
-//                               @"54.222.168.99"
-//                               ];
-//    self.pingManager = [[NENPingManager alloc] init];
-//    [self.pingManager getFatestAddress:hostNameArray completionHandler:^(NSString *hostName, NSArray *sortedAddress) {
-//        NSLog(@"fastest IP: %@",hostName);
-//    }];
-//    
-//    
-//}
+-(void)loadPing{
+    NSArray *hostNameArray = @[
+                               @"www.bilibili.com",
+                               @"www.baidu.com",
+                               @"www.youku.com",
+                               @"www.hao123.com",
+                               @"52.80.244.38",
+                               @"54.222.168.99"
+                               ];
+    self.pingManager = [[NENPingManager alloc] init];
+    [self.pingManager getFatestAddress:hostNameArray completionHandler:^(NSString *hostName, NSArray *sortedAddress) {
+        NSLog(@"fastest IP: %@",hostName);
+    }];
+    
+    
+}
+-(UIView *)leftView{
+    if (!_leftView) {
+        _leftView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth/2, 50)];
+        UIImageView *imageVie=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"single_wallet"]];
+        imageVie.tag=1001;
+        [_leftView addSubview:imageVie];
+        [imageVie mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_leftView.mas_left);
+            make.centerY.equalTo(_leftView.mas_centerY);
+            make.size.mas_equalTo(CGSizeMake(22, 22));
+        }];
+        UILabel *labe =[[UILabel alloc]init];
+        labe.textAlignment=NSTextAlignmentLeft;
+        labe.tag=1002;
+        labe.font=[UIFont systemFontOfSize:16];
+        labe.textColor=[UIColor whiteColor];
+        [_leftView addSubview:labe];
+        [labe mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(imageVie.mas_right).offset(6);
+            make.top.equalTo(_leftView.mas_top);
+            make.bottom.equalTo(_leftView.mas_bottom);
+            make.right.equalTo(_leftView.mas_right).offset(-6);
+        }];
+        UIButton *leftButton=[[UIButton alloc]init];
+    [leftButton addTarget:self action:@selector(swichWallet) forControlEvents:UIControlEventTouchUpInside];
+        [_leftView addSubview:leftButton];
+    [leftButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(_leftView);
+    }];
+        
+        
+    }
+    return _leftView;
+}
 -(void)UpWalletType{
 NSString *imageName=@"single_wallet";
     switch (self.currentWallet.TypeW) {
@@ -125,22 +167,24 @@ NSString *imageName=@"single_wallet";
             break;
         default:
             break;}
-    [self.leftButton setTitle:self.currentWallet.walletName forState:UIControlStateNormal];
-    [self.leftButton setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+    UIImageView *imagV =(UIImageView*)[self.leftView viewWithTag:1001];
+    imagV.image=[UIImage imageNamed:imageName];
+    UILabel *nameLabel =(UILabel*)[self.leftView viewWithTag:1002];
+    nameLabel.text=self.currentWallet.walletName;
 }
--(UIButton *)leftButton{
-    if (!_leftButton) {
-     _leftButton =[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 100, 30)];
-       
-        [_leftButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_leftButton addTarget:self action:@selector(swichWallet) forControlEvents:UIControlEventTouchUpInside];
-    
-        _leftButton.imageEdgeInsets=UIEdgeInsetsMake(0, -10, 0, 0);
-       
-        
-    }
-    return _leftButton;
-}
+//-(UIButton *)leftButton{
+//    if (!_leftButton) {
+//     _leftButton =[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 100, 30)];
+//
+//        [_leftButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//        [_leftButton addTarget:self action:@selector(swichWallet) forControlEvents:UIControlEventTouchUpInside];
+//
+//        _leftButton.imageEdgeInsets=UIEdgeInsetsMake(0, -10, 0, 0);
+//
+//
+//    }
+//    return _leftButton;
+//}
 -(void)updataCreateWalletLoadWalletInfo{
 self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
         [self loadTheWalletInformationWithIndex:self.walletIDListArray.count-1];

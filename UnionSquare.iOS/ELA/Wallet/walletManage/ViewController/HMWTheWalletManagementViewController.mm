@@ -102,7 +102,6 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
 -(HMWToDeleteTheWalletPopView *)toDeleteTheWalletPopV{
         if (!_toDeleteTheWalletPopV) {
             _toDeleteTheWalletPopV =[[HMWToDeleteTheWalletPopView alloc]init];
-    
             _toDeleteTheWalletPopV.delegate=self;
             _toDeleteTheWalletPopV.deleteType=deleteTheWallet;
         }
@@ -133,7 +132,9 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
                     break;
                 case 2:
 //                   HowSign
-                    _dataArray =@[@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},@{@"title":NSLocalizedString(@"修改钱包密码",nil),@"name":@"",@"type":@"2"},@{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"},@{@"title":NSLocalizedString(@"查看钱包公钥",nil),@"name":@"",@"type":@"1"}];
+                    _dataArray =@[@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},@{@"title":NSLocalizedString(@"修改钱包密码",nil),@"name":@"",@"type":@"2"},@{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"}
+//                                  ,@{@"title":NSLocalizedString(@"查看钱包公钥",nil),@"name":@"",@"type":@"1"}
+                                  ];
                     break;
                 case 3:
 //                    HowSignReadonly
@@ -210,6 +211,7 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
         
         PluginResult *result= [[ELWalletManager share] ExportReadonlyWallet:mommand];
         NSString *status=[NSString stringWithFormat:@"%@",result.status];
+        
         if ([status isEqualToString:@"1"]) {
             NSString *type;
             if (self.currentWallet.TypeW ==0) {// 单签钱包
@@ -231,8 +233,6 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
         PluginResult *result= [[ELWalletManager share]ExportMasterPublicKey:mommand];
         NSString *status=[NSString stringWithFormat:@"%@",result.status];
         if ([status isEqualToString:@"1"]) {
-            
-        
         HWMSignatureTradingSingleQrCodeViewController *vc=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
         vc.type=LookhHowSignThePublicKey;
         vc.QRCodeString=result.message[@"success"];
@@ -240,21 +240,11 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
             
         }
         
-    }else if ([title isEqualToString:NSLocalizedString(@"查看钱包公钥",nil)]){
-        
-        
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+//    else if ([title isEqualToString:NSLocalizedString(@"查看钱包公钥",nil)]){
+//
+//
+//    }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     

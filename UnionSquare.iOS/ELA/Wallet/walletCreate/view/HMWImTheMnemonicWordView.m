@@ -97,11 +97,14 @@
     
 }
 - (IBAction)confirmTheImportEvent:(id)sender {
-    if (![[FLTools share]checkWalletName:self.walletNameTextField.text]) {
-        
-        
-        return;
+    if (![self.typeString isEqualToString:@"1"]) {
+        if (![[FLTools share]checkWalletName:self.walletNameTextField.text]) {
+            
+            
+            return;
+        }
     }
+   
     if ([[FLTools share]checkWhetherThePassword:self.pwdTextFiedl.text]) {
         return ;
     }
@@ -160,6 +163,7 @@
         self.topOff.constant=0.f;
         self.viewHeight.constant=180;
     }
+    _typeString=typeString;
     
     
 }

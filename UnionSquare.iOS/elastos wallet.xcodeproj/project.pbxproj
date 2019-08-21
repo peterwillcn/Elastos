@@ -164,7 +164,7 @@
 		4202CA8921F6EF2B009E5932 /* HMWTheWalletListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C94421F6EF29009E5932 /* HMWTheWalletListViewController.xib */; };
 		4202CA8A21F6EF2B009E5932 /* HMWsettingKeyStorePWDViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C94621F6EF29009E5932 /* HMWsettingKeyStorePWDViewController.xib */; };
 		4202CA8B21F6EF2B009E5932 /* HMWTheWalletManagementViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C94721F6EF29009E5932 /* HMWTheWalletManagementViewController.mm */; };
-		4202CA8C21F6EF2B009E5932 /* HMWTheWalletListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C94921F6EF29009E5932 /* HMWTheWalletListViewController.m */; };
+		4202CA8C21F6EF2B009E5932 /* HMWTheWalletListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C94921F6EF29009E5932 /* HMWTheWalletListViewController.mm */; };
 		4202CA8D21F6EF2B009E5932 /* HMWModifyTheWalletPasswordViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C94A21F6EF29009E5932 /* HMWModifyTheWalletPasswordViewController.mm */; };
 		4202CA8E21F6EF2B009E5932 /* HMWCopyKeyStoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C94B21F6EF29009E5932 /* HMWCopyKeyStoreViewController.xib */; };
 		4202CA8F21F6EF2B009E5932 /* HMWExportTheMnemonicWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C94D21F6EF29009E5932 /* HMWExportTheMnemonicWordViewController.xib */; };
@@ -182,7 +182,7 @@
 		4202CA9B21F6EF2B009E5932 /* FLSetMenmoryWordPassView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C96621F6EF29009E5932 /* FLSetMenmoryWordPassView.m */; };
 		4202CA9C21F6EF2B009E5932 /* FLSelectWordCollectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C96721F6EF29009E5932 /* FLSelectWordCollectCell.xib */; };
 		4202CA9D21F6EF2B009E5932 /* FLSelectWordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C96821F6EF29009E5932 /* FLSelectWordView.m */; };
-		4202CA9E21F6EF2B009E5932 /* HMWverifyTheMnemonicWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C96921F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.m */; };
+		4202CA9E21F6EF2B009E5932 /* HMWverifyTheMnemonicWordViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C96921F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.mm */; };
 		4202CA9F21F6EF2B009E5932 /* HMWverifyTheMnemonicWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C96A21F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.xib */; };
 		4202CAA021F6EF2B009E5932 /* FLPastWordVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C96C21F6EF29009E5932 /* FLPastWordVC.mm */; };
 		4202CAA121F6EF2B009E5932 /* FLdoubleWalletVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C96D21F6EF29009E5932 /* FLdoubleWalletVC.mm */; };
@@ -340,6 +340,11 @@
 		4250B3F52238D32700B6858F /* zbar-help.html in Resources */ = {isa = PBXBuildFile; fileRef = 4250B3D52238D32600B6858F /* zbar-help.html */; };
 		4250B3F62238D32700B6858F /* zbar-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 4250B3D62238D32600B6858F /* zbar-back.png */; };
 		4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4250B3F82238D3E900B6858F /* libiconv.tbd */; };
+		425CE7F7230D2290009C2979 /* NENSinglePinger.m in Sources */ = {isa = PBXBuildFile; fileRef = 425CE7F1230D2290009C2979 /* NENSinglePinger.m */; };
+		425CE7F8230D2290009C2979 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = 425CE7F4230D2290009C2979 /* SimplePing.m */; };
+		425CE7F9230D2290009C2979 /* NENPingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 425CE7F6230D2290009C2979 /* NENPingManager.m */; };
+		425CE7FC230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 425CE7FB230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m */; };
+		425CE7FE230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425CE7FD230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib */; };
 		4261C2FC22C21563008C1532 /* showOwnerAddressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261C2FA22C21563008C1532 /* showOwnerAddressTableViewCell.m */; };
 		4261C2FD22C21563008C1532 /* showOwnerAddressTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4261C2FB22C21563008C1532 /* showOwnerAddressTableViewCell.xib */; };
 		4261CF3822A15D21006B1DDE /* NSDictionary+NilSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261CF3222A15D20006B1DDE /* NSDictionary+NilSafe.m */; };
@@ -691,7 +696,7 @@
 		4202C94621F6EF29009E5932 /* HMWsettingKeyStorePWDViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMWsettingKeyStorePWDViewController.xib; sourceTree = "<group>"; };
 		4202C94721F6EF29009E5932 /* HMWTheWalletManagementViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HMWTheWalletManagementViewController.mm; sourceTree = "<group>"; };
 		4202C94821F6EF29009E5932 /* HMWModifyTheWalletNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMWModifyTheWalletNameViewController.h; sourceTree = "<group>"; };
-		4202C94921F6EF29009E5932 /* HMWTheWalletListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMWTheWalletListViewController.m; sourceTree = "<group>"; };
+		4202C94921F6EF29009E5932 /* HMWTheWalletListViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HMWTheWalletListViewController.mm; sourceTree = "<group>"; };
 		4202C94A21F6EF29009E5932 /* HMWModifyTheWalletPasswordViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HMWModifyTheWalletPasswordViewController.mm; sourceTree = "<group>"; };
 		4202C94B21F6EF29009E5932 /* HMWCopyKeyStoreViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMWCopyKeyStoreViewController.xib; sourceTree = "<group>"; };
 		4202C94C21F6EF29009E5932 /* HMWCopyKeyStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMWCopyKeyStoreViewController.h; sourceTree = "<group>"; };
@@ -718,7 +723,7 @@
 		4202C96621F6EF29009E5932 /* FLSetMenmoryWordPassView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLSetMenmoryWordPassView.m; sourceTree = "<group>"; };
 		4202C96721F6EF29009E5932 /* FLSelectWordCollectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FLSelectWordCollectCell.xib; sourceTree = "<group>"; };
 		4202C96821F6EF29009E5932 /* FLSelectWordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLSelectWordView.m; sourceTree = "<group>"; };
-		4202C96921F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMWverifyTheMnemonicWordViewController.m; sourceTree = "<group>"; };
+		4202C96921F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HMWverifyTheMnemonicWordViewController.mm; sourceTree = "<group>"; };
 		4202C96A21F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMWverifyTheMnemonicWordViewController.xib; sourceTree = "<group>"; };
 		4202C96B21F6EF29009E5932 /* FLPastWordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLPastWordVC.h; sourceTree = "<group>"; };
 		4202C96C21F6EF29009E5932 /* FLPastWordVC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FLPastWordVC.mm; sourceTree = "<group>"; };
@@ -1012,6 +1017,15 @@
 		4250B3EC2238D32600B6858F /* ZBarSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBarSDK.h; sourceTree = "<group>"; };
 		4250B3ED2238D32600B6858F /* ZBarReaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBarReaderViewController.h; sourceTree = "<group>"; };
 		4250B3F82238D3E900B6858F /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		425CE7F1230D2290009C2979 /* NENSinglePinger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NENSinglePinger.m; sourceTree = "<group>"; };
+		425CE7F2230D2290009C2979 /* SimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePing.h; sourceTree = "<group>"; };
+		425CE7F3230D2290009C2979 /* NENPingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NENPingManager.h; sourceTree = "<group>"; };
+		425CE7F4230D2290009C2979 /* SimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePing.m; sourceTree = "<group>"; };
+		425CE7F5230D2290009C2979 /* NENSinglePinger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NENSinglePinger.h; sourceTree = "<group>"; };
+		425CE7F6230D2290009C2979 /* NENPingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NENPingManager.m; sourceTree = "<group>"; };
+		425CE7FA230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTheValidationWordMnemonicPassword.h; sourceTree = "<group>"; };
+		425CE7FB230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTheValidationWordMnemonicPassword.m; sourceTree = "<group>"; };
+		425CE7FD230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTheValidationWordMnemonicPassword.xib; sourceTree = "<group>"; };
 		4261C2F922C21563008C1532 /* showOwnerAddressTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = showOwnerAddressTableViewCell.h; sourceTree = "<group>"; };
 		4261C2FA22C21563008C1532 /* showOwnerAddressTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = showOwnerAddressTableViewCell.m; sourceTree = "<group>"; };
 		4261C2FB22C21563008C1532 /* showOwnerAddressTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = showOwnerAddressTableViewCell.xib; sourceTree = "<group>"; };
@@ -1302,6 +1316,7 @@
 		4202C7D421F6EF28009E5932 /* ThirdSDK */ = {
 			isa = PBXGroup;
 			children = (
+				425CE7F0230D2290009C2979 /* NenPingManager */,
 				424910C22271BFCF00C41E50 /* SDWebImage */,
 				4250B3C62238D32600B6858F /* ZBar */,
 				42B57A9322150C1C004CF089 /* WOCrashProtector */,
@@ -2011,6 +2026,9 @@
 				4202C93D21F6EF29009E5932 /* HMWToDeleteTheWalletPopView.h */,
 				4202C93F21F6EF29009E5932 /* HMWToDeleteTheWalletPopView.m */,
 				4202C93C21F6EF29009E5932 /* HMWToDeleteTheWalletPopView.xib */,
+				425CE7FA230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.h */,
+				425CE7FB230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m */,
+				425CE7FD230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -2034,7 +2052,7 @@
 				4202C95121F6EF29009E5932 /* HMWsettingKeyStorePWDViewController.mm */,
 				4202C94621F6EF29009E5932 /* HMWsettingKeyStorePWDViewController.xib */,
 				4202C95321F6EF29009E5932 /* HMWTheWalletListViewController.h */,
-				4202C94921F6EF29009E5932 /* HMWTheWalletListViewController.m */,
+				4202C94921F6EF29009E5932 /* HMWTheWalletListViewController.mm */,
 				4202C94421F6EF29009E5932 /* HMWTheWalletListViewController.xib */,
 				4202C94F21F6EF29009E5932 /* HMWTheWalletManagementViewController.h */,
 				4202C94721F6EF29009E5932 /* HMWTheWalletManagementViewController.mm */,
@@ -2121,7 +2139,7 @@
 				4202C96621F6EF29009E5932 /* FLSetMenmoryWordPassView.m */,
 				4202C96521F6EF29009E5932 /* FLSetMenmoryWordPassView.xib */,
 				4202C96421F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.h */,
-				4202C96921F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.m */,
+				4202C96921F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.mm */,
 				4202C96A21F6EF29009E5932 /* HMWverifyTheMnemonicWordViewController.xib */,
 			);
 			path = MemorizingWords;
@@ -2667,6 +2685,20 @@
 			path = zbar;
 			sourceTree = "<group>";
 		};
+		425CE7F0230D2290009C2979 /* NenPingManager */ = {
+			isa = PBXGroup;
+			children = (
+				425CE7F1230D2290009C2979 /* NENSinglePinger.m */,
+				425CE7F2230D2290009C2979 /* SimplePing.h */,
+				425CE7F3230D2290009C2979 /* NENPingManager.h */,
+				425CE7F4230D2290009C2979 /* SimplePing.m */,
+				425CE7F5230D2290009C2979 /* NENSinglePinger.h */,
+				425CE7F6230D2290009C2979 /* NENPingManager.m */,
+			);
+			name = NenPingManager;
+			path = "../../../../Downloads/NenPingManager-master/NENPingDemo/NenPingManager";
+			sourceTree = "<group>";
+		};
 		4264A73B221BDBBF008D5C7B /* languageTool */ = {
 			isa = PBXGroup;
 			children = (
@@ -3034,6 +3066,7 @@
 				4202CA2B21F6EF2A009E5932 /* HMWmyContactListTableViewCell.xib in Resources */,
 				4202CAC221F6EF2B009E5932 /* HMWinputVotesPopupWindowView.xib in Resources */,
 				428B4D9C22CB35C0004AE7D0 /* HWMaddSignThePursefootView.xib in Resources */,
+				425CE7FE230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib in Resources */,
 				4202CA8421F6EF2B009E5932 /* HMWToDeleteTheWalletPopView.xib in Resources */,
 				4202CA7721F6EF2B009E5932 /* HMWTop_upPageForDetailsViewController.xib in Resources */,
 				4202CA5621F6EF2A009E5932 /* FLAssetManageTableCell.xib in Resources */,
@@ -3091,12 +3124,14 @@
 				4234721C22CCA2EF000616CB /* HWMSignTheWalletListViewController.mm in Sources */,
 				422D609121FC401200DD07FF /* HMWtransferViewController.mm in Sources */,
 				4202CA8521F6EF2B009E5932 /* HMWToDeleteTheWalletPopView.m in Sources */,
+				425CE7FC230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m in Sources */,
 				422D609021FC401200DD07FF /* HMWTop_upPageForDetailsViewController.mm in Sources */,
 				4202CA3521F6EF2A009E5932 /* FLSugerBannerModel.m in Sources */,
 				4202CAAA21F6EF2B009E5932 /* FLAllKindBi.m in Sources */,
 				4202CA0C21F6EF2A009E5932 /* SGQRCodeScanManager.m in Sources */,
 				424910EE2271BFCF00C41E50 /* SDWebImagePrefetcher.m in Sources */,
 				4234721322CC8C0D000616CB /* HWMNewPrivateKeyViewController.mm in Sources */,
+				425CE7F9230D2290009C2979 /* NENPingManager.m in Sources */,
 				4228AA4E21F88C87002866B5 /* UIScreen+YYAdd.m in Sources */,
 				4202CA7221F6EF2B009E5932 /* HMWcollectionViewController.m in Sources */,
 				4228AA5D21F88C87002866B5 /* NSObject+YYAddForARC.m in Sources */,
@@ -3218,9 +3253,10 @@
 				4202CA2A21F6EF2A009E5932 /* HMWNotAddContactTableViewCell.m in Sources */,
 				42B57AB422150C1C004CF089 /* NSObject+KVOCrash.m in Sources */,
 				4202C9F121F6EF2A009E5932 /* MJRefreshNormalHeader.m in Sources */,
-				4202CA8C21F6EF2B009E5932 /* HMWTheWalletListViewController.m in Sources */,
+				4202CA8C21F6EF2B009E5932 /* HMWTheWalletListViewController.mm in Sources */,
 				42B57AB722150C1C004CF089 /* NSObject+WOSwizzle.m in Sources */,
 				428B4D8A22CB0CF7004AE7D0 /* HWMSignThePurseHeadView.m in Sources */,
+				425CE7F8230D2290009C2979 /* SimplePing.m in Sources */,
 				428B4D7722CAFCA9004AE7D0 /* HWMcreatListViewController.mm in Sources */,
 				4202CA5C21F6EF2A009E5932 /* HMWtransferDetailsPopupView.m in Sources */,
 				CBD48D5F21FC36BA00BF3B11 /* AFSecurityPolicy.m in Sources */,
@@ -3288,6 +3324,7 @@
 				4264A73E221BDC24008D5C7B /* DAConfig.m in Sources */,
 				4202CAB221F6EF2B009E5932 /* HMWAddTheCurrencyListViewController.mm in Sources */,
 				4202CA4D21F6EF2A009E5932 /* Foundation+Log.m in Sources */,
+				425CE7F7230D2290009C2979 /* NENSinglePinger.m in Sources */,
 				4202CA1921F6EF2A009E5932 /* FMDatabaseQueue.m in Sources */,
 				4228AA4B21F88C87002866B5 /* UIApplication+YYAdd.m in Sources */,
 				4202CAD121F6EF2B009E5932 /* HMWMyVoteViewController.mm in Sources */,
@@ -3343,7 +3380,7 @@
 				4202CA2821F6EF2A009E5932 /* FLTableViewDefultCell.m in Sources */,
 				4228AA5621F88C87002866B5 /* NSNumber+YYAdd.m in Sources */,
 				4202C9FD21F6EF2A009E5932 /* MASLayoutConstraint.m in Sources */,
-				4202CA9E21F6EF2B009E5932 /* HMWverifyTheMnemonicWordViewController.m in Sources */,
+				4202CA9E21F6EF2B009E5932 /* HMWverifyTheMnemonicWordViewController.mm in Sources */,
 				4202CA8821F6EF2B009E5932 /* HMWExportTheMnemonicWordViewController.m in Sources */,
 				4202CA9B21F6EF2B009E5932 /* FLSetMenmoryWordPassView.m in Sources */,
 				4202CA0421F6EF2A009E5932 /* SVProgressAnimatedView.m in Sources */,

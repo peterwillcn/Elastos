@@ -985,6 +985,39 @@ if ([languageString  containsString:@"en"]) {
     
     
 }
+-(NSArray*)CreateArrayQrCodeImage:(NSDictionary*)contentDic WithType:(NSString*)type withSubWall:(NSString*)subW{
+    NSString * contentString=[self DicToString:contentDic];
+        NSMutableArray *allQRCodeArray=[[NSMutableArray alloc]init];
+    CGFloat maxChar=521.0;
+       int max =ceil(contentString.length/maxChar);
+        int min=floor(contentString.length/maxChar);
+    NSLog(@"二维码max==%d min===%d",max,min);
+        for (NSInteger i=0; i<max; i++) {
+            NSString *dataString;
+            if ((i==min && max>min) ) {
+                dataString=[contentString substringWithRange:NSMakeRange(i*maxChar, contentString.length-i*maxChar)];
+    
+            }else{
+                dataString=[contentString substringWithRange:NSMakeRange(i*maxChar,maxChar)];
+    
+            }
+    NSDictionary *dic=@{@"version":@(0),
+                        @"name":@"MultiQrContent",
+                        @"total":@(max),
+                        @"index":@(i),
+                        @"data":dataString,
+                        @"md5":@"",
+                        @"extra":@{@"Type":type,
+                                   @"SubWallet":subW}
+                        };
+            NSString *QRCodeString=[self DicToString:dic];
+            [allQRCodeArray addObject:QRCodeString];
+            NSLog(@"二维码 dic==%@",dic);
+    
+        }
+        return allQRCodeArray;
+    
+}
 -(NSString*)DicToString:(NSDictionary*)dic{
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
     

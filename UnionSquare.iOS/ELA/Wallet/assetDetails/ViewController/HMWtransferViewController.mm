@@ -38,6 +38,7 @@
  *<# #>
  */
 @property(copy,nonatomic)NSString *fee;
+
 @end
 
 @implementation HMWtransferViewController
@@ -160,6 +161,9 @@
     if (!_transferDetailsPopupV) {
         _transferDetailsPopupV =[[HMWtransferDetailsPopupView alloc]init];
         _transferDetailsPopupV.delegate=self;
+        if (self.currentWallet.TypeW==1||self.currentWallet.TypeW==3) {
+            _transferDetailsPopupV.type=readOnlyWallettransfer_type;
+        }
     }
     
     return _transferDetailsPopupV;
@@ -167,9 +171,6 @@
 -(HMWSendSuccessPopuView *)sendSuccessPopuV{
     if (!_sendSuccessPopuV) {
         _sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
-        
-        
-        
     }
     
     return _sendSuccessPopuV;
@@ -217,20 +218,43 @@
             [self showSendSuccessPopuV];
         }
     }else if (self.currentWallet.TypeW==1){
+        NSString *isUtxo=@"1";
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[[FLTools share]elsToSela:self.theAmountOfTextField.text],self.noteTextField.text,self.noteTextField.text,pwd,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+        PluginResult *result = [[ELWalletManager share]CreateTransaction:mommand];
+        NSString *statue=[NSString stringWithFormat:@"%@",result.status];
+        if ([statue isEqualToString:@"1"]) {
+           
+    
         HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
         SignatureTradingSingleQrCodeVC.type=SingleSignReadOnlyToBeSigned;
         [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
+            
+        }
         
         
     }else if (self.currentWallet.TypeW==2){
+        NSString *isUtxo=@"1";
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[[FLTools share]elsToSela:self.theAmountOfTextField.text],self.noteTextField.text,self.noteTextField.text,pwd,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+        PluginResult *result = [[ELWalletManager share]CreateTransaction:mommand];
+        NSString *statue=[NSString stringWithFormat:@"%@",result.status];
+        if ([statue isEqualToString:@"1"]) {
         HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
         SignatureTradingSingleQrCodeVC.type=HowSignToBeSigned;
-        [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
+            [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
+            
+        }
         
     }else if (self.currentWallet.TypeW==3){
+        NSString *isUtxo=@"1";
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[[FLTools share]elsToSela:self.theAmountOfTextField.text],self.noteTextField.text,self.noteTextField.text,pwd,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+        PluginResult *result = [[ELWalletManager share]CreateTransaction:mommand];
+        NSString *statue=[NSString stringWithFormat:@"%@",result.status];
+        if ([statue isEqualToString:@"1"]) {
         HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
         SignatureTradingSingleQrCodeVC.type=HowSignToBeSigned;
-        [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
+            [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
+            
+        }
     }
     
     

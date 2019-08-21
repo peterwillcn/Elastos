@@ -12,6 +12,7 @@
 
 typedef NS_ENUM(NSInteger, transferDetailsPopupViewType) {
    sideChainTop_UpType,
+    readOnlyWallettransfer_type,
 };
 @protocol HMWtransferDetailsPopupViewDelegate <NSObject>
 

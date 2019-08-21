@@ -1691,7 +1691,13 @@ errCodeSPVCreateMasterWalletError= 20006;
       String mnemonic = [self cstringWithString:args[idx++]];
       String phrasePassword = [self cstringWithString:args[idx++]];
     String payPassword = [self cstringWithString:args[idx++]];
-    Json publicKeys = [self jsonWithString:args[idx++]];
+    NSArray *publicKeys=[NSArray arrayWithArray:args[idx++]];
+    Json publicKeysJson;
+    String pkeyS;
+    for (NSString * pkey in publicKeys ) {
+        pkeyS=[self cstringWithString:pkey];
+        publicKeysJson.push_back(pkeyS);
+    }
     int   m=[args[idx++] intValue];
     if (mMasterWalletManager == nil) {
         NSString *msg = [NSString stringWithFormat:@"%@", @"Master wallet manager has not initialize"];
@@ -1700,7 +1706,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     IMasterWallet *masterWallet;
     try {
        
-        masterWallet = mMasterWalletManager->CreateMultiSignMasterWallet(masterWalletID,mnemonic,phrasePassword,payPassword,publicKeys,m,0);
+        masterWallet = mMasterWalletManager->CreateMultiSignMasterWallet(masterWalletID,mnemonic,phrasePassword,payPassword,publicKeysJson,m,0);
     } catch (const std:: exception &e) {
         return  [self errInfoToDic:e.what() with:command];
     }

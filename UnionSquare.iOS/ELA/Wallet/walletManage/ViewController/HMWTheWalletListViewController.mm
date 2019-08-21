@@ -12,6 +12,7 @@
 #import "FLPrepareVC.h"
 #import "FMDBWalletModel.h"
 #import "HMWFMDBManager.h"
+#import "ELWalletManager.h"
 
 
 static NSString *cellString=@"HMWtheWalletListTableViewCell";
@@ -44,43 +45,49 @@ static NSString *celladdString=@"HMWaddWalletListTableViewCell";
     self.title=NSLocalizedString(@"钱包列表", nil);
     [self makeView];
     self.selectIndex=[NSIndexPath indexPathForRow:0 inSection:self.currentWalletIndex];
-    [self.baseTableView reloadData];
-//    [self loadAddress];
-    
+    [self loadAddress];
 }
--(void)setWalletIDListArray:(NSArray *)walletIDListArray{
-    _walletIDListArray=walletIDListArray;
-    [self.baseTableView reloadData];
-    
+-(void)setWalletIDListArray:(NSMutableArray *)walletIDListArray{
+    _walletIDListArray =walletIDListArray;
 }
 -(void)loadAddress{
-//
-//    for (FMDBWalletModel *model in self.walletListArray) {
-////          invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.Wallet.masterWalletID,self.Wallet.mnemonic,self.Wallet.mnemonicPWD,self.Wallet.passWord,isSingleAddress] callbackId:self.Wallet.walletID className:@"wallet" methodName:@"createMasterWallet"];
-//    }
-    
-    
+    for (int i=0; i<self.walletIDListArray.count; i++) {
+        FMDBWalletModel *model=self.walletIDListArray[i];
+        invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[model.walletID] callbackId:model.walletID className:@"wallet" methodName:@"createMasterWallet"];
+        PluginResult * resultBase =[[ELWalletManager share]getMasterWalletBasicInfo:cmommand];
+        NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
+        NSDictionary *baseDic=[[NSDictionary alloc]init];
+        if ([statusBase isEqualToString:@"1"] ) {
+            baseDic=[[FLTools share]dictionaryWithJsonString:resultBase.message[@"success"]];
+            NSString *Readonly=[NSString stringWithFormat:@"%@",baseDic[@"Readonly"]];
+            if ([Readonly isEqualToString:@"0"]) {
+                if ([baseDic[@"M"] integerValue]==1) {
+                    model.TypeW=SingleSign;
+                }else{
+                    model.TypeW=HowSign;
+                }
+            }else{
+                if ([baseDic[@"M"] integerValue]==1) {
+                    model.TypeW=SingleSignReadonly;
+                }else{
+                    model.TypeW=HowSignReadonly;
+                }
+            }
+        }
+        self.walletIDListArray[i] =model;
+    }
+    [self.baseTableView reloadData];
 }
-//-(NSMutableArray *)walletListArray{
-//    if (!_walletListArray) {
-//        _walletListArray =[[NSMutableArray alloc]initWithArray:[[HMWFMDBManager sharedManagerType:walletType]allRecordWallet:self.walletIDListArray]];
-//    }
-//    return _walletListArray;
-//}
 -(void)makeView{
     self.baseTableView.delegate=self;
     self.baseTableView.dataSource=self;
  self.baseTableView.backgroundColor=[UIColor clearColor];
     self.baseTableView.rowHeight=70;
-    self.baseTableView.separatorStyle=UITableViewCellSelectionStyleNone;
+    self.baseTableView.separatorStyle= UITableViewCellSeparatorStyleNone;
 
     [self.baseTableView registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
     [self.baseTableView registerNib:[UINib nibWithNibName:celladdString bundle:nil] forCellReuseIdentifier:celladdString];
-    
-  
     self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
-    
-    
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     

@@ -69,6 +69,13 @@
     
 }
 - (IBAction)theNextStepEvent:(id)sender {
+    if (self.type==readOnlyWallettransfer_type) {
+        if (self.delegate) {
+            [self.delegate pwdAndInfoWithPWD:nil];
+            [self cancelThePWDPageView];
+        }
+        return;
+    }
   self.theNextStepButton.userInteractionEnabled=NO;
     
     

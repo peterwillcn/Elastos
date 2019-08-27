@@ -10,6 +10,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMSignThePurseViewController : UIViewController
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *publicKeyString;
 
 @end
 

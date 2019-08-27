@@ -21,7 +21,7 @@ static FLTools *tool;
 
 @interface FLTools ()
 @property (nonatomic,strong)YYCache *cache;
-
+@property (nonatomic,strong)NSMutableDictionary *QRCoreDic;
 @end
 @implementation FLTools
 
@@ -985,10 +985,10 @@ if ([languageString  containsString:@"en"]) {
     
     
 }
--(NSArray*)CreateArrayQrCodeImage:(NSDictionary*)contentDic WithType:(NSString*)type withSubWall:(NSString*)subW{
-    NSString * contentString=[self DicToString:contentDic];
+-(NSArray*)CreateArrayQrCodeImage:(NSString*)contentString WithType:(NSString*)type withSubWall:(NSString*)subW{
+//    NSString * contentString=[self DicToString:contentDic];
         NSMutableArray *allQRCodeArray=[[NSMutableArray alloc]init];
-    CGFloat maxChar=521.0;
+    CGFloat maxChar=350.0;
        int max =ceil(contentString.length/maxChar);
         int min=floor(contentString.length/maxChar);
     NSLog(@"二维码max==%d min===%d",max,min);
@@ -1004,7 +1004,7 @@ if ([languageString  containsString:@"en"]) {
     NSDictionary *dic=@{@"version":@(0),
                         @"name":@"MultiQrContent",
                         @"total":@(max),
-                        @"index":@(i),
+                        @"index":@(i+1),
                         @"data":dataString,
                         @"md5":@"",
                         @"extra":@{@"Type":type,
@@ -1020,7 +1020,6 @@ if ([languageString  containsString:@"en"]) {
 }
 -(NSString*)DicToString:(NSDictionary*)dic{
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-    
     NSString * contentString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     return contentString;
     
@@ -1031,6 +1030,14 @@ if ([languageString  containsString:@"en"]) {
     [self createInterPolatedUIImage:[self createQRFromNSDic:qrDic] withSize:size];
     
     return [self imageBlackToTransParent:resultImage withRed:red andGreen:green andBlur:blue];
+}
+- (UIImage*)imageWithSize:(CGFloat)size andColorWithRed:(CGFloat)red Green:(CGFloat)green Blue:(CGFloat)blue andQRString:( NSString*)qrString{
+    NSDictionary *qrDic=[self dictionaryWithJsonString:qrString];
+    UIImage *resultImage=
+    [self createInterPolatedUIImage:[self createQRFromNSDic:qrDic] withSize:size];
+    
+    return [self imageBlackToTransParent:resultImage withRed:red andGreen:green andBlur:blue];
+    
 }
 //MARK:实现方法
 - (UIImage *)createInterPolatedUIImage:(CIImage *)ciimage withSize:(CGFloat)size {
@@ -1106,5 +1113,65 @@ if ([languageString  containsString:@"en"]) {
 }
 void ProViderReleaseData (void *info,const void *data,size_t size) {
     free((void *)data);
+}
+-(NSDictionary*)QrCodeImageFromDic:(NSString*)QrCodeString fromVC:(UIViewController*)VC oldQrCodeDic:(NSDictionary*)oldDic{
+    NSDictionary *dic =[self dictionaryWithJsonString:QrCodeString];
+    self.QRCoreDic=[NSMutableDictionary dictionaryWithDictionary:oldDic];
+    if ([self ToDetectWhetherTheSame:dic withFromeVC:VC]) {
+        return nil;
+    }else{
+  
+        [self QRCoreDicAddData:dic withVC:VC];
+        
+    }
+    return self.QRCoreDic;
+    
+}
+-(NSMutableDictionary *)QRCoreDic{
+    if (!_QRCoreDic) {
+        _QRCoreDic =[[NSMutableDictionary alloc]init];
+    }
+    return _QRCoreDic;
+}
+-(BOOL)ToDetectWhetherTheSame:(NSDictionary*)dic withFromeVC:(UIViewController*)vc{
+ 
+    if (![self.QRCoreDic[@"extra"] isEqualToValue:dic[@"extra"]]) {
+        return NO;
+    }
+    if ([self.QRCoreDic[@"total"] integerValue]!=[dic[@"total"] integerValue]) {
+        return NO;
+    }
+    NSInteger index=[self.QRCoreDic[@"index"] integerValue]+1;
+    if (index!=[dic[@"index"] integerValue]) {
+        return NO;
+    }
+    [self QRCoreDicAddData:dic[@"data"] withVC:vc];
+    
+    return YES;
+}
+-(void)QRCoreDicAddData:(NSDictionary*)dic withVC:(UIViewController*)VC{
+    
+    [self.QRCoreDic setObject:dic[@"total"] forKey:@"total"];
+    [self.QRCoreDic setObject:[NSString stringWithFormat:@"%@",[VC class]] forKey:@"VC"];
+     [self.QRCoreDic setObject:dic[@"total"] forKey:@"total"];
+    [self.QRCoreDic setObject:dic[@"index"] forKey:@"index"];
+     [self.QRCoreDic setObject:dic[@"md5"] forKey:@"md5"];
+     [self.QRCoreDic setObject:dic[@"extra"] forKey:@"extra"];
+    NSString *dataString=self.QRCoreDic[@"data"];
+    if (dataString.length==0) {
+         [self.QRCoreDic setObject:dic[@"data"] forKey:@"data"];
+    }else{
+        [self.QRCoreDic setObject:[NSString stringWithFormat:@"%@%@",dataString,dic[@"data"]] forKey:@"data"];
+    }
+}
+-(BOOL)SCanQRCodeWithDicCode:(NSDictionary*)dic{
+    
+    if (dic) {
+        if ([dic[@"total"] integerValue]==[dic[@"index"] integerValue]) {
+            return YES;
+        }
+    }
+    return NO;
+    
 }
 @end

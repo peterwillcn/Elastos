@@ -54,7 +54,7 @@
     self.isAddSwitch.layer.borderWidth=2.f;
     self.isAddSwitch.layer.cornerRadius=15.f; self.isAddSwitch.layer.masksToBounds=YES;
     self.isAddSwitch.transform=CGAffineTransformMakeScale(0.75, 0.75);
-//    [self loadCanUserBlanceLoadDataSource];
+    [self loadCanUserBlanceLoadDataSource];
      self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"setting_adding_scan"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(scanView)];
        self.theAmountOfTextField.placeholder=[NSString stringWithFormat:@"%@%@ %@",NSLocalizedString(@"请输入金额 可用", nil),[[FLTools share]elaScaleConversionWith:self.model.iconBlance],@"ELA"];
     [[HMWCommView share] makeTextFieldPlaceHoTextColorWithTextField:self.transferTheAddressTextField];
@@ -69,13 +69,17 @@
     self.theAmountOfTextField.delegate=self;
     
     self.transferTheAddressTextField.placeholder=NSLocalizedString(@"请输入收款人地址", nil);
+    if (self.toAddressString.length>0) {
+      self.transferTheAddressTextField.text=self.toAddressString;
+    }
+    
     
 }
 //- (IBAction)isAddOrCloseEvent:(id)sender {
 //   
 //}
 -(void)loadCanUserBlanceLoadDataSource{
-    
+
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@0] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];
     PluginResult * result =[[ELWalletManager share]getBalance:mommand];
     
@@ -96,9 +100,21 @@
     __weak __typeof__(self) weakSelf = self;
     WCQRCodeScanningVC *WCQRCode=[[WCQRCodeScanningVC alloc]init];
     WCQRCode.scanBack=^(NSString *addr){
-        weakSelf.transferTheAddressTextField.text=addr;
+        [self SweepCodeProcessingResultsWithQRCodeString:addr];
     };
     [self QRCodeScanVC:WCQRCode];
+}
+-(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString{
+    NSLog(@"解析前%@",QRCodeString);
+    NSDictionary *dic =[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]QrCodeImageFromDic:QRCodeString fromVC:self oldQrCodeDic:nil]];
+ 
+    NSLog(@"解析后%@",dic);
+    if ([[FLTools share]SCanQRCodeWithDicCode:dic]){
+        if ([dic[@"extra"][@"Type"] integerValue]==4) {
+        self.transferTheAddressTextField.text=dic[@"data"];
+        }
+    }
+    
 }
 - (IBAction)pasteEvent:(id)sender {
     
@@ -219,47 +235,41 @@
         }
     }else if (self.currentWallet.TypeW==1){
         NSString *isUtxo=@"1";
-        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[[FLTools share]elsToSela:self.theAmountOfTextField.text],self.noteTextField.text,self.noteTextField.text,pwd,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
-        PluginResult *result = [[ELWalletManager share]CreateTransaction:mommand];
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[[FLTools share]elsToSela:self.theAmountOfTextField.text],self.noteTextField.text,self.noteTextField.text,pwd,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
+        PluginResult *result = [[ELWalletManager share]MSignAndReadOnlyCreateTransaction:mommand];
         NSString *statue=[NSString stringWithFormat:@"%@",result.status];
         if ([statue isEqualToString:@"1"]) {
-           
-    
         HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
         SignatureTradingSingleQrCodeVC.type=SingleSignReadOnlyToBeSigned;
+            SignatureTradingSingleQrCodeVC.QRCodeString =[[FLTools share]DicToString:result.message[@"success"]];
+    SignatureTradingSingleQrCodeVC.subW=self.model.iconName;
         [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
-            
         }
-        
-        
     }else if (self.currentWallet.TypeW==2){
         NSString *isUtxo=@"1";
-        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[[FLTools share]elsToSela:self.theAmountOfTextField.text],self.noteTextField.text,self.noteTextField.text,pwd,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
-        PluginResult *result = [[ELWalletManager share]CreateTransaction:mommand];
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[[FLTools share]elsToSela:self.theAmountOfTextField.text],self.noteTextField.text,self.noteTextField.text,pwd,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
+        PluginResult *result = [[ELWalletManager share]MSignAndReadOnlyCreateTransaction:mommand];
         NSString *statue=[NSString stringWithFormat:@"%@",result.status];
         if ([statue isEqualToString:@"1"]) {
         HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
         SignatureTradingSingleQrCodeVC.type=HowSignToBeSigned;
+            SignatureTradingSingleQrCodeVC.QRCodeString =[[FLTools share]DicToString:result.message[@"success"]];
+            SignatureTradingSingleQrCodeVC.subW=self.model.iconName;
             [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
-            
         }
-        
     }else if (self.currentWallet.TypeW==3){
         NSString *isUtxo=@"1";
-        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[[FLTools share]elsToSela:self.theAmountOfTextField.text],self.noteTextField.text,self.noteTextField.text,pwd,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
-        PluginResult *result = [[ELWalletManager share]CreateTransaction:mommand];
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,[[FLTools share]elsToSela:self.theAmountOfTextField.text],self.noteTextField.text,self.noteTextField.text,pwd,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
+        PluginResult *result = [[ELWalletManager share]MSignAndReadOnlyCreateTransaction:mommand];
         NSString *statue=[NSString stringWithFormat:@"%@",result.status];
         if ([statue isEqualToString:@"1"]) {
         HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
         SignatureTradingSingleQrCodeVC.type=HowSignToBeSigned;
+            SignatureTradingSingleQrCodeVC.QRCodeString =[[FLTools share]DicToString:result.message[@"success"]];
+            SignatureTradingSingleQrCodeVC.subW=self.model.iconName;
             [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
-            
         }
     }
-    
-    
-
-    
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
@@ -324,5 +334,9 @@ self.transferTheAddressTextField.text=model.address;
     }
     
     return YES;
+}
+-(void)setToAddressString:(NSString *)toAddressString{
+    _toAddressString=toAddressString;
+    
 }
 @end

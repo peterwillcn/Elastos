@@ -30,6 +30,10 @@ typedef NS_ENUM(NSInteger, QrCodeType) {
  *
  */
 @property(copy,nonatomic)NSDictionary *QRCodeDic;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *subW;
 @end
 
 NS_ASSUME_NONNULL_END

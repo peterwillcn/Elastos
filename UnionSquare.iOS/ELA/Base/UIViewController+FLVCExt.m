@@ -16,6 +16,13 @@
 #import "FLFLTabBarVC.h"
 #import "AppDelegate.h"
 #import "FLShareVC.h"
+#import "HMWtransferViewController.h"
+#import "HWMSingleSignReadOnlyWalletViewController.h"
+#import "HWMSignThePurseViewController.h"
+#import "HWMQrCodeScanningResultsViewController.h"
+#import "HWMQrCodeTransferAndAddBuddyViewController.h"
+#import "HMWaddContactViewController.h"
+
 @implementation UIViewController (FLVCExt)
 
 -(void)defultBack{
@@ -56,21 +63,14 @@
 }
 -(void)setBackgroundImg:(NSString*)img{
     UIImageView *bg = [[UIImageView alloc]initWithFrame:self.view.bounds];
-    
     bg.image = [UIImage imageNamed:img];
-    
     if (img.length==0) {
         [self CAGradientColorFrome:RGB(83, 136, 136) withToColor:RGB(16, 47, 58) withView:bg];
     }
-    
     [self.view insertSubview:bg atIndex:0];
-    
-    
     [bg mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(self.view);
     }];
-    
-    
 }
 //传入需要截取的view
 -(UIImage *)screenShotView:(UIView *)view{
@@ -85,8 +85,6 @@
 -(void)CAGradientColorFrome:(UIColor*)fclolr withToColor:(UIColor*)tcolor withView:(UIView*)view{
 CAGradientLayer *gl = [CAGradientLayer layer];
 gl.frame = CGRectMake(0,0,AppWidth,AppHeight);
-//gl.startPoint = CGPointMake(0, 0);
-//gl.endPoint = CGPointMake(1, 1);
 gl.colors = @[(__bridge id)fclolr.CGColor,(__bridge id)tcolor.CGColor];
     gl.locations = @[@(0.0),@(1.0f)];
     [view.layer addSublayer:gl];
@@ -484,4 +482,99 @@ NSString *leftTime=
     
    
 }
+-(BOOL)whetherTheCurrent:(NSString*)VC{
+    if ([VC isEqualToString:[NSString stringWithFormat:@"%@",[self class]]]) {
+        return YES;
+    }
+    return NO;
+    
+}
+-(BOOL)QrCodepushVC:(NSDictionary*)dic WithCurrWallet:(FLWallet*)currW{
+    int type=[dic[@"extra"][@"Type"] intValue];
+    
+//    public static final int CREATEREADONLY = 0x1;//打开创建单签只读钱包页面
+//    public static final int CREATEMUL = 0x2;//打开创建多签钱包页面 已经打开了的情况直接填入
+//    public static final int SIGN = 0x3;//打开签名页面
+//    public static final int TRANSFER = 0x4;//打开转账页面
+    
+    switch (type) {
+        case 1:{
+            if (![self whetherTheCurrent:@"HWMSingleSignReadOnlyWalletViewController"]) {
+             HWMSingleSignReadOnlyWalletViewController *SingleSignReadOnlyWalletVC=[[HWMSingleSignReadOnlyWalletViewController alloc]init];
+                SingleSignReadOnlyWalletVC.jsonString=[[FLTools share]DicToString:dic[@"data"]];
+                [self.navigationController pushViewController:SingleSignReadOnlyWalletVC animated:NO];
+                return NO;
+                
+            }else{
+                return YES;
+            }
+            
+            break;}
+        case 2:{
+            if(![self whetherTheCurrent:@"HWMSignThePurseViewController"]) {
+                 HWMSignThePurseViewController *SignThePurseVC=[[ HWMSignThePurseViewController alloc]init];
+                SignThePurseVC.publicKeyString=dic[@"data"];
+                [self.navigationController pushViewController:SignThePurseVC animated:NO];
+                     return NO;
+                
+            }else{
+                return YES;
+            }
+           
+            
+            break;}
+        case 3:{
+            if(![self whetherTheCurrent:@"VC"]) {
+               
+                return NO;
+                
+            }else{
+                return YES;
+            }
+            
+            break;}
+        case 4:{
+            if (![self whetherTheCurrent:@"HMWtransferViewController"]&&![self whetherTheCurrent:@"HMWaddContactViewController"]) {
+               HWMQrCodeTransferAndAddBuddyViewController *QrCodeTransferAndAddBuddyVC=[[HWMQrCodeTransferAndAddBuddyViewController alloc]init];
+               QrCodeTransferAndAddBuddyVC.currentWallet=currW;
+      QrCodeTransferAndAddBuddyVC.addressString=dic[@"data"];
+                QrCodeTransferAndAddBuddyVC.QRCoreDic=dic;
+                [self.navigationController pushViewController:QrCodeTransferAndAddBuddyVC animated:NO];
+                     return NO;
+                
+            }else{
+               
+                return YES;
+            }
+            
+            break;}
+            
+        default:
+            return NO;
+            break;
+    }
+}
+-(BOOL)TypeJudgment:(NSDictionary*)dic{
+    NSInteger type=[dic[@"extra"][@"Type"] integerValue];
+    switch (type) {
+        case 1:
+            return YES;
+            break;
+        case 2:
+            return YES;
+            break;
+        case 3:
+            return YES;
+            break;
+        case 4:
+            return YES;
+            break;
+        default:
+            return NO;
+            break;
+    }
+    
+    return NO;
+}
+
 @end

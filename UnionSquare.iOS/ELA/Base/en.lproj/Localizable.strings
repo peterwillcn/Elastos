@@ -206,14 +206,17 @@
 "当前sdk版本号"="SPV SDK Version";
 "     密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="     Password is used to protect private keys and transaction authorization. Please ensure you choose a strong password.Elastos won't store your password and won't be able to retrieve it back.  Please keep your password safe and secure.";
 "密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="Password is used to protect private keys and transaction authorization. Please ensure you choose a strong password.Elastos won't store your password and won't be able to retrieve it back.  Please keep your password safe and secure.";
-"的单签钱包"="";
-"的单签只读钱包"="";
-"的多签钱包"="";
-"的多签只读钱包"="";
 "客服邮箱已复制到粘贴板"="Customer service email copied to clipboard.";
 "社区"="Community";
 
 
+
+"的单签钱包"="";
+"的单签只读钱包"="";
+"的多签钱包"="";
+"的多签只读钱包"="";
+"扫码结果"="";
+"已识别收款地址"="";
 
 
 

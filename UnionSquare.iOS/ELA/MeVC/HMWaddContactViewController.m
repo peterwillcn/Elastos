@@ -59,6 +59,9 @@
         
         [self.addBuddyButton setTitle:NSLocalizedString(@"确认修改", nil) forState:UIControlStateNormal];
     }
+    if (self.addressString.length>0) {
+        self.theWalletAddressTextField.text=self.addressString;
+    }
     
     
     

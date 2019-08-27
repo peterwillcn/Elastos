@@ -366,5 +366,11 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     
 }
     
-  
+-(void)GetTransactionSignedInfo{
+    
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.QRCoreDic[@"extra"][@"SubWallet"],self.QRCoreDic[@"data"]] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
+    PluginResult * result =[[ELWalletManager share]GetTransactionSignedInfo:mommand];
+    
+    
+}
     @end

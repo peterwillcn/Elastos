@@ -125,5 +125,8 @@
 -(NSString*)DicToString:(NSDictionary*)dic;
 - (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
 - (UIImage*)imageWithSize:(CGFloat)size andColorWithRed:(CGFloat)red Green:(CGFloat)green Blue:(CGFloat)blue andQRDic:(NSDictionary *)qrDic;
--(NSArray*)CreateArrayQrCodeImage:(NSDictionary*)contentDic WithType:(NSString*)type withSubWall:(NSString*)subW;
+-(NSArray*)CreateArrayQrCodeImage:(NSString*)contentString WithType:(NSString*)type withSubWall:(NSString*)subW;
+- (UIImage*)imageWithSize:(CGFloat)size andColorWithRed:(CGFloat)red Green:(CGFloat)green Blue:(CGFloat)blue andQRString:( NSString*)qrString;
+-(NSDictionary*)QrCodeImageFromDic:(NSString*)QrCodeString fromVC:(UIViewController*)VC oldQrCodeDic:(NSDictionary*)oldDic;
+-(BOOL)SCanQRCodeWithDicCode:(NSDictionary*)dic;
 @end

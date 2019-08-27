@@ -20,6 +20,11 @@ typedef NS_ENUM(NSInteger, updateOrChangeInfo) {
  *<# #>
  */
 @property(assign,nonatomic)updateOrChangeInfo  typeInfo;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *addressString;
+
 @end
 
 NS_ASSUME_NONNULL_END

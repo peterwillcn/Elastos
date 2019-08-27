@@ -191,8 +191,9 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(PluginResult *)ExportReadonlyWallet:(invokedUrlCommand *)command;
 -(PluginResult *)ExportMasterPublicKey:(invokedUrlCommand *)command;
 -(PluginResult *)CreateImportReadonlyWallet:(invokedUrlCommand *)command;
-
-
+-(PluginResult *)GetTransactionSignedInfo:(invokedUrlCommand *)command;
+-(PluginResult *)MSignAndReadOnlyCreateTransaction:(invokedUrlCommand *)command;
+-(PluginResult *)QrCodeCreateTransaction:(invokedUrlCommand *)command;
 @end
 
 

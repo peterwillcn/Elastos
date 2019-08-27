@@ -6,7 +6,6 @@
 //
 
 #import "HWMSingleSignReadOnlyWalletViewController.h"
-#import "ScanQRCodeViewController.h"
 #import "AppDelegate.h"
 #import "FLPrepareVC.h"
 #import "FLFLTabBarVC.h"

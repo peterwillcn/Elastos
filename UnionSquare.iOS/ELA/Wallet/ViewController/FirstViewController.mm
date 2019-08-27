@@ -26,8 +26,8 @@
 #import "HMWFMDBManager.h"
 #import "FLPrepareVC.h"
 #import "sideChainInfoModel.h"
-#import "ScanQRCodeViewController.h"
 #import "NENPingManager.h"
+#import "HWMQrCodeScanningResultsViewController.h"
 
 
 
@@ -71,6 +71,10 @@
  *<# #>
  */
 @property(strong,nonatomic)NENPingManager *pingManager;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)NSMutableDictionary *QRCoreDic;
 @end
 
 @implementation FirstViewController
@@ -452,17 +456,9 @@ if(inde>self.walletIDListArray.count-1) {
     __weak __typeof__(self) weakSelf = self;
     WCQRCodeScanningVC *WCQRCode=[[WCQRCodeScanningVC alloc]init];
     WCQRCode.scanBack=^(NSString *addr){
-        
-        NSLog(@"======%@",addr);
-        
+   
+        [weakSelf SweepCodeProcessingResultsWithQRCodeString:addr];
     };
-    
-//    ScanQRCodeViewController *scanQRCodeVC = [[ScanQRCodeViewController alloc]init];
-//    scanQRCodeVC.scanBack = ^(NSString *addr) {
-//
-//
-//        // {"type":1,"data":"{\"CoinInfoList\":[{\"ChainID\":\"ELA\",\"EarliestPeerTime\":1561088019,\"FeePerKB\":10000,\"VisibleAssets\":[\"a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0\"]},{\"ChainID\":\"IDChain\",\"EarliestPeerTime\":1562231384,\"FeePerKB\":10000,\"VisibleAssets\":[\"a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0\"]}],\"OwnerPubKey\":\"0315216859941c56b723a36c826d102e24c265978bb79b9a6933eb078f6fb28cf3\",\"SingleAddress\":false,\"m\":1,\"mnemonicHasPassphrase\":false,\"n\":1,\"network\":\"\",\"publicKeyRing\":[{\"requestPubKey\":\"02139b8aee3c6e98523edc57f67076a53aeb058655d8164998973a671d74a684c2\",\"xPubKey\":\"xpub6DJEpruDTPdXTzFSwtACL2snQMDiAUjpTev6as8Kw7L2cgA89ADFn2uCmzTWcWVXKYzdnRaavqLMFwFMqZ7kuLgabTWmYLCZBm28S2oK6m9\"}],\"requestPubKey\":\"02139b8aee3c6e98523edc57f67076a53aeb058655d8164998973a671d74a684c2\",\"xPubKey\":\"xpub6DJEpruDTPdXTzFSwtACL2snQMDiAUjpTev6as8Kw7L2cgA89ADFn2uCmzTWcWVXKYzdnRaavqLMFwFMqZ7kuLgabTWmYLCZBm28S2oK6m9\"}"}
-//    };
     [self QRCodeScanVC:WCQRCode];
 }
 
@@ -757,6 +753,30 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
     NSLog(@"CELL==%f===%f===%f",model.thePercentageCurr,model.thePercentageMax,cell.progress.progress);
     
     cell.progressLab.text=[NSString stringWithFormat:@"%.f%@", floor(cell.progress.progress*100),symbolString];
+}
+-(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString{
+    NSLog(@"解析前%@",QRCodeString);
+    NSDictionary *dic =[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]QrCodeImageFromDic:QRCodeString fromVC:self oldQrCodeDic:self.QRCoreDic]];
+    self.QRCoreDic=dic;
+    NSLog(@"解析后%@",self.QRCoreDic);
+    
+    if (![self TypeJudgment:dic]){
+        HWMQrCodeScanningResultsViewController *QrCodeScanningResultsVC=[[HWMQrCodeScanningResultsViewController alloc]init];
+        QrCodeScanningResultsVC.resultString=QRCodeString;
+        [self.navigationController pushViewController:QrCodeScanningResultsVC animated:NO];
+        return;
+    }
+    if ([[FLTools share]SCanQRCodeWithDicCode:self.QRCoreDic]) {
+            [self QrCodepushVC:self.QRCoreDic WithCurrWallet:self.currentWallet];
+    }
+    
+}
+
+-(void)GetTransactionSignedInfo{
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.QRCoreDic[@"extra"][@"SubWallet"],self.QRCoreDic[@"data"]] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
+    PluginResult * result =[[ELWalletManager share]GetTransactionSignedInfo:mommand];
+    
+    
 }
 
 @end

@@ -1185,8 +1185,82 @@ errCodeSPVCreateMasterWalletError= 20006;
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
     return [self successProcess:command msg:dic];
 }
--(PluginResult *)accessFees:(invokedUrlCommand *)command{
+-(PluginResult *)GetTransactionSignedInfo:(invokedUrlCommand *)command{
+    NSArray *args = command.arguments;
+    int idx = 0;
+    String masterWalletID = [self cstringWithString:args[idx++]];
+    String chainID        = [self cstringWithString:args[idx++]];
+    ISubWallet * suWall;
+    Json josn=[self jsonWithString:args[idx++]];
+    suWall = [self getSubWallet:masterWalletID :chainID];
+    try {
+        josn=suWall->GetTransactionSignedInfo(josn);
+    } catch (const std:: exception & e) {
     
+        [[FLTools share]showErrorInfo:[self stringWithCString:e.what()]];
+        return  [self errInfoToDic:e.what() with:command];
+    
+    }
+    NSString *jsonString = [self stringWithCString:josn.dump()];
+    NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
+    return [self successProcess:command msg:dic];
+    
+}
+-(PluginResult *)MSignAndReadOnlyCreateTransaction:(invokedUrlCommand *)command{
+    NSArray *args = command.arguments;
+    int idx = 0;
+    String masterWalletID = [self cstringWithString:args[idx++]];
+    String chainID        = [self cstringWithString:args[idx++]];
+    String fromAddress = [self cstringWithString:args[idx++]];
+    String toAddress = [self cstringWithString:args[idx++]];
+    String amount = [self cstringWithString:args[idx++]];
+    String memo = [self cstringWithString:args[idx++]];
+    String remark = [self cstringWithString:args[idx++]];
+    String PWD = [self cstringWithString:args[idx++]];
+    if ([self IsAddressValid:masterWalletID withAddres:toAddress]==NO) {
+        NSString *msg = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"收款人地址错误", nil),[self stringWithCString:toAddress]];
+        return [self errorProcess:command code:errCodeImportFromMnemonic msg:msg];
+    }
+    Boolean useVotedUTXO =  [args[idx++] boolValue];
+    ISubWallet * suWall;
+    Json josn;
+    suWall = [self getSubWallet:masterWalletID :chainID];
+    try {
+        josn=suWall->CreateTransaction(fromAddress, toAddress, amount, memo,useVotedUTXO);
+    } catch (const std:: exception & e) {
+        return  [self errInfoToDic:e.what() with:command];
+    }
+    NSString *jsonString = [self stringWithCString:josn.dump()];
+    NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
+    return [self successProcess:command msg:dic];
+}
+-(PluginResult *)QrCodeCreateTransaction:(invokedUrlCommand *)command{
+    NSArray *args = command.arguments;
+    int idx = 0;
+    String masterWalletID = [self cstringWithString:args[idx++]];
+    String chainID        = [self cstringWithString:args[idx++]];
+    Json josn=[self jsonWithString:args[idx++]];
+    String PWD = [self cstringWithString:args[idx++]];
+    ISubWallet * suWall;
+    suWall = [self getSubWallet:masterWalletID :chainID];
+    Json signedTx;
+    Json result;
+    try {
+        signedTx=  suWall->SignTransaction(josn, PWD);
+    } catch (const std:: exception & e ) {
+        return  [self errInfoToDic:e.what() with:command];
+    }
+    try {
+        result = suWall->PublishTransaction(signedTx);
+    } catch (const std:: exception & e ) {
+        return  [self errInfoToDic:e.what() with:command];
+    }
+    NSString *jsonString = [self stringWithCString:result.dump()];
+    NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
+    return [self successProcess:command msg:dic];
+    
+}
+-(PluginResult *)accessFees:(invokedUrlCommand *)command{
     NSArray *args = command.arguments;
     int idx = 0;
     String masterWalletID = [self cstringWithString:args[idx++]];
@@ -1199,7 +1273,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     if (memoString.length==0) {
         memoString=@"11";
     }
-    
     if ([self IsAddressValid:masterWalletID withAddres:toAddress]==NO) {
         NSString *msg = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"收款人地址错误", nil),[self stringWithCString:toAddress]];
         return [self errorProcess:command code:errCodeImportFromMnemonic msg:msg];
@@ -1215,8 +1288,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     uint64_t fee;
     try {
         josn=suWall->CreateTransaction(fromAddress, toAddress, amount, memo,useVotedUTXO);
-        
-        
+
     } catch (const std:: exception & err) {
        return [self errInfoToDic:err.what() with:command];
     }
@@ -1928,6 +2000,4 @@ errCodeSPVCreateMasterWalletError= 20006;
 
     return [self successProcess:command msg:jsonNString];
 }
-
-
 @end

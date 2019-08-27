@@ -96,5 +96,6 @@
 #import "NSObject+Swizzling.h"
 #import "UIButton+HMWButton.h"
 #import "UILabel+HMWinternationalization.h"
+#import "HWMQrCodeScanningResultsViewController.h"
 
 #endif

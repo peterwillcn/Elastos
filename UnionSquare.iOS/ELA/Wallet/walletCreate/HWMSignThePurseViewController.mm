@@ -1,7 +1,6 @@
 //
 //  HWMSignThePurseViewController.m
 //  elastos wallet
-//HWMSingleSignReadOnlyWalletViewController
 //  Created by 韩铭文 on 2019/7/2.
 //
 
@@ -11,7 +10,6 @@
 #import "HWMSignThePurseHeadView.h"
 #import "AddressPickerView.h"
 #import "HWMAddThePrivateKeyViewController.h"
-#import "ScanQRCodeViewController.h"
 #import "HWMaddSignThePursefootTableViewCell.h"
 #import "ELWalletManager.h"
 #import "FMDBWalletModel.h"
@@ -160,7 +158,9 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
     cell.backgroundColor=[UIColor clearColor];
     cell.row=indexPath.row;
     cell.delegate=self;
-
+    if (indexPath.row==0&&self.publicKeyString.length>0&&cell.signThePublicKeyTextField.text.length==0) {
+        cell.signThePublicKeyTextField.text=self.publicKeyString;
+    }
     return cell;
     
 }
@@ -249,18 +249,13 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
          [publicKeysArray addObject:cell.signThePublicKeyTextField.text];
         }else{
             [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入多签公钥", nil)];
-            return;}
+            return;
+        }
 
     }
     FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
     model.walletID=masterWalletID;
     model.walletName=self.SignThePurseView.walletNameTextField.text;
-    model.TypeW=HowSignReadonly;
-   
-    
-   
-    
-    
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[masterWalletID,publicKeysArray,self.SignThePurseView.numberLabel.text] callbackId:masterWalletID className:@"Wallet" methodName:@"CreateMultiSignMasterWalletmasterReadonly"];
     PluginResult * result =[[ELWalletManager share]CreateMultiSignMasterWalletmasterReadonly:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
@@ -273,20 +268,12 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
         NSString *status =[NSString stringWithFormat:@"%@",subResult.status];
         
         if([status isEqualToString:@"1"]){
-            
-            FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
-            model.walletID=masterWalletID;
-            model.walletName=self.SignThePurseView.walletNameTextField.text;
-            model.TypeW=SingleSign;
-            [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
             sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
             sideModel.walletID=model.walletID;
             sideModel.sideChainName=@"ELA";
-            
             sideModel.sideChainNameTime=@"--:--";
             sideModel.thePercentageCurr=@"0";
             sideModel.thePercentageMax=@"100";
-            
             [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
             [self successfulSwitchingRootVC];
             
@@ -315,17 +302,10 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
     FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
     model.walletID=masterWalletID;
     model.walletName=self.SignThePurseView.walletNameTextField.text;
-    model.TypeW=HowSign;
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[masterWalletID,self.mnemonic,self.phrasePassword,self.PWD,publicKeysArray,self.SignThePurseView.numberLabel.text] callbackId:masterWalletID className:@"Wallet" methodName:@"CreateMultiSignMasterWalletMnemonic"];
     PluginResult * result =[[ELWalletManager share]CreateMultiSignMasterWalletMnemonic:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){
-        [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
-        FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
-        model.walletID=masterWalletID;
-        model.walletName=self.SignThePurseView.walletNameTextField.text;
-        model.TypeW=SingleSign;
-        
         [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
         invokedUrlCommand *subCmommand=[[invokedUrlCommand alloc]initWithArguments:@[masterWalletID,@"ELA",@"10000"] callbackId:masterWalletID className:@"Wallet" methodName:@"createMasterWallet"];
         

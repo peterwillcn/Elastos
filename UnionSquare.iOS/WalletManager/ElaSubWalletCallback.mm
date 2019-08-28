@@ -27,37 +27,45 @@ void ElaSubWalletCallback::OnTransactionStatusChanged(
                                                       const nlohmann::json &desc,
                                                       uint32_t confirms){
 
-    NSDictionary *dic=@{@"txid":[NSString stringWithUTF8String:txid.c_str()],
-                        @"status":[NSString stringWithUTF8String:status.c_str()],
-                        @"desc":[NSString stringWithUTF8String:desc.dump().c_str()],
-                        };
-    DLog(@"交易金额:  %@",dic);
-    [[NSNotificationCenter defaultCenter] postNotificationName:TransactionStatusChanged object:dic];
+//    NSOperationQueue *waitQueue = [[NSOperationQueue alloc] init];
+//    [waitQueue addOperationWithBlock:^{
+//
+//    NSDictionary *dic=@{@"txid":[NSString stringWithUTF8String:txid.c_str()],
+//                        @"status":[NSString stringWithUTF8String:status.c_str()],
+//                        @"desc":[NSString stringWithUTF8String:desc.dump().c_str()],
+//                        };
+//    DLog(@"交易金额:  %@",dic);
+//        [[NSNotificationCenter defaultCenter] postNotificationName:TransactionStatusChanged object:dic];}];
 
     
 }
 
-void ElaSubWalletCallback::OnBlockSyncStarted()
-{
-    
-}
+//void ElaSubWalletCallback::OnBlockSyncStarted()
+//{
+//
+//}
 
 void ElaSubWalletCallback::OnBlockSyncProgress(uint32_t currentBlockHeight, uint32_t estimatedHeight, time_t lastBlockTime)
 {
-    NSString *walletIDString = [NSString stringWithCString:_callBackInfo.c_str() encoding:NSUTF8StringEncoding];
-    
-    NSString *lastBlockTimeString =[NSString stringWithFormat:@"%ld",lastBlockTime];
-    NSDictionary *dic=@{@"currentBlockHeight":@(currentBlockHeight),@"progress":@(estimatedHeight),@"callBackInfo":walletIDString,@"lastBlockTimeString":lastBlockTimeString};
-    NSLog(@"call回调数据%@",dic);
-    [[NSNotificationCenter defaultCenter] postNotificationName:progressBarcallBackInfo object:dic];
+//    NSOperationQueue *waitQueue = [[NSOperationQueue alloc] init];
+//    [waitQueue addOperationWithBlock:^{
+        NSString *walletIDString = [NSString stringWithCString:_callBackInfo.c_str() encoding:NSUTF8StringEncoding];
+        
+        NSString *lastBlockTimeString =[NSString stringWithFormat:@"%ld",lastBlockTime];
+        NSDictionary *dic=@{@"currentBlockHeight":@(currentBlockHeight),@"progress":@(estimatedHeight),@"callBackInfo":walletIDString,@"lastBlockTimeString":lastBlockTimeString};
+        NSLog(@"call回调数据%@",dic);
+        [[NSNotificationCenter defaultCenter] postNotificationName:progressBarcallBackInfo object:dic];
+//    }];
     
 }
 
-void ElaSubWalletCallback::OnBlockSyncStopped()
-{
-    
-}
+//void ElaSubWalletCallback::OnBlockSyncStopped()
+//{
+//    
+//}
 void ElaSubWalletCallback::OnBalanceChanged(const std::string &asset, const std::string &balance){
+//    NSOperationQueue *waitQueue = [[NSOperationQueue alloc] init];
+//    [waitQueue addOperationWithBlock:^{
     NSString *walletIDString = [NSString stringWithCString:_callBackInfo.c_str() encoding:NSUTF8StringEncoding];
     
     
@@ -65,17 +73,23 @@ void ElaSubWalletCallback::OnBalanceChanged(const std::string &asset, const std:
     
     NSDictionary *dic=@{@"asset":assetString,@"balance":[NSString stringWithCString:balance.c_str() encoding:NSUTF8StringEncoding],@"callBackInfo":walletIDString};
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:AccountBalanceChanges object:dic];
+        [[NSNotificationCenter defaultCenter] postNotificationName:AccountBalanceChanges object:dic];
+        
+//    }];
 }
 
 void ElaSubWalletCallback::OnTxPublished(const std::string &hash, const nlohmann::json &result)
 {
+//    NSOperationQueue *waitQueue = [[NSOperationQueue alloc] init];
+//    [waitQueue addOperationWithBlock:^{
+//    NSString *hash1 = [NSString stringWithCString:hash.c_str() encoding:NSUTF8StringEncoding];
+//    NSString *resultString = [NSString stringWithCString:result.dump().c_str() encoding:NSUTF8StringEncoding];
+//    NSDictionary *dic=@{@"hash":hash1,@"result":resultString};
+//
+//        [[NSNotificationCenter defaultCenter] postNotificationName:OnTxPublishedResult object:dic];
     
-    NSString *hash1 = [NSString stringWithCString:hash.c_str() encoding:NSUTF8StringEncoding];
-    NSString *resultString = [NSString stringWithCString:result.dump().c_str() encoding:NSUTF8StringEncoding];
-    NSDictionary *dic=@{@"hash":hash1,@"result":resultString};
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:OnTxPublishedResult object:dic];
+//    }
+//     ];
 
 }
 

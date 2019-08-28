@@ -52,7 +52,7 @@
  */
 @property(copy,nonatomic)NSArray *walletIDListArray;
 @property(nonatomic,strong)FLWallet *currentWallet;
-
+@property(nonatomic,assign)BOOL isScro;
 
 @end
 
@@ -62,6 +62,7 @@
     [super viewDidLoad];
     [self setBackgroundImg:@""];
     self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"aaset_wallet_list"] style:UIBarButtonItemStyleDone target:self action:@selector(swichWallet)];
     [self addAllCallBack];
     [self setView];
     NSInteger selectIndex=
@@ -69,16 +70,17 @@
     if (selectIndex<0) {
         selectIndex=0;
     }
+    self.isScro=NO;
     [self loadTheWalletInformationWithIndex:selectIndex];
   
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataWalletListInfo:) name:updataWallet object:nil];
     
       [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
       [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(currentWalletAccountBalanceChanges:) name: AccountBalanceChanges object:nil];
-//       [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
          [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataCreateWalletLoadWalletInfo) name:updataCreateWallet object:nil];
-
-
+    self.table.estimatedRowHeight = 0;
+    self.table.estimatedSectionHeaderHeight = 0;
+    self.table.estimatedSectionFooterHeight = 0;
 }
 
 -(void)updataCreateWalletLoadWalletInfo{
@@ -125,21 +127,18 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
         return;
     }
     NSString *  balance=dic[@"balance"];
+  
     assetsListModel *model=self.dataSoureArray[index];
-    
-    
     if ([model.iconName isEqualToString:chainID]&&[self.currentWallet.masterWalletID isEqualToString:walletID]){
-        
-
         model.iconBlance=balance;
-        
         self.dataSoureArray[index]=model;
-        NSIndexPath *indexP=[NSIndexPath indexPathForRow:index inSection:0];
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.table reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexP,nil] withRowAnimation:UITableViewRowAnimationNone];
-        });
-    }
+        if (self.isScro==NO) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                NSIndexPath *indexP=[NSIndexPath indexPathForRow:index inSection:0];
+                [self updateCellInfoWithModel:model withInde:indexP];
+            });
+        }
+   }
 }
 -(void)iconInfoUpdate:(NSNotification *)notification{
     NSDictionary *dic=[[NSDictionary alloc]initWithDictionary:notification.object];
@@ -167,15 +166,18 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
             smodel.sideChainName=model.iconName;
             smodel.sideChainNameTime=lastBlockTimeString;
              NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:smodel.sideChainNameTime];
-            model.updateTime=[NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
-              [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
-            NSLog(@"修改侧链时间====%@======%@======%@====%@====%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
+            model.updateTime=[NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
+                NSLog(@"修改侧链时间====%@======%@======%@====%@====%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
+            });
         }
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            NSIndexPath *indexPath=[NSIndexPath indexPathForRow:index inSection:0];
-            [self.table reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
-        
-        });
+        if (self.isScro==NO) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                NSIndexPath *indexPath=[NSIndexPath indexPathForRow:index inSection:0];
+                [self updateCellInfoWithModel:model withInde:indexPath];
+            });
+        }
     
     }else{
         sideChainInfoModel *smodel=[[sideChainInfoModel alloc]init];
@@ -187,7 +189,10 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
         smodel.walletID=walletID;
         smodel.sideChainName=chainID;
         smodel.sideChainNameTime=lastBlockTimeString;
-        [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+          [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
+        });
         
     }
     
@@ -288,11 +293,11 @@ if(inde>self.walletIDListArray.count-1) {
             model.thePercentageCurr=[smodel.thePercentageCurr doubleValue];
             model.thePercentageMax=[smodel.thePercentageMax doubleValue];
             if ([smodel.sideChainNameTime isEqual: [NSNull null]]||smodel.sideChainNameTime==NULL||[smodel.sideChainNameTime isEqualToString:@"--:--"]) {
-                model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"已同步区块时间", nil),@"--:--"];
+                model.updateTime=[NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"已同步区块时间", nil),@"--:--"];
                 model.thePercentageMax=100;
             }else{
             NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:smodel.sideChainNameTime];
-                 model.updateTime=[NSString stringWithFormat:@"%@:  %@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
+                 model.updateTime=[NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
             }
             [self.dataSoureArray addObject:model];
             invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:[NSString stringWithFormat:@"%d",index]];
@@ -351,12 +356,26 @@ if(inde>self.walletIDListArray.count-1) {
 {
     [super viewWillAppear:animated];
     [self firstNav];
-self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"aaset_wallet_list"] style:UIBarButtonItemStyleDone target:self action:@selector(swichWallet)];
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if (self.isScro){
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            self.isScro =NO;
+            for (int i=0; i<self.dataSoureArray.count; i++) {
+                assetsListModel *model=self.dataSoureArray[i];
+                
+                 NSIndexPath *indexPath=[NSIndexPath indexPathForRow:i inSection:0];
+                [self updateCellInfoWithModel:model withInde:indexPath];
+            }
+        });
+    }
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
 self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    self.isScro=YES;
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
@@ -535,4 +554,48 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
     
     
 }
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    self.isScro=YES;
+    
+    
+}
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    
+    self.isScro=NO;
+    for (int i=0; i<self.dataSoureArray.count; i++) {
+        assetsListModel *model=self.dataSoureArray[i];
+        
+        NSIndexPath *indexPath=[NSIndexPath indexPathForRow:i inSection:0];
+        [self updateCellInfoWithModel:model withInde:indexPath];
+    }
+}
+-(void)updateCellInfoWithModel:(assetsListModel*)model withInde:(NSIndexPath*)inde{
+    FLAssetTableCell *cell = [self.table cellForRowAtIndexPath:inde];
+    cell.biName.text=model.iconName;
+    cell.updatetime.text=model.updateTime;
+    cell.detailLab.text=[[FLTools share]elaScaleConversionWith: model.iconBlance];
+    NSString *symbolString=@"%";
+    double prog=model.thePercentageCurr/model.thePercentageMax;
+    if ([model.updateTime rangeOfString:@"--:--"].location !=NSNotFound){
+        cell.progress.progress=0;
+    }else if (model.thePercentageMax==0){
+        cell.progress.progress=0;
+    }else if (prog==1.0||prog>1.0) {
+        if (model.thePercentageCurr!=model.thePercentageMax) {
+            cell.progress.progress=0.99;
+        }else{
+            cell.progress.progress=1.0;
+        }
+        
+    }else{
+        if (prog==0.f&&model.thePercentageCurr>0) {
+            prog=0.1;
+        }
+        cell.progress.progress=prog;
+    }
+    NSLog(@"CELL==%f===%f===%f",model.thePercentageCurr,model.thePercentageMax,cell.progress.progress);
+    
+    cell.progressLab.text=[NSString stringWithFormat:@"%.f%@", floor(cell.progress.progress*100),symbolString];
+}
+
 @end

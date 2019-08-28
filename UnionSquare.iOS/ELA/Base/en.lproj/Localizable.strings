@@ -42,7 +42,7 @@
 "备注"="Remark";
 "手续费"="Fee";
 "发送金额"="Amount";
-"已同步区块时间"="Last Block Time";
+"已同步区块时间"="Last Block Time ";
 "转账"="Transfer";
 "侧链充值"="Sidechain Top Up";
 "收款"="Receive";
@@ -544,4 +544,13 @@
 "利比里亚"="Liberia";
 "美属萨摩亚"="Samoa";
 "密克罗尼西亚"="Micronesia";
+"选择"="Select";
+"全选"="Select All";
+"粘贴"="Paste";
+"复制"="Copy";
+
+"剪切"="Cut";
+"拷贝"="Copy";
+"查询"="Look Up";
+"共享…"="Share…";
 

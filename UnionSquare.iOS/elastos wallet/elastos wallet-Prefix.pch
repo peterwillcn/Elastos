@@ -94,4 +94,6 @@
 #import "NSMutableArray+Swizzling.h"
 #import "NSObject+Swizzling.h"
 #import "UIButton+HMWButton.h"
+#import "UILabel+HMWinternationalization.h"
+
 #endif

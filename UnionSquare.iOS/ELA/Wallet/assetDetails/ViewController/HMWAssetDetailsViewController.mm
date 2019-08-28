@@ -184,7 +184,8 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 -(void)iconInfoUpdate:(NSNotification *)notification{
     
     
-    
+    NSOperationQueue *waitQueue = [[NSOperationQueue alloc] init];
+    [waitQueue addOperationWithBlock:^{
     
     NSDictionary *dic=[[NSDictionary alloc]initWithDictionary:notification.object];
     NSArray *infoArray=[[FLTools share]stringToArray:dic[@"callBackInfo"]];
@@ -199,13 +200,12 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
             
             
             NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:lastBlockTimeString];
-                      self.model.updateTime=[NSString stringWithFormat:@"%@:%@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
+                      self.model.updateTime=[NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 self.updateTimeLabel.text=self.model.updateTime;
             });
-            
         }
-    }
+    }}];
 }
 -(void)DetectionOfTheBalance{
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"GetAllUTXOs"];
@@ -335,6 +335,7 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
 }
 -(void)loadAllTransactionWithIndex:(NSInteger)index{
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@(index),@"20",@""] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
+   
     PluginResult * result =[[ELWalletManager share]getAllTransaction:mommand];
     if (self.isUpdate) {
         [self.allListArray removeAllObjects];
@@ -589,7 +590,7 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
         if (indexPath.row==0) {
             return;
         }
-        [self loadGetAllCoinBaseTransactionDetailsWithIndex:indexPath.row+1];
+        [self loadGetAllCoinBaseTransactionDetailsWithIndex:indexPath.row];
     }
     
    
@@ -618,8 +619,8 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     assetDetailsModel *detailsM=tranList.firstObject;
     HMWtransferTransactionDetailsViewController *transferTransactionDetailsVC=[[HMWtransferTransactionDetailsViewController alloc]init];
     
-    detailsM.Amount=[NSString stringWithFormat:@"%@ELA",[[FLTools share]elaScaleConversionWith:detailsM.Amount]];
-    detailsM.Fee=[NSString stringWithFormat:@"%@ELA",[[FLTools share]elaScaleConversionWith:detailsM.Fee]];
+    detailsM.Amount=[NSString stringWithFormat:@"%@ ELA",[[FLTools share]elaScaleConversionWith:detailsM.Amount]];
+    detailsM.Fee=[NSString stringWithFormat:@"%@ ELA",[[FLTools share]elaScaleConversionWith:detailsM.Fee]];
     //    transferTransactionDetailsVC.iconNameString=@"ELA";
     transferTransactionDetailsVC.iconNameString=self.model.iconName;
      detailsM.Type=NSLocalizedString(@"创币收益", nil);

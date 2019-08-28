@@ -127,6 +127,9 @@
         self.window.rootViewController = tabVC;
     }
     [WOCrashProtectorManager makeAllEffective];
+    UITableView.appearance.estimatedRowHeight = 0;
+    UITableView.appearance.estimatedSectionFooterHeight = 0;
+    UITableView.appearance.estimatedSectionHeaderHeight = 0;
     [self.window makeKeyAndVisible];
     return YES;
     

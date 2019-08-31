@@ -1,6 +1,6 @@
 ===================================================================
---- origin_platforms/ios/Trinity/Trinity-Info.plist	null
-+++ platforms/ios/Trinity/Trinity-Info.plist	null
+--- origin_platforms/ios/Elastos/Elastos-Info.plist	null
++++ platforms/ios/Elastos/Elastos-Info.plist	null
 @@ -13,7 +13,7 @@
  	<key>CFBundleIcons~ipad</key>
  	<dict/>

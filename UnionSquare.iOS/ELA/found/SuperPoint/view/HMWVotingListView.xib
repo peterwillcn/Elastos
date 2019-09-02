@@ -108,7 +108,7 @@
                     </constraints>
                 </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="TOh-zh-fnS">
-                    <rect key="frame" x="-3" y="192" width="375" height="475"/>
+                    <rect key="frame" x="-3" y="183" width="375" height="484"/>
                     <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="duJ-tz-tS9">
                         <size key="itemSize" width="50" height="50"/>
@@ -118,7 +118,7 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y1c-AI-kpu">
-                    <rect key="frame" x="4" y="158" width="4" height="15"/>
+                    <rect key="frame" x="4" y="150" width="4" height="15"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="15" id="ZrG-Qh-u3V"/>
@@ -126,13 +126,13 @@
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="参选节点列表" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pex-rX-tQF">
-                    <rect key="frame" x="16" y="157" width="86" height="17"/>
+                    <rect key="frame" x="16" y="149" width="86" height="17"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MKV-zY-czg">
-                    <rect key="frame" x="325" y="140.5" width="50" height="50"/>
+                    <rect key="frame" x="325" y="132.5" width="50" height="50"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="3ra-Zg-N1d"/>
                         <constraint firstAttribute="height" constant="50" id="gJL-HE-BdD"/>
@@ -150,12 +150,12 @@
                 <constraint firstItem="TOh-zh-fnS" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="-3" id="6dA-Cb-MPP"/>
                 <constraint firstItem="Nu0-9G-7hP" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="CVP-AG-q2k"/>
                 <constraint firstItem="Nu0-9G-7hP" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="3" id="Cyy-wp-gRe"/>
-                <constraint firstItem="Y1c-AI-kpu" firstAttribute="top" secondItem="Nu0-9G-7hP" secondAttribute="bottom" constant="28" id="MPe-XL-Sm8"/>
+                <constraint firstItem="Y1c-AI-kpu" firstAttribute="top" secondItem="Nu0-9G-7hP" secondAttribute="top" constant="120" id="MPe-XL-Sm8"/>
                 <constraint firstAttribute="trailing" secondItem="MKV-zY-czg" secondAttribute="trailing" id="NWb-s3-83t"/>
                 <constraint firstAttribute="trailing" secondItem="Nu0-9G-7hP" secondAttribute="trailing" constant="3" id="X87-8o-wZU"/>
                 <constraint firstItem="Y1c-AI-kpu" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="4" id="ayD-eT-ief"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="TOh-zh-fnS" secondAttribute="trailing" constant="3" id="gB8-Kj-2db"/>
-                <constraint firstItem="TOh-zh-fnS" firstAttribute="top" secondItem="Nu0-9G-7hP" secondAttribute="bottom" constant="62" id="iai-54-pis"/>
+                <constraint firstItem="TOh-zh-fnS" firstAttribute="top" secondItem="Y1c-AI-kpu" secondAttribute="bottom" constant="18" id="iai-54-pis"/>
                 <constraint firstItem="Y1c-AI-kpu" firstAttribute="centerY" secondItem="Pex-rX-tQF" secondAttribute="centerY" id="rRJ-UM-QSr"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="TOh-zh-fnS" secondAttribute="bottom" id="tlx-Ws-xd7"/>
             </constraints>
@@ -165,11 +165,13 @@
                 <outlet property="lab1" destination="3TG-1N-8dC" id="x1q-DA-vGW"/>
                 <outlet property="lab3" destination="73V-SG-wah" id="gdA-zx-FdG"/>
                 <outlet property="modifyTheListModeButton" destination="MKV-zY-czg" id="heb-qc-uxj"/>
+                <outlet property="numberNodesBGView" destination="Nu0-9G-7hP" id="QSW-rq-i1w"/>
                 <outlet property="numberNodesLabel" destination="cSd-jz-xeh" id="QFv-4d-YyY"/>
                 <outlet property="numberNodesTextLabel" destination="J5k-Ea-cDr" id="DUA-Df-cw1"/>
                 <outlet property="runningNodeListTextLabel" destination="Pex-rX-tQF" id="fsa-EZ-dID"/>
                 <outlet property="taglab1" destination="fPP-tC-Hl1" id="7xZ-WQ-c5b"/>
                 <outlet property="taglab3" destination="diL-dD-2PJ" id="pO3-9R-EI6"/>
+                <outlet property="textTopOffset" destination="MPe-XL-Sm8" id="W2R-Ye-6We"/>
             </connections>
             <point key="canvasLocation" x="138.40000000000001" y="148.87556221889056"/>
         </view>

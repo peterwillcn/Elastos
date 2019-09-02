@@ -1174,4 +1174,23 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     return NO;
     
 }
+-(NSString*)http_IpFast{
+   NSString *http_ip =[STANDARD_USER_DEFAULT valueForKey:@"Http_IP"];
+    if (http_ip.length>0) {
+        return http_ip;
+    }
+    return  Http_IP;
+}
+-(NSArray*)theInterceptionHttpWithArray:(NSArray*)array{
+    
+    NSMutableArray *IPArray=[[NSMutableArray alloc]init];
+    NSString *httpsString=@"://";
+   
+    for (NSString *https_IP in array) {
+       NSArray  *array = [https_IP componentsSeparatedByString:httpsString];
+        [IPArray addObject:array.lastObject];
+    }
+    return IPArray;
+    
+}
 @end

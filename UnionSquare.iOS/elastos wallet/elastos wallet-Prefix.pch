@@ -30,11 +30,13 @@
 ////regtext
 //#define Http_IP @"https://123.206.52.29"
 #define transUrl @"https://blockchain-beta.elastos.org/tx/"
+#define PongUrl @"http://54.223.158.189:5739/"
 
 #else
 //regtext
 #define Http_IP @"https://unionsquare.elastos.org"
 #define transUrl @"https://blockchain.elastos.org/tx/"
+#define PongUrl @"http://54.223.158.189:5739/"
 
 #define DLog(...)
 
@@ -97,5 +99,4 @@
 #import "UIButton+HMWButton.h"
 #import "UILabel+HMWinternationalization.h"
 #import "HWMQrCodeScanningResultsViewController.h"
-
 #endif

@@ -105,7 +105,6 @@
         sideModel.sideChainNameTime=@"--:--";
                 sideModel.thePercentageMax=@"100";
                 sideModel.thePercentageCurr=@"0";
-                
                 [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
                 [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
                 
@@ -127,10 +126,11 @@
         FLFLTabBarVC *tabVC = [[FLFLTabBarVC alloc]init];
         self.window.rootViewController = tabVC;
     }
-    [WOCrashProtectorManager makeAllEffective];
+//    [WOCrashProtectorManager makeAllEffective];
     UITableView.appearance.estimatedRowHeight = 0;
     UITableView.appearance.estimatedSectionFooterHeight = 0;
     UITableView.appearance.estimatedSectionHeaderHeight = 0;
+    
     [self.window makeKeyAndVisible];
     
     return YES;

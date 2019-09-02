@@ -74,6 +74,8 @@ static NSString *celladdString=@"HMWaddWalletListTableViewCell";
                 }
             }
         }
+        
+        
         self.walletIDListArray[i] =model;
     }
     [self.baseTableView reloadData];

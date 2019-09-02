@@ -103,19 +103,29 @@
     self.table.estimatedRowHeight = 0;
     self.table.estimatedSectionHeaderHeight = 0;
     self.table.estimatedSectionFooterHeight = 0;
+    [self loadNetWorkingPong];
 }
--(void)loadPing{
-    NSArray *hostNameArray = @[
-                               @"www.bilibili.com",
-                               @"www.baidu.com",
-                               @"www.youku.com",
-                               @"www.hao123.com",
-                               @"52.80.244.38",
-                               @"54.222.168.99"
-                               ];
+-(void)loadNetWorkingPong{
+    [HttpUrl NetGETHost:PongUrl url:@"/api/dposNodeRPC/getProducerNodesList" header:nil body:nil showHUD:NO WithSuccessBlock:^(id data) {
+        NSArray *urlArray =[NSArray arrayWithArray:data[@"data"]];
+        
+        [self loadPingWithURLArray:[[FLTools share]theInterceptionHttpWithArray:urlArray]];
+        
+    } WithFailBlock:^(id data) {
+        
+    } ];
+    
+}
+-(void)loadPingWithURLArray:(NSArray*)urlArray{
+
     self.pingManager = [[NENPingManager alloc] init];
-    [self.pingManager getFatestAddress:hostNameArray completionHandler:^(NSString *hostName, NSArray *sortedAddress) {
-        NSLog(@"fastest IP: %@",hostName);
+    [self.pingManager getFatestAddress:urlArray completionHandler:^(NSString *hostName, NSArray *sortedAddress) {
+//        NSLog(@"fastest IP: %@",hostName);
+        if (hostName.length>0){
+            [STANDARD_USER_DEFAULT setValue:hostName forKey: @"Http_IP"];
+            [STANDARD_USER_DEFAULT synchronize];
+            
+        }
     }];
     
     
@@ -193,6 +203,7 @@ NSString *imageName=@"single_wallet";
 self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
         [self loadTheWalletInformationWithIndex:self.walletIDListArray.count-1];
 }
+
 -(void)addAllCallBack{
     for (FMDBWalletModel *wallet in self.walletIDListArray) {
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[wallet.walletID] callbackId:wallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
@@ -217,6 +228,31 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
         [[ELWalletManager share]registerWalletListener:mommand];
     }
 }
+-(void)AsnyConnectStatusChanged:(NSNotification *)notification{
+    NSDictionary *dic=[[NSDictionary alloc]initWithDictionary:notification.object];
+    NSArray *infoArray=[[FLTools share]stringToArray:dic[@"callBackInfo"]];
+    
+    NSString *walletID=infoArray.firstObject;
+    NSString *chainID=infoArray[1];
+    NSInteger index = [infoArray[2] integerValue];
+    if (self.dataSoureArray.count-1<index) {
+        return;
+    }
+    NSString * statusString=dic[@"status"];
+    
+    assetsListModel *model=self.dataSoureArray[index];
+    if ([model.iconName isEqualToString:chainID]&&[self.currentWallet.masterWalletID isEqualToString:walletID]){
+        model.status=statusString;
+        self.dataSoureArray[index]=model;
+        if (self.isScro==NO) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                NSIndexPath *indexP=[NSIndexPath indexPathForRow:index inSection:0];
+                [self updateCellInfoWithModel:model withInde:indexP];
+            });
+        }
+    }
+    
+}
 -(void)currentWalletAccountBalanceChanges:(NSNotification *)notification{
     
     NSDictionary *dic=[[NSDictionary alloc]initWithDictionary:notification.object];
@@ -225,7 +261,7 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
     NSString *walletID=infoArray.firstObject;
     NSString *chainID=infoArray[1];
     NSInteger index = [infoArray[2] integerValue];
-    if (self.dataSoureArray.count<index) {
+    if (self.dataSoureArray.count-1<index) {
         return;
     }
     NSString *  balance=dic[@"balance"];
@@ -269,7 +305,7 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
             smodel.sideChainNameTime=lastBlockTimeString;
              NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:smodel.sideChainNameTime];
             model.updateTime=[NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
-            dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
                 [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
                 NSLog(@"修改侧链时间====%@======%@======%@====%@====%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
             });
@@ -507,7 +543,7 @@ self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 -(void)swichWallet{
     HMWTheWalletListViewController *theWalletListVC=[[HMWTheWalletListViewController alloc]init];
     theWalletListVC.delegate=self;
-theWalletListVC.walletIDListArray=self.walletIDListArray;
+theWalletListVC.walletIDListArray=[[NSMutableArray alloc]initWithArray:self.walletIDListArray];
 theWalletListVC.currentWalletIndex=self.currentWalletIndex;
     [self.navigationController pushViewController:theWalletListVC animated:NO];
 
@@ -750,7 +786,20 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
         }
         cell.progress.progress=prog;
     }
-    NSLog(@"CELL==%f===%f===%f",model.thePercentageCurr,model.thePercentageMax,cell.progress.progress);
+    
+    if ([model.status isEqualToString:@"Connected"]) {
+        cell.statusLabel.text=model.updateTime;
+        cell.linkImageView.alpha=0.f;
+        
+    }else if ([model.status isEqualToString:@"Connecting"]){
+        cell.statusLabel.text=NSLocalizedString(@"连接中...", nil);
+        
+        cell.linkImageView.alpha=1.f;
+        
+    }else if ([model.status isEqualToString:@"DIsconnected"]){
+        cell.statusLabel.text=NSLocalizedString(@"丢失...", nil);
+        cell.linkImageView.alpha=1.f;
+    }
     
     cell.progressLab.text=[NSString stringWithFormat:@"%.f%@", floor(cell.progress.progress*100),symbolString];
 }

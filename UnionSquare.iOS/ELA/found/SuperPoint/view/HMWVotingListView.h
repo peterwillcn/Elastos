@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum : NSUInteger {
+     NodeElectioType,
+    CRType,
+} VotingListType;
+
 @protocol HMWVotingListViewDelegate <NSObject>
 
 -(void)selectedVotingListWithIndex:(NSInteger)index;
@@ -30,6 +35,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(weak,nonatomic)id<HMWVotingListViewDelegate>delegate;
 
 @property(nonatomic,strong)NSArray *dataSource;
+
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)VotingListType type;
 
 
 @end

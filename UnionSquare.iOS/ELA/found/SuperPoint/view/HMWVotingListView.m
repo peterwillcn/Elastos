@@ -26,6 +26,9 @@ static NSString *crossCellString=@"HMWVotingListTypeCrossCollectionViewCell";
 @property (weak, nonatomic) IBOutlet UIButton *modifyTheListModeButton;
 @property (weak, nonatomic) IBOutlet UILabel *numberNodesTextLabel;
 @property (weak, nonatomic) IBOutlet UILabel *numberNodesLabel;
+@property (weak, nonatomic) IBOutlet UIView *numberNodesBGView;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textTopOffset;
 
 @end
 
@@ -45,7 +48,7 @@ static NSString *crossCellString=@"HMWVotingListTypeCrossCollectionViewCell";
         self.taglab1.text = NSLocalizedString(@"全网投票占比", nil);
         self.taglab3.text = NSLocalizedString(@"当前票数", nil);
          self.runningNodeListTextLabel.text=NSLocalizedString(@"参选节点列表", nil);
-       self.numberNodesTextLabel.text=NSLocalizedString(@"节点数量", nil);
+        self.numberNodesTextLabel.text=NSLocalizedString(@"节点数量", nil);
         self.listType=@"1";
        
 
@@ -136,5 +139,13 @@ static NSString *crossCellString=@"HMWVotingListTypeCrossCollectionViewCell";
       self.listType=@"1";
     }
     [self.baseCollectionView reloadData];
+}
+-(void)setType:(VotingListType)type{
+   
+    if (type==CRType) {
+        self.numberNodesBGView.alpha=0.f; self.runningNodeListTextLabel.text=NSLocalizedString(@"参选委员列表", nil);
+        self.textTopOffset.constant=18.f;
+    }
+     _type=type;
 }
 @end

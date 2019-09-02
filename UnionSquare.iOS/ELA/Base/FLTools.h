@@ -129,4 +129,6 @@
 - (UIImage*)imageWithSize:(CGFloat)size andColorWithRed:(CGFloat)red Green:(CGFloat)green Blue:(CGFloat)blue andQRString:( NSString*)qrString;
 -(NSDictionary*)QrCodeImageFromDic:(NSString*)QrCodeString fromVC:(UIViewController*)VC oldQrCodeDic:(NSDictionary*)oldDic;
 -(BOOL)SCanQRCodeWithDicCode:(NSDictionary*)dic;
+-(NSString*)http_IpFast;
+-(NSArray*)theInterceptionHttpWithArray:(NSArray*)array;
 @end

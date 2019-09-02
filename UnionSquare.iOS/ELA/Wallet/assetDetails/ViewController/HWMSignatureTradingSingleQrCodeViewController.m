@@ -48,9 +48,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-self.navigationController.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"top_share"] style:UIBarButtonItemStyleDone target:self action:@selector(shareInfo)];
     [self setBackgroundImg:@""];
     [[HMWCommView share]makeBordersWithView:self.backFistButton];
+    self.IdentificationCodeTextLabel.text=NSLocalizedString(@"识别码", nil);
+    self.IdentificationCodeLabel.text=[NSString stringWithFormat:@"【%@】",self.QRCodeDic[@"ID"]];
     switch (self.type) {
         case SingleSignReadOnlyToBeSigned:{
             self.QrCodeType=@"3";
@@ -118,7 +119,6 @@ self.navigationController.navigationItem.rightBarButtonItem=[[UIBarButtonItem al
         case HowSignSignedDeals:
         {
             
-           self.navigationController.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"top_share"] style:UIBarButtonItemStyleDone target:self action:@selector(shareInfo)];
             self.title=NSLocalizedString(@"已签名交易", nil);
             self.QrCodeType=@"2";
             [self.backFistButton setTitle:NSLocalizedString(@"返回首页", nil) forState:UIControlStateNormal];
@@ -148,7 +148,6 @@ self.navigationController.navigationItem.rightBarButtonItem=[[UIBarButtonItem al
             self.showInfoLabel.text=NSLocalizedString(@"扫描二维码可创建单签只读钱包", nil);
             self.MQRCoreView.alpha=0.f;
             self.MBGQRCodeImageView.alpha=0.f;
-//            self.navigationController.navigationItem.rightBarButtonItem=nil;
            self.QrCodeImageView.image =[[FLTools share] imageWithSize:1200.f andColorWithRed:1 Green:3 Blue:5 andQRDic:self.QRCodeDic];
 //            NSArray *qrcArray=[[FLTools share]CreateArrayQrCodeImage:self.QRCodeString WithType:self.QrCodeType withSubWall:self.subW];
 //            if (qrcArray.count==1) {
@@ -176,7 +175,6 @@ self.navigationController.navigationItem.rightBarButtonItem=[[UIBarButtonItem al
             self.PublicAddressLable.text=self.QRCodeString;
             [self.backFistButton setTitle:NSLocalizedString(@"复制多签公钥", nil) forState:UIControlStateNormal];
             self.showInfoLabel.text=NSLocalizedString(@"扫描二维码可创建多签钱包", nil);
-//            self.navigationController.navigationItem.rightBarButtonItem=nil;
             self.QrCodeImageView.image =[[FLTools share] imageWithSize:1200.f andColorWithRed:1 Green:3 Blue:5 andQRDic:self.QRCodeDic];
             NSArray *qrcArray=[[FLTools share]CreateArrayQrCodeImage:self.QRCodeString WithType:self.QrCodeType withSubWall:self.subW];
             if (qrcArray.count==1) {
@@ -328,6 +326,9 @@ self.navigationController.navigationItem.rightBarButtonItem=[[UIBarButtonItem al
 -(void)setSubW:(NSString *)subW{
     _subW=subW;
 }
+-(void)setType:(QrCodeType)type{
+    _type=type;
+}
 -(void)allQRCodeImageViewDataArray:(NSArray*)arr{
     
     for (__strong NSString  *QRString in arr) {
@@ -343,6 +344,11 @@ self.navigationController.navigationItem.rightBarButtonItem=[[UIBarButtonItem al
         _allQRCodeImageArray =[[NSMutableArray alloc]init];
     }
     return _allQRCodeImageArray;
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"top_share"] style:UIBarButtonItemStyleDone target:self action:@selector(shareInfo)];
+    
 }
 
 @end

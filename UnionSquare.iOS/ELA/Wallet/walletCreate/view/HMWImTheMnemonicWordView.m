@@ -44,7 +44,7 @@
         self =[[NSBundle mainBundle]loadNibNamed:@"HMWImTheMnemonicWordView" owner:nil options:nil].firstObject;
        self.theMnemonicWordShowInfo.text=NSLocalizedString(@"助记词导入钱包同步速度缓慢，建议创建新钱包或使用Keystore导入", nil); self.walletWordSwitchInfoTextLabel.text=NSLocalizedString(@"助记词密码（可选）", nil);
         self.palceString=NSLocalizedString(@"助记词之间请使用空格隔开", nil);
-      self.theMnemonicWordPWDTextField.placeholder=NSLocalizedString(@"请输入当前钱包的助记词密码", nil); self.pwdTextFiedl.placeholder=NSLocalizedString(@"请输入8至16位钱包密码", nil); self.theMnemonicWordTextView.text=self.palceString;
+      self.theMnemonicWordPWDTextField.placeholder=NSLocalizedString(@"请输入当前钱包的助记词密码", nil); self.pwdTextFiedl.placeholder=NSLocalizedString(@"请输入密码", nil); self.theMnemonicWordTextView.text=self.palceString;
         [self.confirmTheImportButton setTitle:NSLocalizedString(@"确认导入", nil) forState:UIControlStateNormal];
       [[HMWCommView share]makeBordersWithView:self.theMnemonicWordTextView];
         [[HMWCommView alloc]makeTextFieldPlaceHoTextColorWithTextField:self.pwdTextFiedl];

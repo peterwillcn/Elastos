@@ -1,12 +1,11 @@
 //
-//  HMWtheSuperNodeElectionViewController.m
-//  ELA
+//  HMWCRCommitteeMemberListViewController.m
+//  elastos wallet
 //
-//  Created by  on 2019/1/5.
-//  Copyright © 2019 HMW. All rights reserved.
+//  Created by 韩铭文 on 2019/8/27.
 //
 
-#import "HMWtheSuperNodeElectionViewController.h"
+#import "HMWCRCommitteeMemberListViewController.h"
 #import "HMWVotingListView.h"
 #import "HMWvotingRulesView.h"
 #import "HMWnodeInformationViewController.h"
@@ -19,10 +18,12 @@
 #import "FLManageSelectPointNodeInformationVC.h"
 #import "HMWFMDBManager.h"
 #import "DrawBackVoteMoneyVC.h"
-@interface HMWtheSuperNodeElectionViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWsignUpForViewControllerDelegate>
+#import "HWMCRRegisteredViewController.h"
+
+@interface HMWCRCommitteeMemberListViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWsignUpForViewControllerDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *tagVoteRuleLab;
 
 @property (weak, nonatomic) IBOutlet UILabel *tagMyVotedLab;
-@property (weak, nonatomic) IBOutlet UILabel *tagVoteRuleLab;
 
 /*
  *<# #>
@@ -32,10 +33,6 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *votingRulesButton;
 @property (weak, nonatomic) IBOutlet UIButton *myVoteButton;
-/*
- *<# #>
- */
-@property(strong,nonatomic)HMWvotingRulesView *votingRulesV;
 @property(nonatomic,strong)NSMutableArray *dataSource;
 @property(nonatomic,assign)NSInteger type;
 /*
@@ -43,16 +40,20 @@
  */
 @property(assign,nonatomic)BOOL hasSing;
 @property (weak, nonatomic) IBOutlet UIImageView *found_vote_rule;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)HMWvotingRulesView *votingRulesV;
 
 @end
 
-@implementation HMWtheSuperNodeElectionViewController
+@implementation HMWCRCommitteeMemberListViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title=NSLocalizedString(@"CRC委员选举", nil);
     [self setBackgroundImg:@""];
-    self.title=NSLocalizedString(@"超级节点选举", nil);
-    self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
+self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
     
     [self.toVoteButton setTitle:NSLocalizedString(@"立即投票", nil) forState:UIControlStateNormal];
     UIButton *rightBarButton=[[UIButton alloc]init];
@@ -61,7 +62,7 @@
     rightBarButton.titleLabel.font=[UIFont systemFontOfSize:13];
     UIBarButtonItem*rightItem =[[UIBarButtonItem alloc]initWithCustomView:rightBarButton];
     self.navigationItem.rightBarButtonItem= rightItem;
-   
+    
     
     UIView *mainView =[self mainWindow];
     [mainView addSubview:self.votingRulesV];
@@ -76,22 +77,24 @@
         make.top.equalTo(self.view).offset(10);
     }];
     [self getNetCoinPointArray];
-        if ([self.typeString isEqualToString:@"Registered"]){
-  self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
-            self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
-        }else if([self.typeString isEqualToString:@"Canceled"]){
-self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
-            self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
-        }else if([self.typeString isEqualToString:@"Unregistered"]){
-   self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
-            self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
-        }else if ([self.typeString isEqualToString:@"ReturnDeposit"]){
-            self.votingRulesButton.hidden=YES;
-            self.tagVoteRuleLab.hidden=YES;
-            self.found_vote_rule.hidden=YES;
-        }
+    if ([self.typeString isEqualToString:@"Registered"]){
+        self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+        self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
+    }else if([self.typeString isEqualToString:@"Canceled"]){
+        self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+        self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
+    }else if([self.typeString isEqualToString:@"Unregistered"]){
+        self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
+        self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
+    }else if ([self.typeString isEqualToString:@"ReturnDeposit"]){
+        self.votingRulesButton.hidden=YES;
+        self.tagVoteRuleLab.hidden=YES;
+        self.found_vote_rule.hidden=YES;
+    }
 }
 - (IBAction)NodeRegisteredState:(id)sender {
+    HWMCRRegisteredViewController *CRRegisteredVC=[[HWMCRRegisteredViewController alloc]init];
+    [self.navigationController pushViewController:CRRegisteredVC animated:YES];
     if ([self.typeString isEqualToString:@"Registered"]){
         FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
         [self.navigationController pushViewController:vc animated:YES];
@@ -105,10 +108,10 @@ self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
                 [[FLTools share]showErrorInfo:NSLocalizedString(@"已参选", nil) ];
                 return;
             }
-            HMWsignUpForViewController *vc=[[HMWsignUpForViewController alloc]init];
-            vc.delegate=self;
-            self.hasSing=NO;
-            vc.model=nil;
+             HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];
+//            vc.delegate=self;
+//            self.hasSing=NO;
+//            vc.model=nil;
             [self.navigationController pushViewController:vc animated:YES];
             
         }
@@ -137,10 +140,10 @@ self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
     return _dataSource;
 }
 -(void)loadAllImageInfo:(NSMutableArray*)allListInfoArray{
-  
+    
     
     dispatch_group_t group =  dispatch_group_create();
-   
+    
     for (int i=0; i<allListInfoArray.count; i++) {
         FLCoinPointInfoModel *model =allListInfoArray[i];
         
@@ -149,23 +152,23 @@ self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
                 model.iconImageUrl= [[FLTools share] getImageViewURLWithURL:model.url];
                 allListInfoArray[i]=model;
             });
-           
+            
         }
     }
     
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-         [self.votingListV setDataSource: allListInfoArray];
+        [self.votingListV setDataSource: allListInfoArray];
     });
-
+    
     
     
     
     dispatch_queue_t queue = dispatch_queue_create(0, DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(queue, ^{
-
-     [self UpdataLocalOwerlist];
+        
+        [self UpdataLocalOwerlist];
     });
-
+    
     
 }
 -(void)getNetCoinPointArray{
@@ -200,13 +203,13 @@ self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
         FLCoinPointInfoModel *curentmodel = nil ;
         BOOL ret = NO;
         for (FLCoinPointInfoModel*dataModel in self.dataSource) {
-           ret =  [dataModel.ownerpublickey isEqualToString:model.ownerpublickey];
+            ret =  [dataModel.ownerpublickey isEqualToString:model.ownerpublickey];
             if (ret) {
                 curentmodel = model;
             }
         }
         NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
-      FMDBWalletModel *FMDBmodel =walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
+        FMDBWalletModel *FMDBmodel =walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
         if (curentmodel){
             [[FLNotePointDBManager defultWithWalletID:FMDBmodel.walletID]updateRecord:model];
             continue;
@@ -227,8 +230,7 @@ self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
     if (!_votingListV) {
         _votingListV =[[HMWVotingListView alloc]init];
         _votingListV.delegate=self;
-        
-        
+        _votingListV.type=CRType;
     }
     return _votingListV;
 }
@@ -266,8 +268,8 @@ self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
     HMWnodeInformationViewController *nodeInformationVC=[[HMWnodeInformationViewController alloc]init];
     nodeInformationVC.model = self.dataSource[index];
     nodeInformationVC.Ranking=index+1;
-    nodeInformationVC.type=nodeInformationType;
-      [self.navigationController pushViewController:nodeInformationVC animated:YES];
+    nodeInformationVC.type=CRInformationType;
+    [self.navigationController pushViewController:nodeInformationVC animated:YES];
     
 }
 #pragma mark -------------------
@@ -275,9 +277,6 @@ self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
     self.hasSing=YES;
     
 }
-
-
-
 
 
 @end

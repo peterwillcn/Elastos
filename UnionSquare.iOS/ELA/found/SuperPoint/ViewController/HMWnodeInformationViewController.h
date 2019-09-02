@@ -8,7 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "FLCoinPointInfoModel.h"
-NS_ASSUME_NONNULL_BEGIN
+
+
+typedef enum : NSUInteger {
+    CRInformationType,
+   nodeInformationType
+} InformationType;
 
 @interface HMWnodeInformationViewController : UIViewController
 @property(nonatomic,strong)FLCoinPointInfoModel *model;
@@ -16,7 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(assign,nonatomic)NSInteger Ranking;
-
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)InformationType type;
 @end
 
-NS_ASSUME_NONNULL_END

@@ -241,7 +241,8 @@
         if ([statue isEqualToString:@"1"]) {
         HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
         SignatureTradingSingleQrCodeVC.type=SingleSignReadOnlyToBeSigned;
-            SignatureTradingSingleQrCodeVC.QRCodeString =[[FLTools share]DicToString:result.message[@"success"]];
+            NSDictionary *successDic=[[NSDictionary alloc]initWithDictionary:result.message[@"success"]]; SignatureTradingSingleQrCodeVC.QRCodeString =[[FLTools share]DicToString:successDic];
+            SignatureTradingSingleQrCodeVC.QRCodeDic=successDic;
     SignatureTradingSingleQrCodeVC.subW=self.model.iconName;
         [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
         }
@@ -254,7 +255,7 @@
         HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
         SignatureTradingSingleQrCodeVC.type=HowSignToBeSigned;
             SignatureTradingSingleQrCodeVC.QRCodeString =[[FLTools share]DicToString:result.message[@"success"]];
-            SignatureTradingSingleQrCodeVC.subW=self.model.iconName;
+            SignatureTradingSingleQrCodeVC.QRCoreDic=result.message[@"success"]; SignatureTradingSingleQrCodeVC.subW=self.model.iconName;
             [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
         }
     }else if (self.currentWallet.TypeW==3){

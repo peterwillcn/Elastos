@@ -26,7 +26,7 @@
       [self defultWhite];
     [self setBackgroundImg:@""];
     self.title = NSLocalizedString(@"新建私钥", nil);
-    self.pwdfield1.placeholder=NSLocalizedString(@"请输入8至16位钱包密码", nil);
+    self.pwdfield1.placeholder=NSLocalizedString(@"请输入密码", nil);
     self.pwdfield2.placeholder=NSLocalizedString(@"请再次输入确认钱包密码", nil);
     self.pwdShowInfoTextLabel.text=NSLocalizedString(@"长度8-16位，且至少包含字母、数字和特殊字符中的2种", nil);
     
@@ -35,7 +35,6 @@
     self.pwdfield2.secureTextEntry=YES;
     [self.view setLabelSpace:self.showInfoTextLabel withValue:NSLocalizedString(@"     密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记", nil) withFont:[UIFont systemFontOfSize:10]];
     [self.btn1 setTitle:NSLocalizedString(@"确认创建", nil) forState:UIControlStateNormal];
-    
 }
 - (IBAction)click1:(id)sender {
     

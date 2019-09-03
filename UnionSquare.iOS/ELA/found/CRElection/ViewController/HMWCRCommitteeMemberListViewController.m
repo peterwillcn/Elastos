@@ -235,7 +235,6 @@ self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
     return _votingListV;
 }
 - (IBAction)myVoteEvent:(id)sender {
-    
     HMWMyVoteViewController * vc = [[HMWMyVoteViewController alloc]init];
     vc.listData = self.dataSource;
     [self.navigationController pushViewController:vc animated:YES];
@@ -259,23 +258,19 @@ self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
     [self.navigationController pushViewController:vc animated:YES];
 }
 -(void)closeViewDele{
-    
     self.votingRulesV.alpha=0.f;
 }
 #pragma mark ---------HMWVotingListViewDelegate----------
-
 - (void)selectedVotingListWithIndex:(NSInteger)index {
     HMWnodeInformationViewController *nodeInformationVC=[[HMWnodeInformationViewController alloc]init];
     nodeInformationVC.model = self.dataSource[index];
     nodeInformationVC.Ranking=index+1;
     nodeInformationVC.type=CRInformationType;
     [self.navigationController pushViewController:nodeInformationVC animated:YES];
-    
 }
 #pragma mark -------------------
 - (void)hasSignUp{
     self.hasSing=YES;
-    
 }
 
 

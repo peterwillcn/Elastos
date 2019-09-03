@@ -117,7 +117,7 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
     cell.leftLab.text = model.nickname;
-    cell.rightLab.text =[NSString stringWithFormat:@"NO.%ld",model.index+1];
+    cell.rightLab.text =[NSString stringWithFormat:@"NO.%d",model.index+1];
     return cell;
     
 }

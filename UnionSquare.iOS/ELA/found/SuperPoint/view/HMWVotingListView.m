@@ -10,11 +10,14 @@
 #import "HMWVotingListCollectionViewCell.h"
 #import "runningNodeListView.h"
 #import "HMWVotingListTypeCrossCollectionViewCell.h"
+#import "HWMCRCCommitteeElectionCollectionViewCell.h"
 
 
 static NSString *cellString=@"HMWVotingListCollectionViewCell";
 
 static NSString *crossCellString=@"HMWVotingListTypeCrossCollectionViewCell";
+static NSString *crossCRCellString=@"HWMCRCCommitteeElectionCollectionViewCell";
+
 @interface HMWVotingListView ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *baseCollectionView;
@@ -45,6 +48,7 @@ static NSString *crossCellString=@"HMWVotingListTypeCrossCollectionViewCell";
         self.baseCollectionView.dataSource=self;
         [self.baseCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HMWVotingListCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:cellString];
         [self.baseCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HMWVotingListTypeCrossCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:crossCellString];
+          [self.baseCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HWMCRCCommitteeElectionCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:crossCRCellString];
         self.taglab1.text = NSLocalizedString(@"全网投票占比", nil);
         self.taglab3.text = NSLocalizedString(@"当前票数", nil);
          self.runningNodeListTextLabel.text=NSLocalizedString(@"参选节点列表", nil);
@@ -59,7 +63,7 @@ static NSString *crossCellString=@"HMWVotingListTypeCrossCollectionViewCell";
 }
 -(void)setDataSource:(NSArray *)dataSource{
     _dataSource = dataSource;
-    self.numberNodesLabel.text=[NSString stringWithFormat:@"%ld",dataSource.count+1];
+    self.numberNodesLabel.text=[NSString stringWithFormat:@"%lu",dataSource.count];
     [self.baseCollectionView reloadData];
 }
 #pragma mark -- UICollectionViewDataSource
@@ -78,6 +82,14 @@ static NSString *crossCellString=@"HMWVotingListTypeCrossCollectionViewCell";
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.listType isEqualToString:@"1"]) {
+        if (self.type==CRType) {
+            HWMCRCCommitteeElectionCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:crossCRCellString forIndexPath:indexPath];
+
+             cell.backgroundColor=RGB(51, 51, 51);
+           cell.model = self.dataSource[indexPath.row];
+            
+            return cell;
+        }
         HMWVotingListCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:cellString forIndexPath:indexPath];
         cell.model = self.dataSource[indexPath.row];
         return cell;
@@ -105,12 +117,21 @@ static NSString *crossCellString=@"HMWVotingListTypeCrossCollectionViewCell";
 {
 
     if ([self.listType isEqualToString:@"1"]) {
+        if (self.type==CRType) {
+             return UIEdgeInsetsMake(5, 8, 5, 5);
+        }
            return UIEdgeInsetsMake(3, 8, 3, 3);
     }
     return UIEdgeInsetsMake(5, 8, 5, 3);
 }
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     if ([self.listType isEqualToString:@"1"]) {
+        if (self.type==CRType) {
+            CGFloat width=(AppWidth)/2-10;
+            CGFloat Height=170.f/180.f*width;
+            
+            return CGSizeMake(width,Height);
+        }
         return CGSizeMake((AppWidth-22)/3 ,135/120*AppWidth/3);
     }
     return CGSizeMake(AppWidth-13,60);
@@ -147,5 +168,10 @@ static NSString *crossCellString=@"HMWVotingListTypeCrossCollectionViewCell";
         self.textTopOffset.constant=18.f;
     }
      _type=type;
+}
+- (IBAction)AddModelEvent:(id)sender {
+    
+    
+    
 }
 @end

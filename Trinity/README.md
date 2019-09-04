@@ -12,9 +12,7 @@ Elastos Trinity is supported on both Android and iOS, DApp developers only need 
 
 ## Table of Contents
 
-- [Elastos Trinity](#elastos-trinity)
-	- [Introduction](#introduction)
-	- [Table of Contents](#table-of-contents)
+- [Roadmap](#roadmap)
 - [Checking out the source code](#checking-out-the-source-code)
 - [How to build](#how-to-build)
 	- [Build on Ubuntu / Debian / Linux Host](#build-on-ubuntu--debian--linux-host)
@@ -24,6 +22,45 @@ Elastos Trinity is supported on both Android and iOS, DApp developers only need 
 - [Repositories](#repositories)
 - [Contribution](#contribution)
 - [Acknowledgments](#acknowledgments)
+
+## Roadmap
+
+### S1 2019 - "Roots"
+
+* Base concepts for trinity
+* DApp isolations
+* Hive, Carrier, Wallet and base plugins
+* Basic launcher, SPV wallet DApp
+* Runtime bases (installations, uninstallations, manifest information…)
+* Basic toolchain to create, pack and sign DApp packages
+
+### Q4 2019/Q1 2020 - "Focus on developers"
+
+* Advanced runtime concepts (inter app communications, elastos scheme, API permissions)
+* Wallet DApp phase 2 (Trinity as an SPV wallet) - payments requests support
+* DID DApp (Trinity as user identity management)
+* Voting DApps (Vote for DPOS, CRC…)
+* RedPackets DApp
+* Temporary centralized DApp store
+* Ethereum and DID plugins
+* DMA-light for trinity 
+* Efficient tool chain (easy initial setup, package, debug, publish, easy switch between dev and prod env or mainnet and testnet)
+* Documentation
+* Automated testing
+* Frequent releases that can break existing DApps
+* DApps community programme
+
+### Q2/Q3 2020 - "Focus on end users"
+
+* Versioning / Backward compatibility management (fewer releases, branches strategy)
+* Developers able to write production ready DApps
+* Releases based on stable sub-module releases 
+* Great user experience for end users (great UI design, dynamic launcher, home screen widgets, notifications, animations, convenient menus, onboarding information, ELA purchases made easy…)
+* DApp store based on the DApp sidechain
+* Maintenance of everything existing
+* New features to be defined according to initial feedback from both developers and end users during previous phases
+* New features integrated according to the main Elastos product roadmap (ex: new sidechains)
+
 
 ## Checking out the source code
 

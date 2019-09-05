@@ -733,14 +733,7 @@ var onedrive_opts = {
 };
 
 var ipfs_opts = {
-    type: "3",
-    rpc_addrs: [
-        { addr: "52.83.119.110:9095" },
-        { addr: "52.83.159.189:9095" },
-        { addr: "3.16.202.140:9095"  },
-        { addr: "18.217.147.205:9095"},
-        { addr: "18.219.53.133:9095" }
-    ]
+    type: "3"
 };
 
 var client = null;

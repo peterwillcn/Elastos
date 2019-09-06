@@ -37,7 +37,7 @@ const files_to_download  = [{
   "targetDir": "../Plugins/Hive/src/ios/libs",
   "md5": "ad4a52cca4314b6b301a65f840bce3cf"
 },{
-  "url": "https://github.com/elastos/Elastos.Trinity.Plugins.Wallet/releases/download/spvsdk-V0.4.0/libspvsdk.zip",
+  "url": "https://github.com/elastos/Elastos.Trinity.Plugins.Wallet/releases/download/spvsdk-V0.4.2/libspvsdk.zip",
   "filename": "libspvsdk.zip",
   "sourceDirs": [
     "libspvsdk"

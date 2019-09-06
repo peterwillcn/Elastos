@@ -30,19 +30,13 @@ Elastos Trinity is supported on both Android and iOS, DApp developers only need 
 To clone the repository in your environment:
 
 ```shell
-git clone --recurse-submodules -b dev -j8 git@github.com:elastos/Elastos.Trinity.git
+git clone --recurse-submodules -b dev git@github.com:elastos/Elastos.Trinity.git
 ```
 
 We use --recurse-submodules here because we need to download the submodules as well. If you forgot to use the argument, you could download the submodules later by typing:
 
 ```shell
 git submodule update --init --recursive
-```
-
-To update submodules with the lastest changes, type:
-
-```shell
-git submodule update --rebase
 ```
 
 And then use git add, commit and push to submit your changes to current project.
@@ -136,26 +130,13 @@ where category **DApps** includes several specific DApps repositories:
 
 while category **Plugins** includes the following repostiories:
 
-* [Elastos.Trinity.Plugins.AppManager](https://github.com/elastos/Elastos.Trinity.Plugins.AppManager)
-* [Elastos.Trinity.Plugins.AppService](https://github.com/elastos/Elastos.Trinity.Plugins.AppService)
-* [Elastos.Trinity.Plugins.BatteryStatus](https://github.com/elastos/Elastos.Trinity.Plugins.BatteryStatus)
+* [Elastos.Trinity.Runtime.Plugins.AppManager](https://github.com/elastos/Elastos.Trinity.Runtime.Plugins.AppManager)
+* [Elastos.Trinity.Runtime.Plugins.AppService](https://github.com/elastos/Elastos.Trinity.Runtime.Plugins.AppService)
 * [Elastos.Trinity.Plugins.Carrier](https://github.com/elastos/Elastos.Trinity.Plugins.Carrier)
-* [Elastos.Trinity.Plugins.Camera](https://github.com/elastos/Elastos.Trinity.Plugins.Camera)
-* [Elastos.Trinity.Plugins.Device](https://github.com/elastos/Elastos.Trinity.Plugins.Device)
-* [Elastos.Trinity.Plugins.DeviceMotion](https://github.com/elastos/Elastos.Trinity.Plugins.DeviceMotion)
-* [Elastos.Trinity.Plugins.Dialog](https://github.com/elastos/Elastos.Trinity.Plugins.Dialog)
 * [Elastos.Trinity.Plugins.File](https://github.com/elastos/Elastos.Trinity.Plugins.File)
-* [Elastos.Trinity.Plugins.Flashlight](https://github.com/elastos/Elastos.Trinity.Plugins.Flashlight)
-* [Elastos.Trinity.Plugins.Geolocation](https://github.com/elastos/Elastos.Trinity.Plugins.Geolocation)
-* [Elastos.Trinity.Plugins.InappBrowser](https://github.com/elastos/Elastos.Trinity.Plugins.InappBrowser)
-* [Elastos.Trinity.Plugins.NetWorkInformation](https://github.com/elastos/Elastos.Trinity.Plugins.NetWorkInformation)
+* [Elastos.Trinity.Plugins.Hive](https://github.com/elastos/Elastos.Trinity.Plugins.Hive)
 * [Elastos.Trinity.Plugins.Media](https://github.com/elastos/Elastos.Trinity.Plugins.Media)
-* [Elastos.Trinity.Plugins.MediaCapture](https://github.com/elastos/Elastos.Trinity.Plugins.MediaCapture)
 * [Elastos.Trinity.Plugins.QRScanner](https://github.com/elastos/Elastos.Trinity.Plugins.QRScanner)
-* [Elastos.Trinity.Plugins.ScreenOrientation](https://github.com/elastos/Elastos.Trinity.Plugins.ScreenOrientation)
-* [Elastos.Trinity.Plugins.SplashScreen](https://github.com/elastos/Elastos.Trinity.Plugins.SplashScreen)
-* [Elastos.Trinity.Plugins.Statusbar](https://github.com/elastos/Elastos.Trinity.Plugins.Statusbar)
-* [Elastos.Trinity.Plugins.Vibration](https://github.com/elastos/Elastos.Trinity.Plugins.Vibration)
 * [Elastos.Trinity.Plugins.Wallet](https://github.com/elastos/Elastos.Trinity.Plugins.Wallet)
 
 ## Contribution

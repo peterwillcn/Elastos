@@ -43,7 +43,7 @@ const files_to_download  = [{
     "libspvsdk"
   ],
   "targetDir": "../Plugins/Wallet/src/ios",
-  "md5": "6736edd423acef62e58a4fad5ab7d76a"
+  "md5": "8eb777a5688d19fbd6f68e18b06ba4e8"
 }]
 // no need to configure below
 

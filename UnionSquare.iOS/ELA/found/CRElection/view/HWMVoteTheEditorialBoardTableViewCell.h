@@ -6,11 +6,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FLCoinPointInfoModel.h"
 
-NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMVoteTheEditorialBoardTableViewCell : UITableViewCell
-
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)FLCoinPointInfoModel *model;
 @end
-
-NS_ASSUME_NONNULL_END

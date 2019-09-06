@@ -140,7 +140,7 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
         IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
        [self.view.window addSubview:self.inputVoteTicketView];
 //        Elastos::ElaWallet::BalanceType type = Elastos::ElaWallet::Total;
-     String balanceSt = mainchainSubWallet->GetBalance(Elastos::ElaWallet::Total);
+     String balanceSt = mainchainSubWallet->GetBalance();
   NSString * balanceString= [NSString stringWithCString:balanceSt.c_str() encoding:NSUTF8StringEncoding];
         NSInteger balance=[balanceString integerValue];
         self.inputVoteTicketView.votes =balance/unitNumber;

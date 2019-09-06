@@ -542,7 +542,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     }
     ISubWallet *subWallet;
     try {
-        subWallet = masterWallet->CreateSubWallet(chainID, feePerKb);
+        subWallet = masterWallet->CreateSubWallet(chainID);
     } catch (const std:: exception &e) {
         return [self errInfoToDic:e.what() with:command];
     }
@@ -615,20 +615,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     String masterWalletID = [self cstringWithString:args[idx++]];
     String chainID        = [self cstringWithString:args[idx++]];
     long type    = [ args[idx++] intValue];
-    Elastos::ElaWallet::BalanceType Btype;
-    switch (type) {
-        case 0:
-            Btype= Elastos::ElaWallet::Default;
-            break;
-        case 1:
-            Btype= Elastos::ElaWallet::Voted;
-            break;
-        case 2:
-            Btype= Elastos::ElaWallet::Total;
-            break;
-        default:
-            break;
-    }
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -643,7 +629,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     }
     uint64_t balance;
     try {
-        String balanceSt = subWallet->GetBalance(Btype);
+        String balanceSt = subWallet->GetBalance();
         NSString * balanceString= [NSString stringWithCString:balanceSt.c_str() encoding:NSUTF8StringEncoding];
          balance=[balanceString integerValue];
        
@@ -860,7 +846,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     }
     Json json ;
     try {
-        json = masterWallet->GetPublicKeyRing();
+        json = masterWallet->GetPubKeyInfo();
     } catch (const std::exception &e) {
         return [self errInfoToDic:e.what() with:command];
     }
@@ -1165,7 +1151,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     Json josn;
         suWall = [self getSubWallet:masterWalletID :chainID];
     try {
-        josn=suWall->CreateTransaction(fromAddress, toAddress, amount, memo,useVotedUTXO);
+        josn=suWall->CreateTransaction(fromAddress, toAddress, amount, memo);
     } catch (const std:: exception & e) {
        return  [self errInfoToDic:e.what() with:command];
     }
@@ -1226,7 +1212,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     Json josn;
     suWall = [self getSubWallet:masterWalletID :chainID];
     try {
-        josn=suWall->CreateTransaction(fromAddress, toAddress, amount, memo,useVotedUTXO);
+        josn=suWall->CreateTransaction(fromAddress, toAddress, amount, memo);
     } catch (const std:: exception & e) {
         return  [self errInfoToDic:e.what() with:command];
     }
@@ -1287,7 +1273,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     
     uint64_t fee;
     try {
-        josn=suWall->CreateTransaction(fromAddress, toAddress, amount, memo,useVotedUTXO);
+        josn=suWall->CreateTransaction(fromAddress, toAddress, amount, memo);
 
     } catch (const std:: exception & err) {
        return [self errInfoToDic:err.what() with:command];
@@ -1330,7 +1316,7 @@ errCodeSPVCreateMasterWalletError= 20006;
    
     
     try {
-        tx  =mainchainSubWallet->CreateDepositTransaction("", lockedAddress, amount, sidechainAddress,memo,singleAddress);
+        tx  =mainchainSubWallet->CreateDepositTransaction("", lockedAddress, amount, sidechainAddress,memo);
 
     } catch (const std:: exception & e) {
         return [self errInfoToDic:e.what() with:command];
@@ -1384,7 +1370,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     sidechainIndices.push_back(0);
     Json tx;
     try {
-        tx=mainchainSubWallet ->CreateDepositTransaction("", lockedAddress, amount, sidechainAddress, memo,singleAddress);
+        tx=mainchainSubWallet ->CreateDepositTransaction("", lockedAddress, amount, sidechainAddress, memo);
 
     } catch (const std:: exception & e) {
     return   [self errInfoToDic:e.what() with:command];
@@ -1499,7 +1485,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     String acount=[self cstringWithString:[NSString stringWithFormat:@"%ld",model.acount*unitNumber]];
     try {
         
-        tx = ELA->CreateRegisterProducerTransaction("", payload, acount,[model.mark UTF8String],true);
+        tx = ELA->CreateRegisterProducerTransaction("", payload, acount,[model.mark UTF8String]);
     } catch (const std:: exception & e ) {
         
         NSString *errString=[self stringWithCString:e.what()];
@@ -1546,7 +1532,7 @@ errCodeSPVCreateMasterWalletError= 20006;
         nlohmann::json payload = ELA->GenerateProducerPayload(pubKey, nodePublicKey, nickName, url, ipAddress,
                                                                              location, [model.pwd UTF8String]);
         
-        nlohmann::json tx = ELA->CreateUpdateProducerTransaction("", payload, "", [model.mark UTF8String]);
+        nlohmann::json tx = ELA->CreateUpdateProducerTransaction("", payload,[model.mark UTF8String]);
         Json signedTx = ELA->SignTransaction(tx, [model.pwd UTF8String]);
         
         Json result = ELA->PublishTransaction(signedTx);
@@ -1572,7 +1558,7 @@ errCodeSPVCreateMasterWalletError= 20006;
         
         nlohmann::json payload = mainchainSubWallet->GenerateCancelProducerPayload(pubKey, [pwd UTF8String]);
         
-        nlohmann::json tx = mainchainSubWallet->CreateCancelProducerTransaction("", payload, "", "");
+        nlohmann::json tx = mainchainSubWallet->CreateCancelProducerTransaction("", payload, "");
         Json signedTx = mainchainSubWallet->SignTransaction(tx, [pwd UTF8String]);
         
         Json result = mainchainSubWallet->PublishTransaction(signedTx);
@@ -1621,7 +1607,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     String acount=[self cstringWithString:[NSString stringWithFormat:@"%ld",stake*unitNumber]];
     // 少一个备注
     try {
-        nlohmann::json tx = mainchainSubWallet->CreateVoteProducerTransaction("", acount,Json::parse(keys),"", change);
+        nlohmann::json tx = mainchainSubWallet->CreateVoteProducerTransaction("", acount,Json::parse(keys),"");
         Json signedTx = mainchainSubWallet->SignTransaction(tx, [pwd UTF8String]);
         
         Json result = mainchainSubWallet->PublishTransaction(signedTx);
@@ -1717,7 +1703,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     }
     Json json;
     try {
-        json = subWallet->CreateConsolidateTransaction("",false);
+        json = subWallet->CreateConsolidateTransaction("");
     } catch (const std:: exception &e) {
         return [self errInfoToDic:e.what() with:command];
     }

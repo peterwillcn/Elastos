@@ -11,6 +11,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMCRCCommitteeElectionCollectionViewCell : UICollectionViewCell
 @property(nonatomic,strong)FLCoinPointInfoModel *model;
+@property (weak, nonatomic) IBOutlet UIImageView *SelectedImageView;
+
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)BOOL isEdiet;
 @end
 
 NS_ASSUME_NONNULL_END

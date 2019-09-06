@@ -19,11 +19,15 @@
 #import "HMWFMDBManager.h"
 #import "DrawBackVoteMoneyVC.h"
 #import "HWMCRRegisteredViewController.h"
+#import "HWMCRCCommitteeElectionListViewController.h"
 
 @interface HMWCRCommitteeMemberListViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWsignUpForViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *tagVoteRuleLab;
 
+@property (weak, nonatomic) IBOutlet UIView *EditSelectionView;
 @property (weak, nonatomic) IBOutlet UILabel *tagMyVotedLab;
+@property (weak, nonatomic) IBOutlet UIButton *all_selectedButton;
+@property (weak, nonatomic) IBOutlet UILabel *all_selectedTextLabel;
 
 /*
  *<# #>
@@ -44,6 +48,8 @@
  *<# #>
  */
 @property(strong,nonatomic)HMWvotingRulesView *votingRulesV;
+@property (weak, nonatomic) IBOutlet UIButton *JoinTheCandidateListButton;
+@property (weak, nonatomic) IBOutlet UIImageView *all_selectedImageView;
 
 @end
 
@@ -91,6 +97,7 @@ self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
         self.tagVoteRuleLab.hidden=YES;
         self.found_vote_rule.hidden=YES;
     }
+    self.all_selectedTextLabel.text=NSLocalizedString(@"全选", nil);
 }
 - (IBAction)NodeRegisteredState:(id)sender {
     HWMCRRegisteredViewController *CRRegisteredVC=[[HWMCRRegisteredViewController alloc]init];
@@ -253,7 +260,7 @@ self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
     }
 }
 - (IBAction)myVoteButton:(id)sender {
-    HMWtheCandidateListViewController * vc = [[HMWtheCandidateListViewController alloc]init];
+   HWMCRCCommitteeElectionListViewController * vc = [[HWMCRCCommitteeElectionListViewController alloc]init];
     vc.persent = self.votingListV.lab1.text ;
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -263,15 +270,37 @@ self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
 #pragma mark ---------HMWVotingListViewDelegate----------
 - (void)selectedVotingListWithIndex:(NSInteger)index {
     HMWnodeInformationViewController *nodeInformationVC=[[HMWnodeInformationViewController alloc]init];
+        nodeInformationVC.type=CRInformationType;
     nodeInformationVC.model = self.dataSource[index];
     nodeInformationVC.Ranking=index+1;
-    nodeInformationVC.type=CRInformationType;
     [self.navigationController pushViewController:nodeInformationVC animated:YES];
+}
+-(void)VotingListisEdite:(BOOL)edite{
+    if (edite==YES) {
+        self.EditSelectionView.alpha=1.f;
+        self.JoinTheCandidateListButton.alpha=1.f;
+    }else{
+        self.EditSelectionView.alpha=0.f;
+        self.JoinTheCandidateListButton.alpha=0.f;
+    }
+    
+    
 }
 #pragma mark -------------------
 - (void)hasSignUp{
     self.hasSing=YES;
 }
+//all_selected
 
-
+- (IBAction)all_selectedEvent:(id)sender {
+    self.all_selectedButton.selected=!self.all_selectedButton.selected;
+    if (self.all_selectedButton.selected){
+        self.all_selectedImageView.image=[UIImage imageNamed:@"all_selected"];
+    }else{
+        self.all_selectedImageView.image=[UIImage imageNamed:@"found_vote_border"];
+    }
+       [self.votingListV selectAllListWithIsSelect:self.all_selectedButton.selected];
+}
+- (IBAction)JoinTheCandidateListEvent:(id)sender {
+}
 @end

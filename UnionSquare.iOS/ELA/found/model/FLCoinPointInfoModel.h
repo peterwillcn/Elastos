@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,copy)  NSString    *iconImageUrl;
 
 @property(nonatomic,assign)BOOL isCellSelected;
-
+@property(nonatomic,assign)BOOL isNewCellSelected;
 
 @end
 

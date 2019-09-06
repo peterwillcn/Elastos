@@ -42,6 +42,7 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     self.BGView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.15];
+    
     if (selected) {
         
           [self.isSelectBtn setImage:[UIImage imageNamed:@"found_vote_select"] forState:UIControlStateNormal];

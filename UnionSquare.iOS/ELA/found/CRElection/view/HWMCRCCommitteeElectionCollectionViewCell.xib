@@ -57,6 +57,13 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="found_not_select" translatesAutoresizingMaskIntoConstraints="NO" id="Ch1-Ta-0mo">
+                                <rect key="frame" x="155" y="150" width="15" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="9r6-fS-SOm"/>
+                                    <constraint firstAttribute="width" constant="15" id="OSB-tL-hFh"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.3615114688873291" green="0.51370865106582642" blue="0.52539515495300293" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -73,7 +80,9 @@
                             <constraint firstItem="nG9-jM-bYM" firstAttribute="top" secondItem="75V-1p-vQJ" secondAttribute="top" constant="10" id="ff7-xJ-ZjV"/>
                             <constraint firstAttribute="bottom" secondItem="uik-g7-rhM" secondAttribute="bottom" constant="15" id="gUj-p7-G0r"/>
                             <constraint firstItem="5Le-6x-GNL" firstAttribute="leading" secondItem="75V-1p-vQJ" secondAttribute="leading" constant="10" id="jf6-QR-Ii4"/>
+                            <constraint firstAttribute="trailing" secondItem="Ch1-Ta-0mo" secondAttribute="trailing" constant="10" id="oFn-ae-djv"/>
                             <constraint firstAttribute="trailing" secondItem="WkT-Vu-Q2e" secondAttribute="trailing" constant="10" id="vY8-p7-DdU"/>
+                            <constraint firstAttribute="bottom" secondItem="Ch1-Ta-0mo" secondAttribute="bottom" constant="15" id="zbu-GM-6hc"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -88,6 +97,7 @@
             <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
             <connections>
                 <outlet property="NoIndexLabel" destination="5Le-6x-GNL" id="f34-WH-kCS"/>
+                <outlet property="SelectedImageView" destination="Ch1-Ta-0mo" id="huT-an-iEz"/>
                 <outlet property="VotesAndPercentagesLabel" destination="uik-g7-rhM" id="yGu-ql-8bZ"/>
                 <outlet property="iconImageView" destination="nG9-jM-bYM" id="rCs-UC-THx"/>
                 <outlet property="locationLabel" destination="WkT-Vu-Q2e" id="x2l-hm-oef"/>
@@ -96,4 +106,7 @@
             <point key="canvasLocation" x="140.57971014492756" y="139.95535714285714"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="found_not_select" width="15" height="15"/>
+    </resources>
 </document>

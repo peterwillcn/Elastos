@@ -78,11 +78,11 @@
                                     <constraint firstAttribute="width" constant="130" id="vT1-JT-GCl"/>
                                 </constraints>
                             </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HqF-K2-VZ7">
-                                <rect key="frame" x="164" y="67.5" width="6" height="14"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="link_icon" translatesAutoresizingMaskIntoConstraints="NO" id="HqF-K2-VZ7">
+                                <rect key="frame" x="156" y="67.5" width="14" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="4O4-eF-Btm"/>
-                                    <constraint firstAttribute="width" constant="6" id="xPr-6n-OHT"/>
+                                    <constraint firstAttribute="width" constant="14" id="xPr-6n-OHT"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KYK-6s-5HP">
@@ -170,4 +170,7 @@
             <point key="canvasLocation" x="50.724637681159422" y="34.821428571428569"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="link_icon" width="14" height="14"/>
+    </resources>
 </document>

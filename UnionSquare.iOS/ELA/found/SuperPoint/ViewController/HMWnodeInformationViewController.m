@@ -257,8 +257,13 @@
 -(nodeInformationDetailsView *)nodeInformationDetailsV{
     if (!_nodeInformationDetailsV) {
         _nodeInformationDetailsV =[[nodeInformationDetailsView alloc]init];
+         if (self.type== CRInformationType) {
+              _nodeInformationDetailsV.type=CRCoinPointInfType;
+        }else if (self.type==nodeInformationType){
+              _nodeInformationDetailsV.type=nodeCoinPointInfType;
+        }
+      
         _nodeInformationDetailsV.model=self.model;
-        _nodeInformationDetailsV.type=nodeCoinPointInfType;
         [_nodeInformationDetailsV.copURLButton addTarget:self action:@selector(copyURLEvent:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _nodeInformationDetailsV;

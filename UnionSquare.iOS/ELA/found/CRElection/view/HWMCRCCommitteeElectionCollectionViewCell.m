@@ -41,19 +41,22 @@
         self.NoIndexLabel.text=[NSString stringWithFormat:@"NO.%ld",(long)model.index+1];
         
     }
-//    if (model.index==1) {
-//        self.iconImageView.image = [UIImage imageNamed:@"gold"];
-//    }else if (model.index==2){
-//        self.iconImageView.image = [UIImage imageNamed:@"Argentum"];
-//
-//    }else if (model.index==3){
-//        self.iconImageView.image = [UIImage imageNamed:@"copper"];
-//
-//    }else{
-//        self.iconImageView.image = nil;
-//
-//    }
+    if (self.isEdiet) {
+        self.VotesAndPercentagesLabel.alpha=0.f;
+        self.SelectedImageView.alpha=1.f;
+        if (model.isCellSelected) {
+            self.SelectedImageView.image=[UIImage imageNamed:@"found_vote_select"];
+        }else{
+          self.SelectedImageView.image=[UIImage imageNamed:@"found_not_select"];
+        }
+    }else{
+        self.VotesAndPercentagesLabel.alpha=1.f;
+        self.SelectedImageView.alpha=0.f;
+    }
     _model = model;
     
+}
+-(void)setIsEdiet:(BOOL)isEdiet{
+    _isEdiet=isEdiet;
 }
 @end

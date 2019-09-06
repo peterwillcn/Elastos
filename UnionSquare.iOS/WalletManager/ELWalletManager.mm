@@ -860,7 +860,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     }
     Json json ;
     try {
-        json = masterWallet->GetPublicKey();
+        json = masterWallet->GetPublicKeyRing();
     } catch (const std::exception &e) {
         return [self errInfoToDic:e.what() with:command];
     }
@@ -2000,4 +2000,23 @@ errCodeSPVCreateMasterWalletError= 20006;
 
     return [self successProcess:command msg:jsonNString];
 }
+//-(PluginResult *)GetRegisteredCRInfo:(invokedUrlCommand *)command{
+//    NSArray *args = command.arguments;
+//    int idx = 0;
+// 
+//      IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:args[idx++]];
+//  
+//    
+//    std:: string jsonString;
+//    try {
+//        jsonString = mainchainSubWallet->GetRegisteredCRInfo();
+//    } catch (const std:: exception &e) {
+//        return  [self errInfoToDic:e.what() with:command];
+//    }
+//    
+//    NSString *jsonNString = [self stringWithCString:jsonString];
+//    
+//    return [self successProcess:command msg:jsonNString];
+//}
+
 @end

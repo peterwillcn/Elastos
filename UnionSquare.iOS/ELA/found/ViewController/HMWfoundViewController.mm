@@ -16,7 +16,7 @@
 @interface HMWfoundViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) UITableView *table;
-@property (nonatomic,strong)NSArray *dataSource;
+@property (nonatomic,strong)NSMutableArray *dataSource;
 /*
  *<# #>
  */

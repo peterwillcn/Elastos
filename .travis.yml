@@ -21,6 +21,11 @@ matrix:
       script:
         - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/build.sh
         - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/_build/sample/sample
+        - echo "---- use default python ----"
+        - $TRAVIS_BUILD_DIR/ToolChains/tests/sign_epk_test.sh
+        - $TRAVIS_BUILD_DIR/ToolChains/tests/verify_epk_test.sh
+        - echo "---- use python3 ----"
+        - export PYTHON3=ON
         - $TRAVIS_BUILD_DIR/ToolChains/tests/sign_epk_test.sh
         - $TRAVIS_BUILD_DIR/ToolChains/tests/verify_epk_test.sh
 
@@ -47,6 +52,11 @@ matrix:
       script:
         - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/build.sh
         - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/_build/sample/sample
+        - echo "---- use default python ----"
+        - $TRAVIS_BUILD_DIR/ToolChains/tests/sign_epk_test.sh
+        - $TRAVIS_BUILD_DIR/ToolChains/tests/verify_epk_test.sh
+        - echo "---- use python3 ----"
+        - export PYTHON3=ON
         - $TRAVIS_BUILD_DIR/ToolChains/tests/sign_epk_test.sh
         - $TRAVIS_BUILD_DIR/ToolChains/tests/verify_epk_test.sh
 

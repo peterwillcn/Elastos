@@ -1,6 +1,7 @@
 {
   "id": "org.elastos.trinity.template",
   "version": "0.0.1",
+  "version_code":1,
   "name": "Trinity default template",
   "short_name": "Default template",
   "description": "",

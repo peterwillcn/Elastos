@@ -1,8 +1,10 @@
 const path = require("path")
+require("colors")
 
 const RunHelper = require("../helpers/run.helper")
 const ManifestHelper = require("../helpers/manifest.helper")
 const IonicHelper = require("../helpers/ionic.helper")
+const DAppHelper = require("../helpers/dapp.helper")
 
 exports.command = 'run'
 exports.describe = 'Deploys current DApp to your connected device'
@@ -48,6 +50,12 @@ function deployAndroidDApp(idKeystorePath) {
     var runHelper = new RunHelper()
     var manifestHelper = new ManifestHelper()
     var ionicHelper = new IonicHelper()
+    var dappHelper = new DAppHelper()
+
+    if (!dappHelper.checkFolderIsDApp()) {
+        console.error("ERROR".red + " - Current folder is not a trinity dapp.")
+        return
+    }
 
     // Retrieve user's computer IP (to be able to ionic serve / hot reload)
     // Update the start_url in the trinity manifest
@@ -56,8 +64,8 @@ function deployAndroidDApp(idKeystorePath) {
 
     ionicHelper.updatedNpmDependencies().then(() => {
         ionicHelper.runIonicBuildDev().then(() => {
-            runHelper.packEPK(manifestPath).then((outputEPKPath)=>{
-                runHelper.signEPK(outputEPKPath, idKeystorePath).then(()=>{
+            dappHelper.packEPK(manifestPath).then((outputEPKPath)=>{
+                dappHelper.signEPK(outputEPKPath, idKeystorePath).then(()=>{
                     runHelper.androidUploadEPK(outputEPKPath).then(()=>{
                         runHelper.androidInstallTempEPK().then(()=>{
                             console.log("RUN OPERATION COMPLETED")
@@ -65,7 +73,7 @@ function deployAndroidDApp(idKeystorePath) {
                             ionicHelper.runIonicServe()
                         })
                         .catch((err)=>{
-                            console.error("Failre to install your DApp on your device")
+                            console.error("Failed to install your DApp on your device")
                             console.error("Error:",err)
                         })
                     })
@@ -90,7 +98,7 @@ function deployAndroidDApp(idKeystorePath) {
         })          
     })
     .catch((err)=>{
-        console.error("Failed install ionic dependencies")
+        console.error("Failed to install ionic dependencies")
         console.error("Error:",err)
     }) 
 }

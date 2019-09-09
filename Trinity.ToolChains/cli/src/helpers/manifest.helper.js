@@ -102,4 +102,13 @@ module.exports = class ManifestHelper {
 
         manifestJson.save(); // synchronous
     }
+
+    updateManifestForProduction(manifestPath) {
+        var manifestJson = editJsonFile(manifestPath);
+
+        manifestJson.set("start_url", "index.html");
+        manifestJson.set("type", "file");
+
+        manifestJson.save(); // synchronous
+    }
 }

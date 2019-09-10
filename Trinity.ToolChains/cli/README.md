@@ -16,6 +16,7 @@
 
 - `npm adduser` (once)
 - `npm login` (once)
+- Increase version number in package.json
 - `npm run prepublish`
 - `npm publish --access=public`
 

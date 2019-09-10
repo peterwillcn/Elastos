@@ -38,3 +38,9 @@
 ## Examples
 
 - Deploy a DApp on an android device: `trinity-cli run -p android`
+
+## Frequent issues
+
+### Network not reachable using trinity run
+
+Can happen in case the mobile device or the computer are connected to a VPN. Disable the VPN during development or find a way to let your VPN not manage local ips.

@@ -33,6 +33,7 @@
 {
     if (!_stateLabel) {
         [self addSubview:_stateLabel = [UILabel mj_label]];
+        _stateLabel.textColor=RGBA(255, 255, 255, 0.5);
     }
     return _stateLabel;
 }
@@ -41,6 +42,7 @@
 {
     if (!_lastUpdatedTimeLabel) {
         [self addSubview:_lastUpdatedTimeLabel = [UILabel mj_label]];
+       _lastUpdatedTimeLabel.textColor=RGBA(255, 255, 255, 0.5);
     }
     return _lastUpdatedTimeLabel;
 }

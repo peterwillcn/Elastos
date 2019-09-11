@@ -917,6 +917,37 @@ errCodeSPVCreateMasterWalletError= 20006;
     return [self successProcess:command msg:jsonString];
     
 }
+-(PluginResult *)VerifyPayPassword:(invokedUrlCommand *)command
+{
+    NSArray *args = command.arguments;
+    int idx = 0;
+    
+    String masterWalletID = [self cstringWithString:args[idx++]];
+    String backupPassword = [self cstringWithString:args[idx++]];
+    if (args.count != idx) {
+        
+        return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
+    }
+    IMasterWallet *masterWallet = [self getIMasterWallet:masterWalletID];
+    if (masterWallet == nil) {
+        NSString *msg = [NSString stringWithFormat:@"%@ %@", @"Get", [self formatWalletName:masterWalletID]];
+        return [self errorProcess:command code:errCodeInvalidMasterWallet msg:msg];
+    }
+    
+   bool isRight;
+    try {
+        isRight = masterWallet->VerifyPayPassword(backupPassword);
+    } catch (const std::exception &e) {
+        return [self errInfoToDic:e.what() with:command];
+    }
+    NSString *isRightString=@"0";
+    if (isRight==true) {
+        isRightString=@"1";
+    }
+    return [self successProcess:command msg:isRightString];
+    
+}
+
 - (PluginResult *)changePassword:(invokedUrlCommand *)command
 {
     
@@ -1986,6 +2017,38 @@ errCodeSPVCreateMasterWalletError= 20006;
 
     return [self successProcess:command msg:jsonNString];
 }
+-(PluginResult *)VerifyPassPhrase:(invokedUrlCommand *)command{
+    NSArray *args = command.arguments;
+    int idx = 0;
+    String masterWalletID = [self cstringWithString:args[idx++]];
+       String passphrase = [self cstringWithString:args[idx++]];
+      String payPasswd = [self cstringWithString:args[idx++]];
+    if (mMasterWalletManager == nil) {
+        NSString *msg = [NSString stringWithFormat:@"%@", @"Master wallet manager has not initialize"];
+        return [self errorProcess:command code:errCodeImportFromMnemonic msg:msg];
+    }
+    
+    IMasterWallet *masterWallet = [self getIMasterWallet:masterWalletID];
+    if (masterWallet == nil) {
+        NSString *msg = [NSString stringWithFormat:@"%@ %@ %@", @"Import", [self formatWalletName:masterWalletID], @"with WalletId"];
+        return [self errorProcess:command code:errCodeImportFromMnemonic msg:msg];
+    }
+    bool isR;
+    try {
+        isR = masterWallet->VerifyPassPhrase(passphrase,payPasswd);
+    } catch (const std:: exception &e) {
+        return  [self errInfoToDic:e.what() with:command];
+    }
+    NSString *isRString=@"0";
+    if (isR==true) {
+        isRString=@"1";
+    }
+
+    
+    return [self successProcess:command msg:isRString];
+}
+
+
 //-(PluginResult *)GetRegisteredCRInfo:(invokedUrlCommand *)command{
 //    NSArray *args = command.arguments;
 //    int idx = 0;

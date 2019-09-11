@@ -10,7 +10,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMListMoreSignThePublicKeyViewController : UIViewController
-
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)NSInteger typeW;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSDictionary *DataDic;
 @end
 
 NS_ASSUME_NONNULL_END

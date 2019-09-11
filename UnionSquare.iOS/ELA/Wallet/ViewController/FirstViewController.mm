@@ -100,9 +100,9 @@
       [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(currentWalletAccountBalanceChanges:) name: AccountBalanceChanges object:nil];
          [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataCreateWalletLoadWalletInfo) name:updataCreateWallet object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(AsnyConnectStatusChanged:) name:ConnectStatusChanged object:nil];
-    self.table.estimatedRowHeight = 0;
-    self.table.estimatedSectionHeaderHeight = 0;
-    self.table.estimatedSectionFooterHeight = 0;
+//    self.table.estimatedRowHeight = 0;
+//    
+//    self.table.estimatedSectionFooterHeight = 0;
     [self loadNetWorkingPong];
 }
 -(void)loadNetWorkingPong{
@@ -410,6 +410,7 @@ if(inde>self.walletIDListArray.count-1) {
                 self.currentWallet.TypeW=3;
             }
         }
+        self.currentWallet.HasPassPhrase=baseDic[@"HasPassPhrase"];
         self.currentWallet.M=[baseDic[@"M"] integerValue];
         self.currentWallet.N=[baseDic[@"N"] integerValue];
         [self UpWalletType];
@@ -480,7 +481,7 @@ if(inde>self.walletIDListArray.count-1) {
     NSArray *buttonArray = [[NSArray alloc]initWithObjects:negativeSpacer,ClickMorenButton,saveButton,nil];
     self.navigationItem.rightBarButtonItems = buttonArray;
     __weak __typeof(self) weakSelf = self;
-  MJRefreshHeader *header = [MJRefreshHeader  headerWithRefreshingBlock:^{
+MJRefreshNormalHeader  *header = [MJRefreshNormalHeader  headerWithRefreshingBlock:^{
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[weakSelf.currentWallet.masterWalletID,@"ELA"] callbackId:weakSelf.currentWallet.masterWalletID className:@"Wallet" methodName:@"SyncStart"];
         [[ELWalletManager share]SyncStart:mommand];
         [weakSelf.table.mj_header endRefreshing];
@@ -740,24 +741,17 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
     
         
 }
-    -(void)endAnimationWithView:(UIView*)view{
-        
-        self.angle += 10;
-        
-        [self startAnimationWithView:view];
-        
-    }
+-(void)endAnimationWithView:(UIView*)view{
+    self.angle += 10;
+    [self startAnimationWithView:view];
+}
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     self.isScro=YES;
-    
-    
 }
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    
     self.isScro=NO;
     for (int i=0; i<self.dataSoureArray.count; i++) {
         assetsListModel *model=self.dataSoureArray[i];
-        
         NSIndexPath *indexPath=[NSIndexPath indexPathForRow:i inSection:0];
         [self updateCellInfoWithModel:model withInde:indexPath];
     }
@@ -806,7 +800,7 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
 -(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString{
     NSLog(@"解析前%@",QRCodeString);
     NSDictionary *dic =[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]QrCodeImageFromDic:QRCodeString fromVC:self oldQrCodeDic:self.QRCoreDic]];
-    self.QRCoreDic=dic;
+    self.QRCoreDic=[[NSMutableDictionary alloc]initWithDictionary:dic];
     NSLog(@"解析后%@",self.QRCoreDic);
     
     if (![self TypeJudgment:dic]){

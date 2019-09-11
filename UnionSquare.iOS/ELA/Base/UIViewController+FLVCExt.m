@@ -196,7 +196,7 @@ gl.colors = @[(__bridge id)fclolr.CGColor,(__bridge id)tcolor.CGColor];
                 break;
             }
             case AVAuthorizationStatusAuthorized: {
-                [self.navigationController pushViewController:scanVC animated:YES];
+                [self.navigationController pushViewController:scanVC animated:NO];
                 break;
             }
             case AVAuthorizationStatusDenied: {
@@ -555,8 +555,12 @@ NSString *leftTime=
     }
 }
 -(BOOL)TypeJudgment:(NSDictionary*)dic{
-    NSInteger type=[dic[@"extra"][@"Type"] integerValue];
-    switch (type) {
+    
+  NSInteger Type=[dic[@"extra"][@"Type"] integerValue];
+ 
+
+ 
+    switch (Type) {
         case 1:
             return YES;
             break;

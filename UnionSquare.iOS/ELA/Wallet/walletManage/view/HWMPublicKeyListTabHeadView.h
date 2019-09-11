@@ -7,10 +7,22 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
+
+
+
+
+typedef NS_ENUM(NSInteger,ListTabHeadType){
+    LocalPublicKeyType,
+    ParticipatePublicKeyType
+    
+};
+
+
+
 
 @interface HWMPublicKeyListTabHeadView : UIView
-
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)ListTabHeadType type;
 @end
-
-NS_ASSUME_NONNULL_END

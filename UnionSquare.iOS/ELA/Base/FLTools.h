@@ -73,6 +73,8 @@
 @property(assign,nonatomic)NSInteger TypeW;
 @property(assign,nonatomic)NSInteger M;
 @property(assign,nonatomic)NSInteger N;
+@property(assign,nonatomic)BOOL  HasPassPhrase;
+
 @end
 
 @class YYCache;
@@ -120,8 +122,7 @@
 -(NSString *)elsToSela:(NSString*)ela;
 -(BOOL)changeisEnglish:(NSString*)m;
 -(NSString *)getImageViewURLWithURL:(NSString*)urlString;
--(NSDictionary*)CreateQrCodeImage:(NSDictionary*)contentString WithType:(NSString*)type;
-//-(NSArray*)CreateQrCodeImage:(NSString*)contentString WithType:(NSString*)type;
+-(NSDictionary*)CreateQrCodeImage:(NSString*)contentString WithType:(NSString*)type withSubWalletIdChain:(NSString *)subW;
 -(NSString*)DicToString:(NSDictionary*)dic;
 - (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
 - (UIImage*)imageWithSize:(CGFloat)size andColorWithRed:(CGFloat)red Green:(CGFloat)green Blue:(CGFloat)blue andQRDic:(NSDictionary *)qrDic;
@@ -131,4 +132,5 @@
 -(BOOL)SCanQRCodeWithDicCode:(NSDictionary*)dic;
 -(NSString*)http_IpFast;
 -(NSArray*)theInterceptionHttpWithArray:(NSArray*)array;
+-(NSString*)WhetherTheCurrentTypeWithDataString:(NSString*)dataString withType:(NSString*)type;
 @end

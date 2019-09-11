@@ -59,7 +59,7 @@
               [self.backFistButton setTitle:NSLocalizedString(@"已完成签名，立即广播", nil) forState:UIControlStateNormal];self.showInfoLabel.text=NSLocalizedString(@"请使用含有主私钥的钱包签名当前交易", nil);
                NSArray *qrcArray=[[FLTools share]CreateArrayQrCodeImage:self.QRCodeString WithType:self.QrCodeType withSubWall:self.subW];
             if (qrcArray.count==1) {
-                 self.QrCodeImageView.image =[[FLTools share] imageWithSize:700.f andColorWithRed:1 Green:3 Blue:5 andQRDic:self.QRCodeDic];
+                 self.QrCodeImageView.image =[[FLTools share] imageWithSize:700.f andColorWithRed:1 Green:3 Blue:5 andQRString:self.QRCodeString];
                 self.MQRCoreView.alpha=0.f;
                 self.MBGQRCodeImageView.alpha=0.f;
             }else if (qrcArray.count>1){
@@ -80,7 +80,7 @@
             NSArray *qrcArray=[[FLTools share]CreateArrayQrCodeImage:self.QRCodeString WithType:self.QrCodeType withSubWall:self.subW];
             if (qrcArray.count==1) {
                 
-                self.QrCodeImageView.image =[[FLTools share] imageWithSize:700.f andColorWithRed:1 Green:3 Blue:5 andQRDic:self.QRCodeDic];
+                self.QrCodeImageView.image =[[FLTools share] imageWithSize:700.f andColorWithRed:1 Green:3 Blue:5 andQRString:self.QRCodeString];
                 self.MQRCoreView.alpha=0.f;
                 self.MBGQRCodeImageView.alpha=0.f;
             }else if (qrcArray.count>1){
@@ -102,7 +102,7 @@
             self.showInfoLabel.text=[NSString stringWithFormat:@"%@(%@%@%@%@)",NSLocalizedString(@"请使用含有主私钥的钱包签名当前交易", nil),NSLocalizedString(@"已签名：", nil),@"1",NSLocalizedString(@"待签名：", nil),@"2"];
             NSArray *qrcArray=[[FLTools share]CreateArrayQrCodeImage:self.QRCodeString WithType:self.QrCodeType withSubWall:self.subW];
             if (qrcArray.count==1) {
-                self.QrCodeImageView.image =[[FLTools share] imageWithSize:700.f andColorWithRed:1 Green:3 Blue:5 andQRDic:self.QRCodeDic];
+                self.QrCodeImageView.image =[[FLTools share] imageWithSize:700.f andColorWithRed:1 Green:3 Blue:5 andQRString:self.QRCodeString];
                 self.MQRCoreView.alpha=0.f;
                 self.MBGQRCodeImageView.alpha=0.f;
             }else if (qrcArray.count>1){
@@ -148,21 +148,7 @@
             self.showInfoLabel.text=NSLocalizedString(@"扫描二维码可创建单签只读钱包", nil);
             self.MQRCoreView.alpha=0.f;
             self.MBGQRCodeImageView.alpha=0.f;
-           self.QrCodeImageView.image =[[FLTools share] imageWithSize:1200.f andColorWithRed:1 Green:3 Blue:5 andQRDic:self.QRCodeDic];
-//            NSArray *qrcArray=[[FLTools share]CreateArrayQrCodeImage:self.QRCodeString WithType:self.QrCodeType withSubWall:self.subW];
-//            if (qrcArray.count==1) {
-//                self.QrCodeImageView.image =[[FLTools share] imageWithSize:700.f andColorWithRed:1 Green:3 Blue:5 andQRDic:self.QRCodeDic];
-//                self.MQRCoreView.alpha=0.f;
-//                self.MBGQRCodeImageView.alpha=0.f;
-//            }else if (qrcArray.count>1){
-//                self.QrCodeImageView.alpha=0.f;
-//                self.singQRCodeBGImageView.alpha=0.f;
-//                self.MBGQRCodeImageView.alpha=1.f;
-//                self.MQRCoreView.alpha=1.f;
-//                [self allQRCodeImageViewDataArray:qrcArray];
-//
-//            }
-            
+           self.QrCodeImageView.image =[[FLTools share] imageWithSize:1100.f andColorWithRed:3 Green:3 Blue:5 andQRDic:self.QRCodeDic];
             break;
             
         }
@@ -175,20 +161,11 @@
             self.PublicAddressLable.text=self.QRCodeString;
             [self.backFistButton setTitle:NSLocalizedString(@"复制多签公钥", nil) forState:UIControlStateNormal];
             self.showInfoLabel.text=NSLocalizedString(@"扫描二维码可创建多签钱包", nil);
-            self.QrCodeImageView.image =[[FLTools share] imageWithSize:1200.f andColorWithRed:1 Green:3 Blue:5 andQRDic:self.QRCodeDic];
-            NSArray *qrcArray=[[FLTools share]CreateArrayQrCodeImage:self.QRCodeString WithType:self.QrCodeType withSubWall:self.subW];
-            if (qrcArray.count==1) {
-                self.QrCodeImageView.image =[[FLTools share] imageWithSize:700.f andColorWithRed:1 Green:3 Blue:5 andQRDic:self.QRCodeDic];
-                self.MQRCoreView.alpha=0.f;
-                self.MBGQRCodeImageView.alpha=0.f;
-            }else if (qrcArray.count>1){
-                self.QrCodeImageView.alpha=0.f;
-                self.singQRCodeBGImageView.alpha=0.f;
-                self.MBGQRCodeImageView.alpha=1.f;
-                self.MQRCoreView.alpha=1.f;
-                [self allQRCodeImageViewDataArray:qrcArray];
-                
-            }
+            NSDictionary *QRDic =[[FLTools share]CreateQrCodeImage:self.QRCodeString WithType:self.QrCodeType withSubWalletIdChain:@"ELA"];
+        
+            self.QrCodeImageView.image =[[FLTools share] imageWithSize:700.f andColorWithRed:1 Green:3 Blue:5 andQRDic:QRDic];
+            self.MQRCoreView.alpha=0.f;
+            self.MBGQRCodeImageView.alpha=0.f;
             break;
             
         }

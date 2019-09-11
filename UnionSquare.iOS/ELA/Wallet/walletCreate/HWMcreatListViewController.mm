@@ -86,19 +86,8 @@ static NSString *cellString=@"HWMHWMcreatWalletListlTableViewCell";
         __weak __typeof__(self) weakSelf = self;
         WCQRCodeScanningVC *WCQRCode=[[WCQRCodeScanningVC alloc]init];
         WCQRCode.scanBack=^(NSString *addr){
-            
-            NSDictionary *dic=[[FLTools share] dictionaryWithJsonString:addr];
-            if (dic) {
-                if([[dic allKeys] containsObject:@"type"]){
-                    if ([dic[@"type"] isEqualToString:@"1"]) {
-                        [weakSelf popSingleSignReadOnlyWalletVCWithAddString:[[FLTools share] DicToString:dic[@"data"]]];
-                    }
-                }
-                
-            }else{
-                
-            }
-            
+            NSString *data=[[FLTools share]WhetherTheCurrentTypeWithDataString:addr withType:@"1"];
+            [weakSelf popSingleSignReadOnlyWalletVCWithAddString:data withQRCodeString:addr];
         };
     
         [self QRCodeScanVC:WCQRCode];
@@ -108,10 +97,18 @@ static NSString *cellString=@"HWMHWMcreatWalletListlTableViewCell";
     }
     
 }
--(void)popSingleSignReadOnlyWalletVCWithAddString:(NSString*)addS{
-    HWMSingleSignReadOnlyWalletViewController *VC=[[HWMSingleSignReadOnlyWalletViewController alloc]init];
-    VC.jsonString=addS;
-    [self.navigationController pushViewController:VC animated:YES];
+
+-(void)popSingleSignReadOnlyWalletVCWithAddString:(NSString*)addS withQRCodeString:(NSString*)QRCodeString{
+    if (addS.length>0) {
+        HWMSingleSignReadOnlyWalletViewController *VC=[[HWMSingleSignReadOnlyWalletViewController alloc]init];
+        VC.jsonString=addS;
+        [self.navigationController pushViewController:VC animated:YES];
+        
+    }else{
+        HWMQrCodeScanningResultsViewController *QrCodeScanningResultsVC=[[HWMQrCodeScanningResultsViewController alloc]init];
+        QrCodeScanningResultsVC.resultString=QRCodeString;
+        [self.navigationController pushViewController:QrCodeScanningResultsVC animated:NO];
+    }
     
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

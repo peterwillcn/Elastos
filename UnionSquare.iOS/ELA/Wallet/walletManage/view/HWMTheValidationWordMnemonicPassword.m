@@ -26,6 +26,7 @@
         [self.cancelButton setTitle:NSLocalizedString(@"取消", nil) forState:UIControlStateNormal];
           [self.DeleteDirectlyButton setTitle:NSLocalizedString(@"直接删除", nil) forState:UIControlStateNormal];
         self.PWDTextField.placeholder=NSLocalizedString(@"请输入助记词密码", nil);
+        self.PWDTextField.secureTextEntry = YES;
         [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField: self.PWDTextField];
         
     }
@@ -58,5 +59,8 @@
         [self.delegate MandatoryDeleteWithPWD:nil];
     }
 }
-
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    
+    [self endEditing:YES];
+}
 @end

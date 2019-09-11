@@ -180,6 +180,7 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(NSString*)GetRegisteredProducerInfo:(NSString *)mainid;
 -(NSString *)GetOwnerAddressWithID:(NSString*)masterWalletID;
 -(PluginResult *)GetAllCoinBaseTransaction:(invokedUrlCommand *)command;
+- (PluginResult *)getMasterWalletPublicKey:(invokedUrlCommand *)command;
 -(PluginResult *)CreateCombineUTXOTransaction:(invokedUrlCommand *)command;
 -(PluginResult *)GetAllUTXOs:(invokedUrlCommand *)command;
 -(PluginResult *)CreateMultiSignMasterWalletMnemonic:(invokedUrlCommand *)command;
@@ -194,6 +195,8 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(PluginResult *)GetTransactionSignedInfo:(invokedUrlCommand *)command;
 -(PluginResult *)MSignAndReadOnlyCreateTransaction:(invokedUrlCommand *)command;
 -(PluginResult *)QrCodeCreateTransaction:(invokedUrlCommand *)command;
+-(PluginResult *)VerifyPayPassword:(invokedUrlCommand *)command;
+-(PluginResult *)VerifyPassPhrase:(invokedUrlCommand *)command;
 @end
 
 

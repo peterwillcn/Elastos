@@ -7,14 +7,33 @@
 
 #import "HWMPublicKeyListTabHeadView.h"
 
+@interface HWMPublicKeyListTabHeadView()
+@property (weak, nonatomic) IBOutlet UILabel *titleTextLabel;
+
+@end
+
+
 @implementation HWMPublicKeyListTabHeadView
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+-(instancetype)init{
+    self =[super init];
+    if (self) {
+        self =[[NSBundle mainBundle]loadNibNamed:@"HWMPublicKeyListTabHeadView" owner:nil options:nil].firstObject;
+        
+    }
+    
+    return self;
+    
+    
 }
-*/
-
+-(void)setType:(ListTabHeadType)type{
+    if (type ==LocalPublicKeyType) {
+        self.titleTextLabel.text=NSLocalizedString(@"本地公钥", nil);
+    }else if (type ==ParticipatePublicKeyType){
+        self.titleTextLabel.text=NSLocalizedString(@"参与公钥", nil);
+    }
+    _type=type;
+    
+    
+}
 @end

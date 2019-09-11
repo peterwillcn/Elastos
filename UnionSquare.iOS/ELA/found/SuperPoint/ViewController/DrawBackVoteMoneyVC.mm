@@ -146,8 +146,8 @@
     NSString *walletId =  manager.currentWallet.masterWalletID;
     IMainchainSubWallet *wallet = [manager getWalletELASubWallet:walletId];
     NSString *ownerpublickey  =[NSString stringWithCString:wallet->GetOwnerPublicKey().c_str() encoding:NSUTF8StringEncoding];
-    
-    [HttpUrl NetPOSTHost:Http_IP url:@"/api/dposnoderpc/check/getdepositcoin" header:@{} body:@{@"ownerpublickey":ownerpublickey} showHUD:YES WithSuccessBlock:^(id data) {
+     NSString *httpIP=[[FLTools share]http_IpFast];
+    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/getdepositcoin" header:@{} body:@{@"ownerpublickey":ownerpublickey} showHUD:YES WithSuccessBlock:^(id data) {
         CGFloat available = [data[@"data"][@"result"][@"available"] doubleValue];
         BOOL ret = [manager RetrieveDeposit:walletId acount:available-0.0001  Pwd:pwdString];
         [self takeOutOrShutDown];

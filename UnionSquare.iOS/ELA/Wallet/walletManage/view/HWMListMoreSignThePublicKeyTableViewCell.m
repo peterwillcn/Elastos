@@ -7,11 +7,13 @@
 
 #import "HWMListMoreSignThePublicKeyTableViewCell.h"
 
+
 @implementation HWMListMoreSignThePublicKeyTableViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    self.BGView.layer.cornerRadius=5.f;
+self.BGView.layer.masksToBounds=YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

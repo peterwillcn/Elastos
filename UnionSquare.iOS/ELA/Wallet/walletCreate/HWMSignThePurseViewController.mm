@@ -65,7 +65,10 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
  *<# #>
  */
 @property(copy,nonatomic)NSString *phrasePassword;
-
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)NSMutableArray *puKeyMutableArray;
 @end
 
 @implementation HWMSignThePurseViewController
@@ -78,6 +81,12 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
     self.title=NSLocalizedString(@"创建多签钱包", nil);
     [self makeUI];
     self.typeInt=0;
+}
+-(NSMutableArray *)puKeyMutableArray{
+    if (!_puKeyMutableArray) {
+        _puKeyMutableArray =[[NSMutableArray alloc]init];
+    }
+    return _puKeyMutableArray;
 }
 -(void)makeUI{
    
@@ -158,8 +167,10 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
     cell.backgroundColor=[UIColor clearColor];
     cell.row=indexPath.row;
     cell.delegate=self;
-    if (indexPath.row==0&&self.publicKeyString.length>0&&cell.signThePublicKeyTextField.text.length==0) {
-        cell.signThePublicKeyTextField.text=self.publicKeyString;
+    NSString *signThePublicKey=[self findeKeyWithIndexn:indexPath.row];
+    if (signThePublicKey.length>0){
+        cell.signThePublicKeyTextField.text=signThePublicKey;
+    
     }
     return cell;
     
@@ -404,13 +415,30 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
     [self makeButtonKEY];
 }
 -(void)QrCodeIndex:(NSInteger)row{
-    __weak __typeof__(self) weakSelf = self;
-    WCQRCodeScanningVC *WCQRCode=[[WCQRCodeScanningVC alloc]init];
-    WCQRCode.scanBack=^(NSString *addr){
-        NSIndexPath *index = [NSIndexPath indexPathForRow:row inSection:0];
-        HWMaddSignThePurseViewTableViewCell *cell = [weakSelf.baseTableView cellForRowAtIndexPath:index];
-        cell.signThePublicKeyTextField.text=addr;
-    };
+
+        __weak __typeof__(self) weakSelf = self;
+        WCQRCodeScanningVC *WCQRCode=[[WCQRCodeScanningVC alloc]init];
+        WCQRCode.scanBack=^(NSString *addr){
+            
+            [weakSelf SweepCodeProcessingResultsWithQRCodeString:addr WithIndex:row];
+        };
+        [self QRCodeScanVC:WCQRCode];
+    
+}
+-(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString WithIndex:(NSInteger)index{
+    NSString *addRess=[[FLTools share]WhetherTheCurrentTypeWithDataString:QRCodeString withType:@"2"];
+    if (addRess.length>0) {
+        NSMutableDictionary *keyDic=[[NSMutableDictionary alloc]initWithDictionary:@{@"index":@(index),@"key":addRess}];
+        [self.puKeyMutableArray addObject:keyDic];
+        HWMaddSignThePurseViewTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+        cell.signThePublicKeyTextField.text=addRess;
+        
+    }else{
+        HWMQrCodeScanningResultsViewController *QrCodeScanningResultsVC=[[HWMQrCodeScanningResultsViewController alloc]init];
+        QrCodeScanningResultsVC.resultString=QRCodeString;
+        [self.navigationController pushViewController:QrCodeScanningResultsVC animated:NO];
+    }
+
 }
 -(void)makeButtonKEY{
     [self.SignThePurseView.addPurseButton setTitle:NSLocalizedString(@"编辑根私钥", nil) forState:UIControlStateNormal];
@@ -431,6 +459,21 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
         
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
+    
+}
+-(NSString *)findeKeyWithIndexn:(NSInteger)index{
+    for (NSDictionary *dic in self.puKeyMutableArray) {
+        if ([dic[@"index"] integerValue]==index) {
+            return dic[@"key"];
+        }
+    }
+    return nil;
+    
+}
+-(void)setPublicKeyString:(NSString *)publicKeyString{
+    NSMutableDictionary *keyDic=[[NSMutableDictionary alloc]initWithDictionary:@{@"index":@(0),@"key":publicKeyString}];
+    [self.puKeyMutableArray addObject:keyDic];
+    _publicKeyString=publicKeyString;
     
 }
 @end

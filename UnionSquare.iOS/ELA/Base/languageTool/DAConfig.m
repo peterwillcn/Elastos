@@ -10,6 +10,7 @@
 #import "NSBundle+DAUtils.h"
 #import "AppDelegate.h"
 #import "FLFLTabBarVC.h"
+#import "MJRefreshConfig.h"
 
 
 
@@ -31,6 +32,7 @@
 //    [STANDARD_USER_DEFAULT setValue:@[userLanguage] forKey:UWUserLanguageKey];
   
     [STANDARD_USER_DEFAULT synchronize];
+
     
 //    [self resetSystemLanguage];
 }
@@ -64,8 +66,6 @@
     //解决奇怪的动画bug。异步执行
     dispatch_async(dispatch_get_main_queue(), ^{
         appdelegate.window.rootViewController = tabVC;
-
-        
         tabVC.selectedIndex=2;
     });
 }

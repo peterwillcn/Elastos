@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMPublicKeyListHeadView : UIView
-
+-(void)TheTotalNoMSignature:(NSString*)n withNoSignature:(NSString*)m;
 @end
 
 NS_ASSUME_NONNULL_END

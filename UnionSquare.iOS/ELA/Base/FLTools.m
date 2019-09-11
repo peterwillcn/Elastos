@@ -491,12 +491,11 @@ if ([languageString  containsString:@"en"]) {
     if (jsonString == nil) {
         return nil;
     }
-    
     NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     NSError *err;
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
-                                                        options:NSJSONReadingMutableContainers
-                                                          error:&err];
+        options:NSJSONReadingMutableContainers
+            error:&err];
     if(err)
     {
         NSLog(@"json解析失败：%@",err);
@@ -505,7 +504,6 @@ if ([languageString  containsString:@"en"]) {
     return dic;
 }
 -(NSArray*)stringToArray:(NSString*)str{
-    
    NSString *strUrl = [str stringByReplacingOccurrencesOfString:@"[" withString:@""];
     strUrl = [strUrl stringByReplacingOccurrencesOfString:@"]" withString:@""];
     strUrl = [strUrl stringByReplacingOccurrencesOfString:@"\"" withString:@""];
@@ -515,21 +513,11 @@ if ([languageString  containsString:@"en"]) {
     }
     NSArray  *array = [strUrl componentsSeparatedByString:@","];
     return array;
-    
-    
 }
 -(NSString *)getNowTimeTimestamp{
-    
-    
-    
     NSDate* dat = [NSDate dateWithTimeIntervalSinceNow:0];
-    
     NSTimeInterval a=[dat timeIntervalSince1970];
-    
     NSString*timeString = [NSString stringWithFormat:@"%0.f", a];//转为字符型
-    
-    ;
-    
     return timeString;
     
 }
@@ -556,26 +544,11 @@ if ([languageString  containsString:@"en"]) {
 {
     
     NSString *tempStr=string;
-    
-    
-    
-    
-    
     NSInteger size =(tempStr.length / 1);
-    
-    
-    
     NSMutableArray *tmpStrArr = [[NSMutableArray alloc] init];
-    
-    for (int n = 0;n < size; n++)
-        
-    {
-        
-        [tmpStrArr addObject:[tempStr substringWithRange:NSMakeRange(n, 1)]];
-        
+    for (int n = 0;n < size; n++){
+        [tmpStrArr addObject:[tempStr substringWithRange:NSMakeRange(n,1)]];
     }
-    
-    
 //
 //    [tmpStrArr addObject:[tempStr substringWithRange:NSMakeRange(size*1, (tempStr.length % 1))]];
     
@@ -957,25 +930,18 @@ if ([languageString  containsString:@"en"]) {
     id jsonClass = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
     return [NSString stringWithFormat:@"%@",jsonClass[@"org"][@"branding"][@"logo_256"]];
 }
--(NSDictionary*)CreateQrCodeImage:(NSDictionary*)contentString WithType:(NSString*)type{
-//    NSMutableArray *allQRCodeArray=[[NSMutableArray alloc]init];
-//    NSInteger maxChar=10240;
-//   int max =ceil(contentString.length/maxChar);
-//    int min=floor(contentString.length/maxChar);
-//    for (NSInteger i=0; i<max; i++) {
-//        NSString *dataString;
-//        if ((i==min && max>min) ) {
-//            dataString=[contentString substringWithRange:NSMakeRange(i*maxChar, contentString.length-i*maxChar)];
-//
-//        }else{
-//            dataString=[contentString substringWithRange:NSMakeRange(i*maxChar,maxChar)];
-//
-//        }
-        NSDictionary *dic=@{@"type":type,
-                            @"data":contentString,
-                            @"max":@"1",
-                            @"current":@"1"
-                            };
+-(NSDictionary*)CreateQrCodeImage:(NSString*)contentString WithType:(NSString*)type withSubWalletIdChain:(NSString *)subW{
+    NSDictionary *extraDic=@{@"Type":[NSString stringWithFormat:@"%@",type],
+                             @"SubWallet":subW};
+    NSString *extraString=[self returnJSONStringWithDictionary:extraDic];
+    NSDictionary *dic=@{@"version":@(0),
+                        @"name":@"MultiQrContent",
+                        @"total":@(1),
+                        @"index":@(1),
+                        @"data":contentString,
+                        @"md5":@"",
+                        @"extra":extraDic
+                        };
     return dic;
 //        NSString *QRCodeString=[self DicToString:dic];
 ////        [allQRCodeArray addObject:QRCodeString];
@@ -986,6 +952,9 @@ if ([languageString  containsString:@"en"]) {
     
 }
 -(NSArray*)CreateArrayQrCodeImage:(NSString*)contentString WithType:(NSString*)type withSubWall:(NSString*)subW{
+    if (subW.length==0) {
+        subW=@"ELA";
+    }
 //    NSString * contentString=[self DicToString:contentDic];
         NSMutableArray *allQRCodeArray=[[NSMutableArray alloc]init];
     CGFloat maxChar=350.0;
@@ -1025,16 +994,16 @@ if ([languageString  containsString:@"en"]) {
     
 }
 - (UIImage*)imageWithSize:(CGFloat)size andColorWithRed:(CGFloat)red Green:(CGFloat)green Blue:(CGFloat)blue andQRDic:(NSDictionary *)qrDic{
-    
+
     UIImage *resultImage=
     [self createInterPolatedUIImage:[self createQRFromNSDic:qrDic] withSize:size];
-    
+
     return [self imageBlackToTransParent:resultImage withRed:red andGreen:green andBlur:blue];
 }
-- (UIImage*)imageWithSize:(CGFloat)size andColorWithRed:(CGFloat)red Green:(CGFloat)green Blue:(CGFloat)blue andQRString:( NSString*)qrString{
+- (UIImage*)imageWithSize:(CGFloat)size andColorWithRed:(CGFloat)red Green:(CGFloat)green Blue:(CGFloat)blue andQRString:(NSString*)qrString{
     NSDictionary *qrDic=[self dictionaryWithJsonString:qrString];
     UIImage *resultImage=
-    [self createInterPolatedUIImage:[self createQRFromNSDic:qrDic] withSize:size];
+    [self createInterPolatedUIImage:[self createQRFromDICToString:qrDic] withSize:size];
     
     return [self imageBlackToTransParent:resultImage withRed:red andGreen:green andBlur:blue];
     
@@ -1060,10 +1029,21 @@ if ([languageString  containsString:@"en"]) {
     CGImageRelease(scaledImage);
     return img;
 }
+- (CIImage *)createQRFromDICToString:(NSDictionary*)dicSring {
+  NSString * QRSring=[self returnJSONStringWithDictionary:dicSring];
+  NSDictionary *dia =[self dictionaryWithJsonString:QRSring];
+  NSData *stringData = [QRSring dataUsingEncoding:NSUTF8StringEncoding];
+    CIFilter *qrFilter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
+    // set内容和纠错级别
+    [qrFilter setValue:stringData forKey:@"inputMessage"];
+    [qrFilter setValue:@"H" forKey:@"inputCorrectionLevel"];
+    return qrFilter.outputImage;
+}
 
-- (CIImage *)createQRFromNSDic:(NSDictionary *)qrSring {
+- (CIImage *)createQRFromNSDic:(NSDictionary*)qrSring {
 
     NSError*parseError =nil;
+//   NSString * QRSring=[self DeleteTheBlankSpace:[self DicToString:qrSring]];
     
     NSData*stringData =[NSJSONSerialization dataWithJSONObject:qrSring options:NSJSONWritingPrettyPrinted error:&parseError];
     CIFilter *qrFilter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
@@ -1193,4 +1173,54 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     return IPArray;
     
 }
+-(NSString*)DeleteTheBlankSpace:(NSString*)needString{
+    
+       needString = [needString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];  //去除首位空格
+    
+       needString = [needString stringByReplacingOccurrencesOfString:@" "withString:@""];  //去除中间空格
+    
+        needString = [needString stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    return needString;
+}
+-(NSString *)returnJSONStringWithDictionary:(NSDictionary *)dictionary{
+    
+    NSString *jsonStr = @"{";
+    
+    NSArray * keys = [dictionary allKeys];
+    
+    for (NSString * key in keys) {
+//        if ([key isEqualToString:@"extra"]) {
+//            jsonStr =[self returnJSONStringWithDictionary:[dictionary objectForKey:key]];
+//        }
+        jsonStr = [NSString stringWithFormat:@"%@\"%@\":\"%@\",",jsonStr,key,[dictionary objectForKey:key]];
+        
+    }
+    
+    jsonStr = [NSString stringWithFormat:@"%@%@",[jsonStr substringWithRange:NSMakeRange(0, jsonStr.length-1)],@"}"];
+    
+    return jsonStr;
+    
+}
+-(NSString*)WhetherTheCurrentTypeWithDataString:(NSString*)dataString withType:(NSString*)type{
+    NSString*data;
+    NSDictionary *dic=[self dictionaryWithJsonString:dataString];
+    if (dic) {
+        if([[dic allKeys] containsObject:@"extra"]){
+            NSDictionary *extraDic=dic[@"extra"];
+            if ([[extraDic allKeys] containsObject:@"Type"]) {
+                if ([extraDic[@"Type"] isEqualToString:type]) {
+                    if ([type isEqualToString:@"1"]) {
+                        data=[self DicToString:dic[@"data"]];
+                    }else if([type isEqualToString:@"2"]){
+                        data=dic[@"data"];
+                    }
+                   
+                }
+            }
+        }
+    }
+    return data;
+}
+
+
 @end

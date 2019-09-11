@@ -69,15 +69,16 @@
 {
     return self.frame.size;
 }
+
 - (void)setMj_origin:(CGPoint)mj_origin
 {
     CGRect frame = self.frame;
     frame.origin = mj_origin;
     self.frame = frame;
 }
+
 - (CGPoint)mj_origin
 {
     return self.frame.origin;
 }
-
 @end

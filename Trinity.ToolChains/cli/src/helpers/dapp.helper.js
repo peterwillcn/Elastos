@@ -1,13 +1,24 @@
 const path = require("path")
 const fs = require("fs")
 const os = require("os")
+require("colors")
+
+const ManifestHelper = require("./manifest.helper")
 
 module.exports = class DAppHelper {
     /**
      * Make sure current folder is a DApp, to not try to package some invalid content.
      */
     checkFolderIsDApp() {
-        var manifestPath = path.join(process.cwd(), "manifest.json")
+        // Older dapps csanity check. Warn user to not use a manifest.json in the root folder because
+        // we will use the one from the src/assets folder
+        var rootManifestPath = path.join(process.cwd(), "manifest.json")
+        if (fs.existsSync(rootManifestPath)) {
+            console.log("WARNING".yellow + ": You should not have manifest.json in your root folder. It has to be in src/assts instead.")
+        }
+
+        // Check manifest.json
+        var manifestPath = path.join(process.cwd(), "src", "assets", "manifest.json")
 
         if (!fs.existsSync(manifestPath)) {
             return false;
@@ -16,6 +27,10 @@ module.exports = class DAppHelper {
         // TODO: more advanced checks
 
         return true; // All checks passed - we are in a trinity DApp folder.
+    }
+
+    noManifestErrorMessage() {
+        return "Current folder is not a trinity dapp. Make sure there is a manifest.json in src/assets, or create one using the *manifest* CLI command."
     }
 
     getTempEPKPath() {
@@ -30,9 +45,10 @@ module.exports = class DAppHelper {
             console.log("Packaging current folder into a Elastos package (EPK) file...")
 
             let dappHelper = new DAppHelper()
+            let manifestHelper = new ManifestHelper()
 
             if (!dappHelper.checkFolderIsDApp()) {
-                reject("Current folder is not a trinity dapp.");
+                reject(manifestHelper.noManifestErrorMessage());
                 return;
             }
 

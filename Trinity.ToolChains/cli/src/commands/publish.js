@@ -23,11 +23,11 @@ function launchAppCreation(idKeystorePath) {
     var ionicHelper = new IonicHelper()
 
     if (!dappHelper.checkFolderIsDApp()) {
-        console.error("ERROR".red + " - Current folder is not a trinity dapp.")
+        console.error("ERROR".red + " - " + manifestHelper.noManifestErrorMessage())
         return
     }
     // Update manifest with local url in case it had been configured for debugging earlier (ionic serve with remote url)
-    var manifestPath = path.join(process.cwd(), "manifest.json")
+    var manifestPath = path.join(process.cwd(), "src", "assets", "manifest.json")
     manifestHelper.updateManifestForProduction(manifestPath)
 
     ionicHelper.updatedNpmDependencies().then(() => {

@@ -14,8 +14,8 @@ function launchManifestCreation() {
     var manifestHelper = new ManifestHelper()
 
     manifestHelper.promptAppInformation().then((info)=>{
-        // Manifest is created in current folder
-        var manifestDestinationPath = path.join(process.cwd(), "manifest.json")
+        // Manifest is created in the src/assets subfolder of current root folder
+        var manifestDestinationPath = path.join(process.cwd(), "src", "assets", "manifest.json")
         
         manifestHelper.createManifestWithInfo(info, manifestDestinationPath).then(()=>{
             console.log("OK - manifest.json has been created/updated.")

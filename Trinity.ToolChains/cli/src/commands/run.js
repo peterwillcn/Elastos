@@ -53,13 +53,13 @@ function deployAndroidDApp(idKeystorePath) {
     var dappHelper = new DAppHelper()
 
     if (!dappHelper.checkFolderIsDApp()) {
-        console.error("ERROR".red + " - Current folder is not a trinity dapp.")
+        console.error("ERROR".red + " - " + dappHelper.noManifestErrorMessage())
         return
     }
 
     // Retrieve user's computer IP (to be able to ionic serve / hot reload)
     // Update the start_url in the trinity manifest
-    var manifestPath = path.join(process.cwd(), "manifest.json")
+    var manifestPath = path.join(process.cwd(), "src", "assets", "manifest.json")
     manifestHelper.updateManifestForRemoteIndex(manifestPath)
 
     ionicHelper.updatedNpmDependencies().then(() => {

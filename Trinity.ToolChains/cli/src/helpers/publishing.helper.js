@@ -6,7 +6,6 @@ const FormData = require('form-data');
 const ManifestHelper = require("../helpers/manifest.helper")
 const DAppHelper = require("../helpers/dapp.helper")
 
-var manifestHelper = new ManifestHelper()
 var dappHelper = new DAppHelper()
 
 module.exports = class PublishingHelper {
@@ -17,7 +16,7 @@ module.exports = class PublishingHelper {
             console.log("Starting DApp publishing process...")
             
             if (!dappHelper.checkFolderIsDApp()) {
-                reject("Current folder is not a DApp (check your location, and if you have a manifest)")
+                reject(dappHelper.noManifestErrorMessage())
                 return
             }
 
@@ -27,7 +26,7 @@ module.exports = class PublishingHelper {
             let epkStream = fs.createReadStream(epkPath)
 
             // Manifest
-            var manifestPath = path.join(process.cwd(), "manifest.json")
+            var manifestPath = path.join(process.cwd(), "src", "assets", "manifest.json")
             let manifestStream = fs.createReadStream(manifestPath)
 
             // App icon

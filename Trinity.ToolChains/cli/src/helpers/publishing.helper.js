@@ -3,6 +3,7 @@ const path = require("path");
 const axios = require("axios");
 const FormData = require('form-data');
 
+const config = require("../config.js")
 const ManifestHelper = require("../helpers/manifest.helper")
 const DAppHelper = require("../helpers/dapp.helper")
 
@@ -61,7 +62,7 @@ module.exports = class PublishingHelper {
             })*/
 
             try {
-                let response = await axios.post('http://localhost:5200/apps/publish', data,
+                let response = await axios.post(config.dappstore.host+'/apps/publish', data,
                     {
                         headers: {
                             'Content-Type': `multipart/form-data; boundary=${data._boundary}`

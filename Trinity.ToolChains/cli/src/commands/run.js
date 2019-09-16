@@ -5,6 +5,7 @@ const RunHelper = require("../helpers/run.helper")
 const ManifestHelper = require("../helpers/manifest.helper")
 const IonicHelper = require("../helpers/ionic.helper")
 const DAppHelper = require("../helpers/dapp.helper")
+const SystemHelper = require("../helpers/system.helper")
 
 exports.command = 'run'
 exports.describe = 'Deploys current DApp to your connected device'
@@ -54,6 +55,18 @@ function deployAndroidDApp(idKeystorePath) {
 
     if (!dappHelper.checkFolderIsDApp()) {
         console.error("ERROR".red + " - " + dappHelper.noManifestErrorMessage())
+        return
+    }
+
+    // Make sure mandatory dependencies are available
+    if (!SystemHelper.checkIonicPresence()) {
+        console.error("Error:".red, "Please first install IONIC on your computer.")
+        return
+    }
+
+    // Make sure mandatory dependencies are available
+    if (!SystemHelper.checkADBPresence()) {
+        console.error("Error:".red, "Please first install Android tools (especially ADB) on your computer.")
         return
     }
 

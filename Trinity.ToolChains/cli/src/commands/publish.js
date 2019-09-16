@@ -6,6 +6,7 @@ const PublishingHelper = require("../helpers/publishing.helper")
 const ManifestHelper = require("../helpers/manifest.helper")
 const DAppHelper = require("../helpers/dapp.helper")
 const IonicHelper = require("../helpers/ionic.helper")
+const SystemHelper = require("../helpers/system.helper")
 
 exports.command = 'publish'
 exports.describe = 'Publishes the DApp on the DApp store'
@@ -26,6 +27,17 @@ function launchAppCreation(idKeystorePath) {
         console.error("ERROR".red + " - " + manifestHelper.noManifestErrorMessage())
         return
     }
+
+    // Make sure mandatory dependencies are available
+    if (!SystemHelper.checkIonicPresence()) {
+        console.error("Error:".red, "Please first install IONIC on your computer.")
+        return
+    }
+    if (!SystemHelper.checkADBPresence()) {
+        console.error("Error:".red, "Please first install Android tools (especially ADB) on your computer.")
+        return
+    }
+
     // Update manifest with local url in case it had been configured for debugging earlier (ionic serve with remote url)
     var manifestPath = path.join(process.cwd(), "src", "assets", "manifest.json")
     manifestHelper.updateManifestForProduction(manifestPath)

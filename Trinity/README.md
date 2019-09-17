@@ -13,6 +13,7 @@ Elastos Trinity is supported on both Android and iOS, DApp developers only need 
 ## Table of Contents
 
 - [Roadmap](#roadmap)
+- [Download Trinity for Android](#download-trinity-for-android)
 - [Checking out the source code](#checking-out-the-source-code)
 - [How to build](#how-to-build)
 	- [Build on Ubuntu / Debian / Linux Host](#build-on-ubuntu--debian--linux-host)
@@ -60,6 +61,11 @@ Elastos Trinity is supported on both Android and iOS, DApp developers only need 
 * Maintenance of everything existing
 * New features to be defined according to initial feedback from both developers and end users during previous phases
 * New features integrated according to the main Elastos product roadmap (ex: new sidechains)
+
+## Download Trinity for Android
+[stable version](https://github.com/elastos/Elastos.Trinity/releases/latest)
+
+[latest version(tag starting with daily)](https://github.com/elastos/Elastos.Trinity/releases) 
 
 
 ## Checking out the source code

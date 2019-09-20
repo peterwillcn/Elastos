@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HWMSignStatusModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSInteger, QrCodeType) {
@@ -29,11 +30,16 @@ typedef NS_ENUM(NSInteger, QrCodeType) {
 /*
  *
  */
-@property(copy,nonatomic)NSDictionary *QRCodeDic;
+@property(copy,nonatomic)NSDictionary *QRCodeSignatureDic;
 /*
  *<# #>
  */
 @property(copy,nonatomic)NSString *subW;
+@property(nonatomic,strong)FLWallet *currentWallet;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)HWMSignStatusModel *SignStatus;
 @end
 
 NS_ASSUME_NONNULL_END

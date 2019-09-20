@@ -46,7 +46,10 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
 @property (weak, nonatomic) IBOutlet UIButton *TheAverageDistributionButton;
 
 @property (weak, nonatomic) IBOutlet UIImageView *TheAverageDistributionImageView;
-
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)BOOL isMax;
 @end
 
 @implementation HWMCRCCommitteeElectionListViewController
@@ -257,8 +260,9 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
 }
 
 #pragma mark 代理
--(void)didHadInputVoteTicket:(NSString *)ticketNumer
+-(void)didHadInputVoteTicket:(NSString *)ticketNumer WithIsMax:(BOOL)isMax
 {
+    self.isMax=isMax;
     [self.inputVoteTicketView removeFromSuperview];
     self.inputVoteTicketView= nil;
     self.ticket = ticketNumer.integerValue;
@@ -278,7 +282,11 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
         [stringArray addObject:model.ownerpublickey];
     }
     NSString *walletId = [ELWalletManager share].currentWallet.masterWalletID;
-    BOOL ret = [[ELWalletManager share]useMainchainSubWallet:walletId ToVote:stringArray tickets:self.ticket pwd:pwd isChangeVote:YES];
+    NSInteger tic=self.ticket;
+    if (self.isMax) {
+        tic=-1;
+    }
+    BOOL ret = [[ELWalletManager share]useMainchainSubWallet:walletId ToVote:stringArray tickets:tic pwd:pwd isChangeVote:YES];
     if (ret) {
         
         [self showSendSuccessPopuV];

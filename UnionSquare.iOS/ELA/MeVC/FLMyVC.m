@@ -48,7 +48,7 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
     [super viewDidLoad];
    self.theContactOpen=NO;
     
-    self.title= NSLocalizedString(@"设置", nil);
+    self.title= NSLocalizedString(@"我的", nil);
 
     
     self.languageOpen =[[NSUserDefaults standardUserDefaults] objectForKey:@"isOpen"];

@@ -9,6 +9,7 @@
 #import "FLTools.h"
 #import "DAConfig.h"
 //#import "YYCache.h"
+#import<SystemConfiguration/SCNetworkReachability.h>
 @implementation FLFLUser
 
 @end
@@ -931,9 +932,11 @@ if ([languageString  containsString:@"en"]) {
     return [NSString stringWithFormat:@"%@",jsonClass[@"org"][@"branding"][@"logo_256"]];
 }
 -(NSDictionary*)CreateQrCodeImage:(NSString*)contentString WithType:(NSString*)type withSubWalletIdChain:(NSString *)subW{
+    if (subW.length==0) {
+        subW=@"ELA";
+    }
     NSDictionary *extraDic=@{@"Type":[NSString stringWithFormat:@"%@",type],
                              @"SubWallet":subW};
-    NSString *extraString=[self returnJSONStringWithDictionary:extraDic];
     NSDictionary *dic=@{@"version":@(0),
                         @"name":@"MultiQrContent",
                         @"total":@(1),
@@ -943,13 +946,7 @@ if ([languageString  containsString:@"en"]) {
                         @"extra":extraDic
                         };
     return dic;
-//        NSString *QRCodeString=[self DicToString:dic];
-////        [allQRCodeArray addObject:QRCodeString];
-////
-////    }
-//    return QRCodeString;
-    
-    
+
 }
 -(NSArray*)CreateArrayQrCodeImage:(NSString*)contentString WithType:(NSString*)type withSubWall:(NSString*)subW{
     if (subW.length==0) {
@@ -957,7 +954,7 @@ if ([languageString  containsString:@"en"]) {
     }
 //    NSString * contentString=[self DicToString:contentDic];
         NSMutableArray *allQRCodeArray=[[NSMutableArray alloc]init];
-    CGFloat maxChar=350.0;
+    CGFloat maxChar=300.0;
        int max =ceil(contentString.length/maxChar);
         int min=floor(contentString.length/maxChar);
     NSLog(@"二维码max==%d min===%d",max,min);
@@ -977,9 +974,9 @@ if ([languageString  containsString:@"en"]) {
                         @"data":dataString,
                         @"md5":@"",
                         @"extra":@{@"Type":type,
-                                   @"SubWallet":subW}
+                        @"SubWallet":subW}
                         };
-            NSString *QRCodeString=[self DicToString:dic];
+            NSString *QRCodeString=[self returnJSONStringWithDictionary:dic];
             [allQRCodeArray addObject:QRCodeString];
             NSLog(@"二维码 dic==%@",dic);
     
@@ -988,7 +985,15 @@ if ([languageString  containsString:@"en"]) {
     
 }
 -(NSString*)DicToString:(NSDictionary*)dic{
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
+    NSError*  errn;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:& errn];
+    if (errn) {
+        
+        
+        NSLog(@"e:%@",errn);
+        
+        
+    }
     NSString * contentString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     return contentString;
     
@@ -1001,9 +1006,9 @@ if ([languageString  containsString:@"en"]) {
     return [self imageBlackToTransParent:resultImage withRed:red andGreen:green andBlur:blue];
 }
 - (UIImage*)imageWithSize:(CGFloat)size andColorWithRed:(CGFloat)red Green:(CGFloat)green Blue:(CGFloat)blue andQRString:(NSString*)qrString{
-    NSDictionary *qrDic=[self dictionaryWithJsonString:qrString];
+//    NSDictionary *qrDic=[self dictionaryWithJsonString:qrString];
     UIImage *resultImage=
-    [self createInterPolatedUIImage:[self createQRFromDICToString:qrDic] withSize:size];
+    [self createInterPolatedUIImage:[self createQRFromDICToString:qrString] withSize:size];
     
     return [self imageBlackToTransParent:resultImage withRed:red andGreen:green andBlur:blue];
     
@@ -1029,10 +1034,10 @@ if ([languageString  containsString:@"en"]) {
     CGImageRelease(scaledImage);
     return img;
 }
-- (CIImage *)createQRFromDICToString:(NSDictionary*)dicSring {
-  NSString * QRSring=[self returnJSONStringWithDictionary:dicSring];
-  NSDictionary *dia =[self dictionaryWithJsonString:QRSring];
-  NSData *stringData = [QRSring dataUsingEncoding:NSUTF8StringEncoding];
+- (CIImage *)createQRFromDICToString:(NSString*)dicSring {
+//  NSString * QRSring=[self returnJSONStringWithDictionary:dicSring];
+
+  NSData *stringData = [dicSring dataUsingEncoding:NSUTF8StringEncoding];
     CIFilter *qrFilter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
     // set内容和纠错级别
     [qrFilter setValue:stringData forKey:@"inputMessage"];
@@ -1100,9 +1105,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     if ([self ToDetectWhetherTheSame:dic withFromeVC:VC]) {
         return nil;
     }else{
-  
         [self QRCoreDicAddData:dic withVC:VC];
-        
     }
     return self.QRCoreDic;
     
@@ -1125,6 +1128,8 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     if (index!=[dic[@"index"] integerValue]) {
         return NO;
     }
+   
+    
     [self QRCoreDicAddData:dic[@"data"] withVC:vc];
     
     return YES;
@@ -1155,11 +1160,17 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     
 }
 -(NSString*)http_IpFast{
-   NSString *http_ip =[STANDARD_USER_DEFAULT valueForKey:@"Http_IP"];
+    
+   #ifdef DEBUG
+    return  Http_IP;
+   #else
+    NSString *http_ip =[STANDARD_USER_DEFAULT valueForKey:@"Http_IP"];
     if (http_ip.length>0) {
         return http_ip;
     }
     return  Http_IP;
+   #endif
+
 }
 -(NSArray*)theInterceptionHttpWithArray:(NSArray*)array{
     
@@ -1183,23 +1194,23 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     return needString;
 }
 -(NSString *)returnJSONStringWithDictionary:(NSDictionary *)dictionary{
-    
-    NSString *jsonStr = @"{";
-    
-    NSArray * keys = [dictionary allKeys];
-    
-    for (NSString * key in keys) {
-//        if ([key isEqualToString:@"extra"]) {
-//            jsonStr =[self returnJSONStringWithDictionary:[dictionary objectForKey:key]];
-//        }
-        jsonStr = [NSString stringWithFormat:@"%@\"%@\":\"%@\",",jsonStr,key,[dictionary objectForKey:key]];
-        
-    }
-    
-    jsonStr = [NSString stringWithFormat:@"%@%@",[jsonStr substringWithRange:NSMakeRange(0, jsonStr.length-1)],@"}"];
-    
-    return jsonStr;
-    
+
+        NSError *error;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
+        NSString *jsonString;
+        if (!jsonData) {
+            NSLog(@"%@",error);
+        }else{
+            jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+        }
+        NSMutableString *mutStr = [NSMutableString stringWithString:jsonString];
+        NSRange range = {0,jsonString.length};
+        //去掉字符串中的空格
+        [mutStr replaceOccurrencesOfString:@" " withString:@"" options:NSLiteralSearch range:range];
+        NSRange range2 = {0,mutStr.length};
+        //去掉字符串中的换行符
+        [mutStr replaceOccurrencesOfString:@"\n" withString:@"" options:NSLiteralSearch range:range2];
+        return mutStr;
 }
 -(NSString*)WhetherTheCurrentTypeWithDataString:(NSString*)dataString withType:(NSString*)type{
     NSString*data;
@@ -1208,10 +1219,13 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
         if([[dic allKeys] containsObject:@"extra"]){
             NSDictionary *extraDic=dic[@"extra"];
             if ([[extraDic allKeys] containsObject:@"Type"]) {
-                if ([extraDic[@"Type"] isEqualToString:type]) {
+                if ([[NSString stringWithFormat:@"%@",extraDic[@"Type"]] isEqualToString:type]) {
+                    
                     if ([type isEqualToString:@"1"]) {
+                        
                         data=[self DicToString:dic[@"data"]];
                     }else if([type isEqualToString:@"2"]){
+                        
                         data=dic[@"data"];
                     }
                    
@@ -1221,6 +1235,50 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     }
     return data;
 }
+-(BOOL)WhetherTheCurrentTypeNeedType:(NSString*)dataString withType:(NSString*)type{
 
+    NSDictionary *dic=[self dictionaryWithJsonString:dataString];
+    if (dic) {
+        if([[dic allKeys] containsObject:@"extra"]){
+            NSDictionary *extraDic=dic[@"extra"];
+            if ([[extraDic allKeys] containsObject:@"Type"]) {
+                if ([[NSString stringWithFormat:@"%@",extraDic[@"Type"]] isEqualToString:type]) {
+                    
+                    return YES;
+                    
+                }
+            }
+        }
+    }
+    return NO;
+}
+-(BOOL)connectedToNetwork{
+    //创建零地址，0.0.0.0的地址表示查询本机的网络连接状态
+    
+    struct sockaddr_storage zeroAddress;//IP地址
+    
+    bzero(&zeroAddress, sizeof(zeroAddress));//将地址转换为0.0.0.0
+    zeroAddress.ss_len = sizeof(zeroAddress);//地址长度
+    zeroAddress.ss_family = AF_INET;//地址类型为UDP, TCP, etc.
+    
+    // Recover reachability flags
+    SCNetworkReachabilityRef defaultRouteReachability = SCNetworkReachabilityCreateWithAddress(NULL, (struct sockaddr *)&zeroAddress);
+    SCNetworkReachabilityFlags flags;
+    
+    //获得连接的标志
+    BOOL didRetrieveFlags = SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags);
+    CFRelease(defaultRouteReachability);
+    
+    //如果不能获取连接标志，则不能连接网络，直接返回
+    if (!didRetrieveFlags)
+    {
+        return NO;
+    }
+    //根据获得的连接标志进行判断
+    
+    BOOL isReachable = flags & kSCNetworkFlagsReachable;
+    BOOL needsConnection = flags & kSCNetworkFlagsConnectionRequired;
+    return (isReachable&&!needsConnection) ? YES : NO;
+}
 
 @end

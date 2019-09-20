@@ -19,6 +19,7 @@
 #import "FLManageSelectPointNodeInformationVC.h"
 #import "HMWFMDBManager.h"
 #import "DrawBackVoteMoneyVC.h"
+#import "ELWalletManager.h"
 @interface HMWtheSuperNodeElectionViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWsignUpForViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *tagMyVotedLab;
@@ -76,6 +77,7 @@
         make.top.equalTo(self.view).offset(10);
     }];
     [self getNetCoinPointArray];
+   
         if ([self.typeString isEqualToString:@"Registered"]){
   self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
             self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
@@ -90,6 +92,50 @@ self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
             self.tagVoteRuleLab.hidden=YES;
             self.found_vote_rule.hidden=YES;
         }
+     [self getWalletType];
+}
+-(void)getWalletType{
+    
+    NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+    FMDBWalletModel *model =walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
+    
+    FLWallet *wallet =[[FLWallet alloc]init];
+    wallet.masterWalletID =model.walletID;
+    wallet.walletName     =model.walletName;
+    wallet.walletAddress  = model.walletAddress;
+    wallet.walletID       =[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
+    wallet.TypeW  = model.TypeW;
+    
+     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID] callbackId: wallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
+    
+    PluginResult * resultBase =[[ELWalletManager share]getMasterWalletBasicInfo:mommand];
+    NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
+    NSDictionary *baseDic=[[NSDictionary alloc]init];
+    if ([statusBase isEqualToString:@"1"] ) {
+        baseDic=[[FLTools share]dictionaryWithJsonString:resultBase.message[@"success"]];
+        NSString *Readonly=[NSString stringWithFormat:@"%@",baseDic[@"Readonly"]];
+        if ([Readonly isEqualToString:@"0"]) {
+            if ([baseDic[@"M"] integerValue]==1) {
+               wallet.TypeW=0;
+            }else{
+            self.votingRulesButton.hidden=YES;
+            self.tagVoteRuleLab.hidden=YES;
+            self.found_vote_rule.hidden=YES;
+             wallet.TypeW=2;
+            }
+        }else{
+            self.votingRulesButton.hidden=YES;
+            self.tagVoteRuleLab.hidden=YES;
+            self.found_vote_rule.hidden=YES;
+            if ([baseDic[@"M"] integerValue]==1) {
+          wallet.TypeW=1;
+            }else{
+         wallet.TypeW=3;
+            }
+        }
+
+      
+    }
 }
 - (IBAction)NodeRegisteredState:(id)sender {
     if ([self.typeString isEqualToString:@"Registered"]){

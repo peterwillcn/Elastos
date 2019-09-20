@@ -84,7 +84,7 @@ static NSString *celladdString=@"HMWaddWalletListTableViewCell";
     self.baseTableView.delegate=self;
     self.baseTableView.dataSource=self;
  self.baseTableView.backgroundColor=[UIColor clearColor];
-    self.baseTableView.rowHeight=70;
+    self.baseTableView.rowHeight=50;
     self.baseTableView.separatorStyle= UITableViewCellSeparatorStyleNone;
 
     [self.baseTableView registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];

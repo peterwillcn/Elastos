@@ -77,14 +77,13 @@
                                 <constraint firstAttribute="height" constant="1" id="jRN-tQ-2md"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zqf-4n-oMG">
-                            <rect key="frame" x="260" y="72.5" width="40" height="20"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zqf-4n-oMG">
+                            <rect key="frame" x="250" y="57.5" width="60" height="50"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="20" id="Liz-Rg-mVu"/>
-                                <constraint firstAttribute="width" constant="40" id="dmX-nW-Ch3"/>
+                                <constraint firstAttribute="height" constant="50" id="meA-e6-2BR"/>
+                                <constraint firstAttribute="width" constant="60" id="qOj-GT-lXA"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                            <state key="normal" title="MAX">
+                            <state key="normal" image="max_btn">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
                             <connections>
@@ -108,7 +107,7 @@
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入金额（可用：0.00 ELA）" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="e9x-ii-gZo">
-                            <rect key="frame" x="15" y="55" width="292" height="55"/>
+                            <rect key="frame" x="15" y="55" width="230" height="55"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="vw7-iO-W0R"/>
                             </constraints>
@@ -132,10 +131,10 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <switch opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="S3g-U7-joq">
+                        <switch opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S3g-U7-joq">
                             <rect key="frame" x="251" y="178" width="51" height="31"/>
                             <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
-                            <color key="onTintColor" red="0.0" green="0.0" blue="0.0" alpha="0.1499023438" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="onTintColor" red="0.050573058426380157" green="0.69829255342483521" blue="0.43160527944564819" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <color key="thumbTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="isAddOrCloseEvent:" destination="-1" eventType="valueChanged" id="YU9-aT-H9i"/>
@@ -145,7 +144,7 @@
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.14501953125" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="INs-dG-YZT" secondAttribute="trailing" constant="15" id="0rj-sH-ofs"/>
-                        <constraint firstAttribute="trailing" secondItem="Zqf-4n-oMG" secondAttribute="trailing" constant="15" id="1JH-8o-sG7"/>
+                        <constraint firstAttribute="trailing" secondItem="Zqf-4n-oMG" secondAttribute="trailing" constant="5" id="1JH-8o-sG7"/>
                         <constraint firstItem="rcx-So-Iru" firstAttribute="leading" secondItem="bWp-bb-BGj" secondAttribute="trailing" constant="10" id="1KI-uF-Cab"/>
                         <constraint firstAttribute="trailing" secondItem="8um-A8-K4s" secondAttribute="trailing" constant="15" id="1Yz-yQ-b1n"/>
                         <constraint firstItem="3y6-5d-wvQ" firstAttribute="leading" secondItem="rcx-So-Iru" secondAttribute="trailing" id="3sW-2v-Q6V"/>
@@ -174,7 +173,7 @@
                         <constraint firstItem="INs-dG-YZT" firstAttribute="leading" secondItem="6Tg-u7-yRO" secondAttribute="leading" constant="15" id="fwR-qf-jsV"/>
                         <constraint firstAttribute="trailing" secondItem="dx9-yJ-QZQ" secondAttribute="trailing" constant="15" id="sj8-JV-G9h"/>
                         <constraint firstItem="Zwv-J5-ZoI" firstAttribute="leading" secondItem="6Tg-u7-yRO" secondAttribute="leading" constant="15" id="tMg-Oi-3eK"/>
-                        <constraint firstAttribute="trailing" secondItem="e9x-ii-gZo" secondAttribute="trailing" constant="8" id="xIy-7g-ayY"/>
+                        <constraint firstAttribute="trailing" secondItem="e9x-ii-gZo" secondAttribute="trailing" constant="70" id="xIy-7g-ayY"/>
                         <constraint firstItem="t4o-7v-Fzi" firstAttribute="leading" secondItem="rcx-So-Iru" secondAttribute="trailing" id="xYo-YR-T6o"/>
                     </constraints>
                 </view>
@@ -209,5 +208,6 @@
     <resources>
         <image name="asset_transfer_linkmanW" width="22" height="22"/>
         <image name="asset_transfer_stick" width="22" height="22"/>
+        <image name="max_btn" width="40" height="20"/>
     </resources>
 </document>

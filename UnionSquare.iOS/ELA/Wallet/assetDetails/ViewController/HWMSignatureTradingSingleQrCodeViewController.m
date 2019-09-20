@@ -172,8 +172,7 @@
         default:
             break;
     }
-    
-//         self.QrCodeImageView.image = [SGQRCodeGenerateManager generateWithDefaultQRCodeData:self.QRCodeString imageViewWidth:self.QrCodeImageView.mj_w];
+     self.navigationController.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"top_share"] style:UIBarButtonItemStyleDone target:self action:@selector(shareInfo)];
   
   
 }
@@ -224,8 +223,12 @@
 - (IBAction)backFistAction:(id)sender {
     
     switch (self.type) {
-        case SingleSignReadOnlyToBeSigned:
+        case SingleSignReadOnlyToBeSigned:{
+            invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.fromModel.iconName,self.substringAddress,self.addressTextField.text,[[FLTools share]elsToSela:self.enterTheAmountTextField.text],self.noteTextField.text,self.noteTextField.text] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@" publishtransaction"];
+            result=[[ELWalletManager share] publishtransaction:mommand];
+            publishtransaction
             
+        }
 //            [self.backFistButton setTitle:NSLocalizedString(@"已完成签名，立即广播", nil) forState:UIControlStateNormal];
             break;
         case SingleSignReadOnlySignedDeals:
@@ -324,7 +327,6 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.navigationController.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"top_share"] style:UIBarButtonItemStyleDone target:self action:@selector(shareInfo)];
     
 }
 

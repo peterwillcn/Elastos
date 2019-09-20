@@ -453,6 +453,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
         if (addrestStringArray.count==0) {
             self.allAddressAaary=nil;
         }
+        collectionVC.iconName=self.model.iconName;
         collectionVC.addrestStringArray=self.allAddressAaary;
         collectionVC.iconAddress=[NSString stringWithFormat:@"%@",result.message[@"success"]];
         [self.navigationController pushViewController:collectionVC animated:YES];

@@ -133,4 +133,8 @@
 -(NSString*)http_IpFast;
 -(NSArray*)theInterceptionHttpWithArray:(NSArray*)array;
 -(NSString*)WhetherTheCurrentTypeWithDataString:(NSString*)dataString withType:(NSString*)type;
+-(NSDictionary*)DicFromJosnString:(NSString*)json;
+-(BOOL)connectedToNetwork;
+-(NSString *)returnJSONStringWithDictionary:(NSDictionary *)dictionary;
+-(BOOL)WhetherTheCurrentTypeNeedType:(NSString*)dataString withType:(NSString*)type;
 @end

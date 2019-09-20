@@ -109,7 +109,7 @@ static NSString *cellString=@"HMWtheWalletListTableViewCell";
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    return 60;
+    return 50;
 }
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForHeaderInSection:(NSInteger)section{
     

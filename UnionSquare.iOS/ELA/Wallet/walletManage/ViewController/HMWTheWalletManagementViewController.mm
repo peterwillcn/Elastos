@@ -238,7 +238,7 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
             NSDictionary *jsonDic=[[FLTools share]CreateQrCodeImage:result.message[@"success"] WithType:type withSubWalletIdChain:@"ELA"];
             HWMSignatureTradingSingleQrCodeViewController *vc=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
             vc.type=ExportReadOnlyWallet;
-            vc.QRCodeDic=jsonDic;
+            vc.QRCodeSignatureDic=jsonDic;
                     [self.navigationController pushViewController:vc animated:YES];
            
             
@@ -248,14 +248,14 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     }else if ([title isEqualToString:NSLocalizedString(@"查看多签公钥",nil)]){
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getMasterWalletBasicInfo"];
         
-        PluginResult *result= [[ELWalletManager share]ExportMasterPublicKey:mommand];
+        PluginResult *result= [[ELWalletManager share]getMasterWalletPublicKey:mommand];
         NSString *status=[NSString stringWithFormat:@"%@",result.status];
         if ([status isEqualToString:@"1"]) {
         HWMSignatureTradingSingleQrCodeViewController *vc=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
         vc.type=LookhHowSignThePublicKey;
-        vc.QRCodeString=result.message[@"success"];
+            NSDictionary * DataDic=[[FLTools share]dictionaryWithJsonString:result.message[@"success"]];
+        vc.QRCodeString=DataDic[@"xPubKeyHDPM"];
             [self.navigationController pushViewController:vc animated:YES];
-            
         }
         
     }
@@ -403,14 +403,6 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     
 -(void)setCurrentWallet:(FLWallet *)currentWallet{
     _currentWallet=currentWallet;
-    
-}
-    
--(void)GetTransactionSignedInfo{
-    
-    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.QRCoreDic[@"extra"][@"SubWallet"],self.QRCoreDic[@"data"]] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
-    PluginResult * result =[[ELWalletManager share]GetTransactionSignedInfo:mommand];
-    
     
 }
 -(void)closeView{

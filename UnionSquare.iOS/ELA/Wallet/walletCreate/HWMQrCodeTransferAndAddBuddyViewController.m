@@ -22,6 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title=NSLocalizedString(@"扫码结果", nil);
+    [self defultWhite];
     [self setBackgroundImg:@""];
     self.addressLabel.layer.cornerRadius=15.f;
     self.addressLabel.layer.masksToBounds=YES;
@@ -30,8 +31,8 @@
     [[HMWCommView share] makeBordersWithView:self.AddContactButton];
     [self.transferButton setTitle:NSLocalizedString(@"转账", nil) forState:UIControlStateNormal];
     [self.AddContactButton setTitle:NSLocalizedString(@"添加联系人", nil) forState:UIControlStateNormal];
-    self.addressTextLabel.text=NSLocalizedString(@"已识别收款地址", nil);
-    
+    self.addressTextLabel.text=[NSString stringWithFormat:@" %@    ",NSLocalizedString(@"已识别收款地址", nil)];
+     self.QRViewImage.image =[[FLTools share] imageWithSize:1100.f andColorWithRed:3 Green:3 Blue:5 andQRString:self.addressString];
 }
 -(void)setAddressString:(NSString *)addressString{
     _addressString=addressString;
@@ -47,8 +48,9 @@
     HMWtransferViewController *HMWtransferVC=[[HMWtransferViewController alloc]init];
     HMWtransferVC.currentWallet=self.currentWallet;
     assetsListModel *model=[[assetsListModel   alloc]init];
-    model.iconName=self.QRCoreDic[@"extra"][@"SubWallet"];
-    HMWtransferVC.model=model; HMWtransferVC.toAddressString=self.addressString;
+    model.iconName=self.addressDic[@"extra"][@"SubWallet"];
+    HMWtransferVC.model=model;
+    HMWtransferVC.toAddressString=self.addressString;
     [self.navigationController pushViewController:HMWtransferVC animated:NO];
 }
 - (IBAction)AddContactEvent:(id)sender{

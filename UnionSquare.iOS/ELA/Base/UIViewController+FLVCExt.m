@@ -524,7 +524,7 @@ NSString *leftTime=
             
             break;}
         case 3:{
-            if(![self whetherTheCurrent:@"VC"]) {
+            if(![self whetherTheCurrent:@"FirstViewController"]) {
                
                 return NO;
                 
@@ -537,8 +537,8 @@ NSString *leftTime=
             if (![self whetherTheCurrent:@"HMWtransferViewController"]&&![self whetherTheCurrent:@"HMWaddContactViewController"]) {
                HWMQrCodeTransferAndAddBuddyViewController *QrCodeTransferAndAddBuddyVC=[[HWMQrCodeTransferAndAddBuddyViewController alloc]init];
                QrCodeTransferAndAddBuddyVC.currentWallet=currW;
-      QrCodeTransferAndAddBuddyVC.addressString=dic[@"data"];
-                QrCodeTransferAndAddBuddyVC.QRCoreDic=dic;
+                  QrCodeTransferAndAddBuddyVC.addressDic=dic;
+                QrCodeTransferAndAddBuddyVC.addressString=dic[@"data"];
                 [self.navigationController pushViewController:QrCodeTransferAndAddBuddyVC animated:NO];
                      return NO;
                 

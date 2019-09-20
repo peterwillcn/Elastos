@@ -35,19 +35,19 @@
     switch (model.TypeW) {
         case SingleSign:
             imageName=@"single_wallet";
-         self.walletNameLabel.text=  [NSString stringWithFormat:@"%@%@",model.walletName,NSLocalizedString(@"的单签钱包", nil)];
+         self.walletNameLabel.text=  [NSString stringWithFormat:@"%@",model.walletName];
             break;
         case SingleSignReadonly:
             imageName=@"single_walllet_readonly";
-             self.walletNameLabel.text=  [NSString stringWithFormat:@"%@%@",model.walletName,NSLocalizedString(@"的单签只读钱包", nil)];
+             self.walletNameLabel.text=  [NSString stringWithFormat:@"%@",model.walletName];
             break;
         case HowSign:
             imageName=@"multi_wallet";
-            self.walletNameLabel.text=  [NSString stringWithFormat:@"%@%@",model.walletName,NSLocalizedString(@"的多签钱包", nil)];
+            self.walletNameLabel.text=  [NSString stringWithFormat:@"%@",model.walletName];
             break;
         case HowSignReadonly:
             imageName=@"multi_wallet_readonly";
-             self.walletNameLabel.text=  [NSString stringWithFormat:@"%@%@",model.walletName,NSLocalizedString(@"的多签只读钱包", nil)];
+             self.walletNameLabel.text=[NSString stringWithFormat:@"%@",model.walletName];
             break;
             
         default:

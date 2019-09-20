@@ -169,6 +169,8 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(NSInteger)UpdateProducerWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model;
 
 -(BOOL)useMainchainSubWallet:(NSString*)mainchainSubWalletId ToVote:(NSArray*)publicKeys tickets:(NSInteger)stake pwd:(NSString*)pwd isChangeVote:(BOOL)change;
+-(PluginResult *)SignReadOnlyToVote:(invokedUrlCommand *)command;
+-(PluginResult *)HowSignToVote:(invokedUrlCommand *)command;
 //取消选举结果
 -(BOOL)CancelProducer:(NSString*)mainchainSubWalletId Pwd:(NSString*)pwd;
 //拿回押金
@@ -197,6 +199,8 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(PluginResult *)QrCodeCreateTransaction:(invokedUrlCommand *)command;
 -(PluginResult *)VerifyPayPassword:(invokedUrlCommand *)command;
 -(PluginResult *)VerifyPassPhrase:(invokedUrlCommand *)command;
+-(PluginResult *)publishtransaction:(invokedUrlCommand *)command;
+-(PluginResult *)SignTransaction:(invokedUrlCommand *)command;
 @end
 
 

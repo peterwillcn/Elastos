@@ -28,15 +28,20 @@
 #import "sideChainInfoModel.h"
 #import "NENPingManager.h"
 #import "HWMQrCodeScanningResultsViewController.h"
+#import "HWMSignStatusModel.h"
+#import "HMWpwdPopupView.h"
+#import "HWMSignatureTradingSingleQrCodeViewController.h"
+#import "HMWSendSuccessPopuView.h"
 
-
-
-
-@interface FirstViewController ()<FLCapitalViewDelegate,UITableViewDelegate,UITableViewDataSource,HMWaddFooterViewDelegate,HMWTheWalletListViewControllerDelegate>
+@interface FirstViewController ()<FLCapitalViewDelegate,UITableViewDelegate,UITableViewDataSource,HMWaddFooterViewDelegate,HMWTheWalletListViewControllerDelegate,HMWpwdPopupViewDelegate>
 {
     FLWallet *_currentWallet;
 }
 @property (nonatomic,strong) UITableView *table;
+/*
+ *HMWpwdPopupView *)pwdPopupV
+ */
+@property(strong,nonatomic)HMWpwdPopupView  *pwdPopupV;
 
 @property (nonatomic, strong)FLCapitalView *headerView;
 //@property (nonatomic, strong)
@@ -75,6 +80,14 @@
  *<# #>
  */
 @property(strong,nonatomic)NSMutableDictionary *QRCoreDic;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic) HWMSignStatusModel *SignStatusModel;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)HMWSendSuccessPopuView *sendSuccessPopuV;
 @end
 
 @implementation FirstViewController
@@ -108,27 +121,23 @@
 -(void)loadNetWorkingPong{
     [HttpUrl NetGETHost:PongUrl url:@"/api/dposNodeRPC/getProducerNodesList" header:nil body:nil showHUD:NO WithSuccessBlock:^(id data) {
         NSArray *urlArray =[NSArray arrayWithArray:data[@"data"]];
-        
-        [self loadPingWithURLArray:[[FLTools share]theInterceptionHttpWithArray:urlArray]];
-        
+        [self loadPingWithURLArray:[[FLTools share]theInterceptionHttpWithArray:urlArray] withHTTPArray:urlArray];
     } WithFailBlock:^(id data) {
         
     } ];
     
 }
--(void)loadPingWithURLArray:(NSArray*)urlArray{
+-(void)loadPingWithURLArray:(NSArray*)urlArray withHTTPArray:(NSArray*)arry{
 
     self.pingManager = [[NENPingManager alloc] init];
     [self.pingManager getFatestAddress:urlArray completionHandler:^(NSString *hostName, NSArray *sortedAddress) {
-//        NSLog(@"fastest IP: %@",hostName);
+      
         if (hostName.length>0){
-            [STANDARD_USER_DEFAULT setValue:hostName forKey: @"Http_IP"];
+            NSInteger index=[urlArray indexOfObject:hostName];
+            [STANDARD_USER_DEFAULT setValue:arry[index] forKey: @"Http_IP"];
             [STANDARD_USER_DEFAULT synchronize];
-            
         }
     }];
-    
-    
 }
 -(UIView *)leftView{
     if (!_leftView) {
@@ -410,7 +419,7 @@ if(inde>self.walletIDListArray.count-1) {
                 self.currentWallet.TypeW=3;
             }
         }
-        self.currentWallet.HasPassPhrase=baseDic[@"HasPassPhrase"];
+        self.currentWallet.HasPassPhrase=[baseDic[@"HasPassPhrase"] boolValue];
         self.currentWallet.M=[baseDic[@"M"] integerValue];
         self.currentWallet.N=[baseDic[@"N"] integerValue];
         [self UpWalletType];
@@ -464,7 +473,6 @@ if(inde>self.walletIDListArray.count-1) {
     self.table.backgroundColor = [UIColor clearColor];
     self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.table registerNib:[UINib nibWithNibName:@"FLAssetTableCell" bundle:nil] forCellReuseIdentifier:@"FLAssetTableCell"];
-    
     self.table.dataSource =self;
     self.table.delegate = self;
     self.table.rowHeight = 100;
@@ -597,36 +605,6 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
             break;
     }
 }
-//-(void)jumpToSelectTradeBiVC:(NSString*)addr{
-//    FLSelectTradeBiVC *vc = [[FLSelectTradeBiVC alloc]init];
-//    vc.dataSource = self.dataSource;
-//    vc.toAddress = addr;
-//    vc.currentWallet=self.currentWallet;
-//    [self.navigationController pushViewController:vc animated:YES];
-//
-//}
-//刷新通知
-//-(void)walletRefresh:(NSNotification*)message
-//{
-//    switch ([message.object integerValue]) {
-//        case 1://跟新
-//            {
-////                [self setWallet];
-//                [self netWorkData];
-//
-//            }
-//            break;
-//        case 2://换
-//            {
-//                self.currentWallet = nil;
-////                [self setWallet];
-//            }
-//            break;
-//        default:
-//            break;
-//    }
-//}
-
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     FLAssetTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FLAssetTableCell"];
@@ -798,10 +776,13 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
     cell.progressLab.text=[NSString stringWithFormat:@"%.f%@", floor(cell.progress.progress*100),symbolString];
 }
 -(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString{
-    NSLog(@"解析前%@",QRCodeString);
+//    NSLog(@"解析前%@",QRCodeString);
+    if ([[FLTools share]SCanQRCodeWithDicCode:self.QRCoreDic] ) {
+        self.QRCoreDic=nil;
+    }
     NSDictionary *dic =[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]QrCodeImageFromDic:QRCodeString fromVC:self oldQrCodeDic:self.QRCoreDic]];
     self.QRCoreDic=[[NSMutableDictionary alloc]initWithDictionary:dic];
-    NSLog(@"解析后%@",self.QRCoreDic);
+//    NSLog(@"解析后%@",self.QRCoreDic);
     
     if (![self TypeJudgment:dic]){
         HWMQrCodeScanningResultsViewController *QrCodeScanningResultsVC=[[HWMQrCodeScanningResultsViewController alloc]init];
@@ -810,16 +791,178 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
         return;
     }
     if ([[FLTools share]SCanQRCodeWithDicCode:self.QRCoreDic]) {
-            [self QrCodepushVC:self.QRCoreDic WithCurrWallet:self.currentWallet];
+        
+        if ([self QrCodepushVC:self.QRCoreDic WithCurrWallet:self.currentWallet]) {
+           [self GetTransactionSignedInfoWhereForm:NO];
+        }
     }
+  
     
 }
 
--(void)GetTransactionSignedInfo{
+-(void)GetTransactionSignedInfoWhereForm:(BOOL)isPWD{
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.QRCoreDic[@"extra"][@"SubWallet"],self.QRCoreDic[@"data"]] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
     PluginResult * result =[[ELWalletManager share]GetTransactionSignedInfo:mommand];
     
+    if ([result.status  isEqual:@1]) {
+        
+        
+        NSArray *SignArry=[NSArray arrayWithArray:result.message[@"success"]];
+   
+        for (NSDictionary *dic in SignArry) {
+           self.SignStatusModel.N=dic[@"N"];
+          self.SignStatusModel.M=dic[@"M"];
+          NSObject *obj=dic[@"Signers"];
+            
+            if ([obj isKindOfClass:[NSArray class]]) {
+                self.SignStatusModel.Signers=[NSArray arrayWithArray:dic[@"Signers"]].count;
+            }
+            if ([dic[@"SignType"] isEqualToString:@"MultiSign"]) {
+             self.SignStatusModel.isHowSign=YES;
+                if ([self.SignStatusModel.M integerValue]>self.SignStatusModel.Signers) {
+                    self.SignStatusModel.isSignCom=NO;
+                    NSObject *obj=dic[@"Signers"];
+                    
+                    if ([obj isKindOfClass:[NSArray class]]) {
+                        self.SignStatusModel.Signers=[NSArray arrayWithArray:dic[@"Signers"]].count;
+                    }
+                }else{
+                    self.SignStatusModel.isSignCom=YES;
+                }
+
+//
+            }else{
+                 self.SignStatusModel.isHowSign=NO;
+                self.SignStatusModel.M=@"1";
+            }
+            
+        }
+        
+        if (self.SignStatusModel.isSignCom==NO) {
+            UIView *mainView=[self mainWindow];
+            [mainView addSubview:self.pwdPopupV];
+            [self.pwdPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.top.bottom.equalTo(mainView);
+            }];
+        }else{
+            if (isPWD) {
+              [self cancelThePWDPageView];
+            }
+            HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
+            if (self.SignStatusModel.isHowSign) {
+                SignatureTradingSingleQrCodeVC.type=HowSignSignedDeals;
+            }else{
+                SignatureTradingSingleQrCodeVC.type=SingleSignReadOnlyToBeSigned;
+            }
+            
+            NSDictionary *successDic=[[NSDictionary alloc]initWithDictionary:[[FLTools share]dictionaryWithJsonString:self.QRCoreDic[@"data"]]]; SignatureTradingSingleQrCodeVC.QRCodeString =self.QRCoreDic[@"data"];
+            SignatureTradingSingleQrCodeVC.QRCodeSignatureDic=successDic;
+            SignatureTradingSingleQrCodeVC.currentWallet=self.currentWallet; SignatureTradingSingleQrCodeVC.subW=self.QRCoreDic[@"extra"][@"SubWallet"];
+          
+            SignatureTradingSingleQrCodeVC.SignStatus=self.SignStatusModel;
+            [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
+            
+        }
+        
+        
+    }
     
 }
-
+-(HMWpwdPopupView *)pwdPopupV{
+    if (!_pwdPopupV) {
+        _pwdPopupV=[[HMWpwdPopupView alloc]init];
+        _pwdPopupV.delegate=self;
+        _pwdPopupV.backgroundColor=RGBA(0, 0, 0, 0.5);
+    }
+    return _pwdPopupV;
+    
+}
+-(void)makeSureWithPWD:(NSString*)pwd{
+ 
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.QRCoreDic[@"extra"][@"SubWallet"],self.QRCoreDic[@"data"],pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
+    PluginResult *result = [[ELWalletManager share]SignTransaction:mommand];
+    NSString *statue=[NSString stringWithFormat:@"%@",result.status];
+   
+    if ([statue isEqualToString:@"1"]) {
+        if (self.SignStatusModel.Signers+1==[self.SignStatusModel.M integerValue]) {
+            [self publishtransaction:result.message[@"success"]];
+        }else{
+        HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
+        if (self.SignStatusModel.isHowSign) {
+            SignatureTradingSingleQrCodeVC.type=HowSignSignedDeals;
+        }else{
+            SignatureTradingSingleQrCodeVC.type=SingleSignReadOnlyToBeSigned;
+        }
+        [self cancelThePWDPageView];
+        
+        NSDictionary *successDic=[[NSDictionary alloc]initWithDictionary:result.message[@"success"]]; SignatureTradingSingleQrCodeVC.QRCodeString =[[FLTools share]DicToString:successDic];
+        SignatureTradingSingleQrCodeVC.currentWallet=self.currentWallet;
+            SignatureTradingSingleQrCodeVC.SignStatus=self.SignStatusModel; SignatureTradingSingleQrCodeVC.QRCodeSignatureDic=result.message[@"success"];
+        SignatureTradingSingleQrCodeVC.subW=self.QRCoreDic[@"extra"][@"SubWallet"];
+        [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
+        
+        }
+    }
+    
+}
+-(void)cancelThePWDPageView{
+    [self.pwdPopupV removeFromSuperview];
+    self.pwdPopupV=nil;
+    
+}
+-(HWMSignStatusModel *)SignStatusModel{
+    if (!_SignStatusModel) {
+        _SignStatusModel =[[HWMSignStatusModel alloc]init];
+    }
+    return _SignStatusModel;
+}
+-(void)publishtransaction:(id)data{
+    [self cancelThePWDPageView];
+    if ([[FLTools share] connectedToNetwork]) {
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.QRCoreDic[@"extra"][@"SubWallet"],[[FLTools share] DicToString:data]] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"publishtransaction"];
+        PluginResult *result = [[ELWalletManager share]publishtransaction:mommand];
+        NSString *statue=[NSString stringWithFormat:@"%@",result.status];
+        if ([statue isEqualToString:@"1"]){
+            [self showSendSuccessPopuV];
+        }
+    }else{
+        self.SignStatusModel.isSignCom=YES;
+        HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
+        if (self.SignStatusModel.isHowSign) {
+            SignatureTradingSingleQrCodeVC.type=HowSignSignedDeals;
+        }else{
+            SignatureTradingSingleQrCodeVC.type=SingleSignReadOnlyToBeSigned;
+        }
+        
+        NSDictionary *successDic=[[NSDictionary alloc]initWithDictionary:data]; SignatureTradingSingleQrCodeVC.QRCodeString =[[FLTools share]DicToString:successDic];
+        SignatureTradingSingleQrCodeVC.currentWallet=self.currentWallet;
+        SignatureTradingSingleQrCodeVC.QRCodeSignatureDic=data;
+        SignatureTradingSingleQrCodeVC.SignStatus=self.SignStatusModel; SignatureTradingSingleQrCodeVC.subW=self.QRCoreDic[@"extra"][@"SubWallet"];
+        [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
+        
+    }
+    
+   
+}
+-(HMWSendSuccessPopuView *)sendSuccessPopuV{
+    if (!_sendSuccessPopuV) {
+        _sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
+    }
+    
+    return _sendSuccessPopuV;
+}
+-(void)showSendSuccessPopuV{
+    UIView *manView=[self mainWindow];
+    [manView addSubview:self.sendSuccessPopuV];
+    [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(manView);
+    }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self hiddenSendSuccessPopuV];
+    });
+}
+-(void)hiddenSendSuccessPopuV{
+    [self.sendSuccessPopuV removeFromSuperview];
+    self.sendSuccessPopuV=nil;
+}
 @end

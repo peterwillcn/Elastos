@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *numberLabel;
 
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
+@property (weak, nonatomic) IBOutlet UISwitch *SingleAddressSwitch;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -17,6 +17,10 @@
 @property (nonatomic, strong) UILabel *promptLabel;
 @property (nonatomic, assign) BOOL isSelectedFlashlightBtn;
 @property (nonatomic, strong) UIView *bottomView;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)NSMutableDictionary *QRDic;
 @end
 
 @implementation WCQRCodeScanningVC
@@ -25,7 +29,12 @@
     [super viewDidAppear:animated];
     
 }
-
+-(NSMutableDictionary *)QRDic{
+    if (!_QRDic) {
+        _QRDic =[[NSMutableDictionary alloc]init];
+    }
+    return _QRDic;
+}
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -114,10 +123,19 @@
     [self.view addSubview:self.scanningView];
 }
 - (void)QRCodeAlbumManager:(SGQRCodeAlbumManager *)albumManager didFinishPickingMediaWithResult:(NSString *)result {
-    
-    
-     [self.navigationController popViewControllerAnimated:YES];
-
+    if ([self.frVC isKindOfClass:[@"FirstViewController" class]]) {
+        if ([[FLTools share]WhetherTheCurrentTypeNeedType:result withType:@"3"]) {
+            self.QRCoreDic =[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]QrCodeImageFromDic:result fromVC:self oldQrCodeDic:self.QRCoreDic]];
+            if ([[FLTools share]SCanQRCodeWithDicCode:self.QRCoreDic]) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }else{
+           [self.navigationController popViewControllerAnimated:YES];
+        }
+        
+    } else {
+    [self.navigationController popViewControllerAnimated:YES];
+    }
     if (self.scanBack) {
         self.scanBack(result);
     }
@@ -221,6 +239,16 @@
     });
 }
 
-
+-(BOOL)WhetherTransferTypeWith:(NSString*)QRString{
+    
+    
+   
+//    if ([[FLTools share]SCanQRCodeWithDicCode:self.QRCoreDic]) {
+//
+//        return YES;
+//    }
+//    return NO;
+    
+}
 @end
 

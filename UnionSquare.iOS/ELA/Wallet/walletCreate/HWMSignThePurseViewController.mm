@@ -93,8 +93,14 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
     self.baseTableView.dataSource=self;
     self.baseTableView.delegate=self;
     self.baseTableView.backgroundColor=[UIColor clearColor];
+    UIView *headView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 280)];
+    [headView addSubview:self.SignThePurseView];
+    self.baseTableView.tableHeaderView=headView;
+    UIView *footView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 230)];
+    [footView addSubview:self.footView];
+    self.baseTableView.tableFooterView=footView;
     [self.baseTableView registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
-        [self.baseTableView registerNib:[UINib nibWithNibName:cellFootString bundle:nil] forCellReuseIdentifier:cellFootString];
+//        [self.baseTableView registerNib:[UINib nibWithNibName:cellFootString bundle:nil] forCellReuseIdentifier:cellFootString];
     [self.baseTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(endEdit)];
     self.baseTableView.userInteractionEnabled=YES;
@@ -120,7 +126,7 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
 }
 -(HWMSignThePurseHeadView *)SignThePurseView{
     if (!_SignThePurseView) {
-        _SignThePurseView =[[HWMSignThePurseHeadView alloc]initWithFrame:CGRectMake(130, 0, AppWidth-60, 150)];
+        _SignThePurseView =[[HWMSignThePurseHeadView alloc]initWithFrame:CGRectMake(130, 0, AppWidth-60, 280)];
         [_SignThePurseView.changeNumberSignatureButton addTarget:self action:@selector(aleartNumberView) forControlEvents:UIControlEventTouchUpInside];
         [_SignThePurseView.addPurseButton addTarget:self action:@selector(AddThePrivateKeyView) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -130,6 +136,7 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
     if (!_footView) {
        _footView =[[HWMaddSignThePursefootView alloc]init];
         _footView.frame=CGRectMake(0, 0, AppWidth, 230);
+        
         [_footView.addButton addTarget:self action:@selector(addSinWallet) forControlEvents:UIControlEventTouchUpInside];
         [_footView.confirmCreateButton addTarget:self action:@selector(ConfirmToCreate) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -152,16 +159,18 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
  
-    return  self.SignThePurseInter;
+    return  self.SignThePurseInter-1;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-
-    if (self.SignThePurseInter==indexPath.row+1) {
-        HWMaddSignThePursefootTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellFootString];
-        [cell.addButton addTarget:self action:@selector(addSinWallet) forControlEvents:UIControlEventTouchUpInside];
-        [cell.confirmCreateButton addTarget:self action:@selector(ConfirmToCreate) forControlEvents:UIControlEventTouchUpInside];
-        return cell;
-    }
+//
+//    if (self.SignThePurseInter==indexPath.row+1) {
+//        HWMaddSignThePursefootTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellFootString];
+//        [cell.addButton addTarget:self action:@selector(addSinWallet) forControlEvents:UIControlEventTouchUpInside];
+//        [cell.confirmCreateButton addTarget:self action:@selector(ConfirmToCreate) forControlEvents:UIControlEventTouchUpInside];
+//        cell.alpha=0.f;
+//        cell.selectionStyle=UITableViewCellSelectionStyleNone;
+//        return cell;
+//    }
    HWMaddSignThePurseViewTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
@@ -178,7 +187,7 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 }
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    return self.SignThePurseView;
+   return [[UIView alloc]initWithFrame:CGRectZero];
 }
 -(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
  
@@ -187,17 +196,17 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.SignThePurseInter==indexPath.row+1) {
-        return 230;
+        return 0.1;
     }
     return 54;
 }
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForFooterInSection:(NSInteger)section{
     
-    return 230;
+    return 0.1;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
-    return 230;
+    return 0.1;
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self endEdit];
@@ -207,7 +216,6 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
 }
 #pragma mark ---------<#string #>----------
 -(void)addSinWallet{
-    
     if (self.SignThePurseInter>6&&self.SignThePurseView.addPurseButton.userInteractionEnabled==YES){
        [[FLTools share]showErrorInfo:NSLocalizedString(@"公钥数量过多", nil)];
         return;
@@ -218,56 +226,63 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
     }
     self.SignThePurseInter++;
     [self.baseTableView reloadData];
-    
-    
 }
 -(void)ConfirmToCreate{
+    if (![[FLTools share]checkWalletName:self.SignThePurseView.walletNameTextField.text]) {
+        return;
+    }
+    
+    NSMutableArray*publicKeysArray=[[NSMutableArray alloc]init];
+    for (int i=0; i<self.SignThePurseInter-1;i++) {
+        NSIndexPath* indepa=[NSIndexPath indexPathForRow:i inSection:0];
+        HWMaddSignThePurseViewTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:indepa];
+        if (cell.signThePublicKeyTextField.text.length>0) {
+            [publicKeysArray addObject:cell.signThePublicKeyTextField.text];
+        }
+        
+    }
+    
+    
     if (self.SignThePurseView.addPurseButton.userInteractionEnabled==YES) {
-        if (self.SignThePurseInter-1<[self.SignThePurseView.numberLabel.text intValue]) {
+        if (publicKeysArray.count+1<[self.SignThePurseView.numberLabel.text intValue]) {
             [[FLTools share]showErrorInfo:NSLocalizedString(@"公钥数量过少", nil)];
+             return;
         }
         
     }
     if (self.SignThePurseView.addPurseButton.userInteractionEnabled==NO){
-        if (self.SignThePurseInter<[self.SignThePurseView.numberLabel.text intValue]) {
+        if (publicKeysArray.count<[self.SignThePurseView.numberLabel.text intValue]) {
             [[FLTools share]showErrorInfo:NSLocalizedString(@"公钥数量过少", nil)];
+            return;
         }
     }
     
+    
+    
     if (self.typeInt==0) {
-        [self creatReadOnlyWallet];
+        [self creatReadOnlyWalletWithpublicKeys:publicKeysArray];
     }else if (self.typeInt==2){
-        [self creatImportWalletID];
-        
+        [self creatImportWalletIDWithpublicKeys:publicKeysArray];
     }else{
-        [self creatImportTheMnemonic];
-        
+        [self creatImportTheMnemonicWithpublicKeys:publicKeysArray];
     }
+    
     
     
 }
--(void)creatReadOnlyWallet{
-    if (![[FLTools share]checkWalletName:self.SignThePurseView.walletNameTextField.text]) {
-        return;
-    }
+-(void)creatReadOnlyWalletWithpublicKeys:(NSArray*)publicKeysArray{
     NSString *walletID=[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
     NSString *masterWalletID=[[[FLTools share]getRandomStringWithNum:6] stringByAppendingString:walletID];
-    NSMutableArray*publicKeysArray=[[NSMutableArray alloc]init];
-    for (int i=0; i<self.SignThePurseInter-1;i++) {
-        NSIndexPath* indepa=[NSIndexPath indexPathForRow:i inSection:0];
-                HWMaddSignThePurseViewTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:indepa];
-        if (cell.signThePublicKeyTextField.text.length>0) {
-         [publicKeysArray addObject:cell.signThePublicKeyTextField.text];
-        }else{
-            [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入多签公钥", nil)];
-            return;
-        }
-
+    
+ 
+   NSInteger SingleAddress=0;
+    if (self.SignThePurseView.SingleAddressSwitch.isOn) {
+        SingleAddress=1;
     }
     FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
     model.walletID=masterWalletID;
     model.walletName=self.SignThePurseView.walletNameTextField.text;
-    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[masterWalletID,publicKeysArray,self.SignThePurseView.numberLabel.text] callbackId:masterWalletID className:@"Wallet" methodName:@"CreateMultiSignMasterWalletmasterReadonly"];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[masterWalletID,publicKeysArray,self.SignThePurseView.numberLabel.text,@(SingleAddress)] callbackId:masterWalletID className:@"Wallet" methodName:@"CreateMultiSignMasterWalletmasterReadonly"];
     PluginResult * result =[[ELWalletManager share]CreateMultiSignMasterWalletmasterReadonly:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){
@@ -293,27 +308,18 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
     }
     
 }
--(void)creatImportTheMnemonic{
-    if (![[FLTools share]checkWalletName:self.SignThePurseView.walletNameTextField.text]) {
-        return;
-    }
+-(void)creatImportTheMnemonicWithpublicKeys:(NSArray*)publicKeysArray{
+    
     NSString *walletID=[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
     NSString *masterWalletID=[[[FLTools share]getRandomStringWithNum:6] stringByAppendingString:walletID];
-    NSMutableArray*publicKeysArray=[[NSMutableArray alloc]init];
-    for (int i=0; i<self.SignThePurseInter-1;i++) {
-        NSIndexPath* indepa=[NSIndexPath indexPathForRow:i inSection:0];
-        HWMaddSignThePurseViewTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:indepa];
-        if (cell.signThePublicKeyTextField.text.length>0) {
-            [publicKeysArray addObject:cell.signThePublicKeyTextField.text];
-        }else{
-            [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入多签公钥", nil)];
-            return;}
-        
+    NSInteger SingleAddress=0;
+    if (self.SignThePurseView.SingleAddressSwitch.isOn) {
+        SingleAddress=1;
     }
     FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
     model.walletID=masterWalletID;
     model.walletName=self.SignThePurseView.walletNameTextField.text;
-    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[masterWalletID,self.mnemonic,self.phrasePassword,self.PWD,publicKeysArray,self.SignThePurseView.numberLabel.text] callbackId:masterWalletID className:@"Wallet" methodName:@"CreateMultiSignMasterWalletMnemonic"];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[masterWalletID,self.mnemonic,self.phrasePassword,self.PWD,publicKeysArray,self.SignThePurseView.numberLabel.text,@(SingleAddress)] callbackId:masterWalletID className:@"Wallet" methodName:@"CreateMultiSignMasterWalletMnemonic"];
     PluginResult * result =[[ELWalletManager share]CreateMultiSignMasterWalletMnemonic:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){
@@ -340,26 +346,16 @@ static NSString*cellFootString=@"HWMaddSignThePursefootTableViewCell";
     }
 }
 
--(void)creatImportWalletID{
-    if (![[FLTools share]checkWalletName:self.SignThePurseView.walletNameTextField.text]) {
-        return;
-    }
-    NSMutableArray*publicKeysArray=[[NSMutableArray alloc]init];
-    for (int i=0; i<self.SignThePurseInter-1;i++) {
-        NSIndexPath* indepa=[NSIndexPath indexPathForRow:i inSection:0];
-        HWMaddSignThePurseViewTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:indepa];
-        if (cell.signThePublicKeyTextField.text.length>0) {
-            [publicKeysArray addObject:cell.signThePublicKeyTextField.text];
-        }else{
-            [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入多签公钥", nil)];
-            return;
-        }
+-(void)creatImportWalletIDWithpublicKeys:(NSArray*)publicKeysArray{
+    NSInteger SingleAddress=0;
+    if (self.SignThePurseView.SingleAddressSwitch.isOn) {
+        SingleAddress=1;
     }
     FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
     model.walletID=self.WalletID;
     model.walletName=self.SignThePurseView.walletNameTextField.text;
     model.TypeW=HowSign;
-    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.WalletID,self.xprv,self.PWD,publicKeysArray,self.SignThePurseView.numberLabel.text] callbackId:self.WalletID className:@"Wallet" methodName:@"CreateMultiSignMasterWalletmasterWalletID"];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.WalletID,self.xprv,self.PWD,publicKeysArray,self.SignThePurseView.numberLabel.text,@(SingleAddress)] callbackId:self.WalletID className:@"Wallet" methodName:@"CreateMultiSignMasterWalletmasterWalletID"];
     PluginResult * result =[[ELWalletManager share]CreateMultiSignMasterWalletmasterMasterWalletId:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){

@@ -21,13 +21,14 @@
     [super viewDidLoad];
     [[UIButton appearance] setExclusiveTouch:YES];
     [[UITabBar appearance] setTranslucent:NO];
-    self.tabBar.tintColor = [UIColor whiteColor];
+ 
+    self.tabBar.tintColor = RGBA(255, 255, 255, 0.85);
     self.tabBar.barTintColor = [[UIColor blackColor]colorWithAlphaComponent:0.3];
-        NSArray *titles=@[NSLocalizedString(@"资产", nil),NSLocalizedString(@"社区", nil) ,NSLocalizedString(@"设置", nil)];
-     NSArray *selectImage = @[@"tab_asset_select",@"tab_found_select",@"tab_setting_select"];
-    NSArray *normalImage =@[@"tab_asset",@"tab_found",@"tab_setting"];
+        NSArray *titles=@[NSLocalizedString(@"资产", nil),NSLocalizedString(@"社区", nil) ,NSLocalizedString(@"我的", nil)];
+     NSArray *selectImage = @[@"tab_asset_select",@"tab_found_select",@"tab_mine_selected"];
+    NSArray *normalImage =@[@"tab_asset",@"tab_found",@"tab_mine_unselected"];
     
-//       NSArray *Vc =@[@"FirstViewController",@"FLPrepareVC",@"FLMyVC"];
+
            NSArray *Vc =@[@"FirstViewController",@"HMWfoundViewController",@"FLMyVC"];
    
   
@@ -87,11 +88,5 @@
     
     return nv;
 }
-//- (void)viewDidAppear:(BOOL)animated{
-//    self.hidesBottomBarWhenPushed = YES;
-//}
-//
-//-(void)viewDidDisappear:(BOOL)animated {
-//    self.hidesBottomBarWhenPushed = YES;
-//}
+
 @end

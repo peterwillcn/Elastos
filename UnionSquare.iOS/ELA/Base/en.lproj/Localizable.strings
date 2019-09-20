@@ -208,32 +208,50 @@
 "密码用于保护私钥和交易授权，强度非常重要. elastos不存储密码，也无法帮您找回，请务必牢记"="Password is used to protect private keys and transaction authorization. Please ensure you choose a strong password.Elastos won't store your password and won't be able to retrieve it back.  Please keep your password safe and secure.";
 "客服邮箱已复制到粘贴板"="Customer service email copied to clipboard.";
 "社区"="Community";
+"我的"="Mine";
 
 
 
-"的单签钱包"="";
-"的单签只读钱包"="";
-"的多签钱包"="";
-"的多签只读钱包"="";
-"扫码结果"="";
-"已识别收款地址"="";
-"密码错误"="密码错误";
-"请输入密码"="";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+"扫码结果"="Scan result";
+"已识别收款地址"="Receiving address identified";
+"密码错误"="Password error";
+"请输入密码"="Enter password";
+"创建成功"="Created successfully";
+"确认创建"="Confirm creation";
+"连接中…"="Connecting...";
+"创建多签钱包"="Create a multisig wallet";
+"请输入密码"="Enter password";
+"请重复已输入的助记词密码"="Re-enter mnemonic password";
+"请设置8至16位助记词密码"="Create a password with 8 to 16 characters";
+"密码"="Password";
+"请输入密码"="Enter password";
+"请再次输入确认密码"="Re-enter password";
+"请输入钱包密码"="Enter wallet password";
+"请输入当前钱包的助记词密码"="Enter mnemonic password for the current wallet";
+"照片"="Photo";
+"取消"="Cancel";
+"相册"="Album";
+"将二维码/条码放入框内, 即可自动扫描"="When QR code/barcode appears in the viewfinder, it will automatically scan";
+"扫一扫"="Scan";
+"添加私钥"="Add private key";
+"请设置钱包名称"="Please name the wallet";
+"确认创建"="Confirm creation";
+"请输入多签公钥"="Enter multisig public key";
+"创建多签钱包"="Create a multisig wallet";
+"再次输入确认密码"="Re-enter password";
+"单签钱包"="Single signature wallet";
+"返回"="return";
+"查看钱包公钥"="Check wallet public key";
+"公钥数量"="Number of public keys";
+"公钥列表"="Public key list";
+"本地公钥"="Local public key";
+"参与公钥"="Participate in public key";
+"请输入助记词密码"="Enter mnemonic password";
+"验证助记词密码"="Re-enter mnemonic password";
+"直接删除"="Direct delete";
+"请使用含有主私钥的钱包签名当前交易"="Direct delete";
+"已签名："="Direct delete";
+"待签名："="Direct delete";
 
 
 

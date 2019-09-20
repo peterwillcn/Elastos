@@ -123,10 +123,13 @@
     [self.view addSubview:self.scanningView];
 }
 - (void)QRCodeAlbumManager:(SGQRCodeAlbumManager *)albumManager didFinishPickingMediaWithResult:(NSString *)result {
-    if ([self.frVC isKindOfClass:[@"FirstViewController" class]]) {
+    
+    
+    if ([[NSString stringWithFormat:@"%@",[self.frVC class]] isEqualToString:  @"FirstViewController"]) {
         if ([[FLTools share]WhetherTheCurrentTypeNeedType:result withType:@"3"]) {
-            self.QRCoreDic =[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]QrCodeImageFromDic:result fromVC:self oldQrCodeDic:self.QRCoreDic]];
-            if ([[FLTools share]SCanQRCodeWithDicCode:self.QRCoreDic]) {
+            
+            self.QRDic =[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]QrCodeImageFromDic:result fromVC:self oldQrCodeDic:self.QRDic]];
+            if ([[FLTools share]SCanQRCodeWithDicCode:self.QRDic]) {
                 [self.navigationController popViewControllerAnimated:YES];
             }
         }else{
@@ -155,15 +158,11 @@
         [scanManager playSoundName:@"SGQRCode.bundle/sound.caf"];
         [scanManager stopRunning];
         [scanManager videoPreviewLayerRemoveFromSuperlayer];
-        
         AVMetadataMachineReadableCodeObject *obj = metadataObjects[0];
-        
-        
          [self.navigationController popViewControllerAnimated:YES];
         if (self.scanBack) {
             self.scanBack([obj stringValue]);
         }
-       
     } else {
    [[FLTools share]showErrorInfo:NSLocalizedString(@"未识别", nil)];
     }
@@ -182,13 +181,14 @@
     if (!_promptLabel) {
         _promptLabel = [[UILabel alloc] init];
         _promptLabel.backgroundColor = [UIColor clearColor];
-        CGFloat promptLabelX = 0;
+        CGFloat promptLabelX = 15;
         CGFloat promptLabelY = 0.73 * self.view.frame.size.height;
-        CGFloat promptLabelW = self.view.frame.size.width;
-        CGFloat promptLabelH = 25;
+        CGFloat promptLabelW = self.view.frame.size.width-30;
+        CGFloat promptLabelH = 50;
         _promptLabel.frame = CGRectMake(promptLabelX, promptLabelY, promptLabelW, promptLabelH);
         _promptLabel.textAlignment = NSTextAlignmentCenter;
         _promptLabel.font = [UIFont boldSystemFontOfSize:13.0];
+        _promptLabel.numberOfLines=0;
         _promptLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
         _promptLabel.text = @"将二维码/条码放入框内, 即可自动扫描";
     }
@@ -239,15 +239,8 @@
     });
 }
 
--(BOOL)WhetherTransferTypeWith:(NSString*)QRString{
-    
-    
-   
-//    if ([[FLTools share]SCanQRCodeWithDicCode:self.QRCoreDic]) {
-//
-//        return YES;
-//    }
-//    return NO;
+-(void)setFrVC:(UIViewController *)frVC{
+    _frVC=frVC;
     
 }
 @end

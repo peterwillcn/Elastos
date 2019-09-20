@@ -22,8 +22,10 @@
     [[UIButton appearance] setExclusiveTouch:YES];
     [[UITabBar appearance] setTranslucent:NO];
  
-    self.tabBar.tintColor = RGBA(255, 255, 255, 0.85);
+//    self.tabBar.tintColor = RGBA(255, 255, 255, 0.85);
     self.tabBar.barTintColor = [[UIColor blackColor]colorWithAlphaComponent:0.3];
+    
+    
         NSArray *titles=@[NSLocalizedString(@"资产", nil),NSLocalizedString(@"社区", nil) ,NSLocalizedString(@"我的", nil)];
      NSArray *selectImage = @[@"tab_asset_select",@"tab_found_select",@"tab_mine_selected"];
     NSArray *normalImage =@[@"tab_asset",@"tab_found",@"tab_mine_unselected"];
@@ -39,11 +41,16 @@
         [vcArrary addObject:nv];
     }
     self.viewControllers = vcArrary;
-    self.tabBar.selectionIndicatorImage = [self imageWithColor:[UIColor colorWithWhite:1 alpha:0.3] size:CGSizeMake(AppWidth/self.viewControllers.count, self.tabBar.frame.size.height+40)];
+    self.tabBar.selectionIndicatorImage = [self imageWithColor:RGBA(118, 143, 146,0.7) size:CGSizeMake(AppWidth/self.viewControllers.count, self.tabBar.frame.size.height+40)];
     self.tabBar.clipsToBounds = YES;
     
     [[NSNotificationCenter defaultCenter]addObserver:self
                                             selector:@selector(onTxPublish:) name:OnTxPublishedResult object:nil];
+    [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:RGBA(255, 255, 255, 0.25)} forState:UIControlStateNormal];
+    
+    //选中字体颜色
+    
+    [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:RGBA(255, 255, 255, 0.85)} forState:UIControlStateSelected];
 }
 
 -(void)onTxPublish:(NSNotification*)notice{
@@ -81,12 +88,12 @@
 }
 
 -(BaseNavigationVC*)setVC:(NSString*)vc setTitle:(NSString*)title normalImage:(NSString*)image1 selectIamge:(NSString*)image2{
-    
     UIViewController *vcvc =[[NSClassFromString(vc) alloc]init];
     BaseNavigationVC *nv = [[BaseNavigationVC alloc]initWithRootViewController:vcvc];
     nv.tabBarItem = [[UITabBarItem alloc]initWithTitle:title image:[UIImage imageNamed:image1] selectedImage:[[UIImage imageNamed:image2]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-    
+//     NSDictionary *dictHome = [NSDictionary dictionaryWithObject:RGBA(255, 255, 255, 0.25) forKey:NSForegroundColorAttributeName];
+//    [nv.tabBarItem setTitleTextAttributes:dictHome forState:  UIControlStateReserved];
     return nv;
+    
 }
-
 @end

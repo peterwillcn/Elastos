@@ -249,11 +249,11 @@
 "请输入助记词密码"="Enter mnemonic password";
 "验证助记词密码"="Re-enter mnemonic password";
 "直接删除"="Direct delete";
-"请使用含有主私钥的钱包签名当前交易"="Direct delete";
-"已签名："="Direct delete";
-"待签名："="Direct delete";
-
-
+//"请使用含有私钥的钱包签名当前交易"="Direct delete";
+//"已签名："="Direct delete";
+//"待签名："="Direct delete";
+//"第"="Direct delete";
+//"张"="Direct delete";
 
 
 "暂无候选节点"="No candidate nodes";

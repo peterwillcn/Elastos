@@ -46,7 +46,8 @@
                         <constraint firstAttribute="width" constant="100" id="Is3-bd-k2I"/>
                         <constraint firstAttribute="height" constant="29" id="Wfd-pK-fnV"/>
                     </constraints>
-                    <string key="text">识别码【 ENypaH8B</string>
+                    <string key="text">识别码
+【 ENypaH8B</string>
                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
@@ -65,7 +66,7 @@
                         <constraint firstAttribute="width" constant="50" id="EwS-H1-hYc"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请使用含有主私钥的钱包签名当前交易 （已签名：1，待签名：2）" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Vg-5d-7QH">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请使用含有私钥的钱包签名当前交易 （已签名：1，待签名：2）" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Vg-5d-7QH">
                     <rect key="frame" x="107" y="330" width="200" height="29"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="200" id="PX5-Wq-ZXA"/>
@@ -106,7 +107,7 @@
         </view>
     </objects>
     <resources>
-        <image name="asset_code_border" width="240" height="140"/>
+        <image name="asset_code_border" width="140" height="140"/>
         <image name="page2_1" width="34" height="21"/>
     </resources>
 </document>

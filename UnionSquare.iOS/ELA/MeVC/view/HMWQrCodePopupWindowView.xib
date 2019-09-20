@@ -17,18 +17,18 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mqA-LX-o4h">
-                    <rect key="frame" x="110" y="256" width="155" height="155"/>
+                    <rect key="frame" x="62.5" y="208.5" width="250" height="250"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="155" id="3ze-pt-slD"/>
-                        <constraint firstAttribute="width" constant="155" id="NFp-P5-Wcx"/>
+                        <constraint firstAttribute="height" constant="250" id="3ze-pt-slD"/>
+                        <constraint firstAttribute="width" constant="250" id="NFp-P5-Wcx"/>
                     </constraints>
                 </view>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lfK-1u-yyb">
-                    <rect key="frame" x="112.5" y="258.5" width="150" height="150"/>
+                    <rect key="frame" x="67.5" y="213.5" width="240" height="240"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="150" id="SQY-Bh-akx"/>
-                        <constraint firstAttribute="height" constant="150" id="kGV-Wm-poP"/>
+                        <constraint firstAttribute="width" constant="240" id="SQY-Bh-akx"/>
+                        <constraint firstAttribute="height" constant="240" id="kGV-Wm-poP"/>
                     </constraints>
                 </imageView>
             </subviews>

@@ -1243,9 +1243,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
             NSDictionary *extraDic=dic[@"extra"];
             if ([[extraDic allKeys] containsObject:@"Type"]) {
                 if ([[NSString stringWithFormat:@"%@",extraDic[@"Type"]] isEqualToString:type]) {
-                    
                     return YES;
-                    
                 }
             }
         }

@@ -29,13 +29,13 @@
     switch (self.QrCodeTyp) {
         case ToBeSignedDealsQrCodeType:
         self.title=NSLocalizedString(@"待签名交易", nil);
-             self.showInfoLabel.text=[NSString stringWithFormat:@"%@(%@%@%@%@)",NSLocalizedString(@"请使用含有主私钥的钱包签名当前交易", nil),NSLocalizedString(@"已签名：", nil),@"1",NSLocalizedString(@"待签名：", nil),@"0"];
+             self.showInfoLabel.text=[NSString stringWithFormat:@"%@(%@%@%@%@)",NSLocalizedString(@"请使用含有私钥的钱包签名当前交易", nil),NSLocalizedString(@"已签名：", nil),@"1",NSLocalizedString(@"待签名：", nil),@"0"];
         self.instructionsTextLabel.text=NSLocalizedString(@"请连续扫描所有二维码", nil);
         [self.backFistButton setTitle:NSLocalizedString(@"返回首页", nil) forState:UIControlStateNormal];
         break;
         case SignedDealsQrCodeType:
         self.title=NSLocalizedString(@"已签名交易", nil);
-        self.showInfoLabel.text=[NSString stringWithFormat:@"%@(%@%@%@%@)",NSLocalizedString(@"请使用含有主私钥的钱包签名当前交易", nil),NSLocalizedString(@"已签名：", nil),@"1",NSLocalizedString(@"待签名：", nil),@"0"];
+        self.showInfoLabel.text=[NSString stringWithFormat:@"%@(%@%@%@%@)",NSLocalizedString(@"请使用含有私钥的钱包签名当前交易", nil),NSLocalizedString(@"已签名：", nil),@"1",NSLocalizedString(@"待签名：", nil),@"0"];
         self.instructionsTextLabel.text=NSLocalizedString(@"请连续扫描所有二维码", nil);
         [self.backFistButton setTitle:NSLocalizedString(@"以完成签名，立即广播", nil) forState:UIControlStateNormal];
         break;

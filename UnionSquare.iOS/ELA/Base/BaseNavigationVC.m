@@ -31,11 +31,9 @@
     if (_backgroundView == nil) {
         _backgroundView = [[UIView alloc]initWithFrame:SCREEN_BOUNDS];
         _backgroundView.backgroundColor = [UIColor blackColor];
-        
         _lastScreenShotView = [[UIImageView alloc] initWithFrame:_backgroundView.bounds];
         _lastScreenShotView.backgroundColor = [UIColor whiteColor];
         [_backgroundView addSubview:_lastScreenShotView];
-        
         _lastScreenBlackMask = [[UIView alloc] initWithFrame:_backgroundView.bounds];
         _lastScreenBlackMask.backgroundColor = [UIColor blackColor];
         [_backgroundView addSubview:_lastScreenBlackMask];
@@ -46,17 +44,10 @@
     return _backgroundView;
 }
 + (void)initialize {
-    
     UINavigationBar *bar = [UINavigationBar appearanceWhenContainedInInstancesOfClasses:@[[self class]]];
-
-    
     [bar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     [bar setShadowImage:[UIImage new]];
     [bar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-
-    
- 
-
 }
 -(void)goBack{
     [self.navigationController popViewControllerAnimated:YES];

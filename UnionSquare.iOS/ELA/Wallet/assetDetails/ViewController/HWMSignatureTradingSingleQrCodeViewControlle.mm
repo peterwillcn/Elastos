@@ -67,11 +67,9 @@
             if (self.SignStatus.isSignCom) {
                [self.backFistButton setTitle:NSLocalizedString(@"已完成签名，立即广播", nil) forState:UIControlStateNormal]; self.title=NSLocalizedString(@"已签名交易", nil);
                   self.backFistButton.alpha=1.f;
-                
-                
             }
             self.IdentificationCodeLabel.alpha=0.f;
-            self.showInfoLabel.text=NSLocalizedString(@"请使用含有主私钥的钱包签名当前交易", nil);
+            self.showInfoLabel.text=NSLocalizedString(@"请使用含有私钥的钱包签名当前交易", nil);
 //               NSArray *qrcArray=[[FLTools share]CreateArrayQrCodeImage:self.QRCodeString WithType:self.QrCodeType withSubWall:self.subW];
             NSDictionary *qrDic=[[FLTools share] CreateQrCodeImage:self.QRCodeString WithType:self.QrCodeType withSubWalletIdChain:self.subW];
             NSString *qrString=[[FLTools share] returnJSONStringWithDictionary:qrDic];
@@ -96,7 +94,7 @@
         }
         case SingleSignReadOnlySignedDeals:{
           self.QrCodeType=@"3";
-            self.title=NSLocalizedString(@"待签名交易", nil); self.showInfoLabel.text=NSLocalizedString(@"请使用含有主私钥的钱包签名当前交易", nil);
+            self.title=NSLocalizedString(@"待签名交易", nil); self.showInfoLabel.text=NSLocalizedString(@"请使用含有私钥的钱包签名当前交易", nil);
             NSArray *qrcArray=[[FLTools share]CreateArrayQrCodeImage:self.QRCodeString WithType:self.QrCodeType withSubWall:self.subW];
             if (qrcArray.count==1) {
                 
@@ -393,24 +391,18 @@ self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UI
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return image;
-
-    
 }
 -(void)GetTransactionSignedInfo{
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.subW, self.QRCodeString] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"GetTransactionSignedInfo"];
     PluginResult * result =[[ELWalletManager share]GetTransactionSignedInfo:mommand];
-    
     if ([result.status  isEqual:@1]) {
-       
         HWMSignStatusModel *SignStatusModel=[[HWMSignStatusModel alloc]init];
         SignStatusModel.Signers=0;
         NSArray *SignArry=[NSArray arrayWithArray:result.message[@"success"]];
-        
         for (NSDictionary *dic in SignArry) {
            SignStatusModel.N=dic[@"N"];
           SignStatusModel.M=dic[@"M"];
             NSObject *obj=dic[@"Signers"];
-            
             if ([obj isKindOfClass:[NSArray class]]) {
                SignStatusModel.Signers=[NSArray arrayWithArray:dic[@"Signers"]].count;
             }
@@ -426,7 +418,6 @@ self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UI
                 }else{
                    SignStatusModel.isSignCom=YES;
                 }
-                
                 //
             }else{
                 SignStatusModel.isHowSign=NO;
@@ -434,15 +425,12 @@ self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithImage:[UI
             }
             
         }
-        
         NSInteger n=[SignStatusModel.M integerValue]-SignStatusModel.Signers;
-        self.showInfoLabel.text=[NSString stringWithFormat:@"%@(%@%lu，%@%lu)",NSLocalizedString(@"请使用含有主私钥的钱包签名当前交易", nil),NSLocalizedString(@"已签名：", nil), (unsigned long)SignStatusModel.Signers,NSLocalizedString(@"待签名：", nil), n];
-        if (n>0||n==0) {
+        self.showInfoLabel.text=[NSString stringWithFormat:@"%@(%@%lu，%@%lu)",NSLocalizedString(@"请使用含有私钥的钱包签名当前交易", nil),NSLocalizedString(@"已签名：", nil), (unsigned long)SignStatusModel.Signers,NSLocalizedString(@"待签名：", nil), n];
+           if (n<0||n==0) {
             self.title=NSLocalizedString(@"已签名交易", nil);
+           }
         }
-        }
-    
-    
 }
 -(void)setCurrentWallet:(FLWallet *)currentWallet{
     _currentWallet=currentWallet;

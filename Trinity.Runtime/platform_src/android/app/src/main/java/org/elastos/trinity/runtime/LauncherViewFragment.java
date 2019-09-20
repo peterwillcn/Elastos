@@ -76,6 +76,7 @@ import java.util.Locale;
             if (entry.service.equals("AppManager")) {
                 basePlugin = new AppManagerPlugin("launcher");
                 pluginEntries.add(new PluginEntry(entry.service, entry.pluginClass, true, basePlugin));
+                cfgPluginEntries.add(entry);
             }
             else if (entry.service.equals("AppService")) {
                 cfgPluginEntries.add(entry);

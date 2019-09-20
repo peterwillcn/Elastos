@@ -48,6 +48,7 @@ public class ManagerDBAdapter {
             ContentValues contentValues = new ContentValues();
             contentValues.put(AppInfo.APP_ID, info.app_id);
             contentValues.put(AppInfo.VERSION, info.version);
+            contentValues.put(AppInfo.VERSION_CODE, info.version_code);
             contentValues.put(AppInfo.NAME, info.name);
             contentValues.put(AppInfo.SHORT_NAME, info.short_name);
             contentValues.put(AppInfo.DESCRIPTION, info.description);
@@ -134,7 +135,7 @@ public class ManagerDBAdapter {
 
     private AppInfo[] getInfos(String selection, String[] selectionArgs) {
         SQLiteDatabase db = helper.getWritableDatabase();
-        String[] columns = {AppInfo.TID, AppInfo.APP_ID, AppInfo.VERSION, AppInfo.NAME, AppInfo.SHORT_NAME,
+        String[] columns = {AppInfo.TID, AppInfo.APP_ID, AppInfo.VERSION, AppInfo.VERSION_CODE, AppInfo.NAME, AppInfo.SHORT_NAME,
                 AppInfo.DESCRIPTION, AppInfo.START_URL, AppInfo.TYPE,
                 AppInfo.AUTHOR_NAME, AppInfo.AUTHOR_EMAIL, AppInfo.DEFAULT_LOCAL, AppInfo.BACKGROUND_COLOR,
                 AppInfo.THEME_DISPLAY, AppInfo.THEME_COLOR, AppInfo.THEME_FONT_NAME, AppInfo.THEME_FONT_COLOR,
@@ -147,6 +148,7 @@ public class ManagerDBAdapter {
             info.tid = cursor.getInt(cursor.getColumnIndex(AppInfo.TID));
             info.app_id = cursor.getString(cursor.getColumnIndex(AppInfo.APP_ID));
             info.version = cursor.getString(cursor.getColumnIndex(AppInfo.VERSION));
+            info.version_code = cursor.getInt(cursor.getColumnIndex(AppInfo.VERSION_CODE));
             info.name = cursor.getString(cursor.getColumnIndex(AppInfo.NAME));
             info.short_name = cursor.getString(cursor.getColumnIndex(AppInfo.SHORT_NAME));
             info.description = cursor.getString(cursor.getColumnIndex(AppInfo.DESCRIPTION));
@@ -268,7 +270,7 @@ public class ManagerDBAdapter {
     public int removeAppInfo(AppInfo info) {
         SQLiteDatabase db = helper.getWritableDatabase();
         String where = AppInfo.APP_TID + "=?";
-        String[] whereArgs= {String.valueOf(info.tid)};
+        String[] whereArgs = {String.valueOf(info.tid)};
         int count = db.delete(ManagerDBHelper.AUTH_URL_TABLE, where, whereArgs);
         count = db.delete(ManagerDBHelper.AUTH_PLUGIN_TABLE, where, whereArgs);
         db.delete(ManagerDBHelper.ICONS_TABLE, where, whereArgs);
@@ -277,6 +279,38 @@ public class ManagerDBAdapter {
         db.delete(ManagerDBHelper.PLATFORM_TABLE, where, whereArgs);
         where = AppInfo.TID + "=?";
         count = db.delete(ManagerDBHelper.APP_TABLE, where, whereArgs);
+        where = AppInfo.APP_ID + "=?";
+        String[] args = {info.app_id};
+        db.delete(ManagerDBHelper.INTENT_TABLE, where, args);
         return count;
+    }
+
+    public boolean addIntent(Intent intent) {
+        if (intent != null) {
+            SQLiteDatabase db = helper.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(AppInfo.APP_ID, intent.app_id);
+            contentValues.put(AppInfo.ACTION, intent.action);
+
+            long tid = db.insert(ManagerDBHelper.INTENT_TABLE, null, contentValues);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public String[] getIntent(String action) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        String[] args = {action};
+        String[] columns = {AppInfo.APP_ID};
+        Cursor cursor = db.query(ManagerDBHelper.INTENT_TABLE, columns,AppInfo.ACTION + "=?", args,null,null,null);
+        String ids[] = new String[cursor.getCount()];
+        int count = 0;
+        while (cursor.moveToNext()) {
+            ids[count++] = cursor.getString(cursor.getColumnIndex(AppInfo.APP_ID));;
+        }
+
+        return ids;
     }
 }

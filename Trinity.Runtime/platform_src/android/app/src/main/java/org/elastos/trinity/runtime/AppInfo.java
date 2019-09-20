@@ -33,6 +33,7 @@
      public static final String APP_TID = "app_tid";
      public static final String APP_ID = "app_id";
      public static final String VERSION = "version";
+     public static final String VERSION_CODE = "version_code";
      public static final String NAME = "name";
      public static final String SHORT_NAME = "short_name";
      public static final String DESCRIPTION = "description";
@@ -50,6 +51,7 @@
      public static final String REMOTE = "remote";
      public static final String LAUNCHER = "launcher";
      public static final String LANGUAGE = "language";
+     public static final String ACTION = "act";
 
      public static final String SRC = "src";
      public static final String SIZES = "sizes";
@@ -69,6 +71,7 @@
      public long tid;
      public String app_id;
      public String version;
+     public int    version_code;
      public String name;
      public String short_name;
      public String description;

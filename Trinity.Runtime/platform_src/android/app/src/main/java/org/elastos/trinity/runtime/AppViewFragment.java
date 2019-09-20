@@ -31,13 +31,19 @@ import android.widget.FrameLayout;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginEntry;
+import org.elastos.trinity.plugins.appmanager.AppManagerPlugin;
 import org.elastos.trinity.plugins.appservice.AppServicePlugin;
 
 
 import java.util.ArrayList;
 
-public class AppViewFragment extends WebViewFragment {
+ public class AppViewFragment extends WebViewFragment {
     public static String TAG = "AppViewFragment";
+
+     final String[] managerAccessList = {
+             "org.elastos.trinity.dapp.installer",
+             "org.elastos.trinity.remote.launcher",
+     };
 
     View titlebar;
 
@@ -109,6 +115,16 @@ public class AppViewFragment extends WebViewFragment {
         return false;
     }
 
+    private boolean isManagerAccess(String id) {
+        String appid = id.toLowerCase();
+        for (String item : managerAccessList) {
+            if (item.equals(appid)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     protected void loadConfig() {
         pluginEntries = new ArrayList<PluginEntry>(20);
@@ -123,10 +139,11 @@ public class AppViewFragment extends WebViewFragment {
                 pluginEntries.add(new PluginEntry("Whitelist",
                         "org.elastos.plugins.appmanager.AppWhitelistPlugin", entry.onload, whitelistPlugin));
             }
-            else if (entry.service.equals("AppManager")) {
-                continue;
+            else if (entry.service.equals("AppManager") && isManagerAccess(appInfo.app_id)) {
+                basePlugin = new AppManagerPlugin(appInfo.app_id);
+                pluginEntries.add(new PluginEntry(entry.service, entry.pluginClass, true, basePlugin));
             }
-            else if (entry.service.equals("AppService")) {
+            else if (entry.service.equals("AppService") && !isManagerAccess(appInfo.app_id)) {
                 basePlugin = new AppServicePlugin(appInfo.app_id);
                 pluginEntries.add(new PluginEntry(entry.service, entry.pluginClass, true, basePlugin));
             }

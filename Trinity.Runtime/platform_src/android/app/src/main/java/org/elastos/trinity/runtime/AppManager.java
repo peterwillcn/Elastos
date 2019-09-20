@@ -98,6 +98,7 @@ public class AppManager {
     AppManager(WebViewActivity activity) {
         AppManager.appManager = this;
         this.activity = activity;
+        new IntentManager(this);
 
         appsPath = activity.getFilesDir() + "/apps/";
         dataPath = activity.getFilesDir() + "/data/";

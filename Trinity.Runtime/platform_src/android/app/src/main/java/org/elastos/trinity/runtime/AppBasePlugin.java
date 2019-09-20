@@ -36,8 +36,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class AppBasePlugin extends CordovaPlugin {
+public class AppBasePlugin extends TrinityPlugin {
     protected CallbackContext mMessageContext = null;
+    protected CallbackContext mIntentContext = null;
     protected String id;
 
     protected void launcher(JSONArray args, CallbackContext callbackContext) throws Exception {
@@ -232,6 +233,72 @@ public class AppBasePlugin extends CordovaPlugin {
             PluginResult result = new PluginResult(PluginResult.Status.OK, ret);
             result.setKeepCallback(true);
             mMessageContext.sendPluginResult(result);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void sendIntent(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String action = args.getString(0);
+        String params = args.getString(1);
+        long currentTime = System.currentTimeMillis();
+
+        IntentInfo info = new IntentInfo(action, params, this.id, currentTime, callbackContext);
+
+        IntentManager.getShareInstance().sendIntent(info);
+        PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
+        pluginResult.setKeepCallback(true);
+        callbackContext.sendPluginResult(pluginResult);
+    }
+
+    protected void sendIntentRespone(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String action = args.getString(0);
+        String result = args.getString(1);
+        long intentId = args.getLong(2);
+        IntentManager.getShareInstance().sendIntentRespone(action, result, intentId, this.id);
+        callbackContext.success("ok");
+    }
+
+    protected void setIntentListener(CallbackContext callbackContext) throws Exception {
+        mIntentContext = callbackContext;
+        PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
+        pluginResult.setKeepCallback(true);
+        callbackContext.sendPluginResult(pluginResult);
+        IntentManager.getShareInstance().setIntentReady(this.id);
+
+    }
+
+    public Boolean isIntentReady() {
+        return (mIntentContext != null);
+    }
+
+    public void onReceiveIntent(IntentInfo info) {
+        if (mIntentContext == null)
+            return;
+
+        JSONObject ret = new JSONObject();
+        try {
+            ret.put("action", info.action);
+            ret.put("params", info.params);
+            ret.put("from", info.fromId);
+            ret.put("intentId", info.intentId);
+            PluginResult result = new PluginResult(PluginResult.Status.OK, ret);
+            result.setKeepCallback(true);
+            mIntentContext.sendPluginResult(result);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onReceiveIntentRespone(IntentInfo info) {
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("action", info.action);
+            obj.put("result", info.params);
+            obj.put("from", info.fromId);
+            PluginResult result = new PluginResult(PluginResult.Status.OK, obj);
+            result.setKeepCallback(false);
+            info.callbackContext.sendPluginResult(result);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -36,6 +36,7 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
     public static final String FRAMEWORK_TABLE = "framework";
     public static final String PLATFORM_TABLE = "platform";
     public static final String SETTING_TABLE = "setting";
+    public static final String INTENT_TABLE = "intent";
     public static final String APP_TABLE = "app";
 
     public ManagerDBHelper(Context context) {
@@ -93,9 +94,15 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
                 AppInfo.VERSION + " varchar(32))";
         db.execSQL(strSQL);
 
+        strSQL =  "create table " + INTENT_TABLE + "(tid integer primary key autoincrement, " +
+                AppInfo.APP_ID + " varchar(128) NOT NULL, " +
+                AppInfo.ACTION + " varchar(64) NOT NULL)";
+        db.execSQL(strSQL);
+
         strSQL = "create table " + APP_TABLE + "(tid integer primary key autoincrement, " +
                 AppInfo.APP_ID + " varchar(128) UNIQUE NOT NULL, " +
                 AppInfo.VERSION + " varchar(32) NOT NULL, " +
+                AppInfo.VERSION_CODE + " integer, " +
                 AppInfo.NAME + " varchar(128) NOT NULL, " +
                 AppInfo.SHORT_NAME + " varchar(64), " +
                 AppInfo.DESCRIPTION + " varchar(256), " +
@@ -123,6 +130,7 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + LACALE_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + FRAMEWORK_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + PLATFORM_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + INTENT_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + APP_TABLE);
     }
 
@@ -134,4 +142,5 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
         // Create tables again
         onCreate(db);
     }
+
 }

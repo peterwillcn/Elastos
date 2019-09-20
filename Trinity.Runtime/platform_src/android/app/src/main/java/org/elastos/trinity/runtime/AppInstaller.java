@@ -433,6 +433,14 @@ public class AppInstaller {
         }
     }
 
+    private int getMustIntValue(JSONObject json, String name) throws Exception {
+        if (json.has(name)) {
+            return json.getInt(name);
+        } else {
+            throw new Exception("Parse Manifest.json error: '" + name + "' no exist!");
+        }
+    }
+
     private JSONObject getJsonFromFile(InputStream inputStream) throws Exception {
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
         BufferedReader bufReader = new BufferedReader(inputStreamReader);
@@ -455,6 +463,7 @@ public class AppInstaller {
         //Must
         appInfo.app_id = getMustStrValue(json, "id");
         appInfo.version = getMustStrValue(json, "version");
+        appInfo.version_code = getMustIntValue(json, "versionCode");
         appInfo.name = getMustStrValue(json, "name");
         appInfo.start_url = getMustStrValue(json, "start_url");
         if (appInfo.start_url.indexOf("://") != -1) {
@@ -582,6 +591,18 @@ public class AppInstaller {
             }
             if (theme.has(AppInfo.THEME_FONT_COLOR)) {
                 appInfo.theme_font_color = theme.getString(AppInfo.THEME_FONT_COLOR);
+            }
+        }
+
+
+        if (json.has("intent_filters")) {
+            JSONArray array = json.getJSONArray("intent_filters");
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject jobj = array.getJSONObject(i);
+                if (jobj.has("action")) {
+                    Intent intent = new Intent(appInfo.app_id, jobj.getString("action"));
+                    dbAdapter.addIntent(intent);
+                }
             }
         }
 

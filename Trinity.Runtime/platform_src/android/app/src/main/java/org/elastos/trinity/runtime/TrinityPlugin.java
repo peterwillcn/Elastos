@@ -91,17 +91,43 @@ public class TrinityPlugin extends CordovaPlugin {
 
     public String getCanonicalPath(String path) throws Exception {
         String ret = null;
-        if (path.startsWith("trinity:///asset/")) {
-            String dir = getCanonicalDir(path.substring(10), "/asset/");
-            ret = appPath + dir;
-        }
-        else if (path.startsWith("trinity:///data/")) {
-            String dir = getCanonicalDir(path.substring(10), "/data/");
-            ret = dataPath + dir;
-        }
-        else if (path.startsWith("trinity:///temp/")) {
-            String dir = getCanonicalDir(path.substring(10), "/temp/");
-            ret = tempPath + dir;
+        if (path.startsWith("trinity://")) {
+            String subPath = path.substring(10);
+            String id = null;
+            String _appPath = appPath, _dataPath = dataPath, _tempPath = tempPath;
+            if (!(path.startsWith("trinity:///"))) {
+                int index = subPath.indexOf("/");
+                if (index != -1) {
+                    id = subPath.substring(0, index);
+                    subPath = subPath.substring(index);
+
+                    AppInfo info = appManager.getAppInfo(id);
+                    if (info == null) {
+                        id = null;
+                    }
+                    else {
+                        _appPath = appManager.getAppPath(info);
+                        _dataPath = appManager.getDataPath(info.app_id);
+                        _tempPath = appManager.getTempPath(info.app_id);
+                    }
+                }
+            }
+            else {
+                id = this.appInfo.app_id;
+            }
+
+            if (id != null) {
+                if (subPath.startsWith("/asset/")) {
+                    String dir = getCanonicalDir(subPath, "/asset/");
+                    ret = _appPath + dir;
+                } else if (subPath.startsWith("/data/")) {
+                    String dir = getCanonicalDir(subPath, "/data/");
+                    ret = _dataPath + dir;
+                } else if (subPath.startsWith("/temp/")) {
+                    String dir = getCanonicalDir(subPath, "/temp/");
+                    ret = _tempPath + dir;
+                }
+            }
         }
         else if ((path.indexOf("://") != -1)) {
             if (!(path.startsWith("asset://")) && whitelistPlugin.shouldAllowNavigation(path)) {

@@ -3,4 +3,4 @@
 
 # DocStrap template documentation: https://github.com/docstrap/docstrap
 
-jsdoc -c ./jsdoc.conf.json -t ./node_modules/ink-docstrap/template -r ../../Elastos.Trinity/Plugins/ README.md
+jsdoc -c ./jsdoc.conf.json -t ./node_modules/ink-docstrap/template -r ../../../Elastos.Trinity/Runtime/plugins/ README.md

@@ -45,7 +45,7 @@
     self.table.delegate = self;
     self.table.rowHeight = (AppWidth-60)/2;
     self.table.tableFooterView = [[UIView alloc] init];
-    self.dataSource = @[@"",@""];
+    self.dataSource = @[@""];
     [self.table registerNib:[UINib nibWithNibName:@"HMWfoundTableCell" bundle:nil] forCellReuseIdentifier:@"HMWfoundTableCell"];
 
 }

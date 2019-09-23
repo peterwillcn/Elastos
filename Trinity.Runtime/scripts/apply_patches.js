@@ -17,6 +17,11 @@ const patch_dirs = [
     "platform": "android",
     "plugin_id": "cordova-plugin-device",
     "patch_dir": "patches/before_plugin_install_device"
+  },
+  {
+    "hook": "after_build",
+    "platform": "android",
+    "patch_dir": "patches/after_build_android"
   }
 ]
 // no need to configure below

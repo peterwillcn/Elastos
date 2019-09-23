@@ -427,9 +427,6 @@
 		42D126A322B7755C000A286C /* runningNodeListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D126A222B7755C000A286C /* runningNodeListView.xib */; };
 		42D126A722B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D126A522B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.m */; };
 		42D126A822B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D126A622B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.xib */; };
-		42E6F4622334750C00F839E1 /* NENSinglePinger.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E6F45C2334750B00F839E1 /* NENSinglePinger.m */; };
-		42E6F4632334750C00F839E1 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E6F45F2334750B00F839E1 /* SimplePing.m */; };
-		42E6F4642334750C00F839E1 /* NENPingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E6F4612334750B00F839E1 /* NENPingManager.m */; };
 		42EA693F2313C23C00418328 /* HWMQrCodeScanningResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EA693D2313C23C00418328 /* HWMQrCodeScanningResultsViewController.m */; };
 		42EA69402313C23C00418328 /* HWMQrCodeScanningResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42EA693E2313C23C00418328 /* HWMQrCodeScanningResultsViewController.xib */; };
 		42EA69442313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EA69422313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.m */; };
@@ -1208,12 +1205,6 @@
 		42D126A422B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMWVotingListTypeCrossCollectionViewCell.h; sourceTree = "<group>"; };
 		42D126A522B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMWVotingListTypeCrossCollectionViewCell.m; sourceTree = "<group>"; };
 		42D126A622B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HMWVotingListTypeCrossCollectionViewCell.xib; sourceTree = "<group>"; };
-		42E6F45C2334750B00F839E1 /* NENSinglePinger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NENSinglePinger.m; sourceTree = "<group>"; };
-		42E6F45D2334750B00F839E1 /* SimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePing.h; sourceTree = "<group>"; };
-		42E6F45E2334750B00F839E1 /* NENPingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NENPingManager.h; sourceTree = "<group>"; };
-		42E6F45F2334750B00F839E1 /* SimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePing.m; sourceTree = "<group>"; };
-		42E6F4602334750B00F839E1 /* NENSinglePinger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NENSinglePinger.h; sourceTree = "<group>"; };
-		42E6F4612334750B00F839E1 /* NENPingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NENPingManager.m; sourceTree = "<group>"; };
 		42EA693C2313C23B00418328 /* HWMQrCodeScanningResultsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMQrCodeScanningResultsViewController.h; sourceTree = "<group>"; };
 		42EA693D2313C23C00418328 /* HWMQrCodeScanningResultsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMQrCodeScanningResultsViewController.m; sourceTree = "<group>"; };
 		42EA693E2313C23C00418328 /* HWMQrCodeScanningResultsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMQrCodeScanningResultsViewController.xib; sourceTree = "<group>"; };
@@ -1405,7 +1396,6 @@
 		4202C7D421F6EF28009E5932 /* ThirdSDK */ = {
 			isa = PBXGroup;
 			children = (
-				42E6F45B2334750B00F839E1 /* NenPingManager */,
 				4287BB0D2328E10F00FF1F7D /* MJRefresh */,
 				4288D0B3230E946A00E8CC7A /* HW3DBannerView */,
 				425CE7F0230D2290009C2979 /* NenPingManager */,
@@ -2995,20 +2985,6 @@
 			path = nlohmann;
 			sourceTree = "<group>";
 		};
-		42E6F45B2334750B00F839E1 /* NenPingManager */ = {
-			isa = PBXGroup;
-			children = (
-				42E6F45C2334750B00F839E1 /* NENSinglePinger.m */,
-				42E6F45D2334750B00F839E1 /* SimplePing.h */,
-				42E6F45E2334750B00F839E1 /* NENPingManager.h */,
-				42E6F45F2334750B00F839E1 /* SimplePing.m */,
-				42E6F4602334750B00F839E1 /* NENSinglePinger.h */,
-				42E6F4612334750B00F839E1 /* NENPingManager.m */,
-			);
-			name = NenPingManager;
-			path = "../../../../Downloads/NenPingManager-master/NENPingDemo/NenPingManager";
-			sourceTree = "<group>";
-		};
 		705D8C6A21BE863B0062156D /* WalletManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -3326,7 +3302,6 @@
 				4287BB452328E10F00FF1F7D /* MJRefreshBackGifFooter.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.mm in Sources */,
 				4261CF3822A15D21006B1DDE /* NSDictionary+NilSafe.m in Sources */,
-				42E6F4632334750C00F839E1 /* SimplePing.m in Sources */,
 				4202CA7E21F6EF2B009E5932 /* HMWTheWalletManagementTableViewCell.m in Sources */,
 				422D60A821FC42D100DD07FF /* HMWChooseTheCountryAreasTableViewCell.m in Sources */,
 				4234721C22CCA2EF000616CB /* HWMSignTheWalletListViewController.mm in Sources */,
@@ -3336,7 +3311,6 @@
 				425CE7FC230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m in Sources */,
 				4287BB442328E10F00FF1F7D /* UIView+MJExtension.m in Sources */,
 				422D609021FC401200DD07FF /* HMWTop_upPageForDetailsViewController.mm in Sources */,
-				42E6F4642334750C00F839E1 /* NENPingManager.m in Sources */,
 				4202CA3521F6EF2A009E5932 /* FLSugerBannerModel.m in Sources */,
 				4202CAAA21F6EF2B009E5932 /* FLAllKindBi.m in Sources */,
 				4202CA0C21F6EF2A009E5932 /* SGQRCodeScanManager.m in Sources */,
@@ -3370,7 +3344,6 @@
 				4202CABD21F6EF2B009E5932 /* UIView+FL.m in Sources */,
 				424910F52271BFCF00C41E50 /* UIView+WebCacheOperation.m in Sources */,
 				4202CA1D21F6EF2A009E5932 /* FMResultSet.m in Sources */,
-				42E6F4622334750C00F839E1 /* NENSinglePinger.m in Sources */,
 				422D609D21FC405A00DD07FF /* FLManageSelectPointNodeInformationVC.mm in Sources */,
 				42B57ABA22150C1C004CF089 /* WOCrashProtectorManager.m in Sources */,
 				4202CA6921F6EF2B009E5932 /* HMWtransferTransactionMultipleAddressDetailsTableViewCell.m in Sources */,

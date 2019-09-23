@@ -339,8 +339,6 @@
 		4250B3F52238D32700B6858F /* zbar-help.html in Resources */ = {isa = PBXBuildFile; fileRef = 4250B3D52238D32600B6858F /* zbar-help.html */; };
 		4250B3F62238D32700B6858F /* zbar-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 4250B3D62238D32600B6858F /* zbar-back.png */; };
 		4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4250B3F82238D3E900B6858F /* libiconv.tbd */; };
-		425CE7F7230D2290009C2979 /* NENSinglePinger.m in Sources */ = {isa = PBXBuildFile; fileRef = 425CE7F1230D2290009C2979 /* NENSinglePinger.m */; };
-		425CE7F8230D2290009C2979 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = 425CE7F4230D2290009C2979 /* SimplePing.m */; };
 		425CE7FC230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 425CE7FB230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m */; };
 		425CE7FE230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425CE7FD230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib */; };
 		4261C2FC22C21563008C1532 /* showOwnerAddressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261C2FA22C21563008C1532 /* showOwnerAddressTableViewCell.m */; };
@@ -431,6 +429,9 @@
 		42EA69402313C23C00418328 /* HWMQrCodeScanningResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42EA693E2313C23C00418328 /* HWMQrCodeScanningResultsViewController.xib */; };
 		42EA69442313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EA69422313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.m */; };
 		42EA69452313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42EA69432313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.xib */; };
+		42EE1BC123385FC200CFC8D7 /* NENSinglePinger.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EE1BBB23385FC200CFC8D7 /* NENSinglePinger.m */; };
+		42EE1BC223385FC200CFC8D7 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EE1BBE23385FC200CFC8D7 /* SimplePing.m */; };
+		42EE1BC323385FC200CFC8D7 /* NENPingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EE1BC023385FC200CFC8D7 /* NENPingManager.m */; };
 		42EEDA86224B84790009B18E /* LaunchScreen-English.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42EEDA85224B84790009B18E /* LaunchScreen-English.storyboard */; };
 		42EEDA88224B84A50009B18E /* LaunchScreen-Chinese.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42EEDA87224B84A50009B18E /* LaunchScreen-Chinese.storyboard */; };
 		7087D92F21BCDF1B00599316 /* MyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7087D92E21BCDF1B00599316 /* MyUtil.m */; };
@@ -1211,6 +1212,12 @@
 		42EA69412313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMQrCodeTransferAndAddBuddyViewController.h; sourceTree = "<group>"; };
 		42EA69422313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMQrCodeTransferAndAddBuddyViewController.m; sourceTree = "<group>"; };
 		42EA69432313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMQrCodeTransferAndAddBuddyViewController.xib; sourceTree = "<group>"; };
+		42EE1BBB23385FC200CFC8D7 /* NENSinglePinger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NENSinglePinger.m; sourceTree = "<group>"; };
+		42EE1BBC23385FC200CFC8D7 /* SimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePing.h; sourceTree = "<group>"; };
+		42EE1BBD23385FC200CFC8D7 /* NENPingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NENPingManager.h; sourceTree = "<group>"; };
+		42EE1BBE23385FC200CFC8D7 /* SimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePing.m; sourceTree = "<group>"; };
+		42EE1BBF23385FC200CFC8D7 /* NENSinglePinger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NENSinglePinger.h; sourceTree = "<group>"; };
+		42EE1BC023385FC200CFC8D7 /* NENPingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NENPingManager.m; sourceTree = "<group>"; };
 		42EEDA85224B84790009B18E /* LaunchScreen-English.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "LaunchScreen-English.storyboard"; sourceTree = "<group>"; };
 		42EEDA87224B84A50009B18E /* LaunchScreen-Chinese.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "LaunchScreen-Chinese.storyboard"; sourceTree = "<group>"; };
 		42FB1F5422F83E9B00713355 /* NENSinglePinger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NENSinglePinger.m; sourceTree = "<group>"; };
@@ -1396,6 +1403,7 @@
 		4202C7D421F6EF28009E5932 /* ThirdSDK */ = {
 			isa = PBXGroup;
 			children = (
+				42EE1BBA23385FC200CFC8D7 /* PingManager */,
 				4287BB0D2328E10F00FF1F7D /* MJRefresh */,
 				4288D0B3230E946A00E8CC7A /* HW3DBannerView */,
 				425CE7F0230D2290009C2979 /* NenPingManager */,
@@ -2985,6 +2993,19 @@
 			path = nlohmann;
 			sourceTree = "<group>";
 		};
+		42EE1BBA23385FC200CFC8D7 /* PingManager */ = {
+			isa = PBXGroup;
+			children = (
+				42EE1BBB23385FC200CFC8D7 /* NENSinglePinger.m */,
+				42EE1BBC23385FC200CFC8D7 /* SimplePing.h */,
+				42EE1BBD23385FC200CFC8D7 /* NENPingManager.h */,
+				42EE1BBE23385FC200CFC8D7 /* SimplePing.m */,
+				42EE1BBF23385FC200CFC8D7 /* NENSinglePinger.h */,
+				42EE1BC023385FC200CFC8D7 /* NENPingManager.m */,
+			);
+			path = PingManager;
+			sourceTree = "<group>";
+		};
 		705D8C6A21BE863B0062156D /* WalletManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -3447,7 +3468,6 @@
 				4202CA8C21F6EF2B009E5932 /* HMWTheWalletListViewController.mm in Sources */,
 				42B57AB722150C1C004CF089 /* NSObject+WOSwizzle.m in Sources */,
 				428B4D8A22CB0CF7004AE7D0 /* HWMSignThePurseHeadView.m in Sources */,
-				425CE7F8230D2290009C2979 /* SimplePing.m in Sources */,
 				428B4D7722CAFCA9004AE7D0 /* HWMcreatListViewController.mm in Sources */,
 				4202CA5C21F6EF2A009E5932 /* HMWtransferDetailsPopupView.m in Sources */,
 				CBD48D5F21FC36BA00BF3B11 /* AFSecurityPolicy.m in Sources */,
@@ -3480,6 +3500,7 @@
 				4228AA4521F88C87002866B5 /* NSObject+YYModel.m in Sources */,
 				4202CA6621F6EF2B009E5932 /* HMWSideChainAndTheContactTableViewCell.m in Sources */,
 				CBD48D5A21FC36BA00BF3B11 /* AFURLResponseSerialization.m in Sources */,
+				42EE1BC323385FC200CFC8D7 /* NENPingManager.m in Sources */,
 				4228AA6321F88C87002866B5 /* YYCGUtilities.m in Sources */,
 				42D126A722B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.m in Sources */,
 				4287BB4A2328E10F00FF1F7D /* MJRefreshAutoNormalFooter.m in Sources */,
@@ -3497,6 +3518,7 @@
 				42885A562216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.mm in Sources */,
 				4202CAAB21F6EF2B009E5932 /* FMDBWalletModel.m in Sources */,
 				4287BB462328E10F00FF1F7D /* MJRefreshBackStateFooter.m in Sources */,
+				42EE1BC123385FC200CFC8D7 /* NENSinglePinger.m in Sources */,
 				4202CADB21F6EF2B009E5932 /* HMWfoundViewController.mm in Sources */,
 				4223EB362327A74500153DA9 /* HWMListMoreSignThePublicKeyTableViewCell.m in Sources */,
 				CBD48D4A21FC341200BF3B11 /* FLCoinPointInfoModel.m in Sources */,
@@ -3523,7 +3545,6 @@
 				4264A73E221BDC24008D5C7B /* DAConfig.m in Sources */,
 				4202CAB221F6EF2B009E5932 /* HMWAddTheCurrencyListViewController.mm in Sources */,
 				4202CA4D21F6EF2A009E5932 /* Foundation+Log.m in Sources */,
-				425CE7F7230D2290009C2979 /* NENSinglePinger.m in Sources */,
 				4202CA1921F6EF2A009E5932 /* FMDatabaseQueue.m in Sources */,
 				4228AA4B21F88C87002866B5 /* UIApplication+YYAdd.m in Sources */,
 				4202CAD121F6EF2B009E5932 /* HMWMyVoteViewController.mm in Sources */,
@@ -3577,6 +3598,7 @@
 				4202CAD021F6EF2B009E5932 /* HMWtheSuperNodeElectionViewController.mm in Sources */,
 				4228AA4921F88C87002866B5 /* UIColor+YYAdd.m in Sources */,
 				4202CA2821F6EF2A009E5932 /* FLTableViewDefultCell.m in Sources */,
+				42EE1BC223385FC200CFC8D7 /* SimplePing.m in Sources */,
 				4228AA5621F88C87002866B5 /* NSNumber+YYAdd.m in Sources */,
 				4202C9FD21F6EF2A009E5932 /* MASLayoutConstraint.m in Sources */,
 				4202CA9E21F6EF2B009E5932 /* HMWverifyTheMnemonicWordViewController.mm in Sources */,

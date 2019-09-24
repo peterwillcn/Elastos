@@ -2,7 +2,7 @@
 --- origin_platforms/android/CordovaLib/build.gradle	null
 +++ platforms/android/CordovaLib/build.gradle	null
 @@ -24,6 +24,7 @@
- 
+
  buildscript {
      repositories {
 +        google()
@@ -11,7 +11,7 @@
          }
 @@ -31,7 +32,7 @@
      }
- 
+
      dependencies {
 -        classpath 'com.android.tools.build:gradle:3.0.1'
 +        classpath 'com.android.tools.build:gradle:3.2.1'
@@ -22,7 +22,7 @@
 --- origin_platforms/android/app/build.gradle	null
 +++ platforms/android/app/build.gradle	null
 @@ -21,6 +21,7 @@
- 
+
  buildscript {
      repositories {
 +        google()
@@ -31,22 +31,30 @@
              url "https://maven.google.com"
 @@ -29,7 +30,7 @@
      }
- 
+
      dependencies {
 -        classpath 'com.android.tools.build:gradle:3.0.1'
 +        classpath 'com.android.tools.build:gradle:3.2.1'
      }
  }
- 
-@@ -169,9 +170,21 @@
- 
+
+@@ -164,11 +165,25 @@
+ android {
+
+     defaultConfig {
+-        versionCode cdvVersionCode ?: new BigInteger("" + privateHelpers.extractIntFromManifest("versionCode"))
+         applicationId privateHelpers.extractStringFromManifest("package")
+
          if (cdvMinSdkVersion != null) {
              minSdkVersion cdvMinSdkVersion
 +        } else {
 +            minSdkVersion 21
-         }
-     }
- 
++        }
++        targetSdkVersion 28
++        versionCode 10000
++        versionName "0.5.1"
++    }
++
 +    sourceSets {
 +        main.java.srcDirs += '../../../platform_src/android/app/src/main/java'
 +    }
@@ -54,17 +62,13 @@
 +    externalNativeBuild {
 +        cmake {
 +            path '../../../platform_src/android/app/src/main/cpp/CMakeLists.txt'
-+        }
-+    }
-+
-     lintOptions {
-       abortOnError false;
+         }
      }
 ===================================================================
 --- origin_platforms/android/build.gradle	null
 +++ platforms/android/build.gradle	null
 @@ -20,6 +20,7 @@
- 
+
  buildscript {
      repositories {
 +        google()
@@ -72,14 +76,14 @@
              url "https://maven.google.com"
          }
 @@ -29,7 +30,7 @@
- 
+
          // NOTE: Do not place your application dependencies here; they belong
          // in the individual module build.gradle files
 -        classpath 'com.android.tools.build:gradle:3.0.1'
 +        classpath 'com.android.tools.build:gradle:3.2.1'
      }
  }
- 
+
 @@ -43,7 +44,7 @@
      //This replaces project.properties w.r.t. build settings
      project.ext {

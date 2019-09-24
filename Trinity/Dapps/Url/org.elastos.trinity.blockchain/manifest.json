@@ -1,6 +1,7 @@
 {
     "id": "org.elastos.trinity.blockchain",
     "version": "0.0.1",
+    "version_code": 1,
     "name": "Blockchain",
     "short_name": "blockchain",
     "description": "Blockchain dapp",

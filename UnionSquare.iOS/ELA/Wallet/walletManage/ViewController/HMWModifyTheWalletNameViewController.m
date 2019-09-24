@@ -23,11 +23,10 @@
     [self defultWhite];
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"修改钱包名称", nil);
-    self.nNickNameTextField.placeholder=NSLocalizedString(@"请输入新的钱包名称", nil);
     [self.confirmTheChangeButton setTitle:NSLocalizedString(@"确认修改", nil) forState:UIControlStateNormal];
 
     [[HMWCommView share]makeBordersWithView:self.confirmTheChangeButton];
-    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.nNickNameTextField];
+    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.nNickNameTextField withTxt:NSLocalizedString(@"请输入新的钱包名称", nil)];
 }
 - (IBAction)confirmTheChangeEvent:(id)sender {
     if (![[FLTools share]checkWalletName:self.nNickNameTextField.text]) {

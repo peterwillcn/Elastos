@@ -22,13 +22,11 @@
     self =[super init];
     if (self) {
         self =[[NSBundle mainBundle]loadNibNamed:@"HMWpwdPopupView" owner:nil options:nil].firstObject;
-        [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.pwdTextField];
+        [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.pwdTextField withTxt:NSLocalizedString(@"请输入您的钱包密码", nil)];
         [[HMWCommView share]makeBordersWithView:self.makeSureButton];
         self.pwdTextField.secureTextEntry=YES;
         [self.makeSureButton setTitle:NSLocalizedString(@"确定", nil) forState:UIControlStateNormal];
         self.pwdTextLabel.text=NSLocalizedString(@"输入密码", nil);
-        
-        self.pwdTextField.placeholder=NSLocalizedString(@"请输入您的钱包密码", nil);
     }
     return self;
     

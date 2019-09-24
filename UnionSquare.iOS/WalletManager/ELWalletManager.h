@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-//#import <Cordova/CDV.h>
 #import "MyUtil.h"
 #import "IMasterWallet.h"
 #import "IDidManager.h"
@@ -170,6 +169,8 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(NSInteger)UpdateProducerWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model;
 
 -(BOOL)useMainchainSubWallet:(NSString*)mainchainSubWalletId ToVote:(NSArray*)publicKeys tickets:(NSInteger)stake pwd:(NSString*)pwd isChangeVote:(BOOL)change;
+-(PluginResult *)SignReadOnlyToVote:(invokedUrlCommand *)command;
+-(PluginResult *)HowSignToVote:(invokedUrlCommand *)command;
 //取消选举结果
 -(BOOL)CancelProducer:(NSString*)mainchainSubWalletId Pwd:(NSString*)pwd;
 //拿回押金
@@ -181,10 +182,25 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(NSString*)GetRegisteredProducerInfo:(NSString *)mainid;
 -(NSString *)GetOwnerAddressWithID:(NSString*)masterWalletID;
 -(PluginResult *)GetAllCoinBaseTransaction:(invokedUrlCommand *)command;
+- (PluginResult *)getMasterWalletPublicKey:(invokedUrlCommand *)command;
 -(PluginResult *)CreateCombineUTXOTransaction:(invokedUrlCommand *)command;
 -(PluginResult *)GetAllUTXOs:(invokedUrlCommand *)command;
+-(PluginResult *)CreateMultiSignMasterWalletMnemonic:(invokedUrlCommand *)command;
+-(PluginResult *)CreateMultiSignMasterWalletmasterReadonly:(invokedUrlCommand *)command;
+-(PluginResult *)CreateMultiSignMasterWalletmasterMasterWalletId:(invokedUrlCommand *)command;
+-(NSString *)ExportxPrivateKey:(invokedUrlCommand *)command;
 -(void*)SyncStart:(invokedUrlCommand *)command;
 -(NSString*)EMWMGetVersion;
+-(PluginResult *)ExportReadonlyWallet:(invokedUrlCommand *)command;
+-(PluginResult *)ExportMasterPublicKey:(invokedUrlCommand *)command;
+-(PluginResult *)CreateImportReadonlyWallet:(invokedUrlCommand *)command;
+-(PluginResult *)GetTransactionSignedInfo:(invokedUrlCommand *)command;
+-(PluginResult *)MSignAndReadOnlyCreateTransaction:(invokedUrlCommand *)command;
+-(PluginResult *)QrCodeCreateTransaction:(invokedUrlCommand *)command;
+-(PluginResult *)VerifyPayPassword:(invokedUrlCommand *)command;
+-(PluginResult *)VerifyPassPhrase:(invokedUrlCommand *)command;
+-(PluginResult *)publishtransaction:(invokedUrlCommand *)command;
+-(PluginResult *)SignTransaction:(invokedUrlCommand *)command;
 @end
 
 

@@ -16,9 +16,10 @@
 #import "FMDBWalletModel.h"
 #import "sideChainInfoModel.h"
 #import "DAConfig.h"
+#import "HWMSignThePurseViewController.h"
 
 
-@interface FLPastWordVC ()<FLSetMenmoryWordPassViewDelegate>
+@interface FLPastWordVC ()<FLSetMenmoryWordPassViewDelegate,HMWverifyTheMnemonicWordVCDelegate>
 @property (nonatomic, strong)UITextView *textView;
 @property (nonatomic, strong)UIButton *nextBtn;
 @property (nonatomic, strong)UIView *nextView;
@@ -199,6 +200,9 @@ __weak __typeof__(self) weakSelf = self;
         
          [[FLTools share]showErrorInfo:NSLocalizedString(@"你备份的助记词顺序验证正确", nil)];
 //        [self.navigationController popToRootViewControllerAnimated:YES];
+//        if (self.delegate) {
+//            [self.delegate backTheWallet:self.Wallet];
+//        }
        
     }else{
          [[FLTools share]showErrorInfo:NSLocalizedString(@"你备份的助记词顺序验证错误,请从新校验", nil)];
@@ -238,28 +242,42 @@ __weak __typeof__(self) weakSelf = self;
         HMWverifyTheMnemonicWordViewController *verifyTheMnemonicWordVC=[[HMWverifyTheMnemonicWordViewController alloc]init];
         verifyTheMnemonicWordVC.Wallet=self.Wallet;
         verifyTheMnemonicWordVC.FormeType=@"1";
+        verifyTheMnemonicWordVC.delegate=self;
         [self.navigationController pushViewController:verifyTheMnemonicWordVC animated:YES];
     }else{
-    [self creatWallet];
+    
+            [self creatWallet];
+        
     }
     
+    
 }
-
 -(void)creatWallet{
     self.Wallet.walletID=[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
-
-    self.Wallet.masterWalletID=[[[FLTools share]getRandomStringWithNum:6] stringByAppendingString:self.Wallet.walletID];
- 
-            
-            HMWverifyTheMnemonicWordViewController *verifyTheMnemonicWordVC=[[HMWverifyTheMnemonicWordViewController alloc]init];
-            verifyTheMnemonicWordVC.Wallet=self.Wallet;
-            verifyTheMnemonicWordVC.FormeType=@"1";
-            [self.navigationController pushViewController:verifyTheMnemonicWordVC animated:YES];
     
+    self.Wallet.masterWalletID=[[[FLTools share]getRandomStringWithNum:6] stringByAppendingString:self.Wallet.walletID];
+    
+    
+    HMWverifyTheMnemonicWordViewController *verifyTheMnemonicWordVC=[[HMWverifyTheMnemonicWordViewController alloc]init];
+    verifyTheMnemonicWordVC.Wallet=self.Wallet;
+    verifyTheMnemonicWordVC.FormeType=@"1";
+    verifyTheMnemonicWordVC.createType=self.createType;
+    verifyTheMnemonicWordVC.delegate=self;
+    [self.navigationController pushViewController:verifyTheMnemonicWordVC animated:YES];
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
     [self.view endEditing:YES];
+    
+}
+-(void)setCreateType:(NSInteger)createType{
+    _createType=createType;
+    
+}
+-(void)backTheWallet:(FLWallet *)wallet{
+    if (self.delegate) {
+        [self.delegate backTheWallet:wallet];
+    }
     
 }
 @end

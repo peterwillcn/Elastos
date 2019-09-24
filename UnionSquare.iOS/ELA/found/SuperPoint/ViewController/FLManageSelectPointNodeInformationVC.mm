@@ -54,7 +54,7 @@
     [self setBackgroundImg:@""];
     self.title= NSLocalizedString(@"选举管理", nil) ;
     self.leftLab1.text =NSLocalizedString(@"节点名称", nil) ;
-     self.leftLab2.text =NSLocalizedString(@"节点公钥", nil) ;
+     self.leftLab2.text =NSLocalizedString(@"节点地址", nil) ;
      self.leftLab3.text =NSLocalizedString(@"国家/地区", nil) ;
     self.votesLabel.text=NSLocalizedString(@"当前票数", nil);
     self.voteOfBTextLabel.text=NSLocalizedString(@"投票占比", nil);
@@ -97,18 +97,16 @@
     
     
     self.OwnerPublickKeyLab.text = NickName;
-    self.model.nodePubKey=NodePublickKey;
     self.NodePublickKeyLab.text  = NodePublickKey;
-    self.NodePublickKeyLab.numberOfLines=0;
     self.URLLab.text = URL;
     self.LocationLab.text = [[FLTools share]contryNameTransLateByCode:Location.integerValue];
     [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:[[FLTools share] getImageViewURLWithURL:self.model.url]] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
     
 }
 -(void)getNetCoinPointArrayWithPubKey:(NSString *)OwnerPublickKey{
-
+NSString *httpIP=[[FLTools share]http_IpFast];
     
-    [HttpUrl NetPOSTHost:Http_IP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1"} showHUD:NO WithSuccessBlock:^(id data) {
+    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1"} showHUD:NO WithSuccessBlock:^(id data) {
         NSDictionary *param = data[@"data"];
         NSArray *dataSource= [NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];
         for (FLCoinPointInfoModel *model in dataSource) {

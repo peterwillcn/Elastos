@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="HWMaddSignThePursefootView">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="220"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WbF-9w-Jar">
+                    <rect key="frame" x="63" y="140" width="288" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="nUn-et-qxE"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <state key="normal" title="确认创建">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JBa-N5-1fZ">
+                    <rect key="frame" x="182" y="40" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="kfz-yR-td1"/>
+                        <constraint firstAttribute="height" constant="50" id="yuT-4i-3jN"/>
+                    </constraints>
+                    <state key="normal" image="asset_adding_btn"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="WbF-9w-Jar" secondAttribute="bottom" constant="40" id="FXO-pf-3sU"/>
+                <constraint firstItem="JBa-N5-1fZ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="40" id="cuK-Lu-Ds6"/>
+                <constraint firstItem="WbF-9w-Jar" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="63" id="kda-hQ-2Hf"/>
+                <constraint firstItem="JBa-N5-1fZ" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="mvN-XK-bvo"/>
+                <constraint firstAttribute="trailing" secondItem="WbF-9w-Jar" secondAttribute="trailing" constant="63" id="wp0-HO-Z4a"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="addButton" destination="JBa-N5-1fZ" id="7oN-HP-bxY"/>
+                <outlet property="confirmCreateButton" destination="WbF-9w-Jar" id="iKN-Ke-rGA"/>
+            </connections>
+            <point key="canvasLocation" x="47.826086956521742" y="35.491071428571423"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="asset_adding_btn" width="50" height="50"/>
+    </resources>
+</document>

@@ -48,7 +48,7 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     [self makeView];
     FLWallet *waller = [ELWalletManager share].currentWallet;
     IMainchainSubWallet *subWallet = [[ELWalletManager share]getWalletELASubWallet:waller.masterWalletID];
-    String balanceSt = subWallet->GetBalance(Elastos::ElaWallet::Total);
+    String balanceSt = subWallet->GetBalance();
     NSString * balanceString= [NSString stringWithCString:balanceSt.c_str() encoding:NSUTF8StringEncoding];
     NSInteger balance=[balanceString integerValue];
     self.nameOfTheWalletLabel.text = waller.walletName;
@@ -79,35 +79,14 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
         }
         
     }
-    
-    self.dataSource = [showlistdata sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-         FLCoinPointInfoModel *model1 = obj1;
-        FLCoinPointInfoModel *mode2 = obj2;
-        if (model1.index > mode2.index) {
-            //降序
-//            return NSOrderedAscending;
-            //升序
-                          return NSOrderedDescending;
-            
-        }else if (model1.index < mode2.index){
-            //升序
-                            return NSOrderedAscending;
-            //降序
-//            return NSOrderedDescending;
-        }else{
-            return NSOrderedSame;
-        }
-    }];
     self.voteInTotalLabel.text = @(total/unitNumber).stringValue;
+    self.dataSource = showlistdata;
     if (self.dataSource.count==0) {
         self.changeVotesButton.alpha=0.f;
      self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_unlocked"];
-        self.largeStateImageView.image=[UIImage imageNamed:@"found_vote_mine_go"];
     }else{
          self.changeVotesButton.alpha=1.f;
         self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_going_on"];
-         self.largeStateImageView.image=[UIImage imageNamed:@"my_vote_locked_img"];
-        
     }
     [self.baseTableView reloadData];
     self.placeHolderLab.hidden  = self.dataSource.count==0? NO: YES;
@@ -138,16 +117,10 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
     cell.leftLab.text = model.nickname;
-    cell.rightLab.text =[NSString stringWithFormat:@"NO.%ld",model.index+1];
+    cell.rightLab.text =[NSString stringWithFormat:@"NO.%d",model.index+1];
     return cell;
     
 }
-//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    //    HMWtransferTransactionDetailsViewController *transferTransactionDetailsVC=[[HMWtransferTransactionDetailsViewController alloc]init];
-    //    [self.navigationController pushViewController:transferTransactionDetailsVC animated:YES];
-    
-//}
 -(UILabel *)placeHolderLab
 {
     if (!_placeHolderLab) {

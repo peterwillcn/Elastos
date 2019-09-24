@@ -33,7 +33,6 @@
 #import "WOCrashProtectorManager.h"
 #import "DAConfig.h"
 #define KYRect  [UIScreen mainScreen].bounds
-
 @interface AppDelegate ()
 
 @end
@@ -104,7 +103,8 @@
             sideModel.walletID=model.walletID;
             sideModel.sideChainName=@"ELA";
         sideModel.sideChainNameTime=@"--:--";
-                
+                sideModel.thePercentageMax=@"100";
+                sideModel.thePercentageCurr=@"0";
                 [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
                 [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
                 
@@ -131,6 +131,7 @@
     UITableView.appearance.estimatedSectionFooterHeight = 0;
     UITableView.appearance.estimatedSectionHeaderHeight = 0;
     [self.window makeKeyAndVisible];
+    
     return YES;
     
 }
@@ -189,5 +190,4 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application{
      [[ELWalletManager share]EMWMFlushData];
 }
-
 @end

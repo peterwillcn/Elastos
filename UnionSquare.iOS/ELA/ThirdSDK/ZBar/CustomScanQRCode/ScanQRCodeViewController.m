@@ -217,9 +217,13 @@
         return;
     }
     if (self.scanBack) {
+         [self.navigationController popViewControllerAnimated:YES];
         self.scanBack(urlStr);
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
+        
     }
-    [self.navigationController popViewControllerAnimated:YES];
+   
  
     
 //    //二维码扫描成功，弹窗提示

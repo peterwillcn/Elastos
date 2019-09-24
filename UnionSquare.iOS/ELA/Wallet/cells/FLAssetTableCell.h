@@ -18,5 +18,7 @@
 
 @property (weak, nonatomic) IBOutlet UIProgressView *progress;
 @property (weak, nonatomic) IBOutlet UILabel *progressLab;
-
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+    @property (weak, nonatomic) IBOutlet UIImageView *linkImageView;
+    
 @end

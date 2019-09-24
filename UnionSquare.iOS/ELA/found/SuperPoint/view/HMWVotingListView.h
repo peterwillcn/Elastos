@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum : NSUInteger {
+     NodeElectioType,
+    CRType,
+} VotingListType;
+
 @protocol HMWVotingListViewDelegate <NSObject>
 
 -(void)selectedVotingListWithIndex:(NSInteger)index;
-
+-(void)VotingListisEdite:(BOOL)edite;
 @end
 
 
@@ -29,7 +34,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *lab3;
 @property(weak,nonatomic)id<HMWVotingListViewDelegate>delegate;
 
-@property(nonatomic,strong)NSArray *dataSource;
+@property(nonatomic,strong)NSMutableArray *dataSource;
+
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)VotingListType type;
+-(void)selectAllListWithIsSelect:(BOOL)isSelectAll;
 
 
 @end

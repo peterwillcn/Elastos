@@ -25,6 +25,10 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(copy,nonatomic)NSArray  *addressArray;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString  *toAddressString;
 
 /*
  *<# #>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="HWMHWMcreatWalletListlTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K5c-C3-XEm">
+                        <rect key="frame" x="30" y="0.0" width="260" height="59.5"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ie6-NU-yef">
+                                <rect key="frame" x="15" y="19" width="22" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="22" id="1Si-MN-UoL"/>
+                                    <constraint firstAttribute="height" constant="22" id="GhB-dI-OH7"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="setting_list_arrow_fold" translatesAutoresizingMaskIntoConstraints="NO" id="qp8-Rl-v6E">
+                                <rect key="frame" x="216" y="19" width="22" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="7" id="5Cc-ld-TP7"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="12" id="VmC-4F-dxY"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Df0-Po-JJv">
+                                <rect key="frame" x="48" y="20" width="39.5" height="19.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.40468126535415649" green="0.56861680746078491" blue="0.57637196779251099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Df0-Po-JJv" firstAttribute="leading" secondItem="Ie6-NU-yef" secondAttribute="trailing" constant="11" id="9h8-hm-48Q"/>
+                            <constraint firstItem="qp8-Rl-v6E" firstAttribute="centerY" secondItem="K5c-C3-XEm" secondAttribute="centerY" id="bhP-5m-HiS"/>
+                            <constraint firstItem="Ie6-NU-yef" firstAttribute="centerY" secondItem="K5c-C3-XEm" secondAttribute="centerY" id="kjz-Fy-0uL"/>
+                            <constraint firstItem="Ie6-NU-yef" firstAttribute="leading" secondItem="K5c-C3-XEm" secondAttribute="leading" constant="15" id="pKf-7B-24F"/>
+                            <constraint firstAttribute="trailing" secondItem="qp8-Rl-v6E" secondAttribute="trailing" constant="22" id="pMY-e2-Ymz"/>
+                            <constraint firstItem="Df0-Po-JJv" firstAttribute="centerY" secondItem="K5c-C3-XEm" secondAttribute="centerY" id="yrw-aS-3Lb"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="K5c-C3-XEm" secondAttribute="trailing" constant="30" id="FKS-xq-lIZ"/>
+                    <constraint firstItem="K5c-C3-XEm" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="GfE-BF-Oq7"/>
+                    <constraint firstAttribute="bottom" secondItem="K5c-C3-XEm" secondAttribute="bottom" id="Wcs-qb-mqE"/>
+                    <constraint firstItem="K5c-C3-XEm" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="30" id="wvB-l9-xYV"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
+            <connections>
+                <outlet property="iconImageView" destination="Ie6-NU-yef" id="tvZ-TJ-cEG"/>
+                <outlet property="rightImageView" destination="qp8-Rl-v6E" id="Ymy-Bp-xOY"/>
+                <outlet property="walletTypeLabel" destination="Df0-Po-JJv" id="DMq-Ij-eZk"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="setting_list_arrow_fold" width="22" height="22"/>
+    </resources>
+</document>

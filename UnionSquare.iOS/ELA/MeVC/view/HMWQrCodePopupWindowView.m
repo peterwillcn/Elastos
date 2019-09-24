@@ -36,9 +36,8 @@
 
 }
 -(void)setWalletAddressString:(NSString *)walletAddressString{
+    NSDictionary *dic=[[FLTools share]CreateQrCodeImage:walletAddressString WithType:@"4" withSubWalletIdChain:@"ELA"];
     _walletAddressString=walletAddressString;
-     self.QRViewImage.image = [SGQRCodeGenerateManager generateWithDefaultQRCodeData:walletAddressString imageViewWidth:self.QRViewImage.mj_w];
-    
-    
+     self.QRViewImage.image =[[FLTools share] imageWithSize:1100.f andColorWithRed:3 Green:3 Blue:5 andQRDic:dic];
 }
 @end

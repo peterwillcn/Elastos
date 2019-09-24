@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -63,14 +63,14 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BoX-Dp-zqf">
-                            <rect key="frame" x="15" y="105" width="345" height="1"/>
+                            <rect key="frame" x="15" y="100" width="345" height="1"/>
                             <color key="backgroundColor" white="1" alpha="0.51725260419999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="nda-os-KBi"/>
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="最大表决票权 200,000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3w2-3M-RYp">
-                            <rect key="frame" x="243.5" y="111" width="116.5" height="11"/>
+                            <rect key="frame" x="243.5" y="106" width="116.5" height="11"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="11" id="SH0-uJ-TXK"/>
                             </constraints>
@@ -92,16 +92,16 @@
                             </connections>
                         </button>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入票数" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oGM-q9-x9g">
-                            <rect key="frame" x="87.5" y="48" width="264.5" height="57"/>
+                            <rect key="frame" x="87.5" y="48" width="222.5" height="52"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                         </textField>
-                        <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNa-tP-EJZ">
-                            <rect key="frame" x="320" y="55" width="40" height="40"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNa-tP-EJZ">
+                            <rect key="frame" x="310" y="50" width="60" height="50"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="40" id="aVl-Na-LSt"/>
-                                <constraint firstAttribute="width" constant="40" id="cLc-MD-G7k"/>
+                                <constraint firstAttribute="height" constant="50" id="aVl-Na-LSt"/>
+                                <constraint firstAttribute="width" constant="60" id="cLc-MD-G7k"/>
                             </constraints>
                             <state key="normal" image="max_btn"/>
                             <connections>
@@ -113,12 +113,12 @@
                     <constraints>
                         <constraint firstItem="oGM-q9-x9g" firstAttribute="top" secondItem="Imu-Td-d3x" secondAttribute="bottom" id="2DT-DI-jv5"/>
                         <constraint firstItem="d4Z-cR-EDG" firstAttribute="top" secondItem="2i6-lA-9T1" secondAttribute="top" id="3Po-im-zEi"/>
-                        <constraint firstAttribute="trailing" secondItem="aNa-tP-EJZ" secondAttribute="trailing" constant="15" id="AZu-Sz-WH9"/>
+                        <constraint firstAttribute="trailing" secondItem="aNa-tP-EJZ" secondAttribute="trailing" constant="5" id="AZu-Sz-WH9"/>
                         <constraint firstItem="M3g-4e-yIs" firstAttribute="leading" secondItem="2i6-lA-9T1" secondAttribute="leading" constant="63" id="CKz-ye-ecr"/>
                         <constraint firstAttribute="trailing" secondItem="Imu-Td-d3x" secondAttribute="trailing" id="COm-ad-B5N"/>
                         <constraint firstItem="3w2-3M-RYp" firstAttribute="top" secondItem="BoX-Dp-zqf" secondAttribute="bottom" constant="5" id="E6e-en-wfY"/>
                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="SXF-TZ-3b0" secondAttribute="trailing" constant="30" id="F0R-Xs-JmD"/>
-                        <constraint firstItem="aNa-tP-EJZ" firstAttribute="leading" secondItem="oGM-q9-x9g" secondAttribute="trailing" constant="-32" id="FE6-Ge-BRL"/>
+                        <constraint firstItem="aNa-tP-EJZ" firstAttribute="leading" secondItem="oGM-q9-x9g" secondAttribute="trailing" id="FE6-Ge-BRL"/>
                         <constraint firstItem="d4Z-cR-EDG" firstAttribute="leading" secondItem="2i6-lA-9T1" secondAttribute="leading" id="GoY-yd-U0s"/>
                         <constraint firstItem="Imu-Td-d3x" firstAttribute="top" secondItem="d4Z-cR-EDG" secondAttribute="bottom" id="PiA-kp-UdZ"/>
                         <constraint firstAttribute="trailing" secondItem="M3g-4e-yIs" secondAttribute="trailing" constant="63" id="QkO-bu-Bv8"/>
@@ -135,7 +135,7 @@
                         <constraint firstItem="BoX-Dp-zqf" firstAttribute="leading" secondItem="2i6-lA-9T1" secondAttribute="leading" constant="15" id="piB-r8-gDJ"/>
                         <constraint firstAttribute="trailing" secondItem="3w2-3M-RYp" secondAttribute="trailing" constant="15" id="qNO-td-5sF"/>
                         <constraint firstItem="Imu-Td-d3x" firstAttribute="leading" secondItem="2i6-lA-9T1" secondAttribute="leading" id="wbv-Bt-rON"/>
-                        <constraint firstItem="BoX-Dp-zqf" firstAttribute="top" secondItem="aNa-tP-EJZ" secondAttribute="bottom" constant="10" id="wl1-dA-uvT"/>
+                        <constraint firstItem="BoX-Dp-zqf" firstAttribute="top" secondItem="aNa-tP-EJZ" secondAttribute="bottom" id="wl1-dA-uvT"/>
                         <constraint firstAttribute="bottom" secondItem="M3g-4e-yIs" secondAttribute="bottom" constant="100" id="x5y-9F-qmO"/>
                         <constraint firstItem="xJH-lb-8G8" firstAttribute="top" secondItem="Imu-Td-d3x" secondAttribute="bottom" constant="19" id="xCF-24-kWH"/>
                         <constraint firstAttribute="height" constant="450" id="z33-XW-3Y9"/>

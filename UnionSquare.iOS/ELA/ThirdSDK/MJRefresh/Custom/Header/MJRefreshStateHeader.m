@@ -33,6 +33,7 @@
 {
     if (!_stateLabel) {
         [self addSubview:_stateLabel = [UILabel mj_label]];
+        _stateLabel.textColor=RGBA(255, 255, 255, 0.5);
     }
     return _stateLabel;
 }
@@ -41,6 +42,7 @@
 {
     if (!_lastUpdatedTimeLabel) {
         [self addSubview:_lastUpdatedTimeLabel = [UILabel mj_label]];
+       _lastUpdatedTimeLabel.textColor=RGBA(255, 255, 255, 0.5);
     }
     return _lastUpdatedTimeLabel;
 }
@@ -51,14 +53,6 @@
     if (title == nil) return;
     self.stateTitles[@(state)] = title;
     self.stateLabel.text = self.stateTitles[@(self.state)];
-}
-
-#pragma mark - 日历获取在9.x之后的系统使用currentCalendar会出异常。在8.0之后使用系统新API。
-- (NSCalendar *)currentCalendar {
-    if ([NSCalendar respondsToSelector:@selector(calendarWithIdentifier:)]) {
-        return [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
-    }
-    return [NSCalendar currentCalendar];
 }
 
 #pragma mark key的处理
@@ -79,8 +73,8 @@
     
     if (lastUpdatedTime) {
         // 1.获得年月日
-        NSCalendar *calendar = [self currentCalendar];
-        NSUInteger unitFlags = NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay |NSCalendarUnitHour |NSCalendarUnitMinute;
+        NSCalendar *calendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+        NSUInteger unitFlags = NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute;
         NSDateComponents *cmp1 = [calendar components:unitFlags fromDate:lastUpdatedTime];
         NSDateComponents *cmp2 = [calendar components:unitFlags fromDate:[NSDate date]];
         
@@ -121,7 +115,6 @@
     [self setTitle:[NSBundle mj_localizedStringForKey:MJRefreshHeaderIdleText] forState:MJRefreshStateIdle];
     [self setTitle:[NSBundle mj_localizedStringForKey:MJRefreshHeaderPullingText] forState:MJRefreshStatePulling];
     [self setTitle:[NSBundle mj_localizedStringForKey:MJRefreshHeaderRefreshingText] forState:MJRefreshStateRefreshing];
-   
 }
 
 - (void)placeSubviews

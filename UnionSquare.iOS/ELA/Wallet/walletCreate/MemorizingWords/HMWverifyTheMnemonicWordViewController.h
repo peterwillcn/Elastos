@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
+@protocol HMWverifyTheMnemonicWordVCDelegate <NSObject>
+-(void)backTheWallet:(FLWallet*)wallet;
+@end
 
 @interface HMWverifyTheMnemonicWordViewController : UIViewController
 /*
@@ -20,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(copy,nonatomic)NSString *FormeType;
-
+@property (nonatomic, assign)NSInteger createType;
+@property(strong,nonatomic)id<HMWverifyTheMnemonicWordVCDelegate>delegate;
 @end
 
-NS_ASSUME_NONNULL_END

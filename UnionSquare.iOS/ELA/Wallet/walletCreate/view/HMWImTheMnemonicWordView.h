@@ -26,6 +26,10 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(strong,nonatomic)UIViewController *VC;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *typeString;
 @end
 
 NS_ASSUME_NONNULL_END

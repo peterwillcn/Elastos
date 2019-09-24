@@ -14,6 +14,8 @@
 #import "FLNotePointDBManager.h"
 #import "HMWToDeleteTheWalletPopView.h"
 #import "HMWFMDBManager.h"
+#import "HWMSignatureTradingSingleQrCodeViewController.h"
+
 static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 
 @interface FLChangeVotedTicketsVC ()<UITableViewDelegate,UITableViewDataSource,VotesPopupViewDelegate,HMWpwdPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate>
@@ -38,6 +40,14 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
  *<# #>
  */
 @property(strong,nonatomic)HMWToDeleteTheWalletPopView *moreThan36View;
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)BOOL isMax;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)FLWallet *wallet;
 @end
 
 @implementation FLChangeVotedTicketsVC
@@ -57,6 +67,45 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 }
 
 
+-(void)getWalletType{
+    
+    NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+    FMDBWalletModel *model =walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
+    
+    self.wallet =[[FLWallet alloc]init];
+    self.wallet.masterWalletID =model.walletID;
+    self.wallet.walletName     =model.walletName;
+    self.wallet.walletAddress  = model.walletAddress;
+    self.wallet.walletID       =[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
+    self.wallet.TypeW  = model.TypeW;
+    
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID] callbackId: self.wallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
+    
+    PluginResult * resultBase =[[ELWalletManager share]getMasterWalletBasicInfo:mommand];
+    NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
+    NSDictionary *baseDic=[[NSDictionary alloc]init];
+    if ([statusBase isEqualToString:@"1"] ) {
+        baseDic=[[FLTools share]dictionaryWithJsonString:resultBase.message[@"success"]];
+        NSString *Readonly=[NSString stringWithFormat:@"%@",baseDic[@"Readonly"]];
+        if ([Readonly isEqualToString:@"0"]) {
+            if ([baseDic[@"M"] integerValue]==1) {
+                self.wallet.TypeW=0;
+            }else{
+                
+                self.wallet.TypeW=2;
+            }
+        }else{
+            
+            if ([baseDic[@"M"] integerValue]==1) {
+                self.wallet.TypeW=1;
+            }else{
+                self.wallet.TypeW=3;
+            }
+        }
+        
+        
+    }
+}
 
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -95,13 +144,8 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     [self.moreThan36View removeFromSuperview];
     self.moreThan36View=nil;
 }
-
 -(void)getDBRecored{
-    
-    NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
-    FMDBWalletModel *FMDBmodel =walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
-    
-    self.dataSource  = [[NSMutableArray alloc]initWithArray: [[FLNotePointDBManager defultWithWalletID:FMDBmodel.walletID]allRecord]];
+    self.dataSource  = [[NSMutableArray alloc]initWithArray: [[FLNotePointDBManager defultWithWalletID:self.wallet.masterWalletID]allRecord]];
     [self.baseTableView reloadData];
 }
 - (IBAction)actAction:(UIButton*)sender {
@@ -117,7 +161,7 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     ELWalletManager *manager   =  [ELWalletManager share];
     
     IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-    String balanceSt = mainchainSubWallet->GetBalance(Elastos::ElaWallet::Total);
+    String balanceSt = mainchainSubWallet->GetBalance();
     NSString * balanceString= [NSString stringWithCString:balanceSt.c_str() encoding:NSUTF8StringEncoding];
     NSInteger balance=[balanceString integerValue];
     self.inputVoteTicketView.votes = balance/unitNumber;
@@ -216,12 +260,21 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 
 
 #pragma mark 代理
--(void)didHadInputVoteTicket:(NSString *)ticketNumer
+-(void)didHadInputVoteTicket:(NSString *)ticketNumer WithIsMax:(BOOL)isMax
 {
+    self.isMax=isMax;
     [self.inputVoteTicketView removeFromSuperview];
     self.inputVoteTicketView= nil;
     self.ticket = ticketNumer.integerValue;
-    [self.view.window addSubview:self.pwdPopupV];
+    if (self.wallet.TypeW==0) {
+        [self.view.window addSubview:self.pwdPopupV];
+    }else if (self.wallet.TypeW==1){
+        [self makeSureWithPWD:@""];
+    }else if (self.wallet.TypeW==2){
+        [self.view.window addSubview:self.pwdPopupV];
+    }else if (self.wallet.TypeW==3){
+        [self makeSureWithPWD:@""];
+    }
 
 }
 -(void)cancelThePWDPageView
@@ -236,11 +289,72 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
         FLCoinPointInfoModel *model = self.voteArray[i];
         [stringArray addObject:model.ownerpublickey];
     }
-    NSString *walletId = [ELWalletManager share].currentWallet.masterWalletID;
-    BOOL ret = [[ELWalletManager share]useMainchainSubWallet:walletId ToVote:stringArray tickets:self.ticket pwd:pwd isChangeVote:YES];
-    if (ret) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"变更成功",nil)];
+    NSInteger tic=self.ticket;
+    if (self.isMax) {
+        tic=-1;
     }
+    NSString *walletId = [ELWalletManager share].currentWallet.masterWalletID;
+    BOOL ret = [[ELWalletManager share]useMainchainSubWallet:walletId ToVote:stringArray tickets:tic pwd:pwd isChangeVote:YES];
+    if (ret) {
+      
+    }
+    
+    if (self.wallet.TypeW==0) {
+        NSString *walletId = [ELWalletManager share].currentWallet.masterWalletID;
+        BOOL ret = [[ELWalletManager share]useMainchainSubWallet:walletId ToVote:stringArray tickets:tic pwd:pwd isChangeVote:YES];
+        if (ret) {
+            
+          
+          [[FLTools share]showErrorInfo:NSLocalizedString(@"变更成功",nil)];
+            
+        }
+        [self.pwdPopupV removeFromSuperview];
+        self.pwdPopupV =  nil;
+    }else if (self.wallet.TypeW==1){
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,stringArray,@(tic),pwd,@(1)] callbackId:self.wallet.masterWalletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
+        PluginResult *result = [[ELWalletManager share]SignReadOnlyToVote:mommand];
+        NSString *statue=[NSString stringWithFormat:@"%@",result.status];
+        if ([statue isEqualToString:@"1"]){
+            HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
+            SignatureTradingSingleQrCodeVC.currentWallet=self.wallet;
+            SignatureTradingSingleQrCodeVC.type=SingleSignReadOnlyToBeSigned;
+            NSDictionary *successDic=[[NSDictionary alloc]initWithDictionary:result.message[@"success"]]; SignatureTradingSingleQrCodeVC.QRCodeString =[[FLTools share]DicToString:successDic];
+            SignatureTradingSingleQrCodeVC.QRCodeSignatureDic=result.message[@"success"];
+            SignatureTradingSingleQrCodeVC.subW=@"ELA";
+            [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
+        }
+    }else if (self.wallet.TypeW==2){
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,stringArray,@(tic),pwd,@(1)] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
+        PluginResult *result = [[ELWalletManager share]HowSignToVote:mommand];
+        NSString *statue=[NSString stringWithFormat:@"%@",result.status];
+        if ([statue isEqualToString:@"1"]) {
+            [self.pwdPopupV removeFromSuperview];
+            self.pwdPopupV =  nil;
+            HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
+            SignatureTradingSingleQrCodeVC.currentWallet=self.wallet;
+            SignatureTradingSingleQrCodeVC.type=HowSignToBeSigned;
+            SignatureTradingSingleQrCodeVC.QRCodeString =[[FLTools share]DicToString:result.message[@"success"]];
+            SignatureTradingSingleQrCodeVC.QRCodeSignatureDic=result.message[@"success"]; SignatureTradingSingleQrCodeVC.subW=@"ELA";
+            [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
+        }
+    }else if (self.wallet.TypeW==3){
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,stringArray,@(tic),pwd,@(1)] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
+        PluginResult *result = [[ELWalletManager share]SignReadOnlyToVote:mommand];
+        NSString *statue=[NSString stringWithFormat:@"%@",result.status];
+        if ([statue isEqualToString:@"1"]) {
+            HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
+            SignatureTradingSingleQrCodeVC.currentWallet=self.wallet;
+            SignatureTradingSingleQrCodeVC.type=HowSignToBeSigned;
+            SignatureTradingSingleQrCodeVC.QRCodeString =[[FLTools share]DicToString:result.message[@"success"]];
+            SignatureTradingSingleQrCodeVC.QRCodeSignatureDic=result.message[@"success"];
+            SignatureTradingSingleQrCodeVC.subW=@"ELA";
+            [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
+        }
+    }
+    
+    
+    
+    
     [self.pwdPopupV removeFromSuperview];
     self.pwdPopupV =  nil;
     [self.voteArray removeAllObjects];
@@ -265,17 +379,6 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     }
     return _inputVoteTicketView;
 }
-//-(UIButton *)editBtn
-//{
-//    if (!_editBtn) {
-//        _editBtn = [[UIButton alloc]init];
-//        [_editBtn setImage:[UIImage imageNamed: @"found_vote_edit"] forState:UIControlStateNormal];
-//        [_editBtn setImage:[UIImage imageNamed:@"found_vote_finish"] forState:UIControlStateSelected];
-//        [_editBtn addTarget:self action:@selector(editStateChange:) forControlEvents:UIControlEventTouchUpInside];
-//
-//    }
-//    return _editBtn;
-//}
 -(NSMutableArray *)voteArray
 {
     if (!_voteArray) {

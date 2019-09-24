@@ -30,6 +30,9 @@
 @property(copy,nonatomic)NSString *palceString;
 @property (weak, nonatomic) IBOutlet UILabel *pwdShowInfoTextLabel;
 @property (weak, nonatomic) IBOutlet UILabel *theMnemonicWordShowInfo;
+@property (weak, nonatomic) IBOutlet UIView *makeLineView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topOff;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewHeight;
 
 @end
 
@@ -39,9 +42,9 @@
     self =[super init];
     if (self) {
         self =[[NSBundle mainBundle]loadNibNamed:@"HMWImTheMnemonicWordView" owner:nil options:nil].firstObject;
-   self.theMnemonicWordShowInfo.text=NSLocalizedString(@"助记词导入钱包同步速度缓慢，建议创建新钱包或使用Keystore导入", nil); self.walletWordSwitchInfoTextLabel.text=NSLocalizedString(@"助记词密码（可选）", nil);
+       self.theMnemonicWordShowInfo.text=NSLocalizedString(@"助记词导入钱包同步速度缓慢，建议创建新钱包或使用Keystore导入", nil); self.walletWordSwitchInfoTextLabel.text=NSLocalizedString(@"助记词密码（可选）", nil);
         self.palceString=NSLocalizedString(@"助记词之间请使用空格隔开", nil);
-      self.theMnemonicWordPWDTextField.placeholder=NSLocalizedString(@"请输入当前钱包的助记词密码", nil); self.pwdTextFiedl.placeholder=NSLocalizedString(@"请输入8至16位钱包密码", nil); self.theMnemonicWordTextView.text=self.palceString;
+      self.theMnemonicWordPWDTextField.placeholder=NSLocalizedString(@"请输入当前钱包的助记词密码", nil); self.pwdTextFiedl.placeholder=NSLocalizedString(@"请输入密码", nil); self.theMnemonicWordTextView.text=self.palceString;
         [self.confirmTheImportButton setTitle:NSLocalizedString(@"确认导入", nil) forState:UIControlStateNormal];
       [[HMWCommView share]makeBordersWithView:self.theMnemonicWordTextView];
         [[HMWCommView alloc]makeTextFieldPlaceHoTextColorWithTextField:self.pwdTextFiedl];
@@ -94,11 +97,14 @@
     
 }
 - (IBAction)confirmTheImportEvent:(id)sender {
-    if (![[FLTools share]checkWalletName:self.walletNameTextField.text]) {
-        
-        
-        return;
+    if (![self.typeString isEqualToString:@"1"]) {
+        if (![[FLTools share]checkWalletName:self.walletNameTextField.text]) {
+            
+            
+            return;
+        }
     }
+   
     if ([[FLTools share]checkWhetherThePassword:self.pwdTextFiedl.text]) {
         return ;
     }
@@ -145,6 +151,19 @@
     if (textField==self.theMnemonicWordPWDTextField) {
         [self.VC reMovNotificationCenter];
     }
+    
+    
+}
+-(void)setTypeString:(NSString *)typeString{
+    if ([typeString isEqualToString:@"1"]) {
+        self.theMnemonicWordShowInfo.alpha=0.f;
+        self.whetherTheSingleAddressButton.alpha=0.f;
+        self.walletNameTextField.alpha=0.f;
+        self.makeLineView.alpha=0.f;
+        self.topOff.constant=0.f;
+        self.viewHeight.constant=180;
+    }
+    _typeString=typeString;
     
     
 }

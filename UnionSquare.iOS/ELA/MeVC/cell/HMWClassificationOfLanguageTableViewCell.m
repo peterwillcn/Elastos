@@ -33,6 +33,7 @@
 
   [DAConfig setUserLanguage:@"zh"];
   [DAConfig resetSystemLanguage];
+    
 }
 - (IBAction)selectEnglish:(id)sender {
 

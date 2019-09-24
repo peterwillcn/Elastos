@@ -106,17 +106,16 @@
 @implementation HMWnodeInformationViewController
 - (void)viewDidLoad {
    [super viewDidLoad];
-    NSLog(@"viewDidLoad");
   [self defultWhite];
   [self setBackgroundImg:@""];
-  self.title=NSLocalizedString(@"节点信息", nil) ;
+    if (self.type ==nodeInformationType) {
+         self.title=NSLocalizedString(@"节点信息", nil) ;
+    }else if (self.type==CRInformationType){
+        
+        self.title=NSLocalizedString(@"委员信息", nil) ;
+    }
+ 
   [self makeUI];
-    
-
-   
-
-    
-    
 }
 -(UIButton *)lookAtTheCandidateListButton{
     if (!_lookAtTheCandidateListButton) {
@@ -251,12 +250,19 @@
         if (URL.length>0&&self.model.url.length>0) {
            [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:URL] placeholderImage:[UIImage imageNamed:@"found_vote_initial_oval"]];
         }
+        
     });
     [self upInfo];
 }
 -(nodeInformationDetailsView *)nodeInformationDetailsV{
     if (!_nodeInformationDetailsV) {
         _nodeInformationDetailsV =[[nodeInformationDetailsView alloc]init];
+         if (self.type== CRInformationType) {
+              _nodeInformationDetailsV.type=CRCoinPointInfType;
+        }else if (self.type==nodeInformationType){
+              _nodeInformationDetailsV.type=nodeCoinPointInfType;
+        }
+      
         _nodeInformationDetailsV.model=self.model;
         [_nodeInformationDetailsV.copURLButton addTarget:self action:@selector(copyURLEvent:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -332,6 +338,11 @@
 }
 -(void)setRanking:(NSInteger)Ranking{
     _Ranking=Ranking;
+    
+}
+-(void)setType:(InformationType)type{
+    _type=type;
+    
     
 }
 @end

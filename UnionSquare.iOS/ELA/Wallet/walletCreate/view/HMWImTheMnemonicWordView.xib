@@ -113,7 +113,6 @@
                         <constraint firstAttribute="trailing" secondItem="ISy-Px-De5" secondAttribute="trailing" constant="15" id="Amc-yC-QtN"/>
                         <constraint firstAttribute="trailing" secondItem="cKZ-2D-SgK" secondAttribute="trailing" constant="15" id="D2b-Rl-TEr"/>
                         <constraint firstAttribute="height" constant="235" id="D4j-p6-JEx"/>
-                        <constraint firstItem="qlB-ts-enr" firstAttribute="top" secondItem="Ysq-6y-5WF" secondAttribute="bottom" id="F2L-1z-iVv"/>
                         <constraint firstItem="Ysq-6y-5WF" firstAttribute="leading" secondItem="hMl-Wz-w1M" secondAttribute="leading" constant="15" id="Fyv-ke-DUx"/>
                         <constraint firstItem="LTg-Wp-KXm" firstAttribute="top" secondItem="hMl-Wz-w1M" secondAttribute="top" id="IfT-N5-97i"/>
                         <constraint firstAttribute="trailing" secondItem="lkH-TJ-8d6" secondAttribute="trailing" constant="15" id="LbB-pt-SPY"/>
@@ -134,8 +133,7 @@
                         <constraint firstItem="lkH-TJ-8d6" firstAttribute="top" secondItem="LTg-Wp-KXm" secondAttribute="bottom" id="lyI-ZB-dpF"/>
                         <constraint firstItem="lkH-TJ-8d6" firstAttribute="leading" secondItem="hMl-Wz-w1M" secondAttribute="leading" constant="15" id="pEp-98-8CA"/>
                         <constraint firstItem="ISy-Px-De5" firstAttribute="top" secondItem="85c-Rr-ayA" secondAttribute="bottom" constant="7" id="suV-r5-fkh"/>
-                        <constraint firstItem="Ysq-6y-5WF" firstAttribute="top" secondItem="LTg-Wp-KXm" secondAttribute="bottom" id="tLM-sC-mCS"/>
-                        <constraint firstItem="Ysq-6y-5WF" firstAttribute="top" secondItem="LTg-Wp-KXm" secondAttribute="bottom" id="tcV-ob-BJt"/>
+                        <constraint firstItem="Ysq-6y-5WF" firstAttribute="top" secondItem="hMl-Wz-w1M" secondAttribute="top" constant="55" id="tcV-ob-BJt"/>
                         <constraint firstItem="qlB-ts-enr" firstAttribute="leading" secondItem="hMl-Wz-w1M" secondAttribute="leading" constant="15" id="yMz-aK-Xw5"/>
                     </constraints>
                 </view>
@@ -150,7 +148,7 @@
                         </label>
                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Jq2-Uz-4pm">
                             <rect key="frame" x="251" y="9.5" width="51" height="31"/>
-                            <color key="onTintColor" red="0.2894505262" green="0.35176524520000002" blue="0.43599903579999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="onTintColor" red="0.050573058426380157" green="0.69829255342483521" blue="0.43160527944564819" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="ShowHidenView:" destination="iN0-l3-epB" eventType="valueChanged" id="PXg-kF-SVR"/>
                             </connections>
@@ -244,6 +242,7 @@
             <connections>
                 <outlet property="againPWDTextField" destination="ISy-Px-De5" id="FaH-wj-ay0"/>
                 <outlet property="confirmTheImportButton" destination="yiq-zX-QB3" id="sqm-FW-qV6"/>
+                <outlet property="makeLineView" destination="lkH-TJ-8d6" id="2y4-tK-7x7"/>
                 <outlet property="passWordContentView" destination="NjW-Za-vaB" id="Ivn-3t-ptS"/>
                 <outlet property="pwdShowInfoTextLabel" destination="85c-Rr-ayA" id="pO5-vG-vU8"/>
                 <outlet property="pwdTextFiedl" destination="Ysq-6y-5WF" id="ui4-DN-1K2"/>
@@ -251,6 +250,8 @@
                 <outlet property="theMnemonicWordPWDTextField" destination="tc1-ya-eDj" id="Skt-XA-7Hj"/>
                 <outlet property="theMnemonicWordShowInfo" destination="UhM-mz-RP9" id="8Sr-Ya-Gh0"/>
                 <outlet property="theMnemonicWordTextView" destination="P4U-IQ-V1f" id="J5j-hp-tjS"/>
+                <outlet property="topOff" destination="tcV-ob-BJt" id="sD4-Ox-yOB"/>
+                <outlet property="viewHeight" destination="D4j-p6-JEx" id="Kf1-2B-BOB"/>
                 <outlet property="walletNameTextField" destination="LTg-Wp-KXm" id="dbA-HX-PIG"/>
                 <outlet property="walletWordSwitchInfoTextLabel" destination="pOy-Rb-f70" id="oBy-2M-GQy"/>
                 <outlet property="whetherTheSingleAddressButton" destination="wkV-zU-3lm" id="tDd-pI-Wrc"/>

@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 @protocol VotesPopupViewDelegate <NSObject>
 
--(void)didHadInputVoteTicket:(NSString*)ticketNumer;
+-(void)didHadInputVoteTicket:(NSString*)ticketNumer WithIsMax:(BOOL)isMax;
 
 @end
 

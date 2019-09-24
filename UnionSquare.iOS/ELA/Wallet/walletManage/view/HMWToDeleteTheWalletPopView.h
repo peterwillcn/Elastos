@@ -44,10 +44,6 @@ typedef NS_ENUM(NSInteger, HMWToDeleteType) {
  *<# #>
  */
 @property(assign,nonatomic)HMWToDeleteType deleteType;
-/*
- *<# #>
- */
-@property(copy,nonatomic)NSString  *UtxosString;
 
 @end
 

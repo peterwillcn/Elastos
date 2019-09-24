@@ -9,7 +9,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef enum {
+   SingleSign=0,
+    SingleSignReadonly=1,
+    HowSign=2,
+    HowSignReadonly=3
+} walletSignType;
+
 @interface FMDBWalletModel : NSObject
+
 /*
  *<# #>
  */
@@ -24,6 +32,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  */
 @property(copy,nonatomic)NSString *sideChainInformation;
+/*
+ *
+ */
+@property(assign,nonatomic)walletSignType TypeW;
 @end
 
 NS_ASSUME_NONNULL_END

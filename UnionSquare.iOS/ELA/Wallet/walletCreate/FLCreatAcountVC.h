@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+@protocol FLCreatAcountVCDelegate <NSObject>
+-(void)backTheWallet:(FLWallet*)wallet;
 
+
+@end
 @interface FLCreatAcountVC : UIViewController
-
+@property(strong,nonatomic)id<FLCreatAcountVCDelegate>delegate;
 @end

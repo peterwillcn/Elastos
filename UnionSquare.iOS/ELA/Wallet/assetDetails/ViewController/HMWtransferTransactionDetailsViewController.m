@@ -422,6 +422,7 @@ cell.textLabel.text=self.listTextArray[indexPath.section];
           cell.textLabelWidth.constant=95;
         cell.textOffset.constant=7;
         cell.orderDetailsLabel.text=self.model.Fee;
+
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"输入", nil)]){
         
         cell.textLabelWidth.constant=55;

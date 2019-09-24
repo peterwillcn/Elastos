@@ -32,7 +32,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENypaH8BKvhjXFQRCybvpFaxJTGbhdYC6r" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nab-L2-PmV">
-                                <rect key="frame" x="115" y="0.0" width="192" height="43.5"/>
+                                <rect key="frame" x="103" y="0.0" width="202" height="43.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="10"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -42,10 +42,10 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="MRn-7a-o0O" secondAttribute="bottom" id="I3i-7u-Tdj"/>
                             <constraint firstItem="MRn-7a-o0O" firstAttribute="top" secondItem="6vm-Cf-wPB" secondAttribute="top" id="JZr-PZ-WpD"/>
-                            <constraint firstAttribute="trailing" secondItem="Nab-L2-PmV" secondAttribute="trailing" constant="13" id="aDj-Uv-bJY"/>
-                            <constraint firstItem="MRn-7a-o0O" firstAttribute="leading" secondItem="6vm-Cf-wPB" secondAttribute="leading" constant="13" id="awx-0S-DCf"/>
+                            <constraint firstAttribute="trailing" secondItem="Nab-L2-PmV" secondAttribute="trailing" constant="15" id="aDj-Uv-bJY"/>
+                            <constraint firstItem="MRn-7a-o0O" firstAttribute="leading" secondItem="6vm-Cf-wPB" secondAttribute="leading" constant="15" id="awx-0S-DCf"/>
                             <constraint firstAttribute="bottom" secondItem="Nab-L2-PmV" secondAttribute="bottom" id="hBt-DJ-Pni"/>
-                            <constraint firstItem="Nab-L2-PmV" firstAttribute="leading" secondItem="MRn-7a-o0O" secondAttribute="trailing" constant="7" id="laN-5e-yGd"/>
+                            <constraint firstItem="Nab-L2-PmV" firstAttribute="leading" secondItem="MRn-7a-o0O" secondAttribute="trailing" constant="-7" id="laN-5e-yGd"/>
                             <constraint firstItem="Nab-L2-PmV" firstAttribute="top" secondItem="6vm-Cf-wPB" secondAttribute="top" id="u0a-EI-eX0"/>
                         </constraints>
                     </view>

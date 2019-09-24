@@ -12,11 +12,11 @@
 #import "ELWalletManager.h"
 #import "IMainchainSubWallet.h"
 #import "HMWtheSuperNodeElectionViewController.h"
-
+#import "HMWCRCommitteeMemberListViewController.h"
 @interface HMWfoundViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) UITableView *table;
-@property (nonatomic,strong)NSArray *dataSource;
+@property (nonatomic,strong)NSMutableArray *dataSource;
 /*
  *<# #>
  */
@@ -82,17 +82,25 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ELWalletManager *manager   =  [ELWalletManager share];
+    if (indexPath.row==0) {
+        ELWalletManager *manager   =  [ELWalletManager share];
+        
+        IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
+        
+        nlohmann::json info = mainchainSubWallet->GetRegisteredProducerInfo();
+        NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
+        NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+        NSString *Status = param[@"Status"];
+        self.typeString =Status;
+        HMWtheSuperNodeElectionViewController*theSuperNodeElectionVC=[[HMWtheSuperNodeElectionViewController alloc]init];
+        theSuperNodeElectionVC.typeString=Status;
+        [self.navigationController pushViewController:theSuperNodeElectionVC animated:YES];
+    }
+    if (indexPath.row==1) {
+        
+      HMWCRCommitteeMemberListViewController *CRSignUpForVC=[[HMWCRCommitteeMemberListViewController alloc]init];
+         [self.navigationController pushViewController:CRSignUpForVC  animated:YES];
+    }
     
-    IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-    
-    nlohmann::json info = mainchainSubWallet->GetRegisteredProducerInfo();
-    NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
-    NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-    NSString *Status = param[@"Status"];
-    self.typeString =Status;
-    HMWtheSuperNodeElectionViewController*theSuperNodeElectionVC=[[HMWtheSuperNodeElectionViewController alloc]init];
-    theSuperNodeElectionVC.typeString=Status;
-    [self.navigationController pushViewController:theSuperNodeElectionVC animated:YES];
 }
 @end

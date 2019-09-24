@@ -4,7 +4,7 @@
 #import <objc/message.h>
 
 // 弱引用
-#define MJWeakSelf __weak typeof(self) weakSelf = self;
+#define MJWeakSelf  __weak __typeof__ (self) weakSelf = self;
 
 // 日志输出
 #ifdef DEBUG
@@ -65,3 +65,11 @@ UIKIT_EXTERN NSString *const MJRefreshHeaderNoneLastDateText;
 MJRefreshState oldState = self.state; \
 if (state == oldState) return; \
 [super setState:state];
+
+// 异步主线程执行，不强持有Self
+#define MJRefreshDispatchAsyncOnMainQueue(x) \
+__weak __typeof__ (self) weakSelf = self; \
+dispatch_async(dispatch_get_main_queue(), ^{ \
+__typeof(weakSelf) self = weakSelf; \
+{x} \
+});

@@ -10,4 +10,8 @@
 
 @interface WCQRCodeScanningVC : UIViewController
 @property (nonatomic, copy)void(^scanBack)(NSString*addr);
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)UIViewController *frVC;
 @end

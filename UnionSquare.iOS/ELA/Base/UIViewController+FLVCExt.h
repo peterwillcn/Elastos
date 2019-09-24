@@ -7,8 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FLTools.h"
 
 @interface UIViewController (FLVCExt)
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSDictionary *QRCoreDic;
 -(void)defultBack;
 -(void)defultWhite;
 -(void)NewStateView:(UIColor*)color;
@@ -43,4 +48,7 @@
 -(void)reMovNotificationCenter;
 -(void)blackBackImageDefultWhite;
 -(UIImage *)screenShotView:(UIView *)view;
+-(NSDictionary*)SCanQRCodeWithDicCode:(NSDictionary*)dic;
+-(BOOL)QrCodepushVC:(NSDictionary*)dic WithCurrWallet:(FLWallet*)currW;
+-(BOOL)TypeJudgment:(NSDictionary*)dic;
 @end

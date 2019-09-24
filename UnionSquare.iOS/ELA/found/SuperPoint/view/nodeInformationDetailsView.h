@@ -7,8 +7,10 @@
 
 #import <UIKit/UIKit.h>
 #import "FLCoinPointInfoModel.h"
-NS_ASSUME_NONNULL_BEGIN
-
+typedef enum : NSUInteger {
+    CRCoinPointInfType,
+    nodeCoinPointInfType
+} CoinPointInfType;
 @interface nodeInformationDetailsView : UIView
 @property(nonatomic,strong)FLCoinPointInfoModel *model;
 /*
@@ -20,6 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(strong,nonatomic)UIButton
 *copURLButton;
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)CoinPointInfType type;
 @end
 
-NS_ASSUME_NONNULL_END

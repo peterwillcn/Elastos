@@ -31,11 +31,18 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gnc-DP-Pqd">
-                                <rect key="frame" x="16" y="25" width="289" height="19.5"/>
+                                <rect key="frame" x="49" y="25" width="256" height="19.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Pqh-Ro-1II">
+                                <rect key="frame" x="15" y="24" width="22" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="uh0-q4-NZF"/>
+                                    <constraint firstAttribute="width" constant="22" id="xV8-YW-81H"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.15157645089999999" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -43,7 +50,9 @@
                             <constraint firstItem="gnc-DP-Pqd" firstAttribute="centerY" secondItem="xOG-7h-30N" secondAttribute="centerY" id="HOQ-Gl-GRF"/>
                             <constraint firstAttribute="trailing" secondItem="gnc-DP-Pqd" secondAttribute="trailing" constant="15" id="Rfw-h0-ZMQ"/>
                             <constraint firstItem="rBH-ee-pOt" firstAttribute="leading" secondItem="xOG-7h-30N" secondAttribute="leading" id="WY7-UB-Pku"/>
-                            <constraint firstItem="gnc-DP-Pqd" firstAttribute="leading" secondItem="rBH-ee-pOt" secondAttribute="trailing" constant="12" id="fHw-Xc-89X"/>
+                            <constraint firstItem="gnc-DP-Pqd" firstAttribute="leading" secondItem="rBH-ee-pOt" secondAttribute="trailing" constant="45" id="fHw-Xc-89X"/>
+                            <constraint firstItem="Pqh-Ro-1II" firstAttribute="centerY" secondItem="xOG-7h-30N" secondAttribute="centerY" id="i58-kQ-sbW"/>
+                            <constraint firstItem="Pqh-Ro-1II" firstAttribute="leading" secondItem="xOG-7h-30N" secondAttribute="leading" constant="15" id="rFA-k6-gms"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -57,9 +66,11 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
+                <outlet property="iconImageVIew" destination="Pqh-Ro-1II" id="7jQ-wX-kBl"/>
                 <outlet property="selectView" destination="rBH-ee-pOt" id="bwX-lA-Gpw"/>
                 <outlet property="walletNameLabel" destination="gnc-DP-Pqd" id="070-Z0-53C"/>
             </connections>
+            <point key="canvasLocation" x="137.59999999999999" y="154.72263868065968"/>
         </tableViewCell>
     </objects>
 </document>

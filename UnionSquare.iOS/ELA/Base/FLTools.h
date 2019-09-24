@@ -49,7 +49,6 @@
 @property(copy,nonatomic)NSString *channelId;
 
 @end
-
 @interface FLWallet :NSObject
 @property (nonatomic, copy)NSString *walletAddress;
 @property (nonatomic, copy)NSString *privateKey;
@@ -70,6 +69,12 @@
  *<# #>
  */
 @property(copy,nonatomic)NSString *masterWalletID;
+@property (nonatomic, copy)NSString*signType;
+@property(assign,nonatomic)NSInteger TypeW;
+@property(assign,nonatomic)NSInteger M;
+@property(assign,nonatomic)NSInteger N;
+@property(assign,nonatomic)BOOL  HasPassPhrase;
+
 @end
 
 @class YYCache;
@@ -117,4 +122,20 @@
 -(NSString *)elsToSela:(NSString*)ela;
 -(BOOL)changeisEnglish:(NSString*)m;
 -(NSString *)getImageViewURLWithURL:(NSString*)urlString;
+-(NSDictionary*)CreateQrCodeImage:(NSString*)contentString WithType:(NSString*)type withSubWalletIdChain:(NSString *)subW;
+-(NSString*)DicToString:(NSDictionary*)dic;
+- (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
+- (UIImage*)imageWithSize:(CGFloat)size andColorWithRed:(CGFloat)red Green:(CGFloat)green Blue:(CGFloat)blue andQRDic:(NSDictionary *)qrDic;
+-(NSArray*)CreateArrayQrCodeImage:(NSString*)contentString WithType:(NSString*)type withSubWall:(NSString*)subW;
+- (UIImage*)imageWithSize:(CGFloat)size andColorWithRed:(CGFloat)red Green:(CGFloat)green Blue:(CGFloat)blue andQRString:( NSString*)qrString;
+-(NSDictionary*)QrCodeImageFromDic:(NSString*)QrCodeString fromVC:(UIViewController*)VC oldQrCodeDic:(NSDictionary*)oldDic;
+-(BOOL)SCanQRCodeWithDicCode:(NSDictionary*)dic;
+-(NSString*)http_IpFast;
+-(NSArray*)theInterceptionHttpWithArray:(NSArray*)array;
+-(NSString*)WhetherTheCurrentTypeWithDataString:(NSString*)dataString withType:(NSString*)type;
+-(NSDictionary*)DicFromJosnString:(NSString*)json;
+-(BOOL)connectedToNetwork;
+-(NSString *)returnJSONStringWithDictionary:(NSDictionary *)dictionary;
+-(BOOL)WhetherTheCurrentTypeNeedType:(NSString*)dataString withType:(NSString*)type;
+
 @end

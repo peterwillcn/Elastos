@@ -138,7 +138,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     self.currentIndex=0;
     [self loadAllTransactionWithIndex:self.currentIndex];
     [self.transferButton setTitle:NSLocalizedString(@"转账", nil) forState:UIControlStateNormal];
-     [self.collectionButton setTitle:NSLocalizedString(@"收款", nil) forState:UIControlStateNormal];
+    [self.collectionButton setTitle:NSLocalizedString(@"收款", nil) forState:UIControlStateNormal];
     [self.transactionRecordsBtton setTitle:NSLocalizedString(@"交易记录", nil) forState:UIControlStateNormal];
     [self.EarningsRecordButton setTitle:NSLocalizedString(@"收益记录", nil) forState:UIControlStateNormal];
     self.topUpButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -213,8 +213,8 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){
         NSInteger  MaxCount=[result.message[@"success"][@"MaxCount"] integerValue];
-        if (MaxCount>500) {
-            [self AnyChangeInTheWholeWithUTXOs:[NSString stringWithFormat:@"%ld",MaxCount]];
+        if (MaxCount>1500) {
+            [self AnyChangeInTheWhole];
         }
     }
 }
@@ -226,10 +226,9 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     return _pwdPopupV;
     
 }
--(void)AnyChangeInTheWholeWithUTXOs:(NSString*)UTXOs{
+-(void)AnyChangeInTheWhole{
     UIView *mainView=[self mainWindow];
     [mainView addSubview:self.utxoTheWalletPopV];
-    self.utxoTheWalletPopV.UtxosString=UTXOs;
     [self.utxoTheWalletPopV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.bottom.equalTo(mainView);
     }];
@@ -252,8 +251,8 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     const String stringC;
     NSString *dataStr;
     try {
-      info = mainchainSubWallet->GetRegisteredProducerInfo();
-          const String stringC = info.dump();
+        info = mainchainSubWallet->GetRegisteredProducerInfo();
+        const String stringC = info.dump();
         dataStr = [NSString stringWithCString:stringC.c_str() encoding:NSUTF8StringEncoding];
     } catch (const std:: exception & e ){
     }
@@ -261,25 +260,25 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     NSString *Status = param[@"Status"];
     if ([Status isEqualToString:@"Registered"]){
         [self loadGetOwnerAddress];
-       
+        
     }else if([Status isEqualToString:@"Canceled"]){
         [self loadGetOwnerAddress];
-      
+        
     }else if([Status isEqualToString:@"Unregistered"]){
         self.EarningsRecordButton.alpha=0.f;
-    
-    self.enMoneyWidthOffSet.constant=-AppWidth+30;
-//        self.toUpMoneyButtonWidthdOff.constant=200;
+        
+        self.enMoneyWidthOffSet.constant=-AppWidth+30;
+        //        self.toUpMoneyButtonWidthdOff.constant=200;
         
     }else if ([Status isEqualToString:@"ReturnDeposit"]){
         
         [self loadGetOwnerAddress];
-       
+        
     }
     
 }
 -(void)loadGetOwnerAddress{
-   self.OwnerAddressString=[[ELWalletManager share]GetOwnerAddressWithID:self.currentWallet.masterWalletID];
+    self.OwnerAddressString=[[ELWalletManager share]GetOwnerAddressWithID:self.currentWallet.masterWalletID];
     [self.NodeReturnsMutableArray addObject:self.OwnerAddressString];
     
     
@@ -297,7 +296,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){
-          NSString *blanceString=[NSString stringWithFormat:@"%@",result.message[@"success"]];
+        NSString *blanceString=[NSString stringWithFormat:@"%@",result.message[@"success"]];
         
         self.voteBlanceLabel.text=[NSString stringWithFormat:@"%@",[[FLTools share] elaScaleConversionWith:blanceString ]];
         
@@ -324,7 +323,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     [self.NodeReturnsMutableArray addObjectsFromArray:tranList];
     self.NodeReturnsCurrentIndex=self.NodeReturnsMutableArray.count-1;
     if (self.NodeReturnsMutableArray.count==1) {
-self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
+        self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
         self.noDataSourceTextLabel.alpha=1.f;
     }else{
         self.noDataSourceTextLabel.alpha=0.f;
@@ -340,8 +339,8 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     if (self.isUpdate) {
         [self.allListArray removeAllObjects];
     }
-//    self.allTotalMAXCount=[result.message[@"success"][@"MaxCount"] integerValue];
-        NSInteger a=[result.message[@"success"][@"MaxCount"] integerValue];
+    //    self.allTotalMAXCount=[result.message[@"success"][@"MaxCount"] integerValue];
+    NSInteger a=[result.message[@"success"][@"MaxCount"] integerValue];
     self.allTotal=a;
     NSArray *tranList=[NSArray modelArrayWithClass:assetDetailsModel.class json:result.message[@"success"][@"Transactions"]];
    
@@ -359,7 +358,7 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     
 }
 -(void)loadAnyChangeInTheWhole{
-     UIView *mainView=[self mainWindow];
+    UIView *mainView=[self mainWindow];
     [mainView addSubview:self.pwdPopupV];
     [self.pwdPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(mainView);
@@ -409,13 +408,13 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     
     if (self.allAddressAaary.count==0) {
         self.allAddressAaary=nil;
-//        return;
+        //        return;
     }
     transferVC.addressArray=self.allAddressAaary;
     transferVC.supportOfTheCurrencyArray=self.supportOfTheCurrencyArray;
     [self.navigationController pushViewController:transferVC animated:YES];
     self.transferButton.userInteractionEnabled=YES;
-
+    
 }
 - (IBAction)top_upEvent:(id)sender {
     
@@ -431,37 +430,38 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
         
         
     }else{
-    HMWChooseSideChainViewController *chooseSideChainVC=[[HMWChooseSideChainViewController alloc]init];
-    chooseSideChainVC.title=self.topUpButton.titleLabel.text;
-    
-    chooseSideChainVC.currentWallet=self.currentWallet;
-    chooseSideChainVC.model=self.model;
-    chooseSideChainVC.type=chooseSideChainType;
-    chooseSideChainVC.addressArray=self.allAddressAaary;
-    chooseSideChainVC.supportOfTheCurrencyArray=self.supportOfTheCurrencyArray;
+        HMWChooseSideChainViewController *chooseSideChainVC=[[HMWChooseSideChainViewController alloc]init];
+        chooseSideChainVC.title=self.topUpButton.titleLabel.text;
+        
+        chooseSideChainVC.currentWallet=self.currentWallet;
+        chooseSideChainVC.model=self.model;
+        chooseSideChainVC.type=chooseSideChainType;
+        chooseSideChainVC.addressArray=self.allAddressAaary;
+        chooseSideChainVC.supportOfTheCurrencyArray=self.supportOfTheCurrencyArray;
         [self.navigationController pushViewController:chooseSideChainVC animated:YES];
         
     }
 }
 - (IBAction)collectionEvent:(id)sender {
     self.collectionButton.userInteractionEnabled=NO;
-        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"createAddress"];
-        PluginResult * result =[[ELWalletManager share]createAddress:mommand];
-        NSString *status=[NSString stringWithFormat:@"%@",result.status];
-        if ([status isEqualToString:@"1"]) {
-            HMWcollectionViewController*collectionVC=[[HMWcollectionViewController alloc]init];
-            NSArray *addrestStringArray=[NSArray arrayWithArray:self.allAddressAaary];
-            if (addrestStringArray.count==0) {
-                self.allAddressAaary=nil;
-            }
-            collectionVC.addrestStringArray=self.allAddressAaary;
-            collectionVC.iconAddress=[NSString stringWithFormat:@"%@",result.message[@"success"]];
-            [self.navigationController pushViewController:collectionVC animated:YES];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"createAddress"];
+    PluginResult * result =[[ELWalletManager share]createAddress:mommand];
+    NSString *status=[NSString stringWithFormat:@"%@",result.status];
+    if ([status isEqualToString:@"1"]) {
+        HMWcollectionViewController*collectionVC=[[HMWcollectionViewController alloc]init];
+        NSArray *addrestStringArray=[NSArray arrayWithArray:self.allAddressAaary];
+        if (addrestStringArray.count==0) {
+            self.allAddressAaary=nil;
         }
-
+        collectionVC.iconName=self.model.iconName;
+        collectionVC.addrestStringArray=self.allAddressAaary;
+        collectionVC.iconAddress=[NSString stringWithFormat:@"%@",result.message[@"success"]];
+        [self.navigationController pushViewController:collectionVC animated:YES];
+    }
     
     
-      self.collectionButton.userInteractionEnabled=YES;
+    
+    self.collectionButton.userInteractionEnabled=YES;
 }
 -(NSArray *)allAddressAaary{
     if (!_allAddressAaary) {
@@ -472,17 +472,17 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     return _allAddressAaary;
 }
 -(NSArray*)loadAddress{
-
+    
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"0",@"100"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllSubWalletAddress"];
     PluginResult * result =[[ELWalletManager share]getAllSubWalletAddress:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
-   
+    
     if ([status isEqualToString:@"1"]) {
-       NSArray *addressArray=[NSArray arrayWithArray:result.message[@"success"][@"Addresses"]];
+        NSArray *addressArray=[NSArray arrayWithArray:result.message[@"success"][@"Addresses"]];
         return   addressArray;
     }
     return NULL;
- 
+    
     
     
 }
@@ -491,10 +491,10 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     
     if ([self.title isEqualToString:@"ELA"]) {
         [self.topUpButton setTitle:NSLocalizedString(@"侧链充值", nil) forState:UIControlStateNormal];
-//        [self.topUpButton setImage:[UIImage imageNamed:@"asset_trade_side_recharge"] forState:UIControlStateNormal];
+        //        [self.topUpButton setImage:[UIImage imageNamed:@"asset_trade_side_recharge"] forState:UIControlStateNormal];
     }else{
-          [self.topUpButton setTitle:NSLocalizedString(@"主链提现", nil) forState:UIControlStateNormal];
-//       [self.topUpButton setImage:[UIImage imageNamed:@"asset_trade_main_withdraw"] forState:UIControlStateNormal];
+        [self.topUpButton setTitle:NSLocalizedString(@"主链提现", nil) forState:UIControlStateNormal];
+        //       [self.topUpButton setImage:[UIImage imageNamed:@"asset_trade_main_withdraw"] forState:UIControlStateNormal];
     }
     
     
@@ -524,14 +524,14 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     self.baseTableView.mj_footer=[MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         __strong __typeof(self) self = weakSelf;
         if ([self.leftOrRight isEqualToString:@"0"]) {
-         self.isUpdate=NO;
-        if (self.allTotal<=self.currentIndex) {
+            self.isUpdate=NO;
+            if (self.allTotal<=self.currentIndex) {
+                
+                [self  baseTableViewEndRF];
+                
+                return ;
+            }
             
-            [self  baseTableViewEndRF];
-            
-            return ;
-        }
-       
             [self  loadAllTransactionWithIndex: self.currentIndex];
             
         }else{
@@ -541,11 +541,11 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
                 
                 return ;
             }
-             [self loadGetAllCoinBaseTransactionWithIndex:self.NodeReturnsCurrentIndex];
+            [self loadGetAllCoinBaseTransactionWithIndex:self.NodeReturnsCurrentIndex];
             
         }
     }];
-    self.baseTableView.separatorInset=UIEdgeInsetsMake(-0, 15, 0, 15);
+  self.baseTableView.separatorInset=UIEdgeInsetsMake(-0, 15, 0, 15);
     [self.baseTableView registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
     [self.baseTableView registerNib:[UINib nibWithNibName:showOwnerAddressCellString bundle:nil] forCellReuseIdentifier:showOwnerAddressCellString];
     self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
@@ -571,7 +571,7 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     HMWAssetDetailsTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
-//    cell.niceNameString=self.model.iconName;
+    //    cell.niceNameString=self.model.iconName;
     cell.niceNameString=@"ELA";
     if ([self.leftOrRight isEqualToString:@"0"]) {
         cell.model=self.allListArray[indexPath.row];
@@ -579,7 +579,7 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
         cell.model=self.NodeReturnsMutableArray[indexPath.row];
     }
     
-   
+    
     return cell;
     
 }
@@ -593,9 +593,9 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
         [self loadGetAllCoinBaseTransactionDetailsWithIndex:indexPath.row];
     }
     
-   
     
- 
+    
+    
     
 }
 -(void)loadGetAllCoinBaseTransactionDetailsWithIndex:(NSInteger)index{
@@ -623,7 +623,7 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     detailsM.Fee=[NSString stringWithFormat:@"%@ ELA",[[FLTools share]elaScaleConversionWith:detailsM.Fee]];
     //    transferTransactionDetailsVC.iconNameString=@"ELA";
     transferTransactionDetailsVC.iconNameString=self.model.iconName;
-     detailsM.Type=NSLocalizedString(@"创币收益", nil);
+    detailsM.Type=NSLocalizedString(@"创币收益", nil);
     transferTransactionDetailsVC.TypeString=[NSString stringWithFormat:@"%@",detailsM.Type];
     if ([model.Status isEqualToString:@"Pending"]) {
         detailsM.Timestamp=@"--:--";
@@ -633,12 +633,11 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     }
     transferTransactionDetailsVC.type=NodeReturnsType;
       transferTransactionDetailsVC.model=detailsM;
-//    transferTransactionDetailsVC.votesString=[[FLTools share]elaScaleConversionWith:OutputPayload[0]];
     [self.navigationController pushViewController:transferTransactionDetailsVC animated:YES];
     
 }
 -(void)loadTheOrderDetailsWithIndex:(NSInteger)index{
-   assetDetailsModel *model= self.allListArray[index];
+    assetDetailsModel *model= self.allListArray[index];
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"0",@"20",model.TxHash] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
     PluginResult * result =[[ELWalletManager share]getAllTransaction:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
@@ -648,19 +647,17 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
     if (![status isEqualToString:@"1"]) {
         return;
     }
-
-      NSArray *tranList=[NSArray modelArrayWithClass:assetDetailsModel.class json:result.message[@"success"][@"Transactions"]];
-   
+    
+    NSArray *tranList=[NSArray modelArrayWithClass:assetDetailsModel.class json:result.message[@"success"][@"Transactions"]];
+    
     if (tranList.count==0) {
         [[FLTools share]showErrorInfo:NSLocalizedString(@"暂无数据,请耐心等待!", nil)];
-         return;
+        return;
     }
     assetDetailsModel *detailsM=tranList.firstObject;
     HMWtransferTransactionDetailsViewController *transferTransactionDetailsVC=[[HMWtransferTransactionDetailsViewController alloc]init];
-    
     detailsM.Amount=[NSString stringWithFormat:@"%@ ELA",[[FLTools share]elaScaleConversionWith:detailsM.Amount]];
     detailsM.Fee=[NSString stringWithFormat:@"%@ ELA",[[FLTools share]elaScaleConversionWith:detailsM.Fee]];
-//    transferTransactionDetailsVC.iconNameString=@"ELA";
     transferTransactionDetailsVC.iconNameString=self.model.iconName;
     transferTransactionDetailsVC.TypeString=[NSString stringWithFormat:@"%@",detailsM.Type];
     int type=[detailsM.Type intValue];
@@ -692,7 +689,7 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
             detailsM.Type=NSLocalizedString(@"侧链提现交易", nil);
             break;
         case 8:
-            transferTransactionDetailsVC.PayloadInfoString=[NSString stringWithFormat:@"%@\n%@ %@",result.message[@"success"][@"Transactions"][0][@"Payload"][0][@"CrossChainAddress"],[[FLTools share] elaScaleConversionWith:result.message[@"success"][@"Transactions"][0][@"Payload"][0][@"CrossChainAmount"]],@"ELA"];
+            transferTransactionDetailsVC.PayloadInfoString=[NSString stringWithFormat:@"%@\n%@ %@",result.message[@"success"][@"Transactions"][0][@"Payload"][@"CrossChainAddress"][0],[[FLTools share] elaScaleConversionWith:result.message[@"success"][@"Transactions"][0][@"Payload"][@"CrossChainAmount"][0]],@"ELA"];
             detailsM.Type=NSLocalizedString(@"跨链交易", nil);
             break;
         case 9:
@@ -712,27 +709,27 @@ self.noDataSourceTextLabel.text=NSLocalizedString(@"暂无收益记录", nil);
             break;
     }
     
-   
+    
     if ([model.Status isEqualToString:@"Pending"]) {
         detailsM.Timestamp=@"--:--";
     }else{
-         detailsM.Timestamp=[[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:detailsM.Timestamp];
+        detailsM.Timestamp=[[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:detailsM.Timestamp];
         
     }
     transferTransactionDetailsVC.votesString=[[FLTools share]elaScaleConversionWith:OutputPayload[0]];
     if ([detailsM.Direction isEqualToString:@"Received"]) {
-transferTransactionDetailsVC.type=transactionMultipleIntoType;
+        transferTransactionDetailsVC.type=transactionMultipleIntoType;
     }else if ([detailsM.Direction isEqualToString:@"Sent"]){
-transferTransactionDetailsVC.type=transactionSingleRollOutType;
+        transferTransactionDetailsVC.type=transactionSingleRollOutType;
     }else if (OutputPayload.count>0){
         detailsM.Type=NSLocalizedString(@"投票交易", nil);
         transferTransactionDetailsVC.type=rotationToVoteType;
         transferTransactionDetailsVC.votesString=[[FLTools share]elaScaleConversionWith:OutputPayload[0][@"Amount"]];
     }
     else{
-transferTransactionDetailsVC.type=transactionSingleIntoType;
+        transferTransactionDetailsVC.type=transactionSingleIntoType;
     }
-        transferTransactionDetailsVC.model=detailsM;
+    transferTransactionDetailsVC.model=detailsM;
     
     [self.navigationController pushViewController:transferTransactionDetailsVC animated:YES];
     
@@ -774,39 +771,51 @@ transferTransactionDetailsVC.type=transactionSingleIntoType;
 }
 - (void)toCancelOrCloseDelegate {
     [self.utxoTheWalletPopV removeFromSuperview];
-   self.utxoTheWalletPopV=nil;
+    self.utxoTheWalletPopV=nil;
     
 }
 #pragma mark ---------HMWpwdPopupViewDelegate----------
 -(void)makeSureWithPWD:(NSString*)pwd{
-    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
+    
+    //    SingleSign=0,
+    //    SingleSignReadonly=1,
+    //    HowSign=2,
+    //    HowSignReadonly=3
+    if (self.currentWallet.TypeW==0) {
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
     PluginResult * result =[[ELWalletManager share]CreateCombineUTXOTransaction:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
-        [self cancelThePWDPageView];
+    [self cancelThePWDPageView];
     if ([status isEqualToString:@"1"]) {
         [self showSendSuccessPopuV];
     }
-    
+        
+    }else if (self.currentWallet.TypeW==1){
+        
+    }else if (self.currentWallet.TypeW==2){
+        
+    }else if (self.currentWallet.TypeW==3){
+        
+    }
 }
 -(void)cancelThePWDPageView{
     [self.pwdPopupV removeFromSuperview];
     self.pwdPopupV=nil;
 }
 -(void)showSendSuccessPopuV{
- UIView *manView=[self mainWindow];
- [manView addSubview:self.sendSuccessPopuV];
+    UIView *manView=[self mainWindow];
+    [manView addSubview:self.sendSuccessPopuV];
     [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
-                              make.left.right.top.bottom.equalTo(manView);
-                          }];
+        make.left.right.top.bottom.equalTo(manView);
+    }];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self hiddenSendSuccessPopuV];
     });
 }
 -(void)hiddenSendSuccessPopuV{
-[self.sendSuccessPopuV removeFromSuperview];
-self.sendSuccessPopuV=nil;
+    [self.sendSuccessPopuV removeFromSuperview];
+    self.sendSuccessPopuV=nil;
 }
-
 -(void)setSynchronousP:(float)synchronousP{
     _synchronousP=synchronousP;
 }

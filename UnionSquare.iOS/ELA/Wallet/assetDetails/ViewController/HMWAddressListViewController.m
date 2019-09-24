@@ -30,7 +30,8 @@ static NSString *cellString=@"HMWaddressListTableViewCell";
 -(void)makeView{
     self.baseTable.delegate=self;
     self.baseTable.dataSource=self;
-    self.baseTable.rowHeight=44; self.baseTable.separatorInset=UIEdgeInsetsMake(-0, 15, 0, 15);
+    self.baseTable.rowHeight=44;
+    self.baseTable.separatorInset=UIEdgeInsetsMake(-0, 15, 0, 15);
     self.baseTable.backgroundColor=[UIColor clearColor];
     [self.baseTable registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
     self.baseTable.separatorStyle = UITableViewCellSeparatorStyleNone;

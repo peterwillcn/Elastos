@@ -61,7 +61,7 @@
 }
 -(void)setLabelSpace:(UILabel*)label withValue:(NSString*)str withFont:(UIFont*)font {
     NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
-    paraStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
     paraStyle.alignment = NSTextAlignmentLeft;
     paraStyle.lineSpacing = 6; //设置行间距
     paraStyle.hyphenationFactor = 1.0;

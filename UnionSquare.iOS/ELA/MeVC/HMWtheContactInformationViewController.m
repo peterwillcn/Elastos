@@ -82,10 +82,8 @@ self.mobilePhoneNOTextField.placeholder=NSLocalizedString(@"请输入手机号�
 -(HMWQrCodePopupWindowView *)QrCodePopupWindowV{
     if (!_QrCodePopupWindowV) {
         _QrCodePopupWindowV =[[HMWQrCodePopupWindowView alloc]init];
-        _QrCodePopupWindowV.walletAddressString=@"111"; _QrCodePopupWindowV.delegate=self;
-        
-        
-        
+        _QrCodePopupWindowV.walletAddressString=self.model.address;
+        _QrCodePopupWindowV.delegate=self;
     }
     
     return _QrCodePopupWindowV;
@@ -117,10 +115,9 @@ self.mobilePhoneNOTextField.placeholder=NSLocalizedString(@"请输入手机号�
     self.toDeleteTheWalletPopV=nil;
 }
 - (IBAction)accordingToQRCodeEvent:(id)sender {
-    
     UIView *manView =[self mainWindow];
     [manView addSubview:self.QrCodePopupWindowV];
-    
+  
     [self.QrCodePopupWindowV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(manView);
     }];

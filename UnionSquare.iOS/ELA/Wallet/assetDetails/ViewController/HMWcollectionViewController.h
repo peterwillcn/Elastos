@@ -20,6 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(copy,nonatomic)NSString *iconAddress;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *iconName;
 @end
 
 NS_ASSUME_NONNULL_END

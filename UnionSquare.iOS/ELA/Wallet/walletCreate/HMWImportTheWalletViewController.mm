@@ -158,7 +158,7 @@
         FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
         model.walletID=wallet.masterWalletID;
         model.walletName=wallet.walletName;
-        
+        model.TypeW=SingleSign;
         invokedUrlCommand *subCmommand=[[invokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID,@"ELA",@"10000"] callbackId:wallet.walletID className:@"Wallet" methodName:@"createMasterWallet"];
         
         PluginResult *subResult= [[ELWalletManager share] createSubWallet:subCmommand];
@@ -170,7 +170,8 @@
                sideModel.walletID=model.walletID;
                sideModel.sideChainName=@"ELA";
                sideModel.sideChainNameTime=@"--:--";
-               
+               sideModel.thePercentageCurr=@"0";
+                sideModel.thePercentageMax=@"100";
                [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
         
                [self successfulSwitchingRootVC];
@@ -242,6 +243,8 @@
             sideModel.sideChainName=@"ELA";
             
             sideModel.sideChainNameTime=@"--:--";
+            sideModel.thePercentageCurr=@"0";
+            sideModel.thePercentageMax=@"100";
             NSLog(@"添加成功");
             [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
             [self successfulSwitchingRootVC];
@@ -260,12 +263,15 @@
         FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
         model.walletID=wallet.masterWalletID;
         model.walletName=wallet.walletName;
+        model.TypeW=SingleSign;
         [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
         sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
         sideModel.walletID=model.walletID;
         sideModel.sideChainName=@"ELA";
         
         sideModel.sideChainNameTime=@"--:--";
+        sideModel.thePercentageCurr=@"0";
+        sideModel.thePercentageMax=@"100";
         
         [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
         [self successfulSwitchingRootVC];

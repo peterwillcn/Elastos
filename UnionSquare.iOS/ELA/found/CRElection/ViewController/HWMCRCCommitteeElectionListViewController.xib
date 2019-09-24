@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HWMCRCCommitteeElectionListViewController">
+            <connections>
+                <outlet property="TagtatolVoteLab" destination="ANW-a4-CsU" id="2OC-47-ml1"/>
+                <outlet property="TheAverageDistributionButton" destination="UZZ-LQ-g9U" id="btP-ZX-NVr"/>
+                <outlet property="TheAverageDistributionImageView" destination="e5T-4w-QpO" id="3fh-Mw-98b"/>
+                <outlet property="TheAverageDistributionTextLabel" destination="8Ta-Xc-JhU" id="i0G-js-eHQ"/>
+                <outlet property="allTollTicketLabel" destination="vlJ-Ni-YJx" id="I5t-O6-Xvg"/>
+                <outlet property="baseTableView" destination="qOl-1d-WLU" id="d8f-su-lAI"/>
+                <outlet property="immediatelyToVoteButton" destination="rhX-pR-MNd" id="YvH-7V-D9D"/>
+                <outlet property="persentLab" destination="EXB-dP-Q3M" id="ZPL-pR-oeV"/>
+                <outlet property="progress" destination="2CY-jK-PDe" id="pYJ-vF-bdM"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="最大表决票权：XXXX ELA" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ANW-a4-CsU">
+                    <rect key="frame" x="15" y="35" width="345" height="16"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="可用80%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EXB-dP-Q3M">
+                    <rect key="frame" x="15" y="67" width="46" height="13.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="2CY-jK-PDe">
+                    <rect key="frame" x="81" y="73" width="279" height="2"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="2" id="jrY-11-gQ2"/>
+                    </constraints>
+                    <color key="progressTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="trackTintColor" red="1" green="1" blue="1" alpha="0.1530645461" colorSpace="custom" customColorSpace="sRGB"/>
+                </progressView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cbh-CA-DlL">
+                    <rect key="frame" x="0.0" y="617" width="125" height="50"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="平均分配" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ta-Xc-JhU">
+                            <rect key="frame" x="31" y="0.0" width="94" height="50"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="found_vote_border" translatesAutoresizingMaskIntoConstraints="NO" id="e5T-4w-QpO">
+                            <rect key="frame" x="15" y="19.5" width="11" height="11"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="11" id="2Hk-XH-Pbu"/>
+                                <constraint firstAttribute="width" constant="11" id="Tgh-db-40A"/>
+                            </constraints>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UZZ-LQ-g9U">
+                            <rect key="frame" x="0.0" y="0.0" width="125" height="50"/>
+                            <connections>
+                                <action selector="TheAverageDistributionImageViewEvent:" destination="-1" eventType="touchUpInside" id="Wv1-T0-H9w"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.047743536531925201" green="0.13328590989112854" blue="0.16072767972946167" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="8Ta-Xc-JhU" secondAttribute="trailing" id="7vm-KV-tSa"/>
+                        <constraint firstAttribute="bottom" secondItem="8Ta-Xc-JhU" secondAttribute="bottom" id="AJQ-1Y-oUj"/>
+                        <constraint firstItem="UZZ-LQ-g9U" firstAttribute="top" secondItem="Cbh-CA-DlL" secondAttribute="top" id="MPC-oZ-hDc"/>
+                        <constraint firstItem="8Ta-Xc-JhU" firstAttribute="top" secondItem="Cbh-CA-DlL" secondAttribute="top" id="Wtj-lL-h2i"/>
+                        <constraint firstItem="8Ta-Xc-JhU" firstAttribute="leading" secondItem="e5T-4w-QpO" secondAttribute="trailing" constant="5" id="Ye4-tf-Wxm"/>
+                        <constraint firstAttribute="trailing" secondItem="UZZ-LQ-g9U" secondAttribute="trailing" id="aze-1c-kgF"/>
+                        <constraint firstAttribute="height" constant="50" id="fJ2-iK-Ni0"/>
+                        <constraint firstItem="e5T-4w-QpO" firstAttribute="centerY" secondItem="Cbh-CA-DlL" secondAttribute="centerY" id="jiY-fU-2v3"/>
+                        <constraint firstItem="UZZ-LQ-g9U" firstAttribute="leading" secondItem="Cbh-CA-DlL" secondAttribute="leading" id="k63-1u-OwT"/>
+                        <constraint firstAttribute="bottom" secondItem="UZZ-LQ-g9U" secondAttribute="bottom" id="ks6-0U-VjE"/>
+                        <constraint firstItem="e5T-4w-QpO" firstAttribute="leading" secondItem="Cbh-CA-DlL" secondAttribute="leading" constant="15" id="lDd-UZ-f1R"/>
+                        <constraint firstItem="8Ta-Xc-JhU" firstAttribute="leading" secondItem="e5T-4w-QpO" secondAttribute="trailing" constant="5" id="svV-M4-2O8"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="合计:  00000000000000000000000  ELA" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vlJ-Ni-YJx">
+                    <rect key="frame" x="125" y="617" width="125" height="50"/>
+                    <color key="backgroundColor" red="0.047743536531925201" green="0.13328590989112854" blue="0.16072767972946167" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qOl-1d-WLU">
+                    <rect key="frame" x="0.0" y="88.5" width="375" height="528.5"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rhX-pR-MNd">
+                    <rect key="frame" x="250" y="617" width="125" height="50"/>
+                    <color key="backgroundColor" red="0.2045530378818512" green="0.30974942445755005" blue="0.34500885009765625" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="haP-rE-hOv"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" title="立即投票">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="rhX-pR-MNd" firstAttribute="leading" secondItem="vlJ-Ni-YJx" secondAttribute="trailing" id="8QK-zD-4Kg"/>
+                <constraint firstItem="vlJ-Ni-YJx" firstAttribute="centerY" secondItem="Cbh-CA-DlL" secondAttribute="centerY" id="DNW-6b-1nQ"/>
+                <constraint firstItem="Cbh-CA-DlL" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="Eyc-yA-yHT"/>
+                <constraint firstItem="qOl-1d-WLU" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Hnr-ac-XHr"/>
+                <constraint firstItem="qOl-1d-WLU" firstAttribute="top" secondItem="EXB-dP-Q3M" secondAttribute="bottom" constant="8" id="Jnc-9l-CN0"/>
+                <constraint firstItem="ANW-a4-CsU" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="15" id="Lqv-Aw-1ub"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="ANW-a4-CsU" secondAttribute="trailing" constant="15" id="Pgw-5m-Rm0"/>
+                <constraint firstItem="rhX-pR-MNd" firstAttribute="width" secondItem="Cbh-CA-DlL" secondAttribute="width" id="RVq-dw-OAl"/>
+                <constraint firstItem="rhX-pR-MNd" firstAttribute="height" secondItem="Cbh-CA-DlL" secondAttribute="height" id="Sha-As-rF0"/>
+                <constraint firstItem="2CY-jK-PDe" firstAttribute="leading" secondItem="EXB-dP-Q3M" secondAttribute="trailing" constant="20" id="UNp-e6-XUV"/>
+                <constraint firstItem="Cbh-CA-DlL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="UOy-FN-ows"/>
+                <constraint firstItem="vlJ-Ni-YJx" firstAttribute="leading" secondItem="Cbh-CA-DlL" secondAttribute="trailing" id="VdC-qe-kFo"/>
+                <constraint firstAttribute="trailing" secondItem="2CY-jK-PDe" secondAttribute="trailing" constant="15" id="YXN-QG-bG9"/>
+                <constraint firstItem="2CY-jK-PDe" firstAttribute="centerY" secondItem="EXB-dP-Q3M" secondAttribute="centerY" id="ZId-ya-rhe"/>
+                <constraint firstItem="vlJ-Ni-YJx" firstAttribute="height" secondItem="Cbh-CA-DlL" secondAttribute="height" id="a5k-fO-a4h"/>
+                <constraint firstItem="Cbh-CA-DlL" firstAttribute="top" secondItem="qOl-1d-WLU" secondAttribute="bottom" id="bia-Yy-48O"/>
+                <constraint firstItem="EXB-dP-Q3M" firstAttribute="top" secondItem="ANW-a4-CsU" secondAttribute="bottom" constant="16" id="eMj-zO-6Vd"/>
+                <constraint firstItem="EXB-dP-Q3M" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="15" id="f50-JU-eGF"/>
+                <constraint firstItem="vlJ-Ni-YJx" firstAttribute="width" secondItem="Cbh-CA-DlL" secondAttribute="width" id="fIS-Wc-vDF"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="qOl-1d-WLU" secondAttribute="trailing" id="jVr-gr-XPS"/>
+                <constraint firstItem="rhX-pR-MNd" firstAttribute="centerY" secondItem="Cbh-CA-DlL" secondAttribute="centerY" id="si1-58-FJT"/>
+                <constraint firstAttribute="trailing" secondItem="rhX-pR-MNd" secondAttribute="trailing" id="vjj-AL-OWx"/>
+                <constraint firstItem="ANW-a4-CsU" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="15" id="zLN-Hm-w9l"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
+            <point key="canvasLocation" x="48.799999999999997" y="35.532233883058474"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="found_vote_border" width="11" height="11"/>
+    </resources>
+</document>

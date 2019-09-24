@@ -17,6 +17,10 @@
 @property (nonatomic, strong) UILabel *promptLabel;
 @property (nonatomic, assign) BOOL isSelectedFlashlightBtn;
 @property (nonatomic, strong) UIView *bottomView;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)NSMutableDictionary *QRDic;
 @end
 
 @implementation WCQRCodeScanningVC
@@ -25,7 +29,12 @@
     [super viewDidAppear:animated];
     
 }
-
+-(NSMutableDictionary *)QRDic{
+    if (!_QRDic) {
+        _QRDic =[[NSMutableDictionary alloc]init];
+    }
+    return _QRDic;
+}
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -59,15 +68,29 @@
     [self.view addSubview:self.promptLabel];
     /// 为了 UI 效果
     [self.view addSubview:self.bottomView];
+    UIButton *TheCamera =[[UIButton alloc]init];
+    [TheCamera setTitle:NSLocalizedString(@"相册", nil) forState:UIControlStateNormal];
+    [TheCamera setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    TheCamera.titleLabel.font=[UIFont systemFontOfSize:14];
+    [TheCamera addTarget:self action:@selector(rightBarButtonItenAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:TheCamera];
+    [TheCamera mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.view.mas_right).offset(-10);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-10);
+        make.size.mas_equalTo(CGSizeMake(50, 50));
+    }];
 }
 
 - (void)setupNavigationBar {
     self.navigationItem.title = @"扫一扫";
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"相册" style:(UIBarButtonItemStyleDone) target:self action:@selector(rightBarButtonItenAction)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"相册" style:(UIBarButtonItemStyleDone) target:self action:@selector(rightBarButtonItenAction)];
 }
 - (SGQRCodeScanningView *)scanningView {
     if (!_scanningView) {
         _scanningView = [[SGQRCodeScanningView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0.9 * self.view.frame.size.height)];
+        _scanningView.cornerColor=RGB(35, 211, 255);
+        _scanningView.borderColor=RGB(35, 211, 255);
+        _scanningView.scanningImageName=@"scan_lightness";
     }
     return _scanningView;
 }
@@ -100,11 +123,26 @@
     [self.view addSubview:self.scanningView];
 }
 - (void)QRCodeAlbumManager:(SGQRCodeAlbumManager *)albumManager didFinishPickingMediaWithResult:(NSString *)result {
+    
+    
+    if ([[NSString stringWithFormat:@"%@",[self.frVC class]] isEqualToString:  @"FirstViewController"]) {
+        if ([[FLTools share]WhetherTheCurrentTypeNeedType:result withType:@"3"]) {
+            
+            self.QRDic =[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]QrCodeImageFromDic:result fromVC:self oldQrCodeDic:self.QRDic]];
+            if ([[FLTools share]SCanQRCodeWithDicCode:self.QRDic]) {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }else{
+           [self.navigationController popViewControllerAnimated:YES];
+        }
+        
+    } else {
     [self.navigationController popViewControllerAnimated:YES];
-
+    }
     if (self.scanBack) {
         self.scanBack(result);
     }
+   
 
 }
 - (void)QRCodeAlbumManagerDidReadQRCodeFailure:(SGQRCodeAlbumManager *)albumManager {
@@ -120,14 +158,13 @@
         [scanManager playSoundName:@"SGQRCode.bundle/sound.caf"];
         [scanManager stopRunning];
         [scanManager videoPreviewLayerRemoveFromSuperlayer];
-        
         AVMetadataMachineReadableCodeObject *obj = metadataObjects[0];
-        [self.navigationController popViewControllerAnimated:YES];
+         [self.navigationController popViewControllerAnimated:YES];
         if (self.scanBack) {
             self.scanBack([obj stringValue]);
         }
     } else {
-//        DLog(@"暂未识别出扫描的二维码");
+   [[FLTools share]showErrorInfo:NSLocalizedString(@"未识别", nil)];
     }
 }
 - (void)QRCodeScanManager:(SGQRCodeScanManager *)scanManager brightnessValue:(CGFloat)brightnessValue {
@@ -144,13 +181,14 @@
     if (!_promptLabel) {
         _promptLabel = [[UILabel alloc] init];
         _promptLabel.backgroundColor = [UIColor clearColor];
-        CGFloat promptLabelX = 0;
+        CGFloat promptLabelX = 15;
         CGFloat promptLabelY = 0.73 * self.view.frame.size.height;
-        CGFloat promptLabelW = self.view.frame.size.width;
-        CGFloat promptLabelH = 25;
+        CGFloat promptLabelW = self.view.frame.size.width-30;
+        CGFloat promptLabelH = 50;
         _promptLabel.frame = CGRectMake(promptLabelX, promptLabelY, promptLabelW, promptLabelH);
         _promptLabel.textAlignment = NSTextAlignmentCenter;
         _promptLabel.font = [UIFont boldSystemFontOfSize:13.0];
+        _promptLabel.numberOfLines=0;
         _promptLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
         _promptLabel.text = @"将二维码/条码放入框内, 即可自动扫描";
     }
@@ -201,6 +239,9 @@
     });
 }
 
-
+-(void)setFrVC:(UIViewController *)frVC{
+    _frVC=frVC;
+    
+}
 @end
 

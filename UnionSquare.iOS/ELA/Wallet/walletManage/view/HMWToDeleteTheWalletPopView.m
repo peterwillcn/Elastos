@@ -124,7 +124,6 @@
         self.titlePopLabel.text=@"";
         self.titleButtonConB.constant=0;
     }
-    
 }
 -(void)setUtxosString:(NSString *)UtxosString{
 //    账户Utxo数量为65535个，

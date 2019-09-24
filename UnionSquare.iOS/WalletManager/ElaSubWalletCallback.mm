@@ -101,6 +101,12 @@ void ElaSubWalletCallback::OnAssetRegistered(const std::string &asset, const nlo
     
 }
 void ElaSubWalletCallback::OnConnectStatusChanged(const std::string &status){
+    NSString *walletIDString = [NSString stringWithCString:_callBackInfo.c_str() encoding:NSUTF8StringEncoding];
+    
+    
+    NSDictionary *dic=@{@"status":[NSString stringWithCString:status.c_str() encoding:NSUTF8StringEncoding],@"callBackInfo":walletIDString};
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:ConnectStatusChanged object:dic];
     
 }
 //@end

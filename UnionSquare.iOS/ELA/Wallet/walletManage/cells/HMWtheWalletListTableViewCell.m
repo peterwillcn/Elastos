@@ -10,11 +10,13 @@
 
 
 @interface HMWtheWalletListTableViewCell ()
+@property (weak, nonatomic) IBOutlet UIImageView *iconImageVIew;
 
 @property (weak, nonatomic) IBOutlet UILabel *walletNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *walletAddressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *blanceLabel;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *labeSuperLeftOffSet;
 @end
 
 @implementation HMWtheWalletListTableViewCell
@@ -26,15 +28,32 @@
 -(void)setModel:(FMDBWalletModel *)model{
     _model=model;
     
-    self.walletNameLabel.text=model.walletName;
+ 
    
 //       self.walletAddressLabel.text=model.walletAddress;
-    
-    if (model.balanceString.length>0) {
-      self.blanceLabel.text=model.balanceString;
+    NSString *imageName=@"single_wallet";
+    switch (model.TypeW) {
+        case SingleSign:
+            imageName=@"single_wallet";
+         self.walletNameLabel.text=  [NSString stringWithFormat:@"%@",model.walletName];
+            break;
+        case SingleSignReadonly:
+            imageName=@"single_walllet_readonly";
+             self.walletNameLabel.text=  [NSString stringWithFormat:@"%@",model.walletName];
+            break;
+        case HowSign:
+            imageName=@"multi_wallet";
+            self.walletNameLabel.text=  [NSString stringWithFormat:@"%@",model.walletName];
+            break;
+        case HowSignReadonly:
+            imageName=@"multi_wallet_readonly";
+             self.walletNameLabel.text=[NSString stringWithFormat:@"%@",model.walletName];
+            break;
+            
+        default:
+            break;
     }
-   
-    
+    self.iconImageVIew.image=[UIImage imageNamed:imageName];
     
     
 }
@@ -43,5 +62,12 @@
 
     // Configure the view for the selected state
 }
+//-(void)setTypeString:(NSString *)typeString{
+//    if ([typeString isEqualToString:@"1"]) {
+//        self.labeSuperLeftOffSet.constant=17;
+//        self.iconImageVIew.alpha=0.f;
+//    }
+//
+//}
 
 @end

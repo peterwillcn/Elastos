@@ -33,7 +33,7 @@
         self.keyStoreTextView.text=self.palceString;
         self.walletNameTextField.placeholder=NSLocalizedString(@"请输入钱包名称", nil);
 
-       self.walletPWDTextField.placeholder=NSLocalizedString(@"请输入8至16位钱包密码", nil); self.showInfoTextLabel.text=NSLocalizedString(@"长度8-16位，且至少包含字母、数字和特殊字符中的2种", nil);
+       self.walletPWDTextField.placeholder=NSLocalizedString(@"请输入密码", nil); self.showInfoTextLabel.text=NSLocalizedString(@"长度8-16位，且至少包含字母、数字和特殊字符中的2种", nil);
    self.keyStorePWDTextField.placeholder=NSLocalizedString(@"请输入Keystore密码", nil); self.againWalletPWDTextField.placeholder=NSLocalizedString(@"请再次输入确认密码", nil);
         [self.confirmTheImportButton setTitle:NSLocalizedString(@"确认导入", nil) forState:UIControlStateNormal];
         self.keyStoreTextView.delegate=self;

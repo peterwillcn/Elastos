@@ -51,6 +51,7 @@ You could follow these instructions:
    {
      "id": "com.mycompany.myapp",
      "version": "0.0.1",
+     "version_code": 1,
      "name": "My App",
      "short_name": "My App",
      "description": "My Sample App",
@@ -113,6 +114,7 @@ After test, you may want to deploy your DApp as a product.
    {
      "id": "com.mycompany.myapp",
      "version": "0.0.1",
+     "version_code": 1,
      "name": "My App",
      "short_name": "My App",
      "description": "My Sample App",

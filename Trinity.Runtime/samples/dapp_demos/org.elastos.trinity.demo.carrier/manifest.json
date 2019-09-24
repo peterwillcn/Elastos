@@ -1,6 +1,7 @@
 {
   "id": "org.elastos.trinity.demo.carrier",
   "version": "0.0.2",
+  "version_code": 1,
   "name": "Carrier Demo",
   "short_name": "carrier",
   "description": "My carrier sample",

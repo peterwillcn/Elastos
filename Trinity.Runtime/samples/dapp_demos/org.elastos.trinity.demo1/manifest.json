@@ -1,6 +1,7 @@
 {
-  "id": "org.elastos.trinity.demo1", 
+  "id": "org.elastos.trinity.demo1",
   "version": "0.0.2",
+  "version_code": 1,
   "name": "Demo1",
   "short_name": "demo1",
   "description": "My sample app1",

@@ -462,10 +462,10 @@ public class AppInstaller {
 
         //Must
         appInfo.app_id = getMustStrValue(json, "id");
-        appInfo.version = getMustStrValue(json, "version");
-        appInfo.version_code = getMustIntValue(json, "versionCode");
-        appInfo.name = getMustStrValue(json, "name");
-        appInfo.start_url = getMustStrValue(json, "start_url");
+        appInfo.version = getMustStrValue(json, AppInfo.VERSION);
+        appInfo.version_code = getMustIntValue(json, AppInfo.VERSION_CODE);
+        appInfo.name = getMustStrValue(json, AppInfo.NAME);
+        appInfo.start_url = getMustStrValue(json, AppInfo.START_URL);
         if (appInfo.start_url.indexOf("://") != -1) {
             appInfo.remote = 1;
         }

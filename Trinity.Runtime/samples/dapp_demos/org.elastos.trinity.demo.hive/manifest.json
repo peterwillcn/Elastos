@@ -1,6 +1,7 @@
 {
   "id": "org.elastos.trinity.demo.hive",
   "version": "0.0.2",
+  "version_code": 1,
   "name": "Hive Demo",
   "short_name": "hive",
   "description": "My Hive sample",

@@ -52,12 +52,12 @@
         make.top.equalTo(self.view.mas_top).offset(100);
         make.left.right.bottom.equalTo(self.view);
     }];
-  
+//  
     [self.wordMnemonicOrKeystoreSegmentedCon addTarget:self action:@selector(wordMnemonicOrKeystoreEvent) forControlEvents:UIControlEventValueChanged];
     [[HMWCommView share]makeBordersWithView:self.wordMnemonicOrKeystoreSegmentedCon];
     [self.wordMnemonicOrKeystoreSegmentedCon setTitle:NSLocalizedString(@"助记词", nil) forSegmentAtIndex:0];
     UIColor *greenColor = [UIColor whiteColor];
-    NSDictionary *colorAttr = [NSDictionary dictionaryWithObject:greenColor forKey:UITextAttributeTextColor];
+    NSDictionary *colorAttr = [NSDictionary dictionaryWithObject:greenColor forKey:NSForegroundColorAttributeName];
     [self.wordMnemonicOrKeystoreSegmentedCon setTitleTextAttributes:colorAttr forState:UIControlStateNormal];
     
     

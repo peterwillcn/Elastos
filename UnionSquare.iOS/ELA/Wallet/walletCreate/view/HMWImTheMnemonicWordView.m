@@ -62,7 +62,6 @@
         self.againPWDTextField.secureTextEntry=YES;
         self.pwdTextFiedl.secureTextEntry=YES;
         self.theMnemonicWordPWDTextField.secureTextEntry=YES;
-   ;
         self.whetherTheSingleAddressButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
         [self.whetherTheSingleAddressButton setTitle:NSLocalizedString(@"单地址钱包", nil) forState:UIControlStateNormal];
             [self.whetherTheSingleAddressButton setTitle:NSLocalizedString(@"单地址钱包", nil) forState:UIControlStateSelected];

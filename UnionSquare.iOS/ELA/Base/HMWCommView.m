@@ -30,9 +30,6 @@ static HMWCommView *tool;
     view.layer.borderWidth=1.f;
     view.layer.borderColor=RGBA(255, 255, 255, 1).CGColor;
 //    view.layer.masksToBounds=YES;
-    
-    
-    
 }
 -(void)makeTextFieldPlaceHoTextColorWithTextField:(UITextField *)textf withTxt:(NSString *)pText{
     

@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HMWCommView : NSObject
 +(instancetype)share;
 -(void)makeBordersWithView:(UIView*)view;
--(void)makeTextFieldPlaceHoTextColorWithTextField:(UITextField*)textf;
+-(void)makeTextFieldPlaceHoTextColorWithTextField:(UITextField*)textf withTxt:(NSString*)pText;
 @end
 
 NS_ASSUME_NONNULL_END

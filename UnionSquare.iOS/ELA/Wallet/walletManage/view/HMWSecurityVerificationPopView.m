@@ -23,7 +23,7 @@
     self =[super init];
     if (self){
         self =[[NSBundle mainBundle]loadNibNamed:@"HMWSecurityVerificationPopView" owner:nil options:nil].firstObject;
-        [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.pwdTextField];
+        [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.pwdTextField withTxt:NSLocalizedString(@"请输入钱包密码", nil)];
         self.pwdTextField.secureTextEntry = YES ;
 //        self.userInteractionEnabled=YES;
 //        UITapGestureRecognizer *reTap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(giveUpTheInput)];
@@ -32,7 +32,6 @@
         [self.determineThePasswordButton  setTitle:NSLocalizedString(@"确认", nil) forState:UIControlStateNormal] ;
         [self.cancelButton setTitle:NSLocalizedString(@"取消", nil) forState:UIControlStateNormal];
         self.securityTextLabel.text=NSLocalizedString(@"安全验证", nil);
-        self.pwdTextField.placeholder=NSLocalizedString(@"请输入钱包密码", nil);
     }
     
     return self;

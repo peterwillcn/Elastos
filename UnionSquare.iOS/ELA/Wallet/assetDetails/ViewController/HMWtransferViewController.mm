@@ -55,19 +55,16 @@
     self.isAddSwitch.transform=CGAffineTransformMakeScale(0.75, 0.75);
 //    [self loadCanUserBlanceLoadDataSource];
      self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"setting_adding_scan"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(scanView)];
-       self.theAmountOfTextField.placeholder=[NSString stringWithFormat:@"%@%@ %@",NSLocalizedString(@"请输入金额 可用", nil),[[FLTools share]elaScaleConversionWith:self.model.iconBlance],@"ELA"];
-    [[HMWCommView share] makeTextFieldPlaceHoTextColorWithTextField:self.transferTheAddressTextField];
     
-    [[HMWCommView share] makeTextFieldPlaceHoTextColorWithTextField:self.theAmountOfTextField];
-   [[HMWCommView share] makeTextFieldPlaceHoTextColorWithTextField:self.noteTextField];
+       self.theAmountOfTextField.placeholder=[NSString stringWithFormat:@"%@%@ %@",NSLocalizedString(@"请输入金额 可用", nil),[[FLTools share]elaScaleConversionWith:self.model.iconBlance],@"ELA"];
+    [[HMWCommView share] makeTextFieldPlaceHoTextColorWithTextField:self.transferTheAddressTextField withTxt:NSLocalizedString(@"请输入收款人地址", nil)];
+   [[HMWCommView share] makeTextFieldPlaceHoTextColorWithTextField:self.noteTextField withTxt:NSLocalizedString(@"请输入备注", nil)];
     [[HMWCommView share]makeBordersWithView:self.theNextStepButton];
     [[HMWCommView share]makeBordersWithView:self.maxButton];
     [self.theNextStepButton setTitle:NSLocalizedString(@"下一步", nil) forState:UIControlStateNormal];
-   
-    self.noteTextField.placeholder=NSLocalizedString(@"请输入备注", nil);
     self.theAmountOfTextField.delegate=self;
     
-    self.transferTheAddressTextField.placeholder=NSLocalizedString(@"请输入收款人地址", nil);
+    
     
 }
 //- (IBAction)isAddOrCloseEvent:(id)sender {
@@ -84,8 +81,7 @@
         
         
         NSString *blanceString=[NSString stringWithFormat:@"%@",result.message[@"success"]];
-        
-        self.theAmountOfTextField.placeholder=[NSString stringWithFormat:@"%@%@ %@",NSLocalizedString(@"请输入金额 可用", nil),[[FLTools share]elaScaleConversionWith:blanceString],@"ELA"];
+          [[HMWCommView share] makeTextFieldPlaceHoTextColorWithTextField:self.theAmountOfTextField withTxt:[NSString stringWithFormat:@"%@%@ %@",NSLocalizedString(@"请输入金额 可用", nil),[[FLTools share]elaScaleConversionWith:blanceString],@"ELA"]];
         self.model.iconBlance=blanceString;
 
     }

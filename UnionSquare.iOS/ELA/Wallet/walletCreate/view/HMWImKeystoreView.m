@@ -31,18 +31,16 @@
         self =[[NSBundle mainBundle]loadNibNamed:@"HMWImKeystoreView" owner:nil options:nil].firstObject;
         self.palceString=NSLocalizedString(@"请输入Keystore文本内容", nil);
         self.keyStoreTextView.text=self.palceString;
-        self.walletNameTextField.placeholder=NSLocalizedString(@"请输入钱包名称", nil);
 
-       self.walletPWDTextField.placeholder=NSLocalizedString(@"请输入8至16位钱包密码", nil); self.showInfoTextLabel.text=NSLocalizedString(@"长度8-16位，且至少包含字母、数字和特殊字符中的2种", nil);
-   self.keyStorePWDTextField.placeholder=NSLocalizedString(@"请输入Keystore密码", nil); self.againWalletPWDTextField.placeholder=NSLocalizedString(@"请再次输入确认密码", nil);
+        self.showInfoTextLabel.text=NSLocalizedString(@"长度8-16位，且至少包含字母、数字和特殊字符中的2种", nil);
         [self.confirmTheImportButton setTitle:NSLocalizedString(@"确认导入", nil) forState:UIControlStateNormal];
         self.keyStoreTextView.delegate=self;
         
         [[HMWCommView share]makeBordersWithView:self.keyStoreTextView];
-        [[HMWCommView alloc]makeTextFieldPlaceHoTextColorWithTextField:self.walletNameTextField];
-        [[HMWCommView alloc]makeTextFieldPlaceHoTextColorWithTextField:self.keyStorePWDTextField];
-        [[HMWCommView alloc]makeTextFieldPlaceHoTextColorWithTextField:self.walletPWDTextField];
-        [[HMWCommView alloc]makeTextFieldPlaceHoTextColorWithTextField:self.againWalletPWDTextField];
+        [[HMWCommView alloc]makeTextFieldPlaceHoTextColorWithTextField:self.walletNameTextField withTxt:NSLocalizedString(@"请输入钱包名称", nil)];
+        [[HMWCommView alloc]makeTextFieldPlaceHoTextColorWithTextField:self.keyStorePWDTextField withTxt:NSLocalizedString(@"请输入Keystore密码", nil)];
+        [[HMWCommView alloc]makeTextFieldPlaceHoTextColorWithTextField:self.walletPWDTextField withTxt:NSLocalizedString(@"请输入8至16位钱包密码", nil)];
+        [[HMWCommView alloc]makeTextFieldPlaceHoTextColorWithTextField:self.againWalletPWDTextField withTxt:NSLocalizedString(@"请再次输入确认密码", nil)];
         [[HMWCommView share]makeBordersWithView:self.confirmTheImportButton];
         self.walletPWDTextField.secureTextEntry=YES;
         self.keyStorePWDTextField.secureTextEntry=YES;

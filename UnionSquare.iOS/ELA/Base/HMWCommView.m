@@ -30,13 +30,10 @@ static HMWCommView *tool;
     view.layer.borderWidth=1.f;
     view.layer.borderColor=RGBA(255, 255, 255, 1).CGColor;
 //    view.layer.masksToBounds=YES;
-    
-    
-    
 }
--(void)makeTextFieldPlaceHoTextColorWithTextField:(UITextField*)textf{
-    [textf setValue:RGBA(255, 255, 255, 0.5) forKeyPath:@"_placeholderLabel.textColor"];
+-(void)makeTextFieldPlaceHoTextColorWithTextField:(UITextField *)textf withTxt:(NSString *)pText{
     
-    
+    NSMutableAttributedString *placeholderString = [[NSMutableAttributedString alloc] initWithString:pText attributes:@{NSForegroundColorAttributeName : RGBA(255, 255, 255, 0.5)}];
+    textf.attributedPlaceholder = placeholderString;
 }
 @end

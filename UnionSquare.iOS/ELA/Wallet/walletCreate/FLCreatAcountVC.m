@@ -28,9 +28,10 @@
     // Do any additional setup after loading the view from its nib.
     [self setBackgroundImg:@""];
     self.title = NSLocalizedString(@"创建钱包", nil);
-    self.nameField.placeholder=NSLocalizedString(@"请输入钱包名称", nil);
-    self.pwdfield1.placeholder=NSLocalizedString(@"请输入8至16位钱包密码", nil);
-    self.pwdfield2.placeholder=NSLocalizedString(@"请再次输入确认钱包密码", nil);
+    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.nameField withTxt:NSLocalizedString(@"请输入钱包名称", nil)];
+    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.pwdfield1 withTxt:NSLocalizedString(@"请输入8至16位钱包密码", nil)];
+      [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.pwdfield2 withTxt:NSLocalizedString(@"请再次输入确认钱包密码", nil)];
+   
     self.sigainAddressLabel.text=NSLocalizedString(@"单地址钱包", nil); self.nameField.delegate = self;
     self.pwdShowInfoTextLabel.text=NSLocalizedString(@"长度8-16位，且至少包含字母、数字和特殊字符中的2种", nil);
     

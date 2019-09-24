@@ -70,7 +70,7 @@
 #define TransactionStatusChanged @"TransactionStatusChanged"
 #define AccountBalanceChanges    @"AccountBalanceChanges"
 #define OnTxPublishedResult      @"OnTxPublishedResult"
-#define  UWUserLanguageKey  @"AppleLanguages"
+#define  UWUserLanguageKey  @"AppleLanguagesUserLanguageKey"
 #define  selectIndexWallet  @"selectIndexWallet"
 #define STANDARD_USER_DEFAULT  [NSUserDefaults standardUserDefaults]
 #import <Foundation/Foundation.h>

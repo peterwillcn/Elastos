@@ -3251,6 +3251,7 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
 				PRODUCT_NAME = elastos_wallet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3299,6 +3300,7 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
 				PRODUCT_NAME = elastos_wallet;
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -57,22 +57,18 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"setting_adding_scan"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(scanView)];
     self.toUpNameLabel.text=[NSString stringWithFormat:@"%@：%@",NSLocalizedString(@"充值到", nil),self.selectmModel.iconName];
 //     self.toUpNameLabel.text=[NSString stringWithFormat:@"%@：%@",NSLocalizedString(@"充值到", nil),@"ELA"];
-    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.addressTextField];
-    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.enterTheAmountTextField];
-    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.noteTextField];
+    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.addressTextField withTxt:NSLocalizedString(@"请输入主链提现地址", nil)];
+    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.enterTheAmountTextField withTxt:[NSString stringWithFormat:@"%@：%@ %@",NSLocalizedString(@"请输入金额 可用", nil),[[FLTools share] elaScaleConversionWith:self.fromModel.iconBlance],@"ELA"]];
+    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.noteTextField withTxt:NSLocalizedString(@"请输入备注", nil)];
     [[HMWCommView share] makeBordersWithView:self.theNextStepButton];
-    [self.theNextStepButton setTitle:NSLocalizedString(@"下一步", nil) forState:UIControlStateNormal];
-     self.noteTextField.placeholder=NSLocalizedString(@"请输入备注", nil);
-
-       self.enterTheAmountTextField.placeholder=[NSString stringWithFormat:@"%@：%@ %@",NSLocalizedString(@"请输入金额 可用", nil),[[FLTools share] elaScaleConversionWith:self.fromModel.iconBlance],@"ELA"];
-    
+    [self.theNextStepButton setTitle:NSLocalizedString(@"下一步", nil) forState:UIControlStateNormal];    
     if (self.type==mainChainWithdrawalType) {
-       self.addressTextField.placeholder=NSLocalizedString(@"请输入主链提现地址", nil);
+        [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.addressTextField withTxt:NSLocalizedString(@"请输入主链提现地址", nil)];
         self.BGViewHeight.constant=0.f;
         self.assetIconImageView.alpha=0.f;
     }else{
         
-        self.addressTextField.placeholder=NSLocalizedString(@"请输入侧链充值地址", nil);
+         [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.addressTextField withTxt:NSLocalizedString(@"请输入侧链充值地址", nil)];
         
     }
     self.enterTheAmountTextField.delegate=self;

@@ -18,30 +18,14 @@
 
 + (void)setUserLanguage:(NSString *)userLanguage
 {
-//    //跟随手机系统
-//    if (!userLanguage.length) {
-//
-//        return;
-//    }
-    
-//     [STANDARD_USER_DEFAULT removeObjectForKey:UWUserLanguageKey];
     //用户自定义
     [STANDARD_USER_DEFAULT setValue:userLanguage forKey:UWUserLanguageKey];
-//        [STANDARD_USER_DEFAULT removeObjectForKey:UWUserLanguageKey];
-//    [STANDARD_USER_DEFAULT setValue:@[userLanguage] forKey:UWUserLanguageKey];
-  
     [STANDARD_USER_DEFAULT synchronize];
-    
-//    [self resetSystemLanguage];
 }
 
 + (NSString *)userLanguage
 {
-//         [STANDARD_USER_DEFAULT removeObjectForKey:UWUserLanguageKey];
-//    [STANDARD_USER_DEFAULT removeObjectForKey:@"AppleLanguages"];
-//      [STANDARD_USER_DEFAULT removeObjectForKey:UWUserLanguageKey];
-//    return @"en";
-//    NSArray *languageArray=[STANDARD_USER_DEFAULT valueForKey:UWUserLanguageKey];
+
     NSObject * ojg =[STANDARD_USER_DEFAULT valueForKey:UWUserLanguageKey];
     if ([ojg isKindOfClass:[NSArray class]]) {
         NSArray *ojbArr=[STANDARD_USER_DEFAULT valueForKey:UWUserLanguageKey];

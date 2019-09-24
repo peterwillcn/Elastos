@@ -11,7 +11,7 @@
 
 @protocol HMWImKeystoreViewDeleagte <NSObject>
 
--(void)imKeystoreViewWithWallet:(FLWallet*)wallet;
+-(void)imKeystoreViewWithWallet:(FLWallet*_Nullable)wallet;
 
 @end
 NS_ASSUME_NONNULL_BEGIN

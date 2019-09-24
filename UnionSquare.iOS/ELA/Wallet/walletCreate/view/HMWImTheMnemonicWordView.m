@@ -41,13 +41,13 @@
         self =[[NSBundle mainBundle]loadNibNamed:@"HMWImTheMnemonicWordView" owner:nil options:nil].firstObject;
    self.theMnemonicWordShowInfo.text=NSLocalizedString(@"助记词导入钱包同步速度缓慢，建议创建新钱包或使用Keystore导入", nil); self.walletWordSwitchInfoTextLabel.text=NSLocalizedString(@"助记词密码（可选）", nil);
         self.palceString=NSLocalizedString(@"助记词之间请使用空格隔开", nil);
-      self.theMnemonicWordPWDTextField.placeholder=NSLocalizedString(@"请输入当前钱包的助记词密码", nil); self.pwdTextFiedl.placeholder=NSLocalizedString(@"请输入8至16位钱包密码", nil); self.theMnemonicWordTextView.text=self.palceString;
+    self.theMnemonicWordTextView.text=self.palceString;
         [self.confirmTheImportButton setTitle:NSLocalizedString(@"确认导入", nil) forState:UIControlStateNormal];
       [[HMWCommView share]makeBordersWithView:self.theMnemonicWordTextView];
-        [[HMWCommView alloc]makeTextFieldPlaceHoTextColorWithTextField:self.pwdTextFiedl];
-         [[HMWCommView alloc]makeTextFieldPlaceHoTextColorWithTextField:self.walletNameTextField];
-          [[HMWCommView alloc]makeTextFieldPlaceHoTextColorWithTextField:self.againPWDTextField];
-         [[HMWCommView alloc]makeTextFieldPlaceHoTextColorWithTextField:self.theMnemonicWordPWDTextField];
+        [[HMWCommView alloc]makeTextFieldPlaceHoTextColorWithTextField:self.pwdTextFiedl withTxt:NSLocalizedString(@"请输入8至16位钱包密码", nil)];
+         [[HMWCommView alloc]makeTextFieldPlaceHoTextColorWithTextField:self.walletNameTextField withTxt:NSLocalizedString(@"请输入钱包名称", nil)];
+          [[HMWCommView alloc]makeTextFieldPlaceHoTextColorWithTextField:self.againPWDTextField withTxt:NSLocalizedString(@"请再次输入确认密码", nil)];
+         [[HMWCommView alloc]makeTextFieldPlaceHoTextColorWithTextField:self.theMnemonicWordPWDTextField withTxt:NSLocalizedString(@"请输入当前钱包的助记词密码", nil)];
         [[HMWCommView share]makeBordersWithView:self.confirmTheImportButton];
         self.showOrHideThePasswordSwitch.layer.borderColor=[UIColor whiteColor].CGColor;
         self.showOrHideThePasswordSwitch.layer.borderWidth=2.f;
@@ -59,8 +59,6 @@
         self.againPWDTextField.secureTextEntry=YES;
         self.pwdTextFiedl.secureTextEntry=YES;
         self.theMnemonicWordPWDTextField.secureTextEntry=YES;
-        self.walletNameTextField.placeholder=NSLocalizedString(@"请输入钱包名称", nil);
-        self.againPWDTextField.placeholder=NSLocalizedString(@"请再次输入确认密码", nil);
         self.whetherTheSingleAddressButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
         [self.whetherTheSingleAddressButton setTitle:NSLocalizedString(@"单地址钱包", nil) forState:UIControlStateNormal];
             [self.whetherTheSingleAddressButton setTitle:NSLocalizedString(@"单地址钱包", nil) forState:UIControlStateSelected];

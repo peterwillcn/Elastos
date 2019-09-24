@@ -19,7 +19,6 @@
     self =[super init];
     if (self) {
         self =[[NSBundle mainBundle]loadNibNamed:@"HMWSendSuccessPopuView" owner:nil options:nil].firstObject;
-//        [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.pwdTextField];
         [[HMWCommView share]makeBordersWithView:self.BGView];
        
         self.showInfoLabel.text=NSLocalizedString(@"交易发送成功，\n 请耐心等待交易确认", nil);

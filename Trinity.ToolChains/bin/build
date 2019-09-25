@@ -52,6 +52,7 @@ if args.target == "clean":
     remove_tree("Launcher/.sourcemaps")
     remove_tree("Runtime/node_modules")
     remove_tree("Runtime/origin_platforms")
+    remove_tree("Runtime/origin_plugins")
     remove_tree("Runtime/platforms")
     remove_tree("Runtime/plugins")
     remove_tree("Runtime/www")

@@ -42,7 +42,7 @@ function launchAppCreation(idKeystorePath) {
     var manifestPath = path.join(process.cwd(), "src", "assets", "manifest.json")
     manifestHelper.updateManifestForProduction(manifestPath)
 
-    ionicHelper.updatedNpmDependencies().then(() => {
+    ionicHelper.updateNpmDependencies().then(() => {
         ionicHelper.runIonicBuildDev().then(() => {
             dappHelper.packEPK(manifestPath).then((outputEPKPath)=>{
                 dappHelper.signEPK(outputEPKPath, idKeystorePath).then(()=>{

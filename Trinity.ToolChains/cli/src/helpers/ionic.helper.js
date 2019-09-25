@@ -3,7 +3,7 @@ module.exports = class IonicHelper {
     /**
      * Run "npm install" to retrieve latest versions of npm dependencies
      */
-    updatedNpmDependencies() {
+    updateNpmDependencies() {
         return new Promise((resolve, reject) => {
             console.log("Updating NPM modules for the ionic application...")
 

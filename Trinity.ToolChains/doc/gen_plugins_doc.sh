@@ -3,4 +3,7 @@
 
 # DocStrap template documentation: https://github.com/docstrap/docstrap
 
-jsdoc -c ./jsdoc.conf.json -t ./node_modules/ink-docstrap/template -r ../../../Elastos.Trinity/Runtime/plugins/ README.md
+# First need to build trinity in order to apply plugins documentation patches
+../../Elastos.Trinity/ToolChains/bin/build all
+# Generate the documentation
+jsdoc -c ./jsdoc.conf.json -t ./node_modules/ink-docstrap/template -r ../../Elastos.Trinity/Runtime/plugins/ README.md

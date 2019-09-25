@@ -63,8 +63,6 @@ function deployAndroidDApp(idKeystorePath) {
         console.error("Error:".red, "Please first install IONIC on your computer.")
         return
     }
-
-    // Make sure mandatory dependencies are available
     if (!SystemHelper.checkADBPresence()) {
         console.error("Error:".red, "Please first install Android tools (especially ADB) on your computer.")
         return
@@ -75,7 +73,7 @@ function deployAndroidDApp(idKeystorePath) {
     var manifestPath = path.join(process.cwd(), "src", "assets", "manifest.json")
     manifestHelper.updateManifestForRemoteIndex(manifestPath)
 
-    ionicHelper.updatedNpmDependencies().then(() => {
+    ionicHelper.updateNpmDependencies().then(() => {
         ionicHelper.runIonicBuildDev().then(() => {
             dappHelper.packEPK(manifestPath).then((outputEPKPath)=>{
                 dappHelper.signEPK(outputEPKPath, idKeystorePath).then(()=>{

@@ -1,0 +1,14 @@
+diff -ruNb origin_plugins/cordova-plugin-media-capture/www/capture.js plugins/cordova-plugin-media-capture/www/capture.js
+--- origin_plugins/cordova-plugin-media-capture/www/capture.js	null
++++ plugins/cordova-plugin-media-capture/www/capture.js	null
+@@ -19,6 +19,10 @@
+  *
+ */
+
++/**
++ * @exports Capture
++ */
++
+ var exec = require('cordova/exec');
+ var helpers = require('./helpers');
+

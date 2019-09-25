@@ -1,0 +1,31 @@
+diff -ruNb origin_plugins/cordova-plugin-network-information/www/Connection.js plugins/cordova-plugin-network-information/www/Connection.js
+--- origin_plugins/cordova-plugin-network-information/www/Connection.js	null
++++ plugins/cordova-plugin-network-information/www/Connection.js	null
+@@ -19,8 +19,14 @@
+  *
+ */
+
++
+ /**
++ * @module Connection
++ *
++ * @description
+  * Network status
++ *
++ * @enum {number}
+  */
+ module.exports = {
+     UNKNOWN: 'unknown',
+diff -ruNb origin_plugins/cordova-plugin-network-information/www/network.js plugins/cordova-plugin-network-information/www/network.js
+--- origin_plugins/cordova-plugin-network-information/www/network.js	null
++++ plugins/cordova-plugin-network-information/www/network.js	null
+@@ -88,4 +88,9 @@
+     });
+ });
+
++/**
++ * @module Connection
++ * @example
++ * var connectionStatus = navigator.connection.type;
++ */
+ module.exports = me;

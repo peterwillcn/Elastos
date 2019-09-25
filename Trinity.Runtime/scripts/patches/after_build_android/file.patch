@@ -1,0 +1,29 @@
+diff -ruNb origin_plugins/cordova-plugin-file/www/FileSystem.js plugins/cordova-plugin-file/www/FileSystem.js
+--- origin_plugins/cordova-plugin-file/www/FileSystem.js	null
++++ plugins/cordova-plugin-file/www/FileSystem.js	null
+@@ -24,9 +24,9 @@
+ /**
+  * An interface representing a file system
+  *
+- * @constructor
+  * {DOMString} name the unique name of the file system (readonly)
+  * {DirectoryEntry} root directory of the file system (readonly)
++ * @constructor
+  */
+ var FileSystem = function (name, root) {
+     this.name = name;
+diff -ruNb origin_plugins/cordova-plugin-file/www/FileUploadResult.js plugins/cordova-plugin-file/www/FileUploadResult.js
+--- origin_plugins/cordova-plugin-file/www/FileUploadResult.js	null
++++ plugins/cordova-plugin-file/www/FileUploadResult.js	null
+@@ -23,8 +23,10 @@
+  * FileUploadResult
+  * @constructor
+  */
+-module.exports = function FileUploadResult (size, code, content) {
++var FileUploadResult = function FileUploadResult (size, code, content) {
+     this.bytesSent = size;
+     this.responseCode = code;
+     this.response = content;
+ };
++
++module.exports = FileUploadResult;

@@ -1,0 +1,124 @@
+diff -ruNb origin_plugins/cordova-plugin-camera/package.json plugins/cordova-plugin-camera/package.json
+--- origin_plugins/cordova-plugin-camera/package.json	null
++++ plugins/cordova-plugin-camera/package.json	null
+@@ -22,7 +22,7 @@
+   "_resolved": "https://registry.npmjs.org/cordova-plugin-camera/-/cordova-plugin-camera-4.1.0.tgz",
+   "_shasum": "6474a3e080c4662aa00fd7425705d301c693ddc0",
+   "_spec": "cordova-plugin-camera@^4.1.0",
+-  "_where": "/Users/raozhiming/workspace/elastos/Trinity/Elastos.Trinity/Runtime",
++  "_where": "/Users/raozhiming/workspace/elastos/Trinity/justtest/Elastos.Trinity/Runtime",
+   "author": {
+     "name": "Apache Software Foundation"
+   },
+diff -ruNb origin_plugins/cordova-plugin-camera/www/Camera.js plugins/cordova-plugin-camera/www/Camera.js
+--- origin_plugins/cordova-plugin-camera/www/Camera.js	null
++++ plugins/cordova-plugin-camera/www/Camera.js	null
+@@ -26,11 +26,7 @@
+ // CameraPopoverHandle = require('./CameraPopoverHandle');
+
+ /**
+- * @namespace navigator
+- */
+-
+-/**
+- * @exports camera
++ * @exports Camera
+  */
+ var cameraExport = {};
+
+@@ -41,13 +37,13 @@
+
+ /**
+  * Callback function that provides an error message.
+- * @callback module:camera.onError
++ * @callback module:Camera.onError
+  * @param {string} message - The message is provided by the device's native code.
+  */
+
+ /**
+  * Callback function that provides the image data.
+- * @callback module:camera.onSuccess
++ * @callback module:Camera.onSuccess
+  * @param {string} imageData - Base64 encoding of the image data, _or_ the image file URI, depending on [`cameraOptions`]{@link module:camera.CameraOptions} in effect.
+  * @example
+  * // Show image
+@@ -61,7 +57,7 @@
+ /**
+  * Optional parameters to customize the camera settings.
+  * * [Quirks](#CameraOptions-quirks)
+- * @typedef module:camera.CameraOptions
++ * @typedef module:Camera.CameraOptions
+  * @type {Object}
+  * @property {number} [quality=50] - Quality of the saved image, expressed as a range of 0-100, where 100 is typically full resolution with no loss from file compression. (Note that information about the camera's resolution is unavailable.)
+  * @property {module:Camera.DestinationType} [destinationType=FILE_URI] - Choose the format of the return value.
+@@ -91,7 +87,7 @@
+  * `Camera.PictureSourceType.SAVEDPHOTOALBUM`, then a dialog displays
+  * that allows users to select an existing image.
+  *
+- * The return value is sent to the [`cameraSuccess`]{@link module:camera.onSuccess} callback function, in
++ * The return value is sent to the [`cameraSuccess`]{@link module:Camera.onSuccess} callback function, in
+  * one of the following formats, depending on the specified
+  * `cameraOptions`:
+  *
+@@ -127,9 +123,9 @@
+  *
+  * @example
+  * navigator.camera.getPicture(cameraSuccess, cameraError, cameraOptions);
+- * @param {module:camera.onSuccess} successCallback
+- * @param {module:camera.onError} errorCallback
+- * @param {module:camera.CameraOptions} options CameraOptions
++ * @param {module:Camera.onSuccess} successCallback
++ * @param {module:Camera.onError} errorCallback
++ * @param {module:Camera.CameraOptions} options CameraOptions
+  */
+ cameraExport.getPicture = function (successCallback, errorCallback, options) {
+     argscheck.checkArgs('fFO', 'Camera.getPicture', arguments);
+@@ -159,7 +155,7 @@
+
+ /**
+  * Removes intermediate image files that are kept in temporary storage
+- * after calling [`camera.getPicture`]{@link module:camera.getPicture}. Applies only when the value of
++ * after calling [`camera.getPicture`]{@link module:Camera.getPicture}. Applies only when the value of
+  * `Camera.sourceType` equals `Camera.PictureSourceType.CAMERA` and the
+  * `Camera.destinationType` equals `Camera.DestinationType.FILE_URI`.
+  *
+diff -ruNb origin_plugins/cordova-plugin-camera/www/CameraConstants.js plugins/cordova-plugin-camera/www/CameraConstants.js
+--- origin_plugins/cordova-plugin-camera/www/CameraConstants.js	null
++++ plugins/cordova-plugin-camera/www/CameraConstants.js	null
+@@ -20,7 +20,7 @@
+ */
+
+ /**
+- * @module Camera
++ * @module CameraConstants
+  */
+ module.exports = {
+     /**
+diff -ruNb origin_plugins/cordova-plugin-camera/www/CameraPopoverOptions.js plugins/cordova-plugin-camera/www/CameraPopoverOptions.js
+--- origin_plugins/cordova-plugin-camera/www/CameraPopoverOptions.js	null
++++ plugins/cordova-plugin-camera/www/CameraPopoverOptions.js	null
+@@ -22,10 +22,6 @@
+ var Camera = require('./Camera');
+
+ /**
+- * @namespace navigator
+- */
+-
+-/**
+  * iOS-only parameters that specify the anchor element location and arrow
+  * direction of the popover when selecting images from an iPad's library
+  * or album.
+diff -ruNb origin_plugins/cordova-plugin-camera/www/ios/CameraPopoverHandle.js plugins/cordova-plugin-camera/www/ios/CameraPopoverHandle.js
+--- origin_plugins/cordova-plugin-camera/www/ios/CameraPopoverHandle.js	null
++++ plugins/cordova-plugin-camera/www/ios/CameraPopoverHandle.js	null
+@@ -22,10 +22,6 @@
+ var exec = require('cordova/exec');
+
+ /**
+- * @namespace navigator
+- */
+-
+-/**
+  * A handle to an image picker popover.
+  *
+  * __Supported Platforms__

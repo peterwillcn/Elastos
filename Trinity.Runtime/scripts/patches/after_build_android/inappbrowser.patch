@@ -1,0 +1,13 @@
+diff -ruNb origin_plugins/cordova-plugin-inappbrowser/www/inappbrowser.js plugins/cordova-plugin-inappbrowser/www/inappbrowser.js
+--- origin_plugins/cordova-plugin-inappbrowser/www/inappbrowser.js	null
++++ plugins/cordova-plugin-inappbrowser/www/inappbrowser.js	null
+@@ -98,6 +98,9 @@
+         }
+     };
+
++    /**
++     * @exports InAppBrowser
++     */
+     module.exports = function (strUrl, strWindowName, strWindowFeatures, callbacks) {
+         // Don't catch calls that write to existing frames (e.g. named iframes).
+         if (window.frames && window.frames[strWindowName]) {

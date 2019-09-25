@@ -17,8 +17,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.signThePublicKeyTextField.placeholder=NSLocalizedString(@"请输入多签公钥", nil);
-    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.signThePublicKeyTextField];
+    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.signThePublicKeyTextField withTxt:NSLocalizedString(@"请输入多签公钥", nil)];
     
 }
 - (IBAction)pasteAction:(id)sender {

@@ -26,8 +26,7 @@
     [self defultWhite];
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"创建单签只读钱包", nil);
-    self.walletNameTextField.placeholder=NSLocalizedString(@"请输入钱包名称", nil);
-    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.walletNameTextField];
+    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.walletNameTextField withTxt:NSLocalizedString(@"请输入钱包名称", nil)];
     [self.btn1 setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.15] boldColor:[UIColor whiteColor] corner:0];
     [self.btn1 setTitle:NSLocalizedString(@"确认创建", nil) forState:UIControlStateNormal];
 }

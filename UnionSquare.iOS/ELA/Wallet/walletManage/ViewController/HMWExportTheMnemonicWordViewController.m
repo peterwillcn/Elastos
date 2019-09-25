@@ -33,17 +33,10 @@
     [self.confirmTheExportButton setTitle:NSLocalizedString(@"确认导出", nil) forState:UIControlStateNormal];
     self.WalletWordInfoTextLabel.text=NSLocalizedString(@"抄写下您的钱包助记词", nil);
     self.showInfoTextLabel.text=NSLocalizedString(@"请在纸上抄下您的助记词 \n 助记词丢失您将永远失去自己的钱包", nil);
-    self.walletWordSwitchInfoTextLabel.text=NSLocalizedString(@"助记词密码", nil);
-<<<<<<< HEAD
-    self.pwdTextField.placeholder=NSLocalizedString(@"请输入密码", nil);
-    self.againTextField.placeholder=NSLocalizedString(@"请重复已输入的助记词密码", nil);
-=======
-
->>>>>>> 58b3e93... placeholder
-   self.theRulesInfoTextLabel.text=NSLocalizedString(@"长度8-16位，且至少包含字母、数字和特殊字符中的2种", nil);
+    self.walletWordSwitchInfoTextLabel.text=NSLocalizedString(@"助记词密码", nil);   self.theRulesInfoTextLabel.text=NSLocalizedString(@"长度8-16位，且至少包含字母、数字和特殊字符中的2种", nil);
     
     [[HMWCommView share]makeBordersWithView:self.theMnemonicWordLabel];
-    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.pwdTextField withTxt:NSLocalizedString(@"请设置8至16位助记词密码1", nil)];
+    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.pwdTextField withTxt:NSLocalizedString(@"请输入密码", nil)];
      [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.againTextField withTxt:NSLocalizedString(@"请重复已输入的助记词密码", nil)];
     [[HMWCommView share]makeBordersWithView:self.confirmTheExportButton];
     self.isShowPWDViewSwitch.layer.borderColor=[UIColor whiteColor].CGColor;

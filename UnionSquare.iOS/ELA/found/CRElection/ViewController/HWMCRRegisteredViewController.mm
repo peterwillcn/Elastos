@@ -47,16 +47,12 @@
   self.title=NSLocalizedString(@"报名参选", nil);
     self.MemberThePublicKeyTextLabel.text=NSLocalizedString(@"委员公钥", nil);
    self.MembersDIDTextLabel.text=NSLocalizedString(@"委员DID", nil);
-    self.CountryORRegionTextField.placeholder       =NSLocalizedString(@"请选择国家/地区", nil);
-    self.URLTextField.placeholder       = NSLocalizedString(@"请输入委员官网URL", nil);
-    self.MemberNameTextField.placeholder       = NSLocalizedString(@"请输入委员名称（必填）", nil);
-  
     // Do any additional setup after loading the view from its nib.
     [self.confirmToRunButton setTitle:NSLocalizedString(@"确认参选", nil) forState:UIControlStateNormal];
     
-    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.MemberNameTextField];
-    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.CountryORRegionTextField];
-    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.URLTextField];
+    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.MemberNameTextField withTxt:NSLocalizedString(@"请输入委员名称（必填）", nil)];
+    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.CountryORRegionTextField withTxt:NSLocalizedString(@"请选择国家/地区", nil)];
+    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.URLTextField withTxt:NSLocalizedString(@"请输入委员官网URL", nil)];
 
  
     

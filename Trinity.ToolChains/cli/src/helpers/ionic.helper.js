@@ -61,7 +61,7 @@ module.exports = class IonicHelper {
             console.log("Running ionic serve for hot reload...")
 
             const spawn = require("child_process").spawn;
-            const process = spawn('ionic',["serve","--no-open"]);
+            const process = spawn('ionic',["serve","--no-open","--address","0.0.0.0"]);
 
             process.stdout.on('data', function (data) { console.log(''+data)});
             process.stderr.on('data', function (data) { console.log(''+data)});

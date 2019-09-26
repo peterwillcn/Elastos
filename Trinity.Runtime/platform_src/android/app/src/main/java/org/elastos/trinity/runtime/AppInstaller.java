@@ -320,7 +320,7 @@ public class AppInstaller {
         AppInfo oldInfo = AppManager.getShareInstance().getAppInfo(info.app_id);
         if (oldInfo != null) {
             if (dev) {
-                unInstall(oldInfo);
+                AppManager.getShareInstance().unInstall(info.app_id);
             }
             else {
                 deleteAllFiles(from);

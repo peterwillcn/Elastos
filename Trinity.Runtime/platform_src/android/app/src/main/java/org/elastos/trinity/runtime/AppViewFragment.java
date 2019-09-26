@@ -42,7 +42,7 @@ import java.util.ArrayList;
 
      final String[] managerAccessList = {
              "org.elastos.trinity.dapp.installer",
-             "org.elastos.trinity.remote.launcher",
+            //  "org.elastos.trinity.remote.launcher",
      };
 
     View titlebar;

@@ -20,6 +20,8 @@
 #import "DrawBackVoteMoneyVC.h"
 #import "HWMCRRegisteredViewController.h"
 #import "HWMCRCCommitteeElectionListViewController.h"
+#import "HWMCRListModel.h"
+#import "ELWalletManager.h"
 
 @interface HMWCRCommitteeMemberListViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWsignUpForViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *tagVoteRuleLab;
@@ -50,6 +52,10 @@
 @property(strong,nonatomic)HMWvotingRulesView *votingRulesV;
 @property (weak, nonatomic) IBOutlet UIButton *JoinTheCandidateListButton;
 @property (weak, nonatomic) IBOutlet UIImageView *all_selectedImageView;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)FLWallet *wallet;
 
 @end
 
@@ -59,8 +65,7 @@
     [super viewDidLoad];
     self.title=NSLocalizedString(@"CRC委员选举", nil);
     [self setBackgroundImg:@""];
-self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
-    
+    self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
     [self.toVoteButton setTitle:NSLocalizedString(@"立即投票", nil) forState:UIControlStateNormal];
     UIButton *rightBarButton=[[UIButton alloc]init];
     [rightBarButton setTitle:NSLocalizedString(@"投票规则", nil) forState:UIControlStateNormal];
@@ -68,11 +73,8 @@ self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
     rightBarButton.titleLabel.font=[UIFont systemFontOfSize:13];
     UIBarButtonItem*rightItem =[[UIBarButtonItem alloc]initWithCustomView:rightBarButton];
     self.navigationItem.rightBarButtonItem= rightItem;
-    
-    
     UIView *mainView =[self mainWindow];
     [mainView addSubview:self.votingRulesV];
-    
     [self.votingRulesV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(mainView);
     }];
@@ -97,7 +99,49 @@ self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
         self.tagVoteRuleLab.hidden=YES;
         self.found_vote_rule.hidden=YES;
     }
+    [self getWalletType];
     self.all_selectedTextLabel.text=NSLocalizedString(@"全选", nil);
+}
+-(void)getWalletType{
+    
+    NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+    FMDBWalletModel *model =walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
+    
+   self.wallet =[[FLWallet alloc]init];
+    self.wallet.masterWalletID =model.walletID;
+    self.wallet.walletName     =model.walletName;
+    self.wallet.walletAddress  = model.walletAddress;
+    self.wallet.walletID       =[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
+    self.wallet.TypeW  = model.TypeW;
+     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID] callbackId: self.wallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
+    PluginResult * resultBase =[[ELWalletManager share]getMasterWalletBasicInfo:mommand];
+    NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
+    NSDictionary *baseDic=[[NSDictionary alloc]init];
+    if ([statusBase isEqualToString:@"1"] ) {
+        baseDic=[[FLTools share]dictionaryWithJsonString:resultBase.message[@"success"]];
+        NSString *Readonly=[NSString stringWithFormat:@"%@",baseDic[@"Readonly"]];
+        if ([Readonly isEqualToString:@"0"]) {
+            if ([baseDic[@"M"] integerValue]==1) {
+               self.wallet.TypeW=0;
+            }else{
+            self.votingRulesButton.hidden=YES;
+            self.tagVoteRuleLab.hidden=YES;
+            self.found_vote_rule.hidden=YES;
+             self.wallet.TypeW=2;
+            }
+        }else{
+            self.votingRulesButton.hidden=YES;
+            self.tagVoteRuleLab.hidden=YES;
+            self.found_vote_rule.hidden=YES;
+            if ([baseDic[@"M"] integerValue]==1) {
+          self.wallet.TypeW=1;
+            }else{
+         self.wallet.TypeW=3;
+            }
+        }
+
+      
+    }
 }
 - (IBAction)NodeRegisteredState:(id)sender {
     HWMCRRegisteredViewController *CRRegisteredVC=[[HWMCRRegisteredViewController alloc]init];
@@ -116,11 +160,7 @@ self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
                 return;
             }
              HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];
-//            vc.delegate=self;
-//            self.hasSing=NO;
-//            vc.model=nil;
             [self.navigationController pushViewController:vc animated:YES];
-            
         }
         
     }else if ([self.typeString isEqualToString:@"Canceled"]){
@@ -151,17 +191,34 @@ self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
     
     dispatch_group_t group =  dispatch_group_create();
     
-    for (int i=0; i<allListInfoArray.count; i++) {
-        FLCoinPointInfoModel *model =allListInfoArray[i];
-        
-        if (model.url.length>0) {
-            dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                model.iconImageUrl= [[FLTools share] getImageViewURLWithURL:model.url];
-                allListInfoArray[i]=model;
-            });
+     for (int i=0; i<allListInfoArray.count; i++) {
+         NSString *httpIP=[[FLTools share]http_IpFast];
+         HWMCRListModel *model =allListInfoArray[i];
+         
+         if (model.url.length>0) {
+             dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                 model.url= [[FLTools share] getImageViewURLWithURL:model.url];
+                 
+                 if (model.url.length>0) {
+                     [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/getimage" header:@{} body:@{@"imageurl":model.url} showHUD:NO WithSuccessBlock:^(id data) {
+                                                         NSString *param = data[@"data"];
+                                                         model.url=[NSString stringWithFormat:@"%@%@",httpIP,param];
+                                                        allListInfoArray[i]=model;
+                         
+                                                     } WithFailBlock:^(id data) {
+                                                         
+                                                     }];
+                 }
+             });
             
-        }
-    }
+         }
+     }
+     
+     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+          [self.votingListV setDataSource: allListInfoArray];
+     });
+    
+
     
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
         [self.votingListV setDataSource: allListInfoArray];
@@ -172,23 +229,20 @@ self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
     
     dispatch_queue_t queue = dispatch_queue_create(0, DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(queue, ^{
-        
         [self UpdataLocalOwerlist];
     });
     
     
 }
 -(void)getNetCoinPointArray{
+  
     NSString *httpIP=[[FLTools share]http_IpFast];
-    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1"} showHUD:NO WithSuccessBlock:^(id data) {
+    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listcrcandidates" header:@{} body:@{@"state":@"all"} showHUD:NO WithSuccessBlock:^(id data) {
         NSDictionary *param = data[@"data"];
-        NSArray *dataArray =[NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];
-        
+        NSArray *dataArray =[NSArray modelArrayWithClass:HWMCRListModel.class json:param[@"result"][@"crcandidatesinfo"]];
         self.dataSource= [NSMutableArray arrayWithArray:dataArray];
-        
         self.votingListV.dataSource = self.dataSource;
-        self.votingListV.lab1.text = [NSString stringWithFormat:@"%.2f %@" ,[param[@"result"][@"totalvoterate"] floatValue]*100,@"%"];
-        self.votingListV.lab3.text =[NSString stringWithFormat:@"%ld", (long)[param[@"result"][@"totalvotes"] integerValue]];
+
         
         
         [self loadAllImageInfo:[NSMutableArray arrayWithArray:dataArray]];
@@ -200,13 +254,9 @@ self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
 
 
 -(void)UpdataLocalOwerlist{
-    NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
-    FMDBWalletModel *FMDBmodel =walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
-    NSArray *localStore  = [[NSMutableArray alloc]initWithArray: [[FLNotePointDBManager defultWithWalletID:FMDBmodel.walletID]allRecord]];
-    
+    NSArray *localStore  = [[NSMutableArray alloc]initWithArray: [[FLNotePointDBManager defultWithWalletID:self.wallet.walletID] allRecord]];
     for (int i= 0; i<localStore.count; i++) {
         FLCoinPointInfoModel *model = localStore[i];
-        
         FLCoinPointInfoModel *curentmodel = nil ;
         BOOL ret = NO;
         for (FLCoinPointInfoModel*dataModel in self.dataSource) {
@@ -215,13 +265,11 @@ self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
                 curentmodel = model;
             }
         }
-        NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
-        FMDBWalletModel *FMDBmodel =walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
         if (curentmodel){
-            [[FLNotePointDBManager defultWithWalletID:FMDBmodel.walletID]updateRecord:model];
+            [[FLNotePointDBManager defultWithWalletID:self.wallet.walletID]updateRecord:model];
             continue;
         }else{
-            [[FLNotePointDBManager defultWithWalletID:FMDBmodel.walletID]delectRecord:model];
+            [[FLNotePointDBManager defultWithWalletID:self.wallet.walletID]delectRecord:model];
         }
     }
 }

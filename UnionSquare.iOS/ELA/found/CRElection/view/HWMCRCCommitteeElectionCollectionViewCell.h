@@ -6,12 +6,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FLCoinPointInfoModel.h"
+#import "HWMCRListModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMCRCCommitteeElectionCollectionViewCell : UICollectionViewCell
-@property(nonatomic,strong)FLCoinPointInfoModel *model;
+@property(nonatomic,strong)HWMCRListModel *model;
 @property (weak, nonatomic) IBOutlet UIImageView *SelectedImageView;
+
 
 /*
  *<# #>

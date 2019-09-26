@@ -189,11 +189,22 @@ self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
    
     for (int i=0; i<allListInfoArray.count; i++) {
         FLCoinPointInfoModel *model =allListInfoArray[i];
-        
+        NSString *httpIP=[[FLTools share]http_IpFast];
         if (model.url.length>0) {
             dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 model.iconImageUrl= [[FLTools share] getImageViewURLWithURL:model.url];
-                allListInfoArray[i]=model;
+                if (model.iconImageUrl.length>0) {
+                    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/getimage" header:@{} body:@{@"imageurl":model.iconImageUrl} showHUD:NO WithSuccessBlock:^(id data) {
+                                                        NSString *param = data[@"data"];
+                                                       model.iconImageUrl=[NSString stringWithFormat:@"%@%@",httpIP,param];
+                                                       allListInfoArray[i]=model;
+                        
+                                                    } WithFailBlock:^(id data) {
+                                                        
+                                                    }];
+                }
+                
+                
             });
            
         }

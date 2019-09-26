@@ -119,8 +119,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "63"
             endingLineNumber = "63"
-            landmarkName = "HMWExportTheMnemonicWordViewController"
-            landmarkType = "3">
+            landmarkName = "-confirmTheExportEvent:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

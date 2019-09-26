@@ -7,10 +7,12 @@
 
 #import <UIKit/UIKit.h>
 #import "FLCoinPointInfoModel.h"
+#import "HWMCRListModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HMWVotingListTypeCrossCollectionViewCell : UICollectionViewCell
 @property(nonatomic,strong)FLCoinPointInfoModel *model;
+@property(nonatomic,strong)FLCoinPointInfoModel *CRModel;
 @end
 
 NS_ASSUME_NONNULL_END

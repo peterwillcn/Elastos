@@ -9,10 +9,12 @@
 #import "friendsModel.h"
 #import "FMDBWalletModel.h"
 #import "sideChainInfoModel.h"
+#import "HWMCRListModel.h"
 typedef NS_ENUM(NSInteger, FMDatabaseType) {
     friendsModelType = 0,
     walletType=1,
     sideChain=2,
+    CRListType
 };
 
 NS_ASSUME_NONNULL_BEGIN
@@ -51,6 +53,22 @@ NS_ASSUME_NONNULL_BEGIN
 -(sideChainInfoModel*)selectAddsideChainWithWalletID:(NSString*)walletID andWithIconName:(NSString*)iconName;
 -(BOOL)delectSideChain:(NSString*)ID withIconName:(NSString*)iconName;
 -(BOOL)sideChainUpdate:(sideChainInfoModel *)model;
+
+
+
+
+
+//增加
+-(BOOL)addCR:(HWMCRListModel*)CRModel withWallID:(NSString*)walletID;
+//查
+-(NSArray*)allSelectCR;
+-(HWMCRListModel*)selectCRWithWalletID:(NSString*)walletID andWithDID:(NSString*)DID;
+//改
+-(BOOL)updateSelectCR:(HWMCRListModel *)crModel;
+//删
+-(BOOL)delectSelectCR:(HWMCRListModel *)crModel;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

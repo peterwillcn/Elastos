@@ -341,6 +341,7 @@
 		4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4250B3F82238D3E900B6858F /* libiconv.tbd */; };
 		425CE7FC230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 425CE7FB230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m */; };
 		425CE7FE230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425CE7FD230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib */; };
+		425E0D68233B5B5E00D4C481 /* HWMCRListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 425E0D67233B5B5E00D4C481 /* HWMCRListModel.m */; };
 		4261C2FC22C21563008C1532 /* showOwnerAddressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261C2FA22C21563008C1532 /* showOwnerAddressTableViewCell.m */; };
 		4261C2FD22C21563008C1532 /* showOwnerAddressTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4261C2FB22C21563008C1532 /* showOwnerAddressTableViewCell.xib */; };
 		4261CF3822A15D21006B1DDE /* NSDictionary+NilSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261CF3222A15D20006B1DDE /* NSDictionary+NilSafe.m */; };
@@ -1046,6 +1047,8 @@
 		425CE7FA230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTheValidationWordMnemonicPassword.h; sourceTree = "<group>"; };
 		425CE7FB230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTheValidationWordMnemonicPassword.m; sourceTree = "<group>"; };
 		425CE7FD230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTheValidationWordMnemonicPassword.xib; sourceTree = "<group>"; };
+		425E0D66233B5B5E00D4C481 /* HWMCRListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCRListModel.h; sourceTree = "<group>"; };
+		425E0D67233B5B5E00D4C481 /* HWMCRListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMCRListModel.m; sourceTree = "<group>"; };
 		4261C2F922C21563008C1532 /* showOwnerAddressTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = showOwnerAddressTableViewCell.h; sourceTree = "<group>"; };
 		4261C2FA22C21563008C1532 /* showOwnerAddressTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = showOwnerAddressTableViewCell.m; sourceTree = "<group>"; };
 		4261C2FB22C21563008C1532 /* showOwnerAddressTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = showOwnerAddressTableViewCell.xib; sourceTree = "<group>"; };
@@ -2864,6 +2867,8 @@
 		42A7678E2314FBE1005FC764 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				425E0D66233B5B5E00D4C481 /* HWMCRListModel.h */,
+				425E0D67233B5B5E00D4C481 /* HWMCRListModel.m */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -3479,6 +3484,7 @@
 				424910ED2271BFCF00C41E50 /* SDWebImageCompat.m in Sources */,
 				422D609621FC405000DD07FF /* FLJoinVoteInfoModel.m in Sources */,
 				4202C9FB21F6EF2A009E5932 /* MASCompositeConstraint.m in Sources */,
+				425E0D68233B5B5E00D4C481 /* HWMCRListModel.m in Sources */,
 				424910EC2271BFCF00C41E50 /* UIImage+MultiFormat.m in Sources */,
 				4287D7802307D0C000B91C82 /* UILabel+HMWinternationalization.m in Sources */,
 				4288D0B8230E946A00E8CC7A /* HW3DBannerView.m in Sources */,

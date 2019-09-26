@@ -112,7 +112,12 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
     
     HMWVotingListTypeCrossCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:crossCellString forIndexPath:indexPath];
     cell.backgroundColor=RGB(51, 51, 51);
-    cell.model = self.dataSource[indexPath.row];
+    if (self.type==CRType) {
+        cell.CRModel = self.dataSource[indexPath.row];
+    }else{
+      cell.model = self.dataSource[indexPath.row];
+    }
+   
     return cell;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{

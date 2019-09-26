@@ -49,7 +49,7 @@ NSInteger timeOut = 20;
     AFHTTPSessionManager *manage = [self getManage];
     
     NSDictionary *dataDic = [self addOtherKey:param];
-//    DLog(@"---url---%@%@---%@",host,httpUrl, dataDic);
+    DLog(@"---url---%@%@---%@",host,httpUrl, dataDic);
     NSString *stringUrl = [NSString stringWithFormat:@"%@%@",host, httpUrl];
 
     [manage POST:stringUrl parameters:param headers:header progress:^(NSProgress * _Nonnull uploadProgress) {

@@ -1,15 +1,3 @@
-diff -ruNb origin_plugins/cordova-plugin-camera/package.json plugins/cordova-plugin-camera/package.json
---- origin_plugins/cordova-plugin-camera/package.json	null
-+++ plugins/cordova-plugin-camera/package.json	null
-@@ -22,7 +22,7 @@
-   "_resolved": "https://registry.npmjs.org/cordova-plugin-camera/-/cordova-plugin-camera-4.1.0.tgz",
-   "_shasum": "6474a3e080c4662aa00fd7425705d301c693ddc0",
-   "_spec": "cordova-plugin-camera@^4.1.0",
--  "_where": "/Users/raozhiming/workspace/elastos/Trinity/Elastos.Trinity/Runtime",
-+  "_where": "/Users/raozhiming/workspace/elastos/Trinity/justtest/Elastos.Trinity/Runtime",
-   "author": {
-     "name": "Apache Software Foundation"
-   },
 diff -ruNb origin_plugins/cordova-plugin-camera/www/Camera.js plugins/cordova-plugin-camera/www/Camera.js
 --- origin_plugins/cordova-plugin-camera/www/Camera.js	null
 +++ plugins/cordova-plugin-camera/www/Camera.js	null

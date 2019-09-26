@@ -84,6 +84,20 @@ git submodule update --init --recursive
 
 And then use git add, commit and push to submit your changes to current project.
 
+To update the whole Trinity (main repo + submodules), run this:
+
+```shell
+git pull --rebase
+git submodule update --rebase --remote
+```
+
+At that time, submodules will be in **detached HEAD** state. To commit changes, run this from the submodule folder before make changes:
+
+```shell
+git checkout master
+git add/commit/push
+```
+
 ## How to build
 
 ### Requirements

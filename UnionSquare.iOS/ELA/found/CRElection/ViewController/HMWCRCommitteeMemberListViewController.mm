@@ -86,13 +86,13 @@
     }];
     [self getNetCoinPointArray];
     if ([self.typeString isEqualToString:@"Registered"]){
-        self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+    self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
         self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
     }else if([self.typeString isEqualToString:@"Canceled"]){
-        self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+    self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
         self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
     }else if([self.typeString isEqualToString:@"Unregistered"]){
-        self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
+    self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
         self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
     }else if ([self.typeString isEqualToString:@"ReturnDeposit"]){
         self.votingRulesButton.hidden=YES;
@@ -100,20 +100,18 @@
         self.found_vote_rule.hidden=YES;
     }
     [self getWalletType];
-    self.all_selectedTextLabel.text=NSLocalizedString(@"全选", nil);
+self.all_selectedTextLabel.text=NSLocalizedString(@"全选", nil);
 }
 -(void)getWalletType{
-    
     NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
     FMDBWalletModel *model =walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
-    
-   self.wallet =[[FLWallet alloc]init];
+    self.wallet =[[FLWallet alloc]init];
     self.wallet.masterWalletID =model.walletID;
     self.wallet.walletName     =model.walletName;
     self.wallet.walletAddress  = model.walletAddress;
     self.wallet.walletID       =[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
     self.wallet.TypeW  = model.TypeW;
-     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID] callbackId: self.wallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID] callbackId: self.wallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
     PluginResult * resultBase =[[ELWalletManager share]getMasterWalletBasicInfo:mommand];
     NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
     NSDictionary *baseDic=[[NSDictionary alloc]init];
@@ -194,7 +192,6 @@
      for (int i=0; i<allListInfoArray.count; i++) {
          NSString *httpIP=[[FLTools share]http_IpFast];
          HWMCRListModel *model =allListInfoArray[i];
-         
          if (model.url.length>0) {
              dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                  model.url= [[FLTools share] getImageViewURLWithURL:model.url];
@@ -213,65 +210,53 @@
             
          }
      }
-     
      dispatch_group_notify(group, dispatch_get_main_queue(), ^{
           [self.votingListV setDataSource: allListInfoArray];
      });
-    
-
-    
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
         [self.votingListV setDataSource: allListInfoArray];
     });
-    
-    
-    
-    
     dispatch_queue_t queue = dispatch_queue_create(0, DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(queue, ^{
-        [self UpdataLocalOwerlist];
-    });
-    
-    
+//    dispatch_async(queue, ^{
+//
+//    });
 }
 -(void)getNetCoinPointArray{
-  
     NSString *httpIP=[[FLTools share]http_IpFast];
     [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listcrcandidates" header:@{} body:@{@"state":@"all"} showHUD:NO WithSuccessBlock:^(id data) {
         NSDictionary *param = data[@"data"];
         NSArray *dataArray =[NSArray modelArrayWithClass:HWMCRListModel.class json:param[@"result"][@"crcandidatesinfo"]];
         self.dataSource= [NSMutableArray arrayWithArray:dataArray];
-        self.votingListV.dataSource = self.dataSource;
-
-        
-        
+//        self.votingListV.dataSource = self.dataSource;
         [self loadAllImageInfo:[NSMutableArray arrayWithArray:dataArray]];
-        
+            [self UpdataLocalOwerlist];
     } WithFailBlock:^(id data) {
-        
     }];
 }
-
-
 -(void)UpdataLocalOwerlist{
-    NSArray *localStore  = [[NSMutableArray alloc]initWithArray: [[FLNotePointDBManager defultWithWalletID:self.wallet.walletID] allRecord]];
+    NSArray *localStore  = [[NSMutableArray alloc]initWithArray: [[HMWFMDBManager sharedManagerType:CRListType] allSelectCRWithWallID:self.wallet.masterWalletID]];
     for (int i= 0; i<localStore.count; i++) {
-        FLCoinPointInfoModel *model = localStore[i];
-        FLCoinPointInfoModel *curentmodel = nil ;
+        HWMCRListModel *model = localStore[i];
+       HWMCRListModel *curentmodel = nil ;
         BOOL ret = NO;
-        for (FLCoinPointInfoModel*dataModel in self.dataSource) {
-            ret =  [dataModel.ownerpublickey isEqualToString:model.ownerpublickey];
+        for (int j=0; j<self.dataSource.count; j++) {
+            HWMCRListModel* dataModel=self.dataSource[j];
+            ret =  [dataModel.did isEqualToString:model.did];
             if (ret) {
                 curentmodel = model;
+                dataModel.isCellSelected=YES;
+                model.isCellSelected=YES;
+                self.dataSource[j]=dataModel;
             }
         }
         if (curentmodel){
-            [[FLNotePointDBManager defultWithWalletID:self.wallet.walletID]updateRecord:model];
+            [[HMWFMDBManager sharedManagerType:CRListType]updateSelectCR:model WithWalletID:self.wallet.walletID];
             continue;
         }else{
-            [[FLNotePointDBManager defultWithWalletID:self.wallet.walletID]delectRecord:model];
+            [[HMWFMDBManager sharedManagerType:CRListType]delectSelectCR:model WithWalletID:self.wallet.walletID];
         }
     }
+    self.votingListV.dataSource=self.dataSource;
 }
 -(HMWvotingRulesView *)votingRulesV{
     if (!_votingRulesV) {
@@ -298,7 +283,6 @@
 - (IBAction)votingRulesEvent:(id)sender {
     NSURL *url=[NSURL URLWithString:NSLocalizedString(@"rules", nil)];
     if ([[UIDevice currentDevice].systemVersion floatValue]>=10.0) {
-        
         [[UIApplication sharedApplication]openURL:url options:@{} completionHandler:^(BOOL success) {
         }];
     }else{
@@ -319,7 +303,7 @@
 - (void)selectedVotingListWithIndex:(NSInteger)index {
     HMWnodeInformationViewController *nodeInformationVC=[[HMWnodeInformationViewController alloc]init];
         nodeInformationVC.type=CRInformationType;
-    nodeInformationVC.model = self.dataSource[index];
+    nodeInformationVC.CRmodel = self.dataSource[index];
     nodeInformationVC.Ranking=index+1;
     [self.navigationController pushViewController:nodeInformationVC animated:YES];
 }
@@ -331,8 +315,6 @@
         self.EditSelectionView.alpha=0.f;
         self.JoinTheCandidateListButton.alpha=0.f;
     }
-    
-    
 }
 #pragma mark -------------------
 - (void)hasSignUp{
@@ -350,5 +332,22 @@
        [self.votingListV selectAllListWithIsSelect:self.all_selectedButton.selected];
 }
 - (IBAction)JoinTheCandidateListEvent:(id)sender {
+    if (self.all_selectedButton.selected){
+        BOOL isAdd;
+        for (int i=0; i<self.votingListV.dataSource.count; i++) {
+            HWMCRListModel *model=self.votingListV.dataSource[i];
+            if (model.isNewCellSelected) {
+                
+                isAdd= [[HMWFMDBManager sharedManagerType:CRListType]
+                 addCR:model withWallID:self.wallet.masterWalletID];
+                model.isCellSelected=YES;
+                self.votingListV.dataSource[i]=model;
+            }
+        }
+        if (isAdd) {
+            [self.votingListV AddAllTheCRList];
+        }
+    }
+    
 }
 @end

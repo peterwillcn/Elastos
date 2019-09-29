@@ -12,7 +12,7 @@
 #import "HMWVotingListTypeCrossCollectionViewCell.h"
 #import "HWMCRCCommitteeElectionCollectionViewCell.h"
 #import "HWMCRVotingListCollectionViewCell.h"
-
+#import "HWMCRListModel.h"
 
 static NSString *cellString=@"HMWVotingListCollectionViewCell";
 
@@ -72,8 +72,8 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
 }
 -(void)setDataSource:(NSMutableArray *)dataSource{
     _dataSource =[[NSMutableArray alloc]initWithArray:dataSource];
-    self.numberNodesLabel.text=[NSString stringWithFormat:@"%lu",dataSource.count];
-    [self.baseCollectionView reloadData];
+    self.numberNodesLabel.text=[NSString stringWithFormat:@"%lu",(unsigned long)dataSource.count];
+        [self.baseCollectionView reloadData];
 }
 #pragma mark -- UICollectionViewDataSource
 //定义展示的UICollectionViewCell的个数
@@ -136,7 +136,6 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
 //定义每个UICollectionView 的 margin
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-
     if ([self.listType isEqualToString:@"1"]) {
         if (self.type==CRType) {
              return UIEdgeInsetsMake(5, 8, 5, 5);
@@ -156,7 +155,6 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
         return CGSizeMake((AppWidth-22)/3 ,135/120*AppWidth/3);
     }
     return CGSizeMake(AppWidth-13,60);
-    
 }
 #pragma mark --UICollectionViewDelegate
 //UICollectionView被选中时调用的方法
@@ -165,9 +163,11 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
         if (self.type==CRType) {
             if (self.isEdiet){
                     FLCoinPointInfoModel *model=self.dataSource[indexPath.row];
-                model.isCellSelected=!model.isCellSelected;
+                if (model.isCellSelected==NO) {
+                model.isNewCellSelected=!model.isNewCellSelected;
                     self.dataSource[indexPath.row]=model;
                     [collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
+                }
                  return;
             }
         }
@@ -182,10 +182,12 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
 //{
 //    return YES;
 //}
+-(void)AddAllTheCRList{
+    
+    [self modifyTheListMode:nil];
+}
 - (IBAction)modifyTheListMode:(id)sender {
-
     if (self.type==CRType) {
-        
         if ([self.listType isEqualToString:@"1"]) {
             if (self.isEdiet){
                 self.AddModelButton.alpha=1.f;
@@ -194,14 +196,10 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
                 if (self.delegate) {
                     [self.delegate VotingListisEdite:self.isEdiet];
                 }
-                
             }else{
                 self.listType=@"2";
                   [self.modifyTheListModeButton setImage:[UIImage imageNamed:@"vote_switch_squeral"] forState:UIControlStateNormal];
             }
-            
-          
-            
         }else{
             if (self.isEdiet){
                 self.AddModelButton.alpha=1.f;
@@ -210,34 +208,23 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
                 if (self.delegate) {
                     [self.delegate VotingListisEdite:self.isEdiet];
                 }
-                
             }else{
                 [self.modifyTheListModeButton setImage:[UIImage imageNamed:@"vote_switch_list"] forState:UIControlStateNormal];
                 self.listType=@"1";
             }
-            
-         
         }
     }else{
-        
         if ([self.listType isEqualToString:@"1"]) {
                 self.listType=@"2";
             [self.modifyTheListModeButton setImage:[UIImage imageNamed:@"vote_switch_squeral"] forState:UIControlStateNormal];
-            
         }else{
             [self.modifyTheListModeButton setImage:[UIImage imageNamed:@"vote_switch_list"] forState:UIControlStateNormal];
             self.listType=@"1";
         }
-        
     }
-    
-
-    
-
     [self.baseCollectionView reloadData];
 }
 -(void)setType:(VotingListType)type{
-   
     if (type==CRType) {
         self.numberNodesBGView.alpha=0.f; self.runningNodeListTextLabel.text=NSLocalizedString(@"参选委员列表", nil);
         self.textTopOffset.constant=18.f;
@@ -254,10 +241,28 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
     if (self.delegate) {
         [self.delegate VotingListisEdite:self.isEdiet];
     }
-    
     [self.baseCollectionView reloadData];
 }
 -(void)selectAllListWithIsSelect:(BOOL)isSelectAll{
+    if (self.type==CRType) {
+        if (isSelectAll){
+            for (int i=0; i<self.dataSource.count; i++) {
+                 FLCoinPointInfoModel *model=self.dataSource[i];
+                if (model.isCellSelected==NO) {
+                    model.isNewCellSelected=YES;
+                    self.dataSource[i]=model;
+                }
+            }
+        }else{
+            for (int i=0; i<self.dataSource.count; i++) {
+                FLCoinPointInfoModel *model=self.dataSource[i];
+                if (model.isCellSelected==NO) {
+                    model.isNewCellSelected=NO;
+                    self.dataSource[i]=model;
+                }
+            }
+        }
+    }else if (self.type==NodeElectioType){
     if (isSelectAll) {
         for (int i=0; i<self.dataSource.count; i++) {
              FLCoinPointInfoModel *model=self.dataSource[i];
@@ -271,7 +276,7 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
             self.dataSource[i]=model;
         }
     }
+    }
     [self.baseCollectionView reloadData];
-    
 }
 @end

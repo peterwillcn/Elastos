@@ -6,12 +6,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FLCoinPointInfoModel.h"
+#import "HWMCRListModel.h"
 
 
 @interface HWMVoteTheEditorialBoardTableViewCell : UITableViewCell
 /*
  *<# #>
  */
-@property(strong,nonatomic)FLCoinPointInfoModel *model;
+@property(strong,nonatomic)HWMCRListModel *model;
+
+@property (weak, nonatomic) IBOutlet UITextField *numberVotingTextField;
+
+
 @end

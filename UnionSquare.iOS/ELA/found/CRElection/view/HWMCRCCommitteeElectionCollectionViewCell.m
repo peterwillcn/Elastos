@@ -44,10 +44,14 @@
     if (self.isEdiet) {
         self.VotesAndPercentagesLabel.alpha=0.f;
         self.SelectedImageView.alpha=1.f;
-        if (model.isCellSelected) {
+        if (model.isCellSelected==NO) {
+        if (model.isNewCellSelected) {
             self.SelectedImageView.image=[UIImage imageNamed:@"found_vote_select"];
-        }else{
+            }else{
           self.SelectedImageView.image=[UIImage imageNamed:@"found_not_select"];
+          }
+        }else{
+           self.SelectedImageView.image=[UIImage imageNamed:@"selected_already"];
         }
     }else{
         self.VotesAndPercentagesLabel.alpha=1.f;

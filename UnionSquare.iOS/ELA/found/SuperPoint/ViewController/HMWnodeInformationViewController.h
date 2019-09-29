@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "FLCoinPointInfoModel.h"
+#import "HWMCRListModel.h"
 
 
 typedef enum : NSUInteger {
@@ -17,6 +18,7 @@ typedef enum : NSUInteger {
 
 @interface HMWnodeInformationViewController : UIViewController
 @property(nonatomic,strong)FLCoinPointInfoModel *model;
+@property(nonatomic,strong)HWMCRListModel *CRmodel;
 /*
  *<# #>
  */

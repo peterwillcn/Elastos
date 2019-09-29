@@ -26,11 +26,15 @@
     [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:model.url] placeholderImage:[UIImage imageNamed:@"found_vote_initial_r"]];
     self.nickNameLabel.text = model.nickname;
         self.NOIndexLabel.text=[NSString stringWithFormat:@"%ld",(long)[model.index integerValue]+1];
-        if (model.isCellSelected) {
-    self.selecIconImageView.image=[UIImage imageNamed:@"found_vote_select"];
-        }else{
-        self.selecIconImageView.image=[UIImage imageNamed:@"found_not_select"];
-        }
+        if (model.isCellSelected==NO) {
+            if (model.isNewCellSelected) {
+                self.selecIconImageView.image=[UIImage imageNamed:@"found_vote_select"];
+                }else{
+               self.selecIconImageView.image=[UIImage imageNamed:@"found_not_select"];
+              }
+            }else{
+               self.selecIconImageView.image=[UIImage imageNamed:@"selected_already"];
+            }
 
     _model = model;
     

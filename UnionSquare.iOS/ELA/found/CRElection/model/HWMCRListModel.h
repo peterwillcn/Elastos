@@ -46,6 +46,12 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(copy,nonatomic)NSString *url;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *iconImageUrl;
+
+@property(nonatomic,copy)NSString *ownerpublickey;
 @property(nonatomic,assign)BOOL isCellSelected;
 @property(nonatomic,assign)BOOL isNewCellSelected;
 @end

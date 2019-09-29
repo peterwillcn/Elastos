@@ -13,27 +13,6 @@
 #import "HMWFMDBManager.h"
 #import "nodeInformationDetailsView.h"
 @interface HMWnodeInformationViewController ()
-//@property (weak, nonatomic) IBOutlet UIView *infoBGView;
-//
-//@property (weak, nonatomic) IBOutlet UILabel *nickNameLab;
-//@property (weak, nonatomic) IBOutlet UILabel *nodePubKeyLab;
-//@property (weak, nonatomic) IBOutlet UILabel *ticketNumbLab;
-//@property (weak, nonatomic) IBOutlet UILabel *ticketRateLab;
-//@property (weak, nonatomic) IBOutlet UILabel *contryCodeLab;
-//@property (weak, nonatomic) IBOutlet UILabel *urlLab;
-//
-//@property (weak, nonatomic) IBOutlet UILabel *tagNickNameLab;
-//@property (weak, nonatomic) IBOutlet UILabel *tagNodePubKeyLab;
-//@property (weak, nonatomic) IBOutlet UILabel *tagTicketNumbLab;
-//@property (weak, nonatomic) IBOutlet UILabel *tagTicketRateLab;
-//@property (weak, nonatomic) IBOutlet UILabel *tagContryCodeLab;
-//@property (weak, nonatomic) IBOutlet UILabel *tagUrlLab;
-//
-//
-//@property (weak, nonatomic)IBOutlet UIImageView *iconImageView;
-//@property (weak, nonatomic) IBOutlet UIButton *joinTheCandidateListButton;
-//@property (weak, nonatomic) IBOutlet UIButton *lookAtTheCandidateListButton;
-
 @property(nonatomic,assign)BOOL hasModel;
 /*
  *
@@ -132,16 +111,14 @@
 -(UIButton *)joinTheCandidateListButton{
     if (!_joinTheCandidateListButton) {
         _joinTheCandidateListButton =[[UIButton alloc]init];
-       
-//        [_joinTheCandidateListButton setImage:[UIImage imageNamed:@"found_vote_add"] forState:UIControlStateNormal];
         _joinTheCandidateListButton.titleLabel.font =[UIFont systemFontOfSize:14];
          [[HMWCommView share]makeBordersWithView:_joinTheCandidateListButton];
         [_joinTheCandidateListButton addTarget:self action:@selector(joinTheCandidateListEvent:) forControlEvents:UIControlEventTouchUpInside];
         [_joinTheCandidateListButton setBackgroundColor:RGBA(61, 92, 102, 0.5)];
         NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
-  
-        
-             FMDBWalletModel *model=walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
+      FMDBWalletModel *model=walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
+        if (self.type ==nodeInformationType) {
+
            BOOL ret = [[FLNotePointDBManager defultWithWalletID:model.walletID]hasModel:self.model];
             self.hasModel = ret;
             if (ret) {
@@ -149,12 +126,30 @@
             }else{
                  [_joinTheCandidateListButton setTitle:NSLocalizedString(@"加入候选列表", nil)  forState:UIControlStateNormal];
             }
-        
+
             if (self.model.active==0) {
                 self.joinTheCandidateListButton.enabled = NO;
             }else{
                 self.joinTheCandidateListButton.enabled = YES;
             }
+
+    }else if (self.type==CRInformationType){
+        BOOL ret =[[HMWFMDBManager sharedManagerType:CRListType]selectCRWithWalletID:model.walletID andWithDID:self.CRmodel.did];
+                  self.hasModel = ret;
+                  if (ret) {
+                      [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
+                  }else{
+                       [_joinTheCandidateListButton setTitle:NSLocalizedString(@"加入候选列表", nil)  forState:UIControlStateNormal];
+                  }
+
+//                  if (self.model.active==0) {
+//                      self.joinTheCandidateListButton.enabled = NO;
+//                  }else{
+//                      self.joinTheCandidateListButton.enabled = YES;
+//                  }
+
+
+    }
         
     }
     return _joinTheCandidateListButton;
@@ -230,6 +225,31 @@
     dispatch_group_t group =  dispatch_group_create();
  __block NSString *URL;
     __block NSString *countries;
+    if (self.type==CRInformationType) {
+        if (self.CRmodel.url.length>0) {
+               URL=self.CRmodel.url;
+           }
+           if (self.CRmodel.url.length>0&&self.CRmodel.iconImageUrl.length==0) {
+           dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+               URL=[[FLTools share] getImageViewURLWithURL:self.model.url];
+           });
+               
+           }
+          
+           
+           dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+             countries=[[FLTools share]contryNameTransLateByCode:  self.CRmodel.location.integerValue];
+           });
+           
+           dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+               self.nodeInformationDetailsV.countryRegionLabel.text=countries;
+               if (URL.length>0&&self.model.url.length>0) {
+                  [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:URL] placeholderImage:[UIImage imageNamed:@"found_vote_initial_oval"]];
+               }
+               
+           });
+        
+    }else if (self.type==nodeInformationType){
     if (self.model.iconImageUrl.length>0) {
         URL=self.model.iconImageUrl;
     }
@@ -252,6 +272,8 @@
         }
         
     });
+        
+    }
     [self upInfo];
 }
 -(nodeInformationDetailsView *)nodeInformationDetailsV{
@@ -269,26 +291,58 @@
     return _nodeInformationDetailsV;
 }
 -(void)upInfo{
-    NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
-   FMDBWalletModel *model=walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
-        BOOL ret = [[FLNotePointDBManager defultWithWalletID:model.walletID]hasModel:self.model];
-        self.hasModel = ret;
-
-        [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"加入候选列表", nil)  forState:UIControlStateNormal];
-          [self.lookAtTheCandidateListButton setTitle:NSLocalizedString(@"查看候选列表", nil)  forState:UIControlStateNormal];
-        if (ret) {
-            [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
-        }
-        if (self.model.active==0) {
-            self.joinTheCandidateListButton.enabled = NO;
-        }else{
-            self.joinTheCandidateListButton.enabled = YES;
-        }
-
+     NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+        FMDBWalletModel *model=walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
+    
+    
+    
+          if (self.type ==nodeInformationType) {
+           
+             BOOL ret = [[FLNotePointDBManager defultWithWalletID:model.walletID]hasModel:self.model];
+              self.hasModel = ret;
+              if (ret) {
+                  [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
+              }else{
+                   [_joinTheCandidateListButton setTitle:NSLocalizedString(@"加入候选列表", nil)  forState:UIControlStateNormal];
+              }
+          
+              if (self.model.active==0) {
+                  self.joinTheCandidateListButton.enabled = NO;
+              }else{
+                  self.joinTheCandidateListButton.enabled = YES;
+              }
+          
+      }else if (self.type==CRInformationType){
+          BOOL ret =[[HMWFMDBManager sharedManagerType:CRListType]selectCRWithWalletID:model.walletID andWithDID:self.CRmodel.did];
+                    self.hasModel = ret;
+                    if (ret) {
+                        [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
+                    }else{
+                         [_joinTheCandidateListButton setTitle:NSLocalizedString(@"加入候选列表", nil)  forState:UIControlStateNormal];
+                    }
+          if ([self.CRmodel.state isEqualToString:@""]) {
+              
+          }else{
+              
+              
+          }
+//                    if (self.model.active==0) {
+//                        self.joinTheCandidateListButton.enabled = NO;
+//                    }else{
+//                        self.joinTheCandidateListButton.enabled = YES;
+//                    }
+          
+          
+      }
 
 }
 - (IBAction)copyURLEvent:(id)sender {
-    [UIPasteboard generalPasteboard].string = self.model.url;
+    if (self.type==nodeInformationType) {
+         [UIPasteboard generalPasteboard].string = self.model.url;
+    }else if (self.type==CRInformationType){
+         [UIPasteboard generalPasteboard].string = self.CRmodel.url;
+    }
+   
 }
 - (IBAction)lookAtTheCandidateListEvent:(id)sender {
   
@@ -298,8 +352,34 @@
 }
 - (IBAction)joinTheCandidateListEvent:(id)sender {
     
+    
     NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
     FMDBWalletModel *model =walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
+    if (self.type==CRInformationType) {
+        if (self.hasModel) {
+            BOOL ret =[[HMWFMDBManager sharedManagerType:CRListType]delectSelectCR:self.CRmodel WithWalletID:model.walletID];
+            if (ret) {
+                [[FLTools share]showErrorInfo:NSLocalizedString(@"删除成功",nil)];
+
+                [self.navigationController popViewControllerAnimated:YES];
+            }else{
+                [[FLTools share]showErrorInfo:NSLocalizedString(@"删除失败", nil)];
+            }
+        }else{
+           
+            
+            BOOL ret =  [[HMWFMDBManager sharedManagerType:CRListType]addCR:self.CRmodel withWallID:model.walletID];
+        if (ret) {
+            [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
+            self.hasModel = YES;
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"添加成功",nil)];
+
+        }else{
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"添加失败", nil)];
+        }
+        }
+        
+    }else if (self.type==nodeInformationType){
     if (self.hasModel) {
         BOOL ret =  [[FLNotePointDBManager defultWithWalletID:model.walletID]delectRecord:self.model];
         if (ret) {
@@ -322,6 +402,8 @@
         [[FLTools share]showErrorInfo:NSLocalizedString(@"添加失败", nil)];
     }
     }
+        
+    }
 }
 -(void)setModel:(FLCoinPointInfoModel *)model
 {
@@ -343,6 +425,10 @@
 -(void)setType:(InformationType)type{
     _type=type;
     
+    
+}
+-(void)setCRmodel:(HWMCRListModel *)CRmodel{
+    _CRmodel=CRmodel;
     
 }
 @end

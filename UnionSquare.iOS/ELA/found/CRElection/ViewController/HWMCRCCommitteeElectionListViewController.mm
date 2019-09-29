@@ -14,6 +14,7 @@
 #import "HMWSendSuccessPopuView.h"
 #import "HMWToDeleteTheWalletPopView.h"
 #import "HMWFMDBManager.h"
+#import "HWMCRListModel.h"
 static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
 @interface HWMCRCCommitteeElectionListViewController ()<UITableViewDelegate,UITableViewDataSource,HMWpwdPopupViewDelegate,VotesPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate>
 @property(strong,nonatomic)HMWSendSuccessPopuView *sendSuccessPopuV;//交易成功 提示;
@@ -50,6 +51,10 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
  *<# #>
  */
 @property(assign,nonatomic)BOOL isMax;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)FLWallet *wallet;
 @end
 
 @implementation HWMCRCCommitteeElectionListViewController
@@ -69,10 +74,54 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     CGFloat proFlo=[[self.persent substringToIndex:self.persent.length-1]floatValue]/100;
     self.progress.progress = proFlo;
     self.persentLab.text =[NSString stringWithFormat:@"%@%@",NSLocalizedString(@"可用", nil), self.persent];
-    //    self.persentLab.text = [self.persent stringByAppendingString:@"%"];
-//    [self.selectAllBtn setImage:[UIImage imageNamed:@"found_vote_selected"] forState:UIControlStateSelected];
-//    [self.selectAllBtn setImage:[UIImage imageNamed:@"found_vote_border"] forState:UIControlStateNormal];
+    [self getWalletType];
+    [self getDBRecored];
 }
+-(void)getDBRecored{
+
+    self.dataSource  = [[NSMutableArray alloc]initWithArray: [[HMWFMDBManager sharedManagerType:CRListType] allSelectCRWithWallID:self.wallet.walletID ]];
+    [self.baseTableView reloadData];
+}
+-(void)getWalletType{
+    
+    NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+    FMDBWalletModel *model =walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
+    
+self.wallet =[[FLWallet alloc]init];
+ self.wallet.masterWalletID =model.walletID;
+self.wallet.walletName     =model.walletName;
+self.wallet.walletAddress  = model.walletAddress;
+self.wallet.walletID       =[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
+self.wallet.TypeW  = model.TypeW;
+    
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID] callbackId: self.wallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
+    
+    PluginResult * resultBase =[[ELWalletManager share]getMasterWalletBasicInfo:mommand];
+    NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
+    NSDictionary *baseDic=[[NSDictionary alloc]init];
+    if ([statusBase isEqualToString:@"1"] ) {
+        baseDic=[[FLTools share]dictionaryWithJsonString:resultBase.message[@"success"]];
+        NSString *Readonly=[NSString stringWithFormat:@"%@",baseDic[@"Readonly"]];
+        if ([Readonly isEqualToString:@"0"]) {
+            if ([baseDic[@"M"] integerValue]==1) {
+             self.wallet.TypeW=0;
+            }else{
+              
+           self.wallet.TypeW=2;
+            }
+        }else{
+          
+            if ([baseDic[@"M"] integerValue]==1) {
+           self.wallet.TypeW=1;
+            }else{
+         self.wallet.TypeW=3;
+            }
+        }
+        
+        
+    }
+}
+
 -(HMWToDeleteTheWalletPopView *)moreThan36View{
     if (!_moreThan36View) {
         _moreThan36View =[[HMWToDeleteTheWalletPopView alloc]init];
@@ -104,13 +153,6 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
 -(void)toCancelOrCloseDelegate{
     [self.moreThan36View removeFromSuperview];
     self.moreThan36View=nil;
-}
-
--(void)getDBRecored{
-    NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
-    FMDBWalletModel *model =walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
-    self.dataSource  = [[NSMutableArray alloc]initWithArray: [[FLNotePointDBManager defultWithWalletID:model.walletID]allRecord]];
-    [self.baseTableView reloadData];
 }
 - (IBAction)actAction:(UIButton*)sender {
     
@@ -221,7 +263,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     HWMVoteTheEditorialBoardTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
-    FLCoinPointInfoModel *model = self.dataSource[indexPath.row];
+    HWMCRListModel *model = self.dataSource[indexPath.row];
     cell.model = model;
     return cell;
     
@@ -288,13 +330,11 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     }
     BOOL ret = [[ELWalletManager share]useMainchainSubWallet:walletId ToVote:stringArray tickets:tic pwd:pwd isChangeVote:YES];
     if (ret) {
-        
         [self showSendSuccessPopuV];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.sendSuccessPopuV removeFromSuperview];
             self.sendSuccessPopuV=nil;
         });
-        
     }
     [self.pwdPopupV removeFromSuperview];
     self.pwdPopupV =  nil;

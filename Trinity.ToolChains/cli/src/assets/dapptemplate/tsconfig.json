@@ -11,7 +11,16 @@
     "module": "es2015",
     "moduleResolution": "node",
     "sourceMap": true,
-    "target": "es5"
+    "target": "es5",
+    "esModuleInterop": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "cordova-plugin-file/types",
+    ],
+    "types": [
+      "node",
+      "cordova-plugin-file"
+    ]
   },
   "include": [
     "src/**/*.ts"

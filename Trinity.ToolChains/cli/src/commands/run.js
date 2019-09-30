@@ -15,6 +15,14 @@ exports.builder = {
     describe: "Platform to deploy to (android|ios)",
     require: true
   },
+  nodebug: {
+      // Let app be deployed without ionic serve. This way, manifest is not modified and will call
+      // a local index.html (on device) instead of a remote IP served by ionic. This way, apps can be 
+      // running on the device without computer dependency (but loose debugging capability).
+      describe: "Deploy the DApp without remote url access, auto-reload or debugging capability",
+      require: false,
+      nargs: 0
+  }
   /*idkeystore: {
     alias: "id",
     describe: "Identity keystore file to be used to sign DApp EPK",
@@ -24,9 +32,11 @@ exports.builder = {
 exports.handler = function (argv) {
     var platform = argv.platform
     var idKeystorePath = argv.idkeystore
+    var noDebug = argv.nodebug
+
     switch (platform) {
         case "android":
-            deployAndroidDApp(idKeystorePath)
+            deployAndroidDApp(idKeystorePath, noDebug)
             break;
         case "ios":
             console.log("Not yet implemented")
@@ -47,7 +57,7 @@ exports.handler = function (argv) {
  * - push and run the EPK on the device (adb push/shell am start, on android)
  * - ionic serve (for hot reload inside trinity, when user saves his files)
  */
-function deployAndroidDApp(idKeystorePath) {
+function deployAndroidDApp(idKeystorePath, noDebug) {
     var runHelper = new RunHelper()
     var manifestHelper = new ManifestHelper()
     var ionicHelper = new IonicHelper()
@@ -71,7 +81,10 @@ function deployAndroidDApp(idKeystorePath) {
     // Retrieve user's computer IP (to be able to ionic serve / hot reload)
     // Update the start_url in the trinity manifest
     var manifestPath = path.join(process.cwd(), "src", "assets", "manifest.json")
-    manifestHelper.updateManifestForRemoteIndex(manifestPath)
+    if (noDebug)
+        manifestHelper.updateManifestForLocalIndex(manifestPath)
+    else
+        manifestHelper.updateManifestForRemoteIndex(manifestPath)
 
     ionicHelper.updateNpmDependencies().then(() => {
         ionicHelper.runIonicBuildDev().then(() => {
@@ -80,8 +93,11 @@ function deployAndroidDApp(idKeystorePath) {
                     runHelper.androidUploadEPK(outputEPKPath).then(()=>{
                         runHelper.androidInstallTempEPK().then(()=>{
                             console.log("RUN OPERATION COMPLETED")
-                            console.log("NOW RUNNING THE APP FOR DEVELOPMENT")
-                            ionicHelper.runIonicServe()
+
+                            if (!noDebug) {
+                                console.log("NOW RUNNING THE APP FOR DEVELOPMENT")
+                                ionicHelper.runIonicServe()
+                            }
                         })
                         .catch((err)=>{
                             console.error("Failed to install your DApp on your device")

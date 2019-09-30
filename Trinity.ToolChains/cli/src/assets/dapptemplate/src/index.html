@@ -15,6 +15,14 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
+  <script>
+    // TRINITY 20190927 - TEMPORARY FIX FOR WEB3 THEN/PROMISE ERROR IN TYPESCRIPT/IONIC
+    // https://github.com/angular/angular/issues/32802
+    window.TransformStream = null;
+    window.WritableStream = null;
+    window.ReadableStream = null;
+  </script>
+
   <!-- cordova.js required for cordova apps (remove if not needed) -->
   <script type="text/javascript" src="asset://www/cordova.js"></script>
   <!-- un-comment this code to enable service worker

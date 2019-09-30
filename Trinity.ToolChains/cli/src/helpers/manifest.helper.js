@@ -92,6 +92,8 @@ module.exports = class ManifestHelper {
      * index.html. This allows running ionic serve for easy debugging.
      */
     updateManifestForRemoteIndex(manifestPath) {
+        console.log("Updating DApp manifest to use your computer's IP address as a start url (remote debugging)")
+
         var manifestJson = editJsonFile(manifestPath);
 
         // Retrieve computer's IP address
@@ -99,6 +101,20 @@ module.exports = class ManifestHelper {
 
         manifestJson.set("start_url", "http://"+ipAddress+":8100");
         manifestJson.set("type", "url");
+
+        manifestJson.save(); // synchronous
+    }
+
+    /**
+     * Updates the given manifest with a start url points to the DApp's default index.html file.
+     */
+    updateManifestForLocalIndex(manifestPath) {
+        console.log("Updating DApp manifest to use index.html as a start url")
+
+        var manifestJson = editJsonFile(manifestPath);
+
+        manifestJson.set("start_url", "index.html");
+        manifestJson.set("type", "file");
 
         manifestJson.save(); // synchronous
     }

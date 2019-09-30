@@ -88,7 +88,7 @@ To update the whole Trinity (main repo + submodules), run this:
 
 ```shell
 git pull --rebase
-git submodule update --rebase
+git submodule update --init
 ```
 
 At that time, submodules will be in **detached HEAD** state. To commit changes, run this from the submodule folder before make changes:

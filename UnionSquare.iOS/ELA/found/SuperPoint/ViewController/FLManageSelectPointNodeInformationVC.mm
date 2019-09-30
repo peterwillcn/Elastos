@@ -102,12 +102,12 @@
     self.NodePublickKeyLab.numberOfLines=0;
     self.URLLab.text = URL;
     self.LocationLab.text = [[FLTools share]contryNameTransLateByCode:Location.integerValue];
-    [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:[[FLTools share] getImageViewURLWithURL:self.model.url]] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
-    
+              if (self.model.url.length>0) {
+                  [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:self.model.url] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
+              }
 }
 -(void)getNetCoinPointArrayWithPubKey:(NSString *)OwnerPublickKey{
 
-    
     [HttpUrl NetPOSTHost:Http_IP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1"} showHUD:NO WithSuccessBlock:^(id data) {
         NSDictionary *param = data[@"data"];
         NSArray *dataSource= [NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];

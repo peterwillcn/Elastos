@@ -40,15 +40,27 @@
     self.drawBtn.enabled = NO;
     [self.drawBtn setTitle:NSLocalizedString(@"取回质押金", nil) forState:UIControlStateNormal];
     
-    
-    ELWalletManager *manager   =  [ELWalletManager share];
-    
-    IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-    
-    nlohmann::json info = mainchainSubWallet->GetRegisteredProducerInfo();
-    NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
-    
-    NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+
+    ELWalletManager *manager;
+    NSDictionary *param;
+    try {
+         manager = [ELWalletManager share];
+          
+        IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
+        
+        nlohmann::json info = mainchainSubWallet->GetRegisteredProducerInfo();
+        NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
+        
+       param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+        
+    } catch (const std:: exception &e) {
+        
+         NSString *errString=[self stringWithCStringCR:e.what()];
+        [[FLTools share]dictionaryWithJsonString:errString];
+               NSDictionary *dic=  [[FLTools share] dictionaryWithJsonString:errString];
+               [[FLTools share]showErrorInfo:dic[@"Message"]];
+        
+    }
     
    
     NSDictionary *infoDic = param[@"Info"];
@@ -162,5 +174,11 @@
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     [self.view endEditing:YES];
+}
+- (NSString *)stringWithCStringCR:(String)string
+{
+
+    NSString *str = [NSString stringWithCString:string.c_str() encoding:NSUTF8StringEncoding];
+    return str;
 }
 @end

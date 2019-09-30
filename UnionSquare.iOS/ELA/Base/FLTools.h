@@ -117,4 +117,5 @@
 -(NSString *)elsToSela:(NSString*)ela;
 -(BOOL)changeisEnglish:(NSString*)m;
 -(NSString *)getImageViewURLWithURL:(NSString*)urlString;
+- (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
 @end

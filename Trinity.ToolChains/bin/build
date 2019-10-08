@@ -65,7 +65,7 @@ if args.target == "clean":
     for dir in dirs:
         if not os.path.isfile(dir):
             remove_tree(dir + "/www")
-            remove_tree("/node_modules")
+            remove_tree(dir + "/node_modules")
 
 if args.target == "launcher" or args.target == "all":
     os.chdir(LAUNCHER_DIR_PATH)

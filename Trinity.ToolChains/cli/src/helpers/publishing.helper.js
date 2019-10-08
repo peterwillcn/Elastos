@@ -2,6 +2,7 @@ const fs = require("fs-extra");
 const path = require("path");
 const axios = require("axios");
 const FormData = require('form-data');
+const Spinner = require('cli-spinner').Spinner;
 
 const config = require("../config.js")
 const ManifestHelper = require("../helpers/manifest.helper")
@@ -61,14 +62,28 @@ module.exports = class PublishingHelper {
                 return request
             })*/
 
+            var spinner = new Spinner({
+                text: 'Uploading data... %s',
+                stream: process.stdout,
+                onTick: function(msg){
+                    this.clearLine(this.stream);
+                    this.stream.write(msg);
+                }
+            })
+            spinner.start();
+
             try {
-                let response = await axios.post(config.dappstore.host+'/apps/publish', data,
-                    {
-                        headers: {
-                            'Content-Type': `multipart/form-data; boundary=${data._boundary}`
-                        }
+                let response = await axios({
+                    method:"post",
+                    url: config.dappstore.host+'/apps/publish', 
+                    data: data,
+                    headers: {
+                        'Content-Type': `multipart/form-data; boundary=${data._boundary}`
                     }
-                )
+                })
+
+                spinner.stop()
+                console.log("")
                 
                 if (!response.data.published) {
                     reject(response.data.reason)

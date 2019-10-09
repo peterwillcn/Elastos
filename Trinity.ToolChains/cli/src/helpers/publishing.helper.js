@@ -81,9 +81,6 @@ module.exports = class PublishingHelper {
                         'Content-Type': `multipart/form-data; boundary=${data._boundary}`
                     }
                 })
-
-                spinner.stop()
-                console.log("")
                 
                 if (!response.data.published) {
                     reject(response.data.reason)
@@ -96,6 +93,9 @@ module.exports = class PublishingHelper {
                 console.log(e)
                 reject(e)
             }
+
+            spinner.stop()
+            console.log("")
         })
     }
 }

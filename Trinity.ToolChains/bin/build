@@ -38,6 +38,19 @@ def copy_tree(src, dst):
     print("Copying " + src + " To " + dst)
     dir_util.copy_tree(src, dst)
 
+def add_fabric():
+    api_key = os.getenv("FABRIC_API_KEY");
+    api_secret = os.getenv("FABRIC_API_SECRET");
+    if api_key is None or api_key.strip()=="":
+        print("FABRIC_API_KEY not set!")
+        return
+    if api_secret is None or api_secret.strip()=="":
+        print("FABRIC_API_SECRET not set!")
+        return
+
+    cmd="cordova plugin add cordova-fabric-plugin --variable FABRIC_API_KEY=%s --variable FABRIC_API_SECRET=%s" % (api_key, api_secret)
+    run_cmd(cmd)
+
 if TOOLCHAINS_DIR_NAME != "ToolChains" or \
    not os.path.isdir(RUNTIME_DIR_PATH) or \
    not os.path.isdir(LAUNCHER_DIR_PATH):
@@ -99,6 +112,7 @@ if args.target == "runtime" or args.target == "all":
     os.chdir(RUNTIME_DIR_PATH)
     copy_tree("config", "www/config")
     run_cmd("cordova prepare")
+    add_fabric()
     run_cmd("cordova build android")
 
 print("Done")

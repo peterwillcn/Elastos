@@ -90,7 +90,8 @@ before_install:
 
 install:
   - nvm install ${NODEJS_VERSION}
-  - npm install -g cordova ionic
+  # cordova@8.1.2 for fabric
+  - npm install -g cordova@8.1.2 ionic
 
 script:
   - $TRAVIS_BUILD_DIR/ToolChains/bin/build all

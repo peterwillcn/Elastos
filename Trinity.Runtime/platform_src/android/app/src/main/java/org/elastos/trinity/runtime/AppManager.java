@@ -646,7 +646,7 @@ public class AppManager {
         ab.setTitle("Plugin authority request");
         ab.setMessage("App:'" + info.name + "' request plugin:'" + plugin + "' access authority.");
         ab.setIcon(android.R.drawable.ic_dialog_info);
-
+        ab.setCancelable(false);
 
         ab.setPositiveButton("Allow", new DialogInterface.OnClickListener() {
             @Override

@@ -125,7 +125,7 @@ public class AppBasePlugin extends TrinityPlugin {
                     case "sendIntent":
                         this.sendIntent(args, callbackContext);
                         break;
-                    case "sendIntentByUrl":
+                    case "sendUrlIntent":
                         this.sendUrlIntent(args, callbackContext);
                         break;
                     case "setIntentListener":

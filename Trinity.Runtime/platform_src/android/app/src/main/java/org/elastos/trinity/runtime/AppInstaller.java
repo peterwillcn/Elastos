@@ -41,9 +41,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
@@ -259,7 +256,7 @@ public class AppInstaller {
         return null;
     }
 
-    public AppInfo install(String url, boolean dev) throws Exception {
+    public AppInfo install(String url, boolean update) throws Exception {
         InputStream inputStream = null;
         AppInfo info = null;
         String downloadPkgPath = null;
@@ -319,8 +316,8 @@ public class AppInstaller {
 
         AppInfo oldInfo = AppManager.getShareInstance().getAppInfo(info.app_id);
         if (oldInfo != null) {
-            if (dev) {
-                AppManager.getShareInstance().unInstall(info.app_id);
+            if (update) {
+                AppManager.getShareInstance().unInstall(info.app_id, true);
             }
             else {
                 deleteAllFiles(from);
@@ -363,7 +360,7 @@ public class AppInstaller {
         return true;
     }
 
-    public void unInstall(AppInfo info)  throws Exception {
+    public void unInstall(AppInfo info, boolean update)  throws Exception {
         if (info == null) {
             throw new Exception("No such app!");
         }
@@ -378,8 +375,12 @@ public class AppInstaller {
 
         File root = new File(appPath + info.app_id);
         deleteAllFiles(root);
-        root = new File(dataPath + info.app_id);
-        deleteAllFiles(root);
+        if (!update) {
+            root = new File(dataPath + info.app_id);
+            deleteAllFiles(root);
+            root = new File(tempPath + info.app_id);
+            deleteAllFiles(root);
+        }
     }
 
     private boolean isAllowPlugin(String name) {
@@ -521,6 +522,20 @@ public class AppInstaller {
             }
         }
 
+        if (json.has(AppInfo.CATEGORY)) {
+            appInfo.category = json.getString(AppInfo.CATEGORY);
+        }
+        else {
+            appInfo.category = "other";
+        }
+
+        if (json.has(AppInfo.KEY_WORDS)) {
+            appInfo.key_words = json.getString(AppInfo.KEY_WORDS);
+        }
+        else {
+            appInfo.key_words = "";
+        }
+
         if (json.has("plugins")) {
             JSONArray array = json.getJSONArray("plugins");
             for (int i = 0; i < array.length(); i++) {
@@ -542,6 +557,15 @@ public class AppInstaller {
                     authority = AppInfo.AUTHORITY_ALLOW;
                 }
                 appInfo.addUrl(url, authority);
+            }
+        }
+
+        if (json.has("intents")) {
+            JSONArray array = json.getJSONArray("intents");
+            for (int i = 0; i < array.length(); i++) {
+                String intent = array.getString(i);
+                int authority = AppInfo.AUTHORITY_ALLOW;
+                appInfo.addIntent(intent, authority);
             }
         }
 
@@ -601,7 +625,7 @@ public class AppInstaller {
                 JSONObject jobj = array.getJSONObject(i);
                 if (jobj.has("action")) {
                     Intent intent = new Intent(appInfo.app_id, jobj.getString("action"));
-                    dbAdapter.addIntent(intent);
+                    dbAdapter.addIntentFilter(intent);
                 }
             }
         }

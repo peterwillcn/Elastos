@@ -31,9 +31,6 @@ import android.widget.FrameLayout;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginEntry;
-import org.elastos.trinity.plugins.appmanager.AppManagerPlugin;
-import org.elastos.trinity.plugins.appservice.AppServicePlugin;
-
 
 import java.util.ArrayList;
 
@@ -140,11 +137,11 @@ import java.util.ArrayList;
                         "org.elastos.plugins.appmanager.AppWhitelistPlugin", entry.onload, whitelistPlugin));
             }
             else if (entry.service.equals("AppManager") && isManagerAccess(appInfo.app_id)) {
-                basePlugin = new AppManagerPlugin(appInfo.app_id);
+                basePlugin = new AppBasePlugin(appInfo.app_id, true);
                 pluginEntries.add(new PluginEntry(entry.service, entry.pluginClass, true, basePlugin));
             }
             else if (entry.service.equals("AppService") && !isManagerAccess(appInfo.app_id)) {
-                basePlugin = new AppServicePlugin(appInfo.app_id);
+                basePlugin = new AppBasePlugin(appInfo.app_id, false);
                 pluginEntries.add(new PluginEntry(entry.service, entry.pluginClass, true, basePlugin));
             }
             else {

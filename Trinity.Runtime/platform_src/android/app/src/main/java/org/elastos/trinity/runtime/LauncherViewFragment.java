@@ -31,9 +31,7 @@ import android.view.ViewGroup;
 import org.apache.cordova.ConfigXmlParser;
 import org.apache.cordova.LOG;
 import org.apache.cordova.PluginEntry;
-import org.elastos.trinity.plugins.appmanager.AppManagerPlugin;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -74,7 +72,7 @@ import java.util.Locale;
 
         for(PluginEntry entry:entries) {
             if (entry.service.equals("AppManager")) {
-                basePlugin = new AppManagerPlugin("launcher");
+                basePlugin = new AppBasePlugin("launcher", true);
                 pluginEntries.add(new PluginEntry(entry.service, entry.pluginClass, true, basePlugin));
                 cfgPluginEntries.add(entry);
             }

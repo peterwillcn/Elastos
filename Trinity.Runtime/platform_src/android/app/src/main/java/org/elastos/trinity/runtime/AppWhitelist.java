@@ -27,21 +27,37 @@ import android.net.Uri;
 import org.apache.cordova.LOG;
 import org.apache.cordova.Whitelist;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AppWhitelist extends Whitelist {
-    AppInfo appInfo;
+    private AppInfo appInfo;
     private HashMap<String, URLPattern> whiteList;
+    private int urlType;
+
 
     public static final String TAG = "AppWhitelist";
 
-    public AppWhitelist(AppInfo info) {
+    public static final int TYPE_URL = 0;
+    public static final int TYPE_INTENT = 1;
+
+    public AppWhitelist(AppInfo info, int type) {
         this.whiteList = new HashMap();
         appInfo = info;
-        for (AppInfo.UrlAuth urlAuth : info.urls) {
+        ArrayList<AppInfo.UrlAuth> list;
+        urlType = type;
+
+        if (urlType == TYPE_URL) {
+            list = info.urls;
+        }
+        else {
+            list = info.intents;
+        }
+
+        for (AppInfo.UrlAuth urlAuth : list) {
             if (!urlAuth.url.startsWith("file://")) {
                 addWhiteListEntry(urlAuth.url, false);
             }
@@ -92,6 +108,23 @@ public class AppWhitelist extends Whitelist {
         }
     }
 
+    private int getAuth(String url) {
+        if (urlType == TYPE_URL) {
+            return AppManager.getShareInstance().getUrlAuthority(appInfo.app_id, url);
+        }
+        else {
+            return AppManager.getShareInstance().getIntentAuthority(appInfo.app_id, url);
+        }
+    }
+
+    private int runAlert(String url, int authority) {
+        if (urlType == TYPE_URL) {
+            return AppManager.getShareInstance().runAlertUrlAuth(appInfo, url, authority);
+        }
+        else {
+            return authority;
+        }
+    }
 
     /**
      * Determine if URL is in approved list of URLs to load.
@@ -110,9 +143,9 @@ public class AppWhitelist extends Whitelist {
             URLPattern p = entry.getValue();
             String url = entry.getKey();
             if (p.matches(parsedUri)) {
-                int authority = AppManager.getShareInstance().getUrlAuthority(appInfo.app_id, entry.getKey());
+                int authority = getAuth(entry.getKey());
                 if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
-                    authority = AppManager.getShareInstance().runAlertUrlAuth(appInfo, url, authority);
+                    authority = runAlert(url, authority);
                 }
 
                 if (authority == AppInfo.AUTHORITY_ALLOW) {

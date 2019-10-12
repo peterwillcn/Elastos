@@ -31,12 +31,13 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     public static final String AUTH_PLUGIN_TABLE = "auth_plugin";
     public static final String AUTH_URL_TABLE = "auth_url";
+    public static final String AUTH_INTENT_TABLE = "auth_intent";
     public static final String ICONS_TABLE = "icons";
     public static final String LACALE_TABLE = "locale";
     public static final String FRAMEWORK_TABLE = "framework";
     public static final String PLATFORM_TABLE = "platform";
     public static final String SETTING_TABLE = "setting";
-    public static final String INTENT_TABLE = "intent";
+    public static final String INTENT_FILTER_TABLE = "intent";
     public static final String APP_TABLE = "app";
 
     public ManagerDBHelper(Context context) {
@@ -61,6 +62,12 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
         db.execSQL(strSQL);
 
         strSQL =  "create table " + AUTH_URL_TABLE + "(tid integer primary key autoincrement, " +
+                AppInfo.APP_TID + " integer, " +
+                AppInfo.URL + " varchar(256), " +
+                AppInfo.AUTHORITY + " integer)";
+        db.execSQL(strSQL);
+
+        strSQL =  "create table " + AUTH_INTENT_TABLE + "(tid integer primary key autoincrement, " +
                 AppInfo.APP_TID + " integer, " +
                 AppInfo.URL + " varchar(256), " +
                 AppInfo.AUTHORITY + " integer)";
@@ -94,7 +101,7 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
                 AppInfo.VERSION + " varchar(32))";
         db.execSQL(strSQL);
 
-        strSQL =  "create table " + INTENT_TABLE + "(tid integer primary key autoincrement, " +
+        strSQL =  "create table " + INTENT_FILTER_TABLE + "(tid integer primary key autoincrement, " +
                 AppInfo.APP_ID + " varchar(128) NOT NULL, " +
                 AppInfo.ACTION + " varchar(64) NOT NULL)";
         db.execSQL(strSQL);
@@ -119,18 +126,21 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
                 AppInfo.INSTALL_TIME + " integer, " +
                 AppInfo.BUILT_IN + " integer, " +
                 AppInfo.REMOTE + " integer, " +
-                AppInfo.LAUNCHER + " integer)";
+                AppInfo.LAUNCHER + " integer," +
+                AppInfo.CATEGORY + " varchar(64), " +
+                AppInfo.KEY_WORDS + " varchar(512))";
         db.execSQL(strSQL);
     }
 
     public void dropAllTabel(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS " + AUTH_PLUGIN_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + AUTH_URL_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + AUTH_INTENT_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + ICONS_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + LACALE_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + FRAMEWORK_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + PLATFORM_TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + INTENT_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + INTENT_FILTER_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + APP_TABLE);
     }
 

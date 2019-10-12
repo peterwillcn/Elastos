@@ -22,24 +22,130 @@
 
 package org.elastos.trinity.runtime;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.net.Uri;
 
 import org.apache.cordova.CallbackContext;
-import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
-import org.elastos.trinity.plugins.appmanager.AppManagerPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class AppBasePlugin extends TrinityPlugin {
     protected CallbackContext mMessageContext = null;
     protected CallbackContext mIntentContext = null;
     protected String id;
+
+    private int index = 0;
+    private ArrayList<String> iconList = new ArrayList<String>();
+    private boolean isAppManager = false;
+
+    public AppBasePlugin(String id, boolean isAppManager) {
+        this.id = id;
+        this.isAppManager = isAppManager;
+    }
+
+    public boolean isAppManager() {
+        return isAppManager;
+    }
+
+    @Override
+    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+        boolean isDone = true;
+        try {
+            switch (action) {
+                case "getAppInfos":
+                    this.getAppInfos(args, callbackContext);
+                    break;
+                case "setCurrentLocale":
+                    this.setCurrentLocale(args, callbackContext);
+                    break;
+                case "install":
+                    this.install(args, callbackContext);
+                    break;
+                case "unInstall":
+                    this.unInstall(args, callbackContext);
+                    break;
+                case "setPluginAuthority":
+                    this.setPluginAuthority(args, callbackContext);
+                    break;
+                case "setUrlAuthority":
+                    this.setUrlAuthority(args, callbackContext);
+                    break;
+                case "getRunningList":
+                    this.getRunningList(callbackContext);
+                    break;
+                case "getAppList":
+                    this.getAppList(callbackContext);
+                    break;
+                case "alertPrompt":
+                    this.alertPrompt(args, callbackContext);
+                    break;
+                case "infoPrompt":
+                    this.infoPrompt(args, callbackContext);
+                    break;
+                case "askPrompt":
+                    this.askPrompt(args, callbackContext);
+                    break;
+                default:
+                    isDone = false;
+            }
+
+            if (!isDone) {
+                switch (action) {
+                    case "getLocale":
+                        this.getLocale(args, callbackContext);
+                        break;
+
+                    case "getAppInfo":
+                        this.getAppInfo(args, callbackContext);
+                        break;
+                    case "launcher":
+                        this.launcher(args, callbackContext);
+                        break;
+                    case "start":
+                        this.start(args, callbackContext);
+                        break;
+                    case "close":
+                        this.close(args, callbackContext);
+                        break;
+                    case "sendMessage":
+                        this.sendMessage(args, callbackContext);
+                        break;
+                    case "setListener":
+                        this.setListener(callbackContext);
+                        break;
+                    case "sendIntent":
+                        this.sendIntent(args, callbackContext);
+                        break;
+                    case "sendIntentByUrl":
+                        this.sendUrlIntent(args, callbackContext);
+                        break;
+                    case "setIntentListener":
+                        this.setIntentListener(callbackContext);
+                        break;
+                    case "sendIntentResponse":
+                        this.sendIntentResponse(args, callbackContext);
+                        break;
+
+                    default:
+                        return false;
+                }
+            }
+        }
+        catch (Exception e) {
+            callbackContext.error(e.getLocalizedMessage());
+        }
+        return true;
+    }
+
 
     protected void launcher(JSONArray args, CallbackContext callbackContext) throws Exception {
         AppManager.getShareInstance().loadLauncher();
@@ -62,7 +168,7 @@ public class AppBasePlugin extends TrinityPlugin {
     protected void close(JSONArray args, CallbackContext callbackContext) throws Exception {
         String appId = this.id;
 
-        if (this instanceof AppManagerPlugin) {
+        if (isAppManager) {
             appId = args.getString(0);
         }
 
@@ -95,12 +201,19 @@ public class AppBasePlugin extends TrinityPlugin {
         return jsons;
     }
 
-    protected JSONArray jsonAppIcons(AppInfo info) throws JSONException {
+    private JSONArray jsonAppIcons(AppInfo info) throws JSONException {
         JSONArray jsons = new JSONArray();
+        String appUrl = AppManager.getShareInstance().getIconUrl(info);
 
         for (AppInfo.Icon icon : info.icons) {
+            String src = icon.src;
+            if (isAppManager) {
+                src = "icon:///" + String.valueOf(index);
+                iconList.add(index++, AppManager.getShareInstance().resetPath(appUrl, icon.src));
+            }
+
             JSONObject ret = new JSONObject();
-            ret.put("src", icon.src);
+            ret.put("src", src);
             ret.put("sizes", icon.sizes);
             ret.put("type", icon.type);
             jsons.put(ret);
@@ -159,6 +272,8 @@ public class AppBasePlugin extends TrinityPlugin {
         ret.put("authorName", info.author_name);
         ret.put("authorEmail", info.author_email);
         ret.put("defaultLocale", info.default_locale);
+        ret.put("category", info.category);
+        ret.put("keyWords", info.key_words);
         ret.put("plugins", jsonAppPlugins(info.plugins));
         ret.put("urls", jsonAppUrls(info.urls));
         ret.put("backgroundColor", info.background_color);
@@ -179,7 +294,7 @@ public class AppBasePlugin extends TrinityPlugin {
 
     protected void getAppInfo(JSONArray args, CallbackContext callbackContext) throws JSONException {
         String appId = this.id;
-        if (this instanceof AppManagerPlugin) {
+        if (isAppManager) {
             appId = args.getString(0);
         }
 
@@ -216,7 +331,7 @@ public class AppBasePlugin extends TrinityPlugin {
         pluginResult.setKeepCallback(true);
         callbackContext.sendPluginResult(pluginResult);
 
-        if (this instanceof AppManagerPlugin) {
+        if (isAppManager) {
             AppManager.getShareInstance().setLauncherReady();
         }
     }
@@ -251,11 +366,24 @@ public class AppBasePlugin extends TrinityPlugin {
         callbackContext.sendPluginResult(pluginResult);
     }
 
-    protected void sendIntentRespone(JSONArray args, CallbackContext callbackContext) throws Exception {
+    protected void sendUrlIntent(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String url = args.getString(0);
+
+        if (webView.getPluginManager().shouldOpenExternalUrl(url)) {
+            webView.showWebPage(url, true, false, null);
+            callbackContext.success("ok");
+        }
+        else {
+            callbackContext.error("Can't access this url: " + url);
+        }
+
+    }
+
+    protected void sendIntentResponse(JSONArray args, CallbackContext callbackContext) throws Exception {
         String action = args.getString(0);
         String result = args.getString(1);
         long intentId = args.getLong(2);
-        IntentManager.getShareInstance().sendIntentRespone(action, result, intentId, this.id);
+        IntentManager.getShareInstance().sendIntentResponse(action, result, intentId, this.id);
         callbackContext.success("ok");
     }
 
@@ -290,7 +418,7 @@ public class AppBasePlugin extends TrinityPlugin {
         }
     }
 
-    public void onReceiveIntentRespone(IntentInfo info) {
+    public void onReceiveIntentResponse(IntentInfo info) {
         JSONObject obj = new JSONObject();
         try {
             obj.put("action", info.action);
@@ -308,8 +436,15 @@ public class AppBasePlugin extends TrinityPlugin {
     public Boolean shouldAllowRequest(String url) {
         if (url.startsWith("asset://www/cordova") || url.startsWith("asset://www/plugins")
                 || url.startsWith("trinity:///asset/") || url.startsWith("trinity:///data/")
-                || url.startsWith("trinity:///temp/")) {
+                || url.startsWith("trinity:///temp/")
+                || url.startsWith("elastos:///")) {
             return true;
+        }
+
+        if (isAppManager) {
+            if (url.startsWith("icon:///")) {
+                return true;
+            }
         }
 
         return null;
@@ -318,7 +453,11 @@ public class AppBasePlugin extends TrinityPlugin {
     @Override
     public Uri remapUri(Uri uri) {
         String url = uri.toString();
-        if ("asset".equals(uri.getScheme())) {
+        if (isAppManager && url.startsWith("icon:///")) {
+            int index = Integer.valueOf(url.substring(8));
+            url = iconList.get(index);
+        }
+        else if ("asset".equals(uri.getScheme())) {
             url = "file:///android_asset/www" + uri.getPath();
         }
         else if (url.startsWith("trinity:///asset/")) {
@@ -331,6 +470,13 @@ public class AppBasePlugin extends TrinityPlugin {
         else if (url.startsWith("trinity:///temp/")) {
             url = AppManager.getShareInstance().getTempUrl(id) + url.substring(16);
         }
+        else if (url.startsWith("elastos:///")) {
+            try {
+                IntentManager.getShareInstance().sendIntentByUri(uri);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         else {
             return null;
         }
@@ -338,5 +484,145 @@ public class AppBasePlugin extends TrinityPlugin {
         uri = Uri.parse(url);
         return uri;
     }
+
+    //---------------- for AppManager --------------------------------------------------------------
+    private void setCurrentLocale(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        String code = args.getString(0);
+        AppManager.getShareInstance().setCurrentLocale(code);
+        callbackContext.success("ok");
+    }
+
+    protected void install(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String url = args.getString(0);
+        boolean update = args.getBoolean(1);
+        AppInfo info = AppManager.getShareInstance().install(url, update);
+        if (info != null) {
+            callbackContext.success(jsonAppInfo(info));
+        }
+        else {
+            callbackContext.error("error");
+        }
+    }
+
+    protected void unInstall(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String id = args.getString(0);
+        AppManager.getShareInstance().unInstall(id, false);
+        callbackContext.success(id);
+    }
+
+    protected void getAppInfos(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        HashMap<String, AppInfo> appInfos = AppManager.getShareInstance().getAppInfos();
+        JSONObject infos = new JSONObject();
+        iconList = new ArrayList<String>();
+        index = 0;
+
+        if (appInfos != null) {
+            for (Map.Entry<String, AppInfo> entry : appInfos.entrySet()) {
+                infos.put(entry.getKey(), jsonAppInfo(entry.getValue()));
+            }
+        }
+        String[]  ids = AppManager.getShareInstance().getAppIdList();
+        JSONArray list = jsonIdList(ids);
+
+        JSONObject ret = new JSONObject();
+        ret.put("infos", infos);
+        ret.put("list", list);
+        callbackContext.success(ret);
+    }
+
+    protected void setPluginAuthority(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String id = args.getString(0);
+        String plugin = args.getString(1);
+        int authority = args.getInt(2);
+
+        if (id == null || id.equals("")) {
+            callbackContext.error("Invalid id.");
+            return;
+        }
+        AppManager.getShareInstance().setPluginAuthority(id, plugin, authority);
+        callbackContext.success("ok");
+    }
+
+    protected void setUrlAuthority(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String id = args.getString(0);
+        String url = args.getString(1);
+        int authority = args.getInt(2);
+
+        if (id == null || id.equals("")) {
+            callbackContext.error("Invalid id.");
+            return;
+        }
+        AppManager.getShareInstance().setUrlAuthority(id, url, authority);
+        callbackContext.success("ok");
+    }
+
+    protected JSONArray jsonIdList(String[] ids) {
+        JSONArray json = new JSONArray();
+        for (String id: ids) {
+            if (!id.equals("launcher")) {
+                json.put(id);
+            }
+        }
+        return json;
+    }
+
+    protected void getRunningList(CallbackContext callbackContext) {
+        String[] ids = AppManager.getShareInstance().getRunningList();
+        JSONArray ret = jsonIdList(ids);
+        callbackContext.success(ret);
+    }
+
+    protected void getAppList(CallbackContext callbackContext) {
+        String[]  ids = AppManager.getShareInstance().getAppIdList();
+        JSONArray ret = jsonIdList(ids);
+        callbackContext.success(ret);
+    }
+
+    protected void getLastList(CallbackContext callbackContext) {
+        String[]  ids = AppManager.getShareInstance().getLastList();
+        JSONArray ret = jsonIdList(ids);
+        callbackContext.success(ret);
+    }
+
+
+    private void alertDialog(JSONArray args, int icon, CallbackContext callbackContext) throws Exception {
+        String title = args.getString(0);
+        String msg = args.getString(1);
+        AlertDialog.Builder ab = new AlertDialog.Builder(this.cordova.getActivity());
+        ab.setTitle(title);
+        ab.setMessage(msg);
+        ab.setIcon(icon);
+
+        ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (callbackContext != null) {
+                    callbackContext.success("ok");
+                }
+            }
+        });
+        if (callbackContext != null) {
+            ab.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+        }
+        ab.show();
+    }
+
+    protected void alertPrompt(JSONArray args, CallbackContext callbackContext) throws Exception {
+        alertDialog(args, android.R.drawable.ic_dialog_alert, null);
+    }
+
+    protected void infoPrompt(JSONArray args, CallbackContext callbackContext) throws Exception {
+        alertDialog(args, android.R.drawable.ic_dialog_info, null);
+    }
+
+    protected void askPrompt(JSONArray args, CallbackContext callbackContext) throws Exception {
+        alertDialog(args, android.R.drawable.ic_dialog_info, callbackContext);
+    }
+
 
 }

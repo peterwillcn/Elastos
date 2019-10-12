@@ -320,8 +320,8 @@ public class AppManager {
         }
     }
 
-    public AppInfo install(String url, boolean dev) throws Exception  {
-        AppInfo info = installer.install(url, dev);
+    public AppInfo install(String url, boolean update) throws Exception  {
+        AppInfo info = installer.install(url, update);
         if (info != null) {
             refreashInfos();
         }
@@ -329,10 +329,10 @@ public class AppManager {
         return info;
     }
 
-    public void unInstall(String id) throws Exception {
+    public void unInstall(String id, boolean update) throws Exception {
         close(id);
         AppInfo info = appInfos.get(id);
-        installer.unInstall(appInfos.get(id));
+        installer.unInstall(appInfos.get(id), update);
         refreashInfos();
         sendRefreshList("unInstalled", info);
     }
@@ -562,6 +562,18 @@ public class AppManager {
         AppInfo info = appInfos.get(id);
         if (info != null) {
             for (AppInfo.UrlAuth urlAuth : info.urls) {
+                if (urlAuth.url.equals(url)) {
+                    return urlAuth.authority;
+                }
+            }
+        }
+        return AppInfo.AUTHORITY_NOEXIST;
+    }
+
+    public int getIntentAuthority(String id, String url) {
+        AppInfo info = appInfos.get(id);
+        if (info != null) {
+            for (AppInfo.UrlAuth urlAuth : info.intents) {
                 if (urlAuth.url.equals(url)) {
                     return urlAuth.authority;
                 }

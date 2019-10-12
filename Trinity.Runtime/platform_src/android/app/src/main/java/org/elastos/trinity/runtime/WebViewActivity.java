@@ -51,23 +51,32 @@ public class WebViewActivity extends FragmentActivity {
 
     private String adbUri = "";
 
-    private void getInstallUri() {
+    private void getIntentUri() {
         Intent intent = getIntent();
         String action = intent.getAction();
         if ((action != null) && action.equals("android.intent.action.VIEW")) {
+
             Uri uri = intent.getData();
             if (uri != null) {
-
-                boolean dev = intent.hasCategory("android.intent.category.TEST");
-                if (dev) {
-                    if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED) {
-                        this.adbUri = uri.toString();
-                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUESTCODE_STORAGE);
-                        return;
+                if (intent.hasCategory("android.intent.category.BROWSABLE")) {
+                    try {
+                        IntentManager.getShareInstance().sendIntentByUri(uri);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
-                appManager.setInstallUri(uri.toString(), dev);
+                else {
+                    boolean dev = intent.hasCategory("android.intent.category.TEST");
+                    if (dev) {
+                        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            this.adbUri = uri.toString();
+                            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUESTCODE_STORAGE);
+                            return;
+                        }
+                    }
+                    appManager.setInstallUri(uri.toString(), dev);
+                }
             }
         }
     }
@@ -81,7 +90,7 @@ public class WebViewActivity extends FragmentActivity {
         setContentView(R.layout.fragments_view);
         appManager = new AppManager(this);
 
-        getInstallUri();
+        getIntentUri();
 
         gestureDetector = new GestureDetector(this, onGestureListener);
 
@@ -117,7 +126,7 @@ public class WebViewActivity extends FragmentActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        getInstallUri();
+        getIntentUri();
     }
 
     @Override

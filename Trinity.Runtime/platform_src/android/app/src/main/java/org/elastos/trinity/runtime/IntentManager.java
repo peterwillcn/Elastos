@@ -1,9 +1,12 @@
 package org.elastos.trinity.runtime;
 
+import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Set;
 
 public class IntentManager {
     public static final int MAX_INTENT_NUMBER = 20;
@@ -72,7 +75,7 @@ public class IntentManager {
     }
 
     public void sendIntent(IntentInfo info) throws Exception {
-        String[] ids = appManager.dbAdapter.getIntent(info.action);
+        String[] ids = appManager.dbAdapter.getIntentFilter(info.action);
         if (ids.length < 1) {
             throw new Exception(info.action + " isn't support!");
         }
@@ -91,7 +94,40 @@ public class IntentManager {
         }
     }
 
-    public void sendIntentRespone(String action, String result, long intentId, String fromId) throws Exception {
+    public void sendIntentByUri(Uri uri) throws Exception {
+        List<String> list = uri.getPathSegments();
+        if (list.size() > 0) {
+            String[] paths = new String[list.size()];
+            list.toArray(paths);
+            String action = paths[0];
+            Set<String> set = uri.getQueryParameterNames();
+            long currentTime = System.currentTimeMillis();
+
+            IntentInfo info = new IntentInfo(action, null, "systyem", currentTime, null);
+            if (set.size() > 0) {
+                info.params = "{";
+                for (String name : set) {
+                    if (!info.params.equals("{")) {
+                        info.params += ",";
+                    }
+                    info.params += "\"" + name + "\":\"" + uri.getQueryParameter(name) + "\"";
+                }
+                info.params += "}";
+            }
+            else {
+                if (list.size() == 2) {
+                    info.params = "{\"jwt\":\"" + paths[1] + "\"}";
+                }
+            }
+
+            if (info.params != null) {
+                sendIntent(info);
+            }
+        }
+    }
+
+
+    public void sendIntentResponse(String action, String result, long intentId, String fromId) throws Exception {
         IntentInfo info = intentContextList.get(intentId);
         if (info == null) {
             throw new Exception(intentId + " isn't support!");
@@ -103,7 +139,7 @@ public class IntentManager {
             appManager.start(info.fromId);
             info.params = result;
             info.fromId = fromId;
-            fragment.basePlugin.onReceiveIntentRespone(info);
+            fragment.basePlugin.onReceiveIntentResponse(info);
         }
 
         intentContextList.remove(intentId);

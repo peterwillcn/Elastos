@@ -66,6 +66,8 @@ public class ManagerDBAdapter {
             contentValues.put(AppInfo.BUILT_IN, info.built_in);
             contentValues.put(AppInfo.REMOTE, info.remote);
             contentValues.put(AppInfo.LAUNCHER, info.launcher);
+            contentValues.put(AppInfo.CATEGORY, info.category);
+            contentValues.put(AppInfo.KEY_WORDS, info.key_words);
             long tid = db.insert(ManagerDBHelper.APP_TABLE, null, contentValues);
 
             if (tid == -1) {
@@ -96,6 +98,22 @@ public class ManagerDBAdapter {
                 contentValues.put(AppInfo.URL, urlAuth.url);
                 contentValues.put(AppInfo.AUTHORITY, urlAuth.authority);
                 db.insert(ManagerDBHelper.AUTH_URL_TABLE, null, contentValues);
+            }
+
+            for (AppInfo.UrlAuth intent : info.intents) {
+                contentValues = new ContentValues();
+                contentValues.put(AppInfo.APP_TID, tid);
+                contentValues.put(AppInfo.URL, intent.url);
+                contentValues.put(AppInfo.AUTHORITY, intent.authority);
+                db.insert(ManagerDBHelper.AUTH_INTENT_TABLE, null, contentValues);
+            }
+
+            for (AppInfo.UrlAuth urlAuth : info.intents) {
+                contentValues = new ContentValues();
+                contentValues.put(AppInfo.APP_TID, tid);
+                contentValues.put(AppInfo.URL, urlAuth.url);
+                contentValues.put(AppInfo.AUTHORITY, urlAuth.authority);
+                db.insert(ManagerDBHelper.AUTH_INTENT_TABLE, null, contentValues);
             }
 
             for (AppInfo.Locale locale : info.locales) {
@@ -139,7 +157,8 @@ public class ManagerDBAdapter {
                 AppInfo.DESCRIPTION, AppInfo.START_URL, AppInfo.TYPE,
                 AppInfo.AUTHOR_NAME, AppInfo.AUTHOR_EMAIL, AppInfo.DEFAULT_LOCAL, AppInfo.BACKGROUND_COLOR,
                 AppInfo.THEME_DISPLAY, AppInfo.THEME_COLOR, AppInfo.THEME_FONT_NAME, AppInfo.THEME_FONT_COLOR,
-                AppInfo.INSTALL_TIME, AppInfo.BUILT_IN, AppInfo.REMOTE, AppInfo.LAUNCHER};
+                AppInfo.INSTALL_TIME, AppInfo.BUILT_IN, AppInfo.REMOTE, AppInfo.LAUNCHER,
+                AppInfo.CATEGORY, AppInfo.KEY_WORDS};
         Cursor cursor = db.query(ManagerDBHelper.APP_TABLE, columns,selection, selectionArgs,null,null,null);
         AppInfo infos[] = new AppInfo[cursor.getCount()];
         int count = 0;
@@ -167,6 +186,10 @@ public class ManagerDBAdapter {
             info.built_in = cursor.getInt(cursor.getColumnIndex(AppInfo.BUILT_IN));
             info.remote = cursor.getInt(cursor.getColumnIndex(AppInfo.REMOTE));
             info.launcher = cursor.getInt(cursor.getColumnIndex(AppInfo.LAUNCHER));
+
+            info.category = cursor.getString(cursor.getColumnIndex(AppInfo.CATEGORY));
+            info.key_words = cursor.getString(cursor.getColumnIndex(AppInfo.KEY_WORDS));
+
             infos[count++] = info;
 
 
@@ -190,6 +213,12 @@ public class ManagerDBAdapter {
             cursor1 = db.query(ManagerDBHelper.AUTH_URL_TABLE, columns3,AppInfo.APP_TID + "=?", args1,null,null,null);
             while (cursor1.moveToNext()) {
                 info.addUrl(cursor1.getString(cursor1.getColumnIndex(AppInfo.URL)), cursor1.getInt(cursor1.getColumnIndex(AppInfo.AUTHORITY)));
+            }
+
+            String[] intent_columns = {AppInfo.URL, AppInfo.AUTHORITY};
+            cursor1 = db.query(ManagerDBHelper.AUTH_INTENT_TABLE, intent_columns,AppInfo.APP_TID + "=?", args1,null,null,null);
+            while (cursor1.moveToNext()) {
+                info.addIntent(cursor1.getString(cursor1.getColumnIndex(AppInfo.URL)), cursor1.getInt(cursor1.getColumnIndex(AppInfo.AUTHORITY)));
             }
 
             String[] columns4 = {AppInfo.LANGUAGE, AppInfo.NAME, AppInfo.SHORT_NAME, AppInfo.DESCRIPTION, AppInfo.AUTHOR_NAME};
@@ -267,11 +296,22 @@ public class ManagerDBAdapter {
         return count;
     }
 
+    public int updateIntentAuth(long tid, String url, int authority) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(AppInfo.AUTHORITY, authority);
+        String where = AppInfo.APP_TID + "=? AND " + AppInfo.URL + "=?";
+        String[] whereArgs= {String.valueOf(tid), url};
+        int count =db.update(ManagerDBHelper.AUTH_INTENT_TABLE, contentValues, where, whereArgs );
+        return count;
+    }
+
     public int removeAppInfo(AppInfo info) {
         SQLiteDatabase db = helper.getWritableDatabase();
         String where = AppInfo.APP_TID + "=?";
         String[] whereArgs = {String.valueOf(info.tid)};
         int count = db.delete(ManagerDBHelper.AUTH_URL_TABLE, where, whereArgs);
+        db.delete(ManagerDBHelper.AUTH_INTENT_TABLE, where, whereArgs);
         count = db.delete(ManagerDBHelper.AUTH_PLUGIN_TABLE, where, whereArgs);
         db.delete(ManagerDBHelper.ICONS_TABLE, where, whereArgs);
         db.delete(ManagerDBHelper.LACALE_TABLE, where, whereArgs);
@@ -281,18 +321,18 @@ public class ManagerDBAdapter {
         count = db.delete(ManagerDBHelper.APP_TABLE, where, whereArgs);
         where = AppInfo.APP_ID + "=?";
         String[] args = {info.app_id};
-        db.delete(ManagerDBHelper.INTENT_TABLE, where, args);
+        db.delete(ManagerDBHelper.INTENT_FILTER_TABLE, where, args);
         return count;
     }
 
-    public boolean addIntent(Intent intent) {
+    public boolean addIntentFilter(Intent intent) {
         if (intent != null) {
             SQLiteDatabase db = helper.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
             contentValues.put(AppInfo.APP_ID, intent.app_id);
             contentValues.put(AppInfo.ACTION, intent.action);
 
-            long tid = db.insert(ManagerDBHelper.INTENT_TABLE, null, contentValues);
+            long tid = db.insert(ManagerDBHelper.INTENT_FILTER_TABLE, null, contentValues);
             return true;
         }
         else {
@@ -300,11 +340,11 @@ public class ManagerDBAdapter {
         }
     }
 
-    public String[] getIntent(String action) {
+    public String[] getIntentFilter(String action) {
         SQLiteDatabase db = helper.getWritableDatabase();
         String[] args = {action};
         String[] columns = {AppInfo.APP_ID};
-        Cursor cursor = db.query(ManagerDBHelper.INTENT_TABLE, columns,AppInfo.ACTION + "=?", args,null,null,null);
+        Cursor cursor = db.query(ManagerDBHelper.INTENT_FILTER_TABLE, columns,AppInfo.ACTION + "=?", args,null,null,null);
         String ids[] = new String[cursor.getCount()];
         int count = 0;
         while (cursor.moveToNext()) {

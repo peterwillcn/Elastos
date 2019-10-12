@@ -49,6 +49,8 @@
      public static final String INSTALL_TIME = "install_time";
      public static final String BUILT_IN = "built_in";
      public static final String REMOTE = "remote";
+     public static final String CATEGORY = "category";
+     public static final String KEY_WORDS = "key_words";
      public static final String LAUNCHER = "launcher";
      public static final String LANGUAGE = "language";
      public static final String ACTION = "act";
@@ -89,6 +91,8 @@
      public int    built_in;
      public int    remote;
      public int    launcher;
+     public String category;
+     public String key_words;
 
      public static final int AUTHORITY_NOEXIST = -1;
      public static final int AUTHORITY_NOINIT = 0;
@@ -167,6 +171,7 @@
      public ArrayList<Icon> icons = new ArrayList<Icon>(4);
      public ArrayList<PluginAuth> plugins = new ArrayList<PluginAuth>(4);
      public ArrayList<UrlAuth> urls = new ArrayList<UrlAuth>(4);
+     public ArrayList<UrlAuth> intents = new ArrayList<UrlAuth>(4);
      public ArrayList<Framework> frameworks = new ArrayList<Framework>(2);
      public ArrayList<Platform> platforms = new ArrayList<Platform>(2);
 
@@ -181,6 +186,10 @@
 
      public void addUrl(String url, int authority) {
          urls.add(new UrlAuth(url, authority));
+     }
+
+     public void addIntent(String url, int authority) {
+         intents.add(new UrlAuth(url, authority));
      }
 
      public void addLocale(String language, String name, String short_name, String description, String author_name) {

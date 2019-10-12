@@ -22,17 +22,34 @@
 
 package org.elastos.trinity.runtime;
 
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.MessageQueue;
+
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.Whitelist;
 
 public class AppWhitelistPlugin extends CordovaPlugin {
     private static final String LOG_TAG = "AppWhitelist";
+    private AppInfo appInfo = null;
+
+    final String[] intentList = {
+            "elastos://*",
+            "mailto:*",
+            "tel:*",
+            "sms:*",
+            "geo:*"
+    };
+
     private AppWhitelist allowedAppNavigations;
+    private AppWhitelist allowedAppIntents;
     private Whitelist allowedNavigations;
     private Whitelist allowedIntents;
     private Whitelist allowedRequests;
 
     public AppWhitelistPlugin(AppInfo info) {
+        this.appInfo = info;
         AppManager appManager = AppManager.getShareInstance();
         String appPath = appManager.getAppUrl(info) + "*";
         String dataPath = appManager.getDataUrl(info.app_id) + "*";
@@ -51,7 +68,12 @@ public class AppWhitelistPlugin extends CordovaPlugin {
         allowedNavigations = allowedRequests;
         allowedIntents = new Whitelist();
 
-        allowedAppNavigations = new AppWhitelist(info);
+        for (String item : intentList) {
+            allowedIntents.addWhiteListEntry(item, false);
+        }
+
+        allowedAppNavigations = new AppWhitelist(info, AppWhitelist.TYPE_URL);
+        allowedAppIntents= new AppWhitelist(info, AppWhitelist.TYPE_INTENT);
     }
 
     @Override
@@ -90,6 +112,9 @@ public class AppWhitelistPlugin extends CordovaPlugin {
     @Override
     public Boolean shouldOpenExternalUrl(String url) {
         if (allowedIntents.isUrlWhiteListed(url)) {
+            return true;
+        }
+        else if (allowedAppIntents.isUrlAllowAuthority(url)) {
             return true;
         }
         return false; // Default policy

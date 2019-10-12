@@ -21,6 +21,12 @@
 +                <data android:host="*" android:mimeType="*/*" android:pathPattern=".*\\.epk" android:scheme="file" />
 +                <data android:host="*" android:mimeType="*/*" android:pathPattern=".*\\.epk" android:scheme="content" />
 +            </intent-filter>
++            <intent-filter>
++                <action android:name="android.intent.action.VIEW" />
++                <category android:name="android.intent.category.DEFAULT" />
++                <category android:name="android.intent.category.BROWSABLE" />
++                <data android:host="*" android:scheme="elastos" />
++            </intent-filter>
          </activity>
      </application>
 -    <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="27" />

@@ -31,8 +31,13 @@ module.exports = class ManifestHelper {
                 },
                 {
                     type: 'text',
+                    name: 'shortdescription',
+                    message: 'Short description (< 80 characters)'
+                },
+                {
+                    type: 'text',
                     name: 'description',
-                    message: 'Short desription'
+                    message: 'Full description'
                 },
                 {
                     type: 'text',
@@ -49,7 +54,15 @@ module.exports = class ManifestHelper {
                     validate: value => {
                         return value != "" && emailValidator.validate(value)
                     }
-                }
+                },
+                {
+                    type: 'text',
+                    name: 'website',
+                    message: "Author's website",
+                    validate: value => {
+                        return !value || value.indexOf("http") == 0
+                    }
+                },
             ];
             
             const info = await prompts(questions);
@@ -77,9 +90,11 @@ module.exports = class ManifestHelper {
             manifestJson.set("id", info.packagename);
             manifestJson.set("name", info.appname);
             manifestJson.set("short_name", info.appname); // TODO: request both long name and short name from user?
+            manifestJson.set("short_description", info.shortdescription);
             manifestJson.set("description", info.description);
             manifestJson.set("author.name", info.author);
             manifestJson.set("author.email", info.email);
+            manifestJson.set("author.website", info.website);
             
             manifestJson.save(); // synchronous
 

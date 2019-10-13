@@ -4,9 +4,11 @@
   "version_code":1,
   "name": "Trinity default template",
   "short_name": "Default template",
+  "short_description": "",
   "description": "",
   "start_url": "index.html",
   "type":"app",
+  "category":"finance",
   "icons": [
     {
         "src": "assets/imgs/logo.png",
@@ -21,16 +23,20 @@
   ],
   "author": {
       "name": "Elastos",
-      "email": "contact@elastos.org"
+      "email": "contact@elastos.org",
+      "website": ""
   },
   "default_locale": "en",
   "plugins": [
+    "File",
     "Device",
-    "SplashScreen"
+    "SplashScreen",
+    "NetworkStatus"
   ],
   "urls": [
     "http://www.baidu.com/*",
-    "https://www.google.com"
+    "https://www.google.com",
+    "http://192.168.31.103:21636/*"
   ],
   "background_color": "#4e8ef7",
   "theme_display": "show",

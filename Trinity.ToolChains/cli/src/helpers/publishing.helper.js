@@ -1,8 +1,10 @@
 const fs = require("fs-extra");
 const path = require("path");
+const os = require("os");
 const axios = require("axios");
 const FormData = require('form-data');
 const Spinner = require('cli-spinner').Spinner;
+const sharp = require("sharp");
 
 const config = require("../config.js")
 const ManifestHelper = require("../helpers/manifest.helper")
@@ -11,7 +13,7 @@ const DAppHelper = require("../helpers/dapp.helper")
 var dappHelper = new DAppHelper()
 
 module.exports = class PublishingHelper {
-    publishToDAppStore(epkPath, signaturePath) {
+    async publishToDAppStore(epkPath, signaturePath) {
         return new Promise(async (resolve, reject) => {
 
             console.log("")
@@ -21,8 +23,6 @@ module.exports = class PublishingHelper {
                 reject(dappHelper.noManifestErrorMessage())
                 return
             }
-
-            //const json = JSON.stringify(obj);
 
             // EPK
             let epkStream = fs.createReadStream(epkPath)
@@ -43,10 +43,32 @@ module.exports = class PublishingHelper {
                 reject("No app icon found at location "+appIconPath+". Please check your manifest.")
                 return
             }
-
             // TODO: make sure picture is a PNG file with the right dimensions
 
+            // Banner image
+            let storeConfigPath = path.join(process.cwd(), "dappstore.config.json")
+            if (!fs.existsSync(storeConfigPath)) {
+                reject("No dappstore.config.json file found in your project root. This file is required.")
+                return
+            }
+
+            let storeConfig = JSON.parse(fs.readFileSync(storeConfigPath))
+            if (!storeConfig.banner || !storeConfig.banner.src) {
+                reject("No entry found for app banner image (banner->src) in the dappstore.config.json")
+                return
+            }
+
+            let bannerImagePath = path.join(process.cwd(), storeConfig.banner.src)
+            if (!fs.existsSync(bannerImagePath)) {
+                reject("DApp store banner image file not found at location "+bannerImagePath)
+                return
+            }
+
+            // Upload only pictures with the right size
+            let resizedBannerImagePath = await this.adjustBannerSize(bannerImagePath)
+
             let appIconStream = fs.createReadStream(appIconPath)
+            let bannerImageStream = fs.createReadStream(resizedBannerImagePath)
 
             // Developer signature
             // TODO - How to get the developer's public key?
@@ -56,6 +78,7 @@ module.exports = class PublishingHelper {
             data.append("epk", epkStream);
             data.append("manifest", manifestStream);
             data.append("appicon", appIconStream)
+            data.append("bannerimage", bannerImageStream)
 
             /*axios.interceptors.request.use(request => {
                 console.log('Starting Request', request)
@@ -97,5 +120,17 @@ module.exports = class PublishingHelper {
             spinner.stop()
             console.log("")
         })
+    }
+
+    /**
+     * Send banners that are always 1024x500 and return the modified picture path
+     */
+    async adjustBannerSize(bannerPath) {
+        console.log("Converting banner image to 1024x500, JPG format")
+        let modifiedBannerPath = os.tmpdir()+"/trinitybanner.jpg"
+
+        await sharp(bannerPath).resize(1024,500).jpeg().toFile(modifiedBannerPath)
+
+        return modifiedBannerPath
     }
 }

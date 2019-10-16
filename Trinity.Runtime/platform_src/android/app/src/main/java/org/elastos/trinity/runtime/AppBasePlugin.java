@@ -495,6 +495,11 @@ public class AppBasePlugin extends TrinityPlugin {
     protected void install(JSONArray args, CallbackContext callbackContext) throws Exception {
         String url = args.getString(0);
         boolean update = args.getBoolean(1);
+
+        if (url.startsWith("trinity://")) {
+            url = getCanonicalPath(url);
+        }
+
         AppInfo info = AppManager.getShareInstance().install(url, update);
         if (info != null) {
             callbackContext.success(jsonAppInfo(info));

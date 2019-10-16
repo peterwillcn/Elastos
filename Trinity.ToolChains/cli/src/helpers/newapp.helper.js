@@ -6,19 +6,19 @@ module.exports = class NewAppHelper {
      * Creates a new folder by copying our template empty DApp to current user folder.
      * Folder name is the package name given by the user.
      */
-    createFromDefaultAppTemplate(packageName) {
+    createFromDefaultAppTemplate(packageName, framework) {
         return new Promise((resolve, reject) => {
             var targetAppFolderPath = path.join(process.cwd(), packageName)
 
             var rootScriptDirectory = path.dirname(require.main.filename)
-            var templateAppFolderPath = path.join(rootScriptDirectory, "assets", "dapptemplate")
+            var templateAppFolderPath = path.join(rootScriptDirectory, "assets/dapptemplate/" + framework)
 
             // Make sure the fodler we want to create does not exist yet.
             if (fs.existsSync(targetAppFolderPath)) {
                 reject("It seems like you already have a folder named "+packageName+". We wouldn't want to break any existing thing...")
                 return
             }
-
+f
             // Create new app folder
             fs.mkdirSync(targetAppFolderPath)
 

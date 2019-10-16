@@ -22,6 +22,15 @@ module.exports = class ManifestHelper {
                     }
                 },
                 {
+                    type: 'select',
+                    name: 'framework',
+                    message: 'Framework',
+                    choices: [
+                        { title: 'Angular | https://angular.io', value: 'angular' },
+                        { title: 'React   | https://reactjs.org', value: 'react' },
+                    ]
+                },
+                {
                     type: 'text',
                     name: 'packagename',
                     message: 'Package name (ex: org.company.yourapp)',

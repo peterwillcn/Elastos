@@ -17,7 +17,7 @@ function launchAppCreation() {
     var manifestHelper = new ManifestHelper()
 
     manifestHelper.promptAppInformation().then((info)=>{
-        newAppHelper.createFromDefaultAppTemplate(info.packagename).then(()=>{
+        newAppHelper.createFromDefaultAppTemplate(info.packagename, info.framework).then(()=>{
             // Location at which to create the new manifest file
             var manifestDestinationPath = path.join(process.cwd(), info.packagename, "src", "assets", "manifest.json")
 

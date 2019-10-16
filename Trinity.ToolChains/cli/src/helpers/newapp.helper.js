@@ -18,7 +18,6 @@ module.exports = class NewAppHelper {
                 reject("It seems like you already have a folder named "+packageName+". We wouldn't want to break any existing thing...")
                 return
             }
-f
             // Create new app folder
             fs.mkdirSync(targetAppFolderPath)
 

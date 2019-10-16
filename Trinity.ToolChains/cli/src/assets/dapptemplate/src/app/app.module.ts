@@ -1,12 +1,17 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { MyApp } from './app.component';
+import { CommonModule } from '@angular/common';
+import { RouteReuseStrategy } from '@angular/router';
+import { IonicModule, IonicRouteStrategy, Platform } from '@ionic/angular';
+import { AppRoutingModule } from './app-routing.module';
 
-import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
-import { HomePage } from '../pages/home/home';
-import { TabsPage } from '../pages/tabs/tabs';
+import { MyApp } from './app.component';
+import { ComponentsModule } from './components/components.module';
+
+import { AboutPage } from './pages/about/about';
+import { ContactPage } from './pages/contact/contact';
+import { HomePage } from './pages/home/home';
+import { TabsPage } from './pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -20,10 +25,13 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
     TabsPage
   ],
   imports: [
+    CommonModule,
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    AppRoutingModule,
+    ComponentsModule,
+    IonicModule.forRoot()
   ],
-  bootstrap: [IonicApp],
+  bootstrap: [MyApp],
   entryComponents: [
     MyApp,
     AboutPage,
@@ -34,7 +42,9 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    Platform,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    {provide: ErrorHandler, useClass: ErrorHandler}
   ]
 })
 export class AppModule {}

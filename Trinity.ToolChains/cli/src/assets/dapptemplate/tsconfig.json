@@ -12,6 +12,7 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "target": "es5",
+    "baseUrl": "./",
     "typeRoots": [
       "node_modules/@types",
       "cordova-plugin-file/types",

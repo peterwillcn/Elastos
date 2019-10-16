@@ -11,12 +11,12 @@
   "category":"finance",
   "icons": [
     {
-        "src": "assets/imgs/logo.png",
+        "src": "assets/images/logo.png",
         "sizes": "512x512",
         "type": "image/png"
     },
     {
-      "src": "assets/imgs/logo.png",
+      "src": "assets/images/logo.png",
       "sizes": "128x128",
       "type": "image/png"
     }
@@ -28,7 +28,6 @@
   },
   "default_locale": "en",
   "plugins": [
-    "File",
     "Device",
     "SplashScreen",
     "NetworkStatus"

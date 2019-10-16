@@ -60,3 +60,6 @@
 	path = Trinity/ToolChains
 	url = ../Elastos.Trinity.ToolChains.git
 	branch = master
+[submodule "Dapps/Ionic/Qrcodescanner"]
+	path = Trinity/Dapps/Ionic/Qrcodescanner
+	url = git@github.com:elastos/Elastos.Trinity.DApps.QRCodeScanner.git

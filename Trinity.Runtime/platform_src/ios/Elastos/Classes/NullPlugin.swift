@@ -31,7 +31,8 @@ class NullPlugin : CDVPlugin {
     }
 
     @objc override func trinityExecute(_ command: CDVInvokedUrlCommand) -> Bool {
-        let err = "The plugin:'" + pluginName! + "' isn't add plugin access list!!"
+        let err = "Access to plugin '" + pluginName!
+                + "' is forbidden as it has not been added to plugins list in the app manifest."
         let result = CDVPluginResult(status: CDVCommandStatus_ERROR,
                                      messageAs: err);
 

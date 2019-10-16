@@ -61,6 +61,9 @@ public class AppBasePlugin extends TrinityPlugin {
         boolean isDone = true;
         try {
             switch (action) {
+                case "start":
+                    this.start(args, callbackContext);
+                    break;
                 case "getAppInfos":
                     this.getAppInfos(args, callbackContext);
                     break;
@@ -109,9 +112,6 @@ public class AppBasePlugin extends TrinityPlugin {
                         break;
                     case "launcher":
                         this.launcher(args, callbackContext);
-                        break;
-                    case "start":
-                        this.start(args, callbackContext);
                         break;
                     case "close":
                         this.close(args, callbackContext);

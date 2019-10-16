@@ -108,14 +108,6 @@ public class ManagerDBAdapter {
                 db.insert(ManagerDBHelper.AUTH_INTENT_TABLE, null, contentValues);
             }
 
-            for (AppInfo.UrlAuth urlAuth : info.intents) {
-                contentValues = new ContentValues();
-                contentValues.put(AppInfo.APP_TID, tid);
-                contentValues.put(AppInfo.URL, urlAuth.url);
-                contentValues.put(AppInfo.AUTHORITY, urlAuth.authority);
-                db.insert(ManagerDBHelper.AUTH_INTENT_TABLE, null, contentValues);
-            }
-
             for (AppInfo.Locale locale : info.locales) {
                 contentValues = new ContentValues();
                 contentValues.put(AppInfo.APP_TID, tid);

@@ -2,8 +2,10 @@ image: Visual Studio 2017
 
 environment:
   ANDROID_HOME: "C:\\ProgramData\\Microsoft\\AndroidSDK\\25"
+  nodejs_version: "10"
 
 install:
+  - ps: Install-Product node $env:nodejs_version
   - echo y| "%ANDROID_HOME%\tools\android.bat" update sdk -u -a -t tools
   - echo y| "%ANDROID_HOME%\tools\android.bat" update sdk -u -a -t platform-tools
   - echo y| "%ANDROID_HOME%\tools\android.bat" update sdk -u -a -t build-tools-27.0.0

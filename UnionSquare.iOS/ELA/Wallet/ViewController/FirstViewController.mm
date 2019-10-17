@@ -543,7 +543,7 @@ MJRefreshNormalHeader  *header = [MJRefreshNormalHeader  headerWithRefreshingBlo
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+//self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     self.isScro=YES;
 }
 -(void)viewDidDisappear:(BOOL)animated{

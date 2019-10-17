@@ -57,9 +57,8 @@
 
 - (IBAction)confirmTheExportEvent:(id)sender {
 HMWverifyTheMnemonicWordViewController*VerifyTheMnemonicWordVC=[[HMWverifyTheMnemonicWordViewController alloc]init];
-    FLWallet *wallet=[[FLWallet alloc]init];
-wallet.mnemonic=self.theMnemonicWord;
-VerifyTheMnemonicWordVC.Wallet=wallet;
+    self.currentWallet.mnemonic=self.theMnemonicWord;
+    VerifyTheMnemonicWordVC.Wallet=self.currentWallet;
     VerifyTheMnemonicWordVC.FormeType=@"2";
     [self.navigationController pushViewController:VerifyTheMnemonicWordVC animated:YES];
 }

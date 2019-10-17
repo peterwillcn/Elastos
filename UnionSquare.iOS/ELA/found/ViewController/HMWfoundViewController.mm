@@ -108,6 +108,7 @@
                self.typeString =Status;
         
       HMWCRCommitteeMemberListViewController *CRSignUpForVC=[[HMWCRCommitteeMemberListViewController alloc]init];
+        CRSignUpForVC.typeString=self.typeString;
          [self.navigationController pushViewController:CRSignUpForVC  animated:YES];
     }
     

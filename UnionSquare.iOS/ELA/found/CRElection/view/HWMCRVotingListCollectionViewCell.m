@@ -23,7 +23,7 @@
       [[HMWCommView share]makeBordersWithView:self];
 }
 -(void)setModel:(HWMCRListModel *)model{
-    [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:model.url] placeholderImage:[UIImage imageNamed:@"found_vote_initial_r"]];
+    [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:model.url] placeholderImage:[UIImage imageNamed:@"found_vote_initial_oval"]];
     self.nickNameLabel.text = model.nickname;
         self.NOIndexLabel.text=[NSString stringWithFormat:@"%ld",(long)[model.index integerValue]+1];
         if (model.isCellSelected==NO) {

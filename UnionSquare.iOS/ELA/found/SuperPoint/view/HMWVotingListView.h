@@ -40,6 +40,13 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(assign,nonatomic)VotingListType type;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *typeString;
+
+
+
 -(void)selectAllListWithIsSelect:(BOOL)isSelectAll;
 -(void)AddAllTheCRList;
 

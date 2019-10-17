@@ -465,7 +465,7 @@ static HMWFMDBManager * _manager =nil;
     }
     return NO;
 }
--(HWMCRListModel*)selectCRWithWalletID:(NSString*)walletID andWithDID:(NSString*)DID{
+-(BOOL)selectCRWithWalletID:(NSString*)walletID andWithDID:(NSString*)DID{
     NSString *sql =[NSString stringWithFormat: @"select * from RMList where walletID=\'%@\' and did=\'%@\'",walletID,DID];
     
     FMResultSet *set=[self executeQuery:sql];
@@ -483,9 +483,9 @@ static HMWFMDBManager * _manager =nil;
        CR.voterate =[set objectForColumn:@"voterate"];
        CR.state =[set objectForColumn:@"state"];
        CR.url =[set objectForColumn:@"url"];
-        return  CR;
+        return  YES;
     }
-    return nil;
+    return NO;
 }
 //改
 -(BOOL)updateSelectCR:(HWMCRListModel *)crModel WithWalletID:(NSString*)walletID{

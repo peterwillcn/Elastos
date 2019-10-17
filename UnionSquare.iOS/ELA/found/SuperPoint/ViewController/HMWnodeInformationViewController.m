@@ -77,7 +77,7 @@
  */
 @property(strong,nonatomic)nodeInformationDetailsView *nodeInformationDetailsV;
 
-
+@property(nonatomic,assign)BOOL needUpdate;
 @end
 
          
@@ -281,11 +281,14 @@
         _nodeInformationDetailsV =[[nodeInformationDetailsView alloc]init];
          if (self.type== CRInformationType) {
               _nodeInformationDetailsV.type=CRCoinPointInfType;
+                     _nodeInformationDetailsV.CRmodel=self.CRmodel;
+             
         }else if (self.type==nodeInformationType){
               _nodeInformationDetailsV.type=nodeCoinPointInfType;
+                    _nodeInformationDetailsV.model=self.model;
         }
       
-        _nodeInformationDetailsV.model=self.model;
+
         [_nodeInformationDetailsV.copURLButton addTarget:self action:@selector(copyURLEvent:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _nodeInformationDetailsV;
@@ -359,9 +362,11 @@
         if (self.hasModel) {
             BOOL ret =[[HMWFMDBManager sharedManagerType:CRListType]delectSelectCR:self.CRmodel WithWalletID:model.walletID];
             if (ret) {
+           self.needUpdate=YES;
                 [[FLTools share]showErrorInfo:NSLocalizedString(@"删除成功",nil)];
 
                 [self.navigationController popViewControllerAnimated:YES];
+                
             }else{
                 [[FLTools share]showErrorInfo:NSLocalizedString(@"删除失败", nil)];
             }
@@ -370,6 +375,7 @@
             
             BOOL ret =  [[HMWFMDBManager sharedManagerType:CRListType]addCR:self.CRmodel withWallID:model.walletID];
         if (ret) {
+            self.needUpdate=YES;
             [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
             self.hasModel = YES;
             [[FLTools share]showErrorInfo:NSLocalizedString(@"添加成功",nil)];
@@ -395,8 +401,12 @@
     BOOL ret =  [[FLNotePointDBManager defultWithWalletID:model.walletID]addRecord:self.model];
     if (ret) {
         [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
+        if (self.needUpdate==NO){
+             self.needUpdate=YES;
+        }
         self.hasModel = YES;
         [[FLTools share]showErrorInfo:NSLocalizedString(@"添加成功",nil)];
+        
 
     }else{
         [[FLTools share]showErrorInfo:NSLocalizedString(@"添加失败", nil)];
@@ -429,6 +439,16 @@
 }
 -(void)setCRmodel:(HWMCRListModel *)CRmodel{
     _CRmodel=CRmodel;
+    
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    if (self.delegate&&self.needUpdate) {
+        [self.delegate needUpdateListWithIndex:self.index];
+    }
+}
+- (void)setIndex:(NSInteger)index{
+    _index=index;
     
 }
 @end

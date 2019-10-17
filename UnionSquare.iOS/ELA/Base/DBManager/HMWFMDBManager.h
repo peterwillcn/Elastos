@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(BOOL)addCR:(HWMCRListModel*)CRModel withWallID:(NSString*)walletID;
 //查
 -(NSArray*)allSelectCRWithWallID:(NSString*)walletID;
--(HWMCRListModel*)selectCRWithWalletID:(NSString*)walletID andWithDID:(NSString*)DID;
+-(BOOL)selectCRWithWalletID:(NSString*)walletID andWithDID:(NSString*)DID;
 //改
 -(BOOL)updateSelectCR:(HWMCRListModel *)crModel WithWalletID:(NSString*)walletID;
 //删

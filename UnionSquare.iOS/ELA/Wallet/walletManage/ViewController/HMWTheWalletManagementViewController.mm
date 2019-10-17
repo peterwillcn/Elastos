@@ -371,13 +371,15 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
         
         
         PluginResult *result= [[ELWalletManager share] exportWalletWithMnemonic:mommand];
+        self.currentWallet.passWord=pwdString;
         NSString *status=[NSString stringWithFormat:@"%@",result.status];
         
         if ([status isEqualToString:@"1"]) {
             NSString *theMnemonicWord=result.message[@"success"];
             HMWExportTheMnemonicWordViewController *exportTheMnemonicWordVC=[[HMWExportTheMnemonicWordViewController alloc]init];
             exportTheMnemonicWordVC.theMnemonicWord=theMnemonicWord;
-            [self.navigationController pushViewController:exportTheMnemonicWordVC animated:YES];
+            exportTheMnemonicWordVC.currentWallet=self.currentWallet;
+              [self.navigationController pushViewController:exportTheMnemonicWordVC animated:YES];
         }
         
     }else if ([title isEqualToString:NSLocalizedString(@"导出只读钱包",nil)]){

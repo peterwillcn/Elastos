@@ -93,10 +93,13 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
     if ([self.listType isEqualToString:@"1"]) {
         if (self.type==CRType) {
             HWMCRCCommitteeElectionCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:crossCRCellString forIndexPath:indexPath];
-
-             cell.backgroundColor=RGB(51, 51, 51);
             cell.isEdiet=self.isEdiet;
            cell.model = self.dataSource[indexPath.row];
+            if (indexPath.row==0&&[self.typeString isEqualToString:@"Registered"]) {
+                    cell.backgroundColor=RGB(48, 124, 162);
+            }else{
+                cell.backgroundColor=RGB(92, 116, 120);
+            }
             
             return cell;
         }
@@ -106,6 +109,11 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
     }
     if (self.isEdiet&&self.type==CRType&&[self.listType isEqualToString:@"2"]) {
         HWMCRVotingListCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:ListCRCellString forIndexPath:indexPath];
+        if (indexPath.row==0&&[self.typeString isEqualToString:@"Registered"]) {
+                cell.backgroundColor=RGB(48, 124, 162);
+        }else{
+            cell.backgroundColor=RGB(51, 51, 51);
+        }
         cell.model = self.dataSource[indexPath.row];
         return cell;
     }
@@ -114,6 +122,9 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
     cell.backgroundColor=RGB(51, 51, 51);
     if (self.type==CRType) {
         cell.CRModel = self.dataSource[indexPath.row];
+        if (indexPath.row==0&&[self.typeString isEqualToString:@"Registered"]) {
+             cell.backgroundColor=RGB(48, 124, 162);
+        }
     }else{
       cell.model = self.dataSource[indexPath.row];
     }
@@ -278,5 +289,8 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
     }
     }
     [self.baseCollectionView reloadData];
+}
+-(void)setTypeString:(NSString *)typeString{
+    _typeString=typeString;
 }
 @end

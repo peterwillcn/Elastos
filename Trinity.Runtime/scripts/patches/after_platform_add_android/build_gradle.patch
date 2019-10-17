@@ -38,7 +38,41 @@
      }
  }
 
-@@ -164,11 +165,25 @@
+@@ -145,30 +146,46 @@
+     return computeBuildTargetName(false)
+ }
+
+-task cdvPrintProps << {
+-    println('cdvCompileSdkVersion=' + cdvCompileSdkVersion)
+-    println('cdvBuildToolsVersion=' + cdvBuildToolsVersion)
+-    println('cdvVersionCode=' + cdvVersionCode)
+-    println('cdvVersionCodeForceAbiDigit=' + cdvVersionCodeForceAbiDigit)
+-    println('cdvMinSdkVersion=' + cdvMinSdkVersion)
+-    println('cdvBuildMultipleApks=' + cdvBuildMultipleApks)
+-    println('cdvReleaseSigningPropertiesFile=' + cdvReleaseSigningPropertiesFile)
+-    println('cdvDebugSigningPropertiesFile=' + cdvDebugSigningPropertiesFile)
+-    println('cdvBuildArch=' + cdvBuildArch)
+-    println('computedVersionCode=' + android.defaultConfig.versionCode)
+-    android.productFlavors.each { flavor ->
+-        println('computed' + flavor.name.capitalize() + 'VersionCode=' + flavor.versionCode)
++task cdvPrintProps {
++    doLast {
++        println('cdvCompileSdkVersion=' + cdvCompileSdkVersion)
++        println('cdvBuildToolsVersion=' + cdvBuildToolsVersion)
++        println('cdvVersionCode=' + cdvVersionCode)
++        println('cdvVersionCodeForceAbiDigit=' + cdvVersionCodeForceAbiDigit)
++        println('cdvMinSdkVersion=' + cdvMinSdkVersion)
++        println('cdvBuildMultipleApks=' + cdvBuildMultipleApks)
++        println('cdvReleaseSigningPropertiesFile=' + cdvReleaseSigningPropertiesFile)
++        println('cdvDebugSigningPropertiesFile=' + cdvDebugSigningPropertiesFile)
++        println('cdvBuildArch=' + cdvBuildArch)
++        println('computedVersionCode=' + android.defaultConfig.versionCode)
++        android.productFlavors.each { flavor ->
++            println('computed' + flavor.name.capitalize() + 'VersionCode=' + flavor.versionCode)
++        }
+     }
+ }
+
  android {
 
      defaultConfig {

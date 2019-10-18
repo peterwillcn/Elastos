@@ -31,6 +31,14 @@ module.exports = class ManifestHelper {
                     ]
                 },
                 {
+                    type: 'select',
+                    name: 'template',
+                    message: 'Template',
+                    choices: [
+                        { title: 'Basic', value: 'basic' }
+                    ]
+                },
+                {
                     type: 'text',
                     name: 'packagename',
                     message: 'Package name (ex: org.company.yourapp)',

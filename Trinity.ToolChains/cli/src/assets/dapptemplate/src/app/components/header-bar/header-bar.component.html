@@ -5,10 +5,10 @@
         </ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-        <ion-button fill="clear" (click)="launcher()">
+        <ion-button fill="clear" (click)="showMinimize()" *ngIf="showMinimize">
             <ion-icon slot="icon-only" name="apps"></ion-icon>
         </ion-button>
-        <ion-button fill="clear" (click)="close()">
+        <ion-button fill="clear" (click)="close()" *ngIf="showClose">
             <ion-icon slot="icon-only" name="close"></ion-icon>
         </ion-button>
     </ion-buttons>

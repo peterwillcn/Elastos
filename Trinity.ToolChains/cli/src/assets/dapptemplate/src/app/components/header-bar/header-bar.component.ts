@@ -8,19 +8,15 @@ declare let appService: any;
     styleUrls: ['./header-bar.component.scss'],
 })
 export class HeaderBarComponent implements OnInit {
-    public back_touched = false;
-    public _title: string = '';
-
-    @Input()
-    set title(title: string) {
-        this._title = title;
-    }
+    @Input('title') title: string = "";
+    @Input('showMinimize') showMinimize: boolean;
+    @Input('showClose') showClose: boolean;
 
     constructor() { }
 
     ngOnInit() { }
 
-    launcher() {
+    minimize() {
         appService.launcher();
     }
 

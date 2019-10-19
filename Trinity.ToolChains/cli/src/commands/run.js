@@ -80,7 +80,7 @@ function deployAndroidDApp(idKeystorePath, noDebug) {
 
     // Retrieve user's computer IP (to be able to ionic serve / hot reload)
     // Update the start_url in the trinity manifest
-    var manifestPath = path.join(process.cwd(), "src", "assets", "manifest.json")
+    var manifestPath = manifestHelper.getManifestPath(ionicHelper.getConfig().assets_path)
     if (noDebug)
         manifestHelper.updateManifestForLocalIndex(manifestPath)
     else

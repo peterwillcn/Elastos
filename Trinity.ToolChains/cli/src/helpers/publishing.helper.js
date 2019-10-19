@@ -9,8 +9,11 @@ const sharp = require("sharp");
 const config = require("../config.js")
 const ManifestHelper = require("../helpers/manifest.helper")
 const DAppHelper = require("../helpers/dapp.helper")
+const IonicHelper = require("../helpers/ionic.helper")
 
 var dappHelper = new DAppHelper()
+var manifestHelper = new ManifestHelper()
+var ionicHelper = new IonicHelper()
 
 module.exports = class PublishingHelper {
     async publishToDAppStore(epkPath, signaturePath) {
@@ -28,7 +31,7 @@ module.exports = class PublishingHelper {
             let epkStream = fs.createReadStream(epkPath)
 
             // Manifest
-            var manifestPath = path.join(process.cwd(), "src", "assets", "manifest.json")
+            var manifestPath = manifestHelper.getManifestPath(ionicHelper.getConfig().assets_path)
             let manifestStream = fs.createReadStream(manifestPath)
 
             // App icon

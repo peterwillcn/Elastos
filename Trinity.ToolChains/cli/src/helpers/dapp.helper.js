@@ -4,12 +4,17 @@ const os = require("os")
 require("colors")
 
 const ManifestHelper = require("./manifest.helper")
+const IonicHelper = require("./ionic.helper")
 
 module.exports = class DAppHelper {
     /**
      * Make sure current folder is a DApp, to not try to package some invalid content.
      */
     checkFolderIsDApp() {
+
+        let manifestHelper = new ManifestHelper()
+        let ionicHelper = new IonicHelper()
+
         // Older dapps csanity check. Warn user to not use a manifest.json in the root folder because
         // we will use the one from the src/assets folder
         var rootManifestPath = path.join(process.cwd(), "manifest.json")
@@ -17,8 +22,8 @@ module.exports = class DAppHelper {
             console.log("WARNING".yellow + ": You should not have manifest.json in your root folder. It has to be in src/assts instead.")
         }
 
-        // Check manifest.json
-        var manifestPath = path.join(process.cwd(), "src", "assets", "manifest.json")
+        // Check manifest.json  manifestHelper.getManifestPath(info.framework)
+        var manifestPath = manifestHelper.getManifestPath(ionicHelper.getConfig().assets_path)
 
         if (!fs.existsSync(manifestPath)) {
             return false;
@@ -46,6 +51,7 @@ module.exports = class DAppHelper {
 
             let dappHelper = new DAppHelper()
             let manifestHelper = new ManifestHelper()
+            let ionicHelper = new IonicHelper()
 
             if (!dappHelper.checkFolderIsDApp()) {
                 reject(manifestHelper.noManifestErrorMessage());
@@ -58,7 +64,7 @@ module.exports = class DAppHelper {
             console.log("Output EPK will generated at: "+outputEPKPath)
 
             const spawn = require("child_process").spawn;
-            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/pack_epk", outputEPKPath, "-r",".","--root-dir","www","-m",manifestPath]);
+            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/pack_epk", outputEPKPath, "-r",".","--root-dir",ionicHelper.getConfig().dist_path,"-m",manifestPath]);
 
             pythonProcess.stdout.on('data', function (data) { console.log(''+data)});
             pythonProcess.stderr.on('data', function (data) { console.log(''+data)});

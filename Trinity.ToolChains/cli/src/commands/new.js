@@ -3,6 +3,7 @@ const path = require("path")
 
 const NewAppHelper = require("../helpers/newapp.helper")
 const ManifestHelper = require("../helpers/manifest.helper")
+const IonicHelper = require("../helpers/ionic.helper")
 
 exports.command = 'new'
 exports.describe = 'Creates a new default Trinity DApp in current folder'
@@ -15,13 +16,15 @@ exports.handler = function (argv) {
 function launchAppCreation() {
     var newAppHelper = new NewAppHelper()
     var manifestHelper = new ManifestHelper()
+    var ionicHelper = new IonicHelper()
 
     manifestHelper.promptAppInformation().then((info)=>{
-        newAppHelper.createFromDefaultAppTemplate(info.packagename, info.framework, info.template).then(()=>{
-            // Location at which to create the new manifest file
-            var manifestDestinationPath = path.join(process.cwd(), info.packagename, "src", "assets", "manifest.json")
 
-            manifestHelper.createManifestWithInfo(info, manifestDestinationPath).then(()=>{
+        newAppHelper.createFromDefaultAppTemplate(info.packagename, info.framework, info.template).then(()=>{
+
+            var manifestPath = manifestHelper.getManifestPath(ionicHelper.getConfig(info.packagename).assets_path, info.packagename)
+
+            manifestHelper.createManifestWithInfo(info, manifestPath).then(()=>{
                 console.log("Congratulations! Your new Trinity DApp is ready. You can start coding now.")
                 console.log("You can now enter your app folder (cd "+info.packagename+"), and call trinity-cli run to send your DApp on your device!")
             })

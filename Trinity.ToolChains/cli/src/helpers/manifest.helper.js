@@ -89,6 +89,17 @@ module.exports = class ManifestHelper {
         })
     }
 
+   
+
+    /**
+     * 
+     * @param {*} assets_path 
+     * @param {*} packagename 
+     */
+    getManifestPath(assets_path, packagename = '') {
+        return path.join(process.cwd(), packagename, assets_path, "assets", "manifest.json")
+    }
+
     /**
      * Customize a few things from our default manifest template, to match user information,
      * then overwrite any existing manifest at the given path

@@ -1,0 +1,64 @@
+#!/usr/bin/env python
+
+import os
+import sys
+import argparse
+import textwrap
+import ctypes
+
+sys.path.append(os.path.abspath('../lib'))
+import ela_did
+
+if __name__ == "__main__":
+    try:
+        did_api = ela_did.getElaDIDAPI()
+        parser = argparse.ArgumentParser(description='Create an Elastos DID.', formatter_class=argparse.RawTextHelpFormatter)
+        parser.add_argument('-r', '--root', dest='did_store_root', metavar='PATH', required=True,
+                            help='Specify the root path of DID store.')
+        parser.add_argument('-m', '--mnemonic', dest='mnemonic', required=True,
+                            help='Mnemonic for generate key.')
+        parser.add_argument('-l', '--language', dest='language', metavar='N', type=int, default=0, choices=range(0, 6),
+                            help=textwrap.dedent('''\
+                                 The language for DID. default: 0
+                                     '0: English; 1: French; 2: Spanish;
+                                     '3: Chinese_simplified;
+                                     '4: Chinese_traditional;
+                                     '5: Japanese.
+                                 '''))
+        parser.add_argument('-p', '--passphrase', dest='passphrase', default="",
+                            help='The password to generate private identity.')
+        parser.add_argument('-s', '--storepass', dest='storepass', default="",
+                            help='The password of DID holder.')
+        parser.add_argument('--hint', dest='hint', default="",
+                            help='The nickname of DID.')
+
+        args = parser.parse_args()
+
+        ret = did_api.DIDStore_Open(args.did_store_root)
+        if ret != 0:
+            raise RuntimeError("ERROR: Failed to open DID store.")
+
+        ret = did_api.DIDStore_InitPrivateIdentity(args.mnemonic, args.passphrase, args.storepass, args.language)
+        if ret != 0:
+            raise RuntimeError("ERROR: Failed to initialize private identity for DID.")
+
+        did_doc = did_api.DIDStore_NewDID(args.storepass, args.hint)
+        didurl = did_api.DIDDocument_GetDefaultPublicKey(did_doc)
+        didurl_buf = ctypes.create_string_buffer(did_api.MAX_DIDURL)
+        didurl_str = did_api.DIDURL_ToString(didurl, didurl_buf, did_api.MAX_DIDURL, False)
+        print("DIDURL String: " + didurl_str)
+
+        public_key = did_api.DIDDocument_GetPublicKey(did_doc, didurl)
+        public_key_base58 = did_api.PublicKey_GetPublicKeyBase58(public_key)
+        print("Public Key Base58: " + public_key_base58)
+
+    except RuntimeError as err:
+        print("Error: " + err.args[0])
+        exit(2)
+    except Exception as err:
+        print("Error: " + str(err))
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        print("Unexpected error: ", exc_type)
+        print(' File "' + exc_tb.tb_frame.f_code.co_filename + '", line ' + str(exc_tb.tb_lineno))
+        exit(3)
+

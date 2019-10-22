@@ -1,6 +1,7 @@
 
 const path = require("path");
 const ManifestHelper = require("../helpers/manifest.helper")
+const IonicHelper = require("../helpers/ionic.helper")
 
 exports.command = 'manifest'
 exports.describe = 'Creates or update a Trinity manifest.json inside the ionic app project. Use this only if you want to enable an existing ionic app as a Trinity DApp'
@@ -12,10 +13,11 @@ exports.handler = function (argv) {
 
 function launchManifestCreation() {
     var manifestHelper = new ManifestHelper()
+    var ionicHelper = new IonicHelper()
 
     manifestHelper.promptAppInformation().then((info)=>{
         // Manifest is created in the src/assets subfolder of current root folder
-        var manifestDestinationPath = path.join(process.cwd(), "src", "assets", "manifest.json")
+        var manifestDestinationPath =  manifestHelper.getManifestPath(ionicHelper.getConfig().assets_path)
         
         manifestHelper.createManifestWithInfo(info, manifestDestinationPath).then(()=>{
             console.log("OK - manifest.json has been created/updated.")

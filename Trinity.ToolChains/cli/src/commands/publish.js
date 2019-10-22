@@ -39,7 +39,7 @@ function launchAppCreation(idKeystorePath) {
     }
 
     // Update manifest with local url in case it had been configured for debugging earlier (ionic serve with remote url)
-    var manifestPath = path.join(process.cwd(), "src", "assets", "manifest.json")
+    var manifestPath = manifestHelper.nifestPath(ionicHelper.getConfig().assets_path)
     manifestHelper.updateManifestForProduction(manifestPath)
 
     ionicHelper.updateNpmDependencies().then(() => {

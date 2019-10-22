@@ -22,6 +22,23 @@ module.exports = class ManifestHelper {
                     }
                 },
                 {
+                    type: 'select',
+                    name: 'framework',
+                    message: 'Framework',
+                    choices: [
+                        { title: 'Angular | https://angular.io', value: 'angular' },
+                        { title: 'React   | https://reactjs.org', value: 'react' },
+                    ]
+                },
+                {
+                    type: 'select',
+                    name: 'template',
+                    message: 'Template',
+                    choices: [
+                        { title: 'Basic', value: 'basic' }
+                    ]
+                },
+                {
                     type: 'text',
                     name: 'packagename',
                     message: 'Package name (ex: org.company.yourapp)',
@@ -70,6 +87,17 @@ module.exports = class ManifestHelper {
 
             resolve(info)
         })
+    }
+
+   
+
+    /**
+     * 
+     * @param {*} assets_path 
+     * @param {*} packagename 
+     */
+    getManifestPath(assets_path, packagename = '') {
+        return path.join(process.cwd(), packagename, assets_path, "assets", "manifest.json")
     }
 
     /**

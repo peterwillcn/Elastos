@@ -1,3 +1,5 @@
+const path = require("path")
+const fs = require("fs-extra");
 
 module.exports = class IonicHelper {
     /**
@@ -26,6 +28,26 @@ module.exports = class IonicHelper {
                 }
             });
         })
+    }
+
+     /**
+     * Project stucture is different between Angular and React templates
+     */
+    getConfig(packagename = '') {
+        var config = JSON.parse(fs.readFileSync(path.join(process.cwd(), packagename, "ionic.config.json")))
+
+        const options = {
+            angular: {
+                dist_path: 'www',
+                assets_path: 'src'
+            },
+            react: {
+                dist_path: 'build',
+                assets_path: 'public'
+            }
+        }
+
+        return options[config.type]
     }
 
     /**

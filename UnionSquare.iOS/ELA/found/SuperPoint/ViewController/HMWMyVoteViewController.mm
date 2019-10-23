@@ -63,7 +63,7 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
 -(void)getCRData{
     FLWallet *waller = [ELWalletManager share].currentWallet;
        IMainchainSubWallet *subWallet = [[ELWalletManager share]getWalletELASubWallet:waller.masterWalletID];
-       Json cArray = subWallet->GetVotedProducerList();
+       Json cArray = subWallet->GetVotedCRList();
        NSString *dataStr = [NSString stringWithUTF8String:cArray.dump().c_str()];
        NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
        NSMutableArray *showlistdata = [NSMutableArray array];

@@ -40,7 +40,6 @@
     self =[super init];
     if (self) {
         self =[[NSBundle mainBundle]loadNibNamed:@"HMWtransferTransactionSingleAddressDetailsView" owner:nil options:nil].firstObject;
-        //        [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.pwdTextField];
                 [[HMWCommView share]makeBordersWithView:self.bgView];
        self.addressTextLabel.text= NSLocalizedString(@"接收地址", nil);
     self.timeTextLabel.text=NSLocalizedString(@"确认时间", nil);

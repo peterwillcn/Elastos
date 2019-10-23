@@ -6,10 +6,23 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "HWMCRListModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMCRRegisteredViewController : UIViewController
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)FLWallet *currentWallet;
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)BOOL isUpdate;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)HWMCRListModel *CRmodel;
+
 
 @end
 

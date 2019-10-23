@@ -40,13 +40,11 @@
     [super viewDidLoad];
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"转账", nil);
-    
-    self.noteTextField.placeholder=NSLocalizedString(@"请输入备注", nil);
     [self.theNextStepButton setTitle:NSLocalizedString(@"下一步", nil) forState:UIControlStateNormal];
-    [[HMWCommView share] makeTextFieldPlaceHoTextColorWithTextField:self.transferTheAddressTextField];
+    [[HMWCommView share] makeTextFieldPlaceHoTextColorWithTextField:self.transferTheAddressTextField withTxt:NSLocalizedString(@"请输入收款人地址", nil)];
     
-    [[HMWCommView share] makeTextFieldPlaceHoTextColorWithTextField:self.theAmountOfTextField];
-    [[HMWCommView share] makeTextFieldPlaceHoTextColorWithTextField:self.noteTextField];
+    [[HMWCommView share] makeTextFieldPlaceHoTextColorWithTextField:self.theAmountOfTextField withTxt:[NSString stringWithFormat:@"%@%@ ELA)",NSLocalizedString(@"请输入金额 可用", nil),[[FLTools share]elaScaleConversionWith:[@(self.walletBalance) stringValue]]]];
+    [[HMWCommView share] makeTextFieldPlaceHoTextColorWithTextField:self.noteTextField withTxt:NSLocalizedString(@"请输入备注", nil)];
     [[HMWCommView share]makeBordersWithView:self.theNextStepButton];
     [[HMWCommView share]makeBordersWithView:self.maxButton];
     
@@ -57,8 +55,7 @@
     NSString * balanceString= [NSString stringWithCString:balanceSt.c_str() encoding:NSUTF8StringEncoding];
     NSInteger balance=[balanceString integerValue];
    self.walletBalance =balance;
-    self.theAmountOfTextField.placeholder=[NSString stringWithFormat:@"%@%@ ELA)",NSLocalizedString(@"请输入金额 可用", nil),[[FLTools share]elaScaleConversionWith:[@(self.walletBalance) stringValue]]];
-    self.transferTheAddressTextField.placeholder=NSLocalizedString(@"请输入收款人地址", nil);
+  
     
 }
 -(void)viewWillAppear:(BOOL)animated{

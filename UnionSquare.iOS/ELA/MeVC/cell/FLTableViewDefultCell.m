@@ -17,6 +17,10 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     [[HMWCommView share]makeBordersWithView:self.bgView];
+    self.pwdSwitch.layer.borderColor=[UIColor whiteColor].CGColor;
+    self.pwdSwitch.layer.borderWidth=2.f;
+     self.pwdSwitch.layer.cornerRadius=15.f; self.pwdSwitch.layer.masksToBounds=YES;
+     self.pwdSwitch.transform=CGAffineTransformMakeScale(0.75, 0.75);
     // Initialization code
 }
 
@@ -25,5 +29,6 @@
 
     // Configure the view for the selected state
 }
+
 
 @end

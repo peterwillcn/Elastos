@@ -128,7 +128,6 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
     [self setBackgroundImg:@""];
     [self makeView];
     self.isUpdate=NO;
@@ -160,9 +159,6 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
         self.enMoneyWidthOffSet.constant=-AppWidth+30;
         self.toUpMoneyButtonWidthdOff.constant=200;
     }
-   
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(currentWalletAccountBalanceChanges:) name: AccountBalanceChanges object:nil];
-    
     
 }
 -(void)currentWalletAccountBalanceChanges:(NSNotification *)notification{
@@ -182,7 +178,9 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     }
 }
 -(void)iconInfoUpdate:(NSNotification *)notification{
-    
+    if (self.title.length==0) {
+        return;
+    }
     
     NSOperationQueue *waitQueue = [[NSOperationQueue alloc] init];
     [waitQueue addOperationWithBlock:^{
@@ -704,6 +702,18 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
         case 12:
             detailsM.Type=NSLocalizedString(@"取回参选优质抵押资产交易", nil);
             break;
+            case 33:
+                  detailsM.Type=NSLocalizedString(@"注册CRC委员交易", nil);
+                  break;
+            case 34:
+                  detailsM.Type=NSLocalizedString(@"取消CRC委员交易", nil);
+                  break;
+            case 35:
+                  detailsM.Type=NSLocalizedString(@"更新CRC委员交易", nil);
+                  break;
+            case 36:
+                             detailsM.Type=NSLocalizedString(@"取回CRC委员资产交易", nil);
+                             break;
             
         default:
             break;
@@ -818,5 +828,16 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 }
 -(void)setSynchronousP:(float)synchronousP{
     _synchronousP=synchronousP;
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    
+     [[NSNotificationCenter defaultCenter] removeObserver:AccountBalanceChanges];
+    [[NSNotificationCenter defaultCenter] removeObserver:progressBarcallBackInfo];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(currentWalletAccountBalanceChanges:) name: AccountBalanceChanges object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
+    
 }
 @end

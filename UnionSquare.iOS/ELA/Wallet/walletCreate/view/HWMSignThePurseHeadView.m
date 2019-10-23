@@ -30,8 +30,8 @@
           self.SingleAddressSwitch.layer.masksToBounds=YES;
       self.SingleAddressSwitch.transform=CGAffineTransformMakeScale(0.75, 0.75);
         [self.addPurseButton setTitle:NSLocalizedString(@"添加私钥", nil) forState:UIControlStateNormal];
-          [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField: self.walletNameTextField];
-        [[HMWCommView share]makeBordersWithView:self.self.addPurseButton]; self.walletNameTextField.placeholder=NSLocalizedString(@"请设置钱包名称", nil);
+          [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField: self.walletNameTextField withTxt:NSLocalizedString(@"请设置钱包名称", nil)];
+        [[HMWCommView share]makeBordersWithView:self.self.addPurseButton];
         self.addPurseButton.layer.borderColor=RGBA(255, 255, 255, 1).CGColor;
         self.addPurseButton.layer.borderWidth=1;
         self.addPurseButton.layer.masksToBounds=YES;

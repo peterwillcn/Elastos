@@ -25,11 +25,11 @@
 -(instancetype)init{
    
     self =[[NSBundle mainBundle]loadNibNamed:@"HMWinputVotesPopupWindowView" owner:nil options:nil].firstObject;
-    
-     [self setTestFilePlaceStringColor:self.theInputNumberTextField color:RGBA(255, 255, 255, 0.5)];
+
     self.isMax=NO;
         [[HMWCommView share]makeBordersWithView:self.theNextStepButton];
-    self.theInputNumberTextField.placeholder = NSLocalizedString(@"请输入票数", nil);
+    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.theInputNumberTextField withTxt:NSLocalizedString(@"请输入票数", nil)];
+        [[HMWCommView share]makeBordersWithView:self.theNextStepButton];
     self.TagLeftLab.text = NSLocalizedString(@"投票数量", nil);
     self.titleLab.text =NSLocalizedString(@"请输入票数", nil);
     [self.theNextStepButton setTitle:NSLocalizedString(@"下一步", nil)

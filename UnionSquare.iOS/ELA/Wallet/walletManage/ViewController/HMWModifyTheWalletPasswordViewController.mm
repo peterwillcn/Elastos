@@ -29,16 +29,11 @@
     self.oldPWDTextField.secureTextEntry =YES;
     
    self.nPWDTextField.secureTextEntry =YES;
-   self.againPWDTextField.secureTextEntry =YES;;
-    self.oldPWDTextField.placeholder=NSLocalizedString(@"请输入原钱包密码", nil);
-    self.nPWDTextField.placeholder=NSLocalizedString(@"请输入新的钱包密码", nil);
-    self.againPWDTextField.placeholder=NSLocalizedString(@"请再次输入确认钱包密码", nil);
-
-
+   self.againPWDTextField.secureTextEntry =YES;
      [self.confirmTheChangeButton setTitle:NSLocalizedString(@"确认修改", nil) forState:UIControlStateNormal];
-    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.oldPWDTextField];
-       [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.nPWDTextField];
-    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.againPWDTextField];
+    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.oldPWDTextField withTxt:NSLocalizedString(@"请输入原钱包密码", nil)];
+       [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.nPWDTextField withTxt:NSLocalizedString(@"请输入新的钱包密码", nil)];
+    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.againPWDTextField withTxt:NSLocalizedString(@"请再次输入确认钱包密码", nil)];
 }
 - (IBAction)confirmTheChangeEvent:(id)sender {
    

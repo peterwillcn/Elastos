@@ -10,6 +10,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DrawBackVoteMoneyVC : UIViewController
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *CRTypeString;
 
 @end
 

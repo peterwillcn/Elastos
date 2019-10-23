@@ -20,7 +20,7 @@
 + (BOOL)isChineseLanguage
 {
     NSString *currentLanguage = [self currentLanguage];
-    if ([currentLanguage hasPrefix:@"zh-Hans"]) {
+    if ([currentLanguage hasPrefix:@"zh"]) {
         return YES;
     } else {
         return NO;

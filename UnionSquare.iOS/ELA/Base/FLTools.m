@@ -217,13 +217,10 @@ if ([languageString  containsString:@"en"]) {
     
 }
 -(void)showErrorInfo:(NSString*)info{
-    
     [SVProgressHUD setBackgroundColor:RGB(100, 100, 100)];
     [SVProgressHUD setFont:[UIFont systemFontOfSize:14]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD showImage:[UIImage imageNamed:@""] status:info];
-    
-    
 }
 -(CGFloat)gasETHwithGasPrice:(NSString*)gasPrice withLimetPrice:(NSString*)LimetPrice{
       NSString *basePow=[NSString stringWithFormat:@"%.f",pow(10,9)];
@@ -244,9 +241,7 @@ if ([languageString  containsString:@"en"]) {
                                       raiseOnUnderflow:NO
                                       
                                       raiseOnDivideByZero:YES];
-    NSDecimalNumber *last=[MultiplyingETH decimalNumberByDividingBy:basePowDecimalNumber withBehavior:roundUp];
-//    NSString *gasPriceETHString=[NSString stringWithFormat:@"%.8f",last.doubleValue];
-    
+    NSDecimalNumber *last=[MultiplyingETH decimalNumberByDividingBy:basePowDecimalNumber withBehavior:roundUp];    
     return last.floatValue;
     
     

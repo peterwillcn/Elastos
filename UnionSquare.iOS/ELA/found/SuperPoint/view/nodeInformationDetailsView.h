@@ -7,12 +7,14 @@
 
 #import <UIKit/UIKit.h>
 #import "FLCoinPointInfoModel.h"
+#import "HWMCRListModel.h"
 typedef enum : NSUInteger {
     CRCoinPointInfType,
     nodeCoinPointInfType
 } CoinPointInfType;
 @interface nodeInformationDetailsView : UIView
 @property(nonatomic,strong)FLCoinPointInfoModel *model;
+@property(nonatomic,strong)HWMCRListModel *CRmodel;
 /*
  *<# #>
  */

@@ -1319,10 +1319,13 @@ errCodeSPVCreateMasterWalletError= 20006;
     if (memoString.length==0) {
         memoString=@"11";
     }
-    if ([self IsAddressValid:masterWalletID withAddres:toAddress]==NO) {
-        NSString *msg = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"收款人地址错误", nil),[self stringWithCString:toAddress]];
-        return [self errorProcess:command code:errCodeImportFromMnemonic msg:msg];
+    if (toAddress.length()>0) {
+        if ([self IsAddressValid:masterWalletID withAddres:toAddress]==NO) {
+              NSString *msg = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"收款人地址错误", nil),[self stringWithCString:toAddress]];
+              return [self errorProcess:command code:errCodeImportFromMnemonic msg:msg];
+          }
     }
+  
     String memo =[self cstringWithString:memoString];
     
     String remark = [self cstringWithString:args[idx++]];
@@ -1522,7 +1525,59 @@ errCodeSPVCreateMasterWalletError= 20006;
     IMainchainSubWallet *mainchainSubWallet = dynamic_cast<IMainchainSubWallet *>(subWallet);
     return mainchainSubWallet;
 }
+//参加投票
+-(NSInteger)RegisterCRWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model{
+    Json payload;
+       Json tx;
+       uint64_t fee;
+       Json signedTx;
+       Json result;
+       try {
+          payload= ELA->GenerateCRInfoPayload([model.CRownerPublickKey UTF8String],[model.nickName UTF8String], [model.url UTF8String], [model.contryCode intValue] , [model.pwd UTF8String]);
+           
+       } catch (const std:: exception & e ) {
+           
+           NSString *errString=[self stringWithCString:e.what()];
+           NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+           [[FLTools share]showErrorInfo:dic[@"Message"]];
+           return 0;
+       }
+       String acount=[self cstringWithString:[NSString stringWithFormat:@"%ld",model.acount*unitNumber]];
+       try {
+           
+           tx = ELA->CreateRegisterCRTransaction("", payload, acount,[model.mark UTF8String]);
+       } catch (const std:: exception & e ) {
+           
+           NSString *errString=[self stringWithCString:e.what()];
+           NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+           [[FLTools share]showErrorInfo:dic[@"Message"]];
+           return 0;
+       }
 
+       try {
+           signedTx = ELA->SignTransaction(tx, [model.pwd UTF8String]);
+       } catch (const std:: exception & e ) {
+           
+           NSString *errString=[self stringWithCString:e.what()];
+           NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+           [[FLTools share]showErrorInfo:dic[@"Message"]];
+           return 0;
+       }
+       try {
+            result = ELA->PublishTransaction(signedTx);
+       } catch (const std:: exception & e ) {
+           
+           NSString *errString=[self stringWithCString:e.what()];
+           NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+           [[FLTools share]showErrorInfo:dic[@"Message"]];
+           return 0;
+       }
+       NSString *resultString=[self stringWithCString:result.dump()];
+       NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
+       
+           return [resultdic[@"Fee"] integerValue];
+    
+}
 
 //参加投票
 -(NSInteger)RegisterProducerWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model{
@@ -1609,6 +1664,82 @@ errCodeSPVCreateMasterWalletError= 20006;
     return YES;
 }
 
+-(BOOL)UpdateCRProducerWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model
+{
+
+       Json payload;
+        Json tx;
+        Json signedTx;
+        Json result;
+        try {
+           payload= ELA->GenerateCRInfoPayload([model.CRownerPublickKey UTF8String],[model.nickName UTF8String], [model.url UTF8String], [model.contryCode intValue] , [model.pwd UTF8String]);
+            
+        } catch (const std:: exception & e ) {
+            
+            NSString *errString=[self stringWithCString:e.what()];
+            NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+            [[FLTools share]showErrorInfo:dic[@"Message"]];
+            return NO;
+        }
+        String acount=[self cstringWithString:[NSString stringWithFormat:@"%ld",model.acount*unitNumber]];
+        try {
+            
+            tx = ELA->CreateUpdateCRTransaction("", payload,[model.mark UTF8String]);
+        } catch (const std:: exception & e ) {
+            
+            NSString *errString=[self stringWithCString:e.what()];
+            NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+            [[FLTools share]showErrorInfo:dic[@"Message"]];
+            return NO;
+        }
+
+        try {
+            signedTx = ELA->SignTransaction(tx, [model.pwd UTF8String]);
+        } catch (const std:: exception & e ) {
+            
+            NSString *errString=[self stringWithCString:e.what()];
+            NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+            [[FLTools share]showErrorInfo:dic[@"Message"]];
+            return NO;
+        }
+        try {
+             result = ELA->PublishTransaction(signedTx);
+        } catch (const std:: exception & e ) {
+            
+            NSString *errString=[self stringWithCString:e.what()];
+            NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+            [[FLTools share]showErrorInfo:dic[@"Message"]];
+            return NO;
+        }
+    return YES;
+        
+
+}
+-(BOOL)CancelCRProducer:(NSString*)mainchainSubWalletId Pwd:(NSString*)pwd{
+    IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:mainchainSubWalletId];
+       
+       try {
+           std::string pubKey = mainchainSubWallet->GetCROwnerPublicKey();
+           
+           nlohmann::json payload = mainchainSubWallet->GenerateUnregisterCRPayload(pubKey, [pwd UTF8String]);
+           
+           nlohmann::json tx = mainchainSubWallet->CreateUnregisterCRTransaction("", payload, "");
+           Json signedTx = mainchainSubWallet->SignTransaction(tx, [pwd UTF8String]);
+           
+           Json result = mainchainSubWallet->PublishTransaction(signedTx);
+           NSString *resultString=[self stringWithCString:result.dump()];
+           NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
+    
+           
+       } catch (const std:: exception & e ) {
+           NSString *errString=[self stringWithCString:e.what()];
+           NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+           [[FLTools share]showErrorInfo:dic[@"Message"]];
+           return NO;
+       }
+       return YES;
+ 
+}
 -(BOOL)CancelProducer:(NSString*)mainchainSubWalletId Pwd:(NSString*)pwd{
  
     IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:mainchainSubWalletId];
@@ -1657,6 +1788,33 @@ errCodeSPVCreateMasterWalletError= 20006;
         return NO;
     }
     return YES;
+}
+
+
+-(BOOL)useCRMainchainSubWallet:(NSString*)CRmainchainSubWalletId ToVote:(NSDictionary*)publicKeys tickets:(NSInteger)stake pwd:(NSString*)pwd isChangeVote:(BOOL)change{
+    String keys = [[ self dicToJSONString:publicKeys] UTF8String];
+       nlohmann::json tx ;
+       IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:CRmainchainSubWalletId];
+       String acount=[self cstringWithString:[NSString stringWithFormat:@"%ld",stake*unitNumber]];
+       // 少一个备注
+//    CreateVoteCRTransaction
+       try {
+           nlohmann::json tx = mainchainSubWallet->CreateVoteCRTransaction("",Json::parse(keys),"");
+           Json signedTx = mainchainSubWallet->SignTransaction(tx, [pwd UTF8String]);
+           
+           Json result = mainchainSubWallet->PublishTransaction(signedTx);
+           NSString *resultString=[self stringWithCString:result.dump()];
+           NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
+           return YES;
+           
+       } catch (const std:: exception & e ) {
+           NSString *errString=[self stringWithCString:e.what()];
+           NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+           [[FLTools share]showErrorInfo:dic[@"Message"]];
+           return NO;
+       }
+       return YES;
+    
 }
 
 -(BOOL)useMainchainSubWallet:(NSString*)mainchainSubWalletId ToVote:(NSArray*)publicKeys tickets:(NSInteger)stake pwd:(NSString*)pwd isChangeVote:(BOOL)change{

@@ -11,6 +11,7 @@
 #import "ELWalletManager.h"
 #import "FLChangeVotedTicketsVC.h"
 #import "FLCoinPointInfoModel.h"
+#import "HWMCRListModel.h"
 static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
 @interface HMWMyVoteViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UIView *BGView;
@@ -53,9 +54,9 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     NSInteger balance=[balanceString integerValue];
     self.nameOfTheWalletLabel.text = waller.walletName;
     self.votesLabel.text = [NSLocalizedString(@"表决票权：", nil) stringByAppendingString:@(balance/unitNumber).stringValue];
-    if (self.type==MyVoteNodeElectioType) {
+    if (self.VoteType==MyVoteNodeElectioType) {
      [self getDataFromData];
-    }else if (self.type==MyVoteCRType){
+    }else if (self.VoteType==MyVoteCRType){
         [self getCRData];
     }
     
@@ -71,9 +72,9 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
        for (int i=0; i<param.allKeys.count; i++) {
            NSString *itemKey = param.allKeys[i];
            for (int j = 0;j<self.listData.count; j++) {
-               FLCoinPointInfoModel *model = self.listData[j];
-               if ([model.ownerpublickey isEqualToString:itemKey]) {
-                   model.hadVotedNumber = [param[itemKey] integerValue];
+               HWMCRListModel *model = self.listData[j];
+               if ([model.did isEqualToString:itemKey]) {
+//                   model.SinceVotes = param[itemKey];
                    [showlistdata addObject:model];
                    total+=[param[itemKey] integerValue];
                }
@@ -148,13 +149,21 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     return self.dataSource.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    FLCoinPointInfoModel *model = self.dataSource[indexPath.row];
+    
     
    HMWmyVoteStatisticsTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
+    if (self.VoteType==MyVoteNodeElectioType) {
+        FLCoinPointInfoModel *model = self.dataSource[indexPath.row];
     cell.leftLab.text = model.nickname;
-    cell.rightLab.text =[NSString stringWithFormat:@"NO.%d",model.index+1];
+        cell.rightLab.text =[NSString stringWithFormat:@"NO.%ld",model.index+1];
+       }else if (self.VoteType==MyVoteCRType){
+          HWMCRListModel *model = self.dataSource[indexPath.row];
+        cell.leftLab.text = model.nickname;
+           cell.rightLab.text =[NSString stringWithFormat:@"NO.%d",([model.index intValue]+1)];
+       }
+    
     return cell;
     
 }
@@ -171,8 +180,9 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     FLChangeVotedTicketsVC *vc = [[FLChangeVotedTicketsVC alloc]init];
     [self.navigationController pushViewController:vc animated:YES];
 }
--(void)setType:(MyVoteVotingListType)type{
-    _type=type;
+-(void)setVoteType:(MyVoteVotingListType)VoteType{
+    _VoteType=VoteType;
+    
 }
 
 @end

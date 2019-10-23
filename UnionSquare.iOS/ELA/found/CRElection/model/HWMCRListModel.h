@@ -55,6 +55,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign)BOOL isCellSelected;
 @property(nonatomic,assign)BOOL isNewCellSelected;
 @property(nonatomic,copy)NSString * SinceVotes;
+/*
+ *<# #>
+ */
+//@property(assign,nonatomic)NSInteger   index;
 @end
 
 NS_ASSUME_NONNULL_END

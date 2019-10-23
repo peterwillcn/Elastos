@@ -159,6 +159,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
         self.enMoneyWidthOffSet.constant=-AppWidth+30;
         self.toUpMoneyButtonWidthdOff.constant=200;
     }
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(currentWalletAccountBalanceChanges:) name: AccountBalanceChanges object:nil];
     
 }
 -(void)currentWalletAccountBalanceChanges:(NSNotification *)notification{

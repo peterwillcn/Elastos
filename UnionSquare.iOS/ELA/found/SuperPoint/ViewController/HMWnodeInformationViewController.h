@@ -40,6 +40,6 @@ typedef enum : NSUInteger {
 /*
  *<# #>
  */
-@property(assign,nonatomic)NSInteger   index;
+@property(assign,nonatomic)NSUInteger   index;
 @end
 

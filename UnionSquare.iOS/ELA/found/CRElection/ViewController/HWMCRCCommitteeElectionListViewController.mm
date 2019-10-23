@@ -665,9 +665,8 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
         HWMCRListModel *model=self.voteArray[i];
         
         NSDictionary *dic=@{model.did: [NSString stringWithFormat:@"%ld",[model.SinceVotes integerValue]*unitNumber]};
+
     [CRDic addEntriesFromDictionary:dic];
-//    [CRDic setObject:model.did forKey:[NSString stringWithFormat:@"%ld",[model.SinceVotes integerValue]*unitNumber]];
-//        [stringArray addObject:dic];
     }
     NSInteger tic=self.TheRemainingAvailable;
 //    if (self.isMax) {

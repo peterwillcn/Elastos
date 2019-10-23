@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -39,11 +37,11 @@
                                     <constraint firstAttribute="height" constant="30" id="Tv5-H3-pbp"/>
                                 </constraints>
                             </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kn3-3I-TbO">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="found_vote_initial_oval" translatesAutoresizingMaskIntoConstraints="NO" id="kn3-3I-TbO">
                                 <rect key="frame" x="76" y="15" width="30" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="30" id="hVO-37-pII"/>
-                                    <constraint firstAttribute="height" constant="30" id="zy9-JV-gZX"/>
+                                    <constraint firstAttribute="height" constant="30" id="ITr-Am-wgb"/>
+                                    <constraint firstAttribute="width" constant="30" id="a6s-hV-dUv"/>
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xyp-zE-TFD">
@@ -60,15 +58,15 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.19997885823249817" green="0.20001345872879028" blue="0.19997128844261169" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="xyp-zE-TFD" firstAttribute="centerY" secondItem="dfF-dZ-7kj" secondAttribute="centerY" id="1cz-tL-crd"/>
-                            <constraint firstItem="kn3-3I-TbO" firstAttribute="leading" secondItem="Oxm-gR-ccj" secondAttribute="trailing" id="AMo-y9-f5i"/>
                             <constraint firstItem="s3P-ug-P2k" firstAttribute="leading" secondItem="kn3-3I-TbO" secondAttribute="trailing" constant="15" id="AWL-Qi-FgK"/>
                             <constraint firstItem="xyp-zE-TFD" firstAttribute="leading" secondItem="s3P-ug-P2k" secondAttribute="trailing" constant="15" id="LsU-FS-Ygz"/>
                             <constraint firstItem="s3P-ug-P2k" firstAttribute="centerY" secondItem="dfF-dZ-7kj" secondAttribute="centerY" id="OWL-Qb-hOE"/>
                             <constraint firstAttribute="trailing" secondItem="xyp-zE-TFD" secondAttribute="trailing" constant="25" id="REQ-52-don"/>
                             <constraint firstItem="Oxm-gR-ccj" firstAttribute="centerY" secondItem="dfF-dZ-7kj" secondAttribute="centerY" id="RzG-kD-UJa"/>
+                            <constraint firstItem="kn3-3I-TbO" firstAttribute="leading" secondItem="Oxm-gR-ccj" secondAttribute="trailing" constant="15" id="Ugc-3g-vDH"/>
                             <constraint firstItem="OaV-c6-CzL" firstAttribute="leading" secondItem="dfF-dZ-7kj" secondAttribute="leading" id="Xu1-h2-KzQ"/>
                             <constraint firstItem="kn3-3I-TbO" firstAttribute="centerY" secondItem="dfF-dZ-7kj" secondAttribute="centerY" id="ZSe-Hz-5Xm"/>
                             <constraint firstItem="OaV-c6-CzL" firstAttribute="top" secondItem="dfF-dZ-7kj" secondAttribute="top" id="adX-Mo-wFF"/>
@@ -93,6 +91,10 @@
                 <outlet property="nickNameLabel" destination="s3P-ug-P2k" id="M7p-0l-uwi"/>
                 <outlet property="selecIconImageView" destination="xyp-zE-TFD" id="z5W-51-0c9"/>
             </connections>
+            <point key="canvasLocation" x="138" y="106"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="found_vote_initial_oval" width="60" height="60"/>
+    </resources>
 </document>

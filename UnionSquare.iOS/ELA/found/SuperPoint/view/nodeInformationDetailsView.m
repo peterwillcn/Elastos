@@ -103,7 +103,6 @@
 -(void)seletcButtonState:(UIButton*)button withView:(UIView*)view{
   [button setTitleColor:RGBA(255, 255, 255, 0.5) forState:UIControlStateNormal];
     view.alpha=1.f;
-    
 }
 -(void)normalButtonState:(UIButton*)button withView:(UIView*)view{
     
@@ -121,18 +120,31 @@
 }
 -(void)makeUI{
     if (self.type==nodeCoinPointInfType) {
-         self.nodeAddressTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"节点公钥", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
+        self.nodeAddressTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"节点公钥", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
+        self.nodeAddressLabel=[self labeWithTextColor:[UIColor whiteColor] withText:self.model.ownerpublickey withTextFont:14 withTextAlignment:NSTextAlignmentRight];
+        self.currantVotesLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[NSString stringWithFormat:@"%ld %@",(long)[self.model.votes integerValue],NSLocalizedString(@"票", nil)] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
+        self.votePercentageLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[NSString stringWithFormat:@"%.5lf %@",self.model.voterate.doubleValue*100,@"%"] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
+        self.countryRegionLabel=[self labeWithTextColor:[UIColor whiteColor] withText:@"--" withTextFont:14 withTextAlignment:NSTextAlignmentRight];
+        self.URLLabel=[self labeWithTextColor:RGB(40, 147, 232) withText:self.model.url withTextFont:14 withTextAlignment:NSTextAlignmentRight];
+        self.URLTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:@"URL" withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
+        [self.IntroductionOfNodeButton setTitle:NSLocalizedString(@"节点简介", nil) forState:UIControlStateNormal];
     }else if (self.type==CRCoinPointInfType){
-         self.nodeAddressTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"委员公钥", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
+            self.nodeAddressTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"委员DID", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
+            self.nodeAddressLabel=[self labeWithTextColor:[UIColor whiteColor] withText:self.CRmodel.did withTextFont:14 withTextAlignment:NSTextAlignmentRight];
+            self.currantVotesLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[NSString stringWithFormat:@"%ld %@",(long)[self.CRmodel.votes integerValue],NSLocalizedString(@"票", nil)] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
+            self.votePercentageLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[NSString stringWithFormat:@"%.5lf %@",self.CRmodel.voterate.doubleValue*100,@"%"] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
+            self.countryRegionLabel=[self labeWithTextColor:[UIColor whiteColor] withText:@"--" withTextFont:14 withTextAlignment:NSTextAlignmentRight];
+            self.URLLabel=[self labeWithTextColor:RGB(40, 147, 232) withText:self.CRmodel.url withTextFont:14 withTextAlignment:NSTextAlignmentRight];
+            self.URLTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:@"竞选网址" withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
+        [self.IntroductionOfNodeButton setTitle:NSLocalizedString(@"委员简介", nil) forState:UIControlStateNormal];
+        
     }
-   
     [self addSubview:self.nodeAddressTextLabel];
     [self.nodeAddressTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mas_left).offset(0);
         make.top.equalTo( self.ForInformationButton.mas_bottom).offset(0);
         make.size.mas_equalTo(CGSizeMake(100, 35));
     }];
-    self.nodeAddressLabel=[self labeWithTextColor:[UIColor whiteColor] withText:self.model.ownerpublickey withTextFont:14 withTextAlignment:NSTextAlignmentRight];
     [self addSubview:self.nodeAddressLabel];
     [self.nodeAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.mas_right).offset(0);
@@ -140,7 +152,6 @@
         make.height.mas_equalTo(@60);
         make.left.equalTo(self.nodeAddressTextLabel.mas_right).offset(10);
     }];
-    
     self.currantVotesTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"当前票数", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
     [self addSubview:self.currantVotesTextLabel];
     [self.currantVotesTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -148,7 +159,6 @@
         make.top.equalTo( self.nodeAddressTextLabel.mas_bottom).offset(30);
         make.size.mas_equalTo(CGSizeMake(100, 15));
     }];
-    self.currantVotesLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[NSString stringWithFormat:@"%ld %@",(long)[self.model.votes integerValue],NSLocalizedString(@"票", nil)] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
     [self addSubview:self.currantVotesLabel];
     [self.currantVotesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.mas_right).offset(0);
@@ -156,8 +166,6 @@
         make.height.mas_equalTo(@30);
         make.left.equalTo(self.currantVotesTextLabel.mas_right).offset(10);
     }];
-    
-    
     self.votePercentageTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"投票占比", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
     [self addSubview:self.votePercentageTextLabel];
     [self.votePercentageTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -165,7 +173,6 @@
         make.top.equalTo( self.currantVotesTextLabel.mas_bottom).offset(30);
         make.size.mas_equalTo(CGSizeMake(160, 15));
     }];
-    self.votePercentageLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[NSString stringWithFormat:@"%.5lf %@",self.model.voterate.doubleValue*100,@"%"] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
     [self addSubview:self.votePercentageLabel];
     [self.votePercentageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.mas_right).offset(0);
@@ -173,7 +180,6 @@
         make.height.mas_equalTo(@30);
         make.left.equalTo(self.votePercentageTextLabel.mas_right).offset(10);
     }];
-    
     self.countryRegionTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"国家/地区", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
     [self addSubview:self.countryRegionTextLabel];
     [self.countryRegionTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -181,7 +187,6 @@
         make.top.equalTo( self.votePercentageTextLabel.mas_bottom).offset(30);
         make.size.mas_equalTo(CGSizeMake(160, 15));
     }];
-    self.countryRegionLabel=[self labeWithTextColor:[UIColor whiteColor] withText:@"--" withTextFont:14 withTextAlignment:NSTextAlignmentRight];
     [self addSubview:self.countryRegionLabel];
     [self.countryRegionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.mas_right).offset(0);
@@ -189,14 +194,12 @@
         make.height.mas_equalTo(@30);
         make.left.equalTo(self.countryRegionTextLabel.mas_right).offset(10);
     }];
-    self.URLTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:@"URL" withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
     [self addSubview:self.URLTextLabel];
     [self.URLTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mas_left).offset(0);
-        make.top.equalTo( self.countryRegionTextLabel.mas_bottom).offset(30);
-        make.size.mas_equalTo(CGSizeMake(30, 15));
+        make.top.equalTo( self.countryRegionTextLabel.mas_bottom).offset(20);
+        make.size.mas_equalTo(CGSizeMake(80, 30));
     }];
-    self.URLLabel=[self labeWithTextColor:RGB(40, 147, 232) withText:self.model.url withTextFont:14 withTextAlignment:NSTextAlignmentRight];
     [self addSubview:self.URLLabel];
     [self.URLLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.mas_right).offset(-55);
@@ -204,8 +207,6 @@
         make.height.mas_equalTo(@30);
         make.left.equalTo(self.URLTextLabel.mas_right).offset(5);
     }];
-    
-    
     [self addSubview:self.copURLButton];
     [self.copURLButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.mas_right).offset(-10);
@@ -236,4 +237,9 @@
     _type=type;
     
 }
+-(void)setCRmodel:(HWMCRListModel *)CRmodel{
+    _CRmodel=CRmodel;
+      [self makeUI];
+}
+
 @end

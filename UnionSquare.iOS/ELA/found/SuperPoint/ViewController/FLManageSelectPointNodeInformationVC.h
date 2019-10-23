@@ -11,7 +11,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FLManageSelectPointNodeInformationVC : UIViewController
-
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)FLWallet *currentWallet;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *CRTypeString;
 @end
 
 NS_ASSUME_NONNULL_END

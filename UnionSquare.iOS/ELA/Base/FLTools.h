@@ -137,5 +137,5 @@
 -(BOOL)connectedToNetwork;
 -(NSString *)returnJSONStringWithDictionary:(NSDictionary *)dictionary;
 -(BOOL)WhetherTheCurrentTypeNeedType:(NSString*)dataString withType:(NSString*)type;
-
+- (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
 @end

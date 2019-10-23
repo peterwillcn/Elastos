@@ -53,9 +53,46 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     NSInteger balance=[balanceString integerValue];
     self.nameOfTheWalletLabel.text = waller.walletName;
     self.votesLabel.text = [NSLocalizedString(@"表决票权：", nil) stringByAppendingString:@(balance/unitNumber).stringValue];
+    if (self.type==MyVoteNodeElectioType) {
+     [self getDataFromData];
+    }else if (self.type==MyVoteCRType){
+        [self getCRData];
+    }
     
-//    self.theWalletAddressLabel.text = waller.walletAddress;
-    [self getDataFromData];
+}
+-(void)getCRData{
+    FLWallet *waller = [ELWalletManager share].currentWallet;
+       IMainchainSubWallet *subWallet = [[ELWalletManager share]getWalletELASubWallet:waller.masterWalletID];
+       Json cArray = subWallet->GetVotedProducerList();
+       NSString *dataStr = [NSString stringWithUTF8String:cArray.dump().c_str()];
+       NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+       NSMutableArray *showlistdata = [NSMutableArray array];
+       NSInteger total =0;
+       for (int i=0; i<param.allKeys.count; i++) {
+           NSString *itemKey = param.allKeys[i];
+           for (int j = 0;j<self.listData.count; j++) {
+               FLCoinPointInfoModel *model = self.listData[j];
+               if ([model.ownerpublickey isEqualToString:itemKey]) {
+                   model.hadVotedNumber = [param[itemKey] integerValue];
+                   [showlistdata addObject:model];
+                   total+=[param[itemKey] integerValue];
+               }
+           }
+           
+       }
+       self.voteInTotalLabel.text = @(total/unitNumber).stringValue;
+       self.dataSource = showlistdata;
+       if (self.dataSource.count==0) {
+           self.changeVotesButton.alpha=0.f;
+        self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_unlocked"];
+       }else{
+            self.changeVotesButton.alpha=1.f;
+           self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_going_on"];
+       }
+       [self.baseTableView reloadData];
+       self.placeHolderLab.hidden  = self.dataSource.count==0? NO: YES;
+    
+    
 }
 -(void)getDataFromData{
     FLWallet *waller = [ELWalletManager share].currentWallet;
@@ -133,6 +170,9 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
 - (IBAction)changeVote:(id)sender {
     FLChangeVotedTicketsVC *vc = [[FLChangeVotedTicketsVC alloc]init];
     [self.navigationController pushViewController:vc animated:YES];
+}
+-(void)setType:(MyVoteVotingListType)type{
+    _type=type;
 }
 
 @end

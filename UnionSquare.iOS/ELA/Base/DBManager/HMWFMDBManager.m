@@ -30,24 +30,16 @@ static HMWFMDBManager * _manager =nil;
     }else if (type==sideChain){
         sql =@"create table if not exists sideChain(ID integer primary key AUTOINCREMENT,walletID text,sideChainName text,sideChainNameTime text,thePercentageMax text,thePercentageCurr text)";
         
+    }else if (type==CRListType){
+         sql =@"create table if not exists RMList(ID integer primary key AUTOINCREMENT,walletID text,location text,indexCR text,did text,nickname text,code text,votes text,voterate text ,state text ,url text)";
+        
     }
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
-        
-        
         if (_manager ==nil) {
-            
-            
             _manager=[[HMWFMDBManager alloc]initWithPath:[path stringByAppendingString:dataBaseName]];
-            //        一定要记得 对数据库进行操作的时候， 需要先打开数据库
-            
-            
-            
             [_manager open];
-            
-            //        建表
-            //    我们需要把数据存放到一张表里面，建表的操作需要执行一次即可
         }
         
     });
@@ -258,13 +250,8 @@ static HMWFMDBManager * _manager =nil;
     }else{
         NSString *sql =@"delete from sideChain where ID = ?";
         if ([self executeUpdate:sql,ID]) {
-            
-            
-            
             return YES;
-            
         }else{
-            
             return NO;
         }
         
@@ -299,7 +286,6 @@ static HMWFMDBManager * _manager =nil;
         NSString *sql =@"Update sideChain set sideChainNameTime=? ,thePercentageCurr=?,thePercentageMax=? where walletID=? and sideChainName=? ";
         if ( [self executeUpdate:sql,model.sideChainNameTime,model.thePercentageCurr,model.thePercentageMax,model.walletID,model.sideChainName]) {
             NSLog(@"更新==%@===%@==%@==%@====%@",model.walletID,model.sideChainName,model.thePercentageCurr,model.thePercentageMax,model.sideChainNameTime);
-            //            [self selectAddsideChainWithWalletID:model.walletID andWithIconName:model.sideChainName];
             return YES;
         }else{
             NSLog(@"更新失败==%@===%@==%@==%@====%@",model.walletID,model.sideChainName,model.thePercentageCurr,model.thePercentageMax,model.sideChainNameTime);
@@ -419,6 +405,126 @@ static HMWFMDBManager * _manager =nil;
         return YES;
     }else{
         NSLog(@"失败===删除钱包%@",wallet.walletID);
+        return NO;
+    }
+}
+//查
+-(NSArray*)allSelectCRWithWallID:(NSString*)walletID{
+    
+    NSMutableArray *allRecords=[[NSMutableArray alloc]init];
+        NSString *sql =[NSString stringWithFormat: @"select * from RMList where walletID=\'%@\'" ,walletID];
+      FMResultSet *set=[self executeQuery:sql,walletID];
+      //    一条一条的读取数据 并专程模型
+      while (set.next) {
+          //        模型
+          HWMCRListModel * p= [[HWMCRListModel alloc]init];
+          //        去出表中存放的内容给person赋值
+          p.location=[set objectForColumn:@"location"];
+          p.index =[set objectForColumn:@"index"];
+          p.did =[set objectForColumn:@"did"];
+          p.nickname =[set objectForColumn:@"nickname"];
+          p.code =[set objectForColumn:@"code"];
+          p.votes =[set objectForColumn:@"votes"];
+          p.voterate =[set objectForColumn:@"voterate"];
+          p.state =[set objectForColumn:@"state"];
+          p.url =[set objectForColumn:@"url"];
+          [allRecords addObject:p];
+      }
+      return allRecords;
+}
+
+//增加
+-(BOOL)addCR:(HWMCRListModel*)CRModel withWallID:(NSString*)walletID{
+  if (CRModel.index.length==0) {
+    CRModel.index=@"0";
+  }
+  if (CRModel.location.length==0) {
+      CRModel.location=@"86";
+  }
+  if (CRModel.nickname.length==0) {
+      CRModel.nickname=@"0";
+  }
+  if (CRModel.code.length==0) {
+      CRModel.code=@"0";
+  }
+  if (CRModel.votes.length==0) {
+     CRModel.votes=@"0";
+  }
+  if (CRModel.voterate.length==0) {
+      CRModel.voterate=@"0";
+  }
+  if (CRModel.state.length==0) {
+      CRModel.state=@"0";
+  }
+  if (CRModel.url.length==0) {
+      CRModel.url=@"0";
+  }
+    NSString *sql =@"insert into RMList(walletID,location,indexCR,did,nickname,code,votes,voterate,state,url) values(?,?,?,?,?,?,?,?,?,?)";
+    if ([self executeUpdate:sql,walletID,CRModel.location,CRModel.index,CRModel.did,CRModel.nickname,CRModel.code,CRModel.votes,CRModel.voterate,CRModel.state,CRModel.url]) {
+        return YES;
+    }
+    return NO;
+}
+-(BOOL)selectCRWithWalletID:(NSString*)walletID andWithDID:(NSString*)DID{
+    NSString *sql =[NSString stringWithFormat: @"select * from RMList where walletID=\'%@\' and did=\'%@\'",walletID,DID];
+    
+    FMResultSet *set=[self executeQuery:sql];
+    //    一条一条的读取数据 并专程模型
+    while (set.next) {
+        //        模型
+        HWMCRListModel * CR= [[HWMCRListModel alloc]init];
+        //        去出表中存放的内容给person赋值
+       CR.location=[set objectForColumn:@"location"];
+       CR.index =[set objectForColumn:@"indexCR"];
+       CR.did =[set objectForColumn:@"did"];
+       CR.nickname =[set objectForColumn:@"nickname"];
+       CR.code =[set objectForColumn:@"code"];
+       CR.votes =[set objectForColumn:@"votes"];
+       CR.voterate =[set objectForColumn:@"voterate"];
+       CR.state =[set objectForColumn:@"state"];
+       CR.url =[set objectForColumn:@"url"];
+        return  YES;
+    }
+    return NO;
+}
+//改
+-(BOOL)updateSelectCR:(HWMCRListModel *)crModel WithWalletID:(NSString*)walletID{
+    if (crModel.index.length==0) {
+        crModel.index=@"0";
+    }
+    if (crModel.location.length==0) {
+        crModel.location=@"86";
+    }
+    if (crModel.nickname.length==0) {
+        crModel.nickname=@"0";
+    }
+    if (crModel.code.length==0) {
+        crModel.code=@"0";
+    }
+    if (crModel.votes.length==0) {
+        crModel.votes=@"0";
+    }
+    if (crModel.voterate.length==0) {
+        crModel.voterate=@"0";
+    }
+    if (crModel.state.length==0) {
+        crModel.state=@"0";
+    }
+    if (crModel.url.length==0) {
+        crModel.url=@"0";
+    }
+    NSString *sql =@"Update RMList set location=? ,indexCR=?,nickname=? ,code=? ,votes=? ,voterate=? ,state=? ,url=? where walletID=? and did=? ";
+           if ( [self executeUpdate:sql,crModel.location,crModel.index,crModel.nickname,crModel.code,crModel.votes,crModel.voterate,crModel.state,crModel.url,walletID,crModel.did]) {
+               return YES;
+           }
+    return NO;
+}
+//删
+-(BOOL)delectSelectCR:(HWMCRListModel *)crModel WithWalletID:(NSString*)walletID{
+    NSString *sql =@"delete from RMList where walletID = ? and did=?";
+    if ([self executeUpdate:sql,walletID,crModel.did]) {
+        return YES;
+    }else{
         return NO;
     }
 }

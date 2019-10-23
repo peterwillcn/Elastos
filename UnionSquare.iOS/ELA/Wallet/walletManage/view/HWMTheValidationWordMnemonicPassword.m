@@ -25,9 +25,8 @@
         [self.determineButton setTitle:NSLocalizedString(@"确认", nil) forState:UIControlStateNormal];
         [self.cancelButton setTitle:NSLocalizedString(@"取消", nil) forState:UIControlStateNormal];
           [self.DeleteDirectlyButton setTitle:NSLocalizedString(@"直接删除", nil) forState:UIControlStateNormal];
-        self.PWDTextField.placeholder=NSLocalizedString(@"请输入助记词密码", nil);
         self.PWDTextField.secureTextEntry = YES;
-        [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField: self.PWDTextField];
+        [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField: self.PWDTextField withTxt:NSLocalizedString(@"请输入助记词密码", nil)];
         
     }
     

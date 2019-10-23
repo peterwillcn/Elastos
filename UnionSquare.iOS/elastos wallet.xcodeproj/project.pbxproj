@@ -327,6 +327,8 @@
 		424910F52271BFCF00C41E50 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 424910DF2271BFCF00C41E50 /* UIView+WebCacheOperation.m */; };
 		424910F62271BFCF00C41E50 /* UIView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 424910E02271BFCF00C41E50 /* UIView+WebCache.m */; };
 		424910F72271BFCF00C41E50 /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 424910E42271BFCF00C41E50 /* UIButton+WebCache.m */; };
+		424A5E1E234C95410077512E /* HWMTransactionDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 424A5E1D234C95410077512E /* HWMTransactionDetailsView.m */; };
+		424A5E20234C954B0077512E /* HWMTransactionDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 424A5E1F234C954B0077512E /* HWMTransactionDetailsView.xib */; };
 		424A7D67222FC23B00683B8C /* sideChainInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 424A7D66222FC23B00683B8C /* sideChainInfoModel.m */; };
 		424D113A22E042D900C46640 /* HWMHowLongTradingQrCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 424D113822E042D900C46640 /* HWMHowLongTradingQrCodeViewController.m */; };
 		424D113B22E042D900C46640 /* HWMHowLongTradingQrCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 424D113922E042D900C46640 /* HWMHowLongTradingQrCodeViewController.xib */; };
@@ -341,6 +343,7 @@
 		4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4250B3F82238D3E900B6858F /* libiconv.tbd */; };
 		425CE7FC230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 425CE7FB230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m */; };
 		425CE7FE230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425CE7FD230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib */; };
+		425E0D68233B5B5E00D4C481 /* HWMCRListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 425E0D67233B5B5E00D4C481 /* HWMCRListModel.m */; };
 		4261C2FC22C21563008C1532 /* showOwnerAddressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261C2FA22C21563008C1532 /* showOwnerAddressTableViewCell.m */; };
 		4261C2FD22C21563008C1532 /* showOwnerAddressTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4261C2FB22C21563008C1532 /* showOwnerAddressTableViewCell.xib */; };
 		4261CF3822A15D21006B1DDE /* NSDictionary+NilSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261CF3222A15D20006B1DDE /* NSDictionary+NilSafe.m */; };
@@ -1000,6 +1003,9 @@
 		424910E32271BFCF00C41E50 /* UIImage+MultiFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+MultiFormat.h"; sourceTree = "<group>"; };
 		424910E42271BFCF00C41E50 /* UIButton+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+WebCache.m"; sourceTree = "<group>"; };
 		424910E52271BFCF00C41E50 /* UIImage+GIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+GIF.h"; sourceTree = "<group>"; };
+		424A5E1C234C95410077512E /* HWMTransactionDetailsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTransactionDetailsView.h; sourceTree = "<group>"; };
+		424A5E1D234C95410077512E /* HWMTransactionDetailsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTransactionDetailsView.m; sourceTree = "<group>"; };
+		424A5E1F234C954B0077512E /* HWMTransactionDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTransactionDetailsView.xib; sourceTree = "<group>"; };
 		424A7D65222FC23B00683B8C /* sideChainInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sideChainInfoModel.h; sourceTree = "<group>"; };
 		424A7D66222FC23B00683B8C /* sideChainInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = sideChainInfoModel.m; sourceTree = "<group>"; };
 		424D113722E042D900C46640 /* HWMHowLongTradingQrCodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMHowLongTradingQrCodeViewController.h; sourceTree = "<group>"; };
@@ -1046,6 +1052,8 @@
 		425CE7FA230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTheValidationWordMnemonicPassword.h; sourceTree = "<group>"; };
 		425CE7FB230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTheValidationWordMnemonicPassword.m; sourceTree = "<group>"; };
 		425CE7FD230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTheValidationWordMnemonicPassword.xib; sourceTree = "<group>"; };
+		425E0D66233B5B5E00D4C481 /* HWMCRListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCRListModel.h; sourceTree = "<group>"; };
+		425E0D67233B5B5E00D4C481 /* HWMCRListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMCRListModel.m; sourceTree = "<group>"; };
 		4261C2F922C21563008C1532 /* showOwnerAddressTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = showOwnerAddressTableViewCell.h; sourceTree = "<group>"; };
 		4261C2FA22C21563008C1532 /* showOwnerAddressTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = showOwnerAddressTableViewCell.m; sourceTree = "<group>"; };
 		4261C2FB22C21563008C1532 /* showOwnerAddressTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = showOwnerAddressTableViewCell.xib; sourceTree = "<group>"; };
@@ -2864,6 +2872,8 @@
 		42A7678E2314FBE1005FC764 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				425E0D66233B5B5E00D4C481 /* HWMCRListModel.h */,
+				425E0D67233B5B5E00D4C481 /* HWMCRListModel.m */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -2880,6 +2890,9 @@
 				420A48B4231F9FDD001D67C0 /* HWMCRVotingListCollectionViewCell.h */,
 				420A48B5231F9FDD001D67C0 /* HWMCRVotingListCollectionViewCell.m */,
 				420A48B6231F9FDD001D67C0 /* HWMCRVotingListCollectionViewCell.xib */,
+				424A5E1C234C95410077512E /* HWMTransactionDetailsView.h */,
+				424A5E1D234C95410077512E /* HWMTransactionDetailsView.m */,
+				424A5E1F234C954B0077512E /* HWMTransactionDetailsView.xib */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -3122,7 +3135,7 @@
 				LastUpgradeCheck = 1020;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = K5DE7L29B2;
+						DevelopmentTeam = LFU7T9UYL5;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -3267,6 +3280,7 @@
 				4202CA2B21F6EF2A009E5932 /* HMWmyContactListTableViewCell.xib in Resources */,
 				4202CAC221F6EF2B009E5932 /* HMWinputVotesPopupWindowView.xib in Resources */,
 				428B4D9C22CB35C0004AE7D0 /* HWMaddSignThePursefootView.xib in Resources */,
+				424A5E20234C954B0077512E /* HWMTransactionDetailsView.xib in Resources */,
 				4223EB3223279C1200153DA9 /* HWMPublicKeyListTabHeadView.xib in Resources */,
 				425CE7FE230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib in Resources */,
 				4202CA8421F6EF2B009E5932 /* HMWToDeleteTheWalletPopView.xib in Resources */,
@@ -3361,6 +3375,7 @@
 				4202CAA621F6EF2B009E5932 /* FLPrepareVC.m in Sources */,
 				4228AA4321F88C86002866B5 /* YYKVStorage.m in Sources */,
 				4202CA5121F6EF2A009E5932 /* FLtradeResultView.m in Sources */,
+				424A5E1E234C95410077512E /* HWMTransactionDetailsView.m in Sources */,
 				4202CA8721F6EF2B009E5932 /* HMWSecurityVerificationPopView.m in Sources */,
 				4202CABD21F6EF2B009E5932 /* UIView+FL.m in Sources */,
 				424910F52271BFCF00C41E50 /* UIView+WebCacheOperation.m in Sources */,
@@ -3479,6 +3494,7 @@
 				424910ED2271BFCF00C41E50 /* SDWebImageCompat.m in Sources */,
 				422D609621FC405000DD07FF /* FLJoinVoteInfoModel.m in Sources */,
 				4202C9FB21F6EF2A009E5932 /* MASCompositeConstraint.m in Sources */,
+				425E0D68233B5B5E00D4C481 /* HWMCRListModel.m in Sources */,
 				424910EC2271BFCF00C41E50 /* UIImage+MultiFormat.m in Sources */,
 				4287D7802307D0C000B91C82 /* UILabel+HMWinternationalization.m in Sources */,
 				4288D0B8230E946A00E8CC7A /* HW3DBannerView.m in Sources */,
@@ -3671,7 +3687,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = K5DE7L29B2;
+				DEVELOPMENT_TEAM = LFU7T9UYL5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3696,6 +3712,7 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
 				PRODUCT_NAME = elastos_wallet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3720,7 +3737,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
-				DEVELOPMENT_TEAM = K5DE7L29B2;
+				DEVELOPMENT_TEAM = LFU7T9UYL5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3742,6 +3759,7 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
 				PRODUCT_NAME = elastos_wallet;
 				PROVISIONING_PROFILE_SPECIFIER = "";

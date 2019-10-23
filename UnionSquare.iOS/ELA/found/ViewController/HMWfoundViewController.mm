@@ -45,7 +45,7 @@
     self.table.delegate = self;
     self.table.rowHeight = (AppWidth-60)/2;
     self.table.tableFooterView = [[UIView alloc] init];
-    self.dataSource = @[@""];
+    self.dataSource =[[NSMutableArray alloc]initWithObjects:@"",@"",nil];
     [self.table registerNib:[UINib nibWithNibName:@"HMWfoundTableCell" bundle:nil] forCellReuseIdentifier:@"HMWfoundTableCell"];
 
 }
@@ -97,8 +97,18 @@
         [self.navigationController pushViewController:theSuperNodeElectionVC animated:YES];
     }
     if (indexPath.row==1) {
+        ELWalletManager *manager   =  [ELWalletManager share];
+               
+               IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
+               
+               nlohmann::json info = mainchainSubWallet->GetRegisteredCRInfo();
+               NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
+               NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+               NSString *Status = param[@"Status"];
+               self.typeString =Status;
         
       HMWCRCommitteeMemberListViewController *CRSignUpForVC=[[HMWCRCommitteeMemberListViewController alloc]init];
+        CRSignUpForVC.typeString=self.typeString;
          [self.navigationController pushViewController:CRSignUpForVC  animated:YES];
     }
     

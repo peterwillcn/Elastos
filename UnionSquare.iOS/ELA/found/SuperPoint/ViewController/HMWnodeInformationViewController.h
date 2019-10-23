@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "FLCoinPointInfoModel.h"
+#import "HWMCRListModel.h"
 
 
 typedef enum : NSUInteger {
@@ -15,8 +16,15 @@ typedef enum : NSUInteger {
    nodeInformationType
 } InformationType;
 
+@protocol HMWnodeInformationViewControllerDelegate <NSObject>
+
+-(void)needUpdateListWithIndex:(NSInteger)index;
+
+@end
+
 @interface HMWnodeInformationViewController : UIViewController
 @property(nonatomic,strong)FLCoinPointInfoModel *model;
+@property(nonatomic,strong)HWMCRListModel *CRmodel;
 /*
  *<# #>
  */
@@ -25,5 +33,13 @@ typedef enum : NSUInteger {
  *<# #>
  */
 @property(assign,nonatomic)InformationType type;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)id<HMWnodeInformationViewControllerDelegate>delegate;
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)NSInteger   index;
 @end
 

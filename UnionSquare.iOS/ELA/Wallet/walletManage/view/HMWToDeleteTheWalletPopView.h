@@ -28,7 +28,8 @@ typedef NS_ENUM(NSInteger, HMWToDeleteType) {
    deleteFriends,            // slow at beginning
    deleteSelectVote,
    moreThan36SelectList,
-   UtxoChangeWhole
+   UtxoChangeWhole,
+    deleteCRVote
     
    
 };

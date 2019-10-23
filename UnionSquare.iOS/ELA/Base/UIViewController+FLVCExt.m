@@ -63,9 +63,11 @@
 }
 -(void)setBackgroundImg:(NSString*)img{
     UIImageView *bg = [[UIImageView alloc]initWithFrame:self.view.bounds];
-    bg.image = [UIImage imageNamed:img];
+    
     if (img.length==0) {
         [self CAGradientColorFrome:RGB(83, 136, 136) withToColor:RGB(16, 47, 58) withView:bg];
+    }else{
+        bg.image = [UIImage imageNamed:img];
     }
     [self.view insertSubview:bg atIndex:0];
     [bg mas_makeConstraints:^(MASConstraintMaker *make) {

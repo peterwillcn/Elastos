@@ -56,20 +56,16 @@
     [self defultWhite];
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"报名参选", nil);
-    self.theNameOfTheNodeTextField.placeholder =NSLocalizedString(@"请输入节点名称（必填）", nil);
-    self.thePublicKeyTextField.placeholder    =NSLocalizedString(@"请输入节点公钥（必填）", nil);
-    self.countriesTextField.placeholder       =NSLocalizedString(@"请选择国家/地区", nil);
-    self.URLTextField.placeholder             =NSLocalizedString(@"请输入节点官网URL（必填)", nil);
-    self.ipAddressTextField.placeholder       = NSLocalizedString(@"请输入网络地址（必填）", nil);
     
     // Do any additional setup after loading the view from its nib.
     [self.confirmToRunButton setTitle:NSLocalizedString(@"确认参选", nil) forState:UIControlStateNormal];
     
- [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.theNameOfTheNodeTextField];
-  [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.thePublicKeyTextField];
- [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.countriesTextField];
-  [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.URLTextField];
-    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.ipAddressTextField];
+ [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.theNameOfTheNodeTextField withTxt:NSLocalizedString(@"请输入节点名称（必填）", nil)];
+  [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.thePublicKeyTextField withTxt:NSLocalizedString(@"请输入节点公钥（必填）", nil)];
+ [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.countriesTextField withTxt:NSLocalizedString(@"请选择国家/地区", nil)];
+    
+  [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.URLTextField withTxt:NSLocalizedString(@"请输入节点官网URL（必填)", nil)];
+    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.ipAddressTextField withTxt:NSLocalizedString(@"请输入网络地址（必填）", nil)];
 
  [[HMWCommView share]makeBordersWithView:self.confirmToRunButton];
     ELWalletManager *manager   =  [ELWalletManager share];
@@ -312,8 +308,9 @@ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), di
     
     self.countriesTextField.text       =[[FLTools share]contryNameTransLateByCode:model.contryCode.integerValue];
     self.mobCodeString = model.contryCode;
-    self.URLTextField.placeholder           = model.url;
-    self.ipAddressTextField.placeholder     =model.ipAddress;
+    self.URLTextField.text        = model.url;
+    
+    self.ipAddressTextField.text  =model.ipAddress;
     
    
     

@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign)NSInteger acount;
 @property(nonatomic,copy)NSString    *mark;
 @property(nonatomic,copy)NSString    *ownerPublickKey;
+@property(nonatomic,copy)NSString    *CRownerPublickKey;
+@property(nonatomic,copy)NSString    *CRDIDKey;
 @end
 
 NS_ASSUME_NONNULL_END

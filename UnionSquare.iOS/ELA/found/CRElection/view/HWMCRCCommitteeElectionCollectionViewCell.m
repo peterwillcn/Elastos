@@ -25,29 +25,33 @@
     self.NoIndexLabel.layer.cornerRadius=2.f;
     self.NoIndexLabel.layer.masksToBounds=YES;
 }
--(void)setModel:(FLCoinPointInfoModel *)model{
+-(void)setModel:(HWMCRListModel *)model{
     
     
-    [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:model.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial_r"]];
+    [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:model.url] placeholderImage:[UIImage imageNamed:@"found_vote_initial_r"]];
     
     self.nickNameLabel.text = model.nickname;
     //  self.theValueOfLabel.text = model.votes;
     NSString *votes =[NSString stringWithFormat:@"%ld %@",(long)[model.votes integerValue],NSLocalizedString(@"票", nil)];
     NSString *voterateString=[NSString stringWithFormat:@" | %.2f%@",[model.voterate doubleValue],@"%"];
     self.VotesAndPercentagesLabel.text=[NSString stringWithFormat:@"%@%@",votes,voterateString];
-    if (model.index>11) {
-        self.NoIndexLabel.text=[NSString stringWithFormat:@"%ld",(long)model.index+1];
+    if ([model.index integerValue]>11) {
+        self.NoIndexLabel.text=[NSString stringWithFormat:@"%ld",(long)[model.index integerValue]+1];
     }else{
-        self.NoIndexLabel.text=[NSString stringWithFormat:@"NO.%ld",(long)model.index+1];
+        self.NoIndexLabel.text=[NSString stringWithFormat:@"NO.%ld",(long)[model.index integerValue]+1];
         
     }
     if (self.isEdiet) {
         self.VotesAndPercentagesLabel.alpha=0.f;
         self.SelectedImageView.alpha=1.f;
-        if (model.isCellSelected) {
+        if (model.isCellSelected==NO) {
+        if (model.isNewCellSelected) {
             self.SelectedImageView.image=[UIImage imageNamed:@"found_vote_select"];
-        }else{
+            }else{
           self.SelectedImageView.image=[UIImage imageNamed:@"found_not_select"];
+          }
+        }else{
+           self.SelectedImageView.image=[UIImage imageNamed:@"selected_already"];
         }
     }else{
         self.VotesAndPercentagesLabel.alpha=1.f;

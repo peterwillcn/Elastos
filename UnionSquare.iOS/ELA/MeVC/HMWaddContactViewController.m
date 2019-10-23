@@ -27,22 +27,14 @@
     // Do any additional setup after loading the view from its nib.
     [self defultWhite];
     [self setBackgroundImg:@""];
-    self.nickNameTextField.placeholder=NSLocalizedString(@"请输入姓名（必填）", nil);
-//    self.title=@"钱包列表";
-    
-    
-    self.theWalletAddressTextField.placeholder=NSLocalizedString(@"请输入钱包地址（必填）", nil);
-    self.mobilePhoneNOTextField.placeholder=NSLocalizedString(@"请输入手机号码", nil);
-    self.emailTextField.placeholder=NSLocalizedString(@"请输入邮箱", nil);
-   [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField: self.nickNameTextField];
-    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.theWalletAddressTextField];
+   [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField: self.nickNameTextField withTxt:NSLocalizedString(@"请输入姓名（必填）", nil)];
+    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.theWalletAddressTextField withTxt:NSLocalizedString(@"请输入钱包地址（必填）", nil)];
  
  
-  [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.mobilePhoneNOTextField];
-  [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.emailTextField];
-  [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.noteTextField];
+  [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.mobilePhoneNOTextField withTxt:NSLocalizedString(@"请输入手机号码", nil)];
+  [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.emailTextField withTxt:NSLocalizedString(@"请输入邮箱", nil)];
+  [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.noteTextField withTxt:NSLocalizedString(@"请输入备注", nil)];
     [[HMWCommView share]makeBordersWithView:self.addBuddyButton];
-    self.noteTextField.placeholder=NSLocalizedString(@"请输入备注", nil);
     [self.addBuddyButton setTitle:NSLocalizedString(@"添加", nil) forState:UIControlStateNormal];
     if (self.model.nameString.length>0) {
         

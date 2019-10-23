@@ -34,5 +34,18 @@
     [super awakeFromNib];
     [[HMWCommView share]makeBordersWithView:self];
 }
+-(void)setCRModel:(HWMCRListModel *)CRModel{
 
+
+        self.nickName.text = CRModel.nickname;
+        self.contryName.text = [[FLTools share]contryNameTransLateByCode: CRModel.location.integerValue];
+        self.indexLab.text = [@""stringByAppendingString:@([CRModel.index intValue ]+1).stringValue];
+        self.percentLab.text = [NSString stringWithFormat:@"%.5lf %@",CRModel.voterate.floatValue*100,@"%"];
+        self.tickNumberLab.text=[NSString stringWithFormat:@"%ld %@",[CRModel.votes longValue],NSLocalizedString(@"票", nil)];
+         [self.coinIconImageView sd_setImageWithURL:[NSURL URLWithString:CRModel.url] placeholderImage:[UIImage imageNamed:@"found_vote_initial_oval"]];
+    
+    _CRModel  = CRModel;
+    
+    
+}
 @end

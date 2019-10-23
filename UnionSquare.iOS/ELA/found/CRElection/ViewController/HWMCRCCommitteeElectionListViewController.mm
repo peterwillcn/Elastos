@@ -92,7 +92,6 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     [[HMWCommView share]makeBordersWithView:self.immediatelyToVoteButton];
     self.TheAverageDistributionTextLabel.text=NSLocalizedString(@"平均分配", nil);
     [self getWalletType];
-//       self.persentLab.text =[NSString stringWithFormat:@"%@%@",NSLocalizedString(@"可用", nil), self.persent];
     [self getDBRecored];
     [self makeView];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:self.editBtn];
@@ -105,6 +104,11 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
 -(void)getDBRecored{
     self.dataSource  = [[NSMutableArray alloc]initWithArray: [[HMWFMDBManager sharedManagerType:CRListType] allSelectCRWithWallID:self.wallet.masterWalletID ]];
     [self.baseTableView reloadData];
+    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(TableendEditing)];
+    [self.baseTableView addGestureRecognizer:tap];
+}
+-(void)TableendEditing{
+    [self.view endEditing:YES];
 }
 -(void)getWalletType{
     
@@ -656,11 +660,14 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
     
     
     NSMutableArray *stringArray = [NSMutableArray array];
+    NSMutableDictionary *CRDic=[[NSMutableDictionary alloc]init];
     for (int i= 0; i<self.voteArray.count; i++) {
         HWMCRListModel *model=self.voteArray[i];
         
         NSDictionary *dic=@{model.did: [NSString stringWithFormat:@"%ld",[model.SinceVotes integerValue]*unitNumber]};
-        [stringArray addObject:dic];
+    [CRDic addEntriesFromDictionary:dic];
+//    [CRDic setObject:model.did forKey:[NSString stringWithFormat:@"%ld",[model.SinceVotes integerValue]*unitNumber]];
+//        [stringArray addObject:dic];
     }
     NSInteger tic=self.TheRemainingAvailable;
 //    if (self.isMax) {
@@ -672,7 +679,7 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
     
     if (self.wallet.TypeW==0) {
         NSString *walletId = [ELWalletManager share].currentWallet.masterWalletID;
-        BOOL ret = [[ELWalletManager share]useCRMainchainSubWallet:walletId ToVote:stringArray tickets:0 pwd:pwd isChangeVote:YES];
+        BOOL ret = [[ELWalletManager share]useCRMainchainSubWallet:walletId ToVote:CRDic tickets:0 pwd:pwd isChangeVote:YES];
         if (ret) {
             
             [self showSendSuccessPopuV];

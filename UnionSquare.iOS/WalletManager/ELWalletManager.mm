@@ -1791,8 +1791,8 @@ errCodeSPVCreateMasterWalletError= 20006;
 }
 
 
--(BOOL)useCRMainchainSubWallet:(NSString*)CRmainchainSubWalletId ToVote:(NSArray*)publicKeys tickets:(NSInteger)stake pwd:(NSString*)pwd isChangeVote:(BOOL)change{
-    String keys = [[ self arrayToJSONString:publicKeys] UTF8String];
+-(BOOL)useCRMainchainSubWallet:(NSString*)CRmainchainSubWalletId ToVote:(NSDictionary*)publicKeys tickets:(NSInteger)stake pwd:(NSString*)pwd isChangeVote:(BOOL)change{
+    String keys = [[ self dicToJSONString:publicKeys] UTF8String];
        nlohmann::json tx ;
        IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:CRmainchainSubWalletId];
        String acount=[self cstringWithString:[NSString stringWithFormat:@"%ld",stake*unitNumber]];

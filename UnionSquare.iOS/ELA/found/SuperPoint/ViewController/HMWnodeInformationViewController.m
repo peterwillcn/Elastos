@@ -12,6 +12,7 @@
 #import "FLNotePointDBManager.h"
 #import "HMWFMDBManager.h"
 #import "nodeInformationDetailsView.h"
+#import "HWMCRCCommitteeElectionListViewController.h"
 @interface HMWnodeInformationViewController ()
 @property(nonatomic,assign)BOOL hasModel;
 /*
@@ -348,10 +349,16 @@
    
 }
 - (IBAction)lookAtTheCandidateListEvent:(id)sender {
+    if (self.type==nodeInformationType) {
+        HMWtheCandidateListViewController *theCandidateListVC=[[HMWtheCandidateListViewController alloc]init];
+         
+         [self.navigationController pushViewController:theCandidateListVC animated:YES];
+    }else if (self.type==CRInformationType){
+         HWMCRCCommitteeElectionListViewController * vc = [[HWMCRCCommitteeElectionListViewController alloc]init];
+             [self.navigationController pushViewController:vc animated:YES];
+    }
   
-    HMWtheCandidateListViewController *theCandidateListVC=[[HMWtheCandidateListViewController alloc]init];
     
-    [self.navigationController pushViewController:theCandidateListVC animated:YES];
 }
 - (IBAction)joinTheCandidateListEvent:(id)sender {
     

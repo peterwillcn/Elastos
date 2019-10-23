@@ -128,7 +128,6 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-    
     [self setBackgroundImg:@""];
     [self makeView];
     self.isUpdate=NO;
@@ -179,7 +178,9 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     }
 }
 -(void)iconInfoUpdate:(NSNotification *)notification{
-    
+    if (self.title.length==0) {
+        return;
+    }
     
     NSOperationQueue *waitQueue = [[NSOperationQueue alloc] init];
     [waitQueue addOperationWithBlock:^{

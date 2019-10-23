@@ -145,10 +145,6 @@ self.all_selectedTextLabel.text=NSLocalizedString(@"全选", nil);
     }
 }
 - (IBAction)NodeRegisteredState:(id)sender {
-    DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
-           vc.CRTypeString=@"CRString";
-           [self.navigationController pushViewController:vc animated:YES];
-    return;
     if ([self.typeString isEqualToString:@"Registered"]){
        FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
            vc.currentWallet=self.wallet;

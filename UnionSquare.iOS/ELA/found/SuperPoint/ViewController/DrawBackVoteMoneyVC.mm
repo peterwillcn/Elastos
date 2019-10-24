@@ -95,7 +95,9 @@
        } WithFailBlock:^(id data) {
            
        }];
+
 }
+
 -(void)DrawBackRegistCRMoney{
     self.tagNote.text = NSLocalizedString(@"    退出参选72小时后，方可提取质押金",nil);
     [self.drawBtn setTitle:NSLocalizedString(@"提取质押金", nil) forState:UIControlStateNormal];
@@ -131,7 +133,21 @@
           [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:URL] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
 }
 -(void)DrawBackRegistCRMoneyWithPWD:(NSString*)pwdString{
-    
+    ELWalletManager *manager = [ELWalletManager share];
+    NSString *walletId =  manager.currentWallet.masterWalletID;
+    IMainchainSubWallet *wallet = [manager getWalletELASubWallet:walletId];
+    NSString *ownerpublickey  =[NSString stringWithCString:wallet->GetCROwnerDID().c_str() encoding:NSUTF8StringEncoding];
+     NSString *httpIP=[[FLTools share]http_IpFast];
+    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/getcrdepositcoin" header:@{} body:@{@"did":ownerpublickey} showHUD:YES WithSuccessBlock:^(id data) {
+        CGFloat available = [data[@"data"][@"result"][@"available"] doubleValue];
+        BOOL ret = [manager  RetrieveCRDepositTransaction:walletId acount:available-0.0001  Pwd:pwdString];
+        [self takeOutOrShutDown];
+        if (ret) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    } WithFailBlock:^(id data) {
+        
+    }];
 }
 - (IBAction)drawBackAction:(id)sender {
     [self.view addSubview:self.securityVerificationPopV];

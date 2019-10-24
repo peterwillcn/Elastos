@@ -3175,7 +3175,7 @@
 				LastUpgradeCheck = 1020;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = LFU7T9UYL5;
+						DevelopmentTeam = K5DE7L29B2;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -3737,7 +3737,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = LFU7T9UYL5;
+				DEVELOPMENT_TEAM = K5DE7L29B2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3787,7 +3787,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
-				DEVELOPMENT_TEAM = LFU7T9UYL5;
+				DEVELOPMENT_TEAM = K5DE7L29B2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

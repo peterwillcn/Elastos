@@ -167,7 +167,6 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 //参加投票
 -(NSInteger)RegisterProducerWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model;
 -(NSInteger)UpdateProducerWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model;
-
 -(BOOL)useCRMainchainSubWallet:(NSString*)CRmainchainSubWalletId ToVote:(NSDictionary*)publicKeys tickets:(NSInteger)stake pwd:(NSString*)pwd isChangeVote:(BOOL)change;
 -(BOOL)useMainchainSubWallet:(NSString*)mainchainSubWalletId ToVote:(NSArray*)publicKeys tickets:(NSInteger)stake pwd:(NSString*)pwd isChangeVote:(BOOL)change;
 -(PluginResult *)SignReadOnlyToVote:(invokedUrlCommand *)command;
@@ -183,7 +182,7 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(NSString*)GetRegisteredProducerInfo:(NSString *)mainid;
 -(NSString *)GetOwnerAddressWithID:(NSString*)masterWalletID;
 -(PluginResult *)GetAllCoinBaseTransaction:(invokedUrlCommand *)command;
-- (PluginResult *)getMasterWalletPublicKey:(invokedUrlCommand *)command;
+-(PluginResult *)getMasterWalletPublicKey:(invokedUrlCommand *)command;
 -(PluginResult *)CreateCombineUTXOTransaction:(invokedUrlCommand *)command;
 -(PluginResult *)GetAllUTXOs:(invokedUrlCommand *)command;
 -(PluginResult *)CreateMultiSignMasterWalletMnemonic:(invokedUrlCommand *)command;
@@ -205,6 +204,7 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(NSInteger)RegisterCRWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model;
 -(BOOL)UpdateCRProducerWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model;
 -(BOOL)CancelCRProducer:(NSString*)mainchainSubWalletId Pwd:(NSString*)pwd;
+-(BOOL)RetrieveCRDepositTransaction:(NSString*)mainchainSubWalletId acount:(double)acount Pwd:(NSString*)pwd;
 @end
 
 

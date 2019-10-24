@@ -293,6 +293,7 @@ self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
     
     HMWMyVoteViewController * vc = [[HMWMyVoteViewController alloc]init];
     vc.listData = self.dataSource;
+    vc.VoteType=MyVoteCRType;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

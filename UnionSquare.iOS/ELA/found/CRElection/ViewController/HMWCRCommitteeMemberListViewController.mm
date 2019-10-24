@@ -302,8 +302,12 @@ self.all_selectedTextLabel.text=NSLocalizedString(@"全选", nil);
     return _votingListV;
 }
 - (IBAction)myVoteEvent:(id)sender {
+    
     HMWMyVoteViewController * vc = [[HMWMyVoteViewController alloc]init];
+    vc.VoteType=MyVoteCRType;
+    NSLog(@"VoteType=====%lu", (unsigned long)vc.VoteType);
     vc.listData = self.memberListDataSource;
+
     [self.navigationController pushViewController:vc animated:YES];
 }
 

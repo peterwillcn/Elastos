@@ -179,13 +179,13 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     }
 }
 -(void)iconInfoUpdate:(NSNotification *)notification{
-    if (self.title.length==0) {
-        return;
-    }
+   
     
     NSOperationQueue *waitQueue = [[NSOperationQueue alloc] init];
     [waitQueue addOperationWithBlock:^{
-    
+    if (self.title.length==0) {
+           return;
+       }
     NSDictionary *dic=[[NSDictionary alloc]initWithDictionary:notification.object];
     NSArray *infoArray=[[FLTools share]stringToArray:dic[@"callBackInfo"]];
     NSString *walletID=infoArray.firstObject;

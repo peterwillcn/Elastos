@@ -182,7 +182,7 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(NSString*)GetRegisteredProducerInfo:(NSString *)mainid;
 -(NSString *)GetOwnerAddressWithID:(NSString*)masterWalletID;
 -(PluginResult *)GetAllCoinBaseTransaction:(invokedUrlCommand *)command;
-- (PluginResult *)getMasterWalletPublicKey:(invokedUrlCommand *)command;
+-(PluginResult *)getMasterWalletPublicKey:(invokedUrlCommand *)command;
 -(PluginResult *)CreateCombineUTXOTransaction:(invokedUrlCommand *)command;
 -(PluginResult *)GetAllUTXOs:(invokedUrlCommand *)command;
 -(PluginResult *)CreateMultiSignMasterWalletMnemonic:(invokedUrlCommand *)command;
@@ -204,6 +204,7 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(NSInteger)RegisterCRWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model;
 -(BOOL)UpdateCRProducerWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model;
 -(BOOL)CancelCRProducer:(NSString*)mainchainSubWalletId Pwd:(NSString*)pwd;
+-(BOOL)RetrieveCRDepositTransaction:(NSString*)mainchainSubWalletId acount:(double)acount Pwd:(NSString*)pwd;
 @end
 
 

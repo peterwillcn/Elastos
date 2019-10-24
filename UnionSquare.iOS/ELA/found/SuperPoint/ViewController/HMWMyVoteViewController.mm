@@ -12,6 +12,7 @@
 #import "FLChangeVotedTicketsVC.h"
 #import "FLCoinPointInfoModel.h"
 #import "HWMCRListModel.h"
+#import "HWMCRCCommitteeElectionListViewController.h"
 static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
 @interface HMWMyVoteViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UIView *BGView;
@@ -74,14 +75,16 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
            for (int j = 0;j<self.listData.count; j++) {
                HWMCRListModel *model = self.listData[j];
                if ([model.did isEqualToString:itemKey]) {
-//                   model.SinceVotes = param[itemKey];
+                   double sinceVd=[param[itemKey] doubleValue];
+                   model.SinceVotes = @(sinceVd/unitNumber).stringValue;
                    [showlistdata addObject:model];
                    total+=[param[itemKey] integerValue];
                }
            }
            
        }
-       self.voteInTotalLabel.text = @(total/unitNumber).stringValue;
+    
+       self.voteInTotalLabel.text =[NSString stringWithFormat:@"%@%@%@",NSLocalizedString(@"共",nil),@(total/unitNumber).stringValue,NSLocalizedString(@"票",nil)] ;
        self.dataSource = showlistdata;
        if (self.dataSource.count==0) {
            self.changeVotesButton.alpha=0.f;
@@ -160,8 +163,9 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
         cell.rightLab.text =[NSString stringWithFormat:@"NO.%ld",model.index+1];
        }else if (self.VoteType==MyVoteCRType){
           HWMCRListModel *model = self.dataSource[indexPath.row];
-        cell.leftLab.text = model.nickname;
-           cell.rightLab.text =[NSString stringWithFormat:@"NO.%d",([model.index intValue]+1)];
+        cell.leftLab.text =[NSString stringWithFormat:@"NO.%d",([model.index intValue]+1)];
+           cell.middleLabel.text=model.nickname;
+           cell.rightLab.text =[NSString stringWithFormat:@"%@%@",model.SinceVotes,NSLocalizedString(@"票", nil)];
        }
     
     return cell;
@@ -177,8 +181,14 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     return _placeHolderLab;
 }
 - (IBAction)changeVote:(id)sender {
-    FLChangeVotedTicketsVC *vc = [[FLChangeVotedTicketsVC alloc]init];
-    [self.navigationController pushViewController:vc animated:YES];
+    if (self.VoteType==MyVoteNodeElectioType) {
+      FLChangeVotedTicketsVC *vc = [[FLChangeVotedTicketsVC alloc]init];
+        [self.navigationController pushViewController:vc animated:YES];
+     }else if (self.VoteType==MyVoteCRType){
+         HWMCRCCommitteeElectionListViewController *vc=[[HWMCRCCommitteeElectionListViewController alloc]init];
+         [self.navigationController pushViewController:vc animated:YES];
+     }
+  ;
 }
 -(void)setVoteType:(MyVoteVotingListType)VoteType{
     _VoteType=VoteType;

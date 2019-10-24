@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *leftLab;
 @property (weak, nonatomic) IBOutlet UILabel *rightLab;
 
+@property (weak, nonatomic) IBOutlet UILabel *middleLabel;
 
 @end
 

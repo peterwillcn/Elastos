@@ -1767,7 +1767,27 @@ errCodeSPVCreateMasterWalletError= 20006;
     
     
 }
-
+-(BOOL)RetrieveCRDepositTransaction:(NSString*)mainchainSubWalletId acount:(double)acount Pwd:(NSString*)pwd{
+    IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:mainchainSubWalletId];
+    // 少一个备注的参数
+    String acountS=[self cstringWithString:[NSString stringWithFormat:@"%f",acount*unitNumber]];
+    try {
+        nlohmann::json tx = mainchainSubWallet-> CreateRetrieveCRDepositTransaction(acountS,"");
+        Json signedTx = mainchainSubWallet->SignTransaction(tx, [pwd UTF8String]);
+        Json result = mainchainSubWallet->PublishTransaction(signedTx);
+        NSString *resultString=[self stringWithCString:result.dump()];
+        NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
+        
+        return YES;
+        
+    } catch (const std:: exception & e ) {
+        NSString *errString=[self stringWithCString:e.what()];
+        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+        [[FLTools share]showErrorInfo:dic[@"Message"]];
+        return NO;
+    }
+    return YES;
+}
 -(BOOL)RetrieveDeposit:(NSString*)mainchainSubWalletId acount:(double)acount Pwd:(NSString*)pwd{
     IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:mainchainSubWalletId];
     // 少一个备注的参数

@@ -5,7 +5,7 @@
   "name": "Carrier Demo",
   "short_name": "carrier",
   "description": "My carrier sample",
-  "start_url": "demo.html",
+  "start_url": "index.html",
   "icons": [
     {
         "src": "img/avatar02.png",

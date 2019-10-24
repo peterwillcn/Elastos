@@ -16,6 +16,7 @@
 #import "HMWFMDBManager.h"
 #import "friendsModel.h"
 #import "AboutELAWalletViewController.h"
+#import "HWMCreateDIDViewController.h"
 
 static NSString *MyIncomeOrWealthCell=@"HMWMyIncomeOrWealthTableViewCell";
 static NSString *LanguageCell=@"HMWClassificationOfLanguageTableViewCell";
@@ -101,8 +102,10 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
     self.table.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, AppWidth, 40)];
     
     self.dataSorse = @[
-  @{@"img":@"mine_mission",@"title":NSLocalizedString(@"语言", nil),@"url":@"/app/task.html",@"subTitle":@""},
+  @{@"img":@"mine_sugar",@"title":NSLocalizedString(@"DID", nil),@"url":@"/app/vlink/wallet.html",@"subTitle":@""},
+  @{@"img":@"mine_sugar",@"title":NSLocalizedString(@"手势密码", nil),@"url":@"/app/vlink/wallet.html",@"subTitle":@""},
   @{@"img":@"mine_sugar",@"title":NSLocalizedString(@"联系人", nil),@"url":@"/app/vlink/wallet.html",@"subTitle":@""},
+  @{@"img":@"mine_mission",@"title":NSLocalizedString(@"语言", nil),@"url":@"/app/task.html",@"subTitle":@""},
   @{@"img":@"mine_sugar",@"title":NSLocalizedString(@"关于", nil),@"url":@"/app/vlink/wallet.html",@"subTitle":@""}];
   
 }
@@ -119,30 +122,50 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    if (self.languageOpen) {
-        if (section==0) {
-            
-            
-            return 2;
-        }
-       
-    }
-    
-    if (self.theContactOpen) {
-        if (section==1) {
-            if (self.theContactMutableArray.count==0) {
-                return self.theContactMutableArray.count+3;
+    switch (section) {
+        case 3:
+            if (self.languageOpen) {
+                return 2;
             }
-            return self.theContactMutableArray.count+2;
-            
+            break;
+        case 2:{
+            if (self.theContactOpen) {
+                if (self.theContactMutableArray.count==0) {
+                    return self.theContactMutableArray.count+3;
+                }
+                return self.theContactMutableArray.count+2;
+            }
         }
+            break;
+            
+        default:
+            return 1;
+            break;
     }
+    
+//    if (self.languageOpen) {
+//        if (section==3) {
+//
+//
+//            return 2;
+//        }
+//
+//    }
+//
+//    if (self.theContactOpen) {
+//        if (section==2) {
+//            if (self.theContactMutableArray.count==0) {
+//                return self.theContactMutableArray.count+3;
+//            }
+//            return self.theContactMutableArray.count+2;
+//
+//        }
+//    }
     return 1;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return 3;
+    return 5;
 }
 
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -162,11 +185,11 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     if (self.languageOpen) {
-        if (indexPath.section==0) {
+        if (indexPath.section==3) {
             if (indexPath.row==0) {
                 FLTableViewDefultCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FLTableViewDefultCell"];
                 
-                NSDictionary*dict =self.dataSorse[indexPath.row];
+                NSDictionary*dict =self.dataSorse[indexPath.section];
                 cell.nameLab.text  = dict[@"title"];
                 cell.subImag.image=[UIImage imageNamed:@"setting_list_arrow"];
                 cell.selectionStyle=UITableViewCellSelectionStyleNone;
@@ -180,15 +203,14 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
     }
     
     if (self.theContactOpen) {
-        if (indexPath.section==1) {
+        if (indexPath.section==2) {
             if (indexPath.row==0) {
                 FLTableViewDefultCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FLTableViewDefultCell"];
                 
                 NSDictionary*dict =self.dataSorse[indexPath.section];
                 cell.nameLab.text  = dict[@"title"];
                 cell.subImag.image=[UIImage imageNamed:@"setting_list_arrow"];
-                return cell;
-                cell.selectionStyle=UITableViewCellSelectionStyleNone;
+                    return cell;
             }
             if (self.theContactMutableArray.count==0) {
                 
@@ -228,14 +250,7 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
                 return cell;
                 
             }
-                
-                
-                
-                
-                
-            
-        
-     
+
             
         }
     }
@@ -244,9 +259,16 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
 
     NSDictionary*dict =self.dataSorse[indexPath.section];
     cell.nameLab.text  = dict[@"title"];
+
     cell.subImag.image=[UIImage imageNamed:@"setting_list_arrow_fold"];
   
-  
+    if (indexPath.section==1) {
+        cell.subImag.alpha=0.f;
+        cell.pwdSwitch.alpha=1.f;
+    }else{
+        cell.subImag.alpha=1.f;
+        cell.pwdSwitch.alpha=0.f;
+    }
     return cell;
 }
 
@@ -261,50 +283,53 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
     NSDictionary *dict = self.dataSorse[indexPath.section];
 
     NSString *name = dict[@"title"];
-    if([name isEqualToString:@"语言"]||[name isEqualToString:@"Language"]) {
+    if([name isEqualToString:NSLocalizedString(@"语言", nil)]) {
         if (indexPath.row==0) {
             self.languageOpen=!self.languageOpen;
             NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:indexPath.section];
             [self.table reloadSections:indexSet withRowAnimation: UITableViewRowAnimationAutomatic];
        
         }
-   
-       
- 
-    }else if([name isEqualToString:@"联系人"]||[name isEqualToString:@"Contacts"]){
+        }else if([name isEqualToString:NSLocalizedString(@"联系人", nil)]){
         self.selectIndex=indexPath;
          if (indexPath.row==0) {
-        self.theContactOpen=!self.theContactOpen;
-        NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:indexPath.section];
+         self.theContactOpen=!self.theContactOpen;
+         NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:indexPath.section];
              [self.table reloadSections:indexSet withRowAnimation: UITableViewRowAnimationAutomatic];
-           
-             
          }else{
-             if (self.theContactMutableArray.count==0) {
+                if (self.theContactMutableArray.count==0) {
                  HMWaddContactViewController *addContactVC=[[ HMWaddContactViewController alloc]init];
                  addContactVC.title=NSLocalizedString(@"添加联系人", nil);
                  addContactVC.typeInfo=updateInfo;
                  [self.navigationController pushViewController:addContactVC animated:YES];
-             }else{
-             if (indexPath.row==self.theContactMutableArray.count+1) {//添加
-                 HMWaddContactViewController *addContactVC=[[ HMWaddContactViewController alloc]init];
-                 addContactVC.title=NSLocalizedString(@"添加联系人", nil);
-                 [self.navigationController pushViewController:addContactVC animated:YES];
+                    }else{
+                        if (indexPath.row==self.theContactMutableArray.count+1) {//添加
+                            HMWaddContactViewController *addContactVC=[[ HMWaddContactViewController alloc]init];
+                            addContactVC.title=NSLocalizedString(@"添加联系人", nil);
+                            [self.navigationController pushViewController:addContactVC animated:YES];
+                        }else{
                  
-             }else{
-                 
-                 HMWtheContactInformationViewController *theContactInformationVC=[[HMWtheContactInformationViewController alloc]init];
-                 theContactInformationVC.model=self.theContactMutableArray[indexPath.row-1];
+                            HMWtheContactInformationViewController *theContactInformationVC=[[HMWtheContactInformationViewController alloc]init];
+                            theContactInformationVC.model=self.theContactMutableArray[indexPath.row-1];
                     [self.navigationController pushViewController:theContactInformationVC animated:YES];}
-             }}}else if ([name isEqualToString:NSLocalizedString(@"关于", nil)]){
-                 AboutELAWalletViewController* AboutELAWalletVC =[[AboutELAWalletViewController alloc]init];
-                 AboutELAWalletVC.title=name;
-                 [self.navigationController pushViewController:AboutELAWalletVC animated:YES];
-                 
              }
-   
-    
+             
+         }
+        
+     }else if ([name isEqualToString:NSLocalizedString(@"关于", nil)]){
+                         AboutELAWalletViewController* AboutELAWalletVC =[[AboutELAWalletViewController alloc]init];
+                                         AboutELAWalletVC.title=name;
+                                         [self.navigationController pushViewController:AboutELAWalletVC animated:YES];
+                         
+     }else if ([name isEqualToString:NSLocalizedString(@"DID", nil)]){
+         HWMCreateDIDViewController * HWMCreateDIDVC=[[HWMCreateDIDViewController alloc]init];
+         [self.navigationController pushViewController:HWMCreateDIDVC animated:YES];
+         
+     }else if ([name isEqualToString:NSLocalizedString(@"手势密码", nil)]){
+         
+     }
 }
+   
 -(void)head:(FLMeHeadView *)header click:(NSInteger)index
 {
  

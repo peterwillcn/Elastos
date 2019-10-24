@@ -140,7 +140,7 @@
      NSString *httpIP=[[FLTools share]http_IpFast];
     [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/getcrdepositcoin" header:@{} body:@{@"did":ownerpublickey} showHUD:YES WithSuccessBlock:^(id data) {
         CGFloat available = [data[@"data"][@"result"][@"available"] doubleValue];
-        BOOL ret = [manager  RetrieveCRDepositTransaction:walletId acount:available-0.0001  Pwd:pwdString];
+        BOOL ret = [manager RetrieveCRDepositTransaction:walletId acount:available-0.0001  Pwd:pwdString];
         [self takeOutOrShutDown];
         if (ret) {
             [self.navigationController popViewControllerAnimated:YES];

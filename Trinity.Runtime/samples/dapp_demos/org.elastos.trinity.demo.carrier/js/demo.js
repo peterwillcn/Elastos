@@ -114,6 +114,17 @@ var commands = [
     { cmd: "spfopen", fn: portforwarding_open, help: "spfopen stream service tcp|udp host port" },
     { cmd: "spfclose", fn: portforwarding_close, help: "spfclose stream pfid" },
 
+    { cmd: "groupc", fn: group_create, help: "groupc" },
+    { cmd: "groupj", fn: group_join, help: "groupj userid cookie" },
+    { cmd: "groupi", fn: group_invite, help: "groupi friendId"},
+    { cmd: "groupl", fn: group_leave, help: "groupl" },
+    { cmd: "groupm", fn: group_msg, help: "groupm message" },
+    { cmd: "groupt", fn: group_title, help: "groupt" },
+    { cmd: "groupst", fn: group_set_title, help: "groupst groupTitle" },
+    { cmd: "groupp", fn: group_get_peer, help: "groupp peerId" },
+    { cmd: "groupps", fn: group_get_peers, help: "groupps" },
+    { cmd: "groups", fn: group_get_groups, help: "groups" },
+
     { cmd:"test",           fn:test,                   help:"test" },
 
     { cmd: "exit", fn: exit, help: "exit" }
@@ -462,6 +473,125 @@ function reply_invite(argv) {
         display_others_msg("Send invite reply to inviter failed: " + error + ".");
     };
     carrier.replyFriendInvite(success, error, argv[1], status, reason, msg);
+}
+
+var mGroup = null ;
+function group_create(argv) {
+     var success = function(group) {
+        mGroup = group;
+        display_others_msg("group_create success.");
+     };
+     var error = function (error) {
+        display_others_msg("group_create failed: " + error + ".");
+     };
+     carrier.newGroup(success, error, groupCallbacks);
+}
+
+function group_join(argv) {
+    var success = function(group) {
+       mGroup = group;
+       display_others_msg("group_join success.<br/>");
+    };
+    var error = function (error) {
+       display_others_msg("group_join failed: " + error + ".");
+    };
+    var friendId = argv[1];
+    var cookieStr = argv[2];
+    carrier.groupJoin(success, error, friendId, cookieStr, groupCallbacks);
+}
+
+
+function group_invite(argv) {
+    var success = function(success) {
+       display_others_msg("group_invite success.");
+    };
+    var error = function (error) {
+       display_others_msg("group_invite failed: " + error + ".");
+    };
+    var friendId = argv[1] ;
+    mGroup.invite(success, error,friendId);
+}
+
+
+function group_leave(argv) {
+    var success = function(success) {
+       mGroup = null ;
+       display_others_msg("group_leave success.");
+    };
+    var error = function (error) {
+       display_others_msg("group_leave failed: " + error + ".");
+    };
+
+    if (mGroup == null){
+        display_others_msg("group is null");
+        return ;
+    }
+    carrier.groupLeave(success, error, mGroup);
+}
+
+function group_msg(argv) {
+    var success = function(success) {
+       display_others_msg("group_msg success.");
+    };
+    var error = function (error) {
+       display_others_msg("group_msg failed: " + error + ".");
+    };
+    var message = argv[1];
+    mGroup.sendMessage(success, error,message);
+}
+
+function group_title(argv) {
+    var success = function(title) {
+       display_others_msg("group_title success.<br/>"+"groupTitle = "+title+".");
+    };
+    var error = function (error) {
+       display_others_msg("group_title failed: " + error + ".");
+    };
+    mGroup.getTitle(success, error);
+}
+
+function group_set_title(argv) {
+    var success = function(title) {
+       display_others_msg("group_set_title success.<br/>"+"groupTitle = "+title+".");
+    };
+    var error = function (error) {
+       display_others_msg("group_set_title failed: " + error + ".");
+    };
+    var title = argv[1];
+    mGroup.setTitle(success, error,title);
+}
+
+function group_get_peer(argv) {
+    var success = function(peer) {
+       display_others_msg("group_get_peer success.<br/>"+"peerName = "+peer.peerName+";<br/> peerUserId = "+peer.peerUserId+".");
+    };
+    var error = function (error) {
+       display_others_msg("group_get_peer failed: " + error + ".");
+    };
+    var peerId = argv[1];
+    mGroup.getPeer(success, error,peerId);
+}
+
+function group_get_peers(argv) {
+    var success = function(peers) {
+       display_others_msg("group_get_peers success."+JSON.stringify(peers)+".");
+    };
+    var error = function (error) {
+       display_others_msg("group_get_peers failed: " + error + ".");
+    };
+    mGroup.getPeers(success, error);
+}
+
+function group_get_groups(argv) {
+    var success = function(groups) {
+        var myGroups = [];
+        myGroups = groups;
+        display_others_msg("There are "+myGroups.length+" group object.");
+    };
+    var error = function (error) {
+       display_others_msg("group_get_groups failed: " + error + ".");
+    };
+    carrier.getGroups(success, error);
 }
 
 //-----------------------------------------------------------------------------
@@ -1304,6 +1434,45 @@ function invite_response_callback(event) {
     display_others_msg(msg);
 }
 
+function group_invite_callback(event){
+    var msg = "Got group invite callback response " + event.from + "; "+event.cookieCode
+            + ".<br/>if you want Accept the invitation,"
+            + "<br/>input sub command:"
+            +"<br/>groupj "+ event.from +" "+event.cookieCode;
+        display_others_msg(msg);
+}
+
+function group_connected_callback(event) {
+    var msg = "Got group connected callback response <br/>";
+    display_others_msg(msg);
+}
+
+function group_msg_callback(event) {
+    var msg = "receive group msg . <br/>"
+        + "<br/>from:"+event.from
+        + "<br/>msg:"+event.message;
+    display_others_msg(msg);
+}
+
+function group_title_callback(event) {
+    var msg = "Got group title change callback response .<br/>"
+        + "<br/>from:"+event.from
+        + "<br/>new title:"+event.title;
+    display_others_msg(msg);
+}
+
+function group_peer_name_callback(event) {
+    var msg = "Got group peer name change callback response .<br/>"
+        + "<br/>peerId:"+event.peerId
+        + "<br/>peerName:"+event.peerName;
+    display_others_msg(msg);
+}
+
+function group_peer_list_change_callback(event) {
+    var msg = "Got group peer list changed callback response .<br/>";
+    display_others_msg(msg);
+}
+
 var callbacks = {
     onIdle: idle_callback,
     onConnection: connection_callback,
@@ -1319,6 +1488,15 @@ var callbacks = {
     onFriendMessage: message_callback,
     onFriendInviteRequest: invite_request_callback,
     onSessionRequest: session_request_callback,
+    onGroupInvite:group_invite_callback,
+}
+
+var groupCallbacks = {
+    onGroupConnected:group_connected_callback,
+    onGroupMessage:group_msg_callback,
+    onGroupTitle:group_title_callback,
+    onPeerName:group_peer_name_callback,
+    onPeerListChanged:group_peer_list_change_callback,
 }
 
 function onLauncher() {
@@ -1377,4 +1555,3 @@ function test(argv) {;
 // $(document).ready(function () {
 //     do_command("help");
 // });
-

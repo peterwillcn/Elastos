@@ -8,12 +8,14 @@
 #import "HWMAddPersonalInformationViewController.h"
 #import "HWMCreateDIDListTableViewCell.h"
 #import "HWMTheAreaCodeAndPhonenumberTableViewCell.h"
+#import "HWMAddPersonalProfileViewController.h"
 
 
 static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTableViewCell";
 
 @interface HWMAddPersonalInformationViewController ()<UITableViewDelegate,UITableViewDataSource>
+@property (weak, nonatomic) IBOutlet UILabel *textInfoLabel;
 /*
  *<# #>
  */
@@ -52,11 +54,6 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
        self.table.delegate =self;
        self.table.dataSource =self;
     self.table.backgroundColor=[UIColor clearColor];
-//       UIImageView *bgview = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@""]];
-//      [self CAGradientColorFrome:RGB(83, 136, 136) withToColor:RGB(16, 47, 58) withView:bgview];
-//       self.table.backgroundView = bgview;
-      
-    
 }
 -(UIButton *)skipButton{
     if (!_skipButton) {
@@ -69,7 +66,8 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     return _skipButton;
 }
 -(void)skipVCEvent{
-    
+    HWMAddPersonalProfileViewController *AddPersonalProfileVC=[[HWMAddPersonalProfileViewController alloc]init];
+    [self.navigationController pushViewController:AddPersonalProfileVC animated:YES];
     
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -125,21 +123,15 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-//    if (indexPath.row==1) {
-//        UIView *mainView =[self mainWindow];
-//        [mainView addSubview:self.walletListView];
-//        [self.walletListView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.right.top.bottom.equalTo(mainView);
-//        }];
-//        self.walletListView.dataSourceArray=self.walletListArray;
-//
-//    }else if (indexPath.row==4){
-//        UIView *mainView =[self mainWindow];
-//               [mainView addSubview:self.dataListView];
-//        [self.dataListView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.right.top.bottom.equalTo(mainView);
-//        }];
-//    }
+    if (indexPath.row==2) {//性别
+        
+
+    }else if (indexPath.row==3){//出生
+       
+    }else if (indexPath.row==7){
+        
+        
+    }
 }
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 50)];
@@ -160,6 +152,9 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     
     return 0.01;
+}
+- (IBAction)nextAndSkipEvent:(id)sender {
+    [self skipVCEvent];
 }
 
 @end

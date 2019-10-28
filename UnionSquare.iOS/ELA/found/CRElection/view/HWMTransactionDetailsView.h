@@ -7,6 +7,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum : NSUInteger  {
+    didInfoType
+} TransactionDetailsType;
+
 @protocol HWMTransactionDetailsViewDelegate <NSObject>
 -(void)pwdAndInfoWithPWD:(NSString*)pwd;
 -(void)closeTransactionDetailsView;
@@ -22,6 +26,11 @@
  *<# #>
  */
 @property(copy,nonatomic)NSString *popViewTitle;
+
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)TransactionDetailsType DetailsType;
 -(void)TransactionDetailsWithFee:(NSString*)fee withTransactionDetailsAumont:(NSString*)aumont;
 @end
 

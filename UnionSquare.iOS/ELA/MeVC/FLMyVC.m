@@ -17,6 +17,7 @@
 #import "friendsModel.h"
 #import "AboutELAWalletViewController.h"
 #import "HWMCreateDIDViewController.h"
+#import "HWMDIDListViewController.h"
 
 static NSString *MyIncomeOrWealthCell=@"HMWMyIncomeOrWealthTableViewCell";
 static NSString *LanguageCell=@"HMWClassificationOfLanguageTableViewCell";
@@ -322,8 +323,10 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
                                          [self.navigationController pushViewController:AboutELAWalletVC animated:YES];
                          
      }else if ([name isEqualToString:NSLocalizedString(@"DID", nil)]){
-         HWMCreateDIDViewController * HWMCreateDIDVC=[[HWMCreateDIDViewController alloc]init];
-         [self.navigationController pushViewController:HWMCreateDIDVC animated:YES];
+         HWMDIDListViewController *DIDListVC=[[HWMDIDListViewController alloc]init];
+         [self.navigationController pushViewController:DIDListVC animated:YES];
+//         HWMCreateDIDViewController * HWMCreateDIDVC=[[HWMCreateDIDViewController alloc]init];
+//         [self.navigationController pushViewController:HWMCreateDIDVC animated:YES];
          
      }else if ([name isEqualToString:NSLocalizedString(@"手势密码", nil)]){
          

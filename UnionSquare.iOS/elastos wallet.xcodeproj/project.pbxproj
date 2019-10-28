@@ -369,6 +369,12 @@
 		42780240235EDC350017F098 /* HWMDIDWalletListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4278023E235EDC350017F098 /* HWMDIDWalletListTableViewCell.m */; };
 		42780241235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4278023F235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib */; };
 		428054D42242296500E74F0E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 428054D62242296500E74F0E /* InfoPlist.strings */; };
+		428573232366D6E100C0CF80 /* HWMAddPersonalProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428573212366D6E100C0CF80 /* HWMAddPersonalProfileViewController.m */; };
+		428573242366D6E100C0CF80 /* HWMAddPersonalProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 428573222366D6E100C0CF80 /* HWMAddPersonalProfileViewController.xib */; };
+		428573282366ED7C00C0CF80 /* HWMAddSocialAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428573262366ED7C00C0CF80 /* HWMAddSocialAccountViewController.m */; };
+		428573292366ED7C00C0CF80 /* HWMAddSocialAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 428573272366ED7C00C0CF80 /* HWMAddSocialAccountViewController.xib */; };
+		4285732D2366F56500C0CF80 /* HWMDIDListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4285732B2366F56500C0CF80 /* HWMDIDListViewController.m */; };
+		4285732E2366F56500C0CF80 /* HWMDIDListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4285732C2366F56500C0CF80 /* HWMDIDListViewController.xib */; };
 		4287BB3E2328E10F00FF1F7D /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 4287BB0E2328E10F00FF1F7D /* UIScrollView+MJRefresh.m */; };
 		4287BB3F2328E10F00FF1F7D /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 4287BB0F2328E10F00FF1F7D /* MJRefreshConst.m */; };
 		4287BB402328E10F00FF1F7D /* MJRefreshConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 4287BB102328E10F00FF1F7D /* MJRefreshConfig.m */; };
@@ -1109,6 +1115,15 @@
 		4278023F235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMDIDWalletListTableViewCell.xib; sourceTree = "<group>"; };
 		428054D52242296500E74F0E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		428054D72242296700E74F0E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		428573202366D6E100C0CF80 /* HWMAddPersonalProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMAddPersonalProfileViewController.h; sourceTree = "<group>"; };
+		428573212366D6E100C0CF80 /* HWMAddPersonalProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMAddPersonalProfileViewController.m; sourceTree = "<group>"; };
+		428573222366D6E100C0CF80 /* HWMAddPersonalProfileViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMAddPersonalProfileViewController.xib; sourceTree = "<group>"; };
+		428573252366ED7C00C0CF80 /* HWMAddSocialAccountViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMAddSocialAccountViewController.h; sourceTree = "<group>"; };
+		428573262366ED7C00C0CF80 /* HWMAddSocialAccountViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMAddSocialAccountViewController.m; sourceTree = "<group>"; };
+		428573272366ED7C00C0CF80 /* HWMAddSocialAccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMAddSocialAccountViewController.xib; sourceTree = "<group>"; };
+		4285732A2366F56500C0CF80 /* HWMDIDListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMDIDListViewController.h; sourceTree = "<group>"; };
+		4285732B2366F56500C0CF80 /* HWMDIDListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMDIDListViewController.m; sourceTree = "<group>"; };
+		4285732C2366F56500C0CF80 /* HWMDIDListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMDIDListViewController.xib; sourceTree = "<group>"; };
 		4287BB0E2328E10F00FF1F7D /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
 		4287BB0F2328E10F00FF1F7D /* MJRefreshConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshConst.m; sourceTree = "<group>"; };
 		4287BB102328E10F00FF1F7D /* MJRefreshConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshConfig.m; sourceTree = "<group>"; };
@@ -1653,6 +1668,15 @@
 				42211B3B2362D5CC00924029 /* HWMAddPersonalInformationViewController.h */,
 				42211B3C2362D5CC00924029 /* HWMAddPersonalInformationViewController.m */,
 				42211B3D2362D5CC00924029 /* HWMAddPersonalInformationViewController.xib */,
+				428573202366D6E100C0CF80 /* HWMAddPersonalProfileViewController.h */,
+				428573212366D6E100C0CF80 /* HWMAddPersonalProfileViewController.m */,
+				428573222366D6E100C0CF80 /* HWMAddPersonalProfileViewController.xib */,
+				428573252366ED7C00C0CF80 /* HWMAddSocialAccountViewController.h */,
+				428573262366ED7C00C0CF80 /* HWMAddSocialAccountViewController.m */,
+				428573272366ED7C00C0CF80 /* HWMAddSocialAccountViewController.xib */,
+				4285732A2366F56500C0CF80 /* HWMDIDListViewController.h */,
+				4285732B2366F56500C0CF80 /* HWMDIDListViewController.m */,
+				4285732C2366F56500C0CF80 /* HWMDIDListViewController.xib */,
 				42186FDD22BCADBB0063A28D /* AboutELAWalletViewController.h */,
 				42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.mm */,
 				42186FDF22BCADBB0063A28D /* AboutELAWalletViewController.xib */,
@@ -3318,6 +3342,7 @@
 				4202CA6521F6EF2A009E5932 /* HMWaddressListTableViewCell.xib in Resources */,
 				4222F6DB230A7C0C00C91493 /* HWMSingleSignReadOnlyWalletViewController.xib in Resources */,
 				4202CA5521F6EF2A009E5932 /* HMWAddTheCurrencyListTableViewCell.xib in Resources */,
+				4285732E2366F56500C0CF80 /* HWMDIDListViewController.xib in Resources */,
 				4202CA2021F6EF2A009E5932 /* HMWaddContactViewController.xib in Resources */,
 				4287BB412328E10F00FF1F7D /* MJRefresh.bundle in Resources */,
 				42EEDA86224B84790009B18E /* LaunchScreen-English.storyboard in Resources */,
@@ -3328,6 +3353,7 @@
 				42A7679B2315293F005FC764 /* HWMCRRegisteredViewController.xib in Resources */,
 				428B4D8222CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.xib in Resources */,
 				4202CA2921F6EF2A009E5932 /* HMWNotAddContactTableViewCell.xib in Resources */,
+				428573292366ED7C00C0CF80 /* HWMAddSocialAccountViewController.xib in Resources */,
 				4202CA4E21F6EF2A009E5932 /* FLQRVC.strings in Resources */,
 				42EA69452313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.xib in Resources */,
 				4202CA8A21F6EF2B009E5932 /* HMWsettingKeyStorePWDViewController.xib in Resources */,
@@ -3340,6 +3366,7 @@
 				428B4D9722CB2E98004AE7D0 /* HWMaddSignThePurseViewTableViewCell.xib in Resources */,
 				4202CA2B21F6EF2A009E5932 /* HMWmyContactListTableViewCell.xib in Resources */,
 				4202CAC221F6EF2B009E5932 /* HMWinputVotesPopupWindowView.xib in Resources */,
+				428573242366D6E100C0CF80 /* HWMAddPersonalProfileViewController.xib in Resources */,
 				428B4D9C22CB35C0004AE7D0 /* HWMaddSignThePursefootView.xib in Resources */,
 				424A5E20234C954B0077512E /* HWMTransactionDetailsView.xib in Resources */,
 				4223EB3223279C1200153DA9 /* HWMPublicKeyListTabHeadView.xib in Resources */,
@@ -3516,6 +3543,7 @@
 				4202CAA421F6EF2B009E5932 /* HMWImKeystoreView.m in Sources */,
 				4202CA7121F6EF2B009E5932 /* HMWtransferTransactionDetailsViewController.m in Sources */,
 				4202CA9121F6EF2B009E5932 /* HMWsettingKeyStorePWDViewController.mm in Sources */,
+				4285732D2366F56500C0CF80 /* HWMDIDListViewController.m in Sources */,
 				423F432D2330D25C0081D8E2 /* HWMQRModel.m in Sources */,
 				426365BF22D82FC200352396 /* UIButton+HMWButton.m in Sources */,
 				4202CAD421F6EF2B009E5932 /* FLSelectSuperPointVC.mm in Sources */,
@@ -3566,6 +3594,7 @@
 				CBD48D5C21FC36BA00BF3B11 /* AFURLSessionManager.m in Sources */,
 				4202CA3421F6EF2A009E5932 /* FLFounderSugarVC.m in Sources */,
 				4202CAD221F6EF2B009E5932 /* HMWnodeInformationViewController.m in Sources */,
+				428573232366D6E100C0CF80 /* HWMAddPersonalProfileViewController.m in Sources */,
 				4228AA4121F88C86002866B5 /* YYDiskCache.m in Sources */,
 				424910F72271BFCF00C41E50 /* UIButton+WebCache.m in Sources */,
 				428B4D8122CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.m in Sources */,
@@ -3613,6 +3642,7 @@
 				4228AA4421F88C86002866B5 /* YYMemoryCache.m in Sources */,
 				42A7679F23169F28005FC764 /* HWMCRElectoralAffairsViewController.mm in Sources */,
 				4287BB4C2328E10F00FF1F7D /* MJRefreshStateHeader.m in Sources */,
+				428573282366ED7C00C0CF80 /* HWMAddSocialAccountViewController.m in Sources */,
 				4278023A235ED8B60017F098 /* HWMDIDWalletListView.m in Sources */,
 				4202CA5921F6EF2A009E5932 /* FLItemCollectionCell.m in Sources */,
 				4202C9FC21F6EF2A009E5932 /* MASConstraintMaker.m in Sources */,

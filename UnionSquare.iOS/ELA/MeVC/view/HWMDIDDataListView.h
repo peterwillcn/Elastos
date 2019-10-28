@@ -11,6 +11,7 @@
 typedef NS_ENUM(NSInteger, HWMDIDDataListViewType) {
     DIDDataType,
     genderType,
+    birthdayType
     
 };
 
@@ -29,6 +30,10 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(strong,nonatomic)id<HWMDIDDataListViewDelegate>delegate;
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)HWMDIDDataListViewType ListViewType;
 @end
 
 NS_ASSUME_NONNULL_END

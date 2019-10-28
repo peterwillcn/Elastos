@@ -69,13 +69,25 @@
     }
 }
 -(void)TransactionDetailsWithFee:(NSString*)fee withTransactionDetailsAumont:(NSString*)aumont{
+    if (self.DetailsType==didInfoType) {
+        self.feeTextLab.alpha=0.f;
+        self.feeLab.alpha=0.f;
+        self.amountTextLab.text=NSLocalizedString(@"手续费", nil);
+        self.amountLab.text= [NSString stringWithFormat:@"%@ ELA",fee];
+    }else{
     self.feeLab.text=[NSString stringWithFormat:@"%@ ELA",fee];
-       self.amountLab.text=[NSString stringWithFormat:@"%@ ELA",aumont];
+        self.amountLab.text=[NSString stringWithFormat:@"%@ ELA",aumont];
+        
+    }
     
 }
 -(void)setPopViewTitle:(NSString *)popViewTitle{
      self.titleLab.text =NSLocalizedString(popViewTitle, nil);
     _popViewTitle=popViewTitle;
+    
+}
+-(void)setDetailsType:(TransactionDetailsType)DetailsType{
+    _DetailsType=DetailsType;
     
 }
 @end

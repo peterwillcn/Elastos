@@ -12,6 +12,7 @@
             <connections>
                 <outlet property="nextButton" destination="kDk-ck-8gr" id="dsm-Zj-6sB"/>
                 <outlet property="table" destination="PEK-0H-kcd" id="s5a-Wv-vjE"/>
+                <outlet property="textInfoLabel" destination="egD-B9-kWa" id="3ct-to-UKd"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -54,6 +55,9 @@
                     <state key="normal" title="下一步">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
+                    <connections>
+                        <action selector="nextAndSkipEvent:" destination="-1" eventType="touchUpInside" id="PcV-5I-iqf"/>
+                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

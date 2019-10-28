@@ -6,16 +6,10 @@ import {
   IonCardTitle,
   IonContent,
   IonHeader,
-  IonIcon,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonListHeader,
   IonPage,
   IonTitle,
   IonToolbar
 } from '@ionic/react';
-import { book, build, colorFill, grid } from 'ionicons/icons';
 import React from 'react';
 import './Tab1.css';
 

@@ -73,7 +73,7 @@
                                 <constraint firstAttribute="height" constant="1" id="wwg-22-3c3"/>
                             </constraints>
                         </view>
-                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入委员官网URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="K7S-s0-hSF">
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入竞选网址" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="K7S-s0-hSF">
                             <rect key="frame" x="15" y="249" width="324" height="55"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="Umf-Up-K9c"/>
@@ -122,7 +122,7 @@
                                 <constraint firstAttribute="height" constant="1" id="KPS-gL-RyT"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="委员公钥" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2zh-nr-gC5">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="参选公钥" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2zh-nr-gC5">
                             <rect key="frame" x="15" y="0.0" width="53.5" height="70"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="53.5" id="ovX-ry-Qqg"/>

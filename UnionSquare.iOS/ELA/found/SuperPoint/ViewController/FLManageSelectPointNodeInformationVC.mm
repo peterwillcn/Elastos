@@ -195,7 +195,12 @@ NSString *httpIP=[[FLTools share]http_IpFast];
     if (!_toDeleteTheWalletPopV) {
         _toDeleteTheWalletPopV =[[HMWToDeleteTheWalletPopView alloc]init];
         _toDeleteTheWalletPopV.delegate=self;
-        _toDeleteTheWalletPopV.deleteType=deleteSelectVote;
+        if (self.CRTypeString.length>0) {
+             _toDeleteTheWalletPopV.deleteType=deleteCRVote;
+        }else{
+             _toDeleteTheWalletPopV.deleteType=deleteSelectVote;
+        }
+       
     }
     
     return _toDeleteTheWalletPopV;

@@ -33,10 +33,6 @@ function launchAppCreation(idKeystorePath) {
         console.error("Error:".red, "Please first install IONIC on your computer.")
         return
     }
-    if (!SystemHelper.checkADBPresence()) {
-        console.error("Error:".red, "Please first install Android tools (especially ADB) on your computer.")
-        return
-    }
 
     // Update manifest with local url in case it had been configured for debugging earlier (ionic serve with remote url)
     var manifestPath = manifestHelper.nifestPath(ionicHelper.getConfig().assets_path)

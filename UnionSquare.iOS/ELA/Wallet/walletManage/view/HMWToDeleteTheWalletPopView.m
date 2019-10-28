@@ -86,6 +86,11 @@
         if(self.delegate){
             [self.delegate sureToDeleteViewWithPWD:@""];
         }
+    }else if (self.deleteType==openIDChainType){
+        if(self.delegate){
+                [self.delegate sureToDeleteViewWithPWD:@""];
+            }
+        
     }
   
 
@@ -125,6 +130,10 @@
         self.titleButtonConB.constant=0;
     }else if (deleteType==deleteCRVote){
          self.titlePopLabel.text= NSLocalizedString(@"是否退出本届CR选举？ \n 一旦退出本届选举，所有投票清零且不可恢复。", nil);
+        
+    }else if (deleteType==openIDChainType){
+        self.titlePopLabel.text= NSLocalizedString(@"该钱包尚未开启ID侧链，是否 \n 立即开启", nil);
+        [self.sureToDeleteButton setTitle:NSLocalizedString(@"去开启", nil) forState:UIControlStateNormal];
         
     }
 }

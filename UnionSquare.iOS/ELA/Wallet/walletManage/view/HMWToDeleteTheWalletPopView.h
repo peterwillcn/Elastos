@@ -29,7 +29,8 @@ typedef NS_ENUM(NSInteger, HMWToDeleteType) {
    deleteSelectVote,
    moreThan36SelectList,
    UtxoChangeWhole,
-    deleteCRVote
+    deleteCRVote,
+    openIDChainType
     
    
 };

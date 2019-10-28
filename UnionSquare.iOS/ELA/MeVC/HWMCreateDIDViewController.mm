@@ -11,9 +11,12 @@
 #import "HWMDIDDataListView.h"
 #import "HMWFMDBManager.h"
 #import "ELWalletManager.h"
+#import "HMWToDeleteTheWalletPopView.h"
+#import "HMWAddTheCurrencyListViewController.h"
+#import "HWMAddPersonalInformationViewController.h"
 static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 
-@interface HWMCreateDIDViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDWalletListViewDelegate,HWMDIDDataListViewDelegate>
+@interface HWMCreateDIDViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDWalletListViewDelegate,HWMDIDDataListViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWAddTheCurrencyListViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
 @property (weak, nonatomic) IBOutlet UITableView *table;
 /*
@@ -36,16 +39,26 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
  *<# #>
  */
 @property(assign,nonatomic)NSInteger wallerSelectIndex;
-
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *YYMMDD;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)HMWToDeleteTheWalletPopView *openIDChainView;
 @end
 
 @implementation HWMCreateDIDViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self defultWhite];
     [self setBackgroundImg:@""];
+    
     self.title=NSLocalizedString(@"创建DID", nil);
+    self.wallerSelectIndex=-1;
     [self makeUI];
 }
 -(NSMutableArray *)walletListArray{
@@ -86,7 +99,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 }
 -(void)makeUI{
 
-          self.dataSorse = @[NSLocalizedString(@"请输入DID名称（必填）", nil),NSLocalizedString(@"请选择钱包", nil),NSLocalizedString(@"主管理公钥（发布后不可更改）", nil),NSLocalizedString(@"DID（与主管理公钥一一对应）",nil),
+    self.dataSorse =@[NSLocalizedString(@"请输入DID名称（必填）", nil),NSLocalizedString(@"请选择钱包", nil),NSLocalizedString(@"主管理公钥（发布后不可更改）", nil),NSLocalizedString(@"DID（与主管理公钥一一对应）",nil),
            NSLocalizedString(@"请选择失效日期", nil)];
     [self.nextButton setTitle:NSLocalizedString(@"下一步", nil) forState: UIControlStateNormal];
     [[HMWCommView share]makeBordersWithView:self.nextButton];
@@ -101,6 +114,14 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 //       self.table.backgroundView = bgview;
       
     
+}
+-(HMWToDeleteTheWalletPopView *)openIDChainView{
+    if (!_openIDChainView) {
+        _openIDChainView =[[HMWToDeleteTheWalletPopView alloc]init];
+        _openIDChainView.delegate=self;
+        _openIDChainView.deleteType=openIDChainType;
+    }
+    return _openIDChainView;
 }
 -(HWMDIDDataListView *)dataListView{
     if (!_dataListView) {
@@ -130,6 +151,11 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
             [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:cell.intPutTextField withTxt:textString];
             break;
             case 1:
+            if (self.wallerSelectIndex>-1) {
+                FMDBWalletModel *model=self.walletListArray[self.wallerSelectIndex];
+                         textString=model.walletName;
+            }
+           
             cell.arrowImageView.alpha=1.f;
             cell.intPutTextField.text=textString;
             cell.intPutTextField.enabled=NO;
@@ -146,6 +172,9 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
             [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:cell.intPutTextField withTxt:textString];
             break;
             case 4:
+            if (self.YYMMDD.length>0) {
+                textString=self.YYMMDD;
+            }
             cell.arrowImageView.alpha=1.f;
             cell.intPutTextField.text=textString;
             cell.intPutTextField.enabled=NO;
@@ -203,15 +232,83 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 - (void)cancelDIDListViewView {
     [self.walletListView removeFromSuperview];
     self.walletListView=nil;
+ 
+    
     
 }
 
 - (void)selectListIndex:(NSInteger)index {
     [self cancelDIDListViewView];
-    self.wallerSelectIndex=index;
+    FMDBWalletModel *model=self.walletListArray[index];
+     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[model.walletID] callbackId:model.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
+    PluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
+      NSString *status=[NSString stringWithFormat:@"%@",result.status];
+      if ([status isEqualToString:@"1"]) {
+      NSArray  *array = [[FLTools share]stringToArray:result.message[@"success"]];
+          if (array.count>1) {
+            self.wallerSelectIndex=index;
+              [self.table reloadData];
+          }else{
+              self.wallerSelectIndex=index;
+              UIView *mainView =[self mainWindow];
+              [mainView addSubview:self.openIDChainView];
+              [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
+                  make.left.right.top.bottom.equalTo(mainView);
+              }];
+              
+          }
+      }
+      
     
 }
+-(void)cancelDataListView{
+    [self.dataListView removeFromSuperview];
+    self.dataListView=nil;
+    
+}
+-(void)selectDataWithYY:(NSString*_Nullable)yy withMM:(NSString*_Nullable)mm wihMMWithInt:(NSInteger)mInt wtihDD:(NSString*_Nullable)dd{
+    [self cancelDIDListViewView];
+    self.YYMMDD=[NSString stringWithFormat:@"%@ %@-%@-%@",NSLocalizedString(@"有效期至 ",nil),yy,mm,dd];
+    
+}
+#pragma mark --------HMWToDeleteTheWalletPopViewDelegate-----------
+-(void)sureToDeleteViewWithPWD:(NSString*)pwd{
+    
+    [self toCancelOrCloseDelegate];
+    FMDBWalletModel *model=self.walletListArray[self.wallerSelectIndex];
+    FLWallet *wallet =[[FLWallet alloc]init];
+       wallet.masterWalletID =model.walletID;
+       wallet.walletName     =model.walletName;
+       wallet.walletAddress  = model.walletAddress;
+    HMWAddTheCurrencyListViewController *AddTheCurrencyListVC=[[HMWAddTheCurrencyListViewController alloc]init];
+    AddTheCurrencyListVC.wallet=wallet;
+    AddTheCurrencyListVC.didType=@"didType";
+    AddTheCurrencyListVC.delegate=self;
+    self.wallerSelectIndex=-1;
+    [self.navigationController popToViewController:AddTheCurrencyListVC animated:YES];
 
-
-
+    
+    
+}
+-(void)toCancelOrCloseDelegate{
+    [self.openIDChainView removeFromSuperview];
+    self.openIDChainView=nil;
+}
+#pragma mark ---------  ----------
+-(void)openIDChainOfDIDAddWithWallet:(NSString*)walletID{
+    if (walletID.length>0) {
+        for (int i=0; i<self.walletListArray.count; i++) {
+            FMDBWalletModel *model=self.walletListArray[i];
+            if ([model.walletID isEqualToString:walletID]) {
+                self.wallerSelectIndex=i;
+            }
+        }
+        self.wallerSelectIndex=[self.walletListArray indexOfObject:walletID];
+        [self.table reloadData];
+    }
+}
+- (IBAction)nextButtonEvent:(id)sender {
+    HWMAddPersonalInformationViewController *AddPersonalInformationVC=[[HWMAddPersonalInformationViewController alloc]init];
+    [self.navigationController pushViewController:AddPersonalInformationVC animated:YES];
+}
 @end

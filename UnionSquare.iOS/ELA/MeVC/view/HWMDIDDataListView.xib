@@ -39,23 +39,23 @@
                                 <action selector="makeSureEvent:" destination="iN0-l3-epB" eventType="touchUpInside" id="GsV-vS-dAI"/>
                             </connections>
                         </button>
-                        <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SJe-5w-ENO">
-                            <rect key="frame" x="0.0" y="51" width="414" height="159"/>
+                        <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PwY-yA-8ef">
+                            <rect key="frame" x="30" y="51" width="354" height="159"/>
                         </pickerView>
                     </subviews>
                     <color key="backgroundColor" red="0.14900270104408264" green="0.14903038740158081" blue="0.14899668097496033" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="hrM-0a-JJ9" secondAttribute="trailing" constant="30" id="6BP-oF-w6b"/>
                         <constraint firstItem="ivI-m5-9gT" firstAttribute="top" secondItem="0ef-Np-rAr" secondAttribute="top" constant="15" id="9zh-Vo-iUO"/>
+                        <constraint firstAttribute="bottom" secondItem="PwY-yA-8ef" secondAttribute="bottom" id="Ftk-oj-ypi"/>
                         <constraint firstAttribute="trailing" secondItem="1Im-0G-0F2" secondAttribute="trailing" id="GAk-3x-r6r"/>
-                        <constraint firstItem="SJe-5w-ENO" firstAttribute="leading" secondItem="0ef-Np-rAr" secondAttribute="leading" id="Hxy-O7-kXx"/>
                         <constraint firstItem="1Im-0G-0F2" firstAttribute="top" secondItem="0ef-Np-rAr" secondAttribute="top" id="Ipd-J4-3Fb"/>
                         <constraint firstAttribute="height" constant="210" id="Of3-kc-Rbt"/>
                         <constraint firstItem="ivI-m5-9gT" firstAttribute="leading" secondItem="0ef-Np-rAr" secondAttribute="leading" constant="30" id="S3E-hv-K7l"/>
-                        <constraint firstAttribute="trailing" secondItem="SJe-5w-ENO" secondAttribute="trailing" id="hkX-G8-COg"/>
-                        <constraint firstAttribute="bottom" secondItem="SJe-5w-ENO" secondAttribute="bottom" id="vyb-Lx-jnp"/>
+                        <constraint firstItem="PwY-yA-8ef" firstAttribute="top" secondItem="1Im-0G-0F2" secondAttribute="bottom" id="Vuj-wY-QZi"/>
+                        <constraint firstItem="PwY-yA-8ef" firstAttribute="leading" secondItem="0ef-Np-rAr" secondAttribute="leading" constant="30" id="jdj-YU-Rwr"/>
+                        <constraint firstAttribute="trailing" secondItem="PwY-yA-8ef" secondAttribute="trailing" constant="30" id="r1B-4i-nFq"/>
                         <constraint firstItem="hrM-0a-JJ9" firstAttribute="centerY" secondItem="ivI-m5-9gT" secondAttribute="centerY" id="w89-CQ-kcs"/>
-                        <constraint firstItem="SJe-5w-ENO" firstAttribute="top" secondItem="1Im-0G-0F2" secondAttribute="bottom" id="xbr-Ah-zP3"/>
                     </constraints>
                 </view>
             </subviews>
@@ -67,7 +67,7 @@
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
-                <outlet property="dataPickerView" destination="SJe-5w-ENO" id="iXG-kH-k5B"/>
+                <outlet property="dataPickerView" destination="PwY-yA-8ef" id="gxG-tq-bec"/>
                 <outlet property="makeSureTextLabel" destination="hrM-0a-JJ9" id="rLx-9Y-VgG"/>
                 <outlet property="selectDataTextLabel" destination="ivI-m5-9gT" id="UI2-4a-pSo"/>
             </connections>

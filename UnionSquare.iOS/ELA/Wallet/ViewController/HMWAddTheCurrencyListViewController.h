@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol HMWAddTheCurrencyListViewControllerDelegate <NSObject>
+
+-(void)openIDChainOfDIDAddWithWallet:(NSString*)walletID;
+
+@end
+
 
 //NS_ASSUME_NONNULL_BEGIN
 
@@ -28,6 +34,14 @@
  *<# #>
  */
 @property(copy,nonatomic)NSString *sideChainID;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *didType;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)id<HMWAddTheCurrencyListViewControllerDelegate> delegate;
 @end
 
 //NS_ASSUME_NONNULL_END

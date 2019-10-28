@@ -7,9 +7,18 @@
 
 #import <UIKit/UIKit.h>
 
+
+typedef NS_ENUM(NSInteger, HWMDIDDataListViewType) {
+    DIDDataType,
+    genderType,
+    
+};
+
+
 @protocol HWMDIDDataListViewDelegate <NSObject>
 
-
+-(void)cancelDataListView;
+-(void)selectDataWithYY:(NSString*_Nullable)yy withMM:(NSString*_Nullable)mm wihMMWithInt:(NSInteger)mInt wtihDD:(NSString*_Nullable)dd;
 
 @end
 

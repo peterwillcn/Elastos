@@ -228,6 +228,10 @@
 		4218668722CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4218668522CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.xib */; };
 		42186FE022BCADBB0063A28D /* AboutELAWalletViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.mm */; };
 		42186FE122BCADBB0063A28D /* AboutELAWalletViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42186FDF22BCADBB0063A28D /* AboutELAWalletViewController.xib */; };
+		42211B3E2362D5CC00924029 /* HWMAddPersonalInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42211B3C2362D5CC00924029 /* HWMAddPersonalInformationViewController.m */; };
+		42211B3F2362D5CC00924029 /* HWMAddPersonalInformationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42211B3D2362D5CC00924029 /* HWMAddPersonalInformationViewController.xib */; };
+		42211B482362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 42211B462362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.m */; };
+		42211B492362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42211B472362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.xib */; };
 		4222F6DA230A7C0C00C91493 /* HWMSingleSignReadOnlyWalletViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4222F6D7230A7C0C00C91493 /* HWMSingleSignReadOnlyWalletViewController.mm */; };
 		4222F6DB230A7C0C00C91493 /* HWMSingleSignReadOnlyWalletViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4222F6D8230A7C0C00C91493 /* HWMSingleSignReadOnlyWalletViewController.xib */; };
 		4223EB25232797F000153DA9 /* HWMListMoreSignThePublicKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4223EB23232797F000153DA9 /* HWMListMoreSignThePublicKeyViewController.m */; };
@@ -835,6 +839,12 @@
 		42186FDD22BCADBB0063A28D /* AboutELAWalletViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutELAWalletViewController.h; sourceTree = "<group>"; };
 		42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AboutELAWalletViewController.mm; sourceTree = "<group>"; };
 		42186FDF22BCADBB0063A28D /* AboutELAWalletViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutELAWalletViewController.xib; sourceTree = "<group>"; };
+		42211B3B2362D5CC00924029 /* HWMAddPersonalInformationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMAddPersonalInformationViewController.h; sourceTree = "<group>"; };
+		42211B3C2362D5CC00924029 /* HWMAddPersonalInformationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMAddPersonalInformationViewController.m; sourceTree = "<group>"; };
+		42211B3D2362D5CC00924029 /* HWMAddPersonalInformationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMAddPersonalInformationViewController.xib; sourceTree = "<group>"; };
+		42211B452362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTheAreaCodeAndPhonenumberTableViewCell.h; sourceTree = "<group>"; };
+		42211B462362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTheAreaCodeAndPhonenumberTableViewCell.m; sourceTree = "<group>"; };
+		42211B472362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTheAreaCodeAndPhonenumberTableViewCell.xib; sourceTree = "<group>"; };
 		4222F6D7230A7C0C00C91493 /* HWMSingleSignReadOnlyWalletViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HWMSingleSignReadOnlyWalletViewController.mm; sourceTree = "<group>"; };
 		4222F6D8230A7C0C00C91493 /* HWMSingleSignReadOnlyWalletViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HWMSingleSignReadOnlyWalletViewController.xib; sourceTree = "<group>"; };
 		4222F6D9230A7C0C00C91493 /* HWMSingleSignReadOnlyWalletViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMSingleSignReadOnlyWalletViewController.h; sourceTree = "<group>"; };
@@ -1640,6 +1650,9 @@
 				422C463D235DBB29000523DB /* HWMCreateDIDViewController.h */,
 				422C463E235DBB29000523DB /* HWMCreateDIDViewController.mm */,
 				422C463F235DBB29000523DB /* HWMCreateDIDViewController.xib */,
+				42211B3B2362D5CC00924029 /* HWMAddPersonalInformationViewController.h */,
+				42211B3C2362D5CC00924029 /* HWMAddPersonalInformationViewController.m */,
+				42211B3D2362D5CC00924029 /* HWMAddPersonalInformationViewController.xib */,
 				42186FDD22BCADBB0063A28D /* AboutELAWalletViewController.h */,
 				42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.mm */,
 				42186FDF22BCADBB0063A28D /* AboutELAWalletViewController.xib */,
@@ -1682,6 +1695,9 @@
 				4278023D235EDC350017F098 /* HWMDIDWalletListTableViewCell.h */,
 				4278023E235EDC350017F098 /* HWMDIDWalletListTableViewCell.m */,
 				4278023F235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib */,
+				42211B452362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.h */,
+				42211B462362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.m */,
+				42211B472362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -3219,6 +3235,7 @@
 				4202CAC121F6EF2B009E5932 /* HMWvotingRulesView.xib in Resources */,
 				4202CA3221F6EF2A009E5932 /* FLSugarTableCell.xib in Resources */,
 				CBD25F092216DD8500EDA0F5 /* DrawBackVoteMoneyVC.xib in Resources */,
+				42211B3F2362D5CC00924029 /* HWMAddPersonalInformationViewController.xib in Resources */,
 				4202CA7D21F6EF2B009E5932 /* HMWtransferViewController.xib in Resources */,
 				4202CA4821F6EF2A009E5932 /* FLVersionAlert.xib in Resources */,
 				42B7AD95221BAA61006959B8 /* Localizable.strings in Resources */,
@@ -3296,6 +3313,7 @@
 				4202CA8021F6EF2B009E5932 /* HMWTheWalletManagementTableViewCell.xib in Resources */,
 				4202CA7821F6EF2B009E5932 /* HMWcollectionViewController.xib in Resources */,
 				4202CA0721F6EF2A009E5932 /* SVProgressHUD.bundle in Resources */,
+				42211B492362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.xib in Resources */,
 				4202CA5E21F6EF2A009E5932 /* HMWtransferTransactionMultipleAddressDetailsView.xib in Resources */,
 				4202CA6521F6EF2A009E5932 /* HMWaddressListTableViewCell.xib in Resources */,
 				4222F6DB230A7C0C00C91493 /* HWMSingleSignReadOnlyWalletViewController.xib in Resources */,
@@ -3605,6 +3623,7 @@
 				4264A741221BDC8D008D5C7B /* NSBundle+DAUtils.m in Sources */,
 				4202CAA921F6EF2B009E5932 /* FLTradeModel.m in Sources */,
 				4202CA0621F6EF2A009E5932 /* SVIndefiniteAnimatedView.m in Sources */,
+				42211B482362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.m in Sources */,
 				424910F62271BFCF00C41E50 /* UIView+WebCache.m in Sources */,
 				4264A73E221BDC24008D5C7B /* DAConfig.m in Sources */,
 				4202CAB221F6EF2B009E5932 /* HMWAddTheCurrencyListViewController.mm in Sources */,
@@ -3627,6 +3646,7 @@
 				4202CA5721F6EF2A009E5932 /* HMWAddTheCurrencyListTableViewCell.m in Sources */,
 				4228AA5B21F88C87002866B5 /* NSKeyedUnarchiver+YYAdd.m in Sources */,
 				4202C9FF21F6EF2A009E5932 /* View+MASAdditions.m in Sources */,
+				42211B3E2362D5CC00924029 /* HWMAddPersonalInformationViewController.m in Sources */,
 				4202C9F921F6EF2A009E5932 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				4202CA5321F6EF2A009E5932 /* FLAssetTableCell.m in Sources */,
 				4202CA1C21F6EF2A009E5932 /* FMDatabasePool.m in Sources */,

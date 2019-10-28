@@ -124,7 +124,7 @@
         self.titlePopLabel.text=@"";
         self.titleButtonConB.constant=0;
     }else if (deleteType==deleteCRVote){
-         self.titlePopLabel.text= NSLocalizedString(@"是否退出本届CR选举？ \n 一旦退出本届选举，所有投票清零且不可恢复。", nil);
+         self.titlePopLabel.text= NSLocalizedString(@"是否退出本届CR选举？\n一旦退出本届选举，所有投票清零且不可恢复。", nil);
         
     }
 }

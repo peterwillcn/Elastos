@@ -49,7 +49,7 @@
     [self defultWhite];
     [self setBackgroundImg:@""];
   self.title=NSLocalizedString(@"报名参选", nil);
-    self.MemberThePublicKeyTextLabel.text=NSLocalizedString(@"委员公钥", nil);
+    self.MemberThePublicKeyTextLabel.text=NSLocalizedString(@"参选公钥", nil);
    self.MembersDIDTextLabel.text=NSLocalizedString(@"委员DID", nil);
     // Do any additional setup after loading the view from its nib.
     [self.confirmToRunButton setTitle:NSLocalizedString(@"确认参选", nil) forState:UIControlStateNormal];
@@ -270,7 +270,7 @@
     
     if (!_transactionDetailsView) {
         _transactionDetailsView =[[HWMTransactionDetailsView alloc]init];
-        _transactionDetailsView.popViewTitle=@"参选押金";
+        _transactionDetailsView.popViewTitle=NSLocalizedString(@"参选押金", nil);
         _transactionDetailsView.delegate=self;
     }
     return _transactionDetailsView;

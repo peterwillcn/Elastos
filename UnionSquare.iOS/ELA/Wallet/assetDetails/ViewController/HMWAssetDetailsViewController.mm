@@ -704,13 +704,13 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
             detailsM.Type=NSLocalizedString(@"取回参选优质抵押资产交易", nil);
             break;
             case 33:
-                  detailsM.Type=NSLocalizedString(@"注册CRC委员交易", nil);
+                  detailsM.Type=NSLocalizedString(@"注册CR委员交易", nil);
                   break;
             case 34:
-                  detailsM.Type=NSLocalizedString(@"取消CRC委员交易", nil);
+                  detailsM.Type=NSLocalizedString(@"取消CR委员交易", nil);
                   break;
             case 35:
-                  detailsM.Type=NSLocalizedString(@"更新CRC委员交易", nil);
+                  detailsM.Type=NSLocalizedString(@"更新CR委员交易", nil);
                   break;
             case 36:
                              detailsM.Type=NSLocalizedString(@"取回CRC委员资产交易", nil);

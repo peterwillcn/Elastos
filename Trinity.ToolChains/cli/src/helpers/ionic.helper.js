@@ -19,10 +19,11 @@ module.exports = class IonicHelper {
             process.on('exit', function (code) {
                 if (code == 0) {
                     // Operation completed successfully
-                    console.log("Failed to update NPM dependencies for the ionic application")
+                    console.log("Successfully updated NPM dependencies for the ionic application")
                     resolve()
                 }
                 else {
+                    console.log("Failed to update NPM dependencies for the ionic application")
                     console.log('ERROR - child process exited with code ' + code);
                     reject()
                 }

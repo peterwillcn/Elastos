@@ -12,6 +12,7 @@
             <connections>
                 <outlet property="HasBeenReleaseView" destination="91f-bQ-oB2" id="G9L-zD-Sai"/>
                 <outlet property="HasBeenReleasedButton" destination="LaC-1m-ziu" id="7WO-7b-w8I"/>
+                <outlet property="table" destination="o8f-UU-0GG" id="u4f-8u-O1s"/>
                 <outlet property="theDraftButton" destination="79s-5v-0lu" id="5A0-Qd-7Bi"/>
                 <outlet property="theDraftView" destination="QgR-1K-afm" id="G2f-8Y-9cX"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -66,19 +67,27 @@
                         <constraint firstAttribute="width" constant="80" id="kcR-Lo-Ub5"/>
                     </constraints>
                 </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="o8f-UU-0GG">
+                    <rect key="frame" x="0.0" y="94" width="414" height="768"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="QgR-1K-afm" firstAttribute="top" secondItem="79s-5v-0lu" secondAttribute="top" id="0jy-rI-NYv"/>
+                <constraint firstItem="o8f-UU-0GG" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="1o3-w1-Pss"/>
                 <constraint firstItem="LaC-1m-ziu" firstAttribute="centerX" secondItem="91f-bQ-oB2" secondAttribute="centerX" id="Axz-ec-nAB"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="79s-5v-0lu" secondAttribute="trailing" constant="15" id="F5t-uc-Xvn"/>
                 <constraint firstItem="LaC-1m-ziu" firstAttribute="top" secondItem="91f-bQ-oB2" secondAttribute="top" id="L2a-D6-8JG"/>
+                <constraint firstItem="o8f-UU-0GG" firstAttribute="top" secondItem="LaC-1m-ziu" secondAttribute="bottom" id="Pzd-OB-RK2"/>
                 <constraint firstItem="QgR-1K-afm" firstAttribute="centerX" secondItem="79s-5v-0lu" secondAttribute="centerX" id="VrY-qg-ynZ"/>
                 <constraint firstItem="79s-5v-0lu" firstAttribute="width" secondItem="LaC-1m-ziu" secondAttribute="width" id="bWD-WP-Knb"/>
                 <constraint firstItem="79s-5v-0lu" firstAttribute="leading" secondItem="LaC-1m-ziu" secondAttribute="trailing" id="bpg-DY-cA0"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="o8f-UU-0GG" secondAttribute="bottom" id="kF7-AU-I7f"/>
                 <constraint firstItem="79s-5v-0lu" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="mdu-lL-2Yx"/>
                 <constraint firstItem="LaC-1m-ziu" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="15" id="pE9-X9-MUG"/>
                 <constraint firstItem="LaC-1m-ziu" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="rEz-MX-Uhe"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="o8f-UU-0GG" secondAttribute="trailing" id="xb9-mY-m2V"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
             <point key="canvasLocation" x="139" y="154"/>

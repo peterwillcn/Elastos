@@ -8,12 +8,24 @@
 #import "HWMDIDListViewController.h"
 #import "HWMDIDListAbnormalTableViewCell.h"
 #import "HWMCreateDIDViewController.h"
-static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
-@interface HWMDIDListViewController ()
+#import "HWMDIDListNormalTableViewCell.h"
+static NSString *AbnormalCellString=@"HWMDIDListAbnormalTableViewCell";
+static NSString *normalCellString=@"HWMDIDListNormalTableViewCell";
+
+@interface HWMDIDListViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UIButton *HasBeenReleasedButton;
 @property (weak, nonatomic) IBOutlet UIButton *theDraftButton;
 @property (weak, nonatomic) IBOutlet UIView *HasBeenReleaseView;
 @property (weak, nonatomic) IBOutlet UIView *theDraftView;
+@property (weak, nonatomic) IBOutlet UITableView *table;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSArray *releDIDdataSorse;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSArray *theDraftDIDdataSorse;
 
 @end
 
@@ -23,7 +35,7 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
     [super viewDidLoad];
     [self defultWhite];
        [self setBackgroundImg:@""];
-       
+    self.title=@"DID";
     [self.HasBeenReleasedButton setTitle:NSLocalizedString(@"已发布", nil) forState:UIControlStateNormal];
     [self.HasBeenReleasedButton setTitle:NSLocalizedString(@"已发布", nil) forState:UIControlStateSelected];
     
@@ -39,6 +51,37 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
 
 self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mine_did_add"] style:UIBarButtonItemStyleDone target:self action:@selector(creatDIDEvent)];
 }
+-(void)makeUI{
+
+    
+  
+    [self.table registerNib:[UINib nibWithNibName:normalCellString bundle:nil] forCellReuseIdentifier:normalCellString];
+        [self.table registerNib:[UINib nibWithNibName:AbnormalCellString bundle:nil] forCellReuseIdentifier:normalCellString];
+       self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
+     self.table.rowHeight = 55;
+       self.table.delegate =self;
+       self.table.dataSource =self;
+    self.table.backgroundColor=[UIColor clearColor];
+
+    
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+   // FLSugarModel *model = self.dataSouse[indexPath.row];
+   HWMDIDListAbnormalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:AbnormalCellString];
+    cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    
+    return cell;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 3;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+}
+
 -(void)creatDIDEvent{
     HWMCreateDIDViewController *CreateDIDVC=[[HWMCreateDIDViewController alloc]init];
     [self.navigationController pushViewController:CreateDIDVC animated:YES];

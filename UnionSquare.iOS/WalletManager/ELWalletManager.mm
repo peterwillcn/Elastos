@@ -374,7 +374,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     mRootPath = [MyUtil getRootPath];
     const char  *rootPath = [mRootPath UTF8String];
     try {
-      mMasterWalletManager = new MasterWalletManager(rootPath);
+      mMasterWalletManager = new MasterWalletManager(rootPath, "MainNet");
     } catch (const std:: exception & e ) {
         
         NSString *errString=[self stringWithCString:e.what()];
@@ -876,7 +876,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     Json json ;
     
     try {
-        json = mMasterWalletManager->ExportWalletWithKeystore(masterWallet, backupPassword, payPassword);
+        json = masterWallet->ExportKeystore(backupPassword, payPassword);
     } catch (const std::exception &e) {
         return [self errInfoToDic:e.what() with:command];
     }
@@ -907,7 +907,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     
     Json json;
     try {
-        json = mMasterWalletManager->ExportWalletWithMnemonic(masterWallet, backupPassword);
+        json = masterWallet->ExportMnemonic(backupPassword);
     } catch (const std::exception &e) {
         return [self errInfoToDic:e.what() with:command];
     }
@@ -2204,7 +2204,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     }
     Json reuslt;
     try {
-        reuslt = mMasterWalletManager->ExportReadonlyWallet(masterWallet);
+        reuslt = masterWallet->ExportReadonlyWallet();
     } catch (const std:: exception &e) {
         return  [self errInfoToDic:e.what() with:command];
     }
@@ -2237,7 +2237,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     }
     String XPK;
     try {
-        XPK = mMasterWalletManager->ExportxPrivateKey(masterWallet,payPassword);
+        XPK = masterWallet->ExportPrivateKey(payPassword);
     } catch (const std:: exception &e) {
          [[FLTools share]showErrorInfo:[self stringWithCString:e.what()]];
        return nil;
@@ -2292,7 +2292,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     }
    std:: string jsonString;
     try {
-        jsonString = mMasterWalletManager->ExportMasterPublicKey(masterWallet);
+        jsonString = masterWallet->ExportMasterPublicKey();
     } catch (const std:: exception &e) {
         return  [self errInfoToDic:e.what() with:command];
     }

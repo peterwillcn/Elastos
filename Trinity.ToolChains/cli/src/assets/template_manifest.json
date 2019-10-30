@@ -33,9 +33,7 @@
     "NetworkStatus"
   ],
   "urls": [
-    "http://www.baidu.com/*",
-    "https://www.google.com",
-    "http://192.168.31.103:21636/*"
+    "http://www.yourappserver.com/*"
   ],
   "background_color": "#4e8ef7",
   "theme_display": "show",

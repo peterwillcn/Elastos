@@ -351,6 +351,10 @@
 		4250B3F52238D32700B6858F /* zbar-help.html in Resources */ = {isa = PBXBuildFile; fileRef = 4250B3D52238D32600B6858F /* zbar-help.html */; };
 		4250B3F62238D32700B6858F /* zbar-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 4250B3D62238D32600B6858F /* zbar-back.png */; };
 		4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4250B3F82238D3E900B6858F /* libiconv.tbd */; };
+		4253EE4B23692F93005B774A /* HWMDIDListAbnormalTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4253EE4923692F93005B774A /* HWMDIDListAbnormalTableViewCell.m */; };
+		4253EE4C23692F93005B774A /* HWMDIDListAbnormalTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4253EE4A23692F93005B774A /* HWMDIDListAbnormalTableViewCell.xib */; };
+		4253EE502369399E005B774A /* HWMDIDListNormalTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4253EE4E2369399E005B774A /* HWMDIDListNormalTableViewCell.m */; };
+		4253EE512369399E005B774A /* HWMDIDListNormalTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4253EE4F2369399E005B774A /* HWMDIDListNormalTableViewCell.xib */; };
 		425CE7FC230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 425CE7FB230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m */; };
 		425CE7FE230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425CE7FD230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib */; };
 		425E0D68233B5B5E00D4C481 /* HWMCRListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 425E0D67233B5B5E00D4C481 /* HWMCRListModel.m */; };
@@ -1078,6 +1082,12 @@
 		4250B3EC2238D32600B6858F /* ZBarSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBarSDK.h; sourceTree = "<group>"; };
 		4250B3ED2238D32600B6858F /* ZBarReaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBarReaderViewController.h; sourceTree = "<group>"; };
 		4250B3F82238D3E900B6858F /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		4253EE4823692F93005B774A /* HWMDIDListAbnormalTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMDIDListAbnormalTableViewCell.h; sourceTree = "<group>"; };
+		4253EE4923692F93005B774A /* HWMDIDListAbnormalTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMDIDListAbnormalTableViewCell.m; sourceTree = "<group>"; };
+		4253EE4A23692F93005B774A /* HWMDIDListAbnormalTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMDIDListAbnormalTableViewCell.xib; sourceTree = "<group>"; };
+		4253EE4D2369399E005B774A /* HWMDIDListNormalTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMDIDListNormalTableViewCell.h; sourceTree = "<group>"; };
+		4253EE4E2369399E005B774A /* HWMDIDListNormalTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMDIDListNormalTableViewCell.m; sourceTree = "<group>"; };
+		4253EE4F2369399E005B774A /* HWMDIDListNormalTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMDIDListNormalTableViewCell.xib; sourceTree = "<group>"; };
 		425CE7F1230D2290009C2979 /* NENSinglePinger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NENSinglePinger.m; sourceTree = "<group>"; };
 		425CE7F2230D2290009C2979 /* SimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePing.h; sourceTree = "<group>"; };
 		425CE7F3230D2290009C2979 /* NENPingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NENPingManager.h; sourceTree = "<group>"; };
@@ -1716,6 +1726,12 @@
 				422C4642235DBB4B000523DB /* HWMCreateDIDListTableViewCell.h */,
 				422C4643235DBB4B000523DB /* HWMCreateDIDListTableViewCell.m */,
 				422C4644235DBB4B000523DB /* HWMCreateDIDListTableViewCell.xib */,
+				4253EE4823692F93005B774A /* HWMDIDListAbnormalTableViewCell.h */,
+				4253EE4923692F93005B774A /* HWMDIDListAbnormalTableViewCell.m */,
+				4253EE4A23692F93005B774A /* HWMDIDListAbnormalTableViewCell.xib */,
+				4253EE4D2369399E005B774A /* HWMDIDListNormalTableViewCell.h */,
+				4253EE4E2369399E005B774A /* HWMDIDListNormalTableViewCell.m */,
+				4253EE4F2369399E005B774A /* HWMDIDListNormalTableViewCell.xib */,
 				4278023D235EDC350017F098 /* HWMDIDWalletListTableViewCell.h */,
 				4278023E235EDC350017F098 /* HWMDIDWalletListTableViewCell.m */,
 				4278023F235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib */,
@@ -3248,6 +3264,7 @@
 				423EFA08235EE77100C210E9 /* HWMDIDDataListView.xib in Resources */,
 				4202CA2E21F6EF2A009E5932 /* HMWQrCodePopupWindowView.xib in Resources */,
 				4202CA7921F6EF2B009E5932 /* HMWAddressListViewController.xib in Resources */,
+				4253EE512369399E005B774A /* HWMDIDListNormalTableViewCell.xib in Resources */,
 				4202CA8F21F6EF2B009E5932 /* HMWExportTheMnemonicWordViewController.xib in Resources */,
 				4202CA4521F6EF2A009E5932 /* FLMeHeadView.xib in Resources */,
 				42D126A322B7755C000A286C /* runningNodeListView.xib in Resources */,
@@ -3337,6 +3354,7 @@
 				4202CA8021F6EF2B009E5932 /* HMWTheWalletManagementTableViewCell.xib in Resources */,
 				4202CA7821F6EF2B009E5932 /* HMWcollectionViewController.xib in Resources */,
 				4202CA0721F6EF2A009E5932 /* SVProgressHUD.bundle in Resources */,
+				4253EE4C23692F93005B774A /* HWMDIDListAbnormalTableViewCell.xib in Resources */,
 				42211B492362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.xib in Resources */,
 				4202CA5E21F6EF2A009E5932 /* HMWtransferTransactionMultipleAddressDetailsView.xib in Resources */,
 				4202CA6521F6EF2A009E5932 /* HMWaddressListTableViewCell.xib in Resources */,
@@ -3543,6 +3561,7 @@
 				4202CAA421F6EF2B009E5932 /* HMWImKeystoreView.m in Sources */,
 				4202CA7121F6EF2B009E5932 /* HMWtransferTransactionDetailsViewController.m in Sources */,
 				4202CA9121F6EF2B009E5932 /* HMWsettingKeyStorePWDViewController.mm in Sources */,
+				4253EE502369399E005B774A /* HWMDIDListNormalTableViewCell.m in Sources */,
 				4285732D2366F56500C0CF80 /* HWMDIDListViewController.m in Sources */,
 				423F432D2330D25C0081D8E2 /* HWMQRModel.m in Sources */,
 				426365BF22D82FC200352396 /* UIButton+HMWButton.m in Sources */,
@@ -3595,6 +3614,7 @@
 				4202CA3421F6EF2A009E5932 /* FLFounderSugarVC.m in Sources */,
 				4202CAD221F6EF2B009E5932 /* HMWnodeInformationViewController.m in Sources */,
 				428573232366D6E100C0CF80 /* HWMAddPersonalProfileViewController.m in Sources */,
+				4253EE4B23692F93005B774A /* HWMDIDListAbnormalTableViewCell.m in Sources */,
 				4228AA4121F88C86002866B5 /* YYDiskCache.m in Sources */,
 				424910F72271BFCF00C41E50 /* UIButton+WebCache.m in Sources */,
 				428B4D8122CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.m in Sources */,

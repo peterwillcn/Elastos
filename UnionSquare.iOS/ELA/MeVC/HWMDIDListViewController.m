@@ -6,7 +6,9 @@
 //
 
 #import "HWMDIDListViewController.h"
-
+#import "HWMDIDListAbnormalTableViewCell.h"
+#import "HWMCreateDIDViewController.h"
+static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
 @interface HWMDIDListViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *HasBeenReleasedButton;
 @property (weak, nonatomic) IBOutlet UIButton *theDraftButton;
@@ -34,17 +36,13 @@
     [self.theDraftButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     self.title=NSLocalizedString(@"DID", nil);
     [self setHasBeenReleasedButton:self.HasBeenReleasedButton];
-}
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mine_did_add"] style:UIBarButtonItemStyleDone target:self action:@selector(creatDIDEvent)];
 }
-*/
+-(void)creatDIDEvent{
+    HWMCreateDIDViewController *CreateDIDVC=[[HWMCreateDIDViewController alloc]init];
+    [self.navigationController pushViewController:CreateDIDVC animated:YES];
+}
 - (IBAction)HasBeenReleasedAndChangeTheDrafteEvent:(id)sender {
     
     if (sender==self.theDraftButton) {

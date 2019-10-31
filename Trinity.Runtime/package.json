@@ -38,6 +38,7 @@
         "elastos-trinity-plugins-qrscanner": "file:../Plugins/QRScanner",
         "elastos-trinity-plugins-carrier": "file:../Plugins/Carrier",
         "elastos-trinity-plugins-hive": "file:../Plugins/Hive",
+        "elastos-trinity-plugins-did": "file:../Plugins/DID",
         "elastos-trinity-plugins-ionicwebview": "file:../Plugins/IonicWebView",
         "elastos-trinity-plugins-media": "file:../Plugins/Media",
         "elastos-trinity-plugins-wallet": "file:../Plugins/Wallet",
@@ -61,6 +62,7 @@
             "elastos-trinity-plugins-appservice": {},
             "elastos-trinity-plugins-carrier": {},
             "elastos-trinity-plugins-hive": {},
+            "elastos-trinity-plugins-did": {},
             "elastos-trinity-plugins-ionicwebview": {
                 "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
             },

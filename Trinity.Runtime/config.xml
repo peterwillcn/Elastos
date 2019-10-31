@@ -41,6 +41,7 @@
     <plugin name="cordova-plugin-file" spec="../Plugins/File" />
     <plugin name="elastos-trinity-plugins-carrier" spec="../Plugins/Carrier" />
     <plugin name="elastos-trinity-plugins-hive" spec="../Plugins/Hive" />
+    <plugin name="elastos-trinity-plugins-did" spec="../Plugins/DID" />
     <plugin name="elastos-trinity-plugins-ionicwebview" spec="../Plugins/IonicWebView" />
     <plugin name="elastos-trinity-plugins-media" spec="../Plugins/Media">
         <variable name="KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE" value="NO" />

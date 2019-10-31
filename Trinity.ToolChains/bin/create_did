@@ -6,7 +6,7 @@ import argparse
 import textwrap
 import ctypes
 
-sys.path.append(os.path.abspath('../lib'))
+sys.path.append(os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + '/../lib'))
 import ela_did
 
 if __name__ == "__main__":

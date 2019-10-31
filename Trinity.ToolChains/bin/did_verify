@@ -6,31 +6,17 @@ import zipfile
 import argparse
 import hashlib
 import getpass
-import ctypes
-from ctypes.util import find_library
 
-def loadEpkSignerLibrary():
-    script_path = os.path.dirname(os.path.abspath(__file__))
-    try:
-        if sys.platform.startswith("darwin"):
-            dll_name = "libepksign.dylib"
-        else:
-            dll_name = "libepksign.so"
-        dll_path = os.path.abspath(os.path.join(script_path, '../lib', dll_name))
-        epksign = ctypes.CDLL(dll_path, ctypes.RTLD_GLOBAL)
-        assert epksign
-    except:
-        print('Failed to load "' + dll_name + '" library at ' + os.path.dirname(dll_path))
-        exit(1)
-    return epksign
+sys.path.append(os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + '/../lib'))
+import ela_did
 
-epksigner = loadEpkSignerLibrary()
-epksigner.ela_verify_message.restype = ctypes.c_bool
-
+did_api = ela_did.getElaDIDAPI()
 
 parser = argparse.ArgumentParser(description='Verify an Elastos DApp EPK file.')
 parser.add_argument('epk_file', metavar='EPK_FILE',
                     help='specify the EPK file to be verified')
+parser.add_argument('-r', '--root', dest='did_store_root', metavar='PATH', required=True,
+                    help='Specify the root path of DID store.')
 
 args = parser.parse_args()
 
@@ -48,7 +34,7 @@ try:
     if not any(filename.startswith(sign_folder_prefix) for filename in filelist):
         raise RuntimeError("The EPK file hasn't been signed.")
 
-    for filename in [ "FILELIST.INF", "FILELIST.SHA", "FILELIST.SIGN", "SIGN.PUB" ]:
+    for filename in [ "FILELIST.INF", "FILELIST.SHA", "FILELIST.SIGN", "SIGN.PUB", "SIGN.DIDURL" ]:
         if not any(filepath == (sign_folder_prefix + filename) for filepath in filelist):
             raise RuntimeError("The file {} not found in the EPK.".format(sign_folder_prefix + filename))
 
@@ -104,20 +90,36 @@ try:
         epk_signature = myfile.read()
     with zip2read.open(sign_folder_prefix + "SIGN.PUB") as myfile:
         epk_pubkey = myfile.read()
+    with zip2read.open(sign_folder_prefix + "SIGN.DIDURL") as myfile:
+        epk_didurl = myfile.read()
 
     print("Verifying EPK signature...".ljust(max_length + 19)),
-    c_epk_sha   = ctypes.c_char_p(epk_sha_str)
-    c_pubkey    = ctypes.c_char_p(epk_pubkey)
-    c_signature = ctypes.c_char_p(epk_signature)
 
-    epksigner.ela_init_verifier()
-    success = epksigner.ela_verify_message(c_pubkey, c_epk_sha, c_signature)
-    if not success:
-        print("")
+    ret = did_api.DIDStore_Open(args.did_store_root)
+    if ret != 0:
+        raise RuntimeError("ERROR: Failed to open DID store.")
+
+    didurl = did_api.DIDURL_FromString(epk_didurl)
+    if didurl == None:
+        raise RuntimeError("ERROR: Failed to get DID URL from string.")
+
+    did = did_api.DIDURL_GetDid(didurl)
+    if did == None:
+        raise RuntimeError("ERROR: Failed to get DID from DID URL.")
+
+    diddoc = did_api.DIDStore_LoadDID(did)
+    if diddoc == None:
+        diddoc = did_api.DIDStore_Resolve(did)
+        if diddoc == None:
+            raise RuntimeError("ERROR: Failed to resolve DID Document from chain.")
+
+    ret = did_api.DIDDocument_Verify(diddoc, didurl, epk_signature, 1, epk_sha_str, len(epk_sha_str))
+    if ret != 0:
         raise RuntimeError("EPK not signed properly.")
 
     zip2read.close()
     print("Done")
+    print("The signer's DID URL is: " + epk_didurl.decode('utf-8'))
     print("The signer's public key is: " + epk_pubkey.decode('utf-8'))
 except RuntimeError as err:
     print("Error: " + err.args[0])

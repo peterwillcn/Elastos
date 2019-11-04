@@ -1277,5 +1277,14 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     BOOL needsConnection = flags & kSCNetworkFlagsConnectionRequired;
     return (isReachable&&!needsConnection) ? YES : NO;
 }
+-(BOOL)APPIntegrity{
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSDictionary *info = [bundle infoDictionary];
+    if ([info objectForKey:@"SignerIdentity"] != nil)
+    {
+        return YES;
+    }
+    return NO;
+}
 
 @end

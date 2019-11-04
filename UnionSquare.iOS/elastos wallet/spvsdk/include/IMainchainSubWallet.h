@@ -383,6 +383,87 @@ namespace Elastos {
 			 */
 			virtual nlohmann::json GetVoteInfo(const std::string &type) const = 0;
 
+
+			/**
+			 *Sponsor generate proposal digest for sponsor signature.
+			 *
+			 * @param type             Proposal type, value is [0-5]
+			 * @param sponsorPublicKey Public key of sponsor
+			 * @param crSponsorDID     Did of sponsor. Such as "iYMVuGs1FscpgmghSzg243R6PzPiszrgj7"
+			 * @param draftHash        The hash of draft proposal
+			 * @param budgets          The budgets of proposal every stage. Such as ["300", "33", "344"]
+			 * @param recipient        Address of budget payee. Such as "EPbdmxUVBzfNrVdqJzZEySyWGYeuKAeKqv"
+			 *
+			 * @return Hex string of sha256
+			 */
+			virtual std::string SponsorProposalDigest(uint8_t type,
+			                                          const std::string &sponsorPublicKey,
+			                                          const std::string &crSponsorDID,
+			                                          const std::string &draftHash,
+			                                          const nlohmann::json &budgets,
+			                                          const std::string &recipient) const = 0;
+
+			/**
+			 *CR sponsor generate proposal digest for cr signature.
+			 *
+			 * @param type             Proposal type, value is [0-5]
+			 * @param sponsorPublicKey Public key of sponsor
+			 * @param crSponsorDID     Did of sponsor. Such as "iYMVuGs1FscpgmghSzg243R6PzPiszrgj7"
+			 * @param draftHash        The hash of draft proposal
+			 * @param budgets          The budgets of proposal every stage. Such as ["300", "33", "344"]
+			 * @param recipient        Address of budget payee. Such as "EPbdmxUVBzfNrVdqJzZEySyWGYeuKAeKqv"
+			 * @sponsorSignature       The signature of the proposal by the sponsor
+			 * @return Hex string of sha256
+			 */
+			virtual std::string CRSponsorProposalDigest(uint8_t type,
+			                                            const std::string &sponsorPublicKey,
+			                                            const std::string &crSponsorDID,
+			                                            const std::string &draftHash,
+			                                            const nlohmann::json &budgets,
+			                                            const std::string &recipient,
+			                                            const std::string &sponsorSignature) const = 0;
+
+			/**
+			 * Create CRC Proposal transaction.
+			 *
+			 * @param type             Proposal type, value is [0-5]
+			 * @param sponsorPublicKey Public key of sponsor
+			 * @param crSponsorDID     Did of sponsor. Such as "iYMVuGs1FscpgmghSzg243R6PzPiszrgj7"
+			 * @param draftHash        The hash of draft proposal
+			 * @param budgets          The budgets of proposal every stage. Such as ["300", "33", "344"]
+			 * @param recipient        Address of budget payee. Such as "EPbdmxUVBzfNrVdqJzZEySyWGYeuKAeKqv"
+			 * @sponsorSignature       The signature of the proposal by the sponsor
+			 * @crSponsorSignature     The signature of the proposal by cr
+			 * @return  The transaction in JSON format to be signed and published.
+			 */
+			virtual nlohmann::json CreateCRCProposalTransaction(uint8_t type,
+			                                                    const std::string &sponsorPublicKey,
+			                                                    const std::string &crSponsorDID,
+			                                                    const std::string &draftHash,
+			                                                    const nlohmann::json &budgets,
+			                                                    const std::string &recipient,
+			                                                    const std::string &sponsorSignature,
+			                                                    const std::string &crSponsorSignature,
+			                                                    const std::string &memo) = 0;
+
+			/**
+			 * Create vote crc proposal transaction.
+			 *
+			 * @param fromAddress  If this address is empty, SDK will pick available UTXO automatically.
+			 *                     Otherwise, pick UTXO from the specific address.
+			 * @param votes        Proposal hash and votes in JSON format. Such as:
+			 *                     {
+			 *                          "109780cf45c7a6178ad674ac647545b47b10c2c3e3b0020266d0707e5ca8af7c": "100000000",
+			 *                          "92990788d66bf558052d112f5498111747b3e28c55984d43fed8c8822ad9f1a7": "200000000"
+			 *                     }
+			 * @param memo         Remarks string. Can be empty string.
+			 * @return             The transaction in JSON format to be signed and published.
+			 */
+			virtual nlohmann::json CreateVoteCRCProposalTransaction(
+					const std::string &fromAddress,
+					const nlohmann::json &votes,
+					const std::string &memo) = 0;
+
 		};
 
 	}

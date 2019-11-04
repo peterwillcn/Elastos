@@ -434,6 +434,12 @@
 		42A7679F23169F28005FC764 /* HWMCRElectoralAffairsViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42A7679D23169F28005FC764 /* HWMCRElectoralAffairsViewController.mm */; };
 		42A767A023169F28005FC764 /* HWMCRElectoralAffairsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A7679E23169F28005FC764 /* HWMCRElectoralAffairsViewController.xib */; };
 		42A7840522F7FF26008F2F94 /* libspvsdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A7840422F7FF25008F2F94 /* libspvsdk.a */; };
+		42A7A851236ADC110034A900 /* HWMTheEditorDIDInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A7A84F236ADC110034A900 /* HWMTheEditorDIDInfoViewController.m */; };
+		42A7A852236ADC110034A900 /* HWMTheEditorDIDInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A7A850236ADC110034A900 /* HWMTheEditorDIDInfoViewController.xib */; };
+		42A7A856236AE3BD0034A900 /* HWMConfidentialInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A7A854236AE3BD0034A900 /* HWMConfidentialInformationViewController.m */; };
+		42A7A857236AE3BD0034A900 /* HWMConfidentialInformationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A7A855236AE3BD0034A900 /* HWMConfidentialInformationViewController.xib */; };
+		42A7A85B236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A7A859236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.m */; };
+		42A7A85C236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A7A85A236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.xib */; };
 		42B263B422DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewControlle.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42B263B222DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewControlle.mm */; };
 		42B263B522DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42B263B322DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.xib */; };
 		42B57AB422150C1C004CF089 /* NSObject+KVOCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B57A9622150C1C004CF089 /* NSObject+KVOCrash.m */; };
@@ -1233,6 +1239,15 @@
 		42A7679D23169F28005FC764 /* HWMCRElectoralAffairsViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HWMCRElectoralAffairsViewController.mm; sourceTree = "<group>"; };
 		42A7679E23169F28005FC764 /* HWMCRElectoralAffairsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMCRElectoralAffairsViewController.xib; sourceTree = "<group>"; };
 		42A7840422F7FF25008F2F94 /* libspvsdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspvsdk.a; path = "elastos wallet/spvsdk/lib/libspvsdk.a"; sourceTree = "<group>"; };
+		42A7A84E236ADC110034A900 /* HWMTheEditorDIDInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTheEditorDIDInfoViewController.h; sourceTree = "<group>"; };
+		42A7A84F236ADC110034A900 /* HWMTheEditorDIDInfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTheEditorDIDInfoViewController.m; sourceTree = "<group>"; };
+		42A7A850236ADC110034A900 /* HWMTheEditorDIDInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTheEditorDIDInfoViewController.xib; sourceTree = "<group>"; };
+		42A7A853236AE3BD0034A900 /* HWMConfidentialInformationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMConfidentialInformationViewController.h; sourceTree = "<group>"; };
+		42A7A854236AE3BD0034A900 /* HWMConfidentialInformationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMConfidentialInformationViewController.m; sourceTree = "<group>"; };
+		42A7A855236AE3BD0034A900 /* HWMConfidentialInformationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMConfidentialInformationViewController.xib; sourceTree = "<group>"; };
+		42A7A858236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMAccordingPersonalInformationViewController.h; sourceTree = "<group>"; };
+		42A7A859236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMAccordingPersonalInformationViewController.m; sourceTree = "<group>"; };
+		42A7A85A236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMAccordingPersonalInformationViewController.xib; sourceTree = "<group>"; };
 		42B263B122DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMSignatureTradingSingleQrCodeViewController.h; sourceTree = "<group>"; };
 		42B263B222DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewControlle.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HWMSignatureTradingSingleQrCodeViewControlle.mm; sourceTree = "<group>"; };
 		42B263B322DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMSignatureTradingSingleQrCodeViewController.xib; sourceTree = "<group>"; };
@@ -1700,6 +1715,15 @@
 				4253EE5623696C88005B774A /* HWMDIDInfoViewController.h */,
 				4253EE5723696C88005B774A /* HWMDIDInfoViewController.m */,
 				4253EE5823696C88005B774A /* HWMDIDInfoViewController.xib */,
+				42A7A84E236ADC110034A900 /* HWMTheEditorDIDInfoViewController.h */,
+				42A7A84F236ADC110034A900 /* HWMTheEditorDIDInfoViewController.m */,
+				42A7A850236ADC110034A900 /* HWMTheEditorDIDInfoViewController.xib */,
+				42A7A853236AE3BD0034A900 /* HWMConfidentialInformationViewController.h */,
+				42A7A854236AE3BD0034A900 /* HWMConfidentialInformationViewController.m */,
+				42A7A855236AE3BD0034A900 /* HWMConfidentialInformationViewController.xib */,
+				42A7A858236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.h */,
+				42A7A859236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.m */,
+				42A7A85A236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.xib */,
 				42186FDD22BCADBB0063A28D /* AboutELAWalletViewController.h */,
 				42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.mm */,
 				42186FDF22BCADBB0063A28D /* AboutELAWalletViewController.xib */,
@@ -3356,15 +3380,18 @@
 				4223EB2D232799A900153DA9 /* HWMPublicKeyListHeadView.xib in Resources */,
 				4202CA6221F6EF2A009E5932 /* HMWSendSuccessPopuView.xib in Resources */,
 				4202CA6321F6EF2A009E5932 /* HMWpwdPopupView.xib in Resources */,
+				42A7A85C236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.xib in Resources */,
 				4202CA2721F6EF2A009E5932 /* FLTableViewDefultCell.xib in Resources */,
 				4202CAA221F6EF2B009E5932 /* HMWImKeystoreView.xib in Resources */,
 				4202CA5421F6EF2A009E5932 /* FLSearchContractTableCell.xib in Resources */,
 				4202CA4221F6EF2A009E5932 /* FLwalletSelectView.xib in Resources */,
 				4202CACB21F6EF2B009E5932 /* HMWVotingListView.xib in Resources */,
+				42A7A857236AE3BD0034A900 /* HWMConfidentialInformationViewController.xib in Resources */,
 				4202CAA321F6EF2B009E5932 /* HMWImTheMnemonicWordView.xib in Resources */,
 				4202CA3821F6EF2A009E5932 /* FLticketProgressView.xib in Resources */,
 				4202CAC821F6EF2B009E5932 /* HMWVotingListCollectionViewCell.xib in Resources */,
 				4202CA9A21F6EF2B009E5932 /* FLSetMenmoryWordPassView.xib in Resources */,
+				42A7A852236ADC110034A900 /* HWMTheEditorDIDInfoViewController.xib in Resources */,
 				420131C52320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.xib in Resources */,
 				4226A863229BC02E00E93430 /* build.xcconfig in Resources */,
 				4202CA7021F6EF2B009E5932 /* HMWChooseSideChainViewController.xib in Resources */,
@@ -3518,6 +3545,7 @@
 				CBD48D5E21FC36BA00BF3B11 /* AFNetworkReachabilityManager.m in Sources */,
 				4202CA9921F6EF2B009E5932 /* HMWImportTheWalletViewController.mm in Sources */,
 				4202CAC621F6EF2B009E5932 /* HMWtheCandidateListTableViewCell.m in Sources */,
+				42A7A85B236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.m in Sources */,
 				4202CA6021F6EF2A009E5932 /* HMWSendSuccessPopuView.m in Sources */,
 				4202CA0221F6EF2A009E5932 /* MASViewAttribute.m in Sources */,
 				4202CA0E21F6EF2A009E5932 /* WCQRCodeScanningVC.m in Sources */,
@@ -3545,6 +3573,7 @@
 				42A7679A2315293F005FC764 /* HWMCRRegisteredViewController.mm in Sources */,
 				4202CA4121F6EF2A009E5932 /* FLMeHeadView.m in Sources */,
 				4223EB2B2327999F00153DA9 /* HWMPublicKeyListHeadView.m in Sources */,
+				42A7A851236ADC110034A900 /* HWMTheEditorDIDInfoViewController.m in Sources */,
 				4202CA3A21F6EF2A009E5932 /* FLTradeInfoView.m in Sources */,
 				4202CA6A21F6EF2B009E5932 /* HMWaddressListTableViewCell.m in Sources */,
 				4202CAC521F6EF2B009E5932 /* HMWVotingListCollectionViewCell.m in Sources */,
@@ -3657,6 +3686,7 @@
 				4202CAB121F6EF2B009E5932 /* FirstViewController.mm in Sources */,
 				4228AA5121F88C87002866B5 /* UIGestureRecognizer+YYAdd.m in Sources */,
 				70F8409621BEAA1B001C0BD6 /* ELWalletManager.mm in Sources */,
+				42A7A856236AE3BD0034A900 /* HWMConfidentialInformationViewController.m in Sources */,
 				42D126A122B7754F000A286C /* runningNodeListView.m in Sources */,
 				4202CA1B21F6EF2A009E5932 /* FMDatabase.m in Sources */,
 				42B57ABD22150C1C004CF089 /* NSArray+WOCrash.m in Sources */,

@@ -7,6 +7,8 @@
 
 #import "HWMDIDInfoViewController.h"
 #import "HWMDIDInfoTableViewCell.h"
+#import "HWMTheEditorDIDInfoViewController.h"
+#import "HWMConfidentialInformationViewController.h"
 
 
 static NSString *cellString=@"HWMDIDInfoTableViewCell";
@@ -32,8 +34,12 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
     
 }
 - (IBAction)theEditorEvent:(id)sender {
+    HWMTheEditorDIDInfoViewController *TheEditorDIDInfoVC=[[HWMTheEditorDIDInfoViewController alloc]init];
+    [self.navigationController pushViewController:TheEditorDIDInfoVC animated:YES];
 }
 - (IBAction)ConfidentialInformationEvent:(id)sender {
+    HWMConfidentialInformationViewController *ConfidentialInformationVC=[[HWMConfidentialInformationViewController alloc]init];
+    [self.navigationController pushViewController:ConfidentialInformationVC animated:YES];
 }
 -(void)makeUI{
      [self.table registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];

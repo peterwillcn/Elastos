@@ -1156,9 +1156,13 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
 }
 -(NSString*)http_IpFast{
     
-   #ifdef DEBUG
-    return  Http_IP;
-   #else
+    #ifdef DEBUG
+    return Http_IP;
+    #elif PrvNet
+     return Http_IP;
+     #elif TestNet
+    return Http_IP;
+    #else
     NSString *http_ip =[STANDARD_USER_DEFAULT valueForKey:@"Http_IP"];
     if (http_ip.length>0) {
         return http_ip;

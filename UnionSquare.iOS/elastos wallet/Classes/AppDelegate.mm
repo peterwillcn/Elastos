@@ -48,7 +48,7 @@
         [self application:application handleOpenURL:launchOptions[UIApplicationLaunchOptionsURLKey]];
     }
         
-    
+
    NSString *languageString=[DAConfig userLanguage];
 
 

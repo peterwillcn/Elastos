@@ -22,17 +22,28 @@
 
 //#import "ELWalletManager.h"
 #ifdef DEBUG
-
+#define SDKNET  "RegTest"
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
-////testNet
-//// 54.223.244.60  测试备用ip
 #define Http_IP   @"https://54.223.244.60"
-////regtext
-//#define Http_IP @"https://123.206.52.29"
+#define transUrl @"https://blockchain-beta.elastos.org/tx/"
+#define PongUrl @"http://54.223.158.189:5739/"
+#define Http_IP   @"https://54.223.244.60"
+ #elif PrvNet
+ #define SDKNET  "PrvNet"
+ #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+ #define Http_IP   @"https://54.223.244.60"
+ #define transUrl @"https://blockchain-beta.elastos.org/tx/"
+ #define PongUrl @"http://54.223.158.189:5739/"
+ #define Http_IP   @"https://54.223.244.60"
+  #elif TestNet
+#define SDKNET  "TestNet"
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#define Http_IP   @"https://54.223.244.60"
 #define transUrl @"https://blockchain-beta.elastos.org/tx/"
 #define PongUrl @"http://54.223.158.189:5739/"
 #define Http_IP   @"https://54.223.244.60"
 #else
+#define SDKNET  "MainNet"
 //regtext
 #define Http_IP @"https://unionsquare.elastos.org"
 #define transUrl @"https://blockchain.elastos.org/tx/"

@@ -138,4 +138,5 @@
 -(NSString *)returnJSONStringWithDictionary:(NSDictionary *)dictionary;
 -(BOOL)WhetherTheCurrentTypeNeedType:(NSString*)dataString withType:(NSString*)type;
 - (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
+-(BOOL)APPIntegrity;
 @end

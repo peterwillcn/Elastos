@@ -47,10 +47,13 @@
     if(launchOptions[UIApplicationLaunchOptionsURLKey] != nil){
         [self application:application handleOpenURL:launchOptions[UIApplicationLaunchOptionsURLKey]];
     }
-        
+  
 
+    
    NSString *languageString=[DAConfig userLanguage];
-
+    if ( [[FLTools share]APPIntegrity]) {
+        exit(0);
+      }
 
     if ([languageString  containsString:@"en"]) {
         [DAConfig setUserLanguage:@"en"];

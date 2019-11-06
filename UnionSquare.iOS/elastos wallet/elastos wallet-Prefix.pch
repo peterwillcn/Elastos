@@ -104,7 +104,7 @@
 #import "UIImageView+WebCache.h"
 #import "PluginResult.h"
 #import "invokedUrlCommand.h"
-#import "NSDictionary+NilSafe.h"
+//#import "NSDictionary+NilSafe.h"
 #import "NSMutableArray+Swizzling.h"
 #import "NSObject+Swizzling.h"
 #import "UIButton+HMWButton.h"

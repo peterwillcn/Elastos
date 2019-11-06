@@ -349,10 +349,12 @@
 		4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4250B3F82238D3E900B6858F /* libiconv.tbd */; };
 		425CE7FC230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 425CE7FB230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m */; };
 		425CE7FE230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425CE7FD230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib */; };
+		425DFB1B23716685001CEF76 /* libc++abi.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 425DFB1A23716685001CEF76 /* libc++abi.tbd */; };
+		425DFB1E23719498001CEF76 /* NSDictionary+NilSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 425DFB1D23719497001CEF76 /* NSDictionary+NilSafe.m */; };
+		425DFB242371A301001CEF76 /* NSString+HWMNSTaggedPointerString.m in Sources */ = {isa = PBXBuildFile; fileRef = 425DFB232371A301001CEF76 /* NSString+HWMNSTaggedPointerString.m */; };
 		425E0D68233B5B5E00D4C481 /* HWMCRListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 425E0D67233B5B5E00D4C481 /* HWMCRListModel.m */; };
 		4261C2FC22C21563008C1532 /* showOwnerAddressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261C2FA22C21563008C1532 /* showOwnerAddressTableViewCell.m */; };
 		4261C2FD22C21563008C1532 /* showOwnerAddressTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4261C2FB22C21563008C1532 /* showOwnerAddressTableViewCell.xib */; };
-		4261CF3822A15D21006B1DDE /* NSDictionary+NilSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261CF3222A15D20006B1DDE /* NSDictionary+NilSafe.m */; };
 		4261CF3922A15D21006B1DDE /* NSMutableArray+Swizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261CF3522A15D20006B1DDE /* NSMutableArray+Swizzling.m */; };
 		4261CF3A22A15D21006B1DDE /* NSObject+Swizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 4261CF3722A15D21006B1DDE /* NSObject+Swizzling.m */; };
 		4261CF3E22A1605D006B1DDE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4261CF3D22A1605C006B1DDE /* SystemConfiguration.framework */; };
@@ -1071,14 +1073,17 @@
 		425CE7FA230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTheValidationWordMnemonicPassword.h; sourceTree = "<group>"; };
 		425CE7FB230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTheValidationWordMnemonicPassword.m; sourceTree = "<group>"; };
 		425CE7FD230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTheValidationWordMnemonicPassword.xib; sourceTree = "<group>"; };
+		425DFB1A23716685001CEF76 /* libc++abi.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++abi.tbd"; path = "usr/lib/libc++abi.tbd"; sourceTree = SDKROOT; };
+		425DFB1C23719497001CEF76 /* NSDictionary+NilSafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NilSafe.h"; sourceTree = "<group>"; };
+		425DFB1D23719497001CEF76 /* NSDictionary+NilSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NilSafe.m"; sourceTree = "<group>"; };
+		425DFB222371A301001CEF76 /* NSString+HWMNSTaggedPointerString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+HWMNSTaggedPointerString.h"; sourceTree = "<group>"; };
+		425DFB232371A301001CEF76 /* NSString+HWMNSTaggedPointerString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+HWMNSTaggedPointerString.m"; sourceTree = "<group>"; };
 		425E0D66233B5B5E00D4C481 /* HWMCRListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCRListModel.h; sourceTree = "<group>"; };
 		425E0D67233B5B5E00D4C481 /* HWMCRListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMCRListModel.m; sourceTree = "<group>"; };
 		4261C2F922C21563008C1532 /* showOwnerAddressTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = showOwnerAddressTableViewCell.h; sourceTree = "<group>"; };
 		4261C2FA22C21563008C1532 /* showOwnerAddressTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = showOwnerAddressTableViewCell.m; sourceTree = "<group>"; };
 		4261C2FB22C21563008C1532 /* showOwnerAddressTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = showOwnerAddressTableViewCell.xib; sourceTree = "<group>"; };
-		4261CF3222A15D20006B1DDE /* NSDictionary+NilSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NilSafe.m"; sourceTree = "<group>"; };
 		4261CF3322A15D20006B1DDE /* NSObject+Swizzling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Swizzling.h"; sourceTree = "<group>"; };
-		4261CF3422A15D20006B1DDE /* NSDictionary+NilSafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NilSafe.h"; sourceTree = "<group>"; };
 		4261CF3522A15D20006B1DDE /* NSMutableArray+Swizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Swizzling.m"; sourceTree = "<group>"; };
 		4261CF3622A15D20006B1DDE /* NSMutableArray+Swizzling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Swizzling.h"; sourceTree = "<group>"; };
 		4261CF3722A15D21006B1DDE /* NSObject+Swizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Swizzling.m"; sourceTree = "<group>"; };
@@ -1310,6 +1315,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				425DFB1B23716685001CEF76 /* libc++abi.tbd in Frameworks */,
 				42A7840522F7FF26008F2F94 /* libspvsdk.a in Frameworks */,
 				4261CF4022A16066006B1DDE /* Security.framework in Frameworks */,
 				4261CF3E22A1605D006B1DDE /* SystemConfiguration.framework in Frameworks */,
@@ -1389,6 +1395,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				425DFB1A23716685001CEF76 /* libc++abi.tbd */,
 				42A7840422F7FF25008F2F94 /* libspvsdk.a */,
 				4261CF3F22A16066006B1DDE /* Security.framework */,
 				4261CF3D22A1605C006B1DDE /* SystemConfiguration.framework */,
@@ -2283,10 +2290,10 @@
 		4202C99A21F6EF29009E5932 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				425DFB1C23719497001CEF76 /* NSDictionary+NilSafe.h */,
+				425DFB1D23719497001CEF76 /* NSDictionary+NilSafe.m */,
 				426365BD22D82FC200352396 /* UIButton+HMWButton.h */,
 				426365BE22D82FC200352396 /* UIButton+HMWButton.m */,
-				4261CF3422A15D20006B1DDE /* NSDictionary+NilSafe.h */,
-				4261CF3222A15D20006B1DDE /* NSDictionary+NilSafe.m */,
 				4261CF3622A15D20006B1DDE /* NSMutableArray+Swizzling.h */,
 				4261CF3522A15D20006B1DDE /* NSMutableArray+Swizzling.m */,
 				4261CF3322A15D20006B1DDE /* NSObject+Swizzling.h */,
@@ -2308,6 +2315,8 @@
 				4202C9A621F6EF29009E5932 /* UIViewController+FLVCExt.m */,
 				4287D77E2307D0C000B91C82 /* UILabel+HMWinternationalization.h */,
 				4287D77F2307D0C000B91C82 /* UILabel+HMWinternationalization.m */,
+				425DFB222371A301001CEF76 /* NSString+HWMNSTaggedPointerString.h */,
+				425DFB232371A301001CEF76 /* NSString+HWMNSTaggedPointerString.m */,
 				CBD48D6B21FEA22400BF3B11 /* FLNotePointDBManager.h */,
 				CBD48D6C21FEA22400BF3B11 /* FLNotePointDBManager.m */,
 				42B7AD97221BAA61006959B8 /* Localizable.strings */,
@@ -3381,7 +3390,6 @@
 			files = (
 				4287BB452328E10F00FF1F7D /* MJRefreshBackGifFooter.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.mm in Sources */,
-				4261CF3822A15D21006B1DDE /* NSDictionary+NilSafe.m in Sources */,
 				4202CA7E21F6EF2B009E5932 /* HMWTheWalletManagementTableViewCell.m in Sources */,
 				422D60A821FC42D100DD07FF /* HMWChooseTheCountryAreasTableViewCell.m in Sources */,
 				4234721C22CCA2EF000616CB /* HWMSignTheWalletListViewController.mm in Sources */,
@@ -3546,6 +3554,7 @@
 				4288D0B8230E946A00E8CC7A /* HW3DBannerView.m in Sources */,
 				4202CA3621F6EF2A009E5932 /* FLSugarModel.m in Sources */,
 				CBD48D5C21FC36BA00BF3B11 /* AFURLSessionManager.m in Sources */,
+				425DFB1E23719498001CEF76 /* NSDictionary+NilSafe.m in Sources */,
 				4202CA3421F6EF2A009E5932 /* FLFounderSugarVC.m in Sources */,
 				4202CAD221F6EF2B009E5932 /* HMWnodeInformationViewController.m in Sources */,
 				4228AA4121F88C86002866B5 /* YYDiskCache.m in Sources */,
@@ -3591,6 +3600,7 @@
 				4241B7BC231E124600D95B22 /* HWMCRCCommitteeElectionCollectionViewCell.m in Sources */,
 				42B57ABB22150C1C004CF089 /* NSString+WOCrash.m in Sources */,
 				42B57AC222150C1C004CF089 /* NSMutableArray+WOCrash.m in Sources */,
+				425DFB242371A301001CEF76 /* NSString+HWMNSTaggedPointerString.m in Sources */,
 				422C4645235DBB4B000523DB /* HWMCreateDIDListTableViewCell.m in Sources */,
 				4228AA4421F88C86002866B5 /* YYMemoryCache.m in Sources */,
 				42A7679F23169F28005FC764 /* HWMCRElectoralAffairsViewController.mm in Sources */,

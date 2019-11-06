@@ -57,7 +57,7 @@
         }
         if (!obj) {
             obj = [NSNull null];
-            NSLog(@"字典value为空 %s",__FUNCTION__);
+            NSLog(@"字典value111为空 %s",__FUNCTION__);
         }
         safeKeys[j] = key;
         safeObjects[j] = obj;
@@ -78,7 +78,7 @@
         }
         if (!obj) {
             obj = [NSNull null];
-            NSLog(@"字典value为空 %s",__FUNCTION__);
+            NSLog(@"字典value为空2222 %s",__FUNCTION__);
         }
         safeKeys[j] = key;
         safeObjects[j] = obj;
@@ -114,12 +114,14 @@
 
 - (void)gl_setObject:(id)obj forKeyedSubscript:(id<NSCopying>)key {
     if (!key) {
-        NSLog(@"字典key为空 %s",__FUNCTION__);
+        NSLog(@"字典key为空3333 %s",__FUNCTION__);
         return;
     }
     if (!obj) {
-        obj = [NSNull null];
-        NSLog(@"字典value为空 %s",__FUNCTION__);
+        obj=@[@"en"];
+//        obj = [NSNull null];
+        
+        NSLog(@"字典value为空4444 %s",__FUNCTION__);
     }
     [self gl_setObject:obj forKeyedSubscript:key];
 }

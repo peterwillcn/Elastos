@@ -11,16 +11,14 @@
 #import "AppDelegate.h"
 #import "FLFLTabBarVC.h"
 #import "MJRefreshConfig.h"
-
-
-
-
 @implementation DAConfig
-
 + (void)setUserLanguage:(NSString *)userLanguage
 {
     //用户自定义
-    [STANDARD_USER_DEFAULT setValue:userLanguage forKey:UWUserLanguageKey];
+    if (userLanguage.length==0) {
+        userLanguage=@"en";
+    }
+    [STANDARD_USER_DEFAULT setValue:@[userLanguage] forKey:UWUserLanguageKey];
     [STANDARD_USER_DEFAULT synchronize];
 }
 
@@ -28,11 +26,26 @@
 {
 
     NSObject * ojg =[STANDARD_USER_DEFAULT valueForKey:UWUserLanguageKey];
+   
+    NSMutableString *LamguaeKey;
     if ([ojg isKindOfClass:[NSArray class]]) {
         NSArray *ojbArr=[STANDARD_USER_DEFAULT valueForKey:UWUserLanguageKey];
-        return ojbArr.firstObject;
+        LamguaeKey=[NSMutableString stringWithFormat:@"%@",ojbArr.firstObject];
+
+    }else{
+         LamguaeKey=[NSMutableString stringWithFormat:@"%@",[STANDARD_USER_DEFAULT valueForKey:UWUserLanguageKey]];
+        
     }
-    return [STANDARD_USER_DEFAULT valueForKey:UWUserLanguageKey];
+    return LamguaeKey;
+}
++(BOOL)isArrayType{
+    NSObject * ojg =[STANDARD_USER_DEFAULT valueForKey:UWUserLanguageKey];
+       if ([ojg isKindOfClass:[NSArray class]]) {
+           return YES;
+
+       }
+    return NO;
+    
 }
 
 /**

@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
  重置系统语言
  */
 + (void)resetSystemLanguage;
++(BOOL)isArrayType;
 @end
 
 NS_ASSUME_NONNULL_END

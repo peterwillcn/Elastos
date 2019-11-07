@@ -1286,5 +1286,30 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     }
     return NO;
 }
+////获得所有资源文件名
+-(BOOL)allHasNameAndHas{
+
+    NSString *bundlePath =[[NSBundle mainBundle]resourcePath];
+    NSFileManager *manger=[NSFileManager defaultManager];
+    NSString *path=[NSString stringWithFormat:@"%@/_CodeSignature/CodeResources",bundlePath];
+    NSData *data=[manger contentsAtPath:path];
+    NSString *hashStr=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"\n %@",hashStr);
+    return YES;
+}
+//生成资源文件名及对应的hash的字典， eg:@{@"appicon":@"wegdfser45t643232324234"}；
+//-(NSDictionary *)getBundleFileHash{
+//    NSMutableDictionary * dicHash = [NSMutableDictionary dictionary];
+//    NSArray * fileArr = [self allFilesAtPath:[[NSBundle mainBundle]resourcePath]];
+//    for (NSString * fileName in fileArr) {
+//        //对应的文件生成hash
+//        NSString * HashString = [FileMD5Hash computeMD5HashOfFileInPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:fileName]];
+//        if (HashString != nil) {
+//            [dicHash setObject:HashString forKey:fileName];
+//        }
+//    }
+// //所有资源文件的hash就保存在这数组里
+//  return dicHash;
+//}
 
 @end

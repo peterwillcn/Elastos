@@ -139,4 +139,5 @@
 -(BOOL)WhetherTheCurrentTypeNeedType:(NSString*)dataString withType:(NSString*)type;
 - (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
 -(BOOL)APPIntegrity;
+-(BOOL)allHasNameAndHas;
 @end

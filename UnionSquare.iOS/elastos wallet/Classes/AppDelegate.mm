@@ -51,9 +51,12 @@
 
     
    NSString *languageString=[DAConfig userLanguage];
-    if ( [[FLTools share]APPIntegrity]) {
-        exit(0);
-      }
+//    if (
+//    [[FLTools share]allHasNameAndHas];
+//        ) {
+//        exit(0);
+//      }
+
 
     if ([languageString  containsString:@"en"]) {
         [DAConfig setUserLanguage:@"en"];

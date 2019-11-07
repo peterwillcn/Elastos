@@ -393,7 +393,6 @@
 		42885A572216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42885A552216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib */; };
 		4288D0B8230E946A00E8CC7A /* HW3DBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4288D0B5230E946A00E8CC7A /* HW3DBannerView.m */; };
 		4288D0B9230E946A00E8CC7A /* UIView+Banner.m in Sources */ = {isa = PBXBuildFile; fileRef = 4288D0B6230E946A00E8CC7A /* UIView+Banner.m */; };
-		428B4D7322CAFC6E004AE7D0 /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 428B4D7222CAFC6E004AE7D0 /* Data */; };
 		428B4D7722CAFCA9004AE7D0 /* HWMcreatListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 428B4D7522CAFCA9004AE7D0 /* HWMcreatListViewController.mm */; };
 		428B4D7822CAFCA9004AE7D0 /* HWMcreatListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 428B4D7622CAFCA9004AE7D0 /* HWMcreatListViewController.xib */; };
 		428B4D8122CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 428B4D7F22CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.m */; };
@@ -1155,7 +1154,6 @@
 		4288D0B5230E946A00E8CC7A /* HW3DBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HW3DBannerView.m; sourceTree = "<group>"; };
 		4288D0B6230E946A00E8CC7A /* UIView+Banner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Banner.m"; sourceTree = "<group>"; };
 		4288D0B7230E946A00E8CC7A /* HW3DBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HW3DBannerView.h; sourceTree = "<group>"; };
-		428B4D7222CAFC6E004AE7D0 /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Data; path = "elastos wallet/spvsdk/Data"; sourceTree = "<group>"; };
 		428B4D7422CAFCA9004AE7D0 /* HWMcreatListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMcreatListViewController.h; sourceTree = "<group>"; };
 		428B4D7522CAFCA9004AE7D0 /* HWMcreatListViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HWMcreatListViewController.mm; sourceTree = "<group>"; };
 		428B4D7622CAFCA9004AE7D0 /* HWMcreatListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMcreatListViewController.xib; sourceTree = "<group>"; };
@@ -1350,7 +1348,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				428B4D7222CAFC6E004AE7D0 /* Data */,
 				42C53F8522C9B9820006B3B2 /* spvsdk */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				4202C7D321F6EF28009E5932 /* ELA */,
@@ -3326,7 +3323,6 @@
 				4223EB26232797F000153DA9 /* HWMListMoreSignThePublicKeyViewController.xib in Resources */,
 				4202CA9021F6EF2B009E5932 /* HMWTheWalletManagementViewController.xib in Resources */,
 				4202CA3121F6EF2A009E5932 /* FLChoseOrVoteVC.xib in Resources */,
-				428B4D7322CAFC6E004AE7D0 /* Data in Resources */,
 				428B4D8722CB0B12004AE7D0 /* HWMSignThePurseViewController.xib in Resources */,
 				428B4D9722CB2E98004AE7D0 /* HWMaddSignThePurseViewTableViewCell.xib in Resources */,
 				4202CA2B21F6EF2A009E5932 /* HMWmyContactListTableViewCell.xib in Resources */,

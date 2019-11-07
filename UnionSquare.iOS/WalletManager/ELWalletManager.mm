@@ -388,7 +388,7 @@ errCodeSPVCreateMasterWalletError= 20006;
 {  if(mMasterWalletManager==nil){
     mRootPath = [MyUtil getRootPath];
     const char  *rootPath = [mRootPath UTF8String];
-    mMasterWalletManager = new MasterWalletManager(rootPath);
+    mMasterWalletManager = new MasterWalletManager(rootPath, SDKNET);
 }
     return mMasterWalletManager;
 }
@@ -1719,7 +1719,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:mainchainSubWalletId];
        
        try {
-           std::string pubKey = mainchainSubWallet->GetCROwnerPublicKey();
+           std::string pubKey = mainchainSubWallet->GetCROwnerDID();
            
            nlohmann::json payload = mainchainSubWallet->GenerateUnregisterCRPayload(pubKey, [pwd UTF8String]);
            

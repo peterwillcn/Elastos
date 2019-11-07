@@ -25,8 +25,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DAConfig.h"
-
 int main(int argc, char* argv[])
 {
     @autoreleasepool {

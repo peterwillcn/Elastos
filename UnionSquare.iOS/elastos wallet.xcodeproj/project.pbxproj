@@ -451,6 +451,14 @@
 		7087D92F21BCDF1B00599316 /* MyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7087D92E21BCDF1B00599316 /* MyUtil.m */; };
 		70F8409621BEAA1B001C0BD6 /* ELWalletManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70F8409521BEAA1B001C0BD6 /* ELWalletManager.mm */; };
 		9FD0C828FEE9459B88FB6A2D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B5A24BEEA44AE9AD51A2C8 /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		C45E4ED4237794B9003BB3BA /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ED0237794A1003BB3BA /* libboost_filesystem.a */; };
+		C45E4ED5237794C7003BB3BA /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ED3237794A1003BB3BA /* libboost_system.a */; };
+		C45E4ED6237794D5003BB3BA /* libboost_thread.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ED1237794A1003BB3BA /* libboost_thread.a */; };
+		C45E4ED7237794E1003BB3BA /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ECC237794A1003BB3BA /* libcrypto.a */; };
+		C45E4ED8237794ED003BB3BA /* libfruit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ECF237794A1003BB3BA /* libfruit.a */; };
+		C45E4ED9237794FF003BB3BA /* libspdlog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ECE237794A1003BB3BA /* libspdlog.a */; };
+		C45E4EDA2377950C003BB3BA /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ECD237794A1003BB3BA /* libsqlite3.a */; };
+		C45E4EDB2377951B003BB3BA /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ED2237794A1003BB3BA /* libssl.a */; };
 		CBD25EFD221542F500EDA0F5 /* FLChangeVotedTicketsVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = CBD25EFB221542F500EDA0F5 /* FLChangeVotedTicketsVC.mm */; };
 		CBD25EFE221542F500EDA0F5 /* FLChangeVotedTicketsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBD25EFC221542F500EDA0F5 /* FLChangeVotedTicketsVC.xib */; };
 		CBD25F082216DD8500EDA0F5 /* DrawBackVoteMoneyVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = CBD25F062216DD8500EDA0F5 /* DrawBackVoteMoneyVC.mm */; };
@@ -1227,10 +1235,8 @@
 		42B7AD98221BAA64006959B8 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		42C53F8722C9B9820006B3B2 /* ISubWalletCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISubWalletCallback.h; sourceTree = "<group>"; };
 		42C53F8822C9B9820006B3B2 /* IMasterWalletManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMasterWalletManager.h; sourceTree = "<group>"; };
-		42C53F8922C9B9820006B3B2 /* IIdAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIdAgent.h; sourceTree = "<group>"; };
 		42C53F8A22C9B9820006B3B2 /* ISubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISubWallet.h; sourceTree = "<group>"; };
 		42C53F8B22C9B9820006B3B2 /* IMainchainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMainchainSubWallet.h; sourceTree = "<group>"; };
-		42C53F8C22C9B9820006B3B2 /* IIdChainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIdChainSubWallet.h; sourceTree = "<group>"; };
 		42C53F8E22C9B9820006B3B2 /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = json.hpp; sourceTree = "<group>"; };
 		42C53F8F22C9B9820006B3B2 /* IMasterWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMasterWallet.h; sourceTree = "<group>"; };
 		42C53F9022C9B9820006B3B2 /* MasterWalletManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterWalletManager.h; sourceTree = "<group>"; };
@@ -1271,6 +1277,15 @@
 		8D1107310486CEB800E47090 /* elastos wallet-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "elastos wallet-Info.plist"; path = "elastos wallet/elastos wallet-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = SOURCE_ROOT; };
 		8FEFE2C15307426D819C2CA3 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		95B5A24BEEA44AE9AD51A2C8 /* WebKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		C408D6B823793E3C00163953 /* IIDChainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIDChainSubWallet.h; sourceTree = "<group>"; };
+		C45E4ECC237794A1003BB3BA /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "elastos wallet/spvsdk/lib/libcrypto.a"; sourceTree = "<group>"; };
+		C45E4ECD237794A1003BB3BA /* libsqlite3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlite3.a; path = "elastos wallet/spvsdk/lib/libsqlite3.a"; sourceTree = "<group>"; };
+		C45E4ECE237794A1003BB3BA /* libspdlog.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspdlog.a; path = "elastos wallet/spvsdk/lib/libspdlog.a"; sourceTree = "<group>"; };
+		C45E4ECF237794A1003BB3BA /* libfruit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfruit.a; path = "elastos wallet/spvsdk/lib/libfruit.a"; sourceTree = "<group>"; };
+		C45E4ED0237794A1003BB3BA /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_filesystem.a; path = "elastos wallet/spvsdk/lib/libboost_filesystem.a"; sourceTree = "<group>"; };
+		C45E4ED1237794A1003BB3BA /* libboost_thread.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_thread.a; path = "elastos wallet/spvsdk/lib/libboost_thread.a"; sourceTree = "<group>"; };
+		C45E4ED2237794A1003BB3BA /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "elastos wallet/spvsdk/lib/libssl.a"; sourceTree = "<group>"; };
+		C45E4ED3237794A1003BB3BA /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = "elastos wallet/spvsdk/lib/libboost_system.a"; sourceTree = "<group>"; };
 		CBD25EFA221542F500EDA0F5 /* FLChangeVotedTicketsVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLChangeVotedTicketsVC.h; sourceTree = "<group>"; };
 		CBD25EFB221542F500EDA0F5 /* FLChangeVotedTicketsVC.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FLChangeVotedTicketsVC.mm; sourceTree = "<group>"; };
 		CBD25EFC221542F500EDA0F5 /* FLChangeVotedTicketsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FLChangeVotedTicketsVC.xib; sourceTree = "<group>"; };
@@ -1313,13 +1328,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C45E4EDB2377951B003BB3BA /* libssl.a in Frameworks */,
 				425DFB1B23716685001CEF76 /* libc++abi.tbd in Frameworks */,
 				42A7840522F7FF26008F2F94 /* libspvsdk.a in Frameworks */,
+				C45E4ED7237794E1003BB3BA /* libcrypto.a in Frameworks */,
 				4261CF4022A16066006B1DDE /* Security.framework in Frameworks */,
 				4261CF3E22A1605D006B1DDE /* SystemConfiguration.framework in Frameworks */,
 				4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */,
+				C45E4EDA2377950C003BB3BA /* libsqlite3.a in Frameworks */,
+				C45E4ED4237794B9003BB3BA /* libboost_filesystem.a in Frameworks */,
+				C45E4ED6237794D5003BB3BA /* libboost_thread.a in Frameworks */,
+				C45E4ED5237794C7003BB3BA /* libboost_system.a in Frameworks */,
 				4250B3F22238D32700B6858F /* libzbar.a in Frameworks */,
 				9FD0C828FEE9459B88FB6A2D /* WebKit.framework in Frameworks */,
+				C45E4ED8237794ED003BB3BA /* libfruit.a in Frameworks */,
+				C45E4ED9237794FF003BB3BA /* libspdlog.a in Frameworks */,
 				0377F67DC70B4CEFBD787502 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1392,6 +1415,14 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C45E4ED0237794A1003BB3BA /* libboost_filesystem.a */,
+				C45E4ED3237794A1003BB3BA /* libboost_system.a */,
+				C45E4ED1237794A1003BB3BA /* libboost_thread.a */,
+				C45E4ECC237794A1003BB3BA /* libcrypto.a */,
+				C45E4ECF237794A1003BB3BA /* libfruit.a */,
+				C45E4ECE237794A1003BB3BA /* libspdlog.a */,
+				C45E4ECD237794A1003BB3BA /* libsqlite3.a */,
+				C45E4ED2237794A1003BB3BA /* libssl.a */,
 				425DFB1A23716685001CEF76 /* libc++abi.tbd */,
 				42A7840422F7FF25008F2F94 /* libspvsdk.a */,
 				4261CF3F22A16066006B1DDE /* Security.framework */,
@@ -3029,12 +3060,11 @@
 		42C53F8622C9B9820006B3B2 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				C408D6B823793E3C00163953 /* IIDChainSubWallet.h */,
 				42C53F8722C9B9820006B3B2 /* ISubWalletCallback.h */,
 				42C53F8822C9B9820006B3B2 /* IMasterWalletManager.h */,
-				42C53F8922C9B9820006B3B2 /* IIdAgent.h */,
 				42C53F8A22C9B9820006B3B2 /* ISubWallet.h */,
 				42C53F8B22C9B9820006B3B2 /* IMainchainSubWallet.h */,
-				42C53F8C22C9B9820006B3B2 /* IIdChainSubWallet.h */,
 				42C53F8D22C9B9820006B3B2 /* nlohmann */,
 				42C53F8F22C9B9820006B3B2 /* IMasterWallet.h */,
 				42C53F9022C9B9820006B3B2 /* MasterWalletManager.h */,
@@ -3767,6 +3797,14 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
@@ -3814,6 +3852,14 @@
 					"$(PROJECT_DIR)/ELA/ThirdSDK/ZBar/ZBarSDK",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";
@@ -3909,6 +3955,14 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
@@ -4003,6 +4057,14 @@
 					"$(PROJECT_DIR)/ELA/ThirdSDK/ZBar/ZBarSDK",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";

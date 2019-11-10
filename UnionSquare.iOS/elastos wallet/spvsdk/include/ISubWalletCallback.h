@@ -12,6 +12,8 @@
 namespace Elastos {
 	namespace ElaWallet {
 
+#define SPV_API_PUBLIC  __attribute__((__visibility__("default")))
+
 		class ISubWalletCallback {
 		public:
 			virtual ~ISubWalletCallback() noexcept {}

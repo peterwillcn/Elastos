@@ -616,16 +616,16 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
     
     if ([model.status isEqualToString:@"Connected"]) {
         cell.statusLabel.text=model.updateTime;
-        cell.linkImageView.alpha=0.f;
+        
         
     }else if ([model.status isEqualToString:@"Connecting"]){
         cell.statusLabel.text=NSLocalizedString(@"连接中...", nil);
     
-        cell.linkImageView.alpha=1.f;
+
         
     }else if ([model.status isEqualToString:@"DIsconnected"]){
         cell.statusLabel.text=NSLocalizedString(@"丢失...", nil);
-        cell.linkImageView.alpha=1.f;
+
     }
    cell.updatetime.text=model.updateTime;
     NSString *symbolString=@"%";
@@ -639,6 +639,7 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
             cell.progress.progress=0.99;
         }else{
             cell.progress.progress=1.0;
+            cell.linkImageView.alpha=0.f;
         }
         
     }else{
@@ -650,6 +651,7 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
     NSLog(@"CELL==%f===%f===%f",model.thePercentageCurr,model.thePercentageMax,cell.progress.progress);
     cell.progressLab.text=[NSString stringWithFormat:@"%.f%@", floor(cell.progress.progress*100),symbolString];
     NSLog(@"cell.progressLab.text==%@",cell.progressLab.text);
+     [self startAnimationWithView:cell.linkImageView];
     return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -708,12 +710,16 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
     
 }
 -(void)startAnimationWithView:(UIView*)view{
-   CGAffineTransform endAngle = CGAffineTransformMakeRotation(10* (M_PI / 180.0f));
-    [UIView animateWithDuration:0.01 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
-        view.transform=endAngle;
-        }completion:^(BOOL finished){
-            self.angle += 10;
-        [self startAnimationWithView:view];
+    [UIView animateWithDuration:1 animations:^{
+        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+        //默认是顺时针效果，若将fromValue和toValue的值互换，则为逆时针效果
+        animation.fromValue = [NSNumber numberWithFloat:0.f];
+        animation.toValue = [NSNumber numberWithFloat: M_PI *2];
+        animation.duration = 0.6;
+        animation.autoreverses = NO;
+        animation.fillMode = kCAFillModeForwards;
+        animation.repeatCount = MAXFLOAT; //如果这里想设置成一直自旋转，可以设置为MAXFLOAT，否则设置具体的数值则代表执行多少次
+        [view.layer addAnimation:animation forKey:nil];
         
     }];
     
@@ -721,8 +727,18 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
         
 }
 -(void)endAnimationWithView:(UIView*)view{
-    self.angle += 10;
-    [self startAnimationWithView:view];
+  [UIView animateWithDuration:1 animations:^{
+        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+        //默认是顺时针效果，若将fromValue和toValue的值互换，则为逆时针效果
+        animation.fromValue = [NSNumber numberWithFloat:0.f];
+        animation.toValue = [NSNumber numberWithFloat: M_PI *2];
+        animation.duration = 0.6;
+        animation.autoreverses = NO;
+        animation.fillMode = kCAFillModeForwards;
+        animation.repeatCount = 1; //如果这里想设置成一直自旋转，可以设置为MAXFLOAT，否则设置具体的数值则代表执行多少次
+        [view.layer addAnimation:animation forKey:nil];
+        
+    }];
 }
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     self.isScro=YES;
@@ -751,6 +767,7 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
             cell.progress.progress=0.99;
         }else{
             cell.progress.progress=1.0;
+            cell.linkImageView.alpha=0.f;
         }
         
     }else{
@@ -762,19 +779,16 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
     
     if ([model.status isEqualToString:@"Connected"]) {
         cell.statusLabel.text=model.updateTime;
-        cell.linkImageView.alpha=0.f;
         
     }else if ([model.status isEqualToString:@"Connecting"]){
         cell.statusLabel.text=NSLocalizedString(@"连接中...", nil);
         
-        cell.linkImageView.alpha=1.f;
-        
     }else if ([model.status isEqualToString:@"DIsconnected"]){
         cell.statusLabel.text=NSLocalizedString(@"丢失...", nil);
-        cell.linkImageView.alpha=1.f;
     }
     
     cell.progressLab.text=[NSString stringWithFormat:@"%.f%@", floor(cell.progress.progress*100),symbolString];
+    [self startAnimationWithView:cell.linkImageView];
 }
 -(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString{
 //    NSLog(@"解析前%@",QRCodeString);

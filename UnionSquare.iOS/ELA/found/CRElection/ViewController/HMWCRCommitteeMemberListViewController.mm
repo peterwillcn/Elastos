@@ -64,7 +64,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title=NSLocalizedString(@"CRC委员选举", nil);
+    self.title=NSLocalizedString(@"CR委员选举", nil);
     [self setBackgroundImg:@""];
     self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
     [self.toVoteButton setTitle:NSLocalizedString(@"立即投票", nil) forState:UIControlStateNormal];

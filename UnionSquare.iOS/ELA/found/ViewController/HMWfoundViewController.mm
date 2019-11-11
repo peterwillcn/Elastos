@@ -73,7 +73,12 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HMWfoundTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HMWfoundTableCell"];
-    cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_vote", nil)];
+    if (indexPath.row==1) {
+        cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_crcvote", nil)];
+    }else{
+        cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_vote", nil)];
+        
+    }
     return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

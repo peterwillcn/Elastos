@@ -110,6 +110,12 @@ static uint64_t feePerKB = 10000;
     }
     return nil;
 }
+- (IIdChainSubWallet *)getIdChainSubWallet:(String)masterWalletID :(String)chainID{
+
+      ISubWallet * SubWallet=[self getSubWallet:masterWalletID :chainID];
+      IIdChainSubWallet *ChainSubWallet = dynamic_cast<IIdChainSubWallet *>(SubWallet);
+    return ChainSubWallet;
+}
 - (void)createDIDManager:(IMasterWallet *)masterWallet
 {
     
@@ -2370,5 +2376,38 @@ errCodeSPVCreateMasterWalletError= 20006;
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
     return [self successProcess:command msg:dic];
 }
+-(PluginResult *)getDIDlist:(invokedUrlCommand *)command{
+    NSArray *args = command.arguments;
+    int idx = 0;
+    String masterWalletID = [self cstringWithString:args[idx++]];
+    String chainID        = [self cstringWithString:args[idx++]];
+    IIdChainSubWallet *idChainSubW=[self getIdChainSubWallet:masterWalletID :chainID];
+     Json result;
+      try {
+          result =  idChainSubW->GetAllDID(0, 100);
+      } catch (const std:: exception & e ) {
+          return  [self errInfoToDic:e.what() with:command];
+      }
+    NSString *jsonString = [self stringWithCString:result.dump()];
+    NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
+    return [self successProcess:command msg:dic];
+}
+-(PluginResult *)getDetailsDIDlist:(invokedUrlCommand *)command{
+    NSArray *args = command.arguments;
+       int idx = 0;
+       String masterWalletID = [self cstringWithString:args[idx++]];
+       String chainID        = [self cstringWithString:args[idx++]];
+       IIdChainSubWallet *idChainSubW=[self getIdChainSubWallet:masterWalletID :chainID];
+        Json result;
+         try {
+//             result =  idChainSubW->GetResolveDIDInfo(<#uint32_t start#>, <#uint32_t count#>, <#const std::string &did#>)(0, 100);
+         } catch (const std:: exception & e ) {
+             return  [self errInfoToDic:e.what() with:command];
+         }
+       NSString *jsonString = [self stringWithCString:result.dump()];
+       NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
+       return [self successProcess:command msg:dic];
+    
 
+}
 @end

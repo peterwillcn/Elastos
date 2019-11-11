@@ -185,11 +185,17 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
     self.addTheCurrencyList[index.section]=model;
     self.needUpdate=YES;
     if (model.isAdd&&self.didType.length>0) {
-        if (self.delegate) {
-            [self.delegate openIDChainOfDIDAddWithWallet:self.wallet.masterWalletID];
+        if (self.didType.length>0) {
+            if (self.delegate) {
+                [self.delegate openIDChainOfDIDAddWithWallet:self.wallet.masterWalletID];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }else{
+           [self.navigationController popToRootViewControllerAnimated:YES];
         }
+        
     }
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];

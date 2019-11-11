@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMDIDListAbnormalTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *timeLeftConOff;
 
 @end
 

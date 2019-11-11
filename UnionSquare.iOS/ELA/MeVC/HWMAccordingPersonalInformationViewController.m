@@ -23,6 +23,8 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
     [self makeUI];
 }
 -(void)makeUI{
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mine_edit"] style:UIBarButtonItemStyleDone target:self action:@selector(EditPersonalInformation)];
  [self.table registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
     
        self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -31,6 +33,9 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
        self.table.dataSource =self;
     self.table.backgroundColor=[UIColor clearColor];
 
+    
+}
+-(void)EditPersonalInformation{
     
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

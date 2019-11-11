@@ -36,20 +36,20 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JUe-tV-TVr">
-                                <rect key="frame" x="46.5" y="34.5" width="28.5" height="13.5"/>
+                                <rect key="frame" x="41.5" y="34.5" width="28.5" height="13.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.35377481579780579" green="0.52547663450241089" blue="0.53323912620544434" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.66605504535724158" green="0.98069670562400379" blue="1" alpha="0.10091145833333333" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="tGk-pX-LM6" secondAttribute="bottom" constant="12" id="MrL-f0-tSY"/>
                             <constraint firstItem="R8B-dM-s3u" firstAttribute="leading" secondItem="dIe-Xd-fxM" secondAttribute="leading" constant="8.5" id="OQZ-Fr-tgw"/>
                             <constraint firstItem="JUe-tV-TVr" firstAttribute="centerY" secondItem="tGk-pX-LM6" secondAttribute="centerY" id="Tab-q9-Hqu"/>
                             <constraint firstItem="UD6-fb-sr6" firstAttribute="centerY" secondItem="dIe-Xd-fxM" secondAttribute="centerY" id="gsV-FS-zL3"/>
                             <constraint firstItem="R8B-dM-s3u" firstAttribute="top" secondItem="dIe-Xd-fxM" secondAttribute="top" constant="12" id="jKd-gQ-f2j"/>
-                            <constraint firstItem="JUe-tV-TVr" firstAttribute="leading" secondItem="tGk-pX-LM6" secondAttribute="trailing" constant="10" id="ocu-AF-jr8"/>
+                            <constraint firstItem="JUe-tV-TVr" firstAttribute="leading" secondItem="R8B-dM-s3u" secondAttribute="leading" constant="33" id="ocu-AF-jr8"/>
                             <constraint firstItem="tGk-pX-LM6" firstAttribute="leading" secondItem="dIe-Xd-fxM" secondAttribute="leading" constant="8" id="rLG-Ug-Qnt"/>
                             <constraint firstAttribute="trailing" secondItem="UD6-fb-sr6" secondAttribute="trailing" constant="15" id="wIg-s5-lvu"/>
                         </constraints>
@@ -69,6 +69,7 @@
                 <outlet property="DIDNameLabel" destination="R8B-dM-s3u" id="nlG-5u-lqQ"/>
                 <outlet property="stateLabel" destination="tGk-pX-LM6" id="pO5-Av-Cf7"/>
                 <outlet property="timeLabel" destination="JUe-tV-TVr" id="EDd-oa-Zxb"/>
+                <outlet property="timeLeftConOff" destination="ocu-AF-jr8" id="gO9-5C-3cw"/>
             </connections>
             <point key="canvasLocation" x="139" y="123"/>
         </tableViewCell>

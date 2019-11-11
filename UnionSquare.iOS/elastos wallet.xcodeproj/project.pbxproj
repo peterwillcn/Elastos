@@ -428,6 +428,10 @@
 		428BA711229B84C00091618F /* invokedUrlCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA710229B84C00091618F /* invokedUrlCommand.m */; };
 		428BA726229B91190091618F /* PluginResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA725229B91190091618F /* PluginResult.m */; };
 		428BA729229B92530091618F /* JSON_private.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA727229B92530091618F /* JSON_private.m */; };
+		4296F1072375429800B2CE7D /* HWMshowIntroductionInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4296F1052375429800B2CE7D /* HWMshowIntroductionInfoViewController.m */; };
+		4296F1082375429800B2CE7D /* HWMshowIntroductionInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4296F1062375429800B2CE7D /* HWMshowIntroductionInfoViewController.xib */; };
+		4296F10C2375482900B2CE7D /* HWMShowSocialAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4296F10A2375482900B2CE7D /* HWMShowSocialAccountViewController.m */; };
+		4296F10D2375482900B2CE7D /* HWMShowSocialAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4296F10B2375482900B2CE7D /* HWMShowSocialAccountViewController.xib */; };
 		42A767952314FE50005FC764 /* HMWCRCommitteeMemberListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42A767932314FE50005FC764 /* HMWCRCommitteeMemberListViewController.mm */; };
 		42A767962314FE50005FC764 /* HMWCRCommitteeMemberListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A767942314FE50005FC764 /* HMWCRCommitteeMemberListViewController.xib */; };
 		42A7679A2315293F005FC764 /* HWMCRRegisteredViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42A767982315293F005FC764 /* HWMCRRegisteredViewController.mm */; };
@@ -1240,6 +1244,12 @@
 		428BA725229B91190091618F /* PluginResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PluginResult.m; sourceTree = "<group>"; };
 		428BA727229B92530091618F /* JSON_private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSON_private.m; sourceTree = "<group>"; };
 		428BA728229B92530091618F /* JSON_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON_private.h; sourceTree = "<group>"; };
+		4296F1042375429800B2CE7D /* HWMshowIntroductionInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMshowIntroductionInfoViewController.h; sourceTree = "<group>"; };
+		4296F1052375429800B2CE7D /* HWMshowIntroductionInfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMshowIntroductionInfoViewController.m; sourceTree = "<group>"; };
+		4296F1062375429800B2CE7D /* HWMshowIntroductionInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMshowIntroductionInfoViewController.xib; sourceTree = "<group>"; };
+		4296F1092375482900B2CE7D /* HWMShowSocialAccountViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMShowSocialAccountViewController.h; sourceTree = "<group>"; };
+		4296F10A2375482900B2CE7D /* HWMShowSocialAccountViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMShowSocialAccountViewController.m; sourceTree = "<group>"; };
+		4296F10B2375482900B2CE7D /* HWMShowSocialAccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMShowSocialAccountViewController.xib; sourceTree = "<group>"; };
 		42A767922314FE50005FC764 /* HMWCRCommitteeMemberListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMWCRCommitteeMemberListViewController.h; sourceTree = "<group>"; };
 		42A767932314FE50005FC764 /* HMWCRCommitteeMemberListViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HMWCRCommitteeMemberListViewController.mm; sourceTree = "<group>"; };
 		42A767942314FE50005FC764 /* HMWCRCommitteeMemberListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HMWCRCommitteeMemberListViewController.xib; sourceTree = "<group>"; };
@@ -1759,6 +1769,12 @@
 				42A7A858236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.h */,
 				42A7A859236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.m */,
 				42A7A85A236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.xib */,
+				4296F1042375429800B2CE7D /* HWMshowIntroductionInfoViewController.h */,
+				4296F1052375429800B2CE7D /* HWMshowIntroductionInfoViewController.m */,
+				4296F1062375429800B2CE7D /* HWMshowIntroductionInfoViewController.xib */,
+				4296F1092375482900B2CE7D /* HWMShowSocialAccountViewController.h */,
+				4296F10A2375482900B2CE7D /* HWMShowSocialAccountViewController.m */,
+				4296F10B2375482900B2CE7D /* HWMShowSocialAccountViewController.xib */,
 				42186FDD22BCADBB0063A28D /* AboutELAWalletViewController.h */,
 				42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.mm */,
 				42186FDF22BCADBB0063A28D /* AboutELAWalletViewController.xib */,
@@ -3453,6 +3469,7 @@
 				428B4D8222CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.xib in Resources */,
 				4202CA2921F6EF2A009E5932 /* HMWNotAddContactTableViewCell.xib in Resources */,
 				428573292366ED7C00C0CF80 /* HWMAddSocialAccountViewController.xib in Resources */,
+				4296F1082375429800B2CE7D /* HWMshowIntroductionInfoViewController.xib in Resources */,
 				4202CA4E21F6EF2A009E5932 /* FLQRVC.strings in Resources */,
 				42EA69452313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.xib in Resources */,
 				4202CA8A21F6EF2B009E5932 /* HMWsettingKeyStorePWDViewController.xib in Resources */,
@@ -3463,6 +3480,7 @@
 				428B4D8722CB0B12004AE7D0 /* HWMSignThePurseViewController.xib in Resources */,
 				428B4D9722CB2E98004AE7D0 /* HWMaddSignThePurseViewTableViewCell.xib in Resources */,
 				4202CA2B21F6EF2A009E5932 /* HMWmyContactListTableViewCell.xib in Resources */,
+				4296F10D2375482900B2CE7D /* HWMShowSocialAccountViewController.xib in Resources */,
 				4202CAC221F6EF2B009E5932 /* HMWinputVotesPopupWindowView.xib in Resources */,
 				428573242366D6E100C0CF80 /* HWMAddPersonalProfileViewController.xib in Resources */,
 				428B4D9C22CB35C0004AE7D0 /* HWMaddSignThePursefootView.xib in Resources */,
@@ -3553,6 +3571,7 @@
 				4287BB402328E10F00FF1F7D /* MJRefreshConfig.m in Sources */,
 				CBD48D6721FC634D00BF3B11 /* FLVoteTicketTransferVC.mm in Sources */,
 				4202CA9321F6EF2B009E5932 /* HMWCopyKeyStoreViewController.m in Sources */,
+				4296F10C2375482900B2CE7D /* HWMShowSocialAccountViewController.m in Sources */,
 				424910E72271BFCF00C41E50 /* SDWebImageManager.m in Sources */,
 				4202CA5D21F6EF2A009E5932 /* HMWpwdPopupView.m in Sources */,
 				42B57AB822150C1C004CF089 /* NSObject+NSNotificationCrash.m in Sources */,
@@ -3719,6 +3738,7 @@
 				4287BB472328E10F00FF1F7D /* MJRefreshBackNormalFooter.m in Sources */,
 				4202CA9D21F6EF2B009E5932 /* FLSelectWordView.m in Sources */,
 				4202CAB121F6EF2B009E5932 /* FirstViewController.mm in Sources */,
+				4296F1072375429800B2CE7D /* HWMshowIntroductionInfoViewController.m in Sources */,
 				4228AA5121F88C87002866B5 /* UIGestureRecognizer+YYAdd.m in Sources */,
 				70F8409621BEAA1B001C0BD6 /* ELWalletManager.mm in Sources */,
 				42A7A856236AE3BD0034A900 /* HWMConfidentialInformationViewController.m in Sources */,

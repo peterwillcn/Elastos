@@ -127,6 +127,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     if (!_dataListView) {
         _dataListView =[[HWMDIDDataListView alloc]init];
         _dataListView.delegate=self;
+        _dataListView.ListViewType=DIDDataType;
     }
     return _dataListView;
 }
@@ -285,7 +286,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     AddTheCurrencyListVC.didType=@"didType";
     AddTheCurrencyListVC.delegate=self;
     self.wallerSelectIndex=-1;
-    [self.navigationController popToViewController:AddTheCurrencyListVC animated:YES];
+    [self.navigationController pushViewController:AddTheCurrencyListVC animated:YES];
 
     
     
@@ -303,7 +304,6 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
                 self.wallerSelectIndex=i;
             }
         }
-        self.wallerSelectIndex=[self.walletListArray indexOfObject:walletID];
         [self.table reloadData];
     }
 }

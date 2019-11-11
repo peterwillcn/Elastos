@@ -43,6 +43,7 @@
 #define PongUrl @"http://54.223.158.189:5739/"
 #define Http_IP   @"https://54.223.244.60"
 #else
+//"RegTest","PrvNet","TestNet","MainNet"
 #define SDKNET  "MainNet"
 //regtext
 #define Http_IP @"https://unionsquare.elastos.org"

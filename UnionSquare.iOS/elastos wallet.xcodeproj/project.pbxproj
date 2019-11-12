@@ -57,7 +57,7 @@
 		4202CA2C21F6EF2A009E5932 /* friendsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C89821F6EF28009E5932 /* friendsModel.m */; };
 		4202CA2D21F6EF2A009E5932 /* HMWQrCodePopupWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C89B21F6EF28009E5932 /* HMWQrCodePopupWindowView.m */; };
 		4202CA2E21F6EF2A009E5932 /* HMWQrCodePopupWindowView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C89C21F6EF28009E5932 /* HMWQrCodePopupWindowView.xib */; };
-		4202CA2F21F6EF2A009E5932 /* FLMyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C89E21F6EF29009E5932 /* FLMyVC.m */; };
+		4202CA2F21F6EF2A009E5932 /* FLMyVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C89E21F6EF29009E5932 /* FLMyVC.mm */; };
 		4202CA3021F6EF2A009E5932 /* HMWtheContactInformationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C8A021F6EF29009E5932 /* HMWtheContactInformationViewController.xib */; };
 		4202CA3121F6EF2A009E5932 /* FLChoseOrVoteVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C8A221F6EF29009E5932 /* FLChoseOrVoteVC.xib */; };
 		4202CA3221F6EF2A009E5932 /* FLSugarTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C8A721F6EF29009E5932 /* FLSugarTableCell.xib */; };
@@ -383,7 +383,7 @@
 		428573242366D6E100C0CF80 /* HWMAddPersonalProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 428573222366D6E100C0CF80 /* HWMAddPersonalProfileViewController.xib */; };
 		428573282366ED7C00C0CF80 /* HWMAddSocialAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428573262366ED7C00C0CF80 /* HWMAddSocialAccountViewController.m */; };
 		428573292366ED7C00C0CF80 /* HWMAddSocialAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 428573272366ED7C00C0CF80 /* HWMAddSocialAccountViewController.xib */; };
-		4285732D2366F56500C0CF80 /* HWMDIDListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4285732B2366F56500C0CF80 /* HWMDIDListViewController.m */; };
+		4285732D2366F56500C0CF80 /* HWMDIDListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4285732B2366F56500C0CF80 /* HWMDIDListViewController.mm */; };
 		4285732E2366F56500C0CF80 /* HWMDIDListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4285732C2366F56500C0CF80 /* HWMDIDListViewController.xib */; };
 		4287BB3E2328E10F00FF1F7D /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 4287BB0E2328E10F00FF1F7D /* UIScrollView+MJRefresh.m */; };
 		4287BB3F2328E10F00FF1F7D /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 4287BB0F2328E10F00FF1F7D /* MJRefreshConst.m */; };
@@ -604,7 +604,7 @@
 		4202C89B21F6EF28009E5932 /* HMWQrCodePopupWindowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMWQrCodePopupWindowView.m; sourceTree = "<group>"; };
 		4202C89C21F6EF28009E5932 /* HMWQrCodePopupWindowView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMWQrCodePopupWindowView.xib; sourceTree = "<group>"; };
 		4202C89D21F6EF29009E5932 /* HMWQrCodePopupWindowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMWQrCodePopupWindowView.h; sourceTree = "<group>"; };
-		4202C89E21F6EF29009E5932 /* FLMyVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLMyVC.m; sourceTree = "<group>"; };
+		4202C89E21F6EF29009E5932 /* FLMyVC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FLMyVC.mm; sourceTree = "<group>"; };
 		4202C89F21F6EF29009E5932 /* HMWtheContactInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMWtheContactInformationViewController.h; sourceTree = "<group>"; };
 		4202C8A021F6EF29009E5932 /* HMWtheContactInformationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMWtheContactInformationViewController.xib; sourceTree = "<group>"; };
 		4202C8A221F6EF29009E5932 /* FLChoseOrVoteVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FLChoseOrVoteVC.xib; sourceTree = "<group>"; };
@@ -1164,7 +1164,7 @@
 		428573262366ED7C00C0CF80 /* HWMAddSocialAccountViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMAddSocialAccountViewController.m; sourceTree = "<group>"; };
 		428573272366ED7C00C0CF80 /* HWMAddSocialAccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMAddSocialAccountViewController.xib; sourceTree = "<group>"; };
 		4285732A2366F56500C0CF80 /* HWMDIDListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMDIDListViewController.h; sourceTree = "<group>"; };
-		4285732B2366F56500C0CF80 /* HWMDIDListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMDIDListViewController.m; sourceTree = "<group>"; };
+		4285732B2366F56500C0CF80 /* HWMDIDListViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HWMDIDListViewController.mm; sourceTree = "<group>"; };
 		4285732C2366F56500C0CF80 /* HWMDIDListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMDIDListViewController.xib; sourceTree = "<group>"; };
 		4287BB0E2328E10F00FF1F7D /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
 		4287BB0F2328E10F00FF1F7D /* MJRefreshConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshConst.m; sourceTree = "<group>"; };
@@ -1741,7 +1741,7 @@
 			children = (
 				4202C88621F6EF28009E5932 /* cell */,
 				4202C88521F6EF28009E5932 /* FLMyVC.h */,
-				4202C89E21F6EF29009E5932 /* FLMyVC.m */,
+				4202C89E21F6EF29009E5932 /* FLMyVC.mm */,
 				422C463D235DBB29000523DB /* HWMCreateDIDViewController.h */,
 				422C463E235DBB29000523DB /* HWMCreateDIDViewController.mm */,
 				422C463F235DBB29000523DB /* HWMCreateDIDViewController.xib */,
@@ -1755,7 +1755,7 @@
 				428573262366ED7C00C0CF80 /* HWMAddSocialAccountViewController.m */,
 				428573272366ED7C00C0CF80 /* HWMAddSocialAccountViewController.xib */,
 				4285732A2366F56500C0CF80 /* HWMDIDListViewController.h */,
-				4285732B2366F56500C0CF80 /* HWMDIDListViewController.m */,
+				4285732B2366F56500C0CF80 /* HWMDIDListViewController.mm */,
 				4285732C2366F56500C0CF80 /* HWMDIDListViewController.xib */,
 				4253EE5623696C88005B774A /* HWMDIDInfoViewController.h */,
 				4253EE5723696C88005B774A /* HWMDIDInfoViewController.m */,
@@ -3663,7 +3663,7 @@
 				4202CA7121F6EF2B009E5932 /* HMWtransferTransactionDetailsViewController.m in Sources */,
 				4202CA9121F6EF2B009E5932 /* HMWsettingKeyStorePWDViewController.mm in Sources */,
 				4253EE502369399E005B774A /* HWMDIDListNormalTableViewCell.m in Sources */,
-				4285732D2366F56500C0CF80 /* HWMDIDListViewController.m in Sources */,
+				4285732D2366F56500C0CF80 /* HWMDIDListViewController.mm in Sources */,
 				423F432D2330D25C0081D8E2 /* HWMQRModel.m in Sources */,
 				426365BF22D82FC200352396 /* UIButton+HMWButton.m in Sources */,
 				4202CAD421F6EF2B009E5932 /* FLSelectSuperPointVC.mm in Sources */,
@@ -3723,7 +3723,7 @@
 				4228AA5021F88C87002866B5 /* UIBarButtonItem+YYAdd.m in Sources */,
 				4287BB4D2328E10F00FF1F7D /* MJRefreshGifHeader.m in Sources */,
 				4202CA4C21F6EF2A009E5932 /* FLCopyPrivateKeyView.m in Sources */,
-				4202CA2F21F6EF2A009E5932 /* FLMyVC.m in Sources */,
+				4202CA2F21F6EF2A009E5932 /* FLMyVC.mm in Sources */,
 				4202CA7C21F6EF2B009E5932 /* HMWAddressListViewController.m in Sources */,
 				42B57AB922150C1C004CF089 /* WOCrashLog.m in Sources */,
 				4287BB4B2328E10F00FF1F7D /* MJRefreshNormalHeader.m in Sources */,

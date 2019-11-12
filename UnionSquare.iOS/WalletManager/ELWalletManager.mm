@@ -2381,10 +2381,12 @@ errCodeSPVCreateMasterWalletError= 20006;
     int idx = 0;
     String masterWalletID = [self cstringWithString:args[idx++]];
     String chainID        = [self cstringWithString:args[idx++]];
-    IIdChainSubWallet *idChainSubW=[self getIdChainSubWallet:masterWalletID :chainID];
+    int    start          = [args[idx++] intValue];
+       int    count          = [args[idx++] intValue];
+    IIdChainSubWallet *idChainSubW=[self getIdChainSubWallet:masterWalletID:chainID];
      Json result;
       try {
-          result =  idChainSubW->GetAllDID(0, 100);
+          result =  idChainSubW->GetAllDID(start, count);
       } catch (const std:: exception & e ) {
           return  [self errInfoToDic:e.what() with:command];
       }
@@ -2397,10 +2399,13 @@ errCodeSPVCreateMasterWalletError= 20006;
        int idx = 0;
        String masterWalletID = [self cstringWithString:args[idx++]];
        String chainID        = [self cstringWithString:args[idx++]];
+       String did            = [self cstringWithString:args[idx++]];
+       int    start          = [args[idx++] intValue];
+       int    count          = [args[idx++] intValue];
        IIdChainSubWallet *idChainSubW=[self getIdChainSubWallet:masterWalletID :chainID];
         Json result;
          try {
-//             result =  idChainSubW->GetResolveDIDInfo(<#uint32_t start#>, <#uint32_t count#>, <#const std::string &did#>)(0, 100);
+             result =  idChainSubW->GetResolveDIDInfo(start, count, did);
          } catch (const std:: exception & e ) {
              return  [self errInfoToDic:e.what() with:command];
          }

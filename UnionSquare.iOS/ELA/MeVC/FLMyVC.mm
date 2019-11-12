@@ -18,6 +18,7 @@
 #import "AboutELAWalletViewController.h"
 #import "HWMCreateDIDViewController.h"
 #import "HWMDIDListViewController.h"
+#import "ELWalletManager.h"
 
 static NSString *MyIncomeOrWealthCell=@"HMWMyIncomeOrWealthTableViewCell";
 static NSString *LanguageCell=@"HMWClassificationOfLanguageTableViewCell";
@@ -42,6 +43,15 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
  *<# #>
  */
 @property(strong,nonatomic)NSIndexPath *selectIndex;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)NSMutableArray *walletListArray;
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)BOOL hasDID;
+
 @end
 
 @implementation FLMyVC
@@ -51,17 +61,64 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
    self.theContactOpen=NO;
     
     self.title= NSLocalizedString(@"我的", nil);
-
+    self.hasDID=NO;
     
     self.languageOpen =[[NSUserDefaults standardUserDefaults] objectForKey:@"isOpen"];
     
-  [self makeUI];
+    [self makeUI];
     [self.table reloadData];
-    
     [self setBackgroundImg:@""];
-
-   
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(myfriendNeedUpdateInfo) name:myfriendNeedUpdate object:nil];
+    [self getDIDListArray];
+}
+-(void)getDIDListArray{
+    for (FMDBWalletModel *model in self.walletListArray) {
+        invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[model.walletID,@"IDChain",@"0",@"100"] callbackId:model.walletID className:@"wallet" methodName:@"createMasterWallet"];
+          PluginResult * resultBase =[[ELWalletManager share]getDetailsDIDlist:cmommand];
+            NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
+        
+        if ([statusBase isEqualToString:@"1"] ) {
+            
+        }
+        
+    }
+}
+
+-(NSMutableArray *)walletListArray{
+    if (!_walletListArray) {
+        NSArray *allWalletListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+        _walletListArray=[[NSMutableArray alloc]init];
+       for (int i=0; i<allWalletListArray.count; i++) {
+              FMDBWalletModel *model=allWalletListArray[i];
+              invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[model.walletID] callbackId:model.walletID className:@"wallet" methodName:@"createMasterWallet"];
+              PluginResult * resultBase =[[ELWalletManager share]getMasterWalletBasicInfo:cmommand];
+              NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
+              NSDictionary *baseDic=[[NSDictionary alloc]init];
+              if ([statusBase isEqualToString:@"1"] ) {
+                  baseDic=[[FLTools share]dictionaryWithJsonString:resultBase.message[@"success"]];
+                  NSString *Readonly=[NSString stringWithFormat:@"%@",baseDic[@"Readonly"]];
+                  if ([Readonly isEqualToString:@"0"]) {
+                      if ([baseDic[@"M"] integerValue]==1) {
+                          model.TypeW=SingleSign;
+                          [_walletListArray addObject:model];
+                      }else{
+                          model.TypeW=HowSign;
+                 
+                      }
+                  }else{
+                      if ([baseDic[@"M"] integerValue]==1) {
+                          model.TypeW=SingleSignReadonly;
+                      }else{
+                          model.TypeW=HowSignReadonly;
+                      }
+                  }
+              }
+              
+              
+          
+          }
+    }
+    return _walletListArray;
 }
 -(void)myfriendNeedUpdateInfo{
     [self.theContactMutableArray removeAllObjects];

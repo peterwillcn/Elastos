@@ -9,6 +9,8 @@
 #import "HWMDIDListAbnormalTableViewCell.h"
 #import "HWMCreateDIDViewController.h"
 #import "HWMDIDListNormalTableViewCell.h"
+#import "HMWFMDBManager.h"
+#import "ELWalletManager.h"
 static NSString *AbnormalCellString=@"HWMDIDListAbnormalTableViewCell";
 static NSString *normalCellString=@"HWMDIDListNormalTableViewCell";
 
@@ -30,6 +32,14 @@ static NSString *normalCellString=@"HWMDIDListNormalTableViewCell";
  *<# #>
  */
 @property(assign,nonatomic)BOOL isRel;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)NSMutableArray *walletListArray;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)NSMutableArray *RelDIDArray;
 
 @end
 
@@ -47,6 +57,48 @@ static NSString *normalCellString=@"HWMDIDListNormalTableViewCell";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mine_did_add"] style:UIBarButtonItemStyleDone target:self action:@selector(creatDIDEvent)];
     [self selectHasBeenReleased];
 }
+-(NSMutableArray *)RelDIDArray{
+    if (_RelDIDArray) {
+        _RelDIDArray =[[NSMutableArray alloc]init];
+    }
+    return _RelDIDArray;
+}
+-(NSMutableArray *)walletListArray{
+    if (!_walletListArray) {
+        NSArray *allWalletListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+        _walletListArray=[[NSMutableArray alloc]init];
+       for (int i=0; i<allWalletListArray.count; i++) {
+              FMDBWalletModel *model=allWalletListArray[i];
+              invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[model.walletID] callbackId:model.walletID className:@"wallet" methodName:@"createMasterWallet"];
+              PluginResult * resultBase =[[ELWalletManager share]getMasterWalletBasicInfo:cmommand];
+              NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
+              NSDictionary *baseDic=[[NSDictionary alloc]init];
+              if ([statusBase isEqualToString:@"1"] ) {
+                  baseDic=[[FLTools share]dictionaryWithJsonString:resultBase.message[@"success"]];
+                  NSString *Readonly=[NSString stringWithFormat:@"%@",baseDic[@"Readonly"]];
+                  if ([Readonly isEqualToString:@"0"]) {
+                      if ([baseDic[@"M"] integerValue]==1) {
+                          model.TypeW=SingleSign;
+                          [_walletListArray addObject:model];
+                      }else{
+                          model.TypeW=HowSign;
+                 
+                      }
+                  }else{
+                      if ([baseDic[@"M"] integerValue]==1) {
+                          model.TypeW=SingleSignReadonly;
+                      }else{
+                          model.TypeW=HowSignReadonly;
+                      }
+                  }
+              }
+              
+              
+          
+          }
+    }
+    return _walletListArray;
+}
 -(void)makeUI{
     [self.table registerNib:[UINib nibWithNibName:normalCellString bundle:nil] forCellReuseIdentifier:normalCellString];
         [self.table registerNib:[UINib nibWithNibName:AbnormalCellString bundle:nil] forCellReuseIdentifier:AbnormalCellString];
@@ -54,6 +106,7 @@ static NSString *normalCellString=@"HWMDIDListNormalTableViewCell";
        self.table.delegate =self;
        self.table.dataSource =self;
     self.table.backgroundColor=[UIColor clearColor];
+//    self.table.tableHeaderView
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

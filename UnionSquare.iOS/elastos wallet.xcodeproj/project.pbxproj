@@ -1071,12 +1071,6 @@
 		4250B3EC2238D32600B6858F /* ZBarSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBarSDK.h; sourceTree = "<group>"; };
 		4250B3ED2238D32600B6858F /* ZBarReaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBarReaderViewController.h; sourceTree = "<group>"; };
 		4250B3F82238D3E900B6858F /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
-		425CE7F1230D2290009C2979 /* NENSinglePinger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NENSinglePinger.m; sourceTree = "<group>"; };
-		425CE7F2230D2290009C2979 /* SimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePing.h; sourceTree = "<group>"; };
-		425CE7F3230D2290009C2979 /* NENPingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NENPingManager.h; sourceTree = "<group>"; };
-		425CE7F4230D2290009C2979 /* SimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePing.m; sourceTree = "<group>"; };
-		425CE7F5230D2290009C2979 /* NENSinglePinger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NENSinglePinger.h; sourceTree = "<group>"; };
-		425CE7F6230D2290009C2979 /* NENPingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NENPingManager.m; sourceTree = "<group>"; };
 		425CE7FA230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTheValidationWordMnemonicPassword.h; sourceTree = "<group>"; };
 		425CE7FB230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTheValidationWordMnemonicPassword.m; sourceTree = "<group>"; };
 		425CE7FD230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTheValidationWordMnemonicPassword.xib; sourceTree = "<group>"; };
@@ -1474,7 +1468,6 @@
 				42EE1BBA23385FC200CFC8D7 /* PingManager */,
 				4287BB0D2328E10F00FF1F7D /* MJRefresh */,
 				4288D0B3230E946A00E8CC7A /* HW3DBannerView */,
-				425CE7F0230D2290009C2979 /* NenPingManager */,
 				424910C22271BFCF00C41E50 /* SDWebImage */,
 				4250B3C62238D32600B6858F /* ZBar */,
 				42B57A9322150C1C004CF089 /* WOCrashProtector */,
@@ -2785,20 +2778,6 @@
 				4250B3E42238D32600B6858F /* Image.h */,
 			);
 			path = zbar;
-			sourceTree = "<group>";
-		};
-		425CE7F0230D2290009C2979 /* NenPingManager */ = {
-			isa = PBXGroup;
-			children = (
-				425CE7F1230D2290009C2979 /* NENSinglePinger.m */,
-				425CE7F2230D2290009C2979 /* SimplePing.h */,
-				425CE7F3230D2290009C2979 /* NENPingManager.h */,
-				425CE7F4230D2290009C2979 /* SimplePing.m */,
-				425CE7F5230D2290009C2979 /* NENSinglePinger.h */,
-				425CE7F6230D2290009C2979 /* NENPingManager.m */,
-			);
-			name = NenPingManager;
-			path = "../../../../Downloads/NenPingManager-master/NENPingDemo/NenPingManager";
 			sourceTree = "<group>";
 		};
 		4264A73B221BDBBF008D5C7B /* languageTool */ = {

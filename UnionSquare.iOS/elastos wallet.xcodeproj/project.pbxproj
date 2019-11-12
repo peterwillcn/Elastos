@@ -385,6 +385,7 @@
 		428573292366ED7C00C0CF80 /* HWMAddSocialAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 428573272366ED7C00C0CF80 /* HWMAddSocialAccountViewController.xib */; };
 		4285732D2366F56500C0CF80 /* HWMDIDListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4285732B2366F56500C0CF80 /* HWMDIDListViewController.mm */; };
 		4285732E2366F56500C0CF80 /* HWMDIDListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4285732C2366F56500C0CF80 /* HWMDIDListViewController.xib */; };
+		4281BC5D237A86EA00D570D3 /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ECD237794A1003BB3BA /* libsqlite3.a */; };
 		4287BB3E2328E10F00FF1F7D /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 4287BB0E2328E10F00FF1F7D /* UIScrollView+MJRefresh.m */; };
 		4287BB3F2328E10F00FF1F7D /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 4287BB0F2328E10F00FF1F7D /* MJRefreshConst.m */; };
 		4287BB402328E10F00FF1F7D /* MJRefreshConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 4287BB102328E10F00FF1F7D /* MJRefreshConfig.m */; };
@@ -486,7 +487,6 @@
 		C45E4ED7237794E1003BB3BA /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ECC237794A1003BB3BA /* libcrypto.a */; };
 		C45E4ED8237794ED003BB3BA /* libfruit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ECF237794A1003BB3BA /* libfruit.a */; };
 		C45E4ED9237794FF003BB3BA /* libspdlog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ECE237794A1003BB3BA /* libspdlog.a */; };
-		C45E4EDA2377950C003BB3BA /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ECD237794A1003BB3BA /* libsqlite3.a */; };
 		C45E4EDB2377951B003BB3BA /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ED2237794A1003BB3BA /* libssl.a */; };
 		CBD25EFD221542F500EDA0F5 /* FLChangeVotedTicketsVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = CBD25EFB221542F500EDA0F5 /* FLChangeVotedTicketsVC.mm */; };
 		CBD25EFE221542F500EDA0F5 /* FLChangeVotedTicketsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBD25EFC221542F500EDA0F5 /* FLChangeVotedTicketsVC.xib */; };
@@ -1398,6 +1398,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4281BC5D237A86EA00D570D3 /* libsqlite3.a in Frameworks */,
 				C45E4EDB2377951B003BB3BA /* libssl.a in Frameworks */,
 				425DFB1B23716685001CEF76 /* libc++abi.tbd in Frameworks */,
 				42A7840522F7FF26008F2F94 /* libspvsdk.a in Frameworks */,
@@ -1405,7 +1406,6 @@
 				4261CF4022A16066006B1DDE /* Security.framework in Frameworks */,
 				4261CF3E22A1605D006B1DDE /* SystemConfiguration.framework in Frameworks */,
 				4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */,
-				C45E4EDA2377950C003BB3BA /* libsqlite3.a in Frameworks */,
 				C45E4ED4237794B9003BB3BA /* libboost_filesystem.a in Frameworks */,
 				C45E4ED6237794D5003BB3BA /* libboost_thread.a in Frameworks */,
 				C45E4ED5237794C7003BB3BA /* libboost_system.a in Frameworks */,
@@ -3937,6 +3937,7 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
@@ -3984,6 +3985,7 @@
 					"$(PROJECT_DIR)/ELA/ThirdSDK/ZBar/ZBarSDK",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
@@ -4095,6 +4097,7 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
@@ -4189,6 +4192,7 @@
 					"$(PROJECT_DIR)/ELA/ThirdSDK/ZBar/ZBarSDK",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/iOS/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",

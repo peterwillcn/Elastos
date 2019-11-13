@@ -78,7 +78,10 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
             NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
         
         if ([statusBase isEqualToString:@"1"] ) {
-            
+              self.hasDID=YES;
+            NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:0];
+               [self.table reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+            return;
         }
         
     }
@@ -327,6 +330,11 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
         cell.subImag.alpha=1.f;
         cell.pwdSwitch.alpha=0.f;
     }
+    if (indexPath.section==0&&self.hasDID==NO) {
+        cell.stastuLabel.text=NSLocalizedString(@"暂无", nil);
+    }else if (indexPath.section==0&&self.hasDID){
+        cell.stastuLabel.alpha=0.f;
+    }
     return cell;
 }
 
@@ -380,11 +388,13 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
                                          [self.navigationController pushViewController:AboutELAWalletVC animated:YES];
                          
      }else if ([name isEqualToString:NSLocalizedString(@"DID", nil)]){
-         HWMDIDListViewController *DIDListVC=[[HWMDIDListViewController alloc]init];
-         [self.navigationController pushViewController:DIDListVC animated:YES];
-//         HWMCreateDIDViewController * HWMCreateDIDVC=[[HWMCreateDIDViewController alloc]init];
-//         [self.navigationController pushViewController:HWMCreateDIDVC animated:YES];
-         
+         if (self.hasDID) {
+             HWMDIDListViewController *DIDListVC=[[HWMDIDListViewController alloc]init];
+        [self.navigationController pushViewController:DIDListVC animated:YES];
+         }else{
+         HWMCreateDIDViewController * HWMCreateDIDVC=[[HWMCreateDIDViewController alloc]init];
+         [self.navigationController pushViewController:HWMCreateDIDVC animated:YES];
+         }
      }else if ([name isEqualToString:NSLocalizedString(@"手势密码", nil)]){
          
      }

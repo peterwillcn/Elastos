@@ -10,13 +10,20 @@ import json
 sys.path.append(os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + '/../lib'))
 import ela_did
 
+try:
+    unicode
+except NameError:
+    # Define `unicode` for Python3
+    def unicode(s, *_):
+        return s
+
 if __name__ == "__main__":
     try:
         did_api = ela_did.getElaDIDAPI()
         parser = argparse.ArgumentParser(description='Create an Elastos DID.', formatter_class=argparse.RawTextHelpFormatter)
         parser.add_argument('-r', '--root', dest='did_store_root', metavar='PATH', required=True,
                             help='Specify the root path of DID store.')
-        parser.add_argument('-m', '--mnemonic', dest='mnemonic',
+        parser.add_argument('-m', '--mnemonic', dest='mnemonic', type=lambda s: unicode(s, 'utf8'),
                             help='Mnemonic for generate key. Default: randomly generated.')
         parser.add_argument('-l', '--language', dest='language', metavar='N', type=int, default=0, choices=range(0, 6),
                             help=textwrap.dedent('''\

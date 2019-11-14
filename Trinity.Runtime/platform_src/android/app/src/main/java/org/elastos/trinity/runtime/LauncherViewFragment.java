@@ -72,17 +72,14 @@ import java.util.Locale;
 
         for(PluginEntry entry:entries) {
             if (entry.service.equals("AppManager")) {
-                basePlugin = new AppBasePlugin("launcher", true);
+                basePlugin = new AppBasePlugin();
+                basePlugin.setIsLauncher(true);
                 pluginEntries.add(new PluginEntry(entry.service, entry.pluginClass, true, basePlugin));
-                cfgPluginEntries.add(entry);
-            }
-            else if (entry.service.equals("AppService")) {
-                cfgPluginEntries.add(entry);
             }
             else {
                 pluginEntries.add(entry);
-                cfgPluginEntries.add(entry);
             }
+            cfgPluginEntries.add(entry);
         }
 
         String logLevel = preferences.getString("loglevel", "ERROR");

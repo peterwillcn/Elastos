@@ -37,11 +37,6 @@ import java.util.ArrayList;
  public class AppViewFragment extends WebViewFragment {
     public static String TAG = "AppViewFragment";
 
-     final String[] managerAccessList = {
-             "org.elastos.trinity.dapp.installer",
-            //  "org.elastos.trinity.remote.launcher",
-     };
-
     View titlebar;
 
     public static WebViewFragment newInstance(String id) {
@@ -112,16 +107,6 @@ import java.util.ArrayList;
         return false;
     }
 
-    private boolean isManagerAccess(String id) {
-        String appid = id.toLowerCase();
-        for (String item : managerAccessList) {
-            if (item.equals(appid)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     protected void loadConfig() {
         pluginEntries = new ArrayList<PluginEntry>(20);
@@ -131,25 +116,21 @@ import java.util.ArrayList;
 
         String pluginClass;
         AppWhitelistPlugin whitelistPlugin = new AppWhitelistPlugin(appInfo);
+        PermissionGroup permissionGroup = PermissionManager.getShareInstance().getPermissionGroup(appInfo.app_id);
         for(PluginEntry entry:cfgPluginEntries) {
             if (entry.service.equals("Whitelist")) {
                 pluginEntries.add(new PluginEntry("Whitelist",
                         "org.elastos.plugins.appmanager.AppWhitelistPlugin", entry.onload, whitelistPlugin));
             }
-            else if (entry.service.equals("AppManager") && isManagerAccess(appInfo.app_id)) {
-                basePlugin = new AppBasePlugin(appInfo.app_id, true);
-                pluginEntries.add(new PluginEntry(entry.service, entry.pluginClass, true, basePlugin));
-            }
-            else if (entry.service.equals("AppService") && !isManagerAccess(appInfo.app_id)) {
-                basePlugin = new AppBasePlugin(appInfo.app_id, false);
-                pluginEntries.add(new PluginEntry(entry.service, entry.pluginClass, true, basePlugin));
-            }
             else {
                 pluginClass = entry.pluginClass;
                 CordovaPlugin plugin = null;
-                if (isCheckAuthority(entry.service)) {
+                if (isCheckAuthority(entry.service) || entry.service.equals("AppManager")) {
                     pluginClass = "org.elastos.plugins.appmanager.AuthorityPlugin";
-                    plugin = new AuthorityPlugin(entry.pluginClass, appInfo, entry.service, whitelistPlugin);
+                    plugin = new AuthorityPlugin(entry.pluginClass, appInfo, entry.service, whitelistPlugin, permissionGroup);
+                    if (entry.service.equals("AppManager")) {
+                        basePlugin = (AppBasePlugin)((AuthorityPlugin)plugin).getOriginalPlugin();
+                    }
                 }
                 else {
                     pluginClass = "org.elastos.plugins.appmanager.NullPlugin";

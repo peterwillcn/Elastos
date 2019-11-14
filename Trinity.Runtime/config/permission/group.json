@@ -1,0 +1,53 @@
+{
+    "admin": {},
+    "install": {
+        "AppManager": [
+            "start",
+            "setCurrentLocale",
+            "setPluginAuthority",
+            "setUrlAuthority",
+            "alertPrompt",
+            "infoPrompt",
+            "askPrompt"
+        ],
+        "Wallet": ["*"]
+    },
+    "wallet": {
+        "AppManager": [
+            "start",
+            "closeApp",
+            "getAppInfo",
+            "getAppInfos",
+            "setCurrentLocale",
+            "install",
+            "unInstall",
+            "setPluginAuthority",
+            "setUrlAuthority",
+            "getRunningList",
+            "getAppList",
+            "alertPrompt",
+            "infoPrompt",
+            "askPrompt"
+        ],
+        "+Wallet": ["*"]
+    },
+    "user": {
+        "AppManager": [
+            "start",
+            "closeApp",
+            "getAppInfo",
+            "getAppInfos",
+            "setCurrentLocale",
+            "install",
+            "unInstall",
+            "setPluginAuthority",
+            "setUrlAuthority",
+            "getRunningList",
+            "getAppList",
+            "alertPrompt",
+            "infoPrompt",
+            "askPrompt"
+        ],
+        "Wallet": ["*"]
+    }
+}

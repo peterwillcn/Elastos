@@ -365,9 +365,9 @@ public class AppInstaller {
             throw new Exception("No such app!");
         }
 
-        if (info.built_in == 1) {
-            throw new Exception("App is a built in!");
-        }
+//        if (info.built_in == 1) {
+//            throw new Exception("App is a built in!");
+//        }
         int count = dbAdapter.removeAppInfo(info);
         if (count < 1) {
             throw new Exception("Databashe error!");
@@ -442,24 +442,11 @@ public class AppInstaller {
         }
     }
 
-    private JSONObject getJsonFromFile(InputStream inputStream) throws Exception {
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-        BufferedReader bufReader = new BufferedReader(inputStreamReader);
-        String line;
-        StringBuilder builder = new StringBuilder();
-        while ((line = bufReader.readLine()) != null) {
-            builder.append(line);
-        }
-        bufReader.close();
-        inputStreamReader.close();
-        JSONObject json = new JSONObject(builder.toString());
-        return json;
-    }
 
     public AppInfo parseManifest(InputStream inputStream, int launcher) throws Exception {
         AppInfo appInfo = new AppInfo();
 
-        JSONObject json = getJsonFromFile(inputStream);
+        JSONObject json = Utility.getJsonFromFile(inputStream);
 
         //Must
         appInfo.app_id = getMustStrValue(json, "id");
@@ -552,11 +539,13 @@ public class AppInstaller {
             JSONArray array = json.getJSONArray("urls");
             for (int i = 0; i < array.length(); i++) {
                 String url = array.getString(i);
-                int authority = AppInfo.AUTHORITY_NOINIT;
-                if (isAllowUrl(url)) {
-                    authority = AppInfo.AUTHORITY_ALLOW;
+                if (!url.toLowerCase().startsWith("file:///*")) {
+                    int authority = AppInfo.AUTHORITY_NOINIT;
+                    if (isAllowUrl(url)) {
+                        authority = AppInfo.AUTHORITY_ALLOW;
+                    }
+                    appInfo.addUrl(url, authority);
                 }
-                appInfo.addUrl(url, authority);
             }
         }
 
@@ -646,7 +635,7 @@ public class AppInstaller {
     }
 
     public void parseManifestLocale(InputStream inputStream, AppInfo info) throws Exception {
-        JSONObject jsonObject = getJsonFromFile(inputStream);
+        JSONObject jsonObject = Utility.getJsonFromFile(inputStream);
 
         Boolean exist = false;
         Iterator iterator = jsonObject.keys();

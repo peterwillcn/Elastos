@@ -37,19 +37,13 @@
         for (key, value) in pluginsMap {
             let name = key as! String;
             let className = value as! String;
-            if (name != "appmanager") {
-                AppViewController.originalPluginsMap[name] = className;
-            }
+            AppViewController.originalPluginsMap[name] = className;
         }
-        pluginsMap["appservice"] = nil;
         
         for item in self.startupPluginNames {
             let name = item as! String;
-            if (name != "appmanager") {
-                AppViewController.originalStartupPluginNames.append(name);
-            }
+            AppViewController.originalStartupPluginNames.append(name);
         }
-        self.startupPluginNames.remove("appservice");
         
         AppViewController.originalSettings = self.settings;
         
@@ -58,19 +52,5 @@
         }
         self.startPage = AppManager.getShareInstance().getStartPath(self.appInfo!);
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad();
-        for (name , value) in self.pluginObjects as! [String: CDVPlugin] {
-            if (name == "AppManagerPlugin") {
-                self.basePlugin = value as! AppManagerPlugin;
-                break;
-            }
-        }
         
-    }
-    
-    @objc func getManagerPlugin() -> AppManagerPlugin {
-        return self.basePlugin as! AppManagerPlugin;
-    }
  }

@@ -11,7 +11,6 @@
     "license": "Apache-2.0",
     "dependencies": {
         "appmanager": "file:../Plugins/AppManager",
-        "appservice": "file:../Plugins/AppService",
         "cordova-android": "7.1.4",
         "cordova-clipboard": "1.2.1",
         "cordova-ios": "4.5.5",
@@ -59,10 +58,6 @@
             "elastos-trinity-plugins-appmanager": {
                 "ANDROID_SUPPORT_V4_VERSION": "27.+"
             },
-            "elastos-trinity-plugins-appservice": {},
-            "elastos-trinity-plugins-carrier": {},
-            "elastos-trinity-plugins-hive": {},
-            "elastos-trinity-plugins-did": {},
             "elastos-trinity-plugins-ionicwebview": {
                 "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
             },

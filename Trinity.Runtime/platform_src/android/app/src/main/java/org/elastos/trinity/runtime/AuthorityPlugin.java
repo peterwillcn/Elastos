@@ -47,19 +47,21 @@ public class AuthorityPlugin extends CordovaPlugin {
     private CordovaPlugin originalPlugin = null;
     private AppInfo appInfo = null;
     private String pluginName = null;
+    private PermissionGroup permissionGroup = null;
 
-    AuthorityPlugin(String className, AppInfo info, String name, AppWhitelistPlugin whitelistPlugin) {
+    AuthorityPlugin(String className, AppInfo info, String name,
+                    AppWhitelistPlugin whitelistPlugin, PermissionGroup permissionGroup) {
         appInfo = info;
         pluginName = name;
-        String path = AppManager.getShareInstance().getDataPath(info.app_id);
-        originalPlugin = instantiatePlugin(className, whitelistPlugin, path);
+        originalPlugin = instantiatePlugin(className, whitelistPlugin);
+        this.permissionGroup = permissionGroup;
     }
 
     public CordovaPlugin getOriginalPlugin() {
         return originalPlugin;
     }
 
-    private CordovaPlugin instantiatePlugin(String className, AppWhitelistPlugin whitelistPlugin, String dataPath) {
+    private CordovaPlugin instantiatePlugin(String className, AppWhitelistPlugin whitelistPlugin) {
         CordovaPlugin plugin = null;
         try {
             Class<?> c = null;
@@ -99,7 +101,15 @@ public class AuthorityPlugin extends CordovaPlugin {
         return originalPlugin.getServiceName();
     }
 
-    private boolean checkAuthority(CallbackContext callbackContext) {
+    private boolean checkApiPermission(String action, CallbackContext callbackContext) {
+        boolean ret = permissionGroup.getApiPermission(pluginName, action);
+        if (!ret) {
+            callbackContext.error("'" + pluginName + "." + action + "' have not permssion.");
+        }
+        return ret;
+    }
+
+    private boolean checkAuthority(String action, CallbackContext callbackContext) {
         if (originalPlugin != null) {
             int authority = AppManager.getShareInstance().getPluginAuthority(appInfo.app_id, pluginName);
             if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
@@ -107,7 +117,7 @@ public class AuthorityPlugin extends CordovaPlugin {
             }
 
             if (authority == AppInfo.AUTHORITY_ALLOW) {
-                return true;
+                return checkApiPermission(action,  callbackContext);
             }
             callbackContext.error("Plugin:'" + pluginName + "' have not run authority.");
         }
@@ -116,7 +126,7 @@ public class AuthorityPlugin extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, String rawArgs, CallbackContext callbackContext) throws JSONException {
-        if (checkAuthority(callbackContext)) {
+        if (checkAuthority(action,  callbackContext)) {
             return originalPlugin.execute(action, rawArgs, callbackContext);
         }
         else {
@@ -126,7 +136,7 @@ public class AuthorityPlugin extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if (checkAuthority(callbackContext)) {
+        if (checkAuthority(action,  callbackContext)) {
             return originalPlugin.execute(action, args, callbackContext);
         }
         else {
@@ -136,7 +146,7 @@ public class AuthorityPlugin extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, CordovaArgs args, CallbackContext callbackContext) throws JSONException {
-        if (checkAuthority(callbackContext)) {
+        if (checkAuthority(action,  callbackContext)) {
             return originalPlugin.execute(action, args, callbackContext);
         }
         else {

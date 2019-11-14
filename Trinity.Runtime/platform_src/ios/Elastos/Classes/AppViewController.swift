@@ -28,6 +28,7 @@
     static var originalSettings: NSMutableDictionary?;
 
     var titlebar: TitleBarView?;
+    var permissionGroup: PermissionGroup?;
 
     var trinityPluginsMap = [String: String]();
     let defaultPlugins = [
@@ -37,7 +38,6 @@
         "localstorage",
         "handleopenurl",
         "intentandnavigationfilter",
-        "appservice",
         "authorityplugin",
         "statusbar",
         "splashscreen",
@@ -48,6 +48,7 @@
         self.appInfo = appInfo;
         self.id = appInfo.app_id;
         self.whitelistFilter = filter;
+        self.permissionGroup = PermissionManager.getShareInstance().getPermissionGroup(appInfo.app_id);
     }
 
     override func loadSettings() {
@@ -134,13 +135,6 @@
 
     override func viewDidLoad() {
         super.viewDidLoad();
-        for (name , value) in self.pluginObjects as! [String: CDVPlugin] {
-            if (name == "AppServicePlugin") {
-                let plugin = value as! AppServicePlugin;
-                plugin.setId(id);
-                self.basePlugin = plugin;
-            }
-        }
 
         if (appInfo!.type == "url") {
             addSwipe(UISwipeGestureRecognizer.Direction.left.rawValue);
@@ -173,5 +167,9 @@
             AppManager.getShareInstance().runAlertPluginAuth(appInfo!, pluginName, plugin, command);
         }
         return authority;
+    }
+    
+    func getPermissionGroup() -> PermissionGroup {
+        return self.permissionGroup!;
     }
  }

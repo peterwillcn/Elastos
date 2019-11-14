@@ -90,5 +90,21 @@
 
         return obj as Any;
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad();
+        for (name , value) in self.pluginObjects as! [String: CDVPlugin] {
+            if (name == "AppBasePlugin") {
+                let plugin = value as! AppBasePlugin;
+                plugin.setId(id);
+                self.basePlugin = plugin;
+                break;
+            }
+        }
+    }
+    
+    @objc func getBasePlugin() -> AppBasePlugin {
+        return self.basePlugin!;
+    }
 
  }

@@ -366,12 +366,14 @@
         let urls = json["urls"] as? [String];
         if (urls != nil) {
             for url in urls! {
-                authority = AppInfo.AUTHORITY_NOINIT;
                 let urlString = url.lowercased();
-                if (isAllowUrl(urlString)) {
-                    authority = AppInfo.AUTHORITY_ALLOW;
+                if (!urlString.hasPrefix("file:///*")) {
+                    authority = AppInfo.AUTHORITY_NOINIT;
+                    if (isAllowUrl(urlString)) {
+                        authority = AppInfo.AUTHORITY_ALLOW;
+                    }
+                    appInfo.addUrl(urlString, authority);
                 }
-                appInfo.addUrl(urlString, authority);
             }
         }
 

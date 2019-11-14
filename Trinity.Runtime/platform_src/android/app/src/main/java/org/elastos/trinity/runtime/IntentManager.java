@@ -1,9 +1,16 @@
 package org.elastos.trinity.runtime;
 
+import android.content.Context;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
@@ -15,12 +22,22 @@ public class IntentManager {
     private LinkedHashMap<Long, IntentInfo> intentContextList = new LinkedHashMap();
     private LinkedHashMap<String, ArrayList<Long>> intentIdList = new LinkedHashMap();
 
+    private LinkedHashMap<String, IntentPermission> permissionList = new LinkedHashMap();
+    private Context context = null;
+
     private AppManager appManager;
 
     private static IntentManager intentManager;
 
     IntentManager(AppManager appManager) {
         this.appManager = appManager;
+        this.context = appManager.activity;
+
+        try {
+            parseIntentPermission();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         IntentManager.intentManager = this;
     }
 
@@ -74,23 +91,45 @@ public class IntentManager {
         ids.add(info.intentId);
     }
 
-    public void sendIntent(IntentInfo info) throws Exception {
-        String[] ids = appManager.dbAdapter.getIntentFilter(info.action);
-        if (ids.length < 1) {
-            throw new Exception(info.action + " isn't support!");
+    public String[] getIntentFilter(String action) throws Exception {
+        String[] ids = appManager.dbAdapter.getIntentFilter(action);
+        ArrayList<String>list = new ArrayList<String>();
+
+        for (int i = 0; i < ids.length; i++) {
+            if (this.getIntentReceiverPermission(action, ids[i])) {
+                list.add(ids[i]);
+            }
         }
 
-        String toId = ids[0];
+        if (list.isEmpty()) {
+            throw new Exception(action + " isn't support!");
+        }
+
+        ids = new String[list.size()];
+        return list.toArray(ids);
+    }
+
+    public void sendIntent(IntentInfo info) throws Exception {
+        if (info.toId == null) {
+            String[] ids = getIntentFilter(info.action);
+
+            if (!this.getIntentSenderPermission(info.action, info.fromId)) {
+                throw new Exception(info.action + " isn't permission!");
+            }
+
+            info.toId = ids[0];
+        }
+
         FragmentManager manager = appManager.activity.getSupportFragmentManager();
-        WebViewFragment fragment = (WebViewFragment)manager.findFragmentByTag(toId);
+        WebViewFragment fragment = (WebViewFragment)manager.findFragmentByTag(info.toId);
         if ((fragment != null) && (fragment.basePlugin.isIntentReady())) {
             putIntentContext(info);
-            appManager.start(toId);
+            appManager.start(info.toId);
             fragment.basePlugin.onReceiveIntent(info);
         }
         else {
-            putIntentToList(toId, info);
-            appManager.start(toId);
+            putIntentToList(info.toId, info);
+            appManager.start(info.toId);
         }
     }
 
@@ -103,7 +142,7 @@ public class IntentManager {
             Set<String> set = uri.getQueryParameterNames();
             long currentTime = System.currentTimeMillis();
 
-            IntentInfo info = new IntentInfo(action, null, "systyem", currentTime, null);
+            IntentInfo info = new IntentInfo(action, null, "systyem", null, currentTime, null);
             if (set.size() > 0) {
                 info.params = "{";
                 for (String name : set) {
@@ -145,4 +184,48 @@ public class IntentManager {
         intentContextList.remove(intentId);
     }
 
+    public void parseIntentPermission() throws Exception {
+        AssetManager manager = context.getAssets();
+        InputStream inputStream = manager.open("www/config/permission/intent.json");
+
+        JSONObject json = Utility.getJsonFromFile(inputStream);
+
+        Iterator intents = json.keys();
+        while (intents.hasNext()) {
+            String intent = (String) intents.next();
+            IntentPermission intentPermission = new IntentPermission(intent);
+
+            JSONObject jintent = json.getJSONObject(intent);
+            JSONArray array = jintent.getJSONArray("sender");
+            for (int i = 0; i < array.length(); i++) {
+                String appId = array.getString(i);
+                intentPermission.addSender(appId);
+            }
+            array = jintent.getJSONArray("receiver");
+            for (int i = 0; i < array.length(); i++) {
+                String appId = array.getString(i);
+                intentPermission.addReceiver(appId);
+            }
+
+            permissionList.put(intent, intentPermission);
+        }
+    }
+
+    public boolean getIntentSenderPermission(String intent, String appId) {
+        IntentPermission intentPermission = permissionList.get(intent);
+        if (intentPermission == null) {
+            return true;
+        }
+
+        return intentPermission.senderIsAllow(appId);
+    }
+
+    public boolean getIntentReceiverPermission(String intent, String appId) {
+        IntentPermission intentPermission = permissionList.get(intent);
+        if (intentPermission == null) {
+            return true;
+        }
+
+        return intentPermission.receiverIsAllow(appId);
+    }
 }

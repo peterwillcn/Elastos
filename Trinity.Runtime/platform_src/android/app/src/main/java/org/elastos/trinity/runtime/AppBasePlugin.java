@@ -41,28 +41,28 @@ import java.util.Map;
 public class AppBasePlugin extends TrinityPlugin {
     protected CallbackContext mMessageContext = null;
     protected CallbackContext mIntentContext = null;
-    protected String id;
 
-    private int index = 0;
-    private ArrayList<String> iconList = new ArrayList<String>();
-    private boolean isAppManager = false;
+    private boolean isLauncher = false;
+    private boolean isChangeIconPath = false;
 
-    public AppBasePlugin(String id, boolean isAppManager) {
-        this.id = id;
-        this.isAppManager = isAppManager;
+    public void setIsLauncher(boolean isLauncher) {
+        this.isLauncher = isLauncher;
+        this.appId = "launcher";
     }
 
-    public boolean isAppManager() {
-        return isAppManager;
+    public boolean isLauncher() {
+        return isLauncher;
     }
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        boolean isDone = true;
         try {
             switch (action) {
                 case "start":
                     this.start(args, callbackContext);
+                    break;
+                case "closeApp":
+                    this.closeApp(args, callbackContext);
                     break;
                 case "getAppInfos":
                     this.getAppInfos(args, callbackContext);
@@ -97,47 +97,43 @@ public class AppBasePlugin extends TrinityPlugin {
                 case "askPrompt":
                     this.askPrompt(args, callbackContext);
                     break;
+
+                case "getLocale":
+                    this.getLocale(args, callbackContext);
+                    break;
+                case "getInfo":
+                    this.getInfo(args, callbackContext);
+                    break;
+                case "getAppInfo":
+                    this.getAppInfo(args, callbackContext);
+                    break;
+                case "launcher":
+                    this.launcher(args, callbackContext);
+                    break;
+                case "close":
+                    this.close(args, callbackContext);
+                    break;
+                case "sendMessage":
+                    this.sendMessage(args, callbackContext);
+                    break;
+                case "setListener":
+                    this.setListener(callbackContext);
+                    break;
+                case "sendIntent":
+                    this.sendIntent(args, callbackContext);
+                    break;
+                case "sendUrlIntent":
+                    this.sendUrlIntent(args, callbackContext);
+                    break;
+                case "setIntentListener":
+                    this.setIntentListener(callbackContext);
+                    break;
+                case "sendIntentResponse":
+                    this.sendIntentResponse(args, callbackContext);
+                    break;
+
                 default:
-                    isDone = false;
-            }
-
-            if (!isDone) {
-                switch (action) {
-                    case "getLocale":
-                        this.getLocale(args, callbackContext);
-                        break;
-
-                    case "getAppInfo":
-                        this.getAppInfo(args, callbackContext);
-                        break;
-                    case "launcher":
-                        this.launcher(args, callbackContext);
-                        break;
-                    case "close":
-                        this.close(args, callbackContext);
-                        break;
-                    case "sendMessage":
-                        this.sendMessage(args, callbackContext);
-                        break;
-                    case "setListener":
-                        this.setListener(callbackContext);
-                        break;
-                    case "sendIntent":
-                        this.sendIntent(args, callbackContext);
-                        break;
-                    case "sendUrlIntent":
-                        this.sendUrlIntent(args, callbackContext);
-                        break;
-                    case "setIntentListener":
-                        this.setIntentListener(callbackContext);
-                        break;
-                    case "sendIntentResponse":
-                        this.sendIntentResponse(args, callbackContext);
-                        break;
-
-                    default:
-                        return false;
-                }
+                    return false;
             }
         }
         catch (Exception e) {
@@ -157,20 +153,23 @@ public class AppBasePlugin extends TrinityPlugin {
 
         if (id == null || id.equals("")) {
             callbackContext.error("Invalid id.");
-        } else if (id.equals("launcher")) {
+        }
+        else if (id.equals("launcher")) {
             callbackContext.error("Can't start launcher! Please use launcher().");
-        } else {
+        }
+        else {
             AppManager.getShareInstance().start(id);
             callbackContext.success("ok");
         }
     }
 
     protected void close(JSONArray args, CallbackContext callbackContext) throws Exception {
-        String appId = this.id;
+        AppManager.getShareInstance().close(this.appId);
+        callbackContext.success("ok");
+    }
 
-        if (isAppManager) {
-            appId = args.getString(0);
-        }
+    protected void closeApp(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String appId = args.getString(0);
 
         if (appId == null || appId.equals("")) {
             callbackContext.error("Invalid id.");
@@ -205,11 +204,14 @@ public class AppBasePlugin extends TrinityPlugin {
         JSONArray jsons = new JSONArray();
         String appUrl = AppManager.getShareInstance().getIconUrl(info);
 
-        for (AppInfo.Icon icon : info.icons) {
+        AppInfo.Icon[] icons = new AppInfo.Icon[info.icons.size()];
+        info.icons.toArray(icons);
+
+        for (int i = 0; i < icons.length; i++) {
+            AppInfo.Icon icon = icons[i];
             String src = icon.src;
-            if (isAppManager) {
-                src = "icon:///" + String.valueOf(index);
-                iconList.add(index++, AppManager.getShareInstance().resetPath(appUrl, icon.src));
+            if (isChangeIconPath) {
+                src = "icon://" + info.app_id + "/" + String.valueOf(i);
             }
 
             JSONObject ret = new JSONObject();
@@ -293,12 +295,23 @@ public class AppBasePlugin extends TrinityPlugin {
     }
 
     protected void getAppInfo(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        String appId = this.id;
-        if (isAppManager) {
-            appId = args.getString(0);
+        String appId = args.getString(0);
+
+        if (appId == null || appId.equals("")) {
+            callbackContext.error("Invalid id.");
         }
 
         AppInfo info = AppManager.getShareInstance().getAppInfo(appId);
+        if (info != null) {
+            isChangeIconPath = true;
+            callbackContext.success(jsonAppInfo(info));
+        } else {
+            callbackContext.error("No such app!");
+        }
+    }
+
+    protected void getInfo(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        AppInfo info = AppManager.getShareInstance().getAppInfo(this.appId);
         if (info != null) {
             callbackContext.success(jsonAppInfo(info));
         } else {
@@ -308,7 +321,7 @@ public class AppBasePlugin extends TrinityPlugin {
 
     protected void getLocale(JSONArray args, CallbackContext callbackContext) throws JSONException {
         JSONObject ret = new JSONObject();
-        AppInfo info = AppManager.getShareInstance().getAppInfo(this.id);
+        AppInfo info = AppManager.getShareInstance().getAppInfo(this.appId);
         ret.put("defaultLang", info.default_locale);
         ret.put("currentLang", AppManager.getShareInstance().getCurrentLocale());
         ret.put("systemLang", Locale.getDefault().getLanguage());
@@ -320,7 +333,7 @@ public class AppBasePlugin extends TrinityPlugin {
         String toId = args.getString(0);
         Integer type = args.getInt(1);
         String msg = args.getString(2);
-        AppManager.getShareInstance().sendMessage(toId, type, msg, this.id);
+        AppManager.getShareInstance().sendMessage(toId, type, msg, this.appId);
         callbackContext.success("ok");
     }
 
@@ -331,7 +344,7 @@ public class AppBasePlugin extends TrinityPlugin {
         pluginResult.setKeepCallback(true);
         callbackContext.sendPluginResult(pluginResult);
 
-        if (isAppManager) {
+        if (isLauncher) {
             AppManager.getShareInstance().setLauncherReady();
         }
     }
@@ -358,7 +371,7 @@ public class AppBasePlugin extends TrinityPlugin {
         String params = args.getString(1);
         long currentTime = System.currentTimeMillis();
 
-        IntentInfo info = new IntentInfo(action, params, this.id, currentTime, callbackContext);
+        IntentInfo info = new IntentInfo(action, params, this.appId, null, currentTime, callbackContext);
 
         IntentManager.getShareInstance().sendIntent(info);
         PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
@@ -383,7 +396,7 @@ public class AppBasePlugin extends TrinityPlugin {
         String action = args.getString(0);
         String result = args.getString(1);
         long intentId = args.getLong(2);
-        IntentManager.getShareInstance().sendIntentResponse(action, result, intentId, this.id);
+        IntentManager.getShareInstance().sendIntentResponse(action, result, intentId, this.appId);
         callbackContext.success("ok");
     }
 
@@ -392,7 +405,7 @@ public class AppBasePlugin extends TrinityPlugin {
         PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
         pluginResult.setKeepCallback(true);
         callbackContext.sendPluginResult(pluginResult);
-        IntentManager.getShareInstance().setIntentReady(this.id);
+        IntentManager.getShareInstance().setIntentReady(this.appId);
 
     }
 
@@ -441,10 +454,8 @@ public class AppBasePlugin extends TrinityPlugin {
             return true;
         }
 
-        if (isAppManager) {
-            if (url.startsWith("icon:///")) {
-                return true;
-            }
+        if (isChangeIconPath && url.startsWith("icon://")) {
+            return true;
         }
 
         return null;
@@ -453,22 +464,32 @@ public class AppBasePlugin extends TrinityPlugin {
     @Override
     public Uri remapUri(Uri uri) {
         String url = uri.toString();
-        if (isAppManager && url.startsWith("icon:///")) {
-            int index = Integer.valueOf(url.substring(8));
-            url = iconList.get(index);
+        if (isChangeIconPath && url.startsWith("icon://")) {
+            String str = url.substring(7);
+            int index = str.indexOf("/");
+            if (index > 0) {
+                String app_id = str.substring(0, index);
+                AppInfo info = AppManager.getShareInstance().getAppInfo(app_id);
+                if (info != null) {
+                    index = Integer.valueOf(str.substring(index + 1));
+                    AppInfo.Icon icon = info.icons.get(index);
+                    String appUrl = AppManager.getShareInstance().getIconUrl(info);
+                    url = AppManager.getShareInstance().resetPath(appUrl, icon.src);
+                }
+            }
         }
-        else if ("asset".equals(uri.getScheme())) {
+        else if ("asset".equals(uri.getScheme())) {;
             url = "file:///android_asset/www" + uri.getPath();
         }
         else if (url.startsWith("trinity:///asset/")) {
-            AppInfo info = AppManager.getShareInstance().getAppInfo(id);
+            AppInfo info = AppManager.getShareInstance().getAppInfo(this.appId);
             url = AppManager.getShareInstance().getAppUrl(info) + url.substring(17);
         }
         else if (url.startsWith("trinity:///data/")) {
-            url = AppManager.getShareInstance().getDataUrl(id) + url.substring(16);
+            url = AppManager.getShareInstance().getDataUrl(this.appId) + url.substring(16);
         }
         else if (url.startsWith("trinity:///temp/")) {
-            url = AppManager.getShareInstance().getTempUrl(id) + url.substring(16);
+            url = AppManager.getShareInstance().getTempUrl(this.appId) + url.substring(16);
         }
         else if (url.startsWith("elastos:///")) {
             try {
@@ -518,8 +539,7 @@ public class AppBasePlugin extends TrinityPlugin {
     protected void getAppInfos(JSONArray args, CallbackContext callbackContext) throws JSONException {
         HashMap<String, AppInfo> appInfos = AppManager.getShareInstance().getAppInfos();
         JSONObject infos = new JSONObject();
-        iconList = new ArrayList<String>();
-        index = 0;
+        isChangeIconPath = true;
 
         if (appInfos != null) {
             for (Map.Entry<String, AppInfo> entry : appInfos.entrySet()) {

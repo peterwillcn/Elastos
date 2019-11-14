@@ -37,6 +37,7 @@ public class TrinityPlugin extends CordovaPlugin {
     public String configPath = null;
     private AppInfo appInfo = null;
     private AppManager appManager = null;
+    protected String appId;
 
     public void setWhitelistPlugin(AppWhitelistPlugin appWhitelistPlugin) {
         this.whitelistPlugin = appWhitelistPlugin;
@@ -49,6 +50,7 @@ public class TrinityPlugin extends CordovaPlugin {
         this.dataPath = appManager.getDataPath(info.app_id);
         this.configPath = appManager.getConfigPath();
         this.tempPath = appManager.getTempPath(info.app_id);
+        this.appId = info.app_id;
     }
 
     public Boolean isAllowAccess(String url) {
@@ -130,7 +132,7 @@ public class TrinityPlugin extends CordovaPlugin {
             }
         }
         else if ((path.indexOf("://") != -1)) {
-            if (!(path.startsWith("asset://")) && whitelistPlugin.shouldAllowNavigation(path)) {
+            if (!(path.startsWith("asset://")) && whitelistPlugin.shouldAllowNavigation(path) == Boolean.TRUE) {
                 ret = path;
             }
         }

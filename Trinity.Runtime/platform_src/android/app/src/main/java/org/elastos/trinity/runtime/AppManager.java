@@ -35,10 +35,13 @@ import android.view.View;
 
 import org.apache.cordova.PluginManager;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -92,13 +95,19 @@ public class AppManager {
     }
 
     private ArrayList<InstallInfo>  installUriList = new ArrayList<InstallInfo>();
+    private PermissionManager permissionManager;
     private boolean launcherReady = false;
     private String currentLocale = "en";
+
+    final String[] defaultPlugins = {
+            "AppManager",
+    };
 
     AppManager(WebViewActivity activity) {
         AppManager.appManager = this;
         this.activity = activity;
         new IntentManager(this);
+        permissionManager = new PermissionManager(activity);
 
         appsPath = activity.getFilesDir() + "/apps/";
         dataPath = activity.getFilesDir() + "/data/";
@@ -334,7 +343,13 @@ public class AppManager {
         AppInfo info = appInfos.get(id);
         installer.unInstall(appInfos.get(id), update);
         refreashInfos();
-        sendRefreshList("unInstalled", info);
+        if (!update) {
+           if (info.built_in == 1) {
+               saveBuiltInAppInfos();
+               refreashInfos();
+           }
+           sendRefreshList("unInstalled", info);
+        }
     }
 
     private WebViewFragment findFragmentById(String id) {
@@ -443,7 +458,10 @@ public class AppManager {
             String id2 = lastList.get(1);
             WebViewFragment fragment2 = findFragmentById(id2);
             if (fragment2 == null) {
-                throw new Exception("RT inner error!");
+                fragment2 = findFragmentById("launcher");
+                if (fragment2 == null) {
+                    throw new Exception("RT inner error!");
+                }
             }
             switchContent(fragment2, id2);
         }
@@ -455,7 +473,7 @@ public class AppManager {
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.remove(fragment);
         transaction.commit();
-//        lastList.remove(id);
+        lastList.remove(id);
         runningList.remove(id);
 
         sendRefreshList("closed", info);
@@ -547,6 +565,12 @@ public class AppManager {
 
 
     public int getPluginAuthority(String id, String plugin) {
+        for (String item : defaultPlugins) {
+            if (item.equals(plugin)) {
+                return AppInfo.AUTHORITY_ALLOW;
+            }
+        }
+
         AppInfo info = appInfos.get(id);
         if (info != null) {
             for (AppInfo.PluginAuth pluginAuth : info.plugins) {

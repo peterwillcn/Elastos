@@ -8,7 +8,7 @@ def loadElaDIDLibrary():
         if sys.platform.startswith("darwin"):
             dll_name = "libeladid.1.dylib"
         else:
-            dll_name = "libeladid.1.so"
+            dll_name = "libeladid.so.1"
         dll_path = os.path.abspath(os.path.join(script_path, '../lib', dll_name))
         dll_handle = ctypes.CDLL(dll_path, ctypes.RTLD_GLOBAL)
         assert dll_handle
@@ -118,6 +118,16 @@ def getElaDIDAPI():
         ctypes.c_void_p,    # DID*
         ctypes.c_char_p,    # idstring
         ctypes.c_size_t,    # len
+    ]
+
+    eladid.Mnemonic_Generate.restype = ctypes.c_char_p
+    eladid.Mnemonic_Generate.argtypes = [
+        ctypes.c_int,       # language
+    ]
+
+    eladid.Mnemonic_free.restype = None
+    eladid.Mnemonic_free.argtypes = [
+        ctypes.c_void_p,    # mnemonic
     ]
     return eladid
 

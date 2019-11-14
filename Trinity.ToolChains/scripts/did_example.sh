@@ -6,7 +6,7 @@ set -e
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 cd $SCRIPT_DIR
-if [ ! -f "../lib/libeladid.1.so" ] && [ ! -f "../lib/libeladid.1.dylib" ]; then
+if [ ! -f "../lib/libeladid.so.1" ] && [ ! -f "../lib/libeladid.1.dylib" ]; then
     echo "Please build the DID SDK first."
     echo "    1. Checkout the DID SDK into Elastos.Trinity/Dependency/Elastos.DID.Native.SDK"
     echo "    2. And then run the build script: Elastos.Trinity/ToolChains/scripts/build_ela_did.sh"
@@ -20,7 +20,7 @@ echo -e "\nCreate DID"
 output=$(../bin/create_did --root $tmp_dir/my_did_store_root --mnemonic "cloth always junk crash fun exist stumble shift over benefit fun toe" --passphrase mypassphrase --storepass mystorepass)
 
 # Extract the DID URL from the output of the create_did script
-DIDURL=$(echo "$output" | sed -n 's/.*\(did:elastos:.*\)/\1/p')
+DIDURL=$(echo "$output" | sed -n 's/.*"\(did:elastos:.*\)".*/\1/p')
 echo "The newly created DID URL: $DIDURL"
 
 echo -e "\nDID Sign"

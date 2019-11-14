@@ -1332,9 +1332,6 @@
 		42EE1BC023385FC200CFC8D7 /* NENPingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NENPingManager.m; sourceTree = "<group>"; };
 		42EEDA85224B84790009B18E /* LaunchScreen-English.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "LaunchScreen-English.storyboard"; sourceTree = "<group>"; };
 		42EEDA87224B84A50009B18E /* LaunchScreen-Chinese.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "LaunchScreen-Chinese.storyboard"; sourceTree = "<group>"; };
-		42FB1F5422F83E9B00713355 /* NENSinglePinger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NENSinglePinger.m; sourceTree = "<group>"; };
-		42FB1F5722F83E9B00713355 /* SimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePing.m; sourceTree = "<group>"; };
-		42FB1F5922F83E9B00713355 /* NENPingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NENPingManager.m; sourceTree = "<group>"; };
 		705D8C6C21BE86870062156D /* ELWalletManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELWalletManager.h; sourceTree = "<group>"; };
 		7087D92721BCD85500599316 /* IDIDManagerSupervisor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDIDManagerSupervisor.h; sourceTree = "<group>"; };
 		7087D92821BCD85500599316 /* idid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = idid.h; sourceTree = "<group>"; };
@@ -1453,7 +1450,6 @@
 				EB87FDF11871DA420020F90C /* Staging */,
 				7087D92C21BCDEB600599316 /* starter */,
 				705D8C6A21BE863B0062156D /* WalletManager */,
-				42C04D672303E29C00041CCB /* Recovered References */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -3148,16 +3144,6 @@
 				42B57AB022150C1C004CF089 /* NSMutableArray+WOCrash.m */,
 			);
 			path = WOContainer;
-			sourceTree = "<group>";
-		};
-		42C04D672303E29C00041CCB /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				42FB1F5922F83E9B00713355 /* NENPingManager.m */,
-				42FB1F5722F83E9B00713355 /* SimplePing.m */,
-				42FB1F5422F83E9B00713355 /* NENSinglePinger.m */,
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		42C53F8522C9B9820006B3B2 /* spvsdk */ = {

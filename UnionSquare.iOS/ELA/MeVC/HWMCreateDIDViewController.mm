@@ -126,6 +126,11 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     
 }
 -(void)getDIDAndDIDPublicKey{
+    FMDBWalletModel *model=self.walletListArray[self.wallerSelectIndex];
+     invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[model.walletID] callbackId:model.walletID className:@"wallet" methodName:@"createMasterWallet"];
+   PluginResult * resultBase =[[ELWalletManager share]getDIDlist:cmommand];
+    
+    
     
 }
 -(HMWToDeleteTheWalletPopView *)openIDChainView{
@@ -260,7 +265,9 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
       NSArray  *array = [[FLTools share]stringToArray:result.message[@"success"]];
           if (array.count>1) {
             self.wallerSelectIndex=index;
+              [self getDIDAndDIDPublicKey];
               [self.table reloadData];
+         
           }else{
               self.wallerSelectIndex=index;
               UIView *mainView =[self mainWindow];
@@ -322,6 +329,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
             FMDBWalletModel *model=self.walletListArray[i];
             if ([model.walletID isEqualToString:walletID]) {
                 self.wallerSelectIndex=i;
+                [self getDIDAndDIDPublicKey];
             }
         }
         [self.table reloadData];

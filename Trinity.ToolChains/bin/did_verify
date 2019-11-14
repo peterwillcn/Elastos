@@ -96,7 +96,7 @@ try:
 
     print("Verifying EPK signature...".ljust(max_length + 19)),
 
-    ret = did_api.DIDStore_Open(args.did_store_root.encode('ascii'))
+    ret = did_api.DIDStore_Open(args.did_store_root.encode('utf-8'))
     if ret != 0:
         raise RuntimeError("ERROR: Failed to open DID store.")
 

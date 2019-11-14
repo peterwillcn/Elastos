@@ -80,11 +80,11 @@ try:
     print("Signing EPK file")
     message = epk_sha.hexdigest().encode('utf-8')
 
-    ret = did_api.DIDStore_Open(args.did_store_root.encode('ascii'))
+    ret = did_api.DIDStore_Open(args.did_store_root.encode('utf-8'))
     if ret != 0:
         raise RuntimeError("ERROR: Failed to open DID store.")
 
-    didurl = did_api.DIDURL_FromString(args.didurl_str.encode('ascii'))
+    didurl = did_api.DIDURL_FromString(args.didurl_str.encode('utf-8'))
     if didurl == None:
         raise RuntimeError("ERROR: Failed to get DID URL from string.")
 
@@ -99,7 +99,7 @@ try:
             raise RuntimeError("ERROR: Failed to resolve DID Document from chain.")
 
     signature = ctypes.create_string_buffer(did_api.SIGNATURE_LENGTH)
-    ret = did_api.DIDStore_Sign(did, didurl, password.encode('ascii'), signature, 1, message, len(message))
+    ret = did_api.DIDStore_Sign(did, didurl, password.encode('utf-8'), signature, 1, message, len(message))
     if ret != 0:
         raise RuntimeError("Failed to sign EPK.")
     zip2write.writestr(sign_folder_prefix + "FILELIST.SIGN", signature.raw)

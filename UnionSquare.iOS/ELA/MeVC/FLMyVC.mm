@@ -94,6 +94,17 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
        for (int i=0; i<allWalletListArray.count; i++) {
               FMDBWalletModel *model=allWalletListArray[i];
               invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[model.walletID] callbackId:model.walletID className:@"wallet" methodName:@"createMasterWallet"];
+           PluginResult * result =[[ELWalletManager share]getAllSubWallets:cmommand];
+              NSString *status=[NSString stringWithFormat:@"%@",result.status];
+              if ([status isEqualToString:@"1"]) {
+              NSArray  *array = [[FLTools share]stringToArray:result.message[@"success"]];
+                  if (array.count<2) {
+                      break;
+                  }
+                  
+              }
+           
+           
               PluginResult * resultBase =[[ELWalletManager share]getMasterWalletBasicInfo:cmommand];
               NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
               NSDictionary *baseDic=[[NSDictionary alloc]init];
@@ -106,7 +117,6 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
                           [_walletListArray addObject:model];
                       }else{
                           model.TypeW=HowSign;
-                 
                       }
                   }else{
                       if ([baseDic[@"M"] integerValue]==1) {
@@ -155,20 +165,14 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
     UIImageView *bgview = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@""]];
    [self CAGradientColorFrome:RGB(83, 136, 136) withToColor:RGB(16, 47, 58) withView:bgview];
     self.table.backgroundView = bgview;
-
-    
-
-  
     self.table.rowHeight = 60;
     self.table.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, AppWidth, 40)];
-    
     self.dataSorse = @[
   @{@"img":@"mine_sugar",@"title":NSLocalizedString(@"DID", nil),@"url":@"/app/vlink/wallet.html",@"subTitle":@""},
   @{@"img":@"mine_sugar",@"title":NSLocalizedString(@"手势密码", nil),@"url":@"/app/vlink/wallet.html",@"subTitle":@""},
   @{@"img":@"mine_sugar",@"title":NSLocalizedString(@"联系人", nil),@"url":@"/app/vlink/wallet.html",@"subTitle":@""},
   @{@"img":@"mine_mission",@"title":NSLocalizedString(@"语言", nil),@"url":@"/app/task.html",@"subTitle":@""},
-  @{@"img":@"mine_sugar",@"title":NSLocalizedString(@"关于", nil),@"url":@"/app/vlink/wallet.html",@"subTitle":@""}];
-  
+  @{@"img":@"mine_sugar",@"title":NSLocalizedString(@"关于", nil),@"url":@"/app/vlink/wallet.html",@"subTitle":@""}];  
 }
 -(void)viewWillAppear:(BOOL)animated
 {

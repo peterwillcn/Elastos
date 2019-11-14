@@ -16,7 +16,7 @@
 #import "HWMAddPersonalInformationViewController.h"
 static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 
-@interface HWMCreateDIDViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDWalletListViewDelegate,HWMDIDDataListViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWAddTheCurrencyListViewControllerDelegate>
+@interface HWMCreateDIDViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDWalletListViewDelegate,HWMDIDDataListViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWAddTheCurrencyListViewControllerDelegate,UINavigationControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
 @property (weak, nonatomic) IBOutlet UITableView *table;
 /*
@@ -47,6 +47,15 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
  *<# #>
  */
 @property(strong,nonatomic)HMWToDeleteTheWalletPopView *openIDChainView;
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)BOOL  NeedsSaved;
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)BOOL  isNext;
+
 @end
 
 @implementation HWMCreateDIDViewController
@@ -59,7 +68,9 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     
     self.title=NSLocalizedString(@"创建DID", nil);
     self.wallerSelectIndex=-1;
+    self.NeedsSaved=NO;
     [self makeUI];
+    self.navigationController.delegate=self;
 }
 -(NSMutableArray *)walletListArray{
     if (!_walletListArray) {
@@ -98,28 +109,29 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     return _walletListArray;
 }
 -(void)makeUI{
-
     self.dataSorse =@[NSLocalizedString(@"请输入DID名称（必填）", nil),NSLocalizedString(@"请选择钱包", nil),NSLocalizedString(@"主管理公钥（发布后不可更改）", nil),NSLocalizedString(@"DID（与主管理公钥一一对应）",nil),
            NSLocalizedString(@"请选择失效日期", nil)];
     [self.nextButton setTitle:NSLocalizedString(@"下一步", nil) forState: UIControlStateNormal];
     [[HMWCommView share]makeBordersWithView:self.nextButton];
     [self.table registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
        self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
-     self.table.rowHeight = 55;
+       self.table.rowHeight = 55;
        self.table.delegate =self;
        self.table.dataSource =self;
-    self.table.backgroundColor=[UIColor clearColor];
+       self.table.backgroundColor=[UIColor clearColor];
 //       UIImageView *bgview = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@""]];
 //      [self CAGradientColorFrome:RGB(83, 136, 136) withToColor:RGB(16, 47, 58) withView:bgview];
 //       self.table.backgroundView = bgview;
       
     
 }
+-(void)getDIDAndDIDPublicKey{
+    
+}
 -(HMWToDeleteTheWalletPopView *)openIDChainView{
     if (!_openIDChainView) {
         _openIDChainView =[[HMWToDeleteTheWalletPopView alloc]init];
         _openIDChainView.delegate=self;
-        _openIDChainView.deleteType=openIDChainType;
     }
     return _openIDChainView;
 }
@@ -252,6 +264,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
           }else{
               self.wallerSelectIndex=index;
               UIView *mainView =[self mainWindow];
+              self.openIDChainView.deleteType=openIDChainType;
               [mainView addSubview:self.openIDChainView];
               [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
                   make.left.right.top.bottom.equalTo(mainView);
@@ -275,19 +288,26 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 #pragma mark --------HMWToDeleteTheWalletPopViewDelegate-----------
 -(void)sureToDeleteViewWithPWD:(NSString*)pwd{
     
-    [self toCancelOrCloseDelegate];
-    FMDBWalletModel *model=self.walletListArray[self.wallerSelectIndex];
-    FLWallet *wallet =[[FLWallet alloc]init];
-       wallet.masterWalletID =model.walletID;
-       wallet.walletName     =model.walletName;
-       wallet.walletAddress  = model.walletAddress;
-    HMWAddTheCurrencyListViewController *AddTheCurrencyListVC=[[HMWAddTheCurrencyListViewController alloc]init];
-    AddTheCurrencyListVC.wallet=wallet;
-    AddTheCurrencyListVC.didType=@"didType";
-    AddTheCurrencyListVC.delegate=self;
-    self.wallerSelectIndex=-1;
-    [self.navigationController pushViewController:AddTheCurrencyListVC animated:YES];
+   
+    if (self.openIDChainView.deleteType==openIDChainType) {
+        FMDBWalletModel *model=self.walletListArray[self.wallerSelectIndex];
+        FLWallet *wallet =[[FLWallet alloc]init];
+           wallet.masterWalletID =model.walletID;
+           wallet.walletName     =model.walletName;
+           wallet.walletAddress  = model.walletAddress;
+        HMWAddTheCurrencyListViewController *AddTheCurrencyListVC=[[HMWAddTheCurrencyListViewController alloc]init];
+        AddTheCurrencyListVC.wallet=wallet;
+        AddTheCurrencyListVC.didType=@"didType";
+        AddTheCurrencyListVC.delegate=self;
+        self.wallerSelectIndex=-1;
+         [self toCancelOrCloseDelegate];
+        [self.navigationController pushViewController:AddTheCurrencyListVC animated:YES];
 
+    }else if (self.openIDChainView.deleteType==NeedsSavedType){
+         [self toCancelOrCloseDelegate];
+    }
+    
+    
     
     
 }
@@ -309,6 +329,26 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 }
 - (IBAction)nextButtonEvent:(id)sender {
     HWMAddPersonalInformationViewController *AddPersonalInformationVC=[[HWMAddPersonalInformationViewController alloc]init];
+    self.isNext=YES;
     [self.navigationController pushViewController:AddPersonalInformationVC animated:YES];
 }
+
+-(void)viewWillDisappear:(BOOL)animated{
+   
+    if (self.isNext==NO&&self.NeedsSaved) {
+        self.openIDChainView.deleteType=NeedsSavedType;
+        UIView *mainView =[self mainWindow];
+        [mainView addSubview:self.openIDChainView];
+        [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(mainView);
+        }];
+    }
+     [super viewWillDisappear:animated];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.isNext=NO;
+   
+}
+
 @end

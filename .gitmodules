@@ -58,10 +58,6 @@
 	path = Trinity/Plugins/AppManager
 	url = ../Elastos.Trinity.Runtime.Plugins.AppManager.git
 	branch = master
-[submodule "Plugins/AppService"]
-	path = Trinity/Plugins/AppService
-	url = ../Elastos.Trinity.Runtime.Plugins.AppService.git
-	branch = master
 [submodule "ToolChains"]
 	path = Trinity/ToolChains
 	url = ../Elastos.Trinity.ToolChains.git

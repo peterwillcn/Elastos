@@ -1,5 +1,5 @@
 const prompts = require('prompts');
-const emailValidator = require("email-validator");
+const validator = require('validator');
 const editJsonFile = require("edit-json-file");
 const fs = require("fs-extra");
 const path = require("path");
@@ -69,7 +69,7 @@ module.exports = class ManifestHelper {
                     name: 'email',
                     message: "Author's email",
                     validate: value => {
-                        return value != "" && emailValidator.validate(value)
+                        return value != "" && validator.isEmail(value)
                     }
                 },
                 {
@@ -77,7 +77,7 @@ module.exports = class ManifestHelper {
                     name: 'website',
                     message: "Author's website",
                     validate: value => {
-                        return !value || value.indexOf("http") == 0
+                        return !value || value.indexOf("http") == 0 || validator.isFQDN(value)
                     }
                 },
             ];

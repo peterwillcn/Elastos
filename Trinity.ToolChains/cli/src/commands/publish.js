@@ -19,7 +19,6 @@ exports.builder = {
     }
 }
 exports.handler = function (argv) {
-    console.log(argv)
     launchAppPublication(argv.did)
 }
 
@@ -77,7 +76,7 @@ async function launchAppPublication(didURL) {
                     })
                 })
                 .catch((err)=>{
-                    console.error("Failed to publish your DApp (signing EPK)...".red)
+                    console.error("Failed to publish your DApp (signing EPK - Invalid password?)...".red)
                     console.error("Error:".red, err)
                 })
             })

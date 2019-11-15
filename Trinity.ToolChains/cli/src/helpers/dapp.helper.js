@@ -94,6 +94,7 @@ module.exports = class DAppHelper {
             console.log("Signing the generated EPK with your identity...")
 
             // TMP DEV: did:elastos:ikFN4BuFYYvR9ERNTiWH1jAdBztE3J691m#primary
+            // TMP DEV: did:elastos:ikFN4BuFYYvR9ERNTiWH1jAdBztE3J691m#primary
             
             var rootScriptDirectory = path.dirname(require.main.filename)
             var idKeystorePath = path.join(process.cwd(), "appdid");

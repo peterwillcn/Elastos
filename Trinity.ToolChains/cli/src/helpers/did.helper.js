@@ -54,17 +54,33 @@ module.exports = class DIDHelper {
             // TMP BEN: Mnemonic: stuff silent betray cherry balcony humor trip spy power pool behind lawn
 
             const spawn = require("child_process").spawn;
-            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/create_did","-r","appdid","-m","stuff silent betray cherry balcony humor trip spy power pool behind lawn","-p",typedInfo.password,"-s",typedInfo.password]);
+            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/create_did","-r","appdid","-p",typedInfo.password,"-s",typedInfo.password]);
 
-            pythonProcess.stdout.on('data', function (data) { console.log(''+data)});
+            var output = ""
+
+            pythonProcess.stdout.on('data', function (data) { output += data });
             pythonProcess.stderr.on('data', function (data) { console.log(''+data)});
             pythonProcess.on('error', function(err) { reject(err)})
 
             pythonProcess.on('exit', function (code) {
                 if (code == 0) {
                     // Successfully created the DID
-                    console.log("DID created successfully locally on your computer".green)
-                    resolve()
+                    // Try to parse the output as JSON
+                    try {
+                        let jsonOutput = JSON.parse(output)
+                        console.log("DID created successfully locally on your computer".green)
+                        console.log("Please save the following information safely and permanently:".magenta)
+                        console.log("")
+                        console.log("YOUR DID: ".green+jsonOutput.id)
+                        console.log("YOUR MNEMONIC: ".green+jsonOutput.mnemonic)
+                        console.log("")
+                        resolve()
+    
+                    }
+                    catch(e) {
+                        reject('Invalid JSON output from create_did' + output)
+                        return
+                    }
                 }
                 else {
                     reject('Child process exited with code ' + code)
@@ -126,13 +142,28 @@ module.exports = class DIDHelper {
 
                 fs.writeFileSync(webpagePath, htmlData)
     
-                console.log("Launching your browser to display a QR code.");
-                console.log("If this doesn't open automatically, please manually open ["+webpagePath+"].");
-                
-                await open("file://"+webpagePath);
-
                 resolve(webpagePath)
             })
+        })
+    }
+
+    promptAndOpenQRCodeWebPage(webpagePath) {
+        return new Promise(async (resolve, reject) => {
+            const questions = [
+                {
+                    type: 'text',
+                    name: 'next',
+                    message: 'Please press enter to launch the web page:'
+                }
+            ];
+            await prompts(questions);
+
+            console.log("Launching your browser to display a QR code.");
+            console.log("If this doesn't open automatically, please manually open ["+webpagePath+"].");
+
+            await open("file://"+webpagePath);
+
+            resolve()
         })
     }
 

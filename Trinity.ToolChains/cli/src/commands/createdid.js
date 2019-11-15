@@ -35,12 +35,18 @@ async function launchCreateDID() {
     didHelper.createDID().then(()=>{
         didHelper.createDIDRequest().then((didRequest)=>{
             didHelper.generateCreateDIDDocumentTransactionURL(didRequest).then((schemeUrl)=>{
-                didHelper.generatePayForTransactionQRCodeWebPage(schemeUrl).then(()=>{
-                    didHelper.waitForSidechainTransactionCompleted().then(()=>{
-                        console.log("DID creation is completed.".green)
+                didHelper.generatePayForTransactionQRCodeWebPage(schemeUrl).then((webpagePath)=>{
+                    didHelper.promptAndOpenQRCodeWebPage(webpagePath).then(()=>{
+                        didHelper.waitForSidechainTransactionCompleted().then(()=>{
+                            console.log("DID creation is completed.".green)
+                        })
+                        .catch((err)=>{
+                            console.error("Something wrong while checking DID operation on chain".red)
+                            console.error("Error:", err)
+                        })
                     })
                     .catch((err)=>{
-                        console.error("Something wrong while checking DID operation on chain".red)
+                        console.error("Something wrong trying to launch the web page".red)
                         console.error("Error:", err)
                     })
                 })

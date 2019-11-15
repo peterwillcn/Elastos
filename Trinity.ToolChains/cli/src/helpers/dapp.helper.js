@@ -11,7 +11,6 @@ module.exports = class DAppHelper {
      * Make sure current folder is a DApp, to not try to package some invalid content.
      */
     checkFolderIsDApp() {
-
         let manifestHelper = new ManifestHelper()
         let ionicHelper = new IonicHelper()
 
@@ -23,8 +22,12 @@ module.exports = class DAppHelper {
         }
 
         // Check manifest.json  manifestHelper.getManifestPath(info.framework)
-        var manifestPath = manifestHelper.getManifestPath(ionicHelper.getConfig().assets_path)
+        var ionicConfig = ionicHelper.getConfig()
+        if (!ionicConfig) {
+            return false;
+        }
 
+        var manifestPath = manifestHelper.getManifestPath(ionicConfig.assets_path)
         if (!fs.existsSync(manifestPath)) {
             return false;
         }
@@ -84,17 +87,22 @@ module.exports = class DAppHelper {
     }
 
     /**
-     * Signs a given EPK using a test signature file.
+     * Signs a given EPK using a provided app DID.
      */
-    signEPK(EPKPath) {
+    signEPK(EPKPath, didURL, didSignaturePassword) {
         return new Promise((resolve, reject) => {
             console.log("Signing the generated EPK with your identity...")
 
+            // TMP DEV: did:elastos:ikFN4BuFYYvR9ERNTiWH1jAdBztE3J691m#primary
+            
             var rootScriptDirectory = path.dirname(require.main.filename)
-            var idKeystorePath = path.join(rootScriptDirectory, "assets", "web-keystore.aes.json");
+            var idKeystorePath = path.join(process.cwd(), "appdid");
+            var signedEPKPath = EPKPath+"_signed";
+ 
+            console.log("path",idKeystorePath)
 
             const spawn = require("child_process").spawn;
-            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/sign_epk", "-k", idKeystorePath, "-p", "elastos2018", EPKPath]);
+            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/did_sign", "-r",idKeystorePath,"-u",didURL,"-s",didSignaturePassword,"-o",signedEPKPath,EPKPath]);
 
             pythonProcess.stdout.on('data', function (data) { console.log(''+data)});
             pythonProcess.stderr.on('data', function (data) { console.log(''+data)});
@@ -104,7 +112,8 @@ module.exports = class DAppHelper {
                 if (code == 0) {
                     // Operation completed successfully
                     console.log("EPK file successfully signed with your identity")
-                    resolve()
+                    console.log("Signed EPK file is there: "+signedEPKPath)
+                    resolve(signedEPKPath)
                 }
                 else {
                     reject('Child process exited with code ' + code)

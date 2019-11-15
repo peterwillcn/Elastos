@@ -35,7 +35,11 @@ module.exports = class IonicHelper {
      * Project stucture is different between Angular and React templates
      */
     getConfig(packagename = '') {
-        var config = JSON.parse(fs.readFileSync(path.join(process.cwd(), packagename, "ionic.config.json")))
+        var configPath = path.join(process.cwd(), packagename, "ionic.config.json")
+        if (!fs.existsSync(configPath)) // No config file - we are probably not in a dapp folder.
+            return null
+
+        var config = JSON.parse(fs.readFileSync(configPath))
 
         const options = {
             angular: {

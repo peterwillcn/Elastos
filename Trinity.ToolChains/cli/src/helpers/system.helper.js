@@ -10,4 +10,9 @@ module.exports = class SystemHelper {
         console.log("Checking adb presence")
         return hasbin.sync("adb")
     }
+
+    static checkPythonPresence() {
+        console.log("Checking python presence")
+        return hasbin.sync("python")
+    }
 }

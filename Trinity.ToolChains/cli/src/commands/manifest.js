@@ -1,5 +1,7 @@
 
 const path = require("path");
+require("colors")
+
 const ManifestHelper = require("../helpers/manifest.helper")
 const IonicHelper = require("../helpers/ionic.helper")
 
@@ -20,15 +22,15 @@ function launchManifestCreation() {
         var manifestDestinationPath =  manifestHelper.getManifestPath(ionicHelper.getConfig().assets_path)
         
         manifestHelper.createManifestWithInfo(info, manifestDestinationPath).then(()=>{
-            console.log("OK - manifest.json has been created/updated.")
+            console.log("OK - manifest.json has been created/updated.".green)
         })
         .catch((err)=>{
-            console.error("Failed to save your information in the manifest")
+            console.error("Failed to save your information in the manifest".red)
             console.error("Error:", err)
         })
     })
     .catch((err)=>{
-        console.error("Failed to collect information to generate the manifest")
+        console.error("Failed to collect information to generate the manifest".red)
         console.error("Error:", err)
     })
 }

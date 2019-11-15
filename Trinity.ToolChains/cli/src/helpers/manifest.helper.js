@@ -89,8 +89,6 @@ module.exports = class ManifestHelper {
         })
     }
 
-   
-
     /**
      * 
      * @param {*} assets_path 

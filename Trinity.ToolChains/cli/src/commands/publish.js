@@ -1,6 +1,7 @@
 
 const path = require("path")
-const colors = require('colors')
+require('colors')
+const prompts = require("prompts")
 
 const PublishingHelper = require("../helpers/publishing.helper")
 const ManifestHelper = require("../helpers/manifest.helper")
@@ -11,38 +12,63 @@ const SystemHelper = require("../helpers/system.helper")
 exports.command = 'publish'
 exports.describe = 'Publishes the DApp on the DApp store'
 exports.builder = {
+    did: {
+        alias: "d",
+        describe: "DID string to be used to sign the application package (ex: did:ela:abcd#primary). Use the createdid command to create a DID if you don't have one yet.",
+        require: true
+    }
 }
 exports.handler = function (argv) {
-    var idKeystorePath = argv.idkeystore
-    launchAppCreation(idKeystorePath)
+    console.log(argv)
+    launchAppPublication(argv.did)
 }
 
-function launchAppCreation(idKeystorePath) {
+async function launchAppPublication(didURL) {
     var publishingHelper = new PublishingHelper()
     var manifestHelper = new ManifestHelper()
     var dappHelper = new DAppHelper()
-    var ionicHelper = new IonicHelper()
 
     if (!dappHelper.checkFolderIsDApp()) {
-        console.error("ERROR".red + " - " + manifestHelper.noManifestErrorMessage())
+        console.error("ERROR".red + " - " + dappHelper.noManifestErrorMessage())
         return
     }
+
+    var ionicHelper = new IonicHelper()
 
     // Make sure mandatory dependencies are available
     if (!SystemHelper.checkIonicPresence()) {
         console.error("Error:".red, "Please first install IONIC on your computer.")
         return
     }
+    if (!SystemHelper.checkPythonPresence()) {
+        console.error("Error:".red, "Please first install Python on your computer.")
+        return
+    }
+
+    // Prompt DID signature password
+    console.log("")
+    const questions = [
+        {
+            type: 'password',
+            name: 'didPassword',
+            message: 'DID Signature password (provided when you created your DID):',
+            validate: value => {
+                return value != ""
+            }
+        }
+    ];
+    let typedInfo = await prompts(questions);
+    let didSignaturePassword = typedInfo.didPassword;
 
     // Update manifest with local url in case it had been configured for debugging earlier (ionic serve with remote url)
-    var manifestPath = manifestHelper.nifestPath(ionicHelper.getConfig().assets_path)
+    var manifestPath = manifestHelper.getManifestPath(ionicHelper.getConfig().assets_path)
     manifestHelper.updateManifestForProduction(manifestPath)
 
     ionicHelper.updateNpmDependencies().then(() => {
         ionicHelper.runIonicBuildDev().then(() => {
             dappHelper.packEPK(manifestPath).then((outputEPKPath)=>{
-                dappHelper.signEPK(outputEPKPath, idKeystorePath).then(()=>{
-                    publishingHelper.publishToDAppStore(outputEPKPath, idKeystorePath).then((info)=>{
+                dappHelper.signEPK(outputEPKPath, didURL, didSignaturePassword).then((signedEPKPath)=>{
+                    publishingHelper.publishToDAppStore(signedEPKPath).then((info)=>{
                         console.log("Congratulations! Your app has been submitted for review!".green)
                     })
                     .catch((err)=>{
@@ -61,12 +87,12 @@ function launchAppCreation(idKeystorePath) {
             })
         })
         .catch((err)=>{
-            console.error("Failed run ionic build")
+            console.error("Failed run ionic build".red)
             console.error("Error:",err)
         })   
     })  
     .catch((err)=>{
-        console.error("Failed to install ionic dependencies")
+        console.error("Failed to install ionic dependencies".red)
         console.error("Error:",err)
     })  
 }

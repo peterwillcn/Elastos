@@ -16,9 +16,8 @@ var manifestHelper = new ManifestHelper()
 var ionicHelper = new IonicHelper()
 
 module.exports = class PublishingHelper {
-    async publishToDAppStore(epkPath, signaturePath) {
+    async publishToDAppStore(epkPath) {
         return new Promise(async (resolve, reject) => {
-
             console.log("")
             console.log("Starting DApp publishing process...")
             
@@ -73,9 +72,6 @@ module.exports = class PublishingHelper {
             let appIconStream = fs.createReadStream(appIconPath)
             let bannerImageStream = fs.createReadStream(resizedBannerImagePath)
 
-            // Developer signature
-            // TODO - How to get the developer's public key?
-            
             const data = new FormData();
             //data.append("jsondata", json);
             data.append("epk", epkStream);

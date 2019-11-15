@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import os
 import sys
@@ -7,6 +7,8 @@ import argparse
 import hashlib
 import getpass
 import ctypes
+import time
+
 
 sys.path.append(os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + '/../lib'))
 import ela_did
@@ -82,22 +84,22 @@ try:
 
     ret = did_api.DIDStore_Open(args.did_store_root.encode('utf-8'))
     if ret != 0:
-        raise RuntimeError("ERROR: Failed to open DID store.")
+        raise RuntimeError("Failed to open DID store.")
 
     didurl = did_api.DIDURL_FromString(args.didurl_str.encode('utf-8'))
     if didurl == None:
-        raise RuntimeError("ERROR: Failed to get DID URL from string.")
+        raise RuntimeError("Failed to get DID URL from string.")
 
     did = did_api.DIDURL_GetDid(didurl)
     if did == None:
-        raise RuntimeError("ERROR: Failed to get DID from DID URL.")
+        raise RuntimeError("Failed to get DID from DID URL.")
 
     diddoc = did_api.DIDStore_LoadDID(did)
     if diddoc == None:
         diddoc = did_api.DIDStore_Resolve(did)
         if diddoc == None:
-            raise RuntimeError("ERROR: Failed to resolve DID Document from chain.")
-
+            raise RuntimeError("Failed to resolve DID Document from chain.")
+        
     signature = ctypes.create_string_buffer(did_api.SIGNATURE_LENGTH)
     ret = did_api.DIDStore_Sign(did, didurl, password.encode('utf-8'), signature, 1, message, len(message))
     if ret != 0:

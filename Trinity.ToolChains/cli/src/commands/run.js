@@ -77,6 +77,10 @@ function deployAndroidDApp(idKeystorePath, noDebug) {
         console.error("Error:".red, "Please first install Android tools (especially ADB) on your computer.")
         return
     }
+    if (!SystemHelper.checkPythonPresence()) {
+        console.error("Error:".red, "Please first install Python on your computer.")
+        return
+    }
 
     // Retrieve user's computer IP (to be able to ionic serve / hot reload)
     // Update the start_url in the trinity manifest
@@ -92,40 +96,41 @@ function deployAndroidDApp(idKeystorePath, noDebug) {
                 dappHelper.signEPK(outputEPKPath, idKeystorePath).then(()=>{
                     runHelper.androidUploadEPK(outputEPKPath).then(()=>{
                         runHelper.androidInstallTempEPK().then(()=>{
-                            console.log("RUN OPERATION COMPLETED")
+                            console.log("RUN OPERATION COMPLETED".green)
 
                             if (!noDebug) {
-                                console.log("NOW RUNNING THE APP FOR DEVELOPMENT")
+                                console.log("NOW RUNNING THE APP FOR DEVELOPMENT".green)
+                                console.log("Please wait until the ionic server is started before launching your DApp on your device.".magenta)
                                 ionicHelper.runIonicServe()
                             }
                         })
                         .catch((err)=>{
-                            console.error("Failed to install your DApp on your device")
+                            console.error("Failed to install your DApp on your device".red)
                             console.error("Error:",err)
                         })
                     })
                     .catch((err)=>{
-                        console.error("Failed to upload your DApp to your device")
+                        console.error("Failed to upload your DApp to your device".red)
                         console.error("Error:",err)
                     })
                 })
                 .catch((err)=>{
-                    console.error("Failed to sign your EPK file")
+                    console.error("Failed to sign your EPK file".red)
                     console.error("Error:",err)
                 })
             })
             .catch((err)=>{
-                console.error("Failed to pack your DApp into a EPK file")
+                console.error("Failed to pack your DApp into a EPK file".red)
                 console.error("Error:",err)
             })          
         })
         .catch((err)=>{
-            console.error("Failed run ionic build")
+            console.error("Failed run ionic build".red)
             console.error("Error:",err)
         })          
     })
     .catch((err)=>{
-        console.error("Failed to install ionic dependencies")
+        console.error("Failed to install ionic dependencies".red)
         console.error("Error:",err)
     }) 
 }

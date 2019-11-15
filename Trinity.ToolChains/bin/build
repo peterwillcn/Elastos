@@ -110,7 +110,7 @@ if args.target == "runtime":
 
 if args.target == "runtime" or args.target == "all":
     os.chdir(RUNTIME_DIR_PATH)
-    copy_tree("config", "www/config")
+    copy_tree("www_files", "www")
     run_cmd("cordova prepare")
     add_fabric()
     run_cmd("cordova build android")

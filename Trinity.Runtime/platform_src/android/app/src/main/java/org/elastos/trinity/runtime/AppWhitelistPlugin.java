@@ -58,6 +58,7 @@ public class AppWhitelistPlugin extends CordovaPlugin {
         allowedRequests.addWhiteListEntry(dataPath, false);
         allowedRequests.addWhiteListEntry("asset://www/cordova*", false);
         allowedRequests.addWhiteListEntry("asset://www/plugins/*", false);
+        allowedRequests.addWhiteListEntry("asset://www/public/*", false);
 
         allowedRequests.addWhiteListEntry("trinity:///asset/*", false);
         allowedRequests.addWhiteListEntry("trinity:///data/*", false);

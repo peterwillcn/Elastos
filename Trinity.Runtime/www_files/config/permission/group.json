@@ -31,6 +31,23 @@
         ],
         "+Wallet": ["*"]
     },
+    "dappstore": {
+        "AppManager": [
+            "start",
+            "closeApp",
+            "setCurrentLocale",
+            "install",
+            "unInstall",
+            "setPluginAuthority",
+            "setUrlAuthority",
+            "getRunningList",
+            "getAppList",
+            "alertPrompt",
+            "infoPrompt",
+            "askPrompt"
+        ],
+        "Wallet": ["*"]
+    },
     "user": {
         "AppManager": [
             "start",

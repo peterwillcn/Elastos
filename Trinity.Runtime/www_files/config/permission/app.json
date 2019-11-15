@@ -1,0 +1,5 @@
+{
+    "org.elastos.trinity.dapp.wallet": "wallet",
+    "org.elastos.trinity.dapp.installer": "install",
+    "org.elastos.dappstore": "dappstore"
+}

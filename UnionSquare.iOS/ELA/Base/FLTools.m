@@ -1311,5 +1311,32 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
 // //所有资源文件的hash就保存在这数组里
 //  return dicHash;
 //}
+//返回值格式:1555642454396
+-(NSString*)timeSwitchTimestamp:(NSString *)formatTime{
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.SSS"]; //(@"YYYY-MM-dd hh:mm:ss") ----------设置你想要的格式,hh与HH的区别:分别表示12小时制,24小时制
+    
+//    NSTimeZone* timeZone = [NSTimeZone timeZoneWithName:@"Asia/Beijing"];
+    
+//    [formatter setTimeZone:timeZone];
+    
+    NSDate* date = [formatter dateFromString:formatTime]; //------------将字符串按formatter转成nsdate
+    
+    //时间转时间戳的方法:
+    NSString * timeSp = [[NSNumber numberWithDouble:[date timeIntervalSince1970]*1000] stringValue];
+    
+    NSLog(@"将某个时间转化成 时间戳timeSp:%ld",(long)timeSp); //时间戳的值
+    
+    return timeSp;
+    
+}
+
+
 
 @end

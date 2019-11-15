@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HWMCreateDIDListTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UITextField *intPutTextField;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowImageView;
+@property (weak, nonatomic) IBOutlet UILabel *infoLabel;
 
 @end
 

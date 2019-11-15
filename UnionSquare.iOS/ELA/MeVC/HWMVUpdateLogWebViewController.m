@@ -44,7 +44,7 @@
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
 CGFloat height = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight"] floatValue];
-    CGRect frame = webView.frame;
+    CGRect frame =self.view.frame;
     frame.size.height = height;
     [webView setFrame:frame];
 }

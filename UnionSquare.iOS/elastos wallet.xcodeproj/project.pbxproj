@@ -432,6 +432,7 @@
 		4296F1082375429800B2CE7D /* HWMshowIntroductionInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4296F1062375429800B2CE7D /* HWMshowIntroductionInfoViewController.xib */; };
 		4296F10C2375482900B2CE7D /* HWMShowSocialAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4296F10A2375482900B2CE7D /* HWMShowSocialAccountViewController.m */; };
 		4296F10D2375482900B2CE7D /* HWMShowSocialAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4296F10B2375482900B2CE7D /* HWMShowSocialAccountViewController.xib */; };
+		42A201C5237D4E160028DEFA /* HWMDIDInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A201C4237D4E160028DEFA /* HWMDIDInfoModel.m */; };
 		42A767952314FE50005FC764 /* HMWCRCommitteeMemberListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42A767932314FE50005FC764 /* HMWCRCommitteeMemberListViewController.mm */; };
 		42A767962314FE50005FC764 /* HMWCRCommitteeMemberListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A767942314FE50005FC764 /* HMWCRCommitteeMemberListViewController.xib */; };
 		42A7679A2315293F005FC764 /* HWMCRRegisteredViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42A767982315293F005FC764 /* HWMCRRegisteredViewController.mm */; };
@@ -1250,6 +1251,8 @@
 		4296F1092375482900B2CE7D /* HWMShowSocialAccountViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMShowSocialAccountViewController.h; sourceTree = "<group>"; };
 		4296F10A2375482900B2CE7D /* HWMShowSocialAccountViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMShowSocialAccountViewController.m; sourceTree = "<group>"; };
 		4296F10B2375482900B2CE7D /* HWMShowSocialAccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMShowSocialAccountViewController.xib; sourceTree = "<group>"; };
+		42A201C3237D4E160028DEFA /* HWMDIDInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMDIDInfoModel.h; sourceTree = "<group>"; };
+		42A201C4237D4E160028DEFA /* HWMDIDInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMDIDInfoModel.m; sourceTree = "<group>"; };
 		42A767922314FE50005FC764 /* HMWCRCommitteeMemberListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMWCRCommitteeMemberListViewController.h; sourceTree = "<group>"; };
 		42A767932314FE50005FC764 /* HMWCRCommitteeMemberListViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HMWCRCommitteeMemberListViewController.mm; sourceTree = "<group>"; };
 		42A767942314FE50005FC764 /* HMWCRCommitteeMemberListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HMWCRCommitteeMemberListViewController.xib; sourceTree = "<group>"; };
@@ -1834,6 +1837,8 @@
 			children = (
 				4202C89821F6EF28009E5932 /* friendsModel.m */,
 				4202C89921F6EF28009E5932 /* friendsModel.h */,
+				42A201C3237D4E160028DEFA /* HWMDIDInfoModel.h */,
+				42A201C4237D4E160028DEFA /* HWMDIDInfoModel.m */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -3792,6 +3797,7 @@
 				4202CA5321F6EF2A009E5932 /* FLAssetTableCell.m in Sources */,
 				4202CA1C21F6EF2A009E5932 /* FMDatabasePool.m in Sources */,
 				422D60A921FC42D100DD07FF /* HMWfoundTableCell.m in Sources */,
+				42A201C5237D4E160028DEFA /* HWMDIDInfoModel.m in Sources */,
 				4202CA4A21F6EF2A009E5932 /* FLMenuView.m in Sources */,
 				4202CAAD21F6EF2B009E5932 /* assetsListModel.m in Sources */,
 				4228AA6121F88C87002866B5 /* NSDictionary+YYAdd.m in Sources */,

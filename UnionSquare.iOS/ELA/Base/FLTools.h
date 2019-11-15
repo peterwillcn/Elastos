@@ -140,4 +140,5 @@
 - (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
 -(BOOL)APPIntegrity;
 -(BOOL)allHasNameAndHas;
+- (NSString*)timeSwitchTimestamp:(NSString *)formatTime;
 @end

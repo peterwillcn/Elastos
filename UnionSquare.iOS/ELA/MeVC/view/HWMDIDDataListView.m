@@ -98,7 +98,7 @@
 - (IBAction)makeSureEvent:(id)sender {
     if (self.delegate) {
         
-        [self.delegate selectDataWithYY:self.yearArray[ self.yearIndex] withMM:self.monthArray[self.monthIndex] wihMMWithInt:self.monthIndex+1 wtihDD:self.monthArray[self.dayIndex]];
+        [self.delegate selectDataWithYY:self.yearArray[self.yearIndex] withMM:self.monthArray[self.monthIndex] wihMMWithInt:self.monthIndex+1 wtihDD:self.dayArray[self.dayIndex]];
     }
 }
 - (NSMutableArray *)yearArray {
@@ -124,7 +124,7 @@
         _monthArray = [NSMutableArray array];
          for (int month = 1; month <= 12; month++) {
                     
-                    NSString *str = [NSString stringWithFormat:@"%02d月", month];
+                    NSString *str = [NSString stringWithFormat:@"%02d", month];
                     
                     [_monthArray addObject:str];
                 }
@@ -141,7 +141,7 @@
                 
                 for (int day = 1; day <= 31; day++) {
                     
-                    NSString *str = [NSString stringWithFormat:@"%02d日", day];
+                    NSString *str = [NSString stringWithFormat:@"%02d", day];
                     
                     [_dayArray addObject:str];
                 }
@@ -162,10 +162,10 @@
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     
-    if (self.ListViewType==genderType) {
-        return 2;
-    }
-    
+//    if (self.ListViewType==genderType) {
+//        return 2;
+//    }
+//    
     if (component == 0) {
         return self.yearArray.count;
         
@@ -202,18 +202,14 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     if (component == 0) {
-        
         self.yearIndex = row;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            UILabel *label = (UILabel *)[pickerView viewForRow:row forComponent:component];
+            [pickerView selectRow:self.yearIndex inComponent:row animated:NO];
+            UILabel *label = (UILabel *)[pickerView viewForRow:0 forComponent:component];
             label.textColor = [UIColor whiteColor];
             label.font = [UIFont systemFontOfSize:16];
-            
         });
-        
     }else if (component == 1) {
-        
         if (self.yearIndex==0||self.yearIndex==self.yearArray.count) {
             if (row<self.self.monthIndex-1) {
                 [pickerView selectRow:self.monthIndex inComponent:1 animated:NO];
@@ -288,29 +284,36 @@
     genderLabel.textAlignment = NSTextAlignmentCenter;
     genderLabel.textColor = RGBA(255, 255, 255, 0.5);
     genderLabel.font = [UIFont systemFontOfSize:14];
-    if (self.ListViewType==genderType) {
-         genderLabel.text = self.yearArray[row];
-    }
     if (component == 0) {
-        
+        if (self.yearIndex==row) {
+          genderLabel.textColor = [UIColor whiteColor];
+          genderLabel.font = [UIFont systemFontOfSize:16];
+                             
+        }
         genderLabel.text = self.yearArray[row];
         
     }else if (component == 1) {
-        NSString *textString=[NSString stringWithFormat:@"m%@",self.monthArray[row]];
+        if (self.monthIndex==row) {
+            genderLabel.textColor = [UIColor whiteColor];
+           genderLabel.font = [UIFont systemFontOfSize:16];
+                                    
+               }
+        NSString *textString=[NSString stringWithFormat:@"%@",self.monthArray[row]];
         genderLabel.text = NSLocalizedString(textString, nil);
         
     }else {
-        
+        if (self.dayIndex==row) {
+            genderLabel.textColor = [UIColor whiteColor];
+            genderLabel.font = [UIFont systemFontOfSize:16];
+        }
         genderLabel.text = self.dayArray[row];
     }
     
     return genderLabel;
 }
 -(void)setListViewType:(HWMDIDDataListViewType)ListViewType{
-    _ListViewType =ListViewType;
     if (ListViewType==DIDDataType) {
-         NSCalendar *calendar = [[NSCalendar alloc]
-                                               initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+         NSCalendar *calendar = [[NSCalendar alloc]initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
                        // 定义一个时间字段的旗标，指定将会获取指定年、月、日、时、分、秒的信息
                        unsigned unitFlags = NSCalendarUnitYear |
                        NSCalendarUnitMonth |  NSCalendarUnitDay |
@@ -321,34 +324,16 @@
                       self.nowYear=comp.year;
                           self.nowMonth=comp.month;
                           self.nowDay=comp.day;
-                self.yearIndex =self.yearArray.count;
-        //        [self.yearArray indexOfObject:[NSString stringWithFormat:@"%ld年", comp.year]];
-                self.monthIndex = [self.monthArray indexOfObject:[NSString stringWithFormat:@"%02ld", (long)comp.month]];
-                self.dayIndex = [self.dayArray indexOfObject:[NSString stringWithFormat:@"%02ld", (long)comp.day]];
-            
-                       [ self.dataPickerView selectRow:self.yearIndex+5 inComponent:0 animated:YES];
+                self.yearIndex =4;
+  
+                self.monthIndex = [self.monthArray indexOfObject:[NSString stringWithFormat:@"%02ld", (long)comp.month]]-1;
+                self.dayIndex = [self.dayArray indexOfObject:[NSString stringWithFormat:@"%02ld", (long)comp.day]]-1;
+                       [ self.dataPickerView selectRow:self.yearIndex inComponent:0 animated:YES];
                        [ self.dataPickerView selectRow:self.monthIndex inComponent:1 animated:YES];
                        [ self.dataPickerView selectRow:self.dayIndex inComponent:2 animated:YES];
-
-                       [self pickerView: self.dataPickerView didSelectRow:self.yearArray.count inComponent:0];
+                       [self pickerView: self.dataPickerView didSelectRow:self.yearIndex inComponent:0];
                        [self pickerView: self.dataPickerView didSelectRow:self.monthIndex inComponent:1];
                        [self pickerView: self.dataPickerView didSelectRow:self.dayIndex inComponent:2];
-                       
-                       dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-
-                           UILabel *label = (UILabel *)[ self.dataPickerView viewForRow:self.yearIndex forComponent:0];
-                           label.textColor = [UIColor whiteColor];
-                           label.font = [UIFont systemFontOfSize:16];
-        //
-                           label = (UILabel *)[self.dataPickerView viewForRow:self.monthIndex forComponent:1];
-                           label.textColor = [UIColor whiteColor];
-                           label.font = [UIFont systemFontOfSize:16];
-                           label = (UILabel *)[self.dataPickerView viewForRow:self.dayIndex forComponent:2];
-                                label.textColor = [UIColor whiteColor];
-                          label.font = [UIFont systemFontOfSize:16];
-
-                            });
-        
     }else if (ListViewType==genderType){
         
     }else if (ListViewType==birthdayType){

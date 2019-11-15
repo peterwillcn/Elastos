@@ -207,6 +207,7 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(BOOL)RetrieveCRDepositTransaction:(NSString*)mainchainSubWalletId acount:(double)acount Pwd:(NSString*)pwd;
 -(PluginResult *)getDIDlist:(invokedUrlCommand *)command;
 -(PluginResult *)getDetailsDIDlist:(invokedUrlCommand *)command;
+-(PluginResult *)getAllPublicKeys:(invokedUrlCommand *)command;
 @end
 
 

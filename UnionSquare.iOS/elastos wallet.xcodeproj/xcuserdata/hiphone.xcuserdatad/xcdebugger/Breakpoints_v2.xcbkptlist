@@ -53,67 +53,38 @@
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
          <BreakpointContent
-            uuid = "4F7505FA-0A40-4AC3-890E-85E76B1FE66A"
+            uuid = "A455CD87-0782-4978-9EDC-7F62DE021D8C"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WalletManager/ELWalletManager.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "-getIdChainSubWallet::"
-            landmarkType = "7">
+            scope = "1"
+            stopOnStyle = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
          <BreakpointContent
-            uuid = "EFB34368-420F-483D-9C4B-16BFE2C036DB"
+            uuid = "4D8D6148-26A1-4190-9836-D2FC8764AD62"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ELA/MeVC/HWMCreateDIDViewController.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "291"
-            endingLineNumber = "291"
-            landmarkName = "-selectDataWithYY:withMM:wihMMWithInt:wtihDD:"
-            landmarkType = "7">
+            symbolName = ""
+            moduleName = "">
+            <Locations>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         BreakpointExtensionID = "Xcode.Breakpoint.RuntimeIssueBreakpoint">
          <BreakpointContent
-            uuid = "0688D902-415C-4A91-B20F-FA79DAC726BD"
+            uuid = "4AB0FD8A-9820-4FC1-B1EB-80F22C53B6A2"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ELA/MeVC/HWMCreateDIDViewController.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "288"
-            endingLineNumber = "288"
-            landmarkName = "-cancelDataListView"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8FA5150D-DA86-4C5F-BD88-A1C71C4BCB39"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ELA/MeVC/HWMCreateDIDViewController.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
-            landmarkName = "-getDIDAndDIDPublicKey"
-            landmarkType = "7">
+            breakpointStackSelectionBehavior = "1"
+            type = "65535">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -1156,21 +1156,64 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
 }
 -(NSString*)http_IpFast{
     
-    #ifdef DEBUG
-    return Http_IP;
-    #elif PrvNet
-     return Http_IP;
-     #elif TestNet
-    return Http_IP;
-    #else
-    NSString *http_ip =[STANDARD_USER_DEFAULT valueForKey:@"Http_IP"];
-    if (http_ip.length>0) {
-        return http_ip;
-    }
-    return  Http_IP;
-   #endif
+//    #ifdef DEBUG
+//    return Http_IP;
+//    #elif PrvNet
+//     return Http_IP;
+//     #elif TestNet
+//    return Http_IP;
+//    #else
+   //   @"RegTest",@"PrvNet",@"TestNet",@"MainNet"
+        if ([SDKNET isEqualToString:@"RegTest"] ) {
+             return Http_IP;
+        }else if ([SDKNET isEqualToString:@"PrvNet"] ){
+             return Http_IP;
+        }else if ([SDKNET isEqualToString:@"TestNet"] ){
+             return Http_IP;
+        }else if ([SDKNET isEqualToString:@"MainNet"] ){
+            NSString *http_ip =[STANDARD_USER_DEFAULT valueForKey:@"Http_IP"];
+               if (http_ip.length>0) {
+                   return http_ip;
+               }
+        }
+        return  Http_IP;
+//   #endif
 
 }
+-(NSString *)http_ipString:(NSString *)sdknet{
+
+    if ([sdknet isEqualToString:@"RegTest"] ) {
+           return @"https://54.223.244.60";
+           }else if ([sdknet isEqualToString:@"PrvNet"] ){
+               return @"https://54.223.244.60";
+              
+           }else if ([sdknet isEqualToString:@"TestNet"] ){
+               return @"https://54.223.244.60";
+              
+           }else if ([sdknet isEqualToString:@"MainNet"]){
+               return @"http://54.223.158.189:5739/";
+           }
+     return @"http://54.223.158.189:5739/";
+}
+-(NSString*)http_transUrl:(NSString*)sdknet{
+    if ([sdknet isEqualToString:@"RegTest"] ) {
+             return  @"https://blockchain-beta.elastos.org/tx/";
+             }else if ([sdknet isEqualToString:@"PrvNet"] ){
+                 return  @"https://blockchain-beta.elastos.org/tx/";
+                
+             }else if ([sdknet isEqualToString:@"TestNet"] ){
+                 return  @"https://blockchain-beta.elastos.org/tx/";
+                
+             }else if ([sdknet isEqualToString:@"MainNet"]){
+                 return @"https://blockchain.elastos.org/tx/";
+             }
+       return @"https://blockchain.elastos.org/tx/";
+    
+}
+-(NSString*)http_PongUrl:(NSString*)sdknet{
+    return @"http://54.223.158.189:5739/";
+}
+
 -(NSArray*)theInterceptionHttpWithArray:(NSArray*)array{
     
     NSMutableArray *IPArray=[[NSMutableArray alloc]init];

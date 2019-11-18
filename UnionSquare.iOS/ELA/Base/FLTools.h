@@ -140,4 +140,7 @@
 - (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
 -(BOOL)APPIntegrity;
 -(BOOL)allHasNameAndHas;
+-(NSString *)http_ipString:(NSString *)sdknet;
+-(NSString*)http_transUrl:(NSString*)sdknet;
+-(NSString*)http_PongUrl:(NSString*)sdknet;
 @end

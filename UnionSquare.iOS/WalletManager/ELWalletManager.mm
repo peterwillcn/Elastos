@@ -374,7 +374,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     mRootPath = [MyUtil getRootPath];
     const char  *rootPath = [mRootPath UTF8String];
     try {
-      mMasterWalletManager = new MasterWalletManager(rootPath, SDKNET);
+      mMasterWalletManager = new MasterWalletManager(rootPath, [self cstringWithString:SDKNET]);
     } catch (const std:: exception & e ) {
         
         NSString *errString=[self stringWithCString:e.what()];
@@ -388,7 +388,7 @@ errCodeSPVCreateMasterWalletError= 20006;
 {  if(mMasterWalletManager==nil){
     mRootPath = [MyUtil getRootPath];
     const char  *rootPath = [mRootPath UTF8String];
-    mMasterWalletManager = new MasterWalletManager(rootPath, SDKNET);
+    mMasterWalletManager = new MasterWalletManager(rootPath, [self cstringWithString:SDKNET]);
 }
     return mMasterWalletManager;
 }

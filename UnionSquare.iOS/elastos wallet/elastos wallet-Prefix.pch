@@ -22,33 +22,29 @@
 
 //#import "ELWalletManager.h"
 #ifdef DEBUG
-#define SDKNET  "RegTest"
+#define SDKNET  @"RegTest"
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
-#define Http_IP   @"https://54.223.244.60"
-#define transUrl @"https://blockchain-beta.elastos.org/tx/"
-#define PongUrl @"http://54.223.158.189:5739/"
-#define Http_IP   @"https://54.223.244.60"
+#define Http_IP [[FLTools share]http_ipString:SDKNET]
+#define transUrl [[FLTools share]http_transUrl:SDKNET]
+#define PongUrl [[FLTools share]http_PongUrl:SDKNET]
  #elif PrvNet
- #define SDKNET  "PrvNet"
+ #define SDKNET  @"PrvNet"
  #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
- #define Http_IP   @"https://54.223.244.60"
- #define transUrl @"https://blockchain-beta.elastos.org/tx/"
- #define PongUrl @"http://54.223.158.189:5739/"
- #define Http_IP   @"https://54.223.244.60"
-  #elif TestNet
-#define SDKNET  "TestNet"
+#define Http_IP [[FLTools share]http_ipString:SDKNET]
+#define transUrl [[FLTools share]http_transUrl:SDKNET]
+#define PongUrl [[FLTools share]http_PongUrl:SDKNET]
+#elif TestNet
+#define SDKNET  @"TestNet"
+#define Http_IP [[FLTools share]http_ipString:SDKNET]
+#define transUrl [[FLTools share]http_transUrl:SDKNET]
+#define PongUrl [[FLTools share]http_PongUrl:SDKNET]
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
-#define Http_IP   @"https://54.223.244.60"
-#define transUrl @"https://blockchain-beta.elastos.org/tx/"
-#define PongUrl @"http://54.223.158.189:5739/"
-#define Http_IP   @"https://54.223.244.60"
 #else
-//"RegTest","PrvNet","TestNet","MainNet"
-#define SDKNET  "MainNet"
-//regtext
-#define Http_IP @"https://unionsquare.elastos.org"
-#define transUrl @"https://blockchain.elastos.org/tx/"
-#define PongUrl @"http://54.223.158.189:5739/"
+//@"RegTest",@"PrvNet",@"TestNet",@"MainNet"
+#define SDKNET  @"MainNet"
+#define Http_IP [[FLTools share]http_ipString:SDKNET]
+#define transUrl [[FLTools share]http_transUrl:SDKNET]
+#define PongUrl [[FLTools share]http_PongUrl:SDKNET]
 
 #define DLog(...)
 
@@ -110,5 +106,6 @@
 #import "NSObject+Swizzling.h"
 #import "UIButton+HMWButton.h"
 #import "UILabel+HMWinternationalization.h"
+#import "NSString+HWMNSTaggedPointerString.h"
 #import "HWMQrCodeScanningResultsViewController.h"
 #endif

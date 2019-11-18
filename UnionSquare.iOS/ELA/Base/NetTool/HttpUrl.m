@@ -41,7 +41,10 @@ NSInteger timeOut = 20;
 }
 
 + (void)NetPOSTHost:(NSString*)host url:(NSString *)httpUrl header:(NSDictionary*)header body:(NSDictionary *)param  showHUD:(BOOL)show WithSuccessBlock:(void(^)(id data))successBlock WithFailBlock:(void(^)(id data))FailBlock{
-    
+    BOOL isSh=YES;
+    if ([httpUrl isEqualToString:@"/api/dposnoderpc/check/getimage"]) {
+        isSh=NO;
+    }
      if (show) {
          [[FLTools share]showLoadingView];
         
@@ -66,15 +69,22 @@ NSInteger timeOut = 20;
             successBlock(dic);
         }else{
             NSString *errString=dic[@"exceptionMsg"];
-            [[FLTools share]showErrorInfo:errString];
+            if (isSh) {
+                 [[FLTools share]showErrorInfo:errString];
+            }
+           
             FailBlock(dic);
             
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-//        DLog(@"----------------------------->%@",error);
+        if (isSh) {
         [[FLTools share]showErrorInfo:errorString];
+        
+    }
+        
+////        DLog(@"----------------------------->%@",error);
+//        [[FLTools share]showErrorInfo:errorString];
         FailBlock(error);
     }];
     

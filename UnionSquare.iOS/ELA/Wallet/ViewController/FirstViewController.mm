@@ -113,10 +113,10 @@
       [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(currentWalletAccountBalanceChanges:) name: AccountBalanceChanges object:nil];
          [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataCreateWalletLoadWalletInfo) name:updataCreateWallet object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(AsnyConnectStatusChanged:) name:ConnectStatusChanged object:nil];
-//    self.table.estimatedRowHeight = 0;
-//    
-//    self.table.estimatedSectionFooterHeight = 0;
-    [self loadNetWorkingPong];
+    if ([SDKNET isEqualToString:@"MainNet"]) {
+        [self loadNetWorkingPong];
+    }
+    
 }
 -(void)loadNetWorkingPong{
     [HttpUrl NetGETHost:PongUrl url:@"/api/dposNodeRPC/getProducerNodesList" header:nil body:nil showHUD:NO WithSuccessBlock:^(id data) {

@@ -45,7 +45,7 @@ void ElaSubWalletCallback::OnTransactionStatusChanged(
 //
 //}
 
-void ElaSubWalletCallback::OnBlockSyncProgress(uint32_t currentBlockHeight, uint32_t estimatedHeight, time_t lastBlockTime)
+void ElaSubWalletCallback::OnBlockSyncProgress(const nlohmann::json &progressInfo)
 {
 //    NSOperationQueue *waitQueue = [[NSOperationQueue alloc] init];
 //    [waitQueue addOperationWithBlock:^{

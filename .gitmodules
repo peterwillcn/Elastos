@@ -5,7 +5,6 @@
 [submodule "Launcher"]
 	path = Trinity/Launcher
 	url = ../Elastos.Trinity.DApps.Launcher.git
-	branch = master
 [submodule "Dapps/Ionic/CarrierDemo"]
 	path = Trinity/Dapps/Ionic/CarrierDemo
 	url = ../Elastos.Trinity.DApps.Demo.Carrier.git
@@ -18,47 +17,36 @@
 [submodule "Dapps/Ionic/Wallet"]
 	path = Trinity/Dapps/Ionic/Wallet
 	url = ../Elastos.Trinity.Dapps.Wallet.git
-	branch = master
 [submodule "Plugins/Carrier"]
 	path = Trinity/Plugins/Carrier
 	url = ../Elastos.Trinity.Plugins.Carrier.git
-	branch = master
 [submodule "Plugins/DID"]
 	path = Trinity/Plugins/DID
 	url = ../Elastos.Trinity.Plugins.DID.git
 [submodule "Plugins/File"]
 	path = Trinity/Plugins/File
 	url = ../Elastos.Trinity.Plugins.File.git
-	branch = trinity
 [submodule "Plugins/Hive"]
 	path = Trinity/Plugins/Hive
 	url = ../Elastos.Trinity.Plugins.Hive.git
-	branch = master
 [submodule "Plugins/IonicWebView"]
 	path = Trinity/Plugins/IonicWebView
 	url = ../Elastos.Trinity.Plugins.IonicWebView.git
-	branch = trinity
 [submodule "Plugins/Media"]
 	path = Trinity/Plugins/Media
 	url = ../Elastos.Trinity.Plugins.Media.git
-	branch = trinity
 [submodule "Plugins/QRScanner"]
 	path = Trinity/Plugins/QRScanner
 	url = ../Elastos.Trinity.Plugins.QRScanner.git
-	branch = trinity
 [submodule "Plugins/Wallet"]
 	path = Trinity/Plugins/Wallet
 	url = ../Elastos.Trinity.Plugins.Wallet.git
-	branch = master
 [submodule "Runtime"]
 	path = Trinity/Runtime
 	url = ../Elastos.Trinity.Runtime.git
-	branch = master
 [submodule "Plugins/AppManager"]
 	path = Trinity/Plugins/AppManager
 	url = ../Elastos.Trinity.Runtime.Plugins.AppManager.git
-	branch = master
 [submodule "ToolChains"]
 	path = Trinity/ToolChains
 	url = ../Elastos.Trinity.ToolChains.git
-	branch = master

@@ -125,6 +125,20 @@ var commands = [
     { cmd: "groupps", fn: group_get_peers, help: "groupps" },
     { cmd: "groups", fn: group_get_groups, help: "groups" },
 
+    { cmd: "ftnew", fn: new_file_transfer, help: "ftnew userid fileid filename size" },
+    { cmd: "ftgenerateid", fn: ft_generate_fileId, help: "ftgenerateid" },
+    { cmd: "ftgetfileid", fn: ft_get_fileid, help: "ftgetfileid filename" },
+    { cmd: "ftgetfilename", fn: ft_get_filename, help: "ftgetfilename fileid" },
+    { cmd: "ftconn", fn: ft_connect, help: "ftconn" },
+    { cmd: "ftacceptconn", fn: ft_accept_connect, help: "ftacceptconn" },
+    { cmd: "ftaddfile", fn: ft_add_file, help: "ftaddfile fileid filename size" },
+    { cmd: "ftpulldata", fn: ft_pull_data, help: "ftpulldata fileId" },
+    { cmd: "ftwritedata", fn: ft_write_data, help: "ftwritedata fileId data" },
+    { cmd: "ftsendfinish", fn: ft_send_finish, help: "ftsendfinish fileId" },
+    { cmd: "ftcancel", fn: ft_cancel, help: "ftcancel fileId status reason" },
+    { cmd: "ftpend", fn: ft_pend, help: "ftpend fileId" },
+    { cmd: "ftresume", fn: ft_resume, help: "ftresume fileId" },
+
     { cmd:"test",           fn:test,                   help:"test" },
 
     { cmd: "exit", fn: exit, help: "exit" }
@@ -593,6 +607,217 @@ function group_get_groups(argv) {
     };
     carrier.getGroups(success, error);
 }
+
+
+
+var fileTransfer = null ;
+function new_file_transfer(argv){
+    var success = function(mFileTransfer) {
+        fileTransfer = mFileTransfer ;
+        display_others_msg("There are "+JSON.stringify(fileTransfer));
+    };
+    var error = function (error) {
+       display_others_msg("new_file_transfer failed: " + error + ".");
+    };
+
+    var friendId = argv[1];
+    var fileId = argv[2];
+    var filename = argv[3];
+    var size = argv[4];
+
+    var fileTransferInfo = new Object();
+    fileTransferInfo.filename = filename ;
+    fileTransferInfo.fileId = fileId ;
+    fileTransferInfo.size = size ;
+
+    carrier.newFileTransfer(success, error,friendId,fileTransferInfo,fileTransferCallbacks);
+}
+
+function ft_generate_fileId(argv){
+    var success = function(fileId){
+        display_others_msg("generate_fileId : "+fileId);
+    };
+
+    carrier.generateFileId(success);
+}
+
+function ft_get_fileid(argv){
+    var success = function(fileId){
+        display_others_msg("get file id : "+fileId);
+    };
+    var error = function (error) {
+       display_others_msg("ft_get_fileid failed: " + error + ".");
+    };
+    if (fileTransfer){
+        var filename = argv[1];
+        fileTransfer.getFileId(success , error , filename);
+    } else {
+        display_others_msg("please create file transfer firstly");
+    }
+}
+
+function ft_get_filename(argv){
+    var success = function(filename){
+        display_others_msg("get filename : "+filename);
+    };
+    var error = function (error) {
+       display_others_msg("ft_get_filename failed: " + error + ".");
+    };
+    if (fileTransfer){
+        var fileId = argv[1];
+        fileTransfer.getFileName(success , error , fileId);
+    } else {
+        display_others_msg("please create file transfer firstly");
+    }
+}
+
+function ft_connect(argv){
+    var success = function(success){
+        display_others_msg("ft_connect : "+success);
+    };
+    var error = function (error) {
+       display_others_msg("ft_connect failed: " + error + ".");
+    };
+    if (fileTransfer){
+        fileTransfer.connect(success , error);
+    } else {
+        display_others_msg("please create file transfer firstly");
+    }
+}
+
+function ft_accept_connect(argv){
+    var success = function(success){
+        display_others_msg("ft_accept_connect : "+success);
+    };
+    var error = function (error) {
+       display_others_msg("ft_accept_connect failed: " + error + ".");
+    };
+    if (fileTransfer){
+        fileTransfer.acceptConnect(success , error);
+    } else {
+        display_others_msg("please create file transfer firstly");
+    }
+}
+
+function ft_add_file(argv){
+    var success = function(success){
+        display_others_msg("ft_add_file : "+success);
+    };
+    var error = function (error) {
+       display_others_msg("ft_add_file failed: " + error + ".");
+    };
+    if (fileTransfer){
+        var fileId = argv[1];
+        var filename = argv[2];
+        var size = argv[3];
+
+        var fileTransferInfo = new Object();
+        fileTransferInfo.filename = filename ;
+        fileTransferInfo.fileId = fileId ;
+        fileTransferInfo.size = size ;
+
+        fileTransfer.addFile(success , error , fileTransferInfo);
+    } else {
+        display_others_msg("please create file transfer firstly");
+    }
+}
+
+function ft_pull_data(argv){
+    var success = function(success){
+        display_others_msg("ft_pull_data : "+success);
+    };
+    var error = function (error) {
+       display_others_msg("ft_pull_data failed: " + error + ".");
+    };
+    if (fileTransfer){
+        var fileId = argv[1];
+        fileTransfer.pullData(success , error , fileId , 0);
+    } else {
+        display_others_msg("please create file transfer firstly");
+    }
+}
+
+
+function ft_write_data(argv){
+    var success = function(success){
+        display_others_msg("ft_write_data : "+success);
+    };
+    var error = function (error) {
+       display_others_msg("ft_write_data failed: " + error + ".");
+    };
+    if (fileTransfer){
+        var fileId = argv[1];
+        var data = argv[2];
+        fileTransfer.writeData(success , error ,fileId , data);
+    } else {
+        display_others_msg("please create file transfer firstly");
+    }
+}
+
+function ft_send_finish(argv){
+    var success = function(success){
+        display_others_msg("ft_send_finish : "+success);
+    };
+    var error = function (error) {
+       display_others_msg("ft_send_finish failed: " + error + ".");
+    };
+    if (fileTransfer){
+        var fileId = argv[1];
+        fileTransfer.sendFinish(success , error , fileId);
+    } else {
+        display_others_msg("please create file transfer firstly");
+    }
+}
+
+function ft_cancel(argv){
+    var success = function(success){
+        display_others_msg("ft_cancel : "+success);
+    };
+    var error = function (error) {
+       display_others_msg("ft_cancel failed: " + error + ".");
+    };
+    if (fileTransfer){
+        var fileId = argv[1];
+        var status = argv[2];
+        var reason = argv[3];
+        fileTransfer.cancelTransfer(success , error , fileId , status , reason);
+    } else {
+        display_others_msg("please create file transfer firstly");
+    }
+}
+
+function ft_pend(argv){
+    var success = function(success){
+        display_others_msg("ft_pend : "+success);
+    };
+    var error = function (error) {
+       display_others_msg("ft_pend failed: " + error + ".");
+    };
+    if (fileTransfer){
+        var fileId = argv[1];
+        fileTransfer.pendTransfer(success , error , fileId);
+    } else {
+        display_others_msg("please create file transfer firstly");
+    }
+}
+
+function ft_resume(argv){
+    var success = function(success){
+        display_others_msg("ft_resume : "+success);
+    };
+    var error = function (error) {
+       display_others_msg("ft_resume failed: " + error + ".");
+    };
+    if (fileTransfer){
+        var fileId = argv[1];
+        fileTransfer.resumeTransfer(success , error , fileId);
+    } else {
+        display_others_msg("please create file transfer firstly");
+    }
+}
+
+
+
 
 //-----------------------------------------------------------------------------
 var session;
@@ -1434,12 +1659,20 @@ function invite_response_callback(event) {
     display_others_msg(msg);
 }
 
+function manager_connect_request_callback(event){
+    var msg = "Got file transfer manager connect request callback response .<br/>"
+        + "if you want connect file transfer .<br/>"
+        + "Please enter the following command .<br/> "
+        + "ftnew " + event.from +" "+event.info.fileId+ " "+event.info.filename+" "+event.info.size ;
+    display_others_msg(msg);
+}
+
 function group_invite_callback(event){
     var msg = "Got group invite callback response " + event.from + "; "+event.cookieCode
             + ".<br/>if you want Accept the invitation,"
             + "<br/>input sub command:"
             +"<br/>groupj "+ event.from +" "+event.cookieCode;
-        display_others_msg(msg);
+    display_others_msg(msg);
 }
 
 function group_connected_callback(event) {
@@ -1473,6 +1706,61 @@ function group_peer_list_change_callback(event) {
     display_others_msg(msg);
 }
 
+function ft_state_changed_callback(event) {
+    var msg = "Got file transfer state changed callback response .<br/>"
+        +"state = "+event.state;
+    display_others_msg(msg);
+}
+
+function ft_file_request_callback(event) {
+    var msg = "Got file transfer file request callback response .<br/>"
+        +"fileId = "+event.fileId+"<br/>"
+        +"filename = "+event.filename+"<br/>"
+        +"size = "+event.size+"<br/>";
+    display_others_msg(msg);
+}
+
+function ft_pull_request_callback(event) {
+    var msg = "Got file transfer pull request callback response .<br/>"
+        +"fileId = "+event.fileId+"<br/>"
+        +"offset = "+event.offset;
+    display_others_msg(msg);
+}
+
+function ft_on_data_callback(event) {
+    var msg = "Got file transfer on data callback response .<br/>"
+        +"fileId = "+event.fileId+"<br/>"
+        +"data = "+event.data+"<br/>";
+    display_others_msg(msg);
+}
+
+function ft_on_data_finished_callback(event) {
+    var msg = "Got file transfer on data finished callback response .<br/>"
+        +"fileId = "+event.fileId;
+    display_others_msg(msg);
+}
+
+function ft_on_pending_callback(event) {
+    var msg = "Got file transfer on pending callback response .<br/>"
+        +"fileId = "+event.fileId;
+    display_others_msg(msg);
+}
+
+
+function ft_on_resume_callback(event) {
+    var msg = "Got file transfer on resume callback response .<br/>"
+        +"fileId = "+event.fileId;
+    display_others_msg(msg);
+}
+
+function ft_on_cancel_callback(event) {
+    var msg = "Got file transfer on cancel callback response .<br/>"
+        +"fileId = "+event.fileId+"<br/>"
+        +"status = "+event.status+"<br/>"
+        +"reason = "+event.reason ;
+    display_others_msg(msg);
+}
+
 var callbacks = {
     onIdle: idle_callback,
     onConnection: connection_callback,
@@ -1489,6 +1777,7 @@ var callbacks = {
     onFriendInviteRequest: invite_request_callback,
     onSessionRequest: session_request_callback,
     onGroupInvite:group_invite_callback,
+    onConnectRequest:manager_connect_request_callback,
 }
 
 var groupCallbacks = {
@@ -1497,6 +1786,17 @@ var groupCallbacks = {
     onGroupTitle:group_title_callback,
     onPeerName:group_peer_name_callback,
     onPeerListChanged:group_peer_list_change_callback,
+}
+
+var fileTransferCallbacks = {
+    onStateChanged:ft_state_changed_callback,
+    onFileRequest:ft_file_request_callback,
+    onPullRequest:ft_pull_request_callback,
+    onData:ft_on_data_callback,
+    onDataFinished:ft_on_data_finished_callback,
+    onPending:ft_on_pending_callback,
+    onResume:ft_on_resume_callback,
+    onCancel:ft_on_cancel_callback,
 }
 
 function onLauncher() {

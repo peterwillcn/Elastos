@@ -141,4 +141,7 @@
 -(BOOL)APPIntegrity;
 -(BOOL)allHasNameAndHas;
 - (NSString*)timeSwitchTimestamp:(NSString *)formatTime;
+-(NSString *)http_ipString:(NSString *)sdknet;
+-(NSString*)http_transUrl:(NSString*)sdknet;
+-(NSString*)http_PongUrl:(NSString*)sdknet;
 @end

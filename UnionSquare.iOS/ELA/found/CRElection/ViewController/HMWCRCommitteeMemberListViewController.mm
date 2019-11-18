@@ -212,10 +212,13 @@ self.all_selectedTextLabel.text=NSLocalizedString(@"全选", nil);
             
          }
      }
+//    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//         [self.votingListV setDataSource: allListInfoArray];
+//    });
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        [self.votingListV setDataSource: allListInfoArray];
+//        [self.votingListV setDataSource: allListInfoArray];
     });
-    dispatch_queue_t queue = dispatch_queue_create(0, DISPATCH_QUEUE_CONCURRENT);
+//    dispatch_queue_t queue = dispatch_queue_create(0, DISPATCH_QUEUE_CONCURRENT);
 //    dispatch_async(queue, ^{
 //
 //    });

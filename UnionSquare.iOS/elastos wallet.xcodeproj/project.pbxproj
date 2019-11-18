@@ -312,6 +312,16 @@
 		4234721822CC9B29000616CB /* HWMImportTheMnemonicWordViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4234721622CC9B29000616CB /* HWMImportTheMnemonicWordViewController.mm */; };
 		4234721922CC9B29000616CB /* HWMImportTheMnemonicWordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4234721722CC9B29000616CB /* HWMImportTheMnemonicWordViewController.xib */; };
 		4234721C22CCA2EF000616CB /* HWMSignTheWalletListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4234721B22CCA2EF000616CB /* HWMSignTheWalletListViewController.mm */; };
+		423DDC512382957D00EC25EF /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 423DDC392382957D00EC25EF /* NSLayoutConstraint+MASDebugAdditions.m */; };
+		423DDC522382957D00EC25EF /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 423DDC422382957D00EC25EF /* ViewController+MASAdditions.m */; };
+		423DDC532382957D00EC25EF /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 423DDC462382957D00EC25EF /* MASCompositeConstraint.m */; };
+		423DDC542382957D00EC25EF /* MASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 423DDC472382957D00EC25EF /* MASConstraintMaker.m */; };
+		423DDC552382957D00EC25EF /* MASLayoutConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 423DDC482382957D00EC25EF /* MASLayoutConstraint.m */; };
+		423DDC562382957D00EC25EF /* NSArray+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 423DDC492382957D00EC25EF /* NSArray+MASAdditions.m */; };
+		423DDC572382957D00EC25EF /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 423DDC4A2382957D00EC25EF /* View+MASAdditions.m */; };
+		423DDC582382957D00EC25EF /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 423DDC4D2382957D00EC25EF /* MASConstraint.m */; };
+		423DDC592382957D00EC25EF /* MASViewConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 423DDC4F2382957D00EC25EF /* MASViewConstraint.m */; };
+		423DDC5A2382957D00EC25EF /* MASViewAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 423DDC502382957D00EC25EF /* MASViewAttribute.m */; };
 		423EFA06235EE42F00C210E9 /* HWMDIDDataListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 423EFA05235EE42F00C210E9 /* HWMDIDDataListView.m */; };
 		423EFA08235EE77100C210E9 /* HWMDIDDataListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 423EFA07235EE77100C210E9 /* HWMDIDDataListView.xib */; };
 		423F432D2330D25C0081D8E2 /* HWMQRModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 423F432C2330D25C0081D8E2 /* HWMQRModel.m */; };
@@ -1018,6 +1028,31 @@
 		4234721722CC9B29000616CB /* HWMImportTheMnemonicWordViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMImportTheMnemonicWordViewController.xib; sourceTree = "<group>"; };
 		4234721A22CCA2EF000616CB /* HWMSignTheWalletListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMSignTheWalletListViewController.h; sourceTree = "<group>"; };
 		4234721B22CCA2EF000616CB /* HWMSignTheWalletListViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HWMSignTheWalletListViewController.mm; sourceTree = "<group>"; };
+		423DDC382382957D00EC25EF /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
+		423DDC392382957D00EC25EF /* NSLayoutConstraint+MASDebugAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+MASDebugAdditions.m"; sourceTree = "<group>"; };
+		423DDC3A2382957D00EC25EF /* MASConstraint+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MASConstraint+Private.h"; sourceTree = "<group>"; };
+		423DDC3B2382957D00EC25EF /* MASLayoutConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASLayoutConstraint.h; sourceTree = "<group>"; };
+		423DDC3C2382957D00EC25EF /* NSArray+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASShorthandAdditions.h"; sourceTree = "<group>"; };
+		423DDC3D2382957D00EC25EF /* MASConstraintMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraintMaker.h; sourceTree = "<group>"; };
+		423DDC3E2382957D00EC25EF /* View+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASAdditions.h"; sourceTree = "<group>"; };
+		423DDC3F2382957D00EC25EF /* NSArray+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASAdditions.h"; sourceTree = "<group>"; };
+		423DDC402382957D00EC25EF /* MASUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASUtilities.h; sourceTree = "<group>"; };
+		423DDC412382957D00EC25EF /* MASViewAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewAttribute.h; sourceTree = "<group>"; };
+		423DDC422382957D00EC25EF /* ViewController+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewController+MASAdditions.m"; sourceTree = "<group>"; };
+		423DDC432382957D00EC25EF /* MASViewConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewConstraint.h; sourceTree = "<group>"; };
+		423DDC442382957D00EC25EF /* MASConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraint.h; sourceTree = "<group>"; };
+		423DDC452382957D00EC25EF /* NSLayoutConstraint+MASDebugAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+MASDebugAdditions.h"; sourceTree = "<group>"; };
+		423DDC462382957D00EC25EF /* MASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASCompositeConstraint.m; sourceTree = "<group>"; };
+		423DDC472382957D00EC25EF /* MASConstraintMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraintMaker.m; sourceTree = "<group>"; };
+		423DDC482382957D00EC25EF /* MASLayoutConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASLayoutConstraint.m; sourceTree = "<group>"; };
+		423DDC492382957D00EC25EF /* NSArray+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MASAdditions.m"; sourceTree = "<group>"; };
+		423DDC4A2382957D00EC25EF /* View+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "View+MASAdditions.m"; sourceTree = "<group>"; };
+		423DDC4B2382957D00EC25EF /* View+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASShorthandAdditions.h"; sourceTree = "<group>"; };
+		423DDC4C2382957D00EC25EF /* Masonry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Masonry.h; sourceTree = "<group>"; };
+		423DDC4D2382957D00EC25EF /* MASConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraint.m; sourceTree = "<group>"; };
+		423DDC4E2382957D00EC25EF /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+MASAdditions.h"; sourceTree = "<group>"; };
+		423DDC4F2382957D00EC25EF /* MASViewConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewConstraint.m; sourceTree = "<group>"; };
+		423DDC502382957D00EC25EF /* MASViewAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewAttribute.m; sourceTree = "<group>"; };
 		423EFA04235EE42F00C210E9 /* HWMDIDDataListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMDIDDataListView.h; sourceTree = "<group>"; };
 		423EFA05235EE42F00C210E9 /* HWMDIDDataListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMDIDDataListView.m; sourceTree = "<group>"; };
 		423EFA07235EE77100C210E9 /* HWMDIDDataListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMDIDDataListView.xib; sourceTree = "<group>"; };
@@ -3591,7 +3626,6 @@
 				4202CAC621F6EF2B009E5932 /* HMWtheCandidateListTableViewCell.m in Sources */,
 				42A7A85B236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.m in Sources */,
 				4202CA6021F6EF2A009E5932 /* HMWSendSuccessPopuView.m in Sources */,
-				4202CA0221F6EF2A009E5932 /* MASViewAttribute.m in Sources */,
 				4202CA0E21F6EF2A009E5932 /* WCQRCodeScanningVC.m in Sources */,
 				4234720E22CC8719000616CB /* HWMAddThePrivateKeyTableViewCell.m in Sources */,
 				CBD48D6D21FEA22400BF3B11 /* FLNotePointDBManager.m in Sources */,
@@ -3614,21 +3648,23 @@
 				4202CA2121F6EF2A009E5932 /* HMWtheContactInformationViewController.m in Sources */,
 				4228AA6021F88C87002866B5 /* NSNotificationCenter+YYAdd.m in Sources */,
 				4230217A22C0BB000004AB65 /* nodeInformationDetailsView.m in Sources */,
+				423DDC572382957D00EC25EF /* View+MASAdditions.m in Sources */,
 				42A7679A2315293F005FC764 /* HWMCRRegisteredViewController.mm in Sources */,
 				4202CA4121F6EF2A009E5932 /* FLMeHeadView.m in Sources */,
 				4223EB2B2327999F00153DA9 /* HWMPublicKeyListHeadView.m in Sources */,
 				42A7A851236ADC110034A900 /* HWMTheEditorDIDInfoViewController.m in Sources */,
+                423DDC552382957D00EC25EF /* MASLayoutConstraint.m in Sources */,
 				4202CA3A21F6EF2A009E5932 /* FLTradeInfoView.m in Sources */,
 				4202CA6A21F6EF2B009E5932 /* HMWaddressListTableViewCell.m in Sources */,
 				4202CAC521F6EF2B009E5932 /* HMWVotingListCollectionViewCell.m in Sources */,
 				4288D0B9230E946A00E8CC7A /* UIView+Banner.m in Sources */,
+				423DDC512382957D00EC25EF /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				4287BB512328E10F00FF1F7D /* MJRefreshAutoFooter.m in Sources */,
 				4202CA3321F6EF2A009E5932 /* FLSugarTableCell.m in Sources */,
 				4202CACC21F6EF2B009E5932 /* HMWVotingListView.m in Sources */,
 				4228AA4221F88C86002866B5 /* YYCache.m in Sources */,
 				4228AA5A21F88C87002866B5 /* NSThread+YYAdd.m in Sources */,
 				4202CA0F21F6EF2A009E5932 /* SGQRCodeAlbumManager.m in Sources */,
-				4202CA0121F6EF2A009E5932 /* MASViewConstraint.m in Sources */,
 				4223EB3023279BFA00153DA9 /* HWMPublicKeyListTabHeadView.m in Sources */,
 				4202CAAC21F6EF2B009E5932 /* AddTheCurrencyListModel.m in Sources */,
 				422D609F21FC405A00DD07FF /* HMWSelectCountriesOrRegionsViewController.m in Sources */,
@@ -3649,6 +3685,7 @@
 				4202CACE21F6EF2B009E5932 /* HMWsignUpForViewController.mm in Sources */,
 				424910F02271BFCF00C41E50 /* SDWebImageDownloaderOperation.m in Sources */,
 				4228AA4F21F88C87002866B5 /* UIView+YYAdd.m in Sources */,
+				423DDC5A2382957D00EC25EF /* MASViewAttribute.m in Sources */,
 				4228AA6721F88F18002866B5 /* assetDetailsModel.m in Sources */,
 				4202CAA421F6EF2B009E5932 /* HMWImKeystoreView.m in Sources */,
 				4202CA7121F6EF2B009E5932 /* HMWtransferTransactionDetailsViewController.m in Sources */,
@@ -3691,12 +3728,10 @@
 				CBD48D5F21FC36BA00BF3B11 /* AFSecurityPolicy.m in Sources */,
 				4202CA2D21F6EF2A009E5932 /* HMWQrCodePopupWindowView.m in Sources */,
 				424910F42271BFCF00C41E50 /* SDImageCacheConfig.m in Sources */,
-				4202C9FE21F6EF2A009E5932 /* NSArray+MASAdditions.m in Sources */,
 				4202CA2221F6EF2A009E5932 /* HMWmyContactListTableViewCell.m in Sources */,
 				424910EF2271BFCF00C41E50 /* SDImageCache.m in Sources */,
 				424910ED2271BFCF00C41E50 /* SDWebImageCompat.m in Sources */,
 				422D609621FC405000DD07FF /* FLJoinVoteInfoModel.m in Sources */,
-				4202C9FB21F6EF2A009E5932 /* MASCompositeConstraint.m in Sources */,
 				425E0D68233B5B5E00D4C481 /* HWMCRListModel.m in Sources */,
 				424910EC2271BFCF00C41E50 /* UIImage+MultiFormat.m in Sources */,
 				4287D7802307D0C000B91C82 /* UILabel+HMWinternationalization.m in Sources */,
@@ -3737,7 +3772,6 @@
 				4202CA1B21F6EF2A009E5932 /* FMDatabase.m in Sources */,
 				42B57ABD22150C1C004CF089 /* NSArray+WOCrash.m in Sources */,
 				428BA711229B84C00091618F /* invokedUrlCommand.m in Sources */,
-				4202C9FA21F6EF2A009E5932 /* ViewController+MASAdditions.m in Sources */,
 				4228AA4D21F88C87002866B5 /* UIScrollView+YYAdd.m in Sources */,
 				42885A562216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.mm in Sources */,
 				4202CAAB21F6EF2B009E5932 /* FMDBWalletModel.m in Sources */,
@@ -3761,7 +3795,6 @@
 				428573282366ED7C00C0CF80 /* HWMAddSocialAccountViewController.m in Sources */,
 				4278023A235ED8B60017F098 /* HWMDIDWalletListView.m in Sources */,
 				4202CA5921F6EF2A009E5932 /* FLItemCollectionCell.m in Sources */,
-				4202C9FC21F6EF2A009E5932 /* MASConstraintMaker.m in Sources */,
 				4287BB522328E10F00FF1F7D /* MJRefreshComponent.m in Sources */,
 				4228AA4C21F88C87002866B5 /* UITableView+YYAdd.m in Sources */,
 				4241B7C1231E18E800D95B22 /* HWMVoteTheEditorialBoardTableViewCell.m in Sources */,
@@ -3781,8 +3814,8 @@
 				4202CAC721F6EF2B009E5932 /* HMWmyVoteStatisticsTableViewCell.m in Sources */,
 				424910EB2271BFCF00C41E50 /* UIImage+GIF.m in Sources */,
 				4202CAB721F6EF2B009E5932 /* FLQRVC.mm in Sources */,
-				4202CA0021F6EF2A009E5932 /* MASConstraint.m in Sources */,
 				4287BB482328E10F00FF1F7D /* MJRefreshAutoStateFooter.m in Sources */,
+				423DDC582382957D00EC25EF /* MASConstraint.m in Sources */,
 				423EFA06235EE42F00C210E9 /* HWMDIDDataListView.m in Sources */,
 				4202CA6C21F6EF2B009E5932 /* HMWAssetDetailsTableViewCell.m in Sources */,
 				4228AA4A21F88C87002866B5 /* UIDevice+YYAdd.m in Sources */,
@@ -3815,9 +3848,11 @@
 				4228AA4621F88C87002866B5 /* YYClassInfo.m in Sources */,
 				422D609721FC405000DD07FF /* HMWChooseTheCountryAreasModel.m in Sources */,
 				4287BB3F2328E10F00FF1F7D /* MJRefreshConst.m in Sources */,
+				423DDC542382957D00EC25EF /* MASConstraintMaker.m in Sources */,
 				42A767952314FE50005FC764 /* HMWCRCommitteeMemberListViewController.mm in Sources */,
 				4202CA4921F6EF2A009E5932 /* FLVersionAlert.m in Sources */,
 				4202CAA121F6EF2B009E5932 /* FLdoubleWalletVC.mm in Sources */,
+				423DDC522382957D00EC25EF /* ViewController+MASAdditions.m in Sources */,
 				4202CACD21F6EF2B009E5932 /* HMWvotingRulesView.m in Sources */,
 				428BA726229B91190091618F /* PluginResult.m in Sources */,
 				4202CAB521F6EF2B009E5932 /* FLAllAssetListVC.mm in Sources */,
@@ -3834,12 +3869,13 @@
 				4202CA2821F6EF2A009E5932 /* FLTableViewDefultCell.m in Sources */,
 				42EE1BC223385FC200CFC8D7 /* SimplePing.m in Sources */,
 				4228AA5621F88C87002866B5 /* NSNumber+YYAdd.m in Sources */,
-				4202C9FD21F6EF2A009E5932 /* MASLayoutConstraint.m in Sources */,
 				4202CA9E21F6EF2B009E5932 /* HMWverifyTheMnemonicWordViewController.mm in Sources */,
+				423DDC562382957D00EC25EF /* NSArray+MASAdditions.m in Sources */,
 				4202CA8821F6EF2B009E5932 /* HMWExportTheMnemonicWordViewController.m in Sources */,
 				420131C42320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.mm in Sources */,
 				4202CA9B21F6EF2B009E5932 /* FLSetMenmoryWordPassView.m in Sources */,
 				4202CA0421F6EF2A009E5932 /* SVProgressAnimatedView.m in Sources */,
+				423DDC532382957D00EC25EF /* MASCompositeConstraint.m in Sources */,
 				4202CA9221F6EF2B009E5932 /* HMWModifyTheWalletNameViewController.m in Sources */,
 				4202CA0921F6EF2A009E5932 /* UIImage+SGImageSize.m in Sources */,
 				4228AA4721F88C87002866B5 /* UITextField+YYAdd.m in Sources */,
@@ -3848,6 +3884,7 @@
 				4261CF3922A15D21006B1DDE /* NSMutableArray+Swizzling.m in Sources */,
 				4202CAB821F6EF2B009E5932 /* FLFLTabBarVC.m in Sources */,
 				424910EA2271BFCF00C41E50 /* SDWebImageDownloader.m in Sources */,
+				423DDC592382957D00EC25EF /* MASViewConstraint.m in Sources */,
 				428B4D8F22CB2B74004AE7D0 /* HWMaddSignThePurseView.m in Sources */,
 				4228AA5221F88C87002866B5 /* UIImage+YYAdd.m in Sources */,
 				424D113A22E042D900C46640 /* HWMHowLongTradingQrCodeViewController.m in Sources */,

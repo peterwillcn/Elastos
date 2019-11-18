@@ -186,12 +186,11 @@ self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
   
     
     dispatch_group_t group =  dispatch_group_create();
-   
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     for (int i=0; i<allListInfoArray.count; i++) {
         FLCoinPointInfoModel *model =allListInfoArray[i];
         NSString *httpIP=[[FLTools share]http_IpFast];
         if (model.url.length>0) {
-            dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 model.iconImageUrl= [[FLTools share] getImageViewURLWithURL:model.url];
                 if (model.iconImageUrl.length>0) {
                     [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/getimage" header:@{} body:@{@"imageurl":model.iconImageUrl} showHUD:NO WithSuccessBlock:^(id data) {
@@ -205,10 +204,10 @@ self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
                 }
                 
                 
-            });
            
         }
     }
+});
     
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
          [self.votingListV setDataSource: allListInfoArray];

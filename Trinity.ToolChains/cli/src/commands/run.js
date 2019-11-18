@@ -78,16 +78,19 @@ function deployAndroidDApp(noDebug) {
 
     // Retrieve user's computer IP (to be able to ionic serve / hot reload)
     // Update the start_url in the trinity manifest
-    var manifestPath = manifestHelper.getManifestPath(ionicHelper.getConfig().assets_path)
+    // 
+    // Clone the original manifest into a temporary manifest so that we don't touch user's original manifest.
+    var originalManifestPath = manifestHelper.getManifestPath(ionicHelper.getConfig().assets_path)
+    var temporaryManifestPath = manifestHelper.cloneToTemporaryManifest(originalManifestPath)
     if (noDebug)
-        manifestHelper.updateManifestForLocalIndex(manifestPath)
+        manifestHelper.updateManifestForLocalIndex(temporaryManifestPath)
     else
-        manifestHelper.updateManifestForRemoteIndex(manifestPath)
+        manifestHelper.updateManifestForRemoteIndex(temporaryManifestPath)
 
     ionicHelper.updateNpmDependencies().then(() => {
         ionicHelper.runIonicBuild(false).then(() => {
-            dappHelper.packEPK(manifestPath).then((outputEPKPath)=>{
-                dappHelper.signEPK(outputEPKPath).then(()=>{
+            dappHelper.packEPK(temporaryManifestPath).then((outputEPKPath)=>{
+                //dappHelper.signEPK(outputEPKPath).then(()=>{
                     runHelper.androidUploadEPK(outputEPKPath).then(()=>{
                         runHelper.androidInstallTempEPK().then(()=>{
                             console.log("RUN OPERATION COMPLETED".green)
@@ -107,11 +110,11 @@ function deployAndroidDApp(noDebug) {
                         console.error("Failed to upload your DApp to your device".red)
                         console.error("Error:",err)
                     })
-                })
+                /*})
                 .catch((err)=>{
                     console.error("Failed to sign your EPK file".red)
                     console.error("Error:",err)
-                })
+                })*/
             })
             .catch((err)=>{
                 console.error("Failed to pack your DApp into a EPK file".red)

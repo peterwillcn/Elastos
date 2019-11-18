@@ -60,12 +60,14 @@ async function launchAppPublication(didURL) {
     let didSignaturePassword = typedInfo.didPassword;
 
     // Update manifest with local url in case it had been configured for debugging earlier (ionic serve with remote url)
-    var manifestPath = manifestHelper.getManifestPath(ionicHelper.getConfig().assets_path)
-    manifestHelper.updateManifestForProduction(manifestPath)
+    var originalManifestPath = manifestHelper.getManifestPath(ionicHelper.getConfig().assets_path)
+    // Clone the original manifest into a temporary manifest so that we don't touch user's original manifest.
+    var temporaryManifestPath = manifestHelper.cloneToTemporaryManifest(originalManifestPath)
+    manifestHelper.updateManifestForProduction(temporaryManifestPath)
 
     ionicHelper.updateNpmDependencies().then(() => {
         ionicHelper.runIonicBuild(true).then(() => {
-            dappHelper.packEPK(manifestPath).then((outputEPKPath)=>{
+            dappHelper.packEPK(temporaryManifestPath).then((outputEPKPath)=>{
                 dappHelper.signEPK(outputEPKPath, didURL, didSignaturePassword).then((signedEPKPath)=>{
                     publishingHelper.publishToDAppStore(signedEPKPath).then((info)=>{
                         console.log("Congratulations! Your app has been submitted for review!".green)

@@ -4,6 +4,7 @@ const editJsonFile = require("edit-json-file");
 const fs = require("fs-extra");
 const path = require("path");
 const ip = require('ip');
+const tempy = require('tempy');
 
 module.exports = class ManifestHelper {
     /**
@@ -96,6 +97,16 @@ module.exports = class ManifestHelper {
      */
     getManifestPath(assets_path, packagename = '') {
         return path.join(process.cwd(), packagename, assets_path, "assets", "manifest.json")
+    }
+
+    /**
+     * Clone the given manifest at originalManifestPath into a manifest file in a temporary location
+     * and return the cloned file path.
+     */
+    cloneToTemporaryManifest(originalManifestPath) {
+        let tempPath = tempy.file({name: 'manifest.json'});
+        fs.copyFileSync(originalManifestPath, tempPath);
+        return tempPath;
     }
 
     /**

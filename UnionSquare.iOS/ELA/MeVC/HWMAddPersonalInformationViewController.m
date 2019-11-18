@@ -15,7 +15,7 @@
 static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTableViewCell";
 
-@interface HWMAddPersonalInformationViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface HWMAddPersonalInformationViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDDataListViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *textInfoLabel;
 /*
  *<# #>
@@ -27,6 +27,10 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 @property(strong,nonatomic)NSArray *dataSorse;
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
 @property (weak, nonatomic) IBOutlet UITableView *table;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)HWMDIDDataListView *DIDDataListV;
 
 @end
 
@@ -121,7 +125,19 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 {
     
     if (indexPath.row==2) {//性别
+        self.DIDDataListV.ListViewType=genderType;
+        UIView *mainView = [self mainWindow];
+        [mainView addSubview:self.DIDDataListV];
+        [self.DIDDataListV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(make);
+        }];
     }else if (indexPath.row==3){//出生
+        self.DIDDataListV.ListViewType=birthdayType;
+               UIView *mainView = [self mainWindow];
+               [mainView addSubview:self.DIDDataListV];
+               [self.DIDDataListV mas_makeConstraints:^(MASConstraintMaker *make) {
+                   make.left.right.top.bottom.equalTo(make);
+               }];
     }else if (indexPath.row==7){
     }
 }
@@ -186,4 +202,20 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
             break;
     }
 }
+-(HWMDIDDataListView *)DIDDataListV{
+    if (!_DIDDataListV) {
+        _DIDDataListV =[[HWMDIDDataListView alloc]init];
+        _DIDDataListV.delegate=self;
+        
+    }
+    return _DIDDataListV;
+}
+- (void)cancelDataListView {
+    [self.DIDDataListV removeFromSuperview];
+    self.DIDDataListV=nil;
+}
+
+
+
+
 @end

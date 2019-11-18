@@ -48,6 +48,7 @@
  *<# #>
  */
 @property(strong,nonatomic)NSArray *genderArray;
+@property (nonatomic, assign)NSInteger genderIndex;
 
 @end
 
@@ -162,10 +163,9 @@
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     
-//    if (self.ListViewType==genderType) {
-//        return 2;
-//    }
-//    
+    if (self.ListViewType==genderType) {
+        return self.genderArray.count;
+    }
     if (component == 0) {
         return self.yearArray.count;
         
@@ -201,6 +201,16 @@
 // 滚动UIPickerView就会调用
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
+    if (self.ListViewType==genderType) {
+        self.yearIndex = row;
+               dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                   [pickerView selectRow:self.yearIndex inComponent:row animated:NO];
+                   UILabel *label = (UILabel *)[pickerView viewForRow:0 forComponent:component];
+                   label.textColor = [UIColor whiteColor];
+                   label.font = [UIFont systemFontOfSize:16];
+               });
+        return;
+    }
     if (component == 0) {
         self.yearIndex = row;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -284,28 +294,32 @@
     genderLabel.textAlignment = NSTextAlignmentCenter;
     genderLabel.textColor = RGBA(255, 255, 255, 0.5);
     genderLabel.font = [UIFont systemFontOfSize:14];
+    if (self.ListViewType==genderType) {
+         genderLabel.text = self.genderArray[row];
+    return genderLabel;
+    }
     if (component == 0) {
-        if (self.yearIndex==row) {
-          genderLabel.textColor = [UIColor whiteColor];
-          genderLabel.font = [UIFont systemFontOfSize:16];
-                             
-        }
+//        if (self.yearIndex==row) {
+//          genderLabel.textColor = [UIColor whiteColor];
+//          genderLabel.font = [UIFont systemFontOfSize:16];
+//
+//        }
         genderLabel.text = self.yearArray[row];
         
     }else if (component == 1) {
-        if (self.monthIndex==row) {
-            genderLabel.textColor = [UIColor whiteColor];
-           genderLabel.font = [UIFont systemFontOfSize:16];
-                                    
-               }
+//        if (self.monthIndex==row) {
+//            genderLabel.textColor = [UIColor whiteColor];
+//           genderLabel.font = [UIFont systemFontOfSize:16];
+//
+//               }
         NSString *textString=[NSString stringWithFormat:@"%@",self.monthArray[row]];
         genderLabel.text = NSLocalizedString(textString, nil);
         
     }else {
-        if (self.dayIndex==row) {
-            genderLabel.textColor = [UIColor whiteColor];
-            genderLabel.font = [UIFont systemFontOfSize:16];
-        }
+//        if (self.dayIndex==row) {
+//            genderLabel.textColor = [UIColor whiteColor];
+//            genderLabel.font = [UIFont systemFontOfSize:16];
+//        }
         genderLabel.text = self.dayArray[row];
     }
     
@@ -335,6 +349,8 @@
                        [self pickerView: self.dataPickerView didSelectRow:self.monthIndex inComponent:1];
                        [self pickerView: self.dataPickerView didSelectRow:self.dayIndex inComponent:2];
     }else if (ListViewType==genderType){
+        self.genderIndex=0;
+            [self pickerView: self.dataPickerView didSelectRow:self.genderIndex inComponent:0];
         
     }else if (ListViewType==birthdayType){
         

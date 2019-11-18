@@ -32,6 +32,8 @@
 #import "ELWalletManager.h"
 #import "WOCrashProtectorManager.h"
 #import "DAConfig.h"
+#import <objc/runtime.h>
+
 #define KYRect  [UIScreen mainScreen].bounds
 @interface AppDelegate ()
 
@@ -47,7 +49,6 @@
     if(launchOptions[UIApplicationLaunchOptionsURLKey] != nil){
         [self application:application handleOpenURL:launchOptions[UIApplicationLaunchOptionsURLKey]];
     }
-  
 
     
    NSString *languageString=[DAConfig userLanguage];
@@ -121,7 +122,20 @@
     UITableView.appearance.estimatedSectionFooterHeight = 0;
     UITableView.appearance.estimatedSectionHeaderHeight = 0;
     [self.window makeKeyAndVisible];
-    
+    if (@available(iOS 13.2, *)) {
+
+               }else{
+                   const char *className = "_UITextLayoutView";
+                   Class cls = objc_getClass(className);
+                   if (cls == nil) {
+                       cls = objc_allocateClassPair([UIView class], className, 0);
+                       objc_registerClassPair(cls);
+           #if DEBUG
+                       printf("added %s dynamically\n", className);
+           #endif
+                   }
+               }
+
     return YES;
     
 }

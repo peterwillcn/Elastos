@@ -58,12 +58,16 @@ module.exports = class IonicHelper {
     /**
      * Simply runs "ionic build" in order to generate the www/ folder before deployment.
      */
-    runIonicBuildDev() {
+    runIonicBuild(forProd) {
         return new Promise((resolve, reject) => {
             console.log("Building the ionic app...")
 
+            let ionicParams = ["build"];
+            if (forProd) // Build for production ?
+                ionicParams.push("--prod")
+
             const spawn = require("child_process").spawn;
-            const process = spawn('ionic',["build"]); // Build for development
+            const process = spawn('ionic',ionicParams);
 
             process.stdout.on('data', function (data) { console.log(''+data)});
             process.stderr.on('data', function (data) { console.log(''+data)});

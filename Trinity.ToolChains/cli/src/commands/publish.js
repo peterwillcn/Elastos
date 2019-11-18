@@ -64,7 +64,7 @@ async function launchAppPublication(didURL) {
     manifestHelper.updateManifestForProduction(manifestPath)
 
     ionicHelper.updateNpmDependencies().then(() => {
-        ionicHelper.runIonicBuildDev().then(() => {
+        ionicHelper.runIonicBuild(true).then(() => {
             dappHelper.packEPK(manifestPath).then((outputEPKPath)=>{
                 dappHelper.signEPK(outputEPKPath, didURL, didSignaturePassword).then((signedEPKPath)=>{
                     publishingHelper.publishToDAppStore(signedEPKPath).then((info)=>{

@@ -23,20 +23,14 @@ exports.builder = {
       require: false,
       nargs: 0
   }
-  /*idkeystore: {
-    alias: "id",
-    describe: "Identity keystore file to be used to sign DApp EPK",
-    require: true
-  }*/
 }
 exports.handler = function (argv) {
     var platform = argv.platform
-    var idKeystorePath = argv.idkeystore
     var noDebug = argv.nodebug
 
     switch (platform) {
         case "android":
-            deployAndroidDApp(idKeystorePath, noDebug)
+            deployAndroidDApp(noDebug)
             break;
         case "ios":
             console.log("Not yet implemented")
@@ -57,7 +51,7 @@ exports.handler = function (argv) {
  * - push and run the EPK on the device (adb push/shell am start, on android)
  * - ionic serve (for hot reload inside trinity, when user saves his files)
  */
-function deployAndroidDApp(idKeystorePath, noDebug) {
+function deployAndroidDApp(noDebug) {
     var runHelper = new RunHelper()
     var manifestHelper = new ManifestHelper()
     var ionicHelper = new IonicHelper()
@@ -91,9 +85,9 @@ function deployAndroidDApp(idKeystorePath, noDebug) {
         manifestHelper.updateManifestForRemoteIndex(manifestPath)
 
     ionicHelper.updateNpmDependencies().then(() => {
-        ionicHelper.runIonicBuildDev().then(() => {
+        ionicHelper.runIonicBuild(false).then(() => {
             dappHelper.packEPK(manifestPath).then((outputEPKPath)=>{
-                dappHelper.signEPK(outputEPKPath, idKeystorePath).then(()=>{
+                dappHelper.signEPK(outputEPKPath).then(()=>{
                     runHelper.androidUploadEPK(outputEPKPath).then(()=>{
                         runHelper.androidInstallTempEPK().then(()=>{
                             console.log("RUN OPERATION COMPLETED".green)

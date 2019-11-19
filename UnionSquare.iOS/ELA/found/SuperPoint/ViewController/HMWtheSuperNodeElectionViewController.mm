@@ -63,6 +63,25 @@
     UIBarButtonItem*rightItem =[[UIBarButtonItem alloc]initWithCustomView:rightBarButton];
     self.navigationItem.rightBarButtonItem= rightItem;
    
+//
+//    UIView *mainView =[self mainWindow];
+//    [mainView addSubview:self.votingRulesV];
+//
+//    [self.votingRulesV mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.right.top.bottom.equalTo(mainView);
+//    }];
+//    @try {
+//        [self.view addSubview:self.votingListV];
+//        [self.votingListV mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.right.equalTo(self.view);
+//            make.bottom.equalTo(self.myVoteButton.mas_top).offset(0);
+//            make.top.equalTo(self.view).offset(10);
+//        }];
+//    } @catch (NSException *exception) {
+//
+//    } @finally {
+//
+//    }
     
     UIView *mainView =[self mainWindow];
     [mainView addSubview:self.votingRulesV];
@@ -83,6 +102,9 @@
             self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
         }else if([self.typeString isEqualToString:@"Canceled"]){
 self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
+        }else if([self.typeString isEqualToString:@"Canceled"]){
+   self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
             self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
         }else if([self.typeString isEqualToString:@"Unregistered"]){
    self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);

@@ -63,12 +63,8 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
          self.runningNodeListTextLabel.text=NSLocalizedString(@"参选节点列表", nil);
         self.numberNodesTextLabel.text=NSLocalizedString(@"节点数量", nil);
         self.listType=@"1";
-       
-
     }
-    
-    return self;
-
+ return self;
 }
 -(void)setDataSource:(NSMutableArray *)dataSource{
     _dataSource =[[NSMutableArray alloc]initWithArray:dataSource];

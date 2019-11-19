@@ -229,7 +229,6 @@
 		4223EB362327A74500153DA9 /* HWMListMoreSignThePublicKeyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4223EB342327A74500153DA9 /* HWMListMoreSignThePublicKeyTableViewCell.m */; };
 		4223EB372327A74500153DA9 /* HWMListMoreSignThePublicKeyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4223EB352327A74500153DA9 /* HWMListMoreSignThePublicKeyTableViewCell.xib */; };
 		422672A722C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 422672A522C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m */; };
-		422672A822C9E0CD00179D66 /* HWMVUpdateLogWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 422672A622C9E0CD00179D66 /* HWMVUpdateLogWebViewController.xib */; };
 		4226A862229BC02E00E93430 /* build-debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4226A85F229BC02D00E93430 /* build-debug.xcconfig */; };
 		4226A863229BC02E00E93430 /* build.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4226A860229BC02D00E93430 /* build.xcconfig */; };
 		4226A864229BC02E00E93430 /* build-release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4226A861229BC02E00E93430 /* build-release.xcconfig */; };
@@ -836,7 +835,6 @@
 		4223EB352327A74500153DA9 /* HWMListMoreSignThePublicKeyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMListMoreSignThePublicKeyTableViewCell.xib; sourceTree = "<group>"; };
 		422672A422C9E0CD00179D66 /* HWMVUpdateLogWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMVUpdateLogWebViewController.h; sourceTree = "<group>"; };
 		422672A522C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMVUpdateLogWebViewController.m; sourceTree = "<group>"; };
-		422672A622C9E0CD00179D66 /* HWMVUpdateLogWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMVUpdateLogWebViewController.xib; sourceTree = "<group>"; };
 		4226A85F229BC02D00E93430 /* build-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "build-debug.xcconfig"; path = "config/build-debug.xcconfig"; sourceTree = SOURCE_ROOT; };
 		4226A860229BC02D00E93430 /* build.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = build.xcconfig; path = config/build.xcconfig; sourceTree = SOURCE_ROOT; };
 		4226A861229BC02E00E93430 /* build-release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "build-release.xcconfig"; path = "config/build-release.xcconfig"; sourceTree = SOURCE_ROOT; };
@@ -1647,7 +1645,6 @@
 				4202C8A021F6EF29009E5932 /* HMWtheContactInformationViewController.xib */,
 				422672A422C9E0CD00179D66 /* HWMVUpdateLogWebViewController.h */,
 				422672A522C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m */,
-				422672A622C9E0CD00179D66 /* HWMVUpdateLogWebViewController.xib */,
 				4202C89721F6EF28009E5932 /* model */,
 				4202C89A21F6EF28009E5932 /* view */,
 			);
@@ -3356,8 +3353,6 @@
 				4250B3F52238D32700B6858F /* zbar-help.html in Resources */,
 				4202CA4B21F6EF2A009E5932 /* FLCopyPrivateKeyView.xib in Resources */,
 				4261C2FD22C21563008C1532 /* showOwnerAddressTableViewCell.xib in Resources */,
-				422C4646235DBB4B000523DB /* HWMCreateDIDListTableViewCell.xib in Resources */,
-				422672A822C9E0CD00179D66 /* HWMVUpdateLogWebViewController.xib in Resources */,
 				4202CA2421F6EF2A009E5932 /* HMWClassificationOfLanguageTableViewCell.xib in Resources */,
 				4202CAD921F6EF2B009E5932 /* HMWMyVoteViewController.xib in Resources */,
 				4202CAAE21F6EF2B009E5932 /* HMWaddFooterView.xib in Resources */,

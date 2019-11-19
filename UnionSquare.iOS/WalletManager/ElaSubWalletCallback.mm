@@ -45,16 +45,22 @@ void ElaSubWalletCallback::OnTransactionStatusChanged(
 //
 //}
 
-void ElaSubWalletCallback::OnBlockSyncProgress(uint32_t currentBlockHeight, uint32_t estimatedHeight, time_t lastBlockTime)
+void ElaSubWalletCallback::OnBlockSyncProgress(const nlohmann::json &progressInfo)
 {
 //    NSOperationQueue *waitQueue = [[NSOperationQueue alloc] init];
 //    [waitQueue addOperationWithBlock:^{
-        NSString *walletIDString = [NSString stringWithCString:_callBackInfo.c_str() encoding:NSUTF8StringEncoding];
-        
-        NSString *lastBlockTimeString =[NSString stringWithFormat:@"%ld",lastBlockTime];
-        NSDictionary *dic=@{@"currentBlockHeight":@(currentBlockHeight),@"progress":@(estimatedHeight),@"callBackInfo":walletIDString,@"lastBlockTimeString":lastBlockTimeString};
-        NSLog(@"call回调数据%@",dic);
-        [[NSNotificationCenter defaultCenter] postNotificationName:progressBarcallBackInfo object:dic];
+//    * {
+//                   *     "Progress": 50,                    # 0% ~ 100%
+//                   *     "BytesPerSecond": 12345678,        # 12.345678 MByte / s
+//                   *     "LastBlockTime": 1573799697,       # timestamp of last block
+//                   *     "DownloadPeer": "127.0.0.1"        # IP address of node
+//                   * }
+//        NSString *walletIDString = [NSString stringWithCString:_callBackInfo.c_str() encoding:NSUTF8StringEncoding];
+//
+//        NSString *lastBlockTimeString =[NSString stringWithFormat:@"%ld",lastBlockTime];
+//        NSDictionary *dic=@{@"currentBlockHeight":@(currentBlockHeight),@"progress":@(estimatedHeight),@"callBackInfo":walletIDString,@"lastBlockTimeString":lastBlockTimeString};
+//        NSLog(@"call回调数据%@",dic);
+//        [[NSNotificationCenter defaultCenter] postNotificationName:progressBarcallBackInfo object:dic];
 //    }];
     
 }

@@ -118,8 +118,7 @@
         return;
     }
     if (!obj) {
-        obj=@[@"en"];
-//        obj = [NSNull null];
+        obj = [NSNull null];
         
         NSLog(@"字典value为空4444 %s",__FUNCTION__);
     }

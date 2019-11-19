@@ -34,15 +34,44 @@
 
 - (void)setTextHooked:(NSString *)string
 {
-    if (string.length==0 || string == nil) {
-        
-        string = @"";
+    if ([self isBlankString:string]) {
+
+        string = @"--";
         
     }
 //    NSLog(@"label===%@",string);
 //    self.adjustsFontSizeToFitWidth = YES;
 //    self.numberOfLines=0.f;
-    [self performSelector:@selector(setTextOriginal:) withObject:NSLocalizedString(string, nil)];
+    [self performSelector:@selector(setTextOriginal:) withObject:string];
+    
+}
+- (BOOL)isBlankString:(NSString *)string{
+    
+    if (string == nil) {
+        
+        return YES;
+        
+    }
+    
+    if (string == NULL) {
+        
+        return YES;
+        
+    }
+    
+    if ([string isKindOfClass:[NSNull class]]) {
+        
+        return YES;
+        
+    }
+    
+    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length]==0) {
+        
+        return YES;
+        
+    }
+    
+    return NO;
     
 }
 

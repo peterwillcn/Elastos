@@ -110,6 +110,7 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
 {
     [super viewWillAppear:animated];
     [self defultWhite];
+     [self.navigationController setNavigationBarHidden:NO];
     self.navigationItem.leftBarButtonItem = nil;
 }
 -(void)viewWillDisappear:(BOOL)animated

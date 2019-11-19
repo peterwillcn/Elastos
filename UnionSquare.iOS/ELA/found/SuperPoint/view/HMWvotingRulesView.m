@@ -12,8 +12,7 @@
 @interface HMWvotingRulesView ()
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
 @property (weak, nonatomic) IBOutlet UILabel *lab1;
-@property (weak, nonatomic) IBOutlet UILabel *lab2;
-
+@property (weak, nonatomic) IBOutlet UILabel *labInfo;
 @end
 @implementation HMWvotingRulesView
 
@@ -24,7 +23,7 @@
         self.layer.cornerRadius=3.f;
         self.layer.masksToBounds=YES;
         self.lab1.text = NSLocalizedString(@"投票规则", nil);
-        self.lab2.text = NSLocalizedString(@"参与ELA超级节点投票，需锁仓ELA。投票不消耗ELA数量；\n\n每次投票最多可选择 30 个超级节点，撤销或更改再次投票生效有", nil);
+        self.labInfo.text = NSLocalizedString(@"参与ELA超级节点投票，需锁仓ELA。投票不消耗ELA数量；\n\n每次投票最多可选择 30 个超级节点，撤销或更改再次投票生效有", nil);
     }
 
     return self;

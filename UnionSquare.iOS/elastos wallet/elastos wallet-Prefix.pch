@@ -51,7 +51,7 @@
 #endif
 
 #ifdef __OBJC__
-#define Localized(key)  NSLocalizedStringFromTable(key, @"Language", nil);
+//#define Localized(key)  NSLocalizedStringFromTable(key, @"Language", nil);
 
 
 //通用
@@ -81,7 +81,7 @@
 #define AccountBalanceChanges    @"AccountBalanceChanges"
 #define OnTxPublishedResult      @"OnTxPublishedResult"
 #define ConnectStatusChanged   @"OnConnectStatusChanged"
-#define  UWUserLanguageKey  @"AppleLanguagesUserLanguageKey"
+#define  UWUserLanguageKey  @"AppleLanguages"
 #define  selectIndexWallet  @"selectIndexWallet"
 #define STANDARD_USER_DEFAULT  [NSUserDefaults standardUserDefaults]
 #import <Foundation/Foundation.h>
@@ -108,4 +108,6 @@
 #import "UILabel+HMWinternationalization.h"
 #import "NSString+HWMNSTaggedPointerString.h"
 #import "HWMQrCodeScanningResultsViewController.h"
+#import "YRClassSafeCategory.h"
+#import "YRClassSafeCategoryConfig.h"
 #endif

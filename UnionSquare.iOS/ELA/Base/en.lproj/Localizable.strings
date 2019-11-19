@@ -309,7 +309,7 @@
 "投票规则" = "Voting Rules";
 "变更成功" = "change successed";
 "注销报名72小时后，方可提取质押金"="The registration fund can be withdrawn 72 hours after the registration is cancelled";
-"参与ELA超级节点投票，需锁仓ELA。投票不消耗ELA数量；每次投票最多可选择 36 个超级节点，撤销或更改再次投票生效有" = "When you participate in ELA supernode voting, the ELA in your wallet address are locked in a sense. Voting does not consume ELA other than a small voting transaction fee associated with each time you initiate a new voting transaction. Each vote can be cast to a maximum of 36 supernodes. If you cancel or change your votes, the actual result will take time to propagate.";
+"参与ELA超级节点投票，需锁仓ELA。投票不消耗ELA数量；每次投票最多可选择 36 个超级节点，撤销或更改再次投票生效有" = "The registration fund can be withdrawn 72 hours after the registration is cancelled";
 "投票地址数量" = "Number of Vote Addresses";
 "全网投票占比"= "Total Network Vote Percentage";
 "目标地址"= "Target Address";

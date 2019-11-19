@@ -122,6 +122,7 @@
     UITableView.appearance.estimatedSectionFooterHeight = 0;
     UITableView.appearance.estimatedSectionHeaderHeight = 0;
     [self.window makeKeyAndVisible];
+
     if (@available(iOS 13.2, *)) {
 
                }else{

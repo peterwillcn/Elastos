@@ -20,6 +20,7 @@ static uint64_t feePerKB = 10000;
  */
 @property(strong,nonatomic)NSMutableArray *resListArray;
 
+
 @end
 
 
@@ -1077,7 +1078,8 @@ errCodeSPVCreateMasterWalletError= 20006;
     NSString *callIDString=[NSString stringWithFormat:@"%@,%@,%@",masterWalletIDString,chainIDString,command.methodName];
     String callBackID=[self cstringWithString:callIDString];
     try {
-         subWallet->AddCallback(new ElaSubWalletCallback(callBackID));
+        ElaSubWalletCallback *callback =new ElaSubWalletCallback(callBackID);
+         subWallet->AddCallback(callback);
         [self.resListArray addObject:MID];
     } catch (const std:: exception & e) {
       return   [self errInfoToDic:e.what() with:command];
@@ -1109,15 +1111,8 @@ errCodeSPVCreateMasterWalletError= 20006;
         NSString *msg = [NSString stringWithFormat:@"%@ %@", @"Get", [self formatWalletNameWithString:masterWalletID other:chainID]];
         return [self errorProcess:command code:errCodeInvalidMasterWallet msg:msg];
     }
-    
-    ISubWallet *subWallet =[self getSubWallet:masterWalletID :chainID];
-    if (subWallet == nil) {
-        NSString *msg = [NSString stringWithFormat:@"%@ %@", @"Get", [self formatWalletNameWithString:masterWalletID other:chainID]];
-        return [self errorProcess:command code:errCodeInvalidMasterWallet msg:msg];
-    }
-    
     try {
-       masterWallet->DestroyWallet(subWallet);
+       masterWallet->DestroyWallet(chainID);
     } catch (const std:: exception & e) {
    return     [self errInfoToDic:e.what() with:command];
     }
@@ -1134,6 +1129,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     String masterWalletID = [self cstringWithString:args[idx++]];
     try {
         mMasterWalletManager ->DestroyWallet(masterWalletID);
+        
     } catch (const std:: exception & e) {
        return  [self errInfoToDic:e.what() with:command];
     }
@@ -1158,7 +1154,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     NSString *callIDString=[NSString stringWithFormat:@"%@,%@,%@",masterWalletIDString,chainIDString,command.methodName];
     String callBackID=[self cstringWithString:callIDString];
     try {
-       subWallet->RemoveCallback(new ElaSubWalletCallback(callBackID));
+       subWallet->RemoveCallback();
     } catch (const std:: exception & e) {
        return [self errInfoToDic:e.what() with:command];
     }

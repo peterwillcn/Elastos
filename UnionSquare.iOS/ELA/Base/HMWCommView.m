@@ -32,9 +32,9 @@ static HMWCommView *tool;
 //    view.layer.masksToBounds=YES;
 }
 -(void)makeTextFieldPlaceHoTextColorWithTextField:(UITextField *)textf withTxt:(NSString *)pText{
-    if (pText.length==0) {
-        pText=@"";
-    }
+//    if (pText.length==0) {
+//        pText=@"";
+//    }
     NSMutableAttributedString *placeholderString = [[NSMutableAttributedString alloc] initWithString:pText attributes:@{NSForegroundColorAttributeName : RGBA(255, 255, 255, 0.5)}];
     textf.attributedPlaceholder = placeholderString;
 }

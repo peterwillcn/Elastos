@@ -36,7 +36,7 @@
 {
     if ([self isBlankString:string]) {
 
-        string = @"--";
+        string = @"";
         
     }
 //    NSLog(@"label===%@",string);

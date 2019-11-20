@@ -1,13 +1,34 @@
 diff -ruNb origin_plugins/cordova-plugin-device-motion/www/Acceleration.js plugins/cordova-plugin-device-motion/www/Acceleration.js
 --- origin_plugins/cordova-plugin-device-motion/www/Acceleration.js	null
 +++ plugins/cordova-plugin-device-motion/www/Acceleration.js	null
-@@ -19,6 +19,10 @@
+@@ -19,6 +19,31 @@
   *
  */
 
 +/**
-+* @exports Acceleration
-+*/
++ * Contains data captured at a specific point in time.
++ *
++ * @exports Acceleration
++ * @param {Number} x                The amount of acceleration on the x-axis.
++ * @param {Number} y                The amount of acceleration on the y-axis.
++ * @param {Number} z                The amount of acceleration on the z-axis.
++ * @param {DOMTimeStamp} timestamp  The creation timestamp in milliseconds.
++ * @example
++ * declare let navigator: any;
++ *
++ * function onSuccess(acceleration) {                                 
++ *     alert('Acceleration X: ' + acceleration.x + '\n' +             
++ *           'Acceleration Y: ' + acceleration.y + '\n' +             
++ *           'Acceleration Z: ' + acceleration.z + '\n' +             
++ *           'Timestamp: '      + acceleration.timestamp + '\n');     
++ * };                                                                 
++ *                                                                    
++ * function onError() {                                               
++ *     alert('onError!');                                         
++ * };                                                     
++ *                                                                  
++ * navigator.accelerometer.getCurrentAcceleration(onSuccess, onError);
++ */
 +
  var Acceleration = function(x, y, z, timestamp) {
      this.x = x;

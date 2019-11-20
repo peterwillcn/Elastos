@@ -200,7 +200,7 @@ function help(args) {
 }
 
 function exit(args) {
-    appService.close();
+    appManager.close();
 }
 
 function get_version(args) {
@@ -718,11 +718,11 @@ function file_discard(args) {
 }
 
 function onLauncher() {
-    appService.launcher();
+    appManager.launcher();
 }
 
 function onClose() {
-    appService.close();
+    appManager.close();
 }
 
 var onedrive_opts = {

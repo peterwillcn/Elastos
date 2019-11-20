@@ -1800,7 +1800,7 @@ var fileTransferCallbacks = {
 }
 
 function onLauncher() {
-    appService.launcher();
+    appManager.launcher();
 }
 
 function onClose() {
@@ -1808,7 +1808,7 @@ function onClose() {
         carrier.destroy();
     }
 
-    appService.close();
+    appManager.close();
 }
 
 var carrier = null;

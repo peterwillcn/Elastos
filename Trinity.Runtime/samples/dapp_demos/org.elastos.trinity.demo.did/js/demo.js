@@ -125,11 +125,11 @@ function help(args) {
 }
 
 function onLauncher() {
-    appService.launcher();
+    appManager.launcher();
 }
 
 function onClose() {
-    appService.close();
+    appManager.close();
 }
 
 function test(args) {
@@ -386,7 +386,7 @@ function loadCredential(args) {
             display_others_msg("loadCredential error! " + error.message);
         },
         didString,
-        vcId
+        didUrlString
     );
 }
 

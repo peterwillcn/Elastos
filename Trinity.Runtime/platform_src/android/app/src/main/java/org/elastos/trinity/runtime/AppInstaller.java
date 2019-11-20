@@ -79,6 +79,13 @@ public class AppInstaller {
 
         random = new Random();
 
+        try {
+            DIDVerifier.initDidStore(dataPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
         return true;
     }
 
@@ -289,22 +296,41 @@ public class AppInstaller {
         File fmd = new File(path);
         fmd.mkdirs();
 
-        if (!unpackZip(inputStream, path, true)) {
+        boolean verifyDigest = true;
+        if (update) {
+            verifyDigest = false;
+        }
+
+        if (!unpackZip(inputStream, path, verifyDigest)) {
             deleteDAppPackage(downloadPkgPath);
             throw new Exception("Failed to unpack EPK!");
         }
 
-        String public_key = getStringFromFile(path + "EPK-SIGN/SIGN.PUB");
-        String payload = getStringFromFile(path + "EPK-SIGN/FILELIST.SHA");
-        String signed_payload = getStringFromFile(path + "EPK-SIGN/FILELIST.SIGN");
+        if (!update) {
+            // Verify the signature of the EPK
 
-        if (public_key == null || payload == null || signed_payload == null ||
-                !NativeVerifier.verify(public_key, payload, signed_payload)) {
-            deleteDAppPackage(downloadPkgPath);
-            throw new Exception("Failed to verify EPK signature!");
+            String did_url = getStringFromFile(path + "EPK-SIGN/SIGN.DIDURL");
+            String public_key = getStringFromFile(path + "EPK-SIGN/SIGN.PUB");
+            String payload = getStringFromFile(path + "EPK-SIGN/FILELIST.SHA");
+            String signed_payload = getStringFromFile(path + "EPK-SIGN/FILELIST.SIGN");
+
+            if (did_url != null && public_key != null && payload != null && signed_payload != null &&
+                    DIDVerifier.verify(did_url, public_key, payload, signed_payload)) {
+                // Successfully verify the DID signature.
+                Log.d("AppInstaller", "The EPK was signed by (DID URL): " + did_url);
+            } else if (did_url != null) {
+                // Failed to verify the DID signature.
+                deleteDAppPackage(downloadPkgPath);
+                throw new Exception("Failed to verify EPK DID signature!");
+            } else if (public_key == null || payload == null || signed_payload == null ||
+                    !NativeVerifier.verify(public_key, payload, signed_payload)) {
+                // Failed to verify the lagacy signature.
+                deleteDAppPackage(downloadPkgPath);
+                throw new Exception("Failed to verify EPK signature!");
+            }
+
+            Log.d("AppInstaller", "The EPK was signed by (Public Key): " + public_key);
         }
-
-        Log.d("AppInstaller", "The EPK was signed by " + public_key);
 
         info = getInfoByManifest(path);
         File from = new File(appPath, temp);

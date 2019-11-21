@@ -36,19 +36,29 @@ diff -ruNb origin_plugins/cordova-plugin-device-motion/www/Acceleration.js plugi
 diff -ruNb origin_plugins/cordova-plugin-device-motion/www/accelerometer.js plugins/cordova-plugin-device-motion/www/accelerometer.js
 --- origin_plugins/cordova-plugin-device-motion/www/accelerometer.js	null
 +++ plugins/cordova-plugin-device-motion/www/accelerometer.js	null
-@@ -19,10 +19,14 @@
-  *
- */
+@@ -21,8 +21,25 @@
 
--/**
-+/*
+ /**
   * This class provides access to device accelerometer data.
 - * @constructor
++ *
++ * @exports Accelerometer
++ * @example
++ * declare let navigator: any;
++ *
++ * function onSuccess(acceleration) {                                 
++ *     alert('Acceleration X: ' + acceleration.x + '\n' +             
++ *           'Acceleration Y: ' + acceleration.y + '\n' +             
++ *           'Acceleration Z: ' + acceleration.z + '\n' +             
++ *           'Timestamp: '      + acceleration.timestamp + '\n');     
++ * };                                                                 
++ *                                                                    
++ * function onError() {                                               
++ *     alert('onError!');                                         
++ * };                                                     
++ *                                                                  
++ * navigator.accelerometer.getCurrentAcceleration(onSuccess, onError);
   */
-+
-+/**
-+* @exports Accelerometer
-+*/
 +
  var argscheck = require('cordova/argscheck'),
      utils = require("cordova/utils"),

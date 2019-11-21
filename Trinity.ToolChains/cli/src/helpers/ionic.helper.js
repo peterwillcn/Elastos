@@ -1,5 +1,8 @@
 const path = require("path")
 const fs = require("fs-extra");
+const os = require("os");
+
+const SystemHelper = require("./system.helper");
 
 module.exports = class IonicHelper {
     /**
@@ -7,14 +10,21 @@ module.exports = class IonicHelper {
      */
     updateNpmDependencies() {
         return new Promise((resolve, reject) => {
-            console.log("Updating NPM modules for the ionic application...")
+            console.log("Updating NPM modules for the ionic application...");
 
             const spawn = require("child_process").spawn;
-            const process = spawn('npm',["install"]);
+            const processName = SystemHelper.isWindowsHost()?"npm.cmd":"npm";
+            const process = spawn(processName,["install"]);
 
-            process.stdout.on('data', function (data) { console.log(''+data)});
-            process.stderr.on('data', function (data) { console.log(''+data)});
-            process.on('error', function(err) { reject(err)})
+            process.stdout.on('data', function (data) { 
+                console.log(''+data)
+            });
+            process.stderr.on('data', function (data) { 
+                console.log(''+data)
+            });
+            process.on('error', function(err) { 
+                reject(err)
+            });
 
             process.on('exit', function (code) {
                 if (code == 0) {
@@ -67,7 +77,8 @@ module.exports = class IonicHelper {
                 ionicParams.push("--prod")
 
             const spawn = require("child_process").spawn;
-            const process = spawn('ionic',ionicParams);
+            const processName = SystemHelper.isWindowsHost()?"ionic.cmd":"ionic";
+            const process = spawn(processName,ionicParams);
 
             process.stdout.on('data', function (data) { console.log(''+data)});
             process.stderr.on('data', function (data) { console.log(''+data)});
@@ -92,7 +103,8 @@ module.exports = class IonicHelper {
             console.log("Running ionic serve for hot reload...")
 
             const spawn = require("child_process").spawn;
-            const process = spawn('ionic',["serve","--no-open","--address","0.0.0.0","--consolelogs"]);
+            const processName = SystemHelper.isWindowsHost()?"ionic.cmd":"ionic";
+            const process = spawn(processName,["serve","--no-open","--address","0.0.0.0","--consolelogs"]);
 
             process.stdout.on('data', function (data) { console.log(''+data)});
             process.stderr.on('data', function (data) { console.log(''+data)});

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AppManager } from '@elastosfoundation/trinity-types';
 
-declare let appService: any;
+declare let appManager: AppManager;
 
 @Component({
     selector: 'header-bar',
@@ -18,10 +18,10 @@ export class HeaderBarComponent implements OnInit {
     ngOnInit() { }
 
     minimize() {
-        AppManager.launcher();
+        appManager.launcher();
     }
 
     close() {
-        AppManager.close();
+        appManager.close();
     }
 }

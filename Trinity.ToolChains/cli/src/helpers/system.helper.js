@@ -1,4 +1,5 @@
-const hasbin = require("hasbin")
+const hasbin = require("hasbin");
+const os = require("os");
 
 module.exports = class SystemHelper {
     static checkIonicPresence() {
@@ -14,5 +15,9 @@ module.exports = class SystemHelper {
     static checkPythonPresence() {
         console.log("Checking python presence")
         return hasbin.sync("python")
+    }
+
+    static isWindowsHost() {
+        return os.platform() === 'win32'
     }
 }

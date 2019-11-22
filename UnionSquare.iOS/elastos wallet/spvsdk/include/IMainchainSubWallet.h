@@ -2,7 +2,7 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "ISubWallet.h"
+#include <ISubWallet.h>
 
 #ifndef __ELASTOS_SDK_IMAINCHAINSUBWALLET_H__
 #define __ELASTOS_SDK_IMAINCHAINSUBWALLET_H__
@@ -388,62 +388,86 @@ namespace Elastos {
 			 *
 			 * @param type             Proposal type, value is [0-5]
 			 * @param sponsorPublicKey Public key of sponsor
-			 * @param crSponsorDID     Did of sponsor. Such as "iYMVuGs1FscpgmghSzg243R6PzPiszrgj7"
 			 * @param draftHash        The hash of draft proposal
 			 * @param budgets          The budgets of proposal every stage. Such as ["300", "33", "344"]
 			 * @param recipient        Address of budget payee. Such as "EPbdmxUVBzfNrVdqJzZEySyWGYeuKAeKqv"
 			 *
-			 * @return Hex string of sha256
+			 * @return The proposal in JSON format contains the "Digest" field to be signed and then set the "Signature" field. Such as
+			 * {
+			 *    "Budgets":[324,266,234],
+			 *    "DraftHash":"a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0",
+			 *    "Recipient":"cbcb4cc55dc3fc6cc6e4663f747d8b75e25d21db21",
+			 *    "SponsorPublicKey":"031f7a5a6bf3b2450cd9da4048d00a8ef1cb4912b5057535f65f3cc0e0c36f13b4",
+			 *    "Type":0,
+			 *    "Digest":"ae9ebae57a176f5d5f8693eee5a8192f219b3ae04922cc096acb7748fe7ceba7",
+			 *    "Signature":""
+			 * }
 			 */
-			virtual std::string SponsorProposalDigest(uint8_t type,
-			                                          const std::string &sponsorPublicKey,
-			                                          const std::string &crSponsorDID,
-			                                          const std::string &draftHash,
-			                                          const nlohmann::json &budgets,
-			                                          const std::string &recipient) const = 0;
+			virtual nlohmann::json SponsorProposalDigest(uint8_t type,
+			                                             const std::string &sponsorPublicKey,
+			                                             const std::string &draftHash,
+			                                             const nlohmann::json &budgets,
+			                                             const std::string &recipient) const = 0;
 
 			/**
 			 *CR sponsor generate proposal digest for cr signature.
 			 *
-			 * @param type             Proposal type, value is [0-5]
-			 * @param sponsorPublicKey Public key of sponsor
-			 * @param crSponsorDID     Did of sponsor. Such as "iYMVuGs1FscpgmghSzg243R6PzPiszrgj7"
-			 * @param draftHash        The hash of draft proposal
-			 * @param budgets          The budgets of proposal every stage. Such as ["300", "33", "344"]
-			 * @param recipient        Address of budget payee. Such as "EPbdmxUVBzfNrVdqJzZEySyWGYeuKAeKqv"
-			 * @sponsorSignature       The signature of the proposal by the sponsor
-			 * @return Hex string of sha256
+			 * @param  sponsorSignedProposal Sponsor signed proposal
+			 * @param  crSponsorDID     Did of sponsor. Such as "iYMVuGs1FscpgmghSzg243R6PzPiszrgj7"
+			 * @return The proposal in JSON format contains the "Digest" field to be signed and then set the "CRSignature" field. Such as
+			 * {
+			 * 	  "Budgets":[324,266,234],
+			 * 	  "CRSponsorDID":"cbcb4cc55dc3fc6cc6e4663f747d8b75e25d21db67",
+			 * 	  "DraftHash":"a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0",
+			 * 	  "Recipient":"cbcb4cc55dc3fc6cc6e4663f747d8b75e25d21db21",
+			 * 	  "Signature":"ff0ff9f45478f8f9fcd50b15534c9a60810670c3fb400d831cd253370c42a0af79f7f4015ebfb4a3791f5e45aa1c952d40408239dead3d23a51314b339981b76",
+			 * 	  "SponsorPublicKey":"031f7a5a6bf3b2450cd9da4048d00a8ef1cb4912b5057535f65f3cc0e0c36f13b4",
+			 * 	  "Type":0,
+			 * 	  "Digest":"2a65e8ac29f5ba4e16a1def91fc4e210838900f24f0f651c5c414d8fd8aaf55d",
+			 * 	  "CRSignature":""
+			 * }
 			 */
-			virtual std::string CRSponsorProposalDigest(uint8_t type,
-			                                            const std::string &sponsorPublicKey,
-			                                            const std::string &crSponsorDID,
-			                                            const std::string &draftHash,
-			                                            const nlohmann::json &budgets,
-			                                            const std::string &recipient,
-			                                            const std::string &sponsorSignature) const = 0;
+			virtual nlohmann::json CRSponsorProposalDigest(const nlohmann::json &sponsorSignedProposal,
+			                                               const std::string &crSponsorDID) const = 0;
 
 			/**
 			 * Create CRC Proposal transaction.
 			 *
-			 * @param type             Proposal type, value is [0-5]
-			 * @param sponsorPublicKey Public key of sponsor
-			 * @param crSponsorDID     Did of sponsor. Such as "iYMVuGs1FscpgmghSzg243R6PzPiszrgj7"
-			 * @param draftHash        The hash of draft proposal
-			 * @param budgets          The budgets of proposal every stage. Such as ["300", "33", "344"]
-			 * @param recipient        Address of budget payee. Such as "EPbdmxUVBzfNrVdqJzZEySyWGYeuKAeKqv"
-			 * @sponsorSignature       The signature of the proposal by the sponsor
-			 * @crSponsorSignature     The signature of the proposal by cr
-			 * @return  The transaction in JSON format to be signed and published.
+			 * @param crSignedProposal CR sponsor signed proposal
+			 * @param memo             Remarks string. Can be empty string.
+			 * @return                 The transaction in JSON format to be signed and published.
 			 */
-			virtual nlohmann::json CreateCRCProposalTransaction(uint8_t type,
-			                                                    const std::string &sponsorPublicKey,
-			                                                    const std::string &crSponsorDID,
-			                                                    const std::string &draftHash,
-			                                                    const nlohmann::json &budgets,
-			                                                    const std::string &recipient,
-			                                                    const std::string &sponsorSignature,
-			                                                    const std::string &crSponsorSignature,
+			virtual nlohmann::json CreateCRCProposalTransaction(nlohmann::json crSignedProposal,
 			                                                    const std::string &memo) = 0;
+
+			/**
+			 * Generate payload for review CRC proposal.
+			 *
+			 * @param proposalHash Hash value of proposal.
+			 * @param voteResult   Opinion of the proposal. approve : 0, reject : 1, abstain : 2
+			 * @param did          DID of CR. Such as  "iYMVuGs1FscpgmghSzg243R6PzPiszrgj7";
+			 * @return             The proposal in JSON format contains the "Digest" field to be signed and then set the "Signature" field. Such as
+			 * {
+			 *   "DID":"270589bb89afdbeac2f6788c52386bafb941a24867",
+			 *   "Digest":"01333218d8492fe59c1ee1e0830bf86bf97b37f71f73183f29a31385f3e0ba45",
+			 *   "ProposalHash":"a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0",
+			 *   "Result":1,
+			 *   "Signature":""
+			 * }
+			 */
+			virtual nlohmann::json GenerateCRCProposalReview(const std::string &proposalHash,
+			                                                 uint8_t voteResult,
+			                                                 const std::string &did) const = 0;
+
+			/**
+			 * Create a review proposal transaction.
+			 *
+			 * @param proposalReview Generate by GenerateCRCProposalReview() and "Signature" is not empty.
+			 * @param memo           Remarks string. Can be empty string.
+			 * @return               The transaction in JSON format to be signed and published.
+			 */
+			virtual nlohmann::json CreateCRCProposalReviewTransaction(const nlohmann::json &proposalReview,
+			                                                          const std::string &memo) = 0;
 
 			/**
 			 * Create vote crc proposal transaction.

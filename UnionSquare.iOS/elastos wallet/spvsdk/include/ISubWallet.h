@@ -7,9 +7,9 @@
 
 #include <string>
 
-#include "nlohmann/json.hpp"
+#include <nlohmann/json.hpp>
 
-#include "ISubWalletCallback.h"
+#include <ISubWalletCallback.h>
 
 namespace Elastos {
 	namespace ElaWallet {
@@ -117,9 +117,8 @@ namespace Elastos {
 
 			/**
 			 * Remove a sub wallet callback object listened to current sub wallet.
-			 * @param subCallback is a pointer who want to listen events of current sub wallet.
 			 */
-			virtual void RemoveCallback(ISubWalletCallback *subCallback) = 0;
+			virtual void RemoveCallback() = 0;
 
 			/**
 			 * Create a normal transaction and return the content of transaction in json format.
@@ -218,6 +217,14 @@ namespace Elastos {
 			 */
 			virtual nlohmann::json GetAssetInfo(
 					const std::string &assetID) const = 0;
+
+			/**
+			 * Use fixed peer to sync
+			 * @param address IP or domain name.
+			 * @param port p2p port.
+			 * @return return true if success, otherwise false.
+			 */
+			virtual bool SetFixedPeer(const std::string &address, uint16_t port) = 0;
 
 			/**
 			 * Start sync of P2P network

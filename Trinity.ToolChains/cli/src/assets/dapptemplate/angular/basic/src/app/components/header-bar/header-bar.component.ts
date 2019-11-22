@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AppManager } from '@elastosfoundation/trinity-types/appmanager';
 
 declare let appManager: AppManager;
 

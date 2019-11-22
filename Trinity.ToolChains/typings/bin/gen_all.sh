@@ -7,6 +7,8 @@ echo "Copying AppManager types..."
 cat $pluginsroot/AppManager/www/types.d.ts > $outdir/appmanager.d.ts
 echo "Copying Carrier types..."
 cat $pluginsroot/Carrier/www/types.d.ts > $outdir/carrier.d.ts
+echo "Copying Wallet types..."
+cat $pluginsroot/Wallet/www/types.d.ts > $outdir/wallet.d.ts
 
 echo ""
 echo "DONE - Don't forget to publish this new version on NPM!"

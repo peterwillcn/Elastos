@@ -15,11 +15,11 @@
     "baseUrl": "./",
     "typeRoots": [
       "node_modules/@types",
-      "cordova-plugin-file/types",
+      "node_modules/@elastosfoundation"
     ],
     "types": [
       "node",
-      "cordova-plugin-file"
+      "trinity-types"
     ]
   },
   "include": [

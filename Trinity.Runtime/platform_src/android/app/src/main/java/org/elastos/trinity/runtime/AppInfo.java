@@ -166,12 +166,20 @@
              this.version = version;
          }
      }
+     public class Intent_filter {
+         public String action;
+
+         Intent_filter(String action) {
+             this.action = action;
+         }
+     }
 
      public ArrayList<Locale> locales = new ArrayList<Locale>(4);
      public ArrayList<Icon> icons = new ArrayList<Icon>(4);
      public ArrayList<PluginAuth> plugins = new ArrayList<PluginAuth>(4);
      public ArrayList<UrlAuth> urls = new ArrayList<UrlAuth>(4);
      public ArrayList<UrlAuth> intents = new ArrayList<UrlAuth>(4);
+     public ArrayList<Intent_filter> intent_filters = new ArrayList<Intent_filter>(4);
      public ArrayList<Framework> frameworks = new ArrayList<Framework>(2);
      public ArrayList<Platform> platforms = new ArrayList<Platform>(2);
 
@@ -202,6 +210,10 @@
 
      public void addPlatform(String name, String version) {
          platforms.add(new Platform(name, version));
+     }
+
+     public void addIntentFilter(String action) {
+         intent_filters.add(new Intent_filter(action));
      }
 
      public Framework getFramework(String name) {

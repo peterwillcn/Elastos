@@ -136,6 +136,13 @@ public class ManagerDBAdapter {
                 db.insert(ManagerDBHelper.PLATFORM_TABLE, null, contentValues);
             }
 
+            for (AppInfo.Intent_filter intent_filter : info.intent_filters) {
+                contentValues = new ContentValues();
+                contentValues.put(AppInfo.APP_ID, info.app_id);
+                contentValues.put(AppInfo.ACTION, intent_filter.action);
+                db.insert(ManagerDBHelper.INTENT_FILTER_TABLE, null, contentValues);
+            }
+
             return true;
         }
         else {

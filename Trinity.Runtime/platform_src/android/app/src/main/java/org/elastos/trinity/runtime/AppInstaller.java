@@ -639,8 +639,9 @@ public class AppInstaller {
             for (int i = 0; i < array.length(); i++) {
                 JSONObject jobj = array.getJSONObject(i);
                 if (jobj.has("action")) {
-                    Intent intent = new Intent(appInfo.app_id, jobj.getString("action"));
-                    dbAdapter.addIntentFilter(intent);
+                    appInfo.addIntentFilter(jobj.getString("action"));
+//                    Intent intent = new Intent(appInfo.app_id, jobj.getString("action"));
+//                    dbAdapter.addIntentFilter(intent);
                 }
             }
         }

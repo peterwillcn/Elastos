@@ -8,6 +8,7 @@ TS types are provided by each trinity plugin to match its JS classes and methods
 
 Gather all types files from their respective plugins modules and aggregate them into a single types file:
 
+- `cd dist`
 - `npm run build`
 
 The generated content will be available in dist/ and ready to publish to NPM.
@@ -22,7 +23,7 @@ The generated content will be available in dist/ and ready to publish to NPM.
 - `npm adduser` (once)
 - `npm login` (once)
 - Increase version number in package.json
-- `npm publish --access=public`
+- `npm publish --access=public` (from the dist/ folder)
 
 # How to install this tool (for DApp developers)
 

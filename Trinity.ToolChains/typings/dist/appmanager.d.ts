@@ -130,7 +130,6 @@ declare type AppInfo = {
     dataPath: string;
 }
 
-
 /**
  * Object received when receiving a message.
  *
@@ -138,7 +137,7 @@ declare type AppInfo = {
  * @param {number}  type	    The message type
  * @param {string}  from		The message from
  */
-export declare type ReceivedMessage = {
+declare type ReceivedMessage = {
     msg: string;
     type: Number;
     from: string;
@@ -151,7 +150,7 @@ export declare type ReceivedMessage = {
   * @param {Object}  params	    The intent params
   * @param {string}  from		The intent from
   */
- export declare type ReceivedIntent = {
+ declare type ReceivedIntent = {
      action: string;
      params: any;
      from: string;
@@ -161,7 +160,7 @@ export declare type ReceivedMessage = {
  * The class representing dapp manager for launcher.
  * @class
  */
-export declare interface AppManager {
+declare interface AppManager {
     /**
      * Get locale.
      *
@@ -219,7 +218,7 @@ export declare interface AppManager {
      *
      * @param {Function} onSuccess  The function to call when success, the param is include 'infos' and 'list'.
      */
-    getAppsInfo(onSuccess:(appsInfo: AppInfo[])=>void);
+    getAppInfos(onSuccess:(appsInfo: AppInfo[])=>void);
 
     /**
      * Start a dapp by id. If the dapp running, it will be swith to curent.

@@ -4,7 +4,6 @@
   "description": "Typescript types for Trinity plugins",
   "types":"dist/plugins/index.d.ts",
   "scripts": {
-    "clean": "rm -rf dist/",
     "build": "./bin/gen_all.sh"
   },
   "files": [

@@ -22,6 +22,7 @@ LAUNCHER_DIR_PATH=os.path.join(PROJECT_DIR_PATH, "Launcher")
 DAPPS_DIR_PATH=os.path.join(PROJECT_DIR_PATH, "Dapps")
 IONIC_DIR_PATH=os.path.join(DAPPS_DIR_PATH, "Ionic")
 BUILD_IN_DIR_PATH=os.path.join(RUNTIME_DIR_PATH, "www/built-in")
+PLUGIN_DIR_PATH=os.path.join(PROJECT_DIR_PATH, "Plugins")
 
 def run_cmd(cmd, ignore_error=False):
     print("Running: " + cmd)
@@ -37,6 +38,16 @@ def remove_tree(directory):
 def copy_tree(src, dst):
     print("Copying " + src + " To " + dst)
     dir_util.copy_tree(src, dst)
+
+def plugin_convertTS2JS():
+    dirs = os.listdir(PLUGIN_DIR_PATH)
+    for dir in dirs:
+        filepath = os.path.join(PLUGIN_DIR_PATH, dir)
+        if os.path.isdir(filepath):
+            tsconfig = os.path.join(filepath, "www/tsconfig.json")
+            if os.path.isfile(tsconfig):
+                cmd="tsc --build " + tsconfig
+                run_cmd(cmd)
 
 def add_fabric():
     api_key = os.getenv("FABRIC_API_KEY");
@@ -90,9 +101,10 @@ if args.target == "dapp" or args.target == "all" or args.target == "runtime":
     copy_tree("Url", BUILD_IN_DIR_PATH)
     dirs = os.listdir(IONIC_DIR_PATH)
     for dir in dirs:
-        if not os.path.isfile(dir):
+        dapp_dir = os.path.join(IONIC_DIR_PATH, dir)
+        if os.path.isdir(dapp_dir):
             print("Building dapp: " + dir)
-            os.chdir(os.path.join(IONIC_DIR_PATH, dir))
+            os.chdir(dapp_dir)
             run_cmd("npm install")
             run_cmd("ionic build --prod")
             copy_tree("www", BUILD_IN_DIR_PATH + "/org.elastos.trinity.dapp." + dir.lower())
@@ -111,6 +123,7 @@ if args.target == "runtime":
 if args.target == "runtime" or args.target == "all":
     os.chdir(RUNTIME_DIR_PATH)
     copy_tree("www_files", "www")
+    plugin_convertTS2JS()
     run_cmd("cordova prepare")
     add_fabric()
     run_cmd("cordova build android")

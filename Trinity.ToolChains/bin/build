@@ -40,6 +40,7 @@ def copy_tree(src, dst):
     dir_util.copy_tree(src, dst)
 
 def plugin_convertTS2JS():
+    run_cmd("npm install typescript -g")
     dirs = os.listdir(PLUGIN_DIR_PATH)
     for dir in dirs:
         filepath = os.path.join(PLUGIN_DIR_PATH, dir)

@@ -1,6 +1,6 @@
 {
   "name": "@elastosfoundation/trinity-types",
-  "version": "1.1.4",
+  "version": "1.1.6",
   "description": "Typescript types for Trinity plugins",
   "types":"dist/plugins/index.d.ts",
   "scripts": {

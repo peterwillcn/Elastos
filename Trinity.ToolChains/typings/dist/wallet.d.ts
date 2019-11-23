@@ -20,7 +20,8 @@
 * SOFTWARE.
 */
 
-declare interface Wallet {
+interface Wallet {
+    // TODO: define types for all arguments and callback parameters
     print:(args, success, error)=>void;
     recoverWallet:(args, success, error)=>void;
     createWallet:(args, success, error)=>void; 

@@ -86,7 +86,7 @@ function create_onedrive_client() {
         });
     }
 
-    hivePlugin.createClient(success, null, onedrive_opts);
+    hivePlugin.createClient(onedrive_opts, success, null);
 }
 
 function create_ipfs_client() {
@@ -112,7 +112,7 @@ function create_ipfs_client() {
         });
     }
 
-    hivePlugin.createClient(success, null, ipfs_opts);
+    hivePlugin.createClient(ipfs_opts, success, null);
 }
 
 var commands = [
@@ -216,15 +216,15 @@ function get_version(args) {
 
 function get_login(args) {
     client.login(
+        function (url) {
+            cordova.InAppBrowser.open(url, "_system", "location=yes");
+        },
         function (ret) {
             display_others_msg("Client logined successfuly");
         },
         function (error) {
             display_others_msg("Get login error! " + error);
         },
-        function (url) {
-            cordova.InAppBrowser.open(url, "_system", "location=yes");
-        }
     );
 }
 

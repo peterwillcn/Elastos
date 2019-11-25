@@ -284,13 +284,13 @@ function self_info(argv) {
 
         var str = "Set " + argv[2] + ":'" + argv[3] + "'";
         carrier.setSelfInfo(
+            argv[2], argv[3],
             function (ret) {
                 display_others_msg(str + " succeess.");
             },
             function (ret) {
                 display_others_msg(str + " failed.");
-            },
-            argv[2], argv[3]
+            }
         );
     }
     else {
@@ -357,7 +357,7 @@ function friend_add(argv) {
     var error = function (error) {
         display_others_msg("Request to add a new friend failed: " + error + ".");
     };
-    carrier.addFriend(success, error, argv[1], argv[2]);
+    carrier.addFriend(argv[1], argv[2], success, error);
 }
 
 function friend_accept(argv) {
@@ -372,7 +372,7 @@ function friend_accept(argv) {
     var error = function (error) {
         display_others_msg("Accept friend request failed: " + error + ".");
     };
-    carrier.acceptFriend(success, error, argv[1]);
+    carrier.acceptFriend(argv[1], success, error);
 }
 
 function friend_remove(argv) {
@@ -387,7 +387,7 @@ function friend_remove(argv) {
     var error = function (error) {
         display_others_msg("Remove friend failed: " + error + ".");
     };
-    carrier.removeFriend(success, error, argv[1]);
+    carrier.removeFriend(argv[1], success, error);
 }
 
 function list_friends(argv) {
@@ -411,7 +411,7 @@ function show_friend(argv) {
     var error = function (error) {
         display_others_msg("Get friend information failed: " + error + ".");
     };
-    carrier.getFriend(success, error, argv[1]);
+    carrier.getFriend(argv[1], success, error);
 }
 
 function label_friend(argv) {
@@ -426,7 +426,7 @@ function label_friend(argv) {
     var error = function (error) {
         display_others_msg("Update friend label failed: " + error + ".");
     };
-    carrier.labelFriend(success, error, argv[1], argv[2]);
+    carrier.labelFriend(argv[1], argv[2], success, error);
 }
 
 function send_message(argv) {
@@ -441,7 +441,7 @@ function send_message(argv) {
     var error = function (error) {
         display_others_msg("Send message failed: " + error + ".");
     };
-    carrier.sendFriendMessage(success, error, argv[1], argv[2]);
+    carrier.sendFriendMessage(argv[1], argv[2], success, error);
 }
 
 function invite(argv) {
@@ -456,7 +456,7 @@ function invite(argv) {
     var error = function (error) {
         display_others_msg("Send invite request failed: " + error + ".");
     };
-    carrier.inviteFriend(success, error, argv[1], argv[2], invite_response_callback);
+    carrier.inviteFriend(argv[1], argv[2], invite_response_callback, success, error);
 }
 
 function reply_invite(argv) {
@@ -486,7 +486,7 @@ function reply_invite(argv) {
     var error = function (error) {
         display_others_msg("Send invite reply to inviter failed: " + error + ".");
     };
-    carrier.replyFriendInvite(success, error, argv[1], status, reason, msg);
+    carrier.replyFriendInvite(argv[1], status, reason, msg, success, error);
 }
 
 var mGroup = null ;
@@ -498,7 +498,7 @@ function group_create(argv) {
      var error = function (error) {
         display_others_msg("group_create failed: " + error + ".");
      };
-     carrier.newGroup(success, error, groupCallbacks);
+     carrier.newGroup(groupCallbacks, success, error);
 }
 
 function group_join(argv) {
@@ -511,7 +511,7 @@ function group_join(argv) {
     };
     var friendId = argv[1];
     var cookieStr = argv[2];
-    carrier.groupJoin(success, error, friendId, cookieStr, groupCallbacks);
+    carrier.groupJoin(friendId, cookieStr, groupCallbacks, success, error);
 }
 
 
@@ -523,7 +523,7 @@ function group_invite(argv) {
        display_others_msg("group_invite failed: " + error + ".");
     };
     var friendId = argv[1] ;
-    mGroup.invite(success, error,friendId);
+    mGroup.invite(friendId, success, error);
 }
 
 
@@ -540,7 +540,7 @@ function group_leave(argv) {
         display_others_msg("group is null");
         return ;
     }
-    carrier.groupLeave(success, error, mGroup);
+    carrier.groupLeave(mGroup, success, error);
 }
 
 function group_msg(argv) {
@@ -551,7 +551,7 @@ function group_msg(argv) {
        display_others_msg("group_msg failed: " + error + ".");
     };
     var message = argv[1];
-    mGroup.sendMessage(success, error,message);
+    mGroup.sendMessage(message, success, error);
 }
 
 function group_title(argv) {
@@ -572,7 +572,7 @@ function group_set_title(argv) {
        display_others_msg("group_set_title failed: " + error + ".");
     };
     var title = argv[1];
-    mGroup.setTitle(success, error,title);
+    mGroup.setTitle(title, success, error);
 }
 
 function group_get_peer(argv) {
@@ -583,7 +583,7 @@ function group_get_peer(argv) {
        display_others_msg("group_get_peer failed: " + error + ".");
     };
     var peerId = argv[1];
-    mGroup.getPeer(success, error,peerId);
+    mGroup.getPeer(peerId, success, error);
 }
 
 function group_get_peers(argv) {
@@ -608,8 +608,6 @@ function group_get_groups(argv) {
     carrier.getGroups(success, error);
 }
 
-
-
 var fileTransfer = null ;
 function new_file_transfer(argv){
     var success = function(mFileTransfer) {
@@ -630,12 +628,12 @@ function new_file_transfer(argv){
     fileTransferInfo.fileId = fileId ;
     fileTransferInfo.size = size ;
 
-    carrier.newFileTransfer(success, error,friendId,fileTransferInfo,fileTransferCallbacks);
+    carrier.newFileTransfer(friendId, fileTransferInfo, fileTransferCallbacks, success, error);
 }
 
 function ft_generate_fileId(argv){
     var success = function(fileId){
-        display_others_msg("generate_fileId : "+fileId);
+        display_others_msg("generate_fileId : "+ fileId);
     };
 
     carrier.generateFileId(success);
@@ -643,14 +641,14 @@ function ft_generate_fileId(argv){
 
 function ft_get_fileid(argv){
     var success = function(fileId){
-        display_others_msg("get file id : "+fileId);
+        display_others_msg("get file id : "+ fileId);
     };
     var error = function (error) {
        display_others_msg("ft_get_fileid failed: " + error + ".");
     };
     if (fileTransfer){
         var filename = argv[1];
-        fileTransfer.getFileId(success , error , filename);
+        fileTransfer.getFileId(filename, success, error);
     } else {
         display_others_msg("please create file transfer firstly");
     }
@@ -658,14 +656,14 @@ function ft_get_fileid(argv){
 
 function ft_get_filename(argv){
     var success = function(filename){
-        display_others_msg("get filename : "+filename);
+        display_others_msg("get filename : "+ filename);
     };
     var error = function (error) {
        display_others_msg("ft_get_filename failed: " + error + ".");
     };
     if (fileTransfer){
         var fileId = argv[1];
-        fileTransfer.getFileName(success , error , fileId);
+        fileTransfer.getFileName(fileId, success, error);
     } else {
         display_others_msg("please create file transfer firstly");
     }
@@ -673,13 +671,13 @@ function ft_get_filename(argv){
 
 function ft_connect(argv){
     var success = function(success){
-        display_others_msg("ft_connect : "+success);
+        display_others_msg("ft_connect : "+ success);
     };
     var error = function (error) {
        display_others_msg("ft_connect failed: " + error + ".");
     };
     if (fileTransfer){
-        fileTransfer.connect(success , error);
+        fileTransfer.connect(success, error);
     } else {
         display_others_msg("please create file transfer firstly");
     }
@@ -716,7 +714,7 @@ function ft_add_file(argv){
         fileTransferInfo.fileId = fileId ;
         fileTransferInfo.size = size ;
 
-        fileTransfer.addFile(success , error , fileTransferInfo);
+        fileTransfer.addFile(fileTransferInfo, success, error);
     } else {
         display_others_msg("please create file transfer firstly");
     }
@@ -731,7 +729,7 @@ function ft_pull_data(argv){
     };
     if (fileTransfer){
         var fileId = argv[1];
-        fileTransfer.pullData(success , error , fileId , 0);
+        fileTransfer.pullData(fileId , 0, success, error);
     } else {
         display_others_msg("please create file transfer firstly");
     }
@@ -748,7 +746,7 @@ function ft_write_data(argv){
     if (fileTransfer){
         var fileId = argv[1];
         var data = argv[2];
-        fileTransfer.writeData(success , error ,fileId , data);
+        fileTransfer.writeData(fileId, data, success, error);
     } else {
         display_others_msg("please create file transfer firstly");
     }
@@ -763,7 +761,7 @@ function ft_send_finish(argv){
     };
     if (fileTransfer){
         var fileId = argv[1];
-        fileTransfer.sendFinish(success , error , fileId);
+        fileTransfer.sendFinish(fileId, success , error);
     } else {
         display_others_msg("please create file transfer firstly");
     }
@@ -780,7 +778,7 @@ function ft_cancel(argv){
         var fileId = argv[1];
         var status = argv[2];
         var reason = argv[3];
-        fileTransfer.cancelTransfer(success , error , fileId , status , reason);
+        fileTransfer.cancelTransfer(fileId, status, reason, success, error);
     } else {
         display_others_msg("please create file transfer firstly");
     }
@@ -795,7 +793,7 @@ function ft_pend(argv){
     };
     if (fileTransfer){
         var fileId = argv[1];
-        fileTransfer.pendTransfer(success , error , fileId);
+        fileTransfer.pendTransfer(fileId, success, error);
     } else {
         display_others_msg("please create file transfer firstly");
     }
@@ -810,13 +808,11 @@ function ft_resume(argv){
     };
     if (fileTransfer){
         var fileId = argv[1];
-        fileTransfer.resumeTransfer(success , error , fileId);
+        fileTransfer.resumeTransfer(fileId, success, error);
     } else {
         display_others_msg("please create file transfer firstly");
     }
 }
-
-
 
 
 //-----------------------------------------------------------------------------
@@ -847,7 +843,7 @@ function session_start() {
     var error = function (error) {
         display_others_msg("Session start inviter failed: " + error + ".");
     };
-    session.start(success, error, session_ctx.remote_sdp);
+    session.start(session_ctx.remote_sdp, success, error);
 }
 
 function session_request_complete_callback(event) {
@@ -955,7 +951,7 @@ function session_new(argv) {
     var error = function (error) {
         display_others_msg("Create session failed. " + error);
     };
-    carrier.newSession(success, error, argv[1]);
+    carrier.newSession(argv[1], success, error);
 }
 
 function session_close(argv) {
@@ -1033,7 +1029,7 @@ function stream_add(argv) {
     var error = function (error) {
         display_others_msg("Add stream failed. " + error);
     };
-    session.addStream(success, error, carrierPlugin.StreamType.TEXT, options, callbacks);
+    session.addStream(carrierPlugin.StreamType.TEXT, options, callbacks, success, error);
 }
 
 function stream_remove(argv) {
@@ -1058,7 +1054,7 @@ function stream_remove(argv) {
     var error = function (error) {
         display_others_msg("Remove stream " + stream.id + " failed. " + error);
     };
-    session.removeStream(success, error, stream);
+    session.removeStream(stream, success, error);
 }
 
 function session_peer(argv) {
@@ -1087,7 +1083,7 @@ function session_request(argv) {
     var error = function (error) {
         display_others_msg("session request failed. " + error);
     };
-    session.request(success, error, session_request_complete_callback);
+    session.request(session_request_complete_callback, success, error);
 }
 
 function session_reply_request(argv) {
@@ -1117,7 +1113,7 @@ function session_reply_request(argv) {
         var error = function (error) {
             display_others_msg("response invite failed. " + error);
         };
-        session.replyRequest(success, error, 0, null);
+        session.replyRequest(0, null, success, error);
     }
     else if ((argv[1] == "refuse") && (argv.length == 3)) {
         var success = function(info) {
@@ -1126,7 +1122,7 @@ function session_reply_request(argv) {
         var error = function (error) {
             display_others_msg("response invite failed. " + error);
         };
-        session.replyRequest(success, error, 1, argv[2]);
+        session.replyRequest(1, argv[2], success, error);
     }
     else {
         display_others_msg("Unknown sub command.");
@@ -1157,7 +1153,7 @@ function stream_write(argv) {
     var error = function (error) {
         display_others_msg("write data failed. " + error);
     };
-    stream.write(success, error, buf);
+    stream.write(buf, success, error);
 }
 
 function stream_get_info(argv) {
@@ -1304,7 +1300,7 @@ function stream_open_channel(argv) {
     var error = function (error) {
         display_others_msg("Create channel failed. " + error);
     };
-    stream.openChannel(success, error, cookie);
+    stream.openChannel(cookie, success, error);
 }
 
 function stream_close_channel(argv) {
@@ -1329,7 +1325,7 @@ function stream_close_channel(argv) {
     var error = function (error) {
         display_others_msg("Close channel failed. " + error);
     };
-    stream.closeChannel(success, error, parseInt(argv[2]));
+    stream.closeChannel(parseInt(argv[2]), success, error);
 }
 
 function stream_write_channel(argv) {
@@ -1355,7 +1351,7 @@ function stream_write_channel(argv) {
     var error = function (error) {
         display_others_msg("Write channel failed. " + error);
     };
-    stream.writeChannel(success, error, parseInt(argv[2]), buf);
+    stream.writeChannel(parseInt(argv[2]), buf, success, error);
 }
 
 function stream_pend_channel(argv) {
@@ -1380,7 +1376,7 @@ function stream_pend_channel(argv) {
     var error = function (error) {
         display_others_msg("Pend channel failed. " + error);
     };
-    stream.pendChannel(success, error, parseInt(argv[2]));
+    stream.pendChannel(parseInt(argv[2]), success, error);
 }
 
 function stream_resume_channel(argv) {
@@ -1405,7 +1401,7 @@ function stream_resume_channel(argv) {
     var error = function (error) {
         display_others_msg("Resume channel(input) failed. " + error);
     };
-    stream.resumeChannel(success, error, parseInt(argv[2]));
+    stream.resumeChannel(parseInt(argv[2]), success, error);
 }
 
 function session_add_service(argv) {
@@ -1434,7 +1430,7 @@ function session_add_service(argv) {
     var error = function (error) {
         display_others_msg("Add service " + argv[1] + " failed. " + error);
     };
-    session.addService(success, error, argv[1], protocol, argv[3], argv[4]);
+    session.addService(argv[1], protocol, argv[3], argv[4], success, error);
 }
 
 function session_remove_service(argv) {
@@ -1454,7 +1450,7 @@ function session_remove_service(argv) {
     var error = function (error) {
         display_others_msg("Remove service " + argv[1] + " failed. " + error);
     };
-    session.removeService(success, error, argv[1]);
+    session.removeService(argv[1], success, error);
 }
 
 function portforwarding_open(argv) {
@@ -1489,7 +1485,7 @@ function portforwarding_open(argv) {
     var error = function (error) {
         display_others_msg("Open portforwarding to service " + argv[2] + " <<== " + argv[4] + ":" + argv[5] + " failed. " + error);
     };
-    stream.openPortForwarding(success, error, argv[2], protocol, argv[4], argv[5]);
+    stream.openPortForwarding(argv[2], protocol, argv[4], argv[5], success, error);
 }
 
 function portforwarding_close(argv) {
@@ -1522,7 +1518,7 @@ function portforwarding_close(argv) {
     var error = function (error) {
         display_others_msg("Portforwarding " + pfid + " closed failed. " + error);
     };
-    stream.closePortForwarding(success, error, pfid);
+    stream.closePortForwarding(pfid, success, error);
 }
 
 //Callback Functions
@@ -1822,7 +1818,7 @@ var app = {
     onDeviceReady: function () {
         var success = function (ret) {
             carrier = ret;
-            carrier.start(null, null, 50);
+            carrier.start(50, null, null);
             do_command("help");
             $("input").focus();
             $("input").bind('keypress', function (event) {
@@ -1836,7 +1832,7 @@ var app = {
                 }
             });
         }
-        carrierPlugin.createObject(success, null, opts, callbacks);
+        carrierPlugin.createObject(opts, callbacks, success, null);
     },
 };
 

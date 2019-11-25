@@ -43,7 +43,6 @@ function display_others_msg(content) {
 
 var commands = [
 // plugin commands
-    { cmd: "test",      fn: test,                   help: "test"        },
     { cmd: "openjson",  fn: openjson,               help: "openjson"    },
     { cmd: "help",      fn: help,                   help: "help [cmd]"  },
     { cmd: "version",   fn: get_version,            help: "version"     },
@@ -132,30 +131,6 @@ function onClose() {
     appManager.close();
 }
 
-function test(args) {
-    let dic = {
-        test: "ok",
-        test2: "test2"
-    }
-
-    let jsArray = new Array();
-    jsArray[0] = "Saab";
-    jsArray[1] = "Volvo";
-    jsArray[2] = "BMW";
-
-
-    DIDPlugin.jsonArrayTest(
-        function (version) {
-            display_others_msg(version);
-        },
-        function (error) {
-            display_others_msg("jsonArrayTest! " + error.message);
-        },
-        dic,
-        jsArray
-    );
-}
-
 function get_version(args) {
     DIDPlugin.getVersion(
         function (version) {
@@ -169,6 +144,8 @@ function get_version(args) {
 
 function initDIDStore(args) {
      DIDPlugin.initDidStore(
+         "didtest",
+         "12345678",
          function (ret) {
              didStore = ret;
              display_others_msg("initDidStore success " + ret.objId);
@@ -181,14 +158,14 @@ function initDIDStore(args) {
 
 function createDocument(args) {
     DIDPlugin.createDIDDocumentFromJson(
+        documentJson,
         function (ret) {
             diddocment = ret;
             display_others_msg("CreateDIDDocumentFromJson success " + ret.objId);
         },
         function (error) {
             display_others_msg("CreateDIDDocumentFromJson error! " + error.message);
-        },
-        documentJson
+        }
     );
  }
 
@@ -205,45 +182,45 @@ function createCredential(args) {
 
 
     didStore.CreateCredential(
+        didString,
+        "cred-1",
+        types,
+        15,
+        props,
+        "123456",
         function (ret) {
             vc = ret;
             display_others_msg("createCredential success " + ret.objId);
         },
         function (error) {
             display_others_msg("createCredential error! " + error.message);
-        },
-        didString,
-        "cred-1",
-        types,
-        15,
-        props,
-        "123456"
+        }
     );
 }
 
 function generateMnemonic(args) {
     DIDPlugin.generateMnemonic(
+        args[1],
         function (ret) {
             mnemonic = ret;
             display_others_msg("generateMnemonic: " + ret);
         },
         function (error) {
             display_others_msg("generateMnemonic error! " + error.message);
-        },
-        args[1]
+        }
     );
 }
 
 function isMnemonicValid(args) {
     DIDPlugin.isMnemonicValid(
+        args[1],
+        mnemonic,
         function (ret) {
             display_others_msg("isMnemonicValid: " + ret);
         },
         function (error) {
             display_others_msg("isMnemonicValid error! " + error.message);
-        },
-        args[1],
-        mnemonic
+        }
     );
 }
 
@@ -260,39 +237,39 @@ function hasPrivateID(args) {
 
 function initPrivateID(args) {
     didStore.initPrivateIdentity(
+        "蓄蓄蓄蓄蓄蓄蓄蓄蓄蓄蓄蓄", "", "", true,
         function (ret) {
             display_others_msg("initPrivateID: " + ret);
         },
         function (error) {
             display_others_msg("initPrivateID error! " + error.message);
-        },
-        "蓄蓄蓄蓄蓄蓄蓄蓄蓄蓄蓄蓄", "", "", true
+        }
     );
 }
 
 function newDid(args) {
     didStore.newDid(
+        "123456",
+        "didtest",
         function (ret) {
             diddocment = ret;
             display_others_msg("newDid: " + ret.objId);
         },
         function (error) {
             display_others_msg("newDid error! " + error.message);
-        },
-        "123456",
-        "didtest"
+        }
     );
 }
 
 function deleteDid(args) {
     didStore.deleteDid(
+        didString,
         function (ret) {
             display_others_msg("deleteDID: " + ret);
         },
         function (error) {
             display_others_msg("deleteDID error! " + error.message);
-        },
-        didString
+        }
     );
 }
 
@@ -311,100 +288,101 @@ function loadDid(args) {
 
 function storeDid(args) {
     didStore.storeDid(
+        diddocment.objId,
+        "didtest",
         function (ret) {
             display_others_msg("storeDid: " + ret);
         },
         function (error) {
             display_others_msg("storeDid error! " + error.message);
-        },
-        diddocment.objId,
-        "didtest"
+        }
     );
 }
 
 function publishDid(args) {
     didStore.publishDid(
+        diddocment.objId,
+        publickeyUrl,
+        "123456",
         function (ret) {
             display_others_msg("publishDid: " + ret);
         },
         function (error) {
             display_others_msg("publishDid error! " + error.message);
-        },
-        diddocment.objId,
-        publickeyUrl,
-        "123456"
+        }
     );
 }
 
 function updateDid(args) {
     didStore.updateDid(
+        diddocment.objId,
+        publickeyUrl,
+        "123456",
         function (ret) {
             display_others_msg("publishDid: " + ret);
         },
         function (error) {
             display_others_msg("publishDid error! " + error.message);
-        },
-        diddocment.objId,
-        publickeyUrl,
-        "123456"
+        }
     );
 }
 
 function storeCredential(args) {
     didStore.storeCredential(
+        vc.objId,
         function (ret) {
             publickey = ret;
             display_others_msg("storeCredential: " + ret);
         },
         function (error) {
             display_others_msg("storeCredential error! " + error.message);
-        },
-        vc.objId
+        }
     );
 }
 
 function deleteCredential(args) {
     didStore.deleteCredential(
+        didString,
+        didUrlString,
         function (ret) {
             display_others_msg("deleteCredential: " + ret);
         },
         function (error) {
             display_others_msg("deleteCredential error! " + error.message);
-        },
-        didString,
-        didUrlString
+        }
     );
 }
 
 function loadCredential(args) {
     didStore.loadCredential(
+        didString,
+        didUrlString,
         function (ret) {
             vc = ret;
             display_others_msg("loadCredential: " + ret.objId);
         },
         function (error) {
             display_others_msg("loadCredential error! " + error.message);
-        },
-        didString,
-        didUrlString
+        }
     );
 }
 
 function listDids(args) {
     didStore.listDids(
+        2,
         function (ret) {
             didString = ret.items[0]["did"];
             display_others_msg("listDids count: " + ret.items.length + "<br>" + JSON.stringify(ret.items));
         },
         function (error) {
             display_others_msg("listDids error! " + error.message);
-        },
-        2
+        }
     );
 }
 
 function listCredentials(args) {
     didStore.listCredentials(
+        didString,
         function (ret) {
             didUrlString = ret.items[0]["didurl"];
             let index=didUrlString.indexOf("#");
@@ -414,8 +392,7 @@ function listCredentials(args) {
         },
         function (error) {
             display_others_msg("listCredentials error! " + error.message);
-        },
-        didString
+        }
     );
 }
 
@@ -457,14 +434,14 @@ function getDefaultPublicKey(args) {
 
 function getPublicKey(args) {
     diddocment.getPublicKey(
+        publickeyUrl,
         function (ret) {
             publickey = ret;
             display_others_msg("getPublicKey: " + ret.objId);
         },
         function (error) {
             display_others_msg("getPublicKey error! " + error.message);
-        },
-        publickeyUrl
+        }
     );
 }
 
@@ -482,40 +459,40 @@ function getPublicKeys(args) {
 
 function addCredential(args) {
     diddocment.addCredential(
+        vc.objId,
         function (ret) {
             display_others_msg("addCredential: " + ret);
         },
         function (error) {
             display_others_msg("addCredential error! " + error.message);
-        },
-        vc.objId
+        }
     );
 }
 
 function sign(args) {
     diddocment.sign(
+        "123456",
+        args[1],
         function (ret) {
             signString = ret;
             display_others_msg("sign: " + ret);
         },
         function (error) {
             display_others_msg("sign error! " + error.message);
-        },
-        "123456",
-        args[1]
+        }
     );
 }
 
 function verify(args) {
     diddocment.verify(
+        signString,
+        args[1],
         function (ret) {
             display_others_msg("verify: " + ret);
         },
         function (error) {
             display_others_msg("verify error! " + error.message);
-        },
-        signString,
-        args[1]
+        }
     );
 }
 

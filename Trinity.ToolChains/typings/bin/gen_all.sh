@@ -20,9 +20,9 @@ echo "Copying Hive types..."
 cat $pluginsroot/Hive/www/types.d.ts > $outdir/hive.d.ts
 
 echo ""
-echo -e "\033[32m##############################\033[0m"
-echo -e "\033[32m#### BASE CORDOVA PLUGINS ####\033[0m"
-echo -e "\033[32m##############################\033[0m"
+echo -e "\033[32m#########################\033[0m"
+echo -e "\033[32m#### CORDOVA PLUGINS ####\033[0m"
+echo -e "\033[32m#########################\033[0m"
 # cordova-clipboard
 echo "Copying Clipboard types..."
 echo -e "\033[31mNO TS TYPES YET !\033[0m"
@@ -43,17 +43,13 @@ echo "Copying Dialogs types..."
 cat $runtimepluginsroot/cordova-plugin-dialogs/types/index.d.ts > $outdir/cordova-plugin-dialogs.d.ts
 # cordova-plugin-file
 echo "Copying File types..."
-#cat $runtimepluginsroot/cordova-plugin-file/types/index.d.ts > $outdir/cordova-plugin-file.d.ts
-echo -e "\033[31m!! TODO !!\033[0m"
+cat $runtimepluginsroot/cordova-plugin-file/types/index.d.ts > $outdir/cordova-plugin-file.d.ts
 # cordova-plugin-flashlight
 echo "Copying Flashlight types..."
 echo -e "\033[31mNO TS TYPES YET !\033[0m"
 # cordova-plugin-geolocation
 echo "Copying Geolocation types..."
 echo -e "\033[31mNO TS TYPES YET !\033[0m"
-# cordova-plugin-inappbrowser
-echo "Copying InAppBrowser types..."
-echo -e "\033[31m!! TODO !!\033[0m"
 # cordova-plugin-ionic-keyboard
 echo "Copying Ionic Keyboard types..."
 echo -e "\033[31mNO TS TYPES YET !\033[0m"
@@ -75,21 +71,12 @@ cat $runtimepluginsroot/cordova-plugin-statusbar/types/index.d.ts > $outdir/cord
 # cordova-plugin-vibration
 echo "Copying Vibration types..."
 cat $runtimepluginsroot/cordova-plugin-vibration/types/index.d.ts > $outdir/cordova-plugin-vibration.d.ts
-
-echo ""
-echo -e "\033[32m##################################\033[0m"
-echo -e "\033[32m#### MODIFIED CORDOVA PLUGINS ####\033[0m"
-echo -e "\033[32m##################################\033[0m"
-echo ""
-# elastos-trinity-plugins-ionicwebview
-echo "Copying IonicWebView types..."
-echo -e "\033[31m!! TODO !!\033[0m"
 # elastos-trinity-plugins-media
 echo "Copying Media types..."
-echo -e "\033[31m!! TODO !!\033[0m"
+cat $runtimepluginsroot/elastos-trinity-plugins-media/types/index.d.ts > $outdir/elastos-trinity-plugins-media.d.ts
 # elastos-trinity-plugins-qrscanner
 echo "Copying QRScanner types..."
-echo -e "\033[31m!! TODO !!\033[0m"
+echo -e "\033[31mNO TS TYPES YET !\033[0m"
 
 echo ""
 echo -e "\033[35mDONE - Don't forget to publish this new version on NPM!\033[0m"

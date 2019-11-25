@@ -1831,6 +1831,67 @@ errCodeSPVCreateMasterWalletError= 20006;
     }
     return YES;
 }
+
+-(PluginResult *)SignReadOnlyToCR:(invokedUrlCommand *)command{
+    
+//    self.wallet.masterWalletID,stringArray,@(tic),pwd,@(1)
+    NSArray *args = command.arguments;
+    int idx = 0;
+    NSString * masterWalletID =args[idx++];
+    NSArray * publicKeys = args[idx++];
+    double stake = [ args[idx++] doubleValue] ;
+    NSString *pwd=args[idx++];
+    BOOL chenge=[args[idx++] boolValue];
+    String keys = [[ self arrayToJSONString:publicKeys] UTF8String];
+    nlohmann::json tx ;
+    IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet: masterWalletID];
+    String acount=[self cstringWithString:[NSString stringWithFormat:@"%f",stake*unitNumber]];
+    Json result;
+    // 少一个备注
+    try {
+        result= mainchainSubWallet->CreateVoteCRTransaction("",Json::parse(keys),"");
+    } catch (const std:: exception & e ) {
+        NSString *errString=[self stringWithCString:e.what()];
+        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+        [[FLTools share]showErrorInfo:dic[@"Message"]];
+        return [self errInfoToDic:e.what() with:command];
+    }
+    NSString *jsonString = [self stringWithCString:result.dump()];
+    NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
+    return [self successProcess:command msg:dic];
+}
+-(PluginResult *)HowSignToCR:(invokedUrlCommand *)command{
+    NSArray *args = command.arguments;
+    int idx = 0;
+    NSString * masterWalletID =args[idx++];
+    NSArray * publicKeys = args[idx++];
+    double stake = [args[idx++] doubleValue];
+    NSString *pwd=args[idx++];
+    BOOL chenge=[args[idx++] boolValue];
+    String keys = [[ self arrayToJSONString:publicKeys] UTF8String];
+    nlohmann::json tx ;
+    Json signedTx;
+    IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:masterWalletID];
+    String acount=[self cstringWithString:[NSString stringWithFormat:@"%f",stake*unitNumber]];
+    // 少一个备注
+    try {
+      tx= mainchainSubWallet->CreateVoteCRTransaction("",Json::parse(keys),"");
+    signedTx = mainchainSubWallet->SignTransaction(tx, [pwd UTF8String]);
+      
+        
+    } catch (const std:: exception & e ) {
+        NSString *errString=[self stringWithCString:e.what()];
+        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+        [[FLTools share]showErrorInfo:dic[@"Message"]];
+       return [self errInfoToDic:e.what() with:command];
+    
+    }
+    
+    NSString *jsonString = [self stringWithCString:signedTx.dump()];
+    NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
+     return [self successProcess:command msg:dic];
+}
+
 -(PluginResult *)SignReadOnlyToVote:(invokedUrlCommand *)command{
     
 //    self.wallet.masterWalletID,stringArray,@(tic),pwd,@(1)

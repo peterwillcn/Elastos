@@ -682,7 +682,7 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
         self.pwdPopupV =  nil;
     }else if (self.wallet.TypeW==1){
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,stringArray,[NSString stringWithFormat:@"%f",tic],pwd,@(1)] callbackId:self.wallet.masterWalletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
-        PluginResult *result = [[ELWalletManager share]SignReadOnlyToVote:mommand];
+        PluginResult *result = [[ELWalletManager share]SignReadOnlyToCR:mommand];
         NSString *statue=[NSString stringWithFormat:@"%@",result.status];
         if ([statue isEqualToString:@"1"]){
             HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
@@ -695,7 +695,7 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
         }
     }else if (self.wallet.TypeW==2){
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,stringArray,[NSString stringWithFormat:@"%f",tic],pwd,@(1)] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
-        PluginResult *result = [[ELWalletManager share]HowSignToVote:mommand];
+        PluginResult *result = [[ELWalletManager share]HowSignToCR:mommand];
         NSString *statue=[NSString stringWithFormat:@"%@",result.status];
         if ([statue isEqualToString:@"1"]) {
             [self.pwdPopupV removeFromSuperview];
@@ -709,7 +709,7 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
         }
     }else if (self.wallet.TypeW==3){
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,stringArray,[NSString stringWithFormat:@"%f",tic],pwd,@(1)] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
-        PluginResult *result = [[ELWalletManager share]SignReadOnlyToVote:mommand];
+        PluginResult *result = [[ELWalletManager share]SignReadOnlyToCR:mommand];
         NSString *statue=[NSString stringWithFormat:@"%@",result.status];
         if ([statue isEqualToString:@"1"]) {
             HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];

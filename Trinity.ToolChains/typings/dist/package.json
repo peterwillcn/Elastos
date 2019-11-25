@@ -1,13 +1,13 @@
 {
   "name": "@elastosfoundation/trinity-types",
-  "version": "1.1.8",
+  "version": "1.1.10",
   "description": "Typescript types for Trinity plugins",
-  "types":"dist/plugins/index.d.ts",
+  "types":"index.d.ts",
   "scripts": {
     "build": "./bin/gen_all.sh"
   },
   "files": [
-    "."
+    "*.ts"
   ],
   "repository": {
     "type": "git",
@@ -26,8 +26,6 @@
   },
   "homepage": "https://www.elastos.org",
   "devDependencies": {
-  },
-  "directories": {
   },
   "dependencies": {
   }

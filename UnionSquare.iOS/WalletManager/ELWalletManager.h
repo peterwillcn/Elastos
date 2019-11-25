@@ -171,6 +171,8 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(BOOL)useMainchainSubWallet:(NSString*)mainchainSubWalletId ToVote:(NSArray*)publicKeys tickets:(double)stake pwd:(NSString*)pwd isChangeVote:(BOOL)change;
 -(PluginResult *)SignReadOnlyToVote:(invokedUrlCommand *)command;
 -(PluginResult *)HowSignToVote:(invokedUrlCommand *)command;
+-(PluginResult *)SignReadOnlyToCR:(invokedUrlCommand *)command;
+-(PluginResult *)HowSignToCR:(invokedUrlCommand *)command;
 //取消选举结果
 -(BOOL)CancelProducer:(NSString*)mainchainSubWalletId Pwd:(NSString*)pwd;
 //拿回押金

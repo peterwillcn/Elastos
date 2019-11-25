@@ -69,7 +69,7 @@
             landmarkName = "-CancelCRProducer:Pwd:"
             startingLineNumber = "1783"
             endingLineNumber = "1783"
-            landmarkName = "-useCRMainchainSubWallet:ToVote:tickets:pwd:isChangeVote:"
+            landmarkName = "-RetrieveDeposit:acount:Pwd:"
             landmarkType = "7">
             <Locations>
                <Location

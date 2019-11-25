@@ -155,6 +155,9 @@
     
     
     UIView *mainView =[self mainWindow];
+    if (self.isUpdate) {
+        self.transactionDetailsView.popViewTitle=NSLocalizedString(@"交易详情", nil);
+    }
     [mainView addSubview:self.transactionDetailsView];
     [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:@"5000"];
     [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {

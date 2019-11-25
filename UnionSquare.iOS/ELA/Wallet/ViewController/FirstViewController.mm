@@ -97,6 +97,12 @@
     [self setBackgroundImg:@""];
     self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
      self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:self.leftView];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataWalletListInfo:) name:updataWallet object:nil];
+    
+      [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
+      [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(currentWalletAccountBalanceChanges:) name: AccountBalanceChanges object:nil];
+         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataCreateWalletLoadWalletInfo) name:updataCreateWallet object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(AsnyConnectStatusChanged:) name:ConnectStatusChanged object:nil];
     [self addAllCallBack];
     [self setView];
     NSInteger selectIndex=
@@ -106,13 +112,6 @@
     }
     self.isScro=NO;
     [self loadTheWalletInformationWithIndex:selectIndex];
-  
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataWalletListInfo:) name:updataWallet object:nil];
-    
-      [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
-      [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(currentWalletAccountBalanceChanges:) name: AccountBalanceChanges object:nil];
-         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataCreateWalletLoadWalletInfo) name:updataCreateWallet object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(AsnyConnectStatusChanged:) name:ConnectStatusChanged object:nil];
     if ([SDKNET isEqualToString:@"MainNet"]) {
         [self loadNetWorkingPong];
     }
@@ -294,22 +293,23 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
     NSString *chainID=infoArray[1];
     NSInteger index = [infoArray[2] integerValue];
     NSString *lastBlockTimeString=dic[@"lastBlockTimeString"];
-    NSString * currentBlockHeight=dic[@"currentBlockHeight"];
+//    NSString * currentBlockHeight=dic[@"currentBlockHeight"];
     NSString *  progress=dic[@"progress"];
     assetsListModel *model;
     if ([self.currentWallet.masterWalletID isEqualToString:walletID]){
         if ([chainID isEqualToString:@"ELA"]) {
-            [ELWalletManager share].estimatedHeight=currentBlockHeight;
+//            [ELWalletManager share].estimatedHeight=currentBlockHeight;
             model=self.dataSoureArray[0];
         }else{
              model=self.dataSoureArray[1];
         }
-        model.thePercentageMax=[progress floatValue];
-    model.thePercentageCurr=[currentBlockHeight floatValue];
+        model.thePercentageMax=[progress doubleValue];
+//    model.thePercentageCurr=[currentBlockHeight floatValue];
         if (lastBlockTimeString.length>0) {
             sideChainInfoModel *smodel=[[sideChainInfoModel alloc]init];
             smodel.thePercentageMax=[NSString stringWithFormat:@"%f",model.thePercentageMax];
-           smodel.thePercentageCurr=[NSString stringWithFormat:@"%f",model.thePercentageCurr]; smodel.walletID=self.currentWallet.masterWalletID;
+//           smodel.thePercentageCurr=[NSString stringWithFormat:@"%f",model.thePercentageCurr];
+            smodel.walletID=self.currentWallet.masterWalletID;
             smodel.sideChainName=model.iconName;
             smodel.sideChainNameTime=lastBlockTimeString;
              NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:smodel.sideChainNameTime];
@@ -332,7 +332,7 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
             model.thePercentageMax=1;
         }
         smodel.thePercentageMax=[NSString stringWithFormat:@"%@",progress];
-        smodel.thePercentageCurr=[NSString stringWithFormat:@"%@",currentBlockHeight];
+//        smodel.thePercentageCurr=[NSString stringWithFormat:@"%@",currentBlockHeight];
         smodel.walletID=walletID;
         smodel.sideChainName=chainID;
         smodel.sideChainNameTime=lastBlockTimeString;
@@ -447,7 +447,7 @@ if(inde>self.walletIDListArray.count-1) {
             model.thePercentageCurr=0.f;
             model.thePercentageMax=1.f;
             model.iconBlance=blanceString;
-            model.thePercentageCurr=[smodel.thePercentageCurr doubleValue];
+//            model.thePercentageCurr=[smodel.thePercentageCurr doubleValue];
             model.thePercentageMax=[smodel.thePercentageMax doubleValue];
             if ([smodel.sideChainNameTime isEqual: [NSNull null]]||smodel.sideChainNameTime==NULL||[smodel.sideChainNameTime isEqualToString:@"--:--"]) {
                 model.updateTime=[NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"已同步区块时间", nil),@"--:--"];
@@ -620,38 +620,32 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
         
     }else if ([model.status isEqualToString:@"Connecting"]){
         cell.statusLabel.text=NSLocalizedString(@"连接中...", nil);
-    
-
-        
     }else if ([model.status isEqualToString:@"DIsconnected"]){
         cell.statusLabel.text=NSLocalizedString(@"丢失...", nil);
 
     }
    cell.updatetime.text=model.updateTime;
     NSString *symbolString=@"%";
-    double prog=model.thePercentageCurr/model.thePercentageMax;
-     if ([model.updateTime rangeOfString:@"--:--"].location !=NSNotFound){
+    if ([model.updateTime rangeOfString:@"--:--"].location !=NSNotFound){
         cell.progress.progress=0;
-    }else if (model.thePercentageMax==0){
-         cell.progress.progress=0;
-    }else if (prog==1.0||prog>1.0) {
-        if (model.thePercentageCurr!=model.thePercentageMax) {
-            cell.progress.progress=0.99;
-        }else{
-            cell.progress.progress=1.0;
-            cell.linkImageView.alpha=0.f;
-        }
-        
     }else{
-        if (prog==0.f&&model.thePercentageCurr>0) {
-            prog=0.1;
-        }
-        cell.progress.progress=prog;
+        cell.progress.progress=model.thePercentageMax;
     }
-    NSLog(@"CELL==%f===%f===%f",model.thePercentageCurr,model.thePercentageMax,cell.progress.progress);
+    if (cell.progress.progress==1) {
+        cell.linkImageView.alpha=0.f;
+    }else{
+        cell.linkImageView.alpha=1.f;
+    }
+    if ([model.status isEqualToString:@"Connected"]) {
+        cell.statusLabel.text=model.updateTime;
+    }else if ([model.status isEqualToString:@"Connecting"]){
+        cell.statusLabel.text=NSLocalizedString(@"连接中...", nil);
+        
+    }else if ([model.status isEqualToString:@"DIsconnected"]){
+        cell.statusLabel.text=NSLocalizedString(@"丢失...", nil);
+    }
     cell.progressLab.text=[NSString stringWithFormat:@"%.f%@", floor(cell.progress.progress*100),symbolString];
-    NSLog(@"cell.progressLab.text==%@",cell.progressLab.text);
-     [self startAnimationWithView:cell.linkImageView];
+    [self startAnimationWithView:cell.linkImageView];
     return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -757,36 +751,24 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
     cell.updatetime.text=model.updateTime;
     cell.detailLab.text=[[FLTools share]elaScaleConversionWith: model.iconBlance];
     NSString *symbolString=@"%";
-    double prog=model.thePercentageCurr/model.thePercentageMax;
     if ([model.updateTime rangeOfString:@"--:--"].location !=NSNotFound){
         cell.progress.progress=0;
-    }else if (model.thePercentageMax==0){
-        cell.progress.progress=0;
-    }else if (prog==1.0||prog>1.0) {
-        if (model.thePercentageCurr!=model.thePercentageMax) {
-            cell.progress.progress=0.99;
-        }else{
-            cell.progress.progress=1.0;
-            cell.linkImageView.alpha=0.f;
-        }
-        
     }else{
-        if (prog==0.f&&model.thePercentageCurr>0) {
-            prog=0.1;
-        }
-        cell.progress.progress=prog;
+        cell.progress.progress=model.thePercentageMax;
     }
-    
+    if (cell.progress.progress==1) {
+        cell.linkImageView.alpha=0.f;
+    }else{
+        cell.linkImageView.alpha=1.f;
+    }
     if ([model.status isEqualToString:@"Connected"]) {
         cell.statusLabel.text=model.updateTime;
-        
     }else if ([model.status isEqualToString:@"Connecting"]){
         cell.statusLabel.text=NSLocalizedString(@"连接中...", nil);
         
     }else if ([model.status isEqualToString:@"DIsconnected"]){
         cell.statusLabel.text=NSLocalizedString(@"丢失...", nil);
     }
-    
     cell.progressLab.text=[NSString stringWithFormat:@"%.f%@", floor(cell.progress.progress*100),symbolString];
     [self startAnimationWithView:cell.linkImageView];
 }

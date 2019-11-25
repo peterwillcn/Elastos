@@ -37,7 +37,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
 
 @property(nonatomic,strong)HMWinputVotesPopupWindowView *inputVoteTicketView;//票数视图
 @property(strong,nonatomic)HMWpwdPopupView *pwdPopupV;//密码视图
-@property(nonatomic,assign)NSInteger ticket;
+@property(nonatomic,assign)double ticket;
 
 @property (weak, nonatomic) IBOutlet UIProgressView *progress;
 @property (weak, nonatomic) IBOutlet UILabel *persentLab;
@@ -156,9 +156,7 @@ self.wallet.TypeW  = model.TypeW;
              NSInteger balance=[balanceString integerValue];
              self.inputVoteTicketView.votes =balance/unitNumber;
  self.blaceString=@(balance/unitNumber).stringValue;
-    
-        self.TagtatolVoteLab.text = [NSLocalizedString(@"最大表决票权约：",nil ) stringByAppendingString: self.blaceString];
-    
+      self.TagtatolVoteLab.text = [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"最大表决票权", nil),[[FLTools share]elaScaleConversionWith: balanceString]];
     [self  UpdateTheRemainingAvailable];
 }
 
@@ -228,8 +226,7 @@ self.wallet.TypeW  = model.TypeW;
         NSString * balanceString= [NSString stringWithCString:balanceSt.c_str() encoding:NSUTF8StringEncoding];
         NSInteger balance=[balanceString integerValue];
         self.inputVoteTicketView.votes =balance/unitNumber;
-        
-//        self.inputVoteTicketView.accountBalanceLab.text = [NSLocalizedString(@"最大表决票权 ",nil ) stringByAppendingString: @(balance/unitNumber).stringValue];
+     self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"最大表决票权", nil),[[FLTools share]elaScaleConversionWith: balanceString]];
         [self  UpdateTheRemainingAvailable];
         
     }
@@ -381,7 +378,7 @@ self.wallet.TypeW  = model.TypeW;
     self.isMax=isMax;
     [self.inputVoteTicketView removeFromSuperview];
     self.inputVoteTicketView= nil;
-    self.ticket = ticketNumer.integerValue;
+    self.ticket = [ticketNumer doubleValue];
     [self.view.window addSubview:self.pwdPopupV];
     
 }
@@ -391,14 +388,13 @@ self.wallet.TypeW  = model.TypeW;
     self.pwdPopupV  = nil;
 }
 -(void)makeSureWithPWD:(NSString*)pwd{
-    
     NSMutableArray *stringArray = [NSMutableArray array];
     for (int i= 0; i<self.voteArray.count; i++) {
         FLCoinPointInfoModel *model = self.voteArray[i];
         [stringArray addObject:model.ownerpublickey];
     }
     NSString *walletId = [ELWalletManager share].currentWallet.masterWalletID;
-    NSInteger tic=self.ticket;
+    double tic=self.ticket;
     if (self.isMax) {
         tic=-1;
     }
@@ -412,10 +408,7 @@ self.wallet.TypeW  = model.TypeW;
     }
     [self.pwdPopupV removeFromSuperview];
     self.pwdPopupV =  nil;
-    
-    
 }
-
 -(HMWSendSuccessPopuView *)sendSuccessPopuV{
     if (!_sendSuccessPopuV) {
         _sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
@@ -430,10 +423,7 @@ self.wallet.TypeW  = model.TypeW;
 -(void)showSendSuccessPopuV{
     self.sendSuccessPopuV.hidden = NO;
 }
-
 #pragma mark lazy
-
-
 -(HMWinputVotesPopupWindowView *)inputVoteTicketView
 {
     if (!_inputVoteTicketView ) {
@@ -664,11 +654,11 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
     for (int i= 0; i<self.voteArray.count; i++) {
         HWMCRListModel *model=self.voteArray[i];
         
-        NSDictionary *dic=@{model.did: [NSString stringWithFormat:@"%ld",[model.SinceVotes integerValue]*unitNumber]};
+        NSDictionary *dic=@{model.did: [NSString stringWithFormat:@"%f",[model.SinceVotes doubleValue]*unitNumber]};
 
     [CRDic addEntriesFromDictionary:dic];
     }
-    NSInteger tic=self.TheRemainingAvailable;
+    double  tic=self.TheRemainingAvailable;
 //    if (self.isMax) {
 //        tic=-1;
 //    }
@@ -691,7 +681,7 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
         [self.pwdPopupV removeFromSuperview];
         self.pwdPopupV =  nil;
     }else if (self.wallet.TypeW==1){
-        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,stringArray,@(tic),pwd,@(1)] callbackId:self.wallet.masterWalletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,stringArray,[NSString stringWithFormat:@"%f",tic],pwd,@(1)] callbackId:self.wallet.masterWalletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
         PluginResult *result = [[ELWalletManager share]SignReadOnlyToVote:mommand];
         NSString *statue=[NSString stringWithFormat:@"%@",result.status];
         if ([statue isEqualToString:@"1"]){
@@ -704,7 +694,7 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
             [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
         }
     }else if (self.wallet.TypeW==2){
-        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,stringArray,@(tic),pwd,@(1)] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,stringArray,[NSString stringWithFormat:@"%f",tic],pwd,@(1)] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
         PluginResult *result = [[ELWalletManager share]HowSignToVote:mommand];
         NSString *statue=[NSString stringWithFormat:@"%@",result.status];
         if ([statue isEqualToString:@"1"]) {
@@ -718,7 +708,7 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
             [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
         }
     }else if (self.wallet.TypeW==3){
-        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,stringArray,@(tic),pwd,@(1)] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,stringArray,[NSString stringWithFormat:@"%f",tic],pwd,@(1)] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
         PluginResult *result = [[ELWalletManager share]SignReadOnlyToVote:mommand];
         NSString *statue=[NSString stringWithFormat:@"%@",result.status];
         if ([statue isEqualToString:@"1"]) {

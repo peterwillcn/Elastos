@@ -67,52 +67,55 @@
             startingLineNumber = "1737"
             endingLineNumber = "1737"
             landmarkName = "-CancelCRProducer:Pwd:"
+            startingLineNumber = "1783"
+            endingLineNumber = "1783"
+            landmarkName = "-useCRMainchainSubWallet:ToVote:tickets:pwd:isChangeVote:"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "467353AB-467D-4183-A393-474686A6F85B - 3db623017bc1f3e2"
+                  uuid = "562380F1-B2B2-4520-B246-26A8C209AB6D - 8fe6342aa4ad79bf"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[ELWalletManager CancelCRProducer:Pwd:]"
-                  moduleName = "elastos_wallet"
+                  symbolName = "-[ELWalletManager RetrieveDeposit:acount:Pwd:]"
+                  moduleName = "ELA Wallet"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/WalletManager/ELWalletManager.mm"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1738"
-                  endingLineNumber = "1738"
-                  offsetFromSymbolStart = "792">
+                  startingLineNumber = "1783"
+                  endingLineNumber = "1783"
+                  offsetFromSymbolStart = "728">
                </Location>
                <Location
-                  uuid = "467353AB-467D-4183-A393-474686A6F85B - 3db623017bc1f3e2"
+                  uuid = "562380F1-B2B2-4520-B246-26A8C209AB6D - 8fe6342aa4ad79bf"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[ELWalletManager CancelCRProducer:Pwd:]"
-                  moduleName = "elastos_wallet"
+                  symbolName = "-[ELWalletManager RetrieveDeposit:acount:Pwd:]"
+                  moduleName = "ELA Wallet"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/WalletManager/ELWalletManager.mm"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1738"
-                  endingLineNumber = "1738"
-                  offsetFromSymbolStart = "812">
+                  startingLineNumber = "1783"
+                  endingLineNumber = "1783"
+                  offsetFromSymbolStart = "768">
                </Location>
                <Location
-                  uuid = "467353AB-467D-4183-A393-474686A6F85B - 3db623017bc1f3e2"
+                  uuid = "562380F1-B2B2-4520-B246-26A8C209AB6D - 8fe6342aa4ad79bf"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[ELWalletManager CancelCRProducer:Pwd:]"
-                  moduleName = "elastos_wallet"
+                  symbolName = "-[ELWalletManager RetrieveDeposit:acount:Pwd:]"
+                  moduleName = "ELA Wallet"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/WalletManager/ELWalletManager.mm"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1738"
-                  endingLineNumber = "1738"
-                  offsetFromSymbolStart = "1576">
+                  startingLineNumber = "1783"
+                  endingLineNumber = "1783"
+                  offsetFromSymbolStart = "1356">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -120,40 +123,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
          <BreakpointContent
-            uuid = "4D8D6148-26A1-4190-9836-D2FC8764AD62"
+            uuid = "467353AB-467D-4183-A393-474686A6F85B"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            symbolName = ""
-            moduleName = "">
-            <Locations>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.RuntimeIssueBreakpoint">
-         <BreakpointContent
-            uuid = "4AB0FD8A-9820-4FC1-B1EB-80F22C53B6A2"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            breakpointStackSelectionBehavior = "1"
-            type = "65535">
+            filePath = "WalletManager/ELWalletManager.mm"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1723"
+            endingLineNumber = "1723"
+            landmarkName = "-CancelProducer:Pwd:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B9CAEAA7-2247-4AE5-9435-A2C4CE92E6E7"
+            uuid = "FA46D85C-F63C-4156-8A59-D2BA38BE47DB"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ELA/Wallet/walletCreate/FLPrepareVC.m"
+            filePath = "ELA/Base/NSDictionary+NilSafe.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
-            landmarkName = "-clickBtn2:"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "+gl_dictionaryWithObjects:forKeys:count:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -173,12 +168,12 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "8E25AEAE-9886-499E-AFBB-ACC74C8D0BD5 - 68725312457fac77"
+                  uuid = "8E25AEAE-9886-499E-AFBB-ACC74C8D0BD5 - 3b619e96c0d48de3"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "-[FLManageSelectPointNodeInformationVC getNetCoinPointArrayWithPubKey:]"
-                  moduleName = "elastos_wallet"
+                  moduleName = "ELA Wallet"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/SuperPoint/ViewController/FLManageSelectPointNodeInformationVC.mm"
                   startingColumnNumber = "9223372036854775807"
@@ -188,12 +183,12 @@
                   offsetFromSymbolStart = "168">
                </Location>
                <Location
-                  uuid = "8E25AEAE-9886-499E-AFBB-ACC74C8D0BD5 - d52ff19813c9f143"
+                  uuid = "8E25AEAE-9886-499E-AFBB-ACC74C8D0BD5 - 863c3c1c9662d0d7"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "__71-[FLManageSelectPointNodeInformationVC getNetCoinPointArrayWithPubKey:]_block_invoke"
-                  moduleName = "elastos_wallet"
+                  moduleName = "ELA Wallet"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/SuperPoint/ViewController/FLManageSelectPointNodeInformationVC.mm"
                   startingColumnNumber = "9223372036854775807"
@@ -256,22 +251,6 @@
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "249B26AE-2E58-4DEE-9AB4-2F7FB69079FF"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ELA/found/SuperPoint/ViewController/DrawBackVoteMoneyVC.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
-            landmarkName = "-viewDidLoad"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
          <BreakpointContent
             uuid = "FC3DA8B9-312D-4E01-AA6F-A5610862DEC9"
@@ -285,64 +264,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0C2CB509-E6C8-44B9-B97C-8617EE5EE237"
+            uuid = "9CC97090-A019-4E48-858C-688999233DE5"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ELA/found/SuperPoint/view/HMWVotingListView.m"
+            filePath = "ELA/Wallet/assetDetails/ViewController/HMWAssetDetailsViewController.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
-            landmarkName = "-collectionView:cellForItemAtIndexPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "51129D16-7BD4-47A6-B23E-D3B7DAC29541"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ELA/found/SuperPoint/view/HMWVotingListView.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "-collectionView:cellForItemAtIndexPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4A0C1B4F-8E50-4B48-A814-6A88EB32C017"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ELA/found/SuperPoint/view/cell/HMWVotingListCollectionViewCell.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
-            landmarkName = "-setModel:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "DC03A47E-9381-4737-9B44-2E49B8645788"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ElaSubWalletCallback.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "ElaSubWalletCallback::OnBlockSyncProgress(progressInfo)"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
+            landmarkName = "-iconInfoUpdate:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

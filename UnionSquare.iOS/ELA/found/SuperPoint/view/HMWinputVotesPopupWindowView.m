@@ -78,5 +78,41 @@
         [self.delegate didHadInputVoteTicket:self.theInputNumberTextField.text WithIsMax:self.isMax];
     }
 }
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    if ([[[textField textInputMode] primaryLanguage] isEqualToString:@"emoji"] || ![[textField textInputMode] primaryLanguage]) {
+        return NO;
+    }
+    NSString *NumbersWithDot = @".1234567890";
+    NSString *NumbersWithoutDot = @"1234567890";
+    // 判断是否输入内容，或者用户点击的是键盘的删除按钮
+    if (![string isEqualToString:@""]) {
+        NSCharacterSet *cs;
+            NSInteger dotLocation = [textField.text rangeOfString:@"."].location;
+            if (dotLocation == NSNotFound ) {
+                cs = [[NSCharacterSet characterSetWithCharactersInString:NumbersWithDot] invertedSet];
+                if (range.location >= 9) {
+                    if ([string isEqualToString:@"."] && range.location == 9) {
+                        return YES;
+                    }
+                    return NO;
+                }
+            }else {
+                cs = [[NSCharacterSet characterSetWithCharactersInString:NumbersWithoutDot] invertedSet];
+            }
+            // 按cs分离出数组,数组按@""分离出字符串
+            NSString *filtered = [[string componentsSeparatedByCharactersInSet:cs] componentsJoinedByString:@""];
+            BOOL basicTest = [string isEqualToString:filtered];
+            if (!basicTest) {
+                return NO;
+            }
+            if (dotLocation != NSNotFound && range.location > dotLocation + 8) {
+                return NO;
+            }
+            if (textField.text.length > 11) {
+                return NO;
+            }
+    }
+    return YES;
+}
 
 @end

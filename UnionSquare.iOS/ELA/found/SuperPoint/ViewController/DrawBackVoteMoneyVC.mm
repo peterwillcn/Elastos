@@ -28,8 +28,6 @@
 {
     [super viewWillAppear:animated];
     [self defultWhite];
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
-
 }
 - (void)viewDidLoad {
     [super viewDidLoad];

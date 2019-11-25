@@ -17,7 +17,6 @@
 @property (nonatomic, copy)NSString *passWord;
 @property (nonatomic, copy)NSString *nickName;
 @property (nonatomic, copy)NSString *headImg;
-
 @property (nonatomic, copy)NSString *borrmeUserId;
 @property (nonatomic, assign)NSInteger certificated;
 @property (nonatomic, assign)NSInteger  currencyType; //
@@ -47,7 +46,6 @@
  *<# #>
  */
 @property(copy,nonatomic)NSString *channelId;
-
 @end
 @interface FLWallet :NSObject
 @property (nonatomic, copy)NSString *walletAddress;
@@ -82,7 +80,6 @@
 @property (nonatomic,readonly)YYCache *cache;
 @property (nonatomic, strong)FLFLUser *user;
 @property(nonatomic,strong)FLWallet *SUPMTCurrencyWallte;
-
 
 +(instancetype)share;
 -(void)saveUserModel;

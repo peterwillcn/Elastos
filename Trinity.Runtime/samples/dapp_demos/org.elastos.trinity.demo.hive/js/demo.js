@@ -86,7 +86,7 @@ function create_onedrive_client() {
         });
     }
 
-    hivePlugin.createClient(onedrive_opts, success, null);
+    hiveManager.createClient(onedrive_opts, success, null);
 }
 
 function create_ipfs_client() {
@@ -112,7 +112,7 @@ function create_ipfs_client() {
         });
     }
 
-    hivePlugin.createClient(ipfs_opts, success, null);
+    hiveManager.createClient(ipfs_opts, success, null);
 }
 
 var commands = [
@@ -204,7 +204,7 @@ function exit(args) {
 }
 
 function get_version(args) {
-    hivePlugin.getVersion(
+    hiveManager.getVersion(
         function (version) {
             display_others_msg(version);
         },
@@ -319,7 +319,7 @@ function rootdir(args) {
                 + "</br>  Please get drive object first.");
         return;
     }
-    drive.rootDirctory().then(
+    drive.rootDirectory().then(
         function (dir) {
             directory = dir;
             display_others_msg("Get root directory in success");
@@ -726,14 +726,14 @@ function onClose() {
 }
 
 var onedrive_opts = {
-    type: "2",
-    client_id: "afd3d647-a8b7-4723-bf9d-1b832f43b881",
+    driveType: "2",
+    clientId: "afd3d647-a8b7-4723-bf9d-1b832f43b881",
     scope: "User.Read Files.ReadWrite.All offline_access",
-    redirect_url: "http://localhost:12345"
+    redirectUrl: "http://localhost:12345"
 };
 
 var ipfs_opts = {
-    type: "3"
+    driveType: "3"
 };
 
 var client = null;

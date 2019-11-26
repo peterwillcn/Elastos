@@ -132,7 +132,7 @@ function onClose() {
 }
 
 function get_version(args) {
-    DIDPlugin.getVersion(
+    didManager.getVersion(
         function (version) {
             display_others_msg(version);
         },
@@ -143,7 +143,7 @@ function get_version(args) {
 }
 
 function initDIDStore(args) {
-     DIDPlugin.initDidStore(
+     didManager.initDidStore(
          "didtest",
          "12345678",
          function (ret) {
@@ -157,7 +157,7 @@ function initDIDStore(args) {
  }
 
 function createDocument(args) {
-    DIDPlugin.createDIDDocumentFromJson(
+    didManager.createDIDDocumentFromJson(
         documentJson,
         function (ret) {
             diddocment = ret;
@@ -199,7 +199,7 @@ function createCredential(args) {
 }
 
 function generateMnemonic(args) {
-    DIDPlugin.generateMnemonic(
+    didManager.generateMnemonic(
         args[1],
         function (ret) {
             mnemonic = ret;
@@ -212,7 +212,7 @@ function generateMnemonic(args) {
 }
 
 function isMnemonicValid(args) {
-    DIDPlugin.isMnemonicValid(
+    didManager.isMnemonicValid(
         args[1],
         mnemonic,
         function (ret) {

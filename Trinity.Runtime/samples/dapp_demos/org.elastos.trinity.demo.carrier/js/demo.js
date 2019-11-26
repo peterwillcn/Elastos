@@ -220,7 +220,7 @@ function string_friend_info(info) {
 }
 
 function get_version(args) {
-    carrierPlugin.getVersion(
+    carrierManager.getVersion(
         function (version) {
             display_others_msg(version);
         },
@@ -324,13 +324,13 @@ function self_presence(argv) {
     }
     else if (argv.length == 2) {
         if (argv[1] == "none") {
-            presence = carrierPlugin.PresenceStatus.NONE;
+            presence = carrierManager.PresenceStatus.NONE;
         }
         else if (argv[1] == "away") {
-            presence = carrierPlugin.PresenceStatus.AWAY;
+            presence = carrierManager.PresenceStatus.AWAY;
         }
         else if (argv[1] == "busy") {
-            presence = carrierPlugin.PresenceStatus.BUSY;
+            presence = carrierManager.PresenceStatus.BUSY;
         }
         else {
             display_others_msg("Invalid command syntax.");
@@ -875,7 +875,7 @@ function stream_on_state_changed(event) {
     var msg = "Stream [" + event.stream.id + "] state changed to: " + state_name[event.state];
     display_others_msg(msg);
 
-    if (event.state == carrierPlugin.StreamState.TRANSPORT_READY) {
+    if (event.state == carrierManager.StreamState.TRANSPORT_READY) {
         --session_ctx.unchanged_streams;
         if ((session_ctx.unchanged_streams == 0) && (session_ctx.need_start)) {
             session_start();
@@ -994,16 +994,16 @@ function stream_add(argv) {
     else if (argv.length > 1) {
         for (var i = 1; i < argv.length; i++) {
             if (argv[i] == "reliable") {
-                options |= carrierPlugin.StreamMode.RELIABLE;
+                options |= carrierManager.StreamMode.RELIABLE;
             }
             else if (argv[i] == "plain") {
-                options |= carrierPlugin.StreamMode.PLAIN;
+                options |= carrierManager.StreamMode.PLAIN;
             }
             else if (argv[i] == "multiplexing") {
-                options |= carrierPlugin.StreamMode.MULTIPLEXING;
+                options |= carrierManager.StreamMode.MULTIPLEXING;
             }
             else if (argv[i] == "portforwarding") {
-                options |= carrierPlugin.StreamMode.PORT_FORWARDING;
+                options |= carrierManager.StreamMode.PORT_FORWARDING;
             } else {
                 display_others_msg("Invalid command syntax.");
                 return;
@@ -1011,7 +1011,7 @@ function stream_add(argv) {
         }
     }
 
-    if ((options & carrierPlugin.StreamMode.MULTIPLEXING) || (options & carrierPlugin.StreamMode.PORT_FORWARDING)) {
+    if ((options & carrierManager.StreamMode.MULTIPLEXING) || (options & carrierManager.StreamMode.PORT_FORWARDING)) {
         callbacks.onChannelOpen = on_channel_open;
         callbacks.onChannelOpened = on_channel_opened;
         callbacks.onChannelData = on_channel_data;
@@ -1029,7 +1029,7 @@ function stream_add(argv) {
     var error = function (error) {
         display_others_msg("Add stream failed. " + error);
     };
-    session.addStream(carrierPlugin.StreamType.TEXT, options, callbacks, success, error);
+    session.addStream(carrierManager.StreamType.TEXT, options, callbacks, success, error);
 }
 
 function stream_remove(argv) {
@@ -1413,7 +1413,7 @@ function session_add_service(argv) {
     }
 
     if (argv[2] == "tcp")
-        protocol = carrierPlugin.PortForwardingProtocol.TCP;
+        protocol = carrierManager.PortForwardingProtocol.TCP;
     else {
         display_others_msg("Unknown protocol " + argv[2]);
         return;
@@ -1463,7 +1463,7 @@ function portforwarding_open(argv) {
     }
 
     if (argv[3] == "tcp")
-        protocol = carrierPlugin.PortForwardingProtocol.TCP;
+        protocol = carrierManager.PortForwardingProtocol.TCP;
     else {
         display_others_msg("Unknown protocol: " + argv[3]);
         return;
@@ -1539,11 +1539,11 @@ function self_info_callback(event) {
 
 function connection_callback(event) {
     switch (event.status) {
-        case carrierPlugin.ConnectionStatus.CONNECTED:
+        case carrierManager.ConnectionStatus.CONNECTED:
             display_others_msg("Connected to carrier network.");
             break;
 
-        case carrierPlugin.ConnectionStatus.DISCONNECTED:
+        case carrierManager.ConnectionStatus.DISCONNECTED:
             display_others_msg("Disconnect from carrier network.");
             break;
 
@@ -1588,11 +1588,11 @@ function friends_list_callback(event) {
 
 function friend_connection_callback(event) {
     switch (event.status) {
-        case carrierPlugin.ConnectionStatus.CONNECTED:
+        case carrierManager.ConnectionStatus.CONNECTED:
             display_others_msg("Friend[" + event.friendId + "] connection changed to be online");
             break;
 
-        case carrierPlugin.ConnectionStatus.DISCONNECTED:
+        case carrierManager.ConnectionStatus.DISCONNECTED:
             display_others_msg("Friend[" + event.friendId + "] connection changed to be offline.");
             break;
 
@@ -1607,8 +1607,8 @@ function friend_info_callback(event) {
 }
 
 function friend_presence_callback(event) {
-    if (event.presence >= carrierPlugin.PresenceStatus.NONE &&
-        event.presence <= carrierPlugin.PresenceStatus.BUSY) {
+    if (event.presence >= carrierManager.PresenceStatus.NONE &&
+        event.presence <= carrierManager.PresenceStatus.BUSY) {
         display_others_msg("Friend[" + event.friendId + "] change presence to " + presence_name[event.presence]);
     }
     else {
@@ -1832,7 +1832,7 @@ var app = {
                 }
             });
         }
-        carrierPlugin.createObject(opts, callbacks, success, null);
+        carrierManager.createObject(callbacks, opts, success, null);
     },
 };
 
@@ -1845,7 +1845,7 @@ function test(argv) {;
 //    var success = function() {
 //        alert("ok");
 //    };
-//    carrierPlugin.test(success, null, window.btoa("hello"));
+//    carrierManager.test(success, null, window.btoa("hello"));
 }
 
 // $(document).ready(function () {

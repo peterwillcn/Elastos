@@ -356,6 +356,8 @@
 		428BA711229B84C00091618F /* invokedUrlCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA710229B84C00091618F /* invokedUrlCommand.m */; };
 		428BA726229B91190091618F /* PluginResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA725229B91190091618F /* PluginResult.m */; };
 		428BA729229B92530091618F /* JSON_private.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA727229B92530091618F /* JSON_private.m */; };
+		428D971A238D0FE6005F1963 /* HWMCRCommitteeForAgreementView.m in Sources */ = {isa = PBXBuildFile; fileRef = 428D9719238D0FE6005F1963 /* HWMCRCommitteeForAgreementView.m */; };
+		428D971C238D0FF7005F1963 /* HWMCRCommitteeForAgreementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 428D971B238D0FF7005F1963 /* HWMCRCommitteeForAgreementView.xib */; };
 		42A767952314FE50005FC764 /* HMWCRCommitteeMemberListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42A767932314FE50005FC764 /* HMWCRCommitteeMemberListViewController.mm */; };
 		42A767962314FE50005FC764 /* HMWCRCommitteeMemberListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A767942314FE50005FC764 /* HMWCRCommitteeMemberListViewController.xib */; };
 		42A7679A2315293F005FC764 /* HWMCRRegisteredViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42A767982315293F005FC764 /* HWMCRRegisteredViewController.mm */; };
@@ -1089,6 +1091,9 @@
 		428BA725229B91190091618F /* PluginResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PluginResult.m; sourceTree = "<group>"; };
 		428BA727229B92530091618F /* JSON_private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSON_private.m; sourceTree = "<group>"; };
 		428BA728229B92530091618F /* JSON_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON_private.h; sourceTree = "<group>"; };
+		428D9718238D0FE6005F1963 /* HWMCRCommitteeForAgreementView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCRCommitteeForAgreementView.h; sourceTree = "<group>"; };
+		428D9719238D0FE6005F1963 /* HWMCRCommitteeForAgreementView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMCRCommitteeForAgreementView.m; sourceTree = "<group>"; };
+		428D971B238D0FF7005F1963 /* HWMCRCommitteeForAgreementView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMCRCommitteeForAgreementView.xib; sourceTree = "<group>"; };
 		42A767922314FE50005FC764 /* HMWCRCommitteeMemberListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMWCRCommitteeMemberListViewController.h; sourceTree = "<group>"; };
 		42A767932314FE50005FC764 /* HMWCRCommitteeMemberListViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HMWCRCommitteeMemberListViewController.mm; sourceTree = "<group>"; };
 		42A767942314FE50005FC764 /* HMWCRCommitteeMemberListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HMWCRCommitteeMemberListViewController.xib; sourceTree = "<group>"; };
@@ -2774,6 +2779,9 @@
 				424A5E1C234C95410077512E /* HWMTransactionDetailsView.h */,
 				424A5E1D234C95410077512E /* HWMTransactionDetailsView.m */,
 				424A5E1F234C954B0077512E /* HWMTransactionDetailsView.xib */,
+				428D9718238D0FE6005F1963 /* HWMCRCommitteeForAgreementView.h */,
+				428D9719238D0FE6005F1963 /* HWMCRCommitteeForAgreementView.m */,
+				428D971B238D0FF7005F1963 /* HWMCRCommitteeForAgreementView.xib */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -3283,6 +3291,7 @@
 				4202CA2021F6EF2A009E5932 /* HMWaddContactViewController.xib in Resources */,
 				42EEDA86224B84790009B18E /* LaunchScreen-English.storyboard in Resources */,
 				4202CA8921F6EF2B009E5932 /* HMWTheWalletListViewController.xib in Resources */,
+				428D971C238D0FF7005F1963 /* HWMCRCommitteeForAgreementView.xib in Resources */,
 				4202CA8121F6EF2B009E5932 /* HMWaddWalletListTableViewCell.xib in Resources */,
 				4226A862229BC02E00E93430 /* build-debug.xcconfig in Resources */,
 				4202CAA721F6EF2B009E5932 /* FLPrepareVC.xib in Resources */,
@@ -3584,6 +3593,7 @@
 				42EAEF7B238BB3F900D6A912 /* MASLayoutConstraint.m in Sources */,
 				42EAEF7A238BB3F900D6A912 /* MASConstraintMaker.m in Sources */,
 				4202CA0621F6EF2A009E5932 /* SVIndefiniteAnimatedView.m in Sources */,
+				428D971A238D0FE6005F1963 /* HWMCRCommitteeForAgreementView.m in Sources */,
 				424910F62271BFCF00C41E50 /* UIView+WebCache.m in Sources */,
 				4264A73E221BDC24008D5C7B /* DAConfig.m in Sources */,
 				4202CAB221F6EF2B009E5932 /* HMWAddTheCurrencyListViewController.mm in Sources */,

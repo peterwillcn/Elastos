@@ -51,8 +51,6 @@
 #endif
 
 #ifdef __OBJC__
-//#define Localized(key)  NSLocalizedStringFromTable(key, @"Language", nil);
-
 
 //通用
 #define defultColor             RGBHex(0x1172C6)
@@ -110,4 +108,5 @@
 #import "HWMQrCodeScanningResultsViewController.h"
 #import "YRClassSafeCategory.h"
 #import "YRClassSafeCategoryConfig.h"
+#define Localized(key)  [[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"]] ofType:@"lproj"]] localizedStringForKey:(key) value:nil table:nil]
 #endif

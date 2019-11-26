@@ -227,6 +227,7 @@
  __block NSString *URL;
     __block NSString *countries;
     if (self.type==CRInformationType) {
+        self.nodeNameLabel.text=self.CRmodel.nickname;
         if (self.CRmodel.url.length>0) {
                URL=self.CRmodel.url;
            }

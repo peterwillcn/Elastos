@@ -40,6 +40,9 @@
  *<# #>
  */
 @property(strong,nonatomic)HWMTransactionDetailsView *transactionDetailsView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *offSuperTop;
+@property (weak, nonatomic) IBOutlet UIView *makeLine1;
+@property (weak, nonatomic) IBOutlet UIView *makeLine2;
 @end
 
 @implementation HWMCRRegisteredViewController
@@ -75,6 +78,15 @@
         self.MemberNameTextField.text=self.CRmodel.nickname;
         self.CountryORRegionTextField.text=[[FLTools share]contryNameTransLateByCode:[self.CRmodel.location intValue]];
         self.URLTextField.text=self.CRmodel.url;
+        self.MemberNameTextField.userInteractionEnabled=NO;
+        self.MemberNameTextField.enabled=NO;
+        self.offSuperTop.constant=0.f;
+        self.MemberThePublicKeyLabel.alpha=0.f;
+        self.MemberThePublicKeyTextLabel.alpha=0.f;
+        self.MembersDIDLabel.alpha=0.f;
+        self.MembersDIDTextLabel.alpha=0.f;
+        self.makeLine1.alpha=0.f;
+        self.makeLine2.alpha=0.f;
         
     }
         //        self.theNameOfTheNodeTextField.alpha=0.f;

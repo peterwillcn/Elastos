@@ -293,7 +293,7 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
     NSString *chainID=infoArray[1];
     NSInteger index = [infoArray[2] integerValue];
     NSString *lastBlockTimeString=dic[@"lastBlockTimeString"];
-//    NSString * currentBlockHeight=dic[@"currentBlockHeight"];
+    NSString * currentBlockHeight=@"0";
     NSString *  progress=dic[@"progress"];
     assetsListModel *model;
     if ([self.currentWallet.masterWalletID isEqualToString:walletID]){
@@ -459,6 +459,7 @@ if(inde>self.walletIDListArray.count-1) {
             [self.dataSoureArray addObject:model];
             invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:[NSString stringWithFormat:@"%d",index]];
             [[ELWalletManager share]registerWalletListener:mommand];
+            [[ELWalletManager share]SyncStart:mommand];
             index++;
         }
     }
@@ -613,17 +614,6 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
    cell.biName.text=model.iconName;
    
    cell.detailLab.text=[[FLTools share]elaScaleConversionWith: model.iconBlance];
-    
-    if ([model.status isEqualToString:@"Connected"]) {
-        cell.statusLabel.text=model.updateTime;
-        
-        
-    }else if ([model.status isEqualToString:@"Connecting"]){
-        cell.statusLabel.text=NSLocalizedString(@"连接中...", nil);
-    }else if ([model.status isEqualToString:@"DIsconnected"]){
-        cell.statusLabel.text=NSLocalizedString(@"丢失...", nil);
-
-    }
    cell.updatetime.text=model.updateTime;
     NSString *symbolString=@"%";
     if ([model.updateTime rangeOfString:@"--:--"].location !=NSNotFound){
@@ -635,14 +625,15 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
         cell.linkImageView.alpha=0.f;
     }else{
         cell.linkImageView.alpha=1.f;
+        cell.statusLabel.text=NSLocalizedString(@"连接中…", nil);
     }
     if ([model.status isEqualToString:@"Connected"]) {
         cell.statusLabel.text=model.updateTime;
     }else if ([model.status isEqualToString:@"Connecting"]){
-        cell.statusLabel.text=NSLocalizedString(@"连接中...", nil);
+        cell.statusLabel.text=NSLocalizedString(@"连接中…", nil);
         
     }else if ([model.status isEqualToString:@"DIsconnected"]){
-        cell.statusLabel.text=NSLocalizedString(@"丢失...", nil);
+         cell.statusLabel.text=NSLocalizedString(@"丢失…", nil);
     }
     cell.progressLab.text=[NSString stringWithFormat:@"%.f%@", floor(cell.progress.progress*100),symbolString];
     [self startAnimationWithView:cell.linkImageView];
@@ -760,14 +751,15 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
         cell.linkImageView.alpha=0.f;
     }else{
         cell.linkImageView.alpha=1.f;
+        cell.statusLabel.text=NSLocalizedString(@"连接中…", nil);
     }
     if ([model.status isEqualToString:@"Connected"]) {
         cell.statusLabel.text=model.updateTime;
     }else if ([model.status isEqualToString:@"Connecting"]){
-        cell.statusLabel.text=NSLocalizedString(@"连接中...", nil);
+        cell.statusLabel.text=NSLocalizedString(@"连接中…", nil);
         
     }else if ([model.status isEqualToString:@"DIsconnected"]){
-        cell.statusLabel.text=NSLocalizedString(@"丢失...", nil);
+        cell.statusLabel.text=NSLocalizedString(@"丢失…", nil);
     }
     cell.progressLab.text=[NSString stringWithFormat:@"%.f%@", floor(cell.progress.progress*100),symbolString];
     [self startAnimationWithView:cell.linkImageView];
@@ -962,4 +954,6 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
     [self.sendSuccessPopuV removeFromSuperview];
     self.sendSuccessPopuV=nil;
 }
+
+
 @end

@@ -38,7 +38,6 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
 }
 -(NSArray *)CountryCodeArray{
     if (!_CountryCodeArray) {
-        
         NSArray *A=[NSArray arrayWithObjects:
                     @{@"countries":@"阿富汗",@"mobileCode":@"93"},
                     @{@"countries":@"阿尔巴尼亚",@"mobileCode":@"355"},
@@ -324,17 +323,9 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
                     @{@"countries":@"赞比亚",@"mobileCode":@"260"},
                     @{@"countries":@"津巴布韦",@"mobileCode":@"263"},
                     nil];
-        
-        
-        
        _CountryCodeArray=@[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z];
-        
-    
-        
     }
     return _CountryCodeArray;
-    
-    
 }
 -(NSArray *)headSectionArray{
     if (!_headSectionArray) {

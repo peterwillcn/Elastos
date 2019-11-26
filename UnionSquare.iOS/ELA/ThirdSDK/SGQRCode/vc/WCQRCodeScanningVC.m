@@ -146,7 +146,7 @@
 
 }
 - (void)QRCodeAlbumManagerDidReadQRCodeFailure:(SGQRCodeAlbumManager *)albumManager {
-    [[FLTools share]showErrorInfo:NSLocalizedString(@"未识别", nil)];
+    [[FLTools share]showErrorInfo:NSLocalizedString(@"信息格式错误", nil)];
 
 //    DLog(@"暂未识别出二维码");
 }
@@ -164,7 +164,7 @@
             self.scanBack([obj stringValue]);
         }
     } else {
-   [[FLTools share]showErrorInfo:NSLocalizedString(@"未识别", nil)];
+   [[FLTools share]showErrorInfo:NSLocalizedString(@"信息格式错误", nil)];
     }
 }
 - (void)QRCodeScanManager:(SGQRCodeScanManager *)scanManager brightnessValue:(CGFloat)brightnessValue {

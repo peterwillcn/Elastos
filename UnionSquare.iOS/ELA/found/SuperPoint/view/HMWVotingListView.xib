@@ -106,7 +106,7 @@
                     </constraints>
                 </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="TOh-zh-fnS">
-                    <rect key="frame" x="-3" y="172" width="375" height="495"/>
+                    <rect key="frame" x="-3" y="163" width="375" height="504"/>
                     <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="duJ-tz-tS9">
                         <size key="itemSize" width="50" height="50"/>
@@ -116,7 +116,7 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y1c-AI-kpu">
-                    <rect key="frame" x="4" y="138" width="4" height="15"/>
+                    <rect key="frame" x="4" y="130" width="4" height="15"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="15" id="ZrG-Qh-u3V"/>
@@ -124,24 +124,24 @@
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="参选节点列表" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pex-rX-tQF">
-                    <rect key="frame" x="16" y="137" width="86" height="17"/>
+                    <rect key="frame" x="16" y="129" width="86" height="17"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MKV-zY-czg">
-                    <rect key="frame" x="325" y="120.5" width="50" height="50"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MKV-zY-czg">
+                    <rect key="frame" x="325" y="112.5" width="50" height="50"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="3ra-Zg-N1d"/>
                         <constraint firstAttribute="height" constant="50" id="gJL-HE-BdD"/>
                     </constraints>
-                    <state key="normal" image="list.dash" catalog="system"/>
+                    <state key="normal" image="vote_switch_list"/>
                     <connections>
                         <action selector="modifyTheListMode:" destination="iN0-l3-epB" eventType="touchUpInside" id="Sf6-Ic-Btu"/>
                     </connections>
                 </button>
                 <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BeP-5Q-J82">
-                    <rect key="frame" x="275" y="132.5" width="50" height="50"/>
+                    <rect key="frame" x="275" y="112.5" width="50" height="50"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="7UF-Nl-Pvg"/>
                         <constraint firstAttribute="height" constant="50" id="wB0-4O-5hK"/>
@@ -189,6 +189,7 @@
         </view>
     </objects>
     <resources>
-        <image name="list.dash" catalog="system" width="64" height="42"/>
+        <image name="multi_import_btn" width="22" height="22"/>
+        <image name="vote_switch_list" width="22" height="22"/>
     </resources>
 </document>

@@ -87,7 +87,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     [super viewDidLoad];
     [self defultWhite];
     [self setBackgroundImg:@""];
-    self.title=NSLocalizedString(@"CRC委员选举", nil);
+    self.title=NSLocalizedString(@"CR委员选举", nil);
     [self.immediatelyToVoteButton setTitle:NSLocalizedString(@"立即投票", nil) forState:UIControlStateNormal];
     [[HMWCommView share]makeBordersWithView:self.immediatelyToVoteButton];
     self.TheAverageDistributionTextLabel.text=NSLocalizedString(@"平均分配", nil);
@@ -224,9 +224,14 @@ self.wallet.TypeW  = model.TypeW;
         //        Elastos::ElaWallet::BalanceType type = Elastos::ElaWallet::Total;
         String balanceSt = mainchainSubWallet->GetBalance();
         NSString * balanceString= [NSString stringWithCString:balanceSt.c_str() encoding:NSUTF8StringEncoding];
-        NSInteger balance=[balanceString integerValue];
+        double balance=[balanceString doubleValue];
         self.inputVoteTicketView.votes =balance/unitNumber;
-     self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"最大表决票权", nil),[[FLTools share]elaScaleConversionWith: balanceString]];
+        if (self.inputVoteTicketView.votes<1) {
+            self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@%@ 1",NSLocalizedString(@"最大表决票权", nil),NSLocalizedString(@"小于", nil)];
+        }else{
+           self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"最大表决票权", nil),[[FLTools share]elaScaleConversionWith: balanceString]];
+        }
+     
         [self  UpdateTheRemainingAvailable];
         
     }

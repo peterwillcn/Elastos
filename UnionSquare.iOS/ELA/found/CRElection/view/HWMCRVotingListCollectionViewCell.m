@@ -39,5 +39,4 @@
     _model = model;
     
 }
-
 @end

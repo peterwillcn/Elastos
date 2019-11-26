@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HMWinputVotesPopupWindowView : UIView
 @property(nonatomic,weak)id<VotesPopupViewDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UILabel *accountBalanceLab;
-@property(nonatomic,assign)NSInteger votes;
+@property(nonatomic,assign)double votes;
 
 
 @end

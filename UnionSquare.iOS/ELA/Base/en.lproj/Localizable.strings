@@ -209,9 +209,6 @@
 "客服邮箱已复制到粘贴板"="Customer service email copied to clipboard.";
 "社区"="Community";
 "我的"="Mine";
-
-
-
 "扫码结果"="Scan result";
 "已识别收款地址"="Receiving address identified";
 "密码错误"="Password error";
@@ -219,6 +216,7 @@
 "创建成功"="Created successfully";
 "确认创建"="Confirm creation";
 "连接中…"="Connecting...";
+"丢失…"="Disconnected...";
 "创建多签钱包"="Create a multisig wallet";
 "请输入密码"="Enter password";
 "请重复已输入的助记词密码"="Re-enter mnemonic password";
@@ -313,7 +311,7 @@
 "投票地址数量" = "Number of Vote Addresses";
 "全网投票占比"= "Total Network Vote Percentage";
 "目标地址"= "Target Address";
-
+"CR委员选举"= "CR Council Election";
 "删除成功"="Deleted";
 "金额"="Value";
 "手续费"="Fee";
@@ -614,4 +612,5 @@
 "m10"="Oct.";
 "m11"="Nov.";
 "m12"="Dec.";
-
+"信息格式错误"="Did not identify";
+"小于"="Less than";

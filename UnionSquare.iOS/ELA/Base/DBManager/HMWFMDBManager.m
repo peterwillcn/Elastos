@@ -459,9 +459,18 @@ static HMWFMDBManager * _manager =nil;
   if (CRModel.url.length==0) {
       CRModel.url=@"0";
   }
+    if ([self selectCRWithWalletID:walletID andWithDID:CRModel.did]) {
+        if ([self updateSelectCR:CRModel WithWalletID:walletID]) {
+            return YES;
+        }
+           return NO;
+    }else{
+    
     NSString *sql =@"insert into RMList(walletID,location,indexCR,did,nickname,code,votes,voterate,state,url) values(?,?,?,?,?,?,?,?,?,?)";
     if ([self executeUpdate:sql,walletID,CRModel.location,CRModel.index,CRModel.did,CRModel.nickname,CRModel.code,CRModel.votes,CRModel.voterate,CRModel.state,CRModel.url]) {
         return YES;
+    }
+        
     }
     return NO;
 }

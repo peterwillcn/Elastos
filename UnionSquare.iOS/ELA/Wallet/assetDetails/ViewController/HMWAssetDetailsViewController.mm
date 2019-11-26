@@ -713,7 +713,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
                   detailsM.Type=NSLocalizedString(@"更新CR委员交易", nil);
                   break;
             case 36:
-                             detailsM.Type=NSLocalizedString(@"取回CRC委员资产交易", nil);
+                             detailsM.Type=NSLocalizedString(@"取回CR委员资产交易", nil);
                              break;
             
         default:

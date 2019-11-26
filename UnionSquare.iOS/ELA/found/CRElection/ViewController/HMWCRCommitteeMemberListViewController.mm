@@ -22,8 +22,9 @@
 #import "HWMCRCCommitteeElectionListViewController.h"
 #import "HWMCRListModel.h"
 #import "ELWalletManager.h"
+#import "HWMCRCommitteeForAgreementView.h"
 
-@interface HMWCRCommitteeMemberListViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWsignUpForViewControllerDelegate,HMWnodeInformationViewControllerDelegate>
+@interface HMWCRCommitteeMemberListViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWsignUpForViewControllerDelegate,HMWnodeInformationViewControllerDelegate,HWMCRCommitteeForAgreementViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *tagVoteRuleLab;
 
 @property (weak, nonatomic) IBOutlet UIView *EditSelectionView;
@@ -39,24 +40,29 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *votingRulesButton;
 @property (weak, nonatomic) IBOutlet UIButton *myVoteButton;
-@property(nonatomic,strong)NSMutableArray *memberListDataSource;
-@property(nonatomic,assign)NSInteger type;
+@property(nonatomic,strong) NSMutableArray *memberListDataSource;
+@property(nonatomic,assign) NSInteger type;
 /*
  *<# #>
  */
-@property(assign,nonatomic)BOOL hasSing;
+@property(assign,nonatomic) BOOL hasSing;
 @property (weak, nonatomic) IBOutlet UIImageView *found_vote_rule;
 /*
  *<# #>
  */
-@property(strong,nonatomic)HMWvotingRulesView *votingRulesV;
+@property(strong,nonatomic) HMWvotingRulesView *votingRulesV;
 @property (weak, nonatomic) IBOutlet UIButton *JoinTheCandidateListButton;
 @property (weak, nonatomic) IBOutlet UIImageView *all_selectedImageView;
 /*
  *<# #>
  */
-@property(strong,nonatomic)FLWallet *wallet;
-@property(nonatomic,assign)BOOL needFind;
+@property(strong,nonatomic) FLWallet *wallet;
+@property(nonatomic,assign) BOOL needFind;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic) HWMCRCommitteeForAgreementView *CRCommitteeForAgreementV;
+
 
 @end
 
@@ -103,7 +109,14 @@
         self.found_vote_rule.hidden=YES;
     }
     [self getWalletType];
-self.all_selectedTextLabel.text=NSLocalizedString(@"全选", nil);
+    self.all_selectedTextLabel.text=NSLocalizedString(@"全选", nil);
+}
+-(HWMCRCommitteeForAgreementView *)CRCommitteeForAgreementV{
+    if (!_CRCommitteeForAgreementV) {
+        _CRCommitteeForAgreementV=[[HWMCRCommitteeForAgreementView alloc]init];
+        _CRCommitteeForAgreementV.delegate=self;
+    }
+    return _CRCommitteeForAgreementV;
 }
 -(void)getWalletType{
     NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
@@ -162,9 +175,11 @@ self.all_selectedTextLabel.text=NSLocalizedString(@"全选", nil);
                 [[FLTools share]showErrorInfo:NSLocalizedString(@"已参选", nil) ];
                 return;
             }
-             HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];
-            vc.currentWallet=self.wallet;
-            [self.navigationController pushViewController:vc animated:YES];
+            UIView *mainView =[self mainWindow];
+                 [mainView addSubview:self.CRCommitteeForAgreementV];
+                 [self.CRCommitteeForAgreementV mas_makeConstraints:^(MASConstraintMaker *make) {
+                     make.left.right.top.bottom.mas_equalTo(mainView);
+                 }];
         }
         
     }else if ([self.typeString isEqualToString:@"Canceled"]){
@@ -196,12 +211,12 @@ self.all_selectedTextLabel.text=NSLocalizedString(@"全选", nil);
          HWMCRListModel *model =allListInfoArray[i];
          if (model.url.length>0) {
              dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                 model.url= [[FLTools share] getImageViewURLWithURL:model.url];
+                 model.iconImageUrl= [[FLTools share] getImageViewURLWithURL:model.url];
                  
-                 if (model.url.length>0) {
-                     [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/getimage" header:@{} body:@{@"imageurl":model.url} showHUD:NO WithSuccessBlock:^(id data) {
+                 if (model.iconImageUrl.length>0) {
+                     [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/getimage" header:@{} body:@{@"imageurl":model.iconImageUrl} showHUD:NO WithSuccessBlock:^(id data) {
                                                          NSString *param = data[@"data"];
-                                                         model.url=[NSString stringWithFormat:@"%@%@",httpIP,param];
+                                                         model.iconImageUrl=[NSString stringWithFormat:@"%@%@",httpIP,param];
                                                         allListInfoArray[i]=model;
                          
                                                      } WithFailBlock:^(id data) {
@@ -370,11 +385,12 @@ self.all_selectedTextLabel.text=NSLocalizedString(@"全选", nil);
        [self.votingListV selectAllListWithIsSelect:self.all_selectedButton.selected];
 }
 - (IBAction)JoinTheCandidateListEvent:(id)sender {
+    BOOL hasAdd;
     BOOL isAdd;
         for (int i=0; i<self.votingListV.dataSource.count; i++) {
             HWMCRListModel *model=self.votingListV.dataSource[i];
             if (model.isNewCellSelected) {
-                
+                hasAdd=YES;
                 isAdd= [[HMWFMDBManager sharedManagerType:CRListType]
                  addCR:model withWallID:self.wallet.masterWalletID];
                 model.isCellSelected=YES;
@@ -382,6 +398,9 @@ self.all_selectedTextLabel.text=NSLocalizedString(@"全选", nil);
             }
         }
     
+    if (hasAdd==NO) {
+        return;
+    }
     if(isAdd){
           [[FLTools share]showErrorInfo:NSLocalizedString(@"添加成功",nil)];
         [self.votingListV AddAllTheCRList];
@@ -408,5 +427,16 @@ self.all_selectedTextLabel.text=NSLocalizedString(@"全选", nil);
     self.memberListDataSource[index]=model;
     self.votingListV.dataSource=self.memberListDataSource;
 }
-
+-(void)closeView{
+    [self.CRCommitteeForAgreementV removeFromSuperview];
+    self.CRCommitteeForAgreementV=nil;
+    
+}
+-(void)Agreed{
+    [self closeView];
+    HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];
+    
+     vc.currentWallet=self.wallet;
+     [self.navigationController pushViewController:vc animated:YES];
+}
 @end

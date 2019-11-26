@@ -52,7 +52,7 @@ void ElaSubWalletCallback::OnBlockSyncProgress(const nlohmann::json &progressInf
     NSDictionary *progressInfoDic=[[FLTools share]dictionaryWithJsonString:progressInfoString];
     
     NSString *BytesPerSecond=[NSString stringWithFormat:@"%@",progressInfoDic[@"BytesPerSecond"]];
-    NSString *Progress=[NSString stringWithFormat:@"%@",progressInfoDic[@"Progress"]];
+    NSString *Progress=[NSString stringWithFormat:@"%f",[progressInfoDic[@"Progress"] doubleValue]/100];
     NSString *DownloadPeer=[NSString stringWithFormat:@"%@",progressInfoDic[@"DownloadPeer"]];
     NSString *LastBlockTime=[NSString stringWithFormat:@"%@",progressInfoDic[@"LastBlockTime"]];
       

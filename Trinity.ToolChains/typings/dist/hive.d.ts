@@ -19,13 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-type Opaque<T, K> = T & { __opaque__: K };
-type Int = Opaque<number, 'Int'>;
-
 // TODO: Replace with accurate types everywhere there is "any" or "Function".
 
-declare module Hive {
+declare namespace HivePlugin {
+    type Opaque<T, K> = T & { __opaque__: K };
+    type Int = Opaque<number, 'Int'>;
+
     /**
      * The class representing File.
      * @class
@@ -366,7 +365,7 @@ declare module Hive {
         IPFS: 3
     };
 
-    interface HivePlugin {
+    interface HiveManager {
         getVersion(onSuccess?: ()=>void, onError?: (err: string)=>void);
         setListener(type: any, eventCallback: Function);
         createClient(options: any, onSuccess: (client: Client)=>void, onError?: (err: string)=>void);

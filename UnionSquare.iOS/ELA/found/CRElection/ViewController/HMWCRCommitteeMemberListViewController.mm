@@ -23,8 +23,10 @@
 #import "HWMCRListModel.h"
 #import "ELWalletManager.h"
 #import "HWMCRCommitteeForAgreementView.h"
+#import "HMWToDeleteTheWalletPopView.h"
+#import "HMWAddTheCurrencyListViewController.h"
 
-@interface HMWCRCommitteeMemberListViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWsignUpForViewControllerDelegate,HMWnodeInformationViewControllerDelegate,HWMCRCommitteeForAgreementViewDelegate>
+@interface HMWCRCommitteeMemberListViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWsignUpForViewControllerDelegate,HMWnodeInformationViewControllerDelegate,HWMCRCommitteeForAgreementViewDelegate,HMWToDeleteTheWalletPopViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *tagVoteRuleLab;
 
 @property (weak, nonatomic) IBOutlet UIView *EditSelectionView;
@@ -63,7 +65,10 @@
  */
 @property(strong,nonatomic) HWMCRCommitteeForAgreementView *CRCommitteeForAgreementV;
 
-
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)HMWToDeleteTheWalletPopView *openIDChainView;
 @end
 
 @implementation HMWCRCommitteeMemberListViewController
@@ -434,9 +439,40 @@
 }
 -(void)Agreed{
     [self closeView];
-    HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];
+    UIView *mainView =[self mainWindow];
+    [mainView addSubview:self.openIDChainView];
+    [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(mainView);
+    }];
     
+    
+    
+    HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];
      vc.currentWallet=self.wallet;
      [self.navigationController pushViewController:vc animated:YES];
 }
+-(HMWToDeleteTheWalletPopView *)openIDChainView{
+    if (!_openIDChainView) {
+        _openIDChainView =[[HMWToDeleteTheWalletPopView alloc]init];
+        _openIDChainView.delegate=self;
+        _openIDChainView.deleteType=openIDChainType;
+    }
+    return _openIDChainView;
+}
+-(void)sureToDeleteViewWithPWD:(NSString*)pwd{
+  
+           HMWAddTheCurrencyListViewController *AddTheCurrencyListVC=[[HMWAddTheCurrencyListViewController alloc]init];
+           AddTheCurrencyListVC.wallet=self.wallet;
+           AddTheCurrencyListVC.didType=@"didType";
+           AddTheCurrencyListVC.delegate=self;
+            [self toCancelOrCloseDelegate];
+           [self.navigationController pushViewController:AddTheCurrencyListVC animated:YES];
+
+    
+}
+-(void)toCancelOrCloseDelegate{
+    [self.openIDChainView removeFromSuperview];
+       self.openIDChainView=nil;
+}
+    
 @end

@@ -324,7 +324,7 @@
 "投票数量" = "Votes";
 "是否确认注销候选资格? \n 候选资格一旦注销，所有投票清零且不可恢复。"="Confirm your deletion? \n Once confirmed, your votes will be removed and cannot be recovered.";
 "取回质押金"="Take back deposit";
-"found_card_crcvote"="found_card_crcvote";
+"found_card_crcvote"="eg_found_card_vote";
 "found_card_vote"="eg_found_card_vote";
 "rules"="https://news.elastos.org/elastos-dpos-supernode-election-process/";
 "最多可选36个节点"="vote for maximum of 36 nodes";

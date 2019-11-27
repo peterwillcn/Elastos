@@ -359,15 +359,25 @@ declare namespace HivePlugin {
         getDefDrive(): Promise<any>;
     }
 
-    type driveType = {
-        NATIVE: 1,
-        ONEDRIVE: 2,
-        IPFS: 3
-    };
+    const enum DriveType {
+        NATIVE = 1,
+        ONEDRIVE = 2,
+        IPFS = 3
+    }
+
+    abstract class ClientCreationOptions {
+        driveType: DriveType;
+        constructor();
+    }
+
+    interface IPFSClientCreationOptions extends ClientCreationOptions {}
+    interface OneDriveClientCreationOptions extends ClientCreationOptions {
+        constructor(clientId: string, scope: string, redirectUrl: string);
+    }
 
     interface HiveManager {
         getVersion(onSuccess?: ()=>void, onError?: (err: string)=>void);
         setListener(type: any, eventCallback: Function);
-        createClient(options: any, onSuccess: (client: Client)=>void, onError?: (err: string)=>void);
+        createClient(options: ClientCreationOptions, onSuccess: (client: Client)=>void, onError?: (err: string)=>void);
     }
 }

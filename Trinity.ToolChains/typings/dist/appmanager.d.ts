@@ -20,7 +20,7 @@ declare namespace AppManagerPlugin {
      *
      * @enum {number}
      */
-    enum MessageType {
+    const enum MessageType {
         /** The internal message */
         INTERNAL = 1,
         /** The internal return message. */
@@ -39,7 +39,7 @@ declare namespace AppManagerPlugin {
      *
      * @enum {number}
      */
-    enum AuthorityStatus {
+    const enum AuthorityStatus {
         /** Not initialized */
         NOINIT = 0,
         /** Ask for authority. */

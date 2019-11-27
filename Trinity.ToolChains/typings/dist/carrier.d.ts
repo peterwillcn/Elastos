@@ -24,7 +24,7 @@
 * @module CarrierPlugin
 */
 
-declare module CarrierPlugin {
+declare namespace CarrierPlugin {
     type Opaque<T, K> = T & { __opaque__: K };
     type Int = Opaque<number, 'Int'>;
 
@@ -1027,7 +1027,7 @@ declare module CarrierPlugin {
         getPeer: (peerId: string, onSuccess:(peer: any)=>void, onError?:(err: string)=>void)=>void; // TODO: define a Peer type
     }
 
-    enum FileTransferState {
+    const enum FileTransferState {
         /** The file transfer connection is initialized. */
         Initialized = 1,
         /** The file transfer connection is connecting.*/
@@ -1259,7 +1259,7 @@ declare module CarrierPlugin {
     *
     * @enum {number}
     */
-    enum ConnectionStatus {
+    const enum ConnectionStatus {
         /** Carrier node connected to the carrier network. */
         CONNECTED=0,
         /** There is no connection to the carrier network. */
@@ -1272,7 +1272,7 @@ declare module CarrierPlugin {
     *
     * @enum {number}
     */
-    enum PresenceStatus {
+    const enum PresenceStatus {
         /** Carrier node is online and available. */
         NONE=0,
         /** Carrier node is being away. */
@@ -1287,7 +1287,7 @@ declare module CarrierPlugin {
     *
     * @enum {number}
     */
-    enum StreamType {
+   const enum StreamType {
         /** Audio stream. */
         AUDIO=0,
         /** Video stream. */
@@ -1306,7 +1306,7 @@ declare module CarrierPlugin {
     *
     * @enum {number}
     */
-    enum StreamState {
+    const enum StreamState {
         /** Raw stream. */
         RAW=0,
         /** Initialized stream. */
@@ -1331,7 +1331,7 @@ declare module CarrierPlugin {
     *
     * @enum {number}
     */
-    enum CandidateType {
+    const enum CandidateType {
         /** Host candidate. */
         HOST=0,
         /** Server reflexive, only valid to ICE transport. */
@@ -1348,7 +1348,7 @@ declare module CarrierPlugin {
     *
     * @enum {number}
     */
-    enum NetworkTopology {
+    const enum NetworkTopology {
         /** LAN network topology. */
         LAN=0,
         /** P2P network topology. */
@@ -1363,7 +1363,7 @@ declare module CarrierPlugin {
     *
     * @enum {number}
     */
-    enum PortForwardingProtocol {
+    const enum PortForwardingProtocol {
         /** TCP protocol. */
         TCP=1
     }
@@ -1374,7 +1374,7 @@ declare module CarrierPlugin {
     *
     * @enum {number}
     */
-    enum CloseReason {
+    const enum CloseReason {
         /** Channel closed normaly. */
         NORMAL=0,
         /** Channel closed because of timeout. */
@@ -1389,7 +1389,7 @@ declare module CarrierPlugin {
     *
     * @enum {number}
     */
-    enum StreamMode {
+   const enum StreamMode {
         /**
         * Compress option, indicates data would be compressed before transmission.
         * For now, just reserved this bit option for future implement.

@@ -616,6 +616,7 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
    
    cell.detailLab.text=[[FLTools share]elaScaleConversionWith: model.iconBlance];
    cell.updatetime.text=model.updateTime;
+    cell.statusLabel.text=NSLocalizedString(@"连接中…", nil);
     NSString *symbolString=@"%";
     if ([model.updateTime rangeOfString:@"--:--"].location !=NSNotFound){
         cell.progress.progress=0;
@@ -626,7 +627,6 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
         cell.linkImageView.alpha=0.f;
     }else{
         cell.linkImageView.alpha=1.f;
-        cell.statusLabel.text=NSLocalizedString(@"连接中…", nil);
     }
     if ([model.status isEqualToString:@"Connected"]) {
         cell.statusLabel.text=model.updateTime;
@@ -752,7 +752,6 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
         cell.linkImageView.alpha=0.f;
     }else{
         cell.linkImageView.alpha=1.f;
-        cell.statusLabel.text=NSLocalizedString(@"连接中…", nil);
     }
     if ([model.status isEqualToString:@"Connected"]) {
         cell.statusLabel.text=model.updateTime;

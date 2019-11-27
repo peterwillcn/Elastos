@@ -24,7 +24,16 @@
 {
     _model  = model;
     self.nickName.text = model.nickname;
-    self.contryName.text = [[FLTools share]contryNameTransLateByCode: model.location.integerValue];
+    
+    dispatch_group_t group =  dispatch_group_create();
+       __block NSString *locationLabelString;
+      dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+         locationLabelString= [[FLTools share]contryNameTransLateByCode:[model.location intValue]];
+       });
+      dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+             self.contryName.text = locationLabelString;
+           
+       });
     self.indexLab.text = [@""stringByAppendingString:@(model.index+1).stringValue];
     self.percentLab.text = [NSString stringWithFormat:@"%.5lf %@",model.voterate.floatValue*100,@"%"];
     self.tickNumberLab.text=[NSString stringWithFormat:@"%ld %@",[model.votes longValue],NSLocalizedString(@"票", nil)];
@@ -38,7 +47,16 @@
 
 
         self.nickName.text = CRModel.nickname;
-        self.contryName.text = [[FLTools share]contryNameTransLateByCode: CRModel.location.integerValue];
+    
+    dispatch_group_t group =  dispatch_group_create();
+        __block NSString *locationLabelString;
+       dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+          locationLabelString= [[FLTools share]contryNameTransLateByCode:[CRModel.location intValue]];
+        });
+       dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+              self.contryName.text = locationLabelString;
+            
+        });    
         self.indexLab.text = [@""stringByAppendingString:@([CRModel.index intValue ]+1).stringValue];
         self.percentLab.text = [NSString stringWithFormat:@"%.5lf %@",CRModel.voterate.floatValue*100,@"%"];
         self.tickNumberLab.text=[NSString stringWithFormat:@"%ld %@",[CRModel.votes longValue],NSLocalizedString(@"票", nil)];

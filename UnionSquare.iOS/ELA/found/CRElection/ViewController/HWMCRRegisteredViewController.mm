@@ -64,13 +64,11 @@
  
     
     [[HMWCommView share]makeBordersWithView:self.confirmToRunButton];
-    ELWalletManager *manager   =  [ELWalletManager share];
-    IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-    NSString * CROwnerPublicKey = [NSString stringWithCString:mainchainSubWallet->GetCROwnerPublicKey().c_str() encoding:NSUTF8StringEncoding];
-    
-    NSString *CROwnerDID = [NSString stringWithCString:mainchainSubWallet->GetCROwnerDID().c_str() encoding:NSUTF8StringEncoding];
-    self.MemberThePublicKeyLabel.text=CROwnerPublicKey;
-    self.MembersDIDLabel.text=CROwnerDID;
+        ELWalletManager *manager   =  [ELWalletManager share];
+    invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[manager.currentWallet.masterWalletID,@"IDChain"] callbackId:manager.currentWallet.masterWalletID className:@"wallet" methodName:@"createMasterWallet"];
+             NSDictionary * resultBase =[[ELWalletManager share]GetCRFirstPublicKeysAndDID:cmommand];
+    self.MemberThePublicKeyLabel.text=resultBase[@"crPublicKey"];
+    self.MembersDIDLabel.text=resultBase[@"did"];
     
     if (self.isUpdate) {
         [self.confirmToRunButton setTitle:NSLocalizedString(@"更新信息", nil) forState:UIControlStateNormal];
@@ -193,7 +191,7 @@
            model.ipAddress  = self.URLTextField.text;
            model.mark       = @"";
            model.acount     = 5000;
-  BOOL ret = [manager UpdateCRProducerWithMainchainSubWallet:mainchainSubWallet With:model];
+  BOOL ret = [manager UpdateCRProducerWithMainchainSubWallet:manager.currentWallet.masterWalletID With:model];
       if (ret) {
           [[FLTools share]showErrorInfo:NSLocalizedString(@"变更成功", nil)];
            [self showSendSuccessPopuV];
@@ -305,11 +303,8 @@
     ELWalletManager *manager   =  [ELWalletManager share];
                IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
                FLJoinVoteInfoModel* model = [[FLJoinVoteInfoModel alloc]init];
-
                model.CRDIDKey    =  self.MembersDIDLabel.text ;
-       //
                model.CRownerPublickKey = self.MemberThePublicKeyLabel.text;
-
                model.nickName   = self.MemberNameTextField.text;
                model.url        = self.URLTextField.text;
                model.contryCode = self.mobCodeString;
@@ -318,7 +313,7 @@
                model.mark       = @"";
                model.acount     = 5000;
         CGFloat free;
-        free = [manager         RegisterCRWithMainchainSubWallet:mainchainSubWallet With:model];
+        free = [manager RegisterCRWithMainchainSubWallet:manager.currentWallet.masterWalletID With:model];
         [self closeTransactionDetailsView];
         [self showSendSuccessPopuV];
     

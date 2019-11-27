@@ -133,8 +133,10 @@
 -(void)DrawBackRegistCRMoneyWithPWD:(NSString*)pwdString{
     ELWalletManager *manager = [ELWalletManager share];
     NSString *walletId =  manager.currentWallet.masterWalletID;
-    IMainchainSubWallet *wallet = [manager getWalletELASubWallet:walletId];
-    NSString *ownerpublickey  =[NSString stringWithCString:wallet->GetCROwnerDID().c_str() encoding:NSUTF8StringEncoding];
+    invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[walletId,@"IDChain"] callbackId:manager.currentWallet.masterWalletID className:@"wallet" methodName:@"createMasterWallet"];
+             NSDictionary * resultBase =[[ELWalletManager share]GetCRFirstPublicKeysAndDID:cmommand];
+//    self.MemberThePublicKeyLabel.text=resultBase[@"crPublicKey"];
+    NSString *ownerpublickey=resultBase[@"did"];
      NSString *httpIP=[[FLTools share]http_IpFast];
     [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/getcrdepositcoin" header:@{} body:@{@"did":ownerpublickey} showHUD:YES WithSuccessBlock:^(id data) {
         CGFloat available = [data[@"data"][@"result"][@"available"] doubleValue];

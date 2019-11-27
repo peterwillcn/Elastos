@@ -37,7 +37,16 @@
 }
 -(void)setModel:(HWMCRListModel *)model{
     self.nickNameLabel.text =model.nickname;
-         self.locationLabel.text = [[FLTools share]contryNameTransLateByCode: model.location.integerValue];
+
+    dispatch_group_t group =  dispatch_group_create();
+     __block NSString *locationLabelString;
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+       locationLabelString= [[FLTools share]contryNameTransLateByCode:[model.location intValue]];
+     });
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+          self.locationLabel.text= locationLabelString;
+         
+     });
          self.indexNumberLabel.text = [NSLocalizedString(@"当前排名：", nil) stringByAppendingString:@([model.index intValue ]+1).stringValue];
          self.AccountedLabel.text = [NSString stringWithFormat:@"%@ %.5lf %@",NSLocalizedString(@"投票占比：", nil),model.voterate.floatValue*100,@"%"];
          self.totalNumberVotesLabel.text=[NSString stringWithFormat:@"%@ %ld %@",NSLocalizedString(@"得票总数：", nil),[model.votes longValue],NSLocalizedString(@"票", nil)];

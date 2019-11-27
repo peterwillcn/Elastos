@@ -187,8 +187,8 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
     if (model.isAdd&&self.didType.length>0) {
         if (self.didType.length>0) {
             if (self.delegate) {
+                [self.navigationController popViewControllerAnimated:NO];
                 [self.delegate openIDChainOfDIDAddWithWallet:self.wallet.masterWalletID];
-                [self.navigationController popViewControllerAnimated:YES];
             }
         }else{
            [self.navigationController popToRootViewControllerAnimated:YES];

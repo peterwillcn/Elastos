@@ -32,7 +32,10 @@ static NSString *cellString=@"HWMHWMcreatWalletListlTableViewCell";
     [self defultWhite];
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"创建钱包", nil);
-    self.dataSourceArray =[NSArray arrayWithObjects:@{@"image":@"single_wallet",@"name":NSLocalizedString(@"单签钱包", nil)},@{@"image":@"multi_wallet",@"name":NSLocalizedString(@"多签钱包", nil)},@{@"image":@"single_walllet_readonly",@"name":NSLocalizedString(@"单签只读钱包", nil)}, nil];
+    self.dataSourceArray =[NSArray arrayWithObjects:@{@"image":@"single_wallet",@"name":NSLocalizedString(@"单签钱包", nil)}
+//                           ,@{@"image":@"multi_wallet",@"name":NSLocalizedString(@"多签钱包", nil)}
+//                           ,@{@"image":@"single_walllet_readonly",@"name":NSLocalizedString(@"单签只读钱包", nil)}
+                           , nil];
     [self.baseTableView reloadData];
 }
 -(UITableView *)baseTableView{

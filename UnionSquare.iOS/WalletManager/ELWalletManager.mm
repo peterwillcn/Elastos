@@ -1697,9 +1697,16 @@ errCodeSPVCreateMasterWalletError= 20006;
     IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:mainchainSubWalletId];
        
        try {
-           std::string pubKey = mainchainSubWallet->GetCROwnerDID();
+           nlohmann::json pubKey = mainchainSubWallet->GetCROwnerDID();
+           crDID          The id of cr will unregister
+           * @return               The payload in JSON format contains the "Digest" field to be signed and then set the "Signature" field. Such as
+           * {
+           *     "DID":"4854185275217ffcf8c97177d4ef1599810c8b8f67",
+           *     "Digest":"8e17a8bcacc5d70b5b312fccefc19d25d88ac6450322a846132e859509b88001",
+           *     "Signature":""
+           *     }
            
-           nlohmann::json payload = mainchainSubWallet->GenerateUnregisterCRPayload(pubKey, [pwd UTF8String]);
+           nlohmann::json payload = mainchainSubWallet->GenerateUnregisterCRPayload(pubKey,);
            
            nlohmann::json tx = mainchainSubWallet->CreateUnregisterCRTransaction("", payload, "");
            Json signedTx = mainchainSubWallet->SignTransaction(tx, [pwd UTF8String]);

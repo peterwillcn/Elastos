@@ -203,13 +203,14 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(PluginResult *)VerifyPassPhrase:(invokedUrlCommand *)command;
 -(PluginResult *)publishtransaction:(invokedUrlCommand *)command;
 -(PluginResult *)SignTransaction:(invokedUrlCommand *)command;
--(NSInteger)RegisterCRWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model;
--(BOOL)UpdateCRProducerWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model;
+-(NSInteger)RegisterCRWithMainchainSubWallet:(NSString*)ELA With:(FLJoinVoteInfoModel*)model;
+-(BOOL)UpdateCRProducerWithMainchainSubWallet:(NSString*)ELA With:(FLJoinVoteInfoModel*)model;
 -(BOOL)CancelCRProducer:(NSString*)mainchainSubWalletId Pwd:(NSString*)pwd;
 -(BOOL)RetrieveCRDepositTransaction:(NSString*)mainchainSubWalletId acount:(double)acount Pwd:(NSString*)pwd;
 -(PluginResult *)getDIDlist:(invokedUrlCommand *)command;
 -(PluginResult *)getDetailsDIDlist:(invokedUrlCommand *)command;
 -(PluginResult *)getAllPublicKeys:(invokedUrlCommand *)command;
+-(NSDictionary*)GetCRFirstPublicKeysAndDID:(invokedUrlCommand *)command;
 @end
 
 

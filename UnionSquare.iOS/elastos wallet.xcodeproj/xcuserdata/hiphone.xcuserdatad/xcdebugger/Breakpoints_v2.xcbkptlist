@@ -132,7 +132,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1723"
             endingLineNumber = "1723"
-            landmarkName = "-CancelProducer:Pwd:"
+            landmarkName = "-CancelCRProducer:Pwd:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -322,54 +322,6 @@
             startingLineNumber = "372"
             endingLineNumber = "372"
             landmarkName = "-joinTheCandidateListEvent:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "EC3BB2EF-4563-49AD-BD9B-1B94DF4EF522"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ELA/found/CRElection/ViewController/HMWCRCommitteeMemberListViewController.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
-            landmarkName = "-loadAllImageInfo:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7559B7F0-420D-40E5-B974-F2BE992CD8CA"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ELA/found/SuperPoint/view/cell/HMWtheCandidateListTableViewCell.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
-            landmarkName = "-setModel:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "CA29725E-4097-461B-9B75-EE0DD0C1D0DD"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ELA/found/SuperPoint/view/cell/HMWVotingListTypeCrossCollectionViewCell.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
-            landmarkName = "-setModel:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

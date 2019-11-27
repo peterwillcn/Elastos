@@ -297,8 +297,10 @@
 }
 -(NSInteger)findMyDidWithIndexWithIndex:(NSInteger)index{
     ELWalletManager *manager   =  [ELWalletManager share];
-           IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-           NSString *CROwnerDID = [NSString stringWithCString:mainchainSubWallet->GetCROwnerDID().c_str() encoding:NSUTF8StringEncoding];
+    invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[manager.currentWallet.masterWalletID,@"IDChain"] callbackId:manager.currentWallet.masterWalletID className:@"wallet" methodName:@"createMasterWallet"];
+             NSDictionary * resultBase =[[ELWalletManager share]GetCRFirstPublicKeysAndDID:cmommand];
+//    self.MemberThePublicKeyLabel.text=resultBase[@"crPublicKey"];
+  NSString *CROwnerDID=resultBase[@"did"];
     HWMCRListModel *model=self.memberListDataSource[index];
     if ([CROwnerDID isEqualToString:model.did]) {
          self.needFind=NO;

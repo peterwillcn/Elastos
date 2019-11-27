@@ -34,7 +34,16 @@
     //  self.theValueOfLabel.text = model.votes;
     NSString *votes =[NSString stringWithFormat:@"%ld %@",(long)[model.votes integerValue],NSLocalizedString(@"票", nil)];
     NSString *voterateString=[NSString stringWithFormat:@" | %.2f%@",[model.voterate doubleValue],@"%"];
-    self.locationLabel.text= [[FLTools share]contryNameTransLateByCode:[model.location intValue]];
+    
+        dispatch_group_t group =  dispatch_group_create();
+         __block NSString *locationLabelString;
+        dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+           locationLabelString= [[FLTools share]contryNameTransLateByCode:[model.location intValue]];
+         });
+        dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+              self.locationLabel.text= locationLabelString;
+             
+         });
     self.VotesAndPercentagesLabel.text=[NSString stringWithFormat:@"%@%@",votes,voterateString];
     if ([model.index integerValue]>11) {
         self.NoIndexLabel.text=[NSString stringWithFormat:@"%ld",(long)[model.index integerValue]+1];

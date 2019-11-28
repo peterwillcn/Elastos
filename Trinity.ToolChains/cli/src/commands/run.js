@@ -51,7 +51,7 @@ exports.handler = function (argv) {
  * - push and run the EPK on the device (adb push/shell am start, on android)
  * - ionic serve (for hot reload inside trinity, when user saves his files)
  */
-function deployAndroidDApp(noDebug) {
+async function deployAndroidDApp(noDebug) {
     var runHelper = new RunHelper()
     var manifestHelper = new ManifestHelper()
     var ionicHelper = new IonicHelper()
@@ -85,7 +85,7 @@ function deployAndroidDApp(noDebug) {
     if (noDebug)
         manifestHelper.updateManifestForLocalIndex(temporaryManifestPath)
     else
-        manifestHelper.updateManifestForRemoteIndex(temporaryManifestPath)
+        await manifestHelper.updateManifestForRemoteIndex(temporaryManifestPath)
 
     ionicHelper.updateNpmDependencies().then(() => {
         ionicHelper.runIonicBuild(false).then(() => {

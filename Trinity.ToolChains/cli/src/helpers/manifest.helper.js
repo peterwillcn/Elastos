@@ -3,8 +3,8 @@ const validator = require('validator');
 const editJsonFile = require("edit-json-file");
 const fs = require("fs-extra");
 const path = require("path");
-const ip = require('ip');
 const tempy = require('tempy');
+const os = require('os');
 
 module.exports = class ManifestHelper {
     /**
@@ -140,16 +140,68 @@ module.exports = class ManifestHelper {
     }
 
     /**
+     * Prompts user which IP address he wants to use (or auto-detect if only one address)
+     */
+    promptOrGetLocalIpAddress() {
+        return new Promise(async (resolve, reject)=>{
+            var allUsableInterfaces = [];
+            var ifaces = os.networkInterfaces();
+            Object.keys(ifaces).forEach(function(ifname) {
+                ifaces[ifname].forEach(function(iface) {
+                    // Skip over non-ipv4 addresses and localhost
+                    if (iface.family !== 'IPv4' || iface.internal)
+                        return;
+                    
+                    allUsableInterfaces.push(iface);
+                });
+            });
+
+            // No IP address found? That's a kind of problem...
+            if (allUsableInterfaces.length == 0) {
+                reject("No IP Address available! Not connected to any network?");
+                return;
+            }
+
+            // If we have only one available IP address, we use it directly.
+            if (allUsableInterfaces.length == 1) {
+                resolve(allUsableInterfaces[0].address)
+                return;
+            }
+
+            // If we have more than one IP address then we ask user which one he would like to use.
+            let choices = [];
+            allUsableInterfaces.forEach((itf)=>{
+                choices.push({
+                    title: itf.address, value: itf.address
+                });
+            })
+
+            const questions = [
+                {
+                    type: 'select',
+                    name: 'ipAddress',
+                    message: 'Local IP Address to use (must be the same network as your mobile device):',
+                    choices: choices
+                },
+            ];
+            const info = await prompts(questions);
+
+            resolve(info.ipAddress);
+        });
+    }
+
+    /**
      * Updates the given manifest with a start url that matches user's computer's IP address, instead of a local
      * index.html. This allows running ionic serve for easy debugging.
      */
-    updateManifestForRemoteIndex(manifestPath) {
+    async updateManifestForRemoteIndex(manifestPath) {
         console.log("Updating DApp manifest to use your computer's IP address as a start url (remote debugging)")
 
-        var manifestJson = editJsonFile(manifestPath);
+        // First, prompt user which IP address he wants to use (or auto-detect if only one address)
+        let ipAddress = await this.promptOrGetLocalIpAddress();
+        console.log("Local IP address "+ipAddress+" was selected.");
 
-        // Retrieve computer's IP address
-        var ipAddress = ip.address("public")
+        var manifestJson = editJsonFile(manifestPath);
 
         manifestJson.set("start_url", "http://"+ipAddress+":8100");
         manifestJson.set("type", "url");

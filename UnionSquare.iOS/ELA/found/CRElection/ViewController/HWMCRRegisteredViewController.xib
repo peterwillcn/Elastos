@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HWMCRRegisteredViewController">
             <connections>
+                <outlet property="BGViewHeight" destination="IFQ-2d-wLI" id="6V8-4c-3ch"/>
                 <outlet property="CountryORRegionTextField" destination="EZN-Gv-9bL" id="Y0b-Yt-QRH"/>
                 <outlet property="MemberNameTextField" destination="3Mz-3Z-fhg" id="evx-Gw-B5x"/>
                 <outlet property="MemberThePublicKeyLabel" destination="VDR-x7-Gyo" id="EuS-St-htb"/>
@@ -110,6 +111,7 @@
                         </view>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入委员名称（必填）" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="3Mz-3Z-fhg">
                             <rect key="frame" x="15" y="136" width="324" height="55"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="55" id="flu-jk-ufG"/>
                             </constraints>

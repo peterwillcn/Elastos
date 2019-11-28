@@ -1158,7 +1158,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     if ([sdknet isEqualToString:@"RegTest"] ) {
            return @"https://54.223.244.60";
            }else if ([sdknet isEqualToString:@"PrvNet"] ){
-               return @"https://54.223.244.60";
+               return @"http://172.26.0.207:3000";
               
            }else if ([sdknet isEqualToString:@"TestNet"] ){
                return @"https://54.223.244.60";
@@ -1172,7 +1172,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     if ([sdknet isEqualToString:@"RegTest"] ) {
              return  @"https://blockchain-beta.elastos.org/tx/";
              }else if ([sdknet isEqualToString:@"PrvNet"] ){
-                 return  @"https://blockchain-beta.elastos.org/tx/";
+                 return  @"http://172.26.0.207:3000";
                 
              }else if ([sdknet isEqualToString:@"TestNet"] ){
                  return  @"https://blockchain-beta.elastos.org/tx/";

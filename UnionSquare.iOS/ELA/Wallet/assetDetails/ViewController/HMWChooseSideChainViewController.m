@@ -64,7 +64,8 @@ static NSString *cellString=@"HMWSideChainAndTheContactTableViewCell";
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
     if (self.type ==chooseSideChainType) {
-     return self.supportOfTheCurrencyArray.count-1;
+        return 1;
+//     return self.supportOfTheCurrencyArray.count-1;
     }
     if (self.type==chooseFriendsType) {
      return self.friedsListArray.count;
@@ -93,8 +94,8 @@ static NSString *cellString=@"HMWSideChainAndTheContactTableViewCell";
         }
        
         
-        assetsListModel *model=self.supportOfTheCurrencyArray[indexPath.section+1];
-        cell.iChinaLabel.text=model.iconName;
+//        assetsListModel *model=self.supportOfTheCurrencyArray[indexPath.section+1];
+        cell.iChinaLabel.text=@"IDChain";
     }else if (self.type==chooseFriendsType){
         if (self.selectIndexPath==indexPath) {
             cell.selectImageView.image=[UIImage imageNamed:@"asset_linkman_select"];
@@ -146,7 +147,9 @@ static NSString *cellString=@"HMWSideChainAndTheContactTableViewCell";
     if (self.type==chooseSideChainType) {
         HMWTop_upPageForDetailsViewController *top_upPageForDetailsVC=[[HMWTop_upPageForDetailsViewController alloc]init];
         top_upPageForDetailsVC.title=NSLocalizedString(@"侧链充值", nil);
-        top_upPageForDetailsVC.selectmModel=self.supportOfTheCurrencyArray[indexPath.section+1];
+        assetsListModel *model=[[assetsListModel alloc]init];
+        model.iconName=@"IDChain";
+        top_upPageForDetailsVC.selectmModel=model;
         top_upPageForDetailsVC.currentWallet=self.currentWallet;
         top_upPageForDetailsVC.fromModel=self.model;
         top_upPageForDetailsVC.type=sideChainTop_upType;

@@ -100,15 +100,17 @@ static FLTools *tool;
     NSDateFormatter *formatter = [NSDateFormatter new];
     NSString *languageString=[DAConfig userLanguage];
     
-    
+    NSString *timeS;
 if ([languageString  containsString:@"en"]) {
-        [formatter setDateFormat:@"MM-dd-YYYY HH:mm:ss"];
+     
+    NSInteger month = [[[NSCalendar currentCalendar] components:NSCalendarUnitMonth fromDate:myDate] month];
+      [formatter setDateFormat:@"dd  HH:mm:ss YYYY"];
+    NSString *monthString=[NSString stringWithFormat:@"m%ld",(long)month];
+    timeS=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(monthString,nil),[formatter stringFromDate:myDate]];
   }else if ([languageString  containsString:@"zh"]){
         [formatter setDateFormat:@"YYYY.MM.dd HH:mm:ss"];
+      timeS = [formatter stringFromDate:myDate];
     }
-    //将时间转换为字符串
-    
-    NSString *timeS = [formatter stringFromDate:myDate];
     
     return timeS;
     
@@ -140,51 +142,64 @@ if ([languageString  containsString:@"en"]) {
     NSDateFormatter *formatter = [NSDateFormatter new];
     NSString *languageString=[DAConfig userLanguage];
     
-    
-    if ([languageString  containsString:@"en"]) {
-
-        [formatter setDateFormat:@"MM-dd-YYYY HH:mm:ss"];
-        
+ NSString *timeS;
+ if ([languageString  containsString:@"en"]) {
+       
+      NSInteger month = [[[NSCalendar currentCalendar] components:NSCalendarUnitMonth fromDate:myDate] month];
+        [formatter setDateFormat:@"dd  HH:mm:ss YYYY"];
+      NSString *monthString=[NSString stringWithFormat:@"m%ld",(long)month];
+            timeS=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(monthString,nil),[formatter stringFromDate:myDate]];
     }else if ([languageString  containsString:@"zh"]){
-        
-        [formatter setDateFormat:@"YYYY.MM.dd HH:mm:ss"];
-        
-    }
-   
-   
-    
-    //将时间转换为字符串
-    
-    NSString *timeS = [formatter stringFromDate:myDate];
-    
+            [formatter setDateFormat:@"YYYY.MM.dd HH:mm:ss"];
+            timeS = [formatter stringFromDate:myDate];
+      }
     return timeS;
 }
 -(NSString *)TimeFormatConversion:(NSString *)timeStr{
-    
+     double time = [timeStr longLongValue];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 
     // 设置为UTC时区
     // 这里如果不设置为UTC时区，会把要转换的时间字符串定为当前时区的时间（东八区）转换为UTC时区的时间
 //    NSTimeZone *timezone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
     
-    
+      NSDate *myDate = [NSDate dateWithTimeIntervalSince1970:time];
  
     NSString *languageString=[DAConfig userLanguage];
     
     
-    if ([languageString  containsString:@"en"]) {
-        
-        [formatter setDateFormat:@"MM-dd-YYYY HH:mm:ss"];
-        
-    }else if ([languageString  containsString:@"zh"]){
-        
-        [formatter setDateFormat:@"YYYY.MM.dd HH:mm:ss"];
-        
-    }
-    NSDate *someDay = [formatter dateFromString:timeStr];
-    NSString *timeS = [formatter stringFromDate:someDay];
+//    if ([languageString  containsString:@"en"]) {
+//
+//        [formatter setDateFormat:@"MM-dd-YYYY HH:mm:ss"];
+//
+//    }else if ([languageString  containsString:@"zh"]){
+//
+//        [formatter setDateFormat:@"YYYY.MM.dd HH:mm:ss"];
+//
+//    }
+//    NSDate *someDay = [formatter dateFromString:timeStr];
+//    NSString *timeS = [formatter stringFromDate:someDay];
+//
+//    return timeS;
     
+    
+    
+    NSString *timeS;
+    if ([languageString  containsString:@"en"]) {
+          
+         NSInteger month = [[[NSCalendar currentCalendar] components:NSCalendarUnitMonth fromDate:myDate] month];
+           [formatter setDateFormat:@"dd  HH:mm:ss YYYY"];
+         NSString *monthString=[NSString stringWithFormat:@"m%ld",(long)month];
+               timeS=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(monthString,nil),[formatter stringFromDate:myDate]];
+       }else if ([languageString  containsString:@"zh"]){
+               [formatter setDateFormat:@"YYYY.MM.dd HH:mm:ss"];
+               timeS = [formatter stringFromDate:myDate];
+         }
     return timeS;
+    
+    
+    
+    
     
 }
 -(NSString*)getCurrentTimes{
@@ -569,6 +584,21 @@ if ([languageString  containsString:@"en"]) {
 //    NSNumber * nsNumber = [num2.stringValue numberValue];
 //    NSString * outNumber = [NSString stringWithFormat:@"%@",nsNumber];
 //    return outNumber;
+}
+-(NSString*)CRVotingPercentageWithAllCount:(NSString*)allcount withCRMermVoting:(NSString*)MermVot{
+    NSString *volatilePercentage;
+      NSDecimalNumber *allcountD = [NSDecimalNumber decimalNumberWithString:allcount];
+    NSDecimalNumber *MermVotD = [NSDecimalNumber decimalNumberWithString:MermVot];
+      NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:4 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:YES];
+    NSDecimalNumber *num2 = [MermVotD decimalNumberByDividingBy:allcountD withBehavior:roundDown];
+    NSDecimalNumber *num3 = [num2 decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"100"]];
+    if (num3.doubleValue<1) {
+        volatilePercentage=@"<1";
+    }else{
+        volatilePercentage=num3.stringValue;
+    }
+    return volatilePercentage;
+    
 }
 -(NSString *)elsToSela:(NSString*)ela{
     ela=[NSString stringWithFormat:@"%@",ela];

@@ -38,7 +38,7 @@
         });
    
     self.indexLab.text = [@""stringByAppendingString:@(model.index+1).stringValue];
-    self.percentLab.text = [NSString stringWithFormat:@"%.5lf %@",model.voterate.floatValue*100,@"%"];
+    self.percentLab.text = [NSString stringWithFormat:@"%@ %@",model.voterate,@"%"];
     
 }
 - (IBAction)btnAction:(id)sender {

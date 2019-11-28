@@ -33,7 +33,7 @@
     self.nickNameLabel.text = model.nickname;
     //  self.theValueOfLabel.text = model.votes;
     NSString *votes =[NSString stringWithFormat:@"%ld %@",(long)[model.votes integerValue],NSLocalizedString(@"票", nil)];
-    NSString *voterateString=[NSString stringWithFormat:@" | %.2f%@",[model.voterate doubleValue],@"%"];
+    NSString *voterateString=[NSString stringWithFormat:@" | %@ %@",model.voterate,@"%"];
     
         dispatch_group_t group =  dispatch_group_create();
          __block NSString *locationLabelString;

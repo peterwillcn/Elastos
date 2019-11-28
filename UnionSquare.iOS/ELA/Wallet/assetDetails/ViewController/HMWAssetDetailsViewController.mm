@@ -180,12 +180,9 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 }
 -(void)iconInfoUpdate:(NSNotification *)notification{
    
-    
+
     NSOperationQueue *waitQueue = [[NSOperationQueue alloc] init];
     [waitQueue addOperationWithBlock:^{
-    if (self.title.length==0) {
-           return;
-       }
     NSDictionary *dic=[[NSDictionary alloc]initWithDictionary:notification.object];
     NSArray *infoArray=[[FLTools share]stringToArray:dic[@"callBackInfo"]];
     NSString *walletID=infoArray.firstObject;
@@ -195,7 +192,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 //    NSString * currentBlockHeight=dic[@"currentBlockHeight"];
 //    NSString *  progress=dic[@"progress"];
     if ([self.currentWallet.masterWalletID isEqualToString:walletID]){
-        if ([self.title isEqualToString:chainID]) {
+        if ([self.model.iconBlance isEqualToString:chainID]) {
             
             
             NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:lastBlockTimeString];
@@ -746,6 +743,8 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     
 }
 -(void)setModel:(assetsListModel *)model{
+    
+    
     _model=model;
     
 }

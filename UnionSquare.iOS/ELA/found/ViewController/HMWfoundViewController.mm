@@ -114,6 +114,8 @@
         
       HMWCRCommitteeMemberListViewController *CRSignUpForVC=[[HMWCRCommitteeMemberListViewController alloc]init];
         CRSignUpForVC.typeString=self.typeString;
+        CRSignUpForVC.CROwnerDID=param[@"Info"][@"CROwnerDID"];
+        CRSignUpForVC.CROwnerPublicKey=param[@"Info"][@"CROwnerPublicKey"];
          [self.navigationController pushViewController:CRSignUpForVC  animated:YES];
     }
     

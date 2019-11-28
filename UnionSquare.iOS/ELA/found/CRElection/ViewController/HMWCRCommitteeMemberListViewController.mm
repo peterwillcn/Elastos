@@ -69,6 +69,12 @@
  *<# #>
  */
 @property(strong,nonatomic)HMWToDeleteTheWalletPopView *openIDChainView;
+@property(nonatomic,assign) BOOL isOpen;
+
+@property(nonatomic,copy) NSString* totalvotes;
+@property(nonatomic,strong)NSMutableArray *ActiveArray;
+
+
 @end
 
 @implementation HMWCRCommitteeMemberListViewController
@@ -114,7 +120,23 @@
         self.found_vote_rule.hidden=YES;
     }
     [self getWalletType];
+    self.isOpen=NO;
     self.all_selectedTextLabel.text=NSLocalizedString(@"全选", nil);
+    [self needOpen];
+}
+-(void)needOpen{
+    
+     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID] callbackId:self.wallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
+    PluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
+      NSString *status=[NSString stringWithFormat:@"%@",result.status];
+      if ([status isEqualToString:@"1"]) {
+      NSArray  *array = [[FLTools share]stringToArray:result.message[@"success"]];
+          if (array.count>1) {
+                self.isOpen=YES;
+          }
+      }
+    
+    
 }
 -(HWMCRCommitteeForAgreementView *)CRCommitteeForAgreementV{
     if (!_CRCommitteeForAgreementV) {
@@ -188,9 +210,17 @@
         }
         
     }else if ([self.typeString isEqualToString:@"Canceled"]){
-        DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
-        vc.CRTypeString=@"CRString";
-        [self.navigationController pushViewController:vc animated:YES];
+        if (self.isOpen) {
+               DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
+               vc.CRTypeString=@"CRString";
+               [self.navigationController pushViewController:vc animated:YES];
+           }else{
+               UIView *mainView =[self mainWindow];
+               [mainView addSubview:self.openIDChainView];
+               [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
+                   make.left.right.top.bottom.equalTo(mainView);
+               }];
+           }
     }
 }
 -(void)viewWillAppear:(BOOL)animated{
@@ -210,12 +240,11 @@
     
     
     dispatch_group_t group =  dispatch_group_create();
-    
+         dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
      for (int i=0; i<allListInfoArray.count; i++) {
          NSString *httpIP=[[FLTools share]http_IpFast];
          HWMCRListModel *model =allListInfoArray[i];
          if (model.url.length>0) {
-             dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                  model.iconImageUrl= [[FLTools share] getImageViewURLWithURL:model.url];
                  
                  if (model.iconImageUrl.length>0) {
@@ -223,25 +252,19 @@
                                                          NSString *param = data[@"data"];
                                                          model.iconImageUrl=[NSString stringWithFormat:@"%@%@",httpIP,param];
                                                         allListInfoArray[i]=model;
-                         
+//                          [self.votingListV setDataSource: allListInfoArray];
                                                      } WithFailBlock:^(id data) {
                                                          
                                                      }];
                  }
-             });
+             }
             
          }
-     }
-//    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//         [self.votingListV setDataSource: allListInfoArray];
-//    });
+     });
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-//        [self.votingListV setDataSource: allListInfoArray];
-    });
-//    dispatch_queue_t queue = dispatch_queue_create(0, DISPATCH_QUEUE_CONCURRENT);
-//    dispatch_async(queue, ^{
-//
-//    });
+            [self.votingListV setDataSource: allListInfoArray];
+            
+        });
 }
 -(void)getNetCoinPointArray{
     NSString *httpIP=[[FLTools share]http_IpFast];
@@ -249,8 +272,8 @@
         NSDictionary *param = data[@"data"];
         NSArray *dataArray =[NSArray modelArrayWithClass:HWMCRListModel.class json:param[@"result"][@"crcandidatesinfo"]];
         self.memberListDataSource= [NSMutableArray arrayWithArray:dataArray];
+        self.totalvotes=[NSString stringWithFormat:@"%@",param[@"result"][@"totalvotes"]];
         [self UpdataLocalOwerlist];
-        [self loadAllImageInfo:self.memberListDataSource];
     } WithFailBlock:^(id data) {
     }];
 }
@@ -259,24 +282,27 @@
     NSInteger selfIndex=-1;
     for (int i= 0; i<self.memberListDataSource.count; i++) {
          HWMCRListModel* model=self.memberListDataSource[i];
-       
+        model.voterate=[[FLTools share]CRVotingPercentageWithAllCount:self.totalvotes withCRMermVoting:model.votes];
        HWMCRListModel *curentmodel = nil ;
-        if (self.needFind) {
-           selfIndex=[self findMyDidWithIndexWithIndex:i];
-        }
         BOOL ret = NO;
         for (int j=0; j<localStore.count; j++) {
             HWMCRListModel *dataModel = localStore[j];
             ret =  [dataModel.did isEqualToString:model.did];
             if (ret) {
-                
                 dataModel.isCellSelected=YES;
                 model.isCellSelected=YES;
                 curentmodel = model;
                  self.memberListDataSource[i]=model;
             }
-            
         }
+        if ([model.state isEqualToString:@"Active"]) {
+            model.index=[NSString stringWithFormat:@"%lu",self.ActiveArray.count];
+            curentmodel.index=model.index;
+            [self.ActiveArray addObject:model];
+            if (self.needFind) {
+                selfIndex=[self findMyDidWithIndexWithIndex:i];
+            }
+   }
         if (curentmodel){
             [[HMWFMDBManager sharedManagerType:CRListType]updateSelectCR:model WithWalletID:self.wallet.walletID];
             continue;
@@ -285,23 +311,24 @@
         }
     }
     if (selfIndex>-1) {
-        HWMCRListModel *model=self.memberListDataSource[selfIndex];
-        [self.memberListDataSource removeObjectAtIndex:selfIndex];
-        [self.memberListDataSource insertObject:model atIndex:0];
+        HWMCRListModel *model=self.ActiveArray[selfIndex];
+        [self.ActiveArray removeObjectAtIndex:selfIndex];
+        [self.ActiveArray insertObject:model atIndex:0];
         
     }
     
     
-    
-    self.votingListV.dataSource=self.memberListDataSource;
+    [self loadAllImageInfo:self.ActiveArray];
+    self.votingListV.dataSource=self.ActiveArray;
+     
 }
 -(NSInteger)findMyDidWithIndexWithIndex:(NSInteger)index{
-    ELWalletManager *manager   =  [ELWalletManager share];
-    invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[manager.currentWallet.masterWalletID,@"IDChain"] callbackId:manager.currentWallet.masterWalletID className:@"wallet" methodName:@"createMasterWallet"];
-             NSDictionary * resultBase =[[ELWalletManager share]GetCRFirstPublicKeysAndDID:cmommand];
+//    ELWalletManager *manager   =  [ELWalletManager share];
+//    invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[manager.currentWallet.masterWalletID,@"IDChain"] callbackId:manager.currentWallet.masterWalletID className:@"wallet" methodName:@"createMasterWallet"];
+//             NSDictionary * resultBase =[[ELWalletManager share]GetCRFirstPublicKeysAndDID:cmommand];
 //    self.MemberThePublicKeyLabel.text=resultBase[@"crPublicKey"];
-  NSString *CROwnerDID=resultBase[@"did"];
-    HWMCRListModel *model=self.memberListDataSource[index];
+  NSString *CROwnerDID=self.CROwnerDID;
+    HWMCRListModel *model=self.ActiveArray[index];
     if ([CROwnerDID isEqualToString:model.did]) {
          self.needFind=NO;
         return index;
@@ -331,7 +358,7 @@
     HMWMyVoteViewController * vc = [[HMWMyVoteViewController alloc]init];
     vc.VoteType=MyVoteCRType;
     NSLog(@"VoteType=====%lu", (unsigned long)vc.VoteType);
-    vc.listData = self.memberListDataSource;
+    vc.listData = self.ActiveArray;
 
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -350,7 +377,9 @@
 - (IBAction)myVoteButton:(id)sender {
    HWMCRCCommitteeElectionListViewController * vc = [[HWMCRCCommitteeElectionListViewController alloc]init];
     vc.persent = self.votingListV.lab1.text;
+    vc.totalvotes=self.totalvotes;
 //    vc.currentWallet=self.wallet;
+    
     [self.navigationController pushViewController:vc animated:YES];
 }
 -(void)closeViewDele{
@@ -361,7 +390,7 @@
     HMWnodeInformationViewController *nodeInformationVC=[[HMWnodeInformationViewController alloc]init];
      nodeInformationVC.index=index;
         nodeInformationVC.type=CRInformationType;
-    nodeInformationVC.CRmodel = self.memberListDataSource[index];
+    nodeInformationVC.CRmodel = self.ActiveArray [index];
     nodeInformationVC.Ranking=index+1;
     nodeInformationVC.delegate=self;
    
@@ -419,7 +448,7 @@
 }
 #pragma mark ---------HMWnodeInformationViewControllerDelegate----------
 -(void)needUpdateListWithIndex:(NSInteger)index{
-      HWMCRListModel *model = self.memberListDataSource[index];
+      HWMCRListModel *model = self.ActiveArray[index];
     BOOL has =[[HMWFMDBManager sharedManagerType:CRListType]selectCRWithWalletID:self.wallet.masterWalletID andWithDID:model.did];
     if (has) {
         model.isCellSelected=YES;
@@ -431,8 +460,8 @@
              model.isNewCellSelected=NO;}
         
     }
-    self.memberListDataSource[index]=model;
-    self.votingListV.dataSource=self.memberListDataSource;
+    self.ActiveArray[index]=model;
+    self.votingListV.dataSource=self.ActiveArray;
 }
 -(void)closeView{
     [self.CRCommitteeForAgreementV removeFromSuperview];
@@ -441,11 +470,17 @@
 }
 -(void)Agreed{
     [self closeView];
-    UIView *mainView =[self mainWindow];
-    [mainView addSubview:self.openIDChainView];
-    [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.equalTo(mainView);
-    }];
+    if (self.isOpen) {
+        HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];
+        vc.currentWallet=self.wallet;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        UIView *mainView =[self mainWindow];
+        [mainView addSubview:self.openIDChainView];
+        [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(mainView);
+        }];
+    }
 }
 -(HMWToDeleteTheWalletPopView *)openIDChainView{
     if (!_openIDChainView) {
@@ -473,10 +508,31 @@
 
 -(void)openIDChainOfDIDAddWithWallet:(NSString*)walletID{
     if (walletID.length>0) {
-        HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];
-            vc.currentWallet=self.wallet;
-            [self.navigationController pushViewController:vc animated:YES];
+        if ([self.typeString isEqualToString:@"Canceled"]) {
+            DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
+                          vc.CRTypeString=@"CRString";
+                          [self.navigationController pushViewController:vc animated:YES];
+        }else if ([self.typeString isEqualToString:@"Unregistered"]){
+            
+            HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];
+                       vc.currentWallet=self.wallet;
+                       [self.navigationController pushViewController:vc animated:YES];
+        }
     }
 }
+-(void)setCROwnerDID:(NSString *)CROwnerDID{
+    _CROwnerDID=CROwnerDID;
     
+}
+-(void)setCROwnerPublicKey:(NSString *)CROwnerPublicKey{
+    _CROwnerPublicKey=CROwnerPublicKey;
+    
+}
+-(NSMutableArray *)ActiveArray{
+    if(!_ActiveArray){
+        _ActiveArray =[[NSMutableArray alloc]init];
+        
+    }
+    return _ActiveArray;
+}
 @end

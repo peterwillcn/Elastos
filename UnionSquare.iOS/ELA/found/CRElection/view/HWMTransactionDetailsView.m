@@ -20,6 +20,10 @@
  */
 @property(strong,nonatomic)HMWpwdPopupView*pwdPopupV;
 
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString*pwdString;
 @end
 
 @implementation HWMTransactionDetailsView
@@ -46,8 +50,9 @@
       if (pwd.length==0) {
           return;
       }
+    self.pwdString=pwd;
       if (self.delegate) {
-          [self.delegate pwdAndInfoWithPWD:pwd];
+          [self.delegate pwdAndInfoWithPWD: self.pwdString];
           [self cancelThePWDPageView];
       }
   }

@@ -96,6 +96,11 @@
                       [self.delegate sureToDeleteViewWithPWD:@""];
                   }
         
+    }else if (self.deleteType==deleteCRVote){
+         [self addSubview:self.securityVerificationPopV];
+              [self.securityVerificationPopV mas_makeConstraints:^(MASConstraintMaker *make) {
+                  make.left.right.top.bottom.equalTo(self);
+              }];
     }
   
 
@@ -131,7 +136,7 @@
         
     }else if (deleteType==UtxoChangeWhole){
         self.viewHeight.constant=200;
-        self.titlePopLabel.text=@"";
+//        self.titlePopLabel.text=@"";
         self.titleButtonConB.constant=0;
     }else if (deleteType==deleteCRVote){
          self.titlePopLabel.text= NSLocalizedString(@"是否退出本届CR选举？\n一旦退出本届选举，所有投票清零且不可恢复。", nil);

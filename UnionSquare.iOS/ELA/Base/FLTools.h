@@ -141,4 +141,5 @@
 -(NSString *)http_ipString:(NSString *)sdknet;
 -(NSString*)http_transUrl:(NSString*)sdknet;
 -(NSString*)http_PongUrl:(NSString*)sdknet;
+-(NSString*)CRVotingPercentageWithAllCount:(NSString*)allcount withCRMermVoting:(NSString*)MermVot;
 @end

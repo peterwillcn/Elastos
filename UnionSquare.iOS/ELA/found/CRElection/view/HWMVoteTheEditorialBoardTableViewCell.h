@@ -12,7 +12,7 @@
 
 -(void)addVoteWithIndex:(NSIndexPath*)index withVotes:(NSString*)votes;
 -(void)VoteValueChangeWithIndex:(NSIndexPath*)index withVotes:(NSString*)votes;
-
+-(void)textFieldDidEnd:(UITextField*)text;
 @end
 
 

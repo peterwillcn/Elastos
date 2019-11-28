@@ -19,7 +19,7 @@
 #import "HWMSignatureTradingSingleQrCodeViewController.h"
 
 static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
-@interface HWMCRCCommitteeElectionListViewController ()<UITableViewDelegate,UITableViewDataSource,HMWpwdPopupViewDelegate,VotesPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HWMVoteTheEditorialBoardTableViewCellDeleate,UITextFieldDelegate,HWMTransactionDetailsViewDelegate>
+@interface HWMCRCCommitteeElectionListViewController ()<UITableViewDelegate,UITableViewDataSource,HMWpwdPopupViewDelegate,VotesPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HWMVoteTheEditorialBoardTableViewCellDeleate,UITextFieldDelegate,HWMTransactionDetailsViewDelegate,HWMVoteTheEditorialBoardTableViewCellDeleate>
 @property(strong,nonatomic)HMWSendSuccessPopuView *sendSuccessPopuV;//交易成功 提示;
 @property (weak, nonatomic) IBOutlet UILabel *TagtatolVoteLab;
 
@@ -227,7 +227,7 @@ self.wallet.TypeW  = model.TypeW;
         double balance=[balanceString doubleValue];
         self.inputVoteTicketView.votes =balance/unitNumber;
         if (self.inputVoteTicketView.votes<1) {
-            self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@%@ 1",NSLocalizedString(@"最大表决票权", nil),NSLocalizedString(@"小于", nil)];
+            self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@ < 1",NSLocalizedString(@"最大表决票权", nil)];
         }else{
            self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"最大表决票权", nil),[[FLTools share]elaScaleConversionWith: balanceString]];
         }
@@ -323,12 +323,11 @@ self.wallet.TypeW  = model.TypeW;
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
     HWMCRListModel *model = self.dataSource[indexPath.row];
+    model.voterate=[[FLTools share]CRVotingPercentageWithAllCount:self.totalvotes withCRMermVoting:model.votes];
     cell.deleagte=self;
     cell.index=indexPath;
-    cell.model = model;
-    cell.numberVotingTextField.delegate=self;
     cell.numberVotingTextField.tag=100+indexPath.row;
-    [cell.numberVotingTextField addTarget:self action:@selector(valuechanged:) forControlEvents:UIControlEventValueChanged];
+    cell.model = model;
     return cell;
     
 }
@@ -518,22 +517,25 @@ self.wallet.TypeW  = model.TypeW;
     }else{
     self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
         PnumberVoting=0;
+         [self.voteArray removeAllObjects];
     }
     self.TheRemainingAvailable=PnumberVoting*self.dataSource.count;
     for (int i=0; i<self.dataSource.count; i++) {
         index=[NSIndexPath indexPathForRow:i inSection:0];
           HWMCRListModel *model = self.dataSource[i];
+         model.SinceVotes=[NSString stringWithFormat:@"%ld",(long)PnumberVoting];
         if (self.WhetherTheAverage) {
             model.isCellSelected=YES;
+              [self.voteArray addObject:model];
            }else{
            model.isCellSelected=NO;
+    
            }
-        model.SinceVotes=[NSString stringWithFormat:@"%ld",(long)PnumberVoting];
+
         HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
         cell.model=model;
     cell.numberVotingTextField.text=[NSString stringWithFormat:@"%ld",(long)PnumberVoting];
           self.dataSource[i]=model;
-        [self.voteArray addObject:model];
     }
     [self UpdateTheRemainingAvailable];
        
@@ -569,22 +571,7 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
     }
     [self UpdateTheRemainingAvailable];
 }
--(void)textFieldDidEndEditing:(UITextField *)textField{
-    NSInteger tag=[textField tag];
-    NSIndexPath *index=[NSIndexPath indexPathForRow:tag-100 inSection:0];
-    HWMCRListModel *model=self.dataSource[index.row];
-    if (model.isCellSelected) {
-       if ([self.voteArray containsObject:model]) {
-           self.TheRemainingAvailable=self.TheRemainingAvailable-[model.SinceVotes doubleValue];
-       }
-         model.SinceVotes=textField.text;
-  self.TheRemainingAvailable=self.TheRemainingAvailable+[model.SinceVotes doubleValue];
-       self.dataSource[index.row]=model;
-        [self UpdateTheRemainingAvailable];
-        
-    }
-    
-}
+
 - (IBAction)ImmediatelyToVote:(id)sender {
     if (self.editBtn.isSelected){
         if (self.voteArray.count==0) {
@@ -600,12 +587,11 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
             if (self.dataSource.count==0) {
                 [self updatePlaceHoldInfo];
             }
+            [self clearVoteArray];
                  
         }else{
              [[FLTools share]showErrorInfo:@"删除失败"];
         }
-         [self clearVoteArray];
-        
         return;
     }
     
@@ -651,9 +637,10 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
 }
 -(void)pwdAndInfoWithPWD:(NSString*)pwd{
     
-    [self closeTransactionDetailsView];
     
     
+    
+    NSString *pwdString=pwd;
     NSMutableArray *stringArray = [NSMutableArray array];
     NSMutableDictionary *CRDic=[[NSMutableDictionary alloc]init];
     for (int i= 0; i<self.voteArray.count; i++) {
@@ -667,15 +654,11 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
 //    if (self.isMax) {
 //        tic=-1;
 //    }
-
-    
-    
-    
     if (self.wallet.TypeW==0) {
         NSString *walletId = [ELWalletManager share].currentWallet.masterWalletID;
-        BOOL ret = [[ELWalletManager share]useCRMainchainSubWallet:walletId ToVote:CRDic tickets:0 pwd:pwd isChangeVote:YES];
+        BOOL ret = [[ELWalletManager share]useCRMainchainSubWallet:walletId ToVote:CRDic tickets:0 pwd:pwdString isChangeVote:YES];
         if (ret) {
-            
+            [self closeTransactionDetailsView];
             [self showSendSuccessPopuV];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.sendSuccessPopuV removeFromSuperview];
@@ -686,10 +669,11 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
         [self.pwdPopupV removeFromSuperview];
         self.pwdPopupV =  nil;
     }else if (self.wallet.TypeW==1){
-        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,stringArray,[NSString stringWithFormat:@"%f",tic],pwd,@(1)] callbackId:self.wallet.masterWalletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,stringArray,[NSString stringWithFormat:@"%f",tic],pwdString,@(1)] callbackId:self.wallet.masterWalletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
         PluginResult *result = [[ELWalletManager share]SignReadOnlyToCR:mommand];
         NSString *statue=[NSString stringWithFormat:@"%@",result.status];
         if ([statue isEqualToString:@"1"]){
+            [self closeTransactionDetailsView];
             HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
               SignatureTradingSingleQrCodeVC.currentWallet=self.wallet;
             SignatureTradingSingleQrCodeVC.type=SingleSignReadOnlyToBeSigned;
@@ -699,10 +683,11 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
             [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
         }
     }else if (self.wallet.TypeW==2){
-        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,stringArray,[NSString stringWithFormat:@"%f",tic],pwd,@(1)] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,stringArray,[NSString stringWithFormat:@"%f",tic],pwdString,@(1)] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
         PluginResult *result = [[ELWalletManager share]HowSignToCR:mommand];
         NSString *statue=[NSString stringWithFormat:@"%@",result.status];
         if ([statue isEqualToString:@"1"]) {
+            [self closeTransactionDetailsView];
             [self.pwdPopupV removeFromSuperview];
             self.pwdPopupV =  nil;
             HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
@@ -713,10 +698,11 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
             [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
         }
     }else if (self.wallet.TypeW==3){
-        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,stringArray,[NSString stringWithFormat:@"%f",tic],pwd,@(1)] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,stringArray,[NSString stringWithFormat:@"%f",tic],pwdString,@(1)] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
         PluginResult *result = [[ELWalletManager share]SignReadOnlyToCR:mommand];
         NSString *statue=[NSString stringWithFormat:@"%@",result.status];
         if ([statue isEqualToString:@"1"]) {
+            [self closeTransactionDetailsView];
             HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
                SignatureTradingSingleQrCodeVC.currentWallet=self.wallet;
             SignatureTradingSingleQrCodeVC.type=HowSignToBeSigned;
@@ -739,6 +725,22 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
     self.allTollTicketLabel.text=[NSString stringWithFormat:@"%@ %@ ELA",NSLocalizedString(@"合计：",nil ),@"--"];
         
       }
+    
+}
+-(void)textFieldDidEnd:(UITextField*)text{
+    NSInteger tag=[text tag];
+       NSIndexPath *index=[NSIndexPath indexPathForRow:tag-100 inSection:0];
+       HWMCRListModel *model=self.dataSource[index.row];
+       if (model.isCellSelected) {
+          if ([self.voteArray containsObject:model]) {
+              self.TheRemainingAvailable=self.TheRemainingAvailable-[model.SinceVotes doubleValue];
+          }
+            model.SinceVotes=text.text;
+     self.TheRemainingAvailable=self.TheRemainingAvailable+[model.SinceVotes doubleValue];
+          self.dataSource[index.row]=model;
+           [self UpdateTheRemainingAvailable];
+           
+       }
     
 }
 @end

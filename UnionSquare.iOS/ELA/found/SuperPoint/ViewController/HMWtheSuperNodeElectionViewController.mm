@@ -44,6 +44,7 @@
  */
 @property(assign,nonatomic)BOOL hasSing;
 @property (weak, nonatomic) IBOutlet UIImageView *found_vote_rule;
+@property(copy,nonatomic)NSString;
 
 @end
 

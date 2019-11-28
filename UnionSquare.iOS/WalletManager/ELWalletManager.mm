@@ -1352,27 +1352,11 @@ errCodeSPVCreateMasterWalletError= 20006;
     String memo=[self cstringWithString:args[idx++]];
     String remark=[self cstringWithString:args[idx++]];
     String pwd=[self cstringWithString:args[idx++]];
-//    Boolean singleAddress =  [args[idx++] boolValue];
-    Boolean singleAddress =  true;
     ISubWallet * fromSubWallet=[self getSubWallet:masterWalletID :fromSubWalletID];
     IMainchainSubWallet *mainchainSubWallet = dynamic_cast<IMainchainSubWallet *>(fromSubWallet);
-    ISubWallet * toSubWallet=[self getSubWallet:masterWalletID :toSubWalletID];
-    ISidechainSubWallet *sidechainSubWallet = dynamic_cast<ISidechainSubWallet *>(toSubWallet);
-    String  lockedAddress = sidechainSubWallet->GetGenesisAddress();
- 
-    Json  sidechainAccounts;
-    sidechainAccounts.push_back(sidechainAddress);
-    
-    Json sidechainAmounts;
-    sidechainAmounts.push_back(amount);
-    Json sidechainIndices;
-    sidechainIndices.push_back(0);
     Json tx;
-   
-    
     try {
-        tx  =mainchainSubWallet->CreateDepositTransaction("", lockedAddress, amount, sidechainAddress,memo);
-
+        tx  =mainchainSubWallet->CreateDepositTransaction("","IDChain" , amount, sidechainAddress,memo);
     } catch (const std:: exception & e) {
         return [self errInfoToDic:e.what() with:command];
     }
@@ -1394,42 +1378,25 @@ errCodeSPVCreateMasterWalletError= 20006;
     return [self successProcess:command msg:dic];
 }
 -(PluginResult *)sideChainTop_UpFee:(invokedUrlCommand *)command{
-    NSArray *args = command.arguments;
-    int idx = 0;
-    String masterWalletID = [self cstringWithString:args[idx++]];
-    String fromSubWalletID        = [self cstringWithString:args[idx++]];
-    String toSubWalletID = [self cstringWithString:args[idx++]];
-    String from = [self cstringWithString:args[idx++]];
-    String sidechainAddress = [self cstringWithString:args[idx++]];
-    String amount = [self cstringWithString:args[idx++]];
-     BOOL singleAddress =  [args[idx++] boolValue];
-    String memo=[self cstringWithString:args[idx++]];
-    String remark=[self cstringWithString:args[idx++]];
-    if ([self IsAddressValid:masterWalletID withAddres:sidechainAddress]==NO) {
-        NSString *msg = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"侧链地址错误", nil),[self stringWithCString:sidechainAddress]];
-        return [self errorProcess:command code:errCodeImportFromMnemonic msg:msg];
-    }
-    
-    ISubWallet * fromSubWallet=[self getSubWallet:masterWalletID :fromSubWalletID];
-    IMainchainSubWallet *mainchainSubWallet = dynamic_cast<IMainchainSubWallet *>(fromSubWallet);
-    ISubWallet * toSubWallet=[self getSubWallet:masterWalletID :toSubWalletID];
-    ISidechainSubWallet *sidechainSubWallet = dynamic_cast<ISidechainSubWallet *>(toSubWallet);
-    String  lockedAddress = sidechainSubWallet->GetGenesisAddress();
-    
-    Json  sidechainAccounts;
-    sidechainAccounts.push_back(sidechainAddress);
-    
-    Json sidechainAmounts;
-    sidechainAmounts.push_back(amount);
-    Json sidechainIndices;
-    sidechainIndices.push_back(0);
-    Json tx;
-    try {
-        tx=mainchainSubWallet ->CreateDepositTransaction("", lockedAddress, amount, sidechainAddress, memo);
-
-    } catch (const std:: exception & e) {
-    return   [self errInfoToDic:e.what() with:command];
-    }
+     NSArray *args = command.arguments;
+      int idx = 0;
+      String masterWalletID = [self cstringWithString:args[idx++]];
+      String fromSubWalletID        = [self cstringWithString:args[idx++]];
+      String toSubWalletID = [self cstringWithString:args[idx++]];
+      String from = [self cstringWithString:args[idx++]];
+      String sidechainAddress = [self cstringWithString:args[idx++]];
+      String amount = [self cstringWithString:args[idx++]];
+      String memo=[self cstringWithString:args[idx++]];
+      String remark=[self cstringWithString:args[idx++]];
+      String pwd=[self cstringWithString:args[idx++]];
+      ISubWallet * fromSubWallet=[self getSubWallet:masterWalletID :fromSubWalletID];
+      IMainchainSubWallet *mainchainSubWallet = dynamic_cast<IMainchainSubWallet *>(fromSubWallet);
+      Json tx;
+      try {
+          tx  =mainchainSubWallet->CreateDepositTransaction("","IDChain" , amount, sidechainAddress,memo);
+      } catch (const std:: exception & e) {
+          return [self errInfoToDic:e.what() with:command];
+      }
     NSString *jsonString = [self stringWithCString:tx.dump()];
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
     return  [self successProcess:command msg:[NSString stringWithFormat:@"%@",dic[@"Fee"]]];
@@ -1818,6 +1785,7 @@ errCodeSPVCreateMasterWalletError= 20006;
 
 
 -(BOOL)useCRMainchainSubWallet:(NSString*)CRmainchainSubWalletId ToVote:(NSDictionary*)publicKeys tickets:(double)stake pwd:(NSString*)pwd isChangeVote:(BOOL)change{
+    NSLog(@"pwd=====%@",pwd);
     String keys = [[ self dicToJSONString:publicKeys] UTF8String];
        nlohmann::json tx ;
        IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:CRmainchainSubWalletId];
@@ -2518,7 +2486,6 @@ errCodeSPVCreateMasterWalletError= 20006;
      } catch (const std:: exception & e ) {
         [self errInfoToDic:e.what() with:command];
      }
-   
 
     return @{@"crPublicKey":[self stringWithCString:crPublicKey],@"did":[self stringWithCString:did]};
 }

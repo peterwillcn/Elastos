@@ -22,6 +22,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *CountryORRegionTextField;
 @property (weak, nonatomic) IBOutlet UITextField *URLTextField;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *BGViewHeight;
+
 @property (weak, nonatomic) IBOutlet UIButton *confirmToRunButton;
 /*
  *<# #>
@@ -85,6 +87,7 @@
         self.MembersDIDTextLabel.alpha=0.f;
         self.makeLine1.alpha=0.f;
         self.makeLine2.alpha=0.f;
+        self.BGViewHeight.constant=190;
         
     }
         //        self.theNameOfTheNodeTextField.alpha=0.f;

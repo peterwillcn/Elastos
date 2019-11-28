@@ -163,9 +163,19 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
         cell.rightLab.text =[NSString stringWithFormat:@"NO.%ld",model.index+1];
        }else if (self.VoteType==MyVoteCRType){
           HWMCRListModel *model = self.dataSource[indexPath.row];
-        cell.leftLab.text =[NSString stringWithFormat:@"NO.%d",([model.index intValue]+1)];
-           cell.middleLabel.text=model.nickname;
-           cell.rightLab.text =[NSString stringWithFormat:@"%@%@",model.SinceVotes,NSLocalizedString(@"票", nil)];
+           if ([model.state isEqualToString:@"Active"]) {
+               cell.leftLab.text =[NSString stringWithFormat:@"NO.%d",([model.index intValue]+1)];
+                        cell.middleLabel.text=model.nickname;
+                        cell.rightLab.text =[NSString stringWithFormat:@"%@%@",model.SinceVotes,NSLocalizedString(@"票", nil)];
+               cell.leftLab.textColor=[UIColor whiteColor];
+               cell.middleLabel.textColor=[UIColor whiteColor];
+           }else{
+               
+               cell.leftLab.text=@"--";
+               cell.middleLabel.text=NSLocalizedString(@"候选节点已经失效", nil);
+               cell.leftLab.textColor=RGBA(255,255,255,0.5);
+               cell.middleLabel.textColor=RGBA(255,255,255,0.5);
+           }
        }
     
     return cell;

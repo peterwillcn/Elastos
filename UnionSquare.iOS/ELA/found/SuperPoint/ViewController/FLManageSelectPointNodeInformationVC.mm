@@ -67,7 +67,7 @@
     [self setBackgroundImg:@""];
     self.title= NSLocalizedString(@"选举管理", nil) ;
     self.leftLab1.text =NSLocalizedString(@"节点名称", nil) ;
-     self.leftLab2.text =NSLocalizedString(@"节点地址", nil) ;
+     self.leftLab2.text =NSLocalizedString(@"节点公钥", nil) ;
      self.leftLab3.text =NSLocalizedString(@"国家/地区", nil) ;
     self.votesLabel.text=NSLocalizedString(@"当前票数", nil);
     self.voteOfBTextLabel.text=NSLocalizedString(@"投票占比", nil);
@@ -162,7 +162,7 @@ NSString *httpIP=[[FLTools share]http_IpFast];
         for (FLCoinPointInfoModel *model in dataSource) {
             if ([model.ownerpublickey isEqualToString:OwnerPublickKey]) {
                 self.votesNumberLabel.text=[NSString stringWithFormat:@"%@", model.votes];
-    self.voteOfBNumberLabel.text=[NSString stringWithFormat:@"%.5lf %@" ,[model.voterate doubleValue]*100,@"%"];
+                self.voteOfBNumberLabel.text=[NSString stringWithFormat:@"%@ %@" ,model.voterate,@"%"];
                 break;
             }
             
@@ -222,6 +222,7 @@ NSString *httpIP=[[FLTools share]http_IpFast];
 }
 
 -(void)sureToDeleteViewWithPWD:(NSString*)pwd{
+    
     ELWalletManager *manager = [ELWalletManager share];
            NSString *walletId =  manager.currentWallet.masterWalletID;
     BOOL ret;

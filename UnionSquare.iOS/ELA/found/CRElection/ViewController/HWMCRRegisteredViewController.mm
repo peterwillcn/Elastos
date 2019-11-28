@@ -127,16 +127,16 @@
         [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入委员名称（必填）", nil)];
         return;
     }
-    if (self.CountryORRegionTextField.text.length==0) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择国家/地区", nil)];
-        
-        return;
-    }
-    if (self.URLTextField.text.length==0) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入竞选网址", nil)];
-        
-        return;
-    }
+//    if (self.CountryORRegionTextField.text.length==0) {
+//        [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择国家/地区", nil)];
+//
+//        return;
+//    }
+//    if (self.URLTextField.text.length==0) {
+//        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入竞选网址", nil)];
+//
+//        return;
+//    }
    
     
 //    [self.view addSubview:self.securityVerificationPopV ];

@@ -120,10 +120,16 @@
 }
 -(void)makeUI{
     if (self.type==nodeCoinPointInfType) {
-        self.nodeAddressTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"节点公钥", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
+        self.nodeAddressTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"所有人公钥", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
         self.nodeAddressLabel=[self labeWithTextColor:[UIColor whiteColor] withText:self.model.ownerpublickey withTextFont:14 withTextAlignment:NSTextAlignmentRight];
         self.currantVotesLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[NSString stringWithFormat:@"%ld %@",(long)[self.model.votes integerValue],NSLocalizedString(@"票", nil)] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
-        self.votePercentageLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[NSString stringWithFormat:@"%.5lf %@",self.model.voterate.doubleValue*100,@"%"] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
+        NSString *voterateString;
+        if ([self.model.voterate doubleValue]<0.01) {
+            voterateString=@"<1";
+        }else{
+            voterateString=[NSString stringWithFormat:@"%.2f",[self.model.voterate doubleValue]];
+        }
+        self.votePercentageLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[NSString stringWithFormat:@"%@ %@",voterateString,@"%"] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
         self.countryRegionLabel=[self labeWithTextColor:[UIColor whiteColor] withText:@"--" withTextFont:14 withTextAlignment:NSTextAlignmentRight];
         self.URLLabel=[self labeWithTextColor:RGB(40, 147, 232) withText:self.model.url withTextFont:14 withTextAlignment:NSTextAlignmentRight];
         self.URLTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:@"URL" withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
@@ -132,7 +138,7 @@
             self.nodeAddressTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"委员DID", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
             self.nodeAddressLabel=[self labeWithTextColor:[UIColor whiteColor] withText:self.CRmodel.did withTextFont:14 withTextAlignment:NSTextAlignmentRight];
             self.currantVotesLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[NSString stringWithFormat:@"%ld %@",(long)[self.CRmodel.votes integerValue],NSLocalizedString(@"票", nil)] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
-            self.votePercentageLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[NSString stringWithFormat:@"%.2lf %@",self.CRmodel.voterate.doubleValue*100,@"%"] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
+            self.votePercentageLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[NSString stringWithFormat:@"%@ %@",self.CRmodel.voterate,@"%"] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
             self.countryRegionLabel=[self labeWithTextColor:[UIColor whiteColor] withText:@"--" withTextFont:14 withTextAlignment:NSTextAlignmentRight];
             self.URLLabel=[self labeWithTextColor:RGB(40, 147, 232) withText:self.CRmodel.url withTextFont:14 withTextAlignment:NSTextAlignmentRight];
             self.URLTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:@"竞选网址" withTextFont:14 withTextAlignment:NSTextAlignmentLeft];

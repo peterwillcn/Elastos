@@ -31,7 +31,7 @@ static HMWFMDBManager * _manager =nil;
         sql =@"create table if not exists sideChain(ID integer primary key AUTOINCREMENT,walletID text,sideChainName text,sideChainNameTime text,thePercentageMax text,thePercentageCurr text)";
         
     }else if (type==CRListType){
-         sql =@"create table if not exists RMList(ID integer primary key AUTOINCREMENT,walletID text,location text,indexCR text,did text,nickname text,code text,votes text,voterate text ,state text ,url text)";
+         sql =@"create table if not exists RMList(ID integer primary key AUTOINCREMENT,walletID text,location text,indexCR text,did text,nickname text,code text,votes text,voterateCR text ,state text ,url text)";
         
     }
     static dispatch_once_t onceToken;
@@ -420,15 +420,18 @@ static HMWFMDBManager * _manager =nil;
           HWMCRListModel * p= [[HWMCRListModel alloc]init];
           //        去出表中存放的内容给person赋值
           p.location=[set objectForColumn:@"location"];
-          p.index =[set objectForColumn:@"index"];
+          p.index =[set objectForColumn:@"indexCR"];
           p.did =[set objectForColumn:@"did"];
           p.nickname =[set objectForColumn:@"nickname"];
           p.code =[set objectForColumn:@"code"];
           p.votes =[set objectForColumn:@"votes"];
-          p.voterate =[set objectForColumn:@"voterate"];
+          p.voterate =[set objectForColumn:@"voterateCR"];
           p.state =[set objectForColumn:@"state"];
           p.url =[set objectForColumn:@"url"];
-          [allRecords addObject:p];
+          if ([p.state isEqualToString:@"Active"]) {
+                [allRecords addObject:p];
+          }
+
       }
       return allRecords;
 }
@@ -466,7 +469,7 @@ static HMWFMDBManager * _manager =nil;
            return NO;
     }else{
     
-    NSString *sql =@"insert into RMList(walletID,location,indexCR,did,nickname,code,votes,voterate,state,url) values(?,?,?,?,?,?,?,?,?,?)";
+    NSString *sql =@"insert into RMList(walletID,location,indexCR,did,nickname,code,votes,voterateCR,state,url) values(?,?,?,?,?,?,?,?,?,?)";
     if ([self executeUpdate:sql,walletID,CRModel.location,CRModel.index,CRModel.did,CRModel.nickname,CRModel.code,CRModel.votes,CRModel.voterate,CRModel.state,CRModel.url]) {
         return YES;
     }
@@ -477,7 +480,19 @@ static HMWFMDBManager * _manager =nil;
 -(BOOL)selectCRWithWalletID:(NSString*)walletID andWithDID:(NSString*)DID{
     NSString *sql =[NSString stringWithFormat: @"select * from RMList where walletID=\'%@\' and did=\'%@\'",walletID,DID];
     
+    
+    NSString *thePercentageCurr = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ INTEGER",@"RMList",@"voterateCR"];
+         BOOL Currworked = [_manager executeUpdate:thePercentageCurr];
+         if(Currworked){
+             NSLog(@"voterateCR插入成功");
+         }else{
+             NSLog(@"voterateCR插入失败");
+         }
+    
     FMResultSet *set=[self executeQuery:sql];
+    
+    
+    
     //    一条一条的读取数据 并专程模型
     while (set.next) {
         //        模型
@@ -489,7 +504,7 @@ static HMWFMDBManager * _manager =nil;
        CR.nickname =[set objectForColumn:@"nickname"];
        CR.code =[set objectForColumn:@"code"];
        CR.votes =[set objectForColumn:@"votes"];
-       CR.voterate =[set objectForColumn:@"voterate"];
+       CR.voterate =[set objectForColumn:@"voterateCR"];
        CR.state =[set objectForColumn:@"state"];
        CR.url =[set objectForColumn:@"url"];
         return  YES;
@@ -522,10 +537,17 @@ static HMWFMDBManager * _manager =nil;
     if (crModel.url.length==0) {
         crModel.url=@"0";
     }
-    NSString *sql =@"Update RMList set location=? ,indexCR=?,nickname=? ,code=? ,votes=? ,voterate=? ,state=? ,url=? where walletID=? and did=? ";
-           if ( [self executeUpdate:sql,crModel.location,crModel.index,crModel.nickname,crModel.code,crModel.votes,crModel.voterate,crModel.state,crModel.url,walletID,crModel.did]) {
-               return YES;
-           }
+    if ([self selectCRWithWalletID:walletID andWithDID:crModel.did]) {
+        NSString *sql =@"Update RMList set location=? ,indexCR=?,nickname=? ,code=? ,votes=? ,voterateCR=? ,state=? ,url=? where walletID=? and did=? ";
+               if ( [self executeUpdate:sql,crModel.location,crModel.index,crModel.nickname,crModel.code,crModel.votes,crModel.voterate,crModel.state,crModel.url,walletID,crModel.did]) {
+                   return YES;
+                   
+                   
+                   
+               }
+    }
+
+    
     return NO;
 }
 //删

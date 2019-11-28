@@ -47,8 +47,8 @@
           self.locationLabel.text= locationLabelString;
          
      });
-         self.indexNumberLabel.text = [NSLocalizedString(@"当前排名：", nil) stringByAppendingString:@([model.index intValue ]+1).stringValue];
-         self.AccountedLabel.text = [NSString stringWithFormat:@"%@ %.5lf %@",NSLocalizedString(@"投票占比：", nil),model.voterate.floatValue*100,@"%"];
+         self.indexNumberLabel.text = [NSLocalizedString(@"当前排名：", nil) stringByAppendingString:model.index ];
+         self.AccountedLabel.text = [NSString stringWithFormat:@"%@ %@ %@",NSLocalizedString(@"投票占比：", nil),model.voterate,@"%"];
          self.totalNumberVotesLabel.text=[NSString stringWithFormat:@"%@ %ld %@",NSLocalizedString(@"得票总数：", nil),[model.votes longValue],NSLocalizedString(@"票", nil)];
     NSString *imageNameString=@"found_not_select";
     if (_model.isCellSelected) {
@@ -121,5 +121,12 @@
             }
     }
     return YES;
+}
+-(void)textFieldDidEndEditing:(UITextField *)textField{
+    if (self.deleagte) {
+        [self.deleagte textFieldDidEnd:textField];
+    }
+    
+    
 }
 @end

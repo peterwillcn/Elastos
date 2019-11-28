@@ -11,7 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMCRCCommitteeElectionListViewController : UIViewController
 
-@property(nonatomic,strong)NSString *persent;
+@property(nonatomic,copy)NSString *persent;
+@property(nonatomic,copy)NSString *totalvotes;
 @end
 
 NS_ASSUME_NONNULL_END

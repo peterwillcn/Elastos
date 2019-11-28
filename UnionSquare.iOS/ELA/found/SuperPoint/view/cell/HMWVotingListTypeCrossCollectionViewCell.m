@@ -35,7 +35,7 @@
            
        });
     self.indexLab.text = [@""stringByAppendingString:@(model.index+1).stringValue];
-    self.percentLab.text = [NSString stringWithFormat:@"%.5lf %@",model.voterate.floatValue*100,@"%"];
+    self.percentLab.text = [NSString stringWithFormat:@"%@ %@",model.voterate,@"%"];
     self.tickNumberLab.text=[NSString stringWithFormat:@"%ld %@",[model.votes longValue],NSLocalizedString(@"票", nil)];
      [self.coinIconImageView sd_setImageWithURL:[NSURL URLWithString:model.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial_oval"]];
 }
@@ -58,7 +58,7 @@
             
         });    
         self.indexLab.text = [@""stringByAppendingString:@([CRModel.index intValue ]+1).stringValue];
-        self.percentLab.text = [NSString stringWithFormat:@"%.5lf %@",CRModel.voterate.floatValue*100,@"%"];
+        self.percentLab.text = [NSString stringWithFormat:@"%@ %@",CRModel.voterate,@"%"];
         self.tickNumberLab.text=[NSString stringWithFormat:@"%ld %@",[CRModel.votes longValue],NSLocalizedString(@"票", nil)];
          [self.coinIconImageView sd_setImageWithURL:[NSURL URLWithString:CRModel.url] placeholderImage:[UIImage imageNamed:@"found_vote_initial_oval"]];
     

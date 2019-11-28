@@ -55,7 +55,7 @@
     [self setBackgroundImg:@""];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"setting_adding_scan"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(scanView)];
-    self.toUpNameLabel.text=[NSString stringWithFormat:@"%@：%@",NSLocalizedString(@"充值到", nil),self.selectmModel.iconName];
+    self.toUpNameLabel.text=[NSString stringWithFormat:@"%@：%@",NSLocalizedString(@"充值到", nil),@"IDChain"];
 //     self.toUpNameLabel.text=[NSString stringWithFormat:@"%@：%@",NSLocalizedString(@"充值到", nil),@"ELA"];
     [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.addressTextField withTxt:NSLocalizedString(@"请输入主链提现地址", nil)];
     [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.enterTheAmountTextField withTxt:[NSString stringWithFormat:@"%@：%@ %@",NSLocalizedString(@"请输入金额 可用", nil),[[FLTools share] elaScaleConversionWith:self.fromModel.iconBlance],@"ELA"]];

@@ -38,7 +38,7 @@
         });
    
     self.indexLab.text = [@""stringByAppendingString:@(model.index+1).stringValue];
-    self.percentLab.text = [NSString stringWithFormat:@"%.2f %@",[model.voterate doubleValue],@"%"];
+    self.percentLab.text = [NSString stringWithFormat:@"%@ %@",[[FLTools share]DownTheValue:model.voterate withLength:2],@"%"];
     
 }
 - (IBAction)btnAction:(id)sender {

@@ -71,8 +71,8 @@
     self.theInputNumberTextField.text=@"Max";
 }
 - (IBAction)theNextStepEvent:(id)sender {
-    if ([self.theInputNumberTextField.text integerValue]<1) {
-        return;
+    if (self.theInputNumberTextField.text.length==0 ) {
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"票数不能为空", nil)];
     }
     if (self.delegate) {
         [self.delegate didHadInputVoteTicket:self.theInputNumberTextField.text WithIsMax:self.isMax];

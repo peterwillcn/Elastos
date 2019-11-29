@@ -154,9 +154,9 @@ self.wallet.TypeW  = model.TypeW;
         String balanceSt = mainchainSubWallet->GetBalance();
        NSString * balanceString= [NSString stringWithCString:balanceSt.c_str() encoding:NSUTF8StringEncoding];
              NSInteger balance=[balanceString integerValue];
-             self.inputVoteTicketView.votes =balance/unitNumber;
- self.blaceString=@(balance/unitNumber).stringValue;
-      self.TagtatolVoteLab.text = [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"最大表决票权", nil),[[FLTools share]elaScaleConversionWith: balanceString]];
+    self.inputVoteTicketView.votes =[[[FLTools share]elaScaleConversionWith: balanceString] doubleValue];
+ self.blaceString=[[FLTools share]elaScaleConversionWith: balanceString];
+      self.TagtatolVoteLab.text = [NSString stringWithFormat:@"%@%@ ELA",NSLocalizedString(@"最大表决票权约：", nil),[[FLTools share]elaScaleConversionWith: balanceString]];
     [self  UpdateTheRemainingAvailable];
 }
 
@@ -227,9 +227,9 @@ self.wallet.TypeW  = model.TypeW;
         double balance=[balanceString doubleValue];
         self.inputVoteTicketView.votes =balance/unitNumber;
         if (self.inputVoteTicketView.votes<1) {
-            self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@ < 1",NSLocalizedString(@"最大表决票权", nil)];
+            self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@ < 1 ELA",NSLocalizedString(@"最大表决票权 ELA", nil)];
         }else{
-           self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"最大表决票权", nil),[[FLTools share]elaScaleConversionWith: balanceString]];
+           self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@%@ ELA",NSLocalizedString(@"最大表决票权约：", nil),[[FLTools share]elaScaleConversionWith: balanceString]];
         }
      
         [self  UpdateTheRemainingAvailable];
@@ -327,6 +327,9 @@ self.wallet.TypeW  = model.TypeW;
     cell.deleagte=self;
     cell.index=indexPath;
     cell.numberVotingTextField.tag=100+indexPath.row;
+    if (model.SinceVotes.length>0&&model.isCellSelected) {
+        cell.numberVotingTextField.text=model.SinceVotes;
+    }
     cell.model = model;
     return cell;
     
@@ -511,7 +514,8 @@ self.wallet.TypeW  = model.TypeW;
     }
     
     NSIndexPath *index;
-     NSInteger PnumberVoting=[self.blaceString intValue]/self.dataSource.count;
+    NSString * PnumberVotingString=[[FLTools share]CRVotingTheAverageDistribution:self.blaceString withCRMermVoting:[NSString stringWithFormat:@"%ld",self.dataSource.count]];
+    double PnumberVoting=[PnumberVotingString doubleValue];
     if (self.WhetherTheAverage) {
     self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"all_selected"];
     }else{
@@ -523,7 +527,7 @@ self.wallet.TypeW  = model.TypeW;
     for (int i=0; i<self.dataSource.count; i++) {
         index=[NSIndexPath indexPathForRow:i inSection:0];
           HWMCRListModel *model = self.dataSource[i];
-         model.SinceVotes=[NSString stringWithFormat:@"%ld",(long)PnumberVoting];
+         model.SinceVotes=PnumberVotingString;
         if (self.WhetherTheAverage) {
             model.isCellSelected=YES;
               [self.voteArray addObject:model];
@@ -534,17 +538,20 @@ self.wallet.TypeW  = model.TypeW;
 
         HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
         cell.model=model;
-    cell.numberVotingTextField.text=[NSString stringWithFormat:@"%ld",(long)PnumberVoting];
-          self.dataSource[i]=model;
+        cell.numberVotingTextField.text= model.SinceVotes;
+        self.dataSource[i]=model;
     }
+    [self.baseTableView reloadData];
     [self UpdateTheRemainingAvailable];
        
     
 }
 -(void)UpdateTheRemainingAvailable{
-    
-    self.allTollTicketLabel.text=[NSString stringWithFormat:@"%@ %.4f ELA",NSLocalizedString(@"合计：",nil ),self.TheRemainingAvailable];
-    self.persentLab.text=[NSString stringWithFormat:@"%@ %.0f ELA",NSLocalizedString(@"可用：",nil ),[self.blaceString doubleValue]- self.TheRemainingAvailable];
+    if (self.self.TheRemainingAvailable==0) {
+         self.allTollTicketLabel.text=[NSString stringWithFormat:@"%@ %.0f ELA",NSLocalizedString(@"合计：",nil ),self.TheRemainingAvailable];
+    }else{
+        self.allTollTicketLabel.text=[NSString stringWithFormat:@"%@ %.4f ELA",NSLocalizedString(@"合计：",nil ),self.TheRemainingAvailable];}
+    self.persentLab.text=[NSString stringWithFormat:@"%@ %@ ELA",NSLocalizedString(@"可用：",nil ),[[FLTools share]CRVotingDecimalNumberBySubtracting:self.blaceString withCRMermVoting:[NSString stringWithFormat:@"%f",self.TheRemainingAvailable]]];
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     

@@ -9,5 +9,7 @@
 
 @implementation FLCoinPointInfoModel
 
-
++ (NSDictionary *)modelCustomPropertyMapper {
+    return @{@"idd": @"id"};
+}
 @end

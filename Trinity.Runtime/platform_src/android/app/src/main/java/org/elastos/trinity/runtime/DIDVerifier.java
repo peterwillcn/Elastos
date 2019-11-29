@@ -3,19 +3,17 @@ package org.elastos.trinity.runtime;
 import android.util.Log;
 import org.elastos.did.*;
 
+
 public class DIDVerifier {
     private static DIDStore mDIDStore;
 
     public static void initDidStore(String dataPath) throws Exception {
         String dataDir = dataPath + "/did_stores/" + "DIDVerifier";
-        // FIXME: The passphrase should be removed after the DID Java SDK provide a new API
-        // for initalize the DIDStore directory without passphrase.
-        String passphrase = "mystorepass";
 
-        Log.i("DIDPlugin", "dataDir:" + dataDir + " passphrase:" + passphrase);
+        Log.i("DIDPlugin", "dataDir:" + dataDir);
 
         try {
-            DIDStore.initialize("filesystem", dataDir, passphrase);
+            DIDStore.initialize("filesystem", dataDir, new FakeAdapter());
             mDIDStore = DIDStore.getInstance();
         } catch (Exception e) {
             e.printStackTrace();
@@ -33,7 +31,7 @@ public class DIDVerifier {
                 diddoc = mDIDStore.resolveDid(did);
             }
             ret = diddoc.verify(didurl, epk_signature, epk_sha_str.getBytes());
-        } catch (MalformedDIDURLException | MalformedDocumentException | DIDStoreException e) {
+        } catch (DIDException e) {
             e.printStackTrace();
         }
         return ret;

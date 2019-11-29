@@ -54,6 +54,7 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
  *<# #>
  */
 @property(strong,nonatomic)FLWallet *wallet;
+@property(nonatomic,assign)double maxBlance;
 
 @end
 
@@ -140,8 +141,25 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     self.moreThan36View=nil;
 }
 -(void)getDBRecored{
-    self.dataSource  = [[NSMutableArray alloc]initWithArray: [[FLNotePointDBManager defultWithWalletID:self.wallet.masterWalletID]allRecord]];
+    NSArray *localStore = [[FLNotePointDBManager defultWithWalletID:self.wallet.masterWalletID]allRecord];
+        for (int i= 0; i<localStore.count; i++) {
+        FLCoinPointInfoModel *model = localStore[i];
+        BOOL ret = NO;
+        for (FLCoinPointInfoModel*dataModel in self.lastTimeArray) {
+           ret =  [dataModel.ownerpublickey isEqualToString:model.ownerpublickey];
+            if (ret) {
+                [self.dataSource addObject:dataModel];
+            }
+        }
+   
+}
     [self.baseTableView reloadData];
+}
+-(NSMutableArray *)dataSource{
+    if (!_dataSource) {
+        _dataSource=[[NSMutableArray alloc]init];
+    }
+    return _dataSource;
 }
 - (IBAction)actAction:(UIButton*)sender {
     if (self.editBtn.isSelected) {
@@ -170,7 +188,8 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
        NSString * balanceString= [NSString stringWithCString:balanceSt.c_str() encoding:NSUTF8StringEncoding];
        NSInteger balance=[balanceString integerValue];
        self.inputVoteTicketView.votes =balance/unitNumber;
-       self.inputVoteTicketView.accountBalanceLab.text = [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"最大表决票权", nil),[[FLTools share]elaScaleConversionWith: balanceString]];
+       self.maxBlance=[[[FLTools share]elaScaleConversionWith: balanceString] doubleValue];
+       self.inputVoteTicketView.accountBalanceLab.text = [NSString stringWithFormat:@"%@%@ EAL",NSLocalizedString(@"最大表决票权", nil),[[FLTools share]elaScaleConversionWith: balanceString]];
     }
 }
 - (IBAction)selectAllAction:(UIButton*)sender {
@@ -262,7 +281,10 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     self.isMax=isMax;
     [self.inputVoteTicketView removeFromSuperview];
     self.inputVoteTicketView= nil;
-    self.ticket = ticketNumer.integerValue;
+    if ([ticketNumer doubleValue]>self.maxBlance) {
+          return;
+      }
+    self.ticket=ticketNumer.doubleValue;
     if (self.wallet.TypeW==0) {
         [self.view.window addSubview:self.pwdPopupV];
     }else if (self.wallet.TypeW==1){
@@ -407,5 +429,9 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     [_placeHolferImage addSubview:textLable];
     }
     return _placeHolferImage;
+}
+-(void)setLastTimeArray:(NSMutableArray *)lastTimeArray{
+    _lastTimeArray=lastTimeArray;
+    
 }
 @end

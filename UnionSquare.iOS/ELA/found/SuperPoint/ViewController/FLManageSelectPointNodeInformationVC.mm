@@ -120,7 +120,7 @@
            [self.updataTheCandidateListButton setTitle:NSLocalizedString(@"更新信息", nil) forState:UIControlStateNormal];
     }else{
         [self.lookAtTheCandidateListButton setTitle:NSLocalizedString(@"注销", nil) forState:UIControlStateNormal];
-           [self.updataTheCandidateListButton setTitle:NSLocalizedString(@"更新信息", nil) forState:UIControlStateNormal];
+           [self.updataTheCandidateListButton setTitle:NSLocalizedString(@"编辑", nil) forState:UIControlStateNormal];
         nlohmann::json info = mainchainSubWallet->GetRegisteredProducerInfo();
            NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
            
@@ -161,8 +161,8 @@ NSString *httpIP=[[FLTools share]http_IpFast];
         NSArray *dataSource= [NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];
         for (FLCoinPointInfoModel *model in dataSource) {
             if ([model.ownerpublickey isEqualToString:OwnerPublickKey]) {
-                self.votesNumberLabel.text=[NSString stringWithFormat:@"%@", model.votes];
-                self.voteOfBNumberLabel.text=[NSString stringWithFormat:@"%@ %@" ,model.voterate,@"%"];
+                self.votesNumberLabel.text=[NSString stringWithFormat:@"%@ %@", model.votes,NSLocalizedString(@"票", nil)];
+                self.voteOfBNumberLabel.text=[NSString stringWithFormat:@"%@ %@" ,[[FLTools share]DownTheValue:model.voterate withLength:2],@"%"];
                 break;
             }
             

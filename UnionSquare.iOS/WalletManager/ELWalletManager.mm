@@ -1785,11 +1785,15 @@ errCodeSPVCreateMasterWalletError= 20006;
 
 
 -(BOOL)useCRMainchainSubWallet:(NSString*)CRmainchainSubWalletId ToVote:(NSDictionary*)publicKeys tickets:(double)stake pwd:(NSString*)pwd isChangeVote:(BOOL)change{
-    NSLog(@"pwd=====%@",pwd);
     String keys = [[ self dicToJSONString:publicKeys] UTF8String];
        nlohmann::json tx ;
        IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:CRmainchainSubWalletId];
-    String acount=[self cstringWithString:[NSString stringWithFormat:@"%f",stake*unitNumber]];
+        String acount;
+        if (stake==-1) {
+         acount="-1";
+        }else{
+        acount =[self cstringWithString:[NSString stringWithFormat:@"%.0f",stake*unitNumber]];
+        }
        // 少一个备注
 //    CreateVoteCRTransaction
        try {
@@ -1815,7 +1819,12 @@ errCodeSPVCreateMasterWalletError= 20006;
     String keys = [[ self arrayToJSONString:publicKeys] UTF8String];
     nlohmann::json tx ;
     IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:mainchainSubWalletId];
-    String acount=[self cstringWithString:[NSString stringWithFormat:@"%f",stake*unitNumber]];
+    String acount;
+    if (stake==-1) {
+         acount="-1";
+    }else{
+        acount =[self cstringWithString:[NSString stringWithFormat:@"%.0f",stake*unitNumber]];
+    }
     // 少一个备注
     try {
         nlohmann::json tx = mainchainSubWallet->CreateVoteProducerTransaction("", acount,Json::parse(keys),"");

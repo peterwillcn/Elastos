@@ -9,7 +9,6 @@
 #import "HMWVotingListView.h"
 #import "HMWvotingRulesView.h"
 #import "HMWnodeInformationViewController.h"
-#import "FLCoinPointInfoModel.h"
 #import "HMWtheCandidateListViewController.h"
 #import "HMWMyVoteViewController.h"
 #import "FLNotePointDBManager.h"

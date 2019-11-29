@@ -165,7 +165,7 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     NSString * balanceString= [NSString stringWithCString:balanceSt.c_str() encoding:NSUTF8StringEncoding];
     NSInteger balance=[balanceString integerValue];
     self.inputVoteTicketView.votes = balance/unitNumber;
-    self.inputVoteTicketView.accountBalanceLab.text = [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"最大表决票权", nil),[[FLTools share]elaScaleConversionWith: balanceString]];
+    self.inputVoteTicketView.accountBalanceLab.text = [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"最大表决票权 ELA", nil),[[FLTools share]elaScaleConversionWith: balanceString]];
 }
 
 - (IBAction)selectAllAction:(UIButton*)sender {

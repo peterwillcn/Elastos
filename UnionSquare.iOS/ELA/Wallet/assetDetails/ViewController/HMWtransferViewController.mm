@@ -134,23 +134,22 @@
         
         return;
     }
-    if ([self.theAmountOfTextField.text doubleValue]==0 ) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"金额需要大于0", nil)];
-        return;
-    }
-    if ([self.theAmountOfTextField.text doubleValue]>[[[FLTools share]elaScaleConversionWith:self.model.iconBlance] doubleValue]) {
-        
-       [[FLTools share]showErrorInfo:NSLocalizedString(@"余额不足", nil)];
-        return;
-    }
-    NSString *isUtxo=@"1";
-//    if (self.isAddSwitch.isOn) {
-//        isUtxo=@"1";
-//    }
-    NSString *blance=[[FLTools share]elsToSela:self.theAmountOfTextField.text];
-    if (self.isMax) {
+    NSString *blance;
+    if (self.isMax==NO) {
+        if ([self.theAmountOfTextField.text doubleValue]) {
+              [[FLTools share]showErrorInfo:NSLocalizedString(@"金额需要大于0", nil)];
+              return;
+          }
+          if ([self.theAmountOfTextField.text doubleValue]>[[[FLTools share]elaScaleConversionWith:self.model.iconBlance] doubleValue]) {
+              
+             [[FLTools share]showErrorInfo:NSLocalizedString(@"余额不足", nil)];
+              return;
+          }
+         blance=[[FLTools share]elsToSela:self.theAmountOfTextField.text];
+        }else{
         blance=@"-1";
     }
+    NSString *isUtxo=@"1";
     
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@"",self.transferTheAddressTextField.text,blance,self.noteTextField.text,self.noteTextField.text,isUtxo] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
     PluginResult * result =[[ELWalletManager share]accessFees:mommand];

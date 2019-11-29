@@ -141,4 +141,7 @@
 -(NSString*)http_transUrl:(NSString*)sdknet;
 -(NSString*)http_PongUrl:(NSString*)sdknet;
 -(NSString*)CRVotingPercentageWithAllCount:(NSString*)allcount withCRMermVoting:(NSString*)MermVot;
+-(NSString*)CRVotingTheAverageDistribution:(NSString*)blance withCRMermVoting:(NSString*)MermVotCout;
+-(NSString*)CRVotingDecimalNumberBySubtracting:(NSString*)blance withCRMermVoting:(NSString*)MermVotCout;
+-(NSString*)DownTheValue:(NSString*)blance withLength:(NSInteger)MermVotCout;
 @end

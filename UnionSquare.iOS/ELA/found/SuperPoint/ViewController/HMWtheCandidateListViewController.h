@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HMWtheCandidateListViewController : UIViewController
 
 @property(nonatomic,strong)NSString *persent;
+@property(nonatomic,strong)NSMutableArray *lastTimeArray;
 
 @end
 

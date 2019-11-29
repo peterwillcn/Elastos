@@ -35,7 +35,7 @@
            
        });
     self.indexLab.text = [@""stringByAppendingString:@(model.index+1).stringValue];
-    self.percentLab.text = [NSString stringWithFormat:@"%@ %@",model.voterate,@"%"];
+    self.percentLab.text = [NSString stringWithFormat:@"%@ %@",[[FLTools share] DownTheValue:model.voterate withLength:2],@"%"];
     self.tickNumberLab.text=[NSString stringWithFormat:@"%ld %@",[model.votes longValue],NSLocalizedString(@"票", nil)];
      [self.coinIconImageView sd_setImageWithURL:[NSURL URLWithString:model.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial_oval"]];
 }

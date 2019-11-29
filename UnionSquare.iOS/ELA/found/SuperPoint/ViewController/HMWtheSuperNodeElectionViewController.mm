@@ -310,6 +310,7 @@
 - (IBAction)myVoteButton:(id)sender {
     HMWtheCandidateListViewController * vc = [[HMWtheCandidateListViewController alloc]init];
     vc.persent = self.votingListV.lab1.text ;
+    vc.lastTimeArray=self.dataSource;
     [self.navigationController pushViewController:vc animated:YES];
 }
 -(void)closeViewDele{
@@ -321,6 +322,7 @@
 - (void)selectedVotingListWithIndex:(NSInteger)index {
     HMWnodeInformationViewController *nodeInformationVC=[[HMWnodeInformationViewController alloc]init];
     nodeInformationVC.model = self.dataSource[index];
+//    nodeInformationVC.model.voterate=[[FLTools share] DownTheValue: nodeInformationVC.model.voterate withLength:2];
     nodeInformationVC.Ranking=index+1;
     nodeInformationVC.type=nodeInformationType;
       [self.navigationController pushViewController:nodeInformationVC animated:YES];

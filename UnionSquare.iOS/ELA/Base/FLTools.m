@@ -593,11 +593,54 @@ if ([languageString  containsString:@"en"]) {
     NSDecimalNumber *num2 = [MermVotD decimalNumberByDividingBy:allcountD withBehavior:roundDown];
     NSDecimalNumber *num3 = [num2 decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"100"]];
     if (num3.doubleValue<1) {
-        volatilePercentage=@"<1";
+        volatilePercentage=@"< 1";
     }else{
         volatilePercentage=num3.stringValue;
     }
     return volatilePercentage;
+    
+}
+-(NSString*)CRVotingTheAverageDistribution:(NSString*)blance withCRMermVoting:(NSString*)MermVotCout{
+      NSDecimalNumber *blanceD = [NSDecimalNumber decimalNumberWithString:blance];
+    NSDecimalNumber *MermVotCoutD = [NSDecimalNumber decimalNumberWithString:MermVotCout];
+      NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:8 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:YES raiseOnDivideByZero:YES];
+    NSDecimalNumber *num2 = [blanceD decimalNumberByDividingBy:MermVotCoutD withBehavior:roundDown];
+
+        NSDecimalNumber * result = [NSDecimalNumber decimalNumberWithString:num2.stringValue];
+    if (result.doubleValue==0) {
+        return @"0";
+    }
+
+return  result.stringValue;
+    
+}
+-(NSString*)DownTheValue:(NSString*)blance withLength:(NSInteger)MermVotCout{
+ NSString*volatilePercentage;
+    NSDecimalNumber *blanceD = [NSDecimalNumber decimalNumberWithString:blance];
+      NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:MermVotCout raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:YES];
+        blanceD=[blanceD decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"100"]];
+        NSDecimalNumber * result= [blanceD decimalNumberByRoundingAccordingToBehavior:roundDown];
+  if (result.doubleValue<1) {
+        volatilePercentage=@"< 1";
+  }else{
+      volatilePercentage=result.stringValue;
+  }
+
+return  volatilePercentage;
+    
+}
+-(NSString*)CRVotingDecimalNumberBySubtracting:(NSString*)blance withCRMermVoting:(NSString*)MermVotCout{
+      NSDecimalNumber *blanceD = [NSDecimalNumber decimalNumberWithString:blance];
+    NSDecimalNumber *MermVotCoutD = [NSDecimalNumber decimalNumberWithString:MermVotCout];
+      NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:8 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:YES raiseOnDivideByZero:YES];
+    NSDecimalNumber *num2 = [blanceD decimalNumberBySubtracting:MermVotCoutD withBehavior:roundDown];
+
+        NSDecimalNumber * result = [NSDecimalNumber decimalNumberWithString:num2.stringValue];
+    if (result.doubleValue==0) {
+        return @"0";
+    }
+
+return  result.stringValue;
     
 }
 -(NSString *)elsToSela:(NSString*)ela{

@@ -6,4 +6,4 @@
 # First need to build trinity in order to apply plugins documentation patches
 ../../Elastos.Trinity/ToolChains/bin/build all
 # Generate the documentation
-jsdoc -c ./jsdoc.conf.json -t ./node_modules/ink-docstrap/template -r ../../Elastos.Trinity/Runtime/plugins/ README.md
+typedoc ../typings/dist --out ./out --mode file --tsconfig ./tsconfig.json --theme ./trinity-plugins-theme --readme ./README.md --name "Trinity Plugins API Reference" --excludeExternals --includeDeclarations

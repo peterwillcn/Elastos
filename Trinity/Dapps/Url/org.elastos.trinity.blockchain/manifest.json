@@ -23,6 +23,7 @@
 
     ],
     "urls": [
-        "http://wallet.elastos.org/*"
+        "http://wallet.elastos.org/*",
+        "https://wallet.elastos.org/*"
     ]
 }

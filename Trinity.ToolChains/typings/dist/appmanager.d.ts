@@ -9,8 +9,11 @@ declare namespace AppManagerPlugin {
      * @property {string}           type        The icon type.
      */
     type Icon = {
+        /** The icon src. */
         src: string;
+        /** The icon sizes. */
         sizes: any; // TODO - Should be some kind of Pair<number, number> array ?
+        /** The icon type. */
         type: string;
     }
 
@@ -59,7 +62,9 @@ declare namespace AppManagerPlugin {
      * @property {AuthorityStatus}  authority   The authority status.
      */
     type PluginAuthority = {
+        /** The plugin name. */
         plugin: string;
+        /** The authority status. */
         authority: AuthorityStatus;
     }
 
@@ -72,7 +77,9 @@ declare namespace AppManagerPlugin {
      * @property {AuthorityStatus}  authority   The authority status.
      */
     type UrlAuthority = {
+        /** The url access. */
         url: string;
+        /** The authority status. */
         authority: AuthorityStatus;
     }
 
@@ -81,53 +88,75 @@ declare namespace AppManagerPlugin {
      *
      * @typedef AppInfo
      * @type {Object}
-     * @property {string}               id              The app id.
-     * @property {string}               version         The app version.
-     * @property {string}               name            The app name.
-     * @property {string}               shortName       The app shortName.
-     * @property {string}               description     The app description.
-     * @property {string}               startUrl        The app startUrl.
-     * @property {Icon[]}               icons           The app icons.
-     * @property {string}               authorName      The app authorName.
-     * @property {string}               authorEmail     The app authorEmail.
-     * @property {string}               defaultLocale   The app defaultLocale.
-     * @property {string}               category        The app category.
-     * @property {string}               keyWords       The app keyWords.
-     * @property {PluginAuthority[]}    plugins         The app PluginAuthority list.
-     * @property {UrlAuthority[]}       urls            The app UrlAuthoritylist.
-     * @property {string}               backgroundColor The app backgroundColor.
-     * @property {string}               themeDisplay    The app theme display.
-     * @property {string}               themeColor      The app theme color.
-     * @property {string}               themeFontName   The app theme font name.
-     * @property {string}               themeFontColor  The app theme font color.
-     * @property {number}               installTime     The app intall time.
-     * @property {number}               builtIn         The app builtIn.
-     * @property {string}               appPath         The app path.
-     * @property {string}               dataPath        The app data path.
+     * @param          id              The app id.
+     * @param          version         The app version.
+     * @param          name            The app name.
+     * @param          shortName       The app shortName.
+     * @param          description     The app description.
+     * @param          startUrl        The app startUrl.
+     * @param          icons           The app icons.
+     * @param          authorName      The app authorName.
+     * @param          authorEmail     The app authorEmail.
+     * @param          defaultLocale   The app defaultLocale.
+     * @param          category        The app category.
+     * @param          keyWords        The app keyWords.
+     * @param          plugins         The app PluginAuthority list.
+     * @param          urls            The app UrlAuthoritylist.
+     * @param          backgroundColor The app backgroundColor.
+     * @param          themeDisplay    The app theme display.
+     * @param          themeColor      The app theme color.
+     * @param          themeFontName   The app theme font name.
+     * @param          themeFontColor  The app theme font color.
+     * @param          installTime     The app intall time.
+     * @param          builtIn         The app builtIn.
+     * @param          dataPath        The app data path.
      */
     type AppInfo = {
+        /** The app id. */
         id: string;
+        /** The app version. */
         version: string;
+        /** The app name. */
         name: string;
+        /** The app shortName. */
         shortName: string;
+        /** The app description. */
         description: string;
+        /** The app startUrl. */
         startUrl: string;
+        /** The app icons. */
         icons: Icon[];
+        /** The app authorName. */
         authorName: string;
+        /** The app authorEmail. */
         authorEmail: string;
+        /** The app defaultLocale. */
         defaultLocale: string;
+        /** The app category. */
         category: string;
+        /** The app keyWords. */
         keywords: string;
+        /** The app PluginAuthority list. */
         plugins: PluginAuthority[];
+        /** The app UrlAuthoritylist. */
         urls: UrlAuthority[];
+        /** The app backgroundColor. */
         backgroundColor: string;
+        /** The app theme display. */
         themeDisplay: string;
+        /** The app theme color. */
         themeColor: string;
+        /** The app theme font name. */
         themeFontName: string;
+        /** The app theme font color. */
         themeFontColor: string;
+        /** The app intall time. */
         installTime: Number;
+        /** The app builtIn. */
         builtIn: Boolean;
+        /** The app path. */
         appPath: string;
+        /** The app data path. */
         dataPath: string;
     }
 
@@ -139,8 +168,11 @@ declare namespace AppManagerPlugin {
      * @param {string}  from		The message from
      */
     type ReceivedMessage = {
+        /** The message receive */
         msg: string;
+        /** The message type */
         type: Number;
+        /** The message from */
         from: string;
     }
 
@@ -152,8 +184,11 @@ declare namespace AppManagerPlugin {
      * @param {string}  from		The intent from
      */
     type ReceivedIntent = {
+        /** The intent action */
         action: string;
+        /** The intent params */
         params: any;
+        /** The intent from */
         from: string;
     }
 

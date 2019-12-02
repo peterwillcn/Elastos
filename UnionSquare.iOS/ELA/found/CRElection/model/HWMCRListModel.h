@@ -59,6 +59,15 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 //@property(assign,nonatomic)NSInteger   index;
+
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *infoEN;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *infoZH;
 @end
 
 NS_ASSUME_NONNULL_END

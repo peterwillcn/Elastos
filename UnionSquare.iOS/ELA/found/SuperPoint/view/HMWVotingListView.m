@@ -101,15 +101,22 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
         }
         HMWVotingListCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:cellString forIndexPath:indexPath];
         cell.model = self.dataSource[indexPath.row];
+        if (indexPath.row==0&&[self.typeString isEqualToString:@"Registered"]) {
+                       cell.backgroundColor=RGB(48, 124, 162);
+               }
+//        else{
+//                   cell.backgroundColor=RGB(51, 51, 51);
+//               }
         return cell;
     }
     if (self.isEdiet&&self.type==CRType&&[self.listType isEqualToString:@"2"]) {
         HWMCRVotingListCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:ListCRCellString forIndexPath:indexPath];
         if (indexPath.row==0&&[self.typeString isEqualToString:@"Registered"]) {
                 cell.backgroundColor=RGB(48, 124, 162);
-        }else{
-            cell.backgroundColor=RGB(51, 51, 51);
         }
+//        else{
+//            cell.backgroundColor=RGB(51, 51, 51);
+//        }
         cell.model = self.dataSource[indexPath.row];
         return cell;
     }
@@ -123,6 +130,12 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
         }
     }else{
       cell.model = self.dataSource[indexPath.row];
+    if (indexPath.row==0&&[self.typeString isEqualToString:@"Registered"]) {
+                       cell.backgroundColor=RGB(48, 124, 162);
+               }
+//    else{
+//                   cell.backgroundColor=RGB(51, 51, 51);
+//               }
     }
    
     return cell;

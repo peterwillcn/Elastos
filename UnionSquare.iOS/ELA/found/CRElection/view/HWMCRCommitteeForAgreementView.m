@@ -31,6 +31,7 @@
     [self.makeSureButton setTitle:NSLocalizedString(@"下一步", nil) forState:UIControlStateNormal];
     self.agreeTextInfoLabel.text=NSLocalizedString(@"我已阅读并同意以上条款", nil);
     [[HMWCommView share]makeBordersWithView:self.infoBGView];
+    self.infoTextView.text=NSLocalizedString(@"cragreementcontent", nil);
     self.infoBGView.layer.cornerRadius=5.f;
     return self;
 }

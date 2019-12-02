@@ -25,6 +25,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,assign)BOOL isCellSelected;
 @property(nonatomic,assign)BOOL isNewCellSelected;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *infoEN;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *infoZH;
 
 @end
 

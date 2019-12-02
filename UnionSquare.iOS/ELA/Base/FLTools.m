@@ -586,18 +586,27 @@ if ([languageString  containsString:@"en"]) {
 //    return outNumber;
 }
 -(NSString*)CRVotingPercentageWithAllCount:(NSString*)allcount withCRMermVoting:(NSString*)MermVot{
-    NSString *volatilePercentage;
-      NSDecimalNumber *allcountD = [NSDecimalNumber decimalNumberWithString:allcount];
-    NSDecimalNumber *MermVotD = [NSDecimalNumber decimalNumberWithString:MermVot];
-      NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:4 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:YES];
-    NSDecimalNumber *num2 = [MermVotD decimalNumberByDividingBy:allcountD withBehavior:roundDown];
-    NSDecimalNumber *num3 = [num2 decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"100"]];
-    if (num3.doubleValue<1) {
-        volatilePercentage=@"< 1";
-    }else{
-        volatilePercentage=num3.stringValue;
+//    SDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:priceStr];
+//    NSDecimalNumber *countNum = [NSDecimalNumber decimalNumberWithString:stringWithNSInteger(NSIntegerMax)];
+    @try {
+        NSString *volatilePercentage;
+             NSDecimalNumber *allcountD = [NSDecimalNumber decimalNumberWithString:allcount];
+           NSDecimalNumber *MermVotD = [NSDecimalNumber decimalNumberWithString:MermVot];
+             NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:4 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:YES];
+           NSDecimalNumber *num2 = [MermVotD decimalNumberByDividingBy:allcountD withBehavior:roundDown];
+           NSDecimalNumber *num3 = [num2 decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"100"]];
+           if (num3.doubleValue<1) {
+               volatilePercentage=@"< 1";
+           }else{
+               volatilePercentage=num3.stringValue;
+           }
+           return volatilePercentage;
+    } @catch (NSException *exception) {
+        
+    } @finally {
+         return @"< 1";
     }
-    return volatilePercentage;
+  
     
 }
 -(NSString*)CRVotingTheAverageDistribution:(NSString*)blance withCRMermVoting:(NSString*)MermVotCout{
@@ -926,21 +935,32 @@ return  result.stringValue;
     
     
 }
--(NSString *)getImageViewURLWithURL:(NSString*)urlString{
+-(NSDictionary *)getImageViewURLWithURL:(NSString*)urlString withCRString:(NSString*)CRS{
     NSString *urlLaString=[urlString substringFromIndex:[urlString length]-1];
-    if ([urlLaString isEqualToString:@"/"] ) {
-        urlString= [NSString stringWithFormat:@"%@bpinfo.json",urlString];
+    NSString *jsonType;
+    if (CRS.length==0) {
+        jsonType=@"bpinfo.json";
     }else{
-        urlString= [NSString stringWithFormat:@"%@/bpinfo.json",urlString];
+        jsonType=@"crinfo.json";
+    }
+    if ([urlLaString isEqualToString:@"/"] ) {
+        urlString= [NSString stringWithFormat:@"%@%@",jsonType,urlString];
+    }else{
+        urlString= [NSString stringWithFormat:@"%@/%@",jsonType,urlString];
     }
     NSURL *url=  [NSURL URLWithString:urlString];
     NSData *data=[NSData dataWithContentsOfURL:url];
     if (data==nil) {
-        return @"";
+        return @{};
     }
     NSError *error;
     id jsonClass = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-    return [NSString stringWithFormat:@"%@",jsonClass[@"org"][@"branding"][@"logo_256"]];
+    NSDictionary*
+        infoDic=jsonClass[@"org"][@"candidate_info"];
+    return @{@"url":[NSString stringWithFormat:@"%@",jsonClass[@"org"][@"branding"][@"logo_256"]],
+             @"infoEN":infoDic[@"en"],@"infoZH":infoDic[@"zh"]
+             
+    };
 }
 -(NSDictionary*)CreateQrCodeImage:(NSString*)contentString WithType:(NSString*)type withSubWalletIdChain:(NSString *)subW{
     if (subW.length==0) {

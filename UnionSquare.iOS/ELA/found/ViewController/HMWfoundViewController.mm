@@ -99,6 +99,7 @@
         self.typeString =Status;
         HMWtheSuperNodeElectionViewController*theSuperNodeElectionVC=[[HMWtheSuperNodeElectionViewController alloc]init];
         theSuperNodeElectionVC.typeString=Status;
+        theSuperNodeElectionVC.NodePublicKey= param[@"Info"][@"NodePublicKey"];
         [self.navigationController pushViewController:theSuperNodeElectionVC animated:YES];
     }
     if (indexPath.row==1) {

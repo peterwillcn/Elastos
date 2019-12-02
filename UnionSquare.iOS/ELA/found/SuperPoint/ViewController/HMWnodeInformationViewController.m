@@ -228,52 +228,53 @@
     __block NSString *countries;
     if (self.type==CRInformationType) {
         self.nodeNameLabel.text=self.CRmodel.nickname;
-        if (self.CRmodel.url.length>0) {
-               URL=self.CRmodel.url;
-           }
-           if (self.CRmodel.url.length>0&&self.CRmodel.iconImageUrl.length==0) {
-           dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-               URL=[[FLTools share] getImageViewURLWithURL:self.model.url];
-           });
-               
-           }
-          
-           
-           dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+         [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:self.CRmodel.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial_oval"]];
+//        if (self.CRmodel.url.length>0) {
+//               URL=self.CRmodel.url;
+//           }
+//           if (self.CRmodel.url.length>0&&self.CRmodel.iconImageUrl.length==0) {
+//           dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//               URL=[[FLTools share] getImageViewURLWithURL:self.model.url];
+//           });
+//
+//           }
+//
+//
+//           dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
              countries=[[FLTools share]contryNameTransLateByCode:  self.CRmodel.location.integerValue];
-           });
-           
-           dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-               self.nodeInformationDetailsV.countryRegionLabel.text=countries;
-               if (URL.length>0&&self.model.url.length>0) {
-                  [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:URL] placeholderImage:[UIImage imageNamed:@"found_vote_initial_oval"]];
-               }
-               
-           });
+//           });
+//
+//           dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+//               self.nodeInformationDetailsV.countryRegionLabel.text=countries;
+//               if (URL.length>0&&self.model.url.length>0) {
+//                  [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:URL] placeholderImage:[UIImage imageNamed:@"found_vote_initial_oval"]];
+//               }
+//
+//           });
         
     }else if (self.type==nodeInformationType){
     if (self.model.iconImageUrl.length>0) {
-        URL=self.model.iconImageUrl;
+//        URL=self.model.iconImageUrl;
     }
-    if (self.model.url.length>0&&self.model.iconImageUrl.length==0) {
-    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        URL=[[FLTools share] getImageViewURLWithURL:self.model.url];
-    });
-        
-    }
+//    if (self.model.url.length>0&&self.model.iconImageUrl.length==0) {
+//    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        URL=[[FLTools share] getImageViewURLWithURL:self.model.url];
+//    });
+//
+//    }
    
     
-    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
       countries=[[FLTools share]contryNameTransLateByCode:  self.model.location.integerValue];
-    });
+//    });
     
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        self.nodeInformationDetailsV.countryRegionLabel.text=countries;
-        if (URL.length>0&&self.model.url.length>0) {
-           [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:URL] placeholderImage:[UIImage imageNamed:@"found_vote_initial_oval"]];
-        }
+//    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+//        self.nodeInformationDetailsV.countryRegionLabel.text=countries;
+//        if (URL.length>0&&self.model.url.length>0) {
+           [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:self.model.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial_oval"]];
+//        }
         
-    });
+//    });
         
     }
     [self upInfo];

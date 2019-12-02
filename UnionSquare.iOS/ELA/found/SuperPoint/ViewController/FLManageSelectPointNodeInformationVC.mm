@@ -149,8 +149,23 @@
            self.NodePublickKeyLab.text  = NodePublickKey;
            self.URLLab.text = URL;
            self.LocationLab.text = [[FLTools share]contryNameTransLateByCode:Location.integerValue];
-           [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:[[FLTools share] getImageViewURLWithURL:self.model.url]] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
+          
         
+        
+        NSDictionary *infoDicI=[[FLTools share] getImageViewURLWithURL:self.model.url withCRString:@"CR"];
+                    self.model.iconImageUrl= infoDicI[@"url"];
+                    self.model.infoEN=infoDicI[@"infoEN"];
+                    self.model.infoZH=infoDicI[@"infoZH"];
+                         NSString *httpIP=[[FLTools share]http_IpFast];
+                         if (self.model.iconImageUrl.length>0) {
+                             [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/getimage" header:@{} body:@{@"imageurl":self.model.iconImageUrl} showHUD:NO WithSuccessBlock:^(id data) {
+                                                                 NSString *param = data[@"data"];
+                    self.model.iconImageUrl=[NSString stringWithFormat:@"%@%@",httpIP,param];
+                                 [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:self.model.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
+                                                             } WithFailBlock:^(id data) {
+                                                                 
+                                                             }];
+                         }
     }
 }
 -(void)getNetCoinPointArrayWithPubKey:(NSString *)OwnerPublickKey{

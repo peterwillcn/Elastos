@@ -137,6 +137,7 @@
     }else if (deleteType==UtxoChangeWhole){
         self.viewHeight.constant=200;
 //        self.titlePopLabel.text=@"";
+          self.titlePopLabel.text=[NSString stringWithFormat:@"%@ %@%@\n%@",NSLocalizedString(@"账户Utxo数量为", nil),self.UtxosString,NSLocalizedString(@"，", nil),NSLocalizedString(@"是否零钱换整？", nil)];
         self.titleButtonConB.constant=0;
     }else if (deleteType==deleteCRVote){
          self.titlePopLabel.text= NSLocalizedString(@"是否退出本届CR选举？\n一旦退出本届选举，所有投票清零且不可恢复。", nil);
@@ -152,6 +153,8 @@
     }
 }
 -(void)setUtxosString:(NSString *)UtxosString{
+    _UtxosString=UtxosString;
+    
 //    账户Utxo数量为65535个，
 //    是否零钱换整？
     self.titlePopLabel.text=[NSString stringWithFormat:@"%@ %@%@\n%@",NSLocalizedString(@"账户Utxo数量为", nil),UtxosString,NSLocalizedString(@"，", nil),NSLocalizedString(@"是否零钱换整？", nil)];

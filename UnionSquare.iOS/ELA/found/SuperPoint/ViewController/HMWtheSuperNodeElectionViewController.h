@@ -15,6 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  */
 @property(copy,nonatomic)NSString *typeString;
+/*
+ *
+ */
+@property(copy,nonatomic)NSString *NodePublicKey;
 
 @end
 

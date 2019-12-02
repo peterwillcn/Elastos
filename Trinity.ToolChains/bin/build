@@ -66,7 +66,7 @@ def add_fabric():
 if TOOLCHAINS_DIR_NAME != "ToolChains" or \
    not os.path.isdir(RUNTIME_DIR_PATH) or \
    not os.path.isdir(LAUNCHER_DIR_PATH):
-    print('Error: You should "git clone" the "Elastos.Triniy" project with "--recurse-submodules" option.')
+    print('Error: You should "git clone" the "Elastos.Trinity" project with "--recurse-submodules" option.')
     print('       And run the script within the "ToolChains/bin" directory of the project.')
     sys.exit(1)
 

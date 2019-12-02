@@ -127,7 +127,6 @@ public class ManagerDBAdapter {
                 db.insert(ManagerDBHelper.FRAMEWORK_TABLE, null, contentValues);
             }
 
-
             for (AppInfo.Platform platform : info.platforms) {
                 contentValues = new ContentValues();
                 contentValues.put(AppInfo.APP_TID, tid);
@@ -136,7 +135,7 @@ public class ManagerDBAdapter {
                 db.insert(ManagerDBHelper.PLATFORM_TABLE, null, contentValues);
             }
 
-            for (AppInfo.Intent_filter intent_filter : info.intent_filters) {
+            for (AppInfo.IntentFilter intent_filter : info.intentFilters) {
                 contentValues = new ContentValues();
                 contentValues.put(AppInfo.APP_ID, info.app_id);
                 contentValues.put(AppInfo.ACTION, intent_filter.action);

@@ -166,10 +166,10 @@
              this.version = version;
          }
      }
-     public class Intent_filter {
+     public class IntentFilter {
          public String action;
 
-         Intent_filter(String action) {
+         IntentFilter(String action) {
              this.action = action;
          }
      }
@@ -179,7 +179,7 @@
      public ArrayList<PluginAuth> plugins = new ArrayList<PluginAuth>(4);
      public ArrayList<UrlAuth> urls = new ArrayList<UrlAuth>(4);
      public ArrayList<UrlAuth> intents = new ArrayList<UrlAuth>(4);
-     public ArrayList<Intent_filter> intent_filters = new ArrayList<Intent_filter>(4);
+     public ArrayList<IntentFilter> intentFilters = new ArrayList<IntentFilter>(4);
      public ArrayList<Framework> frameworks = new ArrayList<Framework>(2);
      public ArrayList<Platform> platforms = new ArrayList<Platform>(2);
 
@@ -213,7 +213,7 @@
      }
 
      public void addIntentFilter(String action) {
-         intent_filters.add(new Intent_filter(action));
+         intentFilters.add(new IntentFilter(action));
      }
 
      public Framework getFramework(String name) {

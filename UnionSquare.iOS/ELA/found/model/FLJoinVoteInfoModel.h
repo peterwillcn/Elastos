@@ -22,6 +22,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,copy)NSString    *ownerPublickKey;
 @property(nonatomic,copy)NSString    *CRownerPublickKey;
 @property(nonatomic,copy)NSString    *CRDIDKey;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *iconImageUrl;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *infoEN;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *infoZH;
 @end
 
 NS_ASSUME_NONNULL_END

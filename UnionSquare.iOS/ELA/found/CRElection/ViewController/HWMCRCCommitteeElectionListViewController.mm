@@ -229,7 +229,7 @@ self.wallet.TypeW  = model.TypeW;
         if (self.inputVoteTicketView.votes<1) {
             self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@ < 1 ELA",NSLocalizedString(@"最大表决票权 ELA", nil)];
         }else{
-           self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@%@ ELA",NSLocalizedString(@"最大表决票权约：", nil),[[FLTools share]elaScaleConversionWith: balanceString]];
+           self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@%.0f ELA",NSLocalizedString(@"最大表决票权约：", nil),self.inputVoteTicketView.votes];
         }
      
         [self  UpdateTheRemainingAvailable];
@@ -551,7 +551,8 @@ self.wallet.TypeW  = model.TypeW;
          self.allTollTicketLabel.text=[NSString stringWithFormat:@"%@ %.0f ELA",NSLocalizedString(@"合计：",nil ),self.TheRemainingAvailable];
     }else{
         self.allTollTicketLabel.text=[NSString stringWithFormat:@"%@ %.4f ELA",NSLocalizedString(@"合计：",nil ),self.TheRemainingAvailable];}
-    self.persentLab.text=[NSString stringWithFormat:@"%@ %@ ELA",NSLocalizedString(@"可用：",nil ),[[FLTools share]CRVotingDecimalNumberBySubtracting:self.blaceString withCRMermVoting:[NSString stringWithFormat:@"%f",self.TheRemainingAvailable]]];
+    NSInteger availableString=[[[FLTools share]CRVotingDecimalNumberBySubtracting:self.blaceString withCRMermVoting:[NSString stringWithFormat:@"%f",self.TheRemainingAvailable]] intValue];
+    self.persentLab.text=[NSString stringWithFormat:@"%@ %ld ELA",NSLocalizedString(@"可用：",nil ),(long)availableString];
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     

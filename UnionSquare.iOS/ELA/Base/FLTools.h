@@ -118,7 +118,7 @@
 -(NSString *)contryNameTransLateByCode:(NSInteger)code;
 -(NSString *)elsToSela:(NSString*)ela;
 -(BOOL)changeisEnglish:(NSString*)m;
--(NSString *)getImageViewURLWithURL:(NSString*)urlString;
+-(NSDictionary *)getImageViewURLWithURL:(NSString*)urlString withCRString:(NSString*)CRS;
 -(NSDictionary*)CreateQrCodeImage:(NSString*)contentString WithType:(NSString*)type withSubWalletIdChain:(NSString *)subW;
 -(NSString*)DicToString:(NSDictionary*)dic;
 - (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;

@@ -84,7 +84,8 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
            
        }
     
-       self.voteInTotalLabel.text =[NSString stringWithFormat:@"%@%@%@",NSLocalizedString(@"共",nil),@(total/unitNumber).stringValue,NSLocalizedString(@"票",nil)] ;
+//       self.voteInTotalLabel.text =[NSString stringWithFormat:@"%@%@%@",NSLocalizedString(@"共",nil),@(total/unitNumber).stringValue,NSLocalizedString(@"票",nil)] ;
+    self.voteInTotalLabel.text=@(total/unitNumber).stringValue;
        self.dataSource = showlistdata;
        if (self.dataSource.count==0) {
            self.changeVotesButton.alpha=0.f;

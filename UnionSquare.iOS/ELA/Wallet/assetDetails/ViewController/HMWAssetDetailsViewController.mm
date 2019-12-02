@@ -224,6 +224,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 }
 -(void)AnyChangeInTheWhole{
     UIView *mainView=[self mainWindow];
+    self.utxoTheWalletPopV.deleteType=UtxoChangeWhole;
     [mainView addSubview:self.utxoTheWalletPopV];
     [self.utxoTheWalletPopV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.bottom.equalTo(mainView);
@@ -698,7 +699,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
             detailsM.Type=NSLocalizedString(@"更新参选交易", nil);
             break;
         case 12:
-            detailsM.Type=NSLocalizedString(@"取回参选优质抵押资产交易", nil);
+            detailsM.Type=NSLocalizedString(@"提取DPoS质押金交易", nil);
             break;
             case 33:
                   detailsM.Type=NSLocalizedString(@"注册CR参选交易", nil);
@@ -710,7 +711,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
                   detailsM.Type=NSLocalizedString(@"更新CR参选信息交易", nil);
                   break;
             case 36:
-                             detailsM.Type=NSLocalizedString(@"取回CR参选质押资产交易", nil);
+                             detailsM.Type=NSLocalizedString(@"提取CR质押金交易", nil);
                              break;
             
         default:

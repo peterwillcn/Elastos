@@ -244,7 +244,10 @@
          NSString *httpIP=[[FLTools share]http_IpFast];
          HWMCRListModel *model =allListInfoArray[i];
          if (model.url.length>0) {
-                 model.iconImageUrl= [[FLTools share] getImageViewURLWithURL:model.url];
+             NSDictionary *infoDic=[[FLTools share] getImageViewURLWithURL:model.url withCRString:@"CR"];
+                 model.iconImageUrl= infoDic[@"url"];
+                 model.infoEN=infoDic[@"infoEN"];
+                 model.infoZH=infoDic[@"infoZH"];
                  
                  if (model.iconImageUrl.length>0) {
                      [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/getimage" header:@{} body:@{@"imageurl":model.iconImageUrl} showHUD:NO WithSuccessBlock:^(id data) {
@@ -274,6 +277,7 @@
         self.totalvotes=[NSString stringWithFormat:@"%@",param[@"result"][@"totalvotes"]];
         [self UpdataLocalOwerlist];
     } WithFailBlock:^(id data) {
+        
     }];
 }
 -(void)UpdataLocalOwerlist{

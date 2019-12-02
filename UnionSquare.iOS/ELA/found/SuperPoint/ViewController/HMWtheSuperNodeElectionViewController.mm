@@ -44,6 +44,10 @@
  */
 @property(assign,nonatomic)BOOL hasSing;
 @property (weak, nonatomic) IBOutlet UIImageView *found_vote_rule;
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)BOOL needFind;
 @property(copy,nonatomic)NSString;
 
 @end
@@ -55,7 +59,7 @@
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"超级节点选举", nil);
     self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
-    
+    self.needFind=NO;
     [self.toVoteButton setTitle:NSLocalizedString(@"立即投票", nil) forState:UIControlStateNormal];
     UIButton *rightBarButton=[[UIButton alloc]init];
     [rightBarButton setTitle:NSLocalizedString(@"投票规则", nil) forState:UIControlStateNormal];
@@ -76,10 +80,10 @@
             make.bottom.equalTo(self.myVoteButton.mas_top).offset(0);
             make.top.equalTo(self.view).offset(10);
         }];
-    [self getNetCoinPointArray];
     if ([self.typeString isEqualToString:@"Registered"]){
         self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
         self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
+        self.needFind=YES;
         }else if([self.typeString isEqualToString:@"Canceled"]){
             self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
             self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
@@ -91,7 +95,9 @@
             self.tagVoteRuleLab.hidden=YES;
             self.found_vote_rule.hidden=YES;
         }
+        [self getNetCoinPointArray];
      [self getWalletType];
+    
 }
 -(void)getWalletType{
     
@@ -190,7 +196,12 @@
         FLCoinPointInfoModel *model =allListInfoArray[i];
         NSString *httpIP=[[FLTools share]http_IpFast];
         if (model.url.length>0) {
-                model.iconImageUrl= [[FLTools share] getImageViewURLWithURL:model.url];
+            NSDictionary *infoDic=[[FLTools share] getImageViewURLWithURL:model.url withCRString:@""];
+                           model.iconImageUrl= infoDic[@"url"];
+                           model.infoEN=infoDic[@"infoEN"];
+                           model.infoZH=infoDic[@"infoZH"];
+                           
+              
                 if (model.iconImageUrl.length>0) {
                     [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/getimage" header:@{} body:@{@"imageurl":model.iconImageUrl} showHUD:NO WithSuccessBlock:^(id data) {
                                                         NSString *param = data[@"data"];
@@ -230,11 +241,23 @@
         NSArray *dataArray =[NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];
         
         self.dataSource= [NSMutableArray arrayWithArray:dataArray];
-        
-        self.votingListV.dataSource = self.dataSource;
+        NSInteger locaIndex=-1;
         self.votingListV.lab1.text = [NSString stringWithFormat:@"%.2f %@" ,[param[@"result"][@"totalvoterate"] floatValue]*100,@"%"];
         self.votingListV.lab3.text =[NSString stringWithFormat:@"%ld", (long)[param[@"result"][@"totalvotes"] integerValue]];
-        
+        if (self.needFind) {
+            for (int i=0; i<self.dataSource.count; i++) {
+                FLCoinPointInfoModel *model=self.dataSource[i];
+                if ([model.nodepublickey isEqualToString:self.NodePublicKey]) {
+                    locaIndex=i;
+                }
+            }
+            FLCoinPointInfoModel *model=self.dataSource[locaIndex];
+            
+            [self.dataSource removeObject:model];
+            [self.dataSource insertObject:model atIndex:0];
+            self.votingListV.typeString=self.typeString;
+        }
+        self.votingListV.dataSource = self.dataSource;
         
         [self loadAllImageInfo:[NSMutableArray arrayWithArray:dataArray]];
         
@@ -269,6 +292,15 @@
             [[FLNotePointDBManager defultWithWalletID:FMDBmodel.walletID]delectRecord:model];
         }
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
 -(HMWvotingRulesView *)votingRulesV{
     if (!_votingRulesV) {

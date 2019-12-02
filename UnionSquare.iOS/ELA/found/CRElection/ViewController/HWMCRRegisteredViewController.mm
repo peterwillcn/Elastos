@@ -13,7 +13,7 @@
 #import "ELWalletManager.h"
 #import "HWMTransactionDetailsView.h"
 
-@interface HWMCRRegisteredViewController ()<FLJoinToChoseTransferViewDelegate,HMWSelectCountriesOrRegionsViewControllerDelegate,HWMTransactionDetailsViewDelegate>
+@interface HWMCRRegisteredViewController ()<FLJoinToChoseTransferViewDelegate,HMWSelectCountriesOrRegionsViewControllerDelegate,HWMTransactionDetailsViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *MemberThePublicKeyTextLabel;
 @property (weak, nonatomic) IBOutlet UILabel *MemberThePublicKeyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *MembersDIDTextLabel;
@@ -62,7 +62,8 @@
     [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.MemberNameTextField withTxt:NSLocalizedString(@"请输入委员名称（必填）", nil)];
     [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.CountryORRegionTextField withTxt:NSLocalizedString(@"请选择国家/地区", nil)];
     [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.URLTextField withTxt:NSLocalizedString(@"请输入竞选网址", nil)];
-
+    self.MemberNameTextField.delegate=self;
+    self.URLTextField.delegate=self;
  
     
     [[HMWCommView share]makeBordersWithView:self.confirmToRunButton];
@@ -329,5 +330,18 @@
 -(void)setCRmodel:(HWMCRListModel *)CRmodel{
     _CRmodel=CRmodel;
     
+}
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    if (textField==self.self.MemberNameTextField) {
+        if (textField.text.length>50) {
+            return NO;
+        }
+    }
+    if (textField==self.URLTextField) {
+        if (textField.text.length>100) {
+                  return NO;
+              }
+    }
+    return YES;
 }
 @end

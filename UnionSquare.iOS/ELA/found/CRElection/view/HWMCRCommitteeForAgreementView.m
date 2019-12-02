@@ -33,6 +33,7 @@
     [[HMWCommView share]makeBordersWithView:self.infoBGView];
     self.infoTextView.text=NSLocalizedString(@"cragreementcontent", nil);
     self.infoBGView.layer.cornerRadius=5.f;
+    self.makeSureButton.enabled=NO;
     return self;
 }
 - (IBAction)closeView:(id)sender {
@@ -77,11 +78,12 @@ gl.colors = @[(__bridge id)fclolr.CGColor,(__bridge id)tcolor.CGColor];
         self.selectedImageView.image=[UIImage imageNamed:@"found_vote_select"];
        [self setBackgroundImg];
              [[HMWCommView share]makeBordersWithView:self.makeSureButton];
-       
+       self.makeSureButton.enabled=YES;
     }else{
          self.selectedImageView.image=[UIImage imageNamed:@"found_not_select"];
         self.makeSureButton.layer.borderWidth=0.5f;
         self.makeSureButton.layer.borderColor=RGBA(255, 255, 255, 0.5).CGColor;
+        self.makeSureButton.enabled=NO;
         
     }
     self.makeSureButton.selected=self.agreeTextInfoButton.selected;

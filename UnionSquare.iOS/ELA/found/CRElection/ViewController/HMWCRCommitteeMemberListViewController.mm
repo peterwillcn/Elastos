@@ -511,6 +511,7 @@
 
 -(void)openIDChainOfDIDAddWithWallet:(NSString*)walletID{
     if (walletID.length>0) {
+        self.isOpen=YES;
         if ([self.typeString isEqualToString:@"Canceled"]) {
             DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
                           vc.CRTypeString=@"CRString";

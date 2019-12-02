@@ -210,7 +210,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     if ([status isEqualToString:@"1"]){
         NSInteger  MaxCount=[result.message[@"success"][@"MaxCount"] integerValue];
         if (MaxCount>1500) {
-            [self AnyChangeInTheWhole];
+             [self AnyChangeInTheWholeWithUTXOs:[NSString stringWithFormat:@"%ld",MaxCount]];
         }
     }
 }
@@ -222,10 +222,10 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     return _pwdPopupV;
     
 }
--(void)AnyChangeInTheWhole{
+-(void)AnyChangeInTheWholeWithUTXOs:(NSString*)UTXOs{
     UIView *mainView=[self mainWindow];
-    self.utxoTheWalletPopV.deleteType=UtxoChangeWhole;
     [mainView addSubview:self.utxoTheWalletPopV];
+    self.utxoTheWalletPopV.UtxosString=UTXOs;
     [self.utxoTheWalletPopV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.bottom.equalTo(mainView);
     }];

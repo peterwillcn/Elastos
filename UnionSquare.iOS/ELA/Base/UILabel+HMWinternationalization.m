@@ -42,7 +42,7 @@
 //    NSLog(@"label===%@",string);
 //    self.adjustsFontSizeToFitWidth = YES;
 //    self.numberOfLines=0.f;
-    [self performSelector:@selector(setTextOriginal:) withObject:string];
+    [self performSelector:@selector(setTextOriginal:) withObject:NSLocalizedString(string, nil)];
     
 }
 - (BOOL)isBlankString:(NSString *)string{

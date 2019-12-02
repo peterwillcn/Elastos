@@ -135,9 +135,10 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
                     _dataArray =@[@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},
                                   @{@"title":NSLocalizedString(@"修改钱包密码",nil),@"name":@"",@"type":@"2"},
                                   @{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"},
-                                  @{@"title":NSLocalizedString(@"导出助记词",nil),@"name":@"",@"type":@"1"},
-                                  @{@"title":NSLocalizedString(@"导出只读钱包",nil),@"name":@"",@"type":@"1"},
-                                  @{@"title":NSLocalizedString(@"查看多签公钥",nil),@"name":@"",@"type":@"1"}
+                                  @{@"title":NSLocalizedString(@"导出助记词",nil),@"name":@"",@"type":@"1"}
+//,
+//                                  @{@"title":NSLocalizedString(@"导出只读钱包",nil),@"name":@"",@"type":@"1"},
+//                                  @{@"title":NSLocalizedString(@"查看多签公钥",nil),@"name":@"",@"type":@"1"}
                                   
                                   ];
                     break;
@@ -294,6 +295,7 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
 }
 #pragma mark ---------HMWToDeleteTheWalletPopViewDelegate----------
 -(void)sureToDeleteViewWithPWD:(NSString *)pwd{
+    [self toCancelOrCloseDelegate];
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
     
     PluginResult *result= [[ELWalletManager share]VerifyPayPassword:mommand];
@@ -308,14 +310,14 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     make.left.top.right.bottom.equalTo(mainView);}];
         }else{
             [self DestroyMasterWallet];
-            
+
         }
-   
-        
+
+
     }else{
-        
+
         [[FLTools share]showErrorInfo:NSLocalizedString(@"密码错误", nil)];
-        
+
     }
 }
 - (void)toCancelOrCloseDelegate {

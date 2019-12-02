@@ -136,7 +136,7 @@
     }
     NSString *blance;
     if (self.isMax==NO) {
-        if ([self.theAmountOfTextField.text doubleValue]) {
+        if ([self.theAmountOfTextField.text doubleValue]==0) {
               [[FLTools share]showErrorInfo:NSLocalizedString(@"金额需要大于0", nil)];
               return;
           }

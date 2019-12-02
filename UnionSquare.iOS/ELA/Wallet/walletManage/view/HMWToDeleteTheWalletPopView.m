@@ -46,11 +46,15 @@
     return _securityVerificationPopV;
 }
 - (IBAction)closeViewEvent:(id)sender {
+     [self takeOutOrShutDown];
+    [self.securityVerificationPopV removeFromSuperview];
+    self.securityVerificationPopV =nil;
     if ([self.delegate respondsToSelector:@selector(toCancelOrCloseDelegate)]) {
         [self.delegate toCancelOrCloseDelegate];
     }
 }
 - (IBAction)cancelViewEvent:(id)sender {
+    [self takeOutOrShutDown];
     if ([self.delegate respondsToSelector:@selector(toCancelOrCloseDelegate)]) {
         [self.delegate toCancelOrCloseDelegate];
     }
@@ -108,6 +112,9 @@
 -(void)takeOutOrShutDown{
     [self.securityVerificationPopV removeFromSuperview];
     self.securityVerificationPopV=nil;
+    if ([self.delegate respondsToSelector:@selector(toCancelOrCloseDelegate)]) {
+           [self.delegate toCancelOrCloseDelegate];
+       }
 }
 -(void)makeSureWithPWD:(NSString*)pwdString{
     if ([[FLTools share]checkWhetherThePassword:pwdString]) {

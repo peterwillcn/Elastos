@@ -3767,7 +3767,7 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletPrvNet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
 				PRODUCT_NAME = "elastos Wallet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -3825,7 +3825,7 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletPrvNet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
 				PRODUCT_NAME = "elastos Wallet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -3929,7 +3929,7 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletPrvNet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
 				PRODUCT_NAME = "elastos Wallet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -4034,7 +4034,7 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletPrvNet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
 				PRODUCT_NAME = "elastos Wallet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";

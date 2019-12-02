@@ -88,7 +88,11 @@ To update the whole Trinity (main repo + submodules), run this:
 
 ```shell
 git pull --rebase
-git submodule update --init
+git submodule update --init --rebase
+# Clean to remove plugins so that they are added back later. Otherwise, 
+# latest plugins changes are not applied inside the native app.
+./Toolchains/bin/build clean 
+./Toolchains/bin/build all
 ```
 
 At that time, submodules will be in **detached HEAD** state. To commit changes, run this from the submodule folder before make changes:

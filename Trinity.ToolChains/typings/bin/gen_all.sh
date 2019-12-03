@@ -1,8 +1,8 @@
 #/bin/sh
 dir=`dirname $0`
 outdir=$dir/../dist
-pluginsroot=$dir/../../../Elastos.Trinity/Plugins
-runtimepluginsroot=$dir/../../../Elastos.Trinity/Runtime/plugins
+pluginsroot=$dir/../../../Plugins
+runtimepluginsroot=$dir/../../../Runtime/plugins
 
 echo ""
 echo -e "\033[32m#########################\033[0m"

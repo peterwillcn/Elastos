@@ -97,15 +97,15 @@ public class AppBasePlugin extends TrinityPlugin {
                 case "askPrompt":
                     this.askPrompt(args, callbackContext);
                     break;
+                case "getAppInfo":
+                    this.getAppInfo(args, callbackContext);
+                    break;
 
                 case "getLocale":
                     this.getLocale(args, callbackContext);
                     break;
                 case "getInfo":
                     this.getInfo(args, callbackContext);
-                    break;
-                case "getAppInfo":
-                    this.getAppInfo(args, callbackContext);
                     break;
                 case "launcher":
                     this.launcher(args, callbackContext);

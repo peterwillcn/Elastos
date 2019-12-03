@@ -47,13 +47,18 @@ public class PermissionManager {
             groupList.put(group, permissionGroup);
             while (plugins.hasNext()) {
                 String plugin = (String) plugins.next();
-                JSONArray array = jgroup.getJSONArray(plugin);
 
-                Boolean defaultValue = true;
-                if (plugin.startsWith("+")) {
+                if (plugin.equals("*")) {
+                    permissionGroup.setDefaultValue(true);
+                    break;
+                }
+
+                JSONArray array = jgroup.getJSONArray(plugin);
+                Boolean defaultValue = false;
+                if (plugin.startsWith("-")) {
                     plugin = plugin.substring(1);
                     defaultValue = false;
-                } else if (plugin.startsWith("-")) {
+                } else if (plugin.startsWith("+")) {
                     plugin = plugin.substring(1);
                 }
 

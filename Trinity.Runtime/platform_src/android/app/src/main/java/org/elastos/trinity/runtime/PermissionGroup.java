@@ -7,9 +7,14 @@ public class PermissionGroup {
 
     protected LinkedHashMap<String, PluginPermission> pluginList = new LinkedHashMap();
     private String name;
+    public Boolean defaultValue = false;
 
     public PermissionGroup(String name) {
         this.name = name;
+    }
+
+    public void setDefaultValue(Boolean defaultValue) {
+        this.defaultValue = defaultValue;
     }
 
     public PluginPermission addPlugin(String plugin, Boolean defaultValue) {
@@ -24,7 +29,7 @@ public class PermissionGroup {
     public Boolean getApiPermission(String plugin, String api) {
         PluginPermission pluginPermission = pluginList.get(plugin);
         if (pluginPermission == null) {
-            return true;
+            return defaultValue;
         }
 
         return pluginPermission.getApiPermission(api);
@@ -32,7 +37,7 @@ public class PermissionGroup {
 
     public class PluginPermission {
         LinkedHashMap<String, Boolean> apiList = new LinkedHashMap();
-        public Boolean defaultValue = true;
+        public Boolean defaultValue = false;
 
         public PluginPermission(Boolean defaultValue) {
             this.defaultValue = defaultValue;

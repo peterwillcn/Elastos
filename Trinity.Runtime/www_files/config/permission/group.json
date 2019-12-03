@@ -1,70 +1,73 @@
 {
-    "admin": {},
+    "admin": {
+        "*":[]
+    },
     "install": {
         "AppManager": [
-            "start",
-            "setCurrentLocale",
-            "setPluginAuthority",
-            "setUrlAuthority",
-            "alertPrompt",
-            "infoPrompt",
-            "askPrompt"
-        ],
-        "Wallet": ["*"]
+            "install",
+            "unInstall"
+        ]
     },
     "wallet": {
         "AppManager": [
-            "start",
-            "closeApp",
-            "getAppInfo",
-            "getAppInfos",
-            "setCurrentLocale",
-            "install",
-            "unInstall",
-            "setPluginAuthority",
-            "setUrlAuthority",
-            "getRunningList",
-            "getAppList",
-            "alertPrompt",
-            "infoPrompt",
-            "askPrompt"
+            "getLocale",
+            "getInfo",
+            "launcher",
+            "close",
+            "sendMessage",
+            "setListener",
+            "sendIntent",
+            "sendUrlIntent",
+            "setIntentListener",
+            "sendIntentResponse"
         ],
-        "+Wallet": ["*"]
+        "Wallet": ["*"]
     },
     "dappstore": {
         "AppManager": [
-            "start",
-            "closeApp",
-            "setCurrentLocale",
-            "install",
-            "unInstall",
-            "setPluginAuthority",
-            "setUrlAuthority",
-            "getRunningList",
-            "getAppList",
-            "alertPrompt",
-            "infoPrompt",
-            "askPrompt"
-        ],
-        "Wallet": ["*"]
+            "getLocale",
+            "getInfo",
+            "launcher",
+            "close",
+            "sendMessage",
+            "setListener",
+            "sendIntent",
+            "sendUrlIntent",
+            "setIntentListener",
+            "sendIntentResponse"
+        ]
     },
     "user": {
         "AppManager": [
-            "start",
-            "closeApp",
-            "getAppInfo",
-            "getAppInfos",
-            "setCurrentLocale",
-            "install",
-            "unInstall",
-            "setPluginAuthority",
-            "setUrlAuthority",
-            "getRunningList",
-            "getAppList",
-            "alertPrompt",
-            "infoPrompt",
-            "askPrompt"
+            "getLocale",
+            "getInfo",
+            "launcher",
+            "close",
+            "sendMessage",
+            "setListener",
+            "sendIntent",
+            "sendUrlIntent",
+            "setIntentListener",
+            "sendIntentResponse"
         ],
-        "Wallet": ["*"]
+        "File": ["*"],
+        "Media": ["*"],
+        "Battery": ["*"],
+        "Camera": ["*"],
+        "Device": ["*"],
+        "Accelerometer": ["*"],
+        "Notification": ["*"],
+        "Flashlight": ["*"],
+        "Geolocation": ["*"],
+        "InAppBrowser": ["*"],
+        "Capture": ["*"],
+        "NetworkStatus": ["*"],
+        "QRScanner": ["*"],
+        "SplashScreen": ["*"],
+        "StatusBar": ["*"],
+        "CDVOrientation": ["*"],
+        "CarrierPlugin": ["*"],
+        "DIDPlugin": ["*"],
+        "HivePlugin": ["*"]
     }
 }

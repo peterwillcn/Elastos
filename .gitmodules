@@ -8,6 +8,12 @@
 [submodule "Dapps/Ionic/CarrierDemo"]
 	path = Trinity/Dapps/Ionic/CarrierDemo
 	url = ../Elastos.Trinity.DApps.Demo.Carrier.git
+[submodule "Dapps/Ionic/DAppsStore"]
+	path = Trinity/Dapps/Ionic/DAppsStore
+	url = ../Elastos.Trinity.DApps.DAppsStore.git
+[submodule "Dapps/Ionic/DPoSVoting"]
+	path = Trinity/Dapps/Ionic/DPoSVoting
+	url = ../Elastos.Trinity.DApps.DPoSVoting.git
 [submodule "Dapps/Ionic/Installer"]
 	path = Trinity/Dapps/Ionic/Installer
 	url = ../Elastos.Trinity.DApps.Installer.git

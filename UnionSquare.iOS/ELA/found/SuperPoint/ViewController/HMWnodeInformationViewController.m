@@ -357,6 +357,7 @@
          [self.navigationController pushViewController:theCandidateListVC animated:YES];
     }else if (self.type==CRInformationType){
          HWMCRCCommitteeElectionListViewController * vc = [[HWMCRCCommitteeElectionListViewController alloc]init];
+        vc.totalvotes=self.totalvotes;
              [self.navigationController pushViewController:vc animated:YES];
     }
   

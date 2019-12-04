@@ -41,5 +41,8 @@ typedef enum : NSUInteger {
  *<# #>
  */
 @property(assign,nonatomic)NSUInteger   index;
+
+@property(copy,nonatomic)NSString * totalvotes;
+
 @end
 

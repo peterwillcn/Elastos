@@ -1782,24 +1782,37 @@ errCodeSPVCreateMasterWalletError= 20006;
     }
     return YES;
 }
+-(NSDictionary *)CRVoteFeeCRMainchainSubWallet:(NSString*)CRmainchainSubWalletId ToVote:(NSDictionary*)publicKeys tickets:(double)stake{
+       String keys = [[ self dicToJSONString:publicKeys] UTF8String];
+             IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:CRmainchainSubWalletId];
+              String acount;
+              if (stake==-1) {
+               acount="-1";
+              }else{
+              acount =[self cstringWithString:[NSString stringWithFormat:@"%.0f",stake*unitNumber]];
+              }
+             // 少一个备注
+      //    CreateVoteCRTransaction
+             try {
+                Json tx = mainchainSubWallet->CreateVoteCRTransaction("",Json::parse(keys),"");
+                 NSString *resultString=[self stringWithCString:tx.dump()];
+                  NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
+                 
+                 return @{@"fee":resultdic[@"Fee"],@"JSON":resultString};
+             } catch (const std:: exception & e ) {
+                 NSString *errString=[self stringWithCString:e.what()];
+                 NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+                 [[FLTools share]showErrorInfo:dic[@"Message"]];
+                 return @{@"fee":@"-1",@"JSON":@""};
+             }
+             
+}
 
-
--(BOOL)useCRMainchainSubWallet:(NSString*)CRmainchainSubWalletId ToVote:(NSDictionary*)publicKeys tickets:(double)stake pwd:(NSString*)pwd isChangeVote:(BOOL)change{
-    String keys = [[ self dicToJSONString:publicKeys] UTF8String];
-       nlohmann::json tx ;
-       IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:CRmainchainSubWalletId];
-        String acount;
-        if (stake==-1) {
-         acount="-1";
-        }else{
-        acount =[self cstringWithString:[NSString stringWithFormat:@"%.0f",stake*unitNumber]];
-        }
-       // 少一个备注
-//    CreateVoteCRTransaction
+-(BOOL)useCRMainchainSubWallet:(NSString*)CRmainchainSubWalletId WithJosnString:(NSString*)josnString withPWD:(NSString*)pwd{
+     Json tx=[self jsonWithString:josnString];
+     IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:CRmainchainSubWalletId];
        try {
-           nlohmann::json tx = mainchainSubWallet->CreateVoteCRTransaction("",Json::parse(keys),"");
            Json signedTx = mainchainSubWallet->SignTransaction(tx, [pwd UTF8String]);
-           
            Json result = mainchainSubWallet->PublishTransaction(signedTx);
            NSString *resultString=[self stringWithCString:result.dump()];
            NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];

@@ -207,8 +207,8 @@
             filePath = "ELA/found/SuperPoint/ViewController/HMWnodeInformationViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "372"
-            endingLineNumber = "372"
+            startingLineNumber = "373"
+            endingLineNumber = "373"
             landmarkName = "-joinTheCandidateListEvent:"
             landmarkType = "7">
          </BreakpointContent>
@@ -338,22 +338,6 @@
             startingLineNumber = "118"
             endingLineNumber = "118"
             landmarkName = "-signUpForButton:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "466D633D-CCD3-4214-B49A-249B41860F7C"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ELA/found/SuperPoint/ViewController/HMWnodeInformationViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "355"
-            endingLineNumber = "355"
-            landmarkName = "-lookAtTheCandidateListEvent:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

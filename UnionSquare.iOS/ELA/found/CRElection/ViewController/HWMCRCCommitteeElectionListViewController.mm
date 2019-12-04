@@ -227,7 +227,7 @@ self.wallet.TypeW  = model.TypeW;
         double balance=[balanceString doubleValue];
         self.inputVoteTicketView.votes =balance/unitNumber;
         if (self.inputVoteTicketView.votes<1) {
-            self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@ < 1 ELA",NSLocalizedString(@"最大表决票权 ELA", nil)];
+            self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@ < 1 ELA",NSLocalizedString(@"最大表决票权", nil)];
         }else{
            self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@%.0f ELA",NSLocalizedString(@"最大表决票权约：", nil),self.inputVoteTicketView.votes];
         }

@@ -396,7 +396,7 @@
     nodeInformationVC.CRmodel = self.ActiveArray [index];
     nodeInformationVC.Ranking=index+1;
     nodeInformationVC.delegate=self;
-   
+    nodeInformationVC.totalvotes=self.totalvotes;
     [self.navigationController pushViewController:nodeInformationVC animated:YES];
 }
 -(void)VotingListisEdite:(BOOL)edite{

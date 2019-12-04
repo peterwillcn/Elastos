@@ -604,7 +604,7 @@ if ([languageString  containsString:@"en"]) {
     } @catch (NSException *exception) {
         
     } @finally {
-         return @"< 1";
+       
     }
   
     

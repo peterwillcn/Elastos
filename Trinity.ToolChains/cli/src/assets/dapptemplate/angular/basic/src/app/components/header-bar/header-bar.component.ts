@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-declare let appManager: AppManager;
+declare let appManager: AppManagerPlugin.AppManager;
 
 @Component({
     selector: 'header-bar',
@@ -9,8 +9,8 @@ declare let appManager: AppManager;
 })
 export class HeaderBarComponent implements OnInit {
     @Input('title') title: string = "";
-    @Input('showMinimize') showMinimize: boolean;
-    @Input('showClose') showClose: boolean;
+    @Input('showMinimize') showMinimize: boolean = true;
+    @Input('showClose') showClose: boolean = true;
 
     constructor() { }
 

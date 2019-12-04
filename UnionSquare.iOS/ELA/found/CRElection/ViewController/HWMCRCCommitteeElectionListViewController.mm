@@ -78,6 +78,10 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
 
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textLabelTopConSet;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *jsonString;
 
 @end
 
@@ -115,12 +119,12 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
     FMDBWalletModel *model =walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
     
-self.wallet =[[FLWallet alloc]init];
- self.wallet.masterWalletID =model.walletID;
-self.wallet.walletName     =model.walletName;
-self.wallet.walletAddress  = model.walletAddress;
-self.wallet.walletID       =[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
-self.wallet.TypeW  = model.TypeW;
+    self.wallet =[[FLWallet alloc]init];
+    self.wallet.masterWalletID =model.walletID;
+    self.wallet.walletName     =model.walletName;
+    self.wallet.walletAddress  = model.walletAddress;
+    self.wallet.walletID       =[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
+    self.wallet.TypeW  = model.TypeW;
     
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID] callbackId: self.wallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
     
@@ -610,18 +614,22 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
                 [[FLTools share]showErrorInfo:NSLocalizedString(@"最多可选36个节点", nil)];
                 return;
             }
+    NSMutableDictionary *CRDic=[[NSMutableDictionary alloc]init];
+    for (int i= 0; i<self.voteArray.count; i++) {
+        HWMCRListModel *model=self.voteArray[i];
+        
+        NSDictionary *dic=@{model.did: [NSString stringWithFormat:@"%f",[model.SinceVotes doubleValue]*unitNumber]};
 
-    
-    
-    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,@"ELA",@"",@"",[NSString stringWithFormat:@"%.4f",self.TheRemainingAvailable],@"",@"",@"1"] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"accessFees"];
-    PluginResult * result =[[ELWalletManager share]accessFees:mommand];
-    NSString *status=[NSString stringWithFormat:@"%@",result.status];
-    if (![status isEqualToString:@"1"]) {
-        return;
+    [CRDic addEntriesFromDictionary:dic];
     }
-    NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",result.message[@"success"]]];
+    double  tic=self.TheRemainingAvailable;
+
+        NSDictionary *dic =[[ELWalletManager share]CRVoteFeeCRMainchainSubWallet:self.wallet.masterWalletID ToVote:CRDic tickets: tic];
+
+
+    NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",dic[@"fee"]]];
     
-    
+self.jsonString=dic[@"JSON"];
     
     UIView *mainView =[self mainWindow];
     [mainView addSubview:self.transactionDetailsView];
@@ -664,7 +672,7 @@ self.TheRemainingAvailable=self.TheRemainingAvailable-[votes doubleValue];
 //    }
     if (self.wallet.TypeW==0) {
         NSString *walletId = [ELWalletManager share].currentWallet.masterWalletID;
-        BOOL ret = [[ELWalletManager share]useCRMainchainSubWallet:walletId ToVote:CRDic tickets:0 pwd:pwdString isChangeVote:YES];
+        BOOL ret = [[ELWalletManager share]useCRMainchainSubWallet:walletId WithJosnString:self.jsonString withPWD:pwd];
         if (ret) {
             [self closeTransactionDetailsView];
             [self showSendSuccessPopuV];

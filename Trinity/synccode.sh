@@ -4,6 +4,7 @@ checkoutMaster() {
     git submodule foreach '
         if [ "$path" != "Dependency/SPV.Cpp" ]; then
             git checkout master
+	    git pull --rebase
         fi'
 }
 

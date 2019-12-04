@@ -18,8 +18,8 @@ parser.add_argument('target', metavar='TARGET', choices=['all', 'clean', 'clobbe
                          launcher: build launcher, runtime;
                          runtime: build runtime;
                          clean: delete runtime platforms;
-                         clobber: delete all build fies;
-                         plugin: reintall the specify plugin.
+                         clobber: delete all build files;
+                         plugin: reintall the specified plugin.
                      '''))
 parser.add_argument('-p', '--path', dest='plugin_path', metavar='PATH', required=False,
                     help='Specify the path of plugin.')

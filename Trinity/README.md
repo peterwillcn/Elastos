@@ -138,8 +138,6 @@ cd YOU-PATH/Elastos.Trinity
 ./ToolChains/bin/build all
 ```
 
-NOTE：You could type `./ToolChains/bin/build --help` for more detail
-
 **Using Android Studio:**
 
 Open project from YOU-PATH/Elastos.Trinity/Runtime/platforms/android
@@ -172,7 +170,39 @@ python ToolChains/bin/build all
 
 Open project from YOU-PATH/Elastos.Trinity/Runtime/platforms/android
 
-## [How to develop dapp](https://github.com/elastos/Elastos.Trinity.ToolChains/blob/master/README.md)
+### About build tool(for Trinity developers)
+- build clean:  delete runtime platforms. 
+
+    if you update plugins, you should call build clean, then build runtime.Otherwise, latest plugins changes are not applied inside the native app.
+					
+- build clobber:  delete all build files.
+
+- build runtime: build runtime module.
+- build launcher: build launcher and runtime module.
+- build all: build all modules, include runtime, launcher and dapps.
+
+- build plugin -p plugin_path: reinstall the specified plugin.
+
+NOTE：You could type `./ToolChains/bin/build --help` for more detail
+
+Build all will spend much more time, so you can choose the parameter to save time.
+
+For Dapp developer, you should use trinity-cli to create, run or debug dapp.
+
+## [How to develop dapp]
+[trinity-cli](https://github.com/elastos/Elastos.Trinity.ToolChains/blob/master/cli/README.md)
+
+### Create Dapp
+```shell
+trinity-cli new
+```
+
+### Run Dapp
+```shell
+trinity-cli run -p android
+```
+
+NOTE：You could type `trinity-cli --help` for more detail
 
 ## Repositories
 
@@ -192,7 +222,6 @@ where category **DApps** includes several specific DApps repositories:
 while category **Plugins** includes the following repostiories:
 
 * [Elastos.Trinity.Runtime.Plugins.AppManager](https://github.com/elastos/Elastos.Trinity.Runtime.Plugins.AppManager)
-* [Elastos.Trinity.Runtime.Plugins.AppService](https://github.com/elastos/Elastos.Trinity.Runtime.Plugins.AppService)
 * [Elastos.Trinity.Plugins.Carrier](https://github.com/elastos/Elastos.Trinity.Plugins.Carrier)
 * [Elastos.Trinity.Plugins.File](https://github.com/elastos/Elastos.Trinity.Plugins.File)
 * [Elastos.Trinity.Plugins.Hive](https://github.com/elastos/Elastos.Trinity.Plugins.Hive)

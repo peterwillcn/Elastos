@@ -27,14 +27,13 @@ declare namespace HivePlugin {
 
     /**
      * The class representing File.
-     * @class
      */
     interface File {
         /**
          * Get the information(ID, name size, type) of the file got last time.
          * 
-         * @param {Function} onSuccess  The function to call on success.
-         * @param {Function} onError    The function to call on error.
+         * @param onSuccess  The function to call on success.
+         * @param onError    The function to call on error.
          * @return
          * onSuccess will be called on success, otherwise onError will be called.
          */
@@ -53,7 +52,7 @@ declare namespace HivePlugin {
         /**
          * Move to a new path.
          * 
-         * @param {string} destPath     The new path.
+         * @param destPath     The new path.
          * @return
          * A promise object that contains success information will be returned on success,
          * otherwise a promise object that contains error information will be returned.
@@ -63,7 +62,7 @@ declare namespace HivePlugin {
         /**
          * Copy to a new path.
          * 
-         * @param {string} newPath      The new path.
+         * @param newPath      The new path.
          * @return
          * A promise object that contains success information will be returned on success,
          * otherwise a promise object that contains error information will be returned.
@@ -82,7 +81,7 @@ declare namespace HivePlugin {
         /**
          * Read data of a specified length sequentially.
          * 
-         * @param {number} length      The length of data to write.
+         * @param length      The length of data to write.
          * @return
          * A promise object that contains success information will be returned on success,
          * otherwise a promise object that contains error information will be returned.
@@ -92,7 +91,7 @@ declare namespace HivePlugin {
         /**
          * Write local change on File.
          * 
-         * @param {string} data      The data to write.
+         * @param data      The data to write.
          * @return
          * A promise object that contains success information will be returned on success,
          * otherwise a promise object that contains error information will be returned.
@@ -111,7 +110,7 @@ declare namespace HivePlugin {
         /**
          * Discard local change on File.
          * 
-         * @param {Function} onSuccess  The function to call on success.
+         * @param onSuccess  The function to call on success.
          * @return
          * onSuccess will be called on success.
          */
@@ -120,14 +119,13 @@ declare namespace HivePlugin {
 
     /**
      * The class representing Directory.
-     * @class
      */
     interface Directory {
         /**
          * Get the information(ID, name, childCount) of the directory got last time.
          * 
-         * @param {Function} onSuccess  The function to call on success.
-         * @param {Function} onError    The function to call on error.
+         * @param onSuccess  The function to call on success.
+         * @param onError    The function to call on error.
          * @return
          * onSuccess will be called on success, otherwise onError will be called.
          */
@@ -145,7 +143,7 @@ declare namespace HivePlugin {
 
         /**
          * Create directory with name.
-         * @param {string} name      The directory name.
+         * @param name      The directory name.
          * @return
          * A directory will be returned on success, otherwise a promise object that contains
          * error information will be returned.
@@ -155,7 +153,7 @@ declare namespace HivePlugin {
         /**
          * Get the directory with a specified name.
          * 
-         * @param {string} name      The directory name.
+         * @param name      The directory name.
          * @return
          * A directory will be returned on success, otherwise a promise object that contains
          * error information will be returned.
@@ -165,7 +163,7 @@ declare namespace HivePlugin {
         /**
          * Create file with name.
          * 
-         * @param {string} name      The file name.
+         * @param name      The file name.
          * @return
          * A file will be returned on success, otherwise a promise object that contains
          * error information will be returned.
@@ -175,7 +173,7 @@ declare namespace HivePlugin {
         /**
          * Get the File with a specified name.
          * 
-         * @param {string} name      The file name.
+         * @param name      The file name.
          * @return
          * A file will be returned on success, otherwise a promise object that contains
          * error information will be returned.
@@ -194,7 +192,7 @@ declare namespace HivePlugin {
         /**
          * Move to a new path.
          * 
-         * @param {string} destPath     The destination path.
+         * @param destPath     The destination path.
          * @return
          * A promise object that contains success information will be returned on success,
          * otherwise a promise object that contains error information will be returned.
@@ -204,7 +202,7 @@ declare namespace HivePlugin {
         /**
          * Copy to a new path.
          * 
-         * @param {string} newPath      The new path.
+         * @param newPath      The new path.
          * @return
          * A promise object that contains success information will be returned on success,
          * otherwise a promise object that contains error information will be returned.
@@ -222,14 +220,13 @@ declare namespace HivePlugin {
 
     /**
      * The class representing Drive.
-     * @class
      */
     interface Drive {
         /**
          * Get the information(ID) of the drive got last time.
          * 
-         * @param {Function} onSuccess  The function to call on success.
-         * @param {Function} onError    The function to call on error.
+         * @param onSuccess  The function to call on success.
+         * @param onError    The function to call on error.
          * @return
          * onSuccess will be called on success, otherwise onError will be called.
          */
@@ -257,7 +254,7 @@ declare namespace HivePlugin {
         /**
          * Create directory with path.
          * 
-         * @param {string} path      The directory path.
+         * @param path      The directory path.
          * @return
          * A directory will be returned on success, otherwise a promise that contains
          * error information will be returned.
@@ -267,7 +264,7 @@ declare namespace HivePlugin {
         /**
          * Get the directory with a specified path.
          * 
-         * @param {string} path      The directory path.
+         * @param path      The directory path.
          * @return
          * A directory will be returned on success, otherwise a promise that contains
          * error information will be returned.
@@ -277,7 +274,7 @@ declare namespace HivePlugin {
         /**
          * Create file with path.
          * 
-         * @param {string} path      The file path.
+         * @param path      The file path.
          * @return
          * A file will be returned on success, otherwise a promise that contains
          * error information will be returned.
@@ -287,7 +284,7 @@ declare namespace HivePlugin {
         /**
          * Get the File with a specified path.
          * 
-         * @param {string} path      The file path.
+         * @param path      The file path.
          * @return
          * A file will be returned on success, otherwise a promise that contains
          * error information will be returned.
@@ -297,7 +294,7 @@ declare namespace HivePlugin {
         /**
          * Get the information(ID, name, size, type) of the drive with a specified path.
          * 
-         * @param {string} path      The drive path.
+         * @param path      The drive path.
          * @return
          * A promise object that contains success information will be returned on success,
          * otherwise a promise that contains error information will be returned.
@@ -307,15 +304,14 @@ declare namespace HivePlugin {
 
     /**
      * The class representing Client.
-     * @class
      */
     interface Client {
         /**
          * Associate a user with the Client.
          * 
-         * @param {Function} onSuccess  The function to call on success.
-         * @param {Function} onError    The function to call on error.
-         * @param {Function} handler    The function to call.
+         * @param onSuccess  The function to call on success.
+         * @param onError    The function to call on error.
+         * @param handler    The function to call.
          * @return
          * onSuccess will be called on success, otherwise onError will be called.
          */
@@ -324,8 +320,8 @@ declare namespace HivePlugin {
         /**
          * Dissociate the user from the Client.
          * 
-         * @param {Function} onSuccess  The function to call on success.
-         * @param {Function} onError    The function to call on error.
+         * @param onSuccess  The function to call on success.
+         * @param onError    The function to call on error.
          * @return
          * onSuccess will be called on success, otherwise onError will be called.
          */
@@ -334,8 +330,8 @@ declare namespace HivePlugin {
         /**
          * Get the last associated user's information with client information.
          * 
-         * @param {Function} onSuccess  The function to call on success.
-         * @param {Function} onError    The function to call on error.
+         * @param onSuccess  The function to call on success.
+         * @param onError    The function to call on error.
          * @return
          * onSuccess will be called on success, otherwise onError will be called.
          */

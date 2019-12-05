@@ -353,10 +353,11 @@
 - (IBAction)lookAtTheCandidateListEvent:(id)sender {
     if (self.type==nodeInformationType) {
         HMWtheCandidateListViewController *theCandidateListVC=[[HMWtheCandidateListViewController alloc]init];
-         
+        theCandidateListVC.lastTimeArray=self.lastTimeArray;
          [self.navigationController pushViewController:theCandidateListVC animated:YES];
     }else if (self.type==CRInformationType){
          HWMCRCCommitteeElectionListViewController * vc = [[HWMCRCCommitteeElectionListViewController alloc]init];
+        vc.lastArray=self.lastTimeArray;
         vc.totalvotes=self.totalvotes;
              [self.navigationController pushViewController:vc animated:YES];
     }

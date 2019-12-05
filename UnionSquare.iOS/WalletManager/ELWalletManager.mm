@@ -1786,11 +1786,11 @@ errCodeSPVCreateMasterWalletError= 20006;
        String keys = [[ self dicToJSONString:publicKeys] UTF8String];
              IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:CRmainchainSubWalletId];
               String acount;
-              if (stake==-1) {
-               acount="-1";
-              }else{
-              acount =[self cstringWithString:[NSString stringWithFormat:@"%.0f",stake*unitNumber]];
-              }
+//              if (stake==-1) {
+//               acount="-1";
+//              }else{
+//              acount =[self cstringWithString:[NSString stringWithFormat:@"%.0f",stake*unitNumber]];
+//              }
              // 少一个备注
       //    CreateVoteCRTransaction
              try {

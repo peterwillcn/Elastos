@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,copy)NSString *persent;
 @property(nonatomic,copy)NSString *totalvotes;
+@property(nonatomic,copy)NSArray *lastArray;
 @end
 
 NS_ASSUME_NONNULL_END

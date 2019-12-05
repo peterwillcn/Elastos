@@ -382,6 +382,7 @@
     vc.persent = self.votingListV.lab1.text;
     vc.totalvotes=self.totalvotes;
 //    vc.currentWallet=self.wallet;
+    vc.lastArray=self.ActiveArray;
     
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -397,6 +398,7 @@
     nodeInformationVC.Ranking=index+1;
     nodeInformationVC.delegate=self;
     nodeInformationVC.totalvotes=self.totalvotes;
+    nodeInformationVC.lastTimeArray=self.ActiveArray;
     [self.navigationController pushViewController:nodeInformationVC animated:YES];
 }
 -(void)VotingListisEdite:(BOOL)edite{

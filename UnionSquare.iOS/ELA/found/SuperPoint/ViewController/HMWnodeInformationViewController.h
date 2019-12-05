@@ -44,5 +44,7 @@ typedef enum : NSUInteger {
 
 @property(copy,nonatomic)NSString * totalvotes;
 
+
+@property(copy,nonatomic)NSArray * lastTimeArray ;
 @end
 

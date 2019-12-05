@@ -602,7 +602,7 @@ if ([languageString  containsString:@"en"]) {
            }
            return volatilePercentage;
     } @catch (NSException *exception) {
-        
+        return @"--";
     } @finally {
        
     }
@@ -643,6 +643,34 @@ return  volatilePercentage;
     NSDecimalNumber *MermVotCoutD = [NSDecimalNumber decimalNumberWithString:MermVotCout];
       NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:8 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:YES raiseOnDivideByZero:YES];
     NSDecimalNumber *num2 = [blanceD decimalNumberBySubtracting:MermVotCoutD withBehavior:roundDown];
+
+        NSDecimalNumber * result = [NSDecimalNumber decimalNumberWithString:num2.stringValue];
+    if (result.doubleValue==0) {
+        return @"0";
+    }
+
+return  result.stringValue;
+    
+}
+-(NSString*)CRVotingDecimalNumberByAdding:(NSString*)blance withCRMermVoting:(NSString*)MermVotCout{
+      NSDecimalNumber *blanceD = [NSDecimalNumber decimalNumberWithString:blance];
+    NSDecimalNumber *MermVotCoutD = [NSDecimalNumber decimalNumberWithString:MermVotCout];
+      NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:8 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:YES raiseOnDivideByZero:YES];
+    NSDecimalNumber *num2 = [blanceD decimalNumberByAdding:MermVotCoutD withBehavior:roundDown];
+
+        NSDecimalNumber * result = [NSDecimalNumber decimalNumberWithString:num2.stringValue];
+    if (result.doubleValue==0) {
+        return @"0";
+    }
+
+return  result.stringValue;
+    
+}
+-(NSString*)CRVotingDecimalNumberByMultiplying:(NSString*)blance withCRMermVoting:(NSString*)MermVotCout{
+      NSDecimalNumber *blanceD = [NSDecimalNumber decimalNumberWithString:blance];
+    NSDecimalNumber *MermVotCoutD = [NSDecimalNumber decimalNumberWithString:MermVotCout];
+      NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:8 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:YES raiseOnDivideByZero:YES];
+    NSDecimalNumber *num2 = [blanceD decimalNumberByMultiplyingBy:MermVotCoutD withBehavior:roundDown];
 
         NSDecimalNumber * result = [NSDecimalNumber decimalNumberWithString:num2.stringValue];
     if (result.doubleValue==0) {

@@ -197,7 +197,9 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
         [self.navigationController pushViewController:vc animated:YES];
      }else if (self.VoteType==MyVoteCRType){
          HWMCRCCommitteeElectionListViewController *vc=[[HWMCRCCommitteeElectionListViewController alloc]init];
+         vc.lastArray=self.listData;
          [self.navigationController pushViewController:vc animated:YES];
+         
      }
   ;
 }

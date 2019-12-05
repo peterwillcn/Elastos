@@ -95,8 +95,9 @@
             self.tagVoteRuleLab.hidden=YES;
             self.found_vote_rule.hidden=YES;
         }
+        [self getWalletType];
         [self getNetCoinPointArray];
-     [self getWalletType];
+ 
     
 }
 -(void)getWalletType{
@@ -256,10 +257,13 @@
             [self.dataSource removeObject:model];
             [self.dataSource insertObject:model atIndex:0];
             self.votingListV.typeString=self.typeString;
+            self.votingListV.dataSource = self.dataSource;
+        }else{
+            self.votingListV.dataSource = self.dataSource;
         }
-        self.votingListV.dataSource = self.dataSource;
+      
         
-        [self loadAllImageInfo:[NSMutableArray arrayWithArray:dataArray]];
+        [self loadAllImageInfo:[NSMutableArray arrayWithArray:self.dataSource]];
         
     } WithFailBlock:^(id data) {
         
@@ -356,6 +360,7 @@
     nodeInformationVC.model = self.dataSource[index];
 //    nodeInformationVC.model.voterate=[[FLTools share] DownTheValue: nodeInformationVC.model.voterate withLength:2];
     nodeInformationVC.Ranking=index+1;
+    nodeInformationVC.lastTimeArray=self.dataSource;
     nodeInformationVC.type=nodeInformationType;
       [self.navigationController pushViewController:nodeInformationVC animated:YES];
     

@@ -180,7 +180,13 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
            if ([model.state isEqualToString:@"Active"]) {
                cell.leftLab.text =[NSString stringWithFormat:@"NO.%d",([model.index intValue]+1)];
                         cell.middleLabel.text=model.nickname;
-               cell.rightLab.text =[NSString stringWithFormat:@"%d%@",[model.SinceVotes intValue],NSLocalizedString(@"票", nil)];
+               NSInteger number=[model.SinceVotes intValue];
+               if (number<1) {
+                     cell.rightLab.text =[NSString stringWithFormat:@"%@",@"<1",NSLocalizedString(@"票", nil)];
+               }else{
+                   cell.rightLab.text =[NSString stringWithFormat:@"%d%@",[model.SinceVotes intValue],NSLocalizedString(@"票", nil)];
+                   
+               }
                cell.leftLab.textColor=[UIColor whiteColor];
                cell.middleLabel.textColor=[UIColor whiteColor];
            }else{

@@ -202,9 +202,11 @@
     ELWalletManager *manager   =  [ELWalletManager share];
     
     IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-    [[ELWalletManager share]RegisterProducerWithMainchainSubWallet:mainchainSubWallet With:self.infoModel];
-    
+   NSInteger fee= [[ELWalletManager share]RegisterProducerWithMainchainSubWallet:mainchainSubWallet With:self.infoModel];
+    if (fee>-1) {
     [self showSendSuccessPopuV];
+    }
+  
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     

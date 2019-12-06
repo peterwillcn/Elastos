@@ -496,9 +496,6 @@ MJRefreshNormalHeader  *header = [MJRefreshNormalHeader  headerWithRefreshingBlo
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[weakSelf.currentWallet.masterWalletID,model.iconName] callbackId:weakSelf.currentWallet.masterWalletID className:@"Wallet" methodName:@"SyncStart"];
               [[ELWalletManager share]SyncStart:mommand];
     }
-      
-
-
         [weakSelf.table.mj_header endRefreshing];
     }];
     self.table.mj_header=header;

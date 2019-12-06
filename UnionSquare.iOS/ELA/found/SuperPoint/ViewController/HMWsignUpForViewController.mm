@@ -171,7 +171,7 @@
 
 
 -(void)nextBtnAction{
-    [self pwdAndInfo];
+//    [self pwdAndInfo];
     
 
 
@@ -179,11 +179,11 @@
 
 
 
--(void)pwdAndInfo{
-    
-    [self showSendSuccessPopuV];
-    
-}
+//-(void)pwdAndInfo{
+//
+//    [self showSendSuccessPopuV];
+//
+//}
 -(HMWSendSuccessPopuView *)sendSuccessPopuV{
     if (!_sendSuccessPopuV) {
         _sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
@@ -278,10 +278,13 @@ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), di
         [self closeTransactionDetailsView];
      CGFloat free   =  [manager RegisterProducerWithMainchainSubWallet:mainchainSubWallet With:model];
           
-
-            if (self.delegate) {
-                [self.delegate hasSignUp];
+            if (free>-1) {
+                [self showSendSuccessPopuV];
+                if (self.delegate) {
+                    [self.delegate hasSignUp];
+          }
             }
+        
         }
 
         

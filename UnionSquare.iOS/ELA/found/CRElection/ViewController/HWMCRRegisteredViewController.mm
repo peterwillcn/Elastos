@@ -326,8 +326,10 @@
                model.acount     = 5000;
         CGFloat free;
         free = [manager RegisterCRWithMainchainSubWallet:manager.currentWallet.masterWalletID With:model];
-        [self closeTransactionDetailsView];
-        [self showSendSuccessPopuV];
+    if (free>-1) {
+      [self showSendSuccessPopuV];
+    }
+    [self closeTransactionDetailsView];
     
     
 }

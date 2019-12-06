@@ -652,7 +652,7 @@ NSString * availableString=[[FLTools share]CRVotingDecimalNumberBySubtracting:se
     for (int i= 0; i<self.voteArray.count; i++) {
         HWMCRListModel *model=self.voteArray[i];
         
-        NSDictionary *dic=@{model.did: [NSString stringWithFormat:@"%f",[model.SinceVotes doubleValue]*unitNumber]};
+        NSDictionary *dic=@{model.did: [NSString stringWithFormat:@"%.0f",[model.SinceVotes doubleValue]*unitNumber]};
 
     [CRDic addEntriesFromDictionary:dic];
     }
@@ -700,7 +700,7 @@ self.jsonString=dic[@"JSON"];
     for (int i= 0; i<self.voteArray.count; i++) {
         HWMCRListModel *model=self.voteArray[i];
         
-        NSDictionary *dic=@{model.did: [NSString stringWithFormat:@"%f",[model.SinceVotes doubleValue]*unitNumber]};
+        NSDictionary *dic=@{model.did: [NSString stringWithFormat:@"%.0f",[model.SinceVotes doubleValue]*unitNumber]};
 
     [CRDic addEntriesFromDictionary:dic];
     }

@@ -1273,7 +1273,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
 -(NSString *)http_ipString:(NSString *)sdknet{
 
     if ([sdknet isEqualToString:@"RegTest"] ) {
-           return @"https://54.223.244.60";
+           return @"http://54.223.244.60";
            }else if ([sdknet isEqualToString:@"PrvNet"] ){
                return @"http://172.26.0.207:3000";
               

@@ -63,7 +63,7 @@ static uint64_t feePerKB = 10000;
         NSString *errString=[self stringWithCString:e.what()];
         NSDictionary *dic=  [self dictionaryWithJsonString:errString];
         [[FLTools share]showErrorInfo:dic[@"Message"]];
-        return 0;
+        return nil;
     }
     
     return nil;
@@ -84,7 +84,7 @@ static uint64_t feePerKB = 10000;
         NSString *errString=[self stringWithCString:e.what()];
         NSDictionary *dic=  [self dictionaryWithJsonString:errString];
         [[FLTools share]showErrorInfo:dic[@"Message"]];
-        return 0;
+        return nil;
     }
     for (int i = 0; i < subWalletList.size(); i++)
     {
@@ -98,7 +98,7 @@ static uint64_t feePerKB = 10000;
             NSString *errString=[self stringWithCString:e.what()];
             NSDictionary *dic=  [self dictionaryWithJsonString:errString];
             [[FLTools share]showErrorInfo:dic[@"Message"]];
-            return 0;
+            return nil;
         }
         
         NSString *getChainIDString = [self stringWithCString:getChainID];
@@ -141,7 +141,7 @@ static uint64_t feePerKB = 10000;
         NSString *errString=[self stringWithCString:e.what()];
         NSDictionary *dic=  [self dictionaryWithJsonString:errString];
         [[FLTools share]showErrorInfo:dic[@"Message"]];
-        return 0;
+        return @"-1";
     }
   
     
@@ -455,7 +455,7 @@ errCodeSPVCreateMasterWalletError= 20006;
         NSString *errString=[self stringWithCString:e.what()];
         NSDictionary *dic=  [self dictionaryWithJsonString:errString];
         [[FLTools share]showErrorInfo:dic[@"Message"]];
-        return 0;
+        return nil;
     }
     
 }
@@ -484,7 +484,7 @@ errCodeSPVCreateMasterWalletError= 20006;
         NSString *errString=[self stringWithCString:e.what()];
         NSDictionary *dic=  [self dictionaryWithJsonString:errString];
         [[FLTools share]showErrorInfo:dic[@"Message"]];
-        return 0;
+      return [self errInfoToDic:e.what() with:command];
     }
   
     
@@ -1503,7 +1503,7 @@ errCodeSPVCreateMasterWalletError= 20006;
                NSString *errString=[self stringWithCString:e.what()];
                NSDictionary *dic=  [self dictionaryWithJsonString:errString];
                [[FLTools share]showErrorInfo:dic[@"Message"]];
-               return 0;
+               return -1;
            }
     
 }
@@ -1524,7 +1524,7 @@ errCodeSPVCreateMasterWalletError= 20006;
         NSString *errString=[self stringWithCString:e.what()];
         NSDictionary *dic=  [self dictionaryWithJsonString:errString];
         [[FLTools share]showErrorInfo:dic[@"Message"]];
-        return 0;
+        return -1;
     }
     String acount=[self cstringWithString:[NSString stringWithFormat:@"%ld",model.acount*unitNumber]];
     try {
@@ -1535,7 +1535,7 @@ errCodeSPVCreateMasterWalletError= 20006;
         NSString *errString=[self stringWithCString:e.what()];
         NSDictionary *dic=  [self dictionaryWithJsonString:errString];
         [[FLTools share]showErrorInfo:dic[@"Message"]];
-        return 0;
+        return -1;
     }
 
     try {
@@ -1545,7 +1545,7 @@ errCodeSPVCreateMasterWalletError= 20006;
         NSString *errString=[self stringWithCString:e.what()];
         NSDictionary *dic=  [self dictionaryWithJsonString:errString];
         [[FLTools share]showErrorInfo:dic[@"Message"]];
-        return 0;
+        return -1;
     }
     try {
          result = ELA->PublishTransaction(signedTx);
@@ -1554,7 +1554,7 @@ errCodeSPVCreateMasterWalletError= 20006;
         NSString *errString=[self stringWithCString:e.what()];
         NSDictionary *dic=  [self dictionaryWithJsonString:errString];
         [[FLTools share]showErrorInfo:dic[@"Message"]];
-        return 0;
+        return -1;
     }
     NSString *resultString=[self stringWithCString:result.dump()];
     NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];

@@ -243,7 +243,7 @@
         
         self.dataSource= [NSMutableArray arrayWithArray:dataArray];
         NSInteger locaIndex=-1;
-        self.votingListV.lab1.text = [NSString stringWithFormat:@"%.2f %@" ,[param[@"result"][@"totalvoterate"] floatValue]*100,@"%"];
+        self.votingListV.lab1.text = [NSString stringWithFormat:@"%@ %@",[[FLTools share]DownAlllTheValuePercentage:param[@"result"][@"totalvoterate"] withLength:2],@"%"];
         self.votingListV.lab3.text =[NSString stringWithFormat:@"%ld", (long)[param[@"result"][@"totalvotes"] integerValue]];
         if (self.needFind) {
             for (int i=0; i<self.dataSource.count; i++) {

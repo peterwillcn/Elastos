@@ -146,4 +146,6 @@
 -(NSString*)CRVotingDecimalNumberByAdding:(NSString*)blance withCRMermVoting:(NSString*)MermVotCout;
 -(NSString*)CRVotingDecimalNumberByMultiplying:(NSString*)blance withCRMermVoting:(NSString*)MermVotCout;
 -(NSString*)DownTheValue:(NSString*)blance withLength:(NSInteger)MermVotCout;
+-(NSString*)DownAlllTheValuePercentage:(NSString*)blance withLength:(NSInteger)MermVotCout;
+-(NSString*)DownNumberPercentage:(NSString*)blance withLength:(NSInteger)MermVotCout;
 @end

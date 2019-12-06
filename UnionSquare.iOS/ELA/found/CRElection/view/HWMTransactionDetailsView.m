@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *feeTextLab;
 @property (weak, nonatomic) IBOutlet UILabel *amountLab;
 @property (weak, nonatomic) IBOutlet UILabel *amountTextLab;
+@property (weak, nonatomic) IBOutlet UIView *makeLine;
 
 /*
  *<# #>
@@ -75,12 +76,23 @@
 }
 -(void)TransactionDetailsWithFee:(NSString*)fee withTransactionDetailsAumont:(NSString*)aumont{
     self.feeLab.text=[NSString stringWithFormat:@"%@ ELA",fee];
-       self.amountLab.text=[NSString stringWithFormat:@"%@ ELA",aumont];
-    
+    if (aumont.length==0) {
+        self.amountLab.text=[NSString stringWithFormat:@"%@ ELA",fee];
+        self.amountTextLab.text=NSLocalizedString(@"手续费", nil);
+        self.feeLab.alpha=0;
+        self.feeTextLab.alpha=0;
+        self.makeLine.alpha=0;
+    }else{
+        self.amountLab.text=[NSString stringWithFormat:@"%@ ELA",aumont];
+          self.feeLab.text=[NSString stringWithFormat:@"%@ ELA",fee];
+          
+    }
+     
 }
 -(void)setPopViewTitle:(NSString *)popViewTitle{
      self.titleLab.text =NSLocalizedString(popViewTitle, nil);
     _popViewTitle=popViewTitle;
     
 }
+
 @end

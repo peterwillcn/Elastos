@@ -120,6 +120,15 @@
     }
     return _copURLButton;
 }
+-(void)copyURLEvent:(UIButton*)button{
+    
+     if (self.type==nodeCoinPointInfType) {
+          [UIPasteboard generalPasteboard].string = self.model.url;
+     }else if (self.type==CRCoinPointInfType){
+          [UIPasteboard generalPasteboard].string = self.CRmodel.url;
+     }
+   [[FLTools share]showErrorInfo:NSLocalizedString(@"复制成功", nil)];
+}
 -(void)makeUI{
    NSString *languageString=[DAConfig userLanguage];
 

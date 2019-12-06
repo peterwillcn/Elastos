@@ -23,6 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(strong,nonatomic)HWMCRListModel *CRmodel;
 
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSArray *lastArray;
 
 @end
 

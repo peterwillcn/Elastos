@@ -638,7 +638,33 @@ return  result.stringValue;
 return  volatilePercentage;
     
 }
+-(NSString*)DownAlllTheValuePercentage:(NSString*)blance withLength:(NSInteger)MermVotCout{
+
+    NSDecimalNumber *blanceD = [NSDecimalNumber decimalNumberWithString:blance];
+      NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:MermVotCout raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:YES];
+        blanceD=[blanceD decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"100"]];
+        NSDecimalNumber * result= [blanceD decimalNumberByRoundingAccordingToBehavior:roundDown];
+
+
+return  result.stringValue;
+    
+}
+-(NSString*)DownNumberPercentage:(NSString*)blance withLength:(NSInteger)MermVotCout{
+
+    NSDecimalNumber *blanceD = [NSDecimalNumber decimalNumberWithString:blance];
+      NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:MermVotCout raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:YES];
+      
+        NSDecimalNumber * result= [blanceD decimalNumberByRoundingAccordingToBehavior:roundDown];
+
+
+return  result.stringValue;
+    
+}
+
 -(NSString*)CRVotingDecimalNumberBySubtracting:(NSString*)blance withCRMermVoting:(NSString*)MermVotCout{
+    if (MermVotCout.length==0) {
+        MermVotCout=@"0";
+    }
       NSDecimalNumber *blanceD = [NSDecimalNumber decimalNumberWithString:blance];
     NSDecimalNumber *MermVotCoutD = [NSDecimalNumber decimalNumberWithString:MermVotCout];
       NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:8 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:YES raiseOnDivideByZero:YES];

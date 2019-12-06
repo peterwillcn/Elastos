@@ -7,15 +7,16 @@
 //
 
 #import "HMWsignUpForViewController.h"
-#import "FLJoinToChoseTransferInfoView.h"
 #import "HMWSendSuccessPopuView.h"
 #import "HMWtransferViewController.h"
 #import "FLVoteTicketTransferVC.h"
 #import "ELWalletManager.h"
 #import "HMWSelectCountriesOrRegionsViewController.h"
-//#import "HMWpwdPopupView.h"
-#import "HMWSecurityVerificationPopView.h"
-@interface HMWsignUpForViewController ()<HMWSelectCountriesOrRegionsViewControllerDelegate,FLJoinToChoseTransferViewDelegate,HMWSecurityVerificationPopViewDelegate>
+#import "HWMTransactionDetailsView.h"
+#import "HMWFMDBManager.h"
+#import "FMDBWalletModel.h"
+
+@interface HMWsignUpForViewController ()<HMWSelectCountriesOrRegionsViewControllerDelegate,HWMTransactionDetailsViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *theNameOfTheNodeMakeView;
 /*
  *<# #>
@@ -30,18 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *chooseTheCountryBuuton;
 
 @property(nonatomic,assign)NSString *mobCodeString;
-/*
- *<# #>
- */
-@property(strong,nonatomic)HMWSecurityVerificationPopView *securityVerificationPopV;
-
-
-/*
- *<# #>
- */
-@property(strong,nonatomic)FLJoinToChoseTransferInfoView *transferDetailsPopupV;
-
-//@property(strong,nonatomic)HMWpwdPopupView *pwdPopupV;
+@property(strong,nonatomic)HWMTransactionDetailsView *transactionDetailsView;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *offY;
 
@@ -56,6 +46,18 @@
     [self defultWhite];
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"报名参选", nil);
+    if (self.currentWallet==nil) {
+                NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+                   FMDBWalletModel *model =walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
+        self.currentWallet=[[FLWallet alloc]init];
+            self.currentWallet.masterWalletID =model.walletID;
+            self.currentWallet.walletName     =model.walletName;
+            self.currentWallet.walletAddress  = model.walletAddress;
+            self.currentWallet.walletID       =[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
+            self.currentWallet.TypeW  = model.TypeW;
+
+         
+    }
     
     // Do any additional setup after loading the view from its nib.
     [self.confirmToRunButton setTitle:NSLocalizedString(@"确认参选", nil) forState:UIControlStateNormal];
@@ -85,24 +87,6 @@
         
     }
 
-}
--(HMWSecurityVerificationPopView *)securityVerificationPopV{
-    if (!_securityVerificationPopV) {
-        _securityVerificationPopV =[[HMWSecurityVerificationPopView alloc]init];
-        _securityVerificationPopV.backgroundColor=[UIColor clearColor];
-        _securityVerificationPopV.delegate=self;
-    }
-    
-    return _securityVerificationPopV;
-}
-
--(FLJoinToChoseTransferInfoView *)transferDetailsPopupV{
-    if (!_transferDetailsPopupV) {
-        _transferDetailsPopupV =[FLJoinToChoseTransferInfoView defultView];
-        _transferDetailsPopupV.delegate=self;
-    }
-    
-    return _transferDetailsPopupV;
 }
 - (IBAction)chooseTheCountryEvent:(id)sender {
     HMWSelectCountriesOrRegionsViewController *vc=[[HMWSelectCountriesOrRegionsViewController alloc]init];
@@ -135,81 +119,24 @@
 
         return;
     }
-
-    [self.view addSubview:self.securityVerificationPopV ];
-    [self.securityVerificationPopV  mas_makeConstraints:^(MASConstraintMaker *make) {
-    make.left.right.top.bottom.equalTo(self.view);
-    }];
-    
-//
-//    FLVoteTicketTransferVC *transferVC=[[FLVoteTicketTransferVC alloc]init];
-//    transferVC.infoModel = model;
-//    [self.navigationController pushViewController:transferVC animated:YES];
-    
-//    UIView *manView=[self mainWindow];
-//    [manView addSubview:self.transferDetailsPopupV];
-//    [self.transferDetailsPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.top.bottom.equalTo(manView);
-//    }];
-    
-    
-    
-}
-
--(void)takeOutOrShutDown{
-    [self.securityVerificationPopV removeFromSuperview];
-    self.securityVerificationPopV =nil;
-}
-
--(void)makeSureWithPWD:(NSString*)pwd{
-    if (pwd.length==0) {
+   
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,@"ELA",@"",@"EXwi9RYP2MP5gjiemqv5vhFq3M6coNCEZr",@"5000",@"",@"",@"1"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+    PluginResult * result =[[ELWalletManager share]accessFees:mommand];
+    NSString *status=[NSString stringWithFormat:@"%@",result.status];
+    if (![status isEqualToString:@"1"]) {
         return;
     }
-    self.securityVerificationPopV.userInteractionEnabled=NO;
+    NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",result.message[@"success"]]];
+
+    UIView *mainView =[self mainWindow];
     if (self.model) {
-        
-        [self updataNodeInfo:pwd];
-        
-        
-    }else{
-        
-    ELWalletManager *manager   =  [ELWalletManager share];
-    IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-    FLJoinVoteInfoModel* model = [[FLJoinVoteInfoModel alloc]init];
-    
-    model.pubKey     =  [NSString stringWithCString:mainchainSubWallet->GetOwnerPublicKey().c_str() encoding:NSUTF8StringEncoding] ;
-    
-    model.ownerPublickKey = self.thePublicKeyTextField.text;
-model.nodePubKey=self.thePublicKeyTextField.text;
-    model.nickName   = self.theNameOfTheNodeTextField.text;
-    model.url        = self.URLTextField.text;
-    model.contryCode = self.mobCodeString;
-    model.pwd        = pwd;
-    model.ipAddress  = self.ipAddressTextField.text;
-    model.mark       = @"";
-    model.acount     = 5000;
-    
- CGFloat free   =  [manager RegisterProducerWithMainchainSubWallet:mainchainSubWallet With:model];
-       [self takeOutOrShutDown];
-//    if (free ==0 ) {
-//        return;
-//    }
-        
-    
-    [self.view addSubview:self.transferDetailsPopupV];
-    [self.transferDetailsPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.equalTo(self.view);
-    }];
-        if (self.delegate) {
-            [self.delegate hasSignUp];
-        }
-    
-    [self.transferDetailsPopupV transferDetailsWithTheAmountOf:@"5000" withFee: @(free/unitNumber).stringValue];
+        self.transactionDetailsView.popViewTitle=NSLocalizedString(@"交易详情", nil);
     }
-
-    
-
-    
+    [mainView addSubview:self.transactionDetailsView];
+    [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:@"5000"];
+    [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.right.bottom.equalTo(mainView);
+    }];
 }
 -(void)updataNodeInfo:(NSString*)pwd{
     
@@ -230,8 +157,6 @@ model.nodePubKey=self.thePublicKeyTextField.text;
     self.model.acount     = 5000;
     
  BOOL ret = [manager UpdateProducerWithMainchainSubWallet:mainchainSubWallet With:self.model];
-    
-    [self takeOutOrShutDown];
     if (ret) {
         [[FLTools share]showErrorInfo:NSLocalizedString(@"变更成功", nil)];
     }else{
@@ -244,11 +169,7 @@ model.nodePubKey=self.thePublicKeyTextField.text;
 
 #pragma mark ---------HMWtransferDetailsPopupViewDelegate----------
 
--(void)cancelShow
-{
-    [self.transferDetailsPopupV removeFromSuperview];
-    self.transferDetailsPopupV=nil;
-}
+
 -(void)nextBtnAction{
     [self pwdAndInfo];
     
@@ -260,8 +181,6 @@ model.nodePubKey=self.thePublicKeyTextField.text;
 
 -(void)pwdAndInfo{
     
-    [self.transferDetailsPopupV removeFromSuperview];
-    self.transferDetailsPopupV=nil;
     [self showSendSuccessPopuV];
     
 }
@@ -319,6 +238,60 @@ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), di
     
     
     [self.view endEditing:YES];
+}
+-(HWMTransactionDetailsView *)transactionDetailsView{
+    
+    if (!_transactionDetailsView) {
+        _transactionDetailsView =[[HWMTransactionDetailsView alloc]init];
+        _transactionDetailsView.popViewTitle=NSLocalizedString(@"参选押金", nil);
+        _transactionDetailsView.delegate=self;
+    }
+    return _transactionDetailsView;
+}
+-(void)pwdAndInfoWithPWD:(NSString*)pwd{
+
+    if (pwd.length==0) {
+            return;
+        }
+        if (self.model) {
+            
+            [self updataNodeInfo:pwd];
+            [self closeTransactionDetailsView];
+            
+        }else{
+            
+        ELWalletManager *manager   =  [ELWalletManager share];
+        IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
+        FLJoinVoteInfoModel* model = [[FLJoinVoteInfoModel alloc]init];
+        
+        model.pubKey     =  [NSString stringWithCString:mainchainSubWallet->GetOwnerPublicKey().c_str() encoding:NSUTF8StringEncoding] ;
+        
+        model.ownerPublickKey = self.thePublicKeyTextField.text;
+    model.nodePubKey=self.thePublicKeyTextField.text;
+        model.nickName   = self.theNameOfTheNodeTextField.text;
+        model.url        = self.URLTextField.text;
+        model.contryCode = self.mobCodeString;
+        model.pwd        = pwd;
+        model.ipAddress  = self.ipAddressTextField.text;
+        model.mark       = @"";
+        model.acount     = 5000;
+        [self closeTransactionDetailsView];
+     CGFloat free   =  [manager RegisterProducerWithMainchainSubWallet:mainchainSubWallet With:model];
+          
+
+            if (self.delegate) {
+                [self.delegate hasSignUp];
+            }
+        }
+
+        
+}
+-(void)closeTransactionDetailsView{
+    [self.transactionDetailsView removeFromSuperview];
+    self.transactionDetailsView=nil;
+}
+-(void)setCurrentWallet:(FLWallet *)currentWallet{
+    _currentWallet=currentWallet;
 }
 
 @end

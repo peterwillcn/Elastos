@@ -40,7 +40,7 @@
    
         [[HMWCommView share]makeBordersWithView:self.theNextStepButton];
         self.feeLabel.text=NSLocalizedString(@"手续费", nil);
-        self.transferDetailsLabel.text=NSLocalizedString(@"转账详情", nil);
+        self.transferDetailsLabel.text=NSLocalizedString(@"交易详情", nil);
         
         self.transferTheAddressLabel.text=NSLocalizedString(@"转账地址", nil);
         self.theAmountOfTextLabel.text=NSLocalizedString(@"金额", nil);

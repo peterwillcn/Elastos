@@ -168,7 +168,8 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(NSInteger)RegisterProducerWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model;
 -(NSInteger)UpdateProducerWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model;
 -(BOOL)useCRMainchainSubWallet:(NSString*)CRmainchainSubWalletId WithJosnString:(NSString*)josnString withPWD:(NSString*)pwd;
--(BOOL)useMainchainSubWallet:(NSString*)mainchainSubWalletId ToVote:(NSArray*)publicKeys tickets:(double)stake pwd:(NSString*)pwd isChangeVote:(BOOL)change;
+-(NSDictionary *)DopsVoteFeeCRMainchainSubWallet:(NSString*)CRmainchainSubWalletId ToVote:(NSArray*)publicKeys tickets:(double)stake;
+-(BOOL)useMainchainSubWallet:(NSString*)mainchainSubWalletId WithJsonString:(NSString*)jsonstring pwd:(NSString*)pwd;
 -(PluginResult *)SignReadOnlyToVote:(invokedUrlCommand *)command;
 -(PluginResult *)HowSignToVote:(invokedUrlCommand *)command;
 -(PluginResult *)SignReadOnlyToCR:(invokedUrlCommand *)command;
@@ -212,6 +213,8 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(PluginResult *)getAllPublicKeys:(invokedUrlCommand *)command;
 -(NSDictionary*)GetCRFirstPublicKeysAndDID:(invokedUrlCommand *)command;
 -(NSDictionary *)CRVoteFeeCRMainchainSubWallet:(NSString*)CRmainchainSubWalletId ToVote:(NSDictionary*)publicKeys tickets:(double)stake;
+-(PluginResult *)CreateCombineUTXOTransactionFeeAndJSONString:(invokedUrlCommand *)command;
+-(BOOL)useMainchainSubWallet:(NSString*)mainchainSubWalletId ToVote:(NSArray*)publicKeys tickets:(double)stake pwd:(NSString*)pwd isChangeVote:(BOOL)change;
 @end
 
 

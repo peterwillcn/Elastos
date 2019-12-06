@@ -37,7 +37,7 @@
              self.contryName.text =locationLabelString;
         });
    
-    self.indexLab.text = [@""stringByAppendingString:@(model.index+1).stringValue];
+    self.indexLab.text = [NSString stringWithFormat:@"NO.%@",@(model.index+1).stringValue];
     self.percentLab.text = [NSString stringWithFormat:@"%@ %@",[[FLTools share]DownTheValue:model.voterate withLength:2],@"%"];
     
 }

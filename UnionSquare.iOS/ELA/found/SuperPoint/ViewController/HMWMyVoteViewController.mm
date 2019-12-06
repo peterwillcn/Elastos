@@ -70,10 +70,11 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
        NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
        NSMutableArray *showlistdata = [NSMutableArray array];
        NSInteger total =0;
-       for (int i=0; i<param.allKeys.count; i++) {
-           NSString *itemKey = param.allKeys[i];
-           for (int j = 0;j<self.listData.count; j++) {
-               HWMCRListModel *model = self.listData[j];
+       for (int i=0; i<self.listData.count; i++) {
+          HWMCRListModel *model = self.listData[i];
+           for (int j = 0;j<param.allKeys.count; j++) {
+               
+                NSString *itemKey = param.allKeys[j];
                if ([model.did isEqualToString:itemKey]) {
                    double sinceVd=[param[itemKey] doubleValue];
                    model.SinceVotes = @(sinceVd/unitNumber).stringValue;
@@ -84,16 +85,27 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
            
        }
     
-//       self.voteInTotalLabel.text =[NSString stringWithFormat:@"%@%@%@",NSLocalizedString(@"共",nil),@(total/unitNumber).stringValue,NSLocalizedString(@"票",nil)] ;
-    self.voteInTotalLabel.text=@(total/unitNumber).stringValue;
+
+
+    
+    if (total==0) {
+        self.voteInTotalLabel.alpha=0.f;
+    }else{
+        self.voteInTotalLabel.text =[NSString stringWithFormat:@"%@%@%@",NSLocalizedString(@"共",nil),[[FLTools share]CRVotingTheAverageDistribution:[NSString stringWithFormat:@"%ld",(long)total] withCRMermVoting:[NSString stringWithFormat:@"%d",unitNumber] ],NSLocalizedString(@"票",nil)] ;
+    }
+  
+            self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_unlocked"];
        self.dataSource = showlistdata;
        if (self.dataSource.count==0) {
            self.changeVotesButton.alpha=0.f;
-        self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_unlocked"];
+//        self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_unlocked"];
+           self.largeStateImageView.image=[UIImage imageNamed:@"found_my_go_on"];
        }else{
             self.changeVotesButton.alpha=1.f;
-           self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_going_on"];
+//           self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_going_on"];
+                   self.largeStateImageView.image=[UIImage imageNamed:@"found_vote_lock"];
        }
+    
        [self.baseTableView reloadData];
        self.placeHolderLab.hidden  = self.dataSource.count==0? NO: YES;
     
@@ -167,7 +179,7 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
            if ([model.state isEqualToString:@"Active"]) {
                cell.leftLab.text =[NSString stringWithFormat:@"NO.%d",([model.index intValue]+1)];
                         cell.middleLabel.text=model.nickname;
-                        cell.rightLab.text =[NSString stringWithFormat:@"%@%@",model.SinceVotes,NSLocalizedString(@"票", nil)];
+               cell.rightLab.text =[NSString stringWithFormat:@"%d%@",[model.SinceVotes intValue],NSLocalizedString(@"票", nil)];
                cell.leftLab.textColor=[UIColor whiteColor];
                cell.middleLabel.textColor=[UIColor whiteColor];
            }else{

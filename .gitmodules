@@ -9,7 +9,7 @@
 	path = Trinity/Dapps/Ionic/CarrierDemo
 	url = ../Elastos.Trinity.DApps.Demo.Carrier.git
 [submodule "Dapps/Ionic/DAppStore"]
-	path = Trinity/Dapps/Ionic/DAppStore
+	path = Dapps/Ionic/DAppStore
 	url = ../Elastos.Trinity.DApps.DAppsStore.git
 [submodule "Dapps/Ionic/DID"]
 	path = Trinity/Dapps/Ionic/DID

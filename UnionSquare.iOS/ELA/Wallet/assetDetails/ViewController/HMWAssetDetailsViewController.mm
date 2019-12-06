@@ -17,7 +17,8 @@
 #import "ELWalletManager.h"
 #import "showOwnerAddressTableViewCell.h"
 #import "HMWToDeleteTheWalletPopView.h"
-#import "HMWpwdPopupView.h"
+#import "HWMTransactionDetailsView.h"
+//#import "HMWpwdPopupView.h"
 #import "HMWSendSuccessPopuView.h"
 
 
@@ -28,7 +29,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 
 
 
-@interface HMWAssetDetailsViewController ()<UITableViewDelegate,UITableViewDataSource,HMWToDeleteTheWalletPopViewDelegate,HMWpwdPopupViewDelegate>
+@interface HMWAssetDetailsViewController ()<UITableViewDelegate,UITableViewDataSource,HMWToDeleteTheWalletPopViewDelegate,HWMTransactionDetailsViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *transferButton;
 @property (weak, nonatomic) IBOutlet UIButton *topUpButton;
 
@@ -111,7 +112,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
  *<# #>
  */
 @property(strong,nonatomic)HMWToDeleteTheWalletPopView *utxoTheWalletPopV;
-@property(strong,nonatomic)HMWpwdPopupView *pwdPopupV;
+@property(strong,nonatomic)HWMTransactionDetailsView *TransactionDetailsV;
 /*
  *<# #>
  */
@@ -120,6 +121,10 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *toButtonOffSet;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *enMoneyWidthOffSet;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *toUpMoneyButtonWidthdOff;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *JSONString;
 
 @end
 
@@ -213,14 +218,6 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
              [self AnyChangeInTheWholeWithUTXOs:[NSString stringWithFormat:@"%ld",MaxCount]];
         }
     }
-}
--(HMWpwdPopupView *)pwdPopupV{
-    if (!_pwdPopupV) {
-        _pwdPopupV=[[HMWpwdPopupView alloc]init];
-        _pwdPopupV.delegate=self;
-    }
-    return _pwdPopupV;
-    
 }
 -(void)AnyChangeInTheWholeWithUTXOs:(NSString*)UTXOs{
     UIView *mainView=[self mainWindow];
@@ -356,10 +353,19 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 }
 -(void)loadAnyChangeInTheWhole{
     UIView *mainView=[self mainWindow];
-    [mainView addSubview:self.pwdPopupV];
-    [self.pwdPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.equalTo(mainView);
-    }];
+    
+    [mainView addSubview:self.TransactionDetailsV];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
+      PluginResult * result =[[ELWalletManager share]CreateCombineUTXOTransactionFeeAndJSONString:mommand];
+      NSString *status=[NSString stringWithFormat:@"%@",result.status];
+      if ([status isEqualToString:@"1"]) {
+           NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",result.message[@"success"][@"fee"]]];
+          [self.TransactionDetailsV TransactionDetailsWithFee:fee withTransactionDetailsAumont:nil];
+          self.JSONString=result.message[@"success"][@"jsonString"];
+      [self.TransactionDetailsV mas_makeConstraints:^(MASConstraintMaker *make) {
+           make.left.right.top.bottom.equalTo(mainView);
+       }];
+      }
 }
 - (IBAction)anyChangeInTheWholeAction:(id)sender {
     // 零钱换整
@@ -685,9 +691,13 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
         case 7:
             detailsM.Type=NSLocalizedString(@"侧链提现交易", nil);
             break;
-        case 8:
-            transferTransactionDetailsVC.PayloadInfoString=[NSString stringWithFormat:@"%@\n%@ %@",result.message[@"success"][@"Transactions"][0][@"Payload"][@"CrossChainAddress"][0],[[FLTools share] elaScaleConversionWith:result.message[@"success"][@"Transactions"][0][@"Payload"][@"CrossChainAmount"][0]],@"ELA"];
+        case 8:{
+            
+            NSDictionary*dic=result.message[@"success"][@"Transactions"][0][@"Payload"][0];
+            transferTransactionDetailsVC.PayloadInfoString=[NSString stringWithFormat:@"%@\n%@ %@",dic[@"CrossChainAddress"],[[FLTools share] elaScaleConversionWith:dic[@"CrossChainAmount"]],@"ELA"];
             detailsM.Type=NSLocalizedString(@"跨链交易", nil);
+            
+        }
             break;
         case 9:
             detailsM.Type=NSLocalizedString(@"注册参选交易", nil);
@@ -785,18 +795,12 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     self.utxoTheWalletPopV=nil;
     
 }
-#pragma mark ---------HMWpwdPopupViewDelegate----------
--(void)makeSureWithPWD:(NSString*)pwd{
-    
-    //    SingleSign=0,
-    //    SingleSignReadonly=1,
-    //    HowSign=2,
-    //    HowSignReadonly=3
+-(void)pwdAndInfoWithPWD:(NSString*)pwd{
     if (self.currentWallet.TypeW==0) {
-        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,self.JSONString,pwd,] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
     PluginResult * result =[[ELWalletManager share]CreateCombineUTXOTransaction:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
-    [self cancelThePWDPageView];
+        [self closeTransactionDetailsView];
     if ([status isEqualToString:@"1"]) {
         [self showSendSuccessPopuV];
     }
@@ -808,11 +812,13 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     }else if (self.currentWallet.TypeW==3){
         
     }
+    
 }
--(void)cancelThePWDPageView{
-    [self.pwdPopupV removeFromSuperview];
-    self.pwdPopupV=nil;
+-(void)closeTransactionDetailsView{
+    [self.TransactionDetailsV removeFromSuperview];
+    self.TransactionDetailsV=nil;
 }
+
 -(void)showSendSuccessPopuV{
     UIView *manView=[self mainWindow];
     [manView addSubview:self.sendSuccessPopuV];
@@ -840,5 +846,12 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(currentWalletAccountBalanceChanges:) name: AccountBalanceChanges object:nil];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
     
+}
+-(HWMTransactionDetailsView *)TransactionDetailsV{
+    if (!_TransactionDetailsV) {
+        _TransactionDetailsV =[[HWMTransactionDetailsView alloc]init];
+        _TransactionDetailsV.delegate=self;
+    }
+    return _TransactionDetailsV;
 }
 @end

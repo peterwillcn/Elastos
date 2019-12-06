@@ -175,8 +175,10 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
        NSString * balanceString= [NSString stringWithCString:balanceSt.c_str() encoding:NSUTF8StringEncoding];
  
     self.inputVoteTicketView.votes =[[[FLTools share]elaScaleConversionWith: balanceString] doubleValue]-0.01;
-    self.blaceString=[NSString stringWithFormat:@"%.f",self.inputVoteTicketView.votes];
-      self.TagtatolVoteLab.text = [NSString stringWithFormat:@"%@%.0f ELA",NSLocalizedString(@"最大表决票权约：", nil), self.inputVoteTicketView.votes];
+    self.blaceString=[[FLTools share]CRVotingDecimalNumberBySubtracting:[[FLTools share]elaScaleConversionWith: balanceString] withCRMermVoting:@"0.01"];
+   
+    
+    self.TagtatolVoteLab.text = [NSString stringWithFormat:@"%@%d ELA",NSLocalizedString(@"最大表决票权约：", nil),[self.blaceString intValue]];
     [self  UpdateTheRemainingAvailable];
 }
 
@@ -414,28 +416,28 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     [self.pwdPopupV removeFromSuperview];
     self.pwdPopupV  = nil;
 }
--(void)makeSureWithPWD:(NSString*)pwd{
-    NSMutableArray *stringArray = [NSMutableArray array];
-    for (int i= 0; i<self.voteArray.count; i++) {
-        FLCoinPointInfoModel *model = self.voteArray[i];
-        [stringArray addObject:model.ownerpublickey];
-    }
-    NSString *walletId = [ELWalletManager share].currentWallet.masterWalletID;
-    double tic=self.ticket;
-    if (self.isMax) {
-        tic=-1;
-    }
-    BOOL ret = [[ELWalletManager share]useMainchainSubWallet:walletId ToVote:stringArray tickets:tic pwd:pwd isChangeVote:YES];
-    if (ret) {
-        [self showSendSuccessPopuV];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.sendSuccessPopuV removeFromSuperview];
-            self.sendSuccessPopuV=nil;
-        });
-    }
-    [self.pwdPopupV removeFromSuperview];
-    self.pwdPopupV =  nil;
-}
+//-(void)makeSureWithPWD:(NSString*)pwd{
+//    NSMutableArray *stringArray = [NSMutableArray array];
+//    for (int i= 0; i<self.voteArray.count; i++) {
+//        FLCoinPointInfoModel *model = self.voteArray[i];
+//        [stringArray addObject:model.ownerpublickey];
+//    }
+//    NSString *walletId = [ELWalletManager share].currentWallet.masterWalletID;
+//    double tic=self.ticket;
+//    if (self.isMax) {
+//        tic=-1;
+//    }
+//    BOOL ret = [[ELWalletManager share]useMainchainSubWallet:walletId ToVote:stringArray tickets:tic pwd:pwd isChangeVote:YES];
+//    if (ret) {
+//        [self showSendSuccessPopuV];
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            [self.sendSuccessPopuV removeFromSuperview];
+//            self.sendSuccessPopuV=nil;
+//        });
+//    }
+//    [self.pwdPopupV removeFromSuperview];
+//    self.pwdPopupV =  nil;
+//}
 -(HMWSendSuccessPopuView *)sendSuccessPopuV{
     if (!_sendSuccessPopuV) {
         _sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
@@ -508,6 +510,9 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     
 }
 - (IBAction)TheAverageDistributionImageViewEvent:(id)sender {
+    if (self.dataSource.count==0) {
+          return;
+      }
     self.WhetherTheAverage=!self.WhetherTheAverage;
     if (self.editBtn.isSelected) {
         for (int i=0; i<self.dataSource.count; i++) {
@@ -534,6 +539,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     }
     
     NSIndexPath *index;
+  
     NSString * PnumberVotingString=[[FLTools share]CRVotingTheAverageDistribution:self.blaceString withCRMermVoting:[NSString stringWithFormat:@"%ld",self.dataSource.count]];
 //    double PnumberVoting=[PnumberVotingString doubleValue];
     if (self.WhetherTheAverage) {
@@ -573,8 +579,8 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     }else{
         
         self.allTollTicketLabel.text=[NSString stringWithFormat:@"%@ %@ ELA",NSLocalizedString(@"合计：",nil ),self.TheRemainingAvailable];}
-  double availableString=[[[FLTools share]CRVotingDecimalNumberBySubtracting:self.blaceString withCRMermVoting:self.TheRemainingAvailable]  doubleValue];
-    self.persentLab.text=[NSString stringWithFormat:@"%@ %0.f ELA",NSLocalizedString(@"可用：",nil ),availableString];
+NSString * availableString=[[FLTools share]CRVotingDecimalNumberBySubtracting:self.blaceString withCRMermVoting:self.TheRemainingAvailable];
+    self.persentLab.text=[NSString stringWithFormat:@"%@ %d ELA",NSLocalizedString(@"可用：",nil ),[availableString intValue]];
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
@@ -583,28 +589,36 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
 #pragma mark ---------HWMVoteTheEditorialBoardTableViewCell----------
 
 -(void)addVoteWithIndex:(NSIndexPath *)index withVotes:(NSString *)votes{
+
      HWMCRListModel*model = self.dataSource[index.row];
      if ([self.voteArray containsObject:model]) {
-         [self.voteArray removeObject:model];
+         
          model.SinceVotes=@"0";
          model.isCellSelected=NO;
+         [self.voteArray removeObject:model];
      }else{
          model.SinceVotes=votes;
          model.isCellSelected=YES;
          [self.voteArray addObject:model];
      }
-    self.dataSource[index.row]=model;
+
     NSString *RemainingAvailableString;
     if (model.isCellSelected){
        RemainingAvailableString=[[FLTools share] CRVotingDecimalNumberByAdding:self.TheRemainingAvailable withCRMermVoting:votes];
     }else{
        RemainingAvailableString= [[FLTools share] CRVotingDecimalNumberBySubtracting:self.TheRemainingAvailable withCRMermVoting:votes];
     }
+   self.dataSource[index.row]=model;
     self.TheRemainingAvailable=RemainingAvailableString;
+     HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
+           cell.model=model;
     [self UpdateTheRemainingAvailable];
 }
 
 - (IBAction)ImmediatelyToVote:(id)sender {
+    
+    
+    
     if (self.editBtn.isSelected){
         if (self.voteArray.count==0) {
             return;
@@ -648,6 +662,10 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
 
 
     NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",dic[@"fee"]]];
+    if ([fee doubleValue]<0) {
+        [self closeTransactionDetailsView];
+        return;
+    }
     
 self.jsonString=dic[@"JSON"];
     

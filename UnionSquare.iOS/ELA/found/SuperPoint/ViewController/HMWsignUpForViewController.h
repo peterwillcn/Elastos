@@ -19,6 +19,10 @@
 /*
  *<# #>
  */
+@property(strong,nonatomic)FLWallet *currentWallet;
+/*
+ *<# #>
+ */
 @property(weak,nonatomic)id <HMWsignUpForViewControllerDelegate> delegate;
 
 @end

@@ -77,13 +77,29 @@
         
     }
     self.isSelectedImageView.image =[UIImage imageNamed:imageNameString];
+
     if (self.deleagte) {
-        [self.deleagte addVoteWithIndex:self.index withVotes:self.numberVotingTextField.text];
+         NSString *value;
+        if (self.numberVotingTextField.text.length==0) {
+                  value=@"0";
+               }else{
+                   value=self.numberVotingTextField.text;
+               }
+        [self.deleagte addVoteWithIndex:self.index withVotes:value];
     }
 }
 -(void)valuechanged{
+ 
+   
     if (self.deleagte) {
-        [self.deleagte VoteValueChangeWithIndex:self.index withVotes:self.numberVotingTextField.text];
+        NSString *value;
+        if (self.numberVotingTextField.text.length==0) {
+           value=@"0";
+        }else{
+            value=self.numberVotingTextField.text;
+        }
+        
+        [self.deleagte VoteValueChangeWithIndex:self.index withVotes:value];
     }
 }
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{

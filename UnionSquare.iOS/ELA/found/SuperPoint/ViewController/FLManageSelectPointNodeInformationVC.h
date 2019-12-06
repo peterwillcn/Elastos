@@ -19,6 +19,12 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(copy,nonatomic)NSString *CRTypeString;
+
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSArray *lastArray;
+
 @end
 
 NS_ASSUME_NONNULL_END

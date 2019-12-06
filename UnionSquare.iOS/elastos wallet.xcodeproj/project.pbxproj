@@ -183,7 +183,7 @@
 		4202CAAD21F6EF2B009E5932 /* assetsListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C98421F6EF29009E5932 /* assetsListModel.m */; };
 		4202CAAE21F6EF2B009E5932 /* HMWaddFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C98821F6EF29009E5932 /* HMWaddFooterView.xib */; };
 		4202CAAF21F6EF2B009E5932 /* HMWaddFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C98921F6EF29009E5932 /* HMWaddFooterView.m */; };
-		4202CAB121F6EF2B009E5932 /* FirstViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C98F21F6EF29009E5932 /* FirstViewController.mm */; };
+		4202CAB121F6EF2B009E5932 /* FLWallet.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C98F21F6EF29009E5932 /* FLWallet.mm */; };
 		4202CAB221F6EF2B009E5932 /* HMWAddTheCurrencyListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C99021F6EF29009E5932 /* HMWAddTheCurrencyListViewController.mm */; };
 		4202CAB421F6EF2B009E5932 /* FLQRVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C99621F6EF29009E5932 /* FLQRVC.xib */; };
 		4202CAB521F6EF2B009E5932 /* FLAllAssetListVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C99721F6EF29009E5932 /* FLAllAssetListVC.mm */; };
@@ -868,7 +868,7 @@
 		4202C98821F6EF29009E5932 /* HMWaddFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMWaddFooterView.xib; sourceTree = "<group>"; };
 		4202C98921F6EF29009E5932 /* HMWaddFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMWaddFooterView.m; sourceTree = "<group>"; };
 		4202C98B21F6EF29009E5932 /* FLAllAssetListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAllAssetListVC.h; sourceTree = "<group>"; };
-		4202C98F21F6EF29009E5932 /* FirstViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FirstViewController.mm; sourceTree = "<group>"; };
+		4202C98F21F6EF29009E5932 /* FLWallet.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FLWallet.mm; sourceTree = "<group>"; };
 		4202C99021F6EF29009E5932 /* HMWAddTheCurrencyListViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HMWAddTheCurrencyListViewController.mm; sourceTree = "<group>"; };
 		4202C99221F6EF29009E5932 /* FLQRVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLQRVC.h; sourceTree = "<group>"; };
 		4202C99421F6EF29009E5932 /* FirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
@@ -2553,7 +2553,7 @@
 			isa = PBXGroup;
 			children = (
 				4202C99421F6EF29009E5932 /* FirstViewController.h */,
-				4202C98F21F6EF29009E5932 /* FirstViewController.mm */,
+				4202C98F21F6EF29009E5932 /* FLWallet.mm */,
 				4202C98B21F6EF29009E5932 /* FLAllAssetListVC.h */,
 				4202C99721F6EF29009E5932 /* FLAllAssetListVC.mm */,
 				4202C99221F6EF29009E5932 /* FLQRVC.h */,
@@ -3942,6 +3942,7 @@
 				42EAEF86238BB43700D6A912 /* NSDictionary+NilSafe.m in Sources */,
 				4202CAB121F6EF2B009E5932 /* FirstViewController.mm in Sources */,
 				4296F1072375429800B2CE7D /* HWMshowIntroductionInfoViewController.m in Sources */,
+				4202CAB121F6EF2B009E5932 /* FLWallet.mm in Sources */,
 				4228AA5121F88C87002866B5 /* UIGestureRecognizer+YYAdd.m in Sources */,
 				70F8409621BEAA1B001C0BD6 /* ELWalletManager.mm in Sources */,
 				42A7A856236AE3BD0034A900 /* HWMConfidentialInformationViewController.m in Sources */,
@@ -4127,6 +4128,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = K5DE7L29B2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4187,6 +4189,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = K5DE7L29B2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4289,6 +4292,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = K5DE7L29B2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4394,6 +4398,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = K5DE7L29B2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

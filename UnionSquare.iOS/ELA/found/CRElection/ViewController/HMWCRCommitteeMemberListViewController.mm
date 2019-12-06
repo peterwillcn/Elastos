@@ -13,7 +13,6 @@
 #import "HMWMyVoteViewController.h"
 #import "FLNotePointDBManager.h"
 #import "DC_DealTextViewController.h"
-#import "HMWsignUpForViewController.h"
 #import "FLManageSelectPointNodeInformationVC.h"
 #import "HMWFMDBManager.h"
 #import "DrawBackVoteMoneyVC.h"
@@ -25,7 +24,7 @@
 #import "HMWToDeleteTheWalletPopView.h"
 #import "HMWAddTheCurrencyListViewController.h"
 
-@interface HMWCRCommitteeMemberListViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWsignUpForViewControllerDelegate,HMWnodeInformationViewControllerDelegate,HWMCRCommitteeForAgreementViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWAddTheCurrencyListViewControllerDelegate>
+@interface HMWCRCommitteeMemberListViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWnodeInformationViewControllerDelegate,HWMCRCommitteeForAgreementViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWAddTheCurrencyListViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *tagVoteRuleLab;
 
 @property (weak, nonatomic) IBOutlet UIView *EditSelectionView;
@@ -188,11 +187,13 @@
        FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
            vc.currentWallet=self.wallet;
            vc.CRTypeString=@"CR";
+        vc.lastArray=self.ActiveArray;
            [self.navigationController pushViewController:vc animated:YES];
     }else if ([self.typeString isEqualToString:@"Unregistered"]){
         if (self.type ==1) {
             FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
                vc.currentWallet=self.wallet;
+                vc.lastArray=self.ActiveArray;
                vc.CRTypeString=@"CR";
                [self.navigationController pushViewController:vc animated:YES];
         }else{
@@ -478,6 +479,7 @@
     if (self.isOpen) {
         HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];
         vc.currentWallet=self.wallet;
+        vc.lastArray=self.ActiveArray;
         [self.navigationController pushViewController:vc animated:YES];
     }else{
         UIView *mainView =[self mainWindow];
@@ -521,6 +523,7 @@
         }else if ([self.typeString isEqualToString:@"Unregistered"]){
             
             HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];
+                        vc.lastArray=self.ActiveArray;
                        vc.currentWallet=self.wallet;
                        [self.navigationController pushViewController:vc animated:YES];
         }

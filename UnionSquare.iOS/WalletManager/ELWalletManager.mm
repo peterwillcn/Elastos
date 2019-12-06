@@ -1306,7 +1306,9 @@ errCodeSPVCreateMasterWalletError= 20006;
     String fromAddress = [self cstringWithString:args[idx++]];
    fromAddress=[self cstringWithString:@""];
     String toAddress = [self cstringWithString:args[idx++]];
-    String amount = [self cstringWithString:args[idx++]];
+    NSString * am=[[FLTools share]CRVotingDecimalNumberByMultiplying:args[idx++] withCRMermVoting:[NSString stringWithFormat:@"%d",unitNumber]];
+    
+    String amount = [self cstringWithString:[NSString stringWithFormat:@"%d",[am intValue]]];
     NSString *memoString=args[idx++];
     if (memoString.length==0) {
         memoString=@"11";
@@ -1735,7 +1737,7 @@ errCodeSPVCreateMasterWalletError= 20006;
 -(BOOL)RetrieveCRDepositTransaction:(NSString*)mainchainSubWalletId acount:(double)acount Pwd:(NSString*)pwd{
     IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:mainchainSubWalletId];
     // 少一个备注的参数
-    String acountS=[self cstringWithString:[NSString stringWithFormat:@"%f",acount*unitNumber]];
+    String acountS=[self cstringWithString:[NSString stringWithFormat:@"%.0f",acount*unitNumber]];
     Json payload;
                 Json tx;
                 Json signedTx;
@@ -1764,7 +1766,7 @@ errCodeSPVCreateMasterWalletError= 20006;
 -(BOOL)RetrieveDeposit:(NSString*)mainchainSubWalletId acount:(double)acount Pwd:(NSString*)pwd{
     IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:mainchainSubWalletId];
     // 少一个备注的参数
-    String acountS=[self cstringWithString:[NSString stringWithFormat:@"%f",acount*unitNumber]];
+    String acountS=[self cstringWithString:[NSString stringWithFormat:@"%.0f",acount*unitNumber]];
     try {
         nlohmann::json tx = mainchainSubWallet->CreateRetrieveDepositTransaction(acountS,"");
         Json signedTx = mainchainSubWallet->SignTransaction(tx, [pwd UTF8String]);
@@ -1786,13 +1788,6 @@ errCodeSPVCreateMasterWalletError= 20006;
        String keys = [[ self dicToJSONString:publicKeys] UTF8String];
              IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:CRmainchainSubWalletId];
               String acount;
-//              if (stake==-1) {
-//               acount="-1";
-//              }else{
-//              acount =[self cstringWithString:[NSString stringWithFormat:@"%.0f",stake*unitNumber]];
-//              }
-             // 少一个备注
-      //    CreateVoteCRTransaction
              try {
                 Json tx = mainchainSubWallet->CreateVoteCRTransaction("",Json::parse(keys),"");
                  NSString *resultString=[self stringWithCString:tx.dump()];
@@ -1827,7 +1822,53 @@ errCodeSPVCreateMasterWalletError= 20006;
        return YES;
     
 }
+-(NSDictionary *)DopsVoteFeeCRMainchainSubWallet:(NSString*)CRmainchainSubWalletId ToVote:(NSArray*)publicKeys tickets:(double)stake{
+     IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:CRmainchainSubWalletId];
+      String keys = [[ self arrayToJSONString:publicKeys] UTF8String];
+    String acount;
+       if (stake==-1) {
+            acount="-1";
+       }else{
+           acount =[self cstringWithString:[NSString stringWithFormat:@"%.0f",stake*unitNumber]];
+       }
+    try {
+         nlohmann::json tx = mainchainSubWallet->CreateVoteProducerTransaction("", acount,Json::parse(keys),"");
+        NSString *resultString=[self stringWithCString:tx.dump()];
+        NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
+                       
+        return @{@"fee":resultdic[@"Fee"],@"JSON":resultString};
 
+     } catch (const std:: exception & e ) {
+          NSString *errString=[self stringWithCString:e.what()];
+                       NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+                       [[FLTools share]showErrorInfo:dic[@"Message"]];
+                       return @{@"fee":@"-1",@"JSON":@""};
+     }
+    
+    
+}
+-(BOOL)useMainchainSubWallet:(NSString*)mainchainSubWalletId WithJsonString:(NSString*)jsonstring pwd:(NSString*)pwd{
+    nlohmann::json tx=[self jsonWithString:jsonstring] ;
+    IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:mainchainSubWalletId];
+    String acount;
+
+    // 少一个备注
+    try {
+     
+        Json signedTx = mainchainSubWallet->SignTransaction(tx, [pwd UTF8String]);
+        Json result = mainchainSubWallet->PublishTransaction(signedTx);
+        NSString *resultString=[self stringWithCString:result.dump()];
+        NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
+        return YES;
+        
+    } catch (const std:: exception & e ) {
+        NSString *errString=[self stringWithCString:e.what()];
+        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+        [[FLTools share]showErrorInfo:dic[@"Message"]];
+        return NO;
+    }
+    return YES;
+}
 -(BOOL)useMainchainSubWallet:(NSString*)mainchainSubWalletId ToVote:(NSArray*)publicKeys tickets:(double)stake pwd:(NSString*)pwd isChangeVote:(BOOL)change{
     String keys = [[ self arrayToJSONString:publicKeys] UTF8String];
     nlohmann::json tx ;
@@ -1869,7 +1910,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     String keys = [[ self arrayToJSONString:publicKeys] UTF8String];
     nlohmann::json tx ;
     IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet: masterWalletID];
-    String acount=[self cstringWithString:[NSString stringWithFormat:@"%f",stake*unitNumber]];
+    String acount=[self cstringWithString:[NSString stringWithFormat:@"%.0f",stake*unitNumber]];
     Json result;
     // 少一个备注
     try {
@@ -1896,7 +1937,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     nlohmann::json tx ;
     Json signedTx;
     IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:masterWalletID];
-    String acount=[self cstringWithString:[NSString stringWithFormat:@"%f",stake*unitNumber]];
+    String acount=[self cstringWithString:[NSString stringWithFormat:@"%.0f",stake*unitNumber]];
     // 少一个备注
     try {
       tx= mainchainSubWallet->CreateVoteCRTransaction("",Json::parse(keys),"");
@@ -1929,7 +1970,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     String keys = [[ self arrayToJSONString:publicKeys] UTF8String];
     nlohmann::json tx ;
     IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet: masterWalletID];
-    String acount=[self cstringWithString:[NSString stringWithFormat:@"%f",stake*unitNumber]];
+    String acount=[self cstringWithString:[NSString stringWithFormat:@"%.0f",stake*unitNumber]];
     Json result;
     // 少一个备注
     try {
@@ -1956,7 +1997,7 @@ errCodeSPVCreateMasterWalletError= 20006;
     nlohmann::json tx ;
     Json signedTx;
     IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:masterWalletID];
-    String acount=[self cstringWithString:[NSString stringWithFormat:@"%f",stake*unitNumber]];
+    String acount=[self cstringWithString:[NSString stringWithFormat:@"%.0f",stake*unitNumber]];
     // 少一个备注
     try {
         tx = mainchainSubWallet->CreateVoteProducerTransaction("", acount,Json::parse(keys),"");
@@ -2037,13 +2078,42 @@ errCodeSPVCreateMasterWalletError= 20006;
     return [self successProcess:command msg:dic];
    
 }
+-(PluginResult *)CreateCombineUTXOTransactionFeeAndJSONString:(invokedUrlCommand *)command{
+    NSArray *args = command.arguments;
+      int idx = 0;
+      
+      String masterWalletID = [self cstringWithString:args[idx++]];
+      String chainID        = [self cstringWithString:args[idx++]];
+      if (args.count != idx) {
+          
+          return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
+      }
+      ISubWallet *subWallet = [self getSubWallet:masterWalletID : chainID];
+      if (subWallet == nil) {
+          NSString *msg = [NSString stringWithFormat:@"%@ %@", @"Get", [self formatWalletNameWithString:masterWalletID other:chainID]];
+          return [self errorProcess:command code:errCodeInvalidSubWallet msg:msg];
+      }
+      Json json;
+      try {
+          json = subWallet->CreateConsolidateTransaction("");
+      } catch (const std:: exception &e) {
+          return [self errInfoToDic:e.what() with:command];
+      }
+    NSString *jsonString = [self stringWithCString:json.dump()];
+     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
+    NSDictionary *feeAndJson=@{@"fee":dic[@"Fee"],@"jsonString":jsonString};
+    
+ return [self successProcess:command msg:feeAndJson];
+}
 -(PluginResult *)CreateCombineUTXOTransaction:(invokedUrlCommand *)command{
     NSArray *args = command.arguments;
     int idx = 0;
     
     String masterWalletID = [self cstringWithString:args[idx++]];
     String chainID        = [self cstringWithString:args[idx++]];
+    Json json             = [self jsonWithString:args[idx++]];
     String PWD        = [self cstringWithString:args[idx++]];
+
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -2053,12 +2123,8 @@ errCodeSPVCreateMasterWalletError= 20006;
         NSString *msg = [NSString stringWithFormat:@"%@ %@", @"Get", [self formatWalletNameWithString:masterWalletID other:chainID]];
         return [self errorProcess:command code:errCodeInvalidSubWallet msg:msg];
     }
-    Json json;
-    try {
-        json = subWallet->CreateConsolidateTransaction("");
-    } catch (const std:: exception &e) {
-        return [self errInfoToDic:e.what() with:command];
-    }
+   
+
     Json signedTx;
     Json result;
     try {

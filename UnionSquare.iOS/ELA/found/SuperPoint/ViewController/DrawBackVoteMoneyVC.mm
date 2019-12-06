@@ -192,9 +192,6 @@
     return str;
 }
 -(void)setCRTypeString:(NSString *)CRTypeString{
-    
-    
-    
-    
+    _CRTypeString=CRTypeString;
 }
 @end

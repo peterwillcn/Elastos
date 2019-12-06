@@ -12,6 +12,8 @@
 #import "HMWSelectCountriesOrRegionsViewController.h"
 #import "ELWalletManager.h"
 #import "HWMTransactionDetailsView.h"
+#import "HWMCRListModel.h"
+
 
 @interface HWMCRRegisteredViewController ()<FLJoinToChoseTransferViewDelegate,HMWSelectCountriesOrRegionsViewControllerDelegate,HWMTransactionDetailsViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *MemberThePublicKeyTextLabel;
@@ -158,6 +160,12 @@
     //    [self.transferDetailsPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
     //        make.left.right.top.bottom.equalTo(manView);
     //    }];
+    for (HWMCRListModel *model in self.lastArray) {
+        if ([model.nickname isEqualToString:self.MemberNameTextField.text]) {
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"委员昵称已存在", nil)];
+            return;
+        }
+    }
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,@"ELA",@"",@"",@"5000",@"",@"",@"1"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
     PluginResult * result =[[ELWalletManager share]accessFees:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
@@ -304,9 +312,9 @@
         return;
        }
     
-    ELWalletManager *manager   =  [ELWalletManager share];
-               IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-               FLJoinVoteInfoModel* model = [[FLJoinVoteInfoModel alloc]init];
+            ELWalletManager *manager   =  [ELWalletManager share];
+            IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
+            FLJoinVoteInfoModel* model = [[FLJoinVoteInfoModel alloc]init];
                model.CRDIDKey    =  self.MembersDIDLabel.text ;
                model.CRownerPublickKey = self.MemberThePublicKeyLabel.text;
                model.nickName   = self.MemberNameTextField.text;
@@ -343,5 +351,9 @@
               }
     }
     return YES;
+}
+-(void)setLastArray:(NSArray *)lastArray{
+    _lastArray=lastArray;
+    
 }
 @end

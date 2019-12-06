@@ -492,8 +492,13 @@ if(inde>self.walletIDListArray.count-1) {
         self.navigationItem.rightBarButtonItem=ClickMorenButton;
     __weak __typeof(self) weakSelf = self;
 MJRefreshNormalHeader  *header = [MJRefreshNormalHeader  headerWithRefreshingBlock:^{
-        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[weakSelf.currentWallet.masterWalletID,@"ELA"] callbackId:weakSelf.currentWallet.masterWalletID className:@"Wallet" methodName:@"SyncStart"];
-        [[ELWalletManager share]SyncStart:mommand];
+    for (assetsListModel *model in self.dataSoureArray) {
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[weakSelf.currentWallet.masterWalletID,model.iconName] callbackId:weakSelf.currentWallet.masterWalletID className:@"Wallet" methodName:@"SyncStart"];
+              [[ELWalletManager share]SyncStart:mommand];
+    }
+      
+
+
         [weakSelf.table.mj_header endRefreshing];
     }];
     self.table.mj_header=header;

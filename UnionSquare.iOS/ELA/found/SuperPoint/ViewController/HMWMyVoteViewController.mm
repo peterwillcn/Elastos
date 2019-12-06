@@ -121,10 +121,11 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
 
     NSMutableArray *showlistdata = [NSMutableArray array];
     NSInteger total =0;
-    for (int i=0; i<param.allKeys.count; i++) {
-        NSString *itemKey = param.allKeys[i];
-        for (int j = 0;j<self.listData.count; j++) {
-            FLCoinPointInfoModel *model = self.listData[j];
+    for (int i=0; i<self.listData.count; i++) {
+          FLCoinPointInfoModel *model = self.listData[i];
+
+        for (int j = 0;j<param.allKeys.count; j++) {
+                  NSString *itemKey = param.allKeys[j];
             if ([model.ownerpublickey isEqualToString:itemKey]) {
                 model.hadVotedNumber = [param[itemKey] integerValue];
                 [showlistdata addObject:model];

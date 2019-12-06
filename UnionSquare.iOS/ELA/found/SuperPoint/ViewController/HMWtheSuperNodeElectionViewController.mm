@@ -327,7 +327,7 @@
     
     HMWMyVoteViewController * vc = [[HMWMyVoteViewController alloc]init];
     vc.listData = self.dataSource;
-    vc.VoteType=MyVoteCRType;
+    vc.VoteType=MyVoteNodeElectioType;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

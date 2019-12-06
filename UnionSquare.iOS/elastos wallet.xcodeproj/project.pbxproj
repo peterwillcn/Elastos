@@ -171,7 +171,7 @@
 		4202CAAD21F6EF2B009E5932 /* assetsListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C98421F6EF29009E5932 /* assetsListModel.m */; };
 		4202CAAE21F6EF2B009E5932 /* HMWaddFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C98821F6EF29009E5932 /* HMWaddFooterView.xib */; };
 		4202CAAF21F6EF2B009E5932 /* HMWaddFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C98921F6EF29009E5932 /* HMWaddFooterView.m */; };
-		4202CAB121F6EF2B009E5932 /* FLWallet.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C98F21F6EF29009E5932 /* FLWallet.mm */; };
+		4202CAB121F6EF2B009E5932 /* FirstViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C98F21F6EF29009E5932 /* FirstViewController.mm */; };
 		4202CAB221F6EF2B009E5932 /* HMWAddTheCurrencyListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C99021F6EF29009E5932 /* HMWAddTheCurrencyListViewController.mm */; };
 		4202CAB421F6EF2B009E5932 /* FLQRVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C99621F6EF29009E5932 /* FLQRVC.xib */; };
 		4202CAB521F6EF2B009E5932 /* FLAllAssetListVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C99721F6EF29009E5932 /* FLAllAssetListVC.mm */; };
@@ -290,6 +290,8 @@
 		423461FA2383F18900E4B135 /* UITableView+YRSafeCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 423461EF2383F18700E4B135 /* UITableView+YRSafeCategory.m */; };
 		423461FB2383F18900E4B135 /* NSDictionary+YRSafeCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 423461F12383F18700E4B135 /* NSDictionary+YRSafeCategory.m */; };
 		423461FC2383F18900E4B135 /* NSNull+YRSafeCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 423461F22383F18700E4B135 /* NSNull+YRSafeCategory.m */; };
+		4236B5F4239A41BE00C05B67 /* FLCurrencyOfWallerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4236B5F0239A41BD00C05B67 /* FLCurrencyOfWallerVC.m */; };
+		4236B5F5239A41BE00C05B67 /* FLCurrencyOfWallerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4236B5F1239A41BD00C05B67 /* FLCurrencyOfWallerVC.xib */; };
 		424910E72271BFCF00C41E50 /* SDWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 424910C62271BFCF00C41E50 /* SDWebImageManager.m */; };
 		424910E82271BFCF00C41E50 /* SDWebImageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 424910C72271BFCF00C41E50 /* SDWebImageDecoder.m */; };
 		424910E92271BFCF00C41E50 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 424910C92271BFCF00C41E50 /* UIImageView+HighlightedWebCache.m */; };
@@ -747,7 +749,7 @@
 		4202C98821F6EF29009E5932 /* HMWaddFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HMWaddFooterView.xib; sourceTree = "<group>"; };
 		4202C98921F6EF29009E5932 /* HMWaddFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMWaddFooterView.m; sourceTree = "<group>"; };
 		4202C98B21F6EF29009E5932 /* FLAllAssetListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAllAssetListVC.h; sourceTree = "<group>"; };
-		4202C98F21F6EF29009E5932 /* FLWallet.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FLWallet.mm; sourceTree = "<group>"; };
+		4202C98F21F6EF29009E5932 /* FirstViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FirstViewController.mm; sourceTree = "<group>"; };
 		4202C99021F6EF29009E5932 /* HMWAddTheCurrencyListViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HMWAddTheCurrencyListViewController.mm; sourceTree = "<group>"; };
 		4202C99221F6EF29009E5932 /* FLQRVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLQRVC.h; sourceTree = "<group>"; };
 		4202C99421F6EF29009E5932 /* FirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
@@ -957,6 +959,9 @@
 		423461F42383F18800E4B135 /* NSNumber+YRSafeCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+YRSafeCategory.h"; sourceTree = "<group>"; };
 		423461F52383F18900E4B135 /* NSString+YRSafeCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+YRSafeCategory.h"; sourceTree = "<group>"; };
 		423461F62383F18900E4B135 /* NSDictionary+YRSafeCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+YRSafeCategory.h"; sourceTree = "<group>"; };
+		4236B5F0239A41BD00C05B67 /* FLCurrencyOfWallerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLCurrencyOfWallerVC.m; sourceTree = "<group>"; };
+		4236B5F1239A41BD00C05B67 /* FLCurrencyOfWallerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FLCurrencyOfWallerVC.xib; sourceTree = "<group>"; };
+		4236B5F2239A41BD00C05B67 /* FLCurrencyOfWallerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLCurrencyOfWallerVC.h; sourceTree = "<group>"; };
 		424910C32271BFCF00C41E50 /* NSImage+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+WebCache.h"; sourceTree = "<group>"; };
 		424910C42271BFCF00C41E50 /* UIImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WebCache.h"; sourceTree = "<group>"; };
 		424910C52271BFCF00C41E50 /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
@@ -2208,8 +2213,11 @@
 		4202C98A21F6EF29009E5932 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				4236B5F2239A41BD00C05B67 /* FLCurrencyOfWallerVC.h */,
+				4236B5F0239A41BD00C05B67 /* FLCurrencyOfWallerVC.m */,
+				4236B5F1239A41BD00C05B67 /* FLCurrencyOfWallerVC.xib */,
 				4202C99421F6EF29009E5932 /* FirstViewController.h */,
-				4202C98F21F6EF29009E5932 /* FLWallet.mm */,
+				4202C98F21F6EF29009E5932 /* FirstViewController.mm */,
 				4202C98B21F6EF29009E5932 /* FLAllAssetListVC.h */,
 				4202C99721F6EF29009E5932 /* FLAllAssetListVC.mm */,
 				4202C99221F6EF29009E5932 /* FLQRVC.h */,
@@ -3268,6 +3276,7 @@
 				4202CA6221F6EF2A009E5932 /* HMWSendSuccessPopuView.xib in Resources */,
 				4202CA6321F6EF2A009E5932 /* HMWpwdPopupView.xib in Resources */,
 				4202CA2721F6EF2A009E5932 /* FLTableViewDefultCell.xib in Resources */,
+				4236B5F5239A41BE00C05B67 /* FLCurrencyOfWallerVC.xib in Resources */,
 				4202CAA221F6EF2B009E5932 /* HMWImKeystoreView.xib in Resources */,
 				4202CA5421F6EF2A009E5932 /* FLSearchContractTableCell.xib in Resources */,
 				4202CA4221F6EF2A009E5932 /* FLwalletSelectView.xib in Resources */,
@@ -3420,6 +3429,7 @@
 				42EAEFD2238BB52800D6A912 /* HWMQRModel.m in Sources */,
 				42B57ABA22150C1C004CF089 /* WOCrashProtectorManager.m in Sources */,
 				42EAEFC8238BB46300D6A912 /* MJRefreshFooter.m in Sources */,
+				4236B5F4239A41BE00C05B67 /* FLCurrencyOfWallerVC.m in Sources */,
 				4202CA6921F6EF2B009E5932 /* HMWtransferTransactionMultipleAddressDetailsTableViewCell.m in Sources */,
 				4202CA3721F6EF2A009E5932 /* FLChoseOrVoteVC.m in Sources */,
 				42186FE022BCADBB0063A28D /* AboutELAWalletViewController.mm in Sources */,
@@ -3557,7 +3567,7 @@
 				42D126A722B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.m in Sources */,
 				4202CA9D21F6EF2B009E5932 /* FLSelectWordView.m in Sources */,
 				42EAEF86238BB43700D6A912 /* NSDictionary+NilSafe.m in Sources */,
-				4202CAB121F6EF2B009E5932 /* FLWallet.mm in Sources */,
+				4202CAB121F6EF2B009E5932 /* FirstViewController.mm in Sources */,
 				4228AA5121F88C87002866B5 /* UIGestureRecognizer+YYAdd.m in Sources */,
 				70F8409621BEAA1B001C0BD6 /* ELWalletManager.mm in Sources */,
 				42D126A122B7754F000A286C /* runningNodeListView.m in Sources */,

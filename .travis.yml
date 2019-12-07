@@ -114,6 +114,11 @@ script:
       DEPLOY="";
     fi
 
+notifications:
+  email:
+  - raozhiming@trinity-tech.io
+  - benjaminpiette@elastos-fusion.org
+
 before_deploy:
   # Set up git user name and tag this commit
   - git config --local user.name $USER_NAME

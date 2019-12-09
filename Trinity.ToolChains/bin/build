@@ -7,7 +7,9 @@ import argparse
 import distutils.dir_util as dir_util
 import textwrap
 import timeit
-from xml.dom import minidom
+
+sys.path.append(os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + '/../lib'))
+import ela_plugin
 
 parser = argparse.ArgumentParser(description='Build the Elastor.Trinity project.',
                                  formatter_class=argparse.RawTextHelpFormatter)
@@ -21,8 +23,6 @@ parser.add_argument('target', metavar='TARGET', choices=['all', 'clean', 'clobbe
                          clobber: delete all build files;
                          plugin: reintall the specified plugin.
                      '''))
-parser.add_argument('-p', '--path', dest='plugin_path', metavar='PATH', required=False,
-                    help='Specify the path of plugin.')
 args = parser.parse_args()
 
 SCRIPT_PATH=os.path.realpath(__file__)
@@ -50,21 +50,6 @@ def remove_tree(directory):
 def copy_tree(src, dst):
     print("Copying " + src + " To " + dst)
     dir_util.copy_tree(src, dst)
-
-def plugin_convertTS2JS():
-    run_cmd("npm install typescript -g")
-    dirs = os.listdir(PLUGIN_DIR_PATH)
-    for dir in dirs:
-        filepath = os.path.join(PLUGIN_DIR_PATH, dir)
-        if os.path.isdir(filepath):
-            tsconfig = os.path.join(filepath, "www/tsconfig.json")
-            if os.path.isfile(tsconfig):
-                run_cmd("tsc --build " + tsconfig)
-
-def get_pluginId(directory):
-    xmldoc = minidom.parse(directory + '/plugin.xml')
-    itemlist = xmldoc.getElementsByTagName('plugin')
-    return itemlist[0].attributes['id'].value
 
 def add_fabric():
     api_key = os.getenv("FABRIC_API_KEY");
@@ -146,7 +131,7 @@ if args.target == "all":
 if args.target == "all" or args.target == "launcher" or args.target == "runtime":
     os.chdir(RUNTIME_DIR_PATH)
     copy_tree("www_files", "www")
-    plugin_convertTS2JS()
+    ela_plugin.plugin_prepare(True)
     run_cmd("npm install")
     run_cmd("cordova prepare")
     add_fabric()

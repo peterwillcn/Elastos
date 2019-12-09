@@ -51,7 +51,7 @@
          self.AccountedLabel.text = [NSString stringWithFormat:@"%@ %@ %@",NSLocalizedString(@"投票占比：", nil),model.voterate,@"%"];
          self.totalNumberVotesLabel.text=[NSString stringWithFormat:@"%@ %ld %@",NSLocalizedString(@"得票总数：", nil),[model.votes longValue],NSLocalizedString(@"票", nil)];
     NSString *imageNameString=@"found_not_select";
-    if (_model.isCellSelected) {
+    if (model.isCellSelected) {
          imageNameString=@"found_vote_select";
     }else{
          imageNameString=@"found_not_select";

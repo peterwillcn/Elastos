@@ -114,7 +114,11 @@
         self.CRModel.nickname=param[@"Info"][@"NickName"];
         self.CRModel.url=param[@"Info"][@"Url"];
         self.CRModel.location=param[@"Info"][@"Location"];
+   
     self.CRModel.ownerpublickey=param[@"Info"][@"CROwnerPublicKey"];
+        
+        self.CRModel=self.lastArray.firstObject;
+        self.OwnerPublickKeyLab.text=self.CRModel.nickname;
         self.nodeInformationDetailsV.CRmodel=self.CRModel;
         [self.lookAtTheCandidateListButton setTitle:NSLocalizedString(@"退出参选", nil) forState:UIControlStateNormal];
            [self.updataTheCandidateListButton setTitle:NSLocalizedString(@"更新信息", nil) forState:UIControlStateNormal];

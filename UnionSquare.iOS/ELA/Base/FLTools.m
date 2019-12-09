@@ -1278,7 +1278,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
                return @"http://172.26.0.207:3000";
               
            }else if ([sdknet isEqualToString:@"TestNet"] ){
-               return @"https://54.223.244.60";
+               return @"http://54.223.244.60";
               
            }else if ([sdknet isEqualToString:@"MainNet"]){
                return @"http://54.223.158.189:5739/";

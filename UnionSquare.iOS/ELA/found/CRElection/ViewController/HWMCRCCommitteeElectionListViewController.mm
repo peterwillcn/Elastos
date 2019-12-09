@@ -102,6 +102,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     CGFloat proFlo=[[self.persent substringToIndex:self.persent.length-1]floatValue]/100;
     self.progress.progress = proFlo;
     self.TheRemainingAvailable=@"0";
+   
     
  
 }
@@ -110,10 +111,11 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     for (HWMCRListModel *model in self.lastArray) {
         
         for ( HWMCRListModel *lmodel in DBRecoArray) {
-            
             if ([model.did isEqualToString:lmodel.did]) {
-                model.index=[NSString stringWithFormat:@"%d",([model.index intValue]+1)];
+                model.SinceVotes=@"";
+                model.isCellSelected=NO;
                 [self.dataSource addObject:model];
+                
             }
         }
     }
@@ -352,6 +354,9 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     if (model.SinceVotes.length>0&&model.isCellSelected) {
         cell.numberVotingTextField.text=model.SinceVotes;
     }
+//    if (model.SinceVotes.length==0&&model.isCellSelected==NO) {
+////        cell.numberVotingTextField.text=@"";
+//    }
     cell.model = model;
     return cell;
     
@@ -387,7 +392,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
            NSIndexPath * index=[NSIndexPath indexPathForRow:i inSection:0];
           HWMCRListModel *model = self.dataSource[i];
            model.isCellSelected=NO;
-            model.SinceVotes=@"0";
+            model.SinceVotes=@"";
             self.dataSource[i]=model;
             HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
                    cell.model=model;
@@ -574,7 +579,8 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
 }
 -(void)UpdateTheRemainingAvailable{
     
-    if ([self.TheRemainingAvailable doubleValue]==0) {
+    if ([self.TheRemainingAvailable isEqualToString:@"0"]||self.TheRemainingAvailable.length==0) {
+        self.TheRemainingAvailable=@"0";
          self.allTollTicketLabel.text=[NSString stringWithFormat:@"%@ 0 ELA",NSLocalizedString(@"合计：",nil )];
     }else{
         
@@ -593,10 +599,11 @@ NSString * availableString=[[FLTools share]CRVotingDecimalNumberBySubtracting:se
      HWMCRListModel*model = self.dataSource[index.row];
      if ([self.voteArray containsObject:model]) {
          
-         model.SinceVotes=@"0";
+         model.SinceVotes=@"";
          model.isCellSelected=NO;
          [self.voteArray removeObject:model];
      }else{
+         
          model.SinceVotes=votes;
          model.isCellSelected=YES;
          [self.voteArray addObject:model];
@@ -610,9 +617,10 @@ NSString * availableString=[[FLTools share]CRVotingDecimalNumberBySubtracting:se
     }
    self.dataSource[index.row]=model;
     self.TheRemainingAvailable=RemainingAvailableString;
-     HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
-           cell.model=model;
+//     HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
+//           cell.model=model;
     [self UpdateTheRemainingAvailable];
+    [self.baseTableView reloadData];
 }
 
 - (IBAction)ImmediatelyToVote:(id)sender {
@@ -634,14 +642,16 @@ NSString * availableString=[[FLTools share]CRVotingDecimalNumberBySubtracting:se
                 [self updatePlaceHoldInfo];
             }
             [self clearVoteArray];
-                 
+            if (self.delegate) {
+                [self.delegate needUpdataSta];
+            }
         }else{
              [[FLTools share]showErrorInfo:@"删除失败"];
         }
         return;
     }
     
-    if (self.voteArray.count == 0||[self.TheRemainingAvailable boolValue]==0) {
+    if (self.voteArray.count == 0||[self.TheRemainingAvailable isEqualToString:@"0"]) {
                 return;
             }
             if (self.voteArray.count>36) {
@@ -652,7 +662,7 @@ NSString * availableString=[[FLTools share]CRVotingDecimalNumberBySubtracting:se
     for (int i= 0; i<self.voteArray.count; i++) {
         HWMCRListModel *model=self.voteArray[i];
         
-        NSDictionary *dic=@{model.did: [NSString stringWithFormat:@"%.0f",[model.SinceVotes doubleValue]*unitNumber]};
+        NSDictionary *dic=@{model.did:[[FLTools share]elsToSela:model.SinceVotes]};
 
     [CRDic addEntriesFromDictionary:dic];
     }
@@ -797,5 +807,8 @@ self.jsonString=dic[@"JSON"];
            
        }
     
+}
+-(void)setLastArray:(NSArray *)lastArray{
+    _lastArray=lastArray;
 }
 @end

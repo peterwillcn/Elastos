@@ -1306,9 +1306,9 @@ errCodeSPVCreateMasterWalletError= 20006;
     String fromAddress = [self cstringWithString:args[idx++]];
    fromAddress=[self cstringWithString:@""];
     String toAddress = [self cstringWithString:args[idx++]];
-    NSString * am=[[FLTools share]CRVotingDecimalNumberByMultiplying:args[idx++] withCRMermVoting:[NSString stringWithFormat:@"%d",unitNumber]];
+//    NSString * am=[[FLTools share]CRVotingDecimalNumberByMultiplying:args[idx++] withCRMermVoting:[NSString stringWithFormat:@"%d",unitNumber]];
     
-    String amount = [self cstringWithString:[NSString stringWithFormat:@"%d",[am intValue]]];
+    String amount = [self cstringWithString:args[idx++]];
     NSString *memoString=args[idx++];
     if (memoString.length==0) {
         memoString=@"11";

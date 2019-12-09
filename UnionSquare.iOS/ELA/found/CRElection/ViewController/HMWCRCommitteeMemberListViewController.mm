@@ -24,7 +24,7 @@
 #import "HMWToDeleteTheWalletPopView.h"
 #import "HMWAddTheCurrencyListViewController.h"
 
-@interface HMWCRCommitteeMemberListViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWnodeInformationViewControllerDelegate,HWMCRCommitteeForAgreementViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWAddTheCurrencyListViewControllerDelegate>
+@interface HMWCRCommitteeMemberListViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWnodeInformationViewControllerDelegate,HWMCRCommitteeForAgreementViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWAddTheCurrencyListViewControllerDelegate,HWMCRCCommitteeElectionListViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *tagVoteRuleLab;
 
 @property (weak, nonatomic) IBOutlet UIView *EditSelectionView;
@@ -282,8 +282,9 @@
     }];
 }
 -(void)UpdataLocalOwerlist{
+    [self.ActiveArray removeAllObjects];
     NSArray *localStore  = [[NSMutableArray alloc]initWithArray: [[HMWFMDBManager sharedManagerType:CRListType] allSelectCRWithWallID:self.wallet.masterWalletID]];
-    NSInteger selfIndex=-1;
+//    NSInteger selfIndex=-1;
     for (int i= 0; i<self.memberListDataSource.count; i++) {
          HWMCRListModel* model=self.memberListDataSource[i];
         model.voterate=[[FLTools share]CRVotingPercentageWithAllCount:self.totalvotes withCRMermVoting:model.votes];
@@ -295,17 +296,30 @@
             if (ret) {
                 dataModel.isCellSelected=YES;
                 model.isCellSelected=YES;
-                curentmodel = model;
-                 self.memberListDataSource[i]=model;
             }
         }
-        if ([model.state isEqualToString:@"Active"]) {
-            model.index=[NSString stringWithFormat:@"%lu",self.ActiveArray.count];
-            curentmodel.index=model.index;
-            [self.ActiveArray addObject:model];
-            if (self.needFind) {
-                selfIndex=[self findMyDidWithIndexWithIndex:i];
-            }
+        if (ret==NO) {
+ 
+            model.isCellSelected=NO;
+            model.isNewCellSelected=NO;
+            self.memberListDataSource[i]=model;
+        }
+        
+        
+        if ([model.did isEqualToString:self.CROwnerDID]&&self.needFind) {
+            model.index=[NSString stringWithFormat:@"%lu",self.ActiveArray.count+1];
+                                curentmodel.index=model.index;
+                                [self.ActiveArray insertObject:model atIndex:0];
+            self.needFind=NO;
+
+            
+        }else{
+            if ([model.state isEqualToString:@"Active"]) {
+                      model.index=[NSString stringWithFormat:@"%lu",self.ActiveArray.count+1];
+                      curentmodel.index=model.index;
+                      [self.ActiveArray addObject:model];
+        }
+      
    }
         if (curentmodel){
             [[HMWFMDBManager sharedManagerType:CRListType]updateSelectCR:model WithWalletID:self.wallet.walletID];
@@ -314,12 +328,13 @@
             [[HMWFMDBManager sharedManagerType:CRListType]delectSelectCR:model WithWalletID:self.wallet.walletID];
         }
     }
-    if (selfIndex>-1) {
-        HWMCRListModel *model=self.ActiveArray[selfIndex];
-        [self.ActiveArray removeObjectAtIndex:selfIndex];
-        [self.ActiveArray insertObject:model atIndex:0];
-        
-    }
+
+//    if (selfIndex>-1) {
+//
+//        HWMCRListModel *model=self.ActiveArray[selfIndex];
+//        [self.ActiveArray removeObjectAtIndex:selfIndex];
+//        [self.ActiveArray insertObject:model atIndex:0];
+//    }
     
     
     [self loadAllImageInfo:self.ActiveArray];
@@ -331,14 +346,13 @@
 //    invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[manager.currentWallet.masterWalletID,@"IDChain"] callbackId:manager.currentWallet.masterWalletID className:@"wallet" methodName:@"createMasterWallet"];
 //             NSDictionary * resultBase =[[ELWalletManager share]GetCRFirstPublicKeysAndDID:cmommand];
 //    self.MemberThePublicKeyLabel.text=resultBase[@"crPublicKey"];
+    
   NSString *CROwnerDID=self.CROwnerDID;
     HWMCRListModel *model=self.ActiveArray[index];
     if ([CROwnerDID isEqualToString:model.did]) {
          self.needFind=NO;
         return index;
     }
-          
-    
     return -1;
 }
 -(HMWvotingRulesView *)votingRulesV{
@@ -384,6 +398,7 @@
     vc.totalvotes=self.totalvotes;
 //    vc.currentWallet=self.wallet;
     vc.lastArray=self.ActiveArray;
+    vc.delegate=self;
     
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -543,5 +558,8 @@
         
     }
     return _ActiveArray;
+}
+-(void)needUpdataSta{
+    [self UpdataLocalOwerlist];
 }
 @end

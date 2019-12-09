@@ -457,9 +457,9 @@ if(inde>self.walletIDListArray.count-1) {
                  model.updateTime=[NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
             }
             [self.dataSoureArray addObject:model];
-            invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:[NSString stringWithFormat:@"%d",index]];
-            [[ELWalletManager share]registerWalletListener:mommand];
-            [[ELWalletManager share]SyncStart:mommand];
+//            invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:[NSString stringWithFormat:@"%d",index]];
+//            [[ELWalletManager share]registerWalletListener:mommand];
+//            [[ELWalletManager share]SyncStart:mommand];
             index++;
         }
     }

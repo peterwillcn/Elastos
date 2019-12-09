@@ -46,9 +46,9 @@
          });
     self.VotesAndPercentagesLabel.text=[NSString stringWithFormat:@"%@%@",votes,voterateString];
     if ([model.index integerValue]>11) {
-        self.NoIndexLabel.text=[NSString stringWithFormat:@"%ld",(long)[model.index integerValue]+1];
+        self.NoIndexLabel.text=[NSString stringWithFormat:@"%@",model.index ];
     }else{
-        self.NoIndexLabel.text=[NSString stringWithFormat:@"NO.%ld",(long)[model.index integerValue]+1];
+        self.NoIndexLabel.text=[NSString stringWithFormat:@"NO.%@",model.index];
     }
     if (self.isEdiet) {
         self.VotesAndPercentagesLabel.alpha=0.f;

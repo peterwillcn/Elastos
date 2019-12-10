@@ -245,7 +245,8 @@ public class WebViewActivity extends FragmentActivity {
 
     @Override
     public boolean dispatchTouchEvent (MotionEvent ev) {
-        if (!appManager.curFragment.id.equals("launcher")) {
+        if ((appManager != null) && (appManager.curFragment != null)
+                && (!appManager.curFragment.id.equals("launcher"))) {
             gestureDetector.onTouchEvent(ev);
         }
         return super.dispatchTouchEvent(ev);
@@ -260,7 +261,9 @@ public class WebViewActivity extends FragmentActivity {
                     float distance = e2.getY() - e1.getY();
 
                     if (distance > 200 && y1 < 200) {
-                        appManager.flingTheme();
+                        if (appManager != null) {
+                            appManager.flingTheme();
+                        }
                     }
                     return true;
                 }

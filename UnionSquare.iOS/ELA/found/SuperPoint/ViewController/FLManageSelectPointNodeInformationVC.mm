@@ -53,10 +53,6 @@
  */
 @property (weak, nonatomic) IBOutlet UILabel *URLTextLabel;
 @property(strong,nonatomic)nodeInformationDetailsView *nodeInformationDetailsV;
-/*
- *<# #>
- */
-@property(strong,nonatomic) HWMCRListModel*CRModel;
 @end
 
 @implementation FLManageSelectPointNodeInformationVC
@@ -117,7 +113,7 @@
    
     self.CRModel.ownerpublickey=param[@"Info"][@"CROwnerPublicKey"];
         
-        self.CRModel=self.lastArray.firstObject;
+//        self.CRModel=self.lastArray.firstObject;
         self.OwnerPublickKeyLab.text=self.CRModel.nickname;
         self.nodeInformationDetailsV.CRmodel=self.CRModel;
         [self.lookAtTheCandidateListButton setTitle:NSLocalizedString(@"退出参选", nil) forState:UIControlStateNormal];
@@ -276,10 +272,8 @@ NSString *httpIP=[[FLTools share]http_IpFast];
     }
     return _nodeInformationDetailsV;
 }
--(HWMCRListModel *)CRModel{
-    if (!_CRModel) {
-        _CRModel =[[HWMCRListModel alloc]init];
-    }
-    return _CRModel;
+
+-(void)setCRModel:(HWMCRListModel *)CRModel{
+    _CRModel=CRModel;
 }
 @end

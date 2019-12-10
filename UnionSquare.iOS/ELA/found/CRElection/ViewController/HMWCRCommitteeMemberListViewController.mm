@@ -105,7 +105,6 @@
     [self getNetCoinPointArray];
     if ([self.typeString isEqualToString:@"Registered"]){
         self.needFind=YES;
-        self.votingListV.typeString=@"Registered";
     self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
         self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
     }else if([self.typeString isEqualToString:@"Canceled"]){
@@ -186,11 +185,27 @@
 }
 - (IBAction)NodeRegisteredState:(id)sender {
     if ([self.typeString isEqualToString:@"Registered"]){
-       FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
-           vc.currentWallet=self.wallet;
-           vc.CRTypeString=@"CR";
-        vc.lastArray=self.ActiveArray;
-           [self.navigationController pushViewController:vc animated:YES];
+        
+        if (self.isOpen) {
+               FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
+                   vc.currentWallet=self.wallet;
+                   vc.CRTypeString=@"CR";
+                HWMCRListModel *model;
+                if (self.selfindex>0){
+                model=self.memberListDataSource[self.selfindex];
+                }else{
+                model=self.ActiveArray.firstObject;
+                }
+                vc.CRModel=model;
+                vc.lastArray=self.ActiveArray;
+                   [self.navigationController pushViewController:vc animated:YES];
+         }else{
+             UIView *mainView =[self mainWindow];
+             [mainView addSubview:self.openIDChainView];
+             [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
+                 make.left.right.top.bottom.equalTo(mainView);
+             }];
+         }
     }else if ([self.typeString isEqualToString:@"Unregistered"]){
         if (self.type ==1) {
             FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
@@ -314,6 +329,7 @@
                 curentmodel.index=model.index;
                 [self.ActiveArray insertObject:model atIndex:0];
                 self.needFind=NO;
+                self.votingListV.typeString=@"Registered";
             }else{
                 
                 self.selfindex=i;
@@ -422,6 +438,7 @@
     nodeInformationVC.totalvotes=self.totalvotes;
     nodeInformationVC.lastTimeArray=self.ActiveArray;
     [self.navigationController pushViewController:nodeInformationVC animated:YES];
+    
 }
 -(void)VotingListisEdite:(BOOL)edite{
     if (edite==YES) {

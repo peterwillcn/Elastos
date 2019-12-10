@@ -224,6 +224,16 @@
 		4202CADE21F6F0D2009E5932 /* ElaSubWalletCallback.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202CADC21F6F0D2009E5932 /* ElaSubWalletCallback.mm */; };
 		420A48B7231F9FDD001D67C0 /* HWMCRVotingListCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 420A48B5231F9FDD001D67C0 /* HWMCRVotingListCollectionViewCell.m */; };
 		420A48B8231F9FDD001D67C0 /* HWMCRVotingListCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 420A48B6231F9FDD001D67C0 /* HWMCRVotingListCollectionViewCell.xib */; };
+		4210E854239F8A07001D82F3 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4210E83C239F8A06001D82F3 /* NSLayoutConstraint+MASDebugAdditions.m */; };
+		4210E855239F8A07001D82F3 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4210E845239F8A06001D82F3 /* ViewController+MASAdditions.m */; };
+		4210E856239F8A07001D82F3 /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4210E849239F8A06001D82F3 /* MASCompositeConstraint.m */; };
+		4210E857239F8A07001D82F3 /* MASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 4210E84A239F8A06001D82F3 /* MASConstraintMaker.m */; };
+		4210E858239F8A07001D82F3 /* MASLayoutConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4210E84B239F8A06001D82F3 /* MASLayoutConstraint.m */; };
+		4210E859239F8A07001D82F3 /* NSArray+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4210E84C239F8A06001D82F3 /* NSArray+MASAdditions.m */; };
+		4210E85A239F8A07001D82F3 /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4210E84D239F8A06001D82F3 /* View+MASAdditions.m */; };
+		4210E85B239F8A07001D82F3 /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4210E850239F8A06001D82F3 /* MASConstraint.m */; };
+		4210E85C239F8A07001D82F3 /* MASViewConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4210E852239F8A06001D82F3 /* MASViewConstraint.m */; };
+		4210E85D239F8A07001D82F3 /* MASViewAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 4210E853239F8A06001D82F3 /* MASViewAttribute.m */; };
 		4218668622CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4218668422CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.m */; };
 		4218668722CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4218668522CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.xib */; };
 		42186FE022BCADBB0063A28D /* AboutELAWalletViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42186FDE22BCADBB0063A28D /* AboutELAWalletViewController.mm */; };
@@ -485,16 +495,6 @@
 		42EA69402313C23C00418328 /* HWMQrCodeScanningResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42EA693E2313C23C00418328 /* HWMQrCodeScanningResultsViewController.xib */; };
 		42EA69442313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EA69422313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.m */; };
 		42EA69452313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42EA69432313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.xib */; };
-		42EAEF77238BB3F900D6A912 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF5F238BB3F900D6A912 /* NSLayoutConstraint+MASDebugAdditions.m */; };
-		42EAEF78238BB3F900D6A912 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF68238BB3F900D6A912 /* ViewController+MASAdditions.m */; };
-		42EAEF79238BB3F900D6A912 /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF6C238BB3F900D6A912 /* MASCompositeConstraint.m */; };
-		42EAEF7A238BB3F900D6A912 /* MASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF6D238BB3F900D6A912 /* MASConstraintMaker.m */; };
-		42EAEF7B238BB3F900D6A912 /* MASLayoutConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF6E238BB3F900D6A912 /* MASLayoutConstraint.m */; };
-		42EAEF7C238BB3F900D6A912 /* NSArray+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF6F238BB3F900D6A912 /* NSArray+MASAdditions.m */; };
-		42EAEF7D238BB3F900D6A912 /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF70238BB3F900D6A912 /* View+MASAdditions.m */; };
-		42EAEF7E238BB3F900D6A912 /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF73238BB3F900D6A912 /* MASConstraint.m */; };
-		42EAEF7F238BB3F900D6A912 /* MASViewConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF75238BB3F900D6A912 /* MASViewConstraint.m */; };
-		42EAEF80238BB3F900D6A912 /* MASViewAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF76238BB3F900D6A912 /* MASViewAttribute.m */; };
 		42EAEF85238BB43700D6A912 /* NSString+HWMNSTaggedPointerString.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF82238BB43700D6A912 /* NSString+HWMNSTaggedPointerString.m */; };
 		42EAEF86238BB43700D6A912 /* NSDictionary+NilSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF83238BB43700D6A912 /* NSDictionary+NilSafe.m */; };
 		42EAEFB8238BB46300D6A912 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF88238BB46300D6A912 /* UIScrollView+MJRefresh.m */; };
@@ -582,7 +582,7 @@
 		0207DA571B56EA530066E2B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "elastos wallet/Assets.xcassets"; sourceTree = SOURCE_ROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = AppDelegate.mm; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* PRVNET.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PRVNET.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* elastos Wallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "elastos Wallet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B97316FDCFA39411CA2CEA /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* elastos wallet-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "elastos wallet-Prefix.pch"; sourceTree = "<group>"; };
 		420131C12320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCRCCommitteeElectionListViewController.h; sourceTree = "<group>"; };
@@ -937,6 +937,31 @@
 		420A48B4231F9FDD001D67C0 /* HWMCRVotingListCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCRVotingListCollectionViewCell.h; sourceTree = "<group>"; };
 		420A48B5231F9FDD001D67C0 /* HWMCRVotingListCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMCRVotingListCollectionViewCell.m; sourceTree = "<group>"; };
 		420A48B6231F9FDD001D67C0 /* HWMCRVotingListCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMCRVotingListCollectionViewCell.xib; sourceTree = "<group>"; };
+		4210E83B239F8A06001D82F3 /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
+		4210E83C239F8A06001D82F3 /* NSLayoutConstraint+MASDebugAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+MASDebugAdditions.m"; sourceTree = "<group>"; };
+		4210E83D239F8A06001D82F3 /* MASConstraint+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MASConstraint+Private.h"; sourceTree = "<group>"; };
+		4210E83E239F8A06001D82F3 /* MASLayoutConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASLayoutConstraint.h; sourceTree = "<group>"; };
+		4210E83F239F8A06001D82F3 /* NSArray+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASShorthandAdditions.h"; sourceTree = "<group>"; };
+		4210E840239F8A06001D82F3 /* MASConstraintMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraintMaker.h; sourceTree = "<group>"; };
+		4210E841239F8A06001D82F3 /* View+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASAdditions.h"; sourceTree = "<group>"; };
+		4210E842239F8A06001D82F3 /* NSArray+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASAdditions.h"; sourceTree = "<group>"; };
+		4210E843239F8A06001D82F3 /* MASUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASUtilities.h; sourceTree = "<group>"; };
+		4210E844239F8A06001D82F3 /* MASViewAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewAttribute.h; sourceTree = "<group>"; };
+		4210E845239F8A06001D82F3 /* ViewController+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewController+MASAdditions.m"; sourceTree = "<group>"; };
+		4210E846239F8A06001D82F3 /* MASViewConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewConstraint.h; sourceTree = "<group>"; };
+		4210E847239F8A06001D82F3 /* MASConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraint.h; sourceTree = "<group>"; };
+		4210E848239F8A06001D82F3 /* NSLayoutConstraint+MASDebugAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+MASDebugAdditions.h"; sourceTree = "<group>"; };
+		4210E849239F8A06001D82F3 /* MASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASCompositeConstraint.m; sourceTree = "<group>"; };
+		4210E84A239F8A06001D82F3 /* MASConstraintMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraintMaker.m; sourceTree = "<group>"; };
+		4210E84B239F8A06001D82F3 /* MASLayoutConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASLayoutConstraint.m; sourceTree = "<group>"; };
+		4210E84C239F8A06001D82F3 /* NSArray+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MASAdditions.m"; sourceTree = "<group>"; };
+		4210E84D239F8A06001D82F3 /* View+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "View+MASAdditions.m"; sourceTree = "<group>"; };
+		4210E84E239F8A06001D82F3 /* View+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASShorthandAdditions.h"; sourceTree = "<group>"; };
+		4210E84F239F8A06001D82F3 /* Masonry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Masonry.h; sourceTree = "<group>"; };
+		4210E850239F8A06001D82F3 /* MASConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraint.m; sourceTree = "<group>"; };
+		4210E851239F8A06001D82F3 /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+MASAdditions.h"; sourceTree = "<group>"; };
+		4210E852239F8A06001D82F3 /* MASViewConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewConstraint.m; sourceTree = "<group>"; };
+		4210E853239F8A06001D82F3 /* MASViewAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewAttribute.m; sourceTree = "<group>"; };
 		4218668322CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMaddSignThePursefootTableViewCell.h; sourceTree = "<group>"; };
 		4218668422CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMaddSignThePursefootTableViewCell.m; sourceTree = "<group>"; };
 		4218668522CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMaddSignThePursefootTableViewCell.xib; sourceTree = "<group>"; };
@@ -1434,31 +1459,6 @@
 		42EA69412313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMQrCodeTransferAndAddBuddyViewController.h; sourceTree = "<group>"; };
 		42EA69422313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMQrCodeTransferAndAddBuddyViewController.m; sourceTree = "<group>"; };
 		42EA69432313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMQrCodeTransferAndAddBuddyViewController.xib; sourceTree = "<group>"; };
-		42EAEF5E238BB3F900D6A912 /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
-		42EAEF5F238BB3F900D6A912 /* NSLayoutConstraint+MASDebugAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+MASDebugAdditions.m"; sourceTree = "<group>"; };
-		42EAEF60238BB3F900D6A912 /* MASConstraint+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MASConstraint+Private.h"; sourceTree = "<group>"; };
-		42EAEF61238BB3F900D6A912 /* MASLayoutConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASLayoutConstraint.h; sourceTree = "<group>"; };
-		42EAEF62238BB3F900D6A912 /* NSArray+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASShorthandAdditions.h"; sourceTree = "<group>"; };
-		42EAEF63238BB3F900D6A912 /* MASConstraintMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraintMaker.h; sourceTree = "<group>"; };
-		42EAEF64238BB3F900D6A912 /* View+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASAdditions.h"; sourceTree = "<group>"; };
-		42EAEF65238BB3F900D6A912 /* NSArray+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASAdditions.h"; sourceTree = "<group>"; };
-		42EAEF66238BB3F900D6A912 /* MASUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASUtilities.h; sourceTree = "<group>"; };
-		42EAEF67238BB3F900D6A912 /* MASViewAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewAttribute.h; sourceTree = "<group>"; };
-		42EAEF68238BB3F900D6A912 /* ViewController+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewController+MASAdditions.m"; sourceTree = "<group>"; };
-		42EAEF69238BB3F900D6A912 /* MASViewConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewConstraint.h; sourceTree = "<group>"; };
-		42EAEF6A238BB3F900D6A912 /* MASConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraint.h; sourceTree = "<group>"; };
-		42EAEF6B238BB3F900D6A912 /* NSLayoutConstraint+MASDebugAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+MASDebugAdditions.h"; sourceTree = "<group>"; };
-		42EAEF6C238BB3F900D6A912 /* MASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASCompositeConstraint.m; sourceTree = "<group>"; };
-		42EAEF6D238BB3F900D6A912 /* MASConstraintMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraintMaker.m; sourceTree = "<group>"; };
-		42EAEF6E238BB3F900D6A912 /* MASLayoutConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASLayoutConstraint.m; sourceTree = "<group>"; };
-		42EAEF6F238BB3F900D6A912 /* NSArray+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MASAdditions.m"; sourceTree = "<group>"; };
-		42EAEF70238BB3F900D6A912 /* View+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "View+MASAdditions.m"; sourceTree = "<group>"; };
-		42EAEF71238BB3F900D6A912 /* View+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASShorthandAdditions.h"; sourceTree = "<group>"; };
-		42EAEF72238BB3F900D6A912 /* Masonry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Masonry.h; sourceTree = "<group>"; };
-		42EAEF73238BB3F900D6A912 /* MASConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraint.m; sourceTree = "<group>"; };
-		42EAEF74238BB3F900D6A912 /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+MASAdditions.h"; sourceTree = "<group>"; };
-		42EAEF75238BB3F900D6A912 /* MASViewConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewConstraint.m; sourceTree = "<group>"; };
-		42EAEF76238BB3F900D6A912 /* MASViewAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewAttribute.m; sourceTree = "<group>"; };
 		42EAEF81238BB43600D6A912 /* NSDictionary+NilSafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NilSafe.h"; sourceTree = "<group>"; };
 		42EAEF82238BB43700D6A912 /* NSString+HWMNSTaggedPointerString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HWMNSTaggedPointerString.m"; sourceTree = "<group>"; };
 		42EAEF83238BB43700D6A912 /* NSDictionary+NilSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NilSafe.m"; sourceTree = "<group>"; };
@@ -1650,7 +1650,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* PRVNET.app */,
+				1D6058910D05DD3D006BFB54 /* elastos Wallet.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1762,6 +1762,10 @@
 				425CE7F0230D2290009C2979 /* NenPingManager */,
 				42EAF008238BB84700D6A912 /* HW3DBannerView */,
 				42EAEFFE238BB83900D6A912 /* PingManager */,
+				4210E83A239F8A06001D82F3 /* Masonry */,
+				42EAF008238BB84700D6A912 /* HW3DBannerView */,
+				42EAEFFE238BB83900D6A912 /* PingManager */,
+				42EAEF87238BB46300D6A912 /* MJRefresh */,
 				424910C22271BFCF00C41E50 /* SDWebImage */,
 				4250B3C62238D32600B6858F /* ZBar */,
 				42B57A9322150C1C004CF089 /* WOCrashProtector */,
@@ -2766,6 +2770,38 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		4210E83A239F8A06001D82F3 /* Masonry */ = {
+			isa = PBXGroup;
+			children = (
+				4210E83B239F8A06001D82F3 /* MASCompositeConstraint.h */,
+				4210E83C239F8A06001D82F3 /* NSLayoutConstraint+MASDebugAdditions.m */,
+				4210E83D239F8A06001D82F3 /* MASConstraint+Private.h */,
+				4210E83E239F8A06001D82F3 /* MASLayoutConstraint.h */,
+				4210E83F239F8A06001D82F3 /* NSArray+MASShorthandAdditions.h */,
+				4210E840239F8A06001D82F3 /* MASConstraintMaker.h */,
+				4210E841239F8A06001D82F3 /* View+MASAdditions.h */,
+				4210E842239F8A06001D82F3 /* NSArray+MASAdditions.h */,
+				4210E843239F8A06001D82F3 /* MASUtilities.h */,
+				4210E844239F8A06001D82F3 /* MASViewAttribute.h */,
+				4210E845239F8A06001D82F3 /* ViewController+MASAdditions.m */,
+				4210E846239F8A06001D82F3 /* MASViewConstraint.h */,
+				4210E847239F8A06001D82F3 /* MASConstraint.h */,
+				4210E848239F8A06001D82F3 /* NSLayoutConstraint+MASDebugAdditions.h */,
+				4210E849239F8A06001D82F3 /* MASCompositeConstraint.m */,
+				4210E84A239F8A06001D82F3 /* MASConstraintMaker.m */,
+				4210E84B239F8A06001D82F3 /* MASLayoutConstraint.m */,
+				4210E84C239F8A06001D82F3 /* NSArray+MASAdditions.m */,
+				4210E84D239F8A06001D82F3 /* View+MASAdditions.m */,
+				4210E84E239F8A06001D82F3 /* View+MASShorthandAdditions.h */,
+				4210E84F239F8A06001D82F3 /* Masonry.h */,
+				4210E850239F8A06001D82F3 /* MASConstraint.m */,
+				4210E851239F8A06001D82F3 /* ViewController+MASAdditions.h */,
+				4210E852239F8A06001D82F3 /* MASViewConstraint.m */,
+				4210E853239F8A06001D82F3 /* MASViewAttribute.m */,
+			);
+			path = Masonry;
+			sourceTree = "<group>";
+		};
 		4228A9F121F88C86002866B5 /* yykit */ = {
 			isa = PBXGroup;
 			children = (
@@ -3262,38 +3298,6 @@
 			path = nlohmann;
 			sourceTree = "<group>";
 		};
-		42EAEF5D238BB3F900D6A912 /* Masonry */ = {
-			isa = PBXGroup;
-			children = (
-				42EAEF5E238BB3F900D6A912 /* MASCompositeConstraint.h */,
-				42EAEF5F238BB3F900D6A912 /* NSLayoutConstraint+MASDebugAdditions.m */,
-				42EAEF60238BB3F900D6A912 /* MASConstraint+Private.h */,
-				42EAEF61238BB3F900D6A912 /* MASLayoutConstraint.h */,
-				42EAEF62238BB3F900D6A912 /* NSArray+MASShorthandAdditions.h */,
-				42EAEF63238BB3F900D6A912 /* MASConstraintMaker.h */,
-				42EAEF64238BB3F900D6A912 /* View+MASAdditions.h */,
-				42EAEF65238BB3F900D6A912 /* NSArray+MASAdditions.h */,
-				42EAEF66238BB3F900D6A912 /* MASUtilities.h */,
-				42EAEF67238BB3F900D6A912 /* MASViewAttribute.h */,
-				42EAEF68238BB3F900D6A912 /* ViewController+MASAdditions.m */,
-				42EAEF69238BB3F900D6A912 /* MASViewConstraint.h */,
-				42EAEF6A238BB3F900D6A912 /* MASConstraint.h */,
-				42EAEF6B238BB3F900D6A912 /* NSLayoutConstraint+MASDebugAdditions.h */,
-				42EAEF6C238BB3F900D6A912 /* MASCompositeConstraint.m */,
-				42EAEF6D238BB3F900D6A912 /* MASConstraintMaker.m */,
-				42EAEF6E238BB3F900D6A912 /* MASLayoutConstraint.m */,
-				42EAEF6F238BB3F900D6A912 /* NSArray+MASAdditions.m */,
-				42EAEF70238BB3F900D6A912 /* View+MASAdditions.m */,
-				42EAEF71238BB3F900D6A912 /* View+MASShorthandAdditions.h */,
-				42EAEF72238BB3F900D6A912 /* Masonry.h */,
-				42EAEF73238BB3F900D6A912 /* MASConstraint.m */,
-				42EAEF74238BB3F900D6A912 /* ViewController+MASAdditions.h */,
-				42EAEF75238BB3F900D6A912 /* MASViewConstraint.m */,
-				42EAEF76238BB3F900D6A912 /* MASViewAttribute.m */,
-			);
-			path = Masonry;
-			sourceTree = "<group>";
-		};
 		42EAEF87238BB46300D6A912 /* MJRefresh */ = {
 			isa = PBXGroup;
 			children = (
@@ -3518,7 +3522,7 @@
 			);
 			name = "elastos wallet";
 			productName = "elastos wallet";
-			productReference = 1D6058910D05DD3D006BFB54 /* PRVNET.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* elastos Wallet.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -3758,6 +3762,7 @@
 				420A48B7231F9FDD001D67C0 /* HWMCRVotingListCollectionViewCell.m in Sources */,
 				4202CA8521F6EF2B009E5932 /* HMWToDeleteTheWalletPopView.m in Sources */,
 				425CE7FC230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m in Sources */,
+				4210E85A239F8A07001D82F3 /* View+MASAdditions.m in Sources */,
 				422D609021FC401200DD07FF /* HMWTop_upPageForDetailsViewController.mm in Sources */,
 				4202CA3521F6EF2A009E5932 /* FLSugerBannerModel.m in Sources */,
 				4202CAAA21F6EF2B009E5932 /* FLAllKindBi.m in Sources */,
@@ -3848,7 +3853,9 @@
 				4202CAC521F6EF2B009E5932 /* HMWVotingListCollectionViewCell.m in Sources */,
 				4202CA3321F6EF2A009E5932 /* FLSugarTableCell.m in Sources */,
 				4202CACC21F6EF2B009E5932 /* HMWVotingListView.m in Sources */,
+				4210E85C239F8A07001D82F3 /* MASViewConstraint.m in Sources */,
 				42EAEFBE238BB46300D6A912 /* UIView+MJExtension.m in Sources */,
+				4210E85D239F8A07001D82F3 /* MASViewAttribute.m in Sources */,
 				4228AA4221F88C86002866B5 /* YYCache.m in Sources */,
 				4228AA5A21F88C87002866B5 /* NSThread+YYAdd.m in Sources */,
 				4202CA0F21F6EF2A009E5932 /* SGQRCodeAlbumManager.m in Sources */,
@@ -3866,7 +3873,6 @@
 				424A7D67222FC23B00683B8C /* sideChainInfoModel.m in Sources */,
 				4228AA6221F88C87002866B5 /* NSObject+YYAddForKVO.m in Sources */,
 				4228AA4821F88C87002866B5 /* UIBezierPath+YYAdd.m in Sources */,
-				42EAEF7F238BB3F900D6A912 /* MASViewConstraint.m in Sources */,
 				4202CA8D21F6EF2B009E5932 /* HMWModifyTheWalletPasswordViewController.mm in Sources */,
 				4261CF3A22A15D21006B1DDE /* NSObject+Swizzling.m in Sources */,
 				4250B3F12238D32700B6858F /* UIColor+HEX.m in Sources */,
@@ -3884,6 +3890,7 @@
 				4253EE502369399E005B774A /* HWMDIDListNormalTableViewCell.m in Sources */,
 				4285732D2366F56500C0CF80 /* HWMDIDListViewController.mm in Sources */,
 				423F432D2330D25C0081D8E2 /* HWMQRModel.m in Sources */,
+				4210E859239F8A07001D82F3 /* NSArray+MASAdditions.m in Sources */,
 				426365BF22D82FC200352396 /* UIButton+HMWButton.m in Sources */,
 				42EAF00E238BB84700D6A912 /* UIView+Banner.m in Sources */,
 				4202CAD421F6EF2B009E5932 /* FLSelectSuperPointVC.mm in Sources */,
@@ -3903,7 +3910,6 @@
 				4202CABB21F6EF2B009E5932 /* HMWFMDBManager.m in Sources */,
 				4202CA6421F6EF2A009E5932 /* HMWtransferTransactionMultipleAddressDetailsView.m in Sources */,
 				4202CA9621F6EF2B009E5932 /* FLCreatAcountVC.mm in Sources */,
-				42EAEF79238BB3F900D6A912 /* MASCompositeConstraint.m in Sources */,
 				4202CA1A21F6EF2A009E5932 /* FMDatabaseAdditions.m in Sources */,
 				4202CA1F21F6EF2A009E5932 /* HMWaddContactViewController.m in Sources */,
 				428B4D9A22CB35B6004AE7D0 /* HWMaddSignThePursefootView.m in Sources */,
@@ -3914,6 +3920,7 @@
 				4202CA8C21F6EF2B009E5932 /* HMWTheWalletListViewController.mm in Sources */,
 				42B57AB722150C1C004CF089 /* NSObject+WOSwizzle.m in Sources */,
 				428B4D8A22CB0CF7004AE7D0 /* HWMSignThePurseHeadView.m in Sources */,
+				4210E857239F8A07001D82F3 /* MASConstraintMaker.m in Sources */,
 				428B4D7722CAFCA9004AE7D0 /* HWMcreatListViewController.mm in Sources */,
 				42EAEFFC238BB72D00D6A912 /* HWMAddThePrivateKeyTableViewCell.m in Sources */,
 				42EAEFC1238BB46300D6A912 /* MJRefreshBackNormalFooter.m in Sources */,
@@ -3926,7 +3933,6 @@
 				422D609621FC405000DD07FF /* FLJoinVoteInfoModel.m in Sources */,
 				425E0D68233B5B5E00D4C481 /* HWMCRListModel.m in Sources */,
 				424910EC2271BFCF00C41E50 /* UIImage+MultiFormat.m in Sources */,
-				42EAEF7C238BB3F900D6A912 /* NSArray+MASAdditions.m in Sources */,
 				4202CA3621F6EF2A009E5932 /* FLSugarModel.m in Sources */,
 				CBD48D5C21FC36BA00BF3B11 /* AFURLSessionManager.m in Sources */,
 				42EAEF85238BB43700D6A912 /* NSString+HWMNSTaggedPointerString.m in Sources */,
@@ -3935,6 +3941,7 @@
 				428573232366D6E100C0CF80 /* HWMAddPersonalProfileViewController.m in Sources */,
 				4253EE4B23692F93005B774A /* HWMDIDListAbnormalTableViewCell.m in Sources */,
 				4228AA4121F88C86002866B5 /* YYDiskCache.m in Sources */,
+				4210E855239F8A07001D82F3 /* ViewController+MASAdditions.m in Sources */,
 				424910F72271BFCF00C41E50 /* UIButton+WebCache.m in Sources */,
 				428B4D8122CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.m in Sources */,
 				4228AA5021F88C87002866B5 /* UIBarButtonItem+YYAdd.m in Sources */,
@@ -3973,11 +3980,9 @@
 				4228AA5821F88C87002866B5 /* NSObject+YYAdd.m in Sources */,
 				4222F6DA230A7C0C00C91493 /* HWMSingleSignReadOnlyWalletViewController.mm in Sources */,
 				4202CABA21F6EF2B009E5932 /* BaseNavigationVC.m in Sources */,
-				42EAEF77238BB3F900D6A912 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				42B57ABB22150C1C004CF089 /* NSString+WOCrash.m in Sources */,
 				42EAEFD7238BB54F00D6A912 /* AddressPickerView.m in Sources */,
 				42B57AC222150C1C004CF089 /* NSMutableArray+WOCrash.m in Sources */,
-				42EAEF7D238BB3F900D6A912 /* View+MASAdditions.m in Sources */,
 				422C4645235DBB4B000523DB /* HWMCreateDIDListTableViewCell.m in Sources */,
 				4228AA4421F88C86002866B5 /* YYMemoryCache.m in Sources */,
 		42A7679F23169F28005FC764 /* HWMCRElectoralAffairsViewController.mm in Sources */,
@@ -3990,13 +3995,12 @@
 				4202CADE21F6F0D2009E5932 /* ElaSubWalletCallback.mm in Sources */,
 				4264A741221BDC8D008D5C7B /* NSBundle+DAUtils.m in Sources */,
 				4202CAA921F6EF2B009E5932 /* FLTradeModel.m in Sources */,
-				42EAEF7B238BB3F900D6A912 /* MASLayoutConstraint.m in Sources */,
-				42EAEF7A238BB3F900D6A912 /* MASConstraintMaker.m in Sources */,
 				4202CA0621F6EF2A009E5932 /* SVIndefiniteAnimatedView.m in Sources */,
 				42211B482362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.m in Sources */,
 				428D971A238D0FE6005F1963 /* HWMCRCommitteeForAgreementView.m in Sources */,
 				424910F62271BFCF00C41E50 /* UIView+WebCache.m in Sources */,
 				4264A73E221BDC24008D5C7B /* DAConfig.m in Sources */,
+				4210E856239F8A07001D82F3 /* MASCompositeConstraint.m in Sources */,
 				4202CAB221F6EF2B009E5932 /* HMWAddTheCurrencyListViewController.mm in Sources */,
 				4202CA4D21F6EF2A009E5932 /* Foundation+Log.m in Sources */,
 				42EAEFBF238BB46300D6A912 /* MJRefreshBackGifFooter.m in Sources */,
@@ -4038,7 +4042,6 @@
 				7087D92F21BCDF1B00599316 /* MyUtil.m in Sources */,
 				4202CA4321F6EF2A009E5932 /* FLCapitalView.m in Sources */,
 				4228AA4621F88C87002866B5 /* YYClassInfo.m in Sources */,
-				42EAEF7E238BB3F900D6A912 /* MASConstraint.m in Sources */,
 				422D609721FC405000DD07FF /* HMWChooseTheCountryAreasModel.m in Sources */,
 				42EAEFE3238BB60700D6A912 /* HWMVoteTheEditorialBoardTableViewCell.m in Sources */,
 				42A767952314FE50005FC764 /* HMWCRCommitteeMemberListViewController.mm in Sources */,
@@ -4051,17 +4054,16 @@
 				4250B3EE2238D32700B6858F /* QRView.m in Sources */,
 				428B4D9622CB2E98004AE7D0 /* HWMaddSignThePurseViewTableViewCell.m in Sources */,
 				4202CAC021F6EF2B009E5932 /* HMWnoCandidateNodesView.m in Sources */,
-				42EAEF78238BB3F900D6A912 /* ViewController+MASAdditions.m in Sources */,
 				42B57ABF22150C1C004CF089 /* NSMutableAttributedString+WOCrash.m in Sources */,
 				4202CA5821F6EF2A009E5932 /* FLAssetManageTableCell.m in Sources */,
 				CBE7C2F122268890004F379D /* DC_DealTextViewController.m in Sources */,
 				4202CAB921F6EF2B009E5932 /* FLTools.m in Sources */,
+				4210E854239F8A07001D82F3 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				4202CAD021F6EF2B009E5932 /* HMWtheSuperNodeElectionViewController.mm in Sources */,
 				4228AA4921F88C87002866B5 /* UIColor+YYAdd.m in Sources */,
 				4202CA2821F6EF2A009E5932 /* FLTableViewDefultCell.m in Sources */,
 				4228AA5621F88C87002866B5 /* NSNumber+YYAdd.m in Sources */,
 				4202CA9E21F6EF2B009E5932 /* HMWverifyTheMnemonicWordViewController.mm in Sources */,
-				42EAEF80238BB3F900D6A912 /* MASViewAttribute.m in Sources */,
 				4202CA8821F6EF2B009E5932 /* HMWExportTheMnemonicWordViewController.m in Sources */,
 				420131C42320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.mm in Sources */,
 				4202CA9B21F6EF2B009E5932 /* FLSetMenmoryWordPassView.m in Sources */,
@@ -4070,10 +4072,12 @@
 				4202CA9221F6EF2B009E5932 /* HMWModifyTheWalletNameViewController.m in Sources */,
 				42EAEFB9238BB46300D6A912 /* MJRefreshConst.m in Sources */,
 				4202CA0921F6EF2A009E5932 /* UIImage+SGImageSize.m in Sources */,
+				4210E858239F8A07001D82F3 /* MASLayoutConstraint.m in Sources */,
 				42EAEFF2238BB69C00D6A912 /* HWMImportTheMnemonicWordViewController.mm in Sources */,
 				4228AA4721F88C87002866B5 /* UITextField+YYAdd.m in Sources */,
 				428B4D8622CB0B12004AE7D0 /* HWMSignThePurseViewController.mm in Sources */,
 				42EAEFC4238BB46300D6A912 /* MJRefreshAutoNormalFooter.m in Sources */,
+				4210E85B239F8A07001D82F3 /* MASConstraint.m in Sources */,
 				4202CAC321F6EF2B009E5932 /* HMWinputVotesPopupWindowView.m in Sources */,
 				4261CF3922A15D21006B1DDE /* NSMutableArray+Swizzling.m in Sources */,
 				4202CAB821F6EF2B009E5932 /* FLFLTabBarVC.m in Sources */,
@@ -4138,7 +4142,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 21;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = K5DE7L29B2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4174,8 +4178,8 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletPRVNET;
-				PRODUCT_NAME = PRVNET;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
+				PRODUCT_NAME = "elastos Wallet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -4199,7 +4203,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 21;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = K5DE7L29B2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4233,8 +4237,8 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletPRVNET;
-				PRODUCT_NAME = PRVNET;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
+				PRODUCT_NAME = "elastos Wallet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.0;
@@ -4302,7 +4306,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 21;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = K5DE7L29B2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4338,8 +4342,8 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletPRVNET;
-				PRODUCT_NAME = PRVNET;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
+				PRODUCT_NAME = "elastos Wallet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -4408,7 +4412,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 21;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = K5DE7L29B2;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -4444,8 +4448,8 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletPRVNET;
-				PRODUCT_NAME = PRVNET;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
+				PRODUCT_NAME = "elastos Wallet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

@@ -800,8 +800,9 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,self.JSONString,pwd,] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
     PluginResult * result =[[ELWalletManager share]CreateCombineUTXOTransaction:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
-        [self closeTransactionDetailsView];
+   
     if ([status isEqualToString:@"1"]) {
+        [self closeTransactionDetailsView];
         [self showSendSuccessPopuV];
     }
         

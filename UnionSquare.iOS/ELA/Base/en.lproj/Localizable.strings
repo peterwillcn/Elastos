@@ -140,7 +140,7 @@
 "keyStore密码不能为空"="KeyStore password cannot be empty";
 "收款地址已复制成功"="Receiving address has been copied successfully";
 "密码不能为空"="Password cannot be empty";
-"密码格式错误"="Password format error";
+"密码错误"="Password format error";
 "钱包名称不能为空"="The wallet name cannot be empty";
 "钱包名称非法"="The wallet name is illegal";
 "删除成功"="Delete successful";

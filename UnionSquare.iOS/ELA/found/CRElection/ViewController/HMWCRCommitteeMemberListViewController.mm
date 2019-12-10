@@ -73,12 +73,14 @@
 @property(nonatomic,strong)NSMutableArray *ActiveArray;
 
 
+@property(nonatomic,assign)NSInteger selfindex;
 @end
 
 @implementation HMWCRCommitteeMemberListViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.selfindex=-1;
     self.title=NSLocalizedString(@"CR委员选举", nil);
     [self setBackgroundImg:@""];
     self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
@@ -307,11 +309,15 @@
         
         
         if ([model.did isEqualToString:self.CROwnerDID]&&self.needFind) {
-            model.index=[NSString stringWithFormat:@"%lu",self.ActiveArray.count+1];
-                                curentmodel.index=model.index;
-                                [self.ActiveArray insertObject:model atIndex:0];
-            self.needFind=NO;
-
+            if ([model.state isEqualToString:@"Active"]) {
+                model.index=[NSString stringWithFormat:@"%lu",self.ActiveArray.count+1];
+                curentmodel.index=model.index;
+                [self.ActiveArray insertObject:model atIndex:0];
+                self.needFind=NO;
+            }else{
+                
+                self.selfindex=i;
+            }
             
         }else{
             if ([model.state isEqualToString:@"Active"]) {

@@ -205,7 +205,7 @@
            model.acount     = 5000;
   BOOL ret = [manager UpdateCRProducerWithMainchainSubWallet:manager.currentWallet.masterWalletID With:model];
       if (ret) {
-          [[FLTools share]showErrorInfo:NSLocalizedString(@"变更成功", nil)];
+//          [[FLTools share]showErrorInfo:NSLocalizedString(@"变更成功", nil)];
            [self showSendSuccessPopuV];
       }else{
           [[FLTools share]showErrorInfo:NSLocalizedString(@"交易失败", nil)];

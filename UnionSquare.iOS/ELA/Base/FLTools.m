@@ -384,7 +384,7 @@ if ([languageString  containsString:@"en"]) {
         
     }
     
-     [self showErrorInfo:NSLocalizedString(@"密码格式错误", nil)];
+     [self showErrorInfo:NSLocalizedString(@"密码错误", nil)];
     return YES;
 }
 

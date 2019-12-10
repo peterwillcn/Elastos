@@ -54,7 +54,7 @@
     self.pwdString=pwd;
       if (self.delegate) {
           [self.delegate pwdAndInfoWithPWD: self.pwdString];
-          [self cancelThePWDPageView];
+//          [self cancelThePWDPageView];
       }
   }
 -(void)cancelThePWDPageView{

@@ -586,7 +586,12 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
         
         self.allTollTicketLabel.text=[NSString stringWithFormat:@"%@ %@ ELA",NSLocalizedString(@"合计：",nil ),self.TheRemainingAvailable];}
 NSString * availableString=[[FLTools share]CRVotingDecimalNumberBySubtracting:self.blaceString withCRMermVoting:self.TheRemainingAvailable];
-    self.persentLab.text=[NSString stringWithFormat:@"%@ %d ELA",NSLocalizedString(@"可用：",nil ),[availableString intValue]];
+    if ([availableString intValue]<1) {
+          self.persentLab.text=[NSString stringWithFormat:@"%@ <1 ELA",NSLocalizedString(@"可用：",nil )];
+    }else{
+        self.persentLab.text=[NSString stringWithFormat:@"%@ %d ELA",NSLocalizedString(@"可用：",nil ),[availableString intValue]];
+        
+    }
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     

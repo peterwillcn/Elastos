@@ -1617,7 +1617,9 @@ errCodeSPVCreateMasterWalletError= 20006;
                            Json result = mainchainSubWallet->PublishTransaction(signedTx);
                            NSString *resultString=[self stringWithCString:result.dump()];
                            NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
-                           return [resultdic[@"Fee"] integerValue];
+                  return YES;
+//                           return [resultdic[@"Fee"] integerValue];
+                  
                     
               } catch (const std:: exception & e ) {
                   

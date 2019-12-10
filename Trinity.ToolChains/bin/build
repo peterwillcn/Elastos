@@ -13,15 +13,14 @@ import ela_plugin
 
 parser = argparse.ArgumentParser(description='Build the Elastor.Trinity project.',
                                  formatter_class=argparse.RawTextHelpFormatter)
-parser.add_argument('target', metavar='TARGET', choices=['all', 'clean', 'clobber','launcher', "runtime", "plugin"],
+parser.add_argument('target', metavar='TARGET', choices=['all', 'clean', 'clobber','launcher', "runtime"],
                     help=textwrap.dedent('''\
                          Specify the target to build.
                          all: build all module: launcher, dapp, runtime;
                          launcher: build launcher, runtime;
                          runtime: build runtime;
                          clean: delete runtime platforms;
-                         clobber: delete all build files;
-                         plugin: reintall the specified plugin.
+                         clobber: delete all build files.
                      '''))
 args = parser.parse_args()
 
@@ -97,17 +96,6 @@ if args.target == "clobber":
         if not os.path.isfile(dir):
             remove_tree(dir + "/www")
             remove_tree(dir + "/node_modules")
-
-if args.target == "plugin":
-    if args.plugin_path == None:
-        print("usage: build plugin -p pluginPath")
-        exit(0)
-
-    plugindir = os.path.join(os.getcwd() + "/" + args.plugin_path)
-    run_cmd("tsc --build " + plugindir + "www/tsconfig.json")
-    os.chdir(RUNTIME_DIR_PATH)
-    run_cmd("cordova plugin rm " + get_pluginId(plugindir), True)
-    run_cmd("cordova plugin add " + os.path.relpath(plugindir))
 
 if args.target == "all" or args.target == "launcher":
     os.chdir(LAUNCHER_DIR_PATH)

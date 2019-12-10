@@ -650,31 +650,36 @@ public class AppManager {
         System.out.println(name + ": " + msg);
     }
 
-
     private class LockObj {
         int authority = AppInfo.AUTHORITY_NOINIT;
     }
+    private LockObj urlLock = new LockObj();
+    private LockObj pluginLock = new LockObj();
 
     public synchronized int runAlertPluginAuth(AppInfo info, String plugin, int originAuthority) {
-        LockObj lock = new LockObj();
-        lock.authority = originAuthority;
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                alertPluginAuth(info, plugin, lock);
-            }
-        });
         try {
-            synchronized (lock) {
-                if (lock.authority == originAuthority) {
-                    lock.wait();
+            synchronized (pluginLock) {
+                pluginLock.authority = originAuthority;
+                pluginLock.authority = getPluginAuthority(info.app_id, plugin);
+                if (pluginLock.authority != originAuthority) {
+                    return pluginLock.authority;
+                }
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        alertPluginAuth(info, plugin, pluginLock);
+                    }
+                });
+
+                if (pluginLock.authority == originAuthority) {
+                    pluginLock.wait();
                 }
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
             return originAuthority;
         }
-        return lock.authority;
+        return pluginLock.authority;
     }
 
     public void alertPluginAuth(AppInfo info, String plugin, LockObj lock) {
@@ -718,25 +723,30 @@ public class AppManager {
     }
 
     public synchronized int runAlertUrlAuth(AppInfo info, String url, int originAuthority) {
-        LockObj lock = new LockObj();
-        lock.authority = originAuthority;
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                alertUrlAuth(info, url, lock);
-            }
-        });
         try {
-            synchronized (lock) {
-                if (lock.authority == originAuthority) {
-                    lock.wait();
+            synchronized (urlLock) {
+                urlLock.authority = getUrlAuthority(info.app_id, url);
+                if (urlLock.authority != originAuthority) {
+                    return urlLock.authority;
+                }
+
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        alertUrlAuth(info, url, urlLock);
+                    }
+                });
+
+                if (urlLock.authority == originAuthority) {
+                    urlLock.wait();
                 }
             }
+
         } catch (InterruptedException e) {
             e.printStackTrace();
             return originAuthority;
         }
-        return lock.authority;
+        return urlLock.authority;
     }
 
     public void alertUrlAuth(AppInfo info, String url, LockObj lock) {
@@ -744,6 +754,7 @@ public class AppManager {
         ab.setTitle("Url authority request");
         ab.setMessage("App:'" + info.name + "' request url:'" + url + "' access authority.");
         ab.setIcon(android.R.drawable.ic_dialog_info);
+        ab.setCancelable(false);
 
         ab.setPositiveButton("Allow", new DialogInterface.OnClickListener() {
             @Override

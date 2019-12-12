@@ -22,6 +22,7 @@
 #import "HWMQrCodeScanningResultsViewController.h"
 #import "HWMQrCodeTransferAndAddBuddyViewController.h"
 #import "HMWaddContactViewController.h"
+#import "HWMQrCodeScanningResultsViewController.h"
 
 @implementation UIViewController (FLVCExt)
 
@@ -582,5 +583,11 @@ NSString *leftTime=
     
     return NO;
 }
+-(void)QrCodeScanningResultsWithString:(NSString*)QrCodeScanning{
+    HWMQrCodeScanningResultsViewController *QrCodeScanningResultsVC=[[HWMQrCodeScanningResultsViewController alloc]init];
+    QrCodeScanningResultsVC.resultString=QrCodeScanning;
+    [self.navigationController popToViewController:QrCodeScanningResultsVC animated:YES];
+}
+
 
 @end

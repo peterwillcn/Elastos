@@ -102,14 +102,44 @@
 }
 -(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString{
     NSLog(@"解析前%@",QRCodeString);
+    self.theAmountOfTextField.text=@"";
+    self.transferTheAddressTextField.text=@"";
     NSDictionary *dic =[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]QrCodeImageFromDic:QRCodeString fromVC:self oldQrCodeDic:nil]];
  
     NSLog(@"解析后%@",dic);
     if ([[FLTools share]SCanQRCodeWithDicCode:dic]){
         if ([dic[@"extra"][@"Type"] integerValue]==4) {
         self.transferTheAddressTextField.text=dic[@"data"];
+        }else{
+            
+            if ([QRCodeString containsString:@"elastos:"]) {
+                NSArray *elasArray=[QRCodeString componentsSeparatedByString:@":"];
+             
+                if ([elasArray.lastObject containsString:@"?amount="]) {
+                      NSArray *amountArray=[elasArray.lastObject componentsSeparatedByString:@"?amount="];
+                    self.theAmountOfTextField.text=amountArray.lastObject;
+                       self.transferTheAddressTextField.text=amountArray.firstObject;
+                }else{
+                    self.transferTheAddressTextField.text=elasArray.lastObject;
+                }
+                     
+                
+            }else{
+                [self QrCodeScanningResultsWithString:QRCodeString];
+            }
         }
+    }else{
+       
+
+            
+           [self QrCodeScanningResultsWithString:QRCodeString];
+        
+        
     }
+    
+    
+    
+    
     
 }
 - (IBAction)pasteEvent:(id)sender {

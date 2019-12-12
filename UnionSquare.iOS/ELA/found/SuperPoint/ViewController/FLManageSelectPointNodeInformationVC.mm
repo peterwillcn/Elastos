@@ -17,7 +17,9 @@
 #import "nodeInformationDetailsView.h"
 #import "HWMCRListModel.h"
 #import "HWMCRRegisteredViewController.h"
-@interface FLManageSelectPointNodeInformationVC()<HMWToDeleteTheWalletPopViewDelegate>
+#import "HWMTransactionDetailsView.h"
+#import "HMWSendSuccessPopuView.h"
+@interface FLManageSelectPointNodeInformationVC()<HMWToDeleteTheWalletPopViewDelegate,HWMTransactionDetailsViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *votesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *votesNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel *voteOfBTextLabel;
@@ -46,6 +48,8 @@
 
 @property(nonatomic,strong)FLJoinVoteInfoModel *model;
 @property (weak, nonatomic) IBOutlet UIView *CRBGView;
+@property(nonatomic,strong)HWMTransactionDetailsView *transactionDetailsView;
+
 
 @property(strong,nonatomic)HMWToDeleteTheWalletPopView *toDeleteTheWalletPopV;
 /*
@@ -53,6 +57,8 @@
  */
 @property (weak, nonatomic) IBOutlet UILabel *URLTextLabel;
 @property(strong,nonatomic)nodeInformationDetailsView *nodeInformationDetailsV;
+@property(strong,nonatomic)HMWSendSuccessPopuView *sendSuccessPopuV;
+
 @end
 
 @implementation FLManageSelectPointNodeInformationVC
@@ -132,8 +138,8 @@
 
            NSString *URL=infoDic[@"URL"];
            
-           NSString *Location        =infoDic[@"Location"];
-           NSString *NickName        = infoDic[@"NickName"];
+           NSString *Location   =infoDic[@"Location"];
+           NSString *NickName   = infoDic[@"NickName"];
            
            self.model = [[FLJoinVoteInfoModel alloc]init];
            self.model.nickName = NickName;
@@ -242,17 +248,37 @@ NSString *httpIP=[[FLTools share]http_IpFast];
            NSString *walletId =  manager.currentWallet.masterWalletID;
     BOOL ret;
     if (self.CRTypeString.length>0) {
-         ret = [manager CancelCRProducer:walletId Pwd:pwd];
+   
+        
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[walletId,@"IDChain",@"",@"",@"0",@"",@"",@"1"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+          PluginResult * result =[[ELWalletManager share]accessFees:mommand];
+          NSString *status=[NSString stringWithFormat:@"%@",result.status];
+          if ([status isEqualToString:@"0"]) {
+              UIView *mainView =[self mainWindow];
+                 [mainView addSubview:self.transactionDetailsView];
+                 [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
+                     make.left.right.top.bottom.equalTo(mainView);
+                 }];
+              NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",result.message[@"success"]]];
+              [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:@""];
+          }
+   
+
+//        -(NSDictionary*)CancelCRProducerFee:(NSString*)mainchainSubWalletId
+        
+//        NSDictionary *dic = [manager CancelCRProducerFee:walletId];
+        
     }else{
        
         ret = [manager CancelProducer:walletId Pwd:pwd];
+        if (ret) {
+                  [self.navigationController popViewControllerAnimated: YES];
+                 }
+          
+          [self toCancelOrCloseDelegate];
        
     }
-    if (ret) {
-            [self.navigationController popViewControllerAnimated: YES];
-           }
-    
-    [self toCancelOrCloseDelegate];
+  
 }
 -(void)toCancelOrCloseDelegate{
     
@@ -275,5 +301,62 @@ NSString *httpIP=[[FLTools share]http_IpFast];
 
 -(void)setCRModel:(HWMCRListModel *)CRModel{
     _CRModel=CRModel;
+}
+-(HWMTransactionDetailsView *)transactionDetailsView{
+
+    
+
+    if (!_transactionDetailsView) {
+
+        _transactionDetailsView =[[HWMTransactionDetailsView alloc]init];
+
+        _transactionDetailsView.popViewTitle=NSLocalizedString(@"参选押金", nil);
+
+        _transactionDetailsView.delegate=self;
+
+    }
+
+    return _transactionDetailsView;
+
+}
+
+#pragma mark ---------HWMTransactionDetailsView----------
+
+-(void)closeTransactionDetailsView{
+
+    [self.transactionDetailsView removeFromSuperview];
+
+    self.transactionDetailsView=nil;
+
+}
+
+-(void)pwdAndInfoWithPWD:(NSString*)pwd{
+    ELWalletManager *manager = [ELWalletManager share];
+           NSString *walletId =  manager.currentWallet.masterWalletID;
+  bool  ret = [manager CancelCRProducer:walletId Pwd:pwd];
+
+    if (ret) {
+     
+        [self closeTransactionDetailsView];
+        [self showSendSuccessPopuV];
+        
+  
+    }
+}
+
+-(void)showSendSuccessPopuV{
+    UIView *manView=[self mainWindow];
+    [manView addSubview:self.sendSuccessPopuV];
+    [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(manView);
+    }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self hiddenSendSuccessPopuV];
+        [self.navigationController popViewControllerAnimated: YES];
+    });
+}
+-(void)hiddenSendSuccessPopuV{
+    [self.sendSuccessPopuV removeFromSuperview];
+    self.sendSuccessPopuV=nil;
 }
 @end

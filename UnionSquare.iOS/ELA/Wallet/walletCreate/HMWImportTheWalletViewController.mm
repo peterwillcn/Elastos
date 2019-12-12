@@ -31,6 +31,7 @@
  */
 @property(strong,nonatomic)HMWImKeystoreView *imKeystoreV;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *wordMnemonicOrKeystoreSegmentedCon;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constTop;
 @end
 
 @implementation HMWImportTheWalletViewController
@@ -42,14 +43,20 @@
     self.title=NSLocalizedString(@"导入钱包", nil);
     [self.view addSubview:self.imKeystoreV];
     self.imKeystoreV.alpha=0.f;
+    CGFloat topoff=100;
+    if (AppHeight>800) {
+        self.constTop.constant=100;
+        topoff=130;
+    }
     [self.imKeystoreV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).offset(100);
+        make.top.equalTo(self.view.mas_top).offset(topoff);
         make.left.right.bottom.equalTo(self.view);
     }];
     [self.view insertSubview:self.imTheMnemonicWordV aboveSubview:self.imKeystoreV];
     [self.view addSubview:self.imTheMnemonicWordV];
+    
     [self.imTheMnemonicWordV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).offset(100);
+        make.top.equalTo(self.view.mas_top).offset(topoff);
         make.left.right.bottom.equalTo(self.view);
     }];
 //  

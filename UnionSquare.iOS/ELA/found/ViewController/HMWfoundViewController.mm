@@ -26,6 +26,7 @@
  */
 @property(assign,nonatomic)BOOL hasSing;
 
+
 @end
 
 @implementation HMWfoundViewController
@@ -47,6 +48,7 @@
     self.table.tableFooterView = [[UIView alloc] init];
     self.dataSource =[[NSMutableArray alloc]initWithObjects:@"",@"",nil];
     [self.table registerNib:[UINib nibWithNibName:@"HMWfoundTableCell" bundle:nil] forCellReuseIdentifier:@"HMWfoundTableCell"];
+
 
 }
 -(void)loadElectionInfo{

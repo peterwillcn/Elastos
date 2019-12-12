@@ -48,7 +48,8 @@
  *<# #>
  */
 @property(assign,nonatomic)BOOL needFind;
-@property(copy,nonatomic)NSString;
+@property(nonatomic,strong)NSMutableArray *ActiveArray;
+@property(nonatomic,assign)NSInteger selfindex;
 
 @end
 
@@ -67,7 +68,7 @@
     rightBarButton.titleLabel.font=[UIFont systemFontOfSize:13];
     UIBarButtonItem*rightItem =[[UIBarButtonItem alloc]initWithCustomView:rightBarButton];
     self.navigationItem.rightBarButtonItem= rightItem;
-
+    self.selfindex=-1;
     UIView *mainView =[self mainWindow];
     [mainView addSubview:self.votingRulesV];
 
@@ -236,34 +237,57 @@
     
 }
 -(void)getNetCoinPointArray{
+    [self.ActiveArray removeAllObjects];
     NSString *httpIP=[[FLTools share]http_IpFast];
-    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1"} showHUD:NO WithSuccessBlock:^(id data) {
+    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1",@"state":@"all"} showHUD:NO WithSuccessBlock:^(id data) {
         NSDictionary *param = data[@"data"];
         NSArray *dataArray =[NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];
         
         self.dataSource= [NSMutableArray arrayWithArray:dataArray];
-        NSInteger locaIndex=-1;
+
         self.votingListV.lab1.text = [NSString stringWithFormat:@"%@ %@",[[FLTools share]DownAlllTheValuePercentage:param[@"result"][@"totalvoterate"] withLength:2],@"%"];
         self.votingListV.lab3.text =[NSString stringWithFormat:@"%ld", (long)[param[@"result"][@"totalvotes"] integerValue]];
-        if (self.needFind) {
+
             for (int i=0; i<self.dataSource.count; i++) {
                 FLCoinPointInfoModel *model=self.dataSource[i];
-                if ([model.nodepublickey isEqualToString:self.NodePublicKey]) {
-                    locaIndex=i;
+                
+                if (self.needFind){
+                    
+                    if ([model.nodepublickey isEqualToString:self.NodePublicKey]){
+                        
+                        if ([model.state isEqualToString:@"Active"]){
+                                self.votingListV.typeString=self.typeString;
+                             [self.ActiveArray insertObject:model atIndex:0];
+                        }else{
+                            self.selfindex=i;
+                        }
+                          self.needFind =NO;
+                    }else{
+                        if ([model.state isEqualToString:@"Active"]) {
+                                        
+                                          [self.ActiveArray addObject:model];
+                                      }
+                                       
+                    }
+
+                       
+
+
+                }else{
+                    
+                if ([model.state isEqualToString:@"Active"]) {
+                  
+                    [self.ActiveArray addObject:model];
                 }
+                    
+                }
+                
             }
-            FLCoinPointInfoModel *model=self.dataSource[locaIndex];
-            
-            [self.dataSource removeObject:model];
-            [self.dataSource insertObject:model atIndex:0];
-            self.votingListV.typeString=self.typeString;
-            self.votingListV.dataSource = self.dataSource;
-        }else{
-            self.votingListV.dataSource = self.dataSource;
-        }
-      
+         
+         
+        self.votingListV.dataSource = self.ActiveArray;
         
-        [self loadAllImageInfo:[NSMutableArray arrayWithArray:self.dataSource]];
+        [self loadAllImageInfo:[NSMutableArray arrayWithArray:self.ActiveArray]];
         
     } WithFailBlock:^(id data) {
         
@@ -281,8 +305,8 @@
         
         FLCoinPointInfoModel *curentmodel = nil ;
         BOOL ret = NO;
-        for (FLCoinPointInfoModel*dataModel in self.dataSource) {
-           ret =  [dataModel.ownerpublickey isEqualToString:model.ownerpublickey];
+        for (FLCoinPointInfoModel*dataModel in self.ActiveArray) {
+           ret = ( [dataModel.ownerpublickey isEqualToString:model.ownerpublickey] &&[model.state isEqualToString:@"Active"]);
             if (ret) {
                 curentmodel = model;
             }
@@ -370,7 +394,12 @@
     self.hasSing=YES;
     
 }
-
+-(NSMutableArray *)ActiveArray{
+    if (!_ActiveArray) {
+        _ActiveArray=[[NSMutableArray alloc]init];
+    }
+    return _ActiveArray;
+}
 
 
 

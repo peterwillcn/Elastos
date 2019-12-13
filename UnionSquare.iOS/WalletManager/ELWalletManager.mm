@@ -2506,24 +2506,6 @@ errCodeSPVCreateMasterWalletError= 20006;
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
     return [self successProcess:command msg:dic];
 }
--(PluginResult *)getDIDlist:(invokedUrlCommand *)command{
-    NSArray *args = command.arguments;
-    int idx = 0;
-    String masterWalletID = [self cstringWithString:args[idx++]];
-    String chainID        = [self cstringWithString:args[idx++]];
-    int    start          = [args[idx++] intValue];
-       int    count          = [args[idx++] intValue];
-    IIdChainSubWallet *idChainSubW=[self getIdChainSubWallet:masterWalletID:chainID];
-     Json result;
-      try {
-          result =  idChainSubW->GetAllDID(start, count);
-      } catch (const std:: exception & e ) {
-          return  [self errInfoToDic:e.what() with:command];
-      }
-    NSString *jsonString = [self stringWithCString:result.dump()];
-    NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
-    return [self successProcess:command msg:dic];
-}
 -(PluginResult *)getAllPublicKeys:(invokedUrlCommand *)command{
     NSArray *args = command.arguments;
     int idx = 0;

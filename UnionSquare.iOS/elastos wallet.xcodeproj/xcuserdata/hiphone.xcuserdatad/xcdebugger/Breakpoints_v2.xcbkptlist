@@ -61,63 +61,6 @@
             continueAfterRunningActions = "No"
             scope = "1"
             stopOnStyle = "0">
-            filePath = "WalletManager/ELWalletManager.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1737"
-            endingLineNumber = "1737"
-            landmarkName = "-CancelCRProducer:Pwd:"
-            startingLineNumber = "1783"
-            endingLineNumber = "1783"
-            landmarkName = "-RetrieveDeposit:acount:Pwd:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "562380F1-B2B2-4520-B246-26A8C209AB6D - 8fe6342aa4ad79bf"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ELWalletManager RetrieveDeposit:acount:Pwd:]"
-                  moduleName = "ELA Wallet"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/WalletManager/ELWalletManager.mm"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1783"
-                  endingLineNumber = "1783"
-                  offsetFromSymbolStart = "728">
-               </Location>
-               <Location
-                  uuid = "562380F1-B2B2-4520-B246-26A8C209AB6D - 8fe6342aa4ad79bf"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ELWalletManager RetrieveDeposit:acount:Pwd:]"
-                  moduleName = "ELA Wallet"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/WalletManager/ELWalletManager.mm"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1783"
-                  endingLineNumber = "1783"
-                  offsetFromSymbolStart = "768">
-               </Location>
-               <Location
-                  uuid = "562380F1-B2B2-4520-B246-26A8C209AB6D - 8fe6342aa4ad79bf"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ELWalletManager RetrieveDeposit:acount:Pwd:]"
-                  moduleName = "ELA Wallet"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/WalletManager/ELWalletManager.mm"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1783"
-                  endingLineNumber = "1783"
-                  offsetFromSymbolStart = "1356">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -134,6 +77,8 @@
             endingLineNumber = "59"
             landmarkName = "+gl_dictionaryWithObjects:forKeys:count:"
             landmarkType = "7">
+            <Locations>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

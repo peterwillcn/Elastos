@@ -93,14 +93,16 @@
           self.feeLab.text=[NSString stringWithFormat:@"%@ ELA",fee];
           
     }
+    }
+    
 }
 -(void)setPopViewTitle:(NSString *)popViewTitle{
      self.titleLab.text =NSLocalizedString(popViewTitle, nil);
     _popViewTitle=popViewTitle;
-    
+
 }
+
 -(void)setDetailsType:(TransactionDetailsType)DetailsType{
     _DetailsType=DetailsType;
-    
 }
 @end

@@ -288,16 +288,19 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 -(void)didHadInputVoteTicket:(NSString *)ticketNumer WithIsMax:(BOOL)isMax
 {
 
-    [self.inputVoteTicketView removeFromSuperview];
-    self.inputVoteTicketView= nil;
      double ticket=[ticketNumer doubleValue];
     if (isMax==NO) {
         if ([ticketNumer doubleValue]>self.maxBlance) {
                 return;
             }
+        if ([[FLTools share]isBlankString:ticketNumer]) {
+            return;
+        }
     }else{
          ticket=-1;
     }
+    [self.inputVoteTicketView removeFromSuperview];
+     self.inputVoteTicketView= nil;
     self.isMax=isMax;
     NSMutableArray *stringArray = [NSMutableArray array];
      for (int i= 0; i<self.voteArray.count; i++) {

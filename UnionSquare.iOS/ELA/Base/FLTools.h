@@ -149,4 +149,5 @@
 -(NSString*)DownTheValue:(NSString*)blance withLength:(NSInteger)MermVotCout;
 -(NSString*)DownAlllTheValuePercentage:(NSString*)blance withLength:(NSInteger)MermVotCout;
 -(NSString*)DownNumberPercentage:(NSString*)blance withLength:(NSInteger)MermVotCout;
+-(BOOL)isBlankString:(NSString *)str;
 @end

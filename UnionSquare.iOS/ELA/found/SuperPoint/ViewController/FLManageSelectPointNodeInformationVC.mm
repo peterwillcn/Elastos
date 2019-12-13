@@ -242,10 +242,12 @@ NSString *httpIP=[[FLTools share]http_IpFast];
            NSString *walletId =  manager.currentWallet.masterWalletID;
     BOOL ret;
     if (self.CRTypeString.length>0) {
-        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[walletId,@"IDChain",@"",@"",@"1",@"0",@"",@"1"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+   
+         [self toCancelOrCloseDelegate];
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[walletId,@"ELA",@"",@"",@"0",@"0",@"",@"1"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
           PluginResult * result =[[ELWalletManager share]accessFees:mommand];
           NSString *status=[NSString stringWithFormat:@"%@",result.status];
-          if ([status isEqualToString:@"0"]) {
+          if ([status isEqualToString:@"1"]) {
               UIView *mainView =[self mainWindow];
                  [mainView addSubview:self.transactionDetailsView];
                  [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -286,5 +288,69 @@ NSString *httpIP=[[FLTools share]http_IpFast];
 
 -(void)setCRModel:(HWMCRListModel *)CRModel{
     _CRModel=CRModel;
+}
+-(HWMTransactionDetailsView *)transactionDetailsView{
+
+    
+
+    if (!_transactionDetailsView) {
+
+        _transactionDetailsView =[[HWMTransactionDetailsView alloc]init];
+
+        _transactionDetailsView.popViewTitle=NSLocalizedString(@"交易详情", nil);
+
+        _transactionDetailsView.delegate=self;
+
+    }
+
+    return _transactionDetailsView;
+
+}
+
+#pragma mark ---------HWMTransactionDetailsView----------
+
+-(void)closeTransactionDetailsView{
+
+    [self.transactionDetailsView removeFromSuperview];
+
+    self.transactionDetailsView=nil;
+
+}
+
+-(void)pwdAndInfoWithPWD:(NSString*)pwd{
+    ELWalletManager *manager = [ELWalletManager share];
+           NSString *walletId =  manager.currentWallet.masterWalletID;
+  bool  ret = [manager CancelCRProducer:walletId Pwd:pwd];
+
+    if (ret) {
+     
+        [self closeTransactionDetailsView];
+        [self showSendSuccessPopuV];
+        
+  
+    }
+}
+
+-(void)showSendSuccessPopuV{
+    UIView *manView=[self mainWindow];
+    [manView addSubview:self.sendSuccessPopuV];
+    [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(manView);
+    }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self hiddenSendSuccessPopuV];
+        [self.navigationController popViewControllerAnimated: YES];
+    });
+}
+-(void)hiddenSendSuccessPopuV{
+    [self.sendSuccessPopuV removeFromSuperview];
+    self.sendSuccessPopuV=nil;
+}
+-(HMWSendSuccessPopuView *)sendSuccessPopuV{
+    if (!_sendSuccessPopuV) {
+        _sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
+    }
+    
+    return _sendSuccessPopuV;
 }
 @end

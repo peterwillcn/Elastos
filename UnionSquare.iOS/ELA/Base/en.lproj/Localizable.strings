@@ -58,7 +58,7 @@
 "转账地址"="Transfer Address";
 "金额"="Amount";
 "汇率"="Exchange Rate";
-"输入密码"="Password";
+"输入密码"="Enter password";
 "投票交易"="Vote Transaction";
 "暂无数据,请耐心等待!"="No data available, please be patient!";
 "所有人公钥"="Owner Public Key";
@@ -257,7 +257,7 @@
 "暂无候选节点"="No candidate nodes";
 "超级节点选举"="Super node election";
 "报名参选" = "Register";
-"选举管理" = "Election management";
+"选举管理" = "Manage Election";
 "请输入节点名称（必填）"="Enter node name (Required)";
 "节点名称" = "Node Name";
 "请输入节点公钥（必填）"="Enter public key of your node (Required)";
@@ -313,14 +313,13 @@
 "目标地址"= "Target Address";
 "CR委员选举"= "CR Council Election";
 "删除成功"="Deleted";
-"金额"="Value";
 "手续费"="Fee";
 "转账详情"= "Transaction";
 "下一步"="Next";
 "已复制到粘贴板"= "Copied to clipboard";
 "交易成功"= "tx success";
 "交易失败"="tx failed";
-"请输入票数"="Enter a number";
+"请输入票数"="Enter number";
 "投票数量" = "Votes";
 "是否确认注销候选资格? \n 候选资格一旦注销，所有投票清零且不可恢复。"="Confirm your deletion? \n Once confirmed, your votes will be removed and cannot be recovered.";
 "取回质押金"="Take back deposit";
@@ -582,7 +581,7 @@
 "委员DID"="Candidate DID";
 "参选信息"="Candidate Information";
 "平均分配"="Distribute Evenly";
-"请输入票数"="Enter number of votes";
+"请输入票数"="Enter number";
 "当前排名："="Current Ranking：";
 "投票占比："="Voting Ratio：";
 "得票总数："="Total Votes：";

@@ -131,6 +131,9 @@ public class AppBasePlugin extends TrinityPlugin {
                 case "sendIntentResponse":
                     this.sendIntentResponse(args, callbackContext);
                     break;
+                case "hasPendingIntent":
+                    this.hasPendingIntent(callbackContext);
+                    break;
 
                 default:
                     return false;
@@ -396,7 +399,7 @@ public class AppBasePlugin extends TrinityPlugin {
         String action = args.getString(0);
         String result = args.getString(1);
         long intentId = args.getLong(2);
-        IntentManager.getShareInstance().sendIntentResponse(action, result, intentId, this.appId);
+        IntentManager.getShareInstance().sendIntentResponse(this, result, intentId, this.appId);
         callbackContext.success("ok");
     }
 
@@ -406,7 +409,11 @@ public class AppBasePlugin extends TrinityPlugin {
         pluginResult.setKeepCallback(true);
         callbackContext.sendPluginResult(pluginResult);
         IntentManager.getShareInstance().setIntentReady(this.appId);
+    }
 
+    protected void hasPendingIntent(CallbackContext callbackContext) throws Exception {
+        Boolean ret = IntentManager.getShareInstance().getIntentCount(this.appId) != 0;
+        callbackContext.success(ret.toString());
     }
 
     public Boolean isIntentReady() {

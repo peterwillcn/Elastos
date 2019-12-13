@@ -10,6 +10,13 @@ public class IntentInfo {
     long intentId;
     CallbackContext callbackContext;
 
+    String jwt = null;
+    String redirecturl = null;
+    String callbackurl = null;
+    String aud = null;
+    String req = null;
+    boolean isJWT = false;
+
     IntentInfo(String action, String params, String fromId, String toId,
                long intentId, CallbackContext callbackContext) {
         this.action = action;
@@ -19,4 +26,5 @@ public class IntentInfo {
         this.intentId = intentId;
         this.callbackContext = callbackContext;
     }
+
 }

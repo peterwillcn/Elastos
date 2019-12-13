@@ -5,7 +5,8 @@
     "install": {
         "AppManager": [
             "install",
-            "unInstall"
+            "unInstall",
+            "hasPendingIntent"
         ]
     },
     "wallet": {
@@ -19,7 +20,8 @@
             "sendIntent",
             "sendUrlIntent",
             "setIntentListener",
-            "sendIntentResponse"
+            "sendIntentResponse",
+            "hasPendingIntent"
         ],
         "Wallet": ["*"]
     },
@@ -34,7 +36,8 @@
             "sendIntent",
             "sendUrlIntent",
             "setIntentListener",
-            "sendIntentResponse"
+            "sendIntentResponse",
+            "hasPendingIntent"
         ]
     },
     "user": {
@@ -48,7 +51,8 @@
             "sendIntent",
             "sendUrlIntent",
             "setIntentListener",
-            "sendIntentResponse"
+            "sendIntentResponse",
+            "hasPendingIntent"
         ],
         "File": ["*"],
         "Media": ["*"],

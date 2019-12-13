@@ -5,15 +5,37 @@ import android.content.res.AssetManager;
 import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+//import org.apache.tomcat.util.codec.binary.Base64;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.client.HttpClient;
 
 public class IntentManager {
     public static final int MAX_INTENT_NUMBER = 20;
@@ -28,6 +50,9 @@ public class IntentManager {
     private AppManager appManager;
 
     private static IntentManager intentManager;
+
+
+    public static final String JWT_SECRET = "secret";
 
     IntentManager(AppManager appManager) {
         this.appManager = appManager;
@@ -66,6 +91,15 @@ public class IntentManager {
         }
         infos.clear();
         intentList.remove(id);
+    }
+
+    public int getIntentCount(String id)  throws Exception {
+        ArrayList<IntentInfo> infos = intentList.get(id);
+        if ((infos == null) || (infos.size() < 1)) {
+            return 0;
+        }
+
+        return infos.size();
     }
 
     private synchronized void putIntentContext(IntentInfo info) {
@@ -133,7 +167,51 @@ public class IntentManager {
         }
     }
 
-    public void sendIntentByUri(Uri uri) throws Exception {
+    public Claims parseJWT(String jwt) throws Exception {
+//        SecretKey key = generalKey();
+        Claims claims = Jwts.parser()  //DefaultJwtParser
+                .setSigningKey(JWT_SECRET)
+                .parseClaimsJws(jwt).getBody();
+        return claims;
+    }
+
+    public String getParamsByJWT(String jwt, IntentInfo info) throws Exception {
+        Claims claims = parseJWT(jwt);
+        ArrayList<LinkedHashMap<String, String>> params = (ArrayList<LinkedHashMap<String, String>>) claims.get("claims");
+        String ret = "{";
+        for (int i = 0; i < params.size(); i++) {
+            Iterator it = params.get(i).entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry entry = (Map.Entry) it.next();
+                if (!ret.equals("{")) {
+                    ret += ",";
+                }
+                ret += "\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"";
+            }
+        }
+        if (!ret.equals("{")) {
+            ret += ",";
+        }
+        ret += "\"type\":\"jwt\"}";
+
+        if (claims.get("iss") != null) {
+            info.aud = claims.get("iss").toString();
+        }
+        if (claims.get("appid") != null) {
+            info.req = claims.get("appid").toString();
+        }
+        if (claims.get("redirecturl") != null) {
+            info.redirecturl = claims.get("redirecturl").toString();
+        }
+        else if (claims.get("callbackurl") != null) {
+            info.callbackurl = claims.get("callbackurl").toString();
+        }
+        info.isJWT = true;
+        return ret;
+    }
+
+    public IntentInfo parseIntentUri(Uri uri) throws Exception {
+        IntentInfo info = null;
         List<String> list = uri.getPathSegments();
         if (list.size() > 0) {
             String[] paths = new String[list.size()];
@@ -142,7 +220,7 @@ public class IntentManager {
             Set<String> set = uri.getQueryParameterNames();
             long currentTime = System.currentTimeMillis();
 
-            IntentInfo info = new IntentInfo(action, null, "systyem", null, currentTime, null);
+            info = new IntentInfo(action, null, "systyem", null, currentTime, null);
             if (set.size() > 0) {
                 info.params = "{";
                 for (String name : set) {
@@ -155,7 +233,7 @@ public class IntentManager {
             }
             else {
                 if (list.size() == 2) {
-                    info.params = "{\"jwt\":\"" + paths[1] + "\"}";
+                    info.params = getParamsByJWT(paths[1], info);
                 }
             }
 
@@ -163,22 +241,107 @@ public class IntentManager {
                 sendIntent(info);
             }
         }
+        return info;
+    }
+
+    public void sendIntentByUri(Uri uri) throws Exception {
+        IntentInfo info = parseIntentUri(uri);
+        if (info != null && info.params != null) {
+            sendIntent(info);
+        }
+    }
+
+    public void doIntentByUri(Uri uri) {
+        try {
+            sendIntentByUri(uri);
+        } catch (Exception e) {
+//            try {
+//                IntentInfo info = parseIntentUri(uri);
+//                String err = "{\"jwt\":\"Error:" + e.getLocalizedMessage() + "\"";
+//                sendJWTResponse(null, info, err);
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//            }
+            e.printStackTrace();
+        }
     }
 
 
-    public void sendIntentResponse(String action, String result, long intentId, String fromId) throws Exception {
+    public String createJWT(IntentInfo info, String result) throws Exception {
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> claims = mapper.readValue(result, Map.class);
+
+        JwtBuilder builder = Jwts.builder()
+                .setHeaderParam("type", "JWT")
+                .claim("iss", claims.get("iss"))
+                .claim("exp", claims.get("exp"))
+                .claim("presentation", claims.get("presentation"))
+                .claim("req", info.req)
+                .claim("mothod", info.action)
+//                .setId(UUID.randomUUID())
+                .setIssuedAt(new Date())
+                .setAudience(info.aud)
+                .signWith(signatureAlgorithm, JWT_SECRET);
+
+        return builder.compact();
+    }
+
+    public void postJWTCallback(String jwt, String callbackurl) throws Exception {
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost(callbackurl);
+        List<NameValuePair> paramList = new ArrayList<NameValuePair>(2);
+        paramList.add(new BasicNameValuePair("jwt", jwt));
+        HttpEntity entity = new UrlEncodedFormEntity(paramList, HTTP.UTF_8);
+        httpPost.setEntity(entity);
+        HttpResponse httpResponse = httpClient.execute(httpPost);
+        if (httpResponse != null
+                && httpResponse.getStatusLine().getStatusCode() == 200) {
+        }
+        else {
+            String err = "Send callbackurl error";
+            if (httpResponse != null) {
+                err += ": " + httpResponse.getStatusLine().getStatusCode();
+            }
+            err += ".";
+
+            throw new Exception(err);
+        }
+
+    }
+
+    public void sendJWTResponse(AppBasePlugin basePlugin, IntentInfo info, String result) throws Exception {
+        if (info.isJWT) {
+            String jwt = createJWT(info, result);
+            if (info.redirecturl != null) {
+                String url = info.redirecturl + "/" + jwt;
+                basePlugin.webView.showWebPage(url, true, false, null);
+            }
+            else if (info.callbackurl != null) {
+                postJWTCallback(jwt, info.callbackurl);
+            }
+        }
+    }
+
+    public void sendIntentResponse(AppBasePlugin basePlugin, String result, long intentId, String fromId) throws Exception {
         IntentInfo info = intentContextList.get(intentId);
         if (info == null) {
             throw new Exception(intentId + " isn't support!");
         }
 
-        FragmentManager manager = appManager.activity.getSupportFragmentManager();
-        WebViewFragment fragment = (WebViewFragment)manager.findFragmentByTag(info.fromId);
-        if (fragment != null) {
-            appManager.start(info.fromId);
-            info.params = result;
-            info.fromId = fromId;
-            fragment.basePlugin.onReceiveIntentResponse(info);
+        if (info.isJWT) {
+            sendJWTResponse(basePlugin, info, result);
+        }
+        else {
+            FragmentManager manager = appManager.activity.getSupportFragmentManager();
+            WebViewFragment fragment = (WebViewFragment) manager.findFragmentByTag(info.fromId);
+            if (fragment != null) {
+                appManager.start(info.fromId);
+                info.params = result;
+                info.fromId = fromId;
+                fragment.basePlugin.onReceiveIntentResponse(info);
+            }
         }
 
         intentContextList.remove(intentId);

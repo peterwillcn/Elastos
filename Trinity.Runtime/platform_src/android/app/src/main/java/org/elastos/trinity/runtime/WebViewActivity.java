@@ -59,11 +59,7 @@ public class WebViewActivity extends FragmentActivity {
             Uri uri = intent.getData();
             if (uri != null) {
                 if (intent.hasCategory("android.intent.category.BROWSABLE")) {
-                    try {
-                        IntentManager.getShareInstance().sendIntentByUri(uri);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    IntentManager.getShareInstance().doIntentByUri(uri);
                 }
                 else {
                     boolean dev = intent.hasCategory("android.intent.category.TEST");

@@ -101,6 +101,10 @@ public class AppManager {
 
     final String[] defaultPlugins = {
             "AppManager",
+            "SplashScreen",
+            "StatusBar",
+            "Clipboard"
+
     };
 
     AppManager(WebViewActivity activity) {

@@ -250,7 +250,7 @@ NSString *httpIP=[[FLTools share]http_IpFast];
     if (self.CRTypeString.length>0) {
    
         
-        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[walletId,@"IDChain",@"",@"",@"0",@"",@"",@"1"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[walletId,@"IDChain",@"",@"",@"1",@"0",@"",@"1"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
           PluginResult * result =[[ELWalletManager share]accessFees:mommand];
           NSString *status=[NSString stringWithFormat:@"%@",result.status];
           if ([status isEqualToString:@"0"]) {

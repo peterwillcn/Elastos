@@ -351,7 +351,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     cell.deleagte=self;
     cell.index=indexPath;
     cell.numberVotingTextField.tag=100+indexPath.row;
-    if (model.SinceVotes.length>0&&model.isCellSelected) {
+    if (model.SinceVotes.length>0&&model.isCellSelected&&![model.SinceVotes isEqualToString:@"0"]) {
         cell.numberVotingTextField.text=model.SinceVotes;
     }
 //    if (model.SinceVotes.length==0&&model.isCellSelected==NO) {
@@ -551,7 +551,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"all_selected"];
     }else{
     self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
-        PnumberVotingString=@"0";
+        PnumberVotingString=@"";
          [self.voteArray removeAllObjects];
     }
     self.TheRemainingAvailable=[[FLTools share]CRVotingDecimalNumberByMultiplying:PnumberVotingString withCRMermVoting:[NSString stringWithFormat:@"%ld",self.dataSource.count]];
@@ -579,7 +579,8 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
 }
 -(void)UpdateTheRemainingAvailable{
     
-    if ([self.TheRemainingAvailable isEqualToString:@"0"]||self.TheRemainingAvailable.length==0) {
+   
+    if ([self.TheRemainingAvailable isEqualToString:@"0"]||self.TheRemainingAvailable.length==0||[[FLTools share]isBlankString:self.TheRemainingAvailable]||[self.TheRemainingAvailable isEqualToString:@"NaN"]) {
         self.TheRemainingAvailable=@"0";
          self.allTollTicketLabel.text=[NSString stringWithFormat:@"%@ 0 ELA",NSLocalizedString(@"合计：",nil )];
     }else{

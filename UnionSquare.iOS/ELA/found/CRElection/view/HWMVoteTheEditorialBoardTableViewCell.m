@@ -49,7 +49,7 @@
      });
          self.indexNumberLabel.text = [NSLocalizedString(@"当前排名：", nil) stringByAppendingString:model.index ];
          self.AccountedLabel.text = [NSString stringWithFormat:@"%@ %@ %@",NSLocalizedString(@"投票占比：", nil),model.voterate,@"%"];
-         self.totalNumberVotesLabel.text=[NSString stringWithFormat:@"%@ %ld %@",NSLocalizedString(@"得票总数：", nil),[model.votes longValue],NSLocalizedString(@"票", nil)];
+         self.totalNumberVotesLabel.text=[NSString stringWithFormat:@"%@ %ld ",NSLocalizedString(@"得票总数：", nil),[model.votes longValue]];
     NSString *imageNameString=@"found_not_select";
     if (model.isCellSelected) {
          imageNameString=@"found_vote_select";

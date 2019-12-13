@@ -173,8 +173,17 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     cell.backgroundColor=[UIColor clearColor];
     if (self.VoteType==MyVoteNodeElectioType) {
         FLCoinPointInfoModel *model = self.dataSource[indexPath.row];
-    cell.leftLab.text = model.nickname;
-        cell.rightLab.text =[NSString stringWithFormat:@"NO.%ld",model.index+1];
+        if ([model.state isEqualToString:@"Active"]) {
+            cell.leftLab.text = model.nickname;
+            cell.rightLab.text =[NSString stringWithFormat:@"NO.%ld",model.index+1];
+        }else{
+          cell.rightLab.text=@"--";
+            cell.leftLab.text=NSLocalizedString(@"候选节点已经失效", nil);
+            cell.leftLab.textColor=RGBA(255,255,255,0.5);
+             cell.rightLab.textColor=RGBA(255,255,255,0.5);
+        }
+        
+
        }else if (self.VoteType==MyVoteCRType){
           HWMCRListModel *model = self.dataSource[indexPath.row];
            if ([model.state isEqualToString:@"Active"]) {

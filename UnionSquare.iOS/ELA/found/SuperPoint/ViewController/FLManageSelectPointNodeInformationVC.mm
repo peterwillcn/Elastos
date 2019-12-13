@@ -242,7 +242,18 @@ NSString *httpIP=[[FLTools share]http_IpFast];
            NSString *walletId =  manager.currentWallet.masterWalletID;
     BOOL ret;
     if (self.CRTypeString.length>0) {
-         ret = [manager CancelCRProducer:walletId Pwd:pwd];
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[walletId,@"IDChain",@"",@"",@"1",@"0",@"",@"1"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+          PluginResult * result =[[ELWalletManager share]accessFees:mommand];
+          NSString *status=[NSString stringWithFormat:@"%@",result.status];
+          if ([status isEqualToString:@"0"]) {
+              UIView *mainView =[self mainWindow];
+                 [mainView addSubview:self.transactionDetailsView];
+                 [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
+                     make.left.right.top.bottom.equalTo(mainView);
+                 }];
+              NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",result.message[@"success"]]];
+              [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:@""];
+          }
     }else{
        
         ret = [manager CancelProducer:walletId Pwd:pwd];

@@ -20,6 +20,18 @@
  * SOFTWARE.
  */
 
+ /**
+* This is about DID which is a new type of identifier to provide verifiable,
+* decentralized digital identity.
+* <br><br>
+* Please use 'DIDPlugin' as the plugin name in the manifest.json if you want to use
+* this facility.
+* <br><br>
+* Usage:
+* <br>
+* declare let didManager: DIDPlugin.DIDManager;
+*/
+
 declare module DIDPlugin {
     const enum DIDStoreFilter {
         DID_HAS_PRIVATEKEY = 0,
@@ -35,16 +47,16 @@ declare module DIDPlugin {
         CHINESE_TRADITIONAL = 4,
         JAPANESE = 5
     }
-
-    class VerifiableCredentialBuilder {
-        static fromJson: (credentialJson: string) => DIDPlugin.VerifiableCredential;
+ 
+    interface VerifiableCredentialBuilder {
+        fromJson: (credentialJson: string) => DIDPlugin.VerifiableCredential;
     }
 
     type UnloadedVerifiableCredential = {
         credentialId: CredentialID;
         hint: string;
     }
-
+ 
     interface VerifiableCredential {
         getId: ()=>string;
         getFragment: ()=>string;
@@ -120,6 +132,17 @@ declare module DIDPlugin {
         listCredentials: (onSuccess: (credentials: UnloadedVerifiableCredential[])=>void, onError?: (err: any)=>void)=>void;
         loadCredential: (credentialId: CredentialID, onSuccess: (credential: VerifiableCredential)=>void, onError?: (err: any)=>void)=>void;
         storeCredential: (credential: VerifiableCredential, onSuccess?: ()=>void, onError?: (err: any)=>void)=>void;
+
+        /**
+         * Creates a new VerifiablePresentation that embeds one or several credentials. This presentation is signed by a DID
+         * and thus the store password has to be provided.
+         * 
+         * @param credentials   List of credentials to embed in the presentation.
+         * @param realm         Requester specific purpose to request this presentation. Usually the requester domain name.
+         * @param nonce         Random requested generated challenge code to prevent replay attacks. 
+         * @param storepass     Store password, used to sign the presentation.
+         */
+        createVerifiablePresentation: (credentials: VerifiableCredential[], realm: string, nonce: string, storepass: string, onSuccess: (presentation: VerifiablePresentation)=>void, onError?: (err: any)=>void)=>void;
     }
 
     interface DIDDocument {
@@ -131,15 +154,29 @@ declare module DIDPlugin {
         getDefaultPublicKey: (onSuccess: (data: any)=>void, onError?: (err: any)=>void)=>void;
         getPublicKey: (didString: string, onSuccess: (data: any)=>void, onError?: (err: any)=>void)=>void;
         getPublicKeys: (onSuccess: (data: any)=>void, onError?: (err: any)=>void)=>void;
-        addCredential: (credential: VerifiableCredential, onSuccess?: (d)=>void, onError?: (err: any)=>void)=>void; // TODO "credentialId" type
+        addCredential: (credential: VerifiableCredential, storePass: string, onSuccess?: (d)=>void, onError?: (err: any)=>void)=>void; // TODO "credentialId" type
         getCredential: (credentialId: CredentialID, onSuccess?: (credential: VerifiableCredential)=>void, onError?: (err: any)=>void)=>void; // TODO "credentialId" type
         sign: (storePass: string, originString: string, onSuccess: (data: any)=>void, onError?: (err: any)=>void)=>void;  // TODO: What is "originString" ?
         verify: (signString: string, originString: string, onSuccess: (data: any)=>void, onError?: (err: any)=>void)=>void;
         publish: (storepass: string, onSuccess?: ()=>void, onError?: (err: any)=>void)=>void;
     }
 
+    interface VerifiablePresentationBuilder {
+        fromJson: (json: string, onSuccess: (presentation: VerifiablePresentation)=>void, onError?: (err: any)=>void)=>void;
+    }
+
+    /**
+     * Object that contains one or more credentials picked from a DID store and signed by a DID.
+     * Such presentation is usually used to let end users pick some credentials to share and deliver
+     * them to a requester. The requester can then make sure that the delivered content has not been altered.
+     */
+    interface VerifiablePresentation {
+        getCredentials: ()=>VerifiableCredential[];
+        isValid: (onSuccess: (isValid: boolean)=>void, onError?: (err: any)=>void)=>void;
+        isGenuine: (onSuccess: (isValid: boolean)=>void, onError?: (err: any)=>void)=>void;
+    }
+
     interface DIDStore {
-        // TODO: define onSuccess and onError? callbacks parameters with more accurate types
         getId: ()=>string;
         initPrivateIdentity: (language: MnemonicLanguage, mnemonic: string, passphrase: string, storepass: string, force: Boolean, onSuccess: ()=>void, onError?: (err: any)=>void)=>void;
         hasPrivateIdentity: (onSuccess: (hasPrivateIdentity: boolean)=>void, onError?: (err: any)=>void)=>void;
@@ -153,12 +190,14 @@ declare module DIDPlugin {
     }
 
     interface DIDManager {
-        // TODO: define onSuccess and onError? callbacks parameters with more accurate types
         getVersion: (onSuccess: (version: string)=>void, onError?: (err: any)=>void)=>void;
         initDidStore: (didStoreId: string, onSuccess?: (didStore: DIDStore)=>void, onError?: (err: any)=>void)=>void;
         deleteDidStore: (didStoreId: string, onSuccess?: ()=>void, onError?: (err: any)=>void)=>void;
         createDIDDocumentFromJson: (json: any, onSuccess: (didDocument: DIDDocument)=>void, onError?: (err: any)=>void)=>void; // TODO: "json" type
         generateMnemonic: (language: MnemonicLanguage, onSuccess: (mnemonic: string)=>void, onError?: (err: any)=>void)=>void;
         isMnemonicValid: (language: MnemonicLanguage, mnemonic: string, onSuccess: (isValid: boolean)=>void, onError?: (err: any)=>void)=>void;
+
+        VerifiableCredentialBuilder: VerifiableCredentialBuilder;
+        VerifiablePresentationBuilder: VerifiablePresentationBuilder;
     }
 }

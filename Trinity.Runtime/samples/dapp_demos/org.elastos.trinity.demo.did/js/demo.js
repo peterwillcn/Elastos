@@ -142,9 +142,14 @@ function get_version(args) {
     );
 }
 
+function createIdTransaction(payload, memo) {
+    display_others_msg("createIdTransaction payload: " + payload);
+}
+
 function initDIDStore(args) {
      didManager.initDidStore(
          "didtest",
+         createIdTransaction,
          function (ret) {
              didStore = ret;
              display_others_msg("initDidStore success. ");
@@ -207,9 +212,9 @@ function hasPrivateID(args) {
 
 function initPrivateID(args) {
     didStore.initPrivateIdentity(
-        0, "harvest goddess absorb secret drift rail smooth eight boy fresh faculty spawn", "", "", true,
+        0, "harvest goddess absorb secret drift rail smooth eight boy fresh faculty spawn", "12345678", "12345678", true,
         function (ret) {
-            display_others_msg("initPrivateID: " + ret);
+            display_others_msg("initPrivateID success!");
         },
         function (error) {
             display_others_msg("initPrivateID error! " + error.message);
@@ -219,11 +224,12 @@ function initPrivateID(args) {
 
 function newDid(args) {
     didStore.newDid(
-        "123456",
+        "12345678",
         "didtest",
-        function (ret) {
-            diddocment = ret;
-            display_others_msg("newDid: " + ret.objId);
+        function (didStr, did) {
+            didString = didStr;
+            diddocment = did;
+            display_others_msg("newDid: " + didString);
         },
         function (error) {
             display_others_msg("newDid error! " + error.message);
@@ -273,7 +279,7 @@ function publishDid(args) {
     didStore.publishDid(
         diddocment.objId,
         publickeyUrl,
-        "123456",
+        "12345678",
         function (ret) {
             display_others_msg("publishDid: " + ret);
         },
@@ -287,7 +293,7 @@ function updateDid(args) {
     didStore.updateDid(
         diddocment.objId,
         publickeyUrl,
-        "123456",
+        "12345678",
         function (ret) {
             display_others_msg("publishDid: " + ret);
         },
@@ -301,8 +307,8 @@ function listDids(args) {
     didStore.listDids(
         2,
         function (ret) {
-            didString = ret.items[0]["did"];
-            display_others_msg("listDids count: " + ret.items.length + "<br>" + JSON.stringify(ret.items));
+            didString = ret[0]["did"];
+            display_others_msg("listDids count: " + ret.length + "<br>" + JSON.stringify(ret));
         },
         function (error) {
             display_others_msg("listDids error! " + error.message);
@@ -385,7 +391,7 @@ function addCredential(args) {
 
 function sign(args) {
     diddocment.sign(
-        "123456",
+        "12345678",
         args[1],
         function (ret) {
             signString = ret;
@@ -462,7 +468,7 @@ function createCredential(args) {
         types,
         15,
         props,
-        "123456",
+        "12345678",
         function (ret) {
             vc = ret;
             display_others_msg("createCredential success " + ret.objId);
@@ -476,11 +482,11 @@ function createCredential(args) {
 function listCredentials(args) {
     did.listCredentials(
         function (ret) {
-            didUrlString = ret.items[0]["didurl"];
+            didUrlString = ret[0]["didurl"];
             let index=didUrlString.indexOf("#");
             didString = didUrlString.substring(0, index);
             vcId = didUrlString.substring(index + 1);
-            display_others_msg("listCredentials count: " + ret.items.length+ "<br>" + JSON.stringify(ret.items));
+            display_others_msg("listCredentials count: " + ret.length+ "<br>" + JSON.stringify(ret));
         },
         function (error) {
             display_others_msg("listCredentials error! " + error.message);

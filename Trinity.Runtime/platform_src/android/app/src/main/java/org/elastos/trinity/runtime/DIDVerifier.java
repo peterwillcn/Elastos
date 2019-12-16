@@ -2,6 +2,7 @@ package org.elastos.trinity.runtime;
 
 import android.util.Log;
 import org.elastos.did.*;
+import org.elastos.did.exception.DIDException;
 
 
 public class DIDVerifier {

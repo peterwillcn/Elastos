@@ -22,7 +22,12 @@ parser.add_argument('target', metavar='TARGET', choices=['all', 'clean', 'clobbe
                          clean: delete runtime platforms;
                          clobber: delete all build files.
                      '''))
+parser.add_argument('--release', action='store_true', help='build release')
 args = parser.parse_args()
+if args.release:
+    build_type='--release'
+else:
+    build_type=''
 
 SCRIPT_PATH=os.path.realpath(__file__)
 TOOLCHAINS_DIR_PATH=os.path.dirname(os.path.dirname(SCRIPT_PATH))
@@ -123,7 +128,7 @@ if args.target == "all" or args.target == "launcher" or args.target == "runtime"
     run_cmd("npm install")
     run_cmd("cordova prepare")
     add_fabric()
-    run_cmd("cordova build android")
+    run_cmd("cordova build android " + build_type)
 
 elapsed = timeit.default_timer() - startTime
 minutes = elapsed / 60

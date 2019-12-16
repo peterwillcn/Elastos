@@ -17,7 +17,9 @@
 #import "nodeInformationDetailsView.h"
 #import "HWMCRListModel.h"
 #import "HWMCRRegisteredViewController.h"
-@interface FLManageSelectPointNodeInformationVC()<HMWToDeleteTheWalletPopViewDelegate>
+#import "HWMTransactionDetailsView.h"
+#import "HMWSendSuccessPopuView.h"
+@interface FLManageSelectPointNodeInformationVC()<HMWToDeleteTheWalletPopViewDelegate,HWMTransactionDetailsViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *votesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *votesNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel *voteOfBTextLabel;
@@ -53,6 +55,9 @@
  */
 @property (weak, nonatomic) IBOutlet UILabel *URLTextLabel;
 @property(strong,nonatomic)nodeInformationDetailsView *nodeInformationDetailsV;
+
+@property(strong,nonatomic)HWMTransactionDetailsView* transactionDetailsView;
+@property(strong,nonatomic)HMWSendSuccessPopuView* sendSuccessPopuV;
 @end
 
 @implementation FLManageSelectPointNodeInformationVC
@@ -330,18 +335,6 @@ NSString *httpIP=[[FLTools share]http_IpFast];
   
     }
 }
-
--(void)showSendSuccessPopuV{
-    UIView *manView=[self mainWindow];
-    [manView addSubview:self.sendSuccessPopuV];
-    [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.equalTo(manView);
-    }];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self hiddenSendSuccessPopuV];
-        [self.navigationController popViewControllerAnimated: YES];
-    });
-}
 -(void)hiddenSendSuccessPopuV{
     [self.sendSuccessPopuV removeFromSuperview];
     self.sendSuccessPopuV=nil;
@@ -352,5 +345,16 @@ NSString *httpIP=[[FLTools share]http_IpFast];
     }
     
     return _sendSuccessPopuV;
+}
+-(void)showSendSuccessPopuV{
+    UIView *manView=[self mainWindow];
+    [manView addSubview:self.sendSuccessPopuV];
+    [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(manView);
+    }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self hiddenSendSuccessPopuV];
+        [self.navigationController popViewControllerAnimated: YES];
+    });
 }
 @end

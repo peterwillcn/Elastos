@@ -362,5 +362,13 @@ declare namespace AppManagerPlugin {
          * @param onError    The function to call when error, the param is a String. Or set to null.
          */
         sendIntentResponse(action: string, result: any, intentId: Number, onSuccess: (response: any)=>void, onError?: (err:any)=>void);
+
+        /**
+         * Check pending intent.
+         *
+         * @param onSuccess  The function to call when success.
+         * @param onError    The function to call when error, the param is a String. Or set to null.
+         */
+        hasPendingIntent(onSuccess: (ret: any) => void, onError?: (err: any) => void);
     }
 }

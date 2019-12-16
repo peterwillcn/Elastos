@@ -22,6 +22,14 @@
    
 /**
 * This is about carrier, a decentralized distributed peer-to-peer networking system.
+* With carrier, you can friend someone and use sessions, file transfers among friends.
+* <br><br>
+* Please use 'CarrierPlugin' as the plugin name in the manifest.json if you want to use
+* this facility.
+* <br><br>
+* Usage:
+* <br>
+* declare let carrierManager: CarrierPlugin.CarrierManager;
 */
 
 declare namespace CarrierPlugin {
@@ -192,7 +200,6 @@ declare namespace CarrierPlugin {
         * @param stream      The carrier stream instance
         * @param channel     The current channel ID.
         * @param cookie      Application defined string data receives from remote peer.
-        *
         */
         onChannelOpen?: (stream: Stream, channel: Number, cookie: string)=>void;
 
@@ -1087,7 +1094,6 @@ declare namespace CarrierPlugin {
          *
          * @param onSuccess  The function to call when success.The param is a string "Success!",
          * @param onError    The function to call when error, the param is a string. Or set to null.
-         *
          */
         close: (onSuccess?: ()=>void, onError?: (err:string)=>void)=>void;
 
@@ -1098,7 +1104,6 @@ declare namespace CarrierPlugin {
          * @param filename   The target file name.
          * @param onSuccess  The function to call when success.The param is fileId,
          * @param onError    The function to call when error, the param is a string. Or set to null.
-         *
          */
         getFileId: (filename: string, onSuccess?: (fileId: string)=>void, onError?: (err:string)=>void)=>void;
 

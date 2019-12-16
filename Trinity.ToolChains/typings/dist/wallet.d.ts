@@ -20,6 +20,19 @@
 * SOFTWARE.
 */
 
+/**
+* This is about Wallet which can only be used by wallet application by default.
+* However, you can change this by editing the group.json correctly.
+* <br><br>
+* Please use 'Wallet' as the plugin name in the manifest.json if you want to use
+* this facility. Additionally, you need to make sure you have permission(granted
+* in the group.json) to use it.
+* <br><br>
+* Usage:
+* <br>
+* declare let walletManager: WalletPlugin.WalletManager;
+*/
+
 declare module WalletPlugin {
     interface WalletManager {
         // TODO: define types for all arguments and callback parameters

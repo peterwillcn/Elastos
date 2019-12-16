@@ -21,6 +21,19 @@
  */
 // TODO: Replace with accurate types everywhere there is "any" or "Function".
 
+/**
+* This is about Hive which provides the IPFS(InterPlanetary File System, a protocol and
+* peer-to-peer network for storing and sharing data in a distributed file system)-based
+* APIs.
+* <br><br>
+* Please use 'HivePlugin' as the plugin name in the manifest.json if you want to use
+* this facility.
+* <br><br>
+* Usage:
+* <br>
+* declare let hiveManager: HivePlugin.HiveManager;
+*/
+
 declare namespace HivePlugin {
     type Opaque<T, K> = T & { __opaque__: K };
     type Int = Opaque<number, 'Int'>;

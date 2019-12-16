@@ -47,16 +47,26 @@ declare module DIDPlugin {
         CHINESE_TRADITIONAL = 4,
         JAPANESE = 5
     }
- 
+
+    /**
+    * The callback function to receive the payload of createIdTransaction.
+    *
+    * @callback OnCreateIdTransaction
+    *
+    * @param payload     The payload of the IdTransaction.
+    * @param memo        The memo of the IdTransaction.
+    */
+    type OnCreateIdTransaction = (payload: String, memo: string)=>void;
+
     interface VerifiableCredentialBuilder {
         fromJson: (credentialJson: string) => DIDPlugin.VerifiableCredential;
     }
 
     type UnloadedVerifiableCredential = {
         credentialId: CredentialID;
-        hint: string;
+        alias: string;
     }
- 
+
     interface VerifiableCredential {
         getId: ()=>string;
         getFragment: ()=>string;
@@ -71,7 +81,7 @@ declare module DIDPlugin {
 
     type UnloadedDID = {
         did: DIDString;
-        hint: string;
+        alias: string;
     }
 
     interface PublicKey {
@@ -136,10 +146,10 @@ declare module DIDPlugin {
         /**
          * Creates a new VerifiablePresentation that embeds one or several credentials. This presentation is signed by a DID
          * and thus the store password has to be provided.
-         * 
+         *
          * @param credentials   List of credentials to embed in the presentation.
          * @param realm         Requester specific purpose to request this presentation. Usually the requester domain name.
-         * @param nonce         Random requested generated challenge code to prevent replay attacks. 
+         * @param nonce         Random requested generated challenge code to prevent replay attacks.
          * @param storepass     Store password, used to sign the presentation.
          */
         createVerifiablePresentation: (credentials: VerifiableCredential[], realm: string, nonce: string, storepass: string, onSuccess: (presentation: VerifiablePresentation)=>void, onError?: (err: any)=>void)=>void;
@@ -179,19 +189,19 @@ declare module DIDPlugin {
     interface DIDStore {
         getId: ()=>string;
         initPrivateIdentity: (language: MnemonicLanguage, mnemonic: string, passphrase: string, storepass: string, force: Boolean, onSuccess: ()=>void, onError?: (err: any)=>void)=>void;
-        hasPrivateIdentity: (onSuccess: (hasPrivateIdentity: boolean)=>void, onError?: (err: any)=>void)=>void;
+        containsPrivateIdentity: (onSuccess: (hasPrivateIdentity: boolean)=>void, onError?: (err: any)=>void)=>void;
         deleteDid: (didString: string, onSuccess: ()=>void, onError?: (err: any)=>void)=>void;
-        newDid: (passphrase: string, hint: string, onSuccess: (didString: DIDString, didDocument: DIDDocument)=>void, onError?: (err: any)=>void)=>void;
+        newDid: (passphrase: string, alias: string, onSuccess: (didString: DIDString, didDocument: DIDDocument)=>void, onError?: (err: any)=>void)=>void;
         listDids: (filter: any, onSuccess: (didString: UnloadedDID[])=>void, onError?: (err: any)=>void)=>void; // TODO: "filter" type
         loadDidDocument: (didString: string, onSuccess: (didDocument: DIDDocument)=>void, onError?: (err: any)=>void)=>void;
         resolveDidDocument: (didString: string, onSuccess: (didDocument: DIDDocument)=>void, onError?: (err: any)=>void)=>void;
-        storeDidDocument: (didDocument: DIDDocument, hint:string, onSuccess: ()=>void, onError?: (err: any)=>void)=>void;
+        storeDidDocument: (didDocument: DIDDocument, alias:string, onSuccess: ()=>void, onError?: (err: any)=>void)=>void;
         updateDidDocument: (didDocument: DIDDocument, storepass: string, onSuccess?: ()=>void, onError?: (err: any)=>void)=>void;
     }
 
     interface DIDManager {
         getVersion: (onSuccess: (version: string)=>void, onError?: (err: any)=>void)=>void;
-        initDidStore: (didStoreId: string, onSuccess?: (didStore: DIDStore)=>void, onError?: (err: any)=>void)=>void;
+        initDidStore: (didStoreId: string, createIdTransactionCallback: OnCreateIdTransaction, onSuccess?: (didStore: DIDStore)=>void, onError?: (err: any)=>void)=>void;
         deleteDidStore: (didStoreId: string, onSuccess?: ()=>void, onError?: (err: any)=>void)=>void;
         createDIDDocumentFromJson: (json: any, onSuccess: (didDocument: DIDDocument)=>void, onError?: (err: any)=>void)=>void; // TODO: "json" type
         generateMnemonic: (language: MnemonicLanguage, onSuccess: (mnemonic: string)=>void, onError?: (err: any)=>void)=>void;

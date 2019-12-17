@@ -13,6 +13,7 @@
 #import "FLCoinPointInfoModel.h"
 #import "HWMCRListModel.h"
 #import "HWMCRCCommitteeElectionListViewController.h"
+#import "HMWtheCandidateListViewController.h"
 static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
 @interface HMWMyVoteViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UIView *BGView;
@@ -98,11 +99,9 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
        self.dataSource = showlistdata;
        if (self.dataSource.count==0) {
            self.changeVotesButton.alpha=0.f;
-//        self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_unlocked"];
            self.largeStateImageView.image=[UIImage imageNamed:@"found_my_go_on"];
        }else{
             self.changeVotesButton.alpha=1.f;
-//           self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_going_on"];
                    self.largeStateImageView.image=[UIImage imageNamed:@"found_vote_lock"];
        }
     
@@ -120,6 +119,7 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
 
     NSMutableArray *showlistdata = [NSMutableArray array];
+    NSMutableArray *NActive=[NSMutableArray array];
     NSInteger total =0;
     for (int i=0; i<self.listData.count; i++) {
           FLCoinPointInfoModel *model = self.listData[i];
@@ -128,21 +128,28 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
                   NSString *itemKey = param.allKeys[j];
             if ([model.ownerpublickey isEqualToString:itemKey]) {
                 model.hadVotedNumber = [param[itemKey] integerValue];
+                if ([model.state isEqualToString:@"Active"]) {
                 [showlistdata addObject:model];
-                total+=[param[itemKey] integerValue];
+                }else{
+                    [NActive addObject:model];
+                }
+               
+                total=[param[itemKey] integerValue];
             }
         }
         
     }
+    [showlistdata addObjectsFromArray:NActive];
     self.voteInTotalLabel.text = @(total/unitNumber).stringValue;
     self.dataSource = showlistdata;
-    if (self.dataSource.count==0) {
-        self.changeVotesButton.alpha=0.f;
-     self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_unlocked"];
-    }else{
-         self.changeVotesButton.alpha=1.f;
-        self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_going_on"];
-    }
+    self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_unlocked"];  
+if (self.dataSource.count==0) {
+    self.changeVotesButton.alpha=0.f;
+    self.largeStateImageView.image=[UIImage imageNamed:@"found_my_go_on"];
+}else{
+     self.changeVotesButton.alpha=1.f;
+            self.largeStateImageView.image=[UIImage imageNamed:@"found_vote_lock"];
+}
     [self.baseTableView reloadData];
     self.placeHolderLab.hidden  = self.dataSource.count==0? NO: YES;
     
@@ -223,8 +230,14 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
 }
 - (IBAction)changeVote:(id)sender {
     if (self.VoteType==MyVoteNodeElectioType) {
-      FLChangeVotedTicketsVC *vc = [[FLChangeVotedTicketsVC alloc]init];
-        [self.navigationController pushViewController:vc animated:YES];
+        
+        HMWtheCandidateListViewController * vc = [[HMWtheCandidateListViewController alloc]init];
+           vc.persent = self.persent ;
+           vc.lastTimeArray=self.listData;
+           [self.navigationController pushViewController:vc animated:YES];
+        
+//      FLChangeVotedTicketsVC *vc = [[FLChangeVotedTicketsVC alloc]init];
+//        [self.navigationController pushViewController:vc animated:YES];
      }else if (self.VoteType==MyVoteCRType){
          HWMCRCCommitteeElectionListViewController *vc=[[HWMCRCCommitteeElectionListViewController alloc]init];
          vc.lastArray=self.ActivData;
@@ -244,5 +257,8 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
 }
 -(void)setTotalvotes:(NSString *)totalvotes{
     _totalvotes=totalvotes;
+}
+-(void)setPersent:(NSString *)persent{
+    _persent=persent;
 }
 @end

@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)NSArray *ActivData;
 @property(copy,nonatomic)NSString * totalvotes;
 @property(assign,nonatomic)MyVoteVotingListType VoteType;
+@property(copy,nonatomic)NSString * persent;
+
 @end
 
 NS_ASSUME_NONNULL_END

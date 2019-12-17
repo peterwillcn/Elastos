@@ -151,6 +151,7 @@
                 self.ForInformationButton.alpha=0.f;
                 self.infoTextView.alpha=0.f;
                 self.ForInformationView.alpha=0.f;
+                  self.IntroductionOfNodeButton.alpha=0.f;
             }else{
                           self.infoTextView.text=self.model.infoZH;
                        }
@@ -160,7 +161,7 @@
         self.currantVotesLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[NSString stringWithFormat:@"%ld %@",(long)[self.model.votes integerValue],NSLocalizedString(@"票", nil)] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
 
         self.votePercentageLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[NSString stringWithFormat:@"%@ %@",[[FLTools share] DownTheValue:self.model.voterate withLength:2],@"%"] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
-        self.countryRegionLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[[FLTools share]contryNameTransLateByCode:[self.CRmodel.location intValue]] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
+        self.countryRegionLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[[FLTools share]contryNameTransLateByCode:[self.model.location intValue]] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
         self.URLLabel=[self labeWithTextColor:RGB(40, 147, 232) withText:self.model.url withTextFont:14 withTextAlignment:NSTextAlignmentRight];
         self.URLTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:@"URL" withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
         [self.IntroductionOfNodeButton setTitle:NSLocalizedString(@"节点简介", nil) forState:UIControlStateNormal];
@@ -172,19 +173,21 @@
                        self.infoTextView.alpha=0.f;
                        self.ForInformationView.alpha=0.f;
                        self.IntroductionOfNodeButton.alpha=0.f;
+                      
                    }else{
                      self.infoTextView.text=self.CRmodel.infoZH;
                    }
                }else{
                    if (self.CRmodel.infoEN.length==0) {
                        self.ForInformationButton.alpha=0.f;
-                                     self.IntroductionOfNodeView.alpha=0.f;
+                       self.IntroductionOfNodeView.alpha=0.f;
                        self.ForInformationButton.alpha=0.f;
                        self.infoTextView.alpha=0.f;
                        self.ForInformationView.alpha=0.f;
+                       self.IntroductionOfNodeButton.alpha=0.f;
                    }else{
-                                 self.infoTextView.text=self.CRmodel.infoZH;
-                              }
+                    self.infoTextView.text=self.CRmodel.infoZH;
+                  }
                }
             self.nodeAddressTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"委员DID", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
             self.nodeAddressLabel=[self labeWithTextColor:[UIColor whiteColor] withText:self.CRmodel.did withTextFont:14 withTextAlignment:NSTextAlignmentRight];

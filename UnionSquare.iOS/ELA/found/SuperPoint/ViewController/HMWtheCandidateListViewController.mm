@@ -151,13 +151,16 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 }
 -(void)getDBRecored{
     NSArray *localStore = [[FLNotePointDBManager defultWithWalletID:self.wallet.masterWalletID]allRecord];
-        for (int i= 0; i<localStore.count; i++) {
-        FLCoinPointInfoModel *model = localStore[i];
+        for (int i= 0; i<self.lastTimeArray.count; i++) {
+        FLCoinPointInfoModel *model = self.lastTimeArray[i];
         BOOL ret = NO;
-        for (FLCoinPointInfoModel*dataModel in self.lastTimeArray) {
+        for (FLCoinPointInfoModel*dataModel in localStore) {
            ret =  [dataModel.ownerpublickey isEqualToString:model.ownerpublickey];
             if (ret) {
-                [self.dataSource addObject:dataModel];
+                if ([model.state isEqualToString:@"Active"]) {
+                     [self.dataSource addObject:dataModel];
+                }
+               
             }
         }
    
@@ -320,8 +323,9 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     NSString *alltickNumer;
     if (isMax) {
         alltickNumer=@"MAX";
-    }else{
-        alltickNumer=  [[FLTools share]CRVotingDecimalNumberByMultiplying:ticketNumer withCRMermVoting:[NSString stringWithFormat:@"%ld",stringArray.count] ];
+    }
+    else{
+        alltickNumer=  [[FLTools share]CRVotingDecimalNumberByMultiplying:ticketNumer withCRMermVoting:[NSString stringWithFormat:@"%d",1] ];
     }
         [mainView addSubview:self.transactionDetailsView];
         [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:alltickNumer];
@@ -489,8 +493,9 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 -(void)pwdAndInfoWithPWD:(NSString*)pwd{
      NSString *walletId = [ELWalletManager share].currentWallet.masterWalletID;
     BOOL ret = [[ELWalletManager share]useMainchainSubWallet:walletId WithJsonString:self.jsonString pwd:pwd];
-            [self closeTransactionDetailsView];
+            
             if (ret) {
+                [self closeTransactionDetailsView];
                 [self showSendSuccessPopuV];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     [self.sendSuccessPopuV removeFromSuperview];

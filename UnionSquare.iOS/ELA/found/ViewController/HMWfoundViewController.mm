@@ -100,6 +100,7 @@
         HMWtheSuperNodeElectionViewController*theSuperNodeElectionVC=[[HMWtheSuperNodeElectionViewController alloc]init];
         theSuperNodeElectionVC.typeString=Status;
         theSuperNodeElectionVC.NodePublicKey= param[@"Info"][@"NodePublicKey"];
+        theSuperNodeElectionVC.nodeName= param[@"Info"][@"NickName"];
         [self.navigationController pushViewController:theSuperNodeElectionVC animated:YES];
     }
     if (indexPath.row==1) {
@@ -117,6 +118,7 @@
         CRSignUpForVC.typeString=self.typeString;
         CRSignUpForVC.CROwnerDID=param[@"Info"][@"CROwnerDID"];
         CRSignUpForVC.CROwnerPublicKey=param[@"Info"][@"CROwnerPublicKey"];
+        CRSignUpForVC.nodeName= param[@"Info"][@"NickName"];
          [self.navigationController pushViewController:CRSignUpForVC  animated:YES];
     }
     

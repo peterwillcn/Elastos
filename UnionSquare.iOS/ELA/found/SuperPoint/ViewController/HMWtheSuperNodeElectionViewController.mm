@@ -50,6 +50,7 @@
 @property(assign,nonatomic)BOOL needFind;
 @property(copy,nonatomic)NSString;
 
+
 @end
 
 @implementation HMWtheSuperNodeElectionViewController
@@ -167,6 +168,7 @@
         
     }else if ([self.typeString isEqualToString:@"Canceled"]){
         DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
+        vc.nodeName=self.nodeName;
         [self.navigationController pushViewController:vc animated:YES];
     }
     
@@ -306,8 +308,8 @@
         
         FLCoinPointInfoModel *curentmodel = nil ;
         BOOL ret = NO;
-        for (FLCoinPointInfoModel*dataModel in self.dataSource) {
-           ret =  [dataModel.ownerpublickey isEqualToString:model.ownerpublickey];
+        for (FLCoinPointInfoModel*dataModel in self.ActiveArray) {
+           ret = ( [dataModel.ownerpublickey isEqualToString:model.ownerpublickey]);
             if (ret) {
                 curentmodel = model;
             }
@@ -354,6 +356,7 @@
     vc.listData = self.dataSource;
     vc.ActivData=self.ActiveArray;
     vc.VoteType=MyVoteNodeElectioType;
+    vc.persent=self.votingListV.lab1.text;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -383,10 +386,10 @@
 
 - (void)selectedVotingListWithIndex:(NSInteger)index {
     HMWnodeInformationViewController *nodeInformationVC=[[HMWnodeInformationViewController alloc]init];
-    nodeInformationVC.model = self.dataSource[index];
+    nodeInformationVC.model = self.ActiveArray[index];
 //    nodeInformationVC.model.voterate=[[FLTools share] DownTheValue: nodeInformationVC.model.voterate withLength:2];
     nodeInformationVC.Ranking=index+1;
-    nodeInformationVC.lastTimeArray=self.dataSource;
+    nodeInformationVC.lastTimeArray=self.ActiveArray;
     nodeInformationVC.type=nodeInformationType;
       [self.navigationController pushViewController:nodeInformationVC animated:YES];
     
@@ -399,6 +402,8 @@
 
 
 
-
+-(void)setNodeName:(NSString *)nodeName{
+    _nodeName=nodeName;
+}
 
 @end

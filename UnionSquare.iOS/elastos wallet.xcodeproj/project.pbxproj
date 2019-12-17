@@ -457,7 +457,27 @@
 		42EA69442313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EA69422313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.m */; };
 		42EA69452313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42EA69432313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.xib */; };
 		42EAEF85238BB43700D6A912 /* NSString+HWMNSTaggedPointerString.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF82238BB43700D6A912 /* NSString+HWMNSTaggedPointerString.m */; };
-		42EAEF86238BB43700D6A912 /* NSDictionary+NilSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF83238BB43700D6A912 /* NSDictionary+NilSafe.m */; };
+		42EAEFB8238BB46300D6A912 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF88238BB46300D6A912 /* UIScrollView+MJRefresh.m */; };
+		42EAEFB9238BB46300D6A912 /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF89238BB46300D6A912 /* MJRefreshConst.m */; };
+		42EAEFBA238BB46300D6A912 /* MJRefreshConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF8A238BB46300D6A912 /* MJRefreshConfig.m */; };
+		42EAEFBB238BB46300D6A912 /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 42EAEF8E238BB46300D6A912 /* MJRefresh.bundle */; };
+		42EAEFBC238BB46300D6A912 /* UIScrollView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF90238BB46300D6A912 /* UIScrollView+MJExtension.m */; };
+		42EAEFBD238BB46300D6A912 /* NSBundle+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF94238BB46300D6A912 /* NSBundle+MJRefresh.m */; };
+		42EAEFBE238BB46300D6A912 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF95238BB46300D6A912 /* UIView+MJExtension.m */; };
+		42EAEFBF238BB46300D6A912 /* MJRefreshBackGifFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF9C238BB46300D6A912 /* MJRefreshBackGifFooter.m */; };
+		42EAEFC0238BB46300D6A912 /* MJRefreshBackStateFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF9D238BB46300D6A912 /* MJRefreshBackStateFooter.m */; };
+		42EAEFC1238BB46300D6A912 /* MJRefreshBackNormalFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF9E238BB46300D6A912 /* MJRefreshBackNormalFooter.m */; };
+		42EAEFC2238BB46300D6A912 /* MJRefreshAutoStateFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFA3238BB46300D6A912 /* MJRefreshAutoStateFooter.m */; };
+		42EAEFC3238BB46300D6A912 /* MJRefreshAutoGifFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFA4238BB46300D6A912 /* MJRefreshAutoGifFooter.m */; };
+		42EAEFC4238BB46300D6A912 /* MJRefreshAutoNormalFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFA5238BB46300D6A912 /* MJRefreshAutoNormalFooter.m */; };
+		42EAEFC5238BB46300D6A912 /* MJRefreshNormalHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFA7238BB46300D6A912 /* MJRefreshNormalHeader.m */; };
+		42EAEFC6238BB46300D6A912 /* MJRefreshStateHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFAB238BB46300D6A912 /* MJRefreshStateHeader.m */; };
+		42EAEFC7238BB46300D6A912 /* MJRefreshGifHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFAC238BB46300D6A912 /* MJRefreshGifHeader.m */; };
+		42EAEFC8238BB46300D6A912 /* MJRefreshFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFAE238BB46300D6A912 /* MJRefreshFooter.m */; };
+		42EAEFC9238BB46300D6A912 /* MJRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFB0238BB46300D6A912 /* MJRefreshHeader.m */; };
+		42EAEFCA238BB46300D6A912 /* MJRefreshBackFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFB2238BB46300D6A912 /* MJRefreshBackFooter.m */; };
+		42EAEFCB238BB46300D6A912 /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFB3238BB46300D6A912 /* MJRefreshAutoFooter.m */; };
+		42EAEFCC238BB46300D6A912 /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFB5238BB46300D6A912 /* MJRefreshComponent.m */; };
 		42EAEFD1238BB52800D6A912 /* HWMSignStatusModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFCE238BB52800D6A912 /* HWMSignStatusModel.m */; };
 		42EAEFD2238BB52800D6A912 /* HWMQRModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFCF238BB52800D6A912 /* HWMQRModel.m */; };
 		42EAEFD6238BB54F00D6A912 /* AddressPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42EAEFD3238BB54E00D6A912 /* AddressPickerView.xib */; };
@@ -519,7 +539,7 @@
 		0207DA571B56EA530066E2B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "elastos wallet/Assets.xcassets"; sourceTree = SOURCE_ROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = AppDelegate.mm; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* elastos Wallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "elastos Wallet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* REGNET.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = REGNET.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B97316FDCFA39411CA2CEA /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* elastos wallet-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "elastos wallet-Prefix.pch"; sourceTree = "<group>"; };
 		420131C12320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCRCCommitteeElectionListViewController.h; sourceTree = "<group>"; };
@@ -1344,9 +1364,7 @@
 		42EA69412313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMQrCodeTransferAndAddBuddyViewController.h; sourceTree = "<group>"; };
 		42EA69422313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMQrCodeTransferAndAddBuddyViewController.m; sourceTree = "<group>"; };
 		42EA69432313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMQrCodeTransferAndAddBuddyViewController.xib; sourceTree = "<group>"; };
-		42EAEF81238BB43600D6A912 /* NSDictionary+NilSafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NilSafe.h"; sourceTree = "<group>"; };
 		42EAEF82238BB43700D6A912 /* NSString+HWMNSTaggedPointerString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HWMNSTaggedPointerString.m"; sourceTree = "<group>"; };
-		42EAEF83238BB43700D6A912 /* NSDictionary+NilSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NilSafe.m"; sourceTree = "<group>"; };
 		42EAEF84238BB43700D6A912 /* NSString+HWMNSTaggedPointerString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HWMNSTaggedPointerString.h"; sourceTree = "<group>"; };
 		42EAEFCD238BB52800D6A912 /* HWMQRModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWMQRModel.h; sourceTree = "<group>"; };
 		42EAEFCE238BB52800D6A912 /* HWMSignStatusModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMSignStatusModel.m; sourceTree = "<group>"; };
@@ -1487,7 +1505,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* elastos Wallet.app */,
+				1D6058910D05DD3D006BFB54 /* REGNET.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2418,8 +2436,6 @@
 		4202C99A21F6EF29009E5932 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				42EAEF81238BB43600D6A912 /* NSDictionary+NilSafe.h */,
-				42EAEF83238BB43700D6A912 /* NSDictionary+NilSafe.m */,
 				42EAEF84238BB43700D6A912 /* NSString+HWMNSTaggedPointerString.h */,
 				42EAEF82238BB43700D6A912 /* NSString+HWMNSTaggedPointerString.m */,
 				423461E82383F16A00E4B135 /* safeCategory */,
@@ -3355,7 +3371,7 @@
 			);
 			name = "elastos wallet";
 			productName = "elastos wallet";
-			productReference = 1D6058910D05DD3D006BFB54 /* elastos Wallet.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* REGNET.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -3783,7 +3799,6 @@
 				42D105FC23A3344D0063AADC /* MJRefreshAutoStateFooter.m in Sources */,
 				42D126A722B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.m in Sources */,
 				4202CA9D21F6EF2B009E5932 /* FLSelectWordView.m in Sources */,
-				42EAEF86238BB43700D6A912 /* NSDictionary+NilSafe.m in Sources */,
 				4202CAB121F6EF2B009E5932 /* FirstViewController.mm in Sources */,
 				4296F1072375429800B2CE7D /* HWMshowIntroductionInfoViewController.m in Sources */,
 				4202CAB121F6EF2B009E5932 /* FirstViewController.mm in Sources */,
@@ -4005,8 +4020,8 @@
 				);
 				MARKETING_VERSION = "1.3 dev";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletPRVNET;
-				PRODUCT_NAME = PRVNET;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletREGNET;
+				PRODUCT_NAME = REGNET;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -4066,8 +4081,8 @@
 				MARKETING_VERSION = "1.3 dev";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletPRVNET;
-				PRODUCT_NAME = PRVNET;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletREGNET;
+				PRODUCT_NAME = REGNET;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.0;
@@ -4172,8 +4187,8 @@
 				);
 				MARKETING_VERSION = "1.3 dev";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletPRVNET;
-				PRODUCT_NAME = PRVNET;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletREGNET;
+				PRODUCT_NAME = REGNET;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -4279,8 +4294,8 @@
 				);
 				MARKETING_VERSION = "1.3 dev";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletPRVNET;
-				PRODUCT_NAME = PRVNET;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletREGNET;
+				PRODUCT_NAME = REGNET;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

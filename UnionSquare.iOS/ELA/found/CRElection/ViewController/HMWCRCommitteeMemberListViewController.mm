@@ -24,6 +24,7 @@
 #import "HMWToDeleteTheWalletPopView.h"
 #import "HMWAddTheCurrencyListViewController.h"
 
+
 @interface HMWCRCommitteeMemberListViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWnodeInformationViewControllerDelegate,HWMCRCommitteeForAgreementViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWAddTheCurrencyListViewControllerDelegate,HWMCRCCommitteeElectionListViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *tagVoteRuleLab;
 
@@ -186,6 +187,7 @@
 - (IBAction)NodeRegisteredState:(id)sender {
     if ([self.typeString isEqualToString:@"Registered"]){
         
+        
         if (self.isOpen) {
                FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
                    vc.currentWallet=self.wallet;
@@ -230,6 +232,7 @@
         if (self.isOpen) {
                DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
                vc.CRTypeString=@"CRString";
+            vc.nodeName=self.nodeName;
                [self.navigationController pushViewController:vc animated:YES];
            }else{
                UIView *mainView =[self mainWindow];
@@ -557,6 +560,7 @@
         if ([self.typeString isEqualToString:@"Canceled"]) {
             DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
                           vc.CRTypeString=@"CRString";
+            vc.nodeName=self.nodeName;
                           [self.navigationController pushViewController:vc animated:YES];
         }else if ([self.typeString isEqualToString:@"Unregistered"]){
             
@@ -584,5 +588,8 @@
 }
 -(void)needUpdataSta{
     [self UpdataLocalOwerlist];
+}
+-(void)setNodeName:(NSString *)nodeName{
+    _nodeName=nodeName;
 }
 @end

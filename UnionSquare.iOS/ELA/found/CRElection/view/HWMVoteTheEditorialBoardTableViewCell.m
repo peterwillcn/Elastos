@@ -37,7 +37,6 @@
 }
 -(void)setModel:(HWMCRListModel *)model{
     self.nickNameLabel.text =model.nickname;
-
     dispatch_group_t group =  dispatch_group_create();
      __block NSString *locationLabelString;
     dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -57,6 +56,12 @@
          imageNameString=@"found_not_select";
     }
     self.isSelectedImageView.image =[UIImage imageNamed:imageNameString];
+    
+    if (model.SinceVotes.length>0&&model.isCellSelected&&![model.SinceVotes isEqualToString:@"0"]) {
+        self.numberVotingTextField.text=model.SinceVotes;
+    }else{
+        self.numberVotingTextField.text=model.TextVotes;
+    }
     _model=model;
 }
 -(void)setIndex:(NSIndexPath *)index{

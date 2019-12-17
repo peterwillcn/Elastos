@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *rightLab;
 
 @property (weak, nonatomic) IBOutlet UILabel *middleLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftwidthCon;
 
 @end
 

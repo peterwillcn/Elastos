@@ -506,4 +506,8 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     self.transactionDetailsView=nil;
     
 }
+-(void)setPersent:(NSString *)persent{
+    _persent=persent;
+    
+}
 @end

@@ -817,4 +817,7 @@ self.jsonString=dic[@"JSON"];
 -(void)setLastArray:(NSArray *)lastArray{
     _lastArray=lastArray;
 }
+-(void)setTotalvotes:(NSString *)totalvotes{
+    _totalvotes=totalvotes;
+}
 @end

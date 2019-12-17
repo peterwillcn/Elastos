@@ -264,9 +264,8 @@
                           self.needFind =NO;
                     }else{
                         if ([model.state isEqualToString:@"Active"]) {
-                                        
-                                          [self.ActiveArray addObject:model];
-                                      }
+                     [self.ActiveArray addObject:model];
+                    }
                                        
                     }
 
@@ -351,6 +350,7 @@
     
     HMWMyVoteViewController * vc = [[HMWMyVoteViewController alloc]init];
     vc.listData = self.dataSource;
+    vc.ActivData=self.ActiveArray;
     vc.VoteType=MyVoteNodeElectioType;
     [self.navigationController pushViewController:vc animated:YES];
 }

@@ -397,9 +397,9 @@
     
     HMWMyVoteViewController * vc = [[HMWMyVoteViewController alloc]init];
     vc.VoteType=MyVoteCRType;
-    NSLog(@"VoteType=====%lu", (unsigned long)vc.VoteType);
-    vc.listData = self.ActiveArray;
-
+    vc.listData = self.memberListDataSource;
+    vc.ActivData=self.ActiveArray;
+    vc.totalvotes=self.totalvotes;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

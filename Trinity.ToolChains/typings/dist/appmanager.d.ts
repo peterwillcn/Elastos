@@ -1,3 +1,36 @@
+/*
+* Copyright (c) 2018-2020 Elastos Foundation
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
+/**
+* This is about AppManager which makes it possible to send intents, messages, etc. between DApps.
+* <br><br>
+* There is no need to use 'AppManagerPlugin' as the plugin name in the manifest.json if you want to use
+* this facility, because it's available by default.
+* <br><br>
+* Usage:
+* <br>
+* declare let appManager: AppManagerPlugin.AppManager;
+*/
+
 declare namespace AppManagerPlugin {
     /**
      * The icons info.
@@ -364,11 +397,14 @@ declare namespace AppManagerPlugin {
         sendIntentResponse(action: string, result: any, intentId: Number, onSuccess: (response: any)=>void, onError?: (err:any)=>void);
 
         /**
-         * Check pending intent.
+         * Check is there is a pending intent for the current application. A pending intent is an action
+         * requested by a third party application, launching the current application to execute a specific
+         * action. In such case, when hasPendingIntent() is true, we want to directly show the appropriate
+         * application screen instead of going through the home screen.
          *
-         * @param onSuccess  The function to call when success.
-         * @param onError    The function to call when error, the param is a String. Or set to null.
+         * @param onSuccess  Callback that returns if there is a pending intent or not.
+         * @param onError    Function called in case of error.
          */
-        hasPendingIntent(onSuccess: (ret: any) => void, onError?: (err: any) => void);
+        hasPendingIntent(onSuccess: (hasPendingIntent: boolean) => void, onError?: (err: any) => void);
     }
 }

@@ -248,8 +248,33 @@
         if (self.needFind) {
             for (int i=0; i<self.dataSource.count; i++) {
                 FLCoinPointInfoModel *model=self.dataSource[i];
-                if ([model.nodepublickey isEqualToString:self.NodePublicKey]) {
-                    locaIndex=i;
+                if (self.needFind){
+                    
+                    if ([model.nodepublickey isEqualToString:self.NodePublicKey]){
+                        
+                        if ([model.state isEqualToString:@"Active"]){
+                                self.votingListV.typeString=self.typeString;
+                             [self.ActiveArray insertObject:model atIndex:0];
+                        }else{
+                            self.selfindex=i;
+                        }
+                          self.needFind =NO;
+                    }else{
+                        if ([model.state isEqualToString:@"Active"]) {
+                     [self.ActiveArray addObject:model];
+                    }
+                                       
+                    }
+
+                       
+
+
+                }else{
+                    
+                if ([model.state isEqualToString:@"Active"]) {
+                  
+                    [self.ActiveArray addObject:model];
+                }
                 }
             }
             FLCoinPointInfoModel *model=self.dataSource[locaIndex];
@@ -327,6 +352,7 @@
     
     HMWMyVoteViewController * vc = [[HMWMyVoteViewController alloc]init];
     vc.listData = self.dataSource;
+    vc.ActivData=self.ActiveArray;
     vc.VoteType=MyVoteNodeElectioType;
     [self.navigationController pushViewController:vc animated:YES];
 }

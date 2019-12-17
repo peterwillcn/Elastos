@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HMWMyVoteViewController : UIViewController
 @property(nonatomic,strong)NSArray *listData;
+@property(nonatomic,strong)NSArray *ActivData;
+@property(copy,nonatomic)NSString * totalvotes;
 @property(assign,nonatomic)MyVoteVotingListType VoteType;
 @end
 

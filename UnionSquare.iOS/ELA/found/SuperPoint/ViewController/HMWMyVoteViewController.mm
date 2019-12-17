@@ -150,7 +150,7 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
 -(void)makeView{
     self.baseTableView.delegate=self;
     self.baseTableView.dataSource=self;
-    self.baseTableView.rowHeight=70;
+    self.baseTableView.rowHeight=60;
    self.baseTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     [self.baseTableView registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
     self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
@@ -172,6 +172,7 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
     if (self.VoteType==MyVoteNodeElectioType) {
+        cell.leftwidthCon.constant=150;
         FLCoinPointInfoModel *model = self.dataSource[indexPath.row];
         if ([model.state isEqualToString:@"Active"]) {
             cell.leftLab.text = model.nickname;
@@ -187,7 +188,7 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
        }else if (self.VoteType==MyVoteCRType){
           HWMCRListModel *model = self.dataSource[indexPath.row];
            if ([model.state isEqualToString:@"Active"]) {
-               cell.leftLab.text =[NSString stringWithFormat:@"NO.%d",([model.index intValue]+1)];
+               cell.leftLab.text =[NSString stringWithFormat:@"NO.%@",model.index];
                         cell.middleLabel.text=model.nickname;
                NSInteger number=[model.SinceVotes intValue];
                if (number<1) {
@@ -204,6 +205,7 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
                cell.middleLabel.text=NSLocalizedString(@"候选节点已经失效", nil);
                cell.leftLab.textColor=RGBA(255,255,255,0.5);
                cell.middleLabel.textColor=RGBA(255,255,255,0.5);
+               cell.rightLab.text =[NSString stringWithFormat:@"%d%@",[model.SinceVotes intValue],NSLocalizedString(@"票", nil)];
            }
        }
     
@@ -225,7 +227,8 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
         [self.navigationController pushViewController:vc animated:YES];
      }else if (self.VoteType==MyVoteCRType){
          HWMCRCCommitteeElectionListViewController *vc=[[HWMCRCCommitteeElectionListViewController alloc]init];
-         vc.lastArray=self.listData;
+         vc.lastArray=self.ActivData;
+         vc.totalvotes=self.totalvotes;
          [self.navigationController pushViewController:vc animated:YES];
          
      }
@@ -235,5 +238,11 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     _VoteType=VoteType;
     
 }
-
+-(void)setActivData:(NSArray *)ActivData{
+    _ActivData=ActivData;
+    
+}
+-(void)setTotalvotes:(NSString *)totalvotes{
+    _totalvotes=totalvotes;
+}
 @end

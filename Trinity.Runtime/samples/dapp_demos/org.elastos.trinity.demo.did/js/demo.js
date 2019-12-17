@@ -54,6 +54,7 @@ var commands = [
     { cmd: "init",      fn: initDIDStore,           help: "init"         },
     { cmd: "hasp",      fn: hasPrivateID,           help: "hasp"         },
     { cmd: "initp",     fn: initPrivateID,          help: "initp"        },
+    { cmd: "sync",      fn: synchronize,            help: "sync"        },
     { cmd: "listdid",   fn: listDids,               help: "listdid type" },
     { cmd: "newdid",    fn: newDid,                 help: "newdid"       },
     { cmd: "ddid",      fn: deleteDid,              help: "ddid"         },
@@ -61,6 +62,7 @@ var commands = [
     { cmd: "storedid",  fn: storeDid,               help: "storedid"     },
     { cmd: "pd",        fn: publishDid,             help: "pd"           },
     { cmd: "ud",        fn: updateDid,              help: "ud"           },
+    { cmd: 'rd',        fn: resolvedid,             help: "rd"           },
 
 // DidDocment
     { cmd: "getsub",    fn: getSubject,             help: "getsub"      },
@@ -70,7 +72,7 @@ var commands = [
     { cmd: "getpks",    fn: getPublicKeys,          help: "getpks"       },
     { cmd: "addc",      fn: addCredential,          help: "addvc"       },
     { cmd: "sign",      fn: sign,                   help: "sign"        },
-    { cmd: "verify",    fn: verify,                help: "sign"        },
+    { cmd: "verify",    fn: verify,                 help: "sign"        },
 // Did
     { cmd: "getm",      fn: getMethod,              help: "getm"        },
     { cmd: "getms",     fn: getMethodSpecificId,    help: "getms"       },
@@ -137,7 +139,7 @@ function get_version(args) {
             display_others_msg(version);
         },
         function (error) {
-            display_others_msg("Get version error! " + error.message);
+            display_others_msg("Get version error! " + error);
         }
     );
 }
@@ -155,7 +157,7 @@ function initDIDStore(args) {
              display_others_msg("initDidStore success. ");
          },
          function (error) {
-             display_others_msg("initDIDStore error! " + error.message);
+             display_others_msg("initDIDStore error! " + error);
          }
      );
  }
@@ -168,7 +170,7 @@ function createDocument(args) {
             display_others_msg("CreateDIDDocumentFromJson success " + ret.objId);
         },
         function (error) {
-            display_others_msg("CreateDIDDocumentFromJson error! " + error.message);
+            display_others_msg("CreateDIDDocumentFromJson error! " + error);
         }
     );
  }
@@ -181,7 +183,7 @@ function generateMnemonic(args) {
             display_others_msg("generateMnemonic: " + ret);
         },
         function (error) {
-            display_others_msg("generateMnemonic error! " + error.message);
+            display_others_msg("generateMnemonic error! " + error);
         }
     );
 }
@@ -194,7 +196,7 @@ function isMnemonicValid(args) {
             display_others_msg("isMnemonicValid: " + ret);
         },
         function (error) {
-            display_others_msg("isMnemonicValid error! " + error.message);
+            display_others_msg("isMnemonicValid error! " + error);
         }
     );
 }
@@ -205,7 +207,7 @@ function hasPrivateID(args) {
             display_others_msg("hasPrivateIdentity: " + ret);
         },
         function (error) {
-            display_others_msg("hasPrivateIdentity error! " + error.message);
+            display_others_msg("hasPrivateIdentity error! " + error);
         }
     );
 }
@@ -217,7 +219,19 @@ function initPrivateID(args) {
             display_others_msg("initPrivateID success!");
         },
         function (error) {
-            display_others_msg("initPrivateID error! " + error.message);
+            display_others_msg("initPrivateID error! " + error);
+        }
+    );
+}
+
+function synchronize(args) {
+    didStore.synchronize(
+        "12345678",
+        function (ret) {
+            display_others_msg("synchronize success!");
+        },
+        function (error) {
+            display_others_msg("synchronize error! " + error);
         }
     );
 }
@@ -232,7 +246,7 @@ function newDid(args) {
             display_others_msg("newDid: " + didString);
         },
         function (error) {
-            display_others_msg("newDid error! " + error.message);
+            display_others_msg("newDid error! " + error);
         }
     );
 }
@@ -244,7 +258,7 @@ function deleteDid(args) {
             display_others_msg("deleteDID: " + ret);
         },
         function (error) {
-            display_others_msg("deleteDID error! " + error.message);
+            display_others_msg("deleteDID error! " + error);
         }
     );
 }
@@ -257,7 +271,7 @@ function loadDid(args) {
             display_others_msg("loadDid: " + ret.objId);
         },
         function (error) {
-            display_others_msg("loadDid error! " + error.message);
+            display_others_msg("loadDid error! " + error);
         },
     );
 }
@@ -270,7 +284,7 @@ function storeDid(args) {
             display_others_msg("storeDid: " + ret);
         },
         function (error) {
-            display_others_msg("storeDid error! " + error.message);
+            display_others_msg("storeDid error! " + error);
         }
     );
 }
@@ -284,7 +298,7 @@ function publishDid(args) {
             display_others_msg("publishDid: " + ret);
         },
         function (error) {
-            display_others_msg("publishDid error! " + error.message);
+            display_others_msg("publishDid error! " + error);
         }
     );
 }
@@ -298,11 +312,23 @@ function updateDid(args) {
             display_others_msg("publishDid: " + ret);
         },
         function (error) {
-            display_others_msg("publishDid error! " + error.message);
+            display_others_msg("publishDid error! " + error);
         }
     );
 }
 
+function resolvedid(args) {
+    didStore.resolveDidDocument(
+            "did:elastos:iWn6viHLPK9JZN1ixjZyLVEupvCXDoE69D",
+            function (ret) {
+                diddocment = ret;
+                display_others_msg("resolvedid: " + ret.objId);
+            },
+            function (error) {
+                display_others_msg("resolvedid error! " + error);
+            }
+        );
+}
 function listDids(args) {
     didStore.listDids(
         2,
@@ -311,7 +337,7 @@ function listDids(args) {
             display_others_msg("listDids count: " + ret.length + "<br>" + JSON.stringify(ret));
         },
         function (error) {
-            display_others_msg("listDids error! " + error.message);
+            display_others_msg("listDids error! " + error);
         }
     );
 }
@@ -324,7 +350,7 @@ function getSubject(args) {
             display_others_msg("getSubject: " + ret.objId);
         },
         function (error) {
-            display_others_msg("getSubject error! " + error.message);
+            display_others_msg("getSubject error! " + error);
         },
     );
 }
@@ -335,7 +361,7 @@ function getPublicKeyCount(args) {
             display_others_msg("getPublicKeyCount: " + ret);
         },
         function (error) {
-            display_others_msg("getPublicKeyCount error! " + error.message);
+            display_others_msg("getPublicKeyCount error! " + error);
         },
     );
 }
@@ -347,7 +373,7 @@ function getDefaultPublicKey(args) {
             display_others_msg("getDefaultPublicKey: " + ret);
         },
         function (error) {
-            display_others_msg("getDefaultPublicKey error! " + error.message);
+            display_others_msg("getDefaultPublicKey error! " + error);
         },
     );
 }
@@ -360,7 +386,7 @@ function getPublicKey(args) {
             display_others_msg("getPublicKey: " + ret.objId);
         },
         function (error) {
-            display_others_msg("getPublicKey error! " + error.message);
+            display_others_msg("getPublicKey error! " + error);
         }
     );
 }
@@ -372,7 +398,7 @@ function getPublicKeys(args) {
             display_others_msg("getPublicKeys count: " + ret.items.length+ "<br>" + JSON.stringify(ret.items));
         },
         function (error) {
-            display_others_msg("getPublicKeys error! " + error.message);
+            display_others_msg("getPublicKeys error! " + error);
         }
     );
 }
@@ -384,7 +410,7 @@ function addCredential(args) {
             display_others_msg("addCredential: " + ret);
         },
         function (error) {
-            display_others_msg("addCredential error! " + error.message);
+            display_others_msg("addCredential error! " + error);
         }
     );
 }
@@ -398,7 +424,7 @@ function sign(args) {
             display_others_msg("sign: " + ret);
         },
         function (error) {
-            display_others_msg("sign error! " + error.message);
+            display_others_msg("sign error! " + error);
         }
     );
 }
@@ -411,7 +437,7 @@ function verify(args) {
             display_others_msg("verify: " + ret);
         },
         function (error) {
-            display_others_msg("verify error! " + error.message);
+            display_others_msg("verify error! " + error);
         }
     );
 }
@@ -423,7 +449,7 @@ function getMethod(args) {
             display_others_msg("DID getMethod: " + ret);
         },
         function (error) {
-            display_others_msg("DID getMethod error! " + error.message);
+            display_others_msg("DID getMethod error! " + error);
         },
     );
 }
@@ -434,7 +460,7 @@ function getMethodSpecificId(args) {
             display_others_msg("DID getMethodSpecificId: " + ret);
         },
         function (error) {
-            display_others_msg("DID getMethodSpecificId error! " + error.message);
+            display_others_msg("DID getMethodSpecificId error! " + error);
         },
     );
 }
@@ -445,7 +471,7 @@ function didToString(args) {
             display_others_msg("DID toString: " + ret);
         },
         function (error) {
-            display_others_msg("DID toString error! " + error.message);
+            display_others_msg("DID toString error! " + error);
         },
     );
 }
@@ -474,7 +500,7 @@ function createCredential(args) {
             display_others_msg("createCredential success " + ret.objId);
         },
         function (error) {
-            display_others_msg("createCredential error! " + error.message);
+            display_others_msg("createCredential error! " + error);
         }
     );
 }
@@ -489,7 +515,7 @@ function listCredentials(args) {
             display_others_msg("listCredentials count: " + ret.length+ "<br>" + JSON.stringify(ret));
         },
         function (error) {
-            display_others_msg("listCredentials error! " + error.message);
+            display_others_msg("listCredentials error! " + error);
         }
     );
 }
@@ -502,7 +528,7 @@ function storeCredential(args) {
             display_others_msg("storeCredential: " + ret);
         },
         function (error) {
-            display_others_msg("storeCredential error! " + error.message);
+            display_others_msg("storeCredential error! " + error);
         }
     );
 }
@@ -514,7 +540,7 @@ function deleteCredential(args) {
             display_others_msg("deleteCredential: " + ret);
         },
         function (error) {
-            display_others_msg("deleteCredential error! " + error.message);
+            display_others_msg("deleteCredential error! " + error);
         }
     );
 }
@@ -528,7 +554,7 @@ function loadCredential(args) {
             display_others_msg("loadCredential: " + ret.objId);
         },
         function (error) {
-            display_others_msg("loadCredential error! " + error.message);
+            display_others_msg("loadCredential error! " + error);
         }
     );
 }
@@ -540,7 +566,7 @@ function getPublicKeyBase58(args) {
             display_others_msg("getPublicKeyBase58: " + ret);
         },
         function (error) {
-            display_others_msg("getPublicKeyBase58 error! " + error.message);
+            display_others_msg("getPublicKeyBase58 error! " + error);
         },
     );
 }
@@ -552,7 +578,7 @@ function getController(args) {
             display_others_msg("getController: " + ret);
         },
         function (error) {
-            display_others_msg("getController error! " + error.message);
+            display_others_msg("getController error! " + error);
         },
     );
 }
@@ -564,7 +590,7 @@ function getInfo(args) {
             display_others_msg("getFragment: " + ret);
         },
         function (error) {
-            display_others_msg("getFragment error! " + error.message);
+            display_others_msg("getFragment error! " + error);
         },
     );
 
@@ -573,7 +599,7 @@ function getInfo(args) {
             display_others_msg("getType: " + ret);
         },
         function (error) {
-            display_others_msg("getType error! " + error.message);
+            display_others_msg("getType error! " + error);
         },
     );
 
@@ -582,7 +608,7 @@ function getInfo(args) {
             display_others_msg("getIssuanceDate: " + ret);
         },
         function (error) {
-            display_others_msg("getIssuanceDate error! " + error.message);
+            display_others_msg("getIssuanceDate error! " + error);
         },
     );
 
@@ -591,7 +617,7 @@ function getInfo(args) {
             display_others_msg("getExpirationDate: " + ret);
         },
         function (error) {
-            display_others_msg("getExpirationDate error! " + error.message);
+            display_others_msg("getExpirationDate error! " + error);
         },
     );
 
@@ -600,7 +626,7 @@ function getInfo(args) {
             display_others_msg("getProperties: " + JSON.stringify(ret));
         },
         function (error) {
-            display_others_msg("getProperties error! " + error.message);
+            display_others_msg("getProperties error! " + error);
         },
     );
 }

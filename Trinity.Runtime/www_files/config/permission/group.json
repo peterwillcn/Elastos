@@ -7,7 +7,10 @@
             "install",
             "unInstall",
             "hasPendingIntent"
-        ]
+        ],
+        "Clipboard": ["*"],
+        "SplashScreen": ["*"],
+        "StatusBar": ["*"]
     },
     "wallet": {
         "AppManager": [
@@ -23,6 +26,10 @@
             "sendIntentResponse",
             "hasPendingIntent"
         ],
+        "Clipboard": ["*"],
+        "InAppBrowser": ["*"],
+        "SplashScreen": ["*"],
+        "StatusBar": ["*"],
         "Wallet": ["*"]
     },
     "dappstore": {
@@ -38,7 +45,10 @@
             "setIntentListener",
             "sendIntentResponse",
             "hasPendingIntent"
-        ]
+        ],
+        "Clipboard": ["*"],
+        "SplashScreen": ["*"],
+        "StatusBar": ["*"]
     },
     "user": {
         "AppManager": [
@@ -54,24 +64,25 @@
             "sendIntentResponse",
             "hasPendingIntent"
         ],
-        "File": ["*"],
-        "Media": ["*"],
+        "Accelerometer": ["*"],
         "Battery": ["*"],
         "Camera": ["*"],
+        "Capture": ["*"],
+        "CarrierPlugin": ["*"],
+        "CDVOrientation": ["*"],
+        "Clipboard": ["*"],
         "Device": ["*"],
-        "Accelerometer": ["*"],
-        "Notification": ["*"],
+        "DIDPlugin": ["*"],
+        "File": ["*"],
         "Flashlight": ["*"],
         "Geolocation": ["*"],
+        "HivePlugin": ["*"],
         "InAppBrowser": ["*"],
-        "Capture": ["*"],
+        "Media": ["*"],
         "NetworkStatus": ["*"],
+        "Notification": ["*"],
         "QRScanner": ["*"],
         "SplashScreen": ["*"],
-        "StatusBar": ["*"],
-        "CDVOrientation": ["*"],
-        "CarrierPlugin": ["*"],
-        "DIDPlugin": ["*"],
-        "HivePlugin": ["*"]
+        "StatusBar": ["*"]
     }
 }

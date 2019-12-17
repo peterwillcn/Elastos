@@ -6,6 +6,19 @@
 //
 
 #import "FLNotePointDBManager.h"
+
+
+/*
+ "ownerpublickey": "0341315fe4e1f26ba09c5c56bf76e1e97aaee992f59407b33c4fc9d42e11634bdc",
+ "nodepublickey": "022e2fce0641869a1a8af60f735279a45d2e28dc1d4c54ef7f9872b777d718b624",
+ "nickname": "arbiter-223",
+ "url": "ela_test.org",
+ "location": 112211,
+ "active": true,
+ "votes": "1858.40299068",
+ "netaddress": "127.0.0.1",
+ */
+
 static FLNotePointDBManager *manager;
 NSString *WalletIDString;
 @interface FLNotePointDBManager ()
@@ -127,19 +140,26 @@ NSString *WalletIDString;
 -(BOOL)updateRecord:(FLCoinPointInfoModel *)person{
     BOOL re=YES;
     NSString *nodepublickey =[NSString stringWithFormat:@"Update %@ set nodepublickey=? where ownerpublickey=? ",WalletIDString];
+    
     NSString *nickname =[NSString stringWithFormat:@"Update %@ set nickname=? where ownerpublickey=? ",WalletIDString];
     NSString *url =[NSString stringWithFormat:@"Update %@ set url=? where ownerpublickey=? ",WalletIDString];
     NSString *location =[NSString stringWithFormat:@"Update %@ set location=? where ownerpublickey=? ",WalletIDString];
     NSString *active =[NSString stringWithFormat:@"Update %@ set active=? where ownerpublickey=? ",WalletIDString];
+    
     NSString *votes =[NSString stringWithFormat:@"Update %@ set votes=? where ownerpublickey=? ",WalletIDString];
     NSString *netaddress =[NSString stringWithFormat:@"Update %@ set netaddress=? where ownerpublickey=? ",WalletIDString];
     NSString *indexx =[NSString stringWithFormat:@"Update %@ set indexx=? where ownerpublickey=? ",WalletIDString];
     NSString *voterate =[NSString stringWithFormat:@"Update %@ set voterate=? where ownerpublickey=? ",WalletIDString];
     if (person.url.length>0) {
         if ( [self executeQuery:url,person.url,person.ownerpublickey]) {
+            
         }else{
-        re=NO;
+            
+            re=NO;
         }
+       
+        
+        
     }
     if (person.nodepublickey.length>0) {
         if ( [self executeQuery:nodepublickey,person.nodepublickey,person.ownerpublickey]) {

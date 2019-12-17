@@ -269,7 +269,7 @@
 "请输入网络地址（必填）"="Enter your network address (Required)";
 "请输入节点官网URL（必填)"="Enter node website URL (Required)";
 "确认参选"="Confirm Registration";
-"注销" = "Delete Candidate";
+"注销" = "Unregister";
 "添加成功！" = "Added";
 "修改成功！" = "Modified";
 "删除成功" = "Deleted";
@@ -320,10 +320,12 @@
 "交易成功"= "tx success";
 "交易失败"="tx failed";
 "请输入票数"="Enter number";
+"请输入票数1"="Enter number of votes";
+
 "投票数量" = "Votes";
 "是否确认注销候选资格? \n 候选资格一旦注销，所有投票清零且不可恢复。"="Confirm your deletion? \n Once confirmed, your votes will be removed and cannot be recovered.";
 "取回质押金"="Take back deposit";
-"found_card_crcvote"="eg_found_card_vote";
+"found_card_crcvote"="eg_found_card_CR";
 "found_card_vote"="eg_found_card_vote";
 "rules"="https://news.elastos.org/elastos-dpos-supernode-election-process/";
 "最多可选36个节点"="vote for maximum of 36 nodes";
@@ -622,6 +624,11 @@
 "同意"="Agree";
 "不同意"="Do Not Agree";
 "退出参选"="Withdraw From Election";
+"(已退出)"="(Withdrawn Successfully)";
+"票数不能为空"="Votes cannot be empty";
+"节点简介"="Node Introduction";
+"    退出参选72小时后，方可提取质押金"="The deposit is not available for withdrawal for 72 hours after quitting";
+
 
 
 

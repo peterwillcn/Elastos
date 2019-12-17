@@ -128,11 +128,14 @@
     NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",result.message[@"success"]]];
 
     UIView *mainView =[self mainWindow];
+     [mainView addSubview:self.transactionDetailsView];
     if (self.model) {
         self.transactionDetailsView.popViewTitle=NSLocalizedString(@"交易详情", nil);
+        [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:@""];
+    }else{
+      [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:@"5000"];
     }
-    [mainView addSubview:self.transactionDetailsView];
-    [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:@"5000"];
+    
     [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.bottom.equalTo(mainView);
     }];

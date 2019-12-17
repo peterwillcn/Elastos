@@ -68,5 +68,7 @@
  *<# #>
  */
 @property(copy,nonatomic)NSString *infoZH;
+@property(nonatomic,copy)NSString * TextVotes;
+
 @end
 

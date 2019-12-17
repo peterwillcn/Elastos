@@ -33,7 +33,12 @@
     [super viewDidLoad];
     [self setBackgroundImg:@""];
     self.title= NSLocalizedString(@"选举管理", nil);
-         self.tagNodeNameLab.text = NSLocalizedString(@"节点名称", nil);
+    if (self.nodeName.length==0) {
+        self.tagNodeNameLab.text =[NSString stringWithFormat:@"-- %@",NSLocalizedString(@"(已退出)", nil)];
+    }else{
+        self.tagNodeNameLab.text =[NSString stringWithFormat:@"%@ %@",self.nodeName,NSLocalizedString(@"(已退出)", nil)];
+    }
+    
          self.drawBtn.enabled = NO;
     if (self.CRTypeString.length==0) {
         [self DrawBackVoteMoney];
@@ -193,5 +198,9 @@
 }
 -(void)setCRTypeString:(NSString *)CRTypeString{
     _CRTypeString=CRTypeString;
+}
+-(void)setNodeName:(NSString *)nodeName{
+
+    _nodeName=nodeName;
 }
 @end

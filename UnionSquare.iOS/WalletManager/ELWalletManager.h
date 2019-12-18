@@ -177,7 +177,7 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 //取消选举结果
 -(BOOL)CancelProducer:(NSString*)mainchainSubWalletId Pwd:(NSString*)pwd;
 //拿回押金
--(BOOL)RetrieveDeposit:(NSString*)mainchainSubWalletId acount:(double)acount Pwd:(NSString*)pwd;
+-(BOOL)RetrieveDeposit:(NSString*)mainchainSubWalletId acount:(double)acount Pwd:(NSString*)pwd withJSONString:(NSString*)jsonString;
 //上链
 //-(void)PublishTransactionWith:(NSString*)mainchainSubWalletId tx:(Json*)tx;
 -(PluginResult *)GetAssetDetails:(invokedUrlCommand *)command;
@@ -207,7 +207,7 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(NSInteger)RegisterCRWithMainchainSubWallet:(NSString*)ELA With:(FLJoinVoteInfoModel*)model;
 -(BOOL)UpdateCRProducerWithMainchainSubWallet:(NSString*)ELA With:(FLJoinVoteInfoModel*)model;
 -(BOOL)CancelCRProducer:(NSString*)mainchainSubWalletId Pwd:(NSString*)pwd;
--(BOOL)RetrieveCRDepositTransaction:(NSString*)mainchainSubWalletId acount:(double)acount Pwd:(NSString*)pwd;
+-(BOOL)RetrieveCRDepositTransaction:(NSString*)mainchainSubWalletId acount:(double)acount Pwd:(NSString*)pwd withJSONString:(NSString*)jsonstring;
 -(PluginResult *)getDIDlist:(invokedUrlCommand *)command;
 -(PluginResult *)getDetailsDIDlist:(invokedUrlCommand *)command;
 -(PluginResult *)getAllPublicKeys:(invokedUrlCommand *)command;
@@ -215,6 +215,8 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(NSDictionary *)CRVoteFeeCRMainchainSubWallet:(NSString*)CRmainchainSubWalletId ToVote:(NSDictionary*)publicKeys tickets:(double)stake;
 -(PluginResult *)CreateCombineUTXOTransactionFeeAndJSONString:(invokedUrlCommand *)command;
 -(BOOL)useMainchainSubWallet:(NSString*)mainchainSubWalletId ToVote:(NSArray*)publicKeys tickets:(double)stake pwd:(NSString*)pwd isChangeVote:(BOOL)change;
+-(NSDictionary*)RetrieveDepositFee:(NSString*)mainchainSubWalletId acount:(NSString*)acount Pwd:(NSString*)pwd;
+-(NSDictionary*)RetrieveCRDepositTransactionFee:(NSString*)mainchainSubWalletId acount:(NSString*)acount Pwd:(NSString*)pwd;
 @end
 
 

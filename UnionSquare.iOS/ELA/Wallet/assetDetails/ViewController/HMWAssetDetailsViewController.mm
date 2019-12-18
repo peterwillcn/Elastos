@@ -352,13 +352,12 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     
 }
 -(void)loadAnyChangeInTheWhole{
-    UIView *mainView=[self mainWindow];
-    
-    [mainView addSubview:self.TransactionDetailsV];
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
       PluginResult * result =[[ELWalletManager share]CreateCombineUTXOTransactionFeeAndJSONString:mommand];
       NSString *status=[NSString stringWithFormat:@"%@",result.status];
       if ([status isEqualToString:@"1"]) {
+          UIView *mainView=[self mainWindow];
+            [mainView addSubview:self.TransactionDetailsV];
            NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",result.message[@"success"][@"fee"]]];
           [self.TransactionDetailsV TransactionDetailsWithFee:fee withTransactionDetailsAumont:nil];
           self.JSONString=result.message[@"success"][@"jsonString"];

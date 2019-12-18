@@ -16,9 +16,9 @@ install:
   - git submodule update --init --recursive
 
 build_script:
-  - ps: (new-object net.webclient).DownloadFile('https://services.gradle.org/distributions/gradle-4.6-bin.zip', 'C:\projects\gradle-4.6-bin.zip')
-  - cmd: unzip -q C:\projects\gradle-4.6-bin.zip -d  C:\projects\
-  - cmd: set Path=C:\projects\gradle-4.6\bin;%Path%
+  - ps: (new-object net.webclient).DownloadFile('https://services.gradle.org/distributions/gradle-5.4.1-bin.zip', 'C:\projects\gradle-5.4.1-bin.zip')
+  - cmd: unzip -q C:\projects\gradle-5.4.1-bin.zip -d  C:\projects\
+  - cmd: set Path=C:\projects\gradle-5.4.1\bin;%Path%
   - cmd: npm install -g cordova ionic
   - cmd: python ToolChains/bin/build all
   - cmd: ls -l Runtime/platforms/android/app/build/outputs/apk/debug/

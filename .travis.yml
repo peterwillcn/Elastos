@@ -65,9 +65,9 @@ matrix:
         - $TRAVIS_BUILD_DIR/ToolChains/tests/verify_epk_test.sh
 
 before_install:
-  - wget -q https://services.gradle.org/distributions/gradle-4.6-bin.zip
-  - sudo unzip -q gradle-4.6-bin.zip -d $TRAVIS_HOME/gradle/
-  - export PATH=$TRAVIS_HOME/gradle/gradle-4.6/bin:$PATH
+  - wget -q https://services.gradle.org/distributions/gradle-5.4.1-bin.zip
+  - sudo unzip -q gradle-5.4.1-bin.zip -d $TRAVIS_HOME/gradle/
+  - export PATH=$TRAVIS_HOME/gradle/gradle-5.4.1/bin:$PATH
 
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew cask uninstall java;

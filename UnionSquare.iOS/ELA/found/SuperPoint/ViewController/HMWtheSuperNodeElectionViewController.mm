@@ -48,9 +48,9 @@
  *<# #>
  */
 @property(assign,nonatomic)BOOL needFind;
-@property(copy,nonatomic)NSString;
-
-
+@property(nonatomic,strong)NSMutableArray *ActiveArray;
+@property(nonatomic,assign)NSInteger selfindex;
+@property(nonatomic,strong)FLCoinPointInfoModel*selfModel;
 @end
 
 @implementation HMWtheSuperNodeElectionViewController
@@ -86,6 +86,7 @@
         self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
         self.needFind=YES;
         }else if([self.typeString isEqualToString:@"Canceled"]){
+                self.needFind=YES;
             self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
             self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
         }else if([self.typeString isEqualToString:@"Unregistered"]){
@@ -265,7 +266,13 @@
                         if ([model.state isEqualToString:@"Active"]) {
                      [self.ActiveArray addObject:model];
                     }
-                                       
+                        self.selfModel=model;
+                        
+                        
+                        
+                        
+                        
+                        
                     }
 
                        
@@ -276,6 +283,8 @@
                 if ([model.state isEqualToString:@"Active"]) {
                   
                     [self.ActiveArray addObject:model];
+                }else{
+                    NSLog(@"model.state===%@",model.state);
                 }
                 }
             }

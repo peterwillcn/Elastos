@@ -1305,7 +1305,8 @@ errCodeSPVCreateMasterWalletError= 20006;
     String chainID        = [self cstringWithString:args[idx++]];
     String fromAddress = [self cstringWithString:args[idx++]];
    fromAddress=[self cstringWithString:@""];
-    String toAddress = [self cstringWithString:args[idx++]];
+    NSString *toAddressString=args[idx++];
+    String toAddress = [self cstringWithString:toAddressString];
 //    NSString * am=[[FLTools share]CRVotingDecimalNumberByMultiplying:args[idx++] withCRMermVoting:[NSString stringWithFormat:@"%d",unitNumber]];
     
     String amount = [self cstringWithString:args[idx++]];
@@ -1313,11 +1314,13 @@ errCodeSPVCreateMasterWalletError= 20006;
     if (memoString.length==0) {
         memoString=@"11";
     }
-    if (toAddress.length()>0) {
+    if (toAddressString.length>0) {
         if ([self IsAddressValid:masterWalletID withAddres:toAddress]==NO) {
               NSString *msg = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"收款人地址错误", nil),[self stringWithCString:toAddress]];
               return [self errorProcess:command code:errCodeImportFromMnemonic msg:msg];
           }
+    }else{
+        toAddress = [self cstringWithString:@"EXwi9RYP2MP5gjiemqv5vhFq3M6coNCEZr"];
     }
   
     String memo =[self cstringWithString:memoString];

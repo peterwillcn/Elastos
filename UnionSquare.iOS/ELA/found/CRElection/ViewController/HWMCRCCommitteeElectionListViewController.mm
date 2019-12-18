@@ -544,7 +544,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
   
 
     if (self.dataSource.count>36) {
-            NSString * PnumberVotingString=[[FLTools share]CRVotingTheAverageDistribution:self.blaceString withCRMermVoting:[NSString stringWithFormat:@"%ld",36]];
+        NSString * PnumberVotingString=[[FLTools share]CRVotingTheAverageDistribution:self.blaceString withCRMermVoting:[NSString stringWithFormat:@"%d",36]];
         //    double PnumberVoting=[PnumberVotingString doubleValue];
             if (self.WhetherTheAverage) {
             self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"all_selected"];
@@ -689,7 +689,10 @@ NSString * availableString=[[FLTools share]CRVotingDecimalNumberBySubtracting:se
     if (self.voteArray.count == 0||[self.TheRemainingAvailable isEqualToString:@"0"]) {
                 return;
             }
-    
+    if ([self.TheRemainingAvailable doubleValue]>[self.blaceString doubleValue]) {
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"余额不足", nil)];
+        return;
+    }
     if (self.voteArray.count>36) {
         [[FLTools share]showErrorInfo:NSLocalizedString(@"最多可选36个节点", nil)];
                 return;

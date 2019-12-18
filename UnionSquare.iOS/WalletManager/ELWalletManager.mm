@@ -1739,7 +1739,33 @@ errCodeSPVCreateMasterWalletError= 20006;
     
     
 }
--(BOOL)RetrieveCRDepositTransaction:(NSString*)mainchainSubWalletId acount:(double)acount Pwd:(NSString*)pwd{
+-(NSDictionary*)RetrieveCRDepositTransactionFee:(NSString*)mainchainSubWalletId acount:(NSString*)acount Pwd:(NSString*)pwd{
+        IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:mainchainSubWalletId];
+    // 少一个备注的参数
+    String acountS=[self cstringWithString:[[FLTools share]elsToSela:acount ]];
+    Json payload;
+                Json tx;
+                Json signedTx;
+                Json result;
+                std::string crPublicKey,did;
+         try {
+                    IIdChainSubWallet *iidChainSubWallet=[self getIdChainSubWallet:[self cstringWithString:mainchainSubWalletId]:"IDChain"];
+                    crPublicKey = iidChainSubWallet->GetAllPublicKeys(0, 1)["PublicKeys"][0];
+                    did = iidChainSubWallet->GetPublicKeyDID(crPublicKey);
+                    nlohmann::json payload = mainchainSubWallet->CreateRetrieveCRDepositTransaction(crPublicKey,acountS,"");
+        NSString *txtring=[self stringWithCString:payload.dump()];
+        NSDictionary *txdic=  [self dictionaryWithJsonString:txtring];
+         return @{@"fee":txdic[@"Fee"],@"JSON":txtring};
+    } catch (const std:: exception & e ) {
+        NSString *errString=[self stringWithCString:e.what()];
+        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+        [[FLTools share]showErrorInfo:dic[@"Message"]];
+        return @{@"fee":@"-1",@"JSON":@""};
+    }
+
+    
+}
+-(BOOL)RetrieveCRDepositTransaction:(NSString*)mainchainSubWalletId acount:(double)acount Pwd:(NSString*)pwd withJSONString:(NSString*)jsonstring{
     IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:mainchainSubWalletId];
     // 少一个备注的参数
     String acountS=[self cstringWithString:[NSString stringWithFormat:@"%.0f",acount*unitNumber]];
@@ -1749,10 +1775,10 @@ errCodeSPVCreateMasterWalletError= 20006;
                 Json result;
                 std::string crPublicKey,did;
                 try {
-                    IIdChainSubWallet *iidChainSubWallet=[self getIdChainSubWallet:[self cstringWithString:mainchainSubWalletId]:"IDChain"];
-                    crPublicKey = iidChainSubWallet->GetAllPublicKeys(0, 1)["PublicKeys"][0];
-                    did = iidChainSubWallet->GetPublicKeyDID(crPublicKey);
-                    nlohmann::json payload = mainchainSubWallet->CreateRetrieveCRDepositTransaction(crPublicKey,acountS,"");
+//                    IIdChainSubWallet *iidChainSubWallet=[self getIdChainSubWallet:[self cstringWithString:mainchainSubWalletId]:"IDChain"];
+//                    crPublicKey = iidChainSubWallet->GetAllPublicKeys(0, 1)["PublicKeys"][0];
+//                    did = iidChainSubWallet->GetPublicKeyDID(crPublicKey);
+                    nlohmann::json payload = [self jsonWithString:jsonstring];
                     Json signedTx = mainchainSubWallet->SignTransaction(payload, [pwd UTF8String]);
                              
                     Json result = mainchainSubWallet->PublishTransaction(signedTx);
@@ -1768,12 +1794,31 @@ errCodeSPVCreateMasterWalletError= 20006;
                     return NO;
                 }
 }
--(BOOL)RetrieveDeposit:(NSString*)mainchainSubWalletId acount:(double)acount Pwd:(NSString*)pwd{
+-(NSDictionary*)RetrieveDepositFee:(NSString*)mainchainSubWalletId acount:(NSString*)acount Pwd:(NSString*)pwd{
+    IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:mainchainSubWalletId];
+    // 少一个备注的参数
+      String acountS=[self cstringWithString:[[FLTools share]elsToSela:acount ]];
+    try {
+        nlohmann::json tx = mainchainSubWallet->CreateRetrieveDepositTransaction(acountS,"");
+        NSString *txtring=[self stringWithCString:tx.dump()];
+        NSDictionary *txdic=  [self dictionaryWithJsonString:txtring];
+         return @{@"fee":txdic[@"Fee"],@"JSON":txtring};
+    } catch (const std:: exception & e ) {
+        NSString *errString=[self stringWithCString:e.what()];
+        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+        [[FLTools share]showErrorInfo:dic[@"Message"]];
+        return @{@"fee":@"-1",@"JSON":@""};
+    }
+
+    
+}
+-(BOOL)RetrieveDeposit:(NSString*)mainchainSubWalletId acount:(double)acount Pwd:(NSString*)pwd withJSONString:(NSString*)jsonString{
     IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:mainchainSubWalletId];
     // 少一个备注的参数
     String acountS=[self cstringWithString:[NSString stringWithFormat:@"%.0f",acount*unitNumber]];
     try {
-        nlohmann::json tx = mainchainSubWallet->CreateRetrieveDepositTransaction(acountS,"");
+    
+        Json tx=  [self jsonWithString:jsonString];
         Json signedTx = mainchainSubWallet->SignTransaction(tx, [pwd UTF8String]);
         Json result = mainchainSubWallet->PublishTransaction(signedTx);
         NSString *resultString=[self stringWithCString:result.dump()];

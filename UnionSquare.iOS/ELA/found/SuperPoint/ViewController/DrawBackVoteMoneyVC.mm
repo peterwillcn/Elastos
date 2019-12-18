@@ -9,7 +9,10 @@
 #import "HMWSecurityVerificationPopView.h"
 #import "ELWalletManager.h"
 #import "assetDetailsModel.h"
-@interface DrawBackVoteMoneyVC ()<HMWSecurityVerificationPopViewDelegate>
+#import "HWMTransactionDetailsView.h"
+#import "HMWSendSuccessPopuView.h"
+
+@interface DrawBackVoteMoneyVC ()<HMWSecurityVerificationPopViewDelegate,HWMTransactionDetailsViewDelegate>
 @property(strong,nonatomic)HMWSecurityVerificationPopView *securityVerificationPopV;
 
 @property (weak, nonatomic) IBOutlet UILabel *tagNodeNameLab;
@@ -20,7 +23,9 @@
 
 @property(nonatomic,strong) assetDetailsModel *model;
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
-
+@property(strong,nonatomic)HWMTransactionDetailsView *transactionDetailsView;
+@property(copy,nonatomic)NSString *jsonString;
+@property(strong,nonatomic)HMWSendSuccessPopuView *sendSuccessPopuV;
 @end
 
 @implementation DrawBackVoteMoneyVC
@@ -90,11 +95,31 @@
         NSString *httpIP=[[FLTools share]http_IpFast];
        [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/getdepositcoin" header:@{} body:@{@"ownerpublickey":ownerpublickey} showHUD:YES WithSuccessBlock:^(id data) {
            CGFloat available = [data[@"data"][@"result"][@"available"] doubleValue];
-           BOOL ret = [manager RetrieveDeposit:walletId acount:available-0.0001  Pwd:pwdString];
-           [self takeOutOrShutDown];
-           if (ret) {
-               [self.navigationController popViewControllerAnimated:YES];
+           
+           NSDictionary *dic=[manager RetrieveDepositFee:walletId acount:data[@"data"][@"result"][@"available"]  Pwd:pwdString];
+           NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",dic[@"fee"]]];
+           if ([fee doubleValue]>-1) {
+               self.jsonString=dic[@"JSON"];
+           
+           UIView *mainView =[self mainWindow];
+            [mainView addSubview:self.transactionDetailsView];
+    
+             [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:data[@"data"][@"result"][@"available"]];
+           
+           
+           [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
+               make.left.top.right.bottom.equalTo(mainView);
+           }];
+               
            }
+           
+//           BOOL ret = [manager RetrieveDeposit:walletId acount:available  Pwd:pwdString];
+       
+//           if (ret) {
+//               [self.navigationController popViewControllerAnimated:YES];
+//           }
+           
+    
        } WithFailBlock:^(id data) {
            
        }];
@@ -145,20 +170,38 @@
      NSString *httpIP=[[FLTools share]http_IpFast];
     [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/getcrdepositcoin" header:@{} body:@{@"did":ownerpublickey} showHUD:YES WithSuccessBlock:^(id data) {
         CGFloat available = [data[@"data"][@"result"][@"available"] doubleValue];
-        BOOL ret = [manager  RetrieveCRDepositTransaction:walletId acount:available-0.0001  Pwd:pwdString];
-        [self takeOutOrShutDown];
-        if (ret) {
-            [self.navigationController popViewControllerAnimated:YES];
-        }
+        NSDictionary *dic=[manager RetrieveCRDepositTransactionFee:walletId acount:data[@"data"][@"result"][@"available"] Pwd:@""];
+                  NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",dic[@"fee"]]];
+                  if ([fee doubleValue]>-1) {
+                      self.jsonString=dic[@"JSON"];
+                  
+                  UIView *mainView =[self mainWindow];
+                   [mainView addSubview:self.transactionDetailsView];
+           
+                    [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:data[@"data"][@"result"][@"available"]];
+                  
+                  
+                  [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
+                      make.left.top.right.bottom.equalTo(mainView);
+                  }];
+                      
+                  }
+//        BOOL ret = [manager  RetrieveCRDepositTransaction:walletId acount:available  Pwd:pwdString];
+//        [self takeOutOrShutDown];
+//        if (ret) {
+//            [self.navigationController popViewControllerAnimated:YES];
+//        }
     } WithFailBlock:^(id data) {
         
     }];
 }
 - (IBAction)drawBackAction:(id)sender {
-    [self.view addSubview:self.securityVerificationPopV];
-    [self.securityVerificationPopV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.equalTo(self.view);
-    }];
+if (self.CRTypeString.length==0) {
+     [self DrawBackVoteMoneyWithPWD:@""];
+ }else{
+     [self DrawBackRegistCRMoneyWithPWD:@""];
+ }
+
     
 }
 -(HMWSecurityVerificationPopView *)securityVerificationPopV{
@@ -175,17 +218,7 @@
     [self.securityVerificationPopV removeFromSuperview];
     self.securityVerificationPopV=nil;
 }
--(void)makeSureWithPWD:(NSString*)pwdString{
-    
-    [self.view endEditing:YES];
-    if (self.CRTypeString.length==0) {
-        [self DrawBackVoteMoneyWithPWD:pwdString];
-    }else{
-        [self DrawBackRegistCRMoneyWithPWD:pwdString];
-    }
-   
-    
-}
+
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     [self.view endEditing:YES];
@@ -202,5 +235,62 @@
 -(void)setNodeName:(NSString *)nodeName{
 
     _nodeName=nodeName;
+}
+-(HWMTransactionDetailsView *)transactionDetailsView{
+    
+    if (!_transactionDetailsView) {
+        _transactionDetailsView =[[HWMTransactionDetailsView alloc]init];
+        _transactionDetailsView.popViewTitle=NSLocalizedString(@"交易详情", nil);
+        _transactionDetailsView.delegate=self;
+    }
+    return _transactionDetailsView;
+}
+#pragma mark ---------HWMTransactionDetailsView----------
+-(void)closeTransactionDetailsView{
+    [self.transactionDetailsView removeFromSuperview];
+    self.transactionDetailsView=nil;
+}
+-(void)pwdAndInfoWithPWD:(NSString*)pwd{
+    ELWalletManager *manager = [ELWalletManager share];
+          NSString *walletId =  manager.currentWallet.masterWalletID;
+          IMainchainSubWallet *wallet = [manager getWalletELASubWallet:walletId];
+  if (self.CRTypeString.length==0) {
+       BOOL ret = [manager  RetrieveCRDepositTransaction:walletId acount:5000  Pwd:pwd withJSONString:self.jsonString];
+      if (ret) {
+            [self closeTransactionDetailsView];
+            [self showSendSuccessPopuV];
+                      }
+      
+  }else{
+                BOOL ret = [manager RetrieveDeposit:walletId acount:5000  Pwd:pwd withJSONString:self.jsonString];
+                 if (ret) {
+                    [self closeTransactionDetailsView];
+                     [self showSendSuccessPopuV];
+                 }
+  }
+    
+    
+}
+-(void)showSendSuccessPopuV{
+    UIView *manView=[self mainWindow];
+    [manView addSubview:self.sendSuccessPopuV];
+    [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(manView);
+    }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self hiddenSendSuccessPopuV];
+        [self.navigationController popViewControllerAnimated:YES];
+    });
+}
+-(void)hiddenSendSuccessPopuV{
+    [self.sendSuccessPopuV removeFromSuperview];
+    self.sendSuccessPopuV=nil;
+}
+-(HMWSendSuccessPopuView *)sendSuccessPopuV{
+    if (!_sendSuccessPopuV) {
+        _sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
+    }
+    
+    return _sendSuccessPopuV;
 }
 @end

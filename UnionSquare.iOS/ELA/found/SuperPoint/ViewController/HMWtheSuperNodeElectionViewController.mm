@@ -252,32 +252,28 @@
 
             for (int i=0; i<self.dataSource.count; i++) {
                 FLCoinPointInfoModel *model=self.dataSource[i];
-                
+                 NSLog(@"model.state===%@",model.state);
                 if (self.needFind){
                     
                     if ([model.nodepublickey isEqualToString:self.NodePublicKey]){
                         
                         if ([model.state isEqualToString:@"Active"]){
-                                self.votingListV.typeString=self.typeString;
                              [self.ActiveArray insertObject:model atIndex:0];
                         }else{
                             self.selfindex=i;
                         }
                           self.needFind =NO;
+                        self.selfModel=model;
+                        [self updateInfoSelf];
+                    
                     }else{
                         if ([model.state isEqualToString:@"Active"]) {
                      [self.ActiveArray addObject:model];
                     }
-                        self.selfModel=model;
-                        
-                        
-                        
-                        
                         
                         
                     }
 
-                       
 
 
                 }else{
@@ -285,10 +281,7 @@
                 if ([model.state isEqualToString:@"Active"]) {
                   
                     [self.ActiveArray addObject:model];
-                }else{
-                    NSLog(@"model.state===%@",model.state);
                 }
-                    
                 }
                 
             }
@@ -416,5 +409,36 @@
 -(void)setNodeName:(NSString *)nodeName{
     _nodeName=nodeName;
 }
-
+-(void)updateInfoSelf{
+    if ([self.selfModel.state isEqualToString:@"active"]) {
+        self.typeString=@"Registered";
+        self.votingListV.typeString=self.typeString;
+    }else if ([self.selfModel.state isEqualToString:@"inactive"]){
+        self.typeString=@"Registered";
+    }else if ([self.selfModel.state isEqualToString:@"canceled"]){
+        self.typeString=@"Canceled";
+    }else if ([self.selfModel.state isEqualToString:@"illegal"]){
+    }else if ([self.selfModel.state isEqualToString:@"returned"]){
+        self.typeString=@"ReturnDeposit";
+    }else{
+        self.typeString=@"Unregistered";
+    }
+                        if ([self.typeString isEqualToString:@"Registered"]){
+                          self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+                          self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
+                          }else if([self.typeString isEqualToString:@"Canceled"]){
+                              self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+                              self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
+                          }else if([self.typeString isEqualToString:@"Unregistered"]){
+                              self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
+                              self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
+                          }else if ([self.typeString isEqualToString:@"ReturnDeposit"]){
+                              self.votingRulesButton.hidden=YES;
+                              self.tagVoteRuleLab.hidden=YES;
+                              self.found_vote_rule.hidden=YES;
+                          }else{
+                              self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
+                              self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
+                          }
+}
 @end

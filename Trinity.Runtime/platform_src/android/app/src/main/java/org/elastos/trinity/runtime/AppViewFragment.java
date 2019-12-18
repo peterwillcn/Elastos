@@ -82,7 +82,9 @@ import java.util.ArrayList;
         titlebar = inflater.inflate(R.layout.title_bar, null);
 
         rootView.addView(titlebar);
-        titlebar.setVisibility(View.GONE);
+        if (appInfo.type.equals("app")) {
+            titlebar.setVisibility(View.GONE);
+        }
 
         Button btnClose =(Button) titlebar.findViewById(R.id.btnClose);
         btnClose.setOnClickListener(new Button.OnClickListener() {

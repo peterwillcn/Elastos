@@ -239,7 +239,7 @@ public class AppBasePlugin extends TrinityPlugin {
         return ret;
     }
 
-    protected JSONArray jsonAppFramworks(AppInfo info) throws JSONException {
+    protected JSONArray jsonAppFrameworks(AppInfo info) throws JSONException {
         JSONArray jsons = new JSONArray();
 
         for (AppInfo.Framework framework : info.frameworks) {
@@ -292,7 +292,7 @@ public class AppBasePlugin extends TrinityPlugin {
         ret.put("appPath", appUrl);
         ret.put("dataPath", dataUrl);
         ret.put("locales", jsonAppLocales(info));
-        ret.put("frameworks", jsonAppFramworks(info));
+        ret.put("frameworks", jsonAppFrameworks(info));
         ret.put("platforms", jsonAppPlatforms(info));
         return ret;
     }

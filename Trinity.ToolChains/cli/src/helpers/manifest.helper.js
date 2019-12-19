@@ -218,7 +218,7 @@ module.exports = class ManifestHelper {
         var manifestJson = editJsonFile(manifestPath);
 
         manifestJson.set("start_url", "index.html");
-        manifestJson.set("type", "file");
+        manifestJson.set("type", "app");
 
         manifestJson.save(); // synchronous
     }
@@ -227,7 +227,7 @@ module.exports = class ManifestHelper {
         var manifestJson = editJsonFile(manifestPath);
 
         manifestJson.set("start_url", "index.html");
-        manifestJson.set("type", "file");
+        manifestJson.set("type", "app");
 
         manifestJson.save(); // synchronous
     }

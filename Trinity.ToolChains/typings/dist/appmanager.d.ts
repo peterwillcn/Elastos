@@ -183,18 +183,21 @@ declare namespace AppManagerPlugin {
         /**
          * Get locale.
          *
-         * @param onSuccess  The function to call.the param include 'defaultLang' and 'systemLang'.
+         * @param onSuccess  The function to call when success.the param include 'defaultLang', 'currentLang' and 'systemLang'.
+         * defaultLang: default value is en, and you can set the defaultLang in the dapp's manifest.
+         * currentLang: the language in elastos.
+         * systemLang: the language in device.
          */
-        getLocale(onSuccess: (defaultLang: string, systemLang: string)=>void);
+        getLocale(onSuccess: (defaultLang: string, currentLang: string, systemLang: string)=>void);
 
         /**
          * Set current locale.
          *
          * @param code       The current locale code.
-         * @param onSuccess  The function to call when success.the param is a AppInfo.
+         * @param onSuccess  The function to call when success.
          * @param onError    The function to call when error, the param is a String. Or set to null.
          */
-        setCurrentLocate(code: string, onSuccess:(appInfo: AppInfo)=>void, onError?:(err:string)=>void);
+        setCurrentLocale(code: string, onSuccess?: ()=>void, onError?:(err:string)=>void);
 
         /**
          * Install a dapp by path.

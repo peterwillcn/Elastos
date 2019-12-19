@@ -101,6 +101,42 @@ declare namespace AppManagerPlugin {
     }
 
     /**
+     * The locale.
+     */
+    type Locale = {
+        /** The language. */
+        language: string;
+        /** The language name. */
+        name: string;
+        /** The language shortName. */
+        shortName: string;
+        /** The language description. */
+        description: string;
+        /** The language authorName. */
+        authorName: string;
+    }
+
+    /**
+     * The framework.
+     */
+    type Framework = {
+        /** The Framework name. */
+        name: string;
+        /** The Framework version. */
+        version: string;
+    }
+
+    /**
+     * The platform.
+     */
+    type Platform = {
+        /** The Platform name. */
+        name: string;
+        /** The Platform version. */
+        version: string;
+    }
+
+    /**
      * The App information.
      */
     type AppInfo = {
@@ -146,10 +182,18 @@ declare namespace AppManagerPlugin {
         installTime: Number;
         /** The app builtIn. */
         builtIn: Boolean;
+        /** The app is remote？. */
+        remote: Boolean;
         /** The app path. */
         appPath: string;
         /** The app data path. */
         dataPath: string;
+        /** The app locales. */
+        locales: Locale[];
+        /** The app frameworks. */
+        frameworks: Framework[];
+        /** The app platforms. */
+        platforms: Platform[];
     }
 
     /**
@@ -238,9 +282,9 @@ declare namespace AppManagerPlugin {
         /**
          * Get a dapp info.
          *
-         * @param onSuccess  The function to call when success, the param is include 'infos' and 'list'.
+         * @param onSuccess  The function to call when success, the param is include 'appsInfo' and 'idList'.
          */
-        getAppInfos(onSuccess:(appsInfo: AppInfo[])=>void);
+        getAppInfos(onSuccess:(appsInfo: AppInfo[], idList:string[])=>void);
 
         /**
          * Start a dapp by id. If the dapp running, it will be swith to curent.
@@ -249,7 +293,7 @@ declare namespace AppManagerPlugin {
          * @param onSuccess  The function to call when success.
          * @param onError    The function to call when error, the param is a String. Or set to null.
          */
-        start(id: string, onSuccess:()=>void, onError?:(err: string)=>void);
+        start(id: string, onSuccess?:()=>void, onError?:(err: string)=>void);
 
         /**
          * Start the launcher.If the launcher running, it will be swith to curent.

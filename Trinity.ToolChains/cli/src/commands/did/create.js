@@ -2,11 +2,11 @@
 const path = require("path")
 require("colors")
 
-const SystemHelper = require("../helpers/system.helper")
-const DIDHelper = require("../helpers/did.helper")
+const SystemHelper = require("../../helpers/system.helper")
+const DIDHelper = require("../../helpers/did.helper")
 
-exports.command = 'createdid'
-exports.describe = 'Creates a new DID (DID + keypair) and uploads it to the DID sidechain. Needed to publish your DApp'
+exports.command = 'create'
+exports.describe = 'Creates a new DID store with an initial DID (DID + keypair). Needed to publish your DApp'
 exports.builder = {
 }
 exports.handler = function (argv) {
@@ -32,12 +32,12 @@ async function launchCreateDID() {
         return
     }
 
-    didHelper.createDID().then(()=>{
+    didHelper.createDID(createdDid).then(()=>{
         didHelper.createDIDRequest().then((didRequest)=>{
             didHelper.generateCreateDIDDocumentTransactionURL(didRequest).then((schemeUrl)=>{
                 didHelper.generatePayForTransactionQRCodeWebPage(schemeUrl).then((webpagePath)=>{
                     didHelper.promptAndOpenQRCodeWebPage(webpagePath).then(()=>{
-                        didHelper.waitForSidechainTransactionCompleted().then(()=>{
+                        didHelper.waitForSidechainTransactionCompleted(createdDid.id).then(()=>{
                             console.log("DID creation is completed.".green)
                         })
                         .catch((err)=>{

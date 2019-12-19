@@ -20,7 +20,7 @@ module.exports = class DIDHelper {
             var rootScriptDirectory = path.dirname(require.main.filename)
 
             // Prompt password to create the DID
-            console.log("Please set a password to protext your DID signature. Don't forget it, it can't be retrieved.")
+            console.log("Please set a password to protect your DID signature. Don't forget it, it can't be retrieved.")
 
             let typedInfo;
             do {
@@ -74,7 +74,7 @@ module.exports = class DIDHelper {
                         console.log("YOUR DID: ".green+jsonOutput.id)
                         console.log("YOUR MNEMONIC: ".green+jsonOutput.mnemonic)
                         console.log("")
-                        resolve()
+                        resolve(jsonOutput)
     
                     }
                     catch(e) {
@@ -173,7 +173,7 @@ module.exports = class DIDHelper {
      * the DID is uploaded, we check the sidechain until we can see it appear. At that time we can
      * publish.
      */
-    async waitForSidechainTransactionCompleted() {
+    async waitForSidechainTransactionCompleted(didString) {
         console.log("")
         console.log("Waiting for your DID to be ready on the DID sidechain. This could take several minutes.")
         console.log("Please now scan the QR code and validate the transaction from your trinity application.".magenta)
@@ -182,7 +182,7 @@ module.exports = class DIDHelper {
         this.createdDIDFoundOnSidechain = false;
         // Debug: valid ID already on sidechain: iVPadJq56wSRDvtD5HKvCPNryHMk3qVSU4
         // Debug: valid ID not yet on sidechain: ihQrudV8ya5MfZRZW98dbiet1n1QCVAWPL
-        this.targetDIDUrl = "ihQrudV8ya5MfZRZW98dbiet1n1QCVAWPL" // TMP TODO - SHould get this from the created DID
+        this.targetDIDUrl = didString;
         this.didCreationCheckRetryCount = 0
         this.didCreationSpinnerMessage = "Starting"
 

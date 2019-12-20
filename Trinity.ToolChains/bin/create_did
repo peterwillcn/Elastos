@@ -13,13 +13,6 @@ import ela_did
 try:
     unicode
 except NameError:
-    def adapter_createIdTransactionCallback(adapter, payload, memo):
-        print(payload)
-        return 0 # Success
-
-    def adapter_resolveCallback(adapter, did):
-        return None # Don't resolve any existing DID from sidechain from this tool
-
     # Define `unicode` for Python3
     def unicode(s, *_):
         return s

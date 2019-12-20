@@ -76,16 +76,17 @@ def getElaDIDAPI():
         ctypes.c_void_p,    # DIDStore*
         ctypes.c_void_p     # DID*
     ]
-
+    
     eladid.DIDStore_Sign.restype = ctypes.c_int
     eladid.DIDStore_Sign.argtypes = [
+        ctypes.c_void_p,    # DIDStore*
         ctypes.c_void_p,    # DID *did
         ctypes.c_void_p,    # DIDURL *key
         ctypes.c_char_p,    # storepass
         ctypes.c_char_p,    # sig
         ctypes.c_int,       # count
         ctypes.c_void_p,    # data
-        ctypes.c_int        # len
+        ctypes.c_size_t     # len
     ]
 
     eladid.DIDStore_PublishDID.restype = ctypes.c_int
@@ -115,11 +116,11 @@ def getElaDIDAPI():
     eladid.DIDDocument_Verify.restype = ctypes.c_int
     eladid.DIDDocument_Verify.argtypes = [
         ctypes.c_void_p,    # DIDDocument *document
-        ctypes.c_void_p,    # DIDURL *key
+        ctypes.c_void_p,    # DIDURL *keyid
         ctypes.c_char_p,    # sig
         ctypes.c_int,       # count
         ctypes.c_void_p,    # data
-        ctypes.c_int        # len
+        ctypes.c_size_t     # len
     ]
 
     eladid.PublicKey_GetPublicKeyBase58.restype = ctypes.c_char_p # Base58 string
@@ -138,6 +139,7 @@ def getElaDIDAPI():
     eladid.DIDURL_FromString.restype = ctypes.c_void_p # DIDURL*
     eladid.DIDURL_FromString.argtypes = [
         ctypes.c_char_p,    # idstring
+        ctypes.c_void_p,    # DID* ref
     ]
 
     eladid.DIDURL_GetDid.restype = ctypes.c_void_p # DID*

@@ -69,7 +69,7 @@ async function launchAppPublication(didURL) {
         ionicHelper.runIonicBuild(true).then(() => {
             dappHelper.packEPK(temporaryManifestPath).then((outputEPKPath)=>{
                 dappHelper.signEPK(outputEPKPath, didURL, didSignaturePassword).then((signedEPKPath)=>{
-                    publishingHelper.publishToDAppStore(signedEPKPath).then((info)=>{
+                    publishingHelper.publishToDAppStore(signedEPKPath, didURL).then((info)=>{
                         console.log("Congratulations! Your app has been submitted for review!".green)
                     })
                     .catch((err)=>{

@@ -33,6 +33,12 @@ sign_folder_prefix = "EPK-SIGN/"
 manifest_name = "manifest.json"
 
 try:
+    def adapter_createIdTransactionCallback(adapter, payload, memo):
+        return 0 # Success
+
+    def adapter_resolveCallback(adapter, did):
+        return None # Don't resolve any existing DID from sidechain from this tool
+
     if args.output_file:
         zip2read = zipfile.ZipFile(args.epk_file, 'r', zipfile.ZIP_DEFLATED)
         zip2write = zipfile.ZipFile(args.output_file, 'w', zipfile.ZIP_DEFLATED)
@@ -80,13 +86,17 @@ try:
 
     # Signing
     print("Signing EPK file")
-    message = epk_sha.hexdigest().encode('utf-8')
+    #message = epk_sha.hexdigest().encode('utf-8')
+    message = "cbaea5845a54519d50e17b97c4357e7395bb36d0273fac01d01e8f31c0b5f228".encode('utf-8')
 
-    ret = did_api.DIDStore_Open(args.did_store_root.encode('utf-8'))
-    if ret != 0:
+    # Create an adapter for resolve() and createIdTransaction().
+    adapter = ela_did.DIDAdapter(ela_did.CREATE_ID_TRANSACTION_FUNC(adapter_createIdTransactionCallback), ela_did.RESOLVE_FUNC(adapter_resolveCallback))
+
+    didStore = did_api.DIDStore_Initialize(args.did_store_root.encode('utf-8'), ctypes.pointer(adapter))
+    if didStore == None:
         raise RuntimeError("Failed to open DID store.")
 
-    didurl = did_api.DIDURL_FromString(args.didurl_str.encode('utf-8'))
+    didurl = did_api.DIDURL_FromString(args.didurl_str.encode('utf-8'), None)
     if didurl == None:
         raise RuntimeError("Failed to get DID URL from string.")
 
@@ -94,14 +104,14 @@ try:
     if did == None:
         raise RuntimeError("Failed to get DID from DID URL.")
 
-    diddoc = did_api.DIDStore_LoadDID(did)
+    diddoc = did_api.DIDStore_LoadDID(didStore, did)
     if diddoc == None:
-        diddoc = did_api.DIDStore_Resolve(did)
+        diddoc = did_api.DIDStore_ResolveDID(didStore, did, True)
         if diddoc == None:
-            raise RuntimeError("Failed to resolve DID Document from chain.")
-        
+            raise RuntimeError("Unable to find the requested DID either in local store or on DID sidechain.")
+    
     signature = ctypes.create_string_buffer(did_api.SIGNATURE_LENGTH)
-    ret = did_api.DIDStore_Sign(did, didurl, password.encode('utf-8'), signature, 1, message, len(message))
+    ret = did_api.DIDStore_Sign(didStore, did, didurl, password.encode('utf-8'), signature, 1, message, len(message))
     if ret != 0:
         raise RuntimeError("Failed to sign EPK.")
     zip2write.writestr(sign_folder_prefix + "FILELIST.SIGN", signature.raw)

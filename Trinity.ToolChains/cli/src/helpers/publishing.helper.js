@@ -16,7 +16,10 @@ var manifestHelper = new ManifestHelper()
 var ionicHelper = new IonicHelper()
 
 module.exports = class PublishingHelper {
-    async publishToDAppStore(epkPath) {
+    /**
+     * @param string didUrl A previously created DID using "trinity did create" and used to sign the EPK.
+     */
+    async publishToDAppStore(epkPath, didUrl) {
         return new Promise(async (resolve, reject) => {
             console.log("")
             console.log("Starting DApp publishing process...")
@@ -76,8 +79,8 @@ module.exports = class PublishingHelper {
             //data.append("jsondata", json);
             data.append("epk", epkStream);
             data.append("manifest", manifestStream);
-            data.append("appicon", appIconStream)
-            data.append("bannerimage", bannerImageStream)
+            data.append("appicon", appIconStream);
+            data.append("bannerimage", bannerImageStream);
 
             /*axios.interceptors.request.use(request => {
                 console.log('Starting Request', request)

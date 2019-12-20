@@ -53,7 +53,7 @@
 }
 -(void)DrawBackVoteMoney{
   self.tagNote.text = NSLocalizedString(@"注销报名72小时后，方可提取质押金", nil);
-       [self.drawBtn setTitle:NSLocalizedString(@"取回质押金", nil) forState:UIControlStateNormal];
+       [self.drawBtn setTitle:NSLocalizedString(@"提取报名押金", nil) forState:UIControlStateNormal];
        
 
        ELWalletManager *manager;
@@ -98,7 +98,7 @@
            
            NSDictionary *dic=[manager RetrieveDepositFee:walletId acount:data[@"data"][@"result"][@"available"]  Pwd:pwdString];
            NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",dic[@"fee"]]];
-           if ([fee doubleValue]>-1) {
+           if ([dic[@"fee"] doubleValue]>-1) {
                self.jsonString=dic[@"JSON"];
            
            UIView *mainView =[self mainWindow];
@@ -172,7 +172,7 @@
         CGFloat available = [data[@"data"][@"result"][@"available"] doubleValue];
         NSDictionary *dic=[manager RetrieveCRDepositTransactionFee:walletId acount:data[@"data"][@"result"][@"available"] Pwd:@""];
                   NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",dic[@"fee"]]];
-                  if ([fee doubleValue]>-1) {
+                  if ([dic[@"fee"] doubleValue]>-1) {
                       self.jsonString=dic[@"JSON"];
                   
                   UIView *mainView =[self mainWindow];

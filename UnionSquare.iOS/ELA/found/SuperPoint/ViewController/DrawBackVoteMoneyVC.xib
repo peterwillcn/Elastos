@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -25,17 +23,17 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GeF-y6-cHR">
-                    <rect key="frame" x="15" y="30" width="345" height="390"/>
+                    <rect key="frame" x="15" y="10" width="345" height="390"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="found_vote_initial" translatesAutoresizingMaskIntoConstraints="NO" id="dun-hj-Ghe">
-                            <rect key="frame" x="145" y="26" width="55" height="30"/>
+                            <rect key="frame" x="145" y="26" width="55" height="55"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="30" id="1dd-p8-IxK"/>
+                                <constraint firstAttribute="height" constant="55" id="1dd-p8-IxK"/>
                                 <constraint firstAttribute="width" constant="55" id="NsT-00-R6E"/>
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="节点名称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ocf-mT-7Jd">
-                            <rect key="frame" x="144" y="97" width="57.5" height="13"/>
+                            <rect key="frame" x="144" y="122" width="57.5" height="13"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="13" id="t29-E2-SQf"/>
                             </constraints>
@@ -44,7 +42,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="注销报名72小时后，方可提取质押金。" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J9c-9a-TZN">
-                            <rect key="frame" x="40" y="140" width="265" height="17"/>
+                            <rect key="frame" x="40" y="165" width="265" height="17"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -91,9 +89,10 @@
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="sG1-Q4-Ybc" secondAttribute="bottom" constant="50" id="rJX-zS-68l"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
+            <point key="canvasLocation" x="140" y="154"/>
         </view>
     </objects>
     <resources>
-        <image name="found_vote_initial" width="110" height="60"/>
+        <image name="found_vote_initial" width="45" height="45"/>
     </resources>
 </document>

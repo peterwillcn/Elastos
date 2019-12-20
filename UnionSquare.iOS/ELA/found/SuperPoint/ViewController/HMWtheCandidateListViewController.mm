@@ -249,6 +249,7 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 }
 
 -(void)updataBottomBtn{
+    
     self.hasSelectNumber.text = [NSString stringWithFormat:@"%lu %@",(unsigned long)self.voteArray.count,NSLocalizedString(@"已选择", nil)];
     [self.selectAllBtn  setTitle:[NSString stringWithFormat:@"%@(%lu/%ld)",NSLocalizedString(@"全选", nil), self.voteArray.count,self.dataSource.count] forState:UIControlStateNormal]  ;
 }
@@ -268,6 +269,9 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     if (![self.voteArray containsObject:model]) {
         [self.voteArray addObject:model];
     }
+    if (self.voteArray.count==self.dataSource.count) {
+          self.selectAllBtn.selected = YES;
+       }
     [self updataBottomBtn];
 }
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -275,6 +279,10 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     FLCoinPointInfoModel *model = self.dataSource[indexPath.row];
     if ([self.voteArray containsObject:model]) {
         [self.voteArray removeObject:model];
+    }
+    if (self.voteArray.count!=self.dataSource.count) {
+        self.selectAllBtn.selected = NO;
+       
     }
     [self updataBottomBtn];
 }

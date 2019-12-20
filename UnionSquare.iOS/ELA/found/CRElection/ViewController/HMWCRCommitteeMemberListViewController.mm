@@ -447,6 +447,7 @@
     if (edite==YES) {
         self.EditSelectionView.alpha=1.f;
         self.JoinTheCandidateListButton.alpha=1.f;
+//        self.JoinTheCandidateListButton.imageEdgeInsets=UIEdgeInsetsMake(0, -20, 0, 0);
     }else{
         self.EditSelectionView.alpha=0.f;
         self.JoinTheCandidateListButton.alpha=0.f;

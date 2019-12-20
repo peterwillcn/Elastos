@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(strong,nonatomic)HWMDIDInfoModel *model;
+
 @end
 
 NS_ASSUME_NONNULL_END

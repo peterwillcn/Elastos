@@ -86,12 +86,11 @@ NS_ASSUME_NONNULL_BEGIN
 //改
 -(BOOL)updateSelectDID:(HWMDIDInfoModel *)Model WithWalletID:(NSString*)walletID;
 
--(BOOL)selectDIDWithWalletID:(NSString*)walletID andWithDID:(NSString*)DID;
+-(HWMDIDInfoModel*)selectDIDWithWalletID:(NSString*)walletID andWithDID:(NSString*)DID;
 //改
 -(BOOL)updateDIDInfo:(HWMDIDInfoModel *)Model WithWalletID:(NSString*)walletID;
 //删
 -(BOOL)delectDIDInfo:(HWMDIDInfoModel *)Model WithWalletID:(NSString*)walletID;
-
 
 
 

@@ -483,6 +483,7 @@
 		42EAF01C238BB8C200D6A912 /* HWMDIDWalletListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAF014238BB8C200D6A912 /* HWMDIDWalletListView.m */; };
 		42EAF01D238BB8C200D6A912 /* HMWQrCodePopupWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAF015238BB8C200D6A912 /* HMWQrCodePopupWindowView.m */; };
 		42ED54AD23ACC60300427318 /* HMWSendSuccessPopuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C8FE21F6EF29009E5932 /* HMWSendSuccessPopuView.m */; };
+		42ED54AE23ACCDD900427318 /* HWMCreateDIDListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 422C4644235DBB4B000523DB /* HWMCreateDIDListTableViewCell.xib */; };
 		42EEDA86224B84790009B18E /* LaunchScreen-English.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42EEDA85224B84790009B18E /* LaunchScreen-English.storyboard */; };
 		42EEDA88224B84A50009B18E /* LaunchScreen-Chinese.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42EEDA87224B84A50009B18E /* LaunchScreen-Chinese.storyboard */; };
 		7087D92F21BCDF1B00599316 /* MyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7087D92E21BCDF1B00599316 /* MyUtil.m */; };
@@ -519,7 +520,7 @@
 		0207DA571B56EA530066E2B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "elastos wallet/Assets.xcassets"; sourceTree = SOURCE_ROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = AppDelegate.mm; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* PRVNET.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = PRVNET.app; path = "elastos Wallet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* REGNET.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = REGNET.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B97316FDCFA39411CA2CEA /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* elastos wallet-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "elastos wallet-Prefix.pch"; sourceTree = "<group>"; };
 		420131C12320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCRCCommitteeElectionListViewController.h; sourceTree = "<group>"; };
@@ -1485,7 +1486,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* PRVNET.app */,
+				1D6058910D05DD3D006BFB54 /* REGNET.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3351,7 +3352,7 @@
 			);
 			name = "elastos wallet";
 			productName = "elastos wallet";
-			productReference = 1D6058910D05DD3D006BFB54 /* PRVNET.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* REGNET.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -3392,6 +3393,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42ED54AE23ACCDD900427318 /* HWMCreateDIDListTableViewCell.xib in Resources */,
 				4202CA3B21F6EF2A009E5932 /* FLTradeInfoView.xib in Resources */,
 				4250B3F62238D32700B6858F /* zbar-back.png in Resources */,
 				4202CA7921F6EF2B009E5932 /* HMWAddressListViewController.xib in Resources */,
@@ -4001,8 +4003,8 @@
 				);
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
-				PRODUCT_NAME = "elastos Wallet";
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletREGNET;
+				PRODUCT_NAME = REGNET;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -4062,8 +4064,8 @@
 				MARKETING_VERSION = "1.4 dev";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
-				PRODUCT_NAME = "elastos Wallet";
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletREGNET;
+				PRODUCT_NAME = REGNET;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.0;
@@ -4168,8 +4170,8 @@
 				);
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
-				PRODUCT_NAME = "elastos Wallet";
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletREGNET;
+				PRODUCT_NAME = REGNET;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -4275,8 +4277,8 @@
 				);
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
-				PRODUCT_NAME = "elastos Wallet";
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletREGNET;
+				PRODUCT_NAME = REGNET;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

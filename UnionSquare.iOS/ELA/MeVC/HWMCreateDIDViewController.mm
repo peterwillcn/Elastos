@@ -17,7 +17,7 @@
 #import "HWMDIDInfoModel.h"
 static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 
-@interface HWMCreateDIDViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDWalletListViewDelegate,HWMDIDDataListViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWAddTheCurrencyListViewControllerDelegate,UINavigationControllerDelegate>
+@interface HWMCreateDIDViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDWalletListViewDelegate,HWMDIDDataListViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWAddTheCurrencyListViewControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
 @property (weak, nonatomic) IBOutlet UITableView *table;
 /*
@@ -157,6 +157,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     self.PublicKeysString=PublicKeysListArray.firstObject;
     self.DIDInfoModel.did=self.DIDString;
            self.DIDInfoModel.PubKeyString=self.PublicKeysString;
+        
            
        }
 }
@@ -188,12 +189,14 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
    // FLSugarModel *model = self.dataSouse[indexPath.row];
     HWMCreateDIDListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    cell.intPutTextField.tag=100+indexPath.row;
+    cell.intPutTextField.delegate=self;
     NSString *textString=self.dataSorse[indexPath.row];
     switch (indexPath.row) {
             case 0:
             cell.arrowImageView.alpha=0.f;
             cell.intPutTextField.placeholder=textString;
-            [cell.intPutTextField addTarget:self action:@selector(nameChanged:) forControlEvents:UIControlEventValueChanged];
+//            [cell.intPutTextField addTarget:self action:@selector(nameChanged:) forControlEvents:UIControlEventValueChanged];
             [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:cell.intPutTextField withTxt:textString];
             break;
             case 1:
@@ -204,7 +207,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
            
             cell.arrowImageView.alpha=1.f;
             cell.intPutTextField.text=textString;
-            cell.intPutTextField.enabled=NO;
+//            cell.intPutTextField.enabled=NO;
             
             break;
             case 2:
@@ -238,12 +241,13 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
             }
             cell.arrowImageView.alpha=1.f;
             cell.intPutTextField.text=textString;
-            cell.intPutTextField.enabled=NO;
+//            cell.intPutTextField.enabled=NO;
             break;
             
         default:
             break;
     }
+
     return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -331,7 +335,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 -(void)selectDataWithYY:(NSString*_Nullable)yy withMM:(NSString*_Nullable)mm wihMMWithInt:(NSInteger)mInt wtihDD:(NSString*_Nullable)dd{
     self.YYMMDD=[NSString stringWithFormat:@"%@ %@-%@-%@",NSLocalizedString(@"有效期至 ",nil),yy,mm,dd];
     [self.table reloadData];
-    self.DIDInfoModel.issuanceDate=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@",yy,mm,dd]];
+    self.DIDInfoModel.issuanceDate=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@ 00:00:00",yy,mm,dd]];
     [self cancelDataListView];
 }
 #pragma mark --------HMWToDeleteTheWalletPopViewDelegate-----------
@@ -391,6 +395,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     }
     HWMAddPersonalInformationViewController *AddPersonalInformationVC=[[HWMAddPersonalInformationViewController alloc]init];
     self.isNext=YES;
+    AddPersonalInformationVC.model=self.DIDInfoModel;
     [self.navigationController pushViewController:AddPersonalInformationVC animated:YES];
 }
 
@@ -417,5 +422,35 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 -(void)nameChanged:(UITextField*)textF{
     self.DIDInfoModel.didName=textF.text;
 }
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    
+    if (textField.tag ==101) {
+        UIView *mainView =[self mainWindow];
+               [mainView addSubview:self.walletListView];
+               [self.walletListView mas_makeConstraints:^(MASConstraintMaker *make) {
+                   make.left.right.top.bottom.equalTo(mainView);
+               }];
+               self.walletListView.dataSourceArray=self.walletListArray;
+        return NO;
+    }else if (textField.tag==104){
+        UIView *mainView =[self mainWindow];
+               [mainView addSubview:self.dataListView];
+        [self.dataListView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(mainView);
+        }];
+        return NO;
+    }
+    return YES;
 
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField{
+    
+    
+    if (textField.tag ==100) {
+        self.DIDInfoModel.didName=textField.text;
+    }
+    
+    
+}
 @end

@@ -306,8 +306,8 @@
 "重新投票"= "Recast Votes";
 "投票规则" = "Voting Rules";
 "变更成功" = "change successed";
-"注销报名72小时后，方可提取质押金"="The registration fund can be withdrawn 72 hours after the registration is cancelled";
-"参与ELA超级节点投票，需锁仓ELA。投票不消耗ELA数量；每次投票最多可选择 36 个超级节点，撤销或更改再次投票生效有" = "The registration fund can be withdrawn 72 hours after the registration is cancelled";
+"注销报名72小时后，方可提取质押金"="You are able to retrieve your deposit for supernode election 72 hours after cancellation";
+"参与ELA超级节点投票，需锁仓ELA。投票不消耗ELA数量；每次投票最多可选择 36 个超级节点，撤销或更改再次投票生效有" = "The registration fund can be withdrawn 36 hours after the registration is cancelled";
 "投票地址数量" = "Number of Vote Addresses";
 "全网投票占比"= "Total Network Vote Percentage";
 "目标地址"= "Target Address";
@@ -323,8 +323,8 @@
 "请输入票数1"="Enter number of votes";
 
 "投票数量" = "Votes";
-"是否确认注销候选资格? \n 候选资格一旦注销，所有投票清零且不可恢复。"="Confirm your deletion? \n Once confirmed, your votes will be removed and cannot be recovered.";
-"取回质押金"="Take back deposit";
+"是否确认注销候选资格? \n 候选资格一旦注销，所有投票清零且不可恢复。"="Are you confirming the cancellation? \n Once cancelled, all votes are cleared and unrecoverable.";
+"提取报名押金"="Retrieve deposit";
 "found_card_crcvote"="eg_found_card_CR";
 "found_card_vote"="eg_found_card_vote";
 "rules"="https://news.elastos.org/elastos-dpos-supernode-election-process/";

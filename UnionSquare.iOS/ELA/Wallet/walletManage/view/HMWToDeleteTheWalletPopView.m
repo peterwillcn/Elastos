@@ -137,7 +137,8 @@
         
     }else if (deleteType==deleteSelectVote){
         self.titlePopLabel.text= NSLocalizedString(@"是否确认注销候选资格? \n 候选资格一旦注销，所有投票清零且不可恢复。", nil);
-        
+  [self.sureToDeleteButton setTitle:NSLocalizedString(@"确定", nil) forState:UIControlStateNormal];
+    
     }else if (deleteType==moreThan36SelectList){
         self.viewHeight.constant=160; self.titlePopLabel.text=NSLocalizedString(@"超出投票选择上限，是否在已选列表中按排名顺序选择前36名？", nil);
         

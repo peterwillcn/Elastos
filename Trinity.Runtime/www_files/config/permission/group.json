@@ -9,8 +9,25 @@
             "hasPendingIntent"
         ],
         "Clipboard": ["*"],
+        "File": ["*"],
+        "Media": ["*"],
+        "Battery": ["*"],
+        "Camera": ["*"],
+        "Device": ["*"],
+        "Accelerometer": ["*"],
+        "Notification": ["*"],
+        "Flashlight": ["*"],
+        "Geolocation": ["*"],
+        "InAppBrowser": ["*"],
+        "Capture": ["*"],
+        "NetworkStatus": ["*"],
+        "QRScanner": ["*"],
         "SplashScreen": ["*"],
-        "StatusBar": ["*"]
+        "StatusBar": ["*"],
+        "CDVOrientation": ["*"],
+        "CarrierPlugin": ["*"],
+        "DIDPlugin": ["*"],
+        "HivePlugin": ["*"]
     },
     "wallet": {
         "AppManager": [
@@ -30,7 +47,23 @@
         "InAppBrowser": ["*"],
         "SplashScreen": ["*"],
         "StatusBar": ["*"],
-        "Wallet": ["*"]
+        "Wallet": ["*"],
+        "File": ["*"],
+        "Media": ["*"],
+        "Battery": ["*"],
+        "Camera": ["*"],
+        "Device": ["*"],
+        "Accelerometer": ["*"],
+        "Notification": ["*"],
+        "Flashlight": ["*"],
+        "Geolocation": ["*"],
+        "Capture": ["*"],
+        "NetworkStatus": ["*"],
+        "QRScanner": ["*"],
+        "CDVOrientation": ["*"],
+        "CarrierPlugin": ["*"],
+        "DIDPlugin": ["*"],
+        "HivePlugin": ["*"]
     },
     "dappstore": {
         "AppManager": [
@@ -48,7 +81,24 @@
         ],
         "Clipboard": ["*"],
         "SplashScreen": ["*"],
-        "StatusBar": ["*"]
+        "StatusBar": ["*"],
+        "File": ["*"],
+        "Media": ["*"],
+        "Battery": ["*"],
+        "Camera": ["*"],
+        "Device": ["*"],
+        "Accelerometer": ["*"],
+        "Notification": ["*"],
+        "Flashlight": ["*"],
+        "Geolocation": ["*"],
+        "InAppBrowser": ["*"],
+        "Capture": ["*"],
+        "NetworkStatus": ["*"],
+        "QRScanner": ["*"],
+        "CDVOrientation": ["*"],
+        "CarrierPlugin": ["*"],
+        "DIDPlugin": ["*"],
+        "HivePlugin": ["*"]
     },
     "user": {
         "AppManager": [

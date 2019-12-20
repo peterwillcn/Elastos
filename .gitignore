@@ -3,3 +3,4 @@
 /lib/*.dylib
 *.pyc
 _build
+appdid/

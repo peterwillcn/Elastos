@@ -13,11 +13,25 @@ import ela_did
 try:
     unicode
 except NameError:
+    def adapter_createIdTransactionCallback(adapter, payload, memo):
+        print(payload)
+        return 0 # Success
+
+    def adapter_resolveCallback(adapter, did):
+        return None # Don't resolve any existing DID from sidechain from this tool
+
     # Define `unicode` for Python3
     def unicode(s, *_):
         return s
 
 if __name__ == "__main__":
+    def adapter_createIdTransactionCallback(adapter, payload, memo):
+        print(payload)
+        return 0 # Success
+
+    def adapter_resolveCallback(adapter, did):
+        return None # Don't resolve any existing DID from sidechain from this tool
+
     try:
         did_api = ela_did.getElaDIDAPI()
         parser = argparse.ArgumentParser(description='Create an Elastos DID.', formatter_class=argparse.RawTextHelpFormatter)
@@ -42,20 +56,25 @@ if __name__ == "__main__":
 
         args = parser.parse_args()
 
-        ret = did_api.DIDStore_Open(args.did_store_root.encode('utf-8'))
-        if ret != 0:
+        # Create an adapter for resolve() and createIdTransaction().
+        adapter = ela_did.DIDAdapter(ela_did.CREATE_ID_TRANSACTION_FUNC(adapter_createIdTransactionCallback), ela_did.RESOLVE_FUNC(adapter_resolveCallback))
+
+        # Initialize a DID Store
+        didStore = did_api.DIDStore_Initialize(args.did_store_root.encode('utf-8'), ctypes.pointer(adapter))
+        if didStore == None:
             raise RuntimeError("ERROR: Failed to open DID store.")
 
+        # Use or generate mnemonics
         if args.mnemonic == None:
             mnemonic = did_api.Mnemonic_Generate(args.language)
         else:
             mnemonic = args.mnemonic.encode('utf-8')
 
-        ret = did_api.DIDStore_InitPrivateIdentity(mnemonic, args.passphrase.encode('utf-8'), args.storepass.encode('utf-8'), args.language)
+        ret = did_api.DIDStore_InitPrivateIdentity(didStore, mnemonic, args.passphrase.encode('utf-8'), args.storepass.encode('utf-8'), args.language, True)
         if ret != 0:
             raise RuntimeError("ERROR: Failed to initialize private identity for DID.")
 
-        did_doc = did_api.DIDStore_NewDID(args.storepass.encode('utf-8'), args.hint.encode('utf-8'))
+        did_doc = did_api.DIDStore_NewDID(didStore, args.storepass.encode('utf-8'), args.hint.encode('utf-8'))
         didurl = did_api.DIDDocument_GetDefaultPublicKey(did_doc)
         didurl_buf = ctypes.create_string_buffer(did_api.MAX_DIDURL)
         didurl_str = did_api.DIDURL_ToString(didurl, didurl_buf, did_api.MAX_DIDURL, False)

@@ -32,12 +32,12 @@ async function launchCreateDID() {
         return
     }
 
-    didHelper.createDID(createdDid).then(()=>{
-        didHelper.createDIDRequest().then((didRequest)=>{
+    didHelper.createDID().then((createdDidInfo)=>{
+        didHelper.createDIDRequest(createdDidInfo.password, createdDidInfo.did).then((didRequest)=>{
             didHelper.generateCreateDIDDocumentTransactionURL(didRequest).then((schemeUrl)=>{
                 didHelper.generatePayForTransactionQRCodeWebPage(schemeUrl).then((webpagePath)=>{
                     didHelper.promptAndOpenQRCodeWebPage(webpagePath).then(()=>{
-                        didHelper.waitForSidechainTransactionCompleted(createdDid.id).then(()=>{
+                        didHelper.waitForSidechainTransactionCompleted(createdDidInfo.did).then(()=>{
                             console.log("DID creation is completed.".green)
                         })
                         .catch((err)=>{

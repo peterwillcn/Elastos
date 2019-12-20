@@ -74,8 +74,10 @@ module.exports = class DIDHelper {
                         console.log("YOUR DID: ".green+jsonOutput.id)
                         console.log("YOUR MNEMONIC: ".green+jsonOutput.mnemonic)
                         console.log("")
-                        resolve(jsonOutput)
-    
+                        resolve({
+                            password: typedInfo.password, 
+                            did: jsonOutput.id
+                        })
                     }
                     catch(e) {
                         reject('Invalid JSON output from create_did' + output)
@@ -94,21 +96,40 @@ module.exports = class DIDHelper {
      * the signed and base58 (?) encoded DID document of the created DID, into a CREATE DID request that 
      * can be stored on chain.
      */
-    createDIDRequest() {
+    createDIDRequest(password, didString) {
         return new Promise((resolve, reject)=>{
-            // TMP
-            resolve({
-                "header":{
-                    "specification":"elastos/did/1.0",
-                    "operation":"create"
-                },
-                "payload":"eyJpZCI6ImRpZDplbGFzdG9zOmlZY3A3SkRCenhTZnFlcVV0VlQ1TG5yZ1dvNDhpUVV0Q2oiLCJwdWJsaWNLZXkiOlt7ImlkIjoiI3ByaW1hcnkiLCJwdWJsaWNLZXlCYXNlNTgiOiJ6bkduc042N3BFUXBwQ3FIS2t4TDJuNzV4MnlqSmNtcllrbW1MdnNoNGZSQSJ9XSwiYXV0aGVudGljYXRpb24iOlsiI3ByaW1hcnkiXSwiZXhwaXJlcyI6IjIwMjQtMTEtMTJUMTM6MDA6MDBaIn0",
-                "proof":{
-                    "verificationMethod":"#primary",
-                    "signature":"h3PQyLMVR+vWXF6jPGmHSXDD/3QwjtBy17aqZ9DErL+2xNUE9s1NdSQ5jpBUAqXrG/8nGkBDVDYTHixV2uvBSw=="
+            var rootScriptDirectory = path.dirname(require.main.filename)
+
+            const spawn = require("child_process").spawn;
+            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/did_create_publish_didrequest","-r","appdid","-p",password,"-d",didString]);
+
+            var output = "";
+
+            pythonProcess.stdout.on('data', function (data) { output += data });
+            pythonProcess.stderr.on('data', function (data) { console.log(''+data)});
+            pythonProcess.on('error', function(err) { reject(err)})
+
+            pythonProcess.on('exit', function (code) {
+                if (code == 0) {
+                    // Successfully created the DID request
+                    // Try to parse the output as JSON
+                    try {
+                        let jsonOutput = JSON.parse(output)
+                        console.log("DID request created successfully")
+                        console.log("")
+                        resolve(jsonOutput.request)
+                    }
+                    catch(e) {
+                        reject('Invalid JSON output from did_create_publish_didrequest' + output)
+                        return
+                    }
                 }
-            }) 
-        })     
+                else {
+                    console.log(output);
+                    reject('Child process exited with code ' + code)
+                }
+            }); 
+        });
     }
 
     /**
@@ -135,7 +156,7 @@ module.exports = class DIDHelper {
             let webpagePath = os.tmpdir() + "/publishdid.html"
             QRCode.toDataURL(schemeUrl,  async (err, imageDataUrl) => {
                 let htmlData = "<html><body style='font-family:verdana'><center>";
-                htmlData += "<h2>Please scan this QR code using Trinity from your mobile phone</h2>";
+                htmlData += "<h2>Please scan this QR code using elastOS from your mobile phone</h2>";
                 htmlData += "<h3>You will be prompted to confirm publication of your DID on the DID sidechain</h3>";
                 htmlData += "<img src='"+imageDataUrl+"' height='600'/>";
                 htmlData += "</center></body></html>"

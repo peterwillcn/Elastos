@@ -1,0 +1,96 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import argparse
+import textwrap
+import ctypes
+import json
+
+sys.path.append(os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + '/../lib'))
+import ela_did
+
+class CreatePublishDIDRequest():
+    createPublishTransactionPayload = None
+
+    def adapter_createIdTransactionCallback(self, adapter, payload, memo):
+        self.createPublishTransactionPayload = payload
+        return 0 # Success
+
+    def adapter_resolveCallback(self, adapter, did):
+        print("resolve")
+        return None # Don't resolve any existing DID from sidechain from this tool
+
+    def run(self):
+        try:
+            did_api = ela_did.getElaDIDAPI()
+            parser = argparse.ArgumentParser(description='Creates a DID Request payload for the default DID.', formatter_class=argparse.RawTextHelpFormatter)
+            parser.add_argument('-r', '--root', dest='did_store_root', metavar='PATH', required=True,
+                                help='Specify the root path of DID store.')
+            parser.add_argument('-d', '--did', dest='did', required=True,
+                                help='DID string to create the DID request for.')
+            parser.add_argument('-p', '--passphrase', dest='passphrase', required=True,
+                                help='Your DID password.')
+
+            args = parser.parse_args()
+            didString = args.did.encode("utf-8")
+            passphrase = args.passphrase.encode("utf-8")
+
+            # Create an adapter for resolve() and createIdTransaction().
+            adapter = ela_did.DIDAdapter(ela_did.CREATE_ID_TRANSACTION_FUNC(self.adapter_createIdTransactionCallback), ela_did.RESOLVE_FUNC(self.adapter_resolveCallback))
+
+            # Open the DID Store
+            didStore = did_api.DIDStore_Initialize(args.did_store_root.encode('utf-8'), ctypes.pointer(adapter))
+            if didStore == None:
+                raise RuntimeError("ERROR: Failed to open DID store.")
+
+            # Load the default DID
+            targetDid = did_api.DID_FromString(didString)
+            if targetDid == None:
+                raise RuntimeError("ERROR: Failed create a DID from the DID string. Invalid format?")
+
+            didDocument = did_api.DIDStore_LoadDID(didStore, targetDid)
+            if didDocument == None:
+                raise RuntimeError("ERROR: Failed load the DID. Invalid DID string?")
+            
+            # Simulate document publish to get the DID request back in the adapter callback
+            # Callback is called SYNCHRONOUSLY.
+            ret = did_api.DIDStore_PublishDID(didStore, didDocument, None, passphrase)
+            if ret != 0:
+                print(ret)
+                raise RuntimeError("ERROR: Failed to initiate document publication")
+
+            ret_obj = {}
+            ret_obj['status'] = 'success'
+            ret_obj['request'] = json.loads(self.createPublishTransactionPayload.decode("utf-8"))
+            print(json.dumps(ret_obj, indent=4, sort_keys=True, ensure_ascii=False))
+
+        except RuntimeError as err:
+            ret_obj = {}
+            ret_obj['status'] = 'error'
+            ret_obj['message'] = err.args[0]
+            print(json.dumps(ret_obj, indent=4, sort_keys=True, ensure_ascii=False))
+            exit(2)
+        except Exception as err:
+            message = "Error: " + str(err) + "\n"
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            message += "Unexpected error: " + str(exc_type) + "\n"
+            message += ' File "' + exc_tb.tb_frame.f_code.co_filename + '", line ' + str(exc_tb.tb_lineno) + "\n"
+
+            ret_obj = {}
+            ret_obj['status'] = 'error'
+            ret_obj['message'] = message
+            print(json.dumps(ret_obj, indent=4, sort_keys=True, ensure_ascii=False))
+            exit(3)
+
+
+try:
+    unicode
+except NameError:
+    # Define `unicode` for Python3
+    def unicode(s, *_):
+        return s
+
+if __name__ == "__main__":
+    req = CreatePublishDIDRequest()
+    req.run()

@@ -584,7 +584,7 @@ static HMWFMDBManager * _manager =nil;
     }else{
     
     NSString *sql =@"insert into DIDInfo(walletID,expires,didName,operation,issuanceDate,status,did,PubKeyString,nameString,nickNameString,genderString,DateBirthString,iconUrlString,emailString,MobilePhoneNoString,areMobilePhoneNoString,countriesString,SocialAccountArray) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        NSString *SocialAccountString=[NSString stringarr]
+//        NSString *SocialAccountString=[NSString stringarr]
     if ([self executeUpdate:sql,walletID,Model.expires,Model.didName,Model.operation,Model.issuanceDate,Model.status,Model.did,Model.PubKeyString,Model.nameString,Model.nickNameString,Model.genderString,Model.DateBirthString,Model.iconUrlString,Model.emailString,Model.MobilePhoneNoString,Model.areMobilePhoneNoString,Model.countriesString,Model.SocialAccountArray]) {
         return YES;
     }

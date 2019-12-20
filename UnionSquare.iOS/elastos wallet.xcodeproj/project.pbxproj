@@ -457,27 +457,6 @@
 		42EA69442313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EA69422313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.m */; };
 		42EA69452313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42EA69432313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.xib */; };
 		42EAEF85238BB43700D6A912 /* NSString+HWMNSTaggedPointerString.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF82238BB43700D6A912 /* NSString+HWMNSTaggedPointerString.m */; };
-		42EAEFB8238BB46300D6A912 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF88238BB46300D6A912 /* UIScrollView+MJRefresh.m */; };
-		42EAEFB9238BB46300D6A912 /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF89238BB46300D6A912 /* MJRefreshConst.m */; };
-		42EAEFBA238BB46300D6A912 /* MJRefreshConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF8A238BB46300D6A912 /* MJRefreshConfig.m */; };
-		42EAEFBB238BB46300D6A912 /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 42EAEF8E238BB46300D6A912 /* MJRefresh.bundle */; };
-		42EAEFBC238BB46300D6A912 /* UIScrollView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF90238BB46300D6A912 /* UIScrollView+MJExtension.m */; };
-		42EAEFBD238BB46300D6A912 /* NSBundle+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF94238BB46300D6A912 /* NSBundle+MJRefresh.m */; };
-		42EAEFBE238BB46300D6A912 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF95238BB46300D6A912 /* UIView+MJExtension.m */; };
-		42EAEFBF238BB46300D6A912 /* MJRefreshBackGifFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF9C238BB46300D6A912 /* MJRefreshBackGifFooter.m */; };
-		42EAEFC0238BB46300D6A912 /* MJRefreshBackStateFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF9D238BB46300D6A912 /* MJRefreshBackStateFooter.m */; };
-		42EAEFC1238BB46300D6A912 /* MJRefreshBackNormalFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEF9E238BB46300D6A912 /* MJRefreshBackNormalFooter.m */; };
-		42EAEFC2238BB46300D6A912 /* MJRefreshAutoStateFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFA3238BB46300D6A912 /* MJRefreshAutoStateFooter.m */; };
-		42EAEFC3238BB46300D6A912 /* MJRefreshAutoGifFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFA4238BB46300D6A912 /* MJRefreshAutoGifFooter.m */; };
-		42EAEFC4238BB46300D6A912 /* MJRefreshAutoNormalFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFA5238BB46300D6A912 /* MJRefreshAutoNormalFooter.m */; };
-		42EAEFC5238BB46300D6A912 /* MJRefreshNormalHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFA7238BB46300D6A912 /* MJRefreshNormalHeader.m */; };
-		42EAEFC6238BB46300D6A912 /* MJRefreshStateHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFAB238BB46300D6A912 /* MJRefreshStateHeader.m */; };
-		42EAEFC7238BB46300D6A912 /* MJRefreshGifHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFAC238BB46300D6A912 /* MJRefreshGifHeader.m */; };
-		42EAEFC8238BB46300D6A912 /* MJRefreshFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFAE238BB46300D6A912 /* MJRefreshFooter.m */; };
-		42EAEFC9238BB46300D6A912 /* MJRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFB0238BB46300D6A912 /* MJRefreshHeader.m */; };
-		42EAEFCA238BB46300D6A912 /* MJRefreshBackFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFB2238BB46300D6A912 /* MJRefreshBackFooter.m */; };
-		42EAEFCB238BB46300D6A912 /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFB3238BB46300D6A912 /* MJRefreshAutoFooter.m */; };
-		42EAEFCC238BB46300D6A912 /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFB5238BB46300D6A912 /* MJRefreshComponent.m */; };
 		42EAEFD1238BB52800D6A912 /* HWMSignStatusModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFCE238BB52800D6A912 /* HWMSignStatusModel.m */; };
 		42EAEFD2238BB52800D6A912 /* HWMQRModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAEFCF238BB52800D6A912 /* HWMQRModel.m */; };
 		42EAEFD6238BB54F00D6A912 /* AddressPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42EAEFD3238BB54E00D6A912 /* AddressPickerView.xib */; };
@@ -503,6 +482,7 @@
 		42EAF01B238BB8C200D6A912 /* HWMDIDDataListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAF013238BB8C200D6A912 /* HWMDIDDataListView.m */; };
 		42EAF01C238BB8C200D6A912 /* HWMDIDWalletListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAF014238BB8C200D6A912 /* HWMDIDWalletListView.m */; };
 		42EAF01D238BB8C200D6A912 /* HMWQrCodePopupWindowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EAF015238BB8C200D6A912 /* HMWQrCodePopupWindowView.m */; };
+		42ED54AD23ACC60300427318 /* HMWSendSuccessPopuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C8FE21F6EF29009E5932 /* HMWSendSuccessPopuView.m */; };
 		42EEDA86224B84790009B18E /* LaunchScreen-English.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42EEDA85224B84790009B18E /* LaunchScreen-English.storyboard */; };
 		42EEDA88224B84A50009B18E /* LaunchScreen-Chinese.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42EEDA87224B84A50009B18E /* LaunchScreen-Chinese.storyboard */; };
 		7087D92F21BCDF1B00599316 /* MyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7087D92E21BCDF1B00599316 /* MyUtil.m */; };
@@ -539,7 +519,7 @@
 		0207DA571B56EA530066E2B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "elastos wallet/Assets.xcassets"; sourceTree = SOURCE_ROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = AppDelegate.mm; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* PRVNET.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PRVNET.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* PRVNET.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = PRVNET.app; path = "elastos Wallet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B97316FDCFA39411CA2CEA /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* elastos wallet-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "elastos wallet-Prefix.pch"; sourceTree = "<group>"; };
 		420131C12320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCRCCommitteeElectionListViewController.h; sourceTree = "<group>"; };
@@ -3601,6 +3581,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42ED54AD23ACC60300427318 /* HMWSendSuccessPopuView.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.mm in Sources */,
 				4202CA7E21F6EF2B009E5932 /* HMWTheWalletManagementTableViewCell.m in Sources */,
 				422D60A821FC42D100DD07FF /* HMWChooseTheCountryAreasTableViewCell.m in Sources */,

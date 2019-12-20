@@ -23,6 +23,7 @@
 package org.elastos.trinity.runtime;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.net.Uri;
 
@@ -385,14 +386,18 @@ public class AppBasePlugin extends TrinityPlugin {
     protected void sendUrlIntent(JSONArray args, CallbackContext callbackContext) throws Exception {
         String url = args.getString(0);
 
-        if (webView.getPluginManager().shouldOpenExternalUrl(url)) {
-            webView.showWebPage(url, true, false, null);
-            callbackContext.success("ok");
+        try {
+            if (webView.getPluginManager().shouldOpenExternalUrl(url)) {
+                webView.showWebPage(url, true, false, null);
+                callbackContext.success("ok");
+            }
+            else {
+                callbackContext.error("Can't access this url: " + url);
+            }
         }
-        else {
-            callbackContext.error("Can't access this url: " + url);
+        catch(ActivityNotFoundException e) {
+            callbackContext.error("Error loading url " + url + " no activity found");
         }
-
     }
 
     protected void sendIntentResponse(JSONArray args, CallbackContext callbackContext) throws Exception {

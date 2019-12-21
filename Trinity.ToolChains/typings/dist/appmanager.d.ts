@@ -212,12 +212,14 @@ declare namespace AppManagerPlugin {
      * Object received when receiving an intent.
      */
     type ReceivedIntent = {
-        /** The intent action */
+        /** The action requested from the receiving application. */
         action: string;
-        /** The intent params */
+        /** Custom intent parameters provided by the calling application. */
         params: any;
-        /** The intent from */
+        /** Application package id of the calling application. */
         from: string;
+        /** Unique intent ID that has to be sent back when sending the intent response. */
+        intentId: Number;
     }
 
     /**

@@ -13,15 +13,18 @@ import ela_plugin
 
 parser = argparse.ArgumentParser(description='Build the Elastor.Trinity project.',
                                  formatter_class=argparse.RawTextHelpFormatter)
-parser.add_argument('target', metavar='TARGET', choices=['all', 'clean', 'clobber','launcher', "runtime"],
+parser.add_argument('target', metavar='TARGET', choices=['all', 'clean', 'clobber','launcher', "plugin", "runtime"],
                     help=textwrap.dedent('''\
                          Specify the target to build.
                          all: build all module: launcher, dapp, runtime;
                          launcher: build launcher, runtime;
                          runtime: build runtime;
                          clean: delete runtime platforms;
-                         clobber: delete all build files.
+                         clobber: delete all build files;
+                         plugin: reintall the specify plugin.
                      '''))
+parser.add_argument('-p', '--path', dest='plugin_path', metavar='PATH', required=False,
+                    help='Specify the path of plugin.')
 parser.add_argument('--release', action='store_true', help='build release')
 args = parser.parse_args()
 if args.release:
@@ -101,6 +104,12 @@ if args.target == "clobber":
         if not os.path.isfile(dir):
             remove_tree(dir + "/www")
             remove_tree(dir + "/node_modules")
+
+if args.target == "plugin":
+    if args.plugin_path == None:
+        print("usage: build plugin -p pluginPath")
+        exit(0)
+    ela_plugin.re_install_plugin(os.path.join(PROJECT_DIR_PATH, args.plugin_path))
 
 if args.target == "all" or args.target == "launcher":
     os.chdir(LAUNCHER_DIR_PATH)

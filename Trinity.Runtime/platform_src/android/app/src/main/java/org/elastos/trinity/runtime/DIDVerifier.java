@@ -14,8 +14,8 @@ public class DIDVerifier {
         Log.i("DIDPlugin", "dataDir:" + dataDir);
 
         try {
-            DIDStore.initialize("filesystem", dataDir, new FakeAdapter());
-            mDIDStore = DIDStore.getInstance();
+            DIDBackend.initialize(new FakeAdapter());
+            mDIDStore = DIDStore.open("filesystem", dataDir);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -29,7 +29,7 @@ public class DIDVerifier {
             DID did = didurl.getDid();
             DIDDocument diddoc = mDIDStore.loadDid(did);
             if (diddoc == null) {
-                diddoc = mDIDStore.resolveDid(did);
+                diddoc = did.resolve(true);
             }
             ret = diddoc.verify(didurl, epk_signature, epk_sha_str.getBytes());
         } catch (DIDException e) {

@@ -19,7 +19,10 @@ typedef NS_ENUM(NSInteger, HWMDIDDataListViewType) {
 @protocol HWMDIDDataListViewDelegate <NSObject>
 
 -(void)cancelDataListView;
+@optional
 -(void)selectDataWithYY:(NSString*_Nullable)yy withMM:(NSString*_Nullable)mm wihMMWithInt:(NSInteger)mInt wtihDD:(NSString*_Nullable)dd;
+-(void)selectGender:(NSUInteger)genderType;
+
 
 @end
 

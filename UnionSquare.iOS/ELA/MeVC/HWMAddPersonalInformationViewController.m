@@ -10,12 +10,12 @@
 #import "HWMTheAreaCodeAndPhonenumberTableViewCell.h"
 #import "HWMAddPersonalProfileViewController.h"
 #import "HWMDIDDataListView.h"
-
+#import "HMWSelectCountriesOrRegionsViewController.h"
 
 static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTableViewCell";
 
-@interface HWMAddPersonalInformationViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDDataListViewDelegate>
+@interface HWMAddPersonalInformationViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDDataListViewDelegate, HMWSelectCountriesOrRegionsViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *textInfoLabel;
 /*
  *<# #>
@@ -79,34 +79,56 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         HWMTheAreaCodeAndPhonenumberTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellCodeAndPhonenumberString];
         NSArray *arrCN=self.dataSorse[indexPath.row];
         cell.MobilePhoneTextField.placeholder=arrCN.lastObject;
+        if (self.model.MobilePhoneNoString.length>0) {
+            cell.MobilePhoneTextField.text=self.model.MobilePhoneNoString;
+        }
+        cell.MobilePhoneTextField.tag=10001;
                   [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:cell.MobilePhoneTextField withTxt:arrCN.lastObject];
         cell.theArNumberTextField.placeholder=arrCN.firstObject;
+        cell.theArNumberTextField.tag=10002;
+        if (self.model.areMobilePhoneNoString.length>0) {
+            cell.theArNumberTextField.text=self.model.areMobilePhoneNoString;
+        }
         [cell.theArNumberTextField addTarget:self action:@selector(theArNumberChanged:) forControlEvents:UIControlEventValueChanged];
         [cell.MobilePhoneTextField addTarget:self action:@selector(MobilePhoneChanged:) forControlEvents:UIControlEventValueChanged];
          [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField: cell.theArNumberTextField withTxt:arrCN.firstObject];
-        
-        
         return cell;
     }
     HWMCreateDIDListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     NSString *textString=self.dataSorse[indexPath.row];
     switch (indexPath.row) {
-            case 2:
+        case 2:{
             cell.arrowImageView.alpha=1.f;
-            cell.intPutTextField.text=textString;
             cell.intPutTextField.enabled=NO;
-            break;
-            case 3:
+            if (self.model.genderString.length>0) {
+                cell.intPutTextField.text= [[FLTools share]genderStringWithType:self.model.genderString];
+            }else{
+                 cell.intPutTextField.text=textString;
+            }
+            break;}
+        case 3:{
             cell.arrowImageView.alpha=1.f;
-            cell.intPutTextField.text=textString;
             cell.intPutTextField.enabled=NO;
+            if (self.model.DateBirthString.length>0) {
+                 cell.intPutTextField.text= self.model.DateBirthString;
+            }else{
+                 cell.intPutTextField.text=textString;
+            }
             break;
-            case 7:
+            
+        }
+            case 7:{
             cell.arrowImageView.alpha=1.f;
-            cell.intPutTextField.text=textString;
-            cell.intPutTextField.enabled=NO;
+            if (self.model.countriesString.length>0) {
+               cell.intPutTextField.text=[[FLTools share]contryNameTransLateByCode:[self.model.countriesString integerValue]];
+            }else{
+               cell.intPutTextField.text=textString;
+            }
+               cell.intPutTextField.enabled=NO;
             break;
+            
+        }
         default:
             cell.arrowImageView.alpha=0.f;
             cell.intPutTextField.placeholder=textString;
@@ -129,16 +151,19 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         UIView *mainView = [self mainWindow];
         [mainView addSubview:self.DIDDataListV];
         [self.DIDDataListV mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.top.bottom.equalTo(make);
+            make.left.right.top.bottom.equalTo(mainView);
         }];
     }else if (indexPath.row==3){//出生
         self.DIDDataListV.ListViewType=birthdayType;
                UIView *mainView = [self mainWindow];
                [mainView addSubview:self.DIDDataListV];
                [self.DIDDataListV mas_makeConstraints:^(MASConstraintMaker *make) {
-                   make.left.right.top.bottom.equalTo(make);
+                   make.left.right.top.bottom.equalTo(mainView);
                }];
     }else if (indexPath.row==7){
+        HMWSelectCountriesOrRegionsViewController *SelectCountriesOrRegionsVC=[[HMWSelectCountriesOrRegionsViewController alloc]init];
+        SelectCountriesOrRegionsVC.delegate=self;
+        [self.navigationController pushViewController:SelectCountriesOrRegionsVC animated:YES];
     }
 }
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -197,7 +222,12 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         case 107:
             self.model.countriesString=textField.text;
             break;
-    
+        case 10001:
+            self.model.MobilePhoneNoString=textField.text;
+            break;
+        case 10002:
+            self.model.areMobilePhoneNoString=textField.text;
+            break;
         default:
             break;
     }
@@ -214,8 +244,19 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     [self.DIDDataListV removeFromSuperview];
     self.DIDDataListV=nil;
 }
+-(void)selectGender:(NSUInteger)genderType{
+    
+    self.model.genderString=[NSString stringWithFormat:@"%lu",(unsigned long)genderType];
+    [self.table reloadData];
+}
 
-
-
+-(void)selectTheCountryAreasModel:(NSDictionary*)modelDic{
+    
+   self.model.countriesString = modelDic[@"mobileCode"];
+    
+   [self.table reloadData];
+    
+    
+}
 
 @end

@@ -377,6 +377,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     }
 }
 - (IBAction)nextButtonEvent:(id)sender {
+    [self.view endEditing:YES];
     if (self.DIDInfoModel.didName.length==0) {
         [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入DID名称（必填）", nil)];
         return;
@@ -389,10 +390,10 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
         [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择钱包", nil)];
           return;
     }
-    if (self.DIDInfoModel.issuanceDate.length==0) {
-         [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择失效日期", nil)];
-          return;
-    }
+//    if (self.DIDInfoModel.issuanceDate.length==0) {
+//         [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择失效日期", nil)];
+//          return;
+//    }
     HWMAddPersonalInformationViewController *AddPersonalInformationVC=[[HWMAddPersonalInformationViewController alloc]init];
     self.isNext=YES;
     AddPersonalInformationVC.model=self.DIDInfoModel;
@@ -418,9 +419,6 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.view endEditing:YES];
-}
--(void)nameChanged:(UITextField*)textF{
-    self.DIDInfoModel.didName=textF.text;
 }
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     

@@ -98,21 +98,40 @@
 }
 - (IBAction)makeSureEvent:(id)sender {
     if (self.delegate) {
-        
-        [self.delegate selectDataWithYY:self.yearArray[self.yearIndex] withMM:self.monthArray[self.monthIndex] wihMMWithInt:self.monthIndex+1 wtihDD:self.dayArray[self.dayIndex]];
+        if (self.ListViewType==DIDDataType) {
+            [self.delegate selectDataWithYY:self.yearArray[self.yearIndex] withMM:self.monthArray[self.monthIndex] wihMMWithInt:self.monthIndex+1 wtihDD:self.dayArray[self.dayIndex]];
+        }else if (self.ListViewType==genderType){
+            
+            [self.delegate selectGender:self.genderIndex];
+        }else if (self.ListViewType==birthdayType){
+            
+        }
+        [self.delegate cancelDataListView];
     }
 }
 - (NSMutableArray *)yearArray {
     
     if (_yearArray == nil) {
         _yearArray = [NSMutableArray array];
-        
-        for (int year =self.nowYear; year < self.nowYear+5; year++) {
+        if (self.ListViewType==birthdayType) {
+            for (int year =self.nowYear-50; year < self.nowYear+50; year++) {
+                
+                NSString *str = [NSString stringWithFormat:@"%d", year];
+                
+                [_yearArray addObject:str];
+            }
             
-            NSString *str = [NSString stringWithFormat:@"%d", year];
+        }else{
+            for (int year =self.nowYear; year < self.nowYear+5; year++) {
+                   
+                   NSString *str = [NSString stringWithFormat:@"%d", year];
+                   
+                   [_yearArray addObject:str];
+               }
             
-            [_yearArray addObject:str];
         }
+        
+   
     }
     
     return _yearArray;
@@ -202,10 +221,11 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     if (self.ListViewType==genderType) {
-        self.yearIndex = row;
+        self.genderIndex=row;
+//        [pickerView selectRow:self.genderIndex inComponent:1 animated:NO];
                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                   [pickerView selectRow:self.yearIndex inComponent:row animated:NO];
-                   UILabel *label = (UILabel *)[pickerView viewForRow:0 forComponent:component];
+                    [pickerView selectRow:self.genderIndex inComponent:1 animated:NO];
+                   UILabel *label = (UILabel *)[pickerView viewForRow:self.genderIndex forComponent:component];
                    label.textColor = [UIColor whiteColor];
                    label.font = [UIFont systemFontOfSize:16];
                });
@@ -295,31 +315,17 @@
     genderLabel.textColor = RGBA(255, 255, 255, 0.5);
     genderLabel.font = [UIFont systemFontOfSize:14];
     if (self.ListViewType==genderType) {
-         genderLabel.text = self.genderArray[row];
+        genderLabel.text = NSLocalizedString(self.genderArray[row], nil);
     return genderLabel;
     }
     if (component == 0) {
-//        if (self.yearIndex==row) {
-//          genderLabel.textColor = [UIColor whiteColor];
-//          genderLabel.font = [UIFont systemFontOfSize:16];
-//
-//        }
         genderLabel.text = self.yearArray[row];
         
     }else if (component == 1) {
-//        if (self.monthIndex==row) {
-//            genderLabel.textColor = [UIColor whiteColor];
-//           genderLabel.font = [UIFont systemFontOfSize:16];
-//
-//               }
         NSString *textString=[NSString stringWithFormat:@"%@",self.monthArray[row]];
         genderLabel.text = NSLocalizedString(textString, nil);
         
     }else {
-//        if (self.dayIndex==row) {
-//            genderLabel.textColor = [UIColor whiteColor];
-//            genderLabel.font = [UIFont systemFontOfSize:16];
-//        }
         genderLabel.text = self.dayArray[row];
     }
     
@@ -353,7 +359,27 @@
             [self pickerView: self.dataPickerView didSelectRow:self.genderIndex inComponent:0];
         
     }else if (ListViewType==birthdayType){
+             NSCalendar *calendar = [[NSCalendar alloc]initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+                             // 定义一个时间字段的旗标，指定将会获取指定年、月、日、时、分、秒的信息
+                             unsigned unitFlags = NSCalendarUnitYear |
+                             NSCalendarUnitMonth |  NSCalendarUnitDay |
+                             NSCalendarUnitHour |  NSCalendarUnitMinute |
+                             NSCalendarUnitSecond | NSCalendarUnitWeekday;
+                             // 获取不同时间字段的信息
+                             NSDateComponents *comp = [calendar components: unitFlags fromDate:[NSDate date]];
+                            self.nowYear=comp.year;
+                                self.nowMonth=comp.month;
+                                self.nowDay=comp.day;
+                      self.yearIndex =50;
         
+                      self.monthIndex = [self.monthArray indexOfObject:[NSString stringWithFormat:@"%02ld", (long)comp.month]]-1;
+                      self.dayIndex = [self.dayArray indexOfObject:[NSString stringWithFormat:@"%02ld", (long)comp.day]]-1;
+                             [ self.dataPickerView selectRow:self.yearIndex inComponent:0 animated:YES];
+                             [ self.dataPickerView selectRow:self.monthIndex inComponent:1 animated:YES];
+                             [ self.dataPickerView selectRow:self.dayIndex inComponent:2 animated:YES];
+                             [self pickerView: self.dataPickerView didSelectRow:self.yearIndex inComponent:0];
+                             [self pickerView: self.dataPickerView didSelectRow:self.monthIndex inComponent:1];
+                             [self pickerView: self.dataPickerView didSelectRow:self.dayIndex inComponent:2];
     }
     _ListViewType=ListViewType;
     

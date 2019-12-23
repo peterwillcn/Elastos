@@ -1483,5 +1483,13 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     
     return NO;
 }
-
+-(NSString*)genderStringWithType:(NSString*)type{
+    if ([type isEqualToString:@"0"]) {
+        return NSLocalizedString(@"男", nil);
+    }else if ([type isEqualToString:@"1"]){
+        return NSLocalizedString(@"女", nil);
+    }
+    return @"";
+    
+}
 @end

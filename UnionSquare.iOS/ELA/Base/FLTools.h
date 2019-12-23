@@ -150,4 +150,5 @@
 -(NSString*)DownAlllTheValuePercentage:(NSString*)blance withLength:(NSInteger)MermVotCout;
 -(NSString*)DownNumberPercentage:(NSString*)blance withLength:(NSInteger)MermVotCout;
 -(BOOL)isBlankString:(NSString *)str;
+-(NSString*)genderStringWithType:(NSString*)type;
 @end

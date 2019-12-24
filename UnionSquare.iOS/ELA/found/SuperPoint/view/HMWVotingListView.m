@@ -77,6 +77,7 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
     _dataSource =[[NSMutableArray alloc]initWithArray:dataSource];
     self.numberNodesLabel.text=[NSString stringWithFormat:@"%lu",(unsigned long)dataSource.count];
         [self.baseCollectionView reloadData];
+    [self.baseCollectionView.mj_header endRefreshing];
 }
 #pragma mark -- UICollectionViewDataSource
 //定义展示的UICollectionViewCell的个数

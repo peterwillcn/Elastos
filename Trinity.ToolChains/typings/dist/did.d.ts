@@ -92,22 +92,16 @@ declare module DIDPlugin {
     type DIDString = string;
 
     /**
-     * A DIDURLFragment is the part that comes after the DIDString, in a DIDURL.
-     * Ex: "my-special-use" in "did:elastos:abcdef#my-special-use"
-     */
-    type DIDURLFragment = string;
-
-    /**
      * A DIDURL is a DIDString with an additional fragment part.
-     * Ex: did:elastos:abcdef#my-special-use
+     * Ex: did:elastos:abcdef#my-special-use or #my-special-use
      */
     type DIDURL = string;
 
     /**
-     * A CredentialID can have the form of either a full DIDURL, or just the short fragment part.
-     * Ex: "did:elastos:abcdef#twitter" or "twitter"
+     * A CredentialID can have the form of either a full DIDURL, or just the short form.
+     * Ex: "did:elastos:abcdef#twitter" or "#twitter"
      */
-    type CredentialID = DIDURL | DIDURLFragment;
+    type CredentialID = DIDURL;
 
     interface DID {
         // TODO: define onSuccess and onError? callbacks parameters with more accurate types
@@ -163,8 +157,8 @@ declare module DIDPlugin {
         getDefaultPublicKey(onSuccess: (data: any) => void, onError?: (err: any) => void);
         getPublicKey(didString: string): PublicKey;
         getPublicKeys(): PublicKey[];
-        addCredential(credential: VerifiableCredential, storePass: string, onSuccess?: ()=>void, onError?: (err: any)=>void); 
-        deleteCredential(credential: VerifiableCredential, storePass: string, onSuccess?: ()=>void, onError?: (err: any)=>void); 
+        addCredential(credential: VerifiableCredential, storePass: string, onSuccess?: ()=>void, onError?: (err: any)=>void);
+        deleteCredential(credential: VerifiableCredential, storePass: string, onSuccess?: ()=>void, onError?: (err: any)=>void);
         getCredential(credentialId: CredentialID): VerifiableCredential;
         getCredentials(): DIDPlugin.VerifiableCredential[];
 
@@ -196,7 +190,7 @@ declare module DIDPlugin {
         newDid(passphrase: string, alias: string, onSuccess: (did: DID)=>void, onError?: (err: any)=>void);
         listDids(filter: any, onSuccess: (dids: DID[])=>void, onError?: (err: any)=>void); // TODO: "filter" type
         loadDidDocument(didString: string, onSuccess: (didDocument: DIDDocument)=>void, onError?: (err: any)=>void);
-        resolveDidDocument(didString: string, onSuccess: (didDocument: DIDDocument)=>void, onError?: (err: any)=>void);
+        // resolveDidDocument(didString: string, onSuccess: (didDocument: DIDDocument)=>void, onError?: (err: any)=>void);
         storeDidDocument(didDocument: DIDDocument, alias:string, onSuccess: ()=>void, onError?: (err: any)=>void);
         updateDidDocument(didDocument: DIDDocument, storepass: string, onSuccess?: ()=>void, onError?: (err: any)=>void);
         setResolverUrl(resolver: string, onSuccess: ()=>void, onError?: (err: any)=>void);

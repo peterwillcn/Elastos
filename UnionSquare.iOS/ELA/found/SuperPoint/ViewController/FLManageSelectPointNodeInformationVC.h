@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HWMCRListModel.h"
+#import "FLCoinPointInfoModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(strong,nonatomic)HWMCRListModel*CRModel;
+@property(nonatomic,strong)FLCoinPointInfoModel *model;
 
 @end
 

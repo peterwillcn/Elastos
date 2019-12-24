@@ -17,6 +17,7 @@ typedef enum : NSUInteger {
 
 -(void)selectedVotingListWithIndex:(NSInteger)index;
 -(void)VotingListisEdite:(BOOL)edite;
+-(void)updateDataInfo;
 @end
 
 

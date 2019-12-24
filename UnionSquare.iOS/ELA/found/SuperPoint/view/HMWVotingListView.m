@@ -52,6 +52,13 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
        self.baseCollectionView.collectionViewLayout=layout;
         self.baseCollectionView.delegate=self;
         self.baseCollectionView.dataSource=self;
+         __weak __typeof(self) weakSelf = self;
+        self.baseCollectionView.mj_header = [MJRefreshHeader headerWithRefreshingBlock:^{
+            if (weakSelf.delegate) {
+                [weakSelf.delegate updateDataInfo];
+            }
+            
+        }];
         [self.baseCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HMWVotingListCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:cellString];
         [self.baseCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HMWVotingListTypeCrossCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:crossCellString];
           [self.baseCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HWMCRCCommitteeElectionCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:crossCRCellString];

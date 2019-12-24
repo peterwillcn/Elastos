@@ -13,6 +13,7 @@
 
 
 static NSString *cellString=@"HMWtransferTransactionMultipleAddressDetailsTableViewCell";
+UINib *_cellNib;
 @interface HMWtransferTransactionDetailsViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *baseTable;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *baseTableHeight;
@@ -154,8 +155,9 @@ static NSString *cellString=@"HMWtransferTransactionMultipleAddressDetailsTableV
     self.baseTable.delegate=self;
     self.baseTable.dataSource=self;
     self.baseTable.rowHeight=44;
+    _cellNib=[UINib nibWithNibName:cellString bundle:nil];
     self.baseTable.backgroundColor=RGBA(0, 0, 0, 0.5);
-    [self.baseTable registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
+    [self.baseTable registerNib:_cellNib forCellReuseIdentifier:cellString];
     self.baseTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.baseTable.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     [[HMWCommView share]makeBordersWithView:self.baseTable];
@@ -310,6 +312,12 @@ static NSString *cellString=@"HMWtransferTransactionMultipleAddressDetailsTableV
        return  openOrCloseButton;
     }
     if (self.type == transactionMultipleIntoType &&section==2&& self.OutputsArray.count>2) {
+        if (self.outputsISOpen) {
+                imageString=@"asset_list_unfold";
+            }else{
+                imageString=@"setting_linkman_detail_click";
+            }
+        [openOrCloseButton setImage:[UIImage imageNamed:imageString] forState:UIControlStateNormal];
         [openOrCloseButton addTarget:self action:@selector(OutputsOpenOrCloseAction:) forControlEvents:UIControlEventTouchUpInside];
        return  openOrCloseButton;
     }
@@ -396,11 +404,12 @@ static NSString *cellString=@"HMWtransferTransactionMultipleAddressDetailsTableV
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    HMWtransferTransactionMultipleAddressDetailsTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
+    HMWtransferTransactionMultipleAddressDetailsTableViewCell *cell=[_cellNib instantiateWithOwner:nil options:nil][0];
+    
     cell.backgroundColor=[UIColor clearColor];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.orderDetailsLabel.textColor=[UIColor whiteColor];
-cell.textLabel.text=self.listTextArray[indexPath.section];
+    cell.textLabel.text=self.listTextArray[indexPath.section];
     if (indexPath.row!=0) {
         cell.textLabel.alpha=0.f;
     }else{

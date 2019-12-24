@@ -345,13 +345,18 @@
     
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    NSInteger number=[textField.text charactorNumber];
     if (textField==self.self.MemberNameTextField) {
-        if (textField.text.length>50) {
+         NSLog(@"MemberNameTextField===%ld-----%lu",(long)number,(unsigned long)textField.text.length);
+        if ([textField.text charactorNumber]>100) {
+           
             return NO;
         }
     }
     if (textField==self.URLTextField) {
-        if (textField.text.length>100) {
+  NSLog(@"URLTextField===%ld-----%lu",(long)number,(unsigned long)textField.text.length);
+        if ([textField.text charactorNumber]>100) {
+            
                   return NO;
               }
     }

@@ -46,7 +46,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *LocationLab;
 @property (weak, nonatomic) IBOutlet UILabel *AddressLab;
 
-@property(nonatomic,strong)FLJoinVoteInfoModel *model;
+//@property(nonatomic,strong)FLJoinVoteInfoModel *model;
 @property (weak, nonatomic) IBOutlet UIView *CRBGView;
 
 @property(strong,nonatomic)HMWToDeleteTheWalletPopView *toDeleteTheWalletPopV;
@@ -107,16 +107,16 @@
     make.right.equalTo(self.CRBGView.mas_right).offset(-10);
             make.bottom.equalTo(self.CRBGView.mas_bottom).offset(-15);
         }];
-        nlohmann::json info = mainchainSubWallet->GetRegisteredCRInfo();
-                      NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
-                      NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-                      NSString *Status = param[@"Status"];
-        self.CRModel.did=param[@"Info"][@"CROwnerDID"];
-        self.CRModel.nickname=param[@"Info"][@"NickName"];
-        self.CRModel.url=param[@"Info"][@"Url"];
-        self.CRModel.location=param[@"Info"][@"Location"];
-   
-    self.CRModel.ownerpublickey=param[@"Info"][@"CROwnerPublicKey"];
+//        nlohmann::json info = mainchainSubWallet->GetRegisteredCRInfo();
+//                      NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
+//                      NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+//                      NSString *Status = param[@"Status"];
+//        self.CRModel.did=param[@"Info"][@"CROwnerDID"];
+//        self.CRModel.nickname=param[@"Info"][@"NickName"];
+//        self.CRModel.url=param[@"Info"][@"Url"];
+//        self.CRModel.location=param[@"Info"][@"Location"];
+//   
+//    self.CRModel.ownerpublickey=param[@"Info"][@"CROwnerPublicKey"];
         
 //        self.CRModel=self.lastArray.firstObject;
         self.OwnerPublickKeyLab.text=self.CRModel.nickname;
@@ -126,34 +126,34 @@
     }else{
         [self.lookAtTheCandidateListButton setTitle:NSLocalizedString(@"注销", nil) forState:UIControlStateNormal];
            [self.updataTheCandidateListButton setTitle:NSLocalizedString(@"编辑", nil) forState:UIControlStateNormal];
-        nlohmann::json info = mainchainSubWallet->GetRegisteredProducerInfo();
-           NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
+//        nlohmann::json info = mainchainSubWallet->GetRegisteredProducerInfo();
+//           NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
+//
+//           NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+//           NSDictionary *infoDic = param[@"Info"];
+//
+//           NSString *OwnerPublickKey = infoDic[@"OwnerPublicKey"];
+//           NSString *NodePublickKey  =infoDic[@"NodePublicKey"];
+//
+//           NSString *URL=infoDic[@"URL"];
+//
+//           NSString *Location   =infoDic[@"Location"];
+//           NSString *NickName   = infoDic[@"NickName"];
+//
+//           self.model = [[FLJoinVoteInfoModel alloc]init];
+//           self.model.nickName = NickName;
+//           self.model.url = URL;
+//           self.model.contryCode = Location;
+//           self.model.ipAddress = infoDic[@"IpAddress"];
+//           self.model.ownerPublickKey=OwnerPublickKey;
            
-           NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-           NSDictionary *infoDic = param[@"Info"];
-           
-           NSString *OwnerPublickKey = infoDic[@"OwnerPublicKey"];
-           NSString *NodePublickKey  =infoDic[@"NodePublicKey"];
-
-           NSString *URL=infoDic[@"URL"];
-           
-           NSString *Location        =infoDic[@"Location"];
-           NSString *NickName        = infoDic[@"NickName"];
-           
-           self.model = [[FLJoinVoteInfoModel alloc]init];
-           self.model.nickName = NickName;
-           self.model.url = URL;
-           self.model.contryCode = Location;
-           self.model.ipAddress = infoDic[@"IpAddress"];
-           self.model.ownerPublickKey=OwnerPublickKey;
-           
-           [self getNetCoinPointArrayWithPubKey:OwnerPublickKey];
+        [self getNetCoinPointArrayWithPubKey:self.model.ownerpublickey];
            
            
-           self.OwnerPublickKeyLab.text = NickName;
-           self.NodePublickKeyLab.text  = NodePublickKey;
-           self.URLLab.text = URL;
-           self.LocationLab.text = [[FLTools share]contryNameTransLateByCode:Location.integerValue];
+           self.OwnerPublickKeyLab.text = self.model.nickname;
+           self.NodePublickKeyLab.text  =self.model.nodepublickey;
+           self.URLLab.text =self.model.url;
+        self.LocationLab.text = [[FLTools share]contryNameTransLateByCode:self.model.location.integerValue];
           
         
         
@@ -234,7 +234,16 @@ NSString *httpIP=[[FLTools share]http_IpFast];
         [self.navigationController pushViewController:vc animated:YES];
     }else{
     HMWsignUpForViewController  *vc = [[HMWsignUpForViewController alloc]init];
-    vc.model = self.model;
+        FLJoinVoteInfoModel *modelF=[[FLJoinVoteInfoModel alloc]init];
+        modelF.contryCode=self.model.location;
+        modelF.nodePubKey=self.model.nodepublickey;
+        modelF.nickName=self.model.nickname;
+        modelF.url=self.model.url;
+        modelF.ownerPublickKey=self.model.ownerpublickey;
+        modelF.iconImageUrl=self.model.iconImageUrl;
+        modelF.infoEN=self.model.infoEN;
+        modelF.infoZH=self.model.infoZH;
+        vc.model =modelF;
         [self.navigationController pushViewController:vc animated:YES];
         
     }
@@ -356,5 +365,8 @@ NSString *httpIP=[[FLTools share]http_IpFast];
         [self hiddenSendSuccessPopuV];
         [self.navigationController popViewControllerAnimated: YES];
     });
+
+-(void)setModel:(FLCoinPointInfoModel *)model{
+    _model=model;
 }
 @end

@@ -72,16 +72,15 @@
 
 @property(nonatomic,copy) NSString* totalvotes;
 @property(nonatomic,strong)NSMutableArray *ActiveArray;
+@property(nonatomic,strong)HWMCRListModel *selfModel;
 
-
-@property(nonatomic,assign)NSInteger selfindex;
 @end
 
 @implementation HMWCRCommitteeMemberListViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.selfindex=-1;
+//    self.selfindex=-1;
     self.title=NSLocalizedString(@"CR委员选举", nil);
     [self setBackgroundImg:@""];
     self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
@@ -104,21 +103,21 @@
         make.top.equalTo(self.view).offset(10);
     }];
     [self getNetCoinPointArray];
-    if ([self.typeString isEqualToString:@"Registered"]){
-        self.needFind=YES;
-    self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
-        self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
-    }else if([self.typeString isEqualToString:@"Canceled"]){
-    self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
-        self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
-    }else if([self.typeString isEqualToString:@"Unregistered"]){
+//    if ([self.typeString isEqualToString:@"Registered"]){
+//        self.needFind=YES;
+//    self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+//        self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
+//    }else if([self.typeString isEqualToString:@"Canceled"]){
+//    self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+//        self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
+//    }else if([self.typeString isEqualToString:@"Unregistered"]){
     self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
         self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
-    }else if ([self.typeString isEqualToString:@"ReturnDeposit"]){
-        self.votingRulesButton.hidden=YES;
-        self.tagVoteRuleLab.hidden=YES;
-        self.found_vote_rule.hidden=YES;
-    }
+//    }else if ([self.typeString isEqualToString:@"ReturnDeposit"]){
+//        self.votingRulesButton.hidden=YES;
+//        self.tagVoteRuleLab.hidden=YES;
+//        self.found_vote_rule.hidden=YES;
+//    }
     [self getWalletType];
     self.isOpen=NO;
     self.all_selectedTextLabel.text=NSLocalizedString(@"全选", nil);
@@ -192,13 +191,8 @@
                FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
                    vc.currentWallet=self.wallet;
                    vc.CRTypeString=@"CR";
-                HWMCRListModel *model;
-                if (self.selfindex>0){
-                model=self.memberListDataSource[self.selfindex];
-                }else{
-                model=self.ActiveArray.firstObject;
-                }
-                vc.CRModel=model;
+
+                vc.CRModel=self.selfModel;
                 vc.lastArray=self.ActiveArray;
                    [self.navigationController pushViewController:vc animated:YES];
          }else{
@@ -212,6 +206,7 @@
         if (self.type ==1) {
             FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
                vc.currentWallet=self.wallet;
+               vc.CRModel=self.selfModel;
                 vc.lastArray=self.ActiveArray;
                vc.CRTypeString=@"CR";
                [self.navigationController pushViewController:vc animated:YES];
@@ -232,6 +227,7 @@
         if (self.isOpen) {
                DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
                vc.CRTypeString=@"CRString";
+            vc.CRModel=self.selfModel;
             vc.nodeName=self.nodeName;
                [self.navigationController pushViewController:vc animated:YES];
            }else{
@@ -326,17 +322,16 @@
         }
         
         
-        if ([model.did isEqualToString:self.CROwnerDID]&&self.needFind) {
+        if ([model.did isEqualToString:self.CROwnerDID]) {
             if ([model.state isEqualToString:@"Active"]) {
                 model.index=[NSString stringWithFormat:@"%lu",self.ActiveArray.count+1];
                 curentmodel.index=model.index;
                 [self.ActiveArray insertObject:model atIndex:0];
-                self.needFind=NO;
-                self.votingListV.typeString=@"Registered";
-            }else{
-                
-                self.selfindex=i;
+//                self.needFind=NO;
+//                self.votingListV.typeString=@"Registered";
             }
+            self.selfModel=model;
+            [self updateInfoSelf];
             
         }else{
             if ([model.state isEqualToString:@"Active"]) {
@@ -452,6 +447,10 @@
         self.EditSelectionView.alpha=0.f;
         self.JoinTheCandidateListButton.alpha=0.f;
     }
+}
+-(void)updateDataInfo{
+[self getNetCoinPointArray];
+    
 }
 #pragma mark -------------------
 - (void)hasSignUp{
@@ -592,5 +591,38 @@
 }
 -(void)setNodeName:(NSString *)nodeName{
     _nodeName=nodeName;
+}
+-(void)updateInfoSelf{
+    
+    if ([self.selfModel.state isEqualToString:@"Active"]) {
+        self.typeString=@"Registered";
+        self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+        self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
+        self.votingListV.typeString=self.typeString;
+    }else if ([self.selfModel.state isEqualToString:@"Inactive"]){
+        self.typeString=@"Registered";
+        self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+        self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
+        self.votingListV.typeString=self.typeString;
+    }else if ([self.selfModel.state isEqualToString:@"Canceled"]){
+        self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+        self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
+        self.typeString=@"Canceled";
+    }else if ([self.selfModel.state isEqualToString:@"Illegal"]){
+        self.typeString=@"Registered";
+        self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+        self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
+        self.votingListV.typeString=self.typeString;
+        
+    }else if ([self.selfModel.state isEqualToString:@"Returned"]){
+        self.votingRulesButton.hidden=YES;
+        self.tagVoteRuleLab.hidden=YES;
+        self.found_vote_rule.hidden=YES;
+        self.typeString=@"ReturnDeposit";
+    }else{
+        self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
+       self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
+        self.typeString=@"Unregistered";
+    }
 }
 @end

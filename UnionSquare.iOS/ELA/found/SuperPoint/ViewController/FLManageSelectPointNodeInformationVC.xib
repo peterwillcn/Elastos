@@ -230,7 +230,7 @@
                                 <constraint firstAttribute="width" constant="150" id="Aby-VE-y4b"/>
                                 <constraint firstAttribute="height" constant="40" id="lzQ-Qf-dTa"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <state key="normal" title="编辑">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>
@@ -256,7 +256,7 @@
                                 <constraint firstAttribute="height" constant="40" id="6Zc-bg-3mn"/>
                                 <constraint firstAttribute="width" constant="150" id="BJY-Bj-8u2"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <state key="normal" title="注销">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </state>

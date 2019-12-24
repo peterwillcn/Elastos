@@ -277,10 +277,11 @@ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), di
         model.ipAddress  = self.ipAddressTextField.text;
         model.mark       = @"";
         model.acount     = 5000;
-        [self closeTransactionDetailsView];
+       
      CGFloat free   =  [manager RegisterProducerWithMainchainSubWallet:mainchainSubWallet With:model];
           
             if (free>-1) {
+                 [self closeTransactionDetailsView];
                 [self showSendSuccessPopuV];
                 if (self.delegate) {
                     [self.delegate hasSignUp];

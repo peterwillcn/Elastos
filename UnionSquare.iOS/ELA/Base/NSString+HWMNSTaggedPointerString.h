@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSString (HWMNSTaggedPointerString)
 -(void)count;
+- (NSUInteger)charactorNumberWithEncoding:(NSStringEncoding)encoding;
+- (NSUInteger)charactorNumber;
 @end
 
 NS_ASSUME_NONNULL_END

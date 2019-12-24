@@ -108,9 +108,9 @@
             if (dotLocation != NSNotFound && range.location > dotLocation + 8) {
                 return NO;
             }
-            if (textField.text.length > 11) {
-                return NO;
-            }
+//            if (textField.text.length > 11) {
+//                return NO;
+//            }
     }
     return YES;
 }

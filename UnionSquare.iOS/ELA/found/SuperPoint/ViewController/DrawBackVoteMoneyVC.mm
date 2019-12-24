@@ -293,4 +293,11 @@ if (self.CRTypeString.length==0) {
     
     return _sendSuccessPopuV;
 }
+-(void)setNodeModel:(FLCoinPointInfoModel *)nodeModel{
+    _nodeModel =nodeModel;
+}
+-(void)setCRModel:(HWMCRListModel *)CRModel{
+    _CRModel=CRModel;
+    
+}
 @end

@@ -94,7 +94,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     self.title=NSLocalizedString(@"CR委员选举", nil);
     [self.immediatelyToVoteButton setTitle:NSLocalizedString(@"立即投票", nil) forState:UIControlStateNormal];
     [[HMWCommView share]makeBordersWithView:self.immediatelyToVoteButton];
-    self.TheAverageDistributionTextLabel.text=NSLocalizedString(@"平均分配", nil);
+    self.TheAverageDistributionTextLabel.text=NSLocalizedString(@"全选均分", nil);
     [self getWalletType];
     [self getDBRecored];
     [self makeView];
@@ -382,7 +382,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
         self.allTollTicketLabel.alpha=1.f;
         [self.immediatelyToVoteButton setTitle:NSLocalizedString(@"立即投票", nil) forState:UIControlStateNormal];
         self.textLabelTopConSet.constant=10.f;
-         self.TheAverageDistributionTextLabel.text=NSLocalizedString(@"平均分配", nil);
+         self.TheAverageDistributionTextLabel.text=NSLocalizedString(@"全选均分", nil);
     }
     
         for (int i=0; i<self.dataSource.count; i++) {

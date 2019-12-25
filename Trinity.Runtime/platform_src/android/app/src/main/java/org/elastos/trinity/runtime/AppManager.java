@@ -118,11 +118,9 @@ public class AppManager {
         configPath = activity.getFilesDir() + "/config/";
         tempPath = activity.getFilesDir() + "/temp/";
 
-        Boolean first = false;
         File destDir = new File(appsPath);
         if (!destDir.exists()) {
             destDir.mkdirs();
-            first = true;
         }
         destDir = new File(dataPath);
         if (!destDir.exists()) {
@@ -148,14 +146,10 @@ public class AppManager {
         installer = new AppInstaller();
         installer.init(activity, dbAdapter, appsPath, dataPath, tempPath);
 
-        if (first) {
-            saveLauncherInfo();
-            copyConfigFiles();
-        }
-
-        appList = dbAdapter.getAppInfos();
-        saveBuiltInAppInfos();
-
+//        appList = dbAdapter.getAppInfos();
+        refreashInfos();
+        saveLauncher();
+        saveBuiltInApps();
         refreashInfos();
     }
 
@@ -178,19 +172,62 @@ public class AppManager {
         return input;
     }
 
-    private void saveLauncherInfo() {
+    private void installBuiltInApp(String path, String id, int launcher) throws Exception {
+        path = path + id;
+        InputStream input = getAssetsFile(path + "/manifest.json");
+        if (input == null) {
+            input = getAssetsFile(path + "/assets/manifest.json");
+            if (input == null) return;
+        }
+        AppInfo builtInInfo = installer.parseManifest(input, launcher);
+
+        AppInfo installedInfo = getAppInfo(id);
+        Boolean needInstall = true;
+        if (installedInfo != null) {
+            if (builtInInfo.version_code > installedInfo.version_code) {
+                installer.unInstall(installedInfo, true);
+            }
+            else {
+                needInstall = false;
+            }
+        }
+
+        if (needInstall) {
+            installer.copyAssetsFolder(path, appsPath + builtInInfo.app_id);
+            builtInInfo.built_in = 1;
+            dbAdapter.addAppInfo(builtInInfo);
+        }
+    }
+
+    private void saveLauncher() {
+        try {
+            installBuiltInApp("www/", "launcher", 1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveBuiltInApps(){
         AssetManager manager = activity.getAssets();
         try {
-            String path = "www/launcher";
-            InputStream input = getAssetsFile(path + "/manifest.json");
-            if (input == null) {
-                input = getAssetsFile(path + "/assets/manifest.json");
-                if (input == null) return;
+            String[] appdirs= manager.list("www/built-in");
+
+            for (String appdir : appdirs) {
+                installBuiltInApp("www/built-in/", appdir, 0);
             }
-            AppInfo info = installer.parseManifest(input, 1);
-            installer.copyAssetsFolder(path, appsPath + info.app_id);
-            info.built_in = 1;
-            dbAdapter.addAppInfo(info);
+
+            for (int i = 0; i < appList.length; i++) {
+                boolean needDelete = true;
+                for (String appdir : appdirs) {
+                    if (appdir.equals(appList[i].app_id)) {
+                        needDelete = false;
+                        break;
+                    }
+                }
+                if (needDelete) {
+                    unInstall(appList[i].app_id, false);
+                }
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -307,32 +344,6 @@ public class AppManager {
         return origin;
     }
 
-    public void saveBuiltInAppInfos(){
-        AssetManager manager = activity.getAssets();
-        try {
-            String[] appdirs= manager.list("www/built-in");
-            for (String appdir : appdirs) {
-                boolean needInstall = true;
-                for (int i = 0; i < appList.length; i++) {
-                    if (appdir.equals(appList[i].app_id)) {
-                        needInstall = false;
-                        break;
-                    }
-                }
-
-                if (needInstall) {
-                    installer.copyAssetsFolder("www/built-in/" + appdir, appsPath + appdir);
-                    AppInfo info = installer.getInfoByManifest(appsPath + appdir + "/");
-                    info.built_in = 1;
-                    dbAdapter.addAppInfo(info);
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public AppInfo install(String url, boolean update) throws Exception  {
         AppInfo info = installer.install(url, update);
         if (info != null) {
@@ -349,7 +360,7 @@ public class AppManager {
         refreashInfos();
         if (!update) {
            if (info.built_in == 1) {
-               saveBuiltInAppInfos();
+               installBuiltInApp("www/built-in/", info.app_id, 0);
                refreashInfos();
            }
            sendRefreshList("unInstalled", info);

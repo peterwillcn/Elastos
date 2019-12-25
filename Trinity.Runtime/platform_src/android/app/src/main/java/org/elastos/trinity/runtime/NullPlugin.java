@@ -36,7 +36,8 @@ public class NullPlugin extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        callbackContext.error("Access to plugin '" + pluginName + "' is forbidden as it has not been added to plugins list in the app manifest.");
+        String errorMessage = "Access to plugin '" + pluginName + "' is forbidden as it has not been added to plugins list in the app manifest.";
+        callbackContext.error(errorMessage);
         return false;
     }
 }

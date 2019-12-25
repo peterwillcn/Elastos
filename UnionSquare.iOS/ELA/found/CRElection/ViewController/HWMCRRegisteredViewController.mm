@@ -61,7 +61,7 @@
     // Do any additional setup after loading the view from its nib.
     [self.confirmToRunButton setTitle:NSLocalizedString(@"确认参选", nil) forState:UIControlStateNormal];
     
-    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.MemberNameTextField withTxt:NSLocalizedString(@"请输入委员名称（必填）", nil)];
+    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.MemberNameTextField withTxt:NSLocalizedString(@"请输入参选昵称（必填）", nil)];
     [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.CountryORRegionTextField withTxt:NSLocalizedString(@"请选择国家/地区", nil)];
     [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.URLTextField withTxt:NSLocalizedString(@"请输入竞选网址", nil)];
     self.MemberNameTextField.delegate=self;
@@ -130,7 +130,7 @@
 
 - (IBAction)confirmToRunEvent:(id)sender {
     if (self.MemberNameTextField.text.length==0) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入委员名称（必填）", nil)];
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入参选昵称（必填）", nil)];
         return;
     }
 //    if (self.CountryORRegionTextField.text.length==0) {
@@ -345,17 +345,17 @@
     
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    NSInteger number=[textField.text charactorNumber];
+    NSInteger number=[string charactorNumber];
     if (textField==self.self.MemberNameTextField) {
          NSLog(@"MemberNameTextField===%ld-----%lu",(long)number,(unsigned long)textField.text.length);
-        if ([textField.text charactorNumber]>100) {
+        if (number>100) {
            
             return NO;
         }
     }
     if (textField==self.URLTextField) {
   NSLog(@"URLTextField===%ld-----%lu",(long)number,(unsigned long)textField.text.length);
-        if ([textField.text charactorNumber]>100) {
+        if (number>100) {
             
                   return NO;
               }

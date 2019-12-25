@@ -104,7 +104,10 @@ public class AuthorityPlugin extends CordovaPlugin {
     private boolean checkApiPermission(String action, CallbackContext callbackContext) {
         boolean ret = permissionGroup.getApiPermission(pluginName, action);
         if (!ret) {
-            callbackContext.error("'" + pluginName + "." + action + "' have not permssion.");
+            String errorMessage = "## '" + pluginName + "." + action + "()' is not allowed in permissions!";
+
+            System.err.println(errorMessage);
+            callbackContext.error(errorMessage);
         }
         return ret;
     }

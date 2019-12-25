@@ -158,7 +158,7 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
            ret =  [dataModel.ownerpublickey isEqualToString:model.ownerpublickey];
             if (ret) {
                 if ([model.state isEqualToString:@"Active"]) {
-                     [self.dataSource addObject:dataModel];
+                     [self.dataSource addObject:model];
                 }
                
             }

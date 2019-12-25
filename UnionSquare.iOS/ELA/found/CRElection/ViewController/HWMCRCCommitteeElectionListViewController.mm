@@ -204,12 +204,36 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
 #pragma mark ---------HMWToDeleteTheWalletPopViewDelegate----------
 -(void)sureToDeleteViewWithPWD:(NSString*)pwd{
     [self clearVoteArray];
-    for (int i= 0; i<36; i++) {
-        NSIndexPath *index = [NSIndexPath indexPathForRow:i inSection:0];
-        [self.baseTableView selectRowAtIndexPath:index animated:YES scrollPosition:UITableViewScrollPositionNone];
-        [self tableView:self.baseTableView didSelectRowAtIndexPath:index];
-    }
-//    self.selectAllBtn.selected=YES;
+    NSString * PnumberVotingString=[[FLTools share]CRVotingTheAverageDistribution:self.blaceString withCRMermVoting:[NSString stringWithFormat:@"%d",36]];
+       //    double PnumberVoting=[PnumberVotingString doubleValue];
+       if (self.WhetherTheAverage) {
+           self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"all_selected"];
+       }else{
+           self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
+               PnumberVotingString=@"";
+                [self.voteArray removeAllObjects];
+           }
+   self.TheRemainingAvailable=[[FLTools share]CRVotingDecimalNumberByMultiplying:PnumberVotingString withCRMermVoting:[NSString stringWithFormat:@"%d",36]];
+    NSIndexPath *index;
+   for (int i=0; i<36; i++) {
+       index=[NSIndexPath indexPathForRow:i inSection:0];
+         HWMCRListModel *model = self.dataSource[i];
+        model.SinceVotes=PnumberVotingString;
+       if (self.WhetherTheAverage) {
+           model.isCellSelected=YES;
+             [self.voteArray addObject:model];
+          }else{
+          model.isCellSelected=NO;
+   
+          }
+
+       HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
+       cell.model=model;
+       cell.numberVotingTextField.text= model.SinceVotes;
+       self.dataSource[i]=model;
+   }
+   [self.baseTableView reloadData];
+    [self UpdateTheRemainingAvailable];
     [self toCancelOrCloseDelegate];
 }
 -(void)toCancelOrCloseDelegate{

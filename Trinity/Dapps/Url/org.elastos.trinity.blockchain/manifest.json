@@ -9,7 +9,7 @@
     "type": "url",
     "icons": [
         {
-            "src": "icon/favicon.ico",
+            "src": "icon/logo.png",
             "sizes": "120x120",
             "type": "image/png"
         }

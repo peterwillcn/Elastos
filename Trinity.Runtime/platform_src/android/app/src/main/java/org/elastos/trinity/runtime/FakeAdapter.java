@@ -6,8 +6,8 @@ import java.io.InputStream;
 
 public class FakeAdapter implements DIDAdapter {
     @Override
-    public boolean createIdTransaction(String payload, String memo) {
-        return false;
+    public String createIdTransaction(String payload, String memo) {
+        return "";
     }
 
     @Override

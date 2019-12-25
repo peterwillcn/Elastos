@@ -256,7 +256,7 @@
                 FLCoinPointInfoModel *model=self.dataSource[i];
 //                 NSLog(@"model.state===%@",model.state);
 //                if (self.needFind){
-                    
+                model.index=self.ActiveArray.count;
                     if ([model.nodepublickey isEqualToString:self.NodePublicKey]){
                         
                         if ([model.state isEqualToString:@"Active"]){
@@ -372,7 +372,7 @@
 - (IBAction)myVoteButton:(id)sender {
     HMWtheCandidateListViewController * vc = [[HMWtheCandidateListViewController alloc]init];
     vc.persent = self.votingListV.lab1.text ;
-    vc.lastTimeArray=self.dataSource;
+    vc.lastTimeArray=self.ActiveArray;
     [self.navigationController pushViewController:vc animated:YES];
 }
 -(void)closeViewDele{

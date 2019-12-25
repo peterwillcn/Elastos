@@ -626,6 +626,8 @@
 "退出参选"="Withdraw From Election";
 "(已退出)"="(Withdrawn Successfully)";
 "票数不能为空"="Votes cannot be empty";
+"我已阅读并同意以上条款"="I have read and agreed with the above provisions";
+"请输入参选昵称（必填）"="Enter Nickname(required)";
 "节点简介"="Node Introduction";
 "    退出参选72小时后，方可提取质押金"="The deposit is not available for withdrawal for 72 hours after quitting";
 

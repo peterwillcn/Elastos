@@ -551,8 +551,40 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "272"
             endingLineNumber = "272"
-            landmarkName = "-toCancelOrCloseDelegate"
+            landmarkName = "-sureToDeleteViewWithPWD:"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "69CF51F2-2CC3-4083-8DD6-EA774630D664 - 85e733d9aca6c118"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[FLManageSelectPointNodeInformationVC sureToDeleteViewWithPWD:]"
+                  moduleName = "REGNET"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/SuperPoint/ViewController/FLManageSelectPointNodeInformationVC.mm"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "272"
+                  endingLineNumber = "272"
+                  offsetFromSymbolStart = "1608">
+               </Location>
+               <Location
+                  uuid = "69CF51F2-2CC3-4083-8DD6-EA774630D664 - 85e733d9aca6c118"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[FLManageSelectPointNodeInformationVC sureToDeleteViewWithPWD:]"
+                  moduleName = "REGNET"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/SuperPoint/ViewController/FLManageSelectPointNodeInformationVC.mm"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "272"
+                  endingLineNumber = "272"
+                  offsetFromSymbolStart = "1648">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -917,9 +949,9 @@
                   urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "650"
-                  endingLineNumber = "650"
-                  offsetFromSymbolStart = "416">
+                  startingLineNumber = "674"
+                  endingLineNumber = "674"
+                  offsetFromSymbolStart = "328">
                </Location>
                <Location
                   uuid = "0703E897-FFB5-4437-8AD6-D04786168D9C - 5d4e5df330ff9aae"
@@ -932,9 +964,9 @@
                   urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "650"
-                  endingLineNumber = "650"
-                  offsetFromSymbolStart = "447">
+                  startingLineNumber = "674"
+                  endingLineNumber = "674"
+                  offsetFromSymbolStart = "352">
                </Location>
             </Locations>
          </BreakpointContent>

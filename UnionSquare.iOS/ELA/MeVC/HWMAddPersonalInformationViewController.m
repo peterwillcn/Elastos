@@ -70,6 +70,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 }
 -(void)skipVCEvent{
     HWMAddPersonalProfileViewController *AddPersonalProfileVC=[[HWMAddPersonalProfileViewController alloc]init];
+    AddPersonalProfileVC.model=self.model;
     [self.navigationController pushViewController:AddPersonalProfileVC animated:YES];
     
 }
@@ -248,6 +249,18 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     
     self.model.genderString=[NSString stringWithFormat:@"%lu",(unsigned long)genderType];
     [self.table reloadData];
+}
+-(void)selectDataWithYY:(NSString *)yy withMM:(NSString *)mm wihMMWithInt:(NSInteger)mInt wtihDD:(NSString *)dd{
+    
+  
+               
+      
+            
+    self.model.DateBirthString=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@",yy,mm,dd]];
+        
+         [self.table reloadData];
+        [self cancelDataListView];
+    
 }
 
 -(void)selectTheCountryAreasModel:(NSDictionary*)modelDic{

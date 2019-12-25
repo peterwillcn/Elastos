@@ -6,10 +6,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HWMDIDInfoModel.h"
+
+
+
+@protocol HWMDIDInfoViewControllerDelegate <NSObject>
+
+-(void)needUpdateDIDInfo;
+
+@end
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMDIDInfoViewController : UIViewController
+@property(strong,nonatomic)HWMDIDInfoModel *model;
+@property(strong,nonatomic)id<HWMDIDInfoViewControllerDelegate>delegate;
 
 @end
 

@@ -89,7 +89,16 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  *<# #>
  */
-@property(copy,nonatomic)NSMutableArray * SocialAccountArray;
+@property(copy,nonatomic)NSMutableDictionary * SocialAccountDic;
+
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString * introductionInfoString;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString * editTimeString;
 @end
 
 NS_ASSUME_NONNULL_END

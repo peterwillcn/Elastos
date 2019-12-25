@@ -365,7 +365,7 @@ NSString *httpIP=[[FLTools share]http_IpFast];
         [self hiddenSendSuccessPopuV];
         [self.navigationController popViewControllerAnimated: YES];
     });
-
+}
 -(void)setModel:(FLCoinPointInfoModel *)model{
     _model=model;
 }

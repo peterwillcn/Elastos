@@ -11,10 +11,12 @@
 #import "HWMDIDListNormalTableViewCell.h"
 #import "HMWFMDBManager.h"
 #import "ELWalletManager.h"
+#import "HWMDIDInfoViewController.h"
+
 static NSString *AbnormalCellString=@"HWMDIDListAbnormalTableViewCell";
 static NSString *normalCellString=@"HWMDIDListNormalTableViewCell";
 
-@interface HWMDIDListViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface HWMDIDListViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDInfoViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *HasBeenReleasedButton;
 @property (weak, nonatomic) IBOutlet UIButton *theDraftButton;
 @property (weak, nonatomic) IBOutlet UIView *HasBeenReleaseView;
@@ -56,6 +58,27 @@ static NSString *normalCellString=@"HWMDIDListNormalTableViewCell";
     [self.theDraftButton setTitle:NSLocalizedString(@"草稿", nil) forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mine_did_add"] style:UIBarButtonItemStyleDone target:self action:@selector(creatDIDEvent)];
     [self selectHasBeenReleased];
+    [self getDIDListArray];
+}
+-(void)getDIDListArray{
+    self.theDraftDIDdataSorse=[[HMWFMDBManager sharedManagerType:DIDInfoType]allSelectDIDWithWallID:@""];
+ 
+    
+    
+
+    for (FMDBWalletModel *model in self.walletListArray) {
+        invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[model.walletID,@"IDChain",@"0",@"100"] callbackId:model.walletID className:@"wallet" methodName:@"createMasterWallet"];
+          PluginResult * resultBase =[[ELWalletManager share]getDetailsDIDlist:cmommand];
+            NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
+        
+ 
+     
+    }
+    
+    
+    
+    
+    
 }
 -(NSMutableArray *)RelDIDArray{
     if (_RelDIDArray) {
@@ -106,18 +129,19 @@ static NSString *normalCellString=@"HWMDIDListNormalTableViewCell";
        self.table.delegate =self;
        self.table.dataSource =self;
     self.table.backgroundColor=[UIColor clearColor];
-//    self.table.tableHeaderView
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.isRel) {
     HWMDIDListNormalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:normalCellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        cell.model=self.releDIDdataSorse[indexPath.section];
     return cell;
     }else{
     HWMDIDListAbnormalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:AbnormalCellString];
     cell.timeLeftConOff.constant=0;
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    cell.model=self.theDraftDIDdataSorse[indexPath.section];
     return cell;
     }
   
@@ -127,11 +151,25 @@ static NSString *normalCellString=@"HWMDIDListNormalTableViewCell";
     return 1;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
+   if (self.isRel) {
+    return self.releDIDdataSorse.count;
+       }else{
+    return self.theDraftDIDdataSorse.count;
+       }
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    if (self.isRel) {
+     
+      }else{
+          HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
+          
+          DIDInfoVC.delegate=self;
+          [self.navigationController pushViewController:DIDInfoVC animated:YES];
+      }
+    
+    
+    
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -167,6 +205,17 @@ static NSString *normalCellString=@"HWMDIDListNormalTableViewCell";
     self.theDraftView.alpha=1.f;
     self.isRel=NO;
     [self.table reloadData];
+    
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    
+    return 0.01;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 10.f;
+}
+-(void)needUpdateDIDInfo{
+    [self getDIDListArray];
     
 }
 @end

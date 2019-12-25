@@ -29,5 +29,13 @@
 
     // Configure the view for the selected state
 }
-
+-(void)setModel:(HWMDIDInfoModel *)model{
+    _model =model;
+    
+    self.DIDNameLabel.text=model.didName;
+    self.stateLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"上次编辑:",nil),[[FLTools share] YMDCommunityTimeConversToAllFromTimesTamp:model.editTimeString]];
+    
+    
+    
+}
 @end

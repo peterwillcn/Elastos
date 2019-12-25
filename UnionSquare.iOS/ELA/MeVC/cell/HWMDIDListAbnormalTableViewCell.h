@@ -6,12 +6,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "HWMDIDInfoModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMDIDListAbnormalTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *timeLeftConOff;
-
+@property(strong,nonatomic)HWMDIDInfoModel *model;
 @end
 
 NS_ASSUME_NONNULL_END

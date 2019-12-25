@@ -72,6 +72,15 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
     [self getDIDListArray];
 }
 -(void)getDIDListArray{
+    
+    if ([[HMWFMDBManager sharedManagerType:DIDInfoType]allSelectDIDWithWallID:@""]) {
+        self.hasDID=YES;
+        NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:0];
+                 [self.table reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+    }
+    
+    
+    if (self.hasDID==NO) {
     for (FMDBWalletModel *model in self.walletListArray) {
         invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[model.walletID,@"IDChain",@"0",@"100"] callbackId:model.walletID className:@"wallet" methodName:@"createMasterWallet"];
           PluginResult * resultBase =[[ELWalletManager share]getDetailsDIDlist:cmommand];
@@ -85,6 +94,13 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
         }
         
     }
+     
+    }
+    
+    
+    
+    
+    
 }
 
 -(NSMutableArray *)walletListArray{

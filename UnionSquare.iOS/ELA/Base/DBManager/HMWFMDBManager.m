@@ -38,7 +38,7 @@ static HMWFMDBManager * _manager =nil;
         
     }else if (type==DIDInfoType){
 
-            sql =@"create table if not exists DIDInfo(ID integer primary key AUTOINCREMENT,walletID text,expires text,didName text,operation text,issuanceDate text,status text,did text,PubKeyString text,nameString text,nickNameString text,genderString text,DateBirthString text,iconUrlString text,emailString text,MobilePhoneNoString text,areMobilePhoneNoString text,countriesString text,SocialAccountArray text)";
+            sql =@"create table if not exists DIDInfo(ID integer primary key AUTOINCREMENT,walletID text,expires text,didName text,operation text,issuanceDate text,status text,did text,PubKeyString text,nameString text,nickNameString text,genderString text,DateBirthString text,iconUrlString text,emailString text,MobilePhoneNoString text,areMobilePhoneNoString text,countriesString text,SocialAccountDic text,introductionInfoString text,editTimeString text)";
         
     }
     static dispatch_once_t onceToken;
@@ -176,17 +176,17 @@ static HMWFMDBManager * _manager =nil;
             p.thePercentageMax=@"100";
             
         }
-        if (p.thePercentageCurr.length==0) {
-            NSString *thePercentageCurr = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ INTEGER",@"sideChain",@"thePercentageCurr"];
-            BOOL Currworked = [_manager executeUpdate:thePercentageCurr];
-            if(Currworked){
-                NSLog(@"thePercentageCurr插入成功");
-            }else{
-                NSLog(@"thePercentageCurr插入失败");
-            }
-            p.thePercentageCurr=@"100";
-            
-        }
+//        if (p.thePercentageCurr.length==0) {
+//            NSString *thePercentageCurr = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ INTEGER",@"sideChain",@"thePercentageCurr"];
+//            BOOL Currworked = [_manager executeUpdate:thePercentageCurr];
+//            if(Currworked){
+//                NSLog(@"thePercentageCurr插入成功");
+//            }else{
+//                NSLog(@"thePercentageCurr插入失败");
+//            }
+//            p.thePercentageCurr=@"100";
+//            
+//        }
         [allRecords addObject:p]; NSLog(@"本地存储==%@===%@==%@==%@====%@",p.walletID,p.sideChainName,p.thePercentageCurr,p.thePercentageMax,p.sideChainNameTime);
         
         
@@ -573,7 +573,7 @@ static HMWFMDBManager * _manager =nil;
 -(BOOL)addDIDCR:(HWMDIDInfoModel*)Model withWallID:(NSString*)walletID{
     
     
-//          sql =@"create table if not exists DIDInfo(ID integer primary key AUTOINCREMENT,walletID text,expires text,didName text,operation text,issuanceDate text,status text,did text,PubKeyString text,nameString text,nickNameString text,genderString text,DateBirthString text,iconUrlString text,emailString text,MobilePhoneNoString text,areMobilePhoneNoString text,countriesString text,SocialAccountArray text)";
+//          sql =@"create table if not exists DIDInfo(ID integer primary key AUTOINCREMENT,walletID text,expires text,didName text,operation text,issuanceDate text,status text,did text,PubKeyString text,nameString text,nickNameString text,genderString text,DateBirthString text,iconUrlString text,emailString text,MobilePhoneNoString text,areMobilePhoneNoString text,countriesString text,SocialAccountDic text)";
     
     
     if ([self selectDIDWithWalletID:walletID andWithDID:Model.did]) {
@@ -583,9 +583,10 @@ static HMWFMDBManager * _manager =nil;
            return NO;
     }else{
     
-    NSString *sql =@"insert into DIDInfo(walletID,expires,didName,operation,issuanceDate,status,did,PubKeyString,nameString,nickNameString,genderString,DateBirthString,iconUrlString,emailString,MobilePhoneNoString,areMobilePhoneNoString,countriesString,SocialAccountArray) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        NSString *SocialAccountString=[Model.SocialAccountArray jsonStringEncoded];
-    if ([self executeUpdate:sql,walletID,Model.expires,Model.didName,Model.operation,Model.issuanceDate,Model.status,Model.did,Model.PubKeyString,Model.nameString,Model.nickNameString,Model.genderString,Model.DateBirthString,Model.iconUrlString,Model.emailString,Model.MobilePhoneNoString,Model.areMobilePhoneNoString,Model.countriesString,SocialAccountString]) {
+    NSString *sql =@"insert into DIDInfo(walletID,expires,didName,operation,issuanceDate,status,did,PubKeyString,nameString,nickNameString,genderString,DateBirthString,iconUrlString,emailString,MobilePhoneNoString,areMobilePhoneNoString,countriesString,SocialAccountDic,introductionInfoString,editTimeString;) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        NSString *SocialAccountString=[[FLTools share]DicToString:Model.SocialAccountDic];
+
+    if ([self executeUpdate:sql,walletID,Model.expires,Model.didName,Model.operation,Model.issuanceDate,Model.status,Model.did,Model.PubKeyString,Model.nameString,Model.nickNameString,Model.genderString,Model.DateBirthString,Model.iconUrlString,Model.emailString,Model.MobilePhoneNoString,Model.areMobilePhoneNoString,Model.countriesString,SocialAccountString,Model.introductionInfoString,Model.editTimeString]) {
         return YES;
     }
         
@@ -623,8 +624,10 @@ static HMWFMDBManager * _manager =nil;
           Model.MobilePhoneNoString=[set objectForColumn:@"MobilePhoneNoString"];
           Model.areMobilePhoneNoString=[set objectForColumn:@"areMobilePhoneNoString"];
           Model.countriesString=[set objectForColumn:@"countriesString"];
-          NSString *SocialAccountArrayString=[set objectForColumn:@"SocialAccountArray"];
-          Model.SocialAccountArray=[NSMutableArray arrayWithArray:[NSArray arrayWithPlistString:SocialAccountArrayString]];
+          Model.editTimeString=[set objectForColumn:@"editTimeString"];
+          Model.introductionInfoString=[set objectForColumn:@"introductionInfoString"];
+          NSString *SocialAccountDicString=[set objectForColumn:@"SocialAccountDic"];
+          Model.SocialAccountDic=[NSMutableDictionary dictionaryWithDictionary:[[FLTools share] dictionaryWithJsonString:SocialAccountDicString]];
           [allRecords addObject:Model];
       }
       return allRecords;
@@ -657,8 +660,10 @@ static HMWFMDBManager * _manager =nil;
                  Model.MobilePhoneNoString=[set objectForColumn:@"MobilePhoneNoString"];
                  Model.areMobilePhoneNoString=[set objectForColumn:@"areMobilePhoneNoString"];
                  Model.countriesString=[set objectForColumn:@"countriesString"];
-                 NSString *SocialAccountArrayString=[set objectForColumn:@"SocialAccountArray"];
-                 Model.SocialAccountArray=[NSMutableArray arrayWithArray:[NSArray arrayWithPlistString:SocialAccountArrayString]];
+                Model.editTimeString=[set objectForColumn:@"editTimeString"];
+                 Model.introductionInfoString=[set objectForColumn:@"introductionInfoString"];
+                 NSString *SocialAccountDicString=[set objectForColumn:@"SocialAccountDic"];
+                Model.SocialAccountDic=[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]dictionaryWithJsonString:SocialAccountDicString]];
         return  Model;
     }
     return nil;
@@ -668,9 +673,9 @@ static HMWFMDBManager * _manager =nil;
     if ([self selectDIDWithWalletID:walletID andWithDID:Model.did]) {
         
         
-         NSString *sql =@"Update DIDInfo set expires=?,didName=?,operation=?,issuanceDate=?,status=?,PubKeyString=?,nameString=?,nickNameString=?,genderString=?,DateBirthString=?,iconUrlString=?,emailString=?,MobilePhoneNoString=?,areMobilePhoneNoString=?,countriesString=?,SocialAccountArray=? where walletID=? and did=?)";
-             NSString *SocialAccountString=[Model.SocialAccountArray jsonStringEncoded];
-         if ([self executeUpdate:sql,Model.expires,Model.didName,Model.operation,Model.issuanceDate,Model.status,Model.PubKeyString,Model.nameString,Model.nickNameString,Model.genderString,Model.DateBirthString,Model.iconUrlString,Model.emailString,Model.MobilePhoneNoString,Model.areMobilePhoneNoString,Model.countriesString,SocialAccountString,walletID,Model.did]) {
+         NSString *sql =@"Update DIDInfo set expires=?,didName=?,operation=?,issuanceDate=?,status=?,PubKeyString=?,nameString=?,nickNameString=?,genderString=?,DateBirthString=?,iconUrlString=?,emailString=?,MobilePhoneNoString=?,areMobilePhoneNoString=?,countriesString=?,SocialAccountDic=?,introductionInfoString=?,editTimeString=? where walletID=? and did=?)";
+        NSString *SocialAccountString=[[FLTools share]DicToString:Model.SocialAccountDic];
+         if ([self executeUpdate:sql,Model.expires,Model.didName,Model.operation,Model.issuanceDate,Model.status,Model.PubKeyString,Model.nameString,Model.nickNameString,Model.genderString,Model.DateBirthString,Model.iconUrlString,Model.emailString,Model.MobilePhoneNoString,Model.areMobilePhoneNoString,Model.countriesString,SocialAccountString,Model.introductionInfoString,Model.editTimeString,walletID,Model.did]) {
              return YES;
          }
              

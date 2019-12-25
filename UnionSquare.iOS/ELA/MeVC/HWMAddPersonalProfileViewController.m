@@ -46,8 +46,9 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
     return _skipButton;
 }
 -(void)skipVCEvent{
+     [self.view endEditing:YES];
     HWMAddSocialAccountViewController *AddSocialAccountVC=[[HWMAddSocialAccountViewController alloc]init];
-    [self.view endEditing:YES];
+   
     [self.navigationController pushViewController:AddSocialAccountVC animated:YES];
     
 }
@@ -72,7 +73,13 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
     if ([self.infoTextView.text isEqualToString:placeHText]||self.infoTextView.text.length==0) {
            self.infoTextView.text=placeHText;
            self.infoTextView.textColor=RGBA(255, 255, 255, 0.5);
-       }
+    }else{
+        self.model.introductionInfoString=self.infoTextView.text;
+    }
     
+}
+
+-(void)setModel:(HWMDIDInfoModel *)model{
+    _model=model;
 }
 @end

@@ -6,11 +6,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HWMDIDInfoModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMAddSocialAccountViewController : UIViewController
-
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)HWMDIDInfoModel *model;
 @end
 
 NS_ASSUME_NONNULL_END

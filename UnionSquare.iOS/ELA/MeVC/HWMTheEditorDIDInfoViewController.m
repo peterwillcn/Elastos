@@ -27,19 +27,21 @@
     [self.updatesButton setTitle:NSLocalizedString(@"更新发布", nil) forState:UIControlStateNormal];
 }
 - (IBAction)changeTimeDataInfoEvent:(id)sender {
+    [self.view endEditing:YES];
 }
 - (IBAction)updatesEvent:(id)sender {
-
+[self.view endEditing:YES];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)setModel:(HWMDIDInfoModel *)model{
+    _model=model;
+    self.nickNameLabel.text=model.didName;
+    self.publicKeyLabel.text=model.PubKeyString;
+    self.DIDLabel.text=[NSString stringWithFormat:@"did:ela:%@",model.did];
+    self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.issuanceDate]];
 }
-*/
-
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    
+    [self.view endEditing:YES];
+}
 @end

@@ -8,9 +8,6 @@
 #import "HWMDIDInfoTableViewCell.h"
 
 @interface HWMDIDInfoTableViewCell ()
-@property (weak, nonatomic) IBOutlet UILabel *leftTextLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *arrImageView;
-@property (weak, nonatomic) IBOutlet UILabel *infoLabel;
 
 @end
 

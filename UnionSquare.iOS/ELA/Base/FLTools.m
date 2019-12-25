@@ -1071,6 +1071,9 @@ return  result.stringValue;
 }
 -(NSString*)DicToString:(NSDictionary*)dic{
     NSError*  errn;
+    if (dic==nil) {
+        return @"";
+    }
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:& errn];
     if (errn) {
         

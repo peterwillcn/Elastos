@@ -32,5 +32,9 @@
 }
 - (IBAction)copyDIDaddressEvent:(id)sender {
 }
-
+-(void)setModel:(HWMDIDInfoModel *)model{
+    _model=model;
+    
+    
+}
 @end

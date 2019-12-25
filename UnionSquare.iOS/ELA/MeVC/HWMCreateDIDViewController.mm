@@ -333,7 +333,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     self.dataListView=nil;
 }
 -(void)selectDataWithYY:(NSString*_Nullable)yy withMM:(NSString*_Nullable)mm wihMMWithInt:(NSInteger)mInt wtihDD:(NSString*_Nullable)dd{
-    self.YYMMDD=[NSString stringWithFormat:@"%@ %@-%@-%@",NSLocalizedString(@"有效期至 ",nil),yy,mm,dd];
+    self.YYMMDD=[NSString stringWithFormat:@"%@ %@.%@.%@",NSLocalizedString(@"有效期至 ",nil),yy,mm,dd];
     [self.table reloadData];
     self.DIDInfoModel.issuanceDate=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@ 00:00:00",yy,mm,dd]];
     [self cancelDataListView];

@@ -17,7 +17,8 @@ static const NSString *WOCrashSeparatorWithFlag = @">>>>>>>>>>>>>>>>>>>>>>>> WOC
 }
 
 + (void)printCrashMsg:(NSString *)crashMsg {
-    NSLog(@"\n*****************\n\nCrashProtector:  %@\n\n*****************\n",crashMsg);
+    
+    DLog(@"\n*****************\n\nCrashProtector:  %@\n\n*****************\n",crashMsg);
 }
 
 + (void)wo_noteErrorWithException:(NSException *)exception attachedTODO:(NSString *)todo {

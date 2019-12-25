@@ -9,12 +9,13 @@
 #import "HWMCreateDIDListTableViewCell.h"
 #import "HWMTransactionDetailsView.h"
 #import "HMWSendSuccessPopuView.h"
+#import "HMWFMDBManager.h"
 
 
 static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 
 
-@interface HWMAddSocialAccountViewController ()<UITableViewDelegate,UITableViewDataSource,HWMTransactionDetailsViewDelegate>
+@interface HWMAddSocialAccountViewController ()<UITableViewDelegate,UITableViewDataSource,HWMTransactionDetailsViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *textInfoLabel;
 /*
  *<# #>
@@ -46,8 +47,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 -(void)makeUI{
 
         self.dataSorse =@[NSLocalizedString(@"请输入个人主页网址", nil),NSLocalizedString(@"请输入谷歌账号", nil),NSLocalizedString(@"请输入微软账号", nil),NSLocalizedString(@"请输入Facebook账号",nil),
-               NSLocalizedString(@"请输入Twitter账号", nil),NSLocalizedString(@"请输入微博账号",nil),@[NSLocalizedString(@"请输入微信账号",nil),NSLocalizedString(@"请输入支付宝账号",nil)],
-               NSLocalizedString(@"请选择国家/地区", nil)];
+               NSLocalizedString(@"请输入Twitter账号", nil),NSLocalizedString(@"请输入微博账号",nil),@[NSLocalizedString(@"请输入微信账号",nil),NSLocalizedString(@"请输入支付宝账号",nil)]];
         [self.saveAsDraftButton setTitle:NSLocalizedString(@"存为草稿", nil) forState: UIControlStateNormal];
         [[HMWCommView share]makeBordersWithView:self.saveAsDraftButton];
     [self.DIDInfoReleaseButton setTitle:NSLocalizedString(@"发布", nil) forState: UIControlStateNormal];
@@ -68,12 +68,18 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HWMCreateDIDListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellString];
+    NSString *keyString=self.model.SocialAccountDic[[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     NSString *textString=self.dataSorse[indexPath.row];
 
             cell.arrowImageView.alpha=0.f;
             cell.intPutTextField.placeholder=textString;
+    cell.intPutTextField.delegate=self;
+    cell.intPutTextField.tag=10000+indexPath.row;
             [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:cell.intPutTextField withTxt:textString];
+    if ([[FLTools share]isBlankString:keyString]==NO) {
+        cell.intPutTextField.text=keyString;
+    }
     return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -88,6 +94,14 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 }
 - (IBAction)saveAsDraftEvent:(id)sender {
     [self.view endEditing:YES];
+    if ([[HMWFMDBManager sharedManagerType:DIDInfoType]addDIDCR:self.model withWallID:self.model.walletID]) {
+       [[FLTools share]showErrorInfo:NSLocalizedString(@"存储成功",nil)];
+        
+    }else{
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"存储失败",nil)];
+        
+    }
+    
 }
 - (IBAction)DIDInfoReleaseEvent:(id)sender {
     [self.view endEditing:YES];
@@ -134,6 +148,19 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
         self.sendSuccessPopuV=nil;
         [self.navigationController popViewControllerAnimated:YES];
     });
+    
+}
+-(void)setModel:(HWMDIDInfoModel *)model{
+    _model =model;
+    
+}
+-(void)textFieldDidEndEditing:(UITextField *)textField{
+    
+    NSInteger tag=textField.tag;
+    NSString *keyString;
+    keyString=[NSString stringWithFormat:@"%ld",tag-10000];
+    [self.model.SocialAccountDic setValue:textField.text forKey:keyString];
+    
     
 }
 @end

@@ -36,7 +36,6 @@
     "did": "file:../Plugins/DID",
     "diff": "^3.5.0",
     "elastos-trinity-plugins-carrier": "file:../Plugins/Carrier",
-    "elastos-trinity-plugins-did": "file:../Plugins/DID",
     "elastos-trinity-plugins-hive": "file:../Plugins/Hive",
     "elastos-trinity-plugins-ionicwebview": "file:../Plugins/IonicWebView",
     "elastos-trinity-plugins-media": "file:../Plugins/Media",
@@ -56,9 +55,6 @@
     "plugins": {
       "cordova-plugin-whitelist": {},
       "cordova-plugin-file": {},
-      "elastos-trinity-plugins-appmanager": {
-        "ANDROID_SUPPORT_V4_VERSION": "27.+"
-      },
       "elastos-trinity-plugins-ionicwebview": {
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
@@ -87,7 +83,8 @@
       "cordova-plugin-vibration": {},
       "elastos-trinity-plugins-carrier": {},
       "elastos-trinity-plugins-hive": {},
-      "elastos-trinity-plugins-did": {}
+      "elastos-trinity-plugins-did": {},
+      "elastos-trinity-plugins-appmanager": {}
     },
     "platforms": [
       "android",

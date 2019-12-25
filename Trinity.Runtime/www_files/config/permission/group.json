@@ -6,6 +6,17 @@
         "AppManager": [
             "install",
             "unInstall",
+            "getLocale",
+            "getInfo",
+            "launcher",
+            "start",
+            "close",
+            "sendMessage",
+            "setListener",
+            "sendIntent",
+            "sendUrlIntent",
+            "setIntentListener",
+            "sendIntentResponse",
             "hasPendingIntent"
         ],
         "Clipboard": ["*"],

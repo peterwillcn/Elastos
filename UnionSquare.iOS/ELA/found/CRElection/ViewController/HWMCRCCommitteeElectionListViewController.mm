@@ -213,6 +213,8 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
 }
 #pragma mark ---------HMWToDeleteTheWalletPopViewDelegate----------
 -(void)sureToDeleteViewWithPWD:(NSString*)pwd{
+    
+    
     if (self.moreThan36View.deleteType==moreThan36SelectList) {
     [self clearVoteArray];
     NSString * PnumberVotingString=[[FLTools share]CRVotingTheAverageDistribution:self.blaceString withCRMermVoting:[NSString stringWithFormat:@"%d",36]];
@@ -248,6 +250,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
         [self UpdateTheRemainingAvailable];
         
     }else if (self.moreThan36View.deleteType==voteInvalidType){
+        
             UIView *  mainView =[self mainWindow];
                    [mainView addSubview:self.transactionDetailsView];
                   [self.transactionDetailsView TransactionDetailsWithFee:self.fee withTransactionDetailsAumont:self.TheRemainingAvailable];

@@ -461,8 +461,8 @@
             filePath = "ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "308"
-            endingLineNumber = "308"
+            startingLineNumber = "311"
+            endingLineNumber = "311"
             landmarkName = "-actAction:"
             landmarkType = "7">
             <Locations>
@@ -477,8 +477,8 @@
                   urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "309"
-                  endingLineNumber = "309"
+                  startingLineNumber = "312"
+                  endingLineNumber = "312"
                   offsetFromSymbolStart = "968">
                </Location>
                <Location
@@ -492,8 +492,8 @@
                   urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "309"
-                  endingLineNumber = "309"
+                  startingLineNumber = "312"
+                  endingLineNumber = "312"
                   offsetFromSymbolStart = "1008">
                </Location>
                <Location
@@ -507,8 +507,8 @@
                   urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "309"
-                  endingLineNumber = "309"
+                  startingLineNumber = "312"
+                  endingLineNumber = "312"
                   offsetFromSymbolStart = "1032">
                </Location>
                <Location
@@ -522,8 +522,8 @@
                   urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "309"
-                  endingLineNumber = "309"
+                  startingLineNumber = "312"
+                  endingLineNumber = "312"
                   offsetFromSymbolStart = "1632">
                </Location>
             </Locations>
@@ -539,8 +539,8 @@
             filePath = "ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "448"
-            endingLineNumber = "448"
+            startingLineNumber = "451"
+            endingLineNumber = "451"
             landmarkName = "-editStateChange:"
             landmarkType = "7">
             <Locations>
@@ -555,8 +555,8 @@
                   urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "449"
-                  endingLineNumber = "449"
+                  startingLineNumber = "452"
+                  endingLineNumber = "452"
                   offsetFromSymbolStart = "1404">
                </Location>
                <Location
@@ -570,8 +570,8 @@
                   urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "449"
-                  endingLineNumber = "449"
+                  startingLineNumber = "452"
+                  endingLineNumber = "452"
                   offsetFromSymbolStart = "3320">
                </Location>
                <Location
@@ -585,27 +585,11 @@
                   urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "449"
-                  endingLineNumber = "449"
+                  startingLineNumber = "452"
+                  endingLineNumber = "452"
                   offsetFromSymbolStart = "3344">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8439C7E0-4786-4555-8B98-FB5A19A19304"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "651"
-            endingLineNumber = "651"
-            landmarkName = "-touchesBegan:withEvent:"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -618,25 +602,9 @@
             filePath = "ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "680"
-            endingLineNumber = "680"
+            startingLineNumber = "683"
+            endingLineNumber = "683"
             landmarkName = "-addVoteWithIndex:withVotes:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "0703E897-FFB5-4437-8AD6-D04786168D9C"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "688"
-            endingLineNumber = "688"
-            landmarkName = "-ImmediatelyToVote:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -776,25 +744,9 @@
             filePath = "ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "914"
-            endingLineNumber = "914"
+            startingLineNumber = "917"
+            endingLineNumber = "917"
             landmarkName = "-UpdataLocalOwerlistWirhArray:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "B80F0755-1D39-4736-8DB2-9596A6F5A1C9"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ELA/found/SuperPoint/ViewController/HMWtheCandidateListViewController.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
-            landmarkName = "-viewDidLoad"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -817,22 +769,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "404436F2-A1B3-4F7D-9261-701FBABC04A0"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ELA/found/SuperPoint/ViewController/HMWtheSuperNodeElectionViewController.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "255"
-            endingLineNumber = "255"
-            landmarkName = "-getNetCoinPointArray"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "83A86DF3-B9C5-4761-9A18-AECFA24CCD49"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -842,6 +778,70 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "255"
             endingLineNumber = "255"
+            landmarkName = "-sureToDeleteViewWithPWD:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FDC379B8-AF96-4E1B-9C3D-58241257CB8A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WalletManager/ELWalletManager.mm"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1849"
+            endingLineNumber = "1849"
+            landmarkName = "-CRVoteFeeCRMainchainSubWallet:ToVote:tickets:withInvalidIDArray:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9B35604B-A1E6-4A38-9086-6240DAA9793C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "219"
+            endingLineNumber = "219"
+            landmarkName = "-sureToDeleteViewWithPWD:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3D8CFAE0-1B73-4966-AE4F-4CB9C246BC95"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "262"
+            endingLineNumber = "262"
+            landmarkName = "-sureToDeleteViewWithPWD:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "402FC635-AA08-4218-A71B-5E7279CE835A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
             landmarkName = "-sureToDeleteViewWithPWD:"
             landmarkType = "7">
          </BreakpointContent>

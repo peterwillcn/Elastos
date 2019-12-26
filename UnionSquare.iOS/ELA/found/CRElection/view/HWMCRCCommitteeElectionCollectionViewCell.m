@@ -28,7 +28,7 @@
 -(void)setModel:(HWMCRListModel *)model{
 
     
-    [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:model.url] placeholderImage:[UIImage imageNamed:@"found_vote_initial_r"]];
+    [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:model.url] placeholderImage:[UIImage imageNamed:@"found_vote_initial_F"]];
     
     self.nickNameLabel.text = model.nickname;
     //  self.theValueOfLabel.text = model.votes;

@@ -7,7 +7,6 @@
 //
 
 #import "FLManageSelectPointNodeInformationVC.h"
-
 #import "HMWtheCandidateListViewController.h"
 #import "ELWalletManager.h"
 #import "HMWToDeleteTheWalletPopView.h"
@@ -176,7 +175,7 @@
 -(void)getNetCoinPointArrayWithPubKey:(NSString *)OwnerPublickKey{
 NSString *httpIP=[[FLTools share]http_IpFast];
     
-    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1"} showHUD:NO WithSuccessBlock:^(id data) {
+    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1",@"state":@"all"} showHUD:NO WithSuccessBlock:^(id data) {
         NSDictionary *param = data[@"data"];
         NSArray *dataSource= [NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];
         for (FLCoinPointInfoModel *model in dataSource) {
@@ -257,11 +256,12 @@ NSString *httpIP=[[FLTools share]http_IpFast];
     BOOL ret;
     if (self.CRTypeString.length>0) {
    
-         [self toCancelOrCloseDelegate];
+       
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[walletId,@"ELA",@"",@"",@"0",@"0",@"",@"1"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
           PluginResult * result =[[ELWalletManager share]accessFees:mommand];
           NSString *status=[NSString stringWithFormat:@"%@",result.status];
           if ([status isEqualToString:@"1"]) {
+                [self toCancelOrCloseDelegate];
               UIView *mainView =[self mainWindow];
                  [mainView addSubview:self.transactionDetailsView];
                  [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -271,9 +271,19 @@ NSString *httpIP=[[FLTools share]http_IpFast];
               [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:@""];
           }
     }else{
-       
-        ret = [manager CancelProducer:walletId Pwd:pwd];
-       
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[walletId,@"ELA",@"",@"",@"0",@"0",@"",@"1"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+                 PluginResult * result =[[ELWalletManager share]accessFees:mommand];
+                 NSString *status=[NSString stringWithFormat:@"%@",result.status];
+                 if ([status isEqualToString:@"1"]) {
+                       [self toCancelOrCloseDelegate];
+                     UIView *mainView =[self mainWindow];
+                        [mainView addSubview:self.transactionDetailsView];
+                        [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
+                            make.left.right.top.bottom.equalTo(mainView);
+                        }];
+                     NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",result.message[@"success"]]];
+                     [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:@""];
+                 }
     }
     if (ret) {
             [self.navigationController popViewControllerAnimated: YES];
@@ -332,17 +342,24 @@ NSString *httpIP=[[FLTools share]http_IpFast];
 }
 
 -(void)pwdAndInfoWithPWD:(NSString*)pwd{
-    ELWalletManager *manager = [ELWalletManager share];
-           NSString *walletId =  manager.currentWallet.masterWalletID;
-  bool  ret = [manager CancelCRProducer:walletId Pwd:pwd];
-
-    if (ret) {
-     
-        [self closeTransactionDetailsView];
-        [self showSendSuccessPopuV];
-        
-  
-    }
+    bool  ret;
+     ELWalletManager *manager = [ELWalletManager share];
+    NSString *walletId =  manager.currentWallet.masterWalletID;
+      if (self.CRTypeString.length>0) {
+      ret = [manager CancelCRProducer:walletId Pwd:pwd];
+          
+      }else{
+          
+             ret = [manager CancelProducer:walletId Pwd:pwd];
+          
+      }
+      if (ret) {
+       
+          [self closeTransactionDetailsView];
+          [self showSendSuccessPopuV];
+          
+    
+      }
 }
 -(void)hiddenSendSuccessPopuV{
     [self.sendSuccessPopuV removeFromSuperview];

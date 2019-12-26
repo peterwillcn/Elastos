@@ -31,7 +31,8 @@ typedef NS_ENUM(NSInteger, HMWToDeleteType) {
    UtxoChangeWhole,
     deleteCRVote,
     openIDChainType,
-    NeedsSavedType
+    NeedsSavedType,
+    voteInvalidType
     
    
 };

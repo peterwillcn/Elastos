@@ -75,10 +75,13 @@
             [self.delegate sureToDeleteViewWithPWD:@""];
         }
     }else if (self.deleteType==deleteSelectVote){
-        [self addSubview:self.securityVerificationPopV];
-        [self.securityVerificationPopV mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.top.bottom.equalTo(self);
-        }];
+        if(self.delegate){
+            [self.delegate sureToDeleteViewWithPWD:@""];
+        }
+//        [self addSubview:self.securityVerificationPopV];
+//        [self.securityVerificationPopV mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.right.top.bottom.equalTo(self);
+//        }];
     }else if (self.deleteType==moreThan36SelectList){
 //        self.titlePopLabel.text=NSLocalizedString(@"超出投票选择上限，是否在已选列表中按排名顺序选择前36名？", nil);
         if(self.delegate){
@@ -157,6 +160,10 @@
     }else if (deleteType==NeedsSavedType){
         self.titlePopLabel.text= NSLocalizedString(@"该钱包尚未开启ID侧链，是否 \n 立即开启", nil);
         [self.sureToDeleteButton setTitle:NSLocalizedString(@"去开启", nil) forState:UIControlStateNormal];
+        
+    }else if (deleteType==voteInvalidType){
+        self.titlePopLabel.text= NSLocalizedString(@"账户余额不足，将使之前的投票结果失效。是否继续交易？", nil);
+         [self.sureToDeleteButton setTitle:NSLocalizedString(@"确定", nil) forState:UIControlStateNormal];
         
     }
 }

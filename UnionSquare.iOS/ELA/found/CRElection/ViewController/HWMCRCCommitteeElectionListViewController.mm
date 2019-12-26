@@ -18,6 +18,7 @@
 #import "HWMTransactionDetailsView.h"
 #import "HWMSignatureTradingSingleQrCodeViewController.h"
 
+
 static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
 @interface HWMCRCCommitteeElectionListViewController ()<UITableViewDelegate,UITableViewDataSource,HMWpwdPopupViewDelegate,VotesPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HWMVoteTheEditorialBoardTableViewCellDeleate,UITextFieldDelegate,HWMTransactionDetailsViewDelegate,HWMVoteTheEditorialBoardTableViewCellDeleate>
 @property(strong,nonatomic)HMWSendSuccessPopuView *sendSuccessPopuV;//交易成功 提示;
@@ -82,6 +83,14 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
  *<# #>
  */
 @property(copy,nonatomic)NSString *jsonString;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSArray *invalidDopsArray;/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *fee;
+
 
 @end
 
@@ -102,7 +111,8 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     CGFloat proFlo=[[self.persent substringToIndex:self.persent.length-1]floatValue]/100;
     self.progress.progress = proFlo;
     self.TheRemainingAvailable=@"0";
-   
+    self.invalidDopsArray=[NSArray array];
+    [self LoadInvalidDops];
     
  
 }
@@ -188,12 +198,12 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     if (!_moreThan36View) {
         _moreThan36View =[[HMWToDeleteTheWalletPopView alloc]init];
         _moreThan36View.delegate=self;
-        _moreThan36View.deleteType=moreThan36SelectList;
     }
     return _moreThan36View;
 }
 -(void)selectMoreThan36{
     UIView *maView=[self mainWindow];
+     self.moreThan36View.deleteType=moreThan36SelectList;
     [maView addSubview:self.moreThan36View];
     [self.moreThan36View mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(maView);
@@ -203,6 +213,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
 }
 #pragma mark ---------HMWToDeleteTheWalletPopViewDelegate----------
 -(void)sureToDeleteViewWithPWD:(NSString*)pwd{
+    if (self.moreThan36View.deleteType==moreThan36SelectList) {
     [self clearVoteArray];
     NSString * PnumberVotingString=[[FLTools share]CRVotingTheAverageDistribution:self.blaceString withCRMermVoting:[NSString stringWithFormat:@"%d",36]];
        //    double PnumberVoting=[PnumberVotingString doubleValue];
@@ -232,8 +243,19 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
        cell.numberVotingTextField.text= model.SinceVotes;
        self.dataSource[i]=model;
    }
+        self.TheAverageDistributionButton.selected=YES;
    [self.baseTableView reloadData];
-    [self UpdateTheRemainingAvailable];
+        [self UpdateTheRemainingAvailable];
+        
+    }else if (self.moreThan36View.deleteType==voteInvalidType){
+            UIView *  mainView =[self mainWindow];
+                   [mainView addSubview:self.transactionDetailsView];
+                  [self.transactionDetailsView TransactionDetailsWithFee:self.fee withTransactionDetailsAumont:self.TheRemainingAvailable];
+                   [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
+                       make.left.top.right.bottom.equalTo(mainView);
+                   }];
+        }
+    
     [self toCancelOrCloseDelegate];
 }
 -(void)toCancelOrCloseDelegate{
@@ -384,7 +406,6 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self.view endEditing:YES];
-    
 }
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -711,23 +732,36 @@ NSString * availableString=[[FLTools share]CRVotingDecimalNumberBySubtracting:se
     }
 
 
-        NSDictionary *dic =[[ELWalletManager share]CRVoteFeeCRMainchainSubWallet:self.wallet.masterWalletID ToVote:CRDic tickets: 0];
+        NSDictionary *dic =[[ELWalletManager share]CRVoteFeeCRMainchainSubWallet:self.wallet.masterWalletID ToVote:CRDic tickets: 0 withInvalidIDArray:self.invalidDopsArray];
 
 
-    NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",dic[@"fee"]]];
-    if ([fee doubleValue]<0) {
-        [self closeTransactionDetailsView];
-        return;
-    }
+    self.fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",dic[@"fee"]]];
+ 
     
 self.jsonString=dic[@"JSON"];
-    
+
+NSArray *DorpVotes=dic[@"DorpVotes"];
+
+  if ([self.fee doubleValue]<0) {
+      [self closeTransactionDetailsView];
+      return;
+  }
+   UIView *mainView =[self mainWindow];
+  if (DorpVotes.count>0) {
+      [mainView addSubview:self.moreThan36View];
+      self.moreThan36View.deleteType=voteInvalidType;
+      [self.moreThan36View mas_makeConstraints:^(MASConstraintMaker *make) {
+               make.left.top.right.bottom.equalTo(mainView);
+           }];
+  }else{
     UIView *mainView =[self mainWindow];
     [mainView addSubview:self.transactionDetailsView];
-    [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:self.TheRemainingAvailable];
+    [self.transactionDetailsView TransactionDetailsWithFee:self.fee withTransactionDetailsAumont:self.TheRemainingAvailable];
     [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.bottom.equalTo(mainView);
     }];
+      
+  }
 }
 -(HWMTransactionDetailsView *)transactionDetailsView{
     
@@ -858,5 +892,37 @@ self.jsonString=dic[@"JSON"];
 }
 -(void)setTotalvotes:(NSString *)totalvotes{
     _totalvotes=totalvotes;
+}
+-(void)LoadInvalidDops{
+        NSString *httpIP=[[FLTools share]http_IpFast];
+        [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1",@"state":@"all"} showHUD:NO WithSuccessBlock:^(id data) {
+            NSDictionary *param = data[@"data"];
+            NSArray *dataArray =[NSArray modelArrayWithClass:HWMCRListModel.class json:param[@"result"][@"crcandidatesinfo"]];
+           
+            [self UpdataLocalOwerlistWirhArray:dataArray];
+        } WithFailBlock:^(id data) {
+            
+        }];
+}
+-(void)UpdataLocalOwerlistWirhArray:(NSArray*)array{
+       
+        FLWallet *waller = [ELWalletManager share].currentWallet;
+              IMainchainSubWallet *subWallet = [[ELWalletManager share]getWalletELASubWallet:waller.masterWalletID];
+              Json cArray = subWallet->GetVotedProducerList();
+              NSString *dataStr = [NSString stringWithUTF8String:cArray.dump().c_str()];
+              NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+              NSMutableArray *showlistdata = [NSMutableArray array];
+      for (int i=0; i<array.count; i++) {
+         FLCoinPointInfoModel *model = array[i];
+        for (int j = 0;j<param.allKeys.count; j++) {
+             NSString *itemKey = param.allKeys[j];
+            if ([model.nodepublickey isEqualToString:itemKey]&& (![model.state isEqualToString:@"Active"])) {
+                [showlistdata addObject:model.nodepublickey];
+            }
+        }
+        
+    }
+    self.invalidDopsArray=@[@{@"Type":@"Delegate",
+                           @"Candidates":showlistdata}];
 }
 @end

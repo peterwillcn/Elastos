@@ -295,7 +295,7 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     }
     if (self.wallet.TypeW==0) {
         NSString *walletId = [ELWalletManager share].currentWallet.masterWalletID;
-        BOOL ret = [[ELWalletManager share]useMainchainSubWallet:walletId ToVote:stringArray tickets:self.ticket pwd:pwd isChangeVote:YES];
+        BOOL ret = [[ELWalletManager share]useMainchainSubWallet:walletId ToVote:stringArray tickets:self.ticket pwd:pwd isChangeVote:YES withInvalidIDArray:self.invalidCRArray];
         if (ret) {
           [[FLTools share]showErrorInfo:NSLocalizedString(@"变更成功",nil)];
         }
@@ -391,6 +391,8 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     return _placeHolferImage;
     
 }
-
+-(void)setInvalidCRArray:(NSArray *)invalidCRArray{
+    _invalidCRArray=invalidCRArray;
+}
 
 @end

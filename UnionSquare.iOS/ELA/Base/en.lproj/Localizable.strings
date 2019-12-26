@@ -290,7 +290,7 @@
 "查看候选列表" = "View Candidate List";
 "我的候选列表"="My candidate List";
 "当前票数"="Current Votes";
-"投票占比"="Vote Percentage";
+"投票占比"="Voting Ratio";
 "确定"="Confirm";
 "更新信息"="Update Information";
 "投票数量-1"="Number of Voting";
@@ -628,7 +628,14 @@
 "票数不能为空"="Votes cannot be empty";
 "我已阅读并同意以上条款"="I have read and agreed with the above provisions";
 "请输入参选昵称（必填）"="Enter Nickname(required)";
+"账户余额不足，将使之前的投票结果失效。是否继续交易？"="Previous vote is invalid due to insufficient balance. Continue?";
+"委员信息"="About Council Members";
+"提取质押金"="Node Introduction";
+"共"="Total";
 "节点简介"="Node Introduction";
+"提取质押金"="Retrieve deposit";
+"候选节点已失效"="Candidate nodes are invalid";
+
 "    退出参选72小时后，方可提取质押金"="The deposit is not available for withdrawal for 72 hours after quitting";
 
 

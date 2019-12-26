@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,strong)NSString *persent;
 @property(nonatomic,strong)NSMutableArray *lastTimeArray;
+@property(nonatomic,strong)NSArray *invalidCRArray;
 
 @end
 

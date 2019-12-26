@@ -107,11 +107,15 @@
         if(self.delegate){
                             [self.delegate sureToDeleteViewWithPWD:@""];
                         }
-         [self.delegate sureToDeleteViewWithPWD:@""];
+       
 //         [self addSubview:self.securityVerificationPopV];
 //              [self.securityVerificationPopV mas_makeConstraints:^(MASConstraintMaker *make) {
 //                  make.left.right.top.bottom.equalTo(self);
 //              }];
+    }else if (self.deleteType==voteInvalidType){
+        if(self.delegate){
+        [self.delegate sureToDeleteViewWithPWD:@""];
+        }
     }
   
 

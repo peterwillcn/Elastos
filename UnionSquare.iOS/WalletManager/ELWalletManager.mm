@@ -1845,7 +1845,7 @@ errCodeSPVCreateMasterWalletError= 20006;
                 Json tx = mainchainSubWallet->CreateVoteCRTransaction("",Json::parse(keys),"",InvalidJson);
                  NSString *resultString=[self stringWithCString:tx.dump()];
                   NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
-                 NSArray *DorpVotes=resultdic[@"DorpVotes"];
+                 NSArray *DorpVotes=resultdic[@"DropVotes"];
                  return @{@"fee":resultdic[@"Fee"],@"JSON":resultString,@"DorpVotes":DorpVotes};
              } catch (const std:: exception & e ) {
                  NSString *errString=[self stringWithCString:e.what()];
@@ -1890,7 +1890,7 @@ errCodeSPVCreateMasterWalletError= 20006;
          nlohmann::json tx = mainchainSubWallet->CreateVoteProducerTransaction("", acount,Json::parse(keys),"",InvalidJson);
         NSString *resultString=[self stringWithCString:tx.dump()];
         NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
-        NSArray *DorpVotes=resultdic[@"DorpVotes"];
+        NSArray *DorpVotes=resultdic[@"DropVotes"];
         return @{@"fee":resultdic[@"Fee"],@"JSON":resultString,@"DorpVotes":DorpVotes};
 
      } catch (const std:: exception & e ) {

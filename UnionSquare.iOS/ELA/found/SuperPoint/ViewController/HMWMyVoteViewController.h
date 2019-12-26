@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(assign,nonatomic)MyVoteVotingListType VoteType;
 @property(copy,nonatomic)NSString * persent;
 
+
 @end
 
 NS_ASSUME_NONNULL_END

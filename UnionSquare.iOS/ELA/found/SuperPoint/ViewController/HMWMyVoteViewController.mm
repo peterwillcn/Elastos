@@ -70,6 +70,7 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
        NSString *dataStr = [NSString stringWithUTF8String:cArray.dump().c_str()];
        NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
        NSMutableArray *showlistdata = [NSMutableArray array];
+    NSMutableArray *NActive = [NSMutableArray array];
        NSInteger total =0;
        for (int i=0; i<self.listData.count; i++) {
           HWMCRListModel *model = self.listData[i];
@@ -79,8 +80,15 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
                if ([model.did isEqualToString:itemKey]) {
                    double sinceVd=[param[itemKey] doubleValue];
                    model.SinceVotes = @(sinceVd/unitNumber).stringValue;
-                   [showlistdata addObject:model];
+        
                    total+=[param[itemKey] integerValue];
+                   if ([model.state isEqualToString:@"Active"]) {
+                    [showlistdata addObject:model];
+                    }else{
+                        [NActive addObject:model];
+                    }
+                   
+                   
                }
            }
            
@@ -96,6 +104,7 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     }
   
             self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_unlocked"];
+       [showlistdata addObjectsFromArray:NActive];
        self.dataSource = showlistdata;
        if (self.dataSource.count==0) {
            self.changeVotesButton.alpha=0.f;
@@ -235,9 +244,6 @@ if (self.dataSource.count==0) {
            vc.persent = self.persent ;
            vc.lastTimeArray=self.listData;
            [self.navigationController pushViewController:vc animated:YES];
-        
-//      FLChangeVotedTicketsVC *vc = [[FLChangeVotedTicketsVC alloc]init];
-//        [self.navigationController pushViewController:vc animated:YES];
      }else if (self.VoteType==MyVoteCRType){
          HWMCRCCommitteeElectionListViewController *vc=[[HWMCRCCommitteeElectionListViewController alloc]init];
          vc.lastArray=self.ActivData;

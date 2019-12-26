@@ -258,7 +258,7 @@
     [self.URLTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mas_left).offset(0);
         make.top.equalTo( self.countryRegionTextLabel.mas_bottom).offset(20);
-        make.size.mas_equalTo(CGSizeMake(80, 30));
+        make.size.mas_equalTo(CGSizeMake(90, 30));
     }];
     [self addSubview:self.URLLabel];
     [self.URLLabel mas_makeConstraints:^(MASConstraintMaker *make) {

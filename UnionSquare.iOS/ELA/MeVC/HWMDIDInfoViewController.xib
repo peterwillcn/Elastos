@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -70,7 +70,7 @@
                 <constraint firstItem="JtO-qn-jMh" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="5xF-lY-0G6"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="EUw-7s-DjF" secondAttribute="trailing" constant="63" id="6bZ-ZS-PEg"/>
                 <constraint firstItem="S0R-Kz-Kro" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="63" id="Dpk-Uh-i2u"/>
-                <constraint firstItem="EUw-7s-DjF" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="bottom" constant="-357" id="I7s-MI-sId"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="S0R-Kz-Kro" secondAttribute="bottom" constant="50" id="EOc-DQ-nWn"/>
                 <constraint firstItem="S0R-Kz-Kro" firstAttribute="top" secondItem="EUw-7s-DjF" secondAttribute="bottom" constant="20" id="Mn3-BY-mRW"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="JtO-qn-jMh" secondAttribute="trailing" id="ROG-Rm-Fim"/>
                 <constraint firstItem="EUw-7s-DjF" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="63" id="SI9-sh-S1G"/>
@@ -78,7 +78,6 @@
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="JtO-qn-jMh" secondAttribute="bottom" id="ajZ-Yr-tBr"/>
                 <constraint firstItem="AD2-pe-qdv" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="of2-GV-cEb"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="S0R-Kz-Kro" secondAttribute="trailing" constant="63" id="uri-1E-Oeg"/>
-                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="S0R-Kz-Kro" secondAttribute="bottom" constant="50" id="wr5-lv-ayP"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
             <point key="canvasLocation" x="137.68115942028987" y="122.54464285714285"/>

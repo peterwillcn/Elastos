@@ -48,7 +48,7 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
 -(void)skipVCEvent{
      [self.view endEditing:YES];
     HWMAddSocialAccountViewController *AddSocialAccountVC=[[HWMAddSocialAccountViewController alloc]init];
-   
+    AddSocialAccountVC.model=self.model;
     [self.navigationController pushViewController:AddSocialAccountVC animated:YES];
     
 }

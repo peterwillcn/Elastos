@@ -31,7 +31,7 @@
 }
 -(void)setModel:(HWMDIDInfoModel *)model{
     _model =model;
-    
+    self.timeLabel.alpha=0.f;
     self.DIDNameLabel.text=model.didName;
     self.stateLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"上次编辑:",nil),[[FLTools share] YMDCommunityTimeConversToAllFromTimesTamp:model.editTimeString]];
     

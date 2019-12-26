@@ -37,6 +37,7 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
     [self.theEditorButton setTitle:NSLocalizedString(@"编辑", nil) forState:UIControlStateNormal];
     [self.ConfidentialInformationButton setTitle:NSLocalizedString(@"凭证信息", nil) forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"del_icon"] style:UIBarButtonItemStyleDone target:self action:@selector(deleteDIDEvent)];
+    [self makeUI];
 }
 -(NSArray *)dataArray{
     if (!_dataArray) {
@@ -73,12 +74,12 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
            self.table.delegate =self;
            self.table.dataSource =self;
         self.table.backgroundColor=[UIColor clearColor];
-
+        [self.table reloadData];
         
     }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
     {
-       ;
+
       HWMDIDInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellString];
         cell.leftTextLabel.text=self.dataArray[indexPath.row];
         switch (indexPath.row) {
@@ -109,7 +110,7 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
     }
     -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
     {
-        return 4;
+        return self.dataArray.count;
     }
     -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     {

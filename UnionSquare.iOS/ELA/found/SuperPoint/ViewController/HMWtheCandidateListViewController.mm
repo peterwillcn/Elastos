@@ -323,7 +323,8 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 
      double ticket=[ticketNumer doubleValue];
     if (isMax==NO) {
-        if ([ticketNumer doubleValue]>self.maxBlance) {
+        if ([ticketNumer doubleValue]>(self.maxBlance-0.01)) {
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"余额不足", nil)];
                 return;
             }
         if ([[FLTools share]isBlankString:ticketNumer]) {

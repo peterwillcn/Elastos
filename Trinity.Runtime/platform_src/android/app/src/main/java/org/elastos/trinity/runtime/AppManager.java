@@ -151,6 +151,7 @@ public class AppManager {
         saveLauncher();
         saveBuiltInApps();
         refreashInfos();
+        copyConfigFiles();//remove this after upgrade spvsdk v0.5.0
     }
 
     public static AppManager getShareInstance() {

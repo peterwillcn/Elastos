@@ -5,7 +5,7 @@ environment:
   nodejs_version: "10"
 
 install:
-  - ps: Install-Product node $env:nodejs_version
+  - ps: Install-Product node $env:nodejs_version x64
   - echo y| "%ANDROID_HOME%\tools\android.bat" update sdk -u -a -t tools
   - echo y| "%ANDROID_HOME%\tools\android.bat" update sdk -u -a -t platform-tools
   - echo y| "%ANDROID_HOME%\tools\android.bat" update sdk -u -a -t build-tools-27.0.0

@@ -51,8 +51,6 @@ module.exports = class DIDHelper {
             while (typedInfo.password != typedInfo.passwordRepeat)
             console.log("")
 
-            // TMP BEN: Mnemonic: stuff silent betray cherry balcony humor trip spy power pool behind lawn
-
             const spawn = require("child_process").spawn;
             const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/create_did","-r","appdid","-p",typedInfo.password,"-s",typedInfo.password]);
 
@@ -235,44 +233,52 @@ module.exports = class DIDHelper {
      * Checks that a given DID exists on the DID sidechain using a centralized RPC API
      */
     async _checkDIDPresenceOnSidechain() {
-        return new Promise(async (resolve, reject)=>{
-            try {
-                this.didCreationCheckRetryCount++
-                this.didCreationSpinnerMessage = "Querying DID sidechain... ("+this.didCreationCheckRetryCount+")"
+        return new Promise((resolve, reject)=>{
+            var rootScriptDirectory = path.dirname(require.main.filename)
 
-                let response = await axios({
-                    method:"post",
-                    url: "https://coreservices-didsidechain-privnet.elastos.org",     // Use this.targetDIDUrl in params
-                    data: {
-                        "method": "getidtxspayloads",
-                        "params":{
-                            "id": this.targetDIDUrl,
-                            "all": false // Only the latest entry
+            this.didCreationCheckRetryCount++
+            this.didCreationSpinnerMessage = "Querying DID sidechain... (Retry "+this.didCreationCheckRetryCount+") - Not found yet."
+
+            const spawn = require("child_process").spawn;
+            const pythonProcess = spawn('python3',[rootScriptDirectory+"/toolchain/did_resolve","-r","appdid","-d",this.targetDIDUrl]);
+
+            var output = "";
+
+            pythonProcess.stdout.on('data', function (data) { output += data });
+            pythonProcess.stderr.on('data', function (data) { console.log(''+data)});
+            pythonProcess.on('error', function(err) { reject(err)})
+
+            pythonProcess.on('exit', function (code) {
+                if (code == 0) {
+                    // Successfully queried the DID sidechain. Now check the returned document
+                    try {
+                        let jsonOutput = JSON.parse(output)
+                        
+                        let status = jsonOutput.status;
+                        if (status == "empty") {
+                            // Nothing to do, keep retrying
                         }
-                    },
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
+                        else if (status == "error") {
+                            console.error("Error while checking DID status...");
+                            // Nothing else to do, keep retrying
+                        }
+                        else if (status == "success") {
+                            this.createdDIDFoundOnSidechain = true;    
+                            this._stopCheckingDIDCreated();
+                        }
 
-                if (!response || !response.data) {
-                    console.error("Failed to get response from the RPC API...")
-                    console.log(response)
+                        resolve()
+                    }
+                    catch(e) {
+                        reject('Invalid JSON output from did_resolve' + output)
+                        return
+                    }
                 }
                 else {
-                    if (response.data.result) {
-                        console.log("found")
-                        this.createdDIDFoundOnSidechain = true;    
-                        this._stopCheckingDIDCreated()  
-                    }
+                    console.log(output);
+                    reject('Child process exited with code ' + code)
                 }
-            }
-            catch (e) {
-                //console.log(e.response)
-                //console.error(e)
-            }
-
-            resolve()
-        })
+            }); 
+        });
     }
 }

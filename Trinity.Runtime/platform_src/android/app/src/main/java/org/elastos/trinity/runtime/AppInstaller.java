@@ -264,6 +264,7 @@ public class AppInstaller {
     }
 
     public AppInfo install(String url, boolean update) throws Exception {
+        Log.d("AppInstaller", "Install url="+url+" update="+update);
         InputStream inputStream = null;
         AppInfo info = null;
         String downloadPkgPath = null;
@@ -343,13 +344,18 @@ public class AppInstaller {
         AppInfo oldInfo = AppManager.getShareInstance().getAppInfo(info.app_id);
         if (oldInfo != null) {
             if (update) {
+                Log.d("AppInstaller", "install() - uninstalling "+info.app_id+" - update = true");
                 AppManager.getShareInstance().unInstall(info.app_id, true);
             }
             else {
+                Log.d("AppInstaller", "install() - update = false - deleting all files");
                 deleteAllFiles(from);
                 deleteDAppPackage(downloadPkgPath);
                 throw new Exception("App '" + info.app_id + "' already existed!");
             }
+        }
+        else {
+            Log.d("AppInstaller", "install() - No old info - nothing to uninstall or delete");
         }
 
         File to = new File(appPath, info.app_id);
@@ -368,6 +374,8 @@ public class AppInstaller {
         if (!root.exists()) {
             return false;
         }
+
+        Log.d("AppInstaller", "Delete all files at "+root.getAbsolutePath());
 
         File files[] = root.listFiles();
         if (files != null) {
@@ -391,6 +399,8 @@ public class AppInstaller {
             throw new Exception("No such app!");
         }
 
+        Log.d("AppInstaller", "unInstall for "+info.app_id);
+
 //        if (info.built_in == 1) {
 //            throw new Exception("App is a built in!");
 //        }
@@ -402,6 +412,7 @@ public class AppInstaller {
         File root = new File(appPath + info.app_id);
         deleteAllFiles(root);
         if (!update) {
+            Log.d("AppInstaller", "unInstall() - update = false - deleting all files");
             root = new File(dataPath + info.app_id);
             deleteAllFiles(root);
             root = new File(tempPath + info.app_id);

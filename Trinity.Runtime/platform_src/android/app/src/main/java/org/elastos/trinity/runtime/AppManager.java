@@ -31,6 +31,7 @@ import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 
 import org.apache.cordova.PluginManager;
@@ -162,6 +163,9 @@ public class AppManager {
     private InputStream getAssetsFile(String path) {
         InputStream input = null;
 
+        if (!new File(path).exists())
+            return null;
+
         AssetManager manager = activity.getAssets();
         try {
             input = manager.open(path);
@@ -174,11 +178,16 @@ public class AppManager {
     }
 
     private void installBuiltInApp(String path, String id, int launcher) throws Exception {
+        Log.d("AppManager", "Entering installBuiltInApp path="+path+" id="+id+" launcher="+launcher);
+
         path = path + id;
         InputStream input = getAssetsFile(path + "/manifest.json");
         if (input == null) {
             input = getAssetsFile(path + "/assets/manifest.json");
-            if (input == null) return;
+            if (input == null) {
+                Log.e("AppManager", "No manifest found, returning");
+                return;
+            }
         }
         AppInfo builtInInfo = installer.parseManifest(input, launcher);
 
@@ -186,14 +195,20 @@ public class AppManager {
         Boolean needInstall = true;
         if (installedInfo != null) {
             if (builtInInfo.version_code > installedInfo.version_code) {
+                Log.d("AppManager", "built in version > installed version: uninstalling installed");
                 installer.unInstall(installedInfo, true);
             }
             else {
+                Log.d("AppManager", "Built in version <= installed version, No need to install");
                 needInstall = false;
             }
         }
+        else {
+            Log.d("AppManager", "No installed info found");
+        }
 
         if (needInstall) {
+            Log.d("AppManager", "Needs install - copying assets and setting built-in to 1");
             installer.copyAssetsFolder(path, appsPath + builtInInfo.app_id);
             builtInInfo.built_in = 1;
             dbAdapter.addAppInfo(builtInInfo);
@@ -208,6 +223,29 @@ public class AppManager {
         }
     }
 
+    /**
+     * USE CASES:
+     *
+     * Built-in dapp -> update using trinity CLI:
+     *  - Should use the uploaded dapp
+     *  - Should not check version_code
+     * Built-in dapp -> downloaded dapp + install():
+     *  - Should install and use only if version code > existing app
+     * Built-in dapp -> downloaded dapp + install() ok -> install new trinity:
+     *  - Should install built-in only if version code > installed
+     * Built-in dapp -> Removed in next trinity version:
+     *  - Do nothing, use can manually uninstall.
+     *
+     *  ALGORITHM:
+     *  - At start:
+     *      - For each built-in app:
+     *          - if version > installed version => install built-in over installed
+     *  - When installing from ADB:
+     *      - Don't check versions, just force install over installed, even if version is equal
+     *  - When installing from dapp store:
+     *      - Install if new version > installed version
+     *
+     */
     public void saveBuiltInApps(){
         AssetManager manager = activity.getAssets();
         try {
@@ -264,7 +302,7 @@ public class AppManager {
     }
 
     public AppInfo getAppInfo(String id) {
-        if (id == "launcher") {
+        if (id.equals("launcher")) {
             return getLauncherInfo();
         }
         else {

@@ -19,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -29,9 +30,11 @@ import java.util.Set;
 import java.util.UUID;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SigningKeyResolver;
 //import org.apache.tomcat.util.codec.binary.Base64;
 
 import org.apache.http.HttpEntity;

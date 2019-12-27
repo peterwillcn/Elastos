@@ -1,3 +1,36 @@
+diff -ruNb origin_plugins/cordova-plugin-device/types/index.d.ts plugins/cordova-plugin-device/types/index.d.ts
+--- origin_plugins/cordova-plugin-device/types/index.d.ts	null
++++ plugins/cordova-plugin-device/types/index.d.ts	null
+@@ -7,8 +7,17 @@
+ /**
+  * This plugin defines a global device object, which describes the device's hardware and software.
+  * Although the object is in the global scope, it is not available until after the deviceready event.
++ * <br><br>
++ * Please use 'Device' as the plugin name in the manifest.json if you want to use
++ * this facility.
++ * <br><br>
++ * Usage:
++ * <br>
++ * device.platform;
+  */
+-interface Device {
++
++declare namespace CordovaDevicePlugin {
++    interface Device {
+     /** Get the version of Cordova running on the device. */
+     cordova: string;
+     /** Indicates that Cordova initialize successfully. */
+@@ -30,6 +39,7 @@
+     isVirtual: boolean;
+     /** Get the device hardware serial number. */
+     serial: string;
++    }
+ }
+ 
+-declare var device: Device;
+\ No newline at end of file
++declare var device: CordovaDevicePlugin.Device;
+\ No newline at end of file
 diff -ruNb origin_plugins/cordova-plugin-device/www/device.js plugins/cordova-plugin-device/www/device.js
 --- origin_plugins/cordova-plugin-device/www/device.js	null
 +++ plugins/cordova-plugin-device/www/device.js	null

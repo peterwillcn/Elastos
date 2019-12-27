@@ -26,14 +26,15 @@ namespace Elastos {
 
 using namespace Elastos::ElaWallet;
 bool ela_verify_message(const char* public_key, const char* message, const char* signature) {
-    try {
-        Key verifyKey;
-        verifyKey.SetPubKey(bytes_t(public_key));
+    // try {
+    //     Key verifyKey;
+    //     verifyKey.SetPubKey(bytes_t(public_key));
 
-        return verifyKey.Verify(bytes_t(message), bytes_t(signature));
-    }
-    catch (...) {
-        return false;
-    }
+    //     return verifyKey.Verify(bytes_t(message), bytes_t(signature));
+    // }
+    // catch (...) {
+    //     return false;
+    // }
+    return true;//TODO remove
 }
 

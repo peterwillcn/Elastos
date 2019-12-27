@@ -13,6 +13,7 @@ static NSString *normalCellString=@"HWMDIDListNormalTableViewCell";
 @property (weak, nonatomic) IBOutlet UIButton *exportButton;
 @property (weak, nonatomic) IBOutlet UIButton *TheImportButton;
 
+@property(copy,nonatomic)NSArray *dataArray;
 @end
 
 @implementation HWMConfidentialInformationViewController
@@ -28,6 +29,12 @@ static NSString *normalCellString=@"HWMDIDListNormalTableViewCell";
     
     [self makeUI];
 }
+-(NSArray *)dataArray{
+    if (!_dataArray) {
+        _dataArray =@[@"个人信息",@"个人简介",@"社交账号"];
+    }
+    return _dataArray;
+}
 -(void)makeUI{
 
     
@@ -35,7 +42,7 @@ static NSString *normalCellString=@"HWMDIDListNormalTableViewCell";
     [self.table registerNib:[UINib nibWithNibName:normalCellString bundle:nil] forCellReuseIdentifier:normalCellString];
         [self.table registerNib:[UINib nibWithNibName:normalCellString bundle:nil] forCellReuseIdentifier:normalCellString];
        self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
-     self.table.rowHeight = 55;
+     self.table.rowHeight = 70;
        self.table.delegate =self;
        self.table.dataSource =self;
     self.table.backgroundColor=[UIColor clearColor];
@@ -62,5 +69,7 @@ static NSString *normalCellString=@"HWMDIDListNormalTableViewCell";
 }
 - (IBAction)TheImportEvent:(id)sender {
 }
-
+-(void)setModel:(HWMDIDInfoModel *)model{
+    _model=model;
+}
 @end

@@ -25,6 +25,11 @@
             [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"编辑DID", nil);
     [self.updatesButton setTitle:NSLocalizedString(@"更新发布", nil) forState:UIControlStateNormal];
+    
+    self.nickNameLabel.text=self.model.didName;
+       self.publicKeyLabel.text=self.model.PubKeyString;
+       self.DIDLabel.text=[NSString stringWithFormat:@"did:ela:%@",self.model.did];
+       self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.issuanceDate]];
 }
 - (IBAction)changeTimeDataInfoEvent:(id)sender {
     [self.view endEditing:YES];
@@ -35,10 +40,6 @@
 
 -(void)setModel:(HWMDIDInfoModel *)model{
     _model=model;
-    self.nickNameLabel.text=model.didName;
-    self.publicKeyLabel.text=model.PubKeyString;
-    self.DIDLabel.text=[NSString stringWithFormat:@"did:ela:%@",model.did];
-    self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.issuanceDate]];
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     

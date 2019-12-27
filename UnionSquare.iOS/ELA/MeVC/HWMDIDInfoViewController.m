@@ -64,6 +64,7 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
 }
 - (IBAction)ConfidentialInformationEvent:(id)sender {
     HWMConfidentialInformationViewController *ConfidentialInformationVC=[[HWMConfidentialInformationViewController alloc]init];
+    ConfidentialInformationVC.model=self.model;
     [self.navigationController pushViewController:ConfidentialInformationVC animated:YES];
 }
 -(void)makeUI{
@@ -94,6 +95,7 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
                 
             break;
             case 3:
+                cell.arrImageView.alpha=0.f;
                 if (self.model.issuanceDate.length>0) {
                     cell.infoLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.issuanceDate]];
                 }

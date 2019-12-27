@@ -24,6 +24,10 @@
     // Configure the view for the selected state
 }
 - (IBAction)copyEvent:(id)sender {
+    if (self.infoLabel.text.length>0) {
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"复制成功", nil)];
+           [[FLTools share]copiedToTheClipboardWithString:self.infoLabel.text];
+    }
 }
 
 @end

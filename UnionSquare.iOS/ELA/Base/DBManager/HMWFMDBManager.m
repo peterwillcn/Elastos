@@ -585,6 +585,7 @@ static HMWFMDBManager * _manager =nil;
     
     NSString *sql =@"insert into DIDInfo(walletID,expires,didName,operation,issuanceDate,status,did,PubKeyString,nameString,nickNameString,genderString,DateBirthString,iconUrlString,emailString,MobilePhoneNoString,areMobilePhoneNoString,countriesString,SocialAccountDic,introductionInfoString,editTimeString) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         NSString *SocialAccountString=[[FLTools share]DicToString:Model.SocialAccountDic];
+         Model.editTimeString=[[FLTools share]getNowTimeTimestamp];
 
     if ([self executeUpdate:sql,walletID,Model.expires,Model.didName,Model.operation,Model.issuanceDate,Model.status,Model.did,Model.PubKeyString,Model.nameString,Model.nickNameString,Model.genderString,Model.DateBirthString,Model.iconUrlString,Model.emailString,Model.MobilePhoneNoString,Model.areMobilePhoneNoString,Model.countriesString,SocialAccountString,Model.introductionInfoString,Model.editTimeString]) {
         return YES;
@@ -675,6 +676,7 @@ static HMWFMDBManager * _manager =nil;
         
          NSString *sql =@"Update DIDInfo set expires=?,didName=?,operation=?,issuanceDate=?,status=?,PubKeyString=?,nameString=?,nickNameString=?,genderString=?,DateBirthString=?,iconUrlString=?,emailString=?,MobilePhoneNoString=?,areMobilePhoneNoString=?,countriesString=?,SocialAccountDic=?,introductionInfoString=?,editTimeString=? where walletID=? and did=?)";
         NSString *SocialAccountString=[[FLTools share]DicToString:Model.SocialAccountDic];
+        Model.editTimeString=[[FLTools share]getNowTimeTimestamp];
          if ([self executeUpdate:sql,Model.expires,Model.didName,Model.operation,Model.issuanceDate,Model.status,Model.PubKeyString,Model.nameString,Model.nickNameString,Model.genderString,Model.DateBirthString,Model.iconUrlString,Model.emailString,Model.MobilePhoneNoString,Model.areMobilePhoneNoString,Model.countriesString,SocialAccountString,Model.introductionInfoString,Model.editTimeString,walletID,Model.did]) {
              return YES;
          }

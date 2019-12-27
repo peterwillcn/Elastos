@@ -13,5 +13,5 @@ syncCode() {
     git submodule update --init --rebase
 }
 
-checkoutMaster
 syncCode
+checkoutMaster

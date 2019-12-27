@@ -218,6 +218,10 @@ public class AppManager {
             }
 
             for (int i = 0; i < appList.length; i++) {
+                if (appList[i].built_in != 1) {
+                    continue;
+                }
+
                 boolean needDelete = true;
                 for (String appdir : appdirs) {
                     if (appdir.equals(appList[i].app_id)) {

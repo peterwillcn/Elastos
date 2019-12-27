@@ -28,6 +28,7 @@
     </platform>
     <preference name="AndroidLaunchMode" value="singleTask" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
+    <preference name="ShowSplashScreenSpinner" value="false" />
     <hook src="scripts/download_3rdparty.js" type="after_platform_add" />
     <hook src="scripts/merge_folders.js" type="after_platform_add" />
     <hook src="scripts/apply_patches.js" type="after_platform_add" />
@@ -40,9 +41,10 @@
     </plugin>
     <plugin name="cordova-plugin-file" spec="../Plugins/File" />
     <plugin name="elastos-trinity-plugins-carrier" spec="../Plugins/Carrier" />
-    <plugin name="elastos-trinity-plugins-hive" spec="../Plugins/Hive" />
     <plugin name="elastos-trinity-plugins-did" spec="../Plugins/DID" />
+    <plugin name="elastos-trinity-plugins-hive" spec="../Plugins/Hive" />
     <plugin name="elastos-trinity-plugins-ionicwebview" spec="../Plugins/IonicWebView" />
+    <plugin name="elastos-trinity-plugins-qrscanner" spec="../Plugins/QRScanner" />
     <plugin name="elastos-trinity-plugins-media" spec="../Plugins/Media">
         <variable name="KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE" value="NO" />
     </plugin>
@@ -59,11 +61,10 @@
     <plugin name="cordova-plugin-inappbrowser" spec="^3.1.0" />
     <plugin name="cordova-plugin-media-capture" spec="^3.0.3" />
     <plugin name="cordova-plugin-network-information" spec="^2.0.2" />
-    <plugin name="elastos-trinity-plugins-qrscanner" spec="../Plugins/QRScanner" />
+    <plugin name="cordova-plugin-screen-orientation" spec="^3.0.2" />
     <plugin name="cordova-plugin-splashscreen" spec="^5.0.3" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.3" />
     <plugin name="cordova-plugin-vibration" spec="^3.1.1" />
-    <plugin name="cordova-plugin-screen-orientation" spec="^3.0.2" />
     <engine name="android" spec="7.1.4" />
     <engine name="ios" spec="4.5.5" />
 </widget>

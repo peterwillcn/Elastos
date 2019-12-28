@@ -40,7 +40,6 @@
     "elastos-trinity-plugins-ionicwebview": "file:../Plugins/IonicWebView",
     "elastos-trinity-plugins-media": "file:../Plugins/Media",
     "elastos-trinity-plugins-qrscanner": "file:../Plugins/QRScanner",
-    "elastos-trinity-plugins-wallet": "file:../Plugins/Wallet",
     "es6-promise-plugin": "^4.2.2",
     "fs": "0.0.1-security",
     "md5-file": "^4.0.0",
@@ -61,7 +60,6 @@
       "elastos-trinity-plugins-media": {
         "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO"
       },
-      "elastos-trinity-plugins-wallet": {},
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-camera": {
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
@@ -84,7 +82,8 @@
       "elastos-trinity-plugins-carrier": {},
       "elastos-trinity-plugins-hive": {},
       "elastos-trinity-plugins-appmanager": {},
-      "elastos-trinity-plugins-did": {}
+      "elastos-trinity-plugins-did": {},
+      "elastos-trinity-plugins-wallet": {}
     },
     "platforms": [
       "android",

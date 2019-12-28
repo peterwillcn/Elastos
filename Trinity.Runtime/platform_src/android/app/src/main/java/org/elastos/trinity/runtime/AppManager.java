@@ -256,6 +256,7 @@ public class AppManager {
             }
 
             for (int i = 0; i < appList.length; i++) {
+                System.err.println("save / app "+appList[i].app_id+" buildin "+appList[i].built_in);
                 if (appList[i].built_in != 1) {
                     continue;
                 }

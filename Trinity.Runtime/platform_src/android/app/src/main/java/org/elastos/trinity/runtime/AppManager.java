@@ -147,12 +147,10 @@ public class AppManager {
         installer = new AppInstaller();
         installer.init(activity, dbAdapter, appsPath, dataPath, tempPath);
 
-//        appList = dbAdapter.getAppInfos();
         refreashInfos();
         saveLauncher();
         saveBuiltInApps();
         refreashInfos();
-        copyConfigFiles();//remove this after upgrade spvsdk v0.5.0
     }
 
     public static AppManager getShareInstance() {

@@ -161,9 +161,6 @@ public class AppManager {
     private InputStream getAssetsFile(String path) {
         InputStream input = null;
 
-        if (!new File(path).exists())
-            return null;
-
         AssetManager manager = activity.getAssets();
         try {
             input = manager.open(path);

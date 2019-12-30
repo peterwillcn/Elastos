@@ -1,8 +1,20 @@
 #/bin/sh
-dir=`dirname $0`
+dir=`pwd`/`dirname $0`
 outdir=$dir/../dist
 pluginsroot=$dir/../../../Plugins
 runtimepluginsroot=$dir/../../../Runtime/plugins
+
+if [ ! -d $pluginsroot ] 
+then
+    echo "Directory $pluginsroot does not exist." 
+    exit -1
+fi
+
+if [ ! -d $runtimepluginsroot ] 
+then
+    echo "Directory $runtimepluginsroot does not exist." 
+    exit -1
+fi
 
 echo ""
 echo -e "\033[32m#########################\033[0m"

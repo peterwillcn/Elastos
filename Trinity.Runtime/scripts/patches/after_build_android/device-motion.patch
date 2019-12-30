@@ -1,16 +1,23 @@
 diff -ruNb origin_plugins/cordova-plugin-device-motion/types/index.d.ts plugins/cordova-plugin-device-motion/types/index.d.ts
 --- origin_plugins/cordova-plugin-device-motion/types/index.d.ts	null
 +++ plugins/cordova-plugin-device-motion/types/index.d.ts	null
-@@ -6,21 +6,25 @@
+@@ -6,21 +6,21 @@
  // Copyright (c) Microsoft Open Technologies Inc
  // Licensed under the MIT license.
  
 -interface Navigator {
 -    /**
-+/**
-      * This plugin provides access to the device's accelerometer. The accelerometer is a motion sensor
-      * that detects the change (delta) in movement relative to the current device orientation,
-      * in three dimensions along the x, y, and z axis.
+-     * This plugin provides access to the device's accelerometer. The accelerometer is a motion sensor
+-     * that detects the change (delta) in movement relative to the current device orientation,
+-     * in three dimensions along the x, y, and z axis.
+-     */
+-    accelerometer: Accelerometer;
+-}
+-
+ /**
+  * This plugin provides access to the device's accelerometer. The accelerometer is a motion sensor
+  * that detects the change (delta) in movement relative to the current device orientation,
+  * in three dimensions along the x, y, and z axis.
 + * <br><br>
 + * Please use 'Accelerometer' as the plugin name in the manifest.json if you want to use
 + * this facility.
@@ -18,25 +25,15 @@ diff -ruNb origin_plugins/cordova-plugin-device-motion/types/index.d.ts plugins/
 + * Usage:
 + * <br>
 + * navigator.accelerometer.getCurrentAcceleration(onSuccess, onError);
-      */
--    accelerometer: Accelerometer;
-+
-+interface Navigator {
-+    accelerometer: CordovaDeviceMotionPlugin.Accelerometer;
- }
- 
--/**
-- * This plugin provides access to the device's accelerometer. The accelerometer is a motion sensor
-- * that detects the change (delta) in movement relative to the current device orientation,
-- * in three dimensions along the x, y, and z axis.
-- */
+  */
 -interface Accelerometer {
++
 +declare namespace CordovaDeviceMotionPlugin {
 +    interface Accelerometer {
      /**
       * Stop watching the Acceleration referenced by the watchID parameter.
       * @param watchID The ID returned by navigator.accelerometer.watchAcceleration.
-@@ -49,14 +53,14 @@
+@@ -49,14 +49,14 @@
          accelerometerSuccess: (acceleration: Acceleration) => void,
          accelerometerError: () => void,
          accelerometerOptions?: AccelerometerOptions): WatchHandle;
@@ -54,7 +51,7 @@ diff -ruNb origin_plugins/cordova-plugin-device-motion/types/index.d.ts plugins/
      /** Amount of acceleration on the x-axis. (in m/s^2) */
      x: number;
      /** Amount of acceleration on the y-axis. (in m/s^2) */
-@@ -65,13 +69,14 @@
+@@ -65,13 +65,18 @@
      z: number;
      /** Creation timestamp in milliseconds. */
      timestamp: number;
@@ -67,14 +64,17 @@ diff -ruNb origin_plugins/cordova-plugin-device-motion/types/index.d.ts plugins/
 +    interface AccelerometerOptions {
      /** How often to retrieve the Acceleration in milliseconds. (Default: 10000) */
      frequency?: number;
--}
 +    }
++
++    /** Abstract type for watch IDs used by Accelerometer. Values of these type are actually `number` at runtime.*/
++    interface WatchHandle { }
+ }
  
 -/** Abstract type for watch IDs used by Accelerometer. Values of these type are actually `number` at runtime.*/
 -interface WatchHandle { }
 \ No newline at end of file
-+    /** Abstract type for watch IDs used by Accelerometer. Values of these type are actually `number` at runtime.*/
-+    interface WatchHandle { }
++interface Navigator {
++    accelerometer: CordovaDeviceMotionPlugin.Accelerometer;
 +}
 \ No newline at end of file
 diff -ruNb origin_plugins/cordova-plugin-device-motion/www/Acceleration.js plugins/cordova-plugin-device-motion/www/Acceleration.js
@@ -83,7 +83,7 @@ diff -ruNb origin_plugins/cordova-plugin-device-motion/www/Acceleration.js plugi
 @@ -19,6 +19,31 @@
   *
  */
-
+ 
 +/**
 + * Contains data captured at a specific point in time.
 + *
@@ -116,7 +116,7 @@ diff -ruNb origin_plugins/cordova-plugin-device-motion/www/accelerometer.js plug
 --- origin_plugins/cordova-plugin-device-motion/www/accelerometer.js	null
 +++ plugins/cordova-plugin-device-motion/www/accelerometer.js	null
 @@ -21,8 +21,25 @@
-
+ 
  /**
   * This class provides access to device accelerometer data.
 - * @constructor

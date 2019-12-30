@@ -246,7 +246,7 @@ if (self.dataSource.count==0) {
            [self.navigationController pushViewController:vc animated:YES];
      }else if (self.VoteType==MyVoteCRType){
          HWMCRCCommitteeElectionListViewController *vc=[[HWMCRCCommitteeElectionListViewController alloc]init];
-         vc.lastArray=self.ActivData;
+         vc.lastArray=self.listData;
          vc.totalvotes=self.totalvotes;
          [self.navigationController pushViewController:vc animated:YES];
          

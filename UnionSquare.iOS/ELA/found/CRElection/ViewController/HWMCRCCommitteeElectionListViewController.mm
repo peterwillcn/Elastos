@@ -124,7 +124,10 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
             if ([model.did isEqualToString:lmodel.did]) {
                 model.SinceVotes=@"";
                 model.isCellSelected=NO;
+                if ([model.state isEqualToString:@"Active"]) {
                 [self.dataSource addObject:model];
+                }
+               
                 
             }
         }
@@ -400,9 +403,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     cell.deleagte=self;
     cell.index=indexPath;
     cell.numberVotingTextField.tag=100+indexPath.row;
-//    if (model.SinceVotes.length==0&&model.isCellSelected==NO) {
-////        cell.numberVotingTextField.text=@"";
-//    }
+  
     cell.model = model;
     return cell;
     
@@ -587,28 +588,47 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
         }
         if (self.WhetherTheAverage) {
          self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"all_selected"];
+            [self.voteArray addObjectsFromArray:self.dataSource];
          }else{
+             [self.voteArray removeAllObjects];
          self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
          }
-         [self.voteArray addObjectsFromArray:self.dataSource];
+         
         return;
     }
     
     NSIndexPath *index;
-  
-
     if (self.dataSource.count>36) {
-        [self selectMoreThan36];
+        if (self.WhetherTheAverage) {
+             [self selectMoreThan36];
+             
+         }else{
+             self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
+             for (int i=0; i<self.dataSource.count; i++) {
+                 index=[NSIndexPath indexPathForRow:i inSection:0];
+                   HWMCRListModel *model = self.dataSource[i];
+                  model.SinceVotes=@"";
+                  model.TextVotes=@"";
+                 if (self.WhetherTheAverage) {
+                     model.isCellSelected=YES;
+                       [self.voteArray addObject:model];
+                    }else{
+                    model.isCellSelected=NO;
+             
+                    }
+
+                 HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
+                 cell.model=model;
+                 cell.numberVotingTextField.text= model.SinceVotes;
+                 self.dataSource[i]=model;
+             }
+                 [self.baseTableView reloadData];
+                 [self UpdateTheRemainingAvailable];
+             }
+             
     }else{
         NSString * PnumberVotingString=[[FLTools share]CRVotingTheAverageDistribution:self.blaceString withCRMermVoting:[NSString stringWithFormat:@"%ld",self.dataSource.count]];
         //    double PnumberVoting=[PnumberVotingString doubleValue];
-        if (self.WhetherTheAverage) {
-            self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"all_selected"];
-        }else{
-            self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
-                PnumberVotingString=@"";
-                 [self.voteArray removeAllObjects];
-            }
     self.TheRemainingAvailable=[[FLTools share]CRVotingDecimalNumberByMultiplying:PnumberVotingString withCRMermVoting:[NSString stringWithFormat:@"%ld",self.dataSource.count]];
     for (int i=0; i<self.dataSource.count; i++) {
         index=[NSIndexPath indexPathForRow:i inSection:0];

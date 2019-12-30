@@ -166,7 +166,13 @@
             return;
         }
     }
-    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,@"ELA",@"",@"",[[FLTools share] elsToSela:@"5000"],@"",@"",@"1"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+    NSString *aumount;
+    if (self.isUpdate) {
+        aumount=@"0";
+    }else{
+         aumount=@"5000";
+    }
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,@"ELA",@"",@"",[[FLTools share] elsToSela:aumount],@"",@"",@"1"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
     PluginResult * result =[[ELWalletManager share]accessFees:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if (![status isEqualToString:@"1"]) {
@@ -181,8 +187,9 @@
         self.transactionDetailsView.popViewTitle=NSLocalizedString(@"交易详情", nil);
           [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:@""];
     }else{
-        [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:@"5000"];
+       [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:aumount];
     }
+       
     [mainView addSubview:self.transactionDetailsView];
   
     [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -190,7 +197,6 @@
     }];
 }
 -(void)updataNodeInfo:(NSString*)pwd{
-            [self closeTransactionDetailsView];
         ELWalletManager *manager   =  [ELWalletManager share];
            IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
            FLJoinVoteInfoModel* model = [[FLJoinVoteInfoModel alloc]init];
@@ -208,11 +214,13 @@
            model.acount     = 5000;
   BOOL ret = [manager UpdateCRProducerWithMainchainSubWallet:manager.currentWallet.masterWalletID With:model];
       if (ret) {
-//          [[FLTools share]showErrorInfo:NSLocalizedString(@"变更成功", nil)];
+           [self closeTransactionDetailsView];
            [self showSendSuccessPopuV];
-      }else{
-          [[FLTools share]showErrorInfo:NSLocalizedString(@"交易失败", nil)];
+          
       }
+//      else{
+//          [[FLTools share]showErrorInfo:NSLocalizedString(@"交易失败", nil)];
+//      }
     
     
 }

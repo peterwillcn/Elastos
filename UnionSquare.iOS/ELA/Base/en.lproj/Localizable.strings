@@ -256,7 +256,7 @@
 
 "暂无候选节点"="No candidate nodes";
 "超级节点选举"="Super node election";
-"报名参选" = "Register";
+"报名参选" = "Registration";
 "选举管理" = "Manage Election";
 "请输入节点名称（必填）"="Enter node name (Required)";
 "节点名称" = "Node Name";
@@ -268,7 +268,7 @@
 "国家/地区" ="country/region";
 "请输入网络地址（必填）"="Enter your network address (Required)";
 "请输入节点官网URL（必填)"="Enter node website URL (Required)";
-"确认参选"="Confirm Registration";
+"确认参选"="Confirm";
 "注销" = "Unregister";
 "添加成功！" = "Added";
 "修改成功！" = "Modified";
@@ -580,7 +580,7 @@
 "请输入竞选网址"="Input Election URL";
 "是否退出本届CR选举？\n一旦退出本届选举，所有投票清零且不可恢复。"="Quit from the CR Election Race?\nAfter quitting, votes are permanently cleared";
 "批量加入候选列表"="Add to Candidate List in Batches";
-"委员DID"="Candidate DID";
+"委员DID"="DID";
 "参选信息"="Candidate Information";
 "全选均分"="All & Average";
 "请输入票数"="Enter number";
@@ -601,7 +601,7 @@
 "暂无候选委员"="No candidate members";
 "参选公钥"="Public key for election";
 "请输入参选昵称（必填）"="Please enter nickname (required)";
-"参选押金"="Election deposit";
+"参选押金"="Deposit";
 "m1"="Jan";
 "m2"="Feb";
 "m3"="Mar";
@@ -635,7 +635,8 @@
 "节点简介"="Node Introduction";
 "提取质押金"="Retrieve deposit";
 "候选节点已失效"="Candidate nodes are invalid";
-
+"去开启"="Open";
+"该钱包尚未开启ID侧链，是否 \n 立即开启"="The wallet has not opened the ID Sidechain.Open it now?";
 "    退出参选72小时后，方可提取质押金"="The deposit is not available for withdrawal for 72 hours after quitting";
 
 

@@ -119,7 +119,13 @@
 
         return;
     }
-    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,@"ELA",@"",@"",[[FLTools share] elsToSela:@"5000"],@"",@"",@"1"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
+    NSString *numberString;
+    if (self.model) {
+        numberString=@"0";
+    }else{
+         numberString=@"5000";
+    }
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,@"ELA",@"",@"",[[FLTools share] elsToSela:numberString],@"",@"",@"1"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"accessFees"];
     PluginResult * result =[[ELWalletManager share]accessFees:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if (![status isEqualToString:@"1"]) {
@@ -131,10 +137,13 @@
      [mainView addSubview:self.transactionDetailsView];
     if (self.model) {
         self.transactionDetailsView.popViewTitle=NSLocalizedString(@"交易详情", nil);
-        [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:@""];
+         [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:@""];
+       
     }else{
-      [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:@"5000"];
+         [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:numberString];
     }
+
+    
     
     [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.bottom.equalTo(mainView);
@@ -160,10 +169,13 @@
     
  BOOL ret = [manager UpdateProducerWithMainchainSubWallet:mainchainSubWallet With:self.model];
     if (ret) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"变更成功", nil)];
-    }else{
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"交易失败", nil)];
+        [self closeTransactionDetailsView];
+        [self showSendSuccessPopuV];
+//        [[FLTools share]showErrorInfo:NSLocalizedString(@"变更成功", nil)];
     }
+//    else{
+//        [[FLTools share]showErrorInfo:NSLocalizedString(@"交易失败", nil)];
+//    }
     
     
     
@@ -258,7 +270,7 @@ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), di
         if (self.model) {
             
             [self updataNodeInfo:pwd];
-            [self closeTransactionDetailsView];
+//            [self closeTransactionDetailsView];
             
         }else{
             

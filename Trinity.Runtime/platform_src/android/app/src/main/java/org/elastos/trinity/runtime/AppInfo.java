@@ -54,6 +54,7 @@
      public static final String LAUNCHER = "launcher";
      public static final String LANGUAGE = "language";
      public static final String ACTION = "act";
+     public static final String START_VISIBLE = "start_visible";
 
      public static final String SRC = "src";
      public static final String SIZES = "sizes";
@@ -93,6 +94,7 @@
      public int    launcher;
      public String category;
      public String key_words;
+     public String start_visible;
 
      public static final int AUTHORITY_NOEXIST = -1;
      public static final int AUTHORITY_NOINIT = 0;

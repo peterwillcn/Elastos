@@ -209,7 +209,7 @@ public class IntentManager {
         else if (claims.get("callbackurl") != null) {
             info.callbackurl = claims.get("callbackurl").toString();
         }
-        info.isJWT = true;
+        info.type = IntentInfo.JWT;
         return ret;
     }
 
@@ -230,9 +230,14 @@ public class IntentManager {
                     if (!info.params.equals("{")) {
                         info.params += ",";
                     }
-                    info.params += "\"" + name + "\":\"" + uri.getQueryParameter(name) + "\"";
+                    String value = uri.getQueryParameter(name);
+                    info.params += "\"" + name + "\":\"" + value + "\"";
+                    if (name.equals("callbackurl")) {
+                        info.callbackurl = value;
+                    }
                 }
                 info.params += "}";
+                info.type = IntentInfo.URL;
             }
             else {
                 if (list.size() == 2) {
@@ -315,7 +320,7 @@ public class IntentManager {
     }
 
     public void sendJWTResponse(AppBasePlugin basePlugin, IntentInfo info, String result) throws Exception {
-        if (info.isJWT) {
+        if (info.type == IntentInfo.JWT) {
             String jwt = createJWT(info, result);
             if (info.redirecturl != null) {
                 String url = info.redirecturl + "/" + jwt;
@@ -333,7 +338,7 @@ public class IntentManager {
             throw new Exception(intentId + " isn't support!");
         }
 
-        if (info.isJWT) {
+        if (info.type == IntentInfo.JWT) {
             sendJWTResponse(basePlugin, info, result);
         }
         else {
@@ -341,9 +346,17 @@ public class IntentManager {
             WebViewFragment fragment = (WebViewFragment) manager.findFragmentByTag(info.fromId);
             if (fragment != null) {
                 appManager.start(info.fromId);
-                info.params = result;
-                info.fromId = fromId;
-                fragment.basePlugin.onReceiveIntentResponse(info);
+                if (info.type == IntentInfo.URL) {
+                    if (info.callbackurl != null) {
+                        String url = info.callbackurl + "?result=" + Uri.encode(result);
+                        fragment.loadUrl(url);
+                    }
+                }
+                else {
+                    info.params = result;
+                    info.fromId = fromId;
+                    fragment.basePlugin.onReceiveIntentResponse(info);
+                }
             }
         }
 

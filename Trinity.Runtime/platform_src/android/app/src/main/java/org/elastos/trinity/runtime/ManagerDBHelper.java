@@ -114,6 +114,7 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
                 AppInfo.SHORT_NAME + " varchar(64), " +
                 AppInfo.DESCRIPTION + " varchar(256), " +
                 AppInfo.START_URL + " varchar(256) NOT NULL, " +
+                AppInfo.START_VISIBLE + " varchar(32), " +
                 AppInfo.TYPE + " varchar(16) NOT NULL, " +
                 AppInfo.AUTHOR_NAME + " varchar(128), " +
                 AppInfo.AUTHOR_EMAIL + " varchar(128), " +

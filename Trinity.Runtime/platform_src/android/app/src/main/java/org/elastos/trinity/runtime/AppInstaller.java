@@ -335,7 +335,7 @@ public class AppInstaller {
 
         info = getInfoByManifest(path);
         File from = new File(appPath, temp);
-        if (info == null || info.app_id == null || info.app_id.equals("launcher")) {
+        if (info == null || info.app_id == null /* || info.app_id.equals("launcher") */) {
             deleteAllFiles(from);
             deleteDAppPackage(downloadPkgPath);
             throw new Exception("App info error!");
@@ -514,6 +514,13 @@ public class AppInstaller {
         }
 
         //Optional
+        if (json.has(AppInfo.START_VISIBLE)) {
+            appInfo.start_visible = json.getString(AppInfo.START_VISIBLE);
+        }
+        else {
+            appInfo.start_visible = "show";
+        }
+
         if (json.has(AppInfo.SHORT_NAME)) {
             appInfo.short_name = json.getString(AppInfo.SHORT_NAME);
         }

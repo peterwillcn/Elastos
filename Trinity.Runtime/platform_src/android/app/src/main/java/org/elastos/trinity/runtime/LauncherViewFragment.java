@@ -73,7 +73,6 @@ import java.util.Locale;
         for(PluginEntry entry:entries) {
             if (entry.service.equals("AppManager")) {
                 basePlugin = new AppBasePlugin();
-                basePlugin.setIsLauncher(true);
                 pluginEntries.add(new PluginEntry(entry.service, entry.pluginClass, true, basePlugin));
             }
             else {

@@ -36,13 +36,10 @@ import android.view.View;
 
 import org.apache.cordova.PluginManager;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -82,6 +79,7 @@ public class AppManager {
     private ArrayList<String> lastList = new ArrayList<String>();
     private ArrayList<String> runningList = new ArrayList<String>();
     public AppInfo[] appList;
+    protected LinkedHashMap<String, Boolean> visibles = new LinkedHashMap<String, Boolean>();
 
     private AppInfo launcherInfo;
 
@@ -136,11 +134,6 @@ public class AppManager {
             destDir.mkdirs();
         }
 
-        destDir = new File(dataPath + "launcher");
-        if (!destDir.exists()) {
-            destDir.mkdirs();
-        }
-
         dbAdapter = new ManagerDBAdapter(activity);
 //        dbAdapter.clean();
 
@@ -151,7 +144,9 @@ public class AppManager {
         saveLauncher();
         saveBuiltInApps();
         refreashInfos();
+        getLauncherInfo();
     }
+
 
     public static AppManager getShareInstance() {
         return AppManager.appManager;
@@ -273,13 +268,22 @@ public class AppManager {
         }
     }
 
-    private void copyConfigFiles() {
-        try {
-            installer.copyAssetsFolder("www/config", configPath);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void setAppVisible(String id, String visible) {
+        if (visible.equals("hide")) {
+            visibles.put(id, false);
         }
+        else {
+            visibles.put(id, true);
+        }
+    }
+
+    public Boolean getAppVisible(String id) {
+        Boolean ret = visibles.get(id);
+        if (ret == null) {
+            return true;
+        }
+        return ret;
     }
 
     public AppInfo getLauncherInfo() {
@@ -289,16 +293,29 @@ public class AppManager {
         return launcherInfo;
     }
 
+    public boolean isLauncher(String appId) {
+        if (appId.equals("launcher") || appId.equals(launcherInfo.app_id)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     private void refreashInfos() {
         appList = dbAdapter.getAppInfos();
         appInfos = new LinkedHashMap();
         for (int i = 0; i < appList.length; i++) {
             appInfos.put(appList[i].app_id, appList[i]);
+            Boolean visible = visibles.get(appList[i].app_id);
+            if (visible == null) {
+                setAppVisible(appList[i].app_id, appList[i].start_visible);
+            }
         }
     }
 
     public AppInfo getAppInfo(String id) {
-        if (id.equals("launcher")) {
+        if (isLauncher(id)) {
             return getLauncherInfo();
         }
         else {
@@ -337,8 +354,8 @@ public class AppManager {
     }
 
     public String getDataPath(String id) {
-        if (id == "launcher") {
-            id = getLauncherInfo().app_id;
+        if (isLauncher(id)) {
+            id = launcherInfo.app_id;
         }
         return dataPath + id + "/";
     }
@@ -349,8 +366,8 @@ public class AppManager {
 
 
     public String getTempPath(String id) {
-        if (id == "launcher") {
-            id = getLauncherInfo().app_id;
+        if (isLauncher(id)) {
+            id = launcherInfo.app_id;
         }
         return tempPath + id + "/";
     }
@@ -407,6 +424,10 @@ public class AppManager {
     }
 
     private WebViewFragment findFragmentById(String id) {
+        if (isLauncher(id)) {
+            id = "launcher";
+        }
+
         FragmentManager manager = activity.getSupportFragmentManager();
         List<Fragment> fragments = manager.getFragments();
         for (int i = 0; i < fragments.size(); i++) {
@@ -453,47 +474,67 @@ public class AppManager {
         lastList.add(0, id);
     }
 
+    private void hideFragment(WebViewFragment fragment, String id) {
+            FragmentManager manager = activity.getSupportFragmentManager();
+            FragmentTransaction transaction = manager.beginTransaction();
+            if (!fragment.isAdded()) {
+                transaction.add(R.id.content, fragment, id);
+            }
+            transaction.hide(fragment);
+            transaction.commit();
+
+            runningList.add(0, id);
+            lastList.add(1, id);
+    }
+
     public boolean doBackPressed() {
-        if (curFragment.id.equals("launcher")) {
+        if (isLauncher(curFragment.id)) {
             return true;
         }
         else {
-            switchContent(findFragmentById("launcher"), "launcher");
+            switchContent(findFragmentById(launcherInfo.app_id), launcherInfo.app_id);
             return false;
         }
     }
 
     public void start(String id) throws Exception {
+        AppInfo info = getAppInfo(id);
+        if (info == null) {
+            throw new Exception("No such app!");
+        }
+
         WebViewFragment fragment = findFragmentById(id);
         if (fragment == null) {
-            if (id.equals("launcher")) {
+            if (isLauncher(id)) {
                 fragment = LauncherViewFragment.newInstance();
             }
             else {
-                AppInfo info = appInfos.get(id);
-                if (info == null) {
-                    throw new Exception("No such app!");
-                }
                 fragment = AppViewFragment.newInstance(id);
                 sendRefreshList("started", info);
             }
 
-            lastList.add(0, id);
-            runningList.add(0, id);
-        }
-        else {
-            if (curFragment != fragment) {
-                switchContent(fragment, id);
+            if (!getAppVisible(id)) {
+                hideFragment(fragment, id);
             }
 
-//            fragment.onResume();
+//            lastList.add(0, id);
+//            runningList.add(0, id);
         }
-        switchContent(fragment, id);
+//        else {
+//            if (curFragment != fragment) {
+//                switchContent(fragment, id);
+//            }
+//            //           fragment.onResume();
+//        }
 
+
+        if (getAppVisible(id)) {
+            switchContent(fragment, id);
+        }
     }
 
     public void close(String id) throws Exception {
-        if (id.equals("launcher")) {
+        if (isLauncher(id)) {
             throw new Exception("Launcher can't close!");
         }
 
@@ -501,6 +542,8 @@ public class AppManager {
         if (info == null) {
             throw new Exception("No such app!");
         }
+
+        setAppVisible(id, info.start_visible);
 
         FragmentManager manager = activity.getSupportFragmentManager();
         WebViewFragment fragment = findFragmentById(id);
@@ -534,7 +577,7 @@ public class AppManager {
     }
 
     public void loadLauncher() throws Exception {
-        start("launcher");
+        start(launcherInfo.app_id);
     }
 
     public void setInstallUri(String uri, boolean dev) {
@@ -582,9 +625,6 @@ public class AppManager {
     }
 
     public void sendMessage(String toId, int type, String msg, String fromId) throws Exception {
-        // if (toId == "launcher") {
-        //     toId = "org.elastos.trinity.remote.launcher";
-        // }
         FragmentManager manager = activity.getSupportFragmentManager();
         WebViewFragment fragment = (WebViewFragment)manager.findFragmentByTag(toId);
         if (fragment != null) {
@@ -867,7 +907,7 @@ public class AppManager {
 
 
     public void flingTheme() {
-        if (curFragment.id.equals("launcher")) {
+        if (isLauncher(curFragment.id)) {
             return;
         }
 

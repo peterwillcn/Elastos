@@ -36,7 +36,7 @@ public class TrinityPlugin extends CordovaPlugin {
     public String tempPath = null;
     public String configPath = null;
     private AppInfo appInfo = null;
-    private AppManager appManager = null;
+    public AppManager appManager = null;
     protected String appId;
 
     public void setWhitelistPlugin(AppWhitelistPlugin appWhitelistPlugin) {

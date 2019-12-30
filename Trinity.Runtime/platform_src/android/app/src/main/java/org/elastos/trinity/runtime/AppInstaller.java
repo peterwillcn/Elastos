@@ -263,6 +263,26 @@ public class AppInstaller {
         return null;
     }
 
+    private void updateAppInfo(AppInfo info, AppInfo oldInfo) {
+        for (AppInfo.PluginAuth auth : info.plugins) {
+            for (AppInfo.PluginAuth oldAuth : oldInfo.plugins) {
+                if (auth.plugin.equals(oldAuth.plugin)) {
+                    auth.authority = oldAuth.authority;
+                }
+            }
+        }
+
+        for (AppInfo.UrlAuth auth : info.urls) {
+            for (AppInfo.UrlAuth oldAuth : oldInfo.urls) {
+                if (auth.url.equals(oldAuth.url)) {
+                    auth.authority = oldAuth.authority;
+                }
+            }
+        }
+
+        info.built_in = oldInfo.built_in;
+    }
+
     public AppInfo install(String url, boolean update) throws Exception {
         Log.d("AppInstaller", "Install url="+url+" update="+update);
         InputStream inputStream = null;
@@ -353,9 +373,11 @@ public class AppInstaller {
                 deleteDAppPackage(downloadPkgPath);
                 throw new Exception("App '" + info.app_id + "' already existed!");
             }
+            updateAppInfo(info, oldInfo);
         }
         else {
             Log.d("AppInstaller", "install() - No old info - nothing to uninstall or delete");
+            info.built_in = 0;
         }
 
         File to = new File(appPath, info.app_id);
@@ -364,7 +386,7 @@ public class AppInstaller {
             to = new File(appPath, info.app_id);
         }
         from.renameTo(to);
-        info.built_in = 0;
+
         dbAdapter.addAppInfo(info);
         deleteDAppPackage(downloadPkgPath);
         return info;

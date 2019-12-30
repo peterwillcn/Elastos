@@ -142,9 +142,9 @@ public class AppManager {
 
         refreashInfos();
         saveLauncher();
+        getLauncherInfo();
         saveBuiltInApps();
         refreashInfos();
-        getLauncherInfo();
     }
 
 
@@ -208,6 +208,7 @@ public class AppManager {
     private void saveLauncher() {
         try {
             installBuiltInApp("www/", "launcher", 1);
+            getLauncherInfo();
         } catch (Exception e) {
             e.printStackTrace();
         }

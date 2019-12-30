@@ -180,8 +180,8 @@ public class IntentManager {
         String unsignedToken = splitToken[0] + "." + splitToken[1] + ".";
 
         DefaultJwtParser parser = new DefaultJwtParser();
-        Jwt<?, ?> jwt2 = parser.parse(unsignedToken);
-        Claims claims = (Claims) jwt2.getBody();
+        Jwt<?, ?> parsedJwt = parser.parse(unsignedToken);
+        Claims claims = (Claims) parsedJwt.getBody();
 
         return claims;
     }

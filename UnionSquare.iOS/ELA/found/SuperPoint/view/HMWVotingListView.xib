@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -106,8 +106,8 @@
                     </constraints>
                 </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="TOh-zh-fnS">
-                    <rect key="frame" x="-3" y="163" width="375" height="504"/>
-                    <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <rect key="frame" x="0.0" y="163" width="375" height="504"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="duJ-tz-tS9">
                         <size key="itemSize" width="50" height="50"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -156,7 +156,7 @@
             <constraints>
                 <constraint firstItem="Pex-rX-tQF" firstAttribute="leading" secondItem="Y1c-AI-kpu" secondAttribute="trailing" constant="8" id="2T7-HE-Vgx"/>
                 <constraint firstItem="MKV-zY-czg" firstAttribute="centerY" secondItem="Pex-rX-tQF" secondAttribute="centerY" id="5PT-1P-PFX"/>
-                <constraint firstItem="TOh-zh-fnS" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="-3" id="6dA-Cb-MPP"/>
+                <constraint firstItem="TOh-zh-fnS" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="6dA-Cb-MPP"/>
                 <constraint firstItem="Nu0-9G-7hP" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="CVP-AG-q2k"/>
                 <constraint firstItem="Nu0-9G-7hP" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="3" id="Cyy-wp-gRe"/>
                 <constraint firstItem="MKV-zY-czg" firstAttribute="centerY" secondItem="BeP-5Q-J82" secondAttribute="centerY" id="Gbo-Pb-bCf"/>
@@ -164,7 +164,7 @@
                 <constraint firstAttribute="trailing" secondItem="MKV-zY-czg" secondAttribute="trailing" id="NWb-s3-83t"/>
                 <constraint firstAttribute="trailing" secondItem="Nu0-9G-7hP" secondAttribute="trailing" constant="3" id="X87-8o-wZU"/>
                 <constraint firstItem="Y1c-AI-kpu" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="4" id="ayD-eT-ief"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="TOh-zh-fnS" secondAttribute="trailing" constant="3" id="gB8-Kj-2db"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="TOh-zh-fnS" secondAttribute="trailing" id="gB8-Kj-2db"/>
                 <constraint firstItem="TOh-zh-fnS" firstAttribute="top" secondItem="Y1c-AI-kpu" secondAttribute="bottom" constant="18" id="iai-54-pis"/>
                 <constraint firstItem="Y1c-AI-kpu" firstAttribute="centerY" secondItem="Pex-rX-tQF" secondAttribute="centerY" id="rRJ-UM-QSr"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="TOh-zh-fnS" secondAttribute="bottom" id="tlx-Ws-xd7"/>

@@ -32,8 +32,8 @@
                                 <constraint firstAttribute="width" constant="55" id="NsT-00-R6E"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="节点名称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ocf-mT-7Jd">
-                            <rect key="frame" x="144" y="122" width="57.5" height="13"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="节点名称" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ocf-mT-7Jd">
+                            <rect key="frame" x="15" y="122" width="315" height="13"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="13" id="t29-E2-SQf"/>
                             </constraints>
@@ -50,12 +50,16 @@
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
+                        <constraint firstAttribute="trailing" secondItem="Ocf-mT-7Jd" secondAttribute="trailing" constant="15" id="9hl-sL-avI"/>
                         <constraint firstAttribute="trailing" secondItem="J9c-9a-TZN" secondAttribute="trailing" constant="40" id="BUp-nE-G6M"/>
                         <constraint firstItem="dun-hj-Ghe" firstAttribute="top" secondItem="GeF-y6-cHR" secondAttribute="top" constant="26" id="DZr-x7-IAn"/>
                         <constraint firstItem="dun-hj-Ghe" firstAttribute="centerX" secondItem="GeF-y6-cHR" secondAttribute="centerX" id="F0v-Cj-OFC"/>
+                        <constraint firstAttribute="trailing" secondItem="Ocf-mT-7Jd" secondAttribute="trailing" constant="15" id="IAb-ak-vgV"/>
+                        <constraint firstItem="Ocf-mT-7Jd" firstAttribute="leading" secondItem="GeF-y6-cHR" secondAttribute="leading" constant="144" id="Izw-qn-9v1"/>
                         <constraint firstItem="J9c-9a-TZN" firstAttribute="leading" secondItem="GeF-y6-cHR" secondAttribute="leading" constant="40" id="Np5-hf-7K8"/>
                         <constraint firstAttribute="height" constant="390" id="TPN-DP-34g"/>
                         <constraint firstItem="J9c-9a-TZN" firstAttribute="centerX" secondItem="Ocf-mT-7Jd" secondAttribute="centerX" id="XCO-mE-f2O"/>
+                        <constraint firstItem="Ocf-mT-7Jd" firstAttribute="leading" secondItem="GeF-y6-cHR" secondAttribute="leading" constant="15" id="cZN-GX-edj"/>
                         <constraint firstItem="J9c-9a-TZN" firstAttribute="top" secondItem="Ocf-mT-7Jd" secondAttribute="bottom" constant="30" id="fYL-3F-fve"/>
                         <constraint firstItem="Ocf-mT-7Jd" firstAttribute="top" secondItem="dun-hj-Ghe" secondAttribute="bottom" constant="41" id="qgG-1e-lmU"/>
                         <constraint firstItem="dun-hj-Ghe" firstAttribute="centerX" secondItem="Ocf-mT-7Jd" secondAttribute="centerX" id="vRK-qW-lCH"/>

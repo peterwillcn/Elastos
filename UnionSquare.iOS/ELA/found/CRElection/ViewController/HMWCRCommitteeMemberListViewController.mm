@@ -310,25 +310,20 @@
             HWMCRListModel *dataModel = localStore[j];
             ret =  [dataModel.did isEqualToString:model.did];
             if (ret) {
-                dataModel.isCellSelected=YES;
+                NSLog(@"KOPOOPOPOPOPOPOyes");
                 model.isCellSelected=YES;
+                curentmodel=model;
             }
         }
-        if (ret==NO) {
- 
-            model.isCellSelected=NO;
-            model.isNewCellSelected=NO;
-            self.memberListDataSource[i]=model;
-        }
-        
-        
+
+
         if ([model.did isEqualToString:self.CROwnerDID]) {
             if ([model.state isEqualToString:@"Active"]) {
                 model.index=[NSString stringWithFormat:@"%lu",self.ActiveArray.count+1];
-                curentmodel.index=model.index;
+                if (curentmodel) {
+                   curentmodel.index=model.index;
+                }
                 [self.ActiveArray insertObject:model atIndex:0];
-//                self.needFind=NO;
-//                self.votingListV.typeString=@"Registered";
             }
             self.selfModel=model;
             [self updateInfoSelf];
@@ -336,9 +331,12 @@
         }else{
             if ([model.state isEqualToString:@"Active"]) {
                       model.index=[NSString stringWithFormat:@"%lu",self.ActiveArray.count+1];
-                      curentmodel.index=model.index;
+                   if (curentmodel) {
+                    curentmodel.index=model.index;
+                    }
                       [self.ActiveArray addObject:model];
         }
+            
       
    }
         if (curentmodel){
@@ -417,7 +415,7 @@
     vc.persent = self.votingListV.lab1.text;
     vc.totalvotes=self.totalvotes;
 //    vc.currentWallet=self.wallet;
-    vc.lastArray=self.ActiveArray;
+    vc.lastArray=self.memberListDataSource;
     vc.delegate=self;
     
     [self.navigationController pushViewController:vc animated:YES];
@@ -430,11 +428,11 @@
     HMWnodeInformationViewController *nodeInformationVC=[[HMWnodeInformationViewController alloc]init];
      nodeInformationVC.index=index;
         nodeInformationVC.type=CRInformationType;
-    nodeInformationVC.CRmodel = self.ActiveArray [index];
+    nodeInformationVC.CRmodel = self.selfModel;
     nodeInformationVC.Ranking=index+1;
     nodeInformationVC.delegate=self;
     nodeInformationVC.totalvotes=self.totalvotes;
-    nodeInformationVC.lastTimeArray=self.ActiveArray;
+    nodeInformationVC.lastTimeArray=self.memberListDataSource;
     [self.navigationController pushViewController:nodeInformationVC animated:YES];
     
 }
@@ -619,7 +617,13 @@
         self.tagVoteRuleLab.hidden=YES;
         self.found_vote_rule.hidden=YES;
         self.typeString=@"ReturnDeposit";
-    }else{
+    }else if ([self.selfModel.state isEqualToString:@"Pending"]){
+//        self.typeString=@"Registered";
+               self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+               self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
+               self.votingListV.typeString=self.typeString;
+    }
+    else{
         self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
        self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
         self.typeString=@"Unregistered";

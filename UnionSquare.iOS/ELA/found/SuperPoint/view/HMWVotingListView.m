@@ -20,7 +20,7 @@ static NSString *crossCellString=@"HMWVotingListTypeCrossCollectionViewCell";
 static NSString *crossCRCellString=@"HWMCRCCommitteeElectionCollectionViewCell";
 static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
 
-@interface HMWVotingListView ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+@interface HMWVotingListView ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *baseCollectionView;
 @property (weak, nonatomic) IBOutlet UILabel *runningNodeListTextLabel;
@@ -53,18 +53,25 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
         self.baseCollectionView.delegate=self;
         self.baseCollectionView.dataSource=self;
          __weak __typeof(self) weakSelf = self;
+        
+        self.baseCollectionView.alwaysBounceVertical=YES;
         self.baseCollectionView.mj_header = [MJRefreshHeader headerWithRefreshingBlock:^{
+
+
             if (weakSelf.delegate) {
                 [weakSelf.delegate updateDataInfo];
             }
-            
+
         }];
         [self.baseCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HMWVotingListCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:cellString];
         [self.baseCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HMWVotingListTypeCrossCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:crossCellString];
           [self.baseCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HWMCRCCommitteeElectionCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:crossCRCellString];
            [self.baseCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HWMCRVotingListCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:ListCRCellString];
         
-        
+    
+
+     
+
         self.taglab1.text = NSLocalizedString(@"全网投票占比", nil);
         self.taglab3.text = NSLocalizedString(@"当前票数", nil);
          self.runningNodeListTextLabel.text=NSLocalizedString(@"参选节点列表", nil);
@@ -73,6 +80,7 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
     }
  return self;
 }
+
 -(void)setDataSource:(NSMutableArray *)dataSource{
     _dataSource =[[NSMutableArray alloc]initWithArray:dataSource];
     self.numberNodesLabel.text=[NSString stringWithFormat:@"%lu",(unsigned long)dataSource.count];
@@ -310,5 +318,11 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
 }
 -(void)setTypeString:(NSString *)typeString{
     _typeString=typeString;
+}-(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+    
+
+    if (self.delegate&&self.dataSource.count==0) {
+        [self.delegate updateDataInfo];
+    }
 }
 @end

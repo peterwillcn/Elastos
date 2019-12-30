@@ -219,16 +219,17 @@
     self.transferDetailsPopupV=nil;
 }
 -(void)pwdAndInfoWithPWD:(NSString *)pwd{
-    [self.transferDetailsPopupV removeFromSuperview];
-    self.transferDetailsPopupV=nil;
+
 //    SingleSign=0,
 //    SingleSignReadonly=1,
 //    HowSign=2,
 //    HowSignReadonly=3
     
-    NSString *blance=[[FLTools share]elsToSela:self.theAmountOfTextField.text];
+    NSString *blance;
     if (self.isMax) {
         blance=@"-1";
+    }else{
+        blance=[[FLTools share]elsToSela:self.theAmountOfTextField.text];
     }
     
     if (self.currentWallet.TypeW==0) {
@@ -237,6 +238,8 @@
         PluginResult *result = [[ELWalletManager share]CreateTransaction:mommand];
         NSString *statue=[NSString stringWithFormat:@"%@",result.status];
         if ([statue isEqualToString:@"1"]) {
+            [self.transferDetailsPopupV removeFromSuperview];
+            self.transferDetailsPopupV=nil;
             [self showSendSuccessPopuV];
         }
     }else if (self.currentWallet.TypeW==1){

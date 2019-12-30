@@ -71,7 +71,7 @@
 
     UIView *mainView =[self mainWindow];
     [mainView addSubview:self.votingRulesV];
-
+    self.typeString=nil;
     [self.votingRulesV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(mainView);
     }];
@@ -377,7 +377,7 @@
 - (IBAction)myVoteButton:(id)sender {
     HMWtheCandidateListViewController * vc = [[HMWtheCandidateListViewController alloc]init];
     vc.persent = self.votingListV.lab1.text ;
-    vc.lastTimeArray=self.ActiveArray;
+    vc.lastTimeArray=self.dataSource;
     [self.navigationController pushViewController:vc animated:YES];
 }
 -(void)closeViewDele{
@@ -391,7 +391,7 @@
     nodeInformationVC.model = self.ActiveArray[index];
 //    nodeInformationVC.model.voterate=[[FLTools share] DownTheValue: nodeInformationVC.model.voterate withLength:2];
     nodeInformationVC.Ranking=index+1;
-    nodeInformationVC.lastTimeArray=self.ActiveArray;
+    nodeInformationVC.lastTimeArray=self.dataSource;
     nodeInformationVC.type=nodeInformationType;
       [self.navigationController pushViewController:nodeInformationVC animated:YES];
     
@@ -438,6 +438,11 @@
         self.tagVoteRuleLab.hidden=YES;
         self.found_vote_rule.hidden=YES;
         self.typeString=@"ReturnDeposit";
+    }else if ([self.selfModel.state isEqualToString:@"Pending"]){
+//        self.typeString=@"Registered";
+               self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+               self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
+               self.votingListV.typeString=self.typeString;
     }else{
         self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
        self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];

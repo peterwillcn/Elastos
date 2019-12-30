@@ -21,6 +21,9 @@
 [submodule "Dapps/Ionic/DPoSVoting"]
 	path = Trinity/Dapps/Ionic/DPoSVoting
 	url = ../Elastos.Trinity.DApps.DPoSVoting.git
+[submodule "Dapps/Ionic/Friends"]
+	path = Trinity/Dapps/Ionic/Friends
+	url = ../Elastos.Trinity.DApps.Friends.git
 [submodule "Dapps/Ionic/Installer"]
 	path = Trinity/Dapps/Ionic/Installer
 	url = ../Elastos.Trinity.DApps.Installer.git

@@ -577,7 +577,7 @@ public class AppManager {
     }
 
     public void loadLauncher() throws Exception {
-        start(launcherInfo.app_id);
+        start("launcher");
     }
 
     public void setInstallUri(String uri, boolean dev) {

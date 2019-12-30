@@ -252,10 +252,6 @@ public class IntentManager {
                     info.params = getParamsByJWT(paths[1], info);
                 }
             }
-
-            if (info.params != null) {
-                sendIntent(info);
-            }
         }
         return info;
     }

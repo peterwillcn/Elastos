@@ -281,6 +281,7 @@ public class AppInstaller {
         }
 
         info.built_in = oldInfo.built_in;
+        info.launcher = oldInfo.launcher;
     }
 
     public AppInfo install(String url, boolean update) throws Exception {

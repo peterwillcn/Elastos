@@ -31,10 +31,12 @@ import java.util.UUID;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwsHeader;
+import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SigningKeyResolver;
+import io.jsonwebtoken.impl.DefaultJwtParser;
 //import org.apache.tomcat.util.codec.binary.Base64;
 
 import org.apache.http.HttpEntity;
@@ -172,6 +174,10 @@ public class IntentManager {
 
     public Claims parseJWT(String jwt) throws Exception {
 //        SecretKey key = generalKey();
+        /*DefaultJwtParser parser = new DefaultJwtParser();
+        Jwt<?, ?> jwt2 = parser.parse(jwt);
+        Claims claims2 = (Claims) jwt2.getBody();*/
+
         Claims claims = Jwts.parser()  //DefaultJwtParser
                 .setSigningKey(JWT_SECRET)
                 .parseClaimsJws(jwt).getBody();

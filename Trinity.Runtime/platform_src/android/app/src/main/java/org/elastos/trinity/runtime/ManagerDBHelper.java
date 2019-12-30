@@ -25,10 +25,11 @@ package org.elastos.trinity.runtime;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
-public class ManagerDBHelper extends SQLiteOpenHelper {
+ public class ManagerDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "manager.db";
-    private static final int VERSION = 1;
+    private static final int VERSION = 3;
     public static final String AUTH_PLUGIN_TABLE = "auth_plugin";
     public static final String AUTH_URL_TABLE = "auth_url";
     public static final String AUTH_INTENT_TABLE = "auth_intent";
@@ -48,7 +49,7 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
         super(context, name, factory, version);
     }
 
-    @Override
+     @Override
     public void onCreate(SQLiteDatabase db) {
 
 //        String strSQL = "create table " + SETTING_TABLE + "(tid integer primary key autoincrement, " +
@@ -133,7 +134,7 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
         db.execSQL(strSQL);
     }
 
-    public void dropAllTabel(SQLiteDatabase db) {
+    public void dropAllTable(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS " + AUTH_PLUGIN_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + AUTH_URL_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + AUTH_INTENT_TABLE);
@@ -147,11 +148,16 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Drop older table if existed, all data will be gone!!!
-
-        dropAllTabel(db);
-        // Create tables again
-        onCreate(db);
+        // Use the if (old < N) format to make sure users get all upgrades even if they directly upgrade from vN to v(N+5)
+        if (oldVersion < 3) {
+               Log.d("ManagerDBHelper", "Upgrading database to v"+newVersion);
+               upgradeToV3(db);
+        }
     }
 
+    // 20191230 - Added "start_visible" field
+    private void upgradeToV3(SQLiteDatabase db) {
+        String strSQL = "ALTER TABLE "+APP_TABLE+" ADD COLUMN "+AppInfo.START_VISIBLE+" varchar(32) default 'show'";
+        db.execSQL(strSQL);
+    }
 }

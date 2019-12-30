@@ -173,14 +173,16 @@ public class IntentManager {
     }
 
     public Claims parseJWT(String jwt) throws Exception {
-//        SecretKey key = generalKey();
-        /*DefaultJwtParser parser = new DefaultJwtParser();
-        Jwt<?, ?> jwt2 = parser.parse(jwt);
-        Claims claims2 = (Claims) jwt2.getBody();*/
+        // Remove the Signature from the received JWT for now, we don't handle this.
+        // TODO: extract the JWT issuer field from the JWT, resolve its DID from the DID sidechain, and
+        // verify the JWT using the public key. JWT will have to be signed by the app developer's DID's private key.
+        String[] splitToken = jwt.split("\\.");
+        String unsignedToken = splitToken[0] + "." + splitToken[1] + ".";
 
-        Claims claims = Jwts.parser()  //DefaultJwtParser
-                .setSigningKey(JWT_SECRET)
-                .parseClaimsJws(jwt).getBody();
+        DefaultJwtParser parser = new DefaultJwtParser();
+        Jwt<?, ?> jwt2 = parser.parse(unsignedToken);
+        Claims claims = (Claims) jwt2.getBody();
+
         return claims;
     }
 

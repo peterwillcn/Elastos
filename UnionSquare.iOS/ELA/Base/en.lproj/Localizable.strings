@@ -188,7 +188,7 @@
 "添加根私钥"="Add Private Key";
 "编辑根私钥"="Edit Private Key";
 "参选节点列表"="Node List";
-"节点数量"="Number of Node";
+"节点数量"="Number of Nodes";
 "零钱换整"="Consolidate";
 "关于"="About";
 "收款人地址错误"="The recipient address wrong";
@@ -578,7 +578,7 @@
 "竞选网址"="Election URL";
 "加入成功"="Added Successfully";
 "请输入竞选网址"="Input Election URL";
-"是否退出本届CR选举？\n一旦退出本届选举，所有投票清零且不可恢复。"="Quit from the CR Election Race?\nAfter quitting, votes are permanently cleared";
+"是否退出本届CR选举？\n一旦退出本届选举，所有投票清零且不可恢复。"="Quitting from the CR Election?\nAfter quitting, votes are permanently cleared.";
 "批量加入候选列表"="Add to Candidate List in Batches";
 "委员DID"="DID";
 "参选信息"="Candidate Information";
@@ -597,7 +597,7 @@
 "暂无候选委员"="No candidate members";
 "参选委员列表"="Candidate List";
 "委员简介"="Member Profile";
-"最大表决票权约："="Maximum Voting Rights About：";
+"最大表决票权约："="Maximum Voting Rights: Approx. ";
 "暂无候选委员"="No candidate members";
 "参选公钥"="Public key for election";
 "请输入参选昵称（必填）"="Please enter nickname (required)";

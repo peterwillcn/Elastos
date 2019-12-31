@@ -208,9 +208,9 @@ if (self.dataSource.count==0) {
                         cell.middleLabel.text=model.nickname;
                NSInteger number=[model.SinceVotes intValue];
                if (number<1) {
-                     cell.rightLab.text =[NSString stringWithFormat:@"%@",@"<1",NSLocalizedString(@"票", nil)];
+                     cell.rightLab.text =[NSString stringWithFormat:@"%@ ",@"<1",NSLocalizedString(@"票", nil)];
                }else{
-                   cell.rightLab.text =[NSString stringWithFormat:@"%d%@",[model.SinceVotes intValue],NSLocalizedString(@"票", nil)];
+                   cell.rightLab.text =[NSString stringWithFormat:@"%d %@",[model.SinceVotes intValue],NSLocalizedString(@"票", nil)];
                    
                }
                cell.leftLab.textColor=[UIColor whiteColor];
@@ -221,7 +221,7 @@ if (self.dataSource.count==0) {
                cell.middleLabel.text=NSLocalizedString(@"候选节点已经失效", nil);
                cell.leftLab.textColor=RGBA(255,255,255,0.5);
                cell.middleLabel.textColor=RGBA(255,255,255,0.5);
-               cell.rightLab.text =[NSString stringWithFormat:@"%d%@",[model.SinceVotes intValue],NSLocalizedString(@"票", nil)];
+               cell.rightLab.text =[NSString stringWithFormat:@"%d %@",[model.SinceVotes intValue],NSLocalizedString(@"票", nil)];
            }
        }
     

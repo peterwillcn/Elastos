@@ -1,13 +1,13 @@
 {
   "name": "org.elastos.trinity.runtime",
-  "displayName": "Elastos",
+  "displayName": "elastOS",
   "version": "1.0.0",
-  "description": "A elastos dapps runtime.",
+  "description": "The elastOS dApp browser",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Elastos System Team",
+  "author": "Elastos Trinity Team",
   "license": "Apache-2.0",
   "dependencies": {
     "appmanager": "file:../Plugins/AppManager",
@@ -82,8 +82,8 @@
       "elastos-trinity-plugins-carrier": {},
       "elastos-trinity-plugins-hive": {},
       "elastos-trinity-plugins-did": {},
-      "elastos-trinity-plugins-wallet": {},
-      "elastos-trinity-plugins-appmanager": {}
+      "elastos-trinity-plugins-appmanager": {},
+      "elastos-trinity-plugins-wallet": {}
     },
     "platforms": [
       "android",

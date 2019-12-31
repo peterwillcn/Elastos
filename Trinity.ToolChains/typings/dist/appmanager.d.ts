@@ -455,5 +455,14 @@ declare namespace AppManagerPlugin {
          * @param onError    Function called in case of error.
          */
         hasPendingIntent(onSuccess: (hasPendingIntent: boolean) => void, onError?: (err: any) => void);
+
+        /**
+         * Send dapp show or hide.
+         *
+         * @param visible    The app visible: 'show' or 'hide'.
+         * @param onSuccess  The function to call when success.
+         * @param onError    The function to call when error, the param is a String. Or set to null.
+         */
+        setVisible(visible: string, onSuccess: ()=>void, onError: (err:any)=>void);
     }
 }

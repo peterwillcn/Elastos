@@ -6,24 +6,20 @@
 // Copyright (c) Microsoft Open Technologies Inc
 // Licensed under the MIT license
 
-/**
+interface Navigator {
+    /**
      * This plugin provides an implementation of an old version of the Network Information API.
      * It provides information about the device's cellular and wifi connection, and whether the device has an internet connection.
- * <br><br>
- * Please use 'NetworkStatus' as the plugin name in the manifest.json if you want to use
- * this facility.                                                   
- * <br><br>                                                         
- * Usage:                                                           
- * <br>                                                             
- * navigator.connection.type;
      */
-
-interface Navigator {
-    connection: CordovaNetworkInfoPlugin.Connection;
+    connection: Connection;
     // see https://github.com/apache/cordova-plugin-network-information/blob/dev/doc/index.md#api-change
     // for 
     network: {
-        connection: CordovaNetworkInfoPlugin.Connection
+        /**
+         * This plugin provides an implementation of an old version of the Network Information API.
+         * It provides information about the device's cellular and wifi connection, and whether the device has an internet connection.
+         */
+        connection: Connection
     }
 }
 
@@ -32,12 +28,11 @@ interface Document {
     addEventListener(type: "offline", connectionStateCallback: () => any, useCapture?: boolean): void;
 }
 
-declare namespace CordovaNetworkInfoPlugin {
-    /**
+/**
  * The connection object, exposed via navigator.connection, provides information
  * about the device's cellular and wifi connection.
  */
-    interface Connection {
+interface Connection {
     /**
      * This property offers a fast way to determine the device's network connection state, and type of connection.
      * One of:
@@ -53,9 +48,9 @@ declare namespace CordovaNetworkInfoPlugin {
     type: string;
     addEventListener(type: string, listener: EventListenerOrEventListenerObject, useCapture?: boolean): void;
     removeEventListener(type: string, listener: EventListenerOrEventListenerObject, useCapture?: boolean): void;
-    }
+}
 
-    let Connection: {
+declare var Connection: {
     UNKNOWN: string;
     ETHERNET: string;
     WIFI: string;
@@ -64,5 +59,4 @@ declare namespace CordovaNetworkInfoPlugin {
     CELL_4G: string;
     CELL: string;
     NONE: string;
-    }
 }

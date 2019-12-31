@@ -399,7 +399,10 @@ public class AppBasePlugin extends TrinityPlugin {
         String url = args.getString(0);
 
         try {
-            if (webView.getPluginManager().shouldOpenExternalUrl(url)) {
+            if (url.startsWith("elastos:///") ||  url.startsWith("http://scheme.elastos.org/")) {
+                IntentManager.getShareInstance().sendIntentByUri(Uri.parse(url));
+            }
+            else if (webView.getPluginManager().shouldOpenExternalUrl(url)) {
                 webView.showWebPage(url, true, false, null);
                 callbackContext.success("ok");
             }

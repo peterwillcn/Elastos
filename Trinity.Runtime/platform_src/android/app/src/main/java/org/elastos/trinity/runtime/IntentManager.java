@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.security.Key;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -186,20 +187,28 @@ public class IntentManager {
         return claims;
     }
 
+    final String[] removeJWTParams = {
+            "appid",
+            "iss",
+            "iat",
+            "exp",
+            "redirecturl",
+            "callbackurl"
+    };
+
     public String getParamsByJWT(String jwt, IntentInfo info) throws Exception {
         Claims claims = parseJWT(jwt);
-        ArrayList<LinkedHashMap<String, String>> params = (ArrayList<LinkedHashMap<String, String>>) claims.get("claims");
+
         String ret = "{";
-        for (int i = 0; i < params.size(); i++) {
-            Iterator it = params.get(i).entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry entry = (Map.Entry) it.next();
+        for (String key : claims.keySet()) {
+            if (!Arrays.asList(removeJWTParams).contains(key)) {
                 if (!ret.equals("{")) {
                     ret += ",";
                 }
-                ret += "\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"";
+                ret += "\"" + key + "\":\"" + claims.get(key) + "\"";
             }
         }
+
         if (!ret.equals("{")) {
             ret += ",";
         }

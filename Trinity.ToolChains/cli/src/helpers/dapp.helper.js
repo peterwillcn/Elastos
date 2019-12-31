@@ -3,8 +3,9 @@ const fs = require("fs")
 const os = require("os")
 require("colors")
 
-const ManifestHelper = require("./manifest.helper")
-const IonicHelper = require("./ionic.helper")
+const ManifestHelper = require("./manifest.helper");
+const IonicHelper = require("./ionic.helper");
+const DIDHelper = require("./did.helper");
 
 module.exports = class DAppHelper {
     /**
@@ -89,7 +90,7 @@ module.exports = class DAppHelper {
     /**
      * Signs a given EPK using a provided app DID.
      */
-    signEPK(EPKPath, didURL, didSignaturePassword) {
+    signEPK(EPKPath, didURL, didSignaturePassword, didStorePath = DIDHelper.DEFAULT_DID_STORE_FOLDER_NAME) {
         return new Promise((resolve, reject) => {
             console.log("Signing the generated EPK with your identity...")
 
@@ -97,13 +98,13 @@ module.exports = class DAppHelper {
             // TMP DEV: did:elastos:ikFN4BuFYYvR9ERNTiWH1jAdBztE3J691m#primary
             
             var rootScriptDirectory = path.dirname(require.main.filename)
-            var idKeystorePath = path.join(process.cwd(), "appdid");
+            //var idKeystorePath = nupath.join(process.cwd(), "appdid");
             var signedEPKPath = EPKPath+"_signed";
  
-            console.log("path",idKeystorePath)
+            //console.log("path",idKeystorePath)
 
             const spawn = require("child_process").spawn;
-            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/did_sign", "-r",idKeystorePath,"-u",didURL,"-s",didSignaturePassword,"-o",signedEPKPath,EPKPath]);
+            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/did_sign", "-r",didStorePath,"-u",didURL,"-s",didSignaturePassword,"-o",signedEPKPath,EPKPath]);
 
             pythonProcess.stdout.on('data', function (data) { console.log(''+data)});
             pythonProcess.stderr.on('data', function (data) { console.log(''+data)});

@@ -8,6 +8,7 @@ const ManifestHelper = require("../helpers/manifest.helper")
 const DAppHelper = require("../helpers/dapp.helper")
 const IonicHelper = require("../helpers/ionic.helper")
 const SystemHelper = require("../helpers/system.helper")
+const DIDHelper = require("../helpers/did.helper");
 
 exports.command = 'publish'
 exports.describe = 'Publishes the DApp on the DApp store'
@@ -16,13 +17,23 @@ exports.builder = {
         alias: "d",
         describe: "DID string to be used to sign the application package (ex: did:ela:abcd#primary). Use the createdid command to create a DID if you don't have one yet.",
         require: true
+    },
+    didstore: {
+        alias: "s",
+        describe: "Optional path to the DID store. Will default to ./"+DIDHelper.DEFAULT_DID_STORE_FOLDER_NAME+".",
+        require: false
+    },
+    password: {
+        alias: "p",
+        describe: "Optional DID store password. If not provided, it will be prompted.",
+        require: false
     }
 }
 exports.handler = function (argv) {
-    launchAppPublication(argv.did)
+    launchAppPublication(argv.did, argv.didstore, argv.password);
 }
 
-async function launchAppPublication(didURL) {
+async function launchAppPublication(didURL, didStorePath, password) {
     var publishingHelper = new PublishingHelper()
     var manifestHelper = new ManifestHelper()
     var dappHelper = new DAppHelper()
@@ -46,18 +57,26 @@ async function launchAppPublication(didURL) {
 
     // Prompt DID signature password
     console.log("")
-    const questions = [
-        {
-            type: 'password',
-            name: 'didPassword',
-            message: 'DID Signature password (provided when you created your DID):',
-            validate: value => {
-                return value != ""
+    let didSignaturePassword = null;
+    if (password) {
+        // Password provided, not need to prompt.
+        didSignaturePassword = password;
+    }
+    else {
+        // No password provided: prompt user.
+        const questions = [
+            {
+                type: 'password',
+                name: 'didPassword',
+                message: 'DID Signature password (provided when you created your DID):',
+                validate: value => {
+                    return value != ""
+                }
             }
-        }
-    ];
-    let typedInfo = await prompts(questions);
-    let didSignaturePassword = typedInfo.didPassword;
+        ];
+        let typedInfo = await prompts(questions);
+        didSignaturePassword = typedInfo.didPassword;
+    }
 
     // Update manifest with local url in case it had been configured for debugging earlier (ionic serve with remote url)
     var originalManifestPath = manifestHelper.getManifestPath(ionicHelper.getConfig().assets_path)
@@ -68,7 +87,7 @@ async function launchAppPublication(didURL) {
     ionicHelper.updateNpmDependencies().then(() => {
         ionicHelper.runIonicBuild(true).then(() => {
             dappHelper.packEPK(temporaryManifestPath).then((outputEPKPath)=>{
-                dappHelper.signEPK(outputEPKPath, didURL, didSignaturePassword).then((signedEPKPath)=>{
+                dappHelper.signEPK(outputEPKPath, didURL, didSignaturePassword, didStorePath).then((signedEPKPath)=>{
                     publishingHelper.publishToDAppStore(signedEPKPath, didURL).then((info)=>{
                         console.log("Congratulations! Your app has been submitted for review!".green)
                     })

@@ -9,7 +9,7 @@ module.exports = class IonicHelper {
      * Run "npm install" to retrieve latest versions of npm dependencies
      */
     updateNpmDependencies() {
-        //return Promise.resolve() // TMP
+        return Promise.resolve() // TMP
         return new Promise((resolve, reject) => {
             console.log("Updating NPM modules for the ionic application...");
 
@@ -70,7 +70,7 @@ module.exports = class IonicHelper {
      * Simply runs "ionic build" in order to generate the www/ folder before deployment.
      */
     runIonicBuild(forProd) {
-        //return Promise.resolve() // TMP
+        return Promise.resolve() // TMP
         return new Promise((resolve, reject) => {
             console.log("Building the ionic app...")
 

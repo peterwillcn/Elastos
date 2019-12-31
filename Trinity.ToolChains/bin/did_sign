@@ -39,6 +39,8 @@ try:
     def adapter_resolveCallback(adapter, did):
         return None # Don't resolve any existing DID from sidechain from this tool
 
+    #print(args.epk_file.encode('utf-8'))
+
     if args.output_file:
         zip2read = zipfile.ZipFile(args.epk_file, 'r', zipfile.ZIP_DEFLATED)
         zip2write = zipfile.ZipFile(args.output_file, 'w', zipfile.ZIP_DEFLATED)
@@ -68,7 +70,7 @@ try:
         with zip2read.open(filename) as myfile:
             file_sha = hashlib.sha256()
             file_buffer = myfile.read()
-            print("Computing digest " + filename)
+            #print("Computing digest " + filename)
             file_sha.update(file_buffer)
             filelist_sha += file_sha.hexdigest() + " " + filename + "\n"
             if zip2read != zip2write:
@@ -86,8 +88,7 @@ try:
 
     # Signing
     print("Signing EPK file")
-    #message = epk_sha.hexdigest().encode('utf-8')
-    message = "cbaea5845a54519d50e17b97c4357e7395bb36d0273fac01d01e8f31c0b5f228".encode('utf-8')
+    message = epk_sha.hexdigest().encode('utf-8')
 
     # Create an adapter for resolve() and createIdTransaction().
     adapter = ela_did.DIDAdapter(ela_did.CREATE_ID_TRANSACTION_FUNC(adapter_createIdTransactionCallback), ela_did.RESOLVE_FUNC(adapter_resolveCallback))

@@ -6,8 +6,8 @@
 //
 
 #import "HWMTheEditorDIDInfoViewController.h"
-
-@interface HWMTheEditorDIDInfoViewController ()
+#import "HWMDIDDataListView.h"
+@interface HWMTheEditorDIDInfoViewController ()<HWMDIDDataListViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *DIDTextInfoLabel;
 @property (weak, nonatomic) IBOutlet UITextField *nickNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *publicKeyLabel;
@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *timeDataLabel;
 @property (weak, nonatomic) IBOutlet UIButton *updatesButton;
 
+@property(strong,nonatomic)HWMDIDDataListView *dataListView;
 @end
 
 @implementation HWMTheEditorDIDInfoViewController
@@ -32,12 +33,39 @@
        self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.issuanceDate]];
 }
 - (IBAction)changeTimeDataInfoEvent:(id)sender {
+    UIView *mainView =  [self mainWindow];
+    [mainView addSubview:self.dataListView];
+    [self.dataListView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(mainView);
+    }];
     [self.view endEditing:YES];
 }
 - (IBAction)updatesEvent:(id)sender {
 [self.view endEditing:YES];
 }
 
+-(HWMDIDDataListView *)dataListView{
+    if (!_dataListView) {
+        _dataListView =[[HWMDIDDataListView alloc]init];
+        _dataListView.delegate=self;
+        _dataListView.ListViewType=DIDDataType;
+    }
+    return _dataListView;
+}
+
+-(void)cancelDataListView{
+    [self.dataListView removeFromSuperview];
+    self.dataListView=nil;
+}
+
+-(void)selectDataWithYY:(NSString*_Nullable)yy withMM:(NSString*_Nullable)mm wihMMWithInt:(NSInteger)mInt wtihDD:(NSString*_Nullable)dd{
+   
+
+       self.model.issuanceDate=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@ 00:00:00",yy,mm,dd]];
+    self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.issuanceDate]];
+       [self cancelDataListView];
+
+}
 -(void)setModel:(HWMDIDInfoModel *)model{
     _model=model;
 }

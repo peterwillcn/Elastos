@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HWMDIDListAbnormalTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *timeLeftConOff;
 @property(strong,nonatomic)HWMDIDInfoModel *model;
+
+@property(copy,nonatomic)NSString *titleString;
 @end
 
 NS_ASSUME_NONNULL_END

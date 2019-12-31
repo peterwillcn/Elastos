@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *DIDNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *stateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *noInfoLabel;
 
 @end
 
@@ -37,5 +38,33 @@
     
     
     
+}
+-(void)setTitleString:(NSString *)titleString{
+        self.timeLabel.alpha=0.f;
+    _titleString=titleString;
+    self.noInfoLabel.alpha=0.f;
+    NSString *timeString=self.model.editTimeString;
+    if ([titleString isEqualToString:NSLocalizedString(@"个人信息", nil)]){
+        if (![[FLTools share]isBlankString:self.model.infoTimeString]) {
+            titleString=self.model.infoTimeString;
+        }
+        
+    }else if ([titleString isEqualToString:NSLocalizedString(@"个人简介", nil)]){
+              if (![[FLTools share]isBlankString:self.model.introductionInfoString]) {
+                        titleString=self.model.introductionInfoString;
+                  if ([[FLTools share]isBlankString:self.model.introductionInfoString]) {
+                      self.noInfoLabel.alpha=1.f;
+                      self.noInfoLabel.text=NSLocalizedString(@"暂无", nil);
+                  }
+              }
+        
+    }else if ([titleString isEqualToString:NSLocalizedString(@"社交账号", nil)]){
+           if (![[FLTools share]isBlankString:self.model.socialAccountTimeString]) {
+                                titleString=self.model.socialAccountTimeString;
+                            }
+    }
+        self.DIDNameLabel.text=titleString;
+     self.stateLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"保存时间:",nil),[[FLTools share] YMDCommunityTimeConversToAllFromTimesTamp:timeString]];
+    self.stateLabel.textColor=RGBA(255, 255, 255, 0.5);
 }
 @end

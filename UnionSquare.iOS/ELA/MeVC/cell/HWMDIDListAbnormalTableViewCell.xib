@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -41,6 +41,12 @@
                                 <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wKK-VZ-C1b">
+                                <rect key="frame" x="248" y="0.0" width="0.0" height="60"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.66605504535724158" green="0.98069670562400379" blue="1" alpha="0.10091145833333333" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -51,6 +57,9 @@
                             <constraint firstItem="R8B-dM-s3u" firstAttribute="top" secondItem="dIe-Xd-fxM" secondAttribute="top" constant="12" id="jKd-gQ-f2j"/>
                             <constraint firstItem="JUe-tV-TVr" firstAttribute="leading" secondItem="R8B-dM-s3u" secondAttribute="leading" constant="33" id="ocu-AF-jr8"/>
                             <constraint firstItem="tGk-pX-LM6" firstAttribute="leading" secondItem="dIe-Xd-fxM" secondAttribute="leading" constant="8" id="rLG-Ug-Qnt"/>
+                            <constraint firstAttribute="bottom" secondItem="wKK-VZ-C1b" secondAttribute="bottom" id="rOs-dd-lzK"/>
+                            <constraint firstItem="wKK-VZ-C1b" firstAttribute="top" secondItem="dIe-Xd-fxM" secondAttribute="top" id="utd-14-h0C"/>
+                            <constraint firstItem="UD6-fb-sr6" firstAttribute="leading" secondItem="wKK-VZ-C1b" secondAttribute="trailing" constant="5" id="v1s-7c-c01"/>
                             <constraint firstAttribute="trailing" secondItem="UD6-fb-sr6" secondAttribute="trailing" constant="15" id="wIg-s5-lvu"/>
                         </constraints>
                     </view>
@@ -67,6 +76,7 @@
             <connections>
                 <outlet property="BGView" destination="dIe-Xd-fxM" id="OoQ-bG-oTk"/>
                 <outlet property="DIDNameLabel" destination="R8B-dM-s3u" id="nlG-5u-lqQ"/>
+                <outlet property="noInfoLabel" destination="wKK-VZ-C1b" id="fTQ-4N-7Xx"/>
                 <outlet property="stateLabel" destination="tGk-pX-LM6" id="pO5-Av-Cf7"/>
                 <outlet property="timeLabel" destination="JUe-tV-TVr" id="EDd-oa-Zxb"/>
                 <outlet property="timeLeftConOff" destination="ocu-AF-jr8" id="gO9-5C-3cw"/>

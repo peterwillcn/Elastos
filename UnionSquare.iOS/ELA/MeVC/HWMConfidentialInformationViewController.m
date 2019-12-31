@@ -6,8 +6,8 @@
 //
 
 #import "HWMConfidentialInformationViewController.h"
-#import "HWMDIDListNormalTableViewCell.h"
-static NSString *normalCellString=@"HWMDIDListNormalTableViewCell";
+#import "HWMDIDListAbnormalTableViewCell.h"
+static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
 @interface HWMConfidentialInformationViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *table;
 @property (weak, nonatomic) IBOutlet UIButton *exportButton;
@@ -52,18 +52,44 @@ static NSString *normalCellString=@"HWMDIDListNormalTableViewCell";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
    // FLSugarModel *model = self.dataSouse[indexPath.row];
-    HWMDIDListNormalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:normalCellString];
+   HWMDIDListAbnormalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:normalCellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    cell.model=self.model;
+    cell.titleString=self.dataArray[indexPath.section];
     
     return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return 1;
+}
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+  return self.dataArray.count;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    switch (indexPath.section) {
+        case 0:
+            
+            break;
+        case 1:
+                      
+        break;
+        case 2:
+                      
+        break;
+            
+        default:
+            break;
+    }
 
+}
+-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForFooterInSection:(NSInteger)section{
+    
+    return 10.f;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 0.01;
 }
 - (IBAction)exportEvent:(id)sender {
 }

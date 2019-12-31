@@ -99,6 +99,20 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(copy,nonatomic)NSString * editTimeString;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString * infoTimeString;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString * IntroductionTimeString;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString * socialAccountTimeString;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -42,6 +42,7 @@ import io.jsonwebtoken.impl.DefaultJwtParser;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.HttpClient;
+import org.json.JSONTokener;
 
 public class IntentManager {
     public static final int MAX_INTENT_NUMBER = 20;
@@ -196,23 +197,19 @@ public class IntentManager {
             "callbackurl"
     };
 
-    public String getParamsByJWT(String jwt, IntentInfo info) throws Exception {
+    public void getParamsByJWT(String jwt, IntentInfo info) throws Exception {
         Claims claims = parseJWT(jwt);
 
-        String ret = "{";
+        JSONObject json = new JSONObject();
         for (String key : claims.keySet()) {
             if (!Arrays.asList(removeJWTParams).contains(key)) {
-                if (!ret.equals("{")) {
-                    ret += ",";
-                }
-                ret += "\"" + key + "\":\"" + claims.get(key) + "\"";
+                String value = claims.get(key).toString();
+                Object obj = new JSONTokener(value).nextValue();
+                json.put(key, obj);
             }
         }
-
-        if (!ret.equals("{")) {
-            ret += ",";
-        }
-        ret += "\"type\":\"jwt\"}";
+        json.put("type", "jwt");
+        info.params = json.toString();
 
         if (claims.get("iss") != null) {
             info.aud = claims.get("iss").toString();
@@ -227,7 +224,24 @@ public class IntentManager {
             info.callbackurl = claims.get("callbackurl").toString();
         }
         info.type = IntentInfo.JWT;
-        return ret;
+    }
+
+
+    public void getParamsByUri(Uri uri, IntentInfo info) throws Exception {
+        Set<String> set = uri.getQueryParameterNames();
+        JSONObject json = new JSONObject();
+        for (String key : set) {
+            String value = uri.getQueryParameter(key);
+            if (key.equals("callbackurl")) {
+                info.callbackurl = value;
+            }
+            else {
+                Object obj = new JSONTokener(value).nextValue();
+                json.put(key, obj);
+            }
+        }
+        info.type = IntentInfo.URL;
+        info.params = json.toString();
     }
 
     public IntentInfo parseIntentUri(Uri uri) throws Exception {
@@ -241,25 +255,12 @@ public class IntentManager {
             long currentTime = System.currentTimeMillis();
 
             info = new IntentInfo(action, null, "system", null, currentTime, null);
+            JSONObject json = null;
             if (set.size() > 0) {
-                info.params = "{";
-                for (String name : set) {
-                    if (!info.params.equals("{")) {
-                        info.params += ",";
-                    }
-                    String value = uri.getQueryParameter(name);
-                    info.params += "\"" + name + "\":\"" + value + "\"";
-                    if (name.equals("callbackurl")) {
-                        info.callbackurl = value;
-                    }
-                }
-                info.params += "}";
-                info.type = IntentInfo.URL;
+                getParamsByUri(uri, info);
             }
-            else {
-                if (list.size() == 2) {
-                    info.params = getParamsByJWT(paths[1], info);
-                }
+            else if (list.size() == 2) {
+                getParamsByJWT(paths[1], info);
             }
         }
         return info;

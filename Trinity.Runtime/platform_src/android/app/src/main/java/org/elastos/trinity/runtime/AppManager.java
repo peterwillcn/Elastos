@@ -28,6 +28,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -94,6 +95,7 @@ public class AppManager {
     }
 
     private ArrayList<InstallInfo>  installUriList = new ArrayList<InstallInfo>();
+    private ArrayList<Uri>          intentUriList = new ArrayList<Uri>();
     private PermissionManager permissionManager;
     private boolean launcherReady = false;
     private String currentLocale = "en";
@@ -592,6 +594,17 @@ public class AppManager {
         }
     }
 
+    public void setIntentUri(Uri uri) {
+        if (uri == null) return;
+
+        if (launcherReady) {
+            IntentManager.getShareInstance().doIntentByUri(uri);
+        }
+        else {
+            intentUriList.add(uri);
+        }
+    }
+
     public boolean isLauncherReady() {
         return launcherReady;
     }
@@ -602,6 +615,11 @@ public class AppManager {
         for (int i = 0; i < installUriList.size(); i++) {
             InstallInfo info = installUriList.get(i);
             sendInstallMsg(info.uri, info.dev);
+        }
+
+        for (int i = 0; i < intentUriList.size(); i++) {
+            Uri uri = intentUriList.get(i);
+            IntentManager.getShareInstance().doIntentByUri(uri);
         }
     }
 

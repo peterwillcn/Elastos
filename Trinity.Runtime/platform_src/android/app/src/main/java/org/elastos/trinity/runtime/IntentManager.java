@@ -231,7 +231,7 @@ public class IntentManager {
             Set<String> set = uri.getQueryParameterNames();
             long currentTime = System.currentTimeMillis();
 
-            info = new IntentInfo(action, null, "systyem", null, currentTime, null);
+            info = new IntentInfo(action, null, "system", null, currentTime, null);
             if (set.size() > 0) {
                 info.params = "{";
                 for (String name : set) {

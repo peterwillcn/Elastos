@@ -6,21 +6,21 @@
 // Copyright (c) Microsoft Open Technologies Inc
 // Licensed under the MIT license.
 
-interface Navigator {
-    /**
-     * This plugin provides access to the device's accelerometer. The accelerometer is a motion sensor
-     * that detects the change (delta) in movement relative to the current device orientation,
-     * in three dimensions along the x, y, and z axis.
-     */
-    accelerometer: Accelerometer;
-}
-
 /**
  * This plugin provides access to the device's accelerometer. The accelerometer is a motion sensor
  * that detects the change (delta) in movement relative to the current device orientation,
  * in three dimensions along the x, y, and z axis.
+ * <br><br>
+ * Please use 'Accelerometer' as the plugin name in the manifest.json if you want to use
+ * this facility.
+ * <br><br>
+ * Usage:
+ * <br>
+ * navigator.accelerometer.getCurrentAcceleration(onSuccess, onError);
  */
-interface Accelerometer {
+
+declare namespace CordovaDeviceMotionPlugin {
+    interface Accelerometer {
     /**
      * Stop watching the Acceleration referenced by the watchID parameter.
      * @param watchID The ID returned by navigator.accelerometer.watchAcceleration.
@@ -49,14 +49,14 @@ interface Accelerometer {
         accelerometerSuccess: (acceleration: Acceleration) => void,
         accelerometerError: () => void,
         accelerometerOptions?: AccelerometerOptions): WatchHandle;
-}
+    }
 
-/**
+    /**
  * Contains Accelerometer data captured at a specific point in time. Acceleration values include
  * the effect of gravity (9.81 m/s^2), so that when a device lies flat and facing up, x, y, and z
  * values returned should be 0, 0, and 9.81.
  */
-interface Acceleration {
+    interface Acceleration {
     /** Amount of acceleration on the x-axis. (in m/s^2) */
     x: number;
     /** Amount of acceleration on the y-axis. (in m/s^2) */
@@ -65,13 +65,18 @@ interface Acceleration {
     z: number;
     /** Creation timestamp in milliseconds. */
     timestamp: number;
-}
+    }
 
-/** Object with options for watchAcceleration */
-interface AccelerometerOptions {
+    /** Object with options for watchAcceleration */
+    interface AccelerometerOptions {
     /** How often to retrieve the Acceleration in milliseconds. (Default: 10000) */
     frequency?: number;
+    }
+
+    /** Abstract type for watch IDs used by Accelerometer. Values of these type are actually `number` at runtime.*/
+    interface WatchHandle { }
 }
 
-/** Abstract type for watch IDs used by Accelerometer. Values of these type are actually `number` at runtime.*/
-interface WatchHandle { }
+interface Navigator {
+    accelerometer: CordovaDeviceMotionPlugin.Accelerometer;
+}

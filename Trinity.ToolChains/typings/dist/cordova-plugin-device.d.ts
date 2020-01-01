@@ -7,8 +7,17 @@
 /**
  * This plugin defines a global device object, which describes the device's hardware and software.
  * Although the object is in the global scope, it is not available until after the deviceready event.
+ * <br><br>
+ * Please use 'Device' as the plugin name in the manifest.json if you want to use
+ * this facility.
+ * <br><br>
+ * Usage:
+ * <br>
+ * device.platform;
  */
-interface Device {
+
+declare namespace CordovaDevicePlugin {
+    interface Device {
     /** Get the version of Cordova running on the device. */
     cordova: string;
     /** Indicates that Cordova initialize successfully. */
@@ -30,6 +39,7 @@ interface Device {
     isVirtual: boolean;
     /** Get the device hardware serial number. */
     serial: string;
+    }
 }
 
-declare var device: Device;
+declare var device: CordovaDevicePlugin.Device;

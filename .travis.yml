@@ -12,24 +12,24 @@ matrix:
           taps: homebrew/cask-versions
           casks: adoptopenjdk8
 
-    - os: osx
-      language: cpp
-      osx_image: xcode11.2
-      env: BUILD_EPKSIGNER
-      if: NOT tag IS present OR tag !~ /^(daily)/
-      before_install:
-      install:
-        - brew install shunit2
-      script:
-        - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/build.sh
-        - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/_build/sample/sample
-        - echo "---- use default python ----"
-        - $TRAVIS_BUILD_DIR/ToolChains/tests/sign_epk_test.sh
-        - $TRAVIS_BUILD_DIR/ToolChains/tests/verify_epk_test.sh
-        - echo "---- use python3 ----"
-        - export PYTHON3=ON
-        - $TRAVIS_BUILD_DIR/ToolChains/tests/sign_epk_test.sh
-        - $TRAVIS_BUILD_DIR/ToolChains/tests/verify_epk_test.sh
+    # - os: osx
+    #   language: cpp
+    #   osx_image: xcode11.2
+    #   env: BUILD_EPKSIGNER
+    #   if: NOT tag IS present OR tag !~ /^(daily)/
+    #   before_install:
+    #   install:
+    #     - brew install shunit2
+    #   script:
+    #     - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/build.sh
+    #     - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/_build/sample/sample
+    #     - echo "---- use default python ----"
+    #     - $TRAVIS_BUILD_DIR/ToolChains/tests/sign_epk_test.sh
+    #     - $TRAVIS_BUILD_DIR/ToolChains/tests/verify_epk_test.sh
+    #     - echo "---- use python3 ----"
+    #     - export PYTHON3=ON
+    #     - $TRAVIS_BUILD_DIR/ToolChains/tests/sign_epk_test.sh
+    #     - $TRAVIS_BUILD_DIR/ToolChains/tests/verify_epk_test.sh
 
     - language: android
       dist: trusty
@@ -46,23 +46,23 @@ matrix:
           - 'android-sdk-license-.+'
           - 'google-gdk-license-.+'
 
-    - language: cpp
-      dist: xenial
-      env: BUILD_EPKSIGNER
-      if: NOT tag IS present OR tag !~ /^(daily)/
-      before_install:
-      install:
-        - sudo apt-get install shunit2
-      script:
-        - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/build.sh
-        - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/_build/sample/sample
-        - echo "---- use default python ----"
-        - $TRAVIS_BUILD_DIR/ToolChains/tests/sign_epk_test.sh
-        - $TRAVIS_BUILD_DIR/ToolChains/tests/verify_epk_test.sh
-        - echo "---- use python3 ----"
-        - export PYTHON3=ON
-        - $TRAVIS_BUILD_DIR/ToolChains/tests/sign_epk_test.sh
-        - $TRAVIS_BUILD_DIR/ToolChains/tests/verify_epk_test.sh
+    # - language: cpp
+    #   dist: xenial
+    #   env: BUILD_EPKSIGNER
+    #   if: NOT tag IS present OR tag !~ /^(daily)/
+    #   before_install:
+    #   install:
+    #     - sudo apt-get install shunit2
+    #   script:
+    #     - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/build.sh
+    #     - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/_build/sample/sample
+    #     - echo "---- use default python ----"
+    #     - $TRAVIS_BUILD_DIR/ToolChains/tests/sign_epk_test.sh
+    #     - $TRAVIS_BUILD_DIR/ToolChains/tests/verify_epk_test.sh
+    #     - echo "---- use python3 ----"
+    #     - export PYTHON3=ON
+    #     - $TRAVIS_BUILD_DIR/ToolChains/tests/sign_epk_test.sh
+    #     - $TRAVIS_BUILD_DIR/ToolChains/tests/verify_epk_test.sh
 
 before_install:
   - wget -q https://services.gradle.org/distributions/gradle-5.4.1-bin.zip

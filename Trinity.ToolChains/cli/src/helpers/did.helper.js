@@ -56,7 +56,7 @@ module.exports = class DIDHelper {
             console.log("")
 
             const spawn = require("child_process").spawn;
-            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/create_did","-r",DEFAULT_DID_STORE_FOLDER_NAME,"-p",typedInfo.password,"-s",typedInfo.password]);
+            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/create_did","-r",DIDHelper.DEFAULT_DID_STORE_FOLDER_NAME,"-p",typedInfo.password,"-s",typedInfo.password]);
 
             var output = ""
 
@@ -103,7 +103,7 @@ module.exports = class DIDHelper {
             var rootScriptDirectory = path.dirname(require.main.filename)
 
             const spawn = require("child_process").spawn;
-            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/did_create_publish_didrequest","-r",DEFAULT_DID_STORE_FOLDER_NAME,"-p",password,"-d",didString]);
+            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/did_create_publish_didrequest","-r",DIDHelper.DEFAULT_DID_STORE_FOLDER_NAME,"-p",password,"-d",didString]);
 
             var output = "";
 
@@ -244,7 +244,7 @@ module.exports = class DIDHelper {
             this.didCreationSpinnerMessage = "Querying DID sidechain... (Retry "+this.didCreationCheckRetryCount+") - Not found yet."
 
             const spawn = require("child_process").spawn;
-            const pythonProcess = spawn('python3',[rootScriptDirectory+"/toolchain/did_resolve","-r",DEFAULT_DID_STORE_FOLDER_NAME,"-d",this.targetDIDUrl]);
+            const pythonProcess = spawn('python3',[rootScriptDirectory+"/toolchain/did_resolve","-r",DIDHelper.DEFAULT_DID_STORE_FOLDER_NAME,"-d",this.targetDIDUrl]);
 
             var output = "";
 

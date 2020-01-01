@@ -1,7 +1,3 @@
-[submodule "SPV.Cpp"]
-	path = Trinity/Dependency/SPV.Cpp
-	url = ../Elastos.ELA.SPV.Cpp
-	branch = dev
 [submodule "Launcher"]
 	path = Trinity/Launcher
 	url = ../Elastos.Trinity.DApps.Launcher.git

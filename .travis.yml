@@ -114,7 +114,7 @@ script:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       cd $TRAVIS_BUILD_DIR/Runtime/platforms/ios && xcodebuild -showsdks;
       sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer/;
-      xcodebuild -scheme Elastos build -sdk iphonesimulator;
+      xcodebuild -scheme elastOS build -sdk iphonesimulator;
     fi
   - ls -l $APK_PATH
 

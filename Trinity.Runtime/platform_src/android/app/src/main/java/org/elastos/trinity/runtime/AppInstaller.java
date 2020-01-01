@@ -344,11 +344,6 @@ public class AppInstaller {
                 // Failed to verify the DID signature.
                 deleteDAppPackage(downloadPkgPath);
                 throw new Exception("Failed to verify EPK DID signature!");
-            } else if (public_key == null || payload == null || signed_payload == null ||
-                    !NativeVerifier.verify(public_key, payload, signed_payload)) {
-                // Failed to verify the lagacy signature.
-                deleteDAppPackage(downloadPkgPath);
-                throw new Exception("Failed to verify EPK signature!");
             }
 
             Log.d("AppInstaller", "The EPK was signed by (Public Key): " + public_key);

@@ -477,7 +477,8 @@ public class AppBasePlugin extends TrinityPlugin {
         if (url.startsWith("asset://www/cordova") || url.startsWith("asset://www/plugins")
                 || url.startsWith("trinity:///asset/") || url.startsWith("trinity:///data/")
                 || url.startsWith("trinity:///temp/")
-                || url.startsWith("elastos://")) {
+                || url.startsWith("elastos://")
+                ||  url.startsWith("http://scheme.elastos.org/")) {
             return true;
         }
 
@@ -518,7 +519,7 @@ public class AppBasePlugin extends TrinityPlugin {
         else if (url.startsWith("trinity:///temp/")) {
             url = appManager.getTempUrl(this.appId) + url.substring(16);
         }
-        else if (url.startsWith("elastos://")) {
+        else if (url.startsWith("elastos://")  ||  url.startsWith("http://scheme.elastos.org/")) {
             try {
                 IntentManager.getShareInstance().sendIntentByUri(uri);
             } catch (Exception e) {

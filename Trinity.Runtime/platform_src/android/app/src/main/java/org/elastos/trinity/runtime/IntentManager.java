@@ -246,6 +246,11 @@ public class IntentManager {
 
     public IntentInfo parseIntentUri(Uri uri) throws Exception {
         IntentInfo info = null;
+        String url = uri.toString();
+        if (url.startsWith("elastos://") && !url.startsWith("elastos:///")) {
+            url = "elastos:///" + url.substring(10);
+            uri = Uri.parse(url);
+        }
         List<String> list = uri.getPathSegments();
         if (list.size() > 0) {
             String[] paths = new String[list.size()];
@@ -255,7 +260,6 @@ public class IntentManager {
             long currentTime = System.currentTimeMillis();
 
             info = new IntentInfo(action, null, "system", null, currentTime, null);
-            JSONObject json = null;
             if (set.size() > 0) {
                 getParamsByUri(uri, info);
             }

@@ -119,7 +119,9 @@ module.exports = class DIDHelper {
                         let jsonOutput = JSON.parse(output)
                         console.log("DID request created successfully")
                         console.log("")
-                        resolve(jsonOutput.request)
+                        resolve({
+                            didrequest:jsonOutput.request
+                        })
                     }
                     catch(e) {
                         reject('Invalid JSON output from did_create_publish_didrequest' + output)
@@ -226,6 +228,9 @@ module.exports = class DIDHelper {
         }
         while (!this.createdDIDFoundOnSidechain)
 
+        await sleep(1000)
+        console.log("");
+        console.log("");
         console.log("DONE! Your DID is now available on the DID sidechain.".green)
     }
 
@@ -252,7 +257,7 @@ module.exports = class DIDHelper {
             pythonProcess.stderr.on('data', function (data) { console.log(''+data)});
             pythonProcess.on('error', function(err) { reject(err)})
 
-            pythonProcess.on('exit', function (code) {
+            pythonProcess.on('exit', (code) => {
                 if (code == 0) {
                     // Successfully queried the DID sidechain. Now check the returned document
                     try {
@@ -274,6 +279,7 @@ module.exports = class DIDHelper {
                         resolve()
                     }
                     catch(e) {
+                        console.error(e);
                         reject('Invalid JSON output from did_resolve' + output)
                         return
                     }

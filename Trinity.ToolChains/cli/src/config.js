@@ -5,8 +5,8 @@ const lodash = require("lodash")
 // Prod config
 let config = {
     "dappstore":{
-        //"host":"https://dapp-store.elastos.org"
-        "host":"http://localhost:5200"
+        "host":"https://dapp-store.elastos.org"
+        //"host":"http://localhost:5200"
     }
 }
 

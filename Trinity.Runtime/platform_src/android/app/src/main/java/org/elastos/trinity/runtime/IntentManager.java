@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.net.Uri;
 import android.support.v4.app.FragmentManager;
+import android.util.Base64;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonObject;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -31,9 +33,12 @@ import java.util.Set;
 import java.util.UUID;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.JwtHandler;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SigningKeyResolver;
@@ -174,18 +179,24 @@ public class IntentManager {
         }
     }
 
-    public Claims parseJWT(String jwt) throws Exception {
+    public JSONObject parseJWT(String jwt) throws Exception {
         // Remove the Signature from the received JWT for now, we don't handle this.
         // TODO: extract the JWT issuer field from the JWT, resolve its DID from the DID sidechain, and
         // verify the JWT using the public key. JWT will have to be signed by the app developer's DID's private key.
         String[] splitToken = jwt.split("\\.");
         String unsignedToken = splitToken[0] + "." + splitToken[1] + ".";
 
-        DefaultJwtParser parser = new DefaultJwtParser();
+        /*DefaultJwtParser parser = new DefaultJwtParser();
         Jwt<?, ?> parsedJwt = parser.parse(unsignedToken);
-        Claims claims = (Claims) parsedJwt.getBody();
+        Claims claims = (Claims) parsedJwt.getBody();*/
 
-        return claims;
+        String jwtPayload = splitToken[1];
+        byte[] b64PayloadBytes = Base64.decode(jwtPayload, Base64.URL_SAFE);
+        String b64Payload = new String(b64PayloadBytes, "UTF-8");
+
+        JSONObject jwtPayloadJson = new JSONObject(b64Payload);
+
+        return jwtPayloadJson;
     }
 
     final String[] removeJWTParams = {
@@ -198,30 +209,22 @@ public class IntentManager {
     };
 
     public void getParamsByJWT(String jwt, IntentInfo info) throws Exception {
-        Claims claims = parseJWT(jwt);
+        JSONObject jwtPayload = parseJWT(jwt);
 
-        JSONObject json = new JSONObject();
-        for (String key : claims.keySet()) {
-            if (!Arrays.asList(removeJWTParams).contains(key)) {
-                String value = claims.get(key).toString();
-                Object obj = new JSONTokener(value).nextValue();
-                json.put(key, obj);
-            }
-        }
-        json.put("type", "jwt");
-        info.params = json.toString();
+        jwtPayload.put("type", "jwt");
+        info.params = jwtPayload.toString();
 
-        if (claims.get("iss") != null) {
-            info.aud = claims.get("iss").toString();
+        if (jwtPayload.has("iss")) {
+            info.aud = jwtPayload.getString("iss").toString();
         }
-        if (claims.get("appid") != null) {
-            info.req = claims.get("appid").toString();
+        if (jwtPayload.has("appid")) {
+            info.req = jwtPayload.getString("appid").toString();
         }
-        if (claims.get("redirecturl") != null) {
-            info.redirecturl = claims.get("redirecturl").toString();
+        if (jwtPayload.has("redirecturl")) {
+            info.redirecturl = jwtPayload.getString("redirecturl").toString();
         }
-        else if (claims.get("callbackurl") != null) {
-            info.callbackurl = claims.get("callbackurl").toString();
+        else if (jwtPayload.has("callbackurl")) {
+            info.callbackurl = jwtPayload.getString("callbackurl").toString();
         }
         info.type = IntentInfo.JWT;
     }

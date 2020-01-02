@@ -82,8 +82,8 @@
       "elastos-trinity-plugins-carrier": {},
       "elastos-trinity-plugins-hive": {},
       "elastos-trinity-plugins-did": {},
-      "elastos-trinity-plugins-appmanager": {},
-      "elastos-trinity-plugins-wallet": {}
+      "elastos-trinity-plugins-wallet": {},
+      "elastos-trinity-plugins-appmanager": {}
     },
     "platforms": [
       "android",

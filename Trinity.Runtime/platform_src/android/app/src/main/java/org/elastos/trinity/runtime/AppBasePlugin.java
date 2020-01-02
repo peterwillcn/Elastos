@@ -392,9 +392,14 @@ public class AppBasePlugin extends TrinityPlugin {
     protected void sendIntent(JSONArray args, CallbackContext callbackContext) throws Exception {
         String action = args.getString(0);
         String params = args.getString(1);
+        JSONObject options = args.optJSONObject(2);
         long currentTime = System.currentTimeMillis();
 
-        IntentInfo info = new IntentInfo(action, params, this.appId, null, currentTime, callbackContext);
+        String toId = null;
+        if (options != null && options.has("appId"))
+            toId = options.getString("appId");
+
+        IntentInfo info = new IntentInfo(action, params, this.appId, toId, currentTime, callbackContext);
 
         IntentManager.getShareInstance().sendIntent(info);
         PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);

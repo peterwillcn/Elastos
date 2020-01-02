@@ -400,7 +400,7 @@
 }
 
 - (IBAction)votingRulesEvent:(id)sender {
-    NSURL *url=[NSURL URLWithString:NSLocalizedString(@"rules", nil)];
+    NSURL *url=[NSURL URLWithString:NSLocalizedString(@"CRrules", nil)];
     if ([[UIDevice currentDevice].systemVersion floatValue]>=10.0) {
         [[UIApplication sharedApplication]openURL:url options:@{} completionHandler:^(BOOL success) {
         }];

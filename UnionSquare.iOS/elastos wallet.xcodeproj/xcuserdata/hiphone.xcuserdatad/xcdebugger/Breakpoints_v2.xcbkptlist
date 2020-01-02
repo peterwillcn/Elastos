@@ -143,12 +143,12 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "86265893-EE7B-4757-A3C3-D2B7BEB81BF2 - 66c9f209ea865702"
+                  uuid = "86265893-EE7B-4757-A3C3-D2B7BEB81BF2 - 66c87138e3c0b1ac"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "-[ELWalletManager RegisterCRWithMainchainSubWallet:With:]"
-                  moduleName = "PRVNET"
+                  moduleName = "REGNET"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/WalletManager/ELWalletManager.mm"
                   startingColumnNumber = "9223372036854775807"
@@ -158,12 +158,12 @@
                   offsetFromSymbolStart = "2659">
                </Location>
                <Location
-                  uuid = "86265893-EE7B-4757-A3C3-D2B7BEB81BF2 - 66c9f209ea865702"
+                  uuid = "86265893-EE7B-4757-A3C3-D2B7BEB81BF2 - 66c87138e3c0b1ac"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "-[ELWalletManager RegisterCRWithMainchainSubWallet:With:]"
-                  moduleName = "PRVNET"
+                  moduleName = "REGNET"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/WalletManager/ELWalletManager.mm"
                   startingColumnNumber = "9223372036854775807"
@@ -319,12 +319,12 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "98A1318E-4A35-4461-B673-840E0F33CF45 - 4d0a958325011761"
+                  uuid = "98A1318E-4A35-4461-B673-840E0F33CF45 - 4d0b16b22c47f1cf"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "-[ELWalletManager ExportxPrivateKey:]"
-                  moduleName = "PRVNET"
+                  moduleName = "REGNET"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/WalletManager/ELWalletManager.mm"
                   startingColumnNumber = "9223372036854775807"
@@ -334,12 +334,12 @@
                   offsetFromSymbolStart = "503">
                </Location>
                <Location
-                  uuid = "98A1318E-4A35-4461-B673-840E0F33CF45 - 4d0a958325011761"
+                  uuid = "98A1318E-4A35-4461-B673-840E0F33CF45 - 4d0b16b22c47f1cf"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "-[ELWalletManager ExportxPrivateKey:]"
-                  moduleName = "PRVNET"
+                  moduleName = "REGNET"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/WalletManager/ELWalletManager.mm"
                   startingColumnNumber = "9223372036854775807"
@@ -349,12 +349,12 @@
                   offsetFromSymbolStart = "599">
                </Location>
                <Location
-                  uuid = "98A1318E-4A35-4461-B673-840E0F33CF45 - 4d0a958325011761"
+                  uuid = "98A1318E-4A35-4461-B673-840E0F33CF45 - 4d0b16b22c47f1cf"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "-[ELWalletManager ExportxPrivateKey:]"
-                  moduleName = "PRVNET"
+                  moduleName = "REGNET"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/WalletManager/ELWalletManager.mm"
                   startingColumnNumber = "9223372036854775807"
@@ -412,6 +412,68 @@
             endingLineNumber = "314"
             landmarkName = "-actAction:"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B9ECB601-B2E1-4FAE-8874-29B77974FD4D - 2a2d745b99b9a3e7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[HWMCRCCommitteeElectionListViewController actAction:]"
+                  moduleName = "REGNET"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "315"
+                  endingLineNumber = "315"
+                  offsetFromSymbolStart = "1276">
+               </Location>
+               <Location
+                  uuid = "B9ECB601-B2E1-4FAE-8874-29B77974FD4D - 2a2d745b99b9a3e7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[HWMCRCCommitteeElectionListViewController actAction:]"
+                  moduleName = "REGNET"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "315"
+                  endingLineNumber = "315"
+                  offsetFromSymbolStart = "1320">
+               </Location>
+               <Location
+                  uuid = "B9ECB601-B2E1-4FAE-8874-29B77974FD4D - 2a2d745b99b9a3e7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[HWMCRCCommitteeElectionListViewController actAction:]"
+                  moduleName = "REGNET"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "315"
+                  endingLineNumber = "315"
+                  offsetFromSymbolStart = "1350">
+               </Location>
+               <Location
+                  uuid = "B9ECB601-B2E1-4FAE-8874-29B77974FD4D - 2a2d745b99b9a3e7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[HWMCRCCommitteeElectionListViewController actAction:]"
+                  moduleName = "REGNET"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "315"
+                  endingLineNumber = "315"
+                  offsetFromSymbolStart = "2085">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -428,6 +490,53 @@
             endingLineNumber = "452"
             landmarkName = "-editStateChange:"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "1EB3E371-2B1D-4D59-89FF-CDE3AA3E1C59 - 3a9255b43ecfa580"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[HWMCRCCommitteeElectionListViewController editStateChange:]"
+                  moduleName = "REGNET"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "453"
+                  endingLineNumber = "453"
+                  offsetFromSymbolStart = "1864">
+               </Location>
+               <Location
+                  uuid = "1EB3E371-2B1D-4D59-89FF-CDE3AA3E1C59 - 3a9255b43ecfa580"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[HWMCRCCommitteeElectionListViewController editStateChange:]"
+                  moduleName = "REGNET"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "453"
+                  endingLineNumber = "453"
+                  offsetFromSymbolStart = "4348">
+               </Location>
+               <Location
+                  uuid = "1EB3E371-2B1D-4D59-89FF-CDE3AA3E1C59 - 3a9255b43ecfa580"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[HWMCRCCommitteeElectionListViewController editStateChange:]"
+                  moduleName = "REGNET"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "453"
+                  endingLineNumber = "453"
+                  offsetFromSymbolStart = "4378">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -721,22 +830,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "03B433F4-390E-4B53-96A0-0D7A8B2A49C7"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ELA/found/SuperPoint/ViewController/HMWtheSuperNodeElectionViewController.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "376"
-            endingLineNumber = "376"
-            landmarkName = "-myVoteButton:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "A85CFAA9-C3A0-4868-80FD-CEA9A4AFAB95"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -780,53 +873,6 @@
             endingLineNumber = "135"
             landmarkName = "-getDBRecored"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "2D7152D7-F54C-432F-8343-026A5C123C40 - c24773ae341f888d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[HWMCRCCommitteeElectionListViewController getDBRecored]"
-                  moduleName = "PRVNET"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "135"
-                  endingLineNumber = "135"
-                  offsetFromSymbolStart = "1427">
-               </Location>
-               <Location
-                  uuid = "2D7152D7-F54C-432F-8343-026A5C123C40 - c24773ae341f888d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[HWMCRCCommitteeElectionListViewController getDBRecored]"
-                  moduleName = "PRVNET"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "135"
-                  endingLineNumber = "135"
-                  offsetFromSymbolStart = "1571">
-               </Location>
-               <Location
-                  uuid = "2D7152D7-F54C-432F-8343-026A5C123C40 - c24773ae341f888d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[HWMCRCCommitteeElectionListViewController getDBRecored]"
-                  moduleName = "PRVNET"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "135"
-                  endingLineNumber = "135"
-                  offsetFromSymbolStart = "1611">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -842,6 +888,22 @@
             startingLineNumber = "503"
             endingLineNumber = "503"
             landmarkName = "-needUpdateListWithIndex:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "94844AC9-878B-4616-8EEA-0EDE0B06E173"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ELA/found/SuperPoint/ViewController/HMWtheSuperNodeElectionViewController.mm"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "362"
+            endingLineNumber = "362"
+            landmarkName = "-votingRulesEvent:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

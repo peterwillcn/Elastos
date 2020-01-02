@@ -394,10 +394,14 @@ public class AppBasePlugin extends TrinityPlugin {
         String params = args.getString(1);
         JSONObject options = args.optJSONObject(2);
         long currentTime = System.currentTimeMillis();
-
         String toId = null;
-        if (options != null && options.has("appId"))
-            toId = options.getString("appId");
+
+        if (!args.isNull(2)) {
+            JSONObject options = args.getJSONObject(2);
+            if (options.has("appId")) {
+                toId = options.getString("appId");
+            }
+        }
 
         IntentInfo info = new IntentInfo(action, params, this.appId, toId, currentTime, callbackContext);
 

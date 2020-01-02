@@ -50,6 +50,9 @@ public class AppBasePlugin extends TrinityPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         try {
             switch (action) {
+                case "getVersion":
+                    this.getVersion(callbackContext);
+                    break;
                 case "start":
                     this.start(args, callbackContext);
                     break;
@@ -100,7 +103,7 @@ public class AppBasePlugin extends TrinityPlugin {
                     this.getInfo(args, callbackContext);
                     break;
                 case "launcher":
-                    this.launcher(args, callbackContext);
+                    this.launcher(callbackContext);
                     break;
                 case "close":
                     this.close(args, callbackContext);
@@ -140,8 +143,12 @@ public class AppBasePlugin extends TrinityPlugin {
         return true;
     }
 
+    protected void getVersion(CallbackContext callbackContext) throws Exception {
+        String version = ConfigManager.getShareInstance().getPreferenceValue("version");
+        callbackContext.success(version);
+    }
 
-    protected void launcher(JSONArray args, CallbackContext callbackContext) throws Exception {
+    protected void launcher(CallbackContext callbackContext) throws Exception {
         appManager.loadLauncher();
         callbackContext.success("ok");
     }

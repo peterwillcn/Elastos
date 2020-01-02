@@ -1,3 +1,4 @@
 {
-    "wallet.netType": "MainNet"
+    "wallet.netType": "MainNet",
+    "version": "1.0.0"
 }

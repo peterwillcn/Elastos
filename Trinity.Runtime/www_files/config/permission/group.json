@@ -6,6 +6,8 @@
         "AppManager": [
             "install",
             "unInstall",
+            "getVersion",
+            "setVisible",
             "getLocale",
             "getInfo",
             "launcher",
@@ -42,6 +44,8 @@
     },
     "wallet": {
         "AppManager": [
+            "getVersion",
+            "setVisible",
             "getLocale",
             "getInfo",
             "launcher",
@@ -79,6 +83,8 @@
     },
     "dappstore": {
         "AppManager": [
+            "getVersion",
+            "setVisible",
             "getLocale",
             "getInfo",
             "launcher",
@@ -121,6 +127,8 @@
     },
     "friends": {
         "AppManager": [
+            "getVersion",
+            "setVisible",
             "getLocale",
             "getInfo",
             "launcher",
@@ -162,6 +170,8 @@
     },
     "user": {
         "AppManager": [
+            "getVersion",
+            "setVisible",
             "getLocale",
             "getInfo",
             "launcher",

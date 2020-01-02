@@ -581,7 +581,7 @@
 "请输入竞选网址"="Input Election URL";
 "是否退出本届CR选举？\n一旦退出本届选举，所有投票清零且不可恢复。"="Quitting from the CR Election?\nAfter quitting, votes are permanently cleared.";
 "批量加入候选列表"="Add to Candidate List in Batches";
-"委员DID"="DID";
+"委员DID"="Candidate DID";
 "参选信息"="Candidate Information";
 "全选均分"="All & Average";
 "请输入票数"="Enter number";

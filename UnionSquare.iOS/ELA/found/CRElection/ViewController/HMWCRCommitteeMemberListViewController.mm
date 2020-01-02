@@ -81,7 +81,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    self.selfindex=-1;
-    self.typeString=@"Pending";
     self.title=NSLocalizedString(@"CR委员选举", nil);
     [self setBackgroundImg:@""];
     self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
@@ -467,7 +466,7 @@
     HMWnodeInformationViewController *nodeInformationVC=[[HMWnodeInformationViewController alloc]init];
      nodeInformationVC.index=index;
         nodeInformationVC.type=CRInformationType;
-    nodeInformationVC.CRmodel = self.memberListDataSource[index];
+    nodeInformationVC.CRmodel = self.ActiveArray[index];
     nodeInformationVC.Ranking=index+1;
     nodeInformationVC.delegate=self;
     nodeInformationVC.totalvotes=self.totalvotes;
@@ -657,9 +656,10 @@
         self.found_vote_rule.hidden=YES;
         self.typeString=@"ReturnDeposit";
     }else if ([self.selfModel.state isEqualToString:@"Pending"]){
+        self.typeString=@"Pending";
         self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
         self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
-        self.votingListV.typeString=self.typeString;
+//        self.votingListV.typeString=self.typeString;
     }
     else{
         self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);

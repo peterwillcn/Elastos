@@ -223,6 +223,14 @@ declare namespace AppManagerPlugin {
     }
 
     /**
+     * Options passed to sendIntent().
+     */
+    type IntentOptions = {
+        /** The target app package id, in case the intent should be sent to a specific app instead of being brodcast. */
+        appId?: string
+    }
+    
+    /**
      * The class representing dapp manager for launcher.
      */
     interface AppManager {
@@ -413,10 +421,11 @@ declare namespace AppManagerPlugin {
          *
          * @param action     The intent action.
          * @param params     The intent params.
+         * @param options    Optional options passed to sendIntent().
          * @param onSuccess  The function to call when success.
          * @param onError    The function to call when error, the param is a String. Or set to null.
          */
-        sendIntent(action: string, params: any, onSuccess?: (ret: any)=>void, onError?: (err:any)=>void);
+        sendIntent(action: string, params: any, options?: IntentOptions, onSuccess?: (ret: any)=>void, onError?: (err:any)=>void);
 
         /**
          * Send a intent by url.
@@ -464,5 +473,13 @@ declare namespace AppManagerPlugin {
          * @param onError    The function to call when error, the param is a String. Or set to null.
          */
         setVisible(visible: string, onSuccess: ()=>void, onError: (err:any)=>void);
+
+        /**
+         * Get trinity version.
+         *
+         * @param onSuccess  The function to call when success. The param is the version.
+         * @param onError    The function to call when error, the param is a String. Or set to null.
+         */
+        getVersion(onSuccess: (version: string) => void, onError?: (err: string) => void);
     }
 }

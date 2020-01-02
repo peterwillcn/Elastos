@@ -81,6 +81,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    self.selfindex=-1;
+    self.typeString=@"Pending";
     self.title=NSLocalizedString(@"CR委员选举", nil);
     [self setBackgroundImg:@""];
     self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
@@ -237,7 +238,45 @@
                    make.left.right.top.bottom.equalTo(mainView);
                }];
            }
+    }else if ([self.typeString isEqualToString:@"Pending"]){
+        if (self.isOpen) {
+                      FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
+                          vc.currentWallet=self.wallet;
+                          vc.CRTypeString=@"CR";
+
+                       vc.CRModel=self.selfModel;
+                       vc.lastArray=self.ActiveArray;
+                          [self.navigationController pushViewController:vc animated:YES];
+                }else{
+                    UIView *mainView =[self mainWindow];
+                    [mainView addSubview:self.openIDChainView];
+                    [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.left.right.top.bottom.equalTo(mainView);
+                    }];
+                }
+    }else{
+         if (self.type ==1) {
+                   FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
+                      vc.currentWallet=self.wallet;
+                      vc.CRModel=self.selfModel;
+                       vc.lastArray=self.ActiveArray;
+                      vc.CRTypeString=@"CR";
+                      [self.navigationController pushViewController:vc animated:YES];
+               }else{
+                   if (self.hasSing) {
+                       
+                       [[FLTools share]showErrorInfo:NSLocalizedString(@"已参选", nil) ];
+                       return;
+                   }
+                   UIView *mainView =[self mainWindow];
+                        [mainView addSubview:self.CRCommitteeForAgreementV];
+                        [self.CRCommitteeForAgreementV mas_makeConstraints:^(MASConstraintMaker *make) {
+                            make.left.right.top.bottom.mas_equalTo(mainView);
+                        }];
+               }
+               
     }
+    
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -428,7 +467,7 @@
     HMWnodeInformationViewController *nodeInformationVC=[[HMWnodeInformationViewController alloc]init];
      nodeInformationVC.index=index;
         nodeInformationVC.type=CRInformationType;
-    nodeInformationVC.CRmodel = self.selfModel;
+    nodeInformationVC.CRmodel = self.memberListDataSource[index];
     nodeInformationVC.Ranking=index+1;
     nodeInformationVC.delegate=self;
     nodeInformationVC.totalvotes=self.totalvotes;
@@ -618,14 +657,13 @@
         self.found_vote_rule.hidden=YES;
         self.typeString=@"ReturnDeposit";
     }else if ([self.selfModel.state isEqualToString:@"Pending"]){
-//        self.typeString=@"Registered";
-               self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
-               self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
-               self.votingListV.typeString=self.typeString;
+        self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+        self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
+        self.votingListV.typeString=self.typeString;
     }
     else{
         self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
-       self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
+        self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
         self.typeString=@"Unregistered";
     }
 }

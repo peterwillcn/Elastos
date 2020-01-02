@@ -169,7 +169,7 @@
 //        _siconImageView.layer.cornerRadius  =1.f;
 //        _siconImageView.layer.borderWidth   =1.f;
 //        _siconImageView.layer.borderColor   =RGBA(255, 255, 255, 0.8).CGColor;
-        _siconImageView.image=[UIImage imageNamed:@"found_vote_initial_oval"];
+        _siconImageView.image=[UIImage imageNamed:@"found_vote_initial"];
     }
     return _siconImageView;
 }
@@ -228,7 +228,7 @@
     __block NSString *countries;
     if (self.type==CRInformationType) {
         self.nodeNameLabel.text=self.CRmodel.nickname;
-         [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:self.CRmodel.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial_oval"]];
+         [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:self.CRmodel.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
 //        if (self.CRmodel.url.length>0) {
 //               URL=self.CRmodel.url;
 //           }
@@ -247,7 +247,7 @@
 //           dispatch_group_notify(group, dispatch_get_main_queue(), ^{
 //               self.nodeInformationDetailsV.countryRegionLabel.text=countries;
 //               if (URL.length>0&&self.model.url.length>0) {
-//                  [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:URL] placeholderImage:[UIImage imageNamed:@"found_vote_initial_oval"]];
+//                  [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:URL] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
 //               }
 //
 //           });
@@ -271,7 +271,7 @@
 //    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
 //        self.nodeInformationDetailsV.countryRegionLabel.text=countries;
 //        if (URL.length>0&&self.model.url.length>0) {
-           [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:self.model.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial_oval"]];
+           [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:self.model.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
 //        }
         
 //    });

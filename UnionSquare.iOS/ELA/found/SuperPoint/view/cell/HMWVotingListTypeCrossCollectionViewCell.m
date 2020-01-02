@@ -60,7 +60,7 @@
         self.indexLab.text = CRModel.index;
         self.percentLab.text = [NSString stringWithFormat:@"%@ %@",CRModel.voterate,@"%"];
         self.tickNumberLab.text=[NSString stringWithFormat:@"%ld %@",[CRModel.votes longValue],NSLocalizedString(@"票", nil)];
-         [self.coinIconImageView sd_setImageWithURL:[NSURL URLWithString:CRModel.url] placeholderImage:[UIImage imageNamed:@"found_vote_initial_oval"]];
+         [self.coinIconImageView sd_setImageWithURL:[NSURL URLWithString:CRModel.url] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
     
     _CRModel  = CRModel;
     

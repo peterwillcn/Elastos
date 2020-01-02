@@ -89,15 +89,13 @@
 {
     if (indexPath.row==0) {
         ELWalletManager *manager   =  [ELWalletManager share];
-        
         IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-        
         nlohmann::json info = mainchainSubWallet->GetRegisteredProducerInfo();
         NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
         NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
         NSString *Status = param[@"Status"];
         self.typeString =Status;
-        HMWtheSuperNodeElectionViewController*theSuperNodeElectionVC=[[HMWtheSuperNodeElectionViewController alloc]init];
+    HMWtheSuperNodeElectionViewController*theSuperNodeElectionVC=[[HMWtheSuperNodeElectionViewController alloc]init];
         theSuperNodeElectionVC.typeString=Status;
         theSuperNodeElectionVC.NodePublicKey= param[@"Info"][@"NodePublicKey"];
         theSuperNodeElectionVC.nodeName= param[@"Info"][@"NickName"];

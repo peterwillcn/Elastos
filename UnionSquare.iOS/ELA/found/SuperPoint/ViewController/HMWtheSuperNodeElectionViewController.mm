@@ -146,6 +146,9 @@
     }
 }
 - (IBAction)NodeRegisteredState:(id)sender {
+    
+    
+    
     if ([self.typeString isEqualToString:@"Registered"]){
         FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
         vc.model=self.selfModel;
@@ -173,6 +176,29 @@
         DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
         vc.nodeName=self.nodeName;
         [self.navigationController pushViewController:vc animated:YES];
+    }else if ([self.typeString isEqualToString:@"Pending"]){
+        FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
+               vc.model=self.selfModel;
+               [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        if (self.type ==1) {
+                   FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
+                   vc.model=self.selfModel;
+                   [self.navigationController pushViewController:vc animated:YES];
+               }else{
+                   if (self.hasSing) {
+                       
+                       [[FLTools share]showErrorInfo:NSLocalizedString(@"已参选", nil) ];
+                       return;
+                   }
+                   HMWsignUpForViewController *vc=[[HMWsignUpForViewController alloc]init];
+                   vc.delegate=self;
+                   self.hasSing=NO;
+                   vc.model=nil;
+                   [self.navigationController pushViewController:vc animated:YES];
+                   
+               }
+               
     }
     
     
@@ -439,10 +465,10 @@
         self.found_vote_rule.hidden=YES;
         self.typeString=@"ReturnDeposit";
     }else if ([self.selfModel.state isEqualToString:@"Pending"]){
-//        self.typeString=@"Registered";
+        self.typeString=@"Pending";
                self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
                self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
-               self.votingListV.typeString=self.typeString;
+//               self.votingListV.typeString=self.typeString;
     }else{
         self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
        self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];

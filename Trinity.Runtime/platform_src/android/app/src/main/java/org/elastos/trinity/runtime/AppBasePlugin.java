@@ -392,7 +392,6 @@ public class AppBasePlugin extends TrinityPlugin {
     protected void sendIntent(JSONArray args, CallbackContext callbackContext) throws Exception {
         String action = args.getString(0);
         String params = args.getString(1);
-        JSONObject options = args.optJSONObject(2);
         long currentTime = System.currentTimeMillis();
         String toId = null;
 

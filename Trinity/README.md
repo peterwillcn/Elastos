@@ -65,7 +65,7 @@ Elastos Trinity is supported on both Android and iOS, DApp developers only need 
 ## Download Trinity for Android
 [stable version](https://github.com/elastos/Elastos.Trinity/releases/latest)
 
-[latest version(tag starting with daily)](https://github.com/elastos/Elastos.Trinity/releases) 
+[latest version(tag starting with daily)](https://github.com/elastos/Elastos.Trinity/releases)
 
 
 ## Checking out the source code
@@ -89,10 +89,10 @@ To update the whole Trinity (main repo + submodules), run this:
 ```shell
 git pull --rebase
 git submodule update --init --rebase
-# Clean to remove plugins so that they are added back later. Otherwise, 
+# Clean to remove plugins so that they are added back later. Otherwise,
 # latest plugins changes are not applied inside the native app.
-./Toolchains/bin/build clean 
-./Toolchains/bin/build all
+./ToolChains/bin/build clean
+./ToolChains/bin/build all
 ```
 
 At that time, submodules will be in **detached HEAD** state. To commit changes, run this from the submodule folder before make changes:
@@ -171,10 +171,10 @@ python ToolChains/bin/build all
 Open project from YOU-PATH/Elastos.Trinity/Runtime/platforms/android
 
 ### About build tool(for Trinity developers)
-- build clean:  delete runtime platforms. 
+- build clean:  delete runtime platforms.
 
     if you update plugins, you should call build clean, then build runtime.Otherwise, latest plugins changes are not applied inside the native app.
-					
+
 - build clobber:  delete all build files.
 
 - build runtime: build runtime module.
@@ -211,7 +211,7 @@ Elastos.Trinity is composite repository to Elastos Trinity infrastructure, which
 * [Elastos.Trinity.Runtime](https://github.com/elastos/Elastos.Trinity.Runtime)
 * Elastos.Trinity.DApps
 * Elastos.Trinity.Plugins
-* [Elastos.Trinity.Toolchains](https://github.com/elastos/Elastos.Trinity.Toolchains)
+* [Elastos.Trinity.ToolChains](https://github.com/elastos/Elastos.Trinity.ToolChains)
 
 where category **DApps** includes several specific DApps repositories:
 

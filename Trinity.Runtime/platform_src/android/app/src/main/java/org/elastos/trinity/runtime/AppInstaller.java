@@ -319,16 +319,16 @@ public class AppInstaller {
         fmd.mkdirs();
 
         boolean verifyDigest = true;
-        if (update) {
-            verifyDigest = false;
-        }
+//        if (update) {
+//            verifyDigest = false;
+//        }
 
         if (!unpackZip(inputStream, path, verifyDigest)) {
             deleteDAppPackage(downloadPkgPath);
             throw new Exception("Failed to unpack EPK!");
         }
 
-        if (!update) {
+        if (verifyDigest) {
             // Verify the signature of the EPK
 
             String did_url = getStringFromFile(path + "EPK-SIGN/SIGN.DIDURL");
@@ -340,7 +340,8 @@ public class AppInstaller {
                     DIDVerifier.verify(did_url, public_key, payload, signed_payload)) {
                 // Successfully verify the DID signature.
                 Log.d("AppInstaller", "The EPK was signed by (DID URL): " + did_url);
-            } else if (did_url != null) {
+            }
+            else {
                 // Failed to verify the DID signature.
                 deleteDAppPackage(downloadPkgPath);
                 throw new Exception("Failed to verify EPK DID signature!");

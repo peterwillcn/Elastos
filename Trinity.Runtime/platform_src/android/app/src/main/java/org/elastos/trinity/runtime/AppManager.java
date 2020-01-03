@@ -297,7 +297,8 @@ public class AppManager {
     }
 
     public boolean isLauncher(String appId) {
-        if (appId.equals("launcher") || appId.equals(launcherInfo.app_id)) {
+        if (appId.equals("launcher")
+            || (launcherInfo != null && appId.equals(launcherInfo.app_id))) {
             return true;
         }
         else {
@@ -491,7 +492,7 @@ public class AppManager {
     }
 
     public boolean doBackPressed() {
-        if (isLauncher(curFragment.id)) {
+        if (launcherInfo == null || isLauncher(curFragment.id)) {
             return true;
         }
         else {

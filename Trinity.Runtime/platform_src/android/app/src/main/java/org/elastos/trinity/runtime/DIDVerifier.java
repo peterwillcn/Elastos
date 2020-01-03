@@ -8,12 +8,13 @@ import org.elastos.did.exception.DIDException;
 
 public class DIDVerifier {
     private static DIDStore mDIDStore;
-    private static String resolver = "http://api.elastos.io:21606";
 
     public static void initDidStore(String dataPath) throws Exception {
         String dataDir = dataPath + "/did_stores/" + "DIDVerifier";
 
         Log.i("DIDVerifier", "dataDir:" + dataDir);
+
+        String resolver = ConfigManager.getShareInstance().getStringValue("did.resolver", "http://api.elastos.io:20606");
 
         try {
             DIDBackend.initialize(new AbstractAdapter(resolver) {

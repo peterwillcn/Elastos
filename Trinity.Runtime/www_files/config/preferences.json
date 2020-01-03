@@ -1,4 +1,7 @@
 {
-    "wallet.netType": "MainNet",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "install.verifyDigest": false,
+    "did.resolver": "http://api.elastos.io:21606",
+
+    "wallet.netType": "MainNet"
 }

@@ -13,11 +13,10 @@ import java.util.LinkedHashMap;
 public class ConfigManager {
     private static ConfigManager configManager;
 
-    private LinkedHashMap<String, String> configPreferences = new LinkedHashMap();
+    private JSONObject configPreferences = null;
     private Context context = null;
 
     ConfigManager(AppManager appManager) {
-//        this.appManager = appManager;
         this.context = appManager.activity;
 
         try {
@@ -39,18 +38,28 @@ public class ConfigManager {
         AssetManager manager = context.getAssets();
         InputStream inputStream = manager.open("www/config/preferences.json");
 
-        JSONObject json = Utility.getJsonFromFile(inputStream);
+        configPreferences = Utility.getJsonFromFile(inputStream);
+    }
 
-        Iterator preferences = json.keys();
-        while (preferences.hasNext()) {
-            String key = (String)preferences.next();
-            String preference = json.getString(key);
-            configPreferences.put(key, preference);
+    public String getStringValue(String key, String defaultValue) {
+        try {
+            String value = configPreferences.getString(key);
+            if (value == null) {
+                value = defaultValue;
+            }
+            return value;
+        } catch (Exception e) {
+            return defaultValue;
         }
     }
 
-    public String getPreferenceValue(String key) {
-        return configPreferences.get(key);
+    public boolean getBooleanValue(String key, boolean defaultValue) {
+        try {
+            boolean value = configPreferences.getBoolean(key);
+            return value;
+        } catch (Exception e) {
+            return defaultValue;
+        }
     }
 
 }

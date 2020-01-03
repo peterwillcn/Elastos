@@ -318,10 +318,7 @@ public class AppInstaller {
         File fmd = new File(path);
         fmd.mkdirs();
 
-        boolean verifyDigest = true;
-//        if (update) {
-//            verifyDigest = false;
-//        }
+        boolean verifyDigest = ConfigManager.getShareInstance().getBooleanValue("install.verifyDigest", false);
 
         if (!unpackZip(inputStream, path, verifyDigest)) {
             deleteDAppPackage(downloadPkgPath);

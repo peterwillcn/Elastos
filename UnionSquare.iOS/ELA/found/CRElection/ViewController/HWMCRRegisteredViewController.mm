@@ -57,7 +57,7 @@
     [self setBackgroundImg:@""];
   self.title=NSLocalizedString(@"报名参选", nil);
     self.MemberThePublicKeyTextLabel.text=NSLocalizedString(@"参选公钥", nil);
-   self.MembersDIDTextLabel.text=NSLocalizedString(@"委员DID", nil);
+   self.MembersDIDTextLabel.text=NSLocalizedString(@"参选DID", nil);
     // Do any additional setup after loading the view from its nib.
     [self.confirmToRunButton setTitle:NSLocalizedString(@"确认参选", nil) forState:UIControlStateNormal];
     
@@ -130,8 +130,15 @@
 
 - (IBAction)confirmToRunEvent:(id)sender {
     if (self.MemberNameTextField.text.length==0) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入参选昵称（必填）", nil)];
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"委员昵称不能为空", nil)];
         return;
+    }
+    
+    for (HWMCRListModel *mode in self.lastArray) {
+        if ([self.MemberNameTextField.text isEqualToString:mode.nickname]) {
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"委员昵称已存在", nil)];
+            return;
+        }
     }
 //    if (self.CountryORRegionTextField.text.length==0) {
 //        [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择国家/地区", nil)];
@@ -374,4 +381,5 @@
     _lastArray=lastArray;
     
 }
+
 @end

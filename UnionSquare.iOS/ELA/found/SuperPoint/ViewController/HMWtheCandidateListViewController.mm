@@ -16,6 +16,7 @@
 #import "HMWFMDBManager.h"
 #import "HWMSignatureTradingSingleQrCodeViewController.h"
 #import "HWMTransactionDetailsView.h"
+#import "HMWtheSuperNodeElectionViewController.h"
 
 static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 @interface HMWtheCandidateListViewController ()<UITableViewDelegate,UITableViewDataSource,VotesPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HWMTransactionDetailsViewDelegate>
@@ -219,9 +220,13 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
        NSString * balanceString= [NSString stringWithCString:balanceSt.c_str() encoding:NSUTF8StringEncoding];
        NSInteger balance=[balanceString integerValue];
        self.inputVoteTicketView.votes =balance/unitNumber;
-       self.maxBlance=[[[FLTools share]elaScaleConversionWith: balanceString] doubleValue];
-       self.inputVoteTicketView.accountBalanceLab.text = [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"最大表决票权", nil),[[FLTools share]elaScaleConversionWith: balanceString]];
+        NSString *eleString=[[FLTools share]elaScaleConversionWith: balanceString];
+       self.maxBlance=[eleString doubleValue];
+        NSString *maxBla=[[FLTools share]CRVotingDecimalNumberByMultiplying:eleString withCRMermVoting:@"0.01"];
+        self.inputVoteTicketView.accountBalanceLab.text = [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"最大表决票权", nil),maxBla];
+        
     }
+    
 }
 - (IBAction)selectAllAction:(UIButton*)sender {
     if (sender.isSelected) {
@@ -550,6 +555,17 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     [self.sendSuccessPopuV removeFromSuperview];
                     self.sendSuccessPopuV=nil;
+        
+                  HMWtheSuperNodeElectionViewController*homeVC = [[HMWtheSuperNodeElectionViewController alloc] init];
+                            UIViewController *target = nil;
+                            for (UIViewController * controller in self.navigationController.viewControllers) {
+                                if ([controller isKindOfClass:[homeVC class]]) {
+                                    target = controller;
+                                }
+                            }
+                            if (target) {
+                                [self.navigationController popToViewController:target animated:YES];
+                            }
                 });
             }
 

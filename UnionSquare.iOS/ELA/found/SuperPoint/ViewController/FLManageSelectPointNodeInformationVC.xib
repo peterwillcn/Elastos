@@ -164,16 +164,16 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="---" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CJ7-Hn-7l9">
-                            <rect key="frame" x="15" y="96" width="315" height="13"/>
+                            <rect key="frame" x="15" y="96" width="315" height="15"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="13" id="N4v-6Y-mpK"/>
+                                <constraint firstAttribute="height" constant="15" id="N4v-6Y-mpK"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="df4-Gb-iS5">
-                            <rect key="frame" x="0.0" y="127" width="345" height="273"/>
+                            <rect key="frame" x="0.0" y="129" width="345" height="271"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
                     </subviews>

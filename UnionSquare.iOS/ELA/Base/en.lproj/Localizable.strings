@@ -28,7 +28,7 @@
 "编辑"="Edit";
 "删除"="Delete";
 "是否删除当前联系人？"="Delete contact?";
-"确认"="Yes";
+"确认"="Confirm";
 "取消"="Cancel";
 "编辑联系人"="Edit Contact";
 "确认修改"="Save";
@@ -44,7 +44,7 @@
 "发送金额"="Amount";
 "已同步区块时间"="Last Block Time ";
 "转账"="Transfer";
-"侧链充值"="Sidechain Top Up";
+"侧链充值"="Deposit to Sidechain";
 "收款"="Receive";
 "交易记录"="Transactions";
 "复制收款地址"="Copy Address";
@@ -57,7 +57,7 @@
 "转账详情"="Transfer Details";
 "转账地址"="Transfer Address";
 "金额"="Amount";
-"汇率"="Exchange Rate";
+"汇率"="Rate";
 "输入密码"="Enter password";
 "投票交易"="Vote Transaction";
 "暂无数据,请耐心等待!"="No data available, please be patient!";
@@ -66,7 +66,7 @@
 "请输入您的钱包密码"="Enter your wallet password";
 "交易发送成功，\n 请耐心等待交易确认"="Transaction initiated successfully,\n please wait for confirmation.";
 "选择侧链"="Select Sidechain";
-"充值到"="Top Up";
+"充值到"="Deposit to";
 "请输入侧链充值地址"="Enter sidechain address";
 "请输入主链提现地址"="Enter mainchain address";
 "主链提现"="Mainchain Withdrawal";
@@ -581,7 +581,7 @@
 "请输入竞选网址"="Input Election URL";
 "是否退出本届CR选举？\n一旦退出本届选举，所有投票清零且不可恢复。"="Quitting from the CR Election?\nAfter quitting, votes are permanently cleared.";
 "批量加入候选列表"="Add to Candidate List in Batches";
-"委员DID"="Candidate DID";
+"参选DID"="Candidate DID";
 "参选信息"="Candidate Information";
 "全选均分"="All & Average";
 "请输入票数"="Enter number";
@@ -637,6 +637,8 @@
 "提取质押金"="Retrieve deposit";
 "候选节点已失效"="Candidate nodes are invalid";
 "去开启"="Open";
+"委员DID"="Candidate DID";
+"委员昵称不能为空"="Enter Nickname of Council member";
 "该钱包尚未开启ID侧链，是否 \n 立即开启"="The wallet has not opened the ID Sidechain.Open it now?";
 "    退出参选72小时后，方可提取质押金"="The deposit is not available for withdrawal for 72 hours after quitting";
 

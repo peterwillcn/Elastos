@@ -13,7 +13,16 @@ typedef enum : NSUInteger {
 } MyVoteVotingListType;
 
 
+
+
+
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol HMWMyVoteViewControllerDeleagte <NSObject>
+
+-(void)updateDataSource;
+
+@end
 
 @interface HMWMyVoteViewController : UIViewController
 @property(nonatomic,strong)NSArray *listData;
@@ -21,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy,nonatomic)NSString * totalvotes;
 @property(assign,nonatomic)MyVoteVotingListType VoteType;
 @property(copy,nonatomic)NSString * persent;
-
+@property(strong,nonatomic)id<HMWMyVoteViewControllerDeleagte>delegate;
 
 @end
 

@@ -97,7 +97,7 @@
     }
     if (self.delegate) {
         [self.delegate pwdAndInfoWithPWD:pwd];
-        [self cancelThePWDPageView];
+//        [self cancelThePWDPageView];
     }
     
 }

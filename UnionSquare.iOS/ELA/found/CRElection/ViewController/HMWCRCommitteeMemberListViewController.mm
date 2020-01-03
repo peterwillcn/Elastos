@@ -25,7 +25,7 @@
 #import "HMWAddTheCurrencyListViewController.h"
 
 
-@interface HMWCRCommitteeMemberListViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWnodeInformationViewControllerDelegate,HWMCRCommitteeForAgreementViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWAddTheCurrencyListViewControllerDelegate,HWMCRCCommitteeElectionListViewControllerDelegate>
+@interface HMWCRCommitteeMemberListViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWnodeInformationViewControllerDelegate,HWMCRCommitteeForAgreementViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWAddTheCurrencyListViewControllerDelegate,HWMCRCCommitteeElectionListViewControllerDelegate,HMWMyVoteViewControllerDeleagte>
 @property (weak, nonatomic) IBOutlet UILabel *tagVoteRuleLab;
 
 @property (weak, nonatomic) IBOutlet UIView *EditSelectionView;
@@ -118,6 +118,7 @@
 //        self.tagVoteRuleLab.hidden=YES;
 //        self.found_vote_rule.hidden=YES;
 //    }
+    [self.JoinTheCandidateListButton setTitle:NSLocalizedString(@"批量加入候选列表", nil) forState:UIControlStateNormal];
     [self getWalletType];
     self.isOpen=NO;
     self.all_selectedTextLabel.text=NSLocalizedString(@"全选", nil);
@@ -339,10 +340,13 @@
     [self.ActiveArray removeAllObjects];
     NSArray *localStore  = [[NSMutableArray alloc]initWithArray: [[HMWFMDBManager sharedManagerType:CRListType] allSelectCRWithWallID:self.wallet.masterWalletID]];
 //    NSInteger selfIndex=-1;
+    
     for (int i= 0; i<self.memberListDataSource.count; i++) {
          HWMCRListModel* model=self.memberListDataSource[i];
         model.voterate=[[FLTools share]CRVotingPercentageWithAllCount:self.totalvotes withCRMermVoting:model.votes];
-       HWMCRListModel *curentmodel = nil ;
+        HWMCRListModel *curentmodel = nil;
+        model.isCellSelected=NO;
+        model.isNewCellSelected=NO;
         BOOL ret = NO;
         for (int j=0; j<localStore.count; j++) {
             HWMCRListModel *dataModel = localStore[j];
@@ -361,6 +365,11 @@
                 if (curentmodel) {
                    curentmodel.index=model.index;
                 }
+                if (self.all_selectedButton.isSelected&&model.isCellSelected) {
+                    self.all_selectedButton.selected=YES;
+                }else{
+                    self.all_selectedButton.selected=NO;
+                }
                 [self.ActiveArray insertObject:model atIndex:0];
             }
             self.selfModel=model;
@@ -372,6 +381,7 @@
                    if (curentmodel) {
                     curentmodel.index=model.index;
                     }
+                
                       [self.ActiveArray addObject:model];
         }
             
@@ -434,6 +444,7 @@
     vc.listData = self.memberListDataSource;
     vc.ActivData=self.ActiveArray;
     vc.totalvotes=self.totalvotes;
+    vc.delegate=self;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -483,6 +494,7 @@
         self.EditSelectionView.alpha=0.f;
         self.JoinTheCandidateListButton.alpha=0.f;
     }
+         self.all_selectedButton.selected=NO;
 }
 -(void)updateDataInfo{
 [self getNetCoinPointArray];
@@ -521,7 +533,8 @@
         return;
     }
     if(isAdd){
-          [[FLTools share]showErrorInfo:NSLocalizedString(@"添加成功",nil)];
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"添加成功",nil)];
+        [self UpdataLocalOwerlist];
         [self.votingListV AddAllTheCRList];
         
     }else{
@@ -593,18 +606,19 @@
 -(void)openIDChainOfDIDAddWithWallet:(NSString*)walletID{
     if (walletID.length>0) {
         self.isOpen=YES;
-        if ([self.typeString isEqualToString:@"Canceled"]) {
-            DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
-                          vc.CRTypeString=@"CRString";
-            vc.nodeName=self.nodeName;
-                          [self.navigationController pushViewController:vc animated:YES];
-        }else if ([self.typeString isEqualToString:@"Unregistered"]){
-            
-            HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];
-                        vc.lastArray=self.ActiveArray;
-                       vc.currentWallet=self.wallet;
-                       [self.navigationController pushViewController:vc animated:YES];
-        }
+//        if ([self.typeString isEqualToString:@"Canceled"]) {
+//            DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
+//                          vc.CRTypeString=@"CRString";
+//            vc.nodeName=self.nodeName;
+//                          [self.navigationController pushViewController:vc animated:YES];
+//        }else if ([self.typeString isEqualToString:@"Unregistered"]){
+//
+//            HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];
+//                        vc.lastArray=self.ActiveArray;
+//                       vc.currentWallet=self.wallet;
+//                       [self.navigationController pushViewController:vc animated:YES];
+//        }
+        [self NodeRegisteredState:nil];
     }
 }
 -(void)setCROwnerDID:(NSString *)CROwnerDID{
@@ -623,6 +637,8 @@
     return _ActiveArray;
 }
 -(void)needUpdataSta{
+    self.all_selectedButton.selected=NO;
+    self.all_selectedImageView.image=[UIImage imageNamed:@"found_vote_border"];
     [self UpdataLocalOwerlist];
 }
 -(void)setNodeName:(NSString *)nodeName{
@@ -666,5 +682,9 @@
         self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
         self.typeString=@"Unregistered";
     }
+}
+-(void)updateDataSource{
+    [self updateDataInfo];
+    
 }
 @end

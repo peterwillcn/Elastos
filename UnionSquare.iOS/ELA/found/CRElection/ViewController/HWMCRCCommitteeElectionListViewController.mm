@@ -17,9 +17,12 @@
 #import "HWMCRListModel.h"
 #import "HWMTransactionDetailsView.h"
 #import "HWMSignatureTradingSingleQrCodeViewController.h"
+#import "HMWCRCommitteeMemberListViewController.h"
+
 
 
 static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
+UINib *_cellCRNib;
 @interface HWMCRCCommitteeElectionListViewController ()<UITableViewDelegate,UITableViewDataSource,HMWpwdPopupViewDelegate,VotesPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HWMVoteTheEditorialBoardTableViewCellDeleate,UITextFieldDelegate,HWMTransactionDetailsViewDelegate,HWMVoteTheEditorialBoardTableViewCellDeleate>
 @property(strong,nonatomic)HMWSendSuccessPopuView *sendSuccessPopuV;//交易成功 提示;
 @property (weak, nonatomic) IBOutlet UILabel *TagtatolVoteLab;
@@ -113,7 +116,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     self.TheRemainingAvailable=@"0";
     self.invalidDopsArray=[NSArray array];
     [self LoadInvalidDops];
-    
+  
  
 }
 -(void)getDBRecored{
@@ -123,6 +126,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
         for ( HWMCRListModel *lmodel in DBRecoArray) {
             if ([model.did isEqualToString:lmodel.did]) {
                 model.SinceVotes=@"";
+                model.TextVotes=@"";
                 model.isCellSelected=NO;
                 if ([model.state isEqualToString:@"Active"]) {
                 [self.dataSource addObject:model];
@@ -223,13 +227,15 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     NSString * PnumberVotingString=[[FLTools share]CRVotingTheAverageDistribution:self.blaceString withCRMermVoting:[NSString stringWithFormat:@"%d",36]];
        //    double PnumberVoting=[PnumberVotingString doubleValue];
        if (self.WhetherTheAverage) {
+              self.TheRemainingAvailable=[[FLTools share]CRVotingDecimalNumberByMultiplying:PnumberVotingString withCRMermVoting:[NSString stringWithFormat:@"%d",36]];
            self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"all_selected"];
        }else{
            self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
-               PnumberVotingString=@"";
+       self.TheRemainingAvailable=@"0";
+           
                 [self.voteArray removeAllObjects];
            }
-   self.TheRemainingAvailable=[[FLTools share]CRVotingDecimalNumberByMultiplying:PnumberVotingString withCRMermVoting:[NSString stringWithFormat:@"%d",36]];
+
     NSIndexPath *index;
    for (int i=0; i<36; i++) {
        index=[NSIndexPath indexPathForRow:i inSection:0];
@@ -246,6 +252,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
        HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
        cell.model=model;
        cell.numberVotingTextField.text= model.SinceVotes;
+       model.TextVotes=model.SinceVotes;
        self.dataSource[i]=model;
    }
         self.TheAverageDistributionButton.selected=YES;
@@ -346,6 +353,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
 }
 -(void)clearVoteArray{
     
+    self.WhetherTheAverage=NO;
     [self.voteArray removeAllObjects];
     [self.baseTableView reloadData];
     [self updataBottomBtn];
@@ -355,7 +363,10 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     self.baseTableView.dataSource=self;
     self.baseTableView.rowHeight=130;
     self.baseTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
-    [self.baseTableView registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
+    _cellCRNib=[UINib nibWithNibName:cellString bundle:nil];
+
+  
+    [self.baseTableView registerNib:_cellCRNib forCellReuseIdentifier:cellString];
     self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     self.baseTableView.allowsMultipleSelection = YES;
     
@@ -367,6 +378,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     if (self.editBtn.isEnabled==NO&&self.dataSource.count==0) {
         
     }
+    
     self.baseTableView.backgroundColor=[UIColor clearColor];
     [self updataBottomBtn];
 }
@@ -395,7 +407,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    HWMVoteTheEditorialBoardTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
+      HWMVoteTheEditorialBoardTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString forIndexPath:indexPath];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
     HWMCRListModel *model = self.dataSource[indexPath.row];
@@ -421,6 +433,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
     NSString *title = self.editBtn.isSelected ?NSLocalizedString(@"删除", nil):NSLocalizedString(@"立即投票", nil);
     [self.immediatelyToVoteButton setTitle:title forState:UIControlStateNormal];
     if (self.editBtn.selected) {
+ 
         self.allTollTicketLabel.alpha=0.f;
         [self.immediatelyToVoteButton setTitle:NSLocalizedString(@"删除", nil) forState:UIControlStateNormal];
         self.textLabelTopConSet.constant=20.f;
@@ -591,7 +604,9 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
             [self.voteArray addObjectsFromArray:self.dataSource];
          }else{
              [self.voteArray removeAllObjects];
+             self.TheRemainingAvailable=@"";
          self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
+             
          }
          
         return;
@@ -622,6 +637,7 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
                  cell.numberVotingTextField.text= model.SinceVotes;
                  self.dataSource[i]=model;
              }
+                   self.TheRemainingAvailable=@"";
                  [self.baseTableView reloadData];
                  [self UpdateTheRemainingAvailable];
              }
@@ -636,9 +652,12 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
          model.SinceVotes=PnumberVotingString;
         if (self.WhetherTheAverage) {
             model.isCellSelected=YES;
+             model.TextVotes=model.SinceVotes;
               [self.voteArray addObject:model];
            }else{
            model.isCellSelected=NO;
+            model.TextVotes=@"";
+               model.SinceVotes=@"";
     
            }
 
@@ -647,7 +666,17 @@ static NSString *cellString=@"HWMVoteTheEditorialBoardTableViewCell";
         cell.numberVotingTextField.text= model.SinceVotes;
         self.dataSource[i]=model;
     }
-        
+     
+        if (self.WhetherTheAverage) {
+        self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"all_selected"];
+           [self.voteArray addObjectsFromArray:self.dataSource];
+        }else{
+            [self.voteArray removeAllObjects];
+            self.TheRemainingAvailable=@"";
+        self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
+        }
+        [self.baseTableView reloadData];
+        [self UpdateTheRemainingAvailable];
     }
     [self.baseTableView reloadData];
     [self UpdateTheRemainingAvailable];
@@ -681,17 +710,20 @@ NSString * availableString=[[FLTools share]CRVotingDecimalNumberBySubtracting:se
 
      HWMCRListModel*model = self.dataSource[index.row];
      if ([self.voteArray containsObject:model]) {
-         
          model.SinceVotes=@"";
+         if ([votes isEqualToString:@"0"]) {
+             
+         }
          model.isCellSelected=NO;
          [self.voteArray removeObject:model];
+          self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
+         self.WhetherTheAverage=NO;
+        
      }else{
-         
          model.SinceVotes=votes;
          model.isCellSelected=YES;
          [self.voteArray addObject:model];
      }
-
     NSString *RemainingAvailableString;
     if (model.isCellSelected){
        RemainingAvailableString=[[FLTools share] CRVotingDecimalNumberByAdding:self.TheRemainingAvailable withCRMermVoting:votes];
@@ -700,9 +732,8 @@ NSString * availableString=[[FLTools share]CRVotingDecimalNumberBySubtracting:se
     }
    self.dataSource[index.row]=model;
     self.TheRemainingAvailable=RemainingAvailableString;
-//     HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
-//           cell.model=model;
     [self UpdateTheRemainingAvailable];
+ 
     [self.baseTableView reloadData];
 }
 
@@ -714,6 +745,7 @@ NSString * availableString=[[FLTools share]CRVotingDecimalNumberBySubtracting:se
         if (self.voteArray.count==0) {
             return;
         }
+        
         BOOL ret;
         for (HWMCRListModel *model in self.voteArray) {
          ret=  [[HMWFMDBManager sharedManagerType:CRListType]delectSelectCR:model WithWalletID:self.wallet.masterWalletID];
@@ -725,9 +757,6 @@ NSString * availableString=[[FLTools share]CRVotingDecimalNumberBySubtracting:se
                 [self updatePlaceHoldInfo];
             }
             [self clearVoteArray];
-            if (self.delegate) {
-                [self.delegate needUpdataSta];
-            }
         }else{
              [[FLTools share]showErrorInfo:@"删除失败"];
         }
@@ -827,7 +856,18 @@ NSArray *DorpVotes=dic[@"DorpVotes"];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.sendSuccessPopuV removeFromSuperview];
                 self.sendSuccessPopuV=nil;
+                
             });
+           HMWCRCommitteeMemberListViewController *homeVC = [[HMWCRCommitteeMemberListViewController alloc] init];
+                    UIViewController *target = nil;
+                    for (UIViewController * controller in self.navigationController.viewControllers) {
+                        if ([controller isKindOfClass:[homeVC class]]) {
+                            target = controller;
+                        }
+                    }
+                    if (target) {
+                        [self.navigationController popToViewController:target animated:YES];
+                    }
             
         }
         [self.pwdPopupV removeFromSuperview];
@@ -947,5 +987,11 @@ NSArray *DorpVotes=dic[@"DorpVotes"];
     }
     self.invalidDopsArray=@[@{@"Type":@"Delegate",
                            @"Candidates":showlistdata}];
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    if (self.delegate) {
+         [self.delegate needUpdataSta];
+   }
 }
 @end

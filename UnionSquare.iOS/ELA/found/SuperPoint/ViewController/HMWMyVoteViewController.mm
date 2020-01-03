@@ -15,7 +15,7 @@
 #import "HWMCRCCommitteeElectionListViewController.h"
 #import "HMWtheCandidateListViewController.h"
 static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
-@interface HMWMyVoteViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface HMWMyVoteViewController ()<UITableViewDelegate,UITableViewDataSource,HWMCRCCommitteeElectionListViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIView *BGView;
 @property (weak, nonatomic) IBOutlet UILabel *nameOfTheWalletLabel;
 @property (weak, nonatomic) IBOutlet UILabel *theWalletAddressLabel;
@@ -56,12 +56,6 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     NSInteger balance=[balanceString integerValue];
     self.nameOfTheWalletLabel.text = waller.walletName;
     self.votesLabel.text = [NSLocalizedString(@"表决票权：", nil) stringByAppendingString:@(balance/unitNumber).stringValue];
-    if (self.VoteType==MyVoteNodeElectioType) {
-     [self getDataFromData];
-    }else if (self.VoteType==MyVoteCRType){
-        [self getCRData];
-    }
-    
 }
 -(void)getCRData{
     FLWallet *waller = [ELWalletManager share].currentWallet;
@@ -247,6 +241,7 @@ if (self.dataSource.count==0) {
      }else if (self.VoteType==MyVoteCRType){
          HWMCRCCommitteeElectionListViewController *vc=[[HWMCRCCommitteeElectionListViewController alloc]init];
          vc.lastArray=self.listData;
+         vc.delegate=self;
          vc.totalvotes=self.totalvotes;
          [self.navigationController pushViewController:vc animated:YES];
          
@@ -266,5 +261,19 @@ if (self.dataSource.count==0) {
 }
 -(void)setPersent:(NSString *)persent{
     _persent=persent;
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if (self.VoteType==MyVoteNodeElectioType) {
+     [self getDataFromData];
+    }else if (self.VoteType==MyVoteCRType){
+        [self getCRData];
+    }
+    
+}
+-(void)needUpdataSta{
+    if (self.delegate) {
+        [self.delegate updateDataSource];
+    }
 }
 @end

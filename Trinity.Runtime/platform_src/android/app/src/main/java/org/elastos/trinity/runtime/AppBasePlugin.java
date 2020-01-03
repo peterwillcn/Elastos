@@ -414,7 +414,7 @@ public class AppBasePlugin extends TrinityPlugin {
         String url = args.getString(0);
 
         try {
-            if (url.startsWith("elastos://") ||  url.startsWith("http://scheme.elastos.org/")) {
+            if (IntentManager.checkTrinityScheme(url)) {
                 IntentManager.getShareInstance().sendIntentByUri(Uri.parse(url));
             }
             else if (webView.getPluginManager().shouldOpenExternalUrl(url)) {
@@ -534,7 +534,7 @@ public class AppBasePlugin extends TrinityPlugin {
         else if (url.startsWith("trinity:///temp/")) {
             url = appManager.getTempUrl(this.appId) + url.substring(16);
         }
-        else if (url.startsWith("elastos://")  ||  url.startsWith("http://scheme.elastos.org/")) {
+        else if (IntentManager.checkTrinityScheme(url)) {
             try {
                 IntentManager.getShareInstance().sendIntentByUri(uri);
             } catch (Exception e) {

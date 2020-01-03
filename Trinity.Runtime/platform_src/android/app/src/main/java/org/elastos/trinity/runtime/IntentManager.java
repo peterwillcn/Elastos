@@ -66,6 +66,11 @@ public class IntentManager {
 
     public static final String JWT_SECRET = "secret";
 
+    final static String[] trinityScheme = {
+            "elastos://",
+            "http://scheme.elastos.org/",
+    };
+
     IntentManager(AppManager appManager) {
         this.appManager = appManager;
         this.context = appManager.activity;
@@ -80,6 +85,15 @@ public class IntentManager {
 
     public static IntentManager getShareInstance() {
         return IntentManager.intentManager;
+    }
+
+    public static boolean checkTrinityScheme(String url) {
+        for (int i = 0; i < trinityScheme.length; i++) {
+            if (url.startsWith(trinityScheme[i])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void putIntentToList(String app_id, IntentInfo info) {
@@ -343,12 +357,26 @@ public class IntentManager {
     public void sendJWTResponse(AppBasePlugin basePlugin, IntentInfo info, String result) throws Exception {
         if (info.type == IntentInfo.JWT) {
             String jwt = createJWT(info, result);
-            if (info.redirecturl != null) {
-                String url = info.redirecturl + "/" + jwt;
-                basePlugin.webView.showWebPage(url, true, false, null);
+
+            String url = info.redirecturl;
+            if (url == null) {
+                url = info.callbackurl;
+                if (url == null) {
+                    return;
+                }
             }
-            else if (info.callbackurl != null) {
-                postJWTCallback(jwt, info.callbackurl);
+
+            if (IntentManager.checkTrinityScheme(url)) {
+                url = url + "/" + jwt;
+                sendIntentByUri(Uri.parse(url));
+            }
+            else {
+                if (info.redirecturl != null) {
+                    url = info.redirecturl + "/" + jwt;
+                    basePlugin.webView.showWebPage(url, true, false, null);
+                } else if (info.callbackurl != null) {
+                    postJWTCallback(jwt, info.callbackurl);
+                }
             }
         }
     }

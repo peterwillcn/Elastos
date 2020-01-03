@@ -1,11 +1,9 @@
 
 checkoutMaster() {
-#   skip submodule:Dependency/SPV.Cpp
     git submodule foreach '
-        if [ "$path" != "Dependency/SPV.Cpp" ]; then
-            git checkout master
-	        git pull --rebase
-        fi'
+        git checkout master
+        git pull --rebase
+    '
 }
 
 syncCode() {

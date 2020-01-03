@@ -27,4 +27,8 @@ public class TrinityCordovaInterfaceImpl extends CordovaInterfaceImpl {
             throw e;
         }
     }
+
+    public CordovaPlugin getActivityResultCallback() {
+        return activityResultCallback;
+    }
 }

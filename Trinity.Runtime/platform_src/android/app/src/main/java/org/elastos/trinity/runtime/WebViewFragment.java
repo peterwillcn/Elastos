@@ -195,13 +195,13 @@ public class WebViewFragment extends Fragment {
         if (this.appView != null) {
             // CB-9382 If there is an activity that started for result and main activity is waiting for callback
             // result, we shoudn't stop WebView Javascript timers, as activity for result might be using them
-//            boolean keepRunning = this.keepRunning || this.cordovaInterface.activityResultCallback != null;
+            boolean keepRunning = this.keepRunning || this.cordovaInterface.getActivityResultCallback() != null;
             this.appView.handlePause(keepRunning);
         }
     }
 
     /**
-     * Called when the activity will start interacting with the user.
+     * Called when the actmivity will start interacting with the user.
      */
     @Override
     public void onResume() {
@@ -211,9 +211,9 @@ public class WebViewFragment extends Fragment {
         if (this.appView == null) {
             return;
         }
-//        // Force window to have focus, so application always
-//        // receive user input. Workaround for some devices (Samsung Galaxy Note 3 at least)
-//        this.getWindow().getDecorView().requestFocus();
+        // Force window to have focus, so application always
+        // receive user input. Workaround for some devices (Samsung Galaxy Note 3 at least)
+        this.activity.getWindow().getDecorView().requestFocus();
 
         this.appView.handleResume(this.keepRunning);
     }

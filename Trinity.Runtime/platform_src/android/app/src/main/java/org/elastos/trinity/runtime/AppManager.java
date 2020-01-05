@@ -145,6 +145,12 @@ public class AppManager {
         refreashInfos();
         saveLauncher();
         getLauncherInfo();
+        try {
+            loadLauncher();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         saveBuiltInApps();
         refreashInfos();
     }
@@ -153,7 +159,6 @@ public class AppManager {
     public static AppManager getShareInstance() {
         return AppManager.appManager;
     }
-
 
     private InputStream getAssetsFile(String path) {
         InputStream input = null;

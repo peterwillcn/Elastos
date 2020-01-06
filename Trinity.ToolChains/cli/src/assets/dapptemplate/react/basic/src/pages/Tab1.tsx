@@ -8,14 +8,18 @@ import {
   IonHeader,
   IonPage,
   IonTitle,
-  IonToolbar
+  IonToolbar,
+  IonButton
 } from '@ionic/react';
 import React from 'react';
 import './Tab1.css';
 
-const Tab1: React.FC = () => {
-  return (
-    <IonPage>
+declare let appManager: AppManagerPlugin.AppManager;
+
+class Tab1 extends React.Component {
+  render() {
+    return (
+      <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Home</IonTitle>
@@ -36,11 +40,19 @@ const Tab1: React.FC = () => {
 
               A default header-bar-component has been created to show you how to use custom UI components. That components also makes use of Trinity's AppService plugin as a sample.
             </p>
+            
+            <IonButton onClick={this.closeApp}>Close the app</IonButton>
           </IonCardContent>
         </IonCard>
       </IonContent>
     </IonPage>
-  );
-};
+    );
+  }
+
+  closeApp() {
+    console.log("dApp is closing!")
+    appManager.close();
+  }
+}
 
 export default Tab1;

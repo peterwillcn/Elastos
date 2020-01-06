@@ -13,8 +13,7 @@
 #import "ELWalletManager.h"
 #import "HWMTransactionDetailsView.h"
 #import "HWMCRListModel.h"
-
-
+#import "HMWCRCommitteeMemberListViewController.h"
 @interface HWMCRRegisteredViewController ()<FLJoinToChoseTransferViewDelegate,HMWSelectCountriesOrRegionsViewControllerDelegate,HWMTransactionDetailsViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *MemberThePublicKeyTextLabel;
 @property (weak, nonatomic) IBOutlet UILabel *MemberThePublicKeyLabel;
@@ -272,7 +271,16 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.sendSuccessPopuV removeFromSuperview];
         self.sendSuccessPopuV=nil;
-        [self.navigationController popViewControllerAnimated:YES];
+           HMWCRCommitteeMemberListViewController *homeVC = [[HMWCRCommitteeMemberListViewController alloc] init];
+                        UIViewController *target = nil;
+                        for (UIViewController * controller in self.navigationController.viewControllers) {
+                            if ([controller isKindOfClass:[homeVC class]]) {
+                                target = controller;
+                            }
+                        }
+                        if (target) {
+                            [self.navigationController popToViewController:target animated:YES];
+                        }
     });
     
 }

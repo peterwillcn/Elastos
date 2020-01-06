@@ -185,9 +185,9 @@
     }
 }
 - (IBAction)NodeRegisteredState:(id)sender {
+    
     if ([self.typeString isEqualToString:@"Registered"]){
-        
-        
+
         if (self.isOpen) {
                FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
                    vc.currentWallet=self.wallet;
@@ -608,19 +608,44 @@
 -(void)openIDChainOfDIDAddWithWallet:(NSString*)walletID{
     if (walletID.length>0) {
         self.isOpen=YES;
-//        if ([self.typeString isEqualToString:@"Canceled"]) {
-//            DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
-//                          vc.CRTypeString=@"CRString";
-//            vc.nodeName=self.nodeName;
-//                          [self.navigationController pushViewController:vc animated:YES];
-//        }else if ([self.typeString isEqualToString:@"Unregistered"]){
-//
-//            HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];
-//                        vc.lastArray=self.ActiveArray;
-//                       vc.currentWallet=self.wallet;
-//                       [self.navigationController pushViewController:vc animated:YES];
-//        }
-        [self NodeRegisteredState:nil];
+        if ([self.typeString isEqualToString:@"Registered"]){
+
+           FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
+               vc.currentWallet=self.wallet;
+               vc.CRTypeString=@"CR";
+
+            vc.CRModel=self.selfModel;
+            vc.lastArray=self.ActiveArray;
+               [self.navigationController pushViewController:vc animated:YES];
+        }else if ([self.typeString isEqualToString:@"Unregistered"]){
+            HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];    
+               vc.currentWallet=self.wallet;
+               vc.lastArray=self.ActiveArray;
+               [self.navigationController pushViewController:vc animated:YES];
+    
+        }else if ([self.typeString isEqualToString:@"Canceled"]){
+   
+           DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
+           vc.CRTypeString=@"CRString";
+            vc.CRModel=self.selfModel;
+            vc.nodeName=self.nodeName;
+           [self.navigationController pushViewController:vc animated:YES];
+
+        }else if ([self.typeString isEqualToString:@"Pending"]){
+                  FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
+                      vc.currentWallet=self.wallet;
+                      vc.CRTypeString=@"CR";
+                   vc.CRModel=self.selfModel;
+                   vc.lastArray=self.ActiveArray;
+                      [self.navigationController pushViewController:vc animated:YES];
+        }else{
+               FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
+                  vc.currentWallet=self.wallet;
+                  vc.CRModel=self.selfModel;
+                   vc.lastArray=self.ActiveArray;
+                  vc.CRTypeString=@"CR";
+                  [self.navigationController pushViewController:vc animated:YES];
+        }
     }
 }
 -(void)setCROwnerDID:(NSString *)CROwnerDID{

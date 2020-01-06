@@ -15,6 +15,7 @@
 #import "HWMTransactionDetailsView.h"
 #import "HMWFMDBManager.h"
 #import "FMDBWalletModel.h"
+#import "HMWtheSuperNodeElectionViewController.h"
 
 @interface HMWsignUpForViewController ()<HMWSelectCountriesOrRegionsViewControllerDelegate,HWMTransactionDetailsViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *theNameOfTheNodeMakeView;
@@ -213,7 +214,17 @@
 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.sendSuccessPopuV removeFromSuperview];
         self.sendSuccessPopuV=nil;
-            [self.navigationController popViewControllerAnimated:YES];
+            HMWtheSuperNodeElectionViewController *homeVC = [[HMWtheSuperNodeElectionViewController alloc] init];
+                               UIViewController *target = nil;
+                               for (UIViewController * controller in self.navigationController.viewControllers) {
+                                   if ([controller isKindOfClass:[homeVC class]]) {
+                                       target = controller;
+                                   }
+                               }
+                               if (target) {
+                                   [self.navigationController popToViewController:target animated:YES];
+                               }
+                       
     });
     
 }

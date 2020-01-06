@@ -102,11 +102,30 @@ static FLTools *tool;
     
     NSString *timeS;
 if ([languageString  containsString:@"en"]) {
-     
-    NSInteger month = [[[NSCalendar currentCalendar] components:NSCalendarUnitMonth fromDate:myDate] month];
-      [formatter setDateFormat:@"dd  HH:mm:ss YYYY"];
-    NSString *monthString=[NSString stringWithFormat:@"m%ld",(long)month];
-    timeS=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(monthString,nil),[formatter stringFromDate:myDate]];
+    NSCalendar *gregorian = [[NSCalendar alloc]
+     initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    // 获取当前日期
+    // 定义一个时间字段的旗标，指定将会获取指定年、月、日、时、分、秒的信息
+    unsigned unitFlags = NSCalendarUnitYear |
+     NSCalendarUnitMonth |  NSCalendarUnitDay |
+     NSCalendarUnitHour |  NSCalendarUnitMinute |
+     NSCalendarUnitSecond | NSCalendarUnitWeekday;
+    // 获取不同时间字段的信息
+    NSDateComponents* comp = [gregorian components: unitFlags
+     fromDate:myDate];
+    // 获取各时间字段的数值
+    NSLog(@"现在是%ld年" , comp.year);
+    NSLog(@"现在是%ld月 " , comp.month);
+    NSLog(@"现在是%ld日" , comp.day);
+    NSLog(@"现在是%ld时" , comp.hour);
+    NSLog(@"现在是%ld分" , comp.minute);
+    NSLog(@"现在是%ld秒" , comp.second);
+    NSLog(@"现在是星期%ld" , comp.weekday);
+
+     [formatter setDateFormat:@"HH:mm:ss"];
+   NSString * horr=[formatter stringFromDate:myDate];
+    NSString *monthString=[NSString stringWithFormat:@"m%ld",(long)comp.month];
+    timeS=[NSString stringWithFormat:@"%@ %ld  %@ %ld",NSLocalizedString(monthString,nil),comp.day,horr,comp.year];
   }else if ([languageString  containsString:@"zh"]){
         [formatter setDateFormat:@"YYYY.MM.dd HH:mm:ss"];
       timeS = [formatter stringFromDate:myDate];

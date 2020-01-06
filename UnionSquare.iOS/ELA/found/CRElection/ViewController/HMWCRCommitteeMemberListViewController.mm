@@ -352,7 +352,6 @@
             HWMCRListModel *dataModel = localStore[j];
             ret =  [dataModel.did isEqualToString:model.did];
             if (ret) {
-                NSLog(@"KOPOOPOPOPOPOPOyes");
                 model.isCellSelected=YES;
                 curentmodel=model;
             }
@@ -373,6 +372,9 @@
                 [self.ActiveArray insertObject:model atIndex:0];
             }
             self.selfModel=model;
+            if ([[FLTools share]isBlankString:model.url]) {
+                self.selfModel.url=@" ";
+            }
             [self updateInfoSelf];
             
         }else{
@@ -402,7 +404,7 @@
 //        [self.ActiveArray insertObject:model atIndex:0];
 //    }
     
-    
+               NSLog(@"dasdhasd=====%@",self.selfModel.url);
     [self loadAllImageInfo:self.ActiveArray];
     self.votingListV.dataSource=self.ActiveArray;
      

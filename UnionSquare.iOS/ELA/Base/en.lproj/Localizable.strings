@@ -78,7 +78,7 @@
 "钱包列表"="Wallet List";
 "创建钱包"="Create Wallet";
 "创建钱包(推荐)"="Create Wallet (Recommend)";
-
+"候选节点已经失效"="Candidate nodes are invalid";
 "导入钱包"="Import Wallet";
 "钱包管理"="Wallet Setting";
 "修改钱包名称"="Change Wallet Name";

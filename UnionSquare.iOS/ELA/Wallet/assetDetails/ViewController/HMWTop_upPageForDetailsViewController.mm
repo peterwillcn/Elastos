@@ -107,8 +107,6 @@
 
                          NSArray *elasArray=[QRCodeString componentsSeparatedByString:@":"];
 
-                      
-
                          if ([elasArray.lastObject containsString:@"?amount="]) {
 
                                NSArray *amountArray=[elasArray.lastObject componentsSeparatedByString:@"?amount="];
@@ -120,14 +118,20 @@
                              self.addressTextField.text=elasArray.lastObject;
                          }
 
+                     }else if([[ELWalletManager share]IsAddressValidWithMastID:self.currentWallet.masterWalletID WithAddress:QRCodeString]){
+                         self.addressTextField.text=QRCodeString;
+                         
                      }else{
 
-                         [self QrCodeScanningResultsWithString:QRCodeString];
+                         [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
 
                      }
 
                  }
 
+             }else if([[ELWalletManager share]IsAddressValidWithMastID:self.currentWallet.masterWalletID WithAddress:QRCodeString]){
+                 self.addressTextField.text=QRCodeString;
+                 
              }else{
 
                 
@@ -136,7 +140,7 @@
 
                      
 
-                    [self QrCodeScanningResultsWithString:QRCodeString];
+                    [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
 
                  
 

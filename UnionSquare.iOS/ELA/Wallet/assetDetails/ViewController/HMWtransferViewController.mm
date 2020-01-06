@@ -124,15 +124,22 @@
                 }
                      
                 
+            }else if([[ELWalletManager share]IsAddressValidWithMastID:self.currentWallet.masterWalletID WithAddress:QRCodeString]){
+                self.transferTheAddressTextField.text=QRCodeString;
+                
             }else{
-                [self QrCodeScanningResultsWithString:QRCodeString];
+                [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
             }
         }
+        
+    }else if([[ELWalletManager share]IsAddressValidWithMastID:self.currentWallet.masterWalletID WithAddress:QRCodeString]){
+        self.transferTheAddressTextField.text=QRCodeString;
+        
     }else{
        
 
             
-           [self QrCodeScanningResultsWithString:QRCodeString];
+           [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
         
         
     }

@@ -223,8 +223,10 @@ UINib *_cellCRNib;
     
     
     if (self.moreThan36View.deleteType==moreThan36SelectList) {
+        
     [self clearVoteArray];
     NSString * PnumberVotingString=[[FLTools share]CRVotingTheAverageDistribution:self.blaceString withCRMermVoting:[NSString stringWithFormat:@"%d",36]];
+        self.WhetherTheAverage=YES;
        //    double PnumberVoting=[PnumberVotingString doubleValue];
        if (self.WhetherTheAverage) {
               self.TheRemainingAvailable=[[FLTools share]CRVotingDecimalNumberByMultiplying:PnumberVotingString withCRMermVoting:[NSString stringWithFormat:@"%d",36]];
@@ -237,6 +239,7 @@ UINib *_cellCRNib;
            }
 
     NSIndexPath *index;
+        
    for (int i=0; i<36; i++) {
        index=[NSIndexPath indexPathForRow:i inSection:0];
          HWMCRListModel *model = self.dataSource[i];
@@ -246,7 +249,7 @@ UINib *_cellCRNib;
              [self.voteArray addObject:model];
           }else{
           model.isCellSelected=NO;
-   
+
           }
 
        HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];

@@ -51,4 +51,5 @@
 -(NSDictionary*)SCanQRCodeWithDicCode:(NSDictionary*)dic;
 -(BOOL)QrCodepushVC:(NSDictionary*)dic WithCurrWallet:(FLWallet*)currW;
 -(BOOL)TypeJudgment:(NSDictionary*)dic;
+-(void)QrCodeScanningResultsWithString:(NSString*)QrCodeScanning withVC:(UIViewController*)VC;
 @end

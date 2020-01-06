@@ -108,7 +108,33 @@
     if ([[FLTools share]SCanQRCodeWithDicCode:dic]){
         if ([dic[@"extra"][@"Type"] integerValue]==4) {
         self.transferTheAddressTextField.text=dic[@"data"];
+        }else{
+            
+            if ([QRCodeString containsString:@"elastos:"]) {
+                NSArray *elasArray=[QRCodeString componentsSeparatedByString:@":"];
+             
+                if ([elasArray.lastObject containsString:@"?amount="]) {
+                      NSArray *amountArray=[elasArray.lastObject componentsSeparatedByString:@"?amount="];
+                    self.theAmountOfTextField.text=amountArray.lastObject;
+                       self.transferTheAddressTextField.text=amountArray.firstObject;
+                }else{
+                    self.transferTheAddressTextField.text=elasArray.lastObject;
+                }
+                     
+                
+            }else if([[ELWalletManager share]IsAddressValidWithMastID:self.currentWallet.masterWalletID WithAddress:QRCodeString]){
+                self.transferTheAddressTextField.text=QRCodeString;
+                
+            }else{
+                [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
+            }
         }
+        
+    }else if([[ELWalletManager share]IsAddressValidWithMastID:self.currentWallet.masterWalletID WithAddress:QRCodeString]){
+        self.transferTheAddressTextField.text=QRCodeString;
+        
+    }else{
+           [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
     }
     
 }

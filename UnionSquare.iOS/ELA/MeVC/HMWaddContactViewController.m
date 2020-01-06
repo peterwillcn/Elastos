@@ -59,7 +59,6 @@
     
 }
 - (IBAction)sweepTheQRCodeEvent:(id)sender {
-
     __weak __typeof__(self) weakSelf = self;
     WCQRCodeScanningVC *WCQRCode=[[WCQRCodeScanningVC alloc]init];
     WCQRCode.scanBack=^(NSString *addr){

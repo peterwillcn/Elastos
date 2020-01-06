@@ -2618,4 +2618,10 @@ errCodeSPVCreateMasterWalletError= 20006;
 
     return @{@"crPublicKey":[self stringWithCString:crPublicKey],@"did":[self stringWithCString:did]};
 }
+-(BOOL)IsAddressValidWithMastID:(NSString*)masWalletID WithAddress:(NSString*)address{
+    String maWID=[self cstringWithString:masWalletID];
+    String add=[self cstringWithString:address];
+    return [self IsAddressValid:maWID withAddres:add];
+    
+}
 @end

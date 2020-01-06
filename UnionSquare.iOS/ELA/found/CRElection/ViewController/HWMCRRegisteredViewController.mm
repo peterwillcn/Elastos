@@ -91,6 +91,7 @@
         self.makeLine1.alpha=0.f;
         self.makeLine2.alpha=0.f;
         self.BGViewHeight.constant=190;
+        self.mobCodeString=self.CRmodel.location;
         
     }
         //        self.theNameOfTheNodeTextField.alpha=0.f;
@@ -214,6 +215,7 @@
 
            model.nickName   = self.MemberNameTextField.text;
            model.url        = self.URLTextField.text;
+  
            model.contryCode = self.mobCodeString;
            model.pwd        = pwd;
            model.ipAddress  = self.URLTextField.text;

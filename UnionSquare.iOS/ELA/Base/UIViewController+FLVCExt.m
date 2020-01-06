@@ -582,5 +582,11 @@ NSString *leftTime=
     
     return NO;
 }
+-(void)QrCodeScanningResultsWithString:(NSString*)QrCodeScanning withVC:(UIViewController*)VC{
+    HWMQrCodeScanningResultsViewController *QrCodeScanningResultsVC=[[HWMQrCodeScanningResultsViewController alloc]init];
+    QrCodeScanningResultsVC.resultString=QrCodeScanning;
+    [VC.navigationController pushViewController:QrCodeScanningResultsVC animated:YES];
+
+}
 
 @end

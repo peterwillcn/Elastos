@@ -222,7 +222,7 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
        self.inputVoteTicketView.votes =balance/unitNumber;
         NSString *eleString=[[FLTools share]elaScaleConversionWith: balanceString];
        self.maxBlance=[eleString doubleValue];
-        NSString *maxBla=[[FLTools share]CRVotingDecimalNumberByMultiplying:eleString withCRMermVoting:@"0.01"];
+        NSString *maxBla=[[FLTools share]CRVotingDecimalNumberBySubtracting:eleString withCRMermVoting:@"0.01"];
         self.inputVoteTicketView.accountBalanceLab.text = [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"最大表决票权", nil),maxBla];
         
     }

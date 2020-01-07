@@ -31,7 +31,7 @@ exports.builder = {
     news: {
         alias: "n",
         describe: "Short sentence about what's new in this application version.",
-        require: false
+        require: true
     },
 }
 exports.handler = function (argv) {

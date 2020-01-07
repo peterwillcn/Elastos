@@ -11,9 +11,9 @@ exports.describe = 'Publishes an existing DID to the DID sidechain (for example,
 exports.builder = {
     didurl: {
         alias: "d",
-        describe: "DID URL of the DID you want to publish. (ex: did:elastos:abcdef#primary)",
+        describe: "DID URL of the DID you want to publish. (ex: did:elastos:abcdef#primary).",
         require: true
-    },
+    }
 }
 exports.handler = function (argv) {
     launchPublishDID(argv.didurl);

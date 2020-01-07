@@ -19,7 +19,7 @@ module.exports = class PublishingHelper {
     /**
      * @param string didUrl A previously created DID using "trinity did create" and used to sign the EPK.
      */
-    async publishToDAppStore(epkPath, didUrl) {
+    async publishToDAppStore(epkPath, didUrl, whatsNew) {
         return new Promise(async (resolve, reject) => {
             console.log("")
             console.log("Starting DApp publishing process...")
@@ -43,7 +43,7 @@ module.exports = class PublishingHelper {
                 return
             }
 
-            let appIconPath = path.join(process.cwd(), "src", manifest.icons[0].src)
+            let appIconPath = path.join(process.cwd(), ionicHelper.getConfig().assets_path, manifest.icons[0].src)
             if (!fs.existsSync(appIconPath)) {
                 reject("No app icon found at location "+appIconPath+". Please check your manifest.")
                 return
@@ -81,6 +81,9 @@ module.exports = class PublishingHelper {
             data.append("manifest", manifestStream);
             data.append("appicon", appIconStream);
             data.append("bannerimage", bannerImageStream);
+
+            if (whatsNew)
+                data.append("whatsnew", whatsNew);
 
             /*axios.interceptors.request.use(request => {
                 console.log('Starting Request', request)

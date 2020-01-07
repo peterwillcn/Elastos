@@ -27,13 +27,18 @@ exports.builder = {
         alias: "p",
         describe: "Optional DID store password. If not provided, it will be prompted.",
         require: false
-    }
+    },
+    news: {
+        alias: "n",
+        describe: "Short sentence about what's new in this application version.",
+        require: false
+    },
 }
 exports.handler = function (argv) {
-    launchAppPublication(argv.did, argv.didstore, argv.password);
+    launchAppPublication(argv.did, argv.didstore, argv.password, argv.news);
 }
 
-async function launchAppPublication(didURL, didStorePath, password) {
+async function launchAppPublication(didURL, didStorePath, password, whatsNew) {
     var publishingHelper = new PublishingHelper()
     var manifestHelper = new ManifestHelper()
     var dappHelper = new DAppHelper()
@@ -88,7 +93,7 @@ async function launchAppPublication(didURL, didStorePath, password) {
         ionicHelper.runIonicBuild(true).then(() => {
             dappHelper.packEPK(temporaryManifestPath).then((outputEPKPath)=>{
                 dappHelper.signEPK(outputEPKPath, didURL, didSignaturePassword, didStorePath).then((signedEPKPath)=>{
-                    publishingHelper.publishToDAppStore(signedEPKPath, didURL).then((info)=>{
+                    publishingHelper.publishToDAppStore(signedEPKPath, didURL, whatsNew).then((info)=>{
                         console.log("Congratulations! Your app has been submitted for review!".green)
                     })
                     .catch((err)=>{

@@ -153,6 +153,7 @@ public class AppManager {
         }
         saveBuiltInApps();
         refreashInfos();
+        sendRefreshList("initiated", null);
     }
 
 
@@ -639,10 +640,16 @@ public class AppManager {
         }
     }
 
-    private void sendRefreshList(String action, AppInfo info) {
+    public void sendRefreshList(String action, AppInfo info) {
         try {
-            sendMessage("launcher", MSG_TYPE_IN_REFRESH,
-                    "{\"action\":\"" + action + "\", \"id\":\"" + info.app_id + "\" , \"name\":\"" + info.name + "\"}", "system");
+            if (info != null) {
+                sendMessage("launcher", MSG_TYPE_IN_REFRESH,
+                        "{\"action\":\"" + action + "\", \"id\":\"" + info.app_id + "\" , \"name\":\"" + info.name + "\"}", "system");
+            }
+            else {
+                sendMessage("launcher", MSG_TYPE_IN_REFRESH,
+                    "{\"action\":\"" + action + "\"}", "system");
+            }
         }
         catch (Exception e) {
             e.printStackTrace();

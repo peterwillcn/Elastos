@@ -46,8 +46,8 @@ public class WebViewActivity extends FragmentActivity {
 
     public static final int REQUESTCODE_STORAGE = 50;
 
-    protected AppManager appManager;
-    private GestureDetector gestureDetector;
+    protected AppManager appManager = null;
+    private GestureDetector gestureDetector = null;
 
     private String adbUri = "";
 
@@ -241,7 +241,7 @@ public class WebViewActivity extends FragmentActivity {
 
     @Override
     public boolean dispatchTouchEvent (MotionEvent ev) {
-        if ((appManager != null) && (appManager.curFragment != null)
+        if ((gestureDetector != null) && (appManager != null) && (appManager.curFragment != null)
                 && (!appManager.curFragment.id.equals("launcher"))) {
             gestureDetector.onTouchEvent(ev);
         }

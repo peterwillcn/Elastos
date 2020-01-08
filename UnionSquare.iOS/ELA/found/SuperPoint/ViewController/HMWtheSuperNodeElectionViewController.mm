@@ -145,10 +145,7 @@
       
     }
 }
-- (IBAction)NodeRegisteredState:(id)sender {
-    
-    
-    
+- (IBAction)NodeRegisteredState:(id)sender {    
     if ([self.typeString isEqualToString:@"Registered"]){
         FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
         vc.model=self.selfModel;
@@ -300,13 +297,6 @@
                      [self.ActiveArray addObject:model];
                     }
                     }
-//                }else{
-//
-//                if ([model.state isEqualToString:@"Active"]) {
-//
-//                    [self.ActiveArray addObject:model];
-//                }
-//                }
                 
             }
          

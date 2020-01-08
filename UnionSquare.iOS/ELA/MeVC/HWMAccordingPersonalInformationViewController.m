@@ -27,6 +27,7 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
     if (self.model.iconUrlString.length>0) {
         [self.IconImageView sd_setImageWithURL:[NSURL URLWithString:self.model.iconUrlString]placeholderImage:[UIImage imageNamed:@"mine_did_default_avator"]];
     }
+
 }
 -(NSArray *)dataSource{
     if (!_dataSource) {
@@ -131,6 +132,7 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
 */
 -(void)setModel:(HWMDIDInfoModel *)model{
     _model=model;
+    
 }
 
 @end

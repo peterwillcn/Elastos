@@ -58,7 +58,7 @@
     }
     self.isSelectedImageView.image =[UIImage imageNamed:imageNameString];
     
-    if (model.SinceVotes.length>0&&model.isCellSelected&&![model.SinceVotes isEqualToString:@"0"]) {
+    if (model.SinceVotes.length>0&&![model.SinceVotes isEqualToString:@"0"]) {
         self.numberVotingTextField.text=model.SinceVotes;
     }else{
         self.numberVotingTextField.text=model.TextVotes;

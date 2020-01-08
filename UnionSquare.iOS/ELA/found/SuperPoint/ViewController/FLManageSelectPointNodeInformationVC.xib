@@ -57,9 +57,9 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="节点公钥" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rfi-gO-KEl">
-                            <rect key="frame" x="15" y="147" width="100" height="13"/>
+                            <rect key="frame" x="15" y="147" width="110" height="13"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="100" id="eC5-gd-bKh"/>
+                                <constraint firstAttribute="width" constant="110" id="eC5-gd-bKh"/>
                                 <constraint firstAttribute="height" constant="13" id="kVI-Y7-yXh"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -126,9 +126,9 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="当前票数" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MhH-IM-gCf">
-                            <rect key="frame" x="15" y="186" width="100" height="13"/>
+                            <rect key="frame" x="15" y="186" width="100" height="20"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="13" id="4tC-1L-ZQF"/>
+                                <constraint firstAttribute="height" constant="20" id="4tC-1L-ZQF"/>
                                 <constraint firstAttribute="width" constant="100" id="lOx-4n-3JC"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -136,7 +136,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="---" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="umZ-Cd-PAE">
-                            <rect key="frame" x="125" y="186" width="205" height="13"/>
+                            <rect key="frame" x="125" y="189.5" width="205" height="13"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="13" id="Pqy-J0-BD0"/>
                             </constraints>
@@ -145,9 +145,9 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="投票占比" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RDF-Ee-2N4">
-                            <rect key="frame" x="15" y="225" width="160" height="13"/>
+                            <rect key="frame" x="15" y="232" width="160" height="20"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="13" id="Lm9-Po-0oP"/>
+                                <constraint firstAttribute="height" constant="20" id="Lm9-Po-0oP"/>
                                 <constraint firstAttribute="width" constant="160" id="eRb-LP-2KR"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -155,7 +155,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="---" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wYE-79-jvN">
-                            <rect key="frame" x="310.5" y="225" width="19.5" height="13"/>
+                            <rect key="frame" x="310.5" y="228.5" width="19.5" height="27"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="13" id="nRR-Ch-Ynm"/>
                             </constraints>
@@ -189,7 +189,7 @@
                         <constraint firstItem="RDF-Ee-2N4" firstAttribute="leading" secondItem="MYJ-3d-yeN" secondAttribute="leading" constant="15" id="8WR-Iu-WwK"/>
                         <constraint firstItem="SSn-x8-pUy" firstAttribute="centerY" secondItem="0do-Ag-h9D" secondAttribute="centerY" id="BEs-Og-obk"/>
                         <constraint firstItem="SSn-x8-pUy" firstAttribute="leading" secondItem="0do-Ag-h9D" secondAttribute="trailing" id="BnQ-Ot-tCz"/>
-                        <constraint firstItem="MhH-IM-gCf" firstAttribute="centerX" secondItem="rfi-gO-KEl" secondAttribute="centerX" id="Bos-qu-vlJ"/>
+                        <constraint firstItem="MhH-IM-gCf" firstAttribute="centerX" secondItem="rfi-gO-KEl" secondAttribute="centerX" constant="-5" id="Bos-qu-vlJ"/>
                         <constraint firstAttribute="trailing" secondItem="umZ-Cd-PAE" secondAttribute="trailing" constant="15" id="CmL-cy-wz6"/>
                         <constraint firstItem="q52-cP-vTL" firstAttribute="leading" secondItem="MYJ-3d-yeN" secondAttribute="leading" constant="15" id="EjG-VG-pRk"/>
                         <constraint firstItem="HoL-lq-J20" firstAttribute="leading" secondItem="MYJ-3d-yeN" secondAttribute="leading" constant="15" id="Ftr-4K-yaH"/>

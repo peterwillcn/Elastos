@@ -455,6 +455,7 @@ UINib *_cellCRNib;
           HWMCRListModel *model = self.dataSource[i];
            model.isCellSelected=NO;
             model.SinceVotes=@"";
+            model.TextVotes=@"";
             self.dataSource[i]=model;
             HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
                    cell.model=model;
@@ -695,13 +696,22 @@ UINib *_cellCRNib;
     }else{
         
         self.allTollTicketLabel.text=[NSString stringWithFormat:@"%@ %@ ELA",NSLocalizedString(@"合计：",nil ),self.TheRemainingAvailable];}
-NSString * availableString=[[FLTools share]CRVotingDecimalNumberBySubtracting:self.blaceString withCRMermVoting:self.TheRemainingAvailable];
+        NSString * availableString=[[FLTools share]CRVotingDecimalNumberBySubtracting:self.blaceString withCRMermVoting:self.TheRemainingAvailable];
     if ([availableString intValue]<1) {
           self.persentLab.text=[NSString stringWithFormat:@"%@ <1 ELA",NSLocalizedString(@"可用：",nil )];
     }else{
         self.persentLab.text=[NSString stringWithFormat:@"%@ %d ELA",NSLocalizedString(@"可用：",nil ),[availableString intValue]];
         
     }
+    if (self.editBtn.isSelected) {
+        if (self.dataSource.count>0&&self.dataSource.count==self.voteArray.count) {
+                   self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"all_selected"];
+             }else{
+                 self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
+             }
+    }
+     
+    
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
@@ -943,12 +953,13 @@ NSArray *DorpVotes=dic[@"DorpVotes"];
           if ([self.voteArray containsObject:model]) {
               self.TheRemainingAvailable=[[FLTools share]CRVotingDecimalNumberBySubtracting:self.TheRemainingAvailable withCRMermVoting:model.SinceVotes];
           }
+        
             model.SinceVotes=text.text;
            self.TheRemainingAvailable=[[FLTools share]CRVotingDecimalNumberByAdding:self.TheRemainingAvailable withCRMermVoting:model.SinceVotes];
          
-           [self UpdateTheRemainingAvailable];
            
        }
+    [self UpdateTheRemainingAvailable];
      self.dataSource[index.row]=model;
     
     

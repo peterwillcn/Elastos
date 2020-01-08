@@ -41,7 +41,7 @@
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #else
 //@"RegTest",@"PrvNet",@"TestNet",@"MainNet"
-#define SDKNET  @"PrvNet"
+#define SDKNET  @"RegTest"
 #define Http_IP [[FLTools share]http_ipString:SDKNET]
 #define transUrl [[FLTools share]http_transUrl:SDKNET]
 #define PongUrl [[FLTools share]http_PongUrl:SDKNET]

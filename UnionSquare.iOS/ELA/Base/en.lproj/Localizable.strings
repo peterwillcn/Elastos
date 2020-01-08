@@ -152,8 +152,8 @@
 "投票占用:"="Vote Amount:";
 "是否使用投票utxo:"="Whether to use voting utxo";
 "交易类型"="Transaction Type";
-"输入"="Inputs";
-"输出"="Outputs";
+"输入地址"="Inputs";
+"输出地址"="Outputs";
 "创币交易"="Coinbase Transaction";
 "注册资产交易"="Asset Registration Transaction";
 "普通转账交易"="Transfer Transaction";
@@ -162,7 +162,7 @@
 "侧链挖矿交易"="Sidechain Mining Transaction";
 "侧链充值交易"="Sidechain Deposit Transaction";
 "侧链提现交易"="Sidechain Withdrawal Transaction";
-"跨链交易"="Cross-Chain Transaction";
+"跨链交易"="Cross Chain transfer Transaction";
 "注册参选交易"="Node Registration Transaction";
 "取消参选交易"="Node Cancellation Transaction";
 "更新参选交易"="Node Update Transaction";
@@ -281,9 +281,9 @@
 "钱包名修改失败" = "The purse of modified failure";
 "两次密码输入不一致" = "The two passwords don't match";
 "变更投票"="Change my vote";
-"上次投票记录"="Last vote record";
-"暂无投票记录"="No vote record";
-"表决票权："="Voting Right:";
+"上次投票记录"="Last Voting Record";
+"暂无投票记录"="No voting records";
+"表决票权："="Voting Power:";
 "节点信息" = "Node Information";
 "移出候选列表"= "Remove from Candidate List";
 "加入候选列表" ="Add to Candidate List";

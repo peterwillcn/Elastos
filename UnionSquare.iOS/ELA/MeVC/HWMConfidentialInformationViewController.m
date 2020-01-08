@@ -7,6 +7,9 @@
 
 #import "HWMConfidentialInformationViewController.h"
 #import "HWMDIDListAbnormalTableViewCell.h"
+#import "HWMAccordingPersonalInformationViewController.h"
+#import "HWMAddPersonalProfileViewController.h"
+#import "HWMShowSocialAccountViewController.h"
 static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
 @interface HWMConfidentialInformationViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *table;
@@ -70,12 +73,26 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
 {
     switch (indexPath.section) {
         case 0:
+        {
+            HWMAccordingPersonalInformationViewController * HWMAccordingPersonalInformationVC=[[HWMAccordingPersonalInformationViewController alloc]init ];
+            HWMAccordingPersonalInformationVC.model=self.model;
+            [self.navigationController pushViewController:HWMAccordingPersonalInformationVC animated:YES];
             
+        }
             break;
-        case 1:
+        case 1:{
+            HWMAddPersonalProfileViewController *HWMAddPersonalProfileVC=[[HWMAddPersonalProfileViewController alloc]init];
+            HWMAddPersonalProfileVC.model=self.model;
+            [self.navigationController pushViewController:HWMAddPersonalProfileVC animated:YES];
+        }
                       
         break;
-        case 2:
+        case 2:{
+            HWMShowSocialAccountViewController *HWMShowSocialAccountVC=[[HWMShowSocialAccountViewController alloc]init];
+            
+            [self.navigationController pushViewController:HWMShowSocialAccountVC animated:YES];
+            
+        }
                       
         break;
             

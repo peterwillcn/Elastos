@@ -172,7 +172,6 @@
 		4202CAAD21F6EF2B009E5932 /* assetsListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C98421F6EF29009E5932 /* assetsListModel.m */; };
 		4202CAAE21F6EF2B009E5932 /* HMWaddFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C98821F6EF29009E5932 /* HMWaddFooterView.xib */; };
 		4202CAAF21F6EF2B009E5932 /* HMWaddFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C98921F6EF29009E5932 /* HMWaddFooterView.m */; };
-		4202CAB121F6EF2B009E5932 /* FirstViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C98F21F6EF29009E5932 /* FirstViewController.mm */; };
 		4202CAB221F6EF2B009E5932 /* HMWAddTheCurrencyListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C99021F6EF29009E5932 /* HMWAddTheCurrencyListViewController.mm */; };
 		4202CAB421F6EF2B009E5932 /* FLQRVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4202C99621F6EF29009E5932 /* FLQRVC.xib */; };
 		4202CAB521F6EF2B009E5932 /* FLAllAssetListVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C99721F6EF29009E5932 /* FLAllAssetListVC.mm */; };
@@ -486,6 +485,7 @@
 		42ED54AE23ACCDD900427318 /* HWMCreateDIDListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 422C4644235DBB4B000523DB /* HWMCreateDIDListTableViewCell.xib */; };
 		42EEDA86224B84790009B18E /* LaunchScreen-English.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42EEDA85224B84790009B18E /* LaunchScreen-English.storyboard */; };
 		42EEDA88224B84A50009B18E /* LaunchScreen-Chinese.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42EEDA87224B84A50009B18E /* LaunchScreen-Chinese.storyboard */; };
+		42F794E723C5C23800FC20CD /* FirstViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C98F21F6EF29009E5932 /* FirstViewController.mm */; };
 		7087D92F21BCDF1B00599316 /* MyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7087D92E21BCDF1B00599316 /* MyUtil.m */; };
 		70F8409621BEAA1B001C0BD6 /* ELWalletManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70F8409521BEAA1B001C0BD6 /* ELWalletManager.mm */; };
 		9FD0C828FEE9459B88FB6A2D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B5A24BEEA44AE9AD51A2C8 /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -3583,6 +3583,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42F794E723C5C23800FC20CD /* FirstViewController.mm in Sources */,
 				42ED54AD23ACC60300427318 /* HMWSendSuccessPopuView.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.mm in Sources */,
 				4202CA7E21F6EF2B009E5932 /* HMWTheWalletManagementTableViewCell.m in Sources */,
@@ -3782,9 +3783,7 @@
 				42D105FC23A3344D0063AADC /* MJRefreshAutoStateFooter.m in Sources */,
 				42D126A722B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.m in Sources */,
 				4202CA9D21F6EF2B009E5932 /* FLSelectWordView.m in Sources */,
-				4202CAB121F6EF2B009E5932 /* FirstViewController.mm in Sources */,
 				4296F1072375429800B2CE7D /* HWMshowIntroductionInfoViewController.m in Sources */,
-				4202CAB121F6EF2B009E5932 /* FirstViewController.mm in Sources */,
 				4228AA5121F88C87002866B5 /* UIGestureRecognizer+YYAdd.m in Sources */,
 				70F8409621BEAA1B001C0BD6 /* ELWalletManager.mm in Sources */,
 				42A7A856236AE3BD0034A900 /* HWMConfidentialInformationViewController.m in Sources */,

@@ -10,6 +10,9 @@
 static NSString *cellString=@"HWMDIDInfoTableViewCell";
 @interface HWMAccordingPersonalInformationViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *table;
+@property(copy,nonatomic)NSArray *dataSource;
+@property (weak, nonatomic) IBOutlet UIImageView *IconImageView;
+
 
 @end
 
@@ -21,6 +24,15 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
        [self setBackgroundImg:@""];
        self.title=NSLocalizedString(@"个人信息", nil);
     [self makeUI];
+    if (self.model.iconUrlString.length>0) {
+        [self.IconImageView sd_setImageWithURL:[NSURL URLWithString:self.model.iconUrlString]placeholderImage:[UIImage imageNamed:@"mine_did_default_avator"]];
+    }
+}
+-(NSArray *)dataSource{
+    if (!_dataSource) {
+        _dataSource =@[NSLocalizedString(@"姓名", @""),NSLocalizedString(@"昵称", @""),NSLocalizedString(@"性别", @""),NSLocalizedString(@"出生日期", @""),NSLocalizedString(@"邮箱", @""),NSLocalizedString(@"手机号", @""),NSLocalizedString(@"国家/地区", @"")];
+    }
+    return _dataSource;
 }
 -(void)makeUI{
     
@@ -32,9 +44,8 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
        self.table.delegate =self;
        self.table.dataSource =self;
     self.table.backgroundColor=[UIColor clearColor];
-
-    
 }
+
 -(void)EditPersonalInformation{
     
 }
@@ -43,7 +54,61 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
    // FLSugarModel *model = self.dataSouse[indexPath.row];
   HWMDIDInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-    
+    cell.leftTextLabel.text=self.dataSource[indexPath.row];
+    switch (indexPath.row) {
+        case 0:
+        {
+            if (self.model.nameString.length>0) {
+                cell.infoLabel.text=self.model.nameString;
+            }
+        }
+        break;
+        case 1:
+               {
+                   if (self.model.nickNameString.length>0) {
+                       cell.infoLabel.text=self.model.nickNameString;
+                   }
+               }
+                   break;
+            case 2:
+               {
+                   if (self.model.genderString.length>0) {
+                       cell.infoLabel.text=[[FLTools share]genderStringWithType:self.model.genderString];
+                   }
+               }
+                   break;
+            case 3:
+               {
+                   if (self.model.DateBirthString.length>0) {
+//                       cell.infoLabel.text=[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:<#(NSString *)#>
+                   }
+               }
+                   break;
+            case 4:
+               {
+                   if (self.model.emailString.length>0) {
+                       cell.infoLabel.text=self.model.emailString;
+                   }
+               }
+                   break;
+            case 5:
+               {
+                   if (self.model.MobilePhoneNoString.length>0) {
+                       cell.infoLabel.text=[NSString stringWithFormat:@"+%@ %@",self.model.areMobilePhoneNoString,self.model.MobilePhoneNoString];
+                   }
+               }
+                   break;
+            case 6:
+               {
+                   if (self.model.countriesString.length>0) {
+                       cell.infoLabel.text=[[FLTools share]contryNameTransLateByCode:[self.model.countriesString intValue]];
+                   }
+               }
+                   break;
+            
+        default:
+            break;
+    }
     return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -64,5 +129,8 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
     // Pass the selected object to the new view controller.
 }
 */
+-(void)setModel:(HWMDIDInfoModel *)model{
+    _model=model;
+}
 
 @end

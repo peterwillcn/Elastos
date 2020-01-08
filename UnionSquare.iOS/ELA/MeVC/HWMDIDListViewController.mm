@@ -62,15 +62,11 @@ static NSString *normalCellString=@"HWMDIDListNormalTableViewCell";
 }
 -(void)getDIDListArray{
     self.theDraftDIDdataSorse=[[HMWFMDBManager sharedManagerType:DIDInfoType]allSelectDIDWithWallID:@""];
-    for (FMDBWalletModel *model in self.walletListArray) {
-        invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[model.walletID,@"IDChain",@"0",@"100"] callbackId:model.walletID className:@"wallet" methodName:@"createMasterWallet"];
-          PluginResult * resultBase =[[ELWalletManager share]getDetailsDIDlist:cmommand];
-            NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
-    }
-    
-    
-    
-    
+//    for (FMDBWalletModel *model in self.walletListArray) {
+//        invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[model.walletID,@"IDChain",@"0",@"100"] callbackId:model.walletID className:@"wallet" methodName:@"createMasterWallet"];
+//          PluginResult * resultBase =[[ELWalletManager share]getDetailsDIDlist:cmommand];
+//            NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
+//    }
     
 }
 -(NSMutableArray *)RelDIDArray{

@@ -356,8 +356,9 @@
         free = [manager RegisterCRWithMainchainSubWallet:manager.currentWallet.masterWalletID With:model];
     if (free>-1) {
       [self showSendSuccessPopuV];
+        [self closeTransactionDetailsView];
     }
-    [self closeTransactionDetailsView];
+    
     
     
 }

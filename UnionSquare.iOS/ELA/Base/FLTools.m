@@ -699,6 +699,9 @@ return  result.stringValue;
 }
 -(NSString*)CRVotingDecimalNumberByAdding:(NSString*)blance withCRMermVoting:(NSString*)MermVotCout{
       NSDecimalNumber *blanceD = [NSDecimalNumber decimalNumberWithString:blance];
+    if ([[FLTools share]isBlankString:MermVotCout]) {
+        MermVotCout=@"0";
+    }
     NSDecimalNumber *MermVotCoutD = [NSDecimalNumber decimalNumberWithString:MermVotCout];
       NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:8 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:YES raiseOnDivideByZero:YES];
     NSDecimalNumber *num2 = [blanceD decimalNumberByAdding:MermVotCoutD withBehavior:roundDown];

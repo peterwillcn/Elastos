@@ -3775,8 +3775,8 @@
 				);
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletREGNET;
-				PRODUCT_NAME = REGNET;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
+				PRODUCT_NAME = "elastos Wallet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -3836,8 +3836,8 @@
 				MARKETING_VERSION = "1.4 dev";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletREGNET;
-				PRODUCT_NAME = REGNET;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
+				PRODUCT_NAME = "elastos Wallet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.0;
@@ -3942,8 +3942,8 @@
 				);
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletREGNET;
-				PRODUCT_NAME = REGNET;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
+				PRODUCT_NAME = "elastos Wallet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -4049,8 +4049,8 @@
 				);
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletREGNET;
-				PRODUCT_NAME = REGNET;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWallet;
+				PRODUCT_NAME = "elastos Wallet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class PermissionGroup {
-
+    private ArrayList<String> baseGroups = null;
     protected LinkedHashMap<String, PluginPermission> pluginList = new LinkedHashMap();
     private String name;
     public Boolean defaultValue = false;
@@ -17,6 +17,13 @@ public class PermissionGroup {
         this.defaultValue = defaultValue;
     }
 
+    public void addBaseGroup(String group) {
+        if (baseGroups == null) {
+            baseGroups = new ArrayList<String>();
+        }
+        baseGroups.add(group);
+    }
+
     public PluginPermission addPlugin(String plugin, Boolean defaultValue) {
         PluginPermission pluginPermission = pluginList.get(plugin);
         if (pluginPermission == null) {
@@ -27,12 +34,32 @@ public class PermissionGroup {
     }
 
     public Boolean getApiPermission(String plugin, String api) {
+        Boolean ret = defaultValue;
         PluginPermission pluginPermission = pluginList.get(plugin);
-        if (pluginPermission == null) {
-            return defaultValue;
+        if (pluginPermission != null) {
+            ret = pluginPermission.getApiPermission(api);
         }
 
-        return pluginPermission.getApiPermission(api);
+        if (ret != true) {
+            ret = getBasePermission(plugin, api);
+        }
+
+        return ret;
+    }
+
+    public Boolean getBasePermission(String plugin, String api) {
+        if (baseGroups != null) {
+            for(int i = 0;i < baseGroups.size(); i ++){
+                String name = baseGroups.get(i);
+                PermissionGroup baseGroup = PermissionManager.getShareInstance().groupList.get(name);
+                Boolean ret = baseGroup.getApiPermission(plugin, api);
+                if (ret == true) {
+                    return ret;
+                }
+            }
+        }
+
+        return false;
     }
 
     public class PluginPermission {

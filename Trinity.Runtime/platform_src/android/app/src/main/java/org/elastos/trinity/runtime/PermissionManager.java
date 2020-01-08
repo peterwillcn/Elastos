@@ -32,6 +32,10 @@ public class PermissionManager {
         return PermissionManager.permissionManager;
     }
 
+    public LinkedHashMap<String, PermissionGroup> getGroupList() {
+        return groupList;
+    }
+
     public void parsePermissionGroup()  throws Exception {
         AssetManager manager = context.getAssets();
         InputStream inputStream = manager.open("www/config/permission/group.json");
@@ -51,6 +55,11 @@ public class PermissionManager {
                 if (plugin.equals("*")) {
                     permissionGroup.setDefaultValue(true);
                     break;
+                }
+
+                if (plugin.startsWith("$")) {
+                    permissionGroup.addBaseGroup(plugin.substring(1));
+                    continue;
                 }
 
                 JSONArray array = jgroup.getJSONArray(plugin);

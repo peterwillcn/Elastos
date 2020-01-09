@@ -30,6 +30,15 @@
         ],
         "$user": {}
     },
+    "settings": {
+        "AppManager": [
+            "getAppInfos",
+            "getAppList",
+            "getAppInfo",
+            "unInstall"
+        ],
+        "$user": {}
+    },
     "user": {
         "AppManager": [
             "getVersion",

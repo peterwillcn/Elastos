@@ -64,6 +64,9 @@ public class AppManager {
     /** The external return message. */
     public static final int MSG_TYPE_EX_RETURN = 14;
 
+
+    public static final String LAUNCHER = "launcher";
+
     private static AppManager appManager;
     public WebViewActivity activity;
     public WebViewFragment curFragment = null;
@@ -217,6 +220,11 @@ public class AppManager {
         try {
             installBuiltInApp("www/", "launcher", 1);
             getLauncherInfo();
+
+            File launcher = new File(appsPath, AppManager.LAUNCHER);
+            if (launcher.exists()) {
+                installer.renameFolder(launcher, appsPath, launcherInfo.app_id);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -418,7 +426,12 @@ public class AppManager {
         if (info != null) {
             refreashInfos();
         }
-        sendRefreshList("installed", info);
+        if (info.launcher == 1) {
+            sendRefreshList("launcher_upgraded", info);
+        }
+        else {
+            sendRefreshList("installed", info);
+        }
         return info;
     }
 

@@ -284,6 +284,15 @@ public class AppInstaller {
         info.launcher = oldInfo.launcher;
     }
 
+    public void renameFolder(File from, String path, String name ) throws Exception  {
+        File to = new File(path, name);
+        if (to.exists()) {
+            deleteAllFiles(to);
+            to = new File(path, name);
+        }
+        from.renameTo(to);
+    }
+
     public AppInfo install(String url, boolean update) throws Exception {
         Log.d("AppInstaller", "Install url="+url+" update="+update);
         InputStream inputStream = null;
@@ -355,11 +364,14 @@ public class AppInstaller {
             throw new Exception("App info error!");
         }
 
-        AppInfo oldInfo = AppManager.getShareInstance().getAppInfo(info.app_id);
+        AppManager appManager = AppManager.getShareInstance();
+        AppInfo oldInfo = appManager.getAppInfo(info.app_id);
         if (oldInfo != null) {
             if (update) {
                 Log.d("AppInstaller", "install() - uninstalling "+info.app_id+" - update = true");
-                AppManager.getShareInstance().unInstall(info.app_id, true);
+                if (oldInfo.launcher != 1) {
+                    AppManager.getShareInstance().unInstall(info.app_id, true);
+                }
             }
             else {
                 Log.d("AppInstaller", "install() - update = false - deleting all files");
@@ -374,15 +386,15 @@ public class AppInstaller {
             info.built_in = 0;
         }
 
-        File to = new File(appPath, info.app_id);
-        if (to.exists()) {
-            deleteAllFiles(to);
-            to = new File(appPath, info.app_id);
+        if (oldInfo.launcher == 1) {
+            renameFolder(from, appPath, AppManager.LAUNCHER);
         }
-        from.renameTo(to);
-
-        dbAdapter.addAppInfo(info);
+        else {
+            renameFolder(from, appPath, info.app_id);
+            dbAdapter.addAppInfo(info);
+        }
         deleteDAppPackage(downloadPkgPath);
+
         return info;
     }
 

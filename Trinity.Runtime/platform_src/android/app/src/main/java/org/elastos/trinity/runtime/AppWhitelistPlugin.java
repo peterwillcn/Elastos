@@ -66,6 +66,11 @@ public class AppWhitelistPlugin extends CordovaPlugin {
         allowedRequests.addWhiteListEntry("http://localhost/*", false);
         allowedRequests.addWhiteListEntry("https://localhost/*", false);
 
+        String[] list = ConfigManager.getShareInstance().getStringArrayValue("whitelist.urls", new String[0]);
+        for (int i = 0; i < list.length; i++) {
+            allowedRequests.addWhiteListEntry(list[i], false);
+        }
+
         allowedNavigations = allowedRequests;
         allowedIntents = new Whitelist();
 

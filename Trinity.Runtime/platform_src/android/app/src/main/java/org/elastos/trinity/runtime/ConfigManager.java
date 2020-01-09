@@ -7,8 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 
 public class ConfigManager {
     private static ConfigManager configManager;
@@ -56,6 +54,23 @@ public class ConfigManager {
     public boolean getBooleanValue(String key, boolean defaultValue) {
         try {
             boolean value = configPreferences.getBoolean(key);
+            return value;
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
+
+    public String[] getStringArrayValue(String key, String[] defaultValue) {
+        try {
+            JSONArray array = configPreferences.getJSONArray(key);
+            if (array == null) {
+                return defaultValue;
+            }
+
+            String[] value = new String[array.length()];
+            for (int i = 0; i < array.length(); i++) {
+                value[i] = array.getString(i);
+            }
             return value;
         } catch (Exception e) {
             return defaultValue;

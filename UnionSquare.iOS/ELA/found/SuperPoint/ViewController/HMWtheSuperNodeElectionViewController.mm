@@ -290,7 +290,6 @@
 //                          self.needFind =NO;
                         self.selfModel=model;
                         self.typeString=model.state;
-                        [self updateInfoSelf];
                     
                     }else{
                         if ([model.state isEqualToString:@"Active"]) {
@@ -302,7 +301,9 @@
          
          
         self.votingListV.dataSource = self.ActiveArray;
-        
+        if (self.selfModel) {
+              [self updateInfoSelf];
+        }
         [self loadAllImageInfo:[NSMutableArray arrayWithArray:self.ActiveArray]];
         
     } WithFailBlock:^(id data) {
@@ -408,7 +409,16 @@
     
 }
 -(void)updateDataInfo{
-[self getNetCoinPointArray];
+   ELWalletManager *manager   =  [ELWalletManager share];
+        IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
+        nlohmann::json info = mainchainSubWallet->GetRegisteredProducerInfo();
+        NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
+        NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+        NSString *Status = param[@"Status"];
+        self.typeString =Status;
+        self.NodePublicKey= param[@"Info"][@"NodePublicKey"];
+        self.nodeName= param[@"Info"][@"NickName"];
+        [self getNetCoinPointArray];
     
 }
 #pragma mark -------------------

@@ -261,7 +261,7 @@ public class IntentManager {
         info.params = json.toString();
     }
 
-    public IntentInfo parseIntentUri(Uri uri) throws Exception {
+    public IntentInfo parseIntentUri(Uri uri, String fromId) throws Exception {
         IntentInfo info = null;
         String url = uri.toString();
         if (url.startsWith("elastos://") && !url.startsWith("elastos:///")) {
@@ -276,7 +276,7 @@ public class IntentManager {
             Set<String> set = uri.getQueryParameterNames();
             long currentTime = System.currentTimeMillis();
 
-            info = new IntentInfo(action, null, "system", null, currentTime, null);
+            info = new IntentInfo(action, null, fromId, null, currentTime, null);
             if (set.size() > 0) {
                 getParamsByUri(uri, info);
             }
@@ -287,8 +287,8 @@ public class IntentManager {
         return info;
     }
 
-    public void sendIntentByUri(Uri uri) throws Exception {
-        IntentInfo info = parseIntentUri(uri);
+    public void sendIntentByUri(Uri uri, String fromId) throws Exception {
+        IntentInfo info = parseIntentUri(uri, fromId);
         if (info != null && info.params != null) {
             sendIntent(info);
         }
@@ -296,7 +296,7 @@ public class IntentManager {
 
     public void doIntentByUri(Uri uri) {
         try {
-            sendIntentByUri(uri);
+            sendIntentByUri(uri, "system");
         } catch (Exception e) {
 //            try {
 //                IntentInfo info = parseIntentUri(uri);
@@ -368,7 +368,7 @@ public class IntentManager {
 
             if (IntentManager.checkTrinityScheme(url)) {
                 url = url + "/" + jwt;
-                sendIntentByUri(Uri.parse(url));
+                sendIntentByUri(Uri.parse(url), info.fromId);
             }
             else {
                 if (info.redirecturl != null) {

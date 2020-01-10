@@ -415,7 +415,7 @@ public class AppBasePlugin extends TrinityPlugin {
 
         try {
             if (IntentManager.checkTrinityScheme(url)) {
-                IntentManager.getShareInstance().sendIntentByUri(Uri.parse(url));
+                IntentManager.getShareInstance().sendIntentByUri(Uri.parse(url), this.appId);
             }
             else if (webView.getPluginManager().shouldOpenExternalUrl(url)) {
                 webView.showWebPage(url, true, false, null);
@@ -492,6 +492,9 @@ public class AppBasePlugin extends TrinityPlugin {
         if (appManager.isLauncher(this.appId)) {
             return true;
         }
+        else if (IntentManager.checkTrinityScheme(url)) {
+            return true;
+        }
 
         return null;
     }
@@ -549,7 +552,7 @@ public class AppBasePlugin extends TrinityPlugin {
         }
         else if (IntentManager.checkTrinityScheme(url)) {
             try {
-                IntentManager.getShareInstance().sendIntentByUri(uri);
+                IntentManager.getShareInstance().sendIntentByUri(uri, this.appId);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -415,7 +415,7 @@ UINib *_cellCRNib;
     cell.backgroundColor=[UIColor clearColor];
     HWMCRListModel *model = self.dataSource[indexPath.row];
     model.voterate=[[FLTools share]CRVotingPercentageWithAllCount:self.totalvotes withCRMermVoting:model.votes];
-    cell.deleagte=self;
+//    cell.deleagte=self;
     cell.index=indexPath;
     cell.numberVotingTextField.tag=100+indexPath.row;
   
@@ -788,13 +788,18 @@ UINib *_cellCRNib;
             }
     NSMutableDictionary *CRDic=[[NSMutableDictionary alloc]init];
     for (int i= 0; i<self.voteArray.count; i++) {
+      
         HWMCRListModel *model=self.voteArray[i];
-        
-        NSDictionary *dic=@{model.did:[[FLTools share]elsToSela:model.SinceVotes]};
-
-    [CRDic addEntriesFromDictionary:dic];
+        if ([model.SinceVotes doubleValue]>0) {
+            NSDictionary *dic=@{model.did:[[FLTools share]elsToSela:model.SinceVotes]};
+         [CRDic addEntriesFromDictionary:dic];
+        }
     }
-
+    
+        if (CRDic==NULL) {
+     
+             return;
+         }
 
         NSDictionary *dic =[[ELWalletManager share]CRVoteFeeCRMainchainSubWallet:self.wallet.masterWalletID ToVote:CRDic tickets: 0 withInvalidIDArray:self.invalidDopsArray];
 
@@ -955,8 +960,6 @@ NSArray *DorpVotes=dic[@"DorpVotes"];
         
             model.SinceVotes=text.text;
            self.TheRemainingAvailable=[[FLTools share]CRVotingDecimalNumberByAdding:self.TheRemainingAvailable withCRMermVoting:model.SinceVotes];
-         
-           
        }
     [self UpdateTheRemainingAvailable];
      self.dataSource[index.row]=model;

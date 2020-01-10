@@ -223,7 +223,18 @@ public class AppManager {
 
             File launcher = new File(appsPath, AppManager.LAUNCHER);
             if (launcher.exists()) {
+                AppInfo info = installer.getInfoByManifest(appsPath + AppManager.LAUNCHER + "/", 1);
+                info.built_in = 1;
+                int count = dbAdapter.removeAppInfo(launcherInfo);
+                if (count < 1) {
+                    Log.e("AppManager", "Launcher upgrade -- Can't remove the older DB info.");
+                    //TODO:: need remove the files? now, restart will try again.
+                    return;
+                }
                 installer.renameFolder(launcher, appsPath, launcherInfo.app_id);
+                dbAdapter.addAppInfo(info);
+                launcherInfo = null;
+                getLauncherInfo();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -268,15 +279,15 @@ public class AppManager {
                     continue;
                 }
 
-                boolean needDelete = true;
+                boolean needChange = true;
                 for (String appdir : appdirs) {
                     if (appdir.equals(appList[i].app_id)) {
-                        needDelete = false;
+                        needChange = false;
                         break;
                     }
                 }
-                if (needDelete) {
-                    unInstall(appList[i].app_id, false);
+                if (needChange) {
+                    dbAdapter.changeBuiltInToNormal(appList[i].app_id);
                 }
             }
 

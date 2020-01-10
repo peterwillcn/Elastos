@@ -356,7 +356,7 @@ public class AppInstaller {
             Log.d("AppInstaller", "The EPK was signed by (Public Key): " + public_key);
         }
 
-        info = getInfoByManifest(path);
+        info = getInfoByManifest(path, 0);
         File from = new File(appPath, temp);
         if (info == null || info.app_id == null /* || info.app_id.equals("launcher") */) {
             deleteAllFiles(from);
@@ -386,7 +386,7 @@ public class AppInstaller {
             info.built_in = 0;
         }
 
-        if (oldInfo.launcher == 1) {
+        if (oldInfo != null && oldInfo.launcher == 1) {
             renameFolder(from, appPath, AppManager.LAUNCHER);
         }
         else {
@@ -469,7 +469,7 @@ public class AppInstaller {
     }
 
 
-    public AppInfo getInfoByManifest(String path) throws Exception {
+    public AppInfo getInfoByManifest(String path, int launcher) throws Exception {
         String manifest = path + "manifest.json";
         File file = new File(manifest);
         if (!file.exists()) {
@@ -481,7 +481,7 @@ public class AppInstaller {
             }
         }
         InputStream input = new FileInputStream(manifest);
-        AppInfo info = parseManifest(input, 0);
+        AppInfo info = parseManifest(input, launcher);
         manifest = path + "manifest.i18n";
         file = new File(path + "manifest.i18n");
         if (file.exists()) {

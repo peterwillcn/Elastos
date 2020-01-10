@@ -275,6 +275,15 @@ public class ManagerDBAdapter {
         }
     }
 
+    public int changeBuiltInToNormal(String appId) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(AppInfo.BUILT_IN, 0);
+        String where = AppInfo.APP_ID + "=?";
+        String[] whereArgs= {appId};
+        int count = db.update(ManagerDBHelper.APP_TABLE, contentValues, where, whereArgs );
+        return count;
+    }
 
     public int updatePluginAuth(long tid, String plugin, int authority) {
         SQLiteDatabase db = helper.getWritableDatabase();

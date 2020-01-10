@@ -488,7 +488,20 @@ public class AppBasePlugin extends TrinityPlugin {
     }
 
     @Override
+    public Boolean shouldAllowNavigation(String url) {
+        if (appManager.isLauncher(this.appId)) {
+            return true;
+        }
+
+        return null;
+    }
+
+    @Override
     public Boolean shouldAllowRequest(String url) {
+        if (appManager.isLauncher(this.appId)) {
+            return true;
+        }
+
         if (url.startsWith("asset://www/cordova") || url.startsWith("asset://www/plugins")
                 || url.startsWith("trinity:///asset/") || url.startsWith("trinity:///data/")
                 || url.startsWith("trinity:///temp/")

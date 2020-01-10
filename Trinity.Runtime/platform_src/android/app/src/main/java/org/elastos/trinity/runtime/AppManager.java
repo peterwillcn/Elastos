@@ -146,8 +146,8 @@ public class AppManager {
         installer.init(activity, dbAdapter, appsPath, dataPath, tempPath);
 
         refreashInfos();
-        saveLauncher();
         getLauncherInfo();
+        saveLauncher();
         try {
             loadLauncher();
         }
@@ -213,13 +213,16 @@ public class AppManager {
             installer.copyAssetsFolder(path, appsPath + builtInInfo.app_id);
             builtInInfo.built_in = 1;
             dbAdapter.addAppInfo(builtInInfo);
+            if (launcher == 1) {
+                launcherInfo = null;
+                getLauncherInfo();
+            }
         }
     }
 
     private void saveLauncher() {
         try {
             installBuiltInApp("www/", "launcher", 1);
-            getLauncherInfo();
 
             File launcher = new File(appsPath, AppManager.LAUNCHER);
             if (launcher.exists()) {
@@ -764,7 +767,6 @@ public class AppManager {
         if (info == null) {
             throw new Exception("No such app!");
         }
-
 
         for (AppInfo.PluginAuth pluginAuth : info.plugins) {
             if (pluginAuth.plugin.equals(plugin)) {

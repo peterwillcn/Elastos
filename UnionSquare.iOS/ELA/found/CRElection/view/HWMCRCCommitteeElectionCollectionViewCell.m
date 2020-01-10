@@ -45,7 +45,7 @@
              
          });
     self.VotesAndPercentagesLabel.text=[NSString stringWithFormat:@"%@%@",votes,voterateString];
-    if ([model.index integerValue]>11) {
+    if ([model.index integerValue]>12) {
         self.NoIndexLabel.text=[NSString stringWithFormat:@"%@",model.index ];
     }else{
         self.NoIndexLabel.text=[NSString stringWithFormat:@"NO.%@",model.index];

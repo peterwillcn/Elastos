@@ -375,7 +375,6 @@
             if ([[FLTools share]isBlankString:model.url]) {
                 self.selfModel.url=@" ";
             }
-            [self updateInfoSelf];
             
         }else{
             if ([model.state isEqualToString:@"Active"]) {
@@ -407,6 +406,9 @@
                NSLog(@"dasdhasd=====%@",self.selfModel.url);
     [self loadAllImageInfo:self.ActiveArray];
     self.votingListV.dataSource=self.ActiveArray;
+    if (self.selfModel) {
+         [self updateInfoSelf];
+    }
      
 }
 -(NSInteger)findMyDidWithIndexWithIndex:(NSInteger)index{
@@ -499,6 +501,20 @@
          self.all_selectedButton.selected=NO;
 }
 -(void)updateDataInfo{
+    ELWalletManager *manager   =  [ELWalletManager share];
+                  
+                  IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
+                  
+                  nlohmann::json info = mainchainSubWallet->GetRegisteredCRInfo();
+                  NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
+                  NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+                  NSString *Status = param[@"Status"];
+                  self.typeString =Status;
+           
+self.typeString=self.typeString;
+          self.CROwnerDID=param[@"Info"][@"CROwnerDID"];
+    self.CROwnerPublicKey=param[@"Info"][@"CROwnerPublicKey"];
+    self.nodeName= param[@"Info"][@"NickName"];
 [self getNetCoinPointArray];
     
 }
@@ -687,6 +703,7 @@
         self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
         self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
         self.typeString=@"Canceled";
+        self.votingListV.typeString=self.typeString;
     }else if ([self.selfModel.state isEqualToString:@"Illegal"]){
         self.typeString=@"Registered";
         self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
@@ -702,7 +719,7 @@
         self.typeString=@"Pending";
         self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
         self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
-//        self.votingListV.typeString=self.typeString;
+        self.votingListV.typeString=self.typeString;
     }
     else{
         self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);

@@ -582,11 +582,7 @@ UINib *_cellCRNib;
           return;
       }
     
-    if ([self.blaceString doubleValue]<0) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"余额不足", nil)];
-        return;
-    }
-    
+   
     self.WhetherTheAverage=!self.WhetherTheAverage;
     if (self.editBtn.isSelected) {
         for (int i=0; i<self.dataSource.count; i++) {
@@ -615,7 +611,10 @@ UINib *_cellCRNib;
          
         return;
     }
-    
+    if ([self.blaceString doubleValue]<0) {
+           [[FLTools share]showErrorInfo:NSLocalizedString(@"余额不足", nil)];
+           return;
+       }
     NSIndexPath *index;
     if (self.dataSource.count>36) {
         if (self.WhetherTheAverage) {

@@ -581,7 +581,7 @@
 "请输入竞选网址"="Input Election URL";
 "是否退出本届CR选举？\n一旦退出本届选举，所有投票清零且不可恢复。"="Quitting from the CR Election?\nAfter quitting, votes are permanently cleared.";
 "批量加入候选列表"="Add to Candidate List in Batches";
-"参选DID"="Candidate DID";
+"参选DID"="DID";
 "参选信息"="Candidate Information";
 "全选均分"="All & Average";
 "请输入票数"="Enter number";
@@ -637,7 +637,7 @@
 "提取质押金"="Retrieve deposit";
 "候选节点已失效"="Candidate nodes are invalid";
 "去开启"="Open";
-"委员DID"="Candidate DID";
+"委员DID"="DID";
 "委员昵称不能为空"="Enter Nickname of Council member";
 "该钱包尚未开启ID侧链，是否 \n 立即开启"="The wallet has not opened the ID Sidechain.Open it now?";
 "    退出参选72小时后，方可提取质押金"="The deposit is not available for withdrawal for 72 hours after quitting";

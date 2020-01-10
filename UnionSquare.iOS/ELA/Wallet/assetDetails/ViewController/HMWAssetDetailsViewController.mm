@@ -162,7 +162,12 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
         self.makeLineView.alpha=0.f;
         self.toButtonOffSet.constant=-100;
         self.enMoneyWidthOffSet.constant=-AppWidth+30;
-        self.toUpMoneyButtonWidthdOff.constant=200;
+        self.toUpMoneyButtonWidthdOff.constant=250;
+//        self.topUpButton.backgroundColor=[UIColor redColor];
+        [self.topUpButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(self.view.mas_centerX);
+        }];
+        self.topUpButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     }
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(currentWalletAccountBalanceChanges:) name: AccountBalanceChanges object:nil];
     

@@ -318,6 +318,7 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
 }
 -(void)setTypeString:(NSString *)typeString{
     _typeString=typeString;
+    [self.baseCollectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]];
 }-(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
     
 

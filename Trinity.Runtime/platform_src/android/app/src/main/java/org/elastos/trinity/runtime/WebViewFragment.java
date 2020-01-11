@@ -115,6 +115,10 @@ public class WebViewFragment extends Fragment {
 
     }
 
+    public boolean isLauncher() {
+        return false;
+    }
+
     protected void init() {
         appView = makeWebView();
         createViews();

@@ -329,7 +329,7 @@ public class AppManager {
             return false;
         }
 
-        if (appId.equals("launcher") || appId.equals(launcherInfo.app_id)) {
+        if (appId.equals(LAUNCHER) || appId.equals(launcherInfo.app_id)) {
             return true;
         }
         else {
@@ -463,9 +463,9 @@ public class AppManager {
         }
     }
 
-    private WebViewFragment findFragmentById(String id) {
+    public WebViewFragment findFragmentById(String id) {
         if (isLauncher(id)) {
-            id = "launcher";
+            id = LAUNCHER;
         }
 
         FragmentManager manager = activity.getSupportFragmentManager();
@@ -484,9 +484,6 @@ public class AppManager {
         FragmentTransaction transaction = manager.beginTransaction();
         if ((curFragment != null) && (curFragment != fragment)) {
             transaction.hide(curFragment);
-//            if (!curFragment.id.equals("launcher")) {
-//                curFragment.onPause();
-//            }
         }
         if (curFragment != fragment) {
             if (!fragment.isAdded()) {
@@ -498,9 +495,6 @@ public class AppManager {
             }
 //            transaction.addToBackStack(null);
             transaction.commit();
-//            if (!id.equals("launcher")) {
-//                fragment.onResume();
-//            }
             curFragment = fragment;
         }
 
@@ -556,16 +550,7 @@ public class AppManager {
             if (!getAppVisible(id)) {
                 hideFragment(fragment, id);
             }
-
-//            lastList.add(0, id);
-//            runningList.add(0, id);
         }
-//        else {
-//            if (curFragment != fragment) {
-//                switchContent(fragment, id);
-//            }
-//            //           fragment.onResume();
-//        }
 
 
         if (getAppVisible(id)) {
@@ -595,17 +580,13 @@ public class AppManager {
             String id2 = lastList.get(1);
             WebViewFragment fragment2 = findFragmentById(id2);
             if (fragment2 == null) {
-                fragment2 = findFragmentById("launcher");
+                fragment2 = findFragmentById(LAUNCHER);
                 if (fragment2 == null) {
                     throw new Exception("RT inner error!");
                 }
             }
             switchContent(fragment2, id2);
         }
-
-//        if (fragment.appView != null) {
-//            fragment.appView.handleDestroy();
-//        }
 
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.remove(fragment);
@@ -617,7 +598,7 @@ public class AppManager {
     }
 
     public void loadLauncher() throws Exception {
-        start("launcher");
+        start(LAUNCHER);
     }
 
     public void setInstallUri(String uri, boolean dev) {
@@ -660,10 +641,14 @@ public class AppManager {
         }
     }
 
+    public void sendLauncherMessage(int type, String msg, String fromId) throws Exception {
+        sendMessage(LAUNCHER, type, msg, fromId);
+    }
+
     private void sendInstallMsg(String uri, boolean dev) {
         String msg = "{\"uri\":\"" + uri + "\", \"dev\":\"" + dev + "\"}";
         try {
-            sendMessage("launcher", MSG_TYPE_EX_INSTALL, msg, "system");
+            sendLauncherMessage(MSG_TYPE_EX_INSTALL, msg, "system");
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -673,11 +658,11 @@ public class AppManager {
     public void sendRefreshList(String action, AppInfo info) {
         try {
             if (info != null) {
-                sendMessage("launcher", MSG_TYPE_IN_REFRESH,
+                sendLauncherMessage(MSG_TYPE_IN_REFRESH,
                         "{\"action\":\"" + action + "\", \"id\":\"" + info.app_id + "\" , \"name\":\"" + info.name + "\"}", "system");
             }
             else {
-                sendMessage("launcher", MSG_TYPE_IN_REFRESH,
+                sendLauncherMessage( MSG_TYPE_IN_REFRESH,
                     "{\"action\":\"" + action + "\"}", "system");
             }
         }
@@ -687,8 +672,7 @@ public class AppManager {
     }
 
     public void sendMessage(String toId, int type, String msg, String fromId) throws Exception {
-        FragmentManager manager = activity.getSupportFragmentManager();
-        WebViewFragment fragment = (WebViewFragment)manager.findFragmentByTag(toId);
+        WebViewFragment fragment = findFragmentById(toId);
         if (fragment != null) {
             fragment.basePlugin.onReceive(msg, type, fromId);
         }
@@ -712,7 +696,7 @@ public class AppManager {
     public void setCurrentLocale(String code) {
         currentLocale = code;
         sendMessageToAll(MSG_TYPE_IN_REFRESH,
-                "{\"action\":\"currentLocaleChanged\", \"code\":\"" + code + "\"}", "launcher");
+                "{\"action\":\"currentLocaleChanged\", \"code\":\"" + code + "\"}", LAUNCHER);
     }
 
     public String getCurrentLocale() {

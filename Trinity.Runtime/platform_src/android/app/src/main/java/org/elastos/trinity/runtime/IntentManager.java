@@ -180,8 +180,7 @@ public class IntentManager {
             info.toId = ids[0];
         }
 
-        FragmentManager manager = appManager.activity.getSupportFragmentManager();
-        WebViewFragment fragment = (WebViewFragment)manager.findFragmentByTag(info.toId);
+        WebViewFragment fragment = appManager.findFragmentById(info.toId);
         if ((fragment != null) && (fragment.basePlugin.isIntentReady())) {
             putIntentContext(info);
             appManager.start(info.toId);
@@ -391,8 +390,7 @@ public class IntentManager {
             sendJWTResponse(basePlugin, info, result);
         }
         else {
-            FragmentManager manager = appManager.activity.getSupportFragmentManager();
-            WebViewFragment fragment = (WebViewFragment) manager.findFragmentByTag(info.fromId);
+            WebViewFragment fragment = appManager.findFragmentById(info.fromId);
             if (fragment != null) {
                 appManager.start(info.fromId);
                 if (info.type == IntentInfo.URL) {

@@ -184,7 +184,7 @@ public class AppBasePlugin extends TrinityPlugin {
         else {
             appManager.loadLauncher();
         }
-        appManager.sendMessage("launcher", AppManager.MSG_TYPE_INTERNAL,
+        appManager.sendLauncherMessage(AppManager.MSG_TYPE_INTERNAL,
                 "{\"visible\": \"" + visible + "\"}", this.appId);
         callbackContext.success("ok");
     }

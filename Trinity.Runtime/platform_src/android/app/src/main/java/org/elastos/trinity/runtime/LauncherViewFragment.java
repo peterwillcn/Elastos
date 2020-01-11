@@ -49,7 +49,7 @@ import java.util.Locale;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         appInfo = AppManager.getShareInstance().getLauncherInfo();
-        id = "launcher";
+        id = AppManager.LAUNCHER;
         super.onCreateView(inflater, container, savedInstanceState);
 
         LauncherViewFragment.allPluginEntries = pluginEntries;
@@ -92,6 +92,11 @@ import java.util.Locale;
 
 //        Config.parser = parser;
     }
+
+     @Override
+     public boolean isLauncher() {
+         return true;
+     }
 
     @Override
     public Object onMessage(String id, Object data) {

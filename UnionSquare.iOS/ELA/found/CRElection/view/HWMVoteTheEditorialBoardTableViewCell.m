@@ -168,14 +168,14 @@
     
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField{
-    if ([self numbeChanged]) {
+//    if ([self numbeChanged]) {
         if (self.deleagte) {
                [self.deleagte textFieldDidEnd:textField];
     }
-    }else{
-        self.numberVotingTextField.text=self.TfNumberString;
-    }
-   
+//    }else{
+//        self.numberVotingTextField.text=self.TfNumberString;
+//    }
+//   
     
 }//第1种方法
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {

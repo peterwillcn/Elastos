@@ -30,7 +30,7 @@ import org.apache.cordova.CordovaWebView;
 import java.io.File;
 
 public class TrinityPlugin extends CordovaPlugin {
-    private AppWhitelistPlugin whitelistPlugin;
+    private AppWhitelistPlugin whitelistPlugin = null;
     public String dataPath = null;
     public String appPath = null;
     public String tempPath = null;
@@ -53,8 +53,19 @@ public class TrinityPlugin extends CordovaPlugin {
         this.appId = info.app_id;
     }
 
-    public Boolean isAllowAccess(String url) {
-        return whitelistPlugin.shouldAllowNavigation(url);
+    public boolean isAllowAccess(String url) {
+        if (whitelistPlugin != null) {
+            Boolean ret = whitelistPlugin.shouldAllowNavigation(url);
+            if (ret == Boolean.TRUE) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return true;
+        }
     }
 
     public String getAppPath() {
@@ -132,7 +143,7 @@ public class TrinityPlugin extends CordovaPlugin {
             }
         }
         else if ((path.indexOf("://") != -1)) {
-            if (!(path.startsWith("asset://")) && whitelistPlugin.shouldAllowNavigation(path) == Boolean.TRUE) {
+            if (!(path.startsWith("asset://")) && isAllowAccess(path)) {
                 ret = path;
             }
         }
@@ -158,7 +169,7 @@ public class TrinityPlugin extends CordovaPlugin {
     public String getRelativePath(String path) throws Exception {
         String ret = null;
         if (!(path.startsWith("asset://")) && (path.indexOf("://") != -1)) {
-            if (whitelistPlugin.shouldAllowNavigation(path)) {
+            if (isAllowAccess(path)) {
                 ret = path;
             }
         }

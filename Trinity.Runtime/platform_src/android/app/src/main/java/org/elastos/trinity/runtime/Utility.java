@@ -1,5 +1,8 @@
 package org.elastos.trinity.runtime;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -36,5 +39,20 @@ public class Utility {
         inputStreamReader.close();
         JSONObject json = new JSONObject(builder.toString());
         return json;
+    }
+
+    public static void alertPrompt(String title, String msg, Activity activity) {
+        AlertDialog.Builder ab = new AlertDialog.Builder(activity);
+        ab.setTitle(title);
+        ab.setMessage(msg);
+        ab.setIcon(android.R.drawable.ic_dialog_alert);
+
+        ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        ab.show();
     }
 }

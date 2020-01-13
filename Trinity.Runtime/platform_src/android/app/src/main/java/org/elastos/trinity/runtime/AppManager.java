@@ -601,11 +601,25 @@ public class AppManager {
         start(LAUNCHER);
     }
 
+    private void installUri(String uri, boolean dev) {
+        if (dev) {
+            try {
+                install(uri, true);
+            }
+            catch (Exception e) {
+                Utility.alertPrompt("Error", e.getLocalizedMessage(), this.activity);
+            }
+        }
+        else {
+            sendInstallMsg(uri);
+        }
+    }
+
     public void setInstallUri(String uri, boolean dev) {
         if (uri == null) return;
 
         if (launcherReady) {
-            sendInstallMsg(uri, dev);
+            installUri(uri, dev);
         }
         else {
             installUriList.add(new InstallInfo(uri, dev));
@@ -632,7 +646,7 @@ public class AppManager {
 
         for (int i = 0; i < installUriList.size(); i++) {
             InstallInfo info = installUriList.get(i);
-            sendInstallMsg(info.uri, info.dev);
+            sendInstallMsg(info.uri);
         }
 
         for (int i = 0; i < intentUriList.size(); i++) {
@@ -645,8 +659,8 @@ public class AppManager {
         sendMessage(LAUNCHER, type, msg, fromId);
     }
 
-    private void sendInstallMsg(String uri, boolean dev) {
-        String msg = "{\"uri\":\"" + uri + "\", \"dev\":\"" + dev + "\"}";
+    private void sendInstallMsg(String uri) {
+        String msg = "{\"uri\":\"" + uri + "\"}";
         try {
             sendLauncherMessage(MSG_TYPE_EX_INSTALL, msg, "system");
         }

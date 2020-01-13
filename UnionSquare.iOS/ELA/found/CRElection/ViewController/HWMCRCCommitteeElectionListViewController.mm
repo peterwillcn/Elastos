@@ -409,19 +409,16 @@ UINib *_cellCRNib;
     return [[UIView alloc]initWithFrame:CGRectZero];
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
       HWMVoteTheEditorialBoardTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString forIndexPath:indexPath];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
     HWMCRListModel *model = self.dataSource[indexPath.row];
     model.voterate=[[FLTools share]CRVotingPercentageWithAllCount:self.totalvotes withCRMermVoting:model.votes];
-//    cell.deleagte=self;
+    cell.deleagte=self;
     cell.index=indexPath;
     cell.numberVotingTextField.tag=100+indexPath.row;
-  
     cell.model = model;
     return cell;
-    
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self.view endEditing:YES];
@@ -976,7 +973,7 @@ NSArray *DorpVotes=dic[@"DorpVotes"];
         NSString *httpIP=[[FLTools share]http_IpFast];
         [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1",@"state":@"all"} showHUD:NO WithSuccessBlock:^(id data) {
             NSDictionary *param = data[@"data"];
-            NSArray *dataArray =[NSArray modelArrayWithClass:HWMCRListModel.class json:param[@"result"][@"crcandidatesinfo"]];
+            NSArray *dataArray =[NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];
            
             [self UpdataLocalOwerlistWirhArray:dataArray];
         } WithFailBlock:^(id data) {
@@ -984,7 +981,6 @@ NSArray *DorpVotes=dic[@"DorpVotes"];
         }];
 }
 -(void)UpdataLocalOwerlistWirhArray:(NSArray*)array{
-       
         FLWallet *waller = [ELWalletManager share].currentWallet;
               IMainchainSubWallet *subWallet = [[ELWalletManager share]getWalletELASubWallet:waller.masterWalletID];
               Json cArray = subWallet->GetVotedProducerList();
@@ -995,11 +991,14 @@ NSArray *DorpVotes=dic[@"DorpVotes"];
          FLCoinPointInfoModel *model = array[i];
         for (int j = 0;j<param.allKeys.count; j++) {
              NSString *itemKey = param.allKeys[j];
-            if ([model.nodepublickey isEqualToString:itemKey]&& (![model.state isEqualToString:@"Active"])) {
-                [showlistdata addObject:model.nodepublickey];
+            if ([model.nodepublickey isEqualToString:itemKey]) {
+                
+                if (![model.state isEqualToString:@"Active"]) {
+                    [showlistdata addObject:model.nodepublickey];
+                }
+
             }
         }
-        
     }
     self.invalidDopsArray=@[@{@"Type":@"Delegate",
                            @"Candidates":showlistdata}];

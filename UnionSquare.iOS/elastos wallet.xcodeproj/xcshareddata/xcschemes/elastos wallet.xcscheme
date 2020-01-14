@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-               BuildableName = "REGNET.app"
+               BuildableName = "elastos Wallet.app"
                BlueprintName = "elastos wallet"
                ReferencedContainer = "container:elastos wallet.xcodeproj">
             </BuildableReference>
@@ -31,7 +31,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "REGNET.app"
+            BuildableName = "elastos Wallet.app"
             BlueprintName = "elastos wallet"
             ReferencedContainer = "container:elastos wallet.xcodeproj">
          </BuildableReference>
@@ -40,7 +40,7 @@
       </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug(RegTest)"
+      buildConfiguration = "Release(MainNet)"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -54,7 +54,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "REGNET.app"
+            BuildableName = "elastos Wallet.app"
             BlueprintName = "elastos wallet"
             ReferencedContainer = "container:elastos wallet.xcodeproj">
          </BuildableReference>
@@ -103,7 +103,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "REGNET.app"
+            BuildableName = "elastos Wallet.app"
             BlueprintName = "elastos wallet"
             ReferencedContainer = "container:elastos wallet.xcodeproj">
          </BuildableReference>

@@ -406,9 +406,9 @@
                NSLog(@"dasdhasd=====%@",self.selfModel.url);
     [self loadAllImageInfo:self.ActiveArray];
     self.votingListV.dataSource=self.ActiveArray;
-    if (self.selfModel) {
+//    if (self.selfModel) {
          [self updateInfoSelf];
-    }
+//    }
      
 }
 -(NSInteger)findMyDidWithIndexWithIndex:(NSInteger)index{
@@ -715,6 +715,7 @@ self.typeString=self.typeString;
         self.tagVoteRuleLab.hidden=YES;
         self.found_vote_rule.hidden=YES;
         self.typeString=@"ReturnDeposit";
+         self.votingListV.typeString=self.typeString;
     }else if ([self.selfModel.state isEqualToString:@"Pending"]){
         self.typeString=@"Pending";
         self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
@@ -725,6 +726,7 @@ self.typeString=self.typeString;
         self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
         self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
         self.typeString=@"Unregistered";
+         self.votingListV.typeString=self.typeString;
     }
 }
 -(void)updateDataSource{

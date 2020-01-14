@@ -244,6 +244,12 @@ if ([languageString  containsString:@"en"]) {
     [SVProgressHUD showImage:[UIImage imageNamed:@""] status:info];
 }
 -(CGFloat)gasETHwithGasPrice:(NSString*)gasPrice withLimetPrice:(NSString*)LimetPrice{
+    if ([[FLTools share]isBlankString:LimetPrice]) {
+        LimetPrice=@"0";
+    }
+    if ([[FLTools share]isBlankString:gasPrice]) {
+       gasPrice=@"0";
+       }
       NSString *basePow=[NSString stringWithFormat:@"%.f",pow(10,9)];
     NSDecimalNumber *basePowDecimalNumber=[NSDecimalNumber       decimalNumberWithString:basePow];
     NSDecimalNumber *estimateGasDecimalNumber=[NSDecimalNumber       decimalNumberWithString:LimetPrice];
@@ -345,7 +351,9 @@ if ([languageString  containsString:@"en"]) {
 
 -(NSString *)notRounding:(NSString *)priceString afterPoint:(int)position{
     
-   
+    if ([[FLTools share]isBlankString:priceString]) {
+        priceString=@"0";
+    }
     
     if (priceString.length==0) {
         return @"0";
@@ -581,6 +589,9 @@ if ([languageString  containsString:@"en"]) {
     
 }
 -(NSString*)elaScaleConversionWith:(NSString*)el{
+    if ([[FLTools share]isBlankString:el]) {
+          el=@"0";
+      }
     el=[NSString stringWithFormat:@"%@",el];
     NSDecimalNumber *num1 = [NSDecimalNumber decimalNumberWithString:el];
       NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:8 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:YES];
@@ -592,6 +603,12 @@ if ([languageString  containsString:@"en"]) {
 //    return outNumber;
 }
 -(NSString*)CRVotingPercentageWithAllCount:(NSString*)allcount withCRMermVoting:(NSString*)MermVot{
+    if ([[FLTools share]isBlankString:allcount]) {
+         allcount=@"0";
+      }
+    if ([[FLTools share]isBlankString:MermVot]) {
+         MermVot=@"0";
+       }
 //    SDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:priceStr];
 //    NSDecimalNumber *countNum = [NSDecimalNumber decimalNumberWithString:stringWithNSInteger(NSIntegerMax)];
     @try {
@@ -616,6 +633,12 @@ if ([languageString  containsString:@"en"]) {
     
 }
 -(NSString*)CRVotingTheAverageDistribution:(NSString*)blance withCRMermVoting:(NSString*)MermVotCout{
+    if ([[FLTools share]isBlankString:blance]) {
+          blance=@"0";
+         }
+    if ([[FLTools share]isBlankString:MermVotCout]) {
+         MermVotCout=@"0";
+          }
       NSDecimalNumber *blanceD = [NSDecimalNumber decimalNumberWithString:blance];
     NSDecimalNumber *MermVotCoutD = [NSDecimalNumber decimalNumberWithString:MermVotCout];
       NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:8 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:YES raiseOnDivideByZero:YES];
@@ -630,6 +653,9 @@ return  result.stringValue;
     
 }
 -(NSString*)DownTheValue:(NSString*)blance withLength:(NSInteger)MermVotCout{
+    if ([[FLTools share]isBlankString:blance]) {
+          blance=@"0";
+           }
  NSString*volatilePercentage;
     NSDecimalNumber *blanceD = [NSDecimalNumber decimalNumberWithString:blance];
       NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:MermVotCout raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:YES];
@@ -645,7 +671,10 @@ return  volatilePercentage;
     
 }
 -(NSString*)DownAlllTheValuePercentage:(NSString*)blance withLength:(NSInteger)MermVotCout{
-
+    if ([[FLTools share]isBlankString:blance]) {
+               blance=@"0";
+                 }
+   
     NSDecimalNumber *blanceD = [NSDecimalNumber decimalNumberWithString:blance];
       NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:MermVotCout raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:YES];
         blanceD=[blanceD decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"100"]];
@@ -656,7 +685,9 @@ return  result.stringValue;
     
 }
 -(NSString*)DownNumberPercentage:(NSString*)blance withLength:(NSInteger)MermVotCout{
-
+    if ([[FLTools share]isBlankString:blance]) {
+        blance=@"0";
+               }
     NSDecimalNumber *blanceD = [NSDecimalNumber decimalNumberWithString:blance];
       NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:MermVotCout raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:YES];
       
@@ -668,8 +699,8 @@ return  result.stringValue;
 }
 
 -(NSString*)CRVotingDecimalNumberBySubtracting:(NSString*)blance withCRMermVoting:(NSString*)MermVotCout{
-    if (MermVotCout.length==0) {
-        MermVotCout=@"0";
+  if ([[FLTools share]isBlankString:blance]) {
+           blance=@"0";
     }
       NSDecimalNumber *blanceD = [NSDecimalNumber decimalNumberWithString:blance];
     NSDecimalNumber *MermVotCoutD = [NSDecimalNumber decimalNumberWithString:MermVotCout];
@@ -685,6 +716,9 @@ return  result.stringValue;
     
 }
 -(NSString*)CRVotingDecimalNumberByAdding:(NSString*)blance withCRMermVoting:(NSString*)MermVotCout{
+    if ([[FLTools share]isBlankString:blance]) {
+        blance=@"0";
+               }
       NSDecimalNumber *blanceD = [NSDecimalNumber decimalNumberWithString:blance];
     if ([[FLTools share]isBlankString:MermVotCout]) {
         MermVotCout=@"0";
@@ -702,6 +736,9 @@ return  result.stringValue;
     
 }
 -(NSString*)CRVotingDecimalNumberByMultiplying:(NSString*)blance withCRMermVoting:(NSString*)MermVotCout{
+    if ([[FLTools share]isBlankString:blance]) {
+        blance=@"0";
+               }
       NSDecimalNumber *blanceD = [NSDecimalNumber decimalNumberWithString:blance];
     NSDecimalNumber *MermVotCoutD = [NSDecimalNumber decimalNumberWithString:MermVotCout];
       NSDecimalNumberHandler *roundDown = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundDown scale:8 raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:YES raiseOnDivideByZero:YES];
@@ -716,6 +753,9 @@ return  result.stringValue;
     
 }
 -(NSString *)elsToSela:(NSString*)ela{
+    if ([[FLTools share]isBlankString:ela]) {
+      ela=@"0";
+               }
     ela=[NSString stringWithFormat:@"%@",ela];
     NSDecimalNumber *num1 = [NSDecimalNumber decimalNumberWithString:ela];
     NSString *uNmuber=[NSString stringWithFormat:@"%d",unitNumber];

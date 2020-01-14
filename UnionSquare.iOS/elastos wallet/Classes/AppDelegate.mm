@@ -102,6 +102,7 @@
         sideModel.sideChainNameTime=@"--:--";
                 sideModel.thePercentageMax=@"100";
                 sideModel.thePercentageCurr=@"0";
+                
                 [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
                 [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
             }

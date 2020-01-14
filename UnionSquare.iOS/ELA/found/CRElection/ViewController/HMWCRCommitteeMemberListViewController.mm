@@ -478,6 +478,8 @@
 }
 #pragma mark ---------HMWVotingListViewDelegate----------
 - (void)selectedVotingListWithIndex:(NSInteger)index {
+      HWMCRListModel *CRmodel = self.ActiveArray[index];
+    if (CRmodel) {
     HMWnodeInformationViewController *nodeInformationVC=[[HMWnodeInformationViewController alloc]init];
      nodeInformationVC.index=index;
         nodeInformationVC.type=CRInformationType;
@@ -486,7 +488,8 @@
     nodeInformationVC.delegate=self;
     nodeInformationVC.totalvotes=self.totalvotes;
     nodeInformationVC.lastTimeArray=self.memberListDataSource;
-    [self.navigationController pushViewController:nodeInformationVC animated:YES];
+        [self.navigationController pushViewController:nodeInformationVC animated:YES];
+    }
     
 }
 -(void)VotingListisEdite:(BOOL)edite{

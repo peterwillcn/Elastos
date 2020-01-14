@@ -219,11 +219,17 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
        String balanceSt = mainchainSubWallet->GetBalance();
        NSString * balanceString= [NSString stringWithCString:balanceSt.c_str() encoding:NSUTF8StringEncoding];
        NSInteger balance=[balanceString integerValue];
-       self.inputVoteTicketView.votes =balance/unitNumber;
-        NSString *eleString=[[FLTools share]elaScaleConversionWith: balanceString];
-       self.maxBlance=[eleString doubleValue];
-        NSString *maxBla=[[FLTools share]CRVotingDecimalNumberBySubtracting:eleString withCRMermVoting:@"0.01"];
-        self.inputVoteTicketView.accountBalanceLab.text = [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"最大表决票权", nil),maxBla];
+        self.inputVoteTicketView.votes =balance/unitNumber;
+                 NSString *eleString=[[FLTools share]elaScaleConversionWith: balanceString];
+                self.maxBlance=[eleString doubleValue];
+        if (balance>0) {
+             NSString *maxBla=[[FLTools share]CRVotingDecimalNumberBySubtracting:eleString withCRMermVoting:@"0.01"];
+             self.inputVoteTicketView.accountBalanceLab.text = [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"最大表决票权", nil),maxBla];
+        }else{
+            NSString *maxBla=@"0";
+            self.inputVoteTicketView.accountBalanceLab.text = [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"最大表决票权", nil),maxBla];
+        }
+       
         
     }
     

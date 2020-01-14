@@ -399,13 +399,17 @@
 #pragma mark ---------HMWVotingListViewDelegate----------
 
 - (void)selectedVotingListWithIndex:(NSInteger)index {
-    HMWnodeInformationViewController *nodeInformationVC=[[HMWnodeInformationViewController alloc]init];
-    nodeInformationVC.model = self.ActiveArray[index];
-//    nodeInformationVC.model.voterate=[[FLTools share] DownTheValue: nodeInformationVC.model.voterate withLength:2];
-    nodeInformationVC.Ranking=index+1;
-    nodeInformationVC.lastTimeArray=self.dataSource;
-    nodeInformationVC.type=nodeInformationType;
-      [self.navigationController pushViewController:nodeInformationVC animated:YES];
+    FLCoinPointInfoModel *model=self.ActiveArray[index];
+    if (model) {
+            HMWnodeInformationViewController *nodeInformationVC=[[HMWnodeInformationViewController alloc]init];
+            nodeInformationVC.model = self.ActiveArray[index];
+        //    nodeInformationVC.model.voterate=[[FLTools share] DownTheValue: nodeInformationVC.model.voterate withLength:2];
+            nodeInformationVC.Ranking=index+1;
+            nodeInformationVC.lastTimeArray=self.dataSource;
+            nodeInformationVC.type=nodeInformationType;
+              [self.navigationController pushViewController:nodeInformationVC animated:YES];
+    }
+
     
 }
 -(void)updateDataInfo{

@@ -78,22 +78,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1EFBC5C5-E191-4E87-A5A2-55B12E434C75"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ELA/found/SuperPoint/ViewController/FLSelectSuperPointVC.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
-            landmarkName = "-signUpForButton:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "71323B6E-565D-46FC-A875-6DCF010D6137"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -151,7 +135,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "674"
             endingLineNumber = "674"
-            landmarkName = "-CRVotingDecimalNumberBySubtracting:withCRMermVoting:"
+            landmarkName = "-DownAlllTheValuePercentage:withLength:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -340,10 +324,10 @@
             filePath = "ELA/found/SuperPoint/ViewController/HMWtheCandidateListViewController.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "401"
-            endingLineNumber = "401"
-            landmarkName = "HMWtheCandidateListViewController"
-            landmarkType = "3">
+            startingLineNumber = "398"
+            endingLineNumber = "398"
+            landmarkName = "-didHadInputVoteTicket:WithIsMax:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -516,9 +500,9 @@
             filePath = "ELA/found/SuperPoint/ViewController/HMWtheSuperNodeElectionViewController.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "442"
-            endingLineNumber = "442"
-            landmarkName = "-updateInfoSelf"
+            startingLineNumber = "443"
+            endingLineNumber = "443"
+            landmarkName = "-setNodeName:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -532,9 +516,25 @@
             filePath = "ELA/found/SuperPoint/ViewController/HMWtheSuperNodeElectionViewController.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "421"
-            endingLineNumber = "421"
+            startingLineNumber = "422"
+            endingLineNumber = "422"
             landmarkName = "-updateDataInfo"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DD388B2F-5CCD-489F-B337-BFA255712C8D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "elastos wallet/Classes/AppDelegate.mm"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
+            landmarkName = "-application:didFinishLaunchingWithOptions:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

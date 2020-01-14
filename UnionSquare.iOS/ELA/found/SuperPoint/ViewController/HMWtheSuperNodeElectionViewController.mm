@@ -299,9 +299,9 @@
          
          
         self.votingListV.dataSource = self.ActiveArray;
-        if (self.selfModel) {
+//        if (self.selfModel) {
               [self updateInfoSelf];
-        }
+//        }
         [self loadAllImageInfo:[NSMutableArray arrayWithArray:self.ActiveArray]];
         
     } WithFailBlock:^(id data) {
@@ -446,6 +446,7 @@
         self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
         self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
         self.typeString=@"Canceled";
+         self.votingListV.typeString=self.typeString;
     }else if ([self.selfModel.state isEqualToString:@"Illegal"]){
         self.typeString=@"Registered";
         self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
@@ -457,6 +458,7 @@
         self.tagVoteRuleLab.hidden=YES;
         self.found_vote_rule.hidden=YES;
         self.typeString=@"ReturnDeposit";
+         self.votingListV.typeString=self.typeString;
     }else if ([self.selfModel.state isEqualToString:@"Pending"]){
         self.typeString=@"Pending";
                self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
@@ -466,6 +468,7 @@
         self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
        self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
         self.typeString=@"Unregistered";
+         self.votingListV.typeString=self.typeString;
     }
 }
 @end

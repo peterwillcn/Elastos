@@ -597,6 +597,7 @@ UINib *_cellCRNib;
                cell.numberVotingTextField.text=nil;
         }
         if (self.WhetherTheAverage) {
+             [self.voteArray removeAllObjects];
          self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"all_selected"];
             [self.voteArray addObjectsFromArray:self.dataSource];
          }else{
@@ -653,7 +654,7 @@ UINib *_cellCRNib;
         if (self.WhetherTheAverage) {
             model.isCellSelected=YES;
              model.TextVotes=model.SinceVotes;
-              [self.voteArray addObject:model];
+//              [self.voteArray addObject:model];
            }else{
            model.isCellSelected=NO;
             model.TextVotes=@"";
@@ -668,6 +669,7 @@ UINib *_cellCRNib;
     }
      
         if (self.WhetherTheAverage) {
+            [self.voteArray removeAllObjects];
         self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"all_selected"];
            [self.voteArray addObjectsFromArray:self.dataSource];
         }else{
@@ -684,15 +686,17 @@ UINib *_cellCRNib;
     
 }
 -(void)UpdateTheRemainingAvailable{
-    
-   
-    if ([self.TheRemainingAvailable isEqualToString:@"0"]||self.TheRemainingAvailable.length==0||[[FLTools share]isBlankString:self.TheRemainingAvailable]||[self.TheRemainingAvailable isEqualToString:@"NaN"]) {
+    NSString *TheRemainingAvailableString=@"0";
+    for (HWMCRListModel *model in self.voteArray) {
+        TheRemainingAvailableString =[[FLTools share]CRVotingDecimalNumberByAdding:model.SinceVotes withCRMermVoting:TheRemainingAvailableString];
+    }
+    if ([TheRemainingAvailableString isEqualToString:@"0"]||self.TheRemainingAvailable.length==0||[[FLTools share]isBlankString:self.TheRemainingAvailable]||[TheRemainingAvailableString isEqualToString:@"NaN"]) {
         self.TheRemainingAvailable=@"0";
          self.allTollTicketLabel.text=[NSString stringWithFormat:@"%@ 0 ELA",NSLocalizedString(@"合计：",nil )];
     }else{
-        
-        self.allTollTicketLabel.text=[NSString stringWithFormat:@"%@ %@ ELA",NSLocalizedString(@"合计：",nil ),self.TheRemainingAvailable];}
-        NSString * availableString=[[FLTools share]CRVotingDecimalNumberBySubtracting:self.blaceString withCRMermVoting:self.TheRemainingAvailable];
+        self.TheRemainingAvailable=TheRemainingAvailableString;
+        self.allTollTicketLabel.text=[NSString stringWithFormat:@"%@ %@ ELA",NSLocalizedString(@"合计：",nil ), self.TheRemainingAvailable];}
+        NSString * availableString=[[FLTools share]CRVotingDecimalNumberBySubtracting:self.blaceString withCRMermVoting: self.TheRemainingAvailable];
     if ([availableString intValue]<1) {
           self.persentLab.text=[NSString stringWithFormat:@"%@ <1 ELA",NSLocalizedString(@"可用：",nil )];
     }else{

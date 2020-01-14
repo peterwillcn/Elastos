@@ -68,7 +68,7 @@ public class IntentManager {
 
     final static String[] trinityScheme = {
             "elastos://",
-            "http://scheme.elastos.org/",
+            "https://scheme.elastos.org/",
     };
 
     IntentManager(AppManager appManager) {

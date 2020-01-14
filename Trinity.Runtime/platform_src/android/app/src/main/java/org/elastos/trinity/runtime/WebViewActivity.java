@@ -58,7 +58,7 @@ public class WebViewActivity extends FragmentActivity {
 
             Uri uri = intent.getData();
             if (uri != null) {
-                if (intent.hasCategory("android.intent.category.BROWSABLE")) {
+                if (IntentManager.checkTrinityScheme(uri.toString())) {
                     appManager.setIntentUri(uri);
                 }
                 else {

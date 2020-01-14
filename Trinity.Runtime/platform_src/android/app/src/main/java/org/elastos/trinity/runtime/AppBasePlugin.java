@@ -504,12 +504,13 @@ public class AppBasePlugin extends TrinityPlugin {
         if (appManager.isLauncher(this.appId)) {
             return true;
         }
+        else if (IntentManager.checkTrinityScheme(url)) {
+            return true;
+        }
 
         if (url.startsWith("asset://www/cordova") || url.startsWith("asset://www/plugins")
                 || url.startsWith("trinity:///asset/") || url.startsWith("trinity:///data/")
-                || url.startsWith("trinity:///temp/")
-                || url.startsWith("elastos://")
-                ||  url.startsWith("http://scheme.elastos.org/")) {
+                || url.startsWith("trinity:///temp/")) {
             return true;
         }
 

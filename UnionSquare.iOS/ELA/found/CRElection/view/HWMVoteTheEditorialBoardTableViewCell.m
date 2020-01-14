@@ -132,7 +132,7 @@
 //            if (dotLocation != NSNotFound && range.location > dotLocation + 8) {
 //                return NO;
 //            }
-    NSString *stringRegex = @"(([0]|(0[.]\\d{0,2}))|([1-9]\\d{0,8}(([.]\\d{0,8})?)))?";//一般格式 d{0,8} 控制位数
+    NSString *stringRegex = @"(([0]|(0[.]\\d{0,8}))|([1-9]\\d{0,8}(([.]\\d{0,8})?)))?";//一般格式 d{0,8} 控制位数
 
               NSPredicate *money = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", stringRegex];
 

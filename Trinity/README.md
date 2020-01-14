@@ -8,7 +8,9 @@ Elastos Trinity
 
 Elastos Trinity integrates all the services that Elastos provides and combines them into a singular framework for DApp developers to use. For this reason, DApp developers only need to write their application using ionic javascript framework and have only one set of Runtime APIs to manage.
 
-Elastos Trinity is supported on both Android and iOS, DApp developers only need to develop their application using one set of code in order to run on both platforms.
+Elastos Trinity is supported on both Android and iOS.
+
+While Elastos Trinity is the project codename, this product is also known as the elastOS browser on traditional app stores.
 
 ## Table of Contents
 
@@ -26,30 +28,25 @@ Elastos Trinity is supported on both Android and iOS, DApp developers only need 
 
 ## Roadmap
 
-### S1 2019 - "Roots"
-
-* Base concepts for trinity
-* DApp isolations
-* Hive, Carrier, Wallet and base plugins
-* Basic launcher, SPV wallet DApp
-* Runtime bases (installations, uninstallations, manifest information…)
-* Basic toolchain to create, pack and sign DApp packages
-
 ### Q4 2019/Q1 2020 - "Focus on developers"
 
-* Advanced runtime concepts (inter app communications, elastos scheme, API permissions)
-* Wallet DApp phase 2 (Trinity as an SPV wallet) - payments requests support
-* DID DApp (Trinity as user identity management)
-* Voting DApps (Vote for DPOS, CRC…)
+* [COMPLETED] Advanced runtime concepts (inter app communications, elastos scheme, API permissions)
+* [COMPLETED] Wallet DApp phase 2 (Trinity as an SPV wallet) - payments requests support
+* [COMPLETED] DID DApp (Trinity as user identity management)
+* [COMPLETED] DPos Voting DApp
+* CR Voting DApps
 * RedPackets DApp
-* Temporary centralized DApp store
-* Ethereum and DID plugins
-* DMA-light for trinity
-* Efficient tool chain (easy initial setup, package, debug, publish, easy switch between dev and prod env or mainnet and testnet)
-* Documentation
+* [COMPLETED] Temporary centralized DApp store
+* Ethereum smart contracts fully usable
+* [COMPLETED] DID plugin
+* [80%] Efficient tool chain (easy initial setup, package, debug, publish, easy switch between dev and prod env or mainnet and testnet)
+* [70%] Documentation
 * Automated testing
 * Frequent releases that can break existing DApps
-* DApps community programme
+* Conversion from launcher style to browser style
+* elastOS on iOS
+* Blockchain explorer dApp
+* Wallet dApp UI/UX rework
 
 ### Q2/Q3 2020 - "Focus on end users"
 
@@ -84,23 +81,16 @@ git submodule update --init --recursive
 
 And then use git add, commit and push to submit your changes to current project.
 
-To update the whole Trinity (main repo + submodules), run this:
+To update the whole Trinity (main repo + submodules) to latest master commits, run this:
 
 ```shell
-git pull --rebase
-git submodule update --init --rebase
-# Clean to remove plugins so that they are added back later. Otherwise,
-# latest plugins changes are not applied inside the native app.
+# Pull all submodules on latest master
+./synccode.sh
 ./ToolChains/bin/build clean
 ./ToolChains/bin/build all
 ```
 
-At that time, submodules will be in **detached HEAD** state. To commit changes, run this from the submodule folder before make changes:
-
-```shell
-git checkout master
-git add/commit/push
-```
+If you know what you are doing, you can also only **build runtime**, **build plugin ...**, etc.
 
 ## How to build
 
@@ -123,7 +113,7 @@ git add/commit/push
  on Mac and Linux, add the following line to your login script (e.g., ~/.bashrc, ~/.bash_profile, etc...):
 
  ```
- export ANDROID_HOME="YOU-PATH/sdk"
+ export ANDROID_HOME="YOUR-PATH/sdk"
  ```
 
  On Windows, set the environment variable in the control panel.
@@ -134,75 +124,61 @@ git add/commit/push
 ### Build on Ubuntu / Debian / Linux Host
 
 ```shell
-cd YOU-PATH/Elastos.Trinity
+cd YOUR-PATH/Elastos.Trinity
 ./ToolChains/bin/build all
 ```
 
 **Using Android Studio:**
 
-Open project from YOU-PATH/Elastos.Trinity/Runtime/platforms/android
+Open project from YOUR-PATH/Elastos.Trinity/Runtime/platforms/android
 
 
 ### Build on MacOS Host
 
 ```shell
-cd YOU-PATH/Elastos.Trinity
+cd YOUR-PATH/Elastos.Trinity
 ./ToolChains/bin/build all
 ```
 
 **Using Android Studio:**
 
-Open project from YOU-PATH/Elastos.Trinity/Runtime/platforms/android
+Open project from YOUR-PATH/Elastos.Trinity/Runtime/platforms/android
 
 **Using Xcode:**
 
-Open project from YOU-PATH/Elastos.Trinity/Runtime/platforms/ios
+Open project from YOUR-PATH/Elastos.Trinity/Runtime/platforms/ios
 
 
 ### Build on Windows Host
 
 ```shell
-cd YOU-PATH/Elastos.Trinity
+cd YOUR-PATH/Elastos.Trinity
 python ToolChains/bin/build all
 ```
 
 **Using Android Studio:**
 
-Open project from YOU-PATH/Elastos.Trinity/Runtime/platforms/android
+Open project from YOUR-PATH/Elastos.Trinity/Runtime/platforms/android
 
-### About build tool(for Trinity developers)
-- build clean:  delete runtime platforms.
+### Build script options
 
-    if you update plugins, you should call build clean, then build runtime.Otherwise, latest plugins changes are not applied inside the native app.
+- build clean: deletes runtime platforms.
 
-- build clobber:  delete all build files.
+    if you update plugins, you should call build clean, then build runtime. Otherwise, latest plugins changes are not applied inside the native app.
 
-- build runtime: build runtime module.
-- build launcher: build launcher and runtime module.
-- build all: build all modules, include runtime, launcher and dapps.
+- build clobber: deletes all generated or downloaded files (everything).
 
-- build plugin -p plugin_path: reinstall the specified plugin.
+- build runtime: builds runtime module.
+- build launcher: builds launcher and runtime module.
+- build all: builds all modules, include runtime, launcher and dapps.
 
-NOTE：You could type `./ToolChains/bin/build --help` for more detail
+- build plugin -p plugin_path: reinstalls the specified plugin.
 
-Build all will spend much more time, so you can choose the parameter to save time.
+NOTE：You can type `./ToolChains/bin/build --help` for more details.
 
-For Dapp developer, you should use trinity-cli to create, run or debug dapp.
+**build all** takes time, so it is advised to build the relevant target only.
 
-## [How to develop dapp]
-[trinity-cli](https://github.com/elastos/Elastos.Trinity.ToolChains/blob/master/cli/README.md)
-
-### Create Dapp
-```shell
-trinity-cli new
-```
-
-### Run Dapp
-```shell
-trinity-cli run -p android
-```
-
-NOTE：You could type `trinity-cli --help` for more detail
+Dapp developer should not use any of this and instead get the latest APK from app stores or github releases and follow the [Elastos Developer Website Trinity guides](https://developer.elastos.org/elastos_trinity/).
 
 ## Repositories
 

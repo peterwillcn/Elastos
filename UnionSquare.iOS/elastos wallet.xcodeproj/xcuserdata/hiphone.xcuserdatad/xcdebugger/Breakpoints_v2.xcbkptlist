@@ -300,6 +300,53 @@
             endingLineNumber = "398"
             landmarkName = "-didHadInputVoteTicket:WithIsMax:"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "CCFA2F84-43DB-4613-B25C-BE970EAA8BE4 - d0bd0ce37de57cf8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[HMWtheCandidateListViewController didHadInputVoteTicket:WithIsMax:]"
+                  moduleName = "PRVNET"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/SuperPoint/ViewController/HMWtheCandidateListViewController.mm"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "406"
+                  endingLineNumber = "406"
+                  offsetFromSymbolStart = "436">
+               </Location>
+               <Location
+                  uuid = "CCFA2F84-43DB-4613-B25C-BE970EAA8BE4 - d0bd0ce37de57cf8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[HMWtheCandidateListViewController didHadInputVoteTicket:WithIsMax:]"
+                  moduleName = "PRVNET"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/SuperPoint/ViewController/HMWtheCandidateListViewController.mm"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "406"
+                  endingLineNumber = "406"
+                  offsetFromSymbolStart = "1272">
+               </Location>
+               <Location
+                  uuid = "CCFA2F84-43DB-4613-B25C-BE970EAA8BE4 - d0bd0ce37de57cf8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[HMWtheCandidateListViewController didHadInputVoteTicket:WithIsMax:]"
+                  moduleName = "PRVNET"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS/ELA/found/SuperPoint/ViewController/HMWtheCandidateListViewController.mm"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "406"
+                  endingLineNumber = "406"
+                  offsetFromSymbolStart = "1320">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -498,7 +545,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "DD388B2F-5CCD-489F-B337-BFA255712C8D"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "elastos wallet/Classes/AppDelegate.mm"
@@ -507,6 +554,22 @@
             startingLineNumber = "112"
             endingLineNumber = "112"
             landmarkName = "-application:didFinishLaunchingWithOptions:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EDD7BE4E-9484-4C10-A9E3-7D2D581756FC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "675"
+            endingLineNumber = "675"
+            landmarkName = "-TheAverageDistributionImageViewEvent:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

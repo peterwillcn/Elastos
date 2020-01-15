@@ -966,7 +966,7 @@ public class AppManager {
 
 
     public void flingTheme() {
-        if (isLauncher(curFragment.id)) {
+        if (curFragment == null || isLauncher(curFragment.id)) {
             return;
         }
 

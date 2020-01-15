@@ -265,6 +265,7 @@
 }
 -(void)getNetCoinPointArray{
     NSString *httpIP=[[FLTools share]http_IpFast];
+    
     [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1"} showHUD:NO WithSuccessBlock:^(id data) {
         NSDictionary *param = data[@"data"];
         NSArray *dataArray =[NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];
@@ -301,7 +302,7 @@
         self.votingListV.dataSource = self.ActiveArray;
 //        if (self.selfModel) {
               [self updateInfoSelf];
-//        }
+        }
         [self loadAllImageInfo:[NSMutableArray arrayWithArray:self.ActiveArray]];
         
     } WithFailBlock:^(id data) {

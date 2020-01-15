@@ -521,7 +521,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "443"
             endingLineNumber = "443"
-            landmarkName = "-setNodeName:"
+            landmarkName = "-updateInfoSelf"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -618,7 +618,7 @@ public class AppManager {
     public void setInstallUri(String uri, boolean dev) {
         if (uri == null) return;
 
-        if (launcherReady) {
+        if (launcherReady || dev) {
             installUri(uri, dev);
         }
         else {

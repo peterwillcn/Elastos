@@ -133,6 +133,10 @@ public class AppBasePlugin extends TrinityPlugin {
                     this.setVisible(args, callbackContext);
                     break;
 
+                case "setProgress":
+                    this.setProgress(args, callbackContext);
+                    break;
+
                 default:
                     return false;
             }
@@ -707,6 +711,16 @@ public class AppBasePlugin extends TrinityPlugin {
 
     protected void askPrompt(JSONArray args, CallbackContext callbackContext) throws Exception {
         alertDialog(args, android.R.drawable.ic_dialog_info, callbackContext);
+    }
+
+    private TitleBar getTitleBar() {
+        return ((WebViewFragment)((TrinityCordovaInterfaceImpl)cordova).fragment).getTitlebar();
+    }
+
+    protected void setProgress(JSONArray args, CallbackContext callbackContext) throws Exception {
+        int progress = args.getInt(0);
+        getTitleBar().setProgress(progress);
+        callbackContext.success("ok");
     }
 
 

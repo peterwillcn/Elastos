@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginEntry;
@@ -37,68 +38,11 @@ import java.util.ArrayList;
  public class AppViewFragment extends WebViewFragment {
     public static String TAG = "AppViewFragment";
 
-    View titlebar;
-
-    public static WebViewFragment newInstance(String id) {
-        if (id != null) {
-            AppViewFragment fragment = new AppViewFragment();
-
-            Bundle bundle = new Bundle();
-            bundle.putString("id", id);
-            fragment.setArguments(bundle);
-            return fragment;
-        }
-        else {
-            return null;
-        }
-    }
-
     @Override
     protected void finalize(){
         System.out.println("in finalize");
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        if(getArguments() == null){
-            return null;
-        }
-
-        id = getArguments().getString("id");
-        appInfo = AppManager.getShareInstance().getAppInfo(id);
-
-        super.onCreateView(inflater, container, savedInstanceState);
-
-        FrameLayout rootView = new FrameLayout(this.getContext());
-
-        rootView.addView(appView.getView());
-        addTitleBar(inflater, rootView);
-
-        return rootView;
-    }
-
-    private void addTitleBar(LayoutInflater inflater, FrameLayout rootView) {
-        titlebar = inflater.inflate(R.layout.title_bar, null);
-
-        rootView.addView(titlebar);
-        if (appInfo.type.equals("app")) {
-            titlebar.setVisibility(View.GONE);
-        }
-
-        Button btnClose =(Button) titlebar.findViewById(R.id.btnClose);
-        btnClose.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    AppManager.getShareInstance().close(id);
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 
     private boolean isCheckAuthority(String name) {
         for (AppInfo.PluginAuth pluginAuth : appInfo.plugins) {

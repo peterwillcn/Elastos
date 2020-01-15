@@ -37,8 +37,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPreferences;
@@ -47,6 +51,7 @@ import org.apache.cordova.CordovaWebViewEngine;
 import org.apache.cordova.CordovaWebViewImpl;
 import org.apache.cordova.LOG;
 import org.apache.cordova.PluginEntry;
+import org.apache.cordova.engine.SystemWebView;
 import org.json.JSONException;
 
 import java.util.ArrayList;
@@ -81,10 +86,28 @@ public class WebViewFragment extends Fragment {
     public AppInfo appInfo;
     protected String launchUrl;
 
-    /**
-     * Returns a new instance of this fragment for the given section
-     * number.
-     */
+    public TitleBar titlebar;
+    private SystemWebView webView = null;
+
+    public static WebViewFragment newInstance(String id) {
+        if (id != null) {
+            WebViewFragment fragment = null;
+            if (AppManager.getShareInstance().isLauncher(id)) {
+                fragment = new LauncherViewFragment();
+            }
+            else {
+                fragment = new AppViewFragment();
+            }
+
+            Bundle bundle = new Bundle();
+            bundle.putString("id", id);
+            fragment.setArguments(bundle);
+            return fragment;
+        }
+        else {
+            return null;
+        }
+    }
 
     @Override
     /**
@@ -99,6 +122,19 @@ public class WebViewFragment extends Fragment {
             Bundle savedInstanceState) {
         activity = AppManager.getShareInstance().activity;
 
+        if(getArguments() == null){
+            return null;
+        }
+
+        id = getArguments().getString("id");
+        appInfo = AppManager.getShareInstance().getAppInfo(id);
+
+        activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        View rootView = inflater.inflate(R.layout.fragments_view, null);
+        webView = rootView.findViewById(R.id.webView);
+        titlebar = rootView.findViewById(R.id.titlebar);
+        titlebar.setInit(id);
+
         loadConfig();
 
         cordovaInterface = makeCordovaInterface();
@@ -108,7 +144,12 @@ public class WebViewFragment extends Fragment {
 
         loadUrl(launchUrl);
 
-        return appView.getView();
+        return rootView;
+    }
+
+
+    public TitleBar getTitlebar() {
+        return titlebar;
     }
 
     protected void loadConfig() {
@@ -131,10 +172,10 @@ public class WebViewFragment extends Fragment {
 
     protected void createViews() {
         //Why are we setting a constant as the ID? This should be investigated
-        appView.getView().setId(viewId++);
-        appView.getView().setLayoutParams(new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
+//        appView.getView().setId(R.id.webView);
+//        appView.getView().setLayoutParams(new FrameLayout.LayoutParams(
+//                ViewGroup.LayoutParams.MATCH_PARENT,
+//                ViewGroup.LayoutParams.MATCH_PARENT));
 
 //        getActivity().setContentView(appView.getView());
 
@@ -157,7 +198,8 @@ public class WebViewFragment extends Fragment {
     }
 
     protected CordovaWebViewEngine makeWebViewEngine() {
-        return CordovaWebViewImpl.createEngine(getActivity(), preferences);
+//        return CordovaWebViewImpl.createEngine(getActivity(), preferences);)
+        return TrinityCordovaInterfaceImpl.createEngine(webView, preferences);
     }
 
     protected TrinityCordovaInterfaceImpl makeCordovaInterface() {

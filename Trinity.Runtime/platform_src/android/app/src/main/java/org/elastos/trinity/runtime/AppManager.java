@@ -539,11 +539,8 @@ public class AppManager {
 
         WebViewFragment fragment = findFragmentById(id);
         if (fragment == null) {
-            if (isLauncher(id)) {
-                fragment = LauncherViewFragment.newInstance();
-            }
-            else {
-                fragment = AppViewFragment.newInstance(id);
+            fragment = WebViewFragment.newInstance(id);
+            if (!isLauncher(id)) {
                 sendRefreshList("started", info);
             }
 

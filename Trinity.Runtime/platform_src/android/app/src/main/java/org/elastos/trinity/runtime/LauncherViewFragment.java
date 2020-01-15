@@ -40,22 +40,6 @@ import java.util.Locale;
 
     static ArrayList<PluginEntry> allPluginEntries;
 
-    public static WebViewFragment newInstance() {
-        LauncherViewFragment fragment = new LauncherViewFragment();
-        return fragment;
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        appInfo = AppManager.getShareInstance().getLauncherInfo();
-        id = AppManager.LAUNCHER;
-        super.onCreateView(inflater, container, savedInstanceState);
-
-        LauncherViewFragment.allPluginEntries = pluginEntries;
-        return appView.getView();
-    }
-
     @Override
     protected void loadConfig() {
         ConfigXmlParser parser = new ConfigXmlParser();
@@ -89,6 +73,8 @@ import java.util.Locale;
         if ("media".equals(volumePref.toLowerCase(Locale.ENGLISH))) {
             getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
         }
+
+        LauncherViewFragment.allPluginEntries = pluginEntries;
 
 //        Config.parser = parser;
     }

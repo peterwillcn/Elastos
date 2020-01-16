@@ -481,5 +481,22 @@ declare namespace AppManagerPlugin {
          * @param onError    The function to call when error, the param is a String. Or set to null.
          */
         getVersion(onSuccess: (version: string) => void, onError?: (err: string) => void);
+
+        /**
+         * Shows the title bar's progress bar and changes the progress indicator value.
+         *
+         * @param progress   The progress value [0-100]. Use -1 for an indeterminate progress animation.
+         * @param onSuccess  The function to call when success.
+         * @param onError    The function to call when error, the param is a String. Or set to null.
+         */
+        setTitleBarProgress(progress: Number, onSuccess?: () => void, onError?: (err: any) => void);
+
+        /**
+         * Hides the title bar's progress bar.
+         * 
+         * @param onSuccess  The function to call when success.
+         * @param onError    The function to call when error, the param is a String. Or set to null.
+         */
+        hideTitleBarProgress(onSuccess?: () => void, onError?: (err: any) => void);
     }
 }

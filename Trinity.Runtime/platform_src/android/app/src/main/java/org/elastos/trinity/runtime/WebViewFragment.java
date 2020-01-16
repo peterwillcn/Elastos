@@ -125,7 +125,6 @@ public class WebViewFragment extends Fragment {
         id = getArguments().getString("id");
         appInfo = AppManager.getShareInstance().getAppInfo(id);
 
-        activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         View rootView = inflater.inflate(R.layout.fragments_view, null);
         webView = rootView.findViewById(R.id.webView);
         titlebar = rootView.findViewById(R.id.titlebar);

@@ -90,14 +90,6 @@ public class WebViewActivity extends FragmentActivity {
 
         gestureDetector = new GestureDetector(this, onGestureListener);
 
-        // Set by <content src="index.html" /> in config.xml
-//        try {
-//            appManager.loadLauncher();
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-
 
 //        Bundle b = getIntent().getExtras();
 //        String url = b.getString("url");

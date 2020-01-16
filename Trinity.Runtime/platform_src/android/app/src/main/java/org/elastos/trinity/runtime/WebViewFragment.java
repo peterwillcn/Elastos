@@ -39,10 +39,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebViewClient;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
 
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPreferences;
@@ -133,7 +129,7 @@ public class WebViewFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragments_view, null);
         webView = rootView.findViewById(R.id.webView);
         titlebar = rootView.findViewById(R.id.titlebar);
-        titlebar.setInit(id);
+        titlebar.initialize(id);
 
         loadConfig();
 

@@ -19,9 +19,9 @@ public class TitleBar extends Toolbar {
         super(context, attrs);
     }
 
-    public void setInit(String id) {
+    public void initialize(String appId) {
         appManager = AppManager.getShareInstance();
-        isLauncher = appManager.isLauncher(id);
+        isLauncher = appManager.isLauncher(appId);
 
         progressBar = findViewById(R.id.progressBar);
         btnClose = findViewById(R.id.btnClose);
@@ -35,7 +35,7 @@ public class TitleBar extends Toolbar {
             @Override
             public void onClick(View v) {
                 try {
-                    appManager.close(id);
+                    appManager.close(appId);
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -59,7 +59,7 @@ public class TitleBar extends Toolbar {
             @Override
             public void onClick(View v) {
                 try {
-                    appManager.sendLauncherMessage(AppManager.MSG_TYPE_INTERNAL, "toggle", "system");
+                    appManager.sendLauncherMessage(AppManager.MSG_TYPE_INTERNAL, "{\"action\":\"toggle\"}", "system");
                 }
                 catch (Exception e) {
                     e.printStackTrace();

@@ -293,11 +293,19 @@ public class AppInstaller {
         from.renameTo(to);
     }
 
+    private void sendInstallingMessage(String action, String appId, String url)throws Exception {
+        AppManager.getShareInstance().sendLauncherMessage(AppManager.MSG_TYPE_INSTALLING,
+                "{\"action\":\"" + action + "\", \"appId\":\"" + appId + "\" , \"url\":\"" + url + "\"}", "system");
+    }
+
     public AppInfo install(String url, boolean update) throws Exception {
         Log.d("AppInstaller", "Install url="+url+" update="+update);
         InputStream inputStream = null;
         AppInfo info = null;
         String downloadPkgPath = null;
+        String originUrl = url;
+
+        sendInstallingMessage("start", "", originUrl);
 
         if (url.startsWith("asset://")) {
             AssetManager manager = context.getAssets();
@@ -334,6 +342,8 @@ public class AppInstaller {
             throw new Exception("Failed to unpack EPK!");
         }
 
+        sendInstallingMessage("unpacked", "", originUrl);
+
         if (verifyDigest) {
             // Verify the signature of the EPK
 
@@ -354,6 +364,7 @@ public class AppInstaller {
             }
 
             Log.d("AppInstaller", "The EPK was signed by (Public Key): " + public_key);
+            sendInstallingMessage("verified", "", originUrl);
         }
 
         info = getInfoByManifest(path, 0);
@@ -371,6 +382,7 @@ public class AppInstaller {
                 Log.d("AppInstaller", "install() - uninstalling "+info.app_id+" - update = true");
                 if (oldInfo.launcher != 1) {
                     AppManager.getShareInstance().unInstall(info.app_id, true);
+                    sendInstallingMessage("uninstalled_old", info.app_id, originUrl);
                 }
             }
             else {
@@ -394,6 +406,7 @@ public class AppInstaller {
             dbAdapter.addAppInfo(info);
         }
         deleteDAppPackage(downloadPkgPath);
+        sendInstallingMessage("finish", info.app_id, originUrl);
 
         return info;
     }

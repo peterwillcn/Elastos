@@ -54,6 +54,8 @@ public class AppManager {
     public static final int MSG_TYPE_IN_RETURN = 2;
     /** The internal refresh message. */
     public static final int MSG_TYPE_IN_REFRESH = 3;
+    /** The installing message. */
+    public static final int MSG_TYPE_INSTALLING = 4;
 
     /** The external message */
     public static final int MSG_TYPE_EXTERNAL = 11;

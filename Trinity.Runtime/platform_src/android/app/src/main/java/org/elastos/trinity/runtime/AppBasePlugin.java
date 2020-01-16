@@ -133,8 +133,11 @@ public class AppBasePlugin extends TrinityPlugin {
                     this.setVisible(args, callbackContext);
                     break;
 
-                case "setProgress":
-                    this.setProgress(args, callbackContext);
+                case "setTitleBarProgress":
+                    this.setTitleBarProgress(args, callbackContext);
+                    break;
+                case "hideTitleBarProgress":
+                    this.hideTitleBarProgress(args, callbackContext);
                     break;
 
                 default:
@@ -717,11 +720,15 @@ public class AppBasePlugin extends TrinityPlugin {
         return ((WebViewFragment)((TrinityCordovaInterfaceImpl)cordova).fragment).getTitlebar();
     }
 
-    protected void setProgress(JSONArray args, CallbackContext callbackContext) throws Exception {
+    protected void setTitleBarProgress(JSONArray args, CallbackContext callbackContext) throws Exception {
         int progress = args.getInt(0);
+        getTitleBar().showProgress();
         getTitleBar().setProgress(progress);
-        callbackContext.success("ok");
+        callbackContext.success();
     }
 
-
+    protected void hideTitleBarProgress(JSONArray args, CallbackContext callbackContext) throws Exception {
+        getTitleBar().hideProgress();
+        callbackContext.success();
+    }
 }

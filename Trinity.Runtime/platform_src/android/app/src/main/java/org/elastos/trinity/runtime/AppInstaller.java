@@ -295,7 +295,7 @@ public class AppInstaller {
 
     private void sendInstallingMessage(String action, String appId, String url)throws Exception {
         AppManager.getShareInstance().sendLauncherMessage(AppManager.MSG_TYPE_INSTALLING,
-                "{\"action\":\"" + action + "\", \"appId\":\"" + appId + "\" , \"url\":\"" + url + "\"}", "system");
+                "{\"action\":\"" + action + "\", \"id\":\"" + appId + "\" , \"url\":\"" + url + "\"}", "system");
     }
 
     public AppInfo install(String url, boolean update) throws Exception {
@@ -333,6 +333,9 @@ public class AppInstaller {
         String path = appPath + temp + "/";
 
         File fmd = new File(path);
+        if (fmd.exists()) {
+            deleteAllFiles(fmd);
+        }
         fmd.mkdirs();
 
         boolean verifyDigest = ConfigManager.getShareInstance().getBooleanValue("install.verifyDigest", false);
@@ -368,7 +371,7 @@ public class AppInstaller {
         }
 
         info = getInfoByManifest(path, 0);
-        File from = new File(appPath, temp);
+       File from = new File(appPath, temp);
         if (info == null || info.app_id == null /* || info.app_id.equals("launcher") */) {
             deleteAllFiles(from);
             deleteDAppPackage(downloadPkgPath);

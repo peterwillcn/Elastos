@@ -421,7 +421,7 @@ public class AppBasePlugin extends TrinityPlugin {
         String url = args.getString(0);
 
         try {
-            if (IntentManager.checkTrinityScheme(url)) {
+            if (checkIntentScheme(url)) {
                 IntentManager.getShareInstance().sendIntentByUri(Uri.parse(url), this.appId);
             }
             else if (webView.getPluginManager().shouldOpenExternalUrl(url)) {
@@ -494,12 +494,16 @@ public class AppBasePlugin extends TrinityPlugin {
         }
     }
 
+    private boolean checkIntentScheme(String url) {
+        return IntentManager.checkTrinityScheme(url) && !isUrlApp();
+    }
+
     @Override
     public Boolean shouldAllowNavigation(String url) {
         if (appManager.isLauncher(this.appId)) {
             return true;
         }
-        else if (IntentManager.checkTrinityScheme(url)) {
+        else if (checkIntentScheme(url)) {
             return true;
         }
 
@@ -511,7 +515,7 @@ public class AppBasePlugin extends TrinityPlugin {
         if (appManager.isLauncher(this.appId)) {
             return true;
         }
-        else if (IntentManager.checkTrinityScheme(url)) {
+        else if (checkIntentScheme(url)) {
             return true;
         }
 
@@ -558,7 +562,7 @@ public class AppBasePlugin extends TrinityPlugin {
         else if (url.startsWith("trinity:///temp/")) {
             url = appManager.getTempUrl(this.appId) + url.substring(16);
         }
-        else if (IntentManager.checkTrinityScheme(url)) {
+        else if (checkIntentScheme(url)) {
             try {
                 IntentManager.getShareInstance().sendIntentByUri(uri, this.appId);
             } catch (Exception e) {

@@ -68,6 +68,10 @@ public class TrinityPlugin extends CordovaPlugin {
         }
     }
 
+    public boolean isUrlApp() {
+        return appInfo.type.equals("url");
+    }
+
     public String getAppPath() {
         return appPath;
     }

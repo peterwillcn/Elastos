@@ -35,7 +35,6 @@ public class AppWhitelistPlugin extends CordovaPlugin {
     private AppInfo appInfo = null;
 
     final String[] intentList = {
-            "elastos://*",
             "mailto:*",
             "tel:*",
             "sms:*",
@@ -117,7 +116,10 @@ public class AppWhitelistPlugin extends CordovaPlugin {
 
     @Override
     public Boolean shouldOpenExternalUrl(String url) {
-        if (allowedIntents.isUrlWhiteListed(url)) {
+        if (IntentManager.checkTrinityScheme(url)) {
+            return true;
+        }
+        else if (allowedIntents.isUrlWhiteListed(url)) {
             return true;
         }
         else if (allowedAppIntents.isUrlAllowAuthority(url)) {

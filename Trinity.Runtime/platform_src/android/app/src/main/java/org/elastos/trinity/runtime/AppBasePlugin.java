@@ -495,7 +495,7 @@ public class AppBasePlugin extends TrinityPlugin {
     }
 
     private boolean checkIntentScheme(String url) {
-        return IntentManager.checkTrinityScheme(url) && !isUrlApp();
+        return IntentManager.checkTrinityScheme(url) && (!isUrlApp() || url.contains("callbackurl="));
     }
 
     @Override

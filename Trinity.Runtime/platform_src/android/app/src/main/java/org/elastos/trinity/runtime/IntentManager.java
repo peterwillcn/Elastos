@@ -395,7 +395,11 @@ public class IntentManager {
                 appManager.start(info.fromId);
                 if (info.type == IntentInfo.URL) {
                     if (info.callbackurl != null) {
-                        String url = info.callbackurl + "?result=" + Uri.encode(result);
+                        String param = "?result=";
+                        if (info.callbackurl.contains("?")) {
+                            param = "&result=";
+                        }
+                        String url = info.callbackurl + param + Uri.encode(result);
                         fragment.loadUrl(url);
                     }
                 }

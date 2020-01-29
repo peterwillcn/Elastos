@@ -116,10 +116,10 @@ public class AppWhitelistPlugin extends CordovaPlugin {
 
     @Override
     public Boolean shouldOpenExternalUrl(String url) {
-        if (IntentManager.checkTrinityScheme(url)) {
-            return true;
-        }
-        else if (allowedIntents.isUrlWhiteListed(url)) {
+//        if (IntentManager.checkTrinityScheme(url)) {
+//            return true;
+//        }
+        if (allowedIntents.isUrlWhiteListed(url)) {
             return true;
         }
         else if (allowedAppIntents.isUrlAllowAuthority(url)) {

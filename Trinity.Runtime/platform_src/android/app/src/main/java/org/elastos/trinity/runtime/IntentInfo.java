@@ -8,6 +8,10 @@ public class IntentInfo {
     public static final int JWT = 1;
     public static final int URL = 2;
 
+    public static final String REDIRECT_URL = "redirecturl";
+    public static final String CALLBACK_URL = "callbackurl";
+    public static final String REDIRECT_APP_URL = "redirectappurl";
+
     String action;
     String params;
     String fromId;
@@ -18,6 +22,7 @@ public class IntentInfo {
     String jwt = null;
     String redirecturl = null;
     String callbackurl = null;
+    String redirectappurl = null;
     String aud = null;
     String req = null;
     int type = API;

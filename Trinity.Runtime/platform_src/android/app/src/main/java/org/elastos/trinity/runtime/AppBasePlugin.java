@@ -495,7 +495,7 @@ public class AppBasePlugin extends TrinityPlugin {
     }
 
     private boolean checkIntentScheme(String url) {
-        return IntentManager.checkTrinityScheme(url) && (!isUrlApp() || url.contains("callbackurl="));
+        return IntentManager.checkTrinityScheme(url);// && (!isUrlApp() || url.contains("callbackurl="));
     }
 
     @Override
@@ -504,7 +504,12 @@ public class AppBasePlugin extends TrinityPlugin {
             return true;
         }
         else if (checkIntentScheme(url)) {
-            return true;
+            try {
+                IntentManager.getShareInstance().sendIntentByUri(Uri.parse(url), this.appId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
         }
 
         return null;
@@ -516,7 +521,12 @@ public class AppBasePlugin extends TrinityPlugin {
             return true;
         }
         else if (checkIntentScheme(url)) {
-            return true;
+            try {
+                IntentManager.getShareInstance().sendIntentByUri(Uri.parse(url), this.appId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
         }
 
         if (url.startsWith("asset://www/cordova") || url.startsWith("asset://www/plugins")
@@ -562,13 +572,13 @@ public class AppBasePlugin extends TrinityPlugin {
         else if (url.startsWith("trinity:///temp/")) {
             url = appManager.getTempUrl(this.appId) + url.substring(16);
         }
-        else if (checkIntentScheme(url)) {
-            try {
-                IntentManager.getShareInstance().sendIntentByUri(uri, this.appId);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+//        else if (checkIntentScheme(url)) {
+//            try {
+//                IntentManager.getShareInstance().sendIntentByUri(uri, this.appId);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
         else {
             return null;
         }

@@ -3,11 +3,9 @@ package org.elastos.trinity.runtime;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.net.Uri;
-import android.support.v4.app.FragmentManager;
 import android.util.Base64;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonObject;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -16,33 +14,24 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
-import java.security.Key;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwsHeader;
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.JwtHandler;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SigningKeyResolver;
-import io.jsonwebtoken.impl.DefaultJwtParser;
 //import org.apache.tomcat.util.codec.binary.Base64;
 
 import org.apache.http.HttpEntity;
@@ -233,11 +222,11 @@ public class IntentManager {
         if (jwtPayload.has("appid")) {
             info.req = jwtPayload.getString("appid").toString();
         }
-        if (jwtPayload.has("redirecturl")) {
-            info.redirecturl = jwtPayload.getString("redirecturl").toString();
+        if (jwtPayload.has(IntentInfo.REDIRECT_URL)) {
+            info.redirecturl = jwtPayload.getString(IntentInfo.REDIRECT_URL).toString();
         }
-        else if (jwtPayload.has("callbackurl")) {
-            info.callbackurl = jwtPayload.getString("callbackurl").toString();
+        else if (jwtPayload.has(IntentInfo.CALLBACK_URL)) {
+            info.callbackurl = jwtPayload.getString(IntentInfo.CALLBACK_URL).toString();
         }
         info.type = IntentInfo.JWT;
     }
@@ -248,8 +237,14 @@ public class IntentManager {
         JSONObject json = new JSONObject();
         for (String key : set) {
             String value = uri.getQueryParameter(key);
-            if (key.equals("callbackurl")) {
+            if (key.equals(IntentInfo.REDIRECT_URL)) {
+                info.redirecturl = value;
+            }
+            else if (key.equals(IntentInfo.CALLBACK_URL)) {
                 info.callbackurl = value;
+            }
+            else if (key.equals(IntentInfo.REDIRECT_APP_URL)) {
+                info.redirectappurl = value;
             }
             else {
                 Object obj = new JSONTokener(value).nextValue();
@@ -330,11 +325,11 @@ public class IntentManager {
         return builder.compact();
     }
 
-    public void postJWTCallback(String jwt, String callbackurl) throws Exception {
+    public void postCallback(String name, String value, String callbackurl) throws Exception {
         HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(callbackurl);
         List<NameValuePair> paramList = new ArrayList<NameValuePair>(2);
-        paramList.add(new BasicNameValuePair("jwt", jwt));
+        paramList.add(new BasicNameValuePair(name, value));
         HttpEntity entity = new UrlEncodedFormEntity(paramList, HTTP.UTF_8);
         httpPost.setEntity(entity);
         HttpResponse httpResponse = httpClient.execute(httpPost);
@@ -353,32 +348,14 @@ public class IntentManager {
 
     }
 
-    public void sendJWTResponse(AppBasePlugin basePlugin, IntentInfo info, String result) throws Exception {
-        if (info.type == IntentInfo.JWT) {
-            String jwt = createJWT(info, result);
-
-            String url = info.redirecturl;
-            if (url == null) {
-                url = info.callbackurl;
-                if (url == null) {
-                    return;
-                }
-            }
-
-            if (IntentManager.checkTrinityScheme(url)) {
-                url = url + "/" + jwt;
-                sendIntentByUri(Uri.parse(url), info.fromId);
-            }
-            else {
-                if (info.redirecturl != null) {
-                    url = info.redirecturl + "/" + jwt;
-                    basePlugin.webView.showWebPage(url, true, false, null);
-                } else if (info.callbackurl != null) {
-                    postJWTCallback(jwt, info.callbackurl);
-                }
-            }
+    private String getResultUrl(String url, String result) {
+        String param = "?result=";
+        if (url.contains("?")) {
+            param = "&result=";
         }
+        return url + param + Uri.encode(result);
     }
+
 
     public void sendIntentResponse(AppBasePlugin basePlugin, String result, long intentId, String fromId) throws Exception {
         IntentInfo info = intentContextList.get(intentId);
@@ -386,29 +363,60 @@ public class IntentManager {
             throw new Exception(intentId + " isn't support!");
         }
 
-        if (info.type == IntentInfo.JWT) {
-            sendJWTResponse(basePlugin, info, result);
-        }
-        else {
-            WebViewFragment fragment = appManager.findFragmentById(info.fromId);
+        WebViewFragment fragment = null;
+        if (info.fromId != null) {
+            fragment = appManager.findFragmentById(info.fromId);
             if (fragment != null) {
                 appManager.start(info.fromId);
-                if (info.type == IntentInfo.URL) {
-                    if (info.callbackurl != null) {
-                        String param = "?result=";
-                        if (info.callbackurl.contains("?")) {
-                            param = "&result=";
+            }
+        }
+
+        if (info.type == IntentInfo.API) {
+            if (fragment != null) {
+                info.params = result;
+                info.fromId = fromId;
+                fragment.basePlugin.onReceiveIntentResponse(info);
+            }
+        }
+        else if (info.redirectappurl != null && fragment != null && fragment.basePlugin.isUrlApp()) {
+            String url = getResultUrl(info.redirectappurl, result);
+            fragment.loadUrl(url);
+        }
+        else {
+            String url = info.redirecturl;
+            if (url == null) {
+                url = info.callbackurl;
+            }
+
+            if (url != null) {
+                if (info.type == IntentInfo.JWT) {
+                    String jwt = createJWT(info, result);
+                    if (IntentManager.checkTrinityScheme(url)) {
+                        url = url + "/" + jwt;
+                        sendIntentByUri(Uri.parse(url), info.fromId);
+                    } else {
+                        if (info.redirecturl != null) {
+                            url = info.redirecturl + "/" + jwt;
+                            basePlugin.webView.showWebPage(url, true, false, null);
+                        } else if (info.callbackurl != null) {
+                            postCallback("jwt", jwt, info.callbackurl);
                         }
-                        String url = info.callbackurl + param + Uri.encode(result);
-                        fragment.loadUrl(url);
+                    }
+                } else {
+                    if (IntentManager.checkTrinityScheme(url)) {
+                        url = getResultUrl(url, result);
+                        sendIntentByUri(Uri.parse(url), info.fromId);
+                    } else {
+                        if (info.redirecturl != null) {
+                            url = getResultUrl(url, result);
+                            basePlugin.webView.showWebPage(url, true, false, null);
+                        } else if (info.callbackurl != null) {
+                            postCallback("result", result, info.callbackurl);
+                        }
                     }
                 }
-                else {
-                    info.params = result;
-                    info.fromId = fromId;
-                    fragment.basePlugin.onReceiveIntentResponse(info);
-                }
             }
+
         }
 
         intentContextList.remove(intentId);

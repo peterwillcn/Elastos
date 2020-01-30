@@ -320,7 +320,7 @@ public class IntentManager {
                 .claim("exp", claims.get("exp"))
                 .claim("presentation", claims.get("presentation"))
                 .claim("req", info.req)
-                .claim("mothod", info.action)
+                .claim("method", info.action)
 //                .setId(UUID.randomUUID())
                 .setIssuedAt(new Date())
                 .setAudience(info.aud)
@@ -338,7 +338,7 @@ public class IntentManager {
             ret.put("aud", info.aud);
         }
         ret.put("iat", (int)(System.currentTimeMillis()/1000));
-        ret.put("mothod", info.action);
+        ret.put("method", info.action);
         return ret.toString();
     }
 

@@ -18,9 +18,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -247,6 +244,13 @@ public class IntentManager {
                 info.redirectappurl = value;
             }
             else {
+                if (key.equals("iss")) {
+                    info.aud = value;
+                }
+                else if (key.equals("appid")) {
+                    info.req = value;
+                }
+
                 Object obj = new JSONTokener(value).nextValue();
                 json.put(key, obj);
             }
@@ -304,7 +308,7 @@ public class IntentManager {
     }
 
 
-    public String createJWT(IntentInfo info, String result) throws Exception {
+    public String createJWTRespone(IntentInfo info, String result) throws Exception {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
         ObjectMapper mapper = new ObjectMapper();
@@ -323,6 +327,19 @@ public class IntentManager {
                 .signWith(signatureAlgorithm, JWT_SECRET);
 
         return builder.compact();
+    }
+
+    public String createUrlRespone(IntentInfo info, String result) throws Exception {
+        JSONObject ret = new JSONObject(result);
+        if (info.req != null) {
+            ret.put("req", info.req);
+        }
+        if (info.aud != null) {
+            ret.put("aud", info.aud);
+        }
+        ret.put("iat", (int)(System.currentTimeMillis()/1000));
+        ret.put("mothod", info.action);
+        return ret.toString();
     }
 
     public void postCallback(String name, String value, String callbackurl) throws Exception {
@@ -390,7 +407,7 @@ public class IntentManager {
 
             if (url != null) {
                 if (info.type == IntentInfo.JWT) {
-                    String jwt = createJWT(info, result);
+                    String jwt = createJWTRespone(info, result);
                     if (IntentManager.checkTrinityScheme(url)) {
                         url = url + "/" + jwt;
                         sendIntentByUri(Uri.parse(url), info.fromId);
@@ -402,16 +419,18 @@ public class IntentManager {
                             postCallback("jwt", jwt, info.callbackurl);
                         }
                     }
-                } else {
+                }
+                else if (info.type == IntentInfo.URL){
+                    String ret = createUrlRespone(info, result);
                     if (IntentManager.checkTrinityScheme(url)) {
-                        url = getResultUrl(url, result);
+                        url = getResultUrl(url, ret);
                         sendIntentByUri(Uri.parse(url), info.fromId);
                     } else {
                         if (info.redirecturl != null) {
-                            url = getResultUrl(url, result);
+                            url = getResultUrl(url, ret);
                             basePlugin.webView.showWebPage(url, true, false, null);
                         } else if (info.callbackurl != null) {
-                            postCallback("result", result, info.callbackurl);
+                            postCallback("result", ret, info.callbackurl);
                         }
                     }
                 }

@@ -33,10 +33,10 @@ def plugin_update():
                 is_changed = is_plugin_changed(dir);
                 if is_changed:
                     print('reinstall plugin ' + dir);
-                    re_install_plugin(filepath);
+                    re_install_plugin(filepath, False);
             except Exception as err:
                 print("Error: " + str(err))
-    restore_config()
+    restore_files()
 
 # first build
 def plugin_convertTS2JS():
@@ -65,19 +65,25 @@ def is_plugin_changed(directory):
         modify_time_2 = os.stat(plugin_runtime).st_mtime;
         return (modify_time_1 > modify_time_2);
 
-def re_install_plugin(plugindir):
+def re_install_plugin(plugindir, restore = True):
     run_cmd("tsc --build " + plugindir + "/www/tsconfig.json")
     os.chdir(RUNTIME_DIR_PATH)
-    backup_config()
+    backup_files()
     run_cmd("cordova plugin rm " + get_pluginId(plugindir), True)
     run_cmd("cordova plugin add " + os.path.relpath(plugindir))
+    if restore:
+        restore_files()
 
-def backup_config():
-    if not os.path.isfile(os.path.join(RUNTIME_DIR_PATH + '/config.xml.bak')):
-        os.chdir(RUNTIME_DIR_PATH)
-        run_cmd('cp config.xml config.xml.bak')
+def backup_files():
+    os.chdir(RUNTIME_DIR_PATH)
+    if not os.path.isfile(os.path.join(RUNTIME_DIR_PATH + '/config.xml.buildbak')):
+        run_cmd('cp config.xml config.xml.buildbak')
+    if not os.path.isfile(os.path.join(RUNTIME_DIR_PATH + '/package.json.buildbak')):
+        run_cmd('cp package.json package.json.buildbak')
 
-def restore_config():
-    if os.path.isfile(os.path.join(RUNTIME_DIR_PATH + '/config.xml.bak')):
-        os.chdir(RUNTIME_DIR_PATH)
-        run_cmd('mv config.xml.bak config.xml')
+def restore_files():
+    os.chdir(RUNTIME_DIR_PATH)
+    if os.path.isfile(os.path.join(RUNTIME_DIR_PATH + '/config.xml.buildbak')):
+        run_cmd('mv config.xml.buildbak config.xml')
+    if os.path.isfile(os.path.join(RUNTIME_DIR_PATH + '/package.json.buildbak')):
+        run_cmd('mv package.json.buildbak package.json')

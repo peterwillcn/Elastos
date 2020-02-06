@@ -55,12 +55,19 @@ declare namespace AppManagerPlugin {
         INTERNAL = 1,
         /** The internal return message. */
         IN_RETURN = 2,
+        /** The internal refresh message. */
+        IN_REFRESH = 3,
+        /** The installing message. */
+        INSTALLING = 4,
+
+        /** The external message */
+        EXTERNAL = 11,
         /** The external launcher message */
-        EXTERNAL_LAUNCHER = 3,
+        EX_LAUNCHER = 12,
         /** The external install message */
-        EXTERNAL_INSTALL = 4,
+        EX_INSTALL = 13,
         /** The external return message. */
-        EX_RETURN = 5
+        EX_RETURN = 14,
     }
 
     /**
@@ -472,7 +479,7 @@ declare namespace AppManagerPlugin {
          * @param onSuccess  The function to call when success.
          * @param onError    The function to call when error, the param is a String. Or set to null.
          */
-        setVisible(visible: string, onSuccess: ()=>void, onError: (err:any)=>void);
+        setVisible(visible: string, onSuccess?: ()=>void, onError?: (err:any)=>void);
 
         /**
          * Get trinity version.

@@ -8,6 +8,7 @@
   "description": "",
   "start_url": "index.html",
   "type":"app",
+  "start_visible": "hide",
   "category":"finance",
   "icons": [
     {
@@ -29,7 +30,6 @@
   "default_locale": "en",
   "plugins": [
     "Device",
-    "SplashScreen",
     "NetworkStatus"
   ],
   "urls": [

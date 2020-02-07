@@ -40,6 +40,7 @@
     "elastos-trinity-plugins-ionicwebview": "file:../Plugins/IonicWebView",
     "elastos-trinity-plugins-media": "file:../Plugins/Media",
     "elastos-trinity-plugins-qrscanner": "file:../Plugins/QRScanner",
+    "elastos-trinity-plugins-fingerprint": "file:../Plugins/Fingerprint",
     "es6-promise-plugin": "^4.2.2",
     "fs": "0.0.1-security",
     "md5-file": "^4.0.0",
@@ -83,7 +84,10 @@
       "elastos-trinity-plugins-hive": {},
       "elastos-trinity-plugins-wallet": {},
       "elastos-trinity-plugins-did": {},
-      "elastos-trinity-plugins-appmanager": {}
+      "elastos-trinity-plugins-appmanager": {},
+      "elastos-trinity-plugins-fingerprint": {
+        "FACEID_USAGE_DESCRIPTION": " "
+      }
     },
     "platforms": [
       "android",

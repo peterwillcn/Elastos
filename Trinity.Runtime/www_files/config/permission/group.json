@@ -75,6 +75,7 @@
         "Notification": ["*"],
         "QRScanner": ["*"],
         "SplashScreen": ["*"],
-        "StatusBar": ["*"]
+        "StatusBar": ["*"],
+        "Fingerprint": ["*"]
     }
 }

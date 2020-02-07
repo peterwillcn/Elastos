@@ -30,6 +30,8 @@ echo "Copying DID types..."
 cat $pluginsroot/DID/www/types.d.ts > $outdir/did.d.ts
 echo "Copying Hive types..."
 cat $pluginsroot/Hive/www/types.d.ts > $outdir/hive.d.ts
+echo "Copying Fingerprint types..."
+cat $pluginsroot/Fingerprint/www/types.d.ts > $outdir/fingerprint.d.ts
 
 echo ""
 echo -e "\033[32m#########################\033[0m"

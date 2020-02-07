@@ -4,6 +4,7 @@ import './carrier'
 import './wallet'
 import './did'
 import './hive'
+import './fingerprint'
 
 // CORDOVA
 import './cordova-plugin-battery-status'

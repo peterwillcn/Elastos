@@ -54,7 +54,7 @@
 	path = Trinity/Plugins/Wallet
 	url = ../Elastos.Trinity.Plugins.Wallet.git
 [submodule "Plugins/Fingerprint"]
-	path = Plugins/Fingerprint
+	path = Trinity/Plugins/Fingerprint
 	url = ../Elastos.Trinity.Plugins.Fingerprint.git
 [submodule "Runtime"]
 	path = Trinity/Runtime

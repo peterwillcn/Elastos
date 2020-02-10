@@ -48,7 +48,7 @@
         self.appInfo = appInfo;
         self.id = appInfo.app_id;
         self.whitelistFilter = filter;
-        self.permissionGroup = PermissionManager.getShareInstance().getPermissionGroup(appInfo.app_id);
+//        self.permissionGroup = PermissionManager.getShareInstance().getPermissionGroup(appInfo.app_id);
     }
 
     override func loadSettings() {

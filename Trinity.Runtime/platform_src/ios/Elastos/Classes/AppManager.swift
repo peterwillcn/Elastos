@@ -66,7 +66,7 @@ class AppManager {
     var launcherReady = false;
 
     init(_ mainViewController: MainViewController) {
-        PermissionManager();
+//        PermissionManager();
         
         self.mainViewController = mainViewController;
         appsPath = NSHomeDirectory() + "/Documents/apps/";

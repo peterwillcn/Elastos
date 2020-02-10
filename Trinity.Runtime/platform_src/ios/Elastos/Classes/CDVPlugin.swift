@@ -60,15 +60,15 @@ extension CDVPlugin {
                 return true;
             }
             
-            let ret = appView!.getPermissionGroup().getApiPermission(pluginName, command.methodName);
-            if (!ret) {
-                let msg = "'" + pluginName + "." + command.methodName + "' have not permssion.";
-                let result = CDVPluginResult(status: CDVCommandStatus_ERROR,
-                                             messageAs: msg);
-
-                self.commandDelegate.send(result, callbackId: command.callbackId)
-                return true;
-            }
+//            let ret = appView!.getPermissionGroup().getApiPermission(pluginName, command.methodName);
+//            if (!ret) {
+//                let msg = "'" + pluginName + "." + command.methodName + "' have not permssion.";
+//                let result = CDVPluginResult(status: CDVCommandStatus_ERROR,
+//                                             messageAs: msg);
+//
+//                self.commandDelegate.send(result, callbackId: command.callbackId)
+//                return true;
+//            }
             
         }
         return self.execute(command);

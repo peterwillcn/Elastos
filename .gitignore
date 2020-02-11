@@ -8,9 +8,10 @@ package-lock.json
 /origin_platforms
 /origin_plugins
 /www
-config.xml.bak
 
 # Mac
 .DS_Store
 
 .vscode
+
+.gradle

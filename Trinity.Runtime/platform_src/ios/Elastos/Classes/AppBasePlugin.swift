@@ -96,6 +96,12 @@
             self.error(command, error.localizedDescription);
         }
     }
+    
+    // TMP BEN
+    @objc(hasPendingIntent:)
+    func hasPendingIntent(_ command: CDVInvokedUrlCommand) {
+        self.success(command, "false");
+    }
 
     @objc(start:)
     func start(_ command: CDVInvokedUrlCommand) {

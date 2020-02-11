@@ -1,5 +1,5 @@
-Elastos Trinity
-==========================
+# Elastos Trinity
+
 |Android & IOS|Android(Windows)|
 |:-:|:-:|
 |[![Build Status](https://travis-ci.com/elastos/Elastos.Trinity.svg)](https://travis-ci.com/elastos/Elastos.Trinity)|[![Build status](https://ci.appveyor.com/api/projects/status/hjyv761on883jors?svg=true)](https://ci.appveyor.com/project/Elastos/elastos-trinity)|
@@ -12,21 +12,9 @@ Elastos Trinity is supported on both Android and iOS.
 
 While Elastos Trinity is the project codename, this product is also known as the elastOS browser on traditional app stores.
 
-## Table of Contents
+## Dapp Developers
 
-- [Roadmap](#roadmap)
-- [Download Trinity for Android](#download-trinity-for-android)
-- [Checking out the source code](#checking-out-the-source-code)
-- [How to build](#how-to-build)
-	- [Build on Ubuntu / Debian / Linux Host](#build-on-ubuntu--debian--linux-host)
-	- [Build on MacOS Host](#build-on-macos-host)
-	- [Build on Windows Host](#build-on-windows-host)
-- [How to develop dapp](#how-to-develop-dapp)
-- [Repositories](#repositories)
-- [Contribution](#contribution)
-- [Acknowledgments](#acknowledgments)
-
-
+You don't need to build from source. Instead get the latest APK from app stores or github releases and follow the [Elastos Developer Website Trinity guides](https://developer.elastos.org/elastos_trinity/).
 
 ## Download Trinity for Android
 [stable version](https://github.com/elastos/Elastos.Trinity/releases/latest)
@@ -34,43 +22,13 @@ While Elastos Trinity is the project codename, this product is also known as the
 [latest version(tag starting with daily)](https://github.com/elastos/Elastos.Trinity/releases)
 
 
-## Checking out the source code
+## Build from Source
 
-To clone the repository in your environment:
+### Prerequisites
 
-```shell
-git clone --recurse-submodules git@github.com:elastos/Elastos.Trinity.git
-```
+git, node, npm, python, cordova, ionic
 
-We use --recurse-submodules here because we need to download the submodules as well. If you forgot to use the argument, you could download the submodules later by typing:
-
-```shell
-git submodule update --init --recursive
-```
-
-And then use git add, commit and push to submit your changes to current project.
-
-To update the whole Trinity (main repo + submodules) to latest master commits, run this:
-
-```shell
-# Pull all submodules on latest master
-./synccode.sh
-./ToolChains/bin/build clean
-./ToolChains/bin/build all
-```
-
-If you know what you are doing, you can also only **build runtime**, **build plugin ...**, etc.
-
-## How to build
-
-### Requirements
-- cordova
-- ionic
-- node
-- npm
-- python
-
-##### For Android:
+#### For Android:
 - Java JDK 1.8 or greater
 - Android SDK
 - Android NDK (android-ndk-r16b or higher)
@@ -87,7 +45,7 @@ If you know what you are doing, you can also only **build runtime**, **build plu
 
  On Windows, set the environment variable in the control panel.
 
-##### For iOS:
+#### For iOS:
 - Xcode 10 or higher
 
 ### Build on Ubuntu / Debian / Linux Host
@@ -121,8 +79,8 @@ Open project from YOUR-PATH/Elastos.Trinity/Runtime/platforms/ios
 ### Build on Windows Host
 
 ```shell
-cd YOUR-PATH/Elastos.Trinity
-python ToolChains/bin/build all
+cd YOUR-PATH\Elastos.Trinity
+python ToolChains\bin\build all
 ```
 
 **Using Android Studio:**
@@ -147,7 +105,33 @@ NOTE：You can type `./ToolChains/bin/build --help` for more details.
 
 **build all** takes time, so it is advised to build the relevant target only.
 
-Dapp developer should not use any of this and instead get the latest APK from app stores or github releases and follow the [Elastos Developer Website Trinity guides](https://developer.elastos.org/elastos_trinity/).
+
+## Checking out the source code
+
+To clone the repository in your environment:
+
+```shell
+git clone --recurse-submodules git@github.com:elastos/Elastos.Trinity.git
+```
+
+We use --recurse-submodules here because we need to download the submodules as well. If you forgot to use the argument, you could download the submodules later by typing:
+
+```shell
+git submodule update --init --recursive
+```
+
+And then use git add, commit and push to submit your changes to current project.
+
+To update the whole Trinity (main repo + submodules) to latest master commits, run this:
+
+```shell
+# Pull all submodules on latest master
+./synccode.sh
+./ToolChains/bin/build clean
+./ToolChains/bin/build all
+```
+
+If you know what you are doing, you can also only **build runtime**, **build plugin ...**, etc.
 
 ## Repositories
 

@@ -89,6 +89,7 @@ if args.target == "clobber":
     os.chdir(PROJECT_DIR_PATH)
     remove_tree("Launcher/www")
     remove_tree("Launcher/node_modules")
+    run_cmd("rm Launcher/package-lock.json")
     remove_tree("Runtime/node_modules")
     remove_tree("Runtime/origin_platforms")
     remove_tree("Runtime/origin_plugins")
@@ -104,6 +105,7 @@ if args.target == "clobber":
         if not os.path.isfile(dir):
             remove_tree(dir + "/www")
             remove_tree(dir + "/node_modules")
+            run_cmd("rm " + dir + "/package-lock.json")
 
 if args.target == "plugin":
     if args.plugin_path == None:

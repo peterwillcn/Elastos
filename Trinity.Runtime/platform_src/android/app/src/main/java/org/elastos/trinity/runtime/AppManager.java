@@ -689,7 +689,7 @@ public class AppManager {
         if (fragment != null) {
             fragment.basePlugin.onReceive(msg, type, fromId);
         }
-        else {
+        else if (!isLauncher(toId)){
             throw new Exception(toId + " isn't running!");
         }
     }

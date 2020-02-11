@@ -1,50 +1,69 @@
 "use strict";
 
 // CONFIGURE HERE
-const files_to_download  = [{
-  "url": "https://github.com/ZipArchive/ZipArchive/archive/v2.1.4.zip",
-  "filename": "ZipArchive-2.1.4.zip",
-  "sourceDirs": [
-    "ZipArchive-2.1.4/SSZipArchive"
-  ],
-  "targetDir": "platforms/ios",
-  "md5": "2ab5ae7e5eb096b1a807d17e4bd83a16"
-},{
-  "url": "https://github.com/stephencelis/SQLite.swift/archive/0.11.5.zip",
-  "filename": "SQLite.swift-0.11.5.zip",
-  "sourceDirs": [
-    "SQLite.swift-0.11.5",
-  ],
-  "targetDir": "platforms/ios",
-  "md5": "0e0ba441cdb466dff1f9f6eecf2c9e55"
-},{
-  "url": "https://github.com/elastos/Elastos.NET.Carrier.Swift.SDK/releases/download/release-v5.4.4/ElastosCarrier-framework.zip",
-  "filename": "ElastosCarrier-framework.zip",
-  "sourceDirs": [
-    "ElastosCarrier-framework/ElastosCarrierSDK.framework"
-  ],
-  "targetDir": "../Plugins/Carrier/src/ios/libs",
-  "md5": "cd4cdc9eda5c0e6a8a2b0e50879f2f3f"
-},{
-  "url": "https://github.com/elastos/Elastos.NET.Hive.Swift.SDK/releases/download/release-v0.5.2/ElastosHiveSDK-framework-for-trinity.zip",
-  "filename": "ElastosHiveSDK-framework-for-trinity.zip",
-  "sourceDirs": [
-    "ElastosHiveSDK-framework-for-trinity/Alamofire.framework",
-    "ElastosHiveSDK-framework-for-trinity/ElastosHiveSDK.framework",
-    "ElastosHiveSDK-framework-for-trinity/PromiseKit.framework",
-    "ElastosHiveSDK-framework-for-trinity/Swifter.framework"
-  ],
-  "targetDir": "../Plugins/Hive/src/ios/libs",
-  "md5": "f5a94cd84874fa841bc8beadaabc2a73"
-},{
-  "url": "https://github.com/elastos/Elastos.Trinity.Plugins.Wallet/releases/download/spvsdk-V0.4.2/libspvsdk.zip",
-  "filename": "libspvsdk.zip",
-  "sourceDirs": [
-    "libspvsdk"
-  ],
-  "targetDir": "../Plugins/Wallet/src/ios",
-  "md5": "8eb777a5688d19fbd6f68e18b06ba4e8"
-}]
+const files_to_download  = [
+  {
+    "url": "https://github.com/ZipArchive/ZipArchive/archive/v2.1.4.zip",
+    "filename": "ZipArchive-2.1.4.zip",
+    "sourceDirs": [
+      "ZipArchive-2.1.4/SSZipArchive"
+    ],
+    "targetDir": "platforms/ios",
+    "md5": "2ab5ae7e5eb096b1a807d17e4bd83a16"
+  },{
+    "url": "https://github.com/stephencelis/SQLite.swift/archive/0.11.5.zip",
+    "filename": "SQLite.swift-0.11.5.zip",
+    "sourceDirs": [
+      "SQLite.swift-0.11.5",
+    ],
+    "targetDir": "platforms/ios",
+    "md5": "0e0ba441cdb466dff1f9f6eecf2c9e55"
+  },{
+    "url": "https://github.com/elastos/Elastos.NET.Carrier.Swift.SDK/releases/download/release-v5.4.4/ElastosCarrier-framework.zip",
+    "filename": "ElastosCarrier-framework.zip",
+    "sourceDirs": [
+      "ElastosCarrier-framework/ElastosCarrierSDK.framework"
+    ],
+    "targetDir": "../Plugins/Carrier/src/ios/libs",
+    "md5": "cd4cdc9eda5c0e6a8a2b0e50879f2f3f"
+  },{
+    "url": "https://github.com/elastos/Elastos.NET.Hive.Swift.SDK/releases/download/release-v0.5.2/ElastosHiveSDK-framework-for-trinity.zip",
+    "filename": "ElastosHiveSDK-framework-for-trinity.zip",
+    "sourceDirs": [
+      "ElastosHiveSDK-framework-for-trinity/Alamofire.framework",
+      "ElastosHiveSDK-framework-for-trinity/ElastosHiveSDK.framework",
+      "ElastosHiveSDK-framework-for-trinity/PromiseKit.framework",
+      "ElastosHiveSDK-framework-for-trinity/Swifter.framework"
+    ],
+    "targetDir": "../Plugins/Hive/src/ios/libs",
+    "md5": "f5a94cd84874fa841bc8beadaabc2a73"
+  },{
+    "url": "https://github.com/elastos/Elastos.Trinity.Plugins.Wallet/releases/download/spvsdk-V0.4.2/libspvsdk.zip",
+    "filename": "libspvsdk.zip",
+    "sourceDirs": [
+      "libspvsdk"
+    ],
+    "targetDir": "../Plugins/Wallet/src/ios",
+    "md5": "8eb777a5688d19fbd6f68e18b06ba4e8"
+  },{
+    "url": "https://github.com/elastos/Elastos.DID.Swift.SDK/releases/download/internal_experimental-v0.0.1/ElastosDIDSDK.framework.zip",
+    "filename": "ElastosDIDSDK-framework-for-trinity.zip",
+    "sourceDirs": [
+      "ElastosDIDSDK.framework"
+    ],
+    "targetDir": "../Plugins/DID/src/ios/libs",
+    "md5": "1b909b70e9fadd80239538323ab8b5bc"
+  },
+  {
+    "url": "https://github.com/elastos/Elastos.DID.Swift.SDK/releases/download/internal_experimental-v0.0.1/Antlr4.framework.zip",
+    "filename": "Antlr4.framework.zip",
+    "sourceDirs": [
+      "Antlr4.framework"
+    ],
+    "targetDir": "../Plugins/DID/src/ios/libs",
+    "md5": "af3d257885aae1e325f956fff4e96ca5"
+  }
+]
 // no need to configure below
 
 module.exports = function(ctx) {

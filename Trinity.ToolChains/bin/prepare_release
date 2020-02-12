@@ -71,9 +71,9 @@ def tag():
         sys.exit(1)
 
     os.chdir(PROJECT_DIR_PATH)
-    cmd = "git tag %s & git push origin %s"%(tagName,tagName)
+    cmd = "git tag %s && git push origin %s"%(tagName,tagName)
     run_cmd(cmd)
-    cmd = "git submodule foreach git tag %s & git push origin %s"%(tagName,tagName)
+    cmd = "git submodule foreach 'git tag %s & git push origin %s'"%(tagName,tagName)
     run_cmd(cmd)
 
 def increase_version_manifest(manifest):
@@ -112,8 +112,8 @@ def increase_version_runtime():
     file_out.close()
 
 def push_code():
-    cmd = "git add src/assets/manifest.json & git commit -m 'increase version for release' & git push"
-    # run_cmd(cmd)
+    cmd = "git add src/assets/manifest.json && git commit -m 'increase version for release' && git push"
+    run_cmd(cmd, True)
 
 startTime = timeit.default_timer()
 
@@ -148,9 +148,9 @@ if args.target == "push":
     dirs = os.listdir(IONIC_DIR_PATH)
     for dir in dirs:
         if os.path.isdir(dapp_dir):
-            run_cmd('git add ' + dir)
+            run_cmd('git add Dapps/Ionic/' + dir)
 
-    run_cmd("git commit -m 'increase version for release' & git push")
+    run_cmd("git commit -m 'increase version for release' && git push")
 
 if args.target == "all" or args.target == "incversion":
     increase_version_runtime()

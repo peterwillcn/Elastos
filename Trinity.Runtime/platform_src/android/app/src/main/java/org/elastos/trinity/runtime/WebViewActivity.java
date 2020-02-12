@@ -233,8 +233,7 @@ public class WebViewActivity extends FragmentActivity {
 
     @Override
     public boolean dispatchTouchEvent (MotionEvent ev) {
-        if ((gestureDetector != null) && (appManager != null) && (appManager.curFragment != null)
-                && (!appManager.curFragment.id.equals("launcher"))) {
+        if ((gestureDetector != null) && (appManager != null) && (appManager.curFragment != null)) {
             gestureDetector.onTouchEvent(ev);
         }
         return super.dispatchTouchEvent(ev);

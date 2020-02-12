@@ -965,16 +965,15 @@ public class AppManager {
 
 
     public void flingTheme() {
-        if (curFragment == null || isLauncher(curFragment.id)) {
+        if (curFragment == null) {
             return;
         }
 
-        AppViewFragment fragment = (AppViewFragment) curFragment;
-        if (fragment.titlebar.getVisibility() == View.VISIBLE) {
-            fragment.titlebar.setVisibility(View.GONE);
+        if (curFragment.titlebar.getVisibility() == View.VISIBLE) {
+            curFragment.titlebar.setVisibility(View.GONE);
         } else {
-            fragment.titlebar.bringToFront();//for qrscanner
-            fragment.titlebar.setVisibility(View.VISIBLE);
+//            fragment.titlebar.bringToFront();//for qrscanner
+            curFragment.titlebar.setVisibility(View.VISIBLE);
         }
     }
 

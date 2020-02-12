@@ -113,7 +113,7 @@ def increase_version_runtime():
 
 def push_code():
     cmd = "git add src/assets/manifest.json && git commit -m 'increase version for release' && git push"
-    run_cmd(cmd, True)
+    run_cmd(cmd)
 
 startTime = timeit.default_timer()
 

@@ -17,12 +17,13 @@ public class DIDVerifier {
         String resolver = ConfigManager.getShareInstance().getStringValue("did.resolver", "http://api.elastos.io:20606");
 
         try {
-            DIDBackend.initialize(new AbstractAdapter(resolver) {
-                @Override
-                public String createIdTransaction(String payload, String memo) throws DIDException {
-                    return null;
-                }
-            });
+            // TODO Temporary comment, add again after update DID sdk
+            // DIDBackend.initialize(new AbstractAdapter(resolver) {
+            //     @Override
+            //     public String createIdTransaction(String payload, String memo) throws DIDException {
+            //         return null;
+            //     }
+            // });
             mDIDStore = DIDStore.open("filesystem", dataDir);
         } catch (Exception e) {
             e.printStackTrace();

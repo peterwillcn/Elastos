@@ -15,6 +15,7 @@ While Elastos Trinity is the project codename, this product is also known as the
 ## Table of Contents
 
 - [Roadmap](#roadmap)
+- [Release notes](https://github.com/elastos/Elastos.Trinity/wiki#releases)
 - [Download Trinity for Android](#download-trinity-for-android)
 - [Checking out the source code](#checking-out-the-source-code)
 - [How to build](#how-to-build)

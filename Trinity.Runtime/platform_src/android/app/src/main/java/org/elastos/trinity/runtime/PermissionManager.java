@@ -66,8 +66,9 @@ public class PermissionManager {
                 Boolean defaultValue = false;
                 if (plugin.startsWith("-")) {
                     plugin = plugin.substring(1);
-                    defaultValue = false;
-                } else if (plugin.startsWith("+")) {
+                    defaultValue = true;
+                }
+                else if (plugin.startsWith("+")) {
                     plugin = plugin.substring(1);
                 }
 

@@ -52,7 +52,7 @@ public class IntentManager {
 
     public static final String JWT_SECRET = "secret";
 
-    final static String[] trinityScheme = {
+    final static String[] trinitySchemes = {
             "elastos://",
             "https://scheme.elastos.org/",
     };
@@ -74,8 +74,8 @@ public class IntentManager {
     }
 
     public static boolean checkTrinityScheme(String url) {
-        for (int i = 0; i < trinityScheme.length; i++) {
-            if (url.startsWith(trinityScheme[i])) {
+        for (int i = 0; i < trinitySchemes.length; i++) {
+            if (url.startsWith(trinitySchemes[i])) {
                 return true;
             }
         }

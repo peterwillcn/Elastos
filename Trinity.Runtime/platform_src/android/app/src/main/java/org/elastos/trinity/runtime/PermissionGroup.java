@@ -52,9 +52,11 @@ public class PermissionGroup {
             for(int i = 0;i < baseGroups.size(); i ++){
                 String name = baseGroups.get(i);
                 PermissionGroup baseGroup = PermissionManager.getShareInstance().groupList.get(name);
-                Boolean ret = baseGroup.getApiPermission(plugin, api);
-                if (ret == true) {
-                    return ret;
+                if (baseGroup != null) {
+                    Boolean ret = baseGroup.getApiPermission(plugin, api);
+                    if (ret == true) {
+                        return true;
+                    }
                 }
             }
         }

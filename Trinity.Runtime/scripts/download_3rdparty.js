@@ -46,16 +46,16 @@ const files_to_download  = [
     "targetDir": "../Plugins/Wallet/src/ios",
     "md5": "8eb777a5688d19fbd6f68e18b06ba4e8"
   },{
-    "url": "https://github.com/elastos/Elastos.DID.Swift.SDK/releases/download/internal_experimental-v0.0.1/ElastosDIDSDK.framework.zip",
+    "url": "https://github.com/elastos/Elastos.DID.Swift.SDK/releases/download/internal_experimental-v0.0.2/ElastosDIDSDK.framework.zip",
     "filename": "ElastosDIDSDK-framework-for-trinity.zip",
     "sourceDirs": [
       "ElastosDIDSDK.framework"
     ],
     "targetDir": "../Plugins/DID/src/ios/libs",
-    "md5": "d2fcb77304b789f1cbbeebfac4db6441"
+    "md5": "c3967945e1f93e49f40f1cb962c73437"
   },
   {
-    "url": "https://github.com/elastos/Elastos.DID.Swift.SDK/releases/download/internal_experimental-v0.0.1/Antlr4.framework.zip",
+    "url": "https://github.com/elastos/Elastos.DID.Swift.SDK/releases/download/internal_experimental_v0.0.2/Antlr4.framework.zip",
     "filename": "Antlr4.framework.zip",
     "sourceDirs": [
       "Antlr4.framework"

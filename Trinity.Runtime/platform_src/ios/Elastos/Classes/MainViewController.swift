@@ -67,8 +67,29 @@ class MainViewController: UIViewController {
         try! appManager!.loadLauncher();
     }
     
-    @objc func openURL(_ url: String) {
-        appManager!.setInstallUri(url);
+    @objc func openURL(_ url: URL) -> Bool {
+        // Handler for elastos://action?params urls.
+        if let scheme = url.scheme, scheme.localizedCaseInsensitiveCompare("elastos") == .orderedSame {
+            
+            var parameters: [String: String] = [:]
+            URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
+                parameters[$0.name] = $0.value
+            }
+            
+            print(url.scheme)
+            print(url.query)
+            print(parameters)
+            
+            // TODO: pass all this info to the app manager to handle elastos://action?params urls
+            
+            return true
+        }
+        else {
+            return false
+        }
+        
+        // TODO: do we still need to call setInstallUri()? Need to check if
+        // BPI out for now - need to check --> appManager!.setInstallUri(url.absoluteString);
     }
     
 }

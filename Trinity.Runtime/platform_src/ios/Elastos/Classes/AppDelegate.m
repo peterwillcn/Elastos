@@ -38,8 +38,8 @@
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotationm {
-    [(MainViewController*)self.viewController openURL:url.absoluteString];
-    return YES;
+    
+    return [(MainViewController*)self.viewController openURL:url];
 }
 
 @end

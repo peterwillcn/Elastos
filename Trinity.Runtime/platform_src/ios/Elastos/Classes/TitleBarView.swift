@@ -25,41 +25,48 @@ import UIKit
 
 class TitleBarView: UIView {
     
-    let viewController: AppViewController;
-    let btnBack = UIButton(type: .custom);
+    static let HEIGHT: CGFloat = 45;
+    
+    let viewController: TrinityViewController;
+    let btnToggle = UIButton(type: .custom);
     let btnLauncher = UIButton(type: .custom);
     let btnClose = UIButton(type: .custom);
     
+    var isLauncher = false;
     
-    init(_ viewController: AppViewController, _ frame: CGRect) {
+    
+    init(_ viewController: TrinityViewController, _ frame: CGRect, _ isLauncher: Bool) {
         self.viewController = viewController;
         super.init(frame: frame);
         
         self.backgroundColor = UIColor(red: 0 / 255.0, green: 0 / 255.0, blue: 0 / 255.0, alpha: 0.5);
-        self.isHidden = true;
+//        self.isHidden = true;
         
-//        btnBack.frame = CGRect(x:10, y: 5, width:35, height:35);
-//        btnBack.setImage(UIImage(named:"back"), for:.normal)
-//        btnBack.addTarget(self, action:#selector(clickBack), for:.touchDown);
-//        self.addSubview(btnBack);
-        
-//        btnLauncher.frame = CGRect(x:frame.size.width - 80, y: 8, width:35, height:35);
-//        btnLauncher.setImage(UIImage(named:"dot"), for:.normal)
-        btnLauncher.frame = CGRect(x:frame.size.width - 175, y: 5, width:85, height:35);
-        btnLauncher.setTitle("Launcher", for:.normal);
-        btnLauncher.backgroundColor = UIColor.black;
-        btnLauncher.layer.cornerRadius = 5;
-        btnLauncher.addTarget(self, action:#selector(clickLaunchr), for:.touchDown);
-        self.addSubview(btnLauncher);
-        
-//        btnClose.frame = CGRect(x:frame.size.width - 40, y: 8, width:30, height:30);
-//        btnClose.setImage(UIImage(named:"dot-circle"), for:.normal);
-        btnClose.frame = CGRect(x:frame.size.width - 80, y: 5, width:70, height:35);
-        btnClose.setTitle("Close", for:.normal);
-        btnClose.backgroundColor = UIColor.black;
-        btnClose.layer.cornerRadius = 5;
-        btnClose.addTarget(self, action:#selector(clickClose), for:.touchDown);
-        self.addSubview(btnClose);
+        if (isLauncher) {
+            btnToggle.frame = CGRect(x:frame.size.width - 80, y: 5, width:70, height:35);
+//            btnToggle.setImage(UIImage(named:"Toggle"), for:.normal)
+            btnToggle.setTitle("Toggle", for:.normal);
+            btnToggle.backgroundColor = UIColor.black;
+            btnToggle.layer.cornerRadius = 5;
+            btnToggle.addTarget(self, action:#selector(clickToggle), for:.touchDown);
+            self.addSubview(btnToggle);
+        }
+        else {
+            btnLauncher.frame = CGRect(x:frame.size.width - 175, y: 5, width:85, height:35);
+            btnLauncher.setTitle("Launcher", for:.normal);
+            btnLauncher.backgroundColor = UIColor.black;
+            btnLauncher.layer.cornerRadius = 5;
+            btnLauncher.addTarget(self, action:#selector(clickLaunchr), for:.touchDown);
+            self.addSubview(btnLauncher);
+            
+
+            btnClose.frame = CGRect(x:frame.size.width - 80, y: 5, width:70, height:35);
+            btnClose.setTitle("Close", for:.normal);
+            btnClose.backgroundColor = UIColor.black;
+            btnClose.layer.cornerRadius = 5;
+            btnClose.addTarget(self, action:#selector(clickClose), for:.touchDown);
+            self.addSubview(btnClose);
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -74,10 +81,19 @@ class TitleBarView: UIView {
         try? AppManager.getShareInstance().loadLauncher();
     }
     
+    @objc func clickToggle() {
+        let msg = "{\"action\":\"toggle\"}";
+        do {
+            try AppManager.getShareInstance().sendMessage("launcher", AppManager.MSG_TYPE_IN_REFRESH, msg, "system");
+        }
+        catch let error {
+            print("Send message: " + msg + " error!");
+        }
+    }
+    
     @objc func clickBack() {
         self.viewController.webViewEngine.evaluateJavaScript("window.history.back();", completionHandler: nil);
     }
-    
     
 }
 

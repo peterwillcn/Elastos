@@ -27,7 +27,6 @@
     static var originalStartupPluginNames = [String]();
     static var originalSettings: NSMutableDictionary?;
 
-    var titlebar: TitleBarView?;
     var permissionGroup: PermissionGroup?;
 
     var trinityPluginsMap = [String: String]();
@@ -111,50 +110,6 @@
         return obj;
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated);
-
-        let frame = self.view.bounds;
-        let titleHeight = CGFloat(45);
-        print(frame.origin.y);
-
-        let titleRect = CGRect(x: frame.origin.x, y: frame.origin.y,
-                               width: frame.size.width, height: titleHeight);
-        titlebar = TitleBarView(self, titleRect);
-        self.view.addSubview(titlebar!);
-        self.view.bringSubviewToFront(titlebar!);
-    }
-
-
-    func addSwipe(_ direction: UInt) {
-        let swipe = UISwipeGestureRecognizer(target:self, action:#selector(handleSwipes(_:)));
-        swipe.direction = UISwipeGestureRecognizer.Direction(rawValue: direction);
-        self.webView.addGestureRecognizer(swipe);
-        self.webView.scrollView.panGestureRecognizer.require(toFail: swipe);
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad();
-
-        if (appInfo!.type == "url") {
-            addSwipe(UISwipeGestureRecognizer.Direction.left.rawValue);
-            addSwipe(UISwipeGestureRecognizer.Direction.right.rawValue);
-        }
-        else {
-            addSwipe(UISwipeGestureRecognizer.Direction.down.rawValue);
-        }
-    }
-
-    @objc func handleSwipes(_ recognizer:UISwipeGestureRecognizer){
-        let v = recognizer.direction;
-        if (recognizer.direction == UISwipeGestureRecognizer.Direction.right) {
-            titlebar!.clickBack();
-        }
-        else {
-            titlebar!.isHidden = !titlebar!.isHidden;
-        }
-    }
-
     func getPluginAuthority(_ pluginName: String,
                                   _ plugin: CDVPlugin,
                                   _ command: CDVInvokedUrlCommand) -> Int {
@@ -168,7 +123,7 @@
         }
         return authority;
     }
-    
+
     func getPermissionGroup() -> PermissionGroup {
         return self.permissionGroup!;
     }

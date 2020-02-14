@@ -28,6 +28,7 @@
     var id = "";
     var appInfo: AppInfo?;
     var whitelistFilter: WhitelistFilter?;
+    var titlebar: TitleBarView?;
 
     convenience init() {
         self.init(nibName: nil, bundle: nil)
@@ -91,6 +92,34 @@
         return obj as Any;
     }
     
+    override func newCordovaView(withFrame bounds: CGRect) ->UIView {
+
+        let titleRect = CGRect(x: bounds.origin.x, y: bounds.origin.y,
+                               width: bounds.size.width, height: TitleBarView.HEIGHT);
+        titlebar = TitleBarView(self, titleRect, id == "launcher");
+        self.view.addSubview(titlebar!);
+        
+        let webViewBounds = CGRect(x: bounds.origin.x, y: bounds.origin.y + TitleBarView.HEIGHT,  width: bounds.size.width, height: bounds.size.height - TitleBarView.HEIGHT);
+        
+        return super.newCordovaView(withFrame: webViewBounds);
+    }
+    
+    func addSwipe(_ direction: UInt) {
+        let swipe = UISwipeGestureRecognizer(target:self, action:#selector(handleSwipes(_:)));
+        swipe.direction = UISwipeGestureRecognizer.Direction(rawValue: direction);
+        self.webView.addGestureRecognizer(swipe);
+        self.webView.scrollView.panGestureRecognizer.require(toFail: swipe);
+    }
+
+    @objc func handleSwipes(_ recognizer:UISwipeGestureRecognizer){
+        if (recognizer.direction == UISwipeGestureRecognizer.Direction.right) {
+            titlebar!.clickBack();
+        }
+        else {
+            titlebar!.isHidden = !titlebar!.isHidden;
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad();
         for (name , value) in self.pluginObjects as! [String: CDVPlugin] {
@@ -101,6 +130,15 @@
                 break;
             }
         }
+        
+        if (appInfo!.type == "url") {
+            addSwipe(UISwipeGestureRecognizer.Direction.left.rawValue);
+            addSwipe(UISwipeGestureRecognizer.Direction.right.rawValue);
+        }
+        else {
+            addSwipe(UISwipeGestureRecognizer.Direction.down.rawValue);
+        }
+
     }
     
     @objc func getBasePlugin() -> AppBasePlugin {

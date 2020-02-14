@@ -15,6 +15,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(strong,nonatomic)HWMDIDInfoModel *model;
 
+
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)Boolean  isEidet;
+@property (nonatomic, strong)FLWallet *currentWallet;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

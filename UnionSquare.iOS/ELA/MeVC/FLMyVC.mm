@@ -414,6 +414,7 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
         [self.navigationController pushViewController:DIDListVC animated:YES];
          }else{
          HWMCreateDIDViewController * HWMCreateDIDVC=[[HWMCreateDIDViewController alloc]init];
+             
          [self.navigationController pushViewController:HWMCreateDIDVC animated:YES];
          }
      }else if ([name isEqualToString:NSLocalizedString(@"手势密码", nil)]){

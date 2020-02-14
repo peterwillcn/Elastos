@@ -14,6 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(strong,nonatomic)HWMDIDInfoModel *model;
+
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)Boolean  isEidet;
 @end
 
 NS_ASSUME_NONNULL_END

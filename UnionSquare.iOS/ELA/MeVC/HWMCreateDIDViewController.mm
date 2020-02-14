@@ -15,9 +15,10 @@
 #import "HMWAddTheCurrencyListViewController.h"
 #import "HWMAddPersonalInformationViewController.h"
 #import "HWMDIDInfoModel.h"
+#import "HMWpwdPopupView.h"
 static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 
-@interface HWMCreateDIDViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDWalletListViewDelegate,HWMDIDDataListViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWAddTheCurrencyListViewControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate>
+@interface HWMCreateDIDViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDWalletListViewDelegate,HWMDIDDataListViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWAddTheCurrencyListViewControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,HMWpwdPopupViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
 @property (weak, nonatomic) IBOutlet UITableView *table;
 /*
@@ -68,6 +69,11 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
  *<# #>
  */
 @property(strong,nonatomic)HWMDIDInfoModel *DIDInfoModel;
+/*
+ *<# #>-(HMWpwdPopupView *)ShowPoPWDView
+ */
+@property(strong,nonatomic)HMWpwdPopupView *ShowPoPWDView;
+@property (nonatomic, strong)FLWallet *currentWallet;
 
 @end
 
@@ -80,10 +86,12 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     [self setBackgroundImg:@""];
     
     self.title=NSLocalizedString(@"创建DID", nil);
+ 
     self.wallerSelectIndex=-1;
     self.NeedsSaved=NO;
     [self makeUI];
     self.navigationController.delegate=self;
+       [self isOpenIDChain];
 }
 -(HWMDIDInfoModel *)DIDInfoModel{
     if (!_DIDInfoModel) {
@@ -91,41 +99,36 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     }
     return _DIDInfoModel;
 }
--(NSMutableArray *)walletListArray{
-    if (!_walletListArray) {
-        NSArray *allWalletListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
-        _walletListArray=[[NSMutableArray alloc]init];
-       for (int i=0; i<allWalletListArray.count; i++) {
-              FMDBWalletModel *model=allWalletListArray[i];
-              invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[model.walletID] callbackId:model.walletID className:@"wallet" methodName:@"createMasterWallet"];
-              PluginResult * resultBase =[[ELWalletManager share]getMasterWalletBasicInfo:cmommand];
-              NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
-              NSDictionary *baseDic=[[NSDictionary alloc]init];
-              if ([statusBase isEqualToString:@"1"] ) {
-                  baseDic=[[FLTools share]dictionaryWithJsonString:resultBase.message[@"success"]];
-                  NSString *Readonly=[NSString stringWithFormat:@"%@",baseDic[@"Readonly"]];
-                  if ([Readonly isEqualToString:@"0"]) {
-                      if ([baseDic[@"M"] integerValue]==1) {
-                          model.TypeW=SingleSign;
-                          [_walletListArray addObject:model];
-                      }else{
-                          model.TypeW=HowSign;
+-(void)isOpenIDChain{
+   
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.walletID] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
+       PluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
+         NSString *status=[NSString stringWithFormat:@"%@",result.status];
+         if ([status isEqualToString:@"1"]) {
+         NSArray  *array = [[FLTools share]stringToArray:result.message[@"success"]];
+             if (array.count>1) {
+              
+                 [self showPWDView];
+             }else{
+               
+                 UIView *mainView =[self mainWindow];
+                 self.openIDChainView.deleteType=openIDChainType;
+                 [mainView addSubview:self.openIDChainView];
+                 [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
+                     make.left.right.top.bottom.equalTo(mainView);
+                 }];
                  
-                      }
-                  }else{
-                      if ([baseDic[@"M"] integerValue]==1) {
-                          model.TypeW=SingleSignReadonly;
-                      }else{
-                          model.TypeW=HowSignReadonly;
-                      }
-                  }
-              }
-              
-              
-          
-          }
+             }
+         }
+         
+}
+-(HMWpwdPopupView *)ShowPoPWDView{
+    if (!_ShowPoPWDView) {
+        _ShowPoPWDView=[[HMWpwdPopupView alloc]init];
+        _ShowPoPWDView.delegate=self;
+        
     }
-    return _walletListArray;
+    return _ShowPoPWDView;
 }
 -(void)makeUI{
     self.dataSorse =@[NSLocalizedString(@"请输入DID名称（必填）", nil),NSLocalizedString(@"请选择钱包", nil),NSLocalizedString(@"主管理公钥（发布后不可更改）", nil),NSLocalizedString(@"DID（与主管理公钥一一对应）",nil),
@@ -358,38 +361,44 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
          [self toCancelOrCloseDelegate];
     }
 }
+-(FLWallet *)currentWallet{
+    
+    if (!_currentWallet) {
+        NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+                         FMDBWalletModel *model =walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
+              self.currentWallet=[[FLWallet alloc]init];
+                  self.currentWallet.masterWalletID =model.walletID;
+                  self.currentWallet.walletName     =model.walletName;
+                  self.currentWallet.walletAddress  = model.walletAddress;
+                  self.currentWallet.walletID       =[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
+                  self.currentWallet.TypeW  = model.TypeW;
+    }
+    return _currentWallet;
+}
 -(void)toCancelOrCloseDelegate{
     [self.openIDChainView removeFromSuperview];
     self.openIDChainView=nil;
 }
 #pragma mark ---------  ----------
 -(void)openIDChainOfDIDAddWithWallet:(NSString*)walletID{
-    if (walletID.length>0) {
-        for (int i=0; i<self.walletListArray.count; i++) {
-            FMDBWalletModel *model=self.walletListArray[i];
-            if ([model.walletID isEqualToString:walletID]) {
-                self.wallerSelectIndex=i;
-                 self.DIDInfoModel.walletID=model.walletID;
-                [self getDIDAndDIDPublicKey];
-            }
-        }
-        [self.table reloadData];
+    if (walletID.length>0&&[walletID isEqualToString:self.currentWallet.walletID]) {
+        [self showPWDView];
     }
 }
 - (IBAction)nextButtonEvent:(id)sender {
     [self.view endEditing:YES];
-    if (self.DIDInfoModel.didName.length==0) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入DID名称（必填）", nil)];
-        return;
-    }
-    if (self.DIDInfoModel.did.length==0) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择钱包", nil)];
-          return;
-    }
-    if (self.DIDInfoModel.PubKeyString.length==0) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择钱包", nil)];
-          return;
-    }
+//    if (self.DIDInfoModel.didName.length==0) {
+//        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入DID名称（必填）", nil)];
+//        return;
+//    }
+//    if (self.DIDInfoModel.did.length==0) {
+//        [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择钱包", nil)];
+//          return;
+//    }
+//    if (self.DIDInfoModel.PubKeyString.length==0) {
+//        [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择钱包", nil)];
+//          return;
+//    }
 //    if (self.DIDInfoModel.issuanceDate.length==0) {
 //         [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择失效日期", nil)];
 //          return;
@@ -449,6 +458,25 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
         self.DIDInfoModel.didName=textField.text;
     }
     
+    
+}
+-(void)makeSureWithPWD:(NSString*)pwd{
+    
+    [self.ShowPoPWDView removeFromSuperview];
+      self.ShowPoPWDView=nil;
+}
+-(void)cancelThePWDPageView{
+    [self.ShowPoPWDView removeFromSuperview];
+    self.ShowPoPWDView=nil;
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
+-(void)showPWDView{
+        UIView *mainView =[self mainWindow];
+        [mainView addSubview:self.ShowPoPWDView];
+        [self.ShowPoPWDView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(mainView);
+        }];
     
 }
 @end

@@ -17,13 +17,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self defultWhite];
+        [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"个人简介", nil);
+    self.IntroductionInfoTextView.text=self.model.introductionInfoString;
       self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mine_edit"] style:UIBarButtonItemStyleDone target:self action:@selector(EditProfile)];
     // Do any additional setup after loading the view from its nib.
 }
 -(void)EditProfile{
-    HWMAddPersonalProfileViewController *AddPersonalProfileVC=[[HWMAddPersonalProfileViewController alloc]init];
-    [self.navigationController pushViewController:AddPersonalProfileVC animated:YES];
+    HWMAddPersonalProfileViewController *HWMAddPersonalProfileVC=[[HWMAddPersonalProfileViewController alloc]init];
+              HWMAddPersonalProfileVC.model=self.model;
+              HWMAddPersonalProfileVC.isEidet=YES;
+              [self.navigationController pushViewController:HWMAddPersonalProfileVC animated:YES];
 }
 /*
 #pragma mark - Navigation
@@ -34,5 +39,8 @@
     // Pass the selected object to the new view controller.
 }
 */
+-(void)setModel:(HWMDIDInfoModel *)model{
+    _model=model;
+}
 
 @end

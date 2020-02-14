@@ -23,7 +23,9 @@
 #import "AppDelegate.h"
 #import "HWMListMoreSignThePublicKeyViewController.h"
 #import "HWMTheValidationWordMnemonicPassword.h"
-
+#import "HWMAddPersonalInformationViewController.h"
+#import "HWMCreateDIDViewController.h"
+#import "HWMDIDInfoViewController.h"
 
 static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
 
@@ -135,7 +137,8 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
                     _dataArray =@[@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},
                                   @{@"title":NSLocalizedString(@"修改钱包密码",nil),@"name":@"",@"type":@"2"},
                                   @{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"},
-                                  @{@"title":NSLocalizedString(@"导出助记词",nil),@"name":@"",@"type":@"1"}
+                                  @{@"title":NSLocalizedString(@"导出助记词",nil),@"name":@"",@"type":@"1"},
+                                  @{@"title":NSLocalizedString(@"DID",nil),@"name":@"",@"type":@"1"}
 //,
 //                                  @{@"title":NSLocalizedString(@"导出只读钱包",nil),@"name":@"",@"type":@"1"},
 //                                  @{@"title":NSLocalizedString(@"查看多签公钥",nil),@"name":@"",@"type":@"1"}
@@ -273,7 +276,18 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
             [self.navigationController pushViewController:ListMoreSignThePublicKeyVC animated:YES];
         }
 
-    }
+        }else if ([title isEqualToString:NSLocalizedString(@"DID",nil)]){
+            [self showDIDInfoOrCreateDIDInfo];
+           
+       }
+}
+-(void)showDIDInfoOrCreateDIDInfo{
+//    HWMCreateDIDViewController *HWMCreateDIDVC=[[HWMCreateDIDViewController alloc]init];
+//               [self.navigationController pushViewController:HWMCreateDIDVC animated:YES];
+    HWMDIDInfoViewController *HWMDIDInfoVC=[[HWMDIDInfoViewController alloc]init];
+    
+    [self.navigationController pushViewController:HWMDIDInfoVC animated:YES];
+    
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
@@ -345,7 +359,6 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
         [[NSNotificationCenter defaultCenter]postNotificationName:updataWallet object:nil];
         [self.navigationController popToRootViewControllerAnimated:YES];
     }else{
-        
         FLPrepareVC *vc=[[FLPrepareVC alloc]init];
         BaseNavigationVC *naVC=[[BaseNavigationVC alloc]initWithRootViewController:vc];
         vc.type=creatWalletType;

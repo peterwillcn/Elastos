@@ -7,6 +7,7 @@
 
 #import "HWMAccordingPersonalInformationViewController.h"
 #import "HWMDIDInfoTableViewCell.h"
+#import "HWMAddPersonalInformationViewController.h"
 static NSString *cellString=@"HWMDIDInfoTableViewCell";
 @interface HWMAccordingPersonalInformationViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *table;
@@ -23,17 +24,13 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
    [self defultWhite];
        [self setBackgroundImg:@""];
        self.title=NSLocalizedString(@"个人信息", nil);
+  self.dataSource =@[NSLocalizedString(@"姓名", @""),NSLocalizedString(@"昵称", @""),NSLocalizedString(@"性别", @""),NSLocalizedString(@"出生日期", @""),NSLocalizedString(@"邮箱", @""),NSLocalizedString(@"手机号", @""),NSLocalizedString(@"国家/地区", @"")];
     [self makeUI];
     if (self.model.iconUrlString.length>0) {
         [self.IconImageView sd_setImageWithURL:[NSURL URLWithString:self.model.iconUrlString]placeholderImage:[UIImage imageNamed:@"mine_did_default_avator"]];
     }
+    [self.table reloadData];
 
-}
--(NSArray *)dataSource{
-    if (!_dataSource) {
-        _dataSource =@[NSLocalizedString(@"姓名", @""),NSLocalizedString(@"昵称", @""),NSLocalizedString(@"性别", @""),NSLocalizedString(@"出生日期", @""),NSLocalizedString(@"邮箱", @""),NSLocalizedString(@"手机号", @""),NSLocalizedString(@"国家/地区", @"")];
-    }
-    return _dataSource;
 }
 -(void)makeUI{
     
@@ -45,9 +42,15 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
        self.table.delegate =self;
        self.table.dataSource =self;
     self.table.backgroundColor=[UIColor clearColor];
+    
 }
 
 -(void)EditPersonalInformation{
+    HWMAddPersonalInformationViewController *HWMAddPersonalInformationVC=[[HWMAddPersonalInformationViewController alloc]init];
+//    HWMAddPersonalInformationVC.title=NSLocalizedString(@"编辑个人信息", nil);
+    HWMAddPersonalInformationVC.isEidet=YES;
+    HWMAddPersonalInformationVC.model=self.model;
+    [self.navigationController pushViewController:HWMAddPersonalInformationVC animated:YES];
     
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -56,6 +59,7 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
   HWMDIDInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.leftTextLabel.text=self.dataSource[indexPath.row];
+    cell.arrImageView.alpha=0.f;
     switch (indexPath.row) {
         case 0:
         {
@@ -112,9 +116,13 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
     }
     return cell;
 }
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 3;
+//-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+//{
+//    return 3;
+//}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    return self.dataSource.count;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

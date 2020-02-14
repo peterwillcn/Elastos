@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HWMAddPersonalInformationViewController">
             <connections>
+                <outlet property="infoHeight" destination="HIS-24-w2R" id="ZbV-fk-rxp"/>
                 <outlet property="nextButton" destination="kDk-ck-8gr" id="dsm-Zj-6sB"/>
                 <outlet property="table" destination="PEK-0H-kcd" id="s5a-Wv-vjE"/>
                 <outlet property="textInfoLabel" destination="egD-B9-kWa" id="3ct-to-UKd"/>
@@ -24,7 +25,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5eV-7r-mLv">
                     <rect key="frame" x="0.0" y="44" width="414" height="30"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="温馨提示：本页内容均为非必填项。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="egD-B9-kWa">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="温馨提示：本页内容均非必填，仅保存在本地，供用户授权使用。" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="egD-B9-kWa">
                             <rect key="frame" x="15" y="0.0" width="384" height="30"/>
                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -41,18 +42,18 @@
                     </constraints>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PEK-0H-kcd">
-                    <rect key="frame" x="0.0" y="74" width="414" height="788"/>
+                    <rect key="frame" x="0.0" y="74" width="414" height="603"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kDk-ck-8gr">
-                    <rect key="frame" x="63" y="737" width="288" height="40"/>
-                    <color key="backgroundColor" red="0.1928445399" green="0.32548019290000002" blue="0.32934954760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kDk-ck-8gr">
+                    <rect key="frame" x="182" y="727" width="50" height="50"/>
+                    <color key="backgroundColor" red="0.28292763233184814" green="0.39211809635162354" blue="0.41951560974121094" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="40" id="Pl9-eB-PD3"/>
+                        <constraint firstAttribute="height" constant="50" id="Pl9-eB-PD3"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="z4h-7k-Muo"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                     <color key="tintColor" red="0.1928445399" green="0.32548019290000002" blue="0.32934954760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" title="下一步">
+                    <state key="normal" image="asset_adding_btn">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
                     <connections>
@@ -62,19 +63,21 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="PEK-0H-kcd" secondAttribute="bottom" id="RcE-sH-oRf"/>
+                <constraint firstItem="kDk-ck-8gr" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="0nn-tg-dy1"/>
+                <constraint firstItem="kDk-ck-8gr" firstAttribute="top" secondItem="PEK-0H-kcd" secondAttribute="bottom" constant="50" id="RR0-81-cJy"/>
                 <constraint firstItem="5eV-7r-mLv" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="axR-iu-M8w"/>
                 <constraint firstItem="PEK-0H-kcd" firstAttribute="top" secondItem="5eV-7r-mLv" secondAttribute="bottom" id="bDu-aE-egt"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="kDk-ck-8gr" secondAttribute="bottom" constant="85" id="e52-Hv-lpV"/>
                 <constraint firstItem="5eV-7r-mLv" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="nHn-ym-YJG"/>
-                <constraint firstItem="kDk-ck-8gr" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="63" id="nRD-hQ-y2e"/>
-                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="kDk-ck-8gr" secondAttribute="trailing" constant="63" id="pJF-pP-mTv"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="PEK-0H-kcd" secondAttribute="trailing" id="q6H-Bw-MNF"/>
                 <constraint firstItem="PEK-0H-kcd" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="qnf-by-FLX"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="5eV-7r-mLv" secondAttribute="trailing" id="sJJ-Yk-SYv"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
-            <point key="canvasLocation" x="139" y="154"/>
+            <point key="canvasLocation" x="137.68115942028987" y="153.34821428571428"/>
         </view>
     </objects>
+    <resources>
+        <image name="asset_adding_btn" width="50" height="50"/>
+    </resources>
 </document>

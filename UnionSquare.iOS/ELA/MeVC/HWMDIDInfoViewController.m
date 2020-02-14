@@ -10,18 +10,19 @@
 #import "HWMTheEditorDIDInfoViewController.h"
 #import "HWMConfidentialInformationViewController.h"
 #import "HMWFMDBManager.h"
+#import "HMWToDeleteTheWalletPopView.h"
 
 
 static NSString *cellString=@"HWMDIDInfoTableViewCell";
-@interface HWMDIDInfoViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface HWMDIDInfoViewController ()<UITableViewDataSource,UITableViewDelegate,HMWToDeleteTheWalletPopViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *DIDInfoTextLabel;
 @property (weak, nonatomic) IBOutlet UIButton *theEditorButton;
 @property (weak, nonatomic) IBOutlet UIButton *ConfidentialInformationButton;
 @property (weak, nonatomic) IBOutlet UITableView *table;
-
+ 
 
 @property(copy,nonatomic)NSArray *dataArray;
-
+@property(strong,nonatomic)HMWToDeleteTheWalletPopView *deleteDIDPopView;
 @end
 
 @implementation HWMDIDInfoViewController
@@ -46,15 +47,40 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
     return _dataArray;
 }
 -(void)deleteDIDEvent{
-    if ([[HMWFMDBManager sharedManagerType:DIDInfoType]delectDIDInfo:self.model WithWalletID:self.model.walletID]) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"删除成功", nil)];
-        if (self.delegate) {
-            [self.delegate needUpdateDIDInfo];
-        }
-        [self.navigationController popViewControllerAnimated:NO];
-    }else{
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"删除失败", nil)];
+  
+//    if ([[HMWFMDBManager sharedManagerType:DIDInfoType]delectDIDInfo:self.model WithWalletID:self.model.walletID]) {
+//        [[FLTools share]showErrorInfo:NSLocalizedString(@"删除成功", nil)];
+//        if (self.delegate) {
+//            [self.delegate needUpdateDIDInfo];
+//        }
+//        [self.navigationController popViewControllerAnimated:NO];
+//    }else{
+//        [[FLTools share]showErrorInfo:NSLocalizedString(@"删除失败", nil)];
+//    }
+    UIView * mainView=[self mainWindow];
+    [mainView addSubview:self.deleteDIDPopView];
+    [self.deleteDIDPopView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(mainView);
+    }];
+    
+}
+-(HMWToDeleteTheWalletPopView *)deleteDIDPopView{
+    if (!_deleteDIDPopView) {
+        _deleteDIDPopView =[[HMWToDeleteTheWalletPopView alloc]init];
+        _deleteDIDPopView.delegate=self;
+        _deleteDIDPopView.deleteType=deleteDIDInfoType;
     }
+    return _deleteDIDPopView;
+}
+
+-(void)sureToDeleteViewWithPWD:(NSString*)pwd{
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    [self toCancelOrCloseDelegate];
+}
+-(void)toCancelOrCloseDelegate{
+    [self.deleteDIDPopView removeFromSuperview];
+    self.deleteDIDPopView=nil;
     
 }
 - (IBAction)theEditorEvent:(id)sender {

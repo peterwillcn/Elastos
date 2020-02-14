@@ -1,22 +1,20 @@
 //
-//  HWMCreateDIDListTableViewCell.m
+//  HWMShowSocialAccountTableViewCell.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/10/21.
+//  Created by 韩铭文 on 2020/2/4.
 //
 
-#import "HWMCreateDIDListTableViewCell.h"
+#import "HWMShowSocialAccountTableViewCell.h"
 
-@interface HWMCreateDIDListTableViewCell ()
+
+@interface HWMShowSocialAccountTableViewCell ()
 
 @end
-
-
-@implementation HWMCreateDIDListTableViewCell
+@implementation HWMShowSocialAccountTableViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
- 
     // Initialization code
 }
 
@@ -24,8 +22,6 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
-}
-- (IBAction)deleateListInfoEvent:(id)sender {
 }
 
 @end

@@ -107,5 +107,6 @@
 #import "HWMQrCodeScanningResultsViewController.h"
 #import "YRClassSafeCategory.h"
 #import "YRClassSafeCategoryConfig.h"
-#define Localized(key)  [[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"]] ofType:@"lproj"]] localizedStringForKey:(key) value:nil table:nil]
+//#define Localized(key) [[NSBundle mainBundle] localizedStringForKey:(key) value:value table:nil]
+//NSLocalizedStringFromTable(key, tbl, comment)
 #endif

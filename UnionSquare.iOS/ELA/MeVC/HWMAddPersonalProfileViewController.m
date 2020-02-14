@@ -7,6 +7,7 @@
 
 #import "HWMAddPersonalProfileViewController.h"
 #import "HWMAddSocialAccountViewController.h"
+#import "HMWFMDBManager.h"
 static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
 @interface HWMAddPersonalProfileViewController ()<UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *textInfoLabel;
@@ -16,6 +17,8 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
 @property(strong,nonatomic)UIButton *skipButton;
 @property (weak, nonatomic) IBOutlet UITextView *infoTextView;
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *infoHeight;
+@property (weak, nonatomic) IBOutlet UILabel *infoTextLengthLabel;
 
 @end
 
@@ -34,6 +37,23 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
     self.infoTextView.layer.borderColor=RGBA(255, 255, 255, 0.5).CGColor;
     
     [[HMWCommView share]makeBordersWithView:self.nextButton];
+    if (self.isEidet) {
+       self.title=NSLocalizedString(@"编辑个人简介", nil);
+        self.skipButton.alpha=0.f;
+        [self.nextButton setTitle:NSLocalizedString(@"保存", nil) forState:UIControlStateNormal];
+        self.infoHeight.constant=0.f;
+        self.textInfoLabel.alpha=0.f;
+        if (self.model.introductionInfoString.length>0) {
+            self.textInfoLabel.text=self.model.introductionInfoString;
+            self.textInfoLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)self.model.introductionInfoString.length];
+            
+        }else{
+            self.textInfoLabel.text=@"";
+        }
+        
+    }else{
+         self.title=NSLocalizedString(@"添加个人简介", nil);
+    }
 }
 -(UIButton *)skipButton{
     if (!_skipButton) {
@@ -47,9 +67,20 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
 }
 -(void)skipVCEvent{
      [self.view endEditing:YES];
-    HWMAddSocialAccountViewController *AddSocialAccountVC=[[HWMAddSocialAccountViewController alloc]init];
-    AddSocialAccountVC.model=self.model;
-    [self.navigationController pushViewController:AddSocialAccountVC animated:YES];
+    if (self.isEidet) {
+        if ( [[HMWFMDBManager sharedManagerType:DIDInfoType]updateDIDInfo:self.model WithWalletID:self.model.walletID]) {
+            [[FLTools share]showErrorInfo:@"保存成功"];
+        }else{
+            [[FLTools share]showErrorInfo:@"保存失败"];
+        }
+       
+        
+    }else{
+        HWMAddSocialAccountViewController *AddSocialAccountVC=[[HWMAddSocialAccountViewController alloc]init];
+           AddSocialAccountVC.model=self.model;
+           [self.navigationController pushViewController:AddSocialAccountVC animated:YES];
+    }
+   
     
 }
 
@@ -81,5 +112,8 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
 
 -(void)setModel:(HWMDIDInfoModel *)model{
     _model=model;
+}
+-(void)setIsEidet:(Boolean)isEidet{
+    _isEidet=isEidet;
 }
 @end

@@ -116,9 +116,10 @@
         if(self.delegate){
         [self.delegate sureToDeleteViewWithPWD:@""];
         }
+    }else if (self.deleteType==deleteDIDInfoType){
+        if(self.delegate){
+            [self.delegate sureToDeleteViewWithPWD:@""];}
     }
-  
-
 }
 -(void)takeOutOrShutDown{
     [self.securityVerificationPopV removeFromSuperview];
@@ -173,6 +174,9 @@
         self.titlePopLabel.text= NSLocalizedString(@"账户余额不足，将使之前的投票结果失效。是否继续交易？", nil);
          [self.sureToDeleteButton setTitle:NSLocalizedString(@"确定", nil) forState:UIControlStateNormal];
         
+    }else if (deleteType==deleteDIDInfoType){
+         self.titlePopLabel.text= NSLocalizedString(@"是否永久弃用当前DID？", nil);
+          [self.sureToDeleteButton setTitle:NSLocalizedString(@"确定", nil) forState:UIControlStateNormal];
     }
 }
 -(void)setUtxosString:(NSString *)UtxosString{

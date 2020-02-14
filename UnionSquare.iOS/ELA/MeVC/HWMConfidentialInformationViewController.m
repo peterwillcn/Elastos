@@ -10,6 +10,7 @@
 #import "HWMAccordingPersonalInformationViewController.h"
 #import "HWMAddPersonalProfileViewController.h"
 #import "HWMShowSocialAccountViewController.h"
+#import "HWMshowIntroductionInfoViewController.h"
 static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
 @interface HWMConfidentialInformationViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *table;
@@ -34,7 +35,8 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
 }
 -(NSArray *)dataArray{
     if (!_dataArray) {
-        _dataArray =@[@"个人信息",@"个人简介",@"社交账号"];
+//        _dataArray =@[@"个人信息",@"个人简介",@"社交账号"];
+                _dataArray =@[@"个人信息"];
     }
     return _dataArray;
 }
@@ -71,34 +73,37 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.section) {
-        case 0:
-        {
-            HWMAccordingPersonalInformationViewController * HWMAccordingPersonalInformationVC=[[HWMAccordingPersonalInformationViewController alloc]init ];
-            HWMAccordingPersonalInformationVC.model=self.model;
-            [self.navigationController pushViewController:HWMAccordingPersonalInformationVC animated:YES];
-            
-        }
-            break;
-        case 1:{
-            HWMAddPersonalProfileViewController *HWMAddPersonalProfileVC=[[HWMAddPersonalProfileViewController alloc]init];
-            HWMAddPersonalProfileVC.model=self.model;
-            [self.navigationController pushViewController:HWMAddPersonalProfileVC animated:YES];
-        }
-                      
-        break;
-        case 2:{
-            HWMShowSocialAccountViewController *HWMShowSocialAccountVC=[[HWMShowSocialAccountViewController alloc]init];
-            
-            [self.navigationController pushViewController:HWMShowSocialAccountVC animated:YES];
-            
-        }
-                      
-        break;
-            
-        default:
-            break;
-    }
+//    switch (indexPath.section) {
+//        case 0:
+//        {
+//            HWMAccordingPersonalInformationViewController * HWMAccordingPersonalInformationVC=[[HWMAccordingPersonalInformationViewController alloc]init ];
+//            HWMAccordingPersonalInformationVC.model=self.model;
+//            [self.navigationController pushViewController:HWMAccordingPersonalInformationVC animated:YES];
+//
+//        }
+//            break;
+//        case 1:{
+//            HWMshowIntroductionInfoViewController  *showIntroductionInfoVC=[[HWMshowIntroductionInfoViewController alloc]init];
+//            showIntroductionInfoVC.model=self.model;
+//            [self.navigationController pushViewController:showIntroductionInfoVC animated:YES];
+//
+//
+//        }
+//
+//        break;
+//        case 2:{
+//            HWMShowSocialAccountViewController *HWMShowSocialAccountVC=[[HWMShowSocialAccountViewController alloc]init];
+//            HWMShowSocialAccountVC.model=self.model;
+//
+//            [self.navigationController pushViewController:HWMShowSocialAccountVC animated:YES];
+//
+//        }
+//
+//        break;
+//
+//        default:
+//            break;
+//    }
 
 }
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForFooterInSection:(NSInteger)section{

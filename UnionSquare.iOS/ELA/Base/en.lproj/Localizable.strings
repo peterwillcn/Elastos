@@ -212,13 +212,11 @@
 "扫码结果"="Scan result";
 "已识别收款地址"="Receiving address identified";
 "密码错误"="Password error";
-"请输入密码"="Enter password";
 "创建成功"="Created successfully";
 "确认创建"="Confirm creation";
 "连接中…"="Connecting...";
 "丢失…"="Disconnected...";
 "创建多签钱包"="Create a multisig wallet";
-"请输入密码"="Enter password";
 "请重复已输入的助记词密码"="Re-enter mnemonic password";
 "请设置8至16位助记词密码"="Create a password with 8 to 16 characters";
 "密码"="Password";

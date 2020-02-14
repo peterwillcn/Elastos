@@ -50,7 +50,8 @@ try:
         line = myfile.readline().decode('utf8')
         while line:
             file_sha = line.split()
-            filelist_dict[file_sha[1]] = file_sha[0]
+            filename = ' '.join(file_sha[1:]) # Recompose filename (possibly with spaces)
+            filelist_dict[filename] = file_sha[0]
             line = myfile.readline().decode('utf8')
     # print(filelist_dict)
 

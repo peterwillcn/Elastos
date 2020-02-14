@@ -28,7 +28,7 @@
     var id = "";
     var appInfo: AppInfo?;
     var whitelistFilter: WhitelistFilter?;
-    var titlebar: TitleBarView?;
+    @IBOutlet weak var titlebar: TitleBarView?;
 
     convenience init() {
         self.init(nibName: nil, bundle: nil)
@@ -94,14 +94,23 @@
     
     override func newCordovaView(withFrame bounds: CGRect) ->UIView {
 
-        let titleRect = CGRect(x: bounds.origin.x, y: bounds.origin.y,
-                               width: bounds.size.width, height: TitleBarView.HEIGHT);
-        titlebar = TitleBarView(self, titleRect, id == "launcher");
-        self.view.addSubview(titlebar!);
+//        let titleRect = CGRect(x: bounds.origin.x, y: bounds.origin.y,
+//                               width: bounds.size.width, height: TitleBarView.HEIGHT);
+//        titlebar = TitleBarView(self, titleRect, id == "launcher");
+//        self.view.addSubview(titlebar!);
         
-        let webViewBounds = CGRect(x: bounds.origin.x, y: bounds.origin.y + TitleBarView.HEIGHT,  width: bounds.size.width, height: bounds.size.height - TitleBarView.HEIGHT);
+//        let webViewBounds = CGRect(x: bounds.origin.x, y: bounds.origin.y + TitleBarView.HEIGHT,  width: bounds.size.width, height: bounds.size.height - TitleBarView.HEIGHT);
+//
+//
+//        return super.newCordovaView(withFrame: webViewBounds);
         
-        return super.newCordovaView(withFrame: webViewBounds);
+        let containerView = UIView(frame: CGRect(x: bounds.origin.x, y: bounds.origin.y + TitleBarView.HEIGHT,  width: bounds.size.width, height: bounds.size.height - TitleBarView.HEIGHT));
+        self.view.addSubview(containerView)
+        
+        let webview = super.newCordovaView(withFrame: CGRect());
+        containerView.addSubview(webview!);
+        
+        return self.view
     }
     
     func addSwipe(_ direction: UInt) {
@@ -121,23 +130,23 @@
     }
 
     override func viewDidLoad() {
-        super.viewDidLoad();
-        for (name , value) in self.pluginObjects as! [String: CDVPlugin] {
-            if (name == "AppBasePlugin") {
-                let plugin = value as! AppBasePlugin;
-                plugin.setId(id);
-                self.basePlugin = plugin;
-                break;
-            }
-        }
-        
-        if (appInfo!.type == "url") {
-            addSwipe(UISwipeGestureRecognizer.Direction.left.rawValue);
-            addSwipe(UISwipeGestureRecognizer.Direction.right.rawValue);
-        }
-        else {
-            addSwipe(UISwipeGestureRecognizer.Direction.down.rawValue);
-        }
+//        super.viewDidLoad();
+//        for (name , value) in self.pluginObjects as! [String: CDVPlugin] {
+//            if (name == "AppBasePlugin") {
+//                let plugin = value as! AppBasePlugin;
+//                plugin.setId(id);
+//                self.basePlugin = plugin;
+//                break;
+//            }
+//        }
+//
+//        if (appInfo!.type == "url") {
+//            addSwipe(UISwipeGestureRecognizer.Direction.left.rawValue);
+//            addSwipe(UISwipeGestureRecognizer.Direction.right.rawValue);
+//        }
+//        else {
+//            addSwipe(UISwipeGestureRecognizer.Direction.down.rawValue);
+//        }
 
     }
     

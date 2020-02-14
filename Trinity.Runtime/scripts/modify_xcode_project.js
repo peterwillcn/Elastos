@@ -72,6 +72,7 @@ module.exports = function(ctx) {
     runtimeProj.addSourceFile(classesPath + "TrinityPlugin.m",              {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "TrinityURLProtocol.swift",     {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "TrinityViewController.swift",  {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "TrinityViewController.xib",    {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "Utility.swift",                {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "WhitelistFilter.swift",        {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "WrapSwift.h",                  {}, classesGroupKey);

@@ -60,8 +60,8 @@ module.exports = function(ctx) {
     runtimeProj.addSourceFile(classesPath + "AppViewController.swift",      {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "AppWhitelist.swift",           {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "CDVPlugin.swift",              {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "ElaVerifier.h",                {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "ElaVerifier.mm",               {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "ConfigManager.swift",          {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "IntentManager.swift",          {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "LauncherViewController.swift", {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "MainViewController.swift",     {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "ManagerDBAdapter.swift",       {}, classesGroupKey);
@@ -74,6 +74,8 @@ module.exports = function(ctx) {
     runtimeProj.addSourceFile(classesPath + "TrinityViewController.swift",  {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "Utility.swift",                {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "WhitelistFilter.swift",        {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "WrapSwift.h",                  {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "WrapSwift.m",                  {}, classesGroupKey);
 
     //
     // Add header and source files for "SSZipArchive"

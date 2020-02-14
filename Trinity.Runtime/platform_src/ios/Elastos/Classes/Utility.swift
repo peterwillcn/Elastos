@@ -121,6 +121,15 @@ func getAssetPath(_ url: String) -> String {
         }
     }
  }
+ 
+ func getJsonFromFile(_ path: String)  throws -> [String: Any] {
+    let url = URL.init(fileURLWithPath: path)
+
+    let data = try Data(contentsOf: url);
+    let json = try JSONSerialization.jsonObject(with: data,
+                                                options: []) as! [String: Any];
+    return json;
+ }
 
  enum AppError: Error {
     case error(String)

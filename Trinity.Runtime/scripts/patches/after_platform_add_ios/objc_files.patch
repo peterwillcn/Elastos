@@ -213,7 +213,6 @@
  //
 
  #import <Cordova/CDV.h>
-+#import "ElaVerifier.h"
 +#import "SSZipArchive.h"
 +#import "TrinityPlugin.h"
 +#import <CommonCrypto/CommonDigest.h>

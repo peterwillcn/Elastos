@@ -20,28 +20,27 @@
   * SOFTWARE.
   */
 
- import Foundation
+import UIKit
 
- @objc(TrinityViewController)
- class TrinityViewController : CDVViewController {
+@objc(TrinityViewController)
+class TrinityViewController : CDVViewController {
     var basePlugin: AppBasePlugin?;
-    var id = "";
-    var appInfo: AppInfo?;
-    var whitelistFilter: WhitelistFilter?;
-    @IBOutlet weak var titlebar: TitleBarView?;
+        var id = "";
+        var appInfo: AppInfo?;
+        var whitelistFilter: WhitelistFilter?;
 
-    convenience init() {
-        self.init(nibName: nil, bundle: nil)
-    }
-
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    @IBOutlet weak var titlebarContainer: UIView!
+    @IBOutlet weak var webContainer: UIView!
+    var titlebar: TitleBarView!
     
+    override func loadView() {
+        super.loadView()
+        if let nib = Bundle.main.loadNibNamed("TrinityViewController", owner: self),
+            let nibView = nib.first as? UIView {
+            view = nibView
+        }
+    }
+        
     private func setTrinityPluginInfo(_ plugin:CDVPlugin!) {
         let trinityPlugin = plugin as? TrinityPlugin
         let isApp = self is AppViewController
@@ -93,24 +92,13 @@
     }
     
     override func newCordovaView(withFrame bounds: CGRect) ->UIView {
-
-//        let titleRect = CGRect(x: bounds.origin.x, y: bounds.origin.y,
-//                               width: bounds.size.width, height: TitleBarView.HEIGHT);
-//        titlebar = TitleBarView(self, titleRect, id == "launcher");
-//        self.view.addSubview(titlebar!);
-        
-//        let webViewBounds = CGRect(x: bounds.origin.x, y: bounds.origin.y + TitleBarView.HEIGHT,  width: bounds.size.width, height: bounds.size.height - TitleBarView.HEIGHT);
-//
-//
-//        return super.newCordovaView(withFrame: webViewBounds);
-        
-        let containerView = UIView(frame: CGRect(x: bounds.origin.x, y: bounds.origin.y + TitleBarView.HEIGHT,  width: bounds.size.width, height: bounds.size.height - TitleBarView.HEIGHT));
-        self.view.addSubview(containerView)
+        titlebar = TitleBarView(self, titlebarContainer.frame, id == "launcher");
+        titlebarContainer.addSubview(titlebar!);
         
         let webview = super.newCordovaView(withFrame: CGRect());
-        containerView.addSubview(webview!);
-        
-        return self.view
+        webContainer.addSubview(webview!);
+
+        return webContainer
     }
     
     func addSwipe(_ direction: UInt) {
@@ -130,28 +118,27 @@
     }
 
     override func viewDidLoad() {
-//        super.viewDidLoad();
-//        for (name , value) in self.pluginObjects as! [String: CDVPlugin] {
-//            if (name == "AppBasePlugin") {
-//                let plugin = value as! AppBasePlugin;
-//                plugin.setId(id);
-//                self.basePlugin = plugin;
-//                break;
-//            }
-//        }
-//
-//        if (appInfo!.type == "url") {
-//            addSwipe(UISwipeGestureRecognizer.Direction.left.rawValue);
-//            addSwipe(UISwipeGestureRecognizer.Direction.right.rawValue);
-//        }
-//        else {
-//            addSwipe(UISwipeGestureRecognizer.Direction.down.rawValue);
-//        }
+        super.viewDidLoad();
+        for (name , value) in self.pluginObjects as! [String: CDVPlugin] {
+            if (name == "AppBasePlugin") {
+                let plugin = value as! AppBasePlugin;
+                plugin.setId(id);
+                self.basePlugin = plugin;
+                break;
+            }
+        }
+
+        if (appInfo!.type == "url") {
+            addSwipe(UISwipeGestureRecognizer.Direction.left.rawValue);
+            addSwipe(UISwipeGestureRecognizer.Direction.right.rawValue);
+        }
+        else {
+            addSwipe(UISwipeGestureRecognizer.Direction.down.rawValue);
+        }
 
     }
     
     @objc func getBasePlugin() -> AppBasePlugin {
         return self.basePlugin!;
     }
-
- }
+}

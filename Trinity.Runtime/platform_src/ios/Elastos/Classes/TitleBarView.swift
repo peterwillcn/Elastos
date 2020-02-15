@@ -25,48 +25,54 @@ import UIKit
 
 class TitleBarView: UIView {
     
-    static let HEIGHT: CGFloat = 45;
+//    static let HEIGHT: CGFloat = 45;
     
     let viewController: TrinityViewController;
-    let btnToggle = UIButton(type: .custom);
-    let btnLauncher = UIButton(type: .custom);
-    let btnClose = UIButton(type: .custom);
-    
     var isLauncher = false;
     
+    @IBOutlet weak var btnToggle: UIButton!
+    @IBOutlet weak var btnClose: UIButton!
+    @IBOutlet weak var btnLauncher: UIButton!
+    
+    @IBOutlet weak var imgLogo: UIImageView!
+    @IBOutlet weak var lblTime: UILabel!
+    @IBOutlet weak var progress: UIProgressView!
     
     init(_ viewController: TrinityViewController, _ frame: CGRect, _ isLauncher: Bool) {
         self.viewController = viewController;
         super.init(frame: frame);
         
-        self.backgroundColor = UIColor(red: 0 / 255.0, green: 0 / 255.0, blue: 0 / 255.0, alpha: 0.5);
-//        self.isHidden = true;
+//        self.backgroundColor = UIColor(red: 0 / 255.0, green: 0 / 255.0, blue: 0 / 255.0, alpha: 0.5);
+
+        let view = loadViewFromNib();
+        view.autoresizingMask = [UIView.AutoresizingMask.flexibleWidth, UIView.AutoresizingMask.flexibleHeight]
+        addSubview(view)
         
         if (isLauncher) {
-            btnToggle.frame = CGRect(x:frame.size.width - 80, y: 5, width:70, height:35);
-//            btnToggle.setImage(UIImage(named:"Toggle"), for:.normal)
-            btnToggle.setTitle("Toggle", for:.normal);
-            btnToggle.backgroundColor = UIColor.black;
-            btnToggle.layer.cornerRadius = 5;
+            let bounds = progress.frame;
+            progress.frame = CGRect(x: bounds.origin.x, y: bounds.origin.y,  width: bounds.size.width + btnLauncher.frame.size.width, height: bounds.size.height);
+            btnClose.isHidden = true;
+            btnLauncher.isHidden = true;
+            //            btnLauncher.removeFromSuperview();
             btnToggle.addTarget(self, action:#selector(clickToggle), for:.touchDown);
-            self.addSubview(btnToggle);
         }
         else {
-            btnLauncher.frame = CGRect(x:frame.size.width - 175, y: 5, width:85, height:35);
-            btnLauncher.setTitle("Launcher", for:.normal);
-            btnLauncher.backgroundColor = UIColor.black;
-            btnLauncher.layer.cornerRadius = 5;
+            btnToggle.isHidden = true;
+            btnToggle.removeFromSuperview();
             btnLauncher.addTarget(self, action:#selector(clickLaunchr), for:.touchDown);
-            self.addSubview(btnLauncher);
-            
-
-            btnClose.frame = CGRect(x:frame.size.width - 80, y: 5, width:70, height:35);
-            btnClose.setTitle("Close", for:.normal);
-            btnClose.backgroundColor = UIColor.black;
-            btnClose.layer.cornerRadius = 5;
             btnClose.addTarget(self, action:#selector(clickClose), for:.touchDown);
-            self.addSubview(btnClose);
         }
+        hideProgress();
+    }
+    
+    func loadViewFromNib() ->UIView {
+        let className = type(of:self)
+        let bundle = Bundle(for:className)
+        let name = NSStringFromClass(className).components(separatedBy: ".").last
+        let nib = UINib(nibName: name!, bundle: bundle)
+        let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
+        
+        return view
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -95,5 +101,20 @@ class TitleBarView: UIView {
         self.viewController.webViewEngine.evaluateJavaScript("window.history.back();", completionHandler: nil);
     }
     
+    @objc func showProgress() {
+        progress.isHidden = false;
+    }
+
+
+    @objc func hideProgress() {
+        // TODO: For now if setting visibility to INVISIBLE, setting it to VISIBLE later doesn't work any more.
+        // We will change the  progress bar soon any way so just set progress to 0 for now.
+        progress.progress = 0;
+    }
+
+    @objc func setBarProgress(_ value: Float) {
+        showProgress();
+        progress.progress = value;
+    }
 }
 

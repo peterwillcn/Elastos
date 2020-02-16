@@ -16,21 +16,32 @@ exports.builder = {
     require: true
   },
   nodebug: {
-      // Let app be deployed without ionic serve. This way, manifest is not modified and will call
+      // Let the app be deployed without ionic serve. This way, manifest is not modified and will call
       // a local index.html (on device) instead of a remote IP served by ionic. This way, apps can be 
       // running on the device without computer dependency (but loose debugging capability).
       describe: "Deploy the DApp without remote url access, auto-reload or debugging capability",
       require: false,
       nargs: 0
+  },
+  prod: {
+    // Build the app with ionic's --prod flag (production mode). Useful to totally test apps before
+    // publishing as there maybe be some slight difference with dev mode.
+    describe: "Build the app for production in order to fully test its behaviour before publishing it.",
+    require: false,
+    nargs: 0
   }
 }
 exports.handler = function (argv) {
     var platform = argv.platform
     var noDebug = argv.nodebug
+    var forProd = argv.prod || false
+
+    if (forProd)
+        console.log("Building for production")
 
     switch (platform) {
         case "android":
-            deployAndroidDApp(noDebug)
+            deployAndroidDApp(noDebug, forProd)
             break;
         case "ios":
             console.log("Not yet implemented")
@@ -51,7 +62,7 @@ exports.handler = function (argv) {
  * - push and run the EPK on the device (adb push/shell am start, on android)
  * - ionic serve (for hot reload inside trinity, when user saves his files)
  */
-async function deployAndroidDApp(noDebug) {
+async function deployAndroidDApp(noDebug, forProd) {
     var runHelper = new RunHelper()
     var manifestHelper = new ManifestHelper()
     var ionicHelper = new IonicHelper()
@@ -88,7 +99,7 @@ async function deployAndroidDApp(noDebug) {
         await manifestHelper.updateManifestForRemoteIndex(temporaryManifestPath)
 
     ionicHelper.updateNpmDependencies().then(() => {
-        ionicHelper.runIonicBuild(false).then(() => {
+        ionicHelper.runIonicBuild(forProd).then(() => {
             dappHelper.packEPK(temporaryManifestPath).then((outputEPKPath)=>{
                 //dappHelper.signEPK(outputEPKPath).then(()=>{
                     runHelper.androidUploadEPK(outputEPKPath).then(()=>{

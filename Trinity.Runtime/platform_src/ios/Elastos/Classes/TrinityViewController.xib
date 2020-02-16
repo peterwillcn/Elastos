@@ -20,24 +20,33 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" id="VbX-ux-MTA">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VbX-ux-MTA">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                    <viewLayoutGuide key="safeArea" id="apd-oc-pnE"/>
+                    <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="45" id="Q7i-Vt-LbD"/>
+                    </constraints>
                 </view>
-                <view contentMode="scaleToFill" restorationIdentifier="webKitView" id="EJj-4f-Hee">
+                <view contentMode="scaleToFill" restorationIdentifier="webKitView" translatesAutoresizingMaskIntoConstraints="NO" id="EJj-4f-Hee">
                     <rect key="frame" x="0.0" y="45" width="375" height="623"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <accessibility key="accessibilityConfiguration" label="9:07">
                         <bool key="isElement" value="YES"/>
                     </accessibility>
-                    <viewLayoutGuide key="safeArea" id="ZKT-JG-64E"/>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="VbX-ux-MTA" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="3U8-W8-7zQ"/>
+                <constraint firstAttribute="trailing" secondItem="VbX-ux-MTA" secondAttribute="trailing" id="E0Y-Yt-YQS"/>
+                <constraint firstItem="EJj-4f-Hee" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="JIR-XM-ft7"/>
+                <constraint firstAttribute="trailing" secondItem="EJj-4f-Hee" secondAttribute="trailing" id="OSg-FJ-1UN"/>
+                <constraint firstItem="EJj-4f-Hee" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="THT-Gk-rae"/>
+                <constraint firstItem="EJj-4f-Hee" firstAttribute="top" secondItem="VbX-ux-MTA" secondAttribute="bottom" id="gxJ-jW-BhA"/>
+                <constraint firstItem="EJj-4f-Hee" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" constant="1" id="jDr-qy-ymG"/>
+                <constraint firstItem="VbX-ux-MTA" firstAttribute="top" secondItem="Yez-Vv-h9E" secondAttribute="top" id="sF2-uq-zzV"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Yez-Vv-h9E"/>
             <point key="canvasLocation" x="132" y="79.610194902548727"/>
         </view>
     </objects>

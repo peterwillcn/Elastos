@@ -94,11 +94,21 @@ class TrinityViewController : CDVViewController {
     override func newCordovaView(withFrame bounds: CGRect) ->UIView {
         titlebar = TitleBarView(self, titlebarContainer.frame, id == "launcher");
         titlebarContainer.addSubview(titlebar!);
+        self.addMatchParentConstraints(view: titlebar, parent: titlebarContainer)
         
         let webview = super.newCordovaView(withFrame: CGRect());
         webContainer.addSubview(webview!);
 
         return webContainer
+    }
+    
+    func addMatchParentConstraints(view: UIView, parent: UIView) {
+        parent.addConstraint(NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: parent, attribute: .top, multiplier: 1.0, constant: 0.0))
+        parent.addConstraint(NSLayoutConstraint(item: view, attribute: .leading, relatedBy: .equal, toItem: parent, attribute: .leading, multiplier: 1.0, constant: 0.0))
+        parent.addConstraint(NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: parent, attribute: .bottom, multiplier: 1.0, constant: 0.0))
+        parent.addConstraint(NSLayoutConstraint(item: view, attribute: .trailing, relatedBy: .equal, toItem: parent, attribute: .trailing, multiplier: 1.0, constant: 0.0))
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
     }
     
     func addSwipe(_ direction: UInt) {
@@ -119,6 +129,7 @@ class TrinityViewController : CDVViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad();
+                
         for (name , value) in self.pluginObjects as! [String: CDVPlugin] {
             if (name == "AppBasePlugin") {
                 let plugin = value as! AppBasePlugin;

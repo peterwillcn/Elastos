@@ -49,6 +49,10 @@ import Foundation
 class MainViewController: UIViewController {
     var appManager: AppManager? = nil;
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     convenience init() {
         self.init(nibName: nil, bundle: nil)
     }

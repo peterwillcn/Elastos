@@ -2,7 +2,8 @@
 dir=`pwd`/`dirname $0`
 outdir=$dir/../dist
 pluginsroot=$dir/../../../Plugins
-runtimepluginsroot=$dir/../../../Runtime/plugins
+runtimeroot=$dir/../../../Runtime
+runtimepluginsroot=$runtimeroot/plugins
 
 if [ ! -d $pluginsroot ] 
 then
@@ -21,7 +22,7 @@ echo -e "\033[32m#########################\033[0m"
 echo -e "\033[32m#### ELASTOS PLUGINS ####\033[0m"
 echo -e "\033[32m#########################\033[0m"
 echo "Copying AppManager types..."
-cat $pluginsroot/AppManager/www/types.d.ts > $outdir/appmanager.d.ts
+cat $runtimeroot/plugins_src/AppManager/www/types.d.ts > $outdir/appmanager.d.ts
 echo "Copying Carrier types..."
 cat $pluginsroot/Carrier/www/types.d.ts > $outdir/carrier.d.ts
 echo "Copying Wallet types..."

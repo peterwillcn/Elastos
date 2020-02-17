@@ -51,6 +51,8 @@ module.exports = function(ctx) {
     runtimeProj.removeSourceFile("MainViewController.m", {}, classesGroupKey);
 
     let classesPath = "../../../../platform_src/ios/elastOS/Classes/";
+    runtimeProj.addSourceFile(classesPath + "AdvancedButton.swift",         {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "AdvancedButton.xib",           {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "AppDelegate.h",                {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "AppDelegate.m",                {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "AppBasePlugin.swift",          {}, classesGroupKey);

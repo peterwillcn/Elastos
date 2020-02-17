@@ -21,6 +21,7 @@
   */
 
 import UIKit
+ import SwiftJWT
 
 @objc(TrinityViewController)
 class TrinityViewController : CDVViewController {
@@ -98,7 +99,7 @@ class TrinityViewController : CDVViewController {
         
         let webview = super.newCordovaView(withFrame: CGRect());
         webContainer.addSubview(webview!);
-
+        
         return webContainer
     }
     

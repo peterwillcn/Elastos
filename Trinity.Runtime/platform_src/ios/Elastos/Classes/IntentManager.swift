@@ -21,3 +21,13 @@
   */
 
 import Foundation
+
+class Intent {
+    @objc dynamic var app_id = "";
+    @objc dynamic var action = "";
+
+    init(_ app_id: String, _ action: String) {
+        self.app_id = app_id;
+        self.action = action;
+    }
+}

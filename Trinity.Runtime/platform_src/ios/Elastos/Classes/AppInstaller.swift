@@ -131,12 +131,12 @@
 
     private func verifyEpkSignature(_ destPath: String) -> Bool {
         let publicKey = contentsOf(file: NSURL(fileURLWithPath: destPath).appendingPathComponent("EPK-SIGN/SIGN.PUB")! as NSURL)
-        //        let payload = contentsOf(file: NSURL(fileURLWithPath: destPath).appendingPathComponent("EPK-SIGN/FILELIST.SHA")! as NSURL)
-        //        let signed_payload = contentsOf(file: NSURL(fileURLWithPath: destPath).appendingPathComponent("EPK-SIGN/FILELIST.SIGN")! as NSURL)
+//        let payload = contentsOf(file: NSURL(fileURLWithPath: destPath).appendingPathComponent("EPK-SIGN/FILELIST.SHA")! as NSURL)
+//        let signed_payload = contentsOf(file: NSURL(fileURLWithPath: destPath).appendingPathComponent("EPK-SIGN/FILELIST.SIGN")! as NSURL)
 
-                //TODO:: need to check
-        //        let succeeded = ela_verify_message(publicKey, payload, signed_payload)
-                let succeeded = true;
+        //TODO:: need to check
+//        let succeeded = ela_verify_message(publicKey, payload, signed_payload)
+        let succeeded = true;
 
         if (succeeded) {
             print("Successfully verified EPK signature")
@@ -276,6 +276,16 @@
         }
     }
 
+    private func getMustIntValue(_ json: [String: Any], _ name: String) throws -> Int {
+        let value = json[name] as? Int;
+        if (value != nil) {
+            return value!
+        }
+        else {
+            throw AppError.error("Parse Manifest.json error: '\(name)' no exist!");
+        }
+    }
+    
     func parseManifest(_ path: String, _ launcher:Bool = false) throws -> AppInfo? {
         let appInfo = AppInfo();
         let url = URL.init(fileURLWithPath: path)
@@ -288,6 +298,7 @@
         //Must
         appInfo.app_id = try getMustStrValue(json, "id");
         appInfo.version = try getMustStrValue(json, "version");
+        appInfo.version_code = try getMustIntValue(json, "version_code");
         appInfo.name = try getMustStrValue(json, "name");
         appInfo.start_url = try getMustStrValue(json, "start_url");
         let range = appInfo.start_url.range(of: "://");
@@ -314,7 +325,15 @@
         }
 
         //Optional
-        value = json["short_name"] as? String;
+        value = json[AppInfo.START_VISIBLE] as? String;
+        if value != nil {
+            appInfo.start_visible = value!;
+        }
+        else {
+            appInfo.start_visible = "show";
+        }
+        
+        value = json["short_name"] as? String;  
         if value != nil {
             appInfo.short_name = value!;
         }
@@ -351,6 +370,22 @@
                 appInfo.author_email = value!;
             }
         }
+        
+        value = json["category"] as? String;
+        if value != nil {
+            appInfo.category = value!;
+        }
+        else {
+            appInfo.category = "other";
+        }
+        
+        value = json["key_words"] as? String;
+        if value != nil {
+            appInfo.key_words = value!;
+        }
+        else {
+            appInfo.key_words = "";
+        }
 
         var authority = AppInfo.AUTHORITY_NOINIT;
         let plugins = json["plugins"] as? [String];
@@ -368,17 +403,24 @@
         let urls = json["urls"] as? [String];
         if (urls != nil) {
             for url in urls! {
+                authority = AppInfo.AUTHORITY_NOINIT;
                 let urlString = url.lowercased();
-                if (!urlString.hasPrefix("file:///*")) {
-                    authority = AppInfo.AUTHORITY_NOINIT;
-                    if (isAllowUrl(urlString)) {
-                        authority = AppInfo.AUTHORITY_ALLOW;
-                    }
-                    appInfo.addUrl(urlString, authority);
+                if (isAllowUrl(urlString)) {
+                    authority = AppInfo.AUTHORITY_ALLOW;
                 }
+                appInfo.addUrl(urlString, authority);
             }
         }
 
+        let intents = json["intents"] as? [String];
+        if (intents != nil) {
+            for intent in intents! {
+                authority = AppInfo.AUTHORITY_ALLOW;
+                let urlString = intent.lowercased();
+                appInfo.addIntent(urlString, authority);
+            }
+        }
+        
         let frameworks = json["framework"] as? [String];
         if (frameworks != nil) {
             for framework in frameworks! {
@@ -430,6 +472,16 @@
             value = theme!["font_color"] as? String;
             if value != nil {
                 appInfo.theme_font_color = value!;
+            }
+        }
+
+        let intent_filters = json["intent_filters"] as? [Dictionary<String, String>];
+        if intents != nil {
+            for intent in intent_filters! {
+                let action = intent["action"];
+                if (action != nil) {
+                    appInfo.addIntentFilter(action!);
+                }
             }
         }
 

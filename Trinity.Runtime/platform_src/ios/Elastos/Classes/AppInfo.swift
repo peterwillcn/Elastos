@@ -29,6 +29,7 @@ class AppInfo: NSObject {
     @objc static let APP_TID = "app_tid";
     @objc static let APP_ID = "app_id";
     @objc static let VERSION = "version";
+    @objc static let VERSION_CODE = "version_code";
     @objc static let NAME = "name";
     @objc static let SHORT_NAME = "short_name";
     @objc static let DESCRIPTION = "description";
@@ -44,8 +45,12 @@ class AppInfo: NSObject {
     @objc static let INSTALL_TIME = "install_time";
     @objc static let BUILT_IN = "built_in";
     @objc static let REMOTE = "remote";
+    @objc static let CATEGORY = "category";
+    @objc static let KEY_WORDS = "key_words";
     @objc static let LAUNCHER = "launcher";
     @objc static let LANGUAGE = "language";
+    @objc static let ACTION = "act";
+    @objc static let START_VISIBLE = "start_visible";
     
     @objc static let SRC = "src";
     @objc static let SIZES = "sizes";
@@ -58,6 +63,7 @@ class AppInfo: NSObject {
     @objc dynamic var tid: Int64 = 0;
     @objc dynamic var app_id = "";
     @objc dynamic var version = "";
+    @objc dynamic var version_code = 0;
     @objc dynamic var name = "";
     @objc dynamic var short_name = "";
     @objc dynamic var desc = "";
@@ -75,6 +81,9 @@ class AppInfo: NSObject {
     @objc dynamic var built_in = false;
     @objc dynamic var remote = false;
     @objc dynamic var launcher = false;
+    @objc dynamic var category = "";
+    @objc dynamic var key_words = "";
+    @objc dynamic var start_visible = "";
 
     @objc static let AUTHORITY_NOEXIST = -1;
     @objc static let AUTHORITY_NOINIT = 0;
@@ -86,6 +95,8 @@ class AppInfo: NSObject {
     @objc var icons = [Icon]();
     @objc var plugins = [PluginAuth]();
     @objc var urls = [UrlAuth]();
+    @objc var intents = [UrlAuth]();
+    @objc var intentFilters = [IntentFilter]();
     @objc var frameworks = [Framework]();
     @objc var platforms = [Platform]();
 
@@ -103,6 +114,14 @@ class AppInfo: NSObject {
 
     @objc func addUrl(_ url: String, _ authority: Int) {
         urls.append(UrlAuth(url, authority));
+    }
+    
+    @objc func addIntent(_ url: String, _ authority: Int) {
+        intents.append(UrlAuth(url, authority));
+    }
+    
+    @objc func addIntentFilter(_ action: String) {
+        intentFilters.append(IntentFilter(action));
     }
     
     @objc func addFramework(_ name: String, _ version: String) {
@@ -194,5 +213,14 @@ class AppInfo: NSObject {
     init(_ name: String, _ version: String) {
         self.name = name;
         self.version = version;
+    }
+ }
+ 
+ @objc(IntentFilter)
+ class IntentFilter: NSObject {
+    @objc dynamic var action = "";
+    
+    init(_ action: String) {
+        self.action = action;
     }
  }

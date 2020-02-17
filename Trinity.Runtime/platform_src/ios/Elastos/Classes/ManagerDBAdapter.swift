@@ -22,29 +22,33 @@
 
 import Foundation
 import SQLite
- 
+
  class ManagerDBAdapter {
-    
+
     @objc static let DATABASE_NAME = "manager.db";
     @objc static let VERSION = 1;
     @objc static let AUTH_PLUGIN_TABLE = "auth_plugin";
     @objc static let AUTH_URL_TABLE = "auth_url";
+    @objc static let AUTH_INTENT_TABLE = "auth_intent";
     @objc static let ICONS_TABLE = "icons";
     @objc static let LOCALE_TABLE = "locale";
     @objc static let FRAMEWORK_TABLE = "framework";
     @objc static let PLATFORM_TABLE = "platform";
+    @objc static let INTENT_FILTER_TABLE = "intent_filter";
     @objc static let APP_TABLE = "app";
-    
+
     let db: Connection;
     let tid = Expression<Int64>(AppInfo.TID)
     let app_tid = Expression<Int64>(AppInfo.APP_TID);
-    
+
     let app_id = Expression<String>(AppInfo.APP_ID)
     let version = Expression<String>(AppInfo.VERSION)
+    let version_code = Expression<Int>(AppInfo.VERSION_CODE)
     let name = Expression<String>(AppInfo.NAME)
     let short_name = Expression<String?>(AppInfo.SHORT_NAME)
     let description = Expression<String?>(AppInfo.DESCRIPTION)
     let start_url = Expression<String>(AppInfo.START_URL)
+    let start_visible = Expression<String>(AppInfo.START_VISIBLE)
     let author_name = Expression<String?>(AppInfo.AUTHOR_NAME)
     let author_email = Expression<String?>(AppInfo.AUTHOR_EMAIL)
     let default_locale = Expression<String?>(AppInfo.DEFAULT_LOCAL)
@@ -57,31 +61,37 @@ import SQLite
     let built_in = Expression<Bool>(AppInfo.BUILT_IN)
     let remote = Expression<Bool>(AppInfo.REMOTE)
     let launcher = Expression<Bool>(AppInfo.LAUNCHER)
-    
+    let category = Expression<String?>(AppInfo.CATEGORY)
+    let key_words = Expression<String?>(AppInfo.KEY_WORDS)
+
     let plugin = Expression<String>(AppInfo.PLUGIN)
     let url = Expression<String>(AppInfo.URL)
     let authority = Expression<Int>(AppInfo.AUTHORITY)
-    
+
     let src = Expression<String>(AppInfo.SRC)
     let sizes = Expression<String>(AppInfo.SIZES)
     let type = Expression<String>(AppInfo.TYPE)
-    
+
     let language = Expression<String>(AppInfo.LANGUAGE)
-    
+
+    let action = Expression<String>(AppInfo.ACTION)
+
     let plugins = Table(ManagerDBAdapter.AUTH_PLUGIN_TABLE)
     let urls = Table(ManagerDBAdapter.AUTH_URL_TABLE)
+    let intents = Table(ManagerDBAdapter.AUTH_INTENT_TABLE)
     let icons = Table(ManagerDBAdapter.ICONS_TABLE)
     let locales = Table(ManagerDBAdapter.LOCALE_TABLE)
     let frameworks = Table(ManagerDBAdapter.FRAMEWORK_TABLE)
     let platforms = Table(ManagerDBAdapter.PLATFORM_TABLE)
+    let intent_filters = Table(ManagerDBAdapter.INTENT_FILTER_TABLE)
     let apps = Table(ManagerDBAdapter.APP_TABLE)
-    
+
     init(_ dataPath: String) {
         let path = dataPath + ManagerDBAdapter.DATABASE_NAME;
         db = try! Connection(path)
         try! creatTables();
     }
-    
+
     func creatTables() throws {
         try db.run(plugins.create(ifNotExists: true) { t in
             t.column(tid, primaryKey: .autoincrement)
@@ -89,7 +99,7 @@ import SQLite
             t.column(plugin)
             t.column(authority)
         })
-        
+
         try db.run(urls.create(ifNotExists: true) { t in
             t.column(tid, primaryKey: .autoincrement)
             t.column(app_tid)
@@ -97,6 +107,13 @@ import SQLite
             t.column(authority)
         })
         
+        try db.run(intents.create(ifNotExists: true) { t in
+            t.column(tid, primaryKey: .autoincrement)
+            t.column(app_tid)
+            t.column(url)
+            t.column(authority)
+        })
+
         try db.run(icons.create(ifNotExists: true) { t in
             t.column(tid, primaryKey: .autoincrement)
             t.column(app_tid)
@@ -104,7 +121,7 @@ import SQLite
             t.column(sizes)
             t.column(type)
         })
-        
+
         try db.run(locales.create(ifNotExists: true) { t in
             t.column(tid, primaryKey: .autoincrement)
             t.column(app_tid)
@@ -114,29 +131,37 @@ import SQLite
             t.column(description)
             t.column(author_name)
         })
-        
+
         try db.run(frameworks.create(ifNotExists: true) { t in
             t.column(tid, primaryKey: .autoincrement)
             t.column(app_tid)
             t.column(name)
             t.column(version)
         })
-        
+
         try db.run(platforms.create(ifNotExists: true) { t in
             t.column(tid, primaryKey: .autoincrement)
             t.column(app_tid)
             t.column(name)
             t.column(version)
         })
-        
+
+        try db.run(intent_filters.create(ifNotExists: true) { t in
+            t.column(tid, primaryKey: .autoincrement)
+            t.column(app_id)
+            t.column(action)
+        })
+
         try db.run(apps.create(ifNotExists: true) { t in
             t.column(tid, primaryKey: .autoincrement)
             t.column(app_id, unique: true)
             t.column(version)
+            t.column(version_code)
             t.column(name)
             t.column(short_name)
             t.column(description)
             t.column(start_url)
+            t.column(start_visible)
             t.column(type)
             t.column(author_name)
             t.column(author_email)
@@ -150,9 +175,11 @@ import SQLite
             t.column(built_in)
             t.column(remote)
             t.column(launcher)
+            t.column(category)
+            t.column(key_words)
         })
     }
-    
+
     func dropTables() throws {
         try db.run(plugins.drop());
         try db.run(urls.drop());
@@ -160,41 +187,47 @@ import SQLite
         try db.run(locales.drop());
         try db.run(frameworks.drop());
         try db.run(platforms.drop());
+        try db.run(intent_filters.drop());
         try db.run(apps.drop());
     }
-    
+
     func addAppInfo(_ info: AppInfo) throws {
         try db.transaction {
-            info.tid = try db.run(apps.insert(app_id <- info.app_id,
-                        app_id <- info.app_id,
-                        version <- info.version,
-                        name <- info.name,
-                        short_name <- info.short_name,
-                        description <- info.desc,
-                        start_url <- info.start_url,
-                        type <- info.type,
-                        author_name <- info.author_name,
-                        author_email <- info.author_email,
-                        default_locale <- info.default_locale,
-                        background_color <- info.background_color,
-                        theme_display <- info.theme_display,
-                        theme_color <- info.theme_color,
-                        theme_font_name <- info.theme_font_name,
-                        theme_font_color <- info.theme_font_color,
-                        install_time <- info.install_time,
-                        built_in <- info.built_in,
-                        remote <- info.remote,
-                        launcher <- info.launcher));
-            
+            info.tid = try db.run(apps.insert(
+                app_id <- info.app_id,
+                version <- info.version,
+                version_code <- info.version_code,
+                name <- info.name,
+                short_name <- info.short_name,
+                description <- info.desc,
+                start_url <- info.start_url,
+                start_visible <- info.start_visible,
+                type <- info.type,
+                author_name <- info.author_name,
+                author_email <- info.author_email,
+                default_locale <- info.default_locale,
+                background_color <- info.background_color,
+                theme_display <- info.theme_display,
+                theme_color <- info.theme_color,
+                theme_font_name <- info.theme_font_name,
+                theme_font_color <- info.theme_font_color,
+                install_time <- info.install_time,
+                built_in <- info.built_in,
+                remote <- info.remote,
+                launcher <- info.launcher,
+                category <- info.category,
+                key_words <- info.key_words
+            ));
+
             print("inserted id: \(info.tid)")
-            
+
             for icon in info.icons {
                 try db.run(icons.insert(app_tid <- info.tid,
                         src <- icon.src,
                         sizes <- icon.sizes,
                         type <- icon.type));
             }
-            
+
             for pluginAuth in info.plugins {
                 try db.run(plugins.insert(app_tid <- info.tid,
                         plugin <- pluginAuth.plugin,
@@ -203,6 +236,12 @@ import SQLite
 
             for urlAuth in info.urls {
                 try db.run(urls.insert(app_tid <- info.tid,
+                        url <- urlAuth.url,
+                        authority <- urlAuth.authority));
+            }
+
+            for urlAuth in info.intents {
+                try db.run(intents.insert(app_tid <- info.tid,
                         url <- urlAuth.url,
                         authority <- urlAuth.authority));
             }
@@ -215,13 +254,13 @@ import SQLite
                                        description <- locale.desc,
                                        author_name <- locale.author_name));
             }
-            
+
             for framework in info.frameworks {
                 try db.run(frameworks.insert(app_tid <- info.tid,
                                         name <- framework.name,
                                         version <- framework.version));
             }
-            
+
             for platform in info.platforms {
                 try db.run(platforms.insert(app_tid <- info.tid,
                                         name <- platform.name,
@@ -229,7 +268,7 @@ import SQLite
             }
         }
     }
-    
+
     func getInfos(_ rows: AnySequence<Row>) throws -> [AppInfo] {
         var infos = [AppInfo]();
         for app in rows {
@@ -237,10 +276,12 @@ import SQLite
             info.tid = app[tid];
             info.app_id = app[app_id];
             info.version = app[version];
+            info.version_code = app[version_code];
             info.name = app[name];
             info.short_name = app[short_name] ?? "";
             info.desc = app[description] ?? "";
             info.start_url = app[start_url];
+            info.start_visible = app[start_visible] ?? "";
             info.type = app[type];
             info.author_name = app[author_name] ?? "";
             info.author_email = app[author_email] ?? "";
@@ -253,38 +294,44 @@ import SQLite
             info.built_in = app[built_in];
             info.remote = app[remote];
             info.launcher = app[launcher];
-            
+            info.category = app[category] ?? "other";
+            info.key_words = app[key_words] ?? "";
+
             for icon in try db.prepare(icons.select(*).filter(app_tid == info.tid)) {
                 info.addIcon(icon[src], icon[sizes], icon[type]);
             }
-            
+
             for pluginAuth in try db.prepare(plugins.select(*).filter(app_tid == info.tid)) {
                 let name = pluginAuth[plugin];
                 let auth = pluginAuth[authority]
                 info.addPlugin(name, auth);
             }
-            
+
             for urlAuth in try db.prepare(urls.select(*).filter(app_tid == info.tid)) {
                 info.addUrl(urlAuth[url], urlAuth[authority]);
+            }
+
+            for urlAuth in try db.prepare(intents.select(*).filter(app_tid == info.tid)) {
+                info.addIntent(urlAuth[url], urlAuth[authority]);
             }
             
             for locale in try db.prepare(locales.select(*).filter(app_tid == info.tid)) {
                 info.addLocale(locale[language], locale[name], app[short_name] ?? "", locale[description] ?? "", locale[author_name] ?? "");
             }
-            
+
             for framework in try db.prepare(frameworks.select(*).filter(app_tid == info.tid)) {
                 info.addFramework(framework[name], framework[version]);
             }
-            
+
             for platform in try db.prepare(platforms.select(*).filter(app_tid == info.tid)) {
                 info.addPlatform(platform[name], platform[version]);
             }
-            
+
             infos.append(info);
         }
         return infos;
     }
-    
+
     func getAppInfo(_ id: String) throws -> AppInfo? {
         let query = apps.select(*)
             .filter(app_id == id && !launcher)
@@ -295,14 +342,14 @@ import SQLite
         }
         return infos[0];
     }
-        
+
     func getAppInfos() throws -> [AppInfo] {
         let query = apps.select(*)
             .filter(!launcher)
         let rows = try db.prepare(query);
         return try getInfos(rows);
     }
-    
+
     func getLauncherInfo() throws -> AppInfo? {
         let query = apps.select(*)
             .filter(launcher)
@@ -313,21 +360,21 @@ import SQLite
         }
         return infos[0];
     }
-    
+
     func updatePluginAuth(_ item: PluginAuth, _ auth: Int) throws {
         try db.transaction {
             let pluginAuth = plugins.filter(plugin == item.plugin);
             try db.run(pluginAuth.update(authority <- auth));
         }
     }
-    
+
     func updateUrlAuth(_ item: UrlAuth, _ auth: Int) throws {
         try db.transaction {
             let urlAuth = urls.filter(url == item.url);
             try db.run(urlAuth.update(authority <- auth));
         }
     }
-    
+
     func removeAppInfo(_ info: AppInfo) throws {
         var items = plugins.filter(app_tid == info.tid);
         try db.run(items.delete());
@@ -341,10 +388,30 @@ import SQLite
         try db.run(items.delete());
         items = platforms.filter(app_tid == info.tid);
         try db.run(items.delete());
+        items = intent_filters.filter(app_id == info.app_id);
+        try db.run(items.delete());
         items = apps.filter(tid == info.tid);
         try db.run(items.delete());
     }
-    
+
+    func addIntentFilter(_ intent: Intent) throws {
+        try db.transaction {
+            try db.run(intent_filters.insert(app_id <- intent.app_id,
+                                      action <- intent.action));
+        }
+    }
+
+    func getIntentFilter(_ act: String) throws -> [String] {
+        let query = intent_filters.select(app_id)
+            .filter(action == act)
+        let rows = try db.prepare(query);
+        var ids = [String]();
+        for intent in rows {
+            ids.append(intent[app_id]);
+        }
+        return ids;
+    }
+
     func clean() throws {
         try dropTables();
         try creatTables();

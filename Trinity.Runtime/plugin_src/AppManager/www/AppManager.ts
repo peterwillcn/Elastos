@@ -23,6 +23,12 @@
 let exec = cordova.exec;
 
 class AppManagerImpl implements AppManagerPlugin.AppManager {
+    titleBar: AppManagerPlugin.TitleBar;
+
+    constructor() {
+        this.titleBar = new TitleBarImpl();
+    }
+
     getLocale(onSuccess: (defaultLang: string, currentLang: string, systemLang: string) => void) {
         function _onSuccess(info) {
             jsonInfo(info);
@@ -196,12 +202,8 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
         exec(onSuccess, onError, 'AppManager', 'getVersion', []);
     }
 
-    setTitleBarProgress(progress: Number, onSuccess?: () => void, onError?: (err: any) => void) {
-        exec(onSuccess, onError, 'AppManager', 'setTitleBarProgress', [progress]);
-    }
-
-    hideTitleBarProgress(onSuccess?: () => void, onError?: (err: any) => void) {
-        exec(onSuccess, onError, 'AppManager', 'hideTitleBarProgress', []);
+    getTitleBar(): AppManagerPlugin.TitleBar {
+        return this.titleBar;
     }
 }
 
@@ -214,6 +216,26 @@ function jsonInfo(info) {
     }
     if (typeof (info.urls) == "string") {
         info.urls = JSON.parse(info.urls);
+    }
+}
+
+class TitleBarImpl implements AppManagerPlugin.TitleBar {
+    showActivityIndicator(type: AppManagerPlugin.TitleBarActivityType) {
+        exec(()=>{}, (err)=>{
+            console.error("Error while calling TitleBar.showActivityIndicator()", err);
+        }, 'AppManager', 'titleBar_showActivityIndicator', [type]);
+    }    
+    
+    hideActivityIndicator(type: AppManagerPlugin.TitleBarActivityType) {
+        exec(()=>{}, (err)=>{
+            console.error("Error while calling TitleBar.hideActivityIndicator()", err);
+        }, 'AppManager', 'titleBar_hideActivityIndicator', [type]);
+    }
+
+    setTitle(title: String) {
+        exec(()=>{}, (err)=>{
+            console.error("Error while calling TitleBar.setTitle()", err);
+        }, 'AppManager', 'titleBar_setTitle', [title]);
     }
 }
 

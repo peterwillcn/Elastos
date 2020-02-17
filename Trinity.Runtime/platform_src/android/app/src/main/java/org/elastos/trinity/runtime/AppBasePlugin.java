@@ -133,13 +133,15 @@ public class AppBasePlugin extends TrinityPlugin {
                     this.setVisible(args, callbackContext);
                     break;
 
-                case "setTitleBarProgress":
-                    this.setTitleBarProgress(args, callbackContext);
+                case "titleBar_showActivityIndicator":
+                    this.titleBar_showActivityIndicator(args, callbackContext);
                     break;
-                case "hideTitleBarProgress":
-                    this.hideTitleBarProgress(args, callbackContext);
+                case "titleBar_hideActivityIndicator":
+                    this.titleBar_hideActivityIndicator(args, callbackContext);
                     break;
-
+                case "titleBar_setTitle":
+                    this.titleBar_setTitle(args, callbackContext);
+                    break;
                 default:
                     return false;
             }
@@ -734,15 +736,22 @@ public class AppBasePlugin extends TrinityPlugin {
         return ((WebViewFragment)((TrinityCordovaInterfaceImpl)cordova).fragment).getTitlebar();
     }
 
-    protected void setTitleBarProgress(JSONArray args, CallbackContext callbackContext) throws Exception {
-        int progress = args.getInt(0);
+    private void titleBar_showActivityIndicator(JSONArray args, CallbackContext callbackContext) throws Exception {
+        // TODO - NOT IMPLEMENTED - HANDLE SEVERAL DAPPS CALLING THIS IN PARALLEL
         getTitleBar().showProgress();
-        getTitleBar().setProgress(progress);
+        getTitleBar().setProgress(50);
         callbackContext.success();
     }
 
-    protected void hideTitleBarProgress(JSONArray args, CallbackContext callbackContext) throws Exception {
+    private void titleBar_hideActivityIndicator(JSONArray args, CallbackContext callbackContext) throws Exception {
+        // TODO - NOT IMPLEMENTED - HANDLE SEVERAL DAPPS CALLING THIS IN PARALLEL
         getTitleBar().hideProgress();
+        callbackContext.success();
+    }
+
+    private void titleBar_setTitle(JSONArray args, CallbackContext callbackContext) throws Exception {
+        // TODO - NOT IMPLEMENTED - HANDLE SEVERAL DAPPS CALLING THIS IN PARALLEL
+        System.out.println("TITLEBAR SET TITLE TODO");
         callbackContext.success();
     }
 }

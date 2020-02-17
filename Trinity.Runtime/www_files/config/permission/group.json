@@ -54,7 +54,10 @@
             "sendUrlIntent",
             "setIntentListener",
             "sendIntentResponse",
-            "hasPendingIntent"
+            "hasPendingIntent",
+            "titleBar_showActivityIndicator",
+            "titleBar_hideActivityIndicator",
+            "titleBar_setTitle"
         ],
         "Accelerometer": ["*"],
         "Battery": ["*"],

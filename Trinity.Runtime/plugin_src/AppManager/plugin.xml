@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="elastos-trinity-plugins-appmanager" version="1.0.0"
+    xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>AppManager</name>
+    <js-module name="AppManager" src="www/AppManager.js">
+        <clobbers target="appManager" />
+    </js-module>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="AppManager">
+                <param name="android-package" value="org.elastos.trinity.runtime.AppBasePlugin" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+    </platform>
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="AppManager">
+                <param name="ios-package" value="AppBasePlugin" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+        <config-file target="*-Info.plist" parent="CFBundleURLTypes">
+            <array>
+                <dict>
+                    <key>CFBundleTypeRole</key>
+                    <string>Editor</string>
+                    <key>CFBundleURLSchemes</key>
+                    <array>
+                        <string>elastos</string>
+                    </array>
+                </dict>
+            </array>
+        </config-file>
+    </platform>
+</plugin>

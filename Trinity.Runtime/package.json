@@ -10,7 +10,7 @@
   "author": "Elastos Trinity Team",
   "license": "Apache-2.0",
   "dependencies": {
-    "appmanager": "file:../Plugins/AppManager",
+    "appmanager": "file:./plugin_src/AppManager",
     "cordova-android": "7.1.4",
     "cordova-clipboard": "1.2.1",
     "cordova-ios": "4.5.5",
@@ -36,11 +36,11 @@
     "did": "file:../Plugins/DID",
     "diff": "^3.5.0",
     "elastos-trinity-plugins-carrier": "file:../Plugins/Carrier",
+    "elastos-trinity-plugins-fingerprint": "file:../Plugins/Fingerprint",
     "elastos-trinity-plugins-hive": "file:../Plugins/Hive",
     "elastos-trinity-plugins-ionicwebview": "file:../Plugins/IonicWebView",
     "elastos-trinity-plugins-media": "file:../Plugins/Media",
     "elastos-trinity-plugins-qrscanner": "file:../Plugins/QRScanner",
-    "elastos-trinity-plugins-fingerprint": "file:../Plugins/Fingerprint",
     "es6-promise-plugin": "^4.2.2",
     "fs": "0.0.1-security",
     "md5-file": "^4.0.0",
@@ -84,7 +84,9 @@
       "elastos-trinity-plugins-hive": {},
       "elastos-trinity-plugins-wallet": {},
       "elastos-trinity-plugins-did": {},
-      "elastos-trinity-plugins-appmanager": {},
+      "elastos-trinity-plugins-appmanager": {
+        "ANDROID_SUPPORT_V4_VERSION": "27.+"
+      },
       "elastos-trinity-plugins-fingerprint": {
         "FACEID_USAGE_DESCRIPTION": " "
       }

@@ -36,7 +36,7 @@
     <hook src="scripts/modify_xcode_project.js" type="after_platform_add" />
     <hook src="scripts/apply_patches.js" type="before_plugin_install" />
     <hook src="scripts/apply_patches.js" type="after_build" />
-    <plugin name="elastos-trinity-plugins-appmanager" spec="../Plugins/AppManager">
+    <plugin name="elastos-trinity-plugins-appmanager" spec="./plugin_src/AppManager">
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
     </plugin>
     <plugin name="cordova-plugin-file" spec="../Plugins/File" />

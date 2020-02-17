@@ -9,6 +9,7 @@ TOOLCHAINS_DIR_NAME=os.path.basename(TOOLCHAINS_DIR_PATH)
 PROJECT_DIR_PATH=os.path.join(TOOLCHAINS_DIR_PATH, "..")
 RUNTIME_DIR_PATH=os.path.join(PROJECT_DIR_PATH, "Runtime")
 PLUGIN_DIR_PATH=os.path.join(PROJECT_DIR_PATH, "Plugins")
+RT_PLUGIN_DIR_PATH=os.path.join(PROJECT_DIR_PATH, "Runtime/plugin_src")
 RUNTIME_PLUGIN_PATH=os.path.join(RUNTIME_DIR_PATH, "plugins")
 
 def run_cmd(cmd, ignore_error=False):
@@ -24,10 +25,10 @@ def plugin_prepare(check_update=False):
     else:
         plugin_convertTS2JS()
 
-def plugin_update():
-    dirs = os.listdir(PLUGIN_DIR_PATH)
+def plugin_update_dir(plugin_dir):
+    dirs = os.listdir(plugin_dir)
     for dir in dirs:
-        filepath = os.path.join(PLUGIN_DIR_PATH, dir)
+        filepath = os.path.join(plugin_dir, dir)
         if os.path.isdir(filepath):
             try:
                 is_changed = is_plugin_changed(dir);
@@ -38,12 +39,21 @@ def plugin_update():
                 print("Error: " + str(err))
     restore_files()
 
+def plugin_update():
+    plugin_update_dir(RT_PLUGIN_DIR_PATH)
+    plugin_update_dir(PLUGIN_DIR_PATH)
+
 # first build
 def plugin_convertTS2JS():
     run_cmd("npm install typescript -g")
-    dirs = os.listdir(PLUGIN_DIR_PATH)
+    plugin_convertTS2JS_dir(RT_PLUGIN_DIR_PATH)
+    plugin_convertTS2JS_dir(PLUGIN_DIR_PATH)
+
+
+def plugin_convertTS2JS_dir(plugin_dir):
+    dirs = os.listdir(plugin_dir)
     for dir in dirs:
-        filepath = os.path.join(PLUGIN_DIR_PATH, dir)
+        filepath = os.path.join(plugin_dir, dir)
         if os.path.isdir(filepath):
             tsconfig = os.path.join(filepath, "www/tsconfig.json")
             if os.path.isfile(tsconfig):

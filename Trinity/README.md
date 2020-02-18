@@ -12,6 +12,8 @@ Elastos Trinity is supported on both Android and iOS.
 
 While Elastos Trinity is the project codename, this product is also known as the elastOS browser on traditional app stores.
 
+[Join us on Telegram](https://t.me/elastosbrowser)
+
 ## Dapp Developers
 
 You don't need to build from source. Instead get the latest APK from app stores or github releases and follow the [Elastos Developer Website Trinity guides](https://developer.elastos.org/elastos_trinity/).

@@ -1,4 +1,5 @@
-# Elastos Trinity Roadmap
+# elastOS browser Roadmap
+Last updated: 2020-02-18
 
 ## S1 2020
 

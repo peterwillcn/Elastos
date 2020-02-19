@@ -216,7 +216,7 @@ declare namespace AppManagerPlugin {
     }
 
     /**
-     * Object received when receiving an intent.
+     * Information about an intent request.
      */
     type ReceivedIntent = {
         /** The action requested from the receiving application. */
@@ -230,13 +230,38 @@ declare namespace AppManagerPlugin {
     }
 
     /**
+     * Information about a background service to be executed.
+     */
+    type ReceivedService = {
+        /** Name of the target service to be launched, as the same app can run various services. */
+        name: string;
+        /** App-specific object holding additional information. */
+        params: any;
+    }
+
+    /**
+     * Information about a widget to be started.
+     */
+    type ReceivedWidget = {
+        /** Widget identifier, as the same app can provide various widgets. */
+        key: string;
+    }
+
+    /**
      * Options passed to sendIntent().
      */
     type IntentOptions = {
         /** The target app package id, in case the intent should be sent to a specific app instead of being brodcast. */
         appId?: string
     }
-    
+
+    const enum StartMode {
+        DEFAULT,
+        INTENT,
+        SERVICE,
+        WIDGET
+    }
+
     /**
      * The class representing dapp manager for launcher.
      */
@@ -313,6 +338,17 @@ declare namespace AppManagerPlugin {
         start(id: string, onSuccess?:()=>void, onError?:(err: string)=>void);
 
         /**
+         * Start a background service for the currently active dApp. As each dApp can have different services,
+         * a service is identified by its name and received by the service listener.
+         * 
+         * @param serviceName Name of the service to be launched.
+         * @param params Application specific information to be passed.
+         * @param onSuccess Callback called when the service is successfully launched.
+         * @param onError Callback called in case of error during service launch.
+         */
+        startBackgroundService(serviceName: string, params?: any, onSuccess?:()=>void, onError?:(err: string)=>void);
+
+        /**
          * Start the launcher.If the launcher running, it will be swith to curent.
          *
          * @param onSuccess  The function to call when success.
@@ -340,7 +376,7 @@ declare namespace AppManagerPlugin {
         /**
          * Send a message by id.
          *
-         * @param id         The dapp id.
+         * @param id         The dapp id. If null, the message is sent to all active dApps.
          * @param type       The message type.
          * @param msg        The message content.
          * @param onSuccess  The function to call when success.
@@ -355,6 +391,9 @@ declare namespace AppManagerPlugin {
          */
         setListener(callback: (msg: ReceivedMessage)=>void);
 
+        // TODO
+        getGlobalCarrierAddress(); // TODO: permission to launcher only
+    
         /**
          * Get running list.
          *
@@ -444,6 +483,32 @@ declare namespace AppManagerPlugin {
         sendUrlIntent(url: string, onSuccess: ()=>void, onError: (err:any)=>void);
 
         /**
+         * In case the process is started to run an intent (getStartMode == INTENT),
+         * the start intent is returned here.
+         * 
+         * @returns Information about the intent request to be executed by this process.
+         */
+        getStartIntent(): ReceivedIntent;
+
+        /**
+         * In case the process is started to run as a service (getStartMode == SERVICE),
+         * the start service information is returned here.
+         * 
+         * @returns Information about the service request to be executed by this process.
+         */
+        getStartService(): ReceivedService;
+
+        /**
+         * In case the process is started to run as a widget (getStartMode == WIDGET),
+         * the start widget information is returned here.
+         * 
+         * @returns Information about the widget request to be executed by this process.
+         */
+        getStartWidget(): ReceivedWidget;
+
+        /**
+         * @deprecated Replaced by getStartIntent() but this keeps receiving the start intent for some time for compatibility.
+         * 
          * Set intent listener for message callback.
          *
          * @param callback   The function receive the intent.
@@ -462,6 +527,16 @@ declare namespace AppManagerPlugin {
         sendIntentResponse(action: string, result: any, intentId: Number, onSuccess?: (response: any)=>void, onError?: (err:any)=>void);
 
         /**
+         * Returns the reason why this process is starting: regular run (default), 
+         * background service, intent or widget.
+         * 
+         * @returns The start mode. Use this to route your app to the appropriate UI / components.
+         */
+        getStartMode(): StartMode;
+
+        /**
+         * @deprecated Replaced by getStartMode() == INTENT
+         * 
          * Check is there is a pending intent for the current application. A pending intent is an action
          * requested by a third party application, launching the current application to execute a specific
          * action. In such case, when hasPendingIntent() is true, we want to directly show the appropriate
@@ -495,13 +570,104 @@ declare namespace AppManagerPlugin {
          * @returns The main title bar instance.
          */
         getTitleBar(): TitleBar;
+
+        /**
+         * Returns a NotificationManager object, used to send and receive notifications.
+         * 
+         * @returns The main notification manager instance.
+         */
+        getNotificationManager(): NotificationManager;
+    }
+
+    /**
+     * Object used to send a local notification.
+     */
+    type LocalNotificationRequest = {
+        /** Identification key used to overwrite a previous notification if it has the same key. */
+        key: string,
+        /** Title to be displayed as the main message on the notification. */
+        title: string,
+        /** Intent URL emitted when the notification is clicked. */
+        url?: string
+    }
+
+    /**
+     * Object used to send a notification to a remote friend device.
+     */
+    type RemoteNotificationRequest = {
+        carrierAddress: string,  // TODO: Or DID, and runtime resolved to carrier ?
+        /** Title to be displayed as the main message on the notification, in case there is no default title already. */
+        title?: string,
+        /** Intent URL emitted when the notification is clicked. */
+        url?: string
+    }
+
+    type LocalNotification = {
+        /** Package ID of the sending app. */
+        appId: string,
+        /** Title to be displayed as the main message on the notification. */
+        title: string,
+        /** Intent URL emitted when the notification is clicked. */
+        url?: string
+    }
+
+    type RemoteNotification = {
+        carrierAddress: string,  // TODO: Or DID, and runtime resolved to carrier ?
+        /** Package ID of the sending app. */
+        appId: string,
+        /** Title to be displayed as the main message on the notification. */
+        title: string,
+        /** Intent URL emitted when the notification is clicked. */
+        url?: string
+    }
+    
+    interface NotificationManager {
+        /**
+         * Sends a local notification to the notification manager. Notifications are usually displayed
+         * by the launcher/home application, in a notifications panel, and they are directly used to 
+         * inform users of something they can potentially interact with.
+         * 
+         * @param localNotification The notification content.
+         * @param onSuccess Callback called in case the notification manager could handle this request.
+         * @param onError Callback called in case of error.
+         */
+        sendLocalNotification(localNotification: LocalNotificationRequest, onSuccess:()=>void, onError?:(err: string)=>void);
+
+        /**
+         * Sends a notification to the notification manager of a distant friend's Trinity instance.
+         * 
+         * @param remoteNotification The notification content.
+         * @param onSuccess Callback called in case the notification request was sent successfully (without knowing if it reached the destination).
+         * @param onError Callback called in case of error.
+         */
+        sendRemoteNotification(remoteNotification: RemoteNotificationRequest, onSuccess:()=>void, onError?:(err: string)=>void);
+
+        /**
+         * Registers a callback that will receive all the inncoming local notifications (sent by this instance
+         * of elastOS/Trinity).
+         * 
+         * @param listener Callback passing the received notification info.
+         * @param onSuccess Callback called if registering as a listener was successful.
+         * @param onError Callback called in case registering as a listener failed.
+         */
+        setLocalNotificationListener(onNotification:(notification: LocalNotification)=>void, onSuccess?:()=>void, onError?:(err: string)=>void);
+
+        /**
+         * Registers a callback that will receive all the inncoming remote notifications (sent by a remote instance
+         * of elastOS/Trinity).
+         * 
+         * @param listener Callback passing the received notification info.
+         * @param onSuccess Callback called if registering as a listener was successful.
+         * @param onError Callback called in case registering as a listener failed.
+         */
+        setRemoteNotificationListener(onNotification:(notification: RemoteNotification)=>void, onSuccess?:()=>void, onError?:(err: string)=>void);
     }
 
     /**
      * Type of activity indicators that the title bar can display.
      * Activity indicators are icon animations showing that something is currently busy.
      */
-   const enum TitleBarActivityType {
+    const enum TitleBarActivityType {
         /** There is an on going download. */
         DOWNLOAD = 0,
         /** There is an on going upload. */

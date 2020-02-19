@@ -80,5 +80,16 @@
             </array>
         </config-file>
 
+        <config-file parent="com.apple.developer.associated-domains" target="*-Debug.plist">
+            <array>
+                <string>applinks:elastos.org</string>
+            </array>
+        </config-file>
+        <config-file parent="com.apple.developer.associated-domains" target="*-Release.plist">
+            <array>
+                <string>applinks:elastos.org</string>
+            </array>
+        </config-file>
+
     </platform>
 </plugin>

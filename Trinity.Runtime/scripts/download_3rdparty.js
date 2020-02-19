@@ -3,22 +3,6 @@
 // CONFIGURE HERE
 const files_to_download  = [
   {
-    "url": "https://github.com/ZipArchive/ZipArchive/archive/v2.1.4.zip",
-    "filename": "ZipArchive-2.1.4.zip",
-    "sourceDirs": [
-      "ZipArchive-2.1.4/SSZipArchive"
-    ],
-    "targetDir": "platforms/ios",
-    "md5": "2ab5ae7e5eb096b1a807d17e4bd83a16"
-  },{
-    "url": "https://github.com/stephencelis/SQLite.swift/archive/0.11.5.zip",
-    "filename": "SQLite.swift-0.11.5.zip",
-    "sourceDirs": [
-      "SQLite.swift-0.11.5",
-    ],
-    "targetDir": "platforms/ios",
-    "md5": "0e0ba441cdb466dff1f9f6eecf2c9e55"
-  },{
     "url": "https://github.com/elastos/Elastos.NET.Carrier.Swift.SDK/releases/download/release-v5.4.4/ElastosCarrier-framework.zip",
     "filename": "ElastosCarrier-framework.zip",
     "sourceDirs": [

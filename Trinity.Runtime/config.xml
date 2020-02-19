@@ -67,5 +67,5 @@
     <plugin name="cordova-plugin-statusbar" spec="^2.4.3" />
     <plugin name="cordova-plugin-vibration" spec="^3.1.1" />
     <engine name="android" spec="7.1.4" />
-    <engine name="ios" spec="4.5.5" />
+    <engine name="ios" spec="5.1.1" />
 </widget>

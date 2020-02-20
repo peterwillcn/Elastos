@@ -71,6 +71,7 @@ class MainViewController: UIViewController {
         try! appManager!.loadLauncher();
     }
     
+    // Called for elastos:// link types
     @objc func openURL(_ url: URL) -> Bool {
         // Handler for elastos://action?params urls.
         if let scheme = url.scheme, scheme.localizedCaseInsensitiveCompare("elastos") == .orderedSame {
@@ -96,5 +97,18 @@ class MainViewController: UIViewController {
         // BPI out for now - need to check --> appManager!.setInstallUri(url.absoluteString);
     }
     
+    // Called for universal links (applinks:scheme.elastos.org)
+    @objc func continueAndRestore(userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        if let url = userActivity.webpageURL {
+            var view = url.lastPathComponent
+            var parameters: [String: String] = [:]
+            URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
+                parameters[$0.name] = $0.value
+            }
+            
+            // TODO: pass all this info to the app manager to handle https://scheme.elastos.org/action?params urls
+        }
+        return true
+    }
 }
 

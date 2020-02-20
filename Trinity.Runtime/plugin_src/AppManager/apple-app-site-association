@@ -1,10 +1,10 @@
 {
-    “applinks”: {
-        “apps”: [],
-        “details”: [
+    "applinks": {
+        "apps": [],
+        "details": [
             {
-                “appID”: X2ZZSKA63B.org.elastos.trinity.browser”,
-                “paths”: [“*”],
+                "appID": "X2ZZSKA63B.org.elastos.trinity.browser",
+                "paths": ["*"]
             }
         ]
     }

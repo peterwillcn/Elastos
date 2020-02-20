@@ -26,7 +26,7 @@
 //
 
 #import "AppDelegate.h"
-#import "Elastos-Swift.h"
+#import "elastOS-Swift.h"
 
 @implementation AppDelegate
 
@@ -40,6 +40,11 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotationm {
     
     return [(MainViewController*)self.viewController openURL:url];
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
+    
+    return [((MainViewController*)self.viewController) continueAndRestoreWithUserActivity:userActivity restorationHandler:restorationHandler];
 }
 
 @end

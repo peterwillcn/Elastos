@@ -21,6 +21,7 @@
   */
 
  import Foundation
+ import SSZipArchive
 
  extension Data {
     private static let hexAlphabet = "0123456789abcdef".unicodeScalars.map { $0 }

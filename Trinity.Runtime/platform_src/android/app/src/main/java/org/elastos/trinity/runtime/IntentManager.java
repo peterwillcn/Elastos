@@ -37,6 +37,7 @@ import org.json.JSONTokener;
 
 public class IntentManager {
     public static final int MAX_INTENT_NUMBER = 20;
+    public static final String JWT_SECRET = "secret";
 
     private LinkedHashMap<String, ArrayList<IntentInfo>> intentList = new LinkedHashMap();
     private LinkedHashMap<Long, IntentInfo> intentContextList = new LinkedHashMap();
@@ -49,16 +50,13 @@ public class IntentManager {
 
     private static IntentManager intentManager;
 
-
-    public static final String JWT_SECRET = "secret";
-
     final static String[] trinitySchemes = {
             "elastos://",
             "https://scheme.elastos.org/",
     };
 
-    IntentManager(AppManager appManager) {
-        this.appManager = appManager;
+    IntentManager() {
+        this.appManager = AppManager.getShareInstance();
         this.context = appManager.activity;
 
         try {
@@ -70,6 +68,9 @@ public class IntentManager {
     }
 
     public static IntentManager getShareInstance() {
+        if (IntentManager.intentManager == null) {
+            IntentManager.intentManager = new IntentManager();
+        }
         return IntentManager.intentManager;
     }
 
@@ -308,7 +309,7 @@ public class IntentManager {
     }
 
 
-    public String createJWTRespone(IntentInfo info, String result) throws Exception {
+    public String createJWTResponse(IntentInfo info, String result) throws Exception {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
         ObjectMapper mapper = new ObjectMapper();
@@ -329,7 +330,7 @@ public class IntentManager {
         return builder.compact();
     }
 
-    public String createUrlRespone(IntentInfo info, String result) throws Exception {
+    public String createUrlResponse(IntentInfo info, String result) throws Exception {
         JSONObject ret = new JSONObject(result);
         if (info.req != null) {
             ret.put("req", info.req);
@@ -407,7 +408,7 @@ public class IntentManager {
 
             if (url != null) {
                 if (info.type == IntentInfo.JWT) {
-                    String jwt = createJWTRespone(info, result);
+                    String jwt = createJWTResponse(info, result);
                     if (IntentManager.checkTrinityScheme(url)) {
                         url = url + "/" + jwt;
                         sendIntentByUri(Uri.parse(url), info.fromId);
@@ -421,7 +422,7 @@ public class IntentManager {
                     }
                 }
                 else if (info.type == IntentInfo.URL){
-                    String ret = createUrlRespone(info, result);
+                    String ret = createUrlResponse(info, result);
                     if (IntentManager.checkTrinityScheme(url)) {
                         url = getResultUrl(url, ret);
                         sendIntentByUri(Uri.parse(url), info.fromId);

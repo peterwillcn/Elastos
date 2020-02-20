@@ -14,8 +14,8 @@ public class ConfigManager {
     private JSONObject configPreferences = null;
     private Context context = null;
 
-    ConfigManager(AppManager appManager) {
-        this.context = appManager.activity;
+    ConfigManager() {
+        this.context = AppManager.getShareInstance().activity;
 
         try {
             parsePreferences();
@@ -27,7 +27,7 @@ public class ConfigManager {
 
     public static ConfigManager getShareInstance() {
         if (ConfigManager.configManager == null) {
-            ConfigManager.configManager = new ConfigManager(AppManager.getShareInstance());
+            ConfigManager.configManager = new ConfigManager();
         }
         return ConfigManager.configManager;
     }

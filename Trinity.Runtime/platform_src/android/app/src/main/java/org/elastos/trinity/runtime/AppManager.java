@@ -116,7 +116,6 @@ public class AppManager {
     AppManager(WebViewActivity activity) {
         AppManager.appManager = this;
         this.activity = activity;
-        new IntentManager(this);
         permissionManager = new PermissionManager(activity);
 
         appsPath = activity.getFilesDir() + "/apps/";
@@ -417,6 +416,8 @@ public class AppManager {
         return configPath;
     }
 
+
+
     public String getIconUrl(AppInfo info) {
         if (info.type.equals("url")) {
             return "file://" + appsPath + info.app_id + "/";
@@ -424,6 +425,15 @@ public class AppManager {
         else {
             return getAppUrl(info);
         }
+    }
+
+    public String[] getIconPaths(AppInfo info) {
+        String path = getAppPath(info);
+        String[] iconPaths = new String[info.icons.size()];
+        for (int i = 0; i < info.icons.size(); i++) {
+            iconPaths[i] = path + info.icons.get(i).src;
+        }
+        return iconPaths;
     }
 
     public String resetPath(String dir, String origin) {

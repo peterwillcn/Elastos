@@ -207,7 +207,6 @@
  //
 
  #import <Cordova/CDV.h>
-+#import "SSZipArchive.h"
 +#import "TrinityPlugin.h"
 +#import <CommonCrypto/CommonDigest.h>
 

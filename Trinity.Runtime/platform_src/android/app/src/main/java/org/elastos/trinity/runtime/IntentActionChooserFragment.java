@@ -97,8 +97,14 @@ public class IntentActionChooserFragment extends DialogFragment {
             AppInfo appInfo = appInfos.get(position);
 
             // TODO: dirty - use a method to get app icon path in a clean way.
-            String appIconPath = appManager.getIconUrl(appInfo).substring(7) + "/" + appInfo.icons.get(0).src;
-            holder.ivAppIcon.setImageURI(Uri.fromFile(new File(appIconPath)));
+            String[] iconPaths = appManager.getIconPaths(appInfo);
+            if (iconPaths != null && iconPaths.length > 0) {
+                String appIconPath = iconPaths[0];
+                holder.ivAppIcon.setImageURI(Uri.fromFile(new File(appIconPath)));
+            }
+            else {
+                holder.ivAppIcon.setVisibility(View.INVISIBLE);
+            }
             holder.tvAppName.setText(appInfo.name);
 
             holder.rootView.setOnClickListener(view -> {

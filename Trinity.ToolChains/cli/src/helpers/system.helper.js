@@ -13,8 +13,8 @@ module.exports = class SystemHelper {
     }
 
     static checkPythonPresence() {
-        console.log("Checking python presence")
-        return hasbin.sync("python")
+        console.log("Checking python3 presence")
+        return hasbin.sync("python3")
     }
 
     static isWindowsHost() {

@@ -138,6 +138,9 @@ public class IntentManager {
         ids.add(info.intentId);
     }
 
+    /**
+     * Returns the list of package IDs able to handle the given intent action.
+     */
     public String[] getIntentFilter(String action) throws Exception {
         String[] ids = appManager.dbAdapter.getIntentFilter(action);
         ArrayList<String>list = new ArrayList<String>();
@@ -149,7 +152,7 @@ public class IntentManager {
         }
 
         if (list.isEmpty()) {
-            throw new Exception(action + " isn't support!");
+            throw new Exception("No application found to handle intent action: "+action);
         }
 
         ids = new String[list.size()];
@@ -161,12 +164,45 @@ public class IntentManager {
             String[] ids = getIntentFilter(info.action);
 
             if (!this.getIntentSenderPermission(info.action, info.fromId)) {
-                throw new Exception(info.action + " isn't permission!");
+                throw new Exception("Application "+info.fromId+" doesn't have the permission to send an intent with action "+info.action);
             }
 
-            info.toId = ids[0];
-        }
+            // If there is only one application able to handle this intent, we directly use it.
+            // Otherwise, we display a prompt so that user can pick the right application.
+            if (ids.length == 1) {
+                info.toId = ids[0];
+                sendIntentReal(info);
+            }
+            else {
+                // More than one possible handler, show a chooser and pass it the selectable apps info.
+                ArrayList<AppInfo> appInfos = new ArrayList();
+                for (String id : ids) {
+                    appInfos.add(appManager.getAppInfo(id));
+                }
 
+                IntentActionChooserFragment actionChooserFragment = new IntentActionChooserFragment(appManager, appInfos);
+                actionChooserFragment.setListener(appInfo -> {
+                    actionChooserFragment.dismiss();
+
+                    // Now we know the real app that should receive the intent.
+                    info.toId = appInfo.app_id;
+                    try {
+                        sendIntentReal(info);
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                actionChooserFragment.show(appManager.activity.getFragmentManager(), "dialog");
+            }
+        }
+        else {
+            sendIntentReal(info);
+        }
+    }
+
+    public void sendIntentReal(IntentInfo info) throws Exception {
         WebViewFragment fragment = appManager.findFragmentById(info.toId);
         if ((fragment != null) && (fragment.basePlugin.isIntentReady())) {
             putIntentContext(info);

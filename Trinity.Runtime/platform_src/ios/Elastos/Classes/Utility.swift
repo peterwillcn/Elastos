@@ -135,3 +135,7 @@ func getAssetPath(_ url: String) -> String {
     case error(String)
  }
 
+ // Extend String to be able to throw simple String Errors
+ extension String: LocalizedError {
+     public var errorDescription: String? { return self }
+ }

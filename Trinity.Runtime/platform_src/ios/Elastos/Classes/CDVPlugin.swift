@@ -38,27 +38,34 @@ extension CDVPlugin {
             self.commandDelegate.send(result, callbackId: command.callbackId)
             return true;
         }
-        return false;
     }
     
     @objc func trinityExecute(_ command: CDVInvokedUrlCommand) -> Bool {
         let appView: AppViewController? = self.viewController as? AppViewController
         if (appView != nil ) {
-            let authority = appView!.getPluginAuthority(self.pluginName, self, command);
-            if (authority == AppInfo.AUTHORITY_NOEXIST) {
-                let msg = "Plugin:'" + pluginName + "' have not run authority.";
-                let result = CDVPluginResult(status: CDVCommandStatus_ERROR,
-                                             messageAs: msg);
+            // This call is asynchronous because there can be a UI interaction to request user authorization
+            // to use a plugin, and we cannot block the UI thread
+            appView!.getPluginAuthority(self.pluginName, self, command) { authority in
+                if (authority == AppInfo.AUTHORITY_NOEXIST || authority == AppInfo.AUTHORITY_DENY) {
+                    let msg = "Plugin:'" + self.pluginName + "' doesn't have permission to run."
+                    let result = CDVPluginResult(status: CDVCommandStatus_ERROR,
+                                                 messageAs: msg);
 
-                self.commandDelegate.send(result, callbackId: command.callbackId)
-                return true;
+                    self.commandDelegate.send(result, callbackId: command.callbackId)
+                }
+                else if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
+                    let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT);
+                    result?.setKeepCallbackAs(true);
+                    self.commandDelegate.send(result, callbackId: command.callbackId)
+                }
+                else if (authority == AppInfo.AUTHORITY_ALLOW) {
+                    _ = self.execute(command)
+                }
+                else {
+                    throw ("Authority value \(authority) not handled in trinityExecute()")
+                }
             }
-            else if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
-                let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT);
-                result?.setKeepCallbackAs(true);
-                self.commandDelegate.send(result, callbackId: command.callbackId)
-                return true;
-            }
+            return true // Assume successful execution (synchronous)
             
 //            let ret = appView!.getPermissionGroup().getApiPermission(pluginName, command.methodName);
 //            if (!ret) {
@@ -69,8 +76,9 @@ extension CDVPlugin {
 //                self.commandDelegate.send(result, callbackId: command.callbackId)
 //                return true;
 //            }
-            
         }
-        return self.execute(command);
+        else {
+            return self.execute(command)
+        }
     }
  }

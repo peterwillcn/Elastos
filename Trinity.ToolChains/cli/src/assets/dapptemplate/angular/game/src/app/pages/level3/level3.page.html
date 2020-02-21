@@ -1,0 +1,84 @@
+<ion-header no-border>
+  <ion-toolbar mode="ios" color="dark">
+    <ion-buttons slot="start" class="header-btns">
+      <ion-button (click)="gameService.minimizeApp()">
+        <ion-icon name="remove-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Level 3</ion-title>
+    <ion-buttons slot="end" class="header-btns">
+      <ion-button (click)="gameService.closeApp()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+
+    <!-- Show loading screen -->
+    <div align="center" *ngIf="!startGame">
+      <br>
+      <h2>Match All Coins!</h2>
+      <p>You have a total of <b>{{ userLife }}</b> tries.</p>
+      <br>
+      <h4>Start in <span style="color:#CC0000;font-size:24px;">{{ countDown }}</span>...</h4>
+    </div>
+
+    <!-- Actual cards display -->
+    <div align="center" *ngIf="startGame && gameState === 'init'">
+      <h2>Match All Coins!</h2>
+      <ion-row align-items-center text-center size="8">
+
+        <ion-col align-self-center size="3" *ngFor="let c of cardsArray; let i = index">
+          <!-- show card background -->
+          <img src="../../assets/img/cards/background.jpg" *ngIf="c.pos != selectCard1pos && c.pos != selectCard2pos && c.val > -1" (click)="selectCard(c.pos, c.val, i)" style="width:80px; height:80px; border: solid 2px #000; border-radius: 12px;">
+          <!-- show card 1 selected -->
+          <img [src]="imageDir + gameService.images[c.val] + '.png'" *ngIf="c.pos == selectCard1pos && c.val > -1" style="width:80px; height:80px; border: solid 2px #000; border-radius: 12px;">
+          <!-- show card 2 selected -->
+          <img [src]="imageDir + gameService.images[c.val] + '.png'" *ngIf="c.pos == selectCard2pos && c.val > -1" style="width:80px; height:80px; border: solid 2px #000; border-radius: 12px;">
+          <!-- show hidden card -->
+          <img *ngIf="c.val == -1" style="width:80px; height:80px; border: solid 2px #000; border-radius: 12px;visibility: hidden;">
+
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <div align="center" *ngIf="startGame && gameState === 'init'">
+      <ion-row>
+        <ion-col col-9 no-padding>
+          <p no-margin>You have <span style="color:#00CC00; font-size: 24px;">{{ userLife }}</span> tries...</p>
+        </ion-col>
+        <ion-col no-padding>
+          <p no-margin><span style="color:#CC0000; font-size: 24px;">{{ shownTime }}</span></p>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <!-- Show Win screen -->
+    <div *ngIf="gameState === 'win'" align="center">
+      <br>
+      <h2>You <span style="color:#00CC00; font-size: 28px;">WON</span>!</h2>
+      <p>There's 1 more level ahead, can you HODL on?</p>
+      <br>
+      <ion-button mode="ios" size="large" color="success" (click)="nextLevel()">
+        <ion-icon name="repeat"></ion-icon>
+        &nbsp; &nbsp; Level 4
+      </ion-button>
+    </div>
+
+    <!-- Show Lose screen -->
+    <div *ngIf="gameState === 'lose'" align="center">
+      <br>
+      <h2>You <span style="color:#CC0000; font-size: 28px;">LOST</span>!</h2>
+      <p>Would you like to try again?</p>
+      <br>
+      <ion-button mode="ios" size="large" color="danger" routerLink="/level1" routerDirection="back">
+        <ion-icon name="repeat"></ion-icon>
+        &nbsp; &nbsp; Reset Game
+      </ion-button>
+    </div>
+
+  </ion-grid>
+</ion-content>

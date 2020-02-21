@@ -105,8 +105,14 @@ before_install:
 
 install:
   - nvm install ${NODEJS_VERSION}
-  # cordova@8.1.2 for fabric
-  - npm install -g cordova@8.1.2 ionic
+  # cordova@8.1.2 for fabric  TODO
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      gem install cocoapods;
+      npm install -g cordova ionic;
+      unset FABRIC_API_KEY;
+    else
+      npm install -g cordova@8.1.2 ionic;
+    fi
 
 script:
   - export APK_PATH=$TRAVIS_BUILD_DIR/Runtime/platforms/android/app/build/outputs/apk/debug
@@ -114,7 +120,7 @@ script:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       cd $TRAVIS_BUILD_DIR/Runtime/platforms/ios && xcodebuild -showsdks;
       sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer/;
-      xcodebuild -scheme elastOS build -sdk iphonesimulator;
+      xcodebuild -workspace elastOS.xcworkspace -scheme elastOS build -sdk iphonesimulator;
     fi
   - ls -l $APK_PATH
 

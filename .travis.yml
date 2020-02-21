@@ -4,11 +4,12 @@ sudo: true
 matrix:
   include:
     - os: osx
-      osx_image: xcode11.2
+      osx_image: xcode11.3
       env: NODEJS_VERSION=11 NDK=r18b
       if: NOT tag IS present OR tag !~ /^(daily)/
       addons:
         homebrew:
+          update: true
           taps: homebrew/cask-versions
           casks: adoptopenjdk8
 

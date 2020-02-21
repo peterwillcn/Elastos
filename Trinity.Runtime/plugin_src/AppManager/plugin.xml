@@ -28,6 +28,7 @@
             </config>
             <pods use-frameworks="true">
                 <pod name="SwiftJWT" spec="~> 3.5.3" swift-version="4"/>
+                <pod name="AnyCodable-FlightSchool" spec='~> 0.2.3'/>
                 <pod name="SSZipArchive" spec="~> 2.1.4"/>
                 <pod name="SQLite.swift" spec="~> 0.11.6" swift-version="4.2"/>
             </pods>

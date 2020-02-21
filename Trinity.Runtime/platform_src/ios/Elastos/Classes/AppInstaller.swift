@@ -21,6 +21,7 @@
   */
 
  import Foundation
+ import SSZipArchive
 
  extension Data {
     private static let hexAlphabet = "0123456789abcdef".unicodeScalars.map { $0 }
@@ -476,9 +477,9 @@
         }
 
         let intent_filters = json["intent_filters"] as? [Dictionary<String, String>];
-        if intents != nil {
-            for intent in intent_filters! {
-                let action = intent["action"];
+        if intent_filters != nil {
+            for intent_filter in intent_filters! {
+                let action = intent_filter["action"];
                 if (action != nil) {
                     appInfo.addIntentFilter(action!);
                 }

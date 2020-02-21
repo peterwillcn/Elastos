@@ -81,7 +81,7 @@ func getAssetPath(_ url: String) -> String {
     }
     return "";
  }
- 
+
  func handleUrlSchemeTask(_ path: String, _ urlSchemeTask: WKURLSchemeTask) {
     if path.range(of: "://") != nil {
         let request = URLRequest(url: NSURL(string: path)! as URL);
@@ -90,14 +90,14 @@ func getAssetPath(_ url: String) -> String {
             guard let urlSchemeTask = urlSchemeTask else {
                 return
             }
-            
+
             if let error = error {
                 urlSchemeTask.didFailWithError(error)
             } else {
                 if let response = response {
                     urlSchemeTask.didReceive(response)
                 }
-                
+
                 if let data = data {
                     urlSchemeTask.didReceive(data)
                 }
@@ -109,7 +109,7 @@ func getAssetPath(_ url: String) -> String {
     else if path.hasPrefix("/") {
         do {
             let fileUrl = URL.init(fileURLWithPath: path)
-            
+
             let data = try Data(contentsOf: fileUrl);
             let response = URLResponse(url: urlSchemeTask.request.url!, mimeType: "text/plain", expectedContentLength: data.count, textEncodingName: nil)
             urlSchemeTask.didReceive(response);
@@ -121,7 +121,7 @@ func getAssetPath(_ url: String) -> String {
         }
     }
  }
- 
+
  func getJsonFromFile(_ path: String)  throws -> [String: Any] {
     let url = URL.init(fileURLWithPath: path)
 
@@ -135,7 +135,88 @@ func getAssetPath(_ url: String) -> String {
     case error(String)
  }
 
+//----------------------------------------------------------------------
  // Extend String to be able to throw simple String Errors
- extension String: LocalizedError {
-     public var errorDescription: String? { return self }
+ extension String: LocalizedError{
+
+    public var errorDescription: String? { return self }
+
+    func toDict() -> [String : Any]? {
+        let data = self.data(using: String.Encoding.utf8)
+        if let dict = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String : Any] {
+            return dict
+        }
+        return nil
+    }
+
+     func fromBase64() -> String? {
+         guard let data = Data(base64Encoded: self, options: Data.Base64DecodingOptions(rawValue: 0)) else {
+             return nil
+         }
+
+         return String(data: data as Data, encoding: String.Encoding.utf8)
+     }
+
+    func toBase64() -> String? {
+         guard let data = self.data(using: String.Encoding.utf8) else {
+             return nil
+         }
+
+         return data.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
+    }
+
+    func toBase64Data() -> Data? {
+        var st = self;
+        if (self.count % 4 <= 2){
+            st += String(repeating: "=", count: (self.count % 4))
+        }
+        return Data(base64Encoded: st)
+    }
+
+    func encodingURL() -> String {
+        return self.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+    }
+
+    func encodingQuery() -> String {
+        return self.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+    }
+ }
+
+ extension Dictionary {
+     func percentEncoded() -> Data? {
+         return map { key, value in
+             let escapedKey = "\(key)".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
+             let escapedValue = "\(value)".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
+             return escapedKey + "=" + escapedValue
+         }
+         .joined(separator: "&")
+         .data(using: .utf8)
+     }
+
+    func toString() -> String? {
+        let data = try? JSONSerialization.data(withJSONObject: self, options: [])
+        let str = String(data: data!, encoding: String.Encoding.utf8)
+        return str
+    }
+ }
+
+ extension CharacterSet {
+     static let urlQueryValueAllowed: CharacterSet = {
+         let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
+         let subDelimitersToEncode = "!$&'()*+,;="
+
+         var allowed = CharacterSet.urlQueryAllowed
+         allowed.remove(charactersIn: "\(generalDelimitersToEncode)\(subDelimitersToEncode)")
+         return allowed
+     }()
+ }
+
+ extension URL {
+     public var parametersFromQueryString : [String: String]? {
+         guard let components = URLComponents(url: self, resolvingAgainstBaseURL: true),
+         let queryItems = components.queryItems else { return nil }
+         return queryItems.reduce(into: [String: String]()) { (result, item) in
+             result[item.name] = item.value
+         }
+     }
  }

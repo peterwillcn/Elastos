@@ -49,7 +49,7 @@ class AppInfo: NSObject {
     @objc static let KEY_WORDS = "key_words";
     @objc static let LAUNCHER = "launcher";
     @objc static let LANGUAGE = "language";
-    @objc static let ACTION = "act";
+    @objc static let ACTION = "action";
     @objc static let START_VISIBLE = "start_visible";
     
     @objc static let SRC = "src";

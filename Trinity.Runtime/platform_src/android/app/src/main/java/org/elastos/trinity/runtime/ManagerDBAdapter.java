@@ -334,21 +334,6 @@ public class ManagerDBAdapter {
         return count;
     }
 
-    public boolean addIntentFilter(Intent intent) {
-        if (intent != null) {
-            SQLiteDatabase db = helper.getWritableDatabase();
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(AppInfo.APP_ID, intent.app_id);
-            contentValues.put(AppInfo.ACTION, intent.action);
-
-            long tid = db.insert(ManagerDBHelper.INTENT_FILTER_TABLE, null, contentValues);
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
     public String[] getIntentFilter(String action) {
         SQLiteDatabase db = helper.getWritableDatabase();
         String[] args = {action};

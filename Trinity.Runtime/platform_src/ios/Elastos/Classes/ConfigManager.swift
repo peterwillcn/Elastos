@@ -24,12 +24,10 @@ import Foundation
 
 @objc(ConfigManager)
 class ConfigManager: NSObject {
-    private let appManager: AppManager;
     private static var configManager: ConfigManager?;
     private var configPreferences: [String: Any]?;
 
-    init(_ appManager: AppManager) {
-        self.appManager = appManager;
+    override init() {
         super.init();
         ConfigManager.configManager = self;
         parsePreferences();
@@ -37,7 +35,7 @@ class ConfigManager: NSObject {
 
     @objc static func getShareInstance() -> ConfigManager {
         if (ConfigManager.configManager == nil) {
-            ConfigManager.configManager = ConfigManager(AppManager.getShareInstance());
+            ConfigManager.configManager = ConfigManager();
         }
         return ConfigManager.configManager!;
     }

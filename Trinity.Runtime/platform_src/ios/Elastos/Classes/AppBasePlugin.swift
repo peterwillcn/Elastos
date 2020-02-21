@@ -25,6 +25,7 @@
  @objc(AppBasePlugin)
  class AppBasePlugin : TrinityPlugin {
     var callbackId: String?
+    var intentCallbackId: String? = nil;
     var appId: String?
 
     var isLauncher = false;
@@ -95,12 +96,6 @@
         } catch let error {
             self.error(command, error.localizedDescription);
         }
-    }
-    
-    // TMP BEN
-    @objc(hasPendingIntent:)
-    func hasPendingIntent(_ command: CDVInvokedUrlCommand) {
-        self.success(command, "false");
     }
 
     @objc(start:)
@@ -363,6 +358,109 @@
         self.commandDelegate?.send(result, callbackId:self.callbackId);
     }
 
+    @objc func sendIntent(_ command: CDVInvokedUrlCommand) {
+        let action = command.arguments[0] as? String ?? "";
+        let params = command.arguments[1] as? String ?? "";
+        let currentTime = Int64(Date().timeIntervalSince1970);
+        let options = command.arguments[2] as? [String: Any] ?? nil
+        var toId: String? = nil;
+
+        if (options != nil) {
+            if (options!["appId"] != nil) {
+                toId = options!["appId"] as? String ?? "";
+            }
+        }
+
+        let info = IntentInfo(action, params, self.appId!, toId, currentTime, command.callbackId);
+
+        do {
+            try IntentManager.getShareInstance().sendIntent(info);
+            let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT);
+            result?.setKeepCallbackAs(true);
+            self.commandDelegate.send(result, callbackId: command.callbackId)
+        } catch AppError.error(let err) {
+            self.error(command, err);
+        } catch let error {
+            self.error(command, error.localizedDescription);
+        }
+    }
+
+    @objc func sendUrlIntent(_ command: CDVInvokedUrlCommand) {
+        let url = command.arguments[0] as? String ?? "";
+
+        //TODO::
+//        if (IntentManager.checkIntentScheme(url)) {
+//                IntentManager.getShareInstance().sendIntentByUri(URL(string: url), self.appId);
+//            }
+//            else if (webView.getPluginManager().shouldOpenExternalUrl(url)) {
+//                webView.showWebPage(url, true, false, null);
+//                callbackContext.success("ok");
+//            }
+//            else {
+//                callbackContext.error("Can't access this url: " + url);
+//            }
+//        }
+    }
+
+    @objc func sendIntentResponse(_ command: CDVInvokedUrlCommand) {
+        let action = command.arguments[0] as? String ?? "";
+        let result = command.arguments[1] as? String ?? "";
+        let intentId = command.arguments[2] as? Int64 ?? -1
+        do {
+            try IntentManager.getShareInstance().sendIntentResponse(result, intentId, self.appId!);
+        } catch AppError.error(let err) {
+            self.error(command, err);
+        } catch let error {
+            self.error(command, error.localizedDescription);
+        }
+    }
+
+    @objc func setIntentListener(_ command: CDVInvokedUrlCommand) {
+        self.intentCallbackId = command.callbackId;
+        // Don't return any result now
+        let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT);
+        result?.setKeepCallbackAs(true);
+        self.commandDelegate.send(result, callbackId: command.callbackId)
+        try? IntentManager.getShareInstance().setIntentReady(self.appId!);
+    }
+
+    @objc func hasPendingIntent(_ command: CDVInvokedUrlCommand) {
+        let ret = IntentManager.getShareInstance().getIntentCount(self.appId!) != 0;
+        self.success(command, ret.description);
+    }
+
+    func isIntentReady() -> Bool {
+        return (self.intentCallbackId != nil);
+    }
+
+    func onReceiveIntent(_ info: IntentInfo) {
+        guard self.intentCallbackId != nil else {
+            return
+        }
+
+        let ret = [
+            "action": info.action,
+            "params": info.params!,
+            "from": info.fromId,
+            "intentId": info.intentId,
+            ] as [String : Any]
+        let result = CDVPluginResult(status: CDVCommandStatus_OK,
+                                     messageAs: ret);
+        result?.setKeepCallbackAs(true);
+        self.commandDelegate?.send(result, callbackId:self.intentCallbackId);
+    }
+
+    func onReceiveIntentResponse(_ info: IntentInfo) {
+        let ret = [
+            "action": info.action,
+            "result": info.params!,
+            "from": info.fromId
+        ]
+
+        let result = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: ret);
+        result?.setKeepCallbackAs(false);
+        self.commandDelegate.send(result, callbackId: info.callbackId)
+    }
 
     @objc func setCurrentLocale(_ command: CDVInvokedUrlCommand) {
         let code = command.arguments[0] as? String ?? ""
@@ -421,7 +519,7 @@
     @objc func setPluginAuthority(_ command: CDVInvokedUrlCommand) {
         let id = command.arguments[0] as? String ?? ""
         let plugin = command.arguments[1] as? String ?? ""
-        let authority = command.arguments[1] as? Int ?? 0
+        let authority = command.arguments[2] as? Int ?? 0
 
         if (id == "") {
             self.error(command, "Invalid id.")

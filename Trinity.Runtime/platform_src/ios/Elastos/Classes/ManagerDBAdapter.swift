@@ -106,7 +106,7 @@ import SQLite
             t.column(url)
             t.column(authority)
         })
-        
+
         try db.run(intents.create(ifNotExists: true) { t in
             t.column(tid, primaryKey: .autoincrement)
             t.column(app_tid)
@@ -245,7 +245,7 @@ import SQLite
                         url <- urlAuth.url,
                         authority <- urlAuth.authority));
             }
-            
+
             for locale in info.locales {
                 try db.run(locales.insert(app_tid <- info.tid,
                                        language <- locale.language,
@@ -265,6 +265,12 @@ import SQLite
                 try db.run(platforms.insert(app_tid <- info.tid,
                                         name <- platform.name,
                                         version <- platform.version));
+            }
+
+            for intentFilter in info.intentFilters {
+                try db.run(intent_filters.insert(
+                                        app_id <- info.app_id,
+                                        action <- intentFilter.action));
             }
         }
     }
@@ -314,7 +320,7 @@ import SQLite
             for urlAuth in try db.prepare(intents.select(*).filter(app_tid == info.tid)) {
                 info.addIntent(urlAuth[url], urlAuth[authority]);
             }
-            
+
             for locale in try db.prepare(locales.select(*).filter(app_tid == info.tid)) {
                 info.addLocale(locale[language], locale[name], app[short_name] ?? "", locale[description] ?? "", locale[author_name] ?? "");
             }
@@ -392,13 +398,6 @@ import SQLite
         try db.run(items.delete());
         items = apps.filter(tid == info.tid);
         try db.run(items.delete());
-    }
-
-    func addIntentFilter(_ intent: Intent) throws {
-        try db.transaction {
-            try db.run(intent_filters.insert(app_id <- intent.app_id,
-                                      action <- intent.action));
-        }
     }
 
     func getIntentFilter(_ act: String) throws -> [String] {

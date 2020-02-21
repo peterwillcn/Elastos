@@ -106,7 +106,7 @@ public class IntentManager {
         intentList.remove(id);
     }
 
-    public int getIntentCount(String id)  throws Exception {
+    public int getIntentCount(String id)  {
         ArrayList<IntentInfo> infos = intentList.get(id);
         if ((infos == null) || (infos.size() < 1)) {
             return 0;

@@ -38,8 +38,7 @@
         "handleopenurl",
         "intentandnavigationfilter",
         "authorityplugin",
-        "statusbar",
-        "splashscreen",
+        "statusbar"
     ];
 
     convenience init(_ appInfo: AppInfo, _ filter: WhitelistFilter) {

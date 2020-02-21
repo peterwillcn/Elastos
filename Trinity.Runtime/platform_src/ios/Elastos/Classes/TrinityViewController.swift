@@ -92,12 +92,13 @@ class TrinityViewController : CDVViewController {
     }
     
     override func newCordovaView(withFrame bounds: CGRect) ->UIView {
-        titlebar = TitleBarView(self, titlebarContainer.frame, id == "launcher");
-        titlebarContainer.addSubview(titlebar!);
+        titlebar = TitleBarView(self, titlebarContainer.frame, id == "launcher")
+        titlebarContainer.addSubview(titlebar!)
         self.addMatchParentConstraints(view: titlebar, parent: titlebarContainer)
         
-        let webview = super.newCordovaView(withFrame: CGRect());
-        webContainer.addSubview(webview!);
+        let webview = super.newCordovaView(withFrame: CGRect())
+        webContainer.addSubview(webview!)
+        self.addMatchParentConstraints(view: webview!, parent: webContainer)
 
         return webContainer
     }

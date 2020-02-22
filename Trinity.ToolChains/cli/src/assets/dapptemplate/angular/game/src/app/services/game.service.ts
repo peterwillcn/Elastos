@@ -12,7 +12,9 @@ export class GameService {
   public images = [
     'ela', 'ltc', 'btc', 'doge', 'xlm', 'xrp', 'eth', 'neo', 'ada', 'xmr',
     'dash', 'bch', 'bsv', 'eos', 'holo', 'icon', 'iota', 'kmd', 'nas', 'nuls',
-    'xtz', 'zcash', 'zil'
+    'xtz', 'zcash', 'zil', '0x', 'aelf', 'aion', 'bat', 'eng', 'enj', 'grin',
+    'knc', 'link', 'lsk', 'mana', 'nem', 'omg', 'ont', 'qnt', 'qtum', 'tron',
+    'wan', 'xzc', 'mkr', 'dai'
   ];
 
   minimizeApp() {

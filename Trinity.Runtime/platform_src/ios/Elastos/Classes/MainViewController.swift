@@ -78,8 +78,10 @@ class MainViewController: UIViewController {
         if scheme == nil {
             return false;
         }
+    
+        let isElastosDomain = (url.absoluteString.lowercased().hasPrefix("https://scheme.elastos.org"))
 
-        if scheme!.localizedCaseInsensitiveCompare("elastos") == .orderedSame {
+        if scheme!.localizedCaseInsensitiveCompare("elastos") == .orderedSame || isElastosDomain {
             appManager!.setIntentUri(url);
             return true
         }
@@ -95,13 +97,7 @@ class MainViewController: UIViewController {
     // Called for universal links (applinks:scheme.elastos.org)
     @objc func continueAndRestore(userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
         if let url = userActivity.webpageURL {
-            var view = url.lastPathComponent
-            var parameters: [String: String] = [:]
-            URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
-                parameters[$0.name] = $0.value
-            }
-
-            // TODO: pass all this info to the app manager to handle https://scheme.elastos.org/action?params urls
+            return openURL(url)
         }
         return true
     }

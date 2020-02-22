@@ -337,7 +337,7 @@
         result?.setKeepCallbackAs(true);
         self.commandDelegate.send(result, callbackId: command.callbackId)
 
-        if (self.appId == "launcher") {
+        if (AppManager.getShareInstance().isLauncher(self.appId!)) {
             AppManager.getShareInstance().setLauncherReady();
         }
     }

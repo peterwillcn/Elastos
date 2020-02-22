@@ -22,7 +22,8 @@
 
 import Foundation
 
-class AppManager {
+@objc(AppManager)
+class AppManager: NSObject {
     private static var appManager: AppManager?;
 
     /** The internal message */
@@ -31,6 +32,8 @@ class AppManager {
     static let MSG_TYPE_IN_RETURN = 2;
     /** The internal refresh message. */
     static let MSG_TYPE_IN_REFRESH = 3;
+    /** The installing message. */
+    static let MSG_TYPE_INSTALLING = 4;
 
     /** The external message */
     static let MSG_TYPE_EXTERNAL = 11;
@@ -40,6 +43,8 @@ class AppManager {
     static let MSG_TYPE_EX_INSTALL = 13;
     /** The external return message. */
     static let MSG_TYPE_EX_RETURN = 14;
+
+    static let LAUNCHER = "launcher";
 
     let mainViewController: MainViewController;
     var viewControllers = [String: TrinityViewController]();
@@ -56,19 +61,20 @@ class AppManager {
     var appList: [AppInfo];
     var appInfos = [String: AppInfo]();
     var lastList = [String]();
-    let installer: AppInstaller;
+    var installer: AppInstaller;
 
     private var currentLocale = "en";
 
     private var launcherInfo: AppInfo? = nil;
 
     var installUriList = [String]();
+    var intentUriList = [URL]();
     var launcherReady = false;
 
     init(_ mainViewController: MainViewController) {
-//        PermissionManager();
-        
+
         self.mainViewController = mainViewController;
+
         appsPath = NSHomeDirectory() + "/Documents/apps/";
         dataPath = NSHomeDirectory() + "/Documents/data/";
         configPath = NSHomeDirectory() + "/Documents/config/";
@@ -117,19 +123,20 @@ class AppManager {
 //        try! dbAdapter.clean();
         installer = AppInstaller(appsPath, dataPath, tempPath, dbAdapter);
         appList = try! dbAdapter.getAppInfos();
+        super.init();
 
         if first {
-            saveLauncherInfo();
-            copyConfigFiles();
+            self.saveLauncherInfo();
+            self.copyConfigFiles();
         }
 
-        saveBuiltInAppInfos();
-        refreashInfos();
+        self.saveBuiltInAppInfos();
+        self.refreashInfos();
 
         AppManager.appManager = self;
     }
 
-    static func getShareInstance() -> AppManager {
+    @objc static func getShareInstance() -> AppManager {
         return AppManager.appManager!;
     }
 
@@ -169,11 +176,24 @@ class AppManager {
         }
     }
 
-    func getLauncherInfo() -> AppInfo {
+    @objc func getLauncherInfo() -> AppInfo {
         if launcherInfo == nil {
             launcherInfo = try! dbAdapter.getLauncherInfo();
         }
         return launcherInfo!;
+    }
+
+    @objc func isLauncher(_ appId: String) -> Bool {
+        if (launcherInfo == nil) {
+            return false;
+        }
+
+        if (appId == AppManager.LAUNCHER || appId == launcherInfo!.app_id) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     func refreashInfos() {
@@ -184,8 +204,8 @@ class AppManager {
         }
     }
 
-    func getAppInfo(_ id: String) -> AppInfo? {
-        if (id == "launcher") {
+    @objc func getAppInfo(_ id: String) -> AppInfo? {
+        if (isLauncher(id)) {
             return getLauncherInfo();
         }
         else {
@@ -206,7 +226,7 @@ class AppManager {
         }
     }
 
-    func getAppPath(_ info: AppInfo) -> String {
+    @objc func getAppPath(_ info: AppInfo) -> String {
         if (!info.remote) {
             return appsPath + info.app_id + "/";
         }
@@ -216,7 +236,7 @@ class AppManager {
         }
     }
 
-    func getAppUrl(_ info: AppInfo) -> String {
+    @objc func getAppUrl(_ info: AppInfo) -> String {
         var url = getAppPath(info);
         if (!info.remote) {
             url = "file://" + url;
@@ -224,7 +244,7 @@ class AppManager {
         return url;
     }
 
-    func getDataPath(_ id: String) -> String {
+    @objc func getDataPath(_ id: String) -> String {
         var appId = id;
         if (id == "launcher") {
             appId = getLauncherInfo().app_id;
@@ -232,11 +252,11 @@ class AppManager {
         return dataPath + appId + "/";
     }
 
-    func getDataUrl(_ id: String) -> String {
+    @objc func getDataUrl(_ id: String) -> String {
         return "file://" + getDataPath(id);
     }
 
-    func getTempPath(_ id: String) -> String {
+    @objc func getTempPath(_ id: String) -> String {
         var appId = id;
         if (id == "launcher") {
             appId = getLauncherInfo().app_id;
@@ -244,14 +264,14 @@ class AppManager {
         return tempPath + appId + "/";
     }
 
-    func getConfigPath() -> String {
+    @objc func getConfigPath() -> String {
         return configPath;
     }
 
     func getTempUrl(_ id: String) -> String {
         return "file://" + getTempPath(id);
     }
-    
+
     func getIconPath(_ info: AppInfo) -> String {
         if (info.type == "url") {
             return appsPath + info.app_id + "/";
@@ -259,6 +279,15 @@ class AppManager {
         else {
             return getAppPath(info);
         }
+    }
+
+    func getIconPaths(_ info: AppInfo) -> [String] {
+        let path = getAppPath(info);
+        var iconPaths = [String]();
+        for i in 0..<info.icons.count {
+            iconPaths[i] = path + info.icons[i].src;
+        }
+        return iconPaths;
     }
 
     func saveBuiltInAppInfos() {
@@ -405,6 +434,15 @@ class AppManager {
         }
     }
 
+    func setIntentUri(_ uri: URL) {
+        if (launcherReady) {
+            IntentManager.getShareInstance().doIntentByUri(uri);
+        }
+        else {
+            intentUriList.append(uri);
+        }
+    }
+
     func isLauncherReady() -> Bool {
         return launcherReady;
     }
@@ -414,6 +452,10 @@ class AppManager {
 
         for uri in installUriList {
             self.sendInstallMsg(uri);
+        }
+
+        for uri in intentUriList {
+            IntentManager.getShareInstance().doIntentByUri(uri);
         }
     }
 
@@ -520,7 +562,7 @@ class AppManager {
         }
         throw AppError.error("The url isn't in list!");
     }
-    
+
     private let pluginAlertLock = DispatchSemaphore(value: 1)
 
     /**
@@ -530,17 +572,17 @@ class AppManager {
                             _ plugin: CDVPlugin,
                             _ command: CDVInvokedUrlCommand,
                             _ completion: @escaping () -> Void) {
-        
+
         // We use a background thread to queue (and lock) multiple alerts, as we can't block the UI thread.
         DispatchQueue.init(label: "alert-plugin-auth").async {
             // Make sure other calls are blocked here (other plugin requests) before showing more popups
             // to users.
             self.pluginAlertLock.wait()
-            
+
             let alertController = UIAlertController(title: "Plugin authority request",
                                                     message: "App:'" + info.name + "' requests plugin:'" + pluginName + "' access.",
                                                     preferredStyle: UIAlertController.Style.alert)
-            
+
             // Cancel action
             let cancelAlertAction = UIAlertAction(title: "Refuse", style: UIAlertAction.Style.cancel) { action in
                 // User refused
@@ -549,13 +591,13 @@ class AppManager {
                                              messageAs: "Plugin:'" + pluginName + "' was not allowed to run.");
                 result?.setKeepCallbackAs(false);
                 plugin.commandDelegate.send(result, callbackId: command.callbackId)
-                
+
                 // Unlock the synchronized context
                 self.pluginAlertLock.signal()
                 try! completion()
             }
             alertController.addAction(cancelAlertAction)
-            
+
             // Allow action
             let allowAlertAction = UIAlertAction(title: "Allow", style: UIAlertAction.Style.default) { action in
                 // User allowed
@@ -564,13 +606,13 @@ class AppManager {
                 let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT);
                 result?.setKeepCallbackAs(false);
                 plugin.commandDelegate?.send(result, callbackId:command.callbackId);
-                
+
                 // Unlock the synchronized context
                 self.pluginAlertLock.signal()
                 try! completion()
             }
             alertController.addAction(allowAlertAction)
-            
+
             DispatchQueue.main.async {
                 // Show popup to user
                 self.mainViewController.present(alertController, animated: true, completion: nil)

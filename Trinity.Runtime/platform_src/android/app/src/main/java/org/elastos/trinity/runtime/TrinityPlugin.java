@@ -68,6 +68,10 @@ public class TrinityPlugin extends CordovaPlugin {
         }
     }
 
+    public boolean shouldOpenExternalIntentUrl(String url) {
+        return webView.getPluginManager().shouldOpenExternalUrl(url);
+    }
+
     public boolean isUrlApp() {
         return appInfo.type.equals("url");
     }

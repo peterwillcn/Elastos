@@ -299,16 +299,19 @@ class IntentPermission {
         }
     }
 
-    func  parseIntentUri(_ uri: URL, _ fromId: String) throws -> IntentInfo? {
+    func  parseIntentUri(_ _uri: URL, _ fromId: String) throws -> IntentInfo? {
         var info: IntentInfo? = nil;
-//        var url = uri.absoluteString;
-//            if (url.hasPrefix("elastos://") && !url.hasPrefix("elastos:///")) {
-//                url = "elastos:///" + (url as NSString).substring(from: 10);
-//                uri = URL(url);
-////            }
+        var uri = _uri;
+        var url = uri.absoluteString;
+        if (url.hasPrefix("elastos://") && !url.hasPrefix("elastos:///")) {
+            url = "elastos:///" + (url as NSString).substring(from: 10);
+            uri = URL(string: url)!;
+        }
+        var pathComponents = uri.pathComponents;
+        pathComponents.remove(at: 0);
             
-        if (uri.pathComponents.count > 0) {
-            let action = uri.pathComponents[0];
+        if (pathComponents.count > 0) {
+            let action = pathComponents[0];
             let params = uri.parametersFromQueryString;
             if params == nil {
                 return nil
@@ -321,7 +324,7 @@ class IntentPermission {
                 try getParamsByUri(params!, info!);
             }
             else if (uri.pathComponents.count == 2) {
-                try getParamsByJWT(uri.pathComponents[1], info!);
+                try getParamsByJWT(pathComponents[1], info!);
             }
         }
         return info;
@@ -485,24 +488,6 @@ class IntentPermission {
         }
 
         intentContextList[intentId] = nil;
-    }
-
-
-    func sendIntentResponse(_ action: String, _ result: String, _ intentId: Int64, _ fromId: String) throws {
-        let info = intentContextList[intentId];
-        if (info == nil) {
-            throw AppError.error(String(intentId) + " isn't support!");
-        }
-
-        let viewController = appManager.viewControllers[info!.fromId]
-        if (viewController != nil) {
-            try appManager.start(info!.fromId);
-            info!.params = result;
-            info!.fromId = fromId;
-            viewController!.basePlugin!.onReceiveIntentResponse(info!);
-        }
-
-        intentContextList.removeValue(forKey: info!.intentId);
     }
     
     func parseIntentPermission() throws {

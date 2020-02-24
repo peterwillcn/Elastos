@@ -58,17 +58,16 @@ def copy_tree(src, dst):
     print("Copying " + src + " To " + dst)
     dir_util.copy_tree(src, dst)
 
-def add_fabric():
-    api_key = os.getenv("FABRIC_API_KEY");
-    api_secret = os.getenv("FABRIC_API_SECRET");
-    if api_key is None or api_key.strip()=="":
-        print("FABRIC_API_KEY not set!")
+def add_firebase():
+    if not os.path.isfile(os.path.join(RUNTIME_DIR_PATH + '/GoogleService-Info.plist')):
+        print("Can not find GoogleService-Info.plist!")
         return
-    if api_secret is None or api_secret.strip()=="":
-        print("FABRIC_API_SECRET not set!")
+    if not os.path.isfile(os.path.join(RUNTIME_DIR_PATH + '/google-services.json')):
+        print("Can not find google-services.json!")
         return
 
-    cmd="cordova plugin add cordova-fabric-plugin --variable FABRIC_API_KEY=%s --variable FABRIC_API_SECRET=%s" % (api_key, api_secret)
+    # if upgrade the cordova-android, maybe we can use the latest firebase-lib
+    cmd="cordova plugin add cordova-plugin-firebase-lib@3.3.0 --save"
     run_cmd(cmd)
 
 startTime = timeit.default_timer()
@@ -138,7 +137,7 @@ if args.target == "all" or args.target == "launcher" or args.target == "runtime"
     ela_plugin.plugin_prepare(True)
     run_cmd("npm install")
     run_cmd("cordova prepare")
-    add_fabric()
+    add_firebase()
     run_cmd("cordova build android " + build_type)
 
 elapsed = timeit.default_timer() - startTime

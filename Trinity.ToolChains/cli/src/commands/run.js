@@ -44,7 +44,7 @@ exports.handler = function (argv) {
             deployAndroidDApp(noDebug, forProd)
             break;
         case "ios":
-            console.log("Not yet implemented")
+            deployiOSDApp(noDebug, forProd)
             break;
         default:
             console.log("ERROR - Not a valid platform")
@@ -52,26 +52,66 @@ exports.handler = function (argv) {
 }
 
 /**
- * The process to run one of our ionic-based DApps is as following:
+ * Shared steps between android and ios deployments.
+ */
+async function runSharedDeploymentPhase(noDebug, forProd) {
+    var dappHelper = new DAppHelper()
+    var manifestHelper = new ManifestHelper()
+    var ionicHelper = new IonicHelper   ()
+
+    if (!dappHelper.checkFolderIsDApp()) {
+        console.error("ERROR".red + " - " + dappHelper.noManifestErrorMessage())
+        return
+    }
+
+    // Retrieve user's computer IP (to be able to ionic serve / hot reload)
+    // Update the start_url in the trinity manifest
+    // 
+    // Clone the original manifest into a temporary manifest so that we don't touch user's original manifest.
+    var originalManifestPath = manifestHelper.getManifestPath(ionicHelper.getConfig().assets_path)
+    var temporaryManifestPath = manifestHelper.cloneToTemporaryManifest(originalManifestPath)
+    if (noDebug)
+        manifestHelper.updateManifestForLocalIndex(temporaryManifestPath)
+    else
+        await manifestHelper.updateManifestForRemoteIndex(temporaryManifestPath)
+
+    return new Promise((resolve, reject)=>{
+        ionicHelper.updateNpmDependencies().then(() => {
+            ionicHelper.runIonicBuild(forProd).then(() => {
+                dappHelper.packEPK(temporaryManifestPath).then((outputEPKPath)=>{
+                    resolve(outputEPKPath)
+                })
+                .catch((err)=>{
+                    console.error("Failed to pack your DApp into a EPK file".red)
+                    reject(err)
+                })          
+            })
+            .catch((err)=>{
+                console.error("Failed run ionic build".red)
+                reject(err)
+            })          
+        })
+        .catch((err)=>{
+            console.error("Failed to install ionic dependencies".red)
+            reject(err)
+        }) 
+    })
+}
+
+/**
+ * The process to run one of our ionic-based DApps on android is as following:
+ * 
  * - Retrieve user's computer IP (to be able to ionic serve / hot reload)
  * - Update the start_url in the trinity manifest
  * - npm install
  * - ionic build
- * - pack_epk
  * - sign_epk
  * - push and run the EPK on the device (adb push/shell am start, on android)
  * - ionic serve (for hot reload inside trinity, when user saves his files)
  */
 async function deployAndroidDApp(noDebug, forProd) {
     var runHelper = new RunHelper()
-    var manifestHelper = new ManifestHelper()
     var ionicHelper = new IonicHelper()
-    var dappHelper = new DAppHelper()
-
-    if (!dappHelper.checkFolderIsDApp()) {
-        console.error("ERROR".red + " - " + dappHelper.noManifestErrorMessage())
-        return
-    }
 
     // Make sure mandatory dependencies are available
     if (!SystemHelper.checkIonicPresence()) {
@@ -87,58 +127,85 @@ async function deployAndroidDApp(noDebug, forProd) {
         return
     }
 
-    // Retrieve user's computer IP (to be able to ionic serve / hot reload)
-    // Update the start_url in the trinity manifest
-    // 
-    // Clone the original manifest into a temporary manifest so that we don't touch user's original manifest.
-    var originalManifestPath = manifestHelper.getManifestPath(ionicHelper.getConfig().assets_path)
-    var temporaryManifestPath = manifestHelper.cloneToTemporaryManifest(originalManifestPath)
-    if (noDebug)
-        manifestHelper.updateManifestForLocalIndex(temporaryManifestPath)
-    else
-        await manifestHelper.updateManifestForRemoteIndex(temporaryManifestPath)
-
-    ionicHelper.updateNpmDependencies().then(() => {
-        ionicHelper.runIonicBuild(forProd).then(() => {
-            dappHelper.packEPK(temporaryManifestPath).then((outputEPKPath)=>{
-                //dappHelper.signEPK(outputEPKPath).then(()=>{
-                    runHelper.androidUploadEPK(outputEPKPath).then(()=>{
-                        runHelper.androidInstallTempEPK().then(()=>{
-                            console.log("RUN OPERATION COMPLETED".green)
-
-                            if (!noDebug) {
-                                console.log("NOW RUNNING THE APP FOR DEVELOPMENT".green)
-                                console.log("Please wait until the ionic server is started before launching your DApp on your device.".magenta)
-                                ionicHelper.runIonicServe()
-                            }
-                        })
-                        .catch((err)=>{
-                            console.error("Failed to install your DApp on your device".red)
-                            console.error("Error:",err)
-                        })
-                    })
-                    .catch((err)=>{
-                        console.error("Failed to upload your DApp to your device".red)
-                        console.error("Error:",err)
-                    })
-                /*})
-                .catch((err)=>{
-                    console.error("Failed to sign your EPK file".red)
-                    console.error("Error:",err)
-                })*/
+    runSharedDeploymentPhase(noDebug, forProd).then((outputEPKPath)=>{
+        runHelper.androidUploadEPK(outputEPKPath).then(()=>{
+            runHelper.androidInstallTempEPK().then(()=>{
+                console.log("RUN OPERATION COMPLETED".green)
+    
+                if (!noDebug) {
+                    console.log("NOW RUNNING THE APP FOR DEVELOPMENT".green)
+                    console.log("Please wait until the ionic server is started before launching your DApp on your device.".magenta)
+                    ionicHelper.runIonicServe()
+                }
             })
             .catch((err)=>{
-                console.error("Failed to pack your DApp into a EPK file".red)
+                console.error("Failed to install your DApp on your device".red)
                 console.error("Error:",err)
-            })          
+            })
         })
         .catch((err)=>{
-            console.error("Failed run ionic build".red)
+            console.error("Failed to upload your DApp to your device".red)
             console.error("Error:",err)
-        })          
+        })   
     })
-    .catch((err)=>{
-        console.error("Failed to install ionic dependencies".red)
-        console.error("Error:",err)
-    }) 
+}
+
+/**
+ * The process to run one of our ionic-based DApps on the iOS SIMULATOR is as following:
+ * 
+ * - Retrieve user's computer IP (to be able to ionic serve / hot reload)
+ * - Update the start_url in the trinity manifest
+ * - npm install
+ * - ionic build
+ * - pack_epk
+ * - sign_epk
+ * - push and run the EPK on the device (adb push/shell am start, on android)
+ * - ionic serve (for hot reload inside trinity, when user saves his files)
+ */
+async function deployiOSDApp(noDebug, forProd) {
+    var runHelper = new RunHelper()
+    var ionicHelper = new IonicHelper()
+
+    // Make sure mandatory dependencies are available
+    if (!SystemHelper.checkIonicPresence()) {
+        console.error("Error:".red, "Please first install IONIC on your computer.")
+        return
+    }
+    if (!SystemHelper.checkXCodePresence()) {
+        console.error("Error:".red, "Please first install XCode on your computer.")
+        return
+    }
+    if (!SystemHelper.checkPythonPresence()) {
+        console.error("Error:".red, "Please first install Python on your computer.")
+        return
+    }
+
+    //let outputEPKPath = "/var/folders/d2/nw213ddn1c7g6_zcp5940ckw0000gn/T/temp.epk"
+    runSharedDeploymentPhase(noDebug, forProd).then((outputEPKPath)=>{
+        runHelper.getRunningSimulatorInfo().then((iosDeviceInfo)=>{
+            runHelper.iosUploadEPK(outputEPKPath).then(()=>{
+                runHelper.iosInstallTempEPK().then(()=>{
+                    console.log("RUN OPERATION COMPLETED".green)
+        
+                    if (!noDebug) {
+                        console.log("NOW RUNNING THE APP FOR DEVELOPMENT".green)
+                        console.log("Please wait until the ionic server is started before launching your DApp on your device.".magenta)
+                        ionicHelper.runIonicServe()
+                    }
+                })
+                .catch((err)=>{
+                    console.error("Failed to install your DApp on your device".red)
+                    console.error("Error:",err)
+                })
+            })
+            .catch((err)=>{
+                console.error("Failed to upload your DApp to your device".red)
+                console.error("Error:",err)
+            })   
+        })
+        .catch((err)=>{
+            console.error("Failed launch a ios simulator".red)
+            console.error("Error:",err)
+        })   
+    })
 }

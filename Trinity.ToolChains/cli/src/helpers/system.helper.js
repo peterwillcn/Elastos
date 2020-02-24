@@ -12,6 +12,11 @@ module.exports = class SystemHelper {
         return hasbin.sync("adb")
     }
 
+    static checkXCodePresence() {
+        console.log("Checking xcrun presence")
+        return hasbin.sync("xcrun")
+    }
+
     static checkPythonPresence() {
         console.log("Checking python3 presence")
         return hasbin.sync("python3")

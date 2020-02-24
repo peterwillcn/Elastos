@@ -23,6 +23,8 @@
 import Foundation
 import SwiftJWT
 import AnyCodable
+import PopupDialog
+
 
  extension AnyCodable : Claims {}
 
@@ -221,10 +223,47 @@ class IntentPermission {
             if (!getIntentSenderPermission(info.action, info.fromId)) {
                 throw AppError.error(info.action + " isn't permission!");
             }
-
-            info.toId = ids[0];
+            
+            // If there is only one application able to handle this intent, we directly use it.
+            // Otherwise, we display a prompt so that user can pick the right application.
+            if (ids.count == 1) {
+                info.toId = ids[0]
+                try sendIntentReal(info: info)
+            }
+            else {
+                // More than one possible handler, show a chooser and pass it the selectable apps info.
+                var appInfos: [AppInfo] = []
+                for id in ids {
+                    if let info = appManager.getAppInfo(id) {
+                        appInfos.append(info)
+                    }
+                }
+                
+                // Create the dialog
+                let vc = IntentActionChooserController(nibName: "IntentActionChooserController", bundle: Bundle.main)
+                
+                vc.setAppManager(appManager: appManager)
+                vc.setAppInfos(appInfos: appInfos)
+                
+                let popup = PopupDialog(viewController: vc)
+                let cancelButton = CancelButton(title: "Cancel") {}
+                popup.addButtons([cancelButton])
+                
+                vc.setListener() { selectedAppInfo in
+                    popup.dismiss()
+                    
+                    // Now we know the real app that should receive the intent.
+                    info.toId = selectedAppInfo.app_id
+                    try! self.sendIntentReal(info: info)
+                }
+                
+                // Present the dialog
+                self.appManager.mainViewController.present(popup, animated: true, completion: nil)
+            }
         }
-
+    }
+    
+    private func sendIntentReal(info: IntentInfo) throws {
         let viewController = appManager.viewControllers[info.toId!]
         if (viewController != nil && viewController!.basePlugin!.isIntentReady()) {
             putIntentContext(info);

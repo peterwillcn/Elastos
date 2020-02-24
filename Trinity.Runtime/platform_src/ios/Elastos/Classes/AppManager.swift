@@ -282,12 +282,12 @@ class AppManager: NSObject {
     }
 
     func getIconPaths(_ info: AppInfo) -> [String] {
-        let path = getAppPath(info);
-        var iconPaths = [String]();
+        let path = getAppPath(info)
+        var iconPaths = [String]()
         for i in 0..<info.icons.count {
-            iconPaths[i] = path + info.icons[i].src;
+            iconPaths.append(path + info.icons[i].src)
         }
-        return iconPaths;
+        return iconPaths
     }
 
     func saveBuiltInAppInfos() {

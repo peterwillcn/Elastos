@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IntentActionChooserController" customModule="elastOS" customModuleProvider="target">
+            <connections>
+                <outlet property="listItemsStackView" destination="5ec-qC-XI3" id="e9D-Ce-Fb1"/>
+                <outlet property="view" destination="32Y-Ug-eVP" id="9Om-lL-faD"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="32Y-Ug-eVP" userLabel="Apps List main view">
+            <rect key="frame" x="0.0" y="0.0" width="424" height="284"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Continue this action with:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cZF-G1-yGz">
+                    <rect key="frame" x="0.0" y="0.0" width="424" height="40"/>
+                    <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="h35-Lj-b4A"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="5ec-qC-XI3">
+                    <rect key="frame" x="20" y="60" width="384" height="204"/>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstItem="5ec-qC-XI3" firstAttribute="leading" secondItem="32Y-Ug-eVP" secondAttribute="leading" constant="20" id="5ga-tj-m01"/>
+                <constraint firstItem="5ec-qC-XI3" firstAttribute="top" secondItem="cZF-G1-yGz" secondAttribute="bottom" constant="20" id="5qH-km-LJo"/>
+                <constraint firstItem="cZF-G1-yGz" firstAttribute="leading" secondItem="32Y-Ug-eVP" secondAttribute="leading" id="CBb-0g-6Qx"/>
+                <constraint firstAttribute="trailing" secondItem="cZF-G1-yGz" secondAttribute="trailing" id="H31-Jz-luR"/>
+                <constraint firstItem="cZF-G1-yGz" firstAttribute="top" secondItem="32Y-Ug-eVP" secondAttribute="top" id="U3S-av-dtw"/>
+                <constraint firstAttribute="trailing" secondItem="5ec-qC-XI3" secondAttribute="trailing" constant="20" id="WS8-b8-mpa"/>
+                <constraint firstAttribute="bottom" secondItem="5ec-qC-XI3" secondAttribute="bottom" constant="20" id="qo7-gj-3RR"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="144.92753623188406" y="-99.107142857142847"/>
+        </view>
+    </objects>
+</document>

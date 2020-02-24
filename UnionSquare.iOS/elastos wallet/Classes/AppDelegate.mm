@@ -75,7 +75,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
     
     PluginResult *re=[[ELWalletManager share] getAllMasterWallets:nil];
-    NSArray *reArray=[[FLTools share]stringToArray: re.message[@"success"]];
+     NSArray *reArray=re.message[@"success"];
     
     NSArray  *array =[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet];
    

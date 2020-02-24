@@ -431,32 +431,47 @@ errCodeSPVCreateMasterWalletError= 20006;
 - (PluginResult *)getAllMasterWallets:(invokedUrlCommand *)command
 {
     
-    try{
-        IMasterWalletVector vector;
+//    try{
+    NSMutableArray *masterWalletListJson=[[NSMutableArray alloc]init];
+       StringVector vectoIDS;
         try {
-            vector = mMasterWalletManager->GetAllMasterWallets();
+            vectoIDS = mMasterWalletManager-> GetAllMasterWalletID();
+            NSString *sstring;
+             for (int i = 0; i < vectoIDS.size(); i++) {
+                 String string = vectoIDS[i];
+                       NSString *sstring = [self stringWithCString:string];
+            //            IMasterWallet *iMasterWallet = vector[i];
+            //            String idStr = iMasterWallet->GetID();
+            //            NSString *str = [self stringWithCString:idStr];
+                        [masterWalletListJson addObject:sstring];
+                    }
+//             NSString *msg = [self arrayToJSONString:masterWalletListJson];
+             return [self successProcess:command msg:masterWalletListJson];
         } catch (const std:: exception &e) {
-            return [self errInfoToDic:e.what() with:command];
+            NSString *errString=[self stringWithCString:e.what()];
+                    NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+                    [[FLTools share]showErrorInfo:dic[@"Message"]];
+                    return nil;
         }
         
  
-        NSMutableArray *masterWalletListJson = [[NSMutableArray alloc] init];
-        for (int i = 0; i < vector.size(); i++) {
-            IMasterWallet *iMasterWallet = vector[i];
-            String idStr = iMasterWallet->GetID();
-            NSString *str = [self stringWithCString:idStr];
-            [masterWalletListJson addObject:str];
-        }
-        NSString *msg = [self arrayToJSONString:masterWalletListJson];
-        NSLog(@"钱包===%@",msg);
-        return [self successProcess:command msg:msg];
-    } catch (const std:: exception & e ) {
-        
-        NSString *errString=[self stringWithCString:e.what()];
-        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
-        [[FLTools share]showErrorInfo:dic[@"Message"]];
-        return nil;
-    }
+       
+//        for (int i = 0; i < vector.size(); i++) {
+//            IMasterWallet *iMasterWallet = vector[i];
+//            String idStr = iMasterWallet->GetID();
+//            NSString *str = [self stringWithCString:idStr];
+//            [masterWalletListJson addObject:str];
+//        }
+//        NSString *msg = [self arrayToJSONString:masterWalletListJson];
+//        NSLog(@"钱包===%@",msg);
+//        return [self successProcess:command msg:msg];
+//    } catch (const std:: exception & e ) {
+//
+//        NSString *errString=[self stringWithCString:e.what()];
+//        NSDictionary *dic=  [self dictionaryWithJsonString:errString];
+//        [[FLTools share]showErrorInfo:dic[@"Message"]];
+//        return nil;
+//    }
     
 }
 - (PluginResult *)createMasterWallet:(invokedUrlCommand *)command

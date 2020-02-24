@@ -103,18 +103,21 @@
       [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(currentWalletAccountBalanceChanges:) name: AccountBalanceChanges object:nil];
          [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataCreateWalletLoadWalletInfo) name:updataCreateWallet object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(AsnyConnectStatusChanged:) name:ConnectStatusChanged object:nil];
-    [self addAllCallBack];
+
     [self setView];
     NSInteger selectIndex=
     [[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue];
     if (selectIndex<0) {
         selectIndex=0;
     }
+    
     self.isScro=NO;
     [self loadTheWalletInformationWithIndex:selectIndex];
+   
     if ([SDKNET isEqualToString:@"MainNet"]) {
         [self loadNetWorkingPong];
     }
+    
     
 }
 -(void)loadNetWorkingPong{
@@ -213,8 +216,8 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
 }
 
 -(void)addAllCallBack{
-    for (FMDBWalletModel *wallet in self.walletIDListArray) {
-        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[wallet.walletID] callbackId:wallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
+//    for (FMDBWalletModel *wallet in self.walletIDListArray) {
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
         
         PluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
         NSString *status=[NSString stringWithFormat:@"%@",result.status];
@@ -223,11 +226,11 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
             NSArray  *array = [[FLTools share]stringToArray:result.message[@"success"]];
             
             if (array.count>0) {
-                [self RegisterToMonitor:array WithmasterWalletID:wallet.walletID];
+                [self RegisterToMonitor:array WithmasterWalletID:self.currentWallet.masterWalletID];
             }
             
         }
-    }
+//    }
 }
 -(void)RegisterToMonitor:(NSArray*)arr WithmasterWalletID:(NSString*)walletID{
     for (int i =0; i<arr.count; i++) {
@@ -391,6 +394,7 @@ if(inde>self.walletIDListArray.count-1) {
     wallet.walletID       =[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
      wallet.TypeW  = model.TypeW;
     self.currentWallet = wallet;
+     [self addAllCallBack];
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
   PluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];

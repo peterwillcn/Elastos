@@ -328,12 +328,12 @@ class AppManager: NSObject {
     }
 
     func install(_ url: String) throws -> AppInfo? {
-        let info = try! installer.install(self, url);
+        let info = try installer.install(self, url);
         if (info != nil) {
             refreashInfos();
             sendRefreshList("installed", info!);
         }
-        return info;
+        return info
     }
 
     func unInstall(_ id: String) throws {

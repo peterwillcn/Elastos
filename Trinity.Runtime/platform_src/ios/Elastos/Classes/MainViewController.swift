@@ -81,7 +81,15 @@ class MainViewController: UIViewController {
 
         let urlString = url.absoluteString.lowercased();
         let isElastosDomain = (urlString.hasPrefix("https://scheme.elastos.org"))
-        if scheme!.localizedCaseInsensitiveCompare("elastos") == .orderedSame || isElastosDomain {
+        
+        if url.absoluteString.hasPrefix("elastos://installepk") {
+            // Special command for developers to install EPKs from the CLI
+            print("Install EPK command received.")
+            let epkPath = NSHomeDirectory() + "/temp.epk";
+            appManager!.setInstallUri(epkPath);
+            return true
+        }
+        else if scheme!.localizedCaseInsensitiveCompare("elastos") == .orderedSame || isElastosDomain {
             appManager!.setIntentUri(url);
             return true
         }

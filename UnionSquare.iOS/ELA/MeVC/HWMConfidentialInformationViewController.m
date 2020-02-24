@@ -114,8 +114,10 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
     return 0.01;
 }
 - (IBAction)exportEvent:(id)sender {
+    
 }
 - (IBAction)TheImportEvent:(id)sender {
+    
 }
 -(void)setModel:(HWMDIDInfoModel *)model{
     _model=model;

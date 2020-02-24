@@ -26,11 +26,8 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jaq-DY-IWg">
-                    <rect key="frame" x="15" y="742" width="184.5" height="40"/>
+                    <rect key="frame" x="50" y="700" width="314" height="32"/>
                     <color key="backgroundColor" red="0.1928445399" green="0.32548019290000002" blue="0.32934954760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="40" id="ZyH-73-DOE"/>
-                    </constraints>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                     <color key="tintColor" red="0.1928445399" green="0.32548019290000002" blue="0.32934954760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="导出">
@@ -41,11 +38,8 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ytq-E4-zIQ">
-                    <rect key="frame" x="214.5" y="742" width="184.5" height="40"/>
+                    <rect key="frame" x="50" y="622" width="314" height="32"/>
                     <color key="backgroundColor" red="0.1928445399" green="0.32548019290000002" blue="0.32934954760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="40" id="y9K-mO-bNw"/>
-                    </constraints>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                     <color key="tintColor" red="0.1928445399" green="0.32548019290000002" blue="0.32934954760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="导入">
@@ -58,16 +52,16 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="Jaq-DY-IWg" secondAttribute="bottom" constant="80" id="3Ce-4d-qYB"/>
-                <constraint firstItem="Ytq-E4-zIQ" firstAttribute="centerY" secondItem="Jaq-DY-IWg" secondAttribute="centerY" id="53w-Za-egb"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="tzQ-Du-445" secondAttribute="bottom" id="5Wp-1O-rqP"/>
-                <constraint firstItem="Ytq-E4-zIQ" firstAttribute="leading" secondItem="Jaq-DY-IWg" secondAttribute="trailing" constant="15" id="6xI-BX-ZjN"/>
                 <constraint firstItem="tzQ-Du-445" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="EeY-u4-ieY"/>
+                <constraint firstItem="Jaq-DY-IWg" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="50" id="QbR-yt-mgy"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="tzQ-Du-445" secondAttribute="trailing" id="RHq-Om-Fvz"/>
-                <constraint firstItem="Ytq-E4-zIQ" firstAttribute="width" secondItem="Jaq-DY-IWg" secondAttribute="width" id="SyX-Vf-x88"/>
+                <constraint firstItem="Jaq-DY-IWg" firstAttribute="top" secondItem="Ytq-E4-zIQ" secondAttribute="bottom" constant="46" id="T9b-as-ydN"/>
+                <constraint firstItem="Ytq-E4-zIQ" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="50" id="WYw-k9-OdN"/>
                 <constraint firstItem="tzQ-Du-445" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="Weq-Sa-1vg"/>
-                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="Ytq-E4-zIQ" secondAttribute="trailing" constant="15" id="mYW-zJ-tvv"/>
-                <constraint firstItem="Jaq-DY-IWg" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="15" id="wpy-es-yN2"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="Jaq-DY-IWg" secondAttribute="bottom" constant="130" id="YXB-bO-oKq"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="Jaq-DY-IWg" secondAttribute="trailing" constant="50" id="pp7-1W-Nbm"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="Ytq-E4-zIQ" secondAttribute="trailing" constant="50" id="rzj-xP-t0O"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
             <point key="canvasLocation" x="139" y="108"/>

@@ -21,10 +21,10 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   [self defultWhite];
-       [self setBackgroundImg:@""];
-       self.title=NSLocalizedString(@"个人信息", nil);
-  self.dataSource =@[NSLocalizedString(@"姓名", @""),NSLocalizedString(@"昵称", @""),NSLocalizedString(@"性别", @""),NSLocalizedString(@"出生日期", @""),NSLocalizedString(@"邮箱", @""),NSLocalizedString(@"手机号", @""),NSLocalizedString(@"国家/地区", @"")];
+    [self defultWhite];
+    [self setBackgroundImg:@""];
+    self.title=NSLocalizedString(@"个人信息", nil);
+    self.dataSource =@[NSLocalizedString(@"姓名", @""),NSLocalizedString(@"昵称", @""),NSLocalizedString(@"性别", @""),NSLocalizedString(@"出生日期", @""),NSLocalizedString(@"邮箱", @""),NSLocalizedString(@"手机号", @""),NSLocalizedString(@"国家/地区", @"")];
     [self makeUI];
     if (self.model.iconUrlString.length>0) {
         [self.IconImageView sd_setImageWithURL:[NSURL URLWithString:self.model.iconUrlString]placeholderImage:[UIImage imageNamed:@"mine_did_default_avator"]];

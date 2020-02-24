@@ -26,6 +26,9 @@
 #import "HWMAddPersonalInformationViewController.h"
 #import "HWMCreateDIDViewController.h"
 #import "HWMDIDInfoViewController.h"
+#import "HWMDIDInfoViewController.h"
+
+
 
 static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
 
@@ -134,11 +137,11 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
             switch (self.currentWallet.TypeW) {
 //                    SingleSign
                 case 0:
-                    _dataArray =@[@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},
+                    _dataArray =@[
+                @{@"title":NSLocalizedString(@"DID",nil),@"name":@"",@"type":@"1"},@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},
                                   @{@"title":NSLocalizedString(@"修改钱包密码",nil),@"name":@"",@"type":@"2"},
                                   @{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"},
-                                  @{@"title":NSLocalizedString(@"导出助记词",nil),@"name":@"",@"type":@"1"},
-                                  @{@"title":NSLocalizedString(@"DID",nil),@"name":@"",@"type":@"1"}
+                                  @{@"title":NSLocalizedString(@"导出助记词",nil),@"name":@"",@"type":@"1"}
 //,
 //                                  @{@"title":NSLocalizedString(@"导出只读钱包",nil),@"name":@"",@"type":@"1"},
 //                                  @{@"title":NSLocalizedString(@"查看多签公钥",nil),@"name":@"",@"type":@"1"}

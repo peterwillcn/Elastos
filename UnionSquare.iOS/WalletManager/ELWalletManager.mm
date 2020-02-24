@@ -210,7 +210,7 @@ static uint64_t feePerKB = 10000;
   NSDictionary *dic=  [self dictionaryWithJsonString:errString];
 
 
-    return [self  errorProcess:command code:[dic[@"Code"] intValue] msg:dic[@"Message"]];
+    return [self  errorProcess:command code:[dic[@"Code"] intValue] msg:[NSString stringWithFormat:@"err%@",dic[@"Code"]]];
 
 }
 

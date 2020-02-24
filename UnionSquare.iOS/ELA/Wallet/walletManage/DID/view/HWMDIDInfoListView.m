@@ -12,8 +12,6 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 @interface HWMDIDInfoListView ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UILabel *titleILabel;
 @property (weak, nonatomic) IBOutlet UITableView *table;
-
-
 @end
 
 @implementation HWMDIDInfoListView

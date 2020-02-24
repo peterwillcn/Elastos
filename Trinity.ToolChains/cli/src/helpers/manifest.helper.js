@@ -13,6 +13,16 @@ module.exports = class ManifestHelper {
      */
     async promptAppInformation() {
         return new Promise(async (resolve, reject) => {
+            const frameworkTemplates = {
+                angular: [
+                    {title:"Tabs", description:"Basic tabs, empty content", value:"basic"},
+                    {title:"HTML Game", description:"Simple cards HTML game without game engine", value:"htmlgame"}
+                ],
+                react: [
+                    {title:"Tabs", description:"Basic tabs, empty content", value:"basic"}
+                ]
+            };
+
             const questions = [
                 {
                     type: 'text',
@@ -35,9 +45,9 @@ module.exports = class ManifestHelper {
                     type: 'select',
                     name: 'template',
                     message: 'Template',
-                    choices: [
-                        { title: 'Basic', value: 'basic' }
-                    ]
+                    choices: (previousAnswer, allAnswers)=>{
+                        return frameworkTemplates[allAnswers.framework];
+                    }
                 },
                 {
                     type: 'text',

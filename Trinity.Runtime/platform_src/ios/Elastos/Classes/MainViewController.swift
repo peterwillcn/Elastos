@@ -78,14 +78,14 @@ class MainViewController: UIViewController {
         if scheme == nil {
             return false;
         }
-    
-        let isElastosDomain = (url.absoluteString.lowercased().hasPrefix("https://scheme.elastos.org"))
 
+        let urlString = url.absoluteString.lowercased();
+        let isElastosDomain = (urlString.hasPrefix("https://scheme.elastos.org"))
         if scheme!.localizedCaseInsensitiveCompare("elastos") == .orderedSame || isElastosDomain {
             appManager!.setIntentUri(url);
             return true
         }
-        else if scheme!.localizedCaseInsensitiveCompare("trinity") == .orderedSame {
+        else if urlString.hasSuffix(".epk") {
             appManager!.setInstallUri(url.absoluteString);
             return true;
         }

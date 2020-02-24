@@ -96,7 +96,10 @@ before_install:
         echo "no commit, do not upload apk!";
         DEPLOY="";
       fi;
-      openssl aes-256-cbc -K $encrypted_77a9a519d93d_key -iv $encrypted_77a9a519d93d_iv -in trinity.jks.enc -out trinity.jks -d;
+      openssl aes-256-cbc -K $encrypted_77a9a519d93d_key -iv $encrypted_77a9a519d93d_iv -in trinity-secret.tar.enc -out trinity-secret.tar -d;
+      tar xvf trinity-secret.tar;
+      mv google-services.json Runtime;
+      mv GoogleService-Info.plist Runtime;
       export APPSUFFIX=$(date +'%Y%m%d%H')-$(git log --format=%h -1);
       export APPNAME=Trinity-${APPSUFFIX}.apk;
       export TRAVIS_TAG="daily"-$APPSUFFIX;
@@ -106,13 +109,10 @@ before_install:
 
 install:
   - nvm install ${NODEJS_VERSION}
-  # cordova@8.1.2 for fabric  TODO
+  - npm install -g cordova ionic
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       gem install cocoapods;
       npm install -g cordova ionic;
-      unset FABRIC_API_KEY;
-    else
-      npm install -g cordova@8.1.2 ionic;
     fi
 
 script:

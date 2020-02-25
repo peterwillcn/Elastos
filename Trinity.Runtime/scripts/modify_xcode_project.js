@@ -63,6 +63,10 @@ module.exports = function(ctx) {
     runtimeProj.addSourceFile(classesPath + "AppWhitelist.swift",           {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "CDVPlugin.swift",              {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "ConfigManager.swift",          {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "IntentActionChooserController.swift",  {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "IntentActionChooserController.xib",    {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "IntentActionChooserItemView.swift",    {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "IntentActionChooserItemView.xib",      {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "IntentManager.swift",          {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "LauncherViewController.swift", {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "MainViewController.swift",     {}, classesGroupKey);

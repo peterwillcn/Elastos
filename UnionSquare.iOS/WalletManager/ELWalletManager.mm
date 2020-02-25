@@ -13,6 +13,7 @@
 
 static ELWalletManager *tool;
 static uint64_t feePerKB = 10000;
+
 #pragma mark - ELWalletManager
 @interface ELWalletManager ()
 /*
@@ -381,7 +382,16 @@ errCodeSPVCreateMasterWalletError= 20006;
     mRootPath = [MyUtil getRootPath];
     const char  *rootPath = [mRootPath UTF8String];
     try {
-      mMasterWalletManager = new MasterWalletManager(rootPath, [self cstringWithString:SDKNET]);
+        if ([SDKNET isEqualToString:@"PrvNet"]){
+            String configString("{\"ELA\":{\"ChainParameters\":{\"StandardPort\":40086,\"DNSSeeds\":[\"139.198.0.59\"]}},\"IDChain\":{\"ChainParameters\":{\"StandardPort\":40087,\"DNSSeeds\":[\"139.198.0.59\"]}}}");
+                              nlohmann::json netConfig = nlohmann::json::parse(configString);
+                      mMasterWalletManager = new MasterWalletManager(rootPath, [self cstringWithString:SDKNET],netConfig);
+            
+        }else{
+                               mMasterWalletManager = new MasterWalletManager(rootPath, [self cstringWithString:SDKNET]);
+        }
+         
+        
     } catch (const std:: exception & e ) {
         
         NSString *errString=[self stringWithCString:e.what()];
@@ -395,8 +405,19 @@ errCodeSPVCreateMasterWalletError= 20006;
 {  if(mMasterWalletManager==nil){
     mRootPath = [MyUtil getRootPath];
     const char  *rootPath = [mRootPath UTF8String];
-    mMasterWalletManager = new MasterWalletManager(rootPath, [self cstringWithString:SDKNET]);
-}
+
+        if ([SDKNET isEqualToString:@"PrvNet"]){
+           String configString("{\"ELA\":{\"ChainParameters\":{\"StandardPort\":40086,\"DNSSeeds\":[\"139.198.0.59\"]}},\"IDChain\":{\"ChainParameters\":{\"StandardPort\":40087,\"DNSSeeds\":[\"139.198.0.59\"]}}}");
+            nlohmann::json netConfig = nlohmann::json::parse(configString);
+
+            mMasterWalletManager = new MasterWalletManager(rootPath, [self cstringWithString:SDKNET],netConfig);
+            
+        }else{
+                               mMasterWalletManager = new MasterWalletManager(rootPath, [self cstringWithString:SDKNET]);
+        }
+    
+    }
+          
     return mMasterWalletManager;
 }
 - (PluginResult *)coolMethod:(invokedUrlCommand *)command

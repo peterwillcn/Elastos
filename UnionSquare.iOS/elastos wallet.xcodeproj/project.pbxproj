@@ -3533,9 +3533,9 @@
 				LastUpgradeCheck = 1020;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = K5DE7L29B2;
+						DevelopmentTeam = VNP5LMNF24;
 						LastSwiftMigration = 1130;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -4146,11 +4146,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = K5DE7L29B2;
+				DEVELOPMENT_TEAM = VNP5LMNF24;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4188,9 +4188,9 @@
 				);
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletREGNET;
+				PRODUCT_BUNDLE_IDENTIFIER = com.elastosWallet;
 				PRODUCT_NAME = "ELA Wallet";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = ela;
 				SWIFT_OBJC_BRIDGING_HEADER = "WalletManager/elastos wallet-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -4210,11 +4210,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = H4A352K875;
+				DEVELOPMENT_TEAM = VNP5LMNF24;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4251,9 +4251,9 @@
 				MARKETING_VERSION = "1.4 dev";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletREGNET;
+				PRODUCT_BUNDLE_IDENTIFIER = com.elastosWallet;
 				PRODUCT_NAME = "ELA Wallet";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = ela;
 				SWIFT_OBJC_BRIDGING_HEADER = "WalletManager/elastos wallet-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -4317,11 +4317,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = K5DE7L29B2;
+				DEVELOPMENT_TEAM = VNP5LMNF24;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4359,9 +4359,9 @@
 				);
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletREGNET;
+				PRODUCT_BUNDLE_IDENTIFIER = com.elastosWallet;
 				PRODUCT_NAME = "ELA Wallet";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = ela;
 				SWIFT_OBJC_BRIDGING_HEADER = "WalletManager/elastos wallet-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -4426,11 +4426,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = K5DE7L29B2;
+				DEVELOPMENT_TEAM = VNP5LMNF24;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4468,9 +4468,9 @@
 				);
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dachui.elastosWalletREGNET;
+				PRODUCT_BUNDLE_IDENTIFIER = com.elastosWallet;
 				PRODUCT_NAME = "ELA Wallet";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = ela;
 				SWIFT_OBJC_BRIDGING_HEADER = "WalletManager/elastos wallet-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;

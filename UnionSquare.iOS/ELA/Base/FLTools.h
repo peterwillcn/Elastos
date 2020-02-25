@@ -121,7 +121,6 @@
 -(NSDictionary *)getImageViewURLWithURL:(NSString*)urlString withCRString:(NSString*)CRS;
 -(NSDictionary*)CreateQrCodeImage:(NSString*)contentString WithType:(NSString*)type withSubWalletIdChain:(NSString *)subW;
 -(NSString*)DicToString:(NSDictionary*)dic;
-- (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
 - (UIImage*)imageWithSize:(CGFloat)size andColorWithRed:(CGFloat)red Green:(CGFloat)green Blue:(CGFloat)blue andQRDic:(NSDictionary *)qrDic;
 -(NSArray*)CreateArrayQrCodeImage:(NSString*)contentString WithType:(NSString*)type withSubWall:(NSString*)subW;
 - (UIImage*)imageWithSize:(CGFloat)size andColorWithRed:(CGFloat)red Green:(CGFloat)green Blue:(CGFloat)blue andQRString:( NSString*)qrString;

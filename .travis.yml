@@ -5,7 +5,7 @@ matrix:
   include:
     - os: osx
       osx_image: xcode11.3
-      env: NODEJS_VERSION=11 NDK=r18b
+      env: NODEJS_VERSION=11 NDK=r18b BUILD_TARGET=runtime
       if: NOT tag IS present OR tag !~ /^(daily)/
       addons:
         homebrew:
@@ -13,28 +13,9 @@ matrix:
           taps: homebrew/cask-versions
           casks: adoptopenjdk8
 
-    # - os: osx
-    #   language: cpp
-    #   osx_image: xcode11.2
-    #   env: BUILD_EPKSIGNER
-    #   if: NOT tag IS present OR tag !~ /^(daily)/
-    #   before_install:
-    #   install:
-    #     - brew install shunit2
-    #   script:
-    #     - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/build.sh
-    #     - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/_build/sample/sample
-    #     - echo "---- use default python ----"
-    #     - $TRAVIS_BUILD_DIR/ToolChains/tests/sign_epk_test.sh
-    #     - $TRAVIS_BUILD_DIR/ToolChains/tests/verify_epk_test.sh
-    #     - echo "---- use python3 ----"
-    #     - export PYTHON3=ON
-    #     - $TRAVIS_BUILD_DIR/ToolChains/tests/sign_epk_test.sh
-    #     - $TRAVIS_BUILD_DIR/ToolChains/tests/verify_epk_test.sh
-
     - language: android
       dist: trusty
-      env: NODEJS_VERSION=12 NDK=r18b DEPLOY=TRUE
+      env: NODEJS_VERSION=12 NDK=r18b BUILD_TARGET=launcher DEPLOY=TRUE
       if: NOT tag IS present OR tag !~ /^(daily)/
       android:
         components:
@@ -47,23 +28,12 @@ matrix:
           - 'android-sdk-license-.+'
           - 'google-gdk-license-.+'
 
-    # - language: cpp
-    #   dist: xenial
-    #   env: BUILD_EPKSIGNER
-    #   if: NOT tag IS present OR tag !~ /^(daily)/
-    #   before_install:
-    #   install:
-    #     - sudo apt-get install shunit2
-    #   script:
-    #     - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/build.sh
-    #     - $TRAVIS_BUILD_DIR/ToolChains/src/epksigner/_build/sample/sample
-    #     - echo "---- use default python ----"
-    #     - $TRAVIS_BUILD_DIR/ToolChains/tests/sign_epk_test.sh
-    #     - $TRAVIS_BUILD_DIR/ToolChains/tests/verify_epk_test.sh
-    #     - echo "---- use python3 ----"
-    #     - export PYTHON3=ON
-    #     - $TRAVIS_BUILD_DIR/ToolChains/tests/sign_epk_test.sh
-    #     - $TRAVIS_BUILD_DIR/ToolChains/tests/verify_epk_test.sh
+    - env: NODEJS_VERSION=12 BUILD_TARGET=dapp
+      dist: xenial
+      if: NOT tag IS present OR tag !~ /^(daily)/
+      before_install:
+      script:
+        - $TRAVIS_BUILD_DIR/ToolChains/bin/build dapp
 
 before_install:
   - wget -q https://services.gradle.org/distributions/gradle-5.4.1-bin.zip
@@ -96,6 +66,7 @@ before_install:
         echo "no commit, do not upload apk!";
         DEPLOY="";
       fi;
+      BUILD_TARGET=all;
       openssl aes-256-cbc -K $encrypted_77a9a519d93d_key -iv $encrypted_77a9a519d93d_iv -in trinity-secret.tar.enc -out trinity-secret.tar -d;
       tar xvf trinity-secret.tar;
       mv google-services.json Runtime;
@@ -116,7 +87,7 @@ install:
 
 script:
   - export APK_PATH=$TRAVIS_BUILD_DIR/Runtime/platforms/android/app/build/outputs/apk/debug
-  - $TRAVIS_BUILD_DIR/ToolChains/bin/build all
+  - $TRAVIS_BUILD_DIR/ToolChains/bin/build $BUILD_TARGET
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       cd $TRAVIS_BUILD_DIR/Runtime/platforms/ios && xcodebuild -showsdks;
       sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer/;

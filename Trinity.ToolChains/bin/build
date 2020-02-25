@@ -13,10 +13,11 @@ import ela_plugin
 
 parser = argparse.ArgumentParser(description='Build the Elastor.Trinity project.',
                                  formatter_class=argparse.RawTextHelpFormatter)
-parser.add_argument('target', metavar='TARGET', choices=['all', 'clean', 'clobber','launcher', "plugin", "runtime"],
+parser.add_argument('target', metavar='TARGET', choices=['all', 'clean', 'clobber','dapp', 'launcher', "plugin", "runtime"],
                     help=textwrap.dedent('''\
                          Specify the target to build.
                          all: build all module: launcher, dapp, runtime;
+                         dapp: build dapp;
                          launcher: build launcher, runtime;
                          runtime: build runtime;
                          clean: delete runtime platforms;
@@ -118,7 +119,7 @@ if args.target == "all" or args.target == "launcher":
     run_cmd("ionic build --prod")
     copy_tree("www", RUNTIME_DIR_PATH + "/www/launcher/")
 
-if args.target == "all":
+if args.target == "all" or args.target == "dapp":
     os.chdir(DAPPS_DIR_PATH)
     copy_tree("Url", BUILD_IN_DIR_PATH)
     dirs = os.listdir(IONIC_DIR_PATH)

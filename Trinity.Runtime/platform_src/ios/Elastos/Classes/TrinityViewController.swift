@@ -35,6 +35,8 @@ class TrinityViewController : CDVViewController {
     var webOriginFrame: CGRect?;
     var webLayoutView: UIView?;
     
+    @IBOutlet weak var titlebarHeightConstraint: NSLayoutConstraint!
+    
     override func loadView() {
         super.loadView()
         if let nib = Bundle.main.loadNibNamed("TrinityViewController", owner: self),
@@ -121,24 +123,21 @@ class TrinityViewController : CDVViewController {
         self.webView.scrollView.panGestureRecognizer.require(toFail: swipe);
     }
     
-    func adjustView() {
-        if (titlebarContainer.isHidden) {
-            webContainer.frame = self.view.frame;
-        }
-        else {
-            webContainer.frame = webOriginFrame!;
-        }
-        //TODO:: It isn't work
-        self.addMatchParentConstraints(view: self.webView, parent: webContainer)
-    }
-
     @objc func handleSwipes(_ recognizer:UISwipeGestureRecognizer){
         if (recognizer.direction == UISwipeGestureRecognizer.Direction.right) {
             titlebar!.clickBack();
         }
         else {
-            titlebarContainer.isHidden = !titlebarContainer.isHidden;
-            self.adjustView();
+            if titlebarHeightConstraint.constant == 0.0 {
+                // Show the hidden title bar and move the web container down
+                titlebarHeightConstraint.constant = 45.0
+                titlebarContainer.isHidden = false
+            }
+            else {
+                // Hide the visible title bar and move the web container up
+                titlebarHeightConstraint.constant = 0.0
+                titlebarContainer.isHidden = true
+            }
         }
     }
 

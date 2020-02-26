@@ -130,13 +130,20 @@ class TrinityViewController : CDVViewController {
         else {
             if titlebarHeightConstraint.constant == 0.0 {
                 // Show the hidden title bar and move the web container down
-                titlebarHeightConstraint.constant = 45.0
-                titlebarContainer.isHidden = false
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.titlebarHeightConstraint.constant = 45.0
+                    self.view.layoutIfNeeded()
+                }, completion: { _ in
+                    self.titlebarContainer.isHidden = false
+                })
             }
             else {
                 // Hide the visible title bar and move the web container up
-                titlebarHeightConstraint.constant = 0.0
                 titlebarContainer.isHidden = true
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.titlebarHeightConstraint.constant = 0.0
+                    self.view.layoutIfNeeded()
+                })
             }
         }
     }

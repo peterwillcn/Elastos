@@ -32,26 +32,28 @@ class TrinityViewController : CDVViewController {
     @IBOutlet weak var titlebarContainer: UIView!
     @IBOutlet weak var webContainer: UIView!
     var titlebar: TitleBarView!
+    var webOriginFrame: CGRect?;
+    var webLayoutView: UIView?;
     
     override func loadView() {
         super.loadView()
         if let nib = Bundle.main.loadNibNamed("TrinityViewController", owner: self),
             let nibView = nib.first as? UIView {
             view = nibView
+            webOriginFrame = webContainer.frame;
         }
     }
         
     private func setTrinityPluginInfo(_ plugin:CDVPlugin!) {
         let trinityPlugin = plugin as? TrinityPlugin
-        let isApp = self is AppViewController
 
         if trinityPlugin != nil {
             let launcherPath = AppManager.getShareInstance().getAppPath(self.appInfo!);
             let dataPath = AppManager.getShareInstance().getDataPath(self.id);
             let tempPath = AppManager.getShareInstance().getTempPath(self.id);
             let configPath = AppManager.getShareInstance().getConfigPath();
-            trinityPlugin!.setInfo(self.whitelistFilter, checkAuthority:isApp, appPath:launcherPath, dataPath:dataPath,
-                configPath:configPath,tempPath:tempPath);
+            trinityPlugin?.setWhitelist(self.whitelistFilter)
+                    trinityPlugin!.setInfo(self.appInfo);
         }
     }
 
@@ -118,13 +120,25 @@ class TrinityViewController : CDVViewController {
         self.webView.addGestureRecognizer(swipe);
         self.webView.scrollView.panGestureRecognizer.require(toFail: swipe);
     }
+    
+    func adjustView() {
+        if (titlebarContainer.isHidden) {
+            webContainer.frame = self.view.frame;
+        }
+        else {
+            webContainer.frame = webOriginFrame!;
+        }
+        //TODO:: It isn't work
+        self.addMatchParentConstraints(view: self.webView, parent: webContainer)
+    }
 
     @objc func handleSwipes(_ recognizer:UISwipeGestureRecognizer){
         if (recognizer.direction == UISwipeGestureRecognizer.Direction.right) {
             titlebar!.clickBack();
         }
         else {
-            titlebar!.isHidden = !titlebar!.isHidden;
+            titlebarContainer.isHidden = !titlebarContainer.isHidden;
+            self.adjustView();
         }
     }
 
@@ -134,7 +148,6 @@ class TrinityViewController : CDVViewController {
         for (name , value) in self.pluginObjects as! [String: CDVPlugin] {
             if (name == "AppBasePlugin") {
                 let plugin = value as! AppBasePlugin;
-                plugin.setId(id);
                 self.basePlugin = plugin;
                 break;
             }
@@ -153,4 +166,10 @@ class TrinityViewController : CDVViewController {
     @objc func getBasePlugin() -> AppBasePlugin {
         return self.basePlugin!;
     }
+    
+    func loadUrl(_ url: URL) {
+        //TODO:: it isn't work
+        self.webViewEngine.load(URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 20.0));
+    }
+
 }

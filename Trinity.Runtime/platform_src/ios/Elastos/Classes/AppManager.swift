@@ -182,8 +182,8 @@ class AppManager: NSObject {
         return launcherInfo!;
     }
 
-    @objc func isLauncher(_ appId: String) -> Bool {
-        if (launcherInfo == nil) {
+    @objc func isLauncher(_ appId: String?) -> Bool {
+        if (appId == nil || launcherInfo == nil) {
             return false;
         }
 
@@ -349,6 +349,14 @@ class AppManager: NSObject {
                 break;
             }
         }
+    }
+    
+    func getViewControllerById(_ appId: String) -> TrinityViewController? {
+        var id = appId;
+        if (isLauncher(id)) {
+            id = AppManager.LAUNCHER;
+        }
+        return viewControllers[id];
     }
 
     func switchContent(_ to: TrinityViewController, _ id: String) {
@@ -520,6 +528,18 @@ class AppManager: NSObject {
         let info = appInfos[id];
         if (info != nil) {
             for urlAuth in info!.urls {
+                if (urlAuth.url == url) {
+                    return urlAuth.authority;
+                }
+            }
+        }
+        return AppInfo.AUTHORITY_NOEXIST;
+    }
+
+    func getIntentAuthority(_ id: String, _ url: String) -> Int {
+        let info = appInfos[id];
+        if (info != nil) {
+            for urlAuth in info!.intents {
                 if (urlAuth.url == url) {
                     return urlAuth.authority;
                 }

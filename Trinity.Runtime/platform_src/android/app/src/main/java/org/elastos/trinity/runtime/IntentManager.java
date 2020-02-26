@@ -203,7 +203,7 @@ public class IntentManager {
     }
 
     public void sendIntentReal(IntentInfo info) throws Exception {
-        WebViewFragment fragment = appManager.findFragmentById(info.toId);
+        WebViewFragment fragment = appManager.getFragmentById(info.toId);
         if ((fragment != null) && (fragment.basePlugin.isIntentReady())) {
             putIntentContext(info);
             appManager.start(info.toId);
@@ -419,7 +419,7 @@ public class IntentManager {
 
         WebViewFragment fragment = null;
         if (info.fromId != null) {
-            fragment = appManager.findFragmentById(info.fromId);
+            fragment = appManager.getFragmentById(info.fromId);
             if (fragment != null) {
                 appManager.start(info.fromId);
             }

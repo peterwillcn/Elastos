@@ -21,42 +21,57 @@
  */
 
 #import "TrinityPlugin.h"
-#import "Elastos-Swift.h"
-#include <objc/message.h>
+#import "elastOS-Swift.h"
 
 @interface TrinityPlugin()
-@property (nonatomic, readwrite, strong) WhitelistFilter* filter;
-@property (nonatomic, readwrite) BOOL checkAuthority;
+@property (nonatomic, readwrite, strong) WhitelistFilter* whiteListFilter;
 @property (nonatomic, readwrite, copy) NSString* pluginName;
+@property (nonatomic, readwrite) AppManager* appManager;
+@property (nonatomic, readwrite) AppInfo* appInfo;
 @property (nonatomic, readwrite) NSString* appPath;
 @property (nonatomic, readwrite) NSString* dataPath;
 @property (nonatomic, readwrite) NSString* configPath;
 @property (nonatomic, readwrite) NSString* tempPath;
+@property (nonatomic, readwrite) NSString* appId;
 @end
 
 @implementation TrinityPlugin
 
-@synthesize filter;
-@synthesize checkAuthority;
+@synthesize whiteListFilter;
 @synthesize pluginName;
+@synthesize appManager;
+@synthesize appInfo;
 @synthesize appPath;
 @synthesize dataPath;
 @synthesize configPath;
 @synthesize tempPath;
+@synthesize appId;
 
-- (void)setInfo:(CDVPlugin *)filter checkAuthority:(BOOL)check
-        appPath:(NSString*)appPath dataPath:(NSString*)dataPath
-     configPath:(NSString*)configPath tempPath:(NSString*)tempPath {
-    self.filter = (WhitelistFilter*)filter;
-    self.checkAuthority = check;
-    self.appPath = appPath;
-    self.dataPath = dataPath;
-    self.configPath = configPath;
-    self.tempPath = tempPath;
+
+- (void)setWhitelistPlugin: (CDVPlugin *)filter  {
+    self.whiteListFilter = (WhitelistFilter*)filter;
+}
+
+- (void)setInfo: (AppInfo*)info {
+    self.appInfo = info;
+    self.appManager = [AppManager getShareInstance];
+    self.appPath = [appManager getAppPath:info];
+    self.dataPath = [appManager getDataPath:info.app_id];
+    self.configPath = [appManager getConfigPath ];
+    self.tempPath = [appManager getTempPath:info.app_id ];
+    self.appId = info.app_id;
 }
 
 - (BOOL)isAllowAccess:(NSString *)url {
-    return [self.filter shouldAllowNavigation:url];
+    return [self.whiteListFilter shouldAllowNavigation:url];
+}
+
+- (BOOL)shouldOpenExternalIntentUrl:(NSString *)url {
+    return [self.whiteListFilter shouldOpenExternalIntentUrl:url];
+}
+
+- (BOOL)isUrlApp {
+    return [appInfo.type isEqualToString:@"url"];
 }
 
 - (NSString*)getAppPath {
@@ -131,7 +146,7 @@
         }
     }
     else if ([path rangeOfString:@"://"].length > 0) {
-        if (![path hasPrefix:@"asset://"] && [self.filter shouldAllowNavigation:path]) {
+        if (![path hasPrefix:@"asset://"] && [self.whiteListFilter shouldAllowNavigation:path]) {
             ret = path;
         }
     }
@@ -166,7 +181,7 @@
     }
 
     if (![path hasPrefix:@"asset://"] && [path rangeOfString:@"://"].length > 0) {
-        if ([self.filter shouldAllowNavigation:path]) {
+        if ([self.whiteListFilter shouldAllowNavigation:path]) {
             ret = path;
         }
     }
@@ -196,43 +211,12 @@
     return ret;
 }
 
-//- (BOOL)execute:(CDVInvokedUrlCommand*)command
-//{
-//    NSString* methodName = [NSString stringWithFormat:@"%@:", command.methodName];
-//    SEL normalSelector = NSSelectorFromString(methodName);
-//    if ([self respondsToSelector:normalSelector]) {
-//        ((void (*)(id, SEL, id))objc_msgSend)(self, normalSelector, command);
-//        return YES;
-//    } else {
-//        NSString* msg = [NSString stringWithFormat:@"ERROR: Method '%@' not defined in Plugin '%@'", methodName, command.className];
-//        NSLog(@"%@", msg);
-//        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:msg];
-//        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-//        return YES;
-//    }
-//}
-//
-//- (BOOL)trinityExecute:(CDVInvokedUrlCommand*)command
-//{
-//    if (checkAuthority) {
-//        int authority = [self.filter getPluginAuthority:self.pluginName
-//                                        trinityPlugin: self
-//                                        invokedUrlCommand: command];
-//        if (authority == AppInfo.AUTHORITY_ASK) {
-//            NSString* msg = [NSString stringWithFormat:@"Plugin:'%@' have not run authority.", pluginName];
-//            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:msg];
-//            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-//            return YES;
-//        }
-//        else if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
-//            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
-//            [result setKeepCallbackAsBool:YES];
-//            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-//            return YES;
-//        }
-//    }
-//
-//    return [self execute:command];
-//}
+- (void)pluginInitialize {
+    if (appInfo == NULL) {
+        [self setInfo:[[AppManager getShareInstance] getLauncherInfo]];
+    }
+    [super pluginInitialize];
+}
+
 @end
 

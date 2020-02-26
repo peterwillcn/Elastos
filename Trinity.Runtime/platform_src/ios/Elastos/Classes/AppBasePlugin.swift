@@ -26,14 +26,9 @@
  class AppBasePlugin : TrinityPlugin {
     var callbackId: String?
     var intentCallbackId: String? = nil;
-    var appId: String?
 
     var isLauncher = false;
     var isChangeIconPath = false;
-
-    func setId(_ id: String) {
-        self.appId = id;
-    }
 
     func success(_ command: CDVInvokedUrlCommand, _ retAsString: String) {
         let result = CDVPluginResult(status: CDVCommandStatus_OK,
@@ -123,7 +118,7 @@
     @objc(close:)
     func close(_ command: CDVInvokedUrlCommand) {
         do {
-            try AppManager.getShareInstance().close(self.appId!);
+            try AppManager.getShareInstance().close(self.appId);
             self.success(command, "ok");
         } catch AppError.error(let err) {
             self.error(command, err);
@@ -337,7 +332,7 @@
         result?.setKeepCallbackAs(true);
         self.commandDelegate.send(result, callbackId: command.callbackId)
 
-        if (AppManager.getShareInstance().isLauncher(self.appId!)) {
+        if (AppManager.getShareInstance().isLauncher(self.appId)) {
             AppManager.getShareInstance().setLauncherReady();
         }
     }
@@ -386,20 +381,25 @@
     }
 
     @objc func sendUrlIntent(_ command: CDVInvokedUrlCommand) {
-        let url = command.arguments[0] as? String ?? "";
+        let urlString = command.arguments[0] as? String ?? "";
+        let url = URL(string: urlString)
 
-        //TODO::
-//        if (IntentManager.checkIntentScheme(url)) {
-//                IntentManager.getShareInstance().sendIntentByUri(URL(string: url), self.appId);
-//            }
-//            else if (webView.getPluginManager().shouldOpenExternalUrl(url)) {
-//                webView.showWebPage(url, true, false, null);
-//                callbackContext.success("ok");
-//            }
-//            else {
-//                callbackContext.error("Can't access this url: " + url);
-//            }
-//        }
+        if (IntentManager.checkTrinityScheme(urlString)) {
+            do {
+                try IntentManager.getShareInstance().sendIntentByUri(url!, self.appId!);
+            } catch AppError.error(let err) {
+                self.error(command, err);
+            } catch let error {
+                self.error(command, error.localizedDescription);
+            }
+        }
+        else if (shouldOpenExternalIntentUrl(urlString)) {
+            IntentManager.openUrl(url!);
+            self.success(command, "ok");
+        }
+        else {
+            self.error(command, "Can't access this url: " + urlString);
+        }
     }
 
     @objc func sendIntentResponse(_ command: CDVInvokedUrlCommand) {

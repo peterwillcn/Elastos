@@ -27,11 +27,12 @@
 
 @interface TrinityPlugin : CDVPlugin
 
-- (void)setInfo:(CDVPlugin *)filter checkAuthority:(BOOL)check
-        appPath:(NSString*)appPath dataPath:(NSString*)dataPath
-     configPath:(NSString*)configPath tempPath:(NSString*)tempPath;
+- (void)setWhitelistPlugin: (CDVPlugin *)filter;
+- (void)setInfo: (NSObject*)info;
 
 - (BOOL)isAllowAccess:(NSString *)url;
+- (BOOL)shouldOpenExternalIntentUrl:(NSString *)url;
+- (BOOL)isUrlApp;
 - (NSString*)getAppPath;
 - (NSString*)getDataPath;
 - (NSString*)getTempPath;
@@ -42,6 +43,7 @@
 
 
 @property (nonatomic, readonly) NSString* dataPath;
+@property (nonatomic, readonly) NSString* appId;
 
 @end
 

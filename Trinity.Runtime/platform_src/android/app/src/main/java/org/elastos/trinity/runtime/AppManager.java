@@ -475,7 +475,7 @@ public class AppManager {
         }
     }
 
-    public WebViewFragment findFragmentById(String id) {
+    public WebViewFragment getFragmentById(String id) {
         if (isLauncher(id)) {
             id = LAUNCHER;
         }
@@ -538,7 +538,7 @@ public class AppManager {
             return true;
         }
         else {
-            switchContent(findFragmentById(launcherInfo.app_id), launcherInfo.app_id);
+            switchContent(getFragmentById(launcherInfo.app_id), launcherInfo.app_id);
             return false;
         }
     }
@@ -549,7 +549,7 @@ public class AppManager {
             throw new Exception("No such app!");
         }
 
-        WebViewFragment fragment = findFragmentById(id);
+        WebViewFragment fragment = getFragmentById(id);
         if (fragment == null) {
             fragment = WebViewFragment.newInstance(id);
             if (!isLauncher(id)) {
@@ -580,16 +580,16 @@ public class AppManager {
         setAppVisible(id, info.start_visible);
 
         FragmentManager manager = activity.getSupportFragmentManager();
-        WebViewFragment fragment = findFragmentById(id);
+        WebViewFragment fragment = getFragmentById(id);
         if (fragment == null) {
             return;
         }
 
         if (fragment == curFragment) {
             String id2 = lastList.get(1);
-            WebViewFragment fragment2 = findFragmentById(id2);
+            WebViewFragment fragment2 = getFragmentById(id2);
             if (fragment2 == null) {
-                fragment2 = findFragmentById(LAUNCHER);
+                fragment2 = getFragmentById(LAUNCHER);
                 if (fragment2 == null) {
                     throw new Exception("RT inner error!");
                 }
@@ -695,7 +695,7 @@ public class AppManager {
     }
 
     public void sendMessage(String toId, int type, String msg, String fromId) throws Exception {
-        WebViewFragment fragment = findFragmentById(toId);
+        WebViewFragment fragment = getFragmentById(toId);
         if (fragment != null) {
             fragment.basePlugin.onReceive(msg, type, fromId);
         }

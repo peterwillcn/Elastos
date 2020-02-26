@@ -24,9 +24,33 @@
  
  @objc class AppWhitelist : CDVWhitelist {
     var appInfo: AppInfo?
+    var urlType = 0;
     
-    func setInfo(_ info: AppInfo) {
+    @objc static let TYPE_URL = 0;
+    @objc static let TYPE_INTENT = 1;
+    
+    func setInfo(_ info: AppInfo, _ type: Int) {
         self.appInfo = info;
+        self.urlType = type;
+    }
+    
+    func getAuth(_ url: String) -> Int {
+        if (urlType == AppWhitelist.TYPE_URL) {
+            return AppManager.getShareInstance().getUrlAuthority(appInfo!.app_id, url);
+        }
+        else {
+            return AppManager.getShareInstance().getIntentAuthority(appInfo!.app_id, url);
+        }
+    }
+
+    func runAlert(_ url: String, _ authority: Int) -> Int {
+        if (urlType == AppWhitelist.TYPE_URL) {
+            AppManager.getShareInstance().runAlertUrlAuth(appInfo!, url);
+            return authority;
+        }
+        else {
+            return authority;
+        }
     }
     
     override func urlAuthority(_ obj:NSObject) -> Bool {
@@ -36,15 +60,18 @@
         
         for (url, pattern) in self.appWhitelist as! [String: NSObject] {
             if (pattern == obj) {
-                let appManager = AppManager.getShareInstance();
-                let authority = appManager.getUrlAuthority(appInfo!.app_id, url);
+                var authority = getAuth(url);
                 if (authority == AppInfo.AUTHORITY_ALLOW) {
                     return true;
                 }
                 else if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
-                    appManager.runAlertUrlAuth(appInfo!, url);
+                    authority = runAlert(url, authority);
                 }
                 break;
+                
+                if (authority == AppInfo.AUTHORITY_ALLOW) {
+                    return true;
+                }
             }
         }
         return false;

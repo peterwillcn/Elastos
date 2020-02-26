@@ -42,11 +42,11 @@ import PopupDialog
     @objc static let API = 0;
     @objc static let JWT = 1;
     @objc static let URL = 2;
-    
+
     @objc static let REDIRECT_URL = "redirecturl";
     @objc static let CALLBACK_URL = "callbackurl";
     @objc static let REDIRECT_APP_URL = "redirectappurl";
-    
+
     @objc dynamic var action: String;
     @objc dynamic var params: String?;
     @objc dynamic var fromId: String;
@@ -71,7 +71,7 @@ import PopupDialog
         self.callbackId = callbackId;
     }
  }
- 
+
 class IntentPermission {
     let name: String;
     var senderList = [String]();
@@ -84,15 +84,15 @@ class IntentPermission {
     func addSender(_ appId: String) {
         senderList.append(appId);
     }
-    
+
     func addReceiver(_ appId: String) {
         receiverList.append(appId);
     }
-    
+
     func senderIsAllow(_ appId: String) -> Bool {
         return senderList.contains(appId);
     }
-    
+
     func receiverIsAllow(_ appId: String) -> Bool {
         return receiverList.contains(appId);
     }
@@ -107,7 +107,7 @@ class IntentPermission {
     private var intentIdList = [String: [Int64]]();
 
     private var permissionList = [String: IntentPermission]();
-    
+
     private let appManager: AppManager;
     private static var intentManager: IntentManager?;
 
@@ -133,7 +133,7 @@ class IntentPermission {
         }
         return IntentManager.intentManager!;
     }
-    
+
     static func checkTrinityScheme(_ url: String) -> Bool {
         for trinityScheme in IntentManager.trinitySchemes {
             if (url.hasPrefix(trinityScheme)) {
@@ -142,7 +142,19 @@ class IntentPermission {
         }
         return false;
     }
-    
+
+    static func openUrl(_ url: URL) {
+        if #available(iOS 10, *) {
+            UIApplication.shared.open(url, options: [:],
+                                      completionHandler: {
+                                        (success) in
+            })
+        }
+        else {
+            UIApplication.shared.openURL(url);
+        }
+    }
+
     private func putIntentToList(_ app_id: String, _ info: IntentInfo) {
         var infos = intentList[app_id];
         if (infos == nil) {
@@ -174,8 +186,8 @@ class IntentPermission {
 
         return infos!.count;
     }
-    
-    //TODO:: synchronized
+
+    //TODO:: synchronized?
     private func putIntentContext(_ info: IntentInfo) {
         var intentInfo = intentContextList[info.intentId];
         while (intentInfo != nil) {
@@ -198,7 +210,7 @@ class IntentPermission {
         }
         ids!.append(info.intentId);
     }
-    
+
     func getIntentFilter(_ action: String) throws -> [String] {
         let ids = try appManager.dbAdapter.getIntentFilter(action);
         var list = [String]();
@@ -223,7 +235,7 @@ class IntentPermission {
             if (!getIntentSenderPermission(info.action, info.fromId)) {
                 throw AppError.error(info.action + " isn't permission!");
             }
-            
+
             // If there is only one application able to handle this intent, we directly use it.
             // Otherwise, we display a prompt so that user can pick the right application.
             if (ids.count == 1) {
@@ -238,33 +250,33 @@ class IntentPermission {
                         appInfos.append(info)
                     }
                 }
-                
+
                 // Create the dialog
                 let vc = IntentActionChooserController(nibName: "IntentActionChooserController", bundle: Bundle.main)
-                
+
                 vc.setAppManager(appManager: appManager)
                 vc.setAppInfos(appInfos: appInfos)
-                
+
                 let popup = PopupDialog(viewController: vc)
                 let cancelButton = CancelButton(title: "Cancel") {}
                 popup.addButtons([cancelButton])
-                
+
                 vc.setListener() { selectedAppInfo in
                     popup.dismiss()
-                    
+
                     // Now we know the real app that should receive the intent.
                     info.toId = selectedAppInfo.app_id
                     try! self.sendIntentReal(info: info)
                 }
-                
+
                 // Present the dialog
                 self.appManager.mainViewController.present(popup, animated: true, completion: nil)
             }
         }
     }
-    
+
     private func sendIntentReal(info: IntentInfo) throws {
-        let viewController = appManager.viewControllers[info.toId!]
+        let viewController = appManager.getViewControllerById(info.toId!)
         if (viewController != nil && viewController!.basePlugin!.isIntentReady()) {
             putIntentContext(info);
             try appManager.start(info.toId!);
@@ -275,7 +287,7 @@ class IntentPermission {
             try appManager.start(info.toId!);
         }
     }
-    
+
     func parseJWT(_ jwt: String) throws -> [String: Any]? {
         let jwtDecoder = JWTDecoder.init(jwtVerifier: JWTVerifier.none)
         let data = jwt.data(using: .utf8) ?? nil
@@ -288,7 +300,7 @@ class IntentPermission {
         }
         return decoded?.claims.value as? [String: Any]
     }
-    
+
     func getParamsByJWT(_ jwt: String, _ info: IntentInfo) throws {
         var jwtPayload = try parseJWT(jwt);
         if jwtPayload == nil {
@@ -348,21 +360,18 @@ class IntentPermission {
         }
         var pathComponents = uri.pathComponents;
         pathComponents.remove(at: 0);
-            
+
         if (pathComponents.count > 0) {
             let action = pathComponents[0];
             let params = uri.parametersFromQueryString;
-            if params == nil {
-                return nil
-            }
-            
+
             let currentTime = Int64(Date().timeIntervalSince1970);
 
             info = IntentInfo(action, nil, fromId, nil, currentTime, nil);
-            if (params!.count > 0) {
-                try getParamsByUri(params!, info!);
+            if (params != nil && params!.count > 0) {
+                getParamsByUri(params!, info!);
             }
-            else if (uri.pathComponents.count == 2) {
+            else if (pathComponents.count == 2) {
                 try getParamsByJWT(pathComponents[1], info!);
             }
         }
@@ -386,7 +395,7 @@ class IntentPermission {
     }
 
     func createJWTResponse(_ info: IntentInfo, _ result: String) throws -> String? {
-        
+
         var claims = result.toDict();
         if (claims == nil) {
             throw AppError.error("createJWTResponse: result error!");
@@ -415,10 +424,9 @@ class IntentPermission {
     }
 
     func postCallback(_ name: String, _ value: String, _ callbackurl: String) throws {
-        
+
         let url = URL(string: callbackurl)!
         var request = URLRequest(url: url)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         let parameters: [String: String] = [
             name: value
@@ -426,7 +434,7 @@ class IntentPermission {
         request.httpBody = parameters.percentEncoded()
 
         let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-            
+
             guard let data = data,
                 let response = response as? HTTPURLResponse,
                 error == nil else {                                              // check for fundamental networking error
@@ -434,7 +442,7 @@ class IntentPermission {
 //                throw AppError.error("postCallback error:" + error ?? "Unknown error");
                 return
             }
-            
+
             guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
                 print("statusCode should be 2xx, but is \(response.statusCode)")
                 print("response = \(response)")
@@ -449,28 +457,26 @@ class IntentPermission {
         task.resume()
     }
 
-    func getResultUrl(_ url: String, _ result: String) -> String {
+    func getResultUrl(_ url: String, _ result: String) -> URL {
         var param = "?result=";
         if (url.contains("?")) {
             param = "&result=";
         }
-        return url + param + result.encodingQuery();
+        return URL(string: url + param + result.encodingQuery())!;
     }
 
     func sendIntentResponse(_ result: String, _ intentId: Int64, _ fromId: String) throws  {
+
         let info = intentContextList[intentId];
         if (info == nil) {
             throw AppError.error(String(intentId) + " isn't support!");
         }
 
         var viewController: TrinityViewController? = nil;
-//        if (info!.fromId != nil) {
-            //TODO:: findViewControllerById
-            viewController = appManager.viewControllers[info!.fromId]
-            if (viewController != nil) {
-                try appManager.start(info!.fromId);
-            }
-//        }
+        viewController = appManager.getViewControllerById(info!.fromId);
+        if (viewController != nil) {
+            try appManager.start(info!.fromId);
+        }
 
         if (info!.type == IntentInfo.API) {
             if (viewController != nil) {
@@ -479,29 +485,26 @@ class IntentPermission {
                 viewController!.basePlugin!.onReceiveIntentResponse(info!);
             }
         }
-            //TODO::
-//        else if (info!.redirectappurl != nil && viewController != nil && viewController!.basePlugin!.isUrlApp()) {
-//            let url = getResultUrl(info!.redirectappurl!, result);
-//            //TODO::
-////            viewController!.loadUrl(url);
-//        }
+        else if (info!.redirectappurl != nil && viewController != nil && viewController!.basePlugin!.isUrlApp()) {
+            let url = getResultUrl(info!.redirectappurl!, result);
+            viewController!.loadUrl(url);
+        }
         else {
-            var url = info!.redirecturl;
-            if (url == nil) {
-                url = info!.callbackurl;
+            var urlString = info!.redirecturl;
+            if (urlString == nil) {
+                urlString = info!.callbackurl;
             }
 
-            if (url != nil) {
+            if (urlString != nil) {
                 if (info!.type == IntentInfo.JWT) {
                     let jwt = try createJWTResponse(info!, result);
-                    if (IntentManager.checkTrinityScheme(url!)) {
-                        url = url! + "/" + jwt!;
-                        try sendIntentByUri(URL(string: url!)!, info!.fromId);
+                    if (IntentManager.checkTrinityScheme(urlString!)) {
+                        urlString = urlString! + "/" + jwt!;
+                        try sendIntentByUri(URL(string: urlString!)!, info!.fromId);
                     } else {
                         if (info!.redirecturl != nil) {
-                            url = info!.redirecturl! + "/" + jwt!;
-                            //TODO::
-//                                basePlugin.webView.showWebPage(url, true, false, null);
+                            urlString = info!.redirecturl! + "/" + jwt!;
+                            IntentManager.openUrl(URL(string: urlString!)!);
                         } else if (info!.callbackurl != nil) {
                             try postCallback("jwt", jwt!, info!.callbackurl!);
                         }
@@ -509,14 +512,13 @@ class IntentPermission {
                 }
                 else if (info!.type == IntentInfo.URL){
                     let ret = createUrlResponse(info!, result);
-                    if (IntentManager.checkTrinityScheme(url!)) {
-                        url = getResultUrl(url!, ret!);
-                        try sendIntentByUri(URL(string: url!)!, info!.fromId);
+                    if (IntentManager.checkTrinityScheme(urlString!)) {
+                        let url = getResultUrl(urlString!, ret!);
+                        try sendIntentByUri(url, info!.fromId);
                     } else {
                         if (info!.redirecturl != nil) {
-                            url = getResultUrl(url!, ret!);
-                            //TODO::
-//                                basePlugin.webView.showWebPage(url, true, false, null);
+                            let url = getResultUrl(urlString!, ret!);
+                            IntentManager.openUrl(url);
                         } else if (info!.callbackurl != nil) {
                             try postCallback("result", ret!, info!.callbackurl!);
                         }
@@ -528,26 +530,26 @@ class IntentPermission {
 
         intentContextList[intentId] = nil;
     }
-    
+
     func parseIntentPermission() throws {
         let path = getAbsolutePath("www/config/permission/intent.json");
         let json = try getJsonFromFile(path) as! [String: [String: [String]]];
-        
+
         for (intent, value) in json {
             let intentPermission = IntentPermission(intent);
             let senders = value["sender"]!;
             for appId in senders {
                 intentPermission.addSender(appId);
             }
-            
+
             let receivers = value["receiver"]!;
             for appId in receivers {
                 intentPermission.addReceiver(appId);
-                permissionList[intent] = intentPermission;
             }
+            permissionList[intent] = intentPermission;
         }
     }
-    
+
     func getIntentSenderPermission(_ intent: String, _ appId: String) ->Bool {
         let intentPermission = permissionList[intent];
         if (intentPermission == nil) {

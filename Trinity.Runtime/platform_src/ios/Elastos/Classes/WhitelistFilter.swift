@@ -25,7 +25,15 @@
  @objc class WhitelistFilter: CDVIntentAndNavigationFilter {
     var appInfo: AppInfo?;
     var appManager: AppManager;
-    var appWiteList: AppWhitelist?;
+    var appNavigationsWhitelist: AppWhitelist?;
+    var appIntentsWhitelist: AppWhitelist?;
+
+    let intentList = [
+        "mailto:*",
+        "tel:*",
+        "sms:*",
+        "geo:*"
+    ];
 
     override init() {
         self.appManager = AppManager.getShareInstance();
@@ -54,17 +62,24 @@
         allowNavigations.append("trinity:///data/*");
 
         allowNavigations.append("ionic://*");
-        let whitelist = CDVWhitelist(array: allowNavigations)
 
-        self.allowNavigationsWhitelist = whitelist
-        self.allowIntentsWhitelist = whitelist
+        self.allowNavigationsWhitelist = CDVWhitelist(array: allowNavigations)
 
         var allowUrls = [String]();
         for urlAuth in info.urls {
             allowUrls.append(urlAuth.url);
         }
-        self.appWiteList = AppWhitelist(array: allowUrls);
-        self.appWiteList!.setInfo(info);
+        self.appNavigationsWhitelist = AppWhitelist(array: allowUrls);
+        self.appNavigationsWhitelist!.setInfo(info, AppWhitelist.TYPE_URL);
+
+        self.allowIntentsWhitelist = CDVWhitelist(array: intentList);
+
+        allowUrls = [String]();
+        for intentAuth in info.intents {
+            allowUrls.append(intentAuth.url);
+        }
+        self.appIntentsWhitelist = AppWhitelist(array: allowUrls);
+        self.appIntentsWhitelist!.setInfo(info, AppWhitelist.TYPE_INTENT);
     }
 
     func setFilter(_ filter: CDVIntentAndNavigationFilter) {
@@ -72,23 +87,49 @@
         self.allowNavigationsWhitelist = filter.allowNavigationsWhitelist;
     }
 
+    @objc func shouldOpenExternalIntentUrl(_ url: String) -> Bool {
+        let str = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+        let urlStr = URL(string: str!)
+        var ret = self.allowIntentsWhitelist.urlisAllowed(urlStr);
+        if (!ret) {
+            ret = self.allowIntentsWhitelist!.urlisAllowed(urlStr);
+        }
+        return ret;
+    }
+
     @objc func shouldAllowNavigation(_ url: String) -> Bool {
         let str = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
         let urlStr = URL(string: str!)
         var ret = self.allowNavigationsWhitelist.urlisAllowed(urlStr);
         if (!ret) {
-            ret = self.appWiteList!.urlisAllowed(urlStr);
+            ret = self.appNavigationsWhitelist!.urlisAllowed(urlStr);
         }
         return ret;
     }
 
     @objc func shouldOverrideLoad(request:URLRequest, navigationType:UIWebView.NavigationType )  -> Bool {
-        return self.shouldAllowNavigation(request.url!.absoluteString);
-//        return CDVIntentAndNavigationFilter.shouldOverrideLoad(with: request, navigationType: navigationType, filterValue: self.filterUrl(request.url!));
+        //For trinity scheme
+        let url = request.url!;
+        if (IntentManager.checkTrinityScheme(url.absoluteString)) {
+            do {
+                try IntentManager.getShareInstance().sendIntentByUri(url, appInfo!.app_id);
+            } catch AppError.error(let err) {
+                print("sendIntentByUri error:\(err)");
+            } catch let error {
+                print("sendIntentByUri error:\(error.localizedDescription)");
+            }
+            return false;
+        }
+        
+        return CDVIntentAndNavigationFilter.shouldOverrideLoad(with: request, navigationType: navigationType, filterValue: self.filterUrl(request.url!));
     }
 
     @objc func filterUrl(_ url:URL) -> CDVIntentAndNavigationFilterValue {
-        return CDVIntentAndNavigationFilter.filterUrl(url, intentsWhitelist:self.allowIntentsWhitelist, navigationsWhitelist:self.allowNavigationsWhitelist);
+        var filterValue = CDVIntentAndNavigationFilter.filterUrl(url, intentsWhitelist:self.allowIntentsWhitelist, navigationsWhitelist:self.allowNavigationsWhitelist);
+        if (filterValue == CDVIntentAndNavigationFilterValue.noneAllowed) {
+            filterValue = CDVIntentAndNavigationFilter.filterUrl(url, intentsWhitelist:self.appIntentsWhitelist, navigationsWhitelist:self.appNavigationsWhitelist);
+        }
+        return filterValue;
     }
 
  }

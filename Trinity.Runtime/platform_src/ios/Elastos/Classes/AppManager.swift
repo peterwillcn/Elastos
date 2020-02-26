@@ -150,7 +150,7 @@ class AppManager: NSObject {
             path = path + "/assets";
             ret = fileManager.fileExists(atPath: path + "/manifest.json");
             guard ret else {
-                fatalError("Launcher error: manifest.json does not exist!")
+                fatalError("Launcher error: manifest.json does not exist! Make sure that built-in apps are in the www/ folder in xcode.")
             }
         }
 

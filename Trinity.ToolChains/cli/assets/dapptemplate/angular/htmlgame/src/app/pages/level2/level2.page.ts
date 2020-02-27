@@ -21,7 +21,7 @@ export class Level2Page implements OnInit {
   public cardsTotal = 12;	// Total cards to match (divided by 2)
   public cardsArray = [];	// Store all card pairs
   public userLife = 5;		// Total amount of tries user gets
-  public imageDir = '../../assets/img/coins/';
+  public imageDir = '../../assets/game/coins/';
 
   public selectCard1pos = -1;	// Selected card #1 position
   public selectCard1val = -1;	// Selected card #1 value
@@ -95,17 +95,18 @@ export class Level2Page implements OnInit {
     }
   }
 
-    // Function to shuffle an array
-    shuffle(a) {
-	    var j, x, i;
-	    for (i = a.length; i; i--) {
-	        j = Math.floor(Math.random() * i);
-	        x = a[i - 1];
-	        a[i - 1] = a[j];
-	        a[j] = x;
-	    }
+  // Function to shuffle an array
+  shuffle(a) {
+    var j, x, i;
+    for (i = a.length; i; i--) {
+        j = Math.floor(Math.random() * i);
+        x = a[i - 1];
+        a[i - 1] = a[j];
+        a[j] = x;
+    }
   }
 
+  // If level
   nextLevel() {
     this.restartGame();
     this.router.navigate(['level3'])

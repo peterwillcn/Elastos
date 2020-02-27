@@ -2,8 +2,8 @@
   "id": "elastos.trinity.dapps.gamedemo",
   "version": "0.0.1",
   "version_code": 1,
-  "name": "HTML Game Sample",
-  "short_name": "HTML Game Sample",
+  "name": "HTML Game Demo",
+  "short_name": "HTML Game Demo",
   "short_description": "Cards Matching Game",
   "description": "Match All Cryptos and Win!",
   "start_url": "index.html",
@@ -12,14 +12,14 @@
   "category": "games",
   "icons": [
     {
-      "src": "assets/images/logo.jpg",
+      "src": "assets/images/logo.png",
       "sizes": "512x512",
-      "type": "image/jpg"
+      "type": "image/png"
     },
     {
-      "src": "assets/images/logo.jpg",
+      "src": "assets/images/logo.png",
       "sizes": "128x128",
-      "type": "image/jpg"
+      "type": "image/png"
     }
   ],
   "author": {

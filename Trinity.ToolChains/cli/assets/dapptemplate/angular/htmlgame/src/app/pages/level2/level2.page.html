@@ -1,8 +1,8 @@
 <ion-header no-border>
   <ion-toolbar mode="ios" color="dark">
     <ion-buttons slot="start" class="header-btns">
-      <ion-button (click)="gameService.minimizeApp()">
-        <ion-icon name="remove-circle"></ion-icon>
+      <ion-button routerLink="/level1">
+        <ion-icon name="refresh"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-title>Level 2</ion-title>
@@ -29,17 +29,17 @@
     <!-- Actual cards display -->
     <div align="center" *ngIf="startGame && gameState === 'init'">
       <h2>Match All Coins!</h2>
-      <ion-row align-items-center text-center size="8">
+      <ion-row class="ion-align-items-center ion-text-center" size="8">
 
-        <ion-col align-self-center size="3" *ngFor="let c of cardsArray; let i = index">
+        <ion-col class="ion-align-self-center" size="3" *ngFor="let c of cardsArray; let i = index">
           <!-- show card background -->
-          <img src="../../assets/img/cards/background.jpg" *ngIf="c.pos != selectCard1pos && c.pos != selectCard2pos && c.val > -1" (click)="selectCard(c.pos, c.val, i)" style="width:80px; height:80px; border: solid 2px #000; border-radius: 12px;">
+          <img src="../../assets/game/cards/background.jpg" *ngIf="c.pos != selectCard1pos && c.pos != selectCard2pos && c.val > -1" (click)="selectCard(c.pos, c.val, i)">
           <!-- show card 1 selected -->
-          <img [src]="imageDir + gameService.images[c.val] + '.png'" *ngIf="c.pos == selectCard1pos && c.val > -1" style="width:80px; height:80px; border: solid 2px #000; border-radius: 12px;">
+          <img [src]="imageDir + gameService.images[c.val] + '.png'" *ngIf="c.pos == selectCard1pos && c.val > -1">
           <!-- show card 2 selected -->
-          <img [src]="imageDir + gameService.images[c.val] + '.png'" *ngIf="c.pos == selectCard2pos && c.val > -1" style="width:80px; height:80px; border: solid 2px #000; border-radius: 12px;">
+          <img [src]="imageDir + gameService.images[c.val] + '.png'" *ngIf="c.pos == selectCard2pos && c.val > -1">
           <!-- show hidden card -->
-          <img *ngIf="c.val == -1" style="width:80px; height:80px; border: solid 2px #000; border-radius: 12px;visibility: hidden;">
+          <img *ngIf="c.val == -1" style="visibility: hidden;">
 
         </ion-col>
       </ion-row>
@@ -47,11 +47,11 @@
 
     <div align="center" *ngIf="startGame && gameState === 'init'">
       <ion-row>
-        <ion-col col-9 no-padding>
-          <p no-margin>You have <span style="color:#00CC00; font-size: 24px;">{{ userLife }}</span> tries...</p>
+        <ion-col col-9 class="ion-no-padding">
+          <p class="ion-no-margin">You have <span style="color:#00CC00; font-size: 24px;">{{ userLife }}</span> tries...</p>
         </ion-col>
-        <ion-col no-padding>
-          <p no-margin><span style="color:#CC0000; font-size: 24px;">{{ shownTime }}</span></p>
+        <ion-col class="ion-no-padding">
+          <p class="ion-no-margin"><span style="color:#CC0000; font-size: 24px;">{{ shownTime }}</span></p>
         </ion-col>
       </ion-row>
     </div>

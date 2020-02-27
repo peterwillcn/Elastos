@@ -326,20 +326,33 @@ class AppManager: NSObject {
         }
     }
 
-    func install(_ url: String) throws -> AppInfo? {
-        let info = try installer.install(self, url);
+    func install(_ url: String, _ update: Bool) throws -> AppInfo? {
+        let info = try installer.install(url, update);
         if (info != nil) {
             refreashInfos();
-            sendRefreshList("installed", info!);
+        }
+        if (info!.launcher) {
+            sendRefreshList("launcher_upgraded", info!);
+        }
+        else {
+            sendRefreshList("installed", info);
         }
         return info
     }
 
-    func unInstall(_ id: String) throws {
+    func unInstall(_ id: String, _ update: Bool) throws {
         try close(id);
-        try installer.unInstall(appInfos[id]);
+        let info = appInfos[id];
+        try installer.unInstall(info, update);
         refreashInfos();
-        sendRefreshList("unInstalled", appInfos[id]!);
+        if (!update) {
+           if (info!.built_in) {
+            //TODO::
+//               installBuiltInApp("www/built-in/", info!.app_id, 0);
+               refreashInfos();
+           }
+           sendRefreshList("unInstalled", info);
+        }
     }
 
     func removeLastlistItem(_ id: String) {
@@ -465,18 +478,30 @@ class AppManager: NSObject {
             IntentManager.getShareInstance().doIntentByUri(uri);
         }
     }
+    
+    func sendLauncherMessage(_ type: Int, _ msg: String, _ fromId: String) throws {
+        try sendMessage(AppManager.LAUNCHER, type, msg, fromId);
+    }
 
     private func sendInstallMsg(_ uri: String) {
         let msg = "{\"uri\":\"" + uri + "\", \"dev\":\"false\"}";
         do {
-            try sendMessage("launcher", AppManager.MSG_TYPE_EX_INSTALL, msg, "system");
+            try sendLauncherMessage(AppManager.MSG_TYPE_EX_INSTALL, msg, "system");
         } catch {
             print("Send install message: " + msg + " error!");
         }
     }
 
-    private func sendRefreshList(_ action: String, _ info: AppInfo ) {
-        let msg = "{\"action\":\"" + action + "\", \"id\":\"" + info.app_id + "\", \"name\":\"" + info.name + "\"}";
+    private func sendRefreshList(_ action: String, _ info: AppInfo?) {
+        var msg = "";
+        
+        if (info != nil) {
+            msg = "{\"action\":\"" + action + "\", \"id\":\"" + info!.app_id + "\", \"name\":\"" + info!.name + "\"}";
+        }
+        else {
+            msg = "{\"action\":\"" + action + "\"}";
+        }
+        
         do {
             try sendMessage("launcher", AppManager.MSG_TYPE_IN_REFRESH, msg, "system");
         }

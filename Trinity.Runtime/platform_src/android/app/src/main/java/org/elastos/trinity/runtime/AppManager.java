@@ -464,7 +464,7 @@ public class AppManager {
     public void unInstall(String id, boolean update) throws Exception {
         close(id);
         AppInfo info = appInfos.get(id);
-        installer.unInstall(appInfos.get(id), update);
+        installer.unInstall(info, update);
         refreashInfos();
         if (!update) {
            if (info.built_in == 1) {

@@ -161,9 +161,48 @@
 
         try fileManager.copyItem(atPath: src, toPath: dest)
     }
+    
+    private func updateAppInfo(_ info: AppInfo, _ oldInfo: AppInfo) {
+        for auth in info.plugins {
+            for oldAuth in oldInfo.plugins {
+                if (auth.plugin == oldAuth.plugin) {
+                    auth.authority = oldAuth.authority;
+                }
+            }
+        }
+        
+        for auth in info.urls {
+            for oldAuth in oldInfo.urls {
+                if (auth.url == oldAuth.url) {
+                    auth.authority = oldAuth.authority;
+                }
+            }
+        }
 
-    func  install(_ appManager: AppManager, _ url: String) throws -> AppInfo? {
+        info.built_in = oldInfo.built_in;
+        info.launcher = oldInfo.launcher;
+    }
+
+    func renameFolder(_ from: String, _ path: String, _ name: String) throws  {
+        let to = path + name;
+        if (FileManager.default.fileExists(atPath: to)) {
+            try deleteAllFiles(to);
+        }
+        try FileManager.default.moveItem(atPath: from, toPath: to);
+        
+    }
+
+    private func sendInstallingMessage(_ action: String, _ appId: String, _ url: String) throws {
+    try AppManager.getShareInstance().sendLauncherMessage(AppManager.MSG_TYPE_INSTALLING,
+                "{\"action\":\"" + action + "\", \"id\":\"" + appId + "\" , \"url\":\"" + url + "\"}", "system");
+    }
+
+    func  install(_ url: String, _ update: Bool) throws -> AppInfo? {
         var zipPath = url;
+        let originUrl = url;
+
+        try sendInstallingMessage("start", "", originUrl);
+        
         if (url.hasPrefix("asset://")) {
             zipPath = getAssetPath(url);
         }
@@ -174,59 +213,92 @@
 
         let temp = "tmp_" + UUID().uuidString
         let temPath = appPath + temp;
+        
+        if (FileManager.default.fileExists(atPath:temPath)) {
+            try deleteAllFiles(temPath);
+        }
 
         if (!unpackZip(zipPath, temPath)) {
             throw AppError.error("UnpackZip fail!");
         }
+        try sendInstallingMessage("unpacked", "", originUrl);
+        
+        let verifyDigest = ConfigManager.getShareInstance().getBoolValue("install.verifyDigest", false);
+        
+        if (verifyDigest) {
+            if (!verifyEpkDigest(temPath)) {
+                throw AppError.error("verifyEpkDigest fail!");
+            }
 
-        if (!verifyEpkDigest(temPath)) {
-            throw AppError.error("verifyEpkDigest fail!");
+            if (!verifyEpkSignature(temPath)) {
+                throw AppError.error("verifyEpkSignature fail!");
+            }
+            try sendInstallingMessage("verified", "", originUrl);
         }
-
-        if (!verifyEpkSignature(temPath)) {
-            throw AppError.error("verifyEpkSignature fail!");
-        }
-
-        let fileManager = FileManager.default;
 
         let info = try getInfoByManifest(temPath);
-        guard (info != nil && info!.app_id != "" && info!.app_id != "launcher") else {
+        guard (info != nil && info!.app_id != "") else {
             try deleteAllFiles(temPath);
-            throw AppError.error("App info error!");
+            throw AppError.error("Get app info error!");
         }
         
-        guard (appManager.getAppInfo(info!.app_id) == nil) else {
-            try deleteAllFiles(temPath);
-            throw AppError.error("App '" + info!.app_id + "' alreadey exist!");
+        let appManager = AppManager.getShareInstance();
+        let oldInfo = appManager.getAppInfo(info!.app_id);
+        if (oldInfo != nil) {
+            if (update) {
+                print("AppInstaller install() - uninstalling " + info!.app_id+" - update = true");
+                if (!oldInfo!.launcher) {
+                    try AppManager.getShareInstance().unInstall(info!.app_id, true);
+                    try sendInstallingMessage("uninstalled_old", info!.app_id, originUrl);
+                }
+            }
+            else {
+                print("AppInstaller", "install() - update = false - deleting altry! l files");
+                try deleteAllFiles(temPath);
+                throw AppError.error("App '" + info!.app_id + "' already existed!");
+            }
+            updateAppInfo(info!, oldInfo!);
+        }
+        else {
+            print("AppInstaller", "install() - No old info - nothing to uninstall or delete");
+            info!.built_in = false;
+        }
+        
+        if (oldInfo != nil && oldInfo!.launcher) {
+            try renameFolder(temPath, appPath, AppManager.LAUNCHER);
+        }
+        else {
+            try renameFolder(temPath, appPath, info!.app_id);
+            try appManager.dbAdapter.addAppInfo(info!);
         }
 
-        let path = appPath + info!.app_id;
-        if (fileManager.fileExists(atPath: path)) {
-            try deleteAllFiles(path);
-        }
-
-        try fileManager.moveItem(atPath: temPath, toPath: path);
-//            let dirs = try! fileManager.contentsOfDirectory(atPath: path);
-
-        info!.built_in = false;
-        try appManager.dbAdapter.addAppInfo(info!);
+        try sendInstallingMessage("finish", info!.app_id, originUrl);
+        
         return info!;
     }
 
-    func unInstall(_ info: AppInfo?) throws {
+    func unInstall(_ info: AppInfo?, _ update: Bool) throws {
         guard info != nil else {
             throw AppError.error("No such app!");
         }
 
-        guard !info!.built_in else {
-            throw AppError.error("App is a built in!");
-        }
-
-        let dataPath = self.dataPath + info!.app_id
-        try deleteAllFiles(dataPath);
+//        guard !info!.built_in else {
+//            throw AppError.error("App is a built in!");
+//        }
+        
         try dbAdapter.removeAppInfo(info!);
+        
         let appPath = self.appPath + info!.app_id
         try deleteAllFiles(appPath);
+        
+        if (!update) {
+//            Log.d("AppInstaller", "unInstall() - update = false - deleting all files");
+            let dataPath = self.dataPath + info!.app_id
+            try deleteAllFiles(dataPath);
+            
+            let tempPath = self.tempPath + info!.app_id
+            try deleteAllFiles(tempPath);
+        }
     }
 
     private func isAllowPlugin(_ plugin: String) -> Bool {

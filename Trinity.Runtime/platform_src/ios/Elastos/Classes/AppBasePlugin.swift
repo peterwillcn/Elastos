@@ -470,8 +470,10 @@
 
     @objc func install(_ command: CDVInvokedUrlCommand) {
         let url = command.arguments[0] as? String ?? ""
+        let update = command.arguments[1] as? Bool ?? false
+        
         do {
-            let info = try AppManager.getShareInstance().install(url);
+            let info = try AppManager.getShareInstance().install(url, update);
 
             if (info != nil) {
                 self.success(command, retAsDict: jsonAppInfo(info!));
@@ -488,9 +490,10 @@
 
     @objc func unInstall(_ command: CDVInvokedUrlCommand) {
         let id = command.arguments[0] as? String ?? ""
+        let update = command.arguments[1] as? Bool ?? false
 
         do {
-            try AppManager.getShareInstance().unInstall(id);
+            try AppManager.getShareInstance().unInstall(id, update);
             self.success(command, id);
         } catch AppError.error(let err) {
             self.error(command, err);

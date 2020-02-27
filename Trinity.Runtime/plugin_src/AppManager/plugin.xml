@@ -66,6 +66,10 @@
                         <string>org.elastos.trinity.dapp</string>
                     </array>
                 </dict>
+            </array>
+        </config-file>
+        <config-file target="*-Info.plist" parent="UTExportedTypeDeclarations">
+            <array>
                 <dict>
                     <key>UTTypeDescription</key>
                     <string>Elastos trinity dapp package</string>

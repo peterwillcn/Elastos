@@ -1,0 +1,19 @@
+<ion-header >
+  <ion-toolbar mode="ios" color="dark">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Phaser Demo
+    </ion-title>
+    <ion-buttons slot="end" class="header-btns">
+      <ion-button (click)="gameService.closeApp()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="game-container"></div>
+</ion-content>

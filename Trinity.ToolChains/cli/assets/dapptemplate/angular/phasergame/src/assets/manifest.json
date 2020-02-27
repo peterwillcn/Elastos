@@ -1,0 +1,41 @@
+{
+  "id": "elastos.trinity.dapps.gamedemo2",
+  "version": "0.0.1",
+  "version_code": 1,
+  "name": "Game Demo 2",
+  "short_name": "Phaser Game Demo",
+  "short_description": "Games on elastOS",
+  "description": "Gaming",
+  "start_url": "index.html",
+  "type": "app",
+  "start_visible": "hide",
+  "category": "games",
+  "icons": [
+    {
+      "src": "assets/images/logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpg"
+    },
+    {
+      "src": "assets/images/logo.jpg",
+      "sizes": "128x128",
+      "type": "image/jpg"
+    }
+  ],
+  "author": {
+    "name": "Elastos Foundation",
+    "email": "contact@elastos.org",
+    "website": "https://www.elastos.org"
+  },
+  "default_locale": "en",
+  "plugins": [
+    "Device",
+    "NetworkStatus"
+  ],
+  "urls": [
+    "http://www.yourappserver.com/*"
+  ],
+  "background_color": "#4e8ef7",
+  "theme_display": "show",
+  "theme_color": "#4e8ef7"
+}

@@ -1,0 +1,41 @@
+{
+  "id": "elastos.trinity.dapps.gamedemo",
+  "version": "0.0.1",
+  "version_code": 1,
+  "name": "Game Demo",
+  "short_name": "Crypto Cards",
+  "short_description": "Cards Matching Game",
+  "description": "Match All Cryptos and Win!",
+  "start_url": "index.html",
+  "type": "app",
+  "start_visible": "hide",
+  "category": "games",
+  "icons": [
+    {
+      "src": "assets/images/logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpg"
+    },
+    {
+      "src": "assets/images/logo.jpg",
+      "sizes": "128x128",
+      "type": "image/jpg"
+    }
+  ],
+  "author": {
+    "name": "Elastos Foundation",
+    "email": "contact@elastos.org",
+    "website": "https://www.elastos.org"
+  },
+  "default_locale": "en",
+  "plugins": [
+    "Device",
+    "NetworkStatus"
+  ],
+  "urls": [
+    "http://www.yourappserver.com/*"
+  ],
+  "background_color": "#4e8ef7",
+  "theme_display": "show",
+  "theme_color": "#4e8ef7"
+}

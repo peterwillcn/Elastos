@@ -1,0 +1,26 @@
+<ion-header no-border>
+  <ion-toolbar mode="ios" color="dark">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Basic Demo</ion-title>
+    <ion-buttons slot="end" class="header-btns">
+      <ion-button (click)="gameService.minimizeApp()">
+        <ion-icon name="remove-circle"></ion-icon>
+      </ion-button>
+      <ion-button (click)="gameService.closeApp()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-padding" align="center">
+    <h1>Welcome to Coin Match!</h1>
+    <p>Simply match all the cryptos to win!</p>
+    <ion-button color="dark" mode="ios" expand="block" routerLink="/first-game/level1" routerDirection="forward">
+      Start Game
+    </ion-button>
+  </div>
+</ion-content>

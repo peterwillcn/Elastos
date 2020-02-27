@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+// declare let appManager: AppManagerPlugin.AppManager;
 declare let appManager: any;
 
 @Injectable({

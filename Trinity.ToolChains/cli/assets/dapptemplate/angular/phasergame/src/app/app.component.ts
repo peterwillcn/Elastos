@@ -11,18 +11,6 @@ import { Router } from '@angular/router';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  public appPages = [
-    {
-      title: 'Home',
-      url: '/home',
-      icon: 'home'
-    },
-    {
-      title: 'ELA Bags',
-      url: '/firstgame',
-      icon: 'logo-game-controller-b'
-    }
-  ];
 
   constructor(
     private platform: Platform,
@@ -33,7 +21,7 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.router.navigate(["home"])
+      this.router.navigate(['game']);
     });
   }
 }

@@ -1,21 +1,18 @@
 import { Injectable } from '@angular/core';
-import { FirstGameSceneModule } from './firstgame.scene.module';
+import { GameSceneModule } from './game.scene.module';
 
+// declare let appManager: AppManagerPlugin.AppManager;
 declare let appManager: any;
 
 @Injectable({
-    providedIn: FirstGameSceneModule,
+    providedIn: GameSceneModule,
 })
-export class FirstGameScene extends Phaser.Scene {
+export class GameScene extends Phaser.Scene {
 
     private gameOver = false;
     private score = 0;
 
-    // Controls
-    private jumpBtn;
-    private leftBtn;
-    private rightBtn;
-
+    // Assets
     private platforms: Phaser.Physics.Arcade.StaticGroup;
     private player: Phaser.Physics.Arcade.Sprite;
     private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -23,12 +20,17 @@ export class FirstGameScene extends Phaser.Scene {
     private bombs: Phaser.Physics.Arcade.Group;
     private scoreText: Phaser.GameObjects.Text;
 
+    // Controls
+    private jumpBtn;
+    private leftBtn;
+    private rightBtn;
+
     private leftPressed = false;
     private rightPressed = false;
 
     constructor() {
-        super('FirstGameScene');
-        console.log('FirstGameScene.constructor()');
+        super('GameScene');
+        console.log('GameScene.constructor()');
     }
 
     ionViewDidEnter() {
@@ -100,7 +102,7 @@ export class FirstGameScene extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
 
         // Add input events for touchscreen
-        this.input.addPointer(2);
+        this.input.addPointer(3);
         this.jumpBtn = this.add.image(200, 600, 'jump').setInteractive();
         this.leftBtn = this.add.image(100, 600, 'left').setInteractive();
         this.rightBtn = this.add.image(300, 600, 'right').setInteractive();
@@ -120,11 +122,15 @@ export class FirstGameScene extends Phaser.Scene {
             this.goUp();
         });
 
-        //  Some coins to collect, 12 in total, evenly spaced 40 pixels apart along the x axis
+        //  Create coins and settings
         this.coins = this.physics.add.group({
             key: 'ela',
-            repeat: 11,
-            setXY: { x: 12, y: 0, stepX: 30 }
+            repeat: 15, // Amount of assets
+            setXY: {
+                x: 12, // Set asset start on x-axis
+                y: 0, // Set asset start on y-axis
+                stepX: 25 // Set space between assets
+            }
         });
 
         this.coins.children.iterate((child: Phaser.Physics.Arcade.Sprite) => {
@@ -142,9 +148,8 @@ export class FirstGameScene extends Phaser.Scene {
         this.physics.add.collider(this.coins, this.platforms);
         this.physics.add.collider(this.bombs, this.platforms);
 
-        //  Checks to see if the player overlaps with any of the coins, if he does call the collectCoin function
+        // Checks to see if the player overlaps with any of the coins/bombs, if he does call a function as 3rd agument
         this.physics.add.overlap(this.player, this.coins, this.collectCoin, null, this);
-
         this.physics.add.collider(this.player, this.bombs, this.hitBomb, null, this);
     }
 
@@ -169,18 +174,19 @@ export class FirstGameScene extends Phaser.Scene {
     }
 
     goLeft() {
-        console.log("left")
+        console.log("left");
         this.player.setVelocityX(-160);
         this.player.anims.play('left', true);
     }
 
     goRight() {
+        console.log("right");
         this.player.setVelocityX(160);
         this.player.anims.play('right', true);
     }
 
     goUp() {
-        console.log("up")
+        console.log("up");
         if (this.player.body.touching.down) {
             this.player.setVelocityY(-330);
         }

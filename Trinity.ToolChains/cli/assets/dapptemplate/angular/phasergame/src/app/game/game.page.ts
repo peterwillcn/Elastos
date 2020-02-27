@@ -1,23 +1,24 @@
 import { Component } from '@angular/core';
 import 'phaser';
 
-import { FirstGameScene } from './firstgame.scene';
+import { GameScene } from './game.scene';
 import { GameService } from '../services/game.service';
 
+// declare let appManager: AppManagerPlugin.AppManager;
 declare let appManager: any;
 
 @Component({
-  selector: 'app-firstgame',
-  templateUrl: 'firstgame.page.html',
-  styleUrls: ['firstgame.page.scss'],
+  selector: 'app-game',
+  templateUrl: 'Game.page.html',
+  styleUrls: ['Game.page.scss'],
 })
-export class FirstGamePage {
+export class GamePage {
 
   private config: Phaser.Types.Core.GameConfig = {
     width: 800,
     height: 800,
     type: Phaser.AUTO,
-    parent: 'firstgame-container',
+    parent: 'game-container',
     physics: {
       default: 'arcade',
       arcade: {
@@ -25,7 +26,7 @@ export class FirstGamePage {
         debug: false // debug shows outline of collision box
       }
     },
-    scene: [FirstGameScene]
+    scene: [GameScene]
   };
 
   private game: Phaser.Game;
@@ -41,4 +42,8 @@ export class FirstGamePage {
     this.game.destroy(true);
   }
 
+  resetGame() {
+    this.game.destroy(true);
+    this.game = new Phaser.Game(this.config);
+  }
 }

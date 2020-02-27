@@ -23,6 +23,9 @@ export class FirstGameScene extends Phaser.Scene {
     private bombs: Phaser.Physics.Arcade.Group;
     private scoreText: Phaser.GameObjects.Text;
 
+    private leftPressed = false;
+    private rightPressed = false;
+
     constructor() {
         super('FirstGameScene');
         console.log('FirstGameScene.constructor()');
@@ -101,11 +104,17 @@ export class FirstGameScene extends Phaser.Scene {
         this.jumpBtn = this.add.image(200, 600, 'jump').setInteractive();
         this.leftBtn = this.add.image(100, 600, 'left').setInteractive();
         this.rightBtn = this.add.image(300, 600, 'right').setInteractive();
-        this.leftBtn.on('drag', () => {
-            this.goLeft();
+        this.leftBtn.on('pointerdown', () => {
+            this.leftPressed = true;
         });
-        this.rightBtn.on('drag', () => {
-            this.goRight();
+        this.rightBtn.on('pointerdown', () => {
+            this.rightPressed = true;
+        });
+        this.leftBtn.on('pointerup', () => {
+            this.leftPressed = false;
+        });
+        this.rightBtn.on('pointerup', () => {
+            this.rightPressed = false;
         });
         this.jumpBtn.on('pointerdown', () => {
             this.goUp();
@@ -144,10 +153,10 @@ export class FirstGameScene extends Phaser.Scene {
         if (this.gameOver) {
             return;
         }
-        if (this.cursors.left.isDown) {
+        if (this.cursors.left.isDown || this.leftPressed) {
             this.goLeft();
         }
-        else if (this.cursors.right.isDown) {
+        else if (this.cursors.right.isDown || this.rightPressed) {
             this.goRight();
         }
         else {
@@ -160,6 +169,7 @@ export class FirstGameScene extends Phaser.Scene {
     }
 
     goLeft() {
+        console.log("left")
         this.player.setVelocityX(-160);
         this.player.anims.play('left', true);
     }
@@ -170,6 +180,7 @@ export class FirstGameScene extends Phaser.Scene {
     }
 
     goUp() {
+        console.log("up")
         if (this.player.body.touching.down) {
             this.player.setVelocityY(-330);
         }

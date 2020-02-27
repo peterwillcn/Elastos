@@ -8,10 +8,10 @@ declare let appManager: any;
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
   constructor() { }
 
   ionViewDidEnter() {
     appManager.setVisible("show", ()=>{}, (err)=>{});
   }
 }
+ 

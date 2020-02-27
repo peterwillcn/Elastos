@@ -363,7 +363,7 @@ class AppManager: NSObject {
             }
         }
     }
-    
+
     func getViewControllerById(_ appId: String) -> TrinityViewController? {
         var id = appId;
         if (isLauncher(id)) {
@@ -478,7 +478,7 @@ class AppManager: NSObject {
             IntentManager.getShareInstance().doIntentByUri(uri);
         }
     }
-    
+
     func sendLauncherMessage(_ type: Int, _ msg: String, _ fromId: String) throws {
         try sendMessage(AppManager.LAUNCHER, type, msg, fromId);
     }
@@ -494,14 +494,14 @@ class AppManager: NSObject {
 
     private func sendRefreshList(_ action: String, _ info: AppInfo?) {
         var msg = "";
-        
+
         if (info != nil) {
             msg = "{\"action\":\"" + action + "\", \"id\":\"" + info!.app_id + "\", \"name\":\"" + info!.name + "\"}";
         }
         else {
             msg = "{\"action\":\"" + action + "\"}";
         }
-        
+
         do {
             try sendMessage("launcher", AppManager.MSG_TYPE_IN_REFRESH, msg, "system");
         }
@@ -648,7 +648,8 @@ class AppManager: NSObject {
                 try? self.setPluginAuthority(info.app_id, pluginName, AppInfo.AUTHORITY_ALLOW);
                 _ = plugin.execute(command);
                 let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT);
-                result?.setKeepCallbackAs(false);
+                // TODO: set true for qrscanner, need to check
+                result?.setKeepCallbackAs(true);
                 plugin.commandDelegate?.send(result, callbackId:command.callbackId);
 
                 // Unlock the synchronized context

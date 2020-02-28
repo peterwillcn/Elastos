@@ -1,6 +1,7 @@
 const path = require("path")
 const os = require("os")
 const fs = require("fs")
+const bonjour = require('bonjour')()
 
 const DAppHelper = require("./dapp.helper")
 
@@ -193,6 +194,29 @@ module.exports = class RunHelper {
                     reject()
                 }
             });
+        })
+    }
+
+    runDownloadService(epkPath) {
+        return new Promise((resolve, reject)=>{
+            let port = 3000
+
+            // Run a temporary http server
+            var express = require('express')
+            var app = express()
+    
+            app.get('/downloadepk', (req, res) => {
+                res.sendFile(epkPath, {}, (err)=>{
+                    console.log("EPK file was downloaded by elastOS.")
+                    resolve()
+                })
+            })
+            app.listen(port)
+    
+            // Advertise a trinitycli HTTP server
+            bonjour.publish({ name: 'trinitycli', type: 'trinitycli', port: port })
+
+            console.log("Waiting for the mobile app to download the dApp.")
         })
     }
 }

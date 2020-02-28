@@ -3,7 +3,7 @@ import { StorageService } from './storage.service';
 import { Scoreboard } from '../models/scoreboard.model';
 import { Router } from '@angular/router';
 
-declare let appManager;
+declare let appManager: AppManagerPlugin.AppManager;
 
 @Injectable({
   providedIn: 'root'

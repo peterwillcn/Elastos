@@ -622,6 +622,16 @@ class AppManager: NSObject {
             // Make sure other calls are blocked here (other plugin requests) before showing more popups
             // to users.
             self.pluginAlertLock.wait()
+            
+            // In case several plugin api calls are blocked here at the same time, if the first one unlocks
+            // the plugin authority (authorized or refused), then we don't ask any more and we can directly
+            // exit
+            let authority = AppManager.getShareInstance().getPluginAuthority(info.app_id, pluginName)
+            if (authority != AppInfo.AUTHORITY_NOINIT && authority != AppInfo.AUTHORITY_ASK) {
+                self.pluginAlertLock.signal()
+                completion()
+                return
+            }
 
             let alertController = UIAlertController(title: "Plugin authority request",
                                                     message: "App:'" + info.name + "' requests plugin:'" + pluginName + "' access.",
@@ -635,10 +645,12 @@ class AppManager: NSObject {
                                              messageAs: "Plugin:'" + pluginName + "' was not allowed to run.");
                 result?.setKeepCallbackAs(false);
                 plugin.commandDelegate.send(result, callbackId: command.callbackId)
+                
+                print("Plugin:'" + pluginName + "' was not allowed to run.")
 
                 // Unlock the synchronized context
                 self.pluginAlertLock.signal()
-                try! completion()
+                completion()
             }
             alertController.addAction(cancelAlertAction)
 
@@ -651,10 +663,12 @@ class AppManager: NSObject {
                 // TODO: set true for qrscanner, need to check
                 result?.setKeepCallbackAs(true);
                 plugin.commandDelegate?.send(result, callbackId:command.callbackId);
+                
+                print("Plugin:'" + pluginName + "' was granted access to run.")
 
                 // Unlock the synchronized context
                 self.pluginAlertLock.signal()
-                try! completion()
+                completion()
             }
             alertController.addAction(allowAlertAction)
 

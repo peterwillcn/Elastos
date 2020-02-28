@@ -177,5 +177,4 @@ class TrinityViewController : CDVViewController {
         //TODO:: it isn't work
         self.webViewEngine.load(URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 20.0));
     }
-
 }

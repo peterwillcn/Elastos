@@ -22,7 +22,6 @@
 
 import Foundation
 
-
  @nonobjc extension UIViewController {
     func add(_ child: UIViewController) {
         addChild(child)
@@ -48,6 +47,7 @@ import Foundation
 @objc(MainViewController)
 class MainViewController: UIViewController {
     var appManager: AppManager? = nil;
+    var cliService: CLIService? = nil
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -60,6 +60,9 @@ class MainViewController: UIViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         appManager = AppManager(self);
+        
+        // Launch the background CLI service for development
+        cliService = CLIService(appManager: appManager!)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -69,7 +72,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
+    
     // Called for elastos:// link types
     @objc func openURL(_ url: URL) -> Bool {
         // Handler for elastos://action?params urls.

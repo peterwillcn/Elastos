@@ -156,17 +156,15 @@ class IntentPermission {
     }
 
     private func putIntentToList(_ app_id: String, _ info: IntentInfo) {
-        var infos = intentList[app_id];
-        if (infos == nil) {
-            infos = [IntentInfo]();
-            intentList[app_id] = infos;
+        if (intentList[app_id] == nil) {
+            intentList[app_id] = [IntentInfo]();
         }
-        infos!.append(info);
+        intentList[app_id]!.append(info);
     }
 
-    func setIntentReady(_ id: String)  throws {
+    func setIntentReady(_ id: String) throws {
         var infos = intentList[id];
-        if (infos == nil || infos!.count < 1) {
+        if (infos == nil || infos!.isEmpty) {
             return;
         }
 
@@ -240,7 +238,7 @@ class IntentPermission {
             // Otherwise, we display a prompt so that user can pick the right application.
             if (ids.count == 1) {
                 info.toId = ids[0]
-                try sendIntentReal(info: info)
+                try sendIntentReal(info)
             }
             else {
                 // More than one possible handler, show a chooser and pass it the selectable apps info.
@@ -266,16 +264,19 @@ class IntentPermission {
 
                     // Now we know the real app that should receive the intent.
                     info.toId = selectedAppInfo.app_id
-                    try! self.sendIntentReal(info: info)
+                    try! self.sendIntentReal(info)
                 }
 
                 // Present the dialog
                 self.appManager.mainViewController.present(popup, animated: true, completion: nil)
             }
         }
+        else {
+            try sendIntentReal(info);
+        }
     }
 
-    private func sendIntentReal(info: IntentInfo) throws {
+    private func sendIntentReal(_ info: IntentInfo) throws {
         let viewController = appManager.getViewControllerById(info.toId!)
         if (viewController != nil && viewController!.basePlugin!.isIntentReady()) {
             putIntentContext(info);

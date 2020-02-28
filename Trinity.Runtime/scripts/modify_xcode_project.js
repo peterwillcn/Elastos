@@ -39,6 +39,10 @@ module.exports = function(ctx) {
     runtimeProj.addToBuildSettings("PRODUCT_BUNDLE_IDENTIFIER", "org.elastos.trinity.runtime");
     runtimeProj.addToBuildSettings("CLANG_CXX_LANGUAGE_STANDARD", "\"c++0x\"");
 
+    //
+    // Set SWIFT_OPTIMIZATION_LEVEL -Onone for Debug
+    //
+    runtimeProj.updateBuildProperty('SWIFT_OPTIMIZATION_LEVEL', '"-Onone"', 'Debug');
 
     //
     // Add and remove source files in the Classes group

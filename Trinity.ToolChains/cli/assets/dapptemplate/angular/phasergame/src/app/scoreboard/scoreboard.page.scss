@@ -13,11 +13,17 @@ div {
     ion-card-title {
       font-size: 28px;
       font-weight: 900;
+      border-bottom: 3px solid rgb(216, 216, 216);
     }
 
     ion-item {
       display: flex;
       justify-content: space-between;
+      border-bottom: 1px solid  rgb(216, 216, 216);
+
+      ion-label, p {
+        font-size: 14px;
+      }
 
       span {
         font-size: 20px;

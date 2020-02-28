@@ -11,6 +11,10 @@ const routes: Routes = [
     path: 'game',
     loadChildren: './game/game.module#GamePageModule'
   },
+  {
+    path: 'scoreboard',
+    loadChildren: './scoreboard/scoreboard.module#ScoreboardPageModule'
+  },
 ];
 
 @NgModule({

@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
 import { GameService } from '../services/game.service';
-import { PopoverController } from '@ionic/angular';
-import { ScoreboardComponent } from '../scoreboard/scoreboard.component';
-
-// declare let appManager: AppManagerPlugin.AppManager;
-declare let appManager: any;
 
 @Injectable()
 export class GameScene extends Phaser.Scene {
@@ -28,16 +23,9 @@ export class GameScene extends Phaser.Scene {
     private leftPressed = false;
     private rightPressed = false;
 
-    constructor(
-      public gameService: GameService,
-      private popoverController: PopoverController
-    ) {
+    constructor() {
         super('GameScene');
         console.log('GameScene.constructor()');
-    }
-
-    ionViewDidEnter() {
-        appManager.setVisible("show", ()=>{}, (err)=>{});
     }
 
     /***************** Preload Game *****************/
@@ -223,29 +211,6 @@ export class GameScene extends Phaser.Scene {
         player.setTint(0xff0000);
         player.anims.play('turn');
 
-        // setInterval(() => this.showScoreboard(), 1000);
+        setTimeout(() => GameService.instance.showScoreboard(this.score), 1000);
     }
-
-
-  /* TO DO */
-  showScoreboard = () => {
-    this.gameService.scores = this.gameService.scores.concat(
-      [{
-        time: new Date(),
-        ela: this.score
-      }]
-    );
-
-    // Save scores
-    this.gameService.storage.setScores(this.gameService.scores);
-    this.popover();
-  }
-
-  // Show scoreboard at end of game
-  async popover() {
-    const popover = await this.popoverController.create({
-      component: ScoreboardComponent,
-      translucent: true
-    });
-  }
 }

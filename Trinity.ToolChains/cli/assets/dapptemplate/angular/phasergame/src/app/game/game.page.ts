@@ -4,8 +4,7 @@ import 'phaser';
 import { GameScene } from './game.scene';
 import { GameService } from '../services/game.service';
 
-// declare let appManager: AppManagerPlugin.AppManager;
-declare let appManager: any;
+declare let appManager;
 
 @Component({
   selector: 'app-game',

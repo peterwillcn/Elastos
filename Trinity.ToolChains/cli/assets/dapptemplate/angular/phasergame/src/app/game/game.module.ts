@@ -4,8 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { GamePage } from './game.page';
+import { GameScene } from './game.scene';
 
 @NgModule({
+  providers: [GameScene],
   imports: [
     CommonModule,
     FormsModule,

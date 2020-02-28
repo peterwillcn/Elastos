@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { GameSceneModule } from './game.scene.module';
+import { GameService } from '../services/game.service';
+import { PopoverController } from '@ionic/angular';
+import { ScoreboardComponent } from '../scoreboard/scoreboard.component';
 
 // declare let appManager: AppManagerPlugin.AppManager;
 declare let appManager: any;
 
-@Injectable({
-    providedIn: GameSceneModule,
-})
+@Injectable()
 export class GameScene extends Phaser.Scene {
 
     private gameOver = false;
@@ -28,7 +28,10 @@ export class GameScene extends Phaser.Scene {
     private leftPressed = false;
     private rightPressed = false;
 
-    constructor() {
+    constructor(
+      public gameService: GameService,
+      private popoverController: PopoverController
+    ) {
         super('GameScene');
         console.log('GameScene.constructor()');
     }
@@ -108,15 +111,19 @@ export class GameScene extends Phaser.Scene {
         this.rightBtn = this.add.image(300, 600, 'right').setInteractive();
         this.leftBtn.on('pointerdown', () => {
             this.leftPressed = true;
+            this.rightPressed = false;
         });
         this.rightBtn.on('pointerdown', () => {
             this.rightPressed = true;
+            this.leftPressed = false;
         });
         this.leftBtn.on('pointerup', () => {
             this.leftPressed = false;
+            this.rightPressed = false;
         });
         this.rightBtn.on('pointerup', () => {
             this.rightPressed = false;
+            this.leftPressed = false;
         });
         this.jumpBtn.on('pointerdown', () => {
             this.goUp();
@@ -202,8 +209,8 @@ export class GameScene extends Phaser.Scene {
             this.coins.children.iterate((child: Phaser.Physics.Arcade.Sprite) => {
                 child.enableBody(true, child.x, 0, true, true);
             });
-            const x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-            const bomb = this.bombs.create(x, 16, 'bomb');
+            const x = Phaser.Math.Between(0, 400);
+            const bomb = this.bombs.create(x, -400, 'bomb');
             bomb.setBounce(1);
             bomb.setCollideWorldBounds(true);
             bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
@@ -215,6 +222,30 @@ export class GameScene extends Phaser.Scene {
         this.physics.pause();
         player.setTint(0xff0000);
         player.anims.play('turn');
-        this.gameOver = true;
+
+        // setInterval(() => this.showScoreboard(), 1000);
     }
+
+
+  /* TO DO */
+  showScoreboard = () => {
+    this.gameService.scores = this.gameService.scores.concat(
+      [{
+        time: new Date(),
+        ela: this.score
+      }]
+    );
+
+    // Save scores
+    this.gameService.storage.setScores(this.gameService.scores);
+    this.popover();
+  }
+
+  // Show scoreboard at end of game
+  async popover() {
+    const popover = await this.popoverController.create({
+      component: ScoreboardComponent,
+      translucent: true
+    });
+  }
 }

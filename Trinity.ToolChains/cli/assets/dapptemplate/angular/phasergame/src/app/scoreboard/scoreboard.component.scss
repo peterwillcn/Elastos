@@ -1,0 +1,28 @@
+div {
+  background: url(../../assets/phaser/background.jpg) no-repeat center;
+  background-size: cover;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ion-card {
+    width: 80%;
+    border-radius: 10px;
+
+    ion-card-title {
+      font-size: 28px;
+      font-weight: 900;
+    }
+
+    ion-item {
+      display: flex;
+      justify-content: space-between;
+
+      span {
+        font-size: 20px;
+        font-weight: 600;
+      }
+    }
+  }
+}

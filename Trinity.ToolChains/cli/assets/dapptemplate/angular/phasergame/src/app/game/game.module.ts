@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
-import { GameSceneModule } from './game.scene.module';
 import { GamePage } from './game.page';
 
 @NgModule({
@@ -17,7 +16,6 @@ import { GamePage } from './game.page';
         component: GamePage
       }
     ]),
-    GameSceneModule
   ],
   declarations: [GamePage]
 })

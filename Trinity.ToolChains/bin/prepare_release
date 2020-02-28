@@ -41,14 +41,12 @@ def run_cmd(cmd, ignore_error=False):
     if not ignore_error and ret != 0:
         sys.exit(ret)
 
-def check_fabric():
-    api_key = os.getenv("FABRIC_API_KEY");
-    api_secret = os.getenv("FABRIC_API_SECRET");
-    if api_key is None or api_key.strip()=="":
-        print("FABRIC_API_KEY not set!")
+def check_firebase():
+    if not os.path.isfile(os.path.join(RUNTIME_DIR_PATH + '/GoogleService-Info.plist')):
+        print("Can not find GoogleService-Info.plist!")
         sys.exit(1)
-    if api_secret is None or api_secret.strip()=="":
-        print("FABRIC_API_SECRET not set!")
+    if not os.path.isfile(os.path.join(RUNTIME_DIR_PATH + '/google-services.json')):
+        print("Can not find google-services.json!")
         sys.exit(1)
 
 def update_code():
@@ -168,7 +166,7 @@ if args.target == "all" or args.target == "incversion":
 
 if args.target == "all" or args.target == "build":
     os.chdir(PROJECT_DIR_PATH)
-    check_fabric()
+    check_firebase()
     run_cmd('./ToolChains/bin/build all --release')
 
 elapsed = timeit.default_timer() - startTime

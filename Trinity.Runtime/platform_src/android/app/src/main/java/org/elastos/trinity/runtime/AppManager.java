@@ -507,12 +507,9 @@ public class AppManager {
             }
 //            transaction.addToBackStack(null);
             transaction.commit();
-            curFragment = fragment;
         }
 
-        if (curFragment == null) {
-            curFragment = fragment;
-        }
+        curFragment = fragment;
 
         runningList.remove(id);
         runningList.add(0, id);

@@ -41,11 +41,11 @@
         "statusbar"
     ];
 
-    convenience init(_ appInfo: AppInfo, _ filter: WhitelistFilter) {
+    convenience init(_ appInfo: AppInfo) {
         self.init();
         self.appInfo = appInfo;
         self.id = appInfo.app_id;
-        self.whitelistFilter = filter;
+        self.whitelistFilter = WhitelistFilter(appInfo);
 //        self.permissionGroup = PermissionManager.getShareInstance().getPermissionGroup(appInfo.app_id);
     }
 

@@ -185,10 +185,13 @@ public class AppBasePlugin extends TrinityPlugin {
     protected void setVisible(JSONArray args, CallbackContext callbackContext) throws Exception {
         String visible = args.getString(0);
 
-        appManager.setAppVisible(appId, visible);
         if (visible == null || !visible.equals("hide")) {
-            appManager.start(this.appId);
             visible = "show";
+        }
+
+        appManager.setAppVisible(appId, visible);
+        if (visible.equals("show")) {
+            appManager.start(this.appId);
         }
         else {
             appManager.loadLauncher();

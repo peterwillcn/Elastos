@@ -366,6 +366,13 @@ import SQLite
         }
         return infos[0];
     }
+    
+    func changeBuiltInToNormal(_ appId: String) throws {
+        try db.transaction {
+            let builtIn = apps.filter(app_id == appId);
+            try db.run(builtIn.update(built_in <- false));
+        }
+    }
 
     func updatePluginAuth(_ item: PluginAuth, _ auth: Int) throws {
         try db.transaction {

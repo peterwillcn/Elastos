@@ -68,7 +68,6 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        try! appManager!.loadLauncher();
     }
 
     // Called for elastos:// link types

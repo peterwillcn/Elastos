@@ -403,7 +403,7 @@
     }
 
     @objc func sendIntentResponse(_ command: CDVInvokedUrlCommand) {
-        let action = command.arguments[0] as? String ?? "";
+//        let action = command.arguments[0] as? String ?? "";
         let result = command.arguments[1] as? String ?? "";
         let intentId = command.arguments[2] as? Int64 ?? -1
         do {
@@ -471,7 +471,7 @@
     @objc func install(_ command: CDVInvokedUrlCommand) {
         let url = command.arguments[0] as? String ?? ""
         let update = command.arguments[1] as? Bool ?? false
-        
+
         do {
             let info = try AppManager.getShareInstance().install(url, update);
 
@@ -490,10 +490,9 @@
 
     @objc func unInstall(_ command: CDVInvokedUrlCommand) {
         let id = command.arguments[0] as? String ?? ""
-        let update = command.arguments[1] as? Bool ?? false
 
         do {
-            try AppManager.getShareInstance().unInstall(id, update);
+            try AppManager.getShareInstance().unInstall(id, false);
             self.success(command, id);
         } catch AppError.error(let err) {
             self.error(command, err);
@@ -627,6 +626,34 @@
 
     @objc func askPrompt(_ command: CDVInvokedUrlCommand) {
         alertDialog(command, 0, true);
+    }
+
+    @objc func setVisible(_ command: CDVInvokedUrlCommand) {
+        var visible = command.arguments[0] as? String ?? "show"
+
+        if (visible != "hide") {
+            visible = "show";
+        }
+
+        do {
+            let appManager = AppManager.getShareInstance();
+
+            appManager.setAppVisible(self.appId, visible);
+            if (visible == "show") {
+                try appManager.start(self.appId);
+            }
+            else {
+                try appManager.loadLauncher();
+            }
+
+            try appManager.sendLauncherMessage(AppManager.MSG_TYPE_INTERNAL,
+            "{\"visible\": \"" + visible + "\"}", self.appId);
+            self.success(command, "ok");
+        } catch AppError.error(let err) {
+            self.error(command, err);
+        } catch let error {
+            self.error(command, error.localizedDescription);
+        }
     }
 
  }

@@ -62,6 +62,7 @@ class AppManager: NSObject {
     var appInfos = [String: AppInfo]();
     var lastList = [String]();
     var installer: AppInstaller;
+    var visibles = [String: Bool]();
 
     private var currentLocale = "en";
 
@@ -81,11 +82,9 @@ class AppManager: NSObject {
         tempPath = NSHomeDirectory() + "/Documents/temp/";
 
         let fileManager = FileManager.default
-        var first = false;
         if (!fileManager.fileExists(atPath: appsPath)) {
             do {
                 try fileManager.createDirectory(atPath: appsPath, withIntermediateDirectories: true, attributes: nil)
-                first = true;
             }
             catch let error {
                 print("Make appsPath error: \(error)");
@@ -125,44 +124,25 @@ class AppManager: NSObject {
         appList = try! dbAdapter.getAppInfos();
         super.init();
 
-        if first {
-            self.saveLauncherInfo();
-            self.copyConfigFiles();
-        }
-
-        self.saveBuiltInAppInfos();
-        self.refreashInfos();
-
         AppManager.appManager = self;
+        
+        refreashInfos();
+        getLauncherInfo();
+        saveLauncher();
+        
+        do {
+            try loadLauncher();
+        }
+        catch let error {
+            print("loadLauncher error: \(error)");
+        }
+        saveBuiltInApps();
+        refreashInfos();
+        sendRefreshList("initiated", nil);
     }
 
     @objc static func getShareInstance() -> AppManager {
         return AppManager.appManager!;
-    }
-
-    func saveLauncherInfo() {
-        let launcherPath = getAbsolutePath("www/launcher");
-        var path = launcherPath;
-
-        let fileManager = FileManager.default;
-        var ret = fileManager.fileExists(atPath: path + "/manifest.json");
-        if (!ret) {
-            path = path + "/assets";
-            ret = fileManager.fileExists(atPath: path + "/manifest.json");
-            guard ret else {
-                fatalError("Launcher error: manifest.json does not exist! Make sure that built-in apps are in the www/ folder in xcode.")
-            }
-        }
-
-        do {
-            let info = try installer.parseManifest(path + "/manifest.json", true)!;
-            try installer.copyAssetsFolder(launcherPath, appsPath + info.app_id);
-            info.built_in = true;
-            try dbAdapter.addAppInfo(info);
-        }
-        catch let error {
-            print("Copy launcher error: \(error)");
-        }
     }
 
     func copyConfigFiles() {
@@ -174,12 +154,29 @@ class AppManager: NSObject {
             print("Copy configPath error: \(error)");
         }
     }
+    
+    func setAppVisible(_ id: String, _ visible: String) {
+        if (visible == "hide") {
+            visibles[id] = false;
+        }
+        else {
+            visibles[id] = true;
+        }
+    }
 
-    @objc func getLauncherInfo() -> AppInfo {
+    func getAppVisible(_ id: String) -> Bool {
+        let ret = visibles[id];
+        if (ret == nil) {
+            return true;
+        }
+        return ret!;
+    }
+
+    @objc func getLauncherInfo() -> AppInfo? {
         if launcherInfo == nil {
             launcherInfo = try! dbAdapter.getLauncherInfo();
         }
-        return launcherInfo!;
+        return launcherInfo;
     }
 
     @objc func isLauncher(_ appId: String?) -> Bool {
@@ -200,6 +197,10 @@ class AppManager: NSObject {
         appInfos = [String: AppInfo]();
         for info in appList {
             appInfos[info.app_id] = info;
+            let visible = visibles[info.app_id];
+            if (visible == nil) {
+                setAppVisible(info.app_id, info.start_visible);
+            }
         }
     }
 
@@ -246,7 +247,7 @@ class AppManager: NSObject {
     @objc func getDataPath(_ id: String) -> String {
         var appId = id;
         if (id == "launcher") {
-            appId = getLauncherInfo().app_id;
+            appId = getLauncherInfo()!.app_id;
         }
         return dataPath + appId + "/";
     }
@@ -258,7 +259,7 @@ class AppManager: NSObject {
     @objc func getTempPath(_ id: String) -> String {
         var appId = id;
         if (id == "launcher") {
-            appId = getLauncherInfo().app_id;
+            appId = getLauncherInfo()!.app_id;
         }
         return tempPath + appId + "/";
     }
@@ -288,8 +289,76 @@ class AppManager: NSObject {
         }
         return iconPaths
     }
+    
+    func installBuiltInApp(_ appPath: String, _ id: String, _ launcher: Bool) throws {
+//        Log.d("AppManager", "Entering installBuiltInApp path=" + appPath + " id=" + id +" launcher=" + launcher);
+        
+        let originPath = getAbsolutePath(appPath + id);
+        var path = originPath;
+        let fileManager = FileManager.default;
+        var ret = fileManager.fileExists(atPath: path + "/manifest.json");
+        if (!ret) {
+            path = path + "/assets";
+            ret = fileManager.fileExists(atPath: path + "/manifest.json");
+            guard ret else {
+                fatalError("installBuiltInApp error: No manifest found, returning.")
+            }
+        }
 
-    func saveBuiltInAppInfos() {
+        let builtInInfo = try installer.parseManifest(path + "/manifest.json", launcher)!;
+        let installedInfo = getAppInfo(id);
+        var needInstall = true;
+
+        if (installedInfo != nil) {
+            if (builtInInfo.version_code > installedInfo!.version_code) {
+                Log.d("AppManager", "built in version > installed version: uninstalling installed");
+                try installer.unInstall(installedInfo, true);
+            }
+            else {
+                Log.d("AppManager", "Built in version <= installed version, No need to install");
+                needInstall = false;
+            }
+        }
+        else {
+            Log.d("AppManager", "No installed info found");
+        }
+
+        if (needInstall) {
+            Log.d("AppManager", "Needs install - copying assets and setting built-in to 1");
+            try installer.copyAssetsFolder(originPath, appsPath + builtInInfo.app_id);
+            builtInInfo.built_in = true;
+            try dbAdapter.addAppInfo(builtInInfo);
+            if (launcher) {
+                launcherInfo = nil;
+                getLauncherInfo();
+            }
+        }
+        
+        return;
+    }
+
+    private func saveLauncher() {
+        do {
+            try installBuiltInApp("www/", "launcher", true);
+            
+            //For Launcher update by install()
+            let path = appsPath + AppManager.LAUNCHER;
+            let fileManager = FileManager.default;
+            if (fileManager.fileExists(atPath: path)) {
+                let info = try installer.getInfoByManifest(path + "/", true);
+                info!.built_in = true;
+                try dbAdapter.removeAppInfo(launcherInfo!);
+                try installer.renameFolder(path, appsPath, launcherInfo!.app_id);
+                try dbAdapter.addAppInfo(info!);
+                launcherInfo = nil;
+                getLauncherInfo();
+            }
+        } catch let error {
+            print("saveLauncher error: \(error)");
+        }
+    }
+
+    func saveBuiltInApps() {
         let path = getAbsolutePath("www/built-in") + "/";
 
         let fileManager = FileManager.default;
@@ -300,23 +369,24 @@ class AppManager: NSObject {
 
         do {
             for dir in dirs! {
-                var needInstall = true;
-                for info in appList {
-                    if info.app_id == dir {
-                        needInstall = false;
+                try installBuiltInApp("www/built-in/", dir, false);
+            }
+
+            for info in appList {
+//                print("save / app "+info.app_id+" buildin "+info.built_in);
+                if (!info.built_in) {
+                    continue;
+                }
+
+                var needChange = true;
+                for dir in dirs! {
+                    if (dir == info.app_id) {
+                        needChange = false;
                         break;
                     }
                 }
-
-                if (needInstall) {
-                    try installer.copyAssetsFolder(path +  dir, appsPath + dir);
-                    let info = try installer.getInfoByManifest(appsPath +  dir);
-                    guard (info != nil || info!.app_id != "") else {
-                        return;
-                    }
-
-                    info!.built_in = true;
-                    try dbAdapter.addAppInfo(info!);
+                if (needChange) {
+                    try dbAdapter.changeBuiltInToNormal(info.app_id);
                 }
             }
         } catch AppError.error(let err) {
@@ -373,16 +443,30 @@ class AppManager: NSObject {
     }
 
     func switchContent(_ to: TrinityViewController, _ id: String) {
-        mainViewController.switchController(from: curController!, to: to)
+        if ((curController != nil) && (curController != to)) {
+            mainViewController.switchController(from: curController!, to: to)
+        }
 
+        curController = to
+
+//        removeRunninglistItem(id);
+//        runningList.insert(id, at: 0);
+        
         removeLastlistItem(id);
         lastList.insert(id, at: 0);
     }
+    
+    private func hideViewController(_ viewController: TrinityViewController, _ id: String) {
+        viewController.view.isHidden = true;
 
+//        runningList.insert(id, at: 0);
+        lastList.insert(id, at: 1);
+    }
+    
     func start(_ id: String) throws {
-        var viewController = viewControllers[id]
+        var viewController = getViewControllerById(id);
         if viewController == nil {
-            if (id == "launcher") {
+            if (isLauncher(id)) {
                 viewController = LauncherViewController();
             }
             else {
@@ -390,25 +474,25 @@ class AppManager: NSObject {
                 guard appInfo != nil else {
                     throw AppError.error("No such app!");
                 }
-                let appViewController = AppViewController(appInfo!, WhitelistFilter(appInfo!));
+                let appViewController = AppViewController(appInfo!);
 //                appViewController.setInfo(id, appInfo!);
                 viewController = appViewController;
                 sendRefreshList("started", appInfo!);
 
             }
-
+            
             mainViewController.add(viewController!)
             viewControllers[id] = viewController;
-
-            lastList.insert(id, at: 0);
-        }
-        else {
-            if (curController != viewController) {
-                switchContent(viewController!, id);
+            
+            if (!getAppVisible(id)) {
+                hideViewController(viewController!, id);
             }
         }
 
-        curController = viewController
+        if (getAppVisible(id)) {
+            viewController!.view.isHidden = false;
+            switchContent(viewController!, id);
+        }
     }
 
     func close(_ id: String) throws {

@@ -30,9 +30,8 @@
         self.id = "launcher";
         self.appInfo = AppManager.getShareInstance().getLauncherInfo();
         
-        let obj = super.getCommandInstance("intentandnavigationfilter");
-        self.whitelistFilter = WhitelistFilter();
-        self.whitelistFilter?.setFilter(obj as! CDVIntentAndNavigationFilter);
+        self.whitelistFilter = WhitelistFilter(self.appInfo!);
+        self.pluginObjects["CDVIntentAndNavigationFilter"] = self.whitelistFilter;
         
         for (key, value) in pluginsMap {
             let name = key as! String;

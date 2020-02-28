@@ -82,11 +82,6 @@
         self.appIntentsWhitelist!.setInfo(info, AppWhitelist.TYPE_INTENT);
     }
 
-    func setFilter(_ filter: CDVIntentAndNavigationFilter) {
-        self.allowIntentsWhitelist = filter.allowIntentsWhitelist;
-        self.allowNavigationsWhitelist = filter.allowNavigationsWhitelist;
-    }
-
     @objc func shouldOpenExternalIntentUrl(_ url: String) -> Bool {
         let str = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
         let urlStr = URL(string: str!)
@@ -120,7 +115,7 @@
             }
             return false;
         }
-        
+
         return CDVIntentAndNavigationFilter.shouldOverrideLoad(with: request, navigationType: navigationType, filterValue: self.filterUrl(request.url!));
     }
 

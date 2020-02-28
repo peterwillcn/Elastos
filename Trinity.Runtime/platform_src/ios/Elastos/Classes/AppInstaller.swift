@@ -319,7 +319,7 @@
         return false;
     }
 
-    func getInfoByManifest(_ path: String) throws -> AppInfo? {
+    func getInfoByManifest(_ path: String, _ launcher: Bool = false) throws -> AppInfo? {
         var dir = path;
         let fileManager = FileManager.default;
         var ret = fileManager.fileExists(atPath: dir + "/manifest.json")
@@ -331,7 +331,7 @@
                 throw AppError.error("manifest.json no exist!");
             }
         }
-        let info = try parseManifest(dir + "/manifest.json");
+        let info = try parseManifest(dir + "/manifest.json", launcher);
         ret = fileManager.fileExists(atPath: dir + "/manifest.i18n");
         if (ret) {
             try parseManifestLocale(dir + "/manifest.i18n", info!);
@@ -359,7 +359,7 @@
         }
     }
     
-    func parseManifest(_ path: String, _ launcher:Bool = false) throws -> AppInfo? {
+    func parseManifest(_ path: String, _ launcher: Bool = false) throws -> AppInfo? {
         let appInfo = AppInfo();
         let url = URL.init(fileURLWithPath: path)
         var value: String?;
@@ -578,7 +578,6 @@
                 print("Make tempPath error: \(error)");
             }
         }
-
 
         return appInfo;
     }

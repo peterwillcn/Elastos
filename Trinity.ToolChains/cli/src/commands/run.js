@@ -159,7 +159,7 @@ async function deployAndroidDApp(noDebug, forProd) {
  * - ionic build
  * - pack_epk
  * - sign_epk
- * - push and run the EPK on the device (adb push/shell am start, on android)
+ * - run a bonjour + http service and waot for native app to download the EPK
  * - ionic serve (for hot reload inside trinity, when user saves his files)
  */
 async function deployiOSDApp(noDebug, forProd) {
@@ -171,45 +171,25 @@ async function deployiOSDApp(noDebug, forProd) {
         console.error("Error:".red, "Please first install IONIC on your computer.")
         return
     }
-    /*if (!SystemHelper.checkXCodePresence()) {
-        console.error("Error:".red, "Please first install XCode on your computer.")
-        return
-    }*/
     if (!SystemHelper.checkPythonPresence()) {
         console.error("Error:".red, "Please first install Python on your computer.")
         return
     }
 
-    let outputEPKPath = "/var/folders/d2/nw213ddn1c7g6_zcp5940ckw0000gn/T/temp.epk"
-    // TMP runSharedDeploymentPhase(noDebug, forProd).then((outputEPKPath)=>{
+    //let outputEPKPath = "/var/folders/d2/nw213ddn1c7g6_zcp5940ckw0000gn/T/temp.epk"
+    runSharedDeploymentPhase(noDebug, forProd).then((outputEPKPath)=>{
         runHelper.runDownloadService(outputEPKPath).then(()=>{
-
-            console.log("DONE")
-        })
-        /*runHelper.getRunningSimulatorInfo().then((iosDeviceInfo)=>{
-            runHelper.iosUploadEPK(outputEPKPath).then(()=>{
-                runHelper.iosInstallTempEPK().then(()=>{
-                    console.log("RUN OPERATION COMPLETED".green)
+            console.log("RUN OPERATION COMPLETED".green)
         
-                    if (!noDebug) {
-                        console.log("NOW RUNNING THE APP FOR DEVELOPMENT".green)
-                        console.log("Please wait until the ionic server is started before launching your DApp on your device.".magenta)
-                        ionicHelper.runIonicServe()
-                    }
-                })
-                .catch((err)=>{
-                    console.error("Failed to install your DApp on your device".red)
-                    console.error("Error:",err)
-                })
-            })
-            .catch((err)=>{
-                console.error("Failed to upload your DApp to your device".red)
-                console.error("Error:",err)
-            })  
+            if (!noDebug) {
+                console.log("NOW RUNNING THE APP FOR DEVELOPMENT".green)
+                console.log("Please wait until the ionic server is started before launching your DApp on your device.".magenta)
+                ionicHelper.runIonicServe()
+            }
         })
         .catch((err)=>{
-            console.error("Failed launch a ios simulator".red)
+            console.error("Failed to upload your DApp to your device".red)
             console.error("Error:",err)
-        })  */  
-    //})
+        })
+    })
 }

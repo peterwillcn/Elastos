@@ -12,6 +12,7 @@ public class CLIService: NSObject, NetServiceBrowserDelegate, NetServiceDelegate
     var serviceBrowser: NetServiceBrowser?
     var services = [NetService]()
     var shouldRestartSearching = true
+    var operationCompleted = false
     var appManager: AppManager!
     
     init(appManager: AppManager) {
@@ -33,9 +34,10 @@ public class CLIService: NSObject, NetServiceBrowserDelegate, NetServiceDelegate
             self.serviceBrowser!.delegate = self
             
             self.shouldRestartSearching = true
+            self.operationCompleted = false
             self.serviceBrowser!.searchForServices(ofType: "_trinitycli._tcp.", inDomain: "")
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5), execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(20), execute: {
                 self.stopSearching(shouldRestart: true)
             })
         })
@@ -74,38 +76,58 @@ public class CLIService: NSObject, NetServiceBrowserDelegate, NetServiceDelegate
     }
     
     public func netServiceDidResolveAddress(_ service: NetService) {
+        guard !operationCompleted else {
+            return
+        }
+        
         // Got a resolved service info - we can call the service to get and install our EPK
-        downloadEPK(usingService: service)
-        installEPK()
+        downloadEPK(usingService: service) { epkPath in
+            self.installEPK(epkPath: epkPath)
+            // Resume the bonjour search task for future EPKs.
+            self.searchForServices()
+        }
     }
     
     private func getServiceIPAddress(_ service: NetService) -> String? {
-        var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
-        guard let data = service.addresses?.first else {
+        guard service.addresses != nil else {
             return nil
         }
-        data.withUnsafeBytes { ptr in
-            guard let sockaddr_ptr = ptr.baseAddress?.assumingMemoryBound(to: sockaddr.self) else {
-                return
+        
+        for address in service.addresses! {
+            var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+            address.withUnsafeBytes { ptr in
+                guard let sockaddr_ptr = ptr.baseAddress?.assumingMemoryBound(to: sockaddr.self) else {
+                    return
+                }
+                let sockaddr = sockaddr_ptr.pointee
+                guard getnameinfo(sockaddr_ptr, socklen_t(sockaddr.sa_len), &hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST) == 0 else {
+                    return
+                }
             }
-            let sockaddr = sockaddr_ptr.pointee
-            guard getnameinfo(sockaddr_ptr, socklen_t(sockaddr.sa_len), &hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST) == 0 else {
-                return
+            let ipAddress = String(cString:hostname)
+            
+            // Check if the resolved ip address is a ipv4 address, not ipv6.
+            if ipAddress.contains(":") {
+                continue
             }
+            
+            log("Resolved CLI service IP address: \(ipAddress) port: \(service.port)")
+        
+            return ipAddress
         }
-        let ipAddress = String(cString:hostname)
         
-        log("Resolved CLI service IP address: \(ipAddress) port: \(service.port)")
-        
-        return ipAddress
+        return nil
     }
     
-    private func downloadEPK(usingService service: NetService) {
+    private func downloadEPK(usingService service: NetService, completion: @escaping (String)->Void) {
         // Compute the service's download EPK URL
         guard let ipAddress = getServiceIPAddress(service) else {
             log("No IP address found for the service. Aborting EPK download.")
             return
         }
+        
+        // Watchguard to prevent downloading multiple times when IP address is resolved multiple times.
+        self.operationCompleted = true
         
         let serviceEndpoint = "http://\(ipAddress):\(service.port)/downloadepk"
         
@@ -124,7 +146,8 @@ public class CLIService: NSObject, NetServiceBrowserDelegate, NetServiceDelegate
                         self.log("EPK file downloaded successfully with status code: \(statusCode)")
 
                         self.log("Requesting app manager to install the EPK")
-                        self.appManager!.setInstallUri(tempLocalUrl.absoluteString)
+                        
+                        completion(tempLocalUrl.absoluteString)
                         
                         /*do {
                             try FileManager.default.copyItem(at: tempLocalUrl, to: localUrl)
@@ -142,13 +165,13 @@ public class CLIService: NSObject, NetServiceBrowserDelegate, NetServiceDelegate
                     self.log("Failed to download EPK with unknown HTTP error")
                 }
             } else {
-                self.log("Failure: \(error?.localizedDescription)");
+                self.log("Failure: \(error?.localizedDescription ?? "?")");
             }
         }
         task.resume()
     }
     
-    private func installEPK() {
-        
+    private func installEPK(epkPath: String) {
+        self.appManager!.setInstallUri(epkPath)
     }
 }

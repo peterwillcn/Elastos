@@ -2,7 +2,7 @@
 //  HWMaddSignThePursefootTableViewCell.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/7/4.
+//  Created by  on 2019/7/4.
 //
 
 #import "HWMaddSignThePursefootTableViewCell.h"

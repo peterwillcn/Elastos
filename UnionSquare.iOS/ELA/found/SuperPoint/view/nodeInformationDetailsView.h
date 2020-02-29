@@ -2,7 +2,7 @@
 //  nodeInformationDetailsView.h
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/6/24.
+//  Created by  on 2019/6/24.
 //
 
 #import <UIKit/UIKit.h>

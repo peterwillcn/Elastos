@@ -2,7 +2,7 @@
 //  HWMDIDInfoViewController.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/10/30.
+//  Created by  on 2019/10/30.
 //
 
 #import "HWMDIDInfoViewController.h"

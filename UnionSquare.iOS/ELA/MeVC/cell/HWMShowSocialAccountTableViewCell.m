@@ -2,7 +2,7 @@
 //  HWMShowSocialAccountTableViewCell.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2020/2/4.
+//  Created by  on 2020/2/4.
 //
 
 #import "HWMShowSocialAccountTableViewCell.h"

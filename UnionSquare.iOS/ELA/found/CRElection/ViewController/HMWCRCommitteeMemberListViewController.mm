@@ -2,7 +2,7 @@
 //  HMWCRCommitteeMemberListViewController.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/8/27.
+//  Created by  on 2019/8/27.
 //
 
 #import "HMWCRCommitteeMemberListViewController.h"

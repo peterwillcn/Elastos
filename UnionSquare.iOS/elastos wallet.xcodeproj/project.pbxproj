@@ -306,6 +306,7 @@
 		423461FC2383F18900E4B135 /* NSNull+YRSafeCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 423461F22383F18700E4B135 /* NSNull+YRSafeCategory.m */; };
 		4236B5F4239A41BE00C05B67 /* FLCurrencyOfWallerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4236B5F0239A41BD00C05B67 /* FLCurrencyOfWallerVC.m */; };
 		4236B5F5239A41BE00C05B67 /* FLCurrencyOfWallerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4236B5F1239A41BD00C05B67 /* FLCurrencyOfWallerVC.xib */; };
+		4239F306240638780085C4C3 /* libcjson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4239F305240638780085C4C3 /* libcjson.a */; };
 		424910E72271BFCF00C41E50 /* SDWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 424910C62271BFCF00C41E50 /* SDWebImageManager.m */; };
 		424910E82271BFCF00C41E50 /* SDWebImageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 424910C72271BFCF00C41E50 /* SDWebImageDecoder.m */; };
 		424910E92271BFCF00C41E50 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 424910C92271BFCF00C41E50 /* UIImageView+HighlightedWebCache.m */; };
@@ -407,6 +408,8 @@
 		42A7A857236AE3BD0034A900 /* HWMConfidentialInformationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A7A855236AE3BD0034A900 /* HWMConfidentialInformationViewController.xib */; };
 		42A7A85B236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A7A859236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.m */; };
 		42A7A85C236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A7A85A236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.xib */; };
+		42AC00072407E9C900B2999E /* DIDAdapter.c in Sources */ = {isa = PBXBuildFile; fileRef = 42AC00062407E9C900B2999E /* DIDAdapter.c */; };
+		42AC000A2408B94D00B2999E /* spvadapter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42AC00082408B94C00B2999E /* spvadapter.cpp */; };
 		42B263B422DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewControlle.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42B263B222DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewControlle.mm */; };
 		42B263B522DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42B263B322DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.xib */; };
 		42B57AB422150C1C004CF089 /* NSObject+KVOCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B57A9622150C1C004CF089 /* NSObject+KVOCrash.m */; };
@@ -425,11 +428,10 @@
 		42B57AC122150C1C004CF089 /* NSDictionary+WOCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B57AAF22150C1C004CF089 /* NSDictionary+WOCrash.m */; };
 		42B57AC222150C1C004CF089 /* NSMutableArray+WOCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B57AB022150C1C004CF089 /* NSMutableArray+WOCrash.m */; };
 		42B7AD95221BAA61006959B8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 42B7AD97221BAA61006959B8 /* Localizable.strings */; };
-		42C5A45123FBE14100FF0416 /* HWMDIDManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 42C5A45023FBE14100FF0416 /* HWMDIDManager.m */; };
+		42C5A45123FBE14100FF0416 /* HWMDIDManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42C5A45023FBE14100FF0416 /* HWMDIDManager.mm */; };
 		42C5A47323FF9A6500FF0416 /* ElastosDIDConfig-debug.cmake in Resources */ = {isa = PBXBuildFile; fileRef = 42C5A45E23FF9A6500FF0416 /* ElastosDIDConfig-debug.cmake */; };
 		42C5A47423FF9A6500FF0416 /* ElastosDIDConfig.cmake in Resources */ = {isa = PBXBuildFile; fileRef = 42C5A45F23FF9A6500FF0416 /* ElastosDIDConfig.cmake */; };
 		42C5A47A23FF9A6500FF0416 /* libhdkey.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42C5A46B23FF9A6500FF0416 /* libhdkey.a */; };
-		42C5A47D23FF9A6500FF0416 /* libspvadapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42C5A46E23FF9A6500FF0416 /* libspvadapter.a */; };
 		42C5A47F23FF9A6500FF0416 /* libeladid.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42C5A47023FF9A6500FF0416 /* libeladid.a */; };
 		42D105F223A3344D0063AADC /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D105C223A3344D0063AADC /* UIScrollView+MJRefresh.m */; };
 		42D105F323A3344D0063AADC /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D105C323A3344D0063AADC /* MJRefreshConst.m */; };
@@ -1081,6 +1083,7 @@
 		4236B5F0239A41BD00C05B67 /* FLCurrencyOfWallerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLCurrencyOfWallerVC.m; sourceTree = "<group>"; };
 		4236B5F1239A41BD00C05B67 /* FLCurrencyOfWallerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FLCurrencyOfWallerVC.xib; sourceTree = "<group>"; };
 		4236B5F2239A41BD00C05B67 /* FLCurrencyOfWallerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLCurrencyOfWallerVC.h; sourceTree = "<group>"; };
+		4239F305240638780085C4C3 /* libcjson.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcjson.a; sourceTree = "<group>"; };
 		423DDC482382957D00EC25EF /* MASLayoutConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASLayoutConstraint.m; sourceTree = "<group>"; };
 		423F432C2330D25C0081D8E2 /* HWMQRModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMQRModel.m; sourceTree = "<group>"; };
 		424910C32271BFCF00C41E50 /* NSImage+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+WebCache.h"; sourceTree = "<group>"; };
@@ -1243,7 +1246,7 @@
 		428BA70F229B84C00091618F /* invokedUrlCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = invokedUrlCommand.h; sourceTree = "<group>"; };
 		428BA710229B84C00091618F /* invokedUrlCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = invokedUrlCommand.m; sourceTree = "<group>"; };
 		428BA724229B91190091618F /* PluginResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PluginResult.h; sourceTree = "<group>"; };
-		428BA725229B91190091618F /* PluginResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PluginResult.m; sourceTree = "<group>"; };
+		428BA725229B91190091618F /* PluginResult.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; path = PluginResult.m; sourceTree = "<group>"; };
 		428BA727229B92530091618F /* JSON_private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSON_private.m; sourceTree = "<group>"; };
 		428BA728229B92530091618F /* JSON_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON_private.h; sourceTree = "<group>"; };
 		428D9718238D0FE6005F1963 /* HWMCRCommitteeForAgreementView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCRCommitteeForAgreementView.h; sourceTree = "<group>"; };
@@ -1276,6 +1279,13 @@
 		42A7A858236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMAccordingPersonalInformationViewController.h; sourceTree = "<group>"; };
 		42A7A859236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMAccordingPersonalInformationViewController.m; sourceTree = "<group>"; };
 		42A7A85A236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMAccordingPersonalInformationViewController.xib; sourceTree = "<group>"; };
+		42AC00022406732600B2999E /* crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto.h; sourceTree = "<group>"; };
+		42AC00032406732700B2999E /* ela_did.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ela_did.h; sourceTree = "<group>"; };
+		42AC00042406732700B2999E /* HDkey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDkey.h; sourceTree = "<group>"; };
+		42AC00052407E9C900B2999E /* DIDAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIDAdapter.h; sourceTree = "<group>"; };
+		42AC00062407E9C900B2999E /* DIDAdapter.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = DIDAdapter.c; sourceTree = "<group>"; };
+		42AC00082408B94C00B2999E /* spvadapter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spvadapter.cpp; sourceTree = "<group>"; };
+		42AC00092408B94D00B2999E /* spvadapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spvadapter.h; sourceTree = "<group>"; };
 		42B263B122DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMSignatureTradingSingleQrCodeViewController.h; sourceTree = "<group>"; };
 		42B263B222DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewControlle.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HWMSignatureTradingSingleQrCodeViewControlle.mm; sourceTree = "<group>"; };
 		42B263B322DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMSignatureTradingSingleQrCodeViewController.xib; sourceTree = "<group>"; };
@@ -1320,15 +1330,10 @@
 		42C53F9122C9B9820006B3B2 /* ITokenchainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITokenchainSubWallet.h; sourceTree = "<group>"; };
 		42C53F9222C9B9820006B3B2 /* ISidechainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISidechainSubWallet.h; sourceTree = "<group>"; };
 		42C5A44F23FBE14100FF0416 /* HWMDIDManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMDIDManager.h; sourceTree = "<group>"; };
-		42C5A45023FBE14100FF0416 /* HWMDIDManager.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = HWMDIDManager.m; sourceTree = "<group>"; };
+		42C5A45023FBE14100FF0416 /* HWMDIDManager.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; path = HWMDIDManager.mm; sourceTree = "<group>"; };
 		42C5A45E23FF9A6500FF0416 /* ElastosDIDConfig-debug.cmake */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "ElastosDIDConfig-debug.cmake"; sourceTree = "<group>"; };
 		42C5A45F23FF9A6500FF0416 /* ElastosDIDConfig.cmake */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ElastosDIDConfig.cmake; sourceTree = "<group>"; };
-		42C5A46123FF9A6500FF0416 /* HDkey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDkey.h; sourceTree = "<group>"; };
-		42C5A46223FF9A6500FF0416 /* crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto.h; sourceTree = "<group>"; };
-		42C5A46323FF9A6500FF0416 /* ela_did.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ela_did.h; sourceTree = "<group>"; };
-		42C5A46423FF9A6500FF0416 /* spvadapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spvadapter.h; sourceTree = "<group>"; };
 		42C5A46B23FF9A6500FF0416 /* libhdkey.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libhdkey.a; sourceTree = "<group>"; };
-		42C5A46E23FF9A6500FF0416 /* libspvadapter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libspvadapter.a; sourceTree = "<group>"; };
 		42C5A47023FF9A6500FF0416 /* libeladid.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libeladid.a; sourceTree = "<group>"; };
 		42D105C223A3344D0063AADC /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
 		42D105C323A3344D0063AADC /* MJRefreshConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshConst.m; sourceTree = "<group>"; };
@@ -1519,9 +1524,9 @@
 				C45E4ED7237794E1003BB3BA /* libcrypto.a in Frameworks */,
 				4261CF4022A16066006B1DDE /* Security.framework in Frameworks */,
 				4261CF3E22A1605D006B1DDE /* SystemConfiguration.framework in Frameworks */,
+				4239F306240638780085C4C3 /* libcjson.a in Frameworks */,
 				42C5A47F23FF9A6500FF0416 /* libeladid.a in Frameworks */,
 				4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */,
-				42C5A47D23FF9A6500FF0416 /* libspvadapter.a in Frameworks */,
 				C45E4ED4237794B9003BB3BA /* libboost_filesystem.a in Frameworks */,
 				C45E4ED6237794D5003BB3BA /* libboost_thread.a in Frameworks */,
 				C45E4ED5237794C7003BB3BA /* libboost_system.a in Frameworks */,
@@ -1563,7 +1568,6 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				7087D92521BCD85500599316 /* libidchain */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
-				307C750510C5A3420062BCA9 /* Plugins */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				EB87FDF11871DA420020F90C /* Staging */,
@@ -1632,14 +1636,6 @@
 			);
 			name = config;
 			sourceTree = "<group>";
-		};
-		307C750510C5A3420062BCA9 /* Plugins */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Plugins;
-			path = "elastos wallet/Plugins";
-			sourceTree = SOURCE_ROOT;
 		};
 		4202C7D321F6EF28009E5932 /* ELA */ = {
 			isa = PBXGroup;
@@ -3263,10 +3259,9 @@
 		42C5A46023FF9A6500FF0416 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				42C5A46123FF9A6500FF0416 /* HDkey.h */,
-				42C5A46223FF9A6500FF0416 /* crypto.h */,
-				42C5A46323FF9A6500FF0416 /* ela_did.h */,
-				42C5A46423FF9A6500FF0416 /* spvadapter.h */,
+				42AC00022406732600B2999E /* crypto.h */,
+				42AC00032406732700B2999E /* ela_did.h */,
+				42AC00042406732700B2999E /* HDkey.h */,
 			);
 			name = include;
 			path = DIDSDK/include;
@@ -3275,8 +3270,8 @@
 		42C5A46523FF9A6500FF0416 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				4239F305240638780085C4C3 /* libcjson.a */,
 				42C5A46B23FF9A6500FF0416 /* libhdkey.a */,
-				42C5A46E23FF9A6500FF0416 /* libspvadapter.a */,
 				42C5A47023FF9A6500FF0416 /* libeladid.a */,
 			);
 			name = lib;
@@ -3417,6 +3412,8 @@
 		705D8C6A21BE863B0062156D /* WalletManager */ = {
 			isa = PBXGroup;
 			children = (
+				42AC00082408B94C00B2999E /* spvadapter.cpp */,
+				42AC00092408B94D00B2999E /* spvadapter.h */,
 				428BA728229B92530091618F /* JSON_private.h */,
 				428BA727229B92530091618F /* JSON_private.m */,
 				4202CADD21F6F0D2009E5932 /* ElaSubWalletCallback.h */,
@@ -3428,7 +3425,9 @@
 				428BA724229B91190091618F /* PluginResult.h */,
 				428BA725229B91190091618F /* PluginResult.m */,
 				42C5A44F23FBE14100FF0416 /* HWMDIDManager.h */,
-				42C5A45023FBE14100FF0416 /* HWMDIDManager.m */,
+				42C5A45023FBE14100FF0416 /* HWMDIDManager.mm */,
+				42AC00052407E9C900B2999E /* DIDAdapter.h */,
+				42AC00062407E9C900B2999E /* DIDAdapter.c */,
 			);
 			path = WalletManager;
 			sourceTree = "<group>";
@@ -3913,6 +3912,7 @@
 				42B57AC022150C1C004CF089 /* NSMutableString+WOCrash.m in Sources */,
 				42B57AC122150C1C004CF089 /* NSDictionary+WOCrash.m in Sources */,
 				4202CABB21F6EF2B009E5932 /* HMWFMDBManager.m in Sources */,
+				42AC00072407E9C900B2999E /* DIDAdapter.c in Sources */,
 				4202CA6421F6EF2A009E5932 /* HMWtransferTransactionMultipleAddressDetailsView.m in Sources */,
 				4202CA9621F6EF2B009E5932 /* FLCreatAcountVC.mm in Sources */,
 				4202CA1A21F6EF2A009E5932 /* FMDatabaseAdditions.m in Sources */,
@@ -4014,12 +4014,13 @@
 				4228AA4B21F88C87002866B5 /* UIApplication+YYAdd.m in Sources */,
 				4202CAD121F6EF2B009E5932 /* HMWMyVoteViewController.mm in Sources */,
 				4202CAC721F6EF2B009E5932 /* HMWmyVoteStatisticsTableViewCell.m in Sources */,
-				42C5A45123FBE14100FF0416 /* HWMDIDManager.m in Sources */,
+				42C5A45123FBE14100FF0416 /* HWMDIDManager.mm in Sources */,
 				424910EB2271BFCF00C41E50 /* UIImage+GIF.m in Sources */,
 				42D7DC5F23F68732002F5A9A /* HWMAuthorizationPageViewController.m in Sources */,
 				4202CAB721F6EF2B009E5932 /* FLQRVC.mm in Sources */,
 				4202CA6C21F6EF2B009E5932 /* HMWAssetDetailsTableViewCell.m in Sources */,
 				4228AA4A21F88C87002866B5 /* UIDevice+YYAdd.m in Sources */,
+				42AC000A2408B94D00B2999E /* spvadapter.cpp in Sources */,
 				4228AA5921F88C87002866B5 /* NSData+YYAdd.m in Sources */,
 				4202CAD521F6EF2B009E5932 /* HMWtheCandidateListViewController.mm in Sources */,
 				4202CA5721F6EF2A009E5932 /* HMWAddTheCurrencyListTableViewCell.m in Sources */,

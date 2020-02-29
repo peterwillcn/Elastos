@@ -2,7 +2,7 @@
 //  HWMPublicKeyListTabHeadView.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/9/10.
+//  Created by  on 2019/9/10.
 //
 
 #import "HWMPublicKeyListTabHeadView.h"

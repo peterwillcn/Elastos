@@ -2,7 +2,7 @@
 //  HWMCRElectoralAffairsViewController.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/8/28.
+//  Created by  on 2019/8/28.
 //
 
 #import "HWMCRElectoralAffairsViewController.h"

@@ -2,7 +2,7 @@
 //  HMWVotingListTypeCrossCollectionViewCell.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/6/17.
+//  Created by  on 2019/6/17.
 //
 
 #import "HMWVotingListTypeCrossCollectionViewCell.h"

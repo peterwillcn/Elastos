@@ -2,7 +2,7 @@
 //  HWMDIDInfoListView.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2020/2/13.
+//  Created by  on 2020/2/13.
 //
 
 #import "HWMDIDInfoListView.h"

@@ -2,7 +2,7 @@
 //  HWMCRCCommitteeElectionListViewController.h
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/9/5.
+//  Created by  on 2019/9/5.
 //
 
 #import <UIKit/UIKit.h>

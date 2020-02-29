@@ -2,7 +2,7 @@
 //  HWMTheImportDocumentsViewController.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2020/2/14.
+//  Created by  on 2020/2/14.
 //
 
 #import "HWMTheImportDocumentsViewController.h"

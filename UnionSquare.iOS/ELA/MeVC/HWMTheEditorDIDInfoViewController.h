@@ -2,7 +2,7 @@
 //  HWMTheEditorDIDInfoViewController.h
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/10/31.
+//  Created by  on 2019/10/31.
 //
 
 #import <UIKit/UIKit.h>

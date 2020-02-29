@@ -2,7 +2,7 @@
 //  HWMVoteTheEditorialBoardTableViewCell.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/9/3.
+//  Created by  on 2019/9/3.
 //
 
 #import "HWMVoteTheEditorialBoardTableViewCell.h"

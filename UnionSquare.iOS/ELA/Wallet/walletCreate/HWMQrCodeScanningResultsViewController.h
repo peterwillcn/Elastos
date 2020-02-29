@@ -2,7 +2,7 @@
 //  HWMQrCodeScanningResultsViewController.h
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/8/26.
+//  Created by  on 2019/8/26.
 //
 
 #import <UIKit/UIKit.h>

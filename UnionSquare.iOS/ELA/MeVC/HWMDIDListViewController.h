@@ -2,7 +2,7 @@
 //  HWMDIDListViewController.h
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/10/28.
+//  Created by  on 2019/10/28.
 //
 
 #import <UIKit/UIKit.h>

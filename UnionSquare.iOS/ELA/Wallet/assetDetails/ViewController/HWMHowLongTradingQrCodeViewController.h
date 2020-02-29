@@ -2,7 +2,7 @@
 //  HWMHowLongTradingQrCodeViewController.h
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/7/18.
+//  Created by  on 2019/7/18.
 //
 
 #import <UIKit/UIKit.h>

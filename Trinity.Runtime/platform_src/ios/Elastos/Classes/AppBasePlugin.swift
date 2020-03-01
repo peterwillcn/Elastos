@@ -408,6 +408,7 @@
         let intentId = command.arguments[2] as? Int64 ?? -1
         do {
             try IntentManager.getShareInstance().sendIntentResponse(result, intentId, self.appId!);
+            self.success(command, "ok");
         } catch AppError.error(let err) {
             self.error(command, err);
         } catch let error {

@@ -14,6 +14,10 @@ const android_folders_to_copy = [{
   "platform_res/android":
   "platforms/android"
 }]
+const android_files_to_copy = [{
+  "platform_src/android/gradle.properties":
+  "platforms/android/gradle.properties"
+}]
 const ios_folders_to_copy = [{
   "platform_res/ios":
   "platforms/ios"
@@ -65,24 +69,38 @@ module.exports = function(ctx) {
   // console.log(JSON.stringify(ctx, null, 2));
 
   let folders_to_copy = []
+  let files_to_copy = []
   if (ctx.opts.platforms.some((val) => val.startsWith("ios"))) {
     folders_to_copy = folders_to_copy.concat(ios_folders_to_copy);
   }
   if (ctx.opts.platforms.some((val) => val.startsWith("android"))) {
     folders_to_copy = folders_to_copy.concat(android_folders_to_copy);
+    files_to_copy = files_to_copy.concat(android_files_to_copy);
   }
 
   folders_to_copy.forEach(function(obj) {
     Object.keys(obj).forEach(function(key) {
       let val = obj[key];
-  
+
       let srcfile = path.join(ctx.opts.projectRoot, key);
       let destfile = path.join(ctx.opts.projectRoot, val);
 
       console.log("Merging folder " + key + " to " + val);
       let destdir = path.dirname(destfile);
-  
+
       copyFolderRecursiveSync(srcfile, destdir);
+    });
+  });
+
+  files_to_copy.forEach(function(obj) {
+    Object.keys(obj).forEach(function(key) {
+      let val = obj[key];
+
+      let srcfile = path.join(ctx.opts.projectRoot, key);
+      let destfile = path.join(ctx.opts.projectRoot, val);
+
+      console.log("Merging file " + key + " to " + val);
+      copyFileSync(srcfile, destfile);
     });
   });
 };

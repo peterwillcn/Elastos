@@ -15,6 +15,12 @@ const patch_dirs = [
   {
     "hook": "before_plugin_install",
     "platform": "android",
+    "plugin_id": "cordova-plugin-camera",
+    "patch_dir": "patches/before_plugin_install_camera"
+  },
+  {
+    "hook": "before_plugin_install",
+    "platform": "android",
     "plugin_id": "cordova-plugin-device",
     "patch_dir": "patches/before_plugin_install_device"
   },

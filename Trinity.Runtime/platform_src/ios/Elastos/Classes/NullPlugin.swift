@@ -35,6 +35,8 @@ class NullPlugin : CDVPlugin {
                 + "' is forbidden as it has not been added to plugins list in the app manifest."
         let result = CDVPluginResult(status: CDVCommandStatus_ERROR,
                                      messageAs: err);
+        
+        print(err)
 
         self.commandDelegate.send(result, callbackId: command.callbackId)
         return false;

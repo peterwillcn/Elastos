@@ -496,7 +496,7 @@ class AppManager: NSObject {
     }
 
     func close(_ id: String) throws {
-        if (id == "launcher") {
+        if (isLauncher(id)) {
             throw AppError.error("Launcher can't close!");
         }
 
@@ -505,14 +505,14 @@ class AppManager: NSObject {
             throw AppError.error("No such app!");
         }
 
-        let viewController = viewControllers[id]
+        let viewController = getViewControllerById(id);
         if (viewController == nil) {
             return;
         }
 
         if (viewController == curController) {
             let id2 = lastList[1];
-            let viewController2 = viewControllers[id2]
+            let viewController2 = getViewControllerById(id2);
             if (viewController2 == nil) {
                 throw AppError.error("RT inner error!");
             }
@@ -521,6 +521,7 @@ class AppManager: NSObject {
 
         viewControllers[id] = nil;
         viewController!.remove();
+        removeLastlistItem(id);
         sendRefreshList("closed", info!);
     }
 
@@ -595,7 +596,7 @@ class AppManager: NSObject {
    }
 
     func sendMessage(_ toId: String, _ type: Int, _ msg: String, _ fromId: String) throws {
-        let viewController = viewControllers[toId]
+        let viewController = getViewControllerById(toId);
         if (viewController != nil) {
             viewController!.basePlugin!.onReceive(msg, type, fromId);
         }

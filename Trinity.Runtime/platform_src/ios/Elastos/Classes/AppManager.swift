@@ -416,11 +416,10 @@ class AppManager: NSObject {
         try installer.unInstall(info, update);
         refreashInfos();
         if (!update) {
-           if (info!.built_in) {
-            //TODO::
-//               installBuiltInApp("www/built-in/", info!.app_id, 0);
+            if (info!.built_in) {
+                try installBuiltInApp("www/built-in/", info!.app_id, false);
                refreashInfos();
-           }
+            }
            sendRefreshList("unInstalled", info);
         }
     }

@@ -102,6 +102,7 @@
      implementation fileTree(dir: 'libs', include: '*.jar')
 +    implementation 'io.jsonwebtoken:jjwt:0.9.0'
 +    implementation 'com.android.support:appcompat-v7:23.1.1'
++    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
      // SUB-PROJECT DEPENDENCIES START
      implementation(project(path: ":CordovaLib"))
      // SUB-PROJECT DEPENDENCIES END

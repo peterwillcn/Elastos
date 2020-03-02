@@ -148,14 +148,6 @@ public class CLIService: NSObject, NetServiceBrowserDelegate, NetServiceDelegate
                         self.log("Requesting app manager to install the EPK")
                         
                         completion(tempLocalUrl.absoluteString)
-                        
-                        /*do {
-                            try FileManager.default.copyItem(at: tempLocalUrl, to: localUrl)
-                            completion()
-                        } catch (let writeError) {
-                            print("error writing file \(localUrl) : \(writeError)")
-                        }
-                        */
                     }
                     else {
                         self.log("Failed to download EPK with HTTP error \(statusCode)")
@@ -173,7 +165,7 @@ public class CLIService: NSObject, NetServiceBrowserDelegate, NetServiceDelegate
     
     private func installEPK(epkPath: String) {
         do {
-            try AppManager.getShareInstance().install(epkPath, false);
+            _ = try AppManager.getShareInstance().install(epkPath, false);
         } catch AppError.error(let err) {
             print(err);
         } catch let error {

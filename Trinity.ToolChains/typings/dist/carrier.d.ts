@@ -19,7 +19,7 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-   
+
 /**
 * This is about carrier, a decentralized distributed peer-to-peer networking system.
 * With carrier, you can friend someone and use sessions, file transfers among friends.
@@ -594,7 +594,7 @@ declare namespace CarrierPlugin {
         * @param data      The application defined data sent by friend
         */
         onFriendInviteRequest?(carrier: Carrier, from: string, data: string);
-        
+
         /**
         * The callback function that handle session request.
         *
@@ -796,7 +796,7 @@ declare namespace CarrierPlugin {
         * @param {Function} onSuccess  The function to call when success, the param is Group object.
         * @param {Function} onError    The function to call when error, the param is a string. Or set to null.
         */
-        newGroup(callbacks: CarrierCallbacks, onSuccess:(group: Group)=>void, onError?:(err: string)=>void);
+        newGroup(callbacks: GroupCallbacks, onSuccess:(group: Group)=>void, onError?:(err: string)=>void);
 
         /**
         * Join a group request.
@@ -836,14 +836,14 @@ declare namespace CarrierPlugin {
         * @param fileTransferInfo    Information of the file to be transferred.
         */
         newFileTransfer(to:string, fileTransferInfo: FileTransferInfo, callbacks: FileTransferCallbacks, onSuccess?:(fileTransfer: FileTransfer)=>void, onError?:(err: String)=>void);
-            
+
         /**
          * Generate unique file identifier with random algorithm.
          *
          * @param onSuccess  The function to call when success.The param is fileId,
          */
         generateFileId(onSuccess: (fileId: Int)=>void);
-            
+
         /**
         * Create a new session to a friend.
         * The session object represents a conversation handle to a friend.
@@ -1289,7 +1289,7 @@ declare namespace CarrierPlugin {
         /** Relayed Candidate, only valid to ICE tranport. */
         RELAYED=3,
     }
-        
+
     /**
     * @description
     * Carrier network topology for session peers related to each other.
@@ -1304,7 +1304,7 @@ declare namespace CarrierPlugin {
         /** Relayed netowrk topology. */
         RELAYED=2
     }
-        
+
     /**
     * @description
     * Port forwarding supported protocols.
@@ -1330,7 +1330,7 @@ declare namespace CarrierPlugin {
         /** Channel closed because error occured. */
         ERROR=2
     }
-    
+
     /**
     * @description
     * Carrier stream mode.

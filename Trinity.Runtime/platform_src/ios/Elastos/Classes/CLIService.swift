@@ -172,6 +172,12 @@ public class CLIService: NSObject, NetServiceBrowserDelegate, NetServiceDelegate
     }
     
     private func installEPK(epkPath: String) {
-        self.appManager!.setInstallUri(epkPath)
+        do {
+            try AppManager.getShareInstance().install(epkPath, false);
+        } catch AppError.error(let err) {
+            print(err);
+        } catch let error {
+            print(error.localizedDescription);
+        }
     }
 }

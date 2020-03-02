@@ -263,13 +263,13 @@ class AppManager: NSObject {
         }
         return tempPath + appId + "/";
     }
+    
+    @objc func getTempUrl(_ id: String) -> String {
+        return "file://" + getTempPath(id);
+    }
 
     @objc func getConfigPath() -> String {
         return configPath;
-    }
-
-    func getTempUrl(_ id: String) -> String {
-        return "file://" + getTempPath(id);
     }
 
     func getIconPath(_ info: AppInfo) -> String {

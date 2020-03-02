@@ -470,10 +470,14 @@
     }
 
     @objc func install(_ command: CDVInvokedUrlCommand) {
-        let url = command.arguments[0] as? String ?? ""
+        var url = command.arguments[0] as? String ?? ""
         let update = command.arguments[1] as? Bool ?? false
 
         do {
+            if (url.hasPrefix("trinity://")) {
+                url = try getCanonicalPath(url);
+            }
+            
             let info = try AppManager.getShareInstance().install(url, update);
 
             if (info != nil) {

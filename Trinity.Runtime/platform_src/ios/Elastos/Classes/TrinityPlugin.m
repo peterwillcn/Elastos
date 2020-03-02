@@ -30,8 +30,8 @@
 @property (nonatomic, readwrite) AppInfo* appInfo;
 @property (nonatomic, readwrite) NSString* appPath;
 @property (nonatomic, readwrite) NSString* dataPath;
-@property (nonatomic, readwrite) NSString* configPath;
 @property (nonatomic, readwrite) NSString* tempPath;
+@property (nonatomic, readwrite) NSString* configPath;
 @property (nonatomic, readwrite) NSString* appId;
 @end
 
@@ -43,8 +43,8 @@
 @synthesize appInfo;
 @synthesize appPath;
 @synthesize dataPath;
-@synthesize configPath;
 @synthesize tempPath;
+@synthesize configPath;
 @synthesize appId;
 
 
@@ -58,7 +58,7 @@
     self.appPath = [appManager getAppPath:info];
     self.dataPath = [appManager getDataPath:info.app_id];
     self.configPath = [appManager getConfigPath ];
-    self.tempPath = [appManager getTempPath:info.app_id ];
+    self.tempPath = [appManager getTempPath:info.app_id];
     self.appId = info.app_id;
 }
 
@@ -84,6 +84,18 @@
 
 - (NSString*)getTempPath {
     return tempPath;
+}
+
+- (NSString*)getAppUrl {
+    return [appManager getAppUrl:appInfo];
+}
+
+- (NSString*)getDataUrl {
+    return [appManager getDataUrl:appInfo.app_id];
+}
+
+- (NSString*)getTempUrl {
+    return [appManager getTempUrl:appInfo.app_id];
 }
 
 - (NSString*)getConfigPath {
@@ -126,27 +138,48 @@
         [self setError:error];
         return NULL;
     }
+    
+    if ([path hasPrefix:@"trinity://"]) {
+        NSString*  subPath = [path substringFromIndex:10];
+        NSString* id = NULL;
+        NSString *_appPath = appPath, *_dataPath = dataPath, *_tempPath = tempPath;
+        if (![path hasPrefix:@"trinity:///"]) {
+            NSRange range = [subPath rangeOfString:@"/"];
+            if ( range.length > 0 ) {
+                id = [subPath substringWithRange:NSMakeRange(0, range.location)];
+                subPath = [subPath substringWithRange:NSMakeRange(range.location, subPath.length - range.location)];
 
-    if ([path hasPrefix:@"trinity:///asset/"]) {
-        NSString* dir = [self getCanonicalDir:[path substringFromIndex:10] header:@"/asset/" error:error];
-        if (dir != NULL) {
-            ret = [appPath stringByAppendingString:dir];
+                AppInfo* info = [appManager getAppInfo:id];
+                if (info == NULL) {
+                    id = NULL;
+                }
+                else {
+                    _appPath = [appManager getAppPath:info];
+                    _dataPath = [appManager getDataPath:info.app_id];
+                    _tempPath = [appManager getTempPath:info.app_id];
+                }
+            }
         }
-    }
-    else if ([path hasPrefix:@"trinity:///data/"]) {
-        NSString* dir = [self getCanonicalDir:[path substringFromIndex:10] header:@"/data/" error:error];
-        if (dir != NULL) {
-            ret = [dataPath stringByAppendingString:dir];
+        else {
+            id = self.appInfo.app_id;
         }
-    }
-    else if ([path hasPrefix:@"trinity:///temp/"]) {
-        NSString* dir = [self getCanonicalDir:[path substringFromIndex:10] header:@"/temp/" error:error];
-        if (dir != NULL) {
-            ret = [tempPath stringByAppendingString:dir];
+        if (id != NULL) {
+            if ([subPath hasPrefix:@"/asset/"]) {
+                NSString* dir = [self getCanonicalDir:subPath header:@"/asset/" error:error];
+                ret = [_appPath stringByAppendingString:dir];
+            }
+            else if ([subPath hasPrefix:@"/data/"]) {
+                NSString* dir = [self getCanonicalDir:subPath header:@"/data/" error:error];
+                ret = [_dataPath stringByAppendingString:dir];
+            }
+            else if ([subPath hasPrefix:@"/temp/"]) {
+                NSString* dir = [self getCanonicalDir:subPath header:@"/temp/" error:error];
+                ret = [_tempPath stringByAppendingString:dir];
+            }
         }
     }
     else if ([path rangeOfString:@"://"].length > 0) {
-        if (![path hasPrefix:@"asset://"] && [self.whiteListFilter shouldAllowNavigation:path]) {
+        if (![path hasPrefix:@"asset://"] && [self isAllowAccess:path]) {
             ret = path;
         }
     }

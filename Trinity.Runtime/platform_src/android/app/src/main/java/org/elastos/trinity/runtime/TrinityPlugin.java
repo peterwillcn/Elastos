@@ -84,12 +84,24 @@ public class TrinityPlugin extends CordovaPlugin {
         return dataPath;
     }
 
-    public String getConfigPath() {
-        return configPath;
-    }
-
     public String getTempPath() {
         return tempPath;
+    }
+
+    public String getAppUrl() {
+        return appManager.getAppUrl(appInfo);
+    }
+
+    public String getDataUrl() {
+        return appManager.getDataUrl(appInfo.app_id);
+    }
+
+    public String getTempUrl() {
+        return appManager.getDataUrl(appInfo.app_id);
+    }
+
+    public String getConfigPath() {
+        return configPath;
     }
 
     private String getCanonicalDir(String path, String header) throws Exception {

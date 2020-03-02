@@ -37,6 +37,9 @@
 - (NSString*)getDataPath;
 - (NSString*)getTempPath;
 - (NSString*)getConfigPath;
+- (NSString*)getAppUrl;
+- (NSString*)getDataUrl;
+- (NSString*)getTempUrl;
 - (NSString*)getCanonicalPath:(NSString*)path error:(NSError * _Nullable *)error;
 - (NSString*)getDataCanonicalPath:(NSString*)path error:(NSError * _Nullable *)error;
 - (NSString*)getRelativePath:(NSString*)path error:(NSError * _Nullable *)error;

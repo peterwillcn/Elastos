@@ -818,7 +818,6 @@ public class AppManager {
     public synchronized int runAlertPluginAuth(AppInfo info, String plugin, int originAuthority) {
         try {
             synchronized (pluginLock) {
-                pluginLock.authority = originAuthority;
                 pluginLock.authority = getPluginAuthority(info.app_id, plugin);
                 if (pluginLock.authority != originAuthority) {
                     return pluginLock.authority;

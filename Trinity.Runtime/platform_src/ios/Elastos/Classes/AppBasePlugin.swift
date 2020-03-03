@@ -369,7 +369,7 @@
         let info = IntentInfo(action, params, self.appId!, toId, currentTime, command.callbackId);
 
         do {
-            try IntentManager.getShareInstance().sendIntent(info);
+            try IntentManager.getShareInstance().doIntent(info);
             let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT);
             result?.setKeepCallbackAs(true);
             self.commandDelegate.send(result, callbackId: command.callbackId)

@@ -125,11 +125,11 @@ class AppManager: NSObject {
         super.init();
 
         AppManager.appManager = self;
-        
+
         refreashInfos();
         getLauncherInfo();
         saveLauncher();
-        
+
         do {
             try loadLauncher();
         }
@@ -154,7 +154,7 @@ class AppManager: NSObject {
             print("Copy configPath error: \(error)");
         }
     }
-    
+
     func setAppVisible(_ id: String, _ visible: String) {
         if (visible == "hide") {
             visibles[id] = false;
@@ -263,7 +263,7 @@ class AppManager: NSObject {
         }
         return tempPath + appId + "/";
     }
-    
+
     @objc func getTempUrl(_ id: String) -> String {
         return "file://" + getTempPath(id);
     }
@@ -289,10 +289,10 @@ class AppManager: NSObject {
         }
         return iconPaths
     }
-    
+
     func installBuiltInApp(_ appPath: String, _ id: String, _ launcher: Bool) throws {
 //        Log.d("AppManager", "Entering installBuiltInApp path=" + appPath + " id=" + id +" launcher=" + launcher);
-        
+
         let originPath = getAbsolutePath(appPath + id);
         var path = originPath;
         let fileManager = FileManager.default;
@@ -333,14 +333,14 @@ class AppManager: NSObject {
                 getLauncherInfo();
             }
         }
-        
+
         return;
     }
 
     private func saveLauncher() {
         do {
             try installBuiltInApp("www/", "launcher", true);
-            
+
             //For Launcher update by install()
             let path = appsPath + AppManager.LAUNCHER;
             let fileManager = FileManager.default;
@@ -450,18 +450,18 @@ class AppManager: NSObject {
 
 //        removeRunninglistItem(id);
 //        runningList.insert(id, at: 0);
-        
+
         removeLastlistItem(id);
         lastList.insert(id, at: 0);
     }
-    
+
     private func hideViewController(_ viewController: TrinityViewController, _ id: String) {
         viewController.view.isHidden = true;
 
 //        runningList.insert(id, at: 0);
         lastList.insert(id, at: 1);
     }
-    
+
     func start(_ id: String) throws {
         var viewController = getViewControllerById(id);
         if viewController == nil {
@@ -479,10 +479,10 @@ class AppManager: NSObject {
                 sendRefreshList("started", appInfo!);
 
             }
-            
+
             mainViewController.add(viewController!)
             viewControllers[id] = viewController;
-            
+
             if (!getAppVisible(id)) {
                 hideViewController(viewController!, id);
             }
@@ -697,69 +697,69 @@ class AppManager: NSObject {
      Ask user if he is willing to let the given plugin run for this application or not.
      */
     func runAlertPluginAuth(_ info: AppInfo, _ pluginName: String,
+                            _ originAuthority: Int,
                             _ plugin: CDVPlugin,
-                            _ command: CDVInvokedUrlCommand,
-                            _ completion: @escaping () -> Void) {
+                            _ command: CDVInvokedUrlCommand) {
 
         // We use a background thread to queue (and lock) multiple alerts, as we can't block the UI thread.
         DispatchQueue.init(label: "alert-plugin-auth").async {
             // Make sure other calls are blocked here (other plugin requests) before showing more popups
             // to users.
             self.pluginAlertLock.wait()
-            
-            // In case several plugin api calls are blocked here at the same time, if the first one unlocks
-            // the plugin authority (authorized or refused), then we don't ask any more and we can directly
-            // exit
-            let authority = AppManager.getShareInstance().getPluginAuthority(info.app_id, pluginName)
-            if (authority != AppInfo.AUTHORITY_NOINIT && authority != AppInfo.AUTHORITY_ASK) {
+
+            let authority = self.getPluginAuthority(info.app_id, pluginName);
+            if (authority != originAuthority) {
                 self.pluginAlertLock.signal()
-                completion()
-                return
+                self.sendCallbackResult("plugin", pluginName, authority, plugin, command);
+                return;
+
             }
+            self.alertPluginAuth(info, pluginName, plugin, command);
+        }
+    }
 
-            let alertController = UIAlertController(title: "Plugin authority request",
-                                                    message: "App:'" + info.name + "' requests plugin:'" + pluginName + "' access.",
-                                                    preferredStyle: UIAlertController.Style.alert)
+    func sendCallbackResult(_ name: String, _ value: String, _ auth: Int, _ plugin: CDVPlugin,
+                            _ command: CDVInvokedUrlCommand) {
 
-            // Cancel action
-            let cancelAlertAction = UIAlertAction(title: "Refuse", style: UIAlertAction.Style.cancel) { action in
-                // User refused
-                try? self.setPluginAuthority(info.app_id, pluginName, AppInfo.AUTHORITY_DENY);
-                let result = CDVPluginResult(status: CDVCommandStatus_ERROR,
-                                             messageAs: "Plugin:'" + pluginName + "' was not allowed to run.");
-                result?.setKeepCallbackAs(false);
-                plugin.commandDelegate.send(result, callbackId: command.callbackId)
-                
-                print("Plugin:'" + pluginName + "' was not allowed to run.")
+        var result = CDVPluginResult(status: CDVCommandStatus_OK);
+        if (auth == AppInfo.AUTHORITY_ALLOW) {
+            let _ = plugin.execute(command);
 
-                // Unlock the synchronized context
-                self.pluginAlertLock.signal()
-                completion()
-            }
-            alertController.addAction(cancelAlertAction)
+        }
+        else {
+            result = CDVPluginResult(status: CDVCommandStatus_ERROR,
+                                         messageAs: name + ":'" + value + "' have not run authority.");
+        }
+        result?.setKeepCallbackAs(false);
+        plugin.commandDelegate.send(result, callbackId: command.callbackId)
+    }
 
-            // Allow action
-            let allowAlertAction = UIAlertAction(title: "Allow", style: UIAlertAction.Style.default) { action in
-                // User allowed
-                try? self.setPluginAuthority(info.app_id, pluginName, AppInfo.AUTHORITY_ALLOW);
-                _ = plugin.execute(command);
-                let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT);
-                // TODO: set true for qrscanner, need to check
-                result?.setKeepCallbackAs(true);
-                plugin.commandDelegate?.send(result, callbackId:command.callbackId);
-                
-                print("Plugin:'" + pluginName + "' was granted access to run.")
+    func alertPluginAuth(_ info: AppInfo, _ pluginName: String, _ plugin: CDVPlugin, _ command: CDVInvokedUrlCommand) {
 
-                // Unlock the synchronized context
-                self.pluginAlertLock.signal()
-                completion()
-            }
-            alertController.addAction(allowAlertAction)
+        func doAllowHandler(alerAction:UIAlertAction) {
+            try? setPluginAuthority(info.app_id, pluginName, AppInfo.AUTHORITY_ALLOW);
+            pluginAlertLock.signal()
+            sendCallbackResult("plugin", pluginName, AppInfo.AUTHORITY_ALLOW, plugin, command);
+        }
 
-            DispatchQueue.main.async {
-                // Show popup to user
-                self.mainViewController.present(alertController, animated: true, completion: nil)
-            }
+        func doRefuseHandler(alerAction:UIAlertAction) {
+            try? setPluginAuthority(info.app_id, pluginName, AppInfo.AUTHORITY_DENY);
+            pluginAlertLock.signal()
+            sendCallbackResult("plugin", pluginName, AppInfo.AUTHORITY_DENY, plugin, command);
+        }
+
+        let alertController = UIAlertController(title: "Plugin authority request",
+                message: "App:'" + info.name + "' request plugin:'" + pluginName + "' access authority.",
+                preferredStyle: UIAlertController.Style.alert)
+        let cancelAlertAction = UIAlertAction(title: "Refuse", style: UIAlertAction.Style.cancel, handler: doRefuseHandler)
+        alertController.addAction(cancelAlertAction)
+
+        let allowAlertAction = UIAlertAction(title: "Allow", style: UIAlertAction.Style.default, handler: doAllowHandler)
+        alertController.addAction(allowAlertAction)
+
+        DispatchQueue.main.async {
+            // Show popup to user
+            self.mainViewController.present(alertController, animated: true, completion: nil)
         }
     }
 

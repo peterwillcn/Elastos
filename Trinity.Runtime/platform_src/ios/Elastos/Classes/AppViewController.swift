@@ -111,22 +111,20 @@
 
     func getPluginAuthority(_ pluginName: String,
                                   _ plugin: CDVPlugin,
-                                  _ command: CDVInvokedUrlCommand,
-                                  _ completion: @escaping (_ authority: Int) throws -> Void) -> Void {
+                                  _ command: CDVInvokedUrlCommand) -> Int {
         if (self.defaultPlugins.contains(pluginName)) {
-            try! completion(AppInfo.AUTHORITY_ALLOW)
-            return
+            return AppInfo.AUTHORITY_ALLOW;
         }
 
         let authority = AppManager.getShareInstance().getPluginAuthority(appInfo!.app_id, pluginName);
         if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
-            AppManager.getShareInstance().runAlertPluginAuth(appInfo!, pluginName, plugin, command) {
-                try! completion(authority)
-            }
+            let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT);
+            result?.setKeepCallbackAs(true);
+            self.commandDelegate.send(result, callbackId: command.callbackId)
+            
+            AppManager.getShareInstance().runAlertPluginAuth(appInfo!, pluginName, authority, plugin, command);
         }
-        else {
-            try! completion(authority)
-        }
+        return authority;
     }
 
     func getPermissionGroup() -> PermissionGroup {

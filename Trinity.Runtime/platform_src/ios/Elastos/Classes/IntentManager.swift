@@ -169,7 +169,7 @@ class IntentPermission {
         }
 
         for info in infos! {
-            try sendIntent(info);
+            try doIntent(info);
         }
 
         infos!.removeAll();
@@ -225,8 +225,39 @@ class IntentPermission {
 
         return list;
     }
+    
+    private func popupIntentChooser(_ info: IntentInfo, _ ids: [String]) {
+        // More than one possible handler, show a chooser and pass it the selectable apps info.
+       var appInfos: [AppInfo] = []
+       for id in ids {
+           if let info = appManager.getAppInfo(id) {
+               appInfos.append(info)
+           }
+       }
 
-    func sendIntent(_ info: IntentInfo) throws {
+       // Create the dialog
+       let vc = IntentActionChooserController(nibName: "IntentActionChooserController", bundle: Bundle.main)
+
+       vc.setAppManager(appManager: appManager)
+       vc.setAppInfos(appInfos: appInfos)
+
+       let popup = PopupDialog(viewController: vc)
+       let cancelButton = CancelButton(title: "Cancel") {}
+       popup.addButtons([cancelButton])
+
+       vc.setListener() { selectedAppInfo in
+           popup.dismiss()
+
+           // Now we know the real app that should receive the intent.
+           info.toId = selectedAppInfo.app_id
+           try! self.sendIntent(info)
+       }
+
+       // Present the dialog
+       self.appManager.mainViewController.present(popup, animated: true, completion: nil)
+    }
+
+    func doIntent(_ info: IntentInfo) throws {
         if (info.toId == nil) {
             let ids = try getIntentFilter(info.action);
 
@@ -238,45 +269,18 @@ class IntentPermission {
             // Otherwise, we display a prompt so that user can pick the right application.
             if (ids.count == 1) {
                 info.toId = ids[0]
-                try sendIntentReal(info)
+                try sendIntent(info)
             }
             else {
-                // More than one possible handler, show a chooser and pass it the selectable apps info.
-                var appInfos: [AppInfo] = []
-                for id in ids {
-                    if let info = appManager.getAppInfo(id) {
-                        appInfos.append(info)
-                    }
-                }
-
-                // Create the dialog
-                let vc = IntentActionChooserController(nibName: "IntentActionChooserController", bundle: Bundle.main)
-
-                vc.setAppManager(appManager: appManager)
-                vc.setAppInfos(appInfos: appInfos)
-
-                let popup = PopupDialog(viewController: vc)
-                let cancelButton = CancelButton(title: "Cancel") {}
-                popup.addButtons([cancelButton])
-
-                vc.setListener() { selectedAppInfo in
-                    popup.dismiss()
-
-                    // Now we know the real app that should receive the intent.
-                    info.toId = selectedAppInfo.app_id
-                    try! self.sendIntentReal(info)
-                }
-
-                // Present the dialog
-                self.appManager.mainViewController.present(popup, animated: true, completion: nil)
+                popupIntentChooser(info, ids);
             }
         }
         else {
-            try sendIntentReal(info);
+            try sendIntent(info);
         }
     }
 
-    private func sendIntentReal(_ info: IntentInfo) throws {
+    private func sendIntent(_ info: IntentInfo) throws {
         let viewController = appManager.getViewControllerById(info.toId!)
         if (viewController != nil && viewController!.basePlugin!.isIntentReady()) {
             putIntentContext(info);
@@ -382,7 +386,7 @@ class IntentPermission {
     func sendIntentByUri(_ uri: URL, _ fromId: String) throws {
         let info = try parseIntentUri(uri, fromId);
         if (info != nil && info!.params != nil) {
-            try sendIntent(info!);
+            try doIntent(info!);
         }
     }
 

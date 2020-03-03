@@ -34,9 +34,9 @@ class TrinityViewController : CDVViewController {
     var titlebar: TitleBarView!
     var webOriginFrame: CGRect?;
     var webLayoutView: UIView?;
-    
+
     @IBOutlet weak var titlebarHeightConstraint: NSLayoutConstraint!
-    
+
     override func loadView() {
         super.loadView()
         if let nib = Bundle.main.loadNibNamed("TrinityViewController", owner: self),
@@ -45,15 +45,11 @@ class TrinityViewController : CDVViewController {
             webOriginFrame = webContainer.frame;
         }
     }
-        
+
     private func setTrinityPluginInfo(_ plugin:CDVPlugin!) {
         let trinityPlugin = plugin as? TrinityPlugin
 
         if trinityPlugin != nil {
-            let launcherPath = AppManager.getShareInstance().getAppPath(self.appInfo!);
-            let dataPath = AppManager.getShareInstance().getDataPath(self.id);
-            let tempPath = AppManager.getShareInstance().getTempPath(self.id);
-            let configPath = AppManager.getShareInstance().getConfigPath();
             trinityPlugin?.setWhitelist(self.whitelistFilter)
                     trinityPlugin!.setInfo(self.appInfo);
         }
@@ -94,35 +90,35 @@ class TrinityViewController : CDVViewController {
 
         return obj as Any;
     }
-    
+
     override func newCordovaView(withFrame bounds: CGRect) ->UIView {
         titlebar = TitleBarView(self, titlebarContainer.frame, id == "launcher")
         titlebarContainer.addSubview(titlebar!)
         self.addMatchParentConstraints(view: titlebar, parent: titlebarContainer)
-        
+
         let webview = super.newCordovaView(withFrame: CGRect())
         webContainer.addSubview(webview!)
         self.addMatchParentConstraints(view: webview!, parent: webContainer)
 
         return webContainer
     }
-    
+
     func addMatchParentConstraints(view: UIView, parent: UIView) {
         parent.addConstraint(NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: parent, attribute: .top, multiplier: 1.0, constant: 0.0))
         parent.addConstraint(NSLayoutConstraint(item: view, attribute: .leading, relatedBy: .equal, toItem: parent, attribute: .leading, multiplier: 1.0, constant: 0.0))
         parent.addConstraint(NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: parent, attribute: .bottom, multiplier: 1.0, constant: 0.0))
         parent.addConstraint(NSLayoutConstraint(item: view, attribute: .trailing, relatedBy: .equal, toItem: parent, attribute: .trailing, multiplier: 1.0, constant: 0.0))
-        
+
         view.translatesAutoresizingMaskIntoConstraints = false
     }
-    
+
     func addSwipe(_ direction: UInt) {
         let swipe = UISwipeGestureRecognizer(target:self, action:#selector(handleSwipes(_:)));
         swipe.direction = UISwipeGestureRecognizer.Direction(rawValue: direction);
         self.webView.addGestureRecognizer(swipe);
         self.webView.scrollView.panGestureRecognizer.require(toFail: swipe);
     }
-    
+
     @objc func handleSwipes(_ recognizer:UISwipeGestureRecognizer){
         if (recognizer.direction == UISwipeGestureRecognizer.Direction.right) {
             titlebar!.clickBack();
@@ -150,7 +146,7 @@ class TrinityViewController : CDVViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad();
-                
+
         for (name , value) in self.pluginObjects as! [String: CDVPlugin] {
             if (name == "AppBasePlugin") {
                 let plugin = value as! AppBasePlugin;
@@ -159,20 +155,20 @@ class TrinityViewController : CDVViewController {
             }
         }
 
-        if (appInfo!.type == "url") {
-            addSwipe(UISwipeGestureRecognizer.Direction.left.rawValue);
-            addSwipe(UISwipeGestureRecognizer.Direction.right.rawValue);
-        }
-        else {
-            addSwipe(UISwipeGestureRecognizer.Direction.down.rawValue);
-        }
+//        if (appInfo!.type == "url") {
+//            addSwipe(UISwipeGestureRecognizer.Direction.left.rawValue);
+//            addSwipe(UISwipeGestureRecognizer.Direction.right.rawValue);
+//        }
+//        else {
+//            addSwipe(UISwipeGestureRecognizer.Direction.down.rawValue);
+//        }
 
     }
-    
+
     @objc func getBasePlugin() -> AppBasePlugin {
         return self.basePlugin!;
     }
-    
+
     func loadUrl(_ url: URL) {
         //TODO:: it isn't work
         self.webViewEngine.load(URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 20.0));

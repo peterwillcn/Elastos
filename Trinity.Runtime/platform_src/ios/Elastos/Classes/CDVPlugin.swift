@@ -36,49 +36,39 @@ extension CDVPlugin {
             let result = CDVPluginResult(status: CDVCommandStatus_ERROR,
                                          messageAs: msg);
             self.commandDelegate.send(result, callbackId: command.callbackId)
-            return true;
+            return false;
         }
     }
     
-    @objc func trinityExecute(_ command: CDVInvokedUrlCommand) -> Bool {
-        let appView: AppViewController? = self.viewController as? AppViewController
-        if (appView != nil ) {
-            // This call is asynchronous because there can be a UI interaction to request user authorization
-            // to use a plugin, and we cannot block the UI thread
-            appView!.getPluginAuthority(self.pluginName, self, command) { authority in
-                if (authority == AppInfo.AUTHORITY_NOEXIST || authority == AppInfo.AUTHORITY_DENY) {
-                    let msg = "Plugin:'" + self.pluginName + "' doesn't have permission to run."
-                    let result = CDVPluginResult(status: CDVCommandStatus_ERROR,
-                                                 messageAs: msg);
+    
+    func refuseAccess(_ command: CDVInvokedUrlCommand) {
+        let msg = "'" + pluginName + "." + command.methodName + "' have not permssion.";
+        let result = CDVPluginResult(status: CDVCommandStatus_ERROR,
+                                     messageAs: msg);
 
-                    self.commandDelegate.send(result, callbackId: command.callbackId)
+        self.commandDelegate.send(result, callbackId: command.callbackId);
+    }
+        
+
+    @objc func trinityExecute(_ command: CDVInvokedUrlCommand) -> Bool {
+            let appView: AppViewController? = self.viewController as? AppViewController
+            if (appView != nil ) {
+                //checkApiPermission
+//                let ret = appView!.getPermissionGroup().getApiPermission(pluginName, command.methodName);
+//                if (!ret) {
+//                    refuseAccess(command);
+//                    return true;
+//                }
+                
+                let authority = appView!.getPluginAuthority(self.pluginName, self, command);
+                if (authority == AppInfo.AUTHORITY_NOEXIST || authority == AppInfo.AUTHORITY_DENY) {
+                    refuseAccess(command);
+                    return true;
                 }
                 else if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
-                    let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT);
-                    result?.setKeepCallbackAs(true);
-                    self.commandDelegate.send(result, callbackId: command.callbackId)
-                }
-                else if (authority == AppInfo.AUTHORITY_ALLOW) {
-                    _ = self.execute(command)
-                }
-                else {
-                    throw ("Authority value \(authority) not handled in trinityExecute()")
+                    return true;
                 }
             }
-            return true // Assume successful execution (synchronous)
-            
-//            let ret = appView!.getPermissionGroup().getApiPermission(pluginName, command.methodName);
-//            if (!ret) {
-//                let msg = "'" + pluginName + "." + command.methodName + "' have not permssion.";
-//                let result = CDVPluginResult(status: CDVCommandStatus_ERROR,
-//                                             messageAs: msg);
-//
-//                self.commandDelegate.send(result, callbackId: command.callbackId)
-//                return true;
-//            }
+            return self.execute(command);
         }
-        else {
-            return self.execute(command)
-        }
-    }
- }
+     }

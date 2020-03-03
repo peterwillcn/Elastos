@@ -100,7 +100,7 @@ public class IntentManager {
 
         for (int i = 0; i < infos.size(); i++) {
             IntentInfo info = infos.get(i);
-            sendIntent(info);
+            doIntent(info);
         }
         infos.clear();
         intentList.remove(id);
@@ -159,7 +159,31 @@ public class IntentManager {
         return list.toArray(ids);
     }
 
-    public void sendIntent(IntentInfo info) throws Exception {
+    private void popupIntentChooser(IntentInfo info, String[] ids) {
+        // More than one possible handler, show a chooser and pass it the selectable apps info.
+        ArrayList<AppInfo> appInfos = new ArrayList();
+        for (String id : ids) {
+            appInfos.add(appManager.getAppInfo(id));
+        }
+
+        IntentActionChooserFragment actionChooserFragment = new IntentActionChooserFragment(appManager, appInfos);
+        actionChooserFragment.setListener(appInfo -> {
+            actionChooserFragment.dismiss();
+
+            // Now we know the real app that should receive the intent.
+            info.toId = appInfo.app_id;
+            try {
+                sendIntent(info);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        actionChooserFragment.show(appManager.activity.getFragmentManager(), "dialog");
+    }
+
+    public void doIntent(IntentInfo info) throws Exception {
         if (info.toId == null) {
             String[] ids = getIntentFilter(info.action);
 
@@ -171,38 +195,18 @@ public class IntentManager {
             // Otherwise, we display a prompt so that user can pick the right application.
             if (ids.length == 1) {
                 info.toId = ids[0];
-                sendIntentReal(info);
+                sendIntent(info);
             }
             else {
-                // More than one possible handler, show a chooser and pass it the selectable apps info.
-                ArrayList<AppInfo> appInfos = new ArrayList();
-                for (String id : ids) {
-                    appInfos.add(appManager.getAppInfo(id));
-                }
-
-                IntentActionChooserFragment actionChooserFragment = new IntentActionChooserFragment(appManager, appInfos);
-                actionChooserFragment.setListener(appInfo -> {
-                    actionChooserFragment.dismiss();
-
-                    // Now we know the real app that should receive the intent.
-                    info.toId = appInfo.app_id;
-                    try {
-                        sendIntentReal(info);
-                    }
-                    catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
-
-                actionChooserFragment.show(appManager.activity.getFragmentManager(), "dialog");
+                popupIntentChooser(info, ids);
             }
         }
         else {
-            sendIntentReal(info);
+            sendIntent(info);
         }
     }
 
-    public void sendIntentReal(IntentInfo info) throws Exception {
+    public void sendIntent(IntentInfo info) throws Exception {
         WebViewFragment fragment = appManager.getFragmentById(info.toId);
         if ((fragment != null) && (fragment.basePlugin.isIntentReady())) {
             putIntentContext(info);
@@ -325,7 +329,7 @@ public class IntentManager {
     public void sendIntentByUri(Uri uri, String fromId) throws Exception {
         IntentInfo info = parseIntentUri(uri, fromId);
         if (info != null && info.params != null) {
-            sendIntent(info);
+            doIntent(info);
         }
     }
 

@@ -416,7 +416,7 @@ public class AppBasePlugin extends TrinityPlugin {
 
         IntentInfo info = new IntentInfo(action, params, this.appId, toId, currentTime, callbackContext);
 
-        IntentManager.getShareInstance().sendIntent(info);
+        IntentManager.getShareInstance().doIntent(info);
         PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
         pluginResult.setKeepCallback(true);
         callbackContext.sendPluginResult(pluginResult);

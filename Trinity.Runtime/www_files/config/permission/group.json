@@ -79,6 +79,6 @@
         "QRScanner": ["*"],
         "SplashScreen": ["*"],
         "StatusBar": ["*"],
-        "Fingerprint": ["*"]
+        "FingerprintPlugin": ["*"]
     }
 }

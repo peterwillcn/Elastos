@@ -76,7 +76,9 @@ def is_plugin_changed(directory):
         return (modify_time_1 > modify_time_2);
 
 def re_install_plugin(plugindir, restore = True):
-    run_cmd("tsc --build " + plugindir + "/www/tsconfig.json")
+    tsconfig = plugindir + "/www/tsconfig.json"
+    if os.path.isfile(tsconfig):
+        run_cmd("tsc --build " + tsconfig)
     os.chdir(RUNTIME_DIR_PATH)
     backup_files()
     run_cmd("cordova plugin rm " + get_pluginId(plugindir), True)

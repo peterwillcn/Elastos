@@ -15,6 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
 +(instancetype)shareDIDManager;
 -(void)copyDirToSharedDir;
 -(BOOL)saveDir;
+@property(copy,nonatomic)NSString *passWord;
+@property(copy,nonatomic)NSString *DIDString;
+@property(copy,nonatomic)NSString *TheMnemonicWordString;
+@property(copy,nonatomic)NSString *privatekeyString;
+@property(copy,nonatomic)NSString *mastWalletID;
 
 @end
 

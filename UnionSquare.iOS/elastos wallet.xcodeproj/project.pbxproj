@@ -409,7 +409,6 @@
 		42A7A85B236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A7A859236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.m */; };
 		42A7A85C236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A7A85A236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.xib */; };
 		42AC00072407E9C900B2999E /* DIDAdapter.c in Sources */ = {isa = PBXBuildFile; fileRef = 42AC00062407E9C900B2999E /* DIDAdapter.c */; };
-		42AC000A2408B94D00B2999E /* spvadapter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42AC00082408B94C00B2999E /* spvadapter.cpp */; };
 		42B263B422DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewControlle.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42B263B222DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewControlle.mm */; };
 		42B263B522DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42B263B322DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.xib */; };
 		42B57AB422150C1C004CF089 /* NSObject+KVOCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B57A9622150C1C004CF089 /* NSObject+KVOCrash.m */; };
@@ -1284,8 +1283,6 @@
 		42AC00042406732700B2999E /* HDkey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDkey.h; sourceTree = "<group>"; };
 		42AC00052407E9C900B2999E /* DIDAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIDAdapter.h; sourceTree = "<group>"; };
 		42AC00062407E9C900B2999E /* DIDAdapter.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = DIDAdapter.c; sourceTree = "<group>"; };
-		42AC00082408B94C00B2999E /* spvadapter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spvadapter.cpp; sourceTree = "<group>"; };
-		42AC00092408B94D00B2999E /* spvadapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spvadapter.h; sourceTree = "<group>"; };
 		42B263B122DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMSignatureTradingSingleQrCodeViewController.h; sourceTree = "<group>"; };
 		42B263B222DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewControlle.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HWMSignatureTradingSingleQrCodeViewControlle.mm; sourceTree = "<group>"; };
 		42B263B322DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMSignatureTradingSingleQrCodeViewController.xib; sourceTree = "<group>"; };
@@ -1330,7 +1327,7 @@
 		42C53F9122C9B9820006B3B2 /* ITokenchainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITokenchainSubWallet.h; sourceTree = "<group>"; };
 		42C53F9222C9B9820006B3B2 /* ISidechainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISidechainSubWallet.h; sourceTree = "<group>"; };
 		42C5A44F23FBE14100FF0416 /* HWMDIDManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMDIDManager.h; sourceTree = "<group>"; };
-		42C5A45023FBE14100FF0416 /* HWMDIDManager.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; path = HWMDIDManager.mm; sourceTree = "<group>"; };
+		42C5A45023FBE14100FF0416 /* HWMDIDManager.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = HWMDIDManager.mm; sourceTree = "<group>"; };
 		42C5A45E23FF9A6500FF0416 /* ElastosDIDConfig-debug.cmake */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "ElastosDIDConfig-debug.cmake"; sourceTree = "<group>"; };
 		42C5A45F23FF9A6500FF0416 /* ElastosDIDConfig.cmake */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ElastosDIDConfig.cmake; sourceTree = "<group>"; };
 		42C5A46B23FF9A6500FF0416 /* libhdkey.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libhdkey.a; sourceTree = "<group>"; };
@@ -3412,8 +3409,6 @@
 		705D8C6A21BE863B0062156D /* WalletManager */ = {
 			isa = PBXGroup;
 			children = (
-				42AC00082408B94C00B2999E /* spvadapter.cpp */,
-				42AC00092408B94D00B2999E /* spvadapter.h */,
 				428BA728229B92530091618F /* JSON_private.h */,
 				428BA727229B92530091618F /* JSON_private.m */,
 				4202CADD21F6F0D2009E5932 /* ElaSubWalletCallback.h */,
@@ -4020,7 +4015,6 @@
 				4202CAB721F6EF2B009E5932 /* FLQRVC.mm in Sources */,
 				4202CA6C21F6EF2B009E5932 /* HMWAssetDetailsTableViewCell.m in Sources */,
 				4228AA4A21F88C87002866B5 /* UIDevice+YYAdd.m in Sources */,
-				42AC000A2408B94D00B2999E /* spvadapter.cpp in Sources */,
 				4228AA5921F88C87002866B5 /* NSData+YYAdd.m in Sources */,
 				4202CAD521F6EF2B009E5932 /* HMWtheCandidateListViewController.mm in Sources */,
 				4202CA5721F6EF2A009E5932 /* HMWAddTheCurrencyListTableViewCell.m in Sources */,

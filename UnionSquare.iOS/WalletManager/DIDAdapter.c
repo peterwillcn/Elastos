@@ -73,7 +73,7 @@ DIDAdapter *DIDAdapter_Create(const char *walletDir, const char *walletId,
         return NULL;
 
     adapter->base.createIdTransaction = TestDIDAdaptor_CreateIdTransaction;
-    adapter->base.resolve = DIDAdapter_Resolver;
+//    adapter->base.resolve = DIDAdapter_Resolver;// 需要构造方法
 
     adapter->impl = SpvDidAdapter_Create(walletDir, walletId, network, resolver);
     if (!adapter->impl) {

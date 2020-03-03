@@ -255,14 +255,14 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "BD0D8FE3-5746-46B8-9C81-64A0FCF898F5 - bf8119b70746f1aa"
+                  uuid = "BD0D8FE3-5746-46B8-9C81-64A0FCF898F5 - 90e00944beab4baa"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "-[ELWalletManager UpdateProducerWithMainchainSubWallet:With:]"
                   moduleName = "ELA Wallet"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Volumes/Transcend/Elastos.App.UnionSquare.iOS.github/WalletManager/ELWalletManager.mm"
+                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS.github/WalletManager/ELWalletManager.mm"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1631"
@@ -270,14 +270,14 @@
                   offsetFromSymbolStart = "1888">
                </Location>
                <Location
-                  uuid = "BD0D8FE3-5746-46B8-9C81-64A0FCF898F5 - bf8119b70746f1aa"
+                  uuid = "BD0D8FE3-5746-46B8-9C81-64A0FCF898F5 - 90e00944beab4baa"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "-[ELWalletManager UpdateProducerWithMainchainSubWallet:With:]"
                   moduleName = "ELA Wallet"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Volumes/Transcend/Elastos.App.UnionSquare.iOS.github/WalletManager/ELWalletManager.mm"
+                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS.github/WalletManager/ELWalletManager.mm"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1631"

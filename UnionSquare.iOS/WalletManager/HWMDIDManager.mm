@@ -10,6 +10,7 @@
 #include "ela_did.h"
 #include "HDkey.h"
 #include "crypto.h"
+#include "DIDAdapter.h"
 
 
 static HWMDIDManager *_instance;
@@ -61,136 +62,159 @@ struct DID *did;
      rootPath=[MyUtil getRootPath];
     return self;
 }
--(void)resolve{
-    DID * did = NULL;
-    DIDDocument * doc;
-//    DIDStore_ListDID(store, DID_FILTER_ALL, DIDStore_GetDIDCallback *callback, void *context);
-//     DIDURL *DIDURL_FromString(const char *idstring, DID *ref);
+-(void)initDID{
+    DIDBackend_InitializeDefault("http://api.elastos.io:20606");
+    DIDAdapter * didAdapter = NULL;
+    store=DIDStore_Open([[self mRootPath] UTF8String], didAdapter);
+    DID *did=DID_FromString([self.mastWalletID UTF8String]);// 获取DID
+    if (DIDSotre_ContainsPrivateKeys(store, did)) {//拉取
+        [self resolve];
+    }else{//创建
+        DID *did=DID_New([self.mastWalletID UTF8String]);
+        DIDURL *url=DIDURL_NewByDid(did, "default");
+        const char uint8_t *privatekey=[self.privatekeyString UTF8String];
+        DIDStore_StorePrivateKey(store,[self.passWord UTF8String],did,url, privatekey);
+        DID_Destroy(did);
+        DIDURL_Destroy(url);
+    }
 
-  
-//    new DIDURL(did,"primary");
-    DIDURL * didurl =DIDURL_FromString("primary", did);
     
-    if (DIDStore_ContainsPrivateKey(store,did, didurl)) {
-        doc=DID_Resolve(did);
-    }else{
-        //异步加载
-        DIDStore_Synchronize(store, "密码");
-        doc=DIDStore_LoadDID(store, did);
+}
+//从链上拉去信息
+-(void)resolve{
+    DID * did = DIDStore_GetDIDByIndex(store, [self.passWord UTF8String], 0);
+    DIDURL *didURL=DIDURL_NewByDid(did, "primary");
+    
+    
+    if (!DIDStore_ContainsPrivateKey(store,did, didURL)||!DIDStore_ContainsDID(store,did)) {
+        doc=DIDStore_NewDID(store, [self.passWord UTF8String], "IDalias");
     }
     doc=DID_Resolve(did);
 // ui 加载圈
     if (doc==NULL) {// 创建did
 //        did=DID_New(<#const char *method_specific_string#>);
+
+//        }
     }else{//展示did
         
     }
+    DID_Destroy(did);
+    DIDURL_Destroy(didURL);
     
 }
--(void)initDID{
-    DIDAdapter*didAdapter = NULL;
-    store=DIDStore_Initialize([self.mRootPath UTF8String], didAdapter);
-    DID *did=NULL;
-    DIDURL *didURL=NULL;
-    if (DIDStore_ContainsPrivateKey(store, did, didURL)) {
-        [self resolve];
-    }else{
-        
+DIDAdapter *DIDAdapter_Create(const char *walletDir, const char *walletId,
+        const char *network, const char *resolver, GetPasswordCallback *callback)
+{
+    DIDAdapter *adapter;
+    const char *password;
+
+    if (!walletDir || !walletId || !callback)
+        return NULL;
+
+    adapter = (DIDAdapter*) calloc(1, sizeof(10266));
+    if (!adapter)
+        return NULL;
+    
+    adapter->base.createIdTransaction =DIDAdaptor_CreateIdTransaction;
+    adapter->base.resolve =DIDAdapter_Resolver;
+
+    adapter->impl = SpvDidAdapter_Create(walletDir, walletId, network, resolver);
+    if (!adapter->impl) {
+        free(adapter);
+        return NULL;
     }
 
-    
-}
-//DIDAdapter *TestDIDAdapter_Create(const char *walletDir, const char *walletId,
-//        const char *network, const char *resolver, GetPasswordCallback *callback)
-//{
-//    DIDAdaptor *adapter;
-//    const char *password;
-//
-//    if (!walletDir || !walletId || !callback)
-//        return NULL;
-//
-//    adapter = (DIDAdaptor*)calloc(1, sizeof(TestDIDAdaptor));
-//    if (!adapter)
-//        return NULL;
-//
-//    adapter->base.createIdTransaction = TestDIDAdaptor_CreateIdTransaction;
-//    adapter->base.resolve = TestDIDAdapter_Resolver;
-//
-//    adapter->impl = SpvDidAdapter_Create(walletDir, walletId, network, resolver);
-//    if (!adapter->impl) {
-//        free(adapter);
-//        return NULL;
-//    }
-//
-//    adapter->passwordCallback = callback;
-//    adapter->walletDir = strdup(walletDir);
-//    adapter->walletId = strdup(walletId);
+    adapter->passwordCallback = callback;
+    adapter->walletDir = strdup(walletDir);
+    adapter->walletId = strdup(walletId);
 
-//    return (DIDAdapter*)adapter;
-////}
--(void)creatDID:(id)data withPayPassWord:(NSString *)pwd{
-//          0: English; 1: French; 2: Spanish;
-//    *                             3: Japanese; 4: Chinese_simplified;
-//    *                             5: Chinese_traditional;
-    if (DIDStore_InitPrivateIdentity(store, [pwd UTF8String], "助记词", "私钥", 0, true) ==0) {//成功， 失败
-        [self resolve];
-    }else{//， 失败
-        
-    }
-   
-  doc=  DIDStore_ResolveDID(store, did, true);
-    
-    DIDURL * url  =DIDDocument_GetDefaultPublicKey(doc);
-    PublicKey *pukey=DIDDocument_GetPublicKey(doc, url);
-    
-   const char *base58pubk=PublicKey_GetPublicKeyBase58(pukey);//公钥
-     
-         
-  time_t periodValiditytime =DIDDocument_GetExpires(doc);//获得有效期
-            
-            //获得alia
-//            doc.getExpires();
-//            doc.setExpires(new Date());//guoqo
-            //  doc.setAlias("");
-//            VerifiableCredential cre = doc.getCredential("name");
-//            cre.getSubject().getPropertyAsString("name");
-    
-    
-    
-    
+    return (DIDAdapter*)adapter;
 }
--(void)restDID:(id)data withPayPassWord:(NSString *)pwd withName:(NSString*)name{
-    
+
+-(void)getDIDInfo{
+   DID *did=DID_FromString([self.mastWalletID UTF8String]);// 获取DID
     doc=DIDStore_LoadDID(store, did);
-    time_t endDate=NULL;
-    DIDDocumentBuilder * build= DIDDocument_Modify(doc);
-    DIDDocumentBuilder_SetExpires(build, endDate);
-    DIDURL *url=DIDDocument_GetDefaultPublicKey(doc);
-//                        build.setExpires(endDate);
+    DIDURL *URL=DIDDocument_GetDefaultPublicKey(doc);
+   PublicKey *pk= DIDDocument_GetPublicKey(doc, URL);
+   const char * pkChar =  PublicKey_GetPublicKeyBase58(pk);
+   time_t endTime= DIDDocument_GetExpires(doc);
+
+//          VerifiableCredential cre = doc.getCredential("name");
+    Credential * cre= DIDDocument_GetCredential(doc, URL);
     
-//    Issuer * issuer = Issuer_Create(did,url );
-//
-//
-//    NSDictionary *SelfProclaimedCredential=@{@"SelfProclaimedCredential"};
-////
-////                        String[] SelfProclaimedCredential = {"SelfProclaimedCredential"};
-//    NSArray *props=@[@{@"name":name}];
-//
-//                        VerifiableCredential * vc = verifia(did)
+//          cre.getSubject().getPropertyAsString("name");
+    
+    const char *suInfo  =  Credential_GetProperty(cre, "name");
+    DID_Destroy(did);
+       DIDURL_Destroy(URL);
+}
+-(void)updateInfo{
+    DID* did =DID_FromString([self.mastWalletID UTF8String]);
+    DIDURL *url=DIDDocument_GetDefaultPublicKey(doc);
+    doc=DIDStore_LoadDID(store, did);
+    DIDDocumentBuilder *build=DIDDocument_Edit(doc);
+    
+    time_t endTime=0;
+    DIDDocumentBuilder_SetExpires(build, endTime);
+    Issuer *issuer=Issuer_Create(did, url, store);
+    char * SelfProclaimedCredential []={"SelfProclaimedCredential"};
+
+//                        Map<String, String> props = new HashMap<String, String>();
+//                        props.put("name", name);
+    Credential * cre=NULL;
+//       Credential * cre= Issuer_CreateCredential(issuer, did, url, <#const char **types#>, <#size_t typesize#>, <#Property *properties#>, <#int size#>, <#time_t expires#>, <#const char *storepass#>)
+//                        VerifiableCredential vc = issuer.issueFor(did)
 //                                .id("name")//唯一标识一个VerifiableCredential 相同会覆盖
 //                                .type(SelfProclaimedCredential)
 //                                .expirationDate(endDate)
 //                                .properties(props)
 //                                .seal("");
-//
-//                        build.addCredential(vc);
-//                        DIDDocument newDoc = build.seal("");
+    DIDDocumentBuilder_AddCredential(build, cre);
+ DIDDocument * newDoc=  DIDDocumentBuilder_Seal(build, [self.passWord UTF8String]);
+//    * @param
+//    *      document                [in] The handle to DID Document.
+//    * @param
+//    *      keyid                    [in] Public key to sign.
+//    *                                   If key = NULL, sdk will get default key from
+//    *                                   DID Document.
+//    * @param
+//    *      storepass               [in] Pass word to sign.
+//    * @param
+//    *      sig                     [out] The buffer will receive signature data.
+//    * @param
+//    *      count                   [in] The size of data list.
+//    * @return
+//    *      0 on success, -1 if an error occurred.
+    DIDStore_StoreDID(store, doc, "name");
+//    DIDDocument_Sign(doc, url, [], <#char *sig#>, <#int count, ...#>)
+    
+
 //                        didStore.storeDid(newDoc);//存储本地
 //                        document.sign("aa111", "aa".getBytes());
 //                        boolean flag = document.verify("aa", "aa".getBytes());
 //                        // did.resolve();
 //                        //did.setAlias("");
 //                        didStore.publishDid(did, 1, "aa111111");//todo 直接publis  执行的是adpter的publish?
+    DID_Destroy(did);
+         DIDURL_Destroy(URL);
     
+}
+-(void)creatDIDInfoWith:(id)data{
+    const char *newmnemonic = Mnemonic_Generate(0);
+     DIDStore_InitPrivateIdentity(store, [self.passWord UTF8String], [self.TheMnemonicWordString UTF8String], "", 0, false);
+       Mnemonic_Free((void*)newmnemonic);
+
+}
+-(void)setPassWord:(NSString *)passWord{
+    _passWord=passWord;
+}
+-(void)setDIDString:(NSString *)DIDString{
+    _DIDString=DIDString;
+}
+-(void)setPrivatekeyString:(NSString *)privatekeyString{
+    _privatekeyString=privatekeyString;
+}
+-(void)setMastWalletID:(NSString *)mastWalletID{
+    _mastWalletID=mastWalletID;
 }
 @end

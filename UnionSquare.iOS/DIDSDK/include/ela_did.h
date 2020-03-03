@@ -63,9 +63,7 @@ typedef ptrdiff_t       ssize_t;
 
 /**
  * \~English
- * DID string max length. eg, did:elastos:ixxxxxxxxxx
- */
-#define ELA_MAX_DID_LEN                 128
+ * DID string max length. eg, did:elastos:iDIDBackend_Initializeine ELA_MAX_DID_LEN                 128
 /**
  * \~English
  * DIDURL string max length. eg, did:elastos:ixxxxxxxxxx#xxxxxx
@@ -92,6 +90,17 @@ typedef enum {
     DID_FILTER_HAS_PRIVATEKEY,
     DID_FILTER_NO_PRIVATEKEY
 } ELA_DID_FILTER;
+
+/**
+ * \~English
+ * The value of the credential Subject property is defined as
+ * a set of objects that contain one or more properties that are
+ * each related to a subject of the credential.
+ */
+typedef struct Property {
+    char *key;
+    char *value;
+} Property;
 
 /**
  * \~English
@@ -158,13 +167,7 @@ typedef struct DIDDocumentBuilder   DIDDocumentBuilder;
  * issuer's sign key.
  */
 typedef struct Issuer               Issuer;
-/**
- * \~English
- * The value of the credential Subject property is defined as
- * a set of objects that contain one or more properties that are
- * each related to a subject of the credential.
- */
-typedef struct Property             Property;
+
 /**
  * \~English
  * DIDStore is local store for specified DID.
@@ -172,25 +175,34 @@ typedef struct Property             Property;
 typedef struct DIDStore             DIDStore;
 /**
  * \~English
- * DIDAdapter is use for various method to create did transaction and resolve
- * did document from chain.
+ * DIDAdapter is support method to create did transaction.
  */
 typedef struct DIDAdapter           DIDAdapter;
+/**
+ * \~English
+ * DIDResolver is support method to resolve did document from chain.
+ */
+typedef struct DIDResolver          DIDResolver;
 
 struct DIDAdapter {
-    const char* (*createIdTransaction) (DIDAdapter *adapter, const char *payload, const char *memo);
-    const char* (*resolve) (DIDAdapter *adapter, const char *did);
+    const char* (*createIdTransaction) (DIDAdapter *adapter,
+            const char *payload, const char *memo);
 };
+
+struct DIDResolver {
+    const char* (*resolve) (DIDResolver *resolver, const char *did, int all);
+};
+
 /**
  * \~English
  * DID list callbacks, return alias about did.
  */
-typedef int DIDStore_GetDIDCallback(DID *did, void *context);
+typedef int DIDStore_DIDsCallback(DID *did, void *context);
 /**
  * \~English
  * Credential list callbacks, return alias about credential.
  */
-typedef int DIDStore_GetCredCallback(DIDURL *id, void *context);
+typedef int DIDStore_CredentialsCallback(DIDURL *id, void *context);
 
 /******************************************************************************
  * DID
@@ -298,13 +310,13 @@ DID_API int DID_Compare(DID *did1, DID *did2);
  * Copy one DID to the other DID.
  *
  * @param
- *      newdid                   [in] DID to be copied.
+ *      dest                   [in] DID to be copied.
  * @param
- *      olddid                   [in] DID be copied.
+ *      src                   [in] DID be copied.
  * @return
- *      0 on success, -1 if an error occurred.
+ *      the handle to dest DID if succuss, NULL if failed .
  */
-DID_API int DID_Copy(DID *newdid, DID *olddid);
+DID_API DID *DID_Copy(DID *dest, DID *src);
 
 /**
  * \~English
@@ -347,17 +359,11 @@ DID_API int DID_SetAlias(DID *did, const char *alias);
  *
  * @param
  *      did                        [in] The handle of DID.
- * @param
- *      alias                      [out] The buffer that will receive the alias.
- *                                       The buffer size should at least
- *                                       (ELA_MAX_ALIAS_LEN) bytes.
- * @param
- *      size                       [in] The buffter size of alias.
  * @return
- *      If no error occurs, return alias string, adn free string buffer.
+ *      If no error occurs, return alias string.
  *      Otherwise, return NULL.
  */
-DID_API int DID_GetAlias(DID *did, char *alias, size_t size);
+DID_API const char *DID_GetAlias(DID *did);
 
 /**
  * \~English
@@ -365,17 +371,11 @@ DID_API int DID_GetAlias(DID *did, char *alias, size_t size);
  *
  * @param
  *      did                         [in] The handle of DID.
-  * @param
- *      txid                        [out] The buffer that will receive transaction id.
- *                                       The buffer size should at least
- *                                       (ELA_MAX_TXID_LEN) bytes.
- * @param
- *      size                        [in] The buffer size of txid.
  * @return
- *      If no error occurs, return transaction string, and free string buffer.
+ *      If no error occurs, return transaction string.
  *      Otherwise, return NULL.
  */
-DID_API int DID_GetTxid(DID *did, char *txid, size_t size);
+DID_API const char *DID_GetTxid(DID *did);
 
 /**
  * \~English
@@ -399,20 +399,7 @@ DID_API bool DID_GetDeactived(DID *did);
  *      If no error occurs, return time stamp.
  *      Otherwise, return 0.
  */
-DID_API time_t DID_GetTimestamp(DID *did);
-
-/**
- * \~English
- * Create DIDDocument Builder for the did.
- *
- * @param
- *      did             [in] A handle to DID.
- * @return
- *      If no error occurs, return a handle to Document.
- *      Otherwise, return NULL.
- */
-DID_API DIDDocumentBuilder* DID_CreateBuilder(DID *did);
-
+DID_API time_t DID_GetLastTransactionTimestamp(DID *did);
 /******************************************************************************
  * DIDURL
  *****************************************************************************/
@@ -460,7 +447,7 @@ DID_API DIDURL *DIDURL_New(const char *method_specific_string, const char *fragm
  *      If no error occurs, return the handle to DID URL.
  *      Otherwise, return NULL.
  */
-DID_API DIDURL *DIDURL_FromDid(DID *did, const char *fragment);
+DID_API DIDURL *DIDURL_NewByDid(DID *did, const char *fragment);
 
 /**
  * \~English
@@ -539,13 +526,13 @@ DID_API int DIDURL_Compare(DIDURL *id1, DIDURL *id2);
  * Copy one DID URL to the other DID URL.
  *
  * @param
- *      newid                [in] DID URL to be copied.
+ *      dest                [in] DID URL to be copied.
  * @param
- *      oldid                [in] DID URL be copied.
+ *      src                 [in] DID URL be copied.
  * @return
  *      0 on success, -1 if an error occurred.
  */
-DID_API int DIDURL_Copy(DIDURL *newid, DIDURL *oldid);
+DID_API DIDURL *DIDURL_Copy(DIDURL *dest, DIDURL *src);
 
 /**
  * \~English
@@ -576,17 +563,11 @@ DID_API int DIDURL_SetAlias(DIDURL *id, const char *alias);
  *
  * @param
  *      id                        [in] The handle of DIDURL.
-  * @param
- *      alias                      [out] The buffer that will receive the alias.
- *                                       The buffer size should at least
- *                                       (ELA_MAX_ALIAS_LEN) bytes.
- * @param
- *      size                      [in] The buffer size of alias.
  * @return
- *      If no error occurs, return alias string, and free buffer returned.
+ *      If no error occurs, return alias string.
  *      Otherwise, return NULL.
  */
-DID_API int DIDURL_GetAlias(DIDURL *id, char *alias, size_t size);
+DID_API const char *DIDURL_GetAlias(DIDURL *id);
 
 /******************************************************************************
  * DIDDocument
@@ -610,17 +591,14 @@ DID_API DIDDocument *DIDDocument_FromJson(const char* json);
  * @param
  *      document             [in] A handle to DID Document.
  * @param
- *      compact              [in] Json context is compact or not.
- *                           1 represents compact, 0 represents not compact.
- * @param
- *      forsign              [in] Json context needs to sign or not.
- *                           1 represents forsign, 0 represents not forsign.
+ *      normalized           [in] Json context is normalized or not.
+ *                           true represents normalized, false represents not compact.
  * @return
  *      If no error occurs, return json context. Return value must be free after
  *      finishing use.
  *      Otherwise, return NULL.
  */
-DID_API const char *DIDDocument_ToJson(DIDDocument *document, int compact, int forsign);
+DID_API const char *DIDDocument_ToJson(DIDDocument *document, bool normalized);
 
 /**
  * \~English
@@ -698,7 +676,7 @@ DID_API DID* DIDDocument_GetSubject(DIDDocument *document);
  *      If no error occurs, return a handle to DID.
  *      Otherwise, return NULL.
  */
-DID_API DIDDocumentBuilder* DIDDocument_Modify(DIDDocument *document);
+DID_API DIDDocumentBuilder* DIDDocument_Edit(DIDDocument *document);
 
 /**
  * \~English
@@ -778,7 +756,8 @@ DID_API int DIDDocumentBuilder_RemovePublicKey(DIDDocumentBuilder *builder,
  * @param
  *      keyid                 [in] An identifier of public key.
  * @param
- *      key                    [in] Key property depend on key type.
+ *      key                   [in] Key property depend on key type.
+ *                             If 'keyid' is from pk array, 'key' can be null.
  * @return
  *      0 on success, -1 if an error occurred.
  */
@@ -792,7 +771,7 @@ DID_API int DIDDocumentBuilder_AddAuthenticationKey(DIDDocumentBuilder *builder,
  * @param
  *      builder              [in] A handle to DIDDocument Builder.
  * @param
- *      keyid                 [in] An identifier of public key.
+ *      keyid                [in] An identifier of public key.
  * @return
  *      0 on success, -1 if an error occurred.
  */
@@ -812,8 +791,10 @@ DID_API int DIDDocumentBuilder_RemoveAuthenticationKey(DIDDocumentBuilder *build
  * @param
  *      controller           [in] A controller property, identifies
  *                              the controller of the corresponding private key.
+ *                              If 'keyid' is from pk array, 'controller' can be null.
  * @param
  *      key                  [in] Key property depend on key type.
+ *                              If 'keyid' is from pk array, 'key' can be null.
  * @return
  *      0 on success, -1 if an error occurred.
  */
@@ -847,7 +828,7 @@ DID_API int DIDDocumentBuilder_AuthorizationDid(DIDDocumentBuilder *builder,
  * Remove authorization key from authorizate.
  *
  * @param
- *      builder              [in] A handle to DIDDocument Builder.
+ *      builder               [in] A handle to DIDDocument Builder.
  * @param
  *      keyid                 [in] An identifier of authorization key.
  * @return
@@ -876,7 +857,7 @@ DID_API int DIDDocumentBuilder_AddCredential(DIDDocumentBuilder *builder,
  * @param
  *      builder              [in] A handle to DIDDocument Builder.
  * @param
- *      fragment             [in] The portion of a DID URL.
+ *      credid               [in] The handle to DIDURL.
  * @param
  *      types                [in] The array of credential types.
  *                                Support types == NULL，api add 'SelfProclaimedCredential' type.
@@ -896,7 +877,7 @@ DID_API int DIDDocumentBuilder_AddCredential(DIDDocumentBuilder *builder,
  *      Otherwise, return -1.
  */
 DID_API int DIDDocumentBuilder_AddSelfClaimedCredential(DIDDocumentBuilder *builder,
-        const char *fragment, const char **types, size_t typesize,
+        DIDURL *credid, const char **types, size_t typesize,
         Property *properties, int propsize, time_t expires, const char *storepass);
 /**
  * \~English
@@ -928,7 +909,7 @@ DID_API int DIDDocumentBuilder_RemoveCredential(DIDDocumentBuilder *builder,
  *      0 on success, -1 if an error occurred.
  */
 DID_API int DIDDocumentBuilder_AddService(DIDDocumentBuilder *builder,
-        DIDURL *serviceid, const char *type, const char *point);
+        DIDURL *serviceid, const char *type, const char *endpoint);
 
 /**
  * \~English
@@ -1379,53 +1360,42 @@ DID_API int DIDDocument_SetAlias(DIDDocument *document, const char *alias);
  * Get nickname for DID.
  *
  * @param
- *      document                    [in] The handle to DID.
- * @param
- *      alias                       [out] The buffer that will receive the alias.
- *                                       The buffer size should at least
- *                                       (ELA_MAX_ALIAS_LEN) bytes.
- * @param
- *      size                        [in] The buffer size of alias.
+ *      document                    [in] The handle to DIDDocument.
  * @return
- *      If no error occurs, return 0. Otherwise, return -1.
+ *      If no error occurs, return alias string.
+ *      Otherwise, return NULL.
  */
-DID_API int DIDDocument_GetAlias(DIDDocument *document, char *alias, size_t size);
+DID_API const char *DIDDocument_GetAlias(DIDDocument *document);
 
 /**
  * \~English
- * Get transaction id of the latest updated DIDDocument.
+ * Get transaction id of the latest updated DID Document.
  *
  * @param
- *      document                     [in] The handle to DID.
- * @param
- *      txid                          [out] The buffer that will receive transaction id.
- *                                       The buffer size should at least
- *                                       (ELA_MAX_TXID_LEN) bytes.
- * @param
- *      size                         [in] The buffer size of txid.
+ *      document                     [in] The handle to DIDDocument.
  * @return
  *      If no error occurs, return 0. Otherwise, return -1.
  */
-DID_API int DIDDocument_GetTxid(DIDDocument *document, char *txid, size_t size);
+DID_API const char *DIDDocument_GetTxid(DIDDocument *document);
 
 /**
  * \~English
  * Get timestamp of the latest transaction.
  *
  * @param
- *      document                     [in] The handle to DID.
+ *      document                     [in] The handle to DID Document.
  * @return
  *      If no error occurs, return timestamp.
  *      Otherwise, return NULL.
  */
-DID_API time_t DIDDocument_GetTimestamp(DIDDocument *document);
+DID_API time_t DIDDocument_GetLastTransactionTimestamp(DIDDocument *document);
 
 /**
  * \~English
  * Get the type property of embedded proof.
  *
  * @param
- *      document                 [in] A handle to DIDocument.
+ *      document                 [in] A handle to DID Document.
  * @return
  *      If no error occurs, return type string.
  *      Otherwise, return NULL.
@@ -1439,7 +1409,7 @@ DID_API const char *DIDDocument_GetProofType(DIDDocument *document);
  * that can be used to verify the digital signature.
  *
  * @param
- *      document                 [in] A handle to DIDDocument.
+ *      document                 [in] A handle to DID Document.
  * @return
  *      If no error occurs, return the handle to identifier of public key.
  *      Otherwise, return NULL.
@@ -1451,7 +1421,7 @@ DID_API DIDURL *DIDDocument_GetProofCreater(DIDDocument *document);
  * Get time of create DIDDocument proof.
  *
  * @param
- *      document                 [in] A handle to DIDDocument.
+ *      document                 [in] A handle to DID Document.
  * @return
  *      If no error occurs, return 0.
  *      Otherwise, return time.
@@ -1465,7 +1435,7 @@ DID_API time_t DIDDocument_GetProofCreatedTime(DIDDocument *document);
  * integrity of a linked data document.
  *
  * @param
- *      document                 [in] A handle to DIDDocument.
+ *      document                 [in] A handle to DID Document.
  * @return
  *      If no error occurs, return signature string.
  *      Otherwise, return NULL.
@@ -1590,17 +1560,14 @@ DID_API const char *Service_GetType(Service *service);
  * @param
  *      cred                 [in] A handle to Credential.
  * @param
- *      compact              [in] Json context is compact or not.
- *                           1 represents compact, 0 represents not compact.
- * @param
- *      forsign              [in] Json context needs to sign or not.
- *                           1 represents forsign, 0 represents not forsign.
+ *      normalized           [in] Json context is normalized or not.
+ *                           true represents normalized, false represents not.
  * @return
  *      If no error occurs, return json context. Return value must be free after
  *      finishing use.
  *      Otherwise, return NULL.
  */
-DID_API const char* Credential_ToJson(Credential *cred, int compact, int forsign);
+DID_API const char* Credential_ToJson(Credential *cred, bool normalized);
 
 /**
  * \~English
@@ -1609,12 +1576,12 @@ DID_API const char* Credential_ToJson(Credential *cred, int compact, int forsign
  * @param
  *      json                 [in] Json context about credential.
  * @param
- *      did                  [in] A handle to DID.
+ *      owner                  [in] A handle to credential owner's DID.
  * @return
  *      If no error occurs, return the handle to Credential.
  *      Otherwise, return NULL.
  */
-DID_API Credential *Credential_FromJson(const char *json, DID *did);
+DID_API Credential *Credential_FromJson(const char *json, DID *owner);
 
 /**
  * \~English
@@ -1810,47 +1777,6 @@ DID_API const char *Credential_GetProofSignture(Credential *cred);
 
 /**
  * \~English
- * Add specified type to Credential.
- *
- * @param
- *      cred                 [in] A handle to Credential.
- * @param
- *      type                 [in] Type to be added.
- * @return
- *      0 on success, -1 if an error occurred.
- */
-DID_API int Credential_AddType(Credential *cred, const char *type);
-
-/**
- * \~English
- * Set the date of credential expired.
- *
- * @param
- *      cred                 [in] A handle to Credential.
- * @param
- *      time                 [in] The date of credential expired.
- * @return
- *      0 on success, -1 if an error occurred.
- */
-DID_API int Credential_SetExpirationDate(Credential *cred, time_t time);
-
-/**
- * \~English
- * Add credential subject property to Credential.
- *
- * @param
- *      cred                 [in] A handle to Credential.
- * @param
- *      name                 [in] The key of property.
- * @param
- *      value                 [in] The value of property.
- * @return
- *      0 on success, -1 if an error occurred.
- */
-DID_API int Credential_AddProperty(Credential *cred, const char *name, const char *value);
-
-/**
- * \~English
  * Verify the credential is valid or not.
  * Issuance always occurs before any other actions involving a credential.
  *
@@ -1915,17 +1841,12 @@ DID_API int Credential_SetAlias(Credential *credential, const char *alias);
  * Get credential alias.
  *
  * @param
- *      credential                [in] The handle to DID.
- * @param
- *      alias                      [out] The buffer that will receive the alias.
- *                                       The buffer size should at least
- *                                       (ELA_MAX_ALIAS_LEN) bytes.
- * @param
- *      size                      [in] The buffer size of alias.
+ *      credential                [in] The handle to Credential.
  * @return
- *      If no error occurs, return 0. Otherwise, return -1.
+ *      If no error occurs, return alias string.
+ *      Otherwise, return NULL.
  */
-DID_API int Credential_GetAlias(Credential *credential, char *alias, size_t size);
+DID_API const char *Credential_GetAlias(Credential *credential);
 
 /******************************************************************************
  * Issuer
@@ -1941,7 +1862,7 @@ DID_API int Credential_GetAlias(Credential *credential, char *alias, size_t size
  * @return
  *      The handle of Issuer.
  */
-DID_API Issuer *Issuer_Create(DID *did, DIDURL *signkey);
+DID_API Issuer *Issuer_Create(DID *did, DIDURL *signkey, DIDStore *store);
 
 /**
  * \~English
@@ -1960,10 +1881,10 @@ DID_API void Issuer_Destroy(Issuer *issuer);
  * @param
  *      issuer               [in] An issuer issues this credential.
  * @param
- *      did                  [in] A handle to DID.
+ *      owner                [in] A handle to DID.
  *                               The holder of this Credential.
  * @param
- *      fragment             [in] The portion of a DID URL.
+ *      credid               [in] The handle to DIDURL.
  * @param
  *      types                [in] The array of credential types.
  * @param
@@ -1980,7 +1901,7 @@ DID_API void Issuer_Destroy(Issuer *issuer);
  *      If no error occurs, return the handle to Credential issued.
  *      Otherwise, return NULL.
  */
-DID_API Credential *Issuer_CreateCredential(Issuer *issuer, DID *did, const char *fragment,
+DID_API Credential *Issuer_CreateCredential(Issuer *issuer, DID *owner, DIDURL *credid,
         const char **types, size_t typesize, Property *properties, int size,
         time_t expires, const char *storepass);
 
@@ -2022,22 +1943,16 @@ DID_API DIDURL *Issuer_GetSignKey(Issuer *issuer);
  * @return
  *      0 on success, -1 if an error occurred.
  */
-DID_API DIDStore* DIDStore_Initialize(const char *root, DIDAdapter *adapter);
+DID_API DIDStore* DIDStore_Open(const char *root, DIDAdapter *adapter);
 
 /**
  * \~English
- * Get DIDStore handle.
- *
- * @return
- *      the handle.
+ * Deinitialize DIDStore. * @param
+ *      store                 [in] The handle to DIDStore.
+ * @param
+ *      store                 [in] The handle to DIDStore.
  */
-DID_API DIDStore* DIDStore_GetInstance(void);
-
-/**
- * \~English
- * Deinitialize DIDStore.
- */
-DID_API void DIDStore_Deinitialize(void);
+DID_API void DIDStore_Close(DIDStore *store);
 
 /**
  * \~English
@@ -2237,14 +2152,14 @@ DID_API bool DIDStore_DeleteDID(DIDStore *store, DID *did);
  *      filer       [in] DID filer. 0: all did; 1: did has privatekeys;
  *                                  2: did has no privatekeys.
  * @param
- *      callback    [in] a pointer to DIDStore_GetDIDCallback function.
+ *      callback    [in] a pointer to DIDStore_DIDsCallback function.
  * @param
  *      context     [in] the application defined context data.
  * @return
  *      0 on success, -1 if an error occurred.
  */
-DID_API int DIDStore_ListDID(DIDStore *store, ELA_DID_FILTER filer,
-        DIDStore_GetDIDCallback *callback, void *context);
+DID_API int DIDStore_ListDIDs(DIDStore *store, ELA_DID_FILTER filer,
+        DIDStore_DIDsCallback *callback, void *context);
 
 /**
  * \~English
@@ -2330,14 +2245,14 @@ DID_API bool DIDStore_DeleteCredential(DIDStore *store, DID *did, DIDURL *id);
  * @param
  *      did         [in] The handle to DID.
  * @param
- *      callback    [in] a pointer to DIDStore_GetCredCallback function.
+ *      callback    [in] a pointer to DIDStore_CredentialsCallback function.
  * @param
  *      context     [in] the application defined context data.
  * @return
  *      0 on success, -1 if an error occurred.
  */
 DID_API int DIDStore_ListCredentials(DIDStore *store, DID *did,
-        DIDStore_GetCredCallback *callback, void *context);
+        DIDStore_CredentialsCallback *callback, void *context);
 
 /**
  * \~English
@@ -2352,14 +2267,14 @@ DID_API int DIDStore_ListCredentials(DIDStore *store, DID *did,
  * @param
  *      type        [in] The type of Credential to be selected.
  * @param
- *      callback    [in] a pointer to DIDStore_GetCredCallback function.
+ *      callback    [in] a pointer to DIDStore_CredentialsCallback function.
  * @param
  *      context     [in] the application defined context data.
  * @return
  *      0 on success, -1 if an error occurred.
  */
 DID_API int DIDStore_SelectCredentials(DIDStore *store, DID *did, DIDURL *credid,
-        const char *type, DIDStore_GetCredCallback *callback, void *context);
+        const char *type, DIDStore_CredentialsCallback *callback, void *context);
 
 /**
  * \~English
@@ -2459,23 +2374,6 @@ DID_API const char *DIDStore_PublishDID(DIDStore *store, const char *storepass,
 DID_API const char *DIDStore_DeactivateDID(DIDStore *store, const char *storepass,
         DID *did, DIDURL *signKey);
 
-/**
- * \~English
- * Resolve and store DID Document from chain.
- *
- * @param
- *      store                    [in] The handle of DIDStore.
- * @param
- *      did                      [in] The handle to DID.
- * @param
- *      force                    [in] force = true, DIDStore can load document.
-                                 force = false, DIDStore can not load document.
- * @return
- *      If no error occurs, return the handle to DID Document.
- *      Otherwise, return NULL.
- */
-DID_API DIDDocument *DIDStore_ResolveDID(DIDStore *store, DID *did, bool force);
-
 /******************************************************************************
  * Mnemonic
  *****************************************************************************/
@@ -2543,7 +2441,7 @@ DID_API bool Mnemonic_IsValid(const char *mnemonic, int language);
  *      If no error occurs, return the handle to Presentataion.
  *      Otherwise, return NULL.
  */
-DID_API Presentation *Presentation_Create(DID *did, DIDURL *signkey,
+DID_API Presentation *Presentation_Create(DID *did, DIDURL *signkey, DIDStore *store,
         const char *storepass, const char *nonce, const char *realm, int count, ...);
 
 /**
@@ -2571,17 +2469,14 @@ DID_API int Presentation_Verify(Presentation *pre);
  * @param
  *      pre                  [in] A handle to Presentation.
  * @param
- *      compact              [in] Json context is compact or not.
- *                           1 represents compact, 0 represents not compact.
- * @param
- *      forsign              [in] Json context needs to sign or not.
- *                           1 represents forsign, 0 represents not forsign
+ *      normalized           [in] Json context is normalized or not.
+ *                           true represents normalized, false represents not normalized.
  * @return
  *      If no error occurs, return json context. Return value must be free after
  *      finishing use.
  *      Otherwise, return NULL.
  */
-DID_API const char* Presentation_ToJson(Presentation *pre, int compact, int forsign);
+DID_API const char* Presentation_ToJson(Presentation *pre, bool normalized);
 
 /**
  * \~English
@@ -2726,11 +2621,33 @@ DID_API bool Presentation_IsGenuine(Presentation *pre);
  * Presentation is valid or not.
  *
  * @param
- *      pre                      [in] The Presentation handle.
+ *      pre              [in] The Presentation handle.
  * @return
  *      flase if not valid, true if valid.
  */
 DID_API bool Presentation_IsValid(Presentation *pre);
+
+/**
+ * \~English
+ * Initialize DIDBackend to resolve by url.
+ *
+ * @param
+ *      url              [in] The URL string.
+ * @return
+ *      0 on success, -1 if an error occurred.
+ */
+DID_API int DIDBackend_InitializeDefault(const char *url);
+
+/**
+ * \~English
+ * Initialize DIDBackend to resolve by DIDResolver.
+ *
+ * @param
+ *      resolver            [in] The handle to DIDResolver.
+ * @return
+ *      0 on success, -1 if an error occurred.
+ */
+DID_API int DIDBackend_Initialize(DIDResolver *resolver);
 
 #ifdef __cplusplus
 }

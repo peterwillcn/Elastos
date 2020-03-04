@@ -97,6 +97,7 @@ script:
 
 after_success:
   - if [[ "$DEPLOY" != "" ]]; then
+      cd $TRAVIS_BUILD_DIR/Runtime;
       cordova build android --debug -- --keystore="../trinity.jks" --storePassword=$storepass --password=$storepass --alias=trinity;
       cd $APK_PATH;
       cp app-debug.apk $APPNAME;

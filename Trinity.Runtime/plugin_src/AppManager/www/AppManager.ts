@@ -237,6 +237,18 @@ class TitleBarImpl implements AppManagerPlugin.TitleBar {
             console.error("Error while calling TitleBar.setTitle()", err);
         }, 'AppManager', 'titleBar_setTitle', [title]);
     }
+
+    setBackgroundColor(hexColor: String) {
+        exec(()=>{}, (err)=>{
+            console.error("Error while calling TitleBar.setBackgroundColor()", err);
+        }, 'AppManager', 'titleBar_setBackgroundColor', [hexColor]);
+    }
+
+    setForegroundMode(mode: AppManagerPlugin.TitleBarForegroundMode) {
+        exec(()=>{}, (err)=>{
+            console.error("Error while calling TitleBar.setForegroundMode()", err);
+        }, 'AppManager', 'titleBar_setForegroundMode', [mode]);
+    }
 }
 
 export = new AppManagerImpl();

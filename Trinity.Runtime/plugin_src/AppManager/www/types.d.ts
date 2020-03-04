@@ -512,6 +512,13 @@ declare namespace AppManagerPlugin {
         OTHER = 3
     }
 
+    const enum TitleBarForegroundMode {
+        /** Title bar title and icons use a light (white) color. Use this on a dark background color. */
+        LIGHT = 0,
+        /** Title bar title and icons use a dark (dark gray) color. Use this on a light background color. */
+        DARK = 1
+    }
+
     interface TitleBar {
         /**
          * Shows an indicator on the title bar to indicate that something is busy.
@@ -537,5 +544,20 @@ declare namespace AppManagerPlugin {
          * @param title Main title to show on the title bar.
          */
         setTitle(title: String);
+
+        /**
+         * Sets the status bar background color.
+         * 
+         * @param hexColor Hex color code with format "#RRGGBB"
+         */
+        setBackgroundColor(hexColor: String);
+
+        /**
+         * Sets the title bar foreground (title, icons) color. Use this API in coordination with 
+         * setBackgroundColor() in order to adjust foreground with background.
+         * 
+         * @param mode A TitleBarForegroundMode mode, LIGHT or DARK.
+         */
+        setForegroundMode(mode: TitleBarForegroundMode);
     }
 }

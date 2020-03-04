@@ -22,14 +22,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VbX-ux-MTA">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="48"/>
                     <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="45" id="Q7i-Vt-LbD"/>
+                        <constraint firstAttribute="height" constant="48" id="Q7i-Vt-LbD"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" restorationIdentifier="webKitView" translatesAutoresizingMaskIntoConstraints="NO" id="EJj-4f-Hee">
-                    <rect key="frame" x="0.0" y="45" width="375" height="622"/>
+                    <rect key="frame" x="0.0" y="48" width="375" height="619"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <accessibility key="accessibilityConfiguration" label="9:07">
                         <bool key="isElement" value="YES"/>

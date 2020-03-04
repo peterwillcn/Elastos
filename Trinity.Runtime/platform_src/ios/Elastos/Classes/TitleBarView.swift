@@ -12,14 +12,14 @@ class TitleBarView: UIView {
     var viewController: TrinityViewController?;
     var isLauncher = false;
     
-    @IBOutlet weak var btnToggle: AdvancedButton!
-    @IBOutlet weak var btnClose: AdvancedButton!
-    @IBOutlet weak var btnLauncher: AdvancedButton!
+    @IBOutlet var rootView: UIView!
     
-    @IBOutlet weak var imgLogo: UIImageView!
-    @IBOutlet weak var lblTime: UILabel!
-    @IBOutlet weak var progress: UIProgressView!
-
+    @IBOutlet weak var btnClose: AdvancedButton!
+    @IBOutlet weak var btnMenu: AdvancedButton!
+    
+    @IBOutlet weak var progressBarBackground: UIView!
+    @IBOutlet weak var progressBar: UIView!
+    
     init(_ viewController: TrinityViewController, _ frame: CGRect, _ isLauncher: Bool) {
         super.init(frame: frame);
         self.viewController = viewController;
@@ -35,20 +35,10 @@ class TitleBarView: UIView {
         addSubview(view)
         
         if (isLauncher) {
-            /*let bounds = progress.frame;
-            progress.frame = CGRect(x: bounds.origin.x, y: bounds.origin.y,  width: bounds.size.width + btnLauncher.frame.size.width, height: bounds.size.height);*/
-            btnClose.isHidden = true;
-            btnLauncher.isHidden = true;
-            //            btnLauncher.removeFromSuperview();
-            //btnToggle.addTarget(self, action:#selector(clickToggle), for:.touchDown);
+            btnClose.isHidden = true
         }
-        else {
-            btnToggle.isHidden = true;
-            btnToggle.removeFromSuperview();
-            //btnLauncher.addTarget(self, action:#selector(clickLaunchr), for:.touchDown);
-            //btnClose.addTarget(self, action:#selector(clickClose), for:.touchDown);
-        }
-        hideProgress();
+
+       // hideProgress()
     }
     
     func loadViewFromNib() ->UIView {
@@ -93,7 +83,7 @@ class TitleBarView: UIView {
         self.viewController!.webViewEngine.evaluateJavaScript("window.history.back();", completionHandler: nil);
     }
     
-    @objc func showProgress() {
+    /*@objc func showProgress() {
         progress.isHidden = false;
     }
 
@@ -106,5 +96,5 @@ class TitleBarView: UIView {
     @objc func setBarProgress(_ value: Float) {
         showProgress();
         progress.progress = value;
-    }
+    }*/
 }

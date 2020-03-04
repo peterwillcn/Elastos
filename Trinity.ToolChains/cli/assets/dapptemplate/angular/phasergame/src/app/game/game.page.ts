@@ -8,8 +8,8 @@ declare let appManager: AppManagerPlugin.AppManager;
 
 @Component({
   selector: 'app-game',
-  templateUrl: 'Game.page.html',
-  styleUrls: ['Game.page.scss'],
+  templateUrl: 'game.page.html',
+  styleUrls: ['game.page.scss'],
 })
 export class GamePage {
 
@@ -34,7 +34,7 @@ export class GamePage {
 
   ionViewDidEnter() {
     this.game = new Phaser.Game(this.config);
-    appManager.setVisible("show", () => {}, (err) => {});
+    appManager.setVisible('show', () => {}, (err) => {});
   }
 
   ionViewDidLeave() {

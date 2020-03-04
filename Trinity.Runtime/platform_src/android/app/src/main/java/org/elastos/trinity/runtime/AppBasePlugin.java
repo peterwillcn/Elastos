@@ -142,6 +142,12 @@ public class AppBasePlugin extends TrinityPlugin {
                 case "titleBar_setTitle":
                     this.titleBar_setTitle(args, callbackContext);
                     break;
+                case "titleBar_setBackgroundColor":
+                    this.titleBar_setBackgroundColor(args, callbackContext);
+                    break;
+                case "titleBar_setForegroundMode":
+                    this.titleBar_setForegroundMode(args, callbackContext);
+                    break;
                 default:
                     return false;
             }
@@ -740,21 +746,43 @@ public class AppBasePlugin extends TrinityPlugin {
     }
 
     private void titleBar_showActivityIndicator(JSONArray args, CallbackContext callbackContext) throws Exception {
-        // TODO - NOT IMPLEMENTED - HANDLE SEVERAL DAPPS CALLING THIS IN PARALLEL
-        getTitleBar().showProgress();
-        getTitleBar().setProgress(50);
+        int activityIndicatoryType = args.getInt(0);
+
+        getTitleBar().showActivityIndicator(TitleBar.TitleBarActivityType.fromId(activityIndicatoryType));
+
         callbackContext.success();
     }
 
     private void titleBar_hideActivityIndicator(JSONArray args, CallbackContext callbackContext) throws Exception {
-        // TODO - NOT IMPLEMENTED - HANDLE SEVERAL DAPPS CALLING THIS IN PARALLEL
-        getTitleBar().hideProgress();
+        int activityIndicatoryType = args.getInt(0);
+
+        getTitleBar().hideActivityIndicator(TitleBar.TitleBarActivityType.fromId(activityIndicatoryType));
+
         callbackContext.success();
     }
 
     private void titleBar_setTitle(JSONArray args, CallbackContext callbackContext) throws Exception {
-        // TODO - NOT IMPLEMENTED - HANDLE SEVERAL DAPPS CALLING THIS IN PARALLEL
-        System.out.println("TITLEBAR SET TITLE TODO");
+        String title = args.getString(0);
+
+        getTitleBar().setTitle(title);
+
+        callbackContext.success();
+    }
+
+    private void titleBar_setBackgroundColor(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String hexColor = args.getString(0);
+
+        if (getTitleBar().setBackgroundColor(hexColor))
+            callbackContext.success();
+        else
+            callbackContext.error("Invalid color "+hexColor);
+    }
+
+    private void titleBar_setForegroundMode(JSONArray args, CallbackContext callbackContext) throws Exception {
+        int modeAsInt = args.getInt(0);
+
+        getTitleBar().setForegroundMode(TitleBar.TitleBarForegroundMode.fromId(modeAsInt));
+
         callbackContext.success();
     }
 }

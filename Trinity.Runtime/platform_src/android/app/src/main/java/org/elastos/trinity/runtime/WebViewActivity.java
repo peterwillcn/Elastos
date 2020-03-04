@@ -64,6 +64,7 @@ public class WebViewActivity extends FragmentActivity {
                 else {
                     //For test
 //                    boolean dev = intent.hasCategory("android.intent.category.TEST");
+                    //boolean dev = true; // TMP BPI SHOULD BE FALSE
                     boolean dev = false;
                     // if (dev) {
                         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)

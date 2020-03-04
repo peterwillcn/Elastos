@@ -57,7 +57,9 @@
             "hasPendingIntent",
             "titleBar_showActivityIndicator",
             "titleBar_hideActivityIndicator",
-            "titleBar_setTitle"
+            "titleBar_setTitle",
+            "titleBar_setBackgroundColor",
+            "titleBar_setForegroundMode"
         ],
         "Accelerometer": ["*"],
         "Battery": ["*"],

@@ -2660,4 +2660,30 @@ errCodeSPVCreateMasterWalletError= 20006;
     return [self IsAddressValid:maWID withAddres:add];
     
 }
+-(void)SpvDidAdapter_CreateIdTransactionEXWith:(invokedUrlCommand *)command{
+  
+    NSArray *args = command.arguments;
+    int idx = 0;
+    String masterWalletID = [self cstringWithString:args[idx++]];
+    String chainID = [self cstringWithString:args[idx++]];
+    String password=[self cstringWithString:args[idx++]];
+   
+    String memo=[self cstringWithString:args[idx++]];
+    String remark=[self cstringWithString:args[idx++]];
+    IIdChainSubWallet *iidChainSubWallet=[self getIdChainSubWallet:masterWalletID:chainID];
+    
+    nlohmann::json payloadJson;
+    nlohmann::json tx;
+
+   tx= iidChainSubWallet->CreateIDTransaction(payloadJson, memo);
+   tx= iidChainSubWallet->SignTransaction(tx, password);
+   tx = iidChainSubWallet->PublishTransaction(tx);
+    std::string txid = tx["TxHash"];
+//           adapter->callback->RegisterTransactionCallback(txid,
+//                   confirms, txCallback, context);
+//       } catch (...) {
+//           txCallback(NULL, -1, "SPV adapter internal error.", context);
+//       }
+    
+}
 @end

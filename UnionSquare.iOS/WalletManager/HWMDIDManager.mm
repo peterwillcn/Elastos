@@ -10,8 +10,10 @@
 #include "ela_did.h"
 #include "HDkey.h"
 #include "crypto.h"
-#include "DIDAdapter.h"
+#include "didtest_adapter.h"
+#import "HWMDIDAdapter.h"
 
+HWMDIDAdapter
 
 static HWMDIDManager *_instance;
 struct DIDStore *store;
@@ -64,7 +66,8 @@ struct DID *did;
 }
 -(void)initDID{
     DIDBackend_InitializeDefault("http://api.elastos.io:20606");
-    DIDAdapter * didAdapter = NULL;
+    HWMDIDAdapter *didAdapter=[[HWMDIDAdapter alloc]init];
+//    DIDAdapter * didAdapter =;
     store=DIDStore_Open([[self mRootPath] UTF8String], didAdapter);
     DID *did=DID_FromString([self.mastWalletID UTF8String]);// 获取DID
     if (DIDSotre_ContainsPrivateKeys(store, did)) {//拉取
@@ -115,7 +118,7 @@ DIDAdapter *DIDAdapter_Create(const char *walletDir, const char *walletId,
     if (!adapter)
         return NULL;
     
-    adapter->base.createIdTransaction =DIDAdaptor_CreateIdTransaction;
+    adapter->base.createIdTransaction =DIDAdaptor_CreateIdTransaction();
     adapter->base.resolve =DIDAdapter_Resolver;
 
     adapter->impl = SpvDidAdapter_Create(walletDir, walletId, network, resolver);

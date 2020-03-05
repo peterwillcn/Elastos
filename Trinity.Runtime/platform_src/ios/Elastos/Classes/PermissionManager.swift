@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Elastos Foundation
+ * Copyright (c) 2020 Elastos Foundation
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,9 @@ import Foundation
 
 
 class PluginPermission {
+   
     var apiList = [String: Bool]();
-    var defaultValue = true;
+    var defaultValue = false;
 
     init(_ defaultValue: Bool) {
         self.defaultValue = defaultValue;
@@ -54,12 +55,24 @@ class PluginPermission {
 }
 
 class PermissionGroup {
-
+    var baseGroups: [String]? = nil;
     var pluginList = [String: PluginPermission]();
     let name: String;
+    var defaultValue = false;
 
     init(_ name: String) {
         self.name = name;
+    }
+    
+    func setDefaultValue(_ defaultValue: Bool) {
+        self.defaultValue = defaultValue;
+    }
+    
+    func addBaseGroup(_ group: String) {
+        if (baseGroups == nil) {
+            baseGroups = [String]();
+        }
+        baseGroups!.append(group);
     }
 
     func addPlugin(_ plugin: String, _ defaultValue: Bool) -> PluginPermission {
@@ -72,13 +85,35 @@ class PermissionGroup {
     }
 
     func getApiPermission(_ plugin: String, _ api: String) -> Bool {
+        var  ret = defaultValue;
         let pluginPermission = pluginList[plugin];
-        if (pluginPermission == nil) {
-            return true;
+        if (pluginPermission != nil) {
+            ret = pluginPermission!.getApiPermission(api);
         }
 
-        return pluginPermission!.getApiPermission(api);
+        if (ret != true) {
+            ret = getBasePermission(plugin, api);
+        }
+
+        return ret;
     }
+
+    func getBasePermission(_ plugin: String, _ api: String) -> Bool {
+        if (baseGroups != nil) {
+            for name in baseGroups! {
+                let baseGroup = PermissionManager.getShareInstance().groupList[name];
+                if (baseGroup != nil) {
+                    let ret = baseGroup!.getApiPermission(plugin, api);
+                    if (ret == true) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
 }
 
 class PermissionManager {
@@ -98,6 +133,9 @@ class PermissionManager {
     }
 
     static func getShareInstance() -> PermissionManager {
+        if (PermissionManager.permissionManager == nil) {
+            PermissionManager.permissionManager = PermissionManager();
+        }
         return PermissionManager.permissionManager!;
     }
 
@@ -107,22 +145,35 @@ class PermissionManager {
 
         let data = try Data(contentsOf: url);
         let json = try JSONSerialization.jsonObject(with: data,
-            options: []) as! [String: [String: [String]]];
+            options: []) as! [String: [String: Any]];
 
         for (group, plugins) in json {
-            var permissionGroup = PermissionGroup(group);
+            let permissionGroup = PermissionGroup(group);
             groupList[group] = permissionGroup;
-            for (var plugin, array) in plugins {
-                var defaultValue = true;
+            for (var plugin, obj) in plugins {
+                
+                if (plugin == "*") {
+                    permissionGroup.setDefaultValue(true);
+                    break;
+                }
+
+                if (plugin.hasPrefix("$")) {
+                    permissionGroup.addBaseGroup((plugin as NSString).substring(from: 1));
+                    continue;
+                }
+                
+                var defaultValue = false;
                 if (plugin.hasPrefix("+")) {
                     plugin = (plugin as NSString).substring(from: 1);
-                    defaultValue = false;
-                } else if (plugin.hasPrefix("-")) {
-                    plugin = (plugin as NSString).substring(from: 1);
                 }
+                else if (plugin.hasPrefix("-")) {
+                    plugin = (plugin as NSString).substring(from: 1);
+                    defaultValue = true;
+                }
+                
                 plugin = plugin.lowercased();
-
                 var pluginPermission = permissionGroup.addPlugin(plugin, defaultValue);
+                let array = obj as! [String];
                 for i in 0..<array.count {
                     let api = array[i];
                     if (api == "*") {

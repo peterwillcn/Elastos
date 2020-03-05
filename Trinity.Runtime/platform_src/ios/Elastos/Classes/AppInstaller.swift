@@ -197,7 +197,7 @@
                 "{\"action\":\"" + action + "\", \"id\":\"" + appId + "\" , \"url\":\"" + url + "\"}", "system");
     }
 
-    func  install(_ url: String, _ update: Bool) throws -> AppInfo? {
+    func install(_ url: String, _ update: Bool) throws -> AppInfo? {
         var zipPath = url;
         let originUrl = url;
 

@@ -68,6 +68,7 @@
         "CarrierPlugin": ["*"],
         "CDVOrientation": ["*"],
         "Clipboard": ["*"],
+        "Console": ["*"],
         "Device": ["*"],
         "DIDPlugin": ["*"],
         "File": ["*"],

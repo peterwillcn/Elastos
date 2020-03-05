@@ -54,11 +54,11 @@ extension CDVPlugin {
             let appView: AppViewController? = self.viewController as? AppViewController
             if (appView != nil ) {
                 //checkApiPermission
-//                let ret = appView!.getPermissionGroup().getApiPermission(pluginName, command.methodName);
-//                if (!ret) {
-//                    refuseAccess(command);
-//                    return true;
-//                }
+                let ret = appView!.getPermissionGroup().getApiPermission(pluginName, command.methodName);
+                if (!ret) {
+                    refuseAccess(command);
+                    return true;
+                }
                 
                 let authority = appView!.getPluginAuthority(self.pluginName, self, command);
                 if (authority == AppInfo.AUTHORITY_NOEXIST || authority == AppInfo.AUTHORITY_DENY) {

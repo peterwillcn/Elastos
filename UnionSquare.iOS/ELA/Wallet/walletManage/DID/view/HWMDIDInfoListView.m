@@ -44,7 +44,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 {
 
     NSDictionary *infDic=self.dataSourceArray[indexPath.row];
-    NSString *titleString=infDic[@"test"];
+    NSString *titleString=infDic[@"text"];
     HWMCreateDIDListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellString];
              cell.selectionStyle=UITableViewCellSelectionStyleNone;
         cell.infoLabel.alpha=1.f;

@@ -26,8 +26,11 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jaq-DY-IWg">
-                    <rect key="frame" x="50" y="700" width="314" height="32"/>
+                    <rect key="frame" x="50" y="692" width="314" height="40"/>
                     <color key="backgroundColor" red="0.1928445399" green="0.32548019290000002" blue="0.32934954760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="pGP-Vr-pCa"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                     <color key="tintColor" red="0.1928445399" green="0.32548019290000002" blue="0.32934954760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="导出">
@@ -38,8 +41,11 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ytq-E4-zIQ">
-                    <rect key="frame" x="50" y="622" width="314" height="32"/>
+                    <rect key="frame" x="50" y="606" width="314" height="40"/>
                     <color key="backgroundColor" red="0.1928445399" green="0.32548019290000002" blue="0.32934954760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="d6t-VS-ArV"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                     <color key="tintColor" red="0.1928445399" green="0.32548019290000002" blue="0.32934954760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="导入">

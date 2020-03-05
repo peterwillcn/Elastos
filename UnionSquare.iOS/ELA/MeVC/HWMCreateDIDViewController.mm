@@ -91,7 +91,8 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     self.NeedsSaved=NO;
     [self makeUI];
     self.navigationController.delegate=self;
-       [self isOpenIDChain];
+//       [self isOpenIDChain];
+ 
 }
 -(HWMDIDInfoModel *)DIDInfoModel{
     if (!_DIDInfoModel) {
@@ -131,8 +132,9 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     return _ShowPoPWDView;
 }
 -(void)makeUI{
-    self.dataSorse =@[NSLocalizedString(@"请输入DID名称（必填）", nil),NSLocalizedString(@"请选择钱包", nil),NSLocalizedString(@"主管理公钥（发布后不可更改）", nil),NSLocalizedString(@"DID（与主管理公钥一一对应）",nil),
-           NSLocalizedString(@"请选择失效日期", nil)];
+    self.dataSorse =@[NSLocalizedString(@"请输入DID名称（必填）", nil)
+//    ,NSLocalizedString(@"请选择钱包", nil),NSLocalizedString(@"主管理公钥（发布后不可更改）", nil),NSLocalizedString(@"DID（与主管理公钥一一对应）",nil)
+    ,NSLocalizedString(@"请选择失效日期", nil)];
     [self.nextButton setTitle:NSLocalizedString(@"下一步", nil) forState: UIControlStateNormal];
     [[HMWCommView share]makeBordersWithView:self.nextButton];
     [self.table registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
@@ -175,7 +177,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     if (!_dataListView) {
         _dataListView =[[HWMDIDDataListView alloc]init];
         _dataListView.delegate=self;
-        _dataListView.ListViewType=DIDDataType;
+        _dataListView.ListViewType=birthdayType;
     }
     return _dataListView;
 }
@@ -203,13 +205,13 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
             [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:cell.intPutTextField withTxt:textString];
             break;
             case 1:
-            if (self.wallerSelectIndex>-1) {
-                FMDBWalletModel *model=self.walletListArray[self.wallerSelectIndex];
-                         textString=model.walletName;
-            }
-           
-            cell.arrowImageView.alpha=1.f;
-            cell.intPutTextField.text=textString;
+              if (self.YYMMDD.length>0) {
+                          textString=self.YYMMDD;
+                      }
+                  
+                      cell.arrowImageView.alpha=1.f;
+                    cell.arrowImageView.image=[UIImage imageNamed:@"asset_list_arrow"];
+                      cell.intPutTextField.text=textString;
 //            cell.intPutTextField.enabled=NO;
             
             break;
@@ -242,7 +244,9 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
             if (self.YYMMDD.length>0) {
                 textString=self.YYMMDD;
             }
+        
             cell.arrowImageView.alpha=1.f;
+            cell.arrowImageView.image=[UIImage imageNamed:@"asset_list_arrow"];
             cell.intPutTextField.text=textString;
 //            cell.intPutTextField.enabled=NO;
             break;
@@ -261,15 +265,16 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 {
     [self.view endEditing:YES];
     
-    if (indexPath.row==1) {
-        UIView *mainView =[self mainWindow];
-        [mainView addSubview:self.walletListView];
-        [self.walletListView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.top.bottom.equalTo(mainView);
-        }];
-        self.walletListView.dataSourceArray=self.walletListArray;
-        
-    }else if (indexPath.row==4){
+//    if (indexPath.row==1) {
+//        UIView *mainView =[self mainWindow];
+//        [mainView addSubview:self.walletListView];
+//        [self.walletListView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.right.top.bottom.equalTo(mainView);
+//        }];
+//        self.walletListView.dataSourceArray=self.walletListArray;
+//
+//    }else
+    if (indexPath.row==1){
         UIView *mainView =[self mainWindow];
                [mainView addSubview:self.dataListView];
         [self.dataListView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -431,15 +436,16 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 }
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     
-    if (textField.tag ==101) {
-        UIView *mainView =[self mainWindow];
-               [mainView addSubview:self.walletListView];
-               [self.walletListView mas_makeConstraints:^(MASConstraintMaker *make) {
-                   make.left.right.top.bottom.equalTo(mainView);
-               }];
-               self.walletListView.dataSourceArray=self.walletListArray;
-        return NO;
-    }else if (textField.tag==104){
+//    if (textField.tag ==101) {
+//        UIView *mainView =[self mainWindow];
+//               [mainView addSubview:self.walletListView];
+//               [self.walletListView mas_makeConstraints:^(MASConstraintMaker *make) {
+//                   make.left.right.top.bottom.equalTo(mainView);
+//               }];
+//               self.walletListView.dataSourceArray=self.walletListArray;
+//        return NO;
+//    }else
+        if (textField.tag==101){
         UIView *mainView =[self mainWindow];
                [mainView addSubview:self.dataListView];
         [self.dataListView mas_makeConstraints:^(MASConstraintMaker *make) {

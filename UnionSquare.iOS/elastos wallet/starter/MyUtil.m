@@ -136,6 +136,37 @@
 //        [fileManager createDirectoryAtPath:createDir withIntermediateDirectories:YES attributes:nil error:nil];
 //    }
 //}
++(NSString*)DIDRootPath{
+ 
 
-        
+    NSString *filePath;
+//        NSFileManager *fileManager = [NSFileManager defaultManager];
+//        NSString *str1 = NSHomeDirectory();
+//        filePath = [NSString stringWithFormat:@"%@/DIE",str1];
+//
+////         NSLog(@"%@",filePath);
+////          if(![fileManager fileExistsAtPath:filePath]){//如果不存在,则说明是第一次运行这个程序，那么建立这个文件夹
+////              NSArray *cachePaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory
+////                  , NSUserDomainMask
+////                  , YES);
+////            NSLog(@"first run");
+////
+////              NSString *directryPath =[NSString stringWithFormat:@"%@/DID",cachePaths.firstObject];
+////               [fileManager createDirectoryAtPath:directryPath withIntermediateDirectories:YES attributes:nil error:nil];
+////               NSString *filePath = [directryPath stringByAppendingPathComponent:@"test.plist"];
+////              NSLog(@"%@",filePath);
+////
+////              [fileManager createFileAtPath:filePath contents:nil attributes:nil];
+////              return directryPath;
+////
+////          }else{
+////
+//              return filePath;
+////          }
+      NSString *toPathStr = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+     
+      NSString *toPath = [toPathStr stringByAppendingString:@"/ADIR"];
+    return toPath;
+    
+}
 @end

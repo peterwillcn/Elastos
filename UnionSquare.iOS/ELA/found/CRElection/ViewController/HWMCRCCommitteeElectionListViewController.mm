@@ -409,6 +409,7 @@ UINib *_cellCRNib;
     return [[UIView alloc]initWithFrame:CGRectZero];
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
       HWMVoteTheEditorialBoardTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString forIndexPath:indexPath];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];

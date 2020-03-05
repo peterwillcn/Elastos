@@ -63,7 +63,9 @@ typedef ptrdiff_t       ssize_t;
 
 /**
  * \~English
- * DID string max length. eg, did:elastos:iDIDBackend_Initializeine ELA_MAX_DID_LEN                 128
+ * DID string max length. eg, did:elastos:ixxxxxxxxxx
+ */
+#define ELA_MAX_DID_LEN                 128
 /**
  * \~English
  * DIDURL string max length. eg, did:elastos:ixxxxxxxxxx#xxxxxx

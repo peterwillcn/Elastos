@@ -387,16 +387,20 @@
 		428B4D9C22CB35C0004AE7D0 /* HWMaddSignThePursefootView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 428B4D9B22CB35C0004AE7D0 /* HWMaddSignThePursefootView.xib */; };
 		428BA711229B84C00091618F /* invokedUrlCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA710229B84C00091618F /* invokedUrlCommand.m */; };
 		428BA726229B91190091618F /* PluginResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA725229B91190091618F /* PluginResult.m */; };
-		428BA729229B92530091618F /* JSON_private.m in Sources */ = {isa = PBXBuildFile; fileRef = 428BA727229B92530091618F /* JSON_private.m */; };
 		428D971A238D0FE6005F1963 /* HWMCRCommitteeForAgreementView.m in Sources */ = {isa = PBXBuildFile; fileRef = 428D9719238D0FE6005F1963 /* HWMCRCommitteeForAgreementView.m */; };
 		428D971C238D0FF7005F1963 /* HWMCRCommitteeForAgreementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 428D971B238D0FF7005F1963 /* HWMCRCommitteeForAgreementView.xib */; };
 		4296F1072375429800B2CE7D /* HWMshowIntroductionInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4296F1052375429800B2CE7D /* HWMshowIntroductionInfoViewController.m */; };
 		4296F1082375429800B2CE7D /* HWMshowIntroductionInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4296F1062375429800B2CE7D /* HWMshowIntroductionInfoViewController.xib */; };
 		4296F10C2375482900B2CE7D /* HWMShowSocialAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4296F10A2375482900B2CE7D /* HWMShowSocialAccountViewController.m */; };
 		4296F10D2375482900B2CE7D /* HWMShowSocialAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4296F10B2375482900B2CE7D /* HWMShowSocialAccountViewController.xib */; };
-		429BCA02240EA35C002F5FAD /* HWMDIDAdapter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 429BCA01240EA35C002F5FAD /* HWMDIDAdapter.mm */; };
-		429BCA05240EA57B002F5FAD /* didtest_adapter.c in Sources */ = {isa = PBXBuildFile; fileRef = 429BCA03240EA57A002F5FAD /* didtest_adapter.c */; };
+		429DD3B6240FAA7200E6CF11 /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ECD237794A1003BB3BA /* libsqlite3.a */; };
+		429DD3BE240FDF0300E6CF11 /* HWMDIDManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 429DD3BD240FDF0300E6CF11 /* HWMDIDManager.mm */; };
 		42A201C5237D4E160028DEFA /* HWMDIDInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A201C4237D4E160028DEFA /* HWMDIDInfoModel.m */; };
+		42A32057240FEF8100FABE6D /* JSON_private.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A32055240FEF8000FABE6D /* JSON_private.m */; };
+		42A3206A240FEFFA00FABE6D /* libhdkey.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A32066240FEFFA00FABE6D /* libhdkey.a */; };
+		42A3206B240FEFFA00FABE6D /* libcjson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A32067240FEFFA00FABE6D /* libcjson.a */; };
+		42A3206C240FEFFA00FABE6D /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A32068240FEFFA00FABE6D /* libcurl.a */; };
+		42A3206D240FEFFA00FABE6D /* libeladid.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A32069240FEFFA00FABE6D /* libeladid.a */; };
 		42A767952314FE50005FC764 /* HMWCRCommitteeMemberListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42A767932314FE50005FC764 /* HMWCRCommitteeMemberListViewController.mm */; };
 		42A767962314FE50005FC764 /* HMWCRCommitteeMemberListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A767942314FE50005FC764 /* HMWCRCommitteeMemberListViewController.xib */; };
 		42A7679A2315293F005FC764 /* HWMCRRegisteredViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42A767982315293F005FC764 /* HWMCRRegisteredViewController.mm */; };
@@ -427,7 +431,6 @@
 		42B57AC122150C1C004CF089 /* NSDictionary+WOCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B57AAF22150C1C004CF089 /* NSDictionary+WOCrash.m */; };
 		42B57AC222150C1C004CF089 /* NSMutableArray+WOCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B57AB022150C1C004CF089 /* NSMutableArray+WOCrash.m */; };
 		42B7AD95221BAA61006959B8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 42B7AD97221BAA61006959B8 /* Localizable.strings */; };
-		42C5A45123FBE14100FF0416 /* HWMDIDManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42C5A45023FBE14100FF0416 /* HWMDIDManager.mm */; };
 		42D105F223A3344D0063AADC /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D105C223A3344D0063AADC /* UIScrollView+MJRefresh.m */; };
 		42D105F323A3344D0063AADC /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D105C323A3344D0063AADC /* MJRefreshConst.m */; };
 		42D105F423A3344D0063AADC /* MJRefreshConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D105C423A3344D0063AADC /* MJRefreshConfig.m */; };
@@ -466,14 +469,8 @@
 		42D7DC6023F68732002F5A9A /* HWMAuthorizationPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D7DC5E23F68732002F5A9A /* HWMAuthorizationPageViewController.xib */; };
 		42D7DC6423F68C1F002F5A9A /* HWMTheImportDocumentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D7DC6223F68C1F002F5A9A /* HWMTheImportDocumentsViewController.m */; };
 		42D7DC6523F68C1F002F5A9A /* HWMTheImportDocumentsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D7DC6323F68C1F002F5A9A /* HWMTheImportDocumentsViewController.xib */; };
-		42E66283240E3D5B001220AA /* libhdkey.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E65748240E3D52001220AA /* libhdkey.a */; };
-		42E66284240E3D5B001220AA /* libcjson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E65749240E3D52001220AA /* libcjson.a */; };
-		42E66285240E3D5B001220AA /* libeladid.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E6574A240E3D52001220AA /* libeladid.a */; };
 		42E66286240E3D5B001220AA /* ElastosDIDConfig-debug.cmake in Resources */ = {isa = PBXBuildFile; fileRef = 42E6574E240E3D52001220AA /* ElastosDIDConfig-debug.cmake */; };
 		42E66287240E3D5B001220AA /* ElastosDIDConfig.cmake in Resources */ = {isa = PBXBuildFile; fileRef = 42E6574F240E3D52001220AA /* ElastosDIDConfig.cmake */; };
-		42E66FE9240E6480001220AA /* MacOSX-Framework in Resources */ = {isa = PBXBuildFile; fileRef = 42E66FE8240E6480001220AA /* MacOSX-Framework */; };
-		42E66FEA240E64BD001220AA /* MacOSX-Framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E66FE8240E6480001220AA /* MacOSX-Framework */; };
-		42E66FEC240E6D40001220AA /* ax_jni_include_dir.m4 in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E66FEB240E6D40001220AA /* ax_jni_include_dir.m4 */; };
 		42EA693F2313C23C00418328 /* HWMQrCodeScanningResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EA693D2313C23C00418328 /* HWMQrCodeScanningResultsViewController.m */; };
 		42EA69402313C23C00418328 /* HWMQrCodeScanningResultsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42EA693E2313C23C00418328 /* HWMQrCodeScanningResultsViewController.xib */; };
 		42EA69442313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42EA69422313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.m */; };
@@ -1249,8 +1246,6 @@
 		428BA710229B84C00091618F /* invokedUrlCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = invokedUrlCommand.m; sourceTree = "<group>"; };
 		428BA724229B91190091618F /* PluginResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PluginResult.h; sourceTree = "<group>"; };
 		428BA725229B91190091618F /* PluginResult.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; path = PluginResult.m; sourceTree = "<group>"; };
-		428BA727229B92530091618F /* JSON_private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSON_private.m; sourceTree = "<group>"; };
-		428BA728229B92530091618F /* JSON_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON_private.h; sourceTree = "<group>"; };
 		428D9718238D0FE6005F1963 /* HWMCRCommitteeForAgreementView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCRCommitteeForAgreementView.h; sourceTree = "<group>"; };
 		428D9719238D0FE6005F1963 /* HWMCRCommitteeForAgreementView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMCRCommitteeForAgreementView.m; sourceTree = "<group>"; };
 		428D971B238D0FF7005F1963 /* HWMCRCommitteeForAgreementView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMCRCommitteeForAgreementView.xib; sourceTree = "<group>"; };
@@ -1260,12 +1255,16 @@
 		4296F1092375482900B2CE7D /* HWMShowSocialAccountViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMShowSocialAccountViewController.h; sourceTree = "<group>"; };
 		4296F10A2375482900B2CE7D /* HWMShowSocialAccountViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMShowSocialAccountViewController.m; sourceTree = "<group>"; };
 		4296F10B2375482900B2CE7D /* HWMShowSocialAccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMShowSocialAccountViewController.xib; sourceTree = "<group>"; };
-		429BCA00240EA35C002F5FAD /* HWMDIDAdapter.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; path = HWMDIDAdapter.h; sourceTree = "<group>"; };
-		429BCA01240EA35C002F5FAD /* HWMDIDAdapter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HWMDIDAdapter.mm; sourceTree = "<group>"; };
-		429BCA03240EA57A002F5FAD /* didtest_adapter.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = didtest_adapter.c; sourceTree = "<group>"; };
-		429BCA04240EA57B002F5FAD /* didtest_adapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = didtest_adapter.h; sourceTree = "<group>"; };
+		429DD3BC240FDF0300E6CF11 /* HWMDIDManager.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = HWMDIDManager.h; sourceTree = "<group>"; };
+		429DD3BD240FDF0300E6CF11 /* HWMDIDManager.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = HWMDIDManager.mm; sourceTree = "<group>"; };
 		42A201C3237D4E160028DEFA /* HWMDIDInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMDIDInfoModel.h; sourceTree = "<group>"; };
 		42A201C4237D4E160028DEFA /* HWMDIDInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMDIDInfoModel.m; sourceTree = "<group>"; };
+		42A32055240FEF8000FABE6D /* JSON_private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSON_private.m; sourceTree = "<group>"; };
+		42A32056240FEF8000FABE6D /* JSON_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON_private.h; sourceTree = "<group>"; };
+		42A32066240FEFFA00FABE6D /* libhdkey.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libhdkey.a; sourceTree = "<group>"; };
+		42A32067240FEFFA00FABE6D /* libcjson.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcjson.a; sourceTree = "<group>"; };
+		42A32068240FEFFA00FABE6D /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcurl.a; sourceTree = "<group>"; };
+		42A32069240FEFFA00FABE6D /* libeladid.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libeladid.a; sourceTree = "<group>"; };
 		42A767922314FE50005FC764 /* HMWCRCommitteeMemberListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMWCRCommitteeMemberListViewController.h; sourceTree = "<group>"; };
 		42A767932314FE50005FC764 /* HMWCRCommitteeMemberListViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HMWCRCommitteeMemberListViewController.mm; sourceTree = "<group>"; };
 		42A767942314FE50005FC764 /* HMWCRCommitteeMemberListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HMWCRCommitteeMemberListViewController.xib; sourceTree = "<group>"; };
@@ -1328,8 +1327,6 @@
 		42C53F9022C9B9820006B3B2 /* MasterWalletManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterWalletManager.h; sourceTree = "<group>"; };
 		42C53F9122C9B9820006B3B2 /* ITokenchainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITokenchainSubWallet.h; sourceTree = "<group>"; };
 		42C53F9222C9B9820006B3B2 /* ISidechainSubWallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISidechainSubWallet.h; sourceTree = "<group>"; };
-		42C5A44F23FBE14100FF0416 /* HWMDIDManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMDIDManager.h; sourceTree = "<group>"; };
-		42C5A45023FBE14100FF0416 /* HWMDIDManager.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = HWMDIDManager.mm; sourceTree = "<group>"; };
 		42D105C223A3344D0063AADC /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
 		42D105C323A3344D0063AADC /* MJRefreshConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshConst.m; sourceTree = "<group>"; };
 		42D105C423A3344D0063AADC /* MJRefreshConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshConfig.m; sourceTree = "<group>"; };
@@ -1402,9 +1399,6 @@
 		42E64AF4240E3D43001220AA /* HDkey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDkey.h; sourceTree = "<group>"; };
 		42E64AF5240E3D43001220AA /* crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto.h; sourceTree = "<group>"; };
 		42E64AF6240E3D43001220AA /* ela_did.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ela_did.h; sourceTree = "<group>"; };
-		42E65748240E3D52001220AA /* libhdkey.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libhdkey.a; sourceTree = "<group>"; };
-		42E65749240E3D52001220AA /* libcjson.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcjson.a; sourceTree = "<group>"; };
-		42E6574A240E3D52001220AA /* libeladid.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libeladid.a; sourceTree = "<group>"; };
 		42E6574E240E3D52001220AA /* ElastosDIDConfig-debug.cmake */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "ElastosDIDConfig-debug.cmake"; sourceTree = "<group>"; };
 		42E6574F240E3D52001220AA /* ElastosDIDConfig.cmake */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ElastosDIDConfig.cmake; sourceTree = "<group>"; };
 		42E6631D240E4717001220AA /* HDkey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDkey.h; sourceTree = "<group>"; };
@@ -4583,8 +4577,6 @@
 		42E66FE1240E5D10001220AA /* cert-type.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; name = "cert-type.d"; path = "DIDSDK/curl/docs/cmdline-opts/cert-type.d"; sourceTree = "<group>"; };
 		42E66FE3240E5EBA001220AA /* capath.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; name = capath.d; path = "DIDSDK/curl/docs/cmdline-opts/capath.d"; sourceTree = "<group>"; };
 		42E66FE6240E625D001220AA /* cacert.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; name = cacert.d; path = "DIDSDK/curl/docs/cmdline-opts/cacert.d"; sourceTree = "<group>"; };
-		42E66FE8240E6480001220AA /* MacOSX-Framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "MacOSX-Framework"; path = "DIDSDK/MacOSX-Framework"; sourceTree = SOURCE_ROOT; };
-		42E66FEB240E6D40001220AA /* ax_jni_include_dir.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; name = ax_jni_include_dir.m4; path = DIDSDK/ax_jni_include_dir.m4; sourceTree = "<group>"; };
 		42EA693C2313C23B00418328 /* HWMQrCodeScanningResultsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMQrCodeScanningResultsViewController.h; sourceTree = "<group>"; };
 		42EA693D2313C23C00418328 /* HWMQrCodeScanningResultsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMQrCodeScanningResultsViewController.m; sourceTree = "<group>"; };
 		42EA693E2313C23C00418328 /* HWMQrCodeScanningResultsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMQrCodeScanningResultsViewController.xib; sourceTree = "<group>"; };
@@ -4698,26 +4690,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42E66FEC240E6D40001220AA /* ax_jni_include_dir.m4 in Frameworks */,
-				42E66FEA240E64BD001220AA /* MacOSX-Framework in Frameworks */,
 				C45E4EDB2377951B003BB3BA /* libssl.a in Frameworks */,
-				425DFB1B23716685001CEF76 /* libc++abi.tbd in Frameworks */,
+				429DD3B6240FAA7200E6CF11 /* libsqlite3.a in Frameworks */,
 				42A7840522F7FF26008F2F94 /* libspvsdk.a in Frameworks */,
+				C45E4ED9237794FF003BB3BA /* libspdlog.a in Frameworks */,
+				42A3206C240FEFFA00FABE6D /* libcurl.a in Frameworks */,
+				C45E4ED8237794ED003BB3BA /* libfruit.a in Frameworks */,
 				C45E4ED7237794E1003BB3BA /* libcrypto.a in Frameworks */,
-				4261CF4022A16066006B1DDE /* Security.framework in Frameworks */,
-				42E66283240E3D5B001220AA /* libhdkey.a in Frameworks */,
-				4261CF3E22A1605D006B1DDE /* SystemConfiguration.framework in Frameworks */,
-				42E66284240E3D5B001220AA /* libcjson.a in Frameworks */,
-				42E66285240E3D5B001220AA /* libeladid.a in Frameworks */,
-				4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */,
-				C45E4ED4237794B9003BB3BA /* libboost_filesystem.a in Frameworks */,
 				C45E4ED6237794D5003BB3BA /* libboost_thread.a in Frameworks */,
+				42A3206B240FEFFA00FABE6D /* libcjson.a in Frameworks */,
 				C45E4ED5237794C7003BB3BA /* libboost_system.a in Frameworks */,
+				C45E4ED4237794B9003BB3BA /* libboost_filesystem.a in Frameworks */,
+				425DFB1B23716685001CEF76 /* libc++abi.tbd in Frameworks */,
+				42A3206D240FEFFA00FABE6D /* libeladid.a in Frameworks */,
+				4261CF4022A16066006B1DDE /* Security.framework in Frameworks */,
+				4261CF3E22A1605D006B1DDE /* SystemConfiguration.framework in Frameworks */,
+				4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */,
 				4250B3F22238D32700B6858F /* libzbar.a in Frameworks */,
 				9FD0C828FEE9459B88FB6A2D /* WebKit.framework in Frameworks */,
-				C45E4ED8237794ED003BB3BA /* libfruit.a in Frameworks */,
-				C45E4ED9237794FF003BB3BA /* libspdlog.a in Frameworks */,
 				0377F67DC70B4CEFBD787502 /* libz.tbd in Frameworks */,
+				42A3206A240FEFFA00FABE6D /* libhdkey.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4791,7 +4783,6 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				42E66FEB240E6D40001220AA /* ax_jni_include_dir.m4 */,
 				42E64AF2240E3D43001220AA /* DIDSDK */,
 				42E6631B240E4717001220AA /* DIDSDK */,
 				421CD7B923A098F20003A456 /* libsqlite3.0.tbd */,
@@ -4828,7 +4819,6 @@
 		4202C7D321F6EF28009E5932 /* ELA */ = {
 			isa = PBXGroup;
 			children = (
-				42E66FE8240E6480001220AA /* MacOSX-Framework */,
 				4202C7D421F6EF28009E5932 /* ThirdSDK */,
 				4202C88121F6EF28009E5932 /* MeVC */,
 				4202C8A121F6EF29009E5932 /* voteTicket */,
@@ -6270,6 +6260,17 @@
 			path = cell;
 			sourceTree = "<group>";
 		};
+		42A32065240FEFFA00FABE6D /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				42A32066240FEFFA00FABE6D /* libhdkey.a */,
+				42A32067240FEFFA00FABE6D /* libcjson.a */,
+				42A32068240FEFFA00FABE6D /* libcurl.a */,
+				42A32069240FEFFA00FABE6D /* libeladid.a */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
 		42A7678D2314DD8C005FC764 /* CRElection */ = {
 			isa = PBXGroup;
 			children = (
@@ -6532,8 +6533,8 @@
 		42E64AF2240E3D43001220AA /* DIDSDK */ = {
 			isa = PBXGroup;
 			children = (
+				42A32065240FEFFA00FABE6D /* lib */,
 				42E64AF3240E3D43001220AA /* include */,
-				42E65747240E3D52001220AA /* lib */,
 				42E6574B240E3D52001220AA /* share */,
 			);
 			path = DIDSDK;
@@ -6547,16 +6548,6 @@
 				42E64AF6240E3D43001220AA /* ela_did.h */,
 			);
 			path = include;
-			sourceTree = "<group>";
-		};
-		42E65747240E3D52001220AA /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				42E65748240E3D52001220AA /* libhdkey.a */,
-				42E65749240E3D52001220AA /* libcjson.a */,
-				42E6574A240E3D52001220AA /* libeladid.a */,
-			);
-			path = lib;
 			sourceTree = "<group>";
 		};
 		42E6574B240E3D52001220AA /* share */ = {
@@ -10546,12 +10537,10 @@
 		705D8C6A21BE863B0062156D /* WalletManager */ = {
 			isa = PBXGroup;
 			children = (
-				429BCA03240EA57A002F5FAD /* didtest_adapter.c */,
-				429BCA04240EA57B002F5FAD /* didtest_adapter.h */,
-				429BCA00240EA35C002F5FAD /* HWMDIDAdapter.h */,
-				429BCA01240EA35C002F5FAD /* HWMDIDAdapter.mm */,
-				428BA728229B92530091618F /* JSON_private.h */,
-				428BA727229B92530091618F /* JSON_private.m */,
+				42A32056240FEF8000FABE6D /* JSON_private.h */,
+				42A32055240FEF8000FABE6D /* JSON_private.m */,
+				429DD3BC240FDF0300E6CF11 /* HWMDIDManager.h */,
+				429DD3BD240FDF0300E6CF11 /* HWMDIDManager.mm */,
 				4202CADD21F6F0D2009E5932 /* ElaSubWalletCallback.h */,
 				4202CADC21F6F0D2009E5932 /* ElaSubWalletCallback.mm */,
 				705D8C6C21BE86870062156D /* ELWalletManager.h */,
@@ -10560,8 +10549,6 @@
 				428BA710229B84C00091618F /* invokedUrlCommand.m */,
 				428BA724229B91190091618F /* PluginResult.h */,
 				428BA725229B91190091618F /* PluginResult.m */,
-				42C5A44F23FBE14100FF0416 /* HWMDIDManager.h */,
-				42C5A45023FBE14100FF0416 /* HWMDIDManager.mm */,
 			);
 			path = WalletManager;
 			sourceTree = "<group>";
@@ -10761,7 +10748,6 @@
 				4253EE5F23697503005B774A /* HWMDIDInfoTableViewCell.xib in Resources */,
 				4202CA0821F6EF2A009E5932 /* SGQRCode.bundle in Resources */,
 				4202CA7521F6EF2B009E5932 /* HMWAssetDetailsViewController.xib in Resources */,
-				42E66FE9240E6480001220AA /* MacOSX-Framework in Resources */,
 				4202CA8621F6EF2B009E5932 /* HMWSecurityVerificationPopView.xib in Resources */,
 				4202CAD321F6EF2B009E5932 /* HMWtheSuperNodeElectionViewController.xib in Resources */,
 				42A767A023169F28005FC764 /* HWMCRElectoralAffairsViewController.xib in Resources */,
@@ -11002,7 +10988,6 @@
 				4202CA2621F6EF2A009E5932 /* HMWClassificationOfLanguageTableViewCell.m in Sources */,
 				424910E82271BFCF00C41E50 /* SDWebImageDecoder.m in Sources */,
 				42D105FD23A3344D0063AADC /* MJRefreshAutoGifFooter.m in Sources */,
-				428BA729229B92530091618F /* JSON_private.m in Sources */,
 				4202CA2321F6EF2A009E5932 /* HMWshowAddContactTextTableViewCell.m in Sources */,
 				4202CA8B21F6EF2B009E5932 /* HMWTheWalletManagementViewController.mm in Sources */,
 				424A7D67222FC23B00683B8C /* sideChainInfoModel.m in Sources */,
@@ -11010,7 +10995,6 @@
 				42D105F323A3344D0063AADC /* MJRefreshConst.m in Sources */,
 				4228AA4821F88C87002866B5 /* UIBezierPath+YYAdd.m in Sources */,
 				4202CA8D21F6EF2B009E5932 /* HMWModifyTheWalletPasswordViewController.mm in Sources */,
-				429BCA02240EA35C002F5FAD /* HWMDIDAdapter.mm in Sources */,
 				4261CF3A22A15D21006B1DDE /* NSObject+Swizzling.m in Sources */,
 				42D1061023A336240063AADC /* NENPingManager.m in Sources */,
 				4250B3F12238D32700B6858F /* UIColor+HEX.m in Sources */,
@@ -11024,6 +11008,7 @@
 				4228AA6721F88F18002866B5 /* assetDetailsModel.m in Sources */,
 				4202CAA421F6EF2B009E5932 /* HMWImKeystoreView.m in Sources */,
 				4202CA7121F6EF2B009E5932 /* HMWtransferTransactionDetailsViewController.m in Sources */,
+				429DD3BE240FDF0300E6CF11 /* HWMDIDManager.mm in Sources */,
 				4202CA9121F6EF2B009E5932 /* HMWsettingKeyStorePWDViewController.mm in Sources */,
 				4253EE502369399E005B774A /* HWMDIDListNormalTableViewCell.m in Sources */,
 				4285732D2366F56500C0CF80 /* HWMDIDListViewController.mm in Sources */,
@@ -11132,6 +11117,7 @@
 				4228AA4C21F88C87002866B5 /* UITableView+YYAdd.m in Sources */,
 				4202CADE21F6F0D2009E5932 /* ElaSubWalletCallback.mm in Sources */,
 				4264A741221BDC8D008D5C7B /* NSBundle+DAUtils.m in Sources */,
+				42A32057240FEF8100FABE6D /* JSON_private.m in Sources */,
 				4202CAA921F6EF2B009E5932 /* FLTradeModel.m in Sources */,
 				4202CA0621F6EF2A009E5932 /* SVIndefiniteAnimatedView.m in Sources */,
 				42211B482362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.m in Sources */,
@@ -11149,7 +11135,6 @@
 				4228AA4B21F88C87002866B5 /* UIApplication+YYAdd.m in Sources */,
 				4202CAD121F6EF2B009E5932 /* HMWMyVoteViewController.mm in Sources */,
 				4202CAC721F6EF2B009E5932 /* HMWmyVoteStatisticsTableViewCell.m in Sources */,
-				42C5A45123FBE14100FF0416 /* HWMDIDManager.mm in Sources */,
 				424910EB2271BFCF00C41E50 /* UIImage+GIF.m in Sources */,
 				42D7DC5F23F68732002F5A9A /* HWMAuthorizationPageViewController.m in Sources */,
 				4202CAB721F6EF2B009E5932 /* FLQRVC.mm in Sources */,
@@ -11219,7 +11204,6 @@
 				4210E858239F8A07001D82F3 /* MASLayoutConstraint.m in Sources */,
 				42EAEFF2238BB69C00D6A912 /* HWMImportTheMnemonicWordViewController.mm in Sources */,
 				4228AA4721F88C87002866B5 /* UITextField+YYAdd.m in Sources */,
-				429BCA05240EA57B002F5FAD /* didtest_adapter.c in Sources */,
 				428B4D8622CB0B12004AE7D0 /* HWMSignThePurseViewController.mm in Sources */,
 				4210E85B239F8A07001D82F3 /* MASConstraint.m in Sources */,
 				4202CAC321F6EF2B009E5932 /* HMWinputVotesPopupWindowView.m in Sources */,
@@ -11321,6 +11305,16 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/DIDSDK/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/DIDSDK/lib的副本",
 				);
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_LDFLAGS = "-ObjC";
@@ -11383,6 +11377,16 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/DIDSDK/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/DIDSDK/lib的副本",
 				);
 				MARKETING_VERSION = "1.4 dev";
 				ONLY_ACTIVE_ARCH = NO;
@@ -11492,6 +11496,16 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/DIDSDK/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/DIDSDK/lib的副本",
 				);
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_LDFLAGS = "-ObjC";
@@ -11601,8 +11615,19 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/DIDSDK/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
+					"$(PROJECT_DIR)/DIDSDK/lib的副本",
 				);
 				MARKETING_VERSION = "1.4 dev";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.elastosWallet;
 				PRODUCT_NAME = "ELA Wallet";

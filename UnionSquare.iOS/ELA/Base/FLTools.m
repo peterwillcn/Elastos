@@ -1327,7 +1327,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     if ([sdknet isEqualToString:@"RegTest"] ) {
            return @"http://54.223.244.60";
            }else if ([sdknet isEqualToString:@"PrvNet"] ){
-               return @"http://172.26.0.207:3000";
+               return @"http://node.longrunweather.com:18080";
               
            }else if ([sdknet isEqualToString:@"TestNet"] ){
                return @"http://54.223.244.60";
@@ -1341,7 +1341,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     if ([sdknet isEqualToString:@"RegTest"] ) {
              return  @"https://blockchain-beta.elastos.org/tx/";
              }else if ([sdknet isEqualToString:@"PrvNet"] ){
-                 return  @"http://172.26.0.207:3000";
+                 return  @"http://node.longrunweather.com:18080";
                 
              }else if ([sdknet isEqualToString:@"TestNet"] ){
                  return  @"https://blockchain-beta.elastos.org/tx/";
@@ -1501,9 +1501,10 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     
-    [formatter setDateStyle:NSDateFormatterMediumStyle];
-    
-    [formatter setTimeStyle:NSDateFormatterShortStyle];
+//    [formatter setDateStyle:kCFDateFormatterNoStyle];
+//    
+//    [formatter setTimeStyle:kCFDateFormatterNoStyle];
+
     
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"]; //(@"YYYY-MM-dd hh:mm:ss") ----------设置你想要的格式,hh与HH的区别:分别表示12小时制,24小时制
     
@@ -1514,10 +1515,10 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     NSDate* date = [formatter dateFromString:formatTime]; //------------将字符串按formatter转成nsdate
     
     //时间转时间戳的方法:
-    NSString * timeSp = [[NSNumber numberWithDouble:[date timeIntervalSince1970]*1000] stringValue];
+    NSString * timeSp = [[NSNumber numberWithDouble:[date timeIntervalSince1970]] stringValue];
     
     NSLog(@"将某个时间转化成 时间戳timeSp:%ld",(long)timeSp); //时间戳的值
-    
+//    [self TimeFormatConversion:timeSp ];
     return timeSp;
     
 }

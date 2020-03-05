@@ -67,6 +67,9 @@
 
 }
 -(void)setModel:(HWMDIDInfoModel *)model{
+    if (model==nil) {
+        model =[[HWMDIDInfoModel alloc]init];
+    }
     _model=model;
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{

@@ -11,7 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MyUtil : NSObject
 
-+ (NSString *)getRootPath;
++(NSString *)getRootPath;
++(NSString*)DIDRootPath;
 @end
 
 NS_ASSUME_NONNULL_END

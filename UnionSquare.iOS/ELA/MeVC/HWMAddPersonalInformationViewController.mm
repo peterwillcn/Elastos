@@ -18,11 +18,12 @@
 #import "HMWAddTheCurrencyListViewController.h"
 #import "HMWpwdPopupView.h"
 #import "HWMDIDInfoListView.h"
-
+#import "HWMDIDManager.h"
+UINib *_cellCreateDIDListNib;
 static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTableViewCell";
 
-@interface HWMAddPersonalInformationViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDDataListViewDelegate, HMWSelectCountriesOrRegionsViewControllerDelegate,HWMDIDInfoListViewDelegate>
+@interface HWMAddPersonalInformationViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDDataListViewDelegate, HMWSelectCountriesOrRegionsViewControllerDelegate,HWMDIDInfoListViewDelegate,HWMCreateDIDListTableViewCellDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *textInfoLabel;
 /*
  *<# #>
@@ -102,7 +103,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 }
 -(NSArray *)allInfoListArray{
     if (!_allInfoListArray) {
-        _allInfoListArray =@[@{@"text":@"昵称",@"index":@"0",@"type":@"1"},@{@"text":@"性别",@"index":@"1",@"type":@"2"},@{@"text":@"出生日期",@"index":@"2",@"type":@"2"},@{@"text":@"头像地址",@"index":@"3",@"type":@"1"},@{@"text":@"邮箱",@"index":@"4",@"type":@"1"},@{@"text":@"手机号",@"index":@"5",@"type":@"3"},@{@"text":@"国家/地区",@"index":@"6",@"type":@"2"},@{@"text":@"个人简介",@"index":@"7",@"type":@"4"},@{@"text":@"个人主页",@"index":@"8",@"type":@"1"},@{@"text":@"Facebook账号",@"index":@"9",@"type":@"1"},@{@"text":@" Twitter账号",@"index":@"10",@"type":@"1"},@{@"text":@" 微博账号",@"index":@"11",@"type":@"1"},@{@"text":@" 微信账号",@"index":@"12",@"type":@"1"},@{@"text":@" Google账号",@"index":@"13",@"type":@"1"}];
+        _allInfoListArray =@[@{@"text":@"昵称",@"index":@"0",@"type":@"1"},@{@"text":@"性别",@"index":@"1",@"type":@"2"},@{@"text":@"出生日期",@"index":@"2",@"type":@"2"},@{@"text":@"头像地址",@"index":@"3",@"type":@"1"},@{@"text":@"邮箱",@"index":@"4",@"type":@"1"},@{@"text":@"手机号",@"index":@"5",@"type":@"3"},@{@"text":@"国家/地区",@"index":@"6",@"type":@"2"},@{@"text":@"个人简介",@"index":@"7",@"type":@"4"},@{@"text":@"个人主页",@"index":@"8",@"type":@"1"},@{@"text":@"Facebook账号",@"index":@"9",@"type":@"1"},@{@"text":@"Twitter账号",@"index":@"10",@"type":@"1"},@{@"text":@"微博账号",@"index":@"11",@"type":@"1"},@{@"text":@"微信账号",@"index":@"12",@"type":@"1"},@{@"text":@"Google账号",@"index":@"13",@"type":@"1"}];
     }
     return _allInfoListArray;
 }
@@ -115,8 +116,10 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 }
 -(void)makeUI{
     [[HMWCommView share]makeBordersWithView:self.nextButton];
-    [self.table registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
-    [self.table registerNib:[UINib nibWithNibName:cellCodeAndPhonenumberString bundle:nil] forCellReuseIdentifier:cellCodeAndPhonenumberString];
+
+_cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
+        [self.table registerNib:_cellCreateDIDListNib forCellReuseIdentifier:cellString];
+    [self.table registerNib:_cellCreateDIDListNib forCellReuseIdentifier:cellCodeAndPhonenumberString];
     self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.table.rowHeight = 55;
     self.table.delegate =self;
@@ -134,26 +137,19 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     return _skipButton;
 }
 -(void)skipVCEvent{
-//    if (self.isEidet) {
-//        if ([[HMWFMDBManager sharedManagerType:DIDInfoType]updateDIDInfo:self.model WithWalletID:self.model.walletID]) {
-//            [[FLTools share]showErrorInfo:@"保存成功"];
-//        }else{
-//            [[FLTools share]showErrorInfo:@"保存失败"];
-//        }
-//
-//    }else{
-//        HWMAddPersonalProfileViewController *AddPersonalProfileVC=[[HWMAddPersonalProfileViewController alloc]init];
-//           AddPersonalProfileVC.model=self.model;
-//           [self.navigationController pushViewController:AddPersonalProfileVC animated:YES];
-//    }
-//
+   BOOL isSucess=[[HWMDIDManager shareDIDManager ]updateInfoWithInfo: self.model];
+    if (isSucess) {
+            [[FLTools share]showErrorInfo:@"发布成功"];
+    }else{
+           [[FLTools share]showErrorInfo:@"发布失败"];
+    }
     
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *indexString=self.defMArray[indexPath.row];
     NSDictionary *infDic=self.allInfoListArray[[indexString integerValue]];
-    NSString *titleString=infDic[@"test"];
+    NSString *titleString=infDic[@"text"];
     NSString *typeString=infDic[@"type"];
     
     if ([typeString isEqualToString:@"3"]) {
@@ -172,8 +168,12 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
                 return cell;}
     
 //    type//1
-    HWMCreateDIDListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellString];
+    HWMCreateDIDListTableViewCell *cell =
+    [_cellCreateDIDListNib instantiateWithOwner:nil options:nil][0];
              cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    cell.arrowImageView.alpha=1.f;
+    cell.index=indexString;
+    cell.delegate=self;
     if ([typeString isEqualToString:@"2"]) {
         cell.infoLabel.alpha=1.f;
         cell.infoLabel.text=[NSString stringWithFormat:@"%@%@",NSLocalizedString(@"请选择", nil),titleString];
@@ -248,7 +248,13 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     return 0.01;
 }
 - (IBAction)nextAndSkipEvent:(id)sender {
+    NSMutableArray  *nextArr=[[NSMutableArray alloc]init];
+    for (NSString *index in self.showInfoListAarry) {
+        [nextArr addObject:self.allInfoListArray[[index intValue]]];
+    }
+    
     UIView *mainView =[self mainWindow];
+    self.showAllInfoView.dataSourceArray=nextArr;
     [mainView addSubview:self.showAllInfoView];
     [self.showAllInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.bottom.right.equalTo(mainView);
@@ -343,12 +349,17 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 //
 //}
 -(void)addInfoWithIndex:(NSString *)index{
-    [self.defMArray addObject:self.allInfoListArray[[index integerValue]]];
-    
+    [self.defMArray insertObject:index atIndex:[index integerValue]];
+    [self.showInfoListAarry removeObject:index];
+//    [self.table reloadData];
 }
 - (void)closeView{
     [self.showAllInfoView removeFromSuperview];
     [self.table reloadData];
 }
-
+-(void)deleteWithIndex:(NSString*_Nullable)index{
+    [self.defMArray removeObject:index];
+    [self.showInfoListAarry insertObject:index atIndex:[index intValue]];
+    [self.table reloadData];
+}
 @end

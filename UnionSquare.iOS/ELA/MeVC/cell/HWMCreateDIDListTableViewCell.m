@@ -26,6 +26,12 @@
     // Configure the view for the selected state
 }
 - (IBAction)deleateListInfoEvent:(id)sender {
+    if (self.delegate) {
+        [self.delegate deleteWithIndex:self.index];
+    }
+}
+-(void)setIndex:(NSString *)index{
+    _index=index;
 }
 
 @end

@@ -94,7 +94,7 @@
                 <outlet property="infoLabel" destination="36w-oH-Bv6" id="ghZ-Hu-AV7"/>
                 <outlet property="intPutTextField" destination="Jin-bu-wGR" id="a5O-Vn-KMV"/>
             </connections>
-            <point key="canvasLocation" x="139" y="119"/>
+            <point key="canvasLocation" x="137.68115942028987" y="118.52678571428571"/>
         </tableViewCell>
     </objects>
     <resources>

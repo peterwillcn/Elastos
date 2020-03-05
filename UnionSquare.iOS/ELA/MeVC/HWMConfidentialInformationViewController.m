@@ -29,7 +29,8 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
     self.title=NSLocalizedString(@"凭证信息", nil);
     [self.TheImportButton setTitle:NSLocalizedString(@"导入", nil) forState:UIControlStateNormal];
     [self.exportButton setTitle:NSLocalizedString(@"导出", nil) forState:UIControlStateNormal];
-    
+    [[HMWCommView share]makeBordersWithView:self.TheImportButton];
+    [[HMWCommView share]makeBordersWithView:self.exportButton];
     
     [self makeUI];
 }

@@ -5,16 +5,13 @@
 //  Created by  on 2020/2/18.
 //
 
+
 #import "HWMDIDManager.h"
-#import "MyUtil.h"
-#include "ela_did.h"
-#include "HDkey.h"
-#include "crypto.h"
-#include "didtest_adapter.h"
-#import "HWMDIDAdapter.h"
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-HWMDIDAdapter
 
+#define SIGNATURE_BYTES         64
 static HWMDIDManager *_instance;
 struct DIDStore *store;
 struct  DIDDocument * doc;
@@ -33,8 +30,6 @@ struct DID *did;
     dispatch_once(&onceToken, ^{
         if (_instance == nil) {
             _instance = [super allocWithZone:zone];
-          
-           
         }
     });
     return _instance;
@@ -57,34 +52,73 @@ struct DID *did;
 {
     return _instance;
 }
+static const char *DIDAdaptor_CreateIdTransaction(DIDAdapter *_adapter, const char *payload, const char *memo)
+{
+
+
+    return "1111111";
+    
+}
+DIDAdapter *DIDAdapter_Create()
+{
+    DIDAdapter *adapter;
+    const char *password;
+    adapter = (DIDAdapter*) calloc(1, sizeof(DIDAdapter));
+    if (!adapter)
+        return NULL;
+    adapter->createIdTransaction =DIDAdaptor_CreateIdTransaction;
+    return (DIDAdapter*)adapter;
+}
+
 -(instancetype)init{
     if (self==nil) {
         self=[super init];
     }
-     rootPath=[MyUtil getRootPath];
+//    NSArray *cachePaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory
+//    , NSUserDomainMask
+//    , YES);
+//    NSFileManager *fm=[NSFileManager alloc]
+//    cachePaths.firstObject
+    _mRootPath=[MyUtil DIDRootPath];
     return self;
+    
 }
--(void)initDID{
+-(BOOL)initDIDWithPWD:(NSString *)passWord withDIDString:(NSString*)DIDString
+WithPrivatekeyString:(NSString*)privatekeyString
+     WithmastWalletID:(NSString*)mastWalletID{
+    NSDictionary *retul;
+    self.passWord=passWord;
+    self.DIDString=DIDString;
+    self.privatekeyString=privatekeyString;
+    self.mastWalletID=mastWalletID;
     DIDBackend_InitializeDefault("http://api.elastos.io:20606");
-    HWMDIDAdapter *didAdapter=[[HWMDIDAdapter alloc]init];
-//    DIDAdapter * didAdapter =;
-    store=DIDStore_Open([[self mRootPath] UTF8String], didAdapter);
+    DIDAdapter * didAdapter =DIDAdapter_Create();
+const char *tmp =[_mRootPath UTF8String];
+    store=DIDStore_Open(tmp, didAdapter);
     DID *did=DID_FromString([self.mastWalletID UTF8String]);// 获取DID
     if (DIDSotre_ContainsPrivateKeys(store, did)) {//拉取
-        [self resolve];
+        if ([self resolve]) {
+               return YES;
+        }else{
+            return NO;
+        }
     }else{//创建
-        DID *did=DID_New([self.mastWalletID UTF8String]);
-        DIDURL *url=DIDURL_NewByDid(did, "default");
-        const char uint8_t *privatekey=[self.privatekeyString UTF8String];
-        DIDStore_StorePrivateKey(store,[self.passWord UTF8String],did,url, privatekey);
-        DID_Destroy(did);
-        DIDURL_Destroy(url);
+        
+//        DIDStore_InitPrivateIdentityFromRootKey(store,
+//          [self.passWord UTF8String],[self.privatekeyString UTF8String], NO);
+//        DID *did=DID_New([self.mastWalletID UTF8String]);
+//        DIDURL *url=DIDURL_NewByDid(did, "default");
+//
+//        const uint8_t * Uprivatekey=(uint8_t*)[self.privatekeyString UTF8String];
+//        DIDStore_StorePrivateKey(store,[self.passWord UTF8String],did,url,Uprivatekey);
+//        DID_Destroy(did);
+//        DIDURL_Destroy(url);
+        return NO;
     }
-
     
 }
 //从链上拉去信息
--(void)resolve{
+-(BOOL)resolve{
     DID * did = DIDStore_GetDIDByIndex(store, [self.passWord UTF8String], 0);
     DIDURL *didURL=DIDURL_NewByDid(did, "primary");
     
@@ -98,41 +132,18 @@ struct DID *did;
 //        did=DID_New(<#const char *method_specific_string#>);
 
 //        }
+        DID_Destroy(did);
+           DIDURL_Destroy(didURL);
+        return NO;
     }else{//展示did
-        
+        DID_Destroy(did);
+           DIDURL_Destroy(didURL);
+       return YES;
     }
-    DID_Destroy(did);
-    DIDURL_Destroy(didURL);
+   
     
 }
-DIDAdapter *DIDAdapter_Create(const char *walletDir, const char *walletId,
-        const char *network, const char *resolver, GetPasswordCallback *callback)
-{
-    DIDAdapter *adapter;
-    const char *password;
 
-    if (!walletDir || !walletId || !callback)
-        return NULL;
-
-    adapter = (DIDAdapter*) calloc(1, sizeof(10266));
-    if (!adapter)
-        return NULL;
-    
-    adapter->base.createIdTransaction =DIDAdaptor_CreateIdTransaction();
-    adapter->base.resolve =DIDAdapter_Resolver;
-
-    adapter->impl = SpvDidAdapter_Create(walletDir, walletId, network, resolver);
-    if (!adapter->impl) {
-        free(adapter);
-        return NULL;
-    }
-
-    adapter->passwordCallback = callback;
-    adapter->walletDir = strdup(walletDir);
-    adapter->walletId = strdup(walletId);
-
-    return (DIDAdapter*)adapter;
-}
 
 -(void)getDIDInfo{
    DID *did=DID_FromString([self.mastWalletID UTF8String]);// 获取DID
@@ -150,62 +161,106 @@ DIDAdapter *DIDAdapter_Create(const char *walletDir, const char *walletId,
     const char *suInfo  =  Credential_GetProperty(cre, "name");
     DID_Destroy(did);
        DIDURL_Destroy(URL);
+
+    
+//    reture suInfo;
 }
--(void)updateInfo{
+-(BOOL)creatDIDWithInfo:(HWMDIDInfoModel*)model{
+    int rt;
+    DIDStore_InitPrivateIdentityFromRootKey(store,
+             [self.passWord UTF8String],[self.privatekeyString UTF8String], NO);
+           DID *did=DID_New([self.mastWalletID UTF8String]);
+           DIDURL *url=DIDURL_NewByDid(did, "default");
+
+           const uint8_t * Uprivatekey=(uint8_t*)[self.privatekeyString UTF8String];
+         rt= DIDStore_StorePrivateKey(store,[self.passWord UTF8String],did,url,Uprivatekey);
+    doc=DIDStore_NewDID(store,[self.passWord UTF8String],"name");
+    
+    DIDDocumentBuilder *build=DIDDocument_Edit(doc);
+    time_t endTime=1678032512;
+     rt= DIDDocumentBuilder_SetExpires(build, endTime);
+      Issuer *issuer=Issuer_Create(did, url, store);
+      char * SelfProclaimedCredential []={"SelfProclaimedCredential"};
+      time_t   expires = DIDDocument_GetExpires(doc);
+         const char *types[] = {"BasicProfileCredential", "PhoneCredential"};
+         Property props[7];
+         props[0].key = "name";
+         props[0].value = "John";
+         props[1].key = "gender";
+         props[1].value = "Male";
+         props[2].key = "nation";
+         props[2].value = "Singapore";
+         props[3].key = "language";
+         props[3].value = "English";
+         props[4].key = "email";
+         props[4].value = "john@example.com";
+         props[5].key = "twitter";
+         props[5].value = "@john";
+         props[6].key = "phone";
+         props[6].value = "132780456";
+
+        Credential * cre = Issuer_CreateCredential(issuer, did,url, types, 2, props, 7,
+                 expires, [self.passWord UTF8String]);
+      DIDDocumentBuilder_AddCredential(build, cre);
+      DIDDocument * newDoc=  DIDDocumentBuilder_Seal(build, [self.passWord UTF8String]);
+        rt=  DIDStore_StoreDID(store,newDoc, "name");
+       char signature[SIGNATURE_BYTES * 2 + 16];
+       uint8_t data[124];
+  rt=  DIDDocument_Sign(newDoc,url,[self.passWord UTF8String], signature, 1, data, sizeof(data));
+    rt= DIDDocument_Verify(newDoc, url, signature, 1, data, sizeof(data));
+     const char *R= DIDStore_PublishDID(store, [self.passWord UTF8String], did, url);
+          DID_Destroy(did);
+           DIDURL_Destroy(url);
+    return YES;
+}
+-(BOOL)updateInfoWithInfo:(HWMDIDInfoModel*)model{
+    [self creatDIDWithInfo:model];
+    int RT;
     DID* did =DID_FromString([self.mastWalletID UTF8String]);
     DIDURL *url=DIDDocument_GetDefaultPublicKey(doc);
     doc=DIDStore_LoadDID(store, did);
     DIDDocumentBuilder *build=DIDDocument_Edit(doc);
     
-    time_t endTime=0;
-    DIDDocumentBuilder_SetExpires(build, endTime);
+    time_t endTime=[model.editTimeString intValue];
+   RT= DIDDocumentBuilder_SetExpires(build, endTime);
     Issuer *issuer=Issuer_Create(did, url, store);
     char * SelfProclaimedCredential []={"SelfProclaimedCredential"};
+    time_t   expires = DIDDocument_GetExpires(doc);
+       const char *types[] = {"BasicProfileCredential", "PhoneCredential"};
+       Property props[7];
+       props[0].key = "name";
+       props[0].value = "John";
+       props[1].key = "gender";
+       props[1].value = "Male";
+       props[2].key = "nation";
+       props[2].value = "Singapore";
+       props[3].key = "language";
+       props[3].value = "English";
+       props[4].key = "email";
+       props[4].value = "john@example.com";
+       props[5].key = "twitter";
+       props[5].value = "@john";
+       props[6].key = "phone";
+       props[6].value = "132780456";
 
-//                        Map<String, String> props = new HashMap<String, String>();
-//                        props.put("name", name);
-    Credential * cre=NULL;
-//       Credential * cre= Issuer_CreateCredential(issuer, did, url, <#const char **types#>, <#size_t typesize#>, <#Property *properties#>, <#int size#>, <#time_t expires#>, <#const char *storepass#>)
-//                        VerifiableCredential vc = issuer.issueFor(did)
-//                                .id("name")//唯一标识一个VerifiableCredential 相同会覆盖
-//                                .type(SelfProclaimedCredential)
-//                                .expirationDate(endDate)
-//                                .properties(props)
-//                                .seal("");
+      Credential * cre = Issuer_CreateCredential(issuer, did,url, types, 2, props, 7,
+               expires, [self.passWord UTF8String]);
     DIDDocumentBuilder_AddCredential(build, cre);
- DIDDocument * newDoc=  DIDDocumentBuilder_Seal(build, [self.passWord UTF8String]);
-//    * @param
-//    *      document                [in] The handle to DID Document.
-//    * @param
-//    *      keyid                    [in] Public key to sign.
-//    *                                   If key = NULL, sdk will get default key from
-//    *                                   DID Document.
-//    * @param
-//    *      storepass               [in] Pass word to sign.
-//    * @param
-//    *      sig                     [out] The buffer will receive signature data.
-//    * @param
-//    *      count                   [in] The size of data list.
-//    * @return
-//    *      0 on success, -1 if an error occurred.
-    DIDStore_StoreDID(store, doc, "name");
-//    DIDDocument_Sign(doc, url, [], <#char *sig#>, <#int count, ...#>)
-    
-
-//                        didStore.storeDid(newDoc);//存储本地
-//                        document.sign("aa111", "aa".getBytes());
-//                        boolean flag = document.verify("aa", "aa".getBytes());
-//                        // did.resolve();
-//                        //did.setAlias("");
-//                        didStore.publishDid(did, 1, "aa111111");//todo 直接publis  执行的是adpter的publish?
-    DID_Destroy(did);
-         DIDURL_Destroy(URL);
+    DIDDocument * newDoc=  DIDDocumentBuilder_Seal(build, [self.passWord UTF8String]);
+      RT=  DIDStore_StoreDID(store,newDoc, "name");
+     char signature[SIGNATURE_BYTES * 2 + 16];
+     uint8_t data[124];
+  RT=  DIDDocument_Sign(newDoc,url,[self.passWord UTF8String], signature, 1, data, sizeof(data));
+   RT= DIDDocument_Verify(newDoc, url, signature, 1, data, sizeof(data));
+   const char *R= DIDStore_PublishDID(store, [self.passWord UTF8String], did, url);
+        DID_Destroy(did);
+         DIDURL_Destroy(url);
     
 }
 -(void)creatDIDInfoWith:(id)data{
-    const char *newmnemonic = Mnemonic_Generate(0);
-     DIDStore_InitPrivateIdentity(store, [self.passWord UTF8String], [self.TheMnemonicWordString UTF8String], "", 0, false);
-       Mnemonic_Free((void*)newmnemonic);
+ DIDStore_InitPrivateIdentityFromRootKey(store,
+   [self.passWord UTF8String],"", NO);
+    
 
 }
 -(void)setPassWord:(NSString *)passWord{

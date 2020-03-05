@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="elastos-trinity-plugins-titlebarmanager" version="1.0.0" 
+    xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>TitleBar</name>
+    <js-module name="TitleBarPlugin" src="www/TitleBarManager.js">
+        <clobbers target="titleBarManager" />
+    </js-module>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="TitleBarPlugin">
+                <param name="android-package" value="org.elastos.trinity.runtime.TitleBarPlugin" />
+            </feature>
+        </config-file>
+    </platform>
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="TitleBarPlugin">
+                <param name="ios-package" value="TitleBarPlugin" />
+            </feature>
+        </config-file>
+    </platform>
+</plugin>

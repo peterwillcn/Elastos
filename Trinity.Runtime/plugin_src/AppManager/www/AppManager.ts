@@ -23,10 +23,7 @@
 let exec = cordova.exec;
 
 class AppManagerImpl implements AppManagerPlugin.AppManager {
-    titleBar: AppManagerPlugin.TitleBar;
-
     constructor() {
-        this.titleBar = new TitleBarImpl();
     }
 
     getLocale(onSuccess: (defaultLang: string, currentLang: string, systemLang: string) => void) {
@@ -201,10 +198,6 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
     getVersion(onSuccess: (version: string) => void, onError?: (err: string) => void) {
         exec(onSuccess, onError, 'AppManager', 'getVersion', []);
     }
-
-    getTitleBar(): AppManagerPlugin.TitleBar {
-        return this.titleBar;
-    }
 }
 
 function jsonInfo(info) {
@@ -216,38 +209,6 @@ function jsonInfo(info) {
     }
     if (typeof (info.urls) == "string") {
         info.urls = JSON.parse(info.urls);
-    }
-}
-
-class TitleBarImpl implements AppManagerPlugin.TitleBar {
-    showActivityIndicator(type: AppManagerPlugin.TitleBarActivityType) {
-        exec(()=>{}, (err)=>{
-            console.error("Error while calling TitleBar.showActivityIndicator()", err);
-        }, 'AppManager', 'titleBar_showActivityIndicator', [type]);
-    }    
-    
-    hideActivityIndicator(type: AppManagerPlugin.TitleBarActivityType) {
-        exec(()=>{}, (err)=>{
-            console.error("Error while calling TitleBar.hideActivityIndicator()", err);
-        }, 'AppManager', 'titleBar_hideActivityIndicator', [type]);
-    }
-
-    setTitle(title: String) {
-        exec(()=>{}, (err)=>{
-            console.error("Error while calling TitleBar.setTitle()", err);
-        }, 'AppManager', 'titleBar_setTitle', [title]);
-    }
-
-    setBackgroundColor(hexColor: String) {
-        exec(()=>{}, (err)=>{
-            console.error("Error while calling TitleBar.setBackgroundColor()", err);
-        }, 'AppManager', 'titleBar_setBackgroundColor', [hexColor]);
-    }
-
-    setForegroundMode(mode: AppManagerPlugin.TitleBarForegroundMode) {
-        exec(()=>{}, (err)=>{
-            console.error("Error while calling TitleBar.setForegroundMode()", err);
-        }, 'AppManager', 'titleBar_setForegroundMode', [mode]);
     }
 }
 

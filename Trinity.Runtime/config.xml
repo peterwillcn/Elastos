@@ -39,6 +39,7 @@
     <plugin name="elastos-trinity-plugins-appmanager" spec="./plugin_src/AppManager">
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
     </plugin>
+    <plugin name="elastos-trinity-plugins-titlebarmanager" spec="./plugin_src/TitleBarManager" />
     <plugin name="cordova-plugin-file" spec="../Plugins/File" />
     <plugin name="elastos-trinity-plugins-carrier" spec="../Plugins/Carrier" />
     <plugin name="elastos-trinity-plugins-did" spec="../Plugins/DID" />

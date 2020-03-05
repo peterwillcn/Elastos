@@ -54,13 +54,9 @@
             "sendUrlIntent",
             "setIntentListener",
             "sendIntentResponse",
-            "hasPendingIntent",
-            "titleBar_showActivityIndicator",
-            "titleBar_hideActivityIndicator",
-            "titleBar_setTitle",
-            "titleBar_setBackgroundColor",
-            "titleBar_setForegroundMode"
+            "hasPendingIntent"
         ],
+        "TitleBarPlugin": ["*"],
         "Accelerometer": ["*"],
         "Battery": ["*"],
         "Camera": ["*"],
@@ -81,7 +77,6 @@
         "Notification": ["*"],
         "QRScanner": ["*"],
         "SplashScreen": ["*"],
-        "StatusBar": ["*"],
         "FingerprintPlugin": ["*"]
     }
 }

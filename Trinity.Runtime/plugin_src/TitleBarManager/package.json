@@ -1,0 +1,24 @@
+{
+  "name": "titlebarmanager",
+  "version": "1.0.0",
+  "description": "Elastos TitleBar Plugin",
+  "cordova": {
+    "id": "elastos-trinity-plugins-titlebar",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "keywords": [
+    "cordova",
+    "titlebarmanager",
+    "trinity",
+    "elastos",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "cordova-browser"
+  ],
+  "author": "Elastos Foundation",
+  "license": "MIT"
+}

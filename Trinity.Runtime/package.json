@@ -11,6 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "appmanager": "file:./plugin_src/AppManager",
+    "titlebarmanager": "file:./plugin_src/TitleBarManager",
     "cordova-android": "7.1.4",
     "cordova-clipboard": "1.2.1",
     "cordova-ios": "5.1.1",

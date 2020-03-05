@@ -26,6 +26,9 @@
 [submodule "Dapps/Ionic/Qrcodescanner"]
 	path = Trinity/Dapps/Ionic/Qrcodescanner
 	url = ../Elastos.Trinity.DApps.QRCodeScanner.git
+[submodule "Dapps/Ionic/Settings"]
+	path = Trinity/Dapps/Ionic/Settings
+	url = ../Elastos.Trinity.DApps.Settings.git
 [submodule "Dapps/Ionic/Wallet"]
 	path = Trinity/Dapps/Ionic/Wallet
 	url = ../Elastos.Trinity.Dapps.Wallet.git

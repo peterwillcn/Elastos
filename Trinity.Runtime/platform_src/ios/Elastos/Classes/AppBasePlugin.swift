@@ -29,6 +29,12 @@
 
     var isLauncher = false;
     var isChangeIconPath = false;
+    
+    func success(_ command: CDVInvokedUrlCommand) {
+        let result = CDVPluginResult(status: CDVCommandStatus_OK)
+
+        self.commandDelegate.send(result, callbackId: command.callbackId)
+    }
 
     func success(_ command: CDVInvokedUrlCommand, _ retAsString: String) {
         let result = CDVPluginResult(status: CDVCommandStatus_OK,
@@ -661,4 +667,50 @@
         }
     }
 
+    private func getTitleBar() -> TitleBarView {
+        return TitleBarView() // TMP
+        //return ((WebViewFragment)((TrinityCordovaInterfaceImpl)cordova).fragment).getTitlebar();
+    }
+
+    @objc func titleBar_showActivityIndicator(_ command: CDVInvokedUrlCommand) {
+        let activityIndicatoryType = command.arguments[0] as! Int
+   
+        getTitleBar().showActivityIndicator(activityType: TitleBarActivityType.init(rawValue: activityIndicatoryType) ?? .OTHER)
+
+        self.success(command)
+    }
+
+    private func titleBar_hideActivityIndicator(_ command: CDVInvokedUrlCommand) {
+        let activityIndicatoryType = command.arguments[0] as! Int
+
+        getTitleBar().hideActivityIndicator(activityType: TitleBarActivityType.init(rawValue: activityIndicatoryType) ?? .OTHER)
+
+        self.success(command)
+    }
+
+    private func titleBar_setTitle(_ command: CDVInvokedUrlCommand) {
+        let title = command.arguments[0] as? String ?? ""
+
+        getTitleBar().setTitle(title)
+
+        self.success(command)
+    }
+
+    private func titleBar_setBackgroundColor(_ command: CDVInvokedUrlCommand) {
+        let hexColor = command.arguments[0] as? String ?? "#000000"
+
+        if (getTitleBar().setBackgroundColor(hexColor)) {
+            self.success(command)
+        } else {
+            self.error(command, "Invalid color \(hexColor)")
+        }
+    }
+
+    private func titleBar_setForegroundMode(_ command: CDVInvokedUrlCommand) {
+        let modeAsInt = command.arguments[0] as! Int
+
+        getTitleBar().setForegroundMode(TitleBarForegroundMode(rawValue: modeAsInt) ?? .LIGHT)
+
+        self.success(command)
+    }
  }

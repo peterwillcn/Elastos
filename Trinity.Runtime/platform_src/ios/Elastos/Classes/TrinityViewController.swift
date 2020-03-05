@@ -25,9 +25,9 @@ import UIKit
 @objc(TrinityViewController)
 class TrinityViewController : CDVViewController {
     var basePlugin: AppBasePlugin?;
-        var id = "";
-        var appInfo: AppInfo?;
-        var whitelistFilter: WhitelistFilter?;
+    var id = "";
+    var appInfo: AppInfo?;
+    var whitelistFilter: WhitelistFilter?;
 
     @IBOutlet weak var titlebarContainer: UIView!
     @IBOutlet weak var webContainer: UIView!
@@ -92,7 +92,7 @@ class TrinityViewController : CDVViewController {
     }
 
     override func newCordovaView(withFrame bounds: CGRect) ->UIView {
-        titlebar = TitleBarView(self, titlebarContainer.frame, id == "launcher")
+        titlebar = TitleBarView(self, titlebarContainer.frame, id == "launcher", id)
         titlebarContainer.addSubview(titlebar!)
         self.addMatchParentConstraints(view: titlebar, parent: titlebarContainer)
 

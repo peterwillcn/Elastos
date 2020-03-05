@@ -168,6 +168,10 @@ class TrinityViewController : CDVViewController {
     @objc func getBasePlugin() -> AppBasePlugin {
         return self.basePlugin!;
     }
+    
+    @objc func getTitlebar() -> TitleBarView {
+        return self.titlebar;
+    }
 
     func loadUrl(_ url: URL) {
         //TODO:: it isn't work

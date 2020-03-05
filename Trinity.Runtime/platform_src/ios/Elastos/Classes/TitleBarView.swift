@@ -75,6 +75,7 @@ class TitleBarView: UIView {
         super.init(frame: frame)
         
         self.viewController = viewController;
+        self.isLauncher = isLauncher;
         self.appId = appId
 
         let view = loadViewFromNib();

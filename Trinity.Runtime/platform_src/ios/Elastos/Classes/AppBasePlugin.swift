@@ -668,8 +668,8 @@
     }
 
     private func getTitleBar() -> TitleBarView {
-        return TitleBarView() // TMP
-        //return ((WebViewFragment)((TrinityCordovaInterfaceImpl)cordova).fragment).getTitlebar();
+        let viewController = AppManager.getShareInstance().getViewControllerById(self.appId);
+        return viewController!.getTitlebar();
     }
 
     @objc func titleBar_showActivityIndicator(_ command: CDVInvokedUrlCommand) {

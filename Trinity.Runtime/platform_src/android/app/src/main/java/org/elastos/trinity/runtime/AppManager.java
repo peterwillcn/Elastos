@@ -105,7 +105,7 @@ public class AppManager {
     private boolean launcherReady = false;
     private String currentLocale = "en";
 
-    final String[] defaultPlugins = {
+    final static String[] defaultPlugins = {
             "AppManager",
             "SplashScreen",
             "StatusBar",

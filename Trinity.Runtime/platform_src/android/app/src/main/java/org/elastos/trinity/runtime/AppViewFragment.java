@@ -45,6 +45,12 @@ import java.util.ArrayList;
 
 
     private boolean isCheckAuthority(String name) {
+        for (String item : AppManager.defaultPlugins) {
+            if (item.equals(name)) {
+                return true;
+            }
+        }
+
         for (AppInfo.PluginAuth pluginAuth : appInfo.plugins) {
             if (pluginAuth.plugin.equals(name)) {
                 return true;
@@ -71,7 +77,7 @@ import java.util.ArrayList;
             else {
                 pluginClass = entry.pluginClass;
                 CordovaPlugin plugin = null;
-                if (isCheckAuthority(entry.service) || entry.service.equals("AppManager")) {
+                if (isCheckAuthority(entry.service)) {
                     pluginClass = "org.elastos.plugins.appmanager.AuthorityPlugin";
                     plugin = new AuthorityPlugin(entry.pluginClass, appInfo, entry.service, whitelistPlugin, permissionGroup);
                     if (entry.service.equals("AppManager")) {

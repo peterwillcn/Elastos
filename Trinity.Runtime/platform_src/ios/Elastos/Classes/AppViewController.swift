@@ -30,16 +30,6 @@
     var permissionGroup: PermissionGroup?;
 
     var trinityPluginsMap = [String: String]();
-    let defaultPlugins = [
-        "gesturehandler",
-        "appmanager",
-        "console",
-        "localstorage",
-        "handleopenurl",
-        "intentandnavigationfilter",
-        "authorityplugin",
-        "statusbar"
-    ];
 
     convenience init(_ appInfo: AppInfo) {
         self.init();
@@ -79,7 +69,7 @@
     }
 
     override func filterPlugin(_ pluginName: String, _ className: String) -> NullPlugin? {
-        if !self.defaultPlugins.contains(pluginName) {
+        if !AppManager.defaultPlugins.contains(pluginName) {
             var setPlugin = false;
             for pluginAuth in (appInfo?.plugins)! {
                 if pluginName == pluginAuth.plugin {
@@ -112,10 +102,6 @@
     func getPluginAuthority(_ pluginName: String,
                                   _ plugin: CDVPlugin,
                                   _ command: CDVInvokedUrlCommand) -> Int {
-        if (self.defaultPlugins.contains(pluginName)) {
-            return AppInfo.AUTHORITY_ALLOW;
-        }
-
         let authority = AppManager.getShareInstance().getPluginAuthority(appInfo!.app_id, pluginName);
         if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
             let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT);

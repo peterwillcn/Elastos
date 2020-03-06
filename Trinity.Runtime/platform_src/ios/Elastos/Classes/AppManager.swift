@@ -71,6 +71,17 @@ class AppManager: NSObject {
     var installUriList = [String]();
     var intentUriList = [URL]();
     var launcherReady = false;
+    
+    static let defaultPlugins = [
+        "gesturehandler",
+        "appmanager",
+        "console",
+        "localstorage",
+        "handleopenurl",
+        "intentandnavigationfilter",
+        "authorityplugin",
+        "statusbar"
+    ];
 
     init(_ mainViewController: MainViewController) {
 
@@ -143,6 +154,10 @@ class AppManager: NSObject {
 
     @objc static func getShareInstance() -> AppManager {
         return AppManager.appManager!;
+    }
+    
+    func getDBAdapter() -> ManagerDBAdapter {
+        return dbAdapter;
     }
 
     func copyConfigFiles() {
@@ -638,6 +653,10 @@ class AppManager: NSObject {
     }
 
     func getPluginAuthority(_ id: String, _ plugin: String) -> Int {
+        if (AppManager.defaultPlugins.contains(plugin)) {
+            return AppInfo.AUTHORITY_ALLOW;
+        }
+        
         let info = appInfos[id];
         if (info != nil) {
             for pluginAuth in info!.plugins {

@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -82,6 +83,18 @@ public class TitleBar extends FrameLayout {
                 }
             }
             return CLOSE;
+        }
+    }
+
+    public static class MenuItem {
+        String key;
+        String iconPath;
+        String title;
+
+        MenuItem(String key, String iconPath, String title) {
+            this.key = key;
+            this.iconPath = iconPath;
+            this.title = title;
         }
     }
 
@@ -234,7 +247,7 @@ public class TitleBar extends FrameLayout {
         }
     }
 
-    public void setupMenuItems() {
+    public void setupMenuItems(ArrayList<MenuItem> menuItems) {
 
     }
 

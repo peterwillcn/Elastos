@@ -125,11 +125,34 @@ public class TitleBarPlugin extends TrinityPlugin {
     }
 
     private void setupMenuItems(JSONArray args, CallbackContext callbackContext) throws Exception {
-        JSONArray menuItems = args.getJSONArray(0);
+        JSONArray menuItemsJson = args.getJSONArray(0);
 
-       // getTitleBar().setupMenuItems();
+        ArrayList<TitleBar.MenuItem> menuItems = new ArrayList<>();
+        for(int i=0; i<menuItemsJson.length(); i++) {
+            TitleBar.MenuItem menuItem = menuItemFromJsonObject(menuItemsJson.getJSONObject(i));
+            if (menuItem != null)
+                menuItems.add(menuItem);
+        }
+
+        getTitleBar().setupMenuItems(menuItems);
 
         callbackContext.success();
+    }
+
+    private TitleBar.MenuItem menuItemFromJsonObject(JSONObject jsonObj) {
+        if (!jsonObj.has("key") || !jsonObj.has("iconPath") || !jsonObj.has("title"))
+            return null;
+
+        try {
+            TitleBar.MenuItem menuItem = new TitleBar.MenuItem(
+                jsonObj.getString("key"),
+                jsonObj.getString("iconPath"),
+                jsonObj.getString("title"));
+            return menuItem;
+        }
+        catch (Exception e) {
+            return null;
+        }
     }
 
     private TitleBar getTitleBar() {

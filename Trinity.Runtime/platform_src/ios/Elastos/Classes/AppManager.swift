@@ -529,8 +529,24 @@ class AppManager: NSObject {
         try start("launcher");
     }
 
-    func setInstallUri(_ uri: String) {
-        if launcherReady {
+    private func installUri(_ uri: String, _ dev:Bool) {
+        if (dev) {
+            do {
+                try install(uri, true);
+            }
+            catch AppError.error(let err) {
+                alertDialog("Install Error", err);
+            } catch let error {
+                alertDialog("Install Error", error.localizedDescription);
+            }
+        }
+        else {
+            sendInstallMsg(uri);
+        }
+    }
+
+    func setInstallUri(_ uri: String, _ dev: Bool) {
+        if (launcherReady || dev) {
             sendInstallMsg(uri);
         }
         else {

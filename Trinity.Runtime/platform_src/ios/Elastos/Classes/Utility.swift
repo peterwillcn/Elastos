@@ -134,6 +134,32 @@ func getAssetPath(_ url: String) -> String {
  enum AppError: Error {
     case error(String)
  }
+ 
+ func alertDialog(_ title: String, _ msg: String,
+                  _ cancel: Bool  = false) {
+
+     func doOKHandler(alerAction:UIAlertAction) {
+         
+     }
+
+     func doCancelHandler(alerAction:UIAlertAction) {
+
+     }
+
+     let alertController = UIAlertController(title: title,
+                                     message: msg,
+                                     preferredStyle: UIAlertController.Style.alert)
+     if (cancel) {
+         let cancelAlertAction = UIAlertAction(title: "Cancel", style:
+             UIAlertAction.Style.cancel, handler: doCancelHandler)
+         alertController.addAction(cancelAlertAction)
+     }
+     let sureAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: doOKHandler)
+     alertController.addAction(sureAlertAction)
+
+    DispatchQueue.main.async { AppManager.getShareInstance().mainViewController.present(alertController, animated: true, completion: nil)
+    }
+ }
 
 //----------------------------------------------------------------------
  // Extend String to be able to throw simple String Errors

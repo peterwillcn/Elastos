@@ -29,7 +29,7 @@
 
     var isLauncher = false;
     var isChangeIconPath = false;
-    
+
     func success(_ command: CDVInvokedUrlCommand) {
         let result = CDVPluginResult(status: CDVCommandStatus_OK)
 
@@ -483,7 +483,7 @@
             if (url.hasPrefix("trinity://")) {
                 url = try getCanonicalPath(url);
             }
-            
+
             let info = try AppManager.getShareInstance().install(url, update);
 
             if (info != nil) {
@@ -624,7 +624,9 @@
         let sureAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: doOKHandler)
         alertController.addAction(sureAlertAction)
 
-        AppManager.getShareInstance().mainViewController.present(alertController, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            AppManager.getShareInstance().mainViewController.present(alertController, animated: true, completion: nil)
+        }
     }
 
     @objc func alertPrompt(_ command: CDVInvokedUrlCommand) {

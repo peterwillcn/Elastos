@@ -89,7 +89,7 @@ class MainViewController: UIViewController {
             return true
         }
         else if urlString.hasSuffix(".epk") {
-            appManager!.setInstallUri(url.absoluteString);
+            appManager!.setInstallUri(url.absoluteString, false);
             return true;
         }
         else {

@@ -608,6 +608,7 @@ public class AppManager {
     }
 
     private void installUri(String uri, boolean dev) {
+        //TODO::Check the dev mode
         if (dev) {
             try {
                 install(uri, true);

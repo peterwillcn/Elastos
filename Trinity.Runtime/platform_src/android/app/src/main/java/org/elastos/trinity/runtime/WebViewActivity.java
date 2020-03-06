@@ -62,18 +62,15 @@ public class WebViewActivity extends FragmentActivity {
                     appManager.setIntentUri(uri);
                 }
                 else {
-                    //For test
-//                    boolean dev = intent.hasCategory("android.intent.category.TEST");
-                    //boolean dev = true; // TMP BPI SHOULD BE FALSE
-                    boolean dev = false;
-                    // if (dev) {
+                    boolean dev = intent.hasCategory("android.intent.category.TEST");
+                     if (dev) {
                         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                                 != PackageManager.PERMISSION_GRANTED) {
                             this.adbUri = uri.toString();
                             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUESTCODE_STORAGE);
                             return;
                         }
-                    // }
+                     }
                     appManager.setInstallUri(uri.toString(), dev);
                 }
             }

@@ -59,6 +59,12 @@ public class TitleBarPlugin extends TrinityPlugin {
                 case "setForegroundMode":
                     this.setForegroundMode(args, callbackContext);
                     break;
+                case "setNavigationMode":
+                    this.setNavigationMode(args, callbackContext);
+                    break;
+                case "setupMenuItems":
+                    this.setupMenuItems(args, callbackContext);
+                    break;
                 default:
                     return false;
             }
@@ -106,6 +112,22 @@ public class TitleBarPlugin extends TrinityPlugin {
         int modeAsInt = args.getInt(0);
 
         getTitleBar().setForegroundMode(TitleBar.TitleBarForegroundMode.fromId(modeAsInt));
+
+        callbackContext.success();
+    }
+
+    private void setNavigationMode(JSONArray args, CallbackContext callbackContext) throws Exception {
+        int modeAsInt = args.getInt(0);
+
+        getTitleBar().setNavigationMode(TitleBar.TitleBarNavigationMode.fromId(modeAsInt));
+
+        callbackContext.success();
+    }
+
+    private void setupMenuItems(JSONArray args, CallbackContext callbackContext) throws Exception {
+        JSONArray menuItems = args.getJSONArray(0);
+
+       // getTitleBar().setupMenuItems();
 
         callbackContext.success();
     }

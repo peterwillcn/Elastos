@@ -52,6 +52,19 @@ class TitleBarManagerImpl implements TitleBarPlugin.TitleBarManager {
             console.error("Error while calling TitleBarPlugin.setForegroundMode()", err);
         }, 'TitleBarPlugin', 'setForegroundMode', [mode]);
     }
+
+    setNavigationMode(navigationMode: TitleBarPlugin.TitleBarNavigationMode) {
+        exec(()=>{}, (err)=>{
+            console.error("Error while calling TitleBarPlugin.setNavigationMode()", err);
+        }, 'TitleBarPlugin', 'setNavigationMode', [navigationMode]);
+    }
+    setupMenuItems(menuItems: [TitleBarPlugin.TitleBarMenuItem], onItemClicked: (TitleBarMenuItem: any) => void) {
+        exec((menuItem)=>{
+            onItemClicked(menuItem);
+        }, (err)=>{
+            console.error("Error while calling TitleBarPlugin.setForegroundMode()", err);
+        }, 'TitleBarPlugin', 'setupMenuItems', [menuItems]);
+    }
 }
 
 export = new TitleBarManagerImpl();

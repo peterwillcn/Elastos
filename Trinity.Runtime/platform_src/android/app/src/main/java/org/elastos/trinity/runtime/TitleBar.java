@@ -64,8 +64,31 @@ public class TitleBar extends FrameLayout {
         }
     }
 
+    public enum TitleBarNavigationMode {
+        HOME(0),
+        CLOSE(1),
+        BACK(2);
+
+        private int mValue;
+
+        TitleBarNavigationMode(int value) {
+            mValue = value;
+        }
+
+        public static TitleBarNavigationMode fromId(int value) {
+            for(TitleBarNavigationMode t : values()) {
+                if (t.mValue == value) {
+                    return t;
+                }
+            }
+            return CLOSE;
+        }
+    }
+
     // UI
     View progressBar;
+    ImageButton btnLauncher = null;
+    ImageButton btnBack = null;
     ImageButton btnClose = null;
     ImageButton btnMenu = null;
     TextView tvTitle = null;
@@ -105,6 +128,8 @@ public class TitleBar extends FrameLayout {
         isLauncher = appManager.isLauncher(appId);
 
         progressBar = findViewById(R.id.progressBar);
+        btnLauncher = findViewById(R.id.btnLauncher);
+        btnBack = findViewById(R.id.btnBack);
         btnClose = findViewById(R.id.btnClose);
         btnMenu = findViewById(R.id.btnMenu);
         tvTitle = findViewById(R.id.tvTitle);
@@ -141,6 +166,7 @@ public class TitleBar extends FrameLayout {
         }
 
         setForegroundMode(TitleBarForegroundMode.LIGHT);
+        setNavigationMode(TitleBarNavigationMode.CLOSE);
     }
 
     public void showActivityIndicator(TitleBarActivityType activityType) {
@@ -187,6 +213,29 @@ public class TitleBar extends FrameLayout {
         btnClose.setColorFilter(color);
         tvTitle.setTextColor(color);
         btnMenu.setColorFilter(color);
+    }
+
+    public void setNavigationMode(TitleBarNavigationMode navigationMode) {
+        if (navigationMode == TitleBarNavigationMode.HOME) {
+            btnClose.setVisibility(View.INVISIBLE);
+            btnBack.setVisibility(View.INVISIBLE);
+            btnLauncher.setVisibility(View.VISIBLE);
+        }
+        else if (navigationMode == TitleBarNavigationMode.BACK) {
+            btnClose.setVisibility(View.INVISIBLE);
+            btnBack.setVisibility(View.VISIBLE);
+            btnLauncher.setVisibility(View.INVISIBLE);
+        }
+        else {
+            // Default = CLOSE
+            btnClose.setVisibility(View.VISIBLE);
+            btnBack.setVisibility(View.INVISIBLE);
+            btnLauncher.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void setupMenuItems() {
+
     }
 
     /**

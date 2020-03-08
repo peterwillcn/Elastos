@@ -378,7 +378,10 @@ public class TitleBar extends FrameLayout {
         this.menuItems = menuItems;
         this.onMenuItemSelection = onMenuItemSelection;
 
-        btnMenu.setVisibility(View.VISIBLE);
+        if (menuItems.size() > 0)
+            btnMenu.setVisibility(View.VISIBLE);
+        else
+            btnMenu.setVisibility(View.INVISIBLE);
     }
 
     /**

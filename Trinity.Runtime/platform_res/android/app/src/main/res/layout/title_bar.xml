@@ -4,12 +4,13 @@
     android:id="@+id/flRoot"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:background="#5a62ff">
+    android:background="@drawable/title_bar_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="4dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -18,7 +19,7 @@
 
             <FrameLayout
                 android:layout_width="68dp"
-                android:layout_height="48dp">
+                android:layout_height="match_parent">
 
                 <ImageButton
                     android:id="@+id/btnLauncher"
@@ -29,7 +30,7 @@
                     android:padding="14dp"
                     android:paddingStart="24dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_burger" />
+                    android:src="@drawable/ic_back" />
 
                 <ImageButton
                     android:id="@+id/btnBack"
@@ -68,13 +69,13 @@
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/btnMenu"
             android:layout_width="68dp"
-            android:layout_height="48dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:background="#00FFFFFF"
             android:padding="14dp"
@@ -88,25 +89,46 @@
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="4dp"
         android:layout_weight="1"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
+        android:textAllCaps="true"
         android:textColor="#FFFFFF"
-        android:textSize="18sp"
+        android:textSize="16sp"
         tools:text="In-app test title"></TextView>
 
-    <View
-        android:id="@+id/progressBarBackground"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_gravity="bottom"
-        android:background="#30FFFFFF" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
 
-    <View
-        android:id="@+id/progressBar"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_gravity="bottom"
-        android:visibility="invisible" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/progressBarBackground"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_gravity="bottom"
+                android:background="#50000000" />
+
+            <View
+                android:id="@+id/progressBarSeparator"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="#40FFFFFF" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_gravity="top"
+            android:visibility="invisible" />
+    </FrameLayout>
 
 </FrameLayout>

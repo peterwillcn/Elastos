@@ -5,7 +5,7 @@ matrix:
   include:
     - os: osx
       osx_image: xcode11.3
-      env: NODEJS_VERSION=11 NDK=r18b BUILD_TARGET=runtime
+      env: NODEJS_VERSION=11 NDK=r18b BUILD_TARGET=runtime BUILD_PLATFORM=ios
       if: NOT tag IS present OR tag !~ /^(daily)/
       addons:
         homebrew:
@@ -15,7 +15,7 @@ matrix:
 
     - language: android
       dist: trusty
-      env: NODEJS_VERSION=12 NDK=r18b BUILD_TARGET=launcher DEPLOY=TRUE
+      env: NODEJS_VERSION=12 NDK=r18b BUILD_TARGET=launcher BUILD_PLATFORM=android DEPLOY=TRUE
       if: NOT tag IS present OR tag !~ /^(daily)/
       android:
         components:
@@ -87,13 +87,15 @@ install:
 
 script:
   - export APK_PATH=$TRAVIS_BUILD_DIR/Runtime/platforms/android/app/build/outputs/apk/debug
-  - $TRAVIS_BUILD_DIR/ToolChains/bin/build $BUILD_TARGET
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      cd $TRAVIS_BUILD_DIR/Runtime/platforms/ios && xcodebuild -showsdks;
-      sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer/;
-      xcodebuild -workspace elastOS.xcworkspace -scheme elastOS build -sdk iphonesimulator;
+  - $TRAVIS_BUILD_DIR/ToolChains/bin/build $BUILD_TARGET -pf $BUILD_PLATFORM
+  # - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+  #     cd $TRAVIS_BUILD_DIR/Runtime/platforms/ios && xcodebuild -showsdks;
+  #     sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer/;
+  #     xcodebuild -workspace elastOS.xcworkspace -scheme elastOS build -sdk iphonesimulator;
+  #   fi
+  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then
+      ls -l $APK_PATH;
     fi
-  - ls -l $APK_PATH
 
 after_success:
   - if [[ "$DEPLOY" != "" ]]; then

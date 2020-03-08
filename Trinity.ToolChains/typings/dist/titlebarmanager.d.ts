@@ -45,11 +45,40 @@ declare namespace TitleBarPlugin {
         OTHER = 3
     }
 
+    /**
+     * Color mode for all icons and texts on the title bar.
+     */
     const enum TitleBarForegroundMode {
         /** Title bar title and icons use a light (white) color. Use this on a dark background color. */
         LIGHT = 0,
         /** Title bar title and icons use a dark (dark gray) color. Use this on a light background color. */
         DARK = 1
+    }
+
+    /**
+     * Status for the top left icon that can switch from one mode to another.
+     */
+    const enum TitleBarNavigationMode {
+        /** Home icon - minimizes the currently active app and returns to launcher. */
+        HOME = 0,
+        /** Close icon - closes the currently active app and returns to the launcher. */
+        CLOSE = 1,
+        /** Back icon - sends a "go-back" internal message to the active app in order to let it manage its own navigzation. */
+        BACK = 2,
+        /** No icon - no action. */
+        NONE = 3
+    }
+
+    /**
+     * Type describing a context menu entry opened from the title bar.
+     */
+    type TitleBarMenuItem = {
+        /** Unique key to identity each item. */
+        key: String,
+        /** Path to an icon picture illustrating this menu item. */
+        iconPath: String,
+        /** Localized menu item display title. */
+        title: String
     }
 
     interface TitleBarManager {
@@ -74,9 +103,9 @@ declare namespace TitleBarPlugin {
          * Sets the main title bar title information. Pass null to clear the previous title.
          * DApps are responsible for managing this title from their internal screens.
          * 
-         * @param title Main title to show on the title bar.
+         * @param title Main title to show on the title bar. If title is not provided, the title bar shows the default title (the app name)
          */
-        setTitle(title: String);
+        setTitle(title?: String);
 
         /**
          * Sets the status bar background color.
@@ -89,8 +118,36 @@ declare namespace TitleBarPlugin {
          * Sets the title bar foreground (title, icons) color. Use this API in coordination with 
          * setBackgroundColor() in order to adjust foreground with background.
          * 
-         * @param mode A TitleBarForegroundMode mode, LIGHT or DARK.
+         * @param foregroundMode A TitleBarForegroundMode mode, LIGHT or DARK.
          */
-        setForegroundMode(mode: TitleBarForegroundMode);
+        setForegroundMode(foregroundMode: TitleBarForegroundMode);
+
+        /**
+         * Changes the top left icon appearance and behaviour. See @TitleBarNavigationMode for available
+         * navigation modes.
+         * 
+         * Applications are responsible for managing their "back" state when opening screens that can go back.
+         * They can also choose to always close only.
+         * 
+         * @param navigationMode See @TitleBarNavigationMode
+         */
+        setNavigationMode(navigationMode: TitleBarNavigationMode);
+
+        /**
+         * TODO ------- Changes the visibility status of the "favorite" icon
+         * 
+         * @param visible 
+         */
+        //setFavoriteVisibility(visible: Boolean);
+
+        /**
+         * Configures the menu popup that is opened when the top right menu icon is touched.
+         * This menu popup mixes app-specific items (menuItems) and native system actions.
+         * When a menu item is touched, onItemClicked() is called.
+         * 
+         * @param menuItems List of app-specific menu entries @TitleBarMenuItem .
+         * @param onItemClicked Callback called when an item is clicked.
+         */
+        setupMenuItems(menuItems: TitleBarMenuItem[], onItemClicked: (TitleBarMenuItem)=>void);
     }
 }

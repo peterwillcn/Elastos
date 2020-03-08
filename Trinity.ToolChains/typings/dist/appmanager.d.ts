@@ -208,7 +208,7 @@ declare namespace AppManagerPlugin {
      */
     type ReceivedMessage = {
         /** The message receive */
-        msg: string;
+        message: string;
         /** The message type */
         type: Number;
         /** The message from */

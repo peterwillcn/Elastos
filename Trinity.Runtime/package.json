@@ -90,12 +90,15 @@
       },
       "elastos-trinity-plugins-fingerprint": {
         "FACEID_USAGE_DESCRIPTION": " "
-      }
+      },
+      "elastos-trinity-plugins-titlebarmanager": {}
     },
     "platforms": [
       "android",
       "ios"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "elastos-trinity-plugins-titlebarmanager": "./plugin_src/TitleBarManager"
+  }
 }

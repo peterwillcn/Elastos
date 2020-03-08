@@ -35,10 +35,14 @@ class TitleBarManagerImpl implements TitleBarPlugin.TitleBarManager {
         }, 'TitleBarPlugin', 'hideActivityIndicator', [type]);
     }
 
-    setTitle(title: String) {
+    setTitle(title?: String) {
+        let args = [];
+        if (title)
+            args[0] = title;
+
         exec(()=>{}, (err)=>{
             console.error("Error while calling TitleBarPlugin.setTitle()", err);
-        }, 'TitleBarPlugin', 'setTitle', [title]);
+        }, 'TitleBarPlugin', 'setTitle', args);
     }
 
     setBackgroundColor(hexColor: String) {

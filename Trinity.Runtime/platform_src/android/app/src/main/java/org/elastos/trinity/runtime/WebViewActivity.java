@@ -81,7 +81,6 @@ public class WebViewActivity extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        //Aqui debo crear el loading
 
         setContentView(R.layout.activity_view);
         appManager = new AppManager(this);

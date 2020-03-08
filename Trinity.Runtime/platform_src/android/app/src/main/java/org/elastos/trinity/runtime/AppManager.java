@@ -107,10 +107,9 @@ public class AppManager {
 
     final static String[] defaultPlugins = {
             "AppManager",
-            "SplashScreen",
             "StatusBar",
-            "Clipboard"
-
+            "Clipboard",
+            "TitleBarPlugin"
     };
 
     AppManager(WebViewActivity activity) {
@@ -603,6 +602,15 @@ public class AppManager {
         sendRefreshList("closed", info);
     }
 
+    /**
+     * Closes all running apps, except the launch app.
+     */
+    public void closeAll() throws Exception {
+        for (String appId : getRunningList()) {
+            close(appId);
+        }
+    }
+
     public void loadLauncher() throws Exception {
         start(LAUNCHER);
     }
@@ -723,7 +731,6 @@ public class AppManager {
     public String getCurrentLocale() {
         return currentLocale;
     }
-
 
     public int getPluginAuthority(String id, String plugin) {
         for (String item : defaultPlugins) {

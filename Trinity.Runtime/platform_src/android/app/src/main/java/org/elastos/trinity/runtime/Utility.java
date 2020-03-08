@@ -2,6 +2,7 @@ package org.elastos.trinity.runtime;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -54,5 +55,13 @@ public class Utility {
             }
         });
         ab.show();
+    }
+
+    public static float convertDpToPx(Context context, float dp) {
+        return dp * context.getResources().getDisplayMetrics().density;
+    }
+
+    public static float convertPxToDp(Context context, float px) {
+        return px / context.getResources().getDisplayMetrics().density;
     }
 }

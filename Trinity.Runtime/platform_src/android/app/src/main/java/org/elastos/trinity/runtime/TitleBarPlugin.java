@@ -22,6 +22,7 @@
 
 package org.elastos.trinity.runtime;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -78,7 +79,9 @@ public class TitleBarPlugin extends TrinityPlugin {
     private void showActivityIndicator(JSONArray args, CallbackContext callbackContext) throws Exception {
         int activityIndicatoryType = args.getInt(0);
 
-        getTitleBar().showActivityIndicator(TitleBar.TitleBarActivityType.fromId(activityIndicatoryType));
+        cordova.getActivity().runOnUiThread(() -> {
+            getTitleBar().showActivityIndicator(TitleBar.TitleBarActivityType.fromId(activityIndicatoryType));
+        });
 
         callbackContext.success();
     }
@@ -86,15 +89,23 @@ public class TitleBarPlugin extends TrinityPlugin {
     private void hideActivityIndicator(JSONArray args, CallbackContext callbackContext) throws Exception {
         int activityIndicatoryType = args.getInt(0);
 
-        getTitleBar().hideActivityIndicator(TitleBar.TitleBarActivityType.fromId(activityIndicatoryType));
+        cordova.getActivity().runOnUiThread(() -> {
+            getTitleBar().hideActivityIndicator(TitleBar.TitleBarActivityType.fromId(activityIndicatoryType));
+        });
 
         callbackContext.success();
     }
 
     private void setTitle(JSONArray args, CallbackContext callbackContext) throws Exception {
-        String title = args.getString(0);
+        String title;
+        if (args.isNull(0))
+            title = null;
+        else
+            title = args.getString(0);
 
-        getTitleBar().setTitle(title);
+        cordova.getActivity().runOnUiThread(() -> {
+            getTitleBar().setTitle(title);
+        });
 
         callbackContext.success();
     }
@@ -102,16 +113,20 @@ public class TitleBarPlugin extends TrinityPlugin {
     private void setBackgroundColor(JSONArray args, CallbackContext callbackContext) throws Exception {
         String hexColor = args.getString(0);
 
-        if (getTitleBar().setBackgroundColor(hexColor))
-            callbackContext.success();
-        else
-            callbackContext.error("Invalid color "+hexColor);
+        cordova.getActivity().runOnUiThread(() -> {
+            if (getTitleBar().setBackgroundColor(hexColor))
+                callbackContext.success();
+            else
+                callbackContext.error("Invalid color " + hexColor);
+        });
     }
 
     private void setForegroundMode(JSONArray args, CallbackContext callbackContext) throws Exception {
         int modeAsInt = args.getInt(0);
 
-        getTitleBar().setForegroundMode(TitleBar.TitleBarForegroundMode.fromId(modeAsInt));
+        cordova.getActivity().runOnUiThread(() -> {
+            getTitleBar().setForegroundMode(TitleBar.TitleBarForegroundMode.fromId(modeAsInt));
+        });
 
         callbackContext.success();
     }
@@ -119,7 +134,9 @@ public class TitleBarPlugin extends TrinityPlugin {
     private void setNavigationMode(JSONArray args, CallbackContext callbackContext) throws Exception {
         int modeAsInt = args.getInt(0);
 
-        getTitleBar().setNavigationMode(TitleBar.TitleBarNavigationMode.fromId(modeAsInt));
+        cordova.getActivity().runOnUiThread(() -> {
+            getTitleBar().setNavigationMode(TitleBar.TitleBarNavigationMode.fromId(modeAsInt));
+        });
 
         callbackContext.success();
     }
@@ -134,9 +151,20 @@ public class TitleBarPlugin extends TrinityPlugin {
                 menuItems.add(menuItem);
         }
 
-        getTitleBar().setupMenuItems(menuItems);
-
-        callbackContext.success();
+        cordova.getActivity().runOnUiThread(() -> {
+            getTitleBar().setupMenuItems(menuItems, menuItem -> {
+                try {
+                    PluginResult result = new PluginResult(PluginResult.Status.OK, menuItem.toJson());
+                    result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(result);
+                }
+                catch (Exception e) {
+                    PluginResult result = new PluginResult(PluginResult.Status.ERROR, "Clicked menu item format exception for item "+menuItem);
+                    result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(result);
+                }
+            });
+        });
     }
 
     private TitleBar.MenuItem menuItemFromJsonObject(JSONObject jsonObj) {

@@ -59,12 +59,14 @@ declare namespace TitleBarPlugin {
      * Status for the top left icon that can switch from one mode to another.
      */
     const enum TitleBarNavigationMode {
-        /** Home icon - goes back to launcher and closes the active app if any, then toggles the launcher left panel. */
+        /** Home icon - minimizes the currently active app and returns to launcher. */
         HOME = 0,
-        /** Close icon - goes back to launcher and closes the app. */
+        /** Close icon - closes the currently active app and returns to the launcher. */
         CLOSE = 1,
         /** Back icon - sends a "go-back" internal message to the active app in order to let it manage its own navigzation. */
-        BACK = 2
+        BACK = 2,
+        /** No icon - no action. */
+        NONE = 3
     }
 
     /**
@@ -101,9 +103,9 @@ declare namespace TitleBarPlugin {
          * Sets the main title bar title information. Pass null to clear the previous title.
          * DApps are responsible for managing this title from their internal screens.
          * 
-         * @param title Main title to show on the title bar.
+         * @param title Main title to show on the title bar. If title is not provided, the title bar shows the default title (the app name)
          */
-        setTitle(title: String);
+        setTitle(title?: String);
 
         /**
          * Sets the status bar background color.
@@ -146,6 +148,6 @@ declare namespace TitleBarPlugin {
          * @param menuItems List of app-specific menu entries @TitleBarMenuItem .
          * @param onItemClicked Callback called when an item is clicked.
          */
-        setupMenuItems(menuItems: [TitleBarMenuItem], onItemClicked: (TitleBarMenuItem)=>void);
+        setupMenuItems(menuItems: TitleBarMenuItem[], onItemClicked: (TitleBarMenuItem)=>void);
     }
 }

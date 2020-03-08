@@ -4,16 +4,29 @@ import android.app.Activity;
 import android.content.Context;
 
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -68,7 +81,8 @@ public class TitleBar extends FrameLayout {
     public enum TitleBarNavigationMode {
         HOME(0),
         CLOSE(1),
-        BACK(2);
+        BACK(2),
+        NONE(3);
 
         private int mValue;
 
@@ -96,6 +110,18 @@ public class TitleBar extends FrameLayout {
             this.iconPath = iconPath;
             this.title = title;
         }
+
+        public JSONObject toJson() throws JSONException  {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("key", key);
+            jsonObject.put("iconPath", iconPath);
+            jsonObject.put("title", title);
+            return jsonObject;
+        }
+    }
+
+    public interface OnMenuItemSelection {
+        void onMenuItemSelected(MenuItem menuItem);
     }
 
     // UI
@@ -104,8 +130,10 @@ public class TitleBar extends FrameLayout {
     ImageButton btnBack = null;
     ImageButton btnClose = null;
     ImageButton btnMenu = null;
+    ImageButton btnFav = null;
     TextView tvTitle = null;
     FrameLayout flRoot = null;
+    PopupWindow menuPopup = null;
 
     // UI model
     AlphaAnimation onGoingProgressAnimation = null;
@@ -117,6 +145,8 @@ public class TitleBar extends FrameLayout {
     // Reference count for progress bar activity types. An app can start several activities at the same time and the progress bar
     // keeps animating until no one else needs progress animations.
     HashMap<TitleBarActivityType, Integer> activityCounters = new HashMap<TitleBarActivityType, Integer>();
+    ArrayList<MenuItem> menuItems;
+    OnMenuItemSelection onMenuItemSelection = null;
 
     public TitleBar(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -145,69 +175,166 @@ public class TitleBar extends FrameLayout {
         btnBack = findViewById(R.id.btnBack);
         btnClose = findViewById(R.id.btnClose);
         btnMenu = findViewById(R.id.btnMenu);
+        btnFav = findViewById(R.id.btnFav);
         tvTitle = findViewById(R.id.tvTitle);
         flRoot = findViewById(R.id.flRoot);
 
+        btnLauncher.setOnClickListener(v -> {
+            goToLauncher();
+        });
+
+        btnBack.setOnClickListener(v -> {
+            sendNavBackMessage();
+        });
+
         btnClose.setOnClickListener(v -> {
-            try {
-                appManager.close(appId);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+            closeApp();
         });
 
         btnMenu.setOnClickListener(v -> {
-            try {
-                // Go back to launcher if in an app, and ask to show the menu panel
-                if (!isLauncher) {
-                    appManager.loadLauncher();
-                    appManager.sendLauncherMessage(AppManager.MSG_TYPE_INTERNAL, "menu-show", this.appId);
-                }
-                else {
-                    // If we are in the launcher, toggle the menu visibility
-                    appManager.sendLauncherMessage(AppManager.MSG_TYPE_INTERNAL, "menu-toggle", this.appId);
-                }
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+            toggleMenu();
         });
 
         if (isLauncher) {
             btnClose.setVisibility(View.INVISIBLE);
         }
 
+        btnFav.setVisibility(View.INVISIBLE); // TODO: Waiting until the favorite management is available in system settings
+        btnMenu.setVisibility(View.INVISIBLE);
+
         setForegroundMode(TitleBarForegroundMode.LIGHT);
-        setNavigationMode(TitleBarNavigationMode.CLOSE);
+
+        if (isLauncher)
+            setNavigationMode(TitleBarNavigationMode.NONE);
+        else
+            setNavigationMode(TitleBarNavigationMode.HOME);
+    }
+
+    private void goToLauncher() {
+        try {
+            if (!isLauncher) {
+                appManager.loadLauncher();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendNavBackMessage() {
+        try {
+            // Send "navback" message to the active app
+            appManager.sendMessage(this.appId, AppManager.MSG_TYPE_INTERNAL, "navback", this.appId);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void closeApp() {
+        try {
+            appManager.close(appId);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void toggleMenu() {
+        if (menuPopup == null) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            View menuView = inflater.inflate(R.layout.title_bar_menu, null);
+            menuPopup = new PopupWindow(menuView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT, true);
+
+            menuPopup.setClippingEnabled(false);
+
+            // Catch events to hide
+            menuView.setOnClickListener(v -> {
+                closeMenuPopup();
+            });
+            menuPopup.setOnDismissListener(() -> {
+                menuPopup = null;
+            });
+
+            // Append menu items
+            if (menuItems != null) {
+                LinearLayout llMenuItems = menuView.findViewById(R.id.llMenuItems);
+                for (MenuItem mi : menuItems) {
+                    View menuItemView = inflater.inflate(R.layout.title_bar_menu_item, llMenuItems, false);
+                    menuItemView.setOnClickListener(v -> {
+                        closeMenuPopup();
+                        onMenuItemSelection.onMenuItemSelected(mi);
+                    });
+
+                    // Setup menu item content
+                    AppInfo appInfo = appManager.getAppInfo(appId);
+                    appInfo.remote = 0; // TODO - DIRTY! FIND A BETTER WAY TO GET THE REAL IMAGE PATH FROM JS PATH !
+                    String iconPath = appManager.getAppPath(appInfo) + mi.iconPath;
+
+                    // Icon
+                    ImageView ivIcon = menuItemView.findViewById(R.id.ivIcon);
+                    ivIcon.setImageURI(Uri.parse(iconPath));
+
+                    // Icon - grayscale effect
+                    ColorMatrix matrix = new ColorMatrix();
+                    matrix.setSaturation(0);
+
+                    ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+                    ivIcon.setColorFilter(filter);
+
+                    // Title
+                    ((TextView)menuItemView.findViewById(R.id.tvTitle)).setText(mi.title);
+
+                    llMenuItems.addView(menuItemView);
+                }
+            }
+
+            // Make is touchable outside
+            menuPopup.setBackgroundDrawable(new BitmapDrawable());
+            menuPopup.setOutsideTouchable(true);
+            menuPopup.setFocusable(true);
+
+            // Animate
+            menuPopup.setAnimationStyle(R.style.TitleBarMenuAnimation);
+
+            // Show relatively to the title bar itself, to simulate it's stuck on the right (didn't find a better way)
+            menuView.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+            menuPopup.showAsDropDown(this, 0, 0);
+        }
+        else {
+            closeMenuPopup();
+        }
+    }
+
+    private void closeMenuPopup() {
+        menuPopup.dismiss();
+        menuPopup = null;
     }
 
     public void showActivityIndicator(TitleBarActivityType activityType) {
-        ((Activity) getContext()).runOnUiThread(() -> {
-            // Increase reference count for this progress animation type
-            activityCounters.put(activityType, activityCounters.get(activityType) + 1);
-            updateAnimation();
-        });
+        // Increase reference count for this progress animation type
+        activityCounters.put(activityType, activityCounters.get(activityType) + 1);
+        updateAnimation();
     }
 
     public void hideActivityIndicator(TitleBarActivityType activityType) {
-        ((Activity) getContext()).runOnUiThread(() -> {
-            // Decrease reference count for this progress animation type
-            activityCounters.put(activityType, Math.max(0, activityCounters.get(activityType) - 1));
-            updateAnimation();
-        });
+        // Decrease reference count for this progress animation type
+        activityCounters.put(activityType, Math.max(0, activityCounters.get(activityType) - 1));
+        updateAnimation();
     }
 
     public void setTitle(String title) {
-        tvTitle.setText(title);
+        if (title != null)
+            tvTitle.setText(title);
+        else
+            tvTitle.setText(appManager.getAppInfo(appId).name);
     }
 
     public boolean setBackgroundColor(String hexColor) {
         try {
             flRoot.setBackgroundColor(Color.parseColor(hexColor));
             return true;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // Wrong color format?
             return false;
         }
@@ -229,26 +356,29 @@ public class TitleBar extends FrameLayout {
     }
 
     public void setNavigationMode(TitleBarNavigationMode navigationMode) {
+        btnClose.setVisibility(View.INVISIBLE);
+        btnBack.setVisibility(View.INVISIBLE);
+        btnLauncher.setVisibility(View.INVISIBLE);
+
         if (navigationMode == TitleBarNavigationMode.HOME) {
-            btnClose.setVisibility(View.INVISIBLE);
-            btnBack.setVisibility(View.INVISIBLE);
             btnLauncher.setVisibility(View.VISIBLE);
         }
         else if (navigationMode == TitleBarNavigationMode.BACK) {
-            btnClose.setVisibility(View.INVISIBLE);
             btnBack.setVisibility(View.VISIBLE);
-            btnLauncher.setVisibility(View.INVISIBLE);
+        }
+        else if (navigationMode == TitleBarNavigationMode.CLOSE) {
+            btnClose.setVisibility(View.VISIBLE);
         }
         else {
-            // Default = CLOSE
-            btnClose.setVisibility(View.VISIBLE);
-            btnBack.setVisibility(View.INVISIBLE);
-            btnLauncher.setVisibility(View.INVISIBLE);
+            // Default = NONE
         }
     }
 
-    public void setupMenuItems(ArrayList<MenuItem> menuItems) {
+    public void setupMenuItems(ArrayList<MenuItem> menuItems, OnMenuItemSelection onMenuItemSelection) {
+        this.menuItems = menuItems;
+        this.onMenuItemSelection = onMenuItemSelection;
 
+        btnMenu.setVisibility(View.VISIBLE);
     }
 
     /**

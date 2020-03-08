@@ -129,6 +129,10 @@ public class WebViewFragment extends Fragment {
         titlebar = rootView.findViewById(R.id.titlebar);
         titlebar.initialize(id);
 
+        // Set title bar title to app name by default. Apps are free to change this.
+        if (!isLauncher())
+            titlebar.setTitle(appInfo.name);
+
         loadConfig();
 
         cordovaInterface = makeCordovaInterface();

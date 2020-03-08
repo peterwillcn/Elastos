@@ -43,7 +43,6 @@ import java.util.ArrayList;
         System.out.println("in finalize");
     }
 
-
     private boolean isPluginAllowedToLoad(String name) {
         for (String item : AppManager.defaultPlugins) {
             if (item.equals(name)) {

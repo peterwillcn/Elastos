@@ -26,12 +26,19 @@ parser.add_argument('target', metavar='TARGET', choices=['all', 'clean', 'clobbe
                      '''))
 parser.add_argument('-p', '--path', dest='plugin_path', metavar='PATH', required=False,
                     help='Specify the path of plugin.')
+parser.add_argument('-pf', '--platform', dest='platform', required=False,
+                    help='Specify the build platform.')
 parser.add_argument('--release', action='store_true', help='build release')
 args = parser.parse_args()
 if args.release:
     build_type='--release'
 else:
     build_type=''
+
+if args.platform:
+    build_platform=args.platform
+else:
+    build_platform='android'
 
 SCRIPT_PATH=os.path.realpath(__file__)
 TOOLCHAINS_DIR_PATH=os.path.dirname(os.path.dirname(SCRIPT_PATH))
@@ -139,7 +146,10 @@ if args.target == "all" or args.target == "launcher" or args.target == "runtime"
     run_cmd("npm install")
     run_cmd("cordova prepare")
     add_firebase()
-    run_cmd("cordova build android " + build_type)
+    if build_platform == "all" or build_platform == "android":
+        run_cmd("cordova build android " + build_type)
+    if build_platform == "all" or build_platform == "ios":
+        run_cmd("cordova build ios " + build_type)
 
 elapsed = timeit.default_timer() - startTime
 minutes = elapsed / 60

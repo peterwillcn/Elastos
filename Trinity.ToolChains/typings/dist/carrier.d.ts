@@ -612,9 +612,9 @@ declare namespace CarrierPlugin {
         * @callback onGroupInvite
         *
         * @param carrier    Carrier node instance
-        * @param groupTitle Current group title
+        * @param cookieCode cookie code used to join group.
         */
-        onGroupInvite?(carrier: Carrier, groupTitle: string);
+        onGroupInvite?(carrier: Carrier, cookieCode: string);
 
         /**
         * A callback function that handle file transfer connect request.

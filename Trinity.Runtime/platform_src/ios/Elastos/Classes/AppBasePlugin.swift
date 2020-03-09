@@ -91,6 +91,7 @@
     func launcher(_ command: CDVInvokedUrlCommand) {
         do {
             try AppManager.getShareInstance().loadLauncher();
+            try AppManager.getShareInstance().sendLauncherMessageMinimize(self.appId);
             self.success(command, "ok");
         } catch AppError.error(let err) {
             self.error(command, err);

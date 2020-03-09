@@ -149,6 +149,7 @@ public class AppBasePlugin extends TrinityPlugin {
 
     protected void launcher(CallbackContext callbackContext) throws Exception {
         appManager.loadLauncher();
+        AppManager.getShareInstance().sendLauncherMessageMinimize(this.appId);
         callbackContext.success("ok");
     }
 

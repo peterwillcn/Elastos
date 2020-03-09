@@ -71,7 +71,7 @@ class AppManager: NSObject {
     var installUriList = [String]();
     var intentUriList = [URL]();
     var launcherReady = false;
-    
+
     static let defaultPlugins = [
         "gesturehandler",
         "appmanager",
@@ -155,7 +155,7 @@ class AppManager: NSObject {
     @objc static func getShareInstance() -> AppManager {
         return AppManager.appManager!;
     }
-    
+
     func getDBAdapter() -> ManagerDBAdapter {
         return dbAdapter;
     }
@@ -477,6 +477,13 @@ class AppManager: NSObject {
         lastList.insert(id, at: 1);
     }
 
+    func isCurrentViewController(_ viewController: TrinityViewController) -> Bool {
+        if (curController == nil) {
+            return false;
+        }
+        return (viewController == curController!);
+    }
+
     func start(_ id: String) throws {
         var viewController = getViewControllerById(id);
         if viewController == nil {
@@ -598,6 +605,12 @@ class AppManager: NSObject {
         try sendMessage(AppManager.LAUNCHER, type, msg, fromId);
     }
 
+
+    func sendLauncherMessageMinimize(_ fromId: String) throws {
+        try sendLauncherMessage(AppManager.MSG_TYPE_INTERNAL,
+        "{\"action\":\"minimize\"}", fromId);
+    }
+
     private func sendInstallMsg(_ uri: String) {
         let msg = "{\"uri\":\"" + uri + "\", \"dev\":\"false\"}";
         do {
@@ -656,7 +669,7 @@ class AppManager: NSObject {
         if (AppManager.defaultPlugins.contains(plugin)) {
             return AppInfo.AUTHORITY_ALLOW;
         }
-        
+
         let info = appInfos[id];
         if (info != nil) {
             for pluginAuth in info!.plugins {

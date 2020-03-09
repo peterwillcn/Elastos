@@ -529,6 +529,10 @@ public class AppManager {
             lastList.add(1, id);
     }
 
+    Boolean isCurrentFragment(WebViewFragment fragment) {
+        return (fragment == curFragment);
+    }
+
     public boolean doBackPressed() {
         if (launcherInfo == null || curFragment == null || isLauncher(curFragment.id)) {
             return true;
@@ -672,6 +676,11 @@ public class AppManager {
 
     public void sendLauncherMessage(int type, String msg, String fromId) throws Exception {
         sendMessage(LAUNCHER, type, msg, fromId);
+    }
+
+    public void sendLauncherMessageMinimize(String fromId) throws Exception {
+        sendLauncherMessage(AppManager.MSG_TYPE_INTERNAL,
+                "{\"action\":\"minimize\"}", fromId);
     }
 
     private void sendInstallMsg(String uri) {

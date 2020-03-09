@@ -83,7 +83,7 @@ public class IntentManager {
         return false;
     }
 
-    private void putIntentToList(String app_id, IntentInfo info) {
+    private void saveIntentToList(String app_id, IntentInfo info) {
         ArrayList<IntentInfo> infos = intentList.get(app_id);
         if (infos == null) {
             infos = new ArrayList<IntentInfo>();
@@ -210,12 +210,16 @@ public class IntentManager {
         WebViewFragment fragment = appManager.getFragmentById(info.toId);
         if ((fragment != null) && (fragment.basePlugin.isIntentReady())) {
             putIntentContext(info);
-            appManager.start(info.toId);
+            if (!appManager.isCurrentFragment(fragment)) {
+                appManager.start(info.toId);
+                appManager.sendLauncherMessageMinimize(info.fromId);
+            }
             fragment.basePlugin.onReceiveIntent(info);
         }
         else {
-            putIntentToList(info.toId, info);
+            saveIntentToList(info.toId, info);
             appManager.start(info.toId);
+            appManager.sendLauncherMessageMinimize(info.fromId);
         }
     }
 

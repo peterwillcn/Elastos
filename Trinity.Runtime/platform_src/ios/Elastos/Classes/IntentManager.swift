@@ -186,7 +186,7 @@ class IntentPermission {
     }
 
     //TODO:: synchronized?
-    private func putIntentContext(_ info: IntentInfo) {
+    private func saveIntentContext(_ info: IntentInfo) {
         var intentInfo = intentContextList[info.intentId];
         while (intentInfo != nil) {
             info.intentId += 1;
@@ -225,7 +225,7 @@ class IntentPermission {
 
         return list;
     }
-    
+
     private func popupIntentChooser(_ info: IntentInfo, _ ids: [String]) {
         // More than one possible handler, show a chooser and pass it the selectable apps info.
        var appInfos: [AppInfo] = []
@@ -283,13 +283,17 @@ class IntentPermission {
     private func sendIntent(_ info: IntentInfo) throws {
         let viewController = appManager.getViewControllerById(info.toId!)
         if (viewController != nil && viewController!.basePlugin!.isIntentReady()) {
-            putIntentContext(info);
-            try appManager.start(info.toId!);
+            saveIntentContext(info);
+            if (!appManager.isCurrentViewController(viewController!)) {
+                try appManager.start(info.toId!);
+                try appManager.sendLauncherMessageMinimize(info.fromId);
+            }
             viewController!.basePlugin!.onReceiveIntent(info);
         }
         else {
             putIntentToList(info.toId!, info);
             try appManager.start(info.toId!);
+            try appManager.sendLauncherMessageMinimize(info.fromId);
         }
     }
 

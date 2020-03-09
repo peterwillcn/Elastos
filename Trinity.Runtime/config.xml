@@ -29,6 +29,7 @@
     <preference name="AndroidLaunchMode" value="singleTask" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="ShowSplashScreenSpinner" value="false" />
+    <preference name="SplashMaintainAspectRatio" value="true" />
     <hook src="scripts/download_3rdparty.js" type="after_platform_add" />
     <hook src="scripts/merge_folders.js" type="after_platform_add" />
     <hook src="scripts/apply_patches.js" type="after_platform_add" />

@@ -151,6 +151,8 @@ declare namespace AppManagerPlugin {
         id: string;
         /** The app version. */
         version: string;
+        /** The app version code. */
+        versionCode: number;
         /** The app name. */
         name: string;
         /** The app shortName. */

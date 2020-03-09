@@ -56,6 +56,18 @@ declare namespace TitleBarPlugin {
     }
 
     /**
+     * Sets the overall title bar display style and behavior. This API is to be used only by the launcher app. Other apps
+     * can't access it, and behave as the DEFAULT mode.
+     * In DESKTOP mode, the title bar shows different icons specifically for the launcher's main screen.
+     */
+    const enum TitleBarBehavior {
+        /** The title bar can be configured by apps: back/close icons, menus, favorites. */
+        DEFAULT = 0,
+        /** The title bar displays icons for notifications, running apps, scanner and settings */
+        DESKTOP = 1
+    }
+
+    /**
      * Status for the top left icon that can switch from one mode to another.
      */
     const enum TitleBarNavigationMode {
@@ -118,9 +130,17 @@ declare namespace TitleBarPlugin {
          * Sets the title bar foreground (title, icons) color. Use this API in coordination with 
          * setBackgroundColor() in order to adjust foreground with background.
          * 
-         * @param foregroundMode A TitleBarForegroundMode mode, LIGHT or DARK.
+         * @param foregroundMode A @TitleBarForegroundMode mode, LIGHT or DARK.
          */
         setForegroundMode(foregroundMode: TitleBarForegroundMode);
+
+        /**
+         * Changes the overall behavior of the title bar. 
+         * Accessible only by the launcher app. Other apps use the DEFAULT behavior.
+         * 
+         * @param behavior A @TitleBarBehavior behavior to globally configure the title bar.
+         */
+        setBehavior(behavior: TitleBarBehavior);
 
         /**
          * Changes the top left icon appearance and behaviour. See @TitleBarNavigationMode for available

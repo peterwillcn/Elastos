@@ -93,6 +93,10 @@ module.exports = function(ctx) {
     runtimeProj.addSourceFile(classesPath + "TitleBarPlugin.swift",         {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "TitleBarView.swift",           {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "TitleBarView.xib",             {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "TitleBarMenuItemView.swift",   {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "TitleBarMenuItemView.xib",     {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "TitleBarMenuView.swift",       {}, classesGroupKey);
+    runtimeProj.addSourceFile(classesPath + "TitleBarMenuView.xib",         {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "TrinityPlugin.h",              {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "TrinityPlugin.m",              {}, classesGroupKey);
     runtimeProj.addSourceFile(classesPath + "TrinityURLProtocol.swift",     {}, classesGroupKey);

@@ -281,3 +281,71 @@ func getAssetPath(_ url: String) -> String {
         return nil
     }
  }
+
+ extension UIView {
+    func loadViewFromNib() ->UIView {
+        let className = type(of:self)
+        let bundle = Bundle(for:className)
+        let name = NSStringFromClass(className).components(separatedBy: ".").last
+        let nib = UINib(nibName: name!, bundle: bundle)
+        let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
+        
+        return view
+    }
+    
+    public func addMatchChildConstraints(child: UIView) {
+        self.addConstraint(NSLayoutConstraint(item: child, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0.0))
+        self.addConstraint(NSLayoutConstraint(item: child, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0.0))
+        self.addConstraint(NSLayoutConstraint(item: child, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0.0))
+        self.addConstraint(NSLayoutConstraint(item: child, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 0.0))
+        child.translatesAutoresizingMaskIntoConstraints = false
+    }
+ }
+
+ 
+ extension UIImage {
+    // grayscale effect on an image. NOTE: modifies the original image data
+    var noir: UIImage? {
+        let context = CIContext(options: nil)
+        guard let currentFilter = CIFilter(name: "CIPhotoEffectNoir") else { return nil }
+        currentFilter.setValue(CIImage(image: self), forKey: kCIInputImageKey)
+        if let output = currentFilter.outputImage,
+            let cgImage = context.createCGImage(output, from: output.extent) {
+            return UIImage(cgImage: cgImage, scale: scale, orientation: imageOrientation)
+        }
+        return nil
+    }
+ }
+ 
+ // Add closure usage to gesture recognizers
+ extension UIGestureRecognizer {
+    typealias Action = ((UIGestureRecognizer) -> ())
+    
+    private struct Keys {
+        static var actionKey = "ActionKey"
+    }
+    
+    private var block: Action? {
+        set {
+            if let newValue = newValue {
+                // Computed properties get stored as associated objects
+                objc_setAssociatedObject(self, &Keys.actionKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+            }
+        }
+        
+        get {
+            let action = objc_getAssociatedObject(self, &Keys.actionKey) as? Action
+            return action
+        }
+    }
+    
+    @objc func handleAction(recognizer: UIGestureRecognizer) {
+        block?(recognizer)
+    }
+    
+    convenience public  init(block: @escaping ((UIGestureRecognizer) -> ())) {
+        self.init()
+        self.block = block
+        self.addTarget(self, action: #selector(handleAction(recognizer:)))
+    }
+ }

@@ -75,6 +75,7 @@ class AppManager: NSObject {
     static let defaultPlugins = [
         "gesturehandler",
         "appmanager",
+        "titlebarplugin",
         "console",
         "localstorage",
         "handleopenurl",

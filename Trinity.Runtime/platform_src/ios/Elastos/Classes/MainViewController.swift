@@ -82,7 +82,7 @@ class MainViewController: UIViewController {
         }
 
         let urlString = url.absoluteString.lowercased();
-        let isElastosDomain = (urlString.hasPrefix("https://scheme.elastos.org"))
+        let isElastosDomain = (urlString.hasPrefix("https://scheme.elastos.org") || urlString.hasPrefix("http://scheme.elastos.org"))
         
         if scheme!.localizedCaseInsensitiveCompare("elastos") == .orderedSame || isElastosDomain {
             appManager!.setIntentUri(url);

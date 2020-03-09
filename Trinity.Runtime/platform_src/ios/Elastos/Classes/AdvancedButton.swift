@@ -512,12 +512,12 @@ open class AdvancedButton: UIControl {
         trailingLoadingConstraint.isActive = false
     }
     
-    fileprivate func loadViewFromNib() -> UIView {
+    /*fileprivate func loadViewFromNib() -> UIView {
         let nib = UINib(nibName: "AdvancedButton", bundle: Bundle.main)
         let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         return view
-    }
+    }*/
     
     // MARK: - Touches
     // MARK:

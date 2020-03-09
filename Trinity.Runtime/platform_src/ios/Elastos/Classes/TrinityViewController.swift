@@ -121,7 +121,7 @@ class TrinityViewController : CDVViewController {
 
     @objc func handleSwipes(_ recognizer:UISwipeGestureRecognizer){
         if (recognizer.direction == UISwipeGestureRecognizer.Direction.right) {
-            titlebar!.clickBack();
+            // BPI REMOVED titlebar!.clickBack();
         }
         else {
             if titlebarHeightConstraint.constant == 0.0 {
@@ -143,6 +143,10 @@ class TrinityViewController : CDVViewController {
             }
         }
     }
+    
+    private func isLauncher() -> Bool {
+        return id == "launcher"
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -153,6 +157,11 @@ class TrinityViewController : CDVViewController {
                 self.basePlugin = plugin;
                 break;
             }
+        }
+        
+        // Set title bar title to app name by default. Apps are free to change this.
+        if (!isLauncher()) {
+            getTitlebar().setTitle(appInfo!.name)
         }
 
 //        if (appInfo!.type == "url") {

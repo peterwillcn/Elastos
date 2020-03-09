@@ -17,41 +17,43 @@ public enum TitleBarActivityType: Int {
     case LAUNCH = 2
     /** There is another on going operation of an indeterminate type. */
     case OTHER = 3
-/*
-    private int mValue;
-
-    TitleBarActivityType(int value) {
-        mValue = value;
-    }
-
-    public static TitleBarActivityType fromId(int value) {
-        for(TitleBarActivityType t : values()) {
-            if (t.mValue == value) {
-                return t;
-            }
-        }
-        return OTHER;
-    }*/
 }
 
 public enum TitleBarForegroundMode: Int {
     case LIGHT = 0
     case DARK = 1
+}
 
-    /*private int mValue;
+public enum TitleBarBehavior: Int {
+    case DEFAULT = 0
+    case DESKTOP = 1
+}
 
-    TitleBarForegroundMode(int value) {
-        mValue = value;
+public enum TitleBarNavigationMode: Int {
+    case HOME = 0
+    case CLOSE = 1
+    case BACK = 2
+    case NONE = 3
+}
+
+public class TitleBarMenuItem {
+    var key: String
+    var iconPath: String
+    var title: String
+
+    init(key: String, iconPath: String, title: String) {
+        self.key = key
+        self.iconPath = iconPath
+        self.title = title
     }
 
-    public static TitleBarForegroundMode fromId(int value) {
-        for(TitleBarForegroundMode t : values()) {
-            if (t.mValue == value) {
-                return t;
-            }
-        }
-        return LIGHT;
-    }*/
+    public func toJson() throws -> NSDictionary  {
+        var jsonObject = NSMutableDictionary()
+        jsonObject["key"] = key
+        jsonObject["iconPath"] = iconPath
+        jsonObject["title"] = title
+        return jsonObject
+    }
 }
 
 class TitleBarView: UIView {
@@ -60,16 +62,29 @@ class TitleBarView: UIView {
     var appId: String?
     var isLauncher = false
     var activityCounters = Dictionary<TitleBarActivityType, Int>()
+    var customBackgroundUsed = false
+    var menuItems: [TitleBarMenuItem] = []
+    var onMenuItemSelection : ((TitleBarMenuItem)->Void)? = nil
+    var currentNavigationMode = TitleBarNavigationMode.NONE
     
     // UI
     @IBOutlet var rootView: UIView!
     
+    @IBOutlet weak var btnLauncher: AdvancedButton!
     @IBOutlet weak var btnClose: AdvancedButton!
+    @IBOutlet weak var btnBack: AdvancedButton!
+    @IBOutlet weak var btnFav: AdvancedButton!
     @IBOutlet weak var btnMenu: AdvancedButton!
+    @IBOutlet weak var btnNotifs: AdvancedButton!
+    @IBOutlet weak var btnRunning: AdvancedButton!
+    @IBOutlet weak var btnScan: AdvancedButton!
+    @IBOutlet weak var btnSettings: AdvancedButton!
     @IBOutlet weak var titleLabel: UILabel!
     
     @IBOutlet weak var progressBarBackground: UIView!
     @IBOutlet weak var progressBar: UIView!
+    
+    var gradientLayer: CAGradientLayer? = nil
     
     init(_ viewController: TrinityViewController, _ frame: CGRect, _ isLauncher: Bool, _ appId: String) {
         super.init(frame: frame)
@@ -79,28 +94,25 @@ class TitleBarView: UIView {
         self.appId = appId
 
         let view = loadViewFromNib();
-        self.addConstraint(NSLayoutConstraint(item: view, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0.0))
-        self.addConstraint(NSLayoutConstraint(item: view, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0.0))
-        self.addConstraint(NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0.0))
-        self.addConstraint(NSLayoutConstraint(item: view, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 0.0))
-        view.translatesAutoresizingMaskIntoConstraints = false
+        
         addSubview(view)
+        self.addMatchChildConstraints(child: view)
+
+        setBackgroundColor("#4850F0")
+        setForegroundMode(.LIGHT)
+        
+        btnFav.isHidden = true // TODO: Waiting until the favorite management is available in system settings
+        btnMenu.isHidden = true
         
         if (isLauncher) {
             btnClose.isHidden = true
+            setNavigationMode(.NONE)
+            setBehavior(.DESKTOP)
         }
-        
-        setForegroundMode(.LIGHT)
-    }
-    
-    func loadViewFromNib() ->UIView {
-        let className = type(of:self)
-        let bundle = Bundle(for:className)
-        let name = NSStringFromClass(className).components(separatedBy: ".").last
-        let nib = UINib(nibName: name!, bundle: bundle)
-        let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
-        
-        return view
+        else {
+            setNavigationMode(.HOME)
+            setBehavior(.DEFAULT)
+        }
     }
     
     override init(frame: CGRect) {
@@ -114,22 +126,30 @@ class TitleBarView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /*func setHorizontalGradientBackground(from: String, to: String) {
+        if gradientLayer == nil {
+            gradientLayer = CAGradientLayer()
+            layer.insertSublayer(gradientLayer!, at: 0)
+        }
+        
+        let fromColor = UIColor(hex: from)!
+        let toColor = UIColor(hex: to)!
+        
+        gradientLayer!.colors = [fromColor.cgColor, toColor.cgColor]
+        gradientLayer!.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer!.endPoint = CGPoint(x: 1.0, y: 0.5)
+        gradientLayer!.locations = [0, 1]
+        gradientLayer!.frame = bounds
+    }*/
+    
     @IBAction func closeClicked(_ sender: Any) {
-        try? AppManager.getShareInstance().close(self.viewController!.appInfo!.app_id);
+        try? AppManager.getShareInstance().close(self.viewController!.appInfo!.app_id)
     }
     
-    @IBAction func minimizeClicked(_ sender: Any) {
+    @IBAction func launcherClicked(_ sender: Any) {
         do {
-            // Go back to launcher if in an app, and ask to show the menu panel
             if (!isLauncher) {
-                try AppManager.getShareInstance().loadLauncher();
-                try AppManager.getShareInstance()
-                    .sendLauncherMessage(AppManager.MSG_TYPE_INTERNAL, "menu-show", self.appId!)
-            }
-            else {
-                // If we are in the launcher, toggle the menu visibility
-                try AppManager.getShareInstance()
-                    .sendLauncherMessage(AppManager.MSG_TYPE_INTERNAL, "menu-toggle", self.appId!)
+                try AppManager.getShareInstance().loadLauncher()
             }
         }
         catch {
@@ -137,20 +157,51 @@ class TitleBarView: UIView {
         }
     }
     
-    @IBAction func toggleClicked(_ sender: Any) {
-        let msg = "{\"action\":\"toggle\"}";
+    @IBAction func backClicked(_ sender: Any) {
+        // Send "navback" message to the active app
         do {
-            try AppManager.getShareInstance().sendMessage("launcher", AppManager.MSG_TYPE_IN_REFRESH, msg, "system");
+            try AppManager.getShareInstance().sendMessage(appId!, AppManager.MSG_TYPE_INTERNAL, "navback", appId!)
         }
         catch {
-            print("Send message: " + msg + " error!");
+            print("Send message: navback error!")
         }
     }
     
-    @objc func clickBack() {
-        self.viewController!.webViewEngine.evaluateJavaScript("window.history.back();", completionHandler: nil);
+    @IBAction func menuClicked(_ sender: Any) {
+        let menuView = TitleBarMenuView(titleBar: self, frame: CGRect.null, appId: appId!, menuItems: menuItems)
+        
+        menuView.setOnMenuItemClickedListened() { menuItem in
+            self.onMenuItemSelection?(menuItem)
+        }
+        
+        menuView.show(inRootView: self.viewController!.view)
     }
     
+    @IBAction func notifsClicked(_ sender: Any) {
+        sendMessageToLauncher(message: "notifications-toggle")
+    }
+    
+    @IBAction func runningClicked(_ sender: Any) {
+        sendMessageToLauncher(message: "runningapps-toggle")
+    }
+    
+    @IBAction func scanClicked(_ sender: Any) {
+        sendMessageToLauncher(message: "scan-clicked")
+    }
+    
+    @IBAction func settingsClicked(_ sender: Any) {
+        sendMessageToLauncher(message: "settings-clicked")
+    }
+    
+    private func sendMessageToLauncher(message: String) {
+        do {
+            try AppManager.getShareInstance().sendLauncherMessage(AppManager.MSG_TYPE_INTERNAL, message, appId!)
+        }
+        catch {
+            print("Send message: '\(message)' error!")
+        }
+    }
+
     public func showActivityIndicator(activityType: TitleBarActivityType) {
         // Increase reference count for this progress animation type
         activityCounters[activityType] = (activityCounters[activityType] ?? 0) + 1
@@ -163,13 +214,28 @@ class TitleBarView: UIView {
         updateAnimation()
     }
 
-    public func setTitle(_ title: String) {
-        titleLabel.text = title.uppercased()
+    public func setTitle(_ title: String?) {
+        if title != nil {
+            titleLabel.text = title!.uppercased()
+        }
+        else {
+            titleLabel.text = AppManager.getShareInstance().getAppInfo(appId!)?.name.uppercased()
+        }
     }
 
     public func setBackgroundColor(_ hexColor: String) -> Bool {
         if let color = UIColor.init(hex: hexColor) {
+            // Remove default gradient layer if any
+            if gradientLayer != nil {
+                gradientLayer!.removeFromSuperlayer()
+                gradientLayer = nil
+            }
+            
+            // Set custom background color
             rootView.backgroundColor = color
+            
+            customBackgroundUsed = true
+            
             return true
         }
         else {
@@ -190,6 +256,70 @@ class TitleBarView: UIView {
         btnMenu.leftImageColor = color
         btnClose.leftImageColor = color
         titleLabel.textColor = color
+    }
+    
+    public func setBehavior(_ behavior: TitleBarBehavior) {
+        if behavior == .DESKTOP {
+            // DESKTOP
+            btnBack.isHidden = true
+            btnClose.isHidden = true
+            btnLauncher.isHidden = true
+            btnFav.isHidden = true
+            btnMenu.isHidden = true
+            
+            btnNotifs.isHidden = false
+            btnRunning.isHidden = false
+            btnScan.isHidden = false
+            btnSettings.isHidden = false
+        }
+        else {
+            // DEFAULT
+            btnBack.isHidden = false
+            btnClose.isHidden = false
+            btnLauncher.isHidden = false
+            btnFav.isHidden = true // TMP
+            btnMenu.isHidden = (menuItems.count > 0 ? false : true)
+            
+            btnNotifs.isHidden = true
+            btnRunning.isHidden = true
+            btnScan.isHidden = true
+            btnSettings.isHidden = true
+            
+            setNavigationMode(currentNavigationMode)
+        }
+    }
+    
+    public func setNavigationMode(_ navigationMode: TitleBarNavigationMode) {
+        btnClose.isHidden = true
+        btnBack.isHidden = true
+        btnLauncher.isHidden = true
+
+        if (navigationMode == .HOME) {
+            btnLauncher.isHidden = false
+        }
+        else if (navigationMode == .BACK) {
+            btnBack.isHidden = false
+        }
+        else if (navigationMode == .CLOSE) {
+            btnClose.isHidden = false
+        }
+        else {
+            // Default = NONE
+        }
+        
+        currentNavigationMode = navigationMode
+    }
+
+    public func setupMenuItems(menuItems: [TitleBarMenuItem], onMenuItemSelection: @escaping (TitleBarMenuItem)->Void) {
+        self.menuItems = menuItems
+        self.onMenuItemSelection = onMenuItemSelection
+
+        if (menuItems.count > 0) {
+            btnMenu.isHidden = false
+        }
+        else {
+            btnMenu.isHidden = true
+        }
     }
     
     /**
@@ -254,8 +384,9 @@ class TitleBarView: UIView {
     }
 
     private func stopProgressAnimation() {
-        if let animation = onGoingProgressAnimation {
-            animation.finishAnimation(at: .start)
+        if let animation = onGoingProgressAnimation, animation.isRunning {
+            animation.stopAnimation(false)
+            animation.finishAnimation(at: .current)
             onGoingProgressAnimation = nil
         }
     }

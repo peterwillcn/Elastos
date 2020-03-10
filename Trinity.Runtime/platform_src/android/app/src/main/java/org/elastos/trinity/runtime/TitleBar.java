@@ -78,6 +78,26 @@ public class TitleBar extends FrameLayout {
         }
     }
 
+    public enum TitleBarBehavior {
+        DEFAULT(0),
+        DESKTOP(1);
+
+        private int mValue;
+
+        TitleBarBehavior(int value) {
+            mValue = value;
+        }
+
+        public static TitleBarBehavior fromId(int value) {
+            for(TitleBarBehavior t : values()) {
+                if (t.mValue == value) {
+                    return t;
+                }
+            }
+            return DEFAULT;
+        }
+    }
+
     public enum TitleBarNavigationMode {
         HOME(0),
         CLOSE(1),
@@ -131,6 +151,10 @@ public class TitleBar extends FrameLayout {
     ImageButton btnClose = null;
     ImageButton btnMenu = null;
     ImageButton btnFav = null;
+    ImageButton btnNotifs = null;
+    ImageButton btnRunning = null;
+    ImageButton btnScan = null;
+    ImageButton btnSettings = null;
     TextView tvTitle = null;
     FrameLayout flRoot = null;
     PopupWindow menuPopup = null;
@@ -145,8 +169,9 @@ public class TitleBar extends FrameLayout {
     // Reference count for progress bar activity types. An app can start several activities at the same time and the progress bar
     // keeps animating until no one else needs progress animations.
     HashMap<TitleBarActivityType, Integer> activityCounters = new HashMap<TitleBarActivityType, Integer>();
-    ArrayList<MenuItem> menuItems;
+    ArrayList<MenuItem> menuItems = new ArrayList<>();
     OnMenuItemSelection onMenuItemSelection = null;
+    TitleBarNavigationMode currentNavigationMode = TitleBarNavigationMode.NONE;
 
     public TitleBar(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -176,6 +201,10 @@ public class TitleBar extends FrameLayout {
         btnClose = findViewById(R.id.btnClose);
         btnMenu = findViewById(R.id.btnMenu);
         btnFav = findViewById(R.id.btnFav);
+        btnNotifs = findViewById(R.id.btnNotifs);
+        btnRunning = findViewById(R.id.btnRunning);
+        btnScan = findViewById(R.id.btnScan);
+        btnSettings = findViewById(R.id.btnSettings);
         tvTitle = findViewById(R.id.tvTitle);
         flRoot = findViewById(R.id.flRoot);
 
@@ -195,19 +224,37 @@ public class TitleBar extends FrameLayout {
             toggleMenu();
         });
 
-        if (isLauncher) {
-            btnClose.setVisibility(View.INVISIBLE);
-        }
+        btnNotifs.setOnClickListener(v -> {
+            sendMessageToLauncher("notifications-toggle");
+        });
 
-        btnFav.setVisibility(View.INVISIBLE); // TODO: Waiting until the favorite management is available in system settings
-        btnMenu.setVisibility(View.INVISIBLE);
+        btnRunning.setOnClickListener(v -> {
+            sendMessageToLauncher("runningapps-toggle");
+        });
 
+        btnScan.setOnClickListener(v -> {
+            sendMessageToLauncher("scan-clicked");
+        });
+
+        btnSettings.setOnClickListener(v -> {
+            sendMessageToLauncher("settings-clicked");
+        });
+
+        setBackgroundColor("#4850F0");
         setForegroundMode(TitleBarForegroundMode.LIGHT);
 
-        if (isLauncher)
+        btnFav.setVisibility(View.GONE); // TODO: Waiting until the favorite management is available in system settings
+        btnMenu.setVisibility(View.GONE);
+
+        if (isLauncher) {
+            btnClose.setVisibility(View.GONE);
             setNavigationMode(TitleBarNavigationMode.NONE);
-        else
+            setBehavior(TitleBarBehavior.DESKTOP);
+        }
+        else {
             setNavigationMode(TitleBarNavigationMode.HOME);
+            setBehavior(TitleBarBehavior.DEFAULT);
+        }
     }
 
     private void goToLauncher() {
@@ -311,6 +358,15 @@ public class TitleBar extends FrameLayout {
         menuPopup = null;
     }
 
+    private void sendMessageToLauncher(String message) {
+        try {
+            appManager.sendLauncherMessage(AppManager.MSG_TYPE_INTERNAL, message, appId);
+        }
+        catch (Exception e){
+            System.out.println("Send message: "+message+" error!");
+        }
+    }
+
     public void showActivityIndicator(TitleBarActivityType activityType) {
         // Increase reference count for this progress animation type
         activityCounters.put(activityType, activityCounters.get(activityType) + 1);
@@ -325,9 +381,9 @@ public class TitleBar extends FrameLayout {
 
     public void setTitle(String title) {
         if (title != null)
-            tvTitle.setText(title);
+            tvTitle.setText(title.toUpperCase());
         else
-            tvTitle.setText(appManager.getAppInfo(appId).name);
+            tvTitle.setText(appManager.getAppInfo(appId).name.toUpperCase());
     }
 
     public boolean setBackgroundColor(String hexColor) {
@@ -355,10 +411,41 @@ public class TitleBar extends FrameLayout {
         btnMenu.setColorFilter(color);
     }
 
+    public void setBehavior(TitleBarBehavior behavior) {
+        if (behavior == TitleBarBehavior.DESKTOP) {
+            // DESKTOP
+            btnBack.setVisibility(View.GONE);
+            btnClose.setVisibility(View.GONE);
+            btnLauncher.setVisibility(View.GONE);
+            btnFav.setVisibility(View.GONE);
+            btnMenu.setVisibility(View.GONE);
+
+            btnNotifs.setVisibility(View.VISIBLE);
+            btnRunning.setVisibility(View.VISIBLE);
+            btnScan.setVisibility(View.VISIBLE);
+            btnSettings.setVisibility(View.VISIBLE);
+        }
+        else {
+            // DEFAULT
+            btnBack.setVisibility(View.VISIBLE);
+            btnClose.setVisibility(View.VISIBLE);
+            btnLauncher.setVisibility(View.VISIBLE);
+            btnFav.setVisibility(View.GONE); // TMP
+            btnMenu.setVisibility((menuItems.size() > 0 ? View.VISIBLE : View.GONE));
+
+            btnNotifs.setVisibility(View.GONE);
+            btnRunning.setVisibility(View.GONE);
+            btnScan.setVisibility(View.GONE);
+            btnSettings.setVisibility(View.GONE);
+
+            setNavigationMode(currentNavigationMode);
+        }
+    }
+
     public void setNavigationMode(TitleBarNavigationMode navigationMode) {
-        btnClose.setVisibility(View.INVISIBLE);
-        btnBack.setVisibility(View.INVISIBLE);
-        btnLauncher.setVisibility(View.INVISIBLE);
+        btnClose.setVisibility(View.GONE);
+        btnBack.setVisibility(View.GONE);
+        btnLauncher.setVisibility(View.GONE);
 
         if (navigationMode == TitleBarNavigationMode.HOME) {
             btnLauncher.setVisibility(View.VISIBLE);
@@ -372,6 +459,8 @@ public class TitleBar extends FrameLayout {
         else {
             // Default = NONE
         }
+
+        currentNavigationMode = navigationMode;
     }
 
     public void setupMenuItems(ArrayList<MenuItem> menuItems, OnMenuItemSelection onMenuItemSelection) {
@@ -381,7 +470,7 @@ public class TitleBar extends FrameLayout {
         if (menuItems.size() > 0)
             btnMenu.setVisibility(View.VISIBLE);
         else
-            btnMenu.setVisibility(View.INVISIBLE);
+            btnMenu.setVisibility(View.GONE);
     }
 
     /**

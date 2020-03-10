@@ -60,6 +60,9 @@ public class TitleBarPlugin extends TrinityPlugin {
                 case "setForegroundMode":
                     this.setForegroundMode(args, callbackContext);
                     break;
+                case "setBehavior":
+                    this.setBehavior(args, callbackContext);
+                    break;
                 case "setNavigationMode":
                     this.setNavigationMode(args, callbackContext);
                     break;
@@ -126,6 +129,16 @@ public class TitleBarPlugin extends TrinityPlugin {
 
         cordova.getActivity().runOnUiThread(() -> {
             getTitleBar().setForegroundMode(TitleBar.TitleBarForegroundMode.fromId(modeAsInt));
+        });
+
+        callbackContext.success();
+    }
+
+    private void setBehavior(JSONArray args, CallbackContext callbackContext) throws Exception {
+        int behaviorAsInt = args.getInt(0);
+
+        cordova.getActivity().runOnUiThread(() -> {
+            getTitleBar().setBehavior(TitleBar.TitleBarBehavior.fromId(behaviorAsInt));
         });
 
         callbackContext.success();

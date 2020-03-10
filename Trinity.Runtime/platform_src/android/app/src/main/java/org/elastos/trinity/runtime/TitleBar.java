@@ -261,6 +261,7 @@ public class TitleBar extends FrameLayout {
         try {
             if (!isLauncher) {
                 appManager.loadLauncher();
+                appManager.sendLauncherMessageMinimize(appId);
             }
         }
         catch (Exception e) {

@@ -150,6 +150,7 @@ class TitleBarView: UIView {
         do {
             if (!isLauncher) {
                 try AppManager.getShareInstance().loadLauncher()
+                AppManager.getShareInstance().sendLauncherMessageMinimize(appId!)
             }
         }
         catch {

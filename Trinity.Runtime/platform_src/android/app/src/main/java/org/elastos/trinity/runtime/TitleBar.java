@@ -410,6 +410,8 @@ public class TitleBar extends FrameLayout {
         btnClose.setColorFilter(color);
         tvTitle.setTextColor(color);
         btnMenu.setColorFilter(color);
+        btnLauncher.setColorFilter(color);
+        btnBack.setColorFilter(color);
     }
 
     public void setBehavior(TitleBarBehavior behavior) {

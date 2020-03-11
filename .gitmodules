@@ -1,28 +1,15 @@
 [submodule "Launcher"]
 	path = Trinity/Launcher
 	url = ../Elastos.Trinity.DApps.Launcher.git
-[submodule "Dapps/Ionic/CarrierDemo"]
-	path = Trinity/Dapps/Ionic/CarrierDemo
-	url = ../Elastos.Trinity.DApps.Demo.Carrier.git
-[submodule "Dapps/Ionic/DAppStore"]
-	path = Trinity/Dapps/Ionic/DAppStore
-	url = ../Elastos.Trinity.DApps.DAppsStore.git
-	branch = master
 [submodule "Dapps/Ionic/DID"]
 	path = Trinity/Dapps/Ionic/DID
 	url = ../Elastos.Trinity.DApps.DID.git
-[submodule "Dapps/Ionic/DIDDemo"]
-	path = Trinity/Dapps/Ionic/DIDDemo
-	url = ../Elastos.Trinity.DApps.Demo.DID.git
 [submodule "Dapps/Ionic/DPoSVoting"]
 	path = Trinity/Dapps/Ionic/DPoSVoting
 	url = ../Elastos.Trinity.DApps.DPoSVoting.git
 [submodule "Dapps/Ionic/Friends"]
 	path = Trinity/Dapps/Ionic/Friends
 	url = ../Elastos.Trinity.DApps.Friends.git
-[submodule "Dapps/Ionic/Installer"]
-	path = Trinity/Dapps/Ionic/Installer
-	url = ../Elastos.Trinity.DApps.Installer.git
 [submodule "Dapps/Ionic/Qrcodescanner"]
 	path = Trinity/Dapps/Ionic/Qrcodescanner
 	url = ../Elastos.Trinity.DApps.QRCodeScanner.git

@@ -82,6 +82,7 @@ public class CLIService: NSObject, NetServiceBrowserDelegate, NetServiceDelegate
         
         // Got a resolved service info - we can call the service to get and install our EPK
         downloadEPK(usingService: service) { epkPath in
+            self.log("Requesting app manager to install the EPK")
             self.installEPK(epkPath: epkPath)
             // Resume the bonjour search task for future EPKs.
             self.searchForServices()
@@ -144,10 +145,17 @@ public class CLIService: NSObject, NetServiceBrowserDelegate, NetServiceDelegate
                 if let statusCode = (response as? HTTPURLResponse)?.statusCode {
                     if (statusCode >= 200 && statusCode < 400) {
                         self.log("EPK file downloaded successfully with status code: \(statusCode)")
-
-                        self.log("Requesting app manager to install the EPK")
                         
-                        completion(tempLocalUrl.absoluteString)
+                        // Copy EPK file to a temp location as it's going to be deleted after download by the session.
+                        let destTempUrl = FileManager.default.temporaryFileURL(fileName: "appinstall.epk")!
+                        do {
+                            try FileManager.default.copyItem(at: tempLocalUrl, to: destTempUrl)
+                            
+                            completion(destTempUrl.absoluteString)
+                        }
+                        catch {
+                            self.log("Failed copy the EPK file. \(error)")
+                        }
                     }
                     else {
                         self.log("Failed to download EPK with HTTP error \(statusCode)")
@@ -164,13 +172,15 @@ public class CLIService: NSObject, NetServiceBrowserDelegate, NetServiceDelegate
     }
      
     private func installEPK(epkPath: String) {
-        do {
-            _ = try AppManager.getShareInstance().install(epkPath, true);
-        }
-        catch AppError.error(let err) {
-            alertDialog("Install Error", err);
-        } catch let error {
-            alertDialog("Install Error", error.localizedDescription);
+        DispatchQueue.main.async {
+            do {
+                _ = try AppManager.getShareInstance().install(epkPath, true)
+            }
+            catch AppError.error(let err) {
+                alertDialog("Install Error", err);
+            } catch let error {
+                alertDialog("Install Error", error.localizedDescription);
+            }
         }
     }
 }

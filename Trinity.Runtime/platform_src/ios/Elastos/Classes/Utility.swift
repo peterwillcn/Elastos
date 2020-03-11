@@ -349,3 +349,9 @@ func getAssetPath(_ url: String) -> String {
         self.addTarget(self, action: #selector(handleAction(recognizer:)))
     }
  }
+
+ public extension FileManager {
+     func temporaryFileURL(fileName: String = UUID().uuidString) -> URL? {
+         return URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(fileName)
+     }
+ }

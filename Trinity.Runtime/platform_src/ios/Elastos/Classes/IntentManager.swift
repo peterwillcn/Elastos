@@ -323,7 +323,10 @@ class IntentPermission {
             info.aud = (jwtPayload!["iss"] as! String);
         }
         if (jwtPayload!["appid"] != nil) {
-            info.req = (jwtPayload!["appid"] as! String);
+            // info.req = (jwtPayload!["appid"] as! String);
+            // Compatible with int and string.(Usually the appid is string)
+            let appid = jwtPayload!["appid"];
+            info.req = "\(appid)";
         }
         if (jwtPayload![IntentInfo.REDIRECT_URL] != nil) {
             info.redirecturl = (jwtPayload![IntentInfo.REDIRECT_URL] as! String);

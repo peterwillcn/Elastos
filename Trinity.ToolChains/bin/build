@@ -128,7 +128,6 @@ if args.target == "all" or args.target == "launcher":
 
 if args.target == "all" or args.target == "dapp":
     os.chdir(DAPPS_DIR_PATH)
-    copy_tree("Url", BUILD_IN_DIR_PATH)
     dirs = os.listdir(IONIC_DIR_PATH)
     for dir in dirs:
         dapp_dir = os.path.join(IONIC_DIR_PATH, dir)

@@ -19,6 +19,9 @@
             "getAppInfos",
             "getAppList",
             "getAppInfo",
+            "setPreference",
+            "resetPreferences",
+            "broadcastMessage",
             "unInstall"
         ],
         "$user": {}

@@ -91,7 +91,6 @@ public class TitleBarPlugin extends TrinityPlugin {
 
     private void hideActivityIndicator(JSONArray args, CallbackContext callbackContext) throws Exception {
         int activityIndicatoryType = args.getInt(0);
-
         cordova.getActivity().runOnUiThread(() -> {
             getTitleBar().hideActivityIndicator(TitleBar.TitleBarActivityType.fromId(activityIndicatoryType));
         });

@@ -29,16 +29,20 @@ class TitleBarPlugin : TrinityPlugin {
     
     @objc func showActivityIndicator(_ command: CDVInvokedUrlCommand) {
         let activityIndicatoryType = command.arguments[0] as! Int
-        
-        getTitleBar().showActivityIndicator(activityType: TitleBarActivityType.init(rawValue: activityIndicatoryType) ?? .OTHER)
+                
+        DispatchQueue.main.async {
+            self.getTitleBar().showActivityIndicator(activityType: TitleBarActivityType.init(rawValue: activityIndicatoryType) ?? .OTHER)
+        }
         
         self.success(command)
     }
     
     @objc func hideActivityIndicator(_ command: CDVInvokedUrlCommand) {
         let activityIndicatoryType = command.arguments[0] as! Int
-        
-        getTitleBar().hideActivityIndicator(activityType: TitleBarActivityType.init(rawValue: activityIndicatoryType) ?? .OTHER)
+                
+        DispatchQueue.main.async {
+            self.getTitleBar().hideActivityIndicator(activityType: TitleBarActivityType.init(rawValue: activityIndicatoryType) ?? .OTHER)
+        }
         
         self.success(command)
     }

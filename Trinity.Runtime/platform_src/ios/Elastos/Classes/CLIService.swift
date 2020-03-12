@@ -149,6 +149,9 @@ public class CLIService: NSObject, NetServiceBrowserDelegate, NetServiceDelegate
                         // Copy EPK file to a temp location as it's going to be deleted after download by the session.
                         let destTempUrl = FileManager.default.temporaryFileURL(fileName: "appinstall.epk")!
                         do {
+                            // Delete the target file in case it already exists
+                            try? FileManager.default.removeItem(at: destTempUrl)
+                            // Copy the downloaded file to a file that won't be deleted by the network session
                             try FileManager.default.copyItem(at: tempLocalUrl, to: destTempUrl)
                             
                             completion(destTempUrl.absoluteString)

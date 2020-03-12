@@ -211,7 +211,7 @@ class TitleBarView: UIView {
 
     public func hideActivityIndicator(activityType: TitleBarActivityType) {
         // Decrease reference count for this progress animation type
-        activityCounters[activityType] = (activityCounters[activityType] ?? 0) - 1
+        activityCounters[activityType] = max(0, (activityCounters[activityType] ?? 0) - 1)
         updateAnimation()
     }
 
@@ -363,7 +363,7 @@ class TitleBarView: UIView {
     private var onGoingProgressAnimation: UIViewPropertyAnimator?
     
     private func animateProgressBarIn() {
-        onGoingProgressAnimation = UIViewPropertyAnimator(duration: 1.0, curve: .easeOut, animations: {
+        onGoingProgressAnimation = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut, animations: {
                 self.progressBar.alpha = 1.0
         })
         

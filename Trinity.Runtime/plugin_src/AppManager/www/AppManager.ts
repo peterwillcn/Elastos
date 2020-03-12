@@ -202,9 +202,11 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
     }
 
     getSetting(key: string, onSuccess: (value: any) => void, onError?: (err: string) => void) {
-        function _onSuccess(value) {
-            value = JSON.parse(value);
+        function _onSuccess(value: any) {
             if (onSuccess) {
+                if (typeof (value) == "string") {
+                    value = JSON.parse(value);
+                }
                 onSuccess(value);
             }
         };
@@ -212,9 +214,16 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
     }
 
     getSettings(onSuccess: (values: any) => void, onError?: (err: string) => void) {
-        function _onSuccess(values) {
-            values = JSON.parse(values);
+        function _onSuccess(values: any) {
             if (onSuccess) {
+                if (typeof (values) == "string") {
+                    values = JSON.parse(values);
+                }
+                for (var index in values) {
+                    if (typeof (values[index]) == "string") {
+                      values[index] = JSON.parse(values[index]);
+                    }
+                }
                 onSuccess(values);
             }
         };
@@ -230,9 +239,11 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
     }
 
     getPreference(key: string, onSuccess: (value: any) => void, onError?: (err: string) => void) {
-        function _onSuccess(value) {
-            value = JSON.parse(value)
+        function _onSuccess(value: any) {
             if (onSuccess) {
+                if (typeof (value) == "string") {
+                    value = JSON.parse(value);
+                }
                 onSuccess(value);
             }
         };
@@ -240,9 +251,16 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
     }
 
     getPreferences(onSuccess: (values: any) => void, onError?: (err: string) => void) {
-        function _onSuccess(values) {
-            values = JSON.parse(values);
+        function _onSuccess(values: any) {
             if (onSuccess) {
+                if (typeof (values) == "string") {
+                    values = JSON.parse(values);
+                }
+                for (var index in values) {
+                    if (typeof (values[index]) == "string") {
+                      values[index] = JSON.parse(values[index]);
+                    }
+                }
                 onSuccess(values);
             }
         };

@@ -1,7 +1,6 @@
 const path = require("path")
 const os = require("os")
 const fs = require("fs")
-const bonjour = require('bonjour')()
 require("colors")
 
 const DAppHelper = require("./dapp.helper")
@@ -202,6 +201,9 @@ module.exports = class RunHelper {
         return new Promise((resolve, reject)=>{
             var server;
             let port = 3000
+
+            // Start a bonjour service to be found by the ios device.
+            const bonjour = require('bonjour')()
 
             // Run a temporary http server
             var express = require('express')

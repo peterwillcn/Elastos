@@ -127,11 +127,12 @@ async function deployAndroidDApp(noDebug, forProd) {
         return
     }
 
+    //let outputEPKPath = "/var/folders/d2/nw213ddn1c7g6_zcp5940ckw0000gn/T/temp.epk"
     runSharedDeploymentPhase(noDebug, forProd).then((outputEPKPath)=>{
         runHelper.androidUploadEPK(outputEPKPath).then(()=>{
             runHelper.androidInstallTempEPK().then(()=>{
                 console.log("RUN OPERATION COMPLETED".green)
-    
+
                 if (!noDebug) {
                     console.log("NOW RUNNING THE APP FOR DEVELOPMENT".green)
                     console.log("Please wait until the ionic server is started before launching your DApp on your device.".magenta)
@@ -185,6 +186,10 @@ async function deployiOSDApp(noDebug, forProd) {
                 console.log("NOW RUNNING THE APP FOR DEVELOPMENT".green)
                 console.log("Please wait until the ionic server is started before launching your DApp on your device.".magenta)
                 ionicHelper.runIonicServe()
+            }
+            else {
+                // Manually exit to force close bonjour and express...
+                process.exit(0)
             }
         })
         .catch((err)=>{

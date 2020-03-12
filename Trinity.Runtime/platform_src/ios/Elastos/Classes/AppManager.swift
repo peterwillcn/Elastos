@@ -154,8 +154,6 @@ class AppManager: NSObject {
         if (PreferenceManager.getShareInstance().getDeveloperMode()) {
             CLIService.getShareInstance().start();
         }
-        PreferenceManager.getShareInstance().setDeveloperMode(false);
-//        PreferenceManager.getShareInstance().setDeveloperMode(true);
     }
 
     @objc static func getShareInstance() -> AppManager {

@@ -1,5 +1,5 @@
 {
-  "name": "DappStore",
+  "name": "template-app",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
@@ -32,7 +32,7 @@
     "node-gyp": "6.0.0",
     "@types/node": "^8.9.5",
     "cordova-plugin-file": "^6.0.2",
-    "@elastosfoundation/trinity-types": "~1.1.42"
+    "@elastosfoundation/trinity-types": "~1.1.53"
   },
   "devDependencies": {
     "@angular-devkit/architect": "~0.803.9",

@@ -6,7 +6,6 @@ import { ContactPage } from './pages/contact/contact';
 import { HomePage } from './pages/home/home';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'tab1Root', pathMatch: 'full' },
   { path: 'tab1Root', component: HomePage },
   { path: 'tab2Root', component: AboutPage },
   { path: 'tab3Root', component: ContactPage }

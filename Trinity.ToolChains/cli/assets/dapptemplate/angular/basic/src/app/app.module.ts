@@ -6,7 +6,6 @@ import { IonicModule, IonicRouteStrategy, Platform } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 
 import { MyApp } from './app.component';
-import { ComponentsModule } from './components/components.module';
 
 import { AboutPage } from './pages/about/about';
 import { ContactPage } from './pages/contact/contact';
@@ -28,7 +27,6 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
     CommonModule,
     BrowserModule,
     AppRoutingModule,
-    ComponentsModule,
     IonicModule.forRoot()
   ],
   bootstrap: [MyApp],

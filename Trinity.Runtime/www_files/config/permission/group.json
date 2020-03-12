@@ -2,24 +2,8 @@
     "admin": {
         "*":[]
     },
-    "installer": {
-        "AppManager": [
-            "install",
-            "unInstall"
-        ],
-        "$user": {}
-    },
     "wallet": {
         "Wallet": ["*"],
-        "$user": {}
-    },
-    "dappstore": {
-        "AppManager": [
-            "getAppInfos",
-            "getAppList",
-            "getAppInfo",
-            "unInstall"
-        ],
         "$user": {}
     },
     "friends": {

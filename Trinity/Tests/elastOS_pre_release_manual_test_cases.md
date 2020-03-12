@@ -6,6 +6,7 @@
 | Create a new DID | High |
 | Import an existing (published) DID | High |
 | Publish an unpublished DID | High |
+| Sign data (from the DID Demo) | High |
 
 ## Wallet App
 
@@ -32,3 +33,10 @@
 | ---- | -------- |
 | Try to install an app with no verifiable DID signature | Medium |
 | Sign in from a website with an altered JWT token | Medium |
+
+## Robustness
+
+| Test | Priority |
+| ---- | -------- |
+| Launch quickly saveral favorite apps from the home screen | Medium |
+| Start an app and quickly exit it several times | Medium |

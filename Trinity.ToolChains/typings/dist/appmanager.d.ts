@@ -238,7 +238,7 @@ declare namespace AppManagerPlugin {
         /** The target app package id, in case the intent should be sent to a specific app instead of being brodcast. */
         appId?: string
     }
-    
+
     /**
      * The class representing dapp manager for launcher.
      */
@@ -349,6 +349,15 @@ declare namespace AppManagerPlugin {
          * @param onError    The function to call when error, the param is a String. Or set to null.
          */
         sendMessage(id: string, type: MessageType, msg: string, onSuccess:()=>void, onError?:(err: string)=>void);
+
+        /**
+         * Broadcast a specific message to all running apps.
+         *
+         * @param type       The message type.
+         * @param message    The message it self. Can be a simple string, JSON encoded string, etc.
+         * @param onSuccess  The function to call when success.
+         */
+        broadcastMessage(type: MessageType, message: string, onSuccess: () => void);
 
         /**
          * Set listener for message callback.
@@ -490,5 +499,75 @@ declare namespace AppManagerPlugin {
          * @param onError    The function to call when error, the param is a String. Or set to null.
          */
         getVersion(onSuccess: (version: string) => void, onError?: (err: string) => void);
+
+        /**
+         * Get an application specific setting from the application sandboxed storage.
+         * In case no value was set earlier, onError() is called.
+         *
+         * @param key        Unique key identifying the setting data.
+         * @param onSuccess  Callback returning the related value.
+         * @param onError    Callback called in case of error.
+         */
+        getSetting(key: string, onSuccess: (value: any) => void, onError?: (err: string) => void);
+
+        /**
+         * Get all application settings from the application sandboxed storage.
+         *
+         * @param onSuccess  Callback returning the related value.
+         * @param onError    Callback called in case of error.
+         */
+        getSettings(onSuccess: (values: any) => void, onError?: (err: string) => void);
+
+        /**
+         * Stores an application specific setting in the application sandboxed storage. Other applications cannot
+         * access this.
+         *
+         * @param key        Unique key identifying the setting data.
+         * @param value      The data to be stored. Max size is 2Kb. Passing null deletes the information from settings.
+         * @param onSuccess  Callback called in case the setting could be written.
+         * @param onError    Callback called in case of error.
+         */
+        setSetting(key: string, value: any, onSuccess?: () => void, onError?: (err: string) => void);
+
+        /**
+         * Get a specific system preference. System preferences are accessible from everywhere.
+         * In case no value was set earlier, onError() is called.
+         *
+         * @param key        Unique key identifying the preference data.
+         * @param onSuccess  Callback returning the related value.
+         * @param onError    Callback called in case of error.
+         */
+        getPreference(key: string, onSuccess: (value: any) => void, onError?: (err: string) => void);
+
+        /**
+         * Get all system preferences.
+         *
+         * @param onSuccess  Callback returning the preferences.
+         * @param onError    Callback called in case of error.
+         */
+        getPreferences(onSuccess: (values: any) => void, onError?: (err: string) => void);
+
+        /**
+         * Set specific system preference. 
+         * 
+         * After setting a system preference, the runtime broadcasts a message to all running apps.
+         * The message's format is: 
+         *      type = MessageType.IN_REFRESH 
+         *      message = {action: 'preferenceChanged', 'key': theNewValue}
+         *
+         * @param key        Unique key identifying the preference data.
+         * @param value      The data to be stored. If null is passed, the preference is restored to system default value.
+         * @param onSuccess  Callback called in case the setting could be written.
+         * @param onError    Callback called in case of error.
+         */
+        setPreference(key: string, value: any, onSuccess?: () => void, onError?: (err: string) => void);
+
+        /**
+         * Resets all system preferences to default values.
+         *
+         * @param onSuccess  Callback called in case of success.
+         * @param onError    Callback called in case of error.
+         */
+        resetPreferences(onSuccess?: () => void, onError?: (err: string) => void);
     }
 }

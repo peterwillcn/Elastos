@@ -132,6 +132,30 @@ public class AppBasePlugin extends TrinityPlugin {
                 case "setVisible":
                     this.setVisible(args, callbackContext);
                     break;
+                case "getSetting":
+                    this.getSetting(args, callbackContext);
+                    break;
+                case "getSettings":
+                    this.getSettings(args, callbackContext);
+                    break;
+                case "setSetting":
+                    this.setSetting(args, callbackContext);
+                    break;
+                case "getPreference":
+                    this.getPreference(args, callbackContext);
+                    break;
+                case "getPreferences":
+                    this.getPreferences(args, callbackContext);
+                    break;
+                case "setPreference":
+                    this.setPreference(args, callbackContext);
+                    break;
+                case "resetPreferences":
+                    this.resetPreferences(args, callbackContext);
+                    break;
+                case "broadcastMessage":
+                    this.broadcastMessage(args, callbackContext);
+                    break;
                 default:
                     return false;
             }
@@ -345,14 +369,20 @@ public class AppBasePlugin extends TrinityPlugin {
         }
     }
 
-    protected void getLocale(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    protected void getLocale(JSONArray args, CallbackContext callbackContext) throws Exception {
         JSONObject ret = new JSONObject();
         AppInfo info = appManager.getAppInfo(this.appId);
         ret.put("defaultLang", info.default_locale);
-        ret.put("currentLang", appManager.getCurrentLocale());
+        ret.put("currentLang", PreferenceManager.getShareInstance().getCurrentLocale());
         ret.put("systemLang", Locale.getDefault().getLanguage());
 
         callbackContext.success(ret);
+    }
+
+    protected void setCurrentLocale(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String code = args.getString(0);
+        PreferenceManager.getShareInstance().setCurrentLocale(code);
+        callbackContext.success("ok");
     }
 
     protected void sendMessage(JSONArray args, CallbackContext callbackContext) throws Exception {
@@ -584,11 +614,6 @@ public class AppBasePlugin extends TrinityPlugin {
     }
 
     //---------------- for AppManager --------------------------------------------------------------
-    private void setCurrentLocale(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        String code = args.getString(0);
-        appManager.setCurrentLocale(code);
-        callbackContext.success("ok");
-    }
 
     protected void install(JSONArray args, CallbackContext callbackContext) throws Exception {
         String url = args.getString(0);
@@ -725,4 +750,73 @@ public class AppBasePlugin extends TrinityPlugin {
     protected void askPrompt(JSONArray args, CallbackContext callbackContext) throws Exception {
         alertDialog(args, android.R.drawable.ic_dialog_info, callbackContext);
     }
+
+    protected void getSetting(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String key = args.getString(0);
+
+        String value = AppManager.getShareInstance().getDBAdapter().getSetting(this.appId, key);
+        if (value != null) {
+            callbackContext.success(value);
+        }
+        else {
+            callbackContext.error( "'" + key + "' isn't exist value.");
+        }
+    }
+
+    protected void getSettings(JSONArray args, CallbackContext callbackContext) throws Exception {
+        JSONObject ret = AppManager.getShareInstance().getDBAdapter().getSettings(this.appId);
+        callbackContext.success(ret);
+    }
+
+
+    protected void setSetting(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String key = args.getString(0);
+        String value = args.getString(1);
+        if (value.equals("null")) {
+            value = null;
+        }
+        AppManager.getShareInstance().getDBAdapter().setSetting(this.appId, key, value);
+        callbackContext.success("ok");
+    }
+
+    protected void getPreference(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String key = args.getString(0);
+
+        String value = PreferenceManager.getShareInstance().getPreference(key);
+        if (value != null) {
+            callbackContext.success(value);
+        }
+        else {
+            callbackContext.error( "'" + key + "' isn't exist value.");
+        }
+    }
+
+    protected void getPreferences(JSONArray args, CallbackContext callbackContext) throws Exception {
+        JSONObject ret = PreferenceManager.getShareInstance().getPreferences();
+        callbackContext.success(ret);
+    }
+
+
+    protected void setPreference(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String key = args.getString(0);
+        String value = args.getString(1);
+        if (value.equals("null")) {
+            value = null;
+        }
+        PreferenceManager.getShareInstance().setPreference(key, value);
+        callbackContext.success("ok");
+    }
+
+    protected void resetPreferences(JSONArray args, CallbackContext callbackContext) throws Exception {
+        AppManager.getShareInstance().getDBAdapter().resetPreferences();
+        callbackContext.success("ok");
+    }
+
+    protected void broadcastMessage(JSONArray args, CallbackContext callbackContext) throws Exception {
+        Integer type = args.getInt(0);
+        String msg = args.getString(1);
+        AppManager.getShareInstance().broadcastMessage(type, msg, this.appId);
+        callbackContext.success("ok");
+    }
+
 }

@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 
+//For publish config
 public class ConfigManager {
     private static ConfigManager configManager;
 
@@ -18,7 +19,7 @@ public class ConfigManager {
         this.context = AppManager.getShareInstance().activity;
 
         try {
-            parsePreferences();
+            parseConfig();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -32,9 +33,9 @@ public class ConfigManager {
         return ConfigManager.configManager;
     }
 
-    public void parsePreferences() throws Exception {
+    public void parseConfig() throws Exception {
         AssetManager manager = context.getAssets();
-        InputStream inputStream = manager.open("www/config/preferences.json");
+        InputStream inputStream = manager.open("www/config/config.json");
 
         configPreferences = Utility.getJsonFromFile(inputStream);
     }

@@ -22,6 +22,7 @@
 
 import Foundation
 
+ //For publish config
 @objc(ConfigManager)
 class ConfigManager: NSObject {
     private static var configManager: ConfigManager?;
@@ -30,7 +31,7 @@ class ConfigManager: NSObject {
     override init() {
         super.init();
         ConfigManager.configManager = self;
-        parsePreferences();
+        parseConfig();
     }
 
     @objc static func getShareInstance() -> ConfigManager {
@@ -40,13 +41,13 @@ class ConfigManager: NSObject {
         return ConfigManager.configManager!;
     }
     
-    @objc func parsePreferences() {
+    @objc func parseConfig() {
         do {
-            let path = getAbsolutePath("www/config/preferences.json");
+            let path = getAbsolutePath("www/config/config.json");
             configPreferences = try getJsonFromFile(path);
         }
         catch let error {
-            print("Parse preferences.json error: \(error)");
+            print("Parse config.json error: \(error)");
         }
         
     }

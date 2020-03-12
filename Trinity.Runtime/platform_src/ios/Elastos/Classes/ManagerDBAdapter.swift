@@ -35,6 +35,10 @@ import SQLite
     @objc static let FRAMEWORK_TABLE = "framework";
     @objc static let PLATFORM_TABLE = "platform";
     @objc static let INTENT_FILTER_TABLE = "intent_filter";
+    //For dapp setting
+    @objc static let SETTING_TABLE = "setting";
+    //For system preference
+    @objc static let PREFERENCE_TABLE = "preference";
     @objc static let APP_TABLE = "app";
 
     let db: Connection;
@@ -75,6 +79,9 @@ import SQLite
     let language = Expression<String>(AppInfo.LANGUAGE)
 
     let action = Expression<String>(AppInfo.ACTION)
+    
+    let key = Expression<String>("key")
+    let value = Expression<String>("value")
 
     let plugins = Table(ManagerDBAdapter.AUTH_PLUGIN_TABLE)
     let urls = Table(ManagerDBAdapter.AUTH_URL_TABLE)
@@ -84,6 +91,8 @@ import SQLite
     let frameworks = Table(ManagerDBAdapter.FRAMEWORK_TABLE)
     let platforms = Table(ManagerDBAdapter.PLATFORM_TABLE)
     let intent_filters = Table(ManagerDBAdapter.INTENT_FILTER_TABLE)
+    let setting = Table(ManagerDBAdapter.SETTING_TABLE)
+    let preference = Table(ManagerDBAdapter.PREFERENCE_TABLE)
     let apps = Table(ManagerDBAdapter.APP_TABLE)
 
     init(_ dataPath: String) {
@@ -152,6 +161,19 @@ import SQLite
             t.column(action)
         })
 
+        try db.run(setting.create(ifNotExists: true) { t in
+            t.column(tid, primaryKey: .autoincrement)
+            t.column(app_id)
+            t.column(key)
+            t.column(value)
+        })
+        
+        try db.run(preference.create(ifNotExists: true) { t in
+            t.column(tid, primaryKey: .autoincrement)
+            t.column(key)
+            t.column(value)
+        })
+        
         try db.run(apps.create(ifNotExists: true) { t in
             t.column(tid, primaryKey: .autoincrement)
             t.column(app_id, unique: true)
@@ -188,6 +210,8 @@ import SQLite
         try db.run(frameworks.drop());
         try db.run(platforms.drop());
         try db.run(intent_filters.drop());
+        try db.run(setting.drop());
+        try db.run(preference.drop());
         try db.run(apps.drop());
     }
 
@@ -403,6 +427,8 @@ import SQLite
         try db.run(items.delete());
         items = intent_filters.filter(app_id == info.app_id);
         try db.run(items.delete());
+        items = setting.filter(app_id == info.app_id);
+        try db.run(items.delete());
         items = apps.filter(tid == info.tid);
         try db.run(items.delete());
     }
@@ -416,6 +442,98 @@ import SQLite
             ids.append(intent[app_id]);
         }
         return ids;
+    }
+    
+    func setSetting(_ id: String, _ k: String, _ v: String?) throws {
+        let ret = try getSetting(id, k);
+        if (ret == nil) {
+            if (v != nil) {
+                try db.run(setting.insert(app_id <- id,
+                                          key <- k,
+                                          value<-v!));
+            }
+        }
+        else {
+            let row = setting.filter(app_id == id && key == k);
+            try db.transaction {
+                if (v != nil) {
+                    try db.run(row.update(value <- v!));
+                }
+                else {
+                    try db.run(row.delete());
+                }
+            }
+        }
+    }
+    
+    func getSetting(_ id: String, _ k: String) throws -> String? {
+        let query = setting.select(*)
+            .filter(app_id == id && key == k)
+        let rows = try db.prepare(query);
+        for row in rows {
+            return row[value];
+        }
+        
+        return nil;
+    }
+    
+    func getSettings(_ id: String) throws -> [String: String] {
+        let query = setting.select(*)
+            .filter(app_id == id)
+        let rows = try db.prepare(query);
+        var ret = [String: String]();
+        for row in rows {
+            ret[row[key]] = row[value];
+        }
+        
+        return ret;
+    }
+    
+    func setPreference(_ k: String, _ v: String?) throws {
+        let ret = try getPreference(k);
+        if (ret == nil) {
+            if (v != nil) {
+                try db.run(preference.insert(key <- k,
+                                          value<-v!));
+            }
+        }
+        else {
+            let row = preference.filter(key == k);
+            try db.transaction {
+                if (v != nil) {
+                    try db.run(row.update(value <- v!));
+                }
+                else {
+                    try db.run(row.delete());
+                }
+            }
+        }
+    }
+    
+    func resetPreferences() throws {
+        try db.run(preference.delete());
+    }
+    
+    func getPreference(_ k: String) throws -> String? {
+        let query = preference.select(*)
+            .filter(key == k)
+        let rows = try db.prepare(query);
+        for row in rows {
+            return row[value];
+        }
+        
+        return nil;
+    }
+    
+    func getPreferences() throws -> [String: String] {
+        let query = preference.select(*)
+        let rows = try db.prepare(query);
+        var ret = [String: String]();
+        for row in rows {
+            ret[row[key]] = row[value];
+        }
+        
+        return ret;
     }
 
     func clean() throws {

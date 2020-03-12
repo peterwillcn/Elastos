@@ -9,17 +9,37 @@ import Foundation
 import MultipeerConnectivity
 
 public class CLIService: NSObject, NetServiceBrowserDelegate, NetServiceDelegate {
+    private static var cliService: CLIService?;
     var serviceBrowser: NetServiceBrowser?
     var services = [NetService]()
     var shouldRestartSearching = true
     var operationCompleted = false
-    var appManager: AppManager!
+    let appManager: AppManager!
+    var isStarted = false;
     
-    init(appManager: AppManager) {
+    override init() {
+        self.appManager = AppManager.getShareInstance();
         super.init()
-        
-        self.appManager = appManager
+    }
+    
+    static func getShareInstance() -> CLIService {
+        if (CLIService.cliService == nil) {
+            CLIService.cliService = CLIService();
+        }
+        return CLIService.cliService!;
+    }
+    
+    func start() {
+        if (isStarted) {
+            return;
+        }
+        isStarted = true;
         searchForServices()
+    }
+    
+    func stop() {
+        isStarted = false;
+        stopSearching(shouldRestart: false);
     }
     
     private func log(_ str: String) {
@@ -30,8 +50,10 @@ public class CLIService: NSObject, NetServiceBrowserDelegate, NetServiceDelegate
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5), execute: {
             self.log("Searching for local CLI service...")
             
-            self.serviceBrowser = NetServiceBrowser()
-            self.serviceBrowser!.delegate = self
+            if (self.serviceBrowser == nil) {
+                self.serviceBrowser = NetServiceBrowser()
+                self.serviceBrowser!.delegate = self
+            }
             
             self.shouldRestartSearching = true
             self.operationCompleted = false
@@ -45,7 +67,7 @@ public class CLIService: NSObject, NetServiceBrowserDelegate, NetServiceDelegate
     
     private func stopSearching(shouldRestart: Bool) {
         guard serviceBrowser != nil else {
-            return
+            return;
         }
         
         log("Stopping service search.")

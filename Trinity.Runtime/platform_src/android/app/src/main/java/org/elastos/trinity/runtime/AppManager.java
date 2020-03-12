@@ -103,7 +103,6 @@ public class AppManager {
     private ArrayList<Uri>          intentUriList = new ArrayList<Uri>();
     private PermissionManager permissionManager;
     private boolean launcherReady = false;
-    private String currentLocale = "en";
 
     final static String[] defaultPlugins = {
             "AppManager",
@@ -157,11 +156,20 @@ public class AppManager {
         saveBuiltInApps();
         refreashInfos();
         sendRefreshList("initiated", null);
+
+        if (PreferenceManager.getShareInstance().getDeveloperMode()) {
+//            CLIService.getShareInstance().start();
+        }
+        PreferenceManager.getShareInstance().setDeveloperMode(false);
     }
 
 
     public static AppManager getShareInstance() {
         return AppManager.appManager;
+    }
+
+    public ManagerDBAdapter getDBAdapter() {
+        return dbAdapter;
     }
 
     private InputStream getAssetsFile(String path) {
@@ -620,8 +628,7 @@ public class AppManager {
     }
 
     private void installUri(String uri, boolean dev) {
-        //TODO::Check the dev mode
-        if (dev) {
+        if (dev && PreferenceManager.getShareInstance().getDeveloperMode()) {
             try {
                 install(uri, true);
             }
@@ -684,7 +691,7 @@ public class AppManager {
     }
 
     private void sendInstallMsg(String uri) {
-        String msg = "{\"uri\":\"" + uri + "\"}";
+        String msg = "{\"uri\":\"" + uri + "\", \"dev\":\"false\"}";
         try {
             sendLauncherMessage(MSG_TYPE_EX_INSTALL, msg, "system");
         }
@@ -719,7 +726,7 @@ public class AppManager {
         }
     }
 
-    public void sendMessageToAll(int type, String msg, String fromId) {
+    public void broadcastMessage(int type, String msg, String fromId) {
         FragmentManager manager = activity.getSupportFragmentManager();
         List<Fragment> fragments = manager.getFragments();
 
@@ -729,16 +736,6 @@ public class AppManager {
                 fragment.basePlugin.onReceive(msg, type, fromId);
             }
         }
-    }
-
-    public void setCurrentLocale(String code) {
-        currentLocale = code;
-        sendMessageToAll(MSG_TYPE_IN_REFRESH,
-                "{\"action\":\"currentLocaleChanged\", \"code\":\"" + code + "\"}", LAUNCHER);
-    }
-
-    public String getCurrentLocale() {
-        return currentLocale;
     }
 
     public int getPluginAuthority(String id, String plugin) {

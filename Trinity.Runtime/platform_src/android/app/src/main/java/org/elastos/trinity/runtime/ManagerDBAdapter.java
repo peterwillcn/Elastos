@@ -27,7 +27,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-public class ManagerDBAdapter {
+import org.json.JSONObject;
+
+ public class ManagerDBAdapter {
     ManagerDBHelper helper;
     Context context;
     public ManagerDBAdapter(Context context)
@@ -326,11 +328,12 @@ public class ManagerDBAdapter {
         db.delete(ManagerDBHelper.LACALE_TABLE, where, whereArgs);
         db.delete(ManagerDBHelper.FRAMEWORK_TABLE, where, whereArgs);
         db.delete(ManagerDBHelper.PLATFORM_TABLE, where, whereArgs);
-        where = AppInfo.TID + "=?";
-        count = db.delete(ManagerDBHelper.APP_TABLE, where, whereArgs);
         where = AppInfo.APP_ID + "=?";
         String[] args = {info.app_id};
         db.delete(ManagerDBHelper.INTENT_FILTER_TABLE, where, args);
+        db.delete(ManagerDBHelper.SETTING_TABLE, where, args);
+        where = AppInfo.TID + "=?";
+        count = db.delete(ManagerDBHelper.APP_TABLE, where, whereArgs);
         return count;
     }
 
@@ -347,4 +350,122 @@ public class ManagerDBAdapter {
 
         return ids;
     }
+
+    public long setSetting(String id, String key, String value) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        long count = 0;
+
+        String ret = getSetting(id, key);
+        if (ret == null) {
+            if (value != null) {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(AppInfo.APP_ID, id);
+                contentValues.put(ManagerDBHelper.KEY, key);
+                contentValues.put(ManagerDBHelper.VALUE, value);
+                count = db.insert(ManagerDBHelper.SETTING_TABLE, null, contentValues);
+            }
+        }
+        else {
+            String where = AppInfo.APP_ID + "=? AND " + ManagerDBHelper.KEY + "=?";
+            String[] whereArgs = {id, key};
+            if (value != null) {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(ManagerDBHelper.VALUE, value);
+                count = db.update(ManagerDBHelper.SETTING_TABLE, contentValues, where, whereArgs );
+            }
+            else {
+                count = db.delete(ManagerDBHelper.SETTING_TABLE, where, whereArgs);
+            }
+        }
+        return count;
+    }
+
+    public String getSetting(String id, String key) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        String where = AppInfo.APP_ID + "=? AND " + ManagerDBHelper.KEY + "=?";
+        String[] whereArgs = {id, key};
+        String[] columns = {ManagerDBHelper.VALUE};
+        Cursor cursor = db.query(ManagerDBHelper.SETTING_TABLE, columns, where, whereArgs,null,null,null);
+        if (cursor.moveToNext()) {
+            return cursor.getString(cursor.getColumnIndex(ManagerDBHelper.VALUE));
+        }
+        else {
+            return null;
+        }
+    }
+
+    public JSONObject getSettings(String id) throws Exception {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        String where = AppInfo.APP_ID + "=?";
+        String[] whereArgs = {id};
+        String[] columns = {ManagerDBHelper.KEY, ManagerDBHelper.VALUE};
+        Cursor cursor = db.query(ManagerDBHelper.SETTING_TABLE, columns, where, whereArgs,null,null,null);
+        JSONObject ret = new JSONObject();
+        while (cursor.moveToNext()) {
+            String key = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.KEY));
+            String value = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.VALUE));
+            ret.put(key, value);
+        }
+        return ret;
+    }
+
+
+     public long setPreference(String key, String value) {
+         SQLiteDatabase db = helper.getWritableDatabase();
+         long count = 0;
+
+         String ret = getPreference(key);
+         if (ret == null) {
+             if (value != null) {
+                 ContentValues contentValues = new ContentValues();
+                 contentValues.put(ManagerDBHelper.KEY, key);
+                 contentValues.put(ManagerDBHelper.VALUE, value);
+                 count = db.insert(ManagerDBHelper.PREFERENCE_TABLE, null, contentValues);
+             }
+         }
+         else {
+             String where = ManagerDBHelper.KEY + "=?";
+             String[] whereArgs = {key};
+             if (value != null) {
+                 ContentValues contentValues = new ContentValues();
+                 contentValues.put(ManagerDBHelper.VALUE, value);
+                 count = db.update(ManagerDBHelper.PREFERENCE_TABLE, contentValues, where, whereArgs );
+             }
+             else {
+                 count = db.delete(ManagerDBHelper.PREFERENCE_TABLE, where, whereArgs);
+             }
+         }
+         return count;
+     }
+
+     public void resetPreferences() {
+         helper.getWritableDatabase().delete(ManagerDBHelper.PREFERENCE_TABLE, null, null);
+     }
+
+     public String getPreference(String key) {
+         SQLiteDatabase db = helper.getWritableDatabase();
+         String where = ManagerDBHelper.KEY + "=?";
+         String[] whereArgs = {key};
+         String[] columns = {ManagerDBHelper.VALUE};
+         Cursor cursor = db.query(ManagerDBHelper.PREFERENCE_TABLE, columns, where, whereArgs,null,null,null);
+         if (cursor.moveToNext()) {
+             return cursor.getString(cursor.getColumnIndex(ManagerDBHelper.VALUE));
+         }
+         else {
+             return null;
+         }
+     }
+
+     public JSONObject getPreferences() throws Exception {
+         SQLiteDatabase db = helper.getWritableDatabase();
+         String[] columns = {ManagerDBHelper.KEY, ManagerDBHelper.VALUE};
+         Cursor cursor = db.query(ManagerDBHelper.PREFERENCE_TABLE, columns, null, null,null,null,null);
+         JSONObject ret = new JSONObject();
+         while (cursor.moveToNext()) {
+             String key = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.KEY));
+             String value = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.VALUE));
+             ret.put(key, value);
+         }
+         return ret;
+     }
 }

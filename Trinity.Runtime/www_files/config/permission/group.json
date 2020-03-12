@@ -38,7 +38,12 @@
             "sendUrlIntent",
             "setIntentListener",
             "sendIntentResponse",
-            "hasPendingIntent"
+            "hasPendingIntent",
+            "getSetting",
+            "getSettings",
+            "setSetting",
+            "getPreference",
+            "getPreferences"
         ],
         "TitleBarPlugin": ["*"],
         "Accelerometer": ["*"],

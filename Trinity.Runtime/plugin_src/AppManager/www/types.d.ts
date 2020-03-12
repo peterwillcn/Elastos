@@ -238,7 +238,7 @@ declare namespace AppManagerPlugin {
         /** The target app package id, in case the intent should be sent to a specific app instead of being brodcast. */
         appId?: string
     }
-    
+
     /**
      * The class representing dapp manager for launcher.
      */
@@ -490,5 +490,77 @@ declare namespace AppManagerPlugin {
          * @param onError    The function to call when error, the param is a String. Or set to null.
          */
         getVersion(onSuccess: (version: string) => void, onError?: (err: string) => void);
+
+        /**
+         * Get application specific setting from application sandboxed storage.
+         *
+         * @param key        The app setting key.
+         * @param onSuccess  The function to call when success. The param is the value.
+         * @param onError    The function to call when error, the param is a String. Or set to null.
+         */
+        getSetting(key: string, onSuccess: (value: any) => void, onError?: (err: string) => void);
+
+        /**
+         * Get application all settings from application sandboxed storage.
+         *
+         * @param onSuccess  The function to call when success. The param is the value.
+         * @param onError    The function to call when error, the param is a String.
+         */
+        getSettings(onSuccess: (values: any) => void, onError?: (err: string) => void);
+
+        /**
+         * Stores application specific setting in application sandboxed storage..
+         *
+         * @param key        The app setting key.
+         * @param value      The app setting value, the size is 2K. If value = null, this key will be delete.
+         * @param onSuccess  The function to call when success. The param is the value.
+         * @param onError    The function to call when error, the param is a String. Or set to null.
+         */
+        setSetting(key: string, value: any, onSuccess: () => void, onError?: (err: string) => void);
+
+        /**
+         * Get specific system preference.
+         *
+         * @param key        The system preference key.
+         * @param onSuccess  The function to call when success. The param is the value.
+         * @param onError    The function to call when error, the param is a String. Or set to null.
+         */
+        getPreference(key: string, onSuccess: (value: any) => void, onError?: (err: string) => void);
+
+        /**
+         * Get all system preferences.
+         *
+         * @param onSuccess  The function to call when success. The param is the value.
+         * @param onError    The function to call when error, the param is a String. Or set to null.
+         */
+        getPreferences(onSuccess: (values: any) => void, onError?: (err: string) => void);
+
+        /**
+         * Set specific system preference. After set, system will broadcast a sessage to all running apps.
+         * The message's formate is: Type = MessageType.IN_REFRESH, message = {action: preferenceChanged, 'key': 'value'}.
+         *
+         * @param key        The system specific preference key.
+         * @param value      The system specific preference value.If value = null, this key will be set to default.
+         * @param onSuccess  The function to call when success. The param is the value.
+         * @param onError    The function to call when error, the param is a String. Or set to null.
+         */
+        setPreference(key: string, value: any, onSuccess: () => void, onError?: (err: string) => void);
+
+        /**
+         * Reset all system preferences to default.
+         *
+         * @param onSuccess  The function to call when success. The param is the value.
+         * @param onError    The function to call when error, the param is a String. Or set to null.
+         */
+        resetPreferences(onSuccess: () => void, onError?: (err: string) => void);
+
+        /**
+         * Broadcast a specific message to all running apps.
+         *
+         * @param type       The message type.
+         * @param message     The message.
+         * @param onSuccess  The function to call when success. The param is "ok".
+         */
+        broadcastMessage(type: number, message: string, onSuccess: () => void);
     }
 }

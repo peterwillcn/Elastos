@@ -134,12 +134,12 @@ func getAssetPath(_ url: String) -> String {
  enum AppError: Error {
     case error(String)
  }
- 
+
  func alertDialog(_ title: String, _ msg: String,
                   _ cancel: Bool  = false) {
 
      func doOKHandler(alerAction:UIAlertAction) {
-         
+
      }
 
      func doCancelHandler(alerAction:UIAlertAction) {
@@ -159,6 +159,19 @@ func getAssetPath(_ url: String) -> String {
 
     DispatchQueue.main.async { AppManager.getShareInstance().mainViewController.present(alertController, animated: true, completion: nil)
     }
+ }
+ 
+ func getCurrentLanguage() -> String {
+     let preferredLang = NSLocale.preferredLanguages.first!
+
+     switch preferredLang {
+     case "en-US", "en-CN":
+         return "en"
+     case "zh-Hans-US","zh-Hans-CN","zh-Hant-CN","zh-TW","zh-HK","zh-Hans":
+         return "zh"
+     default:
+         return "en"
+     }
  }
 
 //----------------------------------------------------------------------
@@ -206,6 +219,21 @@ func getAssetPath(_ url: String) -> String {
     func encodingQuery() -> String {
         return self.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
     }
+
+    func toBool() -> Bool {
+        if (self == "true") {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+ }
+ 
+ extension Bool {
+    func toString() -> String {
+        return self.description;
+    }
  }
 
  extension Dictionary {
@@ -251,15 +279,15 @@ func getAssetPath(_ url: String) -> String {
     /** Html-like #AARRGGBB or #RRGGBB formats */
     public convenience init?(hex: String) {
         let r, g, b, a: CGFloat
-        
+
         if hex.hasPrefix("#") {
             let start = hex.index(hex.startIndex, offsetBy: 1)
             let hexColor = String(hex[start...])
-            
+
             if hexColor.count == 8 || hexColor.count == 6 {
                 let scanner = Scanner(string: hexColor)
                 var hexNumber: UInt64 = 0
-                
+
                 if scanner.scanHexInt64(&hexNumber) {
                     if hexColor.count == 8 {
                         a = CGFloat((hexNumber & 0xff000000) >> 24) / 255
@@ -270,13 +298,13 @@ func getAssetPath(_ url: String) -> String {
                     r = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
                     g = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
                     b = CGFloat(hexNumber & 0x000000ff) / 255
-                    
+
                     self.init(red: r, green: g, blue: b, alpha: a)
                     return
                 }
             }
         }
-        
+
         print("Failed to initialize color from HEX code \(hex)")
         return nil
     }
@@ -289,10 +317,10 @@ func getAssetPath(_ url: String) -> String {
         let name = NSStringFromClass(className).components(separatedBy: ".").last
         let nib = UINib(nibName: name!, bundle: bundle)
         let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
-        
+
         return view
     }
-    
+
     public func addMatchChildConstraints(child: UIView) {
         self.addConstraint(NSLayoutConstraint(item: child, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0.0))
         self.addConstraint(NSLayoutConstraint(item: child, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0.0))
@@ -302,7 +330,7 @@ func getAssetPath(_ url: String) -> String {
     }
  }
 
- 
+
  extension UIImage {
     // grayscale effect on an image. NOTE: modifies the original image data
     var noir: UIImage? {
@@ -316,15 +344,15 @@ func getAssetPath(_ url: String) -> String {
         return nil
     }
  }
- 
+
  // Add closure usage to gesture recognizers
  extension UIGestureRecognizer {
     typealias Action = ((UIGestureRecognizer) -> ())
-    
+
     private struct Keys {
         static var actionKey = "ActionKey"
     }
-    
+
     private var block: Action? {
         set {
             if let newValue = newValue {
@@ -332,17 +360,17 @@ func getAssetPath(_ url: String) -> String {
                 objc_setAssociatedObject(self, &Keys.actionKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
             }
         }
-        
+
         get {
             let action = objc_getAssociatedObject(self, &Keys.actionKey) as? Action
             return action
         }
     }
-    
+
     @objc func handleAction(recognizer: UIGestureRecognizer) {
         block?(recognizer)
     }
-    
+
     convenience public  init(block: @escaping ((UIGestureRecognizer) -> ())) {
         self.init()
         self.block = block

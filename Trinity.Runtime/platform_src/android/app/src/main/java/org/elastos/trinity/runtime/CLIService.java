@@ -21,18 +21,42 @@ public class CLIService implements NsdManager.DiscoveryListener, NsdManager.Reso
     private static final String TAG = "CLIService";
     private static final String SERVICE_TYPE = "_trinitycli._tcp.";
 
+    private static CLIService cliService = null;
     private Context context;
     private AppManager appManager;
     private NsdManager nsdManager;
     private Boolean shouldRestartSearching = true;
     private Boolean operationCompleted = false;
+    private Boolean isStarted = false;
 
-    CLIService(AppManager appManager, Context context) {
-        this.context = context;
-        this.appManager = appManager;
+    CLIService() {
+        this.appManager = AppManager.getShareInstance();
+        this.context = appManager.activity;
+
         nsdManager = (NsdManager)context.getSystemService(Context.NSD_SERVICE);
+    }
 
-        searchForServices();
+
+    static CLIService getShareInstance() {
+        if (CLIService.cliService == null) {
+            CLIService.cliService = new CLIService();
+        }
+        return CLIService.cliService;
+    }
+
+    public void start() {
+        if (isStarted) {
+            return;
+        }
+        isStarted = true;
+        //TODO::
+//        searchForServices();
+    }
+
+    public void  stop() {
+        isStarted = false;
+        //TODO::
+//        stopSearching(false);
     }
 
     private void searchForServices() {

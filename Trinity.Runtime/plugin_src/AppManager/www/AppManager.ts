@@ -145,9 +145,11 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
         };
         exec(_onSuccess, onError, 'AppManager', 'sendIntent', [action, str, options]);
     }
+
     sendUrlIntent(url: string, onSuccess: () => void, onError: (err: any) => void) {
         exec(onSuccess, onError, 'AppManager', 'sendUrlIntent', [url]);
     }
+
     setIntentListener(callback: (msg: AppManagerPlugin.ReceivedIntent) => void) {
         function _onReceiveIntent(ret) {
             if (typeof (ret.params) == "string") {
@@ -197,6 +199,69 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
 
     getVersion(onSuccess: (version: string) => void, onError?: (err: string) => void) {
         exec(onSuccess, onError, 'AppManager', 'getVersion', []);
+    }
+
+    getSetting(key: string, onSuccess: (value: any) => void, onError?: (err: string) => void) {
+        function _onSuccess(value) {
+            value = JSON.parse(value);
+            if (onSuccess) {
+                onSuccess(value);
+            }
+        };
+        exec(_onSuccess, onError, 'AppManager', 'getSetting', [key]);
+    }
+
+    getSettings(onSuccess: (values: any) => void, onError?: (err: string) => void) {
+        function _onSuccess(values) {
+            values = JSON.parse(values);
+            if (onSuccess) {
+                onSuccess(values);
+            }
+        };
+        exec(_onSuccess, onError, 'AppManager', 'getSettings', []);
+    }
+
+
+    setSetting(key: string, value: any, onSuccess: () => void, onError?: (err: string) => void) {
+        if (value != null && typeof (value) != "string") {
+            value = JSON.stringify(value)
+        }
+        exec(onSuccess, onError, 'AppManager', 'setSetting', [key, value]);
+    }
+
+    getPreference(key: string, onSuccess: (value: any) => void, onError?: (err: string) => void) {
+        function _onSuccess(value) {
+            value = JSON.parse(value)
+            if (onSuccess) {
+                onSuccess(value);
+            }
+        };
+        exec(_onSuccess, onError, 'AppManager', 'getPreference', [key]);
+    }
+
+    getPreferences(onSuccess: (values: any) => void, onError?: (err: string) => void) {
+        function _onSuccess(values) {
+            values = JSON.parse(values);
+            if (onSuccess) {
+                onSuccess(values);
+            }
+        };
+        exec(_onSuccess, onError, 'AppManager', 'getPreferences', []);
+    }
+
+    setPreference(key: string, value: any, onSuccess: () => void, onError?: (err: string) => void) {
+        if (value != null && typeof (value) != "string") {
+            value = JSON.stringify(value)
+        }
+        exec(onSuccess, onError, 'AppManager', 'setPreference', [key, value]);
+    }
+
+    resetPreferences(onSuccess: () => void, onError?: (err: string) => void) {
+        exec(onSuccess, onError, 'AppManager', 'resetPreferences', []);
+    }
+
+    broadcastMessage(type: number, message: string, onSuccess: () => void) {
+        exec(onSuccess, null, 'AppManager', 'broadcastMessage', [type, message]);
     }
 }
 

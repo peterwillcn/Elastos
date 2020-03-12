@@ -47,7 +47,6 @@ import Foundation
 @objc(MainViewController)
 class MainViewController: UIViewController {
     var appManager: AppManager? = nil;
-    var cliService: CLIService? = nil
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -60,9 +59,6 @@ class MainViewController: UIViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         appManager = AppManager(self);
-        
-        // Launch the background CLI service for development
-        cliService = CLIService(appManager: appManager!)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -72,7 +68,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
+
     // Called for elastos:// link types
     @objc func openURL(_ url: URL) -> Bool {
         // Handler for elastos://action?params urls.
@@ -83,7 +79,7 @@ class MainViewController: UIViewController {
 
         let urlString = url.absoluteString.lowercased();
         let isElastosDomain = (urlString.hasPrefix("https://scheme.elastos.org") || urlString.hasPrefix("http://scheme.elastos.org"))
-        
+
         if scheme!.localizedCaseInsensitiveCompare("elastos") == .orderedSame || isElastosDomain {
             appManager!.setIntentUri(url);
             return true

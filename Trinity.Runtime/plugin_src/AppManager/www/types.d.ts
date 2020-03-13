@@ -505,7 +505,7 @@ declare namespace AppManagerPlugin {
          * In case no value was set earlier, onError() is called.
          *
          * @param key        Unique key identifying the setting data.
-         * @param onSuccess  Callback returning the {key: theKeyValue, value: theNewValue}.
+         * @param onSuccess  Callback returning the {key: theKeyValue, value: theRelatedValue}.
          * @param onError    Callback called in case of error.
          */
         getSetting(key: string, onSuccess: (value: any) => void, onError?: (err: string) => void);
@@ -534,7 +534,7 @@ declare namespace AppManagerPlugin {
          * In case no value was set earlier, onError() is called.
          *
          * @param key        Unique key identifying the preference data.
-         * @param onSuccess  Callback returning the  {key: theKeyValue, value: theNewValue}.
+         * @param onSuccess  Callback returning the  {key: theKeyValue, value: theRelatedValue}.
          * @param onError    Callback called in case of error.
          */
         getPreference(key: string, onSuccess: (value: any) => void, onError?: (err: string) => void);

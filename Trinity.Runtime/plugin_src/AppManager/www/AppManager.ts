@@ -106,6 +106,11 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
     sendMessage(id: string, type: AppManagerPlugin.MessageType, msg: string, onSuccess: () => void, onError?: (err: string) => void) {
         exec(onSuccess, onError, 'AppManager', 'sendMessage', [id, type, msg]);
     }
+
+    broadcastMessage(type: AppManagerPlugin.MessageType, message: string, onSuccess?: () => void) {
+        exec(onSuccess, null, 'AppManager', 'broadcastMessage', [type, message]);
+    }
+
     setListener(callback: (msg: AppManagerPlugin.ReceivedMessage) => void) {
         exec(callback, null, 'AppManager', 'setListener');
     }
@@ -276,10 +281,6 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
 
     resetPreferences(onSuccess: () => void, onError?: (err: string) => void) {
         exec(onSuccess, onError, 'AppManager', 'resetPreferences', []);
-    }
-
-    broadcastMessage(type: number, message: string, onSuccess: () => void) {
-        exec(onSuccess, null, 'AppManager', 'broadcastMessage', [type, message]);
     }
 }
 

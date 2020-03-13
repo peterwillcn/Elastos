@@ -25,7 +25,7 @@ import Foundation
 //For system preference
 class PreferenceManager {
     private static var preferenceManager: PreferenceManager?;
-    private var defaultPreferences = [String: String]();
+    private var defaultPreferences = [String: Any]();
     let dbAdapter: ManagerDBAdapter;
 
     init() {
@@ -44,13 +44,7 @@ class PreferenceManager {
     func parsePreferences() {
         do {
             let path = getAbsolutePath("www/config/preferences.json");
-            let dict = try getJsonFromFile(path);
-            for (key, value) in dict {
-                defaultPreferences[key] = anyToString(value);
-                if (defaultPreferences[key] == nil) {
-                    print("Parse preferences.json error: \(key)'s value Type can't resolve");
-                }
-            }
+            defaultPreferences = try getJsonFromFile(path);
         }
         catch let error {
             print("Parse preferences.json error: \(error)");
@@ -58,8 +52,6 @@ class PreferenceManager {
     }
 
     private func anyToString(_ value: Any) -> String? {
-//        return "\(value)"; //Bool will be return 0 or 1
-        
         if (value is String) {
             return (value as! String);
         }
@@ -78,44 +70,51 @@ class PreferenceManager {
         else if (value is Double) {
             return String(value as! Double)
         }
+        else if (value is NSNull) {
+            return "null";
+        }
 
         return nil;
     }
 
-    private func getDefaultValue(_ key: String) -> String? {
+    private func getDefaultValue(_ key: String) -> Any? {
         let value = defaultPreferences[key];
         return value;
     }
 
-    func getPreference(_ key: String) throws -> String {
+    func getPreference(_ key: String) throws -> [String: Any] {
         let defaultValue = getDefaultValue(key);
         guard defaultValue != nil else {
             throw AppError.error("getPreference error: no such preference!");
         }
 
-        var value = try dbAdapter.getPreference(key);
-        if (value == nil) {
-            value = defaultValue!;
+        var ret = try dbAdapter.getPreference(key);
+        if (ret == nil) {
+            ret = ["key": key, "value": defaultValue!] as [String : Any];
         }
-        else if (value == "native system") {
-            value = getCurrentLanguage();
+
+        if (key == "locale.language" && ret!["value"] as? String == "native system") {
+            ret![key] = getCurrentLanguage();
         }
-        
-        return value!;
+
+        return ret!;
     }
 
-    func getPreferences() throws -> [String: String] {
+    func getPreferences() throws -> [String: Any] {
         var values = try dbAdapter.getPreferences();
         for (key, value) in defaultPreferences {
             if (values[key] == nil) {
                 values[key] = value;
             }
+            if (key == "locale.language" && (values[key] as! String) == "native system") {
+                values[key] = getCurrentLanguage();
+            }
         }
-    
+
         return values;
     }
 
-    @objc func setPreference(_ key: String, _ value: String?) throws {
+    @objc func setPreference(_ key: String, _ value: Any?) throws {
         let defaultValue = getDefaultValue(key);
         guard defaultValue != nil else {
             throw AppError.error("setPreference error: no such preference!");
@@ -124,8 +123,8 @@ class PreferenceManager {
         try dbAdapter.setPreference(key, value);
         if (key == "developer.mode") {
             var isMode = false;
-            if (value != nil) {
-                isMode = value!.toBool();
+            if (value != nil && (value is Bool)) {
+                isMode = value! as! Bool;
             }
 
             if (isMode) {
@@ -135,30 +134,32 @@ class PreferenceManager {
                 CLIService.getShareInstance().stop();
             }
         }
-        
-        AppManager.getShareInstance().broadcastMessage(AppManager.MSG_TYPE_IN_REFRESH,
-                         "{\"action\":\"preferenceChanged\", \"" + key + "\":\""
-                         + value! + "\"}", "system");
+
+        let dict = ["action": "preferenceChanged", "data": ["key": key, "value": value]] as [String : Any];
+        AppManager.getShareInstance().broadcastMessage(AppManager.MSG_TYPE_IN_REFRESH, dict.toString()!, "system");
     }
 
     func getDeveloperMode() -> Bool {
-        let value = try? getPreference("developer.mode").toBool();
-        guard value != nil else {
-            return false;
+        let value = try? getPreference("developer.mode");
+        var ret = false;
+        if (value != nil && (value!["value"] is Bool)) {
+            ret = value!["value"] as! Bool;
         }
-        return value!;
+
+        return ret;
     }
 
     func setDeveloperMode(_ value: Bool) {
-        try? setPreference("developer.mode", value.toString());
+        try? setPreference("developer.mode", value);
     }
 
     func getCurrentLocale() throws -> String {
-        var value = try getPreference("locale.language");
-        if (value == "native system") {
-            value = getCurrentLanguage();
+        let value = try getPreference("locale.language");
+        var ret = value["value"] as! String;
+        if (ret == "native system") {
+            ret = getCurrentLanguage();
         }
-        return value;
+        return ret;
     }
 
     func setCurrentLocale(_ code: String) throws {

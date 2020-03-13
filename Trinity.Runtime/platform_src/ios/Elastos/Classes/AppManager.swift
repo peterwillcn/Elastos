@@ -141,7 +141,6 @@ class AppManager: NSObject {
         saveLauncher();
 
         do {
-
             try loadLauncher();
         }
         catch let error {

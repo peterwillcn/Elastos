@@ -160,7 +160,6 @@ public class AppManager {
         if (PreferenceManager.getShareInstance().getDeveloperMode()) {
 //            CLIService.getShareInstance().start();
         }
-        PreferenceManager.getShareInstance().setDeveloperMode(false);
     }
 
 

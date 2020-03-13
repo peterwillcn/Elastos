@@ -755,9 +755,9 @@ public class AppBasePlugin extends TrinityPlugin {
     protected void getSetting(JSONArray args, CallbackContext callbackContext) throws Exception {
         String key = args.getString(0);
 
-        String value = AppManager.getShareInstance().getDBAdapter().getSetting(this.appId, key);
-        if (value != null) {
-            callbackContext.success(value);
+        JSONObject ret = AppManager.getShareInstance().getDBAdapter().getSetting(this.appId, key);
+        if (ret != null) {
+            callbackContext.success(ret);
         }
         else {
             callbackContext.error( "'" + key + "' isn't exist value.");
@@ -772,8 +772,8 @@ public class AppBasePlugin extends TrinityPlugin {
 
     protected void setSetting(JSONArray args, CallbackContext callbackContext) throws Exception {
         String key = args.getString(0);
-        String value = args.getString(1);
-        if (value.equals("null")) {
+        Object value = args.get(1);
+        if (value.toString().equals("null")) {
             value = null;
         }
         AppManager.getShareInstance().getDBAdapter().setSetting(this.appId, key, value);
@@ -783,9 +783,9 @@ public class AppBasePlugin extends TrinityPlugin {
     protected void getPreference(JSONArray args, CallbackContext callbackContext) throws Exception {
         String key = args.getString(0);
 
-        String value = PreferenceManager.getShareInstance().getPreference(key);
-        if (value != null) {
-            callbackContext.success(value);
+        JSONObject ret = PreferenceManager.getShareInstance().getPreference(key);
+        if (ret != null) {
+            callbackContext.success(ret);
         }
         else {
             callbackContext.error( "'" + key + "' isn't exist value.");
@@ -800,8 +800,8 @@ public class AppBasePlugin extends TrinityPlugin {
 
     protected void setPreference(JSONArray args, CallbackContext callbackContext) throws Exception {
         String key = args.getString(0);
-        String value = args.getString(1);
-        if (value.equals("null")) {
+        Object value = args.get(1);
+        if (value.toString().equals("null")) {
             value = null;
         }
         PreferenceManager.getShareInstance().setPreference(key, value);

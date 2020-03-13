@@ -224,11 +224,6 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
                 if (typeof (values) == "string") {
                     values = JSON.parse(values);
                 }
-                for (var index in values) {
-                    if (typeof (values[index]) == "string") {
-                      values[index] = JSON.parse(values[index]);
-                    }
-                }
                 onSuccess(values);
             }
         };
@@ -237,9 +232,6 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
 
 
     setSetting(key: string, value: any, onSuccess: () => void, onError?: (err: string) => void) {
-        if (value != null && typeof (value) != "string") {
-            value = JSON.stringify(value)
-        }
         exec(onSuccess, onError, 'AppManager', 'setSetting', [key, value]);
     }
 
@@ -261,11 +253,6 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
                 if (typeof (values) == "string") {
                     values = JSON.parse(values);
                 }
-                for (var index in values) {
-                    if (typeof (values[index]) == "string") {
-                      values[index] = JSON.parse(values[index]);
-                    }
-                }
                 onSuccess(values);
             }
         };
@@ -273,9 +260,6 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
     }
 
     setPreference(key: string, value: any, onSuccess: () => void, onError?: (err: string) => void) {
-        if (value != null && typeof (value) != "string") {
-            value = JSON.stringify(value)
-        }
         exec(onSuccess, onError, 'AppManager', 'setPreference', [key, value]);
     }
 

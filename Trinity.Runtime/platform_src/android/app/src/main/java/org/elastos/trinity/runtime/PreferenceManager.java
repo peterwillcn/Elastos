@@ -37,36 +37,36 @@ public class PreferenceManager {
         AssetManager manager = AppManager.getShareInstance().activity.getAssets();
         InputStream inputStream = manager.open("www/config/preferences.json");
 
-        JSONObject json = Utility.getJsonFromFile(inputStream);
-
-        Iterator keys = json.keys();
-        while (keys.hasNext()) {
-            String key = (String)keys.next();
-            String value = json.get(key).toString();
-            defaultPreferences.put(key, value);
-        }
+        defaultPreferences = Utility.getJsonFromFile(inputStream);
     }
 
-    private String getDefaultValue(String key) throws Exception {
-        String value = defaultPreferences.get(key).toString();
+    private Object getDefaultValue(String key) throws Exception {
+        Object value = null;
+        if (defaultPreferences.has(key)) {
+            value = defaultPreferences.get(key);
+        }
         return value;
     }
 
-    public String getPreference(String key) throws Exception  {
-        String defaultValue = getDefaultValue(key);
+    public JSONObject getPreference(String key) throws Exception  {
+        Object defaultValue = getDefaultValue(key);
         if (defaultValue == null) {
             throw new Exception("getPreference error: no such preference!");
         }
 
-        String value = dbAdapter.getPreference(key);
-        if (value == null) {
-            value = defaultValue;
-        }
-        else if (value == "native system") {
-            value = Locale.getDefault().getLanguage();
+        JSONObject ret = dbAdapter.getPreference(key);
+
+        if (ret == null) {
+            ret = new JSONObject();
+            ret.put("key", key);
+            ret.put("value", defaultValue);
         }
 
-        return value;
+        if (key.equals("locale.language") && ret.getString("value").equals("native system")) {
+            ret.put("value", Locale.getDefault().getLanguage());
+        }
+
+        return ret;
     }
 
     public JSONObject getPreferences() throws Exception {
@@ -74,21 +74,25 @@ public class PreferenceManager {
         Iterator keys = defaultPreferences.keys();
         while (keys.hasNext()) {
             String key = (String)keys.next();
-            if (values.getString(key) == null) {
-                String value = defaultPreferences.getString(key);
+            if (!values.has(key)) {
+                Object value = defaultPreferences.get(key);
                 values.put(key, value);
+            }
+
+            if (key.equals("locale.language") && values.getString(key).equals("native system")) {
+                values.put(key, Locale.getDefault().getLanguage());
             }
         }
         return values;
     }
 
-    public void setPreference(String key, String value) throws Exception {
-        String defaultValue = getDefaultValue(key);
+    public void setPreference(String key, Object value) throws Exception {
+        Object defaultValue = getDefaultValue(key);
         if (defaultValue == null) {
             throw new Exception("setPreference error: no such preference!");
         }
 
-        if (dbAdapter.setPreference(key, value) != 1) {
+        if (dbAdapter.setPreference(key, value) < 1) {
             throw new Exception("setPreference error: write db error!");
         }
 
@@ -106,29 +110,36 @@ public class PreferenceManager {
 //            }
 //        }
 
+        JSONObject data = new JSONObject();
+        data.put("key", key);
+        data.put("value", value);
+        JSONObject json = new JSONObject();
+        json.put("action", "preferenceChanged");
+        json.put("data", data);
         AppManager.getShareInstance().broadcastMessage(AppManager.MSG_TYPE_IN_REFRESH,
-                "{\"action\":\"preferenceChanged\", \"" + key + "\":\""
-                        + value + "\"}", "system");
+                json.toString() , "system");
     }
 
     public Boolean getDeveloperMode() {
-        String value = null;
+        JSONObject value = null;
+        Boolean ret = false;
         try {
             value = getPreference("developer.mode");
+            if (value != null ) {
+                ret = Boolean.getBoolean(value.getString("value"));
+            }
         }
         catch (Exception e){
             e.printStackTrace();
         }
 
-        if (value == null) {
-            return false;
-        }
-        return Boolean.getBoolean(value);
+
+        return ret;
     }
 
     public void setDeveloperMode(Boolean value) {
         try {
-            setPreference("developer.mode", value.toString());
+            setPreference("developer.mode", value);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -136,11 +147,12 @@ public class PreferenceManager {
     }
 
     public String getCurrentLocale() throws Exception {
-        String value = getPreference("locale.language");
-        if (value.equals("native system")) {
-            value = Locale.getDefault().getLanguage();
+        JSONObject value = getPreference("locale.language");
+        String ret = value.getString("value");
+        if (ret.equals("native system")) {
+            ret = Locale.getDefault().getLanguage();
         }
-        return value;
+        return ret;
     }
 
     public void setCurrentLocale(String code) throws Exception {

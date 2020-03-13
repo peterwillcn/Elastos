@@ -79,7 +79,7 @@ import SQLite
     let language = Expression<String>(AppInfo.LANGUAGE)
 
     let action = Expression<String>(AppInfo.ACTION)
-    
+
     let key = Expression<String>("key")
     let value = Expression<String>("value")
 
@@ -167,13 +167,13 @@ import SQLite
             t.column(key)
             t.column(value)
         })
-        
+
         try db.run(preference.create(ifNotExists: true) { t in
             t.column(tid, primaryKey: .autoincrement)
             t.column(key)
             t.column(value)
         })
-        
+
         try db.run(apps.create(ifNotExists: true) { t in
             t.column(tid, primaryKey: .autoincrement)
             t.column(app_id, unique: true)
@@ -390,7 +390,7 @@ import SQLite
         }
         return infos[0];
     }
-    
+
     func changeBuiltInToNormal(_ appId: String) throws {
         try db.transaction {
             let builtIn = apps.filter(app_id == appId);
@@ -443,21 +443,30 @@ import SQLite
         }
         return ids;
     }
-    
-    func setSetting(_ id: String, _ k: String, _ v: String?) throws {
-        let ret = try getSetting(id, k);
-        if (ret == nil) {
-            if (v != nil) {
+
+    func setSetting(_ id: String, _ k: String, _ v: Any?) throws {
+        var data: String? = nil;
+        if !(v is NSNull) {
+            let dict = ["data": v] as [String : Any];
+            data = dict.toString();
+            guard data != nil else {
+                throw AppError.error("setSetting error: value is invalid!");
+            }
+        }
+
+        let isExist = try getSetting(id, k) != nil;
+        if (!isExist) {
+            if !(v is NSNull) {
                 try db.run(setting.insert(app_id <- id,
                                           key <- k,
-                                          value<-v!));
+                                          value<-data!));
             }
         }
         else {
             let row = setting.filter(app_id == id && key == k);
             try db.transaction {
-                if (v != nil) {
-                    try db.run(row.update(value <- v!));
+                if !(v is NSNull) {
+                    try db.run(row.update(value <- data!));
                 }
                 else {
                     try db.run(row.delete());
@@ -465,43 +474,61 @@ import SQLite
             }
         }
     }
-    
-    func getSetting(_ id: String, _ k: String) throws -> String? {
+
+    func getSetting(_ id: String, _ k: String) throws -> [String: Any]? {
         let query = setting.select(*)
             .filter(app_id == id && key == k)
         let rows = try db.prepare(query);
         for row in rows {
-            return row[value];
+            let dict = row[value].toDict();
+            guard dict != nil else {
+                throw AppError.error("getSetting error: value is invalid!");
+            }
+            let ret = ["key": k, "value": dict!["data"]] as [String : Any];
+            return ret;
         }
-        
+
         return nil;
     }
-    
-    func getSettings(_ id: String) throws -> [String: String] {
+
+    func getSettings(_ id: String) throws -> [String: Any] {
         let query = setting.select(*)
             .filter(app_id == id)
         let rows = try db.prepare(query);
-        var ret = [String: String]();
+        var ret = [String: Any]();
         for row in rows {
-            ret[row[key]] = row[value];
+            let dict = row[value].toDict();
+            if (dict != nil) {
+                ret[row[key]] = dict!["data"];
+            }
         }
-        
+
         return ret;
     }
-    
-    func setPreference(_ k: String, _ v: String?) throws {
-        let ret = try getPreference(k);
-        if (ret == nil) {
-            if (v != nil) {
+
+    func setPreference(_ k: String, _ v: Any?) throws {
+        var data: String? = nil;
+
+        if !(v is NSNull) {
+            let dict = ["data": v] as [String : Any];
+            data = dict.toString();
+            guard data != nil else {
+                throw AppError.error("setPreference error: value is invalid!");
+            }
+        }
+
+        let isExist = try getPreference(k) != nil;
+        if (!isExist) {
+            if !(v is NSNull) {
                 try db.run(preference.insert(key <- k,
-                                          value<-v!));
+                                          value<-data!));
             }
         }
         else {
             let row = preference.filter(key == k);
             try db.transaction {
-                if (v != nil) {
-                    try db.run(row.update(value <- v!));
+                if !(v is NSNull) {
+                    try db.run(row.update(value <- data!));
                 }
                 else {
                     try db.run(row.delete());
@@ -509,30 +536,38 @@ import SQLite
             }
         }
     }
-    
+
     func resetPreferences() throws {
         try db.run(preference.delete());
     }
-    
-    func getPreference(_ k: String) throws -> String? {
+
+    func getPreference(_ k: String) throws -> [String: Any]? {
         let query = preference.select(*)
             .filter(key == k)
         let rows = try db.prepare(query);
         for row in rows {
-            return row[value];
+            let dict = row[value].toDict();
+            guard dict != nil else {
+                throw AppError.error("getSetting error: value is invalid!");
+            }
+            let ret = ["key": k, "value": dict!["data"]] as [String : Any];
+            return ret;
         }
-        
+
         return nil;
     }
-    
-    func getPreferences() throws -> [String: String] {
+
+    func getPreferences() throws -> [String: Any] {
         let query = preference.select(*)
         let rows = try db.prepare(query);
-        var ret = [String: String]();
+        var ret = [String: Any]();
         for row in rows {
-            ret[row[key]] = row[value];
+            let dict = row[value].toDict();
+            if (dict != nil) {
+                ret[row[key]] = dict!["data"];
+            }
         }
-        
+
         return ret;
     }
 

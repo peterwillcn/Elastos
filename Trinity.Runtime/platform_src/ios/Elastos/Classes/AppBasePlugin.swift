@@ -685,7 +685,7 @@
         do {
             let value = try dbAdapter.getSetting(self.appId, key)
             if (value != nil) {
-                self.success(command, value!);
+                self.success(command, retAsDict: value!);
             }
             else {
                 self.error(command, "'\(key)' isn't exist value.");
@@ -712,8 +712,7 @@
 
     @objc func setSetting(_ command: CDVInvokedUrlCommand) {
         let key = command.arguments[0] as? String ?? "";
-        let value = command.arguments[1] as? String ?? nil;
-
+        let value = command.arguments[1] as? Any ?? nil;
         let dbAdapter = AppManager.getShareInstance().getDBAdapter();
 
         do {
@@ -730,9 +729,8 @@
         let key = command.arguments[0] as? String ?? "";
 
         do {
-            let value = try PreferenceManager.getShareInstance().getPreference(key)
-
-                self.success(command, value);
+            let value = try PreferenceManager.getShareInstance().getPreference(key);
+                self.success(command, retAsDict: value);
         } catch AppError.error(let err) {
             self.error(command, err);
         } catch let error {
@@ -755,7 +753,7 @@
 
     @objc func setPreference(_ command: CDVInvokedUrlCommand) {
         let key = command.arguments[0] as? String ?? "";
-        let value = command.arguments[1] as? String ?? nil;
+        let value = command.arguments[1] as? Any ?? nil;
 
         do {
             try PreferenceManager.getShareInstance().setPreference(key, value);

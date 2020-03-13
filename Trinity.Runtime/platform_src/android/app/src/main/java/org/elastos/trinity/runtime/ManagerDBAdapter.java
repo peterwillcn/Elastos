@@ -351,18 +351,25 @@ import org.json.JSONObject;
         return ids;
     }
 
-    public long setSetting(String id, String key, String value) {
+    public long setSetting(String id, String key, Object value) throws Exception {
         SQLiteDatabase db = helper.getWritableDatabase();
-        long count = 0;
+        long ret = 0;
 
-        String ret = getSetting(id, key);
-        if (ret == null) {
+        String data = null;
+        if (value != null) {
+            JSONObject json = new JSONObject();
+            json.put("data", value);
+            data = json.toString();
+        }
+
+        Boolean isExist = getSetting(id, key) != null;
+        if (!isExist) {
             if (value != null) {
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(AppInfo.APP_ID, id);
                 contentValues.put(ManagerDBHelper.KEY, key);
-                contentValues.put(ManagerDBHelper.VALUE, value);
-                count = db.insert(ManagerDBHelper.SETTING_TABLE, null, contentValues);
+                contentValues.put(ManagerDBHelper.VALUE, data);
+                ret = db.insert(ManagerDBHelper.SETTING_TABLE, null, contentValues);
             }
         }
         else {
@@ -370,28 +377,34 @@ import org.json.JSONObject;
             String[] whereArgs = {id, key};
             if (value != null) {
                 ContentValues contentValues = new ContentValues();
-                contentValues.put(ManagerDBHelper.VALUE, value);
-                count = db.update(ManagerDBHelper.SETTING_TABLE, contentValues, where, whereArgs );
+                contentValues.put(ManagerDBHelper.VALUE, data);
+                ret = db.update(ManagerDBHelper.SETTING_TABLE, contentValues, where, whereArgs );
             }
             else {
-                count = db.delete(ManagerDBHelper.SETTING_TABLE, where, whereArgs);
+                ret = db.delete(ManagerDBHelper.SETTING_TABLE, where, whereArgs);
             }
         }
-        return count;
+        return ret;
     }
 
-    public String getSetting(String id, String key) {
+    public JSONObject getSetting(String id, String key) throws Exception {
         SQLiteDatabase db = helper.getWritableDatabase();
         String where = AppInfo.APP_ID + "=? AND " + ManagerDBHelper.KEY + "=?";
         String[] whereArgs = {id, key};
         String[] columns = {ManagerDBHelper.VALUE};
         Cursor cursor = db.query(ManagerDBHelper.SETTING_TABLE, columns, where, whereArgs,null,null,null);
         if (cursor.moveToNext()) {
-            return cursor.getString(cursor.getColumnIndex(ManagerDBHelper.VALUE));
+            String value = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.VALUE));
+            JSONObject dict = new JSONObject(value);
+            if (dict != null) {
+                JSONObject ret = new JSONObject();
+                ret.put("key", key);
+                ret.put("value", dict.get("data"));
+                return ret;
+            }
         }
-        else {
-            return null;
-        }
+
+        return null;
     }
 
     public JSONObject getSettings(String id) throws Exception {
@@ -404,23 +417,34 @@ import org.json.JSONObject;
         while (cursor.moveToNext()) {
             String key = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.KEY));
             String value = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.VALUE));
-            ret.put(key, value);
+
+            JSONObject dict = new JSONObject(value);
+            if (dict != null) {
+                ret.put(key, dict.get("data"));
+            }
         }
         return ret;
     }
 
 
-     public long setPreference(String key, String value) {
+     public long setPreference(String key, Object value) throws Exception {
          SQLiteDatabase db = helper.getWritableDatabase();
-         long count = 0;
+         long ret = 0;
 
-         String ret = getPreference(key);
-         if (ret == null) {
+         String data = null;
+         if (value != null) {
+             JSONObject json = new JSONObject();
+             json.put("data", value);
+             data = json.toString();
+         }
+
+         Boolean isExist = getPreference(key) != null;
+         if (!isExist) {
              if (value != null) {
                  ContentValues contentValues = new ContentValues();
                  contentValues.put(ManagerDBHelper.KEY, key);
-                 contentValues.put(ManagerDBHelper.VALUE, value);
-                 count = db.insert(ManagerDBHelper.PREFERENCE_TABLE, null, contentValues);
+                 contentValues.put(ManagerDBHelper.VALUE, data);
+                 ret = db.insert(ManagerDBHelper.PREFERENCE_TABLE, null, contentValues);
              }
          }
          else {
@@ -428,32 +452,38 @@ import org.json.JSONObject;
              String[] whereArgs = {key};
              if (value != null) {
                  ContentValues contentValues = new ContentValues();
-                 contentValues.put(ManagerDBHelper.VALUE, value);
-                 count = db.update(ManagerDBHelper.PREFERENCE_TABLE, contentValues, where, whereArgs );
+                 contentValues.put(ManagerDBHelper.VALUE, data);
+                 ret = db.update(ManagerDBHelper.PREFERENCE_TABLE, contentValues, where, whereArgs );
              }
              else {
-                 count = db.delete(ManagerDBHelper.PREFERENCE_TABLE, where, whereArgs);
+                 ret = db.delete(ManagerDBHelper.PREFERENCE_TABLE, where, whereArgs);
              }
          }
-         return count;
+         return ret;
      }
 
      public void resetPreferences() {
          helper.getWritableDatabase().delete(ManagerDBHelper.PREFERENCE_TABLE, null, null);
      }
 
-     public String getPreference(String key) {
+     public JSONObject getPreference(String key) throws Exception {
          SQLiteDatabase db = helper.getWritableDatabase();
          String where = ManagerDBHelper.KEY + "=?";
          String[] whereArgs = {key};
          String[] columns = {ManagerDBHelper.VALUE};
          Cursor cursor = db.query(ManagerDBHelper.PREFERENCE_TABLE, columns, where, whereArgs,null,null,null);
          if (cursor.moveToNext()) {
-             return cursor.getString(cursor.getColumnIndex(ManagerDBHelper.VALUE));
+             String value = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.VALUE));
+             JSONObject dict = new JSONObject(value);
+             if (dict != null) {
+                 JSONObject ret = new JSONObject();
+                 ret.put("key", key);
+                 ret.put("value", dict.get("data"));
+                 return ret;
+             }
          }
-         else {
-             return null;
-         }
+
+         return null;
      }
 
      public JSONObject getPreferences() throws Exception {
@@ -464,7 +494,10 @@ import org.json.JSONObject;
          while (cursor.moveToNext()) {
              String key = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.KEY));
              String value = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.VALUE));
-             ret.put(key, value);
+             JSONObject dict = new JSONObject(value);
+             if (dict != null) {
+                 ret.put(key, dict.get("data"));
+             }
          }
          return ret;
      }

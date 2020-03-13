@@ -253,12 +253,17 @@ class TitleBarView: UIView {
         else {
             color = UIColor.init(hex: "#FFFFFF")!
         }
+        
+        titleLabel.textColor = color
 
         btnMenu.leftImageColor = color
         btnClose.leftImageColor = color
-        titleLabel.textColor = color
         btnLauncher.leftImageColor = color
         btnBack.leftImageColor = color
+        btnNotifs.leftImageColor = color
+        btnRunning.leftImageColor = color
+        btnScan.leftImageColor = color
+        btnSettings.leftImageColor = color
     }
     
     public func setBehavior(_ behavior: TitleBarBehavior) {

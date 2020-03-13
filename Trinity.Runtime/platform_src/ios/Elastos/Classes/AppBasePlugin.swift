@@ -66,7 +66,7 @@
 
     @objc func getLocale(_ command: CDVInvokedUrlCommand) {
         let info = AppManager.getShareInstance().getAppInfo(self.appId!);
-        
+
         do {
             let ret = [
                 "defaultLang": info!.default_locale,
@@ -80,10 +80,10 @@
             self.error(command, error.localizedDescription);
         }
     }
-    
+
     @objc func setCurrentLocale(_ command: CDVInvokedUrlCommand) {
         let code = command.arguments[0] as? String ?? ""
-        
+
         do {
             try PreferenceManager.getShareInstance().setCurrentLocale(code);
             self.success(command, "ok");
@@ -406,6 +406,7 @@
         if (IntentManager.checkTrinityScheme(urlString)) {
             do {
                 try IntentManager.getShareInstance().sendIntentByUri(url!, self.appId!);
+                self.success(command, "ok");
             } catch AppError.error(let err) {
                 self.error(command, err);
             } catch let error {
@@ -675,12 +676,12 @@
             self.error(command, error.localizedDescription);
         }
     }
-    
+
     @objc func getSetting(_ command: CDVInvokedUrlCommand) {
         let key = command.arguments[0] as? String ?? "";
 
         let dbAdapter = AppManager.getShareInstance().getDBAdapter();
-        
+
         do {
             let value = try dbAdapter.getSetting(self.appId, key)
             if (value != nil) {
@@ -695,10 +696,10 @@
             self.error(command, error.localizedDescription);
         }
     }
-    
+
     @objc func getSettings(_ command: CDVInvokedUrlCommand) {
         let dbAdapter = AppManager.getShareInstance().getDBAdapter();
-        
+
         do {
             let values = try dbAdapter.getSettings(self.appId);
             self.success(command, retAsDict: values);
@@ -708,13 +709,13 @@
             self.error(command, error.localizedDescription);
         }
     }
-    
+
     @objc func setSetting(_ command: CDVInvokedUrlCommand) {
         let key = command.arguments[0] as? String ?? "";
         let value = command.arguments[1] as? String ?? nil;
 
         let dbAdapter = AppManager.getShareInstance().getDBAdapter();
-        
+
         do {
             try dbAdapter.setSetting(self.appId, key, value);
             self.success(command, "ok");
@@ -724,7 +725,7 @@
             self.error(command, error.localizedDescription);
         }
     }
-    
+
     @objc func getPreference(_ command: CDVInvokedUrlCommand) {
         let key = command.arguments[0] as? String ?? "";
 
@@ -738,10 +739,10 @@
             self.error(command, error.localizedDescription);
         }
     }
-    
+
     @objc func getPreferences(_ command: CDVInvokedUrlCommand) {
         let dbAdapter = AppManager.getShareInstance().getDBAdapter();
-        
+
         do {
             let values = try PreferenceManager.getShareInstance().getPreferences();
             self.success(command, retAsDict: values);
@@ -751,7 +752,7 @@
             self.error(command, error.localizedDescription);
         }
     }
-    
+
     @objc func setPreference(_ command: CDVInvokedUrlCommand) {
         let key = command.arguments[0] as? String ?? "";
         let value = command.arguments[1] as? String ?? nil;
@@ -765,10 +766,10 @@
             self.error(command, error.localizedDescription);
         }
     }
-    
+
     @objc func resetPreferences(_ command: CDVInvokedUrlCommand) {
         let dbAdapter = AppManager.getShareInstance().getDBAdapter();
-        
+
         do {
             try dbAdapter.resetPreferences();
             self.success(command, "ok");
@@ -778,7 +779,7 @@
             self.error(command, error.localizedDescription);
         }
     }
-    
+
     @objc func broadcastMessage(_ command: CDVInvokedUrlCommand) {
         let type = command.arguments[0] as? Int ?? 0;
         let msg = command.arguments[1] as? String ?? "";

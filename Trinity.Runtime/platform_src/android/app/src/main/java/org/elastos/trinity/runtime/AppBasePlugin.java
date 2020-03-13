@@ -449,6 +449,7 @@ public class AppBasePlugin extends TrinityPlugin {
         try {
             if (checkIntentScheme(url)) {
                 IntentManager.getShareInstance().sendIntentByUri(Uri.parse(url), this.appId);
+                callbackContext.success("ok");
             }
             else if (shouldOpenExternalIntentUrl(url)) {
                 webView.showWebPage(url, true, false, null);

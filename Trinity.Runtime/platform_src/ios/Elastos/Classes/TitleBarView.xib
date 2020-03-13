@@ -30,7 +30,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
             <subviews>
                 <control contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="142" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="BUz-au-bdR" userLabel="Launcher button" customClass="AdvancedButton" customModule="elastOS" customModuleProvider="target">
-                    <rect key="frame" x="20" y="0.0" width="50" height="87"/>
+                    <rect key="frame" x="10" y="0.0" width="50" height="87"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="image" keyPath="leftImageSrc" value="ic_back"/>
@@ -45,7 +45,7 @@
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="showTouchFeedback" value="YES"/>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingLeading">
-                            <real key="value" value="0.0"/>
+                            <integer key="value" value="10"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingBottom">
                             <real key="value" value="0.0"/>
@@ -54,7 +54,7 @@
                             <real key="value" value="0.0"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingTrailing">
-                            <real key="value" value="0.0"/>
+                            <integer key="value" value="10"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                     <connections>
@@ -62,7 +62,7 @@
                     </connections>
                 </control>
                 <control contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="142" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="GNu-CS-bbC" userLabel="Back button" customClass="AdvancedButton" customModule="elastOS" customModuleProvider="target">
-                    <rect key="frame" x="20" y="0.0" width="50" height="87"/>
+                    <rect key="frame" x="10" y="0.0" width="50" height="87"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="image" keyPath="leftImageSrc" value="ic_back"/>
@@ -77,7 +77,7 @@
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="showTouchFeedback" value="YES"/>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingLeading">
-                            <real key="value" value="0.0"/>
+                            <integer key="value" value="10"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingBottom">
                             <real key="value" value="0.0"/>
@@ -86,7 +86,7 @@
                             <real key="value" value="0.0"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingTrailing">
-                            <real key="value" value="0.0"/>
+                            <integer key="value" value="10"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                     <connections>
@@ -94,7 +94,7 @@
                     </connections>
                 </control>
                 <control contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="142" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="LIX-Du-lhi" userLabel="Close button" customClass="AdvancedButton" customModule="elastOS" customModuleProvider="target">
-                    <rect key="frame" x="20" y="0.0" width="50" height="87"/>
+                    <rect key="frame" x="10" y="0.0" width="50" height="87"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="image" keyPath="leftImageSrc" value="ic_close"/>
@@ -109,7 +109,7 @@
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="showTouchFeedback" value="YES"/>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingLeading">
-                            <real key="value" value="0.0"/>
+                            <integer key="value" value="10"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingBottom">
                             <real key="value" value="0.0"/>
@@ -118,7 +118,7 @@
                             <real key="value" value="0.0"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingTrailing">
-                            <real key="value" value="0.0"/>
+                            <integer key="value" value="10"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                     <connections>
@@ -126,7 +126,7 @@
                     </connections>
                 </control>
                 <control contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="142" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Wqw-1I-nEs" userLabel="Fav button" customClass="AdvancedButton" customModule="elastOS" customModuleProvider="target">
-                    <rect key="frame" x="80" y="0.0" width="50" height="87"/>
+                    <rect key="frame" x="60" y="0.0" width="50" height="87"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="image" keyPath="leftImageSrc" value="ic_burger"/>
@@ -141,7 +141,7 @@
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="showTouchFeedback" value="YES"/>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingLeading">
-                            <real key="value" value="0.0"/>
+                            <integer key="value" value="10"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingBottom">
                             <real key="value" value="0.0"/>
@@ -150,12 +150,12 @@
                             <real key="value" value="0.0"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingTrailing">
-                            <real key="value" value="0.0"/>
+                            <integer key="value" value="10"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </control>
                 <control contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="142" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="5Lh-uU-vS3" userLabel="Notifs button" customClass="AdvancedButton" customModule="elastOS" customModuleProvider="target">
-                    <rect key="frame" x="20" y="0.0" width="50" height="87"/>
+                    <rect key="frame" x="10" y="0.0" width="50" height="87"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="image" keyPath="leftImageSrc" value="ic_notif"/>
@@ -170,7 +170,7 @@
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="showTouchFeedback" value="YES"/>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingLeading">
-                            <real key="value" value="0.0"/>
+                            <integer key="value" value="10"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingBottom">
                             <real key="value" value="0.0"/>
@@ -179,7 +179,7 @@
                             <real key="value" value="0.0"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingTrailing">
-                            <real key="value" value="0.0"/>
+                            <integer key="value" value="10"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                     <connections>
@@ -187,7 +187,7 @@
                     </connections>
                 </control>
                 <control contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="142" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="4ax-A6-2wP" userLabel="Running button" customClass="AdvancedButton" customModule="elastOS" customModuleProvider="target">
-                    <rect key="frame" x="90" y="0.0" width="50" height="87"/>
+                    <rect key="frame" x="60" y="0.0" width="50" height="87"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="image" keyPath="leftImageSrc" value="ic_running"/>
@@ -202,7 +202,7 @@
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="showTouchFeedback" value="YES"/>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingLeading">
-                            <real key="value" value="0.0"/>
+                            <integer key="value" value="10"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingBottom">
                             <real key="value" value="0.0"/>
@@ -211,7 +211,7 @@
                             <real key="value" value="0.0"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingTrailing">
-                            <real key="value" value="0.0"/>
+                            <integer key="value" value="10"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                     <connections>
@@ -219,7 +219,7 @@
                     </connections>
                 </control>
                 <control contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="142" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="woa-6c-TGu" userLabel="Scan button" customClass="AdvancedButton" customModule="elastOS" customModuleProvider="target">
-                    <rect key="frame" x="318" y="0.0" width="50" height="87"/>
+                    <rect key="frame" x="348" y="0.0" width="50" height="87"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="image" keyPath="leftImageSrc" value="ic_scan"/>
@@ -234,7 +234,7 @@
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="showTouchFeedback" value="YES"/>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingLeading">
-                            <real key="value" value="0.0"/>
+                            <integer key="value" value="10"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingBottom">
                             <real key="value" value="0.0"/>
@@ -243,7 +243,7 @@
                             <real key="value" value="0.0"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingTrailing">
-                            <real key="value" value="0.0"/>
+                            <integer key="value" value="10"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                     <connections>
@@ -251,7 +251,7 @@
                     </connections>
                 </control>
                 <control contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="142" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="8N7-TZ-bXF" userLabel="Settings button" customClass="AdvancedButton" customModule="elastOS" customModuleProvider="target">
-                    <rect key="frame" x="388" y="0.0" width="50" height="87"/>
+                    <rect key="frame" x="398" y="0.0" width="50" height="87"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="image" keyPath="leftImageSrc" value="ic_settings"/>
@@ -266,7 +266,7 @@
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="showTouchFeedback" value="YES"/>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingLeading">
-                            <real key="value" value="0.0"/>
+                            <integer key="value" value="10"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingBottom">
                             <real key="value" value="0.0"/>
@@ -275,7 +275,7 @@
                             <real key="value" value="0.0"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingTrailing">
-                            <real key="value" value="0.0"/>
+                            <integer key="value" value="10"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                     <connections>
@@ -283,7 +283,7 @@
                     </connections>
                 </control>
                 <control contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="142" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hlu-Cl-bFW" userLabel="Menu button" customClass="AdvancedButton" customModule="elastOS" customModuleProvider="target">
-                    <rect key="frame" x="388" y="0.0" width="50" height="87"/>
+                    <rect key="frame" x="398" y="0.0" width="50" height="87"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="image" keyPath="leftImageSrc" value="ic_menu"/>
@@ -298,7 +298,7 @@
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="showTouchFeedback" value="YES"/>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingLeading">
-                            <real key="value" value="0.0"/>
+                            <integer key="value" value="10"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingBottom">
                             <real key="value" value="0.0"/>
@@ -307,7 +307,7 @@
                             <real key="value" value="0.0"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="spacingTrailing">
-                            <real key="value" value="0.0"/>
+                            <integer key="value" value="10"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                     <connections>
@@ -345,7 +345,7 @@
             <color key="backgroundColor" red="0.28235294117647058" green="0.31372549019607843" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
             <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="hlu-Cl-bFW" secondAttribute="trailing" constant="20" id="1sY-wH-nQh"/>
+                <constraint firstAttribute="trailing" secondItem="hlu-Cl-bFW" secondAttribute="trailing" constant="10" id="1sY-wH-nQh"/>
                 <constraint firstAttribute="bottom" secondItem="4ax-A6-2wP" secondAttribute="bottom" constant="4" id="3VK-g9-VJx"/>
                 <constraint firstItem="9Jc-th-LAj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="6if-yc-jX6"/>
                 <constraint firstAttribute="bottom" secondItem="9Jc-th-LAj" secondAttribute="bottom" id="7J9-3j-G6o"/>
@@ -358,31 +358,31 @@
                 <constraint firstItem="QgE-ZC-TrP" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" constant="-2" id="LcP-GB-N1P"/>
                 <constraint firstAttribute="bottom" secondItem="woa-6c-TGu" secondAttribute="bottom" constant="4" id="Mko-fx-HhO"/>
                 <constraint firstAttribute="bottom" secondItem="5Lh-uU-vS3" secondAttribute="bottom" constant="4" id="Msk-t1-SiO"/>
-                <constraint firstAttribute="trailing" secondItem="8N7-TZ-bXF" secondAttribute="trailing" constant="20" id="S1K-qg-jhc"/>
+                <constraint firstAttribute="trailing" secondItem="8N7-TZ-bXF" secondAttribute="trailing" constant="10" id="S1K-qg-jhc"/>
                 <constraint firstItem="5Lh-uU-vS3" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="WRx-NF-3dE"/>
                 <constraint firstAttribute="bottom" secondItem="GNu-CS-bbC" secondAttribute="bottom" constant="4" id="YhF-6d-e0G"/>
-                <constraint firstItem="GNu-CS-bbC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="ZT0-jc-Pqp"/>
+                <constraint firstItem="GNu-CS-bbC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="ZT0-jc-Pqp"/>
                 <constraint firstAttribute="trailing" secondItem="QgE-ZC-TrP" secondAttribute="trailing" constant="10" id="a7p-qP-eZm"/>
                 <constraint firstItem="GNu-CS-bbC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ajw-Y4-doC"/>
                 <constraint firstItem="4ax-A6-2wP" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="cfE-FI-Jxv"/>
                 <constraint firstAttribute="bottom" secondItem="j0x-4Z-CuE" secondAttribute="bottom" id="eLs-yy-sZi"/>
-                <constraint firstItem="Wqw-1I-nEs" firstAttribute="leading" secondItem="GNu-CS-bbC" secondAttribute="trailing" constant="10" id="fc8-VC-aNl"/>
-                <constraint firstItem="8N7-TZ-bXF" firstAttribute="leading" secondItem="woa-6c-TGu" secondAttribute="trailing" constant="20" id="gJK-wP-UAn"/>
+                <constraint firstItem="Wqw-1I-nEs" firstAttribute="leading" secondItem="GNu-CS-bbC" secondAttribute="trailing" id="fc8-VC-aNl"/>
+                <constraint firstItem="8N7-TZ-bXF" firstAttribute="leading" secondItem="woa-6c-TGu" secondAttribute="trailing" id="gJK-wP-UAn"/>
                 <constraint firstAttribute="bottom" secondItem="hlu-Cl-bFW" secondAttribute="bottom" constant="4" id="hId-nJ-waJ"/>
                 <constraint firstAttribute="trailing" secondItem="9Jc-th-LAj" secondAttribute="trailing" id="hZd-Yq-RtE"/>
-                <constraint firstItem="BUz-au-bdR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="jZv-yH-xKm"/>
+                <constraint firstItem="BUz-au-bdR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="jZv-yH-xKm"/>
                 <constraint firstAttribute="bottom" secondItem="Wqw-1I-nEs" secondAttribute="bottom" constant="4" id="kvS-6z-Gzc"/>
                 <constraint firstItem="8N7-TZ-bXF" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="luC-9M-lW5"/>
                 <constraint firstItem="j0x-4Z-CuE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="n6F-ya-cKR"/>
                 <constraint firstItem="Wqw-1I-nEs" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="oBS-sr-9eF"/>
-                <constraint firstItem="4ax-A6-2wP" firstAttribute="leading" secondItem="5Lh-uU-vS3" secondAttribute="trailing" constant="20" id="ogK-aV-Ybv"/>
+                <constraint firstItem="4ax-A6-2wP" firstAttribute="leading" secondItem="5Lh-uU-vS3" secondAttribute="trailing" id="ogK-aV-Ybv"/>
                 <constraint firstItem="BUz-au-bdR" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="owP-nR-uKQ"/>
-                <constraint firstItem="LIX-Du-lhi" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="qkO-MM-R00"/>
+                <constraint firstItem="LIX-Du-lhi" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="qkO-MM-R00"/>
                 <constraint firstItem="hlu-Cl-bFW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="r6Q-Up-ceY"/>
                 <constraint firstAttribute="bottom" secondItem="8N7-TZ-bXF" secondAttribute="bottom" constant="4" id="s50-Ls-K4C"/>
                 <constraint firstItem="QgE-ZC-TrP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="vIz-hT-SYn"/>
                 <constraint firstAttribute="bottom" secondItem="LzE-Zz-Rvg" secondAttribute="bottom" constant="1" id="yZS-Dn-DsR"/>
-                <constraint firstItem="5Lh-uU-vS3" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="zDB-c0-cCR"/>
+                <constraint firstItem="5Lh-uU-vS3" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="zDB-c0-cCR"/>
                 <constraint firstItem="LIX-Du-lhi" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="zEp-1k-p1D"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>

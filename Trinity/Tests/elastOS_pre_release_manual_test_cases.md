@@ -4,6 +4,9 @@
 
 | Test | Priority |
 | ---- | -------- |
+| Launch a built-in app | High |
+| Add/remove favorites | Medium |
+| Open settings | High |
 | Show running apps | High |
 | Close app from running app list | High |
 
@@ -22,7 +25,8 @@
 | Test | Priority |
 | ---- | -------- |
 | Create a new DID | High |
-| Import an existing (published) DID | High |
+| Import an existing (published) DID from mnemonic | High |
+| Import a DID from the wallet app mnemonic | Medium |
 | Edit a DID profile (modify + add + delete entry) | High |
 | Publish an unpublished DID | High |
 | Edit credentials visibility and publish a published DID | High |
@@ -58,6 +62,12 @@
 | Add a friend with published DID | Medium |
 | Browse a friend's app from apps his profile | Medium |
 
+## DApps Store App
+
+| Test | Priority |
+| ---- | -------- |
+| Launch an app from the DApps store | Medium |
+
 # Others
 
 ## Inter-app communication
@@ -73,6 +83,7 @@
 
 | Test | Priority |
 | ---- | -------- |
+| Try to install an app from CLI without developer mode enabled | Medium |
 | Try to install an app with no verifiable DID signature | Medium |
 | Sign in from a website with an altered JWT token | Medium |
 
@@ -87,5 +98,5 @@
 
 | Test | Priority |
 | ---- | -------- |
-| Create a new angular/tabs app from the cli (+build + run) | High |
+| Create a new angular/tabs app from the cli (+build + run android/ios) | High |
 | Create an app DID from the CLI (without publishing) | Medium |

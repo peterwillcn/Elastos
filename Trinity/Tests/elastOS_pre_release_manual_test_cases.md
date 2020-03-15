@@ -94,6 +94,12 @@
 | Launch quickly saveral favorite apps from the home screen | Medium |
 | Start an app and quickly exit it several times | Medium |
 
+## Compatibility
+
+| Test | Priority |
+| ---- | -------- |
+| Ensure elastOS can upgrade from the previous public release (with user data) to the new release | High |
+
 # Tools
 
 | Test | Priority |

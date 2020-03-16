@@ -207,7 +207,12 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
     }
 
     getSetting(key: string, onSuccess: (value: any) => void, onError?: (err: string) => void) {
-        exec(onSuccess, onError, 'AppManager', 'getSetting', [key]);
+        function _onSuccess(value: any) {
+            if (onSuccess) {
+                onSuccess(value.value);
+            }
+        };
+        exec(_onSuccess, onError, 'AppManager', 'getSetting', [key]);
     }
 
     getSettings(onSuccess: (values: any) => void, onError?: (err: string) => void) {
@@ -220,7 +225,12 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
     }
 
     getPreference(key: string, onSuccess: (value: any) => void, onError?: (err: string) => void) {
-        exec(onSuccess, onError, 'AppManager', 'getPreference', [key]);
+        function _onSuccess(value: any) {
+            if (onSuccess) {
+                onSuccess(value.value);
+            }
+        };
+        exec(_onSuccess, onError, 'AppManager', 'getPreference', [key]);
     }
 
     getPreferences(onSuccess: (values: any) => void, onError?: (err: string) => void) {

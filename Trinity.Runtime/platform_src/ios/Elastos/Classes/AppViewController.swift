@@ -64,8 +64,6 @@
         // Initialize the plugin objects dict.
         self.pluginObjects = NSMutableDictionary(capacity: 30);
         self.pluginObjects["WhitelistFiter"] = self.whitelistFilter;
-
-//        self.settings["cordovawebviewengine"] = "CDVUIWebViewEngine";
     }
 
     override func filterPlugin(_ pluginName: String, _ className: String) -> NullPlugin? {
@@ -107,7 +105,7 @@
             let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT);
             result?.setKeepCallbackAs(true);
             self.commandDelegate.send(result, callbackId: command.callbackId)
-            
+
             AppManager.getShareInstance().runAlertPluginAuth(appInfo!, pluginName, authority, plugin, command);
         }
         return authority;

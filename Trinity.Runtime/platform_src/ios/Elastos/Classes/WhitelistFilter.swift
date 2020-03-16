@@ -102,7 +102,7 @@
         return ret;
     }
 
-    @objc func shouldOverrideLoad(request:URLRequest, navigationType:UIWebView.NavigationType )  -> Bool {
+    @objc func shouldOverrideLoad(request: URLRequest, navigationType: Int32 )  -> Bool {
         //For trinity scheme
         let url = request.url!;
         if (IntentManager.checkTrinityScheme(url.absoluteString)) {

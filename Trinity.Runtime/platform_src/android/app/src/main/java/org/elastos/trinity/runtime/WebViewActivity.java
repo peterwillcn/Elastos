@@ -89,7 +89,6 @@ public class WebViewActivity extends FragmentActivity {
 
 //        gestureDetector = new GestureDetector(this, onGestureListener);
 
-
 //        Bundle b = getIntent().getExtras();
 //        String url = b.getString("url");
 //        Boolean shouldShowLoading = false;

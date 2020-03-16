@@ -59,6 +59,12 @@ before_install:
       export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle;
     fi
 
+install:
+  - nvm install ${NODEJS_VERSION}
+  - npm install -g cordova ionic
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      gem install cocoapods;
+    fi
   - if [[ "$TRAVIS_EVENT_TYPE" == "cron" && "$TRAVIS_BRANCH" == "master" && "$DEPLOY" != "" ]]; then
       .ci_scripts/checkCommit.sh;
       ret=$?;
@@ -76,13 +82,6 @@ before_install:
       export TRAVIS_TAG="daily"-$APPSUFFIX;
     else
       DEPLOY="";
-    fi
-
-install:
-  - nvm install ${NODEJS_VERSION}
-  - npm install -g cordova ionic
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      gem install cocoapods;
     fi
 
 script:

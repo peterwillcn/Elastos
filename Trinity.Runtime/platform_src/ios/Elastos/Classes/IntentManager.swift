@@ -439,11 +439,13 @@ class IntentPermission {
 
         let url = URL(string: callbackurl)!
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"
+        request.httpMethod = "POST";
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type");
+
         let parameters: [String: String] = [
             name: value
         ]
-        request.httpBody = parameters.percentEncoded()
+        request.httpBody = try JSONSerialization.data(withJSONObject: parameters)
 
         let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
 

@@ -11,6 +11,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
@@ -390,10 +391,14 @@ public class IntentManager {
     public void postCallback(String name, String value, String callbackurl) throws Exception {
         HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(callbackurl);
-        List<NameValuePair> paramList = new ArrayList<NameValuePair>(2);
-        paramList.add(new BasicNameValuePair(name, value));
-        HttpEntity entity = new UrlEncodedFormEntity(paramList, HTTP.UTF_8);
+        httpPost.addHeader("Content-Type", "application/json;charset=UTF-8");
+
+        JSONObject json = new JSONObject();
+        json.put(name, value);
+        StringEntity entity = new StringEntity(json.toString(), "UTF-8");
+        entity.setContentType("application/json");
         httpPost.setEntity(entity);
+
         HttpResponse httpResponse = httpClient.execute(httpPost);
         if (httpResponse != null
                 && httpResponse.getStatusLine().getStatusCode() == 200) {

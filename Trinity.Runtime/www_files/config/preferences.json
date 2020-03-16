@@ -1,6 +1,6 @@
 {
     "version": "1.5.0",
     "locale.language": "native system",
-    "developer.mode": true,
+    "developer.mode": false,
     "ui.darkmode": false
 }

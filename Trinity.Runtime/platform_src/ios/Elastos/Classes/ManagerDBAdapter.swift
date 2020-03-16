@@ -548,7 +548,7 @@ import SQLite
         for row in rows {
             let dict = row[value].toDict();
             guard dict != nil else {
-                throw AppError.error("getSetting error: value is invalid!");
+                throw AppError.error("getPreference error: value is invalid!");
             }
             let ret = ["key": k, "value": dict!["data"]] as [String : Any];
             return ret;

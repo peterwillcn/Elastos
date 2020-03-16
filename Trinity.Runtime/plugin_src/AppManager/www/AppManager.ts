@@ -207,27 +207,11 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
     }
 
     getSetting(key: string, onSuccess: (value: any) => void, onError?: (err: string) => void) {
-        function _onSuccess(value: any) {
-            if (onSuccess) {
-                if (typeof (value) == "string") {
-                    value = JSON.parse(value);
-                }
-                onSuccess(value);
-            }
-        };
-        exec(_onSuccess, onError, 'AppManager', 'getSetting', [key]);
+        exec(onSuccess, onError, 'AppManager', 'getSetting', [key]);
     }
 
     getSettings(onSuccess: (values: any) => void, onError?: (err: string) => void) {
-        function _onSuccess(values: any) {
-            if (onSuccess) {
-                if (typeof (values) == "string") {
-                    values = JSON.parse(values);
-                }
-                onSuccess(values);
-            }
-        };
-        exec(_onSuccess, onError, 'AppManager', 'getSettings', []);
+        exec(onSuccess, onError, 'AppManager', 'getSettings', []);
     }
 
 
@@ -236,27 +220,11 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
     }
 
     getPreference(key: string, onSuccess: (value: any) => void, onError?: (err: string) => void) {
-        function _onSuccess(value: any) {
-            if (onSuccess) {
-                if (typeof (value) == "string") {
-                    value = JSON.parse(value);
-                }
-                onSuccess(value);
-            }
-        };
-        exec(_onSuccess, onError, 'AppManager', 'getPreference', [key]);
+        exec(onSuccess, onError, 'AppManager', 'getPreference', [key]);
     }
 
     getPreferences(onSuccess: (values: any) => void, onError?: (err: string) => void) {
-        function _onSuccess(values: any) {
-            if (onSuccess) {
-                if (typeof (values) == "string") {
-                    values = JSON.parse(values);
-                }
-                onSuccess(values);
-            }
-        };
-        exec(_onSuccess, onError, 'AppManager', 'getPreferences', []);
+        exec(onSuccess, onError, 'AppManager', 'getPreferences', []);
     }
 
     setPreference(key: string, value: any, onSuccess: () => void, onError?: (err: string) => void) {

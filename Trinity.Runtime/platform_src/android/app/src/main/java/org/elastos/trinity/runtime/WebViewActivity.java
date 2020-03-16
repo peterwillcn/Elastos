@@ -47,7 +47,7 @@ public class WebViewActivity extends FragmentActivity {
     public static final int REQUESTCODE_STORAGE = 50;
 
     protected AppManager appManager = null;
-    private GestureDetector gestureDetector = null;
+//    private GestureDetector gestureDetector = null;
 
     private String adbUri = "";
 
@@ -87,7 +87,7 @@ public class WebViewActivity extends FragmentActivity {
 
         getIntentUri();
 
-        gestureDetector = new GestureDetector(this, onGestureListener);
+//        gestureDetector = new GestureDetector(this, onGestureListener);
 
 
 //        Bundle b = getIntent().getExtras();
@@ -230,28 +230,28 @@ public class WebViewActivity extends FragmentActivity {
         }
     }
 
-    @Override
-    public boolean dispatchTouchEvent (MotionEvent ev) {
-        if ((gestureDetector != null) && (appManager != null) && (appManager.curFragment != null)) {
-            gestureDetector.onTouchEvent(ev);
-        }
-        return super.dispatchTouchEvent(ev);
-    }
-
-    private GestureDetector.OnGestureListener onGestureListener =
-            new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-                                       float velocityY) {
-                    float y1 = e1.getY();
-                    float distance = e2.getY() - e1.getY();
-
-                    if (distance > 200 && y1 < 200) {
-                        if (appManager != null) {
-                            appManager.flingTheme();
-                        }
-                    }
-                    return true;
-                }
-            };
+//    @Override
+//    public boolean dispatchTouchEvent (MotionEvent ev) {
+//        if ((gestureDetector != null) && (appManager != null) && (appManager.curFragment != null)) {
+//            gestureDetector.onTouchEvent(ev);
+//        }
+//        return super.dispatchTouchEvent(ev);
+//    }
+//
+//    private GestureDetector.OnGestureListener onGestureListener =
+//            new GestureDetector.SimpleOnGestureListener() {
+//                @Override
+//                public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+//                                       float velocityY) {
+//                    float y1 = e1.getY();
+//                    float distance = e2.getY() - e1.getY();
+//
+//                    if (distance > 200 && y1 < 200) {
+//                        if (appManager != null) {
+//                            appManager.flingTheme();
+//                        }
+//                    }
+//                    return true;
+//                }
+//            };
 }

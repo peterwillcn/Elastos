@@ -19,6 +19,7 @@
             "getAppInfos",
             "getAppList",
             "getAppInfo",
+            "setCurrentLocale",
             "setPreference",
             "resetPreferences",
             "broadcastMessage",

@@ -151,7 +151,7 @@ if args.target == "push":
     run_cmd("git commit -m 'increase version for release' && git push")
 
 if args.target == "all" or args.target == "incversion":
-    increase_version_runtime()
+    # increase_version_runtime()
 
     print("Launcher: ")
     increase_version_manifest(LAUNCHER_DIR_PATH +'/src/assets/manifest.json')
@@ -167,7 +167,7 @@ if args.target == "all" or args.target == "incversion":
 if args.target == "all" or args.target == "build":
     os.chdir(PROJECT_DIR_PATH)
     check_firebase()
-    run_cmd('./ToolChains/bin/build all -pf all --release')
+    run_cmd('./ToolChains/bin/build runtime -pf all --release')
 
 elapsed = timeit.default_timer() - startTime
 minutes = elapsed / 60

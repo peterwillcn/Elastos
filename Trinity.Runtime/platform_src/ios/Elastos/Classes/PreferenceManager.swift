@@ -45,6 +45,7 @@ class PreferenceManager {
         do {
             let path = getAbsolutePath("www/config/preferences.json");
             defaultPreferences = try getJsonFromFile(path);
+            defaultPreferences["version"] = getVersion();
         }
         catch let error {
             print("Parse preferences.json error: \(error)");
@@ -113,8 +114,25 @@ class PreferenceManager {
 
         return values;
     }
+    
+    static let refuseSetPreferences = [
+        "version"
+    ];
+    
+    private func isAllowSetPreference(_ key: String) -> Bool {
+        if (!PreferenceManager.refuseSetPreferences.contains(key)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
     @objc func setPreference(_ key: String, _ value: Any?) throws {
+        if (!isAllowSetPreference(key)) {
+            throw AppError.error("setPreference error: \(key) can't be set!");
+        }
+        
         let defaultValue = getDefaultValue(key);
         guard defaultValue != nil else {
             throw AppError.error("setPreference error: no such preference!");
@@ -167,6 +185,14 @@ class PreferenceManager {
         AppManager.getShareInstance().broadcastMessage(AppManager.MSG_TYPE_IN_REFRESH,
                          "{\"action\":\"currentLocaleChanged\", \"code\":\""
                          + code + "\"}", "launcher");
+    }
+    
+    func getVersion() -> String? {
+        let infoDictionary = Bundle.main.infoDictionary
+
+        let majorVersion = infoDictionary? ["CFBundleShortVersionString"] as? String;
+        
+        return majorVersion;
     }
 }
 

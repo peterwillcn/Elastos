@@ -63,6 +63,11 @@
 
         self.commandDelegate.send(result, callbackId: command.callbackId)
     }
+    
+    @objc func getVersion(_ command: CDVInvokedUrlCommand) {
+        let version = PreferenceManager.getShareInstance().getVersion();
+        self.success(command, version!);
+    }
 
     @objc func getLocale(_ command: CDVInvokedUrlCommand) {
         let info = AppManager.getShareInstance().getAppInfo(self.appId!);

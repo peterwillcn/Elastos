@@ -1,6 +1,8 @@
 package org.elastos.trinity.runtime;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 
 import org.json.JSONArray;
@@ -38,6 +40,7 @@ public class PreferenceManager {
         InputStream inputStream = manager.open("www/config/preferences.json");
 
         defaultPreferences = Utility.getJsonFromFile(inputStream);
+        defaultPreferences.put("version", getVersion());
     }
 
     private Object getDefaultValue(String key) throws Exception {
@@ -86,7 +89,24 @@ public class PreferenceManager {
         return values;
     }
 
+    final static String[] refuseSetPreferences = {
+            "version"
+    };
+
+    private Boolean isAllowSetPreference(String key) {
+        for (String item : PreferenceManager.refuseSetPreferences) {
+            if (item.equals(key)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void setPreference(String key, Object value) throws Exception {
+        if (!isAllowSetPreference(key)) {
+            throw new Exception("setPreference error: " + key + " can't be set!");
+        }
+
         Object defaultValue = getDefaultValue(key);
         if (defaultValue == null) {
             throw new Exception("setPreference error: no such preference!");
@@ -159,5 +179,12 @@ public class PreferenceManager {
         setPreference("locale.language", code);
         AppManager.getShareInstance().broadcastMessage(AppManager.MSG_TYPE_IN_REFRESH,
                 "{\"action\":\"currentLocaleChanged\", \"code\":\"" + code + "\"}", AppManager.LAUNCHER);
+    }
+
+    public String getVersion() throws Exception {
+        Context context = AppManager.getShareInstance().activity;
+        PackageManager manager = context.getPackageManager();
+        PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+        return info.versionName;
     }
 }

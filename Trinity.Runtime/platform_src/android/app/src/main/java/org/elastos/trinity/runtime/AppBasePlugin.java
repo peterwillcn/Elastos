@@ -167,7 +167,7 @@ public class AppBasePlugin extends TrinityPlugin {
     }
 
     protected void getVersion(CallbackContext callbackContext) throws Exception {
-        String version = ConfigManager.getShareInstance().getStringValue("version", "undefined");
+        String version = PreferenceManager.getShareInstance().getVersion();
         callbackContext.success(version);
     }
 

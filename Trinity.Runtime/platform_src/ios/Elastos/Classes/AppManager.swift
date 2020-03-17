@@ -502,7 +502,6 @@ class AppManager: NSObject {
 //                appViewController.setInfo(id, appInfo!);
                 viewController = appViewController;
                 sendRefreshList("started", appInfo!);
-
             }
 
             mainViewController.add(viewController!)
@@ -528,6 +527,8 @@ class AppManager: NSObject {
         if (info == nil) {
             throw AppError.error("No such app!");
         }
+        
+        setAppVisible(id, info!.start_visible);
 
         let viewController = getViewControllerById(id);
         if (viewController == nil) {

@@ -362,9 +362,7 @@ public class IntentManager {
 
         JwtBuilder builder = Jwts.builder()
                 .setHeaderParam("type", "JWT")
-                .claim("iss", claims.get("iss"))
-                .claim("exp", claims.get("exp"))
-                .claim("presentation", claims.get("presentation"))
+                .addClaims(claims)
                 .claim("req", info.req)
                 .claim("method", info.action)
 //                .setId(UUID.randomUUID())

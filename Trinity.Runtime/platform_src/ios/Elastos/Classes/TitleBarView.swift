@@ -97,6 +97,11 @@ class TitleBarView: UIView {
         
         addSubview(view)
         self.addMatchChildConstraints(child: view)
+        
+        activityCounters[.LAUNCH] = 0
+        activityCounters[.DOWNLOAD] = 0
+        activityCounters[.UPLOAD] = 0
+        activityCounters[.OTHER] = 0
 
         setBackgroundColor("#4850F0")
         setForegroundMode(.LIGHT)
@@ -205,14 +210,14 @@ class TitleBarView: UIView {
 
     public func showActivityIndicator(activityType: TitleBarActivityType) {
         // Increase reference count for this progress animation type
-        activityCounters[activityType] = (activityCounters[activityType] ?? 0) + 1
-        updateAnimation()
+        activityCounters[activityType] = activityCounters[activityType]! + 1
+        updateAnimation(activityType: activityType)
     }
 
     public func hideActivityIndicator(activityType: TitleBarActivityType) {
         // Decrease reference count for this progress animation type
-        activityCounters[activityType] = max(0, (activityCounters[activityType] ?? 0) - 1)
-        updateAnimation()
+        activityCounters[activityType] = max(0, activityCounters[activityType]! - 1)
+        updateAnimation(activityType: activityType)
     }
 
     public func setTitle(_ title: String?) {
@@ -330,11 +335,28 @@ class TitleBarView: UIView {
         }
     }
     
+    /** Tells if the progress bar has to be animated or not. */
+    private func stillHasOnGoingProgressActivity() -> Bool {
+        return
+            activityCounters[.LAUNCH]! > 0 ||
+            activityCounters[.DOWNLOAD]! > 0 ||
+            activityCounters[.UPLOAD]! > 0 ||
+            activityCounters[.OTHER]! > 0
+    }
+    
+    private func onGoingProgressActivityCount() -> Int {
+        return
+            activityCounters[.LAUNCH]! +
+                activityCounters[.DOWNLOAD]! +
+                activityCounters[.UPLOAD]! +
+                activityCounters[.OTHER]!
+    }
+    
     /**
      * Based on the counters for each activity, determines which activity type has the priority and plays the appropriate animation.
      * If no more animation, the animation is stopped
      */
-    private func updateAnimation() {
+    private func updateAnimation(activityType: TitleBarActivityType) {
         // Check if an animation should be launched, and which one
         var backgroundColor: String? = nil
         if (activityCounters[.LAUNCH] ?? 0) > 0 {
@@ -351,51 +373,39 @@ class TitleBarView: UIView {
         if (backgroundColor != nil) {
             progressBar.isHidden = false
             progressBar.backgroundColor = UIColor.init(hex: backgroundColor!)
-            self.progressBar.alpha = 0.0
 
-            // If an animation is already in progress, don't interrupt it and just change the background color instead.
-            // Otherwise, start an animation
-            if (onGoingProgressAnimation == nil) {
+            // Only start a new animation if we are the first animation to start.
+            if onGoingProgressActivityCount() == 1 {
                 animateProgressBarIn()
             }
         }
         else {
-            stopProgressAnimation()
             progressBar.isHidden = true
         }
     }
 
-    private var onGoingProgressAnimation: UIViewPropertyAnimator?
-    
     private func animateProgressBarIn() {
-        onGoingProgressAnimation = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut, animations: {
-                self.progressBar.alpha = 1.0
+        let onGoingProgressAnimation = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut, animations: {
+            self.progressBar.alpha = 1.0
         })
-        
-        onGoingProgressAnimation!.addCompletion { _ in
-                self.onGoingProgressAnimation = nil
+        onGoingProgressAnimation.addCompletion { _ in
+            if self.stillHasOnGoingProgressActivity() {
                 self.animateProgressBarOut()
+            }
         }
-        onGoingProgressAnimation!.startAnimation(afterDelay: 0.0)
+        onGoingProgressAnimation.startAnimation()
     }
 
     private func animateProgressBarOut() {
-        onGoingProgressAnimation = UIViewPropertyAnimator(duration: 1.0, curve: .easeOut, animations: {
-                self.progressBar.alpha = 0.0
+        let onGoingProgressAnimation = UIViewPropertyAnimator(duration: 1.0, curve: .easeOut, animations: {
+            self.progressBar.alpha = 0.0
         })
         
-        onGoingProgressAnimation!.addCompletion { _ in
-                self.onGoingProgressAnimation = nil
+        onGoingProgressAnimation.addCompletion { _ in
+            if self.stillHasOnGoingProgressActivity() {
                 self.animateProgressBarIn()
+            }
         }
-        onGoingProgressAnimation!.startAnimation(afterDelay: 0.0)
-    }
-
-    private func stopProgressAnimation() {
-        if let animation = onGoingProgressAnimation, animation.isRunning {
-            animation.stopAnimation(false)
-            animation.finishAnimation(at: .current)
-            onGoingProgressAnimation = nil
-        }
+        onGoingProgressAnimation.startAnimation()
     }
 }

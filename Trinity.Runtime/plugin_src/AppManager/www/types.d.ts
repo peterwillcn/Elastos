@@ -565,13 +565,6 @@ declare namespace AppManagerPlugin {
         getVersion(onSuccess: (version: string) => void, onError?: (err: string) => void);
 
         /**
-         * Returns a TitleBar object, used to interact with the global title bar.
-         * 
-         * @returns The main title bar instance.
-         */
-        getTitleBar(): TitleBar;
-
-        /**
          * Returns a NotificationManager object, used to send and receive notifications.
          * 
          * @returns The main notification manager instance.
@@ -622,6 +615,11 @@ declare namespace AppManagerPlugin {
     }
     
     interface NotificationManager {
+
+        // TODO: Need to improve these APIs to:
+        // - get notifications (ex: after restarting trinity)
+        // - clear a notification (ex: user deletes the notification from the launcher, we must delete it from the notificaitons database too)
+
         /**
          * Sends a local notification to the notification manager. Notifications are usually displayed
          * by the launcher/home application, in a notifications panel, and they are directly used to 
@@ -661,47 +659,5 @@ declare namespace AppManagerPlugin {
          * @param onError Callback called in case registering as a listener failed.
          */
         setRemoteNotificationListener(onNotification:(notification: RemoteNotification)=>void, onSuccess?:()=>void, onError?:(err: string)=>void);
-    }
-
-    /**
-     * Type of activity indicators that the title bar can display.
-     * Activity indicators are icon animations showing that something is currently busy.
-     */
-    const enum TitleBarActivityType {
-        /** There is an on going download. */
-        DOWNLOAD = 0,
-        /** There is an on going upload. */
-        UPLOAD = 1,
-        /** There is on going application launch. */
-        LAUNCH = 2,
-        /** There is another on going operation of an indeterminate type. */
-        OTHER = 3
-    }
-
-    interface TitleBar {
-        /**
-         * Shows an indicator on the title bar to indicate that something is busy.
-         * Several dApps can interact with an activity indicator at the same time. As long as there
-         * is at least one dApp setting an indicator active, that indicator remains shown.
-         * 
-         * @param type Type of activity indicator to start showing.
-         */
-        showActivityIndicator(type: TitleBarActivityType);
-
-        /**
-         * Requests to hide a given activity indicator. In case other dApps are still busy using
-         * this indicator, the activity indicator remains active, until the last dApp releases it.
-         * 
-         * @param type Type of activity indicator to stop showing for the active dApp.
-         */
-        hideActivityIndicator(type: TitleBarActivityType);
-
-        /**
-         * Sets the main title bar title information. Pass null to clear the previous title.
-         * DApps are responsible for managing this title from their internal screens.
-         * 
-         * @param title Main title to show on the title bar.
-         */
-        setTitle(title: String);
     }
 }

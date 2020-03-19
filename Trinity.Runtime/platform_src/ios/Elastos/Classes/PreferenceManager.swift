@@ -23,18 +23,21 @@
 import Foundation
 
 //For system preference
-class PreferenceManager {
+ @objc(PreferenceManager)
+ class PreferenceManager: NSObject {
     private static var preferenceManager: PreferenceManager?;
     private var defaultPreferences = [String: Any]();
     let dbAdapter: ManagerDBAdapter;
 
-    init() {
+    override init() {
         dbAdapter = AppManager.getShareInstance().getDBAdapter();
-        PreferenceManager.preferenceManager = self;
+        super.init();
+
         parsePreferences();
+        PreferenceManager.preferenceManager = self;
     }
 
-    static func getShareInstance() -> PreferenceManager {
+    @objc static func getShareInstance() -> PreferenceManager {
         if (PreferenceManager.preferenceManager == nil) {
             PreferenceManager.preferenceManager = PreferenceManager();
         }
@@ -114,11 +117,11 @@ class PreferenceManager {
 
         return values;
     }
-    
+
     static let refuseSetPreferences = [
         "version"
     ];
-    
+
     private func isAllowSetPreference(_ key: String) -> Bool {
         if (!PreferenceManager.refuseSetPreferences.contains(key)) {
             return true;
@@ -132,7 +135,7 @@ class PreferenceManager {
         if (!isAllowSetPreference(key)) {
             throw AppError.error("setPreference error: \(key) can't be set!");
         }
-        
+
         let defaultValue = getDefaultValue(key);
         guard defaultValue != nil else {
             throw AppError.error("setPreference error: no such preference!");
@@ -181,18 +184,51 @@ class PreferenceManager {
     }
 
     func setCurrentLocale(_ code: String) throws {
+        let dict = ["action": "currentLocaleChanged", "code": code] as [String : Any];
         try setPreference("locale.language", code);
-        AppManager.getShareInstance().broadcastMessage(AppManager.MSG_TYPE_IN_REFRESH,
-                         "{\"action\":\"currentLocaleChanged\", \"code\":\""
-                         + code + "\"}", "launcher");
+        AppManager.getShareInstance().broadcastMessage(AppManager.MSG_TYPE_IN_REFRESH, dict.toString()!, "launcher");
     }
-    
+
     func getVersion() -> String? {
         let infoDictionary = Bundle.main.infoDictionary
 
         let majorVersion = infoDictionary? ["CFBundleShortVersionString"] as? String;
-        
+
         return majorVersion;
     }
+
+    @objc func getWalletNetworkType() -> String {
+        var value: String? = nil;
+        do {
+            let item = try getPreference("chain.network.type");
+            value = item["value"] as? String;
+        }
+        catch let error {
+            print("getWalletNetworkType error: \(error)");
+        }
+
+        if (value == nil) {
+            value = "MainNet";
+        }
+        return value!;
+     }
+
+    @objc func getWalletNetworkConfig() -> String {
+        var value: String? = nil;
+        do {
+            let item = try getPreference("chain.network.config");
+            if !(item["value"] is NSNull) {
+                value = anyToString(item["value"]!);
+            }
+        }
+        catch let error {
+            print("getWalletNetworkConfig error: \(error)");
+        }
+
+        if (value == nil) {
+            value = "";
+        }
+        return value!;
+     }
 }
 

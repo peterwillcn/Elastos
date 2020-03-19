@@ -29,4 +29,12 @@
     return [[ConfigManager getShareInstance] getStringValue:key :defaultValue];
 }
 
++ (NSString *)getWalletNetworkType {
+    return [[PreferenceManager getShareInstance] getWalletNetworkType];
+}
+
++ (NSString *)getWalletNetworkConfig {
+    return [[PreferenceManager getShareInstance] getWalletNetworkConfig];
+}
+
 @end

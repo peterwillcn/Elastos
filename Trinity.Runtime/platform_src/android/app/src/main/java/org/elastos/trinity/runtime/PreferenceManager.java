@@ -177,8 +177,11 @@ public class PreferenceManager {
 
     public void setCurrentLocale(String code) throws Exception {
         setPreference("locale.language", code);
+        JSONObject json = new JSONObject();
+        json.put("action", "currentLocaleChanged");
+        json.put("data", code);
         AppManager.getShareInstance().broadcastMessage(AppManager.MSG_TYPE_IN_REFRESH,
-                "{\"action\":\"currentLocaleChanged\", \"code\":\"" + code + "\"}", AppManager.LAUNCHER);
+                json.toString(), AppManager.LAUNCHER);
     }
 
     public String getVersion() throws Exception {
@@ -186,5 +189,39 @@ public class PreferenceManager {
         PackageManager manager = context.getPackageManager();
         PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
         return info.versionName;
+    }
+
+    public String getWalletNetworkType()  {
+        String value = null;
+        try {
+            JSONObject item = getPreference("chain.network.type");
+            value = item.getString("value");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if (value == null) {
+            value = "MainNet";
+        }
+
+        return value;
+    }
+
+    public String getWalletNetworkConfig()  {
+        String value = null;
+        try {
+            JSONObject item = getPreference("chain.network.config");
+            value = item.getString("value");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if (value == null) {
+            value = "";
+        }
+
+        return value;
     }
 }

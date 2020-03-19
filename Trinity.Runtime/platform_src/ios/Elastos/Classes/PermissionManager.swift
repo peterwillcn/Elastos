@@ -172,7 +172,7 @@ class PermissionManager {
                 }
                 
                 plugin = plugin.lowercased();
-                var pluginPermission = permissionGroup.addPlugin(plugin, defaultValue);
+                let pluginPermission = permissionGroup.addPlugin(plugin, defaultValue);
                 let array = obj as! [String];
                 for i in 0..<array.count {
                     let api = array[i];

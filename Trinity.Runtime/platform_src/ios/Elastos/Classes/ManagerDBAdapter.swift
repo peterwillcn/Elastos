@@ -311,7 +311,7 @@ import SQLite
             info.short_name = app[short_name] ?? "";
             info.desc = app[description] ?? "";
             info.start_url = app[start_url];
-            info.start_visible = app[start_visible] ?? "";
+            info.start_visible = app[start_visible];
             info.type = app[type];
             info.author_name = app[author_name] ?? "";
             info.author_email = app[author_email] ?? "";
@@ -447,7 +447,7 @@ import SQLite
     func setSetting(_ id: String, _ k: String, _ v: Any?) throws {
         var data: String? = nil;
         if !(v is NSNull) {
-            let dict = ["data": v] as [String : Any];
+            let dict = ["data": v!] as [String : Any];
             data = dict.toString();
             guard data != nil else {
                 throw AppError.error("setSetting error: value is invalid!");

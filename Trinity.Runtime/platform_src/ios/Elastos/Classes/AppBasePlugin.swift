@@ -744,8 +744,6 @@
     }
 
     @objc func getPreferences(_ command: CDVInvokedUrlCommand) {
-        let dbAdapter = AppManager.getShareInstance().getDBAdapter();
-
         do {
             let values = try PreferenceManager.getShareInstance().getPreferences();
             self.success(command, retAsDict: values);
@@ -758,7 +756,7 @@
 
     @objc func setPreference(_ command: CDVInvokedUrlCommand) {
         let key = command.arguments[0] as? String ?? "";
-        let value = command.arguments[1] as? Any ?? nil;
+        let value = command.arguments[1] as? Any;
 
         do {
             try PreferenceManager.getShareInstance().setPreference(key, value);

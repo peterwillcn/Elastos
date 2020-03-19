@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString *)getStringValue:(NSString *)key :(NSString *)defaultValue;
 
++ (NSString *)getWalletNetworkType;
++ (NSString *)getWalletNetworkConfig;
 @end
 
 NS_ASSUME_NONNULL_END

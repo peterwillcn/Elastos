@@ -90,7 +90,7 @@
         if (appInfo!.type == "url") {
             print(name);
             if (name == "statusbar") {
-                let command = CDVInvokedUrlCommand(arguments: [false] as! [Any], callbackId: nil, className: nil, methodName: "overlaysWebView")!;
+                let command = CDVInvokedUrlCommand(arguments: [false] as [Any], callbackId: nil, className: nil, methodName: "overlaysWebView")!;
                 (obj as! CDVPlugin).execute(command);
             }
         }

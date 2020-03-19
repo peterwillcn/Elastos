@@ -558,7 +558,7 @@ class AppManager: NSObject {
     private func installUri(_ uri: String, _ dev:Bool) {
         if (dev && PreferenceManager.getShareInstance().getDeveloperMode()) {
             do {
-                try install(uri, true);
+                let _ = try install(uri, true);
             }
             catch AppError.error(let err) {
                 alertDialog("Install Error", err);

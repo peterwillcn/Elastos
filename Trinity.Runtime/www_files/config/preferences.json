@@ -1,5 +1,7 @@
 {
     "locale.language": "native system",
     "developer.mode": false,
-    "ui.darkmode": true
+    "ui.darkmode": true,
+    "chain.network.type": "MainNet",
+    "chain.network.config": ""
 }

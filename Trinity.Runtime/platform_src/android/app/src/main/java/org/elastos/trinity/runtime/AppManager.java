@@ -546,6 +546,11 @@ public class AppManager {
         }
         else {
             switchContent(getFragmentById(launcherInfo.app_id), launcherInfo.app_id);
+            try {
+                AppManager.getShareInstance().sendLauncherMessageMinimize(curFragment.id);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return false;
         }
     }

@@ -143,9 +143,9 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="4dp"
         android:layout_weight="1"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="sans-serif-light"
         android:gravity="center"
-        android:textAllCaps="true"
+        android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         tools:text="In-app test title"></TextView>

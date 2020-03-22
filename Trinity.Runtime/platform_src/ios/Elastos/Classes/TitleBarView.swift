@@ -48,7 +48,7 @@ public class TitleBarMenuItem {
     }
 
     public func toJson() throws -> NSDictionary  {
-        var jsonObject = NSMutableDictionary()
+        let jsonObject = NSMutableDictionary()
         jsonObject["key"] = key
         jsonObject["iconPath"] = iconPath
         jsonObject["title"] = title
@@ -103,7 +103,7 @@ class TitleBarView: UIView {
         activityCounters[.UPLOAD] = 0
         activityCounters[.OTHER] = 0
 
-        setBackgroundColor("#4850F0")
+        setBackgroundColor("#7A81F1")
         setForegroundMode(.LIGHT)
         
         btnFav.isHidden = true // TODO: Waiting until the favorite management is available in system settings
@@ -222,10 +222,10 @@ class TitleBarView: UIView {
 
     public func setTitle(_ title: String?) {
         if title != nil {
-            titleLabel.text = title!.uppercased()
+            titleLabel.text = title!//.uppercased()
         }
         else {
-            titleLabel.text = AppManager.getShareInstance().getAppInfo(appId!)?.name.uppercased()
+            titleLabel.text = AppManager.getShareInstance().getAppInfo(appId!)?.name//.uppercased()
         }
     }
 

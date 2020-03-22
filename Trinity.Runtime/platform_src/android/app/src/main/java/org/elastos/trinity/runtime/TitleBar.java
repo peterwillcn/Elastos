@@ -240,7 +240,7 @@ public class TitleBar extends FrameLayout {
             sendMessageToLauncher("settings-clicked");
         });
 
-        setBackgroundColor("#4850F0");
+        setBackgroundColor("#7A81F1");
         setForegroundMode(TitleBarForegroundMode.LIGHT);
 
         btnFav.setVisibility(View.GONE); // TODO: Waiting until the favorite management is available in system settings
@@ -382,9 +382,9 @@ public class TitleBar extends FrameLayout {
 
     public void setTitle(String title) {
         if (title != null)
-            tvTitle.setText(title.toUpperCase());
+            tvTitle.setText(title/*.toUpperCase()*/);
         else
-            tvTitle.setText(appManager.getAppInfo(appId).name.toUpperCase());
+            tvTitle.setText(appManager.getAppInfo(appId).name/*.toUpperCase()*/);
     }
 
     public boolean setBackgroundColor(String hexColor) {

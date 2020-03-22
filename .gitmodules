@@ -4,9 +4,6 @@
 [submodule "Dapps/Ionic/DID"]
 	path = Trinity/Dapps/Ionic/DID
 	url = ../Elastos.Trinity.DApps.DID.git
-[submodule "Dapps/Ionic/DPoSVoting"]
-	path = Trinity/Dapps/Ionic/DPoSVoting
-	url = ../Elastos.Trinity.DApps.DPoSVoting.git
 [submodule "Dapps/Ionic/Friends"]
 	path = Trinity/Dapps/Ionic/Friends
 	url = ../Elastos.Trinity.DApps.Friends.git
@@ -16,9 +13,6 @@
 [submodule "Dapps/Ionic/Settings"]
 	path = Trinity/Dapps/Ionic/Settings
 	url = ../Elastos.Trinity.DApps.Settings.git
-[submodule "Dapps/Ionic/Wallet"]
-	path = Trinity/Dapps/Ionic/Wallet
-	url = ../Elastos.Trinity.Dapps.Wallet.git
 [submodule "Plugins/Carrier"]
 	path = Trinity/Plugins/Carrier
 	url = ../Elastos.Trinity.Plugins.Carrier.git

@@ -146,7 +146,7 @@ if args.target == "all" or args.target == "incversion":
 if args.target == "all" or args.target == "build":
     os.chdir(PROJECT_DIR_PATH)
     check_firebase()
-    run_cmd('./ToolChains/bin/build runtime -pf all --release')
+    run_cmd('./ToolChains/bin/build all -pf all --release')
 
 elapsed = timeit.default_timer() - startTime
 minutes = elapsed / 60

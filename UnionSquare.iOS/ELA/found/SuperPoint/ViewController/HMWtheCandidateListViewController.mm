@@ -106,6 +106,7 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     self.wallet.walletName     =model.walletName;
     self.wallet.walletAddress  = model.walletAddress;
     self.wallet.walletID       =[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
+    self.wallet.didString=model.didString;
     self.wallet.TypeW  = model.TypeW;
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID] callbackId: self.wallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
     PluginResult * resultBase =[[ELWalletManager share]getMasterWalletBasicInfo:mommand];

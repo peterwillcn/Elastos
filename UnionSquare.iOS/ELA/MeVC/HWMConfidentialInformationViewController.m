@@ -8,16 +8,21 @@
 #import "HWMConfidentialInformationViewController.h"
 #import "HWMDIDListAbnormalTableViewCell.h"
 #import "HWMAccordingPersonalInformationViewController.h"
-#import "HWMAddPersonalProfileViewController.h"
+#import "HWMAddPersonalInformationViewController.h"
 #import "HWMShowSocialAccountViewController.h"
 #import "HWMshowIntroductionInfoViewController.h"
+#import "HWMDIDManager.h"
+#import "HWMDIDInfoModel.h"
+#import "HWMHWMDIDShowInfoViewController.h"
+#import "HWMTheImportDocumentsViewController.h"
 static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
 @interface HWMConfidentialInformationViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *table;
 @property (weak, nonatomic) IBOutlet UIButton *exportButton;
 @property (weak, nonatomic) IBOutlet UIButton *TheImportButton;
-
+//@property(strong,nonatomic)HWMDIDInfoModel *didModel;
 @property(copy,nonatomic)NSArray *dataArray;
+@property(assign,nonatomic)BOOL hasRead;
 @end
 
 @implementation HWMConfidentialInformationViewController
@@ -31,7 +36,12 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
     [self.exportButton setTitle:NSLocalizedString(@"导出", nil) forState:UIControlStateNormal];
     [[HMWCommView share]makeBordersWithView:self.TheImportButton];
     [[HMWCommView share]makeBordersWithView:self.exportButton];
-    
+    HWMDIDInfoModel *readModel=[[HWMDIDManager shareDIDManager]readDIDCredential];
+    if ([readModel.did isEqualToString:self.model.did]) {
+        self.hasRead=YES;
+         self.model=readModel;
+    }
+   
     [self makeUI];
 }
 -(NSArray *)dataArray{
@@ -74,38 +84,21 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    switch (indexPath.section) {
-//        case 0:
-//        {
-//            HWMAccordingPersonalInformationViewController * HWMAccordingPersonalInformationVC=[[HWMAccordingPersonalInformationViewController alloc]init ];
-//            HWMAccordingPersonalInformationVC.model=self.model;
-//            [self.navigationController pushViewController:HWMAccordingPersonalInformationVC animated:YES];
-//
-//        }
-//            break;
-//        case 1:{
-//            HWMshowIntroductionInfoViewController  *showIntroductionInfoVC=[[HWMshowIntroductionInfoViewController alloc]init];
-//            showIntroductionInfoVC.model=self.model;
-//            [self.navigationController pushViewController:showIntroductionInfoVC animated:YES];
-//
-//
-//        }
-//
-//        break;
-//        case 2:{
-//            HWMShowSocialAccountViewController *HWMShowSocialAccountVC=[[HWMShowSocialAccountViewController alloc]init];
-//            HWMShowSocialAccountVC.model=self.model;
-//
-//            [self.navigationController pushViewController:HWMShowSocialAccountVC animated:YES];
-//
-//        }
-//
-//        break;
-//
-//        default:
-//            break;
-//    }
-
+  
+    if (self.hasRead) {
+      HWMHWMDIDShowInfoViewController *HWMAddPersonalInformationVC=[[HWMHWMDIDShowInfoViewController alloc]init];
+     //    HWMAddPersonalInformationVC.title=NSLocalizedString(@"编辑个人信息", nil);
+       HWMAddPersonalInformationVC.model=self.model;
+       [self.navigationController pushViewController:HWMAddPersonalInformationVC animated:YES];
+    }else{
+        HWMAddPersonalInformationViewController *PersonalInformationVC=[[HWMAddPersonalInformationViewController alloc]init];
+        PersonalInformationVC.model=self.model;
+        PersonalInformationVC.isEidet=YES;
+        PersonalInformationVC.currentWallet=self.currentWallet;
+        [self.navigationController pushViewController:PersonalInformationVC animated:YES];
+        
+    }
+  
 }
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForFooterInSection:(NSInteger)section{
     
@@ -119,6 +112,9 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
 }
 - (IBAction)TheImportEvent:(id)sender {
     
+    HWMTheImportDocumentsViewController *TheImportDocumentsVC=[[HWMTheImportDocumentsViewController alloc]init];
+    TheImportDocumentsVC.currentWallet=self.currentWallet;
+    [self.navigationController pushViewController:TheImportDocumentsVC animated:YES];
 }
 -(void)setModel:(HWMDIDInfoModel *)model{
     _model=model;

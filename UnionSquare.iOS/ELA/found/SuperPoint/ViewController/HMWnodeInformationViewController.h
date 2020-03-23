@@ -36,7 +36,7 @@ typedef enum : NSUInteger {
 /*
  *<# #>
  */
-@property(strong,nonatomic)id<HMWnodeInformationViewControllerDelegate>delegate;
+@property(weak,nonatomic)id<HMWnodeInformationViewControllerDelegate>delegate;
 /*
  *<# #>
  */

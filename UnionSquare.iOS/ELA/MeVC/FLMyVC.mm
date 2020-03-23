@@ -69,39 +69,39 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
     [self.table reloadData];
     [self setBackgroundImg:@""];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(myfriendNeedUpdateInfo) name:myfriendNeedUpdate object:nil];
-    [self getDIDListArray];
+//    [self getDIDListArray];
 }
--(void)getDIDListArray{
-    
-    if ([[HMWFMDBManager sharedManagerType:DIDInfoType]allSelectDIDWithWallID:@""]) {
-        self.hasDID=YES;
-        NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:0];
-                 [self.table reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
-    }
-    
-    
-    if (self.hasDID==NO) {
-    for (FMDBWalletModel *model in self.walletListArray) {
-        invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[model.walletID,@"IDChain",@"0",@"100"] callbackId:model.walletID className:@"wallet" methodName:@"createMasterWallet"];
-          PluginResult * resultBase =[[ELWalletManager share]getDetailsDIDlist:cmommand];
-            NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
-        
-        if ([statusBase isEqualToString:@"1"] ) {
-              self.hasDID=YES;
-            NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:0];
-               [self.table reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
-            return;
-        }
-        
-    }
-     
-    }
-    
-    
-    
-    
-    
-}
+//-(void)getDIDListArray{
+//    
+//    if ([[HMWFMDBManager sharedManagerType:DIDInfoType]allSelectDIDWithWallID:@""]) {
+//        self.hasDID=YES;
+//        NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:0];
+//                 [self.table reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+//    }
+//    
+//    
+//    if (self.hasDID==NO) {
+//    for (FMDBWalletModel *model in self.walletListArray) {
+//        invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[model.walletID,@"IDChain",@"0",@"100"] callbackId:model.walletID className:@"wallet" methodName:@"createMasterWallet"];
+//          PluginResult * resultBase =[[ELWalletManager share]getDetailsDIDlist:cmommand];
+//            NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
+//        
+//        if ([statusBase isEqualToString:@"1"] ) {
+//              self.hasDID=YES;
+//            NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:0];
+//               [self.table reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+//            return;
+//        }
+//        
+//    }
+//     
+//    }
+//    
+//    
+//    
+//    
+//    
+//}
 
 -(NSMutableArray *)walletListArray{
     if (!_walletListArray) {

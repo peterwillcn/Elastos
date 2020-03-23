@@ -113,7 +113,7 @@
     wallet.walletAddress  = model.walletAddress;
     wallet.walletID       =[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
     wallet.TypeW  = model.TypeW;
-    
+    wallet.didString=model.didString;
      invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID] callbackId: wallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
     
     PluginResult * resultBase =[[ELWalletManager share]getMasterWalletBasicInfo:mommand];

@@ -137,36 +137,124 @@
 //    }
 //}
 +(NSString*)DIDRootPath{
- 
+    NSString *toPathStr = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+           NSString *toPath = [NSString stringWithFormat:@"%@/DID/",toPathStr];
+        BOOL isDir = NO;
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        BOOL existed = [fileManager fileExistsAtPath:toPath isDirectory:&isDir];
+        if ( !(isDir == YES && existed == YES) )
+        {
+            [fileManager createDirectoryAtPath:toPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
 
-    NSString *filePath;
-//        NSFileManager *fileManager = [NSFileManager defaultManager];
-//        NSString *str1 = NSHomeDirectory();
-//        filePath = [NSString stringWithFormat:@"%@/DIE",str1];
-//
-////         NSLog(@"%@",filePath);
-////          if(![fileManager fileExistsAtPath:filePath]){//如果不存在,则说明是第一次运行这个程序，那么建立这个文件夹
-////              NSArray *cachePaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory
-////                  , NSUserDomainMask
-////                  , YES);
-////            NSLog(@"first run");
-////
-////              NSString *directryPath =[NSString stringWithFormat:@"%@/DID",cachePaths.firstObject];
-////               [fileManager createDirectoryAtPath:directryPath withIntermediateDirectories:YES attributes:nil error:nil];
-////               NSString *filePath = [directryPath stringByAppendingPathComponent:@"test.plist"];
-////              NSLog(@"%@",filePath);
-////
-////              [fileManager createFileAtPath:filePath contents:nil attributes:nil];
-////              return directryPath;
-////
-////          }else{
-////
-//              return filePath;
-////          }
-      NSString *toPathStr = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-     
-      NSString *toPath = [toPathStr stringByAppendingString:@"/ADIR"];
+   
+//      NSString *toPath = [NSString stringWithFormat:@"%@/DID%@",toPathStr,[[FLTools share] getNowTimeTimestamp]];
     return toPath;
     
 }
++(NSArray*)ReadCommDIDPath{
+    NSString *toPathStr = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+           NSString *toPath = [NSString stringWithFormat:@"%@/Inbox",toPathStr];
+        BOOL isDir = NO;
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        BOOL existed = [fileManager fileExistsAtPath:toPath isDirectory:&isDir];
+        if ( !(isDir == YES && existed == YES) )
+        {
+            [fileManager createDirectoryAtPath:toPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+  
+    //新建数组，存放各个文件路径
+    NSMutableArray *allfilesAarry = [[NSMutableArray alloc]init];
+    
+    NSArray *filesAarry = [fileManager subpathsOfDirectoryAtPath:toPath error:nil];
+        //遍历目录迭代器，获取各个文件路径
+       for (NSString *fN in filesAarry) {
+           if ([[fN pathExtension] isEqualToString:@"jwt"]) {
+               [allfilesAarry addObject:fN];
+           }
+       }
+    
+    return allfilesAarry;
+}
++(BOOL)AddCommDIDWithJWT:(NSString*)fromePath{
+    BOOL hasFir=NO;
+    if (![[fromePath pathExtension] isEqualToString:@"jwt"]) {
+     return   hasFir;
+    }
+    NSString *FfileName=[NSString GetFileName:fromePath];
+    NSString *toPathStr = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+           NSString *toPath = [NSString stringWithFormat:@"%@/Inbox",toPathStr];
+        BOOL isDir = NO;
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        BOOL existed = [fileManager fileExistsAtPath:toPath isDirectory:&isDir];
+        if ( !(isDir == YES && existed == YES) )
+        {
+            [fileManager createDirectoryAtPath:toPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+
+     //新建数组，存放各个文件路径
+  
+     NSArray *filesAarry = [fileManager subpathsOfDirectoryAtPath:toPath error:nil];
+     //遍历目录迭代器，获取各个文件路径
+    for (NSString *fN in filesAarry) {
+        if ([fN isEqualToString:FfileName]) {
+            return YES;
+        }
+    }
+
+    return hasFir;
+}
++(NSArray*)ReadDIDPathWithWalletID:(NSString*)walletID{
+   
+    NSString *toPathStr = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+           NSString *toPath = [NSString stringWithFormat:@"%@/Credentials/%@",toPathStr,walletID];
+        BOOL isDir = NO;
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        BOOL existed = [fileManager fileExistsAtPath:toPath isDirectory:&isDir];
+        if ( !(isDir == YES && existed == YES) )
+        {
+            [fileManager createDirectoryAtPath:toPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+    //目录迭代器
+    NSDirectoryEnumerator *direnum = [fileManager enumeratorAtPath:toPath];
+    //新建数组，存放各个文件路径
+    NSMutableArray *filesAarry = [[NSMutableArray alloc]init];
+    //遍历目录迭代器，获取各个文件路径
+    NSString *filename;
+    while (filename = [direnum nextObject]) {
+        if ([[filename pathExtension] isEqualToString:@"jwt"]) {
+            [filesAarry addObject:filename];
+        }
+        
+        
+    }
+    return filesAarry;
+}
++(BOOL)saveDIDPathWithWalletID:(NSString*)walletID{
+   
+    NSString *toPathStr = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+           NSString *toPath = [NSString stringWithFormat:@"%@/Credentials/%@",toPathStr,walletID];
+        BOOL isDir = NO;
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        BOOL existed = [fileManager fileExistsAtPath:toPath isDirectory:&isDir];
+        if ( !(isDir == YES && existed == YES) )
+        {
+            [fileManager createDirectoryAtPath:toPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+    //目录迭代器
+    NSDirectoryEnumerator *direnum = [fileManager enumeratorAtPath:toPath];
+    //新建数组，存放各个文件路径
+    NSMutableArray *filesAarry = [[NSMutableArray alloc]init];
+    //遍历目录迭代器，获取各个文件路径
+    NSString *filename;
+    while (filename = [direnum nextObject]) {
+        if ([[filename pathExtension] isEqualToString:@"jwt"]) {
+            [filesAarry addObject:filename];
+        }
+        
+        
+    }
+    return filesAarry;
+}
+
 @end

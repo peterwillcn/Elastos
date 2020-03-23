@@ -17,6 +17,6 @@
 /*
  *<# #>
  */
-@property(strong,nonatomic)id<HWMAddThePrivateKeyViewControllerDelegate> _Nullable delegate;
+@property(weak,nonatomic)id<HWMAddThePrivateKeyViewControllerDelegate> _Nullable delegate;
 @end
 

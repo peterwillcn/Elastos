@@ -18,7 +18,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMCRCommitteeForAgreementView : UIView
-@property(strong,nonatomic)id<HWMCRCommitteeForAgreementViewDelegate> delegate;
+@property(weak,nonatomic)id<HWMCRCommitteeForAgreementViewDelegate> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

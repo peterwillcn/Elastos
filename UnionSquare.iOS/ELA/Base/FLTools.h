@@ -72,7 +72,7 @@
 @property(assign,nonatomic)NSInteger M;
 @property(assign,nonatomic)NSInteger N;
 @property(assign,nonatomic)BOOL  HasPassPhrase;
-
+@property (nonatomic, copy)NSString*didString;
 @end
 
 @class YYCache;
@@ -150,4 +150,6 @@
 -(NSString*)DownNumberPercentage:(NSString*)blance withLength:(NSInteger)MermVotCout;
 -(BOOL)isBlankString:(NSString *)str;
 -(NSString*)genderStringWithType:(NSString*)type;
+-(NSString *)getNowTimeTimestampMS;
+-(NSString *)TimeFormatConversionBirthday:(NSString *)timeStr;
 @end

@@ -23,6 +23,7 @@
 //#import "ELWalletManager.h"
 #ifdef DEBUG
 #define SDKNET  @"RegTest"
+#define didSDKNet @"http://api.elastos.io:22606"
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #define Http_IP [[FLTools share]http_ipString:SDKNET]
 #define transUrl [[FLTools share]http_transUrl:SDKNET]
@@ -33,19 +34,21 @@
 #define Http_IP [[FLTools share]http_ipString:SDKNET]
 #define transUrl [[FLTools share]http_transUrl:SDKNET]
 #define PongUrl [[FLTools share]http_PongUrl:SDKNET]
+#define didSDKNet @"http://api.elastos.io:20606"
 #elif TestNet
 #define SDKNET  @"TestNet"
 #define Http_IP [[FLTools share]http_ipString:SDKNET]
 #define transUrl [[FLTools share]http_transUrl:SDKNET]
 #define PongUrl [[FLTools share]http_PongUrl:SDKNET]
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#define didSDKNet @"http://api.elastos.io:20606"
 #else
 //@"RegTest",@"PrvNet",@"TestNet",@"MainNet"
 #define SDKNET  @"MainNet"
 #define Http_IP [[FLTools share]http_ipString:SDKNET]
 #define transUrl [[FLTools share]http_transUrl:SDKNET]
 #define PongUrl [[FLTools share]http_PongUrl:SDKNET]
-
+#define didSDKNet @"http://api.elastos.io:20606"
 #define DLog(...)
 
 #endif

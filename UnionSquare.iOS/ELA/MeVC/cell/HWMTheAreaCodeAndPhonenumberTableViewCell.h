@@ -7,12 +7,17 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
+@protocol HWMTheAreaCodeAndPhonenumberTableViewCellDelegate <NSObject>
+
+-(void)delegateViewWithDic:(NSDictionary*)dic;
+
+@end
 
 @interface HWMTheAreaCodeAndPhonenumberTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UITextField *theArNumberTextField;
 @property (weak, nonatomic) IBOutlet UITextField *MobilePhoneTextField;
-
+@property(weak,nonatomic)id<HWMTheAreaCodeAndPhonenumberTableViewCellDelegate> delegate;
+@property(copy,nonatomic)NSDictionary *dic;
 @end
 
-NS_ASSUME_NONNULL_END
+

@@ -17,47 +17,62 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YBk-GW-hqt">
-                        <rect key="frame" x="15" y="0.0" width="137.5" height="44"/>
+                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YBk-GW-hqt">
+                        <rect key="frame" x="15" y="0.0" width="100" height="44"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="100" id="10B-0e-M3N"/>
+                        </constraints>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <textInputTraits key="textInputTraits"/>
+                        <textInputTraits key="textInputTraits" keyboardType="namePhonePad"/>
                     </textField>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XBf-wQ-piN">
-                        <rect key="frame" x="15" y="43" width="137.5" height="1"/>
+                        <rect key="frame" x="15" y="43" width="100" height="1"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.49544270829999998" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="y4y-gh-1pd"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K87-9g-gJA">
-                        <rect key="frame" x="167.5" y="43" width="137.5" height="1"/>
+                        <rect key="frame" x="130" y="43" width="175" height="1"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.49544270829999998" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="6GB-2U-e4j"/>
                         </constraints>
                     </view>
-                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="f84-TG-pe4">
-                        <rect key="frame" x="167.5" y="0.0" width="137.5" height="44"/>
+                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="f84-TG-pe4">
+                        <rect key="frame" x="130" y="0.0" width="137" height="44"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <textInputTraits key="textInputTraits"/>
+                        <textInputTraits key="textInputTraits" keyboardType="namePhonePad"/>
                     </textField>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zwx-qG-9Nr">
+                        <rect key="frame" x="275" y="3" width="30" height="37"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="11c-SB-ftd"/>
+                        </constraints>
+                        <state key="normal" image="asset_cancel"/>
+                        <connections>
+                            <action selector="selectIndexView:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="JGf-gX-y3k"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="f84-TG-pe4" secondAttribute="trailing" constant="15" id="0Iq-FR-CY3"/>
-                    <constraint firstItem="f84-TG-pe4" firstAttribute="leading" secondItem="YBk-GW-hqt" secondAttribute="trailing" constant="15" id="5D7-fu-9V8"/>
+                    <constraint firstItem="K87-9g-gJA" firstAttribute="top" secondItem="Zwx-qG-9Nr" secondAttribute="bottom" constant="3" id="6Ec-gK-Fk9"/>
                     <constraint firstItem="K87-9g-gJA" firstAttribute="centerY" secondItem="XBf-wQ-piN" secondAttribute="centerY" id="9EO-Z4-EBp"/>
-                    <constraint firstItem="f84-TG-pe4" firstAttribute="width" secondItem="YBk-GW-hqt" secondAttribute="width" id="Fpm-VV-apW"/>
                     <constraint firstItem="f84-TG-pe4" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="GkZ-Px-V9s"/>
                     <constraint firstItem="YBk-GW-hqt" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="H1u-lj-MsX"/>
+                    <constraint firstItem="Zwx-qG-9Nr" firstAttribute="leading" secondItem="f84-TG-pe4" secondAttribute="trailing" constant="8" id="N0L-Bu-H04"/>
+                    <constraint firstAttribute="trailing" secondItem="Zwx-qG-9Nr" secondAttribute="trailing" constant="15" id="QZv-sT-DWa"/>
                     <constraint firstAttribute="bottom" secondItem="YBk-GW-hqt" secondAttribute="bottom" id="TZS-GZ-jna"/>
                     <constraint firstItem="YBk-GW-hqt" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="UPO-OJ-1mE"/>
                     <constraint firstItem="XBf-wQ-piN" firstAttribute="trailing" secondItem="YBk-GW-hqt" secondAttribute="trailing" id="UPQ-ZA-3gQ"/>
+                    <constraint firstItem="f84-TG-pe4" firstAttribute="leading" secondItem="YBk-GW-hqt" secondAttribute="trailing" constant="15" id="aW8-qI-rgq"/>
                     <constraint firstItem="XBf-wQ-piN" firstAttribute="leading" secondItem="YBk-GW-hqt" secondAttribute="leading" id="dSA-Lz-Ybi"/>
                     <constraint firstAttribute="bottom" secondItem="f84-TG-pe4" secondAttribute="bottom" id="eRh-d1-yWn"/>
                     <constraint firstItem="K87-9g-gJA" firstAttribute="leading" secondItem="f84-TG-pe4" secondAttribute="leading" id="oMa-mf-dbP"/>
-                    <constraint firstItem="K87-9g-gJA" firstAttribute="trailing" secondItem="f84-TG-pe4" secondAttribute="trailing" id="y21-bn-XIh"/>
+                    <constraint firstItem="Zwx-qG-9Nr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="3" id="sn8-ta-sYE"/>
+                    <constraint firstItem="K87-9g-gJA" firstAttribute="trailing" secondItem="f84-TG-pe4" secondAttribute="trailing" constant="38" id="y21-bn-XIh"/>
                     <constraint firstAttribute="bottom" secondItem="XBf-wQ-piN" secondAttribute="bottom" id="zhg-VI-Cte"/>
                 </constraints>
             </tableViewCellContentView>
@@ -70,4 +85,7 @@
             <point key="canvasLocation" x="139" y="154"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="asset_cancel" width="22" height="22.5"/>
+    </resources>
 </document>

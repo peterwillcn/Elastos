@@ -59,4 +59,10 @@
     }
     return strLength;
 }
++(NSString*) GetFileName:(NSString*)pFile
+{
+    NSRange range = [pFile rangeOfString:@"/"options:NSBackwardsSearch];
+    return [pFile substringFromIndex:range.location + 1];
+}
+
 @end

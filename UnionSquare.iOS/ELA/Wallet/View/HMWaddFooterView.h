@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  *<# #>
  */
-@property(strong,nonatomic)id<HMWaddFooterViewDelegate>delegate;
+@property(weak,nonatomic)id<HMWaddFooterViewDelegate>delegate;
 @end
 
 NS_ASSUME_NONNULL_END

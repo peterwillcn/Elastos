@@ -1,0 +1,20 @@
+PODS:
+  - Base64 (1.1.2)
+  - JWT (2.2.0):
+    - Base64 (~> 1.1.2)
+
+DEPENDENCIES:
+  - JWT
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Base64
+    - JWT
+
+SPEC CHECKSUMS:
+  Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
+  JWT: cf73c0ab0dac762df3de8a3f1164352089d97780
+
+PODFILE CHECKSUM: 55b1ddfd550d3cd2e85f734b2b8194944eeab3b3
+
+COCOAPODS: 1.6.0.beta.1

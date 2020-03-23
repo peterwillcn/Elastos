@@ -43,7 +43,7 @@ typedef NS_ENUM(NSInteger, HMWToDeleteType) {
     /*
      *<# #>
      */
-@property(strong,nonatomic)id<HMWToDeleteTheWalletPopViewDelegate> delegate;
+@property(weak,nonatomic)id<HMWToDeleteTheWalletPopViewDelegate> delegate;
 
 /*
  *<# #>

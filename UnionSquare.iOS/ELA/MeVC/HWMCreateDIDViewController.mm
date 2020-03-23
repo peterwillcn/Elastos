@@ -75,6 +75,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 @property(strong,nonatomic)HMWpwdPopupView *ShowPoPWDView;
 @property (nonatomic, strong)FLWallet *currentWallet;
 
+
 @end
 
 @implementation HWMCreateDIDViewController
@@ -161,7 +162,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     self.DIDString=DIDlistArray.firstObject;
     self.PublicKeysString=PublicKeysListArray.firstObject;
     self.DIDInfoModel.did=self.DIDString;
-           self.DIDInfoModel.PubKeyString=self.PublicKeysString;
+//           self.DIDInfoModel.PubKeyString=self.PublicKeysString;
         
            
        }
@@ -177,7 +178,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     if (!_dataListView) {
         _dataListView =[[HWMDIDDataListView alloc]init];
         _dataListView.delegate=self;
-        _dataListView.ListViewType=birthdayType;
+        _dataListView.ListViewType=DIDDataType;
     }
     return _dataListView;
 }
@@ -320,7 +321,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
             self.wallerSelectIndex=index;
               [self getDIDAndDIDPublicKey];
               [self.table reloadData];
-              self.DIDInfoModel.walletID=model.walletID;
+//              self.DIDInfoModel.walletID=model.walletID;
          
           }else{
               self.wallerSelectIndex=index;
@@ -343,7 +344,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 -(void)selectDataWithYY:(NSString*_Nullable)yy withMM:(NSString*_Nullable)mm wihMMWithInt:(NSInteger)mInt wtihDD:(NSString*_Nullable)dd{
     self.YYMMDD=[NSString stringWithFormat:@"%@ %@.%@.%@",NSLocalizedString(@"有效期至 ",nil),yy,mm,dd];
     [self.table reloadData];
-    self.DIDInfoModel.issuanceDate=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@ 00:00:00",yy,mm,dd]];
+    self.DIDInfoModel.editTime=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@ 00:00:00",yy,mm,dd]];
     [self cancelDataListView];
 }
 #pragma mark --------HMWToDeleteTheWalletPopViewDelegate-----------
@@ -392,10 +393,10 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 }
 - (IBAction)nextButtonEvent:(id)sender {
     [self.view endEditing:YES];
-//    if (self.DIDInfoModel.didName.length==0) {
-//        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入DID名称（必填）", nil)];
-//        return;
-//    }
+    if (self.DIDInfoModel.didName.length==0) {
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入DID名称（必填）", nil)];
+        return;
+    }
 //    if (self.DIDInfoModel.did.length==0) {
 //        [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择钱包", nil)];
 //          return;
@@ -404,13 +405,15 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 //        [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择钱包", nil)];
 //          return;
 //    }
-//    if (self.DIDInfoModel.issuanceDate.length==0) {
-//         [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择失效日期", nil)];
-//          return;
-//    }
+    if (self.DIDInfoModel.editTime.length==0) {
+         [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择失效日期", nil)];
+          return;
+    }
     HWMAddPersonalInformationViewController *AddPersonalInformationVC=[[HWMAddPersonalInformationViewController alloc]init];
     self.isNext=YES;
     AddPersonalInformationVC.model=self.DIDInfoModel;
+    AddPersonalInformationVC.currentWallet=self.currentWallet;
+    
     [self.navigationController pushViewController:AddPersonalInformationVC animated:YES];
 }
 
@@ -435,16 +438,6 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     [self.view endEditing:YES];
 }
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    
-//    if (textField.tag ==101) {
-//        UIView *mainView =[self mainWindow];
-//               [mainView addSubview:self.walletListView];
-//               [self.walletListView mas_makeConstraints:^(MASConstraintMaker *make) {
-//                   make.left.right.top.bottom.equalTo(mainView);
-//               }];
-//               self.walletListView.dataSourceArray=self.walletListArray;
-//        return NO;
-//    }else
         if (textField.tag==101){
         UIView *mainView =[self mainWindow];
                [mainView addSubview:self.dataListView];
@@ -456,15 +449,10 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     return YES;
 
 }
-
 -(void)textFieldDidEndEditing:(UITextField *)textField{
-    
-    
     if (textField.tag ==100) {
         self.DIDInfoModel.didName=textField.text;
     }
-    
-    
 }
 -(void)makeSureWithPWD:(NSString*)pwd{
     

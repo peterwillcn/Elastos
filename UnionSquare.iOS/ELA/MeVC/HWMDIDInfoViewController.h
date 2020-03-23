@@ -20,7 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMDIDInfoViewController : UIViewController
 @property(strong,nonatomic)HWMDIDInfoModel *model;
-@property(strong,nonatomic)id<HWMDIDInfoViewControllerDelegate>delegate;
+@property(weak,nonatomic)id<HWMDIDInfoViewControllerDelegate>delegate;
+@property (nonatomic, strong)FLWallet *currentWallet;
 
 @end
 

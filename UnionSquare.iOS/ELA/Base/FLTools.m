@@ -208,6 +208,37 @@ if ([languageString  containsString:@"en"]) {
          
          return timeS;
 }
+-(NSString *)TimeFormatConversionBirthday:(NSString *)timeStr{
+      double time = [timeStr longLongValue];
+         
+         NSDate *myDate = [NSDate dateWithTimeIntervalSince1970:time];
+         
+         NSDateFormatter *formatter = [NSDateFormatter new];
+         NSString *languageString=[DAConfig userLanguage];
+         
+         NSString *timeS;
+          NSCalendar *gregorian = [[NSCalendar alloc]
+           initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+          // 获取当前日期
+          // 定义一个时间字段的旗标，指定将会获取指定年、月、日、时、分、秒的信息
+          unsigned unitFlags = NSCalendarUnitYear |
+           NSCalendarUnitMonth |  NSCalendarUnitDay |
+           NSCalendarUnitHour |  NSCalendarUnitMinute |
+           NSCalendarUnitSecond | NSCalendarUnitWeekday;
+          // 获取不同时间字段的信息
+          NSDateComponents* comp = [gregorian components: unitFlags
+           fromDate:myDate];
+          // 获取各时间字段的数值;
+         NSString * horr=[formatter stringFromDate:myDate];
+     if ([languageString  containsString:@"en"]) {
+         NSString *monthString=[NSString stringWithFormat:@"m%ld",(long)comp.month];
+         timeS=[NSString stringWithFormat:@"%@  %@ %02d %ld",horr,NSLocalizedString(monthString,nil),(int)comp.day,comp.year];
+       }else if ([languageString  containsString:@"zh"]){
+           timeS =[NSString stringWithFormat:@"%ld.%02d.%02d %@",comp.year,(int)comp.month,(int)comp.day,horr ];;
+         }
+         
+         return timeS;
+}
 -(NSString*)getCurrentTimes{
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -1537,9 +1568,9 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     return NO;
 }
 -(NSString*)genderStringWithType:(NSString*)type{
-    if ([type isEqualToString:@"0"]) {
+    if ([type isEqualToString:@"1"]) {
         return NSLocalizedString(@"男", nil);
-    }else if ([type isEqualToString:@"1"]){
+    }else if ([type isEqualToString:@"2"]){
         return NSLocalizedString(@"女", nil);
     }
     return @"";
@@ -1564,5 +1595,13 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     //去掉字符串中的换行符
     [mutStr replaceOccurrencesOfString:@"\n" withString:@"" options:NSLiteralSearch range:range2];
     return mutStr;
+}
+-(NSString *)getNowTimeTimestampMS{
+
+    NSDate *datenow = [NSDate date];//现在时间,你可以输出来看下是什么格式
+
+    NSString *timeSp = [NSString stringWithFormat:@"%ld", (long)([datenow timeIntervalSince1970]*1000)];
+
+    return timeSp;
 }
 @end

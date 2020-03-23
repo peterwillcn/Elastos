@@ -22,6 +22,15 @@
 #import "HWMQrCodeScanningResultsViewController.h"
 #import "HWMQrCodeTransferAndAddBuddyViewController.h"
 #import "HMWaddContactViewController.h"
+#import "HMWSendSuccessPopuView.h"
+
+
+@interface UIViewController (FLVCExt)
+@property(strong,nonatomic)HMWSendSuccessPopuView * sendSuccessPopuV;
+
+
+
+@end
 
 @implementation UIViewController (FLVCExt)
 
@@ -588,5 +597,21 @@ NSString *leftTime=
     [VC.navigationController pushViewController:QrCodeScanningResultsVC animated:YES];
 
 }
+
+
+//-(void)showSendSuccessView{
+//   self.sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
+//    UIView *manView=[self mainWindow];
+//    [manView addSubview:self.sendSuccessPopuV];
+//    [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.right.top.bottom.equalTo(manView);
+//    }];
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self.sendSuccessPopuV removeFromSuperview];
+//        self.sendSuccessPopuV=nil;
+//        [self.navigationController popViewControllerAnimated:YES];
+//    });
+//   
+//}
 
 @end

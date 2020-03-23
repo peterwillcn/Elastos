@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,copy)NSString *persent;
 @property(nonatomic,copy)NSString *totalvotes;
 @property(nonatomic,copy)NSArray *lastArray;
-@property(nonatomic,strong)id<HWMCRCCommitteeElectionListViewControllerDelegate> delegate;
+@property(nonatomic,weak)id<HWMCRCCommitteeElectionListViewControllerDelegate> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

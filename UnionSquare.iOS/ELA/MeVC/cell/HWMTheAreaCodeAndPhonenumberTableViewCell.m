@@ -19,5 +19,12 @@
 
     // Configure the view for the selected state
 }
-
+- (IBAction)selectIndexView:(id)sender {
+    if (self.delegate) {
+        [self.delegate delegateViewWithDic:self.dic];
+    }
+}
+-(void)setDic:(NSDictionary *)dic{
+    _dic=dic;
+}
 @end

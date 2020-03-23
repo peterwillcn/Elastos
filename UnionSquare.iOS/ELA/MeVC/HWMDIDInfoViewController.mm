@@ -11,7 +11,8 @@
 #import "HWMConfidentialInformationViewController.h"
 #import "HMWFMDBManager.h"
 #import "HMWToDeleteTheWalletPopView.h"
-
+#import "HWMDIDManager.h"
+#import "ELWalletManager.h"
 
 static NSString *cellString=@"HWMDIDInfoTableViewCell";
 @interface HWMDIDInfoViewController ()<UITableViewDataSource,UITableViewDelegate,HMWToDeleteTheWalletPopViewDelegate>
@@ -19,7 +20,7 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
 @property (weak, nonatomic) IBOutlet UIButton *theEditorButton;
 @property (weak, nonatomic) IBOutlet UIButton *ConfidentialInformationButton;
 @property (weak, nonatomic) IBOutlet UITableView *table;
- 
+@property(copy,nonatomic)NSString *PubKeyString;
 
 @property(copy,nonatomic)NSArray *dataArray;
 @property(strong,nonatomic)HMWToDeleteTheWalletPopView *deleteDIDPopView;
@@ -32,6 +33,7 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
     [self defultWhite];
           [self setBackgroundImg:@""];
     self.title=self.model.didName;
+    [self getDIDInfo];
     self.DIDInfoTextLabel.text=NSLocalizedString(@"DID信息", nil);
     [[HMWCommView share]makeBordersWithView:self.theEditorButton];
     [[HMWCommView share]makeBordersWithView:self.ConfidentialInformationButton];
@@ -39,6 +41,29 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
     [self.ConfidentialInformationButton setTitle:NSLocalizedString(@"凭证信息", nil) forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"del_icon"] style:UIBarButtonItemStyleDone target:self action:@selector(deleteDIDEvent)];
     [self makeUI];
+}
+-(void)getDIDInfo{
+    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID];
+    NSDictionary *didInfoDic=[[HWMDIDManager shareDIDManager]getDIDInfo];
+//     NSDictionary *reDic=@{@"nickName":[self charToString:suInfo],@"endTime":@(endTime),@"DIDString":self.DIDString};
+    if (self.model==nil) {
+        self.model=[[HWMDIDInfoModel alloc]init];
+    }
+    self.model.did=didInfoDic[@"DIDString"];
+    self.model.didName=didInfoDic[@"nickName"];
+    self.model.editTime=didInfoDic[@"endTime"];
+   
+      invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,@"IDChain",@"0",@"100"] callbackId:self.currentWallet.masterWalletID className:@"wallet" methodName:@"createMasterWallet"];
+    PluginResult * resultBasePublicKeysList =[[ELWalletManager share]getAllPublicKeys:cmommand];
+     NSString *status=[NSString stringWithFormat:@"%@",resultBasePublicKeysList.status];
+        if ([status isEqualToString:@"1"]) {
+     
+     NSArray *PublicKeysListArray=resultBasePublicKeysList.message[@"success"][@"PublicKeys"];
+    
+           self.PubKeyString=PublicKeysListArray.firstObject;
+         
+            
+        }
 }
 -(NSArray *)dataArray{
     if (!_dataArray) {
@@ -86,11 +111,14 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
 - (IBAction)theEditorEvent:(id)sender {
     HWMTheEditorDIDInfoViewController *TheEditorDIDInfoVC=[[HWMTheEditorDIDInfoViewController alloc]init];
     TheEditorDIDInfoVC.model=self.model;
+    TheEditorDIDInfoVC.currentWallet=self.currentWallet;
+    TheEditorDIDInfoVC.PubKeyString=self.PubKeyString;
     [self.navigationController pushViewController:TheEditorDIDInfoVC animated:YES];
 }
 - (IBAction)ConfidentialInformationEvent:(id)sender {
     HWMConfidentialInformationViewController *ConfidentialInformationVC=[[HWMConfidentialInformationViewController alloc]init];
     ConfidentialInformationVC.model=self.model;
+    ConfidentialInformationVC.currentWallet=self.currentWallet;
     [self.navigationController pushViewController:ConfidentialInformationVC animated:YES];
 }
 -(void)makeUI{
@@ -114,7 +142,7 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
                 cell.infoLabel.text=self.model.didName;
             break;
             case 1:
-                cell.infoLabel.text=self.model.PubKeyString;
+                cell.infoLabel.text=self.PubKeyString;
             break;
             case 2:
                 cell.infoLabel.text=self.model.did;
@@ -122,8 +150,8 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
             break;
             case 3:
                 cell.arrImageView.alpha=0.f;
-                if (self.model.issuanceDate.length>0) {
-                    cell.infoLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.issuanceDate]];
+                if (self.model.editTime.length>0) {
+                    cell.infoLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.editTime]];
                 }
               
             break;
@@ -146,6 +174,10 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
     }
 -(void)setModel:(HWMDIDInfoModel *)model{
     _model=model;
+}
+
+-(void)setCurrentWallet:(FLWallet *)currentWallet{
+    _currentWallet=currentWallet;
 }
 
 @end

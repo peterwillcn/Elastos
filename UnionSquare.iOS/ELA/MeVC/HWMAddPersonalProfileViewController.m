@@ -43,9 +43,9 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
         [self.nextButton setTitle:NSLocalizedString(@"保存", nil) forState:UIControlStateNormal];
         self.infoHeight.constant=0.f;
         self.textInfoLabel.alpha=0.f;
-        if (self.model.introductionInfoString.length>0) {
-            self.textInfoLabel.text=self.model.introductionInfoString;
-            self.textInfoLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)self.model.introductionInfoString.length];
+        if (self.model.introduction.length>0) {
+            self.textInfoLabel.text=self.model.introduction;
+            self.textInfoLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)self.model.introduction.length];
             
         }else{
             self.textInfoLabel.text=@"";
@@ -68,16 +68,17 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
 -(void)skipVCEvent{
      [self.view endEditing:YES];
     if (self.isEidet) {
-        if ( [[HMWFMDBManager sharedManagerType:DIDInfoType]updateDIDInfo:self.model WithWalletID:self.model.walletID]) {
-            [[FLTools share]showErrorInfo:@"保存成功"];
-        }else{
-            [[FLTools share]showErrorInfo:@"保存失败"];
-        }
+//        if ( [[HMWFMDBManager sharedManagerType:DIDInfoType]updateDIDInfo:self.model WithWalletID:self.walletID]) {
+//            [[FLTools share]showErrorInfo:@"保存成功"];
+//        }else{
+//            [[FLTools share]showErrorInfo:@"保存失败"];
+//        }
        
         
     }else{
         HWMAddSocialAccountViewController *AddSocialAccountVC=[[HWMAddSocialAccountViewController alloc]init];
            AddSocialAccountVC.model=self.model;
+        AddSocialAccountVC.walletID=self.walletID;
            [self.navigationController pushViewController:AddSocialAccountVC animated:YES];
     }
    
@@ -105,7 +106,7 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
            self.infoTextView.text=placeHText;
            self.infoTextView.textColor=RGBA(255, 255, 255, 0.5);
     }else{
-        self.model.introductionInfoString=self.infoTextView.text;
+        self.model.introduction=self.infoTextView.text;
     }
     
 }

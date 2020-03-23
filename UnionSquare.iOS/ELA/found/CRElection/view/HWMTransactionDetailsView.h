@@ -21,7 +21,7 @@ typedef enum : NSUInteger  {
 /*
  *<# #>
  */
-@property(strong,nonatomic)id<HWMTransactionDetailsViewDelegate> delegate;
+@property(weak,nonatomic)id<HWMTransactionDetailsViewDelegate> delegate;
 /*
  *<# #>
  */

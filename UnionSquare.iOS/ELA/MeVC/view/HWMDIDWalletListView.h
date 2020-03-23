@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  *<# #>
  */
-@property(strong,nonatomic)id<HWMDIDWalletListViewDelegate> delegate;
+@property(weak,nonatomic)id<HWMDIDWalletListViewDelegate> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

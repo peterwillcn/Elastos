@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(assign,nonatomic)Boolean  isEidet;
+@property(atomic,copy)NSString *walletID;
 @end
 
 NS_ASSUME_NONNULL_END

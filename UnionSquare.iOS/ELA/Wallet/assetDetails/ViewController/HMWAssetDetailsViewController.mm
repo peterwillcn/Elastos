@@ -707,7 +707,12 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
             detailsM.Type=NSLocalizedString(@"注册参选交易", nil);
             break;
         case 10:
-            detailsM.Type=NSLocalizedString(@"取消参选交易", nil);
+            if ([self.model.iconName isEqualToString:@"IDChain"]) {
+                detailsM.Type=NSLocalizedString(@"ID 交易", nil);
+            }else{
+              detailsM.Type=NSLocalizedString(@"取消参选交易", nil);
+            }
+           
             break;
         case 11:
             detailsM.Type=NSLocalizedString(@"更新参选交易", nil);

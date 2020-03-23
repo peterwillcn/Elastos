@@ -15,22 +15,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMDIDManager : NSObject{
     
-    NSString *rootPath;
+//    NSString *rootPath;
 }
 +(instancetype)shareDIDManager;
--(void)copyDirToSharedDir;
--(BOOL)saveDir;
--(BOOL)initDIDWithPWD:(NSString *)passWord withDIDString:(NSString*)DIDString
-WithPrivatekeyString:(NSString*)privatekeyString
-     WithmastWalletID:(NSString*)mastWalletID;
--(void)getDIDInfo;
--(BOOL)updateInfoWithInfo:(HWMDIDInfoModel*)model;
 @property(copy,nonatomic)NSString *passWord;
 @property(copy,nonatomic)NSString *DIDString;
 @property(copy,nonatomic)NSString *TheMnemonicWordString;
 @property(copy,nonatomic)NSString *privatekeyString;
 @property(copy,nonatomic)NSString *mastWalletID;
-
+-(void)copyDirToSharedDir;
+-(BOOL)saveDir;
+-(NSString*)hasDIDWithPWD:(NSString *)passWord withDIDString:(NSString*)DIDString
+WithPrivatekeyString:(NSString*)privatekeyString
+         WithmastWalletID:(NSString*)mastWalletID;
+-(NSDictionary*)getDIDInfo;
+-(BOOL)updateInfoWithInfo:(HWMDIDInfoModel*)model;
+-(id)jwtDecodeWithJwtStringInfo:(NSString *)jwtStr;
+-(NSString*)PKWith:(const char*)pk58;
+-(NSString*)DIDSignatureWithString:(NSString*)sigString;
+-(BOOL)saveDIDCredentialWithDIDModel:(HWMDIDInfoModel*)model;
+-(HWMDIDInfoModel*)readDIDCredential;
 @end
 
 NS_ASSUME_NONNULL_END

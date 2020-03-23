@@ -20,7 +20,7 @@
     [self defultWhite];
         [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"个人简介", nil);
-    self.IntroductionInfoTextView.text=self.model.introductionInfoString;
+    self.IntroductionInfoTextView.text=self.model.introduction;
       self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mine_edit"] style:UIBarButtonItemStyleDone target:self action:@selector(EditProfile)];
     // Do any additional setup after loading the view from its nib.
 }
@@ -28,6 +28,7 @@
     HWMAddPersonalProfileViewController *HWMAddPersonalProfileVC=[[HWMAddPersonalProfileViewController alloc]init];
               HWMAddPersonalProfileVC.model=self.model;
               HWMAddPersonalProfileVC.isEidet=YES;
+    HWMAddPersonalProfileVC.walletID=self.walletID;
               [self.navigationController pushViewController:HWMAddPersonalProfileVC animated:YES];
 }
 /*

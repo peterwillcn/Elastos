@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(weak,nonatomic)id<HMWpwdPopupViewDelegate>delegate;
+@property (weak, nonatomic) IBOutlet UIView *BGView;
 
 @end
 

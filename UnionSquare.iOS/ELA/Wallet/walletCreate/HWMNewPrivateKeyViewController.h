@@ -17,7 +17,7 @@
 /*
  *<# #>
  */
-@property(strong,nonatomic)id<HWMNewPrivateKeyViewControllerDelegate>delegate;
+@property(weak,nonatomic)id<HWMNewPrivateKeyViewControllerDelegate>delegate;
 @end
 
 

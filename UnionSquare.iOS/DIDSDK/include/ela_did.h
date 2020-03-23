@@ -331,15 +331,34 @@ DID_API void DID_Destroy(DID *did);
 
 /**
  * \~English
- * Get DID Document from chain.
+ * Get the newest DID Document from chain.
+ *
+ * @param
+ *      did                      [in] The handle of DID.
+ * @param
+ *      force                    [in] Indicate if load document from cache or not.
+ *                               force = true, document gets only from chain.
+ *                               force = false, document can get from cache,
+ *                               if no document is in the cache, resolve it from chain.
+ * @return
+ *      If no error occurs, return the handle to DID Document.
+ *      Otherwise, return NULL.
+ * @ User need to destroy DID Document.
+ */
+DID_API DIDDocument *DID_Resolve(DID *did, bool force);
+
+/**
+ * \~English
+ * Get all DID Documents from chain.
  *
  * @param
  *      did                      [in] The handle of DID.
  * @return
- *      If no error occurs, return the handle to DID Document.
+ *      If no error occurs, return the handle to DID Document buffter. Free
  *      Otherwise, return NULL.
+ * @ User need to free the return value and destroy every DID Document.
  */
-DID_API DIDDocument *DID_Resolve(DID *did);
+DID_API DIDDocument **DID_ResolveAll(DID *did);
 
 /**
  * \~English
@@ -1981,16 +2000,16 @@ DID_API bool DIDStore_ContainsPrivateIdentity(DIDStore *store);
  *      passphrase             [in] The pass word to generate private identity.
  * @param
  *      language               [in] The language for DID.
- *                             0: English; 1: French; 2: Spanish;
- *                             3: Japanese; 4: Chinese_simplified;
- *                             5: Chinese_traditional;
+ *                             support language string: "chinese_simplified",
+ *                             "chinese_traditional", "czech", "english", "french",
+ *                             "italian", "japanese", "korean", "spanish".
  * @param
  *      extendedkey            [in] Extendedkey string.
  * @return
  *      0 on success, -1 if an error occurred.
  */
 DID_API int DIDStore_InitPrivateIdentity(DIDStore *store, const char *storepass,
-        const char *mnemonic, const char *passphrase, const int language, bool force);
+        const char *mnemonic, const char *passphrase, const char *language, bool force);
 
 DID_API int DIDStore_InitPrivateIdentityFromRootKey(DIDStore *store,
         const char *storepass, const char *extendedkey, bool force);
@@ -2035,14 +2054,12 @@ DID_API DIDDocument *DIDStore_NewDIDByIndex(DIDStore *store, const char *storepa
  * @param
  *      store                     [in] THe handle to DIDStore.
  * @param
- *      storepass                 [int] Password for DIDStore.
- * @param
  *      index                     [int] The index of DerivedKey from HDKey.
  * @return
  *      If no error occurs, return DID object. Free DID after use it.
  *      Otherwise, return NULL.
  */
-DID_API DID *DIDStore_GetDIDByIndex(DIDStore *store, const char *storepass, int index);
+DID_API DID *DIDStore_GetDIDByIndex(DIDStore *store, int index);
 /**
  * \~English
  * Create new DID Document and store in the DID Store.
@@ -2351,12 +2368,13 @@ DID_API void DIDStore_DeletePrivateKey(DIDStore *store, DID *did, DIDURL *keyid)
  *      did                      [in] The handle to DID.
  * @param
  *      signKey                  [in] The public key to sign.
-
+ * @param
+ *      force                    [in] Force document into chain.
  * @return
  *      0 on success, -1 if an error occurred.
  */
 DID_API const char *DIDStore_PublishDID(DIDStore *store, const char *storepass,
-        DID *did, DIDURL *signKey);
+        DID *did, DIDURL *signKey, bool force);
 
 /**
  * \~English
@@ -2385,14 +2403,13 @@ DID_API const char *DIDStore_DeactivateDID(DIDStore *store, const char *storepas
  *
  * @param
  *      language               [in] The language for DID.
- *                             0: English; 1: French; 2: Spanish;
- *                             3: Chinese_simplified;
- *                             4: Chinese_traditional;
- *                             5: Japanese.
+ *                             support language string: "chinese_simplified",
+ *                             "chinese_traditional", "czech", "english", "french",
+ *                             "italian", "japanese", "korean", "spanish".
  * @return
  *      mnemonic string. Use Mnemonic_free after finish using mnemonic string.
  */
-DID_API const char *Mnemonic_Generate(int language);
+DID_API const char *Mnemonic_Generate(const char *language);
 
 /**
  * \~English
@@ -2418,7 +2435,7 @@ DID_API void Mnemonic_Free(void *mnemonic);
  * @return
  *      true, if mnemonic is valid. or else, return false.
  */
-DID_API bool Mnemonic_IsValid(const char *mnemonic, int language);
+DID_API bool Mnemonic_IsValid(const char *mnemonic, const char *language);
 
 /******************************************************************************
  * Presentation
@@ -2638,7 +2655,7 @@ DID_API bool Presentation_IsValid(Presentation *pre);
  * @return
  *      0 on success, -1 if an error occurred.
  */
-DID_API int DIDBackend_InitializeDefault(const char *url);
+DID_API int  DIDBackend_InitializeDefault(const char *url, const char *cachedir);
 
 /**
  * \~English
@@ -2649,7 +2666,16 @@ DID_API int DIDBackend_InitializeDefault(const char *url);
  * @return
  *      0 on success, -1 if an error occurred.
  */
-DID_API int DIDBackend_Initialize(DIDResolver *resolver);
+DID_API int DIDBackend_Initialize(DIDResolver *resolver, const char *cachedir);
+
+/**
+ * \~English
+ * Set ttl for resolve cache.
+ *
+ * @param
+ *      ttl            [in] The time for cache.
+ */
+DID_API void DIDBackend_SetTTL(long ttl);
 
 #ifdef __cplusplus
 }

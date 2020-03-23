@@ -335,8 +335,9 @@
 }
 -(void)setListViewType:(HWMDIDDataListViewType)ListViewType{
         _ListViewType=ListViewType;
+    NSString *stringType;
     if (ListViewType==DIDDataType) {
-       
+        stringType=@"请选择失效日期";
          NSCalendar *calendar = [[NSCalendar alloc]initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
                        // 定义一个时间字段的旗标，指定将会获取指定年、月、日、时、分、秒的信息
                        unsigned unitFlags = NSCalendarUnitYear |
@@ -350,7 +351,7 @@
                           self.nowDay=comp.day;
         [self.yearArray removeAllObjects];
                self.yearArray=nil;
-                self.yearIndex =4;
+                self.yearIndex =6;
   
                 self.monthIndex = [self.monthArray indexOfObject:[NSString stringWithFormat:@"%02ld", (long)comp.month]]-1;
                 self.dayIndex = [self.dayArray indexOfObject:[NSString stringWithFormat:@"%02ld", (long)comp.day]]-1;
@@ -361,10 +362,12 @@
                        [self pickerView: self.dataPickerView didSelectRow:self.monthIndex inComponent:1];
                        [self pickerView: self.dataPickerView didSelectRow:self.dayIndex inComponent:2];
     }else if (ListViewType==genderType){
+        stringType=@"请选择性别";
         self.genderIndex=0;
             [self pickerView: self.dataPickerView didSelectRow:self.genderIndex inComponent:0];
         
     }else if (ListViewType==birthdayType){
+        stringType=@"请选择出生日期";
              NSCalendar *calendar = [[NSCalendar alloc]initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
                              // 定义一个时间字段的旗标，指定将会获取指定年、月、日、时、分、秒的信息
                              unsigned unitFlags = NSCalendarUnitYear |
@@ -389,6 +392,6 @@
                              [self pickerView: self.dataPickerView didSelectRow:self.monthIndex inComponent:1];
                              [self pickerView: self.dataPickerView didSelectRow:self.dayIndex inComponent:2];
     }
-    
+            self.selectDataTextLabel.text=NSLocalizedString(stringType, nil);
 }
 @end

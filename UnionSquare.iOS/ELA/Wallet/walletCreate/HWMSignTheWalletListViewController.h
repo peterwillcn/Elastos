@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  *<# #>
  */
-@property(strong,nonatomic)id<HWMSignTheWalletListViewControllerDelegate> delegate;
+@property(weak,nonatomic)id<HWMSignTheWalletListViewControllerDelegate> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

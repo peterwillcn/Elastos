@@ -56,7 +56,7 @@
             self.currentWallet.walletAddress  = model.walletAddress;
             self.currentWallet.walletID       =[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
             self.currentWallet.TypeW  = model.TypeW;
-
+        self.currentWallet.didString=model.didString;
          
     }
     

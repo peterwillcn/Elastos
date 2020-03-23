@@ -26,8 +26,8 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
     self.title=NSLocalizedString(@"个人信息", nil);
     self.dataSource =@[NSLocalizedString(@"姓名", @""),NSLocalizedString(@"昵称", @""),NSLocalizedString(@"性别", @""),NSLocalizedString(@"出生日期", @""),NSLocalizedString(@"邮箱", @""),NSLocalizedString(@"手机号", @""),NSLocalizedString(@"国家/地区", @"")];
     [self makeUI];
-    if (self.model.iconUrlString.length>0) {
-        [self.IconImageView sd_setImageWithURL:[NSURL URLWithString:self.model.iconUrlString]placeholderImage:[UIImage imageNamed:@"mine_did_default_avator"]];
+    if (self.model.avatar.length>0) {
+        [self.IconImageView sd_setImageWithURL:[NSURL URLWithString:self.model.avatar]placeholderImage:[UIImage imageNamed:@"mine_did_default_avator"]];
     }
     [self.table reloadData];
 
@@ -60,60 +60,60 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.leftTextLabel.text=self.dataSource[indexPath.row];
     cell.arrImageView.alpha=0.f;
-    switch (indexPath.row) {
-        case 0:
-        {
-            if (self.model.nameString.length>0) {
-                cell.infoLabel.text=self.model.nameString;
-            }
-        }
-        break;
-        case 1:
-               {
-                   if (self.model.nickNameString.length>0) {
-                       cell.infoLabel.text=self.model.nickNameString;
-                   }
-               }
-                   break;
-            case 2:
-               {
-                   if (self.model.genderString.length>0) {
-                       cell.infoLabel.text=[[FLTools share]genderStringWithType:self.model.genderString];
-                   }
-               }
-                   break;
-            case 3:
-               {
-                   if (self.model.DateBirthString.length>0) {
-//                       cell.infoLabel.text=[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:<#(NSString *)#>
-                   }
-               }
-                   break;
-            case 4:
-               {
-                   if (self.model.emailString.length>0) {
-                       cell.infoLabel.text=self.model.emailString;
-                   }
-               }
-                   break;
-            case 5:
-               {
-                   if (self.model.MobilePhoneNoString.length>0) {
-                       cell.infoLabel.text=[NSString stringWithFormat:@"+%@ %@",self.model.areMobilePhoneNoString,self.model.MobilePhoneNoString];
-                   }
-               }
-                   break;
-            case 6:
-               {
-                   if (self.model.countriesString.length>0) {
-                       cell.infoLabel.text=[[FLTools share]contryNameTransLateByCode:[self.model.countriesString intValue]];
-                   }
-               }
-                   break;
-            
-        default:
-            break;
-    }
+//    switch (indexPath.row) {
+//        case 0:
+//        {
+//            if (self.model.nickname.length>0) {
+//                cell.infoLabel.text=self.model.nameString;
+//            }
+//        }
+//        break;
+//        case 1:
+//               {
+//                   if (self.model.nickNameString.length>0) {
+//                       cell.infoLabel.text=self.model.nickNameString;
+//                   }
+//               }
+//                   break;
+//            case 2:
+//               {
+//                   if (self.model.genderString.length>0) {
+//                       cell.infoLabel.text=[[FLTools share]genderStringWithType:self.model.genderString];
+//                   }
+//               }
+//                   break;
+//            case 3:
+//               {
+//                   if (self.model.DateBirthString.length>0) {
+////                       cell.infoLabel.text=[FLTools share]YMDCommunityTimeConversToAllFromTimesTamp:<#(NSString *)#>
+//                   }
+//               }
+//                   break;
+//            case 4:
+//               {
+//                   if (self.model.emailString.length>0) {
+//                       cell.infoLabel.text=self.model.emailString;
+//                   }
+//               }
+//                   break;
+//            case 5:
+//               {
+//                   if (self.model.MobilePhoneNoString.length>0) {
+//                       cell.infoLabel.text=[NSString stringWithFormat:@"+%@ %@",self.model.areMobilePhoneNoString,self.model.MobilePhoneNoString];
+//                   }
+//               }
+//                   break;
+//            case 6:
+//               {
+//                   if (self.model.countriesString.length>0) {
+//                       cell.infoLabel.text=[[FLTools share]contryNameTransLateByCode:[self.model.countriesString intValue]];
+//                   }
+//               }
+//                   break;
+//
+//        default:
+//            break;
+//    }
     return cell;
 }
 //-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

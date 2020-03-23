@@ -68,7 +68,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HWMCreateDIDListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellString];
-    NSString *keyString=self.model.SocialAccountDic[[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
+//    NSString *keyString=self.model.SocialAccountDic[[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     NSString *textString=self.dataSorse[indexPath.row];
 
@@ -77,9 +77,9 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     cell.intPutTextField.delegate=self;
     cell.intPutTextField.tag=10000+indexPath.row;
             [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:cell.intPutTextField withTxt:textString];
-    if ([[FLTools share]isBlankString:keyString]==NO) {
-        cell.intPutTextField.text=keyString;
-    }
+//    if ([[FLTools share]isBlankString:keyString]==NO) {
+////        cell.intPutTextField.text=keyString;
+//    }
     return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -94,13 +94,13 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 }
 - (IBAction)saveAsDraftEvent:(id)sender {
     [self.view endEditing:YES];
-    if ([[HMWFMDBManager sharedManagerType:DIDInfoType]addDIDCR:self.model withWallID:self.model.walletID]) {
-       [[FLTools share]showErrorInfo:NSLocalizedString(@"存储成功",nil)];
-        
-    }else{
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"存储失败",nil)];
-        
-    }
+//    if ([[HMWFMDBManager sharedManagerType:DIDInfoType]addDIDCR:self.model withWallID:self.walletID]) {
+//       [[FLTools share]showErrorInfo:NSLocalizedString(@"存储成功",nil)];
+//        
+//    }else{
+//        [[FLTools share]showErrorInfo:NSLocalizedString(@"存储失败",nil)];
+//        
+//    }
     
 }
 - (IBAction)DIDInfoReleaseEvent:(id)sender {
@@ -159,7 +159,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     NSInteger tag=textField.tag;
     NSString *keyString;
     keyString=[NSString stringWithFormat:@"%ld",tag-10000];
-    [self.model.SocialAccountDic setValue:textField.text forKey:keyString];
+//    [self.model.SocialAccountDic setValue:textField.text forKey:keyString];
     
     
 }

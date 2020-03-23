@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  *<# #>
  */
-@property(strong,nonatomic)id<HMWTheWalletListViewControllerDelegate>delegate;
+@property(weak,nonatomic)id<HMWTheWalletListViewControllerDelegate>delegate;
 @end
 
 NS_ASSUME_NONNULL_END

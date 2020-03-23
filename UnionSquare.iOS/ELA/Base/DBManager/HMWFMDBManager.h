@@ -78,19 +78,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
--(BOOL)addDIDCR:(HWMDIDInfoModel*)Model withWallID:(NSString*)walletID;
-
-//查
--(NSArray*)allSelectDIDWithWallID:(NSString*)walletID;
-
-//改
--(BOOL)updateSelectDID:(HWMDIDInfoModel *)Model WithWalletID:(NSString*)walletID;
-
--(HWMDIDInfoModel*)selectDIDWithWalletID:(NSString*)walletID andWithDID:(NSString*)DID;
-//改
--(BOOL)updateDIDInfo:(HWMDIDInfoModel *)Model WithWalletID:(NSString*)walletID;
-//删
--(BOOL)delectDIDInfo:(HWMDIDInfoModel *)Model WithWalletID:(NSString*)walletID;
+//-(BOOL)addDIDCR:(HWMDIDInfoModel*)Model withWallID:(NSString*)walletID;
+//
+////查
+//-(NSArray*)allSelectDIDWithWallID:(NSString*)walletID;
+//
+////改
+//-(BOOL)updateSelectDID:(HWMDIDInfoModel *)Model WithWalletID:(NSString*)walletID;
+//
+//-(HWMDIDInfoModel*)selectDIDWithWalletID:(NSString*)walletID andWithDID:(NSString*)DID;
+////改
+//-(BOOL)updateDIDInfo:(HWMDIDInfoModel *)Model WithWalletID:(NSString*)walletID;
+////删
+//-(BOOL)delectDIDInfo:(HWMDIDInfoModel *)Model WithWalletID:(NSString*)walletID;
 
 
 

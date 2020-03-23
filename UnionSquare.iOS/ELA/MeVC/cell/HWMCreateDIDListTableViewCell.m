@@ -18,6 +18,8 @@
     [super awakeFromNib];
  
     // Initialization code
+    [[HMWCommView share]makeBordersWithView:self.LimitThatLabel];
+    self.LimitThatLabel.backgroundColor=RGBA(83, 136, 136, 1);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -32,6 +34,10 @@
 }
 -(void)setIndex:(NSString *)index{
     _index=index;
+}
+- (IBAction)done:(id)sender {
+    [self endEditing:YES];
+    
 }
 
 @end

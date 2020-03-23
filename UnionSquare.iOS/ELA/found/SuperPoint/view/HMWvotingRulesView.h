@@ -19,9 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HMWvotingRulesView : UIView
 /*
- *<# #>
+ *
  */
-@property(strong,nonatomic)id<HMWvotingRulesViewDelegate> delegate;
+@property(weak,nonatomic)id<HMWvotingRulesViewDelegate> delegate;
 
 @end
 

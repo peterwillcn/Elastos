@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(strong,nonatomic)HWMDIDInfoModel *model;
+@property(atomic,copy)NSString *walletID;
 @end
 
 NS_ASSUME_NONNULL_END

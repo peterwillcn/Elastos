@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMDIDInfoListView : UIView
 @property(strong,nonatomic)NSMutableArray *dataSourceArray;
-@property(strong,nonatomic)id<HWMDIDInfoListViewDelegate> delegate;
+@property(weak,nonatomic)id<HWMDIDInfoListViewDelegate> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

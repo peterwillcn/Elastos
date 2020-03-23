@@ -24,7 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIImageView *arrowImageView;
 @property (weak, nonatomic) IBOutlet UILabel *infoLabel;
 @property(copy,nonatomic)NSString *index;
-@property(strong,nonatomic)id<HWMCreateDIDListTableViewCellDelegate> delegate;
+@property (weak, nonatomic) IBOutlet UILabel *LimitThatLabel;
+@property(weak,nonatomic)id<HWMCreateDIDListTableViewCellDelegate> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

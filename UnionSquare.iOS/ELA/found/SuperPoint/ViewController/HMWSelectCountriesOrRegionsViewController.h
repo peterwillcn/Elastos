@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  *
  */
-@property(strong,nonatomic)id<HMWSelectCountriesOrRegionsViewControllerDelegate> delegate;
+@property(weak,nonatomic)id<HMWSelectCountriesOrRegionsViewControllerDelegate> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

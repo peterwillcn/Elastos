@@ -17,7 +17,7 @@
 /*
  *<# #>
  */
-@property(strong,nonatomic)id<FLSetMenmoryWordPassViewDelegate> delegate;
+@property(weak,nonatomic)id<FLSetMenmoryWordPassViewDelegate> delegate;
 /*
  *<# #>
  */

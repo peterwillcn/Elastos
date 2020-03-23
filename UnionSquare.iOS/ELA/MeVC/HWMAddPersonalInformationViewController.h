@@ -20,6 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(assign,nonatomic)Boolean  isEidet;
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)Boolean  whereFrome;
 @property (nonatomic, strong)FLWallet *currentWallet;
 
 

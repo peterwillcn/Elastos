@@ -1167,14 +1167,11 @@ errCodeSPVCreateMasterWalletError= 20006;
     return [self successProcess:command msg:@"DestroyMasterWallet OK"];
 }
 -(PluginResult *)RemoveCallback:(invokedUrlCommand *)command{
-    
     NSArray *args = command.arguments;
     int idx = 0;
     NSString * masterWalletIDString=args[idx++];
-    
     String masterWalletID = [self cstringWithString:masterWalletIDString];
     NSString * chainIDString=args[idx++];
-    
     String chainID= [self cstringWithString:chainIDString];
     ISubWallet *subWallet = [self getSubWallet:masterWalletID : chainID];
     NSString *callIDString=[NSString stringWithFormat:@"%@,%@,%@",masterWalletIDString,chainIDString,command.methodName];
@@ -1188,7 +1185,6 @@ errCodeSPVCreateMasterWalletError= 20006;
         NSString *msg = [NSString stringWithFormat:@"%@ %@ %@", @"Import", [self formatWalletName:masterWalletID], @"with mnemonic"];
         return [self errorProcess:command code:errCodeImportFromMnemonic msg:msg];
     }
-    
 }
 -(PluginResult *)CreateTransaction:(invokedUrlCommand *)command{
     NSArray *args = command.arguments;
@@ -2451,7 +2447,9 @@ errCodeSPVCreateMasterWalletError= 20006;
     try {
         XPK = masterWallet->ExportPrivateKey(payPassword);
     } catch (const std:: exception &e) {
-         [[FLTools share]showErrorInfo:[self stringWithCString:e.what()]];
+        NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
+        NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
+         [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
        return nil;
     }
     
@@ -2660,30 +2658,36 @@ errCodeSPVCreateMasterWalletError= 20006;
     return [self IsAddressValid:maWID withAddres:add];
     
 }
--(void)SpvDidAdapter_CreateIdTransactionEXWith:(invokedUrlCommand *)command{
+-(PluginResult *)SpvDidAdapter_CreateIdTransactionEXWith:(invokedUrlCommand *)command{
   
     NSArray *args = command.arguments;
     int idx = 0;
     String masterWalletID = [self cstringWithString:args[idx++]];
     String chainID = [self cstringWithString:args[idx++]];
     String password=[self cstringWithString:args[idx++]];
-   
     String memo=[self cstringWithString:args[idx++]];
     String remark=[self cstringWithString:args[idx++]];
     IIdChainSubWallet *iidChainSubWallet=[self getIdChainSubWallet:masterWalletID:chainID];
-    
-    nlohmann::json payloadJson;
+    String playStrig=[self cstringWithString:args[idx++]];
+    nlohmann::json payloadJson = nlohmann::json::parse(playStrig);
     nlohmann::json tx;
-
-   tx= iidChainSubWallet->CreateIDTransaction(payloadJson, memo);
-   tx= iidChainSubWallet->SignTransaction(tx, password);
-   tx = iidChainSubWallet->PublishTransaction(tx);
-    std::string txid = tx["TxHash"];
-//           adapter->callback->RegisterTransactionCallback(txid,
-//                   confirms, txCallback, context);
-//       } catch (...) {
-//           txCallback(NULL, -1, "SPV adapter internal error.", context);
-//       }
+ try {
+      tx= iidChainSubWallet->CreateIDTransaction(payloadJson, memo);
+       tx= iidChainSubWallet->SignTransaction(tx, password);
+       tx = iidChainSubWallet->PublishTransaction(tx);
+    } catch (const std:: exception & e ) {
+        
+     return  [self errInfoToDic:e.what() with:command];
+        
+    }
+   
+NSString *resultString=[self stringWithCString:tx.dump()];
+       NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
+    
+//    NSLog(@"创建DID======%@",resultdic);
+    
+         NSDictionary *dic=[self dictionaryWithJsonString:resultdic[@"TxHash"]];
+    return [self successProcess:command msg:dic];
     
 }
 @end

@@ -33,7 +33,9 @@
 #import "WOCrashProtectorManager.h"
 #import "DAConfig.h"
 #import <objc/runtime.h>
-
+#import "HWMDIDManager.h"
+#import "JWT.h"
+#import "MyUtil.h"
 #define KYRect  [UIScreen mainScreen].bounds
 @interface AppDelegate ()
 
@@ -50,6 +52,8 @@
         [self application:application handleOpenURL:launchOptions[UIApplicationLaunchOptionsURLKey]];
     }
 
+    
+//    [HWMDIDManager sdas];
     
    NSString *languageString=[DAConfig userLanguage];
 //    if (
@@ -78,7 +82,6 @@
      NSArray *reArray=re.message[@"success"];
     
     NSArray  *array =[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet];
-   
     if (array.count>reArray.count) {
         for (int i=0; i<array.count; i++) {
              FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
@@ -176,12 +179,16 @@
     NSLog(@"URL scheme:%@", [url scheme]);
     //参数
     NSLog(@"URL host:%@", [url host]);
+       NSString *path = [url absoluteString];
+            path = [path stringByRemovingPercentEncoding];
+            NSMutableString *string = [[NSMutableString alloc] initWithString:path];
     
+   BOOL sa= [MyUtil AddCommDIDWithJWT:string];
     NSString * message;
-    if ([[url host] isEqualToString:@"success"]) {
-        message = @"分享成功";
+    if (sa) {
+        message = @"保存成功";
     }else{
-        message = @"分享失败";
+        message = @"保存失败";
     }
     
     UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:[url host] delegate:self cancelButtonTitle:nil otherButtonTitles:message, nil];
@@ -196,4 +203,58 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application{
      [[ELWalletManager share]EMWMFlushData];
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//-(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *documentsDirectory = [paths lastObject];
+//    if (url != nil) {
+//        NSString *path = [url absoluteString];
+//        path = [path stringByRemovingPercentEncoding];
+//        NSMutableString *string = [[NSMutableString alloc] initWithString:path];
+//        if ([path hasPrefix:@"file:///private"]) {
+//            [string replaceOccurrencesOfString:@"file:///private" withString:@"" options:NSCaseInsensitiveSearch  range:NSMakeRange(0, path.length)];
+//        }
+//        NSArray *tempArray = [string componentsSeparatedByString:@"/"];
+//        NSString *fileName = tempArray.lastObject;
+//        NSString *sourceName = options[@"UIApplicationOpenURLOptionsSourceApplicationKey"];
+//
+//        NSFileManager *fileManager = [NSFileManager defaultManager];
+//        NSString *filePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@%@",sourceName,fileName]];
+//        if ([fileManager fileExistsAtPath:filePath]) {
+//            NSLog(@"文件已存在");
+//            [SVProgressHUD showErrorWithStatus:@"文件已存在"];
+//            return YES;
+//        }
+////        [MRTools creatFilePathInManager:sourceName];
+//        BOOL isSuccess = [fileManager copyItemAtPath:string toPath:filePath error:nil];
+//        if (isSuccess == YES) {
+//            NSLog(@"拷贝成功");
+//            [SVProgressHUD showSuccessWithStatus:@"文件拷贝成功"];
+//        } else {
+//            NSLog(@"拷贝失败");
+//            [SVProgressHUD showErrorWithStatus:@"文件拷贝失败"];
+//        }
+//    }
+//    NSLog(@"application:openURL:options:");
+//    return  YES;
+//}
 @end

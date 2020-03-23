@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  *<# #>
  */
-@property(strong,nonatomic)id<HWMDIDDataListViewDelegate>delegate;
+@property(weak,nonatomic)id<HWMDIDDataListViewDelegate>delegate;
 /*
  *<# #>
  */

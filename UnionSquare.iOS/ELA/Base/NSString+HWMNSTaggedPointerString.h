@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)count;
 - (NSUInteger)charactorNumberWithEncoding:(NSStringEncoding)encoding;
 - (NSUInteger)charactorNumber;
++(NSString*)GetFileName:(NSString*)pFile;
 @end
 
 NS_ASSUME_NONNULL_END

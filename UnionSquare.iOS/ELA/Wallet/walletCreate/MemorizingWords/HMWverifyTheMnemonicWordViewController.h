@@ -23,6 +23,6 @@
  */
 @property(copy,nonatomic)NSString *FormeType;
 @property (nonatomic, assign)NSInteger createType;
-@property(strong,nonatomic)id<HMWverifyTheMnemonicWordVCDelegate>delegate;
+@property(weak,nonatomic)id<HMWverifyTheMnemonicWordVCDelegate>delegate;
 @end
 

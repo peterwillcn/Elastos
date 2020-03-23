@@ -24,7 +24,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="253" height="44"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <action selector="done:" destination="KGk-i7-Jjw" eventType="editingDidEndOnExit" id="cyn-Si-ves"/>
+                                </connections>
                             </textField>
                             <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="asset_cancel" translatesAutoresizingMaskIntoConstraints="NO" id="3G4-FT-q9P">
                                 <rect key="frame" x="268" y="11" width="22" height="22"/>
@@ -57,6 +60,12 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="正文内容限制字符…" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8tr-rc-Msa">
+                                <rect key="frame" x="142" y="12" width="90" height="19"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -69,10 +78,13 @@
                             <constraint firstItem="Jin-bu-wGR" firstAttribute="leading" secondItem="nRr-Y7-CyC" secondAttribute="leading" id="Evp-Ac-A1b"/>
                             <constraint firstAttribute="bottom" secondItem="eWo-JO-KT3" secondAttribute="bottom" id="GYn-UY-fOp"/>
                             <constraint firstItem="Jin-bu-wGR" firstAttribute="top" secondItem="nRr-Y7-CyC" secondAttribute="top" id="GpK-xA-jbZ"/>
+                            <constraint firstItem="eWo-JO-KT3" firstAttribute="top" secondItem="8tr-rc-Msa" secondAttribute="bottom" constant="12" id="LSp-FB-PAb"/>
                             <constraint firstItem="48B-DD-EQ3" firstAttribute="leading" secondItem="36w-oH-Bv6" secondAttribute="trailing" id="NNB-If-Lfi"/>
                             <constraint firstAttribute="trailing" secondItem="3G4-FT-q9P" secondAttribute="trailing" id="Ycy-u5-9tn"/>
                             <constraint firstAttribute="bottom" secondItem="Jin-bu-wGR" secondAttribute="bottom" id="cZF-PY-14S"/>
                             <constraint firstItem="36w-oH-Bv6" firstAttribute="leading" secondItem="nRr-Y7-CyC" secondAttribute="leading" id="cfs-lf-BCI"/>
+                            <constraint firstItem="8tr-rc-Msa" firstAttribute="top" secondItem="nRr-Y7-CyC" secondAttribute="top" constant="12" id="mlA-dE-x9A"/>
+                            <constraint firstItem="48B-DD-EQ3" firstAttribute="leading" secondItem="8tr-rc-Msa" secondAttribute="trailing" constant="8" id="n1k-Le-TMU"/>
                             <constraint firstItem="eWo-JO-KT3" firstAttribute="leading" secondItem="nRr-Y7-CyC" secondAttribute="leading" id="nuJ-eX-icr"/>
                             <constraint firstItem="36w-oH-Bv6" firstAttribute="top" secondItem="nRr-Y7-CyC" secondAttribute="top" id="rzJ-eu-8n3"/>
                             <constraint firstItem="3G4-FT-q9P" firstAttribute="leading" secondItem="Jin-bu-wGR" secondAttribute="trailing" constant="15" id="tRH-xw-33e"/>
@@ -90,6 +102,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
+                <outlet property="LimitThatLabel" destination="8tr-rc-Msa" id="OeK-qb-oGa"/>
                 <outlet property="arrowImageView" destination="3G4-FT-q9P" id="spg-jA-NrD"/>
                 <outlet property="infoLabel" destination="36w-oH-Bv6" id="ghZ-Hu-AV7"/>
                 <outlet property="intPutTextField" destination="Jin-bu-wGR" id="a5O-Vn-KMV"/>

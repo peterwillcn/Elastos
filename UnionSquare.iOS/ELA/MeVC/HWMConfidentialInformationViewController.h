@@ -7,10 +7,10 @@
 
 #import <UIKit/UIKit.h>
 #import "HWMDIDInfoModel.h"
-NS_ASSUME_NONNULL_BEGIN
+//NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMConfidentialInformationViewController : UIViewController
 @property(strong,nonatomic)HWMDIDInfoModel *model;
+@property (nonatomic, strong)FLWallet *currentWallet;
 @end
-
-NS_ASSUME_NONNULL_END
+//NS_ASSUME_NONNULL_END

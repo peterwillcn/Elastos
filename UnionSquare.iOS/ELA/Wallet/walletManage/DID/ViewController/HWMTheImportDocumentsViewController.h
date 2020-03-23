@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMTheImportDocumentsViewController : UIViewController
-
+@property (nonatomic, strong)FLWallet *currentWallet;
 @end
 
 NS_ASSUME_NONNULL_END

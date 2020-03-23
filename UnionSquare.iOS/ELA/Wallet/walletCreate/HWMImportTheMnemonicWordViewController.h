@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  *
  */
-@property(strong,nonatomic)id<HWMImportTheMnemonicWordViewControllerDelegate> delegate;
+@property(weak,nonatomic)id<HWMImportTheMnemonicWordViewControllerDelegate> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

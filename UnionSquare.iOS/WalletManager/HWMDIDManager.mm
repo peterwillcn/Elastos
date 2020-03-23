@@ -9,19 +9,22 @@
 #import "HWMDIDManager.h"
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#include <stdio.h>
+#import "ELWalletManager.h"
+#import "JWT.h"
+#import "MF_Base64Additions.h"
+#import "NSObject+YYModel.h"
 
-
+//#import "ELAWallet-Swift.h"
 #define SIGNATURE_BYTES         64
 static HWMDIDManager *_instance;
-struct DIDStore *store;
-struct  DIDDocument * doc;
-struct DID *did;
+DIDStore *store;
+DID *did;
+const char *tmp;
 @interface HWMDIDManager ()
 @property(copy,nonatomic)NSString *mRootPath;
 @end
 @implementation HWMDIDManager
-
-
 +(instancetype)allocWithZone:(struct _NSZone *)zone
 {
 
@@ -52,216 +55,219 @@ struct DID *did;
 {
     return _instance;
 }
-static const char *DIDAdaptor_CreateIdTransaction(DIDAdapter *_adapter, const char *payload, const char *memo)
+typedef struct TestDIDAdaptor {
+    DIDAdapter base;
+
+    char *pwd;
+    char *walletId;
+} TestDIDAdaptor;
+
+static const char *TestDIDAdaptor_CreateIdTransaction(DIDAdapter *_adapter, const char *payload, const char *memo)
 {
-
-
-    return "1111111";
+    TestDIDAdaptor *adapter = (TestDIDAdaptor*)_adapter;
     
+    NSString *password=[NSString stringWithFormat:@"%s",adapter->pwd];
+    NSString * walletID=[NSString stringWithFormat:@"%s",adapter->walletId];
+    NSString *payloadJsonString=[NSString stringWithFormat:@"%s",payload];
+    NSString *memoString=[NSString stringWithFormat:@"%s",memo];
+//    NSLog(@"password===%@---%@",password,payloadJsonString);
+    
+
+    if (!adapter || !payload)
+        return NULL;
+        invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[walletID,@"IDChain",password,memoString,@"",payloadJsonString] callbackId:walletID className:@"wallet" methodName:@"SpvDidAdapter_CreateIdTransactionEXWith"];
+          PluginResult * resultBase =[[ELWalletManager share]SpvDidAdapter_CreateIdTransactionEXWith:cmommand];
+            NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
+
+        if ([statusBase isEqualToString:@"1"] ) {
+      
+            return "0";
+           
+        }else{
+            return "-1";
+        }
+
 }
-DIDAdapter *DIDAdapter_Create()
+
+DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
 {
-    DIDAdapter *adapter;
-    const char *password;
-    adapter = (DIDAdapter*) calloc(1, sizeof(DIDAdapter));
+    TestDIDAdaptor *adapter;
+    
+    adapter = (TestDIDAdaptor*)calloc(1, sizeof(TestDIDAdaptor));
     if (!adapter)
         return NULL;
-    adapter->createIdTransaction =DIDAdaptor_CreateIdTransaction;
+    adapter->base.createIdTransaction = TestDIDAdaptor_CreateIdTransaction;
+    NSString *pwdString=[NSString stringWithFormat:@"%s",pwd];
+    if (![pwdString isEqualToString:@"1"]) {
+        adapter->pwd=strdup(pwd);
+        adapter->walletId = strdup(walletId);
+    }
     return (DIDAdapter*)adapter;
 }
-
 -(instancetype)init{
     if (self==nil) {
         self=[super init];
+         
     }
-//    NSArray *cachePaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory
-//    , NSUserDomainMask
-//    , YES);
-//    NSFileManager *fm=[NSFileManager alloc]
-//    cachePaths.firstObject
-    _mRootPath=[MyUtil DIDRootPath];
+   _mRootPath=[MyUtil DIDRootPath];
     return self;
     
 }
--(BOOL)initDIDWithPWD:(NSString *)passWord withDIDString:(NSString*)DIDString
+-(NSString*)hasDIDWithPWD:(NSString *)passWord withDIDString:(NSString*)DIDString
 WithPrivatekeyString:(NSString*)privatekeyString
      WithmastWalletID:(NSString*)mastWalletID{
-    NSDictionary *retul;
+    NSInteger re;
     self.passWord=passWord;
-    self.DIDString=DIDString;
     self.privatekeyString=privatekeyString;
+    if (mastWalletID.length>0) {
     self.mastWalletID=mastWalletID;
-    DIDBackend_InitializeDefault("http://api.elastos.io:20606");
-    DIDAdapter * didAdapter =DIDAdapter_Create();
-const char *tmp =[_mRootPath UTF8String];
-    store=DIDStore_Open(tmp, didAdapter);
-    DID *did=DID_FromString([self.mastWalletID UTF8String]);// 获取DID
-    if (DIDSotre_ContainsPrivateKeys(store, did)) {//拉取
-        if ([self resolve]) {
-               return YES;
-        }else{
-            return NO;
-        }
-    }else{//创建
-        
-//        DIDStore_InitPrivateIdentityFromRootKey(store,
-//          [self.passWord UTF8String],[self.privatekeyString UTF8String], NO);
-//        DID *did=DID_New([self.mastWalletID UTF8String]);
-//        DIDURL *url=DIDURL_NewByDid(did, "default");
-//
-//        const uint8_t * Uprivatekey=(uint8_t*)[self.privatekeyString UTF8String];
-//        DIDStore_StorePrivateKey(store,[self.passWord UTF8String],did,url,Uprivatekey);
-//        DID_Destroy(did);
-//        DIDURL_Destroy(url);
-        return NO;
-    }
-    
-}
-//从链上拉去信息
--(BOOL)resolve{
-    DID * did = DIDStore_GetDIDByIndex(store, [self.passWord UTF8String], 0);
-    DIDURL *didURL=DIDURL_NewByDid(did, "primary");
-    
-    
-    if (!DIDStore_ContainsPrivateKey(store,did, didURL)||!DIDStore_ContainsDID(store,did)) {
-        doc=DIDStore_NewDID(store, [self.passWord UTF8String], "IDalias");
-    }
-    doc=DID_Resolve(did);
-// ui 加载圈
-    if (doc==NULL) {// 创建did
-//        did=DID_New(<#const char *method_specific_string#>);
-
-//        }
-        DID_Destroy(did);
-           DIDURL_Destroy(didURL);
-        return NO;
-    }else{//展示did
-        DID_Destroy(did);
-           DIDURL_Destroy(didURL);
-       return YES;
     }
    
+    if (DIDString.length>0) {
+        self.DIDString=DIDString;
+    }
+    if (self.passWord.length>0) {
+          invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.mastWalletID,self.passWord] callbackId:self.mastWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
+           self.privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
+        if (self.privatekeyString.length==0) {
+            return @"";
+        }
+    }
+    // 添加null逻辑判断
+    tmp =[[NSString stringWithFormat:@"%@%@",_mRootPath,self.mastWalletID] UTF8String];
+    DIDAdapter * didAdapter = TestDIDAdapter_Create([self.passWord UTF8String],[self.mastWalletID UTF8String]);
+    store=DIDStore_Open(tmp, didAdapter);
+    if (store==NULL) {//
+        return @"";
+    }
+   re= DIDBackend_InitializeDefault([didSDKNet UTF8String],tmp);// 变量
+    if (self.privatekeyString.length!=0){
+       if (!DIDStore_ContainsPrivateIdentity(store)) {//检测
+        re = DIDStore_InitPrivateIdentityFromRootKey(store, [self.passWord UTF8String], [self.privatekeyString UTF8String], NO);//no 待定// 有失败的可能
+           if (re==-1) {// 失败 是否在create的时候 补救
+               return @"";
+           }
+       }
+    }
+
+    if (self.DIDString.length==0){
+     did=DIDStore_GetDIDByIndex(store, 0);//
+     char _didstring[ELA_MAX_DID_LEN];
+     const char *didstring;
+     didstring = DID_ToString(did, _didstring, sizeof(_didstring));
+     self.DIDString=[self charToString:didstring];
+    }else{
+     did=DID_FromString([self.DIDString UTF8String]);// 获取DID
+        
+    }
     
+    
+//    if (!containsPrivatekey || !containsDID) {
+//        deletedid;
+//        newdid;
+//        document = resolve;
+//        if (document)
+//            storeDID;
+//    }
+//        DIDURL *url=DIDURL_NewByDid(did, "primary");
+//    if (!DIDStore_ContainsPrivateKey(store,did, url)||!DIDStore_ContainsDID(store, did)) {
+//           DIDStore_DeleteDID(store, did);
+////        DID_New(<#const char *method_specific_string#>)
+//           DIDDocument *  doc=DID_Resolve(did,NO);
+//        if (doc) {
+//                 DIDStore_StoreDID(store, doc, "name");// 保存到本地
+//                 DIDDocument *  nedoc=DIDStore_LoadDID(store, did);//绑定
+//                 DID * newdid= DIDDocument_GetSubject(nedoc);
+//                 DID_Copy(did, newdid);
+//                 DIDURL_Destroy(url);
+//                 DIDDocument_Destroy(doc);
+//                 DIDDocument_Destroy(nedoc);
+//                 return self.DIDString;
+//        }
+//    }
+  DIDDocument *  doc=DID_Resolve(did,NO);
+    if (doc) {//先看一下链上有没有
+        DIDURL *url=DIDURL_NewByDid(did, "primary");
+        if (DIDStore_ContainsPrivateKey(store,did, url)) {
+            DIDStore_StoreDID(store, doc, "name");// 保存到本地
+            DIDDocument *  nedoc=DIDStore_LoadDID(store, did);//绑定
+            DID * newdid= DIDDocument_GetSubject(nedoc);
+            DID_Copy(did, newdid);
+            DIDURL_Destroy(url);
+            DIDDocument_Destroy(doc);
+            DIDDocument_Destroy(nedoc);
+            return self.DIDString;
+        }else{
+            DIDDocument *reDoc=DIDStore_NewDIDByIndex(store, [self.passWord UTF8String], 0, "name");//
+            if (reDoc) {
+                DIDStore_StoreDID(store, reDoc, "name");// 保存到本地
+                DID * newdid= DIDDocument_GetSubject(reDoc);
+                DID_Copy(did, newdid);
+                DIDDocument_Destroy(reDoc);
+                return self.DIDString;
+            }else{
+                return @"";// 失败返回
+            }
+        }
+    }else{//没有
+       
+        doc=DIDStore_LoadDID(store, did);
+        if (doc==NULL) {
+        doc=DIDStore_NewDIDByIndex(store, [self.passWord UTF8String], 0, "name");//
+        DIDDocument_Destroy(doc);
+
+        }
+      return @"";
+        
+    }
 }
-
-
--(void)getDIDInfo{
-   DID *did=DID_FromString([self.mastWalletID UTF8String]);// 获取DID
-    doc=DIDStore_LoadDID(store, did);
-    DIDURL *URL=DIDDocument_GetDefaultPublicKey(doc);
-   PublicKey *pk= DIDDocument_GetPublicKey(doc, URL);
-   const char * pkChar =  PublicKey_GetPublicKeyBase58(pk);
-   time_t endTime= DIDDocument_GetExpires(doc);
-
-//          VerifiableCredential cre = doc.getCredential("name");
-    Credential * cre= DIDDocument_GetCredential(doc, URL);
+-(NSDictionary*)getDIDInfo{
+    if (did==nil||store==nil) {
+        [[FLTools share]showErrorInfo:@"本地没有"];
+        return nil;
+    }
+    DIDDocument *doc=DIDStore_LoadDID(store, did);
+    DIDURL *url=DIDURL_NewByDid(did, "name");
+    time_t endTime= DIDDocument_GetExpires(doc);
+    Credential * cre= DIDDocument_GetCredential(doc,url);
+    const char * suInfo = Credential_GetProperty(cre, "name");
+    NSDictionary *reDic=@{@"nickName":[self charToString:suInfo],@"endTime":[NSString stringWithFormat:@"%@",@(endTime)],@"DIDString":self.DIDString};
     
-//          cre.getSubject().getPropertyAsString("name");
-    
-    const char *suInfo  =  Credential_GetProperty(cre, "name");
-    DID_Destroy(did);
-       DIDURL_Destroy(URL);
+    DIDURL_Destroy(url);
+    DIDDocument_Destroy(doc);
 
     
-//    reture suInfo;
-}
--(BOOL)creatDIDWithInfo:(HWMDIDInfoModel*)model{
-    int rt;
-    DIDStore_InitPrivateIdentityFromRootKey(store,
-             [self.passWord UTF8String],[self.privatekeyString UTF8String], NO);
-           DID *did=DID_New([self.mastWalletID UTF8String]);
-           DIDURL *url=DIDURL_NewByDid(did, "default");
-
-           const uint8_t * Uprivatekey=(uint8_t*)[self.privatekeyString UTF8String];
-         rt= DIDStore_StorePrivateKey(store,[self.passWord UTF8String],did,url,Uprivatekey);
-    doc=DIDStore_NewDID(store,[self.passWord UTF8String],"name");
-    
-    DIDDocumentBuilder *build=DIDDocument_Edit(doc);
-    time_t endTime=1678032512;
-     rt= DIDDocumentBuilder_SetExpires(build, endTime);
-      Issuer *issuer=Issuer_Create(did, url, store);
-      char * SelfProclaimedCredential []={"SelfProclaimedCredential"};
-      time_t   expires = DIDDocument_GetExpires(doc);
-         const char *types[] = {"BasicProfileCredential", "PhoneCredential"};
-         Property props[7];
-         props[0].key = "name";
-         props[0].value = "John";
-         props[1].key = "gender";
-         props[1].value = "Male";
-         props[2].key = "nation";
-         props[2].value = "Singapore";
-         props[3].key = "language";
-         props[3].value = "English";
-         props[4].key = "email";
-         props[4].value = "john@example.com";
-         props[5].key = "twitter";
-         props[5].value = "@john";
-         props[6].key = "phone";
-         props[6].value = "132780456";
-
-        Credential * cre = Issuer_CreateCredential(issuer, did,url, types, 2, props, 7,
-                 expires, [self.passWord UTF8String]);
-      DIDDocumentBuilder_AddCredential(build, cre);
-      DIDDocument * newDoc=  DIDDocumentBuilder_Seal(build, [self.passWord UTF8String]);
-        rt=  DIDStore_StoreDID(store,newDoc, "name");
-       char signature[SIGNATURE_BYTES * 2 + 16];
-       uint8_t data[124];
-  rt=  DIDDocument_Sign(newDoc,url,[self.passWord UTF8String], signature, 1, data, sizeof(data));
-    rt= DIDDocument_Verify(newDoc, url, signature, 1, data, sizeof(data));
-     const char *R= DIDStore_PublishDID(store, [self.passWord UTF8String], did, url);
-          DID_Destroy(did);
-           DIDURL_Destroy(url);
-    return YES;
+    return reDic;
 }
 -(BOOL)updateInfoWithInfo:(HWMDIDInfoModel*)model{
-    [self creatDIDWithInfo:model];
     int RT;
-    DID* did =DID_FromString([self.mastWalletID UTF8String]);
-    DIDURL *url=DIDDocument_GetDefaultPublicKey(doc);
-    doc=DIDStore_LoadDID(store, did);
+    DIDURL *url=DIDURL_NewByDid(did, "name");
+    DIDDocument *  doc=DIDStore_LoadDID(store, did);
     DIDDocumentBuilder *build=DIDDocument_Edit(doc);
+    Credential *cr  =DIDDocument_GetCredential(doc, url);
+    DIDDocument_Destroy(doc);
+    time_t endTime=[model.endString intValue];
+    if (cr) {
+        DIDDocumentBuilder_RemoveCredential(build, url);
+    }
+    const char * types[1] = {"SelfProclaimedCredential"};//
+    Property props[1];
+    char * nickName =(char*)[model.didName UTF8String];
+    props[0].key = "name";
+    props[0].value = nickName;
+    RT= DIDDocumentBuilder_AddSelfClaimedCredential(build, url, types,1,  props, 1, endTime, [self.passWord UTF8String]);
     
-    time_t endTime=[model.editTimeString intValue];
-   RT= DIDDocumentBuilder_SetExpires(build, endTime);
-    Issuer *issuer=Issuer_Create(did, url, store);
-    char * SelfProclaimedCredential []={"SelfProclaimedCredential"};
-    time_t   expires = DIDDocument_GetExpires(doc);
-       const char *types[] = {"BasicProfileCredential", "PhoneCredential"};
-       Property props[7];
-       props[0].key = "name";
-       props[0].value = "John";
-       props[1].key = "gender";
-       props[1].value = "Male";
-       props[2].key = "nation";
-       props[2].value = "Singapore";
-       props[3].key = "language";
-       props[3].value = "English";
-       props[4].key = "email";
-       props[4].value = "john@example.com";
-       props[5].key = "twitter";
-       props[5].value = "@john";
-       props[6].key = "phone";
-       props[6].value = "132780456";
-
-      Credential * cre = Issuer_CreateCredential(issuer, did,url, types, 2, props, 7,
-               expires, [self.passWord UTF8String]);
-    DIDDocumentBuilder_AddCredential(build, cre);
     DIDDocument * newDoc=  DIDDocumentBuilder_Seal(build, [self.passWord UTF8String]);
-      RT=  DIDStore_StoreDID(store,newDoc, "name");
-     char signature[SIGNATURE_BYTES * 2 + 16];
-     uint8_t data[124];
-  RT=  DIDDocument_Sign(newDoc,url,[self.passWord UTF8String], signature, 1, data, sizeof(data));
-   RT= DIDDocument_Verify(newDoc, url, signature, 1, data, sizeof(data));
-   const char *R= DIDStore_PublishDID(store, [self.passWord UTF8String], did, url);
-        DID_Destroy(did);
-         DIDURL_Destroy(url);
-    
-}
--(void)creatDIDInfoWith:(id)data{
- DIDStore_InitPrivateIdentityFromRootKey(store,
-   [self.passWord UTF8String],"", NO);
-    
-
+    RT=  DIDStore_StoreDID(store,newDoc, "name");// 已经签名
+    const char *R = DIDStore_PublishDID(store, [self.passWord UTF8String], did, NULL,YES);
+    NSString *reString=[self charToString:R];
+    DIDURL_Destroy(url);
+    DIDDocument_Destroy(newDoc);
+    if ([reString isEqualToString:@"0"]) {
+        return YES;
+    }else{
+        return NO;
+    }
 }
 -(void)setPassWord:(NSString *)passWord{
     _passWord=passWord;
@@ -275,4 +281,134 @@ const char *tmp =[_mRootPath UTF8String];
 -(void)setMastWalletID:(NSString *)mastWalletID{
     _mastWalletID=mastWalletID;
 }
+
+-(NSString*)charToString:(const char*)needChar{
+ return   [NSString stringWithFormat:@"%s",needChar];
+    
+}
+-(BOOL)saveDIDCredentialWithDIDModel:(HWMDIDInfoModel*)model{// 保存本地凭证
+    if (did==NULL||store==NULL) {
+        return NO;
+    }
+    Issuer *isser=Issuer_Create(did, NULL, store);
+    const char *types[1] = {"BasicProfileCredential"};//类型名称
+    DIDURL *creatCredentialID=DIDURL_NewByDid(did, "outPut");// 相当于文件  不同的需求 需要创建不同的名字  只能通过这个别名 拿去 Credential
+    Property props[1];// 根据需要传字段
+    NSString *CredentialSubjectBean=[model modelToJSONString];
+    char * nickName =(char *)[CredentialSubjectBean UTF8String];
+    props[0].key = "BasicProfileCredential";
+    props[0].value = nickName;
+    time_t endTime=[model.endString integerValue];//
+    Credential *c=  Issuer_CreateCredential(isser, did, creatCredentialID, types, 1, props, 1, endTime, [self.passWord UTF8String]);
+    int r=DIDStore_StoreCredential(store, c, "备注名字 可能需要");
+    Issuer_Destroy(isser);
+    DIDURL_Destroy(creatCredentialID);
+    Credential_Destroy(c);
+    if (r==0) {
+        return YES;
+    }else{
+        return NO;
+    }
+    
+    
+}
+-(HWMDIDInfoModel*)readDIDCredential{// 获取did本地凭证
+    DIDURL *url=DIDURL_NewByDid(did, "outPut");
+    Credential * cre=DIDStore_LoadCredential(store, did, url);
+    const char *suInfo  =  Credential_GetProperty(cre, "name");
+    NSString *modelString=[self charToString:suInfo];
+    HWMDIDInfoModel *model=[[HWMDIDInfoModel alloc]init];
+    model.nickname=@"ni";
+    model.homePage=@"2222";
+    model.did=@"did:elastos:ijGzfSU8TTy1B3uZq68dutJqdJv6o4YmUq"; model.avatar=@"https://image.so.com/view?ie=utf-8&src=hao_360so&q=a&correct=a&ancestor=list&cmsid=aeae7080d7553362fb896c1be8125034&cmras=1&cn=0&gn=0&kn=0&fsn=60&adstar=0&clw=236#id=36f045ee8adb193d1050cbf24be817e6&currsn=0&ps=60&pc=60";
+    DIDURL_Destroy(url);
+    return model;
+    
+}
+//二维码验签名
+-(BOOL)jwtSignatureWithDIDString:(NSString*)didString withSignature:(NSString*)signatureStr withUnSignature:(NSString*)UnSignature{
+    int r;
+    r= DIDBackend_InitializeDefault([didSDKNet UTF8String],tmp);// 变量
+   char * signature= (char*)[signatureStr UTF8String];// 已经签名数据
+  char * usignature= (char*)[UnSignature UTF8String];//未签名数据
+    DID *jwtDID=DID_FromString([didString UTF8String]);
+    DIDDocument * jwtDoc=DID_Resolve(jwtDID,NO);
+    DIDURL *url=DIDURL_NewByDid(jwtDID, "primary");
+//    PublicKey *pk= DIDDocument_GetPublicKey(jwtDoc, url);
+    if (jwtDoc==NULL) {
+        [[FLTools share]showErrorInfo:@"DID无效"];
+        return NO;
+    }
+   r= DIDDocument_Verify(jwtDoc,url,signature, 1,usignature,strlen(usignature));
+    DIDURL_Destroy(url);
+    DID_Destroy(jwtDID);
+    DIDDocument_Destroy(jwtDoc);
+    if (r==0) {
+        return YES;
+    }else{
+        [[FLTools share]showErrorInfo:@"验签失败!"];
+        return NO;
+    }
+
+}
+
+-(id)jwtDecodeWithJwtStringInfo:(NSString *)jwtStr {
+  jwtStr=[jwtStr stringByReplacingOccurrencesOfString:@"elastos://credaccess/" withString:@""];
+    
+    NSArray * manySecrets = [jwtStr componentsSeparatedByString:@"."];
+    NSString *base=[NSString stringFromBase64UrlEncodedString:manySecrets[1]];
+      NSDictionary * jsonDict = [NSJSONSerialization JSONObjectWithData:[base dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+    //少一个有效期判断
+   NSString* UnSignature=[NSString stringWithFormat:@"%@.%@",[self removeSpaceAndNewline:manySecrets.firstObject],manySecrets[1]];
+
+       UnSignature=[UnSignature stringByReplacingOccurrencesOfString:@"//n" withString:@""];
+    if ([self jwtSignatureWithDIDString:jsonDict[@"iss"] withSignature:manySecrets.lastObject withUnSignature:UnSignature]) {
+        return jsonDict;
+    }
+   
+
+        return nil;
+}
+- (NSString *)removeSpaceAndNewline:(NSString *)str
+
+{
+
+    NSString *temp = [str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
+    NSString *text = [temp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet ]];
+
+return text;
+
+}
+-(id)jwtInfo:(NSString*)jtwStr{
+      NSDictionary * jsonDict = [NSJSONSerialization JSONObjectWithData:[jtwStr dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+      return jsonDict;
+}
+
+
+-(NSString*)DIDSignatureWithString:(NSString*)sigString{
+    int r;
+    if (store==NULL) {//
+        return @"-1";
+    }
+    DIDDocument *doc=DIDStore_LoadDID(store, did);
+    if (doc==NULL) {
+        [[FLTools share]showErrorInfo:@"DID不存在"];
+        return @"-1";
+    }
+    char signature[SIGNATURE_BYTES * 2 + 16];
+    char *sig =(char *)[sigString UTF8String];
+   r=DIDDocument_Sign(doc, NULL, [self.passWord UTF8String],
+                     signature,1,sig,strlen(sig));
+    if (r==0) {
+        return [self charToString:signature];
+    }
+    return @"-1";
+}
+-(BOOL)ImportLocalCredentialsWithModel:(HWMDIDInfoModel*)model{
+    
+    return YES;
+}
+
+
 @end

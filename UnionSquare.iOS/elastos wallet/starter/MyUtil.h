@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 +(NSString *)getRootPath;
 +(NSString*)DIDRootPath;
++(NSString*)CommDIDPath;
++(BOOL)AddCommDIDWithJWT:(NSString*)fromePath;
 @end
 
 NS_ASSUME_NONNULL_END

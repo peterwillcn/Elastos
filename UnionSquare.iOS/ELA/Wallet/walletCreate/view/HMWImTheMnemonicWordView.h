@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  *<# #>
  */
-@property(strong,nonatomic)id<HMWImTheMnemonicWordViewDelegate> delegate;
+@property(weak,nonatomic)id<HMWImTheMnemonicWordViewDelegate> delegate;
 /*
  *<# #>
  */

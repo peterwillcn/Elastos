@@ -53,7 +53,13 @@ NSInteger timeOut = 20;
     
     NSDictionary *dataDic = [self addOtherKey:param];
     DLog(@"---url---%@%@---%@",host,httpUrl, dataDic);
-    NSString *stringUrl = [NSString stringWithFormat:@"%@%@",host, httpUrl];
+    NSString *stringUrl;
+    if (httpUrl.length>0) {
+    stringUrl = [NSString stringWithFormat:@"%@%@",host, httpUrl];
+    }else{
+        stringUrl =host;
+    }
+    
 
     [manage POST:stringUrl parameters:param headers:header progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -65,7 +71,7 @@ NSInteger timeOut = 20;
         
         NSInteger code = [dic[@"code"] integerValue];
       
-        if (code==0) {
+        if (code==0||code==200) {
             successBlock(dic);
         }else{
             NSString *errString=dic[@"exceptionMsg"];

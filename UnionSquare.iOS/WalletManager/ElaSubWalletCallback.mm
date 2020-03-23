@@ -57,12 +57,10 @@ void ElaSubWalletCallback::OnBlockSyncProgress(const nlohmann::json &progressInf
     NSString *LastBlockTime=[NSString stringWithFormat:@"%@",progressInfoDic[@"LastBlockTime"]];
       
         NSDictionary *dic=@{@"progress":Progress,@"callBackInfo":walletIDString,@"lastBlockTimeString":LastBlockTime,@"BytesPerSecond":BytesPerSecond,@"DownloadPeer":DownloadPeer};
-        NSLog(@"call回调数据%@",dic);
+//        NSLog(@"call回调数据%@",dic);
         [[NSNotificationCenter defaultCenter] postNotificationName:progressBarcallBackInfo object:dic];
 }
 void ElaSubWalletCallback::OnBalanceChanged(const std::string &asset, const std::string &balance){
-//    NSOperationQueue *waitQueue = [[NSOperationQueue alloc] init];
-//    [waitQueue addOperationWithBlock:^{
     NSString *walletIDString = [NSString stringWithCString:_callBackInfo.c_str() encoding:NSUTF8StringEncoding];
     
     
@@ -71,12 +69,17 @@ void ElaSubWalletCallback::OnBalanceChanged(const std::string &asset, const std:
     NSDictionary *dic=@{@"asset":assetString,@"balance":[NSString stringWithCString:balance.c_str() encoding:NSUTF8StringEncoding],@"callBackInfo":walletIDString};
     
         [[NSNotificationCenter defaultCenter] postNotificationName:AccountBalanceChanges object:dic];
-        
-//    }];
 }
-
 void ElaSubWalletCallback::OnTxPublished(const std::string &hash, const nlohmann::json &result)
 {
+    NSString *hashString = [NSString stringWithCString:hash.c_str() encoding:NSUTF8StringEncoding];
+     
+     
+     NSString *resultString = [NSString stringWithCString:result.dump().c_str() encoding:NSUTF8StringEncoding];
+    
+//    printf(@"s/n%/n",hash.c_str(),result.dump().c_str());
+//
+    NSLog(@"hash===%@========详情======%@",hashString ,resultString);
 }
 
 /**

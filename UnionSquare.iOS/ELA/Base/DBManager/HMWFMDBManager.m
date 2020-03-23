@@ -9,6 +9,7 @@
 #import "MyUtil.h"
 #import "NSArray+YYAdd.h"
 #import "NSString+YYAdd.h"
+#import "FMDatabaseAdditions.h"
 
 static HMWFMDBManager * _manager =nil;
 @implementation HMWFMDBManager
@@ -60,14 +61,18 @@ static HMWFMDBManager * _manager =nil;
         
         
     }
-    //    if (type==sideChain){
-    //        NSString *thePercentageMaxStr = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ INTEGER",@"sideChain",@"thePercentageMax"];
-    //        BOOL worked = [_manager executeUpdate:thePercentageMaxStr];
-    //        if(worked){
-    //            NSLog(@"thePercentageMax插入成功");
-    //        }else{
-    //            NSLog(@"thePercentageMax插入失败");
-    //        }
+        if (type==walletType){
+        
+            if (![_manager columnExists:@"didString" inTableWithName:@"wallet"]){
+                NSString *thePercentageMaxStr = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ INTEGER",@"wallet",@"didString"];
+                         BOOL worked = [_manager executeUpdate:thePercentageMaxStr];
+                         if(worked){
+                             NSLog(@"didString插入成功");
+                         }else{
+                             NSLog(@"didString插入失败");
+                         }
+            }
+         
     //        NSString *thePercentageCurrStr = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ INTEGER",@"sideChain",@"sideChainNameTime"];
     //        BOOL Currworked = [_manager executeUpdate:thePercentageCurrStr];
     //        if(Currworked){
@@ -77,7 +82,7 @@ static HMWFMDBManager * _manager =nil;
     //        }
     
     
-    //    }
+        }
     
     return _manager;
     
@@ -187,7 +192,8 @@ static HMWFMDBManager * _manager =nil;
 //            p.thePercentageCurr=@"100";
 //            
 //        }
-        [allRecords addObject:p]; NSLog(@"本地存储==%@===%@==%@==%@====%@",p.walletID,p.sideChainName,p.thePercentageCurr,p.thePercentageMax,p.sideChainNameTime);
+        [allRecords addObject:p];
+//        NSLog(@"本地存储==%@===%@==%@==%@====%@",p.walletID,p.sideChainName,p.thePercentageCurr,p.thePercentageMax,p.sideChainNameTime);
         
         
     }
@@ -292,10 +298,10 @@ static HMWFMDBManager * _manager =nil;
         }
         NSString *sql =@"Update sideChain set sideChainNameTime=? ,thePercentageCurr=?,thePercentageMax=? where walletID=? and sideChainName=? ";
         if ( [self executeUpdate:sql,model.sideChainNameTime,model.thePercentageCurr,model.thePercentageMax,model.walletID,model.sideChainName]) {
-            NSLog(@"更新==%@===%@==%@==%@====%@",model.walletID,model.sideChainName,model.thePercentageCurr,model.thePercentageMax,model.sideChainNameTime);
+//            NSLog(@"更新==%@===%@==%@==%@====%@",model.walletID,model.sideChainName,model.thePercentageCurr,model.thePercentageMax,model.sideChainNameTime);
             return YES;
         }else{
-            NSLog(@"更新失败==%@===%@==%@==%@====%@",model.walletID,model.sideChainName,model.thePercentageCurr,model.thePercentageMax,model.sideChainNameTime);
+//            NSLog(@"更新失败==%@===%@==%@==%@====%@",model.walletID,model.sideChainName,model.thePercentageCurr,model.thePercentageMax,model.sideChainNameTime);
             return NO;
         };
     }else{
@@ -339,6 +345,7 @@ static HMWFMDBManager * _manager =nil;
         p.walletID=[set objectForColumn:@"walletID"];
         p.walletAddress =[set objectForColumn:@"walletAddress"];
         p.walletName =[set objectForColumn:@"walletName"];
+        p.didString=[set objectForColumn:@"didString"];
         return  p;
     }
     return nil;
@@ -351,8 +358,11 @@ static HMWFMDBManager * _manager =nil;
     /*
      *
      */
-    NSString *sql =@"insert into wallet(walletID,walletAddress,walletName) values(?,?,?)";
-    if ([self executeUpdate:sql,wallet.walletID,wallet.walletAddress,wallet.walletName]) {
+    if (wallet.didString.length==0) {
+        wallet.didString=@"";
+    }
+    NSString *sql =@"insert into wallet(walletID,walletAddress,walletName,didString) values(?,?,?,?)";
+    if ((void)([self executeUpdate:sql,wallet.walletID,wallet.walletAddress,wallet.walletName]),wallet.didString) {
         
     }else{
         
@@ -377,7 +387,8 @@ static HMWFMDBManager * _manager =nil;
         p.walletID=[set objectForColumn:@"walletID"];
         p.walletAddress =[set objectForColumn:@"walletAddress"];
         p.walletName =[set objectForColumn:@"walletName"];
-        NSLog(@"本地存储钱包==%@==%@", p.walletID, p.walletName);
+        p.didString=[set objectForColumn:@"didString"];
+//        NSLog(@"本地存储钱包==%@==%@", p.walletID, p.walletName);
         //        添加到数组中
         [allRecords addObject:p];
     }
@@ -392,9 +403,16 @@ static HMWFMDBManager * _manager =nil;
     if (wallet.walletAddress.length==0) {
         wallet.walletAddress=@"0";
     }
-    NSString *sql =@"Update wallet set walletName=? where walletID=? ";
+    if (wallet.didString.length==0) {
+        wallet.didString=@"0";
+    }
     
-    if ( [self executeUpdate:sql,wallet.walletName,wallet.walletID]) {
+    
+    NSString *sql =@"Update wallet set walletName=? where walletID=?";
+    NSString *DIDSql =@"Update wallet set didString=? where walletID=?";
+    if ([self executeUpdate:sql,wallet.walletName,wallet.walletID]&& [self executeUpdate:DIDSql,wallet.didString,wallet.walletID]) {
+      wallet=  [self selectMastWalletID:wallet.walletID];
+        
         
         return YES;
         
@@ -570,133 +588,133 @@ static HMWFMDBManager * _manager =nil;
 
 
 
--(BOOL)addDIDCR:(HWMDIDInfoModel*)Model withWallID:(NSString*)walletID{
-    
-    
-//          sql =@"create table if not exists DIDInfo(ID integer primary key AUTOINCREMENT,walletID text,expires text,didName text,operation text,issuanceDate text,status text,did text,PubKeyString text,nameString text,nickNameString text,genderString text,DateBirthString text,iconUrlString text,emailString text,MobilePhoneNoString text,areMobilePhoneNoString text,countriesString text,SocialAccountDic text)";
-    
-    
-    if ([self selectDIDWithWalletID:walletID andWithDID:Model.did]) {
-        if ([self updateDIDInfo:Model WithWalletID:walletID]) {
-            return YES;
-        }
-           return NO;
-    }else{
-    
-    NSString *sql =@"insert into DIDInfo(walletID,expires,didName,operation,issuanceDate,status,did,PubKeyString,nameString,nickNameString,genderString,DateBirthString,iconUrlString,emailString,MobilePhoneNoString,areMobilePhoneNoString,countriesString,SocialAccountDic,introductionInfoString,editTimeString,infoTimeString,IntroductionTimeString,socialAccountTimeString) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        NSString *SocialAccountString=[[FLTools share]DicToString:Model.SocialAccountDic];
-         Model.editTimeString=[[FLTools share]getNowTimeTimestamp];
+//-(BOOL)addDIDCR:(HWMDIDInfoModel*)Model withWallID:(NSString*)walletID{
+//    
+//    
+////          sql =@"create table if not exists DIDInfo(ID integer primary key AUTOINCREMENT,walletID text,expires text,didName text,operation text,issuanceDate text,status text,did text,PubKeyString text,nameString text,nickNameString text,genderString text,DateBirthString text,iconUrlString text,emailString text,MobilePhoneNoString text,areMobilePhoneNoString text,countriesString text,SocialAccountDic text)";
+//    
+//    
+//    if ([self selectDIDWithWalletID:walletID andWithDID:Model.did]) {
+//        if ([self updateDIDInfo:Model WithWalletID:walletID]) {
+//            return YES;
+//        }
+//           return NO;
+//    }else{
+//    
+//    NSString *sql =@"insert into DIDInfo(walletID,expires,didName,operation,issuanceDate,status,did,PubKeyString,nameString,nickNameString,genderString,DateBirthString,iconUrlString,emailString,MobilePhoneNoString,areMobilePhoneNoString,countriesString,SocialAccountDic,introductionInfoString,editTimeString,infoTimeString,IntroductionTimeString,socialAccountTimeString) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+//        NSString *SocialAccountString=[[FLTools share]DicToString:Model.SocialAccountDic];
+//         Model.editTimeString=[[FLTools share]getNowTimeTimestamp];
+//
+//    if ([self executeUpdate:sql,walletID,Model.expires,Model.didName,Model.operation,Model.issuanceDate,Model.status,Model.did,Model.PubKeyString,Model.nameString,Model.nickNameString,Model.genderString,Model.DateBirthString,Model.iconUrlString,Model.emailString,Model.MobilePhoneNoString,Model.areMobilePhoneNoString,Model.countriesString,SocialAccountString,Model.introductionInfoString,Model.editTimeString,Model.infoTimeString,Model.IntroductionTimeString,Model.socialAccountTimeString]) {
+//        return YES;
+//    }
+//        
+//    }
+//    return NO;
+//    
+//    
+//    
+//    return YES;
+//}
 
-    if ([self executeUpdate:sql,walletID,Model.expires,Model.didName,Model.operation,Model.issuanceDate,Model.status,Model.did,Model.PubKeyString,Model.nameString,Model.nickNameString,Model.genderString,Model.DateBirthString,Model.iconUrlString,Model.emailString,Model.MobilePhoneNoString,Model.areMobilePhoneNoString,Model.countriesString,SocialAccountString,Model.introductionInfoString,Model.editTimeString,Model.infoTimeString,Model.IntroductionTimeString,Model.socialAccountTimeString]) {
-        return YES;
-    }
-        
-    }
-    return NO;
-    
-    
-    
-    return YES;
-}
-
-//查
--(NSArray*)allSelectDIDWithWallID:(NSString*)walletID{
-    NSMutableArray *allRecords=[[NSMutableArray alloc]init];
-        NSString *sql =[NSString stringWithFormat: @"select * from DIDInfo"];
-      FMResultSet *set=[self executeQuery:sql];
-      //    一条一条的读取数据 并专程模型
-      while (set.next) {
-          //        模型
-          HWMDIDInfoModel * Model= [[HWMDIDInfoModel alloc]init];
-          Model.walletID=[set objectForColumn:@"walletID"];
-          Model.expires=[set objectForColumn:@"expires"];
-          Model.didName=[set objectForColumn:@"didName"];
-          Model.operation=[set objectForColumn:@"operation"];
-          Model.issuanceDate=[set objectForColumn:@"issuanceDate"];
-          Model.status=[set objectForColumn:@"status"];
-          Model.did=[set objectForColumn:@"did"];
-          Model.PubKeyString=[set objectForColumn:@"PubKeyString"];
-          Model.nameString=[set objectForColumn:@"nameString"];
-          Model.nickNameString=[set objectForColumn:@"nickNameString"];
-          Model.genderString=[set objectForColumn:@"genderString"];
-          Model.DateBirthString=[set objectForColumn:@"DateBirthString"];
-          Model.iconUrlString=[set objectForColumn:@"iconUrlString"];
-          Model.emailString=[set objectForColumn:@"emailString"];
-          Model.MobilePhoneNoString=[set objectForColumn:@"MobilePhoneNoString"];
-          Model.areMobilePhoneNoString=[set objectForColumn:@"areMobilePhoneNoString"];
-          Model.countriesString=[set objectForColumn:@"countriesString"];
-          Model.editTimeString=[set objectForColumn:@"editTimeString"];
-          Model.infoTimeString=[set objectForColumn:@"infoTimeString"];
-          Model.IntroductionTimeString=[set objectForColumn:@"IntroductionTimeString"];
-          Model.socialAccountTimeString=[set objectForColumn:@"socialAccountTimeString"];
-          Model.introductionInfoString=[set objectForColumn:@"introductionInfoString"];
-          NSString *SocialAccountDicString=[set objectForColumn:@"SocialAccountDic"];
-          Model.SocialAccountDic=[NSMutableDictionary dictionaryWithDictionary:[[FLTools share] dictionaryWithJsonString:SocialAccountDicString]];
-          [allRecords addObject:Model];
-      }
-      return allRecords;
-}
+////查
+//-(NSArray*)allSelectDIDWithWallID:(NSString*)walletID{
+//    NSMutableArray *allRecords=[[NSMutableArray alloc]init];
+//        NSString *sql =[NSString stringWithFormat: @"select * from DIDInfo"];
+//      FMResultSet *set=[self executeQuery:sql];
+//      //    一条一条的读取数据 并专程模型
+//      while (set.next) {
+//          //        模型
+//          HWMDIDInfoModel * Model= [[HWMDIDInfoModel alloc]init];
+//          Model.walletID=[set objectForColumn:@"walletID"];
+//          Model.expires=[set objectForColumn:@"expires"];
+//          Model.didName=[set objectForColumn:@"didName"];
+//          Model.operation=[set objectForColumn:@"operation"];
+//          Model.issuanceDate=[set objectForColumn:@"issuanceDate"];
+//          Model.status=[set objectForColumn:@"status"];
+//          Model.did=[set objectForColumn:@"did"];
+//          Model.PubKeyString=[set objectForColumn:@"PubKeyString"];
+//          Model.nameString=[set objectForColumn:@"nameString"];
+//          Model.nickNameString=[set objectForColumn:@"nickNameString"];
+//          Model.genderString=[set objectForColumn:@"genderString"];
+//          Model.DateBirthString=[set objectForColumn:@"DateBirthString"];
+//          Model.iconUrlString=[set objectForColumn:@"iconUrlString"];
+//          Model.emailString=[set objectForColumn:@"emailString"];
+//          Model.MobilePhoneNoString=[set objectForColumn:@"MobilePhoneNoString"];
+//          Model.areMobilePhoneNoString=[set objectForColumn:@"areMobilePhoneNoString"];
+//          Model.countriesString=[set objectForColumn:@"countriesString"];
+//          Model.editTimeString=[set objectForColumn:@"editTimeString"];
+//          Model.infoTimeString=[set objectForColumn:@"infoTimeString"];
+//          Model.IntroductionTimeString=[set objectForColumn:@"IntroductionTimeString"];
+//          Model.socialAccountTimeString=[set objectForColumn:@"socialAccountTimeString"];
+//          Model.introductionInfoString=[set objectForColumn:@"introductionInfoString"];
+//          NSString *SocialAccountDicString=[set objectForColumn:@"SocialAccountDic"];
+//          Model.SocialAccountDic=[NSMutableDictionary dictionaryWithDictionary:[[FLTools share] dictionaryWithJsonString:SocialAccountDicString]];
+//          [allRecords addObject:Model];
+//      }
+//      return allRecords;
+//}
 //选
--(HWMDIDInfoModel*)selectDIDWithWalletID:(NSString*)walletID andWithDID:(NSString*)DID{
-    NSString *sql =[NSString stringWithFormat: @"select * from DIDInfo where walletID=\'%@\' and did=\'%@\'",walletID,DID];
-    
-    
-    
-    FMResultSet *set=[self executeQuery:sql];
-    //    一条一条的读取数据 并专程模型
-    while (set.next) {
-        //        模型
-        HWMDIDInfoModel * Model= [[HWMDIDInfoModel alloc]init];
-                 Model.walletID=[set objectForColumn:@"walletID"];
-                 Model.expires=[set objectForColumn:@"expires"];
-                 Model.didName=[set objectForColumn:@"didName"];
-                 Model.operation=[set objectForColumn:@"operation"];
-                 Model.issuanceDate=[set objectForColumn:@"issuanceDate"];
-                 Model.status=[set objectForColumn:@"status"];
-                 Model.did=[set objectForColumn:@"did"];
-                 Model.PubKeyString=[set objectForColumn:@"PubKeyString"];
-                 Model.nameString=[set objectForColumn:@"nameString"];
-                 Model.nickNameString=[set objectForColumn:@"nickNameString"];
-                 Model.genderString=[set objectForColumn:@"genderString"];
-                 Model.DateBirthString=[set objectForColumn:@"DateBirthString"];
-                 Model.iconUrlString=[set objectForColumn:@"iconUrlString"];
-                 Model.emailString=[set objectForColumn:@"emailString"];
-                 Model.MobilePhoneNoString=[set objectForColumn:@"MobilePhoneNoString"];
-                 Model.areMobilePhoneNoString=[set objectForColumn:@"areMobilePhoneNoString"];
-                 Model.countriesString=[set objectForColumn:@"countriesString"];
-                 Model.editTimeString=[set objectForColumn:@"editTimeString"];
-                 Model.infoTimeString=[set objectForColumn:@"infoTimeString"];
-                 Model.IntroductionTimeString=[set objectForColumn:@"IntroductionTimeString"];
-                 Model.socialAccountTimeString=[set objectForColumn:@"socialAccountTimeString"];
-                 Model.introductionInfoString=[set objectForColumn:@"introductionInfoString"];
-                 NSString *SocialAccountDicString=[set objectForColumn:@"SocialAccountDic"];
-                Model.SocialAccountDic=[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]dictionaryWithJsonString:SocialAccountDicString]];
-        return  Model;
-    }
-    return nil;
-}
-//改
--(BOOL)updateDIDInfo:(HWMDIDInfoModel *)Model WithWalletID:(NSString*)walletID{
-    if ([self selectDIDWithWalletID:walletID andWithDID:Model.did]) {
-         NSString *sql =@"Update DIDInfo set expires=?,didName=?,operation=?,issuanceDate=?,status=?,PubKeyString=?,nameString=?,nickNameString=?,genderString=?,DateBirthString=?,iconUrlString=?,emailString=?,MobilePhoneNoString=?,areMobilePhoneNoString=?,countriesString=?,SocialAccountDic=?,introductionInfoString=?,editTimeString=?,infoTimeString=?,IntroductionTimeString=?,socialAccountTimeString= ? where walletID=? and did=?)";
-        NSString *SocialAccountString=[[FLTools share]DicToString:Model.SocialAccountDic];
-        Model.editTimeString=[[FLTools share]getNowTimeTimestamp];
-         if ([self executeUpdate:sql,Model.expires,Model.didName,Model.operation,Model.issuanceDate,Model.status,Model.PubKeyString,Model.nameString,Model.nickNameString,Model.genderString,Model.DateBirthString,Model.iconUrlString,Model.emailString,Model.MobilePhoneNoString,Model.areMobilePhoneNoString,Model.countriesString,SocialAccountString,Model.introductionInfoString,Model.editTimeString,Model.infoTimeString,Model.IntroductionTimeString,Model.socialAccountTimeString,walletID,Model.did]) {
-             return YES;
-         }
-             
-    }
-    return NO;
-}
-//删
--(BOOL)delectDIDInfo:(HWMDIDInfoModel *)Model WithWalletID:(NSString*)walletID{
-        if ([self selectDIDWithWalletID:walletID andWithDID:Model.did]) {
-            
-            NSString *sql =@"delete from DIDInfo where walletID = ? and did=?";
-              if ([self executeUpdate:sql,walletID,Model.did]) {
-                  return YES;
-              }
-        }
-        return NO;
-}
+//-(HWMDIDInfoModel*)selectDIDWithWalletID:(NSString*)walletID andWithDID:(NSString*)DID{
+//    NSString *sql =[NSString stringWithFormat: @"select * from DIDInfo where walletID=\'%@\' and did=\'%@\'",walletID,DID];
+//
+//
+//
+//    FMResultSet *set=[self executeQuery:sql];
+//    //    一条一条的读取数据 并专程模型
+//    while (set.next) {
+//        //        模型
+//        HWMDIDInfoModel * Model= [[HWMDIDInfoModel alloc]init];
+//                 Model.walletID=[set objectForColumn:@"walletID"];
+//                 Model.expires=[set objectForColumn:@"expires"];
+//                 Model.didName=[set objectForColumn:@"didName"];
+//                 Model.operation=[set objectForColumn:@"operation"];
+//                 Model.issuanceDate=[set objectForColumn:@"issuanceDate"];
+//                 Model.status=[set objectForColumn:@"status"];
+//                 Model.did=[set objectForColumn:@"did"];
+//                 Model.PubKeyString=[set objectForColumn:@"PubKeyString"];
+//                 Model.nameString=[set objectForColumn:@"nameString"];
+//                 Model.nickNameString=[set objectForColumn:@"nickNameString"];
+//                 Model.genderString=[set objectForColumn:@"genderString"];
+//                 Model.DateBirthString=[set objectForColumn:@"DateBirthString"];
+//                 Model.iconUrlString=[set objectForColumn:@"iconUrlString"];
+//                 Model.emailString=[set objectForColumn:@"emailString"];
+//                 Model.MobilePhoneNoString=[set objectForColumn:@"MobilePhoneNoString"];
+//                 Model.areMobilePhoneNoString=[set objectForColumn:@"areMobilePhoneNoString"];
+//                 Model.countriesString=[set objectForColumn:@"countriesString"];
+//                 Model.editTimeString=[set objectForColumn:@"editTimeString"];
+//                 Model.infoTimeString=[set objectForColumn:@"infoTimeString"];
+//                 Model.IntroductionTimeString=[set objectForColumn:@"IntroductionTimeString"];
+//                 Model.socialAccountTimeString=[set objectForColumn:@"socialAccountTimeString"];
+//                 Model.introductionInfoString=[set objectForColumn:@"introductionInfoString"];
+//                 NSString *SocialAccountDicString=[set objectForColumn:@"SocialAccountDic"];
+//                Model.SocialAccountDic=[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]dictionaryWithJsonString:SocialAccountDicString]];
+//        return  Model;
+//    }
+//    return nil;
+//}
+////改
+//-(BOOL)updateDIDInfo:(HWMDIDInfoModel *)Model WithWalletID:(NSString*)walletID{
+//    if ([self selectDIDWithWalletID:walletID andWithDID:Model.did]) {
+//         NSString *sql =@"Update DIDInfo set expires=?,didName=?,operation=?,issuanceDate=?,status=?,PubKeyString=?,nameString=?,nickNameString=?,genderString=?,DateBirthString=?,iconUrlString=?,emailString=?,MobilePhoneNoString=?,areMobilePhoneNoString=?,countriesString=?,SocialAccountDic=?,introductionInfoString=?,editTimeString=?,infoTimeString=?,IntroductionTimeString=?,socialAccountTimeString= ? where walletID=? and did=?)";
+//        NSString *SocialAccountString=[[FLTools share]DicToString:Model.SocialAccountDic];
+//        Model.editTimeString=[[FLTools share]getNowTimeTimestamp];
+//         if ([self executeUpdate:sql,Model.expires,Model.didName,Model.operation,Model.issuanceDate,Model.status,Model.PubKeyString,Model.nameString,Model.nickNameString,Model.genderString,Model.DateBirthString,Model.iconUrlString,Model.emailString,Model.MobilePhoneNoString,Model.areMobilePhoneNoString,Model.countriesString,SocialAccountString,Model.introductionInfoString,Model.editTimeString,Model.infoTimeString,Model.IntroductionTimeString,Model.socialAccountTimeString,walletID,Model.did]) {
+//             return YES;
+//         }
+//
+//    }
+//    return NO;
+//}
+////删
+//-(BOOL)delectDIDInfo:(HWMDIDInfoModel *)Model WithWalletID:(NSString*)walletID{
+//        if ([self selectDIDWithWalletID:walletID andWithDID:Model.did]) {
+//
+//            NSString *sql =@"delete from DIDInfo where walletID = ? and did=?";
+//              if ([self executeUpdate:sql,walletID,Model.did]) {
+//                  return YES;
+//              }
+//        }
+//        return NO;
+//}
 @end

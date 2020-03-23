@@ -19,5 +19,5 @@
 /*
  *<# #>
  */
-@property(strong,nonatomic)id<HWMTheValidationWordMnemonicPasswordDelegate> delegate;
+@property(weak,nonatomic)id<HWMTheValidationWordMnemonicPasswordDelegate> delegate;
 @end

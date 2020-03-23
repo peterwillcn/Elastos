@@ -165,6 +165,7 @@
 "跨链交易"="Cross Chain transfer Transaction";
 "注册参选交易"="Node Registration Transaction";
 "取消参选交易"="Node Cancellation Transaction";
+"ID 交易"="ID Transaction";
 "更新参选交易"="Node Update Transaction";
 "取回参选优质抵押资产交易"="Retrieve Deposit";
 "修改失败！"="Modify failed!";

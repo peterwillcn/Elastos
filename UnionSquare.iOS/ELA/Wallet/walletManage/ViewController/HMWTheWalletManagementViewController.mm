@@ -294,15 +294,31 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
         }
 
         }else if ([title isEqualToString:NSLocalizedString(@"DID",nil)]){
+            
             if (self.isOpen) {
-               [self showDIDInfoOrCreateDIDInfo];
+                
+                if (self.currentWallet.didString.length>5) {
+                    
+                    
+                    
+                    
+        HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
+        DIDInfoVC.currentWallet=self.currentWallet;
+        [self.navigationController pushViewController:DIDInfoVC animated:YES];
+         }else{
+             [self showDIDInfoOrCreateDIDInfo];
+                                  
+        }
             }else{
+                
                 UIView *mainView =[self mainWindow];
                 self.toDeleteTheWalletPopV.deleteType=openIDChainType;
                 [mainView addSubview:self.toDeleteTheWalletPopV];
                 [self.toDeleteTheWalletPopV mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.left.right.top.bottom.equalTo(mainView);
                 }];
+                    
+                
             }
            
            
@@ -314,11 +330,6 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
            [self.securityVerificationPopV mas_makeConstraints:^(MASConstraintMaker *make) {
                make.left.top.right.bottom.equalTo(mainView);
            }];
-//    HWMCreateDIDViewController *HWMCreateDIDVC=[[HWMCreateDIDViewController alloc]init];
-//               [self.navigationController pushViewController:HWMCreateDIDVC animated:YES];
-//    HWMDIDInfoViewController *HWMDIDInfoVC=[[HWMDIDInfoViewController alloc]init];
-//
-//    [self.navigationController pushViewController:HWMDIDInfoVC animated:YES];
     
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -459,23 +470,28 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     }else if ([title isEqualToString:NSLocalizedString(@"DID",nil)]){
 //        查看 查看有没有did
      invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwdString] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
-        
+
         NSString *PrivateKeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
-        
-   
-        if (PrivateKeyString.length>0) {
-            BOOL hasDID
-            = [[HWMDIDManager shareDIDManager]initDIDWithPWD:pwdString withDIDString:@"" WithPrivatekeyString:PrivateKeyString WithmastWalletID:self.currentWallet.masterWalletID];
+////
+//        if (PrivateKeyString.length>0) {
+           NSString * hasDID
+            = [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwdString withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID];
             if (hasDID) {
+                FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
+                model.walletID=self.currentWallet.masterWalletID;
+                model.walletAddress=self.currentWallet.walletAddress;
+                model.didString=hasDID;
+                self.currentWallet.didString=hasDID;
+                [[HMWFMDBManager sharedManagerType:walletType]updateRecordWallet:model];
                 HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
+                DIDInfoVC.currentWallet=self.currentWallet;
                 [self.navigationController pushViewController:DIDInfoVC animated:YES];
                 
             }else{
                 HWMCreateDIDViewController *CreateDIDVC=[[HWMCreateDIDViewController alloc]init];
                 [self.navigationController pushViewController:CreateDIDVC animated:YES];
-              
             }
-        }
+//        }
         
         
     }

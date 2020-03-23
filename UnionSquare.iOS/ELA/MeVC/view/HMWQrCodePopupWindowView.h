@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  *<# #>
  */
-@property(strong,nonatomic)id<HMWQrCodePopupWindowViewDelegate> delegate;
+@property(weak,nonatomic)id<HMWQrCodePopupWindowViewDelegate> delegate;
 /*
  *<# #>
  */

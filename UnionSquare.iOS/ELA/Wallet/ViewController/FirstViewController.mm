@@ -32,7 +32,8 @@
 #import "HMWpwdPopupView.h"
 #import "HWMSignatureTradingSingleQrCodeViewController.h"
 #import "HMWSendSuccessPopuView.h"
-
+#import "HWMDIDManager.h"
+#import "HWMDIDAuthorizationViewController.h"
 @interface FirstViewController ()<FLCapitalViewDelegate,UITableViewDelegate,UITableViewDataSource,HMWaddFooterViewDelegate,HMWTheWalletListViewControllerDelegate,HMWpwdPopupViewDelegate>
 {
     FLWallet *_currentWallet;
@@ -298,7 +299,7 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
     NSString *lastBlockTimeString=dic[@"lastBlockTimeString"];
     NSString * currentBlockHeight=@"0";
     NSString *  progress=dic[@"progress"];
-     NSLog(@"model.status=self.currentWallet.masterWalletID=%@",self.currentWallet.masterWalletID);
+//     NSLog(@"model.status=self.currentWallet.masterWalletID=%@",self.currentWallet.masterWalletID);
     assetsListModel *model;
     if ([self.currentWallet.masterWalletID isEqualToString:walletID]){
         if ([chainID isEqualToString:@"ELA"]) {
@@ -320,7 +321,7 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
             model.updateTime=[NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
         dispatch_async(dispatch_get_main_queue(), ^{
                 [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
-                NSLog(@"修改侧链时间====%@======%@======%@====%@====%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
+//                NSLog(@"修改侧链时间====%@======%@======%@====%@====%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
             });
         }
         if (self.isScro==NO) {
@@ -394,6 +395,7 @@ if(inde>self.walletIDListArray.count-1) {
     wallet.walletAddress  = model.walletAddress;
     wallet.walletID       =[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
      wallet.TypeW  = model.TypeW;
+    wallet.didString=model.didString;
     self.currentWallet = wallet;
      [self addAllCallBack];
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
@@ -487,14 +489,14 @@ if(inde>self.walletIDListArray.count-1) {
     
     self.table.tableFooterView =addFooterView;
     UIBarButtonItem *ClickMorenButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"asset_wallet_setting"] style:UIBarButtonItemStyleDone target:self action:@selector(ClickMore:)];
-//    UIBarButtonItem *saveButton =[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"setting_adding_scan"] style:UIBarButtonItemStyleDone target:self action:@selector(QrCode)];
-//    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-//                                                                                    target:nil
-//                                                                action:nil];
-//    negativeSpacer.width =-20;
-//    NSArray *buttonArray = [[NSArray alloc]initWithObjects:negativeSpacer,ClickMorenButton,saveButton,nil];
-//    self.navigationItem.rightBarButtonItems = buttonArray;
-        self.navigationItem.rightBarButtonItem=ClickMorenButton;
+    UIBarButtonItem *saveButton =[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"setting_adding_scan"] style:UIBarButtonItemStyleDone target:self action:@selector(QrCode)];
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                                    target:nil
+                                                                action:nil];
+    negativeSpacer.width =-20;
+    NSArray *buttonArray = [[NSArray alloc]initWithObjects:negativeSpacer,ClickMorenButton,saveButton,nil];
+    self.navigationItem.rightBarButtonItems = buttonArray;
+//        self.navigationItem.rightBarButtonItem=ClickMorenButton;
     __weak __typeof(self) weakSelf = self;
 MJRefreshNormalHeader  *header = [MJRefreshNormalHeader  headerWithRefreshingBlock:^{
     for (assetsListModel *model in self.dataSoureArray) {
@@ -513,6 +515,7 @@ MJRefreshNormalHeader  *header = [MJRefreshNormalHeader  headerWithRefreshingBlo
     WCQRCode.scanBack=^(NSString *addr){
    
         [weakSelf SweepCodeProcessingResultsWithQRCodeString:addr];
+        
     };
     [self QRCodeScanVC:WCQRCode];
 }
@@ -776,26 +779,45 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
 }
 -(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString{
 //    NSLog(@"解析前%@",QRCodeString);
-    if ([[FLTools share]SCanQRCodeWithDicCode:self.QRCoreDic] ) {
-        self.QRCoreDic=nil;
+    if ([QRCodeString containsString:@"elastos://credaccess/"]) {
+        NSDictionary *playInfoDic=[[HWMDIDManager shareDIDManager]jwtDecodeWithJwtStringInfo:QRCodeString];
+       if (playInfoDic){
+           [self ShowPlayInfoText:playInfoDic withJWTString:QRCodeString];
+       }
+//         return;
     }
-    NSDictionary *dic =[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]QrCodeImageFromDic:QRCodeString fromVC:self oldQrCodeDic:self.QRCoreDic]];
-    self.QRCoreDic=[[NSMutableDictionary alloc]initWithDictionary:dic];
-//    NSLog(@"解析后%@",self.QRCoreDic);
     
-    if (![self TypeJudgment:dic]){
-        HWMQrCodeScanningResultsViewController *QrCodeScanningResultsVC=[[HWMQrCodeScanningResultsViewController alloc]init];
-        QrCodeScanningResultsVC.resultString=QRCodeString;
-        [self.navigationController pushViewController:QrCodeScanningResultsVC animated:NO];
-        return;
-    }
-    if ([[FLTools share]SCanQRCodeWithDicCode:self.QRCoreDic]) {
-        
-        if ([self QrCodepushVC:self.QRCoreDic WithCurrWallet:self.currentWallet]) {
-           [self GetTransactionSignedInfoWhereForm:NO];
-        }
-    }
+   
+    
+    
+//    if ([[FLTools share]SCanQRCodeWithDicCode:self.QRCoreDic] ) {
+//        self.QRCoreDic=nil;
+//    }
+//    NSDictionary *dic =[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]QrCodeImageFromDic:QRCodeString fromVC:self oldQrCodeDic:self.QRCoreDic]];
+//    self.QRCoreDic=[[NSMutableDictionary alloc]initWithDictionary:dic];
+//    if (![self TypeJudgment:dic]){
+//        HWMQrCodeScanningResultsViewController *QrCodeScanningResultsVC=[[HWMQrCodeScanningResultsViewController alloc]init];
+//        QrCodeScanningResultsVC.resultString=QRCodeString;
+//        [self.navigationController pushViewController:QrCodeScanningResultsVC animated:NO];
+//        return;
+//    }
+//    if ([[FLTools share]SCanQRCodeWithDicCode:self.QRCoreDic]) {
+//
+//        if ([self QrCodepushVC:self.QRCoreDic WithCurrWallet:self.currentWallet]) {
+//           [self GetTransactionSignedInfoWhereForm:NO];
+//        }
+//    }
   
+    
+}
+-(void)ShowPlayInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString{
+    
+    HWMDIDAuthorizationViewController *DIDAuthorizationVC=[[HWMDIDAuthorizationViewController alloc]init];
+    DIDAuthorizationVC.DIDString=self.currentWallet.didString;
+    DIDAuthorizationVC.CRInfoDic=PayLoadDic;
+    DIDAuthorizationVC.mastWalletID=self.currentWallet.masterWalletID;
+    DIDAuthorizationVC.JWTString=jwtString;
+    [self.navigationController pushViewController:DIDAuthorizationVC animated:NO];
     
 }
 

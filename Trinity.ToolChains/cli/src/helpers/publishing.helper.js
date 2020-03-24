@@ -5,15 +5,19 @@ const axios = require("axios");
 const FormData = require('form-data');
 const Spinner = require('cli-spinner').Spinner;
 const sharp = require("sharp");
+const cors = require("cors");
+const bodyParser = require('body-parser')
 
 const config = require("../config.js");
 const ManifestHelper = require("../helpers/manifest.helper");
 const DAppHelper = require("../helpers/dapp.helper");
 const IonicHelper = require("../helpers/ionic.helper");
+const DIDHelper = require("../helpers/did.helper");
 
 var dappHelper = new DAppHelper();
 var manifestHelper = new ManifestHelper();
 var ionicHelper = new IonicHelper();
+var didHelper = new DIDHelper();
 
 module.exports = class PublishingHelper {
     /**
@@ -134,5 +138,132 @@ module.exports = class PublishingHelper {
         await sharp(bannerPath).resize(1024, 500).jpeg().toFile(modifiedBannerPath);
 
         return modifiedBannerPath;
+    }
+
+    getAllLocalIPAddresses() {
+        var allUsableInterfaces = [];
+    
+        var ifaces = os.networkInterfaces();
+        Object.keys(ifaces).forEach(function(ifname) {
+            ifaces[ifname].forEach(function(iface) {
+                // Skip over non-ipv4 addresses and localhost
+                if (iface.family !== 'IPv4' || iface.internal)
+                    return;
+    
+                allUsableInterfaces.push(iface);
+            });
+        });
+    
+        return allUsableInterfaces.map(addr => addr.address);
+    }
+
+    startDeveloperDAppToolServer(whatsNew) {
+        return new Promise((resolve, reject)=>{
+            // Run a temporary http server
+            var express = require('express')
+            var app = express()
+
+            // Enable cross origin requests
+            app.use(cors()); 
+            app.use(bodyParser.json());
+
+            // Get the app icon ready
+            var manifestPath = manifestHelper.getManifestPath(ionicHelper.getConfig().assets_path);
+            let manifest = JSON.parse(fs.readFileSync(manifestPath));
+            if (!manifest.icons || manifest.icons.length == 0 || !manifest.icons[0].src) {
+                reject("No valid app icon in manifest (icons->0->src)");
+                return;
+            }
+
+            let appIconPath = path.join(process.cwd(), ionicHelper.getConfig().assets_path, manifest.icons[0].src);
+            if (!fs.existsSync(appIconPath)) {
+                reject("No app icon found at location " + appIconPath + ". Please check your manifest.");
+                return;
+            }
+
+            // Endpoint to receive the app DID in order to sign it locally on the computer
+            app.post('/publish/appdid', async (req, res) => {
+                let appInfo = req.body;
+                let mnemonic = appInfo.did.mnemonic;
+
+                // We've received the app DID mnemonic. Recreate it locally to be able to sign the EPK.
+                await didHelper.importDID(mnemonic);
+
+                res.json()
+
+                // After successfully re-generating the DID locally, we can now pack and sign the EPK.
+                
+
+                /*dappHelper.packEPK(temporaryManifestPath).then((outputEPKPath)=>{
+                    dappHelper.signEPK(outputEPKPath, didURL, didSignaturePassword, didStorePath).then((signedEPKPath)=>{
+                        publishingHelper.publishToDAppStoreV2(signedEPKPath, didURL, whatsNew).then((info)=>{
+                            
+                        })
+                        .catch((err)=>{
+                            console.error("Failed to publish your DApp...".red)
+                            console.error("Error:".red, err)
+                        })
+                    })
+                    .catch((err)=>{
+                        console.error("Failed to publish your DApp (signing EPK - Invalid password?)...".red)
+                        console.error("Error:".red, err)
+                    })
+                })
+                .catch((err)=>{
+                    console.error("Failed to publish your DApp (packaging EPK)...".red)
+                    console.error("Error:".red, err)
+                })*/
+            })
+
+            // Endpoint to deliver computer's local application info to the publishing dapp
+            app.get('/publish/appinfo', (req,res)=>{
+                let appInfo = {
+                    id: manifest.id,
+                    versionName: manifest.version,
+                    versionCode: manifest.version_code,
+                    name: manifest.name,
+                    shortName: manifest.short_name,
+                    description: manifest.description,
+                    shortDescription: manifest.short_description,
+                    author: {
+                        name: manifest["author.name"],
+                        email: manifest["author.email"],
+                        website: manifest["author.website"]
+                    },
+
+                    whatsNewMessage: whatsNew
+                };
+
+                res.json(appInfo);
+            });
+
+            app.get('/publish/files/appicon', (req,res)=>{
+                res.sendFile(appIconPath, {}, (err)=>{
+                    if (err) {
+                        console.log("There was an error while delivering one of the app files to the developer tool mobile app.".red)
+                        return
+                    }
+                    else 
+                        console.log("App icon has been sent to the developer tool dApp.".green)
+                })
+            });
+
+            /*app.get('/publish/files/appbanner', (req,res)=>{
+                res.sendFile(appIconPath, {}, (err)=>{
+                    if (err) {
+                        console.log("There was an error while delivering one of the app files to the developer tool mobile app.".red)
+                        return
+                    }
+                    else 
+                        console.log("App icon has been sent to the developer tool dApp.".green)
+                })
+            });*/
+
+            let port = 13005;
+            var server = app.listen(port);
+            console.log("CLI publication server started, listening.");
+            console.log("Please configure your developer tool dApp with (one of) the following IP address:".magenta);
+            console.log(this.getAllLocalIPAddresses().join(", ").green);
+        });
     }
 };

@@ -94,6 +94,52 @@ module.exports = class DIDHelper {
     }
 
     /**
+     * Imports a DID from a mnemonic
+     */
+    importDID(mnemonic) {
+        return new Promise(async (resolve, reject) => {
+            console.log("Importing the DID...")
+
+            var rootScriptDirectory = path.dirname(require.main.filename)
+
+            let password = "TempPassword";
+
+            const spawn = require("child_process").spawn;
+            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/create_did","-r",DIDHelper.DEFAULT_DID_STORE_FOLDER_NAME,"-s",password,"-m",mnemonic]);
+
+            var output = ""
+
+            pythonProcess.stdout.on('data', function (data) { output += data });
+            pythonProcess.stderr.on('data', function (data) { console.log(''+data)});
+            pythonProcess.on('error', function(err) { reject(err)})
+
+            pythonProcess.on('exit', function (code) {
+                if (code == 0) {
+                    // Successfully created the DID
+                    // Try to parse the output as JSON
+                    try {
+                        let jsonOutput = JSON.parse(output)
+                        console.log("DID imported successfully locally on your computer".green)
+                        console.log("YOUR DID: ".green+jsonOutput.id)
+                        resolve({
+                            password: password, 
+                            did: jsonOutput.id,
+                            mnemonic: jsonOutput.mnemonic
+                        })
+                    }
+                    catch(e) {
+                        reject('Invalid JSON output from create_did' + output)
+                        return
+                    }
+                }
+                else {
+                    reject('Child process exited with code ' + code)
+                }
+            });
+        })
+    }
+
+    /**
      * After a DID is created, a DID request JSON structure has to be created. That request packages
      * the signed and base58 (?) encoded DID document of the created DID, into a CREATE DID request that 
      * can be stored on chain.

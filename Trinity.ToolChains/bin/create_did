@@ -83,8 +83,7 @@ if __name__ == "__main__":
         ret_obj['status'] = 'success'
         ret_obj['id'] = didurl_str.decode('utf-8')
         ret_obj['publicKeyBase58'] = public_key_base58.decode('utf-8')
-        if args.mnemonic == None:
-            ret_obj['mnemonic'] = mnemonic.decode('utf-8')
+        ret_obj['mnemonic'] = mnemonic.decode('utf-8')
         print(json.dumps(ret_obj, indent=4, sort_keys=True, ensure_ascii=False))
 
     except RuntimeError as err:

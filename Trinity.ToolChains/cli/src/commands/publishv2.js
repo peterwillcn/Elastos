@@ -53,7 +53,7 @@ async function launchAppPublication(whatsNew) {
 
     //ionicHelper.updateNpmDependencies().then(() => {
     //    ionicHelper.runIonicBuild(true).then(() => {
-        publishingHelper.startDeveloperDAppToolServer(whatsNew).then(()=>{
+        publishingHelper.startDeveloperDAppToolServer(temporaryManifestPath, whatsNew).then(()=>{
             console.log("Congratulations, the publishing process was completed successfully.".green)
         })
         /*.catch((err)=>{

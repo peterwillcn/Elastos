@@ -103,9 +103,10 @@ module.exports = class DIDHelper {
             var rootScriptDirectory = path.dirname(require.main.filename)
 
             let password = "TempPassword";
+            let didStorePath = DIDHelper.DEFAULT_DID_STORE_FOLDER_NAME;
 
             const spawn = require("child_process").spawn;
-            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/create_did","-r",DIDHelper.DEFAULT_DID_STORE_FOLDER_NAME,"-s",password,"-m",mnemonic]);
+            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/create_did","-r",didStorePath,"-s",password,"-m",mnemonic]);
 
             var output = ""
 
@@ -119,12 +120,12 @@ module.exports = class DIDHelper {
                     // Try to parse the output as JSON
                     try {
                         let jsonOutput = JSON.parse(output)
-                        console.log("DID imported successfully locally on your computer".green)
-                        console.log("YOUR DID: ".green+jsonOutput.id)
+                        console.log("DID imported successfully locally on your computer")
                         resolve({
                             password: password, 
                             did: jsonOutput.id,
-                            mnemonic: jsonOutput.mnemonic
+                            mnemonic: jsonOutput.mnemonic,
+                            storePath: didStorePath
                         })
                     }
                     catch(e) {

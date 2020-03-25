@@ -157,8 +157,12 @@ module.exports = class PublishingHelper {
         return allUsableInterfaces.map(addr => addr.address);
     }
 
-    startDeveloperDAppToolServer(whatsNew) {
+    startDeveloperDAppToolServer(manifestPath, whatsNew) {
         return new Promise((resolve, reject)=>{
+            var didURL = "";
+            var storePassword = "";
+            var didStorePath = "";
+
             // Run a temporary http server
             var express = require('express')
             var app = express()
@@ -168,7 +172,6 @@ module.exports = class PublishingHelper {
             app.use(bodyParser.json());
 
             // Get the app icon ready
-            var manifestPath = manifestHelper.getManifestPath(ionicHelper.getConfig().assets_path);
             let manifest = JSON.parse(fs.readFileSync(manifestPath));
             if (!manifest.icons || manifest.icons.length == 0 || !manifest.icons[0].src) {
                 reject("No valid app icon in manifest (icons->0->src)");
@@ -181,38 +184,37 @@ module.exports = class PublishingHelper {
                 return;
             }
 
+            // Banner image
+            let storeConfigPath = path.join(process.cwd(), "dappstore.config.json");
+            if (!fs.existsSync(storeConfigPath)) {
+                reject("No dappstore.config.json file found in your project root. This file is required.");
+                return;
+            }
+
+            let storeConfig = JSON.parse(fs.readFileSync(storeConfigPath));
+            if (!storeConfig.banner || !storeConfig.banner.src) {
+                reject("No entry found for app banner image (banner->src) in the dappstore.config.json");
+                return;
+            }
+
+            let bannerImagePath = path.join(process.cwd(), storeConfig.banner.src);
+            if (!fs.existsSync(bannerImagePath)) {
+                reject("DApp store banner image file not found at location " + bannerImagePath);
+                return;
+            }
+
             // Endpoint to receive the app DID in order to sign it locally on the computer
             app.post('/publish/appdid', async (req, res) => {
                 let appInfo = req.body;
                 let mnemonic = appInfo.did.mnemonic;
 
                 // We've received the app DID mnemonic. Recreate it locally to be able to sign the EPK.
-                await didHelper.importDID(mnemonic);
+                let ret = await didHelper.importDID(mnemonic);
+                didURL = ret.did;
+                storePassword = ret.password;
+                didStorePath = ret.storePath;
 
-                res.json()
-
-                // After successfully re-generating the DID locally, we can now pack and sign the EPK.
-                
-
-                /*dappHelper.packEPK(temporaryManifestPath).then((outputEPKPath)=>{
-                    dappHelper.signEPK(outputEPKPath, didURL, didSignaturePassword, didStorePath).then((signedEPKPath)=>{
-                        publishingHelper.publishToDAppStoreV2(signedEPKPath, didURL, whatsNew).then((info)=>{
-                            
-                        })
-                        .catch((err)=>{
-                            console.error("Failed to publish your DApp...".red)
-                            console.error("Error:".red, err)
-                        })
-                    })
-                    .catch((err)=>{
-                        console.error("Failed to publish your DApp (signing EPK - Invalid password?)...".red)
-                        console.error("Error:".red, err)
-                    })
-                })
-                .catch((err)=>{
-                    console.error("Failed to publish your DApp (packaging EPK)...".red)
-                    console.error("Error:".red, err)
-                })*/
+                res.json()                
             })
 
             // Endpoint to deliver computer's local application info to the publishing dapp
@@ -244,26 +246,57 @@ module.exports = class PublishingHelper {
                         return
                     }
                     else 
-                        console.log("App icon has been sent to the developer tool dApp.".green)
+                        console.log("App icon has been sent to the developer tool dApp.")
                 })
             });
 
-            /*app.get('/publish/files/appbanner', (req,res)=>{
-                res.sendFile(appIconPath, {}, (err)=>{
+            app.get('/publish/files/appbanner', (req,res)=>{
+                res.sendFile(bannerImagePath, {}, (err)=>{
                     if (err) {
                         console.log("There was an error while delivering one of the app files to the developer tool mobile app.".red)
                         return
                     }
                     else 
-                        console.log("App icon has been sent to the developer tool dApp.".green)
+                        console.log("App banner has been sent to the developer tool dApp.")
                 })
-            });*/
+            });
+
+            app.get('/publish/files/appepk', async (req,res)=>{
+                console.log("The developer tool dApp is requesting the EPK. Building and signing it now.");
+
+                let appEPKPath = await this.packAndSignEPK(manifestPath, didURL, storePassword, didStorePath);
+
+                res.sendFile(appEPKPath, {}, (err)=>{
+                    if (err) {
+                        console.log("There was an error while delivering one of the app files to the developer tool mobile app.".red)
+                        return
+                    }
+                    else 
+                        console.log("App EPK has been sent to the developer tool dApp.")
+                })
+            });
 
             let port = 13005;
             var server = app.listen(port);
             console.log("CLI publication server started, listening.");
             console.log("Please configure your developer tool dApp with (one of) the following IP address:".magenta);
             console.log(this.getAllLocalIPAddresses().join(", ").green);
+        });
+    }
+
+    packAndSignEPK(manifestPath, didURL, didSignaturePassword, didStorePath) {
+        return new Promise((resolve, reject)=>{
+            dappHelper.packEPK(manifestPath).then((outputEPKPath)=>{
+                dappHelper.signEPK(outputEPKPath, didURL, didSignaturePassword, didStorePath).then((signedEPKPath)=>{
+                    resolve(signedEPKPath);
+                })
+                .catch((err)=>{
+                    reject(err);
+                })
+            })
+            .catch((err)=>{
+                reject(err);
+            })
         });
     }
 };

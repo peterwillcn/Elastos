@@ -1,6 +1,6 @@
 diff -ruNb origin_plugins/cordova-plugin-camera/types/index.d.ts plugins/cordova-plugin-camera/types/index.d.ts
---- origin_plugins/cordova-plugin-camera/types/index.d.ts null
-+++ plugins/cordova-plugin-camera/types/index.d.ts  null
+--- origin_plugins/cordova-plugin-camera/types/index.d.ts	null
++++ plugins/cordova-plugin-camera/types/index.d.ts	null
 @@ -6,17 +6,28 @@
  // Copyright (c) Microsoft Open Technologies Inc
  // Licensed under the MIT license.

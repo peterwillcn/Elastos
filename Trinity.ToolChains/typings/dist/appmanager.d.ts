@@ -505,7 +505,7 @@ declare namespace AppManagerPlugin {
          * In case no value was set earlier, onError() is called.
          *
          * @param key        Unique key identifying the setting data.
-         * @param onSuccess  Callback returning the related value.
+         * @param onSuccess  Callback returning the {key: theKeyValue, value: theRelatedValue}.
          * @param onError    Callback called in case of error.
          */
         getSetting(key: string, onSuccess: (value: any) => void, onError?: (err: string) => void);
@@ -534,7 +534,7 @@ declare namespace AppManagerPlugin {
          * In case no value was set earlier, onError() is called.
          *
          * @param key        Unique key identifying the preference data.
-         * @param onSuccess  Callback returning the related value.
+         * @param onSuccess  Callback returning the  {key: theKeyValue, value: theRelatedValue}.
          * @param onError    Callback called in case of error.
          */
         getPreference(key: string, onSuccess: (value: any) => void, onError?: (err: string) => void);
@@ -548,12 +548,12 @@ declare namespace AppManagerPlugin {
         getPreferences(onSuccess: (values: any) => void, onError?: (err: string) => void);
 
         /**
-         * Set specific system preference. 
-         * 
+         * Set specific system preference.
+         *
          * After setting a system preference, the runtime broadcasts a message to all running apps.
-         * The message's format is: 
-         *      type = MessageType.IN_REFRESH 
-         *      message = {action: 'preferenceChanged', 'key': theNewValue}
+         * The message's format is:
+         *      type = MessageType.IN_REFRESH
+         *      message = {action: 'preferenceChanged', data: {key: theKeyValue, value: theNewValue}}.
          *
          * @param key        Unique key identifying the preference data.
          * @param value      The data to be stored. If null is passed, the preference is restored to system default value.

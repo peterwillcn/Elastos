@@ -14,7 +14,16 @@
  * <br><br>
  * Usage:
  * <br>
- * navigator.camera.getPicture(success, error);
+ * navigator.camera.getPicture((data)=>{<br>
+ *     this.zone.run(()=>{<br>
+ *        let base64Img = "data:image/png;base64," + data<br>
+ *     })<br>
+ * }, (err)=>{<br>
+ *     console.log(err);<br>
+ * }, {<br>
+ *    destinationType: CordovaCameraPlugin.Camera.DestinationType.DATA_URL,<br>
+ *    sourceType: CordovaCameraPlugin.Camera.PictureSourceType.PHOTOLIBRARY<br>
+ * });<br>
  */
 
 declare namespace CordovaCameraPlugin {

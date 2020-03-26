@@ -46,11 +46,20 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XTe-x2-5q4">
+                        <rect key="frame" x="245" y="-2.5" width="60" height="60"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="60" id="ivN-V0-8IK"/>
+                            <constraint firstAttribute="width" constant="60" id="lbS-BM-ruI"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="psK-NC-lhG" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="0VA-cm-BcH"/>
                     <constraint firstAttribute="bottom" secondItem="psK-NC-lhG" secondAttribute="bottom" id="7pg-s3-JKD"/>
                     <constraint firstItem="H9H-MV-K2p" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="D2a-rJ-sa9"/>
+                    <constraint firstAttribute="trailing" secondItem="XTe-x2-5q4" secondAttribute="trailing" constant="15" id="GVM-8R-vez"/>
+                    <constraint firstItem="XTe-x2-5q4" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="JLg-ri-fGu"/>
                     <constraint firstAttribute="trailing" secondItem="k1Q-O2-5wf" secondAttribute="trailing" constant="15" id="QGq-rW-4Lb"/>
                     <constraint firstItem="H9H-MV-K2p" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="QQ7-IG-V0w"/>
                     <constraint firstAttribute="trailing" secondItem="OAq-Z5-pVb" secondAttribute="trailing" constant="15" id="dzR-kE-lrS"/>
@@ -63,6 +72,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
+                <outlet property="headIocnImageView" destination="XTe-x2-5q4" id="KU4-5C-u67"/>
                 <outlet property="leftLabel" destination="H9H-MV-K2p" id="4fF-S4-XOK"/>
                 <outlet property="rightLabel" destination="OAq-Z5-pVb" id="irM-S9-oSK"/>
             </connections>

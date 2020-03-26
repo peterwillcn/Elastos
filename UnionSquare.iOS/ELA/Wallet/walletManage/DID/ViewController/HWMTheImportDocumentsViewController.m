@@ -7,8 +7,10 @@
 
 #import "HWMTheImportDocumentsViewController.h"
 #import "HWMImportDocumentsTableViewCell.h"
-
-NSString *cellString=@"HWMImportDocumentsTableViewCell";
+#import "HWMallDocumentsListViewController.h"
+#import "MyUtil.h"
+#import "NSString+YYAdd.h"
+static NSString *cellString=@"HWMImportDocumentsTableViewCell";
 UINib *ImportDocumentsNib;
 @interface HWMTheImportDocumentsViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property(strong,nonatomic)UIButton*skipButton;
@@ -16,6 +18,7 @@ UINib *ImportDocumentsNib;
 @property(strong,nonatomic)NSMutableArray *allDirAaary;
 
 @property(assign,nonatomic)NSInteger selectIndex;
+@property (weak, nonatomic) IBOutlet UIButton *selectFlieButton;
 
 @end
 
@@ -28,9 +31,10 @@ UINib *ImportDocumentsNib;
     self.title=NSLocalizedString(@"导入凭证", nil);
     self.selectIndex=-1;
     self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:self.skipButton];
+    [self.selectFlieButton setTitle: NSLocalizedString(@"选择文件", nil) forState:UIControlStateNormal];
+    [self makeUI];
 }
 -(void)makeUI{
-//    [[HMWCommView share]makeBordersWithView:self.nextButton];
     ImportDocumentsNib=[UINib nibWithNibName:cellString bundle:nil];
     [self.table registerNib: ImportDocumentsNib forCellReuseIdentifier:cellString];
     self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -89,5 +93,23 @@ UINib *ImportDocumentsNib;
     
     
     
+}
+- (IBAction)selectFlieEvent:(id)sender {
+    HWMallDocumentsListViewController *HWMallDocumentsListVC=[[HWMallDocumentsListViewController alloc]init];
+    __weak __typeof__ (self) weakSelf = self;
+    HWMallDocumentsListVC.block = ^(NSString * _Nonnull flieName) {
+        [weakSelf ParsingJWTFileWithFileName:flieName];
+    };
+    [self.navigationController pushViewController:HWMallDocumentsListVC animated:YES];
+}
+-(void)ParsingJWTFileWithFileName:(NSString*)fileName{
+    NSString *fileContString=[MyUtil readFlieCommDIDWithFlieName:fileName];
+    
+    NSDictionary *dicfileCont=[fileContString jsonValueDecoded];
+//    if ([dicfileCont[@"credentialSubject"][@"did"] isEqualToString:self.currentWallet.didString]) {
+        [MyUtil saveDIDPathWithWalletID:self.currentWallet.masterWalletID withString:fileContString WithFielName:fileName];
+//    }else{// 不是自己的
+//
+//    }
 }
 @end

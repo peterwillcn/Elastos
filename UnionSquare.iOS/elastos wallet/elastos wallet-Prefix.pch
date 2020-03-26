@@ -85,6 +85,7 @@
 #define  UWUserLanguageKey  @"AppleLanguages"
 #define  selectIndexWallet  @"selectIndexWallet"
 #define STANDARD_USER_DEFAULT  [NSUserDefaults standardUserDefaults]
+#define ENString(x) [[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"en" ofType:@"lproj"]] localizedStringForKey:(countrieString) value:@"" table:nil]
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "Masonry.h"
@@ -111,7 +112,4 @@
 #import "YRClassSafeCategory.h"
 #import "YRClassSafeCategoryConfig.h"
 #import "YRClassSafeCategoryConfig.h"
-
-//#define Localized(key) [[NSBundle mainBundle] localizedStringForKey:(key) value:value table:nil]
-//NSLocalizedStringFromTable(key, tbl, comment)
 #endif

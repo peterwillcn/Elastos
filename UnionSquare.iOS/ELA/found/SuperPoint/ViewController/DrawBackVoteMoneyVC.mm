@@ -166,7 +166,7 @@
     invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[walletId,@"IDChain"] callbackId:manager.currentWallet.masterWalletID className:@"wallet" methodName:@"createMasterWallet"];
              NSDictionary * resultBase =[[ELWalletManager share]GetCRFirstPublicKeysAndDID:cmommand];
 //    self.MemberThePublicKeyLabel.text=resultBase[@"crPublicKey"];
-    NSString *ownerpublickey=resultBase[@"did"];
+    NSString *ownerpublickey=resultBase[@"cid"];
      NSString *httpIP=[[FLTools share]http_IpFast];
     [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/getcrdepositcoin" header:@{} body:@{@"did":ownerpublickey} showHUD:YES WithSuccessBlock:^(id data) {
         CGFloat available = [data[@"data"][@"result"][@"available"] doubleValue];

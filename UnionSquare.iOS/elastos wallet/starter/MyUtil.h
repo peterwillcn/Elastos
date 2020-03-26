@@ -15,6 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 +(NSString*)DIDRootPath;
 +(NSString*)CommDIDPath;
 +(BOOL)AddCommDIDWithJWT:(NSString*)fromePath;
++(NSArray*)ReadCommDIDPath;
++(NSString*)readFlieCommDIDWithFlieName:(NSString*)FlieName;
++(BOOL)saveDIDPathWithWalletID:(NSString*)walletID withString:(NSString*)jwtString WithFielName:(NSString*)fielName;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -189,8 +189,9 @@
                     self.infoTextView.text=self.CRmodel.infoZH;
                   }
                }
-            self.nodeAddressTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"委员DID", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
-            self.nodeAddressLabel=[self labeWithTextColor:[UIColor whiteColor] withText:self.CRmodel.did withTextFont:14 withTextAlignment:NSTextAlignmentRight];
+//            self.nodeAddressTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"委员DID", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
+//
+//            self.nodeAddressLabel=[self labeWithTextColor:[UIColor whiteColor] withText:self.CRmodel.did withTextFont:14 withTextAlignment:NSTextAlignmentRight];
             self.currantVotesLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[NSString stringWithFormat:@"%ld %@",(long)[self.CRmodel.votes integerValue],NSLocalizedString(@"票", nil)] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
             self.votePercentageLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[NSString stringWithFormat:@"%@ %@",self.CRmodel.voterate,@"%"] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
         self.countryRegionLabel=[self labeWithTextColor:[UIColor whiteColor] withText:[[FLTools share]contryNameTransLateByCode:[self.CRmodel.location intValue]] withTextFont:14 withTextAlignment:NSTextAlignmentRight];
@@ -199,24 +200,24 @@
         [self.IntroductionOfNodeButton setTitle:NSLocalizedString(@"委员简介", nil) forState:UIControlStateNormal];
         
     }
-    [self addSubview:self.nodeAddressTextLabel];
-    [self.nodeAddressTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.mas_left).offset(0);
-        make.top.equalTo( self.ForInformationButton.mas_bottom).offset(0);
-        make.size.mas_equalTo(CGSizeMake(100, 35));
-    }];
-    [self addSubview:self.nodeAddressLabel];
-    [self.nodeAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.mas_right).offset(0);
-        make.centerY.equalTo(self.nodeAddressTextLabel.mas_centerY);
-        make.height.mas_equalTo(@60);
-        make.left.equalTo(self.nodeAddressTextLabel.mas_right).offset(10);
-    }];
+//    [self addSubview:self.nodeAddressTextLabel];
+//    [self.nodeAddressTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.mas_left).offset(0);
+//        make.top.equalTo( self.ForInformationButton.mas_bottom).offset(0);
+//        make.size.mas_equalTo(CGSizeMake(100, 35));
+//    }];
+//    [self addSubview:self.nodeAddressLabel];
+//    [self.nodeAddressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(self.mas_right).offset(0);
+//        make.centerY.equalTo(self.nodeAddressTextLabel.mas_centerY);
+//        make.height.mas_equalTo(@60);
+//        make.left.equalTo(self.nodeAddressTextLabel.mas_right).offset(10);
+//    }];
     self.currantVotesTextLabel=[self labeWithTextColor:RGBA(255, 255, 255, 0.5) withText:NSLocalizedString(@"当前票数", nil) withTextFont:14 withTextAlignment:NSTextAlignmentLeft];
     [self addSubview:self.currantVotesTextLabel];
     [self.currantVotesTextLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mas_left).offset(0);
-        make.top.equalTo( self.nodeAddressTextLabel.mas_bottom).offset(30);
+        make.top.equalTo( self.ForInformationButton.mas_bottom).offset(0);
         make.size.mas_equalTo(CGSizeMake(100, 15));
     }];
     [self addSubview:self.currantVotesLabel];

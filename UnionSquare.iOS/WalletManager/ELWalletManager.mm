@@ -1520,7 +1520,13 @@ errCodeSPVCreateMasterWalletError= 20006;
                IIdChainSubWallet *iidChainSubWallet=[self getIdChainSubWallet:[self cstringWithString:ELA]:"IDChain"];
                         crPublicKey = iidChainSubWallet->GetAllPublicKeys(0, 1)["PublicKeys"][0];
                         did = iidChainSubWallet->GetPublicKeyDID(crPublicKey);
-               nlohmann::json payload = mainchainSubWallet->GenerateCRInfoPayload(crPublicKey,[self cstringWithString:model.nickName],[self cstringWithString:model.url],[model.contryCode intValue]);
+               
+//               const std::string &crPublicKey,
+//               const std::string &did,
+//               const std::string &nickName,
+//               const std::string &url,
+//               uint64_t location) const = 0;
+               nlohmann::json payload = mainchainSubWallet->GenerateCRInfoPayload(crPublicKey,[model.DIDString UTF8String],[self cstringWithString:model.nickName],[self cstringWithString:model.url],[model.contryCode intValue]);
                         std::string digest = payload["Digest"].get<std::string>();
                         std::string signature = iidChainSubWallet->SignDigest(did, digest,[self cstringWithString:model.pwd]);
                         payload["Signature"] = signature;
@@ -1635,16 +1641,16 @@ errCodeSPVCreateMasterWalletError= 20006;
               Json tx;
               Json signedTx;
               Json result;
-              std::string crPublicKey,did;
+    std::string crPublicKey,cid;
                String acount=[self cstringWithString:[NSString stringWithFormat:@"%ld",model.acount*unitNumber]];
            IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:ELA];
               try {
                   IIdChainSubWallet *iidChainSubWallet=[self getIdChainSubWallet:[self cstringWithString:ELA]:"IDChain"];
                            crPublicKey = iidChainSubWallet->GetAllPublicKeys(0, 1)["PublicKeys"][0];
-                           did = iidChainSubWallet->GetPublicKeyDID(crPublicKey);
-                  nlohmann::json payload = mainchainSubWallet->GenerateCRInfoPayload(crPublicKey,[self cstringWithString:model.nickName],[self cstringWithString:model.url],[model.contryCode intValue]);
+                  cid= iidChainSubWallet->GetPublicKeyCID(crPublicKey);
+                  nlohmann::json payload = mainchainSubWallet->GenerateCRInfoPayload(crPublicKey,[self cstringWithString:model.nickName],[model.DIDString UTF8String],[self cstringWithString:model.url],[model.contryCode intValue]);
                            std::string digest = payload["Digest"].get<std::string>();
-                           std::string signature = iidChainSubWallet->SignDigest(did, digest,[self cstringWithString:model.pwd]);
+                           std::string signature = iidChainSubWallet->SignDigest(cid, digest,[self cstringWithString:model.pwd]);
                            payload["Signature"] = signature;
                   nlohmann::json tx = mainchainSubWallet->CreateUpdateCRTransaction("", payload,"");
                            Json signedTx = mainchainSubWallet->SignTransaction(tx, [model.pwd UTF8String]);
@@ -1733,8 +1739,6 @@ errCodeSPVCreateMasterWalletError= 20006;
            Json result = mainchainSubWallet->PublishTransaction(signedTx);
            NSString *resultString=[self stringWithCString:result.dump()];
            NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
-    
-           
        } catch (const std:: exception & e ) {
            NSString *errString=[self stringWithCString:e.what()];
            NSDictionary *dic=  [self dictionaryWithJsonString:errString];
@@ -2616,25 +2620,25 @@ errCodeSPVCreateMasterWalletError= 20006;
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
     return [self successProcess:command msg:dic];
 }
--(PluginResult *)getDetailsDIDlist:(invokedUrlCommand *)command{
-    NSArray *args = command.arguments;
-       int idx = 0;
-       String masterWalletID = [self cstringWithString:args[idx++]];
-       String chainID        = [self cstringWithString:args[idx++]];
-       String did            = [self cstringWithString:args[idx++]];
-       int    start          = [args[idx++] intValue];
-       int    count          = [args[idx++] intValue];
-       IIdChainSubWallet *idChainSubW=[self getIdChainSubWallet:masterWalletID :chainID];
-        Json result;
-         try {
-             result =  idChainSubW->GetResolveDIDInfo(start, count, did);
-         } catch (const std:: exception & e ) {
-             return  [self errInfoToDic:e.what() with:command];
-         }
-       NSString *jsonString = [self stringWithCString:result.dump()];
-       NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
-       return [self successProcess:command msg:dic];
-}
+//-(PluginResult *)getDetailsDIDlist:(invokedUrlCommand *)command{
+//    NSArray *args = command.arguments;
+//       int idx = 0;
+//       String masterWalletID = [self cstringWithString:args[idx++]];
+//       String chainID        = [self cstringWithString:args[idx++]];
+//       String did            = [self cstringWithString:args[idx++]];
+//       int    start          = [args[idx++] intValue];
+//       int    count          = [args[idx++] intValue];
+//       IIdChainSubWallet *idChainSubW=[self getIdChainSubWallet:masterWalletID :chainID];
+//        Json result;
+//         try {
+//             result =  idChainSubW->GetResolveDIDInfo(start, count, did);
+//         } catch (const std:: exception & e ) {
+//             return  [self errInfoToDic:e.what() with:command];
+//         }
+//       NSString *jsonString = [self stringWithCString:result.dump()];
+//       NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
+//       return [self successProcess:command msg:dic];
+//}
 -(NSDictionary*)GetCRFirstPublicKeysAndDID:(invokedUrlCommand *)command{
     NSArray *args = command.arguments;
     int idx = 0;
@@ -2642,15 +2646,16 @@ errCodeSPVCreateMasterWalletError= 20006;
     String chainID        = [self cstringWithString:args[idx++]];
 //    IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:masterWalletID];
         IIdChainSubWallet *iidChainSubWallet=[self getIdChainSubWallet:[self cstringWithString:masterWalletID]:chainID];
-    std::string crPublicKey,did;
+    std::string crPublicKey,did,cid;
     try {
         crPublicKey = iidChainSubWallet->GetAllPublicKeys(0, 1)["PublicKeys"][0];
         did = iidChainSubWallet->GetPublicKeyDID(crPublicKey);
+        cid=iidChainSubWallet->GetPublicKeyCID(crPublicKey);
      } catch (const std:: exception & e ) {
         [self errInfoToDic:e.what() with:command];
      }
 
-    return @{@"crPublicKey":[self stringWithCString:crPublicKey],@"did":[self stringWithCString:did]};
+    return @{@"crPublicKey":[self stringWithCString:crPublicKey],@"did":[self stringWithCString:did],@"cid":[self stringWithCString:cid]};
 }
 -(BOOL)IsAddressValidWithMastID:(NSString*)masWalletID WithAddress:(NSString*)address{
     String maWID=[self cstringWithString:masWalletID];

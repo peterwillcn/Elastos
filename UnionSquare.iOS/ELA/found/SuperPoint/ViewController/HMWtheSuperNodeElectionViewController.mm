@@ -68,7 +68,7 @@
     rightBarButton.titleLabel.font=[UIFont systemFontOfSize:13];
     UIBarButtonItem*rightItem =[[UIBarButtonItem alloc]initWithCustomView:rightBarButton];
     self.navigationItem.rightBarButtonItem= rightItem;
-
+    self.selfindex=-1;
     UIView *mainView =[self mainWindow];
     [mainView addSubview:self.votingRulesV];
     self.typeString=nil;
@@ -113,7 +113,7 @@
     wallet.walletAddress  = model.walletAddress;
     wallet.walletID       =[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
     wallet.TypeW  = model.TypeW;
-    wallet.didString=model.didString;
+    
      invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID] callbackId: wallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
     
     PluginResult * resultBase =[[ELWalletManager share]getMasterWalletBasicInfo:mommand];
@@ -264,17 +264,17 @@
     
 }
 -(void)getNetCoinPointArray{
+    [self.ActiveArray removeAllObjects];
     NSString *httpIP=[[FLTools share]http_IpFast];
-    
-    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1"} showHUD:NO WithSuccessBlock:^(id data) {
+    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1",@"state":@"all"} showHUD:NO WithSuccessBlock:^(id data) {
         NSDictionary *param = data[@"data"];
         NSArray *dataArray =[NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];
         
         self.dataSource= [NSMutableArray arrayWithArray:dataArray];
-        NSInteger locaIndex=-1;
+
         self.votingListV.lab1.text = [NSString stringWithFormat:@"%@ %@",[[FLTools share]DownAlllTheValuePercentage:param[@"result"][@"totalvoterate"] withLength:2],@"%"];
         self.votingListV.lab3.text =[NSString stringWithFormat:@"%ld", (long)[param[@"result"][@"totalvotes"] integerValue]];
-        if (self.needFind) {
+
             for (int i=0; i<self.dataSource.count; i++) {
                 FLCoinPointInfoModel *model=self.dataSource[i];
 //                 NSLog(@"model.state===%@",model.state);
@@ -296,13 +296,14 @@
                      [self.ActiveArray addObject:model];
                     }
                     }
+                
             }
          
          
         self.votingListV.dataSource = self.ActiveArray;
 //        if (self.selfModel) {
               [self updateInfoSelf];
-        }
+//        }
         [self loadAllImageInfo:[NSMutableArray arrayWithArray:self.ActiveArray]];
         
     } WithFailBlock:^(id data) {
@@ -429,7 +430,12 @@
     self.hasSing=YES;
     
 }
-
+-(NSMutableArray *)ActiveArray{
+    if (!_ActiveArray) {
+        _ActiveArray=[[NSMutableArray alloc]init];
+    }
+    return _ActiveArray;
+}
 
 
 -(void)setNodeName:(NSString *)nodeName{

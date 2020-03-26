@@ -9,6 +9,8 @@
 #import "HWMDIDInfoModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^block)(HWMDIDInfoModel *model);
+
 @interface HWMAddPersonalProfileViewController : UIViewController
 /*
  *<# #>
@@ -20,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(assign,nonatomic)Boolean  isEidet;
 @property(atomic,copy)NSString *walletID;
+@property(copy,nonatomic) void(^block)(HWMDIDInfoModel *model);
+
 @end
 
 NS_ASSUME_NONNULL_END

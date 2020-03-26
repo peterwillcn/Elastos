@@ -15,6 +15,7 @@
 #import "HWMDIDInfoModel.h"
 #import "HWMHWMDIDShowInfoViewController.h"
 #import "HWMTheImportDocumentsViewController.h"
+#import "HWExportCertificateMViewController.h"
 static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
 @interface HWMConfidentialInformationViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *table;
@@ -108,7 +109,10 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
     return 0.01;
 }
 - (IBAction)exportEvent:(id)sender {
-    
+    HWExportCertificateMViewController *WExportCertificateMVC=[[HWExportCertificateMViewController alloc]init];
+    WExportCertificateMVC.currentWallet=self.currentWallet;
+    WExportCertificateMVC.model=self.model;
+    [self.navigationController pushViewController:WExportCertificateMVC animated:YES];
 }
 - (IBAction)TheImportEvent:(id)sender {
     

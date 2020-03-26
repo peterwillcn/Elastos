@@ -1596,12 +1596,27 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     [mutStr replaceOccurrencesOfString:@"\n" withString:@"" options:NSLiteralSearch range:range2];
     return mutStr;
 }
--(NSString *)getNowTimeTimestampMS{
+-(NSString *)getNowTimeTimestampS{
 
     NSDate *datenow = [NSDate date];//现在时间,你可以输出来看下是什么格式
 
-    NSString *timeSp = [NSString stringWithFormat:@"%ld", (long)([datenow timeIntervalSince1970]*1000)];
+    NSString *timeSp = [NSString stringWithFormat:@"%ld", (long)([datenow timeIntervalSince1970])];
 
     return timeSp;
+}
+-(NSString*)getFileIndexCount:(NSString*)fielName{
+    NSArray *felChange=[fielName componentsSeparatedByString:@"-"];
+    
+    if (felChange.count>1) {
+        fielName=felChange.firstObject;
+    }
+    NSArray *fielS=[fielName  componentsSeparatedByString:@"_"];
+
+    NSString *regex = @"[0-9]*";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regex];
+    if ([pred evaluateWithObject:fielS.lastObject]) {
+       return  [NSString stringWithFormat:@"%@_%@_%@_%d",fielS.firstObject,fielS[1],fielS[2],[fielS.lastObject intValue]+1];
+    }
+    return fielName;
 }
 @end

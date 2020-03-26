@@ -207,30 +207,22 @@
         ELWalletManager *manager   =  [ELWalletManager share];
            IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
            FLJoinVoteInfoModel* model = [[FLJoinVoteInfoModel alloc]init];
-
            model.CRDIDKey    =  self.MembersDIDLabel.text ;
-   //
            model.CRownerPublickKey = self.MemberThePublicKeyLabel.text;
-
            model.nickName   = self.MemberNameTextField.text;
            model.url        = self.URLTextField.text;
-  
            model.contryCode = self.mobCodeString;
            model.pwd        = pwd;
            model.ipAddress  = self.URLTextField.text;
            model.mark       = @"";
+            NSArray *didStringArray=[self.currentWallet.didString componentsSeparatedByString:@":"];
+            model.DIDString=didStringArray.lastObject;
            model.acount     = 5000;
-  BOOL ret = [manager UpdateCRProducerWithMainchainSubWallet:manager.currentWallet.masterWalletID With:model];
+        BOOL ret = [manager UpdateCRProducerWithMainchainSubWallet:manager.currentWallet.masterWalletID With:model];
       if (ret) {
            [self closeTransactionDetailsView];
            [self showSendSuccessPopuV];
-          
       }
-//      else{
-//          [[FLTools share]showErrorInfo:NSLocalizedString(@"交易失败", nil)];
-//      }
-    
-    
 }
 
 #pragma mark ---------HMWtransferDetailsPopupViewDelegate----------
@@ -352,6 +344,8 @@
                model.ipAddress  = self.URLTextField.text;
                model.mark       = @"";
                model.acount     = 5000;
+               NSArray *didStringArray=[self.currentWallet.didString componentsSeparatedByString:@":"];
+               model.DIDString=didStringArray.lastObject;
         CGFloat free;
         free = [manager RegisterCRWithMainchainSubWallet:manager.currentWallet.masterWalletID With:model];
     if (free>-1) {

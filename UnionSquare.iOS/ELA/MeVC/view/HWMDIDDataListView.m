@@ -97,8 +97,13 @@
     
 }
 - (IBAction)makeSureEvent:(id)sender {
+
     if (self.delegate) {
         if (self.ListViewType==DIDDataType) {
+            if (!self.yearIndex||!self.monthIndex||!self.dayIndex) {
+                [[FLTools share]showErrorInfo:@"日期无效"];
+                return;
+            }
             [self.delegate selectDataWithYY:self.yearArray[self.yearIndex] withMM:self.monthArray[self.monthIndex] wihMMWithInt:self.monthIndex+1 wtihDD:self.dayArray[self.dayIndex]];
         }else if (self.ListViewType==genderType){
             
@@ -123,7 +128,7 @@
             }
             
         }else{
-            for (int year =(int)self.nowYear; year < (int)self.nowYear+5; year++) {
+            for (int year =(int)self.nowYear; year < (int)self.nowYear+6; year++) {
                    
                    NSString *str = [NSString stringWithFormat:@"%d", year];
                    
@@ -241,7 +246,14 @@
             label.font = [UIFont systemFontOfSize:16];
         });
     }else if (component == 1) {
-
+        if (self.ListViewType==DIDDataType) {
+            if (self.yearIndex==5) {
+                if (row >self.nowMonth-1) {
+                    return;
+                }
+            }
+        }
+       
         if (self.yearIndex==0||self.yearIndex==self.yearArray.count) {
             if (row<self.self.monthIndex-1) {
                 [pickerView selectRow:row inComponent:1 animated:NO];
@@ -287,6 +299,12 @@
                         
                     });
                 }else {
+                    if (self.ListViewType==DIDDataType&&self.nowMonth<(self.monthIndex)) {
+                        if (row>self.nowDay-1) {
+                             return;
+                        }
+                       
+                         }
                     
                        self.dayIndex = row;
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -351,7 +369,7 @@
                           self.nowDay=comp.day;
         [self.yearArray removeAllObjects];
                self.yearArray=nil;
-                self.yearIndex =6;
+                self.yearIndex =5;
   
                 self.monthIndex = [self.monthArray indexOfObject:[NSString stringWithFormat:@"%02ld", (long)comp.month]]-1;
                 self.dayIndex = [self.dayArray indexOfObject:[NSString stringWithFormat:@"%02ld", (long)comp.day]]-1;

@@ -15,6 +15,7 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
 @property(strong,nonatomic)UIButton *skipButton;
 @property(strong,nonatomic)NSArray *allInfoListArray;
 @property(strong,nonatomic)NSMutableArray *hasModelAarray;
+@property(assign,nonatomic)NSInteger headImageIndex;
 @end
 
 @implementation HWMHWMDIDShowInfoViewController
@@ -39,7 +40,7 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
 //    [[HMWCommView share]makeBordersWithView:self.nextButton];
     [self.table registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
     self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.table.rowHeight = 55;
+//    self.table.rowHeight = 55;
     self.table.delegate =self;
     self.table.dataSource =self;
     self.table.backgroundColor=[UIColor clearColor];
@@ -47,7 +48,7 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
 -(UIButton *)skipButton{
     if (!_skipButton) {
         _skipButton =[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
-//        [_skipButton setTitle:NSLocalizedString(@"发布", nil) forState:UIControlStateNormal];
+        [_skipButton setImage:[UIImage imageNamed:@"asset_edit"] forState:UIControlStateNormal];
         [_skipButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _skipButton.titleLabel.font=[UIFont systemFontOfSize:14];
         [_skipButton addTarget:self action:@selector(skipVCEvent) forControlEvents:UIControlEventTouchUpInside];
@@ -67,7 +68,7 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
         NSString *titleString=infDic[@"text"];
         NSString *typeString=infDic[@"type"];
         NSString *indexString=infDic[@"index"];
-     NSString *conString;
+        NSString *conString;
     HWMDIDInfoShowTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
     switch ([indexString integerValue]) {
             case 0:
@@ -79,8 +80,10 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
             case 2:
             conString=[[FLTools share]TimeFormatConversionBirthday:self.model.DateBirthString];
             break;
-            case 3:
-            conString=self.model.avatar;//头像
+        case 3:{
+//            conString=self.model.avatar;//头像
+            [cell.headIocnImageView sd_setImageWithURL:[NSURL URLWithString:self.model.avatar] placeholderImage:[UIImage imageNamed:@"mine_did_default_avator"]];
+            cell.rightLabel.alpha=0.f;}
             break;
             case 4:
             conString=self.model.email;//
@@ -132,6 +135,14 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
     return _allInfoListArray;
 
 }
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.headImageIndex==indexPath.row) {
+        return 80;
+    }
+    return 50;
+    
+    
+}
 -(void)setModel:(HWMDIDInfoModel *)model{
     
     if (model.nickname.length>0) {
@@ -145,6 +156,7 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
     }
     if (model.avatar.length>0) {
          [self.hasModelAarray addObject:self.allInfoListArray[3]];
+        self.headImageIndex=self.hasModelAarray.count-1;
     }
     if (model.email.length>0) {
         [self.hasModelAarray addObject:self.allInfoListArray[4]];

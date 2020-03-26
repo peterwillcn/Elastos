@@ -44,9 +44,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *URLLab;
 @property (weak, nonatomic) IBOutlet UILabel *LocationLab;
 @property (weak, nonatomic) IBOutlet UILabel *AddressLab;
+@property (weak, nonatomic) IBOutlet UIButton *CRUpdateTheRegistrationInformationButton;
 
 //@property(nonatomic,strong)FLJoinVoteInfoModel *model;
 @property (weak, nonatomic) IBOutlet UIView *CRBGView;
+@property (weak, nonatomic) IBOutlet UIButton *DIDUpdatesInfoButton;
 
 @property(strong,nonatomic)HMWToDeleteTheWalletPopView *toDeleteTheWalletPopV;
 /*
@@ -106,45 +108,17 @@
     make.right.equalTo(self.CRBGView.mas_right).offset(-10);
             make.bottom.equalTo(self.CRBGView.mas_bottom).offset(-15);
         }];
-//        nlohmann::json info = mainchainSubWallet->GetRegisteredCRInfo();
-//                      NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
-//                      NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-//                      NSString *Status = param[@"Status"];
-//        self.CRModel.did=param[@"Info"][@"CROwnerDID"];
-//        self.CRModel.nickname=param[@"Info"][@"NickName"];
-//        self.CRModel.url=param[@"Info"][@"Url"];
-//        self.CRModel.location=param[@"Info"][@"Location"];
-//   
-//    self.CRModel.ownerpublickey=param[@"Info"][@"CROwnerPublicKey"];
-        
-//        self.CRModel=self.lastArray.firstObject;
         self.OwnerPublickKeyLab.text=self.CRModel.nickname;
         self.nodeInformationDetailsV.CRmodel=self.CRModel;
         [self.lookAtTheCandidateListButton setTitle:NSLocalizedString(@"退出参选", nil) forState:UIControlStateNormal];
            [self.updataTheCandidateListButton setTitle:NSLocalizedString(@"更新信息", nil) forState:UIControlStateNormal];
+        [self.CRUpdateTheRegistrationInformationButton setTitle:NSLocalizedString(@"更新报名信息", nil) forState:UIControlStateNormal];
+        self.lookAtTheCandidateListButton.alpha=0.f;
+        self.updataTheCandidateListButton.alpha=0.f;
+        [self.DIDUpdatesInfoButton setTitle:NSLocalizedString(@"更新DID信息", nil) forState:UIControlStateNormal];
     }else{
         [self.lookAtTheCandidateListButton setTitle:NSLocalizedString(@"注销", nil) forState:UIControlStateNormal];
            [self.updataTheCandidateListButton setTitle:NSLocalizedString(@"编辑", nil) forState:UIControlStateNormal];
-//        nlohmann::json info = mainchainSubWallet->GetRegisteredProducerInfo();
-//           NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
-//
-//           NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-//           NSDictionary *infoDic = param[@"Info"];
-//
-//           NSString *OwnerPublickKey = infoDic[@"OwnerPublicKey"];
-//           NSString *NodePublickKey  =infoDic[@"NodePublicKey"];
-//
-//           NSString *URL=infoDic[@"URL"];
-//
-//           NSString *Location   =infoDic[@"Location"];
-//           NSString *NickName   = infoDic[@"NickName"];
-//
-//           self.model = [[FLJoinVoteInfoModel alloc]init];
-//           self.model.nickName = NickName;
-//           self.model.url = URL;
-//           self.model.contryCode = Location;
-//           self.model.ipAddress = infoDic[@"IpAddress"];
-//           self.model.ownerPublickKey=OwnerPublickKey;
            
         [self getNetCoinPointArrayWithPubKey:self.model.ownerpublickey];
            
@@ -246,6 +220,11 @@ NSString *httpIP=[[FLTools share]http_IpFast];
         [self.navigationController pushViewController:vc animated:YES];
         
     }
+    
+}
+- (IBAction)updataDIDInfoEvent:(id)sender {
+    
+    
     
 }
 

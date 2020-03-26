@@ -9,6 +9,8 @@
 #import "HWMDIDInfoModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^successBlock)(NSString*DIDString);
+
 @interface HWMAddPersonalInformationViewController : UIViewController
 /*
  *<# #>
@@ -26,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(assign,nonatomic)Boolean  whereFrome;
 @property (nonatomic, strong)FLWallet *currentWallet;
 
+@property(copy,nonatomic)void(^successBlock)(NSString*DIDString);
 
 @end
 

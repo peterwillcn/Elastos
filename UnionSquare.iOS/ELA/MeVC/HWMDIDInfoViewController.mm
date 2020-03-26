@@ -45,7 +45,6 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
 -(void)getDIDInfo{
     [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID];
     NSDictionary *didInfoDic=[[HWMDIDManager shareDIDManager]getDIDInfo];
-//     NSDictionary *reDic=@{@"nickName":[self charToString:suInfo],@"endTime":@(endTime),@"DIDString":self.DIDString};
     if (self.model==nil) {
         self.model=[[HWMDIDInfoModel alloc]init];
     }
@@ -72,16 +71,7 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
     return _dataArray;
 }
 -(void)deleteDIDEvent{
-  
-//    if ([[HMWFMDBManager sharedManagerType:DIDInfoType]delectDIDInfo:self.model WithWalletID:self.model.walletID]) {
-//        [[FLTools share]showErrorInfo:NSLocalizedString(@"删除成功", nil)];
-//        if (self.delegate) {
-//            [self.delegate needUpdateDIDInfo];
-//        }
-//        [self.navigationController popViewControllerAnimated:NO];
-//    }else{
-//        [[FLTools share]showErrorInfo:NSLocalizedString(@"删除失败", nil)];
-//    }
+
     UIView * mainView=[self mainWindow];
     [mainView addSubview:self.deleteDIDPopView];
     [self.deleteDIDPopView mas_makeConstraints:^(MASConstraintMaker *make) {

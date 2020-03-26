@@ -780,6 +780,14 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
 -(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString{
 //    NSLog(@"解析前%@",QRCodeString);
     if ([QRCodeString containsString:@"elastos://credaccess/"]) {
+        if (self.currentWallet.didString.length==0) {
+             [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID", nil)];
+            return;
+        }
+        
+        if (![[HWMDIDManager shareDIDManager]CheckDIDwhetherExpiredWithDIDString:self.currentWallet.didString WithmastWalletID:self.currentWallet.masterWalletID]) {
+            return;
+        }
         NSDictionary *playInfoDic=[[HWMDIDManager shareDIDManager]jwtDecodeWithJwtStringInfo:QRCodeString];
        if (playInfoDic){
            [self ShowPlayInfoText:playInfoDic withJWTString:QRCodeString];

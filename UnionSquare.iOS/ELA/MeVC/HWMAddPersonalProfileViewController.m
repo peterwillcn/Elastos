@@ -28,31 +28,33 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
     [super viewDidLoad];
          [self defultWhite];
      [self setBackgroundImg:@""];
-     
+
      self.title=NSLocalizedString(@"添加个人简介", nil);
-    self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:self.skipButton];
+//    self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:self.skipButton];
     self.textInfoLabel.text=NSLocalizedString(@"温馨提示：本页内容均为非必填项。", nil);
     self.infoTextView.delegate=self; self.infoTextView.layer.cornerRadius=5.f;
     self.infoTextView.layer.borderWidth=1.f;
     self.infoTextView.layer.borderColor=RGBA(255, 255, 255, 0.5).CGColor;
-    
+    [self.nextButton setTitle:NSLocalizedString(@"确定", nil) forState:UIControlStateNormal];
     [[HMWCommView share]makeBordersWithView:self.nextButton];
+    placeHText=NSLocalizedString(@"请输入个人简介（不超过800个字符）", nil);
     if (self.isEidet) {
        self.title=NSLocalizedString(@"编辑个人简介", nil);
-        self.skipButton.alpha=0.f;
+//        self.skipButton.alpha=0.f;
         [self.nextButton setTitle:NSLocalizedString(@"保存", nil) forState:UIControlStateNormal];
         self.infoHeight.constant=0.f;
         self.textInfoLabel.alpha=0.f;
         if (self.model.introduction.length>0) {
             self.textInfoLabel.text=self.model.introduction;
-            self.textInfoLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)self.model.introduction.length];
+            self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)self.model.introduction.length];
             
         }else{
             self.textInfoLabel.text=@"";
         }
         
     }else{
-         self.title=NSLocalizedString(@"添加个人简介", nil);
+        self.title=NSLocalizedString(@"添加个人简介", nil);
+        self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)self.model.introduction.length];
     }
 }
 -(UIButton *)skipButton{
@@ -67,22 +69,12 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
 }
 -(void)skipVCEvent{
      [self.view endEditing:YES];
-    if (self.isEidet) {
-//        if ( [[HMWFMDBManager sharedManagerType:DIDInfoType]updateDIDInfo:self.model WithWalletID:self.walletID]) {
-//            [[FLTools share]showErrorInfo:@"保存成功"];
-//        }else{
-//            [[FLTools share]showErrorInfo:@"保存失败"];
-//        }
-       
-        
-    }else{
-        HWMAddSocialAccountViewController *AddSocialAccountVC=[[HWMAddSocialAccountViewController alloc]init];
-           AddSocialAccountVC.model=self.model;
-        AddSocialAccountVC.walletID=self.walletID;
-           [self.navigationController pushViewController:AddSocialAccountVC animated:YES];
+    if (self.model.introduction.length>0) {
+    if (self.block) {
+          self.block(self.model);
+      }
     }
-   
-    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -110,11 +102,29 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
     }
     
 }
-
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    if ([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    if ((textView.text.length+range.length)>800) {
+        
+        return NO;
+    }
+     self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)textView.text.length];
+    
+    return YES;
+}
 -(void)setModel:(HWMDIDInfoModel *)model{
     _model=model;
 }
 -(void)setIsEidet:(Boolean)isEidet{
     _isEidet=isEidet;
 }
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+  
+    
+}
+
 @end

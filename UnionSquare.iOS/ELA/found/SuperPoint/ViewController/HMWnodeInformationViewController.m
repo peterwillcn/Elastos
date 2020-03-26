@@ -13,6 +13,10 @@
 #import "HMWFMDBManager.h"
 #import "nodeInformationDetailsView.h"
 #import "HWMCRCCommitteeElectionListViewController.h"
+#import "HWMCrCommitteeInformationHeaderView.h"
+#import "HttpUrl.h"
+#import "HWMDIDInfoModel.h"
+#import "NSObject+YYModel.h"
 @interface HMWnodeInformationViewController ()
 @property(nonatomic,assign)BOOL hasModel;
 /*
@@ -77,7 +81,7 @@
  *<# #>
  */
 @property(strong,nonatomic)nodeInformationDetailsView *nodeInformationDetailsV;
-
+@property(strong,nonatomic)HWMCrCommitteeInformationHeaderView *CrCommitteeInformationHeaderV;
 @property(nonatomic,assign)BOOL needUpdate;
 @end
 
@@ -93,9 +97,21 @@
     }else if (self.type==CRInformationType){
         
         self.title=NSLocalizedString(@"委员信息", nil) ;
+        [self getCRInfo];
     }
  
   [self makeUI];
+}
+-(void)getCRInfo{
+    NSString *httpIP=[[FLTools share]http_IpFast];
+      [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtget" header:@{} body:@{@"iss":[NSString stringWithFormat:@"did:elastos:%@",self.CRmodel.did]} showHUD:NO WithSuccessBlock:^(id data) {
+          HWMDIDInfoModel *model=[HWMDIDInfoModel modelWithJSON:data];
+          
+          
+                                        
+        } WithFailBlock:^(id data) {
+                                                             
+        }];
 }
 -(UIButton *)lookAtTheCandidateListButton{
     if (!_lookAtTheCandidateListButton) {
@@ -227,30 +243,20 @@
  __block NSString *URL;
     __block NSString *countries;
     if (self.type==CRInformationType) {
-        self.nodeNameLabel.text=self.CRmodel.nickname;
-         [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:self.CRmodel.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
-//        if (self.CRmodel.url.length>0) {
-//               URL=self.CRmodel.url;
-//           }
-//           if (self.CRmodel.url.length>0&&self.CRmodel.iconImageUrl.length==0) {
-//           dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//               URL=[[FLTools share] getImageViewURLWithURL:self.model.url];
-//           });
-//
-//           }
-//
-//
-//           dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        self.nodeNameLabel.text=self.CRmodel.nickname;
+        self.nodeNameLabel.alpha=0.f;
+        self.siconImageView.alpha=0.f;
+//         [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:self.CRmodel.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
+
              countries=[[FLTools share]contryNameTransLateByCode:  self.CRmodel.location.integerValue];
-//           });
-//
-//           dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-//               self.nodeInformationDetailsV.countryRegionLabel.text=countries;
-//               if (URL.length>0&&self.model.url.length>0) {
-//                  [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:URL] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
-//               }
-//
-//           });
+        [BGView addSubview:self.CrCommitteeInformationHeaderV];
+        [self.CrCommitteeInformationHeaderV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.top.right.equalTo(BGView);
+            make.height.equalTo(@130);
+        }];
+        
+        
+        
         
     }else if (self.type==nodeInformationType){
     if (self.model.iconImageUrl.length>0) {
@@ -461,5 +467,16 @@
 - (void)setIndex:(NSInteger)index{
     _index=index;
     
+}
+-(HWMCrCommitteeInformationHeaderView *)CrCommitteeInformationHeaderV{
+    if (!_CrCommitteeInformationHeaderV) {
+        _CrCommitteeInformationHeaderV=[[HWMCrCommitteeInformationHeaderView  alloc]init];
+        _CrCommitteeInformationHeaderV.CRmodel=self.CRmodel;
+        __weak __typeof__ (self) weakSelf = self;
+        _CrCommitteeInformationHeaderV.block = ^{
+            
+        };
+    }
+    return _CrCommitteeInformationHeaderV;
 }
 @end

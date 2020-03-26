@@ -346,6 +346,9 @@ static HMWFMDBManager * _manager =nil;
         p.walletAddress =[set objectForColumn:@"walletAddress"];
         p.walletName =[set objectForColumn:@"walletName"];
         p.didString=[set objectForColumn:@"didString"];
+        if ([[NSString stringWithFormat:@"%@",p.didString] isEqualToString:@"0"]) {
+            p.didString=@"";
+        }
         return  p;
     }
     return nil;
@@ -358,9 +361,9 @@ static HMWFMDBManager * _manager =nil;
     /*
      *
      */
-    if (wallet.didString.length==0) {
-        wallet.didString=@"";
-    }
+//    if (wallet.didString.length==0) {
+        wallet.didString=@"0";
+//    }
     NSString *sql =@"insert into wallet(walletID,walletAddress,walletName,didString) values(?,?,?,?)";
     if ((void)([self executeUpdate:sql,wallet.walletID,wallet.walletAddress,wallet.walletName]),wallet.didString) {
         
@@ -388,8 +391,9 @@ static HMWFMDBManager * _manager =nil;
         p.walletAddress =[set objectForColumn:@"walletAddress"];
         p.walletName =[set objectForColumn:@"walletName"];
         p.didString=[set objectForColumn:@"didString"];
-//        NSLog(@"本地存储钱包==%@==%@", p.walletID, p.walletName);
-        //        添加到数组中
+        if ([[NSString stringWithFormat:@"%@",p.didString] isEqualToString:@"0"]) {
+            p.didString=@"";
+        }
         [allRecords addObject:p];
     }
     

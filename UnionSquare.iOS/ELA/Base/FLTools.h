@@ -150,6 +150,7 @@
 -(NSString*)DownNumberPercentage:(NSString*)blance withLength:(NSInteger)MermVotCout;
 -(BOOL)isBlankString:(NSString *)str;
 -(NSString*)genderStringWithType:(NSString*)type;
--(NSString *)getNowTimeTimestampMS;
+-(NSString *)getNowTimeTimestampS;
 -(NSString *)TimeFormatConversionBirthday:(NSString *)timeStr;
+-(NSString*)getFileIndexCount:(NSString*)fielName;
 @end

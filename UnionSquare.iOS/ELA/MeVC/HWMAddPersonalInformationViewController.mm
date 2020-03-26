@@ -88,11 +88,107 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         self.textInfoLabel.alpha=0.f;
         self.infoHeight.constant=0.f;
         [self.skipButton setTitle:NSLocalizedString(@"保存", nil) forState: UIControlStateNormal];
+        [self updaeDataArray];
        }else{
             self.title=NSLocalizedString(@"添加个人信息", nil);
                       
        }
 }
+-(void)updaeDataArray{
+    [self.defMArray removeAllObjects];
+    [self.showInfoListAarry removeAllObjects];
+    NSString *indexString;
+       if (self.model.nickname.length>0) {
+           indexString=self.allInfoListArray[0][@"index"];
+           [self.defMArray addObject:indexString];
+       }else{
+            [self.showInfoListAarry addObject:@"0"];
+       }
+       if (self.model.gender.length>0) {
+           indexString=self.allInfoListArray[1][@"index"];
+           [self.defMArray addObject:indexString];
+       }else{
+            [self.showInfoListAarry addObject:@"1"];
+       }
+       if (self.model.DateBirthString.length>0) {
+           indexString=self.allInfoListArray[2][@"index"];
+           [self.defMArray addObject:indexString];
+       }else{
+            [self.showInfoListAarry addObject:@"2"];
+       }
+       if (self.model.avatar.length>0) {
+           indexString=self.allInfoListArray[3][@"index"];
+           [self.defMArray addObject:indexString];
+       }else{
+            [self.showInfoListAarry addObject:@"3"];
+       }
+       if (self.model.email.length>0) {
+         indexString=self.allInfoListArray[4][@"index"];
+           [self.defMArray addObject:indexString];
+       }else{
+            [self.showInfoListAarry addObject:@"4"];
+       }
+       if (self.model.phone.length>0) {
+          indexString=self.allInfoListArray[5][@"index"];
+           [self.defMArray addObject:indexString];
+       }else{
+            [self.showInfoListAarry addObject:@"4"];
+       }
+       if (self.model.nation.length>0) {
+          indexString=self.allInfoListArray[6][@"index"];
+           [self.defMArray addObject:indexString];
+       }else{
+            [self.showInfoListAarry addObject:@"6"];
+       }
+       if (self.model.introduction.length>0) {
+                  indexString=self.allInfoListArray[7][@"index"];
+                   [self.defMArray addObject:indexString];
+          }else{
+               [self.showInfoListAarry addObject:@"7"];
+          }
+       if (self.model.homePage.length>0) {
+               indexString=self.allInfoListArray[8][@"index"];
+                [self.defMArray addObject:indexString];
+       }else{
+            [self.showInfoListAarry addObject:@"8"];
+       }
+       if (self.model.facebook.length>0) {
+                 indexString=self.allInfoListArray[9][@"index"];
+                  [self.defMArray addObject:indexString];
+         }else{
+              [self.showInfoListAarry addObject:@"9"];
+         }
+       if (self.model.twitter.length>0) {
+                indexString=self.allInfoListArray[10][@"index"];
+                 [self.defMArray addObject:indexString];
+       }else{
+            [self.showInfoListAarry addObject:@"10"];
+       }
+       if (self.model.weibo.length>0) {
+               indexString=self.allInfoListArray[11][@"index"];
+                [self.defMArray addObject:indexString];
+       }else{
+            [self.showInfoListAarry addObject:@"11"];
+       }
+       if (self.model.wechat.length>0) {
+                  indexString=self.allInfoListArray[12][@"index"];
+                   [self.defMArray addObject:indexString];
+        }else{
+               [self.showInfoListAarry addObject:@"12"];
+        }
+       if (self.model.googleAccount.length>0) {
+                   indexString=self.allInfoListArray[13][@"index"];
+                     [self.defMArray addObject:indexString];
+       }else{
+            [self.showInfoListAarry addObject:@"13"];
+       }
+    
+    [self.table reloadData];
+}
+
+
+
+
 -(NSMutableArray *)defMArray{
     if (!_defMArray) {
         _defMArray=[NSMutableArray arrayWithArray:@[@"1",@"2",@"3",@"4",@"7",@"8",@"9",@"12"]];
@@ -144,6 +240,7 @@ _cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
     return _skipButton;
 }
 -(void)skipVCEvent{
+    [self.view endEditing:YES];
     UIView *manView=[self mainWindow];
        [manView addSubview:self.pwdPopupV];
        [self.pwdPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -285,7 +382,14 @@ _cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
         SelectCountriesOrRegionsVC.delegate=self;
         [self.navigationController pushViewController:SelectCountriesOrRegionsVC animated:YES];
     }else if ([indeString isEqualToString:@"7"]){
-        
+        HWMAddPersonalProfileViewController *AddPersonalProfileVC=[[HWMAddPersonalProfileViewController alloc]init];
+        AddPersonalProfileVC.model=self.model;
+        AddPersonalProfileVC.isEidet=NO;
+        __weak __typeof__ (self) weakSelf = self;
+        AddPersonalProfileVC.block = ^(HWMDIDInfoModel * _Nonnull model) {
+            weakSelf.model=model;
+        };
+        [self.navigationController pushViewController:AddPersonalProfileVC animated:YES];
     }
 }
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -519,8 +623,8 @@ NSString *didString=[[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDStr
     if (didString.length==0) {
         return;
     }
+    self.currentWallet.didString=didString;
     if (self.isEidet) {
-            
           BOOL isSucess=[[HWMDIDManager shareDIDManager ]saveDIDCredentialWithDIDModel: self.model];
           if (isSucess) {
               [self hiddenPWDView];
@@ -530,10 +634,21 @@ NSString *didString=[[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDStr
           }
       }else{
           BOOL isSucess=[[HWMDIDManager shareDIDManager ]updateInfoWithInfo: self.model];
-        
+        [[HWMDIDManager shareDIDManager ]saveDIDCredentialWithDIDModel: self.model];
           if (isSucess) {
               [self hiddenPWDView];
                [self showSendSuccessView];
+              FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
+              model.walletID=self.currentWallet.masterWalletID;
+              model.walletName=self.currentWallet.walletName;
+              model.walletAddress=self.currentWallet.walletAddress;
+              model.didString=self.currentWallet.didString;
+              [[HMWFMDBManager sharedManagerType:walletType]updateRecordWallet:model];
+              __weak __typeof__ (self) weakSelf = self;
+              if (self.successBlock) {
+                  weakSelf.successBlock(self.currentWallet.didString);
+                  [weakSelf.navigationController popViewControllerAnimated:NO];
+              }
           }else{
                  [[FLTools share]showErrorInfo:@"发布失败"];
           }
@@ -571,5 +686,9 @@ NSString *didString=[[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDStr
 }
 -(void)cancelThePWDPageView{
     [self hiddenPWDView];
+}
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    
+    [self.view endEditing:YES];
 }
 @end

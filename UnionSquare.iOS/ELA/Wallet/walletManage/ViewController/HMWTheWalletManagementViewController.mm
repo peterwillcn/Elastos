@@ -468,31 +468,9 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
 //        [self.navigationController pushViewController:vc animated:YES];
         
     }else if ([title isEqualToString:NSLocalizedString(@"DID",nil)]){
-//        查看 查看有没有did
-     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwdString] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
-
-        NSString *PrivateKeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
-////
-//        if (PrivateKeyString.length>0) {
-           NSString * hasDID
-            = [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwdString withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID];
-            if (hasDID) {
-                FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
-                model.walletID=self.currentWallet.masterWalletID;
-                model.walletAddress=self.currentWallet.walletAddress;
-                model.didString=hasDID;
-                self.currentWallet.didString=hasDID;
-                [[HMWFMDBManager sharedManagerType:walletType]updateRecordWallet:model];
-                HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
-                DIDInfoVC.currentWallet=self.currentWallet;
-                [self.navigationController pushViewController:DIDInfoVC animated:YES];
-                
-            }else{
-                HWMCreateDIDViewController *CreateDIDVC=[[HWMCreateDIDViewController alloc]init];
-                [self.navigationController pushViewController:CreateDIDVC animated:YES];
-            }
-//        }
-        
+        [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwdString withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID];
+        HWMCreateDIDViewController *CreateDIDVC=[[HWMCreateDIDViewController alloc]init];
+        [self.navigationController pushViewController:CreateDIDVC animated:YES];
         
     }
 //    else if ([title isEqualToString:NSLocalizedString(@"查看多签公钥",nil)]){

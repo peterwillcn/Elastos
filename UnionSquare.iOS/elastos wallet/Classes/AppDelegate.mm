@@ -95,6 +95,7 @@
     }else if(array.count<reArray.count){
         for (int i=0; i<reArray.count; i++) {
             FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
+            model.didString=@"";
             model.walletID=[NSString stringWithFormat:@"%@",reArray[i]];
             BOOL isbool = [array containsObject: model.walletID];
             if (isbool==NO) {

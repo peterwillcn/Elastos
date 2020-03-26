@@ -31,7 +31,8 @@
 }
 -(void)setMoDict:(NSDictionary *)moDict{
     _moDict=moDict;
-    self.countriesLabel.text=[NSString stringWithFormat:@"%@ (%@)",NSLocalizedString(moDict[@"countries"], nil) ,moDict[@"countries"]];
+    NSString *countrieString=moDict[@"countries"];
+    self.countriesLabel.text=[NSString stringWithFormat:@"%@ (%@)",ENString(countrieString),countrieString];
     
     self.mobilePhoneCodeLabel.text=[NSString stringWithFormat:@"+%@",moDict[@"mobileCode"]];
     

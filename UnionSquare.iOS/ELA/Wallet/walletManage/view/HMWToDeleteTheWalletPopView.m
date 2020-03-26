@@ -119,6 +119,12 @@
     }else if (self.deleteType==deleteDIDInfoType){
         if(self.delegate){
             [self.delegate sureToDeleteViewWithPWD:@""];}
+    }else if (self.deleteType==needCreadDIDType){
+            [self addSubview:self.securityVerificationPopV];
+                      [self.securityVerificationPopV mas_makeConstraints:^(MASConstraintMaker *make) {
+                          make.left.right.top.bottom.equalTo(self);
+              }];
+        
     }
 }
 -(void)takeOutOrShutDown{
@@ -177,6 +183,10 @@
     }else if (deleteType==deleteDIDInfoType){
          self.titlePopLabel.text= NSLocalizedString(@"是否永久弃用当前DID？", nil);
           [self.sureToDeleteButton setTitle:NSLocalizedString(@"确定", nil) forState:UIControlStateNormal];
+    }else if (deleteType==needCreadDIDType){
+        self.titlePopLabel.text= NSLocalizedString(@"参选CR委员须使用DID\n是否立即创建？", nil);
+                 [self.sureToDeleteButton setTitle:NSLocalizedString(@"去创建", nil) forState:UIControlStateNormal];
+        
     }
 }
 -(void)setUtxosString:(NSString *)UtxosString{

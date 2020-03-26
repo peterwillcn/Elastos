@@ -33,7 +33,8 @@ typedef NS_ENUM(NSInteger, HMWToDeleteType) {
     openIDChainType,
     NeedsSavedType,
     voteInvalidType,
-    deleteDIDInfoType
+    deleteDIDInfoType,
+    needCreadDIDType
     
    
 };

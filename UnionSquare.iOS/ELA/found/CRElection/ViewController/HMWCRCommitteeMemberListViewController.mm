@@ -23,6 +23,8 @@
 #import "HWMCRCommitteeForAgreementView.h"
 #import "HMWToDeleteTheWalletPopView.h"
 #import "HMWAddTheCurrencyListViewController.h"
+#import "HWMDIDManager.h"
+#import "HWMCreateDIDViewController.h"
 
 
 @interface HMWCRCommitteeMemberListViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWnodeInformationViewControllerDelegate,HWMCRCommitteeForAgreementViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWAddTheCurrencyListViewControllerDelegate,HWMCRCCommitteeElectionListViewControllerDelegate,HMWMyVoteViewControllerDeleagte>
@@ -199,13 +201,19 @@
                    [self.navigationController pushViewController:vc animated:YES];
          }else{
              UIView *mainView =[self mainWindow];
+             self.openIDChainView.deleteType=openIDChainType;
              [mainView addSubview:self.openIDChainView];
              [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
                  make.left.right.top.bottom.equalTo(mainView);
              }];
          }
     }else if ([self.typeString isEqualToString:@"Unregistered"]){
-        if (self.type ==1) {
+        
+        if ([self UnregisteredAndTimeExpired]==NO) {
+            return;
+        }
+        
+        if (self.type ==1){
             FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
                vc.currentWallet=self.wallet;
                vc.CRModel=self.selfModel;
@@ -234,6 +242,7 @@
                [self.navigationController pushViewController:vc animated:YES];
            }else{
                UIView *mainView =[self mainWindow];
+               self.openIDChainView.deleteType=openIDChainType;
                [mainView addSubview:self.openIDChainView];
                [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
                    make.left.right.top.bottom.equalTo(mainView);
@@ -250,6 +259,7 @@
                           [self.navigationController pushViewController:vc animated:YES];
                 }else{
                     UIView *mainView =[self mainWindow];
+                    self.openIDChainView.deleteType=openIDChainType;
                     [mainView addSubview:self.openIDChainView];
                     [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
                         make.left.right.top.bottom.equalTo(mainView);
@@ -311,7 +321,6 @@
                                                          NSString *param = data[@"data"];
                                                          model.iconImageUrl=[NSString stringWithFormat:@"%@%@",httpIP,param];
                                                         allListInfoArray[i]=model;
-//                          [self.votingListV setDataSource: allListInfoArray];
                                                      } WithFailBlock:^(id data) {
                                                          
                                                      }];
@@ -595,6 +604,7 @@ self.typeString=self.typeString;
         [self.navigationController pushViewController:vc animated:YES];
     }else{
         UIView *mainView =[self mainWindow];
+        self.openIDChainView.deleteType=openIDChainType;
         [mainView addSubview:self.openIDChainView];
         [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.top.bottom.equalTo(mainView);
@@ -605,19 +615,27 @@ self.typeString=self.typeString;
     if (!_openIDChainView) {
         _openIDChainView =[[HMWToDeleteTheWalletPopView alloc]init];
         _openIDChainView.delegate=self;
-        _openIDChainView.deleteType=openIDChainType;
+      
     }
     return _openIDChainView;
 }
 -(void)sureToDeleteViewWithPWD:(NSString*)pwd{
-  
+    if (self.openIDChainView.deleteType==openIDChainType) {
            HMWAddTheCurrencyListViewController *AddTheCurrencyListVC=[[HMWAddTheCurrencyListViewController alloc]init];
            AddTheCurrencyListVC.wallet=self.wallet;
            AddTheCurrencyListVC.didType=@"didType";
            AddTheCurrencyListVC.delegate=self;
             [self toCancelOrCloseDelegate];
            [self.navigationController pushViewController:AddTheCurrencyListVC animated:YES];
-
+    }else if (self.openIDChainView.deleteType==needCreadDIDType) {
+        [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.wallet.masterWalletID];
+        HWMCreateDIDViewController *CreateDIDVC=[[HWMCreateDIDViewController alloc]init];
+       __weak __typeof__ (self) weakSelf = self;
+        CreateDIDVC.walletIDBlock = ^(NSString * _Nonnull didString) {
+            weakSelf.wallet.didString=didString;
+        };
+        [self.navigationController pushViewController:CreateDIDVC animated:YES];
+    }
     
 }
 -(void)toCancelOrCloseDelegate{
@@ -737,4 +755,23 @@ self.typeString=self.typeString;
     [self updateDataInfo];
     
 }
+-(bool)UnregisteredAndTimeExpired{
+    if (self.wallet.didString.length==0) {
+        UIView *mainView =[self mainWindow];
+        [mainView addSubview:self.openIDChainView];
+        _openIDChainView.deleteType=needCreadDIDType;
+        [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(mainView);
+        }];
+        return NO;
+    }
+    if ([[HWMDIDManager shareDIDManager]CheckDIDwhetherExpiredWithDIDString:self.wallet.didString WithmastWalletID:self.wallet.masterWalletID]) {
+        return YES;
+    }
+    
+    return NO;
+    
+    
+}
+
 @end

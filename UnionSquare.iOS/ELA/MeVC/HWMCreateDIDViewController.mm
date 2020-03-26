@@ -265,16 +265,6 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.view endEditing:YES];
-    
-//    if (indexPath.row==1) {
-//        UIView *mainView =[self mainWindow];
-//        [mainView addSubview:self.walletListView];
-//        [self.walletListView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.right.top.bottom.equalTo(mainView);
-//        }];
-//        self.walletListView.dataSourceArray=self.walletListArray;
-//
-//    }else
     if (indexPath.row==1){
         UIView *mainView =[self mainWindow];
                [mainView addSubview:self.dataListView];
@@ -413,6 +403,13 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     self.isNext=YES;
     AddPersonalInformationVC.model=self.DIDInfoModel;
     AddPersonalInformationVC.currentWallet=self.currentWallet;
+    __weak __typeof__ (self) weakSelf = self;
+    AddPersonalInformationVC.successBlock = ^(NSString * _Nonnull DIDString) {
+        if (weakSelf.walletIDBlock) {
+            weakSelf.walletIDBlock(DIDString);
+        }
+        [weakSelf.navigationController popViewControllerAnimated:YES];
+    };
     
     [self.navigationController pushViewController:AddPersonalInformationVC animated:YES];
 }

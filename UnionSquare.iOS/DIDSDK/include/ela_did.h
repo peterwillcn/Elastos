@@ -2655,7 +2655,7 @@ DID_API bool Presentation_IsValid(Presentation *pre);
  * @return
  *      0 on success, -1 if an error occurred.
  */
-DID_API int  DIDBackend_InitializeDefault(const char *url, const char *cachedir);
+DID_API int DIDBackend_InitializeDefault(const char *url, const char *cachedir);
 
 /**
  * \~English

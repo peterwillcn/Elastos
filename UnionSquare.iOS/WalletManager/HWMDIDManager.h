@@ -35,6 +35,7 @@ WithPrivatekeyString:(NSString*)privatekeyString
 -(NSString*)DIDSignatureWithString:(NSString*)sigString;
 -(BOOL)saveDIDCredentialWithDIDModel:(HWMDIDInfoModel*)model;
 -(HWMDIDInfoModel*)readDIDCredential;
+-(bool)CheckDIDwhetherExpiredWithDIDString:(NSString*)didString WithmastWalletID:(NSString*)walletID;
 @end
 
 NS_ASSUME_NONNULL_END

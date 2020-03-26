@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HWMDIDInfoShowTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *leftLabel;
 @property (weak, nonatomic) IBOutlet UILabel *rightLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *headIocnImageView;
 
 @end
 

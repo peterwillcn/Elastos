@@ -2,7 +2,7 @@
 //  HWMImportDocumentsTableViewCell.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2020/3/22.
+//  Created by  on 2020/3/22.
 //
 
 #import "HWMImportDocumentsTableViewCell.h"

@@ -15,7 +15,20 @@ class IntentActionChooserItemView: UIView {
     // Model
     private var listener: (()->Void)? = nil
     
-    init(appManager: AppManager, appInfo: AppInfo) {
+    convenience init(appManager: AppManager, appInfo: AppInfo) {
+        // Setup UI according to model
+        var image: UIImage?
+        
+        let iconPaths = appManager.getIconPaths(appInfo)
+        if (iconPaths.count > 0) {
+            let appIconPath = iconPaths[0]
+            image = UIImage(contentsOfFile: appIconPath)
+        }
+        
+        self.init(icon: image, title: appInfo.name)
+    }
+    
+    init(icon: UIImage?, title: String) {
         super.init(frame: CGRect.null)
         
         let view = Bundle.main.loadNibNamed("IntentActionChooserItemView", owner: self, options: nil)![0] as! UIView
@@ -23,16 +36,14 @@ class IntentActionChooserItemView: UIView {
         self.addSubview(view)
         stretch(view: view)
         
-        // Setup UI according to model
-        let iconPaths = appManager.getIconPaths(appInfo)
-        if (iconPaths.count > 0) {
-            let appIconPath = iconPaths[0]
-            iconView.image = UIImage(contentsOfFile: appIconPath)
+        if let icon = icon {
+            iconView.image = icon
         }
         else {
             iconView.isHidden = true
         }
-        appNameView.text = appInfo.name
+        
+        appNameView.text = title
     }
     
     required init?(coder: NSCoder) {

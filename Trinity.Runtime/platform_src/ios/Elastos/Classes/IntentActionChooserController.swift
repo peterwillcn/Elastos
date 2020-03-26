@@ -30,6 +30,8 @@ class IntentActionChooserController: UIViewController {
     private var appManager: AppManager? = nil
     private var appInfos: [AppInfo] = []
     private var selectionCallback: ((AppInfo)->Void)?
+    private var nativeShareSelectionCallback: (()->Void)?
+    private var shareIntentParams: ShareIntentParams?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -47,6 +49,16 @@ class IntentActionChooserController: UIViewController {
             
             listItemsStackView.addArrangedSubview(appInfoLineItem)
         }
+        
+        // If provided, add a special item for the native share feature
+        if self.shareIntentParams != nil {
+            let shareItem  = IntentActionChooserItemView(icon: UIImage(named: "ic_apple_share"), title: "Another app")
+            shareItem.setListener() {
+                self.nativeShareSelectionCallback?()
+            }
+            
+            listItemsStackView.addArrangedSubview(shareItem)
+        }
     }
     
     public func setAppManager(appManager: AppManager) {
@@ -59,5 +71,17 @@ class IntentActionChooserController: UIViewController {
     
     public func setListener(_ listener: @escaping (AppInfo) -> Void) {
         self.selectionCallback = listener
+    }
+    
+    public func setNativeShareListener(_ listener: @escaping () -> Void) {
+        self.nativeShareSelectionCallback = listener
+    }
+    
+    public func useNativeShare(shareIntentParams: ShareIntentParams?) {
+        guard shareIntentParams != nil else {
+            return
+        }
+        
+        self.shareIntentParams = shareIntentParams
     }
 }

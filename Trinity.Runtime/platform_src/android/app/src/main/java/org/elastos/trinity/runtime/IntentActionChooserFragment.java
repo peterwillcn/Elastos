@@ -21,6 +21,8 @@ public class IntentActionChooserFragment extends DialogFragment {
     private AppManager appManager;
     private ArrayList<AppInfo> appInfos;
     private OnAppChosenListener listener = null;
+    private OnNativeShareListener nativeShareListener = null;
+    private IntentManager.ShareIntentParams shareIntentParams = null;
 
     public IntentActionChooserFragment(AppManager appManager, ArrayList<AppInfo> appInfos) {
         this.appManager = appManager;
@@ -31,6 +33,18 @@ public class IntentActionChooserFragment extends DialogFragment {
         this.listener = listener;
     }
 
+    public void setNativeShareListener(OnNativeShareListener listener) {
+        this.nativeShareListener = listener;
+    }
+
+    public void useNativeShare(IntentManager.ShareIntentParams shareIntentParams) {
+        if (shareIntentParams == null) {
+            return;
+        }
+
+        this.shareIntentParams = shareIntentParams;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_intent_action_chooser, container);
@@ -39,7 +53,7 @@ public class IntentActionChooserFragment extends DialogFragment {
         RecyclerView rvApps = rootView.findViewById(R.id.rvApps);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvApps.setLayoutManager(layoutManager);
-        rvApps.setAdapter(new AppsListAdapter(appInfos, listener));
+        rvApps.setAdapter(new AppsListAdapter(appInfos, shareIntentParams, listener, nativeShareListener));
 
         // Cancel button
         /*rootView.findViewById(R.id.btCancel).setOnClickListener(view -> {
@@ -58,11 +72,20 @@ public class IntentActionChooserFragment extends DialogFragment {
     }
 
     /**
+     * Listener for native share action selection
+     */
+    public interface OnNativeShareListener {
+        void onNativeShare();
+    }
+
+    /**
      * Apps list adapter
      */
     public class AppsListAdapter extends RecyclerView.Adapter<AppsListAdapter.ViewHolder> {
         private ArrayList<AppInfo> appInfos;
+        private IntentManager.ShareIntentParams shareIntentParams;
         private OnAppChosenListener listener;
+        private OnNativeShareListener nativeShareListener;
 
         class ViewHolder extends RecyclerView.ViewHolder {
             private View rootView;
@@ -79,9 +102,11 @@ public class IntentActionChooserFragment extends DialogFragment {
             }
         }
 
-        AppsListAdapter(ArrayList<AppInfo> appInfos, OnAppChosenListener listener) {
+        AppsListAdapter(ArrayList<AppInfo> appInfos, IntentManager.ShareIntentParams shareIntentParams, OnAppChosenListener listener, OnNativeShareListener nativeShareListener) {
             this.appInfos = appInfos;
+            this.shareIntentParams = shareIntentParams;
             this.listener = listener;
+            this.nativeShareListener = nativeShareListener;
         }
 
         @Override
@@ -94,27 +119,44 @@ public class IntentActionChooserFragment extends DialogFragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            AppInfo appInfo = appInfos.get(position);
+            if (!isNativeShareItemPosition(position)) {
+                AppInfo appInfo = appInfos.get(position);
 
-            // TODO: dirty - use a method to get app icon path in a clean way.
-            String[] iconPaths = appManager.getIconPaths(appInfo);
-            if (iconPaths != null && iconPaths.length > 0) {
-                String appIconPath = iconPaths[0];
-                holder.ivAppIcon.setImageURI(Uri.fromFile(new File(appIconPath)));
+                // TODO: dirty - use a method to get app icon path in a clean way.
+                String[] iconPaths = appManager.getIconPaths(appInfo);
+                if (iconPaths != null && iconPaths.length > 0) {
+                    String appIconPath = iconPaths[0];
+                    holder.ivAppIcon.setImageURI(Uri.fromFile(new File(appIconPath)));
+                } else {
+                    holder.ivAppIcon.setVisibility(View.INVISIBLE);
+                }
+                holder.tvAppName.setText(appInfo.name);
+
+                holder.rootView.setOnClickListener(view -> {
+                    listener.onAppChosen(appInfo);
+                });
             }
             else {
-                holder.ivAppIcon.setVisibility(View.INVISIBLE);
-            }
-            holder.tvAppName.setText(appInfo.name);
+                // Native share index
+                holder.ivAppIcon.setImageResource(R.drawable.ic_android_share);
+                holder.tvAppName.setText("Another app");
 
-            holder.rootView.setOnClickListener(view -> {
-                listener.onAppChosen(appInfo);
-            });
+                holder.rootView.setOnClickListener(view -> {
+                    nativeShareListener.onNativeShare();
+                });
+            }
         }
 
         @Override
         public int getItemCount() {
-            return appInfos.size();
+            return appInfos.size() + (shareIntentParams != null ? 1 : 0);
+        }
+
+        private boolean isNativeShareItemPosition(int position) {
+            if (shareIntentParams == null)
+                return false;
+            else
+                return position == appInfos.size(); // After the app infos number of items, we are on the "native share" item
         }
     }
 }

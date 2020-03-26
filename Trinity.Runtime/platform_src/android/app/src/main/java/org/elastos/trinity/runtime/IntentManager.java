@@ -3,10 +3,16 @@ package org.elastos.trinity.runtime;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Base64;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import androidx.core.content.res.TypedArrayUtils;
 
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.zxing.common.StringUtils;
+
+import org.apache.commons.math3.stat.inference.TestUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -16,9 +22,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -55,6 +63,11 @@ public class IntentManager {
             "elastos://",
             "https://scheme.elastos.org/",
     };
+
+    public class ShareIntentParams {
+        String title = null;
+        Uri url = null;
+    }
 
     IntentManager() {
         this.appManager = AppManager.getShareInstance();
@@ -152,10 +165,6 @@ public class IntentManager {
             }
         }
 
-        if (list.isEmpty()) {
-            throw new Exception("No application found to handle intent action: "+action);
-        }
-
         ids = new String[list.size()];
         return list.toArray(ids);
     }
@@ -168,6 +177,12 @@ public class IntentManager {
         }
 
         IntentActionChooserFragment actionChooserFragment = new IntentActionChooserFragment(appManager, appInfos);
+
+        // Special "share" case: add a specific entry for native OS "share" action
+        if (info.action.equals("share")) {
+            actionChooserFragment.useNativeShare(extractShareIntentParams(info));
+        }
+
         actionChooserFragment.setListener(appInfo -> {
             actionChooserFragment.dismiss();
 
@@ -181,12 +196,27 @@ public class IntentManager {
             }
         });
 
+        if (info.action.equals("share")) {
+            actionChooserFragment.setNativeShareListener(() -> {
+                actionChooserFragment.dismiss();
+                sendNativeShareAction(info);
+            });
+        }
+
         actionChooserFragment.show(appManager.activity.getFragmentManager(), "dialog");
     }
 
-    public void doIntent(IntentInfo info) throws Exception {
+    void doIntent(IntentInfo info) throws Exception {
         if (info.toId == null) {
             String[] ids = getIntentFilter(info.action);
+
+            // Throw an error in case no one can handle the action.
+            // Special case for the "share" action that is always handled by the native OS too.
+            if (!info.action.equals("share")) {
+                if (ids.length == 0) {
+                    throw new Exception("Intent action "+info.action+" isn't supported!");
+                }
+            }
 
             if (!this.getIntentSenderPermission(info.action, info.fromId)) {
                 throw new Exception("Application "+info.fromId+" doesn't have the permission to send an intent with action "+info.action);
@@ -194,12 +224,25 @@ public class IntentManager {
 
             // If there is only one application able to handle this intent, we directly use it.
             // Otherwise, we display a prompt so that user can pick the right application.
-            if (ids.length == 1) {
-                info.toId = ids[0];
-                sendIntent(info);
+            // "share" action is special, as it must deal with the native share action.
+            if (!info.action.equals("share")) {
+                if (ids.length == 1) {
+                    info.toId = ids[0];
+                    sendIntent(info);
+                } else {
+                    popupIntentChooser(info, ids);
+                }
             }
             else {
-                popupIntentChooser(info, ids);
+                // Action is "share"
+                if (ids.length == 0) {
+                    // No dapp can handle share. Directly send the native action
+                    sendNativeShareAction(info);
+                }
+                else {
+                    // Show a popup chooser. It will add the native share action.
+                    popupIntentChooser(info, ids);
+                }
             }
         }
         else {
@@ -532,5 +575,59 @@ public class IntentManager {
         }
 
         return intentPermission.receiverIsAllow(appId);
+    }
+
+    private ShareIntentParams extractShareIntentParams(IntentInfo info) {
+        // Extract JSON params from the share intent. Expected format is {title:"", url:""} but this
+        // could be anything as this is set by users.
+        if (info.params == null) {
+            System.out.println("Share intent params are not set!");
+            return null;
+        }
+
+        JSONObject jsonParams = null;
+        try {
+             jsonParams = new JSONObject(info.params);
+        } catch (JSONException e) {
+            System.out.println("Share intent parameters are not JSON format");
+            return null;
+        }
+
+        ShareIntentParams shareIntentParams = new ShareIntentParams();
+
+        shareIntentParams.title  = jsonParams.optString("title");
+
+        String url = jsonParams.optString("url");
+        if (url != null) {
+            shareIntentParams.url = Uri.parse(url);
+        }
+
+        return shareIntentParams;
+    }
+
+    void sendNativeShareAction(IntentInfo info) {
+        ShareIntentParams extractedParams = extractShareIntentParams(info);
+        if (extractedParams != null)  {
+            // Can't send an empty share action
+            if (extractedParams.title == null && extractedParams.url == null)
+                return;
+
+            android.content.Intent sendIntent = new android.content.Intent();
+            sendIntent.setAction(android.content.Intent.ACTION_SEND);
+
+            ArrayList<String> extraTextParams = new ArrayList();
+            if (extractedParams.title != null)
+                extraTextParams.add(extractedParams.title);
+
+            if (extractedParams.url != null)
+                extraTextParams.add(extractedParams.url.toString());
+
+            sendIntent.putExtra(android.content.Intent.EXTRA_TEXT,  TextUtils.join(" ", extraTextParams));
+
+            sendIntent.setType("text/plain");
+
+            android.content.Intent shareIntent = android.content.Intent.createChooser(sendIntent, null);
+            appManager.activity.startActivity(shareIntent);
+        }
     }
 }

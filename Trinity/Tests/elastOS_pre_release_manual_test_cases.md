@@ -44,7 +44,7 @@
 
 | Test | Priority |
 | ---- | -------- |
-| Scan a DID qrcode (to do what?) | High |
+| Scan a DID qrcode should open the friends app to add a friend | High |
 | Scan a elastos scheme | High |
 | Scan ELA address (intent from wallet app) | High |
 

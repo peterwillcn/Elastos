@@ -620,6 +620,7 @@ self.typeString=self.typeString;
     return _openIDChainView;
 }
 -(void)sureToDeleteViewWithPWD:(NSString*)pwd{
+    
     if (self.openIDChainView.deleteType==openIDChainType) {
            HMWAddTheCurrencyListViewController *AddTheCurrencyListVC=[[HMWAddTheCurrencyListViewController alloc]init];
            AddTheCurrencyListVC.wallet=self.wallet;
@@ -627,9 +628,17 @@ self.typeString=self.typeString;
            AddTheCurrencyListVC.delegate=self;
             [self toCancelOrCloseDelegate];
            [self.navigationController pushViewController:AddTheCurrencyListVC animated:YES];
-    }else if (self.openIDChainView.deleteType==needCreadDIDType) {
+    }else{
+        
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,pwd] callbackId:self.wallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
+                NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
+           if (privatekeyString.length==0) {
+               return;
+           }
+        
         [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.wallet.masterWalletID];
         HWMCreateDIDViewController *CreateDIDVC=[[HWMCreateDIDViewController alloc]init];
+         [self toCancelOrCloseDelegate];
        __weak __typeof__ (self) weakSelf = self;
         CreateDIDVC.walletIDBlock = ^(NSString * _Nonnull didString) {
             weakSelf.wallet.didString=didString;
@@ -759,7 +768,7 @@ self.typeString=self.typeString;
     if (self.wallet.didString.length==0) {
         UIView *mainView =[self mainWindow];
         [mainView addSubview:self.openIDChainView];
-        _openIDChainView.deleteType=needCreadDIDType;
+        self.openIDChainView.deleteType=needCreadDIDType;
         [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.top.bottom.equalTo(mainView);
         }];

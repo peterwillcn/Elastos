@@ -99,19 +99,13 @@
             }
         
     }else if (self.deleteType==NeedsSavedType){
-        if(self.delegate){
-                      [self.delegate sureToDeleteViewWithPWD:@""];
-                  }
-        
+     if(self.delegate){
+            [self.delegate sureToDeleteViewWithPWD:@""];
+     }
     }else if (self.deleteType==deleteCRVote){
-        if(self.delegate){
-                            [self.delegate sureToDeleteViewWithPWD:@""];
-                        }
-       
-//         [self addSubview:self.securityVerificationPopV];
-//              [self.securityVerificationPopV mas_makeConstraints:^(MASConstraintMaker *make) {
-//                  make.left.right.top.bottom.equalTo(self);
-//              }];
+    if(self.delegate){
+     [self.delegate sureToDeleteViewWithPWD:@""];
+    }
     }else if (self.deleteType==voteInvalidType){
         if(self.delegate){
         [self.delegate sureToDeleteViewWithPWD:@""];
@@ -121,10 +115,9 @@
             [self.delegate sureToDeleteViewWithPWD:@""];}
     }else if (self.deleteType==needCreadDIDType){
             [self addSubview:self.securityVerificationPopV];
-                      [self.securityVerificationPopV mas_makeConstraints:^(MASConstraintMaker *make) {
-                          make.left.right.top.bottom.equalTo(self);
+            [self.securityVerificationPopV mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.top.bottom.equalTo(self);
               }];
-        
     }
 }
 -(void)takeOutOrShutDown{
@@ -145,7 +138,6 @@
     
 }
 -(void)setDeleteType:(HMWToDeleteType)deleteType{
-    _deleteType=deleteType;
     if (deleteType==deleteTheWallet) {
         self.titlePopLabel.text=NSLocalizedString(@"是否删除当前钱包？", nil);
         
@@ -188,6 +180,7 @@
                  [self.sureToDeleteButton setTitle:NSLocalizedString(@"去创建", nil) forState:UIControlStateNormal];
         
     }
+      _deleteType=deleteType;
 }
 -(void)setUtxosString:(NSString *)UtxosString{
     _UtxosString=UtxosString;

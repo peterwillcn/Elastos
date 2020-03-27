@@ -10,6 +10,7 @@
 #import "HWMDIDManager.h"
 #import "HMWpwdPopupView.h"
 #import "HMWSendSuccessPopuView.h"
+#import "ELWalletManager.h"
 @interface HWMTheEditorDIDInfoViewController ()<HWMDIDDataListViewDelegate,HMWpwdPopupViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *DIDTextInfoLabel;
 @property (weak, nonatomic) IBOutlet UITextField *nickNameLabel;
@@ -88,6 +89,12 @@
     [self.view endEditing:YES];
 }
 -(void)makeSureWithPWD:(NSString*)pwd{
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwd] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
+            NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
+       if (privatekeyString.length==0) {
+           return;
+       }
+    
     [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID];
     if ([[HWMDIDManager shareDIDManager]updateInfoWithInfo:self.model]) {
         [self showSendSuccessView];

@@ -346,7 +346,7 @@ static HMWFMDBManager * _manager =nil;
         p.walletAddress =[set objectForColumn:@"walletAddress"];
         p.walletName =[set objectForColumn:@"walletName"];
         p.didString=[set objectForColumn:@"didString"];
-        if ([[NSString stringWithFormat:@"%@",p.didString] isEqualToString:@"0"]) {
+     if (![p.didString containsString:@"did:"]){
             p.didString=@"";
         }
         return  p;
@@ -391,7 +391,7 @@ static HMWFMDBManager * _manager =nil;
         p.walletAddress =[set objectForColumn:@"walletAddress"];
         p.walletName =[set objectForColumn:@"walletName"];
         p.didString=[set objectForColumn:@"didString"];
-        if ([[NSString stringWithFormat:@"%@",p.didString] isEqualToString:@"0"]) {
+        if (![p.didString containsString:@"did:"]) {
             p.didString=@"";
         }
         [allRecords addObject:p];

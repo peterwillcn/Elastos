@@ -619,6 +619,11 @@ _cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
 
 }
 -(void)makeSureWithPWD:(NSString*)pwd{
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwd] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
+         NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
+    if (privatekeyString.length==0) {
+        return;
+    }
 NSString *didString=[[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID];
     if (didString.length==0) {
         return;

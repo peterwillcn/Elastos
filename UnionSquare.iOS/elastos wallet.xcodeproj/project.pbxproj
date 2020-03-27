@@ -414,7 +414,7 @@
 		42A7679B2315293F005FC764 /* HWMCRRegisteredViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A767992315293F005FC764 /* HWMCRRegisteredViewController.xib */; };
 		42A767A023169F28005FC764 /* HWMCRElectoralAffairsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A7679E23169F28005FC764 /* HWMCRElectoralAffairsViewController.xib */; };
 		42A7840522F7FF26008F2F94 /* libspvsdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A7840422F7FF25008F2F94 /* libspvsdk.a */; };
-		42A7A851236ADC110034A900 /* HWMTheEditorDIDInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A7A84F236ADC110034A900 /* HWMTheEditorDIDInfoViewController.m */; };
+		42A7A851236ADC110034A900 /* HWMTheEditorDIDInfoViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42A7A84F236ADC110034A900 /* HWMTheEditorDIDInfoViewController.mm */; };
 		42A7A852236ADC110034A900 /* HWMTheEditorDIDInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A7A850236ADC110034A900 /* HWMTheEditorDIDInfoViewController.xib */; };
 		42A7A856236AE3BD0034A900 /* HWMConfidentialInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A7A854236AE3BD0034A900 /* HWMConfidentialInformationViewController.m */; };
 		42A7A857236AE3BD0034A900 /* HWMConfidentialInformationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A7A855236AE3BD0034A900 /* HWMConfidentialInformationViewController.xib */; };
@@ -1300,7 +1300,7 @@
 		42A7679E23169F28005FC764 /* HWMCRElectoralAffairsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMCRElectoralAffairsViewController.xib; sourceTree = "<group>"; };
 		42A7840422F7FF25008F2F94 /* libspvsdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libspvsdk.a; path = "elastos wallet/spvsdk/lib/libspvsdk.a"; sourceTree = "<group>"; };
 		42A7A84E236ADC110034A900 /* HWMTheEditorDIDInfoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTheEditorDIDInfoViewController.h; sourceTree = "<group>"; };
-		42A7A84F236ADC110034A900 /* HWMTheEditorDIDInfoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTheEditorDIDInfoViewController.m; sourceTree = "<group>"; };
+		42A7A84F236ADC110034A900 /* HWMTheEditorDIDInfoViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HWMTheEditorDIDInfoViewController.mm; sourceTree = "<group>"; };
 		42A7A850236ADC110034A900 /* HWMTheEditorDIDInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTheEditorDIDInfoViewController.xib; sourceTree = "<group>"; };
 		42A7A853236AE3BD0034A900 /* HWMConfidentialInformationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMConfidentialInformationViewController.h; sourceTree = "<group>"; };
 		42A7A854236AE3BD0034A900 /* HWMConfidentialInformationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMConfidentialInformationViewController.m; sourceTree = "<group>"; };
@@ -4999,7 +4999,7 @@
 				4253EE5723696C88005B774A /* HWMDIDInfoViewController.mm */,
 				4253EE5823696C88005B774A /* HWMDIDInfoViewController.xib */,
 				42A7A84E236ADC110034A900 /* HWMTheEditorDIDInfoViewController.h */,
-				42A7A84F236ADC110034A900 /* HWMTheEditorDIDInfoViewController.m */,
+				42A7A84F236ADC110034A900 /* HWMTheEditorDIDInfoViewController.mm */,
 				42A7A850236ADC110034A900 /* HWMTheEditorDIDInfoViewController.xib */,
 				42A7A853236AE3BD0034A900 /* HWMConfidentialInformationViewController.h */,
 				42A7A854236AE3BD0034A900 /* HWMConfidentialInformationViewController.m */,
@@ -11071,7 +11071,7 @@
 				42D1060F23A336240063AADC /* SimplePing.m in Sources */,
 				4202CA4121F6EF2A009E5932 /* FLMeHeadView.m in Sources */,
 				4223EB2B2327999F00153DA9 /* HWMPublicKeyListHeadView.m in Sources */,
-				42A7A851236ADC110034A900 /* HWMTheEditorDIDInfoViewController.m in Sources */,
+				42A7A851236ADC110034A900 /* HWMTheEditorDIDInfoViewController.mm in Sources */,
 				42B07E262421F6A600E1B920 /* HWMDIDAuthorizationTableViewCell.m in Sources */,
 				4202CA3A21F6EF2A009E5932 /* FLTradeInfoView.m in Sources */,
 				4202CA6A21F6EF2B009E5932 /* HMWaddressListTableViewCell.m in Sources */,

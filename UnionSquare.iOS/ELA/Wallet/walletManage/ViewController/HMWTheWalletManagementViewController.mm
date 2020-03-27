@@ -468,6 +468,11 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
 //        [self.navigationController pushViewController:vc animated:YES];
         
     }else if ([title isEqualToString:NSLocalizedString(@"DID",nil)]){
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwdString] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
+                NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
+           if (privatekeyString.length==0) {
+               return;
+           }
         [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwdString withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID];
         HWMCreateDIDViewController *CreateDIDVC=[[HWMCreateDIDViewController alloc]init];
         [self.navigationController pushViewController:CreateDIDVC animated:YES];

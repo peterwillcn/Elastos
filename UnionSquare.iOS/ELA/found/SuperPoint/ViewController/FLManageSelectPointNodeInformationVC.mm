@@ -59,6 +59,10 @@
 
 @property(strong,nonatomic)HWMTransactionDetailsView* transactionDetailsView;
 @property(strong,nonatomic)HMWSendSuccessPopuView* sendSuccessPopuV;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)UIButton *skipButton;
 @end
 
 @implementation FLManageSelectPointNodeInformationVC
@@ -116,6 +120,7 @@
         self.lookAtTheCandidateListButton.alpha=0.f;
         self.updataTheCandidateListButton.alpha=0.f;
         [self.DIDUpdatesInfoButton setTitle:NSLocalizedString(@"更新DID信息", nil) forState:UIControlStateNormal];
+          self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:self.skipButton];
     }else{
         [self.lookAtTheCandidateListButton setTitle:NSLocalizedString(@"注销", nil) forState:UIControlStateNormal];
            [self.updataTheCandidateListButton setTitle:NSLocalizedString(@"编辑", nil) forState:UIControlStateNormal];
@@ -364,5 +369,20 @@ NSString *httpIP=[[FLTools share]http_IpFast];
 }
 -(void)setModel:(FLCoinPointInfoModel *)model{
     _model=model;
+}
+-(UIButton *)skipButton{
+    if (!_skipButton) {
+        _skipButton =[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
+        [_skipButton setTitle:NSLocalizedString(@"发布", nil) forState:UIControlStateNormal];
+        [_skipButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _skipButton.titleLabel.font=[UIFont systemFontOfSize:14];
+        [_skipButton addTarget:self action:@selector(skipVCEvent) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _skipButton;
+}
+-(void)skipVCEvent{
+    
+    [self lookAtTheCandidateListEvent:nil];
+    
 }
 @end

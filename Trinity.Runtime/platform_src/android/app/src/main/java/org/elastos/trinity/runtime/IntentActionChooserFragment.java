@@ -5,6 +5,8 @@ import android.app.DialogFragment;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -138,7 +140,7 @@ public class IntentActionChooserFragment extends DialogFragment {
             }
             else {
                 // Native share index
-                holder.ivAppIcon.setImageResource(R.drawable.ic_android_share);
+                holder.ivAppIcon.setImageResource(R.drawable.ic_share_chooser);
                 holder.tvAppName.setText("Another app");
 
                 holder.rootView.setOnClickListener(view -> {

@@ -52,7 +52,7 @@ class IntentActionChooserController: UIViewController {
         
         // If provided, add a special item for the native share feature
         if self.shareIntentParams != nil {
-            let shareItem  = IntentActionChooserItemView(icon: UIImage(named: "ic_apple_share"), title: "Another app")
+            let shareItem  = IntentActionChooserItemView(icon: UIImage(named: "ic_share_chooser"), title: "Another app")
             shareItem.setListener() {
                 self.nativeShareSelectionCallback?()
             }

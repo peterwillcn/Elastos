@@ -358,19 +358,19 @@ static HMWFMDBManager * _manager =nil;
     if ([self selectMastWalletID:wallet.walletID]) {
         return;
     }
-    /*
-     *
-     */
-//    if (wallet.didString.length==0) {
-        wallet.didString=@"0";
-//    }
+    if (wallet.walletAddress.length==0) {
+         wallet.walletAddress=@"0";
+    }
+    wallet.didString=@"0";
     NSString *sql =@"insert into wallet(walletID,walletAddress,walletName,didString) values(?,?,?,?)";
-    if ((void)([self executeUpdate:sql,wallet.walletID,wallet.walletAddress,wallet.walletName]),wallet.didString) {
-        
-    }else{
-        
+    @try {
+        if ((void)([self executeUpdate:sql,wallet.walletID,wallet.walletAddress,wallet.walletName]),wallet.didString) {
+        }else{
+        }
+    } @catch (NSException *exception){
         
     }
+    
     
     
     

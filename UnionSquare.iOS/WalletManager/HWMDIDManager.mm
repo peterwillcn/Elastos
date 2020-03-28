@@ -126,13 +126,13 @@ WithPrivatekeyString:(NSString*)privatekeyString
     if (DIDString.length>0) {
         self.DIDString=DIDString;
     }
-//    if (self.passWord.length>0) {
-//          invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.mastWalletID,self.passWord] callbackId:self.mastWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
-//           self.privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
-//        if (self.privatekeyString.length==0) {
-//            return @"";
-//        }
-//    }
+    if (self.passWord.length>0) {
+          invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.mastWalletID,self.passWord] callbackId:self.mastWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
+           self.privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
+        if (self.privatekeyString.length==0) {
+            return @"";
+        }
+    }
     // 添加null逻辑判断
     tmp =[[NSString stringWithFormat:@"%@%@",_mRootPath,self.mastWalletID] UTF8String];
     DIDAdapter * didAdapter = TestDIDAdapter_Create([self.passWord UTF8String],[self.mastWalletID UTF8String]);
@@ -357,6 +357,23 @@ WithPrivatekeyString:(NSString*)privatekeyString
 
         return nil;
 }
+-(id)CRInfoDecodeWithJwtStringInfo:(NSString *)jwtStr {
+
+    NSArray * manySecrets = [jwtStr componentsSeparatedByString:@"."];
+    NSString *base=[NSString stringFromBase64UrlEncodedString:manySecrets[1]];
+      NSDictionary * jsonDict = [NSJSONSerialization JSONObjectWithData:[base dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+//
+//   NSString* UnSignature=[NSString stringWithFormat:@"%@.%@",[self removeSpaceAndNewline:manySecrets.firstObject],manySecrets[1]];
+//
+//       UnSignature=[UnSignature stringByReplacingOccurrencesOfString:@"//n" withString:@""];
+//    if ([self jwtSignatureWithDIDString:jsonDict[@"id"] withSignature:manySecrets.lastObject withUnSignature:UnSignature]) {
+        return jsonDict;
+//    }
+   
+
+//        return nil;
+}
+
 - (NSString *)removeSpaceAndNewline:(NSString *)str
 
 {

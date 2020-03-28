@@ -27,7 +27,7 @@
                     <color key="textColor" red="0.99991279840000002" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oze-VI-Hb9">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oze-VI-Hb9">
                     <rect key="frame" x="73" y="78" width="150" height="12"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="150" id="nNC-EA-bx2"/>
@@ -57,7 +57,7 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2O-Nz-bDU">
                     <rect key="frame" x="67" y="61" width="209" height="49"/>
                     <connections>
-                        <action selector="copyDIDStringEvent:" destination="iN0-l3-epB" eventType="touchUpOutside" id="CWu-ja-FXT"/>
+                        <action selector="copyDIDStringEvent:" destination="iN0-l3-epB" eventType="touchUpInside" id="8s8-fZ-lcG"/>
                     </connections>
                 </button>
             </subviews>

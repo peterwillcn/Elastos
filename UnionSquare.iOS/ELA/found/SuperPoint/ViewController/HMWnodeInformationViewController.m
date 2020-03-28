@@ -7,7 +7,7 @@
 //
 
 #import "HMWnodeInformationViewController.h"
-
+#import "HWMHWMDIDShowInfoViewController.h"
 #import "HMWtheCandidateListViewController.h"
 #import "FLNotePointDBManager.h"
 #import "HMWFMDBManager.h"
@@ -17,6 +17,7 @@
 #import "HttpUrl.h"
 #import "HWMDIDInfoModel.h"
 #import "NSObject+YYModel.h"
+#import "HWMDIDManager.h"
 @interface HMWnodeInformationViewController ()
 @property(nonatomic,assign)BOOL hasModel;
 /*
@@ -83,6 +84,7 @@
 @property(strong,nonatomic)nodeInformationDetailsView *nodeInformationDetailsV;
 @property(strong,nonatomic)HWMCrCommitteeInformationHeaderView *CrCommitteeInformationHeaderV;
 @property(nonatomic,assign)BOOL needUpdate;
+@property(strong,nonatomic)HWMDIDInfoModel *DIDmodel;
 @end
 
          
@@ -97,20 +99,26 @@
     }else if (self.type==CRInformationType){
         
         self.title=NSLocalizedString(@"委员信息", nil) ;
+        if (self.CRmodel.cid.length>0) {
         [self getCRInfo];
+        }
+       
     }
  
   [self makeUI];
 }
 -(void)getCRInfo{
     NSString *httpIP=[[FLTools share]http_IpFast];
-      [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtget" header:@{} body:@{@"iss":[NSString stringWithFormat:@"did:elastos:%@",self.CRmodel.did]} showHUD:NO WithSuccessBlock:^(id data) {
-          HWMDIDInfoModel *model=[HWMDIDInfoModel modelWithJSON:data];
+      [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtget" header:@{} body:@{@"did":[NSString stringWithFormat:@"did:elastos:%@",self.CRmodel.cid]} showHUD:NO WithSuccessBlock:^(id data) {
+          NSString *jwtString=data[@"data"][@"jwt"];
+          NSDictionary *playInfoDic=[[HWMDIDManager shareDIDManager]CRInfoDecodeWithJwtStringInfo:jwtString];
           
           
-                                        
+      self.DIDmodel=[HWMDIDInfoModel modelWithJSON:playInfoDic[@"credentialSubject"]];
+          
+          
         } WithFailBlock:^(id data) {
-                                                             
+                                                            
         }];
 }
 -(UIButton *)lookAtTheCandidateListButton{
@@ -474,6 +482,9 @@
         _CrCommitteeInformationHeaderV.CRmodel=self.CRmodel;
         __weak __typeof__ (self) weakSelf = self;
         _CrCommitteeInformationHeaderV.block = ^{
+            HWMHWMDIDShowInfoViewController *HWMAddPersonalInformationVC=[[HWMHWMDIDShowInfoViewController alloc]init];
+            HWMAddPersonalInformationVC.model=weakSelf.DIDmodel;
+              [weakSelf.navigationController pushViewController:HWMAddPersonalInformationVC animated:YES];
             
         };
     }

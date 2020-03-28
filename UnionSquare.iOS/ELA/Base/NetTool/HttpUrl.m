@@ -44,6 +44,8 @@ NSInteger timeOut = 20;
     BOOL isSh=YES;
     if ([httpUrl isEqualToString:@"/api/dposnoderpc/check/getimage"]) {
         isSh=NO;
+    }else if([httpUrl isEqualToString:@"/api/dposnoderpc/check/jwtget"]){
+        isSh=NO;
     }
      if (show) {
          [[FLTools share]showLoadingView];

@@ -23,6 +23,7 @@
 package org.elastos.trinity.runtime;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -177,23 +178,41 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
         }
     }
 
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // We need to override on downgrade otherwise if somehow the android phone tries to downgrade the database
+        // (happened to KP many times - unknown reason - 2020.03), then we get a crash
+    }
+
     // 20191230 - Added "start_visible" field
     private void upgradeToV3(SQLiteDatabase db) {
-        String strSQL = "ALTER TABLE "+APP_TABLE+" ADD COLUMN "+AppInfo.START_VISIBLE+" varchar(32) default 'show'";
-        db.execSQL(strSQL);
+        try {
+            String strSQL = "ALTER TABLE " + APP_TABLE + " ADD COLUMN " + AppInfo.START_VISIBLE + " varchar(32) default 'show'";
+            db.execSQL(strSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Do nothing, intercept SQL errors - in case we try to apply an upgrade again after a strange downgrade from android
+            // (happened to KP many times - unknown reason - 2020.03)
+        }
     }
 
     // 20200311 - Added "setting and preference table"
     private void upgradeToV4(SQLiteDatabase db) {
-        String strSQL =  "create table " + SETTING_TABLE + "(tid integer primary key autoincrement, " +
-                AppInfo.APP_ID + " varchar(128) NOT NULL, " +
-                KEY + " varchar(128) NOT NULL, " +
-                VALUE + " varchar(2048) NOT NULL)";
-        db.execSQL(strSQL);
+        try {
+            String strSQL = "create table " + SETTING_TABLE + "(tid integer primary key autoincrement, " +
+                    AppInfo.APP_ID + " varchar(128) NOT NULL, " +
+                    KEY + " varchar(128) NOT NULL, " +
+                    VALUE + " varchar(2048) NOT NULL)";
+            db.execSQL(strSQL);
 
-        strSQL =  "create table " + PREFERENCE_TABLE + "(tid integer primary key autoincrement, " +
-                KEY + " varchar(128) NOT NULL, " +
-                VALUE + " varchar(2048) NOT NULL)";
-        db.execSQL(strSQL);
+            strSQL = "create table " + PREFERENCE_TABLE + "(tid integer primary key autoincrement, " +
+                    KEY + " varchar(128) NOT NULL, " +
+                    VALUE + " varchar(2048) NOT NULL)";
+            db.execSQL(strSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Do nothing, intercept SQL errors - in case we try to apply an upgrade again after a strange downgrade from android
+            // (happened to KP many times - unknown reason - 2020.03)
+        }
     }
 }

@@ -14,7 +14,7 @@ public class DIDVerifier {
 
         Log.i("DIDVerifier", "dataDir:" + dataDir);
 
-        String resolver = ConfigManager.getShareInstance().getStringValue("did.resolver", "http://api.elastos.io:20606");
+        String resolver = PreferenceManager.getShareInstance().getDIDResolver();
 
         try {
             DIDBackend.initialize(resolver, cacheDir);

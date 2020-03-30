@@ -224,4 +224,21 @@ public class PreferenceManager {
 
         return value;
     }
+
+    public String getDIDResolver()  {
+        String value = null;
+        try {
+            JSONObject item = getPreference("did.resolver");
+            value = item.getString("value");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if (value == null) {
+            value = "http://api.elastos.io:20606";
+        }
+
+        return value;
+    }
 }

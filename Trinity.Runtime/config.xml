@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-packageName="org.elastos.trinity.runtime" ios-CFBundleIdentifier="org.elastos.trinity.browser" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-packageName="org.elastos.trinity.runtime" ios-CFBundleIdentifier="org.elastos.trinity.browser" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>elastOS</name>
     <description>
         A elastos dapps runtime.
@@ -22,6 +22,7 @@
             <application android:usesCleartextTraffic="true" />
             <application android:allowBackup="false"/>
             <application android:fullBackupContent="false"/>
+            <application tools:replace="android:allowBackup"/>
         </edit-config>
     </platform>
     <platform name="ios">

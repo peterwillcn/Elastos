@@ -56,7 +56,7 @@ def update_code():
     if update_code.lower() != 'y':
         sys.exit(1)
     run_cmd('git reset --hard')
-    run_cmd("git submodule foreach git reset --hard & git checkout master")
+    run_cmd("git submodule foreach 'git reset --hard && git checkout master'")
     run_cmd('git pull --rebase')
     run_cmd('git submodule update --init --rebase')
 
@@ -71,7 +71,7 @@ def tag():
     os.chdir(PROJECT_DIR_PATH)
     cmd = "git tag %s && git push origin %s"%(tagName,tagName)
     run_cmd(cmd)
-    cmd = "git submodule foreach 'git tag %s & git push origin %s'"%(tagName,tagName)
+    cmd = "git submodule foreach 'git tag %s && git push origin %s'"%(tagName,tagName)
     run_cmd(cmd)
 
 def increase_version_manifest(manifest):

@@ -12,7 +12,7 @@
   "dependencies": {
     "appmanager": "file:./plugin_src/AppManager",
     "titlebarmanager": "file:./plugin_src/TitleBarManager",
-    "cordova-android": "7.1.4",
+    "cordova-android": "8.1.0",
     "cordova-clipboard": "1.2.1",
     "cordova-ios": "5.1.1",
     "cordova-plugin-add-swift-support": "^2.0.2",

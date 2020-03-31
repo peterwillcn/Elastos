@@ -13,7 +13,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_weight="0"
-        android:src="@mipmap/icon" />
+        android:src="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/tvAppName"

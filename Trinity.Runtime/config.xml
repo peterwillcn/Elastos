@@ -18,7 +18,7 @@
     <allow-intent href="geo:*" />
     <platform name="android">
         <allow-intent href="market:*" />
-        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest"> 
+        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest">
             <manifest xmlns:tools="http://schemas.android.com/tools" />
         </edit-config>
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
@@ -50,6 +50,7 @@
     <hook src="scripts/remove_files.js" type="after_platform_add" />
     <hook src="scripts/modify_xcode_project.js" type="after_platform_add" />
     <hook src="scripts/apply_patches.js" type="before_plugin_install" />
+    <hook src="scripts/remove_files.js" type="after_prepare" />
     <hook src="scripts/apply_patches.js" type="after_build" />
     <plugin name="elastos-trinity-plugins-appmanager" spec="./plugin_src/AppManager">
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
@@ -82,6 +83,6 @@
     <plugin name="cordova-plugin-splashscreen" spec="^5.0.3" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.3" />
     <plugin name="cordova-plugin-vibration" spec="^3.1.1" />
-    <engine name="android" spec="7.1.4" />
+    <engine name="android" spec="8.1.0" />
     <engine name="ios" spec="5.1.1" />
 </widget>

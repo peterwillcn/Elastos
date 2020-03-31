@@ -24,13 +24,45 @@ var files_to_remove = [
     ]
   },
 ]
+
+// TODO:why cordova generate xxxxdpi-v26?
+var folders_to_remove = [
+  {
+    "hook": "after_prepare",
+    "platform": "android",
+    "folders": [
+      "platforms/android/app/src/main/res/mipmap-hdpi-v26",
+      "platforms/android/app/src/main/res/mipmap-ldpi-v26",
+      "platforms/android/app/src/main/res/mipmap-mdpi-v26",
+      "platforms/android/app/src/main/res/mipmap-xhdpi-v26",
+      "platforms/android/app/src/main/res/mipmap-xxhdpi-v26",
+      "platforms/android/app/src/main/res/mipmap-xxxhdpi-v26",
+    ]
+  }
+]
 // no need to configure below
+
+const fs = require('fs'),
+      path = require('path');
+
+function DeleteDirectory(dir) {
+  if (fs.existsSync(dir) == true) {
+    var files = fs.readdirSync(dir);
+    files.forEach(function(item){
+      var item_path = path.join(dir, item);
+      if (fs.statSync(item_path).isDirectory()) {
+        DeleteDirectory(item_path);
+      }
+      else {
+        fs.unlinkSync(item_path);
+      }
+    });
+    fs.rmdirSync(dir);
+  }
+}
 
 module.exports = function(ctx) {
   // console.log(JSON.stringify(ctx, null, 2));
-
-  const fs = require('fs'),
-        path = require('path');
 
   files_to_remove.forEach((obj) => {
     if (obj.hook !== ctx.hook) {
@@ -55,6 +87,30 @@ module.exports = function(ctx) {
         console.log("Removing file", file);
         fs.unlinkSync(filePath);
       }
+    });
+  });
+
+  folders_to_remove.forEach((obj) => {
+    if (obj.hook !== ctx.hook) {
+      return;
+    }
+    if (ctx.opts.platforms && obj.platform &&
+        !ctx.opts.platforms.some((val) => val.startsWith(obj.platform))) {
+      return;
+    }
+    if (obj.plugin_id && ctx.opts.cordova && ctx.opts.cordova.platforms && obj.platform &&
+        !ctx.opts.cordova.platforms.includes(obj.platform)) {
+      return;
+    }
+    if (obj.plugin_id && ctx.opts.plugin && ctx.opts.plugin.id &&
+        obj.plugin_id !== ctx.opts.plugin.id) {
+      return;
+    }
+
+    obj.folders.forEach((folder) => {
+      let filePath = path.join(ctx.opts.projectRoot, folder);
+      console.log("Removing folder", folder);
+      DeleteDirectory(folder);
     });
   });
 }

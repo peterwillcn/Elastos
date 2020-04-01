@@ -22,7 +22,7 @@
 //#import "ELWalletManager.h"
 #ifdef DEBUG
 #define SDKNET  @"RegTest"
-#define didSDKNet @"http://api.elastos.io:22606"
+#define didSDKNet @"http://api.elastos.io:22606 "
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #define Http_IP [[FLTools share]http_ipString:SDKNET]
 #define transUrl [[FLTools share]http_transUrl:SDKNET]

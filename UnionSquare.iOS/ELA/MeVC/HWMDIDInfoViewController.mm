@@ -50,7 +50,7 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
     }
     self.model.did=didInfoDic[@"DIDString"];
     self.model.didName=didInfoDic[@"nickName"];
-    self.model.editTime=didInfoDic[@"endTime"];
+    self.model.endString=didInfoDic[@"endTime"];
    
       invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,@"IDChain",@"0",@"100"] callbackId:self.currentWallet.masterWalletID className:@"wallet" methodName:@"createMasterWallet"];
     PluginResult * resultBasePublicKeysList =[[ELWalletManager share]getAllPublicKeys:cmommand];
@@ -140,8 +140,8 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
             break;
             case 3:
                 cell.arrImageView.alpha=0.f;
-                if (self.model.editTime.length>0) {
-                    cell.infoLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.editTime]];
+                if (self.model.endString.length>0) {
+                    cell.infoLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.endString]];
                 }
               
             break;

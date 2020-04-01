@@ -82,7 +82,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.selfindex=-1;
+    //    self.selfindex=-1;
     self.title=NSLocalizedString(@"CR委员选举", nil);
     [self setBackgroundImg:@""];
     self.tagMyVotedLab.text=NSLocalizedString(@"我的投票", nil);
@@ -105,21 +105,21 @@
         make.top.equalTo(self.view).offset(10);
     }];
     [self getNetCoinPointArray];
-//    if ([self.typeString isEqualToString:@"Registered"]){
-//        self.needFind=YES;
-//    self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
-//        self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
-//    }else if([self.typeString isEqualToString:@"Canceled"]){
-//    self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
-//        self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
-//    }else if([self.typeString isEqualToString:@"Unregistered"]){
+    //    if ([self.typeString isEqualToString:@"Registered"]){
+    //        self.needFind=YES;
+    //    self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+    //        self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
+    //    }else if([self.typeString isEqualToString:@"Canceled"]){
+    //    self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
+    //        self.found_vote_rule.image=[UIImage imageNamed:@"vote_management"];
+    //    }else if([self.typeString isEqualToString:@"Unregistered"]){
     self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
-        self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
-//    }else if ([self.typeString isEqualToString:@"ReturnDeposit"]){
-//        self.votingRulesButton.hidden=YES;
-//        self.tagVoteRuleLab.hidden=YES;
-//        self.found_vote_rule.hidden=YES;
-//    }
+    self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
+    //    }else if ([self.typeString isEqualToString:@"ReturnDeposit"]){
+    //        self.votingRulesButton.hidden=YES;
+    //        self.tagVoteRuleLab.hidden=YES;
+    //        self.found_vote_rule.hidden=YES;
+    //    }
     [self.JoinTheCandidateListButton setTitle:NSLocalizedString(@"批量加入候选列表", nil) forState:UIControlStateNormal];
     [self getWalletType];
     self.isOpen=NO;
@@ -128,15 +128,15 @@
 }
 -(void)needOpen{
     
-     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID] callbackId:self.wallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID] callbackId:self.wallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
     PluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
-      NSString *status=[NSString stringWithFormat:@"%@",result.status];
-      if ([status isEqualToString:@"1"]) {
-      NSArray  *array = [[FLTools share]stringToArray:result.message[@"success"]];
-          if (array.count>1) {
-                self.isOpen=YES;
-          }
-      }
+    NSString *status=[NSString stringWithFormat:@"%@",result.status];
+    if ([status isEqualToString:@"1"]) {
+        NSArray  *array = [[FLTools share]stringToArray:result.message[@"success"]];
+        if (array.count>1) {
+            self.isOpen=YES;
+        }
+    }
     
     
 }
@@ -166,47 +166,47 @@
         NSString *Readonly=[NSString stringWithFormat:@"%@",baseDic[@"Readonly"]];
         if ([Readonly isEqualToString:@"0"]) {
             if ([baseDic[@"M"] integerValue]==1) {
-               self.wallet.TypeW=0;
+                self.wallet.TypeW=0;
             }else{
-            self.votingRulesButton.hidden=YES;
-            self.tagVoteRuleLab.hidden=YES;
-            self.found_vote_rule.hidden=YES;
-             self.wallet.TypeW=2;
+                self.votingRulesButton.hidden=YES;
+                self.tagVoteRuleLab.hidden=YES;
+                self.found_vote_rule.hidden=YES;
+                self.wallet.TypeW=2;
             }
         }else{
             self.votingRulesButton.hidden=YES;
             self.tagVoteRuleLab.hidden=YES;
             self.found_vote_rule.hidden=YES;
             if ([baseDic[@"M"] integerValue]==1) {
-          self.wallet.TypeW=1;
+                self.wallet.TypeW=1;
             }else{
-         self.wallet.TypeW=3;
+                self.wallet.TypeW=3;
             }
         }
-
-      
+        
+        
     }
 }
 - (IBAction)NodeRegisteredState:(id)sender {
     
     if ([self.typeString isEqualToString:@"Registered"]){
-
+        
         if (self.isOpen) {
-               FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
-                   vc.currentWallet=self.wallet;
-                   vc.CRTypeString=@"CR";
-
-                vc.CRModel=self.selfModel;
-                vc.lastArray=self.ActiveArray;
-                   [self.navigationController pushViewController:vc animated:YES];
-         }else{
-             UIView *mainView =[self mainWindow];
-             self.openIDChainView.deleteType=openIDChainType;
-             [mainView addSubview:self.openIDChainView];
-             [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
-                 make.left.right.top.bottom.equalTo(mainView);
-             }];
-         }
+            FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
+            vc.currentWallet=self.wallet;
+            vc.CRTypeString=@"CR";
+            
+            vc.CRModel=self.selfModel;
+            vc.lastArray=self.ActiveArray;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            UIView *mainView =[self mainWindow];
+            self.openIDChainView.deleteType=openIDChainType;
+            [mainView addSubview:self.openIDChainView];
+            [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.top.bottom.equalTo(mainView);
+            }];
+        }
     }else if ([self.typeString isEqualToString:@"Unregistered"]){
         
         if ([self UnregisteredAndTimeExpired]==NO) {
@@ -215,11 +215,11 @@
         
         if (self.type ==1){
             FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
-               vc.currentWallet=self.wallet;
-               vc.CRModel=self.selfModel;
-                vc.lastArray=self.ActiveArray;
-               vc.CRTypeString=@"CR";
-               [self.navigationController pushViewController:vc animated:YES];
+            vc.currentWallet=self.wallet;
+            vc.CRModel=self.selfModel;
+            vc.lastArray=self.ActiveArray;
+            vc.CRTypeString=@"CR";
+            [self.navigationController pushViewController:vc animated:YES];
         }else{
             if (self.hasSing) {
                 
@@ -227,65 +227,65 @@
                 return;
             }
             UIView *mainView =[self mainWindow];
-                 [mainView addSubview:self.CRCommitteeForAgreementV];
-                 [self.CRCommitteeForAgreementV mas_makeConstraints:^(MASConstraintMaker *make) {
-                     make.left.right.top.bottom.mas_equalTo(mainView);
-                 }];
+            [mainView addSubview:self.CRCommitteeForAgreementV];
+            [self.CRCommitteeForAgreementV mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.top.bottom.mas_equalTo(mainView);
+            }];
         }
         
     }else if ([self.typeString isEqualToString:@"Canceled"]){
         if (self.isOpen) {
-               DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
-               vc.CRTypeString=@"CRString";
+            DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
+            vc.CRTypeString=@"CRString";
             vc.CRModel=self.selfModel;
             vc.nodeName=self.nodeName;
-               [self.navigationController pushViewController:vc animated:YES];
-           }else{
-               UIView *mainView =[self mainWindow];
-               self.openIDChainView.deleteType=openIDChainType;
-               [mainView addSubview:self.openIDChainView];
-               [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
-                   make.left.right.top.bottom.equalTo(mainView);
-               }];
-           }
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            UIView *mainView =[self mainWindow];
+            self.openIDChainView.deleteType=openIDChainType;
+            [mainView addSubview:self.openIDChainView];
+            [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.top.bottom.equalTo(mainView);
+            }];
+        }
     }else if ([self.typeString isEqualToString:@"Pending"]){
         if (self.isOpen) {
-                      FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
-                          vc.currentWallet=self.wallet;
-                          vc.CRTypeString=@"CR";
-
-                       vc.CRModel=self.selfModel;
-                       vc.lastArray=self.ActiveArray;
-                          [self.navigationController pushViewController:vc animated:YES];
-                }else{
-                    UIView *mainView =[self mainWindow];
-                    self.openIDChainView.deleteType=openIDChainType;
-                    [mainView addSubview:self.openIDChainView];
-                    [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
-                        make.left.right.top.bottom.equalTo(mainView);
-                    }];
-                }
+            FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
+            vc.currentWallet=self.wallet;
+            vc.CRTypeString=@"CR";
+            
+            vc.CRModel=self.selfModel;
+            vc.lastArray=self.ActiveArray;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            UIView *mainView =[self mainWindow];
+            self.openIDChainView.deleteType=openIDChainType;
+            [mainView addSubview:self.openIDChainView];
+            [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.top.bottom.equalTo(mainView);
+            }];
+        }
     }else{
-         if (self.type ==1) {
-                   FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
-                      vc.currentWallet=self.wallet;
-                      vc.CRModel=self.selfModel;
-                       vc.lastArray=self.ActiveArray;
-                      vc.CRTypeString=@"CR";
-                      [self.navigationController pushViewController:vc animated:YES];
-               }else{
-                   if (self.hasSing) {
-                       
-                       [[FLTools share]showErrorInfo:NSLocalizedString(@"已参选", nil) ];
-                       return;
-                   }
-                   UIView *mainView =[self mainWindow];
-                        [mainView addSubview:self.CRCommitteeForAgreementV];
-                        [self.CRCommitteeForAgreementV mas_makeConstraints:^(MASConstraintMaker *make) {
-                            make.left.right.top.bottom.mas_equalTo(mainView);
-                        }];
-               }
-               
+        if (self.type ==1) {
+            FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
+            vc.currentWallet=self.wallet;
+            vc.CRModel=self.selfModel;
+            vc.lastArray=self.ActiveArray;
+            vc.CRTypeString=@"CR";
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            if (self.hasSing) {
+                
+                [[FLTools share]showErrorInfo:NSLocalizedString(@"已参选", nil) ];
+                return;
+            }
+            UIView *mainView =[self mainWindow];
+            [mainView addSubview:self.CRCommitteeForAgreementV];
+            [self.CRCommitteeForAgreementV mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.top.bottom.mas_equalTo(mainView);
+            }];
+        }
+        
     }
     
 }
@@ -306,33 +306,33 @@
     
     
     dispatch_group_t group =  dispatch_group_create();
-         dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-     for (int i=0; i<allListInfoArray.count; i++) {
-         NSString *httpIP=[[FLTools share]http_IpFast];
-         HWMCRListModel *model =allListInfoArray[i];
-         if (model.url.length>0) {
-             NSDictionary *infoDic=[[FLTools share] getImageViewURLWithURL:model.url withCRString:@"CR"];
-                 model.iconImageUrl= infoDic[@"url"];
-                 model.infoEN=infoDic[@"infoEN"];
-                 model.infoZH=infoDic[@"infoZH"];
-                 
-                 if (model.iconImageUrl.length>0) {
-                     [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/getimage" header:@{} body:@{@"imageurl":model.iconImageUrl} showHUD:NO WithSuccessBlock:^(id data) {
-                                                         NSString *param = data[@"data"];
-                                                         model.iconImageUrl=[NSString stringWithFormat:@"%@%@",httpIP,param];
-                                                        allListInfoArray[i]=model;
-                                                     } WithFailBlock:^(id data) {
-                                                         
-                                                     }];
-                 }
-             }
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        for (int i=0; i<allListInfoArray.count; i++) {
+            NSString *httpIP=[[FLTools share]http_IpFast];
+            HWMCRListModel *model =allListInfoArray[i];
+            if (model.url.length>0) {
+                NSDictionary *infoDic=[[FLTools share] getImageViewURLWithURL:model.url withCRString:@"CR"];
+                model.iconImageUrl= infoDic[@"url"];
+                model.infoEN=infoDic[@"infoEN"];
+                model.infoZH=infoDic[@"infoZH"];
+                
+                if (model.iconImageUrl.length>0) {
+                    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/getimage" header:@{} body:@{@"imageurl":model.iconImageUrl} showHUD:NO WithSuccessBlock:^(id data) {
+                        NSString *param = data[@"data"];
+                        model.iconImageUrl=[NSString stringWithFormat:@"%@%@",httpIP,param];
+                        allListInfoArray[i]=model;
+                    } WithFailBlock:^(id data) {
+                        
+                    }];
+                }
+            }
             
-         }
-     });
+        }
+    });
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-            [self.votingListV setDataSource: allListInfoArray];
-            
-        });
+        [self.votingListV setDataSource: allListInfoArray];
+        
+    });
 }
 -(void)getNetCoinPointArray{
     NSString *httpIP=[[FLTools share]http_IpFast];
@@ -349,10 +349,10 @@
 -(void)UpdataLocalOwerlist{
     [self.ActiveArray removeAllObjects];
     NSArray *localStore  = [[NSMutableArray alloc]initWithArray: [[HMWFMDBManager sharedManagerType:CRListType] allSelectCRWithWallID:self.wallet.masterWalletID]];
-//    NSInteger selfIndex=-1;
+    //    NSInteger selfIndex=-1;
     
     for (int i= 0; i<self.memberListDataSource.count; i++) {
-         HWMCRListModel* model=self.memberListDataSource[i];
+        HWMCRListModel* model=self.memberListDataSource[i];
         model.voterate=[[FLTools share]CRVotingPercentageWithAllCount:self.totalvotes withCRMermVoting:model.votes];
         HWMCRListModel *curentmodel = nil;
         model.isCellSelected=NO;
@@ -366,13 +366,13 @@
                 curentmodel=model;
             }
         }
-
-
+        
+        
         if ([model.did isEqualToString:self.CROwnerDID]) {
             if ([model.state isEqualToString:@"Active"]) {
                 model.index=[NSString stringWithFormat:@"%lu",self.ActiveArray.count+1];
                 if (curentmodel) {
-                   curentmodel.index=model.index;
+                    curentmodel.index=model.index;
                 }
                 if (self.all_selectedButton.isSelected&&model.isCellSelected) {
                     self.all_selectedButton.selected=YES;
@@ -388,16 +388,16 @@
             
         }else{
             if ([model.state isEqualToString:@"Active"]) {
-                      model.index=[NSString stringWithFormat:@"%lu",self.ActiveArray.count+1];
-                   if (curentmodel) {
+                model.index=[NSString stringWithFormat:@"%lu",self.ActiveArray.count+1];
+                if (curentmodel) {
                     curentmodel.index=model.index;
-                    }
+                }
                 
-                      [self.ActiveArray addObject:model];
-        }
+                [self.ActiveArray addObject:model];
+            }
             
-      
-   }
+            
+        }
         if (curentmodel){
             [[HMWFMDBManager sharedManagerType:CRListType]updateSelectCR:model WithWalletID:self.wallet.walletID];
             continue;
@@ -405,32 +405,32 @@
             [[HMWFMDBManager sharedManagerType:CRListType]delectSelectCR:model WithWalletID:self.wallet.walletID];
         }
     }
-
-//    if (selfIndex>-1) {
-//
-//        HWMCRListModel *model=self.ActiveArray[selfIndex];
-//        [self.ActiveArray removeObjectAtIndex:selfIndex];
-//        [self.ActiveArray insertObject:model atIndex:0];
-//    }
     
-               NSLog(@"dasdhasd=====%@",self.selfModel.url);
+    //    if (selfIndex>-1) {
+    //
+    //        HWMCRListModel *model=self.ActiveArray[selfIndex];
+    //        [self.ActiveArray removeObjectAtIndex:selfIndex];
+    //        [self.ActiveArray insertObject:model atIndex:0];
+    //    }
+    
+    NSLog(@"dasdhasd=====%@",self.selfModel.url);
     [self loadAllImageInfo:self.ActiveArray];
     self.votingListV.dataSource=self.ActiveArray;
-//    if (self.selfModel) {
-         [self updateInfoSelf];
-//    }
-     
+    //    if (self.selfModel) {
+    [self updateInfoSelf];
+    //    }
+    
 }
 -(NSInteger)findMyDidWithIndexWithIndex:(NSInteger)index{
-//    ELWalletManager *manager   =  [ELWalletManager share];
-//    invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[manager.currentWallet.masterWalletID,@"IDChain"] callbackId:manager.currentWallet.masterWalletID className:@"wallet" methodName:@"createMasterWallet"];
-//             NSDictionary * resultBase =[[ELWalletManager share]GetCRFirstPublicKeysAndDID:cmommand];
-//    self.MemberThePublicKeyLabel.text=resultBase[@"crPublicKey"];
+    //    ELWalletManager *manager   =  [ELWalletManager share];
+    //    invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[manager.currentWallet.masterWalletID,@"IDChain"] callbackId:manager.currentWallet.masterWalletID className:@"wallet" methodName:@"createMasterWallet"];
+    //             NSDictionary * resultBase =[[ELWalletManager share]GetCRFirstPublicKeysAndDID:cmommand];
+    //    self.MemberThePublicKeyLabel.text=resultBase[@"crPublicKey"];
     
-  NSString *CROwnerDID=self.CROwnerDID;
+    NSString *CROwnerDID=self.CROwnerDID;
     HWMCRListModel *model=self.ActiveArray[index];
     if ([CROwnerDID isEqualToString:model.did]) {
-         self.needFind=NO;
+        self.needFind=NO;
         return index;
     }
     return -1;
@@ -474,10 +474,10 @@
     }
 }
 - (IBAction)myVoteButton:(id)sender {
-   HWMCRCCommitteeElectionListViewController * vc = [[HWMCRCCommitteeElectionListViewController alloc]init];
+    HWMCRCCommitteeElectionListViewController * vc = [[HWMCRCCommitteeElectionListViewController alloc]init];
     vc.persent = self.votingListV.lab1.text;
     vc.totalvotes=self.totalvotes;
-//    vc.currentWallet=self.wallet;
+    //    vc.currentWallet=self.wallet;
     vc.lastArray=self.memberListDataSource;
     vc.delegate=self;
     
@@ -488,16 +488,16 @@
 }
 #pragma mark ---------HMWVotingListViewDelegate----------
 - (void)selectedVotingListWithIndex:(NSInteger)index {
-      HWMCRListModel *CRmodel = self.ActiveArray[index];
+    HWMCRListModel *CRmodel = self.ActiveArray[index];
     if (CRmodel) {
-    HMWnodeInformationViewController *nodeInformationVC=[[HMWnodeInformationViewController alloc]init];
-     nodeInformationVC.index=index;
+        HMWnodeInformationViewController *nodeInformationVC=[[HMWnodeInformationViewController alloc]init];
+        nodeInformationVC.index=index;
         nodeInformationVC.type=CRInformationType;
-    nodeInformationVC.CRmodel = self.ActiveArray[index];
-    nodeInformationVC.Ranking=index+1;
-    nodeInformationVC.delegate=self;
-    nodeInformationVC.totalvotes=self.totalvotes;
-    nodeInformationVC.lastTimeArray=self.memberListDataSource;
+        nodeInformationVC.CRmodel = self.ActiveArray[index];
+        nodeInformationVC.Ranking=index+1;
+        nodeInformationVC.delegate=self;
+        nodeInformationVC.totalvotes=self.totalvotes;
+        nodeInformationVC.lastTimeArray=self.memberListDataSource;
         [self.navigationController pushViewController:nodeInformationVC animated:YES];
     }
     
@@ -506,29 +506,29 @@
     if (edite==YES) {
         self.EditSelectionView.alpha=1.f;
         self.JoinTheCandidateListButton.alpha=1.f;
-//        self.JoinTheCandidateListButton.imageEdgeInsets=UIEdgeInsetsMake(0, -20, 0, 0);
+        //        self.JoinTheCandidateListButton.imageEdgeInsets=UIEdgeInsetsMake(0, -20, 0, 0);
     }else{
         self.EditSelectionView.alpha=0.f;
         self.JoinTheCandidateListButton.alpha=0.f;
     }
-         self.all_selectedButton.selected=NO;
+    self.all_selectedButton.selected=NO;
 }
 -(void)updateDataInfo{
     ELWalletManager *manager   =  [ELWalletManager share];
-                  
-                  IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-                  
-                  nlohmann::json info = mainchainSubWallet->GetRegisteredCRInfo();
-                  NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
-                  NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-                  NSString *Status = param[@"Status"];
-                  self.typeString =Status;
-           
-self.typeString=self.typeString;
-          self.CROwnerDID=param[@"Info"][@"CROwnerDID"];
+    
+    IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
+    
+    nlohmann::json info = mainchainSubWallet->GetRegisteredCRInfo();
+    NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
+    NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+    NSString *Status = param[@"Status"];
+    self.typeString =Status;
+    
+    self.typeString=self.typeString;
+    self.CROwnerDID=param[@"Info"][@"CROwnerDID"];
     self.CROwnerPublicKey=param[@"Info"][@"CROwnerPublicKey"];
     self.nodeName= param[@"Info"][@"NickName"];
-[self getNetCoinPointArray];
+    [self getNetCoinPointArray];
     
 }
 #pragma mark -------------------
@@ -544,21 +544,21 @@ self.typeString=self.typeString;
     }else{
         self.all_selectedImageView.image=[UIImage imageNamed:@"found_vote_border"];
     }
-       [self.votingListV selectAllListWithIsSelect:self.all_selectedButton.selected];
+    [self.votingListV selectAllListWithIsSelect:self.all_selectedButton.selected];
 }
 - (IBAction)JoinTheCandidateListEvent:(id)sender {
     BOOL hasAdd;
     BOOL isAdd;
-        for (int i=0; i<self.votingListV.dataSource.count; i++) {
-            HWMCRListModel *model=self.votingListV.dataSource[i];
-            if (model.isNewCellSelected) {
-                hasAdd=YES;
-                isAdd= [[HMWFMDBManager sharedManagerType:CRListType]
-                 addCR:model withWallID:self.wallet.masterWalletID];
-                model.isCellSelected=YES;
-                self.votingListV.dataSource[i]=model;
-            }
+    for (int i=0; i<self.votingListV.dataSource.count; i++) {
+        HWMCRListModel *model=self.votingListV.dataSource[i];
+        if (model.isNewCellSelected) {
+            hasAdd=YES;
+            isAdd= [[HMWFMDBManager sharedManagerType:CRListType]
+                    addCR:model withWallID:self.wallet.masterWalletID];
+            model.isCellSelected=YES;
+            self.votingListV.dataSource[i]=model;
         }
+    }
     
     if (hasAdd==NO) {
         return;
@@ -569,22 +569,22 @@ self.typeString=self.typeString;
         [self.votingListV AddAllTheCRList];
         
     }else{
-         [[FLTools share]showErrorInfo:NSLocalizedString(@"添加失败", nil)];
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"添加失败", nil)];
     }
     
 }
 #pragma mark ---------HMWnodeInformationViewControllerDelegate----------
 -(void)needUpdateListWithIndex:(NSInteger)index{
-      HWMCRListModel *model = self.ActiveArray[index];
+    HWMCRListModel *model = self.ActiveArray[index];
     BOOL has =[[HMWFMDBManager sharedManagerType:CRListType]selectCRWithWalletID:self.wallet.masterWalletID andWithDID:model.did];
     if (has) {
         model.isCellSelected=YES;
         if (model.isNewCellSelected){
-                    model.isNewCellSelected=NO;}
+            model.isNewCellSelected=NO;}
     }else{
         model.isCellSelected=NO;
         if (model.isNewCellSelected){
-             model.isNewCellSelected=NO;}
+            model.isNewCellSelected=NO;}
         
     }
     self.ActiveArray[index]=model;
@@ -615,31 +615,31 @@ self.typeString=self.typeString;
     if (!_openIDChainView) {
         _openIDChainView =[[HMWToDeleteTheWalletPopView alloc]init];
         _openIDChainView.delegate=self;
-      
+        
     }
     return _openIDChainView;
 }
 -(void)sureToDeleteViewWithPWD:(NSString*)pwd{
     
     if (self.openIDChainView.deleteType==openIDChainType) {
-           HMWAddTheCurrencyListViewController *AddTheCurrencyListVC=[[HMWAddTheCurrencyListViewController alloc]init];
-           AddTheCurrencyListVC.wallet=self.wallet;
-           AddTheCurrencyListVC.didType=@"didType";
-           AddTheCurrencyListVC.delegate=self;
-            [self toCancelOrCloseDelegate];
-           [self.navigationController pushViewController:AddTheCurrencyListVC animated:YES];
+        HMWAddTheCurrencyListViewController *AddTheCurrencyListVC=[[HMWAddTheCurrencyListViewController alloc]init];
+        AddTheCurrencyListVC.wallet=self.wallet;
+        AddTheCurrencyListVC.didType=@"didType";
+        AddTheCurrencyListVC.delegate=self;
+        [self toCancelOrCloseDelegate];
+        [self.navigationController pushViewController:AddTheCurrencyListVC animated:YES];
     }else{
         
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,pwd] callbackId:self.wallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
-                NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
-           if (privatekeyString.length==0) {
-               return;
-           }
+        NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
+        if (privatekeyString.length==0) {
+            return;
+        }
         
         [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.wallet.masterWalletID];
         HWMCreateDIDViewController *CreateDIDVC=[[HWMCreateDIDViewController alloc]init];
-         [self toCancelOrCloseDelegate];
-       __weak __typeof__ (self) weakSelf = self;
+        [self toCancelOrCloseDelegate];
+        __weak __typeof__ (self) weakSelf = self;
         CreateDIDVC.walletIDBlock = ^(NSString * _Nonnull didString) {
             weakSelf.wallet.didString=didString;
         };
@@ -649,49 +649,49 @@ self.typeString=self.typeString;
 }
 -(void)toCancelOrCloseDelegate{
     [self.openIDChainView removeFromSuperview];
-       self.openIDChainView=nil;
+    self.openIDChainView=nil;
 }
 
 -(void)openIDChainOfDIDAddWithWallet:(NSString*)walletID{
     if (walletID.length>0) {
         self.isOpen=YES;
         if ([self.typeString isEqualToString:@"Registered"]){
-
-           FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
-               vc.currentWallet=self.wallet;
-               vc.CRTypeString=@"CR";
-
+            
+            FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
+            vc.currentWallet=self.wallet;
+            vc.CRTypeString=@"CR";
+            
             vc.CRModel=self.selfModel;
             vc.lastArray=self.ActiveArray;
-               [self.navigationController pushViewController:vc animated:YES];
+            [self.navigationController pushViewController:vc animated:YES];
         }else if ([self.typeString isEqualToString:@"Unregistered"]){
-            HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];    
-               vc.currentWallet=self.wallet;
-               vc.lastArray=self.ActiveArray;
-               [self.navigationController pushViewController:vc animated:YES];
-    
+            HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];
+            vc.currentWallet=self.wallet;
+            vc.lastArray=self.ActiveArray;
+            [self.navigationController pushViewController:vc animated:YES];
+            
         }else if ([self.typeString isEqualToString:@"Canceled"]){
-   
-           DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
-           vc.CRTypeString=@"CRString";
+            
+            DrawBackVoteMoneyVC *vc=[[DrawBackVoteMoneyVC alloc]init];
+            vc.CRTypeString=@"CRString";
             vc.CRModel=self.selfModel;
             vc.nodeName=self.nodeName;
-           [self.navigationController pushViewController:vc animated:YES];
-
+            [self.navigationController pushViewController:vc animated:YES];
+            
         }else if ([self.typeString isEqualToString:@"Pending"]){
-                  FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
-                      vc.currentWallet=self.wallet;
-                      vc.CRTypeString=@"CR";
-                   vc.CRModel=self.selfModel;
-                   vc.lastArray=self.ActiveArray;
-                      [self.navigationController pushViewController:vc animated:YES];
+            FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
+            vc.currentWallet=self.wallet;
+            vc.CRTypeString=@"CR";
+            vc.CRModel=self.selfModel;
+            vc.lastArray=self.ActiveArray;
+            [self.navigationController pushViewController:vc animated:YES];
         }else{
-               FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
-                  vc.currentWallet=self.wallet;
-                  vc.CRModel=self.selfModel;
-                   vc.lastArray=self.ActiveArray;
-                  vc.CRTypeString=@"CR";
-                  [self.navigationController pushViewController:vc animated:YES];
+            FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
+            vc.currentWallet=self.wallet;
+            vc.CRModel=self.selfModel;
+            vc.lastArray=self.ActiveArray;
+            vc.CRTypeString=@"CR";
+            [self.navigationController pushViewController:vc animated:YES];
         }
     }
 }
@@ -746,7 +746,7 @@ self.typeString=self.typeString;
         self.tagVoteRuleLab.hidden=YES;
         self.found_vote_rule.hidden=YES;
         self.typeString=@"ReturnDeposit";
-         self.votingListV.typeString=self.typeString;
+        self.votingListV.typeString=self.typeString;
     }else if ([self.selfModel.state isEqualToString:@"Pending"]){
         self.typeString=@"Pending";
         self.tagVoteRuleLab.text=NSLocalizedString(@"选举管理", nil);
@@ -757,7 +757,7 @@ self.typeString=self.typeString;
         self.tagVoteRuleLab.text=NSLocalizedString(@"报名参选", nil);
         self.found_vote_rule.image=[UIImage imageNamed:@"vote_attend"];
         self.typeString=@"Unregistered";
-         self.votingListV.typeString=self.typeString;
+        self.votingListV.typeString=self.typeString;
     }
 }
 -(void)updateDataSource{

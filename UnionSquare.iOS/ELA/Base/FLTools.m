@@ -1619,4 +1619,32 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     }
     return fielName;
 }
+-(NSString *)YMDWithDate:(NSDate *)myDate{        
+        NSDateFormatter *formatter = [NSDateFormatter new];
+        NSString *languageString=[DAConfig userLanguage];
+        
+        NSString *timeS;
+         NSCalendar *gregorian = [[NSCalendar alloc]
+          initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+         // 获取当前日期
+         // 定义一个时间字段的旗标，指定将会获取指定年、月、日、时、分、秒的信息
+         unsigned unitFlags = NSCalendarUnitYear |
+          NSCalendarUnitMonth |  NSCalendarUnitDay |
+          NSCalendarUnitHour |  NSCalendarUnitMinute |
+          NSCalendarUnitSecond | NSCalendarUnitWeekday;
+         // 获取不同时间字段的信息
+         NSDateComponents* comp = [gregorian components: unitFlags
+          fromDate:myDate];
+         // 获取各时间字段的数值;
+          [formatter setDateFormat:@"HH:mm:ss"];
+        NSString * horr=[formatter stringFromDate:myDate];
+    if ([languageString  containsString:@"en"]) {
+        NSString *monthString=[NSString stringWithFormat:@"m%ld",(long)comp.month];
+        timeS=[NSString stringWithFormat:@"%@  %@ %02d %ld",horr,NSLocalizedString(monthString,nil),(int)comp.day,comp.year];
+      }else if ([languageString  containsString:@"zh"]){
+          timeS =[NSString stringWithFormat:@"%ld.%02d.%02d %@",comp.year,(int)comp.month,(int)comp.day,horr ];;
+        }
+        
+        return timeS;
+}
 @end

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -266,8 +266,8 @@
                                 <action selector="lookAtTheCandidateListEvent:" destination="-1" eventType="touchUpInside" id="oE5-k5-t4O"/>
                             </connections>
                         </button>
-                        <button opaque="NO" alpha="0.0" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ju8-Rb-3JZ">
-                            <rect key="frame" x="-126" y="40" width="251" height="40"/>
+                        <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ju8-Rb-3JZ">
+                            <rect key="frame" x="-75" y="40" width="150" height="40"/>
                             <color key="backgroundColor" red="0.32654017210000003" green="0.5333263278" blue="0.53324335810000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="150" id="6b1-Sp-5e2"/>
@@ -311,6 +311,7 @@
                 <constraint firstItem="Qe4-g2-FIf" firstAttribute="centerY" secondItem="Vdl-jv-7qs" secondAttribute="centerY" id="0Tx-Sh-dn6"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="Qe4-g2-FIf" secondAttribute="bottom" id="14u-ci-UqB"/>
                 <constraint firstItem="MYJ-3d-yeN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="3Lz-Vt-jFD"/>
+                <constraint firstItem="ju8-Rb-3JZ" firstAttribute="centerX" secondItem="uKP-my-1Hl" secondAttribute="centerX" id="92A-ll-rCg"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="MYJ-3d-yeN" secondAttribute="trailing" constant="15" id="Azz-Af-Ovh"/>
                 <constraint firstAttribute="trailing" secondItem="Qe4-g2-FIf" secondAttribute="trailing" id="Fhp-yf-hO0"/>
                 <constraint firstItem="Vdl-jv-7qs" firstAttribute="top" secondItem="uKP-my-1Hl" secondAttribute="bottom" constant="20" id="GFG-Dn-aBM"/>
@@ -319,6 +320,7 @@
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="Vdl-jv-7qs" secondAttribute="bottom" id="Mcz-wj-MwG"/>
                 <constraint firstItem="MYJ-3d-yeN" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="10" id="MsL-0m-RjQ"/>
                 <constraint firstItem="uKP-my-1Hl" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="62" id="O3y-Nq-Bmc"/>
+                <constraint firstItem="ju8-Rb-3JZ" firstAttribute="width" secondItem="uKP-my-1Hl" secondAttribute="width" id="Rae-aS-gaD"/>
                 <constraint firstItem="Qe4-g2-FIf" firstAttribute="width" secondItem="Vdl-jv-7qs" secondAttribute="width" id="lzH-IV-cXT"/>
                 <constraint firstItem="Qe4-g2-FIf" firstAttribute="leading" secondItem="Vdl-jv-7qs" secondAttribute="trailing" id="u2y-Ou-tSW"/>
             </constraints>

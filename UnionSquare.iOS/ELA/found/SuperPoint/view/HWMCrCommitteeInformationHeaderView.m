@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nickNameLable;
 @property (weak, nonatomic) IBOutlet UILabel *didStringLabel;
 @property (weak, nonatomic) IBOutlet UIButton *lookInfoButton;
+@property (weak, nonatomic) IBOutlet UIImageView *cyIconImageView;
 
 @end
 
@@ -50,6 +51,7 @@
         self.lookInfoButton.alpha=1.f;
     }else{
         self.didStringLabel.text=NSLocalizedString(@"[未激活]", nil);
+        self.cyIconImageView.alpha=0.f;
     }
     [self.headIcomImageView sd_setImageWithURL:[NSURL URLWithString:CRmodel.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
     self.nickNameLable.text=CRmodel.nickname;

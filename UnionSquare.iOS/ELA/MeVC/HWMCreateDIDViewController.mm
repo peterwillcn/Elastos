@@ -334,7 +334,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 -(void)selectDataWithYY:(NSString*_Nullable)yy withMM:(NSString*_Nullable)mm wihMMWithInt:(NSInteger)mInt wtihDD:(NSString*_Nullable)dd{
     self.YYMMDD=[NSString stringWithFormat:@"%@ %@.%@.%@",NSLocalizedString(@"有效期至 ",nil),yy,mm,dd];
     [self.table reloadData];
-    self.DIDInfoModel.editTime=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@ 00:00:00",yy,mm,dd]];
+    self.DIDInfoModel.endString=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@ 00:00:00",yy,mm,dd]];
     [self cancelDataListView];
 }
 #pragma mark --------HMWToDeleteTheWalletPopViewDelegate-----------
@@ -395,7 +395,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 //        [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择钱包", nil)];
 //          return;
 //    }
-    if (self.DIDInfoModel.editTime.length==0) {
+    if (self.DIDInfoModel.endString.length==0) {
          [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择失效日期", nil)];
           return;
     }

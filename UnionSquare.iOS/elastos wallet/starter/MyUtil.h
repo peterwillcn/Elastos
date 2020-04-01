@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 +(NSArray*)ReadCommDIDPath;
 +(NSString*)readFlieCommDIDWithFlieName:(NSString*)FlieName;
 +(BOOL)saveDIDPathWithWalletID:(NSString*)walletID withString:(NSString*)jwtString WithFielName:(NSString*)fielName;
++(NSArray*)ReadDIDPathWithWalletID:(NSString*)walletID;
++(NSString*)jwtPathWithWalletID:(NSString*)walletID withFileName:(NSString*)fileName;
 @end
 
 NS_ASSUME_NONNULL_END

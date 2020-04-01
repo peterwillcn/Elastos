@@ -19,7 +19,6 @@
 //
 // Prefix header for all source files of the 'elastos wallet' target in the 'elastos wallet' project
 //
-
 //#import "ELWalletManager.h"
 #ifdef DEBUG
 #define SDKNET  @"RegTest"
@@ -41,7 +40,7 @@
 #define transUrl [[FLTools share]http_transUrl:SDKNET]
 #define PongUrl [[FLTools share]http_PongUrl:SDKNET]
 #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
-#define didSDKNet @"http://api.elastos.io:20606"
+#define didSDKNet @"http://api.elastos.io:21606"
 #else
 //@"RegTest",@"PrvNet",@"TestNet",@"MainNet"
 #define SDKNET  @"MainNet"

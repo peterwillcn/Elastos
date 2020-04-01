@@ -482,7 +482,7 @@
 		42D7DC5623F68008002F5A9A /* HWMHWMDIDShowInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D7DC5423F68008002F5A9A /* HWMHWMDIDShowInfoViewController.xib */; };
 		42D7DC5A23F682EC002F5A9A /* HWMDIDInfoShowTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D7DC5823F682EC002F5A9A /* HWMDIDInfoShowTableViewCell.m */; };
 		42D7DC5B23F682EC002F5A9A /* HWMDIDInfoShowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D7DC5923F682EC002F5A9A /* HWMDIDInfoShowTableViewCell.xib */; };
-		42D7DC6423F68C1F002F5A9A /* HWMTheImportDocumentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D7DC6223F68C1F002F5A9A /* HWMTheImportDocumentsViewController.m */; };
+		42D7DC6423F68C1F002F5A9A /* HWMTheImportDocumentsViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42D7DC6223F68C1F002F5A9A /* HWMTheImportDocumentsViewController.mm */; };
 		42D7DC6523F68C1F002F5A9A /* HWMTheImportDocumentsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D7DC6323F68C1F002F5A9A /* HWMTheImportDocumentsViewController.xib */; };
 		42E66286240E3D5B001220AA /* ElastosDIDConfig-debug.cmake in Resources */ = {isa = PBXBuildFile; fileRef = 42E6574E240E3D52001220AA /* ElastosDIDConfig-debug.cmake */; };
 		42E66287240E3D5B001220AA /* ElastosDIDConfig.cmake in Resources */ = {isa = PBXBuildFile; fileRef = 42E6574F240E3D52001220AA /* ElastosDIDConfig.cmake */; };
@@ -1430,7 +1430,7 @@
 		42D7DC5823F682EC002F5A9A /* HWMDIDInfoShowTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMDIDInfoShowTableViewCell.m; sourceTree = "<group>"; };
 		42D7DC5923F682EC002F5A9A /* HWMDIDInfoShowTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMDIDInfoShowTableViewCell.xib; sourceTree = "<group>"; };
 		42D7DC6123F68C1F002F5A9A /* HWMTheImportDocumentsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTheImportDocumentsViewController.h; sourceTree = "<group>"; };
-		42D7DC6223F68C1F002F5A9A /* HWMTheImportDocumentsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTheImportDocumentsViewController.m; sourceTree = "<group>"; };
+		42D7DC6223F68C1F002F5A9A /* HWMTheImportDocumentsViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HWMTheImportDocumentsViewController.mm; sourceTree = "<group>"; };
 		42D7DC6323F68C1F002F5A9A /* HWMTheImportDocumentsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTheImportDocumentsViewController.xib; sourceTree = "<group>"; };
 		42E64AF4240E3D43001220AA /* HDkey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDkey.h; sourceTree = "<group>"; };
 		42E64AF5240E3D43001220AA /* crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto.h; sourceTree = "<group>"; };
@@ -5889,7 +5889,7 @@
 				42D7DC5323F68008002F5A9A /* HWMHWMDIDShowInfoViewController.m */,
 				42D7DC5423F68008002F5A9A /* HWMHWMDIDShowInfoViewController.xib */,
 				42D7DC6123F68C1F002F5A9A /* HWMTheImportDocumentsViewController.h */,
-				42D7DC6223F68C1F002F5A9A /* HWMTheImportDocumentsViewController.m */,
+				42D7DC6223F68C1F002F5A9A /* HWMTheImportDocumentsViewController.mm */,
 				42D7DC6323F68C1F002F5A9A /* HWMTheImportDocumentsViewController.xib */,
 				421BABCC24296287000FB026 /* HWMallDocumentsListViewController.h */,
 				421BABCD24296287000FB026 /* HWMallDocumentsListViewController.m */,
@@ -11164,7 +11164,7 @@
 				425E0D68233B5B5E00D4C481 /* HWMCRListModel.m in Sources */,
 				424910EC2271BFCF00C41E50 /* UIImage+MultiFormat.m in Sources */,
 				4202CA3621F6EF2A009E5932 /* FLSugarModel.m in Sources */,
-				42D7DC6423F68C1F002F5A9A /* HWMTheImportDocumentsViewController.m in Sources */,
+				42D7DC6423F68C1F002F5A9A /* HWMTheImportDocumentsViewController.mm in Sources */,
 				CBD48D5C21FC36BA00BF3B11 /* AFURLSessionManager.m in Sources */,
 				42EAEF85238BB43700D6A912 /* NSString+HWMNSTaggedPointerString.m in Sources */,
 				4202CA3421F6EF2A009E5932 /* FLFounderSugarVC.m in Sources */,

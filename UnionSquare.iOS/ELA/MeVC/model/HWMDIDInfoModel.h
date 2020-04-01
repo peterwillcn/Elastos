@@ -8,7 +8,6 @@
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
 @interface HWMDIDInfoModel : NSObject
 @property(copy,nonatomic)NSString *didName;
 @property(copy,nonatomic)NSString *did;
@@ -21,17 +20,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy,nonatomic)NSString *nation;//使用area code
 @property(copy,nonatomic)NSString *introduction;// 简介
 @property(copy,nonatomic)NSString *homePage;//主页
-
 @property(copy,nonatomic)NSString *wechat;
 @property(copy,nonatomic)NSString *twitter;
 @property(copy,nonatomic)NSString *weibo;
 @property(copy,nonatomic)NSString *facebook;
 @property(copy,nonatomic)NSString *googleAccount;
 @property(copy,nonatomic)NSString *editTime;
-
-
-@property(copy,nonatomic)NSString *DateBirthString;
-
+@property(copy,nonatomic)NSString *birthday;
 @property(copy,nonatomic)NSString *endString;
 @end
 

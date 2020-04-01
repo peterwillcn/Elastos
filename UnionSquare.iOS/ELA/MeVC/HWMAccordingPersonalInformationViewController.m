@@ -33,21 +33,19 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
 
 }
 -(void)makeUI{
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"vote_management"] style:UIBarButtonItemStyleDone target:self action:@selector(EditPersonalInformation)];
+    [self.table registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mine_edit"] style:UIBarButtonItemStyleDone target:self action:@selector(EditPersonalInformation)];
- [self.table registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
-    
-       self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
-     self.table.rowHeight = 55;
-       self.table.delegate =self;
-       self.table.dataSource =self;
+    self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.table.rowHeight = 55;
+    self.table.delegate =self;
+    self.table.dataSource =self;
     self.table.backgroundColor=[UIColor clearColor];
     
 }
 
 -(void)EditPersonalInformation{
     HWMAddPersonalInformationViewController *HWMAddPersonalInformationVC=[[HWMAddPersonalInformationViewController alloc]init];
-//    HWMAddPersonalInformationVC.title=NSLocalizedString(@"编辑个人信息", nil);
     HWMAddPersonalInformationVC.isEidet=YES;
     HWMAddPersonalInformationVC.model=self.model;
     [self.navigationController pushViewController:HWMAddPersonalInformationVC animated:YES];
@@ -56,7 +54,7 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
    // FLSugarModel *model = self.dataSouse[indexPath.row];
-  HWMDIDInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellString];
+    HWMDIDInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.leftTextLabel.text=self.dataSource[indexPath.row];
     cell.arrImageView.alpha=0.f;

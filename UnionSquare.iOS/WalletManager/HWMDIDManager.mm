@@ -14,6 +14,7 @@
 #import "JWT.h"
 #import "MF_Base64Additions.h"
 #import "NSObject+YYModel.h"
+#import "NSDictionary+YYAdd.h"
 
 //#import "ELAWallet-Swift.h"
 #define SIGNATURE_BYTES         64
@@ -27,7 +28,7 @@ const char *tmp;
 @implementation HWMDIDManager
 +(instancetype)allocWithZone:(struct _NSZone *)zone
 {
-
+    
     // 也可以使用一次性代码
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -43,7 +44,7 @@ const char *tmp;
 {
     //return _instance;
     // 最好用self 用DIDManager他的子类调用时会出现错误
-  
+    
     return [[self alloc]init];
 }
 // 为了严谨，也要重写copyWithZone 和 mutableCopyWithZone
@@ -57,7 +58,7 @@ const char *tmp;
 }
 typedef struct TestDIDAdaptor {
     DIDAdapter base;
-
+    
     char *pwd;
     char *walletId;
 } TestDIDAdaptor;
@@ -65,28 +66,27 @@ typedef struct TestDIDAdaptor {
 static const char *TestDIDAdaptor_CreateIdTransaction(DIDAdapter *_adapter, const char *payload, const char *memo)
 {
     TestDIDAdaptor *adapter = (TestDIDAdaptor*)_adapter;
-    
     NSString *password=[NSString stringWithFormat:@"%s",adapter->pwd];
     NSString * walletID=[NSString stringWithFormat:@"%s",adapter->walletId];
     NSString *payloadJsonString=[NSString stringWithFormat:@"%s",payload];
     NSString *memoString=[NSString stringWithFormat:@"%s",memo];
-//    NSLog(@"password===%@---%@",password,payloadJsonString);
+    //    NSLog(@"password===%@---%@",password,payloadJsonString);
     
-
+    
     if (!adapter || !payload)
         return NULL;
-        invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[walletID,@"IDChain",password,memoString,@"",payloadJsonString] callbackId:walletID className:@"wallet" methodName:@"SpvDidAdapter_CreateIdTransactionEXWith"];
-          PluginResult * resultBase =[[ELWalletManager share]SpvDidAdapter_CreateIdTransactionEXWith:cmommand];
-            NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
-
-        if ([statusBase isEqualToString:@"1"] ) {
-      
-            return "0";
-           
-        }else{
-            return "-1";
-        }
-
+    invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[walletID,@"IDChain",password,memoString,@"",payloadJsonString] callbackId:walletID className:@"wallet" methodName:@"SpvDidAdapter_CreateIdTransactionEXWith"];
+    PluginResult * resultBase =[[ELWalletManager share]SpvDidAdapter_CreateIdTransactionEXWith:cmommand];
+    NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
+    
+    if ([statusBase isEqualToString:@"1"] ) {
+        
+        return "0";
+        
+    }else{
+        return "-1";
+    }
+    
 }
 
 DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
@@ -107,28 +107,28 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
 -(instancetype)init{
     if (self==nil) {
         self=[super init];
-         
+        
     }
-   _mRootPath=[MyUtil DIDRootPath];
+    _mRootPath=[MyUtil DIDRootPath];
     return self;
     
 }
 -(NSString*)hasDIDWithPWD:(NSString *)passWord withDIDString:(NSString*)DIDString
-WithPrivatekeyString:(NSString*)privatekeyString
-     WithmastWalletID:(NSString*)mastWalletID{
+     WithPrivatekeyString:(NSString*)privatekeyString
+         WithmastWalletID:(NSString*)mastWalletID{
     NSInteger re;
     self.passWord=passWord;
     self.privatekeyString=privatekeyString;
     if (mastWalletID.length>0) {
-    self.mastWalletID=mastWalletID;
+        self.mastWalletID=mastWalletID;
     }
-   
+    
     if (DIDString.length>0) {
         self.DIDString=DIDString;
     }
-    if (self.passWord.length>0) {
-          invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.mastWalletID,self.passWord] callbackId:self.mastWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
-           self.privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
+    if (self.passWord.length>0&&privatekeyString.length==0) {
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.mastWalletID,self.passWord] callbackId:self.mastWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
+        self.privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
         if (self.privatekeyString.length==0) {
             return @"";
         }
@@ -140,30 +140,30 @@ WithPrivatekeyString:(NSString*)privatekeyString
     if (store==NULL) {//
         return @"";
     }
-   re= DIDBackend_InitializeDefault([didSDKNet UTF8String],tmp);// 变量
+    re= DIDBackend_InitializeDefault([didSDKNet UTF8String],tmp);// 变量
     if (self.privatekeyString.length!=0){
-       if (!DIDStore_ContainsPrivateIdentity(store)) {//检测
-        re = DIDStore_InitPrivateIdentityFromRootKey(store, [self.passWord UTF8String], [self.privatekeyString UTF8String], NO);//no 待定// 有失败的可能
-           if (re==-1) {// 失败 是否在create的时候 补救
-               return @"";
-           }
-       }
+        if (!DIDStore_ContainsPrivateIdentity(store)) {//检测
+            re = DIDStore_InitPrivateIdentityFromRootKey(store, [self.passWord UTF8String], [self.privatekeyString UTF8String], NO);//no 待定// 有失败的可能
+            if (re==-1) {// 失败 是否在create的时候 补救
+                return @"";
+            }
+        }
     }
-
+    
     if (self.DIDString.length==0){
-     did=DIDStore_GetDIDByIndex(store, 0);//
-     char _didstring[ELA_MAX_DID_LEN];
-     const char *didstring;
-     didstring = DID_ToString(did, _didstring, sizeof(_didstring));
-     self.DIDString=[self charToString:didstring];
-    }else{
-     did=DID_FromString([self.DIDString UTF8String]);// 获取DID
-     char _didstring[ELA_MAX_DID_LEN];
+        did=DIDStore_GetDIDByIndex(store, 0);//
+        char _didstring[ELA_MAX_DID_LEN];
         const char *didstring;
         didstring = DID_ToString(did, _didstring, sizeof(_didstring));
-         self.DIDString=[self charToString:didstring];
+        self.DIDString=[self charToString:didstring];
+    }else{
+        did=DID_FromString([self.DIDString UTF8String]);// 获取DID
+        char _didstring[ELA_MAX_DID_LEN];
+        const char *didstring;
+        didstring = DID_ToString(did, _didstring, sizeof(_didstring));
+        self.DIDString=[self charToString:didstring];
     }
-  DIDDocument *  doc=DID_Resolve(did,NO);
+    DIDDocument *  doc=DID_Resolve(did,NO);
     if (doc) {//先看一下链上有没有
         DIDURL *url=DIDURL_NewByDid(did, "primary");
         if (DIDStore_ContainsPrivateKey(store,did, url)) {
@@ -188,13 +188,13 @@ WithPrivatekeyString:(NSString*)privatekeyString
             }
         }
     }else{//没有
-       
+        
         doc=DIDStore_LoadDID(store, did);
         if (doc==NULL) {
-        doc=DIDStore_NewDIDByIndex(store, [self.passWord UTF8String], 0, "name");//
-        DIDDocument_Destroy(doc);
+            doc=DIDStore_NewDIDByIndex(store, [self.passWord UTF8String], 0, "name");//
+            DIDDocument_Destroy(doc);
         }
-       return self.DIDString;
+        return self.DIDString;
         
     }
 }
@@ -212,7 +212,7 @@ WithPrivatekeyString:(NSString*)privatekeyString
     
     DIDURL_Destroy(url);
     DIDDocument_Destroy(doc);
-
+    
     
     return reDic;
 }
@@ -227,7 +227,7 @@ WithPrivatekeyString:(NSString*)privatekeyString
     if (cr) {
         DIDDocumentBuilder_RemoveCredential(build, url);
     }
-    const char * types[1] = {"SelfProclaimedCredential"};//
+    const char * types[1] = {"BasicProfileCredential"};//
     Property props[1];
     char * nickName =(char*)[model.didName UTF8String];
     props[0].key = "name";
@@ -260,26 +260,33 @@ WithPrivatekeyString:(NSString*)privatekeyString
 }
 
 -(NSString*)charToString:(const char*)needChar{
- return   [NSString stringWithFormat:@"%s",needChar];
+    if (needChar ==NULL) {
+        return @"";
+    }
+    return  [NSString stringWithUTF8String:needChar];
     
 }
 -(BOOL)saveDIDCredentialWithDIDModel:(HWMDIDInfoModel*)model{// 保存本地凭证
     if (did==NULL||store==NULL) {
         return NO;
     }
+    if (model==nil) {
+        model=[[HWMDIDInfoModel alloc]init];
+        NSDictionary *dic=[self getDIDInfo];
+        model.didName=dic[@"nickName"];
+        model.endString=dic[@"endTime"];
+        model.did=self.DIDString;
+    }
     Issuer *isser=Issuer_Create(did, NULL, store);
     const char *types[1] = {"BasicProfileCredential"};//类型名称
     DIDURL *creatCredentialID=DIDURL_NewByDid(did, "outPut");// 相当于文件  不同的需求 需要创建不同的名字  只能通过这个别名 拿去 Credential
-    Property props[1];// 根据需要传字段
     model.editTime=[[FLTools share]getNowTimeTimestampS];
     NSString *CredentialSubjectBean=[model modelToJSONString];
     
-    char * nickName =(char *)[CredentialSubjectBean UTF8String];
-    props[0].key = "BasicProfileCredential";
-    props[0].value = nickName;
+    const char * nickName =[CredentialSubjectBean UTF8String];
     time_t endTime=[model.endString integerValue];//
-    Credential *c=  Issuer_CreateCredential(isser, did, creatCredentialID, types, 1, props, 1, endTime, [self.passWord UTF8String]);
-    int r=DIDStore_StoreCredential(store, c, "outPut");
+    Credential *c=  Issuer_CreateCredentialByString(isser, did, creatCredentialID, types, 1, nickName, endTime, [self.passWord UTF8String]);
+    int r=DIDStore_StoreCredential(store, c, "BasicProfileCredential");
     Issuer_Destroy(isser);
     DIDURL_Destroy(creatCredentialID);
     Credential_Destroy(c);
@@ -288,40 +295,38 @@ WithPrivatekeyString:(NSString*)privatekeyString
     }else{
         return NO;
     }
-   
-    
 }
 -(HWMDIDInfoModel*)readDIDCredential{// 获取did本地凭证
     DIDURL *url=DIDURL_NewByDid(did, "outPut");
     Credential * cre=DIDStore_LoadCredential(store, did, url);
-    const char *suInfo  =  Credential_GetProperty(cre, "BasicProfileCredential");
+    const char *suInfo  = Credential_GetProperties(cre);
     NSString *modelString=[self charToString:suInfo];
     HWMDIDInfoModel *model=[HWMDIDInfoModel modelWithJSON:modelString];
-    if (model==nil) {
-        model=[[HWMDIDInfoModel alloc]init];
-    }
-    model.nickname=@"ni";
-    model.homePage=@"2222";
-    model.did=@"did:elastos:ijGzfSU8TTy1B3uZq68dutJqdJv6o4YmUq"; model.avatar=@"https://image.so.com/view?ie=utf-8&src=hao_360so&q=a&correct=a&ancestor=list&cmsid=aeae7080d7553362fb896c1be8125034&cmras=1&cn=0&gn=0&kn=0&fsn=60&adstar=0&clw=236#id=36f045ee8adb193d1050cbf24be817e6&currsn=0&ps=60&pc=60";
     DIDURL_Destroy(url);
     return model;
-    
+}
+-(NSString*)generateDIDCredentialString{
+    DIDURL *url=DIDURL_NewByDid(did, "outPut");
+    Credential * cre=DIDStore_LoadCredential(store, did, url);
+    const char *suInfo  = Credential_ToJson(cre, false);
+    NSString *generateDIDString=[self charToString:suInfo];
+    DIDURL_Destroy(url);
+    return generateDIDString;
 }
 //二维码验签名
 -(BOOL)jwtSignatureWithDIDString:(NSString*)didString withSignature:(NSString*)signatureStr withUnSignature:(NSString*)UnSignature{
     int r;
     r= DIDBackend_InitializeDefault([didSDKNet UTF8String],tmp);// 变量
-   char * signature= (char*)[signatureStr UTF8String];// 已经签名数据
-  char * usignature= (char*)[UnSignature UTF8String];//未签名数据
+    char * signature= (char*)[signatureStr UTF8String];// 已经签名数据
+    char * usignature= (char*)[UnSignature UTF8String];//未签名数据
     DID *jwtDID=DID_FromString([didString UTF8String]);
-    DIDDocument * jwtDoc=DID_Resolve(jwtDID,NO);
-    DIDURL *url=DIDURL_NewByDid(jwtDID, "primary");
-//    PublicKey *pk= DIDDocument_GetPublicKey(jwtDoc, url);
+    DIDDocument * jwtDoc=DID_Resolve(jwtDID,false);
     if (jwtDoc==NULL) {
         [[FLTools share]showErrorInfo:@"DID无效"];
         return NO;
     }
-   r= DIDDocument_Verify(jwtDoc,url,signature, 1,usignature,strlen(usignature));
+    DIDURL *url=DIDURL_NewByDid(jwtDID, "primary");
+    r= DIDDocument_Verify(jwtDoc,url,signature, 1,usignature,strlen(usignature));
     DIDURL_Destroy(url);
     DID_Destroy(jwtDID);
     DIDDocument_Destroy(jwtDoc);
@@ -331,63 +336,53 @@ WithPrivatekeyString:(NSString*)privatekeyString
         [[FLTools share]showErrorInfo:@"验签失败!"];
         return NO;
     }
-
+    
 }
 
 -(id)jwtDecodeWithJwtStringInfo:(NSString *)jwtStr {
-  jwtStr=[jwtStr stringByReplacingOccurrencesOfString:@"elastos://credaccess/" withString:@""];
-    
+    jwtStr=[jwtStr stringByReplacingOccurrencesOfString:@"elastos://credaccess/" withString:@""];
     NSArray * manySecrets = [jwtStr componentsSeparatedByString:@"."];
     NSString *base=[NSString stringFromBase64UrlEncodedString:manySecrets[1]];
-      NSDictionary * jsonDict = [NSJSONSerialization JSONObjectWithData:[base dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+    NSDictionary * jsonDict = [NSJSONSerialization JSONObjectWithData:[base dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
     
-   NSString* UnSignature=[NSString stringWithFormat:@"%@.%@",[self removeSpaceAndNewline:manySecrets.firstObject],manySecrets[1]];
-
-       UnSignature=[UnSignature stringByReplacingOccurrencesOfString:@"//n" withString:@""];
+    NSString* UnSignature=[NSString stringWithFormat:@"%@.%@",[self removeSpaceAndNewline:manySecrets.firstObject],manySecrets[1]];
+    
+    UnSignature=[UnSignature stringByReplacingOccurrencesOfString:@"//n" withString:@""];
     if ([jsonDict[@"exp"] intValue]<[[[FLTools share]getNowTimeTimestampS] intValue])  {
-    
-       [[FLTools share]showErrorInfo:NSLocalizedString(@"二维码已过期", nil)];
+        
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"二维码已过期", nil)];
         return nil;
     }
     
     if ([self jwtSignatureWithDIDString:jsonDict[@"iss"] withSignature:manySecrets.lastObject withUnSignature:UnSignature]) {
         return jsonDict;
     }
-   
-
-        return nil;
+    
+    
+    return nil;
 }
 -(id)CRInfoDecodeWithJwtStringInfo:(NSString *)jwtStr {
-
+    
     NSArray * manySecrets = [jwtStr componentsSeparatedByString:@"."];
     NSString *base=[NSString stringFromBase64UrlEncodedString:manySecrets[1]];
-      NSDictionary * jsonDict = [NSJSONSerialization JSONObjectWithData:[base dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
-//
-//   NSString* UnSignature=[NSString stringWithFormat:@"%@.%@",[self removeSpaceAndNewline:manySecrets.firstObject],manySecrets[1]];
-//
-//       UnSignature=[UnSignature stringByReplacingOccurrencesOfString:@"//n" withString:@""];
-//    if ([self jwtSignatureWithDIDString:jsonDict[@"id"] withSignature:manySecrets.lastObject withUnSignature:UnSignature]) {
-        return jsonDict;
-//    }
-   
-
-//        return nil;
+    NSDictionary * jsonDict = [NSJSONSerialization JSONObjectWithData:[base dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+    return jsonDict;
 }
 
 - (NSString *)removeSpaceAndNewline:(NSString *)str
 
 {
-
+    
     NSString *temp = [str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-
+    
     NSString *text = [temp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet ]];
-
-return text;
-
+    
+    return text;
+    
 }
 -(id)jwtInfo:(NSString*)jtwStr{
-      NSDictionary * jsonDict = [NSJSONSerialization JSONObjectWithData:[jtwStr dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
-      return jsonDict;
+    NSDictionary * jsonDict = [NSJSONSerialization JSONObjectWithData:[jtwStr dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+    return jsonDict;
 }
 
 
@@ -403,20 +398,17 @@ return text;
     }
     char signature[SIGNATURE_BYTES * 2 + 16];
     char *sig =(char *)[sigString UTF8String];
-   r=DIDDocument_Sign(doc, NULL, [self.passWord UTF8String],
-                     signature,1,sig,strlen(sig));
+    r=DIDDocument_Sign(doc, NULL, [self.passWord UTF8String],
+                       signature,1,sig,strlen(sig));
     if (r==0) {
         return [self charToString:signature];
     }
     return @"-1";
 }
 -(BOOL)ImportLocalCredentialsWithModel:(HWMDIDInfoModel*)model{
-    
     return YES;
 }
-
 -(bool)CheckDIDwhetherExpiredWithDIDString:(NSString*)didString WithmastWalletID:(NSString*)walletID{
-    
     [self hasDIDWithPWD:@"" withDIDString:didString WithPrivatekeyString:@"" WithmastWalletID:walletID];
     NSDictionary *dic=[self getDIDInfo];
     if ([dic[@"endTime"] intValue]<[[[FLTools share]getNowTimeTimestampS] intValue]) {
@@ -425,4 +417,38 @@ return text;
     }
     return YES;
 }
+-(BOOL)GenerateLocalCredentialsWithFielNameWithFielName:(NSString*)FielName{
+    NSString *jwtString= [self generateDIDCredentialString];
+    return  [MyUtil saveDIDPathWithWalletID:self.mastWalletID withString:jwtString WithFielName:FielName];
+}
+-(NSArray*)shareJWTWithmastWalletID:(NSString*)walletID withFileName:(NSString*)fileName needDlea:(void(^)(BOOL de))needDleFile{
+    NSString *res=[MyUtil jwtPathWithWalletID:walletID withFileName:fileName];
+    if (res.length==0) {
+        [MyUtil saveDIDPathWithWalletID:@"share" withString:[self generateDIDCredentialString] WithFielName:fileName];
+        res=[MyUtil jwtPathWithWalletID:@"share" withFileName:fileName];
+        needDleFile(YES);
+    }
+    if (res) {
+        NSData *data =[NSData dataWithContentsOfFile:res];
+        NSURL *URL=[NSURL fileURLWithPath:res];
+        return [NSArray arrayWithObjects:data,@"jwt",URL,nil];
+    };
+    return nil;
+}
+-(BOOL)CertificateUpdateWithWalletID:(NSString*)walletID WithFileName:(NSString*)fileName{
+    
+    NSString *res=[MyUtil jwtPathWithWalletID:walletID withFileName:fileName];
+    
+    NSData *data =[NSData dataWithContentsOfFile:res];
+    NSString *infoString=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSDictionary *infoDic=[[FLTools share]dictionaryWithJsonString:infoString];
+    HWMDIDInfoModel *model=[HWMDIDInfoModel modelWithDictionary:infoDic[@"credentialSubject"]];
+   BOOL  Credential=[self saveDIDCredentialWithDIDModel:model];
+   BOOL updateInfo= [self updateInfoWithInfo:model];
+    if (Credential&&updateInfo) {
+        return YES;
+    }
+    return NO;
+}
 @end
+

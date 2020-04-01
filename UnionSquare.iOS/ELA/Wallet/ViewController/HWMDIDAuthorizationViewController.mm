@@ -15,6 +15,7 @@
 #import "HttpUrl.h"
 #import "HWMDIDAuthorizationTableViewCell.h"
 #import "HWMDIDAuthorizationHeadView.h"
+#import "HWMDIDInfoModel.h"
 static NSString *cellDIDString=@"HWMDIDAuthorizationTableViewCell";
 
 UINib *_nib;
@@ -28,7 +29,8 @@ UINib *_nib;
 @property(strong,nonatomic)HMWpwdPopupView *pwdPView;
 
 @property(strong,nonatomic)HWMDIDAuthorizationHeadView *headView;
-
+@property(strong,nonatomic)HWMDIDInfoModel *readModel;
+@property(strong,nonatomic)HWMDIDInfoModel *updateModel;
 
 @end
 
@@ -36,14 +38,15 @@ UINib *_nib;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-       [self defultWhite];
-      self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"vote_rule_close"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(goBack)];
-     [self setBackgroundImg:@""];
+    [self defultWhite];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"vote_rule_close"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(goBack)];
+    [self setBackgroundImg:@""];
     [self makeUI];
-    
 }
 -(void)makeUI{
-_nib=[UINib nibWithNibName:cellDIDString bundle:nil];
+    [self.AgreedToButton setTitle:NSLocalizedString(@"同意", nil) forState:UIControlStateNormal];
+    [self.RefusedToButon setTitle:NSLocalizedString(@"不同意", nil) forState:UIControlStateNormal];
+    _nib=[UINib nibWithNibName:cellDIDString bundle:nil];
     [self.tabel registerNib:_nib forCellReuseIdentifier:cellDIDString];
     self.tabel.rowHeight=50.f;
     self.tabel.delegate=self;
@@ -74,7 +77,7 @@ _nib=[UINib nibWithNibName:cellDIDString bundle:nil];
         =@[@{@"text":NSLocalizedString(@"昵称", nil),@"index":@"0",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"性别",nil),@"index":@"1",@"type":@"2",@"state":@"1"},@{@"text":NSLocalizedString(@"出生日期",nil),@"index":@"2",@"type":@"2",@"state":@"1"},@{@"text":NSLocalizedString(@"头像地址",nil),@"index":@"3",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"邮箱",nil),@"index":@"4",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"手机号", nil) ,@"index":@"5",@"type":@"3",@"state":@"1"},@{@"text":NSLocalizedString(@"国家/地区", nil),@"index":@"6",@"type":@"2",@"state":@"1"},@{@"text":NSLocalizedString(@"个人简介",nil),@"index":@"7",@"type":@"4",@"state":@"1"},@{@"text":NSLocalizedString(@"个人主页",nil),@"index":@"8",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"Facebook账号",nil),@"index":@"9",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"Twitter账号",nil),@"index":@"10",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"微博账号",nul),@"index":@"11",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"微信账号",null),@"index":@"12",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"Google账号",null),@"index":@"13",@"type":@"1",@"state":@"1"}];
     }
     return _allInfoListArray;
-
+    
 }
 -(NSMutableDictionary *)infoDic{
     if (!_infoDic) {
@@ -82,13 +85,12 @@ _nib=[UINib nibWithNibName:cellDIDString bundle:nil];
     }
     return _infoDic;
 }
--(NSString*)throuJWTString{
+-(NSString*)throuJWTStringWithplayString:(NSString*)playString{
     NSString *jwtString;
     NSDictionary * headers = @{@"alg": @"ES256",@"typ": @"JWT"};
-NSString *headerString=[[FLTools share]DicToString:headers];
-   headerString=[JWTBase64Coder base64UrlEncodedStringWithData:[headerString dataUsingEncoding:NSUTF8StringEncoding]];
-   NSString *playString=[[FLTools share]DicToString:self.infoDic];
-   
+    NSString *headerString=[[FLTools share]DicToString:headers];
+    headerString=[JWTBase64Coder base64UrlEncodedStringWithData:[headerString dataUsingEncoding:NSUTF8StringEncoding]];
+    
     playString=[JWTBase64Coder base64UrlEncodedStringWithData:[playString dataUsingEncoding:NSUTF8StringEncoding]];
     
     return jwtString=[NSString stringWithFormat:@"%@.%@",headerString,playString];
@@ -101,18 +103,18 @@ NSString *headerString=[[FLTools share]DicToString:headers];
 }
 - (IBAction)copyDIDStringEvent:(id)sender {
     if (self.DIDString.length>0) {
-           [[FLTools share]showErrorInfo:NSLocalizedString(@"已复制到剪切板。", nil)];
-              [[FLTools share]copiedToTheClipboardWithString:self.DIDString];
-       }
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"已复制到剪切板。", nil)];
+        [[FLTools share]copiedToTheClipboardWithString:self.DIDString];
+    }
     
     
     
     
-
+    
 }
 
 - (IBAction)AgreedToEvent:(id)sender {
-   
+    
     UIView *mainView =[self mainWindow];
     [mainView addSubview:self.pwdPView];
     [self.pwdPView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -141,18 +143,26 @@ NSString *headerString=[[FLTools share]DicToString:headers];
 }
 -(void)makeSureWithPWD:(NSString*)pwd{
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.mastWalletID,pwd] callbackId:self.mastWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
-               NSString *PrivateKeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
-               if (PrivateKeyString.length>0) {
-                   [self cancelThePWDPageView];
-                   if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.DIDString WithPrivatekeyString:PrivateKeyString WithmastWalletID:self.mastWalletID]){
-                       NSString *jwtString=[self throuJWTString];
-                       NSString *REString= [[HWMDIDManager shareDIDManager] DIDSignatureWithString:jwtString];
-                       if (![REString isEqualToString:@"-1"]) {
-                           NSDictionary *dic=@{@"jwt":[NSString stringWithFormat:@"%@.%@",jwtString,REString]};
-                       [self updaeJWTInfoWithDic:dic];
-                       }
-                       }
+    NSString *PrivateKeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
+    if (PrivateKeyString.length==0) {
+        return;
+    }
+    if (self.MemberOfTheUpdate) {
+        [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.DIDString WithPrivatekeyString:PrivateKeyString WithmastWalletID:self.mastWalletID];
+        [ self  POSTJWTInfoWithDic];
+    }else{
+        
+        [self cancelThePWDPageView];
+        if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.DIDString WithPrivatekeyString:PrivateKeyString WithmastWalletID:self.mastWalletID]){
+            NSString *playString=[[FLTools share]DicToString:self.infoDic];
+            NSString *jwtString=[self throuJWTStringWithplayString:playString];
+            NSString *REString= [[HWMDIDManager shareDIDManager] DIDSignatureWithString:jwtString];
+            if (![REString isEqualToString:@"-1"]) {
+                NSDictionary *dic=@{@"jwt":[NSString stringWithFormat:@"%@.%@",jwtString,REString]};
+                [self updaeJWTInfoWithDic:dic];
             }
+        }
+    }
 }
 -(void)updaeJWTInfoWithDic:(NSDictionary*)pare{
     [HttpUrl NetPOSTHost:self.CRInfoDic[@"callbackurl"] url:@"" header:nil body:pare showHUD:NO WithSuccessBlock:^(id data) {
@@ -160,7 +170,30 @@ NSString *headerString=[[FLTools share]DicToString:headers];
         [self goBack];
         
     } WithFailBlock:^(id data) {
+        
+        
+    }];
     
+}
+-(void)POSTJWTInfoWithDic{
+    NSString *infoString=[[HWMDIDManager shareDIDManager]generateDIDCredentialString];
+    NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]dictionaryWithJsonString:infoString]];
+   
+
+    NSString *updaModelString=[self.updateModel modelToJSONString];
+    NSDictionary *upDic=[[FLTools share]dictionaryWithJsonString:updaModelString];
+    NSMutableDictionary *updaModelDic=[NSMutableDictionary dictionaryWithDictionary:upDic];
+    [updaModelDic setValue:dic[@"credentialSubject"][@"id"] forKey:@"id"];
+    [dic setValue:dic[@"credentialSubject"] forKey:@"credentialSubject"];
+    infoString=[[FLTools share]DicToString:dic];
+     NSString *jwtString=[self throuJWTStringWithplayString:infoString];
+    
+    NSString *REString= [[HWMDIDManager shareDIDManager] DIDSignatureWithString:jwtString];
+    NSString *httpIP=[[FLTools share]http_IpFast];
+    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtsave" header:@{} body:@{@"did":self.DIDString,@"jwt":[NSString stringWithFormat:@"%@.%@",jwtString,REString]} showHUD:NO WithSuccessBlock:^(id data) {
+        [self cancelThePWDPageView];
+        [self goBack];
+    } WithFailBlock:^(id data) {
         
     }];
     
@@ -170,7 +203,7 @@ NSString *headerString=[[FLTools share]DicToString:headers];
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     HWMDIDAuthorizationTableViewCell *cell=[_nib instantiateWithOwner:nil options:nil][0];
-   __weak __typeof__ (self) weakSelf = self;
+    __weak __typeof__ (self) weakSelf = self;
     cell.dic=[NSMutableDictionary dictionaryWithDictionary:self.dataSourceArray[indexPath.row]];
     cell.selectionStyle= UITableViewCellSelectionStyleNone;
     cell.selectBlock = ^(NSDictionary * _Nullable dic) {
@@ -185,12 +218,143 @@ NSString *headerString=[[FLTools share]DicToString:headers];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return  self.dataSourceArray.count;
+    if (self.MemberOfTheUpdate) {
+        return  self.dataSourceArray.count;
+    }
+    return 0;
 }
 -(void)cancelThePWDPageView{
     [self.pwdPView removeFromSuperview];
     self.pwdPView=nil;
     
 }
-
+-(HWMDIDInfoModel *)readModel{
+    if (!_readModel) {
+        _readModel=[[HWMDIDManager shareDIDManager]readDIDCredential];
+    }
+    return _readModel;
+}
+-(HWMDIDInfoModel *)updateModel{
+    if (!_updateModel) {
+        _updateModel=self.readModel;
+    }
+    return _updateModel;
+}
+-(void)updatePOSTModeInfoWithDic:(NSDictionary*)dic{
+    NSString *textString=dic[@"text"];
+    NSString *state=dic[@"state"];
+    if ([textString isEqualToString:NSLocalizedString(@"昵称", nil)]&&self.readModel.nickname.length>0){
+        if ([state isEqualToString:@"1"]) {
+            self.updateModel.nickname=self.readModel.nickname;
+        }else{
+            self.updateModel.nickname=@"";
+        }
+        
+    }else if ([textString isEqualToString:NSLocalizedString(@"性别", nil)]&&self.readModel.gender.length>0) {
+        if ([state isEqualToString:@"1"]) {
+            self.updateModel.gender=self.readModel.gender;
+        }else{
+            self.updateModel.gender=@"";
+        }
+    }else if ([textString isEqualToString:NSLocalizedString(@"出生日期", nil)]&&self.readModel.birthday.length>0) {
+        if ([state isEqualToString:@"1"]) {
+            self.updateModel.birthday=self.readModel.birthday;
+        }else{
+            self.updateModel.birthday=@"";
+        }
+        
+    }else if ([textString isEqualToString:NSLocalizedString(@"头像地址", nil)]&&self.readModel.avatar.length>0) {
+        if ([state isEqualToString:@"1"]) {
+            self.updateModel.avatar=self.readModel.avatar;
+        }else{
+            self.updateModel.avatar=@"";
+        }
+        
+    }else if ([textString isEqualToString:NSLocalizedString(@"邮箱", nil)]&&self.readModel.email.length>0) {
+        if ([state isEqualToString:@"1"]) {
+            self.updateModel.email=self.readModel.email;
+        }else{
+            self.updateModel.email=@"";
+        }
+        
+    }else if ([textString isEqualToString:NSLocalizedString(@"手机号", nil)]&&self.readModel.phone.length>0) {
+        if ([state isEqualToString:@"1"]) {
+            self.updateModel.phone=self.readModel.phone;
+            self.updateModel.phoneCode=self.readModel.phoneCode;
+        }else{
+            self.updateModel.phone=@"";
+            self.updateModel.phoneCode=@"";
+        }
+        
+        
+    }else if ([textString isEqualToString:NSLocalizedString(@"国家/地区", nil)]&&self.readModel.nation.length>0) {
+        
+        if ([state isEqualToString:@"1"]) {
+            self.updateModel.nation=self.readModel.nation;
+            
+        }else{
+            self.updateModel.nation=@"";
+        }
+        
+    }else if ([textString isEqualToString:NSLocalizedString(@"个人简介", nil)]&&self.readModel.introduction.length>0) {
+        if ([state isEqualToString:@"1"]) {
+            self.updateModel.introduction=self.readModel.introduction;
+            
+        }else{
+            self.updateModel.introduction=@"";
+        }
+        
+    }else if ([textString isEqualToString:NSLocalizedString(@"个人主页", nil)]&&self.readModel.homePage.length>0) {
+        if ([state isEqualToString:@"1"]) {
+            self.updateModel.homePage=self.readModel.homePage;
+            
+        }else{
+            self.updateModel.homePage=@"";
+        }
+        
+        
+    }else if ([textString isEqualToString:NSLocalizedString(@"Facebook账号", nil)]&&self.readModel.facebook.length>0) {
+        if ([state isEqualToString:@"1"]) {
+            self.updateModel.facebook=self.readModel.facebook;
+            
+        }else{
+            self.updateModel.facebook=@"";
+        }
+        
+    }else if ([textString isEqualToString:NSLocalizedString(@"Twitter账号", nil)]&&self.readModel.twitter.length>0) {
+        if ([state isEqualToString:@"1"]) {
+            self.updateModel.twitter=self.readModel.twitter;
+            
+        }else{
+            self.updateModel.twitter=@"";
+        }
+        
+    }else if ([textString isEqualToString:NSLocalizedString(@"微博账号", nil)]&&self.readModel.weibo.length>0) {
+        if ([state isEqualToString:@"1"]) {
+            self.updateModel.weibo=self.readModel.weibo;
+            
+        }else{
+            self.updateModel.weibo=@"";
+        }
+        
+    }else if ([textString isEqualToString:NSLocalizedString(@"微信账号", nil)]&&self.readModel.wechat.length>0) {
+        if ([state isEqualToString:@"1"]) {
+            self.updateModel.wechat=self.readModel.wechat;
+            
+        }else{
+            self.updateModel.wechat=@"";
+        }
+        
+    }else if ([textString isEqualToString:NSLocalizedString(@"Google账号", nil)]&&self.readModel.googleAccount.length>0) {
+        if ([state isEqualToString:@"1"]) {
+            self.updateModel.googleAccount=self.readModel.googleAccount;
+            
+        }else{
+            self.updateModel.googleAccount=@"";
+        }
+    }
+    
+    
+    
+}
 @end

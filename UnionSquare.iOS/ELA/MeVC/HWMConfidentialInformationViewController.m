@@ -47,7 +47,6 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
 }
 -(NSArray *)dataArray{
     if (!_dataArray) {
-//        _dataArray =@[@"个人信息",@"个人简介",@"社交账号"];
                 _dataArray =@[@"个人信息"];
     }
     return _dataArray;
@@ -68,7 +67,6 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   // FLSugarModel *model = self.dataSouse[indexPath.row];
    HWMDIDListAbnormalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:normalCellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.model=self.model;
@@ -87,10 +85,10 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
 {
   
     if (self.hasRead) {
-      HWMHWMDIDShowInfoViewController *HWMAddPersonalInformationVC=[[HWMHWMDIDShowInfoViewController alloc]init];
-     //    HWMAddPersonalInformationVC.title=NSLocalizedString(@"编辑个人信息", nil);
-       HWMAddPersonalInformationVC.model=self.model;
-       [self.navigationController pushViewController:HWMAddPersonalInformationVC animated:YES];
+        HWMHWMDIDShowInfoViewController *HWMAddPersonalInformationVC=[[HWMHWMDIDShowInfoViewController alloc]init];
+        HWMAddPersonalInformationVC.currentWallet=self.currentWallet;
+        HWMAddPersonalInformationVC.model=self.model;
+        [self.navigationController pushViewController:HWMAddPersonalInformationVC animated:YES];
     }else{
         HWMAddPersonalInformationViewController *PersonalInformationVC=[[HWMAddPersonalInformationViewController alloc]init];
         PersonalInformationVC.model=self.model;

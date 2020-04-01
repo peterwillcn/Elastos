@@ -58,14 +58,16 @@ static NSString *cellString=@"HWMallDocumentsListTableViewCell";
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     HWMallDocumentsListTableViewCell *cell=[DocumentsListNib instantiateWithOwner:nil options:nil].firstObject;
     NSDictionary *dic=self.allDirAaary[indexPath.row];
-    
     cell.flieNameLabel.text=dic[@"flieName"];
+    if ([dic[@"didString"] isEqualToString:@"0"]) {
+        cell.possibilityLabel.text=@"";
+        cell.possibilityLabel.alpha=0.f;
+    }else{
+        cell.possibilityLabel.text=NSLocalizedString(@"可导入",nil);
+        cell.possibilityLabel.alpha=1.f;
+    }
+    cell.timeLabel.text=dic[@"date"];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-//    if (indexPath.row==self.selectIndex) {
-//        cell.selectImageView.alpha=1.f;
-//    }else{
-//        cell.selectImageView.alpha=0.f;
-//    }
     return cell;
 }
 -(NSMutableArray *)allDirAaary{
@@ -82,9 +84,13 @@ static NSString *cellString=@"HWMallDocumentsListTableViewCell";
         max=count;
     }
     for (int i=index; i<max; i++) {
-        NSString *flieName =self.allFlieNameArray[i];
-        NSArray * array1 = [flieName componentsSeparatedByString:@"_"];
-        NSDictionary *dic=@{@"flieName":flieName,@"didString":array1[2]};
+        NSDictionary *flieDic =self.allFlieNameArray[i];
+        NSArray * array1 = [flieDic[@"fileName"] componentsSeparatedByString:@"_"];
+        NSString *didString=@"0";
+        if ([self.currentWallet.didString containsString:array1[2]]) {
+            didString=@"1";
+        }
+        NSDictionary *dic=@{@"flieName":flieDic[@"fileName"],@"date":flieDic[@"date"],@"didString":didString};
         [self.allDirAaary addObject:dic];
     }
     
@@ -104,14 +110,14 @@ static NSString *cellString=@"HWMallDocumentsListTableViewCell";
     
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (self.selectIndex==indexPath.row) {
-        return;
-    }
+//    if (self.selectIndex==indexPath.row) {
+//        return;
+//    }
     if (self.selectIndex>-1) {
-       HWMallDocumentsListTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString forIndexPath:[NSIndexPath indexPathForRow:self.selectIndex inSection:0]];
+       HWMallDocumentsListTableViewCell *cell=[tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectIndex inSection:0]];
         cell.selectImageView.alpha=0.f;
     }
-        HWMallDocumentsListTableViewCell * cell=[tableView dequeueReusableCellWithIdentifier:cellString forIndexPath:indexPath];
+        HWMallDocumentsListTableViewCell * cell=[tableView cellForRowAtIndexPath:indexPath];
           cell.selectImageView.alpha=1.f;
 //
     self.selectIndex=indexPath.row;
@@ -125,8 +131,6 @@ static NSString *cellString=@"HWMallDocumentsListTableViewCell";
         
         if (self.block) {
             NSDictionary *dic=self.allDirAaary[self.selectIndex];
-              
- 
             NSString *flieName=dic[@"flieName"];
             self.block(flieName);
         }

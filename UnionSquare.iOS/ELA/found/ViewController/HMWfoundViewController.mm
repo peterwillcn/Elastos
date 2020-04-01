@@ -114,10 +114,15 @@
         
       HMWCRCommitteeMemberListViewController *CRSignUpForVC=[[HMWCRCommitteeMemberListViewController alloc]init];
         CRSignUpForVC.typeString=self.typeString;
-        CRSignUpForVC.CROwnerDID=param[@"Info"][@"CROwnerDID"];
+        CRSignUpForVC.CROwnerDID=param[@"Info"][@"CID"];
         CRSignUpForVC.CROwnerPublicKey=param[@"Info"][@"CROwnerPublicKey"];
         CRSignUpForVC.nodeName= param[@"Info"][@"NickName"];
+        CRSignUpForVC.CRnewDID=param[@"Info"][@"DID"];
          [self.navigationController pushViewController:CRSignUpForVC  animated:YES];
+        
+//        self.CROwnerDID=param[@"Info"][@"CROwnerDID"];
+//        self.CROwnerPublicKey=param[@"Info"][@"CROwnerPublicKey"];
+//        self.nodeName= param[@"Info"][@"NickName"];
     }
     
 }

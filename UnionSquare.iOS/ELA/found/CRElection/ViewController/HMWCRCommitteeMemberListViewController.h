@@ -23,6 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(copy,nonatomic)NSString *CROwnerPublicKey;
 @property(copy,nonatomic)NSString *nodeName;
+/*
+ *
+ */
+@property(copy,nonatomic)NSString *CRnewDID;
 @end
 
 NS_ASSUME_NONNULL_END

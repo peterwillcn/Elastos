@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -50,11 +50,18 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f2o-C4-EHw">
-                    <rect key="frame" x="15" y="276.5" width="384" height="17"/>
+                    <rect key="frame" x="15" y="276.5" width="312" height="17"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="0.99991279840000002" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="authorization_locked" translatesAutoresizingMaskIntoConstraints="NO" id="eYz-Ib-atf">
+                    <rect key="frame" x="337" y="274" width="22" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="22" id="ohU-8b-Gex"/>
+                        <constraint firstAttribute="width" constant="22" id="saH-LS-n4g"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
@@ -66,9 +73,10 @@
                 <constraint firstItem="OZU-0j-Zcn" firstAttribute="top" secondItem="fdQ-CR-k2E" secondAttribute="bottom" constant="3.5" id="FEE-ko-bJy"/>
                 <constraint firstItem="FLp-Qe-h0l" firstAttribute="top" secondItem="fdQ-CR-k2E" secondAttribute="bottom" constant="7" id="FYo-sh-rvk"/>
                 <constraint firstItem="opt-7Y-Ikn" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="KCx-zT-1yP"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="eYz-Ib-atf" secondAttribute="trailing" constant="55" id="NuX-GR-hdz"/>
                 <constraint firstItem="y9r-kH-LGu" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="PeF-kY-OZk"/>
                 <constraint firstItem="OZU-0j-Zcn" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="UEO-G1-toa"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="f2o-C4-EHw" secondAttribute="trailing" constant="15" id="dyr-5V-Q2P"/>
+                <constraint firstItem="eYz-Ib-atf" firstAttribute="centerY" secondItem="f2o-C4-EHw" secondAttribute="centerY" id="XL5-OV-uPP"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="OZU-0j-Zcn" secondAttribute="trailing" constant="15" id="e58-c3-PNi"/>
                 <constraint firstItem="f2o-C4-EHw" firstAttribute="top" secondItem="y9r-kH-LGu" secondAttribute="bottom" constant="25" id="haI-3X-DAS"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="y9r-kH-LGu" secondAttribute="trailing" constant="15" id="lEC-sr-2o8"/>
@@ -78,6 +86,7 @@
                 <constraint firstItem="fdQ-CR-k2E" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="rrW-CR-TdG"/>
                 <constraint firstItem="f2o-C4-EHw" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="uyG-59-m1L"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="fdQ-CR-k2E" secondAttribute="trailing" constant="15" id="veU-fP-xa2"/>
+                <constraint firstItem="eYz-Ib-atf" firstAttribute="leading" secondItem="f2o-C4-EHw" secondAttribute="trailing" constant="10" id="wSA-em-MqH"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
@@ -92,6 +101,7 @@
         </view>
     </objects>
     <resources>
+        <image name="authorization_locked" width="22" height="22"/>
         <image name="mine_did_list_copy" width="22" height="22"/>
     </resources>
 </document>

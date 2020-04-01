@@ -16,15 +16,17 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
- 
+    
     // Initialization code
-    [[HMWCommView share]makeBordersWithView:self.LimitThatLabel];
+    //    [[HMWCommView share]makeBordersWithView:self.LimitThatLabel];
     self.LimitThatLabel.backgroundColor=RGBA(83, 136, 136, 1);
+    self.LimitThatLabel.layer.cornerRadius=2.f;
+    self.LimitThatLabel.layer.masksToBounds=YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 - (IBAction)deleateListInfoEvent:(id)sender {

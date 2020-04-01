@@ -36,7 +36,7 @@
     self.nickNameLabel.text=self.model.didName;
        self.publicKeyLabel.text=self.PubKeyString;
        self.DIDLabel.text=[NSString stringWithFormat:@"did:ela:%@",self.model.did];
-       self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.editTime]];
+       self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.endString]];
 }
 - (IBAction)changeTimeDataInfoEvent:(id)sender {
     UIView *mainView =  [self mainWindow];
@@ -73,8 +73,8 @@
 
 -(void)selectDataWithYY:(NSString*_Nullable)yy withMM:(NSString*_Nullable)mm wihMMWithInt:(NSInteger)mInt wtihDD:(NSString*_Nullable)dd{
    
-       self.model.editTime=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@ 00:00:00",yy,mm,dd]];
-    self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.editTime]];
+       self.model.endString=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@ 00:00:00",yy,mm,dd]];
+    self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.endString]];
        [self cancelDataListView];
 
 }

@@ -39,26 +39,26 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
 @interface HMWTheWalletManagementViewController ()<UITableViewDelegate,UITableViewDataSource,HMWToDeleteTheWalletPopViewDelegate,HMWSecurityVerificationPopViewDelegate,HWMTheValidationWordMnemonicPasswordDelegate,HMWAddTheCurrencyListViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *baseTableView;
 /*
-*<# #>
-*/
+ *<# #>
+ */
 @property(strong,nonatomic)UIButton *toDeleteTheWalletButton;
 /*
-*<# #>
-*/
+ *<# #>
+ */
 @property(strong,nonatomic)NSArray *dataArray;
 @property(strong,nonatomic)HWMTheValidationWordMnemonicPassword *TheValidationWordMPView;
 @property(strong,nonatomic)HMWToDeleteTheWalletPopView *toDeleteTheWalletPopV;
 
 //#import "HMWSecurityVerificationPopView.h"
 /*
-*<# #>
-*/
+ *<# #>
+ */
 @property(strong,nonatomic)HMWSecurityVerificationPopView *securityVerificationPopV;
-    /*
-     *
-     */
-    @property(assign,nonatomic)NSIndexPath *selectIndex;
-    
+/*
+ *
+ */
+@property(assign,nonatomic)NSIndexPath *selectIndex;
+
 /*
  *<# #>
  */
@@ -84,20 +84,20 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
         make.right.equalTo(self.view.mas_right).offset(-63);
         make.height.equalTo(@40);
     }];
-     [[HMWCommView share]makeBordersWithView:self.toDeleteTheWalletButton];
+    [[HMWCommView share]makeBordersWithView:self.toDeleteTheWalletButton];
     [self needOpen];
 }
 -(void)needOpen{
     
-     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
     PluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
-      NSString *status=[NSString stringWithFormat:@"%@",result.status];
-      if ([status isEqualToString:@"1"]) {
-      NSArray  *array = [[FLTools share]stringToArray:result.message[@"success"]];
-          if (array.count>1) {
-                self.isOpen=YES;
-          }
-      }
+    NSString *status=[NSString stringWithFormat:@"%@",result.status];
+    if ([status isEqualToString:@"1"]) {
+        NSArray  *array = [[FLTools share]stringToArray:result.message[@"success"]];
+        if (array.count>1) {
+            self.isOpen=YES;
+        }
+    }
     
     
 }
@@ -108,7 +108,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
         [_toDeleteTheWalletButton setTitle:NSLocalizedString(@"删除钱包", nil) forState:UIControlStateNormal];
         _toDeleteTheWalletButton.titleLabel.font=[UIFont systemFontOfSize:16 weight:UIFontWeightMedium];
         
-           [_toDeleteTheWalletButton addTarget:self action:@selector(toDeleteTheWalletEvent) forControlEvents: UIControlEventTouchUpInside];
+        [_toDeleteTheWalletButton addTarget:self action:@selector(toDeleteTheWalletEvent) forControlEvents: UIControlEventTouchUpInside];
         _toDeleteTheWalletButton.backgroundColor=RGBA(63, 92, 104, 0.5);
         
         
@@ -116,76 +116,76 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
     return _toDeleteTheWalletButton;
 }
 -(void)toDeleteTheWalletEvent{
-        UIView *mainView=[self mainWindow];
+    UIView *mainView=[self mainWindow];
     self.toDeleteTheWalletPopV.deleteType=deleteTheWallet;
-        [mainView addSubview:self.toDeleteTheWalletPopV];
-        [self.toDeleteTheWalletPopV mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.top.right.bottom.equalTo(mainView);
-        }];
+    [mainView addSubview:self.toDeleteTheWalletPopV];
+    [self.toDeleteTheWalletPopV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.right.bottom.equalTo(mainView);
+    }];
 }
 -(HMWSecurityVerificationPopView *)securityVerificationPopV{
-        if (!_securityVerificationPopV) {
-            _securityVerificationPopV =[[HMWSecurityVerificationPopView alloc]init];
-            _securityVerificationPopV.delegate=self;
-        }
-        return _securityVerificationPopV;
+    if (!_securityVerificationPopV) {
+        _securityVerificationPopV =[[HMWSecurityVerificationPopView alloc]init];
+        _securityVerificationPopV.delegate=self;
     }
+    return _securityVerificationPopV;
+}
 -(HWMTheValidationWordMnemonicPassword *)TheValidationWordMPView{
     if (!_TheValidationWordMPView) {
-  _TheValidationWordMPView=[[HWMTheValidationWordMnemonicPassword alloc]init];
+        _TheValidationWordMPView=[[HWMTheValidationWordMnemonicPassword alloc]init];
         _TheValidationWordMPView.delegate=self;
     }
     return _TheValidationWordMPView;
 }
 -(HMWToDeleteTheWalletPopView *)toDeleteTheWalletPopV{
-        if (!_toDeleteTheWalletPopV) {
-            _toDeleteTheWalletPopV =[[HMWToDeleteTheWalletPopView alloc]init];
-            _toDeleteTheWalletPopV.delegate=self;
-//            _toDeleteTheWalletPopV.deleteType=deleteTheWallet;
-        }
-        return _toDeleteTheWalletPopV;
+    if (!_toDeleteTheWalletPopV) {
+        _toDeleteTheWalletPopV =[[HMWToDeleteTheWalletPopView alloc]init];
+        _toDeleteTheWalletPopV.delegate=self;
+        //            _toDeleteTheWalletPopV.deleteType=deleteTheWallet;
     }
+    return _toDeleteTheWalletPopV;
+}
 -(NSArray *)dataArray{
-        if (!_dataArray) {
-          
-            switch (self.currentWallet.TypeW) {
-//                    SingleSign
-                case 0:
-                    _dataArray =@[
-                @{@"title":NSLocalizedString(@"DID",nil),@"name":@"",@"type":@"1"},@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},
-                                  @{@"title":NSLocalizedString(@"修改钱包密码",nil),@"name":@"",@"type":@"2"},
-                                  @{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"},
-                                  @{@"title":NSLocalizedString(@"导出助记词",nil),@"name":@"",@"type":@"1"}
-//,
-//                                  @{@"title":NSLocalizedString(@"导出只读钱包",nil),@"name":@"",@"type":@"1"},
-//                                  @{@"title":NSLocalizedString(@"查看多签公钥",nil),@"name":@"",@"type":@"1"}
-                                  
-                                  ];
-                    break;
-                case 1:
-//                    SingleSignReadonly
-                    _dataArray =@[@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},
-                                  @{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"2"},
-                                  @{@"title":NSLocalizedString(@"导出只读钱包",nil),@"name":@"",@"type":@"1"},
-                                  @{@"title":NSLocalizedString(@"查看多签公钥",nil),@"name":@"",@"type":@"1"}];
-                    break;
-                case 2:
-//                   HowSign
-                    _dataArray =@[@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},@{@"title":NSLocalizedString(@"修改钱包密码",nil),@"name":@"",@"type":@"2"},@{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"}
-                                  ,@{@"title":NSLocalizedString(@"查看钱包公钥",nil),@"name":@"",@"type":@"1"}
-                                  ];
-                    break;
-                case 3:
-//                    HowSignReadonly
-                    _dataArray =@[@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},@{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"},@{@"title":NSLocalizedString(@"查看钱包公钥",nil),@"name":@"",@"type":@"1"}];
-                    break;
-
-                default:
-                    break;
-            }
+    if (!_dataArray) {
+        
+        switch (self.currentWallet.TypeW) {
+                //                    SingleSign
+            case 0:
+                _dataArray =@[
+                    @{@"title":NSLocalizedString(@"DID",nil),@"name":@"",@"type":@"1"},@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},
+                    @{@"title":NSLocalizedString(@"修改钱包密码",nil),@"name":@"",@"type":@"2"},
+                    @{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"},
+                    @{@"title":NSLocalizedString(@"导出助记词",nil),@"name":@"",@"type":@"1"}
+                    //,
+                    //                                  @{@"title":NSLocalizedString(@"导出只读钱包",nil),@"name":@"",@"type":@"1"},
+                    //                                  @{@"title":NSLocalizedString(@"查看多签公钥",nil),@"name":@"",@"type":@"1"}
+                    
+                ];
+                break;
+            case 1:
+                //                    SingleSignReadonly
+                _dataArray =@[@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},
+                              @{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"2"},
+                              @{@"title":NSLocalizedString(@"导出只读钱包",nil),@"name":@"",@"type":@"1"},
+                              @{@"title":NSLocalizedString(@"查看多签公钥",nil),@"name":@"",@"type":@"1"}];
+                break;
+            case 2:
+                //                   HowSign
+                _dataArray =@[@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},@{@"title":NSLocalizedString(@"修改钱包密码",nil),@"name":@"",@"type":@"2"},@{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"}
+                              ,@{@"title":NSLocalizedString(@"查看钱包公钥",nil),@"name":@"",@"type":@"1"}
+                ];
+                break;
+            case 3:
+                //                    HowSignReadonly
+                _dataArray =@[@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},@{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"},@{@"title":NSLocalizedString(@"查看钱包公钥",nil),@"name":@"",@"type":@"1"}];
+                break;
+                
+            default:
+                break;
         }
-        return _dataArray;
     }
+    return _dataArray;
+}
 -(void)makeView{
     self.baseTableView.delegate=self;
     self.baseTableView.dataSource=self;
@@ -193,7 +193,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
     self.baseTableView.backgroundColor=[UIColor clearColor];
     self.baseTableView.rowHeight=70;
     [self.baseTableView registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
-self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
+    self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     
     
 }
@@ -202,24 +202,24 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     return 1;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-        
-        return self.dataArray.count;
-    }
     
+    return self.dataArray.count;
+}
+
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-        HMWTheWalletManagementTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
-        cell.selectionStyle=UITableViewCellSelectionStyleNone;
-        cell.backgroundColor=[UIColor clearColor];
+    HMWTheWalletManagementTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
+    cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    cell.backgroundColor=[UIColor clearColor];
     cell.dic=self.dataArray[indexPath.section];
-        return cell;
-        
-  
+    return cell;
+    
+    
     
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     self.selectIndex=indexPath;
-
+    
     NSDictionary *dic=self.dataArray[indexPath.section];
     NSString *title=dic[@"title"];
     if ([title isEqualToString:NSLocalizedString(@"修改钱包名称", nil)]) {
@@ -245,7 +245,7 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
         }];
         
     }else if ([title isEqualToString:NSLocalizedString(@"导出只读钱包",nil)]){
-//      ExportReadonlyWallet
+        //      ExportReadonlyWallet
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"ExportReadonlyWallet"];
         
         PluginResult *result= [[ELWalletManager share] ExportReadonlyWallet:mommand];
@@ -260,11 +260,11 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
             HWMSignatureTradingSingleQrCodeViewController *vc=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
             vc.type=ExportReadOnlyWallet;
             vc.QRCodeSignatureDic=jsonDic;
-                    [self.navigationController pushViewController:vc animated:YES];
-           
+            [self.navigationController pushViewController:vc animated:YES];
+            
             
         }
-       
+        
         
     }else if ([title isEqualToString:NSLocalizedString(@"查看多签公钥",nil)]){
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getMasterWalletBasicInfo"];
@@ -272,10 +272,10 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
         PluginResult *result= [[ELWalletManager share]getMasterWalletPublicKey:mommand];
         NSString *status=[NSString stringWithFormat:@"%@",result.status];
         if ([status isEqualToString:@"1"]) {
-        HWMSignatureTradingSingleQrCodeViewController *vc=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
-        vc.type=LookhHowSignThePublicKey;
+            HWMSignatureTradingSingleQrCodeViewController *vc=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
+            vc.type=LookhHowSignThePublicKey;
             NSDictionary * DataDic=[[FLTools share]dictionaryWithJsonString:result.message[@"success"]];
-        vc.QRCodeString=DataDic[@"xPubKeyHDPM"];
+            vc.QRCodeString=DataDic[@"xPubKeyHDPM"];
             [self.navigationController pushViewController:vc animated:YES];
         }
         
@@ -292,44 +292,44 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
             ListMoreSignThePublicKeyVC.DataDic=[[FLTools share]dictionaryWithJsonString:result.message[@"success"]];
             [self.navigationController pushViewController:ListMoreSignThePublicKeyVC animated:YES];
         }
-
-        }else if ([title isEqualToString:NSLocalizedString(@"DID",nil)]){
+        
+    }else if ([title isEqualToString:NSLocalizedString(@"DID",nil)]){
+        
+        if (self.isOpen) {
             
-            if (self.isOpen) {
+            if (self.currentWallet.didString.length>5) {
                 
-                if (self.currentWallet.didString.length>5) {
-                    
-                    
-                    
-                    
-        HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
-        DIDInfoVC.currentWallet=self.currentWallet;
-        [self.navigationController pushViewController:DIDInfoVC animated:YES];
-         }else{
-             [self showDIDInfoOrCreateDIDInfo];
-                                  
-        }
+                
+                
+                
+                HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
+                DIDInfoVC.currentWallet=self.currentWallet;
+                [self.navigationController pushViewController:DIDInfoVC animated:YES];
             }else{
-                
-                UIView *mainView =[self mainWindow];
-                self.toDeleteTheWalletPopV.deleteType=openIDChainType;
-                [mainView addSubview:self.toDeleteTheWalletPopV];
-                [self.toDeleteTheWalletPopV mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.left.right.top.bottom.equalTo(mainView);
-                }];
-                    
+                [self showDIDInfoOrCreateDIDInfo];
                 
             }
-           
-           
-       }
+        }else{
+            
+            UIView *mainView =[self mainWindow];
+            self.toDeleteTheWalletPopV.deleteType=openIDChainType;
+            [mainView addSubview:self.toDeleteTheWalletPopV];
+            [self.toDeleteTheWalletPopV mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.top.bottom.equalTo(mainView);
+            }];
+            
+            
+        }
+        
+        
+    }
 }
 -(void)showDIDInfoOrCreateDIDInfo{
     UIView *mainView=[self mainWindow];
-           [mainView addSubview:self.securityVerificationPopV];
-           [self.securityVerificationPopV mas_makeConstraints:^(MASConstraintMaker *make) {
-               make.left.top.right.bottom.equalTo(mainView);
-           }];
+    [mainView addSubview:self.securityVerificationPopV];
+    [self.securityVerificationPopV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.right.bottom.equalTo(mainView);
+    }];
     
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -364,37 +364,37 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
         if ([status isEqualToString:@"1"]&&[result.message[@"success"] isEqualToString:@"1"]) {
             if (self.currentWallet.HasPassPhrase==YES) {
                 self.VerifyPayPassword=pwd;
-                   UIView *mainView=[self mainWindow];
-                   [mainView addSubview:self.TheValidationWordMPView];
-                   [self.TheValidationWordMPView mas_makeConstraints:^(MASConstraintMaker *make){
-        make.left.top.right.bottom.equalTo(mainView);}];
+                UIView *mainView=[self mainWindow];
+                [mainView addSubview:self.TheValidationWordMPView];
+                [self.TheValidationWordMPView mas_makeConstraints:^(MASConstraintMaker *make){
+                    make.left.top.right.bottom.equalTo(mainView);}];
             }else{
                 [self DestroyMasterWallet];
-
+                
             }
-
-
+            
+            
         }else{
-
+            
             [[FLTools share]showErrorInfo:NSLocalizedString(@"密码错误", nil)];
-
+            
         }
         
     }else if (self.toDeleteTheWalletPopV.deleteType==openIDChainType){
         [self toCancelOrCloseDelegate];
-//    FMDBWalletModel *model=self.walletListArray[self.wallerSelectIndex];
-//          FLWallet *wallet =[[FLWallet alloc]init];
-//             wallet.masterWalletID =model.walletID;
-//             wallet.walletName     =model.walletName;
-//             wallet.walletAddress  = model.walletAddress;
-          HMWAddTheCurrencyListViewController *AddTheCurrencyListVC=[[HMWAddTheCurrencyListViewController alloc]init];
-          AddTheCurrencyListVC.wallet=self.currentWallet;
-          AddTheCurrencyListVC.didType=@"didType";
-          AddTheCurrencyListVC.delegate=self;
-     
-           [self toCancelOrCloseDelegate];
-          [self.navigationController pushViewController:AddTheCurrencyListVC animated:YES];
-
+        //    FMDBWalletModel *model=self.walletListArray[self.wallerSelectIndex];
+        //          FLWallet *wallet =[[FLWallet alloc]init];
+        //             wallet.masterWalletID =model.walletID;
+        //             wallet.walletName     =model.walletName;
+        //             wallet.walletAddress  = model.walletAddress;
+        HMWAddTheCurrencyListViewController *AddTheCurrencyListVC=[[HMWAddTheCurrencyListViewController alloc]init];
+        AddTheCurrencyListVC.wallet=self.currentWallet;
+        AddTheCurrencyListVC.didType=@"didType";
+        AddTheCurrencyListVC.delegate=self;
+        
+        [self toCancelOrCloseDelegate];
+        [self.navigationController pushViewController:AddTheCurrencyListVC animated:YES];
+        
     }
     
     
@@ -442,14 +442,10 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     }else if ([title isEqualToString:NSLocalizedString(@"修改钱包密码",nil)]){
         
     }else if ([title isEqualToString:NSLocalizedString(@"导出Keystore",nil)]){
-       
+        
         
     }else if ([title isEqualToString:NSLocalizedString(@"导出助记词",nil)]){
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwdString] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
-        
-        
-        
-        
         PluginResult *result= [[ELWalletManager share] exportWalletWithMnemonic:mommand];
         self.currentWallet.passWord=pwdString;
         NSString *status=[NSString stringWithFormat:@"%@",result.status];
@@ -459,40 +455,48 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
             HMWExportTheMnemonicWordViewController *exportTheMnemonicWordVC=[[HMWExportTheMnemonicWordViewController alloc]init];
             exportTheMnemonicWordVC.theMnemonicWord=theMnemonicWord;
             exportTheMnemonicWordVC.currentWallet=self.currentWallet;
-              [self.navigationController pushViewController:exportTheMnemonicWordVC animated:YES];
+            [self.navigationController pushViewController:exportTheMnemonicWordVC animated:YES];
         }
         
     }else if ([title isEqualToString:NSLocalizedString(@"导出只读钱包",nil)]){
-//        HWMSignatureTradingSingleQrCodeViewController *vc=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
-//        vc.type=ExportReadOnlyWallet;
-//        [self.navigationController pushViewController:vc animated:YES];
+        //        HWMSignatureTradingSingleQrCodeViewController *vc=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
+        //        vc.type=ExportReadOnlyWallet;
+        //        [self.navigationController pushViewController:vc animated:YES];
         
     }else if ([title isEqualToString:NSLocalizedString(@"DID",nil)]){
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwdString] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
-                NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
-           if (privatekeyString.length==0) {
-               return;
-           }
-        [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwdString withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID];
-        HWMCreateDIDViewController *CreateDIDVC=[[HWMCreateDIDViewController alloc]init];
-        [self.navigationController pushViewController:CreateDIDVC animated:YES];
+        NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
+        if (privatekeyString.length==0) {
+            return;
+        }
         
+        NSString *didString=  [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwdString withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID];
+        if (didString.length>0) {
+            FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
+            model.walletID=self.currentWallet.masterWalletID;
+            model.walletName=self.currentWallet.walletName;
+            model.walletAddress=self.currentWallet.walletAddress;
+            model.didString=didString;
+            [[HMWFMDBManager sharedManagerType:walletType]updateRecordWallet:model];
+            [[HWMDIDManager shareDIDManager ]saveDIDCredentialWithDIDModel:nil];
+            [[NSNotificationCenter defaultCenter]postNotificationName:updataWallet object:@"index"];
+            HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
+            DIDInfoVC.currentWallet=self.currentWallet;
+            [self.navigationController pushViewController:DIDInfoVC animated:YES];
+        }else{
+            HWMCreateDIDViewController *CreateDIDVC=[[HWMCreateDIDViewController alloc]init];
+            [self.navigationController pushViewController:CreateDIDVC animated:YES];
+        }
     }
-//    else if ([title isEqualToString:NSLocalizedString(@"查看多签公钥",nil)]){
-//
-//
-//    }
-    
-  
 }
-    
+
 - (void)takeOutOrShutDown {
     [self toCancelOrCloseDelegate];
     [self.securityVerificationPopV removeFromSuperview];
     self.securityVerificationPopV =nil;
     
 }
-    
+
 -(void)setCurrentWallet:(FLWallet *)currentWallet{
     _currentWallet=currentWallet;
     
@@ -505,7 +509,7 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
 -(void)MandatoryDeleteWithPWD:(NSString*)PWD{
     [self takeOutOrShutDown];
     if (PWD==0) {
-          [self closeView];
+        [self closeView];
         [self DestroyMasterWallet];
         return;
     }
@@ -513,7 +517,7 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     PluginResult *result= [[ELWalletManager share] VerifyPassPhrase:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]&&[result.message[@"success"] isEqualToString:@"1"]) {
-          [self closeView];
+        [self closeView];
         [self DestroyMasterWallet];
     }else{
         [[FLTools share]showErrorInfo:NSLocalizedString(@"密码错误", nil)];
@@ -524,4 +528,4 @@ self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
         [self showDIDInfoOrCreateDIDInfo];
     }
 }
-    @end
+@end

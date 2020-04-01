@@ -13,6 +13,8 @@
 #import "HWMDIDInfoModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
+
+
 @interface HWMDIDManager : NSObject{
     
 //    NSString *rootPath;
@@ -23,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy,nonatomic)NSString *TheMnemonicWordString;
 @property(copy,nonatomic)NSString *privatekeyString;
 @property(copy,nonatomic)NSString *mastWalletID;
+
 -(void)copyDirToSharedDir;
 -(BOOL)saveDir;
 -(NSString*)hasDIDWithPWD:(NSString *)passWord withDIDString:(NSString*)DIDString
@@ -37,6 +40,10 @@ WithPrivatekeyString:(NSString*)privatekeyString
 -(HWMDIDInfoModel*)readDIDCredential;
 -(bool)CheckDIDwhetherExpiredWithDIDString:(NSString*)didString WithmastWalletID:(NSString*)walletID;
 -(id)CRInfoDecodeWithJwtStringInfo:(NSString *)jwtStr;
+-(NSString*)generateDIDCredentialString;
+-(BOOL)GenerateLocalCredentialsWithFielNameWithFielName:(NSString*)FielName;
+-(NSArray*)shareJWTWithmastWalletID:(NSString*)walletID withFileName:(NSString*)fileName needDlea:(void(^)(BOOL de))needDleFile;
+-(BOOL)CertificateUpdateWithWalletID:(NSString*)walletID WithFileName:(NSString*)fileName;
 @end
 
 NS_ASSUME_NONNULL_END

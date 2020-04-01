@@ -67,7 +67,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "5A5EB3D9-9605-454F-8FDD-A3C52CAD124C"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ELA/Wallet/assetDetails/ViewController/HMWAssetDetailsViewController.mm"
@@ -99,14 +99,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "743F1B24-3750-43F8-AFA7-1E7E264A2C6A"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1453"
-            endingLineNumber = "1453"
+            startingLineNumber = "1450"
+            endingLineNumber = "1450"
             landmarkName = "-mainChainWithdrawal:"
             landmarkType = "7">
          </BreakpointContent>
@@ -115,14 +115,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "98A1318E-4A35-4461-B673-840E0F33CF45"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2416"
-            endingLineNumber = "2416"
+            startingLineNumber = "2358"
+            endingLineNumber = "2358"
             landmarkName = "-ExportReadonlyWallet:"
             landmarkType = "7">
          </BreakpointContent>
@@ -131,14 +131,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "F4360D85-B765-40F6-A871-047B5064E874"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1560"
-            endingLineNumber = "1560"
+            startingLineNumber = "1556"
+            endingLineNumber = "1556"
             landmarkName = "-RegisterProducerWithMainchainSubWallet:With:"
             landmarkType = "7">
          </BreakpointContent>
@@ -147,14 +147,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "B6AAB358-B271-4D8D-863C-9B86886CFFFC"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1522"
-            endingLineNumber = "1522"
+            startingLineNumber = "1519"
+            endingLineNumber = "1519"
             landmarkName = "-RegisterCRWithMainchainSubWallet:With:"
             landmarkType = "7">
          </BreakpointContent>
@@ -163,7 +163,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "CCFA2F84-43DB-4613-B25C-BE970EAA8BE4"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ELA/found/SuperPoint/ViewController/HMWtheCandidateListViewController.mm"
@@ -187,7 +187,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "407"
                   endingLineNumber = "407"
-                  offsetFromSymbolStart = "547">
+                  offsetFromSymbolStart = "444">
                </Location>
                <Location
                   uuid = "CCFA2F84-43DB-4613-B25C-BE970EAA8BE4 - 2ef4a8037475c4b6"
@@ -202,7 +202,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "407"
                   endingLineNumber = "407"
-                  offsetFromSymbolStart = "1559">
+                  offsetFromSymbolStart = "1276">
                </Location>
                <Location
                   uuid = "CCFA2F84-43DB-4613-B25C-BE970EAA8BE4 - 2ef4a8037475c4b6"
@@ -217,7 +217,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "407"
                   endingLineNumber = "407"
-                  offsetFromSymbolStart = "1599">
+                  offsetFromSymbolStart = "1316">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -226,14 +226,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "BD0D8FE3-5746-46B8-9C81-64A0FCF898F5"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1626"
-            endingLineNumber = "1626"
+            startingLineNumber = "1619"
+            endingLineNumber = "1619"
             landmarkName = "-UpdateProducerWithMainchainSubWallet:With:"
             landmarkType = "7">
          </BreakpointContent>
@@ -242,7 +242,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "4E942A74-973C-478B-811D-957BC66F982A"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ELA/found/SuperPoint/ViewController/FLChangeVotedTicketsVC.mm"
@@ -258,7 +258,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "98865BC2-66F5-48CB-A873-384637C0A679"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ELA/Wallet/assetDetails/ViewController/HMWTop_upPageForDetailsViewController.mm"
@@ -274,7 +274,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "DEDB8E5F-3BB2-41AA-AE8A-9B34FDD80991"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ELA/found/SuperPoint/ViewController/HMWsignUpForViewController.mm"
@@ -290,14 +290,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "37026091-5B31-4309-B689-5D16E82E676D"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2577"
-            endingLineNumber = "2577"
+            startingLineNumber = "2521"
+            endingLineNumber = "2521"
             landmarkName = "ELWalletManager"
             landmarkType = "3">
          </BreakpointContent>
@@ -306,7 +306,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "2534B331-7D31-4717-AECF-33C084B44517"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ELA/Wallet/assetDetails/ViewController/HMWtransferViewController.mm"
@@ -322,14 +322,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "A727D525-203C-48A6-9A92-6712AF920DD8"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ELA/found/CRElection/ViewController/HWMCRRegisteredViewController.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "273"
-            endingLineNumber = "273"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
             landmarkName = "-showSendSuccessPopuV"
             landmarkType = "7">
          </BreakpointContent>
@@ -338,14 +338,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "837EC17F-BBA4-4007-836F-A8E4B0A01D06"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1500"
-            endingLineNumber = "1500"
+            startingLineNumber = "1497"
+            endingLineNumber = "1497"
             landmarkName = "-mainChainWithdrawalFee:"
             landmarkType = "7">
          </BreakpointContent>
@@ -354,14 +354,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "24BA54CE-9AAF-446A-A3B1-D48514EEFC80"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1495"
-            endingLineNumber = "1495"
+            startingLineNumber = "1492"
+            endingLineNumber = "1492"
             landmarkName = "-mainChainWithdrawalFee:"
             landmarkType = "7">
          </BreakpointContent>
@@ -370,7 +370,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "7CFC7CB9-C3A2-4AEF-819F-FBAEE23CD4A7"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ELA/found/SuperPoint/ViewController/HMWtheSuperNodeElectionViewController.mm"
@@ -402,7 +402,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "EDD7BE4E-9484-4C10-A9E3-7D2D581756FC"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ELA/found/CRElection/ViewController/HWMCRCCommitteeElectionListViewController.mm"
@@ -418,14 +418,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "71B3266A-33A6-401C-A19C-DE5D8AF13AA4"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ELA/MeVC/HWMAccordingPersonalInformationViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -434,14 +434,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "224D456B-E9A4-4C0C-A049-B5B8E0D53D58"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ELA/MeVC/HWMAccordingPersonalInformationViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
             landmarkName = "-tableView:numberOfRowsInSection:"
             landmarkType = "7">
          </BreakpointContent>
@@ -450,14 +450,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "D0A3EFCB-3869-4AF4-9641-9D90355C83FA"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1489"
-            endingLineNumber = "1489"
+            startingLineNumber = "1486"
+            endingLineNumber = "1486"
             landmarkName = "-mainChainWithdrawalFee:"
             landmarkType = "7">
          </BreakpointContent>
@@ -466,7 +466,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "EEACF71A-C62E-4597-8319-EA31E2F7F2B3"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ELA/Wallet/walletManage/ViewController/HMWTheWalletManagementViewController.mm"
@@ -482,7 +482,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "9F57B682-AE96-4D71-9C7E-99138D939127"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/HWMDIDManager.m"
@@ -498,7 +498,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "CAA9483A-008D-4351-8891-C886D6409093"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/HWMDIDManager.m"
@@ -514,14 +514,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "51C61523-5D86-4261-A1D8-37CEE879F6FD"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "287"
-            endingLineNumber = "287"
+            startingLineNumber = "284"
+            endingLineNumber = "284"
             landmarkName = "-jsonWithString:"
             landmarkType = "7">
          </BreakpointContent>
@@ -530,7 +530,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "050504E0-7D9B-46AB-A165-60224338E91E"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "elastos wallet/spvsdk/include/nlohmann/json.hpp"

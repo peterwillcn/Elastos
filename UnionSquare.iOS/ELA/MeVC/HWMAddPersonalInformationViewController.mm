@@ -80,7 +80,6 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     [super viewDidLoad];
     [self defultWhite];
     [self setBackgroundImg:@""];
-   
     self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:self.skipButton];
     [self makeUI];
     if (self.isEidet||self.whereFrome) {
@@ -89,99 +88,99 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         self.infoHeight.constant=0.f;
         [self.skipButton setTitle:NSLocalizedString(@"保存", nil) forState: UIControlStateNormal];
         [self updaeDataArray];
-       }else{
-            self.title=NSLocalizedString(@"添加个人信息", nil);
-                      
-       }
+    }else{
+        self.title=NSLocalizedString(@"添加个人信息", nil);
+        
+    }
 }
 -(void)updaeDataArray{
     [self.defMArray removeAllObjects];
     [self.showInfoListAarry removeAllObjects];
     NSString *indexString;
-       if (self.model.nickname.length>0) {
-           indexString=self.allInfoListArray[0][@"index"];
-           [self.defMArray addObject:indexString];
-       }else{
-            [self.showInfoListAarry addObject:@"0"];
-       }
-       if (self.model.gender.length>0) {
-           indexString=self.allInfoListArray[1][@"index"];
-           [self.defMArray addObject:indexString];
-       }else{
-            [self.showInfoListAarry addObject:@"1"];
-       }
-       if (self.model.DateBirthString.length>0) {
-           indexString=self.allInfoListArray[2][@"index"];
-           [self.defMArray addObject:indexString];
-       }else{
-            [self.showInfoListAarry addObject:@"2"];
-       }
-       if (self.model.avatar.length>0) {
-           indexString=self.allInfoListArray[3][@"index"];
-           [self.defMArray addObject:indexString];
-       }else{
-            [self.showInfoListAarry addObject:@"3"];
-       }
-       if (self.model.email.length>0) {
-         indexString=self.allInfoListArray[4][@"index"];
-           [self.defMArray addObject:indexString];
-       }else{
-            [self.showInfoListAarry addObject:@"4"];
-       }
-       if (self.model.phone.length>0) {
-          indexString=self.allInfoListArray[5][@"index"];
-           [self.defMArray addObject:indexString];
-       }else{
-            [self.showInfoListAarry addObject:@"4"];
-       }
-       if (self.model.nation.length>0) {
-          indexString=self.allInfoListArray[6][@"index"];
-           [self.defMArray addObject:indexString];
-       }else{
-            [self.showInfoListAarry addObject:@"6"];
-       }
-       if (self.model.introduction.length>0) {
-                  indexString=self.allInfoListArray[7][@"index"];
-                   [self.defMArray addObject:indexString];
-          }else{
-               [self.showInfoListAarry addObject:@"7"];
-          }
-       if (self.model.homePage.length>0) {
-               indexString=self.allInfoListArray[8][@"index"];
-                [self.defMArray addObject:indexString];
-       }else{
-            [self.showInfoListAarry addObject:@"8"];
-       }
-       if (self.model.facebook.length>0) {
-                 indexString=self.allInfoListArray[9][@"index"];
-                  [self.defMArray addObject:indexString];
-         }else{
-              [self.showInfoListAarry addObject:@"9"];
-         }
-       if (self.model.twitter.length>0) {
-                indexString=self.allInfoListArray[10][@"index"];
-                 [self.defMArray addObject:indexString];
-       }else{
-            [self.showInfoListAarry addObject:@"10"];
-       }
-       if (self.model.weibo.length>0) {
-               indexString=self.allInfoListArray[11][@"index"];
-                [self.defMArray addObject:indexString];
-       }else{
-            [self.showInfoListAarry addObject:@"11"];
-       }
-       if (self.model.wechat.length>0) {
-                  indexString=self.allInfoListArray[12][@"index"];
-                   [self.defMArray addObject:indexString];
-        }else{
-               [self.showInfoListAarry addObject:@"12"];
-        }
-       if (self.model.googleAccount.length>0) {
-                   indexString=self.allInfoListArray[13][@"index"];
-                     [self.defMArray addObject:indexString];
-       }else{
-            [self.showInfoListAarry addObject:@"13"];
-       }
+    if (self.model.nickname.length>0) {
+        indexString=self.allInfoListArray[0][@"index"];
+        [self.defMArray addObject:indexString];
+    }else{
+        [self.showInfoListAarry addObject:@"0"];
+    }
+    if (self.model.gender.length>0) {
+        indexString=self.allInfoListArray[1][@"index"];
+        [self.defMArray addObject:indexString];
+    }else{
+        [self.showInfoListAarry addObject:@"1"];
+    }
+    if (self.model.birthday.length>0) {
+        indexString=self.allInfoListArray[2][@"index"];
+        [self.defMArray addObject:indexString];
+    }else{
+        [self.showInfoListAarry addObject:@"2"];
+    }
+    if (self.model.avatar.length>0) {
+        indexString=self.allInfoListArray[3][@"index"];
+        [self.defMArray addObject:indexString];
+    }else{
+        [self.showInfoListAarry addObject:@"3"];
+    }
+    if (self.model.email.length>0) {
+        indexString=self.allInfoListArray[4][@"index"];
+        [self.defMArray addObject:indexString];
+    }else{
+        [self.showInfoListAarry addObject:@"4"];
+    }
+    if (self.model.phone.length>0) {
+        indexString=self.allInfoListArray[5][@"index"];
+        [self.defMArray addObject:indexString];
+    }else{
+        [self.showInfoListAarry addObject:@"4"];
+    }
+    if (self.model.nation.length>0) {
+        indexString=self.allInfoListArray[6][@"index"];
+        [self.defMArray addObject:indexString];
+    }else{
+        [self.showInfoListAarry addObject:@"6"];
+    }
+    if (self.model.introduction.length>0) {
+        indexString=self.allInfoListArray[7][@"index"];
+        [self.defMArray addObject:indexString];
+    }else{
+        [self.showInfoListAarry addObject:@"7"];
+    }
+    if (self.model.homePage.length>0) {
+        indexString=self.allInfoListArray[8][@"index"];
+        [self.defMArray addObject:indexString];
+    }else{
+        [self.showInfoListAarry addObject:@"8"];
+    }
+    if (self.model.facebook.length>0) {
+        indexString=self.allInfoListArray[9][@"index"];
+        [self.defMArray addObject:indexString];
+    }else{
+        [self.showInfoListAarry addObject:@"9"];
+    }
+    if (self.model.twitter.length>0) {
+        indexString=self.allInfoListArray[10][@"index"];
+        [self.defMArray addObject:indexString];
+    }else{
+        [self.showInfoListAarry addObject:@"10"];
+    }
+    if (self.model.weibo.length>0) {
+        indexString=self.allInfoListArray[11][@"index"];
+        [self.defMArray addObject:indexString];
+    }else{
+        [self.showInfoListAarry addObject:@"11"];
+    }
+    if (self.model.wechat.length>0) {
+        indexString=self.allInfoListArray[12][@"index"];
+        [self.defMArray addObject:indexString];
+    }else{
+        [self.showInfoListAarry addObject:@"12"];
+    }
+    if (self.model.googleAccount.length>0) {
+        indexString=self.allInfoListArray[13][@"index"];
+        [self.defMArray addObject:indexString];
+    }else{
+        [self.showInfoListAarry addObject:@"13"];
+    }
     
     [self.table reloadData];
 }
@@ -214,14 +213,14 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         =@[@{@"text":NSLocalizedString(@"昵称", nil),@"index":@"0",@"type":@"1"},@{@"text":NSLocalizedString(@"性别",nil),@"index":@"1",@"type":@"2"},@{@"text":NSLocalizedString(@"出生日期",nil),@"index":@"2",@"type":@"2"},@{@"text":NSLocalizedString(@"头像地址",nil),@"index":@"3",@"type":@"1"},@{@"text":NSLocalizedString(@"邮箱",nil),@"index":@"4",@"type":@"1"},@{@"text":NSLocalizedString(@"手机号", nil) ,@"index":@"5",@"type":@"3"},@{@"text":NSLocalizedString(@"国家/地区", nil),@"index":@"6",@"type":@"2"},@{@"text":NSLocalizedString(@"个人简介",nil),@"index":@"7",@"type":@"4"},@{@"text":NSLocalizedString(@"个人主页",nil),@"index":@"8",@"type":@"1"},@{@"text":NSLocalizedString(@"Facebook账号",nil),@"index":@"9",@"type":@"1"},@{@"text":NSLocalizedString(@"Twitter账号",nil),@"index":@"10",@"type":@"1"},@{@"text":NSLocalizedString(@"微博账号",nul),@"index":@"11",@"type":@"1"},@{@"text":NSLocalizedString(@"微信账号",null),@"index":@"12",@"type":@"1"},@{@"text":NSLocalizedString(@"Google账号",null),@"index":@"13",@"type":@"1"}];
     }
     return _allInfoListArray;
-
+    
 }
 -(void)makeUI{
     [[HMWCommView share]makeBordersWithView:self.nextButton];
-
-_cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
+    
+    _cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
     _cellCodeAndPhonenumberNib=[UINib nibWithNibName:cellCodeAndPhonenumberString bundle:nil];
-        [self.table registerNib:_cellCreateDIDListNib forCellReuseIdentifier:cellString];
+    [self.table registerNib:_cellCreateDIDListNib forCellReuseIdentifier:cellString];
     [self.table registerNib:_cellCodeAndPhonenumberNib forCellReuseIdentifier:cellCodeAndPhonenumberString];
     self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.table.rowHeight = 55;
@@ -242,12 +241,12 @@ _cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
 -(void)skipVCEvent{
     [self.view endEditing:YES];
     UIView *manView=[self mainWindow];
-       [manView addSubview:self.pwdPopupV];
-       [self.pwdPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
-           make.left.right.top.bottom.equalTo(manView);
-       }];
+    [manView addSubview:self.pwdPopupV];
+    [self.pwdPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(manView);
+    }];
     
-  
+    
     
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -256,27 +255,25 @@ _cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
     NSDictionary *infDic=self.allInfoListArray[[indexString integerValue]];
     NSString *titleString=infDic[@"text"];
     NSString *typeString=infDic[@"type"];
-   if([typeString isEqualToString:@"3"]) {
-    HWMTheAreaCodeAndPhonenumberTableViewCell *cell=[_cellCodeAndPhonenumberNib instantiateWithOwner:nil options:nil][0]; cell.MobilePhoneTextField.placeholder=NSLocalizedString(@"请输入手机号", nil);
+    if([typeString isEqualToString:@"3"]) {
+        HWMTheAreaCodeAndPhonenumberTableViewCell *cell=[_cellCodeAndPhonenumberNib instantiateWithOwner:nil options:nil][0]; cell.MobilePhoneTextField.placeholder=NSLocalizedString(@"请输入手机号", nil);
         cell.MobilePhoneTextField.text=self.model.phone;
         cell.MobilePhoneTextField.tag=10001;
         cell.dic=infDic;
-       cell.delegate=self;
-      [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:cell.MobilePhoneTextField withTxt:NSLocalizedString(@"请输入手机号", nil)];
+        cell.delegate=self;
+        [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:cell.MobilePhoneTextField withTxt:NSLocalizedString(@"请输入手机号", nil)];
         cell.theArNumberTextField.placeholder=NSLocalizedString(@"请输入区号", nil);
         cell.theArNumberTextField.tag=10002;
         if (self.model.phoneCode.length>0) {
-        cell.theArNumberTextField.text=self.model.phoneCode;
-                }
+            cell.theArNumberTextField.text=self.model.phoneCode;
+        }
         cell.theArNumberTextField.delegate=self;
         cell.MobilePhoneTextField.delegate=self;
         [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField: cell.theArNumberTextField withTxt:NSLocalizedString(@"请输入区号", nil)];
-                return cell;}
-    
-//    type//1
+        return cell;}
     HWMCreateDIDListTableViewCell *cell =
     [_cellCreateDIDListNib instantiateWithOwner:nil options:nil][0];
-             cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.arrowImageView.alpha=1.f;
     cell.index=indexString;
     cell.delegate=self;
@@ -286,8 +283,8 @@ _cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
         cell.intPutTextField.alpha=0.f;
         if ([indexString integerValue]==1&&self.model.gender.length>0) {
             cell.infoLabel.text=[[FLTools share]genderStringWithType:self.model.gender];
-        }else if ([indexString integerValue]==2&&self.model.DateBirthString.length>0){
-            cell.infoLabel.text=[[FLTools share]TimeFormatConversionBirthday: self.model.DateBirthString];
+        }else if ([indexString integerValue]==2&&self.model.birthday.length>0){
+            cell.infoLabel.text=[[FLTools share]TimeFormatConversionBirthday: self.model.birthday];
         }else if ([indexString integerValue]==6&&self.model.nation.length>0){
             cell.infoLabel.text=[[FLTools share]contryNameTransLateByCode:[self.model.nation integerValue]];
         }
@@ -296,20 +293,20 @@ _cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
         cell.infoLabel.alpha=1.f;
         cell.infoLabel.text=[NSString stringWithFormat:@"%@",titleString];
         cell.intPutTextField.alpha=0.f;
-        if (self.model.introduction.length>0) {
+//        if (self.model.introduction.length>0) {
             cell.LimitThatLabel.alpha=1.f;
-            cell.LimitThatLabel.text=NSLocalizedString(@"正文内容限制字符…", nil);
-        }else{
-             cell.LimitThatLabel.alpha=0.f;
-        }
+            cell.LimitThatLabel.text=NSLocalizedString(@"  正文内容限制字符…  ", nil);
+//        }else{
+//            cell.LimitThatLabel.alpha=0.f;
+//        }
         
     }else if([typeString isEqualToString:@"1"]){
         cell.infoLabel.alpha=0.f;
         cell.intPutTextField.alpha=1.f;
         NSString *placeString=[NSString stringWithFormat:@"%@%@",NSLocalizedString(@"请输入", nil),titleString];
-                   cell.intPutTextField.placeholder=placeString;
-          [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:cell.intPutTextField withTxt:placeString];
-          cell.intPutTextField.tag=100+[indexString integerValue];
+        cell.intPutTextField.placeholder=placeString;
+        [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:cell.intPutTextField withTxt:placeString];
+        cell.intPutTextField.tag=100+[indexString integerValue];
         cell.intPutTextField.delegate=self;
         if ([titleString isEqualToString:NSLocalizedString(@"邮箱", nil)]) {
             if (self.model.email.length>0) {
@@ -317,15 +314,15 @@ _cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
             }
             
         }else if ([titleString isEqualToString:NSLocalizedString(@"个人主页", nil)]) {
-                   if (self.model.homePage.length>0) {
-                       cell.intPutTextField.text=self.model.homePage;
-                   }
-                   
+            if (self.model.homePage.length>0) {
+                cell.intPutTextField.text=self.model.homePage;
+            }
+            
         }else if ([titleString isEqualToString:NSLocalizedString(@"Facebook账号", nil)]) {
-                   if (self.model.facebook.length>0) {
-                       cell.intPutTextField.text=self.model.facebook;
-                   }
-                   
+            if (self.model.facebook.length>0) {
+                cell.intPutTextField.text=self.model.facebook;
+            }
+            
         }else if([titleString isEqualToString:NSLocalizedString(@"昵称", nil)]){
             if (self.model.nickname.length>0) {
                 cell.intPutTextField.text=self.model.nickname;
@@ -350,7 +347,7 @@ _cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
             }
             
         }
-
+        
     }
     return cell;
 }
@@ -372,11 +369,11 @@ _cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
         }];
     }else if ([indeString isEqualToString:@"2"]){//出生
         self.DIDDataListV.ListViewType=birthdayType;
-         UIView *mainView = [self mainWindow];
+        UIView *mainView = [self mainWindow];
         [mainView addSubview:self.DIDDataListV];
         [self.DIDDataListV mas_makeConstraints:^(MASConstraintMaker *make) {
-                   make.left.right.top.bottom.equalTo(mainView);
-               }];
+            make.left.right.top.bottom.equalTo(mainView);
+        }];
     }else if ([indeString isEqualToString:@"6"]){
         HMWSelectCountriesOrRegionsViewController *SelectCountriesOrRegionsVC=[[HMWSelectCountriesOrRegionsViewController alloc]init];
         SelectCountriesOrRegionsVC.delegate=self;
@@ -393,11 +390,11 @@ _cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
     }
 }
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-        return [[UIView alloc]initWithFrame:CGRectZero];
-
+    return [[UIView alloc]initWithFrame:CGRectZero];
+    
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-        return 0.01;
+    return 0.01;
 }
 -(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     return [[UIView alloc]initWithFrame:CGRectZero];
@@ -443,15 +440,15 @@ _cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
     [self cancelDataListView];
 }
 -(void)selectDataWithYY:(NSString *)yy withMM:(NSString *)mm wihMMWithInt:(NSInteger)mInt wtihDD:(NSString *)dd{
-    self.model.DateBirthString=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@ 00:00:00",yy,mm,dd]];
+    self.model.birthday=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@ 00:00:00",yy,mm,dd]];
     [self.table reloadData];
     [self cancelDataListView];
 }
 -(void)selectTheCountryAreasModel:(NSDictionary*)modelDic{
     
-   self.model.nation= modelDic[@"mobileCode"];
+    self.model.nation= modelDic[@"mobileCode"];
     
-   [self.table reloadData];
+    [self.table reloadData];
     
     
 }
@@ -459,7 +456,7 @@ _cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
     _isEidet=isEidet;
 }
 -(void)addInfoWithIndex:(NSString *)index{
-   NSString *indeString=[NSString stringWithFormat:@"%@",index];
+    NSString *indeString=[NSString stringWithFormat:@"%@",index];
     if (![self.defMArray containsObject:indeString]) {
         [self.defMArray addObject:indeString];
     }
@@ -474,60 +471,60 @@ _cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
     [self.table reloadData];
 }
 -(void)deleteWithIndex:(NSString*_Nullable)index{
-      NSString *indeString=[NSString stringWithFormat:@"%@",index];
+    NSString *indeString=[NSString stringWithFormat:@"%@",index];
     if ([self.defMArray containsObject:indeString]) {
         [self.defMArray removeObject:indeString];
     }
     if (![self.showInfoListAarry containsObject:indeString]) {
-              [self.showInfoListAarry addObject:indeString];
-       }
-            switch ([index intValue]) {
-                    case 0://"昵称"
-                    self.model.nickname=@"";
-                    break;
-                    case 1:
-                    self.model.gender=@"";
-                    break;
-                    case 2:
-                    self.model.DateBirthString=@"";
-                    break;
-                    case 3:
-                    self.model.avatar=@"";
-                    break;
-                    case 4:
-                    self.model.email=@"";
-                    break;
-                    case 5:
-                    self.model.phoneCode=@"";
-                    self.model.phone=@"";
-                    break;
-                    case 6:
-                    self.model.nation=@"";
-                    break;
-                    case 7:
-                    self.model.introduction=@"";
-                    break;
-                    case 8:
-                    self.model.homePage=@"";
-                    break;
-                    case 9:
-                    self.model.facebook=@"";
-                    break;
-                    case 10:
-                    self.model.twitter=@"";
-                    break;
-                    case 11:
-                    self.model.weibo=@"";
-                    break;
-                    case 12:
-                    self.model.wechat=@"";
-                    break;
-                    case 13:
-                    self.model.googleAccount=@"";
-                    break;
-                default:
-                    break;
-            }
+        [self.showInfoListAarry addObject:indeString];
+    }
+    switch ([index intValue]) {
+        case 0://"昵称"
+            self.model.nickname=@"";
+            break;
+        case 1:
+            self.model.gender=@"";
+            break;
+        case 2:
+            self.model.birthday=@"";
+            break;
+        case 3:
+            self.model.avatar=@"";
+            break;
+        case 4:
+            self.model.email=@"";
+            break;
+        case 5:
+            self.model.phoneCode=@"";
+            self.model.phone=@"";
+            break;
+        case 6:
+            self.model.nation=@"";
+            break;
+        case 7:
+            self.model.introduction=@"";
+            break;
+        case 8:
+            self.model.homePage=@"";
+            break;
+        case 9:
+            self.model.facebook=@"";
+            break;
+        case 10:
+            self.model.twitter=@"";
+            break;
+        case 11:
+            self.model.weibo=@"";
+            break;
+        case 12:
+            self.model.wechat=@"";
+            break;
+        case 13:
+            self.model.googleAccount=@"";
+            break;
+        default:
+            break;
+    }
     
     
     
@@ -542,48 +539,48 @@ _cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
     }
     self.model.phone=@"";
     self.model.phoneCode=@"";
-      [self.table reloadData];
+    [self.table reloadData];
     
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField{
     NSInteger tag=textField.tag;
-       switch (tag) {
-               case 100://"昵称"
-               self.model.nickname=textField.text;
-               break;
-               case 103:
-               self.model.avatar=textField.text;
-               break;
-               case 104:
-               self.model.email=textField.text;
-               break;
-               case 108:
-               self.model.homePage=textField.text;
-               break;
-               case 109:
-               self.model.facebook=textField.text;
-               break;
-               case 110:
-               self.model.twitter=textField.text;
-               break;
-               case 111:
-               self.model.weibo=textField.text;
-               break;
-               case 112:
-               self.model.wechat=textField.text;
-               break;
-               case 113:
-               self.model.googleAccount=textField.text;
-               break;
-               case 10001:
-               self.model.phone=textField.text;
-               break;
-               case 10002:
-               self.model.phoneCode=textField.text;
-               break;
-           default:
-               break;
-       }
+    switch (tag) {
+        case 100://"昵称"
+            self.model.nickname=textField.text;
+            break;
+        case 103:
+            self.model.avatar=textField.text;
+            break;
+        case 104:
+            self.model.email=textField.text;
+            break;
+        case 108:
+            self.model.homePage=textField.text;
+            break;
+        case 109:
+            self.model.facebook=textField.text;
+            break;
+        case 110:
+            self.model.twitter=textField.text;
+            break;
+        case 111:
+            self.model.weibo=textField.text;
+            break;
+        case 112:
+            self.model.wechat=textField.text;
+            break;
+        case 113:
+            self.model.googleAccount=textField.text;
+            break;
+        case 10001:
+            self.model.phone=textField.text;
+            break;
+        case 10002:
+            self.model.phoneCode=textField.text;
+            break;
+        default:
+            break;
+    }
     
 }
 - (NSMutableArray*)bubblingSort:(NSMutableArray *)sourceArr{
@@ -604,8 +601,24 @@ _cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
     sourceArr[j] = temp;
 }
 
--(void)showSendSuccessView{
-   self.sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
+-(void)showSendSuccessViewWithType:(NSInteger)type{
+    self.sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
+    switch (type) {
+        case 0:
+        {
+            self.sendSuccessPopuV.type=sendDealType;
+            break;
+            
+        }
+        case 1:{
+            self.sendSuccessPopuV.type=saveSuccessType;
+            break;
+        }
+            
+        default:
+            break;
+    }
+    
     UIView *manView=[self mainWindow];
     [manView addSubview:self.sendSuccessPopuV];
     [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -616,51 +629,51 @@ _cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
         self.sendSuccessPopuV=nil;
         [self.navigationController popViewControllerAnimated:YES];
     });
-
+    
 }
 -(void)makeSureWithPWD:(NSString*)pwd{
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwd] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
-         NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
+    NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
     if (privatekeyString.length==0) {
         return;
     }
-NSString *didString=[[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID];
+    NSString *didString=[[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID];
     if (didString.length==0) {
         return;
     }
     self.currentWallet.didString=didString;
     if (self.isEidet) {
-          BOOL isSucess=[[HWMDIDManager shareDIDManager ]saveDIDCredentialWithDIDModel: self.model];
-          if (isSucess) {
-              [self hiddenPWDView];
-              [self showSendSuccessView];
-          }else{
-                 [[FLTools share]showErrorInfo:@"保存失败"];
-          }
-      }else{
-          BOOL isSucess=[[HWMDIDManager shareDIDManager ]updateInfoWithInfo: self.model];
+        BOOL isSucess=[[HWMDIDManager shareDIDManager ]saveDIDCredentialWithDIDModel: self.model];
+        if (isSucess) {
+            [self hiddenPWDView];
+            [self showSendSuccessViewWithType:1];
+        }else{
+            [[FLTools share]showErrorInfo:@"保存失败"];
+        }
+    }else{
+        BOOL isSucess=[[HWMDIDManager shareDIDManager ]updateInfoWithInfo: self.model];
         [[HWMDIDManager shareDIDManager ]saveDIDCredentialWithDIDModel: self.model];
-          if (isSucess) {
-              [self hiddenPWDView];
-               [self showSendSuccessView];
-              FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
-              model.walletID=self.currentWallet.masterWalletID;
-              model.walletName=self.currentWallet.walletName;
-              model.walletAddress=self.currentWallet.walletAddress;
-              model.didString=self.currentWallet.didString;
-              [[HMWFMDBManager sharedManagerType:walletType]updateRecordWallet:model];
-              __weak __typeof__ (self) weakSelf = self;
-              if (self.successBlock) {
-                  weakSelf.successBlock(self.currentWallet.didString);
-                  [weakSelf.navigationController popViewControllerAnimated:NO];
-              }
-          }else{
-                 [[FLTools share]showErrorInfo:@"发布失败"];
-          }
-      }
-     
+        if (isSucess) {
+            [self hiddenPWDView];
+            [self showSendSuccessViewWithType:0];
+            FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
+            model.walletID=self.currentWallet.masterWalletID;
+            model.walletName=self.currentWallet.walletName;
+            model.walletAddress=self.currentWallet.walletAddress;
+            model.didString=self.currentWallet.didString;
+            [[HMWFMDBManager sharedManagerType:walletType]updateRecordWallet:model];
+            __weak __typeof__ (self) weakSelf = self;
+            if (self.successBlock) {
+                weakSelf.successBlock(self.currentWallet.didString);
+                [weakSelf.navigationController popViewControllerAnimated:NO];
+            }
+        }else{
+            [[FLTools share]showErrorInfo:@"发布失败"];
+        }
+    }
     
-
+    
+    
 }
 -(HMWpwdPopupView *)pwdPopupV{
     if (!_pwdPopupV) {
@@ -695,5 +708,8 @@ NSString *didString=[[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDStr
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
     [self.view endEditing:YES];
+}
+-(void)setCurrentWallet:(FLWallet *)currentWallet{
+    _currentWallet=currentWallet;
 }
 @end

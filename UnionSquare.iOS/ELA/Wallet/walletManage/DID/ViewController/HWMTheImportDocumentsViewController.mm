@@ -10,15 +10,22 @@
 #import "HWMallDocumentsListViewController.h"
 #import "MyUtil.h"
 #import "NSString+YYAdd.h"
+#import "HWMDIDManager.h"
+#import "HMWpwdPopupView.h"
+#import "ELWalletManager.h"
 static NSString *cellString=@"HWMImportDocumentsTableViewCell";
 UINib *ImportDocumentsNib;
-@interface HWMTheImportDocumentsViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface HWMTheImportDocumentsViewController ()<UITableViewDataSource,UITableViewDelegate,HMWpwdPopupViewDelegate>
 @property(strong,nonatomic)UIButton*skipButton;
 @property (weak, nonatomic) IBOutlet UITableView *table;
 @property(strong,nonatomic)NSMutableArray *allDirAaary;
 
 @property(assign,nonatomic)NSInteger selectIndex;
 @property (weak, nonatomic) IBOutlet UIButton *selectFlieButton;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)HMWpwdPopupView*pwdPopupV;
 
 @end
 
@@ -58,13 +65,49 @@ UINib *ImportDocumentsNib;
 }
 -(void)skipVCEvent{
     
+    
+    UIView *manView=[self mainWindow];
+    [manView addSubview:self.pwdPopupV];
+    [self.pwdPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(manView);
+    }];
+    
+    
+    
+    
+}
+-(void)makeSureWithPWD:(NSString*)pwd{
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwd] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
+    NSString * privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
+    if (privatekeyString.length==0) {
+        return;
+    }
+    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.currentWallet.didString WithPrivatekeyString:privatekeyString WithmastWalletID:self.currentWallet.masterWalletID];
+    NSDictionary *dic=self.allDirAaary[self.selectIndex];
+    BOOL isSucce=  [[HWMDIDManager shareDIDManager]CertificateUpdateWithWalletID:self.currentWallet.masterWalletID WithFileName:dic[@"fileName"]];
+    if (isSucce) {
+        [[FLTools share]showErrorInfo:@"导入成功"];
+        [self hiddenPWDView];
+    }else{
+        [[FLTools share]showErrorInfo:@"导入失败"];
+    }
+}
+-(void)hiddenPWDView{
+    [self.pwdPopupV removeFromSuperview];
+    self.pwdPopupV=nil;
+    
+    
+}
+-(void)cancelThePWDPageView{
+    [self hiddenPWDView];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 3;
+    return self.allDirAaary.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     HWMImportDocumentsTableViewCell *cell=[ImportDocumentsNib instantiateWithOwner:nil options:nil].firstObject;
-    cell.docNameLabel.text=self.allDirAaary[indexPath.row];
+    NSDictionary *dic=self.allDirAaary[indexPath.row];
+    cell.docNameLabel.text=dic[@"fileName"];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     if (indexPath.row==self.selectIndex) {
         cell.selectImageView.alpha=1.f;
@@ -75,18 +118,19 @@ UINib *ImportDocumentsNib;
 }
 -(NSMutableArray *)allDirAaary{
     if (!_allDirAaary) {
-        _allDirAaary =[[NSMutableArray alloc]init];
-
+        NSArray *allFarray=[MyUtil ReadDIDPathWithWalletID:self.currentWallet.masterWalletID];
+        _allDirAaary =[[NSMutableArray alloc]initWithArray:allFarray];
+        
     }
     return _allDirAaary;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.selectIndex>-1) {
-        HWMImportDocumentsTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString forIndexPath:[NSIndexPath indexPathForRow:self.selectIndex inSection:0]];
+        HWMImportDocumentsTableViewCell *cell=[tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectIndex inSection:0]];
         cell.selectImageView.alpha=0.f;
     }
-    HWMImportDocumentsTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString forIndexPath:indexPath];
-          cell.selectImageView.alpha=1.f;
+    HWMImportDocumentsTableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
+    cell.selectImageView.alpha=1.f;
     
     self.selectIndex=indexPath.row;
     
@@ -106,10 +150,19 @@ UINib *ImportDocumentsNib;
     NSString *fileContString=[MyUtil readFlieCommDIDWithFlieName:fileName];
     
     NSDictionary *dicfileCont=[fileContString jsonValueDecoded];
-//    if ([dicfileCont[@"credentialSubject"][@"did"] isEqualToString:self.currentWallet.didString]) {
+    if ([dicfileCont[@"credentialSubject"][@"did"] isEqualToString:self.currentWallet.didString]) {
         [MyUtil saveDIDPathWithWalletID:self.currentWallet.masterWalletID withString:fileContString WithFielName:fileName];
-//    }else{// 不是自己的
-//
-//    }
+        [self.allDirAaary addObject:@{@"fileName":fileName,@"date":@"1111"}];
+        [self.table reloadData];
+    }else{// 不是自己的
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"不是当前钱包的凭证，导入失败", nil)];
+    }
+}
+-(HMWpwdPopupView *)pwdPopupV{
+    if (!_pwdPopupV) {
+        _pwdPopupV =[[HMWpwdPopupView  alloc]init];
+        _pwdPopupV.delegate=self;
+    }
+    return _pwdPopupV;
 }
 @end

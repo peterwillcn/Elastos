@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy,nonatomic)NSString *DIDString;
 @property(copy,nonatomic)NSDictionary *CRInfoDic;
 @property(copy,nonatomic)NSString *JWTString;
-
+@property(assign,nonatomic)BOOL MemberOfTheUpdate;
 
 @end
 

@@ -153,4 +153,5 @@
 -(NSString *)getNowTimeTimestampS;
 -(NSString *)TimeFormatConversionBirthday:(NSString *)timeStr;
 -(NSString*)getFileIndexCount:(NSString*)fielName;
+-(NSString *)YMDWithDate:( NSDate *)myDate;
 @end

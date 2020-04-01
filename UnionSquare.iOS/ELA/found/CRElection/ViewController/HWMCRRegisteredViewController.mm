@@ -93,27 +93,8 @@
         self.mobCodeString=self.CRmodel.location;
         
     }
-        //        self.theNameOfTheNodeTextField.alpha=0.f;
-//        self.theNameOfTheNodeTextField.clearButtonMode=UITextFieldViewModeWhileEditing;
-//        self.theNameOfTheNodeTextField.enabled=NO;
-//        self.thePublicKeyTextField.text=self.model.ownerPublickKey;
-//        self.URLTextField.text=self.model.url;
-//        self.countriesTextField.text=[[FLTools share]contryNameTransLateByCode:self.model.contryCode.integerValue];
-//        self.theNameOfTheNodeTextField.text=self.model.nickName;
-//
-//    }
     
 }
-//-(HMWSecurityVerificationPopView *)securityVerificationPopV{
-//    if (!_securityVerificationPopV) {
-//        _securityVerificationPopV =[[HMWSecurityVerificationPopView alloc]init];
-//        _securityVerificationPopV.backgroundColor=[UIColor clearColor];
-//        _securityVerificationPopV.delegate=self;
-//    }
-//
-//    return _securityVerificationPopV;
-//}
-
 -(FLJoinToChoseTransferInfoView *)transferDetailsPopupV{
     if (!_transferDetailsPopupV) {
         _transferDetailsPopupV =[FLJoinToChoseTransferInfoView defultView];
@@ -140,33 +121,6 @@
             return;
         }
     }
-//    if (self.CountryORRegionTextField.text.length==0) {
-//        [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择国家/地区", nil)];
-//
-//        return;
-//    }
-//    if (self.URLTextField.text.length==0) {
-//        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入竞选网址", nil)];
-//
-//        return;
-//    }
-   
-    
-//    [self.view addSubview:self.securityVerificationPopV ];
-//    [self.securityVerificationPopV  mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.top.bottom.equalTo(self.view);
-//    }];
-    
-    //
-    //    FLVoteTicketTransferVC *transferVC=[[FLVoteTicketTransferVC alloc]init];
-    //    transferVC.infoModel = model;
-    //    [self.navigationController pushViewController:transferVC animated:YES];
-    
-    //    UIView *manView=[self mainWindow];
-    //    [manView addSubview:self.transferDetailsPopupV];
-    //    [self.transferDetailsPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
-    //        make.left.right.top.bottom.equalTo(manView);
-    //    }];
     for (HWMCRListModel *model in self.lastArray) {
         if ([model.nickname isEqualToString:self.MemberNameTextField.text]) {
             [[FLTools share]showErrorInfo:NSLocalizedString(@"委员昵称已存在", nil)];
@@ -186,9 +140,6 @@
         return;
     }
     NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",result.message[@"success"]]];
-    
-    
-    
     UIView *mainView =[self mainWindow];
     if (self.isUpdate) {
         self.transactionDetailsView.popViewTitle=NSLocalizedString(@"交易详情", nil);

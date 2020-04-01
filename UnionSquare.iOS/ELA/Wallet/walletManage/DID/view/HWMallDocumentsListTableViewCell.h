@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HWMallDocumentsListTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *flieNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *selectImageView;
+@property (weak, nonatomic) IBOutlet UILabel *possibilityLabel;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 
 @end
 

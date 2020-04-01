@@ -8,7 +8,10 @@
 #import "HWMHWMDIDShowInfoViewController.h"
 #import "HWMDIDInfoShowTableViewCell.h"
 #import "HWMAddPersonalInformationViewController.h"
+#import "HWMshowIntroductionInfoViewController.h"
+
 static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
+
 @interface HWMHWMDIDShowInfoViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *table;
 
@@ -22,9 +25,12 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-       [self defultWhite];
+    [self defultWhite];
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"个人信息",nil);
+    if (self.isEi==YES) {
+        self.skipButton.alpha=0;
+    }
     self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:self.skipButton];
 
     [self makeUI];
@@ -37,10 +43,8 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
     return _hasModelAarray;
 }
 -(void)makeUI{
-//    [[HMWCommView share]makeBordersWithView:self.nextButton];
     [self.table registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
     self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
-//    self.table.rowHeight = 55;
     self.table.delegate =self;
     self.table.dataSource =self;
     self.table.backgroundColor=[UIColor clearColor];
@@ -59,6 +63,7 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
     HWMAddPersonalInformationViewController *HWMAddPersonalInformationVC=[[HWMAddPersonalInformationViewController alloc]init];
     HWMAddPersonalInformationVC.isEidet=YES;
     HWMAddPersonalInformationVC.model=self.model;
+    HWMAddPersonalInformationVC.currentWallet=self.currentWallet;
     [self.navigationController pushViewController:HWMAddPersonalInformationVC animated:YES];
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -78,7 +83,7 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
             conString=[[FLTools share]genderStringWithType:self.model.gender];
             break;
             case 2:
-            conString=[[FLTools share]TimeFormatConversionBirthday:self.model.DateBirthString];
+            conString=[[FLTools share]TimeFormatConversionBirthday:self.model.birthday];
             break;
         case 3:{
 //            conString=self.model.avatar;//头像
@@ -143,6 +148,14 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
     
     
 }
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSDictionary *dic=self.hasModelAarray[indexPath.row];
+    if ([dic[@"text"] isEqualToString:NSLocalizedString(@"个人简介",nil)]) {
+       HWMshowIntroductionInfoViewController *AddPersonalProfileVC=[[HWMshowIntroductionInfoViewController alloc]init];
+        AddPersonalProfileVC.model=self.model;
+        [self.navigationController pushViewController:AddPersonalProfileVC animated:YES];
+    }
+}
 -(void)setModel:(HWMDIDInfoModel *)model{
     
     if (model.nickname.length>0) {
@@ -151,7 +164,7 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
     if (model.gender.length>0) {
         [self.hasModelAarray addObject:self.allInfoListArray[1]];
     }
-    if (model.DateBirthString.length>0) {
+    if (model.birthday.length>0) {
         [self.hasModelAarray addObject:self.allInfoListArray[2]];
     }
     if (model.avatar.length>0) {

@@ -484,7 +484,8 @@
         _CrCommitteeInformationHeaderV.block = ^{
             HWMHWMDIDShowInfoViewController *HWMAddPersonalInformationVC=[[HWMHWMDIDShowInfoViewController alloc]init];
             HWMAddPersonalInformationVC.model=weakSelf.DIDmodel;
-              [weakSelf.navigationController pushViewController:HWMAddPersonalInformationVC animated:YES];
+            HWMAddPersonalInformationVC.isEi=YES;
+            [weakSelf.navigationController pushViewController:HWMAddPersonalInformationVC animated:YES];
             
         };
     }

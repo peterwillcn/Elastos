@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMHWMDIDShowInfoViewController : UIViewController
 @property(strong,nonatomic)HWMDIDInfoModel *model;
+@property(assign,nonatomic)BOOL isEi;
+@property (nonatomic, strong)FLWallet *currentWallet;
 @end
 
 NS_ASSUME_NONNULL_END

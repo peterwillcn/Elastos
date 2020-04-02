@@ -204,9 +204,9 @@ class ApiAuthorityManager {
 
             }
             self.alertApiAuth(info, plugin, api, pluginObj, command);
-            DispatchQueue.main.async {
-                self.popupAlertDialog(info, plugin, api, pluginObj, command);
-            }
+//            DispatchQueue.main.async {
+//                self.popupAlertDialog(info, plugin, api, pluginObj, command);
+//            }
         }
     }
     

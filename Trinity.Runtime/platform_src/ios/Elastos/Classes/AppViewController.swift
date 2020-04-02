@@ -37,6 +37,8 @@
         self.id = appInfo.app_id;
         self.whitelistFilter = WhitelistFilter(appInfo);
         self.permissionGroup = PermissionManager.getShareInstance().getPermissionGroup(appInfo.app_id);
+
+        AppManager.getShareInstance().getDBAdapter().resetApiDenyAuth(id);
     }
 
     override func loadSettings() {

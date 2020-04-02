@@ -230,5 +230,59 @@ import Foundation
         }
         return value!;
      }
+    
+    @objc func getStringValue(_ key: String, _ defaultValue: String) -> String {
+        var value: String? = nil;
+        do {
+            let item = try getPreference(key);
+            if !(item["value"] is NSNull) {
+                value = anyToString(item["value"]!);
+            }
+        }
+        catch let error {
+           print("getStringValue \(key) error: \(error)");
+        }
+
+        if (value == nil) {
+            value = defaultValue;
+        }
+        return value!;
+    }
+
+    @objc func getBoolValue(_ key: String, _ defaultValue: Bool) -> Bool {
+        var value: Bool? = nil;
+        do {
+            let item = try getPreference(key);
+            if (!(item["value"] is NSNull) && item["value"] is Bool) {
+                value = item["value"] as? Bool;
+            }
+        }
+        catch let error {
+           print("getStringValue \(key) error: \(error)");
+        }
+
+        if (value == nil) {
+            value = defaultValue;
+        }
+        return value!;
+    }
+
+    func getStringArrayValue(_ key: String, _ defaultValue: [String]) -> [String] {
+        var value: [String]? = nil;
+        do {
+            let item = try getPreference(key);
+            if (!(item["value"] is NSNull) && item["value"] is [String]) {
+                value = item["value"] as? [String];
+            }
+        }
+        catch let error {
+           print("getStringValue \(key) error: \(error)");
+        }
+
+        if (value == nil) {
+            value = defaultValue;
+        }
+        return value!;
+    }
 }
 

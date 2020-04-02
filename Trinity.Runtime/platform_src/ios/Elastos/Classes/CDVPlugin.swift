@@ -60,7 +60,7 @@ extension CDVPlugin {
                     return true;
                 }
                 
-                let authority = appView!.getPluginAuthority(self.pluginName, self, command);
+                let authority = ApiAuthorityManager.getShareInstance().getApiAuthority(appView!.id, self.pluginName, self, command);
                 if (authority == AppInfo.AUTHORITY_NOEXIST || authority == AppInfo.AUTHORITY_DENY) {
                     refuseAccess(command);
                     return true;

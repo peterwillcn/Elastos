@@ -58,6 +58,7 @@ class AppInfo: NSObject {
     
     @objc static let PLUGIN = "plugin";
     @objc static let URL = "url";
+    @objc static let API = "api";
     @objc static let AUTHORITY = "authority";
     
     @objc dynamic var tid: Int64 = 0;

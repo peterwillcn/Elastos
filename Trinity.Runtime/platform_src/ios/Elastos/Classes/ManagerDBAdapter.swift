@@ -30,6 +30,7 @@ import SQLite
     @objc static let AUTH_PLUGIN_TABLE = "auth_plugin";
     @objc static let AUTH_URL_TABLE = "auth_url";
     @objc static let AUTH_INTENT_TABLE = "auth_intent";
+    @objc static let AUTH_API_TABLE = "auth_api";
     @objc static let ICONS_TABLE = "icons";
     @objc static let LOCALE_TABLE = "locale";
     @objc static let FRAMEWORK_TABLE = "framework";
@@ -70,6 +71,7 @@ import SQLite
 
     let plugin = Expression<String>(AppInfo.PLUGIN)
     let url = Expression<String>(AppInfo.URL)
+    let api = Expression<String>(AppInfo.API)
     let authority = Expression<Int>(AppInfo.AUTHORITY)
 
     let src = Expression<String>(AppInfo.SRC)
@@ -86,6 +88,7 @@ import SQLite
     let plugins = Table(ManagerDBAdapter.AUTH_PLUGIN_TABLE)
     let urls = Table(ManagerDBAdapter.AUTH_URL_TABLE)
     let intents = Table(ManagerDBAdapter.AUTH_INTENT_TABLE)
+    let apis = Table(ManagerDBAdapter.AUTH_API_TABLE)
     let icons = Table(ManagerDBAdapter.ICONS_TABLE)
     let locales = Table(ManagerDBAdapter.LOCALE_TABLE)
     let frameworks = Table(ManagerDBAdapter.FRAMEWORK_TABLE)
@@ -123,6 +126,14 @@ import SQLite
             t.column(authority)
         })
 
+        try db.run(apis.create(ifNotExists: true) { t in
+            t.column(tid, primaryKey: .autoincrement)
+            t.column(app_id)
+            t.column(plugin)
+            t.column(api)
+            t.column(authority)
+        })
+        
         try db.run(icons.create(ifNotExists: true) { t in
             t.column(tid, primaryKey: .autoincrement)
             t.column(app_tid)
@@ -429,6 +440,8 @@ import SQLite
         try db.run(items.delete());
         items = setting.filter(app_id == info.app_id);
         try db.run(items.delete());
+        items = apis.filter(app_id == info.app_id);
+        try db.run(items.delete());
         items = apps.filter(tid == info.tid);
         try db.run(items.delete());
     }
@@ -510,7 +523,7 @@ import SQLite
         var data: String? = nil;
 
         if !(v is NSNull) {
-            let dict = ["data": v] as [String : Any];
+            let dict = ["data": v!] as [String : Any];
             data = dict.toString();
             guard data != nil else {
                 throw AppError.error("setPreference error: value is invalid!");
@@ -550,7 +563,7 @@ import SQLite
             guard dict != nil else {
                 throw AppError.error("getPreference error: value is invalid!");
             }
-            let ret = ["key": k, "value": dict!["data"]] as [String : Any];
+            let ret = ["key": k, "value": dict!["data"]!] as [String : Any];
             return ret;
         }
 
@@ -569,6 +582,45 @@ import SQLite
         }
 
         return ret;
+    }
+    
+    func getApiAuth(_ appId: String, _ plugin: String, _ api: String) throws -> Int? {
+        let query = apis.select(authority)
+            .filter(app_id == appId && self.plugin == plugin && self.api == api)
+        let rows = try db.prepare(query);
+        for row in rows {
+            return row[authority];
+        }
+
+        return nil;
+    }
+    
+    func setApiAuth(_ appId: String, _ plugin: String, _ api: String, _ auth: Int?) throws {
+        let isExist = try getApiAuth(appId, plugin, api) != nil;
+        if (!isExist) {
+            if (auth != nil) {
+                try db.run(apis.insert(app_id <- appId, self.plugin <- plugin,
+                                       self.api <- api, authority <- auth!));
+            }
+        }
+        else {
+            let row = apis.filter(app_id == appId && self.plugin == plugin && self.api == api);
+            try db.transaction {
+                if (auth != nil) {
+                    try db.run(row.update(authority <- auth!));
+                }
+                else {
+                    try db.run(row.delete());
+                }
+            }
+        }
+    }
+    
+    func resetApiDenyAuth(_ appId: String)  {
+        let row = apis.filter(app_id == appId && authority == AppInfo.AUTHORITY_DENY);
+        try? db.transaction {
+            try? db.run(row.update(authority <- AppInfo.AUTHORITY_NOINIT));
+        }
     }
 
     func clean() throws {

@@ -1,0 +1,9 @@
+{
+    "AppManager": {
+        "getVersion": {
+            "danger_level": "low",
+            "title": {"en": "Read device pictures", "zh":"中文", "fr":"fr..."},
+            "description": {"en": "This application will be able to ask you to select pictures from your mobile device, but it will not be able to pick a picture that you don't select by yourself.", "zh":"...", "fr":"..."}
+        }
+    }
+}

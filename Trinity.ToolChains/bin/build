@@ -105,6 +105,7 @@ if args.target == "clobber":
     remove_tree("Runtime/www")
     remove_tree("Plugins/Carrier/src/ios/libs/ElastosCarrierSDK.framework")
     remove_tree("Plugins/Hive/src/ios/libs")
+    remove_tree("Plugins/DID/src/ios/libs")
 
     os.chdir(IONIC_DIR_PATH)
     dirs = os.listdir(IONIC_DIR_PATH)
@@ -112,7 +113,7 @@ if args.target == "clobber":
         if not os.path.isfile(dir):
             remove_tree(dir + "/www")
             remove_tree(dir + "/node_modules")
-            run_cmd("rm " + dir + "/package-lock.json")
+            run_cmd("rm " + dir + "/package-lock.json", True)
 
 if args.target == "plugin":
     if args.plugin_path == None:

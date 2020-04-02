@@ -1,6 +1,3 @@
-var fs = require('fs');
-var join = require('path').join;
-
 "use strict";
 
 module.exports = function(ctx) {
@@ -14,6 +11,7 @@ module.exports = function(ctx) {
 
   const fs = require('fs'),
         path = require('path'),
+        join = require('path').join，
         xcode = require('xcode');
 
   let runtimeProjPath = 'platforms/ios/elastOS.xcodeproj/project.pbxproj',
@@ -69,7 +67,7 @@ module.exports = function(ctx) {
     runtimeProj.removeSourceFile("MainViewController.xib", {}, classesGroupKey);
 
     // let classesPath = "../../../../platform_src/ios/elastOS/Classes/";
-    let classesPath = process.cwd() + "/platform_src/ios/elastOS/Classes/";
+    let classesPath = process.cwd() + "/platform_src/ios/Elastos/Classes/";
 
     let files = fs.readdirSync(classesPath);
     // var paths = [];

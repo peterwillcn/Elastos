@@ -612,9 +612,10 @@ declare namespace CarrierPlugin {
         * @callback onGroupInvite
         *
         * @param carrier    Carrier node instance
+        * @param from       The ID who send the invitation
         * @param cookieCode cookie code used to join group.
         */
-        onGroupInvite?(carrier: Carrier, cookieCode: string);
+        onGroupInvite?(carrier: Carrier, from: string, cookieCode: string);
 
         /**
         * A callback function that handle file transfer connect request.
@@ -626,7 +627,7 @@ declare namespace CarrierPlugin {
         * @param fileInfo    Information of the file which the requester wants to send
         */
         onConnectRequest?(carrier: Carrier, from: string, fileInfo: FileTransferInfo);
-    }
+    } & GroupCallbacks;
 
     /**
     * The class representing Carrier.
@@ -796,7 +797,7 @@ declare namespace CarrierPlugin {
         * @param {Function} onSuccess  The function to call when success, the param is Group object.
         * @param {Function} onError    The function to call when error, the param is a string. Or set to null.
         */
-        newGroup(callbacks: GroupCallbacks, onSuccess:(group: Group)=>void, onError?:(err: string)=>void);
+        newGroup(onSuccess:(group: Group)=>void, onError?:(err: string)=>void);
 
         /**
         * Join a group request.
@@ -807,7 +808,7 @@ declare namespace CarrierPlugin {
         * @param friendId   The friend who sends a group invitation
         * @param cookieCode The cookieCode information to join group,from onGroupInvite.
         */
-        groupJoin(friendId: string, cookieCode: string, callbacks: GroupCallbacks, onSuccess:(group: Group)=>void, onError?:(err: string)=>void);
+        groupJoin(friendId: string, cookieCode: string, onSuccess:(group: Group)=>void, onError?:(err: string)=>void);
 
         /**
         * Leave a group.
@@ -872,7 +873,7 @@ declare namespace CarrierPlugin {
         *
         * @param group      The group instance .
         */
-        onGroupConnected?();
+        onGroupConnected?(group: Group);
 
         /**
         * The callback function that handles group message.
@@ -883,7 +884,7 @@ declare namespace CarrierPlugin {
         * @param from       The friend's user ID.
         * @param message    The message content
         */
-        onGroupMessage?(from: string, message: string);
+        onGroupMessage?(group: Group, from: string, message: string);
 
         /**
         * The callback function that handles group title changed.
@@ -894,7 +895,7 @@ declare namespace CarrierPlugin {
         * @param from       The user ID of the modifier
         * @param title      New group title
         */
-        onGroupTitle?(from: string, title: string);
+        onGroupTitle?(group: Group, from: string, title: string);
 
         /**
         * The callback function that handles peer name changed.
@@ -905,7 +906,7 @@ declare namespace CarrierPlugin {
         * @param peerId     The peer's user ID.
         * @param peerName   The peer's name.
         */
-        onPeerName?(peerId: string, peerName: string);
+        onPeerName?(group: Group, peerId: string, peerName: string);
 
         /**
         * The callback function that handles peer list changed.
@@ -914,7 +915,7 @@ declare namespace CarrierPlugin {
         *
         * @param group      The group instance .
         */
-        onPeerListChanged?();
+        onPeerListChanged?(group: Group);
     }
 
     /**
@@ -922,7 +923,6 @@ declare namespace CarrierPlugin {
     */
     interface Group {
         groupId: Int;
-        callbacks: GroupCallbacks;
 
         /**
         * Invite a friend into group request.

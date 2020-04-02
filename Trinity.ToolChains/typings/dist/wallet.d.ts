@@ -140,7 +140,6 @@ declare module WalletPlugin {
          * @param keystoreContent specify key store content in json format.
          * @param backupPassword use to encrypt key store file. Backup password should between 8 and 128, otherwise will throw invalid argument exception.
          * @param payPassword use to encrypt important things(such as private key) in memory. Pay password should between 8 and 128, otherwise will throw invalid argument exception.
-         * @param phrasePassword combine with random seed to generate root key and chain code. Phrase password can be empty or between 8 and 128, otherwise will throw invalid argument exception.
          * @return If success will return a pointer of master wallet interface.
          */
         importWalletWithKeystore(args, success, error);
@@ -162,7 +161,6 @@ declare module WalletPlugin {
          */
         getAllMasterWallets(args, success, error);
 
-
         /**
          * Destroy a master wallet.
          * @param masterWalletID A pointer of master wallet interface create or imported by wallet factory object.
@@ -179,6 +177,7 @@ declare module WalletPlugin {
 
         /**
          * Get basic info of master wallet
+         * @param masterWalletID is the unique identification of a master wallet object.
          * @return basic information. Such as:
          * {"M":1,"N":1,"Readonly":false,"SingleAddress":false,"Type":"Standard", "HasPassPhrase": false}
          */
@@ -186,6 +185,7 @@ declare module WalletPlugin {
 
         /**
          * Get wallet existing sub wallets.
+         * @param masterWalletID is the unique identification of a master wallet object.
          * @return existing sub wallets by array.
          */
         getAllSubWallets(args, success, error);
@@ -278,6 +278,14 @@ declare module WalletPlugin {
          */
         getBalance(args, success, error);
 
+        /**
+         * Get balance of only the specified address.
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
+         * @param address is one of addresses created by current sub wallet.
+         * @return balance of specified address.
+         */
+        getBalanceWithAddress(args, success, error);
 
         /**
          * Create a new address or return existing unused address. Note that if create the sub wallet by setting the singleAddress to true, will always return the single address.
@@ -293,7 +301,6 @@ declare module WalletPlugin {
          * @param chainID unique identity of a sub wallet. Chain id should not be empty.
          * @param start specify start index of all addresses list.
          * @param count specify count of addresses we need.
-         * @param internal indicate if addresses are change(internal) address or not.
          * @return addresses in JSON format.
          *
          * example:
@@ -305,25 +312,14 @@ declare module WalletPlugin {
         getAllAddress(args, success, error);
 
         /**
-         * Get balance of only the specified address.
+         * Get all created public key list in JSON format. The parameters of start and count are used for the purpose of paging.
          * @param masterWalletID is the unique identification of a master wallet object.
          * @param chainID unique identity of a sub wallet. Chain id should not be empty.
-         * @param address is one of addresses created by current sub wallet.
-         * @return balance of specified address.
+         * @param start to specify start index of all public key list.
+         * @param count specifies the count of public keys we need.
+         * @return public keys in json format.
          */
-        getBalanceWithAddress(args, success, error);
-
-        /**
-         * Get all qualified normal transactions sorted by descent (newest first).
-         * @param masterWalletID is the unique identification of a master wallet object.
-         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
-         * @param start specify start index of all transactions list.
-         * @param count specify count of transactions we need.
-         * @param txid transaction ID to be filtered.
-         * @return All qualified transactions in json format.
-         * {"MaxCount":3,"Transactions":[{"Amount":"20000","ConfirmStatus":"6+","Direction":"Received","Height":172570,"Status":"Confirmed","Timestamp":1557910458,"TxHash":"ff454532e57837cbe04f56a7e43f4209b5eb61d5d2a43a016a769c60d21125b6","Type":6},{"Amount":"10000","ConfirmStatus":"6+","Direction":"Received","Height":172569,"Status":"Confirmed","Timestamp":1557909659,"TxHash":"7253b2cefbac794b621b0080f0f5a4c27d5c91f65c83da75aad615062c42ac5a","Type":6},{"Amount":"100000","ConfirmStatus":"6+","Direction":"Received","Height":172300,"Status":"Confirmed","Timestamp":1557809019,"TxHash":"7e53bb8fe1617bdb57f7346bcf7d2e9dfa6b5d3f3524d0695046389bea79dcd9","Type":6}]}
-         */
-        getAllTransaction(args, success, error);
+        getAllPublicKeys(args, success, error);
 
         /**
          * Create a normal transaction and return the content of transaction in json format.
@@ -390,44 +386,34 @@ declare module WalletPlugin {
          */
         publishTransaction(args, success, error);
 
+
+        /**
+         * Get all qualified normal transactions sorted by descent (newest first).
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
+         * @param start specify start index of all transactions list.
+         * @param count specify count of transactions we need.
+         * @param txid transaction ID to be filtered.
+         * @return All qualified transactions in json format.
+         * {"MaxCount":3,"Transactions":[{"Amount":"20000","ConfirmStatus":"6+","Direction":"Received","Height":172570,"Status":"Confirmed","Timestamp":1557910458,"TxHash":"ff454532e57837cbe04f56a7e43f4209b5eb61d5d2a43a016a769c60d21125b6","Type":6},{"Amount":"10000","ConfirmStatus":"6+","Direction":"Received","Height":172569,"Status":"Confirmed","Timestamp":1557909659,"TxHash":"7253b2cefbac794b621b0080f0f5a4c27d5c91f65c83da75aad615062c42ac5a","Type":6},{"Amount":"100000","ConfirmStatus":"6+","Direction":"Received","Height":172300,"Status":"Confirmed","Timestamp":1557809019,"TxHash":"7e53bb8fe1617bdb57f7346bcf7d2e9dfa6b5d3f3524d0695046389bea79dcd9","Type":6}]}
+         */
+        getAllTransaction(args, success, error);
+
         /**
          * Add a sub wallet callback object listened to current sub wallet.
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
          */
         registerWalletListener(args, success, error);
 
         /**
          * Remove a sub wallet callback object listened to current sub wallet.
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
          */
         removeWalletListener(args, success, error);
 
-        sign(args, success, error);
-        checkSign(args, success, error);
-
-        // sendRawTransaction(args, success, error);
-        createIdTransaction(args, success, error);
-        getResolveDIDInfo(args, success, error);
-        getAllDID(args, success, error);
-        didSign(args, success, error);
-        didSignDigest(args, success, error);
-        verifySignature(args, success, error);
-        getPublicKeyDID(args, success, error);
-        generateDIDInfoPayload(args, success, error);
-
-        //MainchainSubWallet
-
-        /**
-         * Deposit token from the main chain to side chains, such as ID chain or token chain, etc.
-         * @param masterWalletID is the unique identification of a master wallet object.
-         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
-         * @param fromAddress      If this address is empty, wallet will pick available UTXO automatically.
-         *                         Otherwise, wallet will pick UTXO from the specific address.
-         * @param sideChainID      Chain id of the side chain.
-         * @param amount           The amount that will be deposit to the side chain.
-         * @param sideChainAddress Receive address of side chain.
-         * @memo                   Remarks string. Can be empty string.
-         * @return                 The transaction in JSON format to be signed and published.
-         */
-        createDepositTransaction(args, success, error);
+        // sideChainSubWallet
 
         /**
          * Create a withdraw transaction and return the content of transaction in json format. Note that \p amount should greater than sum of \p so that we will leave enough fee for mainchain.
@@ -449,9 +435,128 @@ declare module WalletPlugin {
          */
         getGenesisAddress(args, success, error);
 
+        // IDChainSubWallet
 
-        // getMasterWalletPublicKey(args, success, error);
-        // getSubWalletPublicKey(args, success, error);
+        /**
+         * Create a id transaction and return the content of transaction in json format, this is a special transaction to register id related information on id chain.
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
+         * @param payloadJson is payload for register id related information in json format, the content of payload should have Id, Path, DataHash, Proof, and Sign.
+         * @param memo input memo attribute for describing.
+         * @return If success return the content of transaction in json format.
+         */
+        createIdTransaction(args, success, error);
+
+        /**
+         * Get all Resolved DID list of current subwallet.
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
+         * @param start specify start index of all did list.
+         * @param count specify count of did we need.
+         * @param did filter word, if empty all did list shall be qualified.
+         * @return all did list of resolved in json format.
+         * example:
+         * params did is not empty
+         * {"DID":[{"expires":1575104460,"id":"innnNZJLqmJ8uKfVHKFxhdqVtvipNHzmZs","issuanceDate":1572516335,"operation":"update","publicKey":[{"id":"#primary","publicKey":"031f7a5a6bf3b2450cd9da4048d00a8ef1cb4912b5057535f65f3cc0e0c36f13b4"}],"status":"Confirmed"}],"MaxCount":1}
+         * or params did is empty
+         * {"DID":[{"expires":"1575104460","id":"iZFrhZLetd6i6qPu2MsYvE2aKrgw7Af4Ww","didName":"testname","operation":"create","issuanceDate":1575104460,status:"Pending"},{"expires":"1575104460","id":"ifUQ59wFpHUKe5NZ6gjffx48sWEBt9YgQE","didName":"testname","operation":"create","issuanceDate":1575104460,status:"Confirmed"}],"MaxCount":2}
+         */
+        getResolveDIDInfo(args, success, error);
+
+        /**
+         * Get all DID derived of current subwallet.
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param start specify start index of all DID list.
+         * @param count specify count of DID we need.
+         * @return If success return all DID in JSON format.
+         *
+         * example:
+         * GetAllDID(0, 3) will return below
+         * {
+         *     "DID": ["iZDgaZZjRPGCE4x8id6YYJ158RxfTjTnCt", "iPbdmxUVBzfNrVdqJzZEySyWGYeuKAeKqv", "iT42VNGXNUeqJ5yP4iGrqja6qhSEdSQmeP"],
+         *     "MaxCount": 100
+         * }
+         */
+        getAllDID(args, success, error);
+
+        /**
+         * Sign message with private key of did.
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param did will sign the message with public key of this did.
+         * @param message to be signed.
+         * @param payPassword pay password.
+         * @return If success, signature will be returned.
+         */
+        didSign(args, success, error);
+
+        /**
+         * Sign message with private key of did.
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param did will sign the message with public key of this did.
+         * @param digest hex string of sha256
+         * @param payPassword pay password.
+         * @return If success, signature will be returned.
+         */
+        didSignDigest(args, success, error);
+
+        /**
+         * Verify signature with specify public key
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param publicKey public key.
+         * @param message message to be verified.
+         * @param signature signature to be verified.
+         * @return true or false.
+         */
+        verifySignature(args, success, error);
+
+        /**
+         * Get DID by public key
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param pubkey public key
+         * @return did string
+         */
+        getPublicKeyDID(args, success, error);
+
+        /**
+         * Generate payload for operation the did.
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param inputInfo to generate DIDInfoPayload json fomat,able used to CreateIDTransaction. Content such as
+         * {
+            "id": "innnNZJLqmJ8uKfVHKFxhdqVtvipNHzmZs",
+             "didName":"testName",
+            "operation":"create",
+             "publicKey": [{
+              "id": "#primary",
+              "publicKey":
+             "031f7a5a6bf3b2450cd9da4048d00a8ef1cb4912b5057535f65f3cc0e0c36f13b4"
+              }, {
+             "id": "#recovery",
+             "controller": "ip7ntDo2metGnU8wGP4FnyKCUdbHm4BPDh",
+             "publicKey":
+             "03d25d582c485856520c501b2e2f92934eda0232ded70cad9e51cf13968cac22cc"
+             }],
+            "expires":1575104460
+           }
+         * @return The payload in JSON format.
+         */
+        generateDIDInfoPayload(args, success, error);
+
+        //MainchainSubWallet
+
+        /**
+         * Deposit token from the main chain to side chains, such as ID chain or token chain, etc.
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
+         * @param fromAddress      If this address is empty, wallet will pick available UTXO automatically.
+         *                         Otherwise, wallet will pick UTXO from the specific address.
+         * @param sideChainID      Chain id of the side chain.
+         * @param amount           The amount that will be deposit to the side chain.
+         * @param sideChainAddress Receive address of side chain.
+         * @memo                   Remarks string. Can be empty string.
+         * @return                 The transaction in JSON format to be signed and published.
+         */
+        createDepositTransaction(args, success, error);
+
         // disposeNative(args, success, error);
         // getMultiSignPubKeyWithMnemonic(args, success, error);
         // getMultiSignPubKeyWithPrivKey(args, success, error);
@@ -611,7 +716,7 @@ declare module WalletPlugin {
          * @param chainID unique identity of a sub wallet. Chain id should not be empty.
          * @return Owner public key.
          */
-        getPublicKeyForVote(args, success, error);
+        getOwnerPublicKey(args, success, error);
 
         //CR
 

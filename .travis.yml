@@ -3,15 +3,15 @@ sudo: true
 
 matrix:
   include:
-    - os: osx
-      osx_image: xcode11.3
-      env: NODEJS_VERSION=11 NDK=r18b BUILD_TARGET=runtime BUILD_PLATFORM=ios
-      if: NOT tag IS present OR tag !~ /^(daily)/
-      addons:
-        homebrew:
-          update: true
-          taps: homebrew/cask-versions
-          casks: adoptopenjdk8
+    # - os: osx
+    #   osx_image: xcode11.3
+    #   env: NODEJS_VERSION=11 NDK=r18b BUILD_TARGET=runtime BUILD_PLATFORM=ios
+    #   if: NOT tag IS present OR tag !~ /^(daily)/
+    #   addons:
+    #     homebrew:
+    #       update: true
+    #       taps: homebrew/cask-versions
+    #       casks: adoptopenjdk8
 
     - language: android
       dist: trusty

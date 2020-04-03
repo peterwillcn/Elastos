@@ -470,7 +470,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
             return;
         }
         
-        NSString *didString=  [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwdString withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID];
+        NSString *didString=  [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwdString withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
         if (didString.length>0) {
             FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
             model.walletID=self.currentWallet.masterWalletID;

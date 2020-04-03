@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(BOOL)saveDir;
 -(NSString*)hasDIDWithPWD:(NSString *)passWord withDIDString:(NSString*)DIDString
 WithPrivatekeyString:(NSString*)privatekeyString
-         WithmastWalletID:(NSString*)mastWalletID;
+         WithmastWalletID:(NSString*)mastWalletID needCreatDIDString:(BOOL)need;
 -(NSDictionary*)getDIDInfo;
 -(BOOL)updateInfoWithInfo:(HWMDIDInfoModel*)model;
 -(id)jwtDecodeWithJwtStringInfo:(NSString *)jwtStr;

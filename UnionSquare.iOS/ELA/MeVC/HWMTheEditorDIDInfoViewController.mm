@@ -35,7 +35,7 @@
     
     self.nickNameLabel.text=self.model.didName;
        self.publicKeyLabel.text=self.PubKeyString;
-       self.DIDLabel.text=[NSString stringWithFormat:@"did:ela:%@",self.model.did];
+       self.DIDLabel.text=[NSString stringWithFormat:@"%@",self.model.did];
        self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.endString]];
 }
 - (IBAction)changeTimeDataInfoEvent:(id)sender {
@@ -95,7 +95,7 @@
            return;
        }
     
-    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID];
+    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
     if ([[HWMDIDManager shareDIDManager]updateInfoWithInfo:self.model]) {
         [self showSendSuccessView];
        }else{

@@ -26,7 +26,7 @@ UINib *_cellCodeAndPhonenumberNib;
 static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTableViewCell";
 
-@interface HWMAddPersonalInformationViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDDataListViewDelegate, HMWSelectCountriesOrRegionsViewControllerDelegate,HWMDIDInfoListViewDelegate,HWMCreateDIDListTableViewCellDelegate,UITextFieldDelegate,HWMTheAreaCodeAndPhonenumberTableViewCellDelegate,HMWpwdPopupViewDelegate>
+@interface HWMAddPersonalInformationViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDDataListViewDelegate, HMWSelectCountriesOrRegionsViewControllerDelegate,HWMDIDInfoListViewDelegate,HWMCreateDIDListTableViewCellDelegate,UITextFieldDelegate,HWMTheAreaCodeAndPhonenumberTableViewCellDelegate,HMWpwdPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *textInfoLabel;
 /*
  *<# #>
@@ -46,7 +46,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 /*
  *<# #>
  */
-@property(strong,nonatomic)HMWToDeleteTheWalletPopView *openIDChainView;
+@property(strong,nonatomic)HMWToDeleteTheWalletPopView *deleteHasSaveChainView;
 /*
  *<# #>
  */
@@ -71,7 +71,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
  *<# #>
  */
 @property(strong,nonatomic)HMWpwdPopupView*pwdPopupV;
-
+@property(copy,nonatomic)NSString* deleteIndex;
 @end
 
 @implementation HWMAddPersonalInformationViewController
@@ -84,10 +84,13 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     [self makeUI];
     if (self.isEidet||self.whereFrome) {
         self.title=NSLocalizedString(@"编辑个人信息", nil);
-        self.textInfoLabel.alpha=0.f;
-        self.infoHeight.constant=0.f;
+//        self.textInfoLabel.alpha=0.f;
+//        self.infoHeight.constant=0.f;
         [self.skipButton setTitle:NSLocalizedString(@"保存", nil) forState: UIControlStateNormal];
-        [self updaeDataArray];
+        if (self.isEidet) {
+            [self updaeDataArray];
+        }
+        
     }else{
         self.title=NSLocalizedString(@"添加个人信息", nil);
         
@@ -293,12 +296,12 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         cell.infoLabel.alpha=1.f;
         cell.infoLabel.text=[NSString stringWithFormat:@"%@",titleString];
         cell.intPutTextField.alpha=0.f;
-//        if (self.model.introduction.length>0) {
-            cell.LimitThatLabel.alpha=1.f;
-            cell.LimitThatLabel.text=NSLocalizedString(@"  正文内容限制字符…  ", nil);
-//        }else{
-//            cell.LimitThatLabel.alpha=0.f;
-//        }
+        //        if (self.model.introduction.length>0) {
+        cell.LimitThatLabel.alpha=1.f;
+        cell.LimitThatLabel.text=NSLocalizedString(@"  正文内容限制字符…  ", nil);
+        //        }else{
+        //            cell.LimitThatLabel.alpha=0.f;
+        //        }
         
     }else if([typeString isEqualToString:@"1"]){
         cell.infoLabel.alpha=0.f;
@@ -471,14 +474,24 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     [self.table reloadData];
 }
 -(void)deleteWithIndex:(NSString*_Nullable)index{
-    NSString *indeString=[NSString stringWithFormat:@"%@",index];
+    self.deleteIndex=index;
+    if (self.whereFrome) {
+        [self showDeleteHasSaveChainView];
+    }else{
+        [self delegateInfo];
+    }
+    
+}
+-(void)delegateInfo{
+    
+    NSString *indeString=[NSString stringWithFormat:@"%@",self.deleteIndex];
     if ([self.defMArray containsObject:indeString]) {
         [self.defMArray removeObject:indeString];
     }
     if (![self.showInfoListAarry containsObject:indeString]) {
         [self.showInfoListAarry addObject:indeString];
     }
-    switch ([index intValue]) {
+    switch ([indeString intValue]) {
         case 0://"昵称"
             self.model.nickname=@"";
             break;
@@ -529,8 +542,19 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     
     
     [self.table reloadData];
+    
 }
+
 -(void)delegateViewWithDic:(NSDictionary *)dic{
+    if (self.whereFrome) {
+        self.deleteIndex=@"-1";
+        [self showDeleteHasSaveChainView];
+    }else{
+        [self updeDeleIphoneNumber];
+    }
+    
+}
+-(void)updeDeleIphoneNumber{
     if ([self.defMArray containsObject:@"5"]) {
         [self.defMArray removeObject:@"5"];
     }
@@ -581,6 +605,51 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         default:
             break;
     }
+    
+}
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    
+    NSInteger tag=textField.tag;
+    switch (tag) {
+        case 100:
+            return  [[FLTools share]textField:textField replacementString:string withStringLenth:16];
+            break;
+        case 103:
+            return  [[FLTools share]textField:textField replacementString:string withStringLenth:100];
+            break;
+        case 104:
+            return  [[FLTools share]textField:textField replacementString:string withStringLenth:100];
+            break;
+        case 108:
+            return  [[FLTools share]textField:textField replacementString:string withStringLenth:100];
+            break;
+        case 109:
+            return  [[FLTools share]textField:textField replacementString:string withStringLenth:50];
+            break;
+        case 110:
+            return  [[FLTools share]textField:textField replacementString:string withStringLenth:50];
+            break;
+        case 111:
+            return  [[FLTools share]textField:textField replacementString:string withStringLenth:50];
+            break;
+        case 112:
+            return  [[FLTools share]textField:textField replacementString:string withStringLenth:50];
+            break;
+        case 113:
+            return  [[FLTools share]textField:textField replacementString:string withStringLenth:50];
+            break;
+        case 10001:
+            return  [[FLTools share]textField:textField replacementString:string withStringLenth:15];
+            break;
+        case 10002:
+            return  [[FLTools share]textField:textField replacementString:string withStringLenth:6];
+            break;
+        default:
+            return YES;
+            break;
+    }
+    return YES;
+    
     
 }
 - (NSMutableArray*)bubblingSort:(NSMutableArray *)sourceArr{
@@ -637,12 +706,12 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     if (privatekeyString.length==0) {
         return;
     }
-    NSString *didString=[[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID];
+    NSString *didString=[[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:YES];
     if (didString.length==0) {
         return;
     }
     self.currentWallet.didString=didString;
-    if (self.isEidet) {
+    if (self.isEidet||self.whereFrome) {
         BOOL isSucess=[[HWMDIDManager shareDIDManager ]saveDIDCredentialWithDIDModel: self.model];
         if (isSucess) {
             [self hiddenPWDView];
@@ -711,5 +780,47 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 }
 -(void)setCurrentWallet:(FLWallet *)currentWallet{
     _currentWallet=currentWallet;
+}
+-(HMWToDeleteTheWalletPopView *)deleteHasSaveChainView{
+    if (!_deleteHasSaveChainView) {
+        _deleteHasSaveChainView=[[HMWToDeleteTheWalletPopView alloc]init];
+        _deleteHasSaveChainView.delegate=self;
+        _deleteHasSaveChainView.deleteType=deleteHasSaveInfoType;
+    }
+    return _deleteHasSaveChainView;
+}
+-(void)sureToDeleteViewWithPWD:(NSString*)pwd{
+    if ([self.deleteIndex isEqualToString:@"-1"]) {
+        [self updeDeleIphoneNumber];
+    }else{
+        [self delegateInfo];
+    }
+    
+    
+    [self toCancelOrCloseDelegate];
+}
+-(void)toCancelOrCloseDelegate{
+    self.deleteHasSaveChainView.alpha=0.f;
+}
+-(void)showDeleteHasSaveChainView{
+    if (self.deleteHasSaveChainView.alpha==0.f) {
+        self.deleteHasSaveChainView.alpha=1.f;
+    }else{
+        UIView *mainView= [self mainWindow];
+        [mainView addSubview:self.deleteHasSaveChainView];
+        [self.deleteHasSaveChainView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(mainView);
+        }];
+        
+    }
+    
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if (self.deleteHasSaveChainView) {
+        [self.deleteHasSaveChainView removeFromSuperview];
+        self.deleteHasSaveChainView=nil;
+    }
+    
 }
 @end

@@ -148,12 +148,12 @@ UINib *_nib;
         return;
     }
     if (self.MemberOfTheUpdate) {
-        [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.DIDString WithPrivatekeyString:PrivateKeyString WithmastWalletID:self.mastWalletID];
+        [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.DIDString WithPrivatekeyString:PrivateKeyString WithmastWalletID:self.mastWalletID needCreatDIDString:NO];
         [ self  POSTJWTInfoWithDic];
     }else{
         
         [self cancelThePWDPageView];
-        if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.DIDString WithPrivatekeyString:PrivateKeyString WithmastWalletID:self.mastWalletID]){
+        if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.DIDString WithPrivatekeyString:PrivateKeyString WithmastWalletID:self.mastWalletID needCreatDIDString:NO]){
             NSString *playString=[[FLTools share]DicToString:self.infoDic];
             NSString *jwtString=[self throuJWTStringWithplayString:playString];
             NSString *REString= [[HWMDIDManager shareDIDManager] DIDSignatureWithString:jwtString];
@@ -178,15 +178,15 @@ UINib *_nib;
 -(void)POSTJWTInfoWithDic{
     NSString *infoString=[[HWMDIDManager shareDIDManager]generateDIDCredentialString];
     NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]dictionaryWithJsonString:infoString]];
-   
-
+    
+    
     NSString *updaModelString=[self.updateModel modelToJSONString];
     NSDictionary *upDic=[[FLTools share]dictionaryWithJsonString:updaModelString];
     NSMutableDictionary *updaModelDic=[NSMutableDictionary dictionaryWithDictionary:upDic];
     [updaModelDic setValue:dic[@"credentialSubject"][@"id"] forKey:@"id"];
     [dic setValue:dic[@"credentialSubject"] forKey:@"credentialSubject"];
     infoString=[[FLTools share]DicToString:dic];
-     NSString *jwtString=[self throuJWTStringWithplayString:infoString];
+    NSString *jwtString=[self throuJWTStringWithplayString:infoString];
     
     NSString *REString= [[HWMDIDManager shareDIDManager] DIDSignatureWithString:jwtString];
     NSString *httpIP=[[FLTools share]http_IpFast];

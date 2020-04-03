@@ -1644,7 +1644,24 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
       }else if ([languageString  containsString:@"zh"]){
           timeS =[NSString stringWithFormat:@"%ld.%02d.%02d %@",comp.year,(int)comp.month,(int)comp.day,horr ];;
         }
-        
         return timeS;
 }
+
+-(BOOL)textField:(UITextField *)textField replacementString:(NSString *)string withStringLenth:(NSInteger)length{
+ if (textField.text.length==0) {
+     NSString *tem = [[string componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]componentsJoinedByString:@""];
+       if (![string isEqualToString:tem]) {
+           return NO;
+       }
+ }
+ if (textField.text.length+string.length>length) {
+     NSString *subString=[NSString stringWithFormat:@"%@%@",textField.text,string];
+     textField.text=[subString substringToIndex:length];
+     return NO;
+ }
+ 
+    return YES;
+    
+}
+
 @end

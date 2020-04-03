@@ -82,7 +82,7 @@ UINib *ImportDocumentsNib;
     if (privatekeyString.length==0) {
         return;
     }
-    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.currentWallet.didString WithPrivatekeyString:privatekeyString WithmastWalletID:self.currentWallet.masterWalletID];
+    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.currentWallet.didString WithPrivatekeyString:privatekeyString WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
     NSDictionary *dic=self.allDirAaary[self.selectIndex];
     BOOL isSucce=  [[HWMDIDManager shareDIDManager]CertificateUpdateWithWalletID:self.currentWallet.masterWalletID WithFileName:dic[@"fileName"]];
     if (isSucce) {

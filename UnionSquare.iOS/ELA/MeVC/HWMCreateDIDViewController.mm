@@ -233,7 +233,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
             cell.arrowImageView.alpha=0.f;
           if (self.PublicKeysString.length>0) {
               cell.intPutTextField.alpha=0;
-              cell.infoLabel.text=[NSString stringWithFormat:@"did:ela:%@",self.PublicKeysString];
+              cell.infoLabel.text=[NSString stringWithFormat:@"did:elastos:%@",self.PublicKeysString];
                  cell.infoLabel.alpha=1.f;
 //              cell.intPutTextField.text=self.PublicKeysString;
           }else{
@@ -445,6 +445,17 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     }
     return YES;
 
+}
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    if (textField.text.length==0) {
+        NSString *tem = [[string componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]componentsJoinedByString:@""];
+          if (![string isEqualToString:tem]) {
+              return NO;
+          }
+    }
+    
+  return [[FLTools share]textField:textField replacementString:string withStringLenth:50];
+    
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField{
     if (textField.tag ==100) {

@@ -70,11 +70,10 @@ static const char *TestDIDAdaptor_CreateIdTransaction(DIDAdapter *_adapter, cons
     NSString * walletID=[NSString stringWithFormat:@"%s",adapter->walletId];
     NSString *payloadJsonString=[NSString stringWithFormat:@"%s",payload];
     NSString *memoString=[NSString stringWithFormat:@"%s",memo];
-    //    NSLog(@"password===%@---%@",password,payloadJsonString);
-    
-    
-    if (!adapter || !payload)
+    if (!adapter || !payload){
         return NULL;
+        
+    }
     invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[walletID,@"IDChain",password,memoString,@"",payloadJsonString] callbackId:walletID className:@"wallet" methodName:@"SpvDidAdapter_CreateIdTransactionEXWith"];
     PluginResult * resultBase =[[ELWalletManager share]SpvDidAdapter_CreateIdTransactionEXWith:cmommand];
     NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
@@ -115,7 +114,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
 }
 -(NSString*)hasDIDWithPWD:(NSString *)passWord withDIDString:(NSString*)DIDString
      WithPrivatekeyString:(NSString*)privatekeyString
-         WithmastWalletID:(NSString*)mastWalletID{
+         WithmastWalletID:(NSString*)mastWalletID needCreatDIDString:(BOOL)need{
     NSInteger re;
     self.passWord=passWord;
     self.privatekeyString=privatekeyString;
@@ -188,13 +187,16 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
             }
         }
     }else{//没有
-        
-        doc=DIDStore_LoadDID(store, did);
-        if (doc==NULL) {
-            doc=DIDStore_NewDIDByIndex(store, [self.passWord UTF8String], 0, "name");//
-            DIDDocument_Destroy(doc);
+        if (need) {
+            doc=DIDStore_LoadDID(store, did);
+            if (doc==NULL) {
+                doc=DIDStore_NewDIDByIndex(store, [self.passWord UTF8String], 0, "name");//
+                DIDDocument_Destroy(doc);
+            }
+            return self.DIDString;
+        }else{
+            return @"";
         }
-        return self.DIDString;
         
     }
 }
@@ -409,7 +411,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     return YES;
 }
 -(bool)CheckDIDwhetherExpiredWithDIDString:(NSString*)didString WithmastWalletID:(NSString*)walletID{
-    [self hasDIDWithPWD:@"" withDIDString:didString WithPrivatekeyString:@"" WithmastWalletID:walletID];
+    [self hasDIDWithPWD:@"" withDIDString:didString WithPrivatekeyString:@"" WithmastWalletID:walletID needCreatDIDString:NO];
     NSDictionary *dic=[self getDIDInfo];
     if ([dic[@"endTime"] intValue]<[[[FLTools share]getNowTimeTimestampS] intValue]) {
         [[FLTools share]showErrorInfo:NSLocalizedString(@"DID已过期", nil)];
@@ -443,8 +445,8 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     NSString *infoString=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSDictionary *infoDic=[[FLTools share]dictionaryWithJsonString:infoString];
     HWMDIDInfoModel *model=[HWMDIDInfoModel modelWithDictionary:infoDic[@"credentialSubject"]];
-   BOOL  Credential=[self saveDIDCredentialWithDIDModel:model];
-   BOOL updateInfo= [self updateInfoWithInfo:model];
+    BOOL  Credential=[self saveDIDCredentialWithDIDModel:model];
+    BOOL updateInfo= [self updateInfoWithInfo:model];
     if (Credential&&updateInfo) {
         return YES;
     }

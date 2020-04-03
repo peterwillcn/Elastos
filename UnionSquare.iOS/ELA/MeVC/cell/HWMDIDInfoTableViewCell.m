@@ -25,7 +25,7 @@
 }
 - (IBAction)copyEvent:(id)sender {
     if (self.infoLabel.text.length>0) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"复制成功", nil)];
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"已复制到剪贴板", nil)];
            [[FLTools share]copiedToTheClipboardWithString:self.infoLabel.text];
     }
 }

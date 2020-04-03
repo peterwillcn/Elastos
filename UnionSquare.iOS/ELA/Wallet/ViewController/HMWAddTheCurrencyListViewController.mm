@@ -43,29 +43,21 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
 }
 -(void)loadTheCurrencyList{
     invokedUrlCommand * cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"getSupportedChains"];
-//
-  PluginResult *result=
+    PluginResult *result=
     [[ELWalletManager share]getSupportedChains:cmommand];
-    
-
     NSArray *arr=[NSArray arrayWithArray:result.message[@"success"]];
-    
     for (int i=0; i<arr.count; i++) {
         NSString *iconName = arr[i];
         AddTheCurrencyListModel *listModel=[[AddTheCurrencyListModel alloc]init];
         listModel.nameIcon=iconName;
-        if(self.openedTheSubstringArrayList.count>i){
-            assetsListModel *model=self.openedTheSubstringArrayList[i];
-            
+        listModel.isAdd=NO;
+        for (assetsListModel *model in self.openedTheSubstringArrayList) {
             if ([model.iconName isEqualToString:iconName]){
                 listModel.isAdd=YES;
             }
-        }else{
-            listModel.isAdd=NO;
         }
         [self.addTheCurrencyList addObject:listModel];
     }
-    
     [self.baseTable reloadData];
     
 }
@@ -76,7 +68,7 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
     return _addTheCurrencyList;
 }
 -(void)makeView{
-   
+    
     self.baseTable=[[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     self.baseTable.delegate=self;
     self.baseTable.dataSource=self;
@@ -97,7 +89,7 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
         make.left.equalTo(self.view.mas_left).offset(30);
         make.right.equalTo(self.view.mas_right).offset(-30);
         make.bottom.equalTo(self.view.mas_bottom).offset(-15);
-
+        
     }];
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -116,7 +108,7 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
     return NULL;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-  
+    
     return 5;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -127,7 +119,7 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     HMWAddTheCurrencyListTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
-//    cell.backgroundColor=[UIColor clearColor];
+    //    cell.backgroundColor=[UIColor clearColor];
     cell.model=self.addTheCurrencyList[indexPath.section];
     cell.delegate=self;
     cell.index=indexPath;
@@ -160,12 +152,10 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
     if (model.isAdd) {
         PluginResult *result=
         [[ELWalletManager share]DestroySubWallet:cmommand];
-      
         [[HMWFMDBManager sharedManagerType:sideChain] delectSideChain:self.wallet.masterWalletID withIconName:model.nameIcon];
-        
     }else{
         
-    PluginResult *result = [[ELWalletManager share]createSubWallet:cmommand];
+        PluginResult *result = [[ELWalletManager share]createSubWallet:cmommand];
         
         sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
         sideModel.walletID=self.wallet.masterWalletID;
@@ -179,9 +169,9 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
     }
     
     
-  
     
-     model.isAdd=!model.isAdd;
+    
+    model.isAdd=!model.isAdd;
     self.addTheCurrencyList[index.section]=model;
     self.needUpdate=YES;
     if (model.isAdd&&self.didType.length>0) {
@@ -191,7 +181,7 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
                 [self.delegate openIDChainOfDIDAddWithWallet:self.wallet.masterWalletID];
             }
         }else{
-           [self.navigationController popToRootViewControllerAnimated:YES];
+            [self.navigationController popToRootViewControllerAnimated:YES];
         }
         
     }
@@ -201,8 +191,8 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
     [super viewWillDisappear:animated];
     if (self.needUpdate) {
         [[NSNotificationCenter defaultCenter] postNotificationName:updataWallet object:@"index"];
-//         addObserver:self selector:@selector(updataWalletListInfo:) name:updataWallet object:nil];
-
+        //         addObserver:self selector:@selector(updataWalletListInfo:) name:updataWallet object:nil];
+        
     }
     
 }

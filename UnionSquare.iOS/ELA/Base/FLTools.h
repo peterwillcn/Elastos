@@ -154,4 +154,5 @@
 -(NSString *)TimeFormatConversionBirthday:(NSString *)timeStr;
 -(NSString*)getFileIndexCount:(NSString*)fielName;
 -(NSString *)YMDWithDate:( NSDate *)myDate;
+-(BOOL)textField:(UITextField *)textField replacementString:(NSString *)string withStringLenth:(NSInteger)length;
 @end

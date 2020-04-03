@@ -31,19 +31,18 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-          [self setBackgroundImg:@""];
-    self.title=self.model.didName;
+    [self setBackgroundImg:@""];
+    self.title=@"DID";
     [self getDIDInfo];
     self.DIDInfoTextLabel.text=NSLocalizedString(@"DID信息", nil);
     [[HMWCommView share]makeBordersWithView:self.theEditorButton];
     [[HMWCommView share]makeBordersWithView:self.ConfidentialInformationButton];
     [self.theEditorButton setTitle:NSLocalizedString(@"编辑", nil) forState:UIControlStateNormal];
     [self.ConfidentialInformationButton setTitle:NSLocalizedString(@"凭证信息", nil) forState:UIControlStateNormal];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"del_icon"] style:UIBarButtonItemStyleDone target:self action:@selector(deleteDIDEvent)];
     [self makeUI];
 }
 -(void)getDIDInfo{
-    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID];
+    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
     NSDictionary *didInfoDic=[[HWMDIDManager shareDIDManager]getDIDInfo];
     if (self.model==nil) {
         self.model=[[HWMDIDInfoModel alloc]init];
@@ -51,18 +50,18 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
     self.model.did=didInfoDic[@"DIDString"];
     self.model.didName=didInfoDic[@"nickName"];
     self.model.endString=didInfoDic[@"endTime"];
-   
-      invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,@"IDChain",@"0",@"100"] callbackId:self.currentWallet.masterWalletID className:@"wallet" methodName:@"createMasterWallet"];
-    PluginResult * resultBasePublicKeysList =[[ELWalletManager share]getAllPublicKeys:cmommand];
-     NSString *status=[NSString stringWithFormat:@"%@",resultBasePublicKeysList.status];
-        if ([status isEqualToString:@"1"]) {
-     
-     NSArray *PublicKeysListArray=resultBasePublicKeysList.message[@"success"][@"PublicKeys"];
     
-           self.PubKeyString=PublicKeysListArray.firstObject;
-         
-            
-        }
+    invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,@"IDChain",@"0",@"100"] callbackId:self.currentWallet.masterWalletID className:@"wallet" methodName:@"createMasterWallet"];
+    PluginResult * resultBasePublicKeysList =[[ELWalletManager share]getAllPublicKeys:cmommand];
+    NSString *status=[NSString stringWithFormat:@"%@",resultBasePublicKeysList.status];
+    if ([status isEqualToString:@"1"]) {
+        
+        NSArray *PublicKeysListArray=resultBasePublicKeysList.message[@"success"][@"PublicKeys"];
+        
+        self.PubKeyString=PublicKeysListArray.firstObject;
+        
+        
+    }
 }
 -(NSArray *)dataArray{
     if (!_dataArray) {
@@ -71,7 +70,7 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
     return _dataArray;
 }
 -(void)deleteDIDEvent{
-
+    
     UIView * mainView=[self mainWindow];
     [mainView addSubview:self.deleteDIDPopView];
     [self.deleteDIDPopView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -112,56 +111,56 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
     [self.navigationController pushViewController:ConfidentialInformationVC animated:YES];
 }
 -(void)makeUI{
-     [self.table registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
-        
-           self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
-         self.table.rowHeight = 55;
-           self.table.delegate =self;
-           self.table.dataSource =self;
-        self.table.backgroundColor=[UIColor clearColor];
-        [self.table reloadData];
-        
-    }
+    [self.table registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
+    
+    self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.table.rowHeight = 55;
+    self.table.delegate =self;
+    self.table.dataSource =self;
+    self.table.backgroundColor=[UIColor clearColor];
+    [self.table reloadData];
+    
+}
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-    {
-
-      HWMDIDInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellString];
-        cell.leftTextLabel.text=self.dataArray[indexPath.row];
-        switch (indexPath.row) {
-            case 0:
-                cell.infoLabel.text=self.model.didName;
+{
+    
+    HWMDIDInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellString];
+    cell.leftTextLabel.text=self.dataArray[indexPath.row];
+    switch (indexPath.row) {
+        case 0:
+            cell.infoLabel.text=self.model.didName;
             break;
-            case 1:
-                cell.infoLabel.text=self.PubKeyString;
+        case 1:
+            cell.infoLabel.text=self.PubKeyString;
             break;
-            case 2:
-                cell.infoLabel.text=self.model.did;
-                
+        case 2:
+            cell.infoLabel.text=self.model.did;
+            
             break;
-            case 3:
-                cell.arrImageView.alpha=0.f;
-                if (self.model.endString.length>0) {
-                    cell.infoLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.endString]];
-                }
-              
+        case 3:
+            cell.arrImageView.alpha=0.f;
+            if (self.model.endString.length>0) {
+                cell.infoLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.endString]];
+            }
+            
             break;
-                
-            default:
-                
+            
+        default:
+            
             break;
-        }
-        cell.selectionStyle=UITableViewCellSelectionStyleNone;
-        
-        return cell;
     }
-    -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-    {
-        return self.dataArray.count;
-    }
-    -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-    {
-
-    }
+    cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    
+    return cell;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.dataArray.count;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
 -(void)setModel:(HWMDIDInfoModel *)model{
     _model=model;
 }

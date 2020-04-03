@@ -636,7 +636,7 @@
             return;
         }
         
-        [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.wallet.masterWalletID];
+        [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.wallet.masterWalletID needCreatDIDString:NO];
         HWMCreateDIDViewController *CreateDIDVC=[[HWMCreateDIDViewController alloc]init];
         [self toCancelOrCloseDelegate];
         __weak __typeof__ (self) weakSelf = self;

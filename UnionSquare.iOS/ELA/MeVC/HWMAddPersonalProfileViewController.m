@@ -26,11 +26,9 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-         [self defultWhite];
-     [self setBackgroundImg:@""];
-
-     self.title=NSLocalizedString(@"添加个人简介", nil);
-//    self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:self.skipButton];
+    [self defultWhite];
+    [self setBackgroundImg:@""];
+    //    self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:self.skipButton];
     self.textInfoLabel.text=NSLocalizedString(@"温馨提示：本页内容均为非必填项。", nil);
     self.infoTextView.delegate=self; self.infoTextView.layer.cornerRadius=5.f;
     self.infoTextView.layer.borderWidth=1.f;
@@ -39,8 +37,8 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
     [[HMWCommView share]makeBordersWithView:self.nextButton];
     placeHText=NSLocalizedString(@"请输入个人简介（不超过800个字符）", nil);
     if (self.isEidet) {
-       self.title=NSLocalizedString(@"编辑个人简介", nil);
-//        self.skipButton.alpha=0.f;
+        self.title=NSLocalizedString(@"编辑个人简介", nil);
+        //        self.skipButton.alpha=0.f;
         [self.nextButton setTitle:NSLocalizedString(@"保存", nil) forState:UIControlStateNormal];
         self.infoHeight.constant=0.f;
         self.textInfoLabel.alpha=0.f;
@@ -68,11 +66,11 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
     return _skipButton;
 }
 -(void)skipVCEvent{
-     [self.view endEditing:YES];
+    [self.view endEditing:YES];
     if (self.model.introduction.length>0) {
-    if (self.block) {
-          self.block(self.model);
-      }
+        if (self.block) {
+            self.block(self.model);
+        }
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -95,8 +93,8 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
 -(void)textViewDidEndEditing:(UITextView *)textView{
     
     if ([self.infoTextView.text isEqualToString:placeHText]||self.infoTextView.text.length==0) {
-           self.infoTextView.text=placeHText;
-           self.infoTextView.textColor=RGBA(255, 255, 255, 0.5);
+        self.infoTextView.text=placeHText;
+        self.infoTextView.textColor=RGBA(255, 255, 255, 0.5);
     }else{
         self.model.introduction=self.infoTextView.text;
     }
@@ -107,11 +105,15 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
         [textView resignFirstResponder];
         return NO;
     }
-    if ((textView.text.length+range.length)>800) {
-        
+    if (textView.text.length+text.length>800) {
+        NSString *subString=[NSString stringWithFormat:@"%@%@",textView.text,text];
+        textView.text=[subString substringToIndex:800];
+        self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)textView.text.length];
         return NO;
     }
-     self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)textView.text.length];
+    
+    self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)textView.text.length+text.length];
+    
     
     return YES;
 }
@@ -123,7 +125,7 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-  
+    
     
 }
 

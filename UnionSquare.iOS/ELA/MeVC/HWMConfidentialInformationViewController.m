@@ -40,38 +40,31 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
     HWMDIDInfoModel *readModel=[[HWMDIDManager shareDIDManager]readDIDCredential];
     if ([readModel.did isEqualToString:self.model.did]) {
         self.hasRead=YES;
-         self.model=readModel;
+        self.model=readModel;
     }
-   
     [self makeUI];
 }
 -(NSArray *)dataArray{
     if (!_dataArray) {
-                _dataArray =@[@"个人信息"];
+        _dataArray =@[@"个人信息"];
     }
     return _dataArray;
 }
 -(void)makeUI{
-
-    
-  
     [self.table registerNib:[UINib nibWithNibName:normalCellString bundle:nil] forCellReuseIdentifier:normalCellString];
-        [self.table registerNib:[UINib nibWithNibName:normalCellString bundle:nil] forCellReuseIdentifier:normalCellString];
-       self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
-     self.table.rowHeight = 70;
-       self.table.delegate =self;
-       self.table.dataSource =self;
+    [self.table registerNib:[UINib nibWithNibName:normalCellString bundle:nil] forCellReuseIdentifier:normalCellString];
+    self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.table.rowHeight = 70;
+    self.table.delegate =self;
+    self.table.dataSource =self;
     self.table.backgroundColor=[UIColor clearColor];
-
-    
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   HWMDIDListAbnormalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:normalCellString];
+    HWMDIDListAbnormalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:normalCellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.model=self.model;
     cell.titleString=self.dataArray[indexPath.section];
-    
     return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -79,11 +72,10 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
     return 1;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-  return self.dataArray.count;
+    return self.dataArray.count;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  
     if (self.hasRead) {
         HWMHWMDIDShowInfoViewController *HWMAddPersonalInformationVC=[[HWMHWMDIDShowInfoViewController alloc]init];
         HWMAddPersonalInformationVC.currentWallet=self.currentWallet;
@@ -92,15 +84,12 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
     }else{
         HWMAddPersonalInformationViewController *PersonalInformationVC=[[HWMAddPersonalInformationViewController alloc]init];
         PersonalInformationVC.model=self.model;
-        PersonalInformationVC.isEidet=YES;
+        PersonalInformationVC.whereFrome=YES;
         PersonalInformationVC.currentWallet=self.currentWallet;
         [self.navigationController pushViewController:PersonalInformationVC animated:YES];
-        
     }
-  
 }
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForFooterInSection:(NSInteger)section{
-    
     return 10.f;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -113,7 +102,6 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
     [self.navigationController pushViewController:WExportCertificateMVC animated:YES];
 }
 - (IBAction)TheImportEvent:(id)sender {
-    
     HWMTheImportDocumentsViewController *TheImportDocumentsVC=[[HWMTheImportDocumentsViewController alloc]init];
     TheImportDocumentsVC.currentWallet=self.currentWallet;
     [self.navigationController pushViewController:TheImportDocumentsVC animated:YES];

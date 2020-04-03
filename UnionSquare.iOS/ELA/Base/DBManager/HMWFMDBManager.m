@@ -365,7 +365,7 @@ static HMWFMDBManager * _manager =nil;
     wallet.didString=@"0";
     NSString *sql =@"insert into wallet(walletID,walletAddress,walletName,didString) values(?,?,?,?)";
     @try {
-        if ((void)([self executeUpdate:sql,wallet.walletID,wallet.walletAddress,wallet.walletName]),wallet.didString) {
+        if ([self executeUpdate:sql,wallet.walletID,wallet.walletAddress,wallet.walletName,wallet.didString]) {
         }else{
         }
     } @catch (NSException *exception){

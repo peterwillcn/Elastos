@@ -11,7 +11,7 @@ module.exports = function(ctx) {
 
   const fs = require('fs'),
         path = require('path'),
-        join = require('path').join，
+        join = require('path').join,
         xcode = require('xcode');
 
   let runtimeProjPath = 'platforms/ios/elastOS.xcodeproj/project.pbxproj',

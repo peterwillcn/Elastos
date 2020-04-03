@@ -125,6 +125,11 @@
             [self.delegate sureToDeleteViewWithPWD:@""];
             
         }
+    }else if (self.deleteType== documentsCoveringType){
+        if(self.delegate){
+            [self.delegate sureToDeleteViewWithPWD:@""];
+            
+        }
     }
     
 }
@@ -189,6 +194,9 @@
         
     }else if (deleteType==deleteHasSaveInfoType){
         self.titlePopLabel.text= NSLocalizedString(@"是否删除本项？", nil);
+        
+    }else if (deleteType==documentsCoveringType){
+        self.titlePopLabel.text= NSLocalizedString(@"是否否该当前凭证信息？", nil);
         
     }
     _deleteType=deleteType;

@@ -295,21 +295,21 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
         
     }else if ([title isEqualToString:NSLocalizedString(@"DID",nil)]){
         
-        if (self.isOpen) {
-            
-            if (self.currentWallet.didString.length>5) {
-                
-                
-                
-                
-                HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
-                DIDInfoVC.currentWallet=self.currentWallet;
-                [self.navigationController pushViewController:DIDInfoVC animated:YES];
-            }else{
-                [self showDIDInfoOrCreateDIDInfo];
-                
-            }
-        }else{
+//        if (self.isOpen) {
+//
+//            if (self.currentWallet.didString.length>5) {
+//
+//
+//
+//
+//                HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
+//                DIDInfoVC.currentWallet=self.currentWallet;
+//                [self.navigationController pushViewController:DIDInfoVC animated:YES];
+//            }else{
+//                [self showDIDInfoOrCreateDIDInfo];
+//
+//            }
+//        }else{
             
             UIView *mainView =[self mainWindow];
             self.toDeleteTheWalletPopV.deleteType=openIDChainType;
@@ -318,10 +318,10 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
                 make.left.right.top.bottom.equalTo(mainView);
             }];
             
-            
-        }
-        
-        
+//
+//        }
+//
+//
     }
 }
 -(void)showDIDInfoOrCreateDIDInfo{
@@ -478,7 +478,6 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
             model.walletAddress=self.currentWallet.walletAddress;
             model.didString=didString;
             [[HMWFMDBManager sharedManagerType:walletType]updateRecordWallet:model];
-            [[HWMDIDManager shareDIDManager ]saveDIDCredentialWithDIDModel:nil];
             [[NSNotificationCenter defaultCenter]postNotificationName:updataWallet object:@"index"];
             HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
             DIDInfoVC.currentWallet=self.currentWallet;

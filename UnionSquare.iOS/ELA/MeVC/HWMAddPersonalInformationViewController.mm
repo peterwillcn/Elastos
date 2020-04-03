@@ -84,16 +84,12 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     [self makeUI];
     if (self.isEidet||self.whereFrome) {
         self.title=NSLocalizedString(@"编辑个人信息", nil);
-//        self.textInfoLabel.alpha=0.f;
-//        self.infoHeight.constant=0.f;
         [self.skipButton setTitle:NSLocalizedString(@"保存", nil) forState: UIControlStateNormal];
         if (self.isEidet) {
             [self updaeDataArray];
         }
-        
     }else{
         self.title=NSLocalizedString(@"添加个人信息", nil);
-        
     }
 }
 -(void)updaeDataArray{
@@ -463,9 +459,6 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     if (![self.defMArray containsObject:indeString]) {
         [self.defMArray addObject:indeString];
     }
-    
-    
-    
     [self.showInfoListAarry removeObject:indeString];
 }
 - (void)closeView{
@@ -475,7 +468,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 }
 -(void)deleteWithIndex:(NSString*_Nullable)index{
     self.deleteIndex=index;
-    if (self.whereFrome) {
+    if (self.whereFrome||self.isEidet) {
         [self showDeleteHasSaveChainView];
     }else{
         [self delegateInfo];
@@ -546,7 +539,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 }
 
 -(void)delegateViewWithDic:(NSDictionary *)dic{
-    if (self.whereFrome) {
+    if (self.whereFrome||self.isEidet) {
         self.deleteIndex=@"-1";
         [self showDeleteHasSaveChainView];
     }else{
@@ -790,6 +783,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     return _deleteHasSaveChainView;
 }
 -(void)sureToDeleteViewWithPWD:(NSString*)pwd{
+    
     if ([self.deleteIndex isEqualToString:@"-1"]) {
         [self updeDeleIphoneNumber];
     }else{

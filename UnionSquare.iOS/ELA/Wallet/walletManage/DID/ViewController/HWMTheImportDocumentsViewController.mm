@@ -13,9 +13,10 @@
 #import "HWMDIDManager.h"
 #import "HMWpwdPopupView.h"
 #import "ELWalletManager.h"
+#import "HMWToDeleteTheWalletPopView.h"
 static NSString *cellString=@"HWMImportDocumentsTableViewCell";
 UINib *ImportDocumentsNib;
-@interface HWMTheImportDocumentsViewController ()<UITableViewDataSource,UITableViewDelegate,HMWpwdPopupViewDelegate>
+@interface HWMTheImportDocumentsViewController ()<UITableViewDataSource,UITableViewDelegate,HMWpwdPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate>
 @property(strong,nonatomic)UIButton*skipButton;
 @property (weak, nonatomic) IBOutlet UITableView *table;
 @property(strong,nonatomic)NSMutableArray *allDirAaary;
@@ -26,7 +27,10 @@ UINib *ImportDocumentsNib;
  *<# #>
  */
 @property(strong,nonatomic)HMWpwdPopupView*pwdPopupV;
-
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)HMWToDeleteTheWalletPopView*documentsCoveringPopupV;
 @end
 
 @implementation HWMTheImportDocumentsViewController
@@ -67,8 +71,8 @@ UINib *ImportDocumentsNib;
     
     
     UIView *manView=[self mainWindow];
-    [manView addSubview:self.pwdPopupV];
-    [self.pwdPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
+    [manView addSubview:self.documentsCoveringPopupV];
+    [self.documentsCoveringPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(manView);
     }];
     
@@ -78,19 +82,20 @@ UINib *ImportDocumentsNib;
 }
 -(void)makeSureWithPWD:(NSString*)pwd{
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwd] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
-    NSString * privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
-    if (privatekeyString.length==0) {
-        return;
-    }
-    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.currentWallet.didString WithPrivatekeyString:privatekeyString WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
-    NSDictionary *dic=self.allDirAaary[self.selectIndex];
-    BOOL isSucce=  [[HWMDIDManager shareDIDManager]CertificateUpdateWithWalletID:self.currentWallet.masterWalletID WithFileName:dic[@"fileName"]];
-    if (isSucce) {
-        [[FLTools share]showErrorInfo:@"导入成功"];
-        [self hiddenPWDView];
-    }else{
-        [[FLTools share]showErrorInfo:@"导入失败"];
-    }
+      NSString * privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
+      if (privatekeyString.length==0) {
+          return;
+      }
+      [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.currentWallet.didString WithPrivatekeyString:privatekeyString WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
+      NSDictionary *dic=self.allDirAaary[self.selectIndex];
+      BOOL isSucce=  [[HWMDIDManager shareDIDManager]CertificateUpdateWithWalletID:self.currentWallet.masterWalletID WithFileName:dic[@"fileName"]];
+      if (isSucce) {
+          [[FLTools share]showErrorInfo:@"覆盖成功"];
+          [self hiddenPWDView];
+      }else{
+          [[FLTools share]showErrorInfo:@"覆盖失败"];
+      }
+    [self toCancelOrCloseDelegate];
 }
 -(void)hiddenPWDView{
     [self.pwdPopupV removeFromSuperview];
@@ -164,5 +169,27 @@ UINib *ImportDocumentsNib;
         _pwdPopupV.delegate=self;
     }
     return _pwdPopupV;
+}
+-(HMWToDeleteTheWalletPopView *)documentsCoveringPopupV{
+    if (!_documentsCoveringPopupV) {
+        _documentsCoveringPopupV=[[HMWToDeleteTheWalletPopView alloc]init];
+        _documentsCoveringPopupV.delegate=self;
+        _documentsCoveringPopupV.deleteType=documentsCoveringType;
+    }
+    return _documentsCoveringPopupV;;
+}
+-(void)sureToDeleteViewWithPWD:(NSString*)pwd{
+    
+  UIView *manView=[self mainWindow];
+    [manView addSubview:self.pwdPopupV];
+    [self.pwdPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(manView);
+    }];
+    [self toCancelOrCloseDelegate];
+    
+}
+-(void)toCancelOrCloseDelegate{
+    [self.documentsCoveringPopupV removeFromSuperview];
+    self.documentsCoveringPopupV=nil;
 }
 @end

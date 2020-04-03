@@ -63,7 +63,7 @@
          <EnvironmentVariable
             key = "OS_ACTIVITY_MODE"
             value = "disable"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "MallocStackLogging"
@@ -110,7 +110,7 @@
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Release(MainNet)">
+      buildConfiguration = "Debug(RegTest)">
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "PrvNet "

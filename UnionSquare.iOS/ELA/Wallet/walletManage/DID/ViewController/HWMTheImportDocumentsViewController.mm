@@ -160,7 +160,7 @@ UINib *ImportDocumentsNib;
         [self.allDirAaary addObject:@{@"fileName":fileName,@"date":@"1111"}];
         [self.table reloadData];
     }else{// 不是自己的
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"不是当前钱包的凭证，导入失败", nil)];
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"凭证文件不匹配", nil)];
     }
 }
 -(HMWpwdPopupView *)pwdPopupV{

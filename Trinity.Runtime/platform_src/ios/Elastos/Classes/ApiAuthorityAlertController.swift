@@ -23,9 +23,12 @@
 import UIKit
 
 class ApiAuthorityAlertController: UIViewController {
-    @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak var lblAppName: UILabel!
     @IBOutlet weak var imgIcon: UIImageView!
-    @IBOutlet weak var txtDesc: UITextField!
+    @IBOutlet weak var lblIntroduction: UILabel!
+    @IBOutlet weak var lblCategoryValue: UILabel!
+    @IBOutlet weak var lblFeatureValue: UILabel!
+    @IBOutlet weak var lblCapabilitiesValue: UILabel!
     
     @IBOutlet weak var btnDeny: UIButton!
     @IBOutlet weak var btnAllow: UIButton!
@@ -37,76 +40,50 @@ class ApiAuthorityAlertController: UIViewController {
     var pluginObj: CDVPlugin?
     var command: CDVInvokedUrlCommand?
     
+    var onAllowListener: (()->Void)?
+    var onDenyListener: (()->Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
-        if (appInfo != nil) {
-            let authInfo = ApiAuthorityManager.getShareInstance().getApiAuthorityInfo(plugin!, api!)!;
-            
-            
-            let title = authInfo.getLocalizedTitle()
-            let description = authInfo.getLocalizedDescription();
-            let level = authInfo.dangerLevel;
-            
-            var image: UIImage?
-            
-            let iconPaths = AppManager.getShareInstance().getIconPaths(appInfo!)
-            if (iconPaths.count > 0) {
-                let appIconPath = iconPaths[0]
-                image = UIImage(contentsOfFile: appIconPath)
-            }
-            
+        let authInfo = ApiAuthorityManager.getShareInstance().getApiAuthorityInfo(plugin!, api!)!
+        
+        lblAppName.text = appInfo!.name
+        lblIntroduction.text = "This application is requesting access to a sensitive feature"
+        lblFeatureValue.text = authInfo.getLocalizedTitle()
+        lblCapabilitiesValue.text = authInfo.getLocalizedDescription();
+        //let level = authInfo.dangerLevel;
+        
+        let iconPaths = AppManager.getShareInstance().getIconPaths(appInfo!)
+        if (iconPaths.count > 0) {
+            let appIconPath = iconPaths[0]
+            let image = UIImage(contentsOfFile: appIconPath)
+            imgIcon.image = image
         }
     }
 
     func setData(_ apiAlertLock: DispatchSemaphore,_ appInfo: AppInfo, _ plugin: String, _ api: String, _ pluginObj: CDVPlugin, _ command: CDVInvokedUrlCommand) {
-        self.appInfo = appInfo;
-        self.plugin = plugin;
-        self.api = api;
-        self.pluginObj = pluginObj;
-        self.command = command;
+        self.apiAlertLock = apiAlertLock
+        self.appInfo = appInfo
+        self.plugin = plugin
+        self.api = api
+        self.pluginObj = pluginObj
+        self.command = command
     }
     
-    private func setApiAuth(_ appId: String, _ plugin: String, _ api: String, _ auth: Int?) {
-        try! AppManager.getShareInstance().getDBAdapter().setApiAuth(appId, plugin, api, auth);
+    public func setOnAllowListener(_ listener: @escaping ()-> Void) {
+        self.onAllowListener = listener
     }
     
-    private func sendCallbackResult(_ pluginName: String, _ api: String, _ auth: Int, _ plugin: CDVPlugin,
-                            _ command: CDVInvokedUrlCommand) {
-
-        var result = CDVPluginResult(status: CDVCommandStatus_OK);
-        if (auth == AppInfo.AUTHORITY_ALLOW) {
-            let _ = plugin.execute(command);
-
-        }
-        else {
-            result = CDVPluginResult(status: CDVCommandStatus_ERROR,
-                                         messageAs: "Api:'" + pluginName + "." + api + "' have not run authority.");
-        }
-        result?.setKeepCallbackAs(false);
-        plugin.commandDelegate.send(result, callbackId: command.callbackId)
+    public func setOnDenyListener(_ listener: @escaping ()-> Void) {
+        self.onDenyListener = listener
     }
-
+    
     @IBAction func denyClicked(_ sender: Any) {
-        setApiAuth(appInfo!.app_id, plugin!, api!, AppInfo.AUTHORITY_DENY);
-        apiAlertLock!.signal()
-        sendCallbackResult(plugin!, api!, AppInfo.AUTHORITY_DENY, pluginObj!, command!);
+        self.onDenyListener?()
     }
     
     @IBAction func allowClicked(_ sender: Any) {
-        setApiAuth(appInfo!.app_id, plugin!, api!, AppInfo.AUTHORITY_ALLOW);
-        apiAlertLock!.signal()
-        sendCallbackResult(plugin!, api!, AppInfo.AUTHORITY_ALLOW, pluginObj!, command!);
+        self.onAllowListener?()
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

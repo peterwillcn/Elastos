@@ -103,9 +103,6 @@ if args.target == "clobber":
     remove_tree("Runtime/platforms")
     remove_tree("Runtime/plugins")
     remove_tree("Runtime/www")
-    remove_tree("Plugins/Carrier/src/ios/libs/ElastosCarrierSDK.framework")
-    remove_tree("Plugins/Hive/src/ios/libs")
-    remove_tree("Plugins/DID/src/ios/libs")
 
     os.chdir(IONIC_DIR_PATH)
     dirs = os.listdir(IONIC_DIR_PATH)

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from 'src/app/services/game.service';
 
+declare let titleBarManager: TitleBarPlugin.TitleBarManager;
+
 @Component({
   selector: 'app-level4',
   templateUrl: './level4.page.html',
@@ -36,6 +38,10 @@ export class Level4Page implements OnInit {
 
   ngOnInit() {
   	this.restartGame();
+  }
+
+  ionViewWillEnter() {
+    titleBarManager.setTitle('Level 4');
   }
 
   // Function to populate cards array with

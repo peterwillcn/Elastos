@@ -3,6 +3,7 @@ import { GameService } from 'src/app/services/game.service';
 import { Router } from '@angular/router';
 
 declare let appManager: AppManagerPlugin.AppManager;
+declare let titleBarManager: TitleBarPlugin.TitleBarManager;
 
 @Component({
   selector: 'app-level1',
@@ -42,7 +43,8 @@ export class Level1Page implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.restartGame();
+    titleBarManager.setTitle('Level 1');
+    titleBarManager.setBackgroundColor("#222428");
   }
 
   ionViewDidEnter() {

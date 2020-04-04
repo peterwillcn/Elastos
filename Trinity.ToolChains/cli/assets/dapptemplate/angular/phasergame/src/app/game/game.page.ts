@@ -5,6 +5,7 @@ import { GameScene } from './game.scene';
 import { GameService } from '../services/game.service';
 
 declare let appManager: AppManagerPlugin.AppManager;
+declare let titleBarManager: TitleBarPlugin.TitleBarManager;
 
 @Component({
   selector: 'app-game',
@@ -31,6 +32,11 @@ export class GamePage {
   private game: Phaser.Game;
 
   constructor(public gameService: GameService) { }
+
+  ionViewWillEnter() {
+    titleBarManager.setTitle('Phaser Game Demo');
+    titleBarManager.setBackgroundColor("#222428");
+  }
 
   ionViewDidEnter() {
     this.game = new Phaser.Game(this.config);

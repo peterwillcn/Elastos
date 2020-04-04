@@ -54,12 +54,13 @@ export class GameScene extends Phaser.Scene {
 
         //  Create the ground.
         //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-        this.platforms.create(100, 600, 'ground').setScale(2).refreshBody();
+        this.platforms.create(100, 698, 'ground').setScale(2).refreshBody();
 
         //  Create some ledges
-        this.platforms.create(400, 450, 'ground');
-        this.platforms.create(-100, 300, 'ground');
-        this.platforms.create(450, 150, 'ground');
+        this.platforms.create(-50, 550, 'ground'); // 1st ledge
+        this.platforms.create(500, 375, 'ground'); // 2nd ledge
+        this.platforms.create(-100, 275, 'ground'); // 3rd ledge
+        this.platforms.create(475, 125, 'ground'); // 4th ledge
 
         // The player and its settings
         this.player = this.physics.add.sprite(100, 450, 'dude');
@@ -94,9 +95,9 @@ export class GameScene extends Phaser.Scene {
 
         // Add input events for touchscreen
         this.input.addPointer(3);
-        this.jumpBtn = this.add.image(200, 600, 'jump').setInteractive();
-        this.leftBtn = this.add.image(100, 600, 'left').setInteractive();
-        this.rightBtn = this.add.image(300, 600, 'right').setInteractive();
+        this.jumpBtn = this.add.image(200, 698, 'jump').setInteractive();
+        this.leftBtn = this.add.image(100, 698, 'left').setInteractive();
+        this.rightBtn = this.add.image(300, 698, 'right').setInteractive();
         this.leftBtn.on('pointerdown', () => {
             this.leftPressed = true;
             this.rightPressed = false;
@@ -136,7 +137,7 @@ export class GameScene extends Phaser.Scene {
         this.bombs = this.physics.add.group();
 
         //  The score
-        this.scoreText = this.add.text(16, 16, 'ELA Bag: 0', { fontSize: '32px', fill: '#FAFAFA' });
+        this.scoreText = this.add.text(16, 16, 'ELA Bag: 0', { fontSize: '32px', fontWeight: 'bold', fill: '#FAFAFA' });
 
         //  Collide the player and the coins with the platforms
         this.physics.add.collider(this.player, this.platforms);

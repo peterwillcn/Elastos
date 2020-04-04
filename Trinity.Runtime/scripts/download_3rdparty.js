@@ -50,17 +50,34 @@ const files_to_download  = [
 ]
 // no need to configure below
 
+const fs = require('fs'),
+      path = require('path');
+
+function DeleteDirectory(dir) {
+  if (fs.existsSync(dir) == true) {
+    var files = fs.readdirSync(dir);
+    files.forEach(function(item){
+      var item_path = path.join(dir, item);
+      if (fs.statSync(item_path).isDirectory()) {
+        DeleteDirectory(item_path);
+      }
+      else {
+        fs.unlinkSync(item_path);
+      }
+    });
+    fs.rmdirSync(dir);
+  }
+}
+
 module.exports = function(ctx) {
-  // console.log(JSON.stringify(ctx, null, 2));
+  // console.log("download_3rdparty ", JSON.stringify(ctx, null, 2));
 
   // make sure ios platform is part of platform add
   if (!ctx.opts.platforms.some((val) => val.startsWith("ios"))) {
     return;
   }
 
-  const fs = require('fs'),
-        path = require('path'),
-        wget = require('node-wget-promise'),
+  const wget = require('node-wget-promise'),
         readline = require('readline'),
         md5File = require('md5-file/promise'),
         yauzl = require("yauzl"),
@@ -85,6 +102,7 @@ module.exports = function(ctx) {
 
         const max_attempt = 3;
         let attempt = 0;
+        let files_need_to_update = false;
         while (!fileMatched && attempt < max_attempt) {
           attempt++;
 
@@ -136,6 +154,7 @@ module.exports = function(ctx) {
           fileMatched = fs.existsSync(zipFilePath)
                         && fs.lstatSync(zipFilePath).isFile()
                         && await md5File(zipFilePath) == obj.md5
+           files_need_to_update = true;
         }
 
         if (!fileMatched) {
@@ -147,6 +166,14 @@ module.exports = function(ctx) {
         if (fs.existsSync(ctx.opts.projectRoot) && fs.lstatSync(ctx.opts.projectRoot).isDirectory()) {
           let targetPath = path.join(ctx.opts.projectRoot, obj.targetDir);
           mkdirp.sync(targetPath);
+          if (files_need_to_update) {// delete the old files
+            for (const srcDir of obj.sourceDirs) {
+              let baseName = path.basename(srcDir);
+              let frameworkDir = path.join(targetPath, baseName);
+              console.log("    DeleteDirectory:", frameworkDir);
+              DeleteDirectory(frameworkDir);
+            }
+          }
           if (fs.existsSync(targetPath) && fs.lstatSync(targetPath).isDirectory()) {
             console.log("Unziping file %s", obj.filename);
             yauzl.open(zipFilePath, {lazyEntries: true}, function(err, zipfile) {

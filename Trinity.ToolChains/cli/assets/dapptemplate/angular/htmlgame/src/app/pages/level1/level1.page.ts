@@ -43,6 +43,7 @@ export class Level1Page implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.restartGame();
     titleBarManager.setTitle('Level 1');
     titleBarManager.setBackgroundColor("#222428");
   }

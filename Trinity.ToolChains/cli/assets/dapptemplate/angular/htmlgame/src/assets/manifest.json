@@ -1,7 +1,7 @@
 {
   "id": "elastos.trinity.dapps.gamedemo",
-  "version": "0.0.1",
-  "version_code": 1,
+  "version": "1.1.2",
+  "version_code": 2,
   "name": "HTML Game Demo",
   "short_name": "HTML Game Demo",
   "short_description": "Cards Matching Game",

@@ -106,7 +106,6 @@
             android:background="#00FFFFFF"
             android:foreground="?android:attr/selectableItemBackground"
             android:padding="12dp"
-            android:paddingEnd="24dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_menu" />
 

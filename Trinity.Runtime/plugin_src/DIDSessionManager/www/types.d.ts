@@ -31,34 +31,36 @@
 
 declare namespace DIDSessionManagerPlugin {
     type IdentityEntry = {
+        /** ID of the DID store that containes this DID entry */
         didStoreId: string;
+        /** DID string (ex: did:elastos:abcdef) */
         didString: string;
+        /** Identity entry display name, set by the user */
         name: string;
-        //picture: string;
     }
 
     interface DIDSessionManager {
         /**
          * Inserts a new identity entry and saves it permanently.
          */
-        addIdentityEntry(entry: IdentityEntry);
+        addIdentityEntry(entry: IdentityEntry): Promise<void>;
 
         /**
          * Deletes a previously added identity entry.
          */
-        deleteIdentityEntry(didString: string);
+        deleteIdentityEntry(didString: string): Promise<void>;
 
         /**
          * Gets the list of all identity entries previously created.
          */
-        getIdentityEntries();
+        getIdentityEntries(): Promise<IdentityEntry[]>;
 
         /**
          * Gets the signed in identity.
          * 
          * @returns The signed in identity if any, null otherwise.
          */
-        getSignedInIdentity(): IdentityEntry;
+        getSignedInIdentity(): Promise<IdentityEntry>;
 
         /**
          * Signs a given identity entry in. 
@@ -67,7 +69,11 @@ declare namespace DIDSessionManagerPlugin {
          * All dApps get sandboxed in this DID context and don't see any information about the other available
          * identities.
          */
-        signIn(entry: IdentityEntry);
-        signOut();
+        signIn(entry: IdentityEntry): Promise<void>;
+
+        /**
+         * Signs the active identity out. All opened dApps are closed as there is no more active DID session.
+         */
+        signOut(): Promise<void>;
     }
 }

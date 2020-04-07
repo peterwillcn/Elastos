@@ -23,22 +23,22 @@
 let exec = cordova.exec;
 
 class DIDSessionManagerImpl implements DIDSessionManagerPlugin.DIDSessionManager {
-    addIdentityEntry(entry: DIDSessionManagerPlugin.IdentityEntry) {
+    addIdentityEntry(entry: DIDSessionManagerPlugin.IdentityEntry): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    deleteIdentityEntry(didString: string) {
+    deleteIdentityEntry(didString: string): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    getIdentityEntries() {
+    getIdentityEntries(): Promise<DIDSessionManagerPlugin.IdentityEntry[]> {
         throw new Error("Method not implemented.");
     }
-    getSignedInIdentity(): DIDSessionManagerPlugin.IdentityEntry {
+    getSignedInIdentity(): Promise<DIDSessionManagerPlugin.IdentityEntry> {
         throw new Error("Method not implemented.");
     }
-    signIn(entry: DIDSessionManagerPlugin.IdentityEntry) {
+    signIn(entry: DIDSessionManagerPlugin.IdentityEntry): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    signOut() {
+    signOut(): Promise<void> {
         throw new Error("Method not implemented.");
     }
 }

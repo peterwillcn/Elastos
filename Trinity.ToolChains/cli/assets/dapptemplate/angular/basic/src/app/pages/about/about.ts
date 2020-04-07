@@ -5,7 +5,8 @@ declare let titleBarManager: TitleBarPlugin.TitleBarManager;
 
 @Component({
   selector: 'page-about',
-  templateUrl: 'about.html'
+  templateUrl: 'about.html',
+  styleUrls: ['./about.scss']
 })
 export class AboutPage {
 

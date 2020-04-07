@@ -5,7 +5,8 @@ declare let titleBarManager: TitleBarPlugin.TitleBarManager;
 
 @Component({
   selector: 'page-contact',
-  templateUrl: 'contact.html'
+  templateUrl: 'contact.html',
+  styleUrls: ['./contact.scss']
 })
 export class ContactPage {
 

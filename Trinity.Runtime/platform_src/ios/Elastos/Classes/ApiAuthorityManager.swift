@@ -218,6 +218,7 @@ class ApiAuthorityManager {
         // TODO: MAKE POPUP NOT DISMISSABLE
         
         let popup = PopupDialog(viewController: apiAuthorityController)
+        popup.view.backgroundColor = UIColor.clear // For rounded corners
         self.appManager.mainViewController.present(popup, animated: false, completion: nil)
         
         // Permission was granted by the user

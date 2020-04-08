@@ -35,6 +35,10 @@ import Foundation
 
         parsePreferences();
         PreferenceManager.preferenceManager = self;
+        
+        // Make some services ready
+        let darkMode = getBoolValue("ui.darkmode", false)
+        prepareUIStyling(useDarkMode: darkMode)
     }
 
     @objc static func getShareInstance() -> PreferenceManager {
@@ -75,7 +79,7 @@ import Foundation
             return String(value as! Double)
         }
         else if (value is NSNull) {
-            return "null";
+            return "null"
         }
 
         return nil;
@@ -154,6 +158,9 @@ import Foundation
             else {
                 CLIService.getShareInstance().stop();
             }
+        }
+        else if (key == "ui.darkmode") {
+            prepareUIStyling(useDarkMode: value as! Bool)
         }
 
         let dict = ["action": "preferenceChanged", "data": ["key": key, "value": value]] as [String : Any];
@@ -283,6 +290,10 @@ import Foundation
             value = defaultValue;
         }
         return value!;
+    }
+    
+    private func prepareUIStyling(useDarkMode: Bool) {
+        UIStyling.prepare(useDarkMode: useDarkMode)
     }
 }
 

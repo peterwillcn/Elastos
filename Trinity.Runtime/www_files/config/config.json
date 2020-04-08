@@ -1,6 +1,9 @@
 {
     "version": "1.0.1",
     "install.verifyDigest": false,
+    "dapp.protectList": [
+        "org.elastos.trinity.dapp.wallet"
+    ],
     "whitelist.urls": [
         "https://sentry.io/*"
     ]

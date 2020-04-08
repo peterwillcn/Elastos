@@ -418,13 +418,15 @@ class AppManager: NSObject {
         let info = try installer.install(url, update);
         if (info != nil) {
             refreashInfos();
+            
+            if (info!.launcher) {
+                sendRefreshList("launcher_upgraded", info!);
+            }
+            else {
+                sendRefreshList("installed", info);
+            }
         }
-        if (info!.launcher) {
-            sendRefreshList("launcher_upgraded", info!);
-        }
-        else {
-            sendRefreshList("installed", info);
-        }
+
         return info
     }
 
@@ -554,6 +556,25 @@ class AppManager: NSObject {
     func loadLauncher() throws {
         try start("launcher");
     }
+    
+   func isInProtectList(_ uri: String) -> Bool {
+        do {
+            let protectList = ConfigManager.getShareInstance().getStringArrayValue("dapp.protectList", [String]());
+            let info = try installer.getInfoFromUrl(uri);
+            if (info != nil && info!.app_id != "" ) {
+                if (protectList.contains(info!.app_id.lowercased())) {
+                    alertDialog("Install Error", "Don't allow install '\(info!.app_id)' by the third party app.");
+                    return true;
+                }
+            }
+        }
+        catch AppError.error(let err) {
+            alertDialog("Install Error", err);
+        } catch let error {
+            alertDialog("Install Error", error.localizedDescription);
+        }
+        return false;
+    }
 
     private func installUri(_ uri: String, _ dev:Bool) {
         if (dev && PreferenceManager.getShareInstance().getDeveloperMode()) {
@@ -567,7 +588,9 @@ class AppManager: NSObject {
             }
         }
         else {
-            sendInstallMsg(uri);
+            if (!isInProtectList(uri)) {
+                sendInstallMsg(uri);
+            }
         }
     }
 

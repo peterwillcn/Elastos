@@ -457,13 +457,15 @@ public class AppManager {
         AppInfo info = installer.install(url, update);
         if (info != null) {
             refreashInfos();
+
+            if (info.launcher == 1) {
+                sendRefreshList("launcher_upgraded", info);
+            }
+            else {
+                sendRefreshList("installed", info);
+            }
         }
-        if (info.launcher == 1) {
-            sendRefreshList("launcher_upgraded", info);
-        }
-        else {
-            sendRefreshList("installed", info);
-        }
+
         return info;
     }
 
@@ -631,17 +633,40 @@ public class AppManager {
         start(LAUNCHER);
     }
 
+     Boolean isInProtectList(String uri) {
+        try {
+            AppInfo info = installer.getInfoFromUrl(uri);
+            if (info != null && info.app_id != "" ) {
+                String[] protectList = ConfigManager.getShareInstance().getStringArrayValue(
+                        "dapp.protectList", new String[0]);
+                for (String item : protectList) {
+                    if (item.equalsIgnoreCase(info.app_id)) {
+                        Utility.alertPrompt("Install Error",
+                                "Don't allow install '" + info.app_id + "' by the third party app.", this.activity);
+                        return true;
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
+            Utility.alertPrompt("Install Error", e.getLocalizedMessage(), this.activity);
+        }
+        return false;
+    }
+
     private void installUri(String uri, boolean dev) {
         if (dev && PreferenceManager.getShareInstance().getDeveloperMode()) {
             try {
                 install(uri, true);
             }
             catch (Exception e) {
-                Utility.alertPrompt("Error", e.getLocalizedMessage(), this.activity);
+                Utility.alertPrompt("Install Error", e.getLocalizedMessage(), this.activity);
             }
         }
         else {
-            sendInstallMsg(uri);
+            if (!isInProtectList(uri)) {
+                sendInstallMsg(uri);
+            }
         }
     }
 

@@ -298,6 +298,49 @@ public class AppInstaller {
                 "{\"action\":\"" + action + "\", \"id\":\"" + appId + "\" , \"url\":\"" + url + "\"}", "system");
     }
 
+    public AppInfo getInfoFromUrl(String url) throws Exception {
+        InputStream inputStream = null;
+        AppInfo info = null;
+
+        if (url.startsWith("asset://")) {
+            AssetManager manager = context.getAssets();
+            String substr = url.substring(9);
+            inputStream = manager.open(substr);
+        }
+        else if (url.startsWith("content://")) {
+            Uri uri = Uri.parse(url);
+            inputStream = context.getContentResolver().openInputStream(uri);
+        }
+        else {
+            if (url.startsWith("file://")) {
+                url = url.substring(7);
+            }
+            inputStream = new FileInputStream(url);
+        }
+
+        String temp = "tmp_" + random.nextInt();
+        String path = tempPath + temp + "/";
+
+        File fmd = new File(path);
+        if (fmd.exists()) {
+            deleteAllFiles(fmd);
+        }
+        fmd.mkdirs();
+
+        if (!unpackZip(inputStream, path, false)) {
+            throw new Exception("Failed to unpack EPK!");
+        }
+
+        info = getInfoByManifest(path, 0);
+        deleteAllFiles(fmd);
+
+        if (info == null || info.app_id == null /* || info.app_id.equals("launcher") */) {
+            throw new Exception("Get app info error!");
+        }
+
+        return info;
+    }
+
     public AppInfo install(String url, boolean update) throws Exception {
         Log.d("AppInstaller", "Install url="+url+" update="+update);
         InputStream inputStream = null;

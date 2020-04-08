@@ -196,21 +196,47 @@
     try AppManager.getShareInstance().sendLauncherMessage(AppManager.MSG_TYPE_INSTALLING,
                 "{\"action\":\"" + action + "\", \"id\":\"" + appId + "\" , \"url\":\"" + url + "\"}", "system");
     }
-
-    func install(_ url: String, _ update: Bool) throws -> AppInfo? {
-        var zipPath = url;
-        let originUrl = url;
-
-        try sendInstallingMessage("start", "", originUrl);
+    
+    func getPathFromUrl(_ url: String) -> String {
+        var path = url;
         
         if (url.hasPrefix("asset://")) {
-            zipPath = getAssetPath(url);
+            path = getAssetPath(url);
         }
         else if (url.hasPrefix("file://")) {
             let index = url.index(url.startIndex, offsetBy: 7)
-            zipPath = String(url[index ..< url.endIndex]);
+            path = String(url[index ..< url.endIndex]);
+        }
+        return path;
+    }
+    
+    func getInfoFromUrl(_ url: String) throws -> AppInfo? {
+        let zipPath = getPathFromUrl(url);
+        
+        let temp = "tmp_" + UUID().uuidString
+        let temPath = self.tempPath + temp;
+        
+        if (FileManager.default.fileExists(atPath:temPath)) {
+            try deleteAllFiles(temPath);
         }
 
+        var info: AppInfo? = nil;
+        if (unpackZip(zipPath, temPath)) {
+            info = try getInfoByManifest(temPath);
+        }
+        try deleteAllFiles(temPath);
+
+        return info!;
+    }
+    
+    func install(_ url: String, _ update: Bool) throws -> AppInfo? {
+        let _ret = AppManager.getShareInstance().isInProtectList(url);
+        
+        let originUrl = url;
+        let zipPath = getPathFromUrl(url);
+        
+        try sendInstallingMessage("start", "", originUrl);
+        
         let temp = "tmp_" + UUID().uuidString
         let temPath = appPath + temp;
         

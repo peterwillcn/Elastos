@@ -36,15 +36,11 @@ class ApiAuthorityAlertController: UIViewController {
     @IBOutlet weak var btnDeny: AdvancedButton!
     @IBOutlet weak var btnAccept: AdvancedButton!
     
-    var apiAlertLock: DispatchSemaphore?
     var appInfo: AppInfo?
     var plugin: String?
     var api: String?
-    var pluginObj: CDVPlugin?
-    var command: CDVInvokedUrlCommand?
     
-    var onAllowListener: (()->Void)?
-    var onDenyListener: (()->Void)?
+    var onClickedListener: ((_ auth: Int)->Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,28 +99,21 @@ class ApiAuthorityAlertController: UIViewController {
         }
     }
 
-    func setData(_ apiAlertLock: DispatchSemaphore,_ appInfo: AppInfo, _ plugin: String, _ api: String, _ pluginObj: CDVPlugin, _ command: CDVInvokedUrlCommand) {
-        self.apiAlertLock = apiAlertLock
+    func setData(_ appInfo: AppInfo, _ plugin: String, _ api: String) {
         self.appInfo = appInfo
         self.plugin = plugin
         self.api = api
-        self.pluginObj = pluginObj
-        self.command = command
     }
     
-    public func setOnAllowListener(_ listener: @escaping ()-> Void) {
-        self.onAllowListener = listener
+    public func setOnClickedListener(_ listener: @escaping (_ auth: Int)-> Void) {
+        self.onClickedListener = listener
     }
-    
-    public func setOnDenyListener(_ listener: @escaping ()-> Void) {
-        self.onDenyListener = listener
-    }
-    
+
     @IBAction func denyClicked(_ sender: Any) {
-        self.onDenyListener?()
+        self.onClickedListener!(AppInfo.AUTHORITY_DENY);
     }
     
     @IBAction func allowClicked(_ sender: Any) {
-        self.onAllowListener?()
+        self.onClickedListener!(AppInfo.AUTHORITY_ALLOW);
     }
 }

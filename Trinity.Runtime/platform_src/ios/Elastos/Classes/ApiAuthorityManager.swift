@@ -129,11 +129,11 @@ class ApiAuthorityManager {
         return ret!;
     }
     
-    private func setApiAuth(_ appId: String, _ plugin: String, _ api: String, _ auth: Int?) {
-        try! self.dbAdapter.setApiAuth(appId, plugin, api, auth);
+    func setApiAuth(_ appId: String, _ plugin: String, _ api: String, _ auth: Int?) {
+        try? self.dbAdapter.setApiAuth(appId, plugin, api, auth);
     }
     
-    private func sendCallbackResult(_ pluginName: String, _ api: String, _ auth: Int, _ plugin: CDVPlugin,
+    func sendCallbackResult(_ pluginName: String, _ api: String, _ auth: Int, _ plugin: CDVPlugin,
                             _ command: CDVInvokedUrlCommand) {
 
         var result = CDVPluginResult(status: CDVCommandStatus_OK);
@@ -149,37 +149,6 @@ class ApiAuthorityManager {
         plugin.commandDelegate.send(result, callbackId: command.callbackId)
     }
 
-    private func alertApiAuth(_ info: AppInfo, _ plugin: String, _ api: String, _ pluginObj: CDVPlugin, _ command: CDVInvokedUrlCommand) {
-
-        func doAllowHandler(alerAction:UIAlertAction) {
-            setApiAuth(info.app_id, plugin, api, AppInfo.AUTHORITY_ALLOW);
-            apiAlertLock.signal()
-            sendCallbackResult(plugin, api, AppInfo.AUTHORITY_ALLOW, pluginObj, command);
-        }
-
-        func doRefuseHandler(alerAction:UIAlertAction) {
-            setApiAuth(info.app_id, plugin, api, AppInfo.AUTHORITY_DENY);
-            apiAlertLock.signal()
-            sendCallbackResult(plugin, api, AppInfo.AUTHORITY_DENY, pluginObj, command);
-        }
-        
-        let authInfo = self.getApiAuthorityInfo(plugin, api)!;
-        let content = "------title: " + authInfo.getLocalizedTitle() + " ------description: " + authInfo.getLocalizedDescription();
-
-        let alertController = UIAlertController(title: "Api authority request",
-                message: "App:'" + info.name + "' request api:'" + plugin + "." + api + "' access authority." + content,
-                preferredStyle: UIAlertController.Style.alert)
-        let cancelAlertAction = UIAlertAction(title: "Refuse", style: UIAlertAction.Style.cancel, handler: doRefuseHandler)
-        alertController.addAction(cancelAlertAction)
-
-        let allowAlertAction = UIAlertAction(title: "Allow", style: UIAlertAction.Style.default, handler: doAllowHandler)
-        alertController.addAction(allowAlertAction)
-        
-        DispatchQueue.main.async {
-            // Show popup to user
-            self.appManager.mainViewController.present(alertController, animated: true, completion: nil)
-        }
-    }
     private let apiAlertLock = DispatchSemaphore(value: 1)
 
     /**
@@ -202,7 +171,6 @@ class ApiAuthorityManager {
                 self.sendCallbackResult(plugin, api, authority, pluginObj, command);
                 return;
             }
-//            self.alertApiAuth(info, plugin, api, pluginObj, command);
             DispatchQueue.main.async {
                 self.popupAlertDialog(info, plugin, api, pluginObj, command);
             }
@@ -213,32 +181,21 @@ class ApiAuthorityManager {
         // Create the dialog
         let apiAuthorityController = ApiAuthorityAlertController(nibName: "ApiAuthorityAlertController", bundle: Bundle.main)
         
-        apiAuthorityController.setData(apiAlertLock, info, plugin, api, pluginObj, command)
+        apiAuthorityController.setData(info, plugin, api)
         
         // TODO: MAKE POPUP NOT DISMISSABLE
-        
         let popup = PopupDialog(viewController: apiAuthorityController)
         popup.view.backgroundColor = UIColor.clear // For rounded corners
         self.appManager.mainViewController.present(popup, animated: false, completion: nil)
         
         // Permission was granted by the user
-        apiAuthorityController.setOnAllowListener {
+        apiAuthorityController.setOnClickedListener {auth in
             popup.dismiss()
             
-            try! AppManager.getShareInstance().getDBAdapter().setApiAuth(info.app_id, plugin, api, AppInfo.AUTHORITY_ALLOW)
+            try! AppManager.getShareInstance().getDBAdapter().setApiAuth(info.app_id, plugin, api, auth)
             
             self.apiAlertLock.signal()
-            self.sendCallbackResult(plugin, api, AppInfo.AUTHORITY_ALLOW, pluginObj, command)
-        }
-        
-        // Permission was refused by the user
-        apiAuthorityController.setOnDenyListener {
-            popup.dismiss()
-            
-            try! AppManager.getShareInstance().getDBAdapter().setApiAuth(info.app_id, plugin, api, AppInfo.AUTHORITY_DENY)
-            
-            self.apiAlertLock.signal()
-            self.sendCallbackResult(plugin, api, AppInfo.AUTHORITY_DENY, pluginObj, command)
+            self.sendCallbackResult(plugin, api, auth, pluginObj, command)
         }
     }
     
@@ -249,7 +206,7 @@ class ApiAuthorityManager {
         let api = command.methodName!;
         let info = self.getApiAuthorityInfo(plugin, api);
         if (info != nil) {
-            setApiAuth(appId, plugin, api, nil);
+//            setApiAuth(appId, plugin, api, nil); //for test
             let authority = getApiAuth(appId, plugin, api);
             if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
                 let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT);

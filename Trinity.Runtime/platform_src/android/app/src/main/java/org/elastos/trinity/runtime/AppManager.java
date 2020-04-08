@@ -633,40 +633,31 @@ public class AppManager {
         start(LAUNCHER);
     }
 
-     Boolean isInProtectList(String uri) {
-        try {
-            AppInfo info = installer.getInfoFromUrl(uri);
-            if (info != null && info.app_id != "" ) {
-                String[] protectList = ConfigManager.getShareInstance().getStringArrayValue(
-                        "dapp.protectList", new String[0]);
-                for (String item : protectList) {
-                    if (item.equalsIgnoreCase(info.app_id)) {
-                        Utility.alertPrompt("Install Error",
-                                "Don't allow install '" + info.app_id + "' by the third party app.", this.activity);
-                        return true;
-                    }
+    public void checkInProtectList(String uri) throws Exception {
+        AppInfo info = installer.getInfoFromUrl(uri);
+        if (info != null && info.app_id != "" ) {
+            String[] protectList = ConfigManager.getShareInstance().getStringArrayValue(
+                    "dapp.protectList", new String[0]);
+            for (String item : protectList) {
+                if (item.equalsIgnoreCase(info.app_id)) {
+                    throw new Exception("Don't allow install '" + info.app_id + "' by the third party app.");
                 }
+            }
+        }
+    }
+
+    private void installUri(String uri, boolean dev) {
+        try {
+            if (dev && PreferenceManager.getShareInstance().getDeveloperMode()) {
+                install(uri, true);
+            }
+            else {
+                checkInProtectList(uri);
+                sendInstallMsg(uri);
             }
         }
         catch (Exception e) {
             Utility.alertPrompt("Install Error", e.getLocalizedMessage(), this.activity);
-        }
-        return false;
-    }
-
-    private void installUri(String uri, boolean dev) {
-        if (dev && PreferenceManager.getShareInstance().getDeveloperMode()) {
-            try {
-                install(uri, true);
-            }
-            catch (Exception e) {
-                Utility.alertPrompt("Install Error", e.getLocalizedMessage(), this.activity);
-            }
-        }
-        else {
-            if (!isInProtectList(uri)) {
-                sendInstallMsg(uri);
-            }
         }
     }
 

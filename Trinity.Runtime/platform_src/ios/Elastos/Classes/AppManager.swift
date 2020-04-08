@@ -557,40 +557,31 @@ class AppManager: NSObject {
         try start("launcher");
     }
     
-   func isInProtectList(_ uri: String) -> Bool {
+   func checkInProtectList(_ uri: String) throws {
+        let protectList = ConfigManager.getShareInstance().getStringArrayValue("dapp.protectList", [String]());
+        let info = try installer.getInfoFromUrl(uri);
+        if (info != nil && info!.app_id != "" ) {
+            if (protectList.contains(info!.app_id.lowercased())) {
+                throw AppError.error("Don't allow install '\(info!.app_id)' by the third party app.");
+            }
+        }
+    }
+    
+    func installUri(_ uri: String, _ dev:Bool) {
         do {
-            let protectList = ConfigManager.getShareInstance().getStringArrayValue("dapp.protectList", [String]());
-            let info = try installer.getInfoFromUrl(uri);
-            if (info != nil && info!.app_id != "" ) {
-                if (protectList.contains(info!.app_id.lowercased())) {
-                    alertDialog("Install Error", "Don't allow install '\(info!.app_id)' by the third party app.");
-                    return true;
-                }
+            if (dev && PreferenceManager.getShareInstance().getDeveloperMode()) {
+                let _ = try install(uri, true);
+            }
+            else {
+                try checkInProtectList(uri);
+                sendInstallMsg(uri);
             }
         }
         catch AppError.error(let err) {
             alertDialog("Install Error", err);
-        } catch let error {
+        }
+        catch let error {
             alertDialog("Install Error", error.localizedDescription);
-        }
-        return false;
-    }
-
-    private func installUri(_ uri: String, _ dev:Bool) {
-        if (dev && PreferenceManager.getShareInstance().getDeveloperMode()) {
-            do {
-                let _ = try install(uri, true);
-            }
-            catch AppError.error(let err) {
-                alertDialog("Install Error", err);
-            } catch let error {
-                alertDialog("Install Error", error.localizedDescription);
-            }
-        }
-        else {
-            if (!isInProtectList(uri)) {
-                sendInstallMsg(uri);
-            }
         }
     }
 

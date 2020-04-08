@@ -496,7 +496,8 @@
             if (url.hasPrefix("trinity://")) {
                 url = try getCanonicalPath(url);
             }
-
+            
+            try AppManager.getShareInstance().checkInProtectList(url);
             let info = try AppManager.getShareInstance().install(url, update);
 
             if (info != nil) {

@@ -624,6 +624,7 @@ public class AppBasePlugin extends TrinityPlugin {
             url = getCanonicalPath(url);
         }
 
+        appManager.checkInProtectList(url);
         AppInfo info = appManager.install(url, update);
         if (info != null) {
             callbackContext.success(jsonAppInfo(info));

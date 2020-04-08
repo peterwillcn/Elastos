@@ -29,7 +29,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class ManagerDBHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     private static final String DATABASE_NAME = "manager.db";
     public static final String AUTH_PLUGIN_TABLE = "auth_plugin";
@@ -43,9 +43,15 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
     public static final String PREFERENCE_TABLE = "preference";
     public static final String INTENT_FILTER_TABLE = "intent";
     public static final String APP_TABLE = "app";
+    public static final String DIDSESSIONS_TABLE = "didsessions";
 
     public static final String KEY = "key";
     public static final String VALUE = "value";
+
+    public static final String DIDSESSION_DIDSTOREID = "didstoreid";
+    public static final String DIDSESSION_DIDSTRING = "didstring";
+    public static final String DIDSESSION_NAME = "name";
+    public static final String DIDSESSION_SIGNEDIN = "signedin";
 
     public ManagerDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -124,6 +130,13 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
              VALUE + " varchar(2048) NOT NULL)";
         db.execSQL(strSQL);
 
+        strSQL =  "create table " + DIDSESSIONS_TABLE + "(tid integer primary key autoincrement, " +
+                DIDSESSION_DIDSTOREID + " varchar(32) NOT NULL, " +
+                DIDSESSION_DIDSTRING + " varchar(128) NOT NULL, " +
+                DIDSESSION_NAME + " varchar(128), " +
+                DIDSESSION_SIGNEDIN + " integer)";
+        db.execSQL(strSQL);
+
         strSQL = "create table " + APP_TABLE + "(tid integer primary key autoincrement, " +
                 AppInfo.APP_ID + " varchar(128) UNIQUE NOT NULL, " +
                 AppInfo.VERSION + " varchar(32) NOT NULL, " +
@@ -163,6 +176,7 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + SETTING_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + PREFERENCE_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + APP_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + DIDSESSIONS_TABLE);
     }
 
     @Override
@@ -175,6 +189,10 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
         if (oldVersion < 4) {
             Log.d("ManagerDBHelper", "Upgrading database to v4");
             upgradeToV4(db);
+        }
+        if (oldVersion < 5) {
+            Log.d("ManagerDBHelper", "Upgrading database to v5");
+            upgradeToV5(db);
         }
     }
 
@@ -215,4 +233,21 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
             // (happened to KP many times - unknown reason - 2020.03)
         }
     }
+
+    // 20200407 - Added DID sessions
+    private void upgradeToV5(SQLiteDatabase db) {
+        try {
+            String strSQL =  "create table " + DIDSESSIONS_TABLE + "(tid integer primary key autoincrement, " +
+                    DIDSESSION_DIDSTOREID + " varchar(32) NOT NULL, " +
+                    DIDSESSION_DIDSTRING + " varchar(128) NOT NULL, " +
+                    DIDSESSION_NAME + " varchar(128), " +
+                    DIDSESSION_SIGNEDIN + " integer)";
+            db.execSQL(strSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Do nothing, intercept SQL errors - in case we try to apply an upgrade again after a strange downgrade from android
+            // (happened to KP many times - unknown reason - 2020.03)
+        }
+    }
+
 }

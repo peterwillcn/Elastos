@@ -42,6 +42,9 @@ declare namespace DIDSessionManagerPlugin {
     interface DIDSessionManager {
         /**
          * Inserts a new identity entry and saves it permanently.
+         * 
+         * In case an entry with the same DID store ID and DID string already exists, the existing 
+         * entry is updated.
          */
         addIdentityEntry(entry: IdentityEntry): Promise<void>;
 

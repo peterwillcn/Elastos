@@ -47,6 +47,7 @@ public class WebViewActivity extends FragmentActivity {
     public static final int REQUESTCODE_STORAGE = 50;
 
     protected AppManager appManager = null;
+    protected DIDSessionManager didSessionManager = null;
 //    private GestureDetector gestureDetector = null;
 
     private String adbUri = "";
@@ -84,6 +85,7 @@ public class WebViewActivity extends FragmentActivity {
 
         setContentView(R.layout.activity_view);
         appManager = new AppManager(this);
+        didSessionManager = new DIDSessionManager(this);
 
         getIntentUri();
 

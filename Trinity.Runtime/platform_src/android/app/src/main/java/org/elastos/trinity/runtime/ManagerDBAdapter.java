@@ -29,6 +29,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
  public class ManagerDBAdapter {
     ManagerDBHelper helper;
     Context context;
@@ -426,7 +428,6 @@ import org.json.JSONObject;
         return ret;
     }
 
-
      public long setPreference(String key, Object value) throws Exception {
          SQLiteDatabase db = helper.getWritableDatabase();
          long ret = 0;
@@ -500,5 +501,108 @@ import org.json.JSONObject;
              }
          }
          return ret;
+     }
+
+     public long addDIDSessionIdentityEntry(DIDSessionManager.IdentityEntry entry) throws Exception {
+        // No upsert in sqlite-android. Check if we have this identity entry already or not (a bit slow but ok, not many DID entries)
+         ArrayList<DIDSessionManager.IdentityEntry> existingEntries = getDIDSessionIdentityEntries();
+
+         // Check if the given entry exists in the list or not. If it exists, update it. Otherwise, insert it
+         boolean entryExists = false;
+         for (DIDSessionManager.IdentityEntry e : existingEntries) {
+             if (e.didStoreId.equals(entry.didStoreId) && e.didString.equals(entry.didString)) {
+                 // Already exists - so we update it
+                 entryExists = true;
+                 break;
+             }
+         }
+
+         SQLiteDatabase db = helper.getWritableDatabase();
+         if (entryExists) {
+             // Update
+             String where = ManagerDBHelper.DIDSESSION_DIDSTOREID + "=? AND "+ManagerDBHelper.DIDSESSION_DIDSTRING + "=?";
+             String[] whereArgs = {entry.didStoreId, entry.didString};
+
+             ContentValues contentValues = new ContentValues();
+             // For now only NAME can change, as STORE ID and DID STRING are use as unique IDs
+             contentValues.put(ManagerDBHelper.DIDSESSION_NAME, entry.name);
+             return db.update(ManagerDBHelper.DIDSESSIONS_TABLE, contentValues, where, whereArgs );
+         }
+         else {
+             // Insert
+             ContentValues contentValues = new ContentValues();
+             contentValues.put(ManagerDBHelper.DIDSESSION_DIDSTOREID, entry.didStoreId);
+             contentValues.put(ManagerDBHelper.DIDSESSION_DIDSTRING, entry.didString);
+             contentValues.put(ManagerDBHelper.DIDSESSION_NAME, entry.name);
+             contentValues.put(ManagerDBHelper.DIDSESSION_SIGNEDIN, 0);
+             return db.insert(ManagerDBHelper.DIDSESSIONS_TABLE, null, contentValues);
+         }
+     }
+
+     public void deleteDIDSessionIdentityEntry(String didString) throws Exception {
+         SQLiteDatabase db = helper.getWritableDatabase();
+         String where = ManagerDBHelper.DIDSESSION_DIDSTRING + "=?";
+         String[] whereArgs = {didString};
+         db.delete(ManagerDBHelper.DIDSESSIONS_TABLE, where, whereArgs);
+     }
+
+     public ArrayList<DIDSessionManager.IdentityEntry> getDIDSessionIdentityEntries() throws Exception {
+         SQLiteDatabase db = helper.getWritableDatabase();
+         String[] columns = {ManagerDBHelper.DIDSESSION_DIDSTOREID, ManagerDBHelper.DIDSESSION_DIDSTRING, ManagerDBHelper.DIDSESSION_NAME};
+         Cursor cursor = db.query(ManagerDBHelper.DIDSESSIONS_TABLE, columns, null, null,null,null,null);
+
+         ArrayList<DIDSessionManager.IdentityEntry> entries = new ArrayList();
+         while (cursor.moveToNext()) {
+             entries.add(didSessionIdentityFromCursor(cursor));
+         }
+         return entries;
+     }
+
+     public DIDSessionManager.IdentityEntry getDIDSessionSignedInIdentity() throws Exception {
+         SQLiteDatabase db = helper.getWritableDatabase();
+         String[] columns = {
+                 ManagerDBHelper.DIDSESSION_DIDSTOREID,
+                 ManagerDBHelper.DIDSESSION_DIDSTRING,
+                 ManagerDBHelper.DIDSESSION_NAME
+         };
+         String where = ManagerDBHelper.DIDSESSION_SIGNEDIN + "=?";
+         String[] whereArgs = {"1"};
+         Cursor cursor = db.query(ManagerDBHelper.DIDSESSIONS_TABLE, columns, where, whereArgs,null,null,null);
+
+         if (cursor.moveToNext()) {
+             return didSessionIdentityFromCursor(cursor);
+         }
+         return null;
+     }
+
+     /**
+      * Marks all signed in identities to signed out (if any) and marks the given identity as signed in (if any).
+      */
+     public void setDIDSessionSignedInIdentity(DIDSessionManager.IdentityEntry entry) throws Exception {
+         SQLiteDatabase db = helper.getWritableDatabase();
+
+         // Clear signed in flag from all entries
+         ContentValues contentValues = new ContentValues();
+         contentValues.put(ManagerDBHelper.DIDSESSION_SIGNEDIN, 0);
+         db.update(ManagerDBHelper.DIDSESSIONS_TABLE, contentValues, null, null );
+
+         // Mark the given entry as signed in
+         if (entry != null) {
+             contentValues = new ContentValues();
+             contentValues.put(ManagerDBHelper.DIDSESSION_SIGNEDIN, 1);
+             String where = ManagerDBHelper.DIDSESSION_DIDSTOREID + "=? AND " + ManagerDBHelper.DIDSESSION_DIDSTRING + "=?";
+             String[] whereArgs = {entry.didStoreId, entry.didString};
+             db.update(ManagerDBHelper.DIDSESSIONS_TABLE, contentValues, where, whereArgs);
+         }
+     }
+
+     /**
+      * Creates a new IdentityEntry object from a database cursor data.
+      */
+     private DIDSessionManager.IdentityEntry didSessionIdentityFromCursor(Cursor cursor) {
+         String didStoreId = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.DIDSESSION_DIDSTOREID));
+         String didString = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.DIDSESSION_DIDSTRING));
+         String name = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.DIDSESSION_NAME));
+         return new DIDSessionManager.IdentityEntry(didStoreId, didString, name);
      }
 }

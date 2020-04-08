@@ -24,22 +24,69 @@ let exec = cordova.exec;
 
 class DIDSessionManagerImpl implements DIDSessionManagerPlugin.DIDSessionManager {
     addIdentityEntry(entry: DIDSessionManagerPlugin.IdentityEntry): Promise<void> {
-        throw new Error("Method not implemented.");
+        return new Promise((resolve, reject) => {
+            exec(ret =>{
+                resolve();
+            }, err =>{
+                console.error("Error while calling DIDSessionManagerPlugin.addIdentityEntry()", err);
+                reject(err);
+            }, 'DIDSessionManagerPlugin', 'addIdentityEntry', [entry]);
+        });
     }
+
     deleteIdentityEntry(didString: string): Promise<void> {
-        throw new Error("Method not implemented.");
+        return new Promise((resolve, reject) => {
+            exec(ret =>{
+                resolve();
+            }, err =>{
+                console.error("Error while calling DIDSessionManagerPlugin.deleteIdentityEntry()", err);
+                reject(err);
+            }, 'DIDSessionManagerPlugin', 'deleteIdentityEntry', [didString]);
+        });
     }
+
     getIdentityEntries(): Promise<DIDSessionManagerPlugin.IdentityEntry[]> {
-        throw new Error("Method not implemented.");
+        return new Promise((resolve, reject) => {
+            exec(ret =>{
+                resolve(ret.entries);
+            }, err =>{
+                console.error("Error while calling DIDSessionManagerPlugin.getIdentityEntries()", err);
+                reject(err);
+            }, 'DIDSessionManagerPlugin', 'getIdentityEntries', []);
+        });
     }
+
     getSignedInIdentity(): Promise<DIDSessionManagerPlugin.IdentityEntry> {
-        throw new Error("Method not implemented.");
+        return new Promise((resolve, reject) => {
+            exec(ret =>{
+                resolve(ret);
+            }, err =>{
+                console.error("Error while calling DIDSessionManagerPlugin.getSignedInIdentity()", err);
+                reject(err);
+            }, 'DIDSessionManagerPlugin', 'getSignedInIdentity', []);
+        });
     }
+
     signIn(entry: DIDSessionManagerPlugin.IdentityEntry): Promise<void> {
-        throw new Error("Method not implemented.");
+        return new Promise((resolve, reject) => {
+            exec(ret =>{
+                resolve();
+            }, err =>{
+                console.error("Error while calling DIDSessionManagerPlugin.signIn()", err);
+                reject(err);
+            }, 'DIDSessionManagerPlugin', 'signIn', [entry]);
+        });
     }
+
     signOut(): Promise<void> {
-        throw new Error("Method not implemented.");
+        return new Promise((resolve, reject) => {
+            exec(ret =>{
+                resolve();
+            }, err =>{
+                console.error("Error while calling DIDSessionManagerPlugin.signOut()", err);
+                reject(err);
+            }, 'DIDSessionManagerPlugin', 'signOut', []);
+        });
     }
 }
 

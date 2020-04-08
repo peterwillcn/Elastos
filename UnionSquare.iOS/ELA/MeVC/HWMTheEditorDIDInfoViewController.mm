@@ -11,7 +11,7 @@
 #import "HMWpwdPopupView.h"
 #import "HMWSendSuccessPopuView.h"
 #import "ELWalletManager.h"
-@interface HWMTheEditorDIDInfoViewController ()<HWMDIDDataListViewDelegate,HMWpwdPopupViewDelegate>
+@interface HWMTheEditorDIDInfoViewController ()<HWMDIDDataListViewDelegate,HMWpwdPopupViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *DIDTextInfoLabel;
 @property (weak, nonatomic) IBOutlet UITextField *nickNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *publicKeyLabel;
@@ -47,6 +47,10 @@
     [self.view endEditing:YES];
 }
 - (IBAction)updatesEvent:(id)sender {
+    if (self.model.didName.length==0) {
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入DID名称（必填）", nil)];
+        return;
+    }
 [self.view endEditing:YES];
     [self showPWDView];
 }
@@ -94,13 +98,18 @@
        if (privatekeyString.length==0) {
            return;
        }
+    if (self.model.didName.length==0) {
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入DID名称（必填）", nil)];
+        return;
+    }
     
     [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
     if ([[HWMDIDManager shareDIDManager]updateInfoWithInfo:self.model]) {
         [self showSendSuccessView];
-       }else{
-           [[FLTools share]showErrorInfo:@"失败"];
        }
+//    else{
+////           [[FLTools share]showErrorInfo:@"失败"];
+//       }
     [self.ShowPoPWDView removeFromSuperview];
       self.ShowPoPWDView=nil;
 }
@@ -131,5 +140,17 @@
         [self.navigationController popViewControllerAnimated:YES];
     });
    
+}
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    
+    return [[FLTools share]textField:textField replacementString:string withStringLenth:50];
+    
+}
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    if (textField==self.nickNameLabel) {
+        self.model.didName=textField.text;
+    }
+    
+    
 }
 @end

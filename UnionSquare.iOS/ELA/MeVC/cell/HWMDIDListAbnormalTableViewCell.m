@@ -37,7 +37,7 @@
     if (model.editTime.length>0) {
         self.timeLabel.alpha=0.f;
         self.DIDNameLabel.text=NSLocalizedString(@"个人信息",nil);
-        self.stateLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"保存时间:",nil),[[FLTools share] YMDCommunityTimeConversToAllFromTimesTamp:model.editTime]];
+        self.stateLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"保存时间：",nil),[[FLTools share] YMDCommunityTimeConversToAllFromTimesTamp:model.editTime]];
         self.didStateLabel.alpha=0.f;
         self.bottmOff.constant=20.f;
     }else{
@@ -76,7 +76,7 @@
         //                            }
     }
     self.DIDNameLabel.text=titleString;
-    self.stateLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"保存时间:",nil),[[FLTools share] YMDCommunityTimeConversToAllFromTimesTamp:timeString]];
+    self.stateLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"保存时间：",nil),[[FLTools share] YMDCommunityTimeConversToAllFromTimesTamp:timeString]];
     self.stateLabel.textColor=RGBA(255, 255, 255, 0.5);
 }
 @end

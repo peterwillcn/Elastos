@@ -155,4 +155,5 @@
 -(NSString*)getFileIndexCount:(NSString*)fielName;
 -(NSString *)YMDWithDate:( NSDate *)myDate;
 -(BOOL)textField:(UITextField *)textField replacementString:(NSString *)string withStringLenth:(NSInteger)length;
+-(void)loadUrlSVGAndPNG:(NSString*)imageURL WithSuccessBlock:(void(^)(id data))successBlock;
 @end

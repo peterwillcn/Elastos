@@ -305,6 +305,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
 
             }
         }else{
+
             
             UIView *mainView =[self mainWindow];
             self.toDeleteTheWalletPopV.deleteType=openIDChainType;
@@ -313,6 +314,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
                 make.left.right.top.bottom.equalTo(mainView);
             }];
         }
+
     }
 }
 -(void)showDIDInfoOrCreateDIDInfo{

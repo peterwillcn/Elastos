@@ -93,7 +93,7 @@
       </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Release(MainNet)"
+      buildConfiguration = "Debug(RegTest)"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
@@ -113,7 +113,7 @@
       buildConfiguration = "Debug(RegTest)">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "PrvNet "
+      buildConfiguration = "Debug(RegTest)"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

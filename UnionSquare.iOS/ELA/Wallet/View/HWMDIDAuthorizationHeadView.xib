@@ -32,9 +32,9 @@
                     <color key="textColor" red="0.99991279840000002" green="1" blue="0.99988144639999998" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="opt-7Y-Ikn">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cyber_republic" translatesAutoresizingMaskIntoConstraints="NO" id="opt-7Y-Ikn">
                     <rect key="frame" x="157" y="54" width="100" height="100"/>
-                    <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="100" id="6nG-i0-Elw"/>
                         <constraint firstAttribute="width" constant="100" id="J95-7U-nUi"/>
@@ -102,6 +102,7 @@
     </objects>
     <resources>
         <image name="authorization_locked" width="22" height="22"/>
+        <image name="cyber_republic" width="100" height="100"/>
         <image name="mine_did_list_copy" width="22" height="22"/>
     </resources>
 </document>

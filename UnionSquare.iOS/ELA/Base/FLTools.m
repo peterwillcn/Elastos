@@ -8,7 +8,10 @@
 
 #import "FLTools.h"
 #import "DAConfig.h"
-//#import "YYCache.h"
+#import "UIImageView+WebCache.h"
+#import "SVGKit.h"
+#import "SVGKImage.h"
+#import "SVGKParser.h"
 #import<SystemConfiguration/SCNetworkReachability.h>
 @implementation FLFLUser
 
@@ -895,7 +898,7 @@ return  result.stringValue;
                 @"圭亚那":@"592",
                 @"海地":@"509",
                 @"洪都拉斯":@"504",
-                @"香港":@"852",
+                @"中国香港":@"852",
                 @"匈牙利":@"36",
                 @"冰岛":@"354",
                 @"印度":@"91",
@@ -998,7 +1001,7 @@ return  result.stringValue;
                 @"叙利亚":@"963",
                 @"圣文森特和格林纳丁斯":@"1784",
                 @"圣多美和普林西比":@"239",
-                @"台湾地区":@"886",
+                @"中国台湾地区":@"886",
                 @"塔吉克":@"992",
                 @"坦桑尼亚":@"255",
                 @"泰国":@"66",
@@ -1663,5 +1666,55 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     return YES;
     
 }
+-(void)loadUrlSVGAndPNG:(NSString*)imageURL WithSuccessBlock:(void(^)(id data))successBlock{
+    NSString *typeString=[imageURL substringFromIndex:imageURL.length-4];
+    if (![typeString isEqualToString:@".svg"]) {
+        UIImageView *webImageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
+        [webImageView sd_setImageWithURL:[NSURL URLWithString:imageURL]];
+        
+        successBlock (webImageView.image);
+        return;
+    }
+    [HttpUrl loadDataWithUrl:imageURL withIconName:nil WithSuccessBlock:^(id data) {
+        
+        @try {
+            UIImage *backImage=[UIImage imageNamed:imageURL];
+            NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+            NSString *filePath = [path stringByAppendingPathComponent:data];
+            
+            if([data rangeOfString:@".svg"].location !=NSNotFound)
+            {
+                
+//                backImage=[UIImage svgimagFile:filePath size:CGSizeMake(36, 36)];
+                
+            }else
+            {
+                backImage=[UIImage imageWithContentsOfFile:filePath];
+                
+            }
+            
+            successBlock (backImage);
+        } @catch (NSException *exception) {
+            
+        } @finally {
+            
+        }
+        
+       
+        
+        
+        
+    } WithFailBlock:^(id data) {
+        
+//        dispatch_async(dispatch_get_main_queue(), ^{
+            successBlock ([UIImage imageNamed:@"ETH"]);
+//        });
 
+    }];
+
+    
+    
+    
+    
+}
 @end

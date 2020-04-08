@@ -25,6 +25,8 @@
 #import "HMWAddTheCurrencyListViewController.h"
 #import "HWMDIDManager.h"
 #import "HWMCreateDIDViewController.h"
+#import "HWMDIDManager.h"
+#import "HWMDIDInfoModel.h"
 
 
 @interface HMWCRCommitteeMemberListViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWnodeInformationViewControllerDelegate,HWMCRCommitteeForAgreementViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWAddTheCurrencyListViewControllerDelegate,HWMCRCCommitteeElectionListViewControllerDelegate,HMWMyVoteViewControllerDeleagte>
@@ -310,21 +312,20 @@
         for (int i=0; i<allListInfoArray.count; i++) {
             NSString *httpIP=[[FLTools share]http_IpFast];
             HWMCRListModel *model =allListInfoArray[i];
-            if (model.url.length>0) {
-                NSDictionary *infoDic=[[FLTools share] getImageViewURLWithURL:model.url withCRString:@"CR"];
-                model.iconImageUrl= infoDic[@"url"];
-                model.infoEN=infoDic[@"infoEN"];
-                model.infoZH=infoDic[@"infoZH"];
+            if (model.cid.length>0) {
+                  NSLog(@"开始----index ===%@",model.index);
+                [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtget" header:@{} body:@{@"did":[NSString stringWithFormat:@"did:elastos:%@",model.cid]} showHUD:NO WithSuccessBlock:^(id data) {
+                    NSString *jwtString=data[@"data"][@"jwt"];
+                    NSDictionary *playInfoDic=[[HWMDIDManager shareDIDManager]CRInfoDecodeWithJwtStringInfo:jwtString];
+                    HWMDIDInfoModel *didModel=  [HWMDIDInfoModel modelWithJSON:playInfoDic[@"credentialSubject"]];
+                    model.url=didModel.avatar;
+                    model.infoEN=didModel.introduction;
+                    model.infoZH=didModel.introduction;
+                  
+                } WithFailBlock:^(id data) {
+                    
+                }];
                 
-                if (model.iconImageUrl.length>0) {
-                    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/getimage" header:@{} body:@{@"imageurl":model.iconImageUrl} showHUD:NO WithSuccessBlock:^(id data) {
-                        NSString *param = data[@"data"];
-                        model.iconImageUrl=[NSString stringWithFormat:@"%@%@",httpIP,param];
-                        allListInfoArray[i]=model;
-                    } WithFailBlock:^(id data) {
-                        
-                    }];
-                }
             }
             
         }
@@ -413,7 +414,7 @@
     //        [self.ActiveArray insertObject:model atIndex:0];
     //    }
     
-    NSLog(@"dasdhasd=====%@",self.selfModel.url);
+    //    NSLog(@"dasdhasd=====%@",self.selfModel.url);
     [self loadAllImageInfo:self.ActiveArray];
     self.votingListV.dataSource=self.ActiveArray;
     //    if (self.selfModel) {

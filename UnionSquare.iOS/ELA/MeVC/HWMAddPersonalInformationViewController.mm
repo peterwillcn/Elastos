@@ -729,7 +729,8 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
                 weakSelf.successBlock(self.currentWallet.didString);
                 [weakSelf.navigationController popViewControllerAnimated:NO];
             }
-        }else{
+        }
+        else{
             [[FLTools share]showErrorInfo:@"发布失败"];
         }
     }

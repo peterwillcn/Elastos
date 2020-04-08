@@ -53,7 +53,18 @@
         self.didStringLabel.text=NSLocalizedString(@"[未激活]", nil);
         self.cyIconImageView.alpha=0.f;
     }
-    [self.headIcomImageView sd_setImageWithURL:[NSURL URLWithString:CRmodel.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
+    
+    if (CRmodel.iconImageUrl.length>0) {
+        
+    }
+    self.headIcomImageView.image=[UIImage imageNamed:@"found_vote_initial"];
+    if (CRmodel.url.length>0) {
+        [[FLTools share]loadUrlSVGAndPNG:CRmodel.url WithSuccessBlock:^(id data) {
+            if (data) {
+                self.headIcomImageView.image=data;
+            }
+        }];
+    }
     self.nickNameLable.text=CRmodel.nickname;
     
     

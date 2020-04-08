@@ -39,9 +39,9 @@
     self.addressLabel.text=self.FirstaddressString;
     [[HMWCommView share] makeBordersWithView:self.CopyTheAddressButton];
      [[HMWCommView share] makeBordersWithView:self.addressListButton];
-    NSDictionary *qrDic=[[FLTools share] CreateQrCodeImage:self.FirstaddressString WithType:@"4" withSubWalletIdChain:self.iconName];
-    NSString *qrString=[[FLTools share] returnJSONStringWithDictionary:qrDic];
-       self.QRViewImage.image = [[FLTools share] imageWithSize:300.f andColorWithRed:3 Green:3 Blue:5 andQRString:qrString];
+//    NSDictionary *qrDic=[[FLTools share] CreateQrCodeImage:self.FirstaddressString WithType:@"4" withSubWalletIdChain:self.iconName];
+//    NSString *qrString=[[FLTools share] returnJSONStringWithDictionary:qrDic];
+       self.QRViewImage.image = [[FLTools share] imageWithSize:300.f andColorWithRed:3 Green:3 Blue:5 andQRString:self.FirstaddressString];
     if (self.addrestStringArray.count==1) {
         self.addressListButton.alpha=0.f;
     }

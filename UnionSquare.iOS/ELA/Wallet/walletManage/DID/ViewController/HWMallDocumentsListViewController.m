@@ -28,7 +28,7 @@ static NSString *cellString=@"HWMallDocumentsListTableViewCell";
     self.title=NSLocalizedString(@"选择文件", nil);
     self.selectIndex=-1;
     self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:self.skipButton];
-    [self loadFlieNameFromeIndex:0 withCount:10];
+    [self loadFlieNameFromeIndex:0 withCount:self.allFlieNameArray.count];
     [self makeUI];
     [self.table reloadData];
 }

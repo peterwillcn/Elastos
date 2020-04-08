@@ -108,10 +108,10 @@
         self.NodePublickKeyLab.alpha=0.f;
         self.OwnerPublickKeyLab.alpha=0.f;
         [self.infoBGView addSubview:self.CrCommitteeInformationHeaderV];
-           [self.CrCommitteeInformationHeaderV mas_makeConstraints:^(MASConstraintMaker *make) {
-               make.left.top.right.equalTo(self.infoBGView);
-               make.height.equalTo(@130);
-           }];
+        [self.CrCommitteeInformationHeaderV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.top.right.equalTo(self.infoBGView);
+            make.height.equalTo(@130);
+        }];
         [self.CRBGView addSubview:self.nodeInformationDetailsV];
         [self.nodeInformationDetailsV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.CRBGView.mas_top).offset(0);
@@ -161,16 +161,19 @@
 -(void)getCRInfo{
     NSString *httpIP=[[FLTools share]http_IpFast];
     [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtget" header:@{} body:@{@"did":[NSString stringWithFormat:@"did:elastos:%@",self.CRModel.cid]} showHUD:NO WithSuccessBlock:^(id data) {
-          NSString *jwtString=data[@"data"][@"jwt"];
-          NSDictionary *playInfoDic=[[HWMDIDManager shareDIDManager]CRInfoDecodeWithJwtStringInfo:jwtString];
-          
-          
-      self.DIDmodel=[HWMDIDInfoModel modelWithJSON:playInfoDic[@"credentialSubject"]];
-          
-          
-        } WithFailBlock:^(id data) {
-                                                            
-        }];
+        NSString *jwtString=data[@"data"][@"jwt"];
+        NSDictionary *playInfoDic=[[HWMDIDManager shareDIDManager]CRInfoDecodeWithJwtStringInfo:jwtString];
+        
+        
+        self.DIDmodel=[HWMDIDInfoModel modelWithJSON:playInfoDic[@"credentialSubject"]];
+        
+        self.CRModel.url=self.DIDmodel.avatar;
+        self.CRModel.infoEN=self.DIDmodel.introduction;
+        self.CRModel.infoZH=self.DIDmodel.introduction;
+        self.CrCommitteeInformationHeaderV.CRmodel=self.CRModel;
+    } WithFailBlock:^(id data) {
+        
+    }];
 }
 -(void)getNetCoinPointArrayWithPubKey:(NSString *)OwnerPublickKey{
     NSString *httpIP=[[FLTools share]http_IpFast];

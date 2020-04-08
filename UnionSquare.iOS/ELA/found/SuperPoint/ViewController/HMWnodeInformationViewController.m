@@ -27,45 +27,7 @@
 /*
  *<# #>
  */
-//@property(strong,nonatomic)UILabel *nodeNameTextLabel;
-/*
- *<# #>
- */
 @property(strong,nonatomic)UILabel *nodeNameLabel;
-/*
- *<# #>
-// */
-//@property(strong,nonatomic)UILabel *nodeAddressTextLabel;
-///*
-// *<# #>
-// */
-//@property(strong,nonatomic)UILabel *nodeAddressLabel;
-///*
-// *<# #>
-// */
-//@property(strong,nonatomic)UILabel *currantVotesTextLabel;
-///*
-// *<# #>
-// */
-//@property(strong,nonatomic)UILabel *currantVotesLabel;
-///*
-// *<# #>
-// */
-//@property(strong,nonatomic)UILabel *votePercentageTextLabel;
-///*
-// *<# #>
-// */
-//@property(strong,nonatomic)UILabel *votePercentageLabel;
-///*
-// *<# #>
-// */
-//@property(strong,nonatomic)UILabel *countryRegionTextLabel;
-///*
-// *<# #>
-// */
-//@property(strong,nonatomic)UILabel *countryRegionLabel;
-//@property(strong,nonatomic)UILabel *URLTextLabel;
-//@property(strong,nonatomic)UILabel *URLLabel;
 /*
  *<# #>
  */
@@ -87,46 +49,48 @@
 @property(strong,nonatomic)HWMDIDInfoModel *DIDmodel;
 @end
 
-         
-         
+
+
 @implementation HMWnodeInformationViewController
 - (void)viewDidLoad {
-   [super viewDidLoad];
-  [self defultWhite];
-  [self setBackgroundImg:@""];
+    [super viewDidLoad];
+    [self defultWhite];
+    [self setBackgroundImg:@""];
     if (self.type ==nodeInformationType) {
-         self.title=NSLocalizedString(@"节点信息", nil) ;
+        self.title=NSLocalizedString(@"节点信息", nil) ;
     }else if (self.type==CRInformationType){
         
         self.title=NSLocalizedString(@"委员信息", nil) ;
-        if (self.CRmodel.cid.length>0) {
-        [self getCRInfo];
+        if (self.CRmodel.cid.length>0&&self.CRmodel.didIndoModel==nil) {
+            [self getCRInfo];
+        }else{
+            self.DIDmodel=self.CRmodel.didIndoModel;
         }
-       
+        
     }
- 
-  [self makeUI];
+    
+    [self makeUI];
 }
 -(void)getCRInfo{
     NSString *httpIP=[[FLTools share]http_IpFast];
-      [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtget" header:@{} body:@{@"did":[NSString stringWithFormat:@"did:elastos:%@",self.CRmodel.cid]} showHUD:NO WithSuccessBlock:^(id data) {
-          NSString *jwtString=data[@"data"][@"jwt"];
-          NSDictionary *playInfoDic=[[HWMDIDManager shareDIDManager]CRInfoDecodeWithJwtStringInfo:jwtString];
-          
-          
-      self.DIDmodel=[HWMDIDInfoModel modelWithJSON:playInfoDic[@"credentialSubject"]];
-          
-          
-        } WithFailBlock:^(id data) {
-                                                            
-        }];
+    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtget" header:@{} body:@{@"did":[NSString stringWithFormat:@"did:elastos:%@",self.CRmodel.cid]} showHUD:NO WithSuccessBlock:^(id data) {
+        NSString *jwtString=data[@"data"][@"jwt"];
+        NSDictionary *playInfoDic=[[HWMDIDManager shareDIDManager]CRInfoDecodeWithJwtStringInfo:jwtString];
+        self.DIDmodel=[HWMDIDInfoModel modelWithJSON:playInfoDic[@"credentialSubject"]];
+        self.CRmodel.url=self.DIDmodel.avatar;
+        self.CRmodel.infoEN=self.DIDmodel.introduction;
+        self.CRmodel.infoZH=self.DIDmodel.introduction;
+        self.CrCommitteeInformationHeaderV.CRmodel=self.CRmodel;
+    } WithFailBlock:^(id data) {
+        
+    }];
 }
 -(UIButton *)lookAtTheCandidateListButton{
     if (!_lookAtTheCandidateListButton) {
         _lookAtTheCandidateListButton =[[UIButton alloc]init];
         [_lookAtTheCandidateListButton setTitle:NSLocalizedString(@"查看候选列表", nil) forState:UIControlStateNormal];
-//        [_lookAtTheCandidateListButton setImage:[UIImage imageNamed:@"found_vote_look_over"] forState:UIControlStateNormal];
-       _lookAtTheCandidateListButton.titleLabel.font =[UIFont systemFontOfSize:14];
+        //        [_lookAtTheCandidateListButton setImage:[UIImage imageNamed:@"found_vote_look_over"] forState:UIControlStateNormal];
+        _lookAtTheCandidateListButton.titleLabel.font =[UIFont systemFontOfSize:14];
         [_lookAtTheCandidateListButton  setBackgroundColor:RGBA(61, 92, 102, 0.5)];
         [[HMWCommView share]makeBordersWithView:_lookAtTheCandidateListButton];
         [_lookAtTheCandidateListButton addTarget:self action:@selector(lookAtTheCandidateListEvent:) forControlEvents:UIControlEventTouchUpInside];
@@ -137,44 +101,44 @@
     if (!_joinTheCandidateListButton) {
         _joinTheCandidateListButton =[[UIButton alloc]init];
         _joinTheCandidateListButton.titleLabel.font =[UIFont systemFontOfSize:14];
-         [[HMWCommView share]makeBordersWithView:_joinTheCandidateListButton];
+        [[HMWCommView share]makeBordersWithView:_joinTheCandidateListButton];
         [_joinTheCandidateListButton addTarget:self action:@selector(joinTheCandidateListEvent:) forControlEvents:UIControlEventTouchUpInside];
         [_joinTheCandidateListButton setBackgroundColor:RGBA(61, 92, 102, 0.5)];
         NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
-      FMDBWalletModel *model=walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
+        FMDBWalletModel *model=walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
         if (self.type ==nodeInformationType) {
-
-           BOOL ret = [[FLNotePointDBManager defultWithWalletID:model.walletID]hasModel:self.model];
+            
+            BOOL ret = [[FLNotePointDBManager defultWithWalletID:model.walletID]hasModel:self.model];
             self.hasModel = ret;
             if (ret) {
                 [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
             }else{
-                 [_joinTheCandidateListButton setTitle:NSLocalizedString(@"加入候选列表", nil)  forState:UIControlStateNormal];
+                [_joinTheCandidateListButton setTitle:NSLocalizedString(@"加入候选列表", nil)  forState:UIControlStateNormal];
             }
-
+            
             if (self.model.active==0) {
                 self.joinTheCandidateListButton.enabled = NO;
             }else{
                 self.joinTheCandidateListButton.enabled = YES;
             }
-
-    }else if (self.type==CRInformationType){
-        BOOL ret =[[HMWFMDBManager sharedManagerType:CRListType]selectCRWithWalletID:model.walletID andWithDID:self.CRmodel.did];
-                  self.hasModel = ret;
-                  if (ret) {
-                      [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
-                  }else{
-                       [_joinTheCandidateListButton setTitle:NSLocalizedString(@"加入候选列表", nil)  forState:UIControlStateNormal];
-                  }
-
-//                  if (self.model.active==0) {
-//                      self.joinTheCandidateListButton.enabled = NO;
-//                  }else{
-//                      self.joinTheCandidateListButton.enabled = YES;
-//                  }
-
-
-    }
+            
+        }else if (self.type==CRInformationType){
+            BOOL ret =[[HMWFMDBManager sharedManagerType:CRListType]selectCRWithWalletID:model.walletID andWithDID:self.CRmodel.did];
+            self.hasModel = ret;
+            if (ret) {
+                [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
+            }else{
+                [_joinTheCandidateListButton setTitle:NSLocalizedString(@"加入候选列表", nil)  forState:UIControlStateNormal];
+            }
+            
+            //                  if (self.model.active==0) {
+            //                      self.joinTheCandidateListButton.enabled = NO;
+            //                  }else{
+            //                      self.joinTheCandidateListButton.enabled = YES;
+            //                  }
+            
+            
+        }
         
     }
     return _joinTheCandidateListButton;
@@ -190,9 +154,6 @@
 -(UIImageView *)siconImageView{
     if (!_siconImageView) {
         _siconImageView =[[UIImageView alloc]initWithFrame:CGRectMake(0, 0,30, 30)];
-//        _siconImageView.layer.cornerRadius  =1.f;
-//        _siconImageView.layer.borderWidth   =1.f;
-//        _siconImageView.layer.borderColor   =RGBA(255, 255, 255, 0.8).CGColor;
         _siconImageView.image=[UIImage imageNamed:@"found_vote_initial"];
     }
     return _siconImageView;
@@ -242,21 +203,18 @@
     [self.joinTheCandidateListButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).offset(63);
         make.right.equalTo(self.view.mas_right).offset(-63);
-    make.bottom.equalTo(self.lookAtTheCandidateListButton.mas_top).offset(-20);
+        make.bottom.equalTo(self.lookAtTheCandidateListButton.mas_top).offset(-20);
         make.height.mas_equalTo(@40);
         
     }];
-  
+    
     dispatch_group_t group =  dispatch_group_create();
- __block NSString *URL;
+    __block NSString *URL;
     __block NSString *countries;
     if (self.type==CRInformationType) {
-//        self.nodeNameLabel.text=self.CRmodel.nickname;
         self.nodeNameLabel.alpha=0.f;
         self.siconImageView.alpha=0.f;
-//         [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:self.CRmodel.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
-
-             countries=[[FLTools share]contryNameTransLateByCode:  self.CRmodel.location.integerValue];
+        countries=[[FLTools share]contryNameTransLateByCode:  self.CRmodel.location.integerValue];
         [BGView addSubview:self.CrCommitteeInformationHeaderV];
         [self.CrCommitteeInformationHeaderV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.top.right.equalTo(BGView);
@@ -267,28 +225,9 @@
         
         
     }else if (self.type==nodeInformationType){
-    if (self.model.iconImageUrl.length>0) {
-//        URL=self.model.iconImageUrl;
-    }
-//    if (self.model.url.length>0&&self.model.iconImageUrl.length==0) {
-//    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        URL=[[FLTools share] getImageViewURLWithURL:self.model.url];
-//    });
-//
-//    }
-   
-    
-//    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-      countries=[[FLTools share]contryNameTransLateByCode:  self.model.location.integerValue];
-//    });
-    
-//    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-//        self.nodeInformationDetailsV.countryRegionLabel.text=countries;
-//        if (URL.length>0&&self.model.url.length>0) {
-           [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:self.model.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
-//        }
+        countries=[[FLTools share]contryNameTransLateByCode:  self.model.location.integerValue];
         
-//    });
+        [self.siconImageView sd_setImageWithURL:[NSURL URLWithString:self.model.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
         
     }
     [self upInfo];
@@ -296,86 +235,86 @@
 -(nodeInformationDetailsView *)nodeInformationDetailsV{
     if (!_nodeInformationDetailsV) {
         _nodeInformationDetailsV =[[nodeInformationDetailsView alloc]init];
-         if (self.type== CRInformationType) {
-              _nodeInformationDetailsV.type=CRCoinPointInfType;
-                     _nodeInformationDetailsV.CRmodel=self.CRmodel;
-             
+        if (self.type== CRInformationType) {
+            _nodeInformationDetailsV.type=CRCoinPointInfType;
+            _nodeInformationDetailsV.CRmodel=self.CRmodel;
+            
         }else if (self.type==nodeInformationType){
-              _nodeInformationDetailsV.type=nodeCoinPointInfType;
-                    _nodeInformationDetailsV.model=self.model;
+            _nodeInformationDetailsV.type=nodeCoinPointInfType;
+            _nodeInformationDetailsV.model=self.model;
         }
-      
-
+        
+        
         [_nodeInformationDetailsV.copURLButton addTarget:self action:@selector(copyURLEvent:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _nodeInformationDetailsV;
 }
 -(void)upInfo{
-     NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
-        FMDBWalletModel *model=walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
+    NSArray *walletArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+    FMDBWalletModel *model=walletArray[[[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue]];
     
     
     
-          if (self.type ==nodeInformationType) {
-           
-             BOOL ret = [[FLNotePointDBManager defultWithWalletID:model.walletID]hasModel:self.model];
-              self.hasModel = ret;
-              if (ret) {
-                  [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
-              }else{
-                   [_joinTheCandidateListButton setTitle:NSLocalizedString(@"加入候选列表", nil)  forState:UIControlStateNormal];
-              }
-          
-              if (self.model.active==0) {
-                  self.joinTheCandidateListButton.enabled = NO;
-              }else{
-                  self.joinTheCandidateListButton.enabled = YES;
-              }
-          
-      }else if (self.type==CRInformationType){
-          BOOL ret =[[HMWFMDBManager sharedManagerType:CRListType]selectCRWithWalletID:model.walletID andWithDID:self.CRmodel.did];
-                    self.hasModel = ret;
-                    if (ret) {
-                        [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
-                    }else{
-                         [_joinTheCandidateListButton setTitle:NSLocalizedString(@"加入候选列表", nil)  forState:UIControlStateNormal];
-                    }
-          if ([self.CRmodel.state isEqualToString:@""]) {
-              
-          }else{
-              
-              
-          }
-//                    if (self.model.active==0) {
-//                        self.joinTheCandidateListButton.enabled = NO;
-//                    }else{
-//                        self.joinTheCandidateListButton.enabled = YES;
-//                    }
-          
-          
-      }
-
+    if (self.type ==nodeInformationType) {
+        
+        BOOL ret = [[FLNotePointDBManager defultWithWalletID:model.walletID]hasModel:self.model];
+        self.hasModel = ret;
+        if (ret) {
+            [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
+        }else{
+            [_joinTheCandidateListButton setTitle:NSLocalizedString(@"加入候选列表", nil)  forState:UIControlStateNormal];
+        }
+        
+        if (self.model.active==0) {
+            self.joinTheCandidateListButton.enabled = NO;
+        }else{
+            self.joinTheCandidateListButton.enabled = YES;
+        }
+        
+    }else if (self.type==CRInformationType){
+        BOOL ret =[[HMWFMDBManager sharedManagerType:CRListType]selectCRWithWalletID:model.walletID andWithDID:self.CRmodel.did];
+        self.hasModel = ret;
+        if (ret) {
+            [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
+        }else{
+            [_joinTheCandidateListButton setTitle:NSLocalizedString(@"加入候选列表", nil)  forState:UIControlStateNormal];
+        }
+        if ([self.CRmodel.state isEqualToString:@""]) {
+            
+        }else{
+            
+            
+        }
+        //                    if (self.model.active==0) {
+        //                        self.joinTheCandidateListButton.enabled = NO;
+        //                    }else{
+        //                        self.joinTheCandidateListButton.enabled = YES;
+        //                    }
+        
+        
+    }
+    
 }
 - (IBAction)copyURLEvent:(id)sender {
     if (self.type==nodeInformationType) {
-         [UIPasteboard generalPasteboard].string = self.model.url;
+        [UIPasteboard generalPasteboard].string = self.model.url;
     }else if (self.type==CRInformationType){
-         [UIPasteboard generalPasteboard].string = self.CRmodel.url;
+        [UIPasteboard generalPasteboard].string = self.CRmodel.url;
     }
-   
+    
 }
 - (IBAction)lookAtTheCandidateListEvent:(id)sender {
     if (self.type==nodeInformationType) {
         HMWtheCandidateListViewController *theCandidateListVC=[[HMWtheCandidateListViewController alloc]init];
         theCandidateListVC.lastTimeArray=self.lastTimeArray;
-         [self.navigationController pushViewController:theCandidateListVC animated:YES];
+        [self.navigationController pushViewController:theCandidateListVC animated:YES];
     }else if (self.type==CRInformationType){
-         HWMCRCCommitteeElectionListViewController * vc = [[HWMCRCCommitteeElectionListViewController alloc]init];
+        HWMCRCCommitteeElectionListViewController * vc = [[HWMCRCCommitteeElectionListViewController alloc]init];
         vc.lastArray=self.lastTimeArray;
         vc.totalvotes=self.totalvotes;
-             [self.navigationController pushViewController:vc animated:YES];
+        [self.navigationController pushViewController:vc animated:YES];
     }
-  
+    
     
 }
 - (IBAction)joinTheCandidateListEvent:(id)sender {
@@ -387,56 +326,56 @@
         if (self.hasModel) {
             BOOL ret =[[HMWFMDBManager sharedManagerType:CRListType]delectSelectCR:self.CRmodel WithWalletID:model.walletID];
             if (ret) {
-           self.needUpdate=YES;
+                self.needUpdate=YES;
                 [[FLTools share]showErrorInfo:NSLocalizedString(@"删除成功",nil)];
-
+                
                 [self.navigationController popViewControllerAnimated:YES];
                 
             }else{
                 [[FLTools share]showErrorInfo:NSLocalizedString(@"删除失败", nil)];
             }
         }else{
-           
+            
             
             BOOL ret =  [[HMWFMDBManager sharedManagerType:CRListType]addCR:self.CRmodel withWallID:model.walletID];
-        if (ret) {
-            self.needUpdate=YES;
-            [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
-            self.hasModel = YES;
-            [[FLTools share]showErrorInfo:NSLocalizedString(@"添加成功",nil)];
-
-        }else{
-            [[FLTools share]showErrorInfo:NSLocalizedString(@"添加失败", nil)];
-        }
+            if (ret) {
+                self.needUpdate=YES;
+                [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
+                self.hasModel = YES;
+                [[FLTools share]showErrorInfo:NSLocalizedString(@"添加成功",nil)];
+                
+            }else{
+                [[FLTools share]showErrorInfo:NSLocalizedString(@"添加失败", nil)];
+            }
         }
         
     }else if (self.type==nodeInformationType){
-    if (self.hasModel) {
-        BOOL ret =  [[FLNotePointDBManager defultWithWalletID:model.walletID]delectRecord:self.model];
-        if (ret) {
-            [[FLTools share]showErrorInfo:NSLocalizedString(@"删除成功",nil)];
-
-            [self.navigationController popViewControllerAnimated:YES];
+        if (self.hasModel) {
+            BOOL ret =  [[FLNotePointDBManager defultWithWalletID:model.walletID]delectRecord:self.model];
+            if (ret) {
+                [[FLTools share]showErrorInfo:NSLocalizedString(@"删除成功",nil)];
+                
+                [self.navigationController popViewControllerAnimated:YES];
+            }else{
+                [[FLTools share]showErrorInfo:NSLocalizedString(@"删除失败", nil)];
+            }
         }else{
-            [[FLTools share]showErrorInfo:NSLocalizedString(@"删除失败", nil)];
+            
+            
+            BOOL ret =  [[FLNotePointDBManager defultWithWalletID:model.walletID]addRecord:self.model];
+            if (ret) {
+                [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
+                if (self.needUpdate==NO){
+                    self.needUpdate=YES;
+                }
+                self.hasModel = YES;
+                [[FLTools share]showErrorInfo:NSLocalizedString(@"添加成功",nil)];
+                
+                
+            }else{
+                [[FLTools share]showErrorInfo:NSLocalizedString(@"添加失败", nil)];
+            }
         }
-    }else{
-       
-        
-    BOOL ret =  [[FLNotePointDBManager defultWithWalletID:model.walletID]addRecord:self.model];
-    if (ret) {
-        [self.joinTheCandidateListButton setTitle:NSLocalizedString(@"移出候选列表", nil) forState:UIControlStateNormal];
-        if (self.needUpdate==NO){
-             self.needUpdate=YES;
-        }
-        self.hasModel = YES;
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"添加成功",nil)];
-        
-
-    }else{
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"添加失败", nil)];
-    }
-    }
         
     }
 }

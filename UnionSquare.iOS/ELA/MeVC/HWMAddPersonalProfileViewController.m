@@ -38,20 +38,21 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
     placeHText=NSLocalizedString(@"请输入个人简介（不超过800个字符）", nil);
     if (self.isEidet) {
         self.title=NSLocalizedString(@"编辑个人简介", nil);
-        //        self.skipButton.alpha=0.f;
         [self.nextButton setTitle:NSLocalizedString(@"保存", nil) forState:UIControlStateNormal];
         self.infoHeight.constant=0.f;
         self.textInfoLabel.alpha=0.f;
         if (self.model.introduction.length>0) {
             self.textInfoLabel.text=self.model.introduction;
             self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)self.model.introduction.length];
-            
         }else{
             self.textInfoLabel.text=@"";
         }
-        
     }else{
         self.title=NSLocalizedString(@"添加个人简介", nil);
+        if (self.model.introduction.length>0) {
+            self.infoTextView.text=self.model.introduction;
+           
+        }
         self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)self.model.introduction.length];
     }
 }
@@ -109,11 +110,12 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
         NSString *subString=[NSString stringWithFormat:@"%@%@",textView.text,text];
         textView.text=[subString substringToIndex:800];
         self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)textView.text.length];
+        self.model.introduction=self.infoTextLengthLabel.text;
         return NO;
     }
     
     self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)textView.text.length+text.length];
-    
+    self.model.introduction=self.infoTextLengthLabel.text;
     
     return YES;
 }

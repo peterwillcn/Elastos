@@ -96,10 +96,12 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
     return 0.01;
 }
 - (IBAction)exportEvent:(id)sender {
+    if (self.hasRead) {
     HWExportCertificateMViewController *WExportCertificateMVC=[[HWExportCertificateMViewController alloc]init];
     WExportCertificateMVC.currentWallet=self.currentWallet;
     WExportCertificateMVC.model=self.model;
-    [self.navigationController pushViewController:WExportCertificateMVC animated:YES];
+        [self.navigationController pushViewController:WExportCertificateMVC animated:YES];
+    }
 }
 - (IBAction)TheImportEvent:(id)sender {
     HWMTheImportDocumentsViewController *TheImportDocumentsVC=[[HWMTheImportDocumentsViewController alloc]init];

@@ -176,7 +176,7 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
     if (model.birthday.length>0) {
         [self.hasModelAarray addObject:self.allInfoListArray[2]];
     }
-    if (model.avatar.length>0) {
+    if (model.avatar.length>0&&self.isEi==NO) {
         [self.hasModelAarray addObject:self.allInfoListArray[3]];
         self.headImageIndex=self.hasModelAarray.count-1;
     }
@@ -189,7 +189,7 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
     if (model.nation.length>0) {
         [self.hasModelAarray addObject:self.allInfoListArray[6]];
     }
-    if (model.introduction.length>0) {
+    if (model.introduction.length>0&&self.isEi==NO) {
         [self.hasModelAarray addObject:self.allInfoListArray[7]];
     }
     if (model.homePage.length>0) {

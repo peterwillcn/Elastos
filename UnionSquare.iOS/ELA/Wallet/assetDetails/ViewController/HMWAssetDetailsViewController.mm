@@ -163,7 +163,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
         self.toButtonOffSet.constant=-100;
         self.enMoneyWidthOffSet.constant=-AppWidth+30;
         self.toUpMoneyButtonWidthdOff.constant=250;
-//        self.topUpButton.backgroundColor=[UIColor redColor];
+        //        self.topUpButton.backgroundColor=[UIColor redColor];
         [self.topUpButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(self.view.mas_centerX);
         }];
@@ -179,7 +179,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     
     NSString *walletID=infoArray.firstObject;
     NSString *chainID=infoArray[1];
-//    NSInteger index = [infoArray[2] integerValue];
+    //    NSInteger index = [infoArray[2] integerValue];
     NSString *  balance=dic[@"balance"];
     if ([self.title isEqualToString:chainID]&&[self.currentWallet.masterWalletID isEqualToString:walletID]){
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -189,29 +189,29 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     }
 }
 -(void)iconInfoUpdate:(NSNotification *)notification{
-   
-
+    
+    
     NSOperationQueue *waitQueue = [[NSOperationQueue alloc] init];
     [waitQueue addOperationWithBlock:^{
-    NSDictionary *dic=[[NSDictionary alloc]initWithDictionary:notification.object];
-    NSArray *infoArray=[[FLTools share]stringToArray:dic[@"callBackInfo"]];
-    NSString *walletID=infoArray.firstObject;
-    NSString *chainID=infoArray[1];
-//    NSInteger index = [infoArray[2] integerValue];
-    NSString *lastBlockTimeString=dic[@"lastBlockTimeString"];
-//    NSString * currentBlockHeight=dic[@"currentBlockHeight"];
-//    NSString *  progress=dic[@"progress"];
-    if ([self.currentWallet.masterWalletID isEqualToString:walletID]){
-        if ([self.model.iconBlance isEqualToString:chainID]) {
-            
-            
-            NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:lastBlockTimeString];
-                      self.model.updateTime=[NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                self.updateTimeLabel.text=self.model.updateTime;
-            });
-        }
-    }}];
+        NSDictionary *dic=[[NSDictionary alloc]initWithDictionary:notification.object];
+        NSArray *infoArray=[[FLTools share]stringToArray:dic[@"callBackInfo"]];
+        NSString *walletID=infoArray.firstObject;
+        NSString *chainID=infoArray[1];
+        //    NSInteger index = [infoArray[2] integerValue];
+        NSString *lastBlockTimeString=dic[@"lastBlockTimeString"];
+        //    NSString * currentBlockHeight=dic[@"currentBlockHeight"];
+        //    NSString *  progress=dic[@"progress"];
+        if ([self.currentWallet.masterWalletID isEqualToString:walletID]){
+            if ([self.model.iconBlance isEqualToString:chainID]) {
+                
+                
+                NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:lastBlockTimeString];
+                self.model.updateTime=[NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    self.updateTimeLabel.text=self.model.updateTime;
+                });
+            }
+        }}];
 }
 -(void)DetectionOfTheBalance{
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"GetAllUTXOs"];
@@ -220,7 +220,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     if ([status isEqualToString:@"1"]){
         NSInteger  MaxCount=[result.message[@"success"][@"MaxCount"] integerValue];
         if (MaxCount>500) {
-             [self AnyChangeInTheWholeWithUTXOs:[NSString stringWithFormat:@"%ld",MaxCount]];
+            [self AnyChangeInTheWholeWithUTXOs:[NSString stringWithFormat:@"%ld",MaxCount]];
         }
     }
 }
@@ -318,7 +318,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     NSInteger a=[result.message[@"success"][@"MaxCount"] integerValue];
     self.NodeReturnsAllTotal=a;
     NSArray *tranList=[NSArray modelArrayWithClass:assetDetailsModel.class json:result.message[@"success"][@"Transactions"]];
-//    self.NodeReturnsCurrentIndex=self.currentIndex+tranList.count;
+    //    self.NodeReturnsCurrentIndex=self.currentIndex+tranList.count;
     [self.NodeReturnsMutableArray addObjectsFromArray:tranList];
     self.NodeReturnsCurrentIndex=self.NodeReturnsMutableArray.count-1;
     if (self.NodeReturnsMutableArray.count==1) {
@@ -333,7 +333,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 }
 -(void)loadAllTransactionWithIndex:(NSInteger)index{
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,@(index),@"20",@""] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
-   
+    
     PluginResult * result =[[ELWalletManager share]getAllTransaction:mommand];
     if (self.isUpdate) {
         [self.allListArray removeAllObjects];
@@ -342,7 +342,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     NSInteger a=[result.message[@"success"][@"MaxCount"] integerValue];
     self.allTotal=a;
     NSArray *tranList=[NSArray modelArrayWithClass:assetDetailsModel.class json:result.message[@"success"][@"Transactions"]];
-   
+    
     [self.allListArray addObjectsFromArray:tranList];
     if (self.allListArray.count==0) {
         self.noDataSourceTextLabel.alpha=1.f;
@@ -358,18 +358,18 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 }
 -(void)loadAnyChangeInTheWhole{
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
-      PluginResult * result =[[ELWalletManager share]CreateCombineUTXOTransactionFeeAndJSONString:mommand];
-      NSString *status=[NSString stringWithFormat:@"%@",result.status];
-      if ([status isEqualToString:@"1"]) {
-          UIView *mainView=[self mainWindow];
-            [mainView addSubview:self.TransactionDetailsV];
-           NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",result.message[@"success"][@"fee"]]];
-          [self.TransactionDetailsV TransactionDetailsWithFee:fee withTransactionDetailsAumont:nil];
-          self.JSONString=result.message[@"success"][@"jsonString"];
-      [self.TransactionDetailsV mas_makeConstraints:^(MASConstraintMaker *make) {
-           make.left.right.top.bottom.equalTo(mainView);
-       }];
-      }
+    PluginResult * result =[[ELWalletManager share]CreateCombineUTXOTransactionFeeAndJSONString:mommand];
+    NSString *status=[NSString stringWithFormat:@"%@",result.status];
+    if ([status isEqualToString:@"1"]) {
+        UIView *mainView=[self mainWindow];
+        [mainView addSubview:self.TransactionDetailsV];
+        NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",result.message[@"success"][@"fee"]]];
+        [self.TransactionDetailsV TransactionDetailsWithFee:fee withTransactionDetailsAumont:nil];
+        self.JSONString=result.message[@"success"][@"jsonString"];
+        [self.TransactionDetailsV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(mainView);
+        }];
+    }
 }
 - (IBAction)anyChangeInTheWholeAction:(id)sender {
     // 零钱换整
@@ -508,13 +508,13 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     self.baseTableView.delegate=self;
     self.baseTableView.dataSource=self;
     self.baseTableView.rowHeight=70;
-  __weak __typeof(self) weakSelf = self;
+    __weak __typeof(self) weakSelf = self;
     MJRefreshNormalHeader *header=[MJRefreshNormalHeader headerWithRefreshingBlock:^{
         __strong __typeof(self) self =weakSelf;
         if ([self.leftOrRight isEqualToString:@"0"]) {
             invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[weakSelf.currentWallet.masterWalletID,self.model.iconName] callbackId:weakSelf.currentWallet.masterWalletID className:@"Wallet" methodName:@"SyncStart"];
             [[ELWalletManager share]SyncStart:mommand];
-
+            
             self.isUpdate=YES;
             
             self.currentIndex=0;
@@ -552,7 +552,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
             
         }
     }];
-  self.baseTableView.separatorInset=UIEdgeInsetsMake(-0, 15, 0, 15);
+    self.baseTableView.separatorInset=UIEdgeInsetsMake(-0, 15, 0, 15);
     [self.baseTableView registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
     [self.baseTableView registerNib:[UINib nibWithNibName:showOwnerAddressCellString bundle:nil] forCellReuseIdentifier:showOwnerAddressCellString];
     self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
@@ -611,7 +611,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     PluginResult * result =[[ELWalletManager share]GetAllCoinBaseTransaction:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     
-//    NSArray * OutputPayload=[NSArray arrayWithArray:result.message[@"success"][@"Transactions"][0][@"OutputPayload"]];
+    //    NSArray * OutputPayload=[NSArray arrayWithArray:result.message[@"success"][@"Transactions"][0][@"OutputPayload"]];
     
     if (![status isEqualToString:@"1"]) {
         return;
@@ -639,7 +639,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
         
     }
     transferTransactionDetailsVC.type=NodeReturnsType;
-      transferTransactionDetailsVC.model=detailsM;
+    transferTransactionDetailsVC.model=detailsM;
     [self.navigationController pushViewController:transferTransactionDetailsVC animated:YES];
     
 }
@@ -710,9 +710,9 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
             if ([self.model.iconName isEqualToString:@"IDChain"]) {
                 detailsM.Type=NSLocalizedString(@"ID 交易", nil);
             }else{
-              detailsM.Type=NSLocalizedString(@"取消参选交易", nil);
+                detailsM.Type=NSLocalizedString(@"取消参选交易", nil);
             }
-           
+            
             break;
         case 11:
             detailsM.Type=NSLocalizedString(@"更新参选交易", nil);
@@ -720,18 +720,18 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
         case 12:
             detailsM.Type=NSLocalizedString(@"提取DPoS质押金交易", nil);
             break;
-            case 33:
-                  detailsM.Type=NSLocalizedString(@"注册CR参选交易", nil);
-                  break;
-            case 34:
-                  detailsM.Type=NSLocalizedString(@"取消CR参选交易", nil);
-                  break;
-            case 35:
-                  detailsM.Type=NSLocalizedString(@"更新CR参选信息交易", nil);
-                  break;
-            case 36:
-                             detailsM.Type=NSLocalizedString(@"提取CR质押金交易", nil);
-                             break;
+        case 33:
+            detailsM.Type=NSLocalizedString(@"注册CR参选交易", nil);
+            break;
+        case 34:
+            detailsM.Type=NSLocalizedString(@"取消CR参选交易", nil);
+            break;
+        case 35:
+            detailsM.Type=NSLocalizedString(@"更新CR参选信息交易", nil);
+            break;
+        case 36:
+            detailsM.Type=NSLocalizedString(@"提取CR质押金交易", nil);
+            break;
             
         default:
             break;
@@ -807,13 +807,13 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 -(void)pwdAndInfoWithPWD:(NSString*)pwd{
     if (self.currentWallet.TypeW==0) {
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.model.iconName,self.JSONString,pwd,] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllTransaction"];
-    PluginResult * result =[[ELWalletManager share]CreateCombineUTXOTransaction:mommand];
-    NSString *status=[NSString stringWithFormat:@"%@",result.status];
-   
-    if ([status isEqualToString:@"1"]) {
-        [self closeTransactionDetailsView];
-        [self showSendSuccessPopuV];
-    }
+        PluginResult * result =[[ELWalletManager share]CreateCombineUTXOTransaction:mommand];
+        NSString *status=[NSString stringWithFormat:@"%@",result.status];
+        
+        if ([status isEqualToString:@"1"]) {
+            [self closeTransactionDetailsView];
+            [self showSendSuccessPopuV];
+        }
         
     }else if (self.currentWallet.TypeW==1){
         
@@ -848,13 +848,13 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 }
 -(void)viewWillDisappear:(BOOL)animated{
     
-     [[NSNotificationCenter defaultCenter] removeObserver:AccountBalanceChanges];
+    [[NSNotificationCenter defaultCenter] removeObserver:AccountBalanceChanges];
     [[NSNotificationCenter defaultCenter] removeObserver:progressBarcallBackInfo];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(currentWalletAccountBalanceChanges:) name: AccountBalanceChanges object:nil];
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
     
 }
 -(HWMTransactionDetailsView *)TransactionDetailsV{

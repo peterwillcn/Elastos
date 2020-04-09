@@ -434,7 +434,7 @@ UINib *_cellNib;
 
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"输入地址", nil)]){
         
-        cell.textLabelWidth.constant=55;
+        cell.textLabelWidth.constant=60;
         cell.textOffset.constant=7;
         cell.orderDetailsLabel.font=[UIFont systemFontOfSize:10]; cell.orderDetailsLabel.text=self.InputsArray[indexPath.row];
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"输出地址", nil)]){

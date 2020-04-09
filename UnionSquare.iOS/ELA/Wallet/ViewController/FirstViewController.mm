@@ -34,6 +34,8 @@
 #import "HMWSendSuccessPopuView.h"
 #import "HWMDIDManager.h"
 #import "HWMDIDAuthorizationViewController.h"
+//#import "HWMQrCodeTransferAndAddBuddyViewController.h"
+#import "HMWtransferViewController.h"
 @interface FirstViewController ()<FLCapitalViewDelegate,UITableViewDelegate,UITableViewDataSource,HMWaddFooterViewDelegate,HMWTheWalletListViewControllerDelegate,HMWpwdPopupViewDelegate>
 {
     FLWallet *_currentWallet;
@@ -64,10 +66,10 @@
  *<# #>
  */
 @property(strong,nonatomic)UIButton *leftButton;
-    /*
-     *<# #>
-     */
-    @property(assign,nonatomic)double angle;
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)double angle;
 @property(nonatomic,assign)BOOL isScro;
 /*
  *
@@ -97,14 +99,14 @@
     [super viewDidLoad];
     [self setBackgroundImg:@""];
     self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
-     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:self.leftView];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:self.leftView];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataWalletListInfo:) name:updataWallet object:nil];
     
-      [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
-      [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(currentWalletAccountBalanceChanges:) name: AccountBalanceChanges object:nil];
-         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataCreateWalletLoadWalletInfo) name:updataCreateWallet object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(currentWalletAccountBalanceChanges:) name: AccountBalanceChanges object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataCreateWalletLoadWalletInfo) name:updataCreateWallet object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(AsnyConnectStatusChanged:) name:ConnectStatusChanged object:nil];
-
+    
     [self setView];
     NSInteger selectIndex=
     [[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue];
@@ -114,7 +116,7 @@
     
     self.isScro=NO;
     [self loadTheWalletInformationWithIndex:selectIndex];
-   
+    
     if ([SDKNET isEqualToString:@"MainNet"]) {
         [self loadNetWorkingPong];
     }
@@ -131,10 +133,10 @@
     
 }
 -(void)loadPingWithURLArray:(NSArray*)urlArray withHTTPArray:(NSArray*)arry{
-
+    
     self.pingManager = [[NENPingManager alloc] init];
     [self.pingManager getFatestAddress:urlArray completionHandler:^(NSString *hostName, NSArray *sortedAddress) {
-      
+        
         if (hostName.length>0){
             NSInteger index=[urlArray indexOfObject:hostName];
             [STANDARD_USER_DEFAULT setValue:arry[index] forKey: @"Http_IP"];
@@ -166,72 +168,59 @@
             make.right.equalTo(_leftView.mas_right).offset(-6);
         }];
         UIButton *leftButton=[[UIButton alloc]init];
-    [leftButton addTarget:self action:@selector(swichWallet) forControlEvents:UIControlEventTouchUpInside];
+        [leftButton addTarget:self action:@selector(swichWallet) forControlEvents:UIControlEventTouchUpInside];
         [_leftView addSubview:leftButton];
-    [leftButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.equalTo(_leftView);
-    }];
+        [leftButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(_leftView);
+        }];
         
         
     }
     return _leftView;
 }
 -(void)UpWalletType{
-NSString *imageName=@"single_wallet";
+    NSString *imageName=@"single_wallet";
     switch (self.currentWallet.TypeW) {
         case SingleSign:
             imageName=@"single_wallet";
-           break;
+            break;
         case SingleSignReadonly:
-         imageName=@"single_walllet_readonly";
+            imageName=@"single_walllet_readonly";
             break;
         case HowSign:
-        imageName=@"multi_wallet";
+            imageName=@"multi_wallet";
             break;
         case HowSignReadonly:
             imageName=@"multi_wallet_readonly";
             break;
         default:
-            break;}
+        break;}
     UIImageView *imagV =(UIImageView*)[self.leftView viewWithTag:1001];
     imagV.image=[UIImage imageNamed:imageName];
     UILabel *nameLabel =(UILabel*)[self.leftView viewWithTag:1002];
     nameLabel.text=self.currentWallet.walletName;
 }
-//-(UIButton *)leftButton{
-//    if (!_leftButton) {
-//     _leftButton =[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 100, 30)];
-//
-//        [_leftButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//        [_leftButton addTarget:self action:@selector(swichWallet) forControlEvents:UIControlEventTouchUpInside];
-//
-//        _leftButton.imageEdgeInsets=UIEdgeInsetsMake(0, -10, 0, 0);
-//
-//
-//    }
-//    return _leftButton;
-//}
 -(void)updataCreateWalletLoadWalletInfo{
-self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
-        [self loadTheWalletInformationWithIndex:self.walletIDListArray.count-1];
+    self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+    [self loadTheWalletInformationWithIndex:self.walletIDListArray.count-1];
 }
 
 -(void)addAllCallBack{
-//    for (FMDBWalletModel *wallet in self.walletIDListArray) {
-        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
+    //    for (FMDBWalletModel *wallet in self.walletIDListArray) {
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
+    
+    PluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
+    NSString *status=[NSString stringWithFormat:@"%@",result.status];
+    if ([status isEqualToString:@"1"]) {
         
-        PluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
-        NSString *status=[NSString stringWithFormat:@"%@",result.status];
-        if ([status isEqualToString:@"1"]) {
-            
-            NSArray  *array = [[FLTools share]stringToArray:result.message[@"success"]];
-            
-            if (array.count>0) {
-                [self RegisterToMonitor:array WithmasterWalletID:self.currentWallet.masterWalletID];
-            }
-            
+        NSArray  *array = [[FLTools share]stringToArray:result.message[@"success"]];
+        
+        if (array.count>0) {
+            [self RegisterToMonitor:array WithmasterWalletID:self.currentWallet.masterWalletID];
         }
-//    }
+        
+    }
+    //    }
 }
 -(void)RegisterToMonitor:(NSArray*)arr WithmasterWalletID:(NSString*)walletID{
     for (int i =0; i<arr.count; i++) {
@@ -277,7 +266,7 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
         return;
     }
     NSString *  balance=dic[@"balance"];
-  
+    
     assetsListModel *model=self.dataSoureArray[index];
     if ([model.iconName isEqualToString:chainID]&&[self.currentWallet.masterWalletID isEqualToString:walletID]){
         model.iconBlance=balance;
@@ -288,7 +277,7 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
                 [self updateCellInfoWithModel:model withInde:indexP];
             });
         }
-   }
+    }
 }
 -(void)iconInfoUpdate:(NSNotification *)notification{
     NSDictionary *dic=[[NSDictionary alloc]initWithDictionary:notification.object];
@@ -299,29 +288,29 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
     NSString *lastBlockTimeString=dic[@"lastBlockTimeString"];
     NSString * currentBlockHeight=@"0";
     NSString *  progress=dic[@"progress"];
-//     NSLog(@"model.status=self.currentWallet.masterWalletID=%@",self.currentWallet.masterWalletID);
+    //     NSLog(@"model.status=self.currentWallet.masterWalletID=%@",self.currentWallet.masterWalletID);
     assetsListModel *model;
     if ([self.currentWallet.masterWalletID isEqualToString:walletID]){
         if ([chainID isEqualToString:@"ELA"]) {
-//            [ELWalletManager share].estimatedHeight=currentBlockHeight;
+            //            [ELWalletManager share].estimatedHeight=currentBlockHeight;
             model=self.dataSoureArray[0];
         }else{
-             model=self.dataSoureArray[1];
+            model=self.dataSoureArray[1];
         }
         model.thePercentageMax=[progress doubleValue];
-//    model.thePercentageCurr=[currentBlockHeight floatValue];
+        //    model.thePercentageCurr=[currentBlockHeight floatValue];
         if (lastBlockTimeString.length>0) {
             sideChainInfoModel *smodel=[[sideChainInfoModel alloc]init];
             smodel.thePercentageMax=[NSString stringWithFormat:@"%f",model.thePercentageMax];
-//           smodel.thePercentageCurr=[NSString stringWithFormat:@"%f",model.thePercentageCurr];
+            //           smodel.thePercentageCurr=[NSString stringWithFormat:@"%f",model.thePercentageCurr];
             smodel.walletID=self.currentWallet.masterWalletID;
             smodel.sideChainName=model.iconName;
             smodel.sideChainNameTime=lastBlockTimeString;
-             NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:smodel.sideChainNameTime];
+            NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:smodel.sideChainNameTime];
             model.updateTime=[NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
-        dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
                 [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
-//                NSLog(@"修改侧链时间====%@======%@======%@====%@====%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
+                //                NSLog(@"修改侧链时间====%@======%@======%@====%@====%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
             });
         }
         if (self.isScro==NO) {
@@ -330,27 +319,27 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
                 [self updateCellInfoWithModel:model withInde:indexPath];
             });
         }
-    
+        
     }else{
         sideChainInfoModel *smodel=[[sideChainInfoModel alloc]init];
         if (model.thePercentageMax==0) {
             model.thePercentageMax=1;
         }
         smodel.thePercentageMax=[NSString stringWithFormat:@"%@",progress];
-//        smodel.thePercentageCurr=[NSString stringWithFormat:@"%@",currentBlockHeight];
+        //        smodel.thePercentageCurr=[NSString stringWithFormat:@"%@",currentBlockHeight];
         smodel.walletID=walletID;
         smodel.sideChainName=chainID;
         smodel.sideChainNameTime=lastBlockTimeString;
         
         dispatch_async(dispatch_get_main_queue(), ^{
-          [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
+            [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
         });
         
     }
     
 }
 -(void)updataWalletListInfo:(NSNotification *)notification{
-       self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+    self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
     if (notification.object!=nil) {
         [self loadTheWalletInformationWithIndex:self.currentWalletIndex];
     }else{
@@ -371,18 +360,18 @@ self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerTyp
     [ELWalletManager share].currentWallet = currentWallet;
 }
 -(void)loadTheWalletInformationWithIndex:(NSInteger)inde{
-if(self.walletIDListArray.count==0){
-    self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
-    if (self.walletIDListArray.count==0) {
-        FLPrepareVC *vc=[[FLPrepareVC alloc]init];
-        vc.type=creatWalletType;
-        [self.navigationController pushViewController:vc animated:NO];
-        return;
-    }else{
+    if(self.walletIDListArray.count==0){
         self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+        if (self.walletIDListArray.count==0) {
+            FLPrepareVC *vc=[[FLPrepareVC alloc]init];
+            vc.type=creatWalletType;
+            [self.navigationController pushViewController:vc animated:NO];
+            return;
+        }else{
+            self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
+        }
     }
-    }
-if(inde>self.walletIDListArray.count-1) {
+    if(inde>self.walletIDListArray.count-1) {
         inde=0;
     }
     [STANDARD_USER_DEFAULT setValue:[NSString stringWithFormat:@"%ld",(long)inde] forKey:selectIndexWallet];
@@ -394,15 +383,15 @@ if(inde>self.walletIDListArray.count-1) {
     wallet.walletName     =model.walletName;
     wallet.walletAddress  = model.walletAddress;
     wallet.walletID       =[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
-     wallet.TypeW  = model.TypeW;
+    wallet.TypeW  = model.TypeW;
     wallet.didString=model.didString;
     self.currentWallet = wallet;
-     [self addAllCallBack];
+    [self addAllCallBack];
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
-  PluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
+    PluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]) {
-    NSArray  *array = [[FLTools share]stringToArray:result.message[@"success"]];
+        NSArray  *array = [[FLTools share]stringToArray:result.message[@"success"]];
         if (array.count>0) {
             [self getBalanceList:array];
         }
@@ -411,7 +400,7 @@ if(inde>self.walletIDListArray.count-1) {
     NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
     NSDictionary *baseDic=[[NSDictionary alloc]init];
     if ([statusBase isEqualToString:@"1"] ) {
-     baseDic=[[FLTools share]dictionaryWithJsonString:resultBase.message[@"success"]];
+        baseDic=[[FLTools share]dictionaryWithJsonString:resultBase.message[@"success"]];
         NSString *Readonly=[NSString stringWithFormat:@"%@",baseDic[@"Readonly"]];
         if ([Readonly isEqualToString:@"0"]) {
             if ([baseDic[@"M"] integerValue]==1) {
@@ -436,10 +425,10 @@ if(inde>self.walletIDListArray.count-1) {
     if (self.dataSoureArray.count>0) {
         [self.dataSoureArray removeAllObjects];
     }
-
+    
     int index=0;
     for (NSString *currencyName in arr) {
-   
+        
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName,@2] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];
         PluginResult * result =[[ELWalletManager share]getBalance:mommand];
         
@@ -454,14 +443,14 @@ if(inde>self.walletIDListArray.count-1) {
             model.thePercentageCurr=0.f;
             model.thePercentageMax=1.f;
             model.iconBlance=blanceString;
-//            model.thePercentageCurr=[smodel.thePercentageCurr doubleValue];
+            //            model.thePercentageCurr=[smodel.thePercentageCurr doubleValue];
             model.thePercentageMax=[smodel.thePercentageMax doubleValue];
             if ([smodel.sideChainNameTime isEqual: [NSNull null]]||smodel.sideChainNameTime==NULL||[smodel.sideChainNameTime isEqualToString:@"--:--"]) {
                 model.updateTime=[NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"已同步区块时间", nil),@"--:--"];
                 model.thePercentageMax=100;
             }else{
-            NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:smodel.sideChainNameTime];
-                 model.updateTime=[NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
+                NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:smodel.sideChainNameTime];
+                model.updateTime=[NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
             }
             [self.dataSoureArray addObject:model];
             invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:[NSString stringWithFormat:@"%d",index]];
@@ -476,7 +465,7 @@ if(inde>self.walletIDListArray.count-1) {
 }
 -(void)setView{
     self.table = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStylePlain];
-//    self.table.separatorInset=UIEdgeInsetsMake(0, 10, 0, 10);
+    //    self.table.separatorInset=UIEdgeInsetsMake(0, 10, 0, 10);
     [self.view addSubview:self.table];
     self.table.backgroundColor = [UIColor clearColor];
     self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -492,17 +481,17 @@ if(inde>self.walletIDListArray.count-1) {
     UIBarButtonItem *saveButton =[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"setting_adding_scan"] style:UIBarButtonItemStyleDone target:self action:@selector(QrCode)];
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
                                                                                     target:nil
-                                                                action:nil];
+                                                                                    action:nil];
     negativeSpacer.width =-20;
     NSArray *buttonArray = [[NSArray alloc]initWithObjects:negativeSpacer,ClickMorenButton,saveButton,nil];
     self.navigationItem.rightBarButtonItems = buttonArray;
-//        self.navigationItem.rightBarButtonItem=ClickMorenButton;
+    //        self.navigationItem.rightBarButtonItem=ClickMorenButton;
     __weak __typeof(self) weakSelf = self;
-MJRefreshNormalHeader  *header = [MJRefreshNormalHeader  headerWithRefreshingBlock:^{
-    for (assetsListModel *model in self.dataSoureArray) {
-        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[weakSelf.currentWallet.masterWalletID,model.iconName] callbackId:weakSelf.currentWallet.masterWalletID className:@"Wallet" methodName:@"SyncStart"];
-              [[ELWalletManager share]SyncStart:mommand];
-    }
+    MJRefreshNormalHeader  *header = [MJRefreshNormalHeader  headerWithRefreshingBlock:^{
+        for (assetsListModel *model in self.dataSoureArray) {
+            invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[weakSelf.currentWallet.masterWalletID,model.iconName] callbackId:weakSelf.currentWallet.masterWalletID className:@"Wallet" methodName:@"SyncStart"];
+            [[ELWalletManager share]SyncStart:mommand];
+        }
         [weakSelf.table.mj_header endRefreshing];
     }];
     self.table.mj_header=header;
@@ -513,7 +502,7 @@ MJRefreshNormalHeader  *header = [MJRefreshNormalHeader  headerWithRefreshingBlo
     WCQRCodeScanningVC *WCQRCode=[[WCQRCodeScanningVC alloc]init];
     WCQRCode.frVC=self;
     WCQRCode.scanBack=^(NSString *addr){
-   
+        
         [weakSelf SweepCodeProcessingResultsWithQRCodeString:addr];
         
     };
@@ -530,7 +519,7 @@ MJRefreshNormalHeader  *header = [MJRefreshNormalHeader  headerWithRefreshingBlo
         [self.table.mj_header endRefreshing];
         return;
     }
-
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -546,7 +535,7 @@ MJRefreshNormalHeader  *header = [MJRefreshNormalHeader  headerWithRefreshingBlo
             for (int i=0; i<self.dataSoureArray.count; i++) {
                 assetsListModel *model=self.dataSoureArray[i];
                 
-                 NSIndexPath *indexPath=[NSIndexPath indexPathForRow:i inSection:0];
+                NSIndexPath *indexPath=[NSIndexPath indexPathForRow:i inSection:0];
                 [self updateCellInfoWithModel:model withInde:indexPath];
             }
         });
@@ -555,7 +544,7 @@ MJRefreshNormalHeader  *header = [MJRefreshNormalHeader  headerWithRefreshingBlo
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-//self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    //self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     self.isScro=YES;
 }
 -(void)viewDidDisappear:(BOOL)animated{
@@ -565,10 +554,10 @@ MJRefreshNormalHeader  *header = [MJRefreshNormalHeader  headerWithRefreshingBlo
 -(void)swichWallet{
     HMWTheWalletListViewController *theWalletListVC=[[HMWTheWalletListViewController alloc]init];
     theWalletListVC.delegate=self;
-theWalletListVC.walletIDListArray=[[NSMutableArray alloc]initWithArray:self.walletIDListArray];
-theWalletListVC.currentWalletIndex=self.currentWalletIndex;
+    theWalletListVC.walletIDListArray=[[NSMutableArray alloc]initWithArray:self.walletIDListArray];
+    theWalletListVC.currentWalletIndex=self.currentWalletIndex;
     [self.navigationController pushViewController:theWalletListVC animated:NO];
-
+    
 }
 - (void)ClickMore:(UIButton*)sender {
     HMWTheWalletManagementViewController *theWalletManagementVC=[[HMWTheWalletManagementViewController alloc]init];
@@ -578,39 +567,39 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
 
 -(void)capitalViewDidClick:(NSInteger)index
 {
-  
+    
     switch (index) {
         case 11:
         case 1:
-            {
-                FLQRVC *vc = [[FLQRVC alloc]init];
-//                vc.addr = self.currentWallet.walletAddress;
-//                vc.Wallet = self.currentWallet;
-                [self.navigationController pushViewController:vc animated:NO];
-            }
+        {
+            FLQRVC *vc = [[FLQRVC alloc]init];
+            //                vc.addr = self.currentWallet.walletAddress;
+            //                vc.Wallet = self.currentWallet;
+            [self.navigationController pushViewController:vc animated:NO];
+        }
             break;
         case 3:{
-//            FLWalletDeleteVC *vc= [[FLWalletDeleteVC alloc]init];
-//            vc.currentWallet = self.currentWallet;
-//            [self.navigationController pushViewController:vc animated:YES];
+            //            FLWalletDeleteVC *vc= [[FLWalletDeleteVC alloc]init];
+            //            vc.currentWallet = self.currentWallet;
+            //            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
         case 2:
-            {
-//                FLAllAssetListVC *vc = [[FLAllAssetListVC alloc]init];
-//                vc.addr = self.currentWallet.walletAddress;
-//                [self.navigationController pushViewController:vc animated:YES];
-            }
-            break;
-            case 10:
         {
-           // [self jumpToSelectTradeBiVC:nil];
+            //                FLAllAssetListVC *vc = [[FLAllAssetListVC alloc]init];
+            //                vc.addr = self.currentWallet.walletAddress;
+            //                [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+        case 10:
+        {
+            // [self jumpToSelectTradeBiVC:nil];
         }
             break;
         case 12:
         {
-//            FLBuyAndSellVC *vc = [[FLBuyAndSellVC alloc]init];
-//            [self.navigationController pushViewController:vc animated:YES];
+            //            FLBuyAndSellVC *vc = [[FLBuyAndSellVC alloc]init];
+            //            [self.navigationController pushViewController:vc animated:YES];
             [[FLTools share]showErrorInfo:@"敬请期待"];
         }
             break;
@@ -622,10 +611,10 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
 {
     FLAssetTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FLAssetTableCell"];
     assetsListModel *model=self.dataSoureArray[indexPath.row];
-   cell.biName.text=model.iconName;
-   
-   cell.detailLab.text=[[FLTools share]elaScaleConversionWith: model.iconBlance];
-   cell.updatetime.text=model.updateTime;
+    cell.biName.text=model.iconName;
+    
+    cell.detailLab.text=[[FLTools share]elaScaleConversionWith: model.iconBlance];
+    cell.updatetime.text=model.updateTime;
     cell.statusLabel.text=NSLocalizedString(@"连接中…", nil);
     NSString *symbolString=@"%";
     if ([model.updateTime rangeOfString:@"--:--"].location !=NSNotFound){
@@ -644,7 +633,7 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
         cell.statusLabel.text=NSLocalizedString(@"连接中…", nil);
         
     }else if ([model.status isEqualToString:@"DIsconnected"]){
-         cell.statusLabel.text=NSLocalizedString(@"丢失…", nil);
+        cell.statusLabel.text=NSLocalizedString(@"丢失…", nil);
     }
     cell.progressLab.text=[NSString stringWithFormat:@"%.f%@", floor(cell.progress.progress*100),symbolString];
     [self startAnimationWithView:cell.linkImageView];
@@ -656,9 +645,9 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   FLAssetTableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    FLAssetTableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     HMWAssetDetailsViewController *vc = [[HMWAssetDetailsViewController alloc]init];
-      assetsListModel *model=self.dataSoureArray[indexPath.row];
+    assetsListModel *model=self.dataSoureArray[indexPath.row];
     vc.title=model.iconName;
     vc.currentWallet  = self.currentWallet;
     vc.elaModel=self.dataSoureArray.firstObject;
@@ -720,10 +709,10 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
     }];
     
     
-        
+    
 }
 -(void)endAnimationWithView:(UIView*)view{
-  [UIView animateWithDuration:1 animations:^{
+    [UIView animateWithDuration:1 animations:^{
         CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
         //默认是顺时针效果，若将fromValue和toValue的值互换，则为逆时针效果
         animation.fromValue = [NSNumber numberWithFloat:0.f];
@@ -764,8 +753,8 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
         cell.linkImageView.alpha=1.f;
     }
     NSLog(@"model.status==%@",model.status);
-      
-
+    
+    
     if ([model.status isEqualToString:@"Connected"]) {
         cell.statusLabel.text=model.updateTime;
     }else if ([model.status isEqualToString:@"Connecting"]){
@@ -778,10 +767,9 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
     [self startAnimationWithView:cell.linkImageView];
 }
 -(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString{
-//    NSLog(@"解析前%@",QRCodeString);
     if ([QRCodeString containsString:@"elastos://credaccess/"]) {
         if (self.currentWallet.didString.length==0) {
-             [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID", nil)];
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID", nil)];
             return;
         }
         
@@ -789,15 +777,24 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
             return;
         }
         NSDictionary *playInfoDic=[[HWMDIDManager shareDIDManager]jwtDecodeWithJwtStringInfo:QRCodeString];
-       if (playInfoDic){
-           [self ShowPlayInfoText:playInfoDic withJWTString:QRCodeString];
-       }
-//         return;
-    }
-    
-   
-    
-    
+        if (playInfoDic){
+            [self ShowPlayInfoText:playInfoDic withJWTString:QRCodeString];
+        }
+    }else if ([[ELWalletManager share]IsAddressValidWithMastID:self.currentWallet.masterWalletID WithAddress:QRCodeString]){
+       HMWtransferViewController *HMWtransferVC=[[HMWtransferViewController alloc]init];
+        HMWtransferVC.currentWallet=self.currentWallet;
+        assetsListModel *model=self.dataSoureArray[0];
+        HMWtransferVC.model=model;
+        HMWtransferVC.toAddressString=QRCodeString;
+        [self.navigationController pushViewController:HMWtransferVC animated:NO];
+        
+    }else{
+    [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
+}
+
+
+
+
 //    if ([[FLTools share]SCanQRCodeWithDicCode:self.QRCoreDic] ) {
 //        self.QRCoreDic=nil;
 //    }
@@ -815,8 +812,8 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
 //           [self GetTransactionSignedInfoWhereForm:NO];
 //        }
 //    }
-  
-    
+
+
 }
 -(void)ShowPlayInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString{
     
@@ -837,17 +834,17 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
         
         
         NSArray *SignArry=[NSArray arrayWithArray:result.message[@"success"]];
-   
+        
         for (NSDictionary *dic in SignArry) {
-           self.SignStatusModel.N=dic[@"N"];
-          self.SignStatusModel.M=dic[@"M"];
-          NSObject *obj=dic[@"Signers"];
+            self.SignStatusModel.N=dic[@"N"];
+            self.SignStatusModel.M=dic[@"M"];
+            NSObject *obj=dic[@"Signers"];
             
             if ([obj isKindOfClass:[NSArray class]]) {
                 self.SignStatusModel.Signers=[NSArray arrayWithArray:dic[@"Signers"]].count;
             }
             if ([dic[@"SignType"] isEqualToString:@"MultiSign"]) {
-             self.SignStatusModel.isHowSign=YES;
+                self.SignStatusModel.isHowSign=YES;
                 if ([self.SignStatusModel.M integerValue]>self.SignStatusModel.Signers) {
                     self.SignStatusModel.isSignCom=NO;
                     NSObject *obj=dic[@"Signers"];
@@ -858,10 +855,10 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
                 }else{
                     self.SignStatusModel.isSignCom=YES;
                 }
-
-//
+                
+                //
             }else{
-                 self.SignStatusModel.isHowSign=NO;
+                self.SignStatusModel.isHowSign=NO;
                 self.SignStatusModel.M=@"1";
             }
             
@@ -875,7 +872,7 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
             }];
         }else{
             if (isPWD) {
-              [self cancelThePWDPageView];
+                [self cancelThePWDPageView];
             }
             HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
             if (self.SignStatusModel.isHowSign) {
@@ -887,7 +884,7 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
             NSDictionary *successDic=[[NSDictionary alloc]initWithDictionary:[[FLTools share]dictionaryWithJsonString:self.QRCoreDic[@"data"]]]; SignatureTradingSingleQrCodeVC.QRCodeString =self.QRCoreDic[@"data"];
             SignatureTradingSingleQrCodeVC.QRCodeSignatureDic=successDic;
             SignatureTradingSingleQrCodeVC.currentWallet=self.currentWallet; SignatureTradingSingleQrCodeVC.subW=self.QRCoreDic[@"extra"][@"SubWallet"];
-          
+            
             SignatureTradingSingleQrCodeVC.SignStatus=self.SignStatusModel;
             [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
             
@@ -907,29 +904,29 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
     
 }
 -(void)makeSureWithPWD:(NSString*)pwd{
- 
+    
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.QRCoreDic[@"extra"][@"SubWallet"],self.QRCoreDic[@"data"],pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
     PluginResult *result = [[ELWalletManager share]SignTransaction:mommand];
     NSString *statue=[NSString stringWithFormat:@"%@",result.status];
-   
+    
     if ([statue isEqualToString:@"1"]) {
         if (self.SignStatusModel.Signers+1==[self.SignStatusModel.M integerValue]) {
             [self publishtransaction:result.message[@"success"]];
         }else{
-        HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
-        if (self.SignStatusModel.isHowSign) {
-            SignatureTradingSingleQrCodeVC.type=HowSignSignedDeals;
-        }else{
-            SignatureTradingSingleQrCodeVC.type=SingleSignReadOnlyToBeSigned;
-        }
-        [self cancelThePWDPageView];
-        
-        NSDictionary *successDic=[[NSDictionary alloc]initWithDictionary:result.message[@"success"]]; SignatureTradingSingleQrCodeVC.QRCodeString =[[FLTools share]DicToString:successDic];
-        SignatureTradingSingleQrCodeVC.currentWallet=self.currentWallet;
+            HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
+            if (self.SignStatusModel.isHowSign) {
+                SignatureTradingSingleQrCodeVC.type=HowSignSignedDeals;
+            }else{
+                SignatureTradingSingleQrCodeVC.type=SingleSignReadOnlyToBeSigned;
+            }
+            [self cancelThePWDPageView];
+            
+            NSDictionary *successDic=[[NSDictionary alloc]initWithDictionary:result.message[@"success"]]; SignatureTradingSingleQrCodeVC.QRCodeString =[[FLTools share]DicToString:successDic];
+            SignatureTradingSingleQrCodeVC.currentWallet=self.currentWallet;
             SignatureTradingSingleQrCodeVC.SignStatus=self.SignStatusModel; SignatureTradingSingleQrCodeVC.QRCodeSignatureDic=result.message[@"success"];
-        SignatureTradingSingleQrCodeVC.subW=self.QRCoreDic[@"extra"][@"SubWallet"];
-        [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
-        
+            SignatureTradingSingleQrCodeVC.subW=self.QRCoreDic[@"extra"][@"SubWallet"];
+            [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
+            
         }
     }
     
@@ -971,7 +968,7 @@ theWalletListVC.currentWalletIndex=self.currentWalletIndex;
         
     }
     
-   
+    
 }
 -(HMWSendSuccessPopuView *)sendSuccessPopuV{
     if (!_sendSuccessPopuV) {

@@ -422,8 +422,8 @@
         __weak __typeof__ (self) weakSelf = self;
         _CrCommitteeInformationHeaderV.block = ^{
             HWMHWMDIDShowInfoViewController *HWMAddPersonalInformationVC=[[HWMHWMDIDShowInfoViewController alloc]init];
-            HWMAddPersonalInformationVC.model=weakSelf.DIDmodel;
             HWMAddPersonalInformationVC.isEi=YES;
+            HWMAddPersonalInformationVC.model=weakSelf.DIDmodel;
             [weakSelf.navigationController pushViewController:HWMAddPersonalInformationVC animated:YES];
             
         };

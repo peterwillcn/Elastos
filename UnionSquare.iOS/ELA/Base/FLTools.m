@@ -275,6 +275,7 @@ if ([languageString  containsString:@"en"]) {
     [SVProgressHUD setBackgroundColor:RGB(100, 100, 100)];
     [SVProgressHUD setFont:[UIFont systemFontOfSize:14]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    info=NSLocalizedString(info, nil);
     [SVProgressHUD showImage:[UIImage imageNamed:@""] status:info];
 }
 -(CGFloat)gasETHwithGasPrice:(NSString*)gasPrice withLimetPrice:(NSString*)LimetPrice{

@@ -65,7 +65,7 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
 }
 -(NSArray *)dataArray{
     if (!_dataArray) {
-        _dataArray =[NSArray arrayWithObjects:NSLocalizedString(@"DID名称", nil),NSLocalizedString(@"主管理公钥", nil),NSLocalizedString(@"DID", nil),NSLocalizedString(@"有效期", nil), nil];
+        _dataArray =[NSArray arrayWithObjects:NSLocalizedString(@"姓名", nil),NSLocalizedString(@"主管理公钥", nil),NSLocalizedString(@"DID", nil),NSLocalizedString(@"有效期", nil), nil];
     }
     return _dataArray;
 }
@@ -128,6 +128,7 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
     cell.leftTextLabel.text=self.dataArray[indexPath.row];
     switch (indexPath.row) {
         case 0:
+            cell.arrImageView.alpha=0.f;
             cell.infoLabel.text=self.model.didName;
             break;
         case 1:

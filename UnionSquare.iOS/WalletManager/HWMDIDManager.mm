@@ -69,6 +69,8 @@ static const char *TestDIDAdaptor_CreateIdTransaction(DIDAdapter *_adapter, cons
     NSString *password=[NSString stringWithFormat:@"%s",adapter->pwd];
     NSString * walletID=[NSString stringWithFormat:@"%s",adapter->walletId];
     NSString *payloadJsonString=[NSString stringWithFormat:@"%s",payload];
+    //    NSDictionary *dicPayJson=[[FLTools share]dictionaryWithJsonString:payloadJsonString];
+    //    payloadJsonString=dicPayJson[@"payload"];
     NSString *memoString=[NSString stringWithFormat:@"%s",memo];
     if (!adapter || !payload){
         return NULL;
@@ -79,7 +81,6 @@ static const char *TestDIDAdaptor_CreateIdTransaction(DIDAdapter *_adapter, cons
     NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
     
     if ([statusBase isEqualToString:@"1"] ) {
-        
         return "0";
         
     }else{
@@ -219,13 +220,18 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     return reDic;
 }
 -(BOOL)updateInfoWithInfo:(HWMDIDInfoModel*)model{
-    int RT;
+    int rt;
     DIDURL *url=DIDURL_NewByDid(did, "name");
     DIDDocument *  doc=DIDStore_LoadDID(store, did);
+    if (doc==NULL) {
+        
+        
+        return NO;
+    }
     DIDDocumentBuilder *build=DIDDocument_Edit(doc);
     Credential *cr  =DIDDocument_GetCredential(doc, url);
     DIDDocument_Destroy(doc);
-    time_t endTime=[model.endString intValue];
+    time_t endTime=[model.endString longValue];
     if (cr) {
         DIDDocumentBuilder_RemoveCredential(build, url);
     }
@@ -234,18 +240,23 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     char * nickName =(char*)[model.didName UTF8String];
     props[0].key = "name";
     props[0].value = nickName;
-    RT= DIDDocumentBuilder_AddSelfClaimedCredential(build, url, types,1,  props, 1, endTime, [self.passWord UTF8String]);
+    rt= DIDDocumentBuilder_AddSelfClaimedCredential(build, url, types,1,  props, 1, endTime, [self.passWord UTF8String]);
+    if (rt!=0) {
+        return NO;
+    }
     
     DIDDocument * newDoc=  DIDDocumentBuilder_Seal(build, [self.passWord UTF8String]);
-    RT=  DIDStore_StoreDID(store,newDoc, "name");// 已经签名
-    const char *R = DIDStore_PublishDID(store, [self.passWord UTF8String], did, NULL,YES);
-    NSString *reString=[self charToString:R];
+    rt=  DIDStore_StoreDID(store,newDoc, "name");// 已经签名
+    did = DIDDocument_GetSubject(newDoc);
+    const char *r = DIDStore_PublishDID(store, [self.passWord UTF8String], did, NULL,true);
+    NSString *reString=[self charToString:r];
     DIDURL_Destroy(url);
     DIDDocument_Destroy(newDoc);
-    if ([reString isEqualToString:@"0"]) {
-        return YES;
-    }else{
+    if ([reString isEqualToString:@"0"]||[reString isEqualToString:@"-1"]) {
+        [[FLTools share]showErrorInfo:@"发布失败"];
         return NO;
+    }else{
+        return YES;
     }
 }
 -(void)setPassWord:(NSString *)passWord{

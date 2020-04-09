@@ -82,7 +82,7 @@
 }
 
 - (void)setupNavigationBar {
-    self.navigationItem.title = @"扫一扫";
+    self.navigationItem.title =  NSLocalizedString(@"扫一扫", nil);
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"相册" style:(UIBarButtonItemStyleDone) target:self action:@selector(rightBarButtonItenAction)];
 }
 - (SGQRCodeScanningView *)scanningView {

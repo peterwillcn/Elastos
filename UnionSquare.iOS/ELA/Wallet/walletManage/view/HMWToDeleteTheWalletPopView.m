@@ -196,7 +196,7 @@
         self.titlePopLabel.text= NSLocalizedString(@"是否删除本项？", nil);
         
     }else if (deleteType==documentsCoveringType){
-        self.titlePopLabel.text= NSLocalizedString(@"是否否该当前凭证信息？", nil);
+        self.titlePopLabel.text= NSLocalizedString(@"是否覆盖当前凭证信息？", nil);
         
     }
     _deleteType=deleteType;

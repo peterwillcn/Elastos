@@ -72,7 +72,7 @@
         //设置UIPickerView的代理
         self.dataPickerView.delegate =self;
         self.dataPickerView.dataSource =self;
-        
+        self.makeSureTextLabel.text=NSLocalizedString(@"确定", nil);
         
     }
     return self;
@@ -105,7 +105,7 @@
                     isSurrce=NO;
                     
                 }
-                if(self.monthIndex==self.nowMonth-1&&self.dayIndex>(self.nowDay-1)) {
+                if(self.monthIndex==self.nowMonth-1&&self.dayIndex>self.nowDay) {
                     isSurrce=NO;
                 }
                 if (isSurrce==NO) {
@@ -367,7 +367,7 @@
     _ListViewType=ListViewType;
     NSString *stringType;
     if (ListViewType==DIDDataType) {
-        stringType=@"请选择失效日期";
+        stringType=NSLocalizedString(@"请选择失效日期",nil);
         NSCalendar *calendar = [[NSCalendar alloc]initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
         // 定义一个时间字段的旗标，指定将会获取指定年、月、日、时、分、秒的信息
         unsigned unitFlags = NSCalendarUnitYear |
@@ -391,12 +391,12 @@
         [self pickerView: self.dataPickerView didSelectRow:self.monthIndex inComponent:1];
         [self pickerView: self.dataPickerView didSelectRow:self.dayIndex inComponent:2];
     }else if (ListViewType==genderType){
-        stringType=@"请选择性别";
+        stringType=NSLocalizedString(@"请选择性别",nil);
         self.genderIndex=0;
         [self pickerView: self.dataPickerView didSelectRow:self.genderIndex inComponent:0];
         
     }else if (ListViewType==birthdayType){
-        stringType=@"请选择出生日期";
+        stringType=NSLocalizedString(@"请选择出生日期",nil);
         NSCalendar *calendar = [[NSCalendar alloc]initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
         // 定义一个时间字段的旗标，指定将会获取指定年、月、日、时、分、秒的信息
         unsigned unitFlags = NSCalendarUnitYear |

@@ -31,6 +31,7 @@
     [self defultWhite];
             [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"编辑DID", nil);
+    self.DIDTextInfoLabel.text=NSLocalizedString(@"DID信息", nil);
     [self.updatesButton setTitle:NSLocalizedString(@"更新发布", nil) forState:UIControlStateNormal];
     
     self.nickNameLabel.text=self.model.didName;

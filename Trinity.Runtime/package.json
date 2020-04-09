@@ -11,6 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "appmanager": "file:./plugin_src/AppManager",
+    "titlebarmanager": "file:./plugin_src/TitleBarManager",
     "cordova-android": "8.1.0",
     "cordova-clipboard": "1.2.1",
     "cordova-ios": "5.1.1",
@@ -21,7 +22,6 @@
     "cordova-plugin-device-motion": "^2.0.1",
     "cordova-plugin-dialogs": "^2.0.2",
     "cordova-plugin-file": "file:../Plugins/File",
-    "cordova-plugin-firebase-lib": "3.3.0",
     "cordova-plugin-flashlight": "^3.2.0",
     "cordova-plugin-geolocation": "^4.0.2",
     "cordova-plugin-inappbrowser": "^3.1.0",
@@ -47,7 +47,6 @@
     "mkdirp": "^0.5.1",
     "node-wget-promise": "^0.1.6",
     "path": "^0.12.7",
-    "titlebarmanager": "file:./plugin_src/TitleBarManager",
     "wallet": "file:../Plugins/Wallet",
     "xcode": "^1.1.0",
     "yauzl": "^2.10.0"
@@ -91,8 +90,7 @@
       "elastos-trinity-plugins-fingerprint": {
         "FACEID_USAGE_DESCRIPTION": " "
       },
-      "elastos-trinity-plugins-titlebarmanager": {},
-      "cordova-plugin-firebase-lib": {}
+      "elastos-trinity-plugins-titlebarmanager": {}
     },
     "platforms": [
       "android",

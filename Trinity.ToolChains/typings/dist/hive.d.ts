@@ -39,280 +39,140 @@ declare namespace HivePlugin {
     type Int = Opaque<number, 'Int'>;
 
     /**
-     * The class representing File.
+     * The class representing IPFS.
      */
-    interface File {
+    interface IPFS {
         /**
-         * Get the information(ID, name size, type) of the file got last time.
+         * Put data to IPFS backend.
          * 
-         * @param onSuccess  The function to call on success.
-         * @param onError    The function to call on error.
-         * @return
-         * onSuccess will be called on success, otherwise onError will be called.
-         */
-        getLastInfo(onSuccess: (info: any)=>void, onError?: (err: string)=>void);
-
-        /**
-         * Get the information(ID, name, size, type) of the file from the server.
-         * 
-         * @return
-         * A promise object that contains the information(ID, name, size, type) of the file
-         * will be returned on success, otherwise a promise object that contains error
-         * information will be returned.
-         */
-        getInfo(onSuccess: (info: any)=>void, onError?: (err: string)=>void): Promise<any>;
-
-        /**
-         * Move to a new path.
-         * 
-         * @param destPath     The new path.
+         * @param data     The data to write.
          * @return
          * A promise object that contains success information will be returned on success,
          * otherwise a promise object that contains error information will be returned.
          */
-        moveTo(destPath: string): Promise<any>;
+        put(data: string): Promise<any>;
 
         /**
-         * Copy to a new path.
+         * Get IPFS backend data through cid.
          * 
-         * @param newPath      The new path.
+         * @param data     Content identifiers.
          * @return
          * A promise object that contains success information will be returned on success,
          * otherwise a promise object that contains error information will be returned.
          */
-        copyTo(newPath: string): Promise<any>;
+        get(cid: string): Promise<any>;
 
         /**
-         * Delete.
+         * Get IPFS backend data length.
          * 
+         * @param data     Content identifiers.
          * @return
          * A promise object that contains success information will be returned on success,
          * otherwise a promise object that contains error information will be returned.
          */
-        deleteItem(): Promise<any>;
-
-        /**
-         * Read data of a specified length sequentially.
-         * 
-         * @param length      The length of data to write.
-         * @return
-         * A promise object that contains success information will be returned on success,
-         * otherwise a promise object that contains error information will be returned.
-         */
-        readData(length: Int): Promise<any>;
-
-        /**
-         * Write local change on File.
-         * 
-         * @param data      The data to write.
-         * @return
-         * A promise object that contains success information will be returned on success,
-         * otherwise a promise object that contains error information will be returned.
-         */
-        writeData(data: any): Promise<any>;
-
-        /**
-         * Commit local change on File to backend.
-         * 
-         * @return
-         * A promise object that contains success information will be returned on success,
-         * otherwise a promise object that contains error information will be returned.
-         */
-        commit(): Promise<any>;
-
-        /**
-         * Discard local change on File.
-         * 
-         * @param onSuccess  The function to call on success.
-         * @return
-         * onSuccess will be called on success.
-         */
-        discard(onSuccess?: ()=>void);
+        size(cid: string): Promise<any>;
     }
 
     /**
-     * The class representing Directory.
+     * The class representing Files.
      */
-    interface Directory {
+    interface Files {
         /**
-         * Get the information(ID, name, childCount) of the directory got last time.
+         * Put data to backend.
          * 
-         * @param onSuccess  The function to call on success.
-         * @param onError    The function to call on error.
-         * @return
-         * onSuccess will be called on success, otherwise onError will be called.
-         */
-        getLastInfo(onSuccess: (info: any)=>void, onError?: (err: string)=>void);
-
-        /**
-         * Get the information(ID, name, childCount) of the directory from the server.
-         * 
-         * @return
-         * A promise object that contains the information(ID, name, childCount) of the file
-         * will be returned on success, otherwise a promise object that contains error
-         * information will be returned.
-         */
-        getInfo(): Promise<any>;
-
-        /**
-         * Create directory with name.
-         * @param name      The directory name.
-         * @return
-         * A directory will be returned on success, otherwise a promise object that contains
-         * error information will be returned.
-         */
-        createDirectory(name: string): Promise<any>;
-
-        /**
-         * Get the directory with a specified name.
-         * 
-         * @param name      The directory name.
-         * @return
-         * A directory will be returned on success, otherwise a promise object that contains
-         * error information will be returned.
-         */
-        getDirectory(name: string): Promise<any>;
-
-        /**
-         * Create file with name.
-         * 
-         * @param name      The file name.
-         * @return
-         * A file will be returned on success, otherwise a promise object that contains
-         * error information will be returned.
-         */
-        createFile(name: string): Promise<any>;
-
-        /**
-         * Get the File with a specified name.
-         * 
-         * @param name      The file name.
-         * @return
-         * A file will be returned on success, otherwise a promise object that contains
-         * error information will be returned.
-         */
-        getFile(name: string): Promise<any>;
-
-        /**
-         * Get children for current directory.
-         * 
-         * @return
-         * The children for current directory will be returned on success, otherwise
-         * a promise object that contains error information will be returned.
-         */
-        getChildren(): Promise<any>;
-
-        /**
-         * Move to a new path.
-         * 
-         * @param destPath     The destination path.
+         * @param remoteFile    Remote file name.
+         * @param data          The data to write.
          * @return
          * A promise object that contains success information will be returned on success,
          * otherwise a promise object that contains error information will be returned.
          */
-        moveTo(destPath: string): Promise<any>;
+        put(remoteFile: string, data: string): Promise<any>;
 
         /**
-         * Copy to a new path.
+         * Get backend data as string.
          * 
-         * @param newPath      The new path.
+         * @param remoteFile    Remote file name.
          * @return
          * A promise object that contains success information will be returned on success,
          * otherwise a promise object that contains error information will be returned.
          */
-        copyTo(newPath: string): Promise<any>;
+        getAsString(remoteFile: string): Promise<any>;
 
         /**
-         * Delete.
+         * Get backend data length.
+         * 
+         * @param remoteFile    Remote file name.
          * @return
          * A promise object that contains success information will be returned on success,
          * otherwise a promise object that contains error information will be returned.
          */
-        deleteItem(): Promise<any>;
+        size(remoteFile: string): Promise<any>;
+
+        /**
+         * Delete files on the backend.
+         * 
+         * @param remoteFile    Remote file name.
+         * @return
+         * A promise object that contains success information will be returned on success,
+         * otherwise a promise object that contains error information will be returned.
+         */
+        deleteFile(remoteFile: string): Promise<any>;
+
+        /**
+         * List the files name on the backend.
+         * 
+         * @return
+         * A promise object that contains success information will be returned on success,
+         * otherwise a promise object that contains error information will be returned.
+         */
+        list(): Promise<any>;
     }
 
     /**
-     * The class representing Drive.
+     * The class representing KeyValues.
      */
-    interface Drive {
+    interface KeyValues {
         /**
-         * Get the information(ID) of the drive got last time.
+         * Put the value of the key on the backend.
          * 
-         * @param onSuccess  The function to call on success.
-         * @param onError    The function to call on error.
-         * @return
-         * onSuccess will be called on success, otherwise onError will be called.
-         */
-        getLastInfo(onSuccess: (info: any)=>void, onError?: (err: string)=>void);
-
-        /**
-         * Get the information(ID) of the drive from the server.
-         * 
-         * @return
-         * A promise object that contains the information(ID) of the file
-         * will be returned on success, otherwise a promise that contains error information
-         * will be returned.
-         */
-        getInfo(): Promise<any>;
-
-        /**
-         * Get the root directory.
-         * 
-         * @return
-         * A directory will be returned on success, otherwise a promise that contains
-         * error information will be returned.
-         */
-        rootDirectory(): Promise<any>;
-
-        /**
-         * Create directory with path.
-         * 
-         * @param path      The directory path.
-         * @return
-         * A directory will be returned on success, otherwise a promise that contains
-         * error information will be returned.
-         */
-        createDirectory(path: string): Promise<any>;
-
-        /**
-         * Get the directory with a specified path.
-         * 
-         * @param path      The directory path.
-         * @return
-         * A directory will be returned on success, otherwise a promise that contains
-         * error information will be returned.
-         */
-        getDirectory(path: string): Promise<any>;
-
-        /**
-         * Create file with path.
-         * 
-         * @param path      The file path.
-         * @return
-         * A file will be returned on success, otherwise a promise that contains
-         * error information will be returned.
-         */
-        createFile(path: string): Promise<any>;
-
-        /**
-         * Get the File with a specified path.
-         * 
-         * @param path      The file path.
-         * @return
-         * A file will be returned on success, otherwise a promise that contains
-         * error information will be returned.
-         */
-        getFile(path: string): Promise<any>;
-
-        /**
-         * Get the information(ID, name, size, type) of the drive with a specified path.
-         * 
-         * @param path      The drive path.
+         * @param key       Key that needs to be set.
+         * @param value     The value to write.
          * @return
          * A promise object that contains success information will be returned on success,
-         * otherwise a promise that contains error information will be returned.
+         * otherwise a promise object that contains error information will be returned.
          */
-        getItemInfo(path: string): Promise<any>;
+        putValue(key: string, value: string): Promise<any>;
+
+        /**
+         * Set the value of the key on the backend.
+         * 
+         * @param key       Key that needs to be set.
+         * @param value     The data to write.
+         * @return
+         * A promise object that contains success information will be returned on success,
+         * otherwise a promise object that contains error information will be returned.
+         */
+        putValue(key: string, value: string): Promise<any>;
+
+        /**
+         * Get the value of the key on the backend.
+         * 
+         * @param key       Key that needs to be set.
+         * @return
+         * A promise object that contains success information will be returned on success,
+         * otherwise a promise object that contains error information will be returned.
+         */
+        getValues(key: string): Promise<any>;
+
+        /**
+         * Delete the key on the backend.
+         * 
+         * @param key       Key that needs to be set.
+         * @return
+         * A promise object that contains success information will be returned on success,
+         * otherwise a promise object that contains error information will be returned.
+         */
+        deleteKey(key: string): Promise<any>;
     }
 
     /**
@@ -320,52 +180,64 @@ declare namespace HivePlugin {
      */
     interface Client {
         /**
-         * Associate a user with the Client.
-         * 
-         * @param onSuccess  The function to call on success.
-         * @param onError    The function to call on error.
-         * @param handler    The function to call.
-         * @return
-         * onSuccess will be called on success, otherwise onError will be called.
-         */
-        login(handler: Function, onSuccess?: ()=>void, onError?: (err: string)=>void);
-
-        /**
-         * Dissociate the user from the Client.
+         * Connect to backend.
          * 
          * @param onSuccess  The function to call on success.
          * @param onError    The function to call on error.
          * @return
          * onSuccess will be called on success, otherwise onError will be called.
          */
-        logout(onSuccess?: ()=>void, onError?: (err: string)=>void);
-
+        connect(onSuccess?: (info: any)=>void, onError?: (err: string)=>void);
+        
         /**
-         * Get the last associated user's information with client information.
+         * Disconnect from backend.
          * 
          * @param onSuccess  The function to call on success.
          * @param onError    The function to call on error.
          * @return
          * onSuccess will be called on success, otherwise onError will be called.
          */
-        getLastInfo(onSuccess?: (info: any)=>void, onError?: (err: string)=>void);
+        disConnect(onSuccess?: (info: any)=>void, onError?: (err: string)=>void);
 
         /**
-         * Get associated user's information with client information.
+         * Get the connection status.
          * 
+         * @param onSuccess  The function to call on success.
+         * @param onError    The function to call on error.
          * @return
-         * A promise object that contains success information will be returned on success,
-         * otherwise a promise object that contains error information will be returned.
+         * onSuccess will be called on success, otherwise onError will be called.
          */
-        getInfo(): Promise<any>;
+        isConnected(onSuccess?: (info: any)=>void, onError?: (err: string)=>void);
 
         /**
-         * Get the current backend's Drive instance associated with the client's drive.
+         * Get the IPFS interface.
+         * 
+         * @param onSuccess  The function to call on success.
+         * @param onError    The function to call on error.
          * @return
-         * A drive will be returned on success, otherwise a promise object that contains
-         * error information will be returned.
+         * onSuccess will be called on success, otherwise onError will be called.
          */
-        getDefDrive(): Promise<any>;
+        getIPFS(onSuccess?: (info: any)=>void, onError?: (err: string)=>void);
+
+        /**
+         * Get the Files interface.
+         * 
+         * @param onSuccess  The function to call on success.
+         * @param onError    The function to call on error.
+         * @return
+         * onSuccess will be called on success, otherwise onError will be called.
+         */
+        getFiles(onSuccess?: (info: any)=>void, onError?: (err: string)=>void);
+
+        /**
+         * Get the KeyValues interface.
+         * 
+         * @param onSuccess  The function to call on success.
+         * @param onError    The function to call on error.
+         * @return
+         * onSuccess will be called on success, otherwise onError will be called.
+         */
+        getKeyValues(onSuccess?: (info: any)=>void, onError?: (err: string)=>void);
     }
 
     const enum DriveType {
@@ -387,6 +259,6 @@ declare namespace HivePlugin {
     interface HiveManager {
         getVersion(onSuccess?: ()=>void, onError?: (err: string)=>void);
         setListener(type: any, eventCallback: Function);
-        createClient(options: ClientCreationOptions, onSuccess: (client: Client)=>void, onError?: (err: string)=>void);
+        createClient(handler: Function, options: ClientCreationOptions, onSuccess: (client: Client)=>void, onError?: (err: string)=>void);
     }
 }

@@ -230,8 +230,6 @@
     }
     
     func install(_ url: String, _ update: Bool) throws -> AppInfo? {
-        let _ret = AppManager.getShareInstance().isInProtectList(url);
-        
         let originUrl = url;
         let zipPath = getPathFromUrl(url);
         

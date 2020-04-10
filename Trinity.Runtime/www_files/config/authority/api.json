@@ -5,12 +5,12 @@
             "title": {
                 "en": "Change system language",
                 "zh": "设置系统语言",
-                "fr": "fr..."
+                "fr": "Modifier la langue du système"
             },
             "description": {
                 "en": "This capsule will be able to change your default elastOS language, and this new language will be used in all the other capsules.",
                 "zh": "此应用程序将能够设置elastOS语言，并且所有其他应用程序都将使用此新语言。",
-                "fr": "..."
+                "fr": "Cette capsule pourra modifier la langue par défaut d'elastOS, et cette langue sera utilisée par défaut par toutes les autres capsules"
             }
         },
         "install": {
@@ -18,12 +18,12 @@
             "title": {
                 "en": "Install capsules",
                 "zh": "安装应用程序",
-                "fr": "fr..."
+                "fr": "Installer des capsules"
             },
             "description": {
                 "en": "This capsule will be able to add other capsules to elastOS.",
                 "zh": "此应用程序将能够在elastOS上安装其它应用程序。",
-                "fr": "..."
+                "fr": "Cette capsule pourra ajouter d'autres capsules dans elastOS."
             }
         },
         "unInstall": {
@@ -31,12 +31,12 @@
             "title": {
                 "en": "Uninstall capsules",
                 "zh": "卸载应用程序",
-                "fr": "fr..."
+                "fr": "Supprimer des capsules"
             },
             "description": {
                 "en": "This capsule will be able to remove other capsules from elastOS.",
                 "zh": "此应用程序将能够从elastIOS上卸载其它应用程序。",
-                "fr": "..."
+                "fr": "Cette capsule pourra supprimer d'autres capsules d'elastOS."
             }
         },
         "getAppInfo": {

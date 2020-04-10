@@ -69,6 +69,9 @@ public class TitleBarPlugin extends TrinityPlugin {
                 case "setupMenuItems":
                     this.setupMenuItems(args, callbackContext);
                     break;
+                case "setVisibility":
+                    this.setVisibility(args, callbackContext);
+                    break;
                 default:
                     return false;
             }
@@ -193,6 +196,16 @@ public class TitleBarPlugin extends TrinityPlugin {
         catch (Exception e) {
             return null;
         }
+    }
+
+    private void setVisibility(JSONArray args, CallbackContext callbackContext) throws Exception {
+        int visibilityAsInt = args.getInt(0);
+
+        cordova.getActivity().runOnUiThread(() -> {
+            getTitleBar().setVisibility(TitleBar.TitleBarVisibility.fromId(visibilityAsInt));
+        });
+
+        callbackContext.success();
     }
 
     private TitleBar getTitleBar() {

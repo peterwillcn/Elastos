@@ -93,6 +93,13 @@ declare namespace TitleBarPlugin {
         title: String
     }
 
+    const enum TitleBarVisibility {
+        /** The title bar is visible. */
+        VISIBLE = 0,
+        /** The title bar is hidden and the space is given back to main app content. */
+        HIDDEN = 1
+    }
+
     interface TitleBarManager {
         /**
          * Shows an indicator on the title bar to indicate that something is busy.
@@ -169,5 +176,10 @@ declare namespace TitleBarPlugin {
          * @param onItemClicked Callback called when an item is clicked.
          */
         setupMenuItems(menuItems: TitleBarMenuItem[], onItemClicked: (TitleBarMenuItem)=>void);
+
+        /**
+         * Changes the title bar visibility.
+         */
+        setVisibility(visibility: TitleBarVisibility);
     }
 }

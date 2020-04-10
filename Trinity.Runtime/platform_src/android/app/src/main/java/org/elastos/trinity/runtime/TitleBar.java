@@ -120,6 +120,26 @@ public class TitleBar extends FrameLayout {
         }
     }
 
+    public enum TitleBarVisibility {
+        VISIBLE(0),
+        HIDDEN(1);
+
+        private int mValue;
+
+        TitleBarVisibility(int value) {
+            mValue = value;
+        }
+
+        public static TitleBarVisibility fromId(int value) {
+            for(TitleBarVisibility t : values()) {
+                if (t.mValue == value) {
+                    return t;
+                }
+            }
+            return VISIBLE;
+        }
+    }
+
     public static class MenuItem {
         String key;
         String iconPath;
@@ -478,6 +498,17 @@ public class TitleBar extends FrameLayout {
             btnMenu.setVisibility(View.VISIBLE);
         else
             btnMenu.setVisibility(View.GONE);
+    }
+
+    public void setVisibility(TitleBarVisibility visibility) {
+        if (visibility == TitleBarVisibility.VISIBLE) {
+            // Show the title bar
+            // TODO
+        }
+        else {
+            // Hide the title bar
+            // TODO
+        }
     }
 
     /**

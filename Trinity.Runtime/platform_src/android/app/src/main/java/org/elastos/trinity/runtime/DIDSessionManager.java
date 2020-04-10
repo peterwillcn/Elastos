@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class DIDSessionManager {
     private WebViewActivity activity;
     private static DIDSessionManager instance;
+    private AppManager appManager;
 
     static class IdentityEntry {
         String didStoreId;
@@ -58,24 +59,28 @@ public class DIDSessionManager {
         DIDSessionManager.instance = this;
     }
 
+    public void setAppManager(AppManager appManager) {
+        this.appManager = appManager;
+    }
+
     public static DIDSessionManager getSharedInstance() {
         return instance;
     }
 
     public void addIdentityEntry(IdentityEntry entry) throws Exception {
-        activity.appManager.getDBAdapter().addDIDSessionIdentityEntry(entry);
+        appManager.getDBAdapter().addDIDSessionIdentityEntry(entry);
     }
 
     public void deleteIdentityEntry(String didString) throws Exception {
-        activity.appManager.getDBAdapter().deleteDIDSessionIdentityEntry(didString);
+        appManager.getDBAdapter().deleteDIDSessionIdentityEntry(didString);
     }
 
     public ArrayList<IdentityEntry> getIdentityEntries() throws Exception {
-        return activity.appManager.getDBAdapter().getDIDSessionIdentityEntries();
+        return appManager.getDBAdapter().getDIDSessionIdentityEntries();
     }
 
     public IdentityEntry getSignedInIdentity() throws Exception {
-        return activity.appManager.getDBAdapter().getDIDSessionSignedInIdentity();
+        return appManager.getDBAdapter().getDIDSessionSignedInIdentity();
     }
 
     public void signIn(IdentityEntry identityToSignIn) throws Exception {
@@ -84,10 +89,16 @@ public class DIDSessionManager {
         if (signedInIdentity != null)
             throw new Exception("Unable to sign in. Please first sign out from the currently signed in identity");
 
-        activity.appManager.getDBAdapter().setDIDSessionSignedInIdentity(identityToSignIn);
+        appManager.getDBAdapter().setDIDSessionSignedInIdentity(identityToSignIn);
+
+        // Ask the manager to handle the UI sign in flow.
+        appManager.signIn();
     }
 
     public void signOut() throws Exception {
-        activity.appManager.getDBAdapter().setDIDSessionSignedInIdentity(null);
+        appManager.getDBAdapter().setDIDSessionSignedInIdentity(null);
+
+        // Ask the app manager to sign out and redirect user to the right screen
+        appManager.signOut();
     }
 }

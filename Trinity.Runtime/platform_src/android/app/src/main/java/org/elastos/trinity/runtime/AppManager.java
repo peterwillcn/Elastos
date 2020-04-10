@@ -148,7 +148,8 @@ public class AppManager {
         getLauncherInfo();
         saveLauncher();
         try {
-            loadLauncher();
+            // TMP BPI loadLauncher();
+            launchStartupScreen();
         }
         catch (Exception e){
             e.printStackTrace();
@@ -581,7 +582,7 @@ public class AppManager {
 
     public void close(String id) throws Exception {
         if (isLauncher(id)) {
-            throw new Exception("Launcher can't close!");
+            return; // TMP BPI TEST throw new Exception("Launcher can't close!");
         }
 
         AppInfo info = appInfos.get(id);
@@ -629,6 +630,43 @@ public class AppManager {
 
     public void loadLauncher() throws Exception {
         start(LAUNCHER);
+    }
+
+    public void launchStartupScreen() throws Exception {
+        // Check if a there is a signed in DID. If so, directly start the launcher. If not,
+        // start the DID session dapp
+        DIDSessionManager.getSharedInstance().setAppManager(this);
+        DIDSessionManager.IdentityEntry signedInIdentity = DIDSessionManager.getSharedInstance().getSignedInIdentity();
+        if (signedInIdentity == null) {
+            // No DID signed in
+            loadLauncher(); // TODO - IMPORTANT NOTE: for now because did session app crashes if launcher was not loaded, we also start the launcher FOR TEST. Later , launcher should NOT start if DID session starts
+            start("org.elastos.trinity.dapp.didsession");
+        }
+        else {
+            // A DID is signed in
+            loadLauncher();
+        }
+    }
+
+    /**
+     * Signs in to a new DID session.
+     */
+    public void signIn() throws Exception {
+        // Stop the did session app
+        close("org.elastos.trinity.dapp.didsession");
+
+        // Start the launcher app
+        launchStartupScreen();
+    }
+
+    /**
+     * Signs out from a DID session. All apps and services are closed, and launcher goes back to the DID session app prompt.
+     */
+    public void signOut() throws Exception {
+        closeAll();
+
+        // Go back to the startup screen
+        launchStartupScreen();
     }
 
     private void installUri(String uri, boolean dev) {

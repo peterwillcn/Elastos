@@ -84,8 +84,8 @@ public class WebViewActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_view);
-        appManager = new AppManager(this);
         didSessionManager = new DIDSessionManager(this);
+        appManager = new AppManager(this);
 
         getIntentUri();
 

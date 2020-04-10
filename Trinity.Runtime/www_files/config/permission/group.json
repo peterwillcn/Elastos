@@ -25,10 +25,20 @@
             "broadcastMessage",
             "unInstall"
         ],
+        "DIDSessionManagerPlugin": [
+            "getSignedInIdentity",
+            "signOut"
+        ],
         "$user": {}
     },
     "didsession": {
         "DIDSessionManagerPlugin": ["*"],
+        "$user": {}
+    },
+    "did": {
+        "DIDSessionManagerPlugin": [
+            "getSignedInIdentity"
+        ],
         "$user": {}
     },
     "user": {

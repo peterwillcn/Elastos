@@ -87,5 +87,11 @@ class ConfigManager: NSObject {
         }
         return ret!;
     }
+    
+    func stringArrayContains(_ key: String, _ value: String) -> Bool {
+        let array = getStringArrayValue(key, [String]());
+        return array.contains(value);
+    }
+    
 }
 

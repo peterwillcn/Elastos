@@ -33,7 +33,7 @@ class ApiAuthorityInfo {
     var dangerLevel = "high";
     var title = [String: String]();
     var description = [String: String]();
-    
+
     init() {
     }
 
@@ -42,17 +42,17 @@ class ApiAuthorityInfo {
         self.title = title;
         self.description = description;
     }
-    
+
     func getLocalizedTitle() -> String {
         let local = PreferenceManager.getShareInstance().getStringValue("locale.language", "en");
-        
+
         var ret = self.title[local];
         if (ret == nil) {
             ret = self.title["en"];
         }
         return ret!;
     }
-    
+
     func getLocalizedDescription() -> String {
         let local = PreferenceManager.getShareInstance().getStringValue("locale.language", "en");
         var ret = self.description[local];
@@ -103,24 +103,24 @@ class ApiAuthorityManager {
                 if (obj["danger_level"] != nil) {
                     info.dangerLevel = obj["danger_level"] as! String;
                 }
-                
+
                 if (obj["title"] != nil) {
                     info.title = obj["title"] as! [String: String];
                 }
-                
+
                 if (obj["description"] != nil) {
                     info.description = obj["description"] as! [String: String];
                 }
-                
+
                 infoList[plugin.lowercased() + "." + api] = info;
             }
         }
     }
-    
+
     func getApiAuthorityInfo(_ plugin: String, _ api: String) -> ApiAuthorityInfo? {
         return infoList[plugin.lowercased() + "." + api];
     }
-    
+
     private func getApiAuth(_ appId: String, _ plugin: String, _ api: String) -> Int {
         var ret = try! self.dbAdapter.getApiAuth(appId, plugin, api);
         if (ret == nil) {
@@ -128,11 +128,11 @@ class ApiAuthorityManager {
         }
         return ret!;
     }
-    
+
     func setApiAuth(_ appId: String, _ plugin: String, _ api: String, _ auth: Int?) {
         try? self.dbAdapter.setApiAuth(appId, plugin, api, auth);
     }
-    
+
     func sendCallbackResult(_ pluginName: String, _ api: String, _ auth: Int, _ plugin: CDVPlugin,
                             _ command: CDVInvokedUrlCommand) {
 
@@ -176,33 +176,40 @@ class ApiAuthorityManager {
             }
         }
     }
-    
+
     private func popupAlertDialog(_ info: AppInfo, _ plugin: String, _ api: String, _ pluginObj: CDVPlugin, _ command: CDVInvokedUrlCommand) {
         // Create the dialog
         let apiAuthorityController = ApiAuthorityAlertController(nibName: "ApiAuthorityAlertController", bundle: Bundle.main)
-        
+
         apiAuthorityController.setData(info, plugin, api)
-        
+
         let popup = PopupDialog(viewController: apiAuthorityController, buttonAlignment: .horizontal, transitionStyle: .fadeIn, preferredWidth: 340, tapGestureDismissal: false, panGestureDismissal: false, hideStatusBar: false, completion: nil)
-        
+
         popup.view.backgroundColor = UIColor.clear // For rounded corners
         self.appManager.mainViewController.present(popup, animated: false, completion: nil)
-        
+
         // Permission was granted by the user
         apiAuthorityController.setOnClickedListener {auth in
             popup.dismiss()
-            
+
             try! AppManager.getShareInstance().getDBAdapter().setApiAuth(info.app_id, plugin, api, auth)
-            
+
             self.apiAlertLock.signal()
             self.sendCallbackResult(plugin, api, auth, pluginObj, command)
         }
     }
-    
-    
+
+    private func isInWhitelist(_ appId: String) -> Bool {
+        return ConfigManager.getShareInstance().stringArrayContains("api.authority.whitelist", appId);
+    }
+
     func getApiAuthority(_ appId: String, _ plugin: String,
                                   _ pluginObj: CDVPlugin,
                                   _ command: CDVInvokedUrlCommand) -> Int {
+        if (isInWhitelist(appId)) {
+            return AppInfo.AUTHORITY_ALLOW;
+        }
+
         let api = command.methodName!;
         let info = self.getApiAuthorityInfo(plugin, api);
         if (info != nil) {

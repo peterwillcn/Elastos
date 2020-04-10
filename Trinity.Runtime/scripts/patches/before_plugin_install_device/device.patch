@@ -1,14 +1,153 @@
+--- origin_plugins/cordova-plugin-device/types/index.d.ts	null
++++ plugins/cordova-plugin-device/types/index.d.ts	null
+@@ -5,31 +5,53 @@
+ // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
+
+ /**
+- * This plugin defines a global device object, which describes the device's hardware and software.
+- * Although the object is in the global scope, it is not available until after the deviceready event.
++ * This plugin provides an API for getting the device's hardware and software information.
++ * <br><br>
++ * Please use 'Device' as the plugin name in the manifest.json if you want to use
++ * this facility.
++ * <br><br>
++ * Usage:
++ * <br>
++ * device.getInfo((info)=>{console.log(info.platform)}, (err)=>{});
+  */
+-interface Device {
+-    /** Get the version of Cordova running on the device. */
+-    cordova: string;
+-    /** Indicates that Cordova initialize successfully. */
+-    available: boolean;
++
++declare namespace CordovaDevicePlugin {
+     /**
+-     * The device.model returns the name of the device's model or product. The value is set
+-     * by the device manufacturer and may be different across versions of the same product.
+-     */
+-    model: string;
+-    /** Get the device's operating system name. */
+-    platform: string;
+-    /** Get the device's Universally Unique Identifier (UUID). */
+-    uuid: string;
+-    /** Get the operating system version. */
+-    version: string;
+-    /** Get the device's manufacturer. */
+-    manufacturer: string;
+-    /** Whether the device is running on a simulator. */
+-    isVirtual: boolean;
+-    /** Get the device hardware serial number. */
+-    serial: string;
++    * The device information.
++    */
++    type DeviceInfo = {
++        /** Get the version of Cordova running on the device. */
++        cordova: string;
++        /** Indicates that Cordova initialize successfully. */
++        available: boolean;
++        /**
++         * The device.model returns the name of the device's model or product. The value is set
++         * by the device manufacturer and may be different across versions of the same product.
++         */
++        model: string;
++        /** Get the device's operating system name. */
++        platform: string;
++        /** Get the device's Universally Unique Identifier (UUID). */
++        uuid: string;
++        /** Get the operating system version. */
++        version: string;
++        /** Get the device's manufacturer. */
++        manufacturer: string;
++        /** Whether the device is running on a simulator. */
++        isVirtual: boolean;
++        /** Get the device hardware serial number. */
++        serial: string;
++    }
++
++    interface Device {
++        /**
++         * Get device info
++         *
++         * @param {Function} onSuccess The function to call when the heading data is available
++         * @param {Function} onError The function to call when there is an error getting the heading data. (OPTIONAL)
++         */
++        getInfo(onSuccess: (info: DeviceInfo)=>void, onError?:(err: string)=>void);
++    }
+ }
+
+-declare var device: Device;
+\ No newline at end of file
++declare var device: CordovaDevicePlugin.Device;
+\ No newline at end of file
 --- origin_plugins/cordova-plugin-device/www/device.js	null
 +++ plugins/cordova-plugin-device/www/device.js	null
-@@ -64,7 +64,10 @@
-             channel.onCordovaInfoReady.fire();
-         }, function (e) {
-             me.available = false;
+@@ -25,49 +25,12 @@
+ var exec = require('cordova/exec');
+ var cordova = require('cordova');
+
+-channel.createSticky('onCordovaInfoReady');
+-// Tell cordova channel to wait on the CordovaInfoReady event
+-channel.waitForInitialization('onCordovaInfoReady');
+-
+ /**
+  * This represents the mobile device, and provides properties for inspecting the model, version, UUID of the
+  * phone, etc.
+  * @constructor
+  */
+-function Device () {
+-    this.available = false;
+-    this.platform = null;
+-    this.version = null;
+-    this.uuid = null;
+-    this.cordova = null;
+-    this.model = null;
+-    this.manufacturer = null;
+-    this.isVirtual = null;
+-    this.serial = null;
+-
+-    var me = this;
+-
+-    channel.onCordovaReady.subscribe(function () {
+-        me.getInfo(function (info) {
+-            // ignoring info.cordova returning from native, we should use value from cordova.version defined in cordova.js
+-            // TODO: CB-5105 native implementations should not return info.cordova
+-            var buildLabel = cordova.version;
+-            me.available = true;
+-            me.platform = info.platform;
+-            me.version = info.version;
+-            me.uuid = info.uuid;
+-            me.cordova = buildLabel;
+-            me.model = info.model;
+-            me.isVirtual = info.isVirtual;
+-            me.manufacturer = info.manufacturer || 'unknown';
+-            me.serial = info.serial || 'unknown';
+-            channel.onCordovaInfoReady.fire();
+-        }, function (e) {
+-            me.available = false;
 -            utils.alert('[ERROR] Error initializing Cordova: ' + e);
-+            channel.onCordovaInfoReady.fire();
-+            if (e != "The plugin:'Device' isn't add plugin access list!!") {
-+                console.log('Error initializing device: ' + e);
-+            }
-         });
-     });
- }
+-        });
+-    });
+-}
++function Device () {}
+
+ /**
+  * Get device info
+@@ -77,7 +40,16 @@
+  */
+ Device.prototype.getInfo = function (successCallback, errorCallback) {
+     argscheck.checkArgs('fF', 'Device.getInfo', arguments);
+-    exec(successCallback, errorCallback, 'Device', 'getDeviceInfo', []);
++
++    var _onSuccess = function (info) {
++        // ignoring info.cordova returning from native, we should use value from cordova.version defined in cordova.js
++        // TODO: CB-5105 native implementations should not return info.cordova
++        info.cordova = cordova.version;
++        info.manufacturer = info.manufacturer || 'unknown';
++        info.serial = info.serial || 'unknown';
++        successCallback(info);
++    }
++    exec(_onSuccess, errorCallback, 'Device', 'getDeviceInfo', []);
+ };
+
+ module.exports = new Device();

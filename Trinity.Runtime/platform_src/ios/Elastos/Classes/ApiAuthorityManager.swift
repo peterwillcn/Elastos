@@ -183,8 +183,8 @@ class ApiAuthorityManager {
         
         apiAuthorityController.setData(info, plugin, api)
         
-        // TODO: MAKE POPUP NOT DISMISSABLE
-        let popup = PopupDialog(viewController: apiAuthorityController)
+        let popup = PopupDialog(viewController: apiAuthorityController, buttonAlignment: .horizontal, transitionStyle: .fadeIn, preferredWidth: 340, tapGestureDismissal: false, panGestureDismissal: false, hideStatusBar: false, completion: nil)
+        
         popup.view.backgroundColor = UIColor.clear // For rounded corners
         self.appManager.mainViewController.present(popup, animated: false, completion: nil)
         

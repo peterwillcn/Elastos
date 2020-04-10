@@ -80,13 +80,13 @@ class ApiAuthorityAlertController: UIViewController {
         }
         else if authInfo.dangerLevel == ApiDangerLevel.HIGH.rawValue {
             imgRisk.image = UIImage(named: "ic_risk_red")
-            lblRisk.text = "Average Risk"
+            lblRisk.text = "Potentially Harmful"
             view.layer.borderColor = UIColor(hex: "#f55555")?.cgColor
             view.layer.borderWidth = 1
         }
         else {
             imgRisk.image = UIImage(named: "ic_risk_yellow")
-            lblRisk.text = "Potentially Harmful"
+            lblRisk.text = "Average Risk"
             view.layer.borderColor = UIColor(hex: "#fdd034")?.cgColor
             view.layer.borderWidth = 1
         }

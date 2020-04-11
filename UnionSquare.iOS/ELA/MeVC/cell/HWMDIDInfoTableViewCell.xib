@@ -33,7 +33,7 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2GV-lQ-9h1">
                         <rect key="frame" x="70" y="0.0" width="200" height="55"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="200" id="Q1Q-vi-mNs"/>
+                            <constraint firstAttribute="width" constant="190" id="Q1Q-vi-mNs"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

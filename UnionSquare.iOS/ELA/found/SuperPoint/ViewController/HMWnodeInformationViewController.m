@@ -77,7 +77,7 @@
         NSString *jwtString=data[@"data"][@"jwt"];
         NSDictionary *playInfoDic=[[HWMDIDManager shareDIDManager]CRInfoDecodeWithJwtStringInfo:jwtString];
         self.DIDmodel=[HWMDIDInfoModel modelWithJSON:playInfoDic[@"credentialSubject"]];
-        self.CRmodel.url=self.DIDmodel.avatar;
+        self.CRmodel.iconImageUrl=self.DIDmodel.avatar;
         self.CRmodel.infoEN=self.DIDmodel.introduction;
         self.CRmodel.infoZH=self.DIDmodel.introduction;
         self.CrCommitteeInformationHeaderV.CRmodel=self.CRmodel;

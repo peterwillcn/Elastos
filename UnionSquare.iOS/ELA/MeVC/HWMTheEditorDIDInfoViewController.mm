@@ -94,6 +94,9 @@
     [self.view endEditing:YES];
 }
 -(void)makeSureWithPWD:(NSString*)pwd{
+
+    [self.view endEditing:YES];
+    self.model.didName=self.nickNameLabel.text;
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwd] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
             NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
        if (privatekeyString.length==0) {
@@ -105,7 +108,12 @@
     }
     
     [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
+    
     if ([[HWMDIDManager shareDIDManager]updateInfoWithInfo:self.model]) {
+        HWMDIDInfoModel *rdModel= [[HWMDIDManager shareDIDManager]readDIDCredential];
+        rdModel.didName=self.model.didName;
+        rdModel.endString=self.model.endString;
+        [[HWMDIDManager shareDIDManager]saveDIDCredentialWithDIDModel:rdModel];
         [self showSendSuccessView];
        }
 //    else{
@@ -147,11 +155,5 @@
     return [[FLTools share]textField:textField replacementString:string withStringLenth:50];
     
 }
-- (void)textFieldDidEndEditing:(UITextField *)textField{
-    if (textField==self.nickNameLabel) {
-        self.model.didName=textField.text;
-    }
-    
-    
-}
+
 @end

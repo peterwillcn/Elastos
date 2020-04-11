@@ -9,9 +9,7 @@
 #import "FLTools.h"
 #import "DAConfig.h"
 #import "UIImageView+WebCache.h"
-#import "SVGKit.h"
-#import "SVGKImage.h"
-#import "SVGKParser.h"
+#import "UIImage+SVGTool.h"
 #import<SystemConfiguration/SCNetworkReachability.h>
 @implementation FLFLUser
 
@@ -1002,7 +1000,7 @@ return  result.stringValue;
                 @"叙利亚":@"963",
                 @"圣文森特和格林纳丁斯":@"1784",
                 @"圣多美和普林西比":@"239",
-                @"中国台湾地区":@"886",
+                @"中国台湾":@"886",
                 @"塔吉克":@"992",
                 @"坦桑尼亚":@"255",
                 @"泰国":@"66",
@@ -1667,7 +1665,11 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     return YES;
     
 }
--(void)loadUrlSVGAndPNG:(NSString*)imageURL WithSuccessBlock:(void(^)(id data))successBlock{
+-(void)loadUrlSVGAndPNG:(NSString*)imageURL  WithSuccessBlock:(void(^)(id data))successBlock{
+    if (imageURL.length<4) {
+        successBlock (nil);
+        return;
+    }
     NSString *typeString=[imageURL substringFromIndex:imageURL.length-4];
     if (![typeString isEqualToString:@".svg"]) {
         UIImageView *webImageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
@@ -1676,9 +1678,10 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
         successBlock (webImageView.image);
         return;
     }
+    
     [HttpUrl loadDataWithUrl:imageURL withIconName:nil WithSuccessBlock:^(id data) {
         
-        @try {
+//        @try {
             UIImage *backImage=[UIImage imageNamed:imageURL];
             NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
             NSString *filePath = [path stringByAppendingPathComponent:data];
@@ -1686,20 +1689,19 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
             if([data rangeOfString:@".svg"].location !=NSNotFound)
             {
                 
-//                backImage=[UIImage svgimagFile:filePath size:CGSizeMake(36, 36)];
+                backImage=[UIImage svgimagFile:filePath size:CGSizeMake(170, 90)];
                 
-            }else
-            {
+            }else{
                 backImage=[UIImage imageWithContentsOfFile:filePath];
                 
             }
             
             successBlock (backImage);
-        } @catch (NSException *exception) {
-            
-        } @finally {
-            
-        }
+//        } @catch (NSException *exception) {
+//
+//        } @finally {
+//
+//        }
         
        
         

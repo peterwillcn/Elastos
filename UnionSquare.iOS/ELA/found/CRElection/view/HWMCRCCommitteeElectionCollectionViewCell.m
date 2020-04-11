@@ -26,14 +26,18 @@
     self.NoIndexLabel.layer.masksToBounds=YES;
 }
 -(void)setModel:(HWMCRListModel *)model{
-    self.iconImageView.image=[UIImage imageNamed:@"found_vote_initial_F"];
-    if (model.url.length>0) {
-        [[FLTools share]loadUrlSVGAndPNG:model.url WithSuccessBlock:^(id data) {
-            if (data) {
-                self.iconImageView.image=data;
-            }
-        }];
-    }
+    if (model.iconImageUrl.length>0) {
+          [[FLTools share]loadUrlSVGAndPNG:model.iconImageUrl WithSuccessBlock:^(id data) {
+              if (data) {
+                
+                  self.iconImageView.image =data;
+              }else{
+                  self.iconImageView.image=[UIImage imageNamed:@"found_vote_initial_F"];
+              }
+          }];
+      }else{
+            self.iconImageView.image=[UIImage imageNamed:@"found_vote_initial_F"];
+      }
     
     self.nickNameLabel.text = model.nickname;
     //  self.theValueOfLabel.text = model.votes;

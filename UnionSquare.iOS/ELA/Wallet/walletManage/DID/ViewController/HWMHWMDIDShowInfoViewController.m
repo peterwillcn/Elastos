@@ -30,6 +30,7 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
     self.title=NSLocalizedString(@"个人信息",nil);
     if (self.isEi==YES) {
         self.skipButton.alpha=0;
+        self.title=NSLocalizedString(@"CR委员选举",nil);
     }
     self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:self.skipButton];
     

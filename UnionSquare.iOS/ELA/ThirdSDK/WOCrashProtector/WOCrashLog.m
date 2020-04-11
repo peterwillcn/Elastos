@@ -13,7 +13,7 @@ static const NSString *WOCrashSeparatorWithFlag = @">>>>>>>>>>>>>>>>>>>>>>>> WOC
 @implementation WOCrashLog
 
 - (void)getCrashMsg{
-    NSLog(@"CrashProtector:  %@",_crashMsg);
+//    NSLog(@"CrashProtector:  %@",_crashMsg);
 }
 
 + (void)printCrashMsg:(NSString *)crashMsg {
@@ -38,7 +38,7 @@ static const NSString *WOCrashSeparatorWithFlag = @">>>>>>>>>>>>>>>>>>>>>>>> WOC
     NSString *errorPlace = [NSString stringWithFormat:@">>>>>>>>>>>> [Error Place]: %@",mainCallStackSymbolMsg];
     NSString *crashProtector = [NSString stringWithFormat:@">>>>>>>>>>>> [Attached TODO]: %@",todo];
     NSString *logErrorMessage = [NSString stringWithFormat:@"\n\n%@\n\n%@\n%@\n%@\n%@\n%@\n",WOCrashSeparatorWithFlag, crashType, errorReason, errorPlace, crashProtector, exception.callStackSymbols];
-    NSLog(@"%@", logErrorMessage);
+//    NSLog(@"%@", logErrorMessage);
 }
 
 /**

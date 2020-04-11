@@ -92,6 +92,7 @@ UINib *ImportDocumentsNib;
       if (isSucce) {
           [[FLTools share]showErrorInfo:@"覆盖成功"];
           [self hiddenPWDView];
+          [self.navigationController popViewControllerAnimated:NO];
       }else{
           [[FLTools share]showErrorInfo:@"覆盖失败"];
       }

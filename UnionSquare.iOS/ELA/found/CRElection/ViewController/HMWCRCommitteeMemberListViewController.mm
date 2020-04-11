@@ -313,15 +313,14 @@
             NSString *httpIP=[[FLTools share]http_IpFast];
             HWMCRListModel *model =allListInfoArray[i];
             if (model.cid.length>0) {
-                  NSLog(@"开始----index ===%@",model.index);
                 [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtget" header:@{} body:@{@"did":[NSString stringWithFormat:@"did:elastos:%@",model.cid]} showHUD:NO WithSuccessBlock:^(id data) {
                     NSString *jwtString=data[@"data"][@"jwt"];
                     NSDictionary *playInfoDic=[[HWMDIDManager shareDIDManager]CRInfoDecodeWithJwtStringInfo:jwtString];
                     HWMDIDInfoModel *didModel=  [HWMDIDInfoModel modelWithJSON:playInfoDic[@"credentialSubject"]];
-                    model.url=didModel.avatar;
+                    model.iconImageUrl=didModel.avatar;
                     model.infoEN=didModel.introduction;
                     model.infoZH=didModel.introduction;
-                  
+//                  NSLog(@"开始----index ===%@", model.url);
                 } WithFailBlock:^(id data) {
                     
                 }];

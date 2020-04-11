@@ -864,4 +864,5 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     }
     return _TransactionDetailsV;
 }
+
 @end

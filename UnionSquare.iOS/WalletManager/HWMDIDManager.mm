@@ -163,7 +163,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         didstring = DID_ToString(did, _didstring, sizeof(_didstring));
         self.DIDString=[self charToString:didstring];
     }
-    DIDDocument *  doc=DID_Resolve(did,NO);
+    DIDDocument *  doc=DID_Resolve(did,true);
     if (doc) {//先看一下链上有没有
         DIDURL *url=DIDURL_NewByDid(did, "primary");
         if (DIDStore_ContainsPrivateKey(store,did, url)) {
@@ -212,7 +212,6 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     Credential * cre= DIDDocument_GetCredential(doc,url);
     const char * suInfo = Credential_GetProperty(cre, "name");
     NSDictionary *reDic=@{@"nickName":[self charToString:suInfo],@"endTime":[NSString stringWithFormat:@"%@",@(endTime)],@"DIDString":self.DIDString};
-    
     DIDURL_Destroy(url);
     DIDDocument_Destroy(doc);
     
@@ -235,6 +234,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     if (cr) {
         DIDDocumentBuilder_RemoveCredential(build, url);
     }
+    
     const char * types[1] = {"BasicProfileCredential"};//
     Property props[1];
     char * nickName =(char*)[model.didName UTF8String];
@@ -244,19 +244,21 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     if (rt!=0) {
         return NO;
     }
-    
+    rt=DIDDocumentBuilder_SetExpires(build, endTime);
+    if (rt!=0) {
+        return NO;
+    }
     DIDDocument * newDoc=  DIDDocumentBuilder_Seal(build, [self.passWord UTF8String]);
     rt=  DIDStore_StoreDID(store,newDoc, "name");// 已经签名
-    did = DIDDocument_GetSubject(newDoc);
     const char *r = DIDStore_PublishDID(store, [self.passWord UTF8String], did, NULL,true);
     NSString *reString=[self charToString:r];
     DIDURL_Destroy(url);
     DIDDocument_Destroy(newDoc);
-    if ([reString isEqualToString:@"0"]||[reString isEqualToString:@"-1"]) {
+    if ([reString isEqualToString:@"0"]) {
+        return YES;
+    }else{
         [[FLTools share]showErrorInfo:@"发布失败"];
         return NO;
-    }else{
-        return YES;
     }
 }
 -(void)setPassWord:(NSString *)passWord{
@@ -284,18 +286,13 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         return NO;
     }
     if (model==nil) {
-        model=[[HWMDIDInfoModel alloc]init];
-        NSDictionary *dic=[self getDIDInfo];
-        model.didName=dic[@"nickName"];
-        model.endString=dic[@"endTime"];
-        model.did=self.DIDString;
+       return NO;
     }
     Issuer *isser=Issuer_Create(did, NULL, store);
     const char *types[1] = {"BasicProfileCredential"};//类型名称
     DIDURL *creatCredentialID=DIDURL_NewByDid(did, "outPut");// 相当于文件  不同的需求 需要创建不同的名字  只能通过这个别名 拿去 Credential
     model.editTime=[[FLTools share]getNowTimeTimestampS];
     NSString *CredentialSubjectBean=[model modelToJSONString];
-    
     const char * nickName =[CredentialSubjectBean UTF8String];
     time_t endTime=[model.endString integerValue];//
     Credential *c=  Issuer_CreateCredentialByString(isser, did, creatCredentialID, types, 1, nickName, endTime, [self.passWord UTF8String]);

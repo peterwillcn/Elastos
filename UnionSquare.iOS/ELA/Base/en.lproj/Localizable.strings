@@ -502,7 +502,7 @@
 "英国"="United Kingdom";
 "罗马尼亚"="Romania";
 "乌兹别克斯坦"="Uzbekistan";
-"中国台湾地区"="Taiwan";
+"中国台湾"="Taiwan";
 "沙特阿拉伯"="Saudi Arabia";
 "乌克兰"="Ukraine";
 "帛琉"="Palau";
@@ -726,6 +726,29 @@
 "导入凭证"="Import credentials";
 "选择文件"="Select document";
 "主要功能： \n· 亦来云全生态数字资产支持 \n· 亦来云 DID 数字身份认证 \n· 亦来云 DPoS 选举 \n· CR 社区委员选举 \n· CR 社区提案&投票等"="Main functions： \n· Intra-ecosystem digital asset support \n· Elastos DID authentication \n· Elastos DPoS Supernode elections \n· CR council elections \n· CR Suggestion & Proposal processes";
+"更新报名信息"="Update registration information";
+"[未激活]"="[inactivated]";
+"头像地址"="Upload the portrait url";
+"男"="Male";
+"女"="Female";
+"请选择出生日期"="Enter Birth Date";
+"请选择性别"="Gender";
+"保存"="Save";
+"温馨提示：本页内容均非必填，仅保存在本地，供用户授权使用。"="Note: All fields on this page are non-mandatory. Content is saved locally and can only be shared by user authorization.";
+"请输入"="Enter";
+"Google账号"="Google account";
+"请选择D"="";
+"请选择B"="Enter";
+"请选择C"="Choose ";
+"添加信息"="Add information";
+"保存至本地"="Save to local device";
+"分享"="Share";
+"保存失败"="Save failed";
+"请输入手机号"="Enter mobile number";
+"请输入区号（如+86）"="Enter country code（e.g +86）";
+"添加信息"="Add information";
+
+
 "err10000"="Json parse error of action parameters";
 "err10001"="Parameters error of action";
 "err10002"="Invalid master wallet";

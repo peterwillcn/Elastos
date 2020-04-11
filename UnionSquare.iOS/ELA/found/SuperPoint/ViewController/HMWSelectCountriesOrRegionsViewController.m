@@ -272,7 +272,7 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
                     @{@"countries":@"圣多美和普林西比",@"mobileCode":@"239"},
                     nil];
         NSArray *T=[NSArray arrayWithObjects:
-                    @{@"countries":@"中国台湾地区",@"mobileCode":@"886"},
+                    @{@"countries":@"中国台湾",@"mobileCode":@"886"},
                     @{@"countries":@"塔吉克",@"mobileCode":@"992"},
                     @{@"countries":@"坦桑尼亚",@"mobileCode":@"255"},
                     @{@"countries":@"泰国",@"mobileCode":@"66"},

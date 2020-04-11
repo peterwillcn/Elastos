@@ -21,6 +21,7 @@
 #import "HWMDIDManager.h"
 #import "HMWSendSuccessPopuView.h"
 #import "HMWpwdPopupView.h"
+#import "DAConfig.h"
 UINib *_cellCreateDIDListNib;
 UINib *_cellCodeAndPhonenumberNib;
 static NSString *cellString=@"HWMCreateDIDListTableViewCell";
@@ -82,6 +83,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     [self setBackgroundImg:@""];
     self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:self.skipButton];
     [self makeUI];
+    self.textInfoLabel.text=NSLocalizedString(@"温馨提示：本页内容均非必填，仅保存在本地，供用户授权使用。", nil);
     if (self.isEidet||self.whereFrome) {
         self.title=NSLocalizedString(@"编辑个人信息", nil);
         [self.skipButton setTitle:NSLocalizedString(@"保存", nil) forState: UIControlStateNormal];
@@ -91,6 +93,18 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     }else{
         self.title=NSLocalizedString(@"添加个人信息", nil);
     }
+    
+       NSString *languageString=[DAConfig userLanguage];
+    //    if (
+    //    [[FLTools share]allHasNameAndHas];
+    //        ) {
+    //        exit(0);
+    //      }
+
+
+        if ([languageString  containsString:@"en"]) {
+            self.infoHeight.constant=45.f;
+        }
 }
 -(void)updaeDataArray{
     [self.defMArray removeAllObjects];
@@ -130,7 +144,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         indexString=self.allInfoListArray[5][@"index"];
         [self.defMArray addObject:indexString];
     }else{
-        [self.showInfoListAarry addObject:@"4"];
+        [self.showInfoListAarry addObject:@"5"];
     }
     if (self.model.nation.length>0) {
         indexString=self.allInfoListArray[6][@"index"];
@@ -261,7 +275,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         cell.dic=infDic;
         cell.delegate=self;
         [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:cell.MobilePhoneTextField withTxt:NSLocalizedString(@"请输入手机号", nil)];
-        cell.theArNumberTextField.placeholder=NSLocalizedString(@"请输入区号", nil);
+        cell.theArNumberTextField.placeholder=NSLocalizedString(@"请输入区号（如+86）", nil);
         cell.theArNumberTextField.tag=10002;
         if (self.model.phoneCode.length>0) {
             cell.theArNumberTextField.text=self.model.phoneCode;
@@ -278,14 +292,17 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     cell.delegate=self;
     if ([typeString isEqualToString:@"2"]) {
         cell.infoLabel.alpha=1.f;
-        cell.infoLabel.text=[NSString stringWithFormat:@"%@%@",NSLocalizedString(@"请选择", nil),titleString];
+      
         cell.intPutTextField.alpha=0.f;
         if ([indexString integerValue]==1&&self.model.gender.length>0) {
+              cell.infoLabel.text= [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"请选择D", nil),titleString];
             cell.infoLabel.text=[[FLTools share]genderStringWithType:self.model.gender];
         }else if ([indexString integerValue]==2&&self.model.birthday.length>0){
+              cell.infoLabel.text= [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"请选择B", nil),titleString];
             cell.infoLabel.text=[[FLTools share]TimeFormatConversionBirthday: self.model.birthday];
         }else if ([indexString integerValue]==6&&self.model.nation.length>0){
-            cell.infoLabel.text=[[FLTools share]contryNameTransLateByCode:[self.model.nation integerValue]];
+            cell.infoLabel.text= [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"请选择C", nil),titleString];
+           cell.infoLabel.text=[[FLTools share]contryNameTransLateByCode:[self.model.nation integerValue]];
         }
         
     }else if([typeString isEqualToString:@"4"]){

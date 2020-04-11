@@ -27,6 +27,23 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UIImage (SVGTool)
+/**
+ @param name svg name  xxx.svg
+ @param size image size
+ @return svg image
+ */
++(UIImage *)svgImgNamed:(NSString *)name size:(CGSize)size;
+
+
+/**
+ @param name svg name  -->xxx.svg
+ @param size image size
+ @param color image color
+ @return svg image
+ */
++ (UIImage *)svgImageNamed:(NSString *)name size:(CGSize)size imageColor:(UIColor *)color;
++(UIImage *)svgimagURL:(NSString*)URL size:(CGSize)size;
++(UIImage *)svgimagFile:(NSString*)file size:(CGSize)size;
 
 @end
 

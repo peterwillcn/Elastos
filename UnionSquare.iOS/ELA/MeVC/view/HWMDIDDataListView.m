@@ -114,15 +114,30 @@
                 }
                 
             }
-            [self.delegate selectDataWithYY:self.yearArray[self.yearIndex] withMM:self.monthArray[self.monthIndex] wihMMWithInt:self.monthIndex+1 wtihDD:self.dayArray[self.dayIndex]];
-        }else if (self.ListViewType==genderType){
-            
-            [self.delegate selectGender:self.genderIndex];
-        }else if (self.ListViewType==birthdayType){
-            [self.delegate selectDataWithYY:self.yearArray[self.yearIndex] withMM:self.monthArray[self.monthIndex] wihMMWithInt:self.monthIndex+1 wtihDD:self.dayArray[self.dayIndex]];
-        }
-        [self.delegate cancelDataListView];
+            if (self.yearIndex==0) {
+                BOOL isSurrce=YES;
+                if (self.monthIndex<(self.nowMonth-1)) {
+                    isSurrce=NO;
+                    
+                }
+                if(self.monthIndex==self.nowMonth-1&&self.dayIndex<self.nowDay) {
+                    isSurrce=NO;
+                }
+                if (isSurrce==NO) {
+                    [[FLTools share]showErrorInfo:@"请选择失效日期"];
+                    return;
+                }
+                
+            }
+        [self.delegate selectDataWithYY:self.yearArray[self.yearIndex] withMM:self.monthArray[self.monthIndex] wihMMWithInt:self.monthIndex+1 wtihDD:self.dayArray[self.dayIndex]];
+    }else if (self.ListViewType==genderType){
+        
+        [self.delegate selectGender:self.genderIndex];
+    }else if (self.ListViewType==birthdayType){
+        [self.delegate selectDataWithYY:self.yearArray[self.yearIndex] withMM:self.monthArray[self.monthIndex] wihMMWithInt:self.monthIndex+1 wtihDD:self.dayArray[self.dayIndex]];
     }
+    [self.delegate cancelDataListView];
+}
 }
 - (NSMutableArray *)yearArray {
     

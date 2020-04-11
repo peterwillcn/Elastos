@@ -79,7 +79,7 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
     if (self.hasRead) {
         HWMHWMDIDShowInfoViewController *HWMAddPersonalInformationVC=[[HWMHWMDIDShowInfoViewController alloc]init];
         HWMAddPersonalInformationVC.currentWallet=self.currentWallet;
-        HWMAddPersonalInformationVC.model=self.model;
+        HWMAddPersonalInformationVC.model=[[HWMDIDManager shareDIDManager]readDIDCredential];
         [self.navigationController pushViewController:HWMAddPersonalInformationVC animated:YES];
     }else{
         HWMAddPersonalInformationViewController *PersonalInformationVC=[[HWMAddPersonalInformationViewController alloc]init];
@@ -101,6 +101,9 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
     WExportCertificateMVC.currentWallet=self.currentWallet;
     WExportCertificateMVC.model=self.model;
         [self.navigationController pushViewController:WExportCertificateMVC animated:YES];
+    }else{
+        [[FLTools share]showErrorInfo:@"暂无"];
+        
     }
 }
 - (IBAction)TheImportEvent:(id)sender {

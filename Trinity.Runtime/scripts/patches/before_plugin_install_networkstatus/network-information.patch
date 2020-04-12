@@ -1,0 +1,180 @@
+diff -ruNb origin_plugins/cordova-plugin-network-information/types/index.d.ts plugins/cordova-plugin-network-information/types/index.d.ts
+--- origin_plugins/cordova-plugin-network-information/types/index.d.ts	null
++++ plugins/cordova-plugin-network-information/types/index.d.ts	null
+@@ -6,20 +6,66 @@
+ // Copyright (c) Microsoft Open Technologies Inc
+ // Licensed under the MIT license
+ 
+-interface Navigator {
++/**
++ * This plugin provides an implementation of an old version of the Network Information API.
++ * It provides information about the device's cellular and wifi connection, and whether the device has an internet connection.
++ * <br><br>
++ * Please use 'NetworkStatus' as the plugin name in the manifest.json if you want to use
++ * this facility.
++ * <br><br>
++ * Usage:
++ * <br>
++ * navigator.connection.Initialize();
++ * navigator.connection.type;
++*/
++
++declare namespace CordovaNetworkInfoPlugin {
+     /**
+-     * This plugin provides an implementation of an old version of the Network Information API.
+-     * It provides information about the device's cellular and wifi connection, and whether the device has an internet connection.
++     * The connection object, exposed via navigator.connection, provides information
++     * about the device's cellular and wifi connection.
+      */
+-    connection: Connection;
+-    // see https://github.com/apache/cordova-plugin-network-information/blob/dev/doc/index.md#api-change
+-    // for 
+-    network: {
++    interface Connection {
+         /**
+-         * This plugin provides an implementation of an old version of the Network Information API.
+-         * It provides information about the device's cellular and wifi connection, and whether the device has an internet connection.
++         * This property offers a fast way to determine the device's network connection state, and type of connection.
++         * One of:
++         *     Connection.UNKNOWN
++         *     Connection.ETHERNET
++         *     Connection.WIFI
++         *     Connection.CELL_2G
++         *     Connection.CELL_3G
++         *     Connection.CELL_4G
++         *     Connection.CELL
++         *     Connection.NONE
+          */
+-        connection: Connection
++        type: string;
++
++        /**
++         * Initialize Connection
++         * You should call Initialize first.
++         */
++        Initialize();
++        addEventListener(type: string, listener: EventListenerOrEventListenerObject, useCapture?: boolean): void;
++        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, useCapture?: boolean): void;
++    }
++
++    let Connection: {
++        UNKNOWN: string;
++        ETHERNET: string;
++        WIFI: string;
++        CELL_2G: string;
++        CELL_3G: string;
++        CELL_4G: string;
++        CELL: string;
++        NONE: string;
++    }
++}
++
++interface Navigator {
++    connection: CordovaNetworkInfoPlugin.Connection;
++    // see https://github.com/apache/cordova-plugin-network-information/blob/dev/doc/index.md#api-change
++    // for
++    network: {
++        connection: CordovaNetworkInfoPlugin.Connection
+     }
+ }
+ 
+@@ -27,36 +73,3 @@
+     addEventListener(type: "online", connectionStateCallback: () => any, useCapture?: boolean): void;
+     addEventListener(type: "offline", connectionStateCallback: () => any, useCapture?: boolean): void;
+ }
+-
+-/**
+- * The connection object, exposed via navigator.connection, provides information
+- * about the device's cellular and wifi connection.
+- */
+-interface Connection {
+-    /**
+-     * This property offers a fast way to determine the device's network connection state, and type of connection.
+-     * One of:
+-     *     Connection.UNKNOWN
+-     *     Connection.ETHERNET
+-     *     Connection.WIFI
+-     *     Connection.CELL_2G
+-     *     Connection.CELL_3G
+-     *     Connection.CELL_4G
+-     *     Connection.CELL
+-     *     Connection.NONE
+-     */
+-    type: string;
+-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, useCapture?: boolean): void;
+-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, useCapture?: boolean): void;
+-}
+-
+-declare var Connection: {
+-    UNKNOWN: string;
+-    ETHERNET: string;
+-    WIFI: string;
+-    CELL_2G: string;
+-    CELL_3G: string;
+-    CELL_4G: string;
+-    CELL: string;
+-    NONE: string;
+-}
+\ No newline at end of file
+diff -ruNb origin_plugins/cordova-plugin-network-information/www/Connection.js plugins/cordova-plugin-network-information/www/Connection.js
+--- origin_plugins/cordova-plugin-network-information/www/Connection.js	null
++++ plugins/cordova-plugin-network-information/www/Connection.js	null
+@@ -19,8 +19,14 @@
+  *
+ */
+ 
++
+ /**
++ * @module Connection
++ *
++ * @description
+  * Network status
++ *
++ * @enum {number}
+  */
+ module.exports = {
+     UNKNOWN: 'unknown',
+diff -ruNb origin_plugins/cordova-plugin-network-information/www/network.js plugins/cordova-plugin-network-information/www/network.js
+--- origin_plugins/cordova-plugin-network-information/www/network.js	null
++++ plugins/cordova-plugin-network-information/www/network.js	null
+@@ -52,10 +52,7 @@
+ var timerId = null;
+ var timeout = 500;
+ 
+-channel.createSticky('onCordovaConnectionReady');
+-channel.waitForInitialization('onCordovaConnectionReady');
+-
+-channel.onCordovaReady.subscribe(function () {
++NetworkConnection.prototype.Initialize = function () {
+     me.getInfo(function (info) {
+         me.type = info;
+         if (info === 'none') {
+@@ -72,20 +69,16 @@
+             }
+             cordova.fireDocumentEvent('online');
+         }
+-
+-        // should only fire this once
+-        if (channel.onCordovaConnectionReady.state !== 2) {
+-            channel.onCordovaConnectionReady.fire();
+-        }
+     },
+     function (e) {
+-        // If we can't get the network info we should still tell Cordova
+-        // to fire the deviceready event.
+-        if (channel.onCordovaConnectionReady.state !== 2) {
+-            channel.onCordovaConnectionReady.fire();
+-        }
+-        console.log('Error initializing Network Connection: ' + e);
++        console.log('Error Initialize Network Connection: ' + e);
+     });
+-});
++};
+ 
++/**
++ * @module Connection
++ * @example
++ * navigator.connection.Initialize();
++ * var connectionStatus = navigator.connection.type;
++ */
+ module.exports = me;

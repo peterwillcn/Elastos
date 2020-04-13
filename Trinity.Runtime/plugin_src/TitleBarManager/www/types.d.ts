@@ -93,11 +93,13 @@ declare namespace TitleBarPlugin {
         title: String
     }
 
-    const enum TitleBarVisibility {
-        /** The title bar is visible. */
-        VISIBLE = 0,
-        /** The title bar is hidden and the space is given back to main app content. */
-        HIDDEN = 1
+    const enum TitleBarDisplayMode {
+        /** The title bar is visible and large (default mode). */
+        DEFAULT = 0,
+        /** The title bar is visible but small, to save space for possibly an in-app sub-bar. */
+        SMALL = 1,
+        /** The title bar is totally hidden and the space is given back to main app content (restricted to some apps). */
+        HIDDEN = 2
     }
 
     interface TitleBarManager {
@@ -178,8 +180,8 @@ declare namespace TitleBarPlugin {
         setupMenuItems(menuItems: TitleBarMenuItem[], onItemClicked: (TitleBarMenuItem)=>void);
 
         /**
-         * Changes the title bar visibility.
+         * Changes the way the title bar is displayed: standard, small, or totally hidden.
          */
-        setVisibility(visibility: TitleBarVisibility);
+        setDisplayMode(displayMode: TitleBarDisplayMode);
     }
 }

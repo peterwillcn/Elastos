@@ -120,23 +120,24 @@ public class TitleBar extends FrameLayout {
         }
     }
 
-    public enum TitleBarVisibility {
-        VISIBLE(0),
-        HIDDEN(1);
+    public enum TitleBarDisplayMode {
+        DEFAULT(0),
+        SMALL(1),
+        HIDDEN(2);
 
         private int mValue;
 
-        TitleBarVisibility(int value) {
+        TitleBarDisplayMode(int value) {
             mValue = value;
         }
 
-        public static TitleBarVisibility fromId(int value) {
-            for(TitleBarVisibility t : values()) {
+        public static TitleBarDisplayMode fromId(int value) {
+            for(TitleBarDisplayMode t : values()) {
                 if (t.mValue == value) {
                     return t;
                 }
             }
-            return VISIBLE;
+            return DEFAULT;
         }
     }
 
@@ -500,8 +501,8 @@ public class TitleBar extends FrameLayout {
             btnMenu.setVisibility(View.GONE);
     }
 
-    public void setVisibility(TitleBarVisibility visibility) {
-        if (visibility == TitleBarVisibility.VISIBLE) {
+    public void setDisplayMode(TitleBarDisplayMode displayMode) {
+        if (displayMode == TitleBarDisplayMode.DEFAULT || displayMode == TitleBarDisplayMode.SMALL) {
             // Show the title bar
             // TODO
         }

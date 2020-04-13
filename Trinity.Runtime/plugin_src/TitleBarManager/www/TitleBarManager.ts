@@ -77,10 +77,10 @@ class TitleBarManagerImpl implements TitleBarPlugin.TitleBarManager {
         }, 'TitleBarPlugin', 'setupMenuItems', [menuItems]);
     }
 
-    setVisibility(visibility: TitleBarPlugin.TitleBarVisibility) {
+    setDisplayMode(displayMode: TitleBarPlugin.TitleBarDisplayMode) {
         exec(()=>{}, (err)=>{
-            console.error("Error while calling TitleBarPlugin.setVisibility()", err);
-        }, 'TitleBarPlugin', 'setVisibility', [visibility]);
+            console.error("Error while calling TitleBarPlugin.setDisplayMode()", err);
+        }, 'TitleBarPlugin', 'setDisplayMode', [displayMode]);
     }
 }
 

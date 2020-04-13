@@ -47,8 +47,9 @@ module.exports = function(ctx) {
     // Add build settings
     //
     runtimeProj.addToBuildSettings("SWIFT_VERSION", "4.2");
-    runtimeProj.addToBuildSettings("PRODUCT_BUNDLE_IDENTIFIER", "org.elastos.trinity.runtime");
+    // runtimeProj.addToBuildSettings("PRODUCT_BUNDLE_IDENTIFIER", "org.elastos.trinity.browser");
     runtimeProj.addToBuildSettings("CLANG_CXX_LANGUAGE_STANDARD", "\"c++0x\"");
+    runtimeProj.addToBuildSettings("MARKETING_VERSION", "1.1.0");
 
     //
     // Set SWIFT_OPTIMIZATION_LEVEL -Onone for Debug
@@ -66,68 +67,18 @@ module.exports = function(ctx) {
     runtimeProj.removeSourceFile("MainViewController.m", {}, classesGroupKey);
     runtimeProj.removeSourceFile("MainViewController.xib", {}, classesGroupKey);
 
-    // let classesPath = "../../../../platform_src/ios/elastOS/Classes/";
     let classesPath = process.cwd() + "/platform_src/ios/Elastos/Classes/";
 
     let files = fs.readdirSync(classesPath);
-    // var paths = [];
     files.forEach((filename, index) => {
         if (filename[0] != ".") {
             let pathname = path.join(classesPath, filename)
             let stat = fs.statSync(pathname);
             if (stat.isFile() === true) {
-                // console.log(pathname);
-                // paths.push(pathname);
                 runtimeProj.addSourceFile(pathname, {}, classesGroupKey);
             }
         }
     });
-    // runtimeProj.addPbxGroup(paths, process.cwd() + "/platforms/ios/elastOS/Classes/abc", "abc");
-
-    // runtimeProj.addSourceFile(classesPath + "AppDelegate.h",                {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "AppDelegate.m",                {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "AdvancedButton.swift",         {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "AdvancedButton.xib",           {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "ApiAuthorityManager.swift",   {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "AppBasePlugin.swift",          {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "AppInfo.swift",                {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "AppInstaller.swift",           {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "AppManager.swift",             {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "AppViewController.swift",      {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "AppWhitelist.swift",           {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "CDVPlugin.swift",              {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "CLIService.swift",             {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "ConfigManager.swift",          {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "DIDVerifier.swift",            {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "IntentActionChooserController.swift",  {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "IntentActionChooserController.xib",    {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "IntentActionChooserItemView.swift",    {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "IntentActionChooserItemView.xib",      {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "IntentManager.swift",          {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "LauncherViewController.swift", {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "Log.swift",                    {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "MainViewController.swift",     {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "ManagerDBAdapter.swift",       {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "NullPlugin.swift",             {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "PermissionManager.swift",      {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "PreferenceManager.swift",      {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "TitleBarPlugin.swift",         {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "TitleBarView.swift",           {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "TitleBarView.xib",             {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "TitleBarMenuItemView.swift",   {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "TitleBarMenuItemView.xib",     {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "TitleBarMenuView.swift",       {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "TitleBarMenuView.xib",         {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "TrinityPlugin.h",              {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "TrinityPlugin.m",              {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "TrinityURLProtocol.swift",     {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "TrinityViewController.swift",  {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "TrinityViewController.xib",    {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "Utility.swift",                {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "WhitelistFilter.swift",        {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "WrapSwift.h",                  {}, classesGroupKey);
-    // runtimeProj.addSourceFile(classesPath + "WrapSwift.m",                  {}, classesGroupKey);
-
 
     //
     // Write back the new XCode project

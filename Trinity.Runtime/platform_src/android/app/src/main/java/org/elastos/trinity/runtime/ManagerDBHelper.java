@@ -52,6 +52,8 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
     public static final String DIDSESSION_DIDSTRING = "didstring";
     public static final String DIDSESSION_NAME = "name";
     public static final String DIDSESSION_SIGNEDIN = "signedin";
+    public static final String DIDSESSION_AVATAR_CONTENTTYPE = "avatar_contenttype";
+    public static final String DIDSESSION_AVATAR_DATA = "avatar_data";
 
     public ManagerDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -134,7 +136,9 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
                 DIDSESSION_DIDSTOREID + " varchar(32) NOT NULL, " +
                 DIDSESSION_DIDSTRING + " varchar(128) NOT NULL, " +
                 DIDSESSION_NAME + " varchar(128), " +
-                DIDSESSION_SIGNEDIN + " integer)";
+                DIDSESSION_SIGNEDIN + " integer, "+
+                DIDSESSION_AVATAR_CONTENTTYPE + " varchar(32), " +
+                DIDSESSION_AVATAR_DATA + " blob)";
         db.execSQL(strSQL);
 
         strSQL = "create table " + APP_TABLE + "(tid integer primary key autoincrement, " +
@@ -241,7 +245,9 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
                     DIDSESSION_DIDSTOREID + " varchar(32) NOT NULL, " +
                     DIDSESSION_DIDSTRING + " varchar(128) NOT NULL, " +
                     DIDSESSION_NAME + " varchar(128), " +
-                    DIDSESSION_SIGNEDIN + " integer)";
+                    DIDSESSION_SIGNEDIN + " integer, " +
+                    DIDSESSION_AVATAR_CONTENTTYPE + " varchar(32), " +
+                    DIDSESSION_AVATAR_DATA + " blob)";
             db.execSQL(strSQL);
         } catch (SQLException e) {
             e.printStackTrace();

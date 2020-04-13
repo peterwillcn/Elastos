@@ -14,15 +14,59 @@ public class DIDSessionManager {
     private static DIDSessionManager instance;
     private AppManager appManager;
 
+    static class IdentityAvatar {
+        String contentType;
+        byte[] base64ImageData;
+
+        IdentityAvatar(String contentType, byte[] base64ImageData) {
+            this.contentType = contentType;
+            this.base64ImageData = base64ImageData;
+        }
+
+        public JSONObject asJsonObject() {
+            try {
+                JSONObject jsonObj = new JSONObject();
+                jsonObj.put("contentType", contentType);
+                jsonObj.put("base64ImageData", base64ImageData);
+                return jsonObj;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        public static IdentityAvatar fromJsonObject(JSONObject jsonObj) {
+            if (!jsonObj.has("contentType") || !jsonObj.has("base64ImageData"))
+                return null;
+
+            try {
+                IdentityAvatar avatar = new IdentityAvatar(
+                        jsonObj.getString("contentType"),
+                        (byte[]) jsonObj.get("base64ImageData"));
+
+                return avatar;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
+
     static class IdentityEntry {
         String didStoreId;
         String didString;
         String name;
+        IdentityAvatar avatar;
 
         IdentityEntry(String didStoreId, String didString, String name) {
+            this(didStoreId, didString, name, null);
+        }
+
+        IdentityEntry(String didStoreId, String didString, String name, IdentityAvatar avatar ) {
             this.didStoreId = didStoreId;
             this.didString = didString;
             this.name = name;
+            this.avatar = avatar;
         }
 
         public JSONObject asJsonObject() {
@@ -31,6 +75,11 @@ public class DIDSessionManager {
                 jsonObj.put("didStoreId", didStoreId);
                 jsonObj.put("didString", didString);
                 jsonObj.put("name", name);
+
+                if (avatar != null) {
+                    jsonObj.put("avatar", avatar.asJsonObject());
+                }
+
                 return jsonObj;
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -43,10 +92,16 @@ public class DIDSessionManager {
                 return null;
 
             try {
-                return new IdentityEntry(
+                IdentityEntry identity = new IdentityEntry(
                         jsonObj.getString("didStoreId"),
                         jsonObj.getString("didString"),
                         jsonObj.getString("name"));
+
+                if (jsonObj.has("avatar")) {
+                    identity.avatar = IdentityAvatar.fromJsonObject(jsonObj.getJSONObject("avatar"));
+                }
+
+                return identity;
             } catch (JSONException e) {
                 e.printStackTrace();
                 return null;

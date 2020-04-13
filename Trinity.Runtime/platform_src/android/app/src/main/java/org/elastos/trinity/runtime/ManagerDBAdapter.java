@@ -563,7 +563,9 @@ import java.util.ArrayList;
          String[] columns = {
                  ManagerDBHelper.DIDSESSION_DIDSTOREID,
                  ManagerDBHelper.DIDSESSION_DIDSTRING,
-                 ManagerDBHelper.DIDSESSION_NAME
+                 ManagerDBHelper.DIDSESSION_NAME,
+                 ManagerDBHelper.DIDSESSION_AVATAR_CONTENTTYPE,
+                 ManagerDBHelper.DIDSESSION_AVATAR_DATA
          };
          String where = ManagerDBHelper.DIDSESSION_SIGNEDIN + "=?";
          String[] whereArgs = {"1"};
@@ -603,6 +605,14 @@ import java.util.ArrayList;
          String didStoreId = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.DIDSESSION_DIDSTOREID));
          String didString = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.DIDSESSION_DIDSTRING));
          String name = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.DIDSESSION_NAME));
-         return new DIDSessionManager.IdentityEntry(didStoreId, didString, name);
+         String avatarContentType = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.DIDSESSION_AVATAR_CONTENTTYPE));
+         byte[] avatarImageData = cursor.getBlob(cursor.getColumnIndex(ManagerDBHelper.DIDSESSION_AVATAR_DATA));
+
+         DIDSessionManager.IdentityAvatar avatar = null;
+         if (avatarContentType != null &&  avatarImageData != null) {
+             avatar = new DIDSessionManager.IdentityAvatar(avatarContentType, avatarImageData);
+         }
+
+         return new DIDSessionManager.IdentityEntry(didStoreId, didString, name, avatar);
      }
 }

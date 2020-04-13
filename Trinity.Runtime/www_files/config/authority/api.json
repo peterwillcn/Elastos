@@ -330,7 +330,7 @@
             }
         }
     },
-    "Carrier": {
+    "CarrierPlugin": {
         "createObject": {
             "danger_level": "low",
             "title": {

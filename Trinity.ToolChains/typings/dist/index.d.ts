@@ -1,6 +1,7 @@
 // ELASTOS
 import './appmanager'
 import './titlebarmanager'
+import './didsessionmanager'
 import './carrier'
 import './wallet'
 import './did'

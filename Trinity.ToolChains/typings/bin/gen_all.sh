@@ -25,6 +25,8 @@ echo "Copying AppManager types..."
 cat $runtimeroot/plugin_src/AppManager/www/types.d.ts > $outdir/appmanager.d.ts
 echo "Copying TitleBar types..."
 cat $runtimeroot/plugin_src/TitleBarManager/www/types.d.ts > $outdir/titlebarmanager.d.ts
+echo "Copying DIDSessionManager types..."
+cat $runtimeroot/plugin_src/DIDSessionManager/www/types.d.ts > $outdir/didsessionmanager.d.ts
 echo "Copying Carrier types..."
 cat $pluginsroot/Carrier/www/types.d.ts > $outdir/carrier.d.ts
 echo "Copying Wallet types..."

@@ -44,7 +44,7 @@ declare namespace HivePlugin {
     interface IPFS {
         /**
          * Put data to IPFS backend.
-         * 
+         *
          * @param data     The data to write.
          * @return
          * A promise object that contains success information will be returned on success,
@@ -54,7 +54,7 @@ declare namespace HivePlugin {
 
         /**
          * Get IPFS backend data through cid.
-         * 
+         *
          * @param data     Content identifiers.
          * @return
          * A promise object that contains success information will be returned on success,
@@ -64,7 +64,7 @@ declare namespace HivePlugin {
 
         /**
          * Get IPFS backend data length.
-         * 
+         *
          * @param data     Content identifiers.
          * @return
          * A promise object that contains success information will be returned on success,
@@ -79,7 +79,7 @@ declare namespace HivePlugin {
     interface Files {
         /**
          * Put data to backend.
-         * 
+         *
          * @param remoteFile    Remote file name.
          * @param data          The data to write.
          * @return
@@ -90,7 +90,7 @@ declare namespace HivePlugin {
 
         /**
          * Get backend data as string.
-         * 
+         *
          * @param remoteFile    Remote file name.
          * @return
          * A promise object that contains success information will be returned on success,
@@ -100,7 +100,7 @@ declare namespace HivePlugin {
 
         /**
          * Get backend data length.
-         * 
+         *
          * @param remoteFile    Remote file name.
          * @return
          * A promise object that contains success information will be returned on success,
@@ -110,7 +110,7 @@ declare namespace HivePlugin {
 
         /**
          * Delete files on the backend.
-         * 
+         *
          * @param remoteFile    Remote file name.
          * @return
          * A promise object that contains success information will be returned on success,
@@ -120,7 +120,7 @@ declare namespace HivePlugin {
 
         /**
          * List the files name on the backend.
-         * 
+         *
          * @return
          * A promise object that contains success information will be returned on success,
          * otherwise a promise object that contains error information will be returned.
@@ -134,7 +134,7 @@ declare namespace HivePlugin {
     interface KeyValues {
         /**
          * Put the value of the key on the backend.
-         * 
+         *
          * @param key       Key that needs to be set.
          * @param value     The value to write.
          * @return
@@ -145,7 +145,7 @@ declare namespace HivePlugin {
 
         /**
          * Set the value of the key on the backend.
-         * 
+         *
          * @param key       Key that needs to be set.
          * @param value     The data to write.
          * @return
@@ -156,7 +156,7 @@ declare namespace HivePlugin {
 
         /**
          * Get the value of the key on the backend.
-         * 
+         *
          * @param key       Key that needs to be set.
          * @return
          * A promise object that contains success information will be returned on success,
@@ -166,7 +166,7 @@ declare namespace HivePlugin {
 
         /**
          * Delete the key on the backend.
-         * 
+         *
          * @param key       Key that needs to be set.
          * @return
          * A promise object that contains success information will be returned on success,
@@ -181,17 +181,17 @@ declare namespace HivePlugin {
     interface Client {
         /**
          * Connect to backend.
-         * 
+         *
          * @param onSuccess  The function to call on success.
          * @param onError    The function to call on error.
          * @return
          * onSuccess will be called on success, otherwise onError will be called.
          */
         connect(onSuccess?: (info: any)=>void, onError?: (err: string)=>void);
-        
+
         /**
          * Disconnect from backend.
-         * 
+         *
          * @param onSuccess  The function to call on success.
          * @param onError    The function to call on error.
          * @return
@@ -201,7 +201,7 @@ declare namespace HivePlugin {
 
         /**
          * Get the connection status.
-         * 
+         *
          * @param onSuccess  The function to call on success.
          * @param onError    The function to call on error.
          * @return
@@ -211,7 +211,7 @@ declare namespace HivePlugin {
 
         /**
          * Get the IPFS interface.
-         * 
+         *
          * @param onSuccess  The function to call on success.
          * @param onError    The function to call on error.
          * @return
@@ -221,7 +221,7 @@ declare namespace HivePlugin {
 
         /**
          * Get the Files interface.
-         * 
+         *
          * @param onSuccess  The function to call on success.
          * @param onError    The function to call on error.
          * @return
@@ -231,7 +231,7 @@ declare namespace HivePlugin {
 
         /**
          * Get the KeyValues interface.
-         * 
+         *
          * @param onSuccess  The function to call on success.
          * @param onError    The function to call on error.
          * @return
@@ -257,7 +257,7 @@ declare namespace HivePlugin {
     }
 
     interface HiveManager {
-        getVersion(onSuccess?: ()=>void, onError?: (err: string)=>void);
+        getVersion(onSuccess: (version: string)=>void, onError?: (err: string)=>void);
         setListener(type: any, eventCallback: Function);
         createClient(handler: Function, options: ClientCreationOptions, onSuccess: (client: Client)=>void, onError?: (err: string)=>void);
     }

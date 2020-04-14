@@ -332,7 +332,6 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
 //        NSString *path=[[NSBundle mainBundle]pathForResource:@"nationalMobilePhoneAreaCode" ofType:@"plist"];
 //        NSDictionary *nationalMobilePhoneAreaCodeDict = [NSDictionary dictionaryWithContentsOfFile:path];
 //        NSArray *allArra=[NSArray arrayWithArray:nationalMobilePhoneAreaCodeDict[@"allMobileCode"]];
-////        NSLog(@"%@",allArra);
         _headSectionArray =[NSArray arrayWithObjects:@"A", @"B", @"C", @"D", @"E", @"F", @"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z", nil];
     }
     return _headSectionArray;

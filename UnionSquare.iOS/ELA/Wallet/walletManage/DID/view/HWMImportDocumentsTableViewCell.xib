@@ -24,8 +24,8 @@
                             <constraint firstAttribute="height" constant="1" id="BeC-47-2S4"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vfk-W7-WkT">
-                        <rect key="frame" x="15" y="22" width="0.0" height="0.0"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vfk-W7-WkT">
+                        <rect key="frame" x="15" y="0.0" width="255" height="44"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.99991279840000002" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -46,7 +46,7 @@
                     <constraint firstAttribute="bottom" secondItem="nie-QV-B2v" secondAttribute="bottom" id="hgE-Qf-hoo"/>
                     <constraint firstItem="vfk-W7-WkT" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="lXq-cY-kHo"/>
                     <constraint firstAttribute="trailing" secondItem="nie-QV-B2v" secondAttribute="trailing" constant="15" id="vXZ-JH-pcn"/>
-                    <constraint firstAttribute="trailing" secondItem="vfk-W7-WkT" secondAttribute="trailing" constant="15" id="yrE-qr-0hE"/>
+                    <constraint firstAttribute="trailing" secondItem="vfk-W7-WkT" secondAttribute="trailing" constant="50" id="yrE-qr-0hE"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

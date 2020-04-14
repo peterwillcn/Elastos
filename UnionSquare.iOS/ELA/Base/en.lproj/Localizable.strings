@@ -616,6 +616,8 @@
 "m12"="Dec";
 "信息格式错误"="Did not identify";
 "小于"="Less than";
+"是否覆盖当前凭证信息？"="Overwrite current credential?";
+
 "cragreementcontent"="The CR Council Member Election is open to the entire Elastos community, and all community members can participate in the construction of the Elastos Smartweb. Once participating in the election,CRC participants are deemed to demonstrate a complete understanding of and take on a commitment to comply with all contents of the following agreement:\n1. Before participating in the election, the participants have read and fully understand the content of the CRC white paper and the election rules pertaining to CR council members.\n2. While participating in CR Consensus, the participants should: abide by the laws and regulations of the country or region in which they are located; ensure the content they publish, forward, or provide conforms to relevant legislation, regulations, and social morality of the country or region in which they are located; and respect the relevant legislation, regulations, and social morality of the country or region in which other members are located.\n3. While participating in CR Consensus, the content published by the participants in any channel only represents the positions and opinions of its owners. The participants shall be responsible for the content and topics that they publish, and the participants shall bear all legal responsibility and related joint liability for all disputes arising from such published content. Additionally, the participants shall not damage or infringe upon the rights and interests of the Elastos community, team, or community members.\n4. All participants shall fully understand and recognize that Elastos is an open source project, and shall also comply with the following provisions: CR partners (at present, the Gelaxy Team, but remaining subject to CR entrustment) has the right to update or optimize code according to the CRC white paper when loopholes, hacking-related exploits, or other sub-optimal conditions that impair CRC operations are exposed. For any impact caused by the corresponding adjustment, update, or optimization of the open source code, the participants unconditionally waive any legal responsibility for CR partners or commissioned teams.\n5. All participants shall comply with the conditions of CR member elections, CR operations, and related penalty mechanisms. The consequences of triggering the penalty mechanism shall be borne by the participants.\n6. All participants shall fully understand and recognize that the private key of their respective wallets during the election is the only certificate for the participant to exercise their rights and obligations. The participants shall not share their private keys with others for use in any way, including but not limited to not providing the private key to others for use in any way by transferring, renting, or borrowing. Otherwise, any consequences and joint liabilities arising from these actions shall be borne by the participants themselves.";
 "提取CR质押金交易"="CR Deposit Retrieve Transaction";
 "提取DPoS质押金交易"="Deposit Retrieve Transaction";
@@ -623,7 +625,7 @@
 "CR委员参选协议"="CR Council Member Election Agreement";
 "同意"="Agree";
 "不同意"="Do Not Agree";
-"退出参选"="Withdraw From Election";
+"退出参选"="Withdraw";
 "(已退出)"="(Withdrawn Successfully)";
 "票数不能为空"="Votes cannot be empty";
 "我已阅读并同意以上条款"="I have read and agreed with the above provisions";
@@ -737,18 +739,15 @@
 "温馨提示：本页内容均非必填，仅保存在本地，供用户授权使用。"="Note: All fields on this page are non-mandatory. Content is saved locally and can only be shared by user authorization.";
 "请输入"="Enter";
 "Google账号"="Google account";
-"请选择D"="";
-"请选择B"="Enter";
-"请选择C"="Choose ";
+
+"请选择"="Choose ";
 "添加信息"="Add information";
 "保存至本地"="Save to local device";
 "分享"="Share";
 "保存失败"="Save failed";
 "请输入手机号"="Enter mobile number";
-"请输入区号（如+86）"="Enter country code（e.g +86）";
+"请输入区号(如+86)"="Enter country code(e.g+86)";
 "添加信息"="Add information";
-
-
 "err10000"="Json parse error of action parameters";
 "err10001"="Parameters error of action";
 "err10002"="Invalid master wallet";

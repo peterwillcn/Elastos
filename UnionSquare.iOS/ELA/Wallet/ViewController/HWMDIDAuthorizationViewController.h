@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "HWMDIDInfoModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMDIDAuthorizationViewController : UIViewController
@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy,nonatomic)NSDictionary *CRInfoDic;
 @property(copy,nonatomic)NSString *JWTString;
 @property(assign,nonatomic)BOOL MemberOfTheUpdate;
+@property(strong,nonatomic)HWMDIDInfoModel *readModel;
 
 @end
 

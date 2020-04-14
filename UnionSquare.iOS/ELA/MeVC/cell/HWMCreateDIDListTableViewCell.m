@@ -22,6 +22,7 @@
     self.LimitThatLabel.backgroundColor=RGBA(83, 136, 136, 1);
     self.LimitThatLabel.layer.cornerRadius=2.f;
     self.LimitThatLabel.layer.masksToBounds=YES;
+    self.intPutTextField.delegate=self;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -41,5 +42,4 @@
     [self endEditing:YES];
     
 }
-
 @end

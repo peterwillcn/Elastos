@@ -6,9 +6,9 @@
  to you under the Apache License, Version 2.0 (the
  "License"); you may not use this file except in compliance
  with the License.  You may obtain a copy of the License at
-
+ 
  http://www.apache.org/licenses/LICENSE-2.0
-
+ 
  Unless required by applicable law or agreed to in writing,
  software distributed under the License is distributed on an
  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -44,49 +44,49 @@
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
-
-
-        //初始化一个imageView，并添加到window上
+    
+    
+    //初始化一个imageView，并添加到window上
     
     if(launchOptions[UIApplicationLaunchOptionsURLKey] != nil){
         [self application:application handleOpenURL:launchOptions[UIApplicationLaunchOptionsURLKey]];
     }
-
     
-//    [HWMDIDManager sdas];
     
-   NSString *languageString=[DAConfig userLanguage];
-//    if (
-//    [[FLTools share]allHasNameAndHas];
-//        ) {
-//        exit(0);
-//      }
-
-
+    //    [HWMDIDManager sdas];
+    
+    NSString *languageString=[DAConfig userLanguage];
+    //    if (
+    //    [[FLTools share]allHasNameAndHas];
+    //        ) {
+    //        exit(0);
+    //      }
+    
+    
     if ([languageString  containsString:@"en"]) {
         [DAConfig setUserLanguage:@"en"];
-     
+        
     }else if ([languageString  containsString:@"zh"]){
-
+        
         [DAConfig setUserLanguage:@"zh-Hans"];
         
     }else{
         
-           [DAConfig setUserLanguage:@"en"];
+        [DAConfig setUserLanguage:@"en"];
     }
-      
+    
     self.window = [[UIWindow alloc]init];
     self.window.backgroundColor = [UIColor whiteColor];
     
     PluginResult *re=[[ELWalletManager share] getAllMasterWallets:nil];
-     NSArray *reArray=re.message[@"success"];
+    NSArray *reArray=re.message[@"success"];
     
     NSArray  *array =[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet];
     if (array.count>reArray.count) {
         for (int i=0; i<array.count; i++) {
-             FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
+            FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
             model=array[i];
-             model.walletID=[NSString stringWithFormat:@"%@",model.walletID];
+            model.walletID=[NSString stringWithFormat:@"%@",model.walletID];
             BOOL isbool = [reArray containsObject: model.walletID];
             if (isbool==NO) {
                 [[HMWFMDBManager sharedManagerType:walletType]delectRecordWallet: model];
@@ -101,9 +101,9 @@
             if (isbool==NO) {
                 model.walletName=@"null";
                 sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
-            sideModel.walletID=model.walletID;
-            sideModel.sideChainName=@"ELA";
-        sideModel.sideChainNameTime=@"--:--";
+                sideModel.walletID=model.walletID;
+                sideModel.sideChainName=@"ELA";
+                sideModel.sideChainNameTime=@"--:--";
                 sideModel.thePercentageMax=@"100";
                 sideModel.thePercentageCurr=@"0";
                 
@@ -127,21 +127,21 @@
     UITableView.appearance.estimatedSectionFooterHeight = 0;
     UITableView.appearance.estimatedSectionHeaderHeight = 0;
     [self.window makeKeyAndVisible];
-
+    
     if (@available(iOS 13.2, *)) {
-
-               }else{
-                   const char *className = "_UITextLayoutView";
-                   Class cls = objc_getClass(className);
-                   if (cls == nil) {
-                       cls = objc_allocateClassPair([UIView class], className, 0);
-                       objc_registerClassPair(cls);
-           #if DEBUG
-                       printf("added %s dynamically\n", className);
-           #endif
-                   }
-               }
-
+        
+    }else{
+        const char *className = "_UITextLayoutView";
+        Class cls = objc_getClass(className);
+        if (cls == nil) {
+            cls = objc_allocateClassPair([UIView class], className, 0);
+            objc_registerClassPair(cls);
+#if DEBUG
+            printf("added %s dynamically\n", className);
+#endif
+        }
+    }
+    
     return YES;
     
 }
@@ -150,7 +150,7 @@
 
 {
     
-  return UIInterfaceOrientationMaskPortrait;
+      return UIInterfaceOrientationMaskPortrait;
     
 }
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(nullable NSDictionary *)launchOptions{
@@ -159,7 +159,7 @@
     
 }
 -(void)applicationWillTerminate:(UIApplication *)application{
-   
+    
 }
 -(void)applicationDidEnterBackground:(UIApplication *)application {
 }
@@ -180,11 +180,11 @@
     NSLog(@"URL scheme:%@", [url scheme]);
     //参数
     NSLog(@"URL host:%@", [url host]);
-       NSString *path = [url absoluteString];
-            path = [path stringByRemovingPercentEncoding];
-            NSMutableString *string = [[NSMutableString alloc] initWithString:path];
+    NSString *path = [url absoluteString];
+    path = [path stringByRemovingPercentEncoding];
+    NSMutableString *string = [[NSMutableString alloc] initWithString:path];
     
-   BOOL sa= [MyUtil AddCommDIDWithJWT:string];
+    BOOL sa= [MyUtil AddCommDIDWithJWT:string];
     NSString * message;
     if (sa) {
         message = @"保存成功";
@@ -193,8 +193,8 @@
     }
     [[FLTools share]showErrorInfo:message];
     
-//    UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:[url host] delegate:self cancelButtonTitle:nil otherButtonTitles:message, nil];
-//    [alertView show];
+    //    UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:[url host] delegate:self cancelButtonTitle:nil otherButtonTitles:message, nil];
+    //    [alertView show];
     return YES;
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -203,7 +203,7 @@
     [[ELWalletManager share]EMWMFlushData];
 }
 - (void)applicationDidBecomeActive:(UIApplication *)application{
-     [[ELWalletManager share]EMWMFlushData];
+    [[ELWalletManager share]EMWMFlushData];
 }
 
 

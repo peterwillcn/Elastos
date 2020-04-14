@@ -32,10 +32,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [self loadElectionInfo];
+    //    [self loadElectionInfo];
     [self defultWhite];
     [self setBackgroundImg:@""];
-        self.title=NSLocalizedString(@"社区", nil);
+    self.title=NSLocalizedString(@"社区", nil);
     
     self.table = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.table.separatorStyle= UITableViewCellSeparatorStyleNone;
@@ -47,7 +47,7 @@
     self.table.tableFooterView = [[UIView alloc] init];
     self.dataSource =[[NSMutableArray alloc]initWithObjects:@"",@"",nil];
     [self.table registerNib:[UINib nibWithNibName:@"HMWfoundTableCell" bundle:nil] forCellReuseIdentifier:@"HMWfoundTableCell"];
-
+    
 }
 -(void)loadElectionInfo{
     ELWalletManager *manager   =  [ELWalletManager share];
@@ -58,15 +58,15 @@
     NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
     NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
     NSString *Status = param[@"Status"];
-        self.typeString =Status;
-
+    self.typeString =Status;
+    
     
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.navigationItem.leftBarButtonItem=nil;
     [self.navigationController setNavigationBarHidden:NO];
-  
+    
     
 }
 
@@ -95,7 +95,7 @@
         NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
         NSString *Status = param[@"Status"];
         self.typeString =Status;
-    HMWtheSuperNodeElectionViewController*theSuperNodeElectionVC=[[HMWtheSuperNodeElectionViewController alloc]init];
+        HMWtheSuperNodeElectionViewController*theSuperNodeElectionVC=[[HMWtheSuperNodeElectionViewController alloc]init];
         theSuperNodeElectionVC.typeString=Status;
         theSuperNodeElectionVC.NodePublicKey= param[@"Info"][@"NodePublicKey"];
         theSuperNodeElectionVC.nodeName= param[@"Info"][@"NickName"];
@@ -103,26 +103,20 @@
     }
     if (indexPath.row==1) {
         ELWalletManager *manager   =  [ELWalletManager share];
-               
-               IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-               
-               nlohmann::json info = mainchainSubWallet->GetRegisteredCRInfo();
-               NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
-               NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-               NSString *Status = param[@"Status"];
-               self.typeString =Status;
-        
-      HMWCRCommitteeMemberListViewController *CRSignUpForVC=[[HMWCRCommitteeMemberListViewController alloc]init];
+        IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
+        nlohmann::json info = mainchainSubWallet->GetRegisteredCRInfo();
+        NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
+        NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+        NSString *Status = param[@"Status"];
+        self.typeString =Status;
+        HMWCRCommitteeMemberListViewController *CRSignUpForVC=[[HMWCRCommitteeMemberListViewController alloc]init];
         CRSignUpForVC.typeString=self.typeString;
         CRSignUpForVC.CROwnerDID=param[@"Info"][@"CID"];
+        CRSignUpForVC.BondedDID=[param[@"Info"][@"BondedDID"] intValue];
         CRSignUpForVC.CROwnerPublicKey=param[@"Info"][@"CROwnerPublicKey"];
         CRSignUpForVC.nodeName= param[@"Info"][@"NickName"];
         CRSignUpForVC.CRnewDID=param[@"Info"][@"DID"];
-         [self.navigationController pushViewController:CRSignUpForVC  animated:YES];
-        
-//        self.CROwnerDID=param[@"Info"][@"CROwnerDID"];
-//        self.CROwnerPublicKey=param[@"Info"][@"CROwnerPublicKey"];
-//        self.nodeName= param[@"Info"][@"NickName"];
+        [self.navigationController pushViewController:CRSignUpForVC  animated:YES];
     }
     
 }

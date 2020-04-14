@@ -15,7 +15,7 @@
 #import "HttpUrl.h"
 #import "HWMDIDAuthorizationTableViewCell.h"
 #import "HWMDIDAuthorizationHeadView.h"
-#import "HWMDIDInfoModel.h"
+
 static NSString *cellDIDString=@"HWMDIDAuthorizationTableViewCell";
 
 UINib *_nib;
@@ -27,9 +27,7 @@ UINib *_nib;
 @property(strong,nonatomic)NSMutableDictionary *infoDic;
 @property(copy,nonatomic)NSArray *allInfoListArray;
 @property(strong,nonatomic)HMWpwdPopupView *pwdPView;
-
 @property(strong,nonatomic)HWMDIDAuthorizationHeadView *headView;
-@property(strong,nonatomic)HWMDIDInfoModel *readModel;
 @property(strong,nonatomic)HWMDIDInfoModel *updateModel;
 
 @end
@@ -54,14 +52,23 @@ UINib *_nib;
     self.tabel.separatorStyle=UITableViewCellSeparatorStyleNone;
     self.tabel.separatorInset = UIEdgeInsetsZero;
     UIView *headV=[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 300)];
+
     [headV addSubview:self.headView];
+    [self.headView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.bottom.right.equalTo(headV);
+    }];
     self.tabel.tableHeaderView=headV;
     
 }
 -(HWMDIDAuthorizationHeadView *)headView{
     if (!_headView) {
         _headView =[[HWMDIDAuthorizationHeadView alloc]init];
-        _headView.infoDic=self.CRInfoDic;
+        if (self.MemberOfTheUpdate) {
+            _headView.readModel=self.readModel;
+        }else{
+            _headView.infoDic=self.CRInfoDic;
+            
+        }
     }
     return _headView;
 }
@@ -99,6 +106,7 @@ UINib *_nib;
 
 
 -(void)goBack{
+    [self hiddLoading];
     [self.navigationController popViewControllerAnimated:NO];
 }
 - (IBAction)copyDIDStringEvent:(id)sender {
@@ -142,9 +150,11 @@ UINib *_nib;
     return _pwdPView;
 }
 -(void)makeSureWithPWD:(NSString*)pwd{
+    [self showLoading];
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.mastWalletID,pwd] callbackId:self.mastWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
     NSString *PrivateKeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
     if (PrivateKeyString.length==0) {
+        [self hiddLoading];
         return;
     }
     if (self.MemberOfTheUpdate) {
@@ -152,7 +162,6 @@ UINib *_nib;
         [ self  POSTJWTInfoWithDic];
     }else{
         
-        [self cancelThePWDPageView];
         if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.DIDString WithPrivatekeyString:PrivateKeyString WithmastWalletID:self.mastWalletID needCreatDIDString:NO]){
             NSString *playString=[[FLTools share]DicToString:self.infoDic];
             NSString *jwtString=[self throuJWTStringWithplayString:playString];
@@ -166,11 +175,11 @@ UINib *_nib;
 }
 -(void)updaeJWTInfoWithDic:(NSDictionary*)pare{
     [HttpUrl NetPOSTHost:self.CRInfoDic[@"callbackurl"] url:@"" header:nil body:pare showHUD:NO WithSuccessBlock:^(id data) {
+        [self hiddLoading];
         [self cancelThePWDPageView];
         [self goBack];
-        
     } WithFailBlock:^(id data) {
-        
+       
         
     }];
     
@@ -191,10 +200,10 @@ UINib *_nib;
     NSString *REString= [[HWMDIDManager shareDIDManager] DIDSignatureWithString:jwtString];
     NSString *httpIP=[[FLTools share]http_IpFast];
     [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtsave" header:@{} body:@{@"did":self.DIDString,@"jwt":[NSString stringWithFormat:@"%@.%@",jwtString,REString]} showHUD:NO WithSuccessBlock:^(id data) {
+        [self hiddLoading];
         [self cancelThePWDPageView];
         [self goBack];
     } WithFailBlock:^(id data) {
-        
     }];
     
     
@@ -227,12 +236,6 @@ UINib *_nib;
     [self.pwdPView removeFromSuperview];
     self.pwdPView=nil;
     
-}
--(HWMDIDInfoModel *)readModel{
-    if (!_readModel) {
-        _readModel=[[HWMDIDManager shareDIDManager]readDIDCredential];
-    }
-    return _readModel;
 }
 -(HWMDIDInfoModel *)updateModel{
     if (!_updateModel) {
@@ -356,5 +359,8 @@ UINib *_nib;
     
     
     
+}
+-(void)setReadModel:(HWMDIDInfoModel *)readModel{
+    _readModel=readModel;
 }
 @end

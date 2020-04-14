@@ -277,7 +277,6 @@
 
             for (int i=0; i<self.dataSource.count; i++) {
                 FLCoinPointInfoModel *model=self.dataSource[i];
-//                 NSLog(@"model.state===%@",model.state);
 //                if (self.needFind){
                 model.index=self.ActiveArray.count;
                     if ([model.nodepublickey isEqualToString:self.NodePublicKey]){

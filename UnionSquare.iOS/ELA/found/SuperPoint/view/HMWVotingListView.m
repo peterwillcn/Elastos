@@ -12,8 +12,6 @@
 #import "HMWVotingListTypeCrossCollectionViewCell.h"
 #import "HWMCRCCommitteeElectionCollectionViewCell.h"
 #import "HWMCRVotingListCollectionViewCell.h"
-#import "HWMCRListModel.h"
-
 static NSString *cellString=@"HMWVotingListCollectionViewCell";
 
 static NSString *crossCellString=@"HMWVotingListTypeCrossCollectionViewCell";
@@ -49,43 +47,45 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
         self =[[NSBundle mainBundle]loadNibNamed:@"HMWVotingListView" owner:nil options:nil].firstObject;
         self.userInteractionEnabled=YES;
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-       self.baseCollectionView.collectionViewLayout=layout;
+        self.baseCollectionView.collectionViewLayout=layout;
         self.baseCollectionView.delegate=self;
         self.baseCollectionView.dataSource=self;
-         __weak __typeof(self) weakSelf = self;
+        __weak __typeof(self) weakSelf = self;
         
         self.baseCollectionView.alwaysBounceVertical=YES;
         self.baseCollectionView.mj_header = [MJRefreshHeader headerWithRefreshingBlock:^{
-
-
+            
+            
             if (weakSelf.delegate) {
                 [weakSelf.delegate updateDataInfo];
             }
-
+            
         }];
         [self.baseCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HMWVotingListCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:cellString];
         [self.baseCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HMWVotingListTypeCrossCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:crossCellString];
-          [self.baseCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HWMCRCCommitteeElectionCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:crossCRCellString];
-           [self.baseCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HWMCRVotingListCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:ListCRCellString];
+        [self.baseCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HWMCRCCommitteeElectionCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:crossCRCellString];
+        [self.baseCollectionView registerNib:[UINib nibWithNibName:NSStringFromClass([HWMCRVotingListCollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:ListCRCellString];
         
-    
-
-     
-
+        
+        
+        
+        
         self.taglab1.text = NSLocalizedString(@"全网投票占比", nil);
         self.taglab3.text = NSLocalizedString(@"当前票数", nil);
-         self.runningNodeListTextLabel.text=NSLocalizedString(@"参选节点列表", nil);
+        self.runningNodeListTextLabel.text=NSLocalizedString(@"参选节点列表", nil);
         self.numberNodesTextLabel.text=NSLocalizedString(@"节点数量", nil);
         self.listType=@"1";
     }
- return self;
+    return self;
 }
 
 -(void)setDataSource:(NSMutableArray *)dataSource{
-    _dataSource =[[NSMutableArray alloc]initWithArray:dataSource];
+    
+    _dataSource =dataSource;
     self.numberNodesLabel.text=[NSString stringWithFormat:@"%lu",(unsigned long)dataSource.count];
-        [self.baseCollectionView reloadData];
     [self.baseCollectionView.mj_header endRefreshing];
+    [self.baseCollectionView reloadData];
+    
 }
 #pragma mark -- UICollectionViewDataSource
 //定义展示的UICollectionViewCell的个数
@@ -106,9 +106,9 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
         if (self.type==CRType) {
             HWMCRCCommitteeElectionCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:crossCRCellString forIndexPath:indexPath];
             cell.isEdiet=self.isEdiet;
-           cell.model = self.dataSource[indexPath.row];
+            cell.model = self.dataSource[indexPath.row];
             if (indexPath.row==0&&[self.typeString isEqualToString:@"Registered"]) {
-                    cell.backgroundColor=RGB(48, 124, 162);
+                cell.backgroundColor=RGB(48, 124, 162);
             }else{
                 cell.backgroundColor=RGB(92, 116, 120);
             }
@@ -118,20 +118,20 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
         HMWVotingListCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:cellString forIndexPath:indexPath];
         cell.model = self.dataSource[indexPath.row];
         if (indexPath.row==0&&[self.typeString isEqualToString:@"Registered"]) {
-                       cell.backgroundColor=RGB(48, 124, 162);
-               }
+            cell.backgroundColor=RGB(48, 124, 162);
+        }
         else{
             cell.backgroundColor=[UIColor clearColor];
-               }
+        }
         return cell;
     }
     if (self.isEdiet&&self.type==CRType&&[self.listType isEqualToString:@"2"]) {
         HWMCRVotingListCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:ListCRCellString forIndexPath:indexPath];
         if (indexPath.row==0&&[self.typeString isEqualToString:@"Registered"]) {
-                cell.backgroundColor=RGB(48, 124, 162);
+            cell.backgroundColor=RGB(48, 124, 162);
         }
         else{
-           cell.backgroundColor=[UIColor clearColor];
+            cell.backgroundColor=[UIColor clearColor];
         }
         cell.model = self.dataSource[indexPath.row];
         return cell;
@@ -142,30 +142,30 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
     if (self.type==CRType) {
         cell.CRModel = self.dataSource[indexPath.row];
         if (indexPath.row==0&&[self.typeString isEqualToString:@"Registered"]) {
-             cell.backgroundColor=RGB(48, 124, 162);
+            cell.backgroundColor=RGB(48, 124, 162);
         }else{
-               cell.backgroundColor=[UIColor clearColor];
-            }
+            cell.backgroundColor=[UIColor clearColor];
+        }
     }else{
         cell.model = self.dataSource[indexPath.row];
         if (indexPath.row==0&&[self.typeString isEqualToString:@"Registered"]) {
-                       cell.backgroundColor=RGB(48, 124, 162);
+            cell.backgroundColor=RGB(48, 124, 162);
         }else{
-                   cell.backgroundColor=[UIColor clearColor];
-               }
+            cell.backgroundColor=[UIColor clearColor];
+        }
     }
-   
+    
     return cell;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
     if ([self.listType isEqualToString:@"1"]) {
-     return 6;
+        return 6;
     }
     return 10;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
     if ([self.listType isEqualToString:@"1"]) {
-     return 3;
+        return 3;
     }
     return 5;
 }
@@ -175,9 +175,9 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
 {
     if ([self.listType isEqualToString:@"1"]) {
         if (self.type==CRType) {
-             return UIEdgeInsetsMake(5, 8, 5, 5);
+            return UIEdgeInsetsMake(5, 8, 5, 5);
         }
-           return UIEdgeInsetsMake(3, 8, 3, 3);
+        return UIEdgeInsetsMake(3, 8, 3, 3);
     }
     return UIEdgeInsetsMake(5, 8, 5, 3);
 }
@@ -197,18 +197,18 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
 //UICollectionView被选中时调用的方法
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-        if (self.type==CRType) {
-            if (self.isEdiet){
-                    FLCoinPointInfoModel *model=self.dataSource[indexPath.row];
-                if (model.isCellSelected==NO) {
+    if (self.type==CRType) {
+        if (self.isEdiet){
+            FLCoinPointInfoModel *model=self.dataSource[indexPath.row];
+            if (model.isCellSelected==NO) {
                 model.isNewCellSelected=!model.isNewCellSelected;
-                    self.dataSource[indexPath.row]=model;
-                    [collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
-                }
-                 return;
+                self.dataSource[indexPath.row]=model;
+                [collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
             }
+            return;
         }
-   
+    }
+    
     if (self.delegate) {
         [self.delegate selectedVotingListWithIndex:indexPath.row];
     }
@@ -235,7 +235,7 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
                 }
             }else{
                 self.listType=@"2";
-                  [self.modifyTheListModeButton setImage:[UIImage imageNamed:@"vote_switch_squeral"] forState:UIControlStateNormal];
+                [self.modifyTheListModeButton setImage:[UIImage imageNamed:@"vote_switch_squeral"] forState:UIControlStateNormal];
             }
         }else{
             if (self.isEdiet){
@@ -252,7 +252,7 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
         }
     }else{
         if ([self.listType isEqualToString:@"1"]) {
-                self.listType=@"2";
+            self.listType=@"2";
             [self.modifyTheListModeButton setImage:[UIImage imageNamed:@"vote_switch_squeral"] forState:UIControlStateNormal];
         }else{
             [self.modifyTheListModeButton setImage:[UIImage imageNamed:@"vote_switch_list"] forState:UIControlStateNormal];
@@ -267,7 +267,7 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
         self.textTopOffset.constant=18.f;
         self.AddModelButton.alpha=1.f;
     }
-     _type=type;
+    _type=type;
 }
 - (IBAction)AddModelEvent:(id)sender {
     self.isEdiet=YES;
@@ -284,7 +284,7 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
     if (self.type==CRType) {
         if (isSelectAll){
             for (int i=0; i<self.dataSource.count; i++) {
-                 FLCoinPointInfoModel *model=self.dataSource[i];
+                FLCoinPointInfoModel *model=self.dataSource[i];
                 if (model.isCellSelected==NO) {
                     model.isNewCellSelected=YES;
                     self.dataSource[i]=model;
@@ -300,30 +300,39 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
             }
         }
     }else if (self.type==NodeElectioType){
-    if (isSelectAll) {
-        for (int i=0; i<self.dataSource.count; i++) {
-             FLCoinPointInfoModel *model=self.dataSource[i];
-            model.isCellSelected=YES;
-            self.dataSource[i]=model;
+        if (isSelectAll) {
+            for (int i=0; i<self.dataSource.count; i++) {
+                FLCoinPointInfoModel *model=self.dataSource[i];
+                model.isCellSelected=YES;
+                self.dataSource[i]=model;
+            }
+        }else{
+            for (int i=0; i<self.dataSource.count; i++) {
+                FLCoinPointInfoModel *model=self.dataSource[i];
+                model.isCellSelected=NO;
+                self.dataSource[i]=model;
+            }
         }
-    }else{
-        for (int i=0; i<self.dataSource.count; i++) {
-            FLCoinPointInfoModel *model=self.dataSource[i];
-            model.isCellSelected=NO;
-            self.dataSource[i]=model;
-        }
-    }
     }
     [self.baseCollectionView reloadData];
 }
 -(void)setTypeString:(NSString *)typeString{
     _typeString=typeString;
-    [self.baseCollectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]];
-}-(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+    //    [self.baseCollectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]];
+}
+-(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
     
-
+    
     if (self.delegate&&self.dataSource.count==0) {
         [self.delegate updateDataInfo];
     }
+}
+-(void)reloadCollecWithIndex:(NSInteger)index withModel:(HWMCRListModel*)model{
+//    HWMCRListModel *oldModel=self.dataSource[index];
+    self.dataSource[index]=model;
+    NSIndexPath *indexPath=[NSIndexPath indexPathForRow:index inSection:0];
+    NSArray *indexArray=[NSArray arrayWithObject:indexPath];
+    [self.baseCollectionView
+     reloadItemsAtIndexPaths:indexArray];
 }
 @end

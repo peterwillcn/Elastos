@@ -35,18 +35,39 @@
 }
 -(void)setInfoDic:(NSDictionary *)infoDic{
     NSString *iconString=infoDic[@"website"][@"logo"];
-     self.iconImageView.image=[UIImage imageNamed:@"cyber_republic"];
+    
     if (iconString.length>0) {
         [[FLTools share]loadUrlSVGAndPNG:iconString WithSuccessBlock:^(id data) {
             if (data) {
                 self.iconImageView.image=data;
+            }else{
+                self.iconImageView.image=[UIImage imageNamed:@"cyber_republic"];
             }
         }];
+    }else{
+        self.iconImageView.image=[UIImage imageNamed:@"cyber_republic"];
     }
     
     self.nickNameLabel.text=infoDic[@"website"][@"domain"];
     self.didStringLabel.text=infoDic[@"iss"];
     _infoDic=infoDic;
+}
+-(void)setReadModel:(HWMDIDInfoModel *)readModel{
+    self.nickNameLabel.text=readModel.nickname;
+    
+    self.didStringLabel.text=readModel.did;
+    if (readModel.avatar.length>0) {
+        [[FLTools share]loadUrlSVGAndPNG:readModel.avatar WithSuccessBlock:^(id data) {
+            if (data) {
+                self.iconImageView.image=data;
+            }else{
+                self.iconImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
+            }
+        }];
+    }else{
+        self.iconImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
+    }
+    
 }
 - (IBAction)CpyeDIDStringEvent:(id)sender {
     if (self.didStringLabel.text.length>0) {

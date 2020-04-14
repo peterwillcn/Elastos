@@ -105,7 +105,7 @@
                     isSurrce=NO;
                     
                 }
-                if(self.monthIndex==self.nowMonth-1&&self.dayIndex>self.nowDay) {
+                if(self.monthIndex==self.nowMonth-1&&self.dayIndex>(self.nowDay-1)) {
                     isSurrce=NO;
                 }
                 if (isSurrce==NO) {

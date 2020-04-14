@@ -199,8 +199,6 @@
         
         
     }else{
-        NSLog(@"error = %@",error);
-        NSLog(@"存储失败！！！");
         return NO;
     }
     

@@ -63,6 +63,7 @@
     if (CRModel.iconImageUrl.length>0) {
         [[FLTools share]loadUrlSVGAndPNG:CRModel.iconImageUrl WithSuccessBlock:^(id data) {
             if (data) {
+                
                 self.coinIconImageView =data;
             }else{
                  self.coinIconImageView.image=[UIImage imageNamed:@"found_vote_initial"];

@@ -54,7 +54,6 @@ NSInteger timeOut = 20;
     AFHTTPSessionManager *manage = [self getManage];
     
     NSDictionary *dataDic = [self addOtherKey:param];
-    DLog(@"---url---%@%@---%@",host,httpUrl, dataDic);
     NSString *stringUrl;
     if (httpUrl.length>0) {
     stringUrl = [NSString stringWithFormat:@"%@%@",host, httpUrl];

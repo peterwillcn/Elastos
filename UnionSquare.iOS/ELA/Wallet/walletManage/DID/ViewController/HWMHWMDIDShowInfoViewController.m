@@ -32,6 +32,7 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
         self.skipButton.alpha=0;
         self.title=NSLocalizedString(@"CR委员选举",nil);
     }
+    self.headImageIndex=-1;
     self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:self.skipButton];
     
     [self makeUI];
@@ -87,14 +88,17 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
             conString=[[FLTools share]TimeFormatConversionBirthday:self.model.birthday];
             break;
         case 3:{
-           cell.headIocnImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
             cell.headIocnImageView.alpha=1.f;
-            if (self.model.avatar.length>0) {
+           if (self.model.avatar.length>0) {
                 [[FLTools share]loadUrlSVGAndPNG:self.model.avatar WithSuccessBlock:^(id data) {
                     if (data) {
                         cell.headIocnImageView.image=data;
+                    }else{
+                        cell.headIocnImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
                     }
                 }];
+            }else{
+               cell.headIocnImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
             }
             cell.rightLabel.alpha=0.f;
             

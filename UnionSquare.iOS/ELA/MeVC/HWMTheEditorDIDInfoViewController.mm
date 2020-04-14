@@ -21,7 +21,7 @@
 @property(strong,nonatomic)HMWpwdPopupView *ShowPoPWDView;
 @property(strong,nonatomic)HWMDIDDataListView *dataListView;
 @property(strong,nonatomic)HMWSendSuccessPopuView *sendSuccessPopuV;
-
+@property(assign,nonatomic)double blance;
 @end
 
 @implementation HWMTheEditorDIDInfoViewController
@@ -35,9 +35,11 @@
     [self.updatesButton setTitle:NSLocalizedString(@"更新发布", nil) forState:UIControlStateNormal];
     
     self.nickNameLabel.text=self.model.didName;
+    self.nickNameLabel.delegate=self;
        self.publicKeyLabel.text=self.PubKeyString;
        self.DIDLabel.text=[NSString stringWithFormat:@"%@",self.model.did];
        self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.endString]];
+    [self getBalance];
 }
 - (IBAction)changeTimeDataInfoEvent:(id)sender {
     UIView *mainView =  [self mainWindow];
@@ -48,11 +50,11 @@
     [self.view endEditing:YES];
 }
 - (IBAction)updatesEvent:(id)sender {
+    [self.view endEditing:YES];
     if (self.model.didName.length==0) {
         [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入DID名称（必填）", nil)];
         return;
     }
-[self.view endEditing:YES];
     [self showPWDView];
 }
 -(HMWpwdPopupView *)ShowPoPWDView{
@@ -96,6 +98,10 @@
 -(void)makeSureWithPWD:(NSString*)pwd{
 
     [self.view endEditing:YES];
+    if (self.blance<0.0001) {
+        [[FLTools share]showErrorInfo:@"余额不足"];
+        return;
+    }
     self.model.didName=self.nickNameLabel.text;
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwd] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
             NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
@@ -107,7 +113,7 @@
         return;
     }
     
-    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
+    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:YES];
     
     if ([[HWMDIDManager shareDIDManager]updateInfoWithInfo:self.model]) {
         HWMDIDInfoModel *rdModel= [[HWMDIDManager shareDIDManager]readDIDCredential];
@@ -153,6 +159,24 @@
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     
     return [[FLTools share]textField:textField replacementString:string withStringLenth:50];
+    
+}
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    self.model.didName=textField.text;
+    
+}
+-(void)getBalance{
+
+    
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,@"IDChain",@2] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];
+    PluginResult * result =[[ELWalletManager share]getBalance:mommand];
+    
+    NSString *status=[NSString stringWithFormat:@"%@",result.status];
+    if ([status isEqualToString:@"1"]){
+        
+        NSString *blanceString=[NSString stringWithFormat:@"%@",result.message[@"success"]];
+        self.blance=[blanceString doubleValue];
+    }
     
 }
 

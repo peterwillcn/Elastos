@@ -22,6 +22,7 @@
 #import "HMWSendSuccessPopuView.h"
 #import "HMWpwdPopupView.h"
 #import "DAConfig.h"
+#import "HWMConfidentialInformationViewController.h"
 UINib *_cellCreateDIDListNib;
 UINib *_cellCodeAndPhonenumberNib;
 static NSString *cellString=@"HWMCreateDIDListTableViewCell";
@@ -73,6 +74,9 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
  */
 @property(strong,nonatomic)HMWpwdPopupView*pwdPopupV;
 @property(copy,nonatomic)NSString* deleteIndex;
+
+@property(assign,nonatomic)double blance;
+
 @end
 
 @implementation HWMAddPersonalInformationViewController
@@ -94,17 +98,11 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         self.title=NSLocalizedString(@"添加个人信息", nil);
     }
     
-       NSString *languageString=[DAConfig userLanguage];
-    //    if (
-    //    [[FLTools share]allHasNameAndHas];
-    //        ) {
-    //        exit(0);
-    //      }
-
-
-        if ([languageString  containsString:@"en"]) {
-            self.infoHeight.constant=45.f;
-        }
+    NSString *languageString=[DAConfig userLanguage];
+    if ([languageString  containsString:@"en"]) {
+        self.infoHeight.constant=45.f;
+    }
+    [self getBalance];
 }
 -(void)updaeDataArray{
     [self.defMArray removeAllObjects];
@@ -275,14 +273,14 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         cell.dic=infDic;
         cell.delegate=self;
         [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:cell.MobilePhoneTextField withTxt:NSLocalizedString(@"请输入手机号", nil)];
-        cell.theArNumberTextField.placeholder=NSLocalizedString(@"请输入区号（如+86）", nil);
+        cell.theArNumberTextField.placeholder=NSLocalizedString(@"请输入区号(如+86)", nil);
         cell.theArNumberTextField.tag=10002;
         if (self.model.phoneCode.length>0) {
             cell.theArNumberTextField.text=self.model.phoneCode;
         }
         cell.theArNumberTextField.delegate=self;
         cell.MobilePhoneTextField.delegate=self;
-        [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField: cell.theArNumberTextField withTxt:NSLocalizedString(@"请输入区号", nil)];
+        [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField: cell.theArNumberTextField withTxt:NSLocalizedString(@"请输入区号（如+86）", nil)];
         return cell;}
     HWMCreateDIDListTableViewCell *cell =
     [_cellCreateDIDListNib instantiateWithOwner:nil options:nil][0];
@@ -292,17 +290,16 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     cell.delegate=self;
     if ([typeString isEqualToString:@"2"]) {
         cell.infoLabel.alpha=1.f;
-      
+           cell.infoLabel.text= [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"请选择", nil),titleString];
         cell.intPutTextField.alpha=0.f;
         if ([indexString integerValue]==1&&self.model.gender.length>0) {
-              cell.infoLabel.text= [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"请选择D", nil),titleString];
             cell.infoLabel.text=[[FLTools share]genderStringWithType:self.model.gender];
         }else if ([indexString integerValue]==2&&self.model.birthday.length>0){
-              cell.infoLabel.text= [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"请选择B", nil),titleString];
             cell.infoLabel.text=[[FLTools share]TimeFormatConversionBirthday: self.model.birthday];
         }else if ([indexString integerValue]==6&&self.model.nation.length>0){
-            cell.infoLabel.text= [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"请选择C", nil),titleString];
-           cell.infoLabel.text=[[FLTools share]contryNameTransLateByCode:[self.model.nation integerValue]];
+            if (self.model.nation.length>0) {
+                cell.infoLabel.text=[[FLTools share]contryNameTransLateByCode:[self.model.nation integerValue]];
+            }
         }
         
     }else if([typeString isEqualToString:@"4"]){
@@ -359,6 +356,12 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         }else if ([titleString isEqualToString:NSLocalizedString(@"Google账号", nil)]){
             if (self.model.googleAccount.length>0) {
                 cell.intPutTextField.text=self.model.googleAccount;
+                
+            }
+            
+        }else if ([titleString isEqualToString:NSLocalizedString(@"微信账号", nil)]){
+            if (self.model.wechat.length>0) {
+                cell.intPutTextField.text=self.model.wechat;
                 
             }
             
@@ -705,17 +708,26 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.sendSuccessPopuV removeFromSuperview];
         self.sendSuccessPopuV=nil;
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[HWMConfidentialInformationViewController class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
         [self.navigationController popViewControllerAnimated:YES];
     });
     
 }
--(void)makeSureWithPWD:(NSString*)pwd{    
+-(void)makeSureWithPWD:(NSString*)pwd{
+    if (self.blance<0.0001) {
+        [[FLTools share]showErrorInfo:@"余额不足"];
+        return;
+    }
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwd] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
     NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
     if (privatekeyString.length==0) {
         return;
     }
-    NSString *didString=[[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:YES];
+    NSString *didString=[[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:YES];
     if (didString.length==0) {
         return;
     }
@@ -831,6 +843,17 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     if (self.deleteHasSaveChainView) {
         [self.deleteHasSaveChainView removeFromSuperview];
         self.deleteHasSaveChainView=nil;
+    }
+    
+}
+-(void)getBalance{
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,@"IDChain",@2] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];
+    PluginResult * result =[[ELWalletManager share]getBalance:mommand];
+    
+    NSString *status=[NSString stringWithFormat:@"%@",result.status];
+    if ([status isEqualToString:@"1"]){
+        NSString *blanceString=[NSString stringWithFormat:@"%@",result.message[@"success"]];
+        self.blance=[blanceString doubleValue];
     }
     
 }

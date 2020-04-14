@@ -163,8 +163,12 @@
     BGView.backgroundColor=RGBA(0, 0, 0, 0.5);
     [self.view addSubview:BGView];
     [[HMWCommView share]makeBordersWithView:BGView];
+    CGFloat topOffset=74;
+    if (AppHeight>812) {
+        topOffset=100;
+    }
     [BGView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).mas_equalTo(74);
+        make.top.equalTo(self.view.mas_top).mas_equalTo(topOffset);
         make.left.equalTo(self.view.mas_left).mas_offset(15);
         make.right.equalTo(self.view.mas_right).mas_offset(-15);
         make.height.mas_equalTo(@400);

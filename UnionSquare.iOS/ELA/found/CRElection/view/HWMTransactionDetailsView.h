@@ -8,7 +8,8 @@
 #import <UIKit/UIKit.h>
 
 typedef enum : NSUInteger  {
-    didInfoType
+    didInfoType,
+    TransactionDetails
 } TransactionDetailsType;
 
 @protocol HWMTransactionDetailsViewDelegate <NSObject>

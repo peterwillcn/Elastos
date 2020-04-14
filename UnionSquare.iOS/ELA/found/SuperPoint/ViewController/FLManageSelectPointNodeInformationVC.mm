@@ -167,7 +167,7 @@
         
         self.DIDmodel=[HWMDIDInfoModel modelWithJSON:playInfoDic[@"credentialSubject"]];
         
-        self.CRModel.url=self.DIDmodel.avatar;
+        self.CRModel.iconImageUrl=self.DIDmodel.avatar;
         self.CRModel.infoEN=self.DIDmodel.introduction;
         self.CRModel.infoZH=self.DIDmodel.introduction;
         self.CrCommitteeInformationHeaderV.CRmodel=self.CRModel;
@@ -248,8 +248,22 @@
     
 }
 - (IBAction)updataDIDInfoEvent:(id)sender {
+    if (self.currentWallet.didString.length==0) {
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID", nil)];
+        return;
+    }
+    
+    HWMDIDInfoModel  *readModel=[[HWMDIDManager shareDIDManager]readDIDCredential];
+    
+    if ([readModel.endString intValue]<[[[FLTools share]getNowTimeTimestampS] intValue])  {
+        
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"DID已失效", nil)];
+        return ;
+    }
+    
     
     HWMDIDAuthorizationViewController *DIDAuthorizationVC=[[HWMDIDAuthorizationViewController alloc]init];
+    DIDAuthorizationVC.readModel=readModel;
     DIDAuthorizationVC.DIDString=self.currentWallet.didString;
     DIDAuthorizationVC.mastWalletID=self.currentWallet.masterWalletID;
     DIDAuthorizationVC.MemberOfTheUpdate=YES;
@@ -329,7 +343,7 @@
         _transactionDetailsView =[[HWMTransactionDetailsView alloc]init];
         
         _transactionDetailsView.popViewTitle=NSLocalizedString(@"交易详情", nil);
-        
+        _transactionDetailsView.DetailsType=TransactionDetails;
         _transactionDetailsView.delegate=self;
         
     }
@@ -353,7 +367,12 @@
     ELWalletManager *manager = [ELWalletManager share];
     NSString *walletId =  manager.currentWallet.masterWalletID;
     if (self.CRTypeString.length>0) {
-        ret = [manager CancelCRProducer:walletId Pwd:pwd];
+        if (self.currentWallet.didString.length<5) {
+             [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID", nil)];
+            return;
+        }
+        NSArray *didStringArray=[self.currentWallet.didString componentsSeparatedByString:@":"];
+        ret = [manager CancelCRProducer:walletId Pwd:pwd withDIDinfo:didStringArray.lastObject];
         
     }else{
         

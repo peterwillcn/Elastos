@@ -743,7 +743,6 @@ static uint64_t feePerKB = 10000;
     int    start          = [args[idx++] intValue];
     int    count          = [args[idx++] intValue];
     String addressOrTxId  = [self cstringWithString:args[idx++]];
-    NSLog(@"请求AllTransaction===%d%d",start,count);
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -762,7 +761,6 @@ static uint64_t feePerKB = 10000;
     
     NSString *jsonString = [self stringWithCString:json.dump()];
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
-    NSLog(@"返回AllTransaction===%@",dic);
     
     return [self successProcess:command msg:dic];
     
@@ -1648,14 +1646,10 @@ static uint64_t feePerKB = 10000;
         payload["Signature"] = signature;
         nlohmann::json tx = mainchainSubWallet->CreateUpdateCRTransaction("", payload,"");
         Json signedTx = mainchainSubWallet->SignTransaction(tx, [model.pwd UTF8String]);
-        
         Json result = mainchainSubWallet->PublishTransaction(signedTx);
         NSString *resultString=[self stringWithCString:result.dump()];
         NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
         return YES;
-        //                           return [resultdic[@"Fee"] integerValue];
-        
-        
     } catch (const std:: exception & e ) {
         NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
         NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
@@ -1663,21 +1657,20 @@ static uint64_t feePerKB = 10000;
         return 0;
     }
 }
--(BOOL)CancelCRProducer:(NSString*)mainchainSubWalletId Pwd:(NSString*)pwd{
+-(BOOL)CancelCRProducer:(NSString*)mainchainSubWalletId Pwd:(NSString*)pwd withDIDinfo:(NSString*)didInfo{
     IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:mainchainSubWalletId];
-    
     try {
         IIdChainSubWallet *iidChainSubWallet=[self getIdChainSubWallet:[self cstringWithString:mainchainSubWalletId]:"IDChain"];
-        std::string did = iidChainSubWallet->GetAllDID(0, 1)["DID"][0];
-        
+        Json info=  mainchainSubWallet->GetRegisteredCRInfo();
+        NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
+        NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+        std::string did=[param[@"Info"][@"CID"] UTF8String];
         nlohmann::json payload = mainchainSubWallet->GenerateUnregisterCRPayload(did);
         std::string digest = payload["Digest"].get<std::string>();
         std::string signature = iidChainSubWallet->SignDigest(did, digest,[self cstringWithString:pwd]);
         payload["Signature"] = signature;
-        
         nlohmann::json tx = mainchainSubWallet->CreateUnregisterCRTransaction("", payload, "");
         Json signedTx = mainchainSubWallet->SignTransaction(tx, [pwd UTF8String]);
-        
         Json result = mainchainSubWallet->PublishTransaction(signedTx);
         NSString *resultString=[self stringWithCString:result.dump()];
         NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
@@ -1688,7 +1681,6 @@ static uint64_t feePerKB = 10000;
         return NO;
     }
     return YES;
-    
 }
 -(BOOL)CancelProducer:(NSString*)mainchainSubWalletId Pwd:(NSString*)pwd{
     
@@ -1696,7 +1688,6 @@ static uint64_t feePerKB = 10000;
     
     try {
         std::string pubKey = mainchainSubWallet->GetOwnerPublicKey();
-        
         nlohmann::json payload = mainchainSubWallet->GenerateCancelProducerPayload(pubKey, [pwd UTF8String]);
         
         nlohmann::json tx = mainchainSubWallet->CreateCancelProducerTransaction("", payload, "");
@@ -1706,7 +1697,6 @@ static uint64_t feePerKB = 10000;
         NSString *resultString=[self stringWithCString:result.dump()];
         NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
         return YES;
-        
     } catch (const std:: exception & e ) {
         NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
         NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
@@ -2631,10 +2621,7 @@ static uint64_t feePerKB = 10000;
     }
     
     NSString *resultString=[self stringWithCString:tx.dump()];
-    NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
-    
-    //    NSLog(@"创建DID======%@",resultdic);
-    
+    NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];    
     NSDictionary *dic=[self dictionaryWithJsonString:resultdic[@"TxHash"]];
     return [self successProcess:command msg:dic];
     

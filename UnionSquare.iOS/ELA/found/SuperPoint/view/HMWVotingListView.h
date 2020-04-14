@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HWMCRListModel.h"
 
 typedef enum : NSUInteger {
      NodeElectioType,
@@ -50,6 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void)selectAllListWithIsSelect:(BOOL)isSelectAll;
 -(void)AddAllTheCRList;
+-(void)reloadCollecWithIndex:(NSInteger)index withModel:(HWMCRListModel*)model;
 
 
 @end

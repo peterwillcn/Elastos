@@ -6,11 +6,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "HWMDIDInfoModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMDIDAuthorizationHeadView : UIView
 @property(copy,nonatomic)NSDictionary *infoDic;
+@property(strong,nonatomic)HWMDIDInfoModel *readModel;
 @end
 
 NS_ASSUME_NONNULL_END

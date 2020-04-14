@@ -29,7 +29,6 @@
     if (model.iconImageUrl.length>0) {
           [[FLTools share]loadUrlSVGAndPNG:model.iconImageUrl WithSuccessBlock:^(id data) {
               if (data) {
-                
                   self.iconImageView.image =data;
               }else{
                   self.iconImageView.image=[UIImage imageNamed:@"found_vote_initial_F"];

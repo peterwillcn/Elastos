@@ -288,7 +288,6 @@
     NSString *lastBlockTimeString=dic[@"lastBlockTimeString"];
     NSString * currentBlockHeight=@"0";
     NSString *  progress=dic[@"progress"];
-    //     NSLog(@"model.status=self.currentWallet.masterWalletID=%@",self.currentWallet.masterWalletID);
     assetsListModel *model;
     if ([self.currentWallet.masterWalletID isEqualToString:walletID]){
         if ([chainID isEqualToString:@"ELA"]) {
@@ -752,8 +751,6 @@
     }else{
         cell.linkImageView.alpha=1.f;
     }
-    NSLog(@"model.status==%@",model.status);
-    
     
     if ([model.status isEqualToString:@"Connected"]) {
         cell.statusLabel.text=model.updateTime;

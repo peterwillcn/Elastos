@@ -305,34 +305,29 @@
     return _memberListDataSource;
 }
 -(void)loadAllImageInfo:(NSMutableArray*)allListInfoArray{
-    
-    
-    dispatch_group_t group =  dispatch_group_create();
-    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        for (int i=0; i<allListInfoArray.count; i++) {
+        for (int i=0; i<self.ActiveArray.count; i++) {
             NSString *httpIP=[[FLTools share]http_IpFast];
-            HWMCRListModel *model =allListInfoArray[i];
+            HWMCRListModel *model =self.ActiveArray[i];
             if (model.cid.length>0) {
                 [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtget" header:@{} body:@{@"did":[NSString stringWithFormat:@"did:elastos:%@",model.cid]} showHUD:NO WithSuccessBlock:^(id data) {
                     NSString *jwtString=data[@"data"][@"jwt"];
                     NSDictionary *playInfoDic=[[HWMDIDManager shareDIDManager]CRInfoDecodeWithJwtStringInfo:jwtString];
+                    
                     HWMDIDInfoModel *didModel=  [HWMDIDInfoModel modelWithJSON:playInfoDic[@"credentialSubject"]];
                     model.iconImageUrl=didModel.avatar;
                     model.infoEN=didModel.introduction;
                     model.infoZH=didModel.introduction;
-//                  NSLog(@"开始----index ===%@", model.url);
+                    self.ActiveArray[i]=model;
+                    if (model.iconImageUrl.length>0) {
+                    [self.votingListV reloadCollecWithIndex:i withModel:model];
+                    }
+                 
                 } WithFailBlock:^(id data) {
                     
                 }];
                 
             }
-            
         }
-    });
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        [self.votingListV setDataSource: allListInfoArray];
-        
-    });
 }
 -(void)getNetCoinPointArray{
     NSString *httpIP=[[FLTools share]http_IpFast];
@@ -349,7 +344,6 @@
 -(void)UpdataLocalOwerlist{
     [self.ActiveArray removeAllObjects];
     NSArray *localStore  = [[NSMutableArray alloc]initWithArray: [[HMWFMDBManager sharedManagerType:CRListType] allSelectCRWithWallID:self.wallet.masterWalletID]];
-    //    NSInteger selfIndex=-1;
     
     for (int i= 0; i<self.memberListDataSource.count; i++) {
         HWMCRListModel* model=self.memberListDataSource[i];
@@ -405,17 +399,9 @@
             [[HMWFMDBManager sharedManagerType:CRListType]delectSelectCR:model WithWalletID:self.wallet.walletID];
         }
     }
-    
-    //    if (selfIndex>-1) {
-    //
-    //        HWMCRListModel *model=self.ActiveArray[selfIndex];
-    //        [self.ActiveArray removeObjectAtIndex:selfIndex];
-    //        [self.ActiveArray insertObject:model atIndex:0];
-    //    }
-    
-    //    NSLog(@"dasdhasd=====%@",self.selfModel.url);
-    [self loadAllImageInfo:self.ActiveArray];
     self.votingListV.dataSource=self.ActiveArray;
+    [self loadAllImageInfo:self.ActiveArray];
+      
     //    if (self.selfModel) {
     [self updateInfoSelf];
     //    }
@@ -514,20 +500,19 @@
     self.all_selectedButton.selected=NO;
 }
 -(void)updateDataInfo{
-    ELWalletManager *manager   =  [ELWalletManager share];
-    
-    IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-    
-    nlohmann::json info = mainchainSubWallet->GetRegisteredCRInfo();
-    NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
-    NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-    NSString *Status = param[@"Status"];
-    self.typeString =Status;
-    
-    self.typeString=self.typeString;
-    self.CROwnerDID=param[@"Info"][@"CROwnerDID"];
-    self.CROwnerPublicKey=param[@"Info"][@"CROwnerPublicKey"];
-    self.nodeName= param[@"Info"][@"NickName"];
+    //    ELWalletManager *manager   =  [ELWalletManager share];
+    //    
+    //    IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
+    //    
+    //    nlohmann::json info = mainchainSubWallet->GetRegisteredCRInfo();
+    //    NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
+    //    NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+    //    NSString *Status = param[@"Status"];
+    //    self.typeString =Status;
+    //    self.typeString=self.typeString;
+    //    self.CROwnerDID=param[@"Info"][@"DID"];
+    //    self.CROwnerPublicKey=param[@"Info"][@"CROwnerPublicKey"];
+    //    self.nodeName= param[@"Info"][@"NickName"];
     [self getNetCoinPointArray];
     
 }

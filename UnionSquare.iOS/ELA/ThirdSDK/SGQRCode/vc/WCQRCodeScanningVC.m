@@ -59,7 +59,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self defultWhite];
-    self.navigationItem.title = @"扫一扫";
+    self.navigationItem.title =NSLocalizedString(@"扫一扫", nil);
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     

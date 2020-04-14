@@ -56,7 +56,9 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
                 listModel.isAdd=YES;
             }
         }
-        [self.addTheCurrencyList addObject:listModel];
+        if ([listModel.nameIcon isEqualToString:@"ELA"]||[listModel.nameIcon isEqualToString:@"IDChain"]) {
+             [self.addTheCurrencyList addObject:listModel];
+        }
     }
     [self.baseTable reloadData];
     

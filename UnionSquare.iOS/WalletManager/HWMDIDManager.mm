@@ -188,16 +188,13 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
             }
         }
     }else{//没有
-        if (need) {
-            doc=DIDStore_LoadDID(store, did);
-            if (doc==NULL) {
-                doc=DIDStore_NewDIDByIndex(store, [self.passWord UTF8String], 0, "name");//
-                DIDDocument_Destroy(doc);
-            }
-            return self.DIDString;
-        }else{
+        doc=DIDStore_LoadDID(store, did);
+        if (doc==NULL) {
+            doc=DIDStore_NewDIDByIndex(store, [self.passWord UTF8String], 0, "name");//
+            DIDDocument_Destroy(doc);
             return @"";
         }
+        return self.DIDString;
         
     }
 }
@@ -223,8 +220,6 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     DIDURL *url=DIDURL_NewByDid(did, "name");
     DIDDocument *  doc=DIDStore_LoadDID(store, did);
     if (doc==NULL) {
-        
-        
         return NO;
     }
     DIDDocumentBuilder *build=DIDDocument_Edit(doc);
@@ -286,7 +281,11 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         return NO;
     }
     if (model==nil) {
-       return NO;
+        NSDictionary *red=[self getDIDInfo];
+        model=[[HWMDIDInfoModel alloc]init];
+        model.did=red[@"DIDString"];
+        model.didName=red[@"nickName"];
+        model.endString=red[@"endTime"];
     }
     Issuer *isser=Issuer_Create(did, NULL, store);
     const char *types[1] = {"BasicProfileCredential"};//类型名称

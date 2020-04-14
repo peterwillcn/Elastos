@@ -144,6 +144,7 @@
     if (self.isUpdate) {
         self.transactionDetailsView.popViewTitle=NSLocalizedString(@"交易详情", nil);
           [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:@""];
+        self.transactionDetailsView.DetailsType=TransactionDetails;
     }else{
        [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:aumount];
     }
@@ -268,6 +269,7 @@
         _transactionDetailsView =[[HWMTransactionDetailsView alloc]init];
         _transactionDetailsView.popViewTitle=NSLocalizedString(@"参选押金", nil);
         _transactionDetailsView.delegate=self;
+       
     }
     return _transactionDetailsView;
 }

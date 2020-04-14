@@ -238,6 +238,24 @@ import Foundation
         return value!;
      }
     
+    @objc func getDIDResolver() -> String {
+       var value: String? = nil;
+       do {
+           let item = try getPreference("did.resolver");
+           if !(item["value"] is NSNull) {
+               value = anyToString(item["value"]!);
+           }
+       }
+       catch let error {
+           print("getDIDResolver error: \(error)");
+       }
+
+       if (value == nil) {
+           value = "http://api.elastos.io:20606";
+       }
+       return value!;
+    }
+    
     @objc func getStringValue(_ key: String, _ defaultValue: String) -> String {
         var value: String? = nil;
         do {

@@ -23,6 +23,13 @@
 import Foundation
 import ElastosDIDSDK
 
+class RuntimeDIDAdapter: DIDAdapter {
+    func createIdTransaction(_ payload: String, _ memo: String?, _ confirms: Int, _ callback: @escaping (String, Int, String?) -> Void) {
+        print("RuntimeDIDAdapter createIdTransaction");
+        callback("", 0, nil);
+    }
+}
+
 public class DIDVerifier {
     private static let mDIDStore: DIDStore? = nil
 
@@ -30,20 +37,15 @@ public class DIDVerifier {
         let dataDir = dataPath + "/did_stores/" + "DIDVerifier"
         let cacheDir = dataPath + "/did_stores/" + ".cache.did.elastos"
 
-        Log.i("DIDVerifier", "dataDir: \(dataDir)")
+        print("DIDVerifier", "dataDir: \(dataDir)")
 
-        let resolverUrl = ConfigManager.getShareInstance().getStringValue("did.resolver", "http://api.elastos.io:20606")
+        let resolverUrl = PreferenceManager.getShareInstance().getDIDResolver();
 
         do {
-            // TODO: IN A MESS - WAITING FOR MULTIE INSTANCE SUPPORT IN SIWFT DID SDK TO CONTINUE
-            /* TPDP let backend = DIDPlugin.getDIDBackendInstance()
-            mDIDStore = DIDStore.open("filesystem", dataDir, new DIDAdapter() {
-                @Override
-                public void createIdTransaction(String payload, String memo, int confirms, TransactionCallback callback) {
-                    Log.i("DIDVerifier", "createIdTransaction");
-                    callback.accept("", 0, null);
-                }
-            });*/
+            try DIDBackend.initializeInstance(resolverUrl, cacheDir);
+
+            let adapter = RuntimeDIDAdapter();
+            let mDIDStore = try DIDStore.open(atPath: dataDir, withType: "filesystem", adapter: adapter);
         } catch {
             print(error)
         }
@@ -62,7 +64,7 @@ public class DIDVerifier {
         do {
             didurl = try DIDURL(epk_didurl)
             
-            guard let did = didurl.did else {
+            guard let did = didurl.did as DID? else {
                 return false
             }
             
@@ -73,7 +75,7 @@ public class DIDVerifier {
                     return false
                 }
             }
-            ret = try diddoc?.verify(didurl, epk_signature, epk_sha_str) ?? false
+            ret = try diddoc.verify(withId: didurl, using: epk_signature, onto: epk_sha_str.data(using: .utf8)!)
         } catch {
             print(error)
         }

@@ -45,7 +45,7 @@ static FLTools *tool;
     //    NSMutableArray *b = [NSMutableArray array];
     //    for (FLWallet *a in list) {
     //        NSString* c = [a modelToJSONString];
-    //        NSLog(@"__+_+%@",a.walletName);
+    //        //NSLog(@"__+_+%@",a.walletName);
     //
     //        [b addObject:c];
     //    }
@@ -129,19 +129,15 @@ static FLTools *tool;
 - (NSString *)YMDCommunityTimeConversionTimeFromTimesTamp:(NSString *)timeStr
 
 {
-    
-    double time = [timeStr longLongValue];
-    
-    NSDate *myDate = [NSDate dateWithTimeIntervalSince1970:time];
-    
+   NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    format.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    timeStr =[self CNTOYMDHMSgetTimeFromTimesTamp:timeStr];
+    NSDate *timeDate = [format dateFromString:timeStr]; //
+    format.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
+    NSDate *utcDate = [format dateFromString:timeStr];  // Summary
     NSDateFormatter *formatter = [NSDateFormatter new];
-    
-    [formatter setDateFormat:@"YYYY.MM.dd"];
-    
-    //将时间转换为字符串
-    
-    NSString *timeS = [formatter stringFromDate:myDate];
-    
+     [formatter setDateFormat:@"YYYY.MM.dd"];
+    NSString *timeS = [formatter stringFromDate:utcDate];
     return timeS;
     
 }
@@ -256,7 +252,7 @@ static FLTools *tool;
     
     NSString *currentTimeString = [formatter stringFromDate:datenow];
     
-    //    NSLog(@"currentTimeString =  %@",currentTimeString);
+    //    //NSLog(@"currentTimeString =  %@",currentTimeString);
     
     return currentTimeString;
     
@@ -304,7 +300,7 @@ static FLTools *tool;
                                       raiseOnUnderflow:NO
                                       
                                       raiseOnDivideByZero:YES];
-    NSDecimalNumber *last=[MultiplyingETH decimalNumberByDividingBy:basePowDecimalNumber withBehavior:roundUp];    
+    NSDecimalNumber *last=[MultiplyingETH decimalNumberByDividingBy:basePowDecimalNumber withBehavior:roundUp];
     return last.floatValue;
     
     
@@ -559,7 +555,7 @@ static FLTools *tool;
                                                           error:&err];
     if(err)
     {
-        NSLog(@"json解析失败：%@",err);
+        //NSLog(@"json解析失败：%@",err);
         return nil;
     }
     return dic;
@@ -1127,7 +1123,7 @@ static FLTools *tool;
     CGFloat maxChar=300.0;
     int max =ceil(contentString.length/maxChar);
     int min=floor(contentString.length/maxChar);
-    NSLog(@"二维码max==%d min===%d",max,min);
+    //NSLog(@"二维码max==%d min===%d",max,min);
     for (NSInteger i=0; i<max; i++) {
         NSString *dataString;
         if ((i==min && max>min) ) {
@@ -1148,7 +1144,7 @@ static FLTools *tool;
         };
         NSString *QRCodeString=[self returnJSONStringWithDictionary:dic];
         [allQRCodeArray addObject:QRCodeString];
-        NSLog(@"二维码 dic==%@",dic);
+        //NSLog(@"二维码 dic==%@",dic);
         
     }
     return allQRCodeArray;
@@ -1163,7 +1159,7 @@ static FLTools *tool;
     if (errn) {
         
         
-        NSLog(@"e:%@",errn);
+        //NSLog(@"e:%@",errn);
         
         
     }
@@ -1419,7 +1415,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
     NSString *jsonString;
     if (!jsonData) {
-        NSLog(@"%@",error);
+        //NSLog(@"%@",error);
     }else{
         jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
@@ -1515,7 +1511,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     NSString *path=[NSString stringWithFormat:@"%@/_CodeSignature/CodeResources",bundlePath];
     NSData *data=[manger contentsAtPath:path];
     NSString *hashStr=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"\n %@",hashStr);
+    //NSLog(@"\n %@",hashStr);
     return YES;
 }
 //生成资源文件名及对应的hash的字典， eg:@{@"appicon":@"wegdfser45t643232324234"}；
@@ -1538,7 +1534,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     
     //    [formatter setDateStyle:kCFDateFormatterNoStyle];
-    //    
+    //
     //    [formatter setTimeStyle:kCFDateFormatterNoStyle];
     
     
@@ -1553,7 +1549,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     //时间转时间戳的方法:
     NSString * timeSp = [[NSNumber numberWithDouble:[date timeIntervalSince1970]] stringValue];
     
-    NSLog(@"将某个时间转化成 时间戳timeSp:%ld",(long)timeSp); //时间戳的值
+    //NSLog(@"将某个时间转化成 时间戳timeSp:%ld",(long)timeSp); //时间戳的值
     //    [self TimeFormatConversion:timeSp ];
     return timeSp;
     
@@ -1587,7 +1583,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     
     NSString *jsonString;
     if (!jsonData) {
-        NSLog(@"%@",error);
+        //NSLog(@"%@",error);
     }else{
         jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
     }

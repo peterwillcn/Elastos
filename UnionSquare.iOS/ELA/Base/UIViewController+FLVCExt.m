@@ -183,7 +183,7 @@ gl.colors = @[(__bridge id)fclolr.CGColor,(__bridge id)tcolor.CGColor];
 //            }];
             //分享 成功
         } else  {
-//            NSLog(@"cancled");
+//            //NSLog(@"cancled");
             //分享 取消
         }
     };
@@ -221,7 +221,7 @@ gl.colors = @[(__bridge id)fclolr.CGColor,(__bridge id)tcolor.CGColor];
                 break;
             }
             case AVAuthorizationStatusRestricted: {
-//                NSLog(@"因为系统原因, 无法访问相册");
+//                //NSLog(@"因为系统原因, 无法访问相册");
                 break;
             }
                 
@@ -430,7 +430,7 @@ NSString *leftTime=
     
     if (!jsonData) {
         
-//        NSLog(@"%@",error);
+//        //NSLog(@"%@",error);
         
     }else{
         jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];

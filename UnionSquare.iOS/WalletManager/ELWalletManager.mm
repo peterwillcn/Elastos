@@ -481,7 +481,7 @@ static uint64_t feePerKB = 10000;
     //            [masterWalletListJson addObject:str];
     //        }
     //        NSString *msg = [self arrayToJSONString:masterWalletListJson];
-    //        NSLog(@"钱包===%@",msg);
+    //        //NSLog(@"钱包===%@",msg);
     //        return [self successProcess:command msg:msg];
     //    } catch (const std:: exception & e ) {
     //

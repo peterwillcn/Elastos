@@ -167,8 +167,8 @@
  iOS 9.0 以下 程序运行过程中调用
  */
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url{
-    NSLog(@"URL scheme:%@", [url scheme]);
-    NSLog(@"URL host:%@", [url host]);
+    //NSLog(@"URL scheme:%@", [url scheme]);
+    //NSLog(@"URL host:%@", [url host]);
     return YES;
 }
 
@@ -177,9 +177,9 @@
  */
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options{
     
-    NSLog(@"URL scheme:%@", [url scheme]);
+    //NSLog(@"URL scheme:%@", [url scheme]);
     //参数
-    NSLog(@"URL host:%@", [url host]);
+    //NSLog(@"URL host:%@", [url host]);
     NSString *path = [url absoluteString];
     path = [path stringByRemovingPercentEncoding];
     NSMutableString *string = [[NSMutableString alloc] initWithString:path];
@@ -242,21 +242,21 @@
 //        NSFileManager *fileManager = [NSFileManager defaultManager];
 //        NSString *filePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@%@",sourceName,fileName]];
 //        if ([fileManager fileExistsAtPath:filePath]) {
-//            NSLog(@"文件已存在");
+//            //NSLog(@"文件已存在");
 //            [SVProgressHUD showErrorWithStatus:@"文件已存在"];
 //            return YES;
 //        }
 ////        [MRTools creatFilePathInManager:sourceName];
 //        BOOL isSuccess = [fileManager copyItemAtPath:string toPath:filePath error:nil];
 //        if (isSuccess == YES) {
-//            NSLog(@"拷贝成功");
+//            //NSLog(@"拷贝成功");
 //            [SVProgressHUD showSuccessWithStatus:@"文件拷贝成功"];
 //        } else {
-//            NSLog(@"拷贝失败");
+//            //NSLog(@"拷贝失败");
 //            [SVProgressHUD showErrorWithStatus:@"文件拷贝失败"];
 //        }
 //    }
-//    NSLog(@"application:openURL:options:");
+//    //NSLog(@"application:openURL:options:");
 //    return  YES;
 //}
 @end

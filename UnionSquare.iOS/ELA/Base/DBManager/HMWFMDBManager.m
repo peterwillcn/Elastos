@@ -67,18 +67,18 @@ static HMWFMDBManager * _manager =nil;
                 NSString *thePercentageMaxStr = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ INTEGER",@"wallet",@"didString"];
                          BOOL worked = [_manager executeUpdate:thePercentageMaxStr];
                          if(worked){
-                             NSLog(@"didString插入成功");
+                             //NSLog(@"didString插入成功");
                          }else{
-                             NSLog(@"didString插入失败");
+                             //NSLog(@"didString插入失败");
                          }
             }
          
     //        NSString *thePercentageCurrStr = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ INTEGER",@"sideChain",@"sideChainNameTime"];
     //        BOOL Currworked = [_manager executeUpdate:thePercentageCurrStr];
     //        if(Currworked){
-    //            NSLog(@"thePercentageCurr插入成功");
+    //            //NSLog(@"thePercentageCurr插入成功");
     //        }else{
-    //            NSLog(@"thePercentageCurr插入失败");
+    //            //NSLog(@"thePercentageCurr插入失败");
     //        }
     
     
@@ -164,9 +164,9 @@ static HMWFMDBManager * _manager =nil;
             NSString *sideChainNameTime = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ INTEGER",@"sideChain",@"sideChainNameTime"];
             BOOL worked = [_manager executeUpdate:sideChainNameTime];
             if(worked){
-                NSLog(@"sideChainNameTime插入成功");
+                //NSLog(@"sideChainNameTime插入成功");
             }else{
-                NSLog(@"sideChainNameTime插入失败");
+                //NSLog(@"sideChainNameTime插入失败");
             }
             p.sideChainNameTime=@"--:--";
         }
@@ -174,9 +174,9 @@ static HMWFMDBManager * _manager =nil;
             NSString *thePercentageMax = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ INTEGER",@"sideChain",@"thePercentageMax"];
             BOOL Currworked = [_manager executeUpdate:thePercentageMax];
             if(Currworked){
-                NSLog(@"thePercentageMax插入成功");
+                //NSLog(@"thePercentageMax插入成功");
             }else{
-                NSLog(@"thePercentageMax插入失败");
+                //NSLog(@"thePercentageMax插入失败");
             }
             p.thePercentageMax=@"100";
             
@@ -185,15 +185,15 @@ static HMWFMDBManager * _manager =nil;
 //            NSString *thePercentageCurr = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ INTEGER",@"sideChain",@"thePercentageCurr"];
 //            BOOL Currworked = [_manager executeUpdate:thePercentageCurr];
 //            if(Currworked){
-//                NSLog(@"thePercentageCurr插入成功");
+//                //NSLog(@"thePercentageCurr插入成功");
 //            }else{
-//                NSLog(@"thePercentageCurr插入失败");
+//                //NSLog(@"thePercentageCurr插入失败");
 //            }
 //            p.thePercentageCurr=@"100";
 //            
 //        }
         [allRecords addObject:p];
-//        NSLog(@"本地存储==%@===%@==%@==%@====%@",p.walletID,p.sideChainName,p.thePercentageCurr,p.thePercentageMax,p.sideChainNameTime);
+//        //NSLog(@"本地存储==%@===%@==%@==%@====%@",p.walletID,p.sideChainName,p.thePercentageCurr,p.thePercentageMax,p.sideChainNameTime);
         
         
     }
@@ -298,10 +298,10 @@ static HMWFMDBManager * _manager =nil;
         }
         NSString *sql =@"Update sideChain set sideChainNameTime=? ,thePercentageCurr=?,thePercentageMax=? where walletID=? and sideChainName=? ";
         if ( [self executeUpdate:sql,model.sideChainNameTime,model.thePercentageCurr,model.thePercentageMax,model.walletID,model.sideChainName]) {
-//            NSLog(@"更新==%@===%@==%@==%@====%@",model.walletID,model.sideChainName,model.thePercentageCurr,model.thePercentageMax,model.sideChainNameTime);
+//            //NSLog(@"更新==%@===%@==%@==%@====%@",model.walletID,model.sideChainName,model.thePercentageCurr,model.thePercentageMax,model.sideChainNameTime);
             return YES;
         }else{
-//            NSLog(@"更新失败==%@===%@==%@==%@====%@",model.walletID,model.sideChainName,model.thePercentageCurr,model.thePercentageMax,model.sideChainNameTime);
+//            //NSLog(@"更新失败==%@===%@==%@==%@====%@",model.walletID,model.sideChainName,model.thePercentageCurr,model.thePercentageMax,model.sideChainNameTime);
             return NO;
         };
     }else{
@@ -362,7 +362,6 @@ static HMWFMDBManager * _manager =nil;
     if (wallet.walletAddress.length==0) {
          wallet.walletAddress=@"0";
     }
-    wallet.didString=@"0";
     NSString *sql =@"insert into wallet(walletID,walletAddress,walletName,didString) values(?,?,?,?)";
     @try {
         if ([self executeUpdate:sql,wallet.walletID,wallet.walletAddress,wallet.walletName,wallet.didString]) {
@@ -431,11 +430,11 @@ static HMWFMDBManager * _manager =nil;
     
     NSString *sql =@"delete from wallet where walletID = ?";
     if ([self executeUpdate:sql,wallet.walletID]) {
-        NSLog(@"成功===删除钱包%@",wallet.walletID);
+        //NSLog(@"成功===删除钱包%@",wallet.walletID);
         [self delectSideChain:wallet.walletID withIconName:nil];
         return YES;
     }else{
-        NSLog(@"失败===删除钱包%@",wallet.walletID);
+        //NSLog(@"失败===删除钱包%@",wallet.walletID);
         return NO;
     }
 }
@@ -515,9 +514,9 @@ static HMWFMDBManager * _manager =nil;
     NSString *thePercentageCurr = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ INTEGER",@"RMList",@"voterateCR"];
          BOOL Currworked = [_manager executeUpdate:thePercentageCurr];
          if(Currworked){
-             NSLog(@"voterateCR插入成功");
+             //NSLog(@"voterateCR插入成功");
          }else{
-             NSLog(@"voterateCR插入失败");
+             //NSLog(@"voterateCR插入失败");
          }
     
     FMResultSet *set=[self executeQuery:sql];

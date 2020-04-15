@@ -346,6 +346,7 @@
         _transactionDetailsView.DetailsType=TransactionDetails;
         _transactionDetailsView.delegate=self;
         
+        
     }
     
     return _transactionDetailsView;

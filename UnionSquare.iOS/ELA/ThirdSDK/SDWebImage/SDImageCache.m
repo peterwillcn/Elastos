@@ -140,7 +140,7 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
     const char *currentQueueLabel = dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL);
     const char *ioQueueLabel = dispatch_queue_get_label(self.ioQueue);
     if (strcmp(currentQueueLabel, ioQueueLabel) != 0) {
-        NSLog(@"This method should be called from the ioQueue");
+        //NSLog(@"This method should be called from the ioQueue");
     }
 }
 

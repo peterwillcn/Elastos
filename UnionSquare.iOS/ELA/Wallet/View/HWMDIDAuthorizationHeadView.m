@@ -28,6 +28,8 @@
         
         self.infoTextLabel.text=NSLocalizedString(@"申请使用您的DID信息（包括但不限于存储、展示等用途）：", nil);
         self.showTextLabel.text=NSLocalizedString(@"- DID基本信息", nil);
+        self.iconImageView.layer.cornerRadius=5.f;
+        self.iconImageView.layer.masksToBounds=YES;
         
         
     }

@@ -41,7 +41,7 @@
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         if (addressList.count == 0) {
-            NSLog(@"addressList can't be empty");
+            //NSLog(@"addressList can't be empty");
             return;
         }
         NSMutableArray *singlePingerArray = [NSMutableArray array];
@@ -102,7 +102,7 @@
                     }
                     case NENSinglePingStatusDidFinished:
                     {
-                        NSLog(@"%@ 完成",pingitem.hostName);
+                        //NSLog(@"%@ 完成",pingitem.hostName);
                         dispatch_group_leave(group);
                         break;
                     }
@@ -114,7 +114,7 @@
         }
         
         dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-            NSLog(@"计算延迟");
+            //NSLog(@"计算延迟");
             for (NENAddressItem *item in resultArray) {
                 if ( (item.delayTimes.count == 0 && ![needRemoveAddressArray containsObject:item.hostName]) ||
                     item.delayMillSeconds == 0) {
@@ -140,7 +140,7 @@
                 [array addObject:item.hostName];
             }
             NENAddressItem *item = resultArray.firstObject;
-            NSLog(@"最快的地址速度是: %.2f ms",item.delayMillSeconds);
+            //NSLog(@"最快的地址速度是: %.2f ms",item.delayMillSeconds);
             completionHandler(item.hostName, [array copy]);
         });
     }];

@@ -294,14 +294,14 @@ NSInteger timeOut = 20;
     
     /* 开始请求下载 */
     NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
-        NSLog(@"下载进度：%.0f％", downloadProgress.fractionCompleted * 100);
+        //NSLog(@"下载进度：%.0f％", downloadProgress.fractionCompleted * 100);
         
     } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
         /* 设定下载到的位置 */
         return [NSURL fileURLWithPath:filePath];
         
     } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
-        NSLog(@"下载完成");
+        //NSLog(@"下载完成");
         successBlock(url.lastPathComponent);
         
     }];

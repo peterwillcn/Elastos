@@ -133,7 +133,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     return _ShowPoPWDView;
 }
 -(void)makeUI{
-    self.dataSorse =@[NSLocalizedString(@"请输入DID名称（必填）", nil)
+    self.dataSorse =@[NSLocalizedString(@"请输入姓名(必填)", nil)
 //    ,NSLocalizedString(@"请选择钱包", nil),NSLocalizedString(@"主管理公钥（发布后不可更改）", nil),NSLocalizedString(@"DID（与主管理公钥一一对应）",nil)
     ,NSLocalizedString(@"请选择失效日期", nil)];
     [self.nextButton setTitle:NSLocalizedString(@"下一步", nil) forState: UIControlStateNormal];
@@ -384,7 +384,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 - (IBAction)nextButtonEvent:(id)sender {
     [self.view endEditing:YES];
     if (self.DIDInfoModel.didName.length==0) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入DID名称（必填）", nil)];
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入姓名(必填)", nil)];
         return;
     }
 //    if (self.DIDInfoModel.did.length==0) {

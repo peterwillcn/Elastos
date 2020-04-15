@@ -51,7 +51,7 @@
 }
 
 - (void)dealloc {
-//    NSLog(@"WCQRCodeScanningVC - dealloc");
+//    //NSLog(@"WCQRCodeScanningVC - dealloc");
     [self removeScanningView];
 }
 
@@ -153,7 +153,7 @@
 
 #pragma mark - - - SGQRCodeScanManagerDelegate
 - (void)QRCodeScanManager:(SGQRCodeScanManager *)scanManager didOutputMetadataObjects:(NSArray *)metadataObjects {
-    NSLog(@"metadataObjects - - %@", metadataObjects);
+    //NSLog(@"metadataObjects - - %@", metadataObjects);
     if (metadataObjects != nil && metadataObjects.count > 0) {
         [scanManager playSoundName:@"SGQRCode.bundle/sound.caf"];
         [scanManager stopRunning];

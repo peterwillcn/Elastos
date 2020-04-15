@@ -65,7 +65,7 @@
             } // else - if it's not set it remains at up
             CFRelease((CFTypeRef) properties);
         } else {
-            //NSLog(@"NO PROPERTIES, FAIL");
+            ////NSLog(@"NO PROPERTIES, FAIL");
         }
         CFRelease(imageSource);
     }

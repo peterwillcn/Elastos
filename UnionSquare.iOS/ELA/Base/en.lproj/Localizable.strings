@@ -739,6 +739,7 @@
 "温馨提示：本页内容均非必填，仅保存在本地，供用户授权使用。"="Note: All fields on this page are non-mandatory. Content is saved locally and can only be shared by user authorization.";
 "请输入"="Enter";
 "Google账号"="Google account";
+"请输入姓名(必填)"="Enter name (Required)";
 
 "请选择"="Choose ";
 "添加信息"="Add information";
@@ -748,6 +749,7 @@
 "请输入手机号"="Enter mobile number";
 "请输入区号(如+86)"="Enter country code(e.g+86)";
 "添加信息"="Add information";
+"加载失败，请稍后再试"="Failed to load. Please try again later";
 "err10000"="Json parse error of action parameters";
 "err10001"="Parameters error of action";
 "err10002"="Invalid master wallet";

@@ -52,7 +52,7 @@
 - (IBAction)updatesEvent:(id)sender {
     [self.view endEditing:YES];
     if (self.model.didName.length==0) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入DID名称（必填）", nil)];
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入姓名(必填)", nil)];
         return;
     }
     [self showPWDView];
@@ -109,7 +109,7 @@
            return;
        }
     if (self.model.didName.length==0) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入DID名称（必填）", nil)];
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入姓名(必填)", nil)];
         return;
     }
     

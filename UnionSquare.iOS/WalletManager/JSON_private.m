@@ -12,7 +12,7 @@
                                                          error:&error];
 
     if (error != nil) {
-        NSLog(@"NSArray JSONString error: %@", [error localizedDescription]);
+        //NSLog(@"NSArray JSONString error: %@", [error localizedDescription]);
         return nil;
     } else {
         return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -31,7 +31,7 @@
                                                          error:&error];
 
     if (error != nil) {
-        NSLog(@"NSDictionary JSONString error: %@", [error localizedDescription]);
+        //NSLog(@"NSDictionary JSONString error: %@", [error localizedDescription]);
         return nil;
     } else {
         return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -50,7 +50,7 @@
                                                   error:&error];
     
     if (error != nil) {
-        NSLog(@"NSString JSONObject error: %@, Malformed Data: %@", [error localizedDescription], self);
+        //NSLog(@"NSString JSONObject error: %@, Malformed Data: %@", [error localizedDescription], self);
     }
 
     return object;
@@ -64,7 +64,7 @@
                                                   error:&error];
 
     if (error != nil) {
-        NSLog(@"NSString JSONObject error: %@", [error localizedDescription]);
+        //NSLog(@"NSString JSONObject error: %@", [error localizedDescription]);
     }
 
     return object;

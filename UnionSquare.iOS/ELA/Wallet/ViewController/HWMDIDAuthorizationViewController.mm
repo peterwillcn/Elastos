@@ -40,10 +40,13 @@ UINib *_nib;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"vote_rule_close"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(goBack)];
     [self setBackgroundImg:@""];
     [self makeUI];
+    
 }
 -(void)makeUI{
     [self.AgreedToButton setTitle:NSLocalizedString(@"同意", nil) forState:UIControlStateNormal];
     [self.RefusedToButon setTitle:NSLocalizedString(@"不同意", nil) forState:UIControlStateNormal];
+    [[HMWCommView share]makeBordersWithView:self.AgreedToButton];
+    [[HMWCommView share]makeBordersWithView:self.RefusedToButon];
     _nib=[UINib nibWithNibName:cellDIDString bundle:nil];
     [self.tabel registerNib:_nib forCellReuseIdentifier:cellDIDString];
     self.tabel.rowHeight=50.f;

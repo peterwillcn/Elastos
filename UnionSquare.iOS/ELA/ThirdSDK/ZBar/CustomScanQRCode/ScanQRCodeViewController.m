@@ -273,7 +273,7 @@
         return;
     }
     
-    NSLog(@"urlStr: %@",urlStr);
+    //NSLog(@"urlStr: %@",urlStr);
     
     //二维码扫描成功，弹窗提示
     UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"扫描成功" message:[NSString stringWithFormat:@"二维码内容:\n%@",urlStr] preferredStyle:UIAlertControllerStyleAlert];

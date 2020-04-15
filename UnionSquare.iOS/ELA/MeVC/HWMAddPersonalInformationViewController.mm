@@ -479,6 +479,9 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         [self.defMArray addObject:indeString];
     }
     [self.showInfoListAarry removeObject:indeString];
+    if (self.showInfoListAarry.count==0) {
+        self.nextButton.alpha=0.f;
+    }
 }
 - (void)closeView{
     [self.showAllInfoView removeFromSuperview];
@@ -551,7 +554,9 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
             break;
     }
     
-    
+    if (self.nextButton.alpha==0) {
+        self.nextButton.alpha=1;
+    }
     
     [self.table reloadData];
     

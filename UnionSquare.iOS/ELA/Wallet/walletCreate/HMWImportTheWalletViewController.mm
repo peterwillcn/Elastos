@@ -18,7 +18,7 @@
 #import "HMWFMDBManager.h"
 #import "FMDBWalletModel.h"
 #import "sideChainInfoModel.h"
-
+#import "HWMDIDManager.h"
 
 
 @interface HMWImportTheWalletViewController ()<HMWImTheMnemonicWordViewDelegate,HMWImKeystoreViewDeleagte>
@@ -173,6 +173,7 @@
         NSString *status =[NSString stringWithFormat:@"%@",subResult.status];
     
            if([status isEqualToString:@"1"]){
+        model.didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:wallet.passWord withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:wallet.masterWalletID needCreatDIDString:NO];
         [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
                sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
                sideModel.walletID=model.walletID;
@@ -181,7 +182,6 @@
                sideModel.thePercentageCurr=@"0";
                 sideModel.thePercentageMax=@"100";
                [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
-        
                [self successfulSwitchingRootVC];
                
                
@@ -219,8 +219,6 @@
     PluginResult *result= [[ELWalletManager share]importWalletWithKeystore:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if([status isEqualToString:@"1"]){
-        NSLog(@"导入钱包成功");
-        
         [self getAllSubWalletsWith:wallet];
         
     }
@@ -245,6 +243,7 @@
             FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
             model.walletID=Wallet.masterWalletID;
             model.walletName=Wallet.walletName;
+             model.didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:Wallet.passWord withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:Wallet.masterWalletID needCreatDIDString:NO];
             [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
             sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
             sideModel.walletID=model.walletID;
@@ -253,7 +252,6 @@
             sideModel.sideChainNameTime=@"--:--";
             sideModel.thePercentageCurr=@"0";
             sideModel.thePercentageMax=@"100";
-            NSLog(@"添加成功");
             [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
             [self successfulSwitchingRootVC];
         }
@@ -272,6 +270,7 @@
         model.walletID=wallet.masterWalletID;
         model.walletName=wallet.walletName;
         model.TypeW=SingleSign;
+        model.didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:wallet.passWord withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:wallet.masterWalletID needCreatDIDString:NO];
         [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
         sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
         sideModel.walletID=model.walletID;

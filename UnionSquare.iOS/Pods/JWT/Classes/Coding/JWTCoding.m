@@ -66,7 +66,7 @@ static NSString *JWTErrorDomain = @"com.karma.jwt";
         if (error) {
             *error = generatedError;
         }
-        NSLog(@"%@ Could not encode segment: %@", self.class, generatedError.localizedDescription);
+        //NSLog(@"%@ Could not encode segment: %@", self.class, generatedError.localizedDescription);
         return nil;
     }
     
@@ -623,7 +623,7 @@ static NSString *JWTErrorDomain = @"com.karma.jwt";
         if (error) {
             *error = generatedError;
         }
-        NSLog(@"%@ Could not encode segment: %@", self.class, generatedError.localizedDescription);
+        //NSLog(@"%@ Could not encode segment: %@", self.class, generatedError.localizedDescription);
         return nil;
     }
     

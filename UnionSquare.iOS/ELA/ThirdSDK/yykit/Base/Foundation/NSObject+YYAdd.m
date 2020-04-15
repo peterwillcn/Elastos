@@ -377,7 +377,7 @@ else if (size <= 4 * _size_ ) { \
         obj = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self]];
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        //NSLog(@"%@", exception);
     }
     return obj;
 }
@@ -388,7 +388,7 @@ else if (size <= 4 * _size_ ) { \
         obj = [unarchiver unarchiveObjectWithData:[archiver archivedDataWithRootObject:self]];
     }
     @catch (NSException *exception) {
-        NSLog(@"%@", exception);
+        //NSLog(@"%@", exception);
     }
     return obj;
 }

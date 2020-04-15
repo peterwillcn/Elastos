@@ -72,7 +72,7 @@
 //            UIGraphicsEndImageContext();
 //            return imageOut;
     } @catch (NSException *exception) {
-        NSLog(@"exception-----%@",exception);
+        //NSLog(@"exception-----%@",exception);
         return nil;
     } @finally {
         

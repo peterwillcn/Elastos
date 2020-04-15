@@ -115,11 +115,11 @@ It is similar in concept to other popular logging frameworks such as log4j, yet 
 
 #### Lumberjack is Fast
 
-In most cases it is an order of magnitude faster than NSLog.
+In most cases it is an order of magnitude faster than //NSLog.
 
 #### Lumberjack is Simple
 
-It takes as little as a single line of code to configure lumberjack when your application launches. Then simply replace your NSLog statements with DDLog statements and that's about it. (And the DDLog macros have the exact same format and syntax as NSLog, so it's super easy.)
+It takes as little as a single line of code to configure lumberjack when your application launches. Then simply replace your //NSLog statements with DDLog statements and that's about it. (And the DDLog macros have the exact same format and syntax as //NSLog, so it's super easy.)
 
 #### Lumberjack is Powerful:
 

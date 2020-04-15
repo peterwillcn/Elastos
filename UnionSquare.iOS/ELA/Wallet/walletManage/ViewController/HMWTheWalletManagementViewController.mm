@@ -296,12 +296,20 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
     }else if ([title isEqualToString:NSLocalizedString(@"DID",nil)]){
         if (self.isOpen) {
             if (self.currentWallet.didString.length>5) {
-                HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
-                DIDInfoVC.currentWallet=self.currentWallet;
-                [self.navigationController pushViewController:DIDInfoVC animated:YES];
+                [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
+                BOOL hasChain=[[HWMDIDManager shareDIDManager]HasBeenOnTheChain];
+                if (hasChain) {
+                    HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
+                    DIDInfoVC.currentWallet=self.currentWallet;
+                    [self.navigationController pushViewController:DIDInfoVC animated:YES];
+                }else{
+                    HWMCreateDIDViewController *CreateDIDVC=[[HWMCreateDIDViewController alloc]init];
+                    [self.navigationController pushViewController:CreateDIDVC animated:YES];
+                }
+                
             }else{
                 [self showDIDInfoOrCreateDIDInfo];
-
+                
             }
         }else{
             UIView *mainView =[self mainWindow];
@@ -311,7 +319,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
                 make.left.right.top.bottom.equalTo(mainView);
             }];
         }
-
+        
     }
 }
 -(void)showDIDInfoOrCreateDIDInfo{
@@ -460,14 +468,14 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
             return;
         }
         
-        NSString *didString=  [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwdString withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
-        if (didString.length>0) {
+        NSString *didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
+        BOOL hasChain=[[HWMDIDManager shareDIDManager]HasBeenOnTheChain];
+        if (hasChain&&didString.length>5) {
             FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
             model.walletID=self.currentWallet.masterWalletID;
             model.walletName=self.currentWallet.walletName;
             model.walletAddress=self.currentWallet.walletAddress;
             model.didString=didString;
-            
             [[HMWFMDBManager sharedManagerType:walletType]updateRecordWallet:model];
             [[HWMDIDManager shareDIDManager]saveDIDCredentialWithDIDModel:nil];
             [[NSNotificationCenter defaultCenter]postNotificationName:updataWallet object:@"index"];

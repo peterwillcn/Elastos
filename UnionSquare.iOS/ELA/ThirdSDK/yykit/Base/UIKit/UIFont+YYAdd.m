@@ -100,7 +100,7 @@ YYSYNTH_DUMMY_CLASS(UIFont_YYAdd)
     CFErrorRef error;
     BOOL suc = CTFontManagerRegisterFontsForURL((__bridge CFTypeRef)url, kCTFontManagerScopeNone, &error);
     if (!suc) {
-        NSLog(@"Failed to load font: %@", error);
+        //NSLog(@"Failed to load font: %@", error);
     }
     return suc;
 }
@@ -121,7 +121,7 @@ YYSYNTH_DUMMY_CLASS(UIFont_YYAdd)
     BOOL suc = CTFontManagerRegisterGraphicsFont(fontRef, &errorRef);
     if (!suc) {
         CFRelease(fontRef);
-        NSLog(@"%@", errorRef);
+        //NSLog(@"%@", errorRef);
         return nil;
     } else {
         CFStringRef fontName = CGFontCopyPostScriptName(fontRef);
@@ -138,7 +138,7 @@ YYSYNTH_DUMMY_CLASS(UIFont_YYAdd)
     CFErrorRef errorRef;
     BOOL suc = CTFontManagerUnregisterGraphicsFont(fontRef, &errorRef);
     CFRelease(fontRef);
-    if (!suc) NSLog(@"%@", errorRef);
+    if (!suc) //NSLog(@"%@", errorRef);
     return suc;
 }
 

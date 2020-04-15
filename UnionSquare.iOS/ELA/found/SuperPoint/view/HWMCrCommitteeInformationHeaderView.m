@@ -26,6 +26,8 @@
         self =[[NSBundle mainBundle]loadNibNamed:@"HWMCrCommitteeInformationHeaderView" owner:nil options:nil].firstObject;
         self.lookInfoButton.alpha=0.f;
         self.didStringLabel.lineBreakMode=NSLineBreakByTruncatingMiddle;
+        self.headIcomImageView.layer.cornerRadius=25.f;
+        self.headIcomImageView.layer.masksToBounds=YES;
     }
     return self;
     

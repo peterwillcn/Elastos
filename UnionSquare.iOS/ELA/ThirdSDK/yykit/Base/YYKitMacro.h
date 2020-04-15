@@ -207,7 +207,7 @@ static inline CFTypeRef YYCFAutorelease(CFTypeRef CF_RELEASES_ARGUMENT arg) {
     YYBenchmark(^{
         // code
     }, ^(double ms) {
-        NSLog("time cost: %.2f ms",ms);
+        //NSLog("time cost: %.2f ms",ms);
     });
  
  */

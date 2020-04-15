@@ -309,7 +309,7 @@
             model.updateTime=[NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
-                //                NSLog(@"修改侧链时间====%@======%@======%@====%@====%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
+                //                //NSLog(@"修改侧链时间====%@======%@======%@====%@====%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
             });
         }
         if (self.isScro==NO) {
@@ -777,15 +777,17 @@
         if (playInfoDic){
             [self ShowPlayInfoText:playInfoDic withJWTString:QRCodeString];
         }
-    }else if ([[ELWalletManager share]IsAddressValidWithMastID:self.currentWallet.masterWalletID WithAddress:QRCodeString]){
-       HMWtransferViewController *HMWtransferVC=[[HMWtransferViewController alloc]init];
-        HMWtransferVC.currentWallet=self.currentWallet;
-        assetsListModel *model=self.dataSoureArray[0];
-        HMWtransferVC.model=model;
-        HMWtransferVC.toAddressString=QRCodeString;
-        [self.navigationController pushViewController:HMWtransferVC animated:NO];
-        
-    }else{
+    }
+//    else if ([[ELWalletManager share]IsAddressValidWithMastID:self.currentWallet.masterWalletID WithAddress:QRCodeString]){
+//       HMWtransferViewController *HMWtransferVC=[[HMWtransferViewController alloc]init];
+//        HMWtransferVC.currentWallet=self.currentWallet;
+//        assetsListModel *model=self.dataSoureArray[0];
+//        HMWtransferVC.model=model;
+//        HMWtransferVC.toAddressString=QRCodeString;
+//        [self.navigationController pushViewController:HMWtransferVC animated:NO];
+//
+//    }
+    else{
     [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
 }
 

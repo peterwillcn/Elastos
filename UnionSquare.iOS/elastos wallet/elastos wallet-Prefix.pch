@@ -23,13 +23,13 @@
 #ifdef DEBUG
 #define SDKNET  @"RegTest"
 #define didSDKNet @"http://api.elastos.io:22606"
-#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#define DLog(fmt, ...) //NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #define Http_IP [[FLTools share]http_ipString:SDKNET]
 #define transUrl [[FLTools share]http_transUrl:SDKNET]
 #define PongUrl [[FLTools share]http_PongUrl:SDKNET]
  #elif PrvNet
  #define SDKNET  @"PrvNet"
- #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+ #define DLog(fmt, ...) //NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #define Http_IP [[FLTools share]http_ipString:SDKNET]
 #define transUrl [[FLTools share]http_transUrl:SDKNET]
 #define PongUrl [[FLTools share]http_PongUrl:SDKNET]
@@ -39,7 +39,7 @@
 #define Http_IP [[FLTools share]http_ipString:SDKNET]
 #define transUrl [[FLTools share]http_transUrl:SDKNET]
 #define PongUrl [[FLTools share]http_PongUrl:SDKNET]
-#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#define DLog(fmt, ...) //NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #define didSDKNet @"http://api.elastos.io:21606"
 #else
 //@"RegTest",@"PrvNet",@"TestNet",@"MainNet"

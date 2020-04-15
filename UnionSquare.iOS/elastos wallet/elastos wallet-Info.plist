@@ -131,6 +131,8 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>UIUserInterfaceStyleLight</string>
 	<key>key Document Content Type UTIs</key>
 	<array>
 		<string> public.data</string>

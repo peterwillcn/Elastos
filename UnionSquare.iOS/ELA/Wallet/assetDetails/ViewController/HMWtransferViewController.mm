@@ -101,10 +101,10 @@
     [self QRCodeScanVC:WCQRCode];
 }
 -(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString{
-//    NSLog(@"解析前%@",QRCodeString);
+//    //NSLog(@"解析前%@",QRCodeString);
 //    NSDictionary *dic =[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]QrCodeImageFromDic:QRCodeString fromVC:self oldQrCodeDic:nil]];
 //
-//    NSLog(@"解析后%@",dic);
+//    //NSLog(@"解析后%@",dic);
 //    if ([[FLTools share]SCanQRCodeWithDicCode:dic]){
 //        if ([dic[@"extra"][@"Type"] integerValue]==4) {
 //        self.transferTheAddressTextField.text=dic[@"data"];

@@ -117,7 +117,7 @@ static void (*dd_asl_release)(aslresponse obj);
 
     const char* levelCString = asl_get(msg, ASL_KEY_LEVEL);
     switch (levelCString? atoi(levelCString) : 0) {
-        // By default all NSLog's with a ASL_LEVEL_WARNING level
+        // By default all //NSLog's with a ASL_LEVEL_WARNING level
         case ASL_LEVEL_EMERG    :
         case ASL_LEVEL_ALERT    :
         case ASL_LEVEL_CRIT     : flag = DDLogFlagError;    async = NO;  break;

@@ -77,7 +77,7 @@ static DDASLLogger *sharedInstance;
             // So our mappings shouldn't go above that level.
             case DDLogFlagError     : aslLogLevel = ASL_LEVEL_CRIT;     break;
             case DDLogFlagWarning   : aslLogLevel = ASL_LEVEL_ERR;      break;
-            case DDLogFlagInfo      : aslLogLevel = ASL_LEVEL_WARNING;  break; // Regular NSLog's level
+            case DDLogFlagInfo      : aslLogLevel = ASL_LEVEL_WARNING;  break; // Regular //NSLog's level
             case DDLogFlagDebug     :
             case DDLogFlagVerbose   :
             default                 : aslLogLevel = ASL_LEVEL_NOTICE;   break;
@@ -85,7 +85,7 @@ static DDASLLogger *sharedInstance;
 
         static char const *const level_strings[] = { "0", "1", "2", "3", "4", "5", "6", "7" };
 
-        // NSLog uses the current euid to set the ASL_KEY_READ_UID.
+        // //NSLog uses the current euid to set the ASL_KEY_READ_UID.
         uid_t const readUID = geteuid();
 
         char readUIDString[16];

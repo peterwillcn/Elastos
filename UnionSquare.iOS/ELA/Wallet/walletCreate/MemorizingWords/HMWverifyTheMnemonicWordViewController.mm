@@ -16,6 +16,7 @@
 #import "FMDBWalletModel.h"
 #import "ELWalletManager.h"
 #import "HMWFMDBManager.h"
+#import "HWMDIDManager.h"
 
 @interface HMWverifyTheMnemonicWordViewController ()<UITextViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
 /*
@@ -217,6 +218,7 @@
             waModel.walletName=self.Wallet.walletName;
             //            waModel.walletAddress
             waModel.walletID=self.Wallet.masterWalletID;
+            waModel.didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:self.Wallet.passWord withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.Wallet.masterWalletID needCreatDIDString:NO];
             [[HMWFMDBManager sharedManagerType:walletType] addWallet:waModel];
             sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
             sideModel.walletID=waModel.walletID;

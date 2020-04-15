@@ -279,7 +279,7 @@ OSStatus __extractIdentityAndTrust(CFDataRef inPKCS12Data,
     
     // error
     if (errorRef != NULL) {
-        NSLog(@"%@ error: %@", self.debugDescription, (__bridge NSError *)errorRef);
+        //NSLog(@"%@ error: %@", self.debugDescription, (__bridge NSError *)errorRef);
     }
     else {
         if (positiveResult) {

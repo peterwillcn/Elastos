@@ -380,6 +380,10 @@
 		4264A741221BDC8D008D5C7B /* NSBundle+DAUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4264A740221BDC8D008D5C7B /* NSBundle+DAUtils.m */; };
 		426F0B0423E9380800115F87 /* HWMShowSocialAccountTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 426F0B0223E9380800115F87 /* HWMShowSocialAccountTableViewCell.m */; };
 		426F0B0523E9380800115F87 /* HWMShowSocialAccountTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 426F0B0323E9380800115F87 /* HWMShowSocialAccountTableViewCell.xib */; };
+		4272904D2446AFD3000B6B6D /* HWMNodeConnectionSettingsViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4272904B2446AFD3000B6B6D /* HWMNodeConnectionSettingsViewController.mm */; };
+		4272904E2446AFD3000B6B6D /* HWMNodeConnectionSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4272904C2446AFD3000B6B6D /* HWMNodeConnectionSettingsViewController.xib */; };
+		427290522446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 427290502446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.m */; };
+		427290532446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427290512446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.xib */; };
 		42780240235EDC350017F098 /* HWMDIDWalletListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4278023E235EDC350017F098 /* HWMDIDWalletListTableViewCell.m */; };
 		42780241235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4278023F235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib */; };
 		428476C3243F29E700EADFDE /* libSVGKit-iOS.2.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 428476C2243F29E700EADFDE /* libSVGKit-iOS.2.1.0.a */; };
@@ -1271,6 +1275,12 @@
 		426F0B0123E9380800115F87 /* HWMShowSocialAccountTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMShowSocialAccountTableViewCell.h; sourceTree = "<group>"; };
 		426F0B0223E9380800115F87 /* HWMShowSocialAccountTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMShowSocialAccountTableViewCell.m; sourceTree = "<group>"; };
 		426F0B0323E9380800115F87 /* HWMShowSocialAccountTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMShowSocialAccountTableViewCell.xib; sourceTree = "<group>"; };
+		4272904A2446AFD3000B6B6D /* HWMNodeConnectionSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMNodeConnectionSettingsViewController.h; sourceTree = "<group>"; };
+		4272904B2446AFD3000B6B6D /* HWMNodeConnectionSettingsViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HWMNodeConnectionSettingsViewController.mm; sourceTree = "<group>"; };
+		4272904C2446AFD3000B6B6D /* HWMNodeConnectionSettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMNodeConnectionSettingsViewController.xib; sourceTree = "<group>"; };
+		4272904F2446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMNodeConnectionSettingsTableViewCell.h; sourceTree = "<group>"; };
+		427290502446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMNodeConnectionSettingsTableViewCell.m; sourceTree = "<group>"; };
+		427290512446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMNodeConnectionSettingsTableViewCell.xib; sourceTree = "<group>"; };
 		4278023D235EDC350017F098 /* HWMDIDWalletListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMDIDWalletListTableViewCell.h; sourceTree = "<group>"; };
 		4278023E235EDC350017F098 /* HWMDIDWalletListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMDIDWalletListTableViewCell.m; sourceTree = "<group>"; };
 		4278023F235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMDIDWalletListTableViewCell.xib; sourceTree = "<group>"; };
@@ -5667,6 +5677,9 @@
 				4223EB332327A74500153DA9 /* HWMListMoreSignThePublicKeyTableViewCell.h */,
 				4223EB342327A74500153DA9 /* HWMListMoreSignThePublicKeyTableViewCell.m */,
 				4223EB352327A74500153DA9 /* HWMListMoreSignThePublicKeyTableViewCell.xib */,
+				4272904F2446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.h */,
+				427290502446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.m */,
+				427290512446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.xib */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -5698,6 +5711,9 @@
 				4223EB22232797F000153DA9 /* HWMListMoreSignThePublicKeyViewController.h */,
 				4223EB23232797F000153DA9 /* HWMListMoreSignThePublicKeyViewController.m */,
 				4223EB24232797F000153DA9 /* HWMListMoreSignThePublicKeyViewController.xib */,
+				4272904A2446AFD3000B6B6D /* HWMNodeConnectionSettingsViewController.h */,
+				4272904B2446AFD3000B6B6D /* HWMNodeConnectionSettingsViewController.mm */,
+				4272904C2446AFD3000B6B6D /* HWMNodeConnectionSettingsViewController.xib */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -11211,6 +11227,7 @@
 				421BABD5242963EA000FB026 /* HWMallDocumentsListTableViewCell.xib in Resources */,
 				42B263B522DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.xib in Resources */,
 				424CA4CE242C737C0067C1CE /* LaunchScreen-Chinese.storyboard in Resources */,
+				427290532446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.xib in Resources */,
 				4250B3F32238D32700B6858F /* zbar-helpicons.png in Resources */,
 				4202CA9C21F6EF2B009E5932 /* FLSelectWordCollectCell.xib in Resources */,
 				4202CA4F21F6EF2A009E5932 /* FLtradeResultView.xib in Resources */,
@@ -11265,6 +11282,7 @@
 				4202CA6321F6EF2A009E5932 /* HMWpwdPopupView.xib in Resources */,
 				42A7A85C236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.xib in Resources */,
 				4202CA2721F6EF2A009E5932 /* FLTableViewDefultCell.xib in Resources */,
+				4272904E2446AFD3000B6B6D /* HWMNodeConnectionSettingsViewController.xib in Resources */,
 				4236B5F5239A41BE00C05B67 /* FLCurrencyOfWallerVC.xib in Resources */,
 				4202CAA221F6EF2B009E5932 /* HMWImKeystoreView.xib in Resources */,
 				4202CA5421F6EF2A009E5932 /* FLSearchContractTableCell.xib in Resources */,
@@ -11528,6 +11546,7 @@
 				4202CACE21F6EF2B009E5932 /* HMWsignUpForViewController.mm in Sources */,
 				424910F02271BFCF00C41E50 /* SDWebImageDownloaderOperation.m in Sources */,
 				4228AA4F21F88C87002866B5 /* UIView+YYAdd.m in Sources */,
+				427290522446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.m in Sources */,
 				423461F82383F18900E4B135 /* NSString+YRSafeCategory.m in Sources */,
 				4224AE77243CD43E0056606F /* DDDispatchQueueLogFormatter.m in Sources */,
 				42EAF01C238BB8C200D6A912 /* HWMDIDWalletListView.m in Sources */,
@@ -11692,6 +11711,7 @@
 				4202CA3921F6EF2A009E5932 /* FLticketProgressView.m in Sources */,
 				423461E62383E26900E4B135 /* UILabel+HMWinternationalization.m in Sources */,
 				4202CA6121F6EF2A009E5932 /* HMWtransferTransactionSingleAddressDetailsView.m in Sources */,
+				4272904D2446AFD3000B6B6D /* HWMNodeConnectionSettingsViewController.mm in Sources */,
 				422672A722C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m in Sources */,
 				4253EE5923696C88005B774A /* HWMDIDInfoViewController.mm in Sources */,
 				4202CA3F21F6EF2A009E5932 /* FLNetErrorView.m in Sources */,

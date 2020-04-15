@@ -155,7 +155,8 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
                     @{@"title":NSLocalizedString(@"DID",nil),@"name":@"",@"type":@"1"},@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},
                     @{@"title":NSLocalizedString(@"修改钱包密码",nil),@"name":@"",@"type":@"2"},
                     @{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"},
-                    @{@"title":NSLocalizedString(@"导出助记词",nil),@"name":@"",@"type":@"1"}
+                    @{@"title":NSLocalizedString(@"导出助记词",nil),@"name":@"",@"type":@"1"},
+                    @{@"title":NSLocalizedString(@"节点连接设置",nil),@"name":@"",@"type":@"1"}
                     //,
                     //                                  @{@"title":NSLocalizedString(@"导出只读钱包",nil),@"name":@"",@"type":@"1"},
                     //                                  @{@"title":NSLocalizedString(@"查看多签公钥",nil),@"name":@"",@"type":@"1"}
@@ -467,7 +468,6 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
         if (privatekeyString.length==0) {
             return;
         }
-        
         NSString *didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
         BOOL hasChain=[[HWMDIDManager shareDIDManager]HasBeenOnTheChain];
         if (hasChain&&didString.length>5) {

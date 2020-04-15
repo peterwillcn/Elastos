@@ -269,6 +269,7 @@
         _transactionDetailsView =[[HWMTransactionDetailsView alloc]init];
         _transactionDetailsView.popViewTitle=NSLocalizedString(@"参选押金", nil);
         _transactionDetailsView.delegate=self;
+        _transactionDetailsView.DetailsType=TransactionDetails;
        
     }
     return _transactionDetailsView;

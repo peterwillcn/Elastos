@@ -840,7 +840,7 @@ UINib *_cellCRNib;
         _transactionDetailsView =[[HWMTransactionDetailsView alloc]init];
         _transactionDetailsView.delegate=self;
         _transactionDetailsView.DetailsType=TransactionDetails;
-       
+        
     }
     return _transactionDetailsView;
 }

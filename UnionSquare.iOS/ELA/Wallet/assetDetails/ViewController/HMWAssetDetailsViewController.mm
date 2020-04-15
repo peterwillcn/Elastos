@@ -861,6 +861,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     if (!_TransactionDetailsV) {
         _TransactionDetailsV =[[HWMTransactionDetailsView alloc]init];
         _TransactionDetailsV.delegate=self;
+        _TransactionDetailsV.DetailsType=TransactionDetails;
     }
     return _TransactionDetailsV;
 }

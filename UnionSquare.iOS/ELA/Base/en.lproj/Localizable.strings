@@ -740,7 +740,6 @@
 "请输入"="Enter";
 "Google账号"="Google account";
 "请输入姓名(必填)"="Enter name (Required)";
-
 "请选择"="Choose ";
 "添加信息"="Add information";
 "保存至本地"="Save to local device";
@@ -750,6 +749,7 @@
 "请输入区号(如+86)"="Enter country code(e.g+86)";
 "添加信息"="Add information";
 "加载失败，请稍后再试"="Failed to load. Please try again later";
+"节点连接设置"="";
 "err10000"="Json parse error of action parameters";
 "err10001"="Parameters error of action";
 "err10002"="Invalid master wallet";

@@ -45,7 +45,7 @@
     [self.view addSubview:self.imKeystoreV];
     self.imKeystoreV.alpha=0.f;
     CGFloat topOff=100;
-    if (AppHeight>812) {
+    if (AppHeight>736) {
         topOff=125;
         self.topOffSet.constant=95;
     }

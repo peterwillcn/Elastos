@@ -13,7 +13,6 @@
 		420131C42320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 420131C22320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.mm */; };
 		420131C52320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 420131C32320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.xib */; };
 		4202C9F921F6EF2A009E5932 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C81D21F6EF28009E5932 /* NSLayoutConstraint+MASDebugAdditions.m */; };
-		4202C9FF21F6EF2A009E5932 /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C82E21F6EF28009E5932 /* View+MASAdditions.m */; };
 		4202CA0321F6EF2A009E5932 /* SVRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C83621F6EF28009E5932 /* SVRadialGradientLayer.m */; };
 		4202CA0421F6EF2A009E5932 /* SVProgressAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C83921F6EF28009E5932 /* SVProgressAnimatedView.m */; };
 		4202CA0521F6EF2A009E5932 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C83C21F6EF28009E5932 /* SVProgressHUD.m */; };
@@ -211,7 +210,6 @@
 		4202CADE21F6F0D2009E5932 /* ElaSubWalletCallback.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202CADC21F6F0D2009E5932 /* ElaSubWalletCallback.mm */; };
 		420A48B7231F9FDD001D67C0 /* HWMCRVotingListCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 420A48B5231F9FDD001D67C0 /* HWMCRVotingListCollectionViewCell.m */; };
 		420A48B8231F9FDD001D67C0 /* HWMCRVotingListCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 420A48B6231F9FDD001D67C0 /* HWMCRVotingListCollectionViewCell.xib */; };
-		4210E854239F8A07001D82F3 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4210E83C239F8A06001D82F3 /* NSLayoutConstraint+MASDebugAdditions.m */; };
 		4210E855239F8A07001D82F3 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4210E845239F8A06001D82F3 /* ViewController+MASAdditions.m */; };
 		4210E856239F8A07001D82F3 /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4210E849239F8A06001D82F3 /* MASCompositeConstraint.m */; };
 		4210E857239F8A07001D82F3 /* MASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 4210E84A239F8A06001D82F3 /* MASConstraintMaker.m */; };
@@ -11154,7 +11152,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = HWM;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1140;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = VNP5LMNF24;
@@ -11697,7 +11695,6 @@
 				4202CAD521F6EF2B009E5932 /* HMWtheCandidateListViewController.mm in Sources */,
 				4202CA5721F6EF2A009E5932 /* HMWAddTheCurrencyListTableViewCell.m in Sources */,
 				4228AA5B21F88C87002866B5 /* NSKeyedUnarchiver+YYAdd.m in Sources */,
-				4202C9FF21F6EF2A009E5932 /* View+MASAdditions.m in Sources */,
 				42211B3E2362D5CC00924029 /* HWMAddPersonalInformationViewController.mm in Sources */,
 				4202C9F921F6EF2A009E5932 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				4202CA5321F6EF2A009E5932 /* FLAssetTableCell.m in Sources */,
@@ -11742,7 +11739,6 @@
 				4202CA5821F6EF2A009E5932 /* FLAssetManageTableCell.m in Sources */,
 				CBE7C2F122268890004F379D /* DC_DealTextViewController.m in Sources */,
 				4202CAB921F6EF2B009E5932 /* FLTools.m in Sources */,
-				4210E854239F8A07001D82F3 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				4202CAD021F6EF2B009E5932 /* HMWtheSuperNodeElectionViewController.mm in Sources */,
 				4228AA4921F88C87002866B5 /* UIColor+YYAdd.m in Sources */,
 				4202CA2821F6EF2A009E5932 /* FLTableViewDefultCell.m in Sources */,

@@ -22,14 +22,9 @@
 #import "HWMQrCodeScanningResultsViewController.h"
 #import "HWMQrCodeTransferAndAddBuddyViewController.h"
 #import "HMWaddContactViewController.h"
-#import "HMWSendSuccessPopuView.h"
 
 
 @interface UIViewController (FLVCExt)
-@property(strong,nonatomic)HMWSendSuccessPopuView * sendSuccessPopuV;
-
-
-
 @end
 
 @implementation UIViewController (FLVCExt)
@@ -620,5 +615,28 @@ NSString *leftTime=
 -(void)hiddLoading{
     [SVProgressHUD dismiss];
 }
+-(void)showSendSuccessPopuVWithType:(SendSuccessType)suType withBackVC:(UIViewController*)VC{
 
+    HMWSendSuccessPopuView *sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
+    sendSuccessPopuV.type=suType;
+    UIView *manView=[self mainWindow];
+       [manView addSubview:sendSuccessPopuV];
+    [sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(manView);
+    }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [sendSuccessPopuV removeFromSuperview];
+        if (VC) {
+            for (UIViewController *controller in self.navigationController.viewControllers) {
+               
+                if ([controller isKindOfClass:[VC class]]) {
+                    [self.navigationController popToViewController:controller animated:YES];
+                }
+            }
+        }else{
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    });
+    
+}
 @end

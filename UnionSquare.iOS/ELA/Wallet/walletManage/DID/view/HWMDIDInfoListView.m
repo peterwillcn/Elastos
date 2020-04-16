@@ -25,6 +25,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
         [self.table registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
            self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
            self.table.rowHeight = 55;
+        self.titleILabel.text=NSLocalizedString(@"添加信息", nil);
     }
     return self;
     

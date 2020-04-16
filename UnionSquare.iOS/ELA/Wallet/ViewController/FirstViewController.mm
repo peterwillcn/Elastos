@@ -121,7 +121,6 @@
         [self loadNetWorkingPong];
     }
     
-    
 }
 -(void)loadNetWorkingPong{
     [HttpUrl NetGETHost:PongUrl url:@"/api/dposNodeRPC/getProducerNodesList" header:nil body:nil showHUD:NO WithSuccessBlock:^(id data) {
@@ -765,7 +764,8 @@
 }
 -(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString{
     if ([QRCodeString containsString:@"elastos://credaccess/"]) {
-        if (self.currentWallet.didString.length==0) {
+        [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
+        if (![[HWMDIDManager shareDIDManager]HasBeenOnTheChain]) {
             [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID", nil)];
             return;
         }

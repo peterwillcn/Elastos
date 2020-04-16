@@ -273,14 +273,14 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         cell.dic=infDic;
         cell.delegate=self;
         [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:cell.MobilePhoneTextField withTxt:NSLocalizedString(@"请输入手机号", nil)];
-        cell.theArNumberTextField.placeholder=NSLocalizedString(@"请输入区号(如+86)", nil);
+//        cell.theArNumberTextField.placeholder=NSLocalizedString(@"请输入区号(如+86)", nil);
         cell.theArNumberTextField.tag=10002;
         if (self.model.phoneCode.length>0) {
             cell.theArNumberTextField.text=self.model.phoneCode;
         }
         cell.theArNumberTextField.delegate=self;
         cell.MobilePhoneTextField.delegate=self;
-        [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField: cell.theArNumberTextField withTxt:NSLocalizedString(@"请输入区号（如+86）", nil)];
+        [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField: cell.theArNumberTextField withTxt:NSLocalizedString(@"请输入区号(如+86)", nil)];
         return cell;}
     HWMCreateDIDListTableViewCell *cell =
     [_cellCreateDIDListNib instantiateWithOwner:nil options:nil][0];

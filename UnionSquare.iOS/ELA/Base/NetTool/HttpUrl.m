@@ -86,12 +86,8 @@ NSInteger timeOut = 20;
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (isSh) {
-        [[FLTools share]showErrorInfo:errorString];
-        
+            [[FLTools share]showErrorInfo:error.domain];
     }
-        
-////        DLog(@"----------------------------->%@",error);
-//        [[FLTools share]showErrorInfo:errorString];
         FailBlock(error);
     }];
     

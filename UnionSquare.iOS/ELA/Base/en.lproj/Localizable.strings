@@ -246,6 +246,8 @@
 "请输入助记词密码"="Enter mnemonic password";
 "验证助记词密码"="Re-enter mnemonic password";
 "直接删除"="Direct delete";
+"更新成功"="The update is successful";
+
 //"请使用含有私钥的钱包签名当前交易"="Direct delete";
 //"已签名："="Direct delete";
 //"待签名："="Direct delete";
@@ -703,7 +705,6 @@
 "头像网址"="Avatar URL";
 "是否永久弃用当前DID？"="Is the current DID permanently deprecated?";
 "DID初始化失败"="DID initialization failed";
-"添加信息"="Add information";
 "当前钱包未创建DID"="No DID is created in the current wallet";
 "DID已过期"="DID has expired";
 "当前钱包未创建DID"="Create DID";
@@ -741,7 +742,6 @@
 "Google账号"="Google account";
 "请输入姓名(必填)"="Enter name (Required)";
 "请选择"="Choose ";
-"添加信息"="Add information";
 "保存至本地"="Save to local device";
 "分享"="Share";
 "保存失败"="Save failed";
@@ -749,6 +749,9 @@
 "请输入区号(如+86)"="Enter country code(e.g+86)";
 "添加信息"="Add information";
 "加载失败，请稍后再试"="Failed to load. Please try again later";
+"凭证文件不匹配"="The credential files do not match";
+"保存成功"="Saved Successfully";
+"导出凭证"="Export credentials";
 "节点连接设置"="";
 "err10000"="Json parse error of action parameters";
 "err10001"="Parameters error of action";

@@ -248,13 +248,16 @@
     
 }
 - (IBAction)updataDIDInfoEvent:(id)sender {
-    if (self.currentWallet.didString.length==0) {
+    [self showLoading];
+    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
+       [self hiddLoading];
+    if (![[HWMDIDManager shareDIDManager]HasBeenOnTheChain]) {
+     
         [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID", nil)];
         return;
     }
     
     HWMDIDInfoModel  *readModel=[[HWMDIDManager shareDIDManager]readDIDCredential];
-    
     if ([readModel.endString intValue]<[[[FLTools share]getNowTimeTimestampS] intValue])  {
         
         [[FLTools share]showErrorInfo:NSLocalizedString(@"DID已失效", nil)];
@@ -368,8 +371,10 @@
     ELWalletManager *manager = [ELWalletManager share];
     NSString *walletId =  manager.currentWallet.masterWalletID;
     if (self.CRTypeString.length>0) {
-        if (self.currentWallet.didString.length<5) {
-             [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID", nil)];
+        [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
+        
+        if (![[HWMDIDManager shareDIDManager]HasBeenOnTheChain]) {
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID", nil)];
             return;
         }
         NSArray *didStringArray=[self.currentWallet.didString componentsSeparatedByString:@":"];

@@ -83,7 +83,7 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
     self.baseTable.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     [self.view addSubview:self.baseTable];
     CGFloat heOff=64;
-    if (AppHeight==812) {
+    if (AppHeight==736) {
         heOff=106;
     }
     [self.baseTable mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -164,7 +164,7 @@
     [self.view addSubview:BGView];
     [[HMWCommView share]makeBordersWithView:BGView];
     CGFloat topOffset=74;
-    if (AppHeight>812) {
+    if (AppHeight>736) {
         topOffset=100;
     }
     [BGView mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -312,7 +312,10 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     Credential * cre=DIDStore_LoadCredential(store, did, url);
     const char *suInfo  = Credential_GetProperties(cre);
     NSString *modelString=[self charToString:suInfo];
-    HWMDIDInfoModel *model=[HWMDIDInfoModel modelWithJSON:modelString];
+    NSDictionary *modeDic=[[FLTools share]dictionaryWithJsonString:modelString];
+    NSString *jsonString=[[FLTools share]returnJSONStringWithDictionary:modeDic];
+    HWMDIDInfoModel *model=[HWMDIDInfoModel modelWithJSON:jsonString];
+    model.did=self.DIDString;
     DIDURL_Destroy(url);
     return model;
 }

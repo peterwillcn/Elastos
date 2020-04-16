@@ -54,7 +54,11 @@ UINib *_nib;
     self.tabel.dataSource=self;
     self.tabel.separatorStyle=UITableViewCellSeparatorStyleNone;
     self.tabel.separatorInset = UIEdgeInsetsZero;
-    UIView *headV=[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 300)];
+    CGFloat height=300;
+    if (self.readModel) {
+         height=250;
+    }
+    UIView *headV=[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, height)];
 
     [headV addSubview:self.headView];
     [self.headView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -117,11 +121,6 @@ UINib *_nib;
         [[FLTools share]showErrorInfo:NSLocalizedString(@"已复制到剪切板。", nil)];
         [[FLTools share]copiedToTheClipboardWithString:self.DIDString];
     }
-    
-    
-    
-    
-    
 }
 
 - (IBAction)AgreedToEvent:(id)sender {
@@ -206,6 +205,7 @@ UINib *_nib;
         [self hiddLoading];
         [self cancelThePWDPageView];
         [self goBack];
+        [[FLTools share]showErrorInfo:@"更新成功"];
     } WithFailBlock:^(id data) {
     }];
     
@@ -221,9 +221,6 @@ UINib *_nib;
     cell.selectBlock = ^(NSDictionary * _Nullable dic) {
         NSInteger index=[dic[@"index"] integerValue];
         weakSelf.dataSourceArray[index]=dic;
-        
-        
-        
     };
     
     return cell;
@@ -363,6 +360,7 @@ UINib *_nib;
     
     
 }
+
 -(void)setReadModel:(HWMDIDInfoModel *)readModel{
     _readModel=readModel;
 }

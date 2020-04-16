@@ -45,7 +45,7 @@ const files_to_download  = [
       "Antlr4.framework"
     ],
     "targetDir": "../Plugins/DID/src/ios/libs",
-    "md5": "9818efcfb6585250f958674bb0bd0bd5"
+    "md5": "95d037997a00505b8434c8c54e637cd6"
   },
   {
     "url": "https://github.com/elastos/Elastos.DID.Swift.SDK/releases/download/internal_experimental_v0.0.9/PromiseKit.framework.zip",

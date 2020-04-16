@@ -173,10 +173,10 @@ public class ApiAuthorityManager {
 
         ApiAuthorityInfo info = getApiAuthorityInfo(plugin, api);
         if (info != null) {
-            setApiAuth(appInfo.app_id, plugin, api, AppInfo.AUTHORITY_NOINIT); //for test
+//            setApiAuth(appInfo.app_id, plugin, api, AppInfo.AUTHORITY_NOINIT); //for test
             int authority = getApiAuth(appInfo.app_id, plugin, api);
             if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
-                runAlertApiAuth(appInfo, plugin, api, authority);
+                authority = runAlertApiAuth(appInfo, plugin, api, authority);
             }
             return authority;
         }

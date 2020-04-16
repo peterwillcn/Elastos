@@ -653,60 +653,6 @@
             }
         }
     },
-    "QRScanner": {
-        "prepare": {
-            "danger_level": "low",
-            "title": {
-                "en": "Prepare the video preview",
-                "zh": "准备视频预览",
-                "fr": "fr..."
-            },
-            "description": {
-                "en": "This capsule will be able to request permission to access the camera (if not already granted), prepare the video preview, and configure everything needed by QRScanner.",
-                "zh": "此应用程序将能够请求访问照相机的权限（如果尚未授予权限），准备视频预览以及配置QRScanner所需的一切。",
-                "fr": "fr..."
-            }
-        },
-        "scan": {
-            "danger_level": "low",
-            "title": {
-                "en": "Scan QR codes",
-                "zh": "扫描二维码",
-                "fr": "fr..."
-            },
-            "description": {
-                "en": "This capsule will be able to watch for valid QR code,once a valid code is detected, it's contents are passed to the callback, and scanning is toggled off.",
-                "zh": "此应用程序将能够扫描二维码，一旦扫描成功，会将其内容传递给调用者，并关闭扫描。",
-                "fr": "fr..."
-            }
-        },
-        "enableLight": {
-            "danger_level": "low",
-            "title": {
-                "en": "Enable the device's light",
-                "zh": "开启闪光灯",
-                "fr": "fr..."
-            },
-            "description": {
-                "en": "This capsule will be able to enable the device's light.",
-                "zh": "此应用程序将能够开启闪光灯。",
-                "fr": "fr..."
-            }
-        },
-        "useFrontCamera": {
-            "danger_level": "low",
-            "title": {
-                "en": "Turn on the front camera",
-                "zh": "开启前置摄像头",
-                "fr": "fr..."
-            },
-            "description": {
-                "en": "This capsule will be able to switch video capture to the device's front camera.",
-                "zh": "此应用程序将能够开启前置摄像头。",
-                "fr": "fr..."
-            }
-        }
-    },
     "Vibration": {
         "vibrate": {
             "danger_level": "low",

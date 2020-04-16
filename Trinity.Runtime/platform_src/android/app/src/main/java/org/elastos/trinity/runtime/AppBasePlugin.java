@@ -521,98 +521,6 @@ public class AppBasePlugin extends TrinityPlugin {
         }
     }
 
-    private boolean checkIntentScheme(String url) {
-        return IntentManager.checkTrinityScheme(url);// && (!isUrlApp() || url.contains("callbackurl="));
-    }
-
-    @Override
-    public Boolean shouldAllowNavigation(String url) {
-        if (appManager.isLauncher(this.appId)) {
-            return true;
-        }
-        else if (checkIntentScheme(url)) {
-            try {
-                IntentManager.getShareInstance().sendIntentByUri(Uri.parse(url), this.appId);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return false;
-        }
-
-        return null;
-    }
-
-    @Override
-    public Boolean shouldAllowRequest(String url) {
-        if (appManager.isLauncher(this.appId)) {
-            return true;
-        }
-        else if (checkIntentScheme(url)) {
-            try {
-                IntentManager.getShareInstance().sendIntentByUri(Uri.parse(url), this.appId);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return false;
-        }
-
-        if (url.startsWith("asset://www/cordova") || url.startsWith("asset://www/plugins")
-                || url.startsWith("trinity:///asset/") || url.startsWith("trinity:///data/")
-                || url.startsWith("trinity:///temp/")) {
-            return true;
-        }
-
-        if (isChangeIconPath && url.startsWith("icon://")) {
-            return true;
-        }
-
-        return null;
-    }
-
-    @Override
-    public Uri remapUri(Uri uri) {
-        String url = uri.toString();
-        if (isChangeIconPath && url.startsWith("icon://")) {
-            String str = url.substring(7);
-            int index = str.indexOf("/");
-            if (index > 0) {
-                String app_id = str.substring(0, index);
-                AppInfo info = appManager.getAppInfo(app_id);
-                if (info != null) {
-                    index = Integer.valueOf(str.substring(index + 1));
-                    AppInfo.Icon icon = info.icons.get(index);
-                    String appUrl = appManager.getIconUrl(info);
-                    url = appManager.resetPath(appUrl, icon.src);
-                }
-            }
-        }
-        else if ("asset".equals(uri.getScheme())) {;
-            url = "file:///android_asset/www" + uri.getPath();
-        }
-        else if (url.startsWith("trinity:///asset/")) {
-            AppInfo info = appManager.getAppInfo(this.appId);
-            url = appManager.getAppUrl(info) + url.substring(17);
-        }
-        else if (url.startsWith("trinity:///data/")) {
-            url = appManager.getDataUrl(this.appId) + url.substring(16);
-        }
-        else if (url.startsWith("trinity:///temp/")) {
-            url = appManager.getTempUrl(this.appId) + url.substring(16);
-        }
-//        else if (checkIntentScheme(url)) {
-//            try {
-//                IntentManager.getShareInstance().sendIntentByUri(uri, this.appId);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-        else {
-            return null;
-        }
-
-        uri = Uri.parse(url);
-        return uri;
-    }
 
     //---------------- for AppManager --------------------------------------------------------------
 
@@ -819,6 +727,110 @@ public class AppBasePlugin extends TrinityPlugin {
         String msg = args.getString(1);
         AppManager.getShareInstance().broadcastMessage(type, msg, this.appId);
         callbackContext.success("ok");
+    }
+
+    //-------------------------------------------------------------------------
+    private boolean checkIntentScheme(String url) {
+        return IntentManager.checkTrinityScheme(url);// && (!isUrlApp() || url.contains("callbackurl="));
+    }
+
+    private Boolean isInUrlWhitelist() {
+        return ConfigManager.getShareInstance().stringArrayContains("url.authority.whitelist", appId);
+    }
+
+    @Override
+    public Boolean shouldAllowNavigation(String url) {
+        if (isInUrlWhitelist()) {
+            return true;
+        }
+        else if (appManager.isLauncher(this.appId)) {
+            return true;
+        }
+        else if (checkIntentScheme(url)) {
+            try {
+                IntentManager.getShareInstance().sendIntentByUri(Uri.parse(url), this.appId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        return null;
+    }
+
+    @Override
+    public Boolean shouldAllowRequest(String url) {
+        if (isInUrlWhitelist()) {
+            return true;
+        }
+        else if (appManager.isLauncher(this.appId)) {
+            return true;
+        }
+        else if (checkIntentScheme(url)) {
+            try {
+                IntentManager.getShareInstance().sendIntentByUri(Uri.parse(url), this.appId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        if (url.startsWith("asset://www/cordova") || url.startsWith("asset://www/plugins")
+                || url.startsWith("trinity:///asset/") || url.startsWith("trinity:///data/")
+                || url.startsWith("trinity:///temp/")) {
+            return true;
+        }
+
+        if (isChangeIconPath && url.startsWith("icon://")) {
+            return true;
+        }
+
+        return null;
+    }
+
+    @Override
+    public Uri remapUri(Uri uri) {
+        String url = uri.toString();
+        if (isChangeIconPath && url.startsWith("icon://")) {
+            String str = url.substring(7);
+            int index = str.indexOf("/");
+            if (index > 0) {
+                String app_id = str.substring(0, index);
+                AppInfo info = appManager.getAppInfo(app_id);
+                if (info != null) {
+                    index = Integer.valueOf(str.substring(index + 1));
+                    AppInfo.Icon icon = info.icons.get(index);
+                    String appUrl = appManager.getIconUrl(info);
+                    url = appManager.resetPath(appUrl, icon.src);
+                }
+            }
+        }
+        else if ("asset".equals(uri.getScheme())) {;
+            url = "file:///android_asset/www" + uri.getPath();
+        }
+        else if (url.startsWith("trinity:///asset/")) {
+            AppInfo info = appManager.getAppInfo(this.appId);
+            url = appManager.getAppUrl(info) + url.substring(17);
+        }
+        else if (url.startsWith("trinity:///data/")) {
+            url = appManager.getDataUrl(this.appId) + url.substring(16);
+        }
+        else if (url.startsWith("trinity:///temp/")) {
+            url = appManager.getTempUrl(this.appId) + url.substring(16);
+        }
+//        else if (checkIntentScheme(url)) {
+//            try {
+//                IntentManager.getShareInstance().sendIntentByUri(uri, this.appId);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+        else {
+            return null;
+        }
+
+        uri = Uri.parse(url);
+        return uri;
     }
 
 }

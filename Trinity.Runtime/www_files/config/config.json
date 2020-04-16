@@ -8,6 +8,9 @@
         "org.elastos.trinity.dapp.wallet",
         "org.elastos.trinity.dapp.settings"
     ],
+    "url.authority.whitelist": [
+        "org.elastos.trinity.dapp.settings"
+    ],
     "whitelist.urls": [
         "https://sentry.io/*"
     ]

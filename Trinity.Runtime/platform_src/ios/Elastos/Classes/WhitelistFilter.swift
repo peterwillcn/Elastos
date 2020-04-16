@@ -81,8 +81,16 @@
         self.appIntentsWhitelist = AppWhitelist(array: allowUrls);
         self.appIntentsWhitelist!.setInfo(info, AppWhitelist.TYPE_INTENT);
     }
+    
+    private func isInUrlWhitelist() ->Bool {
+        return ConfigManager.getShareInstance().stringArrayContains("url.authority.whitelist", appInfo!.app_id);
+    }
 
     @objc func shouldOpenExternalIntentUrl(_ url: String) -> Bool {
+        if (isInUrlWhitelist()) {
+            return true;
+        }
+        
         let str = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
         let urlStr = URL(string: str!)
         var ret = self.allowIntentsWhitelist.urlisAllowed(urlStr);
@@ -93,6 +101,10 @@
     }
 
     @objc func shouldAllowNavigation(_ url: String) -> Bool {
+        if (isInUrlWhitelist()) {
+            return true;
+        }
+        
         let str = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
         let urlStr = URL(string: str!)
         var ret = self.allowNavigationsWhitelist.urlisAllowed(urlStr);
@@ -114,6 +126,10 @@
                 print("sendIntentByUri error:\(error.localizedDescription)");
             }
             return false;
+        }
+        
+        if (isInUrlWhitelist()) {
+            return true;
         }
 
         return CDVIntentAndNavigationFilter.shouldOverrideLoad(with: request, navigationType: navigationType, filterValue: self.filterUrl(request.url!));

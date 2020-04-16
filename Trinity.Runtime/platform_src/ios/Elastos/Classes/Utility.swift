@@ -249,8 +249,13 @@ func getAssetPath(_ url: String) -> String {
 
     func toString() -> String? {
         let data = try? JSONSerialization.data(withJSONObject: self, options: [])
-        let str = String(data: data!, encoding: String.Encoding.utf8)
-        return str
+        if let str = String(data: data!, encoding: String.Encoding.utf8) {
+            // JSONSerialization espaces slashes... (bug since many years). ios13 has a fix, but only ios13.
+            let fixedString = str.replacingOccurrences(of: "\\/", with: "/")
+
+            return fixedString
+        }
+        return nil
     }
  }
 

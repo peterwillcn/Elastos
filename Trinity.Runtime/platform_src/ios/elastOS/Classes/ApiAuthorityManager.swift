@@ -136,10 +136,10 @@ class ApiAuthorityManager {
     func sendCallbackResult(_ pluginName: String, _ api: String, _ auth: Int, _ plugin: CDVPlugin,
                             _ command: CDVInvokedUrlCommand) {
 
-        var result = CDVPluginResult(status: CDVCommandStatus_OK);
+        var result: CDVPluginResult? = nil;
         if (auth == AppInfo.AUTHORITY_ALLOW) {
             let _ = plugin.execute(command);
-
+            result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT)
         }
         else {
             result = CDVPluginResult(status: CDVCommandStatus_ERROR,

@@ -241,4 +241,61 @@ public class PreferenceManager {
 
         return value;
     }
+
+    public String getStringValue(String key, String defaultValue) {
+        String value = null;
+        try {
+            JSONObject item = getPreference(key);
+            value = item.getString("value");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if (value == null) {
+            value = defaultValue;
+        }
+
+        return value;
+    }
+
+    public boolean getBooleanValue(String key, boolean defaultValue) {
+        Boolean value = null;
+        try {
+            JSONObject item = getPreference(key);
+            value = item.getBoolean("value");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if (value == null) {
+            value = defaultValue;
+        }
+
+        return value;
+    }
+
+    public String[] getStringArrayValue(String key, String[] defaultValue) {
+        String[] value = null;
+        try {
+            JSONObject item = getPreference(key);
+            JSONArray array =  item.getJSONArray("value");
+            if (array != null) {
+                value = new String[array.length()];
+                for (int i = 0; i < array.length(); i++) {
+                    value[i] = array.getString(i);
+                }
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if (value == null) {
+            value = defaultValue;
+        }
+
+        return value;
+    }
 }

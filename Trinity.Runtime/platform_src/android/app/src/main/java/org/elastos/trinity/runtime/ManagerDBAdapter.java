@@ -501,4 +501,55 @@ import org.json.JSONObject;
          }
          return ret;
      }
+
+     public int getApiAuth(String appId, String plugin, String api) {
+
+         SQLiteDatabase db = helper.getWritableDatabase();
+         String where = AppInfo.APP_ID + "=? AND " + AppInfo.PLUGIN + "=? AND " + AppInfo.API + "=?";
+         String[] whereArgs = {appId, plugin, api};
+         String[] columns = {AppInfo.AUTHORITY};
+         Cursor cursor = db.query(ManagerDBHelper.AUTH_API_TABLE, columns, where, whereArgs,null,null,null);
+         if (cursor.moveToNext()) {
+             return cursor.getInt(cursor.getColumnIndex(AppInfo.AUTHORITY));
+         }
+
+         return AppInfo.AUTHORITY_NOEXIST;
+     }
+
+     public long setApiAuth(String appId, String plugin, String api, int auth) {
+
+         SQLiteDatabase db = helper.getWritableDatabase();
+         long ret = 0;
+
+         Boolean isExist = getApiAuth(appId, plugin, api) != AppInfo.AUTHORITY_NOEXIST;
+         if (!isExist) {
+             ContentValues contentValues = new ContentValues();
+             contentValues.put(AppInfo.APP_ID, appId);
+             contentValues.put(AppInfo.PLUGIN, plugin);
+             contentValues.put(AppInfo.API, api);
+             contentValues.put(AppInfo.AUTHORITY, auth);
+             ret = db.insert(ManagerDBHelper.AUTH_API_TABLE, null, contentValues);
+         }
+         else {
+             String where = AppInfo.APP_ID + "=? AND " + AppInfo.PLUGIN + "=? AND " + AppInfo.API + "=?";
+             String[] whereArgs = {appId, plugin, api};
+             if (auth != AppInfo.AUTHORITY_NOINIT) {
+                 ContentValues contentValues = new ContentValues();
+                 contentValues.put(AppInfo.AUTHORITY, auth);
+                 ret = db.update(ManagerDBHelper.AUTH_API_TABLE, contentValues, where, whereArgs );
+             }
+             else {
+                 ret = db.delete(ManagerDBHelper.AUTH_API_TABLE, where, whereArgs);
+             }
+         }
+
+         return ret;
+     }
+
+     public void resetApiDenyAuth(String appId)  {
+         SQLiteDatabase db = helper.getWritableDatabase();
+         String where = AppInfo.APP_ID + "=? AND " + AppInfo.AUTHORITY + "=?";
+         String[] whereArgs = {appId, String.valueOf(AppInfo.AUTHORITY_DENY)};
+         db.delete(ManagerDBHelper.AUTH_API_TABLE, where, whereArgs);
+     }
 }

@@ -60,6 +60,8 @@ import java.util.ArrayList;
 
     @Override
     protected void loadConfig() {
+        AppManager.getShareInstance().getDBAdapter().resetApiDenyAuth(id);
+
         pluginEntries = new ArrayList<PluginEntry>(20);
         preferences = cfgPreferences;
 

@@ -29,12 +29,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class ManagerDBHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     private static final String DATABASE_NAME = "manager.db";
     public static final String AUTH_PLUGIN_TABLE = "auth_plugin";
     public static final String AUTH_URL_TABLE = "auth_url";
     public static final String AUTH_INTENT_TABLE = "auth_intent";
+    public static final String AUTH_API_TABLE = "auth_api";
     public static final String ICONS_TABLE = "icons";
     public static final String LACALE_TABLE = "locale";
     public static final String FRAMEWORK_TABLE = "framework";
@@ -77,6 +78,13 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
         strSQL =  "create table " + AUTH_INTENT_TABLE + "(tid integer primary key autoincrement, " +
                 AppInfo.APP_TID + " integer, " +
                 AppInfo.URL + " varchar(256), " +
+                AppInfo.AUTHORITY + " integer)";
+        db.execSQL(strSQL);
+
+        strSQL =  "create table " + AUTH_API_TABLE + "(tid integer primary key autoincrement, " +
+                AppInfo.APP_ID + " varchar(128) NOT NULL, " +
+                AppInfo.PLUGIN + " varchar(128), " +
+                AppInfo.API + " varchar(128), " +
                 AppInfo.AUTHORITY + " integer)";
         db.execSQL(strSQL);
 
@@ -155,6 +163,7 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + AUTH_PLUGIN_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + AUTH_URL_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + AUTH_INTENT_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + AUTH_API_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + ICONS_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + LACALE_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + FRAMEWORK_TABLE);
@@ -175,6 +184,10 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
         if (oldVersion < 4) {
             Log.d("ManagerDBHelper", "Upgrading database to v4");
             upgradeToV4(db);
+        }
+        if (oldVersion < 5) {
+            Log.d("ManagerDBHelper", "Upgrading database to v5");
+            upgradeToV5(db);
         }
     }
 
@@ -213,6 +226,20 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
             e.printStackTrace();
             // Do nothing, intercept SQL errors - in case we try to apply an upgrade again after a strange downgrade from android
             // (happened to KP many times - unknown reason - 2020.03)
+        }
+    }
+
+    // 20200409 - Added "api auth table"
+    private void upgradeToV5(SQLiteDatabase db) {
+        try {
+            String  strSQL =  "create table " + AUTH_API_TABLE + "(tid integer primary key autoincrement, " +
+                    AppInfo.APP_ID + " varchar(128) NOT NULL, " +
+                    AppInfo.PLUGIN + " varchar(128), " +
+                    AppInfo.API + " varchar(128), " +
+                    AppInfo.AUTHORITY + " integer)";
+            db.execSQL(strSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -67,7 +67,7 @@ module.exports = function(ctx) {
     runtimeProj.removeSourceFile("MainViewController.m", {}, classesGroupKey);
     runtimeProj.removeSourceFile("MainViewController.xib", {}, classesGroupKey);
 
-    let classesPath = process.cwd() + "/platform_src/ios/Elastos/Classes/";
+    let classesPath = process.cwd() + "/platform_src/ios/elastOS/Classes/";
 
     let files = fs.readdirSync(classesPath);
     files.forEach((filename, index) => {

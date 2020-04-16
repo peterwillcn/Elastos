@@ -64,4 +64,14 @@ public class Utility {
     public static float convertPxToDp(Context context, float px) {
         return px / context.getResources().getDisplayMetrics().density;
     }
+
+    public static boolean isJSONType(String str) {
+        str = str.trim();
+        if ((str.startsWith("{") && str.endsWith("}"))
+                || (str.startsWith("[") && str.endsWith("]"))) {
+            return true;
+
+        }
+        return false;
+    }
 }

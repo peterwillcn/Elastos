@@ -340,8 +340,13 @@ public class IntentManager {
                     info.req = value;
                 }
 
-                Object obj = new JSONTokener(value).nextValue();
-                json.put(key, obj);
+                if (Utility.isJSONType(value)) {
+                    Object obj = new JSONTokener(value).nextValue();
+                    json.put(key, obj);
+                }
+                else {
+                    json.put(key, value);
+                }
             }
         }
         info.type = IntentInfo.URL;

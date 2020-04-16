@@ -722,7 +722,7 @@
 "请输入支付宝账号"="Enter Alipay account";
 "发布"="Release";
 "有效期"="Valid until";
-"有效期至"="Valid until";
+"有效期至 "="Valid until ";
 "至"="to";
 "请选择失效日期"="Select an expiration date";
 "暂无"="N/A";
@@ -752,6 +752,8 @@
 "凭证文件不匹配"="The credential files do not match";
 "保存成功"="Saved Successfully";
 "导出凭证"="Export credentials";
+"创建DID"="Create DID";
+"服务提供方"="Service provider";
 "节点连接设置"="";
 "err10000"="Json parse error of action parameters";
 "err10001"="Parameters error of action";

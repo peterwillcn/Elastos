@@ -133,7 +133,12 @@
         self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:self.skipButton];
         self.NickNameLab.alpha=0.f;
         self.iconImageView.alpha=0.f;
-        [self getCRInfo];
+        if (self.CRModel.didIndoModel) {
+            self.DIDmodel=self.CRModel.didIndoModel;
+        }else{
+            [self getCRInfo];
+        }
+       
     }else{
         [self.lookAtTheCandidateListButton setTitle:NSLocalizedString(@"注销", nil) forState:UIControlStateNormal];
         [self.updataTheCandidateListButton setTitle:NSLocalizedString(@"编辑", nil) forState:UIControlStateNormal];
@@ -443,8 +448,8 @@
         __weak __typeof__ (self) weakSelf = self;
         _CrCommitteeInformationHeaderV.block = ^{
             HWMHWMDIDShowInfoViewController *HWMAddPersonalInformationVC=[[HWMHWMDIDShowInfoViewController alloc]init];
-            HWMAddPersonalInformationVC.model=weakSelf.DIDmodel;
             HWMAddPersonalInformationVC.isEi=YES;
+            HWMAddPersonalInformationVC.model=weakSelf.DIDmodel;
             [weakSelf.navigationController pushViewController:HWMAddPersonalInformationVC animated:YES];
             
         };

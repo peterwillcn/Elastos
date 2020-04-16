@@ -163,7 +163,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         didstring = DID_ToString(did, _didstring, sizeof(_didstring));
         self.DIDString=[self charToString:didstring];
     }
-    DIDDocument *  doc=DID_Resolve(did,true);
+    DIDDocument *  doc=DID_Resolve(did,NO);
     if (doc) {//先看一下链上有没有
         DIDURL *url=DIDURL_NewByDid(did, "primary");
         if (DIDStore_ContainsPrivateKey(store,did, url)) {

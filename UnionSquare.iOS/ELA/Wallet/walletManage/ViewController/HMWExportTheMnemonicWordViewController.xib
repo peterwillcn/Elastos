@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -31,10 +29,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="walllet_copy_word" translatesAutoresizingMaskIntoConstraints="NO" id="64e-VS-gzO">
-                    <rect key="frame" x="150" y="60" width="75" height="75"/>
+                    <rect key="frame" x="150" y="40" width="75" height="75"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="抄写下您的钱包助记词" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UhC-D6-GKR">
-                    <rect key="frame" x="0.0" y="160" width="375" height="13"/>
+                    <rect key="frame" x="0.0" y="140" width="375" height="13"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="13" id="vSH-LZ-3W1"/>
                     </constraints>
@@ -43,7 +41,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FRf-j5-ESN">
-                    <rect key="frame" x="30" y="199" width="315" height="90"/>
+                    <rect key="frame" x="30" y="179" width="315" height="90"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="90" id="1ja-Dv-iqK"/>
                     </constraints>
@@ -52,14 +50,14 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wallet_notice" translatesAutoresizingMaskIntoConstraints="NO" id="UVg-EB-7hE">
-                    <rect key="frame" x="77.5" y="307" width="12" height="12"/>
+                    <rect key="frame" x="77.5" y="287" width="12" height="12"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="12" id="2og-q9-frU"/>
                         <constraint firstAttribute="width" constant="12" id="9xJ-8s-1pi"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z2p-cz-I7M">
-                    <rect key="frame" x="92.5" y="305" width="190" height="26.5"/>
+                    <rect key="frame" x="92.5" y="285" width="190" height="26.5"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="190" id="fTi-Da-l9f"/>
                     </constraints>
@@ -70,7 +68,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QMq-PX-aHx">
-                    <rect key="frame" x="30" y="359.5" width="315" height="50"/>
+                    <rect key="frame" x="30" y="339.5" width="315" height="50"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="助记词密码（可选）" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SEh-ou-a4i">
                             <rect key="frame" x="15" y="0.0" width="129" height="50"/>
@@ -99,7 +97,7 @@
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gp0-Da-Jh6">
                     <rect key="frame" x="63" y="586" width="249" height="40"/>
-                    <color key="backgroundColor" red="0.32654017210000003" green="0.5333263278" blue="0.53324335810000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.26340085270000002" green="0.38427263499999997" blue="0.41167238350000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="Rsf-vh-qr1"/>
                     </constraints>
@@ -112,7 +110,7 @@
                     </connections>
                 </button>
                 <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oIc-ar-9kQ">
-                    <rect key="frame" x="30" y="414.5" width="315" height="135"/>
+                    <rect key="frame" x="30" y="394.5" width="315" height="135"/>
                     <subviews>
                         <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t0T-eB-QnY">
                             <rect key="frame" x="15" y="55" width="285" height="1"/>

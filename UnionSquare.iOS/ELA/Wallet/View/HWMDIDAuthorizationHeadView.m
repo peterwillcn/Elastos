@@ -50,13 +50,12 @@
         self.iconImageView.image=[UIImage imageNamed:@"cyber_republic"];
     }
     
-    self.nickNameLabel.text=infoDic[@"website"][@"domain"];
+    self.nickNameLabel.text=NSLocalizedString(@"服务提供方",nil);
     self.didStringLabel.text=infoDic[@"iss"];
     _infoDic=infoDic;
 }
 -(void)setReadModel:(HWMDIDInfoModel *)readModel{
-    self.nickNameLabel.text=readModel.nickname;
-    
+    self.nickNameLabel.text=NSLocalizedString(@"CR委员选举",nil);
     self.didStringLabel.text=readModel.did;
     if (readModel.avatar.length>0) {
         [[FLTools share]loadUrlSVGAndPNG:readModel.avatar WithSuccessBlock:^(id data) {

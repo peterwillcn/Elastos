@@ -11,7 +11,7 @@
 #import "AFNetworking.h"
 #import "SVProgressHUD.h"
 NSString *errorString = @"加载失败，请稍后再试";
-NSInteger timeOut = 20;
+NSInteger timeOut = 60;
 @implementation HttpUrl
 
 +(AFHTTPSessionManager*)getManage{
@@ -56,7 +56,7 @@ NSInteger timeOut = 20;
     NSDictionary *dataDic = [self addOtherKey:param];
     NSString *stringUrl;
     if (httpUrl.length>0) {
-    stringUrl = [NSString stringWithFormat:@"%@%@",host, httpUrl];
+    stringUrl = [NSString stringWithFormat:@"%@%@",host,httpUrl];
     }else{
         stringUrl =host;
     }
@@ -86,7 +86,7 @@ NSInteger timeOut = 20;
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (isSh) {
-            [[FLTools share]showErrorInfo:error.domain];
+            [[FLTools share]showErrorInfo:errorString];
     }
         FailBlock(error);
     }];

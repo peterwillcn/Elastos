@@ -32,7 +32,6 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
         self.skipButton.alpha=0;
 //        self.title=NSLocalizedString(@"CR委员选举",nil);
     }
-    self.headImageIndex=-1;
     self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:self.skipButton];
     
     [self makeUI];
@@ -193,6 +192,8 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
     if (model.avatar.length>0&&self.isEi==NO) {
         [self.hasModelAarray addObject:self.allInfoListArray[3]];
         self.headImageIndex=self.hasModelAarray.count-1;
+    }else{
+        self.headImageIndex=-1;
     }
     if (model.email.length>0) {
         [self.hasModelAarray addObject:self.allInfoListArray[4]];

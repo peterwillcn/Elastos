@@ -207,6 +207,7 @@ UINib *_nib;
         [self goBack];
         [[FLTools share]showErrorInfo:@"更新成功"];
     } WithFailBlock:^(id data) {
+        
     }];
     
     

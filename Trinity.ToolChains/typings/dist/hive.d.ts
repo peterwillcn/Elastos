@@ -152,7 +152,7 @@ declare namespace HivePlugin {
          * A promise object that contains success information will be returned on success,
          * otherwise a promise object that contains error information will be returned.
          */
-        putValue(key: string, value: string): Promise<any>;
+        setValue(key: string, value: string): Promise<any>;
 
         /**
          * Get the value of the key on the backend.

@@ -7,56 +7,63 @@
 // Licensed under the MIT license
 
 /**
-         * This plugin provides an implementation of an old version of the Network Information API.
-         * It provides information about the device's cellular and wifi connection, and whether the device has an internet connection.
+ * This plugin provides an implementation of an old version of the Network Information API.
+ * It provides information about the device's cellular and wifi connection, and whether the device has an internet connection.
  * <br><br>
  * Please use 'NetworkStatus' as the plugin name in the manifest.json if you want to use
- * this facility.                                                   
- * <br><br>                                                         
- * Usage:                                                           
- * <br>                                                             
+ * this facility.
+ * <br><br>
+ * Usage:
+ * <br>
+ * navigator.connection.Initialize();
  * navigator.connection.type;
-         */
+*/
 
 declare namespace CordovaNetworkInfoPlugin {
     /**
- * The connection object, exposed via navigator.connection, provides information
- * about the device's cellular and wifi connection.
- */
-    interface Connection {
-    /**
-     * This property offers a fast way to determine the device's network connection state, and type of connection.
-     * One of:
-     *     Connection.UNKNOWN
-     *     Connection.ETHERNET
-     *     Connection.WIFI
-     *     Connection.CELL_2G
-     *     Connection.CELL_3G
-     *     Connection.CELL_4G
-     *     Connection.CELL
-     *     Connection.NONE
+     * The connection object, exposed via navigator.connection, provides information
+     * about the device's cellular and wifi connection.
      */
-    type: string;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, useCapture?: boolean): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, useCapture?: boolean): void;
+    interface Connection {
+        /**
+         * This property offers a fast way to determine the device's network connection state, and type of connection.
+         * One of:
+         *     Connection.UNKNOWN
+         *     Connection.ETHERNET
+         *     Connection.WIFI
+         *     Connection.CELL_2G
+         *     Connection.CELL_3G
+         *     Connection.CELL_4G
+         *     Connection.CELL
+         *     Connection.NONE
+         */
+        type: string;
+
+        /**
+         * Initialize Connection
+         * You should call Initialize first.
+         */
+        Initialize();
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, useCapture?: boolean): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, useCapture?: boolean): void;
     }
 
     let Connection: {
-    UNKNOWN: string;
-    ETHERNET: string;
-    WIFI: string;
-    CELL_2G: string;
-    CELL_3G: string;
-    CELL_4G: string;
-    CELL: string;
-    NONE: string;
+        UNKNOWN: string;
+        ETHERNET: string;
+        WIFI: string;
+        CELL_2G: string;
+        CELL_3G: string;
+        CELL_4G: string;
+        CELL: string;
+        NONE: string;
     }
 }
 
 interface Navigator {
     connection: CordovaNetworkInfoPlugin.Connection;
     // see https://github.com/apache/cordova-plugin-network-information/blob/dev/doc/index.md#api-change
-    // for 
+    // for
     network: {
         connection: CordovaNetworkInfoPlugin.Connection
     }

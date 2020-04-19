@@ -32,7 +32,14 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(copy,nonatomic)NSString *status;
-
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *IP;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *ConnectionSpeed;
 @end
 
 NS_ASSUME_NONNULL_END

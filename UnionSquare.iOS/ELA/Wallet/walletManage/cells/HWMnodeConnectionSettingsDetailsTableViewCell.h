@@ -24,14 +24,20 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^receivedOrAutomaticBlock)(BOOL received);
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HWMNodeConnectionSettingsViewController : UIViewController
-/*
- *<# #>
- */
-@property(strong,nonatomic)FLWallet *wallet;
-@property (nonatomic, strong)NSArray *currencyArray;
+@interface HWMnodeConnectionSettingsDetailsTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *leftLable;
+@property (weak, nonatomic) IBOutlet UILabel *rightLabel;
+
+@property (weak, nonatomic) IBOutlet UISwitch *connSwitch;
+
+
+@property (copy, nonatomic) void(^receivedOrAutomaticBlock)(BOOL received);
+
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -26,12 +26,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HWMNodeConnectionSettingsViewController : UIViewController
-/*
- *<# #>
- */
-@property(strong,nonatomic)FLWallet *wallet;
-@property (nonatomic, strong)NSArray *currencyArray;
+@interface HWMTheMessageCenterViewController : UIViewController
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -29,7 +29,7 @@
 #import "HMWAddTheCurrencyListViewController.h"
 #import "ELWalletManager.h"
 #import "HWMDIDManager.h"
-
+#import "HWMNodeConnectionSettingsViewController.h"
 
 
 
@@ -220,7 +220,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     self.selectIndex=indexPath;
-     [self showLoading];
+//     [self showLoading];
     NSDictionary *dic=self.dataArray[indexPath.section];
     NSString *title=dic[@"title"];
     if ([title isEqualToString:NSLocalizedString(@"修改钱包名称", nil)]) {
@@ -295,13 +295,15 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
         }
         
     }else if ([title isEqualToString:NSLocalizedString(@"DID",nil)]){
-        
+
         if (self.isOpen) {
           
             if (self.currentWallet.didString.length>5) {
                 [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
+                     
                 BOOL hasChain=[[HWMDIDManager shareDIDManager]HasBeenOnTheChain];
-                [self hiddLoading];
+                                   
+//                [self hiddLoading];
                 if (hasChain) {
                     HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
                     DIDInfoVC.currentWallet=self.currentWallet;
@@ -313,7 +315,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
                 
             }else{
                 [self showDIDInfoOrCreateDIDInfo];
-                [self hiddLoading];
+//                [self hiddLoading];
             }
         }else{
             UIView *mainView =[self mainWindow];
@@ -324,6 +326,11 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
             }];
         }
         
+    }else if([title isEqualToString:NSLocalizedString(@"节点连接设置",nil)]){
+        HWMNodeConnectionSettingsViewController *NodeConnectionSettingsVC=[[HWMNodeConnectionSettingsViewController alloc]init];
+        NodeConnectionSettingsVC.wallet=self.currentWallet;
+        NodeConnectionSettingsVC.currencyArray=self.currencyArray;
+        [self.navigationController pushViewController:NodeConnectionSettingsVC animated:YES];
     }
 }
 -(void)showDIDInfoOrCreateDIDInfo{
@@ -466,7 +473,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
         //        [self.navigationController pushViewController:vc animated:YES];
         
     }else if ([title isEqualToString:NSLocalizedString(@"DID",nil)]){
-        [self showLoading];
+//        [self showLoading];
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwdString] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
         NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
         if (privatekeyString.length==0) {
@@ -474,7 +481,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
         }
         NSString *didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
         BOOL hasChain=[[HWMDIDManager shareDIDManager]HasBeenOnTheChain];
-        [self hiddLoading];
+//        [self hiddLoading];
         if (hasChain&&didString.length>5) {
             FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
             model.walletID=self.currentWallet.masterWalletID;
@@ -531,5 +538,8 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
     if ([walletID isEqualToString:self.currentWallet.masterWalletID]) {
         [self showDIDInfoOrCreateDIDInfo];
     }
+}
+-(void)setCurrencyArray:(NSArray *)currencyArray{
+    _currencyArray=currencyArray;
 }
 @end

@@ -11,12 +11,15 @@
 #import "sideChainInfoModel.h"
 #import "HWMCRListModel.h"
 #import "HWMDIDInfoModel.h"
+#import "HWMMessageCenterModel.h"
 typedef NS_ENUM(NSInteger, FMDatabaseType) {
     friendsModelType = 0,
     walletType=1,
     sideChain=2,
     CRListType,
-    DIDInfoType
+    DIDInfoType,
+    IPInfoType,
+ MessageCenterType
 };
 
 NS_ASSUME_NONNULL_BEGIN
@@ -93,7 +96,16 @@ NS_ASSUME_NONNULL_BEGIN
 //-(BOOL)delectDIDInfo:(HWMDIDInfoModel *)Model WithWalletID:(NSString*)walletID;
 
 
+//增加
+-(BOOL)addIPString:(NSString*)ip withPort:(NSString*)port;
+//查
+-(NSArray*)allIPString;
 
+//删
+-(BOOL)delectIPString:(NSString*)ip withPort:(NSString*)port;
+-(NSArray*)allMessageListWithIndex:(NSInteger)starIndex;
+//增加
+-(BOOL)addMessageCenterWithModel:(HWMMessageCenterModel*)model;
 
 @end
 

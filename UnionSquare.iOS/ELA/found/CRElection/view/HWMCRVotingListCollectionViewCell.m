@@ -22,15 +22,21 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     [[HMWCommView share]makeBordersWithView:self];
+    self.iconImageView.layer.cornerRadius=15.f;
+    self.iconImageView.layer.masksToBounds=YES;
 }
 -(void)setModel:(HWMCRListModel *)model{
-    self.iconImageView.image=[UIImage imageNamed:@"found_vote_initial"];
-    if (model.url.length>0) {
-        [[FLTools share]loadUrlSVGAndPNG:model.url WithSuccessBlock:^(id data) {
+    if (model.iconImageUrl.length>0) {
+        [[FLTools share]loadUrlSVGAndPNG:model.iconImageUrl WithSuccessBlock:^(id data) {
             if (data) {
-            self.iconImageView.image=data;
+                
+                self.iconImageView =data;
+            }else{
+                self.iconImageView.image=[UIImage imageNamed:@"found_vote_initial"];
             }
         }];
+    }else{
+        self.iconImageView.image=[UIImage imageNamed:@"found_vote_initial"];
     }
     self.nickNameLabel.text = model.nickname;
     self.NOIndexLabel.text=[NSString stringWithFormat:@"%ld",(long)[model.index integerValue]];

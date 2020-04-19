@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HMWTheWalletManagementViewController : UIViewController
 @property (nonatomic, strong)FLWallet *currentWallet;
+@property (nonatomic, strong)NSArray *currencyArray;
 @end
 
 NS_ASSUME_NONNULL_END

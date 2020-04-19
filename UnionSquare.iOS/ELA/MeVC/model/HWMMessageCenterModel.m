@@ -22,16 +22,8 @@
  */
 
 
-#import <UIKit/UIKit.h>
+#import "HWMMessageCenterModel.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation HWMMessageCenterModel
 
-@interface HWMNodeConnectionSettingsViewController : UIViewController
-/*
- *<# #>
- */
-@property(strong,nonatomic)FLWallet *wallet;
-@property (nonatomic, strong)NSArray *currencyArray;
 @end
-
-NS_ASSUME_NONNULL_END

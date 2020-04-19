@@ -22,16 +22,30 @@
  */
 
 
-#import <UIKit/UIKit.h>
+#import "HWMnodeConnectionSettingsDetailsTableViewCell.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface HWMNodeConnectionSettingsViewController : UIViewController
-/*
- *<# #>
- */
-@property(strong,nonatomic)FLWallet *wallet;
-@property (nonatomic, strong)NSArray *currencyArray;
+@interface HWMnodeConnectionSettingsDetailsTableViewCell()
 @end
 
-NS_ASSUME_NONNULL_END
+@implementation HWMnodeConnectionSettingsDetailsTableViewCell
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.connSwitch.layer.borderColor=[UIColor whiteColor].CGColor;
+    self.connSwitch.layer.borderWidth=2.f;
+    self.connSwitch.layer.cornerRadius=15.f; self.connSwitch.layer.masksToBounds=YES;
+    self.connSwitch.transform=CGAffineTransformMakeScale(0.75, 0.75);
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+    
+    // Configure the view for the selected state
+}
+- (IBAction)receivedOrAutomatic:(id)sender {
+    if (self.receivedOrAutomaticBlock) {
+        self.receivedOrAutomaticBlock(self.connSwitch.on);
+    }
+}
+
+@end

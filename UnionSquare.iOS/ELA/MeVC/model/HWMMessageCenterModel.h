@@ -22,16 +22,16 @@
  */
 
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HWMNodeConnectionSettingsViewController : UIViewController
-/*
- *<# #>
- */
-@property(strong,nonatomic)FLWallet *wallet;
-@property (nonatomic, strong)NSArray *currencyArray;
+@interface HWMMessageCenterModel : NSObject
+@property(copy,nonatomic)NSString *time;
+@property(copy,nonatomic)NSString *walletName;
+@property(copy,nonatomic)NSString *MessageC;
+@property(copy,nonatomic)NSString *walletID;
+@property(copy,nonatomic)NSString *MessageType;
 @end
 
 NS_ASSUME_NONNULL_END

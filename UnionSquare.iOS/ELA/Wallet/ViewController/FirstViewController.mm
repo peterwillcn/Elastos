@@ -287,6 +287,9 @@
     NSString *lastBlockTimeString=dic[@"lastBlockTimeString"];
     NSString * currentBlockHeight=@"0";
     NSString *  progress=dic[@"progress"];
+    NSString *IP=dic[@"DownloadPeer"];
+    NSString *BytesPerSecond=dic[@"BytesPerSecond"];
+    
     assetsListModel *model;
     if ([self.currentWallet.masterWalletID isEqualToString:walletID]){
         if ([chainID isEqualToString:@"ELA"]) {
@@ -306,6 +309,8 @@
             smodel.sideChainNameTime=lastBlockTimeString;
             NSString *YYMMSS =[[FLTools share]YMDHMSgetTimeFromTimesTamp:smodel.sideChainNameTime];
             model.updateTime=[NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"已同步区块时间", nil),YYMMSS];
+            model.IP=IP;
+            model.ConnectionSpeed=BytesPerSecond;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
                 //                //NSLog(@"修改侧链时间====%@======%@======%@====%@====%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
@@ -560,6 +565,7 @@
 - (void)ClickMore:(UIButton*)sender {
     HMWTheWalletManagementViewController *theWalletManagementVC=[[HMWTheWalletManagementViewController alloc]init];
     theWalletManagementVC.currentWallet=self.currentWallet;
+    theWalletManagementVC.currencyArray=self.dataSoureArray;
     [self.navigationController pushViewController:theWalletManagementVC animated:NO];
 }
 

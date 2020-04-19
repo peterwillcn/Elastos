@@ -24,14 +24,20 @@
 
 #import <UIKit/UIKit.h>
 
+
+@protocol HWMManuallyEnterViewDelegate <NSObject>
+
+-(void)selectIPWithString:(NSString*_Nullable)ip withPort:(NSString*_Nullable)port;
+-(void)deleIPWithString:(NSString*_Nullable)ip withPort:(NSString*_Nullable)port;
+-(void)closEnterView;
+@end
+
+
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HWMNodeConnectionSettingsViewController : UIViewController
-/*
- *<# #>
- */
-@property(strong,nonatomic)FLWallet *wallet;
-@property (nonatomic, strong)NSArray *currencyArray;
+@interface HWMManuallyEnterView : UIView
+@property (weak,nonatomic)id<HWMManuallyEnterViewDelegate> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -22,16 +22,32 @@
  */
 
 
-#import <UIKit/UIKit.h>
+#import "HWMTheMessageCenterTableViewCell.h"
 
-NS_ASSUME_NONNULL_BEGIN
 
-@interface HWMNodeConnectionSettingsViewController : UIViewController
-/*
- *<# #>
- */
-@property(strong,nonatomic)FLWallet *wallet;
-@property (nonatomic, strong)NSArray *currencyArray;
+@interface HWMTheMessageCenterTableViewCell ()
+@property (weak, nonatomic) IBOutlet UILabel *walletName;
+@property (weak, nonatomic) IBOutlet UILabel *time;
+@property (weak, nonatomic) IBOutlet UILabel *messC;
+
 @end
 
-NS_ASSUME_NONNULL_END
+@implementation HWMTheMessageCenterTableViewCell
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    // Initialization code
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+- (void)setModel:(HWMMessageCenterModel *)model{
+    self.walletName.text=model.walletName;
+    self.time.text=[[FLTools share]TimeFormatConversion:model.time];
+    self.messC.text=model.MessageC;
+    _model=model;
+}
+@end

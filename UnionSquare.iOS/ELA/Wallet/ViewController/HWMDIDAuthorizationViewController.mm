@@ -56,16 +56,14 @@ UINib *_nib;
     self.tabel.separatorInset = UIEdgeInsetsZero;
     CGFloat height=300;
     if (self.readModel) {
-         height=250;
+         height=260;
     }
     UIView *headV=[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, height)];
-
     [headV addSubview:self.headView];
     [self.headView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.bottom.right.equalTo(headV);
     }];
     self.tabel.tableHeaderView=headV;
-    
 }
 -(HWMDIDAuthorizationHeadView *)headView{
     if (!_headView) {
@@ -74,7 +72,6 @@ UINib *_nib;
             _headView.readModel=self.readModel;
         }else{
             _headView.infoDic=self.CRInfoDic;
-            
         }
     }
     return _headView;

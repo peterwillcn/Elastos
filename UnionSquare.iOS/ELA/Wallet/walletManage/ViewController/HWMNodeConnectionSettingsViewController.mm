@@ -26,6 +26,8 @@
 #import "HWMNodeConnectionSettingsTableViewCell.h"
 #import "ELWalletManager.h"
 #import "AddTheCurrencyListModel.h"
+#import "assetsListModel.h"
+#import "HWMnodeConnectionSettingsDetailsViewController.h"
 
 
 static NSString *cellString=@"HWMNodeConnectionSettingsTableViewCell";
@@ -40,55 +42,63 @@ static NSString *cellString=@"HWMNodeConnectionSettingsTableViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-       [self setBackgroundImg:@""];
-       self.title=NSLocalizedString(@"节点连接设置", nil);
-       [self makeView];
-    [self loadTheCurrencyList];
+    [self setBackgroundImg:@""];
+    self.title=NSLocalizedString(@"节点连接设置", nil);
+    [self makeView];
+//    [self loadTheCurrencyList];
 }
--(void)loadTheCurrencyList{
-    invokedUrlCommand * cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"getSupportedChains"];
-    PluginResult *result=
-    [[ELWalletManager share]getSupportedChains:cmommand];
-    NSArray *arr=[NSArray arrayWithArray:result.message[@"success"]];
-    for (int i=0; i<arr.count; i++) {
-        NSString *iconName = arr[i];
-        AddTheCurrencyListModel *listModel=[[AddTheCurrencyListModel alloc]init];
-        listModel.nameIcon=iconName;
-        listModel.isAdd=NO;
-        if ([listModel.nameIcon isEqualToString:@"ELA"]||[listModel.nameIcon isEqualToString:@"IDChain"]) {
-             [self.addTheCurrencyList addObject:listModel];
-        }
-    
+//-(void)loadTheCurrencyList{
+//    invokedUrlCommand * cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"getSupportedChains"];
+//    PluginResult *result=
+//    [[ELWalletManager share]getSupportedChains:cmommand];
+//    NSArray *arr=[NSArray arrayWithArray:result.message[@"success"]];
+//    for (int i=0; i<arr.count; i++) {
+//        NSString *iconName = arr[i];
+//        AddTheCurrencyListModel *listModel=[[AddTheCurrencyListModel alloc]init];
+//        listModel.nameIcon=iconName;
+//        listModel.isAdd=NO;
+//        if ([listModel.nameIcon isEqualToString:@"ELA"]||[listModel.nameIcon isEqualToString:@"IDChain"]) {
+//            [self.addTheCurrencyList addObject:listModel];
+//        }
+//
+//    }
+//    [self.baseTableView reloadData];
+//
+//}
+-(NSMutableArray *)addTheCurrencyList{
+    if (!_addTheCurrencyList) {
+        _addTheCurrencyList=[[NSMutableArray alloc]init];
     }
-    [self.baseTableView reloadData];
-    
+    return _addTheCurrencyList;;
 }
-
 -(void)makeView{
-  
-        self.baseTableView.delegate=self;
-        self.baseTableView.dataSource=self;
+    
+    self.baseTableView.delegate=self;
+    self.baseTableView.dataSource=self;
     self.baseTableView.backgroundColor=[UIColor clearColor];
-        self.baseTableView.rowHeight=60;
-        self.baseTableView.separatorStyle= UITableViewCellSeparatorStyleNone;
-
-        [self.baseTableView registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
-        self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
+    self.baseTableView.rowHeight=50;
+    self.baseTableView.separatorStyle= UITableViewCellSeparatorStyleNone;
+    
+    [self.baseTableView registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
+    self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return  self.addTheCurrencyList.count;
+    return  self.currencyArray.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     HWMNodeConnectionSettingsTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
-    AddTheCurrencyListModel *listModel=self.addTheCurrencyList[indexPath.row];
-    cell.nickNameLabel.text=listModel.nameIcon;
-  
+    assetsListModel *listModel=self.currencyArray[indexPath.row];
+    cell.nickNameLabel.text=[NSString stringWithFormat:@"%@ Chain",listModel.iconName];
+    
     return cell;
     
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    HWMnodeConnectionSettingsDetailsViewController *nodeConnectionSettingsDetailsVC=[[HWMnodeConnectionSettingsDetailsViewController alloc]init];
+    nodeConnectionSettingsDetailsVC.wallet=self.wallet;
+    nodeConnectionSettingsDetailsVC.model=self.currencyArray[indexPath.row];
+    [self.navigationController pushViewController:nodeConnectionSettingsDetailsVC animated:YES];
 }
 @end

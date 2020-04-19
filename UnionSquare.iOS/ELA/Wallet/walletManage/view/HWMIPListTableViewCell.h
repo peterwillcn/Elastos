@@ -24,14 +24,18 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol HWMIPListTableViewCellDelegate <NSObject>
+
+-(void)delegIP:(NSString*_Nonnull)IP delePort:(NSString*_Nullable)port;
+
+@end
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HWMNodeConnectionSettingsViewController : UIViewController
-/*
- *<# #>
- */
-@property(strong,nonatomic)FLWallet *wallet;
-@property (nonatomic, strong)NSArray *currencyArray;
+@interface HWMIPListTableViewCell : UITableViewCell
+@property(copy,nonatomic)NSDictionary *dic;
+@property(weak,nonatomic)id<HWMIPListTableViewCellDelegate> delegate;
+
 @end
 
 NS_ASSUME_NONNULL_END

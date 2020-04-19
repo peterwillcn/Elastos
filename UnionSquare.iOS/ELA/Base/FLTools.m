@@ -11,6 +11,9 @@
 #import "UIImageView+WebCache.h"
 #import "UIImage+SVGTool.h"
 #import<SystemConfiguration/SCNetworkReachability.h>
+static NSString *MseeagPush=@"MseeagPush";
+static NSString *MseeagPRead=@"MseeagPRead";
+static NSString *hasMessageNeedRead=@"hasMessageNeedRead";
 @implementation FLFLUser
 
 @end
@@ -129,14 +132,14 @@ static FLTools *tool;
 - (NSString *)YMDCommunityTimeConversionTimeFromTimesTamp:(NSString *)timeStr
 
 {
-   NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
     format.dateFormat = @"yyyy-MM-dd HH:mm:ss";
     timeStr =[self CNTOYMDHMSgetTimeFromTimesTamp:timeStr];
     NSDate *timeDate = [format dateFromString:timeStr]; //
     format.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
     NSDate *utcDate = [format dateFromString:timeStr];  // Summary
     NSDateFormatter *formatter = [NSDateFormatter new];
-     [formatter setDateFormat:@"YYYY.MM.dd"];
+    [formatter setDateFormat:@"YYYY.MM.dd"];
     NSString *timeS = [formatter stringFromDate:utcDate];
     return timeS;
     
@@ -261,7 +264,7 @@ static FLTools *tool;
 -(void)showLoadingView{
     
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];
-    [SVProgressHUD setBackgroundColor:RGBA(51, 86, 87, 1)];
+    [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMinimumSize:CGSizeMake(50, 50)];
     [SVProgressHUD show];
@@ -1710,10 +1713,51 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
         //        });
         
     }];
+}
+-(NSString *)bytesToAvaiUnit:(NSString*)bytesString{
     
+    int64_t bytes=[bytesString intValue];
+    if(bytes < 1000){
+        
+        return [NSString stringWithFormat:@"%ll dB/s",bytes];
+        
+    }
     
-    
-    
+    else if(bytes >= 1000 && bytes < 1000 * 1000){
+        
+        return [NSString stringWithFormat:@"%.2f KB/s", (double)bytes / 1000];}
+    else if(bytes >= 1000 * 1000 && bytes < 1000 * 1000 * 1000){
+        return [NSString stringWithFormat:@"%.2f MB/s", (double)bytes / (1000 * 1000)];
+        
+    }else{
+        
+        return [NSString stringWithFormat:@"%.3f GB/s", (double)bytes / (1000 * 1000 * 1000)];
+        
+    }
     
 }
+-(void)setMseeagPush:(NSString *)Push{
+    
+    [STANDARD_USER_DEFAULT setValue:Push forKey:MseeagPush];
+    [STANDARD_USER_DEFAULT synchronize];
+}
+-(NSString*)readMseeagPush:(NSString *)Push{
+    return [STANDARD_USER_DEFAULT objectForKey:MseeagPush];
+}
+-(NSString*)MseeagPRead:(NSString*)r{
+    return [STANDARD_USER_DEFAULT objectForKey:MseeagPRead];
+}
+-(void)setMMseeagPRead:(NSString*)r{
+    [STANDARD_USER_DEFAULT setValue:r forKey:MseeagPRead];
+    [STANDARD_USER_DEFAULT synchronize];
+}
+-(NSString*)hasMessageNeedRead:(NSString*)r{
+    return [STANDARD_USER_DEFAULT objectForKey:hasMessageNeedRead];
+}
+-(void)sethasMessageNeedRead:(NSString*)r{
+    [STANDARD_USER_DEFAULT setValue:r forKey:hasMessageNeedRead];
+    [STANDARD_USER_DEFAULT synchronize];
+}
+
+
 @end

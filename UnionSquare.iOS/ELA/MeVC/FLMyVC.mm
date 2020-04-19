@@ -16,6 +16,7 @@
 #import "HMWFMDBManager.h"
 #import "friendsModel.h"
 #import "AboutELAWalletViewController.h"
+#import "HWMTheMessageCenterViewController.h"
 
 static NSString *MyIncomeOrWealthCell=@"HMWMyIncomeOrWealthTableViewCell";
 static NSString *LanguageCell=@"HMWClassificationOfLanguageTableViewCell";
@@ -58,8 +59,13 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
     
     [self setBackgroundImg:@""];
 
-   
+   UIBarButtonItem *ClickMorenButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"asset_wallet_setting"] style:UIBarButtonItemStyleDone target:self action:@selector(messageCenter)];
+    self.navigationItem.rightBarButtonItem=ClickMorenButton;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(myfriendNeedUpdateInfo) name:myfriendNeedUpdate object:nil];
+}
+-(void)messageCenter{
+    HWMTheMessageCenterViewController *TheMessageCenterVC=[[HWMTheMessageCenterViewController alloc]init];
+    [self.navigationController pushViewController:TheMessageCenterVC animated:YES];
 }
 -(void)myfriendNeedUpdateInfo{
     [self.theContactMutableArray removeAllObjects];

@@ -307,8 +307,8 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         cell.infoLabel.text=[NSString stringWithFormat:@"%@",titleString];
         cell.intPutTextField.alpha=0.f;
         //        if (self.model.introduction.length>0) {
-        cell.LimitThatLabel.alpha=1.f;
-        cell.LimitThatLabel.text=NSLocalizedString(@"  正文内容限制字符…  ", nil);
+//        cell.LimitThatLabel.alpha=0.f;
+//        cell.LimitThatLabel.text=NSLocalizedString(@"  正文内容限制字符…  ", nil);
         //        }else{
         //            cell.LimitThatLabel.alpha=0.f;
         //        }

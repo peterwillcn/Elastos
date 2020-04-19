@@ -21,17 +21,34 @@
  * SOFTWARE.
  */
 
+        
+#import "HWMIPListTableViewCell.h"
 
-#import <UIKit/UIKit.h>
+@interface HWMIPListTableViewCell ()
+@property (weak, nonatomic) IBOutlet UILabel *IPStringLabel;
+@property (weak, nonatomic) IBOutlet UILabel *portStringLabel;
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface HWMNodeConnectionSettingsViewController : UIViewController
-/*
- *<# #>
- */
-@property(strong,nonatomic)FLWallet *wallet;
-@property (nonatomic, strong)NSArray *currencyArray;
 @end
 
-NS_ASSUME_NONNULL_END
+@implementation HWMIPListTableViewCell
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    // Initialization code
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+- (IBAction)deleIPEvent:(id)sender {
+    if (self.delegate) {
+        [self.delegate delegIP:self.IPStringLabel.text delePort:self.portStringLabel.text];
+    }
+}
+-(void)setDic:(NSDictionary *)dic{
+    self.IPStringLabel.text=dic[@"ip"];
+    self.portStringLabel.text=dic[@"port"];
+}
+@end

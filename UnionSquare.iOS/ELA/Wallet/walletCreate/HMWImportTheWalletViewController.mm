@@ -173,7 +173,7 @@
         NSString *status =[NSString stringWithFormat:@"%@",subResult.status];
     
            if([status isEqualToString:@"1"]){
-        model.didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:wallet.passWord withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:wallet.masterWalletID needCreatDIDString:NO];
+        model.didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:wallet.passWord withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:wallet.masterWalletID needCreatDIDString:YES];
         [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
                sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
                sideModel.walletID=model.walletID;
@@ -243,7 +243,7 @@
             FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
             model.walletID=Wallet.masterWalletID;
             model.walletName=Wallet.walletName;
-             model.didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:Wallet.passWord withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:Wallet.masterWalletID needCreatDIDString:NO];
+             model.didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:Wallet.passWord withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:Wallet.masterWalletID needCreatDIDString:YES];
             [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
             sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
             sideModel.walletID=model.walletID;
@@ -270,7 +270,7 @@
         model.walletID=wallet.masterWalletID;
         model.walletName=wallet.walletName;
         model.TypeW=SingleSign;
-        model.didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:wallet.passWord withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:wallet.masterWalletID needCreatDIDString:NO];
+        model.didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:wallet.passWord withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:wallet.masterWalletID needCreatDIDString:YES];
         [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
         sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
         sideModel.walletID=model.walletID;

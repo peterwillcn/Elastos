@@ -62,6 +62,8 @@
             [[FLTools share]showErrorInfo:NSLocalizedString(@"两次密码输入不一致", nil)];
             return;
         }
+    }else{
+        self.textfield1.text=nil;
     }
     
     if (self.delegate) {

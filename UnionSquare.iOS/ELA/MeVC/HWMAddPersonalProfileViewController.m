@@ -109,12 +109,13 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
     if (textView.text.length+text.length>800) {
         NSString *subString=[NSString stringWithFormat:@"%@%@",textView.text,text];
         textView.text=[subString substringToIndex:800];
-        self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)textView.text.length];
+   
         self.model.introduction=self.infoTextLengthLabel.text;
+             self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)  self.model.introduction.length];
         return NO;
     }
     
-    self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)textView.text.length+text.length];
+    self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)self.infoTextLengthLabel.text.length];
     self.model.introduction=self.infoTextLengthLabel.text;
     
     return YES;

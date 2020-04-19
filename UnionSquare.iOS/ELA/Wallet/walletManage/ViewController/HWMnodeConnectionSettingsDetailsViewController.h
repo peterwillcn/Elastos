@@ -23,15 +23,17 @@
 
 
 #import <UIKit/UIKit.h>
+#import "assetsListModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HWMNodeConnectionSettingsViewController : UIViewController
+@interface HWMnodeConnectionSettingsDetailsViewController : UIViewController
+
 /*
  *<# #>
  */
 @property(strong,nonatomic)FLWallet *wallet;
-@property (nonatomic, strong)NSArray *currencyArray;
+@property(strong,nonatomic)assetsListModel *model;
 @end
 
 NS_ASSUME_NONNULL_END

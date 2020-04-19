@@ -218,7 +218,7 @@
             waModel.walletName=self.Wallet.walletName;
             //            waModel.walletAddress
             waModel.walletID=self.Wallet.masterWalletID;
-            waModel.didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:self.Wallet.passWord withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.Wallet.masterWalletID needCreatDIDString:NO];
+            waModel.didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:self.Wallet.passWord withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.Wallet.masterWalletID needCreatDIDString:YES];
             [[HMWFMDBManager sharedManagerType:walletType] addWallet:waModel];
             sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
             sideModel.walletID=waModel.walletID;
@@ -234,7 +234,7 @@
         
     }else{
         self.Wallet.walletID=NULL;
-        
+        return;
     }
     
     [[FLTools share]showErrorInfo:NSLocalizedString(@"备份成功", nil)];

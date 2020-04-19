@@ -154,7 +154,7 @@ public class PreferenceManager {
         try {
             value = getPreference("developer.mode");
             if (value != null ) {
-                ret = Boolean.getBoolean(value.getString("value"));
+                ret = value.getBoolean("value");
             }
         }
         catch (Exception e){

@@ -35,7 +35,7 @@ import Foundation
 
         parsePreferences();
         PreferenceManager.preferenceManager = self;
-        
+
         // Make some services ready
         let darkMode = getBoolValue("ui.darkmode", false)
         prepareUIStyling(useDarkMode: darkMode)
@@ -168,13 +168,7 @@ import Foundation
     }
 
     func getDeveloperMode() -> Bool {
-        let value = try? getPreference("developer.mode");
-        var ret = false;
-        if (value != nil && (value!["value"] is Bool)) {
-            ret = value!["value"] as! Bool;
-        }
-
-        return ret;
+        return getBoolValue("developer.mode", false)
     }
 
     func setDeveloperMode(_ value: Bool) {
@@ -205,57 +199,17 @@ import Foundation
     }
 
     @objc func getWalletNetworkType() -> String {
-        var value: String? = nil;
-        do {
-            let item = try getPreference("chain.network.type");
-            value = item["value"] as? String;
-        }
-        catch let error {
-            print("getWalletNetworkType error: \(error)");
-        }
-
-        if (value == nil) {
-            value = "MainNet";
-        }
-        return value!;
+        return getStringValue("chain.network.type", "MainNet");
      }
 
     @objc func getWalletNetworkConfig() -> String {
-        var value: String? = nil;
-        do {
-            let item = try getPreference("chain.network.config");
-            if !(item["value"] is NSNull) {
-                value = anyToString(item["value"]!);
-            }
-        }
-        catch let error {
-            print("getWalletNetworkConfig error: \(error)");
-        }
-
-        if (value == nil) {
-            value = "";
-        }
-        return value!;
+        return getStringValue("chain.network.config", "");
      }
-    
-    @objc func getDIDResolver() -> String {
-       var value: String? = nil;
-       do {
-           let item = try getPreference("did.resolver");
-           if !(item["value"] is NSNull) {
-               value = anyToString(item["value"]!);
-           }
-       }
-       catch let error {
-           print("getDIDResolver error: \(error)");
-       }
 
-       if (value == nil) {
-           value = "http://api.elastos.io:20606";
-       }
-       return value!;
+    @objc func getDIDResolver() -> String {
+       return getStringValue("did.resolver", "http://api.elastos.io:20606");
     }
-    
+
     @objc func getStringValue(_ key: String, _ defaultValue: String) -> String {
         var value: String? = nil;
         do {
@@ -309,7 +263,7 @@ import Foundation
         }
         return value!;
     }
-    
+
     private func prepareUIStyling(useDarkMode: Bool) {
         UIStyling.prepare(useDarkMode: useDarkMode)
     }

@@ -149,20 +149,7 @@ public class PreferenceManager {
     }
 
     public Boolean getDeveloperMode() {
-        JSONObject value = null;
-        Boolean ret = false;
-        try {
-            value = getPreference("developer.mode");
-            if (value != null ) {
-                ret = value.getBoolean("value");
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-
-        return ret;
+        return getBooleanValue("developer.mode", false);
     }
 
     public void setDeveloperMode(Boolean value) {
@@ -200,54 +187,15 @@ public class PreferenceManager {
     }
 
     public String getWalletNetworkType()  {
-        String value = null;
-        try {
-            JSONObject item = getPreference("chain.network.type");
-            value = item.getString("value");
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-        if (value == null) {
-            value = "MainNet";
-        }
-
-        return value;
+        return getStringValue("chain.network.type", "MainNet");
     }
 
     public String getWalletNetworkConfig()  {
-        String value = null;
-        try {
-            JSONObject item = getPreference("chain.network.config");
-            value = item.getString("value");
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-        if (value == null) {
-            value = "";
-        }
-
-        return value;
+        return getStringValue("chain.network.config", "");
     }
 
     public String getDIDResolver()  {
-        String value = null;
-        try {
-            JSONObject item = getPreference("did.resolver");
-            value = item.getString("value");
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-        if (value == null) {
-            value = "http://api.elastos.io:20606";
-        }
-
-        return value;
+        return getStringValue("did.resolver", "http://api.elastos.io:20606");
     }
 
     public String getStringValue(String key, String defaultValue) {

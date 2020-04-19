@@ -276,11 +276,55 @@ module.exports = class PublishingHelper {
                 })
             });
 
+            /**
+             * Called by the tool dapp when the publication process is completed successfully.
+             */
+            app.post('/publish/completed', async (req,res)=>{
+                console.log("Publication completed by the developer tools dApp.");
+
+                await this.publishOnLegacyDAppStoreServer(didURL);
+
+                res.json({});
+                resolve();
+            });
+
             let port = 13005;
             var server = app.listen(port);
             console.log("CLI publication server started, listening.");
             console.log("Please configure your developer tool dApp with (one of) the following IP address:".magenta);
             console.log(this.getAllLocalIPAddresses().join(", ").green);
+        });
+    }
+
+    /**
+     * Sends a "publish v2" request to the centralized dapp store server. This i tmeporary, waiting for
+     * the DID sidechain to support improved resolving. During this time, the dapp store server is still
+     * used to retrieve apps.
+     */
+    publishOnLegacyDAppStoreServer(appDID) {
+        return new Promise(async (resolve, reject)=>{
+            try {
+                // Publish only the DID string, not the full did url
+                let didString = appDID.substr(0, appDID.indexOf("#"))
+
+                let data = {
+                    did: didString
+                };
+    
+                await axios({
+                    method: "post",
+                    url: config.dappstore.host + '/v2/apps/publish',
+                    data: data,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+    
+                resolve();
+            } catch (e) {
+                console.log(e);
+                reject(e);
+            }
         });
     }
 

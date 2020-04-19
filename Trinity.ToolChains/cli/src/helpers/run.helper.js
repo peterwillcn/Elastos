@@ -226,7 +226,7 @@ module.exports = class RunHelper {
                     resolve()
                 })
             })
-            var server = app.listen(port)
+            server = app.listen(port)
     
             // Advertise a trinitycli HTTP server
             bonjour.publish({ name: 'trinitycli', type: 'trinitycli', port: port })

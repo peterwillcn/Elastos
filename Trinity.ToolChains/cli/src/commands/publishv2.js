@@ -55,6 +55,7 @@ async function launchAppPublication(whatsNew) {
     //    ionicHelper.runIonicBuild(true).then(() => {
         publishingHelper.startDeveloperDAppToolServer(temporaryManifestPath, whatsNew).then(()=>{
             console.log("Congratulations, the publishing process was completed successfully.".green)
+            process.exit(0);
         })
         /*.catch((err)=>{
             console.error("Failed run ionic build".red)

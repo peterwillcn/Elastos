@@ -2,7 +2,6 @@ package org.elastos.trinity.runtime;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.AssetManager;
 import android.view.LayoutInflater;
@@ -17,6 +16,10 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 public class ApiAuthorityManager {
+    public static final String DANGER_LEVEL_HIGH = "high";
+    public static final String DANGER_LEVEL_MEDIUM = "medium";
+    public static final String DANGER_LEVEL_LOW = "low";
+
     private Activity activity = null;
     private static ApiAuthorityManager apiAuthorityManager;
     protected LinkedHashMap<String, ApiAuthorityInfo> infoList = new LinkedHashMap();
@@ -90,23 +93,11 @@ public class ApiAuthorityManager {
     private LockObj apiLock = new LockObj();
 
     public void alertApiAuth(AppInfo info, String plugin, String api, LockObj lock) {
-        //set view data
         ApiAuthorityInfo authInfo = getApiAuthorityInfo(plugin, api);
-        View view = LayoutInflater.from(activity).inflate(R.layout.api_alert_authority,null);
-        TextView txtTitle = (TextView) view.findViewById(R.id.txtTitle);
-        txtTitle.setText(authInfo.getLocalizedTitle());
-        TextView txtDescription = (TextView) view.findViewById(R.id.txtDescription);
-        txtDescription.setText(authInfo.getLocalizedDescription());
 
-        AlertDialog.Builder ab = new AlertDialog.Builder(activity);
-        ab.setTitle("Api authority request");
-        ab.setView(view);
-        ab.setIcon(android.R.drawable.ic_dialog_alert);
-        ab.setCancelable(false);
-
-        ab.setPositiveButton("Allow", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        new ApiAuthorityDialog.Builder(activity)
+            .setData(authInfo, info, plugin, api)
+            .setOnAcceptClickedListener(() -> {
                 try {
                     setApiAuth(info.app_id, plugin, api, AppInfo.AUTHORITY_ALLOW);
                 }
@@ -117,11 +108,8 @@ public class ApiAuthorityManager {
                     lock.authority = AppInfo.AUTHORITY_ALLOW;
                     lock.notify();
                 }
-            }
-        });
-        ab.setNegativeButton("Deny", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+            })
+            .setOnDenyClickedListener(() -> {
                 try {
                     setApiAuth(info.app_id, plugin, api, AppInfo.AUTHORITY_DENY);
                 }
@@ -132,9 +120,8 @@ public class ApiAuthorityManager {
                     lock.authority = AppInfo.AUTHORITY_DENY;
                     lock.notify();
                 }
-            }
-        });
-        ab.show();
+            })
+            .show();
     }
 
     public synchronized int runAlertApiAuth(AppInfo appInfo, String plugin, String api, int originAuthority) {

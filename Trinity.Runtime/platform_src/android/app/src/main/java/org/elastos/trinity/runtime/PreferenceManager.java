@@ -26,6 +26,10 @@ public class PreferenceManager {
             e.printStackTrace();
         }
         PreferenceManager.preferenceManager = this;
+
+        // Make some services ready
+        boolean darkMode = getBooleanValue("ui.darkmode", false);
+        prepareUIStyling(darkMode);
     }
 
     public static PreferenceManager getShareInstance() {
@@ -129,6 +133,10 @@ public class PreferenceManager {
 //                CLIService.getShareInstance().stop();
 //            }
 //        }
+
+        if (key.equals("ui.darkmode")) {
+            prepareUIStyling((Boolean)value);
+        }
 
         JSONObject data = new JSONObject();
         data.put("key", key);
@@ -297,5 +305,9 @@ public class PreferenceManager {
         }
 
         return value;
+    }
+
+    private void prepareUIStyling(boolean useDarkMode) {
+        UIStyling.prepare(useDarkMode);
     }
 }

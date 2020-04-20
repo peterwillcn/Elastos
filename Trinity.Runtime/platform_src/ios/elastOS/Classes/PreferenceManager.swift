@@ -28,6 +28,7 @@ import Foundation
     private static var preferenceManager: PreferenceManager?;
     private var defaultPreferences = [String: Any]();
     let dbAdapter: ManagerDBAdapter;
+    public var versionChanged: Bool = false;
 
     override init() {
         dbAdapter = AppManager.getShareInstance().getDBAdapter();
@@ -52,7 +53,7 @@ import Foundation
         do {
             let path = getAbsolutePath("www/config/preferences.json");
             defaultPreferences = try getJsonFromFile(path);
-            defaultPreferences["version"] = getVersion();
+            defaultPreferences["version"] = try getNativeSystemVersion();
         }
         catch let error {
             print("Parse preferences.json error: \(error)");
@@ -190,12 +191,33 @@ import Foundation
         AppManager.getShareInstance().broadcastMessage(AppManager.MSG_TYPE_IN_REFRESH, dict.toString()!, "launcher");
     }
 
-    func getVersion() -> String? {
+    func getNativeSystemVersion() throws -> String {
         let infoDictionary = Bundle.main.infoDictionary
-
         let majorVersion = infoDictionary? ["CFBundleShortVersionString"] as? String;
+        
+        //check version
+        let json = try dbAdapter.getPreference("version");
+        var version: String? = nil
+        if (json != nil) {
+            if !(json!["value"] is NSNull) {
+                version = anyToString(json!["value"]!);
+            }
+        }
 
-        return majorVersion;
+        if (json == nil || majorVersion != version) {
+            try dbAdapter.setPreference("version", majorVersion);
+            versionChanged = true;
+        }
+
+        return majorVersion!;
+    }
+    
+    func getVersion() -> String {
+        var version = "";
+        if (defaultPreferences["version"] != nil) {
+            version = anyToString(defaultPreferences["version"] as Any)!;
+        }
+        return version;
     }
 
     @objc func getWalletNetworkType() -> String {

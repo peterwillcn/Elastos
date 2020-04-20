@@ -328,7 +328,8 @@ class AppManager: NSObject {
         var needInstall = true;
 
         if (installedInfo != nil) {
-            if (builtInInfo.version_code > installedInfo!.version_code) {
+            let versionChanged = PreferenceManager.getShareInstance().versionChanged;
+            if (versionChanged || builtInInfo.version_code > installedInfo!.version_code) {
                 Log.d("AppManager", "built in version > installed version: uninstalling installed");
                 try installer.unInstall(installedInfo, true);
             }
@@ -418,7 +419,7 @@ class AppManager: NSObject {
         let info = try installer.install(url, update);
         if (info != nil) {
             refreashInfos();
-            
+
             if (info!.launcher) {
                 sendRefreshList("launcher_upgraded", info!);
             }
@@ -529,7 +530,7 @@ class AppManager: NSObject {
         if (info == nil) {
             throw AppError.error("No such app!");
         }
-        
+
         setAppVisible(id, info!.start_visible);
 
         let viewController = getViewControllerById(id);
@@ -556,7 +557,7 @@ class AppManager: NSObject {
     func loadLauncher() throws {
         try start("launcher");
     }
-    
+
    func checkInProtectList(_ uri: String) throws {
         let protectList = ConfigManager.getShareInstance().getStringArrayValue("dapp.protectList", [String]());
         let info = try installer.getInfoFromUrl(uri);
@@ -566,7 +567,7 @@ class AppManager: NSObject {
             }
         }
     }
-    
+
     func installUri(_ uri: String, _ dev:Bool) {
         do {
             if (dev && PreferenceManager.getShareInstance().getDeveloperMode()) {

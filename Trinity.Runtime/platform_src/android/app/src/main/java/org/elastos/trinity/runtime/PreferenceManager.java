@@ -17,6 +17,7 @@ public class PreferenceManager {
 
     private JSONObject defaultPreferences = new JSONObject();
     ManagerDBAdapter dbAdapter = null;
+    public boolean versionChanged = false;
 
     PreferenceManager() {
         dbAdapter = AppManager.getShareInstance().getDBAdapter();
@@ -44,7 +45,7 @@ public class PreferenceManager {
         InputStream inputStream = manager.open("www/config/preferences.json");
 
         defaultPreferences = Utility.getJsonFromFile(inputStream);
-        defaultPreferences.put("version", getVersion());
+        defaultPreferences.put("version", getNativeSystemVersion());
     }
 
     private Object getDefaultValue(String key) throws Exception {
@@ -179,11 +180,32 @@ public class PreferenceManager {
                 json.toString(), AppManager.LAUNCHER);
     }
 
-    public String getVersion() throws Exception {
+    public String getNativeSystemVersion() throws Exception {
         Context context = AppManager.getShareInstance().activity;
         PackageManager manager = context.getPackageManager();
         PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+
+        //check version
+        JSONObject json = dbAdapter.getPreference("version");
+        String version = null;
+        if (json != null) {
+            version = json.getString("value");
+        }
+
+        if (json == null || !info.versionName.equals(version)) {
+            dbAdapter.setPreference("version", info.versionName);
+            versionChanged = true;
+        }
+
         return info.versionName;
+    }
+
+    public String getVersion() throws Exception {
+        String version = "";
+        if (defaultPreferences.has("version")) {
+            version = defaultPreferences.getString("version");
+        }
+        return version;
     }
 
     public String getWalletNetworkType()  {

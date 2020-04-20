@@ -202,7 +202,8 @@ public class AppManager {
         AppInfo installedInfo = getAppInfo(id);
         Boolean needInstall = true;
         if (installedInfo != null) {
-            if (builtInInfo.version_code > installedInfo.version_code) {
+            boolean versionChanged = PreferenceManager.getShareInstance().versionChanged;
+            if (versionChanged || builtInInfo.version_code > installedInfo.version_code) {
                 Log.d("AppManager", "built in version > installed version: uninstalling installed");
                 installer.unInstall(installedInfo, true);
             }

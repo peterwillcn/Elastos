@@ -563,7 +563,7 @@
 "马其顿"="The Republic of Macedonia";
 "巴布亚新几内亚"="Papua New Guinea";
 "黎巴嫩"="Lebanon";
-"澳门地区"="Macau";
+"中国澳门"="Macau";
 "蒙特塞拉特"="Montserrat";
 "斯洛文尼亚"="Slovenia";
 "利比里亚"="Liberia";
@@ -709,8 +709,7 @@
 "DID已过期"="DID has expired";
 "当前钱包未创建DID"="Create DID";
 "更新DID信息"="Update DID information";
-"请输入个人简介"="Enter your bios";
-"添加个人简介"="Add your bios";
+"添加个人简介"="Personal profile";
 "添加社交账号"="Add Social Media Account";
 "请输入个人主页网址"="Enter your profile URL";
 "请输入谷歌账号"="Enter google account";
@@ -754,6 +753,9 @@
 "导出凭证"="Export credentials";
 "创建DID"="Create DID";
 "服务提供方"="Service provider";
+"请输入个人简介"="Please enter your profile";
+"新消息·现在"="";
+
 "节点连接设置"="";
 "err10000"="Json parse error of action parameters";
 "err10001"="Parameters error of action";

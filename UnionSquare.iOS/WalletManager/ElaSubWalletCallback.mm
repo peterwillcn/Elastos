@@ -73,13 +73,11 @@ void ElaSubWalletCallback::OnBalanceChanged(const std::string &asset, const std:
 void ElaSubWalletCallback::OnTxPublished(const std::string &hash, const nlohmann::json &result)
 {
     NSString *hashString = [NSString stringWithCString:hash.c_str() encoding:NSUTF8StringEncoding];
-     
-     
      NSString *resultString = [NSString stringWithCString:result.dump().c_str() encoding:NSUTF8StringEncoding];
     
 //    printf(@"s/n%/n",hash.c_str(),result.dump().c_str());
 //
-    //NSLog(@"hash===%@========详情======%@",hashString ,resultString);
+//    NSLog(@"hash===%@========详情======%@",hashString ,resultString);
 }
 
 /**

@@ -120,6 +120,7 @@
     if ([SDKNET isEqualToString:@"MainNet"]) {
         [self loadNetWorkingPong];
     }
+
     
 }
 -(void)loadNetWorkingPong{
@@ -649,6 +650,7 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+
     FLAssetTableCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     HMWAssetDetailsViewController *vc = [[HMWAssetDetailsViewController alloc]init];
     assetsListModel *model=self.dataSoureArray[indexPath.row];
@@ -659,6 +661,7 @@
     vc.synchronousP=cell.progress.progress;
     vc.supportOfTheCurrencyArray=self.dataSoureArray;
     [self.navigationController pushViewController:vc animated:NO];
+    
 }
 #pragma mark param
 -(FLPrepareVC *)prepare

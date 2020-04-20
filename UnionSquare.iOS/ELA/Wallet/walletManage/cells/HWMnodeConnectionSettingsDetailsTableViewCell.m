@@ -43,9 +43,42 @@
     // Configure the view for the selected state
 }
 - (IBAction)receivedOrAutomatic:(id)sender {
+    if (self.index) {
+        NSString *isOpen=@"0";
+        if (self.connSwitch.on) {
+            isOpen=@"1";
+        }
+        
+        switch (self.index.row) {
+            case 0:
+                [[FLTools share]setMMseeagPRead:isOpen];
+                break;
+            case 1:
+                [[FLTools share]setMseeagPush:isOpen];
+                break;
+                
+            default:
+                break;
+        }
+        return;
+    }
     if (self.receivedOrAutomaticBlock) {
         self.receivedOrAutomaticBlock(self.connSwitch.on);
     }
 }
-
+-(void)setIndex:(NSIndexPath *)index{
+    switch (index.row) {
+        case 0:
+            self.connSwitch.on=[[FLTools share]MseeagPRead:@""];
+            
+            break;
+        case 1:
+            self.connSwitch.on=[[FLTools share]readMseeagPush:@""];
+            break;
+            
+        default:
+            break;
+    }
+    _index=index;
+}
 @end

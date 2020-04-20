@@ -28,6 +28,7 @@ static NSString *cellString=@"HWMnodeConnectionSettingsDetailsTableViewCell";
 @interface HWMTheMessageSettingViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *baseTabView;
 @property(strong,nonatomic)NSArray *MessageList;
+
 @end
 
 @implementation HWMTheMessageSettingViewController
@@ -62,13 +63,14 @@ static NSString *cellString=@"HWMnodeConnectionSettingsDetailsTableViewCell";
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
     cell.leftLable.text=self.MessageList[indexPath.row];
+    cell.index=indexPath;
     cell.rightLabel.alpha=0;
     cell.connSwitch.alpha=1.f;
     return cell;
     
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-
+    
 }
 
 @end

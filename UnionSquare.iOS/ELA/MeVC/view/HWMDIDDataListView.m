@@ -70,7 +70,6 @@
         self.dataPickerView.delegate =self;
         self.dataPickerView.dataSource =self;
         self.makeSureTextLabel.text=NSLocalizedString(@"确定", nil);
-        
     }
     return self;
 }
@@ -222,6 +221,7 @@
                 
                 [_dayArray addObject:str];
             }
+//            [self.dataPickerView reloadComponent:2];
         }
         
     }else{
@@ -266,24 +266,25 @@
         return self.monthArray.count;
         
     }else {
+        return self.dayArray.count;
         
-        switch (self.monthIndex + 1) {
-                
-            case 1:
-            case 3:
-            case 5:
-            case 7:
-            case 8:
-            case 10:
-            case 12: return 31;
-                
-            case 4:
-            case 6:
-            case 9:
-            case 11: return 30;
-                
-            default: return 28;
-        }
+//        switch (self.monthIndex + 1) {
+//
+//            case 1:
+//            case 3:
+//            case 5:
+//            case 7:
+//            case 8:
+//            case 10:
+//            case 12: return 31;
+//
+//            case 4:
+//            case 6:
+//            case 9:
+//            case 11: return 30;
+//
+//            default: return 28;
+//        }
     }
 }
 #pragma mark -UIPickerView的代理
@@ -310,41 +311,45 @@
         }
         [self.dataPickerView selectRow:self.monthIndex inComponent:1 animated:YES];
         [self pickerView:self.dataPickerView didSelectRow:self.monthIndex inComponent:1];
-        //        [self updatSelectIndexTextColorWithRow:self.monthIndex withcomponent:1];
         
     }else if (component == 1) {
-        
         self.monthIndex = row;
-        
         self.selectMonthString=self.monthArray[self.monthIndex];
-        
-        if (self.monthIndex + 1 == 4 || self.monthIndex + 1 == 6 || self.monthIndex + 1 == 9 || self.monthIndex + 1 == 11) {
+        if ([self.selectMonthString isEqualToString:@"05"] || [self.selectMonthString isEqualToString:@"07"] || [self.selectMonthString isEqualToString:@"10"]|| [self.selectMonthString isEqualToString:@"12"]) {
             
             if (self.dayIndex + 1 == 31) {
                 
                 self.dayIndex--;
             }
-        }else if (self.monthIndex + 1 == 2) {
+        }else if ([self.selectMonthString isEqualToString:@"02"]) {
             if (self.dayIndex + 1 > 28) {
                 self.dayIndex = 27;
             }
         }
-        //        [self updatSelectIndexTextColorWithRow:self.monthIndex withcomponent:1];
-        [pickerView reloadComponent:2];
+                [self updatSelectIndexTextColorWithRow:self.monthIndex withcomponent:1];
+       
         if ([self.dayArray containsObject:self.selectDayString]) {
             self.dayIndex=[self.dayArray indexOfObject:self.selectDayString];
         }else{
             self.dayIndex=0;
         }
+        [pickerView reloadComponent:2];
         [self pickerView:self.dataPickerView didSelectRow:self.dayIndex inComponent:2];
         [self.dataPickerView selectRow:self.dayIndex inComponent:2 animated:YES];
         
         
         //
     }else {
+        if (row>self.dayArray.count-1) {
+            self.dayIndex=self.dayArray.count-1;
+             [self.dataPickerView selectRow:self.dayIndex inComponent:2 animated:YES];
+                [self pickerView:self.dataPickerView didSelectRow:self.dayIndex inComponent:2];
+            return;
+        }
         self.dayIndex = row;
+       
         self.selectDayString=self.dayArray[self.dayIndex];
-        //          [self updatSelectIndexTextColorWithRow:row withcomponent:component];
+                  [self updatSelectIndexTextColorWithRow:row withcomponent:component];
     }
 }
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
@@ -386,6 +391,10 @@
         
         
     }else {
+//        if (row>self.dayArray.count-1) {
+//            self.dayIndex=self.dayArray.count-1;
+//             [pickerView selectRow:self.dayIndex inComponent:2 animated:YES];
+//        }
         genderLabel.text = self.dayArray[row];
         if (row==self.dayIndex) {
             genderLabel.textColor = [UIColor whiteColor];

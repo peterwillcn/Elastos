@@ -305,29 +305,29 @@
     return _memberListDataSource;
 }
 -(void)loadAllImageInfo:(NSMutableArray*)allListInfoArray{
-        for (int i=0; i<self.ActiveArray.count; i++) {
-            NSString *httpIP=[[FLTools share]http_IpFast];
-            HWMCRListModel *model =self.ActiveArray[i];
-            if (model.cid.length>0) {
-                [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtget" header:@{} body:@{@"did":[NSString stringWithFormat:@"did:elastos:%@",model.cid]} showHUD:NO WithSuccessBlock:^(id data) {
-                    NSString *jwtString=data[@"data"][@"jwt"];
-                    NSDictionary *playInfoDic=[[HWMDIDManager shareDIDManager]CRInfoDecodeWithJwtStringInfo:jwtString];
-                    
-                    HWMDIDInfoModel *didModel=  [HWMDIDInfoModel modelWithJSON:playInfoDic[@"credentialSubject"]];
-                    model.iconImageUrl=didModel.avatar;
-                    model.infoEN=didModel.introduction;
-                    model.infoZH=didModel.introduction;
-                    self.ActiveArray[i]=model;
-                    if (model.iconImageUrl.length>0) {
-                    [self.votingListV reloadCollecWithIndex:i withModel:model];
-                    }
-                 
-                } WithFailBlock:^(id data) {
-                    
-                }];
+    for (int i=0; i<self.ActiveArray.count; i++) {
+        NSString *httpIP=[[FLTools share]http_IpFast];
+        HWMCRListModel *model =self.ActiveArray[i];
+        if (model.cid.length>0) {
+            [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtget" header:@{} body:@{@"did":[NSString stringWithFormat:@"did:elastos:%@",model.cid]} showHUD:NO WithSuccessBlock:^(id data) {
+                NSString *jwtString=data[@"data"][@"jwt"];
+                NSDictionary *playInfoDic=[[HWMDIDManager shareDIDManager]CRInfoDecodeWithJwtStringInfo:jwtString];
                 
-            }
+                HWMDIDInfoModel *didModel=  [HWMDIDInfoModel modelWithJSON:playInfoDic[@"credentialSubject"]];
+                model.iconImageUrl=didModel.avatar;
+                model.infoEN=didModel.introduction;
+                model.infoZH=didModel.introduction;
+                self.ActiveArray[i]=model;
+                if (model.iconImageUrl.length>0) {
+                    [self.votingListV reloadCollecWithIndex:i withModel:model];
+                }
+                
+            } WithFailBlock:^(id data) {
+                
+            }];
+            
         }
+    }
 }
 -(void)getNetCoinPointArray{
     NSString *httpIP=[[FLTools share]http_IpFast];
@@ -401,7 +401,7 @@
     }
     self.votingListV.dataSource=self.ActiveArray;
     [self loadAllImageInfo:self.ActiveArray];
-      
+    
     //    if (self.selfModel) {
     [self updateInfoSelf];
     //    }
@@ -501,9 +501,9 @@
 }
 -(void)updateDataInfo{
     //    ELWalletManager *manager   =  [ELWalletManager share];
-    //    
+    //
     //    IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-    //    
+    //
     //    nlohmann::json info = mainchainSubWallet->GetRegisteredCRInfo();
     //    NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
     //    NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
@@ -750,7 +750,11 @@
     
 }
 -(bool)UnregisteredAndTimeExpired{
-    if (self.wallet.didString.length==0) {
+    
+    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.wallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.wallet.masterWalletID needCreatDIDString:NO];
+    
+    BOOL hasChain=[[HWMDIDManager shareDIDManager]HasBeenOnTheChain];
+    if (hasChain==NO) {
         UIView *mainView =[self mainWindow];
         [mainView addSubview:self.openIDChainView];
         self.openIDChainView.deleteType=needCreadDIDType;
@@ -759,6 +763,7 @@
         }];
         return NO;
     }
+    
     if ([[HWMDIDManager shareDIDManager]CheckDIDwhetherExpiredWithDIDString:self.wallet.didString WithmastWalletID:self.wallet.masterWalletID]) {
         return YES;
     }

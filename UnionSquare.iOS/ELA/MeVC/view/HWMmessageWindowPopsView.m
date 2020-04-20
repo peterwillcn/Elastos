@@ -22,22 +22,26 @@
  */
 
 
-#import <UIKit/UIKit.h>
+#import "HWMmessageWindowPopsView.h"
 
-typedef void(^receivedOrAutomaticBlock)(BOOL received);
+@interface HWMmessageWindowPopsView ()
+@property (weak, nonatomic) IBOutlet UILabel *messTitleLabel;
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface HWMnodeConnectionSettingsDetailsTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *leftLable;
-@property (weak, nonatomic) IBOutlet UILabel *rightLabel;
-
-@property (weak, nonatomic) IBOutlet UISwitch *connSwitch;
-
-
-@property (copy, nonatomic) void(^receivedOrAutomaticBlock)(BOOL received);
-@property (assign, nonatomic)NSIndexPath *index ;
 
 @end
 
-NS_ASSUME_NONNULL_END
+@implementation HWMmessageWindowPopsView
+
+-(instancetype)init{
+    self =[super init];
+    if (self) {
+
+        self =[[NSBundle mainBundle]loadNibNamed:@"HWMmessageWindowPopsView" owner:nil options:nil].firstObject;
+        self.userInteractionEnabled=YES;
+        self.layer.cornerRadius=5.f;
+        self.layer.masksToBounds=YES;
+        self.messTitleLabel.text=NSLocalizedString(@"新消息·现在", nil);
+    }
+    return self;
+}
+@end

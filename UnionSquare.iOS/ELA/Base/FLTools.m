@@ -11,6 +11,7 @@
 #import "UIImageView+WebCache.h"
 #import "UIImage+SVGTool.h"
 #import<SystemConfiguration/SCNetworkReachability.h>
+#import "HWMmessageWindowPopsView.h"
 static NSString *MseeagPush=@"MseeagPush";
 static NSString *MseeagPRead=@"MseeagPRead";
 static NSString *hasMessageNeedRead=@"hasMessageNeedRead";
@@ -21,7 +22,6 @@ static NSString *hasMessageNeedRead=@"hasMessageNeedRead";
 @implementation FLWallet
 
 @end
-
 static FLTools *tool;
 
 @interface FLTools ()
@@ -925,7 +925,7 @@ static FLTools *tool;
         @"立陶宛":@"370",
         @"卢森堡":@"352",
         @"老挝":@"856",
-        @"澳门地区":@"853",
+        @"中国澳门":@"853",
         @"马达加斯加":@"261",
         @"马拉维":@"265",
         @"马来西亚":@"60",
@@ -1737,27 +1737,66 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     
 }
 -(void)setMseeagPush:(NSString *)Push{
-    
     [STANDARD_USER_DEFAULT setValue:Push forKey:MseeagPush];
     [STANDARD_USER_DEFAULT synchronize];
 }
--(NSString*)readMseeagPush:(NSString *)Push{
-    return [STANDARD_USER_DEFAULT objectForKey:MseeagPush];
+-(BOOL)readMseeagPush:(NSString *)Push{
+    Push=[STANDARD_USER_DEFAULT objectForKey:MseeagPush];
+    if (Push==nil) {
+        Push=@"1";
+    }
+    return   [Push intValue];
 }
--(NSString*)MseeagPRead:(NSString*)r{
-    return [STANDARD_USER_DEFAULT objectForKey:MseeagPRead];
+-(BOOL)MseeagPRead:(NSString*)r{
+    r=[STANDARD_USER_DEFAULT objectForKey:MseeagPRead];
+    if (r==nil) {
+        r=@"1";
+    }
+    return [r intValue];
 }
 -(void)setMMseeagPRead:(NSString*)r{
     [STANDARD_USER_DEFAULT setValue:r forKey:MseeagPRead];
     [STANDARD_USER_DEFAULT synchronize];
 }
--(NSString*)hasMessageNeedRead:(NSString*)r{
-    return [STANDARD_USER_DEFAULT objectForKey:hasMessageNeedRead];
+-(BOOL)hasMessageNeedRead:(NSString*)r{
+    r=[STANDARD_USER_DEFAULT objectForKey:hasMessageNeedRead];
+    if (r==nil) {
+        r=@"0";
+    }
+    return [r intValue];
 }
 -(void)sethasMessageNeedRead:(NSString*)r{
     [STANDARD_USER_DEFAULT setValue:r forKey:hasMessageNeedRead];
     [STANDARD_USER_DEFAULT synchronize];
 }
 
+-(void)showNeMessageWith:(HWMMessageCenterModel*)mode{
+    UIView  *appW=[self mainWindow];
+    HWMmessageWindowPopsView *messagePopsV =[[HWMmessageWindowPopsView alloc]init];
+    messagePopsV.frame=CGRectMake(15, -100, AppWidth-30, 70);
+    [appW addSubview:messagePopsV];
+    
+    [UIView animateWithDuration:1 animations:^{
+        messagePopsV.frame = CGRectMake(15, 30, AppWidth-30, 70);
+    }];
+    [UIView animateWithDuration:1 delay:2 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        messagePopsV.frame = CGRectMake(15, -100, AppWidth-30, 70);
+    } completion:^(BOOL finished) {
+        [messagePopsV removeFromSuperview];
+        
+    }];
+    
+}
+-(UIWindow *)mainWindow{
+    UIApplication *app = [UIApplication sharedApplication];
+    
+    if ([app.delegate respondsToSelector:@selector(window)]){
+        return [app.delegate window];
+    }
+    else
+    {
+        return [app keyWindow];
+    }
+}
 
 @end

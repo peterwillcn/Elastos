@@ -180,7 +180,7 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
                     @{@"countries":@"老挝",@"mobileCode":@"856"},
                     nil];
         NSArray *M=[NSArray arrayWithObjects:
-                    @{@"countries":@"澳门地区",@"mobileCode":@"853"},
+                    @{@"countries":@"中国澳门",@"mobileCode":@"853"},
                     @{@"countries":@"马达加斯加",@"mobileCode":@"261"},
                     @{@"countries":@"马拉维",@"mobileCode":@"265"},
                     @{@"countries":@"马来西亚",@"mobileCode":@"60"},

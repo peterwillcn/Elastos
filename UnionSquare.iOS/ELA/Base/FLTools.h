@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HWMMessageCenterModel.h"
 //待用
 @interface FLFLUser : NSObject
 @property (nonatomic, copy)NSString *userId;
@@ -158,9 +159,11 @@
 -(void)loadUrlSVGAndPNG:(NSString*)imageURL WithSuccessBlock:(void(^)(id data))successBlock;
 -(NSString *)bytesToAvaiUnit:(NSString*)bytesString;
 -(void)setMseeagPush:(NSString *)Push;
--(NSString*)readMseeagPush:(NSString *)Push;
--(NSString*)MseeagPRead:(NSString*)r;
+-(BOOL)readMseeagPush:(NSString *)Push;
+-(BOOL)MseeagPRead:(NSString*)r;
 -(void)setMMseeagPRead:(NSString*)r;
--(NSString*)hasMessageNeedRead:(NSString*)r;
+-(BOOL)hasMessageNeedRead:(NSString*)r;
 -(void)sethasMessageNeedRead:(NSString*)r;
+-(void)showNeMessageWith:(HWMMessageCenterModel*)mode;
+
 @end

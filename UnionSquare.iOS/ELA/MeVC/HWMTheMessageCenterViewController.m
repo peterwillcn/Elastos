@@ -26,10 +26,13 @@
 #import "HWMTheMessageCenterTableViewCell.h"
 #import "HWMMessageCenterModel.h"
 #import "HMWFMDBManager.h"
+#import "HWMTheMessageSettingViewController.h"
+#import "HWMAllNoView.h"
 static NSString *cellString=@"HWMTheMessageCenterTableViewCell";
 @interface HWMTheMessageCenterViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *baseTabView;
 @property(strong,nonatomic)NSMutableArray *MessageList;
+@property(strong,nonatomic)HWMAllNoView *NoView;
 @end
 
 @implementation HWMTheMessageCenterViewController
@@ -39,15 +42,22 @@ static NSString *cellString=@"HWMTheMessageCenterTableViewCell";
     [self defultWhite];
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"消息中心", nil);
-    UIBarButtonItem *ClickMorenButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"asset_wallet_setting"] style:UIBarButtonItemStyleDone target:self action:@selector(messageCenter)];
+    UIBarButtonItem *ClickMorenButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"asset_wallet_setting"] style:UIBarButtonItemStyleDone target:self action:@selector(messageCenterSetting)];
        self.navigationItem.rightBarButtonItem=ClickMorenButton;
     [self makeView];
+    if (self.MessageList.count==0) {
+        [self.baseTabView addSubview:self.NoView];
+    }
 }
 -(NSMutableArray *)MessageList{
     if (!_MessageList) {
         _MessageList=[[NSMutableArray alloc]initWithArray:[[HMWFMDBManager sharedManagerType:MessageCenterType]allMessageListWithIndex:10]];
     }
-    return _MessageList;;
+    return _MessageList;
+}
+-(void)messageCenterSetting{
+    HWMTheMessageSettingViewController *TheMessageSettingVC=[HWMTheMessageSettingViewController alloc];
+    [self.navigationController pushViewController:TheMessageSettingVC animated:YES];
 }
 -(void)makeView{
     
@@ -79,5 +89,11 @@ static NSString *cellString=@"HWMTheMessageCenterTableViewCell";
     //    nodeConnectionSettingsDetailsVC.model=self.currencyArray[indexPath.row];
     //    [self.navigationController pushViewController:nodeConnectionSettingsDetailsVC animated:YES];
 }
-
+-(HWMAllNoView *)NoView{
+    if (!_NoView) {
+        _NoView=[[HWMAllNoView alloc]init];
+        _NoView.type=meeeagerType;
+    }
+    return _NoView;
+}
 @end

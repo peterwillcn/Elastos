@@ -55,4 +55,5 @@
 -(void)showSendSuccessPopuVWithType:(SendSuccessType)suType withBackVC:(UIViewController*)VC;
 -(void)showLoading;
 -(void)hiddLoading;
+-(void)showNeMessageWith:(HWMMessageCenterModel*)mode;
 @end

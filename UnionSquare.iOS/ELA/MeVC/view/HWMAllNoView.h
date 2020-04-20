@@ -24,19 +24,19 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^receivedOrAutomaticBlock)(BOOL received);
+
+typedef NS_ENUM(NSInteger, AllNoViewType) {
+    meeeagerType,
+  
+    
+};
+
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HWMnodeConnectionSettingsDetailsTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *leftLable;
-@property (weak, nonatomic) IBOutlet UILabel *rightLabel;
+@interface HWMAllNoView : UIView
 
-@property (weak, nonatomic) IBOutlet UISwitch *connSwitch;
-
-
-@property (copy, nonatomic) void(^receivedOrAutomaticBlock)(BOOL received);
-@property (assign, nonatomic)NSIndexPath *index ;
+@property(assign,nonatomic)AllNoViewType type;
 
 @end
 

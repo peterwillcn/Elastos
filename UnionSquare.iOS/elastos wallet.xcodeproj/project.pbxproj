@@ -309,6 +309,12 @@
 		422D60AB21FC42D100DD07FF /* HMWChooseTheCountryAreasTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 422D60A721FC42D100DD07FF /* HMWChooseTheCountryAreasTableViewCell.xib */; };
 		4230217A22C0BB000004AB65 /* nodeInformationDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4230217922C0BB000004AB65 /* nodeInformationDetailsView.m */; };
 		4230217C22C0BB0C0004AB65 /* nodeInformationDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4230217B22C0BB0C0004AB65 /* nodeInformationDetailsView.xib */; };
+		423270C3244D8B1300E98C26 /* HWMTheMessageSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 423270C1244D8B1300E98C26 /* HWMTheMessageSettingViewController.m */; };
+		423270C4244D8B1300E98C26 /* HWMTheMessageSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 423270C2244D8B1300E98C26 /* HWMTheMessageSettingViewController.xib */; };
+		423270C7244D8BC900E98C26 /* HWMAllNoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 423270C6244D8BC900E98C26 /* HWMAllNoView.m */; };
+		423270C9244D8BD300E98C26 /* HWMAllNoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 423270C8244D8BD300E98C26 /* HWMAllNoView.xib */; };
+		423270CC244DA17E00E98C26 /* HWMmessageWindowPopsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 423270CB244DA17E00E98C26 /* HWMmessageWindowPopsView.m */; };
+		423270CE244DA18900E98C26 /* HWMmessageWindowPopsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 423270CD244DA18900E98C26 /* HWMmessageWindowPopsView.xib */; };
 		423461E62383E26900E4B135 /* UILabel+HMWinternationalization.m in Sources */ = {isa = PBXBuildFile; fileRef = 423461E52383E26900E4B135 /* UILabel+HMWinternationalization.m */; };
 		423461F72383F18900E4B135 /* NSNumber+YRSafeCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 423461EB2383F18600E4B135 /* NSNumber+YRSafeCategory.m */; };
 		423461F82383F18900E4B135 /* NSString+YRSafeCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 423461EC2383F18600E4B135 /* NSString+YRSafeCategory.m */; };
@@ -323,8 +329,6 @@
 		423F37C5244C9B1D000CDFE9 /* HWMTheMessageCenterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 423F37C3244C9B1D000CDFE9 /* HWMTheMessageCenterTableViewCell.m */; };
 		423F37C6244C9B1D000CDFE9 /* HWMTheMessageCenterTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 423F37C4244C9B1D000CDFE9 /* HWMTheMessageCenterTableViewCell.xib */; };
 		423F37C9244C9D32000CDFE9 /* HWMMessageCenterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 423F37C8244C9D32000CDFE9 /* HWMMessageCenterModel.m */; };
-		423F37CD244CA48D000CDFE9 /* HWMTheMessageSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 423F37CB244CA48D000CDFE9 /* HWMTheMessageSettingViewController.m */; };
-		423F37CE244CA48D000CDFE9 /* HWMTheMessageSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 423F37CC244CA48D000CDFE9 /* HWMTheMessageSettingViewController.xib */; };
 		424910E72271BFCF00C41E50 /* SDWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 424910C62271BFCF00C41E50 /* SDWebImageManager.m */; };
 		424910E82271BFCF00C41E50 /* SDWebImageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 424910C72271BFCF00C41E50 /* SDWebImageDecoder.m */; };
 		424910E92271BFCF00C41E50 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 424910C92271BFCF00C41E50 /* UIImageView+HighlightedWebCache.m */; };
@@ -1148,6 +1152,15 @@
 		4230217822C0BB000004AB65 /* nodeInformationDetailsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nodeInformationDetailsView.h; sourceTree = "<group>"; };
 		4230217922C0BB000004AB65 /* nodeInformationDetailsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = nodeInformationDetailsView.m; sourceTree = "<group>"; };
 		4230217B22C0BB0C0004AB65 /* nodeInformationDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = nodeInformationDetailsView.xib; sourceTree = "<group>"; };
+		423270C0244D8B1300E98C26 /* HWMTheMessageSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTheMessageSettingViewController.h; sourceTree = "<group>"; };
+		423270C1244D8B1300E98C26 /* HWMTheMessageSettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTheMessageSettingViewController.m; sourceTree = "<group>"; };
+		423270C2244D8B1300E98C26 /* HWMTheMessageSettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTheMessageSettingViewController.xib; sourceTree = "<group>"; };
+		423270C5244D8BC900E98C26 /* HWMAllNoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMAllNoView.h; sourceTree = "<group>"; };
+		423270C6244D8BC900E98C26 /* HWMAllNoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMAllNoView.m; sourceTree = "<group>"; };
+		423270C8244D8BD300E98C26 /* HWMAllNoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMAllNoView.xib; sourceTree = "<group>"; };
+		423270CA244DA17E00E98C26 /* HWMmessageWindowPopsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMmessageWindowPopsView.h; sourceTree = "<group>"; };
+		423270CB244DA17E00E98C26 /* HWMmessageWindowPopsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMmessageWindowPopsView.m; sourceTree = "<group>"; };
+		423270CD244DA18900E98C26 /* HWMmessageWindowPopsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMmessageWindowPopsView.xib; sourceTree = "<group>"; };
 		423461E42383E26900E4B135 /* UILabel+HMWinternationalization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+HMWinternationalization.h"; sourceTree = "<group>"; };
 		423461E52383E26900E4B135 /* UILabel+HMWinternationalization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+HMWinternationalization.m"; sourceTree = "<group>"; };
 		423461E92383F18500E4B135 /* UITableView+YRSafeCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+YRSafeCategory.h"; sourceTree = "<group>"; };
@@ -1176,9 +1189,6 @@
 		423F37C4244C9B1D000CDFE9 /* HWMTheMessageCenterTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTheMessageCenterTableViewCell.xib; sourceTree = "<group>"; };
 		423F37C7244C9D32000CDFE9 /* HWMMessageCenterModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMMessageCenterModel.h; sourceTree = "<group>"; };
 		423F37C8244C9D32000CDFE9 /* HWMMessageCenterModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMMessageCenterModel.m; sourceTree = "<group>"; };
-		423F37CA244CA48D000CDFE9 /* HWMTheMessageSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTheMessageSettingViewController.h; sourceTree = "<group>"; };
-		423F37CB244CA48D000CDFE9 /* HWMTheMessageSettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTheMessageSettingViewController.m; sourceTree = "<group>"; };
-		423F37CC244CA48D000CDFE9 /* HWMTheMessageSettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTheMessageSettingViewController.xib; sourceTree = "<group>"; };
 		423F432C2330D25C0081D8E2 /* HWMQRModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMQRModel.m; sourceTree = "<group>"; };
 		424910C32271BFCF00C41E50 /* NSImage+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+WebCache.h"; sourceTree = "<group>"; };
 		424910C42271BFCF00C41E50 /* UIImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WebCache.h"; sourceTree = "<group>"; };
@@ -5270,9 +5280,9 @@
 				423F37BD244C9901000CDFE9 /* HWMTheMessageCenterViewController.h */,
 				423F37BE244C9901000CDFE9 /* HWMTheMessageCenterViewController.m */,
 				423F37BF244C9901000CDFE9 /* HWMTheMessageCenterViewController.xib */,
-				423F37CA244CA48D000CDFE9 /* HWMTheMessageSettingViewController.h */,
-				423F37CB244CA48D000CDFE9 /* HWMTheMessageSettingViewController.m */,
-				423F37CC244CA48D000CDFE9 /* HWMTheMessageSettingViewController.xib */,
+				423270C0244D8B1300E98C26 /* HWMTheMessageSettingViewController.h */,
+				423270C1244D8B1300E98C26 /* HWMTheMessageSettingViewController.m */,
+				423270C2244D8B1300E98C26 /* HWMTheMessageSettingViewController.xib */,
 				4202C89721F6EF28009E5932 /* model */,
 				4202C89A21F6EF28009E5932 /* view */,
 			);
@@ -5350,6 +5360,12 @@
 				42EAF017238BB8C200D6A912 /* HWMDIDWalletListView.h */,
 				42EAF014238BB8C200D6A912 /* HWMDIDWalletListView.m */,
 				42EAF011238BB8C200D6A912 /* HWMDIDWalletListView.xib */,
+				423270C5244D8BC900E98C26 /* HWMAllNoView.h */,
+				423270C6244D8BC900E98C26 /* HWMAllNoView.m */,
+				423270C8244D8BD300E98C26 /* HWMAllNoView.xib */,
+				423270CA244DA17E00E98C26 /* HWMmessageWindowPopsView.h */,
+				423270CB244DA17E00E98C26 /* HWMmessageWindowPopsView.m */,
+				423270CD244DA18900E98C26 /* HWMmessageWindowPopsView.xib */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -11259,6 +11275,7 @@
 				42EA69402313C23C00418328 /* HWMQrCodeScanningResultsViewController.xib in Resources */,
 				42CC279F244C2CE900373504 /* HWMnodeConnectionSettingsDetailsViewController.xib in Resources */,
 				4250B3F42238D32700B6858F /* zbar-samples.png in Resources */,
+				423270CE244DA18900E98C26 /* HWMmessageWindowPopsView.xib in Resources */,
 				4202CA4021F6EF2A009E5932 /* FLCapitalView.xib in Resources */,
 				42EAEFF6238BB69C00D6A912 /* HWMImportTheMnemonicWordViewController.xib in Resources */,
 				426F0B0523E9380800115F87 /* HWMShowSocialAccountTableViewCell.xib in Resources */,
@@ -11284,7 +11301,7 @@
 				424CA4CD242C737C0067C1CE /* LaunchScreen-English.storyboard in Resources */,
 				4202CA5221F6EF2A009E5932 /* FLAssetTableCell.xib in Resources */,
 				4202CA6721F6EF2B009E5932 /* HMWtransferTransactionMultipleAddressDetailsTableViewCell.xib in Resources */,
-				423F37CE244CA48D000CDFE9 /* HWMTheMessageSettingViewController.xib in Resources */,
+				423270C4244D8B1300E98C26 /* HWMTheMessageSettingViewController.xib in Resources */,
 				4218668722CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.xib in Resources */,
 				421BABD5242963EA000FB026 /* HWMallDocumentsListTableViewCell.xib in Resources */,
 				42B263B522DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.xib in Resources */,
@@ -11426,6 +11443,7 @@
 				42D7DC5623F68008002F5A9A /* HWMHWMDIDShowInfoViewController.xib in Resources */,
 				4202CA4B21F6EF2A009E5932 /* FLCopyPrivateKeyView.xib in Resources */,
 				4261C2FD22C21563008C1532 /* showOwnerAddressTableViewCell.xib in Resources */,
+				423270C9244D8BD300E98C26 /* HWMAllNoView.xib in Resources */,
 				4202CA2421F6EF2A009E5932 /* HMWClassificationOfLanguageTableViewCell.xib in Resources */,
 				4202CAD921F6EF2B009E5932 /* HMWMyVoteViewController.xib in Resources */,
 				4202CAAE21F6EF2B009E5932 /* HMWaddFooterView.xib in Resources */,
@@ -11603,7 +11621,7 @@
 				4224AE76243CD43E0056606F /* DDContextFilterLogFormatter.m in Sources */,
 				4202CA8B21F6EF2B009E5932 /* HMWTheWalletManagementViewController.mm in Sources */,
 				424A7D67222FC23B00683B8C /* sideChainInfoModel.m in Sources */,
-				423F37CD244CA48D000CDFE9 /* HWMTheMessageSettingViewController.m in Sources */,
+				423270C3244D8B1300E98C26 /* HWMTheMessageSettingViewController.m in Sources */,
 				4228AA6221F88C87002866B5 /* NSObject+YYAddForKVO.m in Sources */,
 				42D105F323A3344D0063AADC /* MJRefreshConst.m in Sources */,
 				4228AA4821F88C87002866B5 /* UIBezierPath+YYAdd.m in Sources */,
@@ -11622,6 +11640,7 @@
 				42EAEFE2238BB60700D6A912 /* HWMCRCCommitteeElectionCollectionViewCell.m in Sources */,
 				4228AA6721F88F18002866B5 /* assetDetailsModel.m in Sources */,
 				4202CAA421F6EF2B009E5932 /* HMWImKeystoreView.m in Sources */,
+				423270CC244DA17E00E98C26 /* HWMmessageWindowPopsView.m in Sources */,
 				4202CA7121F6EF2B009E5932 /* HMWtransferTransactionDetailsViewController.m in Sources */,
 				429DD3BE240FDF0300E6CF11 /* HWMDIDManager.mm in Sources */,
 				4202CA9121F6EF2B009E5932 /* HMWsettingKeyStorePWDViewController.mm in Sources */,
@@ -11805,6 +11824,7 @@
 				4202CACD21F6EF2B009E5932 /* HMWvotingRulesView.m in Sources */,
 				428BA726229B91190091618F /* PluginResult.m in Sources */,
 				4202CAB521F6EF2B009E5932 /* FLAllAssetListVC.mm in Sources */,
+				423270C7244D8BC900E98C26 /* HWMAllNoView.m in Sources */,
 				42D105F923A3344D0063AADC /* MJRefreshBackGifFooter.m in Sources */,
 				424910F32271BFCF00C41E50 /* NSImage+WebCache.m in Sources */,
 				4250B3EE2238D32700B6858F /* QRView.m in Sources */,

@@ -8,7 +8,7 @@
 #import "HWMAddPersonalProfileViewController.h"
 #import "HWMAddSocialAccountViewController.h"
 #import "HMWFMDBManager.h"
-static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
+static NSString *placeHText=@"请输入个人简介";
 @interface HWMAddPersonalProfileViewController ()<UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *textInfoLabel;
 /*
@@ -35,7 +35,7 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
     self.infoTextView.layer.borderColor=RGBA(255, 255, 255, 0.5).CGColor;
     [self.nextButton setTitle:NSLocalizedString(@"确定", nil) forState:UIControlStateNormal];
     [[HMWCommView share]makeBordersWithView:self.nextButton];
-    placeHText=NSLocalizedString(@"请输入个人简介（不超过800个字符）", nil);
+    placeHText=NSLocalizedString(@"请输入个人简介", nil);
     if (self.isEidet) {
         self.title=NSLocalizedString(@"编辑个人简介", nil);
         [self.nextButton setTitle:NSLocalizedString(@"保存", nil) forState:UIControlStateNormal];
@@ -51,10 +51,11 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
         self.title=NSLocalizedString(@"添加个人简介", nil);
         if (self.model.introduction.length>0) {
             self.infoTextView.text=self.model.introduction;
-           
+            
         }
         self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)self.model.introduction.length];
     }
+  
 }
 -(UIButton *)skipButton{
     if (!_skipButton) {
@@ -109,14 +110,20 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
     if (textView.text.length+text.length>800) {
         NSString *subString=[NSString stringWithFormat:@"%@%@",textView.text,text];
         textView.text=[subString substringToIndex:800];
-   
-        self.model.introduction=self.infoTextLengthLabel.text;
-             self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)  self.model.introduction.length];
+        if ([textView.text isEqualToString:placeHText]) {
+            self.model.introduction=NULL;
+        }else{
+            self.model.introduction= textView.text;
+        }
         return NO;
     }
-    
-    self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)self.infoTextLengthLabel.text.length];
-    self.model.introduction=self.infoTextLengthLabel.text;
+     NSString *subString=[NSString stringWithFormat:@"%@%@",textView.text,text];
+    if ([subString isEqualToString:placeHText]) {
+        self.model.introduction= @"";
+    }else{
+        self.model.introduction= subString;
+    }
+
     
     return YES;
 }
@@ -130,6 +137,15 @@ static NSString *placeHText=@"请输入个人简介（不超过800个字符）";
     [super viewDidDisappear:animated];
     
     
+}
+- (void)textViewDidChange:(UITextView *)textView{
+  
+    if ([textView.text isEqualToString:placeHText]) {
+        self.model.introduction= @"";
+    }else{
+        self.model.introduction= textView.text;
+    }
+       self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)  self.model.introduction.length];
 }
 
 @end

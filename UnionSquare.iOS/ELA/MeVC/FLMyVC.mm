@@ -58,8 +58,11 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
     [self.table reloadData];
     
     [self setBackgroundImg:@""];
-
-   UIBarButtonItem *ClickMorenButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"asset_wallet_setting"] style:UIBarButtonItemStyleDone target:self action:@selector(messageCenter)];
+    NSString *messageImage=@"mine_message_center";
+    if ([[FLTools share]hasMessageNeedRead:@""]&&[[FLTools share]MseeagPRead:@""]) {
+        messageImage=@"mine_message_center_red";
+    }
+   UIBarButtonItem *ClickMorenButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"messageImage"] style:UIBarButtonItemStyleDone target:self action:@selector(messageCenter)];
     self.navigationItem.rightBarButtonItem=ClickMorenButton;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(myfriendNeedUpdateInfo) name:myfriendNeedUpdate object:nil];
 }

@@ -22,22 +22,33 @@
  */
 
 
-#import <UIKit/UIKit.h>
-
-typedef void(^receivedOrAutomaticBlock)(BOOL received);
-
-NS_ASSUME_NONNULL_BEGIN
-
-@interface HWMnodeConnectionSettingsDetailsTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *leftLable;
-@property (weak, nonatomic) IBOutlet UILabel *rightLabel;
-
-@property (weak, nonatomic) IBOutlet UISwitch *connSwitch;
+#import "HWMAllNoView.h"
 
 
-@property (copy, nonatomic) void(^receivedOrAutomaticBlock)(BOOL received);
-@property (assign, nonatomic)NSIndexPath *index ;
+@interface HWMAllNoView ()
+@property (weak, nonatomic) IBOutlet UIImageView *typeImageView;
+@property (weak, nonatomic) IBOutlet UILabel *showInfoLabel;
 
 @end
+@implementation HWMAllNoView
+-(instancetype)init{
+    self =[super init];
+    if (self) {
 
-NS_ASSUME_NONNULL_END
+        self =[[NSBundle mainBundle]loadNibNamed:@"HWMAllNoView" owner:nil options:nil].firstObject;
+        self.userInteractionEnabled=YES;
+    }
+    return self;
+}
+-(void)setType:(AllNoViewType)type{
+    switch (type) {
+        case meeeagerType:
+            self.typeImageView.image=[UIImage imageNamed:@"mine_no_message"];
+            self.showInfoLabel.text=NSLocalizedString(@"暂无消息", nil);
+            break;
+            
+        default:
+            break;
+    }
+}
+@end

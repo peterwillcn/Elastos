@@ -219,6 +219,8 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(NSDictionary*)RetrieveCRDepositTransactionFee:(NSString*)mainchainSubWalletId acount:(NSString*)acount Pwd:(NSString*)pwd;
 -(BOOL)IsAddressValidWithMastID:(NSString*)masWalletID WithAddress:(NSString*)address;
 -(PluginResult *)SpvDidAdapter_CreateIdTransactionEXWith:(invokedUrlCommand *)command;
+-(void)RandomSwitchLink:(invokedUrlCommand *)command;
+-(BOOL)ManualInputIP:(invokedUrlCommand *)command;
 @end
 
 

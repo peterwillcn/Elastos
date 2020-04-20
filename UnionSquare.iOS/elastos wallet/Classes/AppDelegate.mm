@@ -61,7 +61,7 @@
     //        ) {
     //        exit(0);
     //      }
-       [[FLTools share]showErrorInfo:[NSString stringWithFormat:@"%f",AppHeight]];
+//       [[FLTools share]showErrorInfo:[NSString stringWithFormat:@"%f",AppHeight]];
     
     if ([languageString  containsString:@"en"]) {
         [DAConfig setUserLanguage:@"en"];

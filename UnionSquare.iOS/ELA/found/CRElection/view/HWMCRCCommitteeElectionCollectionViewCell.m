@@ -27,16 +27,22 @@
 }
 -(void)setModel:(HWMCRListModel *)model{
     if (model.iconImageUrl.length>0) {
-          [[FLTools share]loadUrlSVGAndPNG:model.iconImageUrl WithSuccessBlock:^(id data) {
-              if (data) {
-                  self.iconImageView.image =data;
-              }else{
-                  self.iconImageView.image=[UIImage imageNamed:@"found_vote_initial_F"];
-              }
-          }];
-      }else{
-            self.iconImageView.image=[UIImage imageNamed:@"found_vote_initial_F"];
-      }
+        NSString *typeString=[model.iconImageUrl substringFromIndex:model.iconImageUrl.length-4];
+        if ([typeString isEqualToString:@".svg"]) {
+            self.iconImageView.contentMode=UIViewContentModeScaleAspectFit;
+        }else{
+           self.iconImageView.contentMode=UIViewContentModeScaleAspectFill;
+        }
+        [[FLTools share]loadUrlSVGAndPNG:model.iconImageUrl WithSuccessBlock:^(id data) {
+            if (data) {
+                self.iconImageView.image =data;
+            }else{
+                self.iconImageView.image=[UIImage imageNamed:@"found_vote_initial_F"];
+            }
+        }];
+    }else{
+        self.iconImageView.image=[UIImage imageNamed:@"found_vote_initial_F"];
+    }
     
     self.nickNameLabel.text = model.nickname;
     //  self.theValueOfLabel.text = model.votes;

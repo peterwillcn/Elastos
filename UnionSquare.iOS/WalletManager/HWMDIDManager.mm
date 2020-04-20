@@ -163,7 +163,11 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         didstring = DID_ToString(did, _didstring, sizeof(_didstring));
         self.DIDString=[self charToString:didstring];
     }
-    DIDDocument *  doc=DID_Resolve(did,NO);
+    bool force=false;
+    if (need) {
+        force=true;
+    }
+    DIDDocument *  doc=DID_Resolve(did,force);
     if (doc) {//先看一下链上有没有
         DIDURL *url=DIDURL_NewByDid(did, "primary");
         if (DIDStore_ContainsPrivateKey(store,did, url)) {
@@ -244,7 +248,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     }
     DIDDocument * newDoc=  DIDDocumentBuilder_Seal(build, [self.passWord UTF8String]);
     
-  const  char *doString=DIDDocument_ToJson(newDoc, false);
+    const  char *doString=DIDDocument_ToJson(newDoc, false);
     //NSLog(@"doString=时间%s",doString);
     rt=  DIDStore_StoreDID(store,newDoc, "name");// 已经签名
     const char *r = DIDStore_PublishDID(store, [self.passWord UTF8String], did, NULL,true);
@@ -467,7 +471,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
 -(BOOL)HasBeenOnTheChain{
     NSDictionary *dic =[self getDIDInfo];
     if([dic[@"nickName"] length]==0) {
-     return NO;
+        return NO;
     }
     return YES;
 }

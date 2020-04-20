@@ -2406,7 +2406,7 @@ static uint64_t feePerKB = 10000;
     return  masterWallet->IsAddressValid(address);
     
 }
--(void*)SyncStart:(invokedUrlCommand *)command{
+-(void)SyncStart:(invokedUrlCommand *)command{
     NSArray *args = command.arguments;
     int idx = 0;
     String masterWalletID = [self cstringWithString:args[idx++]];
@@ -2621,9 +2621,55 @@ static uint64_t feePerKB = 10000;
     }
     
     NSString *resultString=[self stringWithCString:tx.dump()];
-    NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];    
+    NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
     NSDictionary *dic=[self dictionaryWithJsonString:resultdic[@"TxHash"]];
     return [self successProcess:command msg:dic];
     
 }
+-(void)RandomSwitchLink:(invokedUrlCommand *)command{
+    [self SyncStop:command];
+    [self SyncStart:command];
+}
+-(void)SyncStop:(invokedUrlCommand *)command{
+    NSArray *args = command.arguments;
+    int idx = 0;
+    String masterWalletID = [self cstringWithString:args[idx++]];
+    String chainID = [self cstringWithString:args[idx++]];;
+    ISubWallet *subWallet=[self getSubWallet:masterWalletID  :chainID];
+    
+    
+    try {
+        if (subWallet) {
+            subWallet->SyncStop();
+        }
+    } catch (const std:: exception &e) {
+        NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
+        NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
+        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+    }
+    
+}
+-(BOOL)ManualInputIP:(invokedUrlCommand *)command{
+    NSArray *args = command.arguments;
+    int idx = 0;
+    String masterWalletID = [self cstringWithString:args[idx++]];
+    String chainID = [self cstringWithString:args[idx++]];
+    String  address=[self cstringWithString:args[idx++]];
+    uint16_t port=[args[idx++] intValue];
+    ISubWallet *subWallet=[self getSubWallet:masterWalletID  :chainID];
+    
+    try {
+        if (subWallet) {
+            BOOL isSucce = subWallet->SetFixedPeer(address, port);
+            return isSucce;
+        }
+    } catch (const std:: exception &e) {
+        NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
+        NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
+        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+        return NO;
+    }
+    return NO;
+}
+
 @end

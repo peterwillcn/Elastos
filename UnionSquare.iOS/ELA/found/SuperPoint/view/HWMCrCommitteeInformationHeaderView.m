@@ -44,7 +44,7 @@
     if (self.didStringLabel.text.length>0&&self.CRmodel.cid.length>0) {
         [[FLTools share]showErrorInfo:NSLocalizedString(@"已复制到剪切板。", nil)];
         [[FLTools share]copiedToTheClipboardWithString:self.didStringLabel.text];
-          }
+    }
 }
 - (void)setCRmodel:(HWMCRListModel *)CRmodel{
     _CRmodel=CRmodel;
@@ -56,15 +56,21 @@
         self.cyIconImageView.alpha=0.f;
     }
     if (CRmodel.iconImageUrl.length>0) {
+        NSString *typeString=[CRmodel.iconImageUrl substringFromIndex:CRmodel.iconImageUrl.length-4];
+        if ([typeString isEqualToString:@".svg"]) {
+            self.headIcomImageView.contentMode=UIViewContentModeScaleAspectFit;
+        }else{
+            self.headIcomImageView.contentMode=UIViewContentModeScaleAspectFill;
+        }
         [[FLTools share]loadUrlSVGAndPNG:CRmodel.iconImageUrl WithSuccessBlock:^(id data) {
             if (data) {
                 self.headIcomImageView.image=data;
             }else{
-                 self.headIcomImageView.image=[UIImage imageNamed:@"found_vote_initial"];
+                self.headIcomImageView.image=[UIImage imageNamed:@"found_vote_initial"];
             }
         }];
     }else{
-         self.headIcomImageView.image=[UIImage imageNamed:@"found_vote_initial"];
+        self.headIcomImageView.image=[UIImage imageNamed:@"found_vote_initial"];
     }
     self.nickNameLable.text=CRmodel.nickname;
     

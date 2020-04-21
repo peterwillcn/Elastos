@@ -537,6 +537,8 @@ class AppManager: NSObject {
         if (viewController == nil) {
             return;
         }
+        
+        try IntentManager.getShareInstance().removeAppFromIntentList(id);
 
         if (viewController == curController) {
             let id2 = lastList[1];

@@ -600,6 +600,8 @@ public class AppManager {
             return;
         }
 
+        IntentManager.getShareInstance().removeAppFromIntentList(id);
+
         if (fragment == curFragment) {
             String id2 = lastList.get(1);
             WebViewFragment fragment2 = getFragmentById(id2);

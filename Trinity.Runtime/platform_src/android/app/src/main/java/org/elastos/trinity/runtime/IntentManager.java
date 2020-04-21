@@ -152,6 +152,29 @@ public class IntentManager {
         ids.add(info.intentId);
     }
 
+    public synchronized void removeAppFromIntentList(String appId) throws Exception {
+        Iterator<Map.Entry<Long, IntentInfo>> iterator = intentContextList.entrySet().iterator();
+
+        while (iterator.hasNext()) {
+            Map.Entry entry = iterator.next();
+            IntentInfo info = (IntentInfo) entry.getValue();
+            if (info.toId != null && info.toId.equals(appId) ) {
+                if (info.type == IntentInfo.API && info.fromId != null) {
+                    WebViewFragment fragment = appManager.getFragmentById(info.fromId);
+                    if (fragment != null) {
+                        appManager.start(info.fromId);
+                        info.params = null;
+                        fragment.basePlugin.onReceiveIntentResponse(info);
+                    }
+                }
+                intentContextList.remove(entry.getKey());
+            }
+            else if (info.fromId.equals((appId))) {
+                intentContextList.remove(entry.getKey());
+            }
+        }
+    }
+
     /**
      * Returns the list of package IDs able to handle the given intent action.
      */
@@ -473,7 +496,7 @@ public class IntentManager {
     public void sendIntentResponse(AppBasePlugin basePlugin, String result, long intentId, String fromId) throws Exception {
         IntentInfo info = intentContextList.get(intentId);
         if (info == null) {
-            throw new Exception(intentId + " isn't support!");
+            throw new Exception(intentId + " isn't exist!");
         }
 
         WebViewFragment fragment = null;

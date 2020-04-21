@@ -479,9 +479,9 @@
     func onReceiveIntentResponse(_ info: IntentInfo) {
         let ret = [
             "action": info.action,
-            "result": info.params!,
+            "result": info.params,
             "from": info.fromId
-        ]
+        ] as [String : Any]
 
         let result = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: ret);
         result?.setKeepCallbackAs(false);

@@ -511,7 +511,12 @@ public class AppBasePlugin extends TrinityPlugin {
         JSONObject obj = new JSONObject();
         try {
             obj.put("action", info.action);
-            obj.put("result", info.params);
+            if (info.params != null) {
+                obj.put("result", info.params);
+            }
+            else {
+                obj.put("result", "null");
+            }
             obj.put("from", info.fromId);
             PluginResult result = new PluginResult(PluginResult.Status.OK, obj);
             result.setKeepCallback(false);

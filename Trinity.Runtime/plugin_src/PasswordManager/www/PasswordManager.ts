@@ -33,26 +33,81 @@ class PasswordManagerImpl implements PasswordManagerPlugin.PasswordManager {
             }, 'PasswordManagerPlugin', 'setPasswordInfo', [info]);    
         });
     }
+
     getPasswordInfo(key: string): Promise<PasswordManagerPlugin.PasswordInfo> {
-        throw new Error("Method not implemented.");
+        return new Promise((resolve, reject)=>{
+            exec((result: { passwordInfo: PasswordManagerPlugin.PasswordInfo })=>{
+                resolve(result.passwordInfo);
+            }, (err)=>{
+                console.error("Error while calling PasswordManagerPlugin.getPasswordInfo()", err);
+                reject(err);
+            }, 'PasswordManagerPlugin', 'getPasswordInfo', [key]);    
+        });
     }
+
     getAllPasswordInfo(): Promise<PasswordManagerPlugin.PasswordInfo[]> {
-        throw new Error("Method not implemented.");
+        return new Promise((resolve, reject)=>{
+            exec((result: { allPasswordInfo: PasswordManagerPlugin.PasswordInfo[] })=>{
+                resolve(result.allPasswordInfo);
+            }, (err)=>{
+                console.error("Error while calling PasswordManagerPlugin.getAllPasswordInfo()", err);
+                reject(err);
+            }, 'PasswordManagerPlugin', 'getAllPasswordInfo', []);    
+        });
     }
+
     deletePasswordInfo(key: string): Promise<boolean> {
-        throw new Error("Method not implemented.");
+        return new Promise((resolve, reject)=>{
+            exec((result: { couldDelete: boolean })=>{
+                resolve(result.couldDelete);
+            }, (err)=>{
+                console.error("Error while calling PasswordManagerPlugin.deletePasswordInfo()", err);
+                reject(err);
+            }, 'PasswordManagerPlugin', 'deletePasswordInfo', [key]);    
+        });
     }
+
     generateRandomPassword(options?: PasswordManagerPlugin.PasswordCreationOptions): Promise<string> {
-        throw new Error("Method not implemented.");
+        return new Promise((resolve, reject)=>{
+            exec((result: { generatedPassword: string })=>{
+                resolve(result.generatedPassword);
+            }, (err)=>{
+                console.error("Error while calling PasswordManagerPlugin.generateRandomPassword()", err);
+                reject(err);
+            }, 'PasswordManagerPlugin', 'generateRandomPassword', [options]);    
+        });
     }
-    setMasterPassword(oldPassword: string, newPassword: string): Promise<void> {
-        throw new Error("Method not implemented.");
+    setMasterPassword(oldPassword: string, newPassword: string): Promise<boolean> {
+        return new Promise((resolve, reject)=>{
+            exec((result: { couldSet: boolean })=>{
+                resolve(result.couldSet);
+            }, (err)=>{
+                console.error("Error while calling PasswordManagerPlugin.setMasterPassword()", err);
+                reject(err);
+            }, 'PasswordManagerPlugin', 'setMasterPassword', [oldPassword, newPassword]);    
+        });
     }
+
     lockMasterPassword() {
-        throw new Error("Method not implemented.");
+        return new Promise((resolve, reject)=>{
+            exec(()=>{
+                resolve();
+            }, (err)=>{
+                console.error("Error while calling PasswordManagerPlugin.lockMasterPassword()", err);
+                reject(err);
+            }, 'PasswordManagerPlugin', 'lockMasterPassword', []);    
+        });
     }
+
     setUnlockMode(mode: PasswordManagerPlugin.PasswordUnlockMode) {
-        throw new Error("Method not implemented.");
+        return new Promise((resolve, reject)=>{
+            exec(()=>{
+                resolve();
+            }, (err)=>{
+                console.error("Error while calling PasswordManagerPlugin.setUnlockMode()", err);
+                reject(err);
+            }, 'PasswordManagerPlugin', 'setUnlockMode', [mode]);    
+        });
     }
 }
 

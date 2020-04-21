@@ -251,8 +251,10 @@ declare namespace PasswordManagerPlugin {
          * 
          * @param oldPassword the current master password if any, or null if none exists yet.
          * @param newPassword the new master password
+         * 
+         * @returns True if the master password was successfully changed, false otherwise.
          */
-        setMasterPassword(oldPassword: string, newPassword: string): Promise<void>;
+        setMasterPassword(oldPassword: string, newPassword: string): Promise<boolean>;
         
         /**
          * If the master password has ben unlocked earlier, all passwords are accessible for a while.

@@ -1753,7 +1753,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     if (Push==nil) {
         Push=@"1";
     }
-     NSLog(@"有消息需要推送----%d",[Push intValue]);
+    
     return   [Push intValue];
 }
 -(BOOL)MseeagPRead:(NSString*)r{
@@ -1761,11 +1761,10 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     if (r==nil) {
         r=@"1";
     }
-    NSLog(@"消息红点----%d",[r intValue]);
+ 
     return [r intValue];
 }
 -(void)setMMseeagPRead:(NSString*)r{
-      NSLog(@"设置消息红点----%d",[r intValue]);
     [STANDARD_USER_DEFAULT setValue:r forKey:MseeagPRead];
     [STANDARD_USER_DEFAULT synchronize];
 }
@@ -1774,7 +1773,6 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     if (r==nil) {
         r=@"0";
     }
-     NSLog(@"有消息需要读取----%d",[r intValue]);
     return [r intValue];
 }
 -(void)sethasMessageNeedRead:(NSString*)r{

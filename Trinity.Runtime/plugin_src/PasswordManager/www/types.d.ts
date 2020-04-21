@@ -148,6 +148,8 @@ declare namespace PasswordManagerPlugin {
         identifier: string;
         /** Account password */
         password: string;
+        /** Key provided by the service (google, etc) used to generated temporary 2FA passwords. */
+        twoFactorKey?: string;
     }
 
     /**
@@ -185,6 +187,16 @@ declare namespace PasswordManagerPlugin {
          * for users.
          */
         UNLOCK_EVERY_TIME = 1
+    }
+
+    /**
+     * Global strategy for the password manager, whether to use a master password or not.
+     */
+    const enum AppsPasswordStrategy {
+        /** Use a master password to save and encrypt all app password info. Default. */
+        LOCK_WITH_MASTER_PASSWORD = 0,
+        /** Don't store app password info in the password manager. Users manually input in-app passwords every time. */
+        DONT_USE_MASTER_PASSWORD = 1
     }
 
     interface PasswordManager {
@@ -271,10 +283,28 @@ declare namespace PasswordManagerPlugin {
          * For increased security, user can choose to get prompted for the master password every time using
          * this API.
          * 
-         * This APi can be called only by the password manager application.
+         * This API can be called only by the password manager application.
          * 
          * @param mode Unlock strategy to use.
          */
         setUnlockMode(mode: PasswordUnlockMode);
+
+        /**
+         * Sets the overall strategy for third party applications password management.
+         * 
+         * Users can choose to lock all apps passwords using a single master password. They can also choose
+         * to not use this feature and instead, input their custom app password every time they need to.
+         * 
+         * When strategy is set to DONT_USE_MASTER_PASSWORD, setPasswordInfo() always fails, and getPasswordInfo()
+         * always returns an empty content, therefore pushing apps to prompt user passwords every time.
+         * 
+         * If the strategy was LOCK_WITH_MASTER_PASSWORD and becomes DONT_USE_MASTER_PASSWORD, existing password
+         * info is not deleted. The password manager application is responsible for clearing the existing content
+         * if user wishes to do that.
+         * 
+         * @param strategy Strategy to use in order to save and get passwords in third party apps.
+         */
+        setAppsPasswordStrategy(strategy: AppsPasswordStrategy);
     }
+
 }

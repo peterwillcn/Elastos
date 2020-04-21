@@ -77,6 +77,7 @@ class PasswordManagerImpl implements PasswordManagerPlugin.PasswordManager {
             }, 'PasswordManagerPlugin', 'generateRandomPassword', [options]);    
         });
     }
+    
     setMasterPassword(oldPassword: string, newPassword: string): Promise<boolean> {
         return new Promise((resolve, reject)=>{
             exec((result: { couldSet: boolean })=>{
@@ -107,6 +108,17 @@ class PasswordManagerImpl implements PasswordManagerPlugin.PasswordManager {
                 console.error("Error while calling PasswordManagerPlugin.setUnlockMode()", err);
                 reject(err);
             }, 'PasswordManagerPlugin', 'setUnlockMode', [mode]);    
+        });
+    }
+
+    setAppsPasswordStrategy(strategy: PasswordManagerPlugin.AppsPasswordStrategy) {
+        return new Promise((resolve, reject)=>{
+            exec(()=>{
+                resolve();
+            }, (err)=>{
+                console.error("Error while calling PasswordManagerPlugin.setAppsPasswordStrategy()", err);
+                reject(err);
+            }, 'PasswordManagerPlugin', 'setAppsPasswordStrategy', [strategy]);    
         });
     }
 }

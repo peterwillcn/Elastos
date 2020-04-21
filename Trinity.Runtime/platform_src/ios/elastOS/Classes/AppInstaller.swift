@@ -193,7 +193,7 @@
     }
 
     private func sendInstallingMessage(_ action: String, _ appId: String, _ url: String) throws {
-    try AppManager.getShareInstance().sendLauncherMessage(AppManager.MSG_TYPE_INSTALLING,
+        try AppManager.getShareInstance().sendLauncherMessage(AppManager.MSG_TYPE_INSTALLING,
                 "{\"action\":\"" + action + "\", \"id\":\"" + appId + "\" , \"url\":\"" + url + "\"}", "system");
     }
     
@@ -247,7 +247,10 @@
         }
         try sendInstallingMessage("unpacked", "", originUrl);
         
-        let verifyDigest = ConfigManager.getShareInstance().getBoolValue("install.verifyDigest", false);
+        var verifyDigest = false;
+        if (!PreferenceManager.getShareInstance().getDeveloperMode()) {
+            verifyDigest = ConfigManager.getShareInstance().getBoolValue("install.verifyDigest", false);
+        }
         
         if (verifyDigest) {
             if (!verifyEpkDigest(temPath)) {

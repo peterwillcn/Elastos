@@ -381,7 +381,10 @@ public class AppInstaller {
         }
         fmd.mkdirs();
 
-        boolean verifyDigest = ConfigManager.getShareInstance().getBooleanValue("install.verifyDigest", false);
+        boolean verifyDigest = false;
+        if (!PreferenceManager.getShareInstance().getDeveloperMode()) {
+            verifyDigest = ConfigManager.getShareInstance().getBooleanValue("install.verifyDigest", false);
+        }
 
         if (!unpackZip(inputStream, path, verifyDigest)) {
             deleteDAppPackage(downloadPkgPath);

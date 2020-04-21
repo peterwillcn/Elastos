@@ -58,7 +58,6 @@ static NSString *cellString=@"HWMIPListTableViewCell";
     if (self.delegate) {
     [self.delegate closEnterView];
     }
-      
 }
 - (IBAction)makeSure:(id)sender {
     if (self.IPTextField.text.length==0) {
@@ -85,6 +84,7 @@ static NSString *cellString=@"HWMIPListTableViewCell";
     HWMIPListTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
+    cell.dic=self.ipListArray[indexPath.row];
     cell.delegate=self;
     return cell;
     

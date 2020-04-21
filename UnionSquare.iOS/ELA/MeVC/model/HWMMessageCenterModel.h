@@ -32,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy,nonatomic)NSString *MessageC;
 @property(copy,nonatomic)NSString *walletID;
 @property(copy,nonatomic)NSString *MessageType;
+@property(copy,nonatomic)NSString *chainID;
+@property(copy,nonatomic)NSString *typeHash;
 @end
 
 NS_ASSUME_NONNULL_END

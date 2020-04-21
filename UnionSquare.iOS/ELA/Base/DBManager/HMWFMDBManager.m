@@ -41,7 +41,9 @@ static HMWFMDBManager * _manager =nil;
     }else if (type==IPInfoType){
         sql =@"create table if not exists ipList(ID integer primary key AUTOINCREMENT,ip text,port text)";
     }else if(type==MessageCenterType){
-        sql =@"create table if not exists MessageList(ID integer primary key AUTOINCREMENT,time text,walletName text,MessageC text,walletID text,text MessageType)";
+        sql =@"create table if not exists MessageTable(ID integer primary key AUTOINCREMENT,time text,walletName text,MessageC text,walletID text,MessageType text, chainID text,typeHash text)";
+    }else if(type==transactionsType){
+        sql =@"create table if not exists TransactionsTable(ID integer primary key AUTOINCREMENT,time text,walletName text,walletID text, MessageType text,chainID text, typeHash text)";
     }
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -182,21 +184,7 @@ static HMWFMDBManager * _manager =nil;
             p.thePercentageMax=@"100";
             
         }
-        //        if (p.thePercentageCurr.length==0) {
-        //            NSString *thePercentageCurr = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ INTEGER",@"sideChain",@"thePercentageCurr"];
-        //            BOOL Currworked = [_manager executeUpdate:thePercentageCurr];
-        //            if(Currworked){
-        //                //NSLog(@"thePercentageCurr插入成功");
-        //            }else{
-        //                //NSLog(@"thePercentageCurr插入失败");
-        //            }
-        //            p.thePercentageCurr=@"100";
-        //
-        //        }
         [allRecords addObject:p];
-        //        //NSLog(@"本地存储==%@===%@==%@==%@====%@",p.walletID,p.sideChainName,p.thePercentageCurr,p.thePercentageMax,p.sideChainNameTime);
-        
-        
     }
     if (allRecords.count!=1) {
         
@@ -403,7 +391,17 @@ static HMWFMDBManager * _manager =nil;
     
 }
 
-
+-(NSString*)selectRecordWallet:(NSString*)walletID{
+    NSArray *walletArr=[self allRecordWallet];
+    for (FMDBWalletModel*model in walletArr) {
+        if ([model.walletID isEqualToString:walletID]) {
+            return model.walletName;
+            break;
+        }
+    }
+    return @"未知";
+    
+}
 //改
 -(BOOL)updateRecordWallet:(FMDBWalletModel *)wallet{
     if (wallet.walletAddress.length==0) {
@@ -431,11 +429,9 @@ static HMWFMDBManager * _manager =nil;
     
     NSString *sql =@"delete from wallet where walletID = ?";
     if ([self executeUpdate:sql,wallet.walletID]) {
-        //NSLog(@"成功===删除钱包%@",wallet.walletID);
         [self delectSideChain:wallet.walletID withIconName:nil];
         return YES;
     }else{
-        //NSLog(@"失败===删除钱包%@",wallet.walletID);
         return NO;
     }
 }
@@ -445,7 +441,6 @@ static HMWFMDBManager * _manager =nil;
     NSMutableArray *allRecords=[[NSMutableArray alloc]init];
     NSString *sql =[NSString stringWithFormat: @"select * from RMList where walletID=\'%@\'" ,walletID];
     FMResultSet *set=[self executeQuery:sql,walletID];
-    //    一条一条的读取数据 并专程模型
     while (set.next) {
         //        模型
         HWMCRListModel * p= [[HWMCRListModel alloc]init];
@@ -593,18 +588,19 @@ static HMWFMDBManager * _manager =nil;
 //增加
 -(BOOL)addIPString:(NSString*)ip withPort:(NSString*)port{
     NSString *sql =@"insert into ipList (ip,port) values(?,?)";
+    if ([self selectIP:ip withPort:port]) {
+        return YES;
+    }
+    
     if ([self executeUpdate:sql,ip,port]) {
         return YES;
     }
     return NO;
 }
-//查
 -(NSArray*)allIPString{
     NSMutableArray *allRecords=[[NSMutableArray alloc]init];
     NSString *sql =[NSString stringWithFormat: @"select * from ipList"];
     FMResultSet *set=[self executeQuery:sql];
-    //    一条一条的读取数据 并专程模型
-    
     while (set.next) {
         NSString *ip=[set objectForColumn:@"ip"];
         NSString *port=[set objectForColumn:@"port"];
@@ -613,7 +609,6 @@ static HMWFMDBManager * _manager =nil;
     }
     return allRecords;
 }
-//删
 -(BOOL)delectIPString:(NSString*)ip withPort:(NSString*)port{
     //     sql =@"create table if not exists ipList(ID integer primary key AUTOINCREMENT,ip text,port text)";
     NSString *sql =@"delete from ipList where ip = ? and port=?";
@@ -626,83 +621,86 @@ static HMWFMDBManager * _manager =nil;
 -(BOOL)selectIP:(NSString*)IP withPort:(NSString*)port{
     NSString *sql =[NSString stringWithFormat: @"select * from ipList where ip=\'%@\' and port=\'%@\'",IP,port];
     FMResultSet *set=[self executeQuery:sql];
-    //    一条一条的读取数据 并专程模型
     while (set.next) {
-//        //        模型
-//        HWMCRListModel * CR= [[HWMCRListModel alloc]init];
-//        //        去出表中存放的内容给person赋值
-//        CR.location=[set objectForColumn:@"location"];
-//        CR.index =[set objectForColumn:@"indexCR"];
-//        CR.did =[set objectForColumn:@"did"];
-//        CR.nickname =[set objectForColumn:@"nickname"];
-//        CR.code =[set objectForColumn:@"code"];
-//        CR.votes =[set objectForColumn:@"votes"];
-//        CR.voterate =[set objectForColumn:@"voterateCR"];
-//        CR.state =[set objectForColumn:@"state"];
-//        CR.url =[set objectForColumn:@"url"];
         return  YES;
     }
     return NO;
 }
-
-//查
--(NSArray*)allMessageListWithIndex:(NSInteger)starIndex{
-//    sql =@"create table if not exists MessageList(ID integer primary key AUTOINCREMENT,time text,walletName text,MessageC text,walletID text)";
+-(NSArray*)allMessageTableWithIndex:(NSInteger)starIndex{
     NSMutableArray *allRecords=[[NSMutableArray alloc]init];
-    NSString *sql =[NSString stringWithFormat: @"select * from  MessageList"];
+    NSString *sql =[NSString stringWithFormat: @"select * from  MessageTable"];
     FMResultSet *set=[self executeQuery:sql];
-    //    一条一条的读取数据 并专程模型
-    
     while (set.next) {
         HWMMessageCenterModel *mode=[[HWMMessageCenterModel alloc]init];
         mode.time=[set objectForColumn:@"time"];
         mode.walletName=[set objectForColumn:@"walletName"];
         mode.walletID=[set objectForColumn:@"walletID"];
-         mode.MessageC=[set objectForColumn:@"MessageC"];
+        mode.MessageC=[set objectForColumn:@"MessageC"];
         mode.MessageType=[set objectForColumn:@"MessageType"];
+        mode.chainID=[set objectForColumn:@"chainID"];
+        mode.typeHash=[set objectForColumn:@"typeHash"];
         [allRecords addObject:mode];
     }
     return allRecords;
 }
-//增加
 -(BOOL)addMessageCenterWithModel:(HWMMessageCenterModel*)model{
-    NSString *sql =@"insert into MessageList (time,walletName,MessageC,walletID,MessageType) values(?,?)";
-    if ([self executeUpdate:sql,model.time,model.walletName,model.MessageC,model.walletID,model.MessageType]) {
+    if ([self selctMessageCenterWithModel:model]) {
+        return YES;
+    }
+    NSString *sql =@"insert into MessageTable (time,walletName,MessageC,walletID,MessageType,chainID,typeHash) values(?,?,?,?,?,?,?)";
+    if ([self executeUpdate:sql,model.time,model.walletName,model.MessageC,model.walletID,model.MessageType,model.chainID]) {
         return YES;
     }
     return NO;
 }
-
-//删
-//-(BOOL)delectIPString:(NSString*)ip withPort:(NSString*)port{
-//    //     sql =@"create table if not exists ipList(ID integer primary key AUTOINCREMENT,ip text,port text)";
-//    NSString *sql =@"delete from ipList where ip = ? and port=?";
-//    if ([self executeUpdate:sql,ip,port]) {
-//        return YES;
-//    }else{
-//        return NO;
-//    }
-//}
-//-(BOOL)selectIP:(NSString*)IP withPort:(NSString*)port{
-//    NSString *sql =[NSString stringWithFormat: @"select * from ipList where ip=\'%@\' and port=\'%@\'",IP,port];
-//    FMResultSet *set=[self executeQuery:sql];
-//    //    一条一条的读取数据 并专程模型
-//    while (set.next) {
-////        //        模型
-////        HWMCRListModel * CR= [[HWMCRListModel alloc]init];
-////        //        去出表中存放的内容给person赋值
-////        CR.location=[set objectForColumn:@"location"];
-////        CR.index =[set objectForColumn:@"indexCR"];
-////        CR.did =[set objectForColumn:@"did"];
-////        CR.nickname =[set objectForColumn:@"nickname"];
-////        CR.code =[set objectForColumn:@"code"];
-////        CR.votes =[set objectForColumn:@"votes"];
-////        CR.voterate =[set objectForColumn:@"voterateCR"];
-////        CR.state =[set objectForColumn:@"state"];
-////        CR.url =[set objectForColumn:@"url"];
-//        return  YES;
-//    }
-//    return NO;
-//}
-
+-(BOOL)selctMessageCenterWithModel:(HWMMessageCenterModel*)model{
+    NSString *sql =[NSString stringWithFormat: @"select * from MessageTable where typeHash=\'%@\'",model.typeHash];
+    FMResultSet *set=[self executeQuery:sql];
+    while (set.next) {
+        
+        return  YES;
+    }
+    return NO;
+}
+-(BOOL)addTransactionsWithModel:(HWMMessageCenterModel*)model{
+    
+    NSString *sql =@"insert into TransactionsTable (time,walletName,walletID,MessageType,chainID,typeHash) values(?,?,?,?,?,?)";
+    model.time=[[FLTools share]getCurrentTimes];
+    model.walletName=@"1";
+    if ([self executeUpdate:sql,model.time,model.walletName,model.walletID,model.MessageType,model.chainID,model.typeHash]) {
+        return YES;
+    }
+    return NO;
+}
+-(HWMMessageCenterModel*)selectTransactionsWithModel:(HWMMessageCenterModel*)model{
+    NSString *sql =[NSString stringWithFormat: @"select * from TransactionsTable where typeHash=\'%@\'",model.typeHash];
+    FMResultSet *set=[self executeQuery:sql];
+    while (set.next) {
+        HWMMessageCenterModel *model=[[HWMMessageCenterModel alloc]init];
+        model.time=[set objectForColumn:@"time"];
+        model.walletName=[set objectForColumn:@"walletName"];
+        model.walletID=[set objectForColumn:@"walletID"];
+        model.MessageType=[set objectForColumn:@"MessageType"];
+        model.chainID=[set objectForColumn:@"chainID"];
+        model.typeHash=[set objectForColumn:@"typeHash"];
+        return     model;
+    }
+    return [[HWMMessageCenterModel alloc]init];
+}
+-(HWMMessageCenterModel*)selectAllTransactionsWithModel{
+    
+    NSString *sql =[NSString stringWithFormat: @"select * from TransactionsTable"];
+    FMResultSet *set=[self executeQuery:sql];
+    while (set.next) {
+        HWMMessageCenterModel *model=[[HWMMessageCenterModel alloc]init];
+        model.time=[set objectForColumn:@"time"];
+        model.walletName=[set objectForColumn:@"walletName"];
+        model.walletID=[set objectForColumn:@"walletID"];
+        model.MessageType=[set objectForColumn:@"MessageType"];
+        model.chainID=[set objectForColumn:@"chainID"];
+        model.typeHash=[set objectForColumn:@"typeHash"];
+        return     model;
+    }
+    return [[HWMMessageCenterModel alloc]init];
+}
 @end

@@ -26,7 +26,6 @@
 #import "HWMTheMessageCenterTableViewCell.h"
 #import "HWMMessageCenterModel.h"
 #import "HMWFMDBManager.h"
-#import "HWMTheMessageSettingViewController.h"
 #import "HWMAllNoView.h"
 static NSString *cellString=@"HWMTheMessageCenterTableViewCell";
 @interface HWMTheMessageCenterViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -45,6 +44,7 @@ static NSString *cellString=@"HWMTheMessageCenterTableViewCell";
     UIBarButtonItem *ClickMorenButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"asset_wallet_setting"] style:UIBarButtonItemStyleDone target:self action:@selector(messageCenterSetting)];
        self.navigationItem.rightBarButtonItem=ClickMorenButton;
     [self makeView];
+//    [[FLTools share] sethasMessageNeedRead:@"0"]
     if (self.MessageList.count==0) {
         [self.baseTabView addSubview:self.NoView];
     }
@@ -56,8 +56,7 @@ static NSString *cellString=@"HWMTheMessageCenterTableViewCell";
     return _MessageList;
 }
 -(void)messageCenterSetting{
-    HWMTheMessageSettingViewController *TheMessageSettingVC=[HWMTheMessageSettingViewController alloc];
-    [self.navigationController pushViewController:TheMessageSettingVC animated:YES];
+   
 }
 -(void)makeView{
     
@@ -77,9 +76,7 @@ static NSString *cellString=@"HWMTheMessageCenterTableViewCell";
     HWMTheMessageCenterTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
-    //    assetsListModel *listModel=self.currencyArray[indexPath.row];
-    //    cell.nickNameLabel.text=[NSString stringWithFormat:@"%@ Chain",listModel.iconName];
-    
+    cell.model=self.MessageList[indexPath.row];
     return cell;
     
 }

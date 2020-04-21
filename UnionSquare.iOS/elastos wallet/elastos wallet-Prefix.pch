@@ -27,8 +27,12 @@
 #define Http_IP [[FLTools share]http_ipString:SDKNET]
 #define transUrl [[FLTools share]http_transUrl:SDKNET]
 #define PongUrl [[FLTools share]http_PongUrl:SDKNET]
+#define ELAPort  @"22338"
+#define IDChainPort @"22608"
  #elif PrvNet
  #define SDKNET  @"PrvNet"
+#define ELAPort  @"18080"
+#define IDChainPort @"18080"
  #define DLog(fmt, ...) //NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #define Http_IP [[FLTools share]http_ipString:SDKNET]
 #define transUrl [[FLTools share]http_transUrl:SDKNET]
@@ -41,6 +45,8 @@
 #define PongUrl [[FLTools share]http_PongUrl:SDKNET]
 #define DLog(fmt, ...) //NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #define didSDKNet @"http://api.elastos.io:21606"
+#define ELAPort  @"21338"
+#define IDChainPort @"21608"
 #else
 //@"RegTest",@"PrvNet",@"TestNet",@"MainNet"
 #define SDKNET  @"MainNet"
@@ -48,6 +54,9 @@
 #define transUrl [[FLTools share]http_transUrl:SDKNET]
 #define PongUrl [[FLTools share]http_PongUrl:SDKNET]
 #define didSDKNet @"http://api.elastos.io:20606"
+
+#define ELAPort  @"20338"
+#define IDChainPort @"20608"
 #define DLog(...)
 
 #endif

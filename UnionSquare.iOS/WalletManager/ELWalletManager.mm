@@ -10,6 +10,7 @@
 #include <dispatch/dispatch.h>
 #import "sideChainInfoModel.h"
 #import "HMWFMDBManager.h"
+#import "HWMMessageCenterModel.h"
 
 static ELWalletManager *tool;
 static uint64_t feePerKB = 10000;
@@ -1219,6 +1220,7 @@ static uint64_t feePerKB = 10000;
     }
     NSString *jsonString = [self stringWithCString:result.dump()];
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
+    [self saveTradingWithhash:dic[@"TxHash"] withTradingType:2 withWalletID:[self stringWithCString:masterWalletID] withChainID:[self stringWithCString:chainID]];
     return [self successProcess:command msg:dic];
 }
 -(PluginResult *)GetTransactionSignedInfo:(invokedUrlCommand *)command{
@@ -1407,6 +1409,7 @@ static uint64_t feePerKB = 10000;
     }
     NSString *jsonString = [self stringWithCString:result.dump()];
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
+    [self saveTradingWithhash:dic[@"TxHash"] withTradingType:6 withWalletID:[self stringWithCString:masterWalletID] withChainID:@"ELA"];
     return [self successProcess:command msg:dic];
 }
 -(PluginResult *)sideChainTop_UpFee:(invokedUrlCommand *)command{
@@ -1469,6 +1472,7 @@ static uint64_t feePerKB = 10000;
     }
     NSString *jsonString = [self stringWithCString:result.dump()];
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
+    [self saveTradingWithhash:dic[@"TxHash"] withTradingType:7 withWalletID:[self stringWithCString:masterWalletID] withChainID:@"IDChain"];
     return [self successProcess:command msg:dic];
 }
 -(PluginResult *)mainChainWithdrawalFee:(invokedUrlCommand *)command{
@@ -1531,8 +1535,9 @@ static uint64_t feePerKB = 10000;
         
         Json result = mainchainSubWallet->PublishTransaction(signedTx);
         NSString *resultString=[self stringWithCString:result.dump()];
-        NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
-        return [resultdic[@"Fee"] integerValue];
+        NSDictionary *dic=  [self dictionaryWithJsonString:resultString];
+        [self saveTradingWithhash:dic[@"TxHash"] withTradingType:33 withWalletID:self.currentWallet.walletID withChainID:@"ELA"];
+        return [dic[@"Fee"] integerValue];
         
     } catch (const std:: exception & e ) {
         NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
@@ -1590,6 +1595,7 @@ static uint64_t feePerKB = 10000;
     }
     NSString *resultString=[self stringWithCString:result.dump()];
     NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
+    [self saveTradingWithhash:resultdic[@"TxHash"] withTradingType:9 withWalletID:self.currentWallet.walletID withChainID:@"ELA"];
     
     return [resultdic[@"Fee"] integerValue];
     
@@ -1614,6 +1620,8 @@ static uint64_t feePerKB = 10000;
         Json result = ELA->PublishTransaction(signedTx);
         NSString *resultString=[self stringWithCString:result.dump()];
         NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
+        [self saveTradingWithhash:resultdic[@"TxHash"] withTradingType:11 withWalletID:self.currentWallet.walletID withChainID:@"ELA"];
+        
         return YES;
         
     } catch (const std:: exception & e ) {
@@ -1649,6 +1657,7 @@ static uint64_t feePerKB = 10000;
         Json result = mainchainSubWallet->PublishTransaction(signedTx);
         NSString *resultString=[self stringWithCString:result.dump()];
         NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
+        [self saveTradingWithhash:resultdic[@"TxHash"] withTradingType:35 withWalletID:self.currentWallet.walletID withChainID:@"ELA"];
         return YES;
     } catch (const std:: exception & e ) {
         NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
@@ -1674,6 +1683,7 @@ static uint64_t feePerKB = 10000;
         Json result = mainchainSubWallet->PublishTransaction(signedTx);
         NSString *resultString=[self stringWithCString:result.dump()];
         NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
+        [self saveTradingWithhash:resultdic[@"TxHash"] withTradingType:34 withWalletID:self.currentWallet.walletID withChainID:@"ELA"];
     } catch (const std:: exception & e ) {
         NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
         NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
@@ -1696,6 +1706,7 @@ static uint64_t feePerKB = 10000;
         Json result = mainchainSubWallet->PublishTransaction(signedTx);
         NSString *resultString=[self stringWithCString:result.dump()];
         NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
+        [self saveTradingWithhash:resultdic[@"TxHash"] withTradingType:10 withWalletID:self.currentWallet.walletID withChainID:@"ELA"];
         return YES;
     } catch (const std:: exception & e ) {
         NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
@@ -1752,6 +1763,7 @@ static uint64_t feePerKB = 10000;
         Json result = mainchainSubWallet->PublishTransaction(signedTx);
         NSString *resultString=[self stringWithCString:result.dump()];
         NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
+        [self saveTradingWithhash:resultdic[@"TxHash"] withTradingType:36 withWalletID:self.currentWallet.walletID withChainID:@"ELA"];
         return YES;
         
     } catch (const std:: exception & e ) {
@@ -1790,7 +1802,7 @@ static uint64_t feePerKB = 10000;
         Json result = mainchainSubWallet->PublishTransaction(signedTx);
         NSString *resultString=[self stringWithCString:result.dump()];
         NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
-        
+        [self saveTradingWithhash:resultdic[@"TxHash"] withTradingType:12 withWalletID:self.currentWallet.walletID withChainID:@"ELA"];
         return YES;
         
     } catch (const std:: exception & e ) {
@@ -1832,6 +1844,7 @@ static uint64_t feePerKB = 10000;
         Json result = mainchainSubWallet->PublishTransaction(signedTx);
         NSString *resultString=[self stringWithCString:result.dump()];
         NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
+        [self saveTradingWithhash:resultdic[@"TxHash"] withTradingType:1001 withWalletID:self.currentWallet.walletID withChainID:@"ELA"];
         return YES;
         
     } catch (const std:: exception & e ) {
@@ -1882,6 +1895,7 @@ static uint64_t feePerKB = 10000;
         Json result = mainchainSubWallet->PublishTransaction(signedTx);
         NSString *resultString=[self stringWithCString:result.dump()];
         NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
+        [self saveTradingWithhash:resultdic[@"TxHash"] withTradingType:1001 withWalletID:self.currentWallet.walletID withChainID:@"ELA"];
         return YES;
         
     } catch (const std:: exception & e ) {
@@ -1911,6 +1925,7 @@ static uint64_t feePerKB = 10000;
             Json result = mainchainSubWallet->PublishTransaction(signedTx);
             NSString *resultString=[self stringWithCString:result.dump()];
             NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
+            [self saveTradingWithhash:resultdic[@"TxHash"] withTradingType:1001 withWalletID:self.currentWallet.walletID withChainID:@"ELA"];
             return YES;
             
         } catch (const std:: exception & e ) {
@@ -2166,6 +2181,7 @@ static uint64_t feePerKB = 10000;
     }
     NSString *jsonString = [self stringWithCString:result.dump()];
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
+    [self saveTradingWithhash:dic[@"TxHash"] withTradingType:1002 withWalletID:self.currentWallet.walletID withChainID:@"ELA"];
     return [self successProcess:command msg:dic];
 }
 -(PluginResult *)GetAllUTXOs:(invokedUrlCommand *)command{
@@ -2622,6 +2638,7 @@ static uint64_t feePerKB = 10000;
     
     NSString *resultString=[self stringWithCString:tx.dump()];
     NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
+    [self saveTradingWithhash:resultdic[@"TxHash"] withTradingType:10 withWalletID:[self stringWithCString:masterWalletID] withChainID:[self stringWithCString:chainID]];
     NSDictionary *dic=[self dictionaryWithJsonString:resultdic[@"TxHash"]];
     return [self successProcess:command msg:dic];
     
@@ -2657,7 +2674,6 @@ static uint64_t feePerKB = 10000;
     String  address=[self cstringWithString:args[idx++]];
     uint16_t port=[args[idx++] intValue];
     ISubWallet *subWallet=[self getSubWallet:masterWalletID  :chainID];
-    
     try {
         if (subWallet) {
             BOOL isSucce = subWallet->SetFixedPeer(address, port);
@@ -2671,5 +2687,14 @@ static uint64_t feePerKB = 10000;
     }
     return NO;
 }
-
+-(void)saveTradingWithhash:(NSString*)Tradinghash withTradingType:(NSInteger)type withWalletID:(NSString*)walletID withChainID:(NSString*)chainID{
+    HWMMessageCenterModel *model=[[HWMMessageCenterModel
+                                   alloc]init];
+    model.typeHash=Tradinghash;
+    model.walletID=walletID;
+    model.chainID=chainID;
+    model.MessageType=[NSString stringWithFormat:@"%ld",(long)type];
+    [[HMWFMDBManager sharedManagerType:transactionsType] addTransactionsWithModel:model];
+    
+}
 @end

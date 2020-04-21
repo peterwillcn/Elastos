@@ -69,7 +69,9 @@ UINib *ImportDocumentsNib;
 }
 -(void)skipVCEvent{
     
-    
+    if (self.selectIndex<0||self.allDirAaary.count==0) {
+        return;
+    }
     UIView *manView=[self mainWindow];
     [manView addSubview:self.documentsCoveringPopupV];
     [self.documentsCoveringPopupV mas_makeConstraints:^(MASConstraintMaker *make) {

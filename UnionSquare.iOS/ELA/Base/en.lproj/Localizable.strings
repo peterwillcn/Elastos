@@ -425,7 +425,7 @@
 "圭亚那"="Guyana";
 "海地"="Haiti";
 "洪都拉斯"="Honduras";
-"中国香港"="Hong Kong";
+"中国香港"="Hong Kong,China";
 "匈牙利"="Hungary";
 "冰岛"="Iceland";
 "印度"="India";
@@ -504,7 +504,7 @@
 "英国"="United Kingdom";
 "罗马尼亚"="Romania";
 "乌兹别克斯坦"="Uzbekistan";
-"中国台湾"="Taiwan";
+"中国台湾"="Taiwan,China";
 "沙特阿拉伯"="Saudi Arabia";
 "乌克兰"="Ukraine";
 "帛琉"="Palau";
@@ -563,7 +563,7 @@
 "马其顿"="The Republic of Macedonia";
 "巴布亚新几内亚"="Papua New Guinea";
 "黎巴嫩"="Lebanon";
-"中国澳门"="Macau";
+"中国澳门"="Macao,China";
 "蒙特塞拉特"="Montserrat";
 "斯洛文尼亚"="Slovenia";
 "利比里亚"="Liberia";
@@ -627,6 +627,7 @@
 "CR委员参选协议"="CR Council Member Election Agreement";
 "同意"="Agree";
 "不同意"="Do Not Agree";
+"拒绝"="Deny";
 "退出参选"="Withdraw";
 "(已退出)"="(Withdrawn Successfully)";
 "票数不能为空"="Votes cannot be empty";

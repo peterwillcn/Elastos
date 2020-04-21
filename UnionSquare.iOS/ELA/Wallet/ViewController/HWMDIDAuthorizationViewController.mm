@@ -44,7 +44,7 @@ UINib *_nib;
 }
 -(void)makeUI{
     [self.AgreedToButton setTitle:NSLocalizedString(@"同意", nil) forState:UIControlStateNormal];
-    [self.RefusedToButon setTitle:NSLocalizedString(@"不同意", nil) forState:UIControlStateNormal];
+    [self.RefusedToButon setTitle:NSLocalizedString(@"拒绝", nil) forState:UIControlStateNormal];
     [[HMWCommView share]makeBordersWithView:self.AgreedToButton];
     [[HMWCommView share]makeBordersWithView:self.RefusedToButon];
     _nib=[UINib nibWithNibName:cellDIDString bundle:nil];

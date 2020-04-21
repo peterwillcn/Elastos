@@ -36,7 +36,7 @@ static NSString *cellString=@"HWMnodeConnectionSettingsDetailsTableViewCell";
 @property (weak, nonatomic) IBOutlet UIButton *connChainButton;
 @property(strong,nonatomic)HWMManuallyEnterView*EnterIPView;
 
-
+@property(assign,nonatomic)BOOL ManuallyEnter;
 @end
 
 @implementation HWMnodeConnectionSettingsDetailsViewController
@@ -49,6 +49,7 @@ static NSString *cellString=@"HWMnodeConnectionSettingsDetailsTableViewCell";
     [self makeView];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(AsnyConnectStatusChanged:) name:ConnectStatusChanged object:nil];
+    self.ManuallyEnter=YES;
     [[HMWCommView share]makeBordersWithView:self.connChainButton];
     [self.connChainButton setTitle:NSLocalizedString(@"随机切换", nil) forState:UIControlStateNormal];
 }
@@ -102,15 +103,8 @@ static NSString *cellString=@"HWMnodeConnectionSettingsDetailsTableViewCell";
     cell.leftLable.text=self.detailsArray[indexPath.row];
     cell.rightLabel.alpha=1.f;
     cell.connSwitch.alpha=0.f;
-    cell.receivedOrAutomaticBlock = ^(BOOL received) {
-        NSString *buTiString;
-        if (received) {
-            buTiString=@"随机切换";
-        }else{
-            buTiString=@"手动输入";
-        }
-        [self.connChainButton setTitle:NSLocalizedString(buTiString, nil) forState:UIControlStateNormal];
-    };
+    cell.connSwitch.on=self.ManuallyEnter;
+    [cell.swButton addTarget:self action:@selector(connSwitch) forControlEvents:UIControlEventTouchUpInside];
     if (![self.model.status isEqualToString:@"Connected"]) {
         cell.rightLabel.text=@"--";
         if (indexPath.row==3) {
@@ -174,10 +168,11 @@ static NSString *cellString=@"HWMnodeConnectionSettingsDetailsTableViewCell";
     
 }
 - (IBAction)connChainEvent:(id)sender {
-    if ([self.connChainButton.titleLabel.text isEqualToString: NSLocalizedString(@"随机切换",nil)]) {
+    if (self.ManuallyEnter) {
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,self.model.iconName] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
         [[ELWalletManager share]RandomSwitchLink:mommand];
         self.model.status=@"connting";
+        self.ManuallyEnter=YES;
         [self.baseTableView reloadData];
     }else{
         UIView *mainView= [self mainWindow];
@@ -196,15 +191,51 @@ static NSString *cellString=@"HWMnodeConnectionSettingsDetailsTableViewCell";
 }
 
 -(void)selectIPWithString:(NSString*_Nullable)ip withPort:(NSString*_Nullable)port{
-    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,self.model.iconName] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
-        BOOL isSucc=  [[ELWalletManager share]ManualInputIP:mommand];
-    if (isSucc) {
-        [[HMWFMDBManager sharedManagerType:IPInfoType]addIPString:ip withPort:port];
+    if ([self.model.iconName isEqualToString:@"ELA"]&&port.length==0) {
+        port=ELAPort;
+        
+    }else if ([self.model.iconName isEqualToString:@"IDChain"]&&port.length==0){
+        port=IDChainPort;
     }
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,self.model.iconName,ip,port] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
+    BOOL isSucc=  [[ELWalletManager share]ManualInputIP:mommand];
+    if (isSucc) {
+        self.ManuallyEnter=NO;
+        [[HMWFMDBManager sharedManagerType:IPInfoType]addIPString:ip withPort:port];
+        [self closEnterView];
+    }
+    [self updaeButtonTitle];
+    [self.baseTableView reloadData];
 }
 
 -(void)closEnterView{
     [self.EnterIPView removeFromSuperview];
     self.EnterIPView=nil;
+}
+-(void)updaeButtonTitle{
+    NSString *buTiString;
+    if (self.ManuallyEnter) {
+        buTiString=@"随机切换";
+    }else{
+        buTiString=@"手动输入";
+    }
+    [self.connChainButton setTitle:NSLocalizedString(buTiString, nil) forState:UIControlStateNormal];
+    
+}
+-(void)connSwitch{
+    
+    if (self.ManuallyEnter) {
+        UIView *mainView= [self mainWindow];
+        [mainView addSubview:self.EnterIPView];
+        [self.EnterIPView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(mainView);
+        }];
+        
+    }else{
+        self.ManuallyEnter=YES;
+        [self connChainEvent:nil];
+        [self updaeButtonTitle];
+    }
+    
 }
 @end

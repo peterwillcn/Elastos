@@ -90,7 +90,7 @@ static NSString *cellString=@"HWMNodeConnectionSettingsTableViewCell";
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
     assetsListModel *listModel=self.currencyArray[indexPath.row];
-    cell.nickNameLabel.text=[NSString stringWithFormat:@"%@ Chain",listModel.iconName];
+    cell.nickNameLabel.text=listModel.iconName;
     
     return cell;
     

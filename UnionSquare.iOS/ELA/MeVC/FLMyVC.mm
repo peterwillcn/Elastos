@@ -47,23 +47,23 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   self.theContactOpen=NO;
-    
+    self.theContactOpen=NO;
     self.title= NSLocalizedString(@"我的", nil);
-
-    
     self.languageOpen =[[NSUserDefaults standardUserDefaults] objectForKey:@"isOpen"];
-    
-  [self makeUI];
+    [self makeUI];
     [self.table reloadData];
-    
     [self setBackgroundImg:@""];
     NSString *messageImage=@"mine_message_center";
     if ([[FLTools share]hasMessageNeedRead:@""]&&[[FLTools share]MseeagPRead:@""]) {
         messageImage=@"mine_message_center_red";
     }
-   UIBarButtonItem *ClickMorenButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"messageImage"] style:UIBarButtonItemStyleDone target:self action:@selector(messageCenter)];
-    self.navigationItem.rightBarButtonItem=ClickMorenButton;
+//    UIBarButtonItem *ClickMorenButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:messageImage] style:UIBarButtonItemStyleDone target:self action:@selector(messageCenter)];
+//    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+//                                                                        target:nil
+//                                                                                    action:nil];
+//    negativeSpacer.width =-20;
+//    NSArray *buttonArray = [[NSArray alloc]initWithObjects:negativeSpacer,ClickMorenButton,nil];
+//    self.navigationItem.rightBarButtonItems = buttonArray;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(myfriendNeedUpdateInfo) name:myfriendNeedUpdate object:nil];
 }
 -(void)messageCenter{
@@ -73,8 +73,8 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
 -(void)myfriendNeedUpdateInfo{
     [self.theContactMutableArray removeAllObjects];
     self.theContactMutableArray=nil;
- 
-     NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:self.selectIndex.section];
+    
+    NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:self.selectIndex.section];
     [self.table reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
 }
 -(NSMutableArray *)theContactMutableArray{
@@ -87,12 +87,12 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
 -(void)makeUI{
     self.table  = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     [self.table registerNib:[UINib nibWithNibName:@"FLTableViewDefultCell" bundle:nil] forCellReuseIdentifier:@"FLTableViewDefultCell"];
-        [self.table registerNib:[UINib nibWithNibName:LanguageCell bundle:nil] forCellReuseIdentifier:LanguageCell];
+    [self.table registerNib:[UINib nibWithNibName:LanguageCell bundle:nil] forCellReuseIdentifier:LanguageCell];
     
-        [self.table registerNib:[UINib nibWithNibName:addListCell bundle:nil] forCellReuseIdentifier:addListCell];
+    [self.table registerNib:[UINib nibWithNibName:addListCell bundle:nil] forCellReuseIdentifier:addListCell];
     [self.table registerNib:[UINib nibWithNibName:notAddCell bundle:nil] forCellReuseIdentifier:notAddCell];
-      [self.table registerNib:[UINib nibWithNibName:theContactCell bundle:nil] forCellReuseIdentifier:theContactCell];
- 
+    [self.table registerNib:[UINib nibWithNibName:theContactCell bundle:nil] forCellReuseIdentifier:theContactCell];
+    
     
     self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
     
@@ -100,26 +100,26 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
     self.table.dataSource =self;
     [self.view addSubview:self.table];
     UIImageView *bgview = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@""]];
-   [self CAGradientColorFrome:RGB(83, 136, 136) withToColor:RGB(16, 47, 58) withView:bgview];
+    [self CAGradientColorFrome:RGB(83, 136, 136) withToColor:RGB(16, 47, 58) withView:bgview];
     self.table.backgroundView = bgview;
-
     
-
-  
+    
+    
+    
     self.table.rowHeight = 60;
     self.table.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, AppWidth, 40)];
     
     self.dataSorse = @[
-  @{@"img":@"mine_mission",@"title":NSLocalizedString(@"语言", nil),@"url":@"/app/task.html",@"subTitle":@""},
-  @{@"img":@"mine_sugar",@"title":NSLocalizedString(@"联系人", nil),@"url":@"/app/vlink/wallet.html",@"subTitle":@""},
-  @{@"img":@"mine_sugar",@"title":NSLocalizedString(@"关于", nil),@"url":@"/app/vlink/wallet.html",@"subTitle":@""}];
-  
+        @{@"img":@"mine_mission",@"title":NSLocalizedString(@"语言", nil),@"url":@"/app/task.html",@"subTitle":@""},
+        @{@"img":@"mine_sugar",@"title":NSLocalizedString(@"联系人", nil),@"url":@"/app/vlink/wallet.html",@"subTitle":@""},
+        @{@"img":@"mine_sugar",@"title":NSLocalizedString(@"关于", nil),@"url":@"/app/vlink/wallet.html",@"subTitle":@""}];
+    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self defultWhite];
-     [self.navigationController setNavigationBarHidden:NO];
+    [self.navigationController setNavigationBarHidden:NO];
     self.navigationItem.leftBarButtonItem = nil;
 }
 -(void)viewWillDisappear:(BOOL)animated
@@ -136,7 +136,7 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
             
             return 2;
         }
-       
+        
     }
     
     if (self.theContactOpen) {
@@ -163,14 +163,14 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 5;
-
+    
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
     return 0.01;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     if (self.languageOpen) {
         if (indexPath.section==0) {
             if (indexPath.row==0) {
@@ -202,14 +202,14 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
             }
             if (self.theContactMutableArray.count==0) {
                 
-        if(indexPath.row==self.theContactMutableArray.count+2) {
-                HMWaddWalletListTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:addListCell];
-                cell.backgroundColor=[UIColor clearColor];
-                [[HMWCommView share] makeBordersWithView:cell.BGView];
-            cell.selectionStyle=UITableViewCellSelectionStyleNone;
-            return cell;
-            
-        }
+                if(indexPath.row==self.theContactMutableArray.count+2) {
+                    HMWaddWalletListTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:addListCell];
+                    cell.backgroundColor=[UIColor clearColor];
+                    [[HMWCommView share] makeBordersWithView:cell.BGView];
+                    cell.selectionStyle=UITableViewCellSelectionStyleNone;
+                    return cell;
+                    
+                }
                 HMWNotAddContactTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:notAddCell];
                 cell.backgroundColor=[UIColor clearColor];
                 cell.selectionStyle=UITableViewCellSelectionStyleNone;
@@ -222,7 +222,7 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
                     
                     cell.backgroundColor=[UIColor clearColor];
                     [[HMWCommView share] makeBordersWithView:cell.BGView];
-           
+                    
                     cell.selectionStyle=UITableViewCellSelectionStyleNone;
                     return cell;
                 }
@@ -234,29 +234,29 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
                 
                 friendsModel *model=self.theContactMutableArray[indexPath.row-1];
                 cell.nickNameLabel.text=model.nameString;
-            
+                
                 return cell;
                 
             }
-                
-                
-                
-                
-                
             
-        
-     
+            
+            
+            
+            
+            
+            
+            
             
         }
     }
     
     FLTableViewDefultCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FLTableViewDefultCell"];
-
+    
     NSDictionary*dict =self.dataSorse[indexPath.section];
     cell.nameLab.text  = dict[@"title"];
     cell.subImag.image=[UIImage imageNamed:@"setting_list_arrow_fold"];
-  
-  
+    
+    
     return cell;
 }
 
@@ -267,57 +267,57 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  
+    
     NSDictionary *dict = self.dataSorse[indexPath.section];
-
+    
     NSString *name = dict[@"title"];
     if([name isEqualToString:@"语言"]||[name isEqualToString:@"Language"]) {
         if (indexPath.row==0) {
             self.languageOpen=!self.languageOpen;
             NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:indexPath.section];
             [self.table reloadSections:indexSet withRowAnimation: UITableViewRowAnimationAutomatic];
-       
+            
         }
-   
-       
- 
+        
+        
+        
     }else if([name isEqualToString:@"联系人"]||[name isEqualToString:@"Contacts"]){
         self.selectIndex=indexPath;
-         if (indexPath.row==0) {
-        self.theContactOpen=!self.theContactOpen;
-        NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:indexPath.section];
-             [self.table reloadSections:indexSet withRowAnimation: UITableViewRowAnimationAutomatic];
-           
-             
-         }else{
-             if (self.theContactMutableArray.count==0) {
-                 HMWaddContactViewController *addContactVC=[[ HMWaddContactViewController alloc]init];
-                 addContactVC.title=NSLocalizedString(@"添加联系人", nil);
-                 addContactVC.typeInfo=updateInfo;
-                 [self.navigationController pushViewController:addContactVC animated:YES];
-             }else{
-             if (indexPath.row==self.theContactMutableArray.count+1) {//添加
-                 HMWaddContactViewController *addContactVC=[[ HMWaddContactViewController alloc]init];
-                 addContactVC.title=NSLocalizedString(@"添加联系人", nil);
-                 [self.navigationController pushViewController:addContactVC animated:YES];
-                 
-             }else{
-                 
-                 HMWtheContactInformationViewController *theContactInformationVC=[[HMWtheContactInformationViewController alloc]init];
-                 theContactInformationVC.model=self.theContactMutableArray[indexPath.row-1];
+        if (indexPath.row==0) {
+            self.theContactOpen=!self.theContactOpen;
+            NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:indexPath.section];
+            [self.table reloadSections:indexSet withRowAnimation: UITableViewRowAnimationAutomatic];
+            
+            
+        }else{
+            if (self.theContactMutableArray.count==0) {
+                HMWaddContactViewController *addContactVC=[[ HMWaddContactViewController alloc]init];
+                addContactVC.title=NSLocalizedString(@"添加联系人", nil);
+                addContactVC.typeInfo=updateInfo;
+                [self.navigationController pushViewController:addContactVC animated:YES];
+            }else{
+                if (indexPath.row==self.theContactMutableArray.count+1) {//添加
+                    HMWaddContactViewController *addContactVC=[[ HMWaddContactViewController alloc]init];
+                    addContactVC.title=NSLocalizedString(@"添加联系人", nil);
+                    [self.navigationController pushViewController:addContactVC animated:YES];
+                    
+                }else{
+                    
+                    HMWtheContactInformationViewController *theContactInformationVC=[[HMWtheContactInformationViewController alloc]init];
+                    theContactInformationVC.model=self.theContactMutableArray[indexPath.row-1];
                     [self.navigationController pushViewController:theContactInformationVC animated:YES];}
-             }}}else if ([name isEqualToString:NSLocalizedString(@"关于", nil)]){
-                 AboutELAWalletViewController* AboutELAWalletVC =[[AboutELAWalletViewController alloc]init];
-                 AboutELAWalletVC.title=name;
-                 [self.navigationController pushViewController:AboutELAWalletVC animated:YES];
-                 
-             }
-   
+            }}}else if ([name isEqualToString:NSLocalizedString(@"关于", nil)]){
+                AboutELAWalletViewController* AboutELAWalletVC =[[AboutELAWalletViewController alloc]init];
+                AboutELAWalletVC.title=name;
+                [self.navigationController pushViewController:AboutELAWalletVC animated:YES];
+                
+            }
+    
     
 }
 -(void)head:(FLMeHeadView *)header click:(NSInteger)index
 {
- 
+    
 }
 -(UIStatusBarStyle)preferredStatusBarStyle
 {

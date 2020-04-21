@@ -19,7 +19,8 @@ typedef NS_ENUM(NSInteger, FMDatabaseType) {
     CRListType,
     DIDInfoType,
     IPInfoType,
- MessageCenterType
+    MessageCenterType,
+    transactionsType
 };
 
 NS_ASSUME_NONNULL_BEGIN
@@ -53,6 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 //删
 -(BOOL)delectRecordWallet:(FMDBWalletModel *)wallet;
 
+-(NSString*)selectRecordWallet:(NSString*)walletID;
 
 -(BOOL)addsideChain:(sideChainInfoModel*)model;
 -(sideChainInfoModel*)selectAddsideChainWithWalletID:(NSString*)walletID andWithIconName:(NSString*)iconName;
@@ -106,6 +108,9 @@ NS_ASSUME_NONNULL_BEGIN
 -(NSArray*)allMessageListWithIndex:(NSInteger)starIndex;
 //增加
 -(BOOL)addMessageCenterWithModel:(HWMMessageCenterModel*)model;
+-(BOOL)addTransactionsWithModel:(HWMMessageCenterModel*)model;
+-(HWMMessageCenterModel*)selectTransactionsWithModel:(HWMMessageCenterModel*)model;
+-(HWMMessageCenterModel*)selectAllTransactionsWithModel;
 
 @end
 

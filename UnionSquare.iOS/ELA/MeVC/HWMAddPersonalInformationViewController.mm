@@ -563,6 +563,9 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 }
 
 -(void)delegateViewWithDic:(NSDictionary *)dic{
+    if (self.nextButton.alpha==0) {
+        self.nextButton.alpha=1;
+    }
     if (self.whereFrome||self.isEidet) {
         self.deleteIndex=@"-1";
         [self showDeleteHasSaveChainView];
@@ -723,10 +726,6 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     
 }
 -(void)makeSureWithPWD:(NSString*)pwd{
-    if (self.blance<0.0001) {
-        [[FLTools share]showErrorInfo:@"余额不足"];
-        return;
-    }
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwd] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
     NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
     if (privatekeyString.length==0) {
@@ -746,6 +745,10 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
             [[FLTools share]showErrorInfo:@"保存失败"];
         }
     }else{
+        if (self.blance<0.0001) {
+            [[FLTools share]showErrorInfo:@"余额不足"];
+            return;
+        }
         
         BOOL isSucess=[[HWMDIDManager shareDIDManager ]updateInfoWithInfo: self.model];
         if (isSucess) {
@@ -831,6 +834,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     self.deleteHasSaveChainView.alpha=0.f;
 }
 -(void)showDeleteHasSaveChainView{
+    
     if (self.deleteHasSaveChainView.alpha==0.f) {
         self.deleteHasSaveChainView.alpha=1.f;
     }else{

@@ -37,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) void(^receivedOrAutomaticBlock)(BOOL received);
 @property (assign, nonatomic)NSIndexPath *index ;
+@property (weak, nonatomic) IBOutlet UIButton *swButton;
 
 @end
 

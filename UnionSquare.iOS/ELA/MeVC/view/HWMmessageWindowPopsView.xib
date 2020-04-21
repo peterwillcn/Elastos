@@ -24,7 +24,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="【XX钱包】消息类型 - 交易完成，信息描述文字信息描 述文字信息描述文字信息描述文字信息描述文字…" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CY8-O4-4u7">
-                    <rect key="frame" x="7" y="27" width="400" height="36"/>
+                    <rect key="frame" x="7" y="27" width="400" height="31.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" red="0.31867784259999998" green="0.52156168219999999" blue="0.52148038149999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
@@ -35,7 +35,7 @@
                 <constraint firstItem="CY8-O4-4u7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="7" id="8uc-Vh-ekQ"/>
                 <constraint firstAttribute="trailing" secondItem="eV2-8R-GfJ" secondAttribute="trailing" constant="7" id="Nbw-aa-26t"/>
                 <constraint firstItem="eV2-8R-GfJ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="7" id="e7j-4F-vZ7"/>
-                <constraint firstAttribute="bottom" secondItem="CY8-O4-4u7" secondAttribute="bottom" constant="7" id="jKh-AF-qOS"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="CY8-O4-4u7" secondAttribute="bottom" constant="7" id="jKh-AF-qOS"/>
                 <constraint firstItem="CY8-O4-4u7" firstAttribute="top" secondItem="eV2-8R-GfJ" secondAttribute="bottom" constant="7" id="nb3-eS-ynE"/>
                 <constraint firstItem="eV2-8R-GfJ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="oBd-q5-MQA"/>
                 <constraint firstAttribute="trailing" secondItem="CY8-O4-4u7" secondAttribute="trailing" constant="7" id="wE8-RZ-F0D"/>

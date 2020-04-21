@@ -43,9 +43,6 @@
     
 }
 -(void)defultWhite{
-    if (@available(iOS 13.0, *)) {
-        self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
-    }
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
     

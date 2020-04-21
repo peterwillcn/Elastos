@@ -203,7 +203,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
 }
 -(NSDictionary*)getDIDInfo{
     if (did==nil||store==nil) {
-        [[FLTools share]showErrorInfo:@"本地没有"];
+//        [[FLTools share]showErrorInfo:@"本地没有"];
         return nil;
     }
     DIDDocument *doc=DIDStore_LoadDID(store, did);
@@ -316,9 +316,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     Credential * cre=DIDStore_LoadCredential(store, did, url);
     const char *suInfo  = Credential_GetProperties(cre);
     NSString *modelString=[self charToString:suInfo];
-    NSDictionary *modeDic=[[FLTools share]dictionaryWithJsonString:modelString];
-    NSString *jsonString=[[FLTools share]returnJSONStringWithDictionary:modeDic];
-    HWMDIDInfoModel *model=[HWMDIDInfoModel modelWithJSON:jsonString];
+    HWMDIDInfoModel *model=[HWMDIDInfoModel modelWithJSON:modelString];
     model.did=self.DIDString;
     DIDURL_Destroy(url);
     return model;
@@ -461,9 +459,10 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     NSString *infoString=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSDictionary *infoDic=[[FLTools share]dictionaryWithJsonString:infoString];
     HWMDIDInfoModel *model=[HWMDIDInfoModel modelWithDictionary:infoDic[@"credentialSubject"]];
+    model.endString=[[FLTools share]SpecialTimeZoneConversion:infoDic[@"expirationDate"]];
     BOOL  Credential=[self saveDIDCredentialWithDIDModel:model];
-    BOOL updateInfo= [self updateInfoWithInfo:model];
-    if (Credential&&updateInfo) {
+//    BOOL updateInfo= [self updateInfoWithInfo:model];
+    if (Credential) {
         return YES;
     }
     return NO;

@@ -2,22 +2,21 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "cr_did_copy.png",
       "scale" : "1x"
     },
     {
-      "idiom" : "universal",
       "filename" : "cr_did_copy@2x.png",
+      "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "cr_did_copy@3x 3.png",
       "idiom" : "universal",
-      "filename" : "cr_did_copy@3x.png",
       "scale" : "3x"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }

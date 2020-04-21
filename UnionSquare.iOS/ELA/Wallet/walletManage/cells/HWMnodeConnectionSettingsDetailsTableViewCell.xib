@@ -42,21 +42,30 @@
                             <action selector="receivedOrAutomatic:" destination="KGk-i7-Jjw" eventType="valueChanged" id="W6T-dv-Lge"/>
                         </connections>
                     </switch>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="re1-SX-RWV">
+                        <rect key="frame" x="250" y="0.0" width="70" height="43.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="70" id="P2a-qb-mwW"/>
+                        </constraints>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="G28-ip-inD" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="2s1-Yu-Ee9"/>
                     <constraint firstAttribute="bottom" secondItem="GN1-a9-8DK" secondAttribute="bottom" id="58s-CX-8ON"/>
                     <constraint firstItem="Y9l-xF-NE7" firstAttribute="width" secondItem="GN1-a9-8DK" secondAttribute="width" id="6c3-f9-7Ww"/>
                     <constraint firstAttribute="bottom" secondItem="M1h-WS-p9R" secondAttribute="bottom" id="HoS-f6-O2D"/>
+                    <constraint firstItem="re1-SX-RWV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="K75-wh-tb3"/>
                     <constraint firstAttribute="bottom" secondItem="Y9l-xF-NE7" secondAttribute="bottom" id="KJT-CB-FfS"/>
                     <constraint firstAttribute="trailing" secondItem="M1h-WS-p9R" secondAttribute="trailing" constant="15" id="McC-cV-Gx5"/>
                     <constraint firstItem="GN1-a9-8DK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="OYB-fL-M8N"/>
                     <constraint firstItem="GN1-a9-8DK" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="OdZ-98-ch6"/>
+                    <constraint firstAttribute="trailing" secondItem="re1-SX-RWV" secondAttribute="trailing" id="VaM-FM-TyU"/>
                     <constraint firstItem="Y9l-xF-NE7" firstAttribute="leading" secondItem="GN1-a9-8DK" secondAttribute="trailing" constant="10" id="bjQ-ZH-GXz"/>
                     <constraint firstAttribute="trailing" secondItem="Y9l-xF-NE7" secondAttribute="trailing" constant="15" id="h9L-d3-Xhp"/>
                     <constraint firstItem="Y9l-xF-NE7" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="jNV-Fj-9M6"/>
                     <constraint firstAttribute="trailing" secondItem="G28-ip-inD" secondAttribute="trailing" constant="15" id="nM0-fg-at6"/>
                     <constraint firstItem="M1h-WS-p9R" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="sEw-O1-CG8"/>
+                    <constraint firstItem="M1h-WS-p9R" firstAttribute="top" secondItem="re1-SX-RWV" secondAttribute="bottom" id="xpm-dv-h7L"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -65,6 +74,7 @@
                 <outlet property="connSwitch" destination="G28-ip-inD" id="AQM-tF-Uh7"/>
                 <outlet property="leftLable" destination="GN1-a9-8DK" id="3Ok-0Z-CA9"/>
                 <outlet property="rightLabel" destination="Y9l-xF-NE7" id="44e-K1-HeL"/>
+                <outlet property="swButton" destination="re1-SX-RWV" id="iZt-f2-H9g"/>
             </connections>
             <point key="canvasLocation" x="134.78260869565219" y="110.49107142857143"/>
         </tableViewCell>

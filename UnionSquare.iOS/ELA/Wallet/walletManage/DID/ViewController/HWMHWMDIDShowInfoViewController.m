@@ -94,6 +94,9 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
         case 3:{
             cell.headIocnImageView.alpha=1.f;
            if (self.model.avatar.length>0) {
+//               [cell.headIocnImageView sd_setImageWithURL:[NSURL URLWithString:self.model.avatar] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+//                   
+//               }];
                 [[FLTools share]loadUrlSVGAndPNG:self.model.avatar WithSuccessBlock:^(id data) {
                     if (data) {
                         cell.headIocnImageView.image=data;

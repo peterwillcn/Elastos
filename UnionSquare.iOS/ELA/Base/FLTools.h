@@ -165,5 +165,7 @@
 -(BOOL)hasMessageNeedRead:(NSString*)r;
 -(void)sethasMessageNeedRead:(NSString*)r;
 -(void)showNeMessageWith:(HWMMessageCenterModel*)mode;
+- (NSString *)SpecialTimeZoneConversion:(NSString *)timeStr;
+-(NSString*)EnquiryForDetailsWithTransactiontype:(NSInteger)type withChainName:(NSString*)chainID;
 
 @end

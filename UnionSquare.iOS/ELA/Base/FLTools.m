@@ -12,6 +12,9 @@
 #import "UIImage+SVGTool.h"
 #import<SystemConfiguration/SCNetworkReachability.h>
 #import "HWMmessageWindowPopsView.h"
+#import "HMWFMDBManager.h"
+#import "AppDelegate.h"
+#import "HWMTheMessageCenterViewController.h"
 static NSString *MseeagPush=@"MseeagPush";
 static NSString *MseeagPRead=@"MseeagPRead";
 static NSString *hasMessageNeedRead=@"hasMessageNeedRead";
@@ -76,6 +79,15 @@ static FLTools *tool;
     
     return timeS;
     
+}
+- (NSString *)SpecialTimeZoneConversion:(NSString *)timeStr{
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+    //将时间转换为字符串
+    NSDate *myDate = [formatter  dateFromString:timeStr];
+    //时间转时间戳的方法:
+    NSString * timeSp = [[NSNumber numberWithDouble:[myDate timeIntervalSince1970]] stringValue];
+    return timeSp;
 }
 - (NSString *)CNTOYMDHMSgetTimeFromTimesTamp:(NSString *)timeStr{
     
@@ -1672,14 +1684,14 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
         successBlock (nil);
         return;
     }
-    NSString *typeString=[imageURL substringFromIndex:imageURL.length-4];
-    if (![typeString isEqualToString:@".svg"]) {
-        UIImageView *webImageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
-        [webImageView sd_setImageWithURL:[NSURL URLWithString:imageURL]];
-        
-        successBlock (webImageView.image);
-        return;
-    }
+    //    NSString *typeString=[imageURL substringFromIndex:imageURL.length-4];
+    //    if (![typeString isEqualToString:@".svg"]) {
+    //        UIImageView *webImageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
+    //        [webImageView sd_setImageWithURL:[NSURL URLWithString:imageURL] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+    //        successBlock (image);
+    //        }];
+    ////        return;
+    //    }
     [HttpUrl loadDataWithUrl:imageURL withIconName:imageURL WithSuccessBlock:^(id data) {
         @try {
             UIImage *backImage=[UIImage imageNamed:imageURL];
@@ -1707,11 +1719,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
         
         
     } WithFailBlock:^(id data) {
-        
-        //        dispatch_async(dispatch_get_main_queue(), ^{
         successBlock ([UIImage imageNamed:@"ETH"]);
-        //        });
-        
     }];
 }
 -(NSString *)bytesToAvaiUnit:(NSString*)bytesString{
@@ -1745,6 +1753,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     if (Push==nil) {
         Push=@"1";
     }
+     NSLog(@"有消息需要推送----%d",[Push intValue]);
     return   [Push intValue];
 }
 -(BOOL)MseeagPRead:(NSString*)r{
@@ -1752,9 +1761,11 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     if (r==nil) {
         r=@"1";
     }
+    NSLog(@"消息红点----%d",[r intValue]);
     return [r intValue];
 }
 -(void)setMMseeagPRead:(NSString*)r{
+      NSLog(@"设置消息红点----%d",[r intValue]);
     [STANDARD_USER_DEFAULT setValue:r forKey:MseeagPRead];
     [STANDARD_USER_DEFAULT synchronize];
 }
@@ -1763,6 +1774,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     if (r==nil) {
         r=@"0";
     }
+     NSLog(@"有消息需要读取----%d",[r intValue]);
     return [r intValue];
 }
 -(void)sethasMessageNeedRead:(NSString*)r{
@@ -1771,21 +1783,55 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
 }
 
 -(void)showNeMessageWith:(HWMMessageCenterModel*)mode{
+    HWMMessageCenterModel *almodel=[[HMWFMDBManager sharedManagerType:transactionsType]selectTransactionsWithModel:mode];
+    mode.MessageType=[self EnquiryForDetailsWithTransactiontype:[almodel.MessageType intValue] withChainName:mode.chainID];
+    mode.walletName=[[HMWFMDBManager sharedManagerType:walletType]selectRecordWallet:mode.walletID];
+    mode.time=[self getCurrentTimes];
+    BOOL isShow=[self readMseeagPush:@""];
+    [[HMWFMDBManager sharedManagerType:MessageCenterType]addMessageCenterWithModel:mode];
+    [self sethasMessageNeedRead:@"1"];
+    if (isShow==NO) {
+        return;
+    }
     UIView  *appW=[self mainWindow];
     HWMmessageWindowPopsView *messagePopsV =[[HWMmessageWindowPopsView alloc]init];
     messagePopsV.frame=CGRectMake(15, -100, AppWidth-30, 70);
+    messagePopsV.messageConLabel.text=[NSString stringWithFormat:@"【%@%@】 %@ - %@",mode.walletName,NSLocalizedString(@"钱包", nil),mode.MessageType,mode.MessageC];
     [appW addSubview:messagePopsV];
     
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapView)];
+    
+    [messagePopsV addGestureRecognizer:tap];
     [UIView animateWithDuration:1 animations:^{
         messagePopsV.frame = CGRectMake(15, 30, AppWidth-30, 70);
     }];
-    [UIView animateWithDuration:1 delay:2 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        messagePopsV.frame = CGRectMake(15, -100, AppWidth-30, 70);
-    } completion:^(BOOL finished) {
-        [messagePopsV removeFromSuperview];
-        
-    }];
+}
+-(void)tapView{
+    UIViewController *currVC=[self getCurrentVC];
+    HWMTheMessageCenterViewController *MessageCenterVC=[[HWMTheMessageCenterViewController alloc]init];
+    [currVC.navigationController pushViewController:MessageCenterVC animated:YES];
     
+}
+- (UIViewController *)getCurrentVC {
+    UIViewController *result = nil;
+    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
+    if (window.windowLevel != UIWindowLevelNormal) {
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        for(UIWindow * tmpWin in windows) {
+            if (tmpWin.windowLevel == UIWindowLevelNormal) {
+                window = tmpWin;
+                break;
+            }
+        }
+    }
+    UIView *frontView = [[window subviews] objectAtIndex:0];
+    id nextResponder = [frontView nextResponder];
+    if ([nextResponder isKindOfClass:[UIViewController class]]) {
+        result = nextResponder;
+    } else {
+        result = window.rootViewController;
+    }
+    return result;
 }
 -(UIWindow *)mainWindow{
     UIApplication *app = [UIApplication sharedApplication];
@@ -1798,5 +1844,77 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
         return [app keyWindow];
     }
 }
-
+-(NSString*)EnquiryForDetailsWithTransactiontype:(NSInteger)type withChainName:(NSString*)chainID{
+    NSString *detailsMType;
+    switch (type) {
+        case 0:
+            detailsMType=NSLocalizedString(@"创币交易", nil);
+            break;
+        case 1:
+            detailsMType=NSLocalizedString(@"注册资产交易", nil);
+            break;
+        case 2:
+            detailsMType=NSLocalizedString(@"普通转账交易", nil);
+            break;
+        case 3:
+            detailsMType=NSLocalizedString(@"记录交易", nil);
+            break;
+        case 4:
+            detailsMType=NSLocalizedString(@"部署交易", nil);
+            break;
+        case 5:
+            detailsMType=NSLocalizedString(@"侧链挖矿交易", nil);
+            break;
+        case 6:
+            detailsMType=NSLocalizedString(@"侧链充值交易", nil);
+            break;
+        case 7:
+            detailsMType=NSLocalizedString(@"侧链提现交易", nil);
+            break;
+        case 8:{
+            detailsMType=NSLocalizedString(@"跨链交易", nil);
+        }
+            break;
+        case 9:
+            detailsMType=NSLocalizedString(@"注册参选交易", nil);
+            break;
+        case 10:
+            if ([chainID isEqualToString:@"IDChain"]) {
+                detailsMType=NSLocalizedString(@"ID 交易", nil);
+            }else{
+                detailsMType=NSLocalizedString(@"取消参选交易", nil);
+            }
+            
+            break;
+        case 11:
+            detailsMType=NSLocalizedString(@"更新参选交易", nil);
+            break;
+        case 12:
+            detailsMType=NSLocalizedString(@"提取DPoS质押金交易", nil);
+            break;
+        case 33:
+            detailsMType=NSLocalizedString(@"注册CR参选交易", nil);
+            break;
+        case 34:
+            detailsMType=NSLocalizedString(@"取消CR参选交易", nil);
+            break;
+        case 35:
+            detailsMType=NSLocalizedString(@"更新CR参选信息交易", nil);
+            break;
+        case 36:
+            detailsMType=NSLocalizedString(@"提取CR质押金交易", nil);
+            break;
+        case 1001:
+            detailsMType=NSLocalizedString(@"投票交易", nil);
+            break;
+        case 1002:
+            detailsMType=NSLocalizedString(@"零钱换整", nil);
+            break;
+            
+        default:
+            break;
+    }
+    return detailsMType;
+    
+}
 @end

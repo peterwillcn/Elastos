@@ -309,8 +309,6 @@
 		422D60AB21FC42D100DD07FF /* HMWChooseTheCountryAreasTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 422D60A721FC42D100DD07FF /* HMWChooseTheCountryAreasTableViewCell.xib */; };
 		4230217A22C0BB000004AB65 /* nodeInformationDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4230217922C0BB000004AB65 /* nodeInformationDetailsView.m */; };
 		4230217C22C0BB0C0004AB65 /* nodeInformationDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4230217B22C0BB0C0004AB65 /* nodeInformationDetailsView.xib */; };
-		423270C3244D8B1300E98C26 /* HWMTheMessageSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 423270C1244D8B1300E98C26 /* HWMTheMessageSettingViewController.m */; };
-		423270C4244D8B1300E98C26 /* HWMTheMessageSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 423270C2244D8B1300E98C26 /* HWMTheMessageSettingViewController.xib */; };
 		423270C7244D8BC900E98C26 /* HWMAllNoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 423270C6244D8BC900E98C26 /* HWMAllNoView.m */; };
 		423270C9244D8BD300E98C26 /* HWMAllNoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 423270C8244D8BD300E98C26 /* HWMAllNoView.xib */; };
 		423270CC244DA17E00E98C26 /* HWMmessageWindowPopsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 423270CB244DA17E00E98C26 /* HWMmessageWindowPopsView.m */; };
@@ -1152,9 +1150,6 @@
 		4230217822C0BB000004AB65 /* nodeInformationDetailsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nodeInformationDetailsView.h; sourceTree = "<group>"; };
 		4230217922C0BB000004AB65 /* nodeInformationDetailsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = nodeInformationDetailsView.m; sourceTree = "<group>"; };
 		4230217B22C0BB0C0004AB65 /* nodeInformationDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = nodeInformationDetailsView.xib; sourceTree = "<group>"; };
-		423270C0244D8B1300E98C26 /* HWMTheMessageSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTheMessageSettingViewController.h; sourceTree = "<group>"; };
-		423270C1244D8B1300E98C26 /* HWMTheMessageSettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTheMessageSettingViewController.m; sourceTree = "<group>"; };
-		423270C2244D8B1300E98C26 /* HWMTheMessageSettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTheMessageSettingViewController.xib; sourceTree = "<group>"; };
 		423270C5244D8BC900E98C26 /* HWMAllNoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMAllNoView.h; sourceTree = "<group>"; };
 		423270C6244D8BC900E98C26 /* HWMAllNoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMAllNoView.m; sourceTree = "<group>"; };
 		423270C8244D8BD300E98C26 /* HWMAllNoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMAllNoView.xib; sourceTree = "<group>"; };
@@ -1315,6 +1310,9 @@
 		4272904F2446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMNodeConnectionSettingsTableViewCell.h; sourceTree = "<group>"; };
 		427290502446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMNodeConnectionSettingsTableViewCell.m; sourceTree = "<group>"; };
 		427290512446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMNodeConnectionSettingsTableViewCell.xib; sourceTree = "<group>"; };
+		4275265A244F555B001E6701 /* HWMMessageSetViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = HWMMessageSetViewController.xib; path = /Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS.github/ELA/MeVC/HWMMessageSetViewController.xib; sourceTree = "<absolute>"; };
+		4275265B244F555B001E6701 /* HWMMessageSetViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HWMMessageSetViewController.h; path = /Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS.github/ELA/MeVC/HWMMessageSetViewController.h; sourceTree = "<absolute>"; };
+		4275265C244F555B001E6701 /* HWMMessageSetViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HWMMessageSetViewController.m; path = /Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS.github/ELA/MeVC/HWMMessageSetViewController.m; sourceTree = "<absolute>"; };
 		4278023D235EDC350017F098 /* HWMDIDWalletListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMDIDWalletListTableViewCell.h; sourceTree = "<group>"; };
 		4278023E235EDC350017F098 /* HWMDIDWalletListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMDIDWalletListTableViewCell.m; sourceTree = "<group>"; };
 		4278023F235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMDIDWalletListTableViewCell.xib; sourceTree = "<group>"; };
@@ -5236,6 +5234,9 @@
 				422C463D235DBB29000523DB /* HWMCreateDIDViewController.h */,
 				422C463E235DBB29000523DB /* HWMCreateDIDViewController.mm */,
 				422C463F235DBB29000523DB /* HWMCreateDIDViewController.xib */,
+				4275265B244F555B001E6701 /* HWMMessageSetViewController.h */,
+				4275265C244F555B001E6701 /* HWMMessageSetViewController.m */,
+				4275265A244F555B001E6701 /* HWMMessageSetViewController.xib */,
 				42211B3B2362D5CC00924029 /* HWMAddPersonalInformationViewController.h */,
 				42211B3C2362D5CC00924029 /* HWMAddPersonalInformationViewController.mm */,
 				42211B3D2362D5CC00924029 /* HWMAddPersonalInformationViewController.xib */,
@@ -5280,9 +5281,6 @@
 				423F37BD244C9901000CDFE9 /* HWMTheMessageCenterViewController.h */,
 				423F37BE244C9901000CDFE9 /* HWMTheMessageCenterViewController.m */,
 				423F37BF244C9901000CDFE9 /* HWMTheMessageCenterViewController.xib */,
-				423270C0244D8B1300E98C26 /* HWMTheMessageSettingViewController.h */,
-				423270C1244D8B1300E98C26 /* HWMTheMessageSettingViewController.m */,
-				423270C2244D8B1300E98C26 /* HWMTheMessageSettingViewController.xib */,
 				4202C89721F6EF28009E5932 /* model */,
 				4202C89A21F6EF28009E5932 /* view */,
 			);
@@ -5310,6 +5308,9 @@
 				422C4642235DBB4B000523DB /* HWMCreateDIDListTableViewCell.h */,
 				422C4643235DBB4B000523DB /* HWMCreateDIDListTableViewCell.m */,
 				422C4644235DBB4B000523DB /* HWMCreateDIDListTableViewCell.xib */,
+				4253EE5B23697503005B774A /* HWMDIDInfoTableViewCell.h */,
+				4253EE5C23697503005B774A /* HWMDIDInfoTableViewCell.m */,
+				4253EE5D23697503005B774A /* HWMDIDInfoTableViewCell.xib */,
 				4253EE4823692F93005B774A /* HWMDIDListAbnormalTableViewCell.h */,
 				4253EE4923692F93005B774A /* HWMDIDListAbnormalTableViewCell.m */,
 				4253EE4A23692F93005B774A /* HWMDIDListAbnormalTableViewCell.xib */,
@@ -5319,15 +5320,12 @@
 				4278023D235EDC350017F098 /* HWMDIDWalletListTableViewCell.h */,
 				4278023E235EDC350017F098 /* HWMDIDWalletListTableViewCell.m */,
 				4278023F235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib */,
-				42211B452362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.h */,
-				42211B462362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.m */,
-				42211B472362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.xib */,
-				4253EE5B23697503005B774A /* HWMDIDInfoTableViewCell.h */,
-				4253EE5C23697503005B774A /* HWMDIDInfoTableViewCell.m */,
-				4253EE5D23697503005B774A /* HWMDIDInfoTableViewCell.xib */,
 				426F0B0123E9380800115F87 /* HWMShowSocialAccountTableViewCell.h */,
 				426F0B0223E9380800115F87 /* HWMShowSocialAccountTableViewCell.m */,
 				426F0B0323E9380800115F87 /* HWMShowSocialAccountTableViewCell.xib */,
+				42211B452362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.h */,
+				42211B462362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.m */,
+				42211B472362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.xib */,
 				423F37C2244C9B1D000CDFE9 /* HWMTheMessageCenterTableViewCell.h */,
 				423F37C3244C9B1D000CDFE9 /* HWMTheMessageCenterTableViewCell.m */,
 				423F37C4244C9B1D000CDFE9 /* HWMTheMessageCenterTableViewCell.xib */,
@@ -11301,7 +11299,6 @@
 				424CA4CD242C737C0067C1CE /* LaunchScreen-English.storyboard in Resources */,
 				4202CA5221F6EF2A009E5932 /* FLAssetTableCell.xib in Resources */,
 				4202CA6721F6EF2B009E5932 /* HMWtransferTransactionMultipleAddressDetailsTableViewCell.xib in Resources */,
-				423270C4244D8B1300E98C26 /* HWMTheMessageSettingViewController.xib in Resources */,
 				4218668722CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.xib in Resources */,
 				421BABD5242963EA000FB026 /* HWMallDocumentsListTableViewCell.xib in Resources */,
 				42B263B522DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewController.xib in Resources */,
@@ -11621,7 +11618,6 @@
 				4224AE76243CD43E0056606F /* DDContextFilterLogFormatter.m in Sources */,
 				4202CA8B21F6EF2B009E5932 /* HMWTheWalletManagementViewController.mm in Sources */,
 				424A7D67222FC23B00683B8C /* sideChainInfoModel.m in Sources */,
-				423270C3244D8B1300E98C26 /* HWMTheMessageSettingViewController.m in Sources */,
 				4228AA6221F88C87002866B5 /* NSObject+YYAddForKVO.m in Sources */,
 				42D105F323A3344D0063AADC /* MJRefreshConst.m in Sources */,
 				4228AA4821F88C87002866B5 /* UIBezierPath+YYAdd.m in Sources */,

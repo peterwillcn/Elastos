@@ -19,9 +19,13 @@
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="asset_did_selected" translatesAutoresizingMaskIntoConstraints="NO" id="7d0-UE-A28">
                         <rect key="frame" x="283" y="19" width="22" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="22" id="4Qd-G8-p1s"/>
+                            <constraint firstAttribute="height" constant="22" id="Ult-uZ-ZwC"/>
+                        </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bvU-NU-t7X">
-                        <rect key="frame" x="15" y="8" width="35.5" height="17"/>
+                        <rect key="frame" x="15" y="8" width="253" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
@@ -63,6 +67,7 @@
                     <constraint firstItem="7d0-UE-A28" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="hQR-Ud-twM"/>
                     <constraint firstAttribute="trailing" secondItem="tnb-OB-Rbj" secondAttribute="trailing" constant="15" id="mKP-BG-bkg"/>
                     <constraint firstItem="bvU-NU-t7X" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="mhN-kF-e7g"/>
+                    <constraint firstItem="7d0-UE-A28" firstAttribute="leading" secondItem="bvU-NU-t7X" secondAttribute="trailing" constant="15" id="plj-4r-Dv8"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

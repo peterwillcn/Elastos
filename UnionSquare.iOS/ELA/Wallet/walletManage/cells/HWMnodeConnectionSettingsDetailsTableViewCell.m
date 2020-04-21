@@ -70,12 +70,10 @@
     switch (index.row) {
         case 0:
             self.connSwitch.on=[[FLTools share]MseeagPRead:@""];
-            
             break;
         case 1:
             self.connSwitch.on=[[FLTools share]readMseeagPush:@""];
             break;
-            
         default:
             break;
     }

@@ -121,6 +121,17 @@ class PasswordManagerImpl implements PasswordManagerPlugin.PasswordManager {
             }, 'PasswordManagerPlugin', 'setAppsPasswordStrategy', [strategy]);    
         });
     }
+
+    getAppsPasswordStrategy(): Promise<PasswordManagerPlugin.AppsPasswordStrategy> {
+        return new Promise((resolve, reject)=>{
+            exec((result: { strategy: PasswordManagerPlugin.AppsPasswordStrategy }) =>{
+                resolve(result.strategy);
+            }, (err)=>{
+                console.error("Error while calling PasswordManagerPlugin.getAppsPasswordStrategy()", err);
+                reject(err);
+            }, 'PasswordManagerPlugin', 'getAppsPasswordStrategy', []);    
+        });
+    }
 }
 
 export = new PasswordManagerImpl();

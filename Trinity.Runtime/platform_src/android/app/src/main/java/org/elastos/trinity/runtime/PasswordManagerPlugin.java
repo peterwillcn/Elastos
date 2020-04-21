@@ -63,6 +63,9 @@ public class PasswordManagerPlugin extends TrinityPlugin {
                 case "setAppsPasswordStrategy":
                     this.setAppsPasswordStrategy(args, callbackContext);
                     break;
+                case "getAppsPasswordStrategy":
+                    this.getAppsPasswordStrategy(args, callbackContext);
+                    break;
                 default:
                     return false;
             }
@@ -114,6 +117,11 @@ public class PasswordManagerPlugin extends TrinityPlugin {
     }
 
     private void setAppsPasswordStrategy(JSONArray args, CallbackContext callbackContext) throws Exception {
+        JSONObject info = args.getJSONObject(0);
+        callbackContext.success();
+    }
+
+    private void getAppsPasswordStrategy(JSONArray args, CallbackContext callbackContext) throws Exception {
         JSONObject info = args.getJSONObject(0);
         callbackContext.success();
     }

@@ -305,6 +305,14 @@ declare namespace PasswordManagerPlugin {
          * @param strategy Strategy to use in order to save and get passwords in third party apps.
          */
         setAppsPasswordStrategy(strategy: AppsPasswordStrategy);
+
+        /**
+         * Returns the current apps password strategy. If nothing was et earlier, default value 
+         * is LOCK_WITH_MASTER_PASSWORD.
+         * 
+         * @returns The current apps password strategy
+         */
+        getAppsPasswordStrategy(): Promise<AppsPasswordStrategy>;
     }
 
 }

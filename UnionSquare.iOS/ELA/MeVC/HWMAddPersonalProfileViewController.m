@@ -8,7 +8,6 @@
 #import "HWMAddPersonalProfileViewController.h"
 #import "HWMAddSocialAccountViewController.h"
 #import "HMWFMDBManager.h"
-static NSString *placeHText=@"请输入个人简介";
 @interface HWMAddPersonalProfileViewController ()<UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *textInfoLabel;
 /*
@@ -20,6 +19,7 @@ static NSString *placeHText=@"请输入个人简介";
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *infoHeight;
 @property (weak, nonatomic) IBOutlet UILabel *infoTextLengthLabel;
 
+@property(copy,nonatomic)NSString *placeHText;
 @end
 
 @implementation HWMAddPersonalProfileViewController
@@ -28,14 +28,14 @@ static NSString *placeHText=@"请输入个人简介";
     [super viewDidLoad];
     [self defultWhite];
     [self setBackgroundImg:@""];
-    //    self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:self.skipButton];
     self.textInfoLabel.text=NSLocalizedString(@"温馨提示：本页内容均为非必填项。", nil);
     self.infoTextView.delegate=self; self.infoTextView.layer.cornerRadius=5.f;
     self.infoTextView.layer.borderWidth=1.f;
     self.infoTextView.layer.borderColor=RGBA(255, 255, 255, 0.5).CGColor;
     [self.nextButton setTitle:NSLocalizedString(@"确定", nil) forState:UIControlStateNormal];
     [[HMWCommView share]makeBordersWithView:self.nextButton];
-    placeHText=NSLocalizedString(@"请输入个人简介", nil);
+    self.placeHText=NSLocalizedString(@"请输入个人简介", nil);
+    self.infoTextView.text=self.placeHText;
     if (self.isEidet) {
         self.title=NSLocalizedString(@"编辑个人简介", nil);
         [self.nextButton setTitle:NSLocalizedString(@"保存", nil) forState:UIControlStateNormal];
@@ -51,11 +51,10 @@ static NSString *placeHText=@"请输入个人简介";
         self.title=NSLocalizedString(@"添加个人简介", nil);
         if (self.model.introduction.length>0) {
             self.infoTextView.text=self.model.introduction;
-            
+            self.infoTextView.textColor=[UIColor whiteColor];
         }
         self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)self.model.introduction.length];
     }
-  
 }
 -(UIButton *)skipButton{
     if (!_skipButton) {
@@ -69,11 +68,11 @@ static NSString *placeHText=@"请输入个人简介";
 }
 -(void)skipVCEvent{
     [self.view endEditing:YES];
-    if (self.model.introduction.length>0) {
+//    if (self.model.introduction.length>0) {
         if (self.block) {
             self.block(self.model);
         }
-    }
+//    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -85,22 +84,18 @@ static NSString *placeHText=@"请输入个人简介";
     [self skipVCEvent];
 }
 - (void)textViewDidBeginEditing:(UITextView *)textView{
-    if ([self.infoTextView.text isEqualToString:placeHText]) {
+    if ([self.infoTextView.text isEqualToString:self.placeHText]) {
         self.infoTextView.text=@"";
         self.infoTextView.textColor=[UIColor whiteColor];
     }
-    
-    
 }
 -(void)textViewDidEndEditing:(UITextView *)textView{
-    
-    if ([self.infoTextView.text isEqualToString:placeHText]||self.infoTextView.text.length==0) {
-        self.infoTextView.text=placeHText;
+    if ([self.infoTextView.text isEqualToString:self.placeHText]||self.infoTextView.text.length==0) {
+        self.infoTextView.text=self.placeHText;
         self.infoTextView.textColor=RGBA(255, 255, 255, 0.5);
     }else{
         self.model.introduction=self.infoTextView.text;
     }
-    
 }
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if ([text isEqualToString:@"\n"]) {
@@ -110,20 +105,21 @@ static NSString *placeHText=@"请输入个人简介";
     if (textView.text.length+text.length>800) {
         NSString *subString=[NSString stringWithFormat:@"%@%@",textView.text,text];
         textView.text=[subString substringToIndex:800];
-        if ([textView.text isEqualToString:placeHText]) {
+        if ([textView.text isEqualToString:self.placeHText]) {
             self.model.introduction=NULL;
         }else{
             self.model.introduction= textView.text;
         }
+         self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)  self.model.introduction.length];
         return NO;
     }
-     NSString *subString=[NSString stringWithFormat:@"%@%@",textView.text,text];
-    if ([subString isEqualToString:placeHText]) {
+    NSString *subString=[NSString stringWithFormat:@"%@%@",textView.text,text];
+    if ([subString isEqualToString:self.placeHText]) {
         self.model.introduction= @"";
     }else{
         self.model.introduction= subString;
     }
-
+     self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)  self.model.introduction.length];
     
     return YES;
 }
@@ -139,13 +135,13 @@ static NSString *placeHText=@"请输入个人简介";
     
 }
 - (void)textViewDidChange:(UITextView *)textView{
-  
-    if ([textView.text isEqualToString:placeHText]) {
+    
+    if ([textView.text isEqualToString:self.placeHText]) {
         self.model.introduction= @"";
     }else{
         self.model.introduction= textView.text;
     }
-       self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)  self.model.introduction.length];
+    self.infoTextLengthLabel.text=[NSString stringWithFormat:@"%lu/800",(unsigned long)  self.model.introduction.length];
 }
 
 @end

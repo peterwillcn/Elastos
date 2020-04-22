@@ -76,7 +76,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 @property(copy,nonatomic)NSString* deleteIndex;
 
 @property(assign,nonatomic)double blance;
-
+@property(assign,nonatomic)BOOL needUpdate;
 @end
 
 @implementation HWMAddPersonalInformationViewController
@@ -88,6 +88,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:self.skipButton];
     [self makeUI];
     self.textInfoLabel.text=NSLocalizedString(@"温馨提示：本页内容均非必填，仅保存在本地，供用户授权使用。", nil);
+    self.needUpdate=NO;
     if (self.isEidet||self.whereFrome) {
         self.title=NSLocalizedString(@"编辑个人信息", nil);
         [self.skipButton setTitle:NSLocalizedString(@"保存", nil) forState: UIControlStateNormal];
@@ -221,7 +222,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 -(NSArray *)allInfoListArray{
     if (!_allInfoListArray) {
         _allInfoListArray
-        =@[@{@"text":NSLocalizedString(@"昵称", nil),@"index":@"0",@"type":@"1"},@{@"text":NSLocalizedString(@"性别",nil),@"index":@"1",@"type":@"2"},@{@"text":NSLocalizedString(@"出生日期",nil),@"index":@"2",@"type":@"2"},@{@"text":NSLocalizedString(@"头像地址",nil),@"index":@"3",@"type":@"1"},@{@"text":NSLocalizedString(@"邮箱",nil),@"index":@"4",@"type":@"1"},@{@"text":NSLocalizedString(@"手机号", nil) ,@"index":@"5",@"type":@"3"},@{@"text":NSLocalizedString(@"国家/地区", nil),@"index":@"6",@"type":@"2"},@{@"text":NSLocalizedString(@"个人简介",nil),@"index":@"7",@"type":@"4"},@{@"text":NSLocalizedString(@"个人主页",nil),@"index":@"8",@"type":@"1"},@{@"text":NSLocalizedString(@"Facebook账号",nil),@"index":@"9",@"type":@"1"},@{@"text":NSLocalizedString(@"Twitter账号",nil),@"index":@"10",@"type":@"1"},@{@"text":NSLocalizedString(@"微博账号",nul),@"index":@"11",@"type":@"1"},@{@"text":NSLocalizedString(@"微信账号",null),@"index":@"12",@"type":@"1"},@{@"text":NSLocalizedString(@"Google账号",null),@"index":@"13",@"type":@"1"}];
+        =@[@{@"text":NSLocalizedString(@"昵称", nil),@"index":@"0",@"type":@"1"},@{@"text":NSLocalizedString(@"性别",nil),@"index":@"1",@"type":@"2"},@{@"text":NSLocalizedString(@"出生日期",nil),@"index":@"2",@"type":@"2"},@{@"text":NSLocalizedString(@"头像url",nil),@"index":@"3",@"type":@"1"},@{@"text":NSLocalizedString(@"邮箱",nil),@"index":@"4",@"type":@"1"},@{@"text":NSLocalizedString(@"手机号", nil) ,@"index":@"5",@"type":@"3"},@{@"text":NSLocalizedString(@"国家/地区", nil),@"index":@"6",@"type":@"2"},@{@"text":NSLocalizedString(@"个人简介",nil),@"index":@"7",@"type":@"4"},@{@"text":NSLocalizedString(@"个人主页网址",nil),@"index":@"8",@"type":@"1"},@{@"text":NSLocalizedString(@"Facebook账号",nil),@"index":@"9",@"type":@"1"},@{@"text":NSLocalizedString(@"Twitter账号",nil),@"index":@"10",@"type":@"1"},@{@"text":NSLocalizedString(@"微博账号",nul),@"index":@"11",@"type":@"1"},@{@"text":NSLocalizedString(@"微信账号",null),@"index":@"12",@"type":@"1"},@{@"text":NSLocalizedString(@"谷歌账号",null),@"index":@"13",@"type":@"1"}];
     }
     return _allInfoListArray;
     
@@ -273,7 +274,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         cell.dic=infDic;
         cell.delegate=self;
         [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:cell.MobilePhoneTextField withTxt:NSLocalizedString(@"请输入手机号", nil)];
-//        cell.theArNumberTextField.placeholder=NSLocalizedString(@"请输入区号(如+86)", nil);
+        //        cell.theArNumberTextField.placeholder=NSLocalizedString(@"请输入区号(如+86)", nil);
         cell.theArNumberTextField.tag=10002;
         if (self.model.phoneCode.length>0) {
             cell.theArNumberTextField.text=self.model.phoneCode;
@@ -290,7 +291,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     cell.delegate=self;
     if ([typeString isEqualToString:@"2"]) {
         cell.infoLabel.alpha=1.f;
-           cell.infoLabel.text= [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"请选择", nil),titleString];
+        cell.infoLabel.text= [NSString stringWithFormat:@"%@%@",NSLocalizedString(@"请选择", nil),titleString];
         cell.intPutTextField.alpha=0.f;
         if ([indexString integerValue]==1&&self.model.gender.length>0) {
             cell.infoLabel.text=[[FLTools share]genderStringWithType:self.model.gender];
@@ -306,12 +307,12 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         cell.infoLabel.alpha=1.f;
         cell.infoLabel.text=[NSString stringWithFormat:@"%@",titleString];
         cell.intPutTextField.alpha=0.f;
-        //        if (self.model.introduction.length>0) {
-//        cell.LimitThatLabel.alpha=0.f;
-//        cell.LimitThatLabel.text=NSLocalizedString(@"  正文内容限制字符…  ", nil);
-        //        }else{
-        //            cell.LimitThatLabel.alpha=0.f;
-        //        }
+        if (self.model.introduction.length>0||self.needUpdate) {
+            cell.LimitThatLabel.alpha=1.f;
+            cell.LimitThatLabel.text=self.model.introduction;
+        }else{
+            cell.LimitThatLabel.alpha=0.f;
+        }
         
     }else if([typeString isEqualToString:@"1"]){
         cell.infoLabel.alpha=0.f;
@@ -353,7 +354,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
                 cell.intPutTextField.text=self.model.weibo;
             }
             
-        }else if ([titleString isEqualToString:NSLocalizedString(@"Google账号", nil)]){
+        }else if ([titleString isEqualToString:NSLocalizedString(@"谷歌账号", nil)]){
             if (self.model.googleAccount.length>0) {
                 cell.intPutTextField.text=self.model.googleAccount;
                 
@@ -404,13 +405,14 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         __weak __typeof__ (self) weakSelf = self;
         AddPersonalProfileVC.block = ^(HWMDIDInfoModel * _Nonnull model) {
             weakSelf.model=model;
+            weakSelf.needUpdate=YES;
+            [weakSelf.table reloadData];
         };
         [self.navigationController pushViewController:AddPersonalProfileVC animated:YES];
     }
 }
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     return [[UIView alloc]initWithFrame:CGRectZero];
-    
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 0.01;
@@ -419,7 +421,6 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     return [[UIView alloc]initWithFrame:CGRectZero];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    
     return 0.01;
 }
 - (IBAction)nextAndSkipEvent:(id)sender {
@@ -444,7 +445,6 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     if (!_DIDDataListV) {
         _DIDDataListV =[[HWMDIDDataListView alloc]init];
         _DIDDataListV.delegate=self;
-        
     }
     return _DIDDataListV;
 }
@@ -463,12 +463,8 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     [self cancelDataListView];
 }
 -(void)selectTheCountryAreasModel:(NSDictionary*)modelDic{
-    
     self.model.nation= modelDic[@"mobileCode"];
-    
     [self.table reloadData];
-    
-    
 }
 -(void)setIsEidet:(Boolean)isEidet{
     _isEidet=isEidet;
@@ -820,21 +816,17 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     return _deleteHasSaveChainView;
 }
 -(void)sureToDeleteViewWithPWD:(NSString*)pwd{
-    
     if ([self.deleteIndex isEqualToString:@"-1"]) {
         [self updeDeleIphoneNumber];
     }else{
         [self delegateInfo];
     }
-    
-    
     [self toCancelOrCloseDelegate];
 }
 -(void)toCancelOrCloseDelegate{
     self.deleteHasSaveChainView.alpha=0.f;
 }
 -(void)showDeleteHasSaveChainView{
-    
     if (self.deleteHasSaveChainView.alpha==0.f) {
         self.deleteHasSaveChainView.alpha=1.f;
     }else{
@@ -843,9 +835,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         [self.deleteHasSaveChainView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.top.bottom.equalTo(mainView);
         }];
-        
     }
-    
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -853,7 +843,6 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         [self.deleteHasSaveChainView removeFromSuperview];
         self.deleteHasSaveChainView=nil;
     }
-    
 }
 -(void)getBalance{
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,@"IDChain",@2] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];

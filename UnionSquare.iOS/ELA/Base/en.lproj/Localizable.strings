@@ -662,12 +662,14 @@
 "昵称"="Nickname";
 "性别"="Gender";
 "出生日期"="Birthdate";
-"邮箱"="Email address";
+"邮箱"="email address";
 "手机号"="Cellphone number";
 "添加个人信息"="Add personal information";
 "编辑个人信息"="Edit personal information";
 "编辑个人简介"="Edit personal profile";
 "个人主页"="Homepage";
+"个人主页网址"="your profile URL";
+"头像url"="Upload the portrait url";
 "谷歌账号"="Google account";
 "微软账号"="Microsoft account";
 "Facebook账号"="Facebook account";
@@ -738,8 +740,8 @@
 "请选择性别"="Gender";
 "保存"="Save";
 "温馨提示：本页内容均非必填，仅保存在本地，供用户授权使用。"="Note: All fields on this page are non-mandatory. Content is saved locally and can only be shared by user authorization.";
-"请输入"="Enter";
-"Google账号"="Google account";
+"请输入"="Enter ";
+"谷歌账号"="Google account";
 "请输入姓名(必填)"="Enter name (Required)";
 "请选择"="Choose ";
 "保存至本地"="Save to local device";
@@ -755,9 +757,16 @@
 "创建DID"="Create DID";
 "服务提供方"="Service provider";
 "请输入个人简介"="Please enter your profile";
-"新消息·现在"="";
-
-"节点连接设置"="";
+//"新消息·现在"="";
+"状态"="Status";
+"IP地址"="IP address";
+"速度"="Speed";
+"自动连接"="Automatic Connection";
+"随机切换"="Random Switch";
+"已连接"="Connected";
+"手动输入"="Manual input";
+"请输入节点地址"="Enter node address";
+"节点连接设置"="Node connection settings";
 "err10000"="Json parse error of action parameters";
 "err10001"="Parameters error of action";
 "err10002"="Invalid master wallet";
@@ -808,7 +817,6 @@
 "err20032"="Address error";
 "err20033"="Sign error";
 "err20034"="keystore need phrase password";
-
 "err20035"="Balance not enough";
 "err20036"="Json format error";
 "err20037"="Invalid vote stake";

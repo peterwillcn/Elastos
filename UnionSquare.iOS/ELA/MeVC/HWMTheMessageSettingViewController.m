@@ -22,78 +22,58 @@
  */
 
 
-#import "HWMTheMessageCenterViewController.h"
-#import "HWMTheMessageCenterTableViewCell.h"
-#import "HWMMessageCenterModel.h"
-#import "HMWFMDBManager.h"
-#import "HWMAllNoView.h"
 #import "HWMTheMessageSettingViewController.h"
-static NSString *cellString=@"HWMTheMessageCenterTableViewCell";
-@interface HWMTheMessageCenterViewController ()<UITableViewDelegate,UITableViewDataSource>
-@property (weak, nonatomic) IBOutlet UITableView *baseTabView;
-@property(strong,nonatomic)NSMutableArray *MessageList;
-@property(strong,nonatomic)HWMAllNoView *NoView;
+#import "HWMnodeConnectionSettingsDetailsTableViewCell.h"
+static NSString *cellString=@"HWMnodeConnectionSettingsDetailsTableViewCell";
+@interface HWMTheMessageSettingViewController ()<UITableViewDataSource,UITableViewDelegate>
+@property (strong, nonatomic) UITableView *baseTabView;
+@property(strong,nonatomic)NSArray *MessageList;
+
 @end
 
-@implementation HWMTheMessageCenterViewController
+@implementation HWMTheMessageSettingViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
     [self setBackgroundImg:@""];
-    self.title=NSLocalizedString(@"消息中心", nil);
-    UIBarButtonItem *ClickMorenButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"asset_wallet_setting"] style:UIBarButtonItemStyleDone target:self action:@selector(messageCenterSetting)];
-       self.navigationItem.rightBarButtonItem=ClickMorenButton;
+    self.title=NSLocalizedString(@"设置", nil);
+    
     [self makeView];
-//    self.navigationController
-    [[FLTools share] sethasMessageNeedRead:@"0"];
-    if (self.MessageList.count==0) {
-        [self.baseTabView addSubview:self.NoView];
-    }
 }
--(NSMutableArray *)MessageList{
+-(NSArray *)MessageList{
     if (!_MessageList) {
-        _MessageList=[[NSMutableArray alloc]initWithArray:[[HMWFMDBManager sharedManagerType:MessageCenterType]allMessageListWithIndex:10]];
+        _MessageList=@[NSLocalizedString(@"红点开关", nil),NSLocalizedString(@"信息推送", nil)];
     }
-    return _MessageList;
-}
--(void)messageCenterSetting{
-    HWMTheMessageSettingViewController *TheMessageSettingVC=[[HWMTheMessageSettingViewController alloc]init];
-    [self.navigationController pushViewController:TheMessageSettingVC animated:YES];
+    return _MessageList;;
 }
 -(void)makeView{
-    
+    self.baseTabView=[[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.baseTabView.delegate=self;
     self.baseTabView.dataSource=self;
     self.baseTabView.backgroundColor=[UIColor clearColor];
     self.baseTabView.rowHeight=65;
     self.baseTabView.separatorStyle= UITableViewCellSeparatorStyleNone;
-    
     [self.baseTabView registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
     self.baseTabView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
+    [self.view addSubview:self.baseTabView];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return  self.MessageList.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    HWMTheMessageCenterTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
+    HWMnodeConnectionSettingsDetailsTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
-    cell.model=self.MessageList[indexPath.row];
+    cell.leftLable.text=self.MessageList[indexPath.row];
+    cell.index=indexPath;
+    cell.swButton.alpha=0.f;
+    cell.rightLabel.alpha=0;
+    cell.connSwitch.alpha=1.f;
     return cell;
-    
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    //    HWMnodeConnectionSettingsDetailsViewController *nodeConnectionSettingsDetailsVC=[[HWMnodeConnectionSettingsDetailsViewController alloc]init];
-    //    nodeConnectionSettingsDetailsVC.wallet=self.wallet;
-    //    nodeConnectionSettingsDetailsVC.model=self.currencyArray[indexPath.row];
-    //    [self.navigationController pushViewController:nodeConnectionSettingsDetailsVC animated:YES];
+    
 }
--(HWMAllNoView *)NoView{
-    if (!_NoView) {
-        _NoView=[[HWMAllNoView alloc]init];
-        _NoView.type=meeeagerType;
-    }
-    return _NoView;
-}
+
 @end

@@ -42,7 +42,7 @@
                     </constraints>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PEK-0H-kcd">
-                    <rect key="frame" x="0.0" y="74" width="414" height="603"/>
+                    <rect key="frame" x="0.0" y="74" width="414" height="533"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kDk-ck-8gr">
@@ -50,7 +50,6 @@
                     <color key="backgroundColor" red="0.28292763233184814" green="0.39211809635162354" blue="0.41951560974121094" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="Pl9-eB-PD3"/>
-                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="z4h-7k-Muo"/>
                     </constraints>
                     <color key="tintColor" red="0.1928445399" green="0.32548019290000002" blue="0.32934954760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" image="asset_adding_btn">
@@ -64,7 +63,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="kDk-ck-8gr" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="0nn-tg-dy1"/>
-                <constraint firstItem="kDk-ck-8gr" firstAttribute="top" secondItem="PEK-0H-kcd" secondAttribute="bottom" constant="50" id="RR0-81-cJy"/>
+                <constraint firstItem="kDk-ck-8gr" firstAttribute="top" secondItem="PEK-0H-kcd" secondAttribute="bottom" constant="120" id="RR0-81-cJy"/>
                 <constraint firstItem="5eV-7r-mLv" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="axR-iu-M8w"/>
                 <constraint firstItem="PEK-0H-kcd" firstAttribute="top" secondItem="5eV-7r-mLv" secondAttribute="bottom" id="bDu-aE-egt"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="kDk-ck-8gr" secondAttribute="bottom" constant="85" id="e52-Hv-lpV"/>

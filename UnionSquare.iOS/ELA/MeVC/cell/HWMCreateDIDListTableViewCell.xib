@@ -60,10 +60,14 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="正文内容限制字符…" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8tr-rc-Msa">
-                                <rect key="frame" x="159" y="14" width="81" height="15"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="正文内容限制字符…" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8tr-rc-Msa">
+                                <rect key="frame" x="130" y="0.0" width="120" height="43"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="6et-C8-bwI"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -78,13 +82,13 @@
                             <constraint firstItem="Jin-bu-wGR" firstAttribute="leading" secondItem="nRr-Y7-CyC" secondAttribute="leading" id="Evp-Ac-A1b"/>
                             <constraint firstAttribute="bottom" secondItem="eWo-JO-KT3" secondAttribute="bottom" id="GYn-UY-fOp"/>
                             <constraint firstItem="Jin-bu-wGR" firstAttribute="top" secondItem="nRr-Y7-CyC" secondAttribute="top" id="GpK-xA-jbZ"/>
-                            <constraint firstItem="eWo-JO-KT3" firstAttribute="top" secondItem="8tr-rc-Msa" secondAttribute="bottom" constant="14" id="LSp-FB-PAb"/>
+                            <constraint firstItem="eWo-JO-KT3" firstAttribute="top" secondItem="8tr-rc-Msa" secondAttribute="bottom" id="LSp-FB-PAb"/>
                             <constraint firstItem="48B-DD-EQ3" firstAttribute="leading" secondItem="36w-oH-Bv6" secondAttribute="trailing" id="NNB-If-Lfi"/>
                             <constraint firstAttribute="trailing" secondItem="3G4-FT-q9P" secondAttribute="trailing" id="Ycy-u5-9tn"/>
                             <constraint firstAttribute="bottom" secondItem="Jin-bu-wGR" secondAttribute="bottom" id="cZF-PY-14S"/>
                             <constraint firstItem="36w-oH-Bv6" firstAttribute="leading" secondItem="nRr-Y7-CyC" secondAttribute="leading" id="cfs-lf-BCI"/>
-                            <constraint firstItem="8tr-rc-Msa" firstAttribute="top" secondItem="nRr-Y7-CyC" secondAttribute="top" constant="14" id="mlA-dE-x9A"/>
-                            <constraint firstItem="48B-DD-EQ3" firstAttribute="leading" secondItem="8tr-rc-Msa" secondAttribute="trailing" id="n1k-Le-TMU"/>
+                            <constraint firstItem="8tr-rc-Msa" firstAttribute="top" secondItem="nRr-Y7-CyC" secondAttribute="top" id="mlA-dE-x9A"/>
+                            <constraint firstItem="48B-DD-EQ3" firstAttribute="leading" secondItem="8tr-rc-Msa" secondAttribute="trailing" constant="-10" id="n1k-Le-TMU"/>
                             <constraint firstItem="eWo-JO-KT3" firstAttribute="leading" secondItem="nRr-Y7-CyC" secondAttribute="leading" id="nuJ-eX-icr"/>
                             <constraint firstItem="36w-oH-Bv6" firstAttribute="top" secondItem="nRr-Y7-CyC" secondAttribute="top" id="rzJ-eu-8n3"/>
                             <constraint firstItem="3G4-FT-q9P" firstAttribute="leading" secondItem="Jin-bu-wGR" secondAttribute="trailing" constant="15" id="tRH-xw-33e"/>

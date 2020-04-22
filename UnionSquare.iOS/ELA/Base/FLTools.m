@@ -73,8 +73,6 @@ static FLTools *tool;
     
     [formatter setDateFormat:@"YYYY-MM-dd HH:mm"];
     
-    //将时间转换为字符串
-    
     NSString *timeS = [formatter stringFromDate:myDate];
     
     return timeS;
@@ -83,9 +81,7 @@ static FLTools *tool;
 - (NSString *)SpecialTimeZoneConversion:(NSString *)timeStr{
     NSDateFormatter *formatter = [NSDateFormatter new];
     [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
-    //将时间转换为字符串
     NSDate *myDate = [formatter  dateFromString:timeStr];
-    //时间转时间戳的方法:
     NSString * timeSp = [[NSNumber numberWithDouble:[myDate timeIntervalSince1970]] stringValue];
     return timeSp;
 }
@@ -1753,7 +1749,6 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     if (Push==nil) {
         Push=@"1";
     }
-    
     return   [Push intValue];
 }
 -(BOOL)MseeagPRead:(NSString*)r{
@@ -1761,7 +1756,6 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     if (r==nil) {
         r=@"1";
     }
- 
     return [r intValue];
 }
 -(void)setMMseeagPRead:(NSString*)r{
@@ -1882,7 +1876,6 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
             }else{
                 detailsMType=NSLocalizedString(@"取消参选交易", nil);
             }
-            
             break;
         case 11:
             detailsMType=NSLocalizedString(@"更新参选交易", nil);

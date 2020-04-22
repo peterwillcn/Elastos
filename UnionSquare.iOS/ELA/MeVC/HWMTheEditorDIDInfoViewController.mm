@@ -157,7 +157,6 @@
    
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    
     return [[FLTools share]textField:textField replacementString:string withStringLenth:50];
     
 }

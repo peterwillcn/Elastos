@@ -28,7 +28,8 @@
     [[HMWCommView share]makeBordersWithView:self.saveButton];
     [[HMWCommView share]makeBordersWithView:self.shareButton];
     [self.shareButton setTitle:NSLocalizedString(@"分享", nil) forState:UIControlStateNormal];
-    self.dirNameLabel.text=[NSString stringWithFormat:@"%@_%@_%@.jwt",self.model.didName,[[FLTools share]getNowTimeTimestampS],[self.currentWallet.didString substringFromIndex:self.currentWallet.didString.length-6]];
+
+    self.dirNameLabel.text=[NSString stringWithFormat:@"%@_%@_%@.jwt",[self.currentWallet.didString substringFromIndex:self.currentWallet.didString.length-6],[[FLTools share]getNowTimeTimestampS],self.model.didName];
 }
 - (IBAction)saveEvent:(id)sender {
     BOOL isSuccess= [[HWMDIDManager shareDIDManager]GenerateLocalCredentialsWithFielNameWithFielName: self.dirNameLabel.text];

@@ -203,7 +203,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
 }
 -(NSDictionary*)getDIDInfo{
     if (did==nil||store==nil) {
-//        [[FLTools share]showErrorInfo:@"本地没有"];
+        //        [[FLTools share]showErrorInfo:@"本地没有"];
         return nil;
     }
     DIDDocument *doc=DIDStore_LoadDID(store, did);
@@ -211,7 +211,10 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     time_t endTime= DIDDocument_GetExpires(doc);
     Credential * cre= DIDDocument_GetCredential(doc,url);
     const char * suInfo = Credential_GetProperty(cre, "name");
-    NSDictionary *reDic=@{@"nickName":[self charToString:suInfo],@"endTime":[NSString stringWithFormat:@"%@",@(endTime)],@"DIDString":self.DIDString};
+    NSString * didName=[self charToString:suInfo];
+    didName= [didName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSDictionary *reDic=@{@"nickName":didName,@"endTime":[NSString stringWithFormat:@"%@",@(endTime)],@"DIDString":self.DIDString};
+    
     DIDURL_Destroy(url);
     DIDDocument_Destroy(doc);
     
@@ -228,6 +231,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     DIDDocumentBuilder *build=DIDDocument_Edit(doc);
     Credential *cr  =DIDDocument_GetCredential(doc, url);
     DIDDocument_Destroy(doc);
+    model.didName=[model.didName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     time_t endTime=[model.endString longValue];
     if (cr) {
         DIDDocumentBuilder_RemoveCredential(build, url);
@@ -249,7 +253,6 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     DIDDocument * newDoc=  DIDDocumentBuilder_Seal(build, [self.passWord UTF8String]);
     
     const  char *doString=DIDDocument_ToJson(newDoc, false);
-    //NSLog(@"doString=时间%s",doString);
     rt=  DIDStore_StoreDID(store,newDoc, "name");// 已经签名
     const char *r = DIDStore_PublishDID(store, [self.passWord UTF8String], did, NULL,true);
     NSString *reString=[self charToString:r];
@@ -294,12 +297,14 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         model.endString=red[@"endTime"];
     }
     Issuer *isser=Issuer_Create(did, NULL, store);
+    time_t endTime=[model.endString integerValue];//
     const char *types[1] = {"BasicProfileCredential"};//类型名称
     DIDURL *creatCredentialID=DIDURL_NewByDid(did, "outPut");// 相当于文件  不同的需求 需要创建不同的名字  只能通过这个别名 拿去 Credential
     model.editTime=[[FLTools share]getNowTimeTimestampS];
+    model.didName=NULL;
+    model.endString=NULL;
     NSString *CredentialSubjectBean=[model modelToJSONString];
     const char * nickName =[CredentialSubjectBean UTF8String];
-    time_t endTime=[model.endString integerValue];//
     Credential *c=  Issuer_CreateCredentialByString(isser, did, creatCredentialID, types, 1, nickName, endTime, [self.passWord UTF8String]);
     int r=DIDStore_StoreCredential(store, c, "BasicProfileCredential");
     Issuer_Destroy(isser);
@@ -312,11 +317,16 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     }
 }
 -(HWMDIDInfoModel*)readDIDCredential{// 获取did本地凭证
-    DIDURL *url=DIDURL_NewByDid(did, "outPut");
+    DIDURL *url=DIDURL_NewByDid(did,"outPut");
     Credential * cre=DIDStore_LoadCredential(store, did, url);
     const char *suInfo  = Credential_GetProperties(cre);
     NSString *modelString=[self charToString:suInfo];
     HWMDIDInfoModel *model=[HWMDIDInfoModel modelWithJSON:modelString];
+    NSDictionary *dic= [self getDIDInfo];
+    model.didName=dic[@"nickName"];
+    if (model.didName.length==0) {
+        model.didName=@"unknow";
+    }
     model.did=self.DIDString;
     DIDURL_Destroy(url);
     return model;
@@ -461,7 +471,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     HWMDIDInfoModel *model=[HWMDIDInfoModel modelWithDictionary:infoDic[@"credentialSubject"]];
     model.endString=[[FLTools share]SpecialTimeZoneConversion:infoDic[@"expirationDate"]];
     BOOL  Credential=[self saveDIDCredentialWithDIDModel:model];
-//    BOOL updateInfo= [self updateInfoWithInfo:model];
+    //    BOOL updateInfo= [self updateInfoWithInfo:model];
     if (Credential) {
         return YES;
     }

@@ -69,7 +69,7 @@
         //设置UIPickerView的代理
         self.dataPickerView.delegate =self;
         self.dataPickerView.dataSource =self;
-        self.makeSureTextLabel.text=NSLocalizedString(@"确定", nil);
+        self.makeSureTextLabel.text=NSLocalizedString(@"确认", nil);
     }
     return self;
 }
@@ -141,7 +141,7 @@
         _yearArray = [NSMutableArray array];
         if (self.ListViewType==birthdayType) {
             
-            for (int year =(int)self.nowYear-50; year < (int)self.nowYear+50; year++) {
+            for (int year =(int)self.nowYear-100; year < (int)self.nowYear+1; year++) {
                 
                 NSString *str = [NSString stringWithFormat:@"%d", year];
                 
@@ -164,9 +164,9 @@
 }
 
 - (NSMutableArray *)monthArray {
+    int starIndex=1;
+    int endIndex=12;
     if (self.ListViewType==DIDDataType) {
-        int starIndex=1;
-        int endIndex=12;
         if (self.yearIndex==0) {
             starIndex= (int)self.nowMonth;
         }
@@ -184,27 +184,31 @@
         }
         
     }else{
+        if (self.yearIndex==0) {
+            starIndex= (int)self.nowMonth;
+        }
+        if (self.yearIndex==100) {
+            endIndex=(int)self.nowMonth;
+        }
+        _monthArray =nil;
         if (_monthArray == nil) {
-            
             _monthArray = [NSMutableArray array];
-            for (int month = 1; month <= 12; month++) {
-                
-                NSString *str = [NSString stringWithFormat:@"%02d", month];
+            for (starIndex; starIndex <= endIndex; starIndex++) {
+                NSString *str = [NSString stringWithFormat:@"%02d", starIndex];
                 
                 [_monthArray addObject:str];
             }
         }
-        
     }
     
     return _monthArray;
 }
 
 - (NSMutableArray *)dayArray {
-    
+    int starIndex=1;
+    int endIndex=31;
     if (self.ListViewType==DIDDataType) {
-        int starIndex=1;
-        int endIndex=31;
+        
         if (self.yearIndex==0&&self.monthIndex==0) {
             starIndex= (int)self.nowDay+1;
         }
@@ -221,21 +225,28 @@
                 
                 [_dayArray addObject:str];
             }
-//            [self.dataPickerView reloadComponent:2];
+            //            [self.dataPickerView reloadComponent:2];
         }
         
     }else{
         
+        if (self.yearIndex==0&&self.monthIndex==0) {
+            starIndex= (int)self.nowDay+1;
+        }
+        if (self.yearIndex==100&&self.monthIndex==self.nowMonth-1) {
+            endIndex=(int)self.nowDay;
+        }
+        _dayArray =nil;
         if (_dayArray == nil) {
             
             _dayArray = [NSMutableArray array];
-            
-            for (int day = 1; day <= 31; day++) {
+            for (starIndex; starIndex <= endIndex; starIndex++) {
                 
-                NSString *str = [NSString stringWithFormat:@"%02d", day];
+                NSString *str = [NSString stringWithFormat:@"%02d", starIndex];
                 
                 [_dayArray addObject:str];
             }
+            //            [self.dataPickerView reloadComponent:2];
         }
         
     }
@@ -268,23 +279,23 @@
     }else {
         return self.dayArray.count;
         
-//        switch (self.monthIndex + 1) {
-//
-//            case 1:
-//            case 3:
-//            case 5:
-//            case 7:
-//            case 8:
-//            case 10:
-//            case 12: return 31;
-//
-//            case 4:
-//            case 6:
-//            case 9:
-//            case 11: return 30;
-//
-//            default: return 28;
-//        }
+        //        switch (self.monthIndex + 1) {
+        //
+        //            case 1:
+        //            case 3:
+        //            case 5:
+        //            case 7:
+        //            case 8:
+        //            case 10:
+        //            case 12: return 31;
+        //
+        //            case 4:
+        //            case 6:
+        //            case 9:
+        //            case 11: return 30;
+        //
+        //            default: return 28;
+        //        }
     }
 }
 #pragma mark -UIPickerView的代理
@@ -307,7 +318,7 @@
             NSInteger mIndex=[self.monthArray indexOfObject:self.selectMonthString];
             self.monthIndex=mIndex;
         }else{
-            self.monthIndex=0;
+            self.monthIndex=self.monthArray.count-1;
         }
         [self.dataPickerView selectRow:self.monthIndex inComponent:1 animated:YES];
         [self pickerView:self.dataPickerView didSelectRow:self.monthIndex inComponent:1];
@@ -326,12 +337,12 @@
                 self.dayIndex = 27;
             }
         }
-                [self updatSelectIndexTextColorWithRow:self.monthIndex withcomponent:1];
-       
+        [self updatSelectIndexTextColorWithRow:self.monthIndex withcomponent:1];
+        
         if ([self.dayArray containsObject:self.selectDayString]) {
             self.dayIndex=[self.dayArray indexOfObject:self.selectDayString];
         }else{
-            self.dayIndex=0;
+            self.dayIndex=self.dayArray.count-1;
         }
         [pickerView reloadComponent:2];
         [self pickerView:self.dataPickerView didSelectRow:self.dayIndex inComponent:2];
@@ -342,14 +353,14 @@
     }else {
         if (row>self.dayArray.count-1) {
             self.dayIndex=self.dayArray.count-1;
-             [self.dataPickerView selectRow:self.dayIndex inComponent:2 animated:YES];
-                [self pickerView:self.dataPickerView didSelectRow:self.dayIndex inComponent:2];
+            [self.dataPickerView selectRow:self.dayIndex inComponent:2 animated:YES];
+            [self pickerView:self.dataPickerView didSelectRow:self.dayIndex inComponent:2];
             return;
         }
         self.dayIndex = row;
-       
+        
         self.selectDayString=self.dayArray[self.dayIndex];
-                  [self updatSelectIndexTextColorWithRow:row withcomponent:component];
+        [self updatSelectIndexTextColorWithRow:row withcomponent:component];
     }
 }
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
@@ -391,10 +402,10 @@
         
         
     }else {
-//        if (row>self.dayArray.count-1) {
-//            self.dayIndex=self.dayArray.count-1;
-//             [pickerView selectRow:self.dayIndex inComponent:2 animated:YES];
-//        }
+        //        if (row>self.dayArray.count-1) {
+        //            self.dayIndex=self.dayArray.count-1;
+        //             [pickerView selectRow:self.dayIndex inComponent:2 animated:YES];
+        //        }
         genderLabel.text = self.dayArray[row];
         if (row==self.dayIndex) {
             genderLabel.textColor = [UIColor whiteColor];
@@ -447,11 +458,11 @@
         self.nowYear=comp.year;
         self.nowMonth=comp.month;
         self.nowDay=comp.day;
-        self.yearIndex =50;
+        self.yearIndex =100;
         [self.yearArray removeAllObjects];
         self.yearArray=nil;
-        self.monthIndex = [self.monthArray indexOfObject:[NSString stringWithFormat:@"%02ld", (long)comp.month]]-1;
-        self.dayIndex = [self.dayArray indexOfObject:[NSString stringWithFormat:@"%02ld", (long)comp.day]]-1;
+        self.monthIndex =self.nowMonth-1;
+        self.dayIndex =self.nowDay-1;
         [ self.dataPickerView selectRow:self.yearIndex inComponent:0 animated:YES];
         [ self.dataPickerView selectRow:self.monthIndex inComponent:1 animated:YES];
         [ self.dataPickerView selectRow:self.dayIndex inComponent:2 animated:YES];

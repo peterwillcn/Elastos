@@ -41,6 +41,7 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
  *<# #>
  */
 @property(strong,nonatomic)NSIndexPath *selectIndex;
+
 @end
 
 @implementation FLMyVC
@@ -53,17 +54,6 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
     [self makeUI];
     [self.table reloadData];
     [self setBackgroundImg:@""];
-    NSString *messageImage=@"mine_message_center";
-    if ([[FLTools share]hasMessageNeedRead:@""]&&[[FLTools share]MseeagPRead:@""]) {
-        messageImage=@"mine_message_center_red";
-    }
-//    UIBarButtonItem *ClickMorenButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:messageImage] style:UIBarButtonItemStyleDone target:self action:@selector(messageCenter)];
-//    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-//                                                                        target:nil
-//                                                                                    action:nil];
-//    negativeSpacer.width =-20;
-//    NSArray *buttonArray = [[NSArray alloc]initWithObjects:negativeSpacer,ClickMorenButton,nil];
-//    self.navigationItem.rightBarButtonItems = buttonArray;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(myfriendNeedUpdateInfo) name:myfriendNeedUpdate object:nil];
 }
 -(void)messageCenter{
@@ -121,6 +111,17 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
     [self defultWhite];
     [self.navigationController setNavigationBarHidden:NO];
     self.navigationItem.leftBarButtonItem = nil;
+//    NSString *messageImage=@"mine_message_center";
+//    if ([[FLTools share]hasMessageNeedRead:@""]&&[[FLTools share]MseeagPRead:@""]) {
+//        messageImage=@"mine_message_center_red";
+//    }
+//    UIBarButtonItem *ClickMorenButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:messageImage] style:UIBarButtonItemStyleDone target:self action:@selector(messageCenter)];
+//    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+//                                                                                    target:nil
+//                                                                                    action:nil];
+//    negativeSpacer.width =-20;
+//    NSArray *buttonArray = [[NSArray alloc]initWithObjects:negativeSpacer,ClickMorenButton,nil];
+//    self.navigationItem.rightBarButtonItems = buttonArray;
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -323,8 +324,4 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
 {
     return UIStatusBarStyleLightContent;
 }
-//-(void)setLanguageOpen:(BOOL)languageOpen{
-//    _languageOpen=languageOpen;
-//
-//}
 @end

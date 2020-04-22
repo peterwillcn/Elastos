@@ -393,6 +393,7 @@
 		427290532446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427290512446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.xib */; };
 		42780240235EDC350017F098 /* HWMDIDWalletListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4278023E235EDC350017F098 /* HWMDIDWalletListTableViewCell.m */; };
 		42780241235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4278023F235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib */; };
+		427D8DDA244FE74500B167F5 /* HWMTheMessageSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 427D8DD9244FE74500B167F5 /* HWMTheMessageSettingViewController.m */; };
 		428476C3243F29E700EADFDE /* libSVGKit-iOS.2.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 428476C2243F29E700EADFDE /* libSVGKit-iOS.2.1.0.a */; };
 		428476C5243F29FD00EADFDE /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 428476C4243F29FD00EADFDE /* CoreText.framework */; };
 		428476C7243F2A0900EADFDE /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 428476C6243F2A0800EADFDE /* CoreImage.framework */; };
@@ -1316,6 +1317,8 @@
 		4278023D235EDC350017F098 /* HWMDIDWalletListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMDIDWalletListTableViewCell.h; sourceTree = "<group>"; };
 		4278023E235EDC350017F098 /* HWMDIDWalletListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMDIDWalletListTableViewCell.m; sourceTree = "<group>"; };
 		4278023F235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMDIDWalletListTableViewCell.xib; sourceTree = "<group>"; };
+		427D8DD8244FE73B00B167F5 /* HWMTheMessageSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTheMessageSettingViewController.h; sourceTree = "<group>"; };
+		427D8DD9244FE74500B167F5 /* HWMTheMessageSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWMTheMessageSettingViewController.m; sourceTree = "<group>"; };
 		4284763E243F29E600EADFDE /* CSSPrimitiveValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSPrimitiveValue.h; sourceTree = "<group>"; };
 		4284763F243F29E600EADFDE /* CSSRuleList+Mutable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CSSRuleList+Mutable.h"; sourceTree = "<group>"; };
 		42847640243F29E600EADFDE /* SVGKLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVGKLayer.h; sourceTree = "<group>"; };
@@ -5281,6 +5284,8 @@
 				423F37BD244C9901000CDFE9 /* HWMTheMessageCenterViewController.h */,
 				423F37BE244C9901000CDFE9 /* HWMTheMessageCenterViewController.m */,
 				423F37BF244C9901000CDFE9 /* HWMTheMessageCenterViewController.xib */,
+				427D8DD8244FE73B00B167F5 /* HWMTheMessageSettingViewController.h */,
+				427D8DD9244FE74500B167F5 /* HWMTheMessageSettingViewController.m */,
 				4202C89721F6EF28009E5932 /* model */,
 				4202C89A21F6EF28009E5932 /* view */,
 			);
@@ -11848,6 +11853,7 @@
 				42D1060E23A336240063AADC /* NENSinglePinger.m in Sources */,
 				4210E858239F8A07001D82F3 /* MASLayoutConstraint.m in Sources */,
 				42EAEFF2238BB69C00D6A912 /* HWMImportTheMnemonicWordViewController.mm in Sources */,
+				427D8DDA244FE74500B167F5 /* HWMTheMessageSettingViewController.m in Sources */,
 				4228AA4721F88C87002866B5 /* UITextField+YYAdd.m in Sources */,
 				428B4D8622CB0B12004AE7D0 /* HWMSignThePurseViewController.mm in Sources */,
 				4210E85B239F8A07001D82F3 /* MASConstraint.m in Sources */,

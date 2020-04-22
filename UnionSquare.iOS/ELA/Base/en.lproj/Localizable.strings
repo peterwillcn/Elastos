@@ -767,6 +767,8 @@
 "手动输入"="Manual input";
 "请输入节点地址"="Enter node address";
 "节点连接设置"="Node connection settings";
+"授权成功"="Successful authorization";
+
 "err10000"="Json parse error of action parameters";
 "err10001"="Parameters error of action";
 "err10002"="Invalid master wallet";

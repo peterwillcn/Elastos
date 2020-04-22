@@ -177,6 +177,7 @@ UINib *_nib;
         [self hiddLoading];
         [self cancelThePWDPageView];
         [self goBack];
+        [[FLTools share]showErrorInfo:@"授权成功"];
     } WithFailBlock:^(id data) {
        
         

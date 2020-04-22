@@ -25,7 +25,7 @@
 
 @interface TrinityPlugin()
 @property (nonatomic, readwrite, strong) WhitelistFilter* whiteListFilter;
-@property (nonatomic, readwrite, copy) NSString* pluginName;
+@property (nonatomic, readwrite) NSString* pluginName;
 @property (nonatomic, readwrite) AppManager* appManager;
 @property (nonatomic, readwrite) AppInfo* appInfo;
 @property (nonatomic, readwrite) NSString* appPath;
@@ -46,7 +46,6 @@
 @synthesize tempPath;
 @synthesize configPath;
 @synthesize appId;
-
 
 - (void)setWhitelistPlugin: (CDVPlugin *)filter  {
     self.whiteListFilter = (WhitelistFilter*)filter;

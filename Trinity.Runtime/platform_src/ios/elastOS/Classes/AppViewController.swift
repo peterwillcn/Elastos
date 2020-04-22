@@ -98,6 +98,11 @@
         }
         return obj;
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad();
+        getTitlebar().setTitle(appInfo!.name)
+    }
 
     func getPluginAuthority(_ pluginName: String,
                                   _ plugin: CDVPlugin,

@@ -46,12 +46,12 @@ class TrinityViewController : CDVViewController {
         }
     }
 
-    private func setTrinityPluginInfo(_ plugin:CDVPlugin!) {
+    func setTrinityPluginInfo(_ plugin:CDVPlugin!) {
         let trinityPlugin = plugin as? TrinityPlugin
 
         if trinityPlugin != nil {
-            trinityPlugin?.setWhitelist(self.whitelistFilter)
-                    trinityPlugin!.setInfo(self.appInfo);
+            trinityPlugin!.setWhitelist(self.whitelistFilter)
+            trinityPlugin!.setInfo(self.appInfo);
         }
     }
 
@@ -143,10 +143,6 @@ class TrinityViewController : CDVViewController {
             }
         }
     }
-    
-    private func isLauncher() -> Bool {
-        return id == "launcher"
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -157,11 +153,6 @@ class TrinityViewController : CDVViewController {
                 self.basePlugin = plugin;
                 break;
             }
-        }
-        
-        // Set title bar title to app name by default. Apps are free to change this.
-        if (!isLauncher()) {
-            getTitlebar().setTitle(appInfo!.name)
         }
 
 //        if (appInfo!.type == "url") {
@@ -177,7 +168,7 @@ class TrinityViewController : CDVViewController {
     @objc func getBasePlugin() -> AppBasePlugin {
         return self.basePlugin!;
     }
-    
+
     @objc func getTitlebar() -> TitleBarView {
         return self.titlebar;
     }

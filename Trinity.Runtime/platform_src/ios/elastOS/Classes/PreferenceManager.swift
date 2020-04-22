@@ -289,5 +289,13 @@ import Foundation
     private func prepareUIStyling(useDarkMode: Bool) {
         UIStyling.prepare(useDarkMode: useDarkMode)
     }
+    
+    public func getDeveloperInstallVerify() -> Bool {
+        if (getDeveloperMode()) {
+            return getBoolValue("developer.install.verifyDigest", true);
+        }
+
+        return true;
+    }
 }
 

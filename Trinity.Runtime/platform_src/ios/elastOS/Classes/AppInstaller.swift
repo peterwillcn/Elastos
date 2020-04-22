@@ -247,10 +247,7 @@
         }
         try sendInstallingMessage("unpacked", "", originUrl);
         
-        var verifyDigest = false;
-        if (!PreferenceManager.getShareInstance().getDeveloperMode()) {
-            verifyDigest = ConfigManager.getShareInstance().getBoolValue("install.verifyDigest", false);
-        }
+        let verifyDigest = PreferenceManager.getShareInstance().getDeveloperInstallVerify();
         
         if (verifyDigest) {
             if (!verifyEpkDigest(temPath)) {

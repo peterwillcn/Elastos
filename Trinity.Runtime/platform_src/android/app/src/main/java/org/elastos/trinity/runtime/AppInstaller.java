@@ -381,11 +381,7 @@ public class AppInstaller {
         }
         fmd.mkdirs();
 
-        boolean verifyDigest = false;
-        if (!PreferenceManager.getShareInstance().getDeveloperMode()) {
-            verifyDigest = ConfigManager.getShareInstance().getBooleanValue("install.verifyDigest", false);
-        }
-
+        boolean verifyDigest = PreferenceManager.getShareInstance().getDeveloperInstallVerify();
         if (!unpackZip(inputStream, path, verifyDigest)) {
             deleteDAppPackage(downloadPkgPath);
             throw new Exception("Failed to unpack EPK!");

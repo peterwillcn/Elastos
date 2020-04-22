@@ -280,4 +280,12 @@ public class PreferenceManager {
     private void prepareUIStyling(boolean useDarkMode) {
         UIStyling.prepare(useDarkMode);
     }
+
+    public Boolean getDeveloperInstallVerify() {
+        if (getDeveloperMode()) {
+            return getBooleanValue("developer.install.verifyDigest", true);
+        }
+
+        return true;
+    }
 }

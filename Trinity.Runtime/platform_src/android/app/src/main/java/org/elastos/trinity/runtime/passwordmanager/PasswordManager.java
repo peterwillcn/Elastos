@@ -81,7 +81,7 @@ public class PasswordManager {
         void onPasswordInfoSet();
     }
 
-    PasswordManager(WebViewActivity activity) {
+    public PasswordManager(WebViewActivity activity) {
         this.activity = activity;
         PasswordManager.instance = this;
     }

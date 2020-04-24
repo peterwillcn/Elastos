@@ -13,6 +13,7 @@
     "appmanager": "file:./plugin_src/AppManager",
     "titlebarmanager": "file:./plugin_src/TitleBarManager",
     "didsessionmanager": "file:./plugin_src/DIDSessionManager",
+    "passwordmanager": "file:./plugin_src/PasswordManager",
     "cordova-android": "8.1.0",
     "cordova-clipboard": "1.2.1",
     "cordova-ios": "5.1.1",
@@ -93,7 +94,8 @@
         "FACEID_USAGE_DESCRIPTION": " "
       },
       "elastos-trinity-plugins-titlebarmanager": {},
-      "elastos-trinity-plugins-didsessionmanager": {}
+      "elastos-trinity-plugins-didsessionmanager": {},
+      "elastos-trinity-plugins-passwordmanager": {}
     },
     "platforms": [
       "android",

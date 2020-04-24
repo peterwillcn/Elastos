@@ -57,6 +57,7 @@
     </plugin>
     <plugin name="elastos-trinity-plugins-titlebarmanager" spec="./plugin_src/TitleBarManager" />
     <plugin name="elastos-trinity-plugins-didsessionmanager" spec="./plugin_src/DIDSessionManager" />
+    <plugin name="elastos-trinity-plugins-passwordmanager" spec="./plugin_src/PasswordManager" />
     <plugin name="cordova-plugin-file" spec="../Plugins/File" />
     <plugin name="elastos-trinity-plugins-carrier" spec="../Plugins/Carrier" />
     <plugin name="elastos-trinity-plugins-did" spec="../Plugins/DID" />

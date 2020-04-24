@@ -12,11 +12,23 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Database format is a plain JSON file, not mysql, why? Because we want to ensure unicity when changing the
@@ -43,6 +55,10 @@ public class PasswordManager {
 
     private interface OnDatabaseLoadedListener extends BasePasswordManagerListener {
         void onDatabaseLoaded();
+    }
+
+    private interface OnDatabaseSavedListener extends BasePasswordManagerListener {
+        void onDatabaseSaved();
     }
 
     public interface OnMasterPasswordRetrievedListener extends BasePasswordManagerListener {
@@ -273,12 +289,22 @@ public class PasswordManager {
      * @param oldPassword the current master password if any, or null if none exists yet.
      * @param newPassword the new master password
      */
-    public void setMasterPassword(String oldPassword, String newPassword, String appID) throws Exception {
+    public void setMasterPassword(String oldPassword, String newPassword, String did, String appID) throws Exception {
         if (!appIsPasswordManager(appID)) {
             Log.e(LOG_TAG, "Only the password manager application can call this API");
             return;
         }
-        // TODO
+
+        // If the database is not loaded, we try to load it first to check if the old password is valid
+        if (!isDatabaseLoaded(did)) {
+            // Will throw invalid password error in case of wrong password.
+            loadEncryptedDatabase(did, oldPassword);
+        }
+
+        PasswordDatabaseInfo dbInfo = databasesInfo.get(did);
+
+        // Changing the master password means re-encrypting the database with a different password
+        encryptAndSaveDatabase(did, dbInfo.activeMasterPassword);
     }
 
     /**
@@ -376,7 +402,7 @@ public class PasswordManager {
         }
         else {
             // Master password is locked - prompt it to user
-            new MasterPasswordPrompter().prompt(new OnMasterPasswordRetrievedListener() {
+            new MasterPasswordPrompter().prompt(activity, new OnMasterPasswordRetrievedListener() {
                 @Override
                 public void onMasterPasswordRetrieved(String password) {
                     try {
@@ -416,45 +442,139 @@ public class PasswordManager {
         }
     }
 
+    private String getDatabaseFilePath(String did) {
+        String dataDir = activity.getFilesDir() + "/data/pwm/" + did;
+        return dataDir + "/store.db";
+    }
+
     /**
      * Using user's master password, decrypt the passwords list from disk and load it into memory.
      */
     private void loadEncryptedDatabase(String did, String masterPassword) throws Exception {
-        String dataDir = activity.getFilesDir() + "/data/pwm/" + did;
-        String dbPath = dataDir + "/store.db";
+        String dbPath = getDatabaseFilePath(did);
 
         File file = new File(dbPath);
 
         if (!file.exists()) {
-            throw new Exception("No passwords database file exists");
+            // No database exists yet. Return an empty database info.
+            PasswordDatabaseInfo dbInfo = PasswordDatabaseInfo.createEmpty();
+            databasesInfo.put(did, dbInfo);
+
+            // Save the master password
+            dbInfo.activeMasterPassword = masterPassword;
         }
+        else {
+            // Read the saved serialized hashmap as object
+            FileInputStream fis = new FileInputStream(dbPath);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            HashMap<String, byte[]> map = (HashMap<String, byte[]>) ois.readObject();
 
-        StringBuilder jsonData = new StringBuilder();
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                jsonData.append(line);
-                //jsonData.append('\n');
-            }
-            br.close();
-
-            // Now that we've loaded the file, load it as a JSON object
+            // Now that we've loaded the file, try to decrypt it
+            byte[] decrypted = null;
             try {
-                databasesInfo.put(did, PasswordDatabaseInfo.fromJson(jsonData.toString()));
+                decrypted = decryptData(map, masterPassword);
+
+                // We can now load the database content as a JSON object
+                try {
+                    String jsonData = new String(decrypted, StandardCharsets.UTF_8);
+                    PasswordDatabaseInfo dbInfo = PasswordDatabaseInfo.fromJson(jsonData);
+                    databasesInfo.put(did, dbInfo);
+
+                    // Decryption was successful, saved master password in memory for a while.
+                    dbInfo.activeMasterPassword = masterPassword;
+                } catch (JSONException e) {
+                    throw new Exception("Passwords database JSON content for did " + did + " is corrupted");
+                }
+            } catch (IOException e) {
+                throw new Exception("Passwords database file for did " + did + " is corrupted");
             }
-            catch (JSONException e) {
-                throw new Exception("Passwords database JSON content for did "+did+" is corrupted");
-            }
-        }
-        catch (IOException e) {
-            throw new Exception("Passwords database file for did "+did+" is corrupted");
         }
     }
 
+    private byte[] decryptData(HashMap<String, byte[]> map, String masterPassword) throws Exception
+    {
+        byte[] decrypted = null;
+
+        byte[] salt = map.get("salt");
+        byte[] iv = map.get("iv");
+        byte[] encrypted = map.get("encrypted");
+
+        // Regenerate key from password
+        char[] passwordChar = masterPassword.toCharArray();
+        PBEKeySpec pbKeySpec = new PBEKeySpec(passwordChar, salt, 1324, 256);
+        SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        byte[] keyBytes = secretKeyFactory.generateSecret(pbKeySpec).getEncoded();
+        SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES");
+
+        // Decrypt
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
+        IvParameterSpec ivSpec = new IvParameterSpec(iv);
+        cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
+        decrypted = cipher.doFinal(encrypted);
+
+        return decrypted;
+    }
+
+    private void encryptAndSaveDatabase(String did, String masterPassword) throws Exception {
+        String dbPath = getDatabaseFilePath(did);
+
+        // Make sure the database is open
+        PasswordDatabaseInfo dbInfo = databasesInfo.get(did);
+        if (dbInfo == null) {
+            throw new Exception("Can't save a closed database");
+        }
+
+        // Convert JSON data into bytes
+        byte[] data = dbInfo.rawJson.toString().getBytes();
+
+        // Encrypt and get result
+        HashMap<String, byte[]> result = encryptData(data, masterPassword);
+
+        // Save Salt, IV and encrypted data as serialized hashmap object in the database file.
+        FileOutputStream fos = new FileOutputStream(new File(dbPath));
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(result);
+        oos.close();
+    }
+
+    private HashMap<String, byte[]> encryptData(byte[] plainTextBytes, String masterPassword) throws Exception
+    {
+        HashMap<String, byte[]> map = new HashMap<String, byte[]>();
+
+        // Random salt for next step
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[256];
+        random.nextBytes(salt);
+
+        // PBKDF2 - derive the key from the password, don't use passwords directly
+        char[] passwordChar = masterPassword.toCharArray(); // Turn password into char[] array
+        PBEKeySpec pbKeySpec = new PBEKeySpec(passwordChar, salt, 1324, 256);
+        SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        byte[] keyBytes = secretKeyFactory.generateSecret(pbKeySpec).getEncoded();
+        SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES");
+
+        // Create initialization vector for AES
+        SecureRandom ivRandom = new SecureRandom(); // Not caching previous seeded instance of SecureRandom
+        byte[] iv = new byte[16];
+        ivRandom.nextBytes(iv);
+        IvParameterSpec ivSpec = new IvParameterSpec(iv);
+
+        // Encrypt
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
+        byte[] encrypted = cipher.doFinal(plainTextBytes);
+
+        map.put("salt", salt);
+        map.put("iv", iv);
+        map.put("encrypted", encrypted);
+
+        return map;
+    }
+
     private void setPasswordInfoReal(PasswordInfo info, String did, String appID) throws Exception {
-        databasesInfo.get(did).setPasswordInfo(appID, info);
+        PasswordDatabaseInfo dbInfo = databasesInfo.get(did);
+        dbInfo.setPasswordInfo(appID, info);
+        encryptAndSaveDatabase(did, dbInfo.activeMasterPassword);
     }
 
     private PasswordInfo getPasswordInfoReal(String key, String did, String appID) throws Exception {

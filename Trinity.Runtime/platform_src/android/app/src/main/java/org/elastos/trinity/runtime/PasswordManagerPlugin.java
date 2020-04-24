@@ -310,7 +310,7 @@ public class PasswordManagerPlugin extends TrinityPlugin {
 
         JSONObject result = new JSONObject();
         try {
-            PasswordManager.getSharedInstance().setMasterPassword(oldPassword, newPassword);
+            PasswordManager.getSharedInstance().setMasterPassword(oldPassword, newPassword, did, appId);
             result.put("couldSet", true);
         }
         catch (Exception e) {
@@ -322,7 +322,7 @@ public class PasswordManagerPlugin extends TrinityPlugin {
     }
 
     private void lockMasterPassword(JSONArray args, CallbackContext callbackContext) throws Exception {
-        PasswordManager.getSharedInstance().lockMasterPassword(did);
+        PasswordManager.getSharedInstance().lockMasterPassword(did, appId);
 
         JSONObject result = new JSONObject();
 
@@ -334,7 +334,7 @@ public class PasswordManagerPlugin extends TrinityPlugin {
 
         PasswordUnlockMode unlockMode = PasswordUnlockMode.fromValue(unlockModeAsInt);
 
-        PasswordManager.getSharedInstance().setUnlockMode(unlockMode, did);
+        PasswordManager.getSharedInstance().setUnlockMode(unlockMode, did, appId);
 
         JSONObject result = new JSONObject();
 
@@ -346,7 +346,7 @@ public class PasswordManagerPlugin extends TrinityPlugin {
 
         AppsPasswordStrategy appsPasswordStrategy = AppsPasswordStrategy.fromValue(appsPasswordStrategyAsInt);
 
-        PasswordManager.getSharedInstance().setAppsPasswordStrategy(appsPasswordStrategy);
+        PasswordManager.getSharedInstance().setAppsPasswordStrategy(appsPasswordStrategy, did, appId);
 
         JSONObject result = new JSONObject();
 

@@ -29,6 +29,15 @@ class PasswordDatabaseInfo {
     private static final String APPLICATIONS_KEY = "applications";
     private static final String PASSWORD_ENTRIES_KEY = "passwordentries";
     JSONObject rawJson;
+    String activeMasterPassword = null;
+
+    public static PasswordDatabaseInfo createEmpty() throws JSONException {
+        PasswordDatabaseInfo info = new PasswordDatabaseInfo();
+        JSONObject applications = new JSONObject();
+        info.rawJson = new JSONObject();
+        info.rawJson.put(APPLICATIONS_KEY, applications);
+        return info;
+    }
 
     public static PasswordDatabaseInfo fromJson(String json) throws JSONException {
         PasswordDatabaseInfo info = new PasswordDatabaseInfo();
@@ -158,6 +167,7 @@ class PasswordDatabaseInfo {
      */
     void lock() {
         rawJson = null;
+        activeMasterPassword = null;
         // NOTE: nothing else to do for now.
     }
 }

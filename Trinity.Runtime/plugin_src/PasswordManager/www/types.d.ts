@@ -37,6 +37,16 @@
 
 declare namespace PasswordManagerPlugin {
     /**
+     * Improved boolean type to pass more verbose information.
+     */
+    type BooleanWithReason = {
+        /** Actual boolean value */
+        value: boolean;
+        /** Optional reason message to explain why this boolean got this value */
+        reason?: string;
+    }
+
+    /**
      * Type defining data format stored inside a password info.
      */
     const enum PasswordType {
@@ -210,13 +220,10 @@ declare namespace PasswordManagerPlugin {
          * 
          * @returns True if the password info was saved, false otherwise.
          */
-        setPasswordInfo(info: PasswordInfo): Promise<boolean>;
+        setPasswordInfo(info: PasswordInfo): Promise<BooleanWithReason>;
 
         /**
-         * Using a key idenfitier, returns a previously saved password info.
-         * 
-         * A regular application can only access password info that it created itself.
-         * The password manager application is able to access information from all applications.
+         * Using a key identifier, returns a previously saved password info.
          * 
          * @param key Unique key identifying the password info to retrieve.
          * 
@@ -225,25 +232,13 @@ declare namespace PasswordManagerPlugin {
         getPasswordInfo(key: string): Promise<PasswordInfo>;
 
         /**
-         * Returns the whole list of password information contained in the password database.
-         * 
-         * Only the password manager application is allowed to call this API.
-         * 
-         * @returns The list of existing password information.
-         */
-        getAllPasswordInfo(): Promise<PasswordInfo[]>;
-        
-        /**
          * Deletes an existing password information from the secure database.
-         * 
-         * A regular application can only delete password info that it created itself.
-         * The password manager application is able to delete information from all applications.
          * 
          * @param key Unique identifier for the password info to delete.
          * 
          * @returns True if something could be deleted, false otherwise.
          */
-        deletePasswordInfo(key: string): Promise<boolean>;
+        deletePasswordInfo(key: string): Promise<BooleanWithReason>;
 
         /**
          * Convenience method to generate a random password based on given criteria (options).
@@ -266,7 +261,7 @@ declare namespace PasswordManagerPlugin {
          * 
          * @returns True if the master password was successfully changed, false otherwise.
          */
-        setMasterPassword(oldPassword: string, newPassword: string): Promise<boolean>;
+        setMasterPassword(oldPassword: string, newPassword: string): Promise<BooleanWithReason>;
         
         /**
          * If the master password has ben unlocked earlier, all passwords are accessible for a while.
@@ -313,6 +308,29 @@ declare namespace PasswordManagerPlugin {
          * @returns The current apps password strategy
          */
         getAppsPasswordStrategy(): Promise<AppsPasswordStrategy>;
-    }
 
+        /**
+         * RESTRICTED
+         * 
+         * Returns the whole list of password information contained in the password database.
+         * 
+         * Only the password manager application is allowed to call this API.
+         * 
+         * @returns The list of existing password information.
+         */
+        getAllPasswordInfo(): Promise<PasswordInfo[]>;
+        
+        /**
+         * RESTRICTED 
+         * 
+         * Deletes an existing password information from the secure database, for a given application.
+         * 
+         * Only the password manager application can call this api.
+         * 
+         * @param key Unique identifier for the password info to delete.
+         * 
+         * @returns True if something could be deleted, false otherwise.
+         */
+        deleteAppPasswordInfo(targetAppId: string, key: string): Promise<BooleanWithReason>;
+    }
 }

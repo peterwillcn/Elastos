@@ -32,10 +32,9 @@ import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.core.content.ContextCompat;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 
 import org.apache.cordova.LOG;
+import org.elastos.trinity.runtime.passwordmanager.PasswordManager;
 import org.json.JSONException;
 
 //import android.support.v4.view.ViewPager;
@@ -48,6 +47,7 @@ public class WebViewActivity extends FragmentActivity {
 
     protected AppManager appManager = null;
     protected DIDSessionManager didSessionManager = null;
+    protected PasswordManager passwordManager = null;
 //    private GestureDetector gestureDetector = null;
 
     private String adbUri = "";
@@ -85,6 +85,7 @@ public class WebViewActivity extends FragmentActivity {
 
         setContentView(R.layout.activity_view);
         didSessionManager = new DIDSessionManager(this);
+        passwordManager = new PasswordManager(this);
         appManager = new AppManager(this);
 
         getIntentUri();

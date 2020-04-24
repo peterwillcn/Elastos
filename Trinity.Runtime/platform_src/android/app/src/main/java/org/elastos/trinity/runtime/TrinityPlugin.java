@@ -38,6 +38,7 @@ public class TrinityPlugin extends CordovaPlugin {
     private AppInfo appInfo = null;
     public AppManager appManager = null;
     protected String appId;
+    protected String did;
 
     public void setWhitelistPlugin(AppWhitelistPlugin appWhitelistPlugin) {
         this.whitelistPlugin = appWhitelistPlugin;
@@ -51,6 +52,8 @@ public class TrinityPlugin extends CordovaPlugin {
         this.configPath = appManager.getConfigPath();
         this.tempPath = appManager.getTempPath(info.app_id);
         this.appId = info.app_id;
+        // TODO @dongxiao - handle the exception this.did = DIDSessionManager.getSharedInstance().getSignedInIdentity().didString;
+        this.did = "did:elastos:FIXME"; // TODO: FAKE DID FOR NOW
     }
 
     public boolean isAllowAccess(String url) {

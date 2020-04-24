@@ -24,6 +24,10 @@ package org.elastos.trinity.runtime;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
+import org.elastos.trinity.runtime.passwordmanager.AppsPasswordStrategy;
+import org.elastos.trinity.runtime.passwordmanager.PasswordInfo;
+import org.elastos.trinity.runtime.passwordmanager.PasswordManager;
+import org.elastos.trinity.runtime.passwordmanager.PasswordUnlockMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +35,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class PasswordManagerPlugin extends TrinityPlugin {
+    public class BooleanWithReason {
+        public boolean value;
+        public String reason;
+
+        BooleanWithReason(boolean value, String reason) {
+            this.value = value;
+            this.reason = reason;
+        }
+    }
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -47,6 +60,9 @@ public class PasswordManagerPlugin extends TrinityPlugin {
                     break;
                 case "deletePasswordInfo":
                     this.deletePasswordInfo(args, callbackContext);
+                    break;
+                case "deleteAppPasswordInfo":
+                    this.deleteAppPasswordInfo(args, callbackContext);
                     break;
                 case "generateRandomPassword":
                     this.generateRandomPassword(args, callbackContext);
@@ -76,53 +92,273 @@ public class PasswordManagerPlugin extends TrinityPlugin {
         return true;
     }
 
+    private void sendSuccess(CallbackContext callbackContext, JSONObject jsonObj) {
+        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, jsonObj));
+    }
+
+    private void sendError(CallbackContext callbackContext, String method, String message) {
+        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, method+": "+message));
+    }
+
     private void setPasswordInfo(JSONArray args, CallbackContext callbackContext) throws Exception {
         JSONObject info = args.getJSONObject(0);
-        callbackContext.success();
+
+        PasswordInfo passwordInfo = PasswordInfo.fromJsonObject(info);
+        if (passwordInfo == null) {
+            sendError(callbackContext, "setPasswordInfo", "Invalid JSON object for password info");
+            return;
+        }
+
+        JSONObject result = new JSONObject();
+        PasswordManager.getSharedInstance().setPasswordInfo(passwordInfo, did, appId, new PasswordManager.OnPasswordInfoSetListener(){
+            @Override
+            public void onPasswordInfoSet() {
+                try {
+                    result.put("couldSet", true);
+                }
+                catch (JSONException ignored) {}
+                sendSuccess(callbackContext, result);
+            }
+
+            @Override
+            public void onCancel() {
+                try {
+                    result.put("couldSet", false);
+                    result.put("reason", "Cancelled");
+                }
+                catch (Exception ignored) {}
+                sendSuccess(callbackContext, result);
+            }
+
+            @Override
+            public void onError(String error) {
+                try {
+                    result.put("couldSet", false);
+                    result.put("reason", error);
+                }
+                catch (Exception ignored) {}
+                sendSuccess(callbackContext, result);
+            }
+        });
     }
 
     private void getPasswordInfo(JSONArray args, CallbackContext callbackContext) throws Exception {
-        JSONObject info = args.getJSONObject(0);
-        callbackContext.success();
+        String key = args.getString(0);
+
+        JSONObject result = new JSONObject();
+        PasswordManager.getSharedInstance().getPasswordInfo(key, did, appId, new PasswordManager.OnPasswordInfoRetrievedListener() {
+            @Override
+            public void onPasswordInfoRetrieved(PasswordInfo info) {
+                try {
+                    result.put("passwordInfo", info.asJsonObject());
+                }
+                catch (JSONException ignored) {}
+                sendSuccess(callbackContext, result);
+            }
+
+            @Override
+            public void onCancel() {
+                try {
+                    result.put("passwordInfo", null);
+                    result.put("reason", "Cancelled");
+                }
+                catch (JSONException ignored) {}
+                sendSuccess(callbackContext, result);
+            }
+
+            @Override
+            public void onError(String error) {
+                try {
+                    result.put("passwordInfo", null);
+                    result.put("reason", error);
+                }
+                catch (JSONException ignored) {}
+                sendSuccess(callbackContext, result);
+            }
+        });
     }
 
     private void getAllPasswordInfo(JSONArray args, CallbackContext callbackContext) throws Exception {
-        JSONObject info = args.getJSONObject(0);
-        callbackContext.success();
+        JSONObject result = new JSONObject();
+        PasswordManager.getSharedInstance().getAllPasswordInfo(did, appId, new PasswordManager.OnAllPasswordInfoRetrievedListener() {
+            @Override
+            public void onAllPasswordInfoRetrieved(ArrayList<PasswordInfo> infos) {
+                try {
+                    JSONArray allPasswordInfo = new JSONArray();
+                    for (PasswordInfo info : infos) {
+                        allPasswordInfo.put(info.asJsonObject());
+                    }
+
+                    result.put("allPasswordInfo", allPasswordInfo);
+
+                    sendSuccess(callbackContext, result);
+                }
+                catch (Exception e) {
+                    sendError(callbackContext, "getAllPasswordInfo", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onCancel() {
+                try {
+                    result.put("allPasswordInfo", null);
+                    result.put("reason", "Cancelled");
+                }
+                catch (JSONException ignored) {}
+                sendSuccess(callbackContext, result);
+            }
+
+            @Override
+            public void onError(String error) {
+                try {
+                    result.put("allPasswordInfo", null);
+                    result.put("reason", error);
+                }
+                catch (JSONException ignored) {}
+                sendSuccess(callbackContext, result);
+            }
+        });
     }
 
     private void deletePasswordInfo(JSONArray args, CallbackContext callbackContext) throws Exception {
-        JSONObject info = args.getJSONObject(0);
-        callbackContext.success();
+        String key = args.getString(0);
+
+        JSONObject result = new JSONObject();
+        PasswordManager.getSharedInstance().deletePasswordInfo(key, did, appId, appId, new PasswordManager.OnPasswordInfoDeletedListener() {
+            @Override
+            public void onPasswordInfoDeleted() {
+                try {
+                    result.put("couldDelete", true);
+                }
+                catch (JSONException ignored) {}
+                sendSuccess(callbackContext, result);
+            }
+
+            @Override
+            public void onCancel() {
+                try {
+                    result.put("couldDelete", false);
+                    result.put("reason", "Cancelled");
+                }
+                catch (JSONException ignored) {}
+                sendSuccess(callbackContext, result);
+            }
+
+            @Override
+            public void onError(String error) {
+                try {
+                    result.put("couldDelete", false);
+                    result.put("reason", error);
+                }
+                catch (JSONException ignored) {}
+                sendSuccess(callbackContext, result);
+            }
+        });
+    }
+
+    private void deleteAppPasswordInfo(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String targetAppID = args.getString(0);
+        String key = args.getString(1);
+
+        JSONObject result = new JSONObject();
+        PasswordManager.getSharedInstance().deletePasswordInfo(key, did, appId, targetAppID, new PasswordManager.OnPasswordInfoDeletedListener() {
+            @Override
+            public void onPasswordInfoDeleted() {
+                try {
+                    result.put("couldDelete", true);
+                }
+                catch (JSONException ignored) {}
+                sendSuccess(callbackContext, result);
+            }
+
+            @Override
+            public void onCancel() {
+                try {
+                    result.put("couldDelete", false);
+                    result.put("reason", "Cancelled");
+                }
+                catch (JSONException ignored) {}
+                sendSuccess(callbackContext, result);
+            }
+
+            @Override
+            public void onError(String error) {
+                try {
+                    result.put("couldDelete", false);
+                    result.put("reason", error);
+                }
+                catch (JSONException ignored) {}
+                sendSuccess(callbackContext, result);
+            }
+        });
     }
 
     private void generateRandomPassword(JSONArray args, CallbackContext callbackContext) throws Exception {
-        JSONObject info = args.getJSONObject(0);
-        callbackContext.success();
+        JSONObject options = args.getJSONObject(0); // Currently unused
+
+        String password = PasswordManager.getSharedInstance().generateRandomPassword(null);
+
+        JSONObject result = new JSONObject();
+        result.put("generatedPassword", password);
+
+        sendSuccess(callbackContext, result);
     }
 
     private void setMasterPassword(JSONArray args, CallbackContext callbackContext) throws Exception {
-        JSONObject info = args.getJSONObject(0);
-        callbackContext.success();
+        String oldPassword = args.getString(0);
+        String newPassword = args.getString(1);
+
+        JSONObject result = new JSONObject();
+        try {
+            PasswordManager.getSharedInstance().setMasterPassword(oldPassword, newPassword);
+            result.put("couldSet", true);
+        }
+        catch (Exception e) {
+            result.put("couldSet", false);
+            result.put("reason", e.getMessage());
+        }
+
+        sendSuccess(callbackContext, result);
     }
 
     private void lockMasterPassword(JSONArray args, CallbackContext callbackContext) throws Exception {
-        JSONObject info = args.getJSONObject(0);
-        callbackContext.success();
+        PasswordManager.getSharedInstance().lockMasterPassword(did);
+
+        JSONObject result = new JSONObject();
+
+        sendSuccess(callbackContext, result);
     }
 
     private void setUnlockMode(JSONArray args, CallbackContext callbackContext) throws Exception {
-        JSONObject info = args.getJSONObject(0);
-        callbackContext.success();
+        int unlockModeAsInt = args.getInt(0);
+
+        PasswordUnlockMode unlockMode = PasswordUnlockMode.fromValue(unlockModeAsInt);
+
+        PasswordManager.getSharedInstance().setUnlockMode(unlockMode, did);
+
+        JSONObject result = new JSONObject();
+
+        sendSuccess(callbackContext, result);
     }
 
     private void setAppsPasswordStrategy(JSONArray args, CallbackContext callbackContext) throws Exception {
-        JSONObject info = args.getJSONObject(0);
-        callbackContext.success();
+        int appsPasswordStrategyAsInt = args.getInt(0);
+
+        AppsPasswordStrategy appsPasswordStrategy = AppsPasswordStrategy.fromValue(appsPasswordStrategyAsInt);
+
+        PasswordManager.getSharedInstance().setAppsPasswordStrategy(appsPasswordStrategy);
+
+        JSONObject result = new JSONObject();
+
+        sendSuccess(callbackContext, result);
     }
 
     private void getAppsPasswordStrategy(JSONArray args, CallbackContext callbackContext) throws Exception {
-        JSONObject info = args.getJSONObject(0);
-        callbackContext.success();
+        AppsPasswordStrategy appsPasswordStrategy = PasswordManager.getSharedInstance().getAppsPasswordStrategy();
+
+        JSONObject result = new JSONObject();
+        result.put("strategy", appsPasswordStrategy.ordinal());
+
+        sendSuccess(callbackContext, result);
     }
 }

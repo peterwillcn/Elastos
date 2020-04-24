@@ -36,6 +36,7 @@ import android.util.Log;
 import android.view.View;
 
 import org.apache.cordova.PluginManager;
+import org.elastos.trinity.runtime.passwordmanager.PasswordManager;
 import org.json.JSONException;
 
 import java.io.File;
@@ -143,6 +144,8 @@ public class AppManager {
 
         installer = new AppInstaller();
         installer.init(activity, dbAdapter, appsPath, dataPath, tempPath);
+
+        PasswordManager.getSharedInstance().setAppManager(this);
 
         refreashInfos();
         getLauncherInfo();

@@ -23,10 +23,13 @@
 let exec = cordova.exec;
 
 class PasswordManagerImpl implements PasswordManagerPlugin.PasswordManager {
-    setPasswordInfo(info: PasswordManagerPlugin.PasswordInfo): Promise<boolean> {
+    setPasswordInfo(info: PasswordManagerPlugin.PasswordInfo): Promise<PasswordManagerPlugin.BooleanWithReason> {
         return new Promise((resolve, reject)=>{
-            exec((result: { couldSave: boolean })=>{
-                resolve(result.couldSave);
+            exec((result: { couldSet: boolean, reason?: string })=>{
+                resolve({
+                    value: result.couldSet,
+                    reason: result.reason
+                });
             }, (err)=>{
                 console.error("Error while calling PasswordManagerPlugin.setPasswordInfo()", err);
                 reject(err);
@@ -56,10 +59,13 @@ class PasswordManagerImpl implements PasswordManagerPlugin.PasswordManager {
         });
     }
 
-    deletePasswordInfo(key: string): Promise<boolean> {
+    deletePasswordInfo(key: string): Promise<PasswordManagerPlugin.BooleanWithReason> {
         return new Promise((resolve, reject)=>{
-            exec((result: { couldDelete: boolean })=>{
-                resolve(result.couldDelete);
+            exec((result: { couldDelete: boolean, reason?: string })=>{
+                resolve({
+                    value: result.couldDelete,
+                    reason: result.reason
+                });
             }, (err)=>{
                 console.error("Error while calling PasswordManagerPlugin.deletePasswordInfo()", err);
                 reject(err);
@@ -78,10 +84,13 @@ class PasswordManagerImpl implements PasswordManagerPlugin.PasswordManager {
         });
     }
     
-    setMasterPassword(oldPassword: string, newPassword: string): Promise<boolean> {
+    setMasterPassword(oldPassword: string, newPassword: string): Promise<PasswordManagerPlugin.BooleanWithReason> {
         return new Promise((resolve, reject)=>{
-            exec((result: { couldSet: boolean })=>{
-                resolve(result.couldSet);
+            exec((result: { couldSet: boolean, reason?: string })=>{
+                resolve({
+                    value: result.couldSet,
+                    reason: result.reason
+                });
             }, (err)=>{
                 console.error("Error while calling PasswordManagerPlugin.setMasterPassword()", err);
                 reject(err);
@@ -130,6 +139,20 @@ class PasswordManagerImpl implements PasswordManagerPlugin.PasswordManager {
                 console.error("Error while calling PasswordManagerPlugin.getAppsPasswordStrategy()", err);
                 reject(err);
             }, 'PasswordManagerPlugin', 'getAppsPasswordStrategy', []);    
+        });
+    }
+
+    deleteAppPasswordInfo(targetAppId: string, key: string): Promise<PasswordManagerPlugin.BooleanWithReason> {
+        return new Promise((resolve, reject)=>{
+            exec((result: { couldDelete: boolean, reason?: string })=>{
+                resolve({
+                    value: result.couldDelete,
+                    reason: result.reason
+                });
+            }, (err)=>{
+                console.error("Error while calling PasswordManagerPlugin.deleteAppPasswordInfo()", err);
+                reject(err);
+            }, 'PasswordManagerPlugin', 'deleteAppPasswordInfo', [targetAppId, key]);    
         });
     }
 }

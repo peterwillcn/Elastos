@@ -3,5 +3,6 @@
     "org.elastos.trinity.dapp.friends": "friends",
     "org.elastos.trinity.dapp.settings": "settings",
     "org.elastos.trinity.dapp.did": "did",
-    "org.elastos.trinity.dapp.didsession": "didsession"
+    "org.elastos.trinity.dapp.didsession": "didsession",
+    "org.elastos.trinity.dapp.passwordmanager": "passwordmanager"
 }

@@ -1,5 +1,6 @@
-package org.elastos.trinity.runtime.passwordmanager;
+package org.elastos.trinity.runtime.passwordmanager.passwordinfo;
 
+import org.elastos.trinity.runtime.passwordmanager.PasswordType;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,23 +12,26 @@ public class PasswordInfo {
     /**
      * Unique key, used to identity the password info among other.
      */
-    String key;
+    public String key;
 
     /**
      * Password type, that defines the format of contained information.
      */
-    PasswordType type;
+    public PasswordType type;
 
     /**
      * Name used while displaying this info. Either set by users in the password manager app
      * or by apps, when saving passwords automatically.
      */
-    String displayName;
+    public String displayName;
 
     /**
      * List of any kind of app-specific additional information for this password entry.
      */
-    JSONObject custom;
+    public JSONObject custom;
+
+    PasswordInfo() {
+    }
 
     PasswordInfo(String key, PasswordType type, String displayName) {
         this.key = key;
@@ -49,24 +53,16 @@ public class PasswordInfo {
         }
     }
 
-    public static PasswordInfo fromJsonObject(JSONObject jsonObj) {
+    public void fillWithJsonObject(JSONObject jsonObj) throws Exception {
         if (!jsonObj.has("key") || !jsonObj.has("type") || !jsonObj.has("displayName"))
-            return null;
+            throw new Exception("Invalid password info, some base fields are missing");
 
-        try {
-            PasswordInfo info = new PasswordInfo(
-                    jsonObj.getString("key"),
-                    PasswordType.fromValue(jsonObj.getInt("type")),
-                    jsonObj.getString("displayName"));
+        this.key = jsonObj.getString("key");
+        this.type = PasswordType.fromValue(jsonObj.getInt("type"));
+        this.displayName = jsonObj.getString("displayName");
 
-            if (jsonObj.has("custom")) {
-                info.custom = jsonObj.getJSONObject("custom");
-            }
-
-            return info;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
+        if (jsonObj.has("custom")) {
+            this.custom = jsonObj.getJSONObject("custom");
         }
     }
 }

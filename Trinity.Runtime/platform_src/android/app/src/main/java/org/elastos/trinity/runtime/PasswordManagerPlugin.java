@@ -25,7 +25,8 @@ package org.elastos.trinity.runtime;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
 import org.elastos.trinity.runtime.passwordmanager.AppsPasswordStrategy;
-import org.elastos.trinity.runtime.passwordmanager.PasswordInfo;
+import org.elastos.trinity.runtime.passwordmanager.PasswordInfoBuilder;
+import org.elastos.trinity.runtime.passwordmanager.passwordinfo.PasswordInfo;
 import org.elastos.trinity.runtime.passwordmanager.PasswordManager;
 import org.elastos.trinity.runtime.passwordmanager.PasswordUnlockMode;
 import org.json.JSONArray;
@@ -35,6 +36,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class PasswordManagerPlugin extends TrinityPlugin {
+    private static final int NATIVE_ERROR_CODE_INVALID_PASSWORD = -1;
+    private static final int NATIVE_ERROR_CODE_INVALID_PARAMETER = -2;
+    private static final int NATIVE_ERROR_CODE_CANCELLED = -3;
+    private static final int NATIVE_ERROR_CODE_UNSPECIFIED = -4;
+
     public class BooleanWithReason {
         public boolean value;
         public String reason;
@@ -96,14 +102,44 @@ public class PasswordManagerPlugin extends TrinityPlugin {
         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, jsonObj));
     }
 
+    private void sendError(CallbackContext callbackContext, JSONObject jsonObj) {
+        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, jsonObj));
+    }
+
     private void sendError(CallbackContext callbackContext, String method, String message) {
         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, method+": "+message));
+    }
+
+    private JSONObject buildCancellationError() {
+        try {
+            JSONObject result = new JSONObject();
+            result.put("code", NATIVE_ERROR_CODE_CANCELLED);
+            return result;
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
+    private JSONObject buildGenericError(String error) {
+        try {
+            JSONObject result = new JSONObject();
+            if (error.contains("BADDECRYPT"))
+                result.put("code", NATIVE_ERROR_CODE_INVALID_PASSWORD);
+            else
+                result.put("code", NATIVE_ERROR_CODE_UNSPECIFIED);
+            result.put("reason", error);
+            return result;
+        }
+        catch (Exception e) {
+            return null;
+        }
     }
 
     private void setPasswordInfo(JSONArray args, CallbackContext callbackContext) throws Exception {
         JSONObject info = args.getJSONObject(0);
 
-        PasswordInfo passwordInfo = PasswordInfo.fromJsonObject(info);
+        PasswordInfo passwordInfo = PasswordInfoBuilder.buildFromType(info);
         if (passwordInfo == null) {
             sendError(callbackContext, "setPasswordInfo", "Invalid JSON object for password info");
             return;
@@ -122,22 +158,12 @@ public class PasswordManagerPlugin extends TrinityPlugin {
 
             @Override
             public void onCancel() {
-                try {
-                    result.put("couldSet", false);
-                    result.put("reason", "Cancelled");
-                }
-                catch (Exception ignored) {}
-                sendSuccess(callbackContext, result);
+                sendError(callbackContext, buildCancellationError());
             }
 
             @Override
             public void onError(String error) {
-                try {
-                    result.put("couldSet", false);
-                    result.put("reason", error);
-                }
-                catch (Exception ignored) {}
-                sendSuccess(callbackContext, result);
+                sendError(callbackContext, buildGenericError(error));
             }
         });
     }
@@ -150,7 +176,10 @@ public class PasswordManagerPlugin extends TrinityPlugin {
             @Override
             public void onPasswordInfoRetrieved(PasswordInfo info) {
                 try {
-                    result.put("passwordInfo", info.asJsonObject());
+                    if (info != null)
+                        result.put("passwordInfo", info.asJsonObject());
+                    else
+                        result.put("passwordInfo", null);
                 }
                 catch (JSONException ignored) {}
                 sendSuccess(callbackContext, result);
@@ -158,22 +187,12 @@ public class PasswordManagerPlugin extends TrinityPlugin {
 
             @Override
             public void onCancel() {
-                try {
-                    result.put("passwordInfo", null);
-                    result.put("reason", "Cancelled");
-                }
-                catch (JSONException ignored) {}
-                sendSuccess(callbackContext, result);
+                sendError(callbackContext, buildCancellationError());
             }
 
             @Override
             public void onError(String error) {
-                try {
-                    result.put("passwordInfo", null);
-                    result.put("reason", error);
-                }
-                catch (JSONException ignored) {}
-                sendSuccess(callbackContext, result);
+                sendError(callbackContext, buildGenericError(error));
             }
         });
     }
@@ -200,22 +219,12 @@ public class PasswordManagerPlugin extends TrinityPlugin {
 
             @Override
             public void onCancel() {
-                try {
-                    result.put("allPasswordInfo", null);
-                    result.put("reason", "Cancelled");
-                }
-                catch (JSONException ignored) {}
-                sendSuccess(callbackContext, result);
+                sendError(callbackContext, buildCancellationError());
             }
 
             @Override
             public void onError(String error) {
-                try {
-                    result.put("allPasswordInfo", null);
-                    result.put("reason", error);
-                }
-                catch (JSONException ignored) {}
-                sendSuccess(callbackContext, result);
+                sendError(callbackContext, buildGenericError(error));
             }
         });
     }
@@ -236,22 +245,12 @@ public class PasswordManagerPlugin extends TrinityPlugin {
 
             @Override
             public void onCancel() {
-                try {
-                    result.put("couldDelete", false);
-                    result.put("reason", "Cancelled");
-                }
-                catch (JSONException ignored) {}
-                sendSuccess(callbackContext, result);
+                sendError(callbackContext, buildCancellationError());
             }
 
             @Override
             public void onError(String error) {
-                try {
-                    result.put("couldDelete", false);
-                    result.put("reason", error);
-                }
-                catch (JSONException ignored) {}
-                sendSuccess(callbackContext, result);
+                sendError(callbackContext, buildGenericError(error));
             }
         });
     }
@@ -273,22 +272,12 @@ public class PasswordManagerPlugin extends TrinityPlugin {
 
             @Override
             public void onCancel() {
-                try {
-                    result.put("couldDelete", false);
-                    result.put("reason", "Cancelled");
-                }
-                catch (JSONException ignored) {}
-                sendSuccess(callbackContext, result);
+                sendError(callbackContext, buildCancellationError());
             }
 
             @Override
             public void onError(String error) {
-                try {
-                    result.put("couldDelete", false);
-                    result.put("reason", error);
-                }
-                catch (JSONException ignored) {}
-                sendSuccess(callbackContext, result);
+                sendError(callbackContext, buildGenericError(error));
             }
         });
     }
@@ -346,7 +335,7 @@ public class PasswordManagerPlugin extends TrinityPlugin {
 
         AppsPasswordStrategy appsPasswordStrategy = AppsPasswordStrategy.fromValue(appsPasswordStrategyAsInt);
 
-        PasswordManager.getSharedInstance().setAppsPasswordStrategy(appsPasswordStrategy, did, appId);
+        PasswordManager.getSharedInstance().setAppsPasswordStrategy(appsPasswordStrategy, did, appId, false);
 
         JSONObject result = new JSONObject();
 

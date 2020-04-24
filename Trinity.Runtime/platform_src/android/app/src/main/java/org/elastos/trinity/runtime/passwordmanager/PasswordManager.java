@@ -6,15 +6,12 @@ import android.util.Log;
 
 import org.elastos.trinity.runtime.AppManager;
 import org.elastos.trinity.runtime.WebViewActivity;
-import org.json.JSONArray;
+import org.elastos.trinity.runtime.passwordmanager.passwordinfo.PasswordInfo;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -59,6 +56,10 @@ public class PasswordManager {
 
     private interface OnDatabaseSavedListener extends BasePasswordManagerListener {
         void onDatabaseSaved();
+    }
+
+    public interface OnMasterPasswordCreationListener extends BasePasswordManagerListener {
+        void onMasterPasswordCreated();
     }
 
     public interface OnMasterPasswordRetrievedListener extends BasePasswordManagerListener {
@@ -153,16 +154,31 @@ public class PasswordManager {
             return;
         }
 
-        loadDatabase(did, new OnDatabaseLoadedListener() {
+        checkMasterPasswordCreationRequired(did, new OnMasterPasswordCreationListener() {
             @Override
-            public void onDatabaseLoaded() {
-                try {
-                    PasswordInfo info = getPasswordInfoReal(key, did, appID);
-                    listener.onPasswordInfoRetrieved(info);
-                }
-                catch (Exception e) {
-                    listener.onError(e.getMessage());
-                }
+            public void onMasterPasswordCreated() {
+                loadDatabase(did, new OnDatabaseLoadedListener() {
+                    @Override
+                    public void onDatabaseLoaded() {
+                        try {
+                            PasswordInfo info = getPasswordInfoReal(key, did, appID);
+                            listener.onPasswordInfoRetrieved(info);
+                        }
+                        catch (Exception e) {
+                            listener.onError(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        listener.onCancel();
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        listener.onError(error);
+                    }
+                });
             }
 
             @Override
@@ -190,16 +206,31 @@ public class PasswordManager {
             return;
         }
 
-        loadDatabase(did, new OnDatabaseLoadedListener() {
+        checkMasterPasswordCreationRequired(did, new OnMasterPasswordCreationListener() {
             @Override
-            public void onDatabaseLoaded() {
-                try {
-                    ArrayList<PasswordInfo> infos = getAllPasswordInfoReal(did);
-                    listener.onAllPasswordInfoRetrieved(infos);
-                }
-                catch (Exception e) {
-                    listener.onError(e.getMessage());
-                }
+            public void onMasterPasswordCreated() {
+                loadDatabase(did, new OnDatabaseLoadedListener() {
+                    @Override
+                    public void onDatabaseLoaded() {
+                        try {
+                            ArrayList<PasswordInfo> infos = getAllPasswordInfoReal(did);
+                            listener.onAllPasswordInfoRetrieved(infos);
+                        }
+                        catch (Exception e) {
+                            listener.onError(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        listener.onCancel();
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        listener.onError(error);
+                    }
+                });
             }
 
             @Override
@@ -367,8 +398,8 @@ public class PasswordManager {
      *
      * @param strategy Strategy to use in order to save and get passwords in third party apps.
      */
-    public void setAppsPasswordStrategy(AppsPasswordStrategy strategy, String did, String appID) {
-        if (!appIsPasswordManager(appID)) {
+    public void setAppsPasswordStrategy(AppsPasswordStrategy strategy, String did, String appID, boolean forceSet) {
+        if (!forceSet && !appIsPasswordManager(appID)) {
             Log.e(LOG_TAG, "Only the password manager application can call this API");
             return;
         }
@@ -447,21 +478,38 @@ public class PasswordManager {
         return dataDir + "/store.db";
     }
 
+    private void ensureDbPathExists(String dbPath) {
+        new File(dbPath).getParentFile().mkdirs();
+    }
+
+    private boolean databaseExists(String did) {
+        return new File(getDatabaseFilePath(did)).exists();
+    }
+
+    private void createEmptyDatabase(String did, String masterPassword) {
+        // No database exists yet. Return an empty database info.
+        PasswordDatabaseInfo dbInfo = PasswordDatabaseInfo.createEmpty();
+        databasesInfo.put(did, dbInfo);
+
+        // Save the master password
+        dbInfo.activeMasterPassword = masterPassword;
+    }
+
     /**
      * Using user's master password, decrypt the passwords list from disk and load it into memory.
      */
     private void loadEncryptedDatabase(String did, String masterPassword) throws Exception {
+        if (masterPassword == null || masterPassword.equals("")) {
+            throw new Exception("Empty master password is not allowed");
+        }
+
         String dbPath = getDatabaseFilePath(did);
+        ensureDbPathExists(dbPath);
 
         File file = new File(dbPath);
 
         if (!file.exists()) {
-            // No database exists yet. Return an empty database info.
-            PasswordDatabaseInfo dbInfo = PasswordDatabaseInfo.createEmpty();
-            databasesInfo.put(did, dbInfo);
-
-            // Save the master password
-            dbInfo.activeMasterPassword = masterPassword;
+            createEmptyDatabase(did, masterPassword);
         }
         else {
             // Read the saved serialized hashmap as object
@@ -517,6 +565,7 @@ public class PasswordManager {
 
     private void encryptAndSaveDatabase(String did, String masterPassword) throws Exception {
         String dbPath = getDatabaseFilePath(did);
+        ensureDbPathExists(dbPath);
 
         // Make sure the database is open
         PasswordDatabaseInfo dbInfo = databasesInfo.get(did);
@@ -591,5 +640,45 @@ public class PasswordManager {
 
     private SharedPreferences getPrefs() {
         return activity.getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+    }
+
+    /**
+     * Checks if a password database exists (master password was set). If not, starts the master password
+     * creation flow. After completion, calls the listener so that the base flow can continue.
+     */
+    private void checkMasterPasswordCreationRequired(String did, OnMasterPasswordCreationListener listener) {
+        if (databaseExists(did)) {
+            listener.onMasterPasswordCreated();
+        }
+        else {
+            // No database exists. Start the master password creation flow
+            new MasterPasswordCreator().promptMasterPassword(activity, new MasterPasswordCreator.OnMasterPasswordCreatorListener() {
+                @Override
+                public void onMasterPasswordCreated(String password) {
+                    // Master password was provided and confirmed. Now we can use it.
+
+                    // Create an empty database
+                    createEmptyDatabase(did, password);
+
+                    listener.onMasterPasswordCreated();
+                }
+
+                @Override
+                public void onCancel() {
+                    // Master password creation cancelled
+                    listener.onCancel();
+                }
+
+                @Override
+                public void onDontUseMasterPassword() {
+                    // User chose to not use a master password. He will have to use the password manager app
+                    // to change this option.
+                    setAppsPasswordStrategy(AppsPasswordStrategy.DONT_USE_MASTER_PASSWORD, did, null, true);
+
+                    // Consider this as a cancellation for this app
+                    listener.onCancel();
+                }
+            });
+        }
     }
 }

@@ -41,6 +41,10 @@
         ],
         "$user": {}
     },
+    "passwordmanager": {
+        "PasswordManagerPlugin": ["*"],
+        "$user": {}
+    },
     "user": {
         "AppManager": [
             "getVersion",
@@ -62,6 +66,12 @@
             "setSetting",
             "getPreference",
             "getPreferences"
+        ],
+        "PasswordManagerPlugin": [
+            "setPasswordInfo",
+            "getPasswordInfo",
+            "deletePasswordInfo",
+            "generateRandomPassword"
         ],
         "TitleBarPlugin": ["*"],
         "Accelerometer": ["*"],

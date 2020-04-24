@@ -88,7 +88,7 @@ declare namespace PasswordManagerPlugin {
         /**
          * List of any kind of app-specific additional information for this password entry.
          */
-        custom: Map<string, any>;
+        custom?: Map<string, any>;
     }
 
     /**
@@ -208,6 +208,18 @@ declare namespace PasswordManagerPlugin {
         /** Don't store app password info in the password manager. Users manually input in-app passwords every time. */
         DONT_USE_MASTER_PASSWORD = 1
     }
+
+    /** The provided password is invalid */
+    class InvalidPasswordException extends Error {}
+
+    /** Some parameters are invalid */
+    class InvalidParameterException extends Error {}
+
+    /** User cancelled the operation */
+    class CancellationException extends Error {}
+
+    /** Other kind of exception without additional typing information */
+    class UnspecifiedException extends Error {}
 
     interface PasswordManager {
         /**

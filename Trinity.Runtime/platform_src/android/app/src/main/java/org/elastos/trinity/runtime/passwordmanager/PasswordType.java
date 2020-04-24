@@ -14,7 +14,7 @@ public enum PasswordType {
     /** Provider name and key for a 2FA account. */
     TWO_FACTOR_AUTH(5);
 
-    int mValue;
+    public int mValue;
 
     PasswordType(int value) {
         mValue = value;

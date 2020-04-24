@@ -1,5 +1,6 @@
 package org.elastos.trinity.runtime.passwordmanager;
 
+import org.elastos.trinity.runtime.passwordmanager.passwordinfo.PasswordInfo;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,12 +32,18 @@ class PasswordDatabaseInfo {
     JSONObject rawJson;
     String activeMasterPassword = null;
 
-    public static PasswordDatabaseInfo createEmpty() throws JSONException {
-        PasswordDatabaseInfo info = new PasswordDatabaseInfo();
-        JSONObject applications = new JSONObject();
-        info.rawJson = new JSONObject();
-        info.rawJson.put(APPLICATIONS_KEY, applications);
-        return info;
+    static PasswordDatabaseInfo createEmpty() {
+        try {
+            PasswordDatabaseInfo info = new PasswordDatabaseInfo();
+            JSONObject applications = new JSONObject();
+            info.rawJson = new JSONObject();
+            info.rawJson.put(APPLICATIONS_KEY, applications);
+            return info;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static PasswordDatabaseInfo fromJson(String json) throws JSONException {
@@ -45,7 +52,7 @@ class PasswordDatabaseInfo {
         return info;
     }
 
-    public PasswordInfo getPasswordInfo(String appID, String key) throws JSONException {
+    public PasswordInfo getPasswordInfo(String appID, String key) throws Exception {
         JSONObject appIDContent = getAppIDContent(appID);
         if (appIDContent == null) {
             // No entry for this app ID yet, so we can't find the requested key
@@ -59,15 +66,18 @@ class PasswordDatabaseInfo {
             return null;
         }
 
-        return PasswordInfo.fromJsonObject(entry);
+        return PasswordInfoBuilder.buildFromType(entry);
     }
 
     public void setPasswordInfo(String appID, PasswordInfo info) throws JSONException {
         JSONObject appIDContent = getAppIDContent(appID);
         if (appIDContent == null) {
-            // No entry for this app ID yet, create one
+            // No entry for this app ID yet, create one and add it
             appIDContent = createdEmptyAppIDContent();
+            JSONObject applications = rawJson.getJSONObject(APPLICATIONS_KEY);
+            applications.put(appID, appIDContent);
         }
+
         JSONArray passwordEntries = appIDContent.getJSONArray(PASSWORD_ENTRIES_KEY);
         if (keyInPasswordEntries(passwordEntries, info.key)) {
             // This entry already exists. Delete it first before re-adding its updated version.
@@ -76,7 +86,7 @@ class PasswordDatabaseInfo {
         addPasswordEntry(passwordEntries, info);
     }
 
-    public ArrayList<PasswordInfo> getAllPasswordInfo() throws JSONException {
+    public ArrayList<PasswordInfo> getAllPasswordInfo() throws Exception {
         JSONObject applications = rawJson.getJSONObject(APPLICATIONS_KEY);
 
         ArrayList<PasswordInfo> infos = new ArrayList<>();
@@ -88,7 +98,7 @@ class PasswordDatabaseInfo {
                 JSONArray passwordEntries = appIDContent.getJSONArray(PASSWORD_ENTRIES_KEY);
                 for (int i=0; i<passwordEntries.length(); i++) {
                     JSONObject entry = passwordEntries.getJSONObject(i);
-                    PasswordInfo info = PasswordInfo.fromJsonObject(entry);
+                    PasswordInfo info = PasswordInfoBuilder.buildFromType(entry);
                     if (info != null) {
                         infos.add(info);
                     }
@@ -111,7 +121,7 @@ class PasswordDatabaseInfo {
 
     private JSONObject getAppIDContent(String appID) throws JSONException {
         JSONObject applications = rawJson.getJSONObject(APPLICATIONS_KEY);
-        if (!applications.has(appID)) {
+        if (applications.has(appID)) {
             return applications.getJSONObject(appID);
         }
         else {

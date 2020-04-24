@@ -1,10 +1,9 @@
 package org.elastos.trinity.runtime.passwordmanager;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.EditText;
-
-import androidx.appcompat.app.AlertDialog;
 
 class MasterPasswordPrompter {
     public void prompt(Activity activity, PasswordManager.OnMasterPasswordRetrievedListener listener) {

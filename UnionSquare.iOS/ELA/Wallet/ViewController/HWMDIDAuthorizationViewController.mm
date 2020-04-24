@@ -56,7 +56,7 @@ UINib *_nib;
     self.tabel.separatorInset = UIEdgeInsetsZero;
     CGFloat height=300;
     if (self.readModel) {
-         height=260;
+        height=260;
     }
     UIView *headV=[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, height)];
     [headV addSubview:self.headView];
@@ -85,7 +85,7 @@ UINib *_nib;
 -(NSArray *)allInfoListArray{
     if (!_allInfoListArray) {
         _allInfoListArray
-        =@[@{@"text":NSLocalizedString(@"昵称", nil),@"index":@"0",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"性别",nil),@"index":@"1",@"type":@"2",@"state":@"1"},@{@"text":NSLocalizedString(@"出生日期",nil),@"index":@"2",@"type":@"2",@"state":@"1"},@{@"text":NSLocalizedString(@"头像地址",nil),@"index":@"3",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"邮箱",nil),@"index":@"4",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"手机号", nil) ,@"index":@"5",@"type":@"3",@"state":@"1"},@{@"text":NSLocalizedString(@"国家/地区", nil),@"index":@"6",@"type":@"2",@"state":@"1"},@{@"text":NSLocalizedString(@"个人简介",nil),@"index":@"7",@"type":@"4",@"state":@"1"},@{@"text":NSLocalizedString(@"个人主页",nil),@"index":@"8",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"Facebook账号",nil),@"index":@"9",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"Twitter账号",nil),@"index":@"10",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"微博账号",nul),@"index":@"11",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"微信账号",null),@"index":@"12",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"谷歌账号",null),@"index":@"13",@"type":@"1",@"state":@"1"}];
+        =@[@{@"text":NSLocalizedString(@"性别",nil),@"index":@"1",@"type":@"2",@"state":@"1"},@{@"text":NSLocalizedString(@"出生日期",nil),@"index":@"2",@"type":@"2",@"state":@"1"},@{@"text":NSLocalizedString(@"头像地址",nil),@"index":@"3",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"邮箱1",nil),@"index":@"4",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"国家/地区", nil),@"index":@"6",@"type":@"2",@"state":@"1"},@{@"text":NSLocalizedString(@"个人简介",nil),@"index":@"7",@"type":@"4",@"state":@"1"},@{@"text":NSLocalizedString(@"个人主页",nil),@"index":@"8",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"Facebook账号",nil),@"index":@"9",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"Twitter账号",nil),@"index":@"10",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"微博账号",nul),@"index":@"11",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"微信账号",null),@"index":@"12",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"谷歌账号",null),@"index":@"13",@"type":@"1",@"state":@"1"}];
     }
     return _allInfoListArray;
     
@@ -101,9 +101,7 @@ UINib *_nib;
     NSDictionary * headers = @{@"alg": @"ES256",@"typ": @"JWT"};
     NSString *headerString=[[FLTools share]DicToString:headers];
     headerString=[JWTBase64Coder base64UrlEncodedStringWithData:[headerString dataUsingEncoding:NSUTF8StringEncoding]];
-    
     playString=[JWTBase64Coder base64UrlEncodedStringWithData:[playString dataUsingEncoding:NSUTF8StringEncoding]];
-    
     return jwtString=[NSString stringWithFormat:@"%@.%@",headerString,playString];
     
 }
@@ -179,7 +177,7 @@ UINib *_nib;
         [self goBack];
         [[FLTools share]showErrorInfo:@"授权成功"];
     } WithFailBlock:^(id data) {
-       
+        
         
     }];
     
@@ -188,12 +186,14 @@ UINib *_nib;
     NSString *infoString=[[HWMDIDManager shareDIDManager]generateDIDCredentialString];
     NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]dictionaryWithJsonString:infoString]];
     
-    
+    self.updateModel.nickname=@"";
+    self.updateModel.phoneCode=@"";
+    self.updateModel.nation=@"";
     NSString *updaModelString=[self.updateModel modelToJSONString];
     NSDictionary *upDic=[[FLTools share]dictionaryWithJsonString:updaModelString];
     NSMutableDictionary *updaModelDic=[NSMutableDictionary dictionaryWithDictionary:upDic];
     [updaModelDic setValue:dic[@"credentialSubject"][@"id"] forKey:@"id"];
-    [dic setValue:dic[@"credentialSubject"] forKey:@"credentialSubject"];
+    [dic setValue:updaModelDic forKey:@"credentialSubject"];
     infoString=[[FLTools share]DicToString:dic];
     NSString *jwtString=[self throuJWTStringWithplayString:infoString];
     
@@ -220,6 +220,8 @@ UINib *_nib;
     cell.selectBlock = ^(NSDictionary * _Nullable dic) {
         NSInteger index=[dic[@"index"] integerValue];
         weakSelf.dataSourceArray[index]=dic;
+        [weakSelf updatePOSTModeInfoWithDic:dic];
+        
     };
     
     return cell;
@@ -245,14 +247,18 @@ UINib *_nib;
 -(void)updatePOSTModeInfoWithDic:(NSDictionary*)dic{
     NSString *textString=dic[@"text"];
     NSString *state=dic[@"state"];
-    if ([textString isEqualToString:NSLocalizedString(@"昵称", nil)]&&self.readModel.nickname.length>0){
-        if ([state isEqualToString:@"1"]) {
-            self.updateModel.nickname=self.readModel.nickname;
-        }else{
-            self.updateModel.nickname=@"";
-        }
-        
-    }else if ([textString isEqualToString:NSLocalizedString(@"性别", nil)]&&self.readModel.gender.length>0) {
+    self.updateModel.nickname=@"";
+    self.updateModel.phone=@"";
+    self.updateModel.phoneCode=@"";
+    //    if ([textString isEqualToString:NSLocalizedString(@"昵称", nil)]&&self.readModel.nickname.length>0){
+    //        if ([state isEqualToString:@"1"]) {
+    //            self.updateModel.nickname=self.readModel.nickname;
+    //        }else{
+    //            self.updateModel.nickname=@"";
+    //        }
+    //
+    //    }else
+    if ([textString isEqualToString:NSLocalizedString(@"性别", nil)]&&self.readModel.gender.length>0) {
         if ([state isEqualToString:@"1"]) {
             self.updateModel.gender=self.readModel.gender;
         }else{
@@ -279,17 +285,19 @@ UINib *_nib;
             self.updateModel.email=@"";
         }
         
-    }else if ([textString isEqualToString:NSLocalizedString(@"手机号", nil)]&&self.readModel.phone.length>0) {
-        if ([state isEqualToString:@"1"]) {
-            self.updateModel.phone=self.readModel.phone;
-            self.updateModel.phoneCode=self.readModel.phoneCode;
-        }else{
-            self.updateModel.phone=@"";
-            self.updateModel.phoneCode=@"";
-        }
-        
-        
-    }else if ([textString isEqualToString:NSLocalizedString(@"国家/地区", nil)]&&self.readModel.nation.length>0) {
+    }
+    //    else if ([textString isEqualToString:NSLocalizedString(@"手机号", nil)]&&self.readModel.phone.length>0) {
+    //        if ([state isEqualToString:@"1"]) {
+    //            self.updateModel.phone=self.readModel.phone;
+    //            self.updateModel.phoneCode=self.readModel.phoneCode;
+    //        }else{
+    //            self.updateModel.phone=@"";
+    //            self.updateModel.phoneCode=@"";
+    //        }
+    //
+    //
+    //    }
+    else if ([textString isEqualToString:NSLocalizedString(@"国家/地区", nil)]&&self.readModel.nation.length>0) {
         
         if ([state isEqualToString:@"1"]) {
             self.updateModel.nation=self.readModel.nation;

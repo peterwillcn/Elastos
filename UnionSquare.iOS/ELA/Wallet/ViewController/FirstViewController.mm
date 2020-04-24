@@ -36,6 +36,8 @@
 #import "HWMDIDAuthorizationViewController.h"
 #import "HWMMessageCenterModel.h"
 #import "HMWtransferViewController.h"
+#import "HMWLocalNotice.h"
+#import "HMWLocalNotice.h"
 @interface FirstViewController ()<FLCapitalViewDelegate,UITableViewDelegate,UITableViewDataSource,HMWaddFooterViewDelegate,HMWTheWalletListViewControllerDelegate,HMWpwdPopupViewDelegate>
 {
     FLWallet *_currentWallet;
@@ -119,9 +121,7 @@
     
     if ([SDKNET isEqualToString:@"MainNet"]) {
         [self loadNetWorkingPong];
-    }
-    
-    
+    }    
 }
 -(void)loadNetWorkingPong{
     [HttpUrl NetGETHost:PongUrl url:@"/api/dposNodeRPC/getProducerNodesList" header:nil body:nil showHUD:NO WithSuccessBlock:^(id data) {
@@ -136,7 +136,6 @@
     
     self.pingManager = [[NENPingManager alloc] init];
     [self.pingManager getFatestAddress:urlArray completionHandler:^(NSString *hostName, NSArray *sortedAddress) {
-        
         if (hostName.length>0){
             NSInteger index=[urlArray indexOfObject:hostName];
             [STANDARD_USER_DEFAULT setValue:arry[index] forKey: @"Http_IP"];
@@ -314,7 +313,6 @@
             model.ConnectionSpeed=BytesPerSecond;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[HMWFMDBManager sharedManagerType:sideChain] sideChainUpdate:smodel];
-                //                //NSLog(@"修改侧链时间====%@======%@======%@====%@====%@",smodel.sideChainNameTime,model.iconName,self.currentWallet.walletName,smodel.thePercentageCurr,smodel.thePercentageMax);
             });
         }
         if (self.isScro==NO) {
@@ -771,7 +769,7 @@
 }
 -(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString{
     if ([QRCodeString containsString:@"elastos://credaccess/"]) {
-        [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
+        [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:YES];
         if (![[HWMDIDManager shareDIDManager]HasBeenOnTheChain]) {
             [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID", nil)];
             return;
@@ -908,7 +906,6 @@
     
 }
 -(void)makeSureWithPWD:(NSString*)pwd{
-    
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.QRCoreDic[@"extra"][@"SubWallet"],self.QRCoreDic[@"data"],pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"MSignAndReadOnlyCreateTransaction"];
     PluginResult *result = [[ELWalletManager share]SignTransaction:mommand];
     NSString *statue=[NSString stringWithFormat:@"%@",result.status];

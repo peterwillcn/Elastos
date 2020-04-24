@@ -45,7 +45,6 @@ static NSString *cellString=@"HWMNodeConnectionSettingsTableViewCell";
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"节点连接设置", nil);
     [self makeView];
-//    [self loadTheCurrencyList];
 }
 //-(void)loadTheCurrencyList{
 //    invokedUrlCommand * cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"getSupportedChains"];

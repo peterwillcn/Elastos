@@ -37,7 +37,8 @@
 #import "JWT.h"
 #import "MyUtil.h"
 #define KYRect  [UIScreen mainScreen].bounds
-@interface AppDelegate ()
+#import <UserNotifications/UserNotifications.h>
+@interface AppDelegate ()<UNUserNotificationCenterDelegate>
 
 @end
 @implementation AppDelegate
@@ -53,15 +54,8 @@
     }
     
     
-    //    [HWMDIDManager sdas];
     
     NSString *languageString=[DAConfig userLanguage];
-    //    if (
-    //    [[FLTools share]allHasNameAndHas];
-    //        ) {
-    //        exit(0);
-    //      }
-//       [[FLTools share]showErrorInfo:[NSString stringWithFormat:@"%f",AppHeight]];
     
     if ([languageString  containsString:@"en"]) {
         [DAConfig setUserLanguage:@"en"];
@@ -192,9 +186,6 @@
         message = @"保存失败";
     }
     [[FLTools share]showErrorInfo:message];
-    
-    //    UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:[url host] delegate:self cancelButtonTitle:nil otherButtonTitles:message, nil];
-    //    [alertView show];
     return YES;
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -205,58 +196,29 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application{
     [[ELWalletManager share]EMWMFlushData];
 }
+-(void)regsLocaNotc{
+    if (@available(iOS 10.0, *)) {
+        UNUserNotificationCenter *notiCenter = [UNUserNotificationCenter currentNotificationCenter];
+        notiCenter.delegate = self;
+    
+           [notiCenter requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error) {
+               
+           }];
+           [notiCenter getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+               
+           }];
+    } else {
+        
+    }
+}
 
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler  API_AVAILABLE(ios(10.0)){
+    
+   UIApplication *app = [UIApplication sharedApplication];
+   app.applicationIconBadgeNumber =0;
+    completionHandler(UNNotificationPresentationOptionSound + UNNotificationPresentationOptionAlert);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//-(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
-//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//    NSString *documentsDirectory = [paths lastObject];
-//    if (url != nil) {
-//        NSString *path = [url absoluteString];
-//        path = [path stringByRemovingPercentEncoding];
-//        NSMutableString *string = [[NSMutableString alloc] initWithString:path];
-//        if ([path hasPrefix:@"file:///private"]) {
-//            [string replaceOccurrencesOfString:@"file:///private" withString:@"" options:NSCaseInsensitiveSearch  range:NSMakeRange(0, path.length)];
-//        }
-//        NSArray *tempArray = [string componentsSeparatedByString:@"/"];
-//        NSString *fileName = tempArray.lastObject;
-//        NSString *sourceName = options[@"UIApplicationOpenURLOptionsSourceApplicationKey"];
-//
-//        NSFileManager *fileManager = [NSFileManager defaultManager];
-//        NSString *filePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@%@",sourceName,fileName]];
-//        if ([fileManager fileExistsAtPath:filePath]) {
-//            //NSLog(@"文件已存在");
-//            [SVProgressHUD showErrorWithStatus:@"文件已存在"];
-//            return YES;
-//        }
-////        [MRTools creatFilePathInManager:sourceName];
-//        BOOL isSuccess = [fileManager copyItemAtPath:string toPath:filePath error:nil];
-//        if (isSuccess == YES) {
-//            //NSLog(@"拷贝成功");
-//            [SVProgressHUD showSuccessWithStatus:@"文件拷贝成功"];
-//        } else {
-//            //NSLog(@"拷贝失败");
-//            [SVProgressHUD showErrorWithStatus:@"文件拷贝失败"];
-//        }
-//    }
-//    //NSLog(@"application:openURL:options:");
-//    return  YES;
-//}
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler  API_AVAILABLE(ios(10.0)){
+}
 @end

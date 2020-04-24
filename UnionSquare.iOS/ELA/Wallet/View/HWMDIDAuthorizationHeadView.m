@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *didStringLabel;
 @property (weak, nonatomic) IBOutlet UILabel *infoTextLabel;
 @property (weak, nonatomic) IBOutlet UILabel *showTextLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *ImagecopyDidView;
 
 @end
 
@@ -57,7 +58,15 @@
 -(void)setReadModel:(HWMDIDInfoModel *)readModel{
     self.nickNameLabel.text=NSLocalizedString(@"CR委员选举",nil);
     self.didStringLabel.text=readModel.did;
+    self.didStringLabel.alpha=0.f;
+    self.ImagecopyDidView.alpha=0.f;
     if (readModel.avatar.length>0) {
+        NSString *typeString=[readModel.avatar substringFromIndex:readModel.avatar.length-4];
+        if ([typeString isEqualToString:@".svg"]) {
+            self.iconImageView.contentMode=UIViewContentModeScaleAspectFit;
+        }else{
+            self.iconImageView.contentMode=UIViewContentModeScaleAspectFill;
+        }
         [[FLTools share]loadUrlSVGAndPNG:readModel.avatar WithSuccessBlock:^(id data) {
             if (data) {
                 self.iconImageView.image=data;

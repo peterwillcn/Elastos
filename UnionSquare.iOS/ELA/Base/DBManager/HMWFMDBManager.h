@@ -111,6 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(BOOL)addTransactionsWithModel:(HWMMessageCenterModel*)model;
 -(HWMMessageCenterModel*)selectTransactionsWithModel:(HWMMessageCenterModel*)model;
 -(HWMMessageCenterModel*)selectAllTransactionsWithModel;
+-(NSInteger)allMessageCount;
 
 @end
 

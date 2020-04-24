@@ -30,7 +30,7 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
     self.title=NSLocalizedString(@"个人信息",nil);
     if (self.isEi==YES) {
         self.skipButton.alpha=0;
-//        self.title=NSLocalizedString(@"CR委员选举",nil);
+        self.title=NSLocalizedString(@"个人资料",nil);
     }
     self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:self.skipButton];
     
@@ -79,11 +79,11 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
     switch ([indexString integerValue]) {
         case 0:
             if (self.isEi) {
-                 conString=self.model.didName;
+                conString=self.model.didName;
             }else{
-                 conString=self.model.nickname;
+                conString=self.model.nickname;
             }
-           
+            
             break;
         case 1:
             conString=[[FLTools share]genderStringWithType:self.model.gender];
@@ -93,10 +93,13 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
             break;
         case 3:{
             cell.headIocnImageView.alpha=1.f;
-           if (self.model.avatar.length>0) {
-//               [cell.headIocnImageView sd_setImageWithURL:[NSURL URLWithString:self.model.avatar] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-//                   
-//               }];
+            if (self.model.avatar.length>0) {
+                NSString *typeString=[self.model.avatar substringFromIndex:self.model.avatar.length-4];
+                if ([typeString isEqualToString:@".svg"]) {
+                    cell.headIocnImageView.contentMode=UIViewContentModeScaleAspectFit;
+                }else{
+                    cell.headIocnImageView.contentMode=UIViewContentModeScaleAspectFill;
+                }
                 [[FLTools share]loadUrlSVGAndPNG:self.model.avatar WithSuccessBlock:^(id data) {
                     if (data) {
                         cell.headIocnImageView.image=data;
@@ -105,7 +108,7 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
                     }
                 }];
             }else{
-               cell.headIocnImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
+                cell.headIocnImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
             }
             cell.rightLabel.alpha=0.f;
             
@@ -160,7 +163,7 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
             nickNameStirng=NSLocalizedString(@"姓名", nil);
         }
         _allInfoListArray
-        =@[@{@"text": nickNameStirng,@"index":@"0",@"type":@"1"},@{@"text":NSLocalizedString(@"性别",nil),@"index":@"1",@"type":@"2"},@{@"text":NSLocalizedString(@"出生日期",nil),@"index":@"2",@"type":@"2"},@{@"text":NSLocalizedString(@"头像地址",nil),@"index":@"3",@"type":@"1"},@{@"text":NSLocalizedString(@"邮箱",nil),@"index":@"4",@"type":@"1"},@{@"text":NSLocalizedString(@"手机号", nil) ,@"index":@"5",@"type":@"3"},@{@"text":NSLocalizedString(@"国家/地区", nil),@"index":@"6",@"type":@"2"},@{@"text":NSLocalizedString(@"个人简介",nil),@"index":@"7",@"type":@"4"},@{@"text":NSLocalizedString(@"个人主页",nil),@"index":@"8",@"type":@"1"},@{@"text":NSLocalizedString(@"Facebook账号",nil),@"index":@"9",@"type":@"1"},@{@"text":NSLocalizedString(@"Twitter账号",nil),@"index":@"10",@"type":@"1"},@{@"text":NSLocalizedString(@"微博账号",nul),@"index":@"11",@"type":@"1"},@{@"text":NSLocalizedString(@"微信账号",null),@"index":@"12",@"type":@"1"},@{@"text":NSLocalizedString(@"谷歌账号",null),@"index":@"13",@"type":@"1"}];
+        =@[@{@"text": nickNameStirng,@"index":@"0",@"type":@"1"},@{@"text":NSLocalizedString(@"性别",nil),@"index":@"1",@"type":@"2"},@{@"text":NSLocalizedString(@"出生日期",nil),@"index":@"2",@"type":@"2"},@{@"text":NSLocalizedString(@"头像地址1",nil),@"index":@"3",@"type":@"1"},@{@"text":NSLocalizedString(@"邮箱1",nil),@"index":@"4",@"type":@"1"},@{@"text":NSLocalizedString(@"手机号", nil) ,@"index":@"5",@"type":@"3"},@{@"text":NSLocalizedString(@"国家/地区", nil),@"index":@"6",@"type":@"2"},@{@"text":NSLocalizedString(@"个人简介",nil),@"index":@"7",@"type":@"4"},@{@"text":NSLocalizedString(@"个人主页",nil),@"index":@"8",@"type":@"1"},@{@"text":NSLocalizedString(@"Facebook账号",nil),@"index":@"9",@"type":@"1"},@{@"text":NSLocalizedString(@"Twitter账号",nil),@"index":@"10",@"type":@"1"},@{@"text":NSLocalizedString(@"微博账号",nul),@"index":@"11",@"type":@"1"},@{@"text":NSLocalizedString(@"微信账号",null),@"index":@"12",@"type":@"1"},@{@"text":NSLocalizedString(@"谷歌账号",null),@"index":@"13",@"type":@"1"}];
     }
     return _allInfoListArray;
     
@@ -183,9 +186,16 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
 }
 -(void)setModel:(HWMDIDInfoModel *)model{
     
-    if (model.nickname.length>0) {
-        [self.hasModelAarray addObject:self.allInfoListArray[0]];
+    if (self.isEi==YES) {
+        if (model.didName.length>0) {
+            [self.hasModelAarray addObject:self.allInfoListArray[0]];
+        }
+    }else{
+        if (model.nickname.length>0) {
+            [self.hasModelAarray addObject:self.allInfoListArray[0]];
+        }
     }
+    
     if (model.gender.length>0) {
         [self.hasModelAarray addObject:self.allInfoListArray[1]];
     }

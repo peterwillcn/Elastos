@@ -23,20 +23,11 @@
 
 
 #import <UIKit/UIKit.h>
-
-@protocol HWMIPListTableViewCellDelegate <NSObject>
-
--(void)delegIP:(NSString*_Nonnull)IP delePort:(NSString*_Nullable)port withIndex:(NSIndexPath*)index;
-
-@end
-
+#import "HWMMessageCenterModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HWMIPListTableViewCell : UITableViewCell
-@property(copy,nonatomic)NSDictionary *dic;
-@property(assign,nonatomic)NSIndexPath *index;
-@property(weak,nonatomic)id<HWMIPListTableViewCellDelegate> delegate;
-
+@interface HMWTheLatestMessagetTableViewCell : UITableViewCell
+@property(strong,nonatomic)HWMMessageCenterModel *model;
 @end
 
 NS_ASSUME_NONNULL_END

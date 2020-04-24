@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy,nonatomic)NSString *MessageType;
 @property(copy,nonatomic)NSString *chainID;
 @property(copy,nonatomic)NSString *typeHash;
+@property(copy,nonatomic)NSString *timeString;
 @end
 
 NS_ASSUME_NONNULL_END

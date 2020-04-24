@@ -18,6 +18,7 @@
 static NSString *MseeagPush=@"MseeagPush";
 static NSString *MseeagPRead=@"MseeagPRead";
 static NSString *hasMessageNeedRead=@"hasMessageNeedRead";
+static NSString *lastReadTime=@"lastReadTime";
 @implementation FLFLUser
 
 @end
@@ -30,6 +31,8 @@ static FLTools *tool;
 @interface FLTools ()
 @property (nonatomic,strong)YYCache *cache;
 @property (nonatomic,strong)NSMutableDictionary *QRCoreDic;
+
+@property(strong,nonatomic)HWMmessageWindowPopsView*messagePopsV;
 @end
 @implementation FLTools
 
@@ -278,6 +281,9 @@ static FLTools *tool;
     [SVProgressHUD show];
     
     
+}
+-(void)hideLoadingView{
+    [SVProgressHUD dismiss];
 }
 -(void)showErrorInfo:(NSString*)info{
     [SVProgressHUD setBackgroundColor:RGB(100, 100, 100)];
@@ -1776,54 +1782,63 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
 
 -(void)showNeMessageWith:(HWMMessageCenterModel*)mode{
     HWMMessageCenterModel *almodel=[[HMWFMDBManager sharedManagerType:transactionsType]selectTransactionsWithModel:mode];
-    mode.MessageType=[self EnquiryForDetailsWithTransactiontype:[almodel.MessageType intValue] withChainName:mode.chainID];
     mode.walletName=[[HMWFMDBManager sharedManagerType:walletType]selectRecordWallet:mode.walletID];
-    mode.time=[self getCurrentTimes];
+    mode.time=[self getNowTimeTimestamp];
+    mode.MessageType=almodel.MessageType;
     BOOL isShow=[self readMseeagPush:@""];
     [[HMWFMDBManager sharedManagerType:MessageCenterType]addMessageCenterWithModel:mode];
     [self sethasMessageNeedRead:@"1"];
     if (isShow==NO) {
         return;
     }
-    UIView  *appW=[self mainWindow];
-    HWMmessageWindowPopsView *messagePopsV =[[HWMmessageWindowPopsView alloc]init];
-    messagePopsV.frame=CGRectMake(15, -100, AppWidth-30, 70);
-    messagePopsV.messageConLabel.text=[NSString stringWithFormat:@"【%@%@】 %@ - %@",mode.walletName,NSLocalizedString(@"钱包", nil),mode.MessageType,mode.MessageC];
-    [appW addSubview:messagePopsV];
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapView)];
-    
-    [messagePopsV addGestureRecognizer:tap];
-    [UIView animateWithDuration:1 animations:^{
-        messagePopsV.frame = CGRectMake(15, 30, AppWidth-30, 70);
+    mode.MessageType=[self EnquiryForDetailsWithTransactiontype:[almodel.MessageType intValue] withChainName:mode.chainID];
+    self.messagePopsV.alpha=1.f;
+    self.messagePopsV.messageConLabel.text=[NSString stringWithFormat:@"【%@%@】 %@ - %@",mode.walletName,NSLocalizedString(@"钱包", nil),mode.MessageType,mode.MessageC];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.messagePopsV.frame = CGRectMake(15, 30, AppWidth-30, 70);
     }];
-}
--(void)tapView{
-    UIViewController *currVC=[self getCurrentVC];
-    HWMTheMessageCenterViewController *MessageCenterVC=[[HWMTheMessageCenterViewController alloc]init];
-    [currVC.navigationController pushViewController:MessageCenterVC animated:YES];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            self.messagePopsV.frame=CGRectMake(15, -100, AppWidth-30, 70);
+            self.messagePopsV.alpha=0.f;
+        } completion:^(BOOL finished) {
+            
+        }];
+    });
     
 }
-- (UIViewController *)getCurrentVC {
-    UIViewController *result = nil;
-    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
-    if (window.windowLevel != UIWindowLevelNormal) {
-        NSArray *windows = [[UIApplication sharedApplication] windows];
-        for(UIWindow * tmpWin in windows) {
-            if (tmpWin.windowLevel == UIWindowLevelNormal) {
-                window = tmpWin;
-                break;
-            }
+-(void)tapView:(UITapGestureRecognizer*)tap{
+    //    self.messagePopsV.alpha=0.f;
+    //    [[NSNotificationCenter defaultCenter]postNotificationName:NOBACK object:@(1)];
+    //    UINavigationController *currVC=[self getCurrentVC];
+    //    HWMTheMessageCenterViewController *MessageCenterVC=[[HWMTheMessageCenterViewController alloc]init];
+    //    [currVC pushViewController:MessageCenterVC animated:NO];
+    
+}
+- (UINavigationController *)getCurrentVC {
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    
+    if ([window.rootViewController isKindOfClass:[UINavigationController class]]) {
+        
+        return (UINavigationController *)window.rootViewController;
+        
+    } else if ([window.rootViewController isKindOfClass:[UITabBarController class]]) {
+        
+        UIViewController *selectVc = [((UITabBarController *)window.rootViewController) selectedViewController];
+        
+        if ([selectVc isKindOfClass:[UINavigationController class]]) {
+            
+            return (UINavigationController *)selectVc;
+            
         }
+        
     }
-    UIView *frontView = [[window subviews] objectAtIndex:0];
-    id nextResponder = [frontView nextResponder];
-    if ([nextResponder isKindOfClass:[UIViewController class]]) {
-        result = nextResponder;
-    } else {
-        result = window.rootViewController;
-    }
-    return result;
+    
+    return nil;
+    
+    
 }
 -(UIWindow *)mainWindow{
     UIApplication *app = [UIApplication sharedApplication];
@@ -1899,6 +1914,9 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
             detailsMType=NSLocalizedString(@"投票交易", nil);
             break;
         case 1002:
+            detailsMType=NSLocalizedString(@"投票交易", nil);
+            break;
+        case 1003:
             detailsMType=NSLocalizedString(@"零钱换整", nil);
             break;
             
@@ -1908,6 +1926,88 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     return detailsMType;
     
 }
+-(BOOL)IPcheckWithIP:(NSString*)ip{
+    NSString  *urlRegEx =@"^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+    "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+    "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+    "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+    
+    NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", urlRegEx];
+    BOOL ips=[urlTest evaluateWithObject:ip];
+    if (ips==NO) {
+        ips =[self checkAndTheDomainName:ip];
+        if (ips==NO) {
+            [[FLTools share]showErrorInfo:@"地址格式错误"];
+        }
+        
+    }
+    return  ips;
+}
 
-
+-(BOOL)checkAndTheDomainName:(NSString*)Domain{
+    NSString * string=@"^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$";
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", string];
+    BOOL isD = [predicate evaluateWithObject:Domain];
+    return isD;
+    
+}
+-(HWMmessageWindowPopsView *)messagePopsV{
+    if (!_messagePopsV) {
+        UIView  *appW=[self mainWindow];
+        _messagePopsV =[[HWMmessageWindowPopsView alloc]init];
+        _messagePopsV.frame=CGRectMake(15, -100, AppWidth-30, 70);
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapView:)];
+        _messagePopsV.alpha=0.f;
+        [_messagePopsV addGestureRecognizer:tap];
+        [appW insertSubview:_messagePopsV atIndex:1000000];
+    }
+    return _messagePopsV;
+}
+-(NSString*)conversionMessserTime:(NSString*)messTime{
+    NSString *languageString=[DAConfig userLanguage];
+    NSString *meeeageTime;
+    NSString *curretDay=[self getNowTimeTimestamp];
+    NSDate *lastUpdatedTime=[NSDate dateWithTimeIntervalSinceNow:[messTime intValue]];
+    NSDate *messDateTime=[NSDate dateWithTimeIntervalSince1970:[messTime intValue]];
+    NSDate *curretDate=[NSDate dateWithTimeIntervalSinceNow:[curretDay intValue]];
+    
+    NSCalendar *calendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+    NSUInteger unitFlags = NSCalendarUnitYear| NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute;
+    NSDateComponents *cmp1 = [calendar components:unitFlags fromDate:lastUpdatedTime];
+    NSDateComponents *cmp2 = [calendar components:unitFlags fromDate:curretDate];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    
+    if ((cmp1.day == cmp2.day) && (cmp1.year=cmp2.year)&&(cmp1.month==cmp2.month)) {
+        [formatter setDateFormat:@"HH:mm:ss"];
+        NSString * horr=[formatter stringFromDate:messDateTime];
+        meeeageTime=horr;
+    }else if ((cmp1.day+1 == cmp2.day) && (cmp1.year=cmp2.year)&&(cmp1.month==cmp2.month)){
+        [formatter setDateFormat:@"HH:mm:ss"];
+        NSString * horr=[formatter stringFromDate:messDateTime];
+//        if ([languageString  containsString:@"en"]) {
+//            meeeageTime=[NSString stringWithFormat:@"%@ %@",horr,NSLocalizedString(@"昨天", nil)];
+//        }else if ([languageString  containsString:@"zh"]){
+            meeeageTime=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"昨天", nil),horr];
+//        }
+        
+        
+        
+    }else{
+        meeeageTime= [self YMDHMSgetTimeFromTimesTamp:messTime];
+    }
+    return meeeageTime;
+}
+-(void)setLastReadTime{
+    [STANDARD_USER_DEFAULT setValue:[self getNowTimeTimestampS] forKey:lastReadTime];
+    [STANDARD_USER_DEFAULT synchronize];
+    
+}
+-(NSInteger)readLastReadTime{
+    
+    NSString * time=[STANDARD_USER_DEFAULT objectForKey:lastReadTime];
+    if (time==nil) {
+        return 0;
+    }
+    return   [time intValue];
+}
 @end

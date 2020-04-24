@@ -10,4 +10,5 @@
 
 @interface BaseNavigationVC : UINavigationController
 @property (nonatomic, strong)UIScreenEdgePanGestureRecognizer*panGesture;
+@property (nonatomic,assign)BOOL isNOBack;
 @end

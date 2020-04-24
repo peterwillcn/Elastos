@@ -76,6 +76,7 @@
     [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtget" header:@{} body:@{@"did":[NSString stringWithFormat:@"did:elastos:%@",self.CRmodel.cid]} showHUD:NO WithSuccessBlock:^(id data) {
         NSString *jwtString=data[@"data"][@"jwt"];
         NSDictionary *playInfoDic=[[HWMDIDManager shareDIDManager]CRInfoDecodeWithJwtStringInfo:jwtString];
+        
         self.DIDmodel=[HWMDIDInfoModel modelWithJSON:playInfoDic[@"credentialSubject"]];
         self.CRmodel.iconImageUrl=self.DIDmodel.avatar;
         self.CRmodel.infoEN=self.DIDmodel.introduction;

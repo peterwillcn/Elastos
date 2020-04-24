@@ -21,19 +21,23 @@
  * SOFTWARE.
  */
 
-        
-#import "HWMIPListTableViewCell.h"
 
-@interface HWMIPListTableViewCell ()
-@property (weak, nonatomic) IBOutlet UILabel *IPStringLabel;
-@property (weak, nonatomic) IBOutlet UILabel *portStringLabel;
+#import "HMWTheLatestMessagetTableViewCell.h"
+
+@interface HMWTheLatestMessagetTableViewCell ()
+@property (weak, nonatomic) IBOutlet UILabel *showInfoLabel;
+@property (weak, nonatomic) IBOutlet UILabel *walletName;
+@property (weak, nonatomic) IBOutlet UILabel *time;
+@property (weak, nonatomic) IBOutlet UILabel *messC;
+@property (weak, nonatomic) IBOutlet UIView *spView;
 
 @end
 
-@implementation HWMIPListTableViewCell
+@implementation HMWTheLatestMessagetTableViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.showInfoLabel.text=NSLocalizedString(@"以上为最新消息", nil);
     // Initialization code
 }
 
@@ -42,16 +46,14 @@
 
     // Configure the view for the selected state
 }
-- (IBAction)deleIPEvent:(id)sender {
-    if (self.delegate) {
-        [self.delegate delegIP:self.IPStringLabel.text delePort:self.portStringLabel.text withIndex:self.index];
+- (void)setModel:(HWMMessageCenterModel *)model{
+    if (model.walletName.length==0) {
+       self.spView.alpha=0.f;
+        return;
     }
-}
--(void)setDic:(NSDictionary *)dic{
-    self.IPStringLabel.text=dic[@"ip"];
-    self.portStringLabel.text=dic[@"port"];
-}
-- (void)setIndex:(NSIndexPath *)index{
-    _index=index;
+    self.walletName.text=model.walletName;
+    self.time.text=model.timeString;
+    self.messC.text=[NSString stringWithFormat:@"[%@] %@",[[FLTools share] EnquiryForDetailsWithTransactiontype:[model.MessageType intValue] withChainName:model.chainID],NSLocalizedString(model.MessageC, nil)];
+    _model=model;
 }
 @end

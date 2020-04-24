@@ -309,6 +309,9 @@
 		422D60AB21FC42D100DD07FF /* HMWChooseTheCountryAreasTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 422D60A721FC42D100DD07FF /* HMWChooseTheCountryAreasTableViewCell.xib */; };
 		4230217A22C0BB000004AB65 /* nodeInformationDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4230217922C0BB000004AB65 /* nodeInformationDetailsView.m */; };
 		4230217C22C0BB0C0004AB65 /* nodeInformationDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4230217B22C0BB0C0004AB65 /* nodeInformationDetailsView.xib */; };
+		4230C7D22451DA1800575C8D /* HMWLocalNotice.m in Sources */ = {isa = PBXBuildFile; fileRef = 4230C7D12451DA1800575C8D /* HMWLocalNotice.m */; };
+		4230C7DA245203A100575C8D /* HMWTheLatestMessagetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4230C7D8245203A100575C8D /* HMWTheLatestMessagetTableViewCell.m */; };
+		4230C7DB245203A100575C8D /* HMWTheLatestMessagetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4230C7D9245203A100575C8D /* HMWTheLatestMessagetTableViewCell.xib */; };
 		423270C7244D8BC900E98C26 /* HWMAllNoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 423270C6244D8BC900E98C26 /* HWMAllNoView.m */; };
 		423270C9244D8BD300E98C26 /* HWMAllNoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 423270C8244D8BD300E98C26 /* HWMAllNoView.xib */; };
 		423270CC244DA17E00E98C26 /* HWMmessageWindowPopsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 423270CB244DA17E00E98C26 /* HWMmessageWindowPopsView.m */; };
@@ -1151,6 +1154,11 @@
 		4230217822C0BB000004AB65 /* nodeInformationDetailsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nodeInformationDetailsView.h; sourceTree = "<group>"; };
 		4230217922C0BB000004AB65 /* nodeInformationDetailsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = nodeInformationDetailsView.m; sourceTree = "<group>"; };
 		4230217B22C0BB0C0004AB65 /* nodeInformationDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = nodeInformationDetailsView.xib; sourceTree = "<group>"; };
+		4230C7D02451DA1800575C8D /* HMWLocalNotice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMWLocalNotice.h; sourceTree = "<group>"; };
+		4230C7D12451DA1800575C8D /* HMWLocalNotice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMWLocalNotice.m; sourceTree = "<group>"; };
+		4230C7D7245203A100575C8D /* HMWTheLatestMessagetTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMWTheLatestMessagetTableViewCell.h; sourceTree = "<group>"; };
+		4230C7D8245203A100575C8D /* HMWTheLatestMessagetTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMWTheLatestMessagetTableViewCell.m; sourceTree = "<group>"; };
+		4230C7D9245203A100575C8D /* HMWTheLatestMessagetTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HMWTheLatestMessagetTableViewCell.xib; sourceTree = "<group>"; };
 		423270C5244D8BC900E98C26 /* HWMAllNoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMAllNoView.h; sourceTree = "<group>"; };
 		423270C6244D8BC900E98C26 /* HWMAllNoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMAllNoView.m; sourceTree = "<group>"; };
 		423270C8244D8BD300E98C26 /* HWMAllNoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMAllNoView.xib; sourceTree = "<group>"; };
@@ -5369,6 +5377,9 @@
 				423270CA244DA17E00E98C26 /* HWMmessageWindowPopsView.h */,
 				423270CB244DA17E00E98C26 /* HWMmessageWindowPopsView.m */,
 				423270CD244DA18900E98C26 /* HWMmessageWindowPopsView.xib */,
+				4230C7D7245203A100575C8D /* HMWTheLatestMessagetTableViewCell.h */,
+				4230C7D8245203A100575C8D /* HMWTheLatestMessagetTableViewCell.m */,
+				4230C7D9245203A100575C8D /* HMWTheLatestMessagetTableViewCell.xib */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -5996,6 +6007,8 @@
 				4202C99B21F6EF29009E5932 /* FLFLTabBarVC.m */,
 				4202C9A321F6EF29009E5932 /* FLTools.h */,
 				4202C99C21F6EF29009E5932 /* FLTools.m */,
+				4230C7D02451DA1800575C8D /* HMWLocalNotice.h */,
+				4230C7D12451DA1800575C8D /* HMWLocalNotice.m */,
 				4202C99D21F6EF29009E5932 /* HMWCommView.h */,
 				4202C9A421F6EF29009E5932 /* HMWCommView.m */,
 				4202C9A921F6EF29009E5932 /* UIView+FL.h */,
@@ -11423,6 +11436,7 @@
 				428B4D9C22CB35C0004AE7D0 /* HWMaddSignThePursefootView.xib in Resources */,
 				42EAF018238BB8C200D6A912 /* HMWQrCodePopupWindowView.xib in Resources */,
 				424A5E20234C954B0077512E /* HWMTransactionDetailsView.xib in Resources */,
+				4230C7DB245203A100575C8D /* HMWTheLatestMessagetTableViewCell.xib in Resources */,
 				4223EB3223279C1200153DA9 /* HWMPublicKeyListTabHeadView.xib in Resources */,
 				425CE7FE230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib in Resources */,
 				42EAEFD6238BB54F00D6A912 /* AddressPickerView.xib in Resources */,
@@ -11551,7 +11565,9 @@
 				42D105F423A3344D0063AADC /* MJRefreshConfig.m in Sources */,
 				42EAEFD1238BB52800D6A912 /* HWMSignStatusModel.m in Sources */,
 				424A5E1E234C95410077512E /* HWMTransactionDetailsView.m in Sources */,
+				4230C7D22451DA1800575C8D /* HMWLocalNotice.m in Sources */,
 				4202CA8721F6EF2B009E5932 /* HMWSecurityVerificationPopView.m in Sources */,
+				4230C7DA245203A100575C8D /* HMWTheLatestMessagetTableViewCell.m in Sources */,
 				4202CABD21F6EF2B009E5932 /* UIView+FL.m in Sources */,
 				424910F52271BFCF00C41E50 /* UIView+WebCacheOperation.m in Sources */,
 				4202CA1D21F6EF2A009E5932 /* FMResultSet.m in Sources */,

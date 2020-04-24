@@ -36,7 +36,7 @@
 static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
 
 
-@interface HMWTheWalletManagementViewController ()<UITableViewDelegate,UITableViewDataSource,HMWToDeleteTheWalletPopViewDelegate,HMWSecurityVerificationPopViewDelegate,HWMTheValidationWordMnemonicPasswordDelegate,HMWAddTheCurrencyListViewControllerDelegate>
+@interface HMWTheWalletManagementViewController ()<UITableViewDelegate,UITableViewDataSource,HMWToDeleteTheWalletPopViewDelegate,HMWSecurityVerificationPopViewDelegate,HWMTheValidationWordMnemonicPasswordDelegate,HMWAddTheCurrencyListViewControllerDelegate,UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *baseTableView;
 /*
  *<# #>
@@ -64,6 +64,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
  */
 @property(copy,nonatomic)NSString *VerifyPayPassword;
 @property(assign,nonatomic)BOOL isOpen;
+@property(assign,nonatomic)BOOL isBrek;
 @end
 
 @implementation HMWTheWalletManagementViewController
@@ -86,6 +87,16 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
     }];
     [[HMWCommView share]makeBordersWithView:self.toDeleteTheWalletButton];
     [self needOpen];
+    //自定义滑动手势
+    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(myHandleNavigationTransition:)];
+    //将自定义手势添加到NavigationController的view上
+    [self.view addGestureRecognizer:panGestureRecognizer];
+    //设置自定义手势的代理，用于拦截自定义手势的触发
+    panGestureRecognizer.delegate = self;
+    //关闭系统的边缘手势
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    
+    
 }
 -(void)needOpen{
     
@@ -116,6 +127,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
     return _toDeleteTheWalletButton;
 }
 -(void)toDeleteTheWalletEvent{
+    [self breakView];
     UIView *mainView=[self mainWindow];
     self.toDeleteTheWalletPopV.deleteType=deleteTheWallet;
     [mainView addSubview:self.toDeleteTheWalletPopV];
@@ -220,7 +232,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     self.selectIndex=indexPath;
-//     [self showLoading];
+    [self breakView];
     NSDictionary *dic=self.dataArray[indexPath.section];
     NSString *title=dic[@"title"];
     if ([title isEqualToString:NSLocalizedString(@"修改钱包名称", nil)]) {
@@ -295,27 +307,19 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
         }
         
     }else if ([title isEqualToString:NSLocalizedString(@"DID",nil)]){
-
+        
+        self.isBrek=NO;
         if (self.isOpen) {
-          
+            
             if (self.currentWallet.didString.length>5) {
-                [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
-                     
-                BOOL hasChain=[[HWMDIDManager shareDIDManager]HasBeenOnTheChain];
-                                   
-//                [self hiddLoading];
-                if (hasChain) {
-                    HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
-                    DIDInfoVC.currentWallet=self.currentWallet;
-                    [self.navigationController pushViewController:DIDInfoVC animated:YES];
-                }else{
-                    HWMCreateDIDViewController *CreateDIDVC=[[HWMCreateDIDViewController alloc]init];
-                    [self.navigationController pushViewController:CreateDIDVC animated:YES];
-                }
+                [self needLoadDIDSave:NO withprKey:@""];
+                
+                
+                
+                
                 
             }else{
                 [self showDIDInfoOrCreateDIDInfo];
-//                [self hiddLoading];
             }
         }else{
             UIView *mainView =[self mainWindow];
@@ -473,31 +477,13 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
         //        [self.navigationController pushViewController:vc animated:YES];
         
     }else if ([title isEqualToString:NSLocalizedString(@"DID",nil)]){
-//        [self showLoading];
+        //        [self showLoading];
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwdString] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
         NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
         if (privatekeyString.length==0) {
             return;
         }
-        NSString *didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
-        BOOL hasChain=[[HWMDIDManager shareDIDManager]HasBeenOnTheChain];
-//        [self hiddLoading];
-        if (hasChain&&didString.length>5) {
-            FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
-            model.walletID=self.currentWallet.masterWalletID;
-            model.walletName=self.currentWallet.walletName;
-            model.walletAddress=self.currentWallet.walletAddress;
-            model.didString=didString;
-            [[HMWFMDBManager sharedManagerType:walletType]updateRecordWallet:model];
-            [[HWMDIDManager shareDIDManager]saveDIDCredentialWithDIDModel:nil];
-            [[NSNotificationCenter defaultCenter]postNotificationName:updataWallet object:@"index"];
-            HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
-            DIDInfoVC.currentWallet=self.currentWallet;
-            [self.navigationController pushViewController:DIDInfoVC animated:YES];
-        }else{
-            HWMCreateDIDViewController *CreateDIDVC=[[HWMCreateDIDViewController alloc]init];
-            [self.navigationController pushViewController:CreateDIDVC animated:YES];
-        }
+        [self needLoadDIDSave:YES withprKey:privatekeyString];
     }
 }
 
@@ -536,10 +522,60 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
 }
 -(void)openIDChainOfDIDAddWithWallet:(NSString*)walletID{
     if ([walletID isEqualToString:self.currentWallet.masterWalletID]) {
+        self.isOpen=NO;
+        [self needLoadDIDSave:NO withprKey:nil];
+    }else{
         [self showDIDInfoOrCreateDIDInfo];
     }
 }
 -(void)setCurrencyArray:(NSArray *)currencyArray{
     _currencyArray=currencyArray;
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [self breakView];
+    [super viewWillDisappear:animated];
+}
+-(void)breakView{
+    [self hiddLoading];
+    self.isBrek=YES;
+}
+
+
+- (void)myHandleNavigationTransition:(UIPanGestureRecognizer *)panGesture{
+    
+    [self.navigationController.interactivePopGestureRecognizer.delegate performSelector:@selector(handleNavigationTransition:) withObject:panGesture];
+    [self breakView];
+}
+-(void)needLoadDIDSave:(BOOL)save withprKey:(NSString*)pk{
+    dispatch_group_t group =  dispatch_group_create();
+    static NSString *didString;
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:pk WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:YES];
+    });
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        
+        if (self.isBrek==NO) {
+            BOOL hasChain=[[HWMDIDManager shareDIDManager]HasBeenOnTheChain];
+            if (hasChain) {
+                if (save) {
+                    FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
+                    model.walletID=self.currentWallet.masterWalletID;
+                    model.walletName=self.currentWallet.walletName;
+                    model.walletAddress=self.currentWallet.walletAddress;
+                    model.didString= didString;
+                    [[HMWFMDBManager sharedManagerType:walletType]updateRecordWallet:model];
+                    [[HWMDIDManager shareDIDManager]saveDIDCredentialWithDIDModel:nil];
+                }
+                HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
+                DIDInfoVC.currentWallet=self.currentWallet;
+                [self.navigationController pushViewController:DIDInfoVC animated:YES];
+            }else{
+                
+                HWMCreateDIDViewController *CreateDIDVC=[[HWMCreateDIDViewController alloc]init];
+                [self.navigationController pushViewController:CreateDIDVC animated:YES];
+            }
+        }
+        
+    });
 }
 @end

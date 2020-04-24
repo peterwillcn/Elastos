@@ -63,6 +63,10 @@ static NSString *cellString=@"HWMIPListTableViewCell";
     if (self.IPTextField.text.length==0) {
         [[FLTools share] showErrorInfo:@"请输入节点地址"];
     }
+    if (![[FLTools share]IPcheckWithIP:self.IPTextField.text]) {
+        [[FLTools share] showErrorInfo:@"地址格式错误"];
+       
+    }
     if (self.delegate) {
         [self.delegate selectIPWithString:self.IPTextField.text withPort:self.portTextField.text];
     }
@@ -85,6 +89,7 @@ static NSString *cellString=@"HWMIPListTableViewCell";
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
     cell.dic=self.ipListArray[indexPath.row];
+    cell.index=indexPath;
     cell.delegate=self;
     return cell;
     
@@ -109,9 +114,9 @@ static NSString *cellString=@"HWMIPListTableViewCell";
     return [[FLTools share]textField:textField replacementString:string withStringLenth:50];
     
 }
--(void)delegIP:(NSString*_Nonnull)IP delePort:(NSString*_Nullable)port{
+-(void)delegIP:(NSString*_Nonnull)IP delePort:(NSString*_Nullable)port withIndex:(NSIndexPath*)index{
     if ( [[HMWFMDBManager sharedManagerType:IPInfoType]delectIPString:IP withPort:port]) {
-        [self.ipListArray removeAllObjects];
+        [self.ipListArray removeObjectAtIndex:index.row];
         [self.listIPtabView reloadData];
     }
     

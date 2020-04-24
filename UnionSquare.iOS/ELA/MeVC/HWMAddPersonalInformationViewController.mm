@@ -23,12 +23,13 @@
 #import "HMWpwdPopupView.h"
 #import "DAConfig.h"
 #import "HWMConfidentialInformationViewController.h"
+#import "HMWaddFooterView.h"
 UINib *_cellCreateDIDListNib;
 UINib *_cellCodeAndPhonenumberNib;
 static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTableViewCell";
 
-@interface HWMAddPersonalInformationViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDDataListViewDelegate, HMWSelectCountriesOrRegionsViewControllerDelegate,HWMDIDInfoListViewDelegate,HWMCreateDIDListTableViewCellDelegate,UITextFieldDelegate,HWMTheAreaCodeAndPhonenumberTableViewCellDelegate,HMWpwdPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate>
+@interface HWMAddPersonalInformationViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDDataListViewDelegate, HMWSelectCountriesOrRegionsViewControllerDelegate,HWMDIDInfoListViewDelegate,HWMCreateDIDListTableViewCellDelegate,UITextFieldDelegate,HWMTheAreaCodeAndPhonenumberTableViewCellDelegate,HMWpwdPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWaddFooterViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *textInfoLabel;
 /*
  *<# #>
@@ -38,7 +39,6 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
  *<# #>
  */
 @property(strong,nonatomic)NSArray *dataSorse;
-@property (weak, nonatomic) IBOutlet UIButton *nextButton;
 @property (weak, nonatomic) IBOutlet UITableView *table;
 /*
  *<# #>
@@ -77,6 +77,16 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 
 @property(assign,nonatomic)double blance;
 @property(assign,nonatomic)BOOL needUpdate;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)HMWaddFooterView *addFooterView;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)NSArray *allShowListArray;
+
+
 @end
 
 @implementation HWMAddPersonalInformationViewController
@@ -227,8 +237,16 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     return _allInfoListArray;
     
 }
+-(NSArray *)allShowListArray{
+    if (!_allInfoListArray) {
+        _allInfoListArray
+        =@[@{@"text":NSLocalizedString(@"昵称", nil),@"index":@"0",@"type":@"1"},@{@"text":NSLocalizedString(@"性别",nil),@"index":@"1",@"type":@"2"},@{@"text":NSLocalizedString(@"出生日期",nil),@"index":@"2",@"type":@"2"},@{@"text":NSLocalizedString(@"头像url",nil),@"index":@"3",@"type":@"1"},@{@"text":NSLocalizedString(@"邮箱1",nil),@"index":@"4",@"type":@"1"},@{@"text":NSLocalizedString(@"手机号", nil) ,@"index":@"5",@"type":@"3"},@{@"text":NSLocalizedString(@"国家/地区", nil),@"index":@"6",@"type":@"2"},@{@"text":NSLocalizedString(@"个人简介",nil),@"index":@"7",@"type":@"4"},@{@"text":NSLocalizedString(@"个人主页网址1",nil),@"index":@"8",@"type":@"1"},@{@"text":NSLocalizedString(@"Facebook账号",nil),@"index":@"9",@"type":@"1"},@{@"text":NSLocalizedString(@"Twitter账号",nil),@"index":@"10",@"type":@"1"},@{@"text":NSLocalizedString(@"微博账号",nul),@"index":@"11",@"type":@"1"},@{@"text":NSLocalizedString(@"微信账号",null),@"index":@"12",@"type":@"1"},@{@"text":NSLocalizedString(@"谷歌账号",null),@"index":@"13",@"type":@"1"}];
+    }
+    return _allInfoListArray;
+    
+}
 -(void)makeUI{
-    [[HMWCommView share]makeBordersWithView:self.nextButton];
+    
     
     _cellCreateDIDListNib=[UINib nibWithNibName:cellString bundle:nil];
     _cellCodeAndPhonenumberNib=[UINib nibWithNibName:cellCodeAndPhonenumberString bundle:nil];
@@ -239,6 +257,11 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     self.table.delegate =self;
     self.table.dataSource =self;
     self.table.backgroundColor=[UIColor clearColor];
+    self.table.userInteractionEnabled=YES;
+    UIView *headView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 162)];
+    headView.userInteractionEnabled=YES;
+    [headView addSubview:self.addFooterView];
+    self.table.tableFooterView =headView;
 }
 -(UIButton *)skipButton{
     if (!_skipButton) {
@@ -327,7 +350,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
                 cell.intPutTextField.text=self.model.email;
             }
             
-        }else if ([titleString isEqualToString:NSLocalizedString(@"个人主页", nil)]) {
+        }else if ([titleString isEqualToString:NSLocalizedString(@"个人主页网址", nil)]) {
             if (self.model.homePage.length>0) {
                 cell.intPutTextField.text=self.model.homePage;
             }
@@ -341,7 +364,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
             if (self.model.nickname.length>0) {
                 cell.intPutTextField.text=self.model.nickname;
             }
-        }else if ([titleString isEqualToString:NSLocalizedString(@"头像地址", nil)]){
+        }else if ([titleString isEqualToString:NSLocalizedString(@"头像url", nil)]){
             if (self.model.avatar.length>0) {
                 cell.intPutTextField.text=self.model.avatar;
             }
@@ -426,9 +449,9 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 - (IBAction)nextAndSkipEvent:(id)sender {
     NSMutableArray  *nextArr=[[NSMutableArray alloc]init];
     if (self.showInfoListAarry.count>0) {
-        self.showInfoListAarry=[self bubblingSort:self.showInfoListAarry];
-        for (NSString *index in self.showInfoListAarry) {
-            [nextArr addObject:self.allInfoListArray[[index intValue]]];
+        self.showInfoListAarry=[self bubblingSort:self.allShowListArray];
+        for (NSString *index in self.allShowListArray) {
+            [nextArr addObject:self.allShowListArray[[index intValue]]];
         }
     }
     UIView *mainView =[self mainWindow];
@@ -476,7 +499,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     }
     [self.showInfoListAarry removeObject:indeString];
     if (self.showInfoListAarry.count==0) {
-        self.nextButton.alpha=0.f;
+        self.addFooterView.alpha=0.f;
     }
 }
 - (void)closeView{
@@ -550,8 +573,8 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
             break;
     }
     
-    if (self.nextButton.alpha==0) {
-        self.nextButton.alpha=1;
+    if ( self.addFooterView.alpha==0) {
+        self.addFooterView.alpha=1;
     }
     
     [self.table reloadData];
@@ -559,8 +582,8 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 }
 
 -(void)delegateViewWithDic:(NSDictionary *)dic{
-    if (self.nextButton.alpha==0) {
-        self.nextButton.alpha=1;
+    if ( self.addFooterView.alpha==0) {
+        self.addFooterView.alpha=1;
     }
     if (self.whereFrome||self.isEidet) {
         self.deleteIndex=@"-1";
@@ -582,8 +605,57 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     [self.table reloadData];
     
 }
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    NSInteger tag=textField.tag;
+    
+    switch (tag) {
+        case 100://"昵称"
+            //               self.model.nickname=textField.text;
+            break;
+        case 103:
+            //               self.model.avatar=textField.text;
+            break;
+        case 104:
+            //               self.model.email=textField.text;
+            break;
+        case 108:
+            
+            [self needChangeFrame:tag];
+            break;
+        case 109:
+            [self needChangeFrame:tag];
+            //               self.model.facebook=textField.text;
+            break;
+        case 110:
+            [self needChangeFrame:tag];
+//            self.model.twitter=textField.text;
+            break;
+        case 111:
+          [self needChangeFrame:tag];
+            //               self.model.weibo=textField.text;
+            break;
+        case 112:
+           [self needChangeFrame:tag];
+            //               self.model.wechat=textField.text;
+            break;
+        case 113:
+           [self needChangeFrame:tag];
+            //               self.model.googleAccount=textField.text;
+            break;
+        case 10001:
+            
+            //               self.model.phone=textField.text;
+            break;
+        case 10002:
+            //               self.model.phoneCode=textField.text;
+            break;
+        default:
+            break;
+    }
+}
 -(void)textFieldDidEndEditing:(UITextField *)textField{
     NSInteger tag=textField.tag;
+    [self reMovNotificationCenter];
     switch (tag) {
         case 100://"昵称"
             self.model.nickname=textField.text;
@@ -727,7 +799,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     if (privatekeyString.length==0) {
         return;
     }
-    NSString *didString=[[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:YES];
+    NSString *didString=[[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
     if (didString.length==0) {
         return;
     }
@@ -847,12 +919,45 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 -(void)getBalance{
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,@"IDChain",@2] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];
     PluginResult * result =[[ELWalletManager share]getBalance:mommand];
-    
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){
         NSString *blanceString=[NSString stringWithFormat:@"%@",result.message[@"success"]];
         self.blance=[blanceString doubleValue];
     }
+    
+}
+-(HMWaddFooterView *)addFooterView{
+    if (!_addFooterView) {
+        _addFooterView=[[HMWaddFooterView alloc]init];
+        _addFooterView.delegate=self;
+    }
+    return _addFooterView;;
+}
+-(void)addTheAssetEvent{
+    [self.view endEditing:YES];
+    [self nextAndSkipEvent:nil];
+}
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    [self.view endEditing:YES];
+}
+-(void)needChangeFrame:(NSInteger)tag{
+    if (self.defMArray.count>5) {
+        [self NotificationCenter];
+    }else{
+        NSString *loIndex=self.defMArray.lastObject;
+        if (tag-100>[loIndex intValue]) {
+            [self NotificationCenter];
+        }
+    }
+   
+    
+    
+
+    
+    
+    
+    
+    
     
 }
 @end

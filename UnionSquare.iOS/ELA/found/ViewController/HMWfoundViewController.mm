@@ -36,7 +36,6 @@
     [self defultWhite];
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"社区", nil);
-    
     self.table = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.table.separatorStyle= UITableViewCellSeparatorStyleNone;
     self.table.backgroundColor = [UIColor clearColor];

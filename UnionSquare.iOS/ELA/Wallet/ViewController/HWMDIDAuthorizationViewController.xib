@@ -22,11 +22,11 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XCG-rH-pQS">
-                    <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                    <rect key="frame" x="0.0" y="44" width="414" height="648"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G4C-a9-JNo">
-                    <rect key="frame" x="97" y="642" width="220" height="40"/>
+                    <rect key="frame" x="97" y="702" width="220" height="40"/>
                     <color key="backgroundColor" red="0.24378156661987305" green="0.36074280738830566" blue="0.38814622163772583" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="8Mj-gQ-Hua"/>
@@ -39,7 +39,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YTt-Gh-TyH">
-                    <rect key="frame" x="97" y="722" width="220" height="40"/>
+                    <rect key="frame" x="97" y="782" width="220" height="40"/>
                     <color key="backgroundColor" red="0.24770838022232056" green="0.36073112487792969" blue="0.39598202705383301" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="A0a-Vl-CgG"/>
@@ -54,14 +54,13 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="XCG-rH-pQS" secondAttribute="bottom" id="DLX-dF-5BZ"/>
-                <constraint firstAttribute="bottom" secondItem="XCG-rH-pQS" secondAttribute="bottom" id="JMa-LF-gXg"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="G4C-a9-JNo" secondAttribute="trailing" constant="97" id="QTv-Y7-WOJ"/>
                 <constraint firstItem="G4C-a9-JNo" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="97" id="U7H-Ca-ToE"/>
-                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="YTt-Gh-TyH" secondAttribute="bottom" constant="100" id="WTx-fi-v6O"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="YTt-Gh-TyH" secondAttribute="bottom" constant="40" id="WTx-fi-v6O"/>
                 <constraint firstItem="XCG-rH-pQS" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="YOE-dB-fIC"/>
                 <constraint firstItem="YTt-Gh-TyH" firstAttribute="width" secondItem="G4C-a9-JNo" secondAttribute="width" id="bS6-tb-fBa"/>
                 <constraint firstItem="YTt-Gh-TyH" firstAttribute="top" secondItem="G4C-a9-JNo" secondAttribute="bottom" constant="40" id="hoF-GC-3OQ"/>
+                <constraint firstItem="G4C-a9-JNo" firstAttribute="top" secondItem="XCG-rH-pQS" secondAttribute="bottom" constant="10" id="kVn-vK-RXC"/>
                 <constraint firstItem="XCG-rH-pQS" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="khM-ja-bBu"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="XCG-rH-pQS" secondAttribute="trailing" id="mdd-Vf-GAu"/>
                 <constraint firstItem="YTt-Gh-TyH" firstAttribute="centerX" secondItem="G4C-a9-JNo" secondAttribute="centerX" id="vKg-Je-seN"/>

@@ -126,11 +126,6 @@ static HMWFMDBManager * _manager =nil;
 //增加
 
 -(BOOL)addRecord:(friendsModel *)person{
-    //    nameString text,address text,mobilePhoneNo text,email text,note text
-    
-    
-    
-    
     NSString *sql =@"insert into Person (nameString,address,mobilePhoneNo,email,note) values(?,?,?,?,?)";
     if ([self executeUpdate:sql,person.nameString,person.address,person.mobilePhoneNo,person.email,person.note]) {
         //        DLog(@"完成!");
@@ -626,13 +621,19 @@ static HMWFMDBManager * _manager =nil;
     }
     return NO;
 }
--(NSArray*)allMessageTableWithIndex:(NSInteger)starIndex{
+-(NSInteger)allMessageCount{
+    NSUInteger count = [_manager intForQuery:@"select count(*) from MessageTable"];
+    return count;
+}
+-(NSArray*)allMessageListWithIndex:(NSInteger)starIndex{
+
     NSMutableArray *allRecords=[[NSMutableArray alloc]init];
-    NSString *sql =[NSString stringWithFormat: @"select * from  MessageTable"];
+    NSString *sql =[NSString stringWithFormat: @"select * from  MessageTable ORDER BY ID DESC LIMIT %ld ,10",(long)starIndex];
     FMResultSet *set=[self executeQuery:sql];
     while (set.next) {
         HWMMessageCenterModel *mode=[[HWMMessageCenterModel alloc]init];
         mode.time=[set objectForColumn:@"time"];
+        mode.timeString=[[FLTools share]conversionMessserTime:mode.time];
         mode.walletName=[set objectForColumn:@"walletName"];
         mode.walletID=[set objectForColumn:@"walletID"];
         mode.MessageC=[set objectForColumn:@"MessageC"];
@@ -648,7 +649,7 @@ static HMWFMDBManager * _manager =nil;
         return YES;
     }
     NSString *sql =@"insert into MessageTable (time,walletName,MessageC,walletID,MessageType,chainID,typeHash) values(?,?,?,?,?,?,?)";
-    if ([self executeUpdate:sql,model.time,model.walletName,model.MessageC,model.walletID,model.MessageType,model.chainID]) {
+    if ([self executeUpdate:sql,model.time,model.walletName,model.MessageC,model.walletID,model.MessageType,model.chainID,model.typeHash]) {
         return YES;
     }
     return NO;
@@ -657,7 +658,6 @@ static HMWFMDBManager * _manager =nil;
     NSString *sql =[NSString stringWithFormat: @"select * from MessageTable where typeHash=\'%@\'",model.typeHash];
     FMResultSet *set=[self executeQuery:sql];
     while (set.next) {
-        
         return  YES;
     }
     return NO;
@@ -665,7 +665,7 @@ static HMWFMDBManager * _manager =nil;
 -(BOOL)addTransactionsWithModel:(HWMMessageCenterModel*)model{
     
     NSString *sql =@"insert into TransactionsTable (time,walletName,walletID,MessageType,chainID,typeHash) values(?,?,?,?,?,?)";
-    model.time=[[FLTools share]getCurrentTimes];
+    model.time=[[FLTools share]getNowTimeTimestampS];
     model.walletName=@"1";
     if ([self executeUpdate:sql,model.time,model.walletName,model.walletID,model.MessageType,model.chainID,model.typeHash]) {
         return YES;

@@ -94,6 +94,8 @@
 "安全验证"="Security Check";
 "请输入钱包密码"="Enter your wallet password";
 "确认1"="Enter";
+"是否删除本项？"="Delete this item?";
+
 "请设置Keystore密码"="Enter keystore password";
 "请再次输入确认Keystore密码"="Re-enter keystore password";
 "确认导出"="Confirm export";
@@ -247,13 +249,13 @@
 "验证助记词密码"="Re-enter mnemonic password";
 "直接删除"="Direct delete";
 "更新成功"="The update is successful";
+"个人资料"="Profile";
 
 //"请使用含有私钥的钱包签名当前交易"="Direct delete";
 //"已签名："="Direct delete";
 //"待签名："="Direct delete";
 //"第"="Direct delete";
 //"张"="Direct delete";
-
 
 "暂无候选节点"="No candidate nodes";
 "超级节点选举"="Super node election";
@@ -663,12 +665,14 @@
 "性别"="Gender";
 "出生日期"="Birthdate";
 "邮箱"="email address";
+"邮箱1"="Email address";
 "手机号"="Cellphone number";
 "添加个人信息"="Add personal information";
 "编辑个人信息"="Edit personal information";
 "编辑个人简介"="Edit personal profile";
 "个人主页"="Homepage";
 "个人主页网址"="your profile URL";
+"个人主页网址1"="Your profile URL";
 "头像url"="Upload the portrait url";
 "谷歌账号"="Google account";
 "微软账号"="Microsoft account";
@@ -685,7 +689,6 @@
 "暂无候选委员"="No Candidate";
 "暂无候选节点"="No Candidate Node";
 "请输入端口号"="Enter port number";
-"以上为最新消息"="Latest message is as above";
 "暂无消息"="No message available";
 "消息中心"="Message center";
 "红点开关"="Red dot switch";
@@ -697,7 +700,6 @@
 "已完成"="Completed";
 "已废止"="Aborted";
 "账户余额不足，将使之前的投票结果失效。是否继续交易？"="Previous vote is invalid due to insufficient balance. Continue?";
-"交易错误，无法上链"="Transaction error, unable to publish on the chain";
 "交易完成"="Transaction successful";
 "申请使用您的DID信息（包括但不限于存储、展示等用途）："="Apply for your DID information(Including but not limited to storage, display, etc.)：";
 "- DID基本信息"="- DID Basic Information";
@@ -734,6 +736,7 @@
 "更新报名信息"="Update registration information";
 "[未激活]"="[inactivated]";
 "头像地址"="Upload the portrait url";
+"头像地址1"="Avatar URL";
 "男"="Male";
 "女"="Female";
 "请选择出生日期"="Enter Birth Date";
@@ -757,7 +760,9 @@
 "创建DID"="Create DID";
 "服务提供方"="Service provider";
 "请输入个人简介"="Please enter your profile";
-//"新消息·现在"="";
+"以上为最新消息"="Latest message is above";
+"新消息·现在"="New news · now";
+"昨天"="Yesterday";
 "状态"="Status";
 "IP地址"="IP address";
 "速度"="Speed";
@@ -768,7 +773,11 @@
 "请输入节点地址"="Enter node address";
 "节点连接设置"="Node connection settings";
 "授权成功"="Successful authorization";
-
+"地址格式错误"="Incorrect address format";
+"当前地址无法连接"="Current address cannot be connected";
+"交易错误，无法上链"="Transaction error. Unable to publish on-chain";
+"由于交易金额不足,您的超级节点选举投票已失效"="Your super node election votes have expired due to insufficient transaction amount";
+"由于交易金额不足,您的CR委员选举投票已失效"="Your CR Council Election votes have expired due to insufficient transaction amount";
 "err10000"="Json parse error of action parameters";
 "err10001"="Parameters error of action";
 "err10002"="Invalid master wallet";

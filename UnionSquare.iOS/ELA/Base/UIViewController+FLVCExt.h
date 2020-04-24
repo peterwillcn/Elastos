@@ -56,4 +56,5 @@
 -(void)showLoading;
 -(void)hiddLoading;
 -(void)showNeMessageWith:(HWMMessageCenterModel*)mode;
+-(void)checkUserNotificationEnable;
 @end

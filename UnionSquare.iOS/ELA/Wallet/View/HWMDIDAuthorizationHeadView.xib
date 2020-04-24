@@ -91,6 +91,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="ImagecopyDidView" destination="txH-qY-x6a" id="luy-zN-pPz"/>
                 <outlet property="didStringLabel" destination="FLp-Qe-h0l" id="2wi-PN-lOs"/>
                 <outlet property="iconImageView" destination="opt-7Y-Ikn" id="gzu-OG-Qat"/>
                 <outlet property="infoTextLabel" destination="y9r-kH-LGu" id="AVD-LU-cOs"/>

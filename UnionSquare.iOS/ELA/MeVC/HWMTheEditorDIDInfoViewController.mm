@@ -29,16 +29,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-            [self setBackgroundImg:@""];
+    [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"编辑DID", nil);
     self.DIDTextInfoLabel.text=NSLocalizedString(@"DID信息", nil);
     [self.updatesButton setTitle:NSLocalizedString(@"更新发布", nil) forState:UIControlStateNormal];
     
     self.nickNameLabel.text=self.model.didName;
     self.nickNameLabel.delegate=self;
-       self.publicKeyLabel.text=self.PubKeyString;
-       self.DIDLabel.text=[NSString stringWithFormat:@"%@",self.model.did];
-       self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至 ", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.endString]];
+    self.publicKeyLabel.text=self.PubKeyString;
+    self.DIDLabel.text=[NSString stringWithFormat:@"%@",self.model.did];
+    self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至 ", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.endString]];
     [self getBalance];
 }
 - (IBAction)changeTimeDataInfoEvent:(id)sender {
@@ -79,11 +79,11 @@
 }
 
 -(void)selectDataWithYY:(NSString*_Nullable)yy withMM:(NSString*_Nullable)mm wihMMWithInt:(NSInteger)mInt wtihDD:(NSString*_Nullable)dd{
-   
-       self.model.endString=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@ 00:00:00",yy,mm,dd]];
+    
+    self.model.endString=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@ 00:00:00",yy,mm,dd]];
     self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至 ", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.endString]];
-       [self cancelDataListView];
-
+    [self cancelDataListView];
+    
 }
 -(void)setModel:(HWMDIDInfoModel *)model{
     if (model==nil) {
@@ -96,7 +96,7 @@
     [self.view endEditing:YES];
 }
 -(void)makeSureWithPWD:(NSString*)pwd{
-
+    
     [self.view endEditing:YES];
     if (self.blance<0.0001) {
         [[FLTools share]showErrorInfo:@"余额不足"];
@@ -104,16 +104,16 @@
     }
     self.model.didName=self.nickNameLabel.text;
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwd] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
-            NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
-       if (privatekeyString.length==0) {
-           return;
-       }
+    NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
+    if (privatekeyString.length==0) {
+        return;
+    }
     if (self.model.didName.length==0) {
         [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入姓名(必填)", nil)];
         return;
     }
     
-    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:YES];
+    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
     
     if ([[HWMDIDManager shareDIDManager]updateInfoWithInfo:self.model]) {
         HWMDIDInfoModel *rdModel= [[HWMDIDManager shareDIDManager]readDIDCredential];
@@ -121,12 +121,12 @@
         rdModel.endString=self.model.endString;
         [[HWMDIDManager shareDIDManager]saveDIDCredentialWithDIDModel:rdModel];
         [self showSendSuccessView];
-       }
-//    else{
-////           [[FLTools share]showErrorInfo:@"失败"];
-//       }
+    }
+    //    else{
+    ////           [[FLTools share]showErrorInfo:@"失败"];
+    //       }
     [self.ShowPoPWDView removeFromSuperview];
-      self.ShowPoPWDView=nil;
+    self.ShowPoPWDView=nil;
 }
 -(void)cancelThePWDPageView{
     [self.ShowPoPWDView removeFromSuperview];
@@ -135,15 +135,15 @@
     
 }
 -(void)showPWDView{
-        UIView *mainView =[self mainWindow];
-        [mainView addSubview:self.ShowPoPWDView];
-        [self.ShowPoPWDView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.top.bottom.equalTo(mainView);
-        }];
+    UIView *mainView =[self mainWindow];
+    [mainView addSubview:self.ShowPoPWDView];
+    [self.ShowPoPWDView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(mainView);
+    }];
     
 }
 -(void)showSendSuccessView{
-   self.sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
+    self.sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
     UIView *manView=[self mainWindow];
     [manView addSubview:self.sendSuccessPopuV];
     [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -154,7 +154,7 @@
         self.sendSuccessPopuV=nil;
         [self.navigationController popViewControllerAnimated:YES];
     });
-   
+    
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     return [[FLTools share]textField:textField replacementString:string withStringLenth:50];
@@ -165,7 +165,7 @@
     
 }
 -(void)getBalance{
-
+    
     
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,@"IDChain",@2] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];
     PluginResult * result =[[ELWalletManager share]getBalance:mommand];

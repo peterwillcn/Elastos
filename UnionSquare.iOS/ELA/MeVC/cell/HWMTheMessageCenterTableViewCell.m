@@ -46,8 +46,8 @@
 }
 - (void)setModel:(HWMMessageCenterModel *)model{
     self.walletName.text=model.walletName;
-    self.time.text=[[FLTools share]TimeFormatConversion:model.time];
-    self.messC.text=[NSString stringWithFormat:@"[%@] %@",[[FLTools share] EnquiryForDetailsWithTransactiontype:[model.MessageType intValue] withChainName:model.chainID],model.MessageC];
+    self.time.text=model.timeString;
+    self.messC.text=[NSString stringWithFormat:@"[%@] %@",[[FLTools share] EnquiryForDetailsWithTransactiontype:[model.MessageType intValue] withChainName:model.chainID],NSLocalizedString(model.MessageC, nil)];
     _model=model;
 }
 @end

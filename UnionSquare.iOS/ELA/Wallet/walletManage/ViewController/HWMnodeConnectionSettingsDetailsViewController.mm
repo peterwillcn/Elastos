@@ -169,8 +169,10 @@ static NSString *cellString=@"HWMnodeConnectionSettingsDetailsTableViewCell";
 }
 - (IBAction)connChainEvent:(id)sender {
     if (self.ManuallyEnter) {
+        [[FLTools share]showErrorInfo:@"连接中…"];
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,self.model.iconName] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
         [[ELWalletManager share]RandomSwitchLink:mommand];
+        
         self.model.status=@"connting";
         self.ManuallyEnter=YES;
         [self.baseTableView reloadData];
@@ -197,12 +199,16 @@ static NSString *cellString=@"HWMnodeConnectionSettingsDetailsTableViewCell";
     }else if ([self.model.iconName isEqualToString:@"IDChain"]&&port.length==0){
         port=IDChainPort;
     }
+    
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,self.model.iconName,ip,port] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
     BOOL isSucc=  [[ELWalletManager share]ManualInputIP:mommand];
     if (isSucc) {
+        [[FLTools share]showErrorInfo:@"连接中…"];
         self.ManuallyEnter=NO;
         [[HMWFMDBManager sharedManagerType:IPInfoType]addIPString:ip withPort:port];
         [self closEnterView];
+    }else{
+        [[FLTools share]showErrorInfo:@"当前地址无法连接"];
     }
     [self updaeButtonTitle];
     [self.baseTableView reloadData];
@@ -238,4 +244,5 @@ static NSString *cellString=@"HWMnodeConnectionSettingsDetailsTableViewCell";
     }
     
 }
+
 @end

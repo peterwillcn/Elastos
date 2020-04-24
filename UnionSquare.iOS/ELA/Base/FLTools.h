@@ -167,5 +167,10 @@
 -(void)showNeMessageWith:(HWMMessageCenterModel*)mode;
 - (NSString *)SpecialTimeZoneConversion:(NSString *)timeStr;
 -(NSString*)EnquiryForDetailsWithTransactiontype:(NSInteger)type withChainName:(NSString*)chainID;
-
+-(BOOL)IPcheckWithIP:(NSString*)ip;
+-(BOOL)checkAndTheDomainName:(NSString*)Domain;
+-(void)hideLoadingView;
+-(NSString*)conversionMessserTime:(NSString*)messTime;
+-(void)setLastReadTime;
+-(NSInteger)readLastReadTime;
 @end

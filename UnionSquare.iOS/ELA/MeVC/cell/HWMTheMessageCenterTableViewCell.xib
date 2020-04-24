@@ -17,20 +17,20 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A0J-eU-BSb">
-                        <rect key="frame" x="15" y="12" width="11" height="13.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                        <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A0J-eU-BSb">
+                        <rect key="frame" x="15" y="12" width="13" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jCF-X5-UJq">
-                        <rect key="frame" x="15" y="36" width="11" height="14"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="--" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jCF-X5-UJq">
+                        <rect key="frame" x="15" y="35.5" width="290" height="13.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AXI-e5-t4m">
-                        <rect key="frame" x="294" y="12" width="11" height="13.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AXI-e5-t4m">
+                        <rect key="frame" x="294" y="14" width="11" height="13.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
@@ -48,11 +48,13 @@
                     <constraint firstItem="jCF-X5-UJq" firstAttribute="leading" secondItem="A0J-eU-BSb" secondAttribute="leading" id="4JK-dm-oc3"/>
                     <constraint firstAttribute="trailing" secondItem="AXI-e5-t4m" secondAttribute="trailing" constant="15" id="FgL-VA-gmJ"/>
                     <constraint firstItem="A0J-eU-BSb" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="J6Y-jd-o9x"/>
+                    <constraint firstItem="jCF-X5-UJq" firstAttribute="top" relation="greaterThanOrEqual" secondItem="A0J-eU-BSb" secondAttribute="bottom" constant="10" id="KYV-SP-kXx"/>
                     <constraint firstItem="ebl-pz-swU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="M9w-sZ-gTb"/>
                     <constraint firstItem="AXI-e5-t4m" firstAttribute="centerY" secondItem="A0J-eU-BSb" secondAttribute="centerY" id="SYt-Le-c2W"/>
                     <constraint firstAttribute="trailing" secondItem="ebl-pz-swU" secondAttribute="trailing" constant="15" id="UoG-NF-iYU"/>
                     <constraint firstAttribute="bottom" secondItem="ebl-pz-swU" secondAttribute="bottom" id="WAw-Tx-PdV"/>
-                    <constraint firstAttribute="bottom" secondItem="jCF-X5-UJq" secondAttribute="bottom" constant="15" id="dcB-wF-L4d"/>
+                    <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="jCF-X5-UJq" secondAttribute="bottom" constant="15" id="dcB-wF-L4d"/>
+                    <constraint firstAttribute="trailing" secondItem="jCF-X5-UJq" secondAttribute="trailing" constant="15" id="lQt-XZ-2vH"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

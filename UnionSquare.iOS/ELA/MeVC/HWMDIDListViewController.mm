@@ -156,9 +156,6 @@ static NSString *normalCellString=@"HWMDIDListNormalTableViewCell";
           DIDInfoVC.delegate=self;
           [self.navigationController pushViewController:DIDInfoVC animated:YES];
       }
-    
-    
-    
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     

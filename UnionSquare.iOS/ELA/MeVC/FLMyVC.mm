@@ -42,6 +42,8 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
  */
 @property(strong,nonatomic)NSIndexPath *selectIndex;
 
+@property(strong,nonatomic)UIButton *meeasseButton;
+
 @end
 
 @implementation FLMyVC
@@ -55,8 +57,17 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
     [self.table reloadData];
     [self setBackgroundImg:@""];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(myfriendNeedUpdateInfo) name:myfriendNeedUpdate object:nil];
+//    UIBarButtonItem *ClickMorenButton =  [[UIBarButtonItem alloc]initWithCustomView:self.meeasseButton];
+//    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+//                                                                                    target:nil
+//                                                                                    action:nil];
+//    negativeSpacer.width =-20;
+//    NSArray *buttonArray = [[NSArray alloc]initWithObjects:negativeSpacer,ClickMorenButton,nil];
+//    self.navigationItem.rightBarButtonItems = buttonArray;
 }
 -(void)messageCenter{
+    UIView *reView =[self.meeasseButton viewWithTag:999];
+    reView.alpha=0.f;
     HWMTheMessageCenterViewController *TheMessageCenterVC=[[HWMTheMessageCenterViewController alloc]init];
     [self.navigationController pushViewController:TheMessageCenterVC animated:YES];
 }
@@ -111,17 +122,13 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
     [self defultWhite];
     [self.navigationController setNavigationBarHidden:NO];
     self.navigationItem.leftBarButtonItem = nil;
-//    NSString *messageImage=@"mine_message_center";
-//    if ([[FLTools share]hasMessageNeedRead:@""]&&[[FLTools share]MseeagPRead:@""]) {
-//        messageImage=@"mine_message_center_red";
-//    }
-//    UIBarButtonItem *ClickMorenButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:messageImage] style:UIBarButtonItemStyleDone target:self action:@selector(messageCenter)];
-//    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-//                                                                                    target:nil
-//                                                                                    action:nil];
-//    negativeSpacer.width =-20;
-//    NSArray *buttonArray = [[NSArray alloc]initWithObjects:negativeSpacer,ClickMorenButton,nil];
-//    self.navigationItem.rightBarButtonItems = buttonArray;
+    NSString *messageImage=@"mine_message_center";
+    UIView *reView =[self.meeasseButton viewWithTag:999];
+    if ([[FLTools share]hasMessageNeedRead:@""]&&[[FLTools share]MseeagPRead:@""]) {
+        reView.alpha=1;
+    }else{
+        reView.alpha=0;
+    }
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -277,11 +284,7 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
             self.languageOpen=!self.languageOpen;
             NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:indexPath.section];
             [self.table reloadSections:indexSet withRowAnimation: UITableViewRowAnimationAutomatic];
-            
         }
-        
-        
-        
     }else if([name isEqualToString:@"联系人"]||[name isEqualToString:@"Contacts"]){
         self.selectIndex=indexPath;
         if (indexPath.row==0) {
@@ -323,5 +326,33 @@ static NSString *theContactCell=@"HMWmyContactListTableViewCell";
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
+}
+-(UIButton *)meeasseButton{
+    if (!_meeasseButton) {
+        _meeasseButton=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
+        //        [_meeasseButton setImage:[UIImage imageNamed:@"mine_message_center"] forState:UIControlStateNormal];
+        UIImageView *showImageview =[[UIImageView alloc]init];
+        showImageview.image=[UIImage imageNamed:@"mine_message_center"];
+        [_meeasseButton addSubview:showImageview];
+        [showImageview mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.mas_equalTo(_meeasseButton);
+            make.size.mas_equalTo(CGSizeMake(22, 22));
+        }];
+        [_meeasseButton addTarget:self action:@selector(messageCenter) forControlEvents:UIControlEventTouchUpInside];
+        UIView *badgeView = [[UIView alloc]init];
+        badgeView.userInteractionEnabled = YES;
+        badgeView.layer.cornerRadius = 4;
+        badgeView.tag = 999;
+        badgeView.alpha=0.f;
+        badgeView.backgroundColor = [UIColor redColor];
+        [_meeasseButton addSubview:badgeView];
+        [badgeView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(showImageview.mas_left).offset(16);
+            make.top.equalTo(showImageview.mas_top).offset(-2);
+            make.size.mas_equalTo(CGSizeMake(8, 8));
+        }];
+        
+    }
+    return _meeasseButton;;
 }
 @end

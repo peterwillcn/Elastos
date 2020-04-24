@@ -10,6 +10,7 @@
 #import <AVFoundation/AVCaptureDevice.h>
 #import <CommonCrypto/CommonDigest.h>
 #import <CommonCrypto/CommonCryptor.h>
+#import <UserNotifications/UserNotifications.h>
 //#import "NSData+YYAdd.h"
 //#import <ShareSDK/ShareSDK.h>
 //#import <ShareSDKUI/ShareSDKUI.h>
@@ -656,5 +657,52 @@
     }];
     
 }
+ -(void)checkUserNotificationEnable { // 判断用户是否允许接收通知
+    if (@available(iOS 10.0, *)) {
+        __block BOOL isOn = NO;
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+            if (settings.notificationCenterSetting == UNNotificationSettingEnabled) {
+                isOn = YES;
+                NSLog(@"打开了通知");
+            }else {
+                isOn = NO;
+                NSLog(@"关闭了通知");
+                [self showAlertView];
+            }
+        }];
+    }else {
+        if ([[UIApplication sharedApplication] currentUserNotificationSettings].types == UIUserNotificationTypeNone){
+            NSLog(@"关闭了通知");
+            [self showAlertView];
+        }else {
+            NSLog(@"打开了通知");
+        }
+    }
+}
 
+- (void)showAlertView {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"通知" message:@"未获得通知权限，请前去设置" preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self goToAppSystemSetting];
+    }]];
+
+    [self  presentViewController:alert animated:YES completion:nil];
+}
+- (void)goToAppSystemSetting {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIApplication *application = [UIApplication sharedApplication];
+        NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        if ([application canOpenURL:url]) {
+            if (@available(iOS 10.0, *)) {
+                if ([application respondsToSelector:@selector(openURL:options:completionHandler:)]) {
+                    [application openURL:url options:@{} completionHandler:nil];
+                }
+            }else {
+               
+            }
+        }
+    });
+}
 @end

@@ -19,6 +19,7 @@
     if (self) {
         self =[[NSBundle mainBundle]loadNibNamed:@"HMWaddFooterView" owner:nil options:nil].firstObject;
         self.backgroundColor=[UIColor clearColor];
+        self.userInteractionEnabled=YES;
     }
     
     return self;

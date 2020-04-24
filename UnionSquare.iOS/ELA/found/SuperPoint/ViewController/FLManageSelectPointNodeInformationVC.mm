@@ -263,7 +263,9 @@
     }
     
     HWMDIDInfoModel  *readModel=[[HWMDIDManager shareDIDManager]readDIDCredential];
-    if ([readModel.endString intValue]<[[[FLTools share]getNowTimeTimestampS] intValue])  {
+    NSDictionary *dic =[[HWMDIDManager shareDIDManager]getDIDInfo];
+     NSString *endTime=dic[@"endTime"];
+    if ([endTime intValue]<[[[FLTools share]getNowTimeTimestampS] intValue])  {
         
         [[FLTools share]showErrorInfo:NSLocalizedString(@"DID已失效", nil)];
         return ;

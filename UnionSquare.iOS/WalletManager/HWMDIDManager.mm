@@ -116,6 +116,11 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
 -(NSString*)hasDIDWithPWD:(NSString *)passWord withDIDString:(NSString*)DIDString
      WithPrivatekeyString:(NSString*)privatekeyString
          WithmastWalletID:(NSString*)mastWalletID needCreatDIDString:(BOOL)need{
+    bool force=false;
+    if (need) {
+        [[FLTools share]showLoadingView];
+        force=true;
+    }
     NSInteger re;
     self.passWord=passWord;
     self.privatekeyString=privatekeyString;
@@ -163,11 +168,8 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         didstring = DID_ToString(did, _didstring, sizeof(_didstring));
         self.DIDString=[self charToString:didstring];
     }
-    bool force=false;
-    if (need) {
-        force=true;
-    }
     DIDDocument *  doc=DID_Resolve(did,force);
+    
     if (doc) {//先看一下链上有没有
         DIDURL *url=DIDURL_NewByDid(did, "primary");
         if (DIDStore_ContainsPrivateKey(store,did, url)) {
@@ -178,6 +180,9 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
             DIDURL_Destroy(url);
             DIDDocument_Destroy(doc);
             DIDDocument_Destroy(nedoc);
+            if (need) {
+                [[FLTools share]hideLoadingView];
+            }
             return self.DIDString;
         }else{
             DIDDocument *reDoc=DIDStore_NewDIDByIndex(store, [self.passWord UTF8String], 0, "name");//
@@ -186,8 +191,14 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
                 DID * newdid= DIDDocument_GetSubject(reDoc);
                 DID_Copy(did, newdid);
                 DIDDocument_Destroy(reDoc);
+                if (need) {
+                    [[FLTools share]hideLoadingView];
+                }
                 return self.DIDString;
             }else{
+                if (need) {
+                    [[FLTools share]hideLoadingView];
+                }
                 return @"";// 失败返回
             }
         }
@@ -196,6 +207,9 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         if (doc==NULL) {
             doc=DIDStore_NewDIDByIndex(store, [self.passWord UTF8String], 0, "name");//
             DIDDocument_Destroy(doc);
+        }
+        if (need) {
+            [[FLTools share]hideLoadingView];
         }
         return self.DIDString;
         
@@ -214,11 +228,8 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     NSString * didName=[self charToString:suInfo];
     didName= [didName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSDictionary *reDic=@{@"nickName":didName,@"endTime":[NSString stringWithFormat:@"%@",@(endTime)],@"DIDString":self.DIDString};
-    
     DIDURL_Destroy(url);
     DIDDocument_Destroy(doc);
-    
-    
     return reDic;
 }
 -(BOOL)updateInfoWithInfo:(HWMDIDInfoModel*)model{
@@ -236,7 +247,6 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     if (cr) {
         DIDDocumentBuilder_RemoveCredential(build, url);
     }
-    
     const char * types[1] = {"BasicProfileCredential"};//
     Property props[1];
     char * nickName =(char*)[model.didName UTF8String];
@@ -251,7 +261,6 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         return NO;
     }
     DIDDocument * newDoc=  DIDDocumentBuilder_Seal(build, [self.passWord UTF8String]);
-    
     const  char *doString=DIDDocument_ToJson(newDoc, false);
     rt=  DIDStore_StoreDID(store,newDoc, "name");// 已经签名
     const char *r = DIDStore_PublishDID(store, [self.passWord UTF8String], did, NULL,true);
@@ -297,7 +306,11 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         model.endString=red[@"endTime"];
     }
     Issuer *isser=Issuer_Create(did, NULL, store);
+    NSDictionary *dic=[self getDIDInfo];
     time_t endTime=[model.endString integerValue];//
+    if (endTime==0){
+        endTime= [dic[@"endTime"] integerValue];
+    }
     const char *types[1] = {"BasicProfileCredential"};//类型名称
     DIDURL *creatCredentialID=DIDURL_NewByDid(did, "outPut");// 相当于文件  不同的需求 需要创建不同的名字  只能通过这个别名 拿去 Credential
     model.editTime=[[FLTools share]getNowTimeTimestampS];

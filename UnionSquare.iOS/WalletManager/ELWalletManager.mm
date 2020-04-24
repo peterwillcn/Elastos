@@ -1844,7 +1844,7 @@ static uint64_t feePerKB = 10000;
         Json result = mainchainSubWallet->PublishTransaction(signedTx);
         NSString *resultString=[self stringWithCString:result.dump()];
         NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
-        [self saveTradingWithhash:resultdic[@"TxHash"] withTradingType:1001 withWalletID:self.currentWallet.walletID withChainID:@"ELA"];
+        [self saveTradingWithhash:resultdic[@"TxHash"] withTradingType:1002 withWalletID:self.currentWallet.walletID withChainID:@"ELA"];
         return YES;
         
     } catch (const std:: exception & e ) {
@@ -2181,7 +2181,7 @@ static uint64_t feePerKB = 10000;
     }
     NSString *jsonString = [self stringWithCString:result.dump()];
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
-    [self saveTradingWithhash:dic[@"TxHash"] withTradingType:1002 withWalletID:self.currentWallet.walletID withChainID:@"ELA"];
+    [self saveTradingWithhash:dic[@"TxHash"] withTradingType:1003 withWalletID:self.currentWallet.walletID withChainID:@"ELA"];
     return [self successProcess:command msg:dic];
 }
 -(PluginResult *)GetAllUTXOs:(invokedUrlCommand *)command{
@@ -2432,7 +2432,7 @@ static uint64_t feePerKB = 10000;
     
     try {
         if (subWallet) {
-            subWallet->SyncStart();
+            subWallet->SyncStart();            
         }
     } catch (const std:: exception &e) {
         

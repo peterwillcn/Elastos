@@ -130,6 +130,11 @@
             [self.delegate sureToDeleteViewWithPWD:@""];
             
         }
+    }else if (self.deleteType==CloseChainIDType){
+        if(self.delegate){
+            [self.delegate sureToDeleteViewWithPWD:@""];
+            
+        }
     }
     
 }
@@ -198,6 +203,8 @@
     }else if (deleteType==documentsCoveringType){
         self.titlePopLabel.text= NSLocalizedString(@"是否覆盖当前凭证信息？", nil);
         
+    }else if (deleteType==CloseChainIDType){
+        self.titlePopLabel.text= NSLocalizedString(@"关闭ID侧链将无法使用DID功能，\n是否立即关闭？", nil);
     }
     _deleteType=deleteType;
 }

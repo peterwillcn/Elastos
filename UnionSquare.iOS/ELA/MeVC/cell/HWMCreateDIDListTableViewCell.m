@@ -8,6 +8,7 @@
 #import "HWMCreateDIDListTableViewCell.h"
 
 @interface HWMCreateDIDListTableViewCell ()
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *eIdConOff;
 
 @end
 
@@ -40,6 +41,12 @@
 }
 - (IBAction)done:(id)sender {
     [self endEditing:YES];
+    
+}
+-(void)setIsEeiD:(BOOL)isEeiD{
+    self.eIdConOff.constant=(AppWidth-80)/2;
+    self.intPutTextField.textAlignment=NSTextAlignmentRight;
+    
     
 }
 @end

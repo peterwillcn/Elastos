@@ -270,8 +270,7 @@
         [[FLTools share]showErrorInfo:NSLocalizedString(@"DID已失效", nil)];
         return ;
     }
-    
-    
+    readModel.endString=endTime;
     HWMDIDAuthorizationViewController *DIDAuthorizationVC=[[HWMDIDAuthorizationViewController alloc]init];
     DIDAuthorizationVC.readModel=readModel;
     DIDAuthorizationVC.DIDString=self.currentWallet.didString;

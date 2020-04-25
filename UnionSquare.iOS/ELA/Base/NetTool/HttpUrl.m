@@ -105,14 +105,10 @@ NSInteger timeOut = 60;
 
     NSString *stringUrl = [NSString stringWithFormat:@"%@%@",host, httpUrl];
     NSDictionary *dataDic = [self addOtherKey:param];
-    
-//    DLog(@"---url---%@---%@", stringUrl, dataDic);
-
     [manage GET:stringUrl parameters:dataDic headers:header progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-//        DLog(@"dic:%@",dic);
         if (show) {
             [SVProgressHUD dismiss];
         }
@@ -128,8 +124,9 @@ NSInteger timeOut = 60;
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        DLog(@"----------------------------->%@",error);
-        [[FLTools share]showErrorInfo:errorString];
+        if (![httpUrl isEqualToString:@"/api/dposNodeRPC/getProducerNodesList"]) {
+              [[FLTools share]showErrorInfo:errorString];
+        }
         FailBlock(error);
         
     }];

@@ -653,7 +653,7 @@
 "凭证信息"="Credentials";
 "暂无可用钱包"="No wallets available";
 "DID已注册"="DID registered";
-"关闭ID侧链将无法使用DID功能，是否立即关闭？"="The DID function cannot be used if the DID side chain is closed. Do you still want to proceed?";
+"关闭ID侧链将无法使用DID功能，\n是否立即关闭？"="The DID function cannot be used if the DID side chain is closed. Do you still want to proceed?";
 "个人信息"="Personal information";
 "个人简介"="Personal profile";
 "社交账号"="Social account";
@@ -710,9 +710,8 @@
 "头像网址"="Avatar URL";
 "是否永久弃用当前DID？"="Is the current DID permanently deprecated?";
 "DID初始化失败"="DID initialization failed";
-"当前钱包未创建DID"="No DID is created in the current wallet";
+"当前钱包未创建DID"="No DID created in this wallet";
 "DID已过期"="DID has expired";
-"当前钱包未创建DID"="Create DID";
 "更新DID信息"="Update DID information";
 "添加个人简介"="Personal profile";
 "添加社交账号"="Add Social Media Account";

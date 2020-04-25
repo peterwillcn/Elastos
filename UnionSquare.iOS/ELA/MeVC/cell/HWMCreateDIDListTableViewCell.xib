@@ -108,6 +108,7 @@
             <connections>
                 <outlet property="LimitThatLabel" destination="8tr-rc-Msa" id="OeK-qb-oGa"/>
                 <outlet property="arrowImageView" destination="3G4-FT-q9P" id="spg-jA-NrD"/>
+                <outlet property="eIdConOff" destination="Evp-Ac-A1b" id="Mdn-gJ-wow"/>
                 <outlet property="infoLabel" destination="36w-oH-Bv6" id="ghZ-Hu-AV7"/>
                 <outlet property="intPutTextField" destination="Jin-bu-wGR" id="a5O-Vn-KMV"/>
             </connections>

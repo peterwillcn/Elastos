@@ -203,6 +203,9 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     }else{
         [self.showInfoListAarry addObject:@"13"];
     }
+    if (self.defMArray.count==self.allInfoListArray.count) {
+        self.addFooterView.alpha=0.f;
+    }
     
     [self.table reloadData];
 }
@@ -258,6 +261,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     self.table.dataSource =self;
     self.table.backgroundColor=[UIColor clearColor];
     self.table.userInteractionEnabled=YES;
+    self.table.contentSize = CGSizeMake(0,1000);
     UIView *headView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 162)];
     headView.userInteractionEnabled=YES;
     [headView addSubview:self.addFooterView];
@@ -290,6 +294,110 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     NSDictionary *infDic=self.allInfoListArray[[indexString integerValue]];
     NSString *titleString=infDic[@"text"];
     NSString *typeString=infDic[@"type"];
+    if (self.isEidet) {
+        if([typeString isEqualToString:@"3"]) {
+            HWMTheAreaCodeAndPhonenumberTableViewCell *cell=[_cellCodeAndPhonenumberNib instantiateWithOwner:nil options:nil][0]; cell.MobilePhoneTextField.placeholder=NSLocalizedString(@"请输入手机号", nil);
+            cell.MobilePhoneTextField.text=self.model.phone;
+            cell.MobilePhoneTextField.tag=10001;
+            cell.dic=infDic;
+            cell.delegate=self;
+            [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:cell.MobilePhoneTextField withTxt:NSLocalizedString(@"请输入手机号", nil)];
+            //        cell.theArNumberTextField.placeholder=NSLocalizedString(@"请输入区号(如+86)", nil);
+            cell.theArNumberTextField.tag=10002;
+            if (self.model.phoneCode.length>0) {
+                cell.theArNumberTextField.text=self.model.phoneCode;
+            }
+            cell.theArNumberTextField.delegate=self;
+            cell.MobilePhoneTextField.delegate=self;
+            [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField: cell.theArNumberTextField withTxt:NSLocalizedString(@"请输入区号(如+86)", nil)];
+            return cell;
+            
+        }
+        
+        HWMCreateDIDListTableViewCell *cell =
+        [_cellCreateDIDListNib instantiateWithOwner:nil options:nil][0];
+        cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        cell.arrowImageView.alpha=1.f;
+        cell.index=indexString;
+        cell.infoLabel.text=titleString;
+        cell.isEeiD=YES;
+        cell.delegate=self;
+        
+        if ([typeString isEqualToString:@"2"]) {
+            cell.intPutTextField.enabled=NO;
+            if ([indexString integerValue]==1&&self.model.gender.length>0) {
+                cell.intPutTextField.text=[[FLTools share]genderStringWithType:self.model.gender];
+            }else if ([indexString integerValue]==2&&self.model.birthday.length>0){
+                cell.intPutTextField.text=[[FLTools share]TimeFormatConversionBirthday: self.model.birthday];
+            }else if ([indexString integerValue]==6&&self.model.nation.length>0){
+                if (self.model.nation.length>0) {
+                    cell.intPutTextField.text=[[FLTools share]contryNameTransLateByCode:[self.model.nation integerValue]];
+                }
+            }
+            
+        }else if([typeString isEqualToString:@"4"]){
+            
+            cell.intPutTextField.alpha=0.f;
+            if (self.model.introduction.length>0||self.needUpdate) {
+                cell.LimitThatLabel.alpha=1.f;
+                cell.LimitThatLabel.text=self.model.introduction;
+            }else{
+                cell.LimitThatLabel.alpha=0.f;
+            }
+            
+        }else if([typeString isEqualToString:@"1"]){
+            cell.intPutTextField.tag=100+[indexString integerValue];
+            cell.intPutTextField.delegate=self;
+            if ([titleString isEqualToString:NSLocalizedString(@"邮箱", nil)]) {
+                if (self.model.email.length>0) {
+                    cell.intPutTextField.text=self.model.email;
+                }
+                
+            }else if ([titleString isEqualToString:NSLocalizedString(@"个人主页网址", nil)]) {
+                if (self.model.homePage.length>0) {
+                    cell.intPutTextField.text=self.model.homePage;
+                }
+                
+            }else if ([titleString isEqualToString:NSLocalizedString(@"Facebook账号", nil)]) {
+                if (self.model.facebook.length>0) {
+                    cell.intPutTextField.text=self.model.facebook;
+                }
+                
+            }else if([titleString isEqualToString:NSLocalizedString(@"昵称", nil)]){
+                if (self.model.nickname.length>0) {
+                    cell.intPutTextField.text=self.model.nickname;
+                }
+            }else if ([titleString isEqualToString:NSLocalizedString(@"头像url", nil)]){
+                if (self.model.avatar.length>0) {
+                    cell.intPutTextField.text=self.model.avatar;
+                }
+            }else if ([titleString isEqualToString:NSLocalizedString(@"Twitter账号", nil)]){
+                if (self.model.twitter.length>0) {
+                    cell.intPutTextField.text=self.model.twitter;
+                }
+            }else if ([titleString isEqualToString:NSLocalizedString(@"微博账号", nil)]){
+                if (self.model.weibo.length>0) {
+                    cell.intPutTextField.text=self.model.weibo;
+                }
+                
+            }else if ([titleString isEqualToString:NSLocalizedString(@"谷歌账号", nil)]){
+                if (self.model.googleAccount.length>0) {
+                    cell.intPutTextField.text=self.model.googleAccount;
+                    
+                }
+                
+            }else if ([titleString isEqualToString:NSLocalizedString(@"微信账号", nil)]){
+                if (self.model.wechat.length>0) {
+                    cell.intPutTextField.text=self.model.wechat;
+                    
+                }
+                
+            }
+            
+        }
+        return cell;
+    }
+    
     if([typeString isEqualToString:@"3"]) {
         HWMTheAreaCodeAndPhonenumberTableViewCell *cell=[_cellCodeAndPhonenumberNib instantiateWithOwner:nil options:nil][0]; cell.MobilePhoneTextField.placeholder=NSLocalizedString(@"请输入手机号", nil);
         cell.MobilePhoneTextField.text=self.model.phone;
@@ -449,8 +557,8 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 - (IBAction)nextAndSkipEvent:(id)sender {
     NSMutableArray  *nextArr=[[NSMutableArray alloc]init];
     if (self.showInfoListAarry.count>0) {
-        self.showInfoListAarry=[self bubblingSort:self.allShowListArray];
-        for (NSString *index in self.allShowListArray) {
+        self.showInfoListAarry=[self bubblingSort:self.showInfoListAarry];
+        for (NSString *index in self.showInfoListAarry) {
             [nextArr addObject:self.allShowListArray[[index intValue]]];
         }
     }
@@ -628,18 +736,18 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
             break;
         case 110:
             [self needChangeFrame:tag];
-//            self.model.twitter=textField.text;
+            //            self.model.twitter=textField.text;
             break;
         case 111:
-          [self needChangeFrame:tag];
+            [self needChangeFrame:tag];
             //               self.model.weibo=textField.text;
             break;
         case 112:
-           [self needChangeFrame:tag];
+            [self needChangeFrame:tag];
             //               self.model.wechat=textField.text;
             break;
         case 113:
-           [self needChangeFrame:tag];
+            [self needChangeFrame:tag];
             //               self.model.googleAccount=textField.text;
             break;
         case 10001:
@@ -655,7 +763,6 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField{
     NSInteger tag=textField.tag;
-    [self reMovNotificationCenter];
     switch (tag) {
         case 100://"昵称"
             self.model.nickname=textField.text;
@@ -938,26 +1045,22 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     [self nextAndSkipEvent:nil];
 }
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    self.table.contentSize = CGSizeMake(0,self.defMArray.count*55+300);
     [self.view endEditing:YES];
 }
 -(void)needChangeFrame:(NSInteger)tag{
-    if (self.defMArray.count>5) {
-        [self NotificationCenter];
-    }else{
-        NSString *loIndex=self.defMArray.lastObject;
-        if (tag-100>[loIndex intValue]) {
-            [self NotificationCenter];
-        }
-    }
-   
-    
-    
-
-    
-    
-    
-    
-    
-    
+    //    if (self.defMArray.count>5) {
+    //        [self NotificationCenter];
+    //    }else{
+    //        NSString *loIndex=self.defMArray.lastObject;
+    //        if (tag-100>[loIndex intValue]) {
+    //            [self NotificationCenter];
+    //        }
+    //    }
 }
+
+
+
+
+
 @end

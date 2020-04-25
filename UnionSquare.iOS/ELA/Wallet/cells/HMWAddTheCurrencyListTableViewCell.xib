@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,14 +14,14 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="54.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xDD-fa-1tp">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="54.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="55"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Smm-HR-Ch5">
-                                <rect key="frame" x="15" y="0.0" width="41" height="54.5"/>
+                                <rect key="frame" x="15" y="0.0" width="41" height="55"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -33,13 +31,22 @@
                                 <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                                 <color key="onTintColor" red="0.050573058426380157" green="0.69829255342483521" blue="0.43160527944564819" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="thumbTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <action selector="isAddOrCloseEvent:" destination="KGk-i7-Jjw" eventType="valueChanged" id="zVe-8W-EWt"/>
-                                </connections>
                             </switch>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="svz-Jh-Xzx">
+                                <rect key="frame" x="305" y="0.0" width="70" height="55"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="gij-Ea-WtT"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="needChangedValue:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="VCA-eS-hnM"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.14678664434523808" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="svz-Jh-Xzx" secondAttribute="trailing" id="59p-nT-ff6"/>
+                            <constraint firstItem="svz-Jh-Xzx" firstAttribute="top" secondItem="xDD-fa-1tp" secondAttribute="top" id="Hnb-R3-nLb"/>
+                            <constraint firstAttribute="bottom" secondItem="svz-Jh-Xzx" secondAttribute="bottom" id="dPA-AU-3Pn"/>
                             <constraint firstAttribute="trailing" secondItem="dd9-al-8kb" secondAttribute="trailing" constant="15" id="hi5-Qv-eQz"/>
                             <constraint firstItem="Smm-HR-Ch5" firstAttribute="top" secondItem="xDD-fa-1tp" secondAttribute="top" id="qB2-vq-Skf"/>
                             <constraint firstItem="dd9-al-8kb" firstAttribute="centerY" secondItem="xDD-fa-1tp" secondAttribute="centerY" id="twa-jV-Nms"/>
@@ -58,6 +65,7 @@
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.15441313244047619" colorSpace="custom" customColorSpace="sRGB"/>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
+                <outlet property="changeButton" destination="svz-Jh-Xzx" id="FXB-eW-rrb"/>
                 <outlet property="isAddSwitch" destination="dd9-al-8kb" id="zps-rD-MWm"/>
                 <outlet property="nickNameLabel" destination="Smm-HR-Ch5" id="twt-AM-cHO"/>
             </connections>

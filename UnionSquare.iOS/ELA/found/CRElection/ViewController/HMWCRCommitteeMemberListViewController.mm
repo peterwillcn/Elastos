@@ -755,12 +755,13 @@
     
     BOOL hasChain=[[HWMDIDManager shareDIDManager]HasBeenOnTheChain];
     if (hasChain==NO) {
-        UIView *mainView =[self mainWindow];
-        [mainView addSubview:self.openIDChainView];
-        self.openIDChainView.deleteType=needCreadDIDType;
-        [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.top.bottom.equalTo(mainView);
-        }];
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID",nil)];
+//        UIView *mainView =[self mainWindow];
+//        [mainView addSubview:self.openIDChainView];
+//        self.openIDChainView.deleteType=needCreadDIDType;
+//        [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.right.top.bottom.equalTo(mainView);
+//        }];
         return NO;
     }
     

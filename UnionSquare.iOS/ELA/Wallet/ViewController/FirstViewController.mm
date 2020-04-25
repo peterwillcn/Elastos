@@ -128,7 +128,8 @@
         NSArray *urlArray =[NSArray arrayWithArray:data[@"data"]];
         [self loadPingWithURLArray:[[FLTools share]theInterceptionHttpWithArray:urlArray] withHTTPArray:urlArray];
     } WithFailBlock:^(id data) {
-        
+        NSArray *urlArray =@[linkURL1,linkURL2];
+        [self loadPingWithURLArray:[[FLTools share]theInterceptionHttpWithArray:urlArray] withHTTPArray:urlArray];
     } ];
     
 }

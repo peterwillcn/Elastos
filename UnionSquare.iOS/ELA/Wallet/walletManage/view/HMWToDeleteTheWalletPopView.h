@@ -36,7 +36,8 @@ typedef NS_ENUM(NSInteger, HMWToDeleteType) {
     deleteDIDInfoType,
     needCreadDIDType,
     deleteHasSaveInfoType,
-    documentsCoveringType
+    documentsCoveringType,
+    CloseChainIDType
     
 };
 

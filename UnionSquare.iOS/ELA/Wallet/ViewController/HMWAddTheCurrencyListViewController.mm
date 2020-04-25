@@ -13,9 +13,9 @@
 #import "AddTheCurrencyListModel.h"
 #import "sideChainInfoModel.h"
 #import "HMWFMDBManager.h"
-
+#import "HMWToDeleteTheWalletPopView.h"
 static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
-@interface HMWAddTheCurrencyListViewController ()<UITableViewDataSource,UITableViewDelegate,HMWAddTheCurrencyListTableViewCellDelegate>
+@interface HMWAddTheCurrencyListViewController ()<UITableViewDataSource,UITableViewDelegate,HMWAddTheCurrencyListTableViewCellDelegate,HMWToDeleteTheWalletPopViewDelegate>
 /*
  *<# #>
  */
@@ -28,6 +28,12 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
  *<# #>
  */
 @property(assign,nonatomic)BOOL needUpdate;
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)HMWToDeleteTheWalletPopView *CloseIDChainView;
+@property(assign,nonatomic)NSInteger selcIndex;
+
 @end
 
 @implementation HMWAddTheCurrencyListViewController
@@ -57,7 +63,7 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
             }
         }
         if ([listModel.nameIcon isEqualToString:@"ELA"]||[listModel.nameIcon isEqualToString:@"IDChain"]) {
-             [self.addTheCurrencyList addObject:listModel];
+            [self.addTheCurrencyList addObject:listModel];
         }
     }
     [self.baseTable reloadData];
@@ -83,7 +89,7 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
     self.baseTable.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     [self.view addSubview:self.baseTable];
     CGFloat heOff=64;
-    if (AppHeight==736) {
+    if (AppHeight>736) {
         heOff=106;
     }
     [self.baseTable mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -144,7 +150,7 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
     
 }
 -(void)isOpenOrCloseWithIndex:(NSIndexPath*)index{
-    
+    self.selcIndex=index.section;
     AddTheCurrencyListModel *model=self.addTheCurrencyList[index.section];
     NSString *methodNameString=@"";
     if (model.isAdd) {
@@ -152,11 +158,17 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
     }
     invokedUrlCommand * cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,model.nameIcon,@"10000"] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"methodNameString"];
     if (model.isAdd) {
-        PluginResult *result=
-        [[ELWalletManager share]DestroySubWallet:cmommand];
-        [[HMWFMDBManager sharedManagerType:sideChain] delectSideChain:self.wallet.masterWalletID withIconName:model.nameIcon];
-    }else{
+        UIView *mainView=[self mainWindow];
+        [mainView addSubview:self.CloseIDChainView];
+        [self.CloseIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(mainView);
+        }];
         
+    }else{
+        AddTheCurrencyListModel *model=self.addTheCurrencyList[index.section];
+        model.isAdd=YES;
+        self.addTheCurrencyList[index.section]=model;
+        [self.baseTable reloadData];
         PluginResult *result = [[ELWalletManager share]createSubWallet:cmommand];
         
         sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
@@ -167,26 +179,24 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
         sideModel.thePercentageCurr=@"0";
         
         [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
-        
-    }
-    
-    
-    
-    
-    model.isAdd=!model.isAdd;
-    self.addTheCurrencyList[index.section]=model;
-    self.needUpdate=YES;
-    if (model.isAdd&&self.didType.length>0) {
         if (self.didType.length>0) {
-            if (self.delegate) {
-                [self.navigationController popViewControllerAnimated:NO];
-                [self.delegate openIDChainOfDIDAddWithWallet:self.wallet.masterWalletID];
+            if (self.didType.length>0) {
+                if (self.delegate) {
+                    [self.navigationController popViewControllerAnimated:NO];
+                    [self.delegate openIDChainOfDIDAddWithWallet:self.wallet.masterWalletID];
+                }
+            }else{
+                [self.navigationController popToRootViewControllerAnimated:YES];
             }
-        }else{
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            
         }
-        
     }
+    
+    
+    
+    
+    
+    self.needUpdate=YES;
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
@@ -199,6 +209,30 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
     
 }
 
-
+-(HMWToDeleteTheWalletPopView *)CloseIDChainView{
+    if (!_CloseIDChainView) {
+        _CloseIDChainView=[[HMWToDeleteTheWalletPopView alloc]init];
+        _CloseIDChainView.deleteType=CloseChainIDType;
+        _CloseIDChainView.delegate=self;
+    }
+    return _CloseIDChainView;
+}
+-(void)sureToDeleteViewWithPWD:(NSString*)pwd{
+    AddTheCurrencyListModel *model=self.addTheCurrencyList[self.selcIndex];
+    model.isAdd=NO;
+    invokedUrlCommand * cmommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID,model.nameIcon,@"10000"] callbackId:self.wallet.walletID className:@"Wallet" methodName:@"methodNameString"];
+    
+    self.addTheCurrencyList[self.selcIndex]=model;
+    [self.baseTable reloadData];
+    PluginResult *result=
+    [[ELWalletManager share]DestroySubWallet:cmommand];
+    [[HMWFMDBManager sharedManagerType:sideChain] delectSideChain:self.wallet.masterWalletID withIconName:model.nameIcon];
+    [self toCancelOrCloseDelegate];
+}
+-(void)toCancelOrCloseDelegate{
+    
+    [self.CloseIDChainView  removeFromSuperview];
+    self.CloseIDChainView=nil;
+}
 
 @end

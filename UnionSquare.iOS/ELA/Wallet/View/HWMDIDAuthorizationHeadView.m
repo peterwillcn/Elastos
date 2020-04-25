@@ -40,6 +40,14 @@
     NSString *iconString=infoDic[@"website"][@"logo"];
     
     if (iconString.length>0) {
+        NSString *typeString=[iconString substringFromIndex:iconString.length-4];
+        if ([typeString isEqualToString:@".svg"]) {
+            self.iconImageView.contentMode=UIViewContentModeScaleAspectFit;
+        }else{
+            self.iconImageView.contentMode=UIViewContentModeScaleAspectFill;
+        }
+        
+        
         [[FLTools share]loadUrlSVGAndPNG:iconString WithSuccessBlock:^(id data) {
             if (data) {
                 self.iconImageView.image=data;

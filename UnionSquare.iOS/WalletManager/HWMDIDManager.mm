@@ -121,20 +121,20 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         [[FLTools share]showLoadingView];
         force=true;
     }
+    
     NSInteger re;
     self.passWord=passWord;
     self.privatekeyString=privatekeyString;
     if (mastWalletID.length>0) {
         self.mastWalletID=mastWalletID;
     }
-    
     if (DIDString.length>0) {
         self.DIDString=DIDString;
     }
     if (self.passWord.length>0&&privatekeyString.length==0) {
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.mastWalletID,self.passWord] callbackId:self.mastWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
         self.privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
-        if (self.privatekeyString.length==0) {
+        if (self.privatekeyString.length==0){
             return @"";
         }
     }
@@ -152,22 +152,23 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
             if (re==-1) {// 失败 是否在create的时候 补救
                 return @"";
             }
+        }else{
         }
     }
     
-    if (self.DIDString.length==0){
-        did=DIDStore_GetDIDByIndex(store, 0);//
-        char _didstring[ELA_MAX_DID_LEN];
-        const char *didstring;
-        didstring = DID_ToString(did, _didstring, sizeof(_didstring));
-        self.DIDString=[self charToString:didstring];
-    }else{
-        did=DID_FromString([self.DIDString UTF8String]);// 获取DID
-        char _didstring[ELA_MAX_DID_LEN];
-        const char *didstring;
-        didstring = DID_ToString(did, _didstring, sizeof(_didstring));
-        self.DIDString=[self charToString:didstring];
-    }
+    //    if (self.DIDString.length==0){
+    did=DIDStore_GetDIDByIndex(store, 0);//
+    char _didstring[ELA_MAX_DID_LEN];
+    const char *didstring;
+    didstring = DID_ToString(did, _didstring, sizeof(_didstring));
+    self.DIDString=[self charToString:didstring];
+    //    }else{
+    //        did=DID_FromString([self.DIDString UTF8String]);// 获取DID
+    //        char _didstring[ELA_MAX_DID_LEN];
+    //        const char *didstring;
+    //        didstring = DID_ToString(did, _didstring, sizeof(_didstring));
+    //        self.DIDString=[self charToString:didstring];
+    //    }
     DIDDocument *  doc=DID_Resolve(did,force);
     
     if (doc) {//先看一下链上有没有
@@ -335,10 +336,17 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     const char *suInfo  = Credential_GetProperties(cre);
     NSString *modelString=[self charToString:suInfo];
     HWMDIDInfoModel *model=[HWMDIDInfoModel modelWithJSON:modelString];
+    if (model==nil) {
+        model=[[HWMDIDInfoModel alloc]init];
+        
+    }
     NSDictionary *dic= [self getDIDInfo];
     model.didName=dic[@"nickName"];
     if (model.didName.length==0) {
         model.didName=@"unknow";
+    }
+    if (model.did.length==0) {
+        model.did=dic[@"DIDString"];
     }
     model.did=self.DIDString;
     DIDURL_Destroy(url);

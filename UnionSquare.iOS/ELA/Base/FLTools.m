@@ -1374,17 +1374,17 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
 -(NSString *)http_ipString:(NSString *)sdknet{
     
     if ([sdknet isEqualToString:@"RegTest"] ) {
-        return @"http://54.223.244.60";
+        return @"http://118.89.242.158";
     }else if ([sdknet isEqualToString:@"PrvNet"] ){
         return @"http://node.longrunweather.com:18080";
         
     }else if ([sdknet isEqualToString:@"TestNet"] ){
-        return @"http://54.223.244.60";
+        return @"http://123.207.167.100";
         
     }else if ([sdknet isEqualToString:@"MainNet"]){
-        return @"http://54.223.158.189:5739/";
+        return @"https://unionsquare.elastos.org";
     }
-    return @"http://54.223.158.189:5739/";
+    return @"https://unionsquare.elastos.org";
 }
 -(NSString*)http_transUrl:(NSString*)sdknet{
     if ([sdknet isEqualToString:@"RegTest"] ) {
@@ -1399,10 +1399,9 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
         return @"https://blockchain.elastos.org/tx/";
     }
     return @"https://blockchain.elastos.org/tx/";
-    
 }
 -(NSString*)http_PongUrl:(NSString*)sdknet{
-    return @"http://54.223.158.189:5739/";
+    return @"http://118.89.217.101:5739";
 }
 
 -(NSArray*)theInterceptionHttpWithArray:(NSArray*)array{
@@ -1984,11 +1983,11 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     }else if ((cmp1.day+1 == cmp2.day) && (cmp1.year=cmp2.year)&&(cmp1.month==cmp2.month)){
         [formatter setDateFormat:@"HH:mm:ss"];
         NSString * horr=[formatter stringFromDate:messDateTime];
-//        if ([languageString  containsString:@"en"]) {
-//            meeeageTime=[NSString stringWithFormat:@"%@ %@",horr,NSLocalizedString(@"昨天", nil)];
-//        }else if ([languageString  containsString:@"zh"]){
-            meeeageTime=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"昨天", nil),horr];
-//        }
+        //        if ([languageString  containsString:@"en"]) {
+        //            meeeageTime=[NSString stringWithFormat:@"%@ %@",horr,NSLocalizedString(@"昨天", nil)];
+        //        }else if ([languageString  containsString:@"zh"]){
+        meeeageTime=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"昨天", nil),horr];
+        //        }
         
         
         
@@ -2010,4 +2009,5 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     }
     return   [time intValue];
 }
+
 @end

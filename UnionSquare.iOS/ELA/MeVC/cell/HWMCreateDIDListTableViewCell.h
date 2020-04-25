@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy,nonatomic)NSString *index;
 @property (weak, nonatomic) IBOutlet UILabel *LimitThatLabel;
 @property(weak,nonatomic)id<HWMCreateDIDListTableViewCellDelegate> delegate;
+@property(assign,nonatomic)BOOL isEeiD;
 @end
 
 NS_ASSUME_NONNULL_END

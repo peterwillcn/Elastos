@@ -54,7 +54,6 @@
 #define transUrl [[FLTools share]http_transUrl:SDKNET]
 #define PongUrl [[FLTools share]http_PongUrl:SDKNET]
 #define didSDKNet @"http://api.elastos.io:20606"
-
 #define ELAPort  @"20338"
 #define IDChainPort @"20608"
 #define DLog(...)
@@ -96,6 +95,8 @@
 #define NOBACK   @"NOBACKChanged"
 #define STANDARD_USER_DEFAULT  [NSUserDefaults standardUserDefaults]
 #define ENString(x) [[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"en" ofType:@"lproj"]] localizedStringForKey:(countrieString) value:@"" table:nil]
+#define linkURL1 @"https://unionsquare01.elastos.com.cn"
+#define linkURL2 @"https://unionsquare.elastos.org"
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "Masonry.h"

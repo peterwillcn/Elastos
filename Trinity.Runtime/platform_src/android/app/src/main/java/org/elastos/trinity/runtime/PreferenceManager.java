@@ -26,6 +26,9 @@ public class PreferenceManager {
             e.printStackTrace();
         }
         PreferenceManager.preferenceManager = this;
+
+        // Make some services ready
+        UIStyling.prepare(true); // TMP - USE MASTER BRANCH CODE NOT THIS
     }
 
     public static PreferenceManager getShareInstance() {

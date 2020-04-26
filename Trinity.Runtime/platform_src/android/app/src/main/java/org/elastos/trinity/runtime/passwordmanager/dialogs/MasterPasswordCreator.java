@@ -1,11 +1,11 @@
-package org.elastos.trinity.runtime.passwordmanager;
+package org.elastos.trinity.runtime.passwordmanager.dialogs;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.EditText;
 
-class MasterPasswordCreator {
+public class MasterPasswordCreator {
     public interface OnMasterPasswordCreatorListener {
         void onMasterPasswordCreated(String password);
         void onCancel();

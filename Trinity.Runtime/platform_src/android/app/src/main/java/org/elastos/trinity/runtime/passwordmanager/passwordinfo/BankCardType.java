@@ -1,4 +1,4 @@
-package org.elastos.trinity.runtime.passwordmanager;
+package org.elastos.trinity.runtime.passwordmanager.passwordinfo;
 
 public enum BankCardType {
     /** Debit card */

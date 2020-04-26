@@ -1,6 +1,5 @@
 package org.elastos.trinity.runtime.passwordmanager.passwordinfo;
 
-import org.elastos.trinity.runtime.passwordmanager.BankCardType;
 import org.json.JSONException;
 import org.json.JSONObject;
 

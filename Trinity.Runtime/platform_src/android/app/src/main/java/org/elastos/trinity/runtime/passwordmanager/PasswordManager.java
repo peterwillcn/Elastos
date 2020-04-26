@@ -6,6 +6,8 @@ import android.util.Log;
 
 import org.elastos.trinity.runtime.AppManager;
 import org.elastos.trinity.runtime.WebViewActivity;
+import org.elastos.trinity.runtime.passwordmanager.dialogs.MasterPasswordCreator;
+import org.elastos.trinity.runtime.passwordmanager.dialogs.MasterPasswordPrompter;
 import org.elastos.trinity.runtime.passwordmanager.passwordinfo.PasswordInfo;
 import org.json.JSONException;
 
@@ -436,15 +438,14 @@ public class PasswordManager {
         }
         else {
             // Master password is locked - prompt it to user
-            new MasterPasswordPrompter().prompt(activity, new OnMasterPasswordRetrievedListener() {
-                @Override
-                public void onMasterPasswordRetrieved(String password) {
+            new MasterPasswordPrompter.Builder(activity)
+                .setOnNextClickedListener((password) -> {
                     try {
                         loadEncryptedDatabase(did, password);
                         if (isDatabaseLoaded(did))
                             listener.onDatabaseLoaded();
                         else
-                            listener.onError("TODO - UNKNOWN - WRONG MASTER PASSWORD?");
+                            listener.onError("Unknown error while trying to load the passwords database");
                     }
                     catch (Exception e) {
                         // In case of wrong password exception, try again
@@ -456,18 +457,10 @@ public class PasswordManager {
                             listener.onError(e.getMessage());
                         }
                     }
-                }
-
-                @Override
-                public void onCancel() {
-                    listener.onCancel();
-                }
-
-                @Override
-                public void onError(String error) {
-                    listener.onError(error);
-                }
-            });
+                })
+                .setOnCancelClickedListener(listener::onCancel)
+                .setOnErrorListener(listener::onError)
+                .prompt(isPasswordRetry);
         }
     }
 

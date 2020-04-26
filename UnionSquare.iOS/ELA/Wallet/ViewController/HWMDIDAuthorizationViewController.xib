@@ -13,6 +13,7 @@
                 <outlet property="AgreedToButton" destination="G4C-a9-JNo" id="4Jw-lP-HYM"/>
                 <outlet property="RefusedToButon" destination="YTt-Gh-TyH" id="ABU-XN-tYO"/>
                 <outlet property="tabel" destination="XCG-rH-pQS" id="T4q-Le-iEF"/>
+                <outlet property="topOffset" destination="khM-ja-bBu" id="4yp-2A-jQ7"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

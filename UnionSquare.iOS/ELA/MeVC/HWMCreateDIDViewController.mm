@@ -332,10 +332,15 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     self.dataListView=nil;
 }
 -(void)selectDataWithYY:(NSString*_Nullable)yy withMM:(NSString*_Nullable)mm wihMMWithInt:(NSInteger)mInt wtihDD:(NSString*_Nullable)dd{
-    NSString *infoString=NSLocalizedString(@"有效期至 ",nil);
-    self.YYMMDD=[NSString stringWithFormat:@"%@ %@.%@.%@",infoString,yy,mm,dd];
-    [self.table reloadData];
+    
+    
     self.DIDInfoModel.endString=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@ 00:00:00",yy,mm,dd]];
+
+    NSString *infoString=NSLocalizedString(@"有效期至 ",nil);
+    NSString *BirString=[[FLTools share]TimeFormatConversionBirthday: self.DIDInfoModel.endString];
+    self.YYMMDD=[NSString stringWithFormat:@"%@ %@",infoString,BirString];
+    [self.table reloadData];
+
     [self cancelDataListView];
 }
 #pragma mark --------HMWToDeleteTheWalletPopViewDelegate-----------

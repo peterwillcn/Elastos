@@ -39,7 +39,7 @@
 -(void)setInfoDic:(NSDictionary *)infoDic{
     NSString *iconString=infoDic[@"website"][@"logo"];
     
-    if (iconString.length>0) {
+    if (iconString.length>4) {
         NSString *typeString=[iconString substringFromIndex:iconString.length-4];
         if ([typeString isEqualToString:@".svg"]) {
             self.iconImageView.contentMode=UIViewContentModeScaleAspectFit;
@@ -68,23 +68,7 @@
     self.didStringLabel.text=readModel.did;
     self.didStringLabel.alpha=0.f;
     self.ImagecopyDidView.alpha=0.f;
-    if (readModel.avatar.length>0) {
-        NSString *typeString=[readModel.avatar substringFromIndex:readModel.avatar.length-4];
-        if ([typeString isEqualToString:@".svg"]) {
-            self.iconImageView.contentMode=UIViewContentModeScaleAspectFit;
-        }else{
-            self.iconImageView.contentMode=UIViewContentModeScaleAspectFill;
-        }
-        [[FLTools share]loadUrlSVGAndPNG:readModel.avatar WithSuccessBlock:^(id data) {
-            if (data) {
-                self.iconImageView.image=data;
-            }else{
-                self.iconImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
-            }
-        }];
-    }else{
-        self.iconImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
-    }
+    self.iconImageView.image=[UIImage imageNamed:@"found_cr_vote"];
     
 }
 - (IBAction)CpyeDIDStringEvent:(id)sender {
@@ -92,8 +76,5 @@
         [[FLTools share]showErrorInfo:NSLocalizedString(@"已复制到剪切板。", nil)];
         [[FLTools share]copiedToTheClipboardWithString:self.didStringLabel.text];
     }
-    
-    
-    
 }
 @end

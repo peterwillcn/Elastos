@@ -518,7 +518,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
 }
 -(void)openIDChainOfDIDAddWithWallet:(NSString*)walletID{
     if ([walletID isEqualToString:self.currentWallet.masterWalletID]) {
-        self.isOpen=NO;
+        self.isOpen=YES;
         [self needLoadDIDSave:NO withprKey:nil];
     }else{
         [self showDIDInfoOrCreateDIDInfo];

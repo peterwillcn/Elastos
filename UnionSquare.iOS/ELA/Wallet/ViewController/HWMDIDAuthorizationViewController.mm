@@ -29,6 +29,7 @@ UINib *_nib;
 @property(strong,nonatomic)HMWpwdPopupView *pwdPView;
 @property(strong,nonatomic)HWMDIDAuthorizationHeadView *headView;
 @property(strong,nonatomic)HWMDIDInfoModel *updateModel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topOffset;
 
 @end
 
@@ -55,15 +56,22 @@ UINib *_nib;
     self.tabel.separatorStyle=UITableViewCellSeparatorStyleNone;
     self.tabel.separatorInset = UIEdgeInsetsZero;
     CGFloat height=300;
+    self.topOffset.constant=300;
     if (self.readModel) {
+         self.topOffset.constant=260;
         height=260;
     }
-    UIView *headV=[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, height)];
-    [headV addSubview:self.headView];
+    [self.view addSubview:self.headView];
     [self.headView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.bottom.right.equalTo(headV);
+        make.left.right.top.equalTo(self.view);
+        make.height.equalTo(@(self.topOffset.constant));
     }];
-    self.tabel.tableHeaderView=headV;
+//    UIView *headV=[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, height)];
+//    [headV addSubview:self.headView];
+//    [self.headView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.top.bottom.right.equalTo(headV);
+//    }];
+//    self.tabel.tableHeaderView=headV;
 }
 -(HWMDIDAuthorizationHeadView *)headView{
     if (!_headView) {
@@ -201,9 +209,11 @@ UINib *_nib;
     NSString *httpIP=[[FLTools share]http_IpFast];
     [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtsave" header:@{} body:@{@"did":self.DIDString,@"jwt":[NSString stringWithFormat:@"%@.%@",jwtString,REString]} showHUD:NO WithSuccessBlock:^(id data) {
         [self hiddLoading];
+        
         [self cancelThePWDPageView];
-        [self goBack];
         [[FLTools share]showErrorInfo:@"更新成功"];
+        [self goBack];
+      
     } WithFailBlock:^(id data) {
         
     }];

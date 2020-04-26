@@ -15,6 +15,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property(strong,nonatomic)HMWSendSuccessPopuView *sendSuccessPopuV;
 @property(assign,nonatomic)BOOL needDe;
+@property(copy,nonatomic)NSString *jwtName;
+
 @end
 
 @implementation HWExportCertificateMViewController
@@ -28,11 +30,11 @@
     [[HMWCommView share]makeBordersWithView:self.saveButton];
     [[HMWCommView share]makeBordersWithView:self.shareButton];
     [self.shareButton setTitle:NSLocalizedString(@"分享", nil) forState:UIControlStateNormal];
-
-    self.dirNameLabel.text=[NSString stringWithFormat:@"%@_%@_%@.jwt",[self.currentWallet.didString substringFromIndex:self.currentWallet.didString.length-6],[[FLTools share]getNowTimeTimestampS],self.model.didName];
+    self.jwtName=[NSString stringWithFormat:@"%@_%@_%@.jwt",[self.currentWallet.didString substringFromIndex:self.currentWallet.didString.length-6],[[FLTools share]getNowTimeTimestampS],self.model.didName];
+    self.dirNameLabel.text=[NSString stringWithFormat:@"%@.jwt",self.model.didName];
 }
 - (IBAction)saveEvent:(id)sender {
-    BOOL isSuccess= [[HWMDIDManager shareDIDManager]GenerateLocalCredentialsWithFielNameWithFielName: self.dirNameLabel.text];
+    BOOL isSuccess= [[HWMDIDManager shareDIDManager]GenerateLocalCredentialsWithFielNameWithFielName: self.jwtName];
     if (isSuccess) {
         [self showSendSuccessViewWithType:1];
     }else{
@@ -44,7 +46,7 @@
 - (IBAction)shareEvent:(id)sender {
 
 
-    NSArray *items=[[HWMDIDManager shareDIDManager]shareJWTWithmastWalletID:self.currentWallet.masterWalletID   withFileName:self.dirNameLabel.text needDlea:^(BOOL de) {
+    NSArray *items=[[HWMDIDManager shareDIDManager]shareJWTWithmastWalletID:self.currentWallet.masterWalletID   withFileName:self.jwtName needDlea:^(BOOL de) {
         self.needDe=de;
     }];
     [self mq_share:items];

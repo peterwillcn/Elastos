@@ -266,9 +266,10 @@
 "请输入节点公钥（必填）"="Enter public key of your node (Required)";
 "请输入节点公钥"="Enter node address";
 "节点公钥" = "Node Public Key";
-"请选择国家/地区"="Select country/region";
+"请选择国家/地区"="Select Country/Region";
 "选择国家/地区"="Select Country/Region";
-"国家/地区" ="country/region";
+"国家/地区" ="Country/Region";
+"国家/地区1" ="Country/Region";
 "请输入网络地址（必填）"="Enter your network address (Required)";
 "请输入节点官网URL（必填)"="Enter node website URL (Required)";
 "确认参选"="Confirm";
@@ -672,9 +673,11 @@
 "编辑个人简介"="Edit personal profile";
 "个人主页"="Homepage";
 "个人主页网址"="your profile URL";
-"个人主页网址1"="Your profile URL";
+"个人主页网址1"="HomePage";
 "头像url"="Upload the portrait url";
+"头像url1"="Avatar URL";
 "谷歌账号"="Google account";
+"谷歌账号1"="google account";
 "微软账号"="Microsoft account";
 "Facebook账号"="Facebook account";
 "Twitter账号"="Twitter account";
@@ -699,6 +702,9 @@
 "执行中"="Executing";
 "已完成"="Completed";
 "已废止"="Aborted";
+"区号"="District\nNumber";
+"手机号"="Cellphone\nnumber";
+
 "账户余额不足，将使之前的投票结果失效。是否继续交易？"="Previous vote is invalid due to insufficient balance. Continue?";
 "交易完成"="Transaction successful";
 "申请使用您的DID信息（包括但不限于存储、展示等用途）："="Apply for your DID information(Including but not limited to storage, display, etc.)：";
@@ -744,13 +750,13 @@
 "温馨提示：本页内容均非必填，仅保存在本地，供用户授权使用。"="Note: All fields on this page are non-mandatory. Content is saved locally and can only be shared by user authorization.";
 "请输入"="Enter ";
 "谷歌账号"="Google account";
-"请输入姓名(必填)"="Enter name (Required)";
+"请输入姓名(必填)"="Name (Required)";
 "请选择"="Choose ";
 "保存至本地"="Save to local device";
 "分享"="Share";
 "保存失败"="Save failed";
 "请输入手机号"="Enter mobile number";
-"请输入区号(如+86)"="Enter country code(e.g+86)";
+"请输入区号"="Enter country";
 "添加信息"="Add information";
 "加载失败，请稍后再试"="Failed to load. Please try again later";
 "凭证文件不匹配"="The credential files do not match";

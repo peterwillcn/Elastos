@@ -55,7 +55,7 @@
         self.didStringLabel.text=NSLocalizedString(@"[未激活]", nil);
         self.cyIconImageView.alpha=0.f;
     }
-    if (CRmodel.iconImageUrl.length>0) {
+    if (CRmodel.iconImageUrl.length>4) {
         NSString *typeString=[CRmodel.iconImageUrl substringFromIndex:CRmodel.iconImageUrl.length-4];
         if ([typeString isEqualToString:@".svg"]) {
             self.headIcomImageView.contentMode=UIViewContentModeScaleAspectFit;

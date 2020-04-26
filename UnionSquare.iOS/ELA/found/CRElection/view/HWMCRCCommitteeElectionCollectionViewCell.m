@@ -26,7 +26,7 @@
     self.NoIndexLabel.layer.masksToBounds=YES;
 }
 -(void)setModel:(HWMCRListModel *)model{
-    if (model.iconImageUrl.length>0) {
+    if (model.iconImageUrl.length>4) {
         NSString *typeString=[model.iconImageUrl substringFromIndex:model.iconImageUrl.length-4];
         if ([typeString isEqualToString:@".svg"]) {
             self.iconImageView.contentMode=UIViewContentModeScaleAspectFit;

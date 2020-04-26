@@ -114,35 +114,35 @@ UINib *_cellNib;
     NSInteger allCount = 0;
   
     if (self.type==transactionSingleIntoType) {// 自转
-    self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入地址", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
+    self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入地址", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
         allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount;
        
     }else if (self.type==transactionSingleRollOutType){//转出
         if ([self.TypeString isEqualToString:@"8"]) {
-           self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入地址", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"目标地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)]; allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount+1;
-        }else{ self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入地址", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
+           self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入地址", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"目标地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)]; allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount+1;
+        }else{ self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入地址", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
             allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount;
         }
     }else if (self.type==transactionMultipleIntoType){// 转入
 
         if ([self.TypeString isEqualToString:@"8"]) {
-            self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"目标地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
+            self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"目标地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
             
             allCount=self.listTextArray.count+OutputsArrayCount+1;
         }else{
             
-            self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
+            self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
             
             allCount=self.listTextArray.count+OutputsArrayCount;
         }
         
     }else if (self.type==rotationToVoteType){
-        self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"投票数量-1", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入地址", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
+        self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"投票数量-1", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入地址", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
         allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount;
         
         
     }else if (self.type==NodeReturnsType){
-        self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
+        self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
         allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount;
         
     }

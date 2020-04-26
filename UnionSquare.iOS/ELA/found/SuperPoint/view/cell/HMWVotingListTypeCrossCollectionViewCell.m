@@ -64,7 +64,7 @@
         self.percentLab.text = [NSString stringWithFormat:@"%@ %@",CRModel.voterate,@"%"];
         self.tickNumberLab.text=[NSString stringWithFormat:@"%ld %@",[CRModel.votes longValue],NSLocalizedString(@"票", nil)];
      self.coinIconImageView.image=[UIImage imageNamed:@"found_vote_initial"];
-    if (CRModel.iconImageUrl.length>0) {
+    if (CRModel.iconImageUrl.length>4) {
         [[FLTools share]loadUrlSVGAndPNG:CRModel.iconImageUrl WithSuccessBlock:^(id data) {
             if (data!=nil){
                 self.coinIconImageView.image =data;

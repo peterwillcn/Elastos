@@ -38,7 +38,7 @@
     self.nickNameLabel.delegate=self;
     self.publicKeyLabel.text=self.PubKeyString;
     self.DIDLabel.text=[NSString stringWithFormat:@"%@",self.model.did];
-    self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至 ", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.endString]];
+    self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至 ", nil),[[FLTools share]TimeFormatConversionBirthday:self.model.endString]];
     [self getBalance];
 }
 - (IBAction)changeTimeDataInfoEvent:(id)sender {
@@ -81,7 +81,7 @@
 -(void)selectDataWithYY:(NSString*_Nullable)yy withMM:(NSString*_Nullable)mm wihMMWithInt:(NSInteger)mInt wtihDD:(NSString*_Nullable)dd{
     
     self.model.endString=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@ 00:00:00",yy,mm,dd]];
-    self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至 ", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.endString]];
+    self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至 ", nil),[[FLTools share]TimeFormatConversionBirthday:self.model.endString]];
     [self cancelDataListView];
     
 }

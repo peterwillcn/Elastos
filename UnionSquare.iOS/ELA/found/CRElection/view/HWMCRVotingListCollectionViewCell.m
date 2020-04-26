@@ -26,7 +26,7 @@
     self.iconImageView.layer.masksToBounds=YES;
 }
 -(void)setModel:(HWMCRListModel *)model{
-    if (model.iconImageUrl.length>0) {
+    if (model.iconImageUrl.length>4) {
         [[FLTools share]loadUrlSVGAndPNG:model.iconImageUrl WithSuccessBlock:^(id data) {
             if (data) {
                 self.iconImageView =data;

@@ -141,7 +141,7 @@ static NSString *cellString=@"HWMDIDInfoTableViewCell";
         case 3:
             cell.arrImageView.alpha=0.f;
             if (self.model.endString.length>0) {
-                cell.infoLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.endString]];
+                cell.infoLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"至", nil),[[FLTools share]TimeFormatConversionBirthday:self.model.endString]];
             }
             
             break;

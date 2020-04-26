@@ -13,17 +13,11 @@ class MasterPasswordPrompter {
             .setTitle("Please enter master password")
             .setMessage("Master password:")
             .setView(txtUrl).setCancelable(false)
-            .setPositiveButton("Moustachify", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    String url = txtUrl.getText().toString();
-                    listener.onMasterPasswordRetrieved(url);
-                }
+            .setPositiveButton("Next", (dialog, whichButton) -> {
+                String url = txtUrl.getText().toString();
+                listener.onMasterPasswordRetrieved(url);
             })
-            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    listener.onCancel();
-                }
-            })
+            .setNegativeButton("Cancel", (dialog, whichButton) -> listener.onCancel())
             .show();
     }
 }

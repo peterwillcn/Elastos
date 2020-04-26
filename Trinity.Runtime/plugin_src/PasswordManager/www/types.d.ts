@@ -59,9 +59,7 @@ declare namespace PasswordManagerPlugin {
         /** Bank card. */
         BANK_CARD = 3,
         /** Any kind of account make of an identifier and a password. */
-        ACCOUNT = 4,
-        /** Provider name and key for a 2FA account. */
-        TWO_FACTOR_AUTH = 5
+        ACCOUNT = 4
     }
 
     /**
@@ -137,7 +135,7 @@ declare namespace PasswordManagerPlugin {
      */
     type BankCardPasswordInfo = PasswordInfo & {
         /** type of card. Debit, credit... */
-        type?: BankCardType;
+        cardType?: BankCardType;
         /** Card owner's name */
         accountOwner: string;
         /** Card number without spaces */
@@ -160,14 +158,6 @@ declare namespace PasswordManagerPlugin {
         password: string;
         /** Key provided by the service (google, etc) used to generated temporary 2FA passwords. */
         twoFactorKey?: string;
-    }
-
-    /**
-     * Information to store 2FA keys in order to generate temporary passwords for external accounts.
-     */
-    type TwoFactorAuthPasswordInfo = PasswordInfo & {
-        /** Key provided by the service (google, etc) used to generated temporary 2FA passwords. */
-        twoFactorKey: string;
     }
 
     /**
@@ -210,16 +200,16 @@ declare namespace PasswordManagerPlugin {
     }
 
     /** The provided password is invalid */
-    class InvalidPasswordException extends Error {}
+    interface InvalidPasswordException extends Error {}
 
     /** Some parameters are invalid */
-    class InvalidParameterException extends Error {}
+    interface InvalidParameterException extends Error {}
 
     /** User cancelled the operation */
-    class CancellationException extends Error {}
+    interface CancellationException extends Error {}
 
     /** Other kind of exception without additional typing information */
-    class UnspecifiedException extends Error {}
+    interface UnspecifiedException extends Error {}
 
     interface PasswordManager {
         /**
@@ -261,6 +251,8 @@ declare namespace PasswordManagerPlugin {
         generateRandomPassword(options?: PasswordCreationOptions): Promise<string>;
 
         /**
+         * RESTRICTED
+         * 
          * Sets the new master password for the current DID session. This master password locks the whole
          * database of password information.
          * 
@@ -276,6 +268,8 @@ declare namespace PasswordManagerPlugin {
         setMasterPassword(oldPassword: string, newPassword: string): Promise<BooleanWithReason>;
         
         /**
+         * RESTRICTED
+         * 
          * If the master password has ben unlocked earlier, all passwords are accessible for a while.
          * This API re-locks the passwords database and further requests from applications to this password
          * manager will require user to provide his master password again.
@@ -283,6 +277,8 @@ declare namespace PasswordManagerPlugin {
         lockMasterPassword();
 
         /**
+         * RESTRICTED 
+         * 
          * Sets the unlock strategy for the password info database. By default, once the master password
          * if provided once by the user, the whole database is unlocked for a while, until elastOS exits,
          * or if one hour has passed, or if it's manually locked again.
@@ -297,6 +293,8 @@ declare namespace PasswordManagerPlugin {
         setUnlockMode(mode: PasswordUnlockMode);
 
         /**
+         * RESTRICTED
+         * 
          * Sets the overall strategy for third party applications password management.
          * 
          * Users can choose to lock all apps passwords using a single master password. They can also choose
@@ -314,7 +312,9 @@ declare namespace PasswordManagerPlugin {
         setAppsPasswordStrategy(strategy: AppsPasswordStrategy);
 
         /**
-         * Returns the current apps password strategy. If nothing was et earlier, default value 
+         * RESTRICTED
+         * 
+         * Returns the current apps password strategy. If nothing was set earlier, default value 
          * is LOCK_WITH_MASTER_PASSWORD.
          * 
          * @returns The current apps password strategy

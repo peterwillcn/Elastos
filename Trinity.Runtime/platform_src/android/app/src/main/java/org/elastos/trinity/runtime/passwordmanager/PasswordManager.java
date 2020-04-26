@@ -132,7 +132,7 @@ public class PasswordManager {
             public void onError(String error) {
                 listener.onError(error);
             }
-        });
+        }, false);
     }
 
     /**
@@ -178,7 +178,7 @@ public class PasswordManager {
                     public void onError(String error) {
                         listener.onError(error);
                     }
-                });
+                }, false);
             }
 
             @Override
@@ -230,7 +230,7 @@ public class PasswordManager {
                     public void onError(String error) {
                         listener.onError(error);
                     }
-                });
+                }, false);
             }
 
             @Override
@@ -281,7 +281,7 @@ public class PasswordManager {
             public void onError(String error) {
                 listener.onError(error);
             }
-        });
+        }, false);
     }
 
     /**
@@ -335,7 +335,10 @@ public class PasswordManager {
         PasswordDatabaseInfo dbInfo = databasesInfo.get(did);
 
         // Changing the master password means re-encrypting the database with a different password
-        encryptAndSaveDatabase(did, dbInfo.activeMasterPassword);
+        encryptAndSaveDatabase(did, newPassword);
+
+        // Remember the new password locally
+        dbInfo.activeMasterPassword = newPassword;
     }
 
     /**
@@ -427,7 +430,7 @@ public class PasswordManager {
         return appId.equals(PASSWORD_MANAGER_APP_ID);
     }
 
-    private void loadDatabase(String did, OnDatabaseLoadedListener listener) {
+    private void loadDatabase(String did, OnDatabaseLoadedListener listener, boolean isPasswordRetry) {
         if (isDatabaseLoaded(did)) {
             listener.onDatabaseLoaded();
         }
@@ -444,7 +447,14 @@ public class PasswordManager {
                             listener.onError("TODO - UNKNOWN - WRONG MASTER PASSWORD?");
                     }
                     catch (Exception e) {
-                        listener.onError(e.getMessage());
+                        // In case of wrong password exception, try again
+                        if (e.getMessage().contains("BAD_DECRYPT")) {
+                            loadDatabase(did, listener, true);
+                        }
+                        else {
+                            // Other exceptions are passed raw
+                            listener.onError(e.getMessage());
+                        }
                     }
                 }
 
@@ -635,7 +645,9 @@ public class PasswordManager {
     }
 
     private void deletePasswordInfoReal(String key, String did, String targetAppID) throws Exception {
+        PasswordDatabaseInfo dbInfo = databasesInfo.get(did);
         databasesInfo.get(did).deletePasswordInfo(targetAppID, key);
+        encryptAndSaveDatabase(did, dbInfo.activeMasterPassword);
     }
 
     private SharedPreferences getPrefs() {
@@ -660,7 +672,15 @@ public class PasswordManager {
                     // Create an empty database
                     createEmptyDatabase(did, password);
 
-                    listener.onMasterPasswordCreated();
+                    try {
+                        // Save this empty database to remember that we have defined a master password
+                        encryptAndSaveDatabase(did, password);
+
+                        listener.onMasterPasswordCreated();
+                    }
+                    catch (Exception e) {
+                        listener.onError(e.getMessage());
+                    }
                 }
 
                 @Override

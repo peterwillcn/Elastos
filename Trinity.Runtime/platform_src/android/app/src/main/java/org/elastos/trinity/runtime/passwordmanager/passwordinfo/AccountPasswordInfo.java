@@ -3,11 +3,13 @@ package org.elastos.trinity.runtime.passwordmanager.passwordinfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class GenericPasswordInfo extends PasswordInfo {
+public class AccountPasswordInfo extends PasswordInfo {
+    String identifier = null;
     String password = null;
+    String twoFactorKey = null;
 
     public static PasswordInfo fromJsonObject(JSONObject jsonObject) throws Exception {
-        GenericPasswordInfo info = new GenericPasswordInfo();
+        AccountPasswordInfo info = new AccountPasswordInfo();
 
         info.fillWithJsonObject(jsonObject);
 
@@ -19,11 +21,13 @@ public class GenericPasswordInfo extends PasswordInfo {
         try {
             JSONObject jsonObject = super.asJsonObject();
 
+            jsonObject.put("identifier", identifier);
             jsonObject.put("password", password);
+            jsonObject.put("twoFactorKey", twoFactorKey);
 
             return jsonObject;
         } catch (
-        JSONException e) {
+                JSONException e) {
             e.printStackTrace();
             return null;
         }
@@ -35,8 +39,14 @@ public class GenericPasswordInfo extends PasswordInfo {
         super.fillWithJsonObject(jsonObject);
 
         // Fill specific fields
+        if (jsonObject.has("identifier")) {
+            this.password = jsonObject.getString("identifier");
+        }
         if (jsonObject.has("password")) {
             this.password = jsonObject.getString("password");
+        }
+        if (jsonObject.has("twoFactorKey")) {
+            this.password = jsonObject.getString("twoFactorKey");
         }
     }
 }

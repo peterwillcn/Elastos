@@ -174,14 +174,52 @@ class PasswordManagerImpl implements PasswordManagerPlugin.PasswordManager {
 
         switch (nativeErr.code) {
             case NativeErrorCode.NATIVE_ERROR_CODE_INVALID_PASSWORD: 
-                return new PasswordManagerPlugin.InvalidPasswordException(nativeErr.reason);
+                return new InvalidPasswordExceptionImpl(nativeErr.reason);
             case NativeErrorCode.NATIVE_ERROR_CODE_INVALID_PARAMETER: 
-                return new PasswordManagerPlugin.InvalidParameterException(nativeErr.reason);
+                return new InvalidParameterExceptionImpl(nativeErr.reason);
             case NativeErrorCode.NATIVE_ERROR_CODE_CANCELLED: 
-                return new PasswordManagerPlugin.CancellationException();
+                return new CancellationExceptionImpl();
+            case NativeErrorCode.NATIVE_ERROR_CODE_UNSPECIFIED:
+                return new UnspecifiedExceptionImpl();
             default:
                 return nativeErr;
         }
+    }
+}
+
+class InvalidPasswordExceptionImpl implements PasswordManagerPlugin.InvalidPasswordException {
+    name: string;
+    message: string;
+
+    constructor(message?: string) {
+        this.message = message;
+    }
+}
+
+class InvalidParameterExceptionImpl implements PasswordManagerPlugin.InvalidParameterException {
+    name: string;
+    message: string;
+
+    constructor(message?: string) {
+        this.message = message;
+    }
+}
+
+class CancellationExceptionImpl implements PasswordManagerPlugin.CancellationException {
+    name: string;
+    message: string;
+
+    constructor(message?: string) {
+        this.message = message;
+    }
+}
+
+class UnspecifiedExceptionImpl implements PasswordManagerPlugin.UnspecifiedException {
+    name: string;
+    message: string;
+
+    constructor(message?: string) {
+        this.message = message;
     }
 }
 

@@ -8,7 +8,7 @@ import org.json.JSONObject;
  * Root type for all password information. This type is abstract and should not be used
  * directly.
  */
-public class PasswordInfo {
+public abstract class PasswordInfo {
     /**
      * Unique key, used to identity the password info among other.
      */
@@ -29,15 +29,6 @@ public class PasswordInfo {
      * List of any kind of app-specific additional information for this password entry.
      */
     public JSONObject custom;
-
-    PasswordInfo() {
-    }
-
-    PasswordInfo(String key, PasswordType type, String displayName) {
-        this.key = key;
-        this.type = type;
-        this.displayName = displayName;
-    }
 
     public JSONObject asJsonObject() {
         try {

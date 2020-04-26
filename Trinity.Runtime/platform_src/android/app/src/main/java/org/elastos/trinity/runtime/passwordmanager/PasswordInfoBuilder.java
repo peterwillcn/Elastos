@@ -1,7 +1,11 @@
 package org.elastos.trinity.runtime.passwordmanager;
 
+import org.elastos.trinity.runtime.passwordmanager.passwordinfo.AccountPasswordInfo;
+import org.elastos.trinity.runtime.passwordmanager.passwordinfo.BankAccountPasswordInfo;
+import org.elastos.trinity.runtime.passwordmanager.passwordinfo.BankCardPasswordInfo;
 import org.elastos.trinity.runtime.passwordmanager.passwordinfo.GenericPasswordInfo;
 import org.elastos.trinity.runtime.passwordmanager.passwordinfo.PasswordInfo;
+import org.elastos.trinity.runtime.passwordmanager.passwordinfo.WifiPasswordInfo;
 import org.json.JSONObject;
 
 public class PasswordInfoBuilder {
@@ -14,7 +18,14 @@ public class PasswordInfoBuilder {
         switch (type) {
             case GENERIC_PASSWORD:
                 return GenericPasswordInfo.fromJsonObject(jsonObject);
-                // TODO: all types
+            case WIFI:
+                return WifiPasswordInfo.fromJsonObject(jsonObject);
+            case BANK_ACCOUNT:
+                return BankAccountPasswordInfo.fromJsonObject(jsonObject);
+            case BANK_CARD:
+                return BankCardPasswordInfo.fromJsonObject(jsonObject);
+            case ACCOUNT:
+                return AccountPasswordInfo.fromJsonObject(jsonObject);
             default:
                 throw new Exception("Unknown password info type "+type);
         }

@@ -3,11 +3,12 @@ package org.elastos.trinity.runtime.passwordmanager.passwordinfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class GenericPasswordInfo extends PasswordInfo {
-    String password = null;
+public class WifiPasswordInfo extends PasswordInfo {
+    String wifiSSID = null;
+    String wifiPassword = null;
 
     public static PasswordInfo fromJsonObject(JSONObject jsonObject) throws Exception {
-        GenericPasswordInfo info = new GenericPasswordInfo();
+        WifiPasswordInfo info = new WifiPasswordInfo();
 
         info.fillWithJsonObject(jsonObject);
 
@@ -19,11 +20,12 @@ public class GenericPasswordInfo extends PasswordInfo {
         try {
             JSONObject jsonObject = super.asJsonObject();
 
-            jsonObject.put("password", password);
+            jsonObject.put("wifiSSID", wifiSSID);
+            jsonObject.put("wifiPassword", wifiPassword);
 
             return jsonObject;
         } catch (
-        JSONException e) {
+                JSONException e) {
             e.printStackTrace();
             return null;
         }
@@ -35,8 +37,11 @@ public class GenericPasswordInfo extends PasswordInfo {
         super.fillWithJsonObject(jsonObject);
 
         // Fill specific fields
-        if (jsonObject.has("password")) {
-            this.password = jsonObject.getString("password");
+        if (jsonObject.has("wifiSSID")) {
+            this.wifiSSID = jsonObject.getString("wifiSSID");
+        }
+        if (jsonObject.has("wifiPassword")) {
+            this.wifiPassword = jsonObject.getString("wifiPassword");
         }
     }
 }

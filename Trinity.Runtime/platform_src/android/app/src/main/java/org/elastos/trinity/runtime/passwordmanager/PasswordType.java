@@ -10,9 +10,7 @@ public enum PasswordType {
     /** Bank card. */
     BANK_CARD(3),
     /** Any kind of account make of an identifier and a password. */
-    ACCOUNT(4),
-    /** Provider name and key for a 2FA account. */
-    TWO_FACTOR_AUTH(5);
+    ACCOUNT(4);
 
     public int mValue;
 

@@ -49,6 +49,7 @@ public class MasterPasswordPrompter extends AlertDialog {
         LinearLayout llRoot;
         LinearLayout llMainContent;
         TextView lblTitle;
+        TextView lblIntro;
         TextView lblWrongPassword;
         EditText etPassword;
         Button btCancel;
@@ -66,15 +67,6 @@ public class MasterPasswordPrompter extends AlertDialog {
 
             alertDialogBuilder.setCancelable(false);
         }
-
-       /* Builder setData(ApiAuthorityManager.ApiAuthorityInfo authInfo, AppInfo appInfo, String plugin, String api) {
-            this.authInfo = authInfo;
-            this.appInfo = appInfo;
-            this.plugin = plugin;
-            this.api = api;
-
-            return this;
-        }*/
 
         public Builder setOnCancelClickedListener(OnCancelClickedListener listener) {
             this.onCancelClickedListener = listener;
@@ -98,6 +90,7 @@ public class MasterPasswordPrompter extends AlertDialog {
             llRoot = view.findViewById(R.id.llRoot);
             llMainContent = view.findViewById(R.id.llMainContent);
             lblTitle = view.findViewById(R.id.lblTitle);
+            lblIntro = view.findViewById(R.id.lblIntro);
             lblWrongPassword = view.findViewById(R.id.lblWrongPassword);
             etPassword = view.findViewById(R.id.etPassword);
             btCancel = view.findViewById(R.id.btCancel);
@@ -112,10 +105,15 @@ public class MasterPasswordPrompter extends AlertDialog {
             llRoot.setBackgroundColor(UIStyling.popupMainBackgroundColor);
             llMainContent.setBackgroundColor(UIStyling.popupSecondaryBackgroundColor);
             lblTitle.setTextColor(UIStyling.popupMainTextColor);
+            lblIntro.setTextColor(UIStyling.popupMainTextColor);
             cardDeny.setCardBackgroundColor(UIStyling.popupSecondaryBackgroundColor);
             btCancel.setTextColor(UIStyling.popupMainTextColor);
             cardAccept.setCardBackgroundColor(UIStyling.popupSecondaryBackgroundColor);
             btNext.setTextColor(UIStyling.popupMainTextColor);
+            swBiometric.setTextColor(UIStyling.popupMainTextColor);
+            etPassword.setTextColor(UIStyling.popupMainTextColor);
+            etPassword.setHintTextColor(UIStyling.popupInputHintTextColor);
+            lblBiometricIntro.setTextColor(UIStyling.popupMainTextColor);
 
             if (passwordWasWrong)
                 lblWrongPassword.setVisibility(View.VISIBLE);

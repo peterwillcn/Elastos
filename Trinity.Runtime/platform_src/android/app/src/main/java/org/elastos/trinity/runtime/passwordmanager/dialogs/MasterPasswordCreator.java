@@ -55,6 +55,7 @@ public class MasterPasswordCreator extends AlertDialog {
         LinearLayout llRoot;
         LinearLayout llMainContent;
         TextView lblTitle;
+        TextView lblIntro;
         EditText etPassword;
         EditText etPasswordRepeat;
         TextView lblDontUseMasterPassword;
@@ -98,6 +99,7 @@ public class MasterPasswordCreator extends AlertDialog {
             llRoot = view.findViewById(R.id.llRoot);
             llMainContent = view.findViewById(R.id.llMainContent);
             lblTitle = view.findViewById(R.id.lblTitle);
+            lblIntro = view.findViewById(R.id.lblIntro);
             etPassword = view.findViewById(R.id.etPassword);
             etPasswordRepeat = view.findViewById(R.id.etPasswordRepeat);
             lblDontUseMasterPassword = view.findViewById(R.id.lblDontUseMasterPassword);
@@ -110,10 +112,15 @@ public class MasterPasswordCreator extends AlertDialog {
             llRoot.setBackgroundColor(UIStyling.popupMainBackgroundColor);
             llMainContent.setBackgroundColor(UIStyling.popupSecondaryBackgroundColor);
             lblTitle.setTextColor(UIStyling.popupMainTextColor);
+            lblIntro.setTextColor(UIStyling.popupMainTextColor);
             cardDeny.setCardBackgroundColor(UIStyling.popupSecondaryBackgroundColor);
             btCancel.setTextColor(UIStyling.popupMainTextColor);
             cardAccept.setCardBackgroundColor(UIStyling.popupSecondaryBackgroundColor);
             btNext.setTextColor(UIStyling.popupMainTextColor);
+            etPassword.setTextColor(UIStyling.popupMainTextColor);
+            etPassword.setHintTextColor(UIStyling.popupInputHintTextColor);
+            etPasswordRepeat.setTextColor(UIStyling.popupMainTextColor);
+            etPasswordRepeat.setHintTextColor(UIStyling.popupInputHintTextColor);
             lblDontUseMasterPassword.setTextColor(UIStyling.popupMainTextColor);
 
             btCancel.setOnClickListener(v -> {

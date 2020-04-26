@@ -23,6 +23,7 @@ import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -466,10 +467,14 @@ public class PasswordManager {
     }
 
     private void loadDatabase(String did, OnDatabaseLoadedListener listener, boolean isPasswordRetry) {
-        if (isDatabaseLoaded(did)) {
+        if (isDatabaseLoaded(did) && !sessionExpired(did)) {
             listener.onDatabaseLoaded();
         }
         else {
+            if (sessionExpired(did)) {
+                lockDatabase(did);
+            }
+
             // Master password is locked - prompt it to user
             new MasterPasswordPrompter.Builder(activity, this)
                 .setOnNextClickedListener((password, shouldSavePasswordToBiometric) -> {
@@ -480,29 +485,31 @@ public class PasswordManager {
                             // master password to the biometric crypto space.
                             if (shouldSavePasswordToBiometric) {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                    FingerPrintAuthHelper fingerPrintAuthHelper = new FingerPrintAuthHelper(activity, FAKE_PASSWORD_MANAGER_PLUGIN_APP_ID);
-                                    fingerPrintAuthHelper.init();
-                                    fingerPrintAuthHelper.authenticateAndSavePassword(MASTER_PASSWORD_BIOMETRIC_KEY, password, new CancellationSignal(), new FingerPrintAuthHelper.SimpleAuthenticationCallback() {
-                                        @Override
-                                        public void onSuccess() {
-                                            // Save user's choice to use biometric auth method next time
-                                            setBiometricAuthEnabled(true);
+                                    activity.runOnUiThread(()->{
+                                        FingerPrintAuthHelper fingerPrintAuthHelper = new FingerPrintAuthHelper(activity, FAKE_PASSWORD_MANAGER_PLUGIN_APP_ID);
+                                        fingerPrintAuthHelper.init();
+                                        fingerPrintAuthHelper.authenticateAndSavePassword(MASTER_PASSWORD_BIOMETRIC_KEY, password, new CancellationSignal(), new FingerPrintAuthHelper.SimpleAuthenticationCallback() {
+                                            @Override
+                                            public void onSuccess() {
+                                                // Save user's choice to use biometric auth method next time
+                                                setBiometricAuthEnabled(true);
 
-                                            listener.onDatabaseLoaded();
-                                        }
+                                                listener.onDatabaseLoaded();
+                                            }
 
-                                        @Override
-                                        public void onFailure(String message) {
-                                            // Biometric save failed, but we still could open the database, so we return a success here.
-                                            // Though, we don't save user's choice to enable biometric auth.
-                                            Log.e(LOG_TAG, "Biometric authentication failed to initiate");
-                                            Log.e(LOG_TAG, message);
-                                            listener.onDatabaseLoaded();
-                                        }
+                                            @Override
+                                            public void onFailure(String message) {
+                                                // Biometric save failed, but we still could open the database, so we return a success here.
+                                                // Though, we don't save user's choice to enable biometric auth.
+                                                Log.e(LOG_TAG, "Biometric authentication failed to initiate");
+                                                Log.e(LOG_TAG, message);
+                                                listener.onDatabaseLoaded();
+                                            }
 
-                                        @Override
-                                        public void onHelp(int helpCode, String helpString) {
-                                        }
+                                            @Override
+                                            public void onHelp(int helpCode, String helpString) {
+                                            }
+                                        });
                                     });
                                 }
                             }
@@ -528,6 +535,24 @@ public class PasswordManager {
                 .setOnErrorListener(listener::onError)
                 .prompt(isPasswordRetry);
         }
+    }
+
+    /**
+     * A "session" is when a database is unlocked. This session can be considered as expired for further calls,
+     * in case user wants to unlock the database every time, or in case it's been first unlocked a too long time ago (auto relock
+     * for security).
+     */
+    private boolean sessionExpired(String did) {
+        if (getUnlockMode() == PasswordUnlockMode.UNLOCK_EVERY_TIME)
+            return true;
+
+        PasswordDatabaseInfo dbInfo = databasesInfo.get(did);
+        if (dbInfo == null)
+            return true;
+
+        // Last opened more than 1 hour ago? -> Expired
+        long oneHourMs = (60*60*1000L);
+        return dbInfo.openingTime.getTime() < (new Date().getTime() - oneHourMs);
     }
 
     private boolean isDatabaseLoaded(String did) {

@@ -4,6 +4,7 @@ import android.graphics.Color;
 
 public class UIStyling {
     public static int popupMainTextColor = Color.parseColor("#FFFFFF");
+    public static int popupInputHintTextColor = Color.parseColor("#CCCCCC");
     public static int popupMainBackgroundColor = Color.parseColor("#FFFFFF");
     public static int popupSecondaryBackgroundColor = Color.parseColor("#FFFFFF");
 
@@ -11,12 +12,14 @@ public class UIStyling {
         if (useDarkMode) {
             // DARK MODE
             popupMainTextColor = Color.parseColor("#fdfeff");
+            popupInputHintTextColor = Color.parseColor("#fdfeff");
             popupMainBackgroundColor = Color.parseColor("#72738E");
             popupSecondaryBackgroundColor = Color.parseColor("#393948");
         }
         else {
             // LIGHT MODE
             popupMainTextColor = Color.parseColor( "#161740");
+            popupInputHintTextColor = Color.parseColor("#161740");
             popupMainBackgroundColor = Color.parseColor("#F0F0F0");
             popupSecondaryBackgroundColor = Color.parseColor("#FFFFFF");
         }

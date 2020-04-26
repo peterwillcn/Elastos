@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 /**
@@ -31,6 +32,11 @@ class PasswordDatabaseInfo {
     private static final String PASSWORD_ENTRIES_KEY = "passwordentries";
     JSONObject rawJson;
     String activeMasterPassword = null;
+    Date openingTime = null;
+
+    private PasswordDatabaseInfo() {
+        openingTime = new Date();
+    }
 
     static PasswordDatabaseInfo createEmpty() {
         try {

@@ -92,11 +92,11 @@ UINib *ImportDocumentsNib;
       NSDictionary *dic=self.allDirAaary[self.selectIndex];
       BOOL isSucce=  [[HWMDIDManager shareDIDManager]CertificateUpdateWithWalletID:self.currentWallet.masterWalletID WithFileName:dic[@"fileName"]];
       if (isSucce) {
-          [[FLTools share]showErrorInfo:@"覆盖成功"];
+          if (self.delegate) {
+              [self.delegate needUpLoadDataSource];
+          }
           [self hiddenPWDView];
           [self.navigationController popViewControllerAnimated:NO];
-      }else{
-          [[FLTools share]showErrorInfo:@"覆盖失败"];
       }
     [self toCancelOrCloseDelegate];
 }

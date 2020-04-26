@@ -17,7 +17,7 @@
 #import "HWMTheImportDocumentsViewController.h"
 #import "HWExportCertificateMViewController.h"
 static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
-@interface HWMConfidentialInformationViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface HWMConfidentialInformationViewController ()<UITableViewDelegate,UITableViewDataSource,    HWMTheImportDocumentsViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *table;
 @property (weak, nonatomic) IBOutlet UIButton *exportButton;
 @property (weak, nonatomic) IBOutlet UIButton *TheImportButton;
@@ -111,9 +111,19 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
 - (IBAction)TheImportEvent:(id)sender {
     HWMTheImportDocumentsViewController *TheImportDocumentsVC=[[HWMTheImportDocumentsViewController alloc]init];
     TheImportDocumentsVC.currentWallet=self.currentWallet;
+    TheImportDocumentsVC.delegate=self;
     [self.navigationController pushViewController:TheImportDocumentsVC animated:YES];
 }
 -(void)setModel:(HWMDIDInfoModel *)model{
     _model=model;
+}
+-(void)needUpLoadDataSource{
+    HWMDIDInfoModel *readModel=[[HWMDIDManager shareDIDManager]readDIDCredential];
+    
+    if ([readModel.did isEqualToString:self.model.did]) {
+        self.hasRead=YES;
+        self.model=readModel;
+    }
+    [self.table reloadData];
 }
 @end

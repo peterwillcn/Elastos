@@ -2,6 +2,7 @@
 import './appmanager'
 import './titlebarmanager'
 import './didsessionmanager'
+import './passwordmanager'
 import './carrier'
 import './wallet'
 import './did'

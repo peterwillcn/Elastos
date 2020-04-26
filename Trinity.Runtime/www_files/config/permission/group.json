@@ -94,6 +94,7 @@
         "Notification": ["*"],
         "QRScanner": ["*"],
         "SplashScreen": ["*"],
-        "FingerprintPlugin": ["*"]
+        "FingerprintPlugin": ["*"],
+        "CDVIonicKeyboard": ["*"]
     }
 }

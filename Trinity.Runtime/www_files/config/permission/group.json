@@ -25,6 +25,24 @@
             "broadcastMessage",
             "unInstall"
         ],
+        "DIDSessionManagerPlugin": [
+            "getSignedInIdentity",
+            "signOut"
+        ],
+        "$user": {}
+    },
+    "didsession": {
+        "DIDSessionManagerPlugin": ["*"],
+        "$user": {}
+    },
+    "did": {
+        "DIDSessionManagerPlugin": [
+            "getSignedInIdentity"
+        ],
+        "$user": {}
+    },
+    "passwordmanager": {
+        "PasswordManagerPlugin": ["*"],
         "$user": {}
     },
     "user": {
@@ -49,6 +67,12 @@
             "getPreference",
             "getPreferences"
         ],
+        "PasswordManagerPlugin": [
+            "setPasswordInfo",
+            "getPasswordInfo",
+            "deletePasswordInfo",
+            "generateRandomPassword"
+        ],
         "TitleBarPlugin": ["*"],
         "Accelerometer": ["*"],
         "Battery": ["*"],
@@ -70,7 +94,6 @@
         "Notification": ["*"],
         "QRScanner": ["*"],
         "SplashScreen": ["*"],
-        "FingerprintPlugin": ["*"],
-        "CDVIonicKeyboard": ["*"]
+        "FingerprintPlugin": ["*"]
     }
 }

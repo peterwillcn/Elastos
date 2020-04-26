@@ -36,6 +36,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 import org.apache.cordova.LOG;
+import org.elastos.trinity.runtime.passwordmanager.PasswordManager;
 import org.json.JSONException;
 
 //import android.support.v4.view.ViewPager;
@@ -47,6 +48,7 @@ public class WebViewActivity extends FragmentActivity {
     public static final int REQUESTCODE_STORAGE = 50;
 
     protected AppManager appManager = null;
+    protected PasswordManager passwordManager = null;
 //    private GestureDetector gestureDetector = null;
 
     private String adbUri = "";
@@ -83,6 +85,7 @@ public class WebViewActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_view);
+        passwordManager = new PasswordManager(this);
         appManager = new AppManager(this);
 
         getIntentUri();

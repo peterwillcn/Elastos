@@ -90,7 +90,8 @@
       "elastos-trinity-plugins-fingerprint": {
         "FACEID_USAGE_DESCRIPTION": " "
       },
-      "elastos-trinity-plugins-titlebarmanager": {}
+      "elastos-trinity-plugins-titlebarmanager": {},
+      "elastos-trinity-plugins-passwordmanager": {}
     },
     "platforms": [
       "android",

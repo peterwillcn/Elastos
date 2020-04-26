@@ -73,8 +73,8 @@ public class PasswordManagerPlugin extends TrinityPlugin {
                 case "generateRandomPassword":
                     this.generateRandomPassword(args, callbackContext);
                     break;
-                case "setMasterPassword":
-                    this.setMasterPassword(args, callbackContext);
+                case "changeMasterPassword":
+                    this.changeMasterPassword(args, callbackContext);
                     break;
                 case "lockMasterPassword":
                     this.lockMasterPassword(args, callbackContext);
@@ -293,21 +293,29 @@ public class PasswordManagerPlugin extends TrinityPlugin {
         sendSuccess(callbackContext, result);
     }
 
-    private void setMasterPassword(JSONArray args, CallbackContext callbackContext) throws Exception {
-        String oldPassword = args.getString(0);
-        String newPassword = args.getString(1);
-
+    private void changeMasterPassword(JSONArray args, CallbackContext callbackContext) throws Exception {
         JSONObject result = new JSONObject();
-        try {
-            PasswordManager.getSharedInstance().setMasterPassword(oldPassword, newPassword, did, appId);
-            result.put("couldSet", true);
-        }
-        catch (Exception e) {
-            result.put("couldSet", false);
-            result.put("reason", e.getMessage());
-        }
 
-        sendSuccess(callbackContext, result);
+        PasswordManager.getSharedInstance().changeMasterPassword(did, appId, new PasswordManager.OnMasterPasswordChangeListener() {
+            @Override
+            public void onMasterPasswordChanged() {
+                try {
+                    result.put("couldChange", true);
+                }
+                catch (JSONException ignored) {}
+                sendSuccess(callbackContext, result);
+            }
+
+            @Override
+            public void onCancel() {
+                sendError(callbackContext, buildCancellationError());
+            }
+
+            @Override
+            public void onError(String error) {
+                sendError(callbackContext, buildGenericError(error));
+            }
+        });
     }
 
     private void lockMasterPassword(JSONArray args, CallbackContext callbackContext) throws Exception {

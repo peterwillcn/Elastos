@@ -91,17 +91,17 @@ class PasswordManagerImpl implements PasswordManagerPlugin.PasswordManager {
         });
     }
     
-    setMasterPassword(oldPassword: string, newPassword: string): Promise<PasswordManagerPlugin.BooleanWithReason> {
+    changeMasterPassword(): Promise<PasswordManagerPlugin.BooleanWithReason> {
         return new Promise((resolve, reject)=>{
-            exec((result: { couldSet: boolean, reason?: string })=>{
+            exec((result: { couldChange: boolean, reason?: string })=>{
                 resolve({
-                    value: result.couldSet,
+                    value: result.couldChange,
                     reason: result.reason
                 });
             }, (err)=>{
-                console.error("Error while calling PasswordManagerPlugin.setMasterPassword()", err);
+                console.error("Error while calling PasswordManagerPlugin.changeMasterPassword()", err);
                 reject(this.nativeToTSException(err));
-            }, 'PasswordManagerPlugin', 'setMasterPassword', [oldPassword, newPassword]);    
+            }, 'PasswordManagerPlugin', 'changeMasterPassword', []);    
         });
     }
 

@@ -2,8 +2,11 @@ package org.elastos.trinity.runtime.passwordmanager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.os.CancellationSignal;
 import android.util.Log;
 
+import org.elastos.trinity.plugins.fingerprint.FingerPrintAuthHelper;
 import org.elastos.trinity.runtime.AppManager;
 import org.elastos.trinity.runtime.WebViewActivity;
 import org.elastos.trinity.runtime.passwordmanager.dialogs.MasterPasswordCreator;
@@ -39,6 +42,9 @@ public class PasswordManager {
     private static final String SHARED_PREFS_KEY = "PWDMANAGERPREFS";
     private static final String PASSWORD_MANAGER_APP_ID = "org.elastos.trinity.dapp.passwordmanager";
 
+    public static final String FAKE_PASSWORD_MANAGER_PLUGIN_APP_ID = "fakemasterpasswordpluginappid";
+    public static final String MASTER_PASSWORD_BIOMETRIC_KEY = "masterpasswordkey";
+
     private static final String PREF_KEY_UNLOCK_MODE = "unlockmode";
     private static final String PREF_KEY_APPS_PASSWORD_STRATEGY = "appspasswordstrategy";
 
@@ -62,6 +68,10 @@ public class PasswordManager {
 
     public interface OnMasterPasswordCreationListener extends BasePasswordManagerListener {
         void onMasterPasswordCreated();
+    }
+
+    public interface OnMasterPasswordChangeListener extends BasePasswordManagerListener {
+        void onMasterPasswordChanged();
     }
 
     public interface OnMasterPasswordRetrievedListener extends BasePasswordManagerListener {
@@ -318,29 +328,52 @@ public class PasswordManager {
      * In case of a master password change, the password info database is re-encrypted with this new password.
      *
      * Only the password manager application is allowed to call this API.
-     *
-     * @param oldPassword the current master password if any, or null if none exists yet.
-     * @param newPassword the new master password
      */
-    public void setMasterPassword(String oldPassword, String newPassword, String did, String appID) throws Exception {
+    public void changeMasterPassword(String did, String appID, OnMasterPasswordChangeListener listener) throws Exception {
         if (!appIsPasswordManager(appID)) {
             Log.e(LOG_TAG, "Only the password manager application can call this API");
             return;
         }
 
-        // If the database is not loaded, we try to load it first to check if the old password is valid
-        if (!isDatabaseLoaded(did)) {
-            // Will throw invalid password error in case of wrong password.
-            loadEncryptedDatabase(did, oldPassword);
-        }
+        loadDatabase(did, new OnDatabaseLoadedListener() {
+            @Override
+            public void onDatabaseLoaded() {
+                // No database exists. Start the master password creation flow
+                new MasterPasswordCreator.Builder(activity, PasswordManager.this)
+                    .setCanDisableMasterPasswordUse(false)
+                    .setOnNextClickedListener(password -> {
+                        // Master password was provided and confirmed. Now we can use it.
 
-        PasswordDatabaseInfo dbInfo = databasesInfo.get(did);
+                        try {
+                            PasswordDatabaseInfo dbInfo = databasesInfo.get(did);
 
-        // Changing the master password means re-encrypting the database with a different password
-        encryptAndSaveDatabase(did, newPassword);
+                            // Changing the master password means re-encrypting the database with a different password
+                            encryptAndSaveDatabase(did, password);
 
-        // Remember the new password locally
-        dbInfo.activeMasterPassword = newPassword;
+                            // Remember the new password locally
+                            dbInfo.activeMasterPassword = password;
+
+                            listener.onMasterPasswordChanged();
+                        }
+                        catch (Exception e) {
+                            listener.onError(e.getMessage());
+                        }
+                    })
+                    .setOnCancelClickedListener(listener::onCancel)
+                    .setOnErrorListener(listener::onError)
+                    .prompt();
+            }
+
+            @Override
+            public void onCancel() {
+                listener.onCancel();
+            }
+
+            @Override
+            public void onError(String error) {
+                listener.onError(error);
+            }
+        }, false);
     }
 
     /**
@@ -438,12 +471,45 @@ public class PasswordManager {
         }
         else {
             // Master password is locked - prompt it to user
-            new MasterPasswordPrompter.Builder(activity)
-                .setOnNextClickedListener((password) -> {
+            new MasterPasswordPrompter.Builder(activity, this)
+                .setOnNextClickedListener((password, shouldSavePasswordToBiometric) -> {
                     try {
                         loadEncryptedDatabase(did, password);
-                        if (isDatabaseLoaded(did))
-                            listener.onDatabaseLoaded();
+                        if (isDatabaseLoaded(did)) {
+                            // User chose to enable biometric authentication (was not enabled before). So we save the
+                            // master password to the biometric crypto space.
+                            if (shouldSavePasswordToBiometric) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    FingerPrintAuthHelper fingerPrintAuthHelper = new FingerPrintAuthHelper(activity, FAKE_PASSWORD_MANAGER_PLUGIN_APP_ID);
+                                    fingerPrintAuthHelper.init();
+                                    fingerPrintAuthHelper.authenticateAndSavePassword(MASTER_PASSWORD_BIOMETRIC_KEY, password, new CancellationSignal(), new FingerPrintAuthHelper.SimpleAuthenticationCallback() {
+                                        @Override
+                                        public void onSuccess() {
+                                            // Save user's choice to use biometric auth method next time
+                                            setBiometricAuthEnabled(true);
+
+                                            listener.onDatabaseLoaded();
+                                        }
+
+                                        @Override
+                                        public void onFailure(String message) {
+                                            // Biometric save failed, but we still could open the database, so we return a success here.
+                                            // Though, we don't save user's choice to enable biometric auth.
+                                            Log.e(LOG_TAG, "Biometric authentication failed to initiate");
+                                            Log.e(LOG_TAG, message);
+                                            listener.onDatabaseLoaded();
+                                        }
+
+                                        @Override
+                                        public void onHelp(int helpCode, String helpString) {
+                                        }
+                                    });
+                                }
+                            }
+                            else {
+                                listener.onDatabaseLoaded();
+                            }
+                        }
                         else
                             listener.onError("Unknown error while trying to load the passwords database");
                     }
@@ -657,9 +723,8 @@ public class PasswordManager {
         }
         else {
             // No database exists. Start the master password creation flow
-            new MasterPasswordCreator().promptMasterPassword(activity, new MasterPasswordCreator.OnMasterPasswordCreatorListener() {
-                @Override
-                public void onMasterPasswordCreated(String password) {
+            new MasterPasswordCreator.Builder(activity, this)
+                .setOnNextClickedListener(password -> {
                     // Master password was provided and confirmed. Now we can use it.
 
                     // Create an empty database
@@ -674,24 +739,26 @@ public class PasswordManager {
                     catch (Exception e) {
                         listener.onError(e.getMessage());
                     }
-                }
-
-                @Override
-                public void onCancel() {
-                    // Master password creation cancelled
-                    listener.onCancel();
-                }
-
-                @Override
-                public void onDontUseMasterPassword() {
+                })
+                .setOnDontUseMasterPasswordListener(() -> {
                     // User chose to not use a master password. He will have to use the password manager app
                     // to change this option.
                     setAppsPasswordStrategy(AppsPasswordStrategy.DONT_USE_MASTER_PASSWORD, did, null, true);
 
                     // Consider this as a cancellation for this app
                     listener.onCancel();
-                }
-            });
+                })
+                .setOnCancelClickedListener(listener::onCancel)
+                .setOnErrorListener(listener::onError)
+                .prompt();
         }
+    }
+
+    public boolean isBiometricAuthEnabled() {
+        return getPrefs().getBoolean("biometricauth", false);
+    }
+
+    public void setBiometricAuthEnabled(boolean useBiometricAuth) {
+        getPrefs().edit().putBoolean("biometricauth", useBiometricAuth).apply();
     }
 }

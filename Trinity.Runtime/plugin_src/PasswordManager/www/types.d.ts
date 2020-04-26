@@ -260,12 +260,9 @@ declare namespace PasswordManagerPlugin {
          * 
          * Only the password manager application is allowed to call this API.
          * 
-         * @param oldPassword the current master password if any, or null if none exists yet.
-         * @param newPassword the new master password
-         * 
          * @returns True if the master password was successfully changed, false otherwise.
          */
-        setMasterPassword(oldPassword: string, newPassword: string): Promise<BooleanWithReason>;
+        changeMasterPassword(): Promise<BooleanWithReason>;
         
         /**
          * RESTRICTED

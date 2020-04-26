@@ -317,7 +317,9 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     }
     const char *types[1] = {"BasicProfileCredential"};//类型名称
     DIDURL *creatCredentialID=DIDURL_NewByDid(did, "outPut");// 相当于文件  不同的需求 需要创建不同的名字  只能通过这个别名 拿去 Credential
-    model.editTime=[[FLTools share]getNowTimeTimestampS];
+    if (model.editTime.length==0) {
+        model.editTime=[[FLTools share]getNowTimeTimestampS];
+    }
     model.did=self.DIDString;
     if (model.didName.length==0) {
         model.didName=@"unknown";

@@ -656,7 +656,8 @@
 "DID已注册"="DID registered";
 "关闭ID侧链将无法使用DID功能，\n是否立即关闭？"="The DID function cannot be used if the DID side chain is closed. Do you still want to proceed?";
 "个人信息"="Personal information";
-"个人简介"="Personal profile";
+//"个人简介"="Personal profile";
+"个人简介qe"="Personal profile";
 "社交账号"="Social account";
 "保存时间："="Save time：";
 "导出"="Export";
@@ -664,7 +665,7 @@
 "姓名"="Name";
 "昵称"="Nickname";
 "性别"="Gender";
-"出生日期"="Birthdate";
+"出生日期"="Birthday";
 "邮箱"="email address";
 "邮箱1"="Email address";
 "手机号"="Cellphone number";
@@ -756,7 +757,7 @@
 "分享"="Share";
 "保存失败"="Save failed";
 "请输入手机号"="Enter mobile number";
-"请输入区号"="Enter country";
+"请输入区号"="Country code";
 "添加信息"="Add information";
 "加载失败，请稍后再试"="Failed to load. Please try again later";
 "凭证文件不匹配"="The credential files do not match";
@@ -775,6 +776,8 @@
 "随机切换"="Random Switch";
 "已连接"="Connected";
 "手动输入"="Manual input";
+"覆盖成功"="Covering the success";
+"覆盖失败"="Covers the failure";
 "请输入节点地址"="Enter node address";
 "节点连接设置"="Node connection settings";
 "授权成功"="Successful authorization";

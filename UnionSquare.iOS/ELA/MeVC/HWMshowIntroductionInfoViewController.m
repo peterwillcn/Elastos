@@ -19,7 +19,7 @@
     [super viewDidLoad];
     [self defultWhite];
         [self setBackgroundImg:@""];
-    self.title=NSLocalizedString(@"个人简介", nil);
+    self.title=NSLocalizedString(@"个人简介qe", nil);
     self.IntroductionInfoTextView.text=self.model.introduction;
 //      self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mine_edit"] style:UIBarButtonItemStyleDone target:self action:@selector(EditProfile)];
     // Do any additional setup after loading the view from its nib.

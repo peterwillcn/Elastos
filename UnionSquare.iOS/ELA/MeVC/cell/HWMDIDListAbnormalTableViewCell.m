@@ -61,7 +61,7 @@
         //            titleString=self.model.infoTimeString;
         //        }
         
-    }else if ([titleString isEqualToString:NSLocalizedString(@"个人简介", nil)]){
+    }else if ([titleString isEqualToString:NSLocalizedString(@"个人简介qe", nil)]){
         //              if (![[FLTools share]isBlankString:self.model.introductionInfoString]) {
         //                        titleString=self.model.introductionInfoString;
         //                  if ([[FLTools share]isBlankString:self.model.introduction]) {

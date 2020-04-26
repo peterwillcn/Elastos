@@ -37,13 +37,6 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
     [self.exportButton setTitle:NSLocalizedString(@"导出", nil) forState:UIControlStateNormal];
     [[HMWCommView share]makeBordersWithView:self.TheImportButton];
     [[HMWCommView share]makeBordersWithView:self.exportButton];
-    HWMDIDInfoModel *readModel=[[HWMDIDManager shareDIDManager]readDIDCredential];
-    
-    if ([readModel.did isEqualToString:self.model.did]) {
-        self.hasRead=YES;
-        self.model=readModel;
-    }
-   
     [self makeUI];
 }
 -(NSArray *)dataArray{
@@ -125,5 +118,9 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
         self.model=readModel;
     }
     [self.table reloadData];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self needUpLoadDataSource];
 }
 @end

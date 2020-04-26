@@ -178,7 +178,7 @@
     }
     
     [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
-    
+     self.model.editTime=[[FLTools share]getNowTimeTimestampS];
     if ([[HWMDIDManager shareDIDManager]updateInfoWithInfo:self.model]) {
         HWMDIDInfoModel *rdModel= [[HWMDIDManager shareDIDManager]readDIDCredential];
         [self.transactionDetailsView removeFromSuperview];

@@ -954,6 +954,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     }
     self.currentWallet.didString=didString;
     if (self.isEidet||self.whereFrome) {
+        self.model.editTime=[[FLTools share]getNowTimeTimestampS];
         BOOL isSucess=[[HWMDIDManager shareDIDManager ]saveDIDCredentialWithDIDModel: self.model];
         if (isSucess) {
             [self hiddenPWDView];
@@ -969,6 +970,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         
         BOOL isSucess=[[HWMDIDManager shareDIDManager ]updateInfoWithInfo: self.model];
         if (isSucess) {
+            self.model.editTime=[[FLTools share]getNowTimeTimestampS];
             [[HWMDIDManager shareDIDManager ]saveDIDCredentialWithDIDModel: self.model];
             [self hiddenPWDView];
             [self showSendSuccessViewWithType:0];

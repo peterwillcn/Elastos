@@ -448,6 +448,22 @@ declare module WalletPlugin {
         createIdTransaction(args, success, error);
 
         /**
+         * Get all Resolved DID list of current subwallet.
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
+         * @param start specify start index of all did list.
+         * @param count specify count of did we need.
+         * @param did filter word, if empty all did list shall be qualified.
+         * @return all did list of resolved in json format.
+         * example:
+         * params did is not empty
+         * {"DID":[{"expires":1575104460,"id":"innnNZJLqmJ8uKfVHKFxhdqVtvipNHzmZs","issuanceDate":1572516335,"operation":"update","publicKey":[{"id":"#primary","publicKey":"031f7a5a6bf3b2450cd9da4048d00a8ef1cb4912b5057535f65f3cc0e0c36f13b4"}],"status":"Confirmed"}],"MaxCount":1}
+         * or params did is empty
+         * {"DID":[{"expires":"1575104460","id":"iZFrhZLetd6i6qPu2MsYvE2aKrgw7Af4Ww","didName":"testname","operation":"create","issuanceDate":1575104460,status:"Pending"},{"expires":"1575104460","id":"ifUQ59wFpHUKe5NZ6gjffx48sWEBt9YgQE","didName":"testname","operation":"create","issuanceDate":1575104460,status:"Confirmed"}],"MaxCount":2}
+         */
+        getResolveDIDInfo(args, success, error);
+
+        /**
          * Get all DID derived of current subwallet.
          * @param masterWalletID is the unique identification of a master wallet object.
          * @param start specify start index of all DID list.
@@ -462,22 +478,6 @@ declare module WalletPlugin {
          * }
          */
         getAllDID(args, success, error);
-
-        /**
-         * Get all CID derived of current subwallet.
-         * @param masterWalletID is the unique identification of a master wallet object.
-         * @param start specify start index of all CID list.
-         * @param count specify count of CID we need.
-         * @return If success return all CID in JSON format.
-         *
-         * example:
-         * GetAllCID(0, 3) will return below
-         * {
-         *     "CID": ["iZDgaZZjRPGCE4x8id6YYJ158RxfTjTnCt", "iPbdmxUVBzfNrVdqJzZEySyWGYeuKAeKqv", "iT42VNGXNUeqJ5yP4iGrqja6qhSEdSQmeP"],
-         *     "MaxCount": 100
-         * }
-         */
-        getAllCID(args, success, error);
 
         /**
          * Sign message with private key of did.
@@ -518,12 +518,28 @@ declare module WalletPlugin {
         getPublicKeyDID(args, success, error);
 
         /**
-         * Get CID by public key
+         * Generate payload for operation the did.
          * @param masterWalletID is the unique identification of a master wallet object.
-         * @param pubkey public key
-         * @return cid string
+         * @param inputInfo to generate DIDInfoPayload json fomat,able used to CreateIDTransaction. Content such as
+         * {
+            "id": "innnNZJLqmJ8uKfVHKFxhdqVtvipNHzmZs",
+             "didName":"testName",
+            "operation":"create",
+             "publicKey": [{
+              "id": "#primary",
+              "publicKey":
+             "031f7a5a6bf3b2450cd9da4048d00a8ef1cb4912b5057535f65f3cc0e0c36f13b4"
+              }, {
+             "id": "#recovery",
+             "controller": "ip7ntDo2metGnU8wGP4FnyKCUdbHm4BPDh",
+             "publicKey":
+             "03d25d582c485856520c501b2e2f92934eda0232ded70cad9e51cf13968cac22cc"
+             }],
+            "expires":1575104460
+           }
+         * @return The payload in JSON format.
          */
-        getPublicKeyCID(args, success, error);
+        generateDIDInfoPayload(args, success, error);
 
         //MainchainSubWallet
 
@@ -789,30 +805,6 @@ declare module WalletPlugin {
         createRetrieveCRDepositTransaction(args, success, error);
 
         /**
-         * Get information about whether the current wallet has been registered the producer.
-         * @param masterWalletID is the unique identification of a master wallet object.
-         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
-         * @return Information in JSON format. Such as:
-         * { "Status": "Unregistered", "Info": null }
-         *
-         * {
-         *    "Status": "Registered",
-         *    "Info": {
-         *      "CROwnerPublicKey": "02775B47CCB0808BA70EA16800385DBA2737FDA090BB0EBAE948DD16FF658CA74D",
-         *      "CROwnerDID": "iT42VNGXNUeqJ5yP4iGrqja6qhSEdSQmeP",
-         *      "NickName": "hello nickname",
-         *      "URL": "www.google.com",
-         *      "Location": 86,
-         *    }
-         * }
-         *
-         * { "Status": "Canceled", "Info": { "Confirms": 2016 } }
-         *
-         * { "Status": "ReturnDeposit", "Info": null }
-         */
-        getRegisteredCRInfo(args, success, error);
-
-        /**
          * Create vote cr transaction.
          * @param masterWalletID is the unique identification of a master wallet object.
          * @param chainID unique identity of a sub wallet. Chain id should not be empty.
@@ -858,6 +850,152 @@ declare module WalletPlugin {
          * }
          */
         getVotedCRList(args, success, error);
+
+        /**
+         * Get information about whether the current wallet has been registered the producer.
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
+         * @return Information in JSON format. Such as:
+         * { "Status": "Unregistered", "Info": null }
+         *
+         * {
+         *    "Status": "Registered",
+         *    "Info": {
+         *      "CROwnerPublicKey": "02775B47CCB0808BA70EA16800385DBA2737FDA090BB0EBAE948DD16FF658CA74D",
+         *      "CROwnerDID": "iT42VNGXNUeqJ5yP4iGrqja6qhSEdSQmeP",
+         *      "NickName": "hello nickname",
+         *      "URL": "www.google.com",
+         *      "Location": 86,
+         *    }
+         * }
+         *
+         * { "Status": "Canceled", "Info": { "Confirms": 2016 } }
+         *
+         * { "Status": "ReturnDeposit", "Info": null }
+         */
+        getRegisteredCRInfo(args, success, error);
+
+        /**
+         * Get summary or details of all types of votes
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
+         * @type if the type is empty, a summary of all types of votes will return. Otherwise, the details of the specified type will return.
+         * @return vote info in JSON format. Such as:
+         *
+         * summary:
+         *  [
+         *      {"Type": "Delegate", "Amount": "12345", "Timestamp": 1560888482, "Expiry": null},
+         *      {"Type": "CRC", "Amount": "56789", "Timestamp": 1560888482, "Expiry": 1561888000}
+         *  ]
+         *
+         * details:
+         *  [{
+         *      "Type": "Delegate",
+         *      "Amount": "200000000",
+         *      "Timestamp": 1560888482,
+         *      "Expiry": null,
+         *      "Votes": {"02848A8F1880408C4186ED31768331BC9296E1B0C3EC7AE6F11E9069B16013A9C5": "10000000","02775B47CCB0808BA70EA16800385DBA2737FDA090BB0EBAE948DD16FF658CA74D": "200000000"}
+         *  },
+         *  {
+         *      ...
+         *  }]
+         * or:
+         *  [{
+         *      "Type": "CRC",
+         *      "Amount": "300000000",
+         *      "Timestamp": 1560888482,
+         *      "Expiry": null,
+         *      "Votes": {"iYMVuGs1FscpgmghSzg243R6PzPiszrgj7": "10000000","iT42VNGXNUeqJ5yP4iGrqja6qhSEdSQmeP": "200000000"}
+         *  },
+         *  {
+         *      ...
+         *  }]
+         */
+        getVoteInfo(args, success, error);
+
+        //Proposal
+
+        /**
+         *Sponsor generate proposal digest for sponsor signature.
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
+         * @param type             Proposal type, value is [0-5]
+         * @param sponsorPublicKey Public key of sponsor
+         * @param draftHash        The hash of draft proposal
+         * @param budgets          The budgets of proposal every stage. Such as ["300", "33", "344"]
+         * @param recipient        Address of budget payee. Such as "EPbdmxUVBzfNrVdqJzZEySyWGYeuKAeKqv"
+         *
+         * @return The proposal in JSON format contains the "Digest" field to be signed and then set the "Signature" field. Such as
+         * {
+         *    "Budgets":[324,266,234],
+         *    "DraftHash":"a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0",
+         *    "Recipient":"cbcb4cc55dc3fc6cc6e4663f747d8b75e25d21db21",
+         *    "SponsorPublicKey":"031f7a5a6bf3b2450cd9da4048d00a8ef1cb4912b5057535f65f3cc0e0c36f13b4",
+         *    "Type":0,
+         *    "Digest":"ae9ebae57a176f5d5f8693eee5a8192f219b3ae04922cc096acb7748fe7ceba7",
+         *    "Signature":""
+         * }
+         */
+        sponsorProposalDigest(args, success, error);
+
+        /**
+         *CR sponsor generate proposal digest for cr signature.
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
+         * @param  sponsorSignedProposal Sponsor signed proposal
+         * @param  crSponsorDID     Did of sponsor. Such as "iYMVuGs1FscpgmghSzg243R6PzPiszrgj7"
+         * @return The proposal in JSON format contains the "Digest" field to be signed and then set the "CRSignature" field. Such as
+         * {
+         *       "Budgets":[324,266,234],
+         *       "CRSponsorDID":"cbcb4cc55dc3fc6cc6e4663f747d8b75e25d21db67",
+         *       "DraftHash":"a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0",
+         *       "Recipient":"cbcb4cc55dc3fc6cc6e4663f747d8b75e25d21db21",
+         *       "Signature":"ff0ff9f45478f8f9fcd50b15534c9a60810670c3fb400d831cd253370c42a0af79f7f4015ebfb4a3791f5e45aa1c952d40408239dead3d23a51314b339981b76",
+         *       "SponsorPublicKey":"031f7a5a6bf3b2450cd9da4048d00a8ef1cb4912b5057535f65f3cc0e0c36f13b4",
+         *       "Type":0,
+         *       "Digest":"2a65e8ac29f5ba4e16a1def91fc4e210838900f24f0f651c5c414d8fd8aaf55d",
+         *       "CRSignature":""
+         * }
+         */
+        CRSponsorProposalDigest(args, success, error);
+
+        /**
+         * Create CRC Proposal transaction.
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
+         * @param crSignedProposal CR sponsor signed proposal
+         * @param memo             Remarks string. Can be empty string.
+         * @return                 The transaction in JSON format to be signed and published.
+         */
+        createCRCProposalTransaction(args, success, error);
+
+        /**
+         * Generate payload for review CRC proposal.
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
+         * @param proposalHash Hash value of proposal.
+         * @param voteResult   Opinion of the proposal. approve : 0, reject : 1, abstain : 2
+         * @param did          DID of CR. Such as  "iYMVuGs1FscpgmghSzg243R6PzPiszrgj7";
+         * @return             The proposal in JSON format contains the "Digest" field to be signed and then set the "Signature" field. Such as
+         * {
+         *   "DID":"270589bb89afdbeac2f6788c52386bafb941a24867",
+         *   "Digest":"01333218d8492fe59c1ee1e0830bf86bf97b37f71f73183f29a31385f3e0ba45",
+         *   "ProposalHash":"a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0",
+         *   "Result":1,
+         *   "Signature":""
+         * }
+         */
+        generateCRCProposalReview(args, success, error);
+
+        /**
+         * Create a review proposal transaction.
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
+         * @param proposalReview Generate by GenerateCRCProposalReview() and "Signature" is not empty.
+         * @param memo           Remarks string. Can be empty string.
+         * @return               The transaction in JSON format to be signed and published.
+         */
+        createCRCProposalReviewTransaction(args, success, error);
 
         /**
          * Create vote crc proposal transaction.
@@ -930,212 +1068,83 @@ declare module WalletPlugin {
         createImpeachmentCRCTransaction(args, success, error);
 
         /**
-         * Get summary or details of all types of votes
+         * Generate proposal tracking digest for leader signature.
          * @param masterWalletID is the unique identification of a master wallet object.
          * @param chainID unique identity of a sub wallet. Chain id should not be empty.
-         * @type if the type is empty, a summary of all types of votes will return. Otherwise, the details of the specified type will return.
-         * @return vote info in JSON format. Such as:
+         * @param type             Proposal tracking type, value is [0-5]. Details:
+         *                            common         : 0x00
+         *                           progress       : 0x01
+         *                           progressReject : 0x02
+         *                           terminated     : 0x03
+         *                           proposalLeader : 0x04
+         *                           appropriation  : 0x05
          *
-         * summary:
-         *  [
-         *      {"Type": "Delegate", "Amount": "12345", "Timestamp": 1560888482, "Expiry": null},
-         *      {"Type": "CRC", "Amount": "56789", "Timestamp": 1560888482, "Expiry": 1561888000}
-         *  ]
+         * @param proposalHash     The hash of proposal.
+         * @param documentHash     The hash of tracking proposal document.
+         * @param stage            The stage of proposal.
+         * @param appropriation    The appropriation of this stage of proposal.
+         * @param leaderPubKey     The Public key of this proposal leader
+         * @param newLeaderPubKey  The public key of this proposal new leader
          *
-         * details:
-         *  [{
-         *      "Type": "Delegate",
-         *      "Amount": "200000000",
-         *      "Timestamp": 1560888482,
-         *      "Expiry": null,
-         *      "Votes": {"02848A8F1880408C4186ED31768331BC9296E1B0C3EC7AE6F11E9069B16013A9C5": "10000000","02775B47CCB0808BA70EA16800385DBA2737FDA090BB0EBAE948DD16FF658CA74D": "200000000"}
-         *  },
+         * @return The proposal tracking payload in JSON format contains the "Digest" field to be signed and then set the "LeaderSign" field. Such as
+        *  {
+         *      "Appropriation":2342,
+         *      "DocumentHash":"7c5d2e7cfd7d4011414b5ddb3ab43e2aca247e342d064d1091644606748d7513",
+         *      "LeaderPubKey":"02c632e27b19260d80d58a857d2acd9eb603f698445cc07ba94d52296468706331",
+         *      "NewLeaderPubKey":"02c632e27b19260d80d58a857d2acd9eb603f698445cc07ba94d52296468706331",
+         *      "ProposalHash":"0b5ee188b455ab5605cd452d7dda5c205563e1b30c56e93c6b9fda133f8cc4d4",
+         *      "Stage":52,
+         *      "Type":4,
+         *      "Digest":"27531160ac78b6073171d8a9d4c2a78261ecf1c8649822b1a536f0c15bf2d35b",
+         *      "LeaderSign":""
+         *  }
+         */
+        leaderProposalTrackDigest(args, success, error);
+
+        /**
+         * Generate proposal tracking digest for new leader signature.
+         * @param masterWalletID is the unique identification of a master wallet object.
+         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
+         * @param leaderSignedProposalTracking Leader Signed proposal tracking payload.
+         *
+         * @return The proposal tracking payload in JSON format contains the "Digest" field to be signed and then set the "NewLeaderSign" field. Such as
          *  {
-         *      ...
-         *  }]
-         * or:
-         *  [{
-         *      "Type": "CRC",
-         *      "Amount": "300000000",
-         *      "Timestamp": 1560888482,
-         *      "Expiry": null,
-         *      "Votes": {"iYMVuGs1FscpgmghSzg243R6PzPiszrgj7": "10000000","iT42VNGXNUeqJ5yP4iGrqja6qhSEdSQmeP": "200000000"}
-         *  },
-         *  {
-         *      ...
-         *  }]
+         *      "Appropriation":2342,
+         *      "DocumentHash":"7c5d2e7cfd7d4011414b5ddb3ab43e2aca247e342d064d1091644606748d7513",
+         *      "LeaderPubKey":"02c632e27b19260d80d58a857d2acd9eb603f698445cc07ba94d52296468706331",
+         *      "LeaderSign":"82836d2e35dcafd229375e51e66af8b862b8cccee25c86b2524a77d7f28f79972516911819845d69e9fe71b6c255e79058355331bd543c5f5d0f4194aa90242c",
+         *      "NewLeaderPubKey":"02c632e27b19260d80d58a857d2acd9eb603f698445cc07ba94d52296468706331",
+         *      "ProposalHash":"0b5ee188b455ab5605cd452d7dda5c205563e1b30c56e93c6b9fda133f8cc4d4",
+         *      "Stage":52,
+         *      "Type":4,
+         *      "Digest":"33d77c7e5943ac6aa1d521c76e47315779fe16ba05a6388022bd5afd561b5790",
+         *      "NewLeaderSign":"",
+         *  }
          */
-        getVoteInfo(args, success, error);
-
-        //Proposal
+        newLeaderProposalTrackDigest(args, success, error);
 
         /**
-         * Generate digest of payload.
+         * Generate proposal tracking digest for secretaryGeneral signature.
          * @param masterWalletID is the unique identification of a master wallet object.
          * @param chainID unique identity of a sub wallet. Chain id should not be empty.
-         * @param payload Proposal payload. Must contain the following:
-         * {
-         *    "Type": 0,
-         *    "CategoryData": "testdata",  // limit: 4096 bytes
-         *    "OwnerPublicKey": "031f7a5a6bf3b2450cd9da4048d00a8ef1cb4912b5057535f65f3cc0e0c36f13b4",
-         *    "DraftHash": "a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0",
-         *    "Budgets": [{"Type":0,"Stage":0,"Amount":"300"},{"Type":1,"Stage":1,"Amount":"33"},{"Type":2,"Stage":2,"Amount":"344"}],
-         *    "Recipient": "EPbdmxUVBzfNrVdqJzZEySyWGYeuKAeKqv", // address
-         * }
+         * @param leaderSignedProposalTracking Leader Signed proposal tracking payload.
          *
-         * Type can be value as below:
-         * {
-         *     Normal: 0x0000
-         *     ELIP: 0x0100
+         * @return The proposal tracking payload in JSON format contains the "Digest" field to be signed and then set the "SecretaryGeneralSign" field. Such as
+         *{
+         *     "Appropriation":2342,
+         *     "DocumentHash":"7c5d2e7cfd7d4011414b5ddb3ab43e2aca247e342d064d1091644606748d7513",
+         *     "LeaderPubKey":"02c632e27b19260d80d58a857d2acd9eb603f698445cc07ba94d52296468706331",
+         *     "LeaderSign":"28e0cb3d4c7c5d19b13f5ce15fc19c636108c47ae25eaa2a9f890dde91940582d7473426100d93c09af9f98233bb0fdfa635a89d03b90e7bfeef68e1408a96b3",
+         *     "NewLeaderPubKey":"02c632e27b19260d80d58a857d2acd9eb603f698445cc07ba94d52296468706331",
+         *     "NewLeaderSign":"9a24a084a6f599db9906594800b6cb077fa7995732c575d4d125c935446c93bbe594ee59e361f4d5c2142856c89c5d70c8811048bfb2f8620fbc18a06cb58109",
+         *     "ProposalHash":"0b5ee188b455ab5605cd452d7dda5c205563e1b30c56e93c6b9fda133f8cc4d4",
+         *     "Stage":52,
+         *     "Type":4,
+         *     "Digest":"70adb3e1d1f094f313cdfc4d47ff873d9b64094c03b492f38e5be0d3d61dc4df",
+         *     "SecretaryGeneralSign":""
          * }
-         *
-         * Budget must contain the following:
-         * {
-         *   "Type": 0,             // imprest = 0, normalPayment = 1, finalPayment = 2
-         *   "Stage": 0,            // value can be [0, 128)
-         *   "Amount": "100000000"  // sela
-         * }
-         *
-         * @return Digest of payload.
          */
-        proposalOwnerDigest(args, success, error);
-
-        /**
-         * Generate digest of payload.
-         * @param masterWalletID is the unique identification of a master wallet object.
-         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
-         * @param payload Proposal payload. Must contain the following:
-         * {
-         *    "Type": 0,                   // same as mention on method ProposalOwnerDigest()
-         *    "CategoryData": "testdata",  // limit: 4096 bytes
-         *    "OwnerPublicKey": "031f7a5a6bf3b2450cd9da4048d00a8ef1cb4912b5057535f65f3cc0e0c36f13b4", // Owner DID public key
-         *    "DraftHash": "a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0",
-         *    "Budgets": [                 // same as mention on method ProposalOwnerDigest()
-         *      {"Type":0,"Stage":0,"Amount":"300"},{"Type":1,"Stage":1,"Amount":"33"},{"Type":2,"Stage":2,"Amount":"344"}
-         *    ],
-         *    "Recipient": "EPbdmxUVBzfNrVdqJzZEySyWGYeuKAeKqv", // address
-         *
-         *    // signature of owner
-         *    "Signature": "ff0ff9f45478f8f9fcd50b15534c9a60810670c3fb400d831cd253370c42a0af79f7f4015ebfb4a3791f5e45aa1c952d40408239dead3d23a51314b339981b76",
-         *    "CRCouncilMemberDID": "icwTktC5M6fzySQ5yU7bKAZ6ipP623apFY"
-         * }
-         *
-         * @return Digest of payload.
-         */
-        proposalCRCouncilMemberDigest(args, success, error);
-
-        /**
-         * Create CRC Proposal transaction.
-         * @param masterWalletID is the unique identification of a master wallet object.
-         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
-         * @param payload Signed payload.
-         * {
-         *   "ProposalHash": "a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0",
-         *   "VoteResult": 1,    // approve = 0, reject = 1, abstain = 2
-         *   "OpinionHash": "a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0",
-         *   "DID": "icwTktC5M6fzySQ5yU7bKAZ6ipP623apFY", // did of CR council member's did
-         *   // signature of CR council member
-         *   "Signature": "ff0ff9f45478f8f9fcd50b15534c9a60810670c3fb400d831cd253370c42a0af79f7f4015ebfb4a3791f5e45aa1c952d40408239dead3d23a51314b339981b76"
-         * }
-         * @param memo             Remarks string. Can be empty string.
-         * @return                 The transaction in JSON format to be signed and published.
-         */
-        createProposalTransaction(args, success, error);
-
-        /**
-         * Generate digest of payload.
-         * @param masterWalletID is the unique identification of a master wallet object.
-         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
-         * @param payload Payload proposal review.
-         * {
-         *   "ProposalHash": "a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0",
-         *   "VoteResult": 1,    // approve = 0, reject = 1, abstain = 2
-         *   "OpinionHash": "a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0",
-         *   "DID": "icwTktC5M6fzySQ5yU7bKAZ6ipP623apFY", // did of CR council member's did
-         * }
-         *
-         * @return Digest of payload.
-         */
-        proposalReviewDigest(args, success, error);
-
-        /**
-         * Create proposal review transaction.
-         * @param masterWalletID is the unique identification of a master wallet object.
-         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
-         * @param payload Signed payload.
-         * {
-         *   "ProposalHash": "a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0",
-         *   "VoteResult": 1,    // approve = 0, reject = 1, abstain = 2
-         *   "OpinionHash": "a3d0eaa466df74983b5d7c543de6904f4c9418ead5ffd6d25814234a96db37b0",
-         *   "DID": "icwTktC5M6fzySQ5yU7bKAZ6ipP623apFY", // did of CR council member's did
-         *   // signature of CR council member
-         *   "Signature": "ff0ff9f45478f8f9fcd50b15534c9a60810670c3fb400d831cd253370c42a0af79f7f4015ebfb4a3791f5e45aa1c952d40408239dead3d23a51314b339981b76"
-         * }
-         *
-         * @param memo Remarks string. Can be empty string.
-         * @return The transaction in JSON format to be signed and published.
-         */
-        createProposalReviewTransaction(args, success, error);
-
-        /**
-         * Generate digest of payload.
-         * @param masterWalletID is the unique identification of a master wallet object.
-         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
-         * @param payload Proposal tracking payload.
-         * {
-         *   "ProposalHash": "7c5d2e7cfd7d4011414b5ddb3ab43e2aca247e342d064d1091644606748d7513",
-         *   "MessageHash": "0b5ee188b455ab5605cd452d7dda5c205563e1b30c56e93c6b9fda133f8cc4d4",
-         *   "Stage": 0, // value can be [0, 128)
-         *   "OwnerPublicKey": "02c632e27b19260d80d58a857d2acd9eb603f698445cc07ba94d52296468706331",
-         *   // If this proposal tracking is not use for changing owner, will be empty. Otherwise not empty.
-         *   "NewOwnerPublicKey": "02c632e27b19260d80d58a857d2acd9eb603f698445cc07ba94d52296468706331",
-         * }
-         *
-         * @return Digest of payload
-         */
-        proposalTrackingOwnerDigest(args, success, error);
-
-        /**
-         * Generate digest of payload.
-         * @param masterWalletID is the unique identification of a master wallet object.
-         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
-         * @param payload Proposal tracking payload.
-         * {
-         *   "ProposalHash": "7c5d2e7cfd7d4011414b5ddb3ab43e2aca247e342d064d1091644606748d7513",
-         *   "MessageHash": "0b5ee188b455ab5605cd452d7dda5c205563e1b30c56e93c6b9fda133f8cc4d4",
-         *   "Stage": 0, // value can be [0, 128)
-         *   "OwnerPublicKey": "02c632e27b19260d80d58a857d2acd9eb603f698445cc07ba94d52296468706331",
-         *   // If this proposal tracking is not use for changing owner, will be empty. Otherwise not empty.
-         *   "NewOwnerPublicKey": "02c632e27b19260d80d58a857d2acd9eb603f698445cc07ba94d52296468706331",
-         *   "OwnerSignature": "9a24a084a6f599db9906594800b6cb077fa7995732c575d4d125c935446c93bbe594ee59e361f4d5c2142856c89c5d70c8811048bfb2f8620fbc18a06cb58109",
-         * }
-         *
-         * @return Digest of payload.
-         */
-        proposalTrackingNewOwnerDigest(args, success, error);
-
-        /**
-         * Generate digest of payload.
-         * @param masterWalletID is the unique identification of a master wallet object.
-         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
-         * @param payload Proposal tracking payload.
-         * {
-         *   "ProposalHash": "7c5d2e7cfd7d4011414b5ddb3ab43e2aca247e342d064d1091644606748d7513",
-         *   "MessageHash": "0b5ee188b455ab5605cd452d7dda5c205563e1b30c56e93c6b9fda133f8cc4d4",
-         *   "Stage": 0, // value can be [0, 128)
-         *   "OwnerPublicKey": "02c632e27b19260d80d58a857d2acd9eb603f698445cc07ba94d52296468706331",
-         *   // If this proposal tracking is not use for changing owner, will be empty. Otherwise not empty.
-         *   "NewOwnerPublicKey": "02c632e27b19260d80d58a857d2acd9eb603f698445cc07ba94d52296468706331",
-         *   "OwnerSignature": "9a24a084a6f599db9906594800b6cb077fa7995732c575d4d125c935446c93bbe594ee59e361f4d5c2142856c89c5d70c8811048bfb2f8620fbc18a06cb58109",
-         *   // If NewOwnerPubKey is empty, this must be empty.
-         *   "NewOwnerSignature": "9a24a084a6f599db9906594800b6cb077fa7995732c575d4d125c935446c93bbe594ee59e361f4d5c2142856c89c5d70c8811048bfb2f8620fbc18a06cb58109",
-         *   "Type": 0, // common = 0, progress = 1, rejected = 2, terminated = 3, changeOwner = 4, finalized = 5
-         *   "SecretaryGeneralOpinionHash": "7c5d2e7cfd7d4011414b5ddb3ab43e2aca247e342d064d1091644606748d7513",
-         * }
-         *
-         * @return Digest of payload
-         */
-        proposalTrackingSecretaryDigest(args, success, error);
+        secretaryGeneralProposalTrackDigest(args, success, error);
 
         /**
          * Create a proposal tracking transaction.
@@ -1146,50 +1155,5 @@ declare module WalletPlugin {
          * @return               The transaction in JSON format to be signed and published.
          */
         createProposalTrackingTransaction(args, success, error);
-
-        /**
-         * Generate digest of payload.
-         * @param masterWalletID is the unique identification of a master wallet object.
-         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
-         * @param payload Proposal payload.
-         * {
-         *   "ProposalHash": "7c5d2e7cfd7d4011414b5ddb3ab43e2aca247e342d064d1091644606748d7513",
-         *   "OwnerPublicKey": "02c632e27b19260d80d58a857d2acd9eb603f698445cc07ba94d52296468706331",
-         * }
-         *
-         * @return Digest of payload.
-         */
-        proposalWithdrawDigest(args, success, error);
-
-        /**
-         * Create proposal withdraw transaction.
-         * Note: This tx does not need to be signed.
-         *
-         * @param masterWalletID is the unique identification of a master wallet object.
-         * @param chainID unique identity of a sub wallet. Chain id should not be empty.
-         * @param recipient Recipient of proposal.
-         * @param amount Withdraw amount.
-         * @param utxo UTXO json array of address CREXPENSESXXXXXXXXXXXXXXXXXX4UdT6b.
-         * [{
-         *   "Hash": "7c5d2e7cfd7d4011414b5ddb3ab43e2aca247e342d064d1091644606748d7513",
-         *   "Index": 0,
-         *   "Amount": "100000000",   // 1 ela = 100000000 sela
-         * },{
-         *   "Hash": "7c5d2e7cfd7d4011414b5ddb3ab43e2aca247e342d064d1091644606748d7513",
-         *   "Index": 2,
-         *   "Amount": "200000000",   // 2 ela = 200000000 sela
-         * }]
-         * @param payload Proposal payload.
-         * {
-         *   "ProposalHash": "7c5d2e7cfd7d4011414b5ddb3ab43e2aca247e342d064d1091644606748d7513",
-         *   "OwnerPublicKey": "02c632e27b19260d80d58a857d2acd9eb603f698445cc07ba94d52296468706331",
-         *   "Signature": "9a24a084a6f599db9906594800b6cb077fa7995732c575d4d125c935446c93bbe594ee59e361f4d5c2142856c89c5d70c8811048bfb2f8620fbc18a06cb58109"
-         * }
-         *
-         * @param memo Remarks string. Can be empty string.
-         *
-         * @return Transaction in JSON format.
-         */
-        createProposalWithdrawTransaction(args, success, error);
     }
 }

@@ -24,12 +24,13 @@
 #import "DAConfig.h"
 #import "HWMConfidentialInformationViewController.h"
 #import "HMWaddFooterView.h"
+#import "HWMTransactionDetailsView.h"
 UINib *_cellCreateDIDListNib;
 UINib *_cellCodeAndPhonenumberNib;
 static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTableViewCell";
 
-@interface HWMAddPersonalInformationViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDDataListViewDelegate, HMWSelectCountriesOrRegionsViewControllerDelegate,HWMDIDInfoListViewDelegate,HWMCreateDIDListTableViewCellDelegate,UITextFieldDelegate,HWMTheAreaCodeAndPhonenumberTableViewCellDelegate,HMWpwdPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWaddFooterViewDelegate>
+@interface HWMAddPersonalInformationViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDDataListViewDelegate, HMWSelectCountriesOrRegionsViewControllerDelegate,HWMDIDInfoListViewDelegate,HWMCreateDIDListTableViewCellDelegate,UITextFieldDelegate,HWMTheAreaCodeAndPhonenumberTableViewCellDelegate,HMWpwdPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWaddFooterViewDelegate,HWMTransactionDetailsViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *textInfoLabel;
 /*
  *<# #>
@@ -85,8 +86,10 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
  *<# #>
  */
 @property(strong,nonatomic)NSArray *allShowListArray;
-
-
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)HWMTransactionDetailsView  *transactionDetailsView;
 @end
 
 @implementation HWMAddPersonalInformationViewController
@@ -279,11 +282,22 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 }
 -(void)skipVCEvent{
     [self.view endEditing:YES];
-    UIView *manView=[self mainWindow];
-    [manView addSubview:self.pwdPopupV];
-    [self.pwdPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.equalTo(manView);
-    }];
+    
+    if (self.isEidet||self.whereFrome) {
+        UIView *manView=[self mainWindow];
+        [manView addSubview:self.pwdPopupV];
+        [self.pwdPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(manView);
+        }];
+    }else{
+        UIView *manView=[self mainWindow];
+        [manView addSubview:self.transactionDetailsView];
+        [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(manView);
+        }];
+    }
+    
+    
     
     
     
@@ -1085,7 +1099,25 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 }
 
 
-
+-(HWMTransactionDetailsView *)transactionDetailsView{
+    
+    if (!_transactionDetailsView) {
+        _transactionDetailsView =[[HWMTransactionDetailsView alloc]init];
+        _transactionDetailsView.popViewTitle=NSLocalizedString(@"交易详情", nil);
+        _transactionDetailsView.delegate=self;
+        _transactionDetailsView.DetailsType=didInfoType;
+        [_transactionDetailsView  TransactionDetailsWithFee:@"0.0002" withTransactionDetailsAumont:nil];
+    }
+    return _transactionDetailsView;
+}
+#pragma mark ---------HWMTransactionDetailsView----------
+-(void)closeTransactionDetailsView{
+    [self.transactionDetailsView removeFromSuperview];
+    self.transactionDetailsView=nil;
+}
+-(void)pwdAndInfoWithPWD:(NSString*)pwd{
+    [self makeSureWithPWD:pwd];
+}
 
 
 @end

@@ -173,4 +173,5 @@
 -(NSString*)conversionMessserTime:(NSString*)messTime;
 -(void)setLastReadTime;
 -(NSInteger)readLastReadTime;
+-(NSString*)DIDDefinTime;
 @end

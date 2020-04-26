@@ -11,16 +11,19 @@
 #import "HMWpwdPopupView.h"
 #import "HMWSendSuccessPopuView.h"
 #import "ELWalletManager.h"
-@interface HWMTheEditorDIDInfoViewController ()<HWMDIDDataListViewDelegate,HMWpwdPopupViewDelegate,UITextFieldDelegate>
+#import "HWMTransactionDetailsView.h"
+
+@interface HWMTheEditorDIDInfoViewController ()<HWMDIDDataListViewDelegate,HMWpwdPopupViewDelegate,UITextFieldDelegate,HWMTransactionDetailsViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *DIDTextInfoLabel;
 @property (weak, nonatomic) IBOutlet UITextField *nickNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *publicKeyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *DIDLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeDataLabel;
 @property (weak, nonatomic) IBOutlet UIButton *updatesButton;
-@property(strong,nonatomic)HMWpwdPopupView *ShowPoPWDView;
+
 @property(strong,nonatomic)HWMDIDDataListView *dataListView;
 @property(strong,nonatomic)HMWSendSuccessPopuView *sendSuccessPopuV;
+@property(strong,nonatomic)HWMTransactionDetailsView *transactionDetailsView;
 @property(assign,nonatomic)double blance;
 @end
 
@@ -57,13 +60,13 @@
     }
     [self showPWDView];
 }
--(HMWpwdPopupView *)ShowPoPWDView{
-    if (!_ShowPoPWDView) {
-        _ShowPoPWDView =[[HMWpwdPopupView alloc]init];
-        _ShowPoPWDView.delegate=self;
-    }
-    return _ShowPoPWDView;
-}
+//-(HMWpwdPopupView *)ShowPoPWDView{
+//    if (!_ShowPoPWDView) {
+//        _ShowPoPWDView =[[HMWpwdPopupView alloc]init];
+//        _ShowPoPWDView.delegate=self;
+//    }
+//    return _ShowPoPWDView;
+//}
 -(HWMDIDDataListView *)dataListView{
     if (!_dataListView) {
         _dataListView =[[HWMDIDDataListView alloc]init];
@@ -95,49 +98,12 @@
     
     [self.view endEditing:YES];
 }
--(void)makeSureWithPWD:(NSString*)pwd{
-    
-    [self.view endEditing:YES];
-    if (self.blance<0.0001) {
-        [[FLTools share]showErrorInfo:@"余额不足"];
-        return;
-    }
-    self.model.didName=self.nickNameLabel.text;
-    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwd] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
-    NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
-    if (privatekeyString.length==0) {
-        return;
-    }
-    if (self.model.didName.length==0) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入姓名(必填)", nil)];
-        return;
-    }
-    
-    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
-    
-    if ([[HWMDIDManager shareDIDManager]updateInfoWithInfo:self.model]) {
-        HWMDIDInfoModel *rdModel= [[HWMDIDManager shareDIDManager]readDIDCredential];
-        rdModel.didName=self.model.didName;
-        rdModel.endString=self.model.endString;
-        [[HWMDIDManager shareDIDManager]saveDIDCredentialWithDIDModel:rdModel];
-        [self showSendSuccessView];
-    }
-    //    else{
-    ////           [[FLTools share]showErrorInfo:@"失败"];
-    //       }
-    [self.ShowPoPWDView removeFromSuperview];
-    self.ShowPoPWDView=nil;
-}
--(void)cancelThePWDPageView{
-    [self.ShowPoPWDView removeFromSuperview];
-    self.ShowPoPWDView=nil;
-    [self.navigationController popViewControllerAnimated:YES];
-    
-}
+
+
 -(void)showPWDView{
     UIView *mainView =[self mainWindow];
-    [mainView addSubview:self.ShowPoPWDView];
-    [self.ShowPoPWDView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [mainView addSubview:self.transactionDetailsView];
+    [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(mainView);
     }];
     
@@ -178,5 +144,55 @@
     }
     
 }
+-(HWMTransactionDetailsView *)transactionDetailsView{
+    
+    if (!_transactionDetailsView) {
+        _transactionDetailsView =[[HWMTransactionDetailsView alloc]init];
+        _transactionDetailsView.popViewTitle=NSLocalizedString(@"交易详情", nil);
+        _transactionDetailsView.delegate=self;
+        _transactionDetailsView.DetailsType=didInfoType;
+        [_transactionDetailsView  TransactionDetailsWithFee:@"0.0002" withTransactionDetailsAumont:nil];
+    }
+    return _transactionDetailsView;
+}
+#pragma mark ---------HWMTransactionDetailsView----------
+-(void)closeTransactionDetailsView{
+    [self.transactionDetailsView removeFromSuperview];
+    self.transactionDetailsView=nil;
+}
+-(void)pwdAndInfoWithPWD:(NSString*)pwd{
+    [self.view endEditing:YES];
+    if (self.blance<0.0001) {
+        [[FLTools share]showErrorInfo:@"余额不足"];
+        return;
+    }
+    self.model.didName=self.nickNameLabel.text;
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwd] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
+    NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
+    if (privatekeyString.length==0) {
+        return;
+    }
+    if (self.model.didName.length==0) {
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入姓名(必填)", nil)];
+        return;
+    }
+    
+    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
+    
+    if ([[HWMDIDManager shareDIDManager]updateInfoWithInfo:self.model]) {
+        HWMDIDInfoModel *rdModel= [[HWMDIDManager shareDIDManager]readDIDCredential];
+        [self.transactionDetailsView removeFromSuperview];
+         self.transactionDetailsView =nil;
+        rdModel.didName=self.model.didName;
+        rdModel.endString=self.model.endString;
+        [[HWMDIDManager shareDIDManager]saveDIDCredentialWithDIDModel:rdModel];
+        [self showSendSuccessView];
+        
+    }
+    //    else{
+    ////           [[FLTools share]showErrorInfo:@"失败"];
+    //       }
+}
+
 
 @end

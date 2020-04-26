@@ -80,6 +80,7 @@
         self.feeLab.alpha=0.f;
         self.amountTextLab.text=NSLocalizedString(@"手续费", nil);
         self.amountLab.text= [NSString stringWithFormat:@"%@ ELA",fee];
+        self.makeLine.alpha=0;
     }else{
     self.feeLab.text=[NSString stringWithFormat:@"%@ ELA",fee];
     if (aumont.length==0) {

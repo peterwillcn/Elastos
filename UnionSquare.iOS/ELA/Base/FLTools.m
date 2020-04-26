@@ -81,6 +81,19 @@ static FLTools *tool;
     return timeS;
     
 }
+-(NSString*)DIDDefinTime{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    
+    [formatter setDateFormat:@"YYYY.MM.dd"];
+    NSDate *datenow = [NSDate date];
+    
+    NSString *currentTimeString = [formatter stringFromDate:datenow];
+    NSDate *myDate = [formatter  dateFromString:currentTimeString];
+    
+    NSString *timeSp = [NSString stringWithFormat:@"%ld", (long)[myDate timeIntervalSince1970]];
+    return  timeSp;
+    
+}
 - (NSString *)SpecialTimeZoneConversion:(NSString *)timeStr{
     NSDateFormatter *formatter = [NSDateFormatter new];
     [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];

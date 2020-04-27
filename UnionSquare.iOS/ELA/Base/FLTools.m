@@ -82,17 +82,16 @@ static FLTools *tool;
     
 }
 -(NSString*)DIDDefinTime{
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY.MM.dd"];
     NSDate *datenow = [NSDate date];
-    
     NSString *currentTimeString = [formatter stringFromDate:datenow];
     NSDate *myDate = [formatter  dateFromString:currentTimeString];
-    
-    NSString *timeSp = [NSString stringWithFormat:@"%ld", (long)[myDate timeIntervalSince1970]];
+     NSTimeInterval interval = 157680000+86400;
+    NSDate *definDate=[myDate initWithTimeInterval:interval sinceDate:myDate];
+    NSString *timeSp = [NSString stringWithFormat:@"%ld", (long)[definDate timeIntervalSince1970]];
     return  timeSp;
-    
 }
 - (NSString *)SpecialTimeZoneConversion:(NSString *)timeStr{
     NSDateFormatter *formatter = [NSDateFormatter new];
@@ -161,10 +160,28 @@ static FLTools *tool;
     timeStr =[self CNTOYMDHMSgetTimeFromTimesTamp:timeStr];
     NSDate *timeDate = [format dateFromString:timeStr]; //
     format.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
-    NSDate *utcDate = [format dateFromString:timeStr];  // Summary
+    NSDate *utcDate = [format dateFromString:timeStr];
+    // Summary
     NSDateFormatter *formatter = [NSDateFormatter new];
     [formatter setDateFormat:@"YYYY.MM.dd"];
-    NSString *timeS = [formatter stringFromDate:utcDate];
+    NSString *languageString=[DAConfig userLanguage];
+       
+       NSString *timeS;
+       NSCalendar *gregorian = [[NSCalendar alloc]
+                                initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+       unsigned unitFlags = NSCalendarUnitYear |
+       NSCalendarUnitMonth |  NSCalendarUnitDay |
+       NSCalendarUnitHour |  NSCalendarUnitMinute |
+       NSCalendarUnitSecond | NSCalendarUnitWeekday;
+       // 获取不同时间字段的信息
+       NSDateComponents* comp = [gregorian components: unitFlags
+                                             fromDate:utcDate];
+       if ([languageString  containsString:@"en"]) {
+           NSString *monthString=[NSString stringWithFormat:@"m%ld",(long)comp.month];
+           timeS=[NSString stringWithFormat:@"%@ %02d %ld",NSLocalizedString(monthString,nil),(int)comp.day,comp.year];
+       }else if ([languageString  containsString:@"zh"]){
+           timeS =[NSString stringWithFormat:@"%ld-%02d-%02d ",comp.year,(int)comp.month,(int)comp.day ];
+       }
     return timeS;
     
 }
@@ -2022,5 +2039,17 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     }
     return   [time intValue];
 }
-
+-(NSInteger)GetMonthDaysWithYear:(NSString*)year WithMonth:(NSString*)month{
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    format.dateFormat = @"yyyy.MM.dd HH:mm:ss";
+    NSString *timeStr =[NSString stringWithFormat:@"%@.%@.02 00:00:00",year,month];
+    NSDate *timeDate = [format dateFromString:timeStr];
+    NSCalendar * calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+     NSRange range = [calendar rangeOfUnit:NSCalendarUnitDay
+    inUnit: NSCalendarUnitMonth
+    forDate:timeDate];
+    NSUInteger numberOfDaysInMonth = range.length;
+    return numberOfDaysInMonth;
+    
+}
 @end

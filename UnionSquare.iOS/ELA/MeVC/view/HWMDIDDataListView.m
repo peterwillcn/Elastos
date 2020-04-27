@@ -130,6 +130,7 @@
             
             [self.delegate selectGender:self.genderIndex];
         }else if (self.ListViewType==birthdayType){
+         
             [self.delegate selectDataWithYY:self.yearArray[self.yearIndex] withMM:self.monthArray[self.monthIndex] wihMMWithInt:self.monthIndex+1 wtihDD:self.dayArray[self.dayIndex]];
         }
         [self.delegate cancelDataListView];
@@ -206,7 +207,10 @@
 
 - (NSMutableArray *)dayArray {
     int starIndex=1;
-    int endIndex=31;
+    
+    
+    int endIndex=(int)[[FLTools share]GetMonthDaysWithYear:self.yearArray[self.yearIndex] WithMonth:self.monthArray[self.monthIndex]];
+    
     if (self.ListViewType==DIDDataType) {
         
         if (self.yearIndex==0&&self.monthIndex==0) {
@@ -338,13 +342,13 @@
             }
         }
         [self updatSelectIndexTextColorWithRow:self.monthIndex withcomponent:1];
-        
+         [pickerView reloadComponent:2];
         if ([self.dayArray containsObject:self.selectDayString]) {
             self.dayIndex=[self.dayArray indexOfObject:self.selectDayString];
         }else{
             self.dayIndex=self.dayArray.count-1;
+          
         }
-        [pickerView reloadComponent:2];
         [self pickerView:self.dataPickerView didSelectRow:self.dayIndex inComponent:2];
         [self.dataPickerView selectRow:self.dayIndex inComponent:2 animated:YES];
         
@@ -358,7 +362,6 @@
             return;
         }
         self.dayIndex = row;
-        
         self.selectDayString=self.dayArray[self.dayIndex];
         [self updatSelectIndexTextColorWithRow:row withcomponent:component];
     }

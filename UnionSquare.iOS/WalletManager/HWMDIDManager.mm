@@ -228,9 +228,6 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     const char * suInfo = Credential_GetProperty(cre, "name");
     NSString * didName=[self charToString:suInfo];
     didName= [didName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    if (didName.length==0) {
-        didName=@"unknown";
-    }
     NSDictionary *reDic=@{@"nickName":didName,@"endTime":[NSString stringWithFormat:@"%@",@(endTime)],@"DIDString":self.DIDString};
     DIDURL_Destroy(url);
     DIDDocument_Destroy(doc);

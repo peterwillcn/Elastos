@@ -174,4 +174,5 @@
 -(void)setLastReadTime;
 -(NSInteger)readLastReadTime;
 -(NSString*)DIDDefinTime;
+-(NSInteger)GetMonthDaysWithYear:(NSString*)year WithMonth:(NSString*)month;
 @end

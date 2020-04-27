@@ -37,11 +37,15 @@
     self.DIDTextInfoLabel.text=NSLocalizedString(@"DID信息", nil);
     [self.updatesButton setTitle:NSLocalizedString(@"更新发布", nil) forState:UIControlStateNormal];
     
+  
+    if (self.model.didName.length==0) {
+        self.model.didName=@"unknown";
+    }
     self.nickNameLabel.text=self.model.didName;
     self.nickNameLabel.delegate=self;
     self.publicKeyLabel.text=self.PubKeyString;
     self.DIDLabel.text=[NSString stringWithFormat:@"%@",self.model.did];
-    self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至 ", nil),[[FLTools share]TimeFormatConversionBirthday:self.model.endString]];
+    self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至 ", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.endString]];
     [self getBalance];
 }
 - (IBAction)changeTimeDataInfoEvent:(id)sender {
@@ -84,7 +88,7 @@
 -(void)selectDataWithYY:(NSString*_Nullable)yy withMM:(NSString*_Nullable)mm wihMMWithInt:(NSInteger)mInt wtihDD:(NSString*_Nullable)dd{
     
     self.model.endString=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@ 00:00:00",yy,mm,dd]];
-    self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至 ", nil),[[FLTools share]TimeFormatConversionBirthday:self.model.endString]];
+    self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至 ", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.endString]];
     [self cancelDataListView];
     
 }
@@ -131,18 +135,14 @@
     
 }
 -(void)getBalance{
-    
-    
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,@"IDChain",@2] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];
     PluginResult * result =[[ELWalletManager share]getBalance:mommand];
     
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){
-        
-        NSString *blanceString=[NSString stringWithFormat:@"%@",result.message[@"success"]];
+      NSString *blanceString=[[FLTools share] elaScaleConversionWith:[NSString stringWithFormat:@"%@",result.message[@"success"]]];
         self.blance=[blanceString doubleValue];
     }
-    
 }
 -(HWMTransactionDetailsView *)transactionDetailsView{
     
@@ -181,8 +181,7 @@
      self.model.editTime=[[FLTools share]getNowTimeTimestampS];
     if ([[HWMDIDManager shareDIDManager]updateInfoWithInfo:self.model]) {
         HWMDIDInfoModel *rdModel= [[HWMDIDManager shareDIDManager]readDIDCredential];
-        [self.transactionDetailsView removeFromSuperview];
-         self.transactionDetailsView =nil;
+        [self closeTransactionDetailsView];
         rdModel.didName=self.model.didName;
         rdModel.endString=self.model.endString;
         [[HWMDIDManager shareDIDManager]saveDIDCredentialWithDIDModel:rdModel];

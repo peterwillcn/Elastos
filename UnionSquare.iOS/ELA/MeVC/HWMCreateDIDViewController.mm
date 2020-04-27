@@ -96,7 +96,7 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     self.navigationController.delegate=self;
     self.DIDInfoModel.endString=[[FLTools share]DIDDefinTime];
     NSString *infoString=NSLocalizedString(@"有效期至 ",nil);
-    self.YYMMDD=[NSString stringWithFormat:@"%@ %@",infoString, [[FLTools share]TimeFormatConversionBirthday: self.DIDInfoModel.endString]];
+    self.YYMMDD=[NSString stringWithFormat:@"%@ %@",infoString, [[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp: self.DIDInfoModel.endString]];
     //       [self isOpenIDChain];
     
 }
@@ -341,9 +341,8 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     
     
     self.DIDInfoModel.endString=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@ 00:00:00",yy,mm,dd]];
-    
     NSString *infoString=NSLocalizedString(@"有效期至 ",nil);
-    NSString *BirString=[[FLTools share]TimeFormatConversionBirthday: self.DIDInfoModel.endString];
+    NSString *BirString=[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp: self.DIDInfoModel.endString];
     self.YYMMDD=[NSString stringWithFormat:@"%@ %@",infoString,BirString];
     [self.table reloadData];
     

@@ -100,6 +100,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     [self setBackgroundImg:@""];
     self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithCustomView:self.skipButton];
     [self makeUI];
+    self.blance=0.f;
     self.textInfoLabel.text=NSLocalizedString(@"温馨提示：本页内容均非必填，仅保存在本地，供用户授权使用。", nil);
     self.needUpdate=NO;
     if (self.isEidet||self.whereFrome) {
@@ -111,7 +112,6 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     }else{
         self.title=NSLocalizedString(@"添加个人信息", nil);
     }
-    
     NSString *languageString=[DAConfig userLanguage];
     if ([languageString  containsString:@"en"]) {
         self.infoHeight.constant=45.f;
@@ -972,6 +972,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         if (isSucess) {
             self.model.editTime=[[FLTools share]getNowTimeTimestampS];
             [[HWMDIDManager shareDIDManager ]saveDIDCredentialWithDIDModel: self.model];
+            [self closeTransactionDetailsView];
             [self hiddenPWDView];
             [self showSendSuccessViewWithType:0];
             FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
@@ -1072,7 +1073,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     PluginResult * result =[[ELWalletManager share]getBalance:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){
-        NSString *blanceString=[NSString stringWithFormat:@"%@",result.message[@"success"]];
+        NSString *blanceString=[[FLTools share] elaScaleConversionWith:[NSString stringWithFormat:@"%@",result.message[@"success"]]];
         self.blance=[blanceString doubleValue];
     }
     

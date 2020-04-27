@@ -26,6 +26,12 @@ public abstract class PasswordInfo {
     public String displayName;
 
     /**
+     * Package ID of the application/capsule that saved this password information.
+     * READ-ONLY
+     */
+    public String appID;
+
+    /**
      * List of any kind of app-specific additional information for this password entry.
      */
     public JSONObject custom;
@@ -37,6 +43,7 @@ public abstract class PasswordInfo {
             jsonObj.put("type", type.mValue);
             jsonObj.put("displayName", displayName);
             jsonObj.put("custom", custom);
+            jsonObj.put("appID", appID);
             return jsonObj;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -55,5 +62,7 @@ public abstract class PasswordInfo {
         if (jsonObj.has("custom")) {
             this.custom = jsonObj.getJSONObject("custom");
         }
+
+        // SECURITY NOTE - Don't fill with appID. AppID is filled automatically.
     }
 }

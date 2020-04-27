@@ -72,7 +72,11 @@ class PasswordDatabaseInfo {
             return null;
         }
 
-        return PasswordInfoBuilder.buildFromType(entry);
+        PasswordInfo info = PasswordInfoBuilder.buildFromType(entry);
+        if (info != null) {
+            info.appID = appID;
+        }
+        return info;
     }
 
     public void setPasswordInfo(String appID, PasswordInfo info) throws JSONException {
@@ -106,6 +110,7 @@ class PasswordDatabaseInfo {
                     JSONObject entry = passwordEntries.getJSONObject(i);
                     PasswordInfo info = PasswordInfoBuilder.buildFromType(entry);
                     if (info != null) {
+                        info.appID = appID;
                         infos.add(info);
                     }
                 }

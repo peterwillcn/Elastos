@@ -58,7 +58,7 @@ UINib *_nib;
     CGFloat height=300;
     self.topOffset.constant=300;
     if (self.readModel) {
-         self.topOffset.constant=260;
+        self.topOffset.constant=260;
         height=260;
     }
     [self.view addSubview:self.headView];
@@ -66,12 +66,12 @@ UINib *_nib;
         make.left.right.top.equalTo(self.view);
         make.height.equalTo(@(self.topOffset.constant));
     }];
-//    UIView *headV=[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, height)];
-//    [headV addSubview:self.headView];
-//    [self.headView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.top.bottom.right.equalTo(headV);
-//    }];
-//    self.tabel.tableHeaderView=headV;
+    //    UIView *headV=[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, height)];
+    //    [headV addSubview:self.headView];
+    //    [self.headView mas_makeConstraints:^(MASConstraintMaker *make) {
+    //        make.left.top.bottom.right.equalTo(headV);
+    //    }];
+    //    self.tabel.tableHeaderView=headV;
 }
 -(HWMDIDAuthorizationHeadView *)headView{
     if (!_headView) {
@@ -193,10 +193,54 @@ UINib *_nib;
 -(void)POSTJWTInfoWithDic{
     NSString *infoString=[[HWMDIDManager shareDIDManager]generateDIDCredentialString];
     NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]dictionaryWithJsonString:infoString]];
-    self.updateModel.nickname=@"";
-    self.updateModel.phoneCode=@"";
-    self.updateModel.nation=@"";
-    self.updateModel.editTime=@"";
+    self.updateModel.nickname=nil;
+    self.updateModel.phoneCode=nil;
+    self.updateModel.phone=nil;
+    self.updateModel.nation=nil;
+    self.updateModel.editTime=nil;
+    self.updateModel.endString=nil;
+    if (self.updateModel.gender.length==0) {
+        self.updateModel.gender=nil;
+    }
+    if (self.updateModel.avatar.length==0) {
+        self.updateModel.avatar=nil;
+    }
+    if (self.updateModel.email.length==0) {
+        self.updateModel.email=nil;
+    }
+    if (self.updateModel.email.length==0) {
+        self.updateModel.email=nil;
+    }
+    if (self.updateModel.introduction.length==0) {
+        self.updateModel.introduction=nil;
+    }
+    if (self.updateModel.homePage.length==0) {
+        self.updateModel.homePage=nil;
+    }
+    if (self.updateModel.wechat.length==0) {
+        self.updateModel.wechat=nil;
+    }
+    if (self.updateModel.homePage.length==0) {
+        self.updateModel.homePage=nil;
+    }
+    if (self.updateModel.wechat.length==0) {
+        self.updateModel.wechat=nil;
+    }
+    if (self.updateModel.twitter.length==0) {
+        self.updateModel.twitter=nil;
+    }
+    if (self.updateModel.weibo.length==0) {
+        self.updateModel.weibo=nil;
+    }
+    if (self.updateModel.facebook.length==0) {
+        self.updateModel.facebook=nil;
+    }
+    if (self.updateModel.googleAccount.length==0) {
+        self.updateModel.googleAccount=nil;
+    }
+    if (self.updateModel.birthday.length==0) {
+        self.updateModel.birthday=nil;
+    }
     NSString *updaModelString=[self.updateModel modelToJSONString];
     NSDictionary *upDic=[[FLTools share]dictionaryWithJsonString:updaModelString];
     NSMutableDictionary *updaModelDic=[NSMutableDictionary dictionaryWithDictionary:upDic];
@@ -213,7 +257,7 @@ UINib *_nib;
         [self cancelThePWDPageView];
         [[FLTools share]showErrorInfo:@"更新成功"];
         [self goBack];
-      
+        
     } WithFailBlock:^(id data) {
         
     }];

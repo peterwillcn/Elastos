@@ -12,7 +12,7 @@ public class BankCardPasswordInfo extends PasswordInfo {
     private String bankName = null;
 
     public static PasswordInfo fromJsonObject(JSONObject jsonObject) throws Exception {
-        WifiPasswordInfo info = new WifiPasswordInfo();
+        BankCardPasswordInfo info = new BankCardPasswordInfo();
 
         info.fillWithJsonObject(jsonObject);
 
@@ -49,9 +49,9 @@ public class BankCardPasswordInfo extends PasswordInfo {
             this.cardType = BankCardType.fromValue(jsonObject.getInt("cardType"));
         }
         this.accountOwner = jsonObject.optString("accountOwner");
-        this.accountOwner = jsonObject.optString("cardNumber");
-        this.accountOwner = jsonObject.optString("expirationDate");
-        this.accountOwner = jsonObject.optString("cvv");
-        this.accountOwner = jsonObject.optString("bankName");
+        this.cardNumber = jsonObject.optString("cardNumber");
+        this.expirationDate = jsonObject.optString("expirationDate");
+        this.cvv = jsonObject.optString("cvv");
+        this.bankName = jsonObject.optString("bankName");
     }
 }

@@ -22,26 +22,15 @@
 
 import Foundation
 
-class UIStyling {
-    public static var popupMainTextColor = UIColor.black
-    public static var popupInputHintTextColor = UIColor.black
-    public static var popupMainBackgroundColor = UIColor.black
-    public static var popupSecondaryBackgroundColor = UIColor.black
-    
-    static func prepare(useDarkMode: Bool) {
-        if useDarkMode {
-            // DARK MODE
-            popupMainTextColor = UIColor.init(hex: "#fdfeff")!
-            popupInputHintTextColor = UIColor.init(hex: "#fdfeff")!
-            popupMainBackgroundColor = UIColor.init(hex: "#72738E")!
-            popupSecondaryBackgroundColor = UIColor.init(hex: "#393948")!
-        }
-        else {
-            // LIGHT MODE
-            popupMainTextColor = UIColor.init(hex: "#161740")!
-            popupInputHintTextColor = UIColor.init(hex: "#161740")!
-            popupMainBackgroundColor = UIColor.init(hex: "#F0F0F0")!
-            popupSecondaryBackgroundColor = UIColor.init(hex: "#FFFFFF")!
-        }
-    }
+public enum PasswordType : Int {
+    /** Simple password/private key/string info. */
+    case GENERIC_PASSWORD = 0
+    /** Wifi network with SSID and password. */
+    case WIFI = 1
+    /** Bank account, national or international format. */
+    case BANK_ACCOUNT = 2
+    /** Bank card. */
+    case BANK_CARD = 3
+    /** Any kind of account make of an identifier and a password. */
+    case ACCOUNT = 4
 }

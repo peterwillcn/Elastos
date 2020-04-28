@@ -22,26 +22,33 @@
 
 import Foundation
 
-class UIStyling {
-    public static var popupMainTextColor = UIColor.black
-    public static var popupInputHintTextColor = UIColor.black
-    public static var popupMainBackgroundColor = UIColor.black
-    public static var popupSecondaryBackgroundColor = UIColor.black
-    
-    static func prepare(useDarkMode: Bool) {
-        if useDarkMode {
-            // DARK MODE
-            popupMainTextColor = UIColor.init(hex: "#fdfeff")!
-            popupInputHintTextColor = UIColor.init(hex: "#fdfeff")!
-            popupMainBackgroundColor = UIColor.init(hex: "#72738E")!
-            popupSecondaryBackgroundColor = UIColor.init(hex: "#393948")!
+public class GenericPasswordInfo : PasswordInfo {
+    var password: String? = nil
+
+    public static func fromJsonObject(_ jsonObject: Dictionary<String, Any>) throws -> PasswordInfo {
+        let info = GenericPasswordInfo()
+
+        try info.fillWithJsonObject(jsonObject)
+
+        return info
+    }
+
+    public override func asDictionary() -> Dictionary<String, Any>? {
+        if var jsonObject = super.asDictionary() {
+            jsonObject["password"] = password
+            return jsonObject
         }
-        else {
-            // LIGHT MODE
-            popupMainTextColor = UIColor.init(hex: "#161740")!
-            popupInputHintTextColor = UIColor.init(hex: "#161740")!
-            popupMainBackgroundColor = UIColor.init(hex: "#F0F0F0")!
-            popupSecondaryBackgroundColor = UIColor.init(hex: "#FFFFFF")!
+
+        return nil
+    }
+
+    public override func fillWithJsonObject(_ jsonObject: Dictionary<String, Any>) throws {
+        // Fill base fields
+        try super.fillWithJsonObject(jsonObject)
+
+        // Fill specific fields
+        if (jsonObject.keys.contains("password")) {
+            self.password = (jsonObject["password"] as! String)
         }
     }
 }

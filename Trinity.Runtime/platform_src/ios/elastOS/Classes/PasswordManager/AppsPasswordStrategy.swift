@@ -22,26 +22,12 @@
 
 import Foundation
 
-class UIStyling {
-    public static var popupMainTextColor = UIColor.black
-    public static var popupInputHintTextColor = UIColor.black
-    public static var popupMainBackgroundColor = UIColor.black
-    public static var popupSecondaryBackgroundColor = UIColor.black
-    
-    static func prepare(useDarkMode: Bool) {
-        if useDarkMode {
-            // DARK MODE
-            popupMainTextColor = UIColor.init(hex: "#fdfeff")!
-            popupInputHintTextColor = UIColor.init(hex: "#fdfeff")!
-            popupMainBackgroundColor = UIColor.init(hex: "#72738E")!
-            popupSecondaryBackgroundColor = UIColor.init(hex: "#393948")!
-        }
-        else {
-            // LIGHT MODE
-            popupMainTextColor = UIColor.init(hex: "#161740")!
-            popupInputHintTextColor = UIColor.init(hex: "#161740")!
-            popupMainBackgroundColor = UIColor.init(hex: "#F0F0F0")!
-            popupSecondaryBackgroundColor = UIColor.init(hex: "#FFFFFF")!
-        }
-    }
+/**
+ * Global strategy for the password manager, whether to use a master password or not.
+ */
+public enum AppsPasswordStrategy : Int {
+    /** Use a master password to save and encrypt all app password info. Default. */
+    case LOCK_WITH_MASTER_PASSWORD = 0
+    /** Don't store app password info in the password manager. Users manually input in-app passwords every time. */
+    case DONT_USE_MASTER_PASSWORD = 1
 }

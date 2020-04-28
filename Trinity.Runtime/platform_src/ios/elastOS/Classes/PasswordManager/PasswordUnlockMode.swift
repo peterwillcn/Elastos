@@ -22,26 +22,18 @@
 
 import Foundation
 
-class UIStyling {
-    public static var popupMainTextColor = UIColor.black
-    public static var popupInputHintTextColor = UIColor.black
-    public static var popupMainBackgroundColor = UIColor.black
-    public static var popupSecondaryBackgroundColor = UIColor.black
-    
-    static func prepare(useDarkMode: Bool) {
-        if useDarkMode {
-            // DARK MODE
-            popupMainTextColor = UIColor.init(hex: "#fdfeff")!
-            popupInputHintTextColor = UIColor.init(hex: "#fdfeff")!
-            popupMainBackgroundColor = UIColor.init(hex: "#72738E")!
-            popupSecondaryBackgroundColor = UIColor.init(hex: "#393948")!
-        }
-        else {
-            // LIGHT MODE
-            popupMainTextColor = UIColor.init(hex: "#161740")!
-            popupInputHintTextColor = UIColor.init(hex: "#161740")!
-            popupMainBackgroundColor = UIColor.init(hex: "#F0F0F0")!
-            popupSecondaryBackgroundColor = UIColor.init(hex: "#FFFFFF")!
-        }
-    }
+public enum PasswordUnlockMode : Int {
+    /**
+     * After been unlocked once, password manager access is open during some time and until
+     * elastOS exits. Users don't have to provide their master password again during this time,
+     * and all apps can get their password information directly.
+     */
+    case UNLOCK_FOR_A_WHILE = 0
+
+    /**
+     * Users have to provide their master password every time an application requests a password.
+     * This provides higher security in case the device is stolen, but this is less convenient
+     * for users.
+     */
+    case UNLOCK_EVERY_TIME = 1
 }

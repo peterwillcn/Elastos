@@ -47,6 +47,7 @@
 
 @property (nonatomic, readonly) NSString* dataPath;
 @property (nonatomic, readonly) NSString* appId;
+@property (nonatomic, readonly) NSString* did;
 
 @end
 

@@ -22,26 +22,8 @@
 
 import Foundation
 
-class UIStyling {
-    public static var popupMainTextColor = UIColor.black
-    public static var popupInputHintTextColor = UIColor.black
-    public static var popupMainBackgroundColor = UIColor.black
-    public static var popupSecondaryBackgroundColor = UIColor.black
-    
-    static func prepare(useDarkMode: Bool) {
-        if useDarkMode {
-            // DARK MODE
-            popupMainTextColor = UIColor.init(hex: "#fdfeff")!
-            popupInputHintTextColor = UIColor.init(hex: "#fdfeff")!
-            popupMainBackgroundColor = UIColor.init(hex: "#72738E")!
-            popupSecondaryBackgroundColor = UIColor.init(hex: "#393948")!
-        }
-        else {
-            // LIGHT MODE
-            popupMainTextColor = UIColor.init(hex: "#161740")!
-            popupInputHintTextColor = UIColor.init(hex: "#161740")!
-            popupMainBackgroundColor = UIColor.init(hex: "#F0F0F0")!
-            popupSecondaryBackgroundColor = UIColor.init(hex: "#FFFFFF")!
-        }
-    }
-}
+/**
+ * Format options for password creation requests, in order to force generating passwords
+ * with a specific format.
+ */
+public class PasswordCreationOptions {}

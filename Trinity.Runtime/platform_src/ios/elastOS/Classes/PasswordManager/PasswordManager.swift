@@ -1,0 +1,724 @@
+/*
+* Copyright (c) 2020 Elastos Foundation
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
+import Foundation
+import CryptorRSA
+import PopupDialog
+import RNCryptor
+
+public protocol BasePasswordManagerListener {
+    func onCancel()
+    func onError(_ error: String)
+}
+
+private protocol OnDatabaseLoadedListener : BasePasswordManagerListener {
+    func onDatabaseLoaded()
+}
+
+private protocol OnDatabaseSavedListener : BasePasswordManagerListener {
+    func onDatabaseSaved()
+}
+
+public protocol OnMasterPasswordCreationListener : BasePasswordManagerListener {
+    func onMasterPasswordCreated()
+}
+
+public protocol OnMasterPasswordChangeListener : BasePasswordManagerListener {
+    func onMasterPasswordChanged()
+}
+
+public protocol OnMasterPasswordRetrievedListener : BasePasswordManagerListener {
+    func onMasterPasswordRetrieved(password: String)
+}
+
+public protocol OnPasswordInfoRetrievedListener : BasePasswordManagerListener {
+    func onPasswordInfoRetrieved(info: PasswordInfo)
+}
+
+public protocol OnAllPasswordInfoRetrievedListener : BasePasswordManagerListener {
+    func onAllPasswordInfoRetrieved(info: Array<PasswordInfo>)
+}
+
+public protocol OnPasswordInfoDeletedListener : BasePasswordManagerListener {
+    func onPasswordInfoDeleted()
+}
+
+public protocol OnPasswordInfoSetListener : BasePasswordManagerListener {
+    func onPasswordInfoSet()
+}
+
+
+/**
+ * Database format is a plain JSON file, not mysql, why? Because we want to ensure unicity when changing the
+ * master password (and in a simple way). The JSON file is then re-encrypted at once. It also better matches the
+ * custom password info data that we store, instead of storing JSON strings in a mysql table.
+ */
+public class PasswordManager {
+    private static let LOG_TAG = "PWDManager"
+    private static let SHARED_PREFS_KEY = "PWDMANAGERPREFS"
+    private static let PASSWORD_MANAGER_APP_ID = "org.elastos.trinity.dapp.passwordmanager"
+
+    public static let FAKE_PASSWORD_MANAGER_PLUGIN_APP_ID = "fakemasterpasswordpluginappid"
+    public static let MASTER_PASSWORD_BIOMETRIC_KEY = "masterpasswordkey"
+
+    private static let PREF_KEY_UNLOCK_MODE = "unlockmode"
+    private static let PREF_KEY_APPS_PASSWORD_STRATEGY = "appspasswordstrategy"
+
+    //private WebViewActivity activity;
+    private static var instance: PasswordManager? = nil
+    private var appManager: AppManager? = nil
+    private var databasesInfo = Dictionary<String, PasswordDatabaseInfo>()
+
+    public init() {
+        // TODO this.activity = activity;
+        PasswordManager.instance = self
+    }
+
+    func setAppManager(_ appManager: AppManager) {
+        self.appManager = appManager
+    }
+
+    public static func getSharedInstance() -> PasswordManager {
+        return instance!
+    }
+
+    /**
+     * Saves or updates a password information into the secure database.
+     * The passwordInfo's key field is checked to match existing content. Existing content
+     * is overwritten.
+     *
+     * Password info could fail to be saved in case user cancels the master password creation or enters
+     * a wrong master password then cancels.
+     */
+    public func setPasswordInfo(info: PasswordInfo, did: String, appID: String,
+                                onPasswordInfoSet: ()->Void,
+                                onCancel: ()->Void,
+                                onError: (_ error: String)->Void) {
+        // If the calling app is NOT the password manager, we can set password info only if the APPS password
+        // strategy is LOCK_WITH_MASTER_PASSWORD.
+        if (!appIsPasswordManager(appId: appID) && getAppsPasswordStrategy() == .DONT_USE_MASTER_PASSWORD) {
+            onError("Saving password info with a DONT_USE_MASTER_PASSWORD apps strategy is forbidden")
+            return
+        }
+
+        loadDatabase(did: did, onDatabaseLoaded: {
+            do {
+                try setPasswordInfoReal(info: info, did: did, appID: appID)
+                onPasswordInfoSet()
+            }
+            catch (let error) {
+                onError(error.localizedDescription)
+            }
+        }, onCancel: {
+            onCancel()
+        }, onError: { error in
+            onError(error)
+        }, isPasswordRetry: false)
+    }
+
+    /**
+     * Using a key identifier, returns a previously saved password info.
+     *
+     * A regular application can only access password info that it created itself.
+     * The password manager application is able to access information from all applications.
+     *
+     * @param key Unique key identifying the password info to retrieve.
+     *
+     * @returns The password info, or null if nothing was found.
+     */
+    public func getPasswordInfo(key: String, did: String, appID: String,
+                                onPasswordInfoRetrieved: @escaping (_ password: PasswordInfo?)->Void,
+                                onCancel: @escaping ()->Void,
+                                onError: @escaping (_ error: String)->Void) throws {
+        // If the calling app is NOT the password manager, we can get password info only if the APPS password
+        // strategy is LOCK_WITH_MASTER_PASSWORD.
+    if (!appIsPasswordManager(appId: appID) && getAppsPasswordStrategy() == AppsPasswordStrategy.DONT_USE_MASTER_PASSWORD) {
+            // Force apps to prompt user password by themselves as we are not using a master password.
+            onPasswordInfoRetrieved(nil)
+            return
+        }
+
+        checkMasterPasswordCreationRequired(did: did, onMasterPasswordCreated: {
+            self.loadDatabase(did: did, onDatabaseLoaded: {
+                do {
+                    let info = try self.getPasswordInfoReal(key: key, did: did, appID: appID)
+                    onPasswordInfoRetrieved(info)
+                }
+                catch (let error) {
+                    onError(error.localizedDescription)
+                }
+            }, onCancel: {
+                onCancel()
+            }, onError: { error in
+                onError(error)
+            }, isPasswordRetry: false)
+        }, onCancel: {
+            onCancel()
+        }, onError: { error in
+            onError(error)
+        })
+    }
+
+    /**
+     * Returns the whole list of password information contained in the password database.
+     *
+     * Only the password manager application is allowed to call this API.
+     *
+     * @returns The list of existing password information.
+     */
+    public func getAllPasswordInfo(did: String, appID: String,
+                                   onAllPasswordInfoRetrieved: @escaping (_ info: [PasswordInfo])->Void,
+                                   onCancel: @escaping ()->Void,
+                                   onError: @escaping (_ error: String)->Void) {
+        
+        if (!appIsPasswordManager(appId: appID)) {
+            onError("Only the password manager application can call this API")
+            return
+        }
+
+        checkMasterPasswordCreationRequired(did: "", onMasterPasswordCreated: {
+            self.loadDatabase(did: did, onDatabaseLoaded: {
+                do {
+                    let infos = try self.getAllPasswordInfoReal(did: did)
+                    onAllPasswordInfoRetrieved(infos)
+                }
+                catch (let error) {
+                    onError(error.localizedDescription)
+                }
+            }, onCancel: {
+                onCancel()
+            }, onError: { error in
+                onError(error)
+            }, isPasswordRetry: false)
+            
+        }, onCancel: onCancel, onError: onError)
+    }
+
+    /**
+     * Deletes an existing password information from the secure database.
+     *
+     * A regular application can only delete password info that it created itself.
+     * The password manager application is able to delete information from all applications.
+     *
+     * @param key Unique identifier for the password info to delete.
+     */
+    public func deletePasswordInfo(key: String, did: String, appID: String, targetAppID: String,
+                                   onPasswordInfoDeleted: ()->Void,
+                                   onCancel: ()->Void,
+                                   onError: (_ error: String)->Void) throws {
+        // Only the password manager app can delete content that is not its own content.
+        if (!appIsPasswordManager(appId: appID) && appID != targetAppID) {
+            onError("Only the application manager application can delete password info that does not belong to it.")
+            return
+        }
+
+        loadDatabase(did: did, onDatabaseLoaded: {
+            do {
+                try deletePasswordInfoReal(key: key, did: did, targetAppID: targetAppID)
+                onPasswordInfoDeleted()
+            }
+            catch (let error) {
+                onError(error.localizedDescription)
+            }
+        }, onCancel: onCancel, onError: onError, isPasswordRetry: false)
+    }
+    
+    /**
+     * Convenience method to generate a random password based on given criteria (options).
+     * Used by applications to quickly generate new user passwords.
+     *
+     * @param options unused for now
+     */
+    public func generateRandomPassword(options: PasswordCreationOptions?) -> String {
+        let sizeOfRandomString = 8
+
+        var allowedCharacters = ""
+        allowedCharacters += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        allowedCharacters += "abcdefghijklmnopqrstuvwxyz"
+        allowedCharacters += "0123456789"
+        allowedCharacters += "!@#$%^&*()_-+=<>?/{}~|"
+
+        return String((0..<sizeOfRandomString).map{ _ in allowedCharacters.randomElement()! })
+    }
+
+    /**
+     * Sets the new master password for the current DID session. This master password locks the whole
+     * database of password information.
+     *
+     * In case of a master password change, the password info database is re-encrypted with this new password.
+     *
+     * Only the password manager application is allowed to call this API.
+     */
+    public func changeMasterPassword(did: String, appID: String,
+                                     onMasterPasswordChanged: ()->Void,
+                                     onCancel: ()->Void,
+                                     onError: (_ error: String)->Void) throws {
+        
+        if !appIsPasswordManager(appId: appID) {
+            print("Only the password manager application can call this API")
+            return
+        }
+
+        loadDatabase(did: did, onDatabaseLoaded: {
+            // No database exists. Start the master password creation flow
+            /*new MasterPasswordCreator.Builder(activity, PasswordManager.this)
+                .setCanDisableMasterPasswordUse(false)
+                .setOnNextClickedListener(password -> {
+                    // Master password was provided and confirmed. Now we can use it.
+
+                    try {
+                        PasswordDatabaseInfo dbInfo = databasesInfo.get(did);
+
+                        // Changing the master password means re-encrypting the database with a different password
+                        encryptAndSaveDatabase(did, password);
+
+                        // Remember the new password locally
+                        dbInfo.activeMasterPassword = password;
+
+                        listener.onMasterPasswordChanged();
+                    }
+                    catch (Exception e) {
+                        listener.onError(e.getMessage());
+                    }
+                })
+                .setOnCancelClickedListener(listener::onCancel)
+                .setOnErrorListener(listener::onError)
+                .prompt();*/
+        }, onCancel: onCancel, onError: onError, isPasswordRetry: false)
+    }
+
+    /**
+     * If the master password has ben unlocked earlier, all passwords are accessible for a while.
+     * This API re-locks the passwords database and further requests from applications to this password
+     * manager will require user to provide his master password again.
+     */
+    public func lockMasterPassword(did: String, appID: String) {
+        if (!appIsPasswordManager(appId: appID)) {
+            print("Only the password manager application can call this API")
+            return
+        }
+
+        lockDatabase(did: did)
+    }
+
+    /**
+     * Sets the unlock strategy for the password info database. By default, once the master password
+     * if provided once by the user, the whole database is unlocked for a while, until elastOS exits,
+     * or if one hour has passed, or if it's manually locked again.
+     *
+     * For increased security, user can choose to get prompted for the master password every time using
+     * this API.
+     *
+     * This API can be called only by the password manager application.
+     *
+     * @param unlockMode Unlock strategy to use.
+     */
+    public func setUnlockMode(unlockMode: PasswordUnlockMode, did: String, appID: String) {
+        if (!appIsPasswordManager(appId: appID)) {
+            print("Only the password manager application can call this API")
+            return
+        }
+
+        saveToPrefs(key: PasswordManager.PREF_KEY_UNLOCK_MODE, value: unlockMode.rawValue)
+
+        // if the mode becomes UNLOCK_EVERY_TIME, we lock the database
+        if (getUnlockMode() != .UNLOCK_EVERY_TIME && unlockMode == PasswordUnlockMode.UNLOCK_EVERY_TIME) {
+            lockDatabase(did: did);
+        }
+    }
+
+    private func getUnlockMode() -> PasswordUnlockMode {
+        let unlockModeAsInt = getPrefsInt(key: PasswordManager.PREF_KEY_UNLOCK_MODE, defaultValue: PasswordUnlockMode.UNLOCK_FOR_A_WHILE.rawValue)
+        return PasswordUnlockMode(rawValue: unlockModeAsInt) ?? PasswordUnlockMode.UNLOCK_FOR_A_WHILE
+    }
+
+    /**
+     * Sets the overall strategy for third party applications password management.
+     *
+     * Users can choose to lock all apps passwords using a single master password. They can also choose
+     * to not use this feature and instead, input their custom app password every time they need to.
+     *
+     * When strategy is set to DONT_USE_MASTER_PASSWORD, setPasswordInfo() always fails, and getPasswordInfo()
+     * always returns an empty content, therefore pushing apps to prompt user passwords every time.
+     *
+     * If the strategy was LOCK_WITH_MASTER_PASSWORD and becomes DONT_USE_MASTER_PASSWORD, existing password
+     * info is not deleted. The password manager application is responsible for clearing the existing content
+     * if user wishes to do that.
+     *
+     * @param strategy Strategy to use in order to save and get passwords in third party apps.
+     */
+    public func setAppsPasswordStrategy(strategy: AppsPasswordStrategy, did: String, appID: String?, forceSet: Bool) {
+        if (!forceSet && !appIsPasswordManager(appId: appID!)) {
+            print("Only the password manager application can call this API")
+            return
+        }
+
+        saveToPrefs(key: PasswordManager.PREF_KEY_APPS_PASSWORD_STRATEGY, value: strategy.rawValue)
+
+        // if the mode becomes DONT_USE_MASTER_PASSWORD, we lock the database
+        if (getAppsPasswordStrategy() != .DONT_USE_MASTER_PASSWORD && strategy == .DONT_USE_MASTER_PASSWORD) {
+            lockDatabase(did: did)
+        }
+    }
+
+    /**
+     * Returns the current apps password strategy. If nothing was et earlier, default value
+     * is LOCK_WITH_MASTER_PASSWORD.
+     *
+     * @returns The current apps password strategy
+     */
+    public func getAppsPasswordStrategy() -> AppsPasswordStrategy {
+        let savedPasswordStrategyAsInt = getPrefsInt(key: PasswordManager.PREF_KEY_APPS_PASSWORD_STRATEGY, defaultValue: AppsPasswordStrategy.LOCK_WITH_MASTER_PASSWORD.rawValue)
+        return AppsPasswordStrategy(rawValue: savedPasswordStrategyAsInt) ?? AppsPasswordStrategy.LOCK_WITH_MASTER_PASSWORD
+    }
+
+    private func appIsPasswordManager(appId: String) -> Bool {
+        return appId == PasswordManager.PASSWORD_MANAGER_APP_ID
+    }
+
+    private func loadDatabase(did: String,
+                              onDatabaseLoaded: ()->Void,
+                              onCancel: ()->Void,
+                              onError: (_ error: String)->Void,
+                              isPasswordRetry: Bool) {
+        
+        if (isDatabaseLoaded(did: did) && !sessionExpired(did: did)) {
+            onDatabaseLoaded()
+        }
+        else {
+            if (sessionExpired(did: did)) {
+                lockDatabase(did: did)
+            }
+
+            // Master password is locked - prompt it to user
+            /*new MasterPasswordPrompter.Builder(activity, this)
+                .setOnNextClickedListener((password, shouldSavePasswordToBiometric) -> {
+                    try {
+                        loadEncryptedDatabase(did, password);
+                        if (isDatabaseLoaded(did)) {
+                            // User chose to enable biometric authentication (was not enabled before). So we save the
+                            // master password to the biometric crypto space.
+                            if (shouldSavePasswordToBiometric) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    activity.runOnUiThread(()->{
+                                        FingerPrintAuthHelper fingerPrintAuthHelper = new FingerPrintAuthHelper(activity, FAKE_PASSWORD_MANAGER_PLUGIN_APP_ID);
+                                        fingerPrintAuthHelper.init();
+                                        fingerPrintAuthHelper.authenticateAndSavePassword(MASTER_PASSWORD_BIOMETRIC_KEY, password, new CancellationSignal(), new FingerPrintAuthHelper.SimpleAuthenticationCallback() {
+                                            @Override
+                                            public void onSuccess() {
+                                                // Save user's choice to use biometric auth method next time
+                                                setBiometricAuthEnabled(true);
+
+                                                listener.onDatabaseLoaded();
+                                            }
+
+                                            @Override
+                                            public void onFailure(String message) {
+                                                // Biometric save failed, but we still could open the database, so we return a success here.
+                                                // Though, we don't save user's choice to enable biometric auth.
+                                                Log.e(LOG_TAG, "Biometric authentication failed to initiate");
+                                                Log.e(LOG_TAG, message);
+                                                listener.onDatabaseLoaded();
+                                            }
+
+                                            @Override
+                                            public void onHelp(int helpCode, String helpString) {
+                                            }
+                                        });
+                                    });
+                                }
+                            }
+                            else {
+                                listener.onDatabaseLoaded();
+                            }
+                        }
+                        else
+                            listener.onError("Unknown error while trying to load the passwords database");
+                    }
+                    catch (Exception e) {
+                        // In case of wrong password exception, try again
+                        if (e.getMessage().contains("BAD_DECRYPT")) {
+                            loadDatabase(did, listener, true);
+                        }
+                        else {
+                            // Other exceptions are passed raw
+                            listener.onError(e.getMessage());
+                        }
+                    }
+                })
+                .setOnCancelClickedListener(listener::onCancel)
+                .setOnErrorListener(listener::onError)
+                .prompt(isPasswordRetry);*/
+        }
+    }
+
+    /**
+     * A "session" is when a database is unlocked. This session can be considered as expired for further calls,
+     * in case user wants to unlock the database every time, or in case it's been first unlocked a too long time ago (auto relock
+     * for security).
+     */
+    private func sessionExpired(did: String) -> Bool {
+        if getUnlockMode() == .UNLOCK_EVERY_TIME {
+            return true
+        }
+
+        guard let dbInfo = databasesInfo[did] else {
+            return true
+        }
+
+        // Last opened more than 1 hour ago? -> Expired
+        let oneHourMs = TimeInterval(60*60)
+        return dbInfo.openingTime.timeIntervalSinceNow > oneHourMs
+    }
+
+    private func isDatabaseLoaded(did: String) -> Bool {
+        return databasesInfo[did] != nil
+    }
+
+    private func lockDatabase(did: String) {
+        if let dbInfo = databasesInfo[did] {
+            dbInfo.lock()
+            databasesInfo.removeValue(forKey: did)
+        }
+    }
+    
+    private func getDatabaseDirectory(did: String) -> String {
+        return appManager!.dataPath + "/pwm/" + did
+    }
+
+    private func getDatabaseFilePath(did: String) -> String {
+        let dbPath = getDatabaseDirectory(did: did) + "/store.db"
+        ensureDbPathExists(did: did)
+        return dbPath
+    }
+
+    private func ensureDbPathExists(did: String) {
+        // Create folder in case it's missing
+        try? FileManager.default.createDirectory(atPath: getDatabaseDirectory(did: did), withIntermediateDirectories: true, attributes: nil)
+    }
+
+    private func databaseExists(did: String) -> Bool {
+        return FileManager.default.fileExists(atPath: getDatabaseFilePath(did: did))
+    }
+
+    private func createEmptyDatabase(did: String, masterPassword: String) {
+        // No database exists yet. Return an empty database info.
+        let dbInfo = PasswordDatabaseInfo.createEmpty()
+        databasesInfo[did] = dbInfo
+
+        // Save the master password
+        dbInfo.activeMasterPassword = masterPassword;
+    }
+
+    /**
+     * Using user's master password, decrypt the passwords list from disk and load it into memory.
+     */
+    private func loadEncryptedDatabase(did: String, masterPassword: String?) throws {
+        guard let masterPassword = masterPassword, masterPassword != "" else {
+            throw "Empty master password is not allowed"
+        }
+
+        let dbPath = getDatabaseFilePath(did: did)
+
+        if (!databaseExists(did: did)) {
+            createEmptyDatabase(did: did, masterPassword: masterPassword)
+        }
+        else {
+            let encodedData = try Data(contentsOf: URL(string: dbPath)!)
+
+            // Now that we've loaded the file, try to decrypt it
+            let decodedData = try decryptData(data: encodedData, masterPassword: masterPassword)
+
+            // We can now load the database content as a JSON object
+            do {
+                if let jsonData = String(data: decodedData, encoding: .utf8) {
+                    let dbInfo = try PasswordDatabaseInfo.fromJson(jsonData)
+                    databasesInfo[did] = dbInfo
+
+                    // Decryption was successful, saved master password in memory for a while.
+                    dbInfo.activeMasterPassword = masterPassword;
+                }
+                else {
+                    throw "Passwords database JSON content for did \(did) is corrupted: Can't decode to json string"
+                }
+            } catch (let error) {
+                throw "Passwords database JSON content for did \(did) is corrupted: \(error.localizedDescription)"
+            }
+        }
+    }
+
+    private func decryptData(data: Data, masterPassword: String) throws -> Data
+    {
+        let decryptor = RNCryptor.Decryptor(password: masterPassword)
+        let plaintext = NSMutableData()
+
+        try plaintext.append(decryptor.update(withData: data))
+        try plaintext.append(decryptor.finalData())
+        
+        return plaintext.copy() as! Data
+    }
+
+    private func encryptAndSaveDatabase(did: String, masterPassword: String) throws {
+        let dbPath = getDatabaseFilePath(did: did)
+
+        // Make sure the database is open
+        guard let dbInfo = databasesInfo[did] else {
+            throw "Can't save a closed database"
+        }
+
+        // Convert JSON data into bytes
+        guard let jsonString = dbInfo.rawJson!.toString() else {
+            throw "Unable to convert database json to json string"
+        }
+        
+        guard let data = jsonString.toBase64Data() else {
+            throw "Unable to convert database json string into base64 data"
+        }
+
+        // Encrypt and get result
+        let result = try encryptData(plainTextBytes: data, masterPassword: masterPassword)
+
+        // Save Salt, IV and encrypted data as serialized hashmap object in the database file.
+        try result.write(to: URL(string: dbPath)!)
+    }
+
+    private func encryptData(plainTextBytes: Data, masterPassword: String) throws -> Data
+    {
+        let encryptor = RNCryptor.Encryptor(password: masterPassword)
+        let ciphertext = NSMutableData()
+
+        ciphertext.append(encryptor.update(withData: plainTextBytes))
+        ciphertext.append(encryptor.finalData())
+        
+        return ciphertext.copy() as! Data
+    }
+
+    private func setPasswordInfoReal(info: PasswordInfo, did: String, appID:String) throws {
+        if let dbInfo = databasesInfo[did] {
+            try dbInfo.setPasswordInfo(appID: appID, info: info)
+            try encryptAndSaveDatabase(did: did, masterPassword: dbInfo.activeMasterPassword!)
+        }
+    }
+
+    private func getPasswordInfoReal(key: String, did: String, appID: String) throws -> PasswordInfo? {
+        return try databasesInfo[did]!.getPasswordInfo(appID: appID, key: key)
+    }
+
+    private func getAllPasswordInfoReal(did: String) throws -> [PasswordInfo]  {
+        return try databasesInfo[did]!.getAllPasswordInfo()
+    }
+
+    private func deletePasswordInfoReal(key: String, did: String, targetAppID: String) throws {
+        if let dbInfo = databasesInfo[did] {
+            try dbInfo.deletePasswordInfo(appID: targetAppID, key: key)
+            try encryptAndSaveDatabase(did: did, masterPassword: dbInfo.activeMasterPassword!)
+        }
+    }
+
+    private func saveToPrefs(key: String, value: Int) {
+        UserDefaults.standard.set(value, forKey: key)
+    }
+    
+    private func saveToPrefs(key: String, value: Bool) {
+        UserDefaults.standard.set(value, forKey: key)
+    }
+    
+    private func getPrefsInt(key: String, defaultValue: Int) -> Int {
+        if UserDefaults.standard.object(forKey: key) == nil {
+            return defaultValue
+        } else {
+            return UserDefaults.standard.integer(forKey: key)
+        }
+    }
+    
+    private func getPrefsBool(key: String, defaultValue: Bool) -> Bool {
+        if UserDefaults.standard.object(forKey: key) == nil {
+            return defaultValue
+        } else {
+            return UserDefaults.standard.bool(forKey: key)
+        }
+    }
+
+    /**
+     * Checks if a password database exists (master password was set). If not, starts the master password
+     * creation flow. After completion, calls the listener so that the base flow can continue.
+     */
+    private func checkMasterPasswordCreationRequired(did: String,
+                                                     onMasterPasswordCreated: @escaping ()->Void,
+                                                     onCancel: @escaping ()->Void,
+                                                     onError: @escaping (_ error: String)->Void) {
+        if (databaseExists(did: did)) {
+            onMasterPasswordCreated()
+        }
+        else {
+           let creatorController = MasterPasswordCreatorAlertController(nibName: "MasterPasswordCreator", bundle: Bundle.main)
+
+            let popup = PopupDialog(viewController: creatorController, buttonAlignment: .horizontal, transitionStyle: .fadeIn, preferredWidth: 340, tapGestureDismissal: false, panGestureDismissal: false, hideStatusBar: false, completion: nil)
+
+            popup.view.backgroundColor = UIColor.clear // For rounded corners
+            self.appManager!.mainViewController.present(popup, animated: false, completion: nil)
+
+            creatorController.setOnPasswordCreatedListener { password in
+                popup.dismiss()
+
+                // Master password was provided and confirmed. Now we can use it.
+
+                // Create an empty database
+                self.createEmptyDatabase(did: did, masterPassword: password)
+
+                do {
+                    // Save this empty database to remember that we have defined a master password
+                    try self.encryptAndSaveDatabase(did: did, masterPassword: password)
+
+                    onMasterPasswordCreated()
+                }
+                catch (let error) {
+                    onError(error.localizedDescription)
+                }
+            }
+                
+            creatorController.setOnCancelListener {
+                popup.dismiss()
+                onCancel()
+            }
+            
+            creatorController.setOnDontUseMasterPasswordListener {
+                popup.dismiss()
+                
+                // User chose to not use a master password. He will have to use the password manager app
+                // to change this option.
+                self.setAppsPasswordStrategy(strategy: .DONT_USE_MASTER_PASSWORD, did: did, appID: nil, forceSet: true)
+
+                // Consider this as a cancellation for this app
+                onCancel()
+            }
+        }
+    }
+
+    public func isBiometricAuthEnabled() -> Bool {
+        return getPrefsBool(key: "biometricauth", defaultValue: false)
+    }
+
+    public func setBiometricAuthEnabled(useBiometricAuth: Bool) {
+        saveToPrefs(key: "biometricauth", value: useBiometricAuth)
+    }
+}

@@ -33,6 +33,7 @@
 @property (nonatomic, readwrite) NSString* tempPath;
 @property (nonatomic, readwrite) NSString* configPath;
 @property (nonatomic, readwrite) NSString* appId;
+@property (nonatomic, readwrite) NSString* did;
 @end
 
 @implementation TrinityPlugin
@@ -46,6 +47,7 @@
 @synthesize tempPath;
 @synthesize configPath;
 @synthesize appId;
+@synthesize did;
 
 - (void)setWhitelistPlugin: (CDVPlugin *)filter  {
     self.whiteListFilter = (WhitelistFilter*)filter;
@@ -59,6 +61,7 @@
     self.configPath = [appManager getConfigPath ];
     self.tempPath = [appManager getTempPath:info.app_id];
     self.appId = info.app_id;
+    self.did = @"did:elastos:FIXME"; // TODO: FAKE DID FOR NOW
 }
 
 - (BOOL)isAllowAccess:(NSString *)url {

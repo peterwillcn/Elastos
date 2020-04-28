@@ -22,26 +22,26 @@
 
 import Foundation
 
-class UIStyling {
-    public static var popupMainTextColor = UIColor.black
-    public static var popupInputHintTextColor = UIColor.black
-    public static var popupMainBackgroundColor = UIColor.black
-    public static var popupSecondaryBackgroundColor = UIColor.black
-    
-    static func prepare(useDarkMode: Bool) {
-        if useDarkMode {
-            // DARK MODE
-            popupMainTextColor = UIColor.init(hex: "#fdfeff")!
-            popupInputHintTextColor = UIColor.init(hex: "#fdfeff")!
-            popupMainBackgroundColor = UIColor.init(hex: "#72738E")!
-            popupSecondaryBackgroundColor = UIColor.init(hex: "#393948")!
+public class PasswordInfoBuilder {
+    public static func buildFromType(jsonObject: Dictionary<String, Any>) throws -> PasswordInfo {
+        if (!jsonObject.keys.contains("type")) {
+            throw "JSON object has no type information"
         }
-        else {
-            // LIGHT MODE
-            popupMainTextColor = UIColor.init(hex: "#161740")!
-            popupInputHintTextColor = UIColor.init(hex: "#161740")!
-            popupMainBackgroundColor = UIColor.init(hex: "#F0F0F0")!
-            popupSecondaryBackgroundColor = UIColor.init(hex: "#FFFFFF")!
+        
+        let type = PasswordType.init(rawValue: jsonObject["type"] as! Int) ?? PasswordType.GENERIC_PASSWORD
+        switch (type) {
+        case .GENERIC_PASSWORD:
+            return try GenericPasswordInfo.fromJsonObject(jsonObject)
+        case .WIFI:
+            return try WifiPasswordInfo.fromJsonObject(jsonObject)
+        case .BANK_ACCOUNT:
+            return try BankAccountPasswordInfo.fromJsonObject(jsonObject)
+        case .BANK_CARD:
+            return try BankCardPasswordInfo.fromJsonObject(jsonObject)
+        case .ACCOUNT:
+            return try AccountPasswordInfo.fromJsonObject(jsonObject)
+        default:
+            throw "Unknown password info type \(type)"
         }
     }
 }

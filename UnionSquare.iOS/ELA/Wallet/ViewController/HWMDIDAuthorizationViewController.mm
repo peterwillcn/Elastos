@@ -87,7 +87,7 @@ UINib *_nib;
 -(NSArray *)allInfoListArray{
     if (!_allInfoListArray) {
         _allInfoListArray
-        =@[@{@"text":NSLocalizedString(@"性别",nil),@"index":@"0",@"type":@"2",@"state":@"1"},@{@"text":NSLocalizedString(@"出生日期",nil),@"index":@"1",@"type":@"2",@"state":@"1"},@{@"text":NSLocalizedString(@"头像地址",nil),@"index":@"2",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"邮箱1",nil),@"index":@"3",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"个人简介qe",nil),@"index":@"4",@"type":@"4",@"state":@"1"},@{@"text":NSLocalizedString(@"个人主页",nil),@"index":@"5",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"Facebook账号",nil),@"index":@"6",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"Twitter账号",nil),@"index":@"7",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"微博账号",nul),@"index":@"8",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"微信账号",null),@"index":@"9",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"谷歌账号",null),@"index":@"10",@"type":@"1",@"state":@"1"}];
+        =@[@{@"text":NSLocalizedString(@"性别",nil),@"index":@"0",@"type":@"2",@"state":@"1"},@{@"text":NSLocalizedString(@"出生日期",nil),@"index":@"1",@"type":@"2",@"state":@"1"},@{@"text":NSLocalizedString(@"头像网址",nil),@"index":@"2",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"邮箱1",nil),@"index":@"3",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"个人简介qe",nil),@"index":@"4",@"type":@"4",@"state":@"1"},@{@"text":NSLocalizedString(@"个人主页",nil),@"index":@"5",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"Facebook账号",nil),@"index":@"6",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"Twitter账号",nil),@"index":@"7",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"微博账号",nul),@"index":@"8",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"微信账号",null),@"index":@"9",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"谷歌账号",null),@"index":@"10",@"type":@"1",@"state":@"1"}];
     }
     return _allInfoListArray;
     
@@ -332,7 +332,7 @@ UINib *_nib;
             self.updateModel.birthday=@"";
         }
         
-    }else if ([textString isEqualToString:NSLocalizedString(@"头像地址", nil)]&&self.readModel.avatar.length>0) {
+    }else if ([textString isEqualToString:NSLocalizedString(@"头像网址", nil)]&&self.readModel.avatar.length>0) {
         if ([state isEqualToString:@"1"]) {
             self.updateModel.avatar=self.readModel.avatar;
         }else{

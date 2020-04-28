@@ -560,20 +560,20 @@
 }
 #pragma mark ---------HMWnodeInformationViewControllerDelegate----------
 -(void)needUpdateListWithIndex:(NSInteger)index{
-    HWMCRListModel *model = self.ActiveArray[index];
-    BOOL has =[[HMWFMDBManager sharedManagerType:CRListType]selectCRWithWalletID:self.wallet.masterWalletID andWithDID:model.did];
-    if (has) {
-        model.isCellSelected=YES;
-        if (model.isNewCellSelected){
-            model.isNewCellSelected=NO;}
-    }else{
-        model.isCellSelected=NO;
-        if (model.isNewCellSelected){
-            model.isNewCellSelected=NO;}
-        
-    }
-    self.ActiveArray[index]=model;
-    self.votingListV.dataSource=self.ActiveArray;
+//    HWMCRListModel *model = self.ActiveArray[index];
+//    BOOL has =[[HMWFMDBManager sharedManagerType:CRListType]selectCRWithWalletID:self.wallet.masterWalletID andWithDID:model.did];
+//    if (has) {
+//        model.isCellSelected=YES;
+//        if (model.isNewCellSelected){
+//            model.isNewCellSelected=NO;}
+//    }else{
+//        model.isCellSelected=NO;
+//        if (model.isNewCellSelected){
+//            model.isNewCellSelected=NO;}
+//        
+//    }
+//    self.ActiveArray[index]=model;
+//    self.votingListV.dataSource=self.ActiveArray;
 }
 -(void)closeView{
     [self.CRCommitteeForAgreementV removeFromSuperview];

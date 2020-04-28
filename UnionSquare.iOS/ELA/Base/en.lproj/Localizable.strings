@@ -711,7 +711,7 @@
 "申请使用您的DID信息（包括但不限于存储、展示等用途）："="Apply for your DID information(Including but not limited to storage, display, etc.)：";
 "- DID基本信息"="- DID Basic Information";
 "请输入姓名（必填）"="- Personal information";
-"头像网址"="- Personal Profile";
+"头像网址1"="- Avatar URL";
 "社交账号"="Social account";
 "请输入姓名（必填）"="Enter the name (required)";
 "头像网址"="Avatar URL";

@@ -228,7 +228,8 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     const char * suInfo = Credential_GetProperty(cre, "name");
     NSString * didName=[self charToString:suInfo];
     didName= [didName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    NSDictionary *reDic=@{@"nickName":didName,@"endTime":[NSString stringWithFormat:@"%@",@(endTime)],@"DIDString":self.DIDString};
+    NSString *endTimeString=[[FLTools share]SpecialTimeZoneConversion:[NSString stringWithFormat:@"%@",@(endTime)]];
+    NSDictionary *reDic=@{@"nickName":didName,@"endTime":endTimeString,@"DIDString":self.DIDString};
     DIDURL_Destroy(url);
     DIDDocument_Destroy(doc);
     return reDic;
@@ -488,9 +489,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     return nil;
 }
 -(BOOL)CertificateUpdateWithWalletID:(NSString*)walletID WithFileName:(NSString*)fileName{
-    
     NSString *res=[MyUtil jwtPathWithWalletID:walletID withFileName:fileName];
-    
     NSData *data =[NSData dataWithContentsOfFile:res];
     NSString *infoString=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSDictionary *infoDic=[[FLTools share]dictionaryWithJsonString:infoString];

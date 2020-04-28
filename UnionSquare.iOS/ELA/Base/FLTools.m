@@ -88,17 +88,27 @@ static FLTools *tool;
     NSDate *datenow = [NSDate date];
     NSString *currentTimeString = [formatter stringFromDate:datenow];
     NSDate *myDate = [formatter  dateFromString:currentTimeString];
-     NSTimeInterval interval = 157680000+86400;
+    NSTimeInterval interval = 157680000+86400;
     NSDate *definDate=[myDate initWithTimeInterval:interval sinceDate:myDate];
     NSString *timeSp = [NSString stringWithFormat:@"%ld", (long)[definDate timeIntervalSince1970]];
     return  timeSp;
 }
 - (NSString *)SpecialTimeZoneConversion:(NSString *)timeStr{
-    NSDateFormatter *formatter = [NSDateFormatter new];
-    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
-    NSDate *myDate = [formatter  dateFromString:timeStr];
-    NSString * timeSp = [[NSNumber numberWithDouble:[myDate timeIntervalSince1970]] stringValue];
+    NSTimeInterval interval=[timeStr doubleValue];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    [dateFormatter setTimeZone:timeZone];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+    NSString *dateString = [dateFormatter stringFromDate:date];
+    NSTimeZone* destinationTimeZone = [NSTimeZone localTimeZone];
+    NSInteger sourceGMTOffset = [timeZone secondsFromGMTForDate:date];
+    NSInteger destinationGMTOffset = [destinationTimeZone secondsFromGMTForDate:date];
+    NSTimeInterval intervalT = destinationGMTOffset - sourceGMTOffset;
+    NSDate* destinationDateNow = [[NSDate alloc] initWithTimeInterval:intervalT sinceDate:date];
+    NSString *timeSp = [NSString stringWithFormat:@"%ld", (long)[destinationDateNow  timeIntervalSince1970]];
     return timeSp;
+    
 }
 - (NSString *)CNTOYMDHMSgetTimeFromTimesTamp:(NSString *)timeStr{
     
@@ -165,23 +175,23 @@ static FLTools *tool;
     NSDateFormatter *formatter = [NSDateFormatter new];
     [formatter setDateFormat:@"YYYY.MM.dd"];
     NSString *languageString=[DAConfig userLanguage];
-       
-       NSString *timeS;
-       NSCalendar *gregorian = [[NSCalendar alloc]
-                                initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-       unsigned unitFlags = NSCalendarUnitYear |
-       NSCalendarUnitMonth |  NSCalendarUnitDay |
-       NSCalendarUnitHour |  NSCalendarUnitMinute |
-       NSCalendarUnitSecond | NSCalendarUnitWeekday;
-       // 获取不同时间字段的信息
-       NSDateComponents* comp = [gregorian components: unitFlags
-                                             fromDate:utcDate];
-       if ([languageString  containsString:@"en"]) {
-           NSString *monthString=[NSString stringWithFormat:@"m%ld",(long)comp.month];
-           timeS=[NSString stringWithFormat:@"%@ %02d %ld",NSLocalizedString(monthString,nil),(int)comp.day,comp.year];
-       }else if ([languageString  containsString:@"zh"]){
-           timeS =[NSString stringWithFormat:@"%ld-%02d-%02d ",comp.year,(int)comp.month,(int)comp.day ];
-       }
+    
+    NSString *timeS;
+    NSCalendar *gregorian = [[NSCalendar alloc]
+                             initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    unsigned unitFlags = NSCalendarUnitYear |
+    NSCalendarUnitMonth |  NSCalendarUnitDay |
+    NSCalendarUnitHour |  NSCalendarUnitMinute |
+    NSCalendarUnitSecond | NSCalendarUnitWeekday;
+    // 获取不同时间字段的信息
+    NSDateComponents* comp = [gregorian components: unitFlags
+                                          fromDate:utcDate];
+    if ([languageString  containsString:@"en"]) {
+        NSString *monthString=[NSString stringWithFormat:@"m%ld",(long)comp.month];
+        timeS=[NSString stringWithFormat:@"%@ %02d %ld",NSLocalizedString(monthString,nil),(int)comp.day,comp.year];
+    }else if ([languageString  containsString:@"zh"]){
+        timeS =[NSString stringWithFormat:@"%ld-%02d-%02d ",comp.year,(int)comp.month,(int)comp.day ];
+    }
     return timeS;
     
 }
@@ -2045,9 +2055,9 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     NSString *timeStr =[NSString stringWithFormat:@"%@.%@.02 00:00:00",year,month];
     NSDate *timeDate = [format dateFromString:timeStr];
     NSCalendar * calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-     NSRange range = [calendar rangeOfUnit:NSCalendarUnitDay
-    inUnit: NSCalendarUnitMonth
-    forDate:timeDate];
+    NSRange range = [calendar rangeOfUnit:NSCalendarUnitDay
+                                   inUnit: NSCalendarUnitMonth
+                                  forDate:timeDate];
     NSUInteger numberOfDaysInMonth = range.length;
     return numberOfDaysInMonth;
     

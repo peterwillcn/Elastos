@@ -85,11 +85,12 @@ public class PasswordManager {
 
     //private WebViewActivity activity;
     private static var instance: PasswordManager? = nil
+    private let mainViewController: MainViewController
     private var appManager: AppManager? = nil
     private var databasesInfo = Dictionary<String, PasswordDatabaseInfo>()
 
-    public init() {
-        // TODO this.activity = activity;
+    init(mainViewController: MainViewController) {
+        self.mainViewController = mainViewController
         PasswordManager.instance = self
     }
 

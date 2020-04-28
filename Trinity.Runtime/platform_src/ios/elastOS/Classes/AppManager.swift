@@ -135,6 +135,8 @@ class AppManager: NSObject {
         super.init();
 
         AppManager.appManager = self;
+        
+        PasswordManager.getSharedInstance().setAppManager(self)
 
         refreashInfos();
         getLauncherInfo();

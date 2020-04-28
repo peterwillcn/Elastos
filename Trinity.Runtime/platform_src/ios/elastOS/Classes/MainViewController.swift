@@ -46,7 +46,8 @@ import Foundation
 
 @objc(MainViewController)
 class MainViewController: UIViewController {
-    var appManager: AppManager? = nil;
+    var appManager: AppManager? = nil
+    var passwordManager: PasswordManager? = nil
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -58,7 +59,8 @@ class MainViewController: UIViewController {
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        appManager = AppManager(self);
+        passwordManager = PasswordManager(mainViewController: self)
+        appManager = AppManager(self)
     }
 
     required init?(coder aDecoder: NSCoder) {

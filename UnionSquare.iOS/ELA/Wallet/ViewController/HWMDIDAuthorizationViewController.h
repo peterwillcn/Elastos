@@ -9,6 +9,11 @@
 #import "HWMDIDInfoModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol HWMDIDAuthorizationViewControllerDelegate <NSObject>
+
+-(void)needUploadJWTInfo;
+
+@end
 @interface HWMDIDAuthorizationViewController : UIViewController
 @property(copy,nonatomic)NSString *mastWalletID;
 
@@ -17,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy,nonatomic)NSString *JWTString;
 @property(assign,nonatomic)BOOL MemberOfTheUpdate;
 @property(strong,nonatomic)HWMDIDInfoModel *readModel;
-
+@property(weak,nonatomic)id<HWMDIDAuthorizationViewControllerDelegate> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

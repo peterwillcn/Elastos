@@ -22,7 +22,7 @@
 #import "HWMCrCommitteeInformationHeaderView.h"
 #import "HWMHWMDIDShowInfoViewController.h"
 #import "HWMDIDManager.h"
-@interface FLManageSelectPointNodeInformationVC()<HMWToDeleteTheWalletPopViewDelegate,HWMTransactionDetailsViewDelegate>
+@interface FLManageSelectPointNodeInformationVC()<HMWToDeleteTheWalletPopViewDelegate,HWMTransactionDetailsViewDelegate,HWMDIDAuthorizationViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *votesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *votesNumberLabel;
 @property (weak, nonatomic) IBOutlet UILabel *voteOfBTextLabel;
@@ -275,6 +275,7 @@
     DIDAuthorizationVC.readModel=readModel;
     DIDAuthorizationVC.DIDString=self.currentWallet.didString;
     DIDAuthorizationVC.mastWalletID=self.currentWallet.masterWalletID;
+    DIDAuthorizationVC.delegate=self;
     DIDAuthorizationVC.MemberOfTheUpdate=YES;
     [self.navigationController pushViewController:DIDAuthorizationVC animated:DIDAuthorizationVC];
 }
@@ -456,5 +457,8 @@
         };
     }
     return _CrCommitteeInformationHeaderV;
+}
+-(void)needUploadJWTInfo{
+    [self getCRInfo];
 }
 @end

@@ -66,12 +66,6 @@ UINib *_nib;
         make.left.right.top.equalTo(self.view);
         make.height.equalTo(@(self.topOffset.constant));
     }];
-    //    UIView *headV=[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, height)];
-    //    [headV addSubview:self.headView];
-    //    [self.headView mas_makeConstraints:^(MASConstraintMaker *make) {
-    //        make.left.top.bottom.right.equalTo(headV);
-    //    }];
-    //    self.tabel.tableHeaderView=headV;
 }
 -(HWMDIDAuthorizationHeadView *)headView{
     if (!_headView) {
@@ -93,7 +87,7 @@ UINib *_nib;
 -(NSArray *)allInfoListArray{
     if (!_allInfoListArray) {
         _allInfoListArray
-        =@[@{@"text":NSLocalizedString(@"性别",nil),@"index":@"1",@"type":@"2",@"state":@"1"},@{@"text":NSLocalizedString(@"出生日期",nil),@"index":@"2",@"type":@"2",@"state":@"1"},@{@"text":NSLocalizedString(@"头像地址",nil),@"index":@"3",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"邮箱1",nil),@"index":@"4",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"个人简介qe",nil),@"index":@"7",@"type":@"4",@"state":@"1"},@{@"text":NSLocalizedString(@"个人主页",nil),@"index":@"8",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"Facebook账号",nil),@"index":@"9",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"Twitter账号",nil),@"index":@"10",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"微博账号",nul),@"index":@"11",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"微信账号",null),@"index":@"12",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"谷歌账号",null),@"index":@"13",@"type":@"1",@"state":@"1"}];
+        =@[@{@"text":NSLocalizedString(@"性别",nil),@"index":@"0",@"type":@"2",@"state":@"1"},@{@"text":NSLocalizedString(@"出生日期",nil),@"index":@"1",@"type":@"2",@"state":@"1"},@{@"text":NSLocalizedString(@"头像地址",nil),@"index":@"2",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"邮箱1",nil),@"index":@"3",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"个人简介qe",nil),@"index":@"4",@"type":@"4",@"state":@"1"},@{@"text":NSLocalizedString(@"个人主页",nil),@"index":@"5",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"Facebook账号",nil),@"index":@"6",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"Twitter账号",nil),@"index":@"7",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"微博账号",nul),@"index":@"8",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"微信账号",null),@"index":@"9",@"type":@"1",@"state":@"1"},@{@"text":NSLocalizedString(@"谷歌账号",null),@"index":@"10",@"type":@"1",@"state":@"1"}];
     }
     return _allInfoListArray;
     
@@ -253,7 +247,9 @@ UINib *_nib;
     NSString *httpIP=[[FLTools share]http_IpFast];
     [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtsave" header:@{} body:@{@"did":self.DIDString,@"jwt":[NSString stringWithFormat:@"%@.%@",jwtString,REString]} showHUD:NO WithSuccessBlock:^(id data) {
         [self hiddLoading];
-        
+        if ([self.delegate respondsToSelector:@selector(needUploadJWTInfo)]) {
+            [self.delegate needUploadJWTInfo];
+        }
         [self cancelThePWDPageView];
         [[FLTools share]showErrorInfo:@"更新成功"];
         [self goBack];
@@ -294,7 +290,18 @@ UINib *_nib;
 }
 -(HWMDIDInfoModel *)updateModel{
     if (!_updateModel) {
-        _updateModel=self.readModel;
+        _updateModel=[[HWMDIDInfoModel alloc]init];
+        unsigned int count = 0;
+        objc_property_t *properties = class_copyPropertyList([HWMDIDInfoModel class], &count);
+        for (int i = 0; i < count; i++) {
+            const char *name = property_getName(properties[i]);
+            NSString *propertyName = [NSString stringWithUTF8String:name];
+            id propertyValue = [self.readModel valueForKey:propertyName];
+            if (propertyValue) {
+                [ _updateModel setValue:propertyValue forKey:propertyName];
+            }
+        }
+        
     }
     return _updateModel;
 }
@@ -417,9 +424,6 @@ UINib *_nib;
             self.updateModel.googleAccount=@"";
         }
     }
-    
-    
-    
 }
 
 -(void)setReadModel:(HWMDIDInfoModel *)readModel{

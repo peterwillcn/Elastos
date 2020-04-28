@@ -312,7 +312,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
         if (self.isOpen) {
             
             if (self.currentWallet.didString.length>5) {
-                [self needLoadDIDSave:NO withprKey:@""];
+                [self needLoadDIDSave:NO withprKey:@"" WithPWD:@""];
                 
             }else{
                 [self showDIDInfoOrCreateDIDInfo];
@@ -479,7 +479,12 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
         if (privatekeyString.length==0) {
             return;
         }
-        [self needLoadDIDSave:YES withprKey:privatekeyString];
+        dispatch_group_t group =  dispatch_group_create();
+
+        dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+          [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwdString withDIDString:self.currentWallet.didString WithPrivatekeyString:privatekeyString WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:YES];
+        });
+        [self needLoadDIDSave:YES withprKey:privatekeyString WithPWD:pwdString];
     }
 }
 
@@ -519,7 +524,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
 -(void)openIDChainOfDIDAddWithWallet:(NSString*)walletID{
     if ([walletID isEqualToString:self.currentWallet.masterWalletID]) {
         self.isOpen=YES;
-        [self needLoadDIDSave:NO withprKey:nil];
+        [self needLoadDIDSave:NO withprKey:nil WithPWD:@""];
     }else{
         [self showDIDInfoOrCreateDIDInfo];
     }
@@ -542,11 +547,11 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
     [self.navigationController.interactivePopGestureRecognizer.delegate performSelector:@selector(handleNavigationTransition:) withObject:panGesture];
     [self breakView];
 }
--(void)needLoadDIDSave:(BOOL)save withprKey:(NSString*)pk{
+-(void)needLoadDIDSave:(BOOL)save withprKey:(NSString*)pk WithPWD:(NSString*)PWD{
     dispatch_group_t group =  dispatch_group_create();
     static NSString *didString;
     dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:pk WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:YES];
+        didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:PWD withDIDString:self.currentWallet.didString WithPrivatekeyString:pk WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:YES];
     });
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
 //

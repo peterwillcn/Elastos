@@ -22,6 +22,79 @@
 
 import Foundation
 
+private class PasswordDatabaseInfoApplication {
+    private let appID: String
+    var passwordEntries = Array<PasswordInfo>()
+    
+    init(appID: String) {
+        self.appID = appID
+    }
+    
+    public static func fromDictionary(_ dict: Dictionary<String, Any>, appID: String) throws -> PasswordDatabaseInfoApplication {
+        let app = PasswordDatabaseInfoApplication(appID: appID)
+        
+        guard let entriesDict = dict["passwordentries"] as? Array<Dictionary<String, Any>> else {
+            throw "Invalid dictionary for password database. No passwordentries field"
+        }
+        
+        for entryDict in entriesDict {
+            let passwordInfo = try PasswordInfoBuilder.buildFromType(jsonObject: entryDict)
+            passwordInfo.appID = appID
+            app.passwordEntries.append(passwordInfo)
+        }
+        
+        return app
+    }
+        
+    public func asDictionary() -> Dictionary<String, Any> {
+        var dict = Dictionary<String, Any>()
+        var passwordEntriesArray = Array<Dictionary<String, Any>>()
+        for entry in passwordEntries {
+            passwordEntriesArray.append(entry.asDictionary()!)
+        }
+        dict["passwordentries"] = passwordEntriesArray
+
+        return dict
+    }
+    
+    fileprivate func deletePasswordEntryFromKey(key: String) throws {
+        let deletionIndex = try passwordEntryIndex(key: key)
+        if deletionIndex >= 0 {
+            passwordEntries.remove(at: deletionIndex)
+        }
+    }
+
+    fileprivate func addPasswordEntry(info: PasswordInfo) {
+        passwordEntries.append(info)
+    }
+    
+    fileprivate func passwordEntry(key: String) throws -> PasswordInfo {
+        guard let info = passwordEntries.first(where: { info in
+            info.key == key
+        }) else {
+            throw "No password info found for key \(key)"
+        }
+        
+        // READ-ONLY
+        info.appID = appID
+        
+        return info
+    }
+
+    fileprivate func passwordEntryIndex(key: String) throws -> Int {
+        guard let index = passwordEntries.firstIndex(where: { info in
+            info.key == key
+        }) else {
+            throw "No password info found for key \(key)"
+        }
+        return index
+    }
+
+    fileprivate func keyInPasswordEntries(key: String) -> Bool {
+        return ((try? passwordEntryIndex(key: key)) ?? -1) >= 0
+    }
+}
+
 /**
  * Database JSON format:
  *
@@ -41,9 +114,8 @@ import Foundation
  * handle specific or missing items.
  */
 class PasswordDatabaseInfo {
-    private static let APPLICATIONS_KEY = "applications"
-    private static let PASSWORD_ENTRIES_KEY = "passwordentries"
-    var rawJson: Dictionary<String, Any>?
+    fileprivate var applications = Dictionary<String, PasswordDatabaseInfoApplication>()
+    //var rawJson: Dictionary<String, JSONObject>?
     var activeMasterPassword: String? = nil
     var openingTime: Date
 
@@ -52,40 +124,38 @@ class PasswordDatabaseInfo {
     }
 
     static func createEmpty() -> PasswordDatabaseInfo {
-        let info = PasswordDatabaseInfo()
-        let applications = Dictionary<String, Any>()
-        info.rawJson = Dictionary<String, Any>()
-        info.rawJson![APPLICATIONS_KEY] = applications
-        return info
+        return PasswordDatabaseInfo()
     }
 
-    public static func fromJson(_ json: String) throws -> PasswordDatabaseInfo {
+    public static func fromDictionary(_ dict: Dictionary<String, Any>) throws -> PasswordDatabaseInfo {
         let info = PasswordDatabaseInfo()
-        if let jsonObj = json.toDict() {
-            info.rawJson = jsonObj
+        
+        guard let appsDict = dict["applications"] as? Dictionary<String, Dictionary<String, Any>> else {
+            throw "Invalid dictionary for password database. No applications field"
         }
-        else {
-             throw "Invalid JSON format for password database info"
+        
+        for appDict in appsDict {
+            let app = try PasswordDatabaseInfoApplication.fromDictionary(appDict.value, appID: appDict.key)
+            info.applications[appDict.key] = app
         }
+        
         return info
+    }
+    
+    public func asDictionary() -> Dictionary<String, Any> {
+        var dict = Dictionary<String, Any>()
+        var applicationsDict = Dictionary<String, Any>()
+        for app in applications {
+            applicationsDict[app.key] = app.value.asDictionary()
+        }
+        dict["applications"] = applicationsDict
+        
+        return dict
     }
 
     public func getPasswordInfo(appID: String, key: String) throws -> PasswordInfo? {
         if let appIDContent = try getAppIDContent(appID) {
-            if let passwordEntries = appIDContent[PasswordDatabaseInfo.PASSWORD_ENTRIES_KEY] as? [Dictionary<String, Any>] {
-                if let entry = try passwordEntry(entries: passwordEntries, key: key) {
-                    let info = try PasswordInfoBuilder.buildFromType(jsonObject: entry)
-                    info.appID = appID
-                    return info
-                }
-                else {
-                    // No such entry exists
-                    return nil
-                }
-            }
-            else {
-                return nil
-            }
+            return (try? appIDContent.passwordEntry(key: key)) ?? nil
         }
         else {
             // No entry for this app ID yet, so we can't find the requested key
@@ -97,33 +167,24 @@ class PasswordDatabaseInfo {
         var appIDContent = try getAppIDContent(appID)
         if (appIDContent == nil) {
             // No entry for this app ID yet, create one and add it
-            appIDContent = try createdEmptyAppIDContent()
-            var applications = rawJson![PasswordDatabaseInfo.APPLICATIONS_KEY] as! Dictionary<String, Any>
+            appIDContent = PasswordDatabaseInfoApplication(appID: appID)
             applications[appID] = appIDContent
         }
 
-        var passwordEntries = appIDContent![PasswordDatabaseInfo.PASSWORD_ENTRIES_KEY] as! [Dictionary<String, Any>]
-        if (try keyInPasswordEntries(entries: passwordEntries, key: info.key)) {
+        if (appIDContent!.keyInPasswordEntries(key: info.key)) {
             // This entry already exists. Delete it first before re-adding its updated version.
-            try deletePasswordEntryFromKey(entries: &passwordEntries, key: info.key)
+            try appIDContent!.deletePasswordEntryFromKey(key: info.key)
         }
-        try addPasswordEntry(entries: &passwordEntries, info: info)
+        appIDContent!.addPasswordEntry(info: info)
     }
 
     public func getAllPasswordInfo() throws -> [PasswordInfo] {
-        let applications = rawJson![PasswordDatabaseInfo.APPLICATIONS_KEY] as! Dictionary<String, Any>
-
         var infos = [PasswordInfo]()
         var it = applications.keys.makeIterator()
         while let appID = it.next() {
             if let appIDContent = try getAppIDContent(appID) {
-                let passwordEntries = appIDContent[PasswordDatabaseInfo.PASSWORD_ENTRIES_KEY] as! [Dictionary<String, Any>]
-                for i in 0..<passwordEntries.count {
-                    let entry = passwordEntries[i]
-                    
-                    let info = try PasswordInfoBuilder.buildFromType(jsonObject: entry)
-                    info.appID = appID
-                    infos.append(info)
+                for entry in appIDContent.passwordEntries {
+                    infos.append(entry)
                 }
             }
         }
@@ -132,74 +193,27 @@ class PasswordDatabaseInfo {
 
     public func deletePasswordInfo(appID: String, key: String) throws {
         if let appIDContent = try getAppIDContent(appID) {
-            var passwordEntries = appIDContent[PasswordDatabaseInfo.PASSWORD_ENTRIES_KEY] as! [Dictionary<String, Any>]
-            try deletePasswordEntryFromKey(entries: &passwordEntries, key: key)
+            try appIDContent.deletePasswordEntryFromKey(key: key)
         }
         else {
             // No entry for this app ID yet, so we can't find the requested key
         }
     }
 
-    private func getAppIDContent(_ appID: String) throws -> Dictionary<String, Any>? {
-        let applications = rawJson![PasswordDatabaseInfo.APPLICATIONS_KEY] as! Dictionary<String, Any>
+    private func getAppIDContent(_ appID: String) throws -> PasswordDatabaseInfoApplication? {
         if (applications.keys.contains(appID)) {
-            return (applications[appID] as! Dictionary<String, Any>)
+            return applications[appID]
         }
         else {
             return nil
         }
     }
-
-    private func createdEmptyAppIDContent() throws -> Dictionary<String, Any> {
-        var appIDContent = Dictionary<String, Any>()
-        appIDContent[PasswordDatabaseInfo.PASSWORD_ENTRIES_KEY] = Dictionary<String, Any>()
-        return appIDContent
-    }
-
-    private func passwordEntry(entries: [Dictionary<String,Any>], key: String) throws -> Dictionary<String, Any>? {
-        for i in 0..<entries.count {
-            let info = entries[i]
-            if let k = info["key"] as? String, k == key {
-                return info
-            }
-        }
-        return nil
-    }
-
-    private func passwordEntryIndex(entries: [Dictionary<String,Any>], key: String) throws -> Int {
-        for i in 0..<entries.count {
-            let info = entries[i]
-            if let k = info["key"] as? String, k == key {
-                return i
-            }
-        }
-        return -1
-    }
-
-    private func keyInPasswordEntries(entries: [Dictionary<String,Any>], key: String) throws -> Bool {
-        return try passwordEntryIndex(entries: entries, key: key) >= 0
-    }
-
-    private func deletePasswordEntryFromKey(entries: inout [Dictionary<String,Any>], key: String) throws {
-        let deletionIndex = try passwordEntryIndex(entries: entries, key: key)
-        if deletionIndex >= 0 {
-            entries.remove(at: deletionIndex)
-        }
-    }
-
-    private func addPasswordEntry(entries: inout [Dictionary<String, Any>], info: PasswordInfo) throws {
-        guard let json = info.asDictionary() else {
-            throw "Unable to create JSON object from password info"
-        }
-        
-        entries.append(json)
-    }
-
+    
     /**
      * Closes the password database and makes things secure.
      */
     func lock() {
-        rawJson = nil
+        applications.removeAll()
         activeMasterPassword = nil
         // NOTE: nothing else to do for now.
     }

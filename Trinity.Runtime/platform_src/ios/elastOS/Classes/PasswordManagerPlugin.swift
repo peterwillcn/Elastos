@@ -84,9 +84,9 @@ class PasswordManagerPlugin : TrinityPlugin {
                     self.success(command, result)
                     
                 }, onCancel: {
-                    self.error(command, buildCancellationError())
+                    self.error(command, self.buildCancellationError())
                 }, onError: { error in
-                    self.error(command, buildGenericError(message: error))
+                    self.error(command, self.buildGenericError(message: error))
                 })
             }
             else {

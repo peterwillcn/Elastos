@@ -32,6 +32,8 @@ class MasterPasswordCreatorAlertController: UIViewController {
     @IBOutlet weak var lblDontUseMasterPassword: UILabel!
     @IBOutlet weak var btCancel: AdvancedButton!
     @IBOutlet weak var btNext: AdvancedButton!
+    @IBOutlet weak var passwordUnderline: UIView!
+    @IBOutlet weak var passwordRepeatUnderline: UIView!
     
     var onPasswordCreatedListener: ((_ password: String)->Void)?
     var onCancelListener: (()->Void)?
@@ -53,6 +55,25 @@ class MasterPasswordCreatorAlertController: UIViewController {
         btNext.bgColor = UIStyling.popupSecondaryBackgroundColor
         btNext.titleColor = UIStyling.popupMainTextColor
         btNext.cornerRadius = 8
+        etPassword.textColor = UIStyling.popupMainTextColor
+        etPasswordRepeat.textColor = UIStyling.popupMainTextColor
+        passwordUnderline.backgroundColor = UIStyling.popupMainBackgroundColor
+        passwordRepeatUnderline.backgroundColor = UIStyling.popupMainBackgroundColor
+        
+        // Input placeholders
+        etPassword.attributedPlaceholder = NSAttributedString(string: "Enter password",
+        attributes: [NSAttributedString.Key.foregroundColor: UIStyling.popupInputHintTextColor])
+        etPasswordRepeat.attributedPlaceholder = NSAttributedString(string: "Repeat password",
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: UIStyling.popupInputHintTextColor])
+        
+        // Don't use master password option
+        lblDontUseMasterPassword.isUserInteractionEnabled = true
+        lblDontUseMasterPassword.addGestureRecognizer(UITapGestureRecognizer { recognizer in
+            self.onDontUseMasterPasswordListener?()
+        })
+        
+        // Focus password field when entering, so we can start typing at once
+        etPassword.becomeFirstResponder()
     }
     
     public func setOnCancelListener(_ listener: @escaping ()->Void) {
@@ -72,7 +93,7 @@ class MasterPasswordCreatorAlertController: UIViewController {
     }
     
     @IBAction func createClicked(_ sender: Any) {
-        if let password = etPassword.text, password != "" {
+        if let password = etPassword.text, let passwordConfirm = etPasswordRepeat.text, password != "", password == passwordConfirm {
             self.onPasswordCreatedListener?(password)
         }
     }

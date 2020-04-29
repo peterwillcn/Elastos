@@ -23,97 +23,76 @@
 import UIKit
 
 class MasterPasswordPrompterAlertController: UIViewController {
-    @IBOutlet weak var lblAppName: UILabel!
     @IBOutlet weak var imgIcon: UIImageView!
+    @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblIntroduction: UILabel!
-    @IBOutlet weak var lblFeature: UILabel!
-    @IBOutlet weak var lblFeatureValue: UILabel!
-    @IBOutlet weak var lblCapability: UILabel!
-    @IBOutlet weak var lblCapabilitiesValue: UILabel!
-    @IBOutlet weak var contentBackgorund: UIView!
-    @IBOutlet weak var imgRisk: UIImageView!
-    @IBOutlet weak var lblRisk: UILabel!
-    @IBOutlet weak var btnDeny: AdvancedButton!
-    @IBOutlet weak var btnAccept: AdvancedButton!
+    @IBOutlet weak var lblTryAgain: UILabel!
+    @IBOutlet weak var contentBackground: UIView!
+    @IBOutlet weak var etPassword: UITextField!
+    @IBOutlet weak var btCancel: AdvancedButton!
+    @IBOutlet weak var btNext: AdvancedButton!
+    @IBOutlet weak var passwordUnderline: UIView!
     
-    var appInfo: AppInfo?
-    var plugin: String?
-    var api: String?
+    private var isPasswordRetry: Bool = false
     
-    var onClickedListener: ((_ auth: Int)->Void)?
+    var onPasswordTypedListener: ((_ password: String, _ shouldSavePasswordToBiometric: Bool)->Void)?
+    var onCancelListener: (()->Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let authInfo = ApiAuthorityManager.getShareInstance().getApiAuthorityInfo(plugin!, api!)!
-        
         // Customize colors
         view.layer.cornerRadius = 20
         view.backgroundColor = UIStyling.popupMainBackgroundColor
-        contentBackgorund.backgroundColor = UIStyling.popupSecondaryBackgroundColor
-        lblAppName.textColor = UIStyling.popupMainTextColor
+        contentBackground.backgroundColor = UIStyling.popupSecondaryBackgroundColor
+        lblTitle.textColor = UIStyling.popupMainTextColor
         lblIntroduction.textColor = UIStyling.popupMainTextColor
-        lblFeature.textColor = UIStyling.popupMainTextColor
-        lblFeatureValue.textColor = UIStyling.popupMainTextColor
-        lblCapability.textColor = UIStyling.popupMainTextColor
-        lblCapabilitiesValue.textColor = UIStyling.popupMainTextColor
-        lblRisk.textColor = UIStyling.popupMainTextColor
-        btnDeny.bgColor = UIStyling.popupSecondaryBackgroundColor
-        btnDeny.titleColor = UIStyling.popupMainTextColor
-        btnDeny.cornerRadius = 8
-        btnAccept.bgColor = UIStyling.popupSecondaryBackgroundColor
-        btnAccept.titleColor = UIStyling.popupMainTextColor
-        btnAccept.cornerRadius = 8
+        btCancel.bgColor = UIStyling.popupSecondaryBackgroundColor
+        btCancel.titleColor = UIStyling.popupMainTextColor
+        btCancel.cornerRadius = 8
+        btNext.bgColor = UIStyling.popupSecondaryBackgroundColor
+        btNext.titleColor = UIStyling.popupMainTextColor
+        btNext.cornerRadius = 8
+        etPassword.textColor = UIStyling.popupMainTextColor
+        passwordUnderline.backgroundColor = UIStyling.popupMainBackgroundColor
         
-        // Apply data
-        lblAppName.text = appInfo!.name
-        lblIntroduction.text = "This capsule is requesting access to a sensitive feature"
-        lblFeatureValue.text = authInfo.getLocalizedTitle()
-        lblCapabilitiesValue.text = authInfo.getLocalizedDescription();
+        // Input placeholders
+        etPassword.attributedPlaceholder = NSAttributedString(string: "Enter password",
+        attributes: [NSAttributedString.Key.foregroundColor: UIStyling.popupInputHintTextColor])
         
-        if authInfo.dangerLevel == ApiDangerLevel.LOW.rawValue {
-            imgRisk.image = UIImage(named: "ic_risk_green")
-            lblRisk.text = "Low Risk"
-            view.layer.borderColor = UIColor(hex: "#5cd552")?.cgColor
-            view.layer.borderWidth = 1
-            
-        }
-        else if authInfo.dangerLevel == ApiDangerLevel.HIGH.rawValue {
-            imgRisk.image = UIImage(named: "ic_risk_red")
-            lblRisk.text = "Potentially Harmful"
-            view.layer.borderColor = UIColor(hex: "#f55555")?.cgColor
-            view.layer.borderWidth = 1
+        // Focus password field when entering, so we can start typing at once
+        etPassword.becomeFirstResponder()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // Handle wrong password case
+        if isPasswordRetry {
+            lblTryAgain.isHidden = false
         }
         else {
-            imgRisk.image = UIImage(named: "ic_risk_yellow")
-            lblRisk.text = "Average Risk"
-            view.layer.borderColor = UIColor(hex: "#fdd034")?.cgColor
-            view.layer.borderWidth = 1
-        }
-        
-        let iconPaths = AppManager.getShareInstance().getIconPaths(appInfo!)
-        if (iconPaths.count > 0) {
-            let appIconPath = iconPaths[0]
-            let image = UIImage(contentsOfFile: appIconPath)
-            imgIcon.image = image
+            lblTryAgain.isHidden = true
         }
     }
-
-    func setData(_ appInfo: AppInfo, _ plugin: String, _ api: String) {
-        self.appInfo = appInfo
-        self.plugin = plugin
-        self.api = api
+    
+    public func setPreviousAttemptWasWrong(_ previousAttemptWasWrong: Bool) {
+        self.isPasswordRetry = previousAttemptWasWrong
     }
     
-    public func setOnClickedListener(_ listener: @escaping (_ auth: Int)-> Void) {
-        self.onClickedListener = listener
+    public func setOnCancelListener(_ listener: @escaping ()->Void) {
+        self.onCancelListener = listener
     }
 
-    @IBAction func denyClicked(_ sender: Any) {
-        self.onClickedListener!(AppInfo.AUTHORITY_DENY);
+    public func setOnPasswordTypedListener(_ listener: @escaping (_ password: String, _ shouldSavePasswordToBiometric: Bool)->Void) {
+        self.onPasswordTypedListener = listener
+    }
+
+    @IBAction func cancelClicked(_ sender: Any) {
+        self.onCancelListener?()
     }
     
-    @IBAction func allowClicked(_ sender: Any) {
-        self.onClickedListener!(AppInfo.AUTHORITY_ALLOW);
+    @IBAction func nextClicked(_ sender: Any) {
+        if let password = etPassword.text, password != "" {
+            self.onPasswordTypedListener?(password, false /* TMP */)
+        }
     }
 }

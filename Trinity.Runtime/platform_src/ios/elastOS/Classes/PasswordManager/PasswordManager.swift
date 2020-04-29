@@ -111,9 +111,9 @@ public class PasswordManager {
      * a wrong master password then cancels.
      */
     public func setPasswordInfo(info: PasswordInfo, did: String, appID: String,
-                                onPasswordInfoSet: ()->Void,
-                                onCancel: ()->Void,
-                                onError: (_ error: String)->Void) {
+                                onPasswordInfoSet: @escaping ()->Void,
+                                onCancel: @escaping ()->Void,
+                                onError: @escaping (_ error: String)->Void) {
         // If the calling app is NOT the password manager, we can set password info only if the APPS password
         // strategy is LOCK_WITH_MASTER_PASSWORD.
         if (!appIsPasswordManager(appId: appID) && getAppsPasswordStrategy() == .DONT_USE_MASTER_PASSWORD) {
@@ -121,9 +121,9 @@ public class PasswordManager {
             return
         }
 
-        loadDatabase(did: did, onDatabaseLoaded: {
+        self.loadDatabase(did: did, onDatabaseLoaded: {
             do {
-                try setPasswordInfoReal(info: info, did: did, appID: appID)
+                try self.setPasswordInfoReal(info: info, did: did, appID: appID)
                 onPasswordInfoSet()
             }
             catch (let error) {
@@ -223,9 +223,9 @@ public class PasswordManager {
      * @param key Unique identifier for the password info to delete.
      */
     public func deletePasswordInfo(key: String, did: String, appID: String, targetAppID: String,
-                                   onPasswordInfoDeleted: ()->Void,
-                                   onCancel: ()->Void,
-                                   onError: (_ error: String)->Void) throws {
+                                   onPasswordInfoDeleted: @escaping ()->Void,
+                                   onCancel: @escaping ()->Void,
+                                   onError: @escaping (_ error: String)->Void) throws {
         // Only the password manager app can delete content that is not its own content.
         if (!appIsPasswordManager(appId: appID) && appID != targetAppID) {
             onError("Only the application manager application can delete password info that does not belong to it.")
@@ -234,7 +234,7 @@ public class PasswordManager {
 
         loadDatabase(did: did, onDatabaseLoaded: {
             do {
-                try deletePasswordInfoReal(key: key, did: did, targetAppID: targetAppID)
+                try self.deletePasswordInfoReal(key: key, did: did, targetAppID: targetAppID)
                 onPasswordInfoDeleted()
             }
             catch (let error) {
@@ -270,9 +270,9 @@ public class PasswordManager {
      * Only the password manager application is allowed to call this API.
      */
     public func changeMasterPassword(did: String, appID: String,
-                                     onMasterPasswordChanged: ()->Void,
-                                     onCancel: ()->Void,
-                                     onError: (_ error: String)->Void) throws {
+                                     onMasterPasswordChanged: @escaping ()->Void,
+                                     onCancel: @escaping ()->Void,
+                                     onError: @escaping (_ error: String)->Void) throws {
         
         if !appIsPasswordManager(appId: appID) {
             print("Only the password manager application can call this API")
@@ -397,9 +397,9 @@ public class PasswordManager {
     }
 
     private func loadDatabase(did: String,
-                              onDatabaseLoaded: ()->Void,
-                              onCancel: ()->Void,
-                              onError: (_ error: String)->Void,
+                              onDatabaseLoaded: @escaping ()->Void,
+                              onCancel: @escaping ()->Void,
+                              onError: @escaping (_ error: String)->Void,
                               isPasswordRetry: Bool) {
         
         if (isDatabaseLoaded(did: did) && !sessionExpired(did: did)) {
@@ -409,66 +409,77 @@ public class PasswordManager {
             if (sessionExpired(did: did)) {
                 lockDatabase(did: did)
             }
-
+            
             // Master password is locked - prompt it to user
-            /*new MasterPasswordPrompter.Builder(activity, this)
-                .setOnNextClickedListener((password, shouldSavePasswordToBiometric) -> {
-                    try {
-                        loadEncryptedDatabase(did, password);
-                        if (isDatabaseLoaded(did)) {
-                            // User chose to enable biometric authentication (was not enabled before). So we save the
-                            // master password to the biometric crypto space.
-                            if (shouldSavePasswordToBiometric) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                    activity.runOnUiThread(()->{
-                                        FingerPrintAuthHelper fingerPrintAuthHelper = new FingerPrintAuthHelper(activity, FAKE_PASSWORD_MANAGER_PLUGIN_APP_ID);
-                                        fingerPrintAuthHelper.init();
-                                        fingerPrintAuthHelper.authenticateAndSavePassword(MASTER_PASSWORD_BIOMETRIC_KEY, password, new CancellationSignal(), new FingerPrintAuthHelper.SimpleAuthenticationCallback() {
-                                            @Override
-                                            public void onSuccess() {
-                                                // Save user's choice to use biometric auth method next time
-                                                setBiometricAuthEnabled(true);
+            let prompterController = MasterPasswordPrompterAlertController(nibName: "MasterPasswordPrompter", bundle: Bundle.main)
+            
+            prompterController.setPreviousAttemptWasWrong(isPasswordRetry)
 
-                                                listener.onDatabaseLoaded();
-                                            }
+            let popup = PopupDialog(viewController: prompterController, buttonAlignment: .horizontal, transitionStyle: .fadeIn, preferredWidth: 340, tapGestureDismissal: false, panGestureDismissal: false, hideStatusBar: false, completion: nil)
 
-                                            @Override
-                                            public void onFailure(String message) {
-                                                // Biometric save failed, but we still could open the database, so we return a success here.
-                                                // Though, we don't save user's choice to enable biometric auth.
-                                                Log.e(LOG_TAG, "Biometric authentication failed to initiate");
-                                                Log.e(LOG_TAG, message);
-                                                listener.onDatabaseLoaded();
-                                            }
+            popup.view.backgroundColor = UIColor.clear // For rounded corners
+            self.appManager!.mainViewController.present(popup, animated: false, completion: nil)
 
-                                            @Override
-                                            public void onHelp(int helpCode, String helpString) {
-                                            }
-                                        });
-                                    });
-                                }
-                            }
-                            else {
-                                listener.onDatabaseLoaded();
-                            }
-                        }
-                        else
-                            listener.onError("Unknown error while trying to load the passwords database");
-                    }
-                    catch (Exception e) {
-                        // In case of wrong password exception, try again
-                        if (e.getMessage().contains("BAD_DECRYPT")) {
-                            loadDatabase(did, listener, true);
+            prompterController.setOnPasswordTypedListener { password, shouldSavePasswordToBiometric in
+                popup.dismiss()
+                
+                do {
+                    try self.loadEncryptedDatabase(did: did, masterPassword: password)
+                    if (self.isDatabaseLoaded(did: did)) {
+                        // User chose to enable biometric authentication (was not enabled before). So we save the
+                        // master password to the biometric crypto space.
+                        if (shouldSavePasswordToBiometric) {
+                            /*    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                             activity.runOnUiThread(()->{
+                             FingerPrintAuthHelper fingerPrintAuthHelper = new FingerPrintAuthHelper(activity, FAKE_PASSWORD_MANAGER_PLUGIN_APP_ID);
+                             fingerPrintAuthHelper.init();
+                             fingerPrintAuthHelper.authenticateAndSavePassword(MASTER_PASSWORD_BIOMETRIC_KEY, password, new CancellationSignal(), new FingerPrintAuthHelper.SimpleAuthenticationCallback() {
+                             @Override
+                             public void onSuccess() {
+                             // Save user's choice to use biometric auth method next time
+                             setBiometricAuthEnabled(true);
+                             
+                             listener.onDatabaseLoaded();
+                             }
+                             
+                             @Override
+                             public void onFailure(String message) {
+                             // Biometric save failed, but we still could open the database, so we return a success here.
+                             // Though, we don't save user's choice to enable biometric auth.
+                             Log.e(LOG_TAG, "Biometric authentication failed to initiate");
+                             Log.e(LOG_TAG, message);
+                             listener.onDatabaseLoaded();
+                             }
+                             
+                             @Override
+                             public void onHelp(int helpCode, String helpString) {
+                             }
+                             });
+                             });
+                             }*/
                         }
                         else {
-                            // Other exceptions are passed raw
-                            listener.onError(e.getMessage());
+                            onDatabaseLoaded()
                         }
                     }
-                })
-                .setOnCancelClickedListener(listener::onCancel)
-                .setOnErrorListener(listener::onError)
-                .prompt(isPasswordRetry);*/
+                    else {
+                        onError("Unknown error while trying to load the passwords database")
+                    }
+                }
+                catch RNCryptor.Error.hmacMismatch {
+                    // In case of wrong password exception, try again
+                    self.loadDatabase(did: did, onDatabaseLoaded: onDatabaseLoaded, onCancel: onCancel, onError: onError, isPasswordRetry: true)
+                }
+                catch (let error) {
+                    // Other exceptions are passed raw
+                    onError(error.localizedDescription)
+                }
+            }
+            
+            prompterController.setOnCancelListener {
+                popup.dismiss()
+                onCancel()
+            }
         }
     }
 
@@ -544,19 +555,19 @@ public class PasswordManager {
             createEmptyDatabase(did: did, masterPassword: masterPassword)
         }
         else {
-            let encodedData = try Data(contentsOf: URL(string: dbPath)!)
+            let encodedData = try Data(contentsOf: URL(fileURLWithPath: dbPath))
 
             // Now that we've loaded the file, try to decrypt it
             let decodedData = try decryptData(data: encodedData, masterPassword: masterPassword)
 
             // We can now load the database content as a JSON object
             do {
-                if let jsonData = String(data: decodedData, encoding: .utf8) {
-                    let dbInfo = try PasswordDatabaseInfo.fromJson(jsonData)
+                if let jsonData = String(data: decodedData, encoding: .utf8), let jsonDict = jsonData.toDict() {
+                    let dbInfo = try PasswordDatabaseInfo.fromDictionary(jsonDict)
                     databasesInfo[did] = dbInfo
 
                     // Decryption was successful, saved master password in memory for a while.
-                    dbInfo.activeMasterPassword = masterPassword;
+                    dbInfo.activeMasterPassword = masterPassword
                 }
                 else {
                     throw "Passwords database JSON content for did \(did) is corrupted: Can't decode to json string"
@@ -587,19 +598,16 @@ public class PasswordManager {
         }
 
         // Convert JSON data into bytes
-        guard let jsonString = dbInfo.rawJson!.toString() else {
+        guard let jsonString = dbInfo.asDictionary().toString() else {
             throw "Unable to convert database json to json string"
-        }
-        
-        guard let data = jsonString.toBase64Data() else {
-            throw "Unable to convert database json string into base64 data"
         }
 
         // Encrypt and get result
+        let data = Data(jsonString.utf8)
         let result = try encryptData(plainTextBytes: data, masterPassword: masterPassword)
 
-        // Save Salt, IV and encrypted data as serialized hashmap object in the database file.
-        try result.write(to: URL(string: dbPath)!)
+        // Save encrypted data to the database file
+        try result.write(to: URL(fileURLWithPath: dbPath))
     }
 
     private func encryptData(plainTextBytes: Data, masterPassword: String) throws -> Data

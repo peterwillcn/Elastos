@@ -57,7 +57,7 @@ public class PasswordInfo {
     public func asDictionary() -> Dictionary<String, Any>? {
         var jsonObj = Dictionary<String, Any>()
         jsonObj["key"] = key
-        jsonObj["type"] = type
+        jsonObj["type"] = type.rawValue
         jsonObj["displayName"] = displayName
         jsonObj["custom"] = custom
         jsonObj["appID"] = appID

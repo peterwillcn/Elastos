@@ -40,6 +40,12 @@
 | ---- | -------- |
 | Vote for DPoS supernodes | High |
 
+## CRC Voting App
+
+| Test | Priority |
+| ---- | -------- |
+| Vote for CR Council | High |
+
 ## QRScanner App
 
 | Test | Priority |

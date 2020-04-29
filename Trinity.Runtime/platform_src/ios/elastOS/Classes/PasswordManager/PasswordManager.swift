@@ -280,30 +280,43 @@ public class PasswordManager {
         }
 
         loadDatabase(did: did, onDatabaseLoaded: {
-            // No database exists. Start the master password creation flow
-            /*new MasterPasswordCreator.Builder(activity, PasswordManager.this)
-                .setCanDisableMasterPasswordUse(false)
-                .setOnNextClickedListener(password -> {
-                    // Master password was provided and confirmed. Now we can use it.
+            let creatorController = MasterPasswordCreatorAlertController(nibName: "MasterPasswordCreator", bundle: Bundle.main)
+            
+            creatorController.setCanDisableMasterPasswordUse(false)
 
-                    try {
-                        PasswordDatabaseInfo dbInfo = databasesInfo.get(did);
+            let popup = PopupDialog(viewController: creatorController, buttonAlignment: .horizontal, transitionStyle: .fadeIn, preferredWidth: 340, tapGestureDismissal: false, panGestureDismissal: false, hideStatusBar: false, completion: nil)
 
+            popup.view.backgroundColor = UIColor.clear // For rounded corners
+            self.appManager!.mainViewController.present(popup, animated: false, completion: nil)
+
+            creatorController.setOnPasswordCreatedListener { password in
+                popup.dismiss()
+
+                // Master password was provided and confirmed. Now we can use it.
+
+                do {
+                    if let dbInfo = self.databasesInfo[did] {
                         // Changing the master password means re-encrypting the database with a different password
-                        encryptAndSaveDatabase(did, password);
+                        try self.encryptAndSaveDatabase(did: did, masterPassword: password)
 
                         // Remember the new password locally
-                        dbInfo.activeMasterPassword = password;
+                        dbInfo.activeMasterPassword = password
 
-                        listener.onMasterPasswordChanged();
+                        onMasterPasswordChanged()
                     }
-                    catch (Exception e) {
-                        listener.onError(e.getMessage());
+                    else {
+                        throw "No active database for DID \(did)"
                     }
-                })
-                .setOnCancelClickedListener(listener::onCancel)
-                .setOnErrorListener(listener::onError)
-                .prompt();*/
+                }
+                catch (let error) {
+                    onError(error.localizedDescription)
+                }
+            }
+                
+            creatorController.setOnCancelListener {
+                popup.dismiss()
+                onCancel()
+            }
         }, onCancel: onCancel, onError: onError, isPasswordRetry: false)
     }
 
@@ -413,6 +426,7 @@ public class PasswordManager {
             // Master password is locked - prompt it to user
             let prompterController = MasterPasswordPrompterAlertController(nibName: "MasterPasswordPrompter", bundle: Bundle.main)
             
+            prompterController.setPasswordManager(self)
             prompterController.setPreviousAttemptWasWrong(isPasswordRetry)
 
             let popup = PopupDialog(viewController: prompterController, buttonAlignment: .horizontal, transitionStyle: .fadeIn, preferredWidth: 340, tapGestureDismissal: false, panGestureDismissal: false, hideStatusBar: false, completion: nil)
@@ -429,34 +443,22 @@ public class PasswordManager {
                         // User chose to enable biometric authentication (was not enabled before). So we save the
                         // master password to the biometric crypto space.
                         if (shouldSavePasswordToBiometric) {
-                            /*    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                             activity.runOnUiThread(()->{
-                             FingerPrintAuthHelper fingerPrintAuthHelper = new FingerPrintAuthHelper(activity, FAKE_PASSWORD_MANAGER_PLUGIN_APP_ID);
-                             fingerPrintAuthHelper.init();
-                             fingerPrintAuthHelper.authenticateAndSavePassword(MASTER_PASSWORD_BIOMETRIC_KEY, password, new CancellationSignal(), new FingerPrintAuthHelper.SimpleAuthenticationCallback() {
-                             @Override
-                             public void onSuccess() {
-                             // Save user's choice to use biometric auth method next time
-                             setBiometricAuthEnabled(true);
-                             
-                             listener.onDatabaseLoaded();
-                             }
-                             
-                             @Override
-                             public void onFailure(String message) {
-                             // Biometric save failed, but we still could open the database, so we return a success here.
-                             // Though, we don't save user's choice to enable biometric auth.
-                             Log.e(LOG_TAG, "Biometric authentication failed to initiate");
-                             Log.e(LOG_TAG, message);
-                             listener.onDatabaseLoaded();
-                             }
-                             
-                             @Override
-                             public void onHelp(int helpCode, String helpString) {
-                             }
-                             });
-                             });
-                             }*/
+                            let fingerPrintAuthHelper = FingerPrintAuthHelper(dAppID: PasswordManager.FAKE_PASSWORD_MANAGER_PLUGIN_APP_ID)
+                            fingerPrintAuthHelper.authenticateAndSavePassword(passwordKey: PasswordManager.MASTER_PASSWORD_BIOMETRIC_KEY, password: password) { error in
+                                if error == nil {
+                                    // Save user's choice to use biometric auth method next time
+                                    self.setBiometricAuthEnabled(true)
+                                    
+                                    onDatabaseLoaded()
+                                }
+                                else {
+                                    // Biometric save failed, but we still could open the database, so we return a success here.
+                                    // Though, we don't save user's choice to enable biometric auth.
+                                    print("Biometric authentication failed to initiate")
+                                    print(error!)
+                                    onDatabaseLoaded()
+                                }
+                            }
                         }
                         else {
                             onDatabaseLoaded()
@@ -479,6 +481,11 @@ public class PasswordManager {
             prompterController.setOnCancelListener {
                 popup.dismiss()
                 onCancel()
+            }
+            
+            prompterController.setOnErrorListener { error in
+                popup.dismiss()
+                onError(error)
             }
         }
     }
@@ -727,7 +734,7 @@ public class PasswordManager {
         return getPrefsBool(key: "biometricauth", defaultValue: false)
     }
 
-    public func setBiometricAuthEnabled(useBiometricAuth: Bool) {
+    public func setBiometricAuthEnabled(_ useBiometricAuth: Bool) {
         saveToPrefs(key: "biometricauth", value: useBiometricAuth)
     }
 }

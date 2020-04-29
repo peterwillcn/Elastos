@@ -110,6 +110,7 @@ class PasswordManagerPlugin : TrinityPlugin {
                     else {
                         result["passwordInfo"] = nil
                     }
+                    self.success(command, result)
                     
                 }, onCancel: {
                     self.error(command, self.buildCancellationError())

@@ -35,6 +35,8 @@ class MasterPasswordCreatorAlertController: UIViewController {
     @IBOutlet weak var passwordUnderline: UIView!
     @IBOutlet weak var passwordRepeatUnderline: UIView!
     
+    private var canDisableMasterPasswordUse = true
+    
     var onPasswordCreatedListener: ((_ password: String)->Void)?
     var onCancelListener: (()->Void)?
     var onDontUseMasterPasswordListener: (()->Void)?
@@ -67,13 +69,23 @@ class MasterPasswordCreatorAlertController: UIViewController {
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIStyling.popupInputHintTextColor])
         
         // Don't use master password option
-        lblDontUseMasterPassword.isUserInteractionEnabled = true
-        lblDontUseMasterPassword.addGestureRecognizer(UITapGestureRecognizer { recognizer in
-            self.onDontUseMasterPasswordListener?()
-        })
+        if !canDisableMasterPasswordUse {
+            // In case of password change mode, we can't disable using a master password here.
+            lblDontUseMasterPassword.isHidden = true
+        }
+        else {
+            lblDontUseMasterPassword.isUserInteractionEnabled = true
+            lblDontUseMasterPassword.addGestureRecognizer(UITapGestureRecognizer { recognizer in
+                self.onDontUseMasterPasswordListener?()
+            })
+        }
         
         // Focus password field when entering, so we can start typing at once
         etPassword.becomeFirstResponder()
+    }
+    
+    public func setCanDisableMasterPasswordUse (_ canDisableMasterPasswordUse: Bool) {
+        self.canDisableMasterPasswordUse = canDisableMasterPasswordUse
     }
     
     public func setOnCancelListener(_ listener: @escaping ()->Void) {

@@ -11,5 +11,9 @@
     ],
     "whitelist.urls": [
         "https://sentry.io/*"
-    ]
+    ],
+    "native.dapps.mode": true,
+    "native.dapps": {
+        "org.elastos.trinity.dapp.wallet": "WalletMainViewController"
+    }
 }

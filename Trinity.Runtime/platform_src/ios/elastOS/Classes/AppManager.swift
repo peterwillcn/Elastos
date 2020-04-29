@@ -503,9 +503,14 @@ class AppManager: NSObject {
                 guard appInfo != nil else {
                     throw AppError.error("No such app!");
                 }
-                let appViewController = AppViewController(appInfo!);
-//                appViewController.setInfo(id, appInfo!);
-                viewController = appViewController;
+
+                let nativeClassName = ConfigManager.getShareInstance().getNativeMainViewControllerName(appInfo!);
+                if (nativeClassName != nil) {
+                    viewController = NativeAppViewController(appInfo!, nativeClassName!);
+                }
+                else {
+                    viewController = AppViewController(appInfo!);
+                }
                 sendRefreshList("started", appInfo!);
             }
 
@@ -521,6 +526,8 @@ class AppManager: NSObject {
             viewController!.view.isHidden = false;
             switchContent(viewController!, id);
         }
+        
+        try PreferenceManager.getShareInstance().setCurrentLocale("cn");
     }
 
     func close(_ id: String) throws {
@@ -539,7 +546,7 @@ class AppManager: NSObject {
         if (viewController == nil) {
             return;
         }
-        
+
         try IntentManager.getShareInstance().removeAppFromIntentList(id);
 
         if (viewController == curController) {

@@ -67,18 +67,28 @@ module.exports = function(ctx) {
     runtimeProj.removeSourceFile("MainViewController.m", {}, classesGroupKey);
     runtimeProj.removeSourceFile("MainViewController.xib", {}, classesGroupKey);
 
-    let classesPath = process.cwd() + "/platform_src/ios/elastOS/Classes/";
+    function addSourceFiles(classesPath) {
+      let files = fs.readdirSync(classesPath);
+      files.forEach((filename, index) => {
+          if (filename[0] != ".") {
+              let pathname = path.join(classesPath, filename)
+              let stat = fs.statSync(pathname);
+              if (stat.isFile() === true) {
+                  runtimeProj.addSourceFile(pathname, {}, classesGroupKey);
+              }
+              else if (stat.isDirectory()) {
+                addSourceFiles(pathname);
+              }
+          }
+      });
+    }
 
-    let files = fs.readdirSync(classesPath);
-    files.forEach((filename, index) => {
-        if (filename[0] != ".") {
-            let pathname = path.join(classesPath, filename)
-            let stat = fs.statSync(pathname);
-            if (stat.isFile() === true) {
-                runtimeProj.addSourceFile(pathname, {}, classesGroupKey);
-            }
-        }
-    });
+    let classesPath = process.cwd() + "/platform_src/ios/elastOS/Classes/";
+    addSourceFiles(classesPath);
+
+    //for native apps
+    classesPath = process.cwd() + "/native_apps/ios/";
+    addSourceFiles(classesPath);
 
     //
     // Write back the new XCode project

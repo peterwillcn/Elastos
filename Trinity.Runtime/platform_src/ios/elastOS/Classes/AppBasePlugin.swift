@@ -25,11 +25,49 @@
  @objc(AppBasePlugin)
  class AppBasePlugin : TrinityPlugin {
     var callbackId: String?
+    var msgListener: ((Int, String, String)->(Void))?
     var intentCallbackId: String? = nil;
 
     var isLauncher = false;
     var isChangeIconPath = false;
 
+    //---------------------------------------------------------
+
+    func getLocale() throws -> [String : String] {
+        let info = AppManager.getShareInstance().getAppInfo(self.appId!);
+
+        let ret = [
+            "defaultLang": info!.default_locale,
+            "currentLang": try PreferenceManager.getShareInstance().getCurrentLocale(),
+            "systemLang": getCurrentLanguage()
+            ] as [String : String]
+
+        return ret;
+    }
+
+    func sendMessage(_ toId: String, _ type: Int, _ msg: String) throws {
+            try AppManager.getShareInstance().sendMessage(toId, type, msg, self.appId!);
+    }
+
+    func setMessageListener(_ listener: @escaping ((Int, String, String)->(Void))) {
+        self.msgListener = listener;
+    }
+
+
+    func launcher() throws {
+        try AppManager.getShareInstance().loadLauncher();
+        try AppManager.getShareInstance().sendLauncherMessageMinimize(self.appId);
+    }
+
+    func close() throws {
+        try AppManager.getShareInstance().close(self.appId);
+    }
+
+    func getInfo() throws {
+        try AppManager.getShareInstance().getAppInfo(self.appId!);
+    }
+
+    //---------------------------------------------------------
     func success(_ command: CDVInvokedUrlCommand) {
         let result = CDVPluginResult(status: CDVCommandStatus_OK)
 
@@ -63,21 +101,15 @@
 
         self.commandDelegate.send(result, callbackId: command.callbackId)
     }
-    
+
     @objc func getVersion(_ command: CDVInvokedUrlCommand) {
         let version = PreferenceManager.getShareInstance().getVersion();
         self.success(command, version);
     }
 
     @objc func getLocale(_ command: CDVInvokedUrlCommand) {
-        let info = AppManager.getShareInstance().getAppInfo(self.appId!);
-
         do {
-            let ret = [
-                "defaultLang": info!.default_locale,
-                "currentLang": try PreferenceManager.getShareInstance().getCurrentLocale(),
-                "systemLang": getCurrentLanguage()
-                ] as [String : String]
+            let ret = try getLocale();
             self.success(command, retAsDict: ret);
         } catch AppError.error(let err) {
             self.error(command, err);
@@ -102,8 +134,7 @@
     @objc(launcher:)
     func launcher(_ command: CDVInvokedUrlCommand) {
         do {
-            try AppManager.getShareInstance().loadLauncher();
-            try AppManager.getShareInstance().sendLauncherMessageMinimize(self.appId);
+            try launcher();
             self.success(command, "ok");
         } catch AppError.error(let err) {
             self.error(command, err);
@@ -362,19 +393,24 @@
     }
 
     func onReceive(_ msg: String, _ type: Int, _ from: String) {
-        guard self.callbackId != nil else {
-            return;
-        }
+        if (self.msgListener == nil) {
+            guard self.callbackId != nil else {
+                return;
+            }
 
-        let ret = [
-            "message": msg,
-            "type": type,
-            "from": from
-            ] as [String : Any]
-        let result = CDVPluginResult(status: CDVCommandStatus_OK,
-                                     messageAs: ret);
-        result?.setKeepCallbackAs(true);
-        self.commandDelegate?.send(result, callbackId:self.callbackId);
+            let ret = [
+                "message": msg,
+                "type": type,
+                "from": from
+                ] as [String : Any]
+            let result = CDVPluginResult(status: CDVCommandStatus_OK,
+                                         messageAs: ret);
+            result?.setKeepCallbackAs(true);
+            self.commandDelegate?.send(result, callbackId:self.callbackId);
+        }
+        else {
+            self.msgListener!(type, msg, from);
+        }
     }
 
     @objc func sendIntent(_ command: CDVInvokedUrlCommand) {
@@ -496,7 +532,7 @@
             if (url.hasPrefix("trinity://")) {
                 url = try getCanonicalPath(url);
             }
-            
+
             try AppManager.getShareInstance().checkInProtectList(url);
             let info = try AppManager.getShareInstance().install(url, update);
 

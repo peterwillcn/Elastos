@@ -40,7 +40,7 @@ class ConfigManager: NSObject {
         }
         return ConfigManager.configManager!;
     }
-    
+
     @objc func parseConfig() {
         do {
             let path = getAbsolutePath("www/config/config.json");
@@ -49,14 +49,14 @@ class ConfigManager: NSObject {
         catch let error {
             print("Parse config.json error: \(error)");
         }
-        
+
     }
 
     @objc func getStringValue(_ key: String, _ defaultValue: String) -> String {
         guard configPreferences != nil else {
             return defaultValue;
         }
-        
+
         var ret = configPreferences![key] as? String;
         if (ret == nil) {
             ret = defaultValue;
@@ -68,7 +68,7 @@ class ConfigManager: NSObject {
         guard configPreferences != nil else {
             return defaultValue;
         }
-        
+
         var ret = configPreferences![key] as? Bool;
         if (ret == nil) {
             ret = defaultValue;
@@ -80,18 +80,50 @@ class ConfigManager: NSObject {
         guard configPreferences != nil else {
             return defaultValue;
         }
-        
+
         var ret = configPreferences![key] as? [String];
         if (ret == nil) {
             ret = defaultValue;
         }
         return ret!;
     }
-    
+
+    func getDictionaryValue(_ key: String, _ defaultValue: [String: String]) -> [String: String] {
+        guard configPreferences != nil else {
+            return defaultValue;
+        }
+
+        var ret = configPreferences![key] as? [String: String];
+        if (ret == nil) {
+            ret = defaultValue;
+        }
+        return ret!;
+    }
+
+    func getNativeMainViewControllerName(_ appInfo: AppInfo) -> String? {
+        guard configPreferences != nil else {
+            return nil;
+        }
+        
+        let mode = configPreferences!["native.dapps.mode"] as? Bool;
+        if (mode == nil || !mode!) {
+            return nil;
+        }
+
+        let dict = configPreferences!["native.dapps"] as? [String: String];
+        if (dict == nil) {
+            return nil;
+        }
+
+        let clsName = dict![appInfo.app_id];
+
+        return clsName;
+    }
+
     func stringArrayContains(_ key: String, _ value: String) -> Bool {
         let array = getStringArrayValue(key, [String]());
         return array.contains(value);
     }
-    
+
 }
 

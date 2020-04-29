@@ -566,7 +566,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
                         model.walletAddress=self.currentWallet.walletAddress;
                         model.didString= didString;
                         [[HMWFMDBManager sharedManagerType:walletType]updateRecordWallet:model];
-                        [[HWMDIDManager shareDIDManager]saveDIDCredentialWithDIDModel:nil];
+//                        [[HWMDIDManager shareDIDManager]saveDIDCredentialWithDIDModel:nil];
                     }
                     HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
                     DIDInfoVC.currentWallet=self.currentWallet;

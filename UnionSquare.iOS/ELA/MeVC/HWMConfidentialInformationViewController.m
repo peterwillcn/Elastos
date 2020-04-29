@@ -80,9 +80,11 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
         HWMAddPersonalInformationViewController *PersonalInformationVC=[[HWMAddPersonalInformationViewController alloc]init];
         PersonalInformationVC.model=self.model;
         PersonalInformationVC.whereFrome=YES;
+        PersonalInformationVC.noAleart=YES;
         PersonalInformationVC.currentWallet=self.currentWallet;
         [self.navigationController pushViewController:PersonalInformationVC animated:YES];
     }
+
 }
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForFooterInSection:(NSInteger)section{
     return 10.f;

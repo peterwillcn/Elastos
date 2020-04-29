@@ -271,6 +271,8 @@
         return ;
     }
     readModel.endString=endTime;
+    readModel.did=dic[@"DIDString"];
+    readModel.didName=dic[@"nickName"];
     HWMDIDAuthorizationViewController *DIDAuthorizationVC=[[HWMDIDAuthorizationViewController alloc]init];
     DIDAuthorizationVC.readModel=readModel;
     DIDAuthorizationVC.DIDString=self.currentWallet.didString;

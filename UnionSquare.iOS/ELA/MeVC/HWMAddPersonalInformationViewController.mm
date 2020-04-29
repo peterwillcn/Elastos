@@ -104,7 +104,13 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     self.textInfoLabel.text=NSLocalizedString(@"温馨提示：本页内容均非必填，仅保存在本地，供用户授权使用。", nil);
     self.needUpdate=NO;
     if (self.isEidet||self.whereFrome) {
-        self.title=NSLocalizedString(@"编辑个人信息", nil);
+        if (self.isEidet) {
+            self.title=NSLocalizedString(@"编辑个人信息", nil);
+        }
+        
+        if (self.whereFrome==YES) {
+            self.title=NSLocalizedString(@"添加个人信息", nil);
+        }
         [self.skipButton setTitle:NSLocalizedString(@"保存", nil) forState: UIControlStateNormal];
         if (self.isEidet) {
             [self updaeDataArray];
@@ -650,13 +656,20 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 }
 - (void)closeView{
     [self.showAllInfoView removeFromSuperview];
-    self.defMArray=[self bubblingSort:self.defMArray];
+    if (self.defMArray.count>0) {
+        self.defMArray=[self bubblingSort:self.defMArray];
+    }
+    
     [self.table reloadData];
 }
 -(void)deleteWithIndex:(NSString*_Nullable)index{
     self.deleteIndex=index;
     if (self.whereFrome||self.isEidet) {
-        [self showDeleteHasSaveChainView];
+        if (self.noAleart) {
+            [self delegateInfo];
+        }else{
+            [self showDeleteHasSaveChainView];
+        }
     }else{
         [self delegateInfo];
     }
@@ -733,7 +746,11 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     }
     if (self.whereFrome||self.isEidet) {
         self.deleteIndex=@"-1";
-        [self showDeleteHasSaveChainView];
+        if (self.noAleart) {
+            [self delegateInfo];
+        }else{
+            [self showDeleteHasSaveChainView];
+        }
     }else{
         [self updeDeleIphoneNumber];
     }
@@ -971,7 +988,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         BOOL isSucess=[[HWMDIDManager shareDIDManager ]updateInfoWithInfo: self.model];
         if (isSucess) {
             self.model.editTime=[[FLTools share]getNowTimeTimestampS];
-            [[HWMDIDManager shareDIDManager ]saveDIDCredentialWithDIDModel: self.model];
+            //            [[HWMDIDManager shareDIDManager ]saveDIDCredentialWithDIDModel: self.model];
             [self closeTransactionDetailsView];
             [self hiddenPWDView];
             [self showSendSuccessViewWithType:0];
@@ -1076,7 +1093,6 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         NSString *blanceString=[[FLTools share] elaScaleConversionWith:[NSString stringWithFormat:@"%@",result.message[@"success"]]];
         self.blance=[blanceString doubleValue];
     }
-    
 }
 -(HMWaddFooterView *)addFooterView{
     if (!_addFooterView) {

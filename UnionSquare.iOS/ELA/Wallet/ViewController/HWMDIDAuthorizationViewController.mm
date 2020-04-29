@@ -339,7 +339,7 @@ UINib *_nib;
             self.updateModel.avatar=@"";
         }
         
-    }else if ([textString isEqualToString:NSLocalizedString(@"邮箱", nil)]&&self.readModel.email.length>0) {
+    }else if ([textString isEqualToString:NSLocalizedString(@"邮箱1", nil)]&&self.readModel.email.length>0) {
         if ([state isEqualToString:@"1"]) {
             self.updateModel.email=self.readModel.email;
         }else{

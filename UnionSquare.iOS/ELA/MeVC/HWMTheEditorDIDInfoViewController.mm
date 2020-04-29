@@ -184,7 +184,7 @@
         [self closeTransactionDetailsView];
         rdModel.didName=self.model.didName;
         rdModel.endString=self.model.endString;
-        [[HWMDIDManager shareDIDManager]saveDIDCredentialWithDIDModel:rdModel];
+//        [[HWMDIDManager shareDIDManager]saveDIDCredentialWithDIDModel:rdModel];
         [self showSendSuccessView];
         
     }

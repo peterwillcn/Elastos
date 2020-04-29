@@ -29,7 +29,10 @@ typedef void(^successBlock)(NSString*DIDString);
 @property (nonatomic, strong)FLWallet *currentWallet;
 
 @property(copy,nonatomic)void(^successBlock)(NSString*DIDString);
-
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)Boolean  noAleart;
 @end
 
 NS_ASSUME_NONNULL_END

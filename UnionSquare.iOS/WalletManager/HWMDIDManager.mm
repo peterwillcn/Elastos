@@ -350,11 +350,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     model.didName=dic[@"nickName"];
     if (model.didName.length==0) {
         model.didName=@"unknow";
-    }
-    if (model.did.length==0) {
-        model.did=dic[@"DIDString"];
-    }
-    model.did=self.DIDString;
+    }    
     DIDURL_Destroy(url);
     return model;
 }

@@ -161,6 +161,7 @@ public class AppBasePlugin extends TrinityPlugin {
             }
         }
         catch (Exception e) {
+            e.printStackTrace();
             callbackContext.error(e.getLocalizedMessage());
         }
         return true;

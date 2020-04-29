@@ -734,6 +734,8 @@
 "有效期"="Valid until";
 "有效期至 "="Valid until ";
 "至"="to";
+"发布失败"="failed";
+
 "请选择失效日期"="Select an expiration date";
 "暂无"="N/A";
 "导入凭证"="Import credentials";

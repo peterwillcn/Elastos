@@ -24,6 +24,7 @@ DID *did;
 const char *tmp;
 @interface HWMDIDManager ()
 @property(copy,nonatomic)NSString *mRootPath;
+@property(assign,nonatomic)BOOL hasBen;
 @end
 @implementation HWMDIDManager
 +(instancetype)allocWithZone:(struct _NSZone *)zone
@@ -184,6 +185,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
             if (need) {
                 [[FLTools share]hideLoadingView];
             }
+            self.hasBen=YES;
             return self.DIDString;
         }else{
             DIDDocument *reDoc=DIDStore_NewDIDByIndex(store, [self.passWord UTF8String], 0, "name");//
@@ -195,11 +197,13 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
                 if (need) {
                     [[FLTools share]hideLoadingView];
                 }
+                 self.hasBen=NO;
                 return self.DIDString;
             }else{
                 if (need) {
                     [[FLTools share]hideLoadingView];
                 }
+                 self.hasBen=NO;
                 return @"";// 失败返回
             }
         }
@@ -212,6 +216,8 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         if (need) {
             [[FLTools share]hideLoadingView];
         }
+     
+        self.hasBen=NO;
         return self.DIDString;
         
     }
@@ -229,6 +235,9 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     NSString * didName=[self charToString:suInfo];
     didName= [didName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *endTimeString=[[FLTools share]SpecialTimeZoneConversion:[NSString stringWithFormat:@"%@",@(endTime)]];
+    if (self.DIDString.length==0) {
+        didName=@"";
+    }
     NSDictionary *reDic=@{@"nickName":didName,@"endTime":endTimeString,@"DIDString":self.DIDString};
     DIDURL_Destroy(url);
     DIDDocument_Destroy(doc);
@@ -272,7 +281,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     if ([reString isEqualToString:@"0"]) {
         return YES;
     }else{
-        [[FLTools share]showErrorInfo:@"发布失败"];
+//        [[FLTools share]showErrorInfo:@"发布失败"];
         return NO;
     }
 }
@@ -350,7 +359,12 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     model.didName=dic[@"nickName"];
     if (model.didName.length==0) {
         model.didName=@"unknow";
-    }    
+    }
+//    if (model.did.length==0) {
+//        model.did=dic[@"DIDString"];
+//    }
+//    model.did=self.DIDString;
+    
     DIDURL_Destroy(url);
     return model;
 }
@@ -499,11 +513,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     return NO;
 }
 -(BOOL)HasBeenOnTheChain{
-    NSDictionary *dic =[self getDIDInfo];
-    if([dic[@"nickName"] length]==0) {
-        return NO;
-    }
-    return YES;
+    return self.hasBen;
 }
 @end
 

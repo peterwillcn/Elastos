@@ -34,7 +34,7 @@
     // Configure the view for the selected state
 }
 -(void)setModel:(HWMDIDInfoModel *)model{
-    if (model.editTime.length>0) {
+    if (self.hasSave) {
         self.timeLabel.alpha=0.f;
         self.DIDNameLabel.text=NSLocalizedString(@"个人信息",nil);
         self.stateLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"保存时间：",nil),[[FLTools share] YMDCommunityTimeConversToAllFromTimesTamp:model.editTime]];

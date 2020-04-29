@@ -58,6 +58,7 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
 {
     HWMDIDListAbnormalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:normalCellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    cell.hasSave=self.hasRead;
     cell.model=self.model;
     cell.titleString=self.dataArray[indexPath.section];
     return cell;
@@ -84,7 +85,7 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
         PersonalInformationVC.currentWallet=self.currentWallet;
         [self.navigationController pushViewController:PersonalInformationVC animated:YES];
     }
-
+    
 }
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForFooterInSection:(NSInteger)section{
     return 10.f;
@@ -94,9 +95,9 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
 }
 - (IBAction)exportEvent:(id)sender {
     if (self.hasRead) {
-    HWExportCertificateMViewController *WExportCertificateMVC=[[HWExportCertificateMViewController alloc]init];
-    WExportCertificateMVC.currentWallet=self.currentWallet;
-    WExportCertificateMVC.model=self.model;
+        HWExportCertificateMViewController *WExportCertificateMVC=[[HWExportCertificateMViewController alloc]init];
+        WExportCertificateMVC.currentWallet=self.currentWallet;
+        WExportCertificateMVC.model=self.model;
         [self.navigationController pushViewController:WExportCertificateMVC animated:YES];
     }else{
         [[FLTools share]showErrorInfo:@"暂无"];
@@ -118,11 +119,24 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
     if ([readModel.did isEqualToString:self.model.did]) {
         self.hasRead=YES;
         self.model=readModel;
+        if ([self needSave]) {
+            self.hasRead=YES;
+        }else{
+            self.hasRead=NO;
+        }
+    }else{
+        self.hasRead=NO;
     }
     [self.table reloadData];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self needUpLoadDataSource];
+}
+-(BOOL)needSave{
+    if(self.model.nickname.length>0||self.model.gender.length>0||self.model.avatar.length>0||self.model.email.length>0||self.model.phone.length>0||self.model.phoneCode.length>0||self.model.nation.length>0||self.model.introduction.length>0||self.model.homePage.length>0||self.model.wechat.length>0||self.model.twitter.length>0||self.model.weibo.length>0||self.model.facebook.length>0||self.model.googleAccount.length>0||self.model.birthday.length>0) {
+        return YES;
+    }
+    return NO;
 }
 @end

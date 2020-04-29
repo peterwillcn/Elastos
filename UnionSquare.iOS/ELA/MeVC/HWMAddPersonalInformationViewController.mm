@@ -290,6 +290,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     [self.view endEditing:YES];
     
     if (self.isEidet||self.whereFrome) {
+        
         UIView *manView=[self mainWindow];
         [manView addSubview:self.pwdPopupV];
         [self.pwdPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -987,8 +988,10 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         
         BOOL isSucess=[[HWMDIDManager shareDIDManager ]updateInfoWithInfo: self.model];
         if (isSucess) {
-            self.model.editTime=[[FLTools share]getNowTimeTimestampS];
-            //            [[HWMDIDManager shareDIDManager ]saveDIDCredentialWithDIDModel: self.model];
+            if ([self needSave]) {
+                self.model.editTime=[[FLTools share]getNowTimeTimestampS];
+                [[HWMDIDManager shareDIDManager ]saveDIDCredentialWithDIDModel: self.model];
+            }
             [self closeTransactionDetailsView];
             [self hiddenPWDView];
             [self showSendSuccessViewWithType:0];
@@ -1004,7 +1007,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
                 [weakSelf.navigationController popViewControllerAnimated:NO];
             }
         }else{
-            [[FLTools share]showErrorInfo:@"发布失败"];
+            //            [[FLTools share]showErrorInfo:@"发布失败"];
         }
     }
     
@@ -1137,6 +1140,11 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 -(void)pwdAndInfoWithPWD:(NSString*)pwd{
     [self makeSureWithPWD:pwd];
 }
-
+-(BOOL)needSave{
+    if(self.model.nickname.length>0||self.model.gender.length>0||self.model.avatar.length>0||self.model.email.length>0||self.model.phone.length>0||self.model.phoneCode.length>0||self.model.nation.length>0||self.model.introduction.length>0||self.model.homePage.length>0||self.model.wechat.length>0||self.model.twitter.length>0||self.model.weibo.length>0||self.model.facebook.length>0||self.model.googleAccount.length>0||self.model.birthday.length>0) {
+        return YES;
+    }
+    return NO;
+}
 
 @end

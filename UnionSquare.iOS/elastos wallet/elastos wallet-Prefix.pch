@@ -19,33 +19,43 @@
 //
 // Prefix header for all source files of the 'elastos wallet' target in the 'elastos wallet' project
 //
-
 //#import "ELWalletManager.h"
 #ifdef DEBUG
 #define SDKNET  @"RegTest"
-#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#define didSDKNet @"http://api.elastos.io:22606"
+#define DLog(fmt, ...) //NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #define Http_IP [[FLTools share]http_ipString:SDKNET]
 #define transUrl [[FLTools share]http_transUrl:SDKNET]
 #define PongUrl [[FLTools share]http_PongUrl:SDKNET]
+#define ELAPort  @"22338"
+#define IDChainPort @"22608"
  #elif PrvNet
  #define SDKNET  @"PrvNet"
- #define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#define ELAPort  @"18080"
+#define IDChainPort @"18080"
+ #define DLog(fmt, ...) //NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #define Http_IP [[FLTools share]http_ipString:SDKNET]
 #define transUrl [[FLTools share]http_transUrl:SDKNET]
 #define PongUrl [[FLTools share]http_PongUrl:SDKNET]
+#define didSDKNet @"http://api.elastos.io:20606"
 #elif TestNet
 #define SDKNET  @"TestNet"
 #define Http_IP [[FLTools share]http_ipString:SDKNET]
 #define transUrl [[FLTools share]http_transUrl:SDKNET]
 #define PongUrl [[FLTools share]http_PongUrl:SDKNET]
-#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#define DLog(fmt, ...) //NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#define didSDKNet @"http://api.elastos.io:21606"
+#define ELAPort  @"21338"
+#define IDChainPort @"21608"
 #else
 //@"RegTest",@"PrvNet",@"TestNet",@"MainNet"
 #define SDKNET  @"MainNet"
 #define Http_IP [[FLTools share]http_ipString:SDKNET]
 #define transUrl [[FLTools share]http_transUrl:SDKNET]
 #define PongUrl [[FLTools share]http_PongUrl:SDKNET]
-
+#define didSDKNet @"http://api.elastos.io:20606"
+#define ELAPort  @"20338"
+#define IDChainPort @"20608"
 #define DLog(...)
 
 #endif
@@ -81,7 +91,12 @@
 #define ConnectStatusChanged   @"OnConnectStatusChanged"
 #define  UWUserLanguageKey  @"AppleLanguages"
 #define  selectIndexWallet  @"selectIndexWallet"
+
+#define NOBACK   @"NOBACKChanged"
 #define STANDARD_USER_DEFAULT  [NSUserDefaults standardUserDefaults]
+#define ENString(x) [[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"en" ofType:@"lproj"]] localizedStringForKey:(countrieString) value:@"" table:nil]
+#define linkURL1 @"https://unionsquare01.elastos.com.cn"
+#define linkURL2 @"https://unionsquare.elastos.org"
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "Masonry.h"
@@ -107,5 +122,5 @@
 #import "HWMQrCodeScanningResultsViewController.h"
 #import "YRClassSafeCategory.h"
 #import "YRClassSafeCategoryConfig.h"
-#define Localized(key)  [[NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"]] ofType:@"lproj"]] localizedStringForKey:(key) value:nil table:nil]
+#import "YRClassSafeCategoryConfig.h"
 #endif

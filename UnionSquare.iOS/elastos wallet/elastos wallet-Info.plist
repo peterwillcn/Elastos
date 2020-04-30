@@ -77,6 +77,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSApplicationCategoryType</key>
+	<string>User Interface Style</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>LSSupports Opening DocumentsIn Place</key>
@@ -131,6 +133,8 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>key Document Content Type UTIs</key>
 	<array>
 		<string> public.data</string>

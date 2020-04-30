@@ -18,7 +18,7 @@
 #import "HMWFMDBManager.h"
 #import "FMDBWalletModel.h"
 #import "sideChainInfoModel.h"
-
+#import "HWMDIDManager.h"
 
 
 @interface HMWImportTheWalletViewController ()<HMWImTheMnemonicWordViewDelegate,HMWImKeystoreViewDeleagte>
@@ -31,7 +31,8 @@
  */
 @property(strong,nonatomic)HMWImKeystoreView *imKeystoreV;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *wordMnemonicOrKeystoreSegmentedCon;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constTop;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topOffSet;
+
 @end
 
 @implementation HMWImportTheWalletViewController
@@ -43,20 +44,20 @@
     self.title=NSLocalizedString(@"导入钱包", nil);
     [self.view addSubview:self.imKeystoreV];
     self.imKeystoreV.alpha=0.f;
-    CGFloat topoff=100;
-    if (AppHeight>800) {
-        self.constTop.constant=100;
-        topoff=130;
+    CGFloat topOff=100;
+    if (AppHeight>736) {
+        topOff=125;
+        self.topOffSet.constant=95;
     }
     [self.imKeystoreV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).offset(topoff);
+        make.top.equalTo(self.view.mas_top).offset(topOff);
         make.left.right.bottom.equalTo(self.view);
     }];
     [self.view insertSubview:self.imTheMnemonicWordV aboveSubview:self.imKeystoreV];
     [self.view addSubview:self.imTheMnemonicWordV];
     
     [self.imTheMnemonicWordV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).offset(topoff);
+        make.top.equalTo(self.view.mas_top).offset(topOff);
         make.left.right.bottom.equalTo(self.view);
     }];
 //  
@@ -172,6 +173,7 @@
         NSString *status =[NSString stringWithFormat:@"%@",subResult.status];
     
            if([status isEqualToString:@"1"]){
+        model.didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:wallet.passWord withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:wallet.masterWalletID needCreatDIDString:YES];
         [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
                sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
                sideModel.walletID=model.walletID;
@@ -180,7 +182,6 @@
                sideModel.thePercentageCurr=@"0";
                 sideModel.thePercentageMax=@"100";
                [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
-        
                [self successfulSwitchingRootVC];
                
                
@@ -218,8 +219,6 @@
     PluginResult *result= [[ELWalletManager share]importWalletWithKeystore:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if([status isEqualToString:@"1"]){
-        NSLog(@"导入钱包成功");
-        
         [self getAllSubWalletsWith:wallet];
         
     }
@@ -244,6 +243,7 @@
             FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
             model.walletID=Wallet.masterWalletID;
             model.walletName=Wallet.walletName;
+             model.didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:Wallet.passWord withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:Wallet.masterWalletID needCreatDIDString:YES];
             [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
             sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
             sideModel.walletID=model.walletID;
@@ -252,7 +252,6 @@
             sideModel.sideChainNameTime=@"--:--";
             sideModel.thePercentageCurr=@"0";
             sideModel.thePercentageMax=@"100";
-            NSLog(@"添加成功");
             [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
             [self successfulSwitchingRootVC];
         }
@@ -271,6 +270,7 @@
         model.walletID=wallet.masterWalletID;
         model.walletName=wallet.walletName;
         model.TypeW=SingleSign;
+        model.didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:wallet.passWord withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:wallet.masterWalletID needCreatDIDString:YES];
         [[HMWFMDBManager sharedManagerType:walletType]addWallet:model];
         sideChainInfoModel *sideModel=[[sideChainInfoModel alloc]init];
         sideModel.walletID=model.walletID;

@@ -2,7 +2,7 @@
 //  HMWVotingListTypeCrossCollectionViewCell.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/6/17.
+//  Created by  on 2019/6/17.
 //
 
 #import "HMWVotingListTypeCrossCollectionViewCell.h"
@@ -19,7 +19,14 @@
 @end
 @implementation HMWVotingListTypeCrossCollectionViewCell
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    // Initialization code
+       [[HMWCommView share]makeBordersWithView:self];
+    self.coinIconImageView.layer.cornerRadius=15.f;
+    self.coinIconImageView.layer.masksToBounds=YES;
 
+}
 -(void)setModel:(FLCoinPointInfoModel *)model
 {
     _model  = model;
@@ -39,10 +46,6 @@
     self.tickNumberLab.text=[NSString stringWithFormat:@"%ld %@",[model.votes longValue],NSLocalizedString(@"票", nil)];
      [self.coinIconImageView sd_setImageWithURL:[NSURL URLWithString:model.iconImageUrl] placeholderImage:[UIImage imageNamed:@"point_list_ela"]];
 }
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    [[HMWCommView share]makeBordersWithView:self];
-}
 -(void)setCRModel:(HWMCRListModel *)CRModel{
 
 
@@ -60,7 +63,14 @@
         self.indexLab.text = CRModel.index;
         self.percentLab.text = [NSString stringWithFormat:@"%@ %@",CRModel.voterate,@"%"];
         self.tickNumberLab.text=[NSString stringWithFormat:@"%ld %@",[CRModel.votes longValue],NSLocalizedString(@"票", nil)];
-         [self.coinIconImageView sd_setImageWithURL:[NSURL URLWithString:CRModel.url] placeholderImage:[UIImage imageNamed:@"found_vote_initial"]];
+     self.coinIconImageView.image=[UIImage imageNamed:@"found_vote_initial"];
+    if (CRModel.iconImageUrl.length>4) {
+        [[FLTools share]loadUrlSVGAndPNG:CRModel.iconImageUrl WithSuccessBlock:^(id data) {
+            if (data!=nil){
+                self.coinIconImageView.image =data;
+            }
+        }];
+    }
     
     _CRModel  = CRModel;
     

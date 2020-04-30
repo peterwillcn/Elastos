@@ -2,7 +2,7 @@
 //  UILabel+HMWinternationalization.m
 //  FLWALLET
 //
-//  Created by 韩铭文 on 2019/4/22.
+//  Created by  on 2019/4/22.
 //  Copyright © 2019 HMW. All rights reserved.
 //
 
@@ -39,7 +39,7 @@
         string = @"";
         
     }
-//    NSLog(@"label===%@",string);
+//    //NSLog(@"label===%@",string);
 //    self.adjustsFontSizeToFitWidth = YES;
 //    self.numberOfLines=0.f;
     [self performSelector:@selector(setTextOriginal:) withObject:NSLocalizedString(string, nil)];

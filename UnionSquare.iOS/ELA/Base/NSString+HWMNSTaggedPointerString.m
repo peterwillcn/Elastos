@@ -2,7 +2,7 @@
 //  NSString+HWMNSTaggedPointerString.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/11/5.
+//  Created by  on 2019/11/5.
 //
 
 #import "NSString+HWMNSTaggedPointerString.h"
@@ -59,4 +59,10 @@
     }
     return strLength;
 }
++(NSString*) GetFileName:(NSString*)pFile
+{
+    NSRange range = [pFile rangeOfString:@"/"options:NSBackwardsSearch];
+    return [pFile substringFromIndex:range.location + 1];
+}
+
 @end

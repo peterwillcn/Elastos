@@ -1,0 +1,6 @@
+module Pods_elastos_wallet {
+  umbrella header "Pods-elastos wallet-umbrella.h"
+
+  export *
+  module * { export * }
+}

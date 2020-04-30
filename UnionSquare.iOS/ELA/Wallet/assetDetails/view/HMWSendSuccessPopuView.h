@@ -8,10 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, SendSuccessType) {
+   sendDealType,         // slow at beginning and end
+   saveSuccessType
+    
+   
+};
+
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HMWSendSuccessPopuView : UIView
-
+@property(assign,nonatomic) SendSuccessType type;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -85,73 +85,75 @@
 
     [self QRCodeScanVC:WCQRCode];
 
- }
-
 -(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString{
     self.enterTheAmountTextField.text=@"";
     self.addressTextField.text=@"";
-    NSLog(@"解析前%@",QRCodeString);
-
-    NSDictionary *dic =[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]QrCodeImageFromDic:QRCodeString fromVC:self oldQrCodeDic:nil]];
-
-    NSLog(@"解析后%@",dic);
-  if ([[FLTools share]SCanQRCodeWithDicCode:dic]){
-    if ([dic[@"extra"][@"Type"] integerValue]==4) {
-
-                 self.addressTextField.text=dic[@"data"];
-
-                 }else{
-
-
-                     if ([QRCodeString containsString:@"elastos:"]) {
-
-                         NSArray *elasArray=[QRCodeString componentsSeparatedByString:@":"];
-
-                         if ([elasArray.lastObject containsString:@"?amount="]) {
-
-                               NSArray *amountArray=[elasArray.lastObject componentsSeparatedByString:@"?amount="];
-
-                             self.enterTheAmountTextField.text=amountArray.lastObject;
-                                   self.addressTextField.text=amountArray.firstObject;
-
-                         }else{
-                             self.addressTextField.text=elasArray.lastObject;
-                         }
-
-                     }else if([[ELWalletManager share]IsAddressValidWithMastID:self.currentWallet.masterWalletID WithAddress:QRCodeString]){
-                         self.addressTextField.text=QRCodeString;
-                         
-                     }else{
-
-                         [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
-
-                     }
-
-                 }
-
-             }else if([[ELWalletManager share]IsAddressValidWithMastID:self.currentWallet.masterWalletID WithAddress:QRCodeString]){
-                 self.addressTextField.text=QRCodeString;
-                 
-             }else{
-
-                
-
-
-
-                     
-
-                    [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
-
-                 
-
-                 
-
-             }
-
-             
+//    //NSLog(@"解析前%@",QRCodeString);
+//
+//    NSDictionary *dic =[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]QrCodeImageFromDic:QRCodeString fromVC:self oldQrCodeDic:nil]];
+//
+//    //NSLog(@"解析后%@",dic);
+//  if ([[FLTools share]SCanQRCodeWithDicCode:dic]){
+//    if ([dic[@"extra"][@"Type"] integerValue]==4) {
+//
+//                 self.addressTextField.text=dic[@"data"];
+//
+//                 }else{
+//
+//
+//                     if ([QRCodeString containsString:@"elastos:"]) {
+//
+//                         NSArray *elasArray=[QRCodeString componentsSeparatedByString:@":"];
+//
+//                         if ([elasArray.lastObject containsString:@"?amount="]) {
+//
+//                               NSArray *amountArray=[elasArray.lastObject componentsSeparatedByString:@"?amount="];
+//
+//                             self.enterTheAmountTextField.text=amountArray.lastObject;
+//                                   self.addressTextField.text=amountArray.firstObject;
+//
+//                         }else{
+//                             self.addressTextField.text=elasArray.lastObject;
+//                         }
+//
+//                     }else if([[ELWalletManager share]IsAddressValidWithMastID:self.currentWallet.masterWalletID WithAddress:QRCodeString]){
+//                         self.addressTextField.text=QRCodeString;
+//
+//                     }else{
+//
+//                         [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
+//
+//                     }
+//
+//                 }
+//
+//             }else if([[ELWalletManager share]IsAddressValidWithMastID:self.currentWallet.masterWalletID WithAddress:QRCodeString]){
+//                 self.addressTextField.text=QRCodeString;
+//
+//             }else{
+//
+//
+//
+//
+//
+//
+//
+//                    [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
+//
+//
+//
+//
+//
+//             }
 
              
 
+             
+    if ([[ELWalletManager share]IsAddressValidWithMastID:self.currentWallet.masterWalletID WithAddress:QRCodeString]) {
+           self.addressTextField.text=QRCodeString;
+      }else{
+           [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
+      }
              
 
              

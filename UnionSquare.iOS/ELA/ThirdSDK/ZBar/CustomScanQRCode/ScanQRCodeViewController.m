@@ -38,7 +38,7 @@
     // Do any additional setup after loading the view from its nib.
         [self configuredZBarReader];
     [self defultWhite];
-    self.navigationItem.title = @"扫一扫";
+    self.navigationItem.title = NSLocalizedString(@"扫一扫", nil);
     [self.view setBackgroundColor:[UIColor colorWithRed:148.0/255.0 green:148.0/255.0 blue:148.0/255.0 alpha:1.0]];
     //初始化扫描视图
 
@@ -273,7 +273,7 @@
         return;
     }
     
-    NSLog(@"urlStr: %@",urlStr);
+    //NSLog(@"urlStr: %@",urlStr);
     
     //二维码扫描成功，弹窗提示
     UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"扫描成功" message:[NSString stringWithFormat:@"二维码内容:\n%@",urlStr] preferredStyle:UIAlertControllerStyleAlert];

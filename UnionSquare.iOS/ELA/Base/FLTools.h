@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HWMMessageCenterModel.h"
 //待用
 @interface FLFLUser : NSObject
 @property (nonatomic, copy)NSString *userId;
@@ -72,7 +73,7 @@
 @property(assign,nonatomic)NSInteger M;
 @property(assign,nonatomic)NSInteger N;
 @property(assign,nonatomic)BOOL  HasPassPhrase;
-
+@property (nonatomic, copy)NSString*didString;
 @end
 
 @class YYCache;
@@ -121,7 +122,6 @@
 -(NSDictionary *)getImageViewURLWithURL:(NSString*)urlString withCRString:(NSString*)CRS;
 -(NSDictionary*)CreateQrCodeImage:(NSString*)contentString WithType:(NSString*)type withSubWalletIdChain:(NSString *)subW;
 -(NSString*)DicToString:(NSDictionary*)dic;
-- (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
 - (UIImage*)imageWithSize:(CGFloat)size andColorWithRed:(CGFloat)red Green:(CGFloat)green Blue:(CGFloat)blue andQRDic:(NSDictionary *)qrDic;
 -(NSArray*)CreateArrayQrCodeImage:(NSString*)contentString WithType:(NSString*)type withSubWall:(NSString*)subW;
 - (UIImage*)imageWithSize:(CGFloat)size andColorWithRed:(CGFloat)red Green:(CGFloat)green Blue:(CGFloat)blue andQRString:( NSString*)qrString;
@@ -137,6 +137,7 @@
 - (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
 -(BOOL)APPIntegrity;
 -(BOOL)allHasNameAndHas;
+- (NSString*)timeSwitchTimestamp:(NSString *)formatTime;
 -(NSString *)http_ipString:(NSString *)sdknet;
 -(NSString*)http_transUrl:(NSString*)sdknet;
 -(NSString*)http_PongUrl:(NSString*)sdknet;
@@ -149,4 +150,29 @@
 -(NSString*)DownAlllTheValuePercentage:(NSString*)blance withLength:(NSInteger)MermVotCout;
 -(NSString*)DownNumberPercentage:(NSString*)blance withLength:(NSInteger)MermVotCout;
 -(BOOL)isBlankString:(NSString *)str;
+-(NSString*)genderStringWithType:(NSString*)type;
+-(NSString *)getNowTimeTimestampS;
+-(NSString *)TimeFormatConversionBirthday:(NSString *)timeStr;
+-(NSString*)getFileIndexCount:(NSString*)fielName;
+-(NSString *)YMDWithDate:( NSDate *)myDate;
+-(BOOL)textField:(UITextField *)textField replacementString:(NSString *)string withStringLenth:(NSInteger)length;
+-(void)loadUrlSVGAndPNG:(NSString*)imageURL WithSuccessBlock:(void(^)(id data))successBlock;
+-(NSString *)bytesToAvaiUnit:(NSString*)bytesString;
+-(void)setMseeagPush:(NSString *)Push;
+-(BOOL)readMseeagPush:(NSString *)Push;
+-(BOOL)MseeagPRead:(NSString*)r;
+-(void)setMMseeagPRead:(NSString*)r;
+-(BOOL)hasMessageNeedRead:(NSString*)r;
+-(void)sethasMessageNeedRead:(NSString*)r;
+-(void)showNeMessageWith:(HWMMessageCenterModel*)mode;
+- (NSString *)SpecialTimeZoneConversion:(NSString *)timeStr;
+-(NSString*)EnquiryForDetailsWithTransactiontype:(NSInteger)type withChainName:(NSString*)chainID;
+-(BOOL)IPcheckWithIP:(NSString*)ip;
+-(BOOL)checkAndTheDomainName:(NSString*)Domain;
+-(void)hideLoadingView;
+-(NSString*)conversionMessserTime:(NSString*)messTime;
+-(void)setLastReadTime;
+-(NSInteger)readLastReadTime;
+-(NSString*)DIDDefinTime;
+-(NSInteger)GetMonthDaysWithYear:(NSString*)year WithMonth:(NSString*)month;
 @end

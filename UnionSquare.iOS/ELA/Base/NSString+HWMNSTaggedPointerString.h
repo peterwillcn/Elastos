@@ -2,7 +2,7 @@
 //  NSString+HWMNSTaggedPointerString.h
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/11/5.
+//  Created by  on 2019/11/5.
 //
 
 //#import <AppKit/AppKit.h>
@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)count;
 - (NSUInteger)charactorNumberWithEncoding:(NSStringEncoding)encoding;
 - (NSUInteger)charactorNumber;
++(NSString*)GetFileName:(NSString*)pFile;
 @end
 
 NS_ASSUME_NONNULL_END

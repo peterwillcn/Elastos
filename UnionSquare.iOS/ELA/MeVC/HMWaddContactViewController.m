@@ -63,6 +63,7 @@
     WCQRCodeScanningVC *WCQRCode=[[WCQRCodeScanningVC alloc]init];
     WCQRCode.scanBack=^(NSString *addr){
         weakSelf.theWalletAddressTextField.text=addr;
+        
     };
     [self QRCodeScanVC:WCQRCode];
 }

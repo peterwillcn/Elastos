@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  *<# #>
  */
-@property(strong,nonatomic)id<HMWChooseSideChainViewControllerDelegate> delegate;
+@property(weak,nonatomic)id<HMWChooseSideChainViewControllerDelegate> delegate;
 /*
  *<# #>
  */

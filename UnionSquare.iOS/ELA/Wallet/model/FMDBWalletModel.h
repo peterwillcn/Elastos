@@ -36,6 +36,11 @@ typedef enum {
  *
  */
 @property(assign,nonatomic)walletSignType TypeW;
+/*
+ *
+ */
+@property(copy,nonatomic)NSString *didString;
+
 @end
 
 NS_ASSUME_NONNULL_END

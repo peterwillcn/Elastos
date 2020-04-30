@@ -144,7 +144,7 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
         NSArray *H=[NSArray arrayWithObjects:
                     @{@"countries":@"海地",@"mobileCode":@"509"},
                     @{@"countries":@"洪都拉斯",@"mobileCode":@"504"},
-                    @{@"countries":@"香港",@"mobileCode":@"852"},
+                    @{@"countries":@"中国香港",@"mobileCode":@"852"},
                     @{@"countries":@"匈牙利",@"mobileCode":@"36"},
                     nil];
         NSArray *I=[NSArray arrayWithObjects:
@@ -180,7 +180,7 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
                     @{@"countries":@"老挝",@"mobileCode":@"856"},
                     nil];
         NSArray *M=[NSArray arrayWithObjects:
-                    @{@"countries":@"澳门地区",@"mobileCode":@"853"},
+                    @{@"countries":@"中国澳门",@"mobileCode":@"853"},
                     @{@"countries":@"马达加斯加",@"mobileCode":@"261"},
                     @{@"countries":@"马拉维",@"mobileCode":@"265"},
                     @{@"countries":@"马来西亚",@"mobileCode":@"60"},
@@ -272,7 +272,7 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
                     @{@"countries":@"圣多美和普林西比",@"mobileCode":@"239"},
                     nil];
         NSArray *T=[NSArray arrayWithObjects:
-                    @{@"countries":@"台湾地区",@"mobileCode":@"886"},
+                    @{@"countries":@"中国台湾",@"mobileCode":@"886"},
                     @{@"countries":@"塔吉克",@"mobileCode":@"992"},
                     @{@"countries":@"坦桑尼亚",@"mobileCode":@"255"},
                     @{@"countries":@"泰国",@"mobileCode":@"66"},
@@ -332,7 +332,6 @@ static NSString *cellString=@"HMWChooseTheCountryAreasTableViewCell";
 //        NSString *path=[[NSBundle mainBundle]pathForResource:@"nationalMobilePhoneAreaCode" ofType:@"plist"];
 //        NSDictionary *nationalMobilePhoneAreaCodeDict = [NSDictionary dictionaryWithContentsOfFile:path];
 //        NSArray *allArra=[NSArray arrayWithArray:nationalMobilePhoneAreaCodeDict[@"allMobileCode"]];
-////        NSLog(@"%@",allArra);
         _headSectionArray =[NSArray arrayWithObjects:@"A", @"B", @"C", @"D", @"E", @"F", @"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z", nil];
     }
     return _headSectionArray;

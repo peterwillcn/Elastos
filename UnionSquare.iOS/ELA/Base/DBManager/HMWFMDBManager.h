@@ -10,11 +10,17 @@
 #import "FMDBWalletModel.h"
 #import "sideChainInfoModel.h"
 #import "HWMCRListModel.h"
+#import "HWMDIDInfoModel.h"
+#import "HWMMessageCenterModel.h"
 typedef NS_ENUM(NSInteger, FMDatabaseType) {
     friendsModelType = 0,
     walletType=1,
     sideChain=2,
-    CRListType
+    CRListType,
+    DIDInfoType,
+    IPInfoType,
+    MessageCenterType,
+    transactionsType
 };
 
 NS_ASSUME_NONNULL_BEGIN
@@ -48,6 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 //删
 -(BOOL)delectRecordWallet:(FMDBWalletModel *)wallet;
 
+-(NSString*)selectRecordWallet:(NSString*)walletID;
 
 -(BOOL)addsideChain:(sideChainInfoModel*)model;
 -(sideChainInfoModel*)selectAddsideChainWithWalletID:(NSString*)walletID andWithIconName:(NSString*)iconName;
@@ -68,6 +75,43 @@ NS_ASSUME_NONNULL_BEGIN
 //删
 -(BOOL)delectSelectCR:(HWMCRListModel *)crModel WithWalletID:(NSString*)walletID;
 
+
+
+
+
+
+
+
+
+//-(BOOL)addDIDCR:(HWMDIDInfoModel*)Model withWallID:(NSString*)walletID;
+//
+////查
+//-(NSArray*)allSelectDIDWithWallID:(NSString*)walletID;
+//
+////改
+//-(BOOL)updateSelectDID:(HWMDIDInfoModel *)Model WithWalletID:(NSString*)walletID;
+//
+//-(HWMDIDInfoModel*)selectDIDWithWalletID:(NSString*)walletID andWithDID:(NSString*)DID;
+////改
+//-(BOOL)updateDIDInfo:(HWMDIDInfoModel *)Model WithWalletID:(NSString*)walletID;
+////删
+//-(BOOL)delectDIDInfo:(HWMDIDInfoModel *)Model WithWalletID:(NSString*)walletID;
+
+
+//增加
+-(BOOL)addIPString:(NSString*)ip withPort:(NSString*)port;
+//查
+-(NSArray*)allIPString;
+
+//删
+-(BOOL)delectIPString:(NSString*)ip withPort:(NSString*)port;
+-(NSArray*)allMessageListWithIndex:(NSInteger)starIndex;
+//增加
+-(BOOL)addMessageCenterWithModel:(HWMMessageCenterModel*)model;
+-(BOOL)addTransactionsWithModel:(HWMMessageCenterModel*)model;
+-(HWMMessageCenterModel*)selectTransactionsWithModel:(HWMMessageCenterModel*)model;
+-(HWMMessageCenterModel*)selectAllTransactionsWithModel;
+-(NSInteger)allMessageCount;
 
 @end
 

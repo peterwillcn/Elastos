@@ -29,8 +29,7 @@
 -(void)setModel:(FLCoinPointInfoModel *)model
 {
     _model = model;
- 
-        [self.coinIconImageView sd_setImageWithURL:[NSURL URLWithString:model.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial_F"]];
+    [self.coinIconImageView sd_setImageWithURL:[NSURL URLWithString:model.iconImageUrl] placeholderImage:[UIImage imageNamed:@"found_vote_initial_F"]];
     
   self.coinNameLabel.text = model.nickname;
 //  self.theValueOfLabel.text = model.votes;

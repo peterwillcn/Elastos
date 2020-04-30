@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="HWMDIDInfoListView">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nFX-Y3-1hZ">
+                    <rect key="frame" x="0.0" y="44" width="60" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="Bvo-Dn-U4k"/>
+                        <constraint firstAttribute="width" constant="60" id="SE6-dh-oCR"/>
+                    </constraints>
+                    <state key="normal" image="pop_up_fold"/>
+                    <connections>
+                        <action selector="backView:" destination="iN0-l3-epB" eventType="touchUpInside" id="eJb-M5-1L9"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="添加信息" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cz1-5k-2YL">
+                    <rect key="frame" x="176.5" y="55" width="61.5" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cio-wi-cv7">
+                    <rect key="frame" x="0.0" y="104" width="414" height="758"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="cio-wi-cv7" secondAttribute="trailing" id="Cz8-wV-Q71"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="cio-wi-cv7" secondAttribute="bottom" id="DJx-5u-Qsw"/>
+                <constraint firstItem="cz1-5k-2YL" firstAttribute="centerY" secondItem="nFX-Y3-1hZ" secondAttribute="centerY" constant="-10" id="Mm3-il-XBL"/>
+                <constraint firstItem="nFX-Y3-1hZ" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="NrH-M7-8wZ"/>
+                <constraint firstItem="cio-wi-cv7" firstAttribute="top" secondItem="nFX-Y3-1hZ" secondAttribute="bottom" id="ZYc-lk-t0E"/>
+                <constraint firstItem="nFX-Y3-1hZ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="fXT-Ra-YyI"/>
+                <constraint firstItem="cz1-5k-2YL" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="jqU-AE-FlN"/>
+                <constraint firstItem="cio-wi-cv7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="lSa-BD-x1t"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="table" destination="cio-wi-cv7" id="ZQ6-O9-wEV"/>
+                <outlet property="titleILabel" destination="cz1-5k-2YL" id="sBU-zR-IGZ"/>
+            </connections>
+            <point key="canvasLocation" x="139" y="115"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="pop_up_fold" width="22" height="23"/>
+    </resources>
+</document>

@@ -2,7 +2,7 @@
 //  HWMSingleSignReadOnlyWalletViewController.h
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/7/10.
+//  Created by  on 2019/7/10.
 //
 
 #import <UIKit/UIKit.h>

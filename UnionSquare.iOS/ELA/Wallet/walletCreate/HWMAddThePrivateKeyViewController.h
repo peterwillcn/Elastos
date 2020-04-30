@@ -2,7 +2,7 @@
 //  HWMAddThePrivateKeyViewController.h
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/7/3.
+//  Created by  on 2019/7/3.
 //
 
 #import <UIKit/UIKit.h>
@@ -17,6 +17,6 @@
 /*
  *<# #>
  */
-@property(strong,nonatomic)id<HWMAddThePrivateKeyViewControllerDelegate> _Nullable delegate;
+@property(weak,nonatomic)id<HWMAddThePrivateKeyViewControllerDelegate> _Nullable delegate;
 @end
 

@@ -10,6 +10,7 @@
 #import <AVFoundation/AVCaptureDevice.h>
 #import <CommonCrypto/CommonDigest.h>
 #import <CommonCrypto/CommonCryptor.h>
+#import <UserNotifications/UserNotifications.h>
 //#import "NSData+YYAdd.h"
 //#import <ShareSDK/ShareSDK.h>
 //#import <ShareSDKUI/ShareSDKUI.h>
@@ -22,7 +23,11 @@
 #import "HWMQrCodeScanningResultsViewController.h"
 #import "HWMQrCodeTransferAndAddBuddyViewController.h"
 #import "HMWaddContactViewController.h"
-#import "HWMQrCodeScanningResultsViewController.h"
+#import "HWMmessageWindowPopsView.h"
+
+@interface UIViewController (FLVCExt)
+
+@end
 
 @implementation UIViewController (FLVCExt)
 
@@ -34,18 +39,17 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"back"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(goBack)];
 }
 -(void)firstNav{
-   [self.navigationController.navigationBar setBackgroundImage:[self screenShotView:self.view.subviews.firstObject] forBarMetrics:UIBarMetricsDefault]; self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
+    [self.navigationController.navigationBar setBackgroundImage:[self screenShotView:self.view.subviews.firstObject] forBarMetrics:UIBarMetricsDefault]; self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
 }
 -(void)defultWhite{
-    
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
-
+    
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"window_750_back"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(goBack)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"window_750_back"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(goBack)];
 }
 -(void)blackBackImageDefultWhite{
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
@@ -86,18 +90,18 @@
     return imageRet;
 }
 -(void)CAGradientColorFrome:(UIColor*)fclolr withToColor:(UIColor*)tcolor withView:(UIView*)view{
-CAGradientLayer *gl = [CAGradientLayer layer];
-gl.frame = CGRectMake(0,0,AppWidth,AppHeight);
-gl.colors = @[(__bridge id)fclolr.CGColor,(__bridge id)tcolor.CGColor];
+    CAGradientLayer *gl = [CAGradientLayer layer];
+    gl.frame = CGRectMake(0,0,AppWidth,AppHeight);
+    gl.colors = @[(__bridge id)fclolr.CGColor,(__bridge id)tcolor.CGColor];
     gl.locations = @[@(0.0),@(1.0f)];
     [view.layer addSublayer:gl];
     
 }
 -(void)setNavBarClearColor{
-//    [self.navigationController.navigationBar setTranslucent:true];
+    //    [self.navigationController.navigationBar setTranslucent:true];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
-   
+    
 }
 
 -(void)goBack{
@@ -156,26 +160,26 @@ gl.colors = @[(__bridge id)fclolr.CGColor,(__bridge id)tcolor.CGColor];
 
 -(void)shareArray:(NSArray*)arr{
     
-   
+    
     UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:arr applicationActivities:nil];
     //不出现在活动项目
     activityVC.modalInPopover = true;
-
+    
     activityVC.excludedActivityTypes = @[UIActivityTypePostToFacebook,UIActivityTypeMail,UIActivityTypePrint, UIActivityTypeCopyToPasteboard,UIActivityTypeMessage,UIActivityTypeAssignToContact,UIActivityTypeSaveToCameraRoll,UIActivityTypeAirDrop,UIActivityTypePostToVimeo,UIActivityTypeAddToReadingList,UIActivityTypeOpenInIBooks];
     
     [self presentViewController:activityVC animated:YES completion:nil];
     // 分享之后的回调
     activityVC.completionWithItemsHandler = ^(UIActivityType  _Nullable activityType, BOOL completed, NSArray * _Nullable returnedItems, NSError * _Nullable activityError) {
         if (completed) {
-           
-//            [HttpUrl NetPOSTHost:Http_UpImage url:@"/api/user/vlink/activity/news/share/reward" dict:@{@"id":@3001} showHUD:NO WithSuccessBlock:^(id data) {
-//
-//            } WithFailBlock:^(id data) {
-//
-//            }];
+            
+            //            [HttpUrl NetPOSTHost:Http_UpImage url:@"/api/user/vlink/activity/news/share/reward" dict:@{@"id":@3001} showHUD:NO WithSuccessBlock:^(id data) {
+            //
+            //            } WithFailBlock:^(id data) {
+            //
+            //            }];
             //分享 成功
         } else  {
-            NSLog(@"cancled");
+            //            //NSLog(@"cancled");
             //分享 取消
         }
     };
@@ -191,9 +195,9 @@ gl.colors = @[(__bridge id)fclolr.CGColor,(__bridge id)tcolor.CGColor];
                         dispatch_sync(dispatch_get_main_queue(), ^{
                             [self.navigationController pushViewController:scanVC animated:YES];
                         });
-//                        DLog(@"用户第一次同意了访问相机权限 - - %@", [NSThread currentThread]);
+                        //                        DLog(@"用户第一次同意了访问相机权限 - - %@", [NSThread currentThread]);
                     } else {
-//                        DLog(@"用户第一次拒绝了访问相机权限 - - %@", [NSThread currentThread]);
+                        //                        DLog(@"用户第一次拒绝了访问相机权限 - - %@", [NSThread currentThread]);
                     }
                 }];
                 break;
@@ -213,7 +217,7 @@ gl.colors = @[(__bridge id)fclolr.CGColor,(__bridge id)tcolor.CGColor];
                 break;
             }
             case AVAuthorizationStatusRestricted: {
-                NSLog(@"因为系统原因, 无法访问相册");
+                //                //NSLog(@"因为系统原因, 无法访问相册");
                 break;
             }
                 
@@ -264,9 +268,9 @@ gl.colors = @[(__bridge id)fclolr.CGColor,(__bridge id)tcolor.CGColor];
     [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
     
     
-//    char ivPtr[kCCKeySizeAES128+1];
-//    bzero(ivPtr, sizeof(ivPtr));
-//    [@"123123" getCString:ivPtr maxLength:sizeof(ivPtr) encoding:NSUTF8StringEncoding];
+    //    char ivPtr[kCCKeySizeAES128+1];
+    //    bzero(ivPtr, sizeof(ivPtr));
+    //    [@"123123" getCString:ivPtr maxLength:sizeof(ivPtr) encoding:NSUTF8StringEncoding];
     
     NSUInteger dataLength = [data length];
     size_t bufferSize = dataLength + kCCBlockSizeAES128;
@@ -280,7 +284,7 @@ gl.colors = @[(__bridge id)fclolr.CGColor,(__bridge id)tcolor.CGColor];
                                           buffer, bufferSize,
                                           &numBytesEncrypted);
     
-     NSData *result;
+    NSData *result;
     if (cryptStatus == kCCSuccess) {
         result = [NSData dataWithBytesNoCopy:buffer length:numBytesEncrypted];
     }
@@ -288,7 +292,7 @@ gl.colors = @[(__bridge id)fclolr.CGColor,(__bridge id)tcolor.CGColor];
     if (result && result.length > 0) {
         Byte *datas = (Byte*)[result bytes];
         NSMutableString *output = [NSMutableString stringWithCapacity:result.length * 2];
-
+        
         for(int i = 0; i < result.length; i++){
             [output appendFormat:@"%02x", datas[i]];
         }
@@ -312,13 +316,13 @@ gl.colors = @[(__bridge id)fclolr.CGColor,(__bridge id)tcolor.CGColor];
         whole_byte = strtol(byte_chars, NULL, 16);
         [data appendBytes:&whole_byte length:1];
     }
-
+    
     char keyPtr[kCCKeySizeAES128+1];
     bzero(keyPtr, sizeof(keyPtr));
     [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
     
-   
-
+    
+    
     NSUInteger dataLength = [data length];
     size_t bufferSize = dataLength + kCCBlockSizeAES128;
     void *buffer = malloc(bufferSize);
@@ -381,28 +385,28 @@ gl.colors = @[(__bridge id)fclolr.CGColor,(__bridge id)tcolor.CGColor];
 -(UIWindow *)mainWindow{
     UIApplication *app = [UIApplication sharedApplication];
     
- if ([app.delegate respondsToSelector:@selector(window)]){
-            return [app.delegate window];
-            }
-        else
-              {
-           return [app keyWindow];
-          }
+    if ([app.delegate respondsToSelector:@selector(window)]){
+        return [app.delegate window];
+    }
+    else
+    {
+        return [app keyWindow];
+    }
 }
 /* 获取本地时间 */
 - (NSString *)getLeftNowTimeWithEndTime:(NSString*)endTime {
     NSDate*currentDate = [NSDate date];
     
-//    NSDateFormatter *dateformatter=[[NSDateFormatter alloc] init];
- 
-//    NSDate* dat = [NSDate dateWithTimeIntervalSinceNow:0];
+    //    NSDateFormatter *dateformatter=[[NSDateFormatter alloc] init];
+    
+    //    NSDate* dat = [NSDate dateWithTimeIntervalSinceNow:0];
     
     NSTimeInterval a=[currentDate timeIntervalSince1970];
     
     
     NSString*timeString = [NSString stringWithFormat:@"%0.f", a];//转为字符型
     
-NSString *leftTime=
+    NSString *leftTime=
     [NSString stringWithFormat:@"%d",[endTime intValue]-[timeString intValue]];
     
     
@@ -422,7 +426,7 @@ NSString *leftTime=
     
     if (!jsonData) {
         
-        NSLog(@"%@",error);
+        //        //NSLog(@"%@",error);
         
     }else{
         jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -435,7 +439,7 @@ NSString *leftTime=
     //去掉字符串中的换行符
     [mutStr replaceOccurrencesOfString:@"\n" withString:@"" options:NSLiteralSearch range:range2];
     return mutStr;
-
+    
 }
 -(void)makeBordersWithView:(UIView*)view{
     
@@ -465,7 +469,7 @@ NSString *leftTime=
         viewFrame.origin.y=viewFrame.origin.y-frame.size.height;
         self.view.frame=viewFrame;
     }
- 
+    
     
     
     
@@ -483,7 +487,7 @@ NSString *leftTime=
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     
     
-   
+    
 }
 -(BOOL)whetherTheCurrent:(NSString*)VC{
     if ([VC isEqualToString:[NSString stringWithFormat:@"%@",[self class]]]) {
@@ -495,15 +499,15 @@ NSString *leftTime=
 -(BOOL)QrCodepushVC:(NSDictionary*)dic WithCurrWallet:(FLWallet*)currW{
     int type=[dic[@"extra"][@"Type"] intValue];
     
-//    public static final int CREATEREADONLY = 0x1;//打开创建单签只读钱包页面
-//    public static final int CREATEMUL = 0x2;//打开创建多签钱包页面 已经打开了的情况直接填入
-//    public static final int SIGN = 0x3;//打开签名页面
-//    public static final int TRANSFER = 0x4;//打开转账页面
+    //    public static final int CREATEREADONLY = 0x1;//打开创建单签只读钱包页面
+    //    public static final int CREATEMUL = 0x2;//打开创建多签钱包页面 已经打开了的情况直接填入
+    //    public static final int SIGN = 0x3;//打开签名页面
+    //    public static final int TRANSFER = 0x4;//打开转账页面
     
     switch (type) {
         case 1:{
             if (![self whetherTheCurrent:@"HWMSingleSignReadOnlyWalletViewController"]) {
-             HWMSingleSignReadOnlyWalletViewController *SingleSignReadOnlyWalletVC=[[HWMSingleSignReadOnlyWalletViewController alloc]init];
+                HWMSingleSignReadOnlyWalletViewController *SingleSignReadOnlyWalletVC=[[HWMSingleSignReadOnlyWalletViewController alloc]init];
                 SingleSignReadOnlyWalletVC.jsonString=[[FLTools share]DicToString:dic[@"data"]];
                 [self.navigationController pushViewController:SingleSignReadOnlyWalletVC animated:NO];
                 return NO;
@@ -515,20 +519,20 @@ NSString *leftTime=
             break;}
         case 2:{
             if(![self whetherTheCurrent:@"HWMSignThePurseViewController"]) {
-                 HWMSignThePurseViewController *SignThePurseVC=[[ HWMSignThePurseViewController alloc]init];
+                HWMSignThePurseViewController *SignThePurseVC=[[ HWMSignThePurseViewController alloc]init];
                 SignThePurseVC.publicKeyString=dic[@"data"];
                 [self.navigationController pushViewController:SignThePurseVC animated:NO];
-                     return NO;
+                return NO;
                 
             }else{
                 return YES;
             }
-           
+            
             
             break;}
         case 3:{
             if(![self whetherTheCurrent:@"FirstViewController"]) {
-               
+                
                 return NO;
                 
             }else{
@@ -538,15 +542,15 @@ NSString *leftTime=
             break;}
         case 4:{
             if (![self whetherTheCurrent:@"HMWtransferViewController"]&&![self whetherTheCurrent:@"HMWaddContactViewController"]) {
-               HWMQrCodeTransferAndAddBuddyViewController *QrCodeTransferAndAddBuddyVC=[[HWMQrCodeTransferAndAddBuddyViewController alloc]init];
-               QrCodeTransferAndAddBuddyVC.currentWallet=currW;
-                  QrCodeTransferAndAddBuddyVC.addressDic=dic;
+                HWMQrCodeTransferAndAddBuddyViewController *QrCodeTransferAndAddBuddyVC=[[HWMQrCodeTransferAndAddBuddyViewController alloc]init];
+                QrCodeTransferAndAddBuddyVC.currentWallet=currW;
+                QrCodeTransferAndAddBuddyVC.addressDic=dic;
                 QrCodeTransferAndAddBuddyVC.addressString=dic[@"data"];
                 [self.navigationController pushViewController:QrCodeTransferAndAddBuddyVC animated:NO];
-                     return NO;
+                return NO;
                 
             }else{
-               
+                
                 return YES;
             }
             
@@ -559,10 +563,10 @@ NSString *leftTime=
 }
 -(BOOL)TypeJudgment:(NSDictionary*)dic{
     
-  NSInteger Type=[dic[@"extra"][@"Type"] integerValue];
- 
-
- 
+    NSInteger Type=[dic[@"extra"][@"Type"] integerValue];
+    
+    
+    
     switch (Type) {
         case 1:
             return YES;
@@ -587,8 +591,118 @@ NSString *leftTime=
     HWMQrCodeScanningResultsViewController *QrCodeScanningResultsVC=[[HWMQrCodeScanningResultsViewController alloc]init];
     QrCodeScanningResultsVC.resultString=QrCodeScanning;
     [VC.navigationController pushViewController:QrCodeScanningResultsVC animated:YES];
-
+    
 }
 
 
+//-(void)showSendSuccessView{
+//   self.sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
+//    UIView *manView=[self mainWindow];
+//    [manView addSubview:self.sendSuccessPopuV];
+//    [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.right.top.bottom.equalTo(manView);
+//    }];
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self.sendSuccessPopuV removeFromSuperview];
+//        self.sendSuccessPopuV=nil;
+//        [self.navigationController popViewControllerAnimated:YES];
+//    });
+//   
+//}
+-(void)showLoading{
+    [[FLTools share]showLoadingView];
+    
+}
+-(void)hiddLoading{
+    [SVProgressHUD dismiss];
+}
+-(void)showSendSuccessPopuVWithType:(SendSuccessType)suType withBackVC:(UIViewController*)VC{
+    
+    HMWSendSuccessPopuView *sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
+    sendSuccessPopuV.type=suType;
+    UIView *manView=[self mainWindow];
+    [manView addSubview:sendSuccessPopuV];
+    [sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(manView);
+    }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [sendSuccessPopuV removeFromSuperview];
+        if (VC) {
+            for (UIViewController *controller in self.navigationController.viewControllers) {
+                
+                if ([controller isKindOfClass:[VC class]]) {
+                    [self.navigationController popToViewController:controller animated:YES];
+                }
+            }
+        }else{
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    });
+    
+}
+-(void)showNeMessageWith:(HWMMessageCenterModel*)mode{
+    UIView  *appW=[self mainWindow];
+    HWMmessageWindowPopsView *messagePopsV =[[HWMmessageWindowPopsView alloc]init];
+    messagePopsV.frame=CGRectMake(15, -100, AppWidth-30, 70);
+    [appW addSubview:messagePopsV];
+    
+    [UIView animateWithDuration:1 animations:^{
+        messagePopsV.frame = CGRectMake(15, 30, AppWidth-30, 70);
+    }];
+    [UIView animateWithDuration:1 delay:2 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        messagePopsV.frame = CGRectMake(15, -100, AppWidth-30, 70);
+    } completion:^(BOOL finished) {
+        [messagePopsV removeFromSuperview];
+        
+    }];
+    
+}
+ -(void)checkUserNotificationEnable { // 判断用户是否允许接收通知
+    if (@available(iOS 10.0, *)) {
+        __block BOOL isOn = NO;
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+            if (settings.notificationCenterSetting == UNNotificationSettingEnabled) {
+                isOn = YES;
+                NSLog(@"打开了通知");
+            }else {
+                isOn = NO;
+                NSLog(@"关闭了通知");
+                [self showAlertView];
+            }
+        }];
+    }else {
+        if ([[UIApplication sharedApplication] currentUserNotificationSettings].types == UIUserNotificationTypeNone){
+            NSLog(@"关闭了通知");
+            [self showAlertView];
+        }else {
+            NSLog(@"打开了通知");
+        }
+    }
+}
+
+- (void)showAlertView {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"通知" message:@"未获得通知权限，请前去设置" preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self goToAppSystemSetting];
+    }]];
+
+    [self  presentViewController:alert animated:YES completion:nil];
+}
+- (void)goToAppSystemSetting {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIApplication *application = [UIApplication sharedApplication];
+        NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        if ([application canOpenURL:url]) {
+            if (@available(iOS 10.0, *)) {
+                if ([application respondsToSelector:@selector(openURL:options:completionHandler:)]) {
+                    [application openURL:url options:@{} completionHandler:nil];
+                }
+            }else {
+               
+            }
+        }
+    });
+}
 @end

@@ -2,7 +2,7 @@
 //  AboutELAWalletViewController.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/6/21.
+//  Created by  on 2019/6/21.
 //
 
 #import "AboutELAWalletViewController.h"
@@ -16,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *sdkTheVersionNumberLabel;
 @property (weak, nonatomic) IBOutlet UIButton *TheProblemOfFeedbackButton;
 @property (weak, nonatomic) IBOutlet UIButton *RunLogButton;
+@property (weak, nonatomic) IBOutlet UILabel *functionalSpecificationsLabel;
+@property (weak, nonatomic) IBOutlet UIButton *TheCodeStatementButton;
 @end
 
 @implementation AboutELAWalletViewController
@@ -26,14 +28,17 @@
     [self setBackgroundImg:@""];
     NSString *appTheVersionNumberString=NSLocalizedString(@"当前版本号", nil);
     self.appTheVersionNumberLabel.text=[NSString stringWithFormat:@"%@ %@",appTheVersionNumberString, [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
-    self.appInfoLabel.text=NSLocalizedString(@"ELA Wallet是安全、可信的SPV轻节点钱包，支持DPoS选举及亦来云全生态数字资产。", nil);
+    
+    self.appInfoLabel.text=NSLocalizedString(@"ELA Wallet 是安全、可信的亦来云轻节点 \n（ SPV ) 钱包。", nil);
     [self makeBordersWithView:self.seeTheLogButton];
     [self.seeTheLogButton setTitle:NSLocalizedString(@"查看更新日志", nil) forState:UIControlStateNormal];
     [self.TheProblemOfFeedbackButton setTitle:NSLocalizedString(@"反馈邮件", nil) forState:UIControlStateNormal];
     [self.RunLogButton setTitle:NSLocalizedString(@"运行日志", nil) forState:UIControlStateNormal];
     
     self.sdkTheVersionNumberLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"当前sdk版本号", nil),[[ELWalletManager share] EMWMGetVersion]];
-    
+    [self.TheCodeStatementButton setTitle:NSLocalizedString(@"《ELA Wallet开源代码程序声明》", nil) forState:UIControlStateNormal];
+    self.TheCodeStatementButton.alpha=0.f;
+    self.functionalSpecificationsLabel.text=NSLocalizedString(@"主要功能： \n· 亦来云全生态数字资产支持 \n· 亦来云 DID 数字身份认证 \n· 亦来云 DPoS 选举 \n· CR 社区委员选举 \n· CR 社区提案&投票等", nil);
 }
 - (IBAction)seeTheLogAction:(id)sender {
     
@@ -101,6 +106,8 @@
     [super viewWillAppear:animated];
      [self.navigationController setNavigationBarHidden:NO];
     
+}
+- (IBAction)LookUpURLEvent:(id)sender {
 }
 
 @end

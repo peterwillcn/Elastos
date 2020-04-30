@@ -38,6 +38,7 @@
     FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
     model.walletName=self.nNickNameTextField.text;
     model.walletID=self.wallet.masterWalletID;
+    model.didString=self.wallet.didString;
     if ([[HMWFMDBManager sharedManagerType:walletType]updateRecordWallet:model]) {
         [[FLTools share]showErrorInfo:NSLocalizedString(@"钱包名修改成功", nil)];
          [[NSNotificationCenter defaultCenter]postNotificationName:updataWallet object:@"index"];

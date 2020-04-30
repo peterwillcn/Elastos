@@ -2,7 +2,7 @@
 //  HWMCRCommitteeForAgreementView.h
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/11/26.
+//  Created by  on 2019/11/26.
 //
 
 #import <UIKit/UIKit.h>
@@ -18,7 +18,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMCRCommitteeForAgreementView : UIView
-@property(strong,nonatomic)id<HWMCRCommitteeForAgreementViewDelegate> delegate;
+@property(weak,nonatomic)id<HWMCRCommitteeForAgreementViewDelegate> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

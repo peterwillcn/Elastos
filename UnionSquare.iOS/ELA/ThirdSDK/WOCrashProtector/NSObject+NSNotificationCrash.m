@@ -51,7 +51,7 @@ static const char *isNSNotification = "isNSNotification";
 - (void)wo_dealloc
 {
     if ([self isNSNotification]) {
-        NSLog(@"CrashProtector: %@ is dealloc，but NSNotificationCenter Also exsit",self);
+        //NSLog(@"CrashProtector: %@ is dealloc，but NSNotificationCenter Also exsit",self);
         [[NSNotificationCenter defaultCenter] removeObserver:self];
     }
     

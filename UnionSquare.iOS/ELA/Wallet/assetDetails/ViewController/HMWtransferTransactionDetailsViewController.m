@@ -137,7 +137,9 @@ UINib *_cellNib;
         }
         
     }else if (self.type==rotationToVoteType){
-        self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),NSLocalizedString(@"投票数量-1", nil),NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入地址", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
+        self.listTextArray=@[NSLocalizedString(@"交易号", nil),NSLocalizedString(@"交易金额", nil),
+//                             NSLocalizedString(@"投票数量-1", nil),
+                             NSLocalizedString(@"手续费", nil),NSLocalizedString(@"输入地址", nil),NSLocalizedString(@"输出地址", nil),NSLocalizedString(@"确认时间", nil),NSLocalizedString(@"确认次数", nil),NSLocalizedString(@"交易类型", nil),NSLocalizedString(@"备注", nil)];
         allCount=InputsArrayCount+self.listTextArray.count+OutputsArrayCount;
         
         
@@ -434,7 +436,7 @@ UINib *_cellNib;
 
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"输入地址", nil)]){
         
-        cell.textLabelWidth.constant=55;
+        cell.textLabelWidth.constant=60;
         cell.textOffset.constant=7;
         cell.orderDetailsLabel.font=[UIFont systemFontOfSize:10]; cell.orderDetailsLabel.text=self.InputsArray[indexPath.row];
     }else if ([cell.textLabel.text isEqualToString:NSLocalizedString(@"输出地址", nil)]){

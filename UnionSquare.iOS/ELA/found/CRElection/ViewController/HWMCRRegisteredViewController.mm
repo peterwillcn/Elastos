@@ -2,7 +2,7 @@
 //  HWMCRRegisteredViewController.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/8/27.
+//  Created by  on 2019/8/27.
 //
 
 #import "HWMCRRegisteredViewController.h"
@@ -93,27 +93,8 @@
         self.mobCodeString=self.CRmodel.location;
         
     }
-        //        self.theNameOfTheNodeTextField.alpha=0.f;
-//        self.theNameOfTheNodeTextField.clearButtonMode=UITextFieldViewModeWhileEditing;
-//        self.theNameOfTheNodeTextField.enabled=NO;
-//        self.thePublicKeyTextField.text=self.model.ownerPublickKey;
-//        self.URLTextField.text=self.model.url;
-//        self.countriesTextField.text=[[FLTools share]contryNameTransLateByCode:self.model.contryCode.integerValue];
-//        self.theNameOfTheNodeTextField.text=self.model.nickName;
-//
-//    }
     
 }
-//-(HMWSecurityVerificationPopView *)securityVerificationPopV{
-//    if (!_securityVerificationPopV) {
-//        _securityVerificationPopV =[[HMWSecurityVerificationPopView alloc]init];
-//        _securityVerificationPopV.backgroundColor=[UIColor clearColor];
-//        _securityVerificationPopV.delegate=self;
-//    }
-//
-//    return _securityVerificationPopV;
-//}
-
 -(FLJoinToChoseTransferInfoView *)transferDetailsPopupV{
     if (!_transferDetailsPopupV) {
         _transferDetailsPopupV =[FLJoinToChoseTransferInfoView defultView];
@@ -140,33 +121,6 @@
             return;
         }
     }
-//    if (self.CountryORRegionTextField.text.length==0) {
-//        [[FLTools share]showErrorInfo:NSLocalizedString(@"请选择国家/地区", nil)];
-//
-//        return;
-//    }
-//    if (self.URLTextField.text.length==0) {
-//        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入竞选网址", nil)];
-//
-//        return;
-//    }
-   
-    
-//    [self.view addSubview:self.securityVerificationPopV ];
-//    [self.securityVerificationPopV  mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.top.bottom.equalTo(self.view);
-//    }];
-    
-    //
-    //    FLVoteTicketTransferVC *transferVC=[[FLVoteTicketTransferVC alloc]init];
-    //    transferVC.infoModel = model;
-    //    [self.navigationController pushViewController:transferVC animated:YES];
-    
-    //    UIView *manView=[self mainWindow];
-    //    [manView addSubview:self.transferDetailsPopupV];
-    //    [self.transferDetailsPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
-    //        make.left.right.top.bottom.equalTo(manView);
-    //    }];
     for (HWMCRListModel *model in self.lastArray) {
         if ([model.nickname isEqualToString:self.MemberNameTextField.text]) {
             [[FLTools share]showErrorInfo:NSLocalizedString(@"委员昵称已存在", nil)];
@@ -186,13 +140,11 @@
         return;
     }
     NSString *fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",result.message[@"success"]]];
-    
-    
-    
     UIView *mainView =[self mainWindow];
     if (self.isUpdate) {
         self.transactionDetailsView.popViewTitle=NSLocalizedString(@"交易详情", nil);
           [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:@""];
+        self.transactionDetailsView.DetailsType=TransactionDetails;
     }else{
        [self.transactionDetailsView TransactionDetailsWithFee:fee withTransactionDetailsAumont:aumount];
     }
@@ -207,11 +159,8 @@
         ELWalletManager *manager   =  [ELWalletManager share];
            IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
            FLJoinVoteInfoModel* model = [[FLJoinVoteInfoModel alloc]init];
-
            model.CRDIDKey    =  self.MembersDIDLabel.text ;
-   //
            model.CRownerPublickKey = self.MemberThePublicKeyLabel.text;
-
            model.nickName   = self.MemberNameTextField.text;
            model.url        = self.URLTextField.text;
   
@@ -219,18 +168,14 @@
            model.pwd        = pwd;
            model.ipAddress  = self.URLTextField.text;
            model.mark       = @"";
+            NSArray *didStringArray=[self.currentWallet.didString componentsSeparatedByString:@":"];
+            model.DIDString=didStringArray.lastObject;
            model.acount     = 5000;
-  BOOL ret = [manager UpdateCRProducerWithMainchainSubWallet:manager.currentWallet.masterWalletID With:model];
+        BOOL ret = [manager UpdateCRProducerWithMainchainSubWallet:manager.currentWallet.masterWalletID With:model];
       if (ret) {
            [self closeTransactionDetailsView];
            [self showSendSuccessPopuV];
-          
       }
-//      else{
-//          [[FLTools share]showErrorInfo:NSLocalizedString(@"交易失败", nil)];
-//      }
-    
-    
 }
 
 #pragma mark ---------HMWtransferDetailsPopupViewDelegate----------
@@ -325,6 +270,8 @@
         _transactionDetailsView =[[HWMTransactionDetailsView alloc]init];
         _transactionDetailsView.popViewTitle=NSLocalizedString(@"参选押金", nil);
         _transactionDetailsView.delegate=self;
+        _transactionDetailsView.DetailsType=TransactionDetails;
+       
     }
     return _transactionDetailsView;
 }
@@ -352,6 +299,8 @@
                model.ipAddress  = self.URLTextField.text;
                model.mark       = @"";
                model.acount     = 5000;
+               NSArray *didStringArray=[self.currentWallet.didString componentsSeparatedByString:@":"];
+               model.DIDString=didStringArray.lastObject;
         CGFloat free;
         free = [manager RegisterCRWithMainchainSubWallet:manager.currentWallet.masterWalletID With:model];
     if (free>-1) {
@@ -373,14 +322,14 @@
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     NSInteger number=[string charactorNumber];
     if (textField==self.self.MemberNameTextField) {
-         NSLog(@"MemberNameTextField===%ld-----%lu",(long)number,(unsigned long)textField.text.length);
+         //NSLog(@"MemberNameTextField===%ld-----%lu",(long)number,(unsigned long)textField.text.length);
         if (number>100) {
            
             return NO;
         }
     }
     if (textField==self.URLTextField) {
-  NSLog(@"URLTextField===%ld-----%lu",(long)number,(unsigned long)textField.text.length);
+  //NSLog(@"URLTextField===%ld-----%lu",(long)number,(unsigned long)textField.text.length);
         if (number>100) {
             
                   return NO;

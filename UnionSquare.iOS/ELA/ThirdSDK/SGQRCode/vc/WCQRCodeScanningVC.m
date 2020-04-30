@@ -51,7 +51,7 @@
 }
 
 - (void)dealloc {
-//    NSLog(@"WCQRCodeScanningVC - dealloc");
+//    //NSLog(@"WCQRCodeScanningVC - dealloc");
     [self removeScanningView];
 }
 
@@ -59,7 +59,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self defultWhite];
-    self.navigationItem.title = @"扫一扫";
+    self.navigationItem.title =NSLocalizedString(@"扫一扫", nil);
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
@@ -82,7 +82,7 @@
 }
 
 - (void)setupNavigationBar {
-    self.navigationItem.title = @"扫一扫";
+    self.navigationItem.title =  NSLocalizedString(@"扫一扫", nil);
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"相册" style:(UIBarButtonItemStyleDone) target:self action:@selector(rightBarButtonItenAction)];
 }
 - (SGQRCodeScanningView *)scanningView {
@@ -153,7 +153,7 @@
 
 #pragma mark - - - SGQRCodeScanManagerDelegate
 - (void)QRCodeScanManager:(SGQRCodeScanManager *)scanManager didOutputMetadataObjects:(NSArray *)metadataObjects {
-    NSLog(@"metadataObjects - - %@", metadataObjects);
+    //NSLog(@"metadataObjects - - %@", metadataObjects);
     if (metadataObjects != nil && metadataObjects.count > 0) {
         [scanManager playSoundName:@"SGQRCode.bundle/sound.caf"];
         [scanManager stopRunning];

@@ -34,6 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(copy,nonatomic)NSString *infoZH;
+@property(nonatomic,copy)NSString *DIDString;
+
 @end
 
 NS_ASSUME_NONNULL_END

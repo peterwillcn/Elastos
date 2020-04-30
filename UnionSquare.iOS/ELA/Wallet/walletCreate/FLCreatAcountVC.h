@@ -13,5 +13,5 @@
 
 @end
 @interface FLCreatAcountVC : UIViewController
-@property(strong,nonatomic)id<FLCreatAcountVCDelegate>delegate;
+@property(weak,nonatomic)id<FLCreatAcountVCDelegate>delegate;
 @end

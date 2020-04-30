@@ -18,7 +18,7 @@
 /*
  *<# #>
  */
-@property(strong,nonatomic)id<FLPastWordVCDelegate>delegate;
+@property(weak,nonatomic)id<FLPastWordVCDelegate>delegate;
 @property (nonatomic, assign)NSInteger createType;
 
 @end

@@ -37,7 +37,6 @@
              self.contryName.text =locationLabelString;
         });
    
-    NSLog(@"model.index====%ld",(long)model.index);
     self.indexLab.text = [NSString stringWithFormat:@"NO.%@",@(model.index+1).stringValue];
     self.percentLab.text = [NSString stringWithFormat:@"%@ %@",[[FLTools share]DownTheValue:model.voterate withLength:2],@"%"];
     

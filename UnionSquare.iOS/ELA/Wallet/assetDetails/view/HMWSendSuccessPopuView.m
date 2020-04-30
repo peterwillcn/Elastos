@@ -34,4 +34,15 @@
     [self endEditing:YES];
     self.hidden = YES;
 }
+-(void)setType:(SendSuccessType)type{
+    
+    
+    if (type==sendDealType) {
+        
+    }else if (type==saveSuccessType){
+         self.showInfoLabel.text=NSLocalizedString(@"保存成功", nil);
+        
+    }
+    _type=type;
+}
 @end

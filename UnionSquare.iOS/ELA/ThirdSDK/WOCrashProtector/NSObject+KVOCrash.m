@@ -60,7 +60,7 @@
     if(isHas) {
         [self unlock];
         
-        NSLog(@"crash add observer: %@, keyPath: %@", object, KVOinfo);
+        //NSLog(@"crash add observer: %@, keyPath: %@", object, KVOinfo);
 
         return NO ;
     }
@@ -120,7 +120,7 @@
 }
 
 - (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary<NSKeyValueChangeKey, id> *)change context:(nullable void *)context{
-    NSLog(@"KVOProxy - observeValueForKeyPath :%@",change);
+    //NSLog(@"KVOProxy - observeValueForKeyPath :%@",change);
     __block WOCPKVOInfo *info ;
     {
         [self lock];
@@ -153,7 +153,7 @@
 {
 //    [self wo_removeAllObserver];
     pthread_mutex_destroy(&_mutex);
-//    NSLog(@"KVOProxy dealloc removeAllObserve");
+//    //NSLog(@"KVOProxy dealloc removeAllObserve");
 }
 
 @end
@@ -233,7 +233,7 @@ static int const WONSObjectKVOCrashKey;
 //    if ([self.KVOProxy wo_addObserver:wkself KVOinfo:kvoInfo]) {
 //        [self wo_addObserver:self.KVOProxy forKeyPath:keyPath options:options context:context];
 //    }else {
-//        NSLog(@"KVO is more");
+//        //NSLog(@"KVO is more");
 //    }
 //    [self wo_addObserver:observer forKeyPath:keyPath options:options context:context];
 
@@ -262,7 +262,7 @@ static int const WONSObjectKVOCrashKey;
 }
 
 - (void)wo_removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath {
-//    NSLog(@"swizzled removeObserver");
+//    //NSLog(@"swizzled removeObserver");
 //    [self.KVOProxy wo_removeObserver:observer keyPath:keyPath block:^{
 //        [self wo_removeObserver:observer forKeyPath:keyPath];
 //    }];

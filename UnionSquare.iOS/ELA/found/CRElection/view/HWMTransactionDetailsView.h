@@ -2,10 +2,15 @@
 //  HWMTransactionDetailsView.h
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/10/8.
+//  Created by  on 2019/10/8.
 //
 
 #import <UIKit/UIKit.h>
+
+typedef enum : NSUInteger  {
+    didInfoType,
+    TransactionDetails
+} TransactionDetailsType;
 
 @protocol HWMTransactionDetailsViewDelegate <NSObject>
 -(void)pwdAndInfoWithPWD:(NSString*)pwd;
@@ -17,11 +22,16 @@
 /*
  *<# #>
  */
-@property(strong,nonatomic)id<HWMTransactionDetailsViewDelegate> delegate;
+@property(weak,nonatomic)id<HWMTransactionDetailsViewDelegate> delegate;
 /*
  *<# #>
  */
 @property(copy,nonatomic)NSString *popViewTitle;
+
+/*
+ *<# #>
+ */
+@property(assign,nonatomic)TransactionDetailsType DetailsType;
 -(void)TransactionDetailsWithFee:(NSString*)fee withTransactionDetailsAumont:(NSString*)aumont;
 @end
 

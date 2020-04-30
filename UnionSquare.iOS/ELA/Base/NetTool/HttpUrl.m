@@ -11,7 +11,7 @@
 #import "AFNetworking.h"
 #import "SVProgressHUD.h"
 NSString *errorString = @"加载失败，请稍后再试";
-NSInteger timeOut = 20;
+NSInteger timeOut = 60;
 @implementation HttpUrl
 
 +(AFHTTPSessionManager*)getManage{
@@ -44,6 +44,8 @@ NSInteger timeOut = 20;
     BOOL isSh=YES;
     if ([httpUrl isEqualToString:@"/api/dposnoderpc/check/getimage"]) {
         isSh=NO;
+    }else if([httpUrl isEqualToString:@"/api/dposnoderpc/check/jwtget"]){
+        isSh=NO;
     }
      if (show) {
          [[FLTools share]showLoadingView];
@@ -52,8 +54,13 @@ NSInteger timeOut = 20;
     AFHTTPSessionManager *manage = [self getManage];
     
     NSDictionary *dataDic = [self addOtherKey:param];
-    DLog(@"---url---%@%@---%@",host,httpUrl, dataDic);
-    NSString *stringUrl = [NSString stringWithFormat:@"%@%@",host, httpUrl];
+    NSString *stringUrl;
+    if (httpUrl.length>0) {
+    stringUrl = [NSString stringWithFormat:@"%@%@",host,httpUrl];
+    }else{
+        stringUrl =host;
+    }
+    
 
     [manage POST:stringUrl parameters:param headers:header progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -65,7 +72,7 @@ NSInteger timeOut = 20;
         
         NSInteger code = [dic[@"code"] integerValue];
       
-        if (code==0) {
+        if (code==0||code==200) {
             successBlock(dic);
         }else{
             NSString *errString=dic[@"exceptionMsg"];
@@ -79,12 +86,8 @@ NSInteger timeOut = 20;
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (isSh) {
-        [[FLTools share]showErrorInfo:errorString];
-        
+            [[FLTools share]showErrorInfo:errorString];
     }
-        
-////        DLog(@"----------------------------->%@",error);
-//        [[FLTools share]showErrorInfo:errorString];
         FailBlock(error);
     }];
     
@@ -102,14 +105,10 @@ NSInteger timeOut = 20;
 
     NSString *stringUrl = [NSString stringWithFormat:@"%@%@",host, httpUrl];
     NSDictionary *dataDic = [self addOtherKey:param];
-    
-//    DLog(@"---url---%@---%@", stringUrl, dataDic);
-
     [manage GET:stringUrl parameters:dataDic headers:header progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-//        DLog(@"dic:%@",dic);
         if (show) {
             [SVProgressHUD dismiss];
         }
@@ -125,8 +124,9 @@ NSInteger timeOut = 20;
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        DLog(@"----------------------------->%@",error);
-        [[FLTools share]showErrorInfo:errorString];
+        if (![httpUrl isEqualToString:@"/api/dposNodeRPC/getProducerNodesList"]) {
+              [[FLTools share]showErrorInfo:errorString];
+        }
         FailBlock(error);
         
     }];
@@ -287,14 +287,14 @@ NSInteger timeOut = 20;
     
     /* 开始请求下载 */
     NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
-        NSLog(@"下载进度：%.0f％", downloadProgress.fractionCompleted * 100);
+        //NSLog(@"下载进度：%.0f％", downloadProgress.fractionCompleted * 100);
         
     } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
         /* 设定下载到的位置 */
         return [NSURL fileURLWithPath:filePath];
         
     } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
-        NSLog(@"下载完成");
+        //NSLog(@"下载完成");
         successBlock(url.lastPathComponent);
         
     }];

@@ -33,6 +33,11 @@ NS_ASSUME_NONNULL_BEGIN
  *<# #>
  */
 @property(copy,nonatomic)NSString *infoZH;
+/*
+ *<# #>
+ */
+@property(copy,nonatomic)NSString *state;
+
 
 @end
 

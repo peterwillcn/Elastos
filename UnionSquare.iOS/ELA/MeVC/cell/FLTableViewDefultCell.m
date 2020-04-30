@@ -21,7 +21,6 @@
     self.pwdSwitch.layer.borderWidth=2.f;
      self.pwdSwitch.layer.cornerRadius=15.f; self.pwdSwitch.layer.masksToBounds=YES;
      self.pwdSwitch.transform=CGAffineTransformMakeScale(0.75, 0.75);
-    // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

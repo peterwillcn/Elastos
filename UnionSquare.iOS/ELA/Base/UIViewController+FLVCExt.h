@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "FLTools.h"
-
+#import "HMWSendSuccessPopuView.h"
 @interface UIViewController (FLVCExt)
 /*
  *<# #>
@@ -52,4 +52,9 @@
 -(BOOL)QrCodepushVC:(NSDictionary*)dic WithCurrWallet:(FLWallet*)currW;
 -(BOOL)TypeJudgment:(NSDictionary*)dic;
 -(void)QrCodeScanningResultsWithString:(NSString*)QrCodeScanning withVC:(UIViewController*)VC;
+-(void)showSendSuccessPopuVWithType:(SendSuccessType)suType withBackVC:(UIViewController*)VC;
+-(void)showLoading;
+-(void)hiddLoading;
+-(void)showNeMessageWith:(HWMMessageCenterModel*)mode;
+-(void)checkUserNotificationEnable;
 @end

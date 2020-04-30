@@ -15,7 +15,7 @@
     NSString *path = [NSString stringWithFormat:@"%@/Data", pathStr];
     
     NSString *toPathStr = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-   
+    
     NSString *toPath = [toPathStr stringByAppendingString:@"/Data"];
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     [fileManager createDirectoryAtPath:toPath withIntermediateDirectories:NO attributes:nil error:nil];
@@ -31,13 +31,13 @@
     NSArray* array = [fileManager contentsOfDirectoryAtPath:sourcePath error:&error];
     if(error)
     {
-//        NSLog(@"%@", error.localizedDescription);
+        //        //NSLog(@"%@", error.localizedDescription);
     }
     for(int i = 0; i<[array count]; i++)
     {
         NSString *fullPath = [sourcePath stringByAppendingPathComponent:[array objectAtIndex:i]];
         NSString *fullToPath = [toPath stringByAppendingPathComponent:[array objectAtIndex:i]];
-//        
+        //
         //判断是不是文件夹
         BOOL isFolder = NO;
         //判断是不是存在路径 并且是不是文件夹
@@ -56,86 +56,174 @@
     }
     
 }
-
-   
-//
-//- (void)viewDidLoad
-//{
-//    [
-//    // Do any additional setup after loading the view.
-//    self.title =  @"拷贝文件到Sandbox";
-//
-//    //文件类型
-//    NSString * docPath = [[NSBundle mainBundle] pathForResource:@"save1" ofType:@"dat"];
-//
-//    // 沙盒Documents目录
-//    //    NSString * appDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-//
-//    // 沙盒Library目录
-//    NSString * appDir = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) lastObject];
-//    //appLib  Library/Caches目录
-//    NSString *appLib = [appDir stringByAppendingString:@"/Caches"];
-//
-//    BOOL filesPresent = [self copyMissingFile:docPath toPath:appLib];
-//    if (filesPresent) {
-//        NSLog(@"OK");
-//    }
-//    else
-//    {
-//        NSLog(@"NO");
-//    }
-//
-//    // 创建文件夹
-//    NSString *createDir =  [NSHomeDirectory() stringByAppendingString:@"/test"];
-//    [self createFolder:createDir];
-//
-//    // 把文件拷贝到Test目录
-//    BOOL filesPresent1 = [self copyMissingFile:docPath toPath:createDir];
-//    if (filesPresent1) {
-//        NSLog(@"OK");
-//    }
-//    else
-//    {
-//        NSLog(@"NO");
-//    }
-//
-//
-//}
-//
-///**
-// *    @brief    把Resource文件夹下的save1.dat拷贝到沙盒
-// *
-// *    @param     sourcePath     Resource文件路径
-// *    @param     toPath     把文件拷贝到XXX文件夹
-// *
-// *    @return    BOOL
-// */
-//- (BOOL)copyMissingFile:(NSString *)sourcePath toPath:(NSString *)toPath
-//{
-//    BOOL retVal = YES; // If the file already exists, we'll return success…
-//    NSString * finalLocation = [toPath stringByAppendingPathComponent:[sourcePath lastPathComponent]];
-//    if (![[NSFileManager defaultManager] fileExistsAtPath:finalLocation])
-//    {
-//        retVal = [[NSFileManager defaultManager] copyItemAtPath:sourcePath toPath:finalLocation error:NULL];
-//    }
-//    return retVal;
-//}
-//
-///**
-// *    @brief    创建文件夹
-// *
-// *    @param     createDir     创建文件夹路径
-// */
-//+ (void)createFolder:(NSString *)createDir
-//{
-//    BOOL isDir = NO;
-//    NSFileManager *fileManager = [NSFileManager defaultManager];
-//    BOOL existed = [fileManager fileExistsAtPath:createDir isDirectory:&isDir];
-//    if ( !(isDir == YES && existed == YES) )
-//    {
-//        [fileManager createDirectoryAtPath:createDir withIntermediateDirectories:YES attributes:nil error:nil];
-//    }
-//}
-
++(NSString*)DIDRootPath{
+    NSString *toPathStr = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSString *toPath = [NSString stringWithFormat:@"%@/DID/",toPathStr];
+    BOOL isDir = NO;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL existed = [fileManager fileExistsAtPath:toPath isDirectory:&isDir];
+    if ( !(isDir == YES && existed == YES) )
+    {
+        [fileManager createDirectoryAtPath:toPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    return toPath;
+    
+}
++(NSArray*)ReadCommDIDPath{
+    NSString *toPathStr = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSString *toPath = [NSString stringWithFormat:@"%@/Inbox",toPathStr];
+    BOOL isDir = NO;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL existed = [fileManager fileExistsAtPath:toPath isDirectory:&isDir];
+    if ( !(isDir == YES && existed == YES) )
+    {
+        [fileManager createDirectoryAtPath:toPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    //新建数组，存放各个文件路径
+    NSMutableArray *allfilesAarry = [[NSMutableArray alloc]init];
+    
+    NSArray *filesAarry = [fileManager subpathsOfDirectoryAtPath:toPath error:nil];
+    //遍历目录迭代器，获取各个文件路径
+    for (NSString *fN in filesAarry) {
+        if ([[fN pathExtension] isEqualToString:@"jwt"]) {
+            NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:[NSString stringWithFormat:@"%@/%@",toPath,fN] error:nil];
+            NSDate *fileCreateDate = [fileAttributes objectForKey:NSFileModificationDate];
+            NSString *timeString=[[FLTools share]YMDWithDate:fileCreateDate];
+            NSDictionary *filesDic=@{@"fileName":fN,@"date":timeString};
+            [allfilesAarry addObject:filesDic];
+        }
+    }
+    
+    return allfilesAarry;
+}
++(NSString*)readFlieCommDIDWithFlieName:(NSString*)FlieName{
+    NSString *toPathStr = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSString *toPath = [NSString stringWithFormat:@"%@/Inbox",toPathStr];
+    NSFileHandle *fh = [NSFileHandle fileHandleForReadingAtPath:[NSString stringWithFormat:@"%@/%@",toPath ,FlieName]];
+    NSData * data = [fh readDataToEndOfFile];
+    NSString* TheFileContent = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    
+    return TheFileContent;
+}
++(BOOL)AddCommDIDWithJWT:(NSString*)fromePath{
+    BOOL hasFir=NO;
+    if (![[fromePath pathExtension] isEqualToString:@"jwt"]) {
+        return   hasFir;
+    }
+    NSString *FfileName=[NSString GetFileName:fromePath];
+    NSString *toPathStr = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSString *toPath = [NSString stringWithFormat:@"%@/Inbox",toPathStr];
+    BOOL isDir = NO;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL existed = [fileManager fileExistsAtPath:toPath isDirectory:&isDir];
+    if ( !(isDir == YES && existed == YES) )
+    {
+        [fileManager createDirectoryAtPath:toPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    //新建数组，存放各个文件路径
+    
+    NSArray *filesAarry = [fileManager subpathsOfDirectoryAtPath:toPath error:nil];
+    //遍历目录迭代器，获取各个文件路径
+    for (NSString *fN in filesAarry) {
+        if ([fN isEqualToString:FfileName]) {
+            return YES;
+        }
+    }
+    
+    return hasFir;
+}
++(NSArray*)ReadDIDPathWithWalletID:(NSString*)walletID{
+    
+    NSString *toPathStr = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSString *toPath = [NSString stringWithFormat:@"%@/Credentials/%@",toPathStr,walletID];
+    BOOL isDir = NO;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL existed = [fileManager fileExistsAtPath:toPath isDirectory:&isDir];
+    if ( !(isDir == YES && existed == YES) )
+    {
+        [fileManager createDirectoryAtPath:toPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    NSMutableArray *allfilesAarry = [[NSMutableArray alloc]init];
+    
+    NSArray *filesAarry = [fileManager subpathsOfDirectoryAtPath:toPath error:nil];
+    //遍历目录迭代器，获取各个文件路径
+    for (NSString *fN in filesAarry) {
+        if ([[fN pathExtension] isEqualToString:@"jwt"]) {
+            NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:[NSString stringWithFormat:@"%@/%@",toPath,fN] error:nil];
+            NSDate *fileCreateDate = [fileAttributes objectForKey:NSFileModificationDate];
+            NSString *timeString=[[FLTools share]YMDWithDate:fileCreateDate];
+            NSDictionary *filesDic=@{@"fileName":fN,@"date":timeString};
+            [allfilesAarry addObject:filesDic];
+        }
+    }
+    return  allfilesAarry;
+}
++(BOOL)saveDIDPathWithWalletID:(NSString*)walletID withString:(NSString*)jwtString WithFielName:(NSString*)fielName{
+    NSString *toPathStr = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSString *toPath = [NSString stringWithFormat:@"%@/Credentials/%@",toPathStr,walletID];
+    BOOL isDir = NO;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL existed = [fileManager fileExistsAtPath:toPath isDirectory:&isDir];
+    if ( !(isDir == YES && existed == YES) )
+    {
+        [fileManager createDirectoryAtPath:toPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    NSError *error;
+    NSArray *filesAarry = [fileManager subpathsOfDirectoryAtPath:toPath error:nil];
+    NSString *newFileName=fielName;
+    //遍历目录迭代器，获取各个文件路径
+    for (NSString *fN in filesAarry) {
+        NSString*nfn=fN;
+        NSArray *felChange=[fN componentsSeparatedByString:@"-"];
+        if (felChange.count>1) {
+            nfn=felChange.firstObject;
+            
+        }
+        if ([nfn isEqualToString:fielName]) {
+            newFileName=[[FLTools share]getFileIndexCount:nfn];
+        }
+    }
+    [jwtString writeToFile:[NSString stringWithFormat:@"%@/%@",toPath,fielName] atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    
+    
+    if  (error == nil) {
         
+        NSString *fPathStr = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+        NSString *fPath = [NSString stringWithFormat:@"%@/Inbox/%@",fPathStr,fielName];
+        if (fPath) {
+            [fileManager removeItemAtPath:fPath error:&error];
+        }
+        
+        
+    }else{
+        return NO;
+    }
+    
+    return YES;
+    
+}
++(NSString*)jwtPathWithWalletID:(NSString*)walletID withFileName:(NSString*)fileName{
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *toPathStr = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSString *toPath = [NSString stringWithFormat:@"%@/Credentials/%@/",toPathStr,walletID];
+    
+    NSString * testDirectory = [toPath stringByAppendingPathComponent:fileName];
+    BOOL res = [fileManager fileExistsAtPath:testDirectory];
+    
+    if (res== NO){
+        return @"";
+    }
+    return testDirectory;
+    
+    
+    
+    
+    
+}
+
+
 @end

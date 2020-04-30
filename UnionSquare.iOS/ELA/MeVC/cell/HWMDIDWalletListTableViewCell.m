@@ -2,7 +2,7 @@
 //  HWMDIDWalletListTableViewCell.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/10/22.
+//  Created by  on 2019/10/22.
 //
 
 #import "HWMDIDWalletListTableViewCell.h"

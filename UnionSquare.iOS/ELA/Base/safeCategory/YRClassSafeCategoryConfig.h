@@ -19,7 +19,7 @@
 
 #ifndef __OPTIMIZE__
 #if ENABLE_CLASS_SAFE_CATEGORY_LOG
-#define YRWarningLog(...) NSLog(__VA_ARGS__)
+#define YRWarningLog(...) //NSLog(__VA_ARGS__)
 #else
 #define YRWarningLog(...)
 #endif

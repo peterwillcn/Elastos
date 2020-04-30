@@ -95,13 +95,13 @@
 }
 
 + (NSTimer *)wo_scheduledTimerWithTimeInterval:(NSTimeInterval)timeInterval target:(id)target selector:(SEL)selector userInfo:(id)userInfo repeats:(BOOL)repeats {
-//    NSLog(@"CrashProtector - warring: wo_scheduledTimerWithTimeInterval");
+//    //NSLog(@"CrashProtector - warring: wo_scheduledTimerWithTimeInterval");
     return [self wo_scheduledTimerWithTimeInterval:timeInterval target:[WOCPWeakProxy proxyWithTarget:target] selector:selector userInfo:userInfo repeats:repeats];
 }
 
 + (NSTimer *)wo_timerWithTimeInterval:(NSTimeInterval)timeInterval target:(id)target selector:(SEL)aSelector userInfo:(nullable id)userInfo repeats:(BOOL)yesOrNo {
     
-    NSLog(@"CrashProtector - warring: wo_timerWithTimeInterval");
+    //NSLog(@"CrashProtector - warring: wo_timerWithTimeInterval");
     return [self wo_timerWithTimeInterval:timeInterval target:target selector:aSelector userInfo:userInfo repeats:yesOrNo];
 }
 

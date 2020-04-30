@@ -32,9 +32,13 @@ typedef NS_ENUM(NSInteger, HMWToDeleteType) {
     deleteCRVote,
     openIDChainType,
     NeedsSavedType,
-    voteInvalidType
+    voteInvalidType,
+    deleteDIDInfoType,
+    needCreadDIDType,
+    deleteHasSaveInfoType,
+    documentsCoveringType,
+    CloseChainIDType
     
-   
 };
 
 
@@ -42,7 +46,7 @@ typedef NS_ENUM(NSInteger, HMWToDeleteType) {
     /*
      *<# #>
      */
-@property(strong,nonatomic)id<HMWToDeleteTheWalletPopViewDelegate> delegate;
+@property(weak,nonatomic)id<HMWToDeleteTheWalletPopViewDelegate> delegate;
 
 /*
  *<# #>

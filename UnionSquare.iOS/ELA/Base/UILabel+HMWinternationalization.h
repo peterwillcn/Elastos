@@ -2,7 +2,7 @@
 //  UILabel+HMWinternationalization.h
 //  FLWALLET
 //
-//  Created by 韩铭文 on 2019/4/22.
+//  Created by  on 2019/4/22.
 //  Copyright © 2019 HMW. All rights reserved.
 //
 

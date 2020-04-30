@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -144,7 +144,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.14706566220238096" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" red="0.37330129740000001" green="0.5333217978" blue="0.54108238220000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="xHV-g0-Gdm" secondAttribute="bottom" constant="10" id="09J-sj-kK9"/>
                         <constraint firstItem="HhU-EQ-sgS" firstAttribute="centerY" secondItem="rwN-jJ-t1B" secondAttribute="centerY" id="0q7-fg-e2w"/>
@@ -172,7 +172,7 @@
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vcc-4b-6xF">
                     <rect key="frame" x="15" y="607" width="170" height="50"/>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.14855375744047619" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.37330129740000001" green="0.5333217978" blue="0.54108238220000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="NFU-S2-zbJ"/>
                     </constraints>
@@ -243,7 +243,7 @@
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F8y-m9-1vp">
                     <rect key="frame" x="190" y="607" width="170" height="50"/>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.14855375744047619" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.37330129740000001" green="0.5333217978" blue="0.54108238220000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="I9V-tX-KsD"/>
                     </constraints>

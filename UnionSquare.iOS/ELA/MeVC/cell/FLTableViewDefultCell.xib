@@ -28,7 +28,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2md-PY-PLA">
-                                <rect key="frame" x="15" y="23.5" width="13" height="17"/>
+                                <rect key="frame" x="15" y="0.0" width="150" height="64"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -38,15 +38,26 @@
                                 <color key="onTintColor" red="0.52544218301773071" green="0.52552098035812378" blue="0.52542495727539062" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="thumbTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P5I-aH-KiZ">
+                                <rect key="frame" x="252" y="32" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.19284453988075256" green="0.32548019289970398" blue="0.32934954762458801" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="P5I-aH-KiZ" firstAttribute="centerY" secondItem="2md-PY-PLA" secondAttribute="centerY" id="E3e-Cb-XZn"/>
                             <constraint firstItem="Tla-dm-jIJ" firstAttribute="centerY" secondItem="YlF-fE-9k2" secondAttribute="centerY" id="HIp-Bj-UEW"/>
                             <constraint firstItem="2md-PY-PLA" firstAttribute="leading" secondItem="YlF-fE-9k2" secondAttribute="leading" constant="15" id="Leh-Nf-eNe"/>
                             <constraint firstAttribute="trailing" secondItem="Tla-dm-jIJ" secondAttribute="trailing" constant="9" id="Lve-Ju-IF8"/>
                             <constraint firstItem="haS-fT-xsw" firstAttribute="centerY" secondItem="YlF-fE-9k2" secondAttribute="centerY" id="Qvv-au-k7r"/>
                             <constraint firstAttribute="trailing" secondItem="haS-fT-xsw" secondAttribute="trailing" constant="15" id="d8R-hZ-9Gf"/>
+                            <constraint firstItem="2md-PY-PLA" firstAttribute="top" secondItem="YlF-fE-9k2" secondAttribute="top" id="ghU-kU-Sq0"/>
+                            <constraint firstAttribute="trailing" secondItem="P5I-aH-KiZ" secondAttribute="trailing" constant="27" id="kef-tk-nCm"/>
                             <constraint firstItem="2md-PY-PLA" firstAttribute="centerY" secondItem="YlF-fE-9k2" secondAttribute="centerY" id="lDZ-5Z-xLY"/>
+                            <constraint firstAttribute="bottom" secondItem="2md-PY-PLA" secondAttribute="bottom" id="n8p-E9-AA3"/>
+                            <constraint firstItem="haS-fT-xsw" firstAttribute="leading" secondItem="2md-PY-PLA" secondAttribute="trailing" constant="50" id="x76-nF-QUv"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -63,6 +74,7 @@
                 <outlet property="bgView" destination="YlF-fE-9k2" id="CLp-Ab-kNU"/>
                 <outlet property="nameLab" destination="2md-PY-PLA" id="h82-hV-iBx"/>
                 <outlet property="pwdSwitch" destination="haS-fT-xsw" id="Uzh-pf-gVa"/>
+                <outlet property="stastuLabel" destination="P5I-aH-KiZ" id="GIy-q9-Olg"/>
                 <outlet property="subImag" destination="Tla-dm-jIJ" id="PQX-9i-CDq"/>
             </connections>
             <point key="canvasLocation" x="42.399999999999999" y="67.466266866566727"/>

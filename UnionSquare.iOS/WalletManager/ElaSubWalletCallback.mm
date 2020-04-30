@@ -8,6 +8,9 @@
 #import "ElaSubWalletCallback.h"
 #import "ELWalletManager.h"
 #include <wchar.h>
+#import "HWMMessageCenterModel.h"
+#import "HMWFMDBManager.h"
+
 
 NSString *wallID;
 //
@@ -18,7 +21,7 @@ using namespace Elastos::ElaWallet;
 ElaSubWalletCallback::ElaSubWalletCallback(const std::string &callBackInfo){
     _callBackInfo=callBackInfo;
 }
- ElaSubWalletCallback::~ElaSubWalletCallback(){
+ElaSubWalletCallback::~ElaSubWalletCallback(){
     
 }
 void ElaSubWalletCallback::OnTransactionStatusChanged(
@@ -26,18 +29,38 @@ void ElaSubWalletCallback::OnTransactionStatusChanged(
                                                       const std::string &status,
                                                       const nlohmann::json &desc,
                                                       uint32_t confirms){
-
-//    NSOperationQueue *waitQueue = [[NSOperationQueue alloc] init];
-//    [waitQueue addOperationWithBlock:^{
+    NSString *txidString=[NSString stringWithUTF8String:txid.c_str()];
+    //    NSDictionary *dic=@{@"txid":txidString,
+    //                        @"status":[NSString stringWithUTF8String:status.c_str()],
+    //                        @"desc":[NSString stringWithUTF8String:desc.dump().c_str()],@"desc":[NSString stringWithUTF8String:desc.dump().c_str()],
+    //                        @"confirms":@(confirms)
+    //    };
+//    if (confirms!=0) {
 //
-//    NSDictionary *dic=@{@"txid":[NSString stringWithUTF8String:txid.c_str()],
-//                        @"status":[NSString stringWithUTF8String:status.c_str()],
-//                        @"desc":[NSString stringWithUTF8String:desc.dump().c_str()],
-//                        };
-//    DLog(@"交易金额:  %@",dic);
-//        [[NSNotificationCenter defaultCenter] postNotificationName:TransactionStatusChanged object:dic];}];
-
-    
+//        NSString *walletInfo= [NSString stringWithCString:_callBackInfo.c_str() encoding:NSUTF8StringEncoding];
+//        NSArray *infoArray=[[FLTools share]stringToArray:walletInfo];
+//        NSString *walletID=infoArray.firstObject;
+//        NSString *chainID=infoArray[1];
+//        HWMMessageCenterModel *model =[[HWMMessageCenterModel alloc]init];
+//        model.walletID= walletID;
+//        model.chainID=chainID;
+//        model.typeHash=txidString;
+//        HWMMessageCenterModel *almodel=[[HMWFMDBManager sharedManagerType:transactionsType]selectTransactionsWithModel:model];
+//        if ([almodel.MessageType isEqualToString:@"1001"]) {
+//            model.MessageC=@"由于交易金额不足,您的CR委员选举投票已失效";
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                [[FLTools share]showNeMessageWith:model];
+//            });
+//        }else if ([almodel.MessageType isEqualToString:@"1002"]){
+//             model.MessageC=@"由于交易金额不足,您的超级节点选举投票已失效";
+//
+//
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+////                [[FLTools share]showNeMessageWith:model];
+//            });
+//        }
+        
+//    }
 }
 
 //void ElaSubWalletCallback::OnBlockSyncStarted()
@@ -55,28 +78,44 @@ void ElaSubWalletCallback::OnBlockSyncProgress(const nlohmann::json &progressInf
     NSString *Progress=[NSString stringWithFormat:@"%f",[progressInfoDic[@"Progress"] doubleValue]/100];
     NSString *DownloadPeer=[NSString stringWithFormat:@"%@",progressInfoDic[@"DownloadPeer"]];
     NSString *LastBlockTime=[NSString stringWithFormat:@"%@",progressInfoDic[@"LastBlockTime"]];
-      
-        NSDictionary *dic=@{@"progress":Progress,@"callBackInfo":walletIDString,@"lastBlockTimeString":LastBlockTime,@"BytesPerSecond":BytesPerSecond,@"DownloadPeer":DownloadPeer};
-        NSLog(@"call回调数据%@",dic);
-        [[NSNotificationCenter defaultCenter] postNotificationName:progressBarcallBackInfo object:dic];
+    
+    NSDictionary *dic=@{@"progress":Progress,@"callBackInfo":walletIDString,@"lastBlockTimeString":LastBlockTime,@"BytesPerSecond":BytesPerSecond,@"DownloadPeer":DownloadPeer};
+    [[NSNotificationCenter defaultCenter] postNotificationName:progressBarcallBackInfo object:dic];
 }
 void ElaSubWalletCallback::OnBalanceChanged(const std::string &asset, const std::string &balance){
-//    NSOperationQueue *waitQueue = [[NSOperationQueue alloc] init];
-//    [waitQueue addOperationWithBlock:^{
     NSString *walletIDString = [NSString stringWithCString:_callBackInfo.c_str() encoding:NSUTF8StringEncoding];
-    
-    
     NSString *assetString = [NSString stringWithCString:asset.c_str() encoding:NSUTF8StringEncoding];
     
     NSDictionary *dic=@{@"asset":assetString,@"balance":[NSString stringWithCString:balance.c_str() encoding:NSUTF8StringEncoding],@"callBackInfo":walletIDString};
-    
-        [[NSNotificationCenter defaultCenter] postNotificationName:AccountBalanceChanges object:dic];
-        
-//    }];
+    [[NSNotificationCenter defaultCenter] postNotificationName:AccountBalanceChanges object:dic];
 }
-
 void ElaSubWalletCallback::OnTxPublished(const std::string &hash, const nlohmann::json &result)
 {
+    NSString *hashString = [NSString stringWithCString:hash.c_str() encoding:NSUTF8StringEncoding];
+    NSString *resultString = [NSString stringWithCString:result.dump().c_str() encoding:NSUTF8StringEncoding];
+    
+//    NSDictionary *dic=[[FLTools share]dictionaryWithJsonString:resultString];
+//    if (dic) {
+//        int code= [dic[@"Code"] intValue];
+//        if (code==0||(code==18&& [dic[@"Reason"] isEqualToString:@"uplicate"])){
+
+////            });
+//        }else{
+//            NSString *walletInfo= [NSString stringWithCString:_callBackInfo.c_str() encoding:NSUTF8StringEncoding];
+//            NSArray *infoArray=[[FLTools share]stringToArray:walletInfo];
+//            NSString *walletID=infoArray.firstObject;
+//            NSString *chainID=infoArray[1];
+//            HWMMessageCenterModel *model =[[HWMMessageCenterModel alloc]init];
+//            model.walletID= walletID;
+//            model.chainID=chainID;
+//            model.MessageC=@"交易错误，无法上链";
+//            model.typeHash=hashString;
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+////                [[FLTools share]showNeMessageWith:model];
+//            });
+//        }
+//
+//    }
 }
 
 /**

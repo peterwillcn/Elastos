@@ -2,7 +2,7 @@
 //  HWMCRCCommitteeElectionListViewController.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/9/5.
+//  Created by  on 2019/9/5.
 //
 
 #import "HWMCRCCommitteeElectionListViewController.h"
@@ -90,8 +90,8 @@ UINib *_cellCRNib;
  *<# #>
  */
 @property(copy,nonatomic)NSArray *invalidDopsArray;/*
- *<# #>
- */
+                                                    *<# #>
+                                                    */
 @property(copy,nonatomic)NSString *fee;
 
 
@@ -116,11 +116,11 @@ UINib *_cellCRNib;
     self.TheRemainingAvailable=@"0";
     self.invalidDopsArray=[NSArray array];
     [self LoadInvalidDops];
-  
- 
+    
+    
 }
 -(void)getDBRecored{
-   NSArray *DBRecoArray  = [[NSMutableArray alloc]initWithArray: [[HMWFMDBManager sharedManagerType:CRListType] allSelectCRWithWallID:self.wallet.masterWalletID ]];
+    NSArray *DBRecoArray  = [[NSMutableArray alloc]initWithArray: [[HMWFMDBManager sharedManagerType:CRListType] allSelectCRWithWallID:self.wallet.masterWalletID ]];
     for (HWMCRListModel *model in self.lastArray) {
         
         for ( HWMCRListModel *lmodel in DBRecoArray) {
@@ -129,9 +129,9 @@ UINib *_cellCRNib;
                 model.TextVotes=@"";
                 model.isCellSelected=NO;
                 if ([model.state isEqualToString:@"Active"]) {
-                [self.dataSource addObject:model];
+                    [self.dataSource addObject:model];
                 }
-               
+                
                 
             }
         }
@@ -160,7 +160,7 @@ UINib *_cellCRNib;
     self.wallet.walletAddress  = model.walletAddress;
     self.wallet.walletID       =[NSString stringWithFormat:@"%@%@",@"wallet",[[FLTools share] getNowTimeTimestamp]];
     self.wallet.TypeW  = model.TypeW;
-    
+    self.wallet.didString=model.didString;
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.wallet.masterWalletID] callbackId: self.wallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
     
     PluginResult * resultBase =[[ELWalletManager share]getMasterWalletBasicInfo:mommand];
@@ -171,31 +171,31 @@ UINib *_cellCRNib;
         NSString *Readonly=[NSString stringWithFormat:@"%@",baseDic[@"Readonly"]];
         if ([Readonly isEqualToString:@"0"]) {
             if ([baseDic[@"M"] integerValue]==1) {
-             self.wallet.TypeW=0;
+                self.wallet.TypeW=0;
             }else{
-              
-           self.wallet.TypeW=2;
+                
+                self.wallet.TypeW=2;
             }
         }else{
-          
+            
             if ([baseDic[@"M"] integerValue]==1) {
-           self.wallet.TypeW=1;
+                self.wallet.TypeW=1;
             }else{
-         self.wallet.TypeW=3;
+                self.wallet.TypeW=3;
             }
         }
         
         
     }
     ELWalletManager *manager   =  [ELWalletManager share];
-          
-          IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
-        String balanceSt = mainchainSubWallet->GetBalance();
-       NSString * balanceString= [NSString stringWithCString:balanceSt.c_str() encoding:NSUTF8StringEncoding];
- 
+    
+    IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
+    String balanceSt = mainchainSubWallet->GetBalance();
+    NSString * balanceString= [NSString stringWithCString:balanceSt.c_str() encoding:NSUTF8StringEncoding];
+    
     self.inputVoteTicketView.votes =[[[FLTools share]elaScaleConversionWith: balanceString] doubleValue]-0.01;
     self.blaceString=[[FLTools share]CRVotingDecimalNumberBySubtracting:[[FLTools share]elaScaleConversionWith: balanceString] withCRMermVoting:@"0.01"];
-   
+    
     
     self.TagtatolVoteLab.text = [NSString stringWithFormat:@"%@%d ELA",NSLocalizedString(@"最大表决票权约：", nil),[self.blaceString intValue]];
     [self  UpdateTheRemainingAvailable];
@@ -210,7 +210,7 @@ UINib *_cellCRNib;
 }
 -(void)selectMoreThan36{
     UIView *maView=[self mainWindow];
-     self.moreThan36View.deleteType=moreThan36SelectList;
+    self.moreThan36View.deleteType=moreThan36SelectList;
     [maView addSubview:self.moreThan36View];
     [self.moreThan36View mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(maView);
@@ -224,53 +224,53 @@ UINib *_cellCRNib;
     
     if (self.moreThan36View.deleteType==moreThan36SelectList) {
         
-    [self clearVoteArray];
-    NSString * PnumberVotingString=[[FLTools share]CRVotingTheAverageDistribution:self.blaceString withCRMermVoting:[NSString stringWithFormat:@"%d",36]];
+        [self clearVoteArray];
+        NSString * PnumberVotingString=[[FLTools share]CRVotingTheAverageDistribution:self.blaceString withCRMermVoting:[NSString stringWithFormat:@"%d",36]];
         self.WhetherTheAverage=YES;
-       //    double PnumberVoting=[PnumberVotingString doubleValue];
-       if (self.WhetherTheAverage) {
-              self.TheRemainingAvailable=[[FLTools share]CRVotingDecimalNumberByMultiplying:PnumberVotingString withCRMermVoting:[NSString stringWithFormat:@"%d",36]];
-           self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"all_selected"];
-       }else{
-           self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
-       self.TheRemainingAvailable=@"0";
-           
-                [self.voteArray removeAllObjects];
-           }
-
-    NSIndexPath *index;
+        //    double PnumberVoting=[PnumberVotingString doubleValue];
+        if (self.WhetherTheAverage) {
+            self.TheRemainingAvailable=[[FLTools share]CRVotingDecimalNumberByMultiplying:PnumberVotingString withCRMermVoting:[NSString stringWithFormat:@"%d",36]];
+            self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"all_selected"];
+        }else{
+            self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
+            self.TheRemainingAvailable=@"0";
+            
+            [self.voteArray removeAllObjects];
+        }
         
-   for (int i=0; i<36; i++) {
-       index=[NSIndexPath indexPathForRow:i inSection:0];
-         HWMCRListModel *model = self.dataSource[i];
-        model.SinceVotes=PnumberVotingString;
-       if (self.WhetherTheAverage) {
-           model.isCellSelected=YES;
-             [self.voteArray addObject:model];
-          }else{
-          model.isCellSelected=NO;
-
-          }
-
-       HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
-       cell.model=model;
-       cell.numberVotingTextField.text= model.SinceVotes;
-       model.TextVotes=model.SinceVotes;
-       self.dataSource[i]=model;
-   }
+        NSIndexPath *index;
+        
+        for (int i=0; i<36; i++) {
+            index=[NSIndexPath indexPathForRow:i inSection:0];
+            HWMCRListModel *model = self.dataSource[i];
+            model.SinceVotes=PnumberVotingString;
+            if (self.WhetherTheAverage) {
+                model.isCellSelected=YES;
+                [self.voteArray addObject:model];
+            }else{
+                model.isCellSelected=NO;
+                
+            }
+            
+            HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
+            cell.model=model;
+            cell.numberVotingTextField.text= model.SinceVotes;
+            model.TextVotes=model.SinceVotes;
+            self.dataSource[i]=model;
+        }
         self.TheAverageDistributionButton.selected=YES;
-   [self.baseTableView reloadData];
+        [self.baseTableView reloadData];
         [self UpdateTheRemainingAvailable];
         
     }else if (self.moreThan36View.deleteType==voteInvalidType){
         
-            UIView *  mainView =[self mainWindow];
-                   [mainView addSubview:self.transactionDetailsView];
-                  [self.transactionDetailsView TransactionDetailsWithFee:self.fee withTransactionDetailsAumont:self.TheRemainingAvailable];
-                   [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
-                       make.left.top.right.bottom.equalTo(mainView);
-                   }];
-        }
+        UIView *  mainView =[self mainWindow];
+        [mainView addSubview:self.transactionDetailsView];
+        [self.transactionDetailsView TransactionDetailsWithFee:self.fee withTransactionDetailsAumont:self.TheRemainingAvailable];
+        [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.top.right.bottom.equalTo(mainView);
+        }];
+    }
     
     [self toCancelOrCloseDelegate];
 }
@@ -315,9 +315,9 @@ UINib *_cellCRNib;
         if (self.inputVoteTicketView.votes<1) {
             self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@ < 1 ELA",NSLocalizedString(@"最大表决票权", nil)];
         }else{
-           self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@%.0f ELA",NSLocalizedString(@"最大表决票权约：", nil),self.inputVoteTicketView.votes];
+            self.inputVoteTicketView.accountBalanceLab.text =   [NSString stringWithFormat:@"%@%.0f ELA",NSLocalizedString(@"最大表决票权约：", nil),self.inputVoteTicketView.votes];
         }
-     
+        
         [self  UpdateTheRemainingAvailable];
         
     }
@@ -328,7 +328,7 @@ UINib *_cellCRNib;
 - (IBAction)selectAllAction:(UIButton*)sender {
     
     
-   
+    
     if (sender.isSelected) {
         [self clearVoteArray];
         sender.selected = NO;
@@ -367,15 +367,15 @@ UINib *_cellCRNib;
     self.baseTableView.rowHeight=130;
     self.baseTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     _cellCRNib=[UINib nibWithNibName:cellString bundle:nil];
-
-  
+    
+    
     [self.baseTableView registerNib:_cellCRNib forCellReuseIdentifier:cellString];
     self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     self.baseTableView.allowsMultipleSelection = YES;
     
     [self.view addSubview:self.placeHolferImage];
-//    CGPoint certer=self.baseTableView.center;
-//    certer.x=certer.x;
+    //    CGPoint certer=self.baseTableView.center;
+    //    certer.x=certer.x;
     self.placeHolferImage.center =self.view.center;
     self.placeHolferImage.hidden = self.dataSource.count!=0;
     if (self.editBtn.isEnabled==NO&&self.dataSource.count==0) {
@@ -387,8 +387,8 @@ UINib *_cellCRNib;
 }
 
 -(void)updataBottomBtn{
-//    self.hasSelectNumber.text = [NSString stringWithFormat:@"%lu %@",(unsigned long)self.voteArray.count,NSLocalizedString(@"已选择", nil)];
-//    [self.selectAllBtn  setTitle:[NSString stringWithFormat:@"%@(%lu/%ld)",NSLocalizedString(@"全选", nil), self.voteArray.count,self.dataSource.count] forState:UIControlStateNormal]  ;
+    //    self.hasSelectNumber.text = [NSString stringWithFormat:@"%lu %@",(unsigned long)self.voteArray.count,NSLocalizedString(@"已选择", nil)];
+    //    [self.selectAllBtn  setTitle:[NSString stringWithFormat:@"%@(%lu/%ld)",NSLocalizedString(@"全选", nil), self.voteArray.count,self.dataSource.count] forState:UIControlStateNormal]  ;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
@@ -409,7 +409,8 @@ UINib *_cellCRNib;
     return [[UIView alloc]initWithFrame:CGRectZero];
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-      HWMVoteTheEditorialBoardTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString forIndexPath:indexPath];
+    
+    HWMVoteTheEditorialBoardTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString forIndexPath:indexPath];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
     HWMCRListModel *model = self.dataSource[indexPath.row];
@@ -425,7 +426,7 @@ UINib *_cellCRNib;
 }
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
- 
+    
 }
 
 -(void)editStateChange:(UIButton*)btn{
@@ -433,33 +434,33 @@ UINib *_cellCRNib;
     NSString *title = self.editBtn.isSelected ?NSLocalizedString(@"删除", nil):NSLocalizedString(@"立即投票", nil);
     [self.immediatelyToVoteButton setTitle:title forState:UIControlStateNormal];
     if (self.editBtn.selected) {
- 
+        
         self.allTollTicketLabel.alpha=0.f;
         [self.immediatelyToVoteButton setTitle:NSLocalizedString(@"删除", nil) forState:UIControlStateNormal];
         self.textLabelTopConSet.constant=20.f;
         self.TheAverageDistributionTextLabel.text=NSLocalizedString(@"全选", nil);
     }else{
         self.TheRemainingAvailable=@"0";
-         [self UpdateTheRemainingAvailable];
+        [self UpdateTheRemainingAvailable];
         self.allTollTicketLabel.alpha=1.f;
         [self.immediatelyToVoteButton setTitle:NSLocalizedString(@"立即投票", nil) forState:UIControlStateNormal];
         self.textLabelTopConSet.constant=10.f;
-         self.TheAverageDistributionTextLabel.text=NSLocalizedString(@"全选均分", nil);
+        self.TheAverageDistributionTextLabel.text=NSLocalizedString(@"全选均分", nil);
     }
     
-        for (int i=0; i<self.dataSource.count; i++) {
-           NSIndexPath * index=[NSIndexPath indexPathForRow:i inSection:0];
-          HWMCRListModel *model = self.dataSource[i];
-           model.isCellSelected=NO;
-            model.SinceVotes=@"";
-            model.TextVotes=@"";
-            self.dataSource[i]=model;
-            HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
-                   cell.model=model;
-               cell.numberVotingTextField.text=nil;
-        }
-  
-         self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
+    for (int i=0; i<self.dataSource.count; i++) {
+        NSIndexPath * index=[NSIndexPath indexPathForRow:i inSection:0];
+        HWMCRListModel *model = self.dataSource[i];
+        model.isCellSelected=NO;
+        model.SinceVotes=@"";
+        model.TextVotes=@"";
+        self.dataSource[i]=model;
+        HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
+        cell.model=model;
+        cell.numberVotingTextField.text=nil;
+    }
+    
+    self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
     [self clearVoteArray];
     
     
@@ -576,113 +577,113 @@ UINib *_cellCRNib;
 }
 - (IBAction)TheAverageDistributionImageViewEvent:(id)sender {
     if (self.dataSource.count==0) {
-          return;
-      }
+        return;
+    }
     
-   
+    
     self.WhetherTheAverage=!self.WhetherTheAverage;
     if (self.editBtn.isSelected) {
         for (int i=0; i<self.dataSource.count; i++) {
-           NSIndexPath * index=[NSIndexPath indexPathForRow:i inSection:0];
-          HWMCRListModel *model = self.dataSource[i];
-        if (self.WhetherTheAverage) {
-            model.isCellSelected=YES;
-           }else{
-           model.isCellSelected=NO;
-           }
+            NSIndexPath * index=[NSIndexPath indexPathForRow:i inSection:0];
+            HWMCRListModel *model = self.dataSource[i];
+            if (self.WhetherTheAverage) {
+                model.isCellSelected=YES;
+            }else{
+                model.isCellSelected=NO;
+            }
             model.SinceVotes=@"0";
             self.dataSource[i]=model;
             HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
-                   cell.model=model;
-               cell.numberVotingTextField.text=nil;
+            cell.model=model;
+            cell.numberVotingTextField.text=nil;
         }
         if (self.WhetherTheAverage) {
-             [self.voteArray removeAllObjects];
-         self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"all_selected"];
-            [self.voteArray addObjectsFromArray:self.dataSource];
-         }else{
-             [self.voteArray removeAllObjects];
-             self.TheRemainingAvailable=@"";
-         self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
-             
-         }
-         
-        return;
-    }
-    if ([self.blaceString doubleValue]<0) {
-           [[FLTools share]showErrorInfo:NSLocalizedString(@"余额不足", nil)];
-           return;
-       }
-    NSIndexPath *index;
-    if (self.dataSource.count>36) {
-        if (self.WhetherTheAverage) {
-             [self selectMoreThan36];
-             
-         }else{
-             self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
-             for (int i=0; i<self.dataSource.count; i++) {
-                 index=[NSIndexPath indexPathForRow:i inSection:0];
-                   HWMCRListModel *model = self.dataSource[i];
-                  model.SinceVotes=@"";
-                  model.TextVotes=@"";
-                 if (self.WhetherTheAverage) {
-                     model.isCellSelected=YES;
-                       [self.voteArray addObject:model];
-                    }else{
-                    model.isCellSelected=NO;
-             
-                    }
-
-                 HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
-                 cell.model=model;
-                 cell.numberVotingTextField.text= model.SinceVotes;
-                 self.dataSource[i]=model;
-             }
-                   self.TheRemainingAvailable=@"";
-                 [self.baseTableView reloadData];
-                 [self UpdateTheRemainingAvailable];
-             }
-             
-    }else{
-        NSString * PnumberVotingString=[[FLTools share]CRVotingTheAverageDistribution:self.blaceString withCRMermVoting:[NSString stringWithFormat:@"%ld",self.dataSource.count]];
-        //    double PnumberVoting=[PnumberVotingString doubleValue];
-    self.TheRemainingAvailable=[[FLTools share]CRVotingDecimalNumberByMultiplying:PnumberVotingString withCRMermVoting:[NSString stringWithFormat:@"%ld",self.dataSource.count]];
-    for (int i=0; i<self.dataSource.count; i++) {
-        index=[NSIndexPath indexPathForRow:i inSection:0];
-          HWMCRListModel *model = self.dataSource[i];
-         model.SinceVotes=PnumberVotingString;
-        if (self.WhetherTheAverage) {
-            model.isCellSelected=YES;
-             model.TextVotes=model.SinceVotes;
-//              [self.voteArray addObject:model];
-           }else{
-           model.isCellSelected=NO;
-            model.TextVotes=@"";
-               model.SinceVotes=@"";
-    
-           }
-
-        HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
-        cell.model=model;
-        cell.numberVotingTextField.text= model.SinceVotes;
-        self.dataSource[i]=model;
-    }
-     
-        if (self.WhetherTheAverage) {
             [self.voteArray removeAllObjects];
-        self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"all_selected"];
-           [self.voteArray addObjectsFromArray:self.dataSource];
+            self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"all_selected"];
+            [self.voteArray addObjectsFromArray:self.dataSource];
         }else{
             [self.voteArray removeAllObjects];
             self.TheRemainingAvailable=@"";
-        self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
+            self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
+            
+        }
+        
+        return;
+    }
+    if ([self.blaceString doubleValue]<0) {
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"余额不足", nil)];
+        return;
+    }
+    NSIndexPath *index;
+    if (self.dataSource.count>36) {
+        if (self.WhetherTheAverage) {
+            [self selectMoreThan36];
+            
+        }else{
+            self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
+            for (int i=0; i<self.dataSource.count; i++) {
+                index=[NSIndexPath indexPathForRow:i inSection:0];
+                HWMCRListModel *model = self.dataSource[i];
+                model.SinceVotes=@"";
+                model.TextVotes=@"";
+                if (self.WhetherTheAverage) {
+                    model.isCellSelected=YES;
+                    [self.voteArray addObject:model];
+                }else{
+                    model.isCellSelected=NO;
+                    
+                }
+                
+                HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
+                cell.model=model;
+                cell.numberVotingTextField.text= model.SinceVotes;
+                self.dataSource[i]=model;
+            }
+            self.TheRemainingAvailable=@"";
+            [self.baseTableView reloadData];
+            [self UpdateTheRemainingAvailable];
+        }
+        
+    }else{
+        NSString * PnumberVotingString=[[FLTools share]CRVotingTheAverageDistribution:self.blaceString withCRMermVoting:[NSString stringWithFormat:@"%ld",self.dataSource.count]];
+        //    double PnumberVoting=[PnumberVotingString doubleValue];
+        self.TheRemainingAvailable=[[FLTools share]CRVotingDecimalNumberByMultiplying:PnumberVotingString withCRMermVoting:[NSString stringWithFormat:@"%ld",self.dataSource.count]];
+        for (int i=0; i<self.dataSource.count; i++) {
+            index=[NSIndexPath indexPathForRow:i inSection:0];
+            HWMCRListModel *model = self.dataSource[i];
+            model.SinceVotes=PnumberVotingString;
+            if (self.WhetherTheAverage) {
+                model.isCellSelected=YES;
+                model.TextVotes=model.SinceVotes;
+                //              [self.voteArray addObject:model];
+            }else{
+                model.isCellSelected=NO;
+                model.TextVotes=@"";
+                model.SinceVotes=@"";
+                
+            }
+            
+            HWMVoteTheEditorialBoardTableViewCell *cell=[self.baseTableView cellForRowAtIndexPath:index];
+            cell.model=model;
+            cell.numberVotingTextField.text= model.SinceVotes;
+            self.dataSource[i]=model;
+        }
+        
+        if (self.WhetherTheAverage) {
+            [self.voteArray removeAllObjects];
+            self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"all_selected"];
+            [self.voteArray addObjectsFromArray:self.dataSource];
+        }else{
+            [self.voteArray removeAllObjects];
+            self.TheRemainingAvailable=@"";
+            self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
         }
         [self.baseTableView reloadData];
         [self UpdateTheRemainingAvailable];
     }
     [self.baseTableView reloadData];
     [self UpdateTheRemainingAvailable];
-       
+    
     
 }
 -(void)UpdateTheRemainingAvailable{
@@ -692,25 +693,25 @@ UINib *_cellCRNib;
     }
     if ([TheRemainingAvailableString isEqualToString:@"0"]||self.TheRemainingAvailable.length==0||[[FLTools share]isBlankString:self.TheRemainingAvailable]||[TheRemainingAvailableString isEqualToString:@"NaN"]) {
         self.TheRemainingAvailable=@"0";
-         self.allTollTicketLabel.text=[NSString stringWithFormat:@"%@ 0 ELA",NSLocalizedString(@"合计：",nil )];
+        self.allTollTicketLabel.text=[NSString stringWithFormat:@"%@ 0 ELA",NSLocalizedString(@"合计：",nil )];
     }else{
         self.TheRemainingAvailable=TheRemainingAvailableString;
         self.allTollTicketLabel.text=[NSString stringWithFormat:@"%@ %@ ELA",NSLocalizedString(@"合计：",nil ), self.TheRemainingAvailable];}
-        NSString * availableString=[[FLTools share]CRVotingDecimalNumberBySubtracting:self.blaceString withCRMermVoting: self.TheRemainingAvailable];
+    NSString * availableString=[[FLTools share]CRVotingDecimalNumberBySubtracting:self.blaceString withCRMermVoting: self.TheRemainingAvailable];
     if ([availableString intValue]<1) {
-          self.persentLab.text=[NSString stringWithFormat:@"%@ <1 ELA",NSLocalizedString(@"可用：",nil )];
+        self.persentLab.text=[NSString stringWithFormat:@"%@ <1 ELA",NSLocalizedString(@"可用：",nil )];
     }else{
         self.persentLab.text=[NSString stringWithFormat:@"%@ %d ELA",NSLocalizedString(@"可用：",nil ),[availableString intValue]];
         
     }
     if (self.editBtn.isSelected) {
         if (self.dataSource.count>0&&self.dataSource.count==self.voteArray.count) {
-                   self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"all_selected"];
-             }else{
-                 self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
-             }
+            self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"all_selected"];
+        }else{
+            self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
+        }
     }
-     
+    
     
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -720,33 +721,33 @@ UINib *_cellCRNib;
 #pragma mark ---------HWMVoteTheEditorialBoardTableViewCell----------
 
 -(void)addVoteWithIndex:(NSIndexPath *)index withVotes:(NSString *)votes{
-
-     HWMCRListModel*model = self.dataSource[index.row];
-     if ([self.voteArray containsObject:model]) {
-         model.SinceVotes=@"";
-         if ([votes isEqualToString:@"0"]) {
-             
-         }
-         model.isCellSelected=NO;
-         [self.voteArray removeObject:model];
-          self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
-         self.WhetherTheAverage=NO;
+    
+    HWMCRListModel*model = self.dataSource[index.row];
+    if ([self.voteArray containsObject:model]) {
+        model.SinceVotes=@"";
+        if ([votes isEqualToString:@"0"]) {
+            
+        }
+        model.isCellSelected=NO;
+        [self.voteArray removeObject:model];
+        self.TheAverageDistributionImageView.image=[UIImage imageNamed:@"found_vote_border"];
+        self.WhetherTheAverage=NO;
         
-     }else{
-         model.SinceVotes=votes;
-         model.isCellSelected=YES;
-         [self.voteArray addObject:model];
-     }
+    }else{
+        model.SinceVotes=votes;
+        model.isCellSelected=YES;
+        [self.voteArray addObject:model];
+    }
     NSString *RemainingAvailableString;
     if (model.isCellSelected){
-       RemainingAvailableString=[[FLTools share] CRVotingDecimalNumberByAdding:self.TheRemainingAvailable withCRMermVoting:votes];
+        RemainingAvailableString=[[FLTools share] CRVotingDecimalNumberByAdding:self.TheRemainingAvailable withCRMermVoting:votes];
     }else{
-       RemainingAvailableString= [[FLTools share] CRVotingDecimalNumberBySubtracting:self.TheRemainingAvailable withCRMermVoting:votes];
+        RemainingAvailableString= [[FLTools share] CRVotingDecimalNumberBySubtracting:self.TheRemainingAvailable withCRMermVoting:votes];
     }
-   self.dataSource[index.row]=model;
+    self.dataSource[index.row]=model;
     self.TheRemainingAvailable=RemainingAvailableString;
     [self UpdateTheRemainingAvailable];
- 
+    
     [self.baseTableView reloadData];
 }
 
@@ -761,7 +762,7 @@ UINib *_cellCRNib;
         
         BOOL ret;
         for (HWMCRListModel *model in self.voteArray) {
-         ret=  [[HMWFMDBManager sharedManagerType:CRListType]delectSelectCR:model WithWalletID:self.wallet.masterWalletID];
+            ret=  [[HMWFMDBManager sharedManagerType:CRListType]delectSelectCR:model WithWalletID:self.wallet.masterWalletID];
             [self.dataSource removeObject:model];
         }
         if (ret) {
@@ -771,31 +772,41 @@ UINib *_cellCRNib;
             }
             [self clearVoteArray];
         }else{
-             [[FLTools share]showErrorInfo:@"删除失败"];
+            [[FLTools share]showErrorInfo:@"删除失败"];
         }
         return;
     }
     
     if (self.voteArray.count == 0||[self.TheRemainingAvailable isEqualToString:@"0"]) {
-                return;
-            }
+        return;
+    }
     if ([self.TheRemainingAvailable doubleValue]>[self.blaceString doubleValue]) {
         [[FLTools share]showErrorInfo:NSLocalizedString(@"余额不足", nil)];
         return;
     }
     if (self.voteArray.count>36) {
         [[FLTools share]showErrorInfo:NSLocalizedString(@"最多可选36个节点", nil)];
-                return;
-            }
+        return;
+    }
     NSMutableDictionary *CRDic=[[NSMutableDictionary alloc]init];
     for (int i= 0; i<self.voteArray.count; i++) {
-      
+        
         HWMCRListModel *model=self.voteArray[i];
         if ([model.SinceVotes doubleValue]>0) {
             NSDictionary *dic=@{model.did:[[FLTools share]elsToSela:model.SinceVotes]};
-         [CRDic addEntriesFromDictionary:dic];
+            [CRDic addEntriesFromDictionary:dic];
         }
     }
+    
+    if (CRDic==NULL) {
+        
+        return;
+    }
+    
+    NSDictionary *dic =[[ELWalletManager share]CRVoteFeeCRMainchainSubWallet:self.wallet.masterWalletID ToVote:CRDic tickets: 0 withInvalidIDArray:self.invalidDopsArray];
+    
+    
+    self.fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",dic[@"fee"]]];
     
         if (CRDic==NULL) {
      
@@ -808,36 +819,38 @@ UINib *_cellCRNib;
     self.fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",dic[@"fee"]]];
  
     
-self.jsonString=dic[@"JSON"];
-
-NSArray *DorpVotes=dic[@"DorpVotes"];
-
-  if ([self.fee doubleValue]<0) {
-      [self closeTransactionDetailsView];
-      return;
-  }
-   UIView *mainView =[self mainWindow];
-  if (DorpVotes.count>0) {
-      [mainView addSubview:self.moreThan36View];
-      self.moreThan36View.deleteType=voteInvalidType;
-      [self.moreThan36View mas_makeConstraints:^(MASConstraintMaker *make) {
-               make.left.top.right.bottom.equalTo(mainView);
-           }];
-  }else{
+    self.jsonString=dic[@"JSON"];
+    
+    NSArray *DorpVotes=dic[@"DorpVotes"];
+    
+    if ([self.fee doubleValue]<0) {
+        [self closeTransactionDetailsView];
+        return;
+    }
     UIView *mainView =[self mainWindow];
-    [mainView addSubview:self.transactionDetailsView];
-    [self.transactionDetailsView TransactionDetailsWithFee:self.fee withTransactionDetailsAumont:self.TheRemainingAvailable];
-    [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.bottom.equalTo(mainView);
-    }];
-      
-  }
+    if (DorpVotes.count>0) {
+        [mainView addSubview:self.moreThan36View];
+        self.moreThan36View.deleteType=voteInvalidType;
+        [self.moreThan36View mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.top.right.bottom.equalTo(mainView);
+        }];
+    }else{
+        UIView *mainView =[self mainWindow];
+        [mainView addSubview:self.transactionDetailsView];
+        [self.transactionDetailsView TransactionDetailsWithFee:self.fee withTransactionDetailsAumont:self.TheRemainingAvailable];
+        [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.top.right.bottom.equalTo(mainView);
+        }];
+        
+    }
 }
 -(HWMTransactionDetailsView *)transactionDetailsView{
     
     if (!_transactionDetailsView) {
         _transactionDetailsView =[[HWMTransactionDetailsView alloc]init];
         _transactionDetailsView.delegate=self;
+        _transactionDetailsView.DetailsType=TransactionDetails;
+        
     }
     return _transactionDetailsView;
 }
@@ -851,6 +864,7 @@ NSArray *DorpVotes=dic[@"DorpVotes"];
     
   
     
+    
     NSString *pwdString=pwd;
     NSMutableArray *stringArray = [NSMutableArray array];
     NSMutableDictionary *CRDic=[[NSMutableDictionary alloc]init];
@@ -858,13 +872,13 @@ NSArray *DorpVotes=dic[@"DorpVotes"];
         HWMCRListModel *model=self.voteArray[i];
         
         NSDictionary *dic=@{model.did: [NSString stringWithFormat:@"%.0f",[model.SinceVotes doubleValue]*unitNumber]};
-
-    [CRDic addEntriesFromDictionary:dic];
+        
+        [CRDic addEntriesFromDictionary:dic];
     }
     double  tic=[self.TheRemainingAvailable doubleValue];
-//    if (self.isMax) {
-//        tic=-1;
-//    }
+    //    if (self.isMax) {
+    //        tic=-1;
+    //    }
     if (self.wallet.TypeW==0) {
         NSString *walletId = [ELWalletManager share].currentWallet.masterWalletID;
         BOOL ret = [[ELWalletManager share]useCRMainchainSubWallet:walletId WithJosnString:self.jsonString withPWD:pwd];
@@ -876,16 +890,16 @@ NSArray *DorpVotes=dic[@"DorpVotes"];
                 self.sendSuccessPopuV=nil;
                 
             });
-           HMWCRCommitteeMemberListViewController *homeVC = [[HMWCRCommitteeMemberListViewController alloc] init];
-                    UIViewController *target = nil;
-                    for (UIViewController * controller in self.navigationController.viewControllers) {
-                        if ([controller isKindOfClass:[homeVC class]]) {
-                            target = controller;
-                        }
-                    }
-                    if (target) {
-                        [self.navigationController popToViewController:target animated:YES];
-                    }
+            HMWCRCommitteeMemberListViewController *homeVC = [[HMWCRCommitteeMemberListViewController alloc] init];
+            UIViewController *target = nil;
+            for (UIViewController * controller in self.navigationController.viewControllers) {
+                if ([controller isKindOfClass:[homeVC class]]) {
+                    target = controller;
+                }
+            }
+            if (target) {
+                [self.navigationController popToViewController:target animated:YES];
+            }
             
         }
         [self.pwdPopupV removeFromSuperview];
@@ -897,10 +911,10 @@ NSArray *DorpVotes=dic[@"DorpVotes"];
         if ([statue isEqualToString:@"1"]){
             [self closeTransactionDetailsView];
             HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
-              SignatureTradingSingleQrCodeVC.currentWallet=self.wallet;
+            SignatureTradingSingleQrCodeVC.currentWallet=self.wallet;
             SignatureTradingSingleQrCodeVC.type=SingleSignReadOnlyToBeSigned;
             NSDictionary *successDic=[[NSDictionary alloc]initWithDictionary:result.message[@"success"]]; SignatureTradingSingleQrCodeVC.QRCodeString =[[FLTools share]DicToString:successDic];
-           SignatureTradingSingleQrCodeVC.QRCodeSignatureDic=result.message[@"success"];
+            SignatureTradingSingleQrCodeVC.QRCodeSignatureDic=result.message[@"success"];
             SignatureTradingSingleQrCodeVC.subW=@"ELA";
             [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
         }
@@ -913,10 +927,10 @@ NSArray *DorpVotes=dic[@"DorpVotes"];
             [self.pwdPopupV removeFromSuperview];
             self.pwdPopupV =  nil;
             HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
-               SignatureTradingSingleQrCodeVC.currentWallet=self.wallet;
+            SignatureTradingSingleQrCodeVC.currentWallet=self.wallet;
             SignatureTradingSingleQrCodeVC.type=HowSignToBeSigned;
             SignatureTradingSingleQrCodeVC.QRCodeString =[[FLTools share]DicToString:result.message[@"success"]];
-           SignatureTradingSingleQrCodeVC.QRCodeSignatureDic=result.message[@"success"]; SignatureTradingSingleQrCodeVC.subW=@"ELA";
+            SignatureTradingSingleQrCodeVC.QRCodeSignatureDic=result.message[@"success"]; SignatureTradingSingleQrCodeVC.subW=@"ELA";
             [self.navigationController pushViewController:SignatureTradingSingleQrCodeVC animated:YES];
         }
     }else if (self.wallet.TypeW==3){
@@ -926,7 +940,7 @@ NSArray *DorpVotes=dic[@"DorpVotes"];
         if ([statue isEqualToString:@"1"]) {
             [self closeTransactionDetailsView];
             HWMSignatureTradingSingleQrCodeViewController *SignatureTradingSingleQrCodeVC=[[HWMSignatureTradingSingleQrCodeViewController alloc]init];
-               SignatureTradingSingleQrCodeVC.currentWallet=self.wallet;
+            SignatureTradingSingleQrCodeVC.currentWallet=self.wallet;
             SignatureTradingSingleQrCodeVC.type=HowSignToBeSigned;
             SignatureTradingSingleQrCodeVC.QRCodeString =[[FLTools share]DicToString:result.message[@"success"]];
             SignatureTradingSingleQrCodeVC.QRCodeSignatureDic=result.message[@"success"];
@@ -936,7 +950,7 @@ NSArray *DorpVotes=dic[@"DorpVotes"];
     }
 }
 -(void)updatePlaceHoldInfo{
-     self.placeHolferImage.hidden = self.dataSource.count!=0;
+    self.placeHolferImage.hidden = self.dataSource.count!=0;
     if (self.dataSource.count==0) {
         self.editBtn.alpha=0;
         self.TagtatolVoteLab.alpha=0.f;
@@ -944,26 +958,26 @@ NSArray *DorpVotes=dic[@"DorpVotes"];
         if (self.editBtn.isSelected) {
             [self editStateChange:self.editBtn];
         }
-    self.allTollTicketLabel.text=[NSString stringWithFormat:@"%@ %@ ELA",NSLocalizedString(@"合计：",nil ),@"--"];
+        self.allTollTicketLabel.text=[NSString stringWithFormat:@"%@ %@ ELA",NSLocalizedString(@"合计：",nil ),@"--"];
         
-      }
+    }
     
 }
 -(void)textFieldDidEnd:(UITextField*)text{
     NSInteger tag=[text tag];
-       NSIndexPath *index=[NSIndexPath indexPathForRow:tag-100 inSection:0];
-       HWMCRListModel *model=self.dataSource[index.row];
-        model.TextVotes=text.text;
-       if (model.isCellSelected) {
-          if ([self.voteArray containsObject:model]) {
-              self.TheRemainingAvailable=[[FLTools share]CRVotingDecimalNumberBySubtracting:self.TheRemainingAvailable withCRMermVoting:model.SinceVotes];
-          }
+    NSIndexPath *index=[NSIndexPath indexPathForRow:tag-100 inSection:0];
+    HWMCRListModel *model=self.dataSource[index.row];
+    model.TextVotes=text.text;
+    if (model.isCellSelected) {
+        if ([self.voteArray containsObject:model]) {
+            self.TheRemainingAvailable=[[FLTools share]CRVotingDecimalNumberBySubtracting:self.TheRemainingAvailable withCRMermVoting:model.SinceVotes];
+        }
         
-            model.SinceVotes=text.text;
-           self.TheRemainingAvailable=[[FLTools share]CRVotingDecimalNumberByAdding:self.TheRemainingAvailable withCRMermVoting:model.SinceVotes];
-       }
+        model.SinceVotes=text.text;
+        self.TheRemainingAvailable=[[FLTools share]CRVotingDecimalNumberByAdding:self.TheRemainingAvailable withCRMermVoting:model.SinceVotes];
+    }
     [self UpdateTheRemainingAvailable];
-     self.dataSource[index.row]=model;
+    self.dataSource[index.row]=model;
     
     
 }
@@ -974,43 +988,43 @@ NSArray *DorpVotes=dic[@"DorpVotes"];
     _totalvotes=totalvotes;
 }
 -(void)LoadInvalidDops{
-        NSString *httpIP=[[FLTools share]http_IpFast];
-        [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1",@"state":@"all"} showHUD:NO WithSuccessBlock:^(id data) {
-            NSDictionary *param = data[@"data"];
-            NSArray *dataArray =[NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];
-           
-            [self UpdataLocalOwerlistWirhArray:dataArray];
-        } WithFailBlock:^(id data) {
-            
-        }];
+    NSString *httpIP=[[FLTools share]http_IpFast];
+    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1",@"state":@"all"} showHUD:NO WithSuccessBlock:^(id data) {
+        NSDictionary *param = data[@"data"];
+        NSArray *dataArray =[NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];
+        
+        [self UpdataLocalOwerlistWirhArray:dataArray];
+    } WithFailBlock:^(id data) {
+        
+    }];
 }
 -(void)UpdataLocalOwerlistWirhArray:(NSArray*)array{
-        FLWallet *waller = [ELWalletManager share].currentWallet;
-              IMainchainSubWallet *subWallet = [[ELWalletManager share]getWalletELASubWallet:waller.masterWalletID];
-              Json cArray = subWallet->GetVotedProducerList();
-              NSString *dataStr = [NSString stringWithUTF8String:cArray.dump().c_str()];
-              NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-              NSMutableArray *showlistdata = [NSMutableArray array];
-      for (int i=0; i<array.count; i++) {
-         FLCoinPointInfoModel *model = array[i];
+    FLWallet *waller = [ELWalletManager share].currentWallet;
+    IMainchainSubWallet *subWallet = [[ELWalletManager share]getWalletELASubWallet:waller.masterWalletID];
+    Json cArray = subWallet->GetVotedProducerList();
+    NSString *dataStr = [NSString stringWithUTF8String:cArray.dump().c_str()];
+    NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+    NSMutableArray *showlistdata = [NSMutableArray array];
+    for (int i=0; i<array.count; i++) {
+        FLCoinPointInfoModel *model = array[i];
         for (int j = 0;j<param.allKeys.count; j++) {
-             NSString *itemKey = param.allKeys[j];
+            NSString *itemKey = param.allKeys[j];
             if ([model.nodepublickey isEqualToString:itemKey]) {
                 
                 if (![model.state isEqualToString:@"Active"]) {
                     [showlistdata addObject:model.nodepublickey];
                 }
-
+                
             }
         }
     }
     self.invalidDopsArray=@[@{@"Type":@"Delegate",
-                           @"Candidates":showlistdata}];
+                              @"Candidates":showlistdata}];
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     if (self.delegate) {
-         [self.delegate needUpdataSta];
-   }
+        [self.delegate needUpdataSta];
+    }
 }
 @end

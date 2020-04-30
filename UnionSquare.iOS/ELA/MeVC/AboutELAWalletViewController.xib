@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,9 +11,11 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AboutELAWalletViewController">
             <connections>
                 <outlet property="RunLogButton" destination="Ej2-cn-wpB" id="s0b-7r-4e7"/>
+                <outlet property="TheCodeStatementButton" destination="Xli-TO-enY" id="8gP-z3-hqN"/>
                 <outlet property="TheProblemOfFeedbackButton" destination="2qn-3m-UkR" id="EtC-Uo-PGU"/>
                 <outlet property="appInfoLabel" destination="act-2a-YJc" id="lkr-UN-rLp"/>
                 <outlet property="appTheVersionNumberLabel" destination="tpO-Zv-m0J" id="Qf5-Ff-yxM"/>
+                <outlet property="functionalSpecificationsLabel" destination="bqL-Fj-oKo" id="TSd-Kt-Jge"/>
                 <outlet property="sdkTheVersionNumberLabel" destination="CiH-Ft-Y9P" id="rLK-G6-I9H"/>
                 <outlet property="seeTheLogButton" destination="avu-Ok-fmF" id="WDi-yQ-HMg"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -25,26 +27,26 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="当前版本号 1.0.0.5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tpO-Zv-m0J">
-                    <rect key="frame" x="0.0" y="199" width="414" height="13.666666666666657"/>
+                    <rect key="frame" x="0.0" y="169" width="414" height="13.666666666666657"/>
                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                     <color key="textColor" red="0.45306515693664551" green="0.56444615125656128" blue="0.57758373022079468" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wallet_ela_logo" translatesAutoresizingMaskIntoConstraints="NO" id="eYh-Fb-tur">
-                    <rect key="frame" x="159" y="60" width="96" height="128"/>
+                    <rect key="frame" x="159" y="30" width="96" height="128"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="128" id="6ju-j8-nW2"/>
                         <constraint firstAttribute="width" constant="96" id="Fog-LR-n6i"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ELAWallet是安全、便捷的专业亦来云SPV轻节点客户端钱包，支持亦来云全生态数字资产。" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="act-2a-YJc">
-                    <rect key="frame" x="40" y="252.66666666666666" width="334" height="33.666666666666657"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ELA Wallet 是安全、可信的亦来云轻节点 （ SPV ) 钱包。" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="act-2a-YJc">
+                    <rect key="frame" x="40" y="222.66666666666666" width="334" height="33.666666666666657"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avu-Ok-fmF">
-                    <rect key="frame" x="63" y="405.33333333333331" width="288" height="40"/>
+                    <rect key="frame" x="63" y="531" width="288" height="40"/>
                     <color key="backgroundColor" red="0.25557887554168701" green="0.37642312049865723" blue="0.40774798393249512" alpha="0.70112537202380953" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="ubt-sr-MVF"/>
@@ -64,7 +66,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cDe-Qv-xPy">
-                    <rect key="frame" x="206.66666666666666" y="495.33333333333331" width="1" height="12"/>
+                    <rect key="frame" x="206.66666666666666" y="641" width="1" height="12"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="12" id="Dt2-zM-KTG"/>
@@ -72,7 +74,7 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2qn-3m-UkR">
-                    <rect key="frame" x="99.666666666666686" y="481.33333333333331" width="107" height="39.999999999999943"/>
+                    <rect key="frame" x="99.666666666666686" y="627" width="107" height="40"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="107" id="TSU-i5-1iz"/>
                         <constraint firstAttribute="height" constant="40" id="oct-OQ-c2P"/>
@@ -86,7 +88,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ej2-cn-wpB">
-                    <rect key="frame" x="207.66666666666663" y="481.33333333333331" width="107" height="39.999999999999943"/>
+                    <rect key="frame" x="207.66666666666663" y="627" width="107" height="40"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="107" id="ZR7-Qy-lnX"/>
                         <constraint firstAttribute="height" constant="40" id="ptH-FE-cLB"/>
@@ -99,33 +101,54 @@
                         <action selector="RunLogAction:" destination="-1" eventType="touchUpInside" id="wcy-lH-fL7"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xli-TO-enY">
+                    <rect key="frame" x="15" y="596" width="384" height="27"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <state key="normal" title="《ELA Wallet开源代码程序声明》"/>
+                    <connections>
+                        <action selector="LookUpURLEvent:" destination="-1" eventType="touchUpInside" id="b96-JU-Car"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="主要功能：      · 亦来云全生态数字资产支持  · 亦来云 DID 数字身份认证  · 亦来云 DPoS 选举  · CR 社区委员选举" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bqL-Fj-oKo">
+                    <rect key="frame" x="40" y="275" width="334" height="92"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="eYh-Fb-tur" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="60" id="0NR-XU-DKm"/>
-                <constraint firstItem="avu-Ok-fmF" firstAttribute="top" secondItem="act-2a-YJc" secondAttribute="bottom" constant="119" id="3fE-MA-g0D"/>
-                <constraint firstItem="cDe-Qv-xPy" firstAttribute="top" secondItem="avu-Ok-fmF" secondAttribute="bottom" constant="50" id="6un-1C-xvu"/>
+                <constraint firstItem="eYh-Fb-tur" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="30" id="0NR-XU-DKm"/>
+                <constraint firstItem="cDe-Qv-xPy" firstAttribute="top" secondItem="avu-Ok-fmF" secondAttribute="bottom" constant="70" id="6un-1C-xvu"/>
                 <constraint firstItem="cDe-Qv-xPy" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="AiI-H1-yxP"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="Xli-TO-enY" secondAttribute="trailing" constant="15" id="BMV-39-4Rv"/>
                 <constraint firstItem="avu-Ok-fmF" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="C0e-VU-VDH"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="act-2a-YJc" secondAttribute="trailing" constant="40" id="GZE-Jz-yRW"/>
+                <constraint firstItem="CiH-Ft-Y9P" firstAttribute="top" secondItem="2qn-3m-UkR" secondAttribute="bottom" constant="50" id="HWP-eZ-CDK"/>
                 <constraint firstItem="Ej2-cn-wpB" firstAttribute="centerY" secondItem="cDe-Qv-xPy" secondAttribute="centerY" id="Lg6-vv-cwZ"/>
                 <constraint firstItem="act-2a-YJc" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="40" id="MGu-xa-M0E"/>
                 <constraint firstItem="act-2a-YJc" firstAttribute="top" secondItem="tpO-Zv-m0J" secondAttribute="bottom" constant="40" id="Pv8-gJ-Jkd"/>
                 <constraint firstItem="tpO-Zv-m0J" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="QGP-dQ-Hy3"/>
                 <constraint firstItem="cDe-Qv-xPy" firstAttribute="centerY" secondItem="2qn-3m-UkR" secondAttribute="centerY" id="TN9-zi-Wee"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="CiH-Ft-Y9P" secondAttribute="trailing" constant="10" id="UNs-61-kyB"/>
+                <constraint firstItem="Xli-TO-enY" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="15" id="VVa-b5-5Du"/>
                 <constraint firstItem="avu-Ok-fmF" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="63" id="Y7E-gw-NIr"/>
                 <constraint firstItem="CiH-Ft-Y9P" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="ZPL-4I-s0B"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="tpO-Zv-m0J" secondAttribute="trailing" id="ZaE-n2-Amz"/>
+                <constraint firstItem="bqL-Fj-oKo" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="40" id="ak5-4J-PPc"/>
+                <constraint firstItem="bqL-Fj-oKo" firstAttribute="top" secondItem="act-2a-YJc" secondAttribute="bottom" constant="18.670000000000002" id="bQ2-RT-UFB"/>
                 <constraint firstItem="tpO-Zv-m0J" firstAttribute="top" secondItem="eYh-Fb-tur" secondAttribute="bottom" constant="11" id="fPs-uk-jYq"/>
                 <constraint firstAttribute="bottom" secondItem="CiH-Ft-Y9P" secondAttribute="bottom" constant="8" id="gJi-jq-pMH"/>
                 <constraint firstItem="cDe-Qv-xPy" firstAttribute="leading" secondItem="2qn-3m-UkR" secondAttribute="trailing" id="gKC-aU-qU6"/>
+                <constraint firstItem="Xli-TO-enY" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="iqC-eH-PVx"/>
                 <constraint firstItem="Ej2-cn-wpB" firstAttribute="leading" secondItem="cDe-Qv-xPy" secondAttribute="trailing" id="k3v-bQ-yAf"/>
+                <constraint firstItem="Xli-TO-enY" firstAttribute="top" secondItem="avu-Ok-fmF" secondAttribute="bottom" constant="25" id="qsU-sP-HDe"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="bqL-Fj-oKo" secondAttribute="trailing" constant="40" id="tZ5-Sl-j6C"/>
                 <constraint firstItem="eYh-Fb-tur" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="uAD-gp-Yu7"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="avu-Ok-fmF" secondAttribute="trailing" constant="63" id="zdV-zz-oXT"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
-            <point key="canvasLocation" x="139" y="135"/>
+            <point key="canvasLocation" x="137.68115942028987" y="134.5108695652174"/>
         </view>
     </objects>
     <resources>

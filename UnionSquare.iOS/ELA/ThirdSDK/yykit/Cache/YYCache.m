@@ -16,7 +16,7 @@
 @implementation YYCache
 
 - (instancetype) init {
-    NSLog(@"Use \"initWithName\" or \"initWithPath\" to create YYCache instance.");
+    //NSLog(@"Use \"initWithName\" or \"initWithPath\" to create YYCache instance.");
     return [self initWithPath:@""];
 }
 

@@ -41,7 +41,7 @@
 /*
  *<# #>
  */
-@property(strong,nonatomic)id<HMWAddTheCurrencyListViewControllerDelegate> delegate;
+@property(weak,nonatomic)id<HMWAddTheCurrencyListViewControllerDelegate> delegate;
 @end
 
 //NS_ASSUME_NONNULL_END

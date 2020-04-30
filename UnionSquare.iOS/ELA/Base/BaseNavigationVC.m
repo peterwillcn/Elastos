@@ -23,6 +23,7 @@
 @property (nonatomic,retain) UIView *backgroundView;
 @property (nonatomic, strong)NSMutableArray *captureImgArray;
 
+
 @end
 
 @implementation BaseNavigationVC
@@ -48,14 +49,23 @@
     [bar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     [bar setShadowImage:[UIImage new]];
     [bar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    
 }
+
 -(void)goBack{
     [self.navigationController popViewControllerAnimated:YES];
 }
+-(UIViewController *)popViewControllerAnimated:(BOOL)animated{
+    if (self.isNOBack) {
+         return nil;
+    }
+    return [super popViewControllerAnimated:animated];
+}
+
 -(void)viewDidLoad {
     [super viewDidLoad];
     self.interactivePopGestureRecognizer.enabled = NO;
-     _panGesture = [[UIScreenEdgePanGestureRecognizer alloc]initWithTarget:self action:@selector(dragging:)];
+    _panGesture = [[UIScreenEdgePanGestureRecognizer alloc]initWithTarget:self action:@selector(dragging:)];
     _panGesture.edges = UIRectEdgeLeft;
     [self.view addGestureRecognizer:_panGesture];
     self.navigationBar.shadowImage = [UIImage new];
@@ -65,20 +75,24 @@
     if ([self respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.interactivePopGestureRecognizer.delegate = (id)weakSelf;
     }
+     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(NOBACKChanged:) name:NOBACK object:nil];
+}
+-(void)NOBACKChanged:(NSNotification *)notification{
+    self.isNOBack=notification.object;
 }
 -(void)dragging:(UIScreenEdgePanGestureRecognizer*)panGesture{
     if (self.viewControllers.count<=1) {
         return;
     }
     CGFloat x= [panGesture translationInView:self.view].x;
-//    DLog(@"我滑动的劳动力 了了:%lf",x);
+    //    DLog(@"我滑动的劳动力 了了:%lf",x);
     if (UIGestureRecognizerStateBegan == panGesture.state) {
-            self.backgroundView.hidden = NO;
-            self.lastScreenShotView.image = self.lastImage;
+        self.backgroundView.hidden = NO;
+        self.lastScreenShotView.image = self.lastImage;
     }else if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateCancelled){
         if (x >= 100) {
             [UIView animateWithDuration:0.25 animations:^{
-               self.lastScreenBlackMask.alpha = 0;
+                self.lastScreenBlackMask.alpha = 0;
                 self.view.transform = CGAffineTransformMakeTranslation(SCREEN_BOUNDS.size.width, 0);
             } completion:^(BOOL finished) {
                 [self popViewControllerAnimated:NO];
@@ -114,12 +128,12 @@
 -(void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     self.interactivePopGestureRecognizer.enabled = YES;
-//    if (self.navigationController.viewControllers.firstObject == self) {
-//        self.navigationController.interactivePopGestureRecognizer.enabled = false;
-//    }else{
-//        self.navigationController.interactivePopGestureRecognizer.enabled = true;
-//    }
-
+    //    if (self.navigationController.viewControllers.firstObject == self) {
+    //        self.navigationController.interactivePopGestureRecognizer.enabled = false;
+    //    }else{
+    //        self.navigationController.interactivePopGestureRecognizer.enabled = true;
+    //    }
+    
     if (self.viewControllers.count>0) {
         viewController.hidesBottomBarWhenPushed = YES;
         UIImage *img = [self capture];

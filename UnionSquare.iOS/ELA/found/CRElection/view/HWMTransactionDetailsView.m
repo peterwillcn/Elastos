@@ -2,7 +2,7 @@
 //  HWMTransactionDetailsView.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/10/8.
+//  Created by  on 2019/10/8.
 //
 
 #import "HWMTransactionDetailsView.h"
@@ -75,6 +75,13 @@
     }
 }
 -(void)TransactionDetailsWithFee:(NSString*)fee withTransactionDetailsAumont:(NSString*)aumont{
+    if (self.DetailsType==didInfoType) {
+        self.feeTextLab.alpha=0.f;
+        self.feeLab.alpha=0.f;
+        self.amountTextLab.text=NSLocalizedString(@"手续费", nil);
+        self.amountLab.text= [NSString stringWithFormat:@"%@ ELA",fee];
+        self.makeLine.alpha=0;
+    }else{
     self.feeLab.text=[NSString stringWithFormat:@"%@ ELA",fee];
     if (aumont.length==0) {
         self.amountLab.text=[NSString stringWithFormat:@"%@ ELA",fee];
@@ -87,12 +94,17 @@
           self.feeLab.text=[NSString stringWithFormat:@"%@ ELA",fee];
           
     }
-     
+    }
+    
 }
 -(void)setPopViewTitle:(NSString *)popViewTitle{
      self.titleLab.text =NSLocalizedString(popViewTitle, nil);
     _popViewTitle=popViewTitle;
-    
+
+}
+
+-(void)setDetailsType:(TransactionDetailsType)DetailsType{
+    _DetailsType=DetailsType;
 }
 
 @end

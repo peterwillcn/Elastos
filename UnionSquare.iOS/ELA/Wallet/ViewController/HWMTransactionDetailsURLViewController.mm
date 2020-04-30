@@ -21,7 +21,7 @@
     UIWebView *webWiew =[[UIWebView alloc]initWithFrame:self.view.frame];
     webWiew.delegate=self;
     webWiew.backgroundColor=[UIColor clearColor];
-//    目前用的是这个url  https://blockchain-regtest.elastos.org/
+//    目前用的是这个url  https://blockchain-regtest.elastos.org/tx/91e295adeb572334f4c15bd2f3b743a9e56ac7488af09a0eb815e70e4ae3ad2d
 //    https://blockchain.elastos.org/tx/56d5ec82443405f4629600187e37975322204dff9f86984df952fa310d5981b6
     NSURL *url =[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",transUrl,self.urlString]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];

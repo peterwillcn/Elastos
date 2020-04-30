@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,6 +11,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FLManageSelectPointNodeInformationVC">
             <connections>
                 <outlet property="CRBGView" destination="df4-Gb-iS5" id="55h-Uj-LrT"/>
+                <outlet property="CRUpdateTheRegistrationInformationButton" destination="uKP-my-1Hl" id="jHi-2X-1Hj"/>
+                <outlet property="DIDUpdatesInfoButton" destination="ju8-Rb-3JZ" id="T8d-7t-RTO"/>
                 <outlet property="LocationLab" destination="51Q-Zf-wKR" id="kfr-Lj-9eP"/>
                 <outlet property="NodePublickKeyLab" destination="lvW-50-Clu" id="zIn-fx-5E5"/>
                 <outlet property="OwnerPublickKeyLab" destination="CJ7-Hn-7l9" id="Gnf-oe-cuF"/>
@@ -264,25 +266,61 @@
                                 <action selector="lookAtTheCandidateListEvent:" destination="-1" eventType="touchUpInside" id="oE5-k5-t4O"/>
                             </connections>
                         </button>
+                        <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ju8-Rb-3JZ">
+                            <rect key="frame" x="-75" y="40" width="150" height="40"/>
+                            <color key="backgroundColor" red="0.32654017210000003" green="0.5333263278" blue="0.53324335810000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="150" id="6b1-Sp-5e2"/>
+                                <constraint firstAttribute="height" constant="40" id="naQ-AQ-yrR"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <state key="normal" title="编辑">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="updataDIDInfoEvent:" destination="-1" eventType="touchUpInside" id="eVy-N6-i2M"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstAttribute="bottom" secondItem="ju8-Rb-3JZ" secondAttribute="bottom" constant="40" id="Pwi-sH-5xu"/>
                         <constraint firstAttribute="height" constant="100" id="RbE-9w-ntW"/>
                         <constraint firstItem="RxL-Zk-euM" firstAttribute="centerX" secondItem="Qe4-g2-FIf" secondAttribute="centerX" id="Yqs-Ug-ID4"/>
                         <constraint firstItem="RxL-Zk-euM" firstAttribute="centerY" secondItem="Qe4-g2-FIf" secondAttribute="centerY" id="d5j-7n-bKo"/>
                     </constraints>
                 </view>
+                <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uKP-my-1Hl">
+                    <rect key="frame" x="62" y="487" width="251" height="40"/>
+                    <color key="backgroundColor" red="0.32654017210000003" green="0.5333263278" blue="0.53324335810000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="150" id="4T4-F8-Kbh"/>
+                        <constraint firstAttribute="height" constant="40" id="lkV-iH-9Bv"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <state key="normal" title="编辑">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="updateTheCandidateListEvent:" destination="-1" eventType="touchUpInside" id="cqJ-Kv-0ZQ"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Qe4-g2-FIf" firstAttribute="centerY" secondItem="Vdl-jv-7qs" secondAttribute="centerY" id="0Tx-Sh-dn6"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="Qe4-g2-FIf" secondAttribute="bottom" id="14u-ci-UqB"/>
                 <constraint firstItem="MYJ-3d-yeN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="3Lz-Vt-jFD"/>
+                <constraint firstItem="ju8-Rb-3JZ" firstAttribute="centerX" secondItem="uKP-my-1Hl" secondAttribute="centerX" id="92A-ll-rCg"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="MYJ-3d-yeN" secondAttribute="trailing" constant="15" id="Azz-Af-Ovh"/>
                 <constraint firstAttribute="trailing" secondItem="Qe4-g2-FIf" secondAttribute="trailing" id="Fhp-yf-hO0"/>
+                <constraint firstItem="Vdl-jv-7qs" firstAttribute="top" secondItem="uKP-my-1Hl" secondAttribute="bottom" constant="20" id="GFG-Dn-aBM"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="uKP-my-1Hl" secondAttribute="trailing" constant="62" id="IXL-ac-g5w"/>
                 <constraint firstItem="Vdl-jv-7qs" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="Igw-zF-fvm"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="Vdl-jv-7qs" secondAttribute="bottom" id="Mcz-wj-MwG"/>
                 <constraint firstItem="MYJ-3d-yeN" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="10" id="MsL-0m-RjQ"/>
+                <constraint firstItem="uKP-my-1Hl" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="62" id="O3y-Nq-Bmc"/>
+                <constraint firstItem="ju8-Rb-3JZ" firstAttribute="width" secondItem="uKP-my-1Hl" secondAttribute="width" id="Rae-aS-gaD"/>
                 <constraint firstItem="Qe4-g2-FIf" firstAttribute="width" secondItem="Vdl-jv-7qs" secondAttribute="width" id="lzH-IV-cXT"/>
                 <constraint firstItem="Qe4-g2-FIf" firstAttribute="leading" secondItem="Vdl-jv-7qs" secondAttribute="trailing" id="u2y-Ou-tSW"/>
             </constraints>

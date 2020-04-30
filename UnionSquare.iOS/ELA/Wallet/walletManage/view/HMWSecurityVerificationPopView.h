@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
 *<# #>
 */
-@property(strong,nonatomic)id <HMWSecurityVerificationPopViewDelegate> delegate;
+@property(weak,nonatomic)id <HMWSecurityVerificationPopViewDelegate> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

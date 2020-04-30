@@ -2,10 +2,11 @@
 //  HWMCRListModel.h
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/9/25.
+//  Created by  on 2019/9/25.
 //
 
 #import <Foundation/Foundation.h>
+#import "HWMDIDInfoModel.h"
 
 
 
@@ -69,6 +70,9 @@
  */
 @property(copy,nonatomic)NSString *infoZH;
 @property(nonatomic,copy)NSString * TextVotes;
+@property(nonatomic,copy)NSString *cid;
+
+@property(copy,nonatomic)HWMDIDInfoModel *didIndoModel;
 
 @end
 

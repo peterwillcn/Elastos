@@ -35,10 +35,11 @@ class NotificationManagerImpl implements NotificationManagerPlugin.NotificationM
     }
 
     setNotificationListener(onNotification: (notification: NotificationManagerPlugin.Notification) => void) {
-        exec(ret =>{
+        exec((result: { notification: NotificationManagerPlugin.Notification}) =>{
+            onNotification(result.notification);
         }, err =>{
             console.error("Error while calling NotificationManagerPlugin.setNotificationListener()", err);
-        }, 'NotificationManagerPlugin', 'setNotificationListener', [onNotification]);
+        }, 'NotificationManagerPlugin', 'setNotificationListener', []);
     }
 
     getNotifications(): Promise<NotificationManagerPlugin.Notification[]> {

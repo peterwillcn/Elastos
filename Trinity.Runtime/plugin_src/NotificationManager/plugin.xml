@@ -1,22 +1,22 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="elastos-trinity-plugins-didsessionmanager" version="1.0.0" 
+<plugin id="elastos-trinity-plugins-notificationmanager" version="1.0.0" 
     xmlns="http://apache.org/cordova/ns/plugins/1.0" 
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <name>DIDSessionManager</name>
-    <js-module name="DIDSessionManagerPlugin" src="www/DIDSessionManager.js">
-        <clobbers target="didSessionManager" />
+    <name>NotificationManager</name>
+    <js-module name="NotificationManagerPlugin" src="www/NotificationManager.js">
+        <clobbers target="notificationManager" />
     </js-module>
     <platform name="android">
         <config-file parent="/*" target="res/xml/config.xml">
-            <feature name="DIDSessionManagerPlugin">
-                <param name="android-package" value="org.elastos.trinity.runtime.DIDSessionManagerPlugin" />
+            <feature name="NotificationManagerPlugin">
+                <param name="android-package" value="org.elastos.trinity.runtime.NotificationManagerPlugin" />
             </feature>
         </config-file>
     </platform>
     <platform name="ios">
         <config-file parent="/*" target="config.xml">
-            <feature name="DIDSessionManagerPlugin">
-                <param name="ios-package" value="DIDSessionManagerPlugin" />
+            <feature name="NotificationManagerPlugin">
+                <param name="ios-package" value="NotificationManagerPlugin" />
             </feature>
         </config-file>
     </platform>

@@ -1,9 +1,9 @@
 {
-  "name": "didsessionmanager",
+  "name": "contactnotifier",
   "version": "1.0.0",
-  "description": "Elastos DIDSessionManager Plugin",
+  "description": "Elastos ContactNotifier Plugin",
   "cordova": {
-    "id": "elastos-trinity-plugins-didsessionmanager",
+    "id": "elastos-trinity-plugins-contactnotifier",
     "platforms": [
       "android",
       "ios"
@@ -11,7 +11,7 @@
   },
   "keywords": [
     "cordova",
-    "didsessionmanager",
+    "contactnotifier",
     "trinity",
     "elastos",
     "ecosystem:cordova",

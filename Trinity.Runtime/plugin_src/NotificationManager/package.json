@@ -1,9 +1,9 @@
 {
-  "name": "didsessionmanager",
+  "name": "notificationmanager",
   "version": "1.0.0",
-  "description": "Elastos DIDSessionManager Plugin",
+  "description": "Elastos NotificationManager Plugin",
   "cordova": {
-    "id": "elastos-trinity-plugins-didsessionmanager",
+    "id": "elastos-trinity-plugins-notificationmanager",
     "platforms": [
       "android",
       "ios"
@@ -11,7 +11,7 @@
   },
   "keywords": [
     "cordova",
-    "didsessionmanager",
+    "notificationmanager",
     "trinity",
     "elastos",
     "ecosystem:cordova",

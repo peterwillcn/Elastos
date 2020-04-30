@@ -1,3 +1,3 @@
-# DIDSessionManager plugin for elastOS
+# Notification Manager plugin for elastOS
 
-This plugin usage is limited to a few built-in applications in order to manage global DID sign in/out in elastOS.
+Plugin to send and receive in-app notifications for elastOS.

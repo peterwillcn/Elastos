@@ -3,31 +3,15 @@
 // CONFIGURE HERE
 const files_to_download  = [
   {
-    "url": "https://github.com/ZipArchive/ZipArchive/archive/v2.1.4.zip",
-    "filename": "ZipArchive-2.1.4.zip",
-    "sourceDirs": [
-      "ZipArchive-2.1.4/SSZipArchive"
-    ],
-    "targetDir": "platforms/ios",
-    "md5": "2ab5ae7e5eb096b1a807d17e4bd83a16"
-  },{
-    "url": "https://github.com/stephencelis/SQLite.swift/archive/0.11.5.zip",
-    "filename": "SQLite.swift-0.11.5.zip",
-    "sourceDirs": [
-      "SQLite.swift-0.11.5",
-    ],
-    "targetDir": "platforms/ios",
-    "md5": "0e0ba441cdb466dff1f9f6eecf2c9e55"
-  },{
-    "url": "https://github.com/elastos/Elastos.NET.Carrier.Swift.SDK/releases/download/release-v5.4.4/ElastosCarrier-framework.zip",
+    "url": "https://github.com/elastos/Elastos.NET.Carrier.Swift.SDK/releases/download/release-v5.5.0/ElastosCarrier-framework.zip",
     "filename": "ElastosCarrier-framework.zip",
     "sourceDirs": [
       "ElastosCarrier-framework/ElastosCarrierSDK.framework"
     ],
     "targetDir": "../Plugins/Carrier/src/ios/libs",
-    "md5": "cd4cdc9eda5c0e6a8a2b0e50879f2f3f"
+    "md5": "fe88bb42d8dc66beb480698f52c0cfa3"
   },{
-    "url": "https://github.com/elastos/Elastos.NET.Hive.Swift.SDK/releases/download/release-v0.5.2/ElastosHiveSDK-framework-for-trinity.zip",
+    "url": "https://github.com/elastos/Elastos.NET.Hive.Swift.SDK/releases/download/release-v1.0.1/ElastosHiveSDK-framework-for-trinity.zip",
     "filename": "ElastosHiveSDK-framework-for-trinity.zip",
     "sourceDirs": [
       "ElastosHiveSDK-framework-for-trinity/Alamofire.framework",
@@ -36,7 +20,7 @@ const files_to_download  = [
       "ElastosHiveSDK-framework-for-trinity/Swifter.framework"
     ],
     "targetDir": "../Plugins/Hive/src/ios/libs",
-    "md5": "f5a94cd84874fa841bc8beadaabc2a73"
+    "md5": "c7740161c0541f1e23a994419b57c81f"
   },{
     "url": "https://github.com/elastos/Elastos.Trinity.Plugins.Wallet/releases/download/spvsdk-V0.5.0/libspvsdk.zip",
     "filename": "libspvsdk.zip",
@@ -46,37 +30,63 @@ const files_to_download  = [
     "targetDir": "../Plugins/Wallet/src/ios",
     "md5": "e5f32bd9be63883284ce67d5d756ae6e"
   },{
-    "url": "https://github.com/elastos/Elastos.DID.Swift.SDK/releases/download/internal_experimental_v0.0.2/ElastosDIDSDK.framework.zip",
-    "filename": "ElastosDIDSDK-framework-for-trinity.zip",
+    "url": "https://github.com/elastos/Elastos.DID.Swift.SDK/releases/download/internal_experimental_v0.0.9/ElastosDIDSDK.framework.zip",
+    "filename": "ElastosDIDSDK.framework.zip",
     "sourceDirs": [
       "ElastosDIDSDK.framework"
     ],
     "targetDir": "../Plugins/DID/src/ios/libs",
-    "md5": "c3967945e1f93e49f40f1cb962c73437"
+    "md5": "981c6176f9febdb88bdc32f9c5fb0352"
   },
   {
-    "url": "https://github.com/elastos/Elastos.DID.Swift.SDK/releases/download/internal_experimental_v0.0.2/Antlr4.framework.zip",
+    "url": "https://github.com/elastos/Elastos.DID.Swift.SDK/releases/download/internal_experimental_v0.0.9/Antlr4.framework.zip",
     "filename": "Antlr4.framework.zip",
     "sourceDirs": [
       "Antlr4.framework"
     ],
     "targetDir": "../Plugins/DID/src/ios/libs",
-    "md5": "af3d257885aae1e325f956fff4e96ca5"
+    "md5": "95d037997a00505b8434c8c54e637cd6"
+  },
+  {
+    "url": "https://github.com/elastos/Elastos.DID.Swift.SDK/releases/download/internal_experimental_v0.0.9/PromiseKit.framework.zip",
+    "filename": "PromiseKit.framework.zip",
+    "sourceDirs": [
+      "PromiseKit.framework"
+    ],
+    "targetDir": "../Plugins/DID/src/ios/libs",
+    "md5": "48ec30e3b0ac8da366f54d47e1ad336d"
   }
 ]
 // no need to configure below
 
+const fs = require('fs'),
+      path = require('path');
+
+function DeleteDirectory(dir) {
+  if (fs.existsSync(dir) == true) {
+    var files = fs.readdirSync(dir);
+    files.forEach(function(item){
+      var item_path = path.join(dir, item);
+      if (fs.statSync(item_path).isDirectory()) {
+        DeleteDirectory(item_path);
+      }
+      else {
+        fs.unlinkSync(item_path);
+      }
+    });
+    fs.rmdirSync(dir);
+  }
+}
+
 module.exports = function(ctx) {
-  // console.log(JSON.stringify(ctx, null, 2));
+  // console.log("download_3rdparty ", JSON.stringify(ctx, null, 2));
 
   // make sure ios platform is part of platform add
   if (!ctx.opts.platforms.some((val) => val.startsWith("ios"))) {
     return;
   }
 
-  const fs = require('fs'),
-        path = require('path'),
-        wget = require('node-wget-promise'),
+  const wget = require('node-wget-promise'),
         readline = require('readline'),
         md5File = require('md5-file/promise'),
         yauzl = require("yauzl"),
@@ -101,6 +111,7 @@ module.exports = function(ctx) {
 
         const max_attempt = 3;
         let attempt = 0;
+        let files_need_to_update = false;
         while (!fileMatched && attempt < max_attempt) {
           attempt++;
 
@@ -152,6 +163,7 @@ module.exports = function(ctx) {
           fileMatched = fs.existsSync(zipFilePath)
                         && fs.lstatSync(zipFilePath).isFile()
                         && await md5File(zipFilePath) == obj.md5
+           files_need_to_update = true;
         }
 
         if (!fileMatched) {
@@ -163,6 +175,14 @@ module.exports = function(ctx) {
         if (fs.existsSync(ctx.opts.projectRoot) && fs.lstatSync(ctx.opts.projectRoot).isDirectory()) {
           let targetPath = path.join(ctx.opts.projectRoot, obj.targetDir);
           mkdirp.sync(targetPath);
+          if (files_need_to_update) {// delete the old files
+            for (const srcDir of obj.sourceDirs) {
+              let baseName = path.basename(srcDir);
+              let frameworkDir = path.join(targetPath, baseName);
+              console.log("    DeleteDirectory:", frameworkDir);
+              DeleteDirectory(frameworkDir);
+            }
+          }
           if (fs.existsSync(targetPath) && fs.lstatSync(targetPath).isDirectory()) {
             console.log("Unziping file %s", obj.filename);
             yauzl.open(zipFilePath, {lazyEntries: true}, function(err, zipfile) {

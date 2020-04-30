@@ -2,7 +2,6 @@ package org.elastos.trinity.runtime;
 
 import android.util.Log;
 import org.elastos.did.*;
-import org.elastos.did.adapter.AbstractAdapter;
 import org.elastos.did.exception.DIDException;
 
 
@@ -11,20 +10,21 @@ public class DIDVerifier {
 
     public static void initDidStore(String dataPath) throws Exception {
         String dataDir = dataPath + "/did_stores/" + "DIDVerifier";
+        String cacheDir = dataPath + "/did_stores/" + ".cache.did.elastos";
 
         Log.i("DIDVerifier", "dataDir:" + dataDir);
 
-        String resolver = ConfigManager.getShareInstance().getStringValue("did.resolver", "http://api.elastos.io:20606");
+        String resolver = PreferenceManager.getShareInstance().getDIDResolver();
 
         try {
-            // TODO Temporary comment, add again after update DID sdk
-            // DIDBackend.initialize(new AbstractAdapter(resolver) {
-            //     @Override
-            //     public String createIdTransaction(String payload, String memo) throws DIDException {
-            //         return null;
-            //     }
-            // });
-            mDIDStore = DIDStore.open("filesystem", dataDir);
+            DIDBackend.initialize(resolver, cacheDir);
+            mDIDStore = DIDStore.open("filesystem", dataDir, new DIDAdapter() {
+                @Override
+                public void createIdTransaction(String payload, String memo, int confirms, TransactionCallback callback) {
+                    Log.i("DIDVerifier", "createIdTransaction");
+                    callback.accept("", 0, null);
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }

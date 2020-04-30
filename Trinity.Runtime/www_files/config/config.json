@@ -1,0 +1,19 @@
+{
+    "dapp.protectList": [
+        "org.elastos.trinity.dapp.wallet"
+    ],
+    "api.authority.whitelist": [
+        "org.elastos.trinity.dapp.wallet",
+        "org.elastos.trinity.dapp.settings"
+    ],
+    "url.authority.whitelist": [
+        "org.elastos.trinity.dapp.settings"
+    ],
+    "whitelist.urls": [
+        "https://sentry.io/*"
+    ],
+    "native.dapps.mode": false,
+    "native.dapps": {
+        "org.elastos.trinity.dapp.wallet": "WalletMainViewController"
+    }
+}

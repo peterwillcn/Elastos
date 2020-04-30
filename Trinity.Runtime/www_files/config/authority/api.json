@@ -1,0 +1,684 @@
+{
+    "AppManager": {
+        "setCurrentLocale": {
+            "danger_level": "medium",
+            "title": {
+                "en": "Change system language",
+                "zh": "设置系统语言",
+                "fr": "Modifier la langue du système"
+            },
+            "description": {
+                "en": "This capsule will be able to change your default elastOS language, and this new language will be used in all the other capsules.",
+                "zh": "此应用程序将能够设置elastOS语言，并且所有其他应用程序都将使用此新语言。",
+                "fr": "Cette capsule pourra modifier la langue par défaut d'elastOS, et cette langue sera utilisée par défaut par toutes les autres capsules"
+            }
+        },
+        "install": {
+            "danger_level": "high",
+            "title": {
+                "en": "Install capsules",
+                "zh": "安装应用程序",
+                "fr": "Installer des capsules"
+            },
+            "description": {
+                "en": "This capsule will be able to add other capsules to elastOS.",
+                "zh": "此应用程序将能够在elastOS上安装其它应用程序。",
+                "fr": "Cette capsule pourra ajouter d'autres capsules dans elastOS."
+            }
+        },
+        "unInstall": {
+            "danger_level": "high",
+            "title": {
+                "en": "Uninstall capsules",
+                "zh": "卸载应用程序",
+                "fr": "Supprimer des capsules"
+            },
+            "description": {
+                "en": "This capsule will be able to remove other capsules from elastOS.",
+                "zh": "此应用程序将能够从elastIOS上卸载其它应用程序。",
+                "fr": "Cette capsule pourra supprimer d'autres capsules d'elastOS."
+            }
+        },
+        "getAppInfo": {
+            "danger_level": "high",
+            "title": {
+                "en": "Get capsule information",
+                "zh": "获取应用程序信息",
+                "fr": "Informations sur une capsule"
+            },
+            "description": {
+                "en": "This capsule will be able to get information about other capsules that you are using.",
+                "zh": "此应用程序将能够获取指定的其他应用程序的信息。",
+                "fr": "Cette capsule pourra obtenir les informations sur une autre capsule que vous utilisez."
+            }
+        },
+        "getAppInfos": {
+            "danger_level": "high",
+            "title": {
+                "en": "Get all capsule information",
+                "zh": "获取所有应用程序的信息",
+                "fr": "Informations sur toutes les capsules"
+            },
+            "description": {
+                "en": "This capsule will be able to get the whole list of all capsules you currently have in elastOS.",
+                "zh": "此应用程序将能够获取elastOS里所有应用程序的信息。",
+                "fr": "Cette capsule pourra connaître la liste complète des autres capsules que vous utilisez."
+            }
+        },
+        "getAppList": {
+            "danger_level": "high",
+            "title": {
+                "en": "Get all capsule information",
+                "zh": "获取所有的应用程序列表",
+                "fr": "Informations sur toutes les capsules"
+            },
+            "description": {
+                "en": "This capsule will be able to get the whole list of all capsules you currently have in elastOS.",
+                "zh": "此应用程序将能够获取elastOS里所有应用程序的列表。",
+                "fr": "Cette capsule pourra connaître la liste complète des autres capsules que vous utilisez."
+            }
+        },
+        "start": {
+            "danger_level": "high",
+            "title": {
+                "en": "Start other capsules",
+                "zh": "启动其它应用程序",
+                "fr": "Ouvrir des capsules"
+            },
+            "description": {
+                "en": "This capsule will be able to launch other capsules that are currently installed in elastOS, but not start external capsules.",
+                "zh": "此应用程序将能够启动安装在elastOS里的其他应用程序。",
+                "fr": "Cette capsule pourra ouvrir d'autres capsules actuellement installées sur votre elastOS, mais ne pourra pas ouvrir d'autres capsules inconnues."
+            }
+        },
+        "closeApp": {
+            "danger_level": "high",
+            "title": {
+                "en": "Close other capsules",
+                "zh": "关闭其它应用程序",
+                "fr": "Fermer des capsules"
+            },
+            "description": {
+                "en": "This capsule will be able to close other capsules running in elastOS at the same time.",
+                "zh": "此应用程序将能够关闭正在elastOS里运行的其它应用程序",
+                "fr": "Cette capsule pourra fermer d'autres capsules actuellement lancées sur elastOS."
+            }
+        },
+        "broadcastMessage": {
+            "danger_level": "medium",
+            "title": {
+                "en": "Broadcast messages",
+                "zh": "广播消息",
+                "fr": "Communiquer avec les autres capsules"
+            },
+            "description": {
+                "en": "This capsule will be able to send internal messages to all other capsules running at the same time.",
+                "zh": "此应用程序将能够同时给所有正在运行的其它应用程序发送内部消息。",
+                "fr": "Cette capsule pourra envoyer des messages techniques à toutes les capsules actuellement lancées, et ainsi interagir avec elles."
+            }
+        },
+        "getRunningList": {
+            "danger_level": "medium",
+            "title": {
+                "en": "Get the list of running capsules",
+                "zh": "获取正在运行的应用程序列表",
+                "fr": "Liste des capsules lancées"
+            },
+            "description": {
+                "en": "This capsule will be able to get the list of other capsules currently running at the same time.",
+                "zh": "此应用程序将能够获取正在运行的应用程序列表。",
+                "fr": "Cette capsule pourra obtenir la liste des autres capsules actuellement lancées dans elastOS."
+            }
+        },
+        "getLastList": {
+            "danger_level": "high",
+            "title": {
+                "en": "Get recently used capsules",
+                "zh": "获取最近使用的应用程序列表",
+                "fr": "Liste des capsules utilisées"
+            },
+            "description": {
+                "en": "This capsule will be able to get the list of other capsules you used recently.",
+                "zh": "此应用程序将能够获取最近使用的应用程序列表。",
+                "fr": "Cette capsule pourra obtenir la liste des autres capsules que vous avez récemment utilisées."
+            }
+        },
+        "getVersion": {
+            "danger_level": "low",
+            "title": {
+                "en": "Get elastOS version",
+                "zh": "获取 elastOS 版本",
+                "fr": "Version d'elastOS"
+            },
+            "description": {
+                "en": "This capsule will be able to know the elastOS version you are using.",
+                "zh": "此应用程序将能够获取当前elastOS的版本。",
+                "fr": "Cette capsule pourra connaître la version d'elastOS que vous utilisez actuellement."
+            }
+        },
+        "getPreference": {
+            "danger_level": "medium",
+            "title": {
+                "en": "Get system settings",
+                "zh": "获取系统设置",
+                "fr": "Lire les préférences système"
+            },
+            "description": {
+                "en": "This capsule will be able to read system settings such as developer mode, dark mode, language, etc.",
+                "zh": "此应用程序将能够获取系统设置信息，如开发者模式、主题、系统语言等。",
+                "fr": "Cette capsule pourra lire les préférences sytème telles que le mode développeur, le mode sombre, la langue, etc."
+            }
+        },
+        "getPreferences": {
+            "danger_level": "medium",
+            "title": {
+                "en": "Get system settings",
+                "zh": "获取系统设置",
+                "fr": "Lire les préférences système"
+            },
+            "description": {
+                "en": "This capsule will be able to read system settings such as developer mode, dark mode, language, etc.",
+                "zh": "此应用程序将能够获取系统设置信息，如开发者模式、主题、系统语言等。",
+                "fr": "Cette capsule pourra lire les préférences sytème telles que le mode développeur, le mode sombre, la langue, etc."
+            }
+        },
+        "setPreference": {
+            "danger_level": "high",
+            "title": {
+                "en": "Modify system settings",
+                "zh": "修改系统设置",
+                "fr": "Modifier les préférences système"
+            },
+            "description": {
+                "en": "This capsule will be able to edit system settings such as developer mode, dark mode, language, etc. Make sure to give this permission to a trusted capsule!",
+                "zh": "此应用程序将能够修改系统设置，如开发者模式、主题、系统语言等。",
+                "fr": "Cette capsule pourra modifier les préférences système telles que le mode développeur, le mode sombre, la langue, etc. Assurez-vous de faire confiance à cette capsule!"
+            }
+        },
+        "resetPreferences": {
+            "danger_level": "high",
+            "title": {
+                "en": "Reset system settings",
+                "zh": "重置系统设置",
+                "fr": "Réinitialiser les préférences système"
+            },
+            "description": {
+                "en": "This capsule will be able to reset all system settings (developer mode, dark mode, language, etc) to their original values.",
+                "zh": "此应用程序将能够重置系统设置（如开发者模式、主题、系统语言等）。",
+                "fr": "Cette capsule pourra remettre à zéro toutes les préférences système (mode développeur, mode sombre, langue, etc)."
+            }
+        }
+    },
+    "DIDPlugin": {
+        "initDidStore": {
+            "danger_level": "low",
+            "title": {
+                "en": "Create a DID store",
+                "zh": "创建 DID 存储",
+                "fr": "Créer des identités"
+            },
+            "description": {
+                "en": "This capsule will be able to create a storage locally on your device, to save and manage identities that this capsule (and only this one) owns.",
+                "zh": "此应用程序将能够在设备上创建 DID 存储，以保存和管理此应用程序所拥有的身份信息（仅此应用程序拥有）。",
+                "fr": "Cette capsule pourra stocker et gérer de nouvelles identités sur votre appareil. Ces identités seront liées à cette capsule uniquement. La capsule ne pourra pas modifier vos autres identités."
+            }
+        },
+        "deleteDidStore": {
+            "danger_level": "medium",
+            "title": {
+                "en": "Delete a DID store",
+                "zh": "删除 DID 存储",
+                "fr": "Supprimer des identités"
+            },
+            "description": {
+                "en": "This capsule will be able to delete an identity store (including all identities inside) that this capsule has created it self. It will not be able to delete stores created by other capsules.",
+                "zh": "此应用程序将能够删除自身创建的身份存储（包括内部的所有身份信息）。但无法删除其它应用程序创建的 DID 存储。",
+                "fr": "Cette capsule pourra supprimer les identités qu'elle a créées (et uniquement les siennes)."
+            }
+        },
+        "synchronize": {
+            "danger_level": "medium",
+            "title": {
+                "en": "Synchronize identities",
+                "zh": "同步身份信息",
+                "fr": "Synchronize les identités"
+            },
+            "description": {
+                "en": "This capsule will be able to synchronize local versions of your identities with what is published on the identity chain, which could result in loss of local identity data.",
+                "zh": "此应用程序将能够使你本地的身份信息与链上发布的内容同步，可能会导致本地的身份数据丢失。",
+                "fr": "Cette capsule pourra synchronize les identités locales qu'elle a créées (et uniquement les siennes), avec la chaine de bloc publique."
+            }
+        },
+        "exportMnemonic": {
+            "danger_level": "high",
+            "title": {
+                "en": "Export your recovery key",
+                "zh": "导出助记词",
+                "fr": "Exporter votre clé d'identité"
+            },
+            "description": {
+                "en": "This capsule will be able to read recovery keys for identity stores that were created inside this capsule only.",
+                "zh": "此应用程序将能够读取在此应用程序内创建的身份存储的助记词。",
+                "fr": "Cette capsule pourra lire la clé de securité qui vous permet d'importer votre identité. Elle ne pourra lire que les clés des identités qu'elle a créées, pas celles d'autres capsules."
+            }
+        },
+        "sign": {
+            "danger_level": "medium",
+            "title": {
+                "en": "Sign content",
+                "zh": "对内容签名",
+                "fr": "Apposer votre signature"
+            },
+            "description": {
+                "en": "This capsule will be able to sign data with your identity.",
+                "zh": "此应用程序将能够用您的身份对内容签名。",
+                "fr": "Cette capsule pourra apposer la signature de votre identité (uniquement pour les identités créées par cette capsule) sur des informations diverses"
+            }
+        },
+        "createVerifiablePresentation": {
+            "danger_level": "medium",
+            "title": {
+                "en": "Sign your identity profile",
+                "zh": "创建简报",
+                "fr": "Signer votre profil"
+            },
+            "description": {
+                "en": "This capsule will be able to create a presentation that embeds some or your identity information, and sign it with your identity.",
+                "zh": "此应用程序将能够创建嵌入了您的身份信息，并使用您的身份对其进行签名的简报。",
+                "fr": "Cette capsule pourra créer et signer une présentation qui contient certaines de vos informations de profil (identité). Uniquement pour les identités créées par cette capsule."
+            }
+        },
+        "issueCredential": {
+            "danger_level": "low",
+            "title": {
+                "en": "Issue credentials",
+                "zh": "发行凭证",
+                "fr": "Générer des références d'identité"
+            },
+            "description": {
+                "en": "This capsule will be able to create credentials (profile information) for yourself or for others, and sign them with your identity as being the issuer.",
+                "zh": "此应用程序将能够为您自己或他人创建凭证（个人信息），并以您作为发行人的身份对其进行签名。",
+                "fr": "Cette capsule pourra créer des références à votre sujet ou pour un tiers, et y apposer votre signature d'identité."
+            }
+        },
+        "publish": {
+            "danger_level": "high",
+            "title": {
+                "en": "Publish your identity",
+                "zh": "发布您的身份信息",
+                "fr": "Publier votre identité"
+            },
+            "description": {
+                "en": "This capsule will be able to publish identities managed inside this capsule (only), to the identity blockchain. Published content will be readable by everyone, forever. Make sure to trust this capsule first.",
+                "zh": "此应用程序将能够将该应用程序内部管理的身份发布到 ID 链。发布的内容对所有人公开。请确保此应用程序可信任。",
+                "fr": "Cette capsule pourra publier les identités qu'elle a créées, sur la chaine publique. Le contenu publié sera public et permanent, sans possibilité de le supprimer complètement."
+            }
+        }
+    },
+    "HivePlugin": {
+        "getIPFS": {
+            "danger_level": "medium",
+            "title": {
+                "en": "Read and write files on a public storage (IPFS)",
+                "zh": "在公共存储（IPFS）上读写文件",
+                "fr": "Lire et écrire des fichiers sur un cloud public (IPFS)"
+            },
+            "description": {
+                "en": "This capsule will be able to read and write files managed by this capsule, from/to the public storage named IPFS. This means that those files could be visible by everyone.",
+                "zh": "此应用程序将能够从公共存储上读取文件，并能将此应用程序管理的文件写到公共存储。这意味着任何人都能看到这些文件。",
+                "fr": "Cette capsule pourra lire et écrire des fichiers sur le cloud public IPFS. Ces fichiers seront visibles par tous."
+            }
+        }
+    },
+    "CarrierPlugin": {
+        "createObject": {
+            "danger_level": "low",
+            "title": {
+                "en": "Use decentralized network communications (Carrier)",
+                "zh": "使用 P2P 网络通信（Carrier）",
+                "fr": "Communications décentralisées (Carrier)"
+            },
+            "description": {
+                "en": "This capsule will be able to connect to the Elastos carrier network to communicate with other peers.",
+                "zh": "此应用程序将能够连接到 elastOS carrier 网络，并与其它节点通信。",
+                "fr": "Cette capsule pourra se conencter au réseau de communication Elastos Carrier qui est un réseau de communication point-à-point, sans intermédiaires."
+            }
+        }
+    },
+    "Camera": {
+        "takePicture": {
+            "danger_level": "low",
+            "title": {
+                "en": "Take or get device pictures",
+                "zh": "拍摄或获取相册图片",
+                "fr": "Prise de photo, sélection de photos"
+            },
+            "description": {
+                "en": "This capsule will be able to use your camera to ask you to take pictures or browse pictures from your gallery. The capsule won't be able to do that without your confirmation.",
+                "zh": "此应用程序将能够使用您的相机拍照或浏览相册中的图片。相关操作须经过您的确认。",
+                "fr": "Cette capsule pourra utiliser votre appareil photo pour prendre des photos, ou vous demander de sélectionner des images de votre gallerie. La capsule ne pourra faire cela qu'avec votre confirmation pour chaque photo."
+            }
+        }
+    },
+    "Clipboard": {
+        "copy": {
+            "danger_level": "low",
+            "title": {
+                "en": "Set the clipboard content",
+                "zh": "复制内容到剪切板",
+                "fr": "Enregistrer du contenu dans le presse-papier"
+            },
+            "description": {
+                "en": "This capsule will be able to save some content in the device clipboard.",
+                "zh": "此应用程序将能够复制内容到剪切板。",
+                "fr": "Cette capsule pourra enregistrer du contenu dans le presse-papier de l'appareil."
+            }
+        },
+        "paste": {
+            "danger_level": "high",
+            "title": {
+                "en": "Get the clipboard content",
+                "zh": "读取剪切板数据",
+                "fr": "Lire le contenu du presse-papier"
+            },
+            "description": {
+                "en": "This capsule will be able to read the clipboard data. This is potentially harmful in case important data has been copied to the clipboard.",
+                "zh": "此应用程序将能够读取剪切板数据。如果重要数据已复制到剪切板，则可能有泄露风险。",
+                "fr": "Cette capsule pourra lire le contenu du presse-papier de l'appareil. Ceci est potentiellement dangereux si vous y copiez des données importantes."
+            }
+        },
+        "clear": {
+            "danger_level": "medium",
+            "title": {
+                "en": "Clear the clipboard content",
+                "zh": "清除剪切板数据",
+                "fr": "Effacer le contenu du presse-papier"
+            },
+            "description": {
+                "en": "This capsule will be able to clear the clipboard content.",
+                "zh": "此应用程序将能够清除剪切板数据。",
+                "fr": "Cette capsule pourra effacer le contenu du presse-papier de l'appareil."
+            }
+        }
+    },
+    "TitleBarPlugin": {
+        "setVisibility": {
+            "danger_level": "low",
+            "title": {
+                "en": "Change title bar visibility",
+                "zh": "设置标题栏是否可见",
+                "fr": "Visibilité de la barre de titre"
+            },
+            "description": {
+                "en": "This capsule will be able to show or hide the elastOS title bar.",
+                "zh": "此应用程序将能够显示或隐藏标题栏。",
+                "fr": "Cette capsule pourra afficher ou cacher la barre de titre d'elastOS."
+            }
+        }
+    },
+    "DIDSessionManagerPlugin": {
+        "signOut": {
+            "danger_level": "medium",
+            "title": {
+                "en": "Sign out current identity",
+                "zh": "注销当前身份",
+                "fr": "Déconnexion de l'utilisateur"
+            },
+            "description": {
+                "en": "This capsule will be able to sign out currently active identity and make elastOS go back to the identity selection screen.",
+                "zh": "此应用程序将能够注销当前活动的身份，并使 elastOS 返回到身份选择页面。",
+                "fr": "Cette capsule pourra déconnecter l'identité actuellement et ramener elastOS sur l'écran de sélection des identités."
+            }
+        },
+        "signIn": {
+            "danger_level": "high",
+            "title": {
+                "en": "Sign in one of your identities",
+                "zh": "用您其中一个身份登录",
+                "fr": "Connection de l'utilisateur"
+            },
+            "description": {
+                "en": "This capsule will be able to sign you in with one of your created identities.",
+                "zh": "此应用程序将能够使用您创建的其中一个身份进行登录。",
+                "fr": "Cette capsule pourra définir une identité comme identité par défaut dans tout elastOS."
+            }
+        },
+        "getIdentityEntries": {
+            "danger_level": "high",
+            "title": {
+                "en": "Get the list of your identities",
+                "zh": "获取身份列表",
+                "fr": "Liste de vos identités"
+            },
+            "description": {
+                "en": "This capsule will be able to get the list of all identities you have created inside elastOS.",
+                "zh": "此应用程序将能够获取在 elastOS 里创建的身份列表。",
+                "fr": "Cette capsule pour obtenir la liste de toutes les idéntités enregistrées dans elastOS sur cet appareil."
+            }
+        },
+        "addIdentityEntry": {
+            "danger_level": "medium",
+            "title": {
+                "en": "Add a elastOS identity",
+                "zh": "添加一个 elastOS 身份",
+                "fr": "Ajouter une identité globale"
+            },
+            "description": {
+                "en": "This capsule will be able to add global elastOS identities so you can later sign in with them.",
+                "zh": "此应用程序将能够添加全局的 elastOS 身份，此身份可用于之后的登录。",
+                "fr": "Cette capsule pourra ajouter une identité à la liste globale des identités pouvant se connecter sur elastOS."
+            }
+        },
+        "deleteIdentityEntry": {
+            "danger_level": "high",
+            "title": {
+                "en": "Remove a elastOS identity",
+                "zh": "删除 elastOS 身份",
+                "fr": "Supprimer une identité globale"
+            },
+            "description": {
+                "en": "This capsule will be able to delete one or several elastOS identities that you usually use to sign in.",
+                "zh": "此应用程序将能够删除您用于登录的一个或多个身份。",
+                "fr": "Cette capsule pourra supprimer l'une des identités qui vous sert actuellement à vous connecter à elastOS."
+            }
+        }
+    },
+    "Notification": {
+        "beep": {
+            "danger_level": "low",
+            "title": {
+                "en": "Play a beep sound",
+                "zh": "播放提示音",
+                "fr": "Emettre un beep"
+            },
+            "description": {
+                "en": "This capsule will be able to play beep sounds.",
+                "zh": "此应用程序将能够播放提示音。",
+                "fr": "Cette capsule pourra émettre de petits sons de type beep."
+            }
+        }
+    },
+    "Device": {
+        "getDeviceInfo": {
+            "danger_level": "low",
+            "title": {
+                "en": "Get the device's hardware and software info",
+                "zh": "获取设备的硬件及软件信息",
+                "fr": "Informations sur votre matériel et logiciels"
+            },
+            "description": {
+                "en": "This capsule will be able to get the device's hardware and software info such as your phone model, brand and versions.",
+                "zh": "此应用程序将能够获取设备的硬件及软件信息，如手机型号、品牌和版本。",
+                "fr": "Cette capsule pourra connaître les infos matérielles et logicielles du système utilisé par votre téléphone (ex: marque, version...)"
+            }
+        }
+    },
+    "Flashlight": {
+        "switchOn": {
+            "danger_level": "low",
+            "title": {
+                "en": "Switch on the flashlight",
+                "zh": "开启手电筒",
+                "fr": "Utiliser la lumière flash"
+            },
+            "description": {
+                "en": "This capsule will be able to switch on the device flashlight.",
+                "zh": "此应用程序将能够打开手电筒。",
+                "fr": "Cette capsule pourra allumer ou éteindre la lumière flash de votre appareil."
+            }
+        }
+    },
+    "GeoLocation": {
+        "getLocation": {
+            "danger_level": "high",
+            "title": {
+                "en": "Get your position",
+                "zh": "获取位置信息",
+                "fr": "Votre position géographique"
+            },
+            "description": {
+                "en": "This capsule will be able to know your geolocation at any time.",
+                "zh": "此应用程序将能够实时获取您的地理位置信息。",
+                "fr": "Cette capsule pourra obtenir votre position géographique à tout moment."
+            }
+        },
+        "addWatch": {
+            "danger_level": "high",
+            "title": {
+                "en": "Watch your position",
+                "zh": "跟踪位置",
+                "fr": "Votre position géographique"
+            },
+            "description": {
+                "en": "This capsule will be able to track your geolocation in real time.",
+                "zh": "此应用程序将能够实时跟踪您的地理位置",
+                "fr": "Cette capsule pourra suivre votre position géographique."
+            }
+        }
+    },
+    "Media": {
+        "startPlayingAudio": {
+            "danger_level": "low",
+            "title": {
+                "en": "Start or resume playing an audio file",
+                "zh": "开始或继续播放音频文件",
+                "fr": "Lire des musiques et sons"
+            },
+            "description": {
+                "en": "This capsule will be able to start or resume playing an audio file.",
+                "zh": "此应用程序将能够开始或继续播放音频文件。",
+                "fr": "Cette capsule pourra lire des musiques et sons de votre appareil."
+            }
+        },
+        "setVolume": {
+            "danger_level": "low",
+            "title": {
+                "en": "Set the volume for an audio file",
+                "zh": "设置音量",
+                "fr": "Volume de l'appareil"
+            },
+            "description": {
+                "en": "This capsule will be able to set the volume for an audio file.",
+                "zh": "此应用程序将能够设置音频播放音量。",
+                "fr": "Cette application pourra controler le volume de votre appareil."
+            }
+        },
+        "startRecordingAudio": {
+            "danger_level": "high",
+            "title": {
+                "en": "Start recording an audio file",
+                "zh": "录音",
+                "fr": "Enregistrement audio"
+            },
+            "description": {
+                "en": "This capsule will be able to start recording an audio file.",
+                "zh": "此应用程序将能够录制音频。",
+                "fr": "Cette capsule pourra enregistrer le microphone de votre appareil."
+            }
+        }
+    },
+    "Capture": {
+        "captureAudio": {
+            "danger_level": "low",
+            "title": {
+                "en": "Start the audio recorder",
+                "zh": "启动录音",
+                "fr": "Lancer l'enregistreur audio"
+            },
+            "description": {
+                "en": "This capsule will be able to start the audio recorder application and return information about captured audio clip files.",
+                "zh": "此应用程序将能够启动录音机，并返回录制的音频数据。",
+                "fr": "Cette capsule pourra lancer l'application d'enregistrement audio de votre appareil."
+            }
+        },
+        "captureImage": {
+            "danger_level": "low",
+            "title": {
+                "en": "Start the camera to take a picture",
+                "zh": "启动照相机",
+                "fr": "Lancer l'appareil photo"
+            },
+            "description": {
+                "en": "This capsule will be able to start the camera application and return information about captured image files.",
+                "zh": "此应用程序将能够启动照相机，并返回拍摄的数据。",
+                "fr": "Cette capsule pourra démarrer l'appareil photo de votre mobile et obtenir les prises à ce moment là."
+            }
+        },
+        "captureVideo": {
+            "danger_level": "low",
+            "title": {
+                "en": "Start the video recorder",
+                "zh": "启动录像机",
+                "fr": "Lancer l'enregistreur vidéo"
+            },
+            "description": {
+                "en": "This capsule will be able to start the video recorder application and return information about captured video clip files.",
+                "zh": "此应用程序将能够启动录像机，并返回录制的数据。",
+                "fr": "Cette capsule pourra lancer l'application d'enregistrement de vidéos de votre appareil, et obtenir les vidéos prises à ce moment là."
+            }
+        }
+    },
+    "NetworkStatus": {
+        "getConnectionInfo": {
+            "danger_level": "low",
+            "title": {
+                "en": "Get information about your network",
+                "zh": "获取网络信息",
+                "fr": "Informations sur votre connexion réseau"
+            },
+            "description": {
+                "en": "This capsule will be able to retrieve information about wifi and mobile networks that you use.",
+                "zh": "此应用程序将能够获取您使用的 wifi 和移动网络的信息。",
+                "fr": "Cette capsule pourra lire les informations réseau de votre appareil (nom du wifi, opérateur mobile...)"
+            }
+        }
+    },
+    "Vibration": {
+        "vibrate": {
+            "danger_level": "low",
+            "title": {
+                "en": "Make your device vibrate",
+                "zh": "振动",
+                "fr": "Faire vibrer le mobile"
+            },
+            "description": {
+                "en": "This capsule will be able to make your device vibrate.",
+                "zh": "此应用程序将能够使您的设备振动。",
+                "fr": "Cette capsule pourra faire vibrer votre appareil."
+            }
+        },
+        "vibrateWithPattern": {
+            "danger_level": "low",
+            "title": {
+                "en": "Make your device vibrate",
+                "zh": "振动",
+                "fr": "Faire vibrer le mobile"
+            },
+            "description": {
+                "en": "This capsule will be able to make your device vibrate.",
+                "zh": "此应用程序将能够使您的设备振动。",
+                "fr": "Cette capsule pourra faire vibrer votre appareil."
+            }
+        }
+    }
+}

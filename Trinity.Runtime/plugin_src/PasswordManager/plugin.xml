@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="elastos-trinity-plugins-passwordmanager" version="1.0.0" 
+    xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>PasswordManager</name>
+    <js-module name="PasswordManagerPlugin" src="www/PasswordManager.js">
+        <clobbers target="passwordManager" />
+    </js-module>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="PasswordManagerPlugin">
+                <param name="android-package" value="org.elastos.trinity.runtime.PasswordManagerPlugin" />
+            </feature>
+        </config-file>
+    </platform>
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="PasswordManagerPlugin">
+                <param name="ios-package" value="PasswordManagerPlugin" />
+            </feature>
+        </config-file>
+    </platform>
+</plugin>

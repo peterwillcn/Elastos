@@ -27,7 +27,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-public class ManagerDBAdapter {
+import org.json.JSONObject;
+
+ public class ManagerDBAdapter {
     ManagerDBHelper helper;
     Context context;
     public ManagerDBAdapter(Context context)
@@ -326,27 +328,13 @@ public class ManagerDBAdapter {
         db.delete(ManagerDBHelper.LACALE_TABLE, where, whereArgs);
         db.delete(ManagerDBHelper.FRAMEWORK_TABLE, where, whereArgs);
         db.delete(ManagerDBHelper.PLATFORM_TABLE, where, whereArgs);
-        where = AppInfo.TID + "=?";
-        count = db.delete(ManagerDBHelper.APP_TABLE, where, whereArgs);
         where = AppInfo.APP_ID + "=?";
         String[] args = {info.app_id};
         db.delete(ManagerDBHelper.INTENT_FILTER_TABLE, where, args);
+        db.delete(ManagerDBHelper.SETTING_TABLE, where, args);
+        where = AppInfo.TID + "=?";
+        count = db.delete(ManagerDBHelper.APP_TABLE, where, whereArgs);
         return count;
-    }
-
-    public boolean addIntentFilter(Intent intent) {
-        if (intent != null) {
-            SQLiteDatabase db = helper.getWritableDatabase();
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(AppInfo.APP_ID, intent.app_id);
-            contentValues.put(AppInfo.ACTION, intent.action);
-
-            long tid = db.insert(ManagerDBHelper.INTENT_FILTER_TABLE, null, contentValues);
-            return true;
-        }
-        else {
-            return false;
-        }
     }
 
     public String[] getIntentFilter(String action) {
@@ -362,4 +350,206 @@ public class ManagerDBAdapter {
 
         return ids;
     }
+
+    public long setSetting(String id, String key, Object value) throws Exception {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        long ret = 0;
+
+        String data = null;
+        if (value != null) {
+            JSONObject json = new JSONObject();
+            json.put("data", value);
+            data = json.toString();
+        }
+
+        Boolean isExist = getSetting(id, key) != null;
+        if (!isExist) {
+            if (value != null) {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(AppInfo.APP_ID, id);
+                contentValues.put(ManagerDBHelper.KEY, key);
+                contentValues.put(ManagerDBHelper.VALUE, data);
+                ret = db.insert(ManagerDBHelper.SETTING_TABLE, null, contentValues);
+            }
+        }
+        else {
+            String where = AppInfo.APP_ID + "=? AND " + ManagerDBHelper.KEY + "=?";
+            String[] whereArgs = {id, key};
+            if (value != null) {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(ManagerDBHelper.VALUE, data);
+                ret = db.update(ManagerDBHelper.SETTING_TABLE, contentValues, where, whereArgs );
+            }
+            else {
+                ret = db.delete(ManagerDBHelper.SETTING_TABLE, where, whereArgs);
+            }
+        }
+        return ret;
+    }
+
+    public JSONObject getSetting(String id, String key) throws Exception {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        String where = AppInfo.APP_ID + "=? AND " + ManagerDBHelper.KEY + "=?";
+        String[] whereArgs = {id, key};
+        String[] columns = {ManagerDBHelper.VALUE};
+        Cursor cursor = db.query(ManagerDBHelper.SETTING_TABLE, columns, where, whereArgs,null,null,null);
+        if (cursor.moveToNext()) {
+            String value = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.VALUE));
+            JSONObject dict = new JSONObject(value);
+            if (dict != null) {
+                JSONObject ret = new JSONObject();
+                ret.put("key", key);
+                ret.put("value", dict.get("data"));
+                return ret;
+            }
+        }
+
+        return null;
+    }
+
+    public JSONObject getSettings(String id) throws Exception {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        String where = AppInfo.APP_ID + "=?";
+        String[] whereArgs = {id};
+        String[] columns = {ManagerDBHelper.KEY, ManagerDBHelper.VALUE};
+        Cursor cursor = db.query(ManagerDBHelper.SETTING_TABLE, columns, where, whereArgs,null,null,null);
+        JSONObject ret = new JSONObject();
+        while (cursor.moveToNext()) {
+            String key = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.KEY));
+            String value = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.VALUE));
+
+            JSONObject dict = new JSONObject(value);
+            if (dict != null) {
+                ret.put(key, dict.get("data"));
+            }
+        }
+        return ret;
+    }
+
+
+     public long setPreference(String key, Object value) throws Exception {
+         SQLiteDatabase db = helper.getWritableDatabase();
+         long ret = 0;
+
+         String data = null;
+         if (value != null) {
+             JSONObject json = new JSONObject();
+             json.put("data", value);
+             data = json.toString();
+         }
+
+         Boolean isExist = getPreference(key) != null;
+         if (!isExist) {
+             if (value != null) {
+                 ContentValues contentValues = new ContentValues();
+                 contentValues.put(ManagerDBHelper.KEY, key);
+                 contentValues.put(ManagerDBHelper.VALUE, data);
+                 ret = db.insert(ManagerDBHelper.PREFERENCE_TABLE, null, contentValues);
+             }
+         }
+         else {
+             String where = ManagerDBHelper.KEY + "=?";
+             String[] whereArgs = {key};
+             if (value != null) {
+                 ContentValues contentValues = new ContentValues();
+                 contentValues.put(ManagerDBHelper.VALUE, data);
+                 ret = db.update(ManagerDBHelper.PREFERENCE_TABLE, contentValues, where, whereArgs );
+             }
+             else {
+                 ret = db.delete(ManagerDBHelper.PREFERENCE_TABLE, where, whereArgs);
+             }
+         }
+         return ret;
+     }
+
+     public void resetPreferences() {
+         helper.getWritableDatabase().delete(ManagerDBHelper.PREFERENCE_TABLE, null, null);
+     }
+
+     public JSONObject getPreference(String key) throws Exception {
+         SQLiteDatabase db = helper.getWritableDatabase();
+         String where = ManagerDBHelper.KEY + "=?";
+         String[] whereArgs = {key};
+         String[] columns = {ManagerDBHelper.VALUE};
+         Cursor cursor = db.query(ManagerDBHelper.PREFERENCE_TABLE, columns, where, whereArgs,null,null,null);
+         if (cursor.moveToNext()) {
+             String value = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.VALUE));
+             JSONObject dict = new JSONObject(value);
+             if (dict != null) {
+                 JSONObject ret = new JSONObject();
+                 ret.put("key", key);
+                 ret.put("value", dict.get("data"));
+                 return ret;
+             }
+         }
+
+         return null;
+     }
+
+     public JSONObject getPreferences() throws Exception {
+         SQLiteDatabase db = helper.getWritableDatabase();
+         String[] columns = {ManagerDBHelper.KEY, ManagerDBHelper.VALUE};
+         Cursor cursor = db.query(ManagerDBHelper.PREFERENCE_TABLE, columns, null, null,null,null,null);
+         JSONObject ret = new JSONObject();
+         while (cursor.moveToNext()) {
+             String key = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.KEY));
+             String value = cursor.getString(cursor.getColumnIndex(ManagerDBHelper.VALUE));
+             JSONObject dict = new JSONObject(value);
+             if (dict != null) {
+                 ret.put(key, dict.get("data"));
+             }
+         }
+         return ret;
+     }
+
+     public int getApiAuth(String appId, String plugin, String api) {
+
+         SQLiteDatabase db = helper.getWritableDatabase();
+         String where = AppInfo.APP_ID + "=? AND " + AppInfo.PLUGIN + "=? AND " + AppInfo.API + "=?";
+         String[] whereArgs = {appId, plugin, api};
+         String[] columns = {AppInfo.AUTHORITY};
+         Cursor cursor = db.query(ManagerDBHelper.AUTH_API_TABLE, columns, where, whereArgs,null,null,null);
+         if (cursor.moveToNext()) {
+             return cursor.getInt(cursor.getColumnIndex(AppInfo.AUTHORITY));
+         }
+
+         return AppInfo.AUTHORITY_NOEXIST;
+     }
+
+     public long setApiAuth(String appId, String plugin, String api, int auth) {
+
+         SQLiteDatabase db = helper.getWritableDatabase();
+         long ret = 0;
+
+         Boolean isExist = getApiAuth(appId, plugin, api) != AppInfo.AUTHORITY_NOEXIST;
+         if (!isExist) {
+             ContentValues contentValues = new ContentValues();
+             contentValues.put(AppInfo.APP_ID, appId);
+             contentValues.put(AppInfo.PLUGIN, plugin);
+             contentValues.put(AppInfo.API, api);
+             contentValues.put(AppInfo.AUTHORITY, auth);
+             ret = db.insert(ManagerDBHelper.AUTH_API_TABLE, null, contentValues);
+         }
+         else {
+             String where = AppInfo.APP_ID + "=? AND " + AppInfo.PLUGIN + "=? AND " + AppInfo.API + "=?";
+             String[] whereArgs = {appId, plugin, api};
+             if (auth != AppInfo.AUTHORITY_NOINIT) {
+                 ContentValues contentValues = new ContentValues();
+                 contentValues.put(AppInfo.AUTHORITY, auth);
+                 ret = db.update(ManagerDBHelper.AUTH_API_TABLE, contentValues, where, whereArgs );
+             }
+             else {
+                 ret = db.delete(ManagerDBHelper.AUTH_API_TABLE, where, whereArgs);
+             }
+         }
+
+         return ret;
+     }
+
+     public void resetApiDenyAuth(String appId)  {
+         SQLiteDatabase db = helper.getWritableDatabase();
+         String where = AppInfo.APP_ID + "=? AND " + AppInfo.AUTHORITY + "=?";
+         String[] whereArgs = {appId, String.valueOf(AppInfo.AUTHORITY_DENY)};
+         db.delete(ManagerDBHelper.AUTH_API_TABLE, where, whereArgs);
+     }
 }

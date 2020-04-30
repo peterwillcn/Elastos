@@ -2,6 +2,7 @@
 
 module.exports = function(ctx) {
   // console.log(JSON.stringify(ctx, null, 2));
+  console.log("Running modify_xcode_project.js");
 
   // make sure ios platform is part of platform add
   if (!ctx.opts.platforms.some((val) => val.startsWith("ios"))) {
@@ -10,6 +11,7 @@ module.exports = function(ctx) {
 
   const fs = require('fs'),
         path = require('path'),
+        join = require('path').join,
         xcode = require('xcode');
 
   let runtimeProjPath = 'platforms/ios/elastOS.xcodeproj/project.pbxproj',
@@ -31,14 +33,28 @@ module.exports = function(ctx) {
     let options = { customFramework: true, embed: embed, sign: true };
     runtimeProj.addFramework('libz.tbd');
 
+    //
+    // Build phase to strip invalid framework files ARCHs for itunes publication
+    //
+    let stripBuildPhaseCommand = "APP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\n# This script loops through the frameworks embedded in the application and\n# removes unused architectures.\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\ndo\n    FRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\n    FRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\n    echo \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\n\n    EXTRACTED_ARCHS=()\n\n    for ARCH in $ARCHS\n    do\n        echo \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"\n        if lipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\n        then\n            EXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\n        else\n            EXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH\")\n        fi\n    done\n\n    echo \"Merging extracted architectures: ${ARCHS}\"\n    lipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"\n    rm \"${EXTRACTED_ARCHS[@]}\"\n\n    echo \"Replacing original executable with thinned version\"\n    rm \"$FRAMEWORK_EXECUTABLE_PATH\"\n    mv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n\ndone\n";
+    var stripOptions = {
+      shellPath: '/bin/sh',
+      shellScript: stripBuildPhaseCommand
+    };
+    runtimeProj.addBuildPhase([], 'PBXShellScriptBuildPhase', 'Strip non-target ARCHS from fat frameworks for publishing', null, stripOptions);
 
     //
     // Add build settings
     //
     runtimeProj.addToBuildSettings("SWIFT_VERSION", "4.2");
-    runtimeProj.addToBuildSettings("PRODUCT_BUNDLE_IDENTIFIER", "org.elastos.trinity.runtime");
+    // runtimeProj.addToBuildSettings("PRODUCT_BUNDLE_IDENTIFIER", "org.elastos.trinity.browser");
     runtimeProj.addToBuildSettings("CLANG_CXX_LANGUAGE_STANDARD", "\"c++0x\"");
+    runtimeProj.addToBuildSettings("MARKETING_VERSION", "1.1.0");
 
+    //
+    // Set SWIFT_OPTIMIZATION_LEVEL -Onone for Debug
+    //
+    runtimeProj.updateBuildProperty('SWIFT_OPTIMIZATION_LEVEL', '"-Onone"', 'Debug');
 
     //
     // Add and remove source files in the Classes group
@@ -49,108 +65,30 @@ module.exports = function(ctx) {
     runtimeProj.removeSourceFile("AppDelegate.m",        {}, classesGroupKey);
     runtimeProj.removeSourceFile("MainViewController.h", {}, classesGroupKey);
     runtimeProj.removeSourceFile("MainViewController.m", {}, classesGroupKey);
+    runtimeProj.removeSourceFile("MainViewController.xib", {}, classesGroupKey);
 
-    let classesPath = "../../../../platform_src/ios/elastOS/Classes/";
-    runtimeProj.addSourceFile(classesPath + "AdvancedButton.swift",         {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "AdvancedButton.xib",           {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "AppDelegate.h",                {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "AppDelegate.m",                {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "AdvancedButton.swift",         {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "AdvancedButton.xib",           {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "AppBasePlugin.swift",          {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "AppInfo.swift",                {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "AppInstaller.swift",           {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "AppManager.swift",             {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "AppViewController.swift",      {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "AppWhitelist.swift",           {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "CDVPlugin.swift",              {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "ConfigManager.swift",          {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "IntentManager.swift",          {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "LauncherViewController.swift", {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "MainViewController.swift",     {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "ManagerDBAdapter.swift",       {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "NullPlugin.swift",             {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "PermissionManager.swift",      {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "TitleBarView.swift",           {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "TitleBarView.xib",             {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "TrinityPlugin.h",              {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "TrinityPlugin.m",              {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "TrinityURLProtocol.swift",     {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "TrinityViewController.swift",  {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "TrinityViewController.xib",    {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "Utility.swift",                {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "WhitelistFilter.swift",        {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "WrapSwift.h",                  {}, classesGroupKey);
-    runtimeProj.addSourceFile(classesPath + "WrapSwift.m",                  {}, classesGroupKey);
-
-    //
-    // Add header and source files for "SSZipArchive"
-    //
-    let sourceDirectory = "platforms/ios/SSZipArchive";
-    let customTemplate = runtimeProj.findPBXGroupKeyAndType({ name: 'CustomTemplate' }, 'PBXGroup');
-
-    function fromDir(startPath,filter,callback){
-      if (!fs.existsSync(startPath)){
-        console.log("no dir ",startPath);
-        return;
-      }
-
-      let files=fs.readdirSync(startPath);
-      for(let i=0;i<files.length;i++){
-        let filename = files[i];
-        let filepath = path.join(startPath,filename);
-        let stat = fs.lstatSync(filepath);
-        if (stat.isDirectory()){
-          callback(startPath, filename);
-          fromDir(filepath,filter,callback); //recurse
-        }
-        else if (filter.test(filepath)) callback(startPath, filename);
-      };
-    };
-
-    function fromDirCallback(startPath,filename){
-      let filepath = path.join(startPath,filename);
-      let relativePath = startPath.replace(/platforms\/ios\//g, '');
-
-      let parentGroupName = path.basename(relativePath);
-      let parentGroupKey = runtimeProj.findPBXGroupKeyAndType({ name: parentGroupName }, 'PBXGroup');
-      if (!parentGroupKey) {
-        let parentGroupPath = '"' +parentGroupName + '"';
-        let newGroup = runtimeProj.addPbxGroup([], parentGroupName, parentGroupPath, 'SOURCE_ROOT');
-        runtimeProj.addToPbxGroup(newGroup.uuid, customTemplate, 'PBXGroup');
-        parentGroupKey = newGroup.uuid;
-      }
-
-      let stat = fs.lstatSync(filepath);
-      if (stat.isDirectory()){
-        let groupName = filename;
-        let groupPath = '"' + path.join(relativePath, groupName) + '"';
-        let newGroup = runtimeProj.addPbxGroup([], groupName, groupPath, 'SOURCE_ROOT');
-        runtimeProj.addToPbxGroup(newGroup.uuid, parentGroupKey, 'PBXGroup');
-        return;
-      } else {
-        let groupName = path.basename(startPath);
-        let groupKey = runtimeProj.findPBXGroupKeyAndType({ name: groupName }, 'PBXGroup');
-        if (groupKey) {
-          runtimeProj.addSourceFile(filename, {}, groupKey);
-        }
-      }
+    function addSourceFiles(classesPath) {
+      let files = fs.readdirSync(classesPath);
+      files.forEach((filename, index) => {
+          if (filename[0] != ".") {
+              let pathname = path.join(classesPath, filename)
+              let stat = fs.statSync(pathname);
+              if (stat.isFile() === true) {
+                  runtimeProj.addSourceFile(pathname, {}, classesGroupKey);
+              }
+              else if (stat.isDirectory()) {
+                addSourceFiles(pathname);
+              }
+          }
+      });
     }
 
-    fromDir(sourceDirectory,/(\.h$|\.m$|\.c$)/,fromDirCallback);
+    let classesPath = process.cwd() + "/platform_src/ios/elastOS/Classes/";
+    addSourceFiles(classesPath);
 
-    //
-    // Add files for "SQLite.xcodeproj"
-    //
-    runtimeProj.addSourceFile("SQLite.swift-0.11.5/SQLite.xcodeproj", {}, customTemplate);
-
-    options = {
-      sourceTree: 'BUILT_PRODUCTS_DIR',
-      customFramework: true,
-      embed: embed,
-      sign: true
-    };
-    runtimeProj.addFramework('SQLite.framework', options);
+    //for native apps
+    classesPath = process.cwd() + "/native_apps/ios/";
+    addSourceFiles(classesPath);
 
     //
     // Write back the new XCode project

@@ -1,1 +1,0 @@
-# org.elastos.trinity.demo.did

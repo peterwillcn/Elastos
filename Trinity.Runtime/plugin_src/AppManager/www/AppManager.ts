@@ -23,10 +23,7 @@
 let exec = cordova.exec;
 
 class AppManagerImpl implements AppManagerPlugin.AppManager {
-    titleBar: AppManagerPlugin.TitleBar;
-
     constructor() {
-        this.titleBar = new TitleBarImpl();
     }
 
     getLocale(onSuccess: (defaultLang: string, currentLang: string, systemLang: string) => void) {
@@ -109,6 +106,11 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
     sendMessage(id: string, type: AppManagerPlugin.MessageType, msg: string, onSuccess: () => void, onError?: (err: string) => void) {
         exec(onSuccess, onError, 'AppManager', 'sendMessage', [id, type, msg]);
     }
+
+    broadcastMessage(type: AppManagerPlugin.MessageType, message: string, onSuccess?: () => void) {
+        exec(onSuccess, null, 'AppManager', 'broadcastMessage', [type, message]);
+    }
+
     setListener(callback: (msg: AppManagerPlugin.ReceivedMessage) => void) {
         exec(callback, null, 'AppManager', 'setListener');
     }
@@ -148,9 +150,11 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
         };
         exec(_onSuccess, onError, 'AppManager', 'sendIntent', [action, str, options]);
     }
+
     sendUrlIntent(url: string, onSuccess: () => void, onError: (err: any) => void) {
         exec(onSuccess, onError, 'AppManager', 'sendUrlIntent', [url]);
     }
+
     setIntentListener(callback: (msg: AppManagerPlugin.ReceivedIntent) => void) {
         function _onReceiveIntent(ret) {
             if (typeof (ret.params) == "string") {
@@ -202,8 +206,43 @@ class AppManagerImpl implements AppManagerPlugin.AppManager {
         exec(onSuccess, onError, 'AppManager', 'getVersion', []);
     }
 
-    getTitleBar(): AppManagerPlugin.TitleBar {
-        return this.titleBar;
+    getSetting(key: string, onSuccess: (value: any) => void, onError?: (err: string) => void) {
+        function _onSuccess(value: any) {
+            if (onSuccess) {
+                onSuccess(value.value);
+            }
+        };
+        exec(_onSuccess, onError, 'AppManager', 'getSetting', [key]);
+    }
+
+    getSettings(onSuccess: (values: any) => void, onError?: (err: string) => void) {
+        exec(onSuccess, onError, 'AppManager', 'getSettings', []);
+    }
+
+
+    setSetting(key: string, value: any, onSuccess: () => void, onError?: (err: string) => void) {
+        exec(onSuccess, onError, 'AppManager', 'setSetting', [key, value]);
+    }
+
+    getPreference(key: string, onSuccess: (value: any) => void, onError?: (err: string) => void) {
+        function _onSuccess(value: any) {
+            if (onSuccess) {
+                onSuccess(value.value);
+            }
+        };
+        exec(_onSuccess, onError, 'AppManager', 'getPreference', [key]);
+    }
+
+    getPreferences(onSuccess: (values: any) => void, onError?: (err: string) => void) {
+        exec(onSuccess, onError, 'AppManager', 'getPreferences', []);
+    }
+
+    setPreference(key: string, value: any, onSuccess: () => void, onError?: (err: string) => void) {
+        exec(onSuccess, onError, 'AppManager', 'setPreference', [key, value]);
+    }
+
+    resetPreferences(onSuccess: () => void, onError?: (err: string) => void) {
+        exec(onSuccess, onError, 'AppManager', 'resetPreferences', []);
     }
 }
 
@@ -216,26 +255,6 @@ function jsonInfo(info) {
     }
     if (typeof (info.urls) == "string") {
         info.urls = JSON.parse(info.urls);
-    }
-}
-
-class TitleBarImpl implements AppManagerPlugin.TitleBar {
-    showActivityIndicator(type: AppManagerPlugin.TitleBarActivityType) {
-        exec(()=>{}, (err)=>{
-            console.error("Error while calling TitleBar.showActivityIndicator()", err);
-        }, 'AppManager', 'titleBar_showActivityIndicator', [type]);
-    }    
-    
-    hideActivityIndicator(type: AppManagerPlugin.TitleBarActivityType) {
-        exec(()=>{}, (err)=>{
-            console.error("Error while calling TitleBar.hideActivityIndicator()", err);
-        }, 'AppManager', 'titleBar_hideActivityIndicator', [type]);
-    }
-
-    setTitle(title: String) {
-        exec(()=>{}, (err)=>{
-            console.error("Error while calling TitleBar.setTitle()", err);
-        }, 'AppManager', 'titleBar_setTitle', [title]);
     }
 }
 

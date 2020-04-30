@@ -114,15 +114,11 @@ public class AuthorityPlugin extends CordovaPlugin {
 
     private boolean checkAuthority(String action, CallbackContext callbackContext) {
         if (originalPlugin != null) {
-            int authority = AppManager.getShareInstance().getPluginAuthority(appInfo.app_id, pluginName);
-            if (authority == AppInfo.AUTHORITY_NOINIT || authority == AppInfo.AUTHORITY_ASK) {
-                authority = AppManager.getShareInstance().runAlertPluginAuth(appInfo, pluginName, authority);
-            }
-
+            int authority = ApiAuthorityManager.getShareInstance().getApiAuthority(appInfo, pluginName, action);
             if (authority == AppInfo.AUTHORITY_ALLOW) {
                 return checkApiPermission(action,  callbackContext);
             }
-            callbackContext.error("Plugin:'" + pluginName + "' have not run authority.");
+            callbackContext.error("Api:'" + pluginName + "." + action + "' have not run authority.");
         }
         return false;
     }

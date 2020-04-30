@@ -132,15 +132,29 @@ public class AppBasePlugin extends TrinityPlugin {
                 case "setVisible":
                     this.setVisible(args, callbackContext);
                     break;
-
-                case "titleBar_showActivityIndicator":
-                    this.titleBar_showActivityIndicator(args, callbackContext);
+                case "getSetting":
+                    this.getSetting(args, callbackContext);
                     break;
-                case "titleBar_hideActivityIndicator":
-                    this.titleBar_hideActivityIndicator(args, callbackContext);
+                case "getSettings":
+                    this.getSettings(args, callbackContext);
                     break;
-                case "titleBar_setTitle":
-                    this.titleBar_setTitle(args, callbackContext);
+                case "setSetting":
+                    this.setSetting(args, callbackContext);
+                    break;
+                case "getPreference":
+                    this.getPreference(args, callbackContext);
+                    break;
+                case "getPreferences":
+                    this.getPreferences(args, callbackContext);
+                    break;
+                case "setPreference":
+                    this.setPreference(args, callbackContext);
+                    break;
+                case "resetPreferences":
+                    this.resetPreferences(args, callbackContext);
+                    break;
+                case "broadcastMessage":
+                    this.broadcastMessage(args, callbackContext);
                     break;
                 default:
                     return false;
@@ -153,12 +167,13 @@ public class AppBasePlugin extends TrinityPlugin {
     }
 
     protected void getVersion(CallbackContext callbackContext) throws Exception {
-        String version = ConfigManager.getShareInstance().getStringValue("version", "undefined");
+        String version = PreferenceManager.getShareInstance().getVersion();
         callbackContext.success(version);
     }
 
     protected void launcher(CallbackContext callbackContext) throws Exception {
         appManager.loadLauncher();
+        AppManager.getShareInstance().sendLauncherMessageMinimize(this.appId);
         callbackContext.success("ok");
     }
 
@@ -185,10 +200,13 @@ public class AppBasePlugin extends TrinityPlugin {
     protected void setVisible(JSONArray args, CallbackContext callbackContext) throws Exception {
         String visible = args.getString(0);
 
-        appManager.setAppVisible(appId, visible);
         if (visible == null || !visible.equals("hide")) {
-            appManager.start(this.appId);
             visible = "show";
+        }
+
+        appManager.setAppVisible(appId, visible);
+        if (visible.equals("show")) {
+            appManager.start(this.appId);
         }
         else {
             appManager.loadLauncher();
@@ -351,14 +369,20 @@ public class AppBasePlugin extends TrinityPlugin {
         }
     }
 
-    protected void getLocale(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    protected void getLocale(JSONArray args, CallbackContext callbackContext) throws Exception {
         JSONObject ret = new JSONObject();
         AppInfo info = appManager.getAppInfo(this.appId);
         ret.put("defaultLang", info.default_locale);
-        ret.put("currentLang", appManager.getCurrentLocale());
+        ret.put("currentLang", PreferenceManager.getShareInstance().getCurrentLocale());
         ret.put("systemLang", Locale.getDefault().getLanguage());
 
         callbackContext.success(ret);
+    }
+
+    protected void setCurrentLocale(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String code = args.getString(0);
+        PreferenceManager.getShareInstance().setCurrentLocale(code);
+        callbackContext.success("ok");
     }
 
     protected void sendMessage(JSONArray args, CallbackContext callbackContext) throws Exception {
@@ -413,7 +437,7 @@ public class AppBasePlugin extends TrinityPlugin {
 
         IntentInfo info = new IntentInfo(action, params, this.appId, toId, currentTime, callbackContext);
 
-        IntentManager.getShareInstance().sendIntent(info);
+        IntentManager.getShareInstance().doIntent(info);
         PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
         pluginResult.setKeepCallback(true);
         callbackContext.sendPluginResult(pluginResult);
@@ -425,8 +449,9 @@ public class AppBasePlugin extends TrinityPlugin {
         try {
             if (checkIntentScheme(url)) {
                 IntentManager.getShareInstance().sendIntentByUri(Uri.parse(url), this.appId);
+                callbackContext.success("ok");
             }
-            else if (webView.getPluginManager().shouldOpenExternalUrl(url)) {
+            else if (shouldOpenExternalIntentUrl(url)) {
                 webView.showWebPage(url, true, false, null);
                 callbackContext.success("ok");
             }
@@ -486,7 +511,12 @@ public class AppBasePlugin extends TrinityPlugin {
         JSONObject obj = new JSONObject();
         try {
             obj.put("action", info.action);
-            obj.put("result", info.params);
+            if (info.params != null) {
+                obj.put("result", info.params);
+            }
+            else {
+                obj.put("result", "null");
+            }
             obj.put("from", info.fromId);
             PluginResult result = new PluginResult(PluginResult.Status.OK, obj);
             result.setKeepCallback(false);
@@ -496,105 +526,8 @@ public class AppBasePlugin extends TrinityPlugin {
         }
     }
 
-    private boolean checkIntentScheme(String url) {
-        return IntentManager.checkTrinityScheme(url);// && (!isUrlApp() || url.contains("callbackurl="));
-    }
-
-    @Override
-    public Boolean shouldAllowNavigation(String url) {
-        if (appManager.isLauncher(this.appId)) {
-            return true;
-        }
-        else if (checkIntentScheme(url)) {
-            try {
-                IntentManager.getShareInstance().sendIntentByUri(Uri.parse(url), this.appId);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return false;
-        }
-
-        return null;
-    }
-
-    @Override
-    public Boolean shouldAllowRequest(String url) {
-        if (appManager.isLauncher(this.appId)) {
-            return true;
-        }
-        else if (checkIntentScheme(url)) {
-            try {
-                IntentManager.getShareInstance().sendIntentByUri(Uri.parse(url), this.appId);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return false;
-        }
-
-        if (url.startsWith("asset://www/cordova") || url.startsWith("asset://www/plugins")
-                || url.startsWith("trinity:///asset/") || url.startsWith("trinity:///data/")
-                || url.startsWith("trinity:///temp/")) {
-            return true;
-        }
-
-        if (isChangeIconPath && url.startsWith("icon://")) {
-            return true;
-        }
-
-        return null;
-    }
-
-    @Override
-    public Uri remapUri(Uri uri) {
-        String url = uri.toString();
-        if (isChangeIconPath && url.startsWith("icon://")) {
-            String str = url.substring(7);
-            int index = str.indexOf("/");
-            if (index > 0) {
-                String app_id = str.substring(0, index);
-                AppInfo info = appManager.getAppInfo(app_id);
-                if (info != null) {
-                    index = Integer.valueOf(str.substring(index + 1));
-                    AppInfo.Icon icon = info.icons.get(index);
-                    String appUrl = appManager.getIconUrl(info);
-                    url = appManager.resetPath(appUrl, icon.src);
-                }
-            }
-        }
-        else if ("asset".equals(uri.getScheme())) {;
-            url = "file:///android_asset/www" + uri.getPath();
-        }
-        else if (url.startsWith("trinity:///asset/")) {
-            AppInfo info = appManager.getAppInfo(this.appId);
-            url = appManager.getAppUrl(info) + url.substring(17);
-        }
-        else if (url.startsWith("trinity:///data/")) {
-            url = appManager.getDataUrl(this.appId) + url.substring(16);
-        }
-        else if (url.startsWith("trinity:///temp/")) {
-            url = appManager.getTempUrl(this.appId) + url.substring(16);
-        }
-//        else if (checkIntentScheme(url)) {
-//            try {
-//                IntentManager.getShareInstance().sendIntentByUri(uri, this.appId);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-        else {
-            return null;
-        }
-
-        uri = Uri.parse(url);
-        return uri;
-    }
 
     //---------------- for AppManager --------------------------------------------------------------
-    private void setCurrentLocale(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        String code = args.getString(0);
-        appManager.setCurrentLocale(code);
-        callbackContext.success("ok");
-    }
 
     protected void install(JSONArray args, CallbackContext callbackContext) throws Exception {
         String url = args.getString(0);
@@ -604,6 +537,7 @@ public class AppBasePlugin extends TrinityPlugin {
             url = getCanonicalPath(url);
         }
 
+        appManager.checkInProtectList(url);
         AppInfo info = appManager.install(url, update);
         if (info != null) {
             callbackContext.success(jsonAppInfo(info));
@@ -732,26 +666,176 @@ public class AppBasePlugin extends TrinityPlugin {
         alertDialog(args, android.R.drawable.ic_dialog_info, callbackContext);
     }
 
-    private TitleBar getTitleBar() {
-        return ((WebViewFragment)((TrinityCordovaInterfaceImpl)cordova).fragment).getTitlebar();
+    protected void getSetting(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String key = args.getString(0);
+
+        JSONObject ret = AppManager.getShareInstance().getDBAdapter().getSetting(this.appId, key);
+        if (ret != null) {
+            callbackContext.success(ret);
+        }
+        else {
+            callbackContext.error( "'" + key + "' isn't exist value.");
+        }
     }
 
-    private void titleBar_showActivityIndicator(JSONArray args, CallbackContext callbackContext) throws Exception {
-        // TODO - NOT IMPLEMENTED - HANDLE SEVERAL DAPPS CALLING THIS IN PARALLEL
-        getTitleBar().showProgress();
-        getTitleBar().setProgress(50);
-        callbackContext.success();
+    protected void getSettings(JSONArray args, CallbackContext callbackContext) throws Exception {
+        JSONObject ret = AppManager.getShareInstance().getDBAdapter().getSettings(this.appId);
+        callbackContext.success(ret);
     }
 
-    private void titleBar_hideActivityIndicator(JSONArray args, CallbackContext callbackContext) throws Exception {
-        // TODO - NOT IMPLEMENTED - HANDLE SEVERAL DAPPS CALLING THIS IN PARALLEL
-        getTitleBar().hideProgress();
-        callbackContext.success();
+
+    protected void setSetting(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String key = args.getString(0);
+        Object value = args.get(1);
+        if (value.toString().equals("null")) {
+            value = null;
+        }
+        AppManager.getShareInstance().getDBAdapter().setSetting(this.appId, key, value);
+        callbackContext.success("ok");
     }
 
-    private void titleBar_setTitle(JSONArray args, CallbackContext callbackContext) throws Exception {
-        // TODO - NOT IMPLEMENTED - HANDLE SEVERAL DAPPS CALLING THIS IN PARALLEL
-        System.out.println("TITLEBAR SET TITLE TODO");
-        callbackContext.success();
+    protected void getPreference(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String key = args.getString(0);
+
+        JSONObject ret = PreferenceManager.getShareInstance().getPreference(key);
+        if (ret != null) {
+            callbackContext.success(ret);
+        }
+        else {
+            callbackContext.error( "'" + key + "' isn't exist value.");
+        }
     }
+
+    protected void getPreferences(JSONArray args, CallbackContext callbackContext) throws Exception {
+        JSONObject ret = PreferenceManager.getShareInstance().getPreferences();
+        callbackContext.success(ret);
+    }
+
+
+    protected void setPreference(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String key = args.getString(0);
+        Object value = args.get(1);
+        if (value.toString().equals("null")) {
+            value = null;
+        }
+        PreferenceManager.getShareInstance().setPreference(key, value);
+        callbackContext.success("ok");
+    }
+
+    protected void resetPreferences(JSONArray args, CallbackContext callbackContext) throws Exception {
+        AppManager.getShareInstance().getDBAdapter().resetPreferences();
+        callbackContext.success("ok");
+    }
+
+    protected void broadcastMessage(JSONArray args, CallbackContext callbackContext) throws Exception {
+        Integer type = args.getInt(0);
+        String msg = args.getString(1);
+        AppManager.getShareInstance().broadcastMessage(type, msg, this.appId);
+        callbackContext.success("ok");
+    }
+
+    //-------------------------------------------------------------------------
+    private boolean checkIntentScheme(String url) {
+        return IntentManager.checkTrinityScheme(url);// && (!isUrlApp() || url.contains("callbackurl="));
+    }
+
+    private Boolean isInUrlWhitelist() {
+        return ConfigManager.getShareInstance().stringArrayContains("url.authority.whitelist", appId);
+    }
+
+    @Override
+    public Boolean shouldAllowNavigation(String url) {
+        if (isInUrlWhitelist()) {
+            return true;
+        }
+        else if (appManager.isLauncher(this.appId)) {
+            return true;
+        }
+        else if (checkIntentScheme(url)) {
+            try {
+                IntentManager.getShareInstance().sendIntentByUri(Uri.parse(url), this.appId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        return null;
+    }
+
+    @Override
+    public Boolean shouldAllowRequest(String url) {
+        if (isInUrlWhitelist()) {
+            return true;
+        }
+        else if (appManager.isLauncher(this.appId)) {
+            return true;
+        }
+        else if (checkIntentScheme(url)) {
+            try {
+                IntentManager.getShareInstance().sendIntentByUri(Uri.parse(url), this.appId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        if (url.startsWith("asset://www/cordova") || url.startsWith("asset://www/plugins")
+                || url.startsWith("trinity:///asset/") || url.startsWith("trinity:///data/")
+                || url.startsWith("trinity:///temp/")) {
+            return true;
+        }
+
+        if (isChangeIconPath && url.startsWith("icon://")) {
+            return true;
+        }
+
+        return null;
+    }
+
+    @Override
+    public Uri remapUri(Uri uri) {
+        String url = uri.toString();
+        if (isChangeIconPath && url.startsWith("icon://")) {
+            String str = url.substring(7);
+            int index = str.indexOf("/");
+            if (index > 0) {
+                String app_id = str.substring(0, index);
+                AppInfo info = appManager.getAppInfo(app_id);
+                if (info != null) {
+                    index = Integer.valueOf(str.substring(index + 1));
+                    AppInfo.Icon icon = info.icons.get(index);
+                    String appUrl = appManager.getIconUrl(info);
+                    url = appManager.resetPath(appUrl, icon.src);
+                }
+            }
+        }
+        else if ("asset".equals(uri.getScheme())) {;
+            url = "file:///android_asset/www" + uri.getPath();
+        }
+        else if (url.startsWith("trinity:///asset/")) {
+            AppInfo info = appManager.getAppInfo(this.appId);
+            url = appManager.getAppUrl(info) + url.substring(17);
+        }
+        else if (url.startsWith("trinity:///data/")) {
+            url = appManager.getDataUrl(this.appId) + url.substring(16);
+        }
+        else if (url.startsWith("trinity:///temp/")) {
+            url = appManager.getTempUrl(this.appId) + url.substring(16);
+        }
+//        else if (checkIntentScheme(url)) {
+//            try {
+//                IntentManager.getShareInstance().sendIntentByUri(uri, this.appId);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+        else {
+            return null;
+        }
+
+        uri = Uri.parse(url);
+        return uri;
+    }
+
 }

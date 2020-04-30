@@ -1,28 +1,26 @@
 ===================================================================
 --- origin_platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndNavigationFilter/CDVIntentAndNavigationFilter.h	null
 +++ platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndNavigationFilter/CDVIntentAndNavigationFilter.h	null
-@@ -28,6 +28,9 @@
-
+@@ -34,6 +34,9 @@
+ 
  @interface CDVIntentAndNavigationFilter : CDVPlugin <NSXMLParserDelegate>
-
+ 
 +@property (nonatomic, readwrite) CDVWhitelist* allowIntentsWhitelist;
 +@property (nonatomic, readwrite) CDVWhitelist* allowNavigationsWhitelist;
 +
  + (CDVIntentAndNavigationFilterValue) filterUrl:(NSURL*)url intentsWhitelist:(CDVWhitelist*)intentsWhitelist navigationsWhitelist:(CDVWhitelist*)navigationsWhitelist;
- + (BOOL)shouldOverrideLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType filterValue:(CDVIntentAndNavigationFilterValue)filterValue;
- + (BOOL)shouldOpenURLRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType;
+ + (BOOL)shouldOverrideLoadWithRequest:(NSURLRequest*)request navigationType:(CDVWebViewNavigationType)navigationType filterValue:(CDVIntentAndNavigationFilterValue)filterValue;
+ + (BOOL)shouldOpenURLRequest:(NSURLRequest*)request navigationType:(CDVWebViewNavigationType)navigationType;
 ===================================================================
 --- origin_platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndNavigationFilter/CDVIntentAndNavigationFilter.m	null
 +++ platforms/ios/CordovaLib/Classes/Private/Plugins/CDVIntentAndNavigationFilter/CDVIntentAndNavigationFilter.m	null
-@@ -24,8 +24,8 @@
-
+@@ -24,8 +24,6 @@
+ 
  @property (nonatomic, readwrite) NSMutableArray* allowIntents;
  @property (nonatomic, readwrite) NSMutableArray* allowNavigations;
 -@property (nonatomic, readwrite) CDVWhitelist* allowIntentsWhitelist;
 -@property (nonatomic, readwrite) CDVWhitelist* allowNavigationsWhitelist;
-+//@property (nonatomic, readwrite) CDVWhitelist* allowIntentsWhitelist;
-+//@property (nonatomic, readwrite) CDVWhitelist* allowNavigationsWhitelist;
-
+ 
  @end
 
 ===================================================================
@@ -99,30 +97,26 @@
 ===================================================================
 --- origin_platforms/ios/CordovaLib/Classes/Public/CDVViewController.m	null
 +++ platforms/ios/CordovaLib/Classes/Public/CDVViewController.m	null
-@@ -34,10 +34,10 @@
+@@ -33,10 +33,6 @@
  }
-
+ 
  @property (nonatomic, readwrite, strong) NSXMLParser* configParser;
 -@property (nonatomic, readwrite, strong) NSMutableDictionary* settings;
 -@property (nonatomic, readwrite, strong) NSMutableDictionary* pluginObjects;
 -@property (nonatomic, readwrite, strong) NSMutableArray* startupPluginNames;
 -@property (nonatomic, readwrite, strong) NSDictionary* pluginsMap;
-+//@property (nonatomic, readwrite, strong) NSMutableDictionary* settings;
-+//@property (nonatomic, readwrite, strong) NSMutableDictionary* pluginObjects;
-+//@property (nonatomic, readwrite, strong) NSMutableArray* startupPluginNames;
-+//@property (nonatomic, readwrite, strong) NSDictionary* pluginsMap;
  @property (nonatomic, readwrite, strong) id <CDVWebViewEngineProtocol> webViewEngine;
-
+ 
  @property (readwrite, assign) BOOL initialized;
-@@ -661,7 +661,7 @@
-
+@@ -650,7 +646,7 @@
+ 
      id obj = [self.pluginObjects objectForKey:className];
      if (!obj) {
 -        obj = [[NSClassFromString(className)alloc] initWithWebViewEngine:_webViewEngine];
 +        obj = [[[NSClassFromString(className)alloc] init] initWithWebViewEngine:_webViewEngine];
-
-         if (obj != nil) {
-             [self registerPlugin:obj withClassName:className];
+         if (!obj) {
+             NSString* fullClassName = [NSString stringWithFormat:@"%@.%@",
+                                        NSBundle.mainBundle.infoDictionary[@"CFBundleExecutable"],
 ===================================================================
 --- origin_platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.h	null
 +++ platforms/ios/CordovaLib/Classes/Public/CDVWhitelist.h	null
@@ -213,30 +207,29 @@
  //
 
  #import <Cordova/CDV.h>
-+#import "SSZipArchive.h"
 +#import "TrinityPlugin.h"
 +#import <CommonCrypto/CommonDigest.h>
 
 ===================================================================
 --- origin_platforms/ios/CordovaLib/Classes/Public/CDVPlugin.h	null
 +++ platforms/ios/CordovaLib/Classes/Public/CDVPlugin.h	null
-@@ -60,6 +60,7 @@
-
+@@ -49,6 +49,7 @@
+ 
  @property (nonatomic, weak) UIViewController* viewController;
  @property (nonatomic, weak) id <CDVCommandDelegate> commandDelegate;
 +@property (nonatomic, readwrite, copy) NSString* pluginName;
-
+ 
  @property (readonly, assign) BOOL hasPendingOperation;
 
 ===================================================================
 --- origin_platforms/ios/CordovaLib/Classes/Public/CDVPlugin.m	null
 +++ platforms/ios/CordovaLib/Classes/Public/CDVPlugin.m	null
-@@ -63,7 +63,7 @@
+@@ -60,7 +60,7 @@
  @end
-
+ 
  @implementation CDVPlugin
 -@synthesize webViewEngine, viewController, commandDelegate, hasPendingOperation;
 +@synthesize webViewEngine, viewController, commandDelegate, hasPendingOperation, pluginName;
  @dynamic webView;
-
+ 
  // Do not override these methods. Use pluginInitialize instead.

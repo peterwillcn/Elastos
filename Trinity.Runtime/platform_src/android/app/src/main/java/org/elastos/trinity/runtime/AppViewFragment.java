@@ -43,8 +43,13 @@ import java.util.ArrayList;
         System.out.println("in finalize");
     }
 
+    private boolean isPluginAllowedToLoad(String name) {
+        for (String item : AppManager.defaultPlugins) {
+            if (item.equals(name)) {
+                return true;
+            }
+        }
 
-    private boolean isCheckAuthority(String name) {
         for (AppInfo.PluginAuth pluginAuth : appInfo.plugins) {
             if (pluginAuth.plugin.equals(name)) {
                 return true;
@@ -55,6 +60,8 @@ import java.util.ArrayList;
 
     @Override
     protected void loadConfig() {
+        AppManager.getShareInstance().getDBAdapter().resetApiDenyAuth(id);
+
         pluginEntries = new ArrayList<PluginEntry>(20);
         preferences = cfgPreferences;
 
@@ -71,7 +78,7 @@ import java.util.ArrayList;
             else {
                 pluginClass = entry.pluginClass;
                 CordovaPlugin plugin = null;
-                if (isCheckAuthority(entry.service) || entry.service.equals("AppManager")) {
+                if (isPluginAllowedToLoad(entry.service)) {
                     pluginClass = "org.elastos.plugins.appmanager.AuthorityPlugin";
                     plugin = new AuthorityPlugin(entry.pluginClass, appInfo, entry.service, whitelistPlugin, permissionGroup);
                     if (entry.service.equals("AppManager")) {

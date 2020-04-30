@@ -1,7 +1,8 @@
 {
     "org.elastos.trinity.dapp.wallet": "wallet",
-    "org.elastos.trinity.dapp.installer": "installer",
-    "org.elastos.trinity.dapp.dappstore": "dappstore",
     "org.elastos.trinity.dapp.friends": "friends",
-    "org.elastos.trinity.dapp.settings": "settings"
+    "org.elastos.trinity.dapp.settings": "settings",
+    "org.elastos.trinity.dapp.did": "did",
+    "org.elastos.trinity.dapp.didsession": "didsession",
+    "org.elastos.trinity.dapp.passwordmanager": "passwordmanager"
 }

@@ -1,10 +1,10 @@
 {
-    "version": "1.0.1",
-    "install.verifyDigest": false,
-    "did.resolver": "http://api.elastos.io:20606",
-    "whitelist.urls": [
-        "https://sentry.io/*"
-    ],
-
-    "wallet.netType": "MainNet"
+    "locale.language": "native system",
+    "developer.mode": false,
+    "developer.install.verifyDigest": false,
+    "ui.darkmode": true,
+    "chain.network.type": "MainNet",
+    "chain.network.config": "",
+    "chain.network.configurl": "",
+    "did.resolver": "http://api.elastos.io:20606"
 }

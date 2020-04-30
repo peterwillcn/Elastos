@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IntentActionChooserItemView" customModule="elastOS" customModuleProvider="target">
+            <connections>
+                <outlet property="appNameView" destination="o6a-NZ-Xlr" id="puX-aq-WaW"/>
+                <outlet property="iconView" destination="JfR-ZN-QWO" id="buZ-oY-Gnd"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="428" height="50"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JfR-ZN-QWO">
+                    <rect key="frame" x="5" y="5" width="40" height="40"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="DLR-B5-RvS"/>
+                        <constraint firstAttribute="width" constant="40" id="h8r-U2-GGJ"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="o6a-NZ-Xlr" userLabel="App name">
+                    <rect key="frame" x="65" y="0.0" width="363" height="50"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="JfR-ZN-QWO" secondAttribute="bottom" constant="5" id="44M-GB-qgS"/>
+                <constraint firstAttribute="trailing" secondItem="o6a-NZ-Xlr" secondAttribute="trailing" id="8nd-2w-KCp"/>
+                <constraint firstItem="JfR-ZN-QWO" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="b5H-hE-y5K"/>
+                <constraint firstItem="JfR-ZN-QWO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="5" id="exq-3z-QRu"/>
+                <constraint firstItem="o6a-NZ-Xlr" firstAttribute="leading" secondItem="JfR-ZN-QWO" secondAttribute="trailing" constant="20" id="gL1-Eg-lzm"/>
+                <constraint firstAttribute="bottom" secondItem="o6a-NZ-Xlr" secondAttribute="bottom" id="nId-Xd-tki"/>
+                <constraint firstItem="o6a-NZ-Xlr" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="zbb-eA-b9b"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="fjJ-Ee-Bre" appends="YES" id="b2u-CC-ZeD"/>
+            </connections>
+            <point key="canvasLocation" x="147.82608695652175" y="-201.22767857142856"/>
+        </view>
+        <tapGestureRecognizer id="fjJ-Ee-Bre">
+            <connections>
+                <action selector="onViewTapped:" destination="-1" id="gtO-Gr-33d"/>
+            </connections>
+        </tapGestureRecognizer>
+    </objects>
+</document>

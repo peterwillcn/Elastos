@@ -29,13 +29,14 @@ import android.content.DialogInterface;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 
 import org.apache.cordova.PluginManager;
+import org.elastos.trinity.runtime.passwordmanager.PasswordManager;
 import org.json.JSONException;
 
 import java.io.File;
@@ -103,20 +104,17 @@ public class AppManager {
     private ArrayList<Uri>          intentUriList = new ArrayList<Uri>();
     private PermissionManager permissionManager;
     private boolean launcherReady = false;
-    private String currentLocale = "en";
 
-    final String[] defaultPlugins = {
+    final static String[] defaultPlugins = {
             "AppManager",
-            "SplashScreen",
             "StatusBar",
-            "Clipboard"
-
+            "Clipboard",
+            "TitleBarPlugin"
     };
 
     AppManager(WebViewActivity activity) {
         AppManager.appManager = this;
         this.activity = activity;
-        new IntentManager(this);
         permissionManager = new PermissionManager(activity);
 
         appsPath = activity.getFilesDir() + "/apps/";
@@ -147,6 +145,8 @@ public class AppManager {
         installer = new AppInstaller();
         installer.init(activity, dbAdapter, appsPath, dataPath, tempPath);
 
+        PasswordManager.getSharedInstance().setAppManager(this);
+
         refreashInfos();
         getLauncherInfo();
         saveLauncher();
@@ -159,11 +159,19 @@ public class AppManager {
         saveBuiltInApps();
         refreashInfos();
         sendRefreshList("initiated", null);
+
+        if (PreferenceManager.getShareInstance().getDeveloperMode()) {
+//            CLIService.getShareInstance().start();
+        }
     }
 
 
     public static AppManager getShareInstance() {
         return AppManager.appManager;
+    }
+
+    public ManagerDBAdapter getDBAdapter() {
+        return dbAdapter;
     }
 
     private InputStream getAssetsFile(String path) {
@@ -197,7 +205,8 @@ public class AppManager {
         AppInfo installedInfo = getAppInfo(id);
         Boolean needInstall = true;
         if (installedInfo != null) {
-            if (builtInInfo.version_code > installedInfo.version_code) {
+            boolean versionChanged = PreferenceManager.getShareInstance().versionChanged;
+            if (versionChanged || builtInInfo.version_code > installedInfo.version_code) {
                 Log.d("AppManager", "built in version > installed version: uninstalling installed");
                 installer.unInstall(installedInfo, true);
             }
@@ -417,6 +426,8 @@ public class AppManager {
         return configPath;
     }
 
+
+
     public String getIconUrl(AppInfo info) {
         if (info.type.equals("url")) {
             return "file://" + appsPath + info.app_id + "/";
@@ -424,6 +435,15 @@ public class AppManager {
         else {
             return getAppUrl(info);
         }
+    }
+
+    public String[] getIconPaths(AppInfo info) {
+        String path = getAppPath(info);
+        String[] iconPaths = new String[info.icons.size()];
+        for (int i = 0; i < info.icons.size(); i++) {
+            iconPaths[i] = path + info.icons.get(i).src;
+        }
+        return iconPaths;
     }
 
     public String resetPath(String dir, String origin) {
@@ -441,20 +461,22 @@ public class AppManager {
         AppInfo info = installer.install(url, update);
         if (info != null) {
             refreashInfos();
+
+            if (info.launcher == 1) {
+                sendRefreshList("launcher_upgraded", info);
+            }
+            else {
+                sendRefreshList("installed", info);
+            }
         }
-        if (info.launcher == 1) {
-            sendRefreshList("launcher_upgraded", info);
-        }
-        else {
-            sendRefreshList("installed", info);
-        }
+
         return info;
     }
 
     public void unInstall(String id, boolean update) throws Exception {
         close(id);
         AppInfo info = appInfos.get(id);
-        installer.unInstall(appInfos.get(id), update);
+        installer.unInstall(info, update);
         refreashInfos();
         if (!update) {
            if (info.built_in == 1) {
@@ -465,7 +487,7 @@ public class AppManager {
         }
     }
 
-    public WebViewFragment findFragmentById(String id) {
+    public WebViewFragment getFragmentById(String id) {
         if (isLauncher(id)) {
             id = LAUNCHER;
         }
@@ -497,12 +519,9 @@ public class AppManager {
             }
 //            transaction.addToBackStack(null);
             transaction.commit();
-            curFragment = fragment;
         }
 
-        if (curFragment == null) {
-            curFragment = fragment;
-        }
+        curFragment = fragment;
 
         runningList.remove(id);
         runningList.add(0, id);
@@ -523,12 +542,21 @@ public class AppManager {
             lastList.add(1, id);
     }
 
+    Boolean isCurrentFragment(WebViewFragment fragment) {
+        return (fragment == curFragment);
+    }
+
     public boolean doBackPressed() {
         if (launcherInfo == null || curFragment == null || isLauncher(curFragment.id)) {
             return true;
         }
         else {
-            switchContent(findFragmentById(launcherInfo.app_id), launcherInfo.app_id);
+            switchContent(getFragmentById(launcherInfo.app_id), launcherInfo.app_id);
+            try {
+                AppManager.getShareInstance().sendLauncherMessageMinimize(curFragment.id);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return false;
         }
     }
@@ -539,7 +567,7 @@ public class AppManager {
             throw new Exception("No such app!");
         }
 
-        WebViewFragment fragment = findFragmentById(id);
+        WebViewFragment fragment = getFragmentById(id);
         if (fragment == null) {
             fragment = WebViewFragment.newInstance(id);
             if (!isLauncher(id)) {
@@ -570,16 +598,18 @@ public class AppManager {
         setAppVisible(id, info.start_visible);
 
         FragmentManager manager = activity.getSupportFragmentManager();
-        WebViewFragment fragment = findFragmentById(id);
+        WebViewFragment fragment = getFragmentById(id);
         if (fragment == null) {
             return;
         }
 
+        IntentManager.getShareInstance().removeAppFromIntentList(id);
+
         if (fragment == curFragment) {
             String id2 = lastList.get(1);
-            WebViewFragment fragment2 = findFragmentById(id2);
+            WebViewFragment fragment2 = getFragmentById(id2);
             if (fragment2 == null) {
-                fragment2 = findFragmentById(LAUNCHER);
+                fragment2 = getFragmentById(LAUNCHER);
                 if (fragment2 == null) {
                     throw new Exception("RT inner error!");
                 }
@@ -596,21 +626,44 @@ public class AppManager {
         sendRefreshList("closed", info);
     }
 
+    /**
+     * Closes all running apps, except the launch app.
+     */
+    public void closeAll() throws Exception {
+        for (String appId : getRunningList()) {
+            close(appId);
+        }
+    }
+
     public void loadLauncher() throws Exception {
         start(LAUNCHER);
     }
 
-    private void installUri(String uri, boolean dev) {
-        if (dev) {
-            try {
-                install(uri, true);
-            }
-            catch (Exception e) {
-                Utility.alertPrompt("Error", e.getLocalizedMessage(), this.activity);
+    public void checkInProtectList(String uri) throws Exception {
+        AppInfo info = installer.getInfoFromUrl(uri);
+        if (info != null && info.app_id != "" ) {
+            String[] protectList = ConfigManager.getShareInstance().getStringArrayValue(
+                    "dapp.protectList", new String[0]);
+            for (String item : protectList) {
+                if (item.equalsIgnoreCase(info.app_id)) {
+                    throw new Exception("Don't allow install '" + info.app_id + "' by the third party app.");
+                }
             }
         }
-        else {
-            sendInstallMsg(uri);
+    }
+
+    private void installUri(String uri, boolean dev) {
+        try {
+            if (dev && PreferenceManager.getShareInstance().getDeveloperMode()) {
+                install(uri, true);
+            }
+            else {
+                checkInProtectList(uri);
+                sendInstallMsg(uri);
+            }
+        }
+        catch (Exception e) {
+            Utility.alertPrompt("Install Error", e.getLocalizedMessage(), this.activity);
         }
     }
 
@@ -658,8 +711,13 @@ public class AppManager {
         sendMessage(LAUNCHER, type, msg, fromId);
     }
 
+    public void sendLauncherMessageMinimize(String fromId) throws Exception {
+        sendLauncherMessage(AppManager.MSG_TYPE_INTERNAL,
+                "{\"action\":\"minimize\"}", fromId);
+    }
+
     private void sendInstallMsg(String uri) {
-        String msg = "{\"uri\":\"" + uri + "\"}";
+        String msg = "{\"uri\":\"" + uri + "\", \"dev\":\"false\"}";
         try {
             sendLauncherMessage(MSG_TYPE_EX_INSTALL, msg, "system");
         }
@@ -685,7 +743,7 @@ public class AppManager {
     }
 
     public void sendMessage(String toId, int type, String msg, String fromId) throws Exception {
-        WebViewFragment fragment = findFragmentById(toId);
+        WebViewFragment fragment = getFragmentById(toId);
         if (fragment != null) {
             fragment.basePlugin.onReceive(msg, type, fromId);
         }
@@ -694,7 +752,7 @@ public class AppManager {
         }
     }
 
-    public void sendMessageToAll(int type, String msg, String fromId) {
+    public void broadcastMessage(int type, String msg, String fromId) {
         FragmentManager manager = activity.getSupportFragmentManager();
         List<Fragment> fragments = manager.getFragments();
 
@@ -705,17 +763,6 @@ public class AppManager {
             }
         }
     }
-
-    public void setCurrentLocale(String code) {
-        currentLocale = code;
-        sendMessageToAll(MSG_TYPE_IN_REFRESH,
-                "{\"action\":\"currentLocaleChanged\", \"code\":\"" + code + "\"}", LAUNCHER);
-    }
-
-    public String getCurrentLocale() {
-        return currentLocale;
-    }
-
 
     public int getPluginAuthority(String id, String plugin) {
         for (String item : defaultPlugins) {
@@ -811,7 +858,6 @@ public class AppManager {
     public synchronized int runAlertPluginAuth(AppInfo info, String plugin, int originAuthority) {
         try {
             synchronized (pluginLock) {
-                pluginLock.authority = originAuthority;
                 pluginLock.authority = getPluginAuthority(info.app_id, plugin);
                 if (pluginLock.authority != originAuthority) {
                     return pluginLock.authority;

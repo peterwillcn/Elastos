@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="org.elastos.trinity.runtime" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-packageName="org.elastos.trinity.runtime" ios-CFBundleIdentifier="org.elastos.trinity.browser" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>elastOS</name>
     <description>
         A elastos dapps runtime.
@@ -18,8 +18,14 @@
     <allow-intent href="geo:*" />
     <platform name="android">
         <allow-intent href="market:*" />
+        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest">
+            <manifest xmlns:tools="http://schemas.android.com/tools" />
+        </edit-config>
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
             <application android:usesCleartextTraffic="true" />
+            <application android:allowBackup="false"/>
+            <application android:fullBackupContent="false"/>
+            <application tools:replace="android:allowBackup"/>
         </edit-config>
     </platform>
     <platform name="ios">
@@ -27,19 +33,33 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+
     <preference name="AndroidLaunchMode" value="singleTask" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="ShowSplashScreenSpinner" value="false" />
+    <preference name="SplashMaintainAspectRatio" value="true" />
+
+    <preference name="KeyboardResizeMode" value="ionic" />
+
+    <preference name="WKWebViewOnly" value="true" />
+    <feature name="CDVWKWebViewEngine">
+        <param name="ios-package" value="CDVWKWebViewEngine" />
+    </feature>
+    <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
+
     <hook src="scripts/download_3rdparty.js" type="after_platform_add" />
     <hook src="scripts/merge_folders.js" type="after_platform_add" />
     <hook src="scripts/apply_patches.js" type="after_platform_add" />
     <hook src="scripts/remove_files.js" type="after_platform_add" />
     <hook src="scripts/modify_xcode_project.js" type="after_platform_add" />
     <hook src="scripts/apply_patches.js" type="before_plugin_install" />
+    <hook src="scripts/remove_files.js" type="after_prepare" />
     <hook src="scripts/apply_patches.js" type="after_build" />
     <plugin name="elastos-trinity-plugins-appmanager" spec="./plugin_src/AppManager">
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
     </plugin>
+    <plugin name="elastos-trinity-plugins-titlebarmanager" spec="./plugin_src/TitleBarManager" />
+    <plugin name="elastos-trinity-plugins-passwordmanager" spec="./plugin_src/PasswordManager" />
     <plugin name="cordova-plugin-file" spec="../Plugins/File" />
     <plugin name="elastos-trinity-plugins-carrier" spec="../Plugins/Carrier" />
     <plugin name="elastos-trinity-plugins-did" spec="../Plugins/DID" />
@@ -67,6 +87,6 @@
     <plugin name="cordova-plugin-splashscreen" spec="^5.0.3" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.3" />
     <plugin name="cordova-plugin-vibration" spec="^3.1.1" />
-    <engine name="android" spec="7.1.4" />
+    <engine name="android" spec="8.1.0" />
     <engine name="ios" spec="5.1.1" />
 </widget>

@@ -23,26 +23,33 @@
 package org.elastos.trinity.runtime;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
- public class ManagerDBHelper extends SQLiteOpenHelper {
+public class ManagerDBHelper extends SQLiteOpenHelper {
+    private static final int DATABASE_VERSION = 5;
+
     private static final String DATABASE_NAME = "manager.db";
-    private static final int VERSION = 3;
     public static final String AUTH_PLUGIN_TABLE = "auth_plugin";
     public static final String AUTH_URL_TABLE = "auth_url";
     public static final String AUTH_INTENT_TABLE = "auth_intent";
+    public static final String AUTH_API_TABLE = "auth_api";
     public static final String ICONS_TABLE = "icons";
     public static final String LACALE_TABLE = "locale";
     public static final String FRAMEWORK_TABLE = "framework";
     public static final String PLATFORM_TABLE = "platform";
     public static final String SETTING_TABLE = "setting";
+    public static final String PREFERENCE_TABLE = "preference";
     public static final String INTENT_FILTER_TABLE = "intent";
     public static final String APP_TABLE = "app";
 
+    public static final String KEY = "key";
+    public static final String VALUE = "value";
+
     public ManagerDBHelper(Context context) {
-        super(context, DATABASE_NAME, null, VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     public ManagerDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -71,6 +78,13 @@ import android.util.Log;
         strSQL =  "create table " + AUTH_INTENT_TABLE + "(tid integer primary key autoincrement, " +
                 AppInfo.APP_TID + " integer, " +
                 AppInfo.URL + " varchar(256), " +
+                AppInfo.AUTHORITY + " integer)";
+        db.execSQL(strSQL);
+
+        strSQL =  "create table " + AUTH_API_TABLE + "(tid integer primary key autoincrement, " +
+                AppInfo.APP_ID + " varchar(128) NOT NULL, " +
+                AppInfo.PLUGIN + " varchar(128), " +
+                AppInfo.API + " varchar(128), " +
                 AppInfo.AUTHORITY + " integer)";
         db.execSQL(strSQL);
 
@@ -107,6 +121,17 @@ import android.util.Log;
                 AppInfo.ACTION + " varchar(64) NOT NULL)";
         db.execSQL(strSQL);
 
+        strSQL =  "create table " + SETTING_TABLE + "(tid integer primary key autoincrement, " +
+             AppInfo.APP_ID + " varchar(128) NOT NULL, " +
+             KEY + " varchar(128) NOT NULL, " +
+             VALUE + " varchar(2048) NOT NULL)";
+        db.execSQL(strSQL);
+
+        strSQL =  "create table " + PREFERENCE_TABLE + "(tid integer primary key autoincrement, " +
+             KEY + " varchar(128) NOT NULL, " +
+             VALUE + " varchar(2048) NOT NULL)";
+        db.execSQL(strSQL);
+
         strSQL = "create table " + APP_TABLE + "(tid integer primary key autoincrement, " +
                 AppInfo.APP_ID + " varchar(128) UNIQUE NOT NULL, " +
                 AppInfo.VERSION + " varchar(32) NOT NULL, " +
@@ -138,11 +163,14 @@ import android.util.Log;
         db.execSQL("DROP TABLE IF EXISTS " + AUTH_PLUGIN_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + AUTH_URL_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + AUTH_INTENT_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + AUTH_API_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + ICONS_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + LACALE_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + FRAMEWORK_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + PLATFORM_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + INTENT_FILTER_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + SETTING_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + PREFERENCE_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + APP_TABLE);
     }
 
@@ -150,14 +178,68 @@ import android.util.Log;
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Use the if (old < N) format to make sure users get all upgrades even if they directly upgrade from vN to v(N+5)
         if (oldVersion < 3) {
-               Log.d("ManagerDBHelper", "Upgrading database to v"+newVersion);
-               upgradeToV3(db);
+           Log.d("ManagerDBHelper", "Upgrading database to v3");
+           upgradeToV3(db);
         }
+        if (oldVersion < 4) {
+            Log.d("ManagerDBHelper", "Upgrading database to v4");
+            upgradeToV4(db);
+        }
+        if (oldVersion < 5) {
+            Log.d("ManagerDBHelper", "Upgrading database to v5");
+            upgradeToV5(db);
+        }
+    }
+
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // We need to override on downgrade otherwise if somehow the android phone tries to downgrade the database
+        // (happened to KP many times - unknown reason - 2020.03), then we get a crash
     }
 
     // 20191230 - Added "start_visible" field
     private void upgradeToV3(SQLiteDatabase db) {
-        String strSQL = "ALTER TABLE "+APP_TABLE+" ADD COLUMN "+AppInfo.START_VISIBLE+" varchar(32) default 'show'";
-        db.execSQL(strSQL);
+        try {
+            String strSQL = "ALTER TABLE " + APP_TABLE + " ADD COLUMN " + AppInfo.START_VISIBLE + " varchar(32) default 'show'";
+            db.execSQL(strSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Do nothing, intercept SQL errors - in case we try to apply an upgrade again after a strange downgrade from android
+            // (happened to KP many times - unknown reason - 2020.03)
+        }
+    }
+
+    // 20200311 - Added "setting and preference table"
+    private void upgradeToV4(SQLiteDatabase db) {
+        try {
+            String strSQL = "create table " + SETTING_TABLE + "(tid integer primary key autoincrement, " +
+                    AppInfo.APP_ID + " varchar(128) NOT NULL, " +
+                    KEY + " varchar(128) NOT NULL, " +
+                    VALUE + " varchar(2048) NOT NULL)";
+            db.execSQL(strSQL);
+
+            strSQL = "create table " + PREFERENCE_TABLE + "(tid integer primary key autoincrement, " +
+                    KEY + " varchar(128) NOT NULL, " +
+                    VALUE + " varchar(2048) NOT NULL)";
+            db.execSQL(strSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Do nothing, intercept SQL errors - in case we try to apply an upgrade again after a strange downgrade from android
+            // (happened to KP many times - unknown reason - 2020.03)
+        }
+    }
+
+    // 20200409 - Added "api auth table"
+    private void upgradeToV5(SQLiteDatabase db) {
+        try {
+            String  strSQL =  "create table " + AUTH_API_TABLE + "(tid integer primary key autoincrement, " +
+                    AppInfo.APP_ID + " varchar(128) NOT NULL, " +
+                    AppInfo.PLUGIN + " varchar(128), " +
+                    AppInfo.API + " varchar(128), " +
+                    AppInfo.AUTHORITY + " integer)";
+            db.execSQL(strSQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

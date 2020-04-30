@@ -1,0 +1,24 @@
+{
+  "name": "didsessionmanager",
+  "version": "1.0.0",
+  "description": "Elastos DIDSessionManager Plugin",
+  "cordova": {
+    "id": "elastos-trinity-plugins-didsessionmanager",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "keywords": [
+    "cordova",
+    "didsessionmanager",
+    "trinity",
+    "elastos",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "cordova-browser"
+  ],
+  "author": "Elastos Foundation",
+  "license": "MIT"
+}

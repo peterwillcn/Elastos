@@ -1,80 +1,31 @@
 ===================================================================
 --- origin_platforms/android/CordovaLib/build.gradle	null
 +++ platforms/android/CordovaLib/build.gradle	null
-@@ -24,6 +24,7 @@
-
- buildscript {
-     repositories {
-+        google()
-         maven {
-             url "https://maven.google.com"
-         }
-@@ -31,7 +32,7 @@
-     }
-
+@@ -31,7 +31,7 @@
      dependencies {
--        classpath 'com.android.tools.build:gradle:3.0.1'
+         // The gradle plugin and the maven plugin have to be updated after each version of Android
+         // studio comes out
+-        classpath 'com.android.tools.build:gradle:3.3.0'
 +        classpath 'com.android.tools.build:gradle:3.5.3'
-         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
          classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
      }
 ===================================================================
 --- origin_platforms/android/app/build.gradle	null
 +++ platforms/android/app/build.gradle	null
-@@ -21,6 +21,7 @@
-
- buildscript {
-     repositories {
-+        google()
-         mavenCentral()
-         maven {
-             url "https://maven.google.com"
-@@ -29,7 +30,7 @@
+@@ -27,7 +27,7 @@
      }
 
      dependencies {
--        classpath 'com.android.tools.build:gradle:3.0.1'
+-        classpath 'com.android.tools.build:gradle:3.3.0'
 +        classpath 'com.android.tools.build:gradle:3.5.3'
      }
  }
 
-@@ -145,31 +146,43 @@
-     return computeBuildTargetName(false)
- }
-
--task cdvPrintProps << {
--    println('cdvCompileSdkVersion=' + cdvCompileSdkVersion)
--    println('cdvBuildToolsVersion=' + cdvBuildToolsVersion)
--    println('cdvVersionCode=' + cdvVersionCode)
--    println('cdvVersionCodeForceAbiDigit=' + cdvVersionCodeForceAbiDigit)
--    println('cdvMinSdkVersion=' + cdvMinSdkVersion)
--    println('cdvBuildMultipleApks=' + cdvBuildMultipleApks)
--    println('cdvReleaseSigningPropertiesFile=' + cdvReleaseSigningPropertiesFile)
--    println('cdvDebugSigningPropertiesFile=' + cdvDebugSigningPropertiesFile)
--    println('cdvBuildArch=' + cdvBuildArch)
--    println('computedVersionCode=' + android.defaultConfig.versionCode)
--    android.productFlavors.each { flavor ->
--        println('computed' + flavor.name.capitalize() + 'VersionCode=' + flavor.versionCode)
-+task cdvPrintProps {
-+    doLast {
-+        println('cdvCompileSdkVersion=' + cdvCompileSdkVersion)
-+        println('cdvBuildToolsVersion=' + cdvBuildToolsVersion)
-+        println('cdvVersionCode=' + cdvVersionCode)
-+        println('cdvVersionCodeForceAbiDigit=' + cdvVersionCodeForceAbiDigit)
-+        println('cdvMinSdkVersion=' + cdvMinSdkVersion)
-+        println('cdvBuildMultipleApks=' + cdvBuildMultipleApks)
-+        println('cdvReleaseSigningPropertiesFile=' + cdvReleaseSigningPropertiesFile)
-+        println('cdvDebugSigningPropertiesFile=' + cdvDebugSigningPropertiesFile)
-+        println('cdvBuildArch=' + cdvBuildArch)
-+        println('computedVersionCode=' + android.defaultConfig.versionCode)
-+        android.productFlavors.each { flavor ->
-+            println('computed' + flavor.name.capitalize() + 'VersionCode=' + flavor.versionCode)
-+        }
-     }
+@@ -182,12 +182,15 @@
  }
 
  android {
-
 +    useLibrary 'org.apache.http.legacy'
 +
      defaultConfig {
@@ -86,9 +37,16 @@
 +        } else {
 +            minSdkVersion 21
          }
+
+         if (cdvMaxSdkVersion != null) {
+@@ -197,6 +200,14 @@
+         if(cdvTargetSdkVersion != null) {
+             targetSdkVersion cdvTargetSdkVersion
+         }
++
 +        targetSdkVersion 28
-+        versionCode 10000
-+        versionName "1.0.1"
++        versionCode 10005
++        versionName "1.1.00"
 +    }
 +
 +    sourceSets {
@@ -96,43 +54,42 @@
      }
 
      lintOptions {
-@@ -263,6 +276,7 @@
+@@ -291,6 +302,17 @@
 
  dependencies {
      implementation fileTree(dir: 'libs', include: '*.jar')
-+    implementation 'io.jsonwebtoken:jjwt:0.9.0'
++    implementation 'com.fasterxml.jackson.core:jackson-core:2.9.9'
++    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.9'
++    api 'io.jsonwebtoken:jjwt-api:0.11.1'
++    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.1'
++    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.0'
++    runtimeOnly('io.jsonwebtoken:jjwt-orgjson:0.11.1') {
++        exclude group: 'org.json', module: 'json' //provided by Android natively
++    }
 +    implementation 'com.android.support:appcompat-v7:23.1.1'
++    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
++    implementation 'androidx.cardview:cardview:1.0.0'
      // SUB-PROJECT DEPENDENCIES START
      implementation(project(path: ":CordovaLib"))
      // SUB-PROJECT DEPENDENCIES END
-}
-
 ===================================================================
 --- origin_platforms/android/build.gradle	null
 +++ platforms/android/build.gradle	null
-@@ -20,6 +20,7 @@
-
- buildscript {
-     repositories {
-+        google()
-         maven {
-             url "https://maven.google.com"
-         }
-@@ -29,7 +30,7 @@
-
+@@ -28,7 +28,7 @@
          // NOTE: Do not place your application dependencies here; they belong
          // in the individual module build.gradle files
--        classpath 'com.android.tools.build:gradle:3.0.1'
+
+-        classpath 'com.android.tools.build:gradle:3.3.0'
 +        classpath 'com.android.tools.build:gradle:3.5.3'
      }
  }
 
-@@ -43,7 +44,7 @@
+@@ -41,7 +41,7 @@
      //This replaces project.properties w.r.t. build settings
      project.ext {
-       defaultBuildToolsVersion="27.0.1" //String
+       defaultBuildToolsVersion="28.0.3" //String
 -      defaultMinSdkVersion=19 //Integer - Minimum requirement is Android 4.4
 +      defaultMinSdkVersion=21 //Integer - Minimum requirement is Android 5
-       defaultTargetSdkVersion=27 //Integer - We ALWAYS target the latest by default
-       defaultCompileSdkVersion=27 //Integer - We ALWAYS compile with the latest by default
+       defaultTargetSdkVersion=28 //Integer - We ALWAYS target the latest by default
+       defaultCompileSdkVersion=28 //Integer - We ALWAYS compile with the latest by default
      }

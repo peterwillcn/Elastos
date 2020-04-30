@@ -11,13 +11,13 @@
   "license": "Apache-2.0",
   "dependencies": {
     "appmanager": "file:./plugin_src/AppManager",
-    "cordova-android": "7.1.4",
+    "titlebarmanager": "file:./plugin_src/TitleBarManager",
+    "cordova-android": "8.1.0",
     "cordova-clipboard": "1.2.1",
     "cordova-ios": "5.1.1",
     "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-battery-status": "^2.0.3",
     "cordova-plugin-camera": "^4.1.0",
-    "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-device": "^2.0.3",
     "cordova-plugin-device-motion": "^2.0.1",
     "cordova-plugin-dialogs": "^2.0.2",
@@ -89,12 +89,16 @@
       },
       "elastos-trinity-plugins-fingerprint": {
         "FACEID_USAGE_DESCRIPTION": " "
-      }
+      },
+      "elastos-trinity-plugins-titlebarmanager": {},
+      "elastos-trinity-plugins-passwordmanager": {}
     },
     "platforms": [
       "android",
       "ios"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "elastos-trinity-plugins-titlebarmanager": "./plugin_src/TitleBarManager"
+  }
 }

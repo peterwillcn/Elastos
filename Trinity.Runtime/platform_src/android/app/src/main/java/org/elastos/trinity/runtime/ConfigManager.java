@@ -8,17 +8,18 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 
+//For publish config
 public class ConfigManager {
     private static ConfigManager configManager;
 
     private JSONObject configPreferences = null;
     private Context context = null;
 
-    ConfigManager(AppManager appManager) {
-        this.context = appManager.activity;
+    ConfigManager() {
+        this.context = AppManager.getShareInstance().activity;
 
         try {
-            parsePreferences();
+            parseConfig();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -27,14 +28,14 @@ public class ConfigManager {
 
     public static ConfigManager getShareInstance() {
         if (ConfigManager.configManager == null) {
-            ConfigManager.configManager = new ConfigManager(AppManager.getShareInstance());
+            ConfigManager.configManager = new ConfigManager();
         }
         return ConfigManager.configManager;
     }
 
-    public void parsePreferences() throws Exception {
+    public void parseConfig() throws Exception {
         AssetManager manager = context.getAssets();
-        InputStream inputStream = manager.open("www/config/preferences.json");
+        InputStream inputStream = manager.open("www/config/config.json");
 
         configPreferences = Utility.getJsonFromFile(inputStream);
     }
@@ -74,6 +75,22 @@ public class ConfigManager {
             return value;
         } catch (Exception e) {
             return defaultValue;
+        }
+    }
+
+    public boolean stringArrayContains(String key, String value) {
+        try {
+            JSONArray array = configPreferences.getJSONArray(key);
+            if (array != null) {
+                for (int i = 0; i < array.length(); i++) {
+                    if (value.equals(array.getString(i))) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
         }
     }
 

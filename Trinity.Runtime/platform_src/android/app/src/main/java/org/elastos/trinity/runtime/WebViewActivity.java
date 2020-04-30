@@ -29,13 +29,14 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.core.content.ContextCompat;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 import org.apache.cordova.LOG;
+import org.elastos.trinity.runtime.passwordmanager.PasswordManager;
 import org.json.JSONException;
 
 //import android.support.v4.view.ViewPager;
@@ -47,7 +48,8 @@ public class WebViewActivity extends FragmentActivity {
     public static final int REQUESTCODE_STORAGE = 50;
 
     protected AppManager appManager = null;
-    private GestureDetector gestureDetector = null;
+    protected PasswordManager passwordManager = null;
+//    private GestureDetector gestureDetector = null;
 
     private String adbUri = "";
 
@@ -63,14 +65,14 @@ public class WebViewActivity extends FragmentActivity {
                 }
                 else {
                     boolean dev = intent.hasCategory("android.intent.category.TEST");
-                    if (dev) {
+                     if (dev) {
                         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                                 != PackageManager.PERMISSION_GRANTED) {
                             this.adbUri = uri.toString();
                             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUESTCODE_STORAGE);
                             return;
                         }
-                    }
+                     }
                     appManager.setInstallUri(uri.toString(), dev);
                 }
             }
@@ -81,15 +83,14 @@ public class WebViewActivity extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        //Aqui debo crear el loading
 
         setContentView(R.layout.activity_view);
+        passwordManager = new PasswordManager(this);
         appManager = new AppManager(this);
 
         getIntentUri();
 
-        gestureDetector = new GestureDetector(this, onGestureListener);
-
+//        gestureDetector = new GestureDetector(this, onGestureListener);
 
 //        Bundle b = getIntent().getExtras();
 //        String url = b.getString("url");
@@ -231,28 +232,28 @@ public class WebViewActivity extends FragmentActivity {
         }
     }
 
-    @Override
-    public boolean dispatchTouchEvent (MotionEvent ev) {
-        if ((gestureDetector != null) && (appManager != null) && (appManager.curFragment != null)) {
-            gestureDetector.onTouchEvent(ev);
-        }
-        return super.dispatchTouchEvent(ev);
-    }
-
-    private GestureDetector.OnGestureListener onGestureListener =
-            new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-                                       float velocityY) {
-                    float y1 = e1.getY();
-                    float distance = e2.getY() - e1.getY();
-
-                    if (distance > 200 && y1 < 200) {
-                        if (appManager != null) {
-                            appManager.flingTheme();
-                        }
-                    }
-                    return true;
-                }
-            };
+//    @Override
+//    public boolean dispatchTouchEvent (MotionEvent ev) {
+//        if ((gestureDetector != null) && (appManager != null) && (appManager.curFragment != null)) {
+//            gestureDetector.onTouchEvent(ev);
+//        }
+//        return super.dispatchTouchEvent(ev);
+//    }
+//
+//    private GestureDetector.OnGestureListener onGestureListener =
+//            new GestureDetector.SimpleOnGestureListener() {
+//                @Override
+//                public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+//                                       float velocityY) {
+//                    float y1 = e1.getY();
+//                    float distance = e2.getY() - e1.getY();
+//
+//                    if (distance > 200 && y1 < 200) {
+//                        if (appManager != null) {
+//                            appManager.flingTheme();
+//                        }
+//                    }
+//                    return true;
+//                }
+//            };
 }

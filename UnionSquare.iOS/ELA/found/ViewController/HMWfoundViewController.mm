@@ -26,7 +26,6 @@
  */
 @property(assign,nonatomic)BOOL hasSing;
 
-
 @end
 
 @implementation HMWfoundViewController
@@ -95,7 +94,7 @@
         NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
         NSString *Status = param[@"Status"];
         self.typeString =Status;
-    HMWtheSuperNodeElectionViewController*theSuperNodeElectionVC=[[HMWtheSuperNodeElectionViewController alloc]init];
+        HMWtheSuperNodeElectionViewController*theSuperNodeElectionVC=[[HMWtheSuperNodeElectionViewController alloc]init];
         theSuperNodeElectionVC.typeString=Status;
         theSuperNodeElectionVC.NodePublicKey= param[@"Info"][@"NodePublicKey"];
         theSuperNodeElectionVC.nodeName= param[@"Info"][@"NickName"];

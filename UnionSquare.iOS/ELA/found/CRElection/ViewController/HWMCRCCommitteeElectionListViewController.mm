@@ -808,16 +808,6 @@ UINib *_cellCRNib;
     
     self.fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",dic[@"fee"]]];
     
-        if (CRDic==NULL) {
-     
-             return;
-         }
-
-        NSDictionary *dic =[[ELWalletManager share]CRVoteFeeCRMainchainSubWallet:self.wallet.masterWalletID ToVote:CRDic tickets: 0 withInvalidIDArray:self.invalidDopsArray];
-
-
-    self.fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",dic[@"fee"]]];
- 
     
     self.jsonString=dic[@"JSON"];
     
@@ -862,7 +852,6 @@ UINib *_cellCRNib;
 -(void)pwdAndInfoWithPWD:(NSString*)pwd{
     
     
-  
     
     
     NSString *pwdString=pwd;

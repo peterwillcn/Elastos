@@ -138,10 +138,6 @@
            [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
     }
     
-    
-    
-    
-    
 }
 - (IBAction)pasteEvent:(id)sender {
     self.transferTheAddressTextField.text=[[FLTools share]pastingTextFromTheClipboard];

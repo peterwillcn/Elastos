@@ -163,7 +163,6 @@
            model.CRownerPublickKey = self.MemberThePublicKeyLabel.text;
            model.nickName   = self.MemberNameTextField.text;
            model.url        = self.URLTextField.text;
-  
            model.contryCode = self.mobCodeString;
            model.pwd        = pwd;
            model.ipAddress  = self.URLTextField.text;

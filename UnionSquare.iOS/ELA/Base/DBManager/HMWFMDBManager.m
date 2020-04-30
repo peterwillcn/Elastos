@@ -496,8 +496,6 @@ static HMWFMDBManager * _manager =nil;
         }
         
     }
-        
-    }
     return NO;
 }
 -(BOOL)selectCRWithWalletID:(NSString*)walletID andWithDID:(NSString*)DID{

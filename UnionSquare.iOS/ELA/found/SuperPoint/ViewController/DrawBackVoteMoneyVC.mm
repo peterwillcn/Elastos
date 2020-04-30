@@ -270,34 +270,6 @@
         }
     }
     
-}
--(void)showSendSuccessPopuV{
-    UIView *manView=[self mainWindow];
-    [manView addSubview:self.sendSuccessPopuV];
-    [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.equalTo(manView);
-    }];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self hiddenSendSuccessPopuV];
-        [self.navigationController popViewControllerAnimated:YES];
-    });
-}
--(void)hiddenSendSuccessPopuV{
-    [self.sendSuccessPopuV removeFromSuperview];
-    self.sendSuccessPopuV=nil;
-}
--(HMWSendSuccessPopuView *)sendSuccessPopuV{
-    if (!_sendSuccessPopuV) {
-        _sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
-    }
-    
-    return _sendSuccessPopuV;
-}
--(void)setNodeModel:(FLCoinPointInfoModel *)nodeModel{
-    _nodeModel =nodeModel;
-}
--(void)setCRModel:(HWMCRListModel *)CRModel{
-    _CRModel=CRModel;
     
 }
 -(void)showSendSuccessPopuV{

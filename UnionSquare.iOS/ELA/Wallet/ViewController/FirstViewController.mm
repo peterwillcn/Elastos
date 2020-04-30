@@ -756,6 +756,7 @@
     }else{
         cell.linkImageView.alpha=1.f;
     }
+    
     if ([model.status isEqualToString:@"Connected"]) {
         cell.statusLabel.text=model.updateTime;
     }else if ([model.status isEqualToString:@"Connecting"]){

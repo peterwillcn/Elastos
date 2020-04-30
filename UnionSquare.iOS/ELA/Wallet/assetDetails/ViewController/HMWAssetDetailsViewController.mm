@@ -189,8 +189,8 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     }});
 }
 -(void)iconInfoUpdate:(NSNotification *)notification{
-   
-
+    
+    
     NSOperationQueue *waitQueue = [[NSOperationQueue alloc] init];
     [waitQueue addOperationWithBlock:^{
         NSDictionary *dic=[[NSDictionary alloc]initWithDictionary:notification.object];

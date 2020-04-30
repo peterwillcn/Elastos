@@ -531,23 +531,18 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 //}
 -(UIImageView *)placeHolferImage{
     if (!_placeHolferImage) {
-    _placeHolferImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed: @"found_vote_empty_list"]];
-    UILabel *textLable=[[UILabel alloc]initWithFrame:CGRectMake(0, 160, 160, 40)];
-    textLable.textColor=RGB(149, 159, 171);
-    textLable.textAlignment=NSTextAlignmentCenter;
-    textLable.text=NSLocalizedString(@"暂无候选节点", nil);
-    [_placeHolferImage addSubview:textLable];
+        _placeHolferImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed: @"found_vote_empty_list"]];
+        UILabel *textLable=[[UILabel alloc]initWithFrame:CGRectMake(0, 160, 160, 40)];
+        textLable.textColor=RGB(149, 159, 171);
+        textLable.textAlignment=NSTextAlignmentCenter;
+        textLable.text=NSLocalizedString(@"暂无候选节点", nil);
+        [_placeHolferImage addSubview:textLable];
     }
     return _placeHolferImage;
 }
 -(void)setLastTimeArray:(NSMutableArray *)lastTimeArray{
     _lastTimeArray=lastTimeArray;
     
-    if (!_transactionDetailsView) {
-        _transactionDetailsView =[[HWMTransactionDetailsView alloc]init];
-        _transactionDetailsView.delegate=self;
-    }
-    return _transactionDetailsView;
 }
 -(HWMTransactionDetailsView *)transactionDetailsView{
     

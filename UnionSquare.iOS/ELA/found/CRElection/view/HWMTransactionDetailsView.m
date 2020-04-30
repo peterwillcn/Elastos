@@ -106,5 +106,4 @@
 -(void)setDetailsType:(TransactionDetailsType)DetailsType{
     _DetailsType=DetailsType;
 }
-
 @end

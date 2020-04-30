@@ -1835,23 +1835,6 @@ static uint64_t feePerKB = 10000;
     }
     
 }
--(NSDictionary *)DopsVoteFeeCRMainchainSubWallet:(NSString*)CRmainchainSubWalletId ToVote:(NSArray*)publicKeys tickets:(double)stake withInvalidIDArray:(NSArray*)InvalidArr{
-     IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:CRmainchainSubWalletId];
-      String keys = [[ self arrayToJSONString:publicKeys] UTF8String];
-    NSString *InvalidString=[self arrayToJSONString:InvalidArr];
-        Json InvalidJson=  [self jsonWithString:InvalidString];
-    String acount;
-       if (stake==-1) {
-            acount="-1";
-       }else{
-           acount =[self cstringWithString:[NSString stringWithFormat:@"%.0f",stake*unitNumber]];
-       }
-    try {
-         nlohmann::json tx = mainchainSubWallet->CreateVoteProducerTransaction("", acount,Json::parse(keys),"",InvalidJson);
-        NSString *resultString=[self stringWithCString:tx.dump()];
-        NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
-        NSArray *DorpVotes=resultdic[@"DropVotes"];
-        return @{@"fee":resultdic[@"Fee"],@"JSON":resultString,@"DorpVotes":DorpVotes};
 
 -(BOOL)useCRMainchainSubWallet:(NSString*)CRmainchainSubWalletId WithJosnString:(NSString*)josnString withPWD:(NSString*)pwd{
     Json tx=[self jsonWithString:josnString];

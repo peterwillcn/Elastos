@@ -615,6 +615,31 @@
 		420131C12320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCRCCommitteeElectionListViewController.h; sourceTree = "<group>"; };
 		420131C22320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HWMCRCCommitteeElectionListViewController.mm; sourceTree = "<group>"; };
 		420131C32320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMCRCCommitteeElectionListViewController.xib; sourceTree = "<group>"; };
+		4202C81C21F6EF28009E5932 /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
+		4202C81D21F6EF28009E5932 /* NSLayoutConstraint+MASDebugAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+MASDebugAdditions.m"; sourceTree = "<group>"; };
+		4202C81E21F6EF28009E5932 /* MASConstraint+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MASConstraint+Private.h"; sourceTree = "<group>"; };
+		4202C81F21F6EF28009E5932 /* MASLayoutConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASLayoutConstraint.h; sourceTree = "<group>"; };
+		4202C82021F6EF28009E5932 /* NSArray+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASShorthandAdditions.h"; sourceTree = "<group>"; };
+		4202C82121F6EF28009E5932 /* MASConstraintMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraintMaker.h; sourceTree = "<group>"; };
+		4202C82221F6EF28009E5932 /* View+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASAdditions.h"; sourceTree = "<group>"; };
+		4202C82321F6EF28009E5932 /* NSArray+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASAdditions.h"; sourceTree = "<group>"; };
+		4202C82421F6EF28009E5932 /* MASUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASUtilities.h; sourceTree = "<group>"; };
+		4202C82521F6EF28009E5932 /* MASViewAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewAttribute.h; sourceTree = "<group>"; };
+		4202C82621F6EF28009E5932 /* ViewController+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewController+MASAdditions.m"; sourceTree = "<group>"; };
+		4202C82721F6EF28009E5932 /* MASViewConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewConstraint.h; sourceTree = "<group>"; };
+		4202C82821F6EF28009E5932 /* MASConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraint.h; sourceTree = "<group>"; };
+		4202C82921F6EF28009E5932 /* NSLayoutConstraint+MASDebugAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+MASDebugAdditions.h"; sourceTree = "<group>"; };
+		4202C82A21F6EF28009E5932 /* MASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASCompositeConstraint.m; sourceTree = "<group>"; };
+		4202C82B21F6EF28009E5932 /* MASConstraintMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraintMaker.m; sourceTree = "<group>"; };
+		4202C82C21F6EF28009E5932 /* MASLayoutConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASLayoutConstraint.m; sourceTree = "<group>"; };
+		4202C82D21F6EF28009E5932 /* NSArray+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MASAdditions.m"; sourceTree = "<group>"; };
+		4202C82E21F6EF28009E5932 /* View+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "View+MASAdditions.m"; sourceTree = "<group>"; };
+		4202C82F21F6EF28009E5932 /* View+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASShorthandAdditions.h"; sourceTree = "<group>"; };
+		4202C83021F6EF28009E5932 /* Masonry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Masonry.h; sourceTree = "<group>"; };
+		4202C83121F6EF28009E5932 /* MASConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraint.m; sourceTree = "<group>"; };
+		4202C83221F6EF28009E5932 /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+MASAdditions.h"; sourceTree = "<group>"; };
+		4202C83321F6EF28009E5932 /* MASViewConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewConstraint.m; sourceTree = "<group>"; };
+		4202C83421F6EF28009E5932 /* MASViewAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewAttribute.m; sourceTree = "<group>"; };
 		4202C83621F6EF28009E5932 /* SVRadialGradientLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVRadialGradientLayer.m; sourceTree = "<group>"; };
 		4202C83721F6EF28009E5932 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
 		4202C83821F6EF28009E5932 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
@@ -4974,13 +4999,8 @@
 				428476C3243F29E700EADFDE /* libSVGKit-iOS.2.1.0.a in Frameworks */,
 				4261CF3E22A1605D006B1DDE /* SystemConfiguration.framework in Frameworks */,
 				4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */,
-				C45E4ED4237794B9003BB3BA /* libboost_filesystem.a in Frameworks */,
-				C45E4ED6237794D5003BB3BA /* libboost_thread.a in Frameworks */,
-				C45E4ED5237794C7003BB3BA /* libboost_system.a in Frameworks */,
 				4250B3F22238D32700B6858F /* libzbar.a in Frameworks */,
 				9FD0C828FEE9459B88FB6A2D /* WebKit.framework in Frameworks */,
-				C45E4ED8237794ED003BB3BA /* libfruit.a in Frameworks */,
-				C45E4ED9237794FF003BB3BA /* libspdlog.a in Frameworks */,
 				0377F67DC70B4CEFBD787502 /* libz.tbd in Frameworks */,
 				42A3206A240FEFFA00FABE6D /* libhdkey.a in Frameworks */,
 				49B4D149B9AE9124C1AFA618 /* libPods-elastos wallet.a in Frameworks */,
@@ -5102,11 +5122,44 @@
 				42B57A9322150C1C004CF089 /* WOCrashProtector */,
 				CBD48D4B21FC36BA00BF3B11 /* AFNetworking */,
 				4228A9F121F88C86002866B5 /* yykit */,
+				4202C81B21F6EF28009E5932 /* Masonry */,
 				4202C83521F6EF28009E5932 /* SVProgressHUD */,
 				4202C84921F6EF28009E5932 /* SGQRCode */,
 				4202C87421F6EF28009E5932 /* fmdb */,
 			);
 			path = ThirdSDK;
+			sourceTree = "<group>";
+		};
+		4202C81B21F6EF28009E5932 /* Masonry */ = {
+			isa = PBXGroup;
+			children = (
+				4202C81C21F6EF28009E5932 /* MASCompositeConstraint.h */,
+				4202C81D21F6EF28009E5932 /* NSLayoutConstraint+MASDebugAdditions.m */,
+				4202C81E21F6EF28009E5932 /* MASConstraint+Private.h */,
+				4202C81F21F6EF28009E5932 /* MASLayoutConstraint.h */,
+				4202C82021F6EF28009E5932 /* NSArray+MASShorthandAdditions.h */,
+				4202C82121F6EF28009E5932 /* MASConstraintMaker.h */,
+				4202C82221F6EF28009E5932 /* View+MASAdditions.h */,
+				4202C82321F6EF28009E5932 /* NSArray+MASAdditions.h */,
+				4202C82421F6EF28009E5932 /* MASUtilities.h */,
+				4202C82521F6EF28009E5932 /* MASViewAttribute.h */,
+				4202C82621F6EF28009E5932 /* ViewController+MASAdditions.m */,
+				4202C82721F6EF28009E5932 /* MASViewConstraint.h */,
+				4202C82821F6EF28009E5932 /* MASConstraint.h */,
+				4202C82921F6EF28009E5932 /* NSLayoutConstraint+MASDebugAdditions.h */,
+				4202C82A21F6EF28009E5932 /* MASCompositeConstraint.m */,
+				4202C82B21F6EF28009E5932 /* MASConstraintMaker.m */,
+				4202C82C21F6EF28009E5932 /* MASLayoutConstraint.m */,
+				4202C82D21F6EF28009E5932 /* NSArray+MASAdditions.m */,
+				4202C82E21F6EF28009E5932 /* View+MASAdditions.m */,
+				4202C82F21F6EF28009E5932 /* View+MASShorthandAdditions.h */,
+				4202C83021F6EF28009E5932 /* Masonry.h */,
+				4202C83121F6EF28009E5932 /* MASConstraint.m */,
+				4202C83221F6EF28009E5932 /* ViewController+MASAdditions.h */,
+				4202C83321F6EF28009E5932 /* MASViewConstraint.m */,
+				4202C83421F6EF28009E5932 /* MASViewAttribute.m */,
+			);
+			path = Masonry;
 			sourceTree = "<group>";
 		};
 		4202C83521F6EF28009E5932 /* SVProgressHUD */ = {
@@ -11339,7 +11392,6 @@
 				424CA4D2242C76EB0067C1CE /* Assets.xcassets in Resources */,
 				420131C52320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.xib in Resources */,
 				4202CA7021F6EF2B009E5932 /* HMWChooseSideChainViewController.xib in Resources */,
-				42EAEFBB238BB46300D6A912 /* MJRefresh.bundle in Resources */,
 				4202CAD821F6EF2B009E5932 /* FLSelectSuperPointVC.xib in Resources */,
 				4202CA8021F6EF2B009E5932 /* HMWTheWalletManagementTableViewCell.xib in Resources */,
 				4202CA7821F6EF2B009E5932 /* HMWcollectionViewController.xib in Resources */,
@@ -11487,12 +11539,9 @@
 				4202CA7221F6EF2B009E5932 /* HMWcollectionViewController.m in Sources */,
 				4228AA5D21F88C87002866B5 /* NSObject+YYAddForARC.m in Sources */,
 				4202CA7B21F6EF2B009E5932 /* HMWAssetDetailsViewController.mm in Sources */,
-				42EAEFC5238BB46300D6A912 /* MJRefreshNormalHeader.m in Sources */,
 				424910E92271BFCF00C41E50 /* UIImageView+HighlightedWebCache.m in Sources */,
-				42EAEFCA238BB46300D6A912 /* MJRefreshBackFooter.m in Sources */,
 				4202CAAF21F6EF2B009E5932 /* HMWaddFooterView.m in Sources */,
 				42B57AB622150C1C004CF089 /* NSObject+SelectorCrash.m in Sources */,
-				42EAEFC6238BB46300D6A912 /* MJRefreshStateHeader.m in Sources */,
 				4202CA7321F6EF2B009E5932 /* HMWChooseSideChainViewController.m in Sources */,
 				4202CA3D21F6EF2A009E5932 /* FLShareVC.m in Sources */,
 				CBD48D84221406D900BF3B11 /* FLJoinToChoseTransferInfoView.m in Sources */,
@@ -11501,7 +11550,6 @@
 				4202CA9321F6EF2B009E5932 /* HMWCopyKeyStoreViewController.m in Sources */,
 				4296F10C2375482900B2CE7D /* HWMShowSocialAccountViewController.m in Sources */,
 				424910E72271BFCF00C41E50 /* SDWebImageManager.m in Sources */,
-				42EAF005238BB83900D6A912 /* NENSinglePinger.m in Sources */,
 				4202CA5D21F6EF2A009E5932 /* HMWpwdPopupView.m in Sources */,
 				42B57AB822150C1C004CF089 /* NSObject+NSNotificationCrash.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.mm in Sources */,
@@ -11511,7 +11559,6 @@
 				4253EE5E23697503005B774A /* HWMDIDInfoTableViewCell.m in Sources */,
 				42BD9195242C80C500FA7B9E /* HWMCrCommitteeInformationHeaderView.m in Sources */,
 				CBD25F082216DD8500EDA0F5 /* DrawBackVoteMoneyVC.mm in Sources */,
-				42EAEFB8238BB46300D6A912 /* UIScrollView+MJRefresh.m in Sources */,
 				4202CAA621F6EF2B009E5932 /* FLPrepareVC.m in Sources */,
 				4228AA4321F88C86002866B5 /* YYKVStorage.m in Sources */,
 				4202CA5121F6EF2A009E5932 /* FLtradeResultView.m in Sources */,
@@ -11566,7 +11613,6 @@
 				42D1060F23A336240063AADC /* SimplePing.m in Sources */,
 				4224AE72243CD43E0056606F /* DDTTYLogger.m in Sources */,
 				4202CA4121F6EF2A009E5932 /* FLMeHeadView.m in Sources */,
-				42EAEFCC238BB46300D6A912 /* MJRefreshComponent.m in Sources */,
 				4223EB2B2327999F00153DA9 /* HWMPublicKeyListHeadView.m in Sources */,
 				42A7A851236ADC110034A900 /* HWMTheEditorDIDInfoViewController.mm in Sources */,
 				42B07E262421F6A600E1B920 /* HWMDIDAuthorizationTableViewCell.m in Sources */,
@@ -11634,7 +11680,6 @@
 				4202CA0A21F6EF2A009E5932 /* SGQRCodeHelperTool.m in Sources */,
 				42D7DC5523F68008002F5A9A /* HWMHWMDIDShowInfoViewController.m in Sources */,
 				CBD48D6321FC399700BF3B11 /* HttpUrl.m in Sources */,
-				42EAF007238BB83900D6A912 /* NENPingManager.m in Sources */,
 				4202CAA021F6EF2B009E5932 /* FLPastWordVC.mm in Sources */,
 				42B57AC022150C1C004CF089 /* NSMutableString+WOCrash.m in Sources */,
 				42B57AC122150C1C004CF089 /* NSDictionary+WOCrash.m in Sources */,
@@ -11692,7 +11737,6 @@
 				42B57AB922150C1C004CF089 /* WOCrashLog.m in Sources */,
 				4228AA4521F88C87002866B5 /* NSObject+YYModel.m in Sources */,
 				4202CA6621F6EF2B009E5932 /* HMWSideChainAndTheContactTableViewCell.m in Sources */,
-				42EAEFC2238BB46300D6A912 /* MJRefreshAutoStateFooter.m in Sources */,
 				CBD48D5A21FC36BA00BF3B11 /* AFURLResponseSerialization.m in Sources */,
 				4228AA6321F88C87002866B5 /* YYCGUtilities.m in Sources */,
 				42D105FC23A3344D0063AADC /* MJRefreshAutoStateFooter.m in Sources */,
@@ -11748,7 +11792,6 @@
 				4202CAB221F6EF2B009E5932 /* HMWAddTheCurrencyListViewController.mm in Sources */,
 				42D105FA23A3344D0063AADC /* MJRefreshBackStateFooter.m in Sources */,
 				4202CA4D21F6EF2A009E5932 /* Foundation+Log.m in Sources */,
-				42EAEFBF238BB46300D6A912 /* MJRefreshBackGifFooter.m in Sources */,
 				4202CA1921F6EF2A009E5932 /* FMDatabaseQueue.m in Sources */,
 				42780240235EDC350017F098 /* HWMDIDWalletListTableViewCell.m in Sources */,
 				4228AA4B21F88C87002866B5 /* UIApplication+YYAdd.m in Sources */,
@@ -11809,7 +11852,6 @@
 				4202CA5821F6EF2A009E5932 /* FLAssetManageTableCell.m in Sources */,
 				CBE7C2F122268890004F379D /* DC_DealTextViewController.m in Sources */,
 				4202CAB921F6EF2B009E5932 /* FLTools.m in Sources */,
-				4210E854239F8A07001D82F3 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				4202CAD021F6EF2B009E5932 /* HMWtheSuperNodeElectionViewController.mm in Sources */,
 				4228AA4921F88C87002866B5 /* UIColor+YYAdd.m in Sources */,
 				4202CA2821F6EF2A009E5932 /* FLTableViewDefultCell.m in Sources */,
@@ -11821,10 +11863,8 @@
 				4202CA8821F6EF2B009E5932 /* HMWExportTheMnemonicWordViewController.m in Sources */,
 				420131C42320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.mm in Sources */,
 				4202CA9B21F6EF2B009E5932 /* FLSetMenmoryWordPassView.m in Sources */,
-				42EAEFCB238BB46300D6A912 /* MJRefreshAutoFooter.m in Sources */,
 				4202CA0421F6EF2A009E5932 /* SVProgressAnimatedView.m in Sources */,
 				4202CA9221F6EF2B009E5932 /* HMWModifyTheWalletNameViewController.m in Sources */,
-				42EAEFB9238BB46300D6A912 /* MJRefreshConst.m in Sources */,
 				4202CA0921F6EF2A009E5932 /* UIImage+SGImageSize.m in Sources */,
 				42D1060E23A336240063AADC /* NENSinglePinger.m in Sources */,
 				4210E858239F8A07001D82F3 /* MASLayoutConstraint.m in Sources */,
@@ -11839,7 +11879,6 @@
 				424910EA2271BFCF00C41E50 /* SDWebImageDownloader.m in Sources */,
 				428B4D8F22CB2B74004AE7D0 /* HWMaddSignThePurseView.m in Sources */,
 				4228AA5221F88C87002866B5 /* UIImage+YYAdd.m in Sources */,
-				42EAEFC0238BB46300D6A912 /* MJRefreshBackStateFooter.m in Sources */,
 				424D113A22E042D900C46640 /* HWMHowLongTradingQrCodeViewController.m in Sources */,
 				4202CA0321F6EF2A009E5932 /* SVRadialGradientLayer.m in Sources */,
 				42EAF01B238BB8C200D6A912 /* HWMDIDDataListView.m in Sources */,

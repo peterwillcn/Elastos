@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign)NSInteger   hadVotedNumber;
 @property(nonatomic,copy)  NSString    *voterate;
 @property(nonatomic,copy)  NSString    *iconImageUrl;
-@property(nonatomic,copy)  NSString    *state;
+
 @property(nonatomic,assign)BOOL isCellSelected;
 @property(nonatomic,assign)BOOL isNewCellSelected;
 /*

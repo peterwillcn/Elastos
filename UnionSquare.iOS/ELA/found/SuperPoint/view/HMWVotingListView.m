@@ -69,10 +69,7 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
         
         
         
-    
-
-     
-
+        
         self.taglab1.text = NSLocalizedString(@"全网投票占比", nil);
         self.taglab3.text = NSLocalizedString(@"当前票数", nil);
         self.runningNodeListTextLabel.text=NSLocalizedString(@"参选节点列表", nil);

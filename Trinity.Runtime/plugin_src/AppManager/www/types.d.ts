@@ -391,9 +391,6 @@ declare namespace AppManagerPlugin {
          */
         setListener(callback: (msg: ReceivedMessage)=>void);
 
-        // TODO
-        getGlobalCarrierAddress(); // TODO: permission to launcher only
-    
         /**
          * Get running list.
          *
@@ -563,101 +560,5 @@ declare namespace AppManagerPlugin {
          * @param onError    The function to call when error, the param is a String. Or set to null.
          */
         getVersion(onSuccess: (version: string) => void, onError?: (err: string) => void);
-
-        /**
-         * Returns a NotificationManager object, used to send and receive notifications.
-         * 
-         * @returns The main notification manager instance.
-         */
-        getNotificationManager(): NotificationManager;
-    }
-
-    /**
-     * Object used to send a local notification.
-     */
-    type LocalNotificationRequest = {
-        /** Identification key used to overwrite a previous notification if it has the same key. */
-        key: string,
-        /** Title to be displayed as the main message on the notification. */
-        title: string,
-        /** Intent URL emitted when the notification is clicked. */
-        url?: string
-    }
-
-    /**
-     * Object used to send a notification to a remote friend device.
-     */
-    type RemoteNotificationRequest = {
-        carrierAddress: string,  // TODO: Or DID, and runtime resolved to carrier ?
-        /** Title to be displayed as the main message on the notification, in case there is no default title already. */
-        title?: string,
-        /** Intent URL emitted when the notification is clicked. */
-        url?: string
-    }
-
-    type LocalNotification = {
-        /** Package ID of the sending app. */
-        appId: string,
-        /** Title to be displayed as the main message on the notification. */
-        title: string,
-        /** Intent URL emitted when the notification is clicked. */
-        url?: string
-    }
-
-    type RemoteNotification = {
-        carrierAddress: string,  // TODO: Or DID, and runtime resolved to carrier ?
-        /** Package ID of the sending app. */
-        appId: string,
-        /** Title to be displayed as the main message on the notification. */
-        title: string,
-        /** Intent URL emitted when the notification is clicked. */
-        url?: string
-    }
-    
-    interface NotificationManager {
-
-        // TODO: Need to improve these APIs to:
-        // - get notifications (ex: after restarting trinity)
-        // - clear a notification (ex: user deletes the notification from the launcher, we must delete it from the notificaitons database too)
-
-        /**
-         * Sends a local notification to the notification manager. Notifications are usually displayed
-         * by the launcher/home application, in a notifications panel, and they are directly used to 
-         * inform users of something they can potentially interact with.
-         * 
-         * @param localNotification The notification content.
-         * @param onSuccess Callback called in case the notification manager could handle this request.
-         * @param onError Callback called in case of error.
-         */
-        sendLocalNotification(localNotification: LocalNotificationRequest, onSuccess:()=>void, onError?:(err: string)=>void);
-
-        /**
-         * Sends a notification to the notification manager of a distant friend's Trinity instance.
-         * 
-         * @param remoteNotification The notification content.
-         * @param onSuccess Callback called in case the notification request was sent successfully (without knowing if it reached the destination).
-         * @param onError Callback called in case of error.
-         */
-        sendRemoteNotification(remoteNotification: RemoteNotificationRequest, onSuccess:()=>void, onError?:(err: string)=>void);
-
-        /**
-         * Registers a callback that will receive all the inncoming local notifications (sent by this instance
-         * of elastOS/Trinity).
-         * 
-         * @param listener Callback passing the received notification info.
-         * @param onSuccess Callback called if registering as a listener was successful.
-         * @param onError Callback called in case registering as a listener failed.
-         */
-        setLocalNotificationListener(onNotification:(notification: LocalNotification)=>void, onSuccess?:()=>void, onError?:(err: string)=>void);
-
-        /**
-         * Registers a callback that will receive all the inncoming remote notifications (sent by a remote instance
-         * of elastOS/Trinity).
-         * 
-         * @param listener Callback passing the received notification info.
-         * @param onSuccess Callback called if registering as a listener was successful.
-         * @param onError Callback called in case registering as a listener failed.
-         */
-        setRemoteNotificationListener(onNotification:(notification: RemoteNotification)=>void, onSuccess?:()=>void, onError?:(err: string)=>void);
     }
 }

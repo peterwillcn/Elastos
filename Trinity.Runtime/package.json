@@ -12,6 +12,8 @@
   "dependencies": {
     "appmanager": "file:./plugin_src/AppManager",
     "titlebarmanager": "file:./plugin_src/TitleBarManager",
+    "notificationmanager": "file:./plugin_src/NotificationManager",
+    "contactnotifier": "file:./plugin_src/ContactNotifier",
     "cordova-android": "8.1.0",
     "cordova-clipboard": "1.2.1",
     "cordova-ios": "5.1.1",
@@ -91,14 +93,13 @@
         "FACEID_USAGE_DESCRIPTION": " "
       },
       "elastos-trinity-plugins-titlebarmanager": {},
-      "elastos-trinity-plugins-passwordmanager": {}
+      "elastos-trinity-plugins-passwordmanager": {},
+      "elastos-trinity-plugins-notificationmanager": {},
+      "elastos-trinity-plugins-contactnotifier": {}
     },
     "platforms": [
       "android",
       "ios"
     ]
-  },
-  "devDependencies": {
-    "elastos-trinity-plugins-titlebarmanager": "./plugin_src/TitleBarManager"
   }
 }

@@ -27,19 +27,40 @@ class ContactImpl implements ContactNotifierPlugin.Contact {
     carrierAddress: string = null;
 
     getDID(): string {
-        throw new Error("Method not implemented.");
+        return this.did;
     }
+
     getCarrierAddress(): string {
-        throw new Error("Method not implemented.");
+        return this.carrierAddress;
     }
-    sendRemoteNotification(remoteNotification: ContactNotifierPlugin.RemoteNotificationRequest, onSuccess: () => void, onError?: (err: string) => void) {
-        throw new Error("Method not implemented.");
+
+    sendRemoteNotification(remoteNotification: ContactNotifierPlugin.RemoteNotificationRequest): Promise<void> {
+        return new Promise((resolve, reject) => {
+            exec(ret => {
+                resolve();
+            }, err =>{
+                console.error("Error while calling ContactNotifierPlugin.sendRemoteNotification()", err);
+                reject(err);
+            }, 'ContactNotifierPlugin', 'contactSendRemoteNotification', [remoteNotification]);
+        });
     }
+
     setAllowNotifications(allowNotifications: boolean) {
-        throw new Error("Method not implemented.");
+        exec(() =>{
+        }, err =>{
+            console.error("Error while calling ContactNotifierPlugin.setAllowNotifications()", err);
+        }, 'ContactNotifierPlugin', 'contactSetAllowNotifications', [allowNotifications]);
     }
+
     getOnlineStatus(): Promise<ContactNotifierPlugin.OnlineStatus> {
-        throw new Error("Method not implemented.");
+        return new Promise((resolve, reject) => {
+            exec((result: { onlineStatus: ContactNotifierPlugin.OnlineStatus }) =>{
+                resolve(result.onlineStatus);
+            }, err =>{
+                console.error("Error while calling ContactNotifierPlugin.getOnlineStatus()", err);
+                reject(err);
+            }, 'ContactNotifierPlugin', 'contactGetOnlineStatus', []);
+        });
     }
 
     static fromJson(jsonObj: any): ContactImpl {
@@ -57,7 +78,7 @@ class ContactNotifierImpl implements ContactNotifierPlugin.ContactNotifier {
             }, err =>{
                 console.error("Error while calling ContactNotifierPlugin.getCarrierAddress()", err);
                 reject(err);
-            }, 'ContactNotifierPlugin', 'getCarrierAddress', []);
+            }, 'ContactNotifierPlugin', 'notifierGetCarrierAddress', []);
         });
     }
 
@@ -69,7 +90,7 @@ class ContactNotifierImpl implements ContactNotifierPlugin.ContactNotifier {
             }, err =>{
                 console.error("Error while calling ContactNotifierPlugin.resolveContact()", err);
                 reject(err);
-            }, 'ContactNotifierPlugin', 'resolveContact', [did]);
+            }, 'ContactNotifierPlugin', 'notifierResolveContact', [did]);
         });
     }
 
@@ -77,7 +98,7 @@ class ContactNotifierImpl implements ContactNotifierPlugin.ContactNotifier {
         exec(() =>{
         }, err =>{
             console.error("Error while calling ContactNotifierPlugin.removeContact()", err);
-        }, 'ContactNotifierPlugin', 'removeContact', [did]);
+        }, 'ContactNotifierPlugin', 'notifierRemoveContact', [did]);
     }
 
     setOnlineStatusListener(onStatusChanged: (contact: ContactNotifierPlugin.Contact, status: ContactNotifierPlugin.OnlineStatus) => void, onError?: (error: string) => void) {
@@ -85,21 +106,21 @@ class ContactNotifierImpl implements ContactNotifierPlugin.ContactNotifier {
             onStatusChanged(result.contact, result.status);
         }, err =>{
             console.error("Error while calling ContactNotifierPlugin.setOnlineStatusListener()", err);
-        }, 'ContactNotifierPlugin', 'setOnlineStatusListener', []);
+        }, 'ContactNotifierPlugin', 'notifierSetOnlineStatusListener', []);
     }
 
     setOnlineStatusMode(onlineStatusMode: ContactNotifierPlugin.OnlineStatusMode) {
         exec(() =>{
         }, err =>{
             console.error("Error while calling ContactNotifierPlugin.setOnlineStatusMode()", err);
-        }, 'ContactNotifierPlugin', 'setOnlineStatusMode', [onlineStatusMode]);
+        }, 'ContactNotifierPlugin', 'notifierSetOnlineStatusMode', [onlineStatusMode]);
     }
 
     sendInvitation(carrierAddress: string) {
         exec(() =>{
         }, err =>{
             console.error("Error while calling ContactNotifierPlugin.sendInvitation()", err);
-        }, 'ContactNotifierPlugin', 'sendInvitation', [carrierAddress]);
+        }, 'ContactNotifierPlugin', 'notifierSendInvitation', [carrierAddress]);
     }
 
     acceptInvitation(invitationId: string): Promise<ContactNotifierPlugin.Contact> {
@@ -110,7 +131,7 @@ class ContactNotifierImpl implements ContactNotifierPlugin.ContactNotifier {
             }, err =>{
                 console.error("Error while calling ContactNotifierPlugin.acceptInvitation()", err);
                 reject(err);
-            }, 'ContactNotifierPlugin', 'acceptInvitation', [invitationId]);
+            }, 'ContactNotifierPlugin', 'notifierAcceptInvitation', [invitationId]);
         });
     }
 
@@ -120,14 +141,14 @@ class ContactNotifierImpl implements ContactNotifierPlugin.ContactNotifier {
             onInvitationAccepted(contact);
         }, err =>{
             console.error("Error while calling ContactNotifierPlugin.setOnInvitationAcceptedListener()", err);
-        }, 'ContactNotifierPlugin', 'setOnInvitationAcceptedListener', []);
+        }, 'ContactNotifierPlugin', 'notifierSetOnInvitationAcceptedListener', []);
     }
 
     setInvitationRequestsMode(mode: ContactNotifierPlugin.InvitationRequestsMode) {
         exec(() =>{
         }, err =>{
             console.error("Error while calling ContactNotifierPlugin.setInvitationRequestsMode()", err);
-        }, 'ContactNotifierPlugin', 'setInvitationRequestsMode', [mode]);
+        }, 'ContactNotifierPlugin', 'notifierSetInvitationRequestsMode', [mode]);
     }
 }
 

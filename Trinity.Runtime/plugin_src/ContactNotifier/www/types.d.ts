@@ -79,10 +79,10 @@ declare namespace ContactNotifierPlugin {
          * Sends a notification to the notification manager of a distant friend's Trinity instance.
          * 
          * @param remoteNotification The notification content.
-         * @param onSuccess Callback called in case the notification request was sent successfully (without knowing if it reached the destination).
-         * @param onError Callback called in case of error.
+         * 
+         * @returns A promise that can be awaited and catched in case or error.
          */
-        sendRemoteNotification(remoteNotification: RemoteNotificationRequest, onSuccess:()=>void, onError?:(err: string)=>void);
+        sendRemoteNotification(remoteNotification: RemoteNotificationRequest): Promise<void>;
 
         /**
          * Allow or disallow receiving remote notifications from this contact.

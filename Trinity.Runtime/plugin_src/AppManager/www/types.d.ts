@@ -333,17 +333,6 @@ declare namespace AppManagerPlugin {
         start(id: string, onSuccess?:()=>void, onError?:(err: string)=>void);
 
         /**
-         * Start a background service for the currently active dApp. As each dApp can have different services,
-         * a service is identified by its name and received by the service listener.
-         * 
-         * @param serviceName Name of the service to be launched.
-         * @param params Application specific information to be passed.
-         * @param onSuccess Callback called when the service is successfully launched.
-         * @param onError Callback called in case of error during service launch.
-         */
-        startBackgroundService(serviceName: string, params?: any, onSuccess?:()=>void, onError?:(err: string)=>void);
-
-        /**
          * Start the launcher.If the launcher running, it will be swith to curent.
          *
          * @param onSuccess  The function to call when success.
@@ -482,30 +471,6 @@ declare namespace AppManagerPlugin {
          * @param onError    The function to call when error, the param is a String. Or set to null.
          */
         sendUrlIntent(url: string, onSuccess: ()=>void, onError: (err:any)=>void);
-
-        /**
-         * In case the process is started to run an intent (getStartMode == INTENT),
-         * the start intent is returned here.
-         * 
-         * @returns Information about the intent request to be executed by this process.
-         */
-        getStartIntent(): ReceivedIntent;
-
-        /**
-         * In case the process is started to run as a service (getStartMode == SERVICE),
-         * the start service information is returned here.
-         * 
-         * @returns Information about the service request to be executed by this process.
-         */
-        getStartService(): ReceivedService;
-
-        /**
-         * In case the process is started to run as a widget (getStartMode == WIDGET),
-         * the start widget information is returned here.
-         * 
-         * @returns Information about the widget request to be executed by this process.
-         */
-        getStartWidget(): ReceivedWidget;
 
         /**
          * @deprecated Replaced by getStartIntent() but this keeps receiving the start intent for some time for compatibility.

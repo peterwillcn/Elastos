@@ -275,7 +275,7 @@
                 "fr": "Cette capsule pourra apposer la signature de votre identité (uniquement pour les identités créées par cette capsule) sur des informations diverses"
             }
         },
-        "createVerifiablePresentation": {
+        "createVerifiablePresentationFromCredentials": {
             "danger_level": "medium",
             "title": {
                 "en": "Sign your identity profile",
@@ -288,7 +288,7 @@
                 "fr": "Cette capsule pourra créer et signer une présentation qui contient certaines de vos informations de profil (identité). Uniquement pour les identités créées par cette capsule."
             }
         },
-        "issueCredential": {
+        "CreateCredential": {
             "danger_level": "low",
             "title": {
                 "en": "Issue credentials",
@@ -301,7 +301,7 @@
                 "fr": "Cette capsule pourra créer des références à votre sujet ou pour un tiers, et y apposer votre signature d'identité."
             }
         },
-        "publish": {
+        "publishDid": {
             "danger_level": "high",
             "title": {
                 "en": "Publish your identity",

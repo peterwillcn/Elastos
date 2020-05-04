@@ -1,0 +1,36 @@
+
+<ion-content>
+  <ion-grid class="container">
+    <ion-card>
+      <ion-card-title>Intents</ion-card-title>
+      <ion-card-content>
+        An intent works in two ways between two apps: one app sends a request and another app handles it. <br><br>
+        This gives apps the ability to communicate with one another and share their resources.
+      </ion-card-content>
+    </ion-card>
+
+    <h1>Send Intent</h1>
+    <p>In the example below, we have one app sending the "pickfriend" intent to inquire friends for invitation. Under the hood, sending this intent will prompt any application installed that can handle the request.</p>
+    <img src="assets/intents-demo/sendIntent.png"/>
+
+    <h1>Declare Intent</h1>
+    <p>On the other hand, an application such as the Contact's app can handle the inquired intent by declaring it in the manifest file. With this declaration, the Contact's app is notifying other apps that it has the resources to fulfill the listed intent.</p>
+    <img src="assets/intents-demo/declareIntent.png"/>
+
+    <h1>Handle Intent</h1>
+    <p>With the help of App Manager, the Contact's app can listen to the intent live and handle it accordingly.</p>
+    <img src="assets/intents-demo/listenIntent.png"/>
+
+    <h1>Send Intent Response</h1>
+    <p>Once the Contact's app handled the intent's request, it can send the request back to the app inquirer.</p>
+    <img src="assets/intents-demo/resIntent.png"/>
+
+    <h1>Intent Examples</h1>
+    <ion-row class="type">
+      <ion-col size="5.9" *ngFor="let intent of intentService.intents" (click)="intentService.openIntent(intent)">
+        <ion-label>{{ intent.type }}</ion-label>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>

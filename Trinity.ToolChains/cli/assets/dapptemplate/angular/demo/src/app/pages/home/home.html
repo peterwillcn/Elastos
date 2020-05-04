@@ -1,0 +1,61 @@
+<ion-content>
+  <ion-grid class="container">
+
+  <!--   <ion-title>elastOS</ion-title> -->
+
+    <ion-row class="section">
+      <ion-col size="12" [routerLink]="['/appmanager-demo']">
+        <h1>App Manager</h1>
+      </ion-col>
+    </ion-row>
+<!--
+    <ion-row class="type">
+      <ion-col size="5.9">
+        <ion-label>App State</ion-label>
+      </ion-col>
+      <ion-col size="5.9">
+        <ion-label>Intent</ion-label>
+      </ion-col>
+      <ion-col size="5.9">
+        <ion-label>Listener</ion-label>
+      </ion-col>
+      <ion-col size="5.9">
+        <ion-label>Preference</ion-label>
+      </ion-col>
+    </ion-row> -->
+
+    <ion-row class="section">
+      <ion-col size="12" [routerLink]="['/titlebar-demo']">
+        <h1>Titlebar Manager</h1>
+      </ion-col>
+    </ion-row>
+
+  <!--   <ion-row class="type">
+      <ion-col size="5.9">
+        <ion-label>Color</ion-label>
+      </ion-col>
+      <ion-col size="5.9">
+        <ion-label>Title</ion-label>
+      </ion-col>
+      <ion-col size="5.9">
+        <ion-label>Navigation</ion-label>
+      </ion-col>
+      <ion-col size="5.9">
+        <ion-label>Items</ion-label>
+      </ion-col>
+    </ion-row> -->
+
+    <ion-row class="section">
+      <ion-col size="12" [routerLink]="['/intent-demo']">
+        <h1>Intents</h1>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="type">
+      <ion-col size="5.9" *ngFor="let intent of intentService.intents" (click)="intentService.openIntent(intent)">
+        <ion-label>{{ intent.type }}</ion-label>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>

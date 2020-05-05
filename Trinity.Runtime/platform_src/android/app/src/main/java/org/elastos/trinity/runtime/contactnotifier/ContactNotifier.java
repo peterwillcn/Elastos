@@ -1,30 +1,35 @@
 package org.elastos.trinity.runtime.contactnotifier;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
-import org.elastos.carrier.AbstractCarrierHandler;
-import org.elastos.carrier.Carrier;
-import org.elastos.carrier.CarrierHandler;
-import org.elastos.carrier.ConnectionStatus;
-import org.elastos.carrier.FriendInfo;
-import org.elastos.carrier.UserInfo;
 import org.elastos.carrier.exceptions.CarrierException;
 import org.elastos.trinity.runtime.AppManager;
+import org.elastos.trinity.runtime.contactnotifier.comm.CarrierHelper;
 import org.elastos.trinity.runtime.contactnotifier.db.DatabaseAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Logger;
+
+// TODO: PROBLEM - CARRIER NOT READY WHEN ELASTOS STARTS AND DIRECTLY ADDING A FRIEND
+// TODO: PROBLEM - SHOULD INITIALIZE THE NOTIFIER AT ELASTOS START, NOT AT FIRST API CALL, TO SAVE TIME AND START LISTENING
 
 public class ContactNotifier {
-    private static HashMap<String, ContactNotifier> instances = null; // Sandbox DIDs - One did session = one instance
+    public static final String LOG_TAG = "ContactNotifier";
+
+    private static final String ONLINE_STATUS_MODE_PREF_KEY = "onlinestatusmode";
+    private static final String INVITATION_REQUESTS_MODE_PREF_KEY = "invitationrequestsmode";
+
+    private static HashMap<String, ContactNotifier> instances = new HashMap<>(); // Sandbox DIDs - One did session = one instance
 
     private Context context = null;
     private String didSessionDID = null;
     private AppManager appManager = null;
     private DatabaseAdapter dbAdapter = null;
+    private CarrierHelper carrierHelper = null;
 
     private ArrayList<OnOnlineStatusListener> onOnlineStatusChangedListeners = new ArrayList<>();
+    private ArrayList<OnInvitationAcceptedListener> onInvitationAcceptedListeners = new ArrayList<>();
 
     public interface OnInvitationAcceptedListener {
         void onInvitationAccepted(Contact contact);
@@ -34,13 +39,14 @@ public class ContactNotifier {
         void onStatusChanged(Contact contact, OnlineStatus status);
     }
 
-    private ContactNotifier(Context context, String didSessionDID) {
+    private ContactNotifier(Context context, String didSessionDID) throws CarrierException {
         this.context = context;
         this.didSessionDID = didSessionDID;
         this.dbAdapter = new DatabaseAdapter(context);
+        this.carrierHelper = new CarrierHelper(didSessionDID, context);
     }
 
-    public static ContactNotifier getSharedInstance(Context context, String did) {
+    public static ContactNotifier getSharedInstance(Context context, String did) throws CarrierException {
         if (instances.containsKey(did))
             return instances.get(did);
         else {
@@ -60,8 +66,8 @@ public class ContactNotifier {
      *
      * @returns The currently active carrier address on which user can be reached by (future) contacts.
      */
-    public String getCarrierAddress() {
-        return CarrierHelper.getOrCreateAddress(context);
+    public String getCarrierAddress() throws CarrierException {
+        return carrierHelper.getOrCreateAddress();
     }
 
     /**
@@ -98,7 +104,15 @@ public class ContactNotifier {
      * @param onlineStatusMode Whether contacts can see user's online status or not.
      */
     public void setOnlineStatusMode(OnlineStatusMode onlineStatusMode) {
+        getPrefs().edit().putInt(ONLINE_STATUS_MODE_PREF_KEY, onlineStatusMode.mValue).apply();
+    }
 
+    /**
+     * Returns the current online status mode.
+     */
+    public OnlineStatusMode getOnlineStatusMode() {
+        int onlineStatusModeAsInt = getPrefs().getInt(ONLINE_STATUS_MODE_PREF_KEY, OnlineStatusMode.STATUS_IS_VISIBLE.mValue);
+        return OnlineStatusMode.fromValue(onlineStatusModeAsInt);
     }
 
     /**
@@ -112,8 +126,8 @@ public class ContactNotifier {
      *
      * @param carrierAddress Target carrier address. Usually shared privately or publicly by the future contact.
      */
-    public void sendInvitation(String carrierAddress) {
-
+    public void sendInvitation(String carrierAddress) throws CarrierException {
+        carrierHelper.sendInvitation(carrierAddress);
     }
 
     /**
@@ -126,6 +140,7 @@ public class ContactNotifier {
      * @returns The generated contact
      */
     public Contact acceptInvitation(String invitationId) {
+        // TODO
         return null;
     }
 
@@ -137,6 +152,7 @@ public class ContactNotifier {
      * @param onInvitationAcceptedListener Called whenever an invitation has been accepted.
      */
     public void addOnInvitationAcceptedListener(OnInvitationAcceptedListener onInvitationAcceptedListener) {
+        this.onInvitationAcceptedListeners.add(onInvitationAcceptedListener);
     }
 
     /**
@@ -145,131 +161,21 @@ public class ContactNotifier {
      * @param mode Whether invitations should be accepted manually or automatically.
      */
     public void setInvitationRequestsMode(InvitationRequestsMode mode) {
-
+        getPrefs().edit().putInt(INVITATION_REQUESTS_MODE_PREF_KEY, mode.mValue).apply();
     }
 
-    private static class CarrierHelper {
-        static class DefaultCarrierOptions extends Carrier.Options {
-            DefaultCarrierOptions(String path) {
-                super();
+    /**
+     * Returns the way invitations are accepted.
+     */
+    public InvitationRequestsMode getInvitationRequestsMode() {
+        int invitationRequestsModeAsInt = getPrefs().getInt(INVITATION_REQUESTS_MODE_PREF_KEY, InvitationRequestsMode.MANUALLY_ACCEPT.mValue);
+        return InvitationRequestsMode.fromValue(invitationRequestsModeAsInt);
+    }
 
-                setOptions(path);
-            }
-
-            private void setOptions(String path) {
-                setUdpEnabled(true);
-                setPersistentLocation(path); // path is used to cache carrier data for better performance
-
-                ArrayList<BootstrapNode> arrayList = new ArrayList<>();
-                BootstrapNode node;
-
-                node = new BootstrapNode();
-                node.setIpv4("13.58.208.50");
-                node.setPort("33445");
-                node.setPublicKey("89vny8MrKdDKs7Uta9RdVmspPjnRMdwMmaiEW27pZ7gh");
-                arrayList.add(node);
-
-                node = new BootstrapNode();
-                node.setIpv4("18.216.102.47");
-                node.setPort("33445");
-                node.setPublicKey("G5z8MqiNDFTadFUPfMdYsYtkUDbX5mNCMVHMZtsCnFeb");
-                arrayList.add(node);
-
-                node = new BootstrapNode();
-                node.setIpv4("52.83.127.216");
-                node.setPort("33445");
-                node.setPublicKey("4sL3ZEriqW7pdoqHSoYXfkc1NMNpiMz7irHMMrMjp9CM");
-                arrayList.add(node);
-
-                node = new BootstrapNode();
-                node.setIpv4("52.83.127.85");
-                node.setPort("33445");
-                node.setPublicKey("CDkze7mJpSuFAUq6byoLmteyGYMeJ6taXxWoVvDMexWC");
-                arrayList.add(node);
-
-                node = new BootstrapNode();
-                node.setIpv4("18.216.6.197");
-                node.setPort("33445");
-                node.setPublicKey("H8sqhRrQuJZ6iLtP2wanxt4LzdNrN2NNFnpPdq1uJ9n2");
-                arrayList.add(node);
-
-                node = new BootstrapNode();
-                node.setIpv4("52.83.171.135");
-                node.setPort("33445");
-                node.setPublicKey("5tuHgK1Q4CYf4K5PutsEPK5E3Z7cbtEBdx7LwmdzqXHL");
-                arrayList.add(node);
-
-                setBootstrapNodes(arrayList);
-            }
-        }
-
-        static class DefaultCarrierHandler extends AbstractCarrierHandler {
-            @Override
-            public void onConnection(Carrier carrier, ConnectionStatus status) {
-                Logger.getGlobal().info("Carrier connection status: " + status);
-
-                if(status == ConnectionStatus.Connected) {
-                    // Do something
-                }
-            }
-
-            @Override
-            public void onFriendRequest(Carrier carrier,
-                                        String userId,
-                                        UserInfo info,
-                                        String hello) {
-                Logger.getGlobal().info("Carrier received friend request. Peer UserId: " + userId);
-                try {
-                    carrier.acceptFriend(userId);
-                }
-                catch (CarrierException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFriendAdded(Carrier carrier, FriendInfo info) {
-                Logger.getGlobal().info("Carrier friend added. Peer UserId: " + info.getUserId());
-            }
-
-            @Override
-            public void onFriendConnection(Carrier carrier,
-                                           String friendId,
-                                           ConnectionStatus status) {
-                Logger.getGlobal().info("Carrier friend connect. peer UserId: " + friendId);
-                Logger.getGlobal().info("Friend status:" + status);
-
-                if(status == ConnectionStatus.Connected) {
-                    // Do something
-                } else {
-                    // Do something
-                }
-            }
-
-            @Override
-            public void onFriendMessage(Carrier carrier, String from, byte[] message, boolean isOffline) {
-                Logger.getGlobal().info("Message from userId: " + from);
-                Logger.getGlobal().info("Message: " + new String(message));
-            }
-        }
-
-        static String getOrCreateAddress(Context context) {
-            // Initial setup
-            Carrier.Options options = new DefaultCarrierOptions(context.getFilesDir().getAbsolutePath()+"/contactnotifier");
-            CarrierHandler handler = new DefaultCarrierHandler();
-
-            try {
-                // Create or get an our carrier instance instance
-                Carrier carrier = Carrier.createInstance(options, handler);
-
-                // Start the service
-                carrier.start(1000); // Start carrier. Wait 500 milliseconds between each check of carrier status (polling)
-
-                return carrier.getAddress();
-            } catch (CarrierException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
+    /**
+     * DID Session sandboxed preferences
+     */
+    private SharedPreferences getPrefs() {
+        return context.getSharedPreferences("CONTACT_NOTIFIER_PREFS_"+didSessionDID, Context.MODE_PRIVATE);
     }
 }

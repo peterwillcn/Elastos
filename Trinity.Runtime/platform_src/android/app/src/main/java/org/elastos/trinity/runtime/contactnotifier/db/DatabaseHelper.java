@@ -63,7 +63,7 @@ import org.elastos.trinity.runtime.AppInfo;
          db.execSQL(strSQL);
      }
 
-     public void dropAllTables(SQLiteDatabase db) {
+     public void debugDropAllTables(SQLiteDatabase db) {
          db.execSQL("DROP TABLE IF EXISTS " + CONTACTS_TABLE);
      }
 

@@ -680,5 +680,59 @@
                 "fr": "Cette capsule pourra faire vibrer votre appareil."
             }
         }
+    },
+    "ContactNotifierPlugin": {
+        "notifierGetCarrierAddress": {
+            "danger_level": "low",
+            "title": {
+                "en": "Your network address",
+                "zh": "Your network address",
+                "fr": "Votre adresse réseau"
+            },
+            "description": {
+                "en": "This capsule will know the network address you are using to send notifications to your contacts.",
+                "zh": "This capsule will know the network address you are using to send notifications to your contacts.",
+                "fr": "Cette capsule connaîtra l'adresse réseau que vous utilisez pour envoyer des notifications à vos contacts."
+            }
+        },
+        "contactSendRemoteNotification": {
+            "danger_level": "medium",
+            "title": {
+                "en": "Notifications to your contacts",
+                "zh": "Notifications to your contacts",
+                "fr": "Notifications à vos contacts"
+            },
+            "description": {
+                "en": "This capsule will be able to send remote notifications to your contacts. Those contacts will view such notifications on their elastOS home screen.",
+                "zh": "This capsule will be able to send remote notifications to your contacts. Those contacts will view such notifications on their elastOS home screen.",
+                "fr": "Cette capsule pourra envoyer des notifications à vos contacts. Vos contacts verront ces notifications sur leur écran d'accueil elastOS."
+            }
+        },
+        "notifierSetOnlineStatusListener": {
+            "danger_level": "low",
+            "title": {
+                "en": "Online status of your contacts",
+                "zh": "Online status of your contacts",
+                "fr": "Présence en ligne de vos contacts"
+            },
+            "description": {
+                "en": "This capsule will be able to know when one of your contacts is online or offline.",
+                "zh": "This capsule will be able to know when one of your contacts is online or offline.",
+                "fr": "Cette capsule pourra être avertie lorsque vos contacts sont en ligne ou hors ligne."
+            }
+        },
+        "contactGetOnlineStatus": {
+            "danger_level": "low",
+            "title": {
+                "en": "Online status of your contacts",
+                "zh": "Online status of your contacts",
+                "fr": "Présence en ligne de vos contacts"
+            },
+            "description": {
+                "en": "This capsule will be able to know when one of your contacts is online or offline.",
+                "zh": "This capsule will be able to know when one of your contacts is online or offline.",
+                "fr": "Cette capsule pourra être avertie lorsque vos contacts sont en ligne ou hors ligne."
+            }
+        }
     }
 }

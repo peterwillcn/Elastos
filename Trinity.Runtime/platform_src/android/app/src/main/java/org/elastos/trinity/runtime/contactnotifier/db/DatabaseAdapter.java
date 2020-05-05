@@ -42,12 +42,7 @@ import org.json.JSONObject;
         this.context = context;
     }
 
-    public void clean() {
-        SQLiteDatabase db = helper.getWritableDatabase();
-        helper.onUpgrade(db, 0, 1);
-    }
-
-     public Contact getContact(String didSessionDID, String contactDID) {
+    public Contact getContact(String didSessionDID, String contactDID) {
          SQLiteDatabase db = helper.getWritableDatabase();
          String where = DatabaseHelper.DID_SESSION_DID + "=? AND " + DatabaseHelper.CONTACT_DID + "=?";
          String[] whereArgs = {didSessionDID, contactDID};

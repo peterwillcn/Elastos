@@ -169,6 +169,11 @@ declare namespace ContactNotifierPlugin {
         setOnlineStatusMode(onlineStatusMode: OnlineStatusMode);
 
         /**
+         * Returns the current online status mode.
+         */
+        getOnlineStatusMode(): Promise<OnlineStatusMode>;
+
+        /**
          * Sends a contact request to a peer. This contact will receive a notification about this request 
          * and can choose to accept the invitation or not.
          * 
@@ -207,5 +212,10 @@ declare namespace ContactNotifierPlugin {
          * @param mode Whether invitations should be accepted manually or automatically.
          */
         setInvitationRequestsMode(mode: InvitationRequestsMode);
+
+        /**
+         * Returns the way invitations are accepted.
+         */
+        getInvitationRequestsMode(): Promise<InvitationRequestsMode>;
     }
 }

@@ -116,6 +116,17 @@ class ContactNotifierImpl implements ContactNotifierPlugin.ContactNotifier {
         }, 'ContactNotifierPlugin', 'notifierSetOnlineStatusMode', [onlineStatusMode]);
     }
 
+    getOnlineStatusMode(): Promise<ContactNotifierPlugin.OnlineStatusMode> {
+        return new Promise((resolve, reject)=>{
+            exec((result: { onlineStatusMode: ContactNotifierPlugin.OnlineStatusMode }) =>{
+                resolve(result.onlineStatusMode);
+            }, err =>{
+                console.error("Error while calling ContactNotifierPlugin.getOnlineStatusMode()", err);
+                reject(err);
+            }, 'ContactNotifierPlugin', 'notifierGetOnlineStatusMode', []);
+        });
+    }
+
     sendInvitation(carrierAddress: string) {
         exec(() =>{
         }, err =>{
@@ -149,6 +160,17 @@ class ContactNotifierImpl implements ContactNotifierPlugin.ContactNotifier {
         }, err =>{
             console.error("Error while calling ContactNotifierPlugin.setInvitationRequestsMode()", err);
         }, 'ContactNotifierPlugin', 'notifierSetInvitationRequestsMode', [mode]);
+    }
+
+    getInvitationRequestsMode(): Promise<ContactNotifierPlugin.InvitationRequestsMode> {
+        return new Promise((resolve, reject)=>{
+            exec((result: { invitationRequestsMode: ContactNotifierPlugin.InvitationRequestsMode }) =>{
+                resolve(result.invitationRequestsMode);
+            }, err =>{
+                console.error("Error while calling ContactNotifierPlugin.getInvitationRequestsMode()", err);
+                reject(err);
+            }, 'ContactNotifierPlugin', 'notifierGetInvitationRequestsMode', []);
+        });
     }
 }
 

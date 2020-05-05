@@ -12,6 +12,13 @@
             "getAppList",
             "getAppInfo"
         ],
+        "ContactNotifierPlugin": [
+            "notifierRemoveContact",
+            "notifierSendInvitation",
+            "contactSetAllowNotifications",
+            "notifierAcceptInvitation",
+            "notifierSetOnInvitationAcceptedListener"
+        ],
         "$user": {}
     },
     "settings": {
@@ -28,6 +35,12 @@
         "DIDSessionManagerPlugin": [
             "getSignedInIdentity",
             "signOut"
+        ],
+        "ContactNotifierPlugin": [
+            "notifierSetOnlineStatusMode",
+            "notifierGetOnlineStatusMode",
+            "notifierSetInvitationRequestsMode",
+            "notifierGetInvitationRequestsMode"
         ],
         "$user": {}
     },
@@ -95,6 +108,13 @@
         "QRScanner": ["*"],
         "SplashScreen": ["*"],
         "FingerprintPlugin": ["*"],
-        "CDVIonicKeyboard": ["*"]
+        "CDVIonicKeyboard": ["*"],
+        "ContactNotifierPlugin": [
+            "notifierGetCarrierAddress",
+            "notifierResolveContact",
+            "notifierSetOnlineStatusListener",
+            "contactSendRemoteNotification",
+            "contactGetOnlineStatus"
+        ]
     }
 }

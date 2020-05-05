@@ -25,7 +25,12 @@ package org.elastos.trinity.runtime;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
 import org.elastos.trinity.runtime.TrinityPlugin;
+import org.elastos.trinity.runtime.contactnotifier.Contact;
 import org.elastos.trinity.runtime.contactnotifier.ContactNotifier;
+import org.elastos.trinity.runtime.contactnotifier.InvitationRequestsMode;
+import org.elastos.trinity.runtime.contactnotifier.OnlineStatus;
+import org.elastos.trinity.runtime.contactnotifier.OnlineStatusMode;
+import org.elastos.trinity.runtime.contactnotifier.RemoteNotificationRequest;
 import org.elastos.trinity.runtime.passwordmanager.AppsPasswordStrategy;
 import org.elastos.trinity.runtime.passwordmanager.PasswordInfoBuilder;
 import org.elastos.trinity.runtime.passwordmanager.PasswordManager;
@@ -50,7 +55,7 @@ public class ContactNotifierPlugin extends TrinityPlugin {
                 case "notifierGetCarrierAddress":
                     this.notifierGetCarrierAddress(args, callbackContext);
                     break;
-                /* TODO case "notifierResolveContact":
+                case "notifierResolveContact":
                     this.notifierResolveContact(args, callbackContext);
                     break;
                 case "notifierRemoveContact":
@@ -69,7 +74,7 @@ public class ContactNotifierPlugin extends TrinityPlugin {
                     this.notifierAcceptInvitation(args, callbackContext);
                     break;
                 case "notifierSetOnInvitationAcceptedListener":
-                    this.notifierSetOnInvitationAcceptedListener(args, callbackContext);
+                    this.setOnInvitationAcceptedListener(args, callbackContext);
                     break;
                 case "notifierSetInvitationRequestsMode":
                     this.notifierSetInvitationRequestsMode(args, callbackContext);
@@ -83,7 +88,7 @@ public class ContactNotifierPlugin extends TrinityPlugin {
                     break;
                 case "contactGetOnlineStatus":
                     this.contactGetOnlineStatus(args ,callbackContext);
-                    break;*/
+                    break;
 
                 default:
                     return false;
@@ -133,12 +138,169 @@ public class ContactNotifierPlugin extends TrinityPlugin {
         }
     }
 
+    private ContactNotifier getNotifier() {
+        return ContactNotifier.getSharedInstance(cordova.getContext(), did);
+    }
+
     private void notifierGetCarrierAddress(JSONArray args, CallbackContext callbackContext) throws Exception {
-        String carrierAddress = ContactNotifier.getSharedInstance().getCarrierAddress();
+        String carrierAddress = getNotifier().getCarrierAddress();
 
         JSONObject result = new JSONObject();
         result.put("address", carrierAddress);
         sendSuccess(callbackContext, result);
     }
 
+    private void notifierResolveContact(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String contactDID = args.getString(0);
+
+        Contact contact = getNotifier().resolveContact(contactDID);
+
+        JSONObject result = new JSONObject();
+        result.put("contact", contact.toJSONObject());
+        sendSuccess(callbackContext, result);
+    }
+
+    private void notifierRemoveContact(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String contactDID = args.getString(0);
+
+        getNotifier().removeContact(contactDID);
+
+        JSONObject result = new JSONObject();
+        sendSuccess(callbackContext, result);
+    }
+
+    private void notifierSetOnlineStatusListener(JSONArray args, CallbackContext callbackContext) throws Exception {
+        getNotifier().addOnlineStatusListener((contact, status) -> {
+            try {
+                JSONObject listenerResult = new JSONObject();
+                listenerResult.put("contact", contact.toJSONObject());
+                listenerResult.put("status", status.mValue);
+
+                PluginResult res = new PluginResult(PluginResult.Status.OK, listenerResult);
+                res.setKeepCallback(true);
+                callbackContext.sendPluginResult(res);
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
+
+        PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
+        result.setKeepCallback(true);
+        callbackContext.sendPluginResult(result);
+    }
+
+    private void notifierSetOnlineStatusMode(JSONArray args, CallbackContext callbackContext) throws Exception {
+        int onlineStatusModeAsInt = args.getInt(0);
+
+        OnlineStatusMode mode = OnlineStatusMode.fromValue(onlineStatusModeAsInt);
+
+        getNotifier().setOnlineStatusMode(mode);
+
+        JSONObject result = new JSONObject();
+        sendSuccess(callbackContext, result);
+    }
+
+    private void notifierSendInvitation(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String carrierAddress = args.getString(0);
+
+        getNotifier().sendInvitation(carrierAddress);
+
+        JSONObject result = new JSONObject();
+        sendSuccess(callbackContext, result);
+    }
+
+    private void notifierAcceptInvitation(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String invitationId = args.getString(0);
+
+        Contact connectedContact = getNotifier().acceptInvitation(invitationId);
+
+        JSONObject result = new JSONObject();
+        result.put("contact", connectedContact.toJSONObject());
+        sendSuccess(callbackContext, result);
+    }
+
+    private void setOnInvitationAcceptedListener(JSONArray args, CallbackContext callbackContext) throws Exception {
+        // TODO IMPORTANT: when an app is closed, need to remove the listener heer otherwise this will retain a memory
+        // reference on that app and things can't be deallocated! Ask Dongxiao how to get notified when an app closes
+
+        getNotifier().addOnInvitationAcceptedListener((contact) -> {
+            try {
+                JSONObject listenerResult = new JSONObject();
+                listenerResult.put("contact", contact.toJSONObject());
+
+                PluginResult res = new PluginResult(PluginResult.Status.OK, listenerResult);
+                res.setKeepCallback(true);
+                callbackContext.sendPluginResult(res);
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
+
+        PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
+        result.setKeepCallback(true);
+        callbackContext.sendPluginResult(result);
+    }
+
+    private void notifierSetInvitationRequestsMode(JSONArray args, CallbackContext callbackContext) throws Exception {
+        int invitationRequestModeAsInt = args.getInt(0);
+
+        InvitationRequestsMode mode = InvitationRequestsMode.fromValue(invitationRequestModeAsInt);
+
+        getNotifier().setInvitationRequestsMode(mode);
+
+        JSONObject result = new JSONObject();
+        sendSuccess(callbackContext, result);
+    }
+
+    private void contactSendRemoteNotification(JSONArray args, CallbackContext callbackContext) throws Exception {
+        JSONObject contactAsJson = args.getJSONObject(0);
+        JSONObject notificationAsJson = args.getJSONObject(1);
+
+        Contact contact = Contact.fromJSONObject(getNotifier(), contactAsJson);
+        if (contact == null) {
+            sendError(callbackContext, "contactSendRemoteNotification", "Invalid contact object");
+            return;
+        }
+
+        RemoteNotificationRequest remoteNotificationRequest = RemoteNotificationRequest.fromJSONObject(notificationAsJson);
+
+        contact.sendRemoteNotification(remoteNotificationRequest);
+
+        JSONObject result = new JSONObject();
+        sendSuccess(callbackContext, result);
+    }
+
+    private void contactSetAllowNotifications(JSONArray args, CallbackContext callbackContext) throws Exception {
+        JSONObject contactAsJson = args.getJSONObject(0);
+        boolean allowNotifications = args.getBoolean(1);
+
+        Contact contact = Contact.fromJSONObject(getNotifier(), contactAsJson);
+        if (contact == null) {
+            sendError(callbackContext, "contactSetAllowNotifications", "Invalid contact object");
+            return;
+        }
+
+        contact.setAllowNotifications(allowNotifications);
+
+        JSONObject result = new JSONObject();
+        sendSuccess(callbackContext, result);
+    }
+
+    private void contactGetOnlineStatus(JSONArray args, CallbackContext callbackContext) throws Exception {
+        JSONObject contactAsJson = args.getJSONObject(0);
+
+        Contact contact = Contact.fromJSONObject(getNotifier(), contactAsJson);
+        if (contact == null) {
+            sendError(callbackContext, "contactSetAllowNotifications", "Invalid contact object");
+            return;
+        }
+
+        OnlineStatus status = contact.getOnlineStatus();
+
+        JSONObject result = new JSONObject();
+        result.put("onlineStatus", status.mValue);
+        sendSuccess(callbackContext, result);
+    }
 }

@@ -41,7 +41,7 @@ class ContactImpl implements ContactNotifierPlugin.Contact {
             }, err =>{
                 console.error("Error while calling ContactNotifierPlugin.sendRemoteNotification()", err);
                 reject(err);
-            }, 'ContactNotifierPlugin', 'contactSendRemoteNotification', [remoteNotification]);
+            }, 'ContactNotifierPlugin', 'contactSendRemoteNotification', [this, remoteNotification]);
         });
     }
 
@@ -49,7 +49,7 @@ class ContactImpl implements ContactNotifierPlugin.Contact {
         exec(() =>{
         }, err =>{
             console.error("Error while calling ContactNotifierPlugin.setAllowNotifications()", err);
-        }, 'ContactNotifierPlugin', 'contactSetAllowNotifications', [allowNotifications]);
+        }, 'ContactNotifierPlugin', 'contactSetAllowNotifications', [this, allowNotifications]);
     }
 
     getOnlineStatus(): Promise<ContactNotifierPlugin.OnlineStatus> {
@@ -59,7 +59,7 @@ class ContactImpl implements ContactNotifierPlugin.Contact {
             }, err =>{
                 console.error("Error while calling ContactNotifierPlugin.getOnlineStatus()", err);
                 reject(err);
-            }, 'ContactNotifierPlugin', 'contactGetOnlineStatus', []);
+            }, 'ContactNotifierPlugin', 'contactGetOnlineStatus', [this]);
         });
     }
 

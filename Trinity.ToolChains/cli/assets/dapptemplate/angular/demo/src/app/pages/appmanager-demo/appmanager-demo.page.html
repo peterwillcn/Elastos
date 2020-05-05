@@ -15,5 +15,12 @@
     <p>With App Manager declared, you can now use its methods such as sending intents or closing this application.</p>
     <img src="assets/appmanager-demo/sample.png"/>
 
+    <h1>App Manager Options</h1>
+    <ion-row class="type">
+      <ion-col size="5.9" *ngFor="let manager of appManagerService.managers" (click)="appManagerService.openManager(manager)">
+        <ion-label>{{ manager.type }}</ion-label>
+      </ion-col>
+    </ion-row>
+
   </ion-grid>
 </ion-content>

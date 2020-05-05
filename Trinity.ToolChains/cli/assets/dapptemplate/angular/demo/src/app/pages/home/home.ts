@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ModalController } from '@ionic/angular';
 import { DAppService } from 'src/app/services/dapp.service';
-import { IntentPage } from '../intent/intent.page';
+import { IntentPage } from '../intent-demo/intent/intent.page';
 import { IntentService } from 'src/app/services/intent.service';
 import { AppmanagerService } from 'src/app/services/appmanager.service';
 import { TitlebarService } from 'src/app/services/titlebar.service';
@@ -19,7 +19,6 @@ export class HomePage {
 
   constructor(
     public navCtrl: NavController,
-    private modalCtrl: ModalController,
     public dappService: DAppService,
     public intentService: IntentService,
     public appManagerService: AppmanagerService,

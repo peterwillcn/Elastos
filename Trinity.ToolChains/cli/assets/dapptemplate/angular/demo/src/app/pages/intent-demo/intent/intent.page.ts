@@ -28,7 +28,7 @@ export class IntentPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    titleBarManager.setTitle("Intent");
+    titleBarManager.setTitle(this.intent.type + ' Intent');
     titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
   }
 
@@ -55,7 +55,7 @@ export class IntentPage implements OnInit {
       this.intentService.signIn();
     }
     if(this.intent.intent === 'app') {
-      this.intentService.browse();
+      this.intentService.browse('org.elastos.trinity.dapp.blockchain');
     }
   }
 

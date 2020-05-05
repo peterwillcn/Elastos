@@ -1,11 +1,10 @@
 .container {
   min-height: 100%;
-  background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
   padding: 30px 15px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
 
   ion-card {
     margin: 0;
@@ -16,7 +15,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 15px;
-    background: #181d20;
+    background: linear-gradient(to bottom, #181d20 0%,  #21313d 100%);
 
     ion-card-title {
       margin: 0;
@@ -27,27 +26,45 @@
       font-weight: 800;
     }
 
-    ion-card-content {
+    ion-card-subtitle {
       margin: 15px 15px 0;
-      padding: 0;
       text-align: center;
       color: white;
       letter-spacing: 0.3px;
       font-size: 13px;
       font-weight: 500;
+
+      span {
+        font-weight: 700;
+      }
     }
   }
 
-  h1 {
-    margin: 30px 5px 0;
-    font-size: 20px;
-    font-weight: 800;
+  h1, h2, h3, h4, h5 {
+    margin: 0;
+    // text-align: center;
+    letter-spacing: 0.3px;
   }
 
-  p {
-    margin: 5px;
+  h3, h4 {
     font-size: 13px;
     font-weight: 600;
+    line-height: 1.53;
+  }
+
+  h3 {
+    padding: 30px 5px 15px;
+  }
+
+  h4 {
+    padding: 15px 5px 30px;
+  }
+
+  h5 {
+    text-align: center;
+    padding: 0px;
+    font-size: 13px;
+    font-weight: 700;
     line-height: 1.53;
   }
 
@@ -55,25 +72,21 @@
     border-radius: 10px;
   }
 
-  .type {
-    width: 100%;
-    margin-top: 5px;
-    display: flex;
-    justify-content: space-between;
 
-    ion-col {
-      background: linear-gradient(to bottom, #181d20 0%,  #21313d 100%);
-      border-radius: 10px;
-      margin-bottom: 5px;
-      padding: 15px;
-      display: flex;
-      align-items: center;
+  .btn-row {
+    width: 100%;
+
+    ion-button {
+      height: 45px;
+      width: 100%;
+      --border-radius: 30px;
+      --box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.15);
 
       ion-label {
-        color: white;
-        font-size: 12px;
+        text-transform: none;
+        font-size: 16px;
         font-weight: 500;
-        letter-spacing: 2px;
+        letter-spacing: -0.43px;
       }
     }
   }

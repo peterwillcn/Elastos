@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { IntentPage } from '../pages/intent/intent.page';
+import { IntentPage } from '../pages/intent-demo/intent/intent.page';
 
 declare let appManager: AppManagerPlugin.AppManager;
 
@@ -102,10 +102,10 @@ export class IntentService {
   }
 
   /** 'app' intent **/
-  browse() {
+  browse(id: string) {
     appManager.sendIntent(
       "app",
-      { id: 'org.elastos.trinity.dapp.blockchain' },
+      { id: id },
       {}
     );
   }
@@ -138,7 +138,7 @@ export class IntentService {
     );
   }
 
-   /** 'credaccess' intent **/
+  /** 'credaccess' intent **/
   signIn() {
     appManager.sendIntent("credaccess", {
       claims: {
@@ -153,7 +153,7 @@ export class IntentService {
     });
   }
 
-   /** 'sign' intent **/
+  /** 'sign' intent **/
   signData() {
     appManager.sendIntent("sign", {
       data: 'Add data to sign...'

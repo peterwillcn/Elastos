@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TitlebarDemoPage } from './titlebar-demo.page';
+import { CorePage } from './core.page';
 
-describe('TitlebarDemoPage', () => {
-  let component: TitlebarDemoPage;
-  let fixture: ComponentFixture<TitlebarDemoPage>;
+describe('CorePage', () => {
+  let component: CorePage;
+  let fixture: ComponentFixture<CorePage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TitlebarDemoPage ],
+      declarations: [ CorePage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TitlebarDemoPage);
+    fixture = TestBed.createComponent(CorePage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

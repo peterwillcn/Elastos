@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TitlebarService } from 'src/app/services/titlebar.service';
 
 declare let titleBarManager: TitleBarPlugin.TitleBarManager;
 
@@ -9,7 +10,9 @@ declare let titleBarManager: TitleBarPlugin.TitleBarManager;
 })
 export class TitlebarDemoPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    public titlebarService: TitlebarService
+  ) { }
 
   ngOnInit() {
   }

@@ -15,5 +15,13 @@
     <p>With Titlebar Manager declared, it's best used under a page life cycle or upon app render</p>
     <img src="assets/titlebar-demo/sample.png"/>
 
+    <h1>Titlebar Options</h1>
+    <ion-row class="type">
+      <ion-col size="5.9" *ngFor="let manager of titlebarService.managers" (click)="titlebarService.openManager(manager)">
+        <ion-label>{{ manager.type }}</ion-label>
+      </ion-col>
+    </ion-row>
+
+
   </ion-grid>
 </ion-content>

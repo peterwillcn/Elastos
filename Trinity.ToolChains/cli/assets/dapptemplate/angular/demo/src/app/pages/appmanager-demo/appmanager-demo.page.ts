@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppmanagerService } from 'src/app/services/appmanager.service';
 
 declare let titleBarManager: TitleBarPlugin.TitleBarManager;
 
@@ -9,7 +10,9 @@ declare let titleBarManager: TitleBarPlugin.TitleBarManager;
 })
 export class AppmanagerDemoPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    public appManagerService: AppmanagerService
+  ) { }
 
   ngOnInit() {
     titleBarManager.setTitle("App Manager Demo");

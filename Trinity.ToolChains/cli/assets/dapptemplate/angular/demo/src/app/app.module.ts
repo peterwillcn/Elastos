@@ -17,8 +17,10 @@ import { HomePage } from './pages/home/home';
 
 import { HelpComponent } from './components/help/help.component';
 import { DeleteComponent } from './components/delete/delete.component';
-import { IntentPage } from './pages/intent/intent.page';
-import { IntentDemoPage } from './pages/intent-demo/intent-demo.page';
+import { IntentPage } from './pages/intent-demo/intent/intent.page';
+import { TitlebarPage } from './pages/titlebar-demo/titlebar/titlebar.page';
+import { AppmanagerPage } from './pages/appmanager-demo/appmanager/appmanager.page';
+
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import { IntentDemoPage } from './pages/intent-demo/intent-demo.page';
     MyApp,
     HomePage,
     IntentPage,
+    TitlebarPage,
+    AppmanagerPage,
     HelpComponent,
     DeleteComponent,
   ],
@@ -43,6 +47,8 @@ import { IntentDemoPage } from './pages/intent-demo/intent-demo.page';
     MyApp,
     HomePage,
     IntentPage,
+    TitlebarPage,
+    AppmanagerPage,
     HelpComponent,
     DeleteComponent
   ],

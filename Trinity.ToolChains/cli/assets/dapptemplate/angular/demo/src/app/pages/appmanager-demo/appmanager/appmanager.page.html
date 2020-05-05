@@ -1,0 +1,14 @@
+
+<ion-content>
+  <ion-grid class="container">
+    <ion-card>
+      <ion-card-title>{{ manager.title }}</ion-card-title>
+    </ion-card>
+    <h3>{{ manager.message }}</h3>
+    <img [src]="manager.example"/>
+    <h4 *ngIf="manager.message2 && !manager.message3">{{ manager.message2 }}</h4>
+    <h3 *ngIf="manager.message2 && manager.message3">{{ manager.message2 }}</h3>
+    <img *ngIf="manager.example2" [src]="manager.example2"/>
+    <h4 *ngIf="manager.message3">{{ manager.message3 }}</h4>
+  </ion-grid>
+</ion-content>

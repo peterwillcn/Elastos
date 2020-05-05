@@ -42,26 +42,8 @@
 
   h1, h2, h3, h4, h5 {
     margin: 0;
-    text-align: center;
+    // text-align: center;
     letter-spacing: 0.3px;
-  }
-
-  h1, h2 {
-    padding: 0;
-  }
-
-  h1 {
-    font-size: 26px;
-    font-weight: 800;
-  }
-
-  h2 {
-    font-size: 13px;
-    font-weight: 500;
-
-    span {
-      font-weight: 700;
-    }
   }
 
   h3, h4 {
@@ -71,14 +53,15 @@
   }
 
   h3 {
-    padding: 30px 15px 15px;
+    padding: 30px 5px 15px;
   }
 
   h4 {
-    padding: 15px 15px 30px;
+    padding: 15px 5px 30px;
   }
 
   h5 {
+    text-align: center;
     padding: 0px;
     font-size: 13px;
     font-weight: 700;

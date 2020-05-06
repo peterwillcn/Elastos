@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ModalController } from '@ionic/angular';
 import { DAppService } from 'src/app/services/dapp.service';
-import { IntentPage } from '../intent-demo/intent/intent.page';
+import { IntentDemoPage } from '../intent/intent-demo/intent-demo.page';
 import { IntentService } from 'src/app/services/intent.service';
 import { AppmanagerService } from 'src/app/services/appmanager.service';
 import { TitlebarService } from 'src/app/services/titlebar.service';

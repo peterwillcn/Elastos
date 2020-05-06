@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { IntentPage } from '../pages/intent-demo/intent/intent.page';
+import { IntentDemoPage } from '../pages/intent/intent-demo/intent-demo.page';
 
 declare let appManager: AppManagerPlugin.AppManager;
 
@@ -72,7 +72,7 @@ export class IntentService {
 
   async openIntent(intent: any) {
     const modal = await this.modalCtrl.create({
-      component: IntentPage,
+      component: IntentDemoPage,
       componentProps: {
         intent: intent
       },

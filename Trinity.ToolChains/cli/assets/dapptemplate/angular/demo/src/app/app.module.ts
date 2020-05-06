@@ -17,9 +17,10 @@ import { HomePage } from './pages/home/home';
 
 import { HelpComponent } from './components/help/help.component';
 import { DeleteComponent } from './components/delete/delete.component';
-import { IntentPage } from './pages/intent-demo/intent/intent.page';
-import { TitlebarPage } from './pages/titlebar-demo/titlebar/titlebar.page';
-import { AppmanagerPage } from './pages/appmanager-demo/appmanager/appmanager.page';
+
+import { IntentDemoPage } from './pages/intent/intent-demo/intent-demo.page';
+import { TitlebarDemoPage } from './pages/titlebar/titlebar-demo/titlebar-demo.page';
+import { AppmanagerDemoPage } from './pages/appmanager/appmanager-demo/appmanager-demo.page';
 
 
 
@@ -27,9 +28,9 @@ import { AppmanagerPage } from './pages/appmanager-demo/appmanager/appmanager.pa
   declarations: [
     MyApp,
     HomePage,
-    IntentPage,
-    TitlebarPage,
-    AppmanagerPage,
+    IntentDemoPage,
+    TitlebarDemoPage,
+    AppmanagerDemoPage,
     HelpComponent,
     DeleteComponent,
   ],
@@ -46,9 +47,9 @@ import { AppmanagerPage } from './pages/appmanager-demo/appmanager/appmanager.pa
   entryComponents: [
     MyApp,
     HomePage,
-    IntentPage,
-    TitlebarPage,
-    AppmanagerPage,
+    IntentDemoPage,
+    TitlebarDemoPage,
+    AppmanagerDemoPage,
     HelpComponent,
     DeleteComponent
   ],

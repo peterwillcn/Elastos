@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppmanagerService } from 'src/app/services/appmanager.service';
+import { NavParams } from '@ionic/angular';
 
 declare let titleBarManager: TitleBarPlugin.TitleBarManager;
 
@@ -10,17 +10,23 @@ declare let titleBarManager: TitleBarPlugin.TitleBarManager;
 })
 export class AppmanagerDemoPage implements OnInit {
 
+  public manager;
+
   constructor(
-    public appManagerService: AppmanagerService
+    private navParams: NavParams
   ) { }
 
   ngOnInit() {
-    titleBarManager.setTitle("App Manager Demo");
-    titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
+    this.manager = this.navParams.get('manager');
+    console.log('App Manager Example', this.manager);
   }
 
   ionViewWillEnter() {
-    titleBarManager.setTitle("App Manager Demo");
+    titleBarManager.setTitle(this.manager.type);
     titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
+  }
+
+  ionViewWillLeave() {
+    titleBarManager.setTitle("Demo Template");
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { TitlebarPage } from '../pages/titlebar-demo/titlebar/titlebar.page';
+import { TitlebarDemoPage } from '../pages/titlebar/titlebar-demo/titlebar-demo.page';
 
 declare let titleBarManager: TitleBarPlugin.TitleBarManager;
 
@@ -42,7 +42,7 @@ export class TitlebarService {
 
   async openManager(manager: any) {
     const modal = await this.modalCtrl.create({
-      component: TitlebarPage,
+      component: TitlebarDemoPage,
       componentProps: {
         manager: manager
       },

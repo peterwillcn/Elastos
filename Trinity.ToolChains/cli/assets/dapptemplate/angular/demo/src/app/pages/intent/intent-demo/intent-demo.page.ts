@@ -9,10 +9,10 @@ declare let titleBarManager: TitleBarPlugin.TitleBarManager;
 
 @Component({
   selector: 'app-intent',
-  templateUrl: './intent.page.html',
-  styleUrls: ['./intent.page.scss'],
+  templateUrl: './intent-demo.page.html',
+  styleUrls: ['./intent-demo.page.scss'],
 })
-export class IntentPage implements OnInit {
+export class IntentDemoPage implements OnInit {
 
   public intent;
 

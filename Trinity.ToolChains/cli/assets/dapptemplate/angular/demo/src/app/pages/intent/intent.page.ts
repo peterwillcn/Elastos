@@ -5,11 +5,11 @@ declare let appManager: AppManagerPlugin.AppManager;
 declare let titleBarManager: TitleBarPlugin.TitleBarManager;
 
 @Component({
-  selector: 'app-intent-demo',
-  templateUrl: './intent-demo.page.html',
-  styleUrls: ['./intent-demo.page.scss'],
+  selector: 'app-intent',
+  templateUrl: './intent.page.html',
+  styleUrls: ['./intent.page.scss'],
 })
-export class IntentDemoPage implements OnInit {
+export class IntentPage implements OnInit {
 
   constructor(
     public intentService: IntentService

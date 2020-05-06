@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { AppmanagerPage } from '../pages/appmanager-demo/appmanager/appmanager.page';
+import { AppmanagerDemoPage } from '../pages/appmanager/appmanager-demo/appmanager-demo.page';
 import { Router } from '@angular/router';
 
 declare let appManager: AppManagerPlugin.AppManager;
@@ -53,10 +53,10 @@ export class AppmanagerService {
 
   async openManager(manager: any) {
     if(manager.type === 'Intent') {
-      this.router.navigate(['intent-demo']);
+      this.router.navigate(['intent']);
     } else {
       const modal = await this.modalCtrl.create({
-        component: AppmanagerPage,
+        component: AppmanagerDemoPage,
         componentProps: {
           manager: manager
         },

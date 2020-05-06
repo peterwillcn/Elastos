@@ -56,13 +56,14 @@
   }
 
   .type {
+    width: 100%;
     margin-top: 5px;
     display: flex;
     justify-content: space-between;
 
     ion-col {
       background: linear-gradient(to bottom, #181d20 0%,  #21313d 100%);
-      border-radius: 10px;
+      border-radius: 15px;
       margin-bottom: 5px;
       padding: 15px;
       display: flex;

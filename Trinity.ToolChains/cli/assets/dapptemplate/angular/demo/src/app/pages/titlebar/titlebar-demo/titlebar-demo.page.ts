@@ -4,11 +4,11 @@ import { NavParams } from '@ionic/angular';
 declare let titleBarManager: TitleBarPlugin.TitleBarManager;
 
 @Component({
-  selector: 'app-appmanager',
-  templateUrl: './appmanager.page.html',
-  styleUrls: ['./appmanager.page.scss'],
+  selector: 'app-titlebar-demo',
+  templateUrl: './titlebar-demo.page.html',
+  styleUrls: ['./titlebar-demo.page.scss'],
 })
-export class AppmanagerPage implements OnInit {
+export class TitlebarDemoPage implements OnInit {
 
   public manager;
 
@@ -18,15 +18,16 @@ export class AppmanagerPage implements OnInit {
 
   ngOnInit() {
     this.manager = this.navParams.get('manager');
-    console.log('App Manager Example', this.manager);
+    console.log('Titlebar Example', this.manager);
   }
 
   ionViewWillEnter() {
-    titleBarManager.setTitle(this.manager.type);
+    titleBarManager.setTitle('Titlebar ' + this.manager.type);
     titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
   }
 
   ionViewWillLeave() {
     titleBarManager.setTitle("Demo Template");
   }
+
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavParams } from '@ionic/angular';
+import { TitlebarService } from 'src/app/services/titlebar.service';
 
 declare let titleBarManager: TitleBarPlugin.TitleBarManager;
 
@@ -10,24 +10,18 @@ declare let titleBarManager: TitleBarPlugin.TitleBarManager;
 })
 export class TitlebarPage implements OnInit {
 
-  public manager;
-
   constructor(
-    private navParams: NavParams
+    public titlebarService: TitlebarService
   ) { }
 
   ngOnInit() {
-    this.manager = this.navParams.get('manager');
-    console.log('Titlebar Example', this.manager);
   }
 
   ionViewWillEnter() {
-    titleBarManager.setTitle('Titlebar ' + this.manager.type);
+    titleBarManager.setTitle("Titlebar Demo");
     titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
   }
 
-  ionViewWillLeave() {
-    titleBarManager.setTitle("Demo Template");
-  }
-
 }
+
+

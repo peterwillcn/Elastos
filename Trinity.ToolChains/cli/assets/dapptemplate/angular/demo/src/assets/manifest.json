@@ -9,7 +9,7 @@
   "start_url": "index.html",
   "type": "app",
   "start_visible": "hide",
-  "category": "productivity",
+  "category": "techdemo",
   "icons": [
     {
       "src": "assets/images/logo.svg",

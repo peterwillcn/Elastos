@@ -16,6 +16,7 @@ module.exports = class ManifestHelper {
             const frameworkTemplates = {
                 angular: [
                     {title:"Tabs", description:"Basic tabs, empty content", value:"basic"},
+                    {title:"Demo", description:"Demo app that embeds copiable source code", value:"demo"},
                     {title:"Phaser game", description:"Simple game using the phaser.io game engine", value:"phasergame"},
                     {title:"HTML Game", description:"Simple cards HTML game without game engine", value:"htmlgame"}
                 ],

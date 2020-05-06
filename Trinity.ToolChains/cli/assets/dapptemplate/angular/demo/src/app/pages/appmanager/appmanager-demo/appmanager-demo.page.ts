@@ -22,7 +22,7 @@ export class AppmanagerDemoPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    titleBarManager.setTitle(this.manager.type);
+    titleBarManager.setTitle('App Manager Demo');
     titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
   }
 

@@ -6,7 +6,6 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy, Platform } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
-import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { HttpClientModule } from '@angular/common/http';
@@ -16,7 +15,6 @@ import { MyApp } from './app.component';
 import { HomePage } from './pages/home/home';
 
 import { HelpComponent } from './components/help/help.component';
-import { DeleteComponent } from './components/delete/delete.component';
 
 import { IntentDemoPage } from './pages/intent/intent-demo/intent-demo.page';
 import { TitlebarDemoPage } from './pages/titlebar/titlebar-demo/titlebar-demo.page';
@@ -32,7 +30,6 @@ import { AppmanagerDemoPage } from './pages/appmanager/appmanager-demo/appmanage
     TitlebarDemoPage,
     AppmanagerDemoPage,
     HelpComponent,
-    DeleteComponent,
   ],
   imports: [
     CommonModule,
@@ -51,13 +48,11 @@ import { AppmanagerDemoPage } from './pages/appmanager/appmanager-demo/appmanage
     TitlebarDemoPage,
     AppmanagerDemoPage,
     HelpComponent,
-    DeleteComponent
   ],
   providers: [
     StatusBar,
     SplashScreen,
     Platform,
-    Clipboard,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {provide: ErrorHandler, useClass: ErrorHandler}
   ]

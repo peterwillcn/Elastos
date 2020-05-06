@@ -22,7 +22,7 @@ export class TitlebarDemoPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    titleBarManager.setTitle('Titlebar ' + this.manager.type);
+    titleBarManager.setTitle('Titlebar Demo');
     titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
   }
 

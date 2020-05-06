@@ -15,12 +15,10 @@ export class AppmanagerPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    titleBarManager.setTitle("App Manager Demo");
-    titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
   }
 
   ionViewWillEnter() {
-    titleBarManager.setTitle("App Manager Demo");
+    titleBarManager.setTitle("App Manager Guide");
     titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
   }
 }

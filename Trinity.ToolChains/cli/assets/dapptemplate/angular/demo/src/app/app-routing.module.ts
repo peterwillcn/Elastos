@@ -16,7 +16,6 @@ const routes: Routes = [
   { path: 'intent-demo', loadChildren: './pages/intent/intent-demo/intent-demo.module#IntentDemoPageModule' },
 
   { path: 'core', loadChildren: './pages/core/core.module#CorePageModule' },
-
 ];
 
 @NgModule({

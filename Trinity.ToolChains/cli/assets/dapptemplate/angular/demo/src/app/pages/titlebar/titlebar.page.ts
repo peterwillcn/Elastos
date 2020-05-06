@@ -18,7 +18,7 @@ export class TitlebarPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    titleBarManager.setTitle("Titlebar Demo");
+    titleBarManager.setTitle("Titlebar Guide");
     titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
   }
 

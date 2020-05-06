@@ -16,7 +16,7 @@ export class IntentPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    titleBarManager.setTitle("Intent Demo");
+    titleBarManager.setTitle("Intent Guide");
     titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
   }
 }

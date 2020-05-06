@@ -28,7 +28,7 @@ export class IntentDemoPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    titleBarManager.setTitle(this.intent.type + ' Intent');
+    titleBarManager.setTitle('Intent Demo');
     titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
   }
 

@@ -69,11 +69,9 @@ declare namespace ContactNotifierPlugin {
         getDID(): string;
 
         /** 
-         * Returns the carrier address of this contact. After a contact is added, we get his permanent 
-         * carrier friend ID (stored internally) and the changeable carrier address is not needed any more for communications.
-         * Though, some use cases still need to retrieve that carrier address.
+         * Returns the permanent carrier user ID of this contact.
          */
-        getCarrierAddress(): string;
+        getCarrierUserID(): string;
 
         /**
          * Sends a notification to the notification manager of a distant friend's Trinity instance.
@@ -126,7 +124,9 @@ declare namespace ContactNotifierPlugin {
         /** Manually accept all incoming requests. */
         MANUALLY_ACCEPT = 0,
         /** Automatically accept all incoming requests as new contacts. */
-        AUTO_ACCEPT = 1
+        AUTO_ACCEPT = 1,
+        /** Automatically reject all incoming requests. */
+        AUTO_REJECT = 2
     }
 
     interface ContactNotifier {

@@ -86,7 +86,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
      @Override
      public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
      }
 
      @Override

@@ -27,19 +27,21 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import org.elastos.trinity.runtime.AppInfo;
 import org.elastos.trinity.runtime.contactnotifier.Contact;
+import org.elastos.trinity.runtime.contactnotifier.ContactNotifier;
 
+import java.util.ArrayList;
 import java.util.Date;
 
  public class DatabaseAdapter {
     DatabaseHelper helper;
     Context context;
+    ContactNotifier notifier;
 
-    public DatabaseAdapter(Context context)
+    public DatabaseAdapter(ContactNotifier notifier, Context context)
     {
+        this.notifier = notifier;
         helper = new DatabaseHelper(context);
-        //SQLiteDatabase db = helper.getWritableDatabase();
         this.context = context;
     }
 
@@ -52,21 +54,47 @@ import java.util.Date;
          contentValues.put(DatabaseHelper.CARRIER_USER_ID, carrierUserID);
          contentValues.put(DatabaseHelper.NOTIFICATIONS_BLOCKED, false);
          contentValues.put(DatabaseHelper.ADDED_DATE, new Date().getTime()); // Unix timestamp
+
          db.insertOrThrow(DatabaseHelper.CONTACTS_TABLE, null, contentValues);
      }
 
-     public void updateContact() {
+     public void updateContactNotificationsBlocked(String didSessionDID, String did, boolean shouldBlockNotifications) {
+         SQLiteDatabase db = helper.getWritableDatabase();
 
+         String where = DatabaseHelper.DID_SESSION_DID + "=? AND " + DatabaseHelper.DID + "=?";
+         String[] whereArgs = {didSessionDID, did};
+
+         ContentValues contentValues = new ContentValues();
+         contentValues.put(DatabaseHelper.NOTIFICATIONS_BLOCKED, shouldBlockNotifications);
+
+         db.update(DatabaseHelper.CONTACTS_TABLE, contentValues, where, whereArgs );
      }
 
-     public Contact getContact(String didSessionDID, String contactDID) {
+     public Contact getContactByDID(String didSessionDID, String contactDID) {
          SQLiteDatabase db = helper.getWritableDatabase();
+
          String where = DatabaseHelper.DID_SESSION_DID + "=? AND " + DatabaseHelper.DID + "=?";
          String[] whereArgs = {didSessionDID, contactDID};
-         String[] columns = {AppInfo.AUTHORITY};
+         String[] columns = {DatabaseHelper.DID, DatabaseHelper.CARRIER_USER_ID, DatabaseHelper.NOTIFICATIONS_BLOCKED, DatabaseHelper.ADDED_DATE};
+
          Cursor cursor = db.query(DatabaseHelper.CONTACTS_TABLE, columns, where, whereArgs,null,null,null);
          if (cursor.moveToNext()) {
-             Contact contact = Contact.fromDatabaseCursor(cursor);
+             return Contact.fromDatabaseCursor(notifier, cursor);
+         }
+
+         return null;
+     }
+
+     public Contact getContactByCarrierUserID(String didSessionDID, String carrierUserID) {
+         SQLiteDatabase db = helper.getWritableDatabase();
+
+         String where = DatabaseHelper.DID_SESSION_DID + "=? AND " + DatabaseHelper.CARRIER_USER_ID + "=?";
+         String[] whereArgs = {didSessionDID, carrierUserID};
+         String[] columns = {DatabaseHelper.DID, DatabaseHelper.CARRIER_USER_ID, DatabaseHelper.NOTIFICATIONS_BLOCKED, DatabaseHelper.ADDED_DATE};
+
+         Cursor cursor = db.query(DatabaseHelper.CONTACTS_TABLE, columns, where, whereArgs,null,null,null);
+         if (cursor.moveToNext()) {
+             Contact contact = Contact.fromDatabaseCursor(notifier, cursor);
              return contact;
          }
 
@@ -85,6 +113,34 @@ import java.util.Date;
          contentValues.put(DatabaseHelper.DID, targetDID);
          contentValues.put(DatabaseHelper.CARRIER_ADDRESS, targetCarrierAddress);
          contentValues.put(DatabaseHelper.SENT_DATE, new Date().getTime()); // Unix timestamp
+
          db.insertOrThrow(DatabaseHelper.SENT_INVITATIONS_TABLE, null, contentValues);
+     }
+
+     public ArrayList<SentInvitation> getAllSentInvitations(String didSessionDID) {
+         SQLiteDatabase db = helper.getWritableDatabase();
+
+         String[] columns = {DatabaseHelper.DID, DatabaseHelper.CARRIER_ADDRESS, DatabaseHelper.SENT_DATE};
+
+         ArrayList<SentInvitation> invitations = new ArrayList<>();
+         Cursor cursor = db.query(DatabaseHelper.SENT_INVITATIONS_TABLE, columns, null, null,null,null,null);
+         if (cursor.moveToNext()) {
+             SentInvitation invitation = SentInvitation.fromDatabaseCursor(cursor);
+             invitations.add(invitation);
+         }
+
+         return invitations;
+     }
+
+     public void addReceivedInvitation(String didSessionDID, String contactDID, String contactCarrierUserId) {
+         SQLiteDatabase db = helper.getWritableDatabase();
+
+         ContentValues contentValues = new ContentValues();
+         contentValues.put(DatabaseHelper.DID_SESSION_DID, didSessionDID);
+         contentValues.put(DatabaseHelper.DID, contactDID);
+         contentValues.put(DatabaseHelper.CARRIER_USER_ID, contactCarrierUserId);
+         contentValues.put(DatabaseHelper.RECEIVED_DATE, new Date().getTime()); // Unix timestamp
+
+         db.insertOrThrow(DatabaseHelper.RECEIVED_INVITATIONS_TABLE, null, contentValues);
      }
 }

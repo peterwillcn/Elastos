@@ -346,7 +346,7 @@ public class ContactNotifierPlugin extends TrinityPlugin {
             JSONObject contactAsJson = args.getJSONObject(0);
             JSONObject notificationAsJson = args.getJSONObject(1);
 
-            Contact contact = Contact.fromJSONObject(getNotifier(), contactAsJson);
+            Contact contact = getNotifier().resolveContact(contactDIDFromJSON(contactAsJson));
             if (contact == null) {
                 sendError(callbackContext, "contactSendRemoteNotification", "Invalid contact object");
                 return;
@@ -370,7 +370,7 @@ public class ContactNotifierPlugin extends TrinityPlugin {
             JSONObject contactAsJson = args.getJSONObject(0);
             boolean allowNotifications = args.getBoolean(1);
 
-            Contact contact = Contact.fromJSONObject(getNotifier(), contactAsJson);
+            Contact contact = getNotifier().resolveContact(contactDIDFromJSON(contactAsJson));
             if (contact == null) {
                 sendError(callbackContext, "contactSetAllowNotifications", "Invalid contact object");
                 return;
@@ -391,7 +391,7 @@ public class ContactNotifierPlugin extends TrinityPlugin {
         try {
             JSONObject contactAsJson = args.getJSONObject(0);
 
-            Contact contact = Contact.fromJSONObject(getNotifier(), contactAsJson);
+            Contact contact = getNotifier().resolveContact(contactDIDFromJSON(contactAsJson));
             if (contact == null) {
                 sendError(callbackContext, "contactSetAllowNotifications", "Invalid contact object");
                 return;
@@ -407,5 +407,12 @@ public class ContactNotifierPlugin extends TrinityPlugin {
             e.printStackTrace();
             sendError(callbackContext, "contactGetOnlineStatus", e.getLocalizedMessage());
         }
+    }
+
+    private String contactDIDFromJSON(JSONObject contactAsJSON) throws JSONException {
+        if (!contactAsJSON.has("did"))
+            return null;
+        else
+            return contactAsJSON.getString("did");
     }
 }

@@ -8,7 +8,9 @@ public enum InvitationRequestsMode {
     /** Manually accept all incoming requests. */
     MANUALLY_ACCEPT(0),
     /** Automatically accept all incoming requests as new contacts. */
-    AUTO_ACCEPT(1);
+    AUTO_ACCEPT(1),
+    /** Automatically reject all incoming requests. */
+    AUTO_REJECT(2);
 
     public int mValue;
 

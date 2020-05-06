@@ -24,14 +24,14 @@ let exec = cordova.exec;
 
 class ContactImpl implements ContactNotifierPlugin.Contact {
     did: string = null;
-    carrierAddress: string = null;
+    carrierUserID: string = null;
 
     getDID(): string {
         return this.did;
     }
 
-    getCarrierAddress(): string {
-        return this.carrierAddress;
+    getCarrierUserID(): string {
+        return this.carrierUserID;
     }
 
     sendRemoteNotification(remoteNotification: ContactNotifierPlugin.RemoteNotificationRequest): Promise<void> {

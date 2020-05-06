@@ -5,13 +5,13 @@ import org.json.JSONObject;
 
 public class RemoteNotificationRequest {
     /** Identification key used to overwrite a previous notification if it has the same key. */
-    String key = null;
+    public String key = null;
     /** Package ID of the sending app. */
-    String appId = null;
+    public String appId = null;
     /** Title to be displayed as the main message on the notification. */
-    String title = null;
+    public String title = null;
     /** Intent URL emitted when the notification is clicked. */
-    String url = null;
+    public String url = null;
 
     public static RemoteNotificationRequest fromJSONObject(JSONObject obj) {
         try {

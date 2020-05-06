@@ -524,7 +524,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-content>\n  <ion-grid class=\"container\">\n\n  <!--   <ion-title>elastOS</ion-title> -->\n\n    <ion-row class=\"section\">\n      <ion-col size=\"12\" [routerLink]=\"['/appmanager']\">\n        <h1>App Manager</h1>\n      </ion-col>\n    </ion-row>\n\n    <ion-row class=\"type\">\n      <ion-col size=\"5.9\" *ngFor=\"let manager of appManagerService.managers\" (click)=\"appManagerService.openManager(manager)\">\n        <ion-label>{{ manager.type }}</ion-label>\n      </ion-col>\n    </ion-row>\n\n    <ion-row class=\"section\">\n      <ion-col size=\"12\" [routerLink]=\"['/titlebar']\">\n        <h1>Titlebar Manager</h1>\n      </ion-col>\n    </ion-row>\n\n    <ion-row class=\"type\">\n      <ion-col size=\"5.9\" *ngFor=\"let manager of titlebarService.managers\" (click)=\"titlebarService.openManager(manager)\">\n        <ion-label>{{ manager.type }}</ion-label>\n      </ion-col>\n    </ion-row>\n\n    <ion-row class=\"section\">\n      <ion-col size=\"12\" [routerLink]=\"['/intent']\">\n        <h1>Intents</h1>\n      </ion-col>\n    </ion-row>\n\n    <ion-row class=\"type\">\n      <ion-col size=\"5.9\" *ngFor=\"let intent of intentService.intents\" (click)=\"intentService.openIntent(intent)\">\n        <ion-label>{{ intent.type }}</ion-label>\n      </ion-col>\n    </ion-row>\n\n    <ion-row class=\"section\">\n      <ion-col size=\"12\" [routerLink]=\"['/core']\">\n        <h1>Core Demos</h1>\n      </ion-col>\n    </ion-row>\n\n    <ion-row class=\"type\">\n      <ion-col size=\"5.9\" (click)=\"intentService.browse('org.elastos.trinity.dapp.diddemo')\">\n        <ion-label>Identity</ion-label>\n      </ion-col>\n      <ion-col size=\"5.9\" (click)=\"intentService.browse('org.elastos.trinity.dapp.carrierdemo')\">\n        <ion-label>Carrier</ion-label>\n      </ion-col>\n      <ion-col size=\"5.9\" (click)=\"intentService.browse('elastos.trinity.dApps.demo.hive')\">\n        <ion-label>Hive</ion-label>\n      </ion-col>\n      <ion-col size=\"5.9\" class=\"disable\">\n        <ion-label>Smart Contracts</ion-label>\n      </ion-col>\n    </ion-row>\n\n  </ion-grid>\n</ion-content>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-content>\n  <ion-grid class=\"container\">\n\n    <ion-row class=\"section\">\n      <ion-col size=\"12\" [routerLink]=\"['/appmanager']\">\n        <h1>App Manager</h1>\n      </ion-col>\n    </ion-row>\n\n    <ion-row class=\"type\">\n      <ion-col size=\"5.9\" *ngFor=\"let manager of appManagerService.managers\" (click)=\"appManagerService.openManager(manager)\">\n        <ion-label>{{ manager.type }}</ion-label>\n      </ion-col>\n    </ion-row>\n\n    <ion-row class=\"section\">\n      <ion-col size=\"12\" [routerLink]=\"['/titlebar']\">\n        <h1>Titlebar Manager</h1>\n      </ion-col>\n    </ion-row>\n\n    <ion-row class=\"type\">\n      <ion-col size=\"5.9\" *ngFor=\"let manager of titlebarService.managers\" (click)=\"titlebarService.openManager(manager)\">\n        <ion-label>{{ manager.type }}</ion-label>\n      </ion-col>\n    </ion-row>\n\n    <ion-row class=\"section\">\n      <ion-col size=\"12\" [routerLink]=\"['/intent']\">\n        <h1>Intents</h1>\n      </ion-col>\n    </ion-row>\n\n    <ion-row class=\"type\">\n      <ion-col size=\"5.9\" *ngFor=\"let intent of intentService.intents\" (click)=\"intentService.openIntent(intent)\">\n        <ion-label>{{ intent.type }}</ion-label>\n      </ion-col>\n    </ion-row>\n\n    <ion-row class=\"section\">\n      <ion-col size=\"12\" [routerLink]=\"['/core']\">\n        <h1>Core Demos</h1>\n      </ion-col>\n    </ion-row>\n\n    <ion-row class=\"type\">\n      <ion-col size=\"5.9\" (click)=\"intentService.browse('org.elastos.trinity.dapp.diddemo')\">\n        <ion-label>Identity</ion-label>\n      </ion-col>\n      <ion-col size=\"5.9\" (click)=\"intentService.browse('org.elastos.trinity.dapp.carrierdemo')\">\n        <ion-label>Carrier</ion-label>\n      </ion-col>\n      <ion-col size=\"5.9\" (click)=\"intentService.browse('elastos.trinity.dApps.demo.hive')\">\n        <ion-label>Hive</ion-label>\n      </ion-col>\n      <ion-col size=\"5.9\" class=\"disable\">\n        <ion-label>Smart Contracts</ion-label>\n      </ion-col>\n    </ion-row>\n\n  </ion-grid>\n</ion-content>\n");
 
 /***/ }),
 
@@ -943,7 +943,7 @@ var AppmanagerDemoPage = /** @class */ (function () {
         console.log('App Manager Example', this.manager);
     };
     AppmanagerDemoPage.prototype.ionViewWillEnter = function () {
-        titleBarManager.setTitle(this.manager.type);
+        titleBarManager.setTitle('App Manager Demo');
         titleBarManager.setNavigationMode(2 /* BACK */);
     };
     AppmanagerDemoPage.prototype.ionViewWillLeave = function () {
@@ -976,7 +976,7 @@ var AppmanagerDemoPage = /** @class */ (function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (".container {\n  min-height: 100%;\n  padding: 30px 15px; }\n  .container ion-title {\n    padding: 0 0 5px;\n    font-size: 30px;\n    font-weight: 900; }\n  .container ion-row ion-col {\n    border-radius: 15px;\n    margin-bottom: 5px;\n    display: flex;\n    align-items: center; }\n  .container .section ion-col {\n    justify-content: center;\n    background: #181d20;\n    padding: 12px; }\n  .container .section ion-col h1 {\n      margin: 0px;\n      font-size: 20px;\n      font-weight: 800;\n      color: #ffffff; }\n  .container .type {\n    margin-bottom: 25px;\n    display: flex;\n    justify-content: space-between; }\n  .container .type ion-col {\n      background: linear-gradient(to bottom, #181d20 0%, #21313d 100%);\n      padding: 15px; }\n  .container .type ion-col ion-label {\n        color: white;\n        font-size: 12px;\n        font-weight: 500;\n        letter-spacing: 2px; }\n  .container .type .disable {\n      background: #dddddd; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9jaGFkcmFjZWxpcy9Db2RpbmcvVHJpbml0eS9Ccm93c2VyL1Rvb2xjaGFpbnMvRWxhc3Rvcy5UcmluaXR5LlRvb2xDaGFpbnMvY2xpL2Fzc2V0cy9kYXBwdGVtcGxhdGUvYW5ndWxhci9kZW1vL3NyYy9hcHAvcGFnZXMvaG9tZS9ob21lLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxnQkFBZ0I7RUFDaEIsa0JBQWtCLEVBQUE7RUFGcEI7SUFLSSxnQkFBZ0I7SUFDaEIsZUFBZTtJQUNmLGdCQUFnQixFQUFBO0VBUHBCO0lBWU0sbUJBQW1CO0lBQ25CLGtCQUFrQjtJQUNsQixhQUFhO0lBQ2IsbUJBQW1CLEVBQUE7RUFmekI7SUFxQk0sdUJBQXVCO0lBQ3ZCLG1CQUFtQjtJQUNuQixhQUFhLEVBQUE7RUF2Qm5CO01BMEJRLFdBQVc7TUFDWCxlQUFlO01BQ2YsZ0JBQWdCO01BQ2hCLGNBQ0YsRUFBQTtFQTlCTjtJQW1DSSxtQkFBbUI7SUFDbkIsYUFBYTtJQUNiLDhCQUE4QixFQUFBO0VBckNsQztNQXdDTSxnRUFBaUU7TUFDakUsYUFBYSxFQUFBO0VBekNuQjtRQTRDUSxZQUFZO1FBQ1osZUFBZTtRQUNmLGdCQUFnQjtRQUNoQixtQkFBbUIsRUFBQTtFQS9DM0I7TUFvRE0sbUJBQW1CLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9wYWdlcy9ob21lL2hvbWUuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jb250YWluZXIge1xuICBtaW4taGVpZ2h0OiAxMDAlO1xuICBwYWRkaW5nOiAzMHB4IDE1cHg7XG5cbiAgaW9uLXRpdGxlIHtcbiAgICBwYWRkaW5nOiAwIDAgNXB4O1xuICAgIGZvbnQtc2l6ZTogMzBweDtcbiAgICBmb250LXdlaWdodDogOTAwO1xuICB9XG5cbiAgaW9uLXJvdyB7XG4gICAgaW9uLWNvbCB7XG4gICAgICBib3JkZXItcmFkaXVzOiAxNXB4O1xuICAgICAgbWFyZ2luLWJvdHRvbTogNXB4O1xuICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAgfVxuICB9XG5cbiAgLnNlY3Rpb24ge1xuICAgIGlvbi1jb2wge1xuICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICBiYWNrZ3JvdW5kOiAjMTgxZDIwO1xuICAgICAgcGFkZGluZzogMTJweDtcblxuICAgICAgaDEge1xuICAgICAgICBtYXJnaW46IDBweDtcbiAgICAgICAgZm9udC1zaXplOiAyMHB4O1xuICAgICAgICBmb250LXdlaWdodDogODAwO1xuICAgICAgICBjb2xvcjogI2ZmZmZmZlxuICAgICAgfVxuICAgIH1cbiAgfVxuXG4gIC50eXBlIHtcbiAgICBtYXJnaW4tYm90dG9tOiAyNXB4O1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xuXG4gICAgaW9uLWNvbCB7IC8vICMzNDRjNWZcbiAgICAgIGJhY2tncm91bmQ6IGxpbmVhci1ncmFkaWVudCh0byBib3R0b20sICMxODFkMjAgMCUsICAjMjEzMTNkIDEwMCUpO1xuICAgICAgcGFkZGluZzogMTVweDtcblxuICAgICAgaW9uLWxhYmVsIHtcbiAgICAgICAgY29sb3I6IHdoaXRlO1xuICAgICAgICBmb250LXNpemU6IDEycHg7XG4gICAgICAgIGZvbnQtd2VpZ2h0OiA1MDA7XG4gICAgICAgIGxldHRlci1zcGFjaW5nOiAycHg7XG4gICAgICB9XG4gICAgfVxuXG4gICAgLmRpc2FibGUge1xuICAgICAgYmFja2dyb3VuZDogI2RkZGRkZDtcbiAgICB9XG4gIH1cbn1cbiJdfQ== */");
+/* harmony default export */ __webpack_exports__["default"] = (".container {\n  min-height: 100%;\n  padding: 30px 15px; }\n  .container ion-row ion-col {\n    border-radius: 15px;\n    margin-bottom: 5px;\n    display: flex;\n    align-items: center; }\n  .container .section ion-col {\n    justify-content: center;\n    background: #181d20;\n    padding: 12px; }\n  .container .section ion-col h1 {\n      margin: 0px;\n      font-size: 20px;\n      font-weight: 800;\n      color: #ffffff; }\n  .container .type {\n    margin-bottom: 25px;\n    display: flex;\n    justify-content: space-between; }\n  .container .type ion-col {\n      background: linear-gradient(to bottom, #181d20 0%, #21313d 100%);\n      padding: 15px; }\n  .container .type ion-col ion-label {\n        color: white;\n        font-size: 12px;\n        font-weight: 500;\n        letter-spacing: 2px; }\n  .container .type .disable {\n      background: #dddddd; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9jaGFkcmFjZWxpcy9Db2RpbmcvVHJpbml0eS9Ccm93c2VyL1Rvb2xjaGFpbnMvRWxhc3Rvcy5UcmluaXR5LlRvb2xDaGFpbnMvY2xpL2Fzc2V0cy9kYXBwdGVtcGxhdGUvYW5ndWxhci9kZW1vL3NyYy9hcHAvcGFnZXMvaG9tZS9ob21lLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxnQkFBZ0I7RUFDaEIsa0JBQWtCLEVBQUE7RUFGcEI7SUFNTSxtQkFBbUI7SUFDbkIsa0JBQWtCO0lBQ2xCLGFBQWE7SUFDYixtQkFBbUIsRUFBQTtFQVR6QjtJQWVNLHVCQUF1QjtJQUN2QixtQkFBbUI7SUFDbkIsYUFBYSxFQUFBO0VBakJuQjtNQW9CUSxXQUFXO01BQ1gsZUFBZTtNQUNmLGdCQUFnQjtNQUNoQixjQUNGLEVBQUE7RUF4Qk47SUE2QkksbUJBQW1CO0lBQ25CLGFBQWE7SUFDYiw4QkFBOEIsRUFBQTtFQS9CbEM7TUFrQ00sZ0VBQWlFO01BQ2pFLGFBQWEsRUFBQTtFQW5DbkI7UUFzQ1EsWUFBWTtRQUNaLGVBQWU7UUFDZixnQkFBZ0I7UUFDaEIsbUJBQW1CLEVBQUE7RUF6QzNCO01BOENNLG1CQUFtQixFQUFBIiwiZmlsZSI6InNyYy9hcHAvcGFnZXMvaG9tZS9ob21lLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY29udGFpbmVyIHtcbiAgbWluLWhlaWdodDogMTAwJTtcbiAgcGFkZGluZzogMzBweCAxNXB4O1xuXG4gIGlvbi1yb3cge1xuICAgIGlvbi1jb2wge1xuICAgICAgYm9yZGVyLXJhZGl1czogMTVweDtcbiAgICAgIG1hcmdpbi1ib3R0b206IDVweDtcbiAgICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgIH1cbiAgfVxuXG4gIC5zZWN0aW9uIHtcbiAgICBpb24tY29sIHtcbiAgICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgICAgYmFja2dyb3VuZDogIzE4MWQyMDtcbiAgICAgIHBhZGRpbmc6IDEycHg7XG5cbiAgICAgIGgxIHtcbiAgICAgICAgbWFyZ2luOiAwcHg7XG4gICAgICAgIGZvbnQtc2l6ZTogMjBweDtcbiAgICAgICAgZm9udC13ZWlnaHQ6IDgwMDtcbiAgICAgICAgY29sb3I6ICNmZmZmZmZcbiAgICAgIH1cbiAgICB9XG4gIH1cblxuICAudHlwZSB7XG4gICAgbWFyZ2luLWJvdHRvbTogMjVweDtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjtcblxuICAgIGlvbi1jb2wge1xuICAgICAgYmFja2dyb3VuZDogbGluZWFyLWdyYWRpZW50KHRvIGJvdHRvbSwgIzE4MWQyMCAwJSwgICMyMTMxM2QgMTAwJSk7XG4gICAgICBwYWRkaW5nOiAxNXB4O1xuXG4gICAgICBpb24tbGFiZWwge1xuICAgICAgICBjb2xvcjogd2hpdGU7XG4gICAgICAgIGZvbnQtc2l6ZTogMTJweDtcbiAgICAgICAgZm9udC13ZWlnaHQ6IDUwMDtcbiAgICAgICAgbGV0dGVyLXNwYWNpbmc6IDJweDtcbiAgICAgIH1cbiAgICB9XG5cbiAgICAuZGlzYWJsZSB7XG4gICAgICBiYWNrZ3JvdW5kOiAjZGRkZGRkO1xuICAgIH1cbiAgfVxufVxuIl19 */");
 
 /***/ }),
 
@@ -1116,7 +1116,7 @@ var IntentDemoPage = /** @class */ (function () {
         console.log('Intent Example', this.intent);
     };
     IntentDemoPage.prototype.ionViewWillEnter = function () {
-        titleBarManager.setTitle(this.intent.type + ' Intent');
+        titleBarManager.setTitle('Intent Demo');
         titleBarManager.setNavigationMode(2 /* BACK */);
     };
     IntentDemoPage.prototype.ionViewWillLeave = function () {
@@ -1214,7 +1214,7 @@ var TitlebarDemoPage = /** @class */ (function () {
         console.log('Titlebar Example', this.manager);
     };
     TitlebarDemoPage.prototype.ionViewWillEnter = function () {
-        titleBarManager.setTitle('Titlebar ' + this.manager.type);
+        titleBarManager.setTitle('Titlebar Demo');
         titleBarManager.setNavigationMode(2 /* BACK */);
     };
     TitlebarDemoPage.prototype.ionViewWillLeave = function () {
@@ -1523,12 +1523,12 @@ var __importDefault = (undefined && undefined.__importDefault) || function (mod)
 
 
 var DAppService = /** @class */ (function () {
-    function DAppService(popoverController, zone, router, modalCtrl) {
+    function DAppService(popoverController, router, modalCtrl) {
         this.popoverController = popoverController;
-        this.zone = zone;
         this.router = router;
         this.modalCtrl = modalCtrl;
     }
+    // Use this for initial load, declared in app component
     DAppService.prototype.init = function () {
         var _this = this;
         return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
@@ -1548,6 +1548,7 @@ var DAppService = /** @class */ (function () {
             this.router.navigate(['/home']);
         }
     };
+    // Example of using popup components
     DAppService.prototype.showHelp = function (ev, helpMessage) {
         return __awaiter(this, void 0, void 0, function () {
             var popover;
@@ -1573,7 +1574,6 @@ var DAppService = /** @class */ (function () {
     };
     DAppService.ctorParameters = function () { return [
         { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_1__["PopoverController"] },
-        { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"] },
         { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"] },
         { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_1__["ModalController"] }
     ]; };
@@ -1582,7 +1582,6 @@ var DAppService = /** @class */ (function () {
             providedIn: 'root'
         }),
         __metadata("design:paramtypes", [_ionic_angular__WEBPACK_IMPORTED_MODULE_1__["PopoverController"],
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"],
             _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
             _ionic_angular__WEBPACK_IMPORTED_MODULE_1__["ModalController"]])
     ], DAppService);
@@ -1881,7 +1880,7 @@ var TitlebarService = /** @class */ (function () {
             {
                 type: 'Title',
                 title: 'Customize Title',
-                message: 'The title of your app can be changed whenever and wherever. This can be useful to display the title of your page, the occuring action or anything your desire.',
+                message: 'The title of your app can be changed whenever and wherever. This can be useful to display the title of your page, the occuring action or anything you desire.',
                 message2: null,
                 example: 'assets/titlebar/title.png'
             },
@@ -1896,7 +1895,7 @@ var TitlebarService = /** @class */ (function () {
                 type: 'Navigation',
                 title: 'Customize Navigation',
                 message: 'You have three simple options to navigate through your app: return to the browser, return to the previous page or just close the app. Declaring any of these options will add a back or close key to the left corner of your titlebar.',
-                message2: 'It\'s pretty straight forward on how they work. If you are declaring your navigation as HOME in your app page, the back key in the titlebar will return you to the browser and minimize the app. Declaring BACK will simply navigate to the previous page and declaring CLOSE will terminate the app.',
+                message2: 'It\'s pretty straight forward on how they work. If you declare your navigation as HOME in your app page, the back key will return you to the browser and minimize the app. Declaring BACK will navigate to the previous page and declaring CLOSE will terminate the app.',
                 example: 'assets/titlebar/navigation.png'
             },
             {

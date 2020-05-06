@@ -115,11 +115,9 @@ var AppmanagerPage = /** @class */ (function () {
         this.appManagerService = appManagerService;
     }
     AppmanagerPage.prototype.ngOnInit = function () {
-        titleBarManager.setTitle("App Manager Demo");
-        titleBarManager.setNavigationMode(2 /* BACK */);
     };
     AppmanagerPage.prototype.ionViewWillEnter = function () {
-        titleBarManager.setTitle("App Manager Demo");
+        titleBarManager.setTitle("App Manager Guide");
         titleBarManager.setNavigationMode(2 /* BACK */);
     };
     AppmanagerPage.ctorParameters = function () { return [

@@ -9,7 +9,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-content>\n  <ion-grid class=\"container\">\n    <ion-card>\n      <ion-card-title>Titlebar Manager</ion-card-title>\n      <ion-card-content>\n        Just like a web browser, elastOS applications have a titlebar above which can be managed by developers such as changing the title and color or setting up navigation or menu items.\n      </ion-card-content>\n    </ion-card>\n\n    <h1>How to Setup</h1>\n    <p>To use Titlebar Manager, just simply add the line of code below to any typescript file that needs its service.</p>\n    <img src=\"assets/titlebar/declare.png\"/>\n\n    <h1>How to Use</h1>\n    <p>With Titlebar Manager declared, it's best used under a page life cycle or upon app render</p>\n    <img src=\"assets/titlebar/sample.png\"/>\n\n    <h1>Titlebar Options</h1>\n    <ion-row class=\"type\">\n      <ion-col size=\"5.9\" *ngFor=\"let manager of titlebarService.managers\" (click)=\"titlebarService.openManager(manager)\">\n        <ion-label>{{ manager.type }}</ion-label>\n      </ion-col>\n    </ion-row>\n\n\n  </ion-grid>\n</ion-content>\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-content>\n  <ion-grid class=\"container\">\n    <ion-card>\n      <ion-card-title>Titlebar Manager</ion-card-title>\n      <ion-card-content>\n        Just like a web browser, elastOS applications have a titlebar that can be managed by developers such as changing the title and color or setting up navigation or menu items.\n      </ion-card-content>\n    </ion-card>\n\n    <h1>How to Setup</h1>\n    <p>To use Titlebar Manager, just simply add the line of code below to any typescript file that needs its service.</p>\n    <img src=\"assets/titlebar/declare.png\"/>\n\n    <h1>How to Use</h1>\n    <p>With Titlebar Manager declared, it's best used under a page life cycle or under app's initial load.</p>\n    <img src=\"assets/titlebar/sample.png\"/>\n\n    <h1>Titlebar Options</h1>\n    <ion-row class=\"type\">\n      <ion-col size=\"5.9\" *ngFor=\"let manager of titlebarService.managers\" (click)=\"titlebarService.openManager(manager)\">\n        <ion-label>{{ manager.type }}</ion-label>\n      </ion-col>\n    </ion-row>\n\n\n  </ion-grid>\n</ion-content>\n");
 
 /***/ }),
 
@@ -117,7 +117,7 @@ var TitlebarPage = /** @class */ (function () {
     TitlebarPage.prototype.ngOnInit = function () {
     };
     TitlebarPage.prototype.ionViewWillEnter = function () {
-        titleBarManager.setTitle("Titlebar Demo");
+        titleBarManager.setTitle("Titlebar Guide");
         titleBarManager.setNavigationMode(2 /* BACK */);
     };
     TitlebarPage.ctorParameters = function () { return [

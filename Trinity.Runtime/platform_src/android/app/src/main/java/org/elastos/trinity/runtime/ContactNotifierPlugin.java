@@ -23,6 +23,8 @@
 package org.elastos.trinity.runtime;
 
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.PluginResult;
 import org.elastos.carrier.Carrier;
 import org.elastos.carrier.exceptions.CarrierException;
@@ -49,6 +51,20 @@ public class ContactNotifierPlugin extends TrinityPlugin {
     private static final int NATIVE_ERROR_CODE_INVALID_PARAMETER = -2;
     private static final int NATIVE_ERROR_CODE_CANCELLED = -3;
     private static final int NATIVE_ERROR_CODE_UNSPECIFIED = -4;
+
+    /*@Override
+    protected void pluginInitialize() {
+        super.pluginInitialize();
+
+        // Starts an instance, to initialize carrier earlier
+        try {
+            ContactNotifier.getSharedInstance(cordova.getContext(), did);
+        }
+        catch (CarrierException e) {
+            e.printStackTrace();
+            // Not much we can do here if this fails. Just not available for now...
+        }
+    }*/
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -269,11 +285,30 @@ public class ContactNotifierPlugin extends TrinityPlugin {
         try {
             String invitationId = args.getString(0);
 
-            Contact connectedContact = getNotifier().acceptInvitation(invitationId);
+            getNotifier().acceptInvitation(invitationId, new ContactNotifier.OnInvitationAcceptedByUsListener() {
+                @Override
+                public void onInvitationAccepted(Contact contact) {
+                    try {
+                        JSONObject result = new JSONObject();
+                        result.put("contact", contact.toJSONObject());
+                        sendSuccess(callbackContext, result);
+                    }
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                        sendError(callbackContext, "notifierAcceptInvitation", e.getLocalizedMessage());
+                    }
+                }
 
-            JSONObject result = new JSONObject();
-            result.put("contact", connectedContact.toJSONObject());
-            sendSuccess(callbackContext, result);
+                @Override
+                public void onNotExistingInvitation() {
+                    sendError(callbackContext, "notifierAcceptInvitation", "No pending invitation found for the given invitation ID");
+                }
+
+                @Override
+                public void onError(String reason) {
+                    sendError(callbackContext, "notifierAcceptInvitation", reason);
+                }
+            });
         }
         catch (Exception e) {
             e.printStackTrace();

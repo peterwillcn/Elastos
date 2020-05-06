@@ -7,7 +7,7 @@ public class SentInvitation {
     public String carrierAddress;
 
     /**
-     * Creates a contact object from a CONTACTS_TABLE row.
+     * Creates a SentInvitation object from a SENT_INVITATIONS row.
      */
     static SentInvitation fromDatabaseCursor(Cursor cursor) {
         SentInvitation invitation = new SentInvitation();

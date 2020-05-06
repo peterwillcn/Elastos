@@ -165,6 +165,10 @@ public class CarrierHelper {
         queueCommand(new SetPresenceCommand(this, notifier.onlineStatusModeToPresenceStatus(onlineStatusMode)));
     }
 
+    public void removeFriend(String contactCarrierUserID, OnCommandExecuted completionListener) {
+        queueCommand(new RemoveFriendCommand(this, contactCarrierUserID, completionListener));
+    }
+
     public ConnectionStatus getFriendOnlineStatus(String friendId) {
         try {
             if (!carrierInstance.isReady())

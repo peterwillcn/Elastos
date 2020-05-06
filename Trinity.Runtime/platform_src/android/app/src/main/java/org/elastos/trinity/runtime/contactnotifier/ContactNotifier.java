@@ -9,16 +9,15 @@ import org.elastos.carrier.ConnectionStatus;
 import org.elastos.carrier.FriendInfo;
 import org.elastos.carrier.PresenceStatus;
 import org.elastos.carrier.exceptions.CarrierException;
-import org.elastos.trinity.runtime.AppManager;
 import org.elastos.trinity.runtime.contactnotifier.comm.CarrierHelper;
 import org.elastos.trinity.runtime.contactnotifier.db.DatabaseAdapter;
+import org.elastos.trinity.runtime.contactnotifier.db.ReceivedInvitation;
 import org.elastos.trinity.runtime.contactnotifier.db.SentInvitation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// TODO: PROBLEM - CARRIER NOT READY WHEN ELASTOS STARTS AND DIRECTLY ADDING A FRIEND
-// TODO: PROBLEM - SHOULD INITIALIZE THE NOTIFIER AT ELASTOS START, NOT AT FIRST API CALL, TO SAVE TIME AND START LISTENING
+// TODO: When did sessions are ready, call ContactNotifier.getSharedInstance() as soon as a DID session starts, to initialize carrier early.
 
 public class ContactNotifier {
     public static final String LOG_TAG = "ContactNotifier";
@@ -34,10 +33,16 @@ public class ContactNotifier {
     CarrierHelper carrierHelper;
 
     private ArrayList<OnOnlineStatusListener> onOnlineStatusChangedListeners = new ArrayList<>();
-    private ArrayList<OnInvitationAcceptedListener> onInvitationAcceptedListeners = new ArrayList<>();
+    private ArrayList<OnInvitationAcceptedByFriendListener> onInvitationAcceptedListeners = new ArrayList<>();
 
-    public interface OnInvitationAcceptedListener {
+    public interface OnInvitationAcceptedByFriendListener {
         void onInvitationAccepted(Contact contact);
+    }
+
+    public interface OnInvitationAcceptedByUsListener {
+        void onInvitationAccepted(Contact contact);
+        void onNotExistingInvitation();
+        void onError(String reason);
     }
 
     public interface OnOnlineStatusListener {
@@ -49,6 +54,8 @@ public class ContactNotifier {
         this.didSessionDID = didSessionDID;
         this.dbAdapter = new DatabaseAdapter(this, context);
         this.carrierHelper = new CarrierHelper(this, didSessionDID, context);
+
+        Log.i(LOG_TAG, "Creating contact notifier instance for DID session "+didSessionDID);
 
         listenToCarrierHelperEvents();
     }
@@ -91,8 +98,17 @@ public class ContactNotifier {
      *
      * @param did DID of the contact to remove
      */
-    public void removeContact(String did) {
-        dbAdapter.removeContact(didSessionDID, did);
+    public void removeContact(String did) throws Exception {
+        Contact contact = resolveContact(did);
+        if (contact == null) {
+            throw new Exception("No contact found with DID "+did);
+        }
+
+        // Remove from carrier
+        carrierHelper.removeFriend(contact.carrierUserID, (succeeded, reason)->{
+            // Remove from database
+            dbAdapter.removeContact(didSessionDID, did);
+        });
     }
 
     /**
@@ -146,13 +162,33 @@ public class ContactNotifier {
      * with his did and carrier addresses. After that, this contact can be resolved as a contact object
      * from his did string.
      *
-     * @param invitationId Received invitation id that we're answering for.
-     *
-     * @returns The generated contact
+     * @param invitationId Received invitation id (database) that we're answering for.
      */
-    public Contact acceptInvitation(String invitationId) {
-        // TODO
-        return null;
+    public void acceptInvitation(String invitationId, OnInvitationAcceptedByUsListener listener) {
+        // Retrieved the received invitation info from a given ID
+        ReceivedInvitation invitation = dbAdapter.getReceivedInvitationById(didSessionDID, invitationId);
+        if (invitation == null) {
+            // No such invitation exists.
+            listener.onNotExistingInvitation();
+            return;
+        }
+
+        // Accept the invitation on carrier
+        try {
+            carrierHelper.acceptFriend(invitation.carrierUserID, (succeeded, reason)->{
+                if (succeeded) {
+                    // Add the contact to our database
+                    Contact contact = dbAdapter.addContact(didSessionDID, invitation.did, invitation.carrierUserID);
+                    listener.onInvitationAccepted(contact);
+                }
+                else {
+                    listener.onError(reason);
+                }
+            });
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -162,8 +198,19 @@ public class ContactNotifier {
      *
      * @param onInvitationAcceptedListener Called whenever an invitation has been accepted.
      */
-    public void addOnInvitationAcceptedListener(OnInvitationAcceptedListener onInvitationAcceptedListener) {
+    public void addOnInvitationAcceptedListener(OnInvitationAcceptedByFriendListener onInvitationAcceptedListener) {
         this.onInvitationAcceptedListeners.add(onInvitationAcceptedListener);
+    }
+
+    private void notifyInvitationAcceptedByFriend(Contact contact) {
+        if (onInvitationAcceptedListeners.size() == 0)
+            return;
+
+        if (contact != null) {
+            for (OnInvitationAcceptedByFriendListener listener : onInvitationAcceptedListeners) {
+                listener.onInvitationAccepted(contact);
+            }
+        }
     }
 
     /**
@@ -296,9 +343,19 @@ public class ContactNotifier {
         return null;
     }
 
+    /**
+     * A potential friend to whom we've sent an invitation earlier has accepted it. So we can now consider it as
+     * a "contact".
+     */
     private void handleFriendInvitationAccepted(SentInvitation invitation, String friendId) {
-        // TODO addcontact(invitation info (did))
-        // TODO removeinvitation()
+        // Add carrier friend as a contact
+        Contact contact = dbAdapter.addContact(didSessionDID, invitation.did, friendId);
+
+        // Delete the pending invitation request
+        dbAdapter.removeSentInvitationByAddress(didSessionDID, invitation.carrierAddress);
+
+        // Notify the listeners
+        notifyInvitationAcceptedByFriend(contact);
     }
 
     private void notifyOnlineStatusChanged(String friendId, ConnectionStatus status) {

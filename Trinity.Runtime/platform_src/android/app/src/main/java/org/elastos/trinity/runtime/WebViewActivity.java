@@ -36,6 +36,8 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 import org.apache.cordova.LOG;
+import org.elastos.carrier.exceptions.CarrierException;
+import org.elastos.trinity.runtime.contactnotifier.ContactNotifier;
 import org.elastos.trinity.runtime.passwordmanager.PasswordManager;
 import org.json.JSONException;
 
@@ -87,6 +89,12 @@ public class WebViewActivity extends FragmentActivity {
         setContentView(R.layout.activity_view);
         passwordManager = new PasswordManager(this);
         appManager = new AppManager(this);
+
+        try {
+            ContactNotifier.getSharedInstance(this, "did:elastos:FIXME"); // TODO - FIXME! @dongxiao - should be first called when a DID session starts, with a real DID!
+        } catch (CarrierException e) {
+            e.printStackTrace();
+        }
 
         getIntentUri();
 

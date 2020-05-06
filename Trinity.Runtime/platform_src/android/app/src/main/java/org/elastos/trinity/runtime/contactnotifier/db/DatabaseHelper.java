@@ -37,6 +37,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
      // Tables fields
      public static final String DID_SESSION_DID = "didsessiondid";
+     public static final String INVITATION_ID = "iid";
      public static final String DID = "did";
      public static final String CARRIER_ADDRESS = "carrieraddress";
      public static final String CARRIER_USER_ID = "carrieruserid";
@@ -63,12 +64,13 @@ import android.database.sqlite.SQLiteOpenHelper;
                  DID_SESSION_DID + " varchar(128), " +
                  DID + " varchar(128), " +
                  CARRIER_USER_ID + " varchar(128), " + // Permanent friend user id to talk (notifications) to him
-                 NOTIFICATIONS_BLOCKED + " integer(1)), " + // Whether this contact can send notifications to current user or not
+                 NOTIFICATIONS_BLOCKED + " integer(1), " + // Whether this contact can send notifications to current user or not
                  ADDED_DATE + " date)";
          db.execSQL(contactsSQL);
 
          // SENT INVITATIONS
-         String sentInvitationsSQL = "create table " + SENT_INVITATIONS_TABLE + "(iid integer primary key autoincrement, " +
+         String sentInvitationsSQL = "create table " + SENT_INVITATIONS_TABLE + "(" +
+                 INVITATION_ID + " integer primary key autoincrement, " +
                  DID_SESSION_DID + " varchar(128), " +
                  DID + " varchar(128), " +
                  CARRIER_ADDRESS + " varchar(128), " +
@@ -76,7 +78,8 @@ import android.database.sqlite.SQLiteOpenHelper;
          db.execSQL(sentInvitationsSQL);
 
          // RECEIVED INVITATIONS
-         String receivedInvitationsSQL = "create table " + RECEIVED_INVITATIONS_TABLE + "(iid integer primary key autoincrement, " +
+         String receivedInvitationsSQL = "create table " + RECEIVED_INVITATIONS_TABLE + "(" +
+                 INVITATION_ID + " integer primary key autoincrement, " +
                  DID_SESSION_DID + " varchar(128), " +
                  DID + " varchar(128), " +
                  CARRIER_USER_ID + " varchar(128), " +

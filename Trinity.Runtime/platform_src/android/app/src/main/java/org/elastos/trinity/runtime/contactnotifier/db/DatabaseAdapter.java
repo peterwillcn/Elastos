@@ -45,7 +45,7 @@ import java.util.Date;
         this.context = context;
     }
 
-     public void addContact(String didSessionDID, String did, String carrierUserID) {
+     public Contact addContact(String didSessionDID, String did, String carrierUserID) {
          SQLiteDatabase db = helper.getWritableDatabase();
 
          ContentValues contentValues = new ContentValues();
@@ -56,6 +56,9 @@ import java.util.Date;
          contentValues.put(DatabaseHelper.ADDED_DATE, new Date().getTime()); // Unix timestamp
 
          db.insertOrThrow(DatabaseHelper.CONTACTS_TABLE, null, contentValues);
+
+         // Return a Contact object for convenience
+         return getContactByDID(didSessionDID, did);
      }
 
      public void updateContactNotificationsBlocked(String didSessionDID, String did, boolean shouldBlockNotifications) {
@@ -102,7 +105,11 @@ import java.util.Date;
      }
 
      public void removeContact(String didSessionDID, String contactDID) {
-        // TODO
+         SQLiteDatabase db = helper.getWritableDatabase();
+
+         String where = DatabaseHelper.DID_SESSION_DID + "=? AND "+DatabaseHelper.DID + "=?";
+         String[] whereArgs = {didSessionDID, contactDID};
+         db.delete(DatabaseHelper.CONTACTS_TABLE, where, whereArgs);
      }
 
      public void addSentInvitation(String didSessionDID, String targetDID, String targetCarrierAddress) {
@@ -115,6 +122,14 @@ import java.util.Date;
          contentValues.put(DatabaseHelper.SENT_DATE, new Date().getTime()); // Unix timestamp
 
          db.insertOrThrow(DatabaseHelper.SENT_INVITATIONS_TABLE, null, contentValues);
+     }
+
+     public void removeSentInvitationByAddress(String didSessionDID, String carrierAddress) {
+         SQLiteDatabase db = helper.getWritableDatabase();
+
+         String where = DatabaseHelper.DID_SESSION_DID + "=? AND "+DatabaseHelper.CARRIER_ADDRESS + "=?";
+         String[] whereArgs = {didSessionDID, carrierAddress};
+         db.delete(DatabaseHelper.SENT_INVITATIONS_TABLE, where, whereArgs);
      }
 
      public ArrayList<SentInvitation> getAllSentInvitations(String didSessionDID) {
@@ -142,5 +157,21 @@ import java.util.Date;
          contentValues.put(DatabaseHelper.RECEIVED_DATE, new Date().getTime()); // Unix timestamp
 
          db.insertOrThrow(DatabaseHelper.RECEIVED_INVITATIONS_TABLE, null, contentValues);
+     }
+
+     public ReceivedInvitation getReceivedInvitationById(String didSessionDID, String invitationID) {
+         SQLiteDatabase db = helper.getWritableDatabase();
+
+         String where = DatabaseHelper.DID_SESSION_DID + "=? AND " + DatabaseHelper.INVITATION_ID + "=?";
+         String[] whereArgs = {didSessionDID, invitationID};
+         String[] columns = {DatabaseHelper.DID, DatabaseHelper.CARRIER_USER_ID};
+
+         Cursor cursor = db.query(DatabaseHelper.RECEIVED_INVITATIONS_TABLE, columns, where, whereArgs,null,null,null);
+         if (cursor.moveToNext()) {
+             ReceivedInvitation invitation = ReceivedInvitation.fromDatabaseCursor(cursor);
+             return invitation;
+         }
+
+         return null;
      }
 }

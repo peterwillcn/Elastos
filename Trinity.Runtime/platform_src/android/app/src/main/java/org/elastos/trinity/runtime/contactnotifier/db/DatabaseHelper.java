@@ -23,12 +23,8 @@
 package org.elastos.trinity.runtime.contactnotifier.db;
 
 import android.content.Context;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
-import org.elastos.trinity.runtime.AppInfo;
 
  public class DatabaseHelper extends SQLiteOpenHelper {
      private static final int DATABASE_VERSION = 1;
@@ -36,11 +32,18 @@ import org.elastos.trinity.runtime.AppInfo;
      // Tables
      private static final String DATABASE_NAME = "contactnotifier.db";
      public static final String CONTACTS_TABLE = "contacts";
+     public static final String SENT_INVITATIONS_TABLE = "sentinvitations";
+     public static final String RECEIVED_INVITATIONS_TABLE = "receivedinvitations";
 
      // Tables fields
      public static final String DID_SESSION_DID = "didsessiondid";
-     public static final String CONTACT_DID = "did";
-     public static final String CONTACT_CARRIER_ADDRESS = "carrieraddress";
+     public static final String DID = "did";
+     public static final String CARRIER_ADDRESS = "carrieraddress";
+     public static final String CARRIER_USER_ID = "carrieruserid";
+     public static final String NOTIFICATIONS_BLOCKED = "notificationsblocked";
+     public static final String ADDED_DATE = "added";
+     public static final String SENT_DATE = "sent";
+     public static final String RECEIVED_DATE = "received";
 
      public static final String KEY = "key";
      public static final String VALUE = "value";
@@ -53,18 +56,32 @@ import org.elastos.trinity.runtime.AppInfo;
          super(context, name, factory, version);
      }
 
-      @Override
+     @Override
      public void onCreate(SQLiteDatabase db) {
-         String strSQL = "create table " + CONTACTS_TABLE + "(tid integer primary key autoincrement, " +
-                 "TODO"+
-                 AppInfo.APP_TID + " integer, " +
-                 AppInfo.PLUGIN + " varchar(128), " +
-                 AppInfo.AUTHORITY + " integer)";
-         db.execSQL(strSQL);
-     }
+         // CONTACTS
+         String contactsSQL = "create table " + CONTACTS_TABLE + "(cid integer primary key autoincrement, " +
+                 DID_SESSION_DID + " varchar(128), " +
+                 DID + " varchar(128), " +
+                 CARRIER_USER_ID + " varchar(128), " + // Permanent friend user id to talk (notifications) to him
+                 NOTIFICATIONS_BLOCKED + " integer(1)), " + // Whether this contact can send notifications to current user or not
+                 ADDED_DATE + " date)";
+         db.execSQL(contactsSQL);
 
-     public void debugDropAllTables(SQLiteDatabase db) {
-         db.execSQL("DROP TABLE IF EXISTS " + CONTACTS_TABLE);
+         // SENT INVITATIONS
+         String sentInvitationsSQL = "create table " + SENT_INVITATIONS_TABLE + "(iid integer primary key autoincrement, " +
+                 DID_SESSION_DID + " varchar(128), " +
+                 DID + " varchar(128), " +
+                 CARRIER_ADDRESS + " varchar(128), " +
+                 SENT_DATE + " date)";
+         db.execSQL(sentInvitationsSQL);
+
+         // RECEIVED INVITATIONS
+         String receivedInvitationsSQL = "create table " + RECEIVED_INVITATIONS_TABLE + "(iid integer primary key autoincrement, " +
+                 DID_SESSION_DID + " varchar(128), " +
+                 DID + " varchar(128), " +
+                 CARRIER_USER_ID + " varchar(128), " +
+                 RECEIVED_DATE + " date)";
+         db.execSQL(receivedInvitationsSQL);
      }
 
      @Override
@@ -74,7 +91,5 @@ import org.elastos.trinity.runtime.AppInfo;
 
      @Override
      public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-         // We need to override on downgrade otherwise if somehow the android phone tries to downgrade the database
-         // (happened to KP many times - unknown reason - 2020.03), then we get a crash
      }
  }

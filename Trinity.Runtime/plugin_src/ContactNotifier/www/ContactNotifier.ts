@@ -127,11 +127,11 @@ class ContactNotifierImpl implements ContactNotifierPlugin.ContactNotifier {
         });
     }
 
-    sendInvitation(carrierAddress: string) {
+    sendInvitation(did: string, carrierAddress: string) {
         exec(() =>{
         }, err =>{
             console.error("Error while calling ContactNotifierPlugin.sendInvitation()", err);
-        }, 'ContactNotifierPlugin', 'notifierSendInvitation', [carrierAddress]);
+        }, 'ContactNotifierPlugin', 'notifierSendInvitation', [did, carrierAddress]);
     }
 
     acceptInvitation(invitationId: string): Promise<ContactNotifierPlugin.Contact> {

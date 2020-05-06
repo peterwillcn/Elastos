@@ -2,7 +2,9 @@ package org.elastos.trinity.runtime.contactnotifier;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
+import org.elastos.carrier.ConnectionStatus;
 import org.elastos.carrier.exceptions.CarrierException;
 import org.elastos.trinity.runtime.AppManager;
 import org.elastos.trinity.runtime.contactnotifier.comm.CarrierHelper;
@@ -43,7 +45,9 @@ public class ContactNotifier {
         this.context = context;
         this.didSessionDID = didSessionDID;
         this.dbAdapter = new DatabaseAdapter(context);
-        this.carrierHelper = new CarrierHelper(didSessionDID, context);
+        this.carrierHelper = new CarrierHelper(this, didSessionDID, context);
+
+        listenToCarrierHelperEvents();
     }
 
     public static ContactNotifier getSharedInstance(Context context, String did) throws CarrierException {
@@ -126,8 +130,12 @@ public class ContactNotifier {
      *
      * @param carrierAddress Target carrier address. Usually shared privately or publicly by the future contact.
      */
-    public void sendInvitation(String carrierAddress) throws CarrierException {
-        carrierHelper.sendInvitation(carrierAddress);
+    public void sendInvitation(String targetDID, String carrierAddress) throws Exception {
+        carrierHelper.sendInvitation(carrierAddress, (succeeded, reason)->{
+            if (succeeded) {
+                dbAdapter.addSentInvitation(didSessionDID, targetDID, carrierAddress);
+            }
+        });
     }
 
     /**
@@ -168,7 +176,7 @@ public class ContactNotifier {
      * Returns the way invitations are accepted.
      */
     public InvitationRequestsMode getInvitationRequestsMode() {
-        int invitationRequestsModeAsInt = getPrefs().getInt(INVITATION_REQUESTS_MODE_PREF_KEY, InvitationRequestsMode.MANUALLY_ACCEPT.mValue);
+        int invitationRequestsModeAsInt = getPrefs().getInt(INVITATION_REQUESTS_MODE_PREF_KEY, InvitationRequestsMode.AUTO_ACCEPT.mValue);
         return InvitationRequestsMode.fromValue(invitationRequestsModeAsInt);
     }
 
@@ -177,5 +185,41 @@ public class ContactNotifier {
      */
     private SharedPreferences getPrefs() {
         return context.getSharedPreferences("CONTACT_NOTIFIER_PREFS_"+didSessionDID, Context.MODE_PRIVATE);
+    }
+
+    private void listenToCarrierHelperEvents() {
+        carrierHelper.setCarrierEventListener(new CarrierHelper.OnCarrierEventListener() {
+            @Override
+            public void onFriendRequest(String did, String carrierUserId) {
+                // Received an invitation from a potential contact.
+
+                // If friend acceptation mode is set to automatic, we directly accept this invitation.
+                // Otherwise, we let the contact notifier know this and it will send a notification to user.
+                if (getInvitationRequestsMode() == InvitationRequestsMode.AUTO_ACCEPT) {
+                    Log.i(ContactNotifier.LOG_TAG, "Auto-accepting friend invitation");
+
+                    try {
+                        carrierHelper.acceptFriend(carrierUserId, (succeeded, reason)->{
+                            if (succeeded) {
+                                dbAdapter.addContact(didSessionDID, did, carrierUserId);
+                                // TODO: send a local notification to tell user about this (xxx Added as friend!)
+                            }
+                        });
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    // Manual approval
+                    // TODO: send a local notification to tell user about this (accept xxx as friend?)
+                }
+            }
+
+            @Override
+            public void onFriendOnlineStatusChange(String friendId, ConnectionStatus status) {
+
+            }
+        });
     }
 }

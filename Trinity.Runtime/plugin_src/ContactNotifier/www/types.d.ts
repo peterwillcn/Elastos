@@ -182,9 +182,10 @@ declare namespace ContactNotifierPlugin {
          * 
          * Use invitation accepted listener API to get informed of changes.
          * 
+         * @param did Target contact DID. 
          * @param carrierAddress Target carrier address. Usually shared privately or publicly by the future contact.
          */
-        sendInvitation(carrierAddress: string);
+        sendInvitation(did: string, carrierAddress: string);
 
         /**
          * Accepts an invitation sent by a remote peer. After accepting an invitation, a new contact is saved

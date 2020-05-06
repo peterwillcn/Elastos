@@ -155,7 +155,7 @@ public class ContactNotifierPlugin extends TrinityPlugin {
             result.put("address", carrierAddress);
             sendSuccess(callbackContext, result);
         }
-        catch (CarrierException e) {
+        catch (Exception e) {
             e.printStackTrace();
             sendError(callbackContext, "notifierGetCarrierAddress", e.getLocalizedMessage());
         }
@@ -171,7 +171,7 @@ public class ContactNotifierPlugin extends TrinityPlugin {
             result.put("contact", contact.toJSONObject());
             sendSuccess(callbackContext, result);
         }
-        catch (CarrierException e) {
+        catch (Exception e) {
             e.printStackTrace();
             sendError(callbackContext, "notifierResolveContact", e.getLocalizedMessage());
         }
@@ -186,7 +186,7 @@ public class ContactNotifierPlugin extends TrinityPlugin {
             JSONObject result = new JSONObject();
             sendSuccess(callbackContext, result);
         }
-        catch (CarrierException e) {
+        catch (Exception e) {
             e.printStackTrace();
             sendError(callbackContext, "notifierRemoveContact", e.getLocalizedMessage());
         }
@@ -212,7 +212,7 @@ public class ContactNotifierPlugin extends TrinityPlugin {
             result.setKeepCallback(true);
             callbackContext.sendPluginResult(result);
         }
-        catch (CarrierException e) {
+        catch (Exception e) {
             e.printStackTrace();
             sendError(callbackContext, "notifierSetOnlineStatusListener", e.getLocalizedMessage());
         }
@@ -229,7 +229,7 @@ public class ContactNotifierPlugin extends TrinityPlugin {
             JSONObject result = new JSONObject();
             sendSuccess(callbackContext, result);
         }
-        catch (CarrierException e) {
+        catch (Exception e) {
             e.printStackTrace();
             sendError(callbackContext, "notifierSetOnlineStatusMode", e.getLocalizedMessage());
         }
@@ -243,7 +243,7 @@ public class ContactNotifierPlugin extends TrinityPlugin {
             result.put("onlineStatusMode", mode.mValue);
             sendSuccess(callbackContext, result);
         }
-        catch (CarrierException e) {
+        catch (Exception e) {
             e.printStackTrace();
             sendError(callbackContext, "notifierGetOnlineStatusMode", e.getLocalizedMessage());
         }
@@ -251,14 +251,15 @@ public class ContactNotifierPlugin extends TrinityPlugin {
 
     private void notifierSendInvitation(JSONArray args, CallbackContext callbackContext) throws Exception {
         try {
-            String carrierAddress = args.getString(0);
+            String did = args.getString(0);
+            String carrierAddress = args.getString(1);
 
-            getNotifier().sendInvitation(carrierAddress);
+            getNotifier().sendInvitation(did, carrierAddress);
 
             JSONObject result = new JSONObject();
             sendSuccess(callbackContext, result);
         }
-        catch (CarrierException e) {
+        catch (Exception e) {
             e.printStackTrace();
             sendError(callbackContext, "notifierSendInvitation", e.getLocalizedMessage());
         }
@@ -274,7 +275,7 @@ public class ContactNotifierPlugin extends TrinityPlugin {
             result.put("contact", connectedContact.toJSONObject());
             sendSuccess(callbackContext, result);
         }
-        catch (CarrierException e) {
+        catch (Exception e) {
             e.printStackTrace();
             sendError(callbackContext, "notifierAcceptInvitation", e.getLocalizedMessage());
         }
@@ -303,7 +304,7 @@ public class ContactNotifierPlugin extends TrinityPlugin {
             result.setKeepCallback(true);
             callbackContext.sendPluginResult(result);
         }
-        catch (CarrierException e) {
+        catch (Exception e) {
             e.printStackTrace();
             sendError(callbackContext, "notifierSetOnInvitationAcceptedListener", e.getLocalizedMessage());
         }
@@ -320,7 +321,7 @@ public class ContactNotifierPlugin extends TrinityPlugin {
             JSONObject result = new JSONObject();
             sendSuccess(callbackContext, result);
         }
-        catch (CarrierException e) {
+        catch (Exception e) {
             e.printStackTrace();
             sendError(callbackContext, "notifierSetInvitationRequestsMode", e.getLocalizedMessage());
         }
@@ -334,7 +335,7 @@ public class ContactNotifierPlugin extends TrinityPlugin {
             result.put("invitationRequestsMode", mode.mValue);
             sendSuccess(callbackContext, result);
         }
-        catch (CarrierException e) {
+        catch (Exception e) {
             e.printStackTrace();
             sendError(callbackContext, "notifierGetInvitationRequestsMode", e.getLocalizedMessage());
         }
@@ -358,7 +359,7 @@ public class ContactNotifierPlugin extends TrinityPlugin {
             JSONObject result = new JSONObject();
             sendSuccess(callbackContext, result);
         }
-        catch (CarrierException e) {
+        catch (Exception e) {
             e.printStackTrace();
             sendError(callbackContext, "contactSendRemoteNotification", e.getLocalizedMessage());
         }
@@ -380,7 +381,7 @@ public class ContactNotifierPlugin extends TrinityPlugin {
             JSONObject result = new JSONObject();
             sendSuccess(callbackContext, result);
         }
-        catch (CarrierException e) {
+        catch (Exception e) {
             e.printStackTrace();
             sendError(callbackContext, "contactSetAllowNotifications", e.getLocalizedMessage());
         }
@@ -402,7 +403,7 @@ public class ContactNotifierPlugin extends TrinityPlugin {
             result.put("onlineStatus", status.mValue);
             sendSuccess(callbackContext, result);
         }
-        catch (CarrierException e) {
+        catch (Exception e) {
             e.printStackTrace();
             sendError(callbackContext, "contactGetOnlineStatus", e.getLocalizedMessage());
         }

@@ -7,16 +7,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Contact {
-    String did = null;
-    String carrierAddress = null;
+    public String did = null;
+    public String carrierUserID = null;
+    public String carrierAddress = null;
 
     /**
      * Creates a contact object from a CONTACTS_TABLE row.
      */
     public static Contact fromDatabaseCursor(Cursor cursor) {
         Contact contact = new Contact();
-        contact.did = cursor.getString(cursor.getColumnIndex(DatabaseHelper.CONTACT_DID));
-        contact.carrierAddress = cursor.getString(cursor.getColumnIndex(DatabaseHelper.CONTACT_CARRIER_ADDRESS));
+        contact.did = cursor.getString(cursor.getColumnIndex(DatabaseHelper.DID));
+        contact.carrierUserID = cursor.getString(cursor.getColumnIndex(DatabaseHelper.CARRIER_USER_ID));
+        contact.carrierAddress = cursor.getString(cursor.getColumnIndex(DatabaseHelper.CARRIER_ADDRESS));
         return contact;
     }
 

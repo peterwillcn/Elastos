@@ -29,7 +29,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import org.elastos.trinity.runtime.AppInfo;
 import org.elastos.trinity.runtime.contactnotifier.Contact;
-import org.json.JSONObject;
+
+import java.util.Date;
 
  public class DatabaseAdapter {
     DatabaseHelper helper;
@@ -38,13 +39,29 @@ import org.json.JSONObject;
     public DatabaseAdapter(Context context)
     {
         helper = new DatabaseHelper(context);
-        SQLiteDatabase db = helper.getWritableDatabase();
+        //SQLiteDatabase db = helper.getWritableDatabase();
         this.context = context;
     }
 
-    public Contact getContact(String didSessionDID, String contactDID) {
+     public void addContact(String didSessionDID, String did, String carrierUserID) {
          SQLiteDatabase db = helper.getWritableDatabase();
-         String where = DatabaseHelper.DID_SESSION_DID + "=? AND " + DatabaseHelper.CONTACT_DID + "=?";
+
+         ContentValues contentValues = new ContentValues();
+         contentValues.put(DatabaseHelper.DID_SESSION_DID, didSessionDID);
+         contentValues.put(DatabaseHelper.DID, did);
+         contentValues.put(DatabaseHelper.CARRIER_USER_ID, carrierUserID);
+         contentValues.put(DatabaseHelper.NOTIFICATIONS_BLOCKED, false);
+         contentValues.put(DatabaseHelper.ADDED_DATE, new Date().getTime()); // Unix timestamp
+         db.insertOrThrow(DatabaseHelper.CONTACTS_TABLE, null, contentValues);
+     }
+
+     public void updateContact() {
+
+     }
+
+     public Contact getContact(String didSessionDID, String contactDID) {
+         SQLiteDatabase db = helper.getWritableDatabase();
+         String where = DatabaseHelper.DID_SESSION_DID + "=? AND " + DatabaseHelper.DID + "=?";
          String[] whereArgs = {didSessionDID, contactDID};
          String[] columns = {AppInfo.AUTHORITY};
          Cursor cursor = db.query(DatabaseHelper.CONTACTS_TABLE, columns, where, whereArgs,null,null,null);
@@ -58,5 +75,16 @@ import org.json.JSONObject;
 
      public void removeContact(String didSessionDID, String contactDID) {
         // TODO
+     }
+
+     public void addSentInvitation(String didSessionDID, String targetDID, String targetCarrierAddress) {
+         SQLiteDatabase db = helper.getWritableDatabase();
+
+         ContentValues contentValues = new ContentValues();
+         contentValues.put(DatabaseHelper.DID_SESSION_DID, didSessionDID);
+         contentValues.put(DatabaseHelper.DID, targetDID);
+         contentValues.put(DatabaseHelper.CARRIER_ADDRESS, targetCarrierAddress);
+         contentValues.put(DatabaseHelper.SENT_DATE, new Date().getTime()); // Unix timestamp
+         db.insertOrThrow(DatabaseHelper.SENT_INVITATIONS_TABLE, null, contentValues);
      }
 }

@@ -37,7 +37,7 @@ export class AppmanagerService {
       type: 'Listener',
       title: 'Set Listener',
       message: 'Setting a listener is essential when it comes to handling incoming intents (setIntentListener) or listening to certain actions (setListener).',
-      message2: 'This is done by using the methods in the example above, then handling the received intents or actions as so.',
+      message2: 'This is done by using the methods in the example above, then handling the received intents or actions below.',
       message3: "Using the method, setIntentListener is necessary if your app is handling intents. On the other hand, using setListener is only relevant for actions such as handling display or language changes or modifying the Titlebar navigation. You may choose to handle these changes or ignore it.",
       example: 'assets/appmanager/listener.png',
       example2: 'assets/appmanager/listener2.png',

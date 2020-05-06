@@ -13,7 +13,7 @@ export class TitlebarService {
     {
       type: 'Title',
       title: 'Customize Title',
-      message: 'The title of your app can be changed whenever and whereever. This can be useful to display the title of your page, the occuring action or anything your desire.',
+      message: 'The title of your app can be changed whenever and wherever. This can be useful to display the title of your page, the occuring action or anything your desire.',
       message2: null,
       example: 'assets/titlebar/title.png'
     },

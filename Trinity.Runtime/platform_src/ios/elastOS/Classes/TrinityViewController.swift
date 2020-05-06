@@ -36,7 +36,7 @@ class TrinityViewController : CDVViewController {
     var webLayoutView: UIView?;
 
     @IBOutlet weak var titlebarHeightConstraint: NSLayoutConstraint!
-
+    
     override func loadView() {
         super.loadView()
         if let nib = Bundle.main.loadNibNamed("TrinityViewController", owner: self),
@@ -97,8 +97,10 @@ class TrinityViewController : CDVViewController {
         self.addMatchParentConstraints(view: titlebar, parent: titlebarContainer)
 
         let webview = super.newCordovaView(withFrame: CGRect())
-        webContainer.addSubview(webview!)
-        self.addMatchParentConstraints(view: webview!, parent: webContainer)
+        if (webview != nil) {
+            webContainer.addSubview(webview!)
+            self.addMatchParentConstraints(view: webview!, parent: webContainer)
+        }
 
         return webContainer
     }
@@ -176,5 +178,9 @@ class TrinityViewController : CDVViewController {
     func loadUrl(_ url: URL) {
         //TODO:: it isn't work
         self.webViewEngine.load(URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 20.0));
+    }
+    
+    func setReady() {
+
     }
 }

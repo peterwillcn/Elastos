@@ -526,8 +526,6 @@ class AppManager: NSObject {
             viewController!.view.isHidden = false;
             switchContent(viewController!, id);
         }
-        
-        try PreferenceManager.getShareInstance().setCurrentLocale("cn");
     }
 
     func close(_ id: String) throws {

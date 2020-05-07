@@ -213,7 +213,7 @@ public class TitleBarPlugin extends TrinityPlugin {
         ArrayList<TitleBarMenuItem> menuItems = new ArrayList<>();
         if (menuItemsJson != null) {
             for (int i = 0; i < menuItemsJson.length(); i++) {
-                TitleBarMenuItem menuItem = menuItemFromJsonObject(menuItemsJson.getJSONObject(i));
+                TitleBarMenuItem menuItem = TitleBarMenuItem.fromJSONObject(menuItemsJson.getJSONObject(i));
                 if (menuItem != null)
                     menuItems.add(menuItem);
             }
@@ -222,22 +222,6 @@ public class TitleBarPlugin extends TrinityPlugin {
         cordova.getActivity().runOnUiThread(() -> {
             getTitleBar().setupMenuItems(menuItems);
         });
-    }
-
-    private TitleBarMenuItem menuItemFromJsonObject(JSONObject jsonObj) {
-        if (!jsonObj.has("key") || !jsonObj.has("iconPath") || !jsonObj.has("title"))
-            return null;
-
-        try {
-            TitleBarMenuItem menuItem = new TitleBarMenuItem(
-                jsonObj.getString("key"),
-                jsonObj.getString("iconPath"),
-                jsonObj.getString("title"));
-            return menuItem;
-        }
-        catch (Exception e) {
-            return null;
-        }
     }
 
     private TitleBar getTitleBar() {

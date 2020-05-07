@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.FrameLayout;
@@ -29,8 +30,6 @@ import org.elastos.trinity.runtime.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
-// TODO: move to title bar package and split
 
 public class TitleBar extends FrameLayout {
     public interface OnIconClickedListener {
@@ -124,6 +123,11 @@ public class TitleBar extends FrameLayout {
             handleOuterRightClicked();
         });
 
+        btnOuterLeft.setPaddingDp(12);
+        btnInnerLeft.setPaddingDp(12);
+        btnInnerRight.setPaddingDp(12);
+        btnOuterRight.setPaddingDp(12);
+
         setBackgroundColor("#7A81F1");
         setForegroundMode(TitleBarForegroundMode.LIGHT);
         setAnimationHintText(null);
@@ -189,23 +193,27 @@ public class TitleBar extends FrameLayout {
                     });
 
                     // Setup menu item content
-                    AppInfo appInfo = appManager.getAppInfo(appId);
-                    appInfo.remote = 0; // TODO - DIRTY! FIND A BETTER WAY TO GET THE REAL IMAGE PATH FROM JS PATH !
-                    String iconPath = appManager.getAppPath(appInfo) + mi.iconPath;
 
                     // Icon
-                    ImageView ivIcon = menuItemView.findViewById(R.id.ivIcon);
-                    ivIcon.setImageURI(Uri.parse(iconPath));
+                    TitleBarIconView ivIcon = menuItemView.findViewById(R.id.ivIcon);
+                    setImageViewFromIcon(ivIcon, mi);
 
                     // Icon - grayscale effect
-                    ColorMatrix matrix = new ColorMatrix();
-                    matrix.setSaturation(0);
+                    if (mi.isBuiltInIcon()) {
+                        ivIcon.setColorFilter(Color.parseColor("#444444"));
+                    }
+                    else {
+                        ColorMatrix matrix = new ColorMatrix();
+                        matrix.setSaturation(0);
 
-                    ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-                    ivIcon.setColorFilter(filter);
+                        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+                        ivIcon.setColorFilter(filter);
+                    }
 
                     // Title
                     ((TextView)menuItemView.findViewById(R.id.tvTitle)).setText(mi.title);
+
+                    menuItemView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
                     llMenuItems.addView(menuItemView);
                 }
@@ -323,11 +331,10 @@ public class TitleBar extends FrameLayout {
     }
 
     public void setBadgeCount(TitleBarIconSlot iconSlot, int badgeCount) {
-        // TODO: check outer icon modes before allowing to set the badge
-
         switch (iconSlot) {
             case OUTER_LEFT:
-                btnOuterLeft.setBadgeCount(badgeCount);
+                if (!currentNavigationIconIsVisible)
+                    btnOuterLeft.setBadgeCount(badgeCount);
                 break;
             case INNER_LEFT:
                 btnInnerLeft.setBadgeCount(badgeCount);
@@ -336,7 +343,8 @@ public class TitleBar extends FrameLayout {
                 btnInnerRight.setBadgeCount(badgeCount);
                 break;
             case OUTER_RIGHT:
-                btnOuterRight.setBadgeCount(badgeCount);
+                if (emptyMenuItems())
+                    btnOuterRight.setBadgeCount(badgeCount);
                 break;
             default:
                 // Nothing to do, wrong info received
@@ -425,22 +433,28 @@ public class TitleBar extends FrameLayout {
                     iv.setImageResource(R.drawable.ic_scan);
                     break;
                 case ADD:
-                    iv.setImageResource(R.drawable.ic_back); // TODO: ic_add
+                    iv.setImageResource(R.drawable.ic_add);
                     break;
                 case DELETE:
-                    iv.setImageResource(R.drawable.ic_back); // TODO: ic_delete
+                    iv.setImageResource(R.drawable.ic_delete);
                     break;
                 case SETTINGS:
                     iv.setImageResource(R.drawable.ic_settings);
                     break;
                 case HELP:
-                    iv.setImageResource(R.drawable.ic_back); // TODO: ic_help
+                    iv.setImageResource(R.drawable.ic_help);
                     break;
                 case HORIZONTAL_MENU:
                     iv.setImageResource(R.drawable.ic_menu);
                     break;
                 case VERTICAL_MENU:
-                    iv.setImageResource(R.drawable.ic_back); // TODO: ic_vertical_menu
+                    iv.setImageResource(R.drawable.ic_menu); // TODO: ic_vertical_menu
+                    break;
+                case EDIT:
+                    iv.setImageResource(R.drawable.ic_edit);
+                    break;
+                case FAVORITE:
+                    iv.setImageResource(R.drawable.ic_fav);
                     break;
                 case CLOSE:
                 default:

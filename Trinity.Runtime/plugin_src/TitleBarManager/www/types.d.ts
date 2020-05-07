@@ -98,7 +98,11 @@ declare namespace TitleBarPlugin {
         /** Horizontal "3 dots" */
         HORIZONTAL_MENU = "horizontal_menu",
         /** Vertical "3 dots" */
-        VERTICAL_MENU = "vertical_menu"
+        VERTICAL_MENU = "vertical_menu",
+        /** Edit, a pen */
+        EDIT = "edit",
+        /** Favorite, a bookmark */
+        FAVORITE = "favorite"
     }
 
     /**

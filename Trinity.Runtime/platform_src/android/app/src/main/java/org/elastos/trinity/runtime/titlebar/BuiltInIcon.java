@@ -9,7 +9,9 @@ enum BuiltInIcon {
     SETTINGS("settings"),
     HELP("help"),
     HORIZONTAL_MENU("horizontal_menu"),
-    VERTICAL_MENU("vertical_menu");
+    VERTICAL_MENU("vertical_menu"),
+    EDIT("edit"),
+    FAVORITE("favorite");
 
     private String mValue;
 

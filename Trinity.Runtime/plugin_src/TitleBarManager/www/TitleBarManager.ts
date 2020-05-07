@@ -23,18 +23,6 @@
 let exec = cordova.exec;
 
 class TitleBarManagerImpl implements TitleBarPlugin.TitleBarManager {
-    showActivityIndicator(type: TitleBarPlugin.TitleBarActivityType) {
-        exec(()=>{}, (err)=>{
-            console.error("Error while calling TitleBarPlugin.showActivityIndicator()", err);
-        }, 'TitleBarPlugin', 'showActivityIndicator', [type]);
-    }    
-    
-    hideActivityIndicator(type: TitleBarPlugin.TitleBarActivityType) {
-        exec(()=>{}, (err)=>{
-            console.error("Error while calling TitleBarPlugin.hideActivityIndicator()", err);
-        }, 'TitleBarPlugin', 'hideActivityIndicator', [type]);
-    }
-
     setTitle(title?: String) {
         let args = [];
         if (title)
@@ -57,24 +45,61 @@ class TitleBarManagerImpl implements TitleBarPlugin.TitleBarManager {
         }, 'TitleBarPlugin', 'setForegroundMode', [mode]);
     }
 
-    setBehavior(behavior: TitleBarPlugin.TitleBarBehavior) {
-        exec(()=>{}, (err)=>{
-            console.error("Error while calling TitleBarPlugin.setBehavior()", err);
-        }, 'TitleBarPlugin', 'setBehavior', [behavior]);
-    }
-
     setNavigationMode(navigationMode: TitleBarPlugin.TitleBarNavigationMode) {
         exec(()=>{}, (err)=>{
             console.error("Error while calling TitleBarPlugin.setNavigationMode()", err);
         }, 'TitleBarPlugin', 'setNavigationMode', [navigationMode]);
     }
 
-    setupMenuItems(menuItems: [TitleBarPlugin.TitleBarMenuItem], onItemClicked: (TitleBarMenuItem: any) => void) {
-        exec((menuItem)=>{
+    setupMenuItems(menuItems: [TitleBarPlugin.TitleBarMenuItem]) {
+        exec(()=>{}, (err)=>{
+            console.error("Error while calling TitleBarPlugin.setupMenuItems()", err);
+        }, 'TitleBarPlugin', 'setupMenuItems', [menuItems]);
+    }
+
+    setNavigationIconVisibility(visible: boolean) {
+        exec(()=>{}, (err)=>{
+            console.error("Error while calling TitleBarPlugin.setNavigationIconVisibility()", err);
+        }, 'TitleBarPlugin', 'setNavigationIconVisibility', [visible]);
+    }
+
+    setOnItemClickedListener(onItemClicked: (menuItem: TitleBarPlugin.TitleBarMenuItem) => void) {
+        exec((menuItem: TitleBarPlugin.TitleBarMenuItem)=>{
             onItemClicked(menuItem);
         }, (err)=>{
-            console.error("Error while calling TitleBarPlugin.setForegroundMode()", err);
-        }, 'TitleBarPlugin', 'setupMenuItems', [menuItems]);
+            console.error("Error while calling TitleBarPlugin.setOnItemClickedListener()", err);
+        }, 'TitleBarPlugin', 'setOnItemClickedListener', []);
+    }
+
+    setIcon(iconSlot: TitleBarPlugin.TitleBarIconSlot, icon: TitleBarPlugin.TitleBarIcon) {
+        exec(()=>{}, (err)=>{
+            console.error("Error while calling TitleBarPlugin.setIcon()", err);
+        }, 'TitleBarPlugin', 'setIcon', [iconSlot, icon]);
+    }
+
+    setBadgeCount(iconSlot: TitleBarPlugin.TitleBarIconSlot, count: number) {
+        exec(()=>{}, (err)=>{
+            console.error("Error while calling TitleBarPlugin.setBadgeCount()", err);
+        }, 'TitleBarPlugin', 'setBadgeCount', [iconSlot, count]);
+    }
+
+    showActivityIndicator(type: TitleBarPlugin.TitleBarActivityType, hintText?: string) {
+        exec(()=>{}, (err)=>{
+            console.error("Error while calling TitleBarPlugin.showActivityIndicator()", err);
+        }, 'TitleBarPlugin', 'showActivityIndicator', [type, hintText]);
+    }    
+    
+    hideActivityIndicator(type: TitleBarPlugin.TitleBarActivityType) {
+        exec(()=>{}, (err)=>{
+            console.error("Error while calling TitleBarPlugin.hideActivityIndicator()", err);
+        }, 'TitleBarPlugin', 'hideActivityIndicator', [type]);
+    }
+
+
+    // @deprecated
+    setBehavior(behavior: TitleBarPlugin.TitleBarBehavior) {
+        // Doesn't do anything any more but keep this empty placeholder for old apps backward
+        // compatibility for a while.
     }
 }
 

@@ -1,4 +1,4 @@
-package org.elastos.trinity.runtime;
+package org.elastos.trinity.runtime.titlebar;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +10,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -23,141 +22,35 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.elastos.trinity.runtime.AppInfo;
+import org.elastos.trinity.runtime.AppManager;
+import org.elastos.trinity.runtime.R;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
+// TODO: move to title bar package and split
+
 public class TitleBar extends FrameLayout {
-    public enum TitleBarActivityType {
-        /** There is an on going download. */
-        DOWNLOAD(0),
-        /** There is an on going upload. */
-        UPLOAD(1),
-        /** There is on going application launch. */
-        LAUNCH(2),
-        /** There is another on going operation of an indeterminate type. */
-        OTHER(3);
-
-        private int mValue;
-
-        TitleBarActivityType(int value) {
-            mValue = value;
-        }
-
-        public static TitleBarActivityType fromId(int value) {
-            for(TitleBarActivityType t : values()) {
-                if (t.mValue == value) {
-                    return t;
-                }
-            }
-            return OTHER;
-        }
-    }
-
-    public enum TitleBarForegroundMode {
-        LIGHT(0),
-        DARK(1);
-
-        private int mValue;
-
-        TitleBarForegroundMode(int value) {
-            mValue = value;
-        }
-
-        public static TitleBarForegroundMode fromId(int value) {
-            for(TitleBarForegroundMode t : values()) {
-                if (t.mValue == value) {
-                    return t;
-                }
-            }
-            return LIGHT;
-        }
-    }
-
-    public enum TitleBarBehavior {
-        DEFAULT(0),
-        DESKTOP(1);
-
-        private int mValue;
-
-        TitleBarBehavior(int value) {
-            mValue = value;
-        }
-
-        public static TitleBarBehavior fromId(int value) {
-            for(TitleBarBehavior t : values()) {
-                if (t.mValue == value) {
-                    return t;
-                }
-            }
-            return DEFAULT;
-        }
-    }
-
-    public enum TitleBarNavigationMode {
-        HOME(0),
-        CLOSE(1),
-        BACK(2),
-        NONE(3);
-
-        private int mValue;
-
-        TitleBarNavigationMode(int value) {
-            mValue = value;
-        }
-
-        public static TitleBarNavigationMode fromId(int value) {
-            for(TitleBarNavigationMode t : values()) {
-                if (t.mValue == value) {
-                    return t;
-                }
-            }
-            return CLOSE;
-        }
-    }
-
-    public static class MenuItem {
-        String key;
-        String iconPath;
-        String title;
-
-        MenuItem(String key, String iconPath, String title) {
-            this.key = key;
-            this.iconPath = iconPath;
-            this.title = title;
-        }
-
-        public JSONObject toJson() throws JSONException  {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("key", key);
-            jsonObject.put("iconPath", iconPath);
-            jsonObject.put("title", title);
-            return jsonObject;
-        }
+    public interface OnIconClickedListener {
+        void onIconCLicked(TitleBarIcon icon);
     }
 
     public interface OnMenuItemSelection {
-        void onMenuItemSelected(MenuItem menuItem);
+        void onMenuItemSelected(TitleBarMenuItem menuItem);
     }
 
     // UI
     View progressBar;
-    ImageButton btnLauncher = null;
-    ImageButton btnBack = null;
-    ImageButton btnClose = null;
-    ImageButton btnMenu = null;
-    ImageButton btnFav = null;
-    ImageButton btnNotifs = null;
-    ImageButton btnRunning = null;
-    ImageButton btnScan = null;
-    ImageButton btnSettings = null;
+    TitleBarIconView btnOuterLeft = null;
+    TitleBarIconView btnInnerLeft = null;
+    TitleBarIconView btnInnerRight = null;
+    TitleBarIconView btnOuterRight = null;
     TextView tvTitle = null;
     FrameLayout flRoot = null;
     PopupWindow menuPopup = null;
+    TextView tvAnimationHint = null;
 
     // UI model
     AlphaAnimation onGoingProgressAnimation = null;
@@ -169,9 +62,15 @@ public class TitleBar extends FrameLayout {
     // Reference count for progress bar activity types. An app can start several activities at the same time and the progress bar
     // keeps animating until no one else needs progress animations.
     HashMap<TitleBarActivityType, Integer> activityCounters = new HashMap<TitleBarActivityType, Integer>();
-    ArrayList<MenuItem> menuItems = new ArrayList<>();
-    OnMenuItemSelection onMenuItemSelection = null;
-    TitleBarNavigationMode currentNavigationMode = TitleBarNavigationMode.NONE;
+    HashMap<TitleBarActivityType, String> activityHintTexts = new HashMap<TitleBarActivityType, String>();
+    ArrayList<TitleBarMenuItem> menuItems = new ArrayList<>();
+    OnIconClickedListener onIconClickedListener = null;
+    boolean currentNavigationIconIsVisible = true;
+    TitleBarNavigationMode currentNavigationMode = TitleBarNavigationMode.HOME;
+    TitleBarIcon outerLeftIcon = null;
+    TitleBarIcon innerLeftIcon = null;
+    TitleBarIcon innerRightIcon = null;
+    TitleBarIcon outerRightIcon = null;
 
     public TitleBar(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -180,6 +79,11 @@ public class TitleBar extends FrameLayout {
         activityCounters.put(TitleBarActivityType.UPLOAD, 0);
         activityCounters.put(TitleBarActivityType.LAUNCH, 0);
         activityCounters.put(TitleBarActivityType.OTHER, 0);
+
+        activityHintTexts.put(TitleBarActivityType.DOWNLOAD, null);
+        activityHintTexts.put(TitleBarActivityType.UPLOAD, null);
+        activityHintTexts.put(TitleBarActivityType.LAUNCH, null);
+        activityHintTexts.put(TitleBarActivityType.OTHER, null);
     }
 
     @Override
@@ -196,65 +100,35 @@ public class TitleBar extends FrameLayout {
         isLauncher = appManager.isLauncher(appId);
 
         progressBar = findViewById(R.id.progressBar);
-        btnLauncher = findViewById(R.id.btnLauncher);
-        btnBack = findViewById(R.id.btnBack);
-        btnClose = findViewById(R.id.btnClose);
-        btnMenu = findViewById(R.id.btnMenu);
-        btnFav = findViewById(R.id.btnFav);
-        btnNotifs = findViewById(R.id.btnNotifs);
-        btnRunning = findViewById(R.id.btnRunning);
-        btnScan = findViewById(R.id.btnScan);
-        btnSettings = findViewById(R.id.btnSettings);
+        btnOuterLeft = findViewById(R.id.btnOuterLeft);
+        btnInnerLeft = findViewById(R.id.btnInnerLeft);
+        btnInnerRight = findViewById(R.id.btnInnerRight);
+        btnOuterRight = findViewById(R.id.btnOuterRight);
         tvTitle = findViewById(R.id.tvTitle);
         flRoot = findViewById(R.id.flRoot);
+        tvAnimationHint = findViewById(R.id.tvAnimationHint);
 
-        btnLauncher.setOnClickListener(v -> {
-            goToLauncher();
+        btnOuterLeft.setOnClickListener(v -> {
+            handleOuterLeftClicked();
         });
 
-        btnBack.setOnClickListener(v -> {
-            sendNavBackMessage();
+        btnInnerLeft.setOnClickListener(v -> {
+            handleInnerLeftClicked();
         });
 
-        btnClose.setOnClickListener(v -> {
-            closeApp();
+        btnInnerRight.setOnClickListener(v -> {
+            handleInnerRightClicked();
         });
 
-        btnMenu.setOnClickListener(v -> {
-            toggleMenu();
-        });
-
-        btnNotifs.setOnClickListener(v -> {
-            sendMessageToLauncher("notifications-toggle");
-        });
-
-        btnRunning.setOnClickListener(v -> {
-            sendMessageToLauncher("runningapps-toggle");
-        });
-
-        btnScan.setOnClickListener(v -> {
-            sendMessageToLauncher("scan-clicked");
-        });
-
-        btnSettings.setOnClickListener(v -> {
-            sendMessageToLauncher("settings-clicked");
+        btnOuterRight.setOnClickListener(v -> {
+            handleOuterRightClicked();
         });
 
         setBackgroundColor("#7A81F1");
         setForegroundMode(TitleBarForegroundMode.LIGHT);
+        setAnimationHintText(null);
 
-        btnFav.setVisibility(View.GONE); // TODO: Waiting until the favorite management is available in system settings
-        btnMenu.setVisibility(View.GONE);
-
-        if (isLauncher) {
-            btnClose.setVisibility(View.GONE);
-            setNavigationMode(TitleBarNavigationMode.NONE);
-            setBehavior(TitleBarBehavior.DESKTOP);
-        }
-        else {
-            setNavigationMode(TitleBarNavigationMode.HOME);
-            setBehavior(TitleBarBehavior.DEFAULT);
-        }
+        updateIcons();
     }
 
     private void goToLauncher() {
@@ -307,11 +181,11 @@ public class TitleBar extends FrameLayout {
             // Append menu items
             if (menuItems != null) {
                 LinearLayout llMenuItems = menuView.findViewById(R.id.llMenuItems);
-                for (MenuItem mi : menuItems) {
+                for (TitleBarMenuItem mi : menuItems) {
                     View menuItemView = inflater.inflate(R.layout.title_bar_menu_item, llMenuItems, false);
                     menuItemView.setOnClickListener(v -> {
                         closeMenuPopup();
-                        onMenuItemSelection.onMenuItemSelected(mi);
+                        handleIconClicked(mi);
                     });
 
                     // Setup menu item content
@@ -368,9 +242,10 @@ public class TitleBar extends FrameLayout {
         }
     }
 
-    public void showActivityIndicator(TitleBarActivityType activityType) {
+    public void showActivityIndicator(TitleBarActivityType activityType, String hintText) {
         // Increase reference count for this progress animation type
         activityCounters.put(activityType, activityCounters.get(activityType) + 1);
+        activityHintTexts.put(activityType, hintText);
         updateAnimation();
     }
 
@@ -407,77 +282,234 @@ public class TitleBar extends FrameLayout {
             color = Color.parseColor("#FFFFFF");
         }
 
-        btnClose.setColorFilter(color);
         tvTitle.setTextColor(color);
-        btnMenu.setColorFilter(color);
-        btnLauncher.setColorFilter(color);
-        btnBack.setColorFilter(color);
-        btnNotifs.setColorFilter(color);
-        btnRunning.setColorFilter(color);
-        btnScan.setColorFilter(color);
-        btnSettings.setColorFilter(color);
-    }
-
-    public void setBehavior(TitleBarBehavior behavior) {
-        if (behavior == TitleBarBehavior.DESKTOP) {
-            // DESKTOP
-            btnBack.setVisibility(View.GONE);
-            btnClose.setVisibility(View.GONE);
-            btnLauncher.setVisibility(View.GONE);
-            btnFav.setVisibility(View.GONE);
-            btnMenu.setVisibility(View.GONE);
-
-            btnNotifs.setVisibility(View.VISIBLE);
-            btnRunning.setVisibility(View.VISIBLE);
-            btnScan.setVisibility(View.VISIBLE);
-            btnSettings.setVisibility(View.VISIBLE);
-        }
-        else {
-            // DEFAULT
-            btnBack.setVisibility(View.VISIBLE);
-            btnClose.setVisibility(View.VISIBLE);
-            btnLauncher.setVisibility(View.VISIBLE);
-            btnFav.setVisibility(View.GONE); // TMP
-            btnMenu.setVisibility((menuItems.size() > 0 ? View.VISIBLE : View.GONE));
-
-            btnNotifs.setVisibility(View.GONE);
-            btnRunning.setVisibility(View.GONE);
-            btnScan.setVisibility(View.GONE);
-            btnSettings.setVisibility(View.GONE);
-
-            setNavigationMode(currentNavigationMode);
-        }
+        tvAnimationHint.setTextColor(color);
+        btnOuterLeft.setColorFilter(color);
+        btnInnerLeft.setColorFilter(color);
+        btnInnerRight.setColorFilter(color);
+        btnOuterRight.setColorFilter(color);
     }
 
     public void setNavigationMode(TitleBarNavigationMode navigationMode) {
-        btnClose.setVisibility(View.GONE);
-        btnBack.setVisibility(View.GONE);
-        btnLauncher.setVisibility(View.GONE);
-
-        if (navigationMode == TitleBarNavigationMode.HOME) {
-            btnLauncher.setVisibility(View.VISIBLE);
-        }
-        else if (navigationMode == TitleBarNavigationMode.BACK) {
-            btnBack.setVisibility(View.VISIBLE);
-        }
-        else if (navigationMode == TitleBarNavigationMode.CLOSE) {
-            btnClose.setVisibility(View.VISIBLE);
-        }
-        else {
-            // Default = NONE
-        }
-
         currentNavigationMode = navigationMode;
+
+        updateIcons();
     }
 
-    public void setupMenuItems(ArrayList<MenuItem> menuItems, OnMenuItemSelection onMenuItemSelection) {
-        this.menuItems = menuItems;
-        this.onMenuItemSelection = onMenuItemSelection;
+    public void setNavigationIconVisibility(boolean visible) {
+        currentNavigationIconIsVisible = visible;
+        setNavigationMode(currentNavigationMode);
+    }
 
-        if (menuItems.size() > 0)
-            btnMenu.setVisibility(View.VISIBLE);
-        else
-            btnMenu.setVisibility(View.GONE);
+    public void setIcon(TitleBarIconSlot iconSlot, TitleBarIcon icon) {
+        switch (iconSlot) {
+            case OUTER_LEFT:
+                outerLeftIcon = icon;
+                break;
+            case INNER_LEFT:
+                innerLeftIcon = icon;
+                break;
+            case INNER_RIGHT:
+                innerRightIcon = icon;
+                break;
+            case OUTER_RIGHT:
+                outerRightIcon = icon;
+                break;
+            default:
+                // Nothing to do, wrong info received
+        }
+
+        updateIcons();
+    }
+
+    public void setBadgeCount(TitleBarIconSlot iconSlot, int badgeCount) {
+        // TODO: check outer icon modes before allowing to set the badge
+
+        switch (iconSlot) {
+            case OUTER_LEFT:
+                btnOuterLeft.setBadgeCount(badgeCount);
+                break;
+            case INNER_LEFT:
+                btnInnerLeft.setBadgeCount(badgeCount);
+                break;
+            case INNER_RIGHT:
+                btnInnerRight.setBadgeCount(badgeCount);
+                break;
+            case OUTER_RIGHT:
+                btnOuterRight.setBadgeCount(badgeCount);
+                break;
+            default:
+                // Nothing to do, wrong info received
+        }
+    }
+
+    public void setOnItemClickedListener(OnIconClickedListener listener) {
+        this.onIconClickedListener = listener;
+    }
+
+    public void setupMenuItems(ArrayList<TitleBarMenuItem> menuItems) {
+        this.menuItems = menuItems;
+
+        updateIcons();
+    }
+
+    /**
+     * Updates all icons according to the overall configuration
+     */
+    private void updateIcons() {
+        // Navigation icon / Outer left
+        if (currentNavigationIconIsVisible) {
+            if (currentNavigationMode == TitleBarNavigationMode.CLOSE) {
+                btnOuterLeft.setImageResource(R.drawable.ic_close);
+            } else {
+                // Default = HOME
+                btnOuterLeft.setImageResource(R.drawable.ic_elastos_home);
+            }
+        }
+        else {
+            // Navigation icon not visible - check if there is a configured outer icon
+            if (outerLeftIcon != null) {
+                setImageViewFromIcon(btnOuterLeft, outerLeftIcon);
+            }
+        }
+
+        // Inner left
+        if (innerLeftIcon != null) {
+            btnInnerLeft.setVisibility(View.VISIBLE);
+            setImageViewFromIcon(btnInnerLeft, innerLeftIcon);
+        }
+        else {
+            btnInnerLeft.setVisibility(View.GONE);
+        }
+
+        // Inner right
+        if (innerRightIcon != null) {
+            btnInnerRight.setVisibility(View.VISIBLE);
+            setImageViewFromIcon(btnInnerRight, innerRightIcon);
+        }
+        else {
+            btnInnerRight.setVisibility(View.GONE);
+        }
+
+        // Menu icon / Outer right
+        if (menuItems.size() > 0) {
+            btnOuterRight.setVisibility(View.VISIBLE);
+            btnOuterRight.setImageResource(R.drawable.ic_menu);
+        }
+        else {
+            if (outerRightIcon != null) {
+                btnOuterRight.setVisibility(View.VISIBLE);
+                setImageViewFromIcon(btnOuterRight, outerRightIcon);
+            }
+            else {
+                btnOuterRight.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    /**
+     * Ths icon path can be a capsule-relative path such as "assets/icons/pic.png", or a built-in icon string
+     * such as "close" or "settings".
+     */
+    private void setImageViewFromIcon(TitleBarIconView iv, TitleBarIcon icon) {
+        if (icon.iconPath == null)
+            return;
+
+        if (icon.isBuiltInIcon()) {
+            // Use a built-in app icon
+            switch (icon.builtInIcon) {
+                case BACK:
+                    iv.setImageResource(R.drawable.ic_back);
+                    break;
+                case SCAN:
+                    iv.setImageResource(R.drawable.ic_scan);
+                    break;
+                case ADD:
+                    iv.setImageResource(R.drawable.ic_back); // TODO: ic_add
+                    break;
+                case DELETE:
+                    iv.setImageResource(R.drawable.ic_back); // TODO: ic_delete
+                    break;
+                case SETTINGS:
+                    iv.setImageResource(R.drawable.ic_settings);
+                    break;
+                case HELP:
+                    iv.setImageResource(R.drawable.ic_back); // TODO: ic_help
+                    break;
+                case HORIZONTAL_MENU:
+                    iv.setImageResource(R.drawable.ic_menu);
+                    break;
+                case VERTICAL_MENU:
+                    iv.setImageResource(R.drawable.ic_back); // TODO: ic_vertical_menu
+                    break;
+                case CLOSE:
+                default:
+                    iv.setImageResource(R.drawable.ic_close);
+            }
+        }
+        else {
+            // Custom app image, try to load it
+            AppInfo appInfo = appManager.getAppInfo(appId);
+            appInfo.remote = 0; // TODO - DIRTY! FIND A BETTER WAY TO GET THE REAL IMAGE PATH FROM JS PATH !
+            String iconPath = appManager.getAppPath(appInfo) + icon.iconPath;
+
+            iv.setImageURI(Uri.parse(iconPath));
+        }
+    }
+
+    private void handleIconClicked(TitleBarIcon icon) {
+        if (onIconClickedListener != null)
+            onIconClickedListener.onIconCLicked(icon);
+    }
+
+    private void handleOuterLeftClicked() {
+        if (currentNavigationIconIsVisible) {
+            // Action handled by runtime: minimize, or close
+            if (currentNavigationMode == TitleBarNavigationMode.CLOSE) {
+                closeApp();
+            }
+            else {
+                // Default: HOME
+                goToLauncher();
+            }
+        }
+        else {
+            // Action handled by the app
+            handleIconClicked(outerLeftIcon);
+        }
+    }
+
+    private void handleInnerLeftClicked() {
+        handleIconClicked(innerLeftIcon);
+    }
+
+    private void handleInnerRightClicked() {
+        handleIconClicked(innerRightIcon);
+    }
+
+    private void handleOuterRightClicked() {
+        if (!emptyMenuItems()) {
+            // Title bar has menu items, so we open the menu
+            toggleMenu();
+        }
+        else {
+            // No menu items: this is a custom icon
+            handleIconClicked(outerRightIcon);
+        }
+    }
+
+    private boolean emptyMenuItems() {
+        return menuItems == null || menuItems.size() == 0;
+    }
+
+    private void setAnimationHintText(String text) {
+        if (text == null) {
+            tvAnimationHint.setVisibility(View.GONE);
+        }
+        else {
+            tvAnimationHint.setVisibility(View.VISIBLE);
+            tvAnimationHint.setText(text);
+        }
     }
 
     /**
@@ -489,12 +521,18 @@ public class TitleBar extends FrameLayout {
         String backgroundColor = null;
         if (activityCounters.get(TitleBarActivityType.LAUNCH) > 0) {
             backgroundColor = "#FFFFFF";
+            setAnimationHintText(activityHintTexts.get(TitleBarActivityType.LAUNCH));
         }
         else if (activityCounters.get(TitleBarActivityType.DOWNLOAD) > 0 || activityCounters.get(TitleBarActivityType.UPLOAD) > 0) {
             backgroundColor = "#ffde6e";
+            setAnimationHintText(activityHintTexts.get(TitleBarActivityType.DOWNLOAD));
         }
         else if (activityCounters.get(TitleBarActivityType.OTHER) > 0) {
             backgroundColor = "#20e3d2";
+            setAnimationHintText(activityHintTexts.get(TitleBarActivityType.OTHER));
+        }
+        else {
+            setAnimationHintText(null);
         }
 
         if (backgroundColor != null) {
@@ -526,7 +564,17 @@ public class TitleBar extends FrameLayout {
         }
     }
 
+    private boolean hasActiveAnimation() {
+        return activityCounters.get(TitleBarActivityType.DOWNLOAD) > 0 ||
+                activityCounters.get(TitleBarActivityType.UPLOAD) > 0 ||
+                activityCounters.get(TitleBarActivityType.LAUNCH) > 0 ||
+                activityCounters.get(TitleBarActivityType.OTHER) > 0;
+    }
+
     private void animateProgressBarIn() {
+        if (!hasActiveAnimation())
+            return;
+
         onGoingProgressAnimation = new AlphaAnimation(0.0f , 1.0f) ;
 
         onGoingProgressAnimation.setDuration(1000);

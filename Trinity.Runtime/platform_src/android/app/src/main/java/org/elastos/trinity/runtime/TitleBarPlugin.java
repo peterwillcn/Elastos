@@ -22,22 +22,20 @@
 
 package org.elastos.trinity.runtime;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
-import android.net.Uri;
-
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
+import org.elastos.trinity.runtime.titlebar.TitleBarMenuItem;
+import org.elastos.trinity.runtime.titlebar.TitleBar;
+import org.elastos.trinity.runtime.titlebar.TitleBarActivityType;
+import org.elastos.trinity.runtime.titlebar.TitleBarForegroundMode;
+import org.elastos.trinity.runtime.titlebar.TitleBarIcon;
+import org.elastos.trinity.runtime.titlebar.TitleBarIconSlot;
+import org.elastos.trinity.runtime.titlebar.TitleBarNavigationMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 
 public class TitleBarPlugin extends TrinityPlugin {
 
@@ -45,12 +43,6 @@ public class TitleBarPlugin extends TrinityPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         try {
             switch (action) {
-                case "showActivityIndicator":
-                    this.showActivityIndicator(args, callbackContext);
-                    break;
-                case "hideActivityIndicator":
-                    this.hideActivityIndicator(args, callbackContext);
-                    break;
                 case "setTitle":
                     this.setTitle(args, callbackContext);
                     break;
@@ -60,14 +52,29 @@ public class TitleBarPlugin extends TrinityPlugin {
                 case "setForegroundMode":
                     this.setForegroundMode(args, callbackContext);
                     break;
-                case "setBehavior":
-                    this.setBehavior(args, callbackContext);
-                    break;
                 case "setNavigationMode":
                     this.setNavigationMode(args, callbackContext);
                     break;
+                case "setNavigationIconVisibility":
+                    this.setNavigationIconVisibility(args, callbackContext);
+                    break;
+                case "setOnItemClickedListener":
+                    this.setOnItemClickedListener(args, callbackContext);
+                    break;
+                case "setIcon":
+                    this.setIcon(args, callbackContext);
+                    break;
+                case "setBadgeCount":
+                    this.setBadgeCount(args, callbackContext);
+                    break;
                 case "setupMenuItems":
                     this.setupMenuItems(args, callbackContext);
+                    break;
+                case "showActivityIndicator":
+                    this.showActivityIndicator(args, callbackContext);
+                    break;
+                case "hideActivityIndicator":
+                    this.hideActivityIndicator(args, callbackContext);
                     break;
                 default:
                     return false;
@@ -81,9 +88,10 @@ public class TitleBarPlugin extends TrinityPlugin {
 
     private void showActivityIndicator(JSONArray args, CallbackContext callbackContext) throws Exception {
         int activityIndicatoryType = args.getInt(0);
+        String hintText = args.isNull(1) ? null : args.getString(1);
 
         cordova.getActivity().runOnUiThread(() -> {
-            getTitleBar().showActivityIndicator(TitleBar.TitleBarActivityType.fromId(activityIndicatoryType));
+            getTitleBar().showActivityIndicator(TitleBarActivityType.fromId(activityIndicatoryType), hintText);
         });
 
         callbackContext.success();
@@ -92,7 +100,7 @@ public class TitleBarPlugin extends TrinityPlugin {
     private void hideActivityIndicator(JSONArray args, CallbackContext callbackContext) throws Exception {
         int activityIndicatoryType = args.getInt(0);
         cordova.getActivity().runOnUiThread(() -> {
-            getTitleBar().hideActivityIndicator(TitleBar.TitleBarActivityType.fromId(activityIndicatoryType));
+            getTitleBar().hideActivityIndicator(TitleBarActivityType.fromId(activityIndicatoryType));
         });
 
         callbackContext.success();
@@ -127,17 +135,7 @@ public class TitleBarPlugin extends TrinityPlugin {
         int modeAsInt = args.getInt(0);
 
         cordova.getActivity().runOnUiThread(() -> {
-            getTitleBar().setForegroundMode(TitleBar.TitleBarForegroundMode.fromId(modeAsInt));
-        });
-
-        callbackContext.success();
-    }
-
-    private void setBehavior(JSONArray args, CallbackContext callbackContext) throws Exception {
-        int behaviorAsInt = args.getInt(0);
-
-        cordova.getActivity().runOnUiThread(() -> {
-            getTitleBar().setBehavior(TitleBar.TitleBarBehavior.fromId(behaviorAsInt));
+            getTitleBar().setForegroundMode(TitleBarForegroundMode.fromId(modeAsInt));
         });
 
         callbackContext.success();
@@ -147,44 +145,91 @@ public class TitleBarPlugin extends TrinityPlugin {
         int modeAsInt = args.getInt(0);
 
         cordova.getActivity().runOnUiThread(() -> {
-            getTitleBar().setNavigationMode(TitleBar.TitleBarNavigationMode.fromId(modeAsInt));
+            getTitleBar().setNavigationMode(TitleBarNavigationMode.fromId(modeAsInt));
+        });
+
+        callbackContext.success();
+    }
+
+    private void setNavigationIconVisibility(JSONArray args, CallbackContext callbackContext) throws Exception {
+        boolean visible = args.getBoolean(0);
+
+        cordova.getActivity().runOnUiThread(() -> {
+            getTitleBar().setNavigationIconVisibility(visible);
+        });
+
+        callbackContext.success();
+    }
+
+    private void setOnItemClickedListener(JSONArray args, CallbackContext callbackContext) throws Exception {
+        getTitleBar().setOnItemClickedListener((menuItem)->{
+            try {
+                PluginResult res = new PluginResult(PluginResult.Status.OK, menuItem.toJSONObject());
+                res.setKeepCallback(true);
+                callbackContext.sendPluginResult(res);
+            }
+            catch (JSONException e) {
+                PluginResult res = new PluginResult(PluginResult.Status.ERROR, e.getLocalizedMessage());
+                res.setKeepCallback(true);
+                callbackContext.sendPluginResult(res);
+            }
+        });
+
+        PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
+        result.setKeepCallback(true);
+        callbackContext.sendPluginResult(result);
+    }
+
+    private void setIcon(JSONArray args, CallbackContext callbackContext) throws Exception {
+        int iconSlotAsInt = args.getInt(0);
+        JSONObject iconObj = args.isNull(1) ? null : args.getJSONObject(1);
+
+        TitleBarIconSlot iconSlot = TitleBarIconSlot.fromId(iconSlotAsInt);
+        TitleBarIcon icon = TitleBarIcon.fromJSONObject(iconObj);
+
+        cordova.getActivity().runOnUiThread(() -> {
+            getTitleBar().setIcon(iconSlot, icon);
+        });
+
+        callbackContext.success();
+    }
+
+    private void setBadgeCount(JSONArray args, CallbackContext callbackContext) throws Exception {
+        int iconSlotAsInt = args.getInt(0);
+        int badgeValue = args.getInt(1);
+
+        TitleBarIconSlot iconSlot = TitleBarIconSlot.fromId(iconSlotAsInt);
+
+        cordova.getActivity().runOnUiThread(() -> {
+            getTitleBar().setBadgeCount(iconSlot, badgeValue);
         });
 
         callbackContext.success();
     }
 
     private void setupMenuItems(JSONArray args, CallbackContext callbackContext) throws Exception {
-        JSONArray menuItemsJson = args.getJSONArray(0);
+        JSONArray menuItemsJson = (args.isNull(0)? null : args.getJSONArray(0));
 
-        ArrayList<TitleBar.MenuItem> menuItems = new ArrayList<>();
-        for(int i=0; i<menuItemsJson.length(); i++) {
-            TitleBar.MenuItem menuItem = menuItemFromJsonObject(menuItemsJson.getJSONObject(i));
-            if (menuItem != null)
-                menuItems.add(menuItem);
+        ArrayList<TitleBarMenuItem> menuItems = new ArrayList<>();
+        if (menuItemsJson != null) {
+            for (int i = 0; i < menuItemsJson.length(); i++) {
+                TitleBarMenuItem menuItem = menuItemFromJsonObject(menuItemsJson.getJSONObject(i));
+                if (menuItem != null)
+                    menuItems.add(menuItem);
+            }
         }
 
         cordova.getActivity().runOnUiThread(() -> {
-            getTitleBar().setupMenuItems(menuItems, menuItem -> {
-                try {
-                    PluginResult result = new PluginResult(PluginResult.Status.OK, menuItem.toJson());
-                    result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(result);
-                }
-                catch (Exception e) {
-                    PluginResult result = new PluginResult(PluginResult.Status.ERROR, "Clicked menu item format exception for item "+menuItem);
-                    result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(result);
-                }
-            });
+            getTitleBar().setupMenuItems(menuItems);
         });
     }
 
-    private TitleBar.MenuItem menuItemFromJsonObject(JSONObject jsonObj) {
+    private TitleBarMenuItem menuItemFromJsonObject(JSONObject jsonObj) {
         if (!jsonObj.has("key") || !jsonObj.has("iconPath") || !jsonObj.has("title"))
             return null;
 
         try {
-            TitleBar.MenuItem menuItem = new TitleBar.MenuItem(
+            TitleBarMenuItem menuItem = new TitleBarMenuItem(
                 jsonObj.getString("key"),
                 jsonObj.getString("iconPath"),
                 jsonObj.getString("title"));
@@ -196,6 +241,6 @@ public class TitleBarPlugin extends TrinityPlugin {
     }
 
     private TitleBar getTitleBar() {
-        return ((WebViewFragment)((TrinityCordovaInterfaceImpl)cordova).fragment).getTitlebar();
+        return ((TrinityCordovaInterfaceImpl)cordova).fragment.getTitlebar();
     }
 }

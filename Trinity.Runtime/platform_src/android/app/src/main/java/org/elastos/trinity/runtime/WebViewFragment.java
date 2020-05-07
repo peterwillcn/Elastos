@@ -47,6 +47,7 @@ import org.apache.cordova.CordovaWebViewImpl;
 import org.apache.cordova.LOG;
 import org.apache.cordova.PluginEntry;
 import org.apache.cordova.engine.SystemWebView;
+import org.elastos.trinity.runtime.titlebar.TitleBar;
 import org.json.JSONException;
 
 import java.util.ArrayList;

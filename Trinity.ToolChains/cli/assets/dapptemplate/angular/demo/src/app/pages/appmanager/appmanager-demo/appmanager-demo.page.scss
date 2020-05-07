@@ -25,6 +25,19 @@
       font-size: 26px;
       font-weight: 800;
     }
+
+    ion-card-subtitle {
+      margin: 15px 15px 0;
+      text-align: center;
+      color: white;
+      letter-spacing: 0.3px;
+      font-size: 13px;
+      font-weight: 500;
+
+      span {
+        font-weight: 700;
+      }
+    }
   }
 
   h3, h4, h5 {

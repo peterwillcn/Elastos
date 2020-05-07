@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IntentService } from 'src/app/services/intent.service';
 
 declare let appManager: AppManagerPlugin.AppManager;
-declare let titleBarManager: TitleBarPlugin.TitleBarManager;
+// declare let titleBarManager: TitleBarPlugin.TitleBarManager;
 
 @Component({
   selector: 'app-intent',
@@ -16,7 +16,7 @@ export class IntentPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    titleBarManager.setTitle("Intent Guide");
-    titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
+    // titleBarManager.setTitle("Intent Guide");
+    // titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
   }
 }

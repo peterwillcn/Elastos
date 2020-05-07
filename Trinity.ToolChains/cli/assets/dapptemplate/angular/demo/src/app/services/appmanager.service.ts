@@ -26,6 +26,7 @@ export class AppmanagerService {
     {
       type: 'Exit',
       title: 'Exit App',
+      method: 'close/launcher',
       message: 'There are two ways of exiting your app. You can either minimize the app and keep it running or terminate it and reset its state. Both methods will exit the app and return to the browser.',
       message2: 'Since the Titlebar Manager can handle this with navigation, it\'s up to you if you need to use this method or not.',
       example: 'assets/appmanager/exit.png'
@@ -33,6 +34,7 @@ export class AppmanagerService {
     {
       type: 'Visibility',
       title: 'Set Visibility',
+      method: 'setVisible',
       message: 'As the app starts, initial screens are required to set the visibility, otherwise the app will remain invisible. This is useful to get your app ready before presenting the app to the user.',
       message2: "Just simply add 'show' to your method in any initial page after all necessary rendering is completed.",
       example: 'assets/appmanager/visible.png'
@@ -43,6 +45,7 @@ export class AppmanagerService {
     {
       type: 'Listener',
       title: 'Set Listener',
+      method: 'setListener/setIntentListener',
       message: 'Setting a listener is essential when it comes to handling incoming intents (setIntentListener) or listening to certain actions (setListener).',
       message2: 'This is done by using the methods in the example above, then handling the received intents or actions below.',
       message3: "Using the method, setIntentListener is necessary if your app is handling intents. On the other hand, using setListener is only relevant for actions such as handling display or language changes or modifying the Titlebar navigation. You may choose to handle these changes or ignore it.",
@@ -52,6 +55,7 @@ export class AppmanagerService {
     {
       type: 'Preference',
       title: 'Get Preference',
+      method: 'getPreference/getLocale',
       message: 'Preferences such as display mode and language in elastOS are handled in the Settings app. If these preferences are important to your app, you can fetch them by using the following methods.',
       message2: "It's important to note that if you choose to handle any of these preferences, make sure to handle them during the app's load process.",
       example: 'assets/appmanager/preference.png',

@@ -31,6 +31,13 @@ export class AppmanagerService {
       example: 'assets/appmanager/exit.png'
     },
     {
+      type: 'Visibility',
+      title: 'Set Visibility',
+      message: 'As the app starts, initial screens are required to set the visibility, otherwise the app will remain invisible. This is useful to get your app ready before presenting the app to the user.',
+      message2: "Just simply add 'show' to your method in any initial page after all necessary rendering is completed.",
+      example: 'assets/appmanager/visible.png'
+    },
+    {
       type: 'Intent',
     },
     {

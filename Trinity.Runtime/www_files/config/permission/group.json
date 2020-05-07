@@ -86,7 +86,18 @@
             "deletePasswordInfo",
             "generateRandomPassword"
         ],
-        "TitleBarPlugin": ["*"],
+        "TitleBarPlugin": [
+            "setTitle",
+            "setBackgroundColor",
+            "setForegroundMode",
+            "setNavigationMode",
+            "setOnItemClickedListener",
+            "setIcon",
+            "setBadgeCount",
+            "setupMenuItems",
+            "showActivityIndicator",
+            "hideActivityIndicator"
+        ],
         "Accelerometer": ["*"],
         "Battery": ["*"],
         "Camera": ["*"],

@@ -24,14 +24,16 @@ import Foundation
 
 public class TitleBarMenuItemView: UIView {
     // UI
-    @IBOutlet var iconView: UIImageView!
+    @IBOutlet var iconView: TitleBarIconView!
     @IBOutlet var titleView: UILabel!
     
     // Model
+    let titleBar: TitleBarView
     let menuItem: TitleBarMenuItem
     let appId: String
     
-    init(frame: CGRect, appId: String, menuItem: TitleBarMenuItem) {
+    init(frame: CGRect, titleBar: TitleBarView, appId: String, menuItem: TitleBarMenuItem) {
+        self.titleBar = titleBar
         self.appId = appId
         self.menuItem = menuItem
         
@@ -49,22 +51,12 @@ public class TitleBarMenuItemView: UIView {
     }
     
     private func setup() {
-        // Setup menu item content
-        let appInfo = AppManager.getShareInstance().getAppInfo(appId)!
-        appInfo.remote = false // TODO - DIRTY! FIND A BETTER WAY TO GET THE REAL IMAGE PATH FROM JS PATH !
-        let iconPath = AppManager.getShareInstance().getAppPath(appInfo) + menuItem.iconPath
-
-        // Icon
-        if let image = UIImage(contentsOfFile: iconPath) {
-            iconView.image = image.noir
-        }
-
-        // Icon - grayscale effect
-        /*ColorMatrix matrix = new ColorMatrix();
-        matrix.setSaturation(0);
-
-        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-        ivIcon.setColorFilter(filter);*/
+        iconView.iconView.leftImageWidth = 20
+        iconView.iconView.leftImageHeight = 20
+        
+        titleBar.setImageViewFromIcon(iv: iconView, icon: menuItem)
+        
+        iconView.iconView.leftImageColor = UIColor.gray
         
         titleView.text = menuItem.title
     }

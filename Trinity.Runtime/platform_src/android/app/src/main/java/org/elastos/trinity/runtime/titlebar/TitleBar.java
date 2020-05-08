@@ -539,7 +539,10 @@ public class TitleBar extends FrameLayout {
         }
         else if (activityCounters.get(TitleBarActivityType.DOWNLOAD) > 0 || activityCounters.get(TitleBarActivityType.UPLOAD) > 0) {
             backgroundColor = "#ffde6e";
-            setAnimationHintText(activityHintTexts.get(TitleBarActivityType.DOWNLOAD));
+            if (activityCounters.get(TitleBarActivityType.DOWNLOAD) > 0)
+                setAnimationHintText(activityHintTexts.get(TitleBarActivityType.DOWNLOAD));
+            else
+                setAnimationHintText(activityHintTexts.get(TitleBarActivityType.UPLOAD));
         }
         else if (activityCounters.get(TitleBarActivityType.OTHER) > 0) {
             backgroundColor = "#20e3d2";

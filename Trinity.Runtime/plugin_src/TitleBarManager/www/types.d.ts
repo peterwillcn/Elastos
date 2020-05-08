@@ -194,7 +194,7 @@ declare namespace TitleBarPlugin {
          * 
          * @param onItemClicked Callback called when an item is clicked.
          */
-        setOnItemClickedListener(onItemClicked: (menuItem: TitleBarMenuItem)=>void)
+        setOnItemClickedListener(onItemClicked: (icon: TitleBarIcon | TitleBarMenuItem)=>void)
  
         /**
          * Configures icons displayed on the left or right of the main title.

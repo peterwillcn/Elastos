@@ -44,9 +44,10 @@ class TitleBarPlugin : TrinityPlugin {
     
     @objc func showActivityIndicator(_ command: CDVInvokedUrlCommand) {
         let activityIndicatoryType = command.arguments[0] as! Int
+        let hintText = (command.arguments.count >= 2 ? command.arguments[1] as? String : nil)// Optional hint text
                 
         DispatchQueue.main.async {
-            self.getTitleBar().showActivityIndicator(activityType: TitleBarActivityType.init(rawValue: activityIndicatoryType) ?? .OTHER)
+            self.getTitleBar().showActivityIndicator(activityType: TitleBarActivityType.init(rawValue: activityIndicatoryType) ?? .OTHER, hintText: hintText)
         }
         
         self.success(command)
@@ -91,51 +92,81 @@ class TitleBarPlugin : TrinityPlugin {
         self.success(command)
     }
     
-    @objc func setBehavior(_ command: CDVInvokedUrlCommand) {
-        let behaviorAsInt = command.arguments[0] as! Int
+    @objc func setNavigationMode(_ command: CDVInvokedUrlCommand) {
+        let modeAsInt = command.arguments[0] as! Int
         
-        getTitleBar().setBehavior(TitleBarBehavior(rawValue: behaviorAsInt) ?? .DEFAULT)
+        getTitleBar().setNavigationMode(TitleBarNavigationMode(rawValue: modeAsInt) ?? .HOME)
         
         self.success(command)
     }
     
-    @objc func setNavigationMode(_ command: CDVInvokedUrlCommand) {
-        let modeAsInt = command.arguments[0] as! Int
+    
+    @objc func setNavigationIconVisibility(_ command: CDVInvokedUrlCommand) {
+        let visible = command.arguments[0] as? Bool ?? true
+
+        getTitleBar().setNavigationIconVisibility(visible: visible)
         
-        getTitleBar().setNavigationMode(TitleBarNavigationMode(rawValue: modeAsInt) ?? .NONE)
+        self.success(command)
+    }
+
+    @objc func setOnItemClickedListener(_ command: CDVInvokedUrlCommand) {
+        getTitleBar().setOnItemClickedListener() { selectedItem in
+                // An item of the menu was clicked by the user
+                let result = try! CDVPluginResult(status: CDVCommandStatus_OK, messageAs: selectedItem.toJSONObject() as? [AnyHashable : Any])
+                result!.setKeepCallbackAs(true)
+                self.commandDelegate.send(result, callbackId: command.callbackId)
+        }
+
+        let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT)
+        result!.setKeepCallbackAs(true)
+        self.commandDelegate.send(result, callbackId: command.callbackId)
+    }
+
+    @objc func setIcon(_ command: CDVInvokedUrlCommand) {
+        let iconSlotAsInt = command.arguments[0] as? Int ?? TitleBarIconSlot.INNER_LEFT.rawValue
+        let iconObj = command.arguments[1] as? NSDictionary
+
+        guard let iconSlot = TitleBarIconSlot(rawValue: iconSlotAsInt) else {
+            self.error(command, "Invalid icon slot value")
+            return
+        }
+        
+        let icon = TitleBarIcon.fromJSONObject(jsonObject: iconObj)
+
+        getTitleBar().setIcon(iconSlot: iconSlot, icon: icon)
+        
+        self.success(command)
+    }
+
+    @objc func setBadgeCount(_ command: CDVInvokedUrlCommand) {
+        let iconSlotAsInt = command.arguments[0] as? Int ?? TitleBarIconSlot.INNER_LEFT.rawValue
+        let badgeValue = command.arguments[1] as? Int ?? 0
+
+        guard let iconSlot = TitleBarIconSlot(rawValue: iconSlotAsInt) else {
+            self.error(command, "Invalid icon slot value")
+            return
+        }
+
+        getTitleBar().setBadgeCount(iconSlot: iconSlot, badgeCount: badgeValue)
         
         self.success(command)
     }
     
     @objc func setupMenuItems(_ command: CDVInvokedUrlCommand) {
-        let menuItemsJson = command.arguments[0] as! [Dictionary<String, String>]
+        let menuItemsJson = command.arguments[0] as? [Dictionary<String, String>]
         
         // Convert plugin data to clean model
         var menuItems: [TitleBarMenuItem] = []
-        for mi in menuItemsJson {
-            if let menuItem = menuItemFromJsonObject(jsonObj: mi) {
-                menuItems.append(menuItem)
+        if menuItemsJson != nil {
+            for mi in menuItemsJson! {
+                if let menuItem = TitleBarMenuItem.fromMenuItemJSONObject(jsonObject: mi as NSDictionary) {
+                    menuItems.append(menuItem)
+                }
             }
         }
         
-        getTitleBar().setupMenuItems(menuItems: menuItems) { selectedMenuItem in
-            // An item of the menu was clicked by the user
-            let result = try! CDVPluginResult(status: CDVCommandStatus_OK, messageAs: selectedMenuItem.toJson() as? [AnyHashable : Any])
-            result!.setKeepCallbackAs(true)
-            self.commandDelegate.send(result, callbackId: command.callbackId)
-        }
-    }
-    
-    private func menuItemFromJsonObject(jsonObj: Dictionary<String, String>) -> TitleBarMenuItem? {
-        if !jsonObj.keys.contains("key") || !jsonObj.keys.contains("iconPath") || !jsonObj.keys.contains("title") {
-            return nil
-        }
+        getTitleBar().setupMenuItems(menuItems: menuItems)
         
-        let menuItem = TitleBarMenuItem(
-            key: jsonObj["key"]!,
-            iconPath: jsonObj["iconPath"]!,
-            title: jsonObj["title"]!)
-        
-        return menuItem
+        self.success(command)
     }
 }

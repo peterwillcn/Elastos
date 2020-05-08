@@ -63,8 +63,8 @@ class TitleBarManagerImpl implements TitleBarPlugin.TitleBarManager {
         }, 'TitleBarPlugin', 'setNavigationIconVisibility', [visible]);
     }
 
-    setOnItemClickedListener(onItemClicked: (menuItem: TitleBarPlugin.TitleBarMenuItem) => void) {
-        exec((menuItem: TitleBarPlugin.TitleBarMenuItem)=>{
+    setOnItemClickedListener(onItemClicked: (menuItem: TitleBarPlugin.TitleBarIcon) => void) {
+        exec((menuItem: TitleBarPlugin.TitleBarIcon)=>{
             onItemClicked(menuItem);
         }, (err)=>{
             console.error("Error while calling TitleBarPlugin.setOnItemClickedListener()", err);

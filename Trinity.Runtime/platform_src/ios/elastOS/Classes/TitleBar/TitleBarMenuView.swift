@@ -71,7 +71,8 @@ public class TitleBarMenuView: UIView {
             itemsStackView.removeArrangedSubview(v)
         }
         for mi in menuItems {
-            let itemView = TitleBarMenuItemView(frame: CGRect.null, appId: appId, menuItem: mi)
+            let itemView = TitleBarMenuItemView(frame: CGRect.null, titleBar: titleBar!, appId: appId, menuItem: mi)
+            itemView.translatesAutoresizingMaskIntoConstraints = false
             itemsStackView.addArrangedSubview(itemView)
             
             let tapRecognizer = UITapGestureRecognizer { recognizer in

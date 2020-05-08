@@ -42,6 +42,11 @@
         "$user": {}
     },
     "passwordmanager": {
+        "AppManager": [
+            "getAppInfos",
+            "getAppList",
+            "getAppInfo"
+        ],
         "PasswordManagerPlugin": ["*"],
         "$user": {}
     },

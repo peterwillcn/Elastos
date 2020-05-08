@@ -126,6 +126,10 @@
             "notifierSetOnlineStatusListener",
             "contactSendRemoteNotification",
             "contactGetOnlineStatus"
+        ],
+        "NotificationManagerPlugin": [
+            "getNotifications",
+            "sendNotification"
         ]
     }
 }

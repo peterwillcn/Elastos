@@ -12,13 +12,22 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MyApp } from './app.component';
 
+// Initial Page
 import { HomePage } from './pages/home/home';
 
-import { HelpComponent } from './components/help/help.component';
+// Guide Pages
+import { AppmanagerPage } from './pages/appmanager/appmanager.page';
+import { TitlebarPage } from './pages/titlebar/titlebar.page';
+import { IntentPage } from './pages/intent/intent.page';
+import { CorePage } from './pages/core/core.page';
 
+// Demo Pages
 import { IntentDemoPage } from './pages/intent/intent-demo/intent-demo.page';
 import { TitlebarDemoPage } from './pages/titlebar/titlebar-demo/titlebar-demo.page';
 import { AppmanagerDemoPage } from './pages/appmanager/appmanager-demo/appmanager-demo.page';
+
+// Sample Component
+import { HelpComponent } from './components/help/help.component';
 
 
 
@@ -26,9 +35,17 @@ import { AppmanagerDemoPage } from './pages/appmanager/appmanager-demo/appmanage
   declarations: [
     MyApp,
     HomePage,
-    IntentDemoPage,
-    TitlebarDemoPage,
+
+    // Guide Pages
+    AppmanagerPage,
+    TitlebarPage,
+    IntentPage,
+    CorePage,
+
+    // Demo Pages
     AppmanagerDemoPage,
+    TitlebarDemoPage,
+    IntentDemoPage,
     HelpComponent,
   ],
   imports: [
@@ -43,10 +60,11 @@ import { AppmanagerDemoPage } from './pages/appmanager/appmanager-demo/appmanage
   bootstrap: [MyApp],
   entryComponents: [
     MyApp,
-    HomePage,
-    IntentDemoPage,
-    TitlebarDemoPage,
+
+    // Demo Pages
     AppmanagerDemoPage,
+    TitlebarDemoPage,
+    IntentDemoPage,
     HelpComponent,
   ],
   providers: [

@@ -3,19 +3,27 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 import { HomePage } from './pages/home/home';
 
+import { AppmanagerPage } from './pages/appmanager/appmanager.page';
+import { AppmanagerDemoPage } from './pages/appmanager/appmanager-demo/appmanager-demo.page';
+import { TitlebarPage } from './pages/titlebar/titlebar.page';
+import { TitlebarDemoPage } from './pages/titlebar/titlebar-demo/titlebar-demo.page';
+import { IntentPage } from './pages/intent/intent.page';
+import { IntentDemoPage } from './pages/intent/intent-demo/intent-demo.page';
+import { CorePage } from './pages/core/core.page';
+
 const routes: Routes = [
   { path: 'home', component: HomePage },
 
-  { path: 'appmanager', loadChildren: './pages/appmanager/appmanager.module#AppmanagerPageModule' },
-  { path: 'appmanager-demo', loadChildren: './pages/appmanager/appmanager-demo/appmanager-demo.module#AppmanagerDemoPageModule' },
+  { path: 'appmanager', component: AppmanagerPage },
+  { path: 'appmanager-demo', component: AppmanagerDemoPage },
 
-  { path: 'titlebar', loadChildren: './pages/titlebar/titlebar.module#TitlebarPageModule' },
-  { path: 'titlebar-demo', loadChildren: './pages/titlebar/titlebar-demo/titlebar-demo.module#TitlebarDemoPageModule' },
+  { path: 'titlebar', component: TitlebarPage },
+  { path: 'titlebar-demo', component: TitlebarDemoPage },
 
-  { path: 'intent', loadChildren: './pages/intent/intent.module#IntentPageModule' },
-  { path: 'intent-demo', loadChildren: './pages/intent/intent-demo/intent-demo.module#IntentDemoPageModule' },
+  { path: 'intent', component: IntentPage },
+  { path: 'intent-demo', component: IntentDemoPage },
 
-  { path: 'core', loadChildren: './pages/core/core.module#CorePageModule' },
+  { path: 'core', component: CorePage },
 ];
 
 @NgModule({

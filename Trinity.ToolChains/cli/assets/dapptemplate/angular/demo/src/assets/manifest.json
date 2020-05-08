@@ -1,7 +1,7 @@
 {
   "id": "org.elastos.trinity.dapp.demptemplate",
-  "version": "0.0.1",
-  "version_code": 1,
+  "version": "1.0.1",
+  "version_code": 2,
   "name": "dApp Demo Template",
   "short_name": "dApp Demo Template",
   "short_description": "Demo Template",
@@ -23,9 +23,9 @@
     }
   ],
   "author": {
-    "name": "Elastos Foundation",
-    "email": "contact@elastos.org",
-    "website": "https://www.elastos.org"
+    "name": "Trinity Tech Co., Ltd.",
+    "email": "contact@trinity-tech.io",
+    "website": "https://www.trinity-tech.io"
   },
   "default_locale": "en",
   "plugins": [

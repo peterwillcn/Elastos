@@ -25,22 +25,43 @@ import UIKit
 class NativeAppMainViewController: UIViewController {
     var appInfo: AppInfo?;
     var basePlugin: AppBasePlugin?;
+    var isReady = false;
 
     required convenience init(_ appInfo: AppInfo, _ basePlugin: AppBasePlugin) {
         self.init();
         self.appInfo = appInfo;
         self.basePlugin = basePlugin;
-        initialize();
     }
-    
-    func initialize() {
-        self.basePlugin!.setMessageListener(onReceiveMessage)
+
+    func setReady() {
+        if (!isReady) {
+            isReady = true;
+            self.basePlugin!.setMessageListener(onReceiveMessage);
+            self.basePlugin!.setIntentListener(onReceiveIntent);
+        }
     }
-    
+
+    func getParams(_ params: String?) -> [String: Any]? {
+        if (params == nil) {
+            return nil;
+        }
+
+        let data = params!.data(using: String.Encoding.utf8, allowLossyConversion: false)
+        if (data == nil) {
+            return nil;
+        }
+
+        return try? JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! [String : Any]
+    }
+
     func onReceiveMessage(_ type: Int, _ msg: String, _ fromId: String) {
-        
+
     }
-    
+
+    func onReceiveIntent(_ action: String, _ params: String?, _ fromId: String, _ intentId: Int64) {
+
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

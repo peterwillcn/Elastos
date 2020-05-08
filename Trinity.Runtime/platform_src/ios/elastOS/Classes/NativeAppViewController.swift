@@ -24,6 +24,7 @@
 
  class NativeAppViewController : AppViewController {
     var mainView: UIView?;
+    var mainViewController: NativeAppMainViewController?;
     
     convenience init(_ appInfo: AppInfo, _ vcClassName: String) {
         self.init(appInfo);
@@ -33,9 +34,14 @@
         self.basePlugin!.setInfo(self.appInfo);
         
         let nameSpace = Bundle.main.infoDictionary!["CFBundleExecutable"] as! String;
-        let cls:AnyClass? = NSClassFromString(nameSpace + "." + vcClassName)
-        let clsType = cls as! NativeAppMainViewController.Type
-        mainView = clsType.init(appInfo, basePlugin!).view;
+        let cls:AnyClass? = NSClassFromString(nameSpace + "." + vcClassName);
+        let clsType = cls as! NativeAppMainViewController.Type;
+        mainViewController = clsType.init(appInfo, basePlugin!);
+        mainView = mainViewController!.view;
+    }
+    
+    override func setReady() {
+        mainViewController!.setReady();
     }
     
     override func loadSettings() {
@@ -56,5 +62,9 @@
     
     override func viewDidLoad() {
         super.viewDidLoad();
+    }
+    
+    override func isNativeApp() -> Bool {
+        return true;
     }
  }

@@ -46,7 +46,7 @@ module.exports = function(ctx) {
     //
     // Add build settings
     //
-    runtimeProj.addToBuildSettings("SWIFT_VERSION", "4.2");
+    runtimeProj.addToBuildSettings("SWIFT_VERSION", "5.2");
     // runtimeProj.addToBuildSettings("PRODUCT_BUNDLE_IDENTIFIER", "org.elastos.trinity.browser");
     runtimeProj.addToBuildSettings("CLANG_CXX_LANGUAGE_STANDARD", "\"c++0x\"");
     runtimeProj.addToBuildSettings("MARKETING_VERSION", "1.1.0");

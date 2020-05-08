@@ -30,18 +30,17 @@ class WalletMainViewController: NativeAppMainViewController {
 
         // Do any additional setup after loading the view.
     }
-    
-    override func initialize() {
-        super.initialize();
+
+    override func setReady() {
+        super.setReady();
+
     }
-    
-    override func onReceiveMessage(_ type: Int, _ msg: String, _ fromId: String) {
-        let data = msg.data(using: String.Encoding.utf8, allowLossyConversion: false)
-        let params = try? JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! [String: Any]
-        
+
+    override func onReceiveMessage(_ type: Int, _ msg: String, _ fromId: String) {        let params = getParams(msg);
+
         switch (type) {
             case AppManager.MSG_TYPE_IN_REFRESH:
-                switch (params!["action"] as! String) {
+                switch (params?["action"] as! String) {
                     case "currentLocaleChanged":
 //                        setCurLang(params["data"]);
                         break;
@@ -49,6 +48,16 @@ class WalletMainViewController: NativeAppMainViewController {
                         break;
                 }
                 break;
+            default:
+                break;
+        }
+    }
+
+    override func onReceiveIntent(_ action: String, _ params: String?, _ fromId: String, _ intentId: Int64) {
+        let params = getParams(params);
+        switch (action) {
+            case "pay":
+                try? self.basePlugin!.sendIntentResponse("ok", intentId);
             default:
                 break;
         }
@@ -64,9 +73,15 @@ class WalletMainViewController: NativeAppMainViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    
+
     @IBAction func close(_ sender: Any) {
-        try? self.basePlugin!.close();
+        //测试sendIntent, 不需要的话删掉
+        // try? self.basePlugin!.sendIntent("test11", "{\"abc\":1}", nil) {
+        //     (action, params, from) in
+        //     print("--action - \(action)")
+        //     let i = 1;
+        // }
+       try? self.basePlugin!.close();
     }
-    
+
 }

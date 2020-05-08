@@ -135,7 +135,7 @@ class AppManager: NSObject {
         super.init();
 
         AppManager.appManager = self;
-        
+
         PasswordManager.getSharedInstance().setAppManager(self)
 
         refreashInfos();
@@ -520,6 +520,8 @@ class AppManager: NSObject {
             if (!getAppVisible(id)) {
                 hideViewController(viewController!, id);
             }
+
+            viewController!.setReady();
         }
 
         if (getAppVisible(id)) {

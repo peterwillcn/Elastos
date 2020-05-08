@@ -24,9 +24,10 @@
 
  @objc(AppBasePlugin)
  class AppBasePlugin : TrinityPlugin {
-    var callbackId: String?
-    var msgListener: ((Int, String, String)->(Void))?
+    var callbackId: String? = nil;
+    var msgListener: ((Int, String, String)->(Void))? = nil;
     var intentCallbackId: String? = nil;
+    var intentListener:  ((String, String?, String, Int64)->(Void))? = nil;
 
     var isLauncher = false;
     var isChangeIconPath = false;
@@ -63,8 +64,72 @@
         try AppManager.getShareInstance().close(self.appId);
     }
 
-    func getInfo() throws {
-        try AppManager.getShareInstance().getAppInfo(self.appId!);
+    func getInfo() throws -> AppInfo? {
+        return AppManager.getShareInstance().getAppInfo(self.appId!);
+    }
+
+    func sendIntent(_ action: String, _ params: String, _ options: [String: Any]?, _ callback: ((String, String?, String)->(Void))?) throws {
+        let currentTime = Int64(Date().timeIntervalSince1970);
+        var toId: String? = nil;
+
+        if (options != nil) {
+            if (options!["appId"] != nil) {
+                toId = options!["appId"] as? String ?? "";
+            }
+        }
+
+        let info = IntentInfo(action, params, self.appId!, toId, currentTime, callback);
+        try? IntentManager.getShareInstance().doIntent(info);
+    }
+
+    func sendUrlIntent(_ urlString: String) throws {
+        let url = URL(string: urlString)
+
+        if (IntentManager.checkTrinityScheme(urlString)) {
+            try IntentManager.getShareInstance().sendIntentByUri(url!, self.appId!);
+        }
+        else if (shouldOpenExternalIntentUrl(urlString)) {
+            IntentManager.openUrl(url!);
+        }
+        else {
+            throw AppError.error("Can't access this url: " + urlString);
+        }
+    }
+
+    func sendIntentResponse(_ result: String, _ intentId: Int64) throws {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100), execute: {
+            try? IntentManager.getShareInstance().sendIntentResponse(result, intentId, self.appId!);
+        })
+    }
+
+    func setIntentListener(_ listener: @escaping ((String, String?, String, Int64)->(Void))) {
+        self.intentListener = listener;
+        try? IntentManager.getShareInstance().setIntentReady(self.appId!);
+    }
+
+    func hasPendingIntent() -> Bool {
+        return IntentManager.getShareInstance().getIntentCount(self.appId!) != 0;
+    }
+
+    func getSetting(_ key: String) throws -> Any? {
+        let dbAdapter = AppManager.getShareInstance().getDBAdapter();
+        let dict = try dbAdapter.getSetting(self.appId, key)
+        if (dict != nil) {
+            return dict!["value"] as Any;
+        }
+
+        return nil;
+    }
+
+    @objc func getSettings() throws -> [String: Any] {
+        let dbAdapter = AppManager.getShareInstance().getDBAdapter();
+
+        return try dbAdapter.getSettings(self.appId);
+    }
+
+    @objc func setSetting(_ key: String, _ value: Any) throws {
+        let dbAdapter = AppManager.getShareInstance().getDBAdapter();
+        try dbAdapter.setSetting(self.appId, key, value);
     }
 
     //---------------------------------------------------------
@@ -224,7 +289,7 @@
         }
 
         let str = (url as NSString).substring(from: 7);
-        var index = str.index(of: "/");
+        var index = str.firstIndex(of: "/");
         guard index != nil else {
             return nil;
         }
@@ -393,7 +458,7 @@
     }
 
     func onReceive(_ msg: String, _ type: Int, _ from: String) {
-        if (self.msgListener == nil) {
+        if (self.callbackId != nil) {
             guard self.callbackId != nil else {
                 return;
             }
@@ -408,7 +473,7 @@
             result?.setKeepCallbackAs(true);
             self.commandDelegate?.send(result, callbackId:self.callbackId);
         }
-        else {
+        else if (self.msgListener != nil) {
             self.msgListener!(type, msg, from);
         }
     }
@@ -467,14 +532,17 @@
 //        let action = command.arguments[0] as? String ?? "";
         let result = command.arguments[1] as? String ?? "";
         let intentId = command.arguments[2] as? Int64 ?? -1
-        do {
-            try IntentManager.getShareInstance().sendIntentResponse(result, intentId, self.appId!);
-            self.success(command, "ok");
-        } catch AppError.error(let err) {
-            self.error(command, err);
-        } catch let error {
-            self.error(command, error.localizedDescription);
-        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100), execute: {
+            do {
+                try IntentManager.getShareInstance().sendIntentResponse(result, intentId, self.appId!);
+                self.success(command, "ok");
+            } catch AppError.error(let err) {
+                self.error(command, err);
+            } catch let error {
+                self.error(command, error.localizedDescription);
+            }
+        })
     }
 
     @objc func setIntentListener(_ command: CDVInvokedUrlCommand) {
@@ -492,36 +560,44 @@
     }
 
     func isIntentReady() -> Bool {
-        return (self.intentCallbackId != nil);
+        return (self.intentCallbackId != nil) || (self.intentListener != nil);
     }
 
     func onReceiveIntent(_ info: IntentInfo) {
-        guard self.intentCallbackId != nil else {
-            return
+        if (self.intentCallbackId != nil) {
+            let ret = [
+                "action": info.action,
+                "params": info.params,
+                "from": info.fromId,
+                "intentId": info.intentId,
+                ] as [String : Any?]
+            let result = CDVPluginResult(status: CDVCommandStatus_OK,
+                                         messageAs: ret as [String : Any]);
+            result?.setKeepCallbackAs(true);
+            self.commandDelegate?.send(result, callbackId:self.intentCallbackId);
         }
-
-        let ret = [
-            "action": info.action,
-            "params": info.params!,
-            "from": info.fromId,
-            "intentId": info.intentId,
-            ] as [String : Any]
-        let result = CDVPluginResult(status: CDVCommandStatus_OK,
-                                     messageAs: ret);
-        result?.setKeepCallbackAs(true);
-        self.commandDelegate?.send(result, callbackId:self.intentCallbackId);
+        else if (self.intentListener != nil) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100), execute: {
+                self.intentListener!(info.action, info.params, info.fromId, info.intentId);
+            })  
+        }
     }
 
     func onReceiveIntentResponse(_ info: IntentInfo) {
-        let ret = [
-            "action": info.action,
-            "result": info.params,
-            "from": info.fromId
-        ] as [String : Any]
+        if (info.callbackId != nil) {
+            let ret = [
+                "action": info.action,
+                "result": info.params,
+                "from": info.fromId
+            ] as [String : Any?]
 
-        let result = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: ret);
-        result?.setKeepCallbackAs(false);
-        self.commandDelegate.send(result, callbackId: info.callbackId)
+            let result = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: ret as [String : Any]);
+            result?.setKeepCallbackAs(false);
+            self.commandDelegate.send(result, callbackId: info.callbackId)
+        }
+        else if (info.callback != nil) {
+            info.callback!(info.action, info.params, info.fromId);
+        }
     }
 
     @objc func install(_ command: CDVInvokedUrlCommand) {

@@ -52,7 +52,8 @@
     @objc dynamic var fromId: String;
     @objc dynamic var toId: String?;
     @objc dynamic var intentId: Int64 = 0;
-    @objc dynamic var callbackId: String?;
+    @objc dynamic var callbackId: String? = nil;
+    @objc dynamic var callback: ((String, String?, String)->(Void))? = nil;
 
     @objc dynamic var redirecturl: String?;
     @objc dynamic var callbackurl: String?;
@@ -62,13 +63,32 @@
     @objc dynamic var type = API;
 
     init(_ action: String, _ params: String?, _ fromId: String, _ toId: String?,
-         _ intentId: Int64, _ callbackId: String?) {
+         _ intentId: Int64) {
         self.action = action;
         self.params = params;
         self.fromId = fromId;
         self.toId = toId;
         self.intentId = intentId;
+    }
+
+    convenience init(_ action: String, _ params: String?, _ fromId: String, _ toId: String?,
+         _ intentId: Int64, _ callbackId: String?) {
+        self.init(action, params, fromId, toId, intentId);
         self.callbackId = callbackId;
+    }
+
+    convenience init(_ action: String, _ params: String?, _ fromId: String, _ toId: String?,
+         _ intentId: Int64, _ callback: ((String, String?, String)->(Void))?) {
+        self.init(action, params, fromId, toId, intentId);
+        self.callback = callback;
+    }
+
+    func isJSApp() -> Bool {
+        return self.callbackId != nil;
+    }
+
+    func isNativeApp() -> Bool {
+        return self.callback != nil;
     }
  }
 
@@ -433,7 +453,7 @@ class ShareIntentParams {
 
             let currentTime = Int64(Date().timeIntervalSince1970);
 
-            info = IntentInfo(action, nil, fromId, nil, currentTime, nil);
+            info = IntentInfo(action, nil, fromId, nil, currentTime);
             if (params != nil && params!.count > 0) {
                 getParamsByUri(params!, info!);
             }
@@ -533,8 +553,7 @@ class ShareIntentParams {
         return URL(string: url + param + result.encodingQuery())!;
     }
 
-    func sendIntentResponse(_ result: String, _ intentId: Int64, _ fromId: String) throws  {
-
+    func sendIntentResponse(_ result: String, _ intentId: Int64, _ fromId: String) throws {
         let info = intentContextList[intentId];
         if (info == nil) {
             throw AppError.error(String(intentId) + " isn't exist!");
@@ -543,7 +562,7 @@ class ShareIntentParams {
         var viewController: TrinityViewController? = nil;
         viewController = appManager.getViewControllerById(info!.fromId);
         if (viewController != nil) {
-            try appManager.start(info!.fromId);
+            try self.appManager.start(info!.fromId);
         }
 
         if (info!.type == IntentInfo.API) {

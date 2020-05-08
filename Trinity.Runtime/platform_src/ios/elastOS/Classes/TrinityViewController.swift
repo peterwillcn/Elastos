@@ -183,4 +183,8 @@ class TrinityViewController : CDVViewController {
     func setReady() {
 
     }
+    
+    func isNativeApp() -> Bool {
+        return false;
+    }
 }

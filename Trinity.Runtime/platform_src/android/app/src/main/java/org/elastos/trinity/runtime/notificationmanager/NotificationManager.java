@@ -2,6 +2,7 @@ package org.elastos.trinity.runtime.notificationmanager;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.elastos.trinity.runtime.notificationmanager.db.DatabaseAdapter;
 
@@ -66,6 +67,8 @@ public class NotificationManager {
         Notification notification = dbAdapter.addNotification(notificationRequest.key, notificationRequest.title,
                                     notificationRequest.url, notificationRequest.emitter, appId);
         notifyNotification(notification);
+
+        Toast.makeText(this.context,notificationRequest.title, Toast.LENGTH_SHORT).show();
     }
 
     /**

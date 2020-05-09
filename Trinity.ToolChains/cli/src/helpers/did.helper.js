@@ -93,20 +93,81 @@ module.exports = class DIDHelper {
         })
     }
 
+    promptMnemonicWithPassword() {
+        return new Promise(async (resolve, reject)=>{
+            let typedInfo;
+            const questions = [
+                {
+                    type: 'text',
+                    name: 'mnemonic',
+                    message: 'Existing application DID mnemonic:'
+                }
+            ];
+
+            typedInfo = await prompts(questions);
+            console.log("")
+            let mnemonic = typedInfo.mnemonic;
+
+            do {
+                const questions = [
+                    {
+                        type: 'password',
+                        name: 'password',
+                        message: 'DID signature private key password. 8 characters min:',
+                        validate: value => {
+                            return value != "" && value.length >= 8
+                        }
+                    },
+                    {
+                        type: 'password',
+                        name: 'passwordRepeat',
+                        message: 'Please type your password again:',
+                        validate: value => {
+                            return value != "" && value.length >= 8
+                        }
+                    }
+                ];
+
+                typedInfo = await prompts(questions);
+                
+                if (typedInfo.password != typedInfo.passwordRepeat) {
+                    console.log("Sorry, password don't match, please try again.".red)
+                }
+            }
+            while (typedInfo.password != typedInfo.passwordRepeat);
+
+            resolve({
+                mnemonic: mnemonic,
+                password: typedInfo.password
+            });
+        });
+    }
+
     /**
      * Imports a DID from a mnemonic
      */
-    importDID(mnemonic) {
+    importDID(mnemonic, password = "TempPassword", passphrase = null) {
         return new Promise(async (resolve, reject) => {
             console.log("Importing the DID...")
 
             var rootScriptDirectory = path.dirname(require.main.filename)
 
-            let password = "TempPassword";
             let didStorePath = DIDHelper.DEFAULT_DID_STORE_FOLDER_NAME;
 
             const spawn = require("child_process").spawn;
-            const pythonProcess = spawn('python',[rootScriptDirectory+"/toolchain/create_did","-r",didStorePath,"-s",password,"-m",mnemonic]);
+            var pythonParams = [
+                rootScriptDirectory+"/toolchain/create_did","-r",
+                didStorePath,
+                "-s", password,
+                "-m", mnemonic
+            ];
+
+            if (passphrase) {
+                pythonParams.push("-p");
+                pythonParams.push(passphrase);
+            }
+
+            const pythonProcess = spawn('python', pythonParams);
 
             var output = ""
 

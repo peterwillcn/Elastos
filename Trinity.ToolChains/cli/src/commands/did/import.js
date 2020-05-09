@@ -14,8 +14,35 @@ exports.handler = function (argv) {
 }
 
 async function importAll() {
-    // TODO: Create root private key from given mnemonic + password
-    // TODO: Sync from the DID sidechain to retrieve previously published DIDs
+    var didHelper = new DIDHelper()
 
-    console.log("This feature is not implemented yet.");
+    if (!SystemHelper.checkPythonPresence()) {
+        console.error("Error:".red, "Please first install Python on your computer.")
+        return
+    }
+
+    console.log("");
+    console.log("Please provide information below so your DID can be imported.");
+    console.log("IMPORTANT - Your password must be the same as the one you used to create the DID, as it is also used as a passphrase.".magenta);
+    console.log("");
+
+    didHelper.promptMnemonicWithPassword().then(({mnemonic, password})=>{
+        console.log("");
+        didHelper.importDID(mnemonic, password, password).then((createdDidInfo)=>{
+            console.log("");
+            console.log("Reminder of your DID information:")
+            console.log("")
+            console.log("YOUR DID: ".green+createdDidInfo.did)
+            console.log("YOUR MNEMONIC: ".green+createdDidInfo.mnemonic)
+            console.log("")
+        })
+        .catch((err)=>{
+            console.error("Failed to create the DID".red)
+            console.error("Error:", err)
+        });
+    })
+    .catch((err)=>{
+        console.error("Failed to create retrieve information to import your DID".red)
+        console.error("Error:", err)
+    });
 }

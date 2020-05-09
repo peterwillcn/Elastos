@@ -34,7 +34,7 @@ export class IntentDemoPage implements OnInit {
 
   ionViewWillLeave() {
     titleBarManager.setTitle("Demo Template");
-    titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.BACK);
+    titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.HOME);
   }
 
   testIntent() {

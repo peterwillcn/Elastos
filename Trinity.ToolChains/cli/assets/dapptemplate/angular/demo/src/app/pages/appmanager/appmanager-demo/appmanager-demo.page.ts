@@ -28,5 +28,6 @@ export class AppmanagerDemoPage implements OnInit {
 
   ionViewWillLeave() {
     titleBarManager.setTitle("Demo Template");
+    titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.HOME);
   }
 }

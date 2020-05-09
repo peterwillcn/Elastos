@@ -94,6 +94,9 @@ public class ContactNotifierPlugin extends TrinityPlugin {
                 case "notifierAcceptInvitation":
                     this.notifierAcceptInvitation(args, callbackContext);
                     break;
+                case "notifierRejectInvitation":
+                    this.notifierRejectInvitation(args, callbackContext);
+                    break;
                 case "notifierSetOnInvitationAcceptedListener":
                     this.notifierSetOnInvitationAcceptedListener(args, callbackContext);
                     break;
@@ -313,6 +316,21 @@ public class ContactNotifierPlugin extends TrinityPlugin {
         catch (Exception e) {
             e.printStackTrace();
             sendError(callbackContext, "notifierAcceptInvitation", e.getLocalizedMessage());
+        }
+    }
+
+    private void notifierRejectInvitation(JSONArray args, CallbackContext callbackContext) throws Exception {
+        try {
+            String invitationId = args.getString(0);
+
+            getNotifier().rejectInvitation(invitationId);
+
+            JSONObject result = new JSONObject();
+            sendSuccess(callbackContext, result);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            sendError(callbackContext, "notifierRejectInvitation", e.getLocalizedMessage());
         }
     }
 

@@ -146,6 +146,17 @@ class ContactNotifierImpl implements ContactNotifierPlugin.ContactNotifier {
         });
     }
 
+    rejectInvitation(invitationID: string) {
+        return new Promise((resolve, reject) => {
+            exec(() =>{
+                resolve();
+            }, err =>{
+                console.error("Error while calling ContactNotifierPlugin.rejectInvitation()", err);
+                reject(err);
+            }, 'ContactNotifierPlugin', 'notifierRejectInvitation', [invitationID]);
+        });
+    }
+
     setOnInvitationAcceptedListener(onInvitationAccepted: (contact: ContactNotifierPlugin.Contact) => void) {
         exec((result: { contact: any }) =>{
             let contact = ContactImpl.fromJson(result.contact);

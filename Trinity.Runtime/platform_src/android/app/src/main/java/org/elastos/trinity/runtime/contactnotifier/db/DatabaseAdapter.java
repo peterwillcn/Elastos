@@ -147,7 +147,7 @@ import java.util.Date;
          return invitations;
      }
 
-     public void addReceivedInvitation(String didSessionDID, String contactDID, String contactCarrierUserId) {
+     public long addReceivedInvitation(String didSessionDID, String contactDID, String contactCarrierUserId) {
          SQLiteDatabase db = helper.getWritableDatabase();
 
          ContentValues contentValues = new ContentValues();
@@ -156,7 +156,7 @@ import java.util.Date;
          contentValues.put(DatabaseHelper.CARRIER_USER_ID, contactCarrierUserId);
          contentValues.put(DatabaseHelper.RECEIVED_DATE, new Date().getTime()); // Unix timestamp
 
-         db.insertOrThrow(DatabaseHelper.RECEIVED_INVITATIONS_TABLE, null, contentValues);
+         return db.insertOrThrow(DatabaseHelper.RECEIVED_INVITATIONS_TABLE, null, contentValues);
      }
 
      public ReceivedInvitation getReceivedInvitationById(String didSessionDID, String invitationID) {
@@ -173,5 +173,13 @@ import java.util.Date;
          }
 
          return null;
+     }
+
+     public void removeReceivedInvitation(String didSessionDID, String invitationId) {
+         SQLiteDatabase db = helper.getWritableDatabase();
+
+         String where = DatabaseHelper.DID_SESSION_DID + "=? AND "+DatabaseHelper.INVITATION_ID + "=?";
+         String[] whereArgs = {didSessionDID, invitationId};
+         db.delete(DatabaseHelper.RECEIVED_INVITATIONS_TABLE, where, whereArgs);
      }
 }

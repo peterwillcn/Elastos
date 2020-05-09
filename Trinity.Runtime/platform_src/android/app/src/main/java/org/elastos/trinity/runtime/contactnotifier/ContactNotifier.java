@@ -182,12 +182,39 @@ public class ContactNotifier {
                     // Add the contact to our database
                     Log.d(LOG_TAG, "Accepting a friend invitation. Adding contact locally");
                     Contact contact = dbAdapter.addContact(didSessionDID, invitation.did, invitation.carrierUserID);
+
+                    // Delete the pending invitation request
+                    dbAdapter.removeReceivedInvitation(didSessionDID, invitationId);
+
                     listener.onInvitationAccepted(contact);
                 }
                 else {
                     listener.onError(reason);
                 }
             });
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Rejects an invitation sent by a remote peer. This inviation is permanently deleted.
+     * The invitation is rejected only locally. The sender is not aware of it.
+     *
+     * @param invitationId Received invitation id.
+     */
+    public void rejectInvitation(String invitationId) {
+        // Retrieved the received invitation info from a given ID
+        ReceivedInvitation invitation = dbAdapter.getReceivedInvitationById(didSessionDID, invitationId);
+        if (invitation == null) {
+            // No such invitation exists.
+            return;
+        }
+
+        try {
+            // Delete the invitation
+            dbAdapter.removeReceivedInvitation(didSessionDID, invitationId);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -271,8 +298,8 @@ public class ContactNotifier {
                 }
                 else {
                     // MANUALLY_ACCEPT - Manual approval
-                    dbAdapter.addReceivedInvitation(didSessionDID, did, carrierUserId);
-                    String targetUrl = "https://scheme.elastos.org/viewfriendinvitation?did="+did;
+                    long invitationID = dbAdapter.addReceivedInvitation(didSessionDID, did, carrierUserId);
+                    String targetUrl = "https://scheme.elastos.org/viewfriendinvitation?did="+did+"&invitationid="+invitationID;
                     // TODO: resolve DID document, find firstname if any, and adjust the notification to include the firstname
                     sendLocalNotification(did,"contactreq-"+did, "Someone wants to add you as a contact. Touch to view more details.", targetUrl);
                 }

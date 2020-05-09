@@ -192,11 +192,19 @@ declare namespace ContactNotifierPlugin {
          * with his did and carrier addresses. After that, this contact can be resolved as a contact object
          * from his did string.
          * 
-         * @param invitationId Received invitation id that we're answering for.
+         * @param invitationId Received invitation id.
          * 
          * @returns The generated contact
          */
         acceptInvitation(invitationId: string): Promise<Contact>;
+
+        /**
+         * Rejects an invitation sent by a remote peer. This inviation is permanently deleted.
+         * The invitation is rejected only locally. The sender is not aware of it.
+         * 
+         * @param invitationId Received invitation id.
+         */
+        rejectInvitation(invitationID: string);
 
         /**
          * Registers a listener to know when a previously sent invitation has been accepted.

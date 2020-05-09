@@ -89,6 +89,17 @@ public class NotificationManagerPlugin extends TrinityPlugin {
         }
     }
 
+    private JSONObject buildInvalidParameterError() {
+        try {
+            JSONObject result = new JSONObject();
+            result.put("code", NATIVE_ERROR_CODE_INVALID_PARAMETER);
+            return result;
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
     private JSONObject buildGenericError(String error) {
         try {
             JSONObject result = new JSONObject();
@@ -105,7 +116,7 @@ public class NotificationManagerPlugin extends TrinityPlugin {
         return NotificationManager.getSharedInstance();
     }
 
-    private void clearNotification(JSONArray args, CallbackContext callbackContext) throws Exception {
+    private void clearNotification(JSONArray args, CallbackContext callbackContext) {
         try {
             String notificationId = args.getString(0);
             getNotifier().clearNotification(notificationId);
@@ -119,7 +130,7 @@ public class NotificationManagerPlugin extends TrinityPlugin {
         }
     }
 
-    private void getNotifications(JSONArray args, CallbackContext callbackContext) throws Exception {
+    private void getNotifications(JSONArray args, CallbackContext callbackContext) {
         try {
             ArrayList<Notification> notifications = getNotifier().getNotifications();
 
@@ -138,11 +149,15 @@ public class NotificationManagerPlugin extends TrinityPlugin {
         }
     }
 
-    private void sendNotification(JSONArray args, CallbackContext callbackContext) throws Exception {
+    private void sendNotification(JSONArray args, CallbackContext callbackContext) {
         try {
             JSONObject notificationRequestAsJson = args.getJSONObject(0);
 
             NotificationRequest notificationRequest = NotificationRequest.fromJSONObject(notificationRequestAsJson);
+            if (null == notificationRequest) {
+                sendError(callbackContext, buildInvalidParameterError());
+                return;
+            }
 
             getNotifier().sendNotification(notificationRequest, this.appId);
 
@@ -155,7 +170,7 @@ public class NotificationManagerPlugin extends TrinityPlugin {
         }
     }
 
-    private void setNotificationListener(JSONArray args, CallbackContext callbackContext) throws Exception {
+    private void setNotificationListener(JSONArray args, CallbackContext callbackContext) {
         try {
             getNotifier().setNotificationListener((notification) -> {
                 try {

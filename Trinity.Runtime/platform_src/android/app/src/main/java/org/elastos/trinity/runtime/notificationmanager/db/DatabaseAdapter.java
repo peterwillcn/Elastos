@@ -80,7 +80,7 @@ import java.util.Date;
          contentValues.put(DatabaseHelper.TITLE, title);
          contentValues.put(DatabaseHelper.URL, url);
          contentValues.put(DatabaseHelper.EMITTER, emitter);
-         contentValues.put(DatabaseHelper.APP_ID, appId);
+         contentValues.put(DatabaseHelper.SENT_DATE, new Date().getTime()); // Unix timestamp
 
          db.update(DatabaseHelper.NOTIFICATION_TABLE, contentValues, where, whereArgs );
      }
@@ -133,7 +133,7 @@ import java.util.Date;
                             DatabaseHelper.SENT_DATE};
 
          ArrayList<Notification> notifications = new ArrayList<>();
-         Cursor cursor = db.query(DatabaseHelper.NOTIFICATION_TABLE, columns, null, null,null,null,null);
+         Cursor cursor = db.query(DatabaseHelper.NOTIFICATION_TABLE, columns, null, null,null,null,DatabaseHelper.SENT_DATE + " DESC");
          while (cursor.moveToNext()) {
              Notification notification = Notification.fromDatabaseCursor(notifier, cursor);
              notifications.add(notification);

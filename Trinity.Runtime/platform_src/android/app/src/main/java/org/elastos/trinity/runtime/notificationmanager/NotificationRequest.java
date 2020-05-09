@@ -14,12 +14,12 @@ public class NotificationRequest {
     public String emitter = null;
 
     public static NotificationRequest fromJSONObject(JSONObject obj) {
+
         try {
             NotificationRequest notif = new NotificationRequest();
-            if (obj.has("key"))
-                notif.key = obj.getString("key");
-            if (obj.has("title"))
-                notif.title = obj.getString("title");
+            notif.key = obj.getString("key");
+            notif.title = obj.getString("title");
+
             if (obj.has("url"))
                 notif.url = obj.getString("url");
             if (obj.has("emitter"))

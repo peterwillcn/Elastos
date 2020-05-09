@@ -47,25 +47,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class ContactNotifierPlugin extends TrinityPlugin {
-    private static final int NATIVE_ERROR_CODE_INVALID_PASSWORD = -1;
-    private static final int NATIVE_ERROR_CODE_INVALID_PARAMETER = -2;
-    private static final int NATIVE_ERROR_CODE_CANCELLED = -3;
-    private static final int NATIVE_ERROR_CODE_UNSPECIFIED = -4;
-
-    /*@Override
-    protected void pluginInitialize() {
-        super.pluginInitialize();
-
-        // Starts an instance, to initialize carrier earlier
-        try {
-            ContactNotifier.getSharedInstance(cordova.getContext(), did);
-        }
-        catch (CarrierException e) {
-            e.printStackTrace();
-            // Not much we can do here if this fails. Just not available for now...
-        }
-    }*/
-
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         try {
@@ -137,29 +118,6 @@ public class ContactNotifierPlugin extends TrinityPlugin {
 
     private void sendError(CallbackContext callbackContext, String method, String message) {
         callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, method+": "+message));
-    }
-
-    private JSONObject buildCancellationError() {
-        try {
-            JSONObject result = new JSONObject();
-            result.put("code", NATIVE_ERROR_CODE_CANCELLED);
-            return result;
-        }
-        catch (Exception e) {
-            return null;
-        }
-    }
-
-    private JSONObject buildGenericError(String error) {
-        try {
-            JSONObject result = new JSONObject();
-            result.put("code", NATIVE_ERROR_CODE_UNSPECIFIED);
-            result.put("reason", error);
-            return result;
-        }
-        catch (Exception e) {
-            return null;
-        }
     }
 
     private ContactNotifier getNotifier() throws CarrierException {

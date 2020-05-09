@@ -104,7 +104,7 @@ public class AppManager {
     private ArrayList<InstallInfo>  installUriList = new ArrayList<InstallInfo>();
     private ArrayList<Uri>          intentUriList = new ArrayList<Uri>();
     private PermissionManager permissionManager;
-    private NotificationManager nitificationManager;
+    private NotificationManager notificationManager;
     private boolean launcherReady = false;
 
     final static String[] defaultPlugins = {
@@ -118,7 +118,7 @@ public class AppManager {
         AppManager.appManager = this;
         this.activity = activity;
         permissionManager = new PermissionManager(activity);
-        nitificationManager = new NotificationManager(activity);
+        notificationManager = new NotificationManager(activity);
 
         appsPath = activity.getFilesDir() + "/apps/";
         dataPath = activity.getFilesDir() + "/data/";

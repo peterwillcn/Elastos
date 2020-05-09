@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class NotificationManager {
     public static final String LOG_TAG = "NotificationManager";
 
-    private Context context;
+    private WebViewActivity activity;
     DatabaseAdapter dbAdapter;
 
     private static NotificationManager instance;
@@ -24,9 +24,9 @@ public class NotificationManager {
         void onNotification(Notification notification);
     }
 
-    public NotificationManager(Context context) {
-        this.context = context;
-        this.dbAdapter = new DatabaseAdapter(this, context);
+    public NotificationManager(WebViewActivity activity) {
+        this.activity = activity;
+        this.dbAdapter = new DatabaseAdapter(this, activity.getBaseContext());
 
         Log.i(LOG_TAG, "Creating NotificationManager ");
 
@@ -63,7 +63,6 @@ public class NotificationManager {
                                     notificationRequest.url, notificationRequest.emitter, appId);
         notifyNotification(notification);
 
-        WebViewActivity activity = (WebViewActivity) this.context;
         activity.runOnUiThread(() -> Toast.makeText(activity, notificationRequest.title, Toast.LENGTH_SHORT).show());
     }
 

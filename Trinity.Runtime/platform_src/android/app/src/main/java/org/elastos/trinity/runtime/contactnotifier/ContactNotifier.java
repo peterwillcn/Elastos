@@ -180,6 +180,7 @@ public class ContactNotifier {
             carrierHelper.acceptFriend(invitation.carrierUserID, (succeeded, reason)->{
                 if (succeeded) {
                     // Add the contact to our database
+                    Log.d(LOG_TAG, "Accepting a friend invitation. Adding contact locally");
                     Contact contact = dbAdapter.addContact(didSessionDID, invitation.did, invitation.carrierUserID);
                     listener.onInvitationAccepted(contact);
                 }
@@ -253,6 +254,7 @@ public class ContactNotifier {
                     try {
                         carrierHelper.acceptFriend(carrierUserId, (succeeded, reason)->{
                             if (succeeded) {
+                                Log.d(LOG_TAG, "Adding contact locally");
                                 dbAdapter.addContact(didSessionDID, did, carrierUserId);
                                 String targetUrl = "https://scheme.elastos.org/viewfriend?did="+did;
                                 // TODO: resolve DID document, find firstname if any, and adjust the notification to include the firstname
@@ -354,6 +356,8 @@ public class ContactNotifier {
      * a "contact".
      */
     private void handleFriendInvitationAccepted(SentInvitation invitation, String friendId) {
+        Log.d(LOG_TAG, "Friend has accepted our invitation. Adding contact locally");
+
         // Add carrier friend as a contact
         Contact contact = dbAdapter.addContact(didSessionDID, invitation.did, friendId);
 
@@ -362,6 +366,10 @@ public class ContactNotifier {
 
         // Notify the listeners
         notifyInvitationAcceptedByFriend(contact);
+
+        String targetUrl = "https://scheme.elastos.org/viewfrien?did="+invitation.did;
+        // TODO: resolve DID document, find firstname if any, and adjust the notification to include the firstname
+        sendLocalNotification(invitation.did,"friendaccepted-"+invitation.did, "Your friend has accepted your invitation. Touch to view details.", targetUrl);
     }
 
     private void notifyOnlineStatusChanged(String friendId, ConnectionStatus status) {

@@ -68,7 +68,7 @@ public class NotificationManager {
                                     notificationRequest.url, notificationRequest.emitter, appId);
         notifyNotification(notification);
 
-        Toast.makeText(this.context,notificationRequest.title, Toast.LENGTH_SHORT).show();
+        // TMP CRASH Toast.makeText(this.context,notificationRequest.title, Toast.LENGTH_SHORT).show();
     }
 
     /**

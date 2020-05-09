@@ -13,6 +13,8 @@ import org.elastos.trinity.runtime.contactnotifier.comm.CarrierHelper;
 import org.elastos.trinity.runtime.contactnotifier.db.DatabaseAdapter;
 import org.elastos.trinity.runtime.contactnotifier.db.ReceivedInvitation;
 import org.elastos.trinity.runtime.contactnotifier.db.SentInvitation;
+import org.elastos.trinity.runtime.notificationmanager.NotificationManager;
+import org.elastos.trinity.runtime.notificationmanager.NotificationRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -252,7 +254,9 @@ public class ContactNotifier {
                         carrierHelper.acceptFriend(carrierUserId, (succeeded, reason)->{
                             if (succeeded) {
                                 dbAdapter.addContact(didSessionDID, did, carrierUserId);
-                                // TODO: send a local notification to tell user about this (xxx Added as friend!)
+                                String targetUrl = "https://scheme.elastos.org/viewfriend?did="+did;
+                                // TODO: resolve DID document, find firstname if any, and adjust the notification to include the firstname
+                                sendLocalNotification(did,"newcontact-"+did, "Someone was just added as a new contact. Touch to view his/her profile.", targetUrl);
                             }
                         });
                     }
@@ -266,7 +270,9 @@ public class ContactNotifier {
                 else {
                     // MANUALLY_ACCEPT - Manual approval
                     dbAdapter.addReceivedInvitation(didSessionDID, did, carrierUserId);
-                    // TODO: send a local notification to tell user about this (accept xxx as friend?)
+                    String targetUrl = "https://scheme.elastos.org/viewfriendinvitation?did="+did;
+                    // TODO: resolve DID document, find firstname if any, and adjust the notification to include the firstname
+                    sendLocalNotification(did,"contactreq-"+did, "Someone wants to add you as a contact. Touch to view more details.", targetUrl);
                 }
             }
 
@@ -287,7 +293,7 @@ public class ContactNotifier {
                 if (contact != null) {
                     // Make sure this contact is not blocked by us
                     if (!contact.notificationsBlocked) {
-                        // TODO: send this remote notification as local notification (contact xxx is sharing yyy)
+                        sendLocalNotification(contact.did,remoteNotification.key, remoteNotification.title, remoteNotification.url);
                     }
                     else {
                         Log.w(ContactNotifier.LOG_TAG, "Not delivering remote notification because contact is blocked");
@@ -397,5 +403,19 @@ public class ContactNotifier {
 
         // No clean info - considered as hidden.
         return PresenceStatus.Away;
+    }
+
+    void sendLocalNotification(String relatedRemoteDID, String key, String title, String url) {
+        NotificationRequest testNotif = new NotificationRequest();
+        testNotif.key = key;
+        testNotif.title = title;
+        testNotif.emitter = relatedRemoteDID;
+        testNotif.url = url;
+        try {
+            // NOTE: appid can't be null because the notification manager uses it for several things.
+            NotificationManager.getSharedInstance().sendNotification(testNotif, "system");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

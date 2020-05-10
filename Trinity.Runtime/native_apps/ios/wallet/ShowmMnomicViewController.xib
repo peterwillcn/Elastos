@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShowmMnomicViewController" customModule="elastOS" customModuleProvider="target">
+            <connections>
+                <outlet property="bgView" destination="wAg-Mj-9bX" id="4kW-zt-gQW"/>
+                <outlet property="mnomicLabel" destination="rxa-nL-dxp" id="Nwr-hc-uKV"/>
+                <outlet property="view" destination="iN0-l3-epB" id="77i-A2-lL0"/>
+                <outlet property="writtenDownBtn" destination="ZGA-t0-HgW" id="Kae-0e-zOY"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please carefully write down this phrase" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="foR-Uk-P2L">
+                    <rect key="frame" x="24" y="108" width="366" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="1NK-L8-XHb"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wAg-Mj-9bX">
+                    <rect key="frame" x="12" y="172" width="390" height="145"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rxa-nL-dxp">
+                            <rect key="frame" x="24" y="24" width="342" height="97"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="rxa-nL-dxp" firstAttribute="top" secondItem="wAg-Mj-9bX" secondAttribute="top" constant="24" id="1K2-kA-dNf"/>
+                        <constraint firstAttribute="trailing" secondItem="rxa-nL-dxp" secondAttribute="trailing" constant="24" id="3Ia-aS-5oQ"/>
+                        <constraint firstAttribute="height" constant="145" id="9bg-rH-GDl"/>
+                        <constraint firstAttribute="bottom" secondItem="rxa-nL-dxp" secondAttribute="bottom" constant="24" id="gKm-XN-EHW"/>
+                        <constraint firstItem="rxa-nL-dxp" firstAttribute="leading" secondItem="wAg-Mj-9bX" secondAttribute="leading" constant="24" id="t2l-qd-J9Q"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZGA-t0-HgW">
+                    <rect key="frame" x="24" y="830" width="366" height="44"/>
+                    <color key="backgroundColor" red="0.33841577557229807" green="0.15440940092926425" blue="0.87352250647668395" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="8Ua-nH-0Ez"/>
+                    </constraints>
+                    <state key="normal" title="I have wrritten it down">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="10"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBoun" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="writtenDownAction:" destination="-1" eventType="touchUpInside" id="iC6-MQ-4KM"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.15191669097110241" green="0.062223688605806855" blue="0.38028254533678751" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="ZGA-t0-HgW" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="Kud-j4-wOi"/>
+                <constraint firstItem="ZGA-t0-HgW" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" constant="12" id="TBc-He-5xx"/>
+                <constraint firstItem="wAg-Mj-9bX" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="12" id="ThB-Tu-WAe"/>
+                <constraint firstItem="foR-Uk-P2L" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="24" id="Zvp-Zc-vDB"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="wAg-Mj-9bX" secondAttribute="trailing" constant="12" id="fgF-1Q-M2R"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="foR-Uk-P2L" secondAttribute="trailing" constant="24" id="mZv-gz-L7v"/>
+                <constraint firstItem="wAg-Mj-9bX" firstAttribute="top" secondItem="foR-Uk-P2L" secondAttribute="bottom" constant="20" id="uMU-xn-0c2"/>
+                <constraint firstItem="foR-Uk-P2L" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="64" id="v5b-6S-mbk"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="ZGA-t0-HgW" secondAttribute="trailing" constant="24" id="wLJ-EB-PW6"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="139" y="91"/>
+        </view>
+    </objects>
+</document>

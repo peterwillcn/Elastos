@@ -1,18 +1,19 @@
-package org.elastos.trinity.runtime.contactnotifier.db;
-
-import android.database.Cursor;
-
 public class SentInvitation {
-    public String did;
-    public String carrierAddress;
+    public var did: String
+    public var carrierAddress: String
+    
+    init() {
+        did = ""
+        carrierAddress = ""
+    }
 
     /**
      * Creates a SentInvitation object from a SENT_INVITATIONS row.
      */
-    static SentInvitation fromDatabaseCursor(Cursor cursor) {
-        SentInvitation invitation = new SentInvitation();
+    static func fromDatabaseCursor(Cursor cursor) -> SentInvitation {
+        let invitation = SentInvitation()
         invitation.did = cursor.getString(cursor.getColumnIndex(DatabaseHelper.DID));
         invitation.carrierAddress = cursor.getString(cursor.getColumnIndex(DatabaseHelper.CARRIER_ADDRESS));
-        return invitation;
+        return invitation
     }
 }

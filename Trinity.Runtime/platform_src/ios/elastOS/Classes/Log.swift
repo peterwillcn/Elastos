@@ -32,4 +32,8 @@ class Log {
     static func i(_ tag: String, _ msg: String) {
         print("\(tag)::\((#file as NSString).lastPathComponent)[\(#line)], \(#function): \(msg)")
     }
+    
+    static func w(_ tag: String, _ msg: String) {
+        print("\(tag)::\((#file as NSString).lastPathComponent)[\(#line)], \(#function): \(msg)")
+    }
 }

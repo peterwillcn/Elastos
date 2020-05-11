@@ -1,19 +1,30 @@
+import SQLite
+
 public class Contact {
     private var notifier: ContactNotifier
+    
+    private static let didSessionDIDField = Expression<String>(CNDatabaseHelper.DID_SESSION_DID)
+    private static let didField = Expression<String>(CNDatabaseHelper.DID)
+    private static let carrierUserIdField = Expression<String>(CNDatabaseHelper.CARRIER_USER_ID)
+    private static let notificationsBlockedField = Expression<Bool>(CNDatabaseHelper.NOTIFICATIONS_BLOCKED)
+    private static let addedDateField = Expression<Int64>(CNDatabaseHelper.ADDED_DATE)
 
-    public var did: String
-    public var carrierUserID: String
-    public var notificationsBlocked: boolean
+    public var did: String = ""
+    public var carrierUserID: String = ""
+    public var notificationsBlocked: Bool = false
+    
+    private init() {
+    }
 
     /**
      * Creates a contact object from a CONTACTS_TABLE row.
      */
-    public static func fromDatabaseCursor(notifier: ContactNotifier, cursor: Cursor) {
+    public static func fromDatabaseRow(notifier: ContactNotifier, row: Row) -> Contact {
         let contact = Contact()
         contact.notifier = notifier
-        contact.did = cursor.getString(cursor.getColumnIndex(DatabaseHelper.DID))
-        contact.carrierUserID = cursor.getString(cursor.getColumnIndex(DatabaseHelper.CARRIER_USER_ID))
-        contact.notificationsBlocked = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.NOTIFICATIONS_BLOCKED)) == 1
+        contact.did = row[didField]
+        contact.carrierUserID = row[carrierUserIdField]
+        contact.notificationsBlocked = row[notificationsBlockedField]
         return contact
     }
 
@@ -31,9 +42,9 @@ public class Contact {
      * @param notificationRequest The notification content.
      */
     public func sendRemoteNotification(notificationRequest: RemoteNotificationRequest) {
-        notifier.carrierHelper.sendRemoteNotification(carrierUserID, notificationRequest, (succeeded, reason)->{
+        notifier.carrierHelper.sendRemoteNotification(carrierUserID, notificationRequest) { succeeded, reason in
             // Nothing to do here for now, no matter if succeeded or not.
-        });
+        }
     }
 
     /**
@@ -41,9 +52,9 @@ public class Contact {
      *
      * @param allowNotifications True to receive notifications, false to reject them.
      */
-    public func setAllowNotifications(allowNotifications: boolean) {
-        self.notificationsBlocked = !allowNotifications;
-        notifier.dbAdapter.updateContactNotificationsBlocked(notifier.didSessionDID, did, this.notificationsBlocked)
+    public func setAllowNotifications(allowNotifications: Bool) {
+        self.notificationsBlocked = !allowNotifications
+        notifier.dbAdapter.updateContactNotificationsBlocked(notifier.didSessionDID, did, notificationsBlocked)
     }
 
     /**

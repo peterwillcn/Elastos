@@ -2,35 +2,36 @@ public class RemoteNotificationCommand : CarrierCommand {
     private var helper: CarrierHelper
     private var contactCarrierUserID: String
     private var notificationRequest: RemoteNotificationRequest
-    private var completionListener: CarrierHelper.OnCommandExecuted
+    private var completionListener: CarrierHelper.onCommandExecuted
 
-    init(helper: CarrierHelper, contactCarrierUserID: String, notificationRequest: RemoteNotificationRequest, completionListener: CarrierHelper.OnCommandExecuted) {
+    init(helper: CarrierHelper, contactCarrierUserID: String, notificationRequest: RemoteNotificationRequest, completionListener: @escaping CarrierHelper.onCommandExecuted) {
         self.helper = helper
         self.contactCarrierUserID = contactCarrierUserID
         self.notificationRequest = notificationRequest
         self.completionListener = completionListener
     }
 
-    public override func executeCommand() {
+    public func executeCommand() {
         Log.i(ContactNotifier.LOG_TAG, "Executing remote contact notification command")
         do {
             // Package our remote command
-            JSONObject request = new JSONObject();
-            request.put("command", "remotenotification");
-            request.put("source", "contact_notifier_plugin"); // purely informative
-            request.put("key", notificationRequest.key);
-            request.put("title", notificationRequest.title);
+            var request = Dictionary<String, Any>()
+            request["command"] = "remotenotification"
+            request["source"] = "contact_notifier_plugin" // purely informative
+            request["key"] = notificationRequest.key
+            request["title"] = notificationRequest.title
 
-            if (notificationRequest.url != null)
-                request.put("url", notificationRequest.url);
+            if (notificationRequest.url != nil) {
+                request["url"] = notificationRequest.url!
+            }
 
-            helper.carrierInstance.sendFriendMessage(contactCarrierUserID, request.toString());
+            helper.carrierInstance.sendFriendMessage(to: contactCarrierUserID, withString: request.toString())
 
-            completionListener.onCommandExecuted(true, null);
+            completionListener(true, nil)
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            completionListener.onCommandExecuted(false, e.getLocalizedMessage());
+        catch (let error) {
+            print(error)
+            completionListener(false, error.localizedDescription)
         }
     }
 }

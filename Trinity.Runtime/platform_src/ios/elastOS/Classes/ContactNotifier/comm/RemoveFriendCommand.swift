@@ -1,33 +1,24 @@
-package org.elastos.trinity.runtime.contactnotifier.comm;
+public class RemoveFriendCommand : CarrierCommand {
+    private let helper: CarrierHelper
+    private let contactCarrierUserID: String
+    private let completionListener: CarrierHelper.onCommandExecuted
 
-import android.util.Log;
-
-import org.elastos.trinity.runtime.contactnotifier.ContactNotifier;
-import org.elastos.trinity.runtime.contactnotifier.RemoteNotificationRequest;
-import org.json.JSONObject;
-
-public class RemoveFriendCommand implements CarrierCommand {
-    private CarrierHelper helper;
-    private String contactCarrierUserID;
-    private CarrierHelper.OnCommandExecuted completionListener;
-
-    RemoveFriendCommand(CarrierHelper helper, String contactCarrierUserID, CarrierHelper.OnCommandExecuted completionListener) {
-        this.helper = helper;
-        this.contactCarrierUserID = contactCarrierUserID;
-        this.completionListener = completionListener;
+    init(helper: CarrierHelper, contactCarrierUserID: String, completionListener: @escaping CarrierHelper.onCommandExecuted) {
+        self.helper = helper
+        self.contactCarrierUserID = contactCarrierUserID
+        self.completionListener = completionListener
     }
 
-    @Override
-    public void executeCommand() {
-        Log.i(ContactNotifier.LOG_TAG, "Executing remove friend command");
-        try {
-            helper.carrierInstance.removeFriend(contactCarrierUserID);
+    public func executeCommand() {
+        Log.i(ContactNotifier.LOG_TAG, "Executing remove friend command")
+        do {
+            try helper.carrierInstance.removeFriend(contactCarrierUserID)
 
-            completionListener.onCommandExecuted(true, null);
+            completionListener(true, nil)
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            completionListener.onCommandExecuted(false, e.getLocalizedMessage());
+        catch (let error) {
+            print(error)
+            completionListener(false, error.localizedDescription)
         }
     }
 }

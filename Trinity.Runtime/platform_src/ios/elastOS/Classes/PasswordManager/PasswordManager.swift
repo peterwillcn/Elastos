@@ -649,28 +649,32 @@ public class PasswordManager {
             try encryptAndSaveDatabase(did: did, masterPassword: dbInfo.activeMasterPassword!)
         }
     }
+    
+    private func getUserDefaults() -> UserDefaults {
+        return UserDefaults(suiteName: PasswordManager.SHARED_PREFS_KEY)!
+    }
 
     private func saveToPrefs(key: String, value: Int) {
-        UserDefaults.standard.set(value, forKey: key)
+        getUserDefaults().set(value, forKey: key)
     }
     
     private func saveToPrefs(key: String, value: Bool) {
-        UserDefaults.standard.set(value, forKey: key)
+        getUserDefaults().set(value, forKey: key)
     }
     
     private func getPrefsInt(key: String, defaultValue: Int) -> Int {
-        if UserDefaults.standard.object(forKey: key) == nil {
+        if getUserDefaults().object(forKey: key) == nil {
             return defaultValue
         } else {
-            return UserDefaults.standard.integer(forKey: key)
+            return getUserDefaults().integer(forKey: key)
         }
     }
     
     private func getPrefsBool(key: String, defaultValue: Bool) -> Bool {
-        if UserDefaults.standard.object(forKey: key) == nil {
+        if getUserDefaults().object(forKey: key) == nil {
             return defaultValue
         } else {
-            return UserDefaults.standard.bool(forKey: key)
+            return getUserDefaults().bool(forKey: key)
         }
     }
 

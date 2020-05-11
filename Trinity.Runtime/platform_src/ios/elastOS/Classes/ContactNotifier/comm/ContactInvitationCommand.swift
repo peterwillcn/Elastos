@@ -1,36 +1,28 @@
-package org.elastos.trinity.runtime.contactnotifier.comm;
+public class ContactInvitationCommand : CarrierCommand {
+    private let helper: CarrierHelper
+    private let contactCarrierAddress: String
+    private let completionListener: CarrierHelper.onCommandExecuted
 
-import android.util.Log;
-
-import org.elastos.trinity.runtime.contactnotifier.ContactNotifier;
-import org.json.JSONObject;
-
-public class ContactInvitationCommand implements CarrierCommand {
-    private CarrierHelper helper;
-    private String contactCarrierAddress;
-    private CarrierHelper.OnCommandExecuted completionListener;
-
-    ContactInvitationCommand(CarrierHelper helper, String contactCarrierAddress, CarrierHelper.OnCommandExecuted completionListener) {
-        this.helper = helper;
-        this.contactCarrierAddress = contactCarrierAddress;
-        this.completionListener = completionListener;
+    init(helper: CarrierHelper, contactCarrierAddress: String, completionListener: CarrierHelper.onCommandExecuted) {
+        self.helper = helper
+        self.contactCarrierAddress = contactCarrierAddress
+        self.completionListener = completionListener
     }
 
-    @Override
-    public void executeCommand() {
-        Log.i(ContactNotifier.LOG_TAG, "Executing contact invitation command");
-        try {
+    public override func executeCommand() {
+        Log.i(ContactNotifier.LOG_TAG, "Executing contact invitation command")
+        do {
             // Let the receiver know who we are
-            JSONObject invitationRequest = new JSONObject();
-            invitationRequest.put("did", helper.didSessionDID);
-            invitationRequest.put("source", "contact_notifier_plugin"); // purely informative
+            let invitationRequest = Dictionary()
+            invitationRequest["did"] = helper.didSessionDID
+            invitationRequest["source"] = "contact_notifier_plugin" // purely informative
 
-            helper.carrierInstance.addFriend(contactCarrierAddress, invitationRequest.toString());
+            helper.carrierInstance.addFriend(contactCarrierAddress, invitationRequest.toString())
 
-            completionListener.onCommandExecuted(true, null);
+            completionListener.onCommandExecuted(true, null)
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        catch (let error) {
+            print(error)
             completionListener.onCommandExecuted(false, e.getLocalizedMessage());
         }
     }

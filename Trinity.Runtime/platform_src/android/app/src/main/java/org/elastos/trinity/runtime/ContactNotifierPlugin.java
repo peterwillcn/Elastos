@@ -145,7 +145,10 @@ public class ContactNotifierPlugin extends TrinityPlugin {
             Contact contact = getNotifier().resolveContact(contactDID);
 
             JSONObject result = new JSONObject();
-            result.put("contact", contact.toJSONObject());
+            if (contact != null)
+                result.put("contact", contact.toJSONObject());
+            else
+                result.put("contact", null);
             sendSuccess(callbackContext, result);
         }
         catch (Exception e) {

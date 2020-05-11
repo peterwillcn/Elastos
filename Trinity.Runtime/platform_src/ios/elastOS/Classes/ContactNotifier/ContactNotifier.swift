@@ -1,6 +1,8 @@
 
 // TODO: When did sessions are ready, call ContactNotifier.getSharedInstance() as soon as a DID session starts, to initialize carrier early.
 
+import ElastosCarrierSDK
+
 public class ContactNotifier {
     public static let LOG_TAG = "ContactNotifier"
 
@@ -259,7 +261,7 @@ public class ContactNotifier {
                 if (getInvitationRequestsMode() == InvitationRequestsMode.AUTO_ACCEPT) {
                     Log.i(ContactNotifier.LOG_TAG, "Auto-accepting friend invitation");
 
-                    try {
+                    do {
                         carrierHelper.acceptFriend(carrierUserId, (succeeded, reason)->{
                             if (succeeded) {
                                 Log.d(LOG_TAG, "Adding contact locally");
@@ -270,8 +272,8 @@ public class ContactNotifier {
                             }
                         });
                     }
-                    catch (Exception e) {
-                        e.printStackTrace();
+                    catch (let error) {
+                        print(error)
                     }
                 }
                 else if (getInvitationRequestsMode() == InvitationRequestsMode.AUTO_REJECT) {

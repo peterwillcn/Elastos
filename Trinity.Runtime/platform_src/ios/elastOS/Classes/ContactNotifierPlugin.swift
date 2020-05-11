@@ -41,311 +41,297 @@ class ContactNotifierPlugin : TrinityPlugin {
         
         self.commandDelegate.send(result, callbackId: command.callbackId)
     }
+    
+    func error(_ command: CDVInvokedUrlCommand, _ method: String, _ retAsString: String) {
+        let result = CDVPluginResult(status: CDVCommandStatus_ERROR,
+                                     messageAs: "\(method): \(retAsString)");
+        
+        self.commandDelegate.send(result, callbackId: command.callbackId)
+    }
    
     private func getNotifier() throws -> ContactNotifier {
         return ContactNotifier.getSharedInstance(did)
     }
 
     @objc func notifierGetCarrierAddress(_ command: CDVInvokedUrlCommand) {
-        try {
-            String carrierAddress = getNotifier().getCarrierAddress();
+        do {
+            let carrierAddress = getNotifier().getCarrierAddress()
 
-            JSONObject result = new JSONObject();
-            result.put("address", carrierAddress);
-            sendSuccess(callbackContext, result);
+            var result = Dictionary<String, Any>()
+            result["address"] = carrierAddress
+            self.success(command, result)
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            sendError(callbackContext, "notifierGetCarrierAddress", e.getLocalizedMessage());
+        catch (let error) {
+            print(error)
+            error(command, method: "notifierGetCarrierAddress", error.localizedDescription)
         }
     }
 
     @objc func notifierResolveContact(_ command: CDVInvokedUrlCommand) {
-        try {
-            String contactDID = args.getString(0);
+        do {
+            let contactDID = command.arguments[0] as? String
 
-            Contact contact = getNotifier().resolveContact(contactDID);
+            let contact = getNotifier().resolveContact(contactDID)
 
-            JSONObject result = new JSONObject();
-            result.put("contact", contact.toJSONObject());
-            sendSuccess(callbackContext, result);
+            var result = Dictionary<String, Any>()
+            if (contact != nil) {
+                result["contact"] = contact.toJSONObject()
+            }
+            else {
+                result["contact"] = nil
+            }
+            self.success(command, result)
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            sendError(callbackContext, "notifierResolveContact", e.getLocalizedMessage());
+        catch (let error) {
+            print(error)
+            error(command, method: "notifierResolveContact", error.localizedDescription)
         }
     }
 
     @objc func notifierRemoveContact(_ command: CDVInvokedUrlCommand) {
-        try {
-            String contactDID = args.getString(0);
+        do {
+            let contactDID = command.arguments[0] as? String
 
-            getNotifier().removeContact(contactDID);
+            getNotifier().removeContact(contactDID)
 
-            JSONObject result = new JSONObject();
-            sendSuccess(callbackContext, result);
+            success()
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            sendError(callbackContext, "notifierRemoveContact", e.getLocalizedMessage());
+        catch (let error) {
+            print(error)
+            error(command, method: "notifierRemoveContact", error.localizedDescription)
         }
     }
 
     @objc func notifierSetOnlineStatusListener(_ command: CDVInvokedUrlCommand) {
-        try {
-            getNotifier().addOnlineStatusListener((contact, status) -> {
-                try {
-                    JSONObject listenerResult = new JSONObject();
-                    listenerResult.put("contact", contact.toJSONObject());
-                    listenerResult.put("status", status.mValue);
+        do {
+            getNotifier().addOnlineStatusListener() { contact, status in
+                var listenerResult = Dictionary<String, Any>()
+                listenerResult["contact"] = contact.toJSONObject()
+                listenerResult["status"] = status.rawValue
 
-                    PluginResult res = new PluginResult(PluginResult.Status.OK, listenerResult);
-                    res.setKeepCallback(true);
-                    callbackContext.sendPluginResult(res);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            });
+                let result = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: listenerResult)
+                result?.setKeepCallbackAs(true)
+                self.commandDelegate.send(result, callbackId: command.callbackId)
+            }
 
-            PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
-            result.setKeepCallback(true);
-            callbackContext.sendPluginResult(result);
+            let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT)
+            result?.setKeepCallbackAs(true)
+            self.commandDelegate.send(result, callbackId: command.callbackId)
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            sendError(callbackContext, "notifierSetOnlineStatusListener", e.getLocalizedMessage());
+        catch (let error) {
+            print(error)
+            error(command, method: "notifierSetOnlineStatusListener", error.localizedDescription)
         }
     }
 
     @objc func notifierSetOnlineStatusMode(_ command: CDVInvokedUrlCommand) {
-        try {
-            int onlineStatusModeAsInt = args.getInt(0);
+        do {
+            let onlineStatusModeAsInt = command.arguments[0] as! Int
 
-            OnlineStatusMode mode = OnlineStatusMode.fromValue(onlineStatusModeAsInt);
+            let mode = OnlineStatusMode(rawValue: onlineStatusModeAsInt)
 
-            getNotifier().setOnlineStatusMode(mode);
+            getNotifier().setOnlineStatusMode(mode)
 
-            JSONObject result = new JSONObject();
-            sendSuccess(callbackContext, result);
+            success(command)
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            sendError(callbackContext, "notifierSetOnlineStatusMode", e.getLocalizedMessage());
+        catch (let error) {
+            print(error)
+            error(command, method: "notifierSetOnlineStatusMode", error.localizedDescription)
         }
     }
 
     @objc func notifierGetOnlineStatusMode(_ command: CDVInvokedUrlCommand) {
-        try {
-            OnlineStatusMode mode = getNotifier().getOnlineStatusMode();
+        do {
+            let mode = getNotifier().getOnlineStatusMode()
 
-            JSONObject result = new JSONObject();
-            result.put("onlineStatusMode", mode.mValue);
-            sendSuccess(callbackContext, result);
+            var result = Dictionary<String, Any>()
+            result["onlineStatusMode"] = mode.rawValue
+            self.success(command, result)
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            sendError(callbackContext, "notifierGetOnlineStatusMode", e.getLocalizedMessage());
+        catch (let error) {
+            print(error)
+            error(command, method: "notifierGetOnlineStatusMode", error.localizedDescription)
         }
     }
 
     @objc func notifierSendInvitation(_ command: CDVInvokedUrlCommand) {
-        try {
-            String did = args.getString(0);
-            String carrierAddress = args.getString(1);
+        do {
+            let did = command.arguments[0] as! String
+            let carrierAddress = command.arguments[1] as! String
 
-            getNotifier().sendInvitation(did, carrierAddress);
+            getNotifier().sendInvitation(did, carrierAddress)
 
-            JSONObject result = new JSONObject();
-            sendSuccess(callbackContext, result);
+            success(command)
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            sendError(callbackContext, "notifierSendInvitation", e.getLocalizedMessage());
+        catch (let error) {
+            print(error)
+            error(command, method: "notifierSendInvitation", error.localizedDescription)
         }
     }
 
     @objc func notifierAcceptInvitation(_ command: CDVInvokedUrlCommand) {
-        try {
-            String invitationId = args.getString(0);
-
-            getNotifier().acceptInvitation(invitationId, new ContactNotifier.OnInvitationAcceptedByUsListener() {
-                @Override
-                public void onInvitationAccepted(Contact contact) {
-                    try {
-                        JSONObject result = new JSONObject();
-                        result.put("contact", contact.toJSONObject());
-                        sendSuccess(callbackContext, result);
-                    }
-                    catch (JSONException e) {
-                        e.printStackTrace();
-                        sendError(callbackContext, "notifierAcceptInvitation", e.getLocalizedMessage());
-                    }
+        do {
+            let invitationId = command.arguments[0] as! String
+            
+            class OnInvitationAcceptedByUsHandler: OnInvitationAcceptedByUsListener {
+                func onInvitationAccepted(contact: Contact) {
+                    var result = Dictionary<String, Any>()
+                    result["contact"] = contact.toJSONObject()
+                    self.success(command, result)
                 }
-
-                @Override
-                public void onNotExistingInvitation() {
-                    sendError(callbackContext, "notifierAcceptInvitation", "No pending invitation found for the given invitation ID");
+                
+                func onNotExistingInvitation() {
+                    error(command, "notifierAcceptInvitation", "No pending invitation found for the given invitation ID");
                 }
-
-                @Override
-                public void onError(String reason) {
-                    sendError(callbackContext, "notifierAcceptInvitation", reason);
+                
+                func onError(reason: String) {
+                    error(command, "notifierAcceptInvitation", reason)
                 }
-            });
+            }
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            sendError(callbackContext, "notifierAcceptInvitation", e.getLocalizedMessage());
+        catch (let error) {
+            print(error)
+            error(command, method: "notifierAcceptInvitation", error.localizedDescription)
         }
     }
 
     @objc func notifierRejectInvitation(_ command: CDVInvokedUrlCommand) {
-        try {
-            String invitationId = args.getString(0);
+        do {
+            let invitationId = command.arguments[0] as! String
 
-            getNotifier().rejectInvitation(invitationId);
+            getNotifier().rejectInvitation(invitationId)
 
-            JSONObject result = new JSONObject();
-            sendSuccess(callbackContext, result);
+            success(command)
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            sendError(callbackContext, "notifierRejectInvitation", e.getLocalizedMessage());
+        catch (let error) {
+            print(error)
+            error(command, method: "notifierRejectInvitation", error.localizedDescription)
         }
     }
 
     @objc func notifierSetOnInvitationAcceptedListener(_ command: CDVInvokedUrlCommand) {
-        try {
+        do {
             // TODO IMPORTANT: when an app is closed, need to remove the listener heer otherwise this will retain a memory
             // reference on that app and things can't be deallocated! Ask Dongxiao how to get notified when an app closes
 
             getNotifier().addOnInvitationAcceptedListener((contact) -> {
-                try {
-                    JSONObject listenerResult = new JSONObject();
-                    listenerResult.put("contact", contact.toJSONObject());
+                    var listenerResult = Dictionary<String, Any>()
+                    listenerResult["contact"] = contact.toJSONObject()
 
-                    PluginResult res = new PluginResult(PluginResult.Status.OK, listenerResult);
-                    res.setKeepCallback(true);
-                    callbackContext.sendPluginResult(res);
-                }
-                catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    let result = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: listenerResult)
+                    result?.setKeepCallbackAs(true)
+                    self.commandDelegate.send(result, callbackId: command.callbackId)
             });
 
-            PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
-            result.setKeepCallback(true);
-            callbackContext.sendPluginResult(result);
+            let result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT)
+            result?.setKeepCallbackAs(true)
+            self.commandDelegate.send(result, callbackId: command.callbackId)
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            sendError(callbackContext, "notifierSetOnInvitationAcceptedListener", e.getLocalizedMessage());
+        catch (let error) {
+            print(error)
+            error(command, method: "notifierSetOnInvitationAcceptedListener", error.localizedDescription)
         }
     }
 
     @objc func notifierSetInvitationRequestsMode(_ command: CDVInvokedUrlCommand) {
-        try {
-            int invitationRequestModeAsInt = args.getInt(0);
+        do {
+            let invitationRequestModeAsInt = command.arguments[0] as! Int
 
-            InvitationRequestsMode mode = InvitationRequestsMode.fromValue(invitationRequestModeAsInt);
+            let mode = InvitationRequestsMode(rawValue: invitationRequestModeAsInt)
 
-            getNotifier().setInvitationRequestsMode(mode);
+            getNotifier().setInvitationRequestsMode(mode)
 
-            JSONObject result = new JSONObject();
-            sendSuccess(callbackContext, result);
+            success(command)
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            sendError(callbackContext, "notifierSetInvitationRequestsMode", e.getLocalizedMessage());
+        catch (let error) {
+            print(error)
+            error(command, method: "notifierSetInvitationRequestsMode", error.localizedDescription)
         }
     }
 
     @objc func notifierGetInvitationRequestsMode(_ command: CDVInvokedUrlCommand) {
-        try {
-            InvitationRequestsMode mode = getNotifier().getInvitationRequestsMode();
+        do {
+            let mode = getNotifier().getInvitationRequestsMode()
 
-            JSONObject result = new JSONObject();
-            result.put("invitationRequestsMode", mode.mValue);
-            sendSuccess(callbackContext, result);
+            var result = Dictionary<String, Any>()
+            result["invitationRequestsMode"] = mode.rawValue
+            self.success(command, result)
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            sendError(callbackContext, "notifierGetInvitationRequestsMode", e.getLocalizedMessage());
+        catch (let error) {
+            print(error)
+            error(command, method: "notifierGetInvitationRequestsMode", error.localizedDescription)
         }
     }
 
     @objc func contactSendRemoteNotification(_ command: CDVInvokedUrlCommand) {
-        try {
-            JSONObject contactAsJson = args.getJSONObject(0);
-            JSONObject notificationAsJson = args.getJSONObject(1);
+        do {
+            let contactAsJson = command.arguments[0] as! Dictionary<String, Any>
+            let notificationAsJson = command.arguments[1] as! Dictionary<String, Any>
 
-            Contact contact = getNotifier().resolveContact(contactDIDFromJSON(contactAsJson));
-            if (contact == null) {
-                sendError(callbackContext, "contactSendRemoteNotification", "Invalid contact object");
-                return;
+            guard let contact = getNotifier().resolveContact(contactDIDFromJSON(contactAsJson)) else {
+                error(command, "contactSendRemoteNotification", "Invalid contact object")
+                return
             }
 
-            RemoteNotificationRequest remoteNotificationRequest = RemoteNotificationRequest.fromJSONObject(notificationAsJson);
+            let remoteNotificationRequest = RemoteNotificationRequest.fromJSONObject(notificationAsJson)
 
-            contact.sendRemoteNotification(remoteNotificationRequest);
+            contact.sendRemoteNotification(remoteNotificationRequest)
 
-            JSONObject result = new JSONObject();
-            sendSuccess(callbackContext, result);
+            success(command)
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            sendError(callbackContext, "contactSendRemoteNotification", e.getLocalizedMessage());
+        catch (let error) {
+            print(error)
+            error(command, method: "contactSendRemoteNotification", error.localizedDescription)
         }
     }
 
     @objc func contactSetAllowNotifications(_ command: CDVInvokedUrlCommand) {
-        try {
-            JSONObject contactAsJson = args.getJSONObject(0);
-            boolean allowNotifications = args.getBoolean(1);
+        do {
+            let contactAsJson = command.arguments[0] as! Dictionary<String, Any>
+            let allowNotifications = command.arguments[1] as! Bool
 
-            Contact contact = getNotifier().resolveContact(contactDIDFromJSON(contactAsJson));
-            if (contact == null) {
-                sendError(callbackContext, "contactSetAllowNotifications", "Invalid contact object");
-                return;
+            guard let contact = getNotifier().resolveContact(contactDIDFromJSON(contactAsJson)) else {
+                error(command, "contactSetAllowNotifications", "Invalid contact object")
+                return
             }
 
-            contact.setAllowNotifications(allowNotifications);
+            contact.setAllowNotifications(allowNotifications)
 
-            JSONObject result = new JSONObject();
-            sendSuccess(callbackContext, result);
+            success(command)
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            sendError(callbackContext, "contactSetAllowNotifications", e.getLocalizedMessage());
+        catch (let error) {
+            print(error)
+            error(command, method: "contactSetAllowNotifications", error.localizedDescription)
         }
     }
 
     @objc func contactGetOnlineStatus(_ command: CDVInvokedUrlCommand) {
-        try {
-            JSONObject contactAsJson = args.getJSONObject(0);
+        do {
+            let contactAsJson = command.arguments[0] as! Dictionary<String, Any>
 
-            Contact contact = getNotifier().resolveContact(contactDIDFromJSON(contactAsJson));
-            if (contact == null) {
-                sendError(callbackContext, "contactSetAllowNotifications", "Invalid contact object");
-                return;
+            guard let contact = getNotifier().resolveContact(contactDIDFromJSON(contactAsJson)) else {
+                error(command, "contactSetAllowNotifications", "Invalid contact object")
+                return
             }
 
-            OnlineStatus status = contact.getOnlineStatus();
+            let status = contact.getOnlineStatus()
 
-            JSONObject result = new JSONObject();
-            result.put("onlineStatus", status.mValue);
-            sendSuccess(callbackContext, result);
+            var result = Dictionary<String, Any>()
+            result["onlineStatus"] = status.rawValue
+            self.success(command, result)
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            sendError(callbackContext, "contactGetOnlineStatus", e.getLocalizedMessage());
+        catch (let error) {
+            print(error)
+            error(command, method: "contactGetOnlineStatus", error.localizedDescription)
         }
     }
 
-    private func contactDIDFromJSON(JSONObject contactAsJSON) throws -> String {
-        if (!contactAsJSON.has("did"))
-            return null;
-        else
-            return contactAsJSON.getString("did");
+    private func contactDIDFromJSON(contactAsJSON: Dictionary<String, Any>) throws -> String? {
+        if !contactAsJSON.keys.contains("did") {
+            return nil
+        }
+        else {
+            return contactAsJSON["did"] as? String
+        }
     }
 }

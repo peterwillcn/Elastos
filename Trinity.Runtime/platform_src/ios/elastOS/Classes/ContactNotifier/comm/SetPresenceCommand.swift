@@ -1,29 +1,19 @@
-package org.elastos.trinity.runtime.contactnotifier.comm;
+public class SetPresenceCommand : CarrierCommand {
+    private let helper: CarrierHelper
+    private let status: PresenceStatus
 
-import android.util.Log;
-
-import org.elastos.carrier.PresenceStatus;
-import org.elastos.trinity.runtime.contactnotifier.ContactNotifier;
-import org.elastos.trinity.runtime.contactnotifier.RemoteNotificationRequest;
-import org.json.JSONObject;
-
-public class SetPresenceCommand implements CarrierCommand {
-    private CarrierHelper helper;
-    private PresenceStatus status;
-
-    SetPresenceCommand(CarrierHelper helper, PresenceStatus status) {
-        this.helper = helper;
-        this.status = status;
+    init(helper: CarrierHelper, status: PresenceStatus) {
+        self.helper = helper
+        self.status = status
     }
 
-    @Override
-    public void executeCommand() {
-        Log.i(ContactNotifier.LOG_TAG, "Executing presence status command");
-        try {
-            helper.carrierInstance.setPresence(status);
+    public override func executeCommand() {
+        Log.i(ContactNotifier.LOG_TAG, "Executing presence status command")
+        do {
+            helper.carrierInstance.setPresence(status)
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        catch (let error) {
+            print(error)
         }
     }
 }

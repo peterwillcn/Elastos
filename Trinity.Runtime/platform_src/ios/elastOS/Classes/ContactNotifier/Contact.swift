@@ -1,5 +1,5 @@
 public class Contact {
-    private val notifier: ContactNotifier
+    private var notifier: ContactNotifier
 
     public var did: String
     public var carrierUserID: String
@@ -19,7 +19,7 @@ public class Contact {
 
     public func toJSONObject() -> NSDictionary {
         let obj = NSMutableDictionary()
-        obj["did") = did
+        obj["did"] = did
         obj["carrierUserID"] = carrierUserID
         obj["notificationsBlocked"] = notificationsBlocked
         return obj

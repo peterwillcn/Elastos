@@ -17,8 +17,8 @@ var lastBlockTimeAndProgress = ""
 
 func changeEla(_ sela: String) -> String {
     do {
-        let sela: Int = try Int(value: sela)
-        return String(sela / 100000000)
+        let sela: Double = try Double(value: sela)
+        return String(sela / 100000000.0)
     } catch {
         print(error)
     }
@@ -27,8 +27,8 @@ func changeEla(_ sela: String) -> String {
 
 func changeSEla(_ ela: String) -> String {
     do {
-        let ela: Int = try Int(value: ela)
-        return String(ela * 100000000)
+        let ela: Double = try Double(value: ela)
+        return String(format:"%.0f",ela * 100000000)
     } catch {
         print(error)
     }

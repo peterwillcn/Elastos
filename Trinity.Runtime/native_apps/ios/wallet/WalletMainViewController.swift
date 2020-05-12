@@ -189,7 +189,6 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
     }
 
     @IBAction func homeAction(_ sender: UIButton) {
-
     }
 
     @IBAction func settingAction(_ sender: UIButton) {

@@ -56,14 +56,7 @@ class SendViewController: UIViewController {
                 hud.afterDelay = 2
                 return false
             }
-            let balance = try wallet!.getBalance(masterWalletID, chainID: chainID)
-            if amountTextField.text! >= changeEla(balance) {
-                let hud = SwiftProgressHUD.showHUDAddedTo(self.view, animated: true)
-                hud.titleText = "Insufficient balance."
-                hud.mode = .text
-                hud.afterDelay = 2
-                return false
-            }
+
             rawTransaction = try wallet!.createTransaction(masterWalletID, chainID: chainID, fromAddress: "", toAddress: addressTextFied.text!, amount: changeSEla(amountTextField.text!), memo: memoTextField.text ?? "")
             print(rawTransaction)
         } catch {
@@ -146,7 +139,7 @@ class SendViewController: UIViewController {
 
     @objc func closeAction(_ sender: UIButton) {
         UIView.animate(withDuration: 0.4) {
-            if self.confirmTrailingConstant.constant == 0 {
+            if self.confirmTrailingConstant.constant == 120 {
                 self.confirmTrailingConstant.constant = -self.confirmHeightConstant.constant
                 self.maskView.isHidden = true
                 self.navigationController?.setNavigationBarHidden(false, animated: false)
@@ -175,12 +168,29 @@ class SendViewController: UIViewController {
             hud.afterDelay = 2
             return false
         }
-
-        if memoTextField.text?.count == 0 {
-            let hud = SwiftProgressHUD.showHUDAddedTo(self.view, animated: true)
-            hud.titleText = "Please enter a mnemonic password"
-            hud.mode = .text
-            hud.afterDelay = 2
+        do {
+            let info = try wallet?.getBalanceInfo(masterWalletID, chainID: chainID)
+            guard info != nil else {
+                return false
+            }
+            let summaryInfo  = JSON(info![0])["Summary"]
+            let sumBalance = summaryInfo["Balance"].intValue
+            let lockedBalance = summaryInfo["LockedBalance"].intValue
+            let pendingBalance = summaryInfo["PendingBalance"].intValue
+            let spendingBalance = summaryInfo["SpendingBalance"].intValue
+            let depositBalance = summaryInfo["DepositBalance"].intValue
+//            let votedBalance = summaryInfo["VotedBalance"].intValue
+            let validBalance = String(sumBalance - lockedBalance - pendingBalance - spendingBalance - depositBalance)
+            let send = changeSEla(amountTextField.text!)
+            if send >= validBalance {
+                let hud = SwiftProgressHUD.showHUDAddedTo(self.view, animated: true)
+                hud.titleText = "Insufficient balance."
+                hud.mode = .text
+                hud.afterDelay = 2
+                return false
+            }
+        } catch {
+            print(error)
             return false
         }
 

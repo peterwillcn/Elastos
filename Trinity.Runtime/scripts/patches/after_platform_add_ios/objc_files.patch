@@ -214,12 +214,13 @@
 ===================================================================
 --- origin_platforms/ios/elastOS/Bridging-Header.h	null
 +++ platforms/ios/elastOS/Bridging-Header.h	null
-@@ -26,3 +26,7 @@
+@@ -26,3 +26,6 @@
  //
 
  #import <Cordova/CDV.h>
 +#import "TrinityPlugin.h"
 +#import <CommonCrypto/CommonDigest.h>
++#import "SPVWallet.h"
 
 ===================================================================
 --- origin_platforms/ios/CordovaLib/Classes/Public/CDVPlugin.h	null

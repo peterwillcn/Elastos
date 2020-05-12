@@ -16,11 +16,4 @@ class CustomView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-
-//    func commonInit() {
-//        Bundle.main.loadNibNamed("CustomView", owner: self, options: nil)
-//        addSubview(contentView)
-//        contentView.frame = self.bounds
-//        contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-//    }
 }

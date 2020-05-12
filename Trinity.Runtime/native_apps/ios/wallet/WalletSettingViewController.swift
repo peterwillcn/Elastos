@@ -8,26 +8,19 @@ class WalletSettingViewController: UIViewController {
     let wallet: SPVWallet = SPVWallet.shared()
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Wallet Setting"
+        self.navigationController?.navigationBar.isHidden = true
         commonInit()
     }
 
+    @IBAction func backAction(_ sender: Any) {
+        self.navigationController?.view.removeFromSuperview()
+    }
+
     func commonInit() {
-        let leftBtn = UIButton(frame: CGRect(x: 0,y: 0,width: 0,height: 0))
-        leftBtn.addTarget(self, action: #selector(closeAction), for: .touchUpInside)
-        leftBtn.widthAnchor.constraint(equalToConstant: 18.0).isActive = true
-        leftBtn.heightAnchor.constraint(equalToConstant: 18.0).isActive = true
-        leftBtn.setImage(UIImage(named: "ic_close"), for: .normal)
-        let leftBtnItem = UIBarButtonItem(customView: leftBtn)
-        self.navigationItem.leftBarButtonItem = leftBtnItem
         let icon = Bundle.main.path(forResource: "www/built-in/org.elastos.trinity.dapp.wallet/assets/images/right", ofType: "png")
         rowIcon.image = UIImage(contentsOfFile: icon!)
     }
 
-    @objc func closeAction() {
-        self.dismiss(animated: false, completion: nil)
-    }
-    
     @IBAction func deleteAction(_ sender: UIButton) {
         let alertController = UIAlertController(title: "confirm",
                                                 message: "Are you sure you want log out this wallet?",
@@ -38,9 +31,7 @@ class WalletSettingViewController: UIViewController {
             do {
                 _ = try self.wallet.destroy(masterWalletID)
                 NotificationCenter.default.post(name: createWallet, object: self, userInfo: nil)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-                    self.dismiss(animated: true, completion: nil)
-                }
+                self.navigationController?.view.removeFromSuperview()
             }catch {
                 print(error)
             }

@@ -77,25 +77,59 @@
                         <action selector="clickAction:" destination="-1" eventType="touchUpInside" id="OV6-TR-S0V"/>
                     </connections>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wallet Setting" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qxA-K2-Nbj">
+                    <rect key="frame" x="154" y="56" width="106.5" height="20"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h0a-6C-hXk">
+                    <rect key="frame" x="0.0" y="44" width="60" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="cyI-jM-EkA"/>
+                        <constraint firstAttribute="width" constant="60" id="dMA-yi-L4T"/>
+                    </constraints>
+                    <connections>
+                        <action selector="backAction:" destination="-1" eventType="touchUpInside" id="Yk8-cO-kR9"/>
+                    </connections>
+                </button>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_back" translatesAutoresizingMaskIntoConstraints="NO" id="cYx-lG-aGG">
+                    <rect key="frame" x="22" y="56" width="16" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="AJ4-nv-1sB"/>
+                        <constraint firstAttribute="width" constant="16" id="HmD-Bp-2FD"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" red="0.1358927654" green="0.1282038915" blue="0.32705229920000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="rbS-xU-9nN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="12" id="7B4-Ra-9pM"/>
                 <constraint firstItem="7Ei-cy-n9Z" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="86" id="BbL-1b-yr9"/>
+                <constraint firstItem="cYx-lG-aGG" firstAttribute="centerX" secondItem="h0a-6C-hXk" secondAttribute="centerX" id="DKh-kp-Ba9"/>
                 <constraint firstItem="HV7-ye-tVi" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="12" id="IS5-1S-EnC"/>
+                <constraint firstItem="h0a-6C-hXk" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="K4e-Zo-XPt"/>
                 <constraint firstItem="cN6-8g-MoM" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="12" id="Op2-Rp-6bd"/>
+                <constraint firstItem="h0a-6C-hXk" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="UJo-5L-9yB"/>
                 <constraint firstItem="zOR-JO-Zyg" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="12" id="VE1-oT-cwU"/>
                 <constraint firstItem="cN6-8g-MoM" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="70" id="chO-Z5-gPi"/>
+                <constraint firstItem="qxA-K2-Nbj" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="12" id="djS-vl-TE9"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="HV7-ye-tVi" secondAttribute="trailing" constant="12" id="ej4-jX-uW4"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="7Ei-cy-n9Z" secondAttribute="trailing" constant="12" id="f28-bx-12i"/>
                 <constraint firstAttribute="trailing" secondItem="rbS-xU-9nN" secondAttribute="trailing" constant="12" id="fvJ-vU-5mx"/>
+                <constraint firstItem="h0a-6C-hXk" firstAttribute="centerY" secondItem="qxA-K2-Nbj" secondAttribute="centerY" id="hKM-e4-HVc"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="zOR-JO-Zyg" secondAttribute="trailing" constant="12" id="jEw-92-WK1"/>
+                <constraint firstItem="cYx-lG-aGG" firstAttribute="centerY" secondItem="h0a-6C-hXk" secondAttribute="centerY" id="jfr-fS-fY9"/>
                 <constraint firstItem="rbS-xU-9nN" firstAttribute="top" secondItem="cN6-8g-MoM" secondAttribute="bottom" id="kd0-mx-aPK"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="zOR-JO-Zyg" secondAttribute="bottom" constant="12" id="sLY-aS-Pm1"/>
                 <constraint firstItem="HV7-ye-tVi" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="70" id="xcA-RY-8gs"/>
+                <constraint firstItem="qxA-K2-Nbj" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="zCY-iE-Dsh"/>
             </constraints>
+            <nil key="simulatedTopBarMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <point key="canvasLocation" x="137.68115942028987" y="82.366071428571431"/>
         </view>
     </objects>
+    <resources>
+        <image name="ic_back" width="26" height="49"/>
+    </resources>
 </document>

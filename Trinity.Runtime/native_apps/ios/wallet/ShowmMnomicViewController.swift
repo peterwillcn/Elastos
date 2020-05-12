@@ -12,18 +12,10 @@ class ShowmMnomicViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Mnemonic"
         commonInit()
     }
 
     func commonInit() {
-        let leftBtn = UIButton(frame: CGRect(x: 0,y: 0,width: 0,height: 0))
-        leftBtn.addTarget(self, action: #selector(closeAction), for: .touchUpInside)
-        leftBtn.widthAnchor.constraint(equalToConstant: 18.0).isActive = true
-        leftBtn.heightAnchor.constraint(equalToConstant: 18.0).isActive = true
-        leftBtn.setImage(UIImage(named: "ic_close"), for: .normal)
-        let leftBtnItem = UIBarButtonItem(customView: leftBtn)
-        self.navigationItem.leftBarButtonItem = leftBtnItem
         addDashdeBorderLayer(byView: bgView, color: UIColor.white, lineWidth: 1)
         mnomicLabel.text = mnemonic
     }
@@ -47,6 +39,10 @@ class ShowmMnomicViewController: UIViewController {
         view.layer.addSublayer(shapeLayer)
     }
 
+    @IBAction func backAction(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+
     @IBAction func writtenDownAction(_ sender: UIButton) {
         let phrasePassword = ""
         do {
@@ -54,15 +50,9 @@ class ShowmMnomicViewController: UIViewController {
             _ = try wallet.createSubWallet(masterWalletID, chainID: chainID)
 
             NotificationCenter.default.post(name: syncStart, object: self, userInfo: nil)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-                self.dismiss(animated: true, completion: nil)
-            }
+            self.navigationController?.view.removeFromSuperview()
         } catch {
             print("error: createMasterWallet with masterWalletID: \(masterWalletID) error.")
         }
-    }
-
-    @objc func closeAction() {
-        self.dismiss(animated: true, completion: nil)
     }
 }

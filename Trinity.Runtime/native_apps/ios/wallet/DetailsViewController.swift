@@ -15,7 +15,7 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Wallet"
+        self.navigationController?.navigationBar.isHidden = true
         commonInit()
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTransactionAction), name: refreshTransaction, object: nil)
     }
@@ -26,15 +26,7 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
 
     func commonInit() {
-        let leftBtn = UIButton(frame: CGRect(x: 0,y: 0,width: 0,height: 0))
-        leftBtn.addTarget(self, action: #selector(closeAction), for: .touchUpInside)
-        leftBtn.widthAnchor.constraint(equalToConstant: 18.0).isActive = true
-        leftBtn.heightAnchor.constraint(equalToConstant: 18.0).isActive = true
-        leftBtn.setImage(UIImage(named: "ic_close"), for: .normal)
-        let leftBtnItem = UIBarButtonItem(customView: leftBtn)
-        self.navigationItem.leftBarButtonItem = leftBtnItem
-
-        mainTableView = UITableView.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 140), style: .grouped)
+        mainTableView = UITableView.init(frame: CGRect(x: 0, y: 44, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 110 - 44 - 64), style: .grouped)
         mainTableView.delegate = self
         mainTableView.dataSource = self
         mainTableView.backgroundColor = UIColor.clear
@@ -50,26 +42,30 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
     func refresh(_ masterIdList: [String]) {
         do {
             balance = try wallet.getBalance(masterWalletID, chainID: chainID)
-           let all = try wallet.getAllTransaction(masterWalletID, chainID: chainID, start: "0", count: "200", addressOrTxId: "")
-            let allHistory = all["Transactions"]  as! Array<Dictionary<String, Any>>
+           let allJson = JSON(try wallet.getAllTransaction(masterWalletID, chainID: chainID, start: "0", count: "200", addressOrTxId: ""))
+            let allHistory = allJson["Transactions"].arrayValue
             dataSource.removeAll()
             allHistory.forEach { obj in
                 let mode = DetailsModel()
-                mode.amount = obj["Amount"] as! String
-                mode.direction = obj["Direction"] as! String
-                mode.height = "\(obj["Height"] as! Int)"
-                mode.status = obj["Status"] as! String
-                mode.timestamp = "\(obj["Timestamp"] as! Int)"
-                mode.confirmStatus = "\(obj["ConfirmStatus"] as! Int)"
-                mode.txHash = obj["TxHash"] as! String
-                mode.type = "\(obj["Type"] as! Int)"
+                mode.amount = obj["Amount"].stringValue
+                mode.direction = obj["Direction"].stringValue
+                mode.height = obj["Height"].stringValue
+                mode.status = obj["Status"].stringValue
+                mode.timestamp = obj["Timestamp"].stringValue
+                mode.confirmStatus = obj["ConfirmStatus"].stringValue
+                mode.txHash = obj["TxHash"].stringValue
+                mode.type = obj["Type"].stringValue
                 dataSource.append(mode)
             }
-            MaxCount = all["MaxCount"] as! Int
+            MaxCount = allJson["MaxCount"].intValue
             mainTableView.reloadData()
         } catch {
             print(error)
         }
+    }
+
+    @IBAction func backAction(_ sender: UIButton) {
+        self.navigationController?.view.removeFromSuperview()
     }
     
     @IBAction func sendAction(_ sender: UIButton) {
@@ -80,11 +76,6 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     @IBAction func receiveAction(_ sender: UIButton) {
         self.navigationController?.pushViewController(ReceiveViewController(), animated: true)
-    }
-
-    @objc func closeAction() {
-    //     try? self.basePlugin!.close();
-        self.dismiss(animated: true, completion: nil)
     }
 
     // MARK:
@@ -100,13 +91,13 @@ class DetailsViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = HeaderView()
-        view.countLable.text = balance
+        view.countLable.text = changeEla(balance)
         view.timeLabel.text = lastBlockTimeAndProgress
         return view
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 160
+        return 140
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

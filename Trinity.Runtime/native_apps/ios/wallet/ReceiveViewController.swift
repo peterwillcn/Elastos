@@ -9,7 +9,6 @@ class ReceiveViewController: UIViewController {
     let wallet: SPVWallet = SPVWallet.shared()
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Receive"
         addressLabel.text = ""
     }
 
@@ -22,6 +21,10 @@ class ReceiveViewController: UIViewController {
         }
     }
 
+    @IBAction func backAction(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     @IBAction func copyAction(_ sender: Any) {
         UIPasteboard.general.string = addressLabel.text
         let hud = SwiftProgressHUD.showHUDAddedTo(self.view, animated: true)

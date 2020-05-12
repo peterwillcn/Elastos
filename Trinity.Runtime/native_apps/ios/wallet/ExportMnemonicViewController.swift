@@ -17,7 +17,6 @@ class ExportMnemonicViewController: UIViewController {
         showMnemonicView.isHidden = true
         let icon = Bundle.main.path(forResource: "www/built-in/org.elastos.trinity.dapp.wallet/assets/images/logo", ofType: "ico")
         iconImagview.image = UIImage(contentsOfFile: icon!)
-
         passWordLabel.isHidden = false
         passwordTextField.isHidden = false
         showMnemonicView.isHidden = true
@@ -47,7 +46,7 @@ class ExportMnemonicViewController: UIViewController {
     @IBAction func confirmAction(_ sender: UIButton) {
         do {
             if showMnemonicView.isHidden == false {
-                self.dismiss(animated: true, completion: nil)
+                self.navigationController?.view.removeFromSuperview()
                 return
             }
             if passwordTextField.text == nil || passwordTextField.text!.count < 8 {
@@ -71,6 +70,9 @@ class ExportMnemonicViewController: UIViewController {
         }
     }
 
+    @IBAction func backAction(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
     // hidekeyboard
       func hideKeyboardWhenTappedAround() {
           let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))

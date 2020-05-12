@@ -24,9 +24,9 @@ class DetailsCell: UITableViewCell {
             statusLabel.text = model.direction
             let time = timeIntervalChangeToTimeStr(timeInterval: try TimeInterval.init(value: model.timestamp))
             timeLabel.text = time
-            countLabel.text = "- \(model.amount)  "
+            countLabel.text = "- \(changeEla(model.amount))  "
             if model.direction == "Received" {
-                countLabel.text = "+ \(model.amount)  "
+                countLabel.text = "+ \(changeEla(model.amount))  "
                 img = Bundle.main.path(forResource: "www/built-in/org.elastos.trinity.dapp.wallet/assets/images/exchange-add", ofType: "png")
             }
             icon.image = UIImage(contentsOfFile: img!)

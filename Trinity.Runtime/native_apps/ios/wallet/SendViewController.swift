@@ -28,11 +28,10 @@ class SendViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        balanceLabel.text = "Balance: \(balance)"
+        balanceLabel.text = "Balance: \(changeEla(balance))"
     }
 
     func commonInit() {
-        self.title = "Send"
         confirmContainerView.backgroundColor = UIColor.clear
         let placeholserAttributes = [NSAttributedString.Key.foregroundColor : UIColor.lightText,NSAttributedString.Key.font : UIFont.systemFont(ofSize: 11)]
         addressTextFied.attributedPlaceholder = NSAttributedString(string: "Target address",attributes: placeholserAttributes)
@@ -58,14 +57,14 @@ class SendViewController: UIViewController {
                 return false
             }
             let balance = try wallet!.getBalance(masterWalletID, chainID: chainID)
-            if amountTextField.text! >= balance {
+            if amountTextField.text! >= changeEla(balance) {
                 let hud = SwiftProgressHUD.showHUDAddedTo(self.view, animated: true)
                 hud.titleText = "Insufficient balance."
                 hud.mode = .text
                 hud.afterDelay = 2
                 return false
             }
-            rawTransaction = try wallet!.createTransaction(masterWalletID, chainID: chainID, fromAddress: "", toAddress: addressTextFied.text!, amount: amountTextField.text!, memo: memoTextField.text ?? "")
+            rawTransaction = try wallet!.createTransaction(masterWalletID, chainID: chainID, fromAddress: "", toAddress: addressTextFied.text!, amount: changeSEla(amountTextField.text!), memo: memoTextField.text ?? "")
             print(rawTransaction)
         } catch {
             print("isAddressValid error.")
@@ -111,6 +110,10 @@ class SendViewController: UIViewController {
         confirmView?.passwordTextField.attributedPlaceholder = NSAttributedString(string: "Input paypassword",attributes: placeholserAttributes)
     }
 
+    @IBAction func backAction(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+
     @objc
     @IBAction func sendAction(_ sender: UIButton) {
         guard checkInput() else {
@@ -127,7 +130,7 @@ class SendViewController: UIViewController {
                 self.navigationController?.setNavigationBarHidden(false, animated: false)
                 self.view.layoutIfNeeded()
             } else {
-                self.confirmTrailingConstant.constant = 0
+                self.confirmTrailingConstant.constant = 0 + 120
                 self.maskView.isHidden = false
                 self.navigationController?.setNavigationBarHidden(true, animated: false)
                 self.view.layoutIfNeeded()
@@ -138,7 +141,7 @@ class SendViewController: UIViewController {
     @objc func confirmAction(_ sender: UIButton) {
         confirmTransaction()
         closeAction(sender)
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.view.removeFromSuperview()
     }
 
     @objc func closeAction(_ sender: UIButton) {

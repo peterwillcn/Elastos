@@ -12,30 +12,22 @@ class CreateWalletViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Create Wallet"
-        commonInit()
+        self.navigationController?.navigationBar.isHidden = true
         self.hideKeyboardWhenTappedAround()
+        commonInit()
     }
 
     func commonInit() {
-        let leftBtn = UIButton(frame: CGRect(x: 0,y: 0,width: 0,height: 0))
-        leftBtn.addTarget(self, action: #selector(closeAction), for: .touchUpInside)
-        leftBtn.widthAnchor.constraint(equalToConstant: 18.0).isActive = true
-        leftBtn.heightAnchor.constraint(equalToConstant: 18.0).isActive = true
-        leftBtn.setImage(UIImage(named: "ic_close"), for: .normal)
-        let leftBtnItem = UIBarButtonItem(customView: leftBtn)
-        self.navigationItem.leftBarButtonItem = leftBtnItem
         let placeholserAttributes = [NSAttributedString.Key.foregroundColor : UIColor.lightText,NSAttributedString.Key.font : UIFont.systemFont(ofSize: 11)]
         walletNameTF.attributedPlaceholder = NSAttributedString(string: "Wallet can not be empty",attributes: placeholserAttributes)
-        payPasswordTF.attributedPlaceholder = NSAttributedString(string: "set pay password, must be 8 or more characters",attributes: placeholserAttributes)
+        payPasswordTF.attributedPlaceholder = NSAttributedString(string: "must be 8 or more characters",attributes: placeholserAttributes)
         rePasswordTF.attributedPlaceholder = NSAttributedString(string: "repeat paypassword",attributes: placeholserAttributes)
-//        self.payPasswordTF.isSecureTextEntry = true
-//        self.rePasswordTF.isSecureTextEntry = true
     }
 
-    @objc func closeAction() {
-        self.dismiss(animated: true, completion: nil)
+    @IBAction func backAction(_ sender: UIButton) {
+        self.navigationController?.view.removeFromSuperview()
     }
-
+    
     @IBAction func confirmAction(_ sender: UIButton) {
         guard checkInput() else {
             return

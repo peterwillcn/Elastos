@@ -38,6 +38,7 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
     var isHasWallet = true
     let wallet: SPVWallet = SPVWallet.shared()
     let userDefault = UserDefaults.standard
+    var navi: UINavigationController?
     var balance: String = ""
     @IBOutlet weak var coinListLabel: UILabel!
     @IBOutlet weak var listBgView: UIView!
@@ -47,6 +48,7 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         NotificationCenter.default.addObserver(self, selector: #selector(walletSyncStart), name: syncStart, object: nil)
          NotificationCenter.default.addObserver(self, selector: #selector(showCreateWallet), name: createWallet, object: nil)
         commonInit()
@@ -74,10 +76,6 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
         settingButton.isHidden = !isHasWallet
     }
 
-    override func initialize() {
-        super.initialize();
-    }
-
     func commonInit() {
         setCAGradientLayer(bgView)
         walletNameLabel.text = masterWalletName
@@ -87,8 +85,8 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
         elaIcon.image = UIImage(contentsOfFile: icon!)
         icon = Bundle.main.path(forResource: "www/built-in/org.elastos.trinity.dapp.wallet/assets/images/right", ofType: "png")
         rowIcon.image = UIImage(contentsOfFile: icon!)
-        homeButton.setTitle("Home", for: .normal)
-        settingButton.setTitle("Setting", for: .normal)
+        settingButton.widthAnchor.constraint(equalToConstant: 19.0).isActive = true
+        settingButton.heightAnchor.constraint(equalToConstant: 19.0).isActive = true
     }
 
     func syncStartWalletInfo(_ masterIdList: [String]) {
@@ -106,8 +104,8 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
                 for coin in coins {
                     wallet.registerListener(masterId, chainID: coin, delegate: self)
                     balance = try wallet.getBalance(masterWalletID, chainID: coin)
-                    count.text = balance
-                    countLabel.text = balance
+                    count.text = changeEla(balance)
+                    countLabel.text = changeEla(balance)
                     try wallet.syncStartMasterWalletID(masterId, chainID: coin)
                 }
                 print(info)
@@ -124,11 +122,9 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
 
     @IBAction func createWalletAction(_ sender: UIButton) {
         let createVC = CreateWalletViewController()
-        let na = UINavigationController.init(rootViewController: createVC)
-        createVC.navigationController?.navigationBar.barTintColor = UIColor.black
-        let navigationDic = [NSAttributedString.Key.foregroundColor : UIColor.white]
-        createVC.navigationController?.navigationBar.titleTextAttributes = navigationDic
-        self.present(na, animated: true, completion: nil)
+        navi = UINavigationController.init(rootViewController: createVC)
+        self.view.addSubview(navi!.view)
+        navi!.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
     }
 
     @objc func walletSyncStart(nofi : Notification){
@@ -138,16 +134,13 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
         syncStartWalletInfo([masterWalletID])
     }
     
-    override func setReady() {
-        super.setReady();
-
-    }
-
-    override func onReceiveMessage(_ type: Int, _ msg: String, _ fromId: String) {        let params = getParams(msg);
-
+    override func onReceiveMessage(_ type: Int, _ msg: String, _ fromId: String) {
+        let data = msg.data(using: String.Encoding.utf8, allowLossyConversion: false)
+        let params = try? JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! [String: Any]
+        
         switch (type) {
         case AppManager.MSG_TYPE_IN_REFRESH:
-            switch (params?["action"] as! String) {
+            switch (params!["action"] as! String) {
             case "currentLocaleChanged":
                 //                        setCurLang(params["data"]);
                 break;
@@ -155,16 +148,6 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
                 break;
             }
             break;
-        default:
-            break;
-        }
-    }
-
-    override func onReceiveIntent(_ action: String, _ params: String?, _ fromId: String, _ intentId: Int64) {
-        let params = getParams(params);
-        switch (action) {
-        case "pay":
-            try? self.basePlugin!.sendIntentResponse("ok", intentId);
         default:
             break;
         }
@@ -198,11 +181,11 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
     @IBAction func detailAction(_ sender: UIButton) {
         let detailVC = DetailsViewController()
         detailVC.balance = balance
-        let na = UINavigationController.init(rootViewController: detailVC)
+        navi = UINavigationController.init(rootViewController: detailVC)
         detailVC.navigationController?.navigationBar.barTintColor = UIColor.black
         let navigationDic = [NSAttributedString.Key.foregroundColor : UIColor.white]
         detailVC.navigationController?.navigationBar.titleTextAttributes = navigationDic
-        self.present(na, animated: true, completion: nil)
+        self.view.addSubview(navi!.view)
     }
 
     @IBAction func homeAction(_ sender: UIButton) {
@@ -211,11 +194,13 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
 
     @IBAction func settingAction(_ sender: UIButton) {
         let setVC = WalletSettingViewController()
-        let na = UINavigationController.init(rootViewController: setVC)
+        navi = UINavigationController.init(rootViewController: setVC)
         setVC.navigationController?.navigationBar.barTintColor = UIColor.black
         let navigationDic = [NSAttributedString.Key.foregroundColor : UIColor.white]
         setVC.navigationController?.navigationBar.titleTextAttributes = navigationDic
-        self.present(na, animated: false, completion: nil)
+        self.view.addSubview(navi!.view)
+
+        navi!.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
     }
 
     @IBAction func close(_ sender: Any) {
@@ -223,10 +208,10 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
     }
 
     func onBlockSyncProgress(withProgressInfo info: [AnyHashable : Any]!) {
-        let info = info
-        let lastBlockTime = info?["LastBlockTime"] as! NSNumber
-        let time = timeIntervalChangeToTimeStr(timeInterval: TimeInterval.init(truncating: lastBlockTime))
-        let progress = info?["Progress"] as! NSNumber
+        let info = JSON(info)
+        let lastBlockTime = info["LastBlockTime"].intValue
+        let time = timeIntervalChangeToTimeStr(timeInterval: TimeInterval.init(lastBlockTime))
+        let progress = info["Progress"].stringValue
         DispatchQueue.main.async {
             lastBlockTimeAndProgress = "\(time)  \(progress)%"
             self.dateLabel.text = lastBlockTimeAndProgress
@@ -247,18 +232,19 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
 
     func onBalanceChangedAsset(_ assetString: String!, balance balanceString: String!) {
         DispatchQueue.main.async {
-            self.countLabel.text = balanceString
-            self.count.text = balanceString
+            self.countLabel.text = changeEla(balanceString)
+            self.count.text = changeEla(balanceString)
         }
     }
 
     func onTxPublishedHash(_ hashString: String!, result resultString: Dictionary<AnyHashable, Any>!) {
         DispatchQueue.main.async {
-            let code = resultString["Code"] as! Int
-            let reason = resultString["Reason"] as! String
+            let result = JSON(resultString)
+            let code = result["Code"].intValue
+            let reason = result["Reason"].stringValue
             if code != 0 {
                 let hud = SwiftProgressHUD.showHUDAddedTo(self.view, animated: true)
-                hud.titleText = "transaction-fail \(hashString) \(reason)"
+                hud.titleText = "transaction-fail \(String(describing: hashString)) \(reason)"
                 hud.mode = .text
                 hud.afterDelay = 2
                 return

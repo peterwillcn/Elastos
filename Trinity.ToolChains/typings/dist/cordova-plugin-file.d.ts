@@ -6,54 +6,31 @@
 // Copyright (c) Microsoft Open Technologies, Inc.
 // Licensed under the MIT license.
 
-interface Window {
-    /**
-     * Requests a filesystem in which to store application data.
-     * @param type              Whether the filesystem requested should be persistent, as defined above. Use one of TEMPORARY or PERSISTENT.
-     * @param size              This is an indicator of how much storage space, in bytes, the application expects to need.
-     * @param successCallback   The callback that is called when the user agent provides a filesystem.
-     * @param errorCallback     A callback that is called when errors happen, or when the request to obtain the filesystem is denied.
+/**
+ * This plugin provides file and directory operations.
+ * <br><br>
+ * Please use 'File' as the plugin name in the manifest.json if you want to use
+ * this facility.
+ * <br><br>
+ * Usage:
+ * <br>
+ * declare let window: any;
      */
-    requestFileSystem(
-        type: LocalFileSystem,
-        size: number,
-        successCallback: (fileSystem: FileSystem) => void,
-        errorCallback?: (fileError: FileError) => void): void;
-    /**
-     * Look up file system Entry referred to by local URL.
-     * @param string url       URL referring to a local file or directory
-     * @param successCallback  invoked with Entry object corresponding to URL
-     * @param errorCallback    invoked if error occurs retrieving file system entry
-     */
-    resolveLocalFileSystemURL(url: string,
-        successCallback: (entry: Entry) => void,
-        errorCallback?: (error: FileError) => void): void;
-    /**
-     * Look up file system Entry referred to by local URI.
-     * @param string uri       URI referring to a local file or directory
-     * @param successCallback  invoked with Entry object corresponding to URI
-     * @param errorCallback    invoked if error occurs retrieving file system entry
-     */
-    resolveLocalFileSystemURI(uri: string,
-        successCallback: (entry: Entry) => void,
-        errorCallback?: (error: FileError) => void): void;
-    TEMPORARY: number;
-    PERSISTENT: number;
-}
 
-/** This interface represents a file system. */
-interface FileSystem {
+declare namespace CordovaFilePlugin {
+    /** This interface represents a file system. */
+    interface FileSystem {
     /* The name of the file system, unique across the list of exposed file systems. */
     name: string;
     /** The root directory of the file system. */
     root: DirectoryEntry;
-}
+    }
 
-/**
+    /**
  * An abstract interface representing entries in a file system,
  * each of which may be a File or DirectoryEntry.
  */
-interface Entry {
+    interface Entry {
     /** Entry is a file. */
     isFile: boolean;
     /** Entry is a directory. */
@@ -134,18 +111,18 @@ interface Entry {
      */
     getParent(successCallback: (entry: Entry) => void,
         errorCallback?: (error: FileError) => void): void;
-}
+    }
 
-/** This interface supplies information about the state of a file or directory. */
-interface Metadata {
+    /** This interface supplies information about the state of a file or directory. */
+    interface Metadata {
     /** This is the time at which the file or directory was last modified. */
     modificationTime: Date;
     /** The size of the file, in bytes. This must return 0 for directories. */
     size: number;
-}
+    }
 
-/** This interface represents a directory on a file system. */
-interface DirectoryEntry extends Entry {
+    /** This interface represents a directory on a file system. */
+    interface DirectoryEntry extends Entry {
     /**
      * Creates a new DirectoryReader to read Entries from this Directory.
      */
@@ -191,20 +168,20 @@ interface DirectoryEntry extends Entry {
      */
     removeRecursively(successCallback: () => void,
         errorCallback?: (error: FileError) => void): void;
-}
+    }
 
-/**
+    /**
  * This dictionary is used to supply arguments to methods
  * that look up or create files or directories.
  */
-interface Flags {
+    interface Flags {
     /** Used to indicate that the user wants to create a file or directory if it was not previously there. */
     create?: boolean;
     /** By itself, exclusive must have no effect. Used with create, it must cause getFile and getDirectory to fail if the target path already exists. */
     exclusive?: boolean;
-}
+    }
 
-/**
+    /**
  * This interface lets a user list files and directories in a directory. If there are
  * no additions to or deletions from a directory between the first and last call to
  * readEntries, and no errors occur, then:
@@ -213,7 +190,7 @@ interface Flags {
  *     If not all entries have been returned, the array produced by readEntries must not be empty.
  *     The entries produced by readEntries must not include the directory itself ["."] or its parent [".."].
  */
-interface DirectoryReader {
+    interface DirectoryReader {
     /**
      * Read the next block of entries from this directory.
      * @param successCallback Called once per successful call to readEntries to deliver the next
@@ -225,10 +202,10 @@ interface DirectoryReader {
     readEntries(
         successCallback: (entries: Entry[]) => void,
         errorCallback?: (error: FileError) => void): void;
-}
+    }
 
-/** This interface represents a file on a file system. */
-interface FileEntry extends Entry {
+    /** This interface represents a file on a file system. */
+    interface FileEntry extends Entry {
     /**
      * Creates a new FileWriter associated with the file that this FileEntry represents.
      * @param successCallback A callback that is called with the new FileWriter.
@@ -244,13 +221,13 @@ interface FileEntry extends Entry {
      */
     file(successCallback: (file: File) => void,
         errorCallback?: (error: FileError) => void): void;
-}
+    }
 
-/**
+    /**
  * This interface provides methods to monitor the asynchronous writing of blobs
  * to disk using progress events and event handler attributes.
  */
-interface FileSaver extends EventTarget {
+    interface FileSaver extends EventTarget {
     /** Terminate file operation */
     abort(): void;
     /**
@@ -275,13 +252,13 @@ interface FileSaver extends EventTarget {
     onwriteend: (event: ProgressEvent) => void;
     /** The last error that occurred on the FileSaver. */
     error: Error;
-}
+    }
 
-/**
+    /**
  * This interface expands on the FileSaver interface to allow for multiple write
  * actions, rather than just saving a single Blob.
  */
-interface FileWriter extends FileSaver {
+    interface FileWriter extends FileSaver {
     /**
      * The byte offset at which the next write to the file will occur. This always less or equal than length.
      * A newly-created FileWriter will have position set to 0.
@@ -296,7 +273,7 @@ interface FileWriter extends FileSaver {
      * Write the supplied data to the file at position.
      * @param {Blob|string} data The blob to write.
      */
-    write(data: Blob|string): void;
+        write(data: Blob | string): void;
     /**
      * The file position at which the next write will occur.
      * @param offset If nonnegative, an absolute byte offset into the file.
@@ -309,22 +286,22 @@ interface FileWriter extends FileSaver {
      * @param size The size to which the length of the file is to be adjusted, measured in bytes.
      */
     truncate(size: number): void;
-}
+    }
 
-/* FileWriter states */
-declare var FileWriter: {
+    /* FileWriter states */
+    var FileWriter: {
     INIT: number;
     WRITING: number;
     DONE: number
-};
+    };
 
-interface FileError {
+    interface FileError {
     /** Error code */
     code: number;
-}
+    }
 
-declare var FileError: {
-    new (code: number): FileError;
+    var FileError: {
+        new(code: number): FileError;
     NOT_FOUND_ERR: number;
     SECURITY_ERR: number;
     ABORT_ERR: number;
@@ -337,7 +314,48 @@ declare var FileError: {
     QUOTA_EXCEEDED_ERR: number;
     TYPE_MISMATCH_ERR: number;
     PATH_EXISTS_ERR: number;
-};
+    };
+
+    enum LocalFileSystem {
+        PERSISTENT = 1,
+        TEMPORARY = 0
+    }
+}
+
+interface Window {
+    /**
+     * Requests a filesystem in which to store application data.
+     * @param type              Whether the filesystem requested should be persistent, as defined above. Use one of TEMPORARY or PERSISTENT.
+     * @param size              This is an indicator of how much storage space, in bytes, the application expects to need.
+     * @param successCallback   The callback that is called when the user agent provides a filesystem.
+     * @param errorCallback     A callback that is called when errors happen, or when the request to obtain the filesystem is denied.
+     */
+    requestFileSystem(
+        type: CordovaFilePlugin.LocalFileSystem,
+        size: number,
+        successCallback: (fileSystem: CordovaFilePlugin.FileSystem) => void,
+        errorCallback?: (fileError: CordovaFilePlugin.FileError) => void): void;
+    /**
+     * Look up file system Entry referred to by local URL.
+     * @param string url       URL referring to a local file or directory
+     * @param successCallback  invoked with Entry object corresponding to URL
+     * @param errorCallback    invoked if error occurs retrieving file system entry
+     */
+    resolveLocalFileSystemURL(url: string,
+        successCallback: (entry: CordovaFilePlugin.Entry) => void,
+        errorCallback?: (error: CordovaFilePlugin.FileError) => void): void;
+    /**
+     * Look up file system Entry referred to by local URI.
+     * @param string uri       URI referring to a local file or directory
+     * @param successCallback  invoked with Entry object corresponding to URI
+     * @param errorCallback    invoked if error occurs retrieving file system entry
+     */
+    resolveLocalFileSystemURI(uri: string,
+        successCallback: (entry: CordovaFilePlugin.Entry) => void,
+        errorCallback?: (error: CordovaFilePlugin.FileError) => void): void;
+    TEMPORARY: number;
+    PERSISTENT: number;
+}
 
 /*
  * Constants defined in fileSystemPaths
@@ -369,10 +387,4 @@ interface Cordova {
         /* BlackBerry10: Files globally available to all apps */
         sharedDirectory: string
     }
-}
-
-
-declare enum LocalFileSystem {
-    PERSISTENT=1,
-    TEMPORARY=0
 }

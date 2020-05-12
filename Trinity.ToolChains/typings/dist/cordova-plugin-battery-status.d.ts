@@ -4,12 +4,33 @@
 //                 Tim Brust <https://github.com/timbru31>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-type batteryEvent = 'batterystatus' | 'batterycritical' | 'batterylow';
+/**
+* This Cordova plugin is used for monitoring device's battery status. The plugin
+* will monitor every change that happens to device's battery.
+* <br><br>
+* Please use 'Battery' as the plugin name in the manifest.json if you want to use
+* this facility.
+* <br><br>
+* Usage:
+* <br>
+* window.addEventListener("batterystatus", onBatteryStatus, false);
+*/
+
+declare namespace CordovaBatteryStatusPlugin {
+    type batteryEvent = 'batterystatus' | 'batterycritical' | 'batterylow';
+
+    interface BatteryStatusEvent extends Event {
+        /* The percentage of battery charge (0-100). */
+        level: number;
+        /* A boolean that indicates whether the device is plugged in. */
+        isPlugged: boolean;
+    }
+}
 
 interface Window {
-    onbatterystatus: (type: BatteryStatusEvent) => void;
-    onbatterycritical: (type: BatteryStatusEvent) => void;
-    onbatterylow: (type: BatteryStatusEvent) => void;
+    onbatterystatus: (type: CordovaBatteryStatusPlugin.BatteryStatusEvent) => void;
+    onbatterycritical: (type: CordovaBatteryStatusPlugin.BatteryStatusEvent) => void;
+    onbatterylow: (type: CordovaBatteryStatusPlugin.BatteryStatusEvent) => void;
     /**
      * Adds a listener for an event from the BatteryStatus plugin.
      * @param type       - The event to listen for.
@@ -22,7 +43,7 @@ interface Window {
      * @param listener   - The function that executes when the event fires. The function is passed an BatteryStatusEvent object as a parameter.
      * @param useCapture - A Boolean indicating whether events of this type will be dispatched to the registered listener before being dispatched to any EventTarget beneath it in the DOM tree.
      */
-    addEventListener(type: batteryEvent, listener: (ev: BatteryStatusEvent) => any, useCapture?: boolean): void;
+    addEventListener(type: CordovaBatteryStatusPlugin.batteryEvent, listener: (ev: CordovaBatteryStatusPlugin.BatteryStatusEvent) => any, useCapture?: boolean): void;
     /**
      * Removes a listener for an event from the BatteryStatus plugin.
      * @param Atype      - The event to stop listening for.
@@ -35,12 +56,5 @@ interface Window {
      * @param callback   - The function that executes when the event fires. The function is passed an BatteryStatusEvent object as a parameter.
      * @param useCapture - A Boolean indicating whether events of this type will be dispatched to the registered listener before being dispatched to any EventTarget beneath it in the DOM tree.
      */
-    removeEventListener(type: batteryEvent, listener: (ev: BatteryStatusEvent) => any, useCapture?: boolean): void;
-}
-
-interface BatteryStatusEvent extends Event {
-	/* The percentage of battery charge (0-100). */
-    level: number;
-	/* A boolean that indicates whether the device is plugged in. */
-    isPlugged: boolean;
+    removeEventListener(type: CordovaBatteryStatusPlugin.batteryEvent, listener: (ev: CordovaBatteryStatusPlugin.BatteryStatusEvent) => any, useCapture?: boolean): void;
 }

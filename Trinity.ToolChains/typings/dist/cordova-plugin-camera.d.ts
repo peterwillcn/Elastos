@@ -6,17 +6,28 @@
 // Copyright (c) Microsoft Open Technologies Inc
 // Licensed under the MIT license.
 
-interface Navigator {
-    /**
-     * This plugin provides an API for taking pictures and for choosing images from the system's image library.
-     */
-    camera: Camera;
-}
-
 /**
  * This plugin provides an API for taking pictures and for choosing images from the system's image library.
+ * <br><br>
+ * Please use 'Camera' as the plugin name in the manifest.json if you want to use
+ * this facility.
+ * <br><br>
+ * Usage:
+ * <br>
+ * navigator.camera.getPicture((data)=>{<br>
+ *     this.zone.run(()=>{<br>
+ *        let base64Img = "data:image/png;base64," + data<br>
+ *     })<br>
+ * }, (err)=>{<br>
+ *     console.log(err);<br>
+ * }, {<br>
+ *    destinationType: CordovaCameraPlugin.Camera.DestinationType.DATA_URL,<br>
+ *    sourceType: CordovaCameraPlugin.Camera.PictureSourceType.PHOTOLIBRARY<br>
+ * });<br>
  */
-interface Camera {
+
+declare namespace CordovaCameraPlugin {
+    interface Camera {
     /**
      * Removes intermediate photos taken by the camera from temporary storage.
      * @param onSuccess Success callback, that called when cleanup succeeds.
@@ -41,9 +52,9 @@ interface Camera {
     //    cameraSuccess: (data: string) => void,
     //    cameraError: (message: string) => void,
     //    cameraOptions?: CameraOptions): CameraPopoverHandle;
-}
+    }
 
-interface CameraOptions {
+    interface CameraOptions {
     /** Picture quality in range 0-100. Default is 50 */
     quality?: number;
     /**
@@ -104,24 +115,24 @@ interface CameraOptions {
     cameraDirection?: number;
     /** iOS-only options that specify popover location in iPad. Defined in CameraPopoverOptions. */
     popoverOptions?: CameraPopoverOptions;
-}
+    }
 
-/**
+    /**
  * A handle to the popover dialog created by navigator.camera.getPicture. Used on iOS only.
  */
-interface CameraPopoverHandle {
+    interface CameraPopoverHandle {
     /**
      * Set the position of the popover.
      * @param popoverOptions the CameraPopoverOptions that specify the new position.
      */
     setPosition(popoverOptions: CameraPopoverOptions): void;
-}
+    }
 
-/**
+    /**
  * iOS-only parameters that specify the anchor element location and arrow direction
  * of the popover when selecting images from an iPad's library or album.
  */
-interface CameraPopoverOptions {
+    interface CameraPopoverOptions {
     x: number;
     y: number;
     width: number;
@@ -135,16 +146,16 @@ interface CameraPopoverOptions {
      *      ARROW_RIGHT : 8,
      *      ARROW_ANY : 15
      */
-    arrowDir : number;
+        arrowDir: number;
     popoverWidth: number;
     popoverHeight: number;
-}
+    }
 
-declare class CameraPopoverOptions implements CameraPopoverOptions {
+    class CameraPopoverOptions implements CameraPopoverOptions {
     constructor(x?: number, y?: number, width?: number, height?: number, arrowDir?: number);
-}
+    }
 
-declare var Camera: {
+    let Camera: {
     // Camera constants, defined in Camera plugin
     DestinationType: {
         DATA_URL: number;
@@ -177,4 +188,12 @@ declare var Camera: {
         ARROW_RIGHT: number;
         ARROW_ANY: number;
     }
-};
+    };
+}
+
+interface Navigator {
+    /**
+     * This plugin provides an API for taking pictures and for choosing images from the system's image library.
+     */
+    camera: CordovaCameraPlugin.Camera;
+}

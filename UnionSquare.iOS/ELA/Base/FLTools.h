@@ -175,4 +175,13 @@
 -(NSInteger)readLastReadTime;
 -(NSString*)DIDDefinTime;
 -(NSInteger)GetMonthDaysWithYear:(NSString*)year WithMonth:(NSString*)month;
+/*
+ * Calculate the width
+ */
+
+-(CGFloat)calculateRowWidth:(NSString*)string withTextFont:(NSInteger)font;
+/*
+* alculateRowHeight
+*/
+- (CGFloat)calculateRowHeight:(NSString *)string fontSize:(NSInteger)fontSize withmargin:(CGFloat)margin;
 @end

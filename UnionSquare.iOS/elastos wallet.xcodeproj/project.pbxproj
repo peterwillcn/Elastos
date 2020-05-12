@@ -323,8 +323,19 @@
 		423461FA2383F18900E4B135 /* UITableView+YRSafeCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 423461EF2383F18700E4B135 /* UITableView+YRSafeCategory.m */; };
 		423461FB2383F18900E4B135 /* NSDictionary+YRSafeCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 423461F12383F18700E4B135 /* NSDictionary+YRSafeCategory.m */; };
 		423461FC2383F18900E4B135 /* NSNull+YRSafeCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 423461F22383F18700E4B135 /* NSNull+YRSafeCategory.m */; };
+		4235803A246A58C000A62615 /* HWMallBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42358039246A58C000A62615 /* HWMallBaseViewController.m */; };
+		4235803D246A5FB100A62615 /* HWMMemberReviewBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4235803C246A5FB100A62615 /* HWMMemberReviewBaseViewController.m */; };
+		42358040246A614500A62615 /* HWMpublicBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4235803F246A614500A62615 /* HWMpublicBaseViewController.m */; };
+		42358043246A621A00A62615 /* HWMexecutionBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42358042246A621A00A62615 /* HWMexecutionBaseViewController.m */; };
+		42358046246A632800A62615 /* HWMcompletedBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42358045246A632800A62615 /* HWMcompletedBaseViewController.m */; };
+		42358049246A63C500A62615 /* HWMabolishedBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42358048246A63C500A62615 /* HWMabolishedBaseViewController.m */; };
+		4235804D246A80C100A62615 /* HWMCRSuggestionNetWorkManger.m in Sources */ = {isa = PBXBuildFile; fileRef = 4235804C246A80C100A62615 /* HWMCRSuggestionNetWorkManger.m */; };
 		4236B5F4239A41BE00C05B67 /* FLCurrencyOfWallerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4236B5F0239A41BD00C05B67 /* FLCurrencyOfWallerVC.m */; };
 		4236B5F5239A41BE00C05B67 /* FLCurrencyOfWallerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4236B5F1239A41BD00C05B67 /* FLCurrencyOfWallerVC.xib */; };
+		4237AAC02468FBFE00DD8FAE /* HWMCommunityProposalScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4237AABF2468FBFE00DD8FAE /* HWMCommunityProposalScrollView.m */; };
+		4237AAC22468FC0B00DD8FAE /* HWMCommunityProposalScrollView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4237AAC12468FC0B00DD8FAE /* HWMCommunityProposalScrollView.xib */; };
+		4237AAC9246934D600DD8FAE /* HWMBillListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4237AAC8246934D600DD8FAE /* HWMBillListModel.m */; };
+		4237AACC24693D6A00DD8FAE /* HWMBillListViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4237AACB24693D6A00DD8FAE /* HWMBillListViewModel.m */; };
 		423F37C0244C9901000CDFE9 /* HWMTheMessageCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 423F37BE244C9901000CDFE9 /* HWMTheMessageCenterViewController.m */; };
 		423F37C1244C9901000CDFE9 /* HWMTheMessageCenterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 423F37BF244C9901000CDFE9 /* HWMTheMessageCenterViewController.xib */; };
 		423F37C5244C9B1D000CDFE9 /* HWMTheMessageCenterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 423F37C3244C9B1D000CDFE9 /* HWMTheMessageCenterTableViewCell.m */; };
@@ -375,6 +386,44 @@
 		4253EE5A23696C88005B774A /* HWMDIDInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4253EE5823696C88005B774A /* HWMDIDInfoViewController.xib */; };
 		4253EE5E23697503005B774A /* HWMDIDInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4253EE5C23697503005B774A /* HWMDIDInfoTableViewCell.m */; };
 		4253EE5F23697503005B774A /* HWMDIDInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4253EE5D23697503005B774A /* HWMDIDInfoTableViewCell.xib */; };
+		425A5F2E2462DC4800C44104 /* HWMSuggestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A5F2C2462DC4800C44104 /* HWMSuggestionViewController.m */; };
+		425A5F2F2462DC4800C44104 /* HWMSuggestionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425A5F2D2462DC4800C44104 /* HWMSuggestionViewController.xib */; };
+		425A5F342463AAB500C44104 /* HWMSuggestionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A5F322463AAB500C44104 /* HWMSuggestionTableViewCell.m */; };
+		425A5F352463AAB500C44104 /* HWMSuggestionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425A5F332463AAB500C44104 /* HWMSuggestionTableViewCell.xib */; };
+		425A5F392463AACB00C44104 /* HWMSuggestionSionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A5F372463AACB00C44104 /* HWMSuggestionSionTableViewCell.m */; };
+		425A5F3A2463AACB00C44104 /* HWMSuggestionSionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425A5F382463AACB00C44104 /* HWMSuggestionSionTableViewCell.xib */; };
+		425A5F3E2463ECB000C44104 /* HWMSecureAuthenticationPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A5F3D2463ECB000C44104 /* HWMSecureAuthenticationPasswordView.m */; };
+		425A5F402463ECBC00C44104 /* HWMSecureAuthenticationPasswordView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425A5F3F2463ECBC00C44104 /* HWMSecureAuthenticationPasswordView.xib */; };
+		425A5F442463FA9300C44104 /* HWMCommunityProposalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A5F422463FA9300C44104 /* HWMCommunityProposalViewController.m */; };
+		425A5F452463FA9300C44104 /* HWMCommunityProposalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425A5F432463FA9300C44104 /* HWMCommunityProposalViewController.xib */; };
+		425A5F482465368F00C44104 /* HWMCommunityProposalBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A5F472465368F00C44104 /* HWMCommunityProposalBaseView.m */; };
+		425A5F4A246536A700C44104 /* HWMCommunityProposalBaseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425A5F49246536A700C44104 /* HWMCommunityProposalBaseView.xib */; };
+		425A5F4E24653A3700C44104 /* HWMCommunityProposalBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A5F4C24653A3700C44104 /* HWMCommunityProposalBaseTableViewCell.m */; };
+		425A5F4F24653A3700C44104 /* HWMCommunityProposalBaseTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425A5F4D24653A3700C44104 /* HWMCommunityProposalBaseTableViewCell.xib */; };
+		425A5F58246559D800C44104 /* HWMCRsearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A5F56246559D800C44104 /* HWMCRsearchViewController.m */; };
+		425A5F59246559D800C44104 /* HWMCRsearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425A5F57246559D800C44104 /* HWMCRsearchViewController.xib */; };
+		425A5F5D246582D500C44104 /* HWMCommentPerioDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A5F5B246582D500C44104 /* HWMCommentPerioDetailsViewController.m */; };
+		425A5F5E246582D500C44104 /* HWMCommentPerioDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425A5F5C246582D500C44104 /* HWMCommentPerioDetailsViewController.xib */; };
+		425A5F6124666FC400C44104 /* HWMCommentPerioDetailsHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A5F6024666FC400C44104 /* HWMCommentPerioDetailsHeadView.m */; };
+		425A5F6324666FD200C44104 /* HWMCommentPerioDetailsHeadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425A5F6224666FD200C44104 /* HWMCommentPerioDetailsHeadView.xib */; };
+		425A5F662466776100C44104 /* HWMCommitteeMembersToVoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A5F652466776100C44104 /* HWMCommitteeMembersToVoteView.m */; };
+		425A5F682466776C00C44104 /* HWMCommitteeMembersToVoteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425A5F672466776C00C44104 /* HWMCommitteeMembersToVoteView.xib */; };
+		425A5F7D2466849600C44104 /* HWMCommitteeMembersToVoteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A5F7B2466849600C44104 /* HWMCommitteeMembersToVoteTableViewCell.m */; };
+		425A5F7E2466849600C44104 /* HWMCommitteeMembersToVoteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425A5F7C2466849600C44104 /* HWMCommitteeMembersToVoteTableViewCell.xib */; };
+		425A5F812466938600C44104 /* HWMCRProposalConfirmView.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A5F802466938600C44104 /* HWMCRProposalConfirmView.m */; };
+		425A5F832466939C00C44104 /* HWMCRProposalConfirmView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425A5F822466939C00C44104 /* HWMCRProposalConfirmView.xib */; };
+		425A5F862466AB1600C44104 /* HWMImplementationScheduleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A5F852466AB1600C44104 /* HWMImplementationScheduleView.m */; };
+		425A5F882466AB2400C44104 /* HWMImplementationScheduleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425A5F872466AB2400C44104 /* HWMImplementationScheduleView.xib */; };
+		425A5F8C2466AFCA00C44104 /* HWMSecretaryGeneralTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A5F8A2466AFCA00C44104 /* HWMSecretaryGeneralTableViewCell.m */; };
+		425A5F8D2466AFCA00C44104 /* HWMSecretaryGeneralTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425A5F8B2466AFCA00C44104 /* HWMSecretaryGeneralTableViewCell.xib */; };
+		425A5F9B2466BA4D00C44104 /* HWMCollectionProposalPerformViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A5F992466BA4D00C44104 /* HWMCollectionProposalPerformViewController.m */; };
+		425A5F9C2466BA4D00C44104 /* HWMCollectionProposalPerformViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425A5F9A2466BA4D00C44104 /* HWMCollectionProposalPerformViewController.xib */; };
+		425A5FA02466BBA400C44104 /* HWMTheProposalPublicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A5F9E2466BBA400C44104 /* HWMTheProposalPublicViewController.m */; };
+		425A5FA12466BBA400C44104 /* HWMTheProposalPublicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425A5F9F2466BBA400C44104 /* HWMTheProposalPublicViewController.xib */; };
+		425A5FA52466BCE000C44104 /* HWMProposalsAbolishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A5FA32466BCE000C44104 /* HWMProposalsAbolishViewController.m */; };
+		425A5FA62466BCE000C44104 /* HWMProposalsAbolishViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425A5FA42466BCE000C44104 /* HWMProposalsAbolishViewController.xib */; };
+		425A5FA92466BEEE00C44104 /* HWMOpposedProgressHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 425A5FA82466BEEE00C44104 /* HWMOpposedProgressHeadView.m */; };
+		425A5FAB2466BF0000C44104 /* HWMOpposedProgressHeadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425A5FAA2466BF0000C44104 /* HWMOpposedProgressHeadView.xib */; };
 		425CE7FC230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 425CE7FB230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m */; };
 		425CE7FE230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib in Resources */ = {isa = PBXBuildFile; fileRef = 425CE7FD230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib */; };
 		425DFB1B23716685001CEF76 /* libc++abi.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 425DFB1A23716685001CEF76 /* libc++abi.tbd */; };
@@ -609,7 +658,7 @@
 /* Begin PBXFileReference section */
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = AppDelegate.mm; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* ELA WalletTEST.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ELA WalletTEST.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* ELA Wallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ELA Wallet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B97316FDCFA39411CA2CEA /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* elastos wallet-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "elastos wallet-Prefix.pch"; sourceTree = "<group>"; };
 		420131C12320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCRCCommitteeElectionListViewController.h; sourceTree = "<group>"; };
@@ -1181,9 +1230,30 @@
 		423461F42383F18800E4B135 /* NSNumber+YRSafeCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+YRSafeCategory.h"; sourceTree = "<group>"; };
 		423461F52383F18900E4B135 /* NSString+YRSafeCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+YRSafeCategory.h"; sourceTree = "<group>"; };
 		423461F62383F18900E4B135 /* NSDictionary+YRSafeCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+YRSafeCategory.h"; sourceTree = "<group>"; };
+		42358038246A58C000A62615 /* HWMallBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMallBaseViewController.h; sourceTree = "<group>"; };
+		42358039246A58C000A62615 /* HWMallBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMallBaseViewController.m; sourceTree = "<group>"; };
+		4235803B246A5FB100A62615 /* HWMMemberReviewBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMMemberReviewBaseViewController.h; sourceTree = "<group>"; };
+		4235803C246A5FB100A62615 /* HWMMemberReviewBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMMemberReviewBaseViewController.m; sourceTree = "<group>"; };
+		4235803E246A614500A62615 /* HWMpublicBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMpublicBaseViewController.h; sourceTree = "<group>"; };
+		4235803F246A614500A62615 /* HWMpublicBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMpublicBaseViewController.m; sourceTree = "<group>"; };
+		42358041246A621A00A62615 /* HWMexecutionBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMexecutionBaseViewController.h; sourceTree = "<group>"; };
+		42358042246A621A00A62615 /* HWMexecutionBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMexecutionBaseViewController.m; sourceTree = "<group>"; };
+		42358044246A632800A62615 /* HWMcompletedBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMcompletedBaseViewController.h; sourceTree = "<group>"; };
+		42358045246A632800A62615 /* HWMcompletedBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMcompletedBaseViewController.m; sourceTree = "<group>"; };
+		42358047246A63C500A62615 /* HWMabolishedBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMabolishedBaseViewController.h; sourceTree = "<group>"; };
+		42358048246A63C500A62615 /* HWMabolishedBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMabolishedBaseViewController.m; sourceTree = "<group>"; };
+		4235804B246A80C100A62615 /* HWMCRSuggestionNetWorkManger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCRSuggestionNetWorkManger.h; sourceTree = "<group>"; };
+		4235804C246A80C100A62615 /* HWMCRSuggestionNetWorkManger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMCRSuggestionNetWorkManger.m; sourceTree = "<group>"; };
 		4236B5F0239A41BD00C05B67 /* FLCurrencyOfWallerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLCurrencyOfWallerVC.m; sourceTree = "<group>"; };
 		4236B5F1239A41BD00C05B67 /* FLCurrencyOfWallerVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FLCurrencyOfWallerVC.xib; sourceTree = "<group>"; };
 		4236B5F2239A41BD00C05B67 /* FLCurrencyOfWallerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLCurrencyOfWallerVC.h; sourceTree = "<group>"; };
+		4237AABE2468FBFE00DD8FAE /* HWMCommunityProposalScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCommunityProposalScrollView.h; sourceTree = "<group>"; };
+		4237AABF2468FBFE00DD8FAE /* HWMCommunityProposalScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMCommunityProposalScrollView.m; sourceTree = "<group>"; };
+		4237AAC12468FC0B00DD8FAE /* HWMCommunityProposalScrollView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMCommunityProposalScrollView.xib; sourceTree = "<group>"; };
+		4237AAC7246934D600DD8FAE /* HWMBillListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMBillListModel.h; sourceTree = "<group>"; };
+		4237AAC8246934D600DD8FAE /* HWMBillListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMBillListModel.m; sourceTree = "<group>"; };
+		4237AACA24693D6A00DD8FAE /* HWMBillListViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMBillListViewModel.h; sourceTree = "<group>"; };
+		4237AACB24693D6A00DD8FAE /* HWMBillListViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMBillListViewModel.m; sourceTree = "<group>"; };
 		423DDC482382957D00EC25EF /* MASLayoutConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASLayoutConstraint.m; sourceTree = "<group>"; };
 		423F37BD244C9901000CDFE9 /* HWMTheMessageCenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTheMessageCenterViewController.h; sourceTree = "<group>"; };
 		423F37BE244C9901000CDFE9 /* HWMTheMessageCenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTheMessageCenterViewController.m; sourceTree = "<group>"; };
@@ -1288,6 +1358,63 @@
 		4253EE5B23697503005B774A /* HWMDIDInfoTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMDIDInfoTableViewCell.h; sourceTree = "<group>"; };
 		4253EE5C23697503005B774A /* HWMDIDInfoTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMDIDInfoTableViewCell.m; sourceTree = "<group>"; };
 		4253EE5D23697503005B774A /* HWMDIDInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMDIDInfoTableViewCell.xib; sourceTree = "<group>"; };
+		425A5F2B2462DC4800C44104 /* HWMSuggestionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMSuggestionViewController.h; sourceTree = "<group>"; };
+		425A5F2C2462DC4800C44104 /* HWMSuggestionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMSuggestionViewController.m; sourceTree = "<group>"; };
+		425A5F2D2462DC4800C44104 /* HWMSuggestionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMSuggestionViewController.xib; sourceTree = "<group>"; };
+		425A5F312463AAB500C44104 /* HWMSuggestionTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMSuggestionTableViewCell.h; sourceTree = "<group>"; };
+		425A5F322463AAB500C44104 /* HWMSuggestionTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMSuggestionTableViewCell.m; sourceTree = "<group>"; };
+		425A5F332463AAB500C44104 /* HWMSuggestionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMSuggestionTableViewCell.xib; sourceTree = "<group>"; };
+		425A5F362463AACB00C44104 /* HWMSuggestionSionTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMSuggestionSionTableViewCell.h; sourceTree = "<group>"; };
+		425A5F372463AACB00C44104 /* HWMSuggestionSionTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMSuggestionSionTableViewCell.m; sourceTree = "<group>"; };
+		425A5F382463AACB00C44104 /* HWMSuggestionSionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMSuggestionSionTableViewCell.xib; sourceTree = "<group>"; };
+		425A5F3C2463ECB000C44104 /* HWMSecureAuthenticationPasswordView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMSecureAuthenticationPasswordView.h; sourceTree = "<group>"; };
+		425A5F3D2463ECB000C44104 /* HWMSecureAuthenticationPasswordView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMSecureAuthenticationPasswordView.m; sourceTree = "<group>"; };
+		425A5F3F2463ECBC00C44104 /* HWMSecureAuthenticationPasswordView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMSecureAuthenticationPasswordView.xib; sourceTree = "<group>"; };
+		425A5F412463FA9300C44104 /* HWMCommunityProposalViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCommunityProposalViewController.h; sourceTree = "<group>"; };
+		425A5F422463FA9300C44104 /* HWMCommunityProposalViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMCommunityProposalViewController.m; sourceTree = "<group>"; };
+		425A5F432463FA9300C44104 /* HWMCommunityProposalViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMCommunityProposalViewController.xib; sourceTree = "<group>"; };
+		425A5F462465368F00C44104 /* HWMCommunityProposalBaseView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCommunityProposalBaseView.h; sourceTree = "<group>"; };
+		425A5F472465368F00C44104 /* HWMCommunityProposalBaseView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMCommunityProposalBaseView.m; sourceTree = "<group>"; };
+		425A5F49246536A700C44104 /* HWMCommunityProposalBaseView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMCommunityProposalBaseView.xib; sourceTree = "<group>"; };
+		425A5F4B24653A3700C44104 /* HWMCommunityProposalBaseTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCommunityProposalBaseTableViewCell.h; sourceTree = "<group>"; };
+		425A5F4C24653A3700C44104 /* HWMCommunityProposalBaseTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMCommunityProposalBaseTableViewCell.m; sourceTree = "<group>"; };
+		425A5F4D24653A3700C44104 /* HWMCommunityProposalBaseTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMCommunityProposalBaseTableViewCell.xib; sourceTree = "<group>"; };
+		425A5F55246559D800C44104 /* HWMCRsearchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCRsearchViewController.h; sourceTree = "<group>"; };
+		425A5F56246559D800C44104 /* HWMCRsearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMCRsearchViewController.m; sourceTree = "<group>"; };
+		425A5F57246559D800C44104 /* HWMCRsearchViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMCRsearchViewController.xib; sourceTree = "<group>"; };
+		425A5F5A246582D500C44104 /* HWMCommentPerioDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCommentPerioDetailsViewController.h; sourceTree = "<group>"; };
+		425A5F5B246582D500C44104 /* HWMCommentPerioDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMCommentPerioDetailsViewController.m; sourceTree = "<group>"; };
+		425A5F5C246582D500C44104 /* HWMCommentPerioDetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMCommentPerioDetailsViewController.xib; sourceTree = "<group>"; };
+		425A5F5F24666FC400C44104 /* HWMCommentPerioDetailsHeadView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCommentPerioDetailsHeadView.h; sourceTree = "<group>"; };
+		425A5F6024666FC400C44104 /* HWMCommentPerioDetailsHeadView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMCommentPerioDetailsHeadView.m; sourceTree = "<group>"; };
+		425A5F6224666FD200C44104 /* HWMCommentPerioDetailsHeadView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMCommentPerioDetailsHeadView.xib; sourceTree = "<group>"; };
+		425A5F642466776100C44104 /* HWMCommitteeMembersToVoteView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCommitteeMembersToVoteView.h; sourceTree = "<group>"; };
+		425A5F652466776100C44104 /* HWMCommitteeMembersToVoteView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMCommitteeMembersToVoteView.m; sourceTree = "<group>"; };
+		425A5F672466776C00C44104 /* HWMCommitteeMembersToVoteView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMCommitteeMembersToVoteView.xib; sourceTree = "<group>"; };
+		425A5F7A2466849600C44104 /* HWMCommitteeMembersToVoteTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCommitteeMembersToVoteTableViewCell.h; sourceTree = "<group>"; };
+		425A5F7B2466849600C44104 /* HWMCommitteeMembersToVoteTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMCommitteeMembersToVoteTableViewCell.m; sourceTree = "<group>"; };
+		425A5F7C2466849600C44104 /* HWMCommitteeMembersToVoteTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMCommitteeMembersToVoteTableViewCell.xib; sourceTree = "<group>"; };
+		425A5F7F2466938600C44104 /* HWMCRProposalConfirmView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCRProposalConfirmView.h; sourceTree = "<group>"; };
+		425A5F802466938600C44104 /* HWMCRProposalConfirmView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMCRProposalConfirmView.m; sourceTree = "<group>"; };
+		425A5F822466939C00C44104 /* HWMCRProposalConfirmView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMCRProposalConfirmView.xib; sourceTree = "<group>"; };
+		425A5F842466AB1600C44104 /* HWMImplementationScheduleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMImplementationScheduleView.h; sourceTree = "<group>"; };
+		425A5F852466AB1600C44104 /* HWMImplementationScheduleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMImplementationScheduleView.m; sourceTree = "<group>"; };
+		425A5F872466AB2400C44104 /* HWMImplementationScheduleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMImplementationScheduleView.xib; sourceTree = "<group>"; };
+		425A5F892466AFCA00C44104 /* HWMSecretaryGeneralTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMSecretaryGeneralTableViewCell.h; sourceTree = "<group>"; };
+		425A5F8A2466AFCA00C44104 /* HWMSecretaryGeneralTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMSecretaryGeneralTableViewCell.m; sourceTree = "<group>"; };
+		425A5F8B2466AFCA00C44104 /* HWMSecretaryGeneralTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMSecretaryGeneralTableViewCell.xib; sourceTree = "<group>"; };
+		425A5F982466BA4D00C44104 /* HWMCollectionProposalPerformViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCollectionProposalPerformViewController.h; sourceTree = "<group>"; };
+		425A5F992466BA4D00C44104 /* HWMCollectionProposalPerformViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMCollectionProposalPerformViewController.m; sourceTree = "<group>"; };
+		425A5F9A2466BA4D00C44104 /* HWMCollectionProposalPerformViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMCollectionProposalPerformViewController.xib; sourceTree = "<group>"; };
+		425A5F9D2466BBA400C44104 /* HWMTheProposalPublicViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTheProposalPublicViewController.h; sourceTree = "<group>"; };
+		425A5F9E2466BBA400C44104 /* HWMTheProposalPublicViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTheProposalPublicViewController.m; sourceTree = "<group>"; };
+		425A5F9F2466BBA400C44104 /* HWMTheProposalPublicViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTheProposalPublicViewController.xib; sourceTree = "<group>"; };
+		425A5FA22466BCE000C44104 /* HWMProposalsAbolishViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMProposalsAbolishViewController.h; sourceTree = "<group>"; };
+		425A5FA32466BCE000C44104 /* HWMProposalsAbolishViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMProposalsAbolishViewController.m; sourceTree = "<group>"; };
+		425A5FA42466BCE000C44104 /* HWMProposalsAbolishViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMProposalsAbolishViewController.xib; sourceTree = "<group>"; };
+		425A5FA72466BEEE00C44104 /* HWMOpposedProgressHeadView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMOpposedProgressHeadView.h; sourceTree = "<group>"; };
+		425A5FA82466BEEE00C44104 /* HWMOpposedProgressHeadView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMOpposedProgressHeadView.m; sourceTree = "<group>"; };
+		425A5FAA2466BF0000C44104 /* HWMOpposedProgressHeadView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMOpposedProgressHeadView.xib; sourceTree = "<group>"; };
 		425CE7FA230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTheValidationWordMnemonicPassword.h; sourceTree = "<group>"; };
 		425CE7FB230D265D009C2979 /* HWMTheValidationWordMnemonicPassword.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMTheValidationWordMnemonicPassword.m; sourceTree = "<group>"; };
 		425CE7FD230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTheValidationWordMnemonicPassword.xib; sourceTree = "<group>"; };
@@ -5023,7 +5150,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* ELA WalletTEST.app */,
+				1D6058910D05DD3D006BFB54 /* ELA Wallet.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -5987,6 +6114,7 @@
 		4202C99A21F6EF29009E5932 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				425A5F3B2463EC8400C44104 /* View */,
 				42EAEF84238BB43700D6A912 /* NSString+HWMNSTaggedPointerString.h */,
 				42EAEF82238BB43700D6A912 /* NSString+HWMNSTaggedPointerString.m */,
 				423461E82383F16A00E4B135 /* safeCategory */,
@@ -6025,6 +6153,7 @@
 		4202C9AB21F6EF29009E5932 /* found */ = {
 			isa = PBXGroup;
 			children = (
+				425A5F292462DC1500C44104 /* CRSuggestion */,
 				42A7678D2314DD8C005FC764 /* CRElection */,
 				4202C9AC21F6EF29009E5932 /* SuperPoint */,
 				4202C9D721F6EF29009E5932 /* model */,
@@ -6472,6 +6601,33 @@
 			path = safeCategory;
 			sourceTree = "<group>";
 		};
+		4235804A246A807B00A62615 /* CRSuggestionTool */ = {
+			isa = PBXGroup;
+			children = (
+				4235804B246A80C100A62615 /* HWMCRSuggestionNetWorkManger.h */,
+				4235804C246A80C100A62615 /* HWMCRSuggestionNetWorkManger.m */,
+			);
+			path = CRSuggestionTool;
+			sourceTree = "<group>";
+		};
+		4237AAC4246933F600DD8FAE /* model */ = {
+			isa = PBXGroup;
+			children = (
+				4237AAC7246934D600DD8FAE /* HWMBillListModel.h */,
+				4237AAC8246934D600DD8FAE /* HWMBillListModel.m */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		4237AAC62469341900DD8FAE /* viewModel */ = {
+			isa = PBXGroup;
+			children = (
+				4237AACA24693D6A00DD8FAE /* HWMBillListViewModel.h */,
+				4237AACB24693D6A00DD8FAE /* HWMBillListViewModel.m */,
+			);
+			path = viewModel;
+			sourceTree = "<group>";
+		};
 		424910C22271BFCF00C41E50 /* SDWebImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -6647,6 +6803,111 @@
 				4250B3E42238D32600B6858F /* Image.h */,
 			);
 			path = zbar;
+			sourceTree = "<group>";
+		};
+		425A5F292462DC1500C44104 /* CRSuggestion */ = {
+			isa = PBXGroup;
+			children = (
+				4235804A246A807B00A62615 /* CRSuggestionTool */,
+				4237AAC62469341900DD8FAE /* viewModel */,
+				4237AAC4246933F600DD8FAE /* model */,
+				425A5F302463AA9F00C44104 /* View */,
+				425A5F2A2462DC2600C44104 /* ViewController */,
+			);
+			path = CRSuggestion;
+			sourceTree = "<group>";
+		};
+		425A5F2A2462DC2600C44104 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				425A5F2B2462DC4800C44104 /* HWMSuggestionViewController.h */,
+				425A5F2C2462DC4800C44104 /* HWMSuggestionViewController.m */,
+				425A5F2D2462DC4800C44104 /* HWMSuggestionViewController.xib */,
+				425A5F412463FA9300C44104 /* HWMCommunityProposalViewController.h */,
+				425A5F422463FA9300C44104 /* HWMCommunityProposalViewController.m */,
+				425A5F432463FA9300C44104 /* HWMCommunityProposalViewController.xib */,
+				425A5F55246559D800C44104 /* HWMCRsearchViewController.h */,
+				425A5F56246559D800C44104 /* HWMCRsearchViewController.m */,
+				425A5F57246559D800C44104 /* HWMCRsearchViewController.xib */,
+				425A5F5A246582D500C44104 /* HWMCommentPerioDetailsViewController.h */,
+				425A5F5B246582D500C44104 /* HWMCommentPerioDetailsViewController.m */,
+				425A5F5C246582D500C44104 /* HWMCommentPerioDetailsViewController.xib */,
+				425A5F982466BA4D00C44104 /* HWMCollectionProposalPerformViewController.h */,
+				425A5F992466BA4D00C44104 /* HWMCollectionProposalPerformViewController.m */,
+				425A5F9A2466BA4D00C44104 /* HWMCollectionProposalPerformViewController.xib */,
+				425A5F9D2466BBA400C44104 /* HWMTheProposalPublicViewController.h */,
+				425A5F9E2466BBA400C44104 /* HWMTheProposalPublicViewController.m */,
+				425A5F9F2466BBA400C44104 /* HWMTheProposalPublicViewController.xib */,
+				425A5FA22466BCE000C44104 /* HWMProposalsAbolishViewController.h */,
+				425A5FA32466BCE000C44104 /* HWMProposalsAbolishViewController.m */,
+				425A5FA42466BCE000C44104 /* HWMProposalsAbolishViewController.xib */,
+				42358038246A58C000A62615 /* HWMallBaseViewController.h */,
+				42358039246A58C000A62615 /* HWMallBaseViewController.m */,
+				4235803B246A5FB100A62615 /* HWMMemberReviewBaseViewController.h */,
+				4235803C246A5FB100A62615 /* HWMMemberReviewBaseViewController.m */,
+				4235803E246A614500A62615 /* HWMpublicBaseViewController.h */,
+				4235803F246A614500A62615 /* HWMpublicBaseViewController.m */,
+				42358041246A621A00A62615 /* HWMexecutionBaseViewController.h */,
+				42358042246A621A00A62615 /* HWMexecutionBaseViewController.m */,
+				42358044246A632800A62615 /* HWMcompletedBaseViewController.h */,
+				42358045246A632800A62615 /* HWMcompletedBaseViewController.m */,
+				42358047246A63C500A62615 /* HWMabolishedBaseViewController.h */,
+				42358048246A63C500A62615 /* HWMabolishedBaseViewController.m */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		425A5F302463AA9F00C44104 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				425A5F312463AAB500C44104 /* HWMSuggestionTableViewCell.h */,
+				425A5F322463AAB500C44104 /* HWMSuggestionTableViewCell.m */,
+				425A5F332463AAB500C44104 /* HWMSuggestionTableViewCell.xib */,
+				425A5F362463AACB00C44104 /* HWMSuggestionSionTableViewCell.h */,
+				425A5F372463AACB00C44104 /* HWMSuggestionSionTableViewCell.m */,
+				425A5F382463AACB00C44104 /* HWMSuggestionSionTableViewCell.xib */,
+				425A5F462465368F00C44104 /* HWMCommunityProposalBaseView.h */,
+				425A5F472465368F00C44104 /* HWMCommunityProposalBaseView.m */,
+				425A5F49246536A700C44104 /* HWMCommunityProposalBaseView.xib */,
+				425A5F4B24653A3700C44104 /* HWMCommunityProposalBaseTableViewCell.h */,
+				425A5F4C24653A3700C44104 /* HWMCommunityProposalBaseTableViewCell.m */,
+				425A5F4D24653A3700C44104 /* HWMCommunityProposalBaseTableViewCell.xib */,
+				425A5F5F24666FC400C44104 /* HWMCommentPerioDetailsHeadView.h */,
+				425A5F6024666FC400C44104 /* HWMCommentPerioDetailsHeadView.m */,
+				425A5F6224666FD200C44104 /* HWMCommentPerioDetailsHeadView.xib */,
+				425A5F642466776100C44104 /* HWMCommitteeMembersToVoteView.h */,
+				425A5F652466776100C44104 /* HWMCommitteeMembersToVoteView.m */,
+				425A5F672466776C00C44104 /* HWMCommitteeMembersToVoteView.xib */,
+				425A5F7A2466849600C44104 /* HWMCommitteeMembersToVoteTableViewCell.h */,
+				425A5F7B2466849600C44104 /* HWMCommitteeMembersToVoteTableViewCell.m */,
+				425A5F7C2466849600C44104 /* HWMCommitteeMembersToVoteTableViewCell.xib */,
+				425A5F892466AFCA00C44104 /* HWMSecretaryGeneralTableViewCell.h */,
+				425A5F8A2466AFCA00C44104 /* HWMSecretaryGeneralTableViewCell.m */,
+				425A5F8B2466AFCA00C44104 /* HWMSecretaryGeneralTableViewCell.xib */,
+				425A5F7F2466938600C44104 /* HWMCRProposalConfirmView.h */,
+				425A5F802466938600C44104 /* HWMCRProposalConfirmView.m */,
+				425A5F822466939C00C44104 /* HWMCRProposalConfirmView.xib */,
+				425A5F842466AB1600C44104 /* HWMImplementationScheduleView.h */,
+				425A5F852466AB1600C44104 /* HWMImplementationScheduleView.m */,
+				425A5F872466AB2400C44104 /* HWMImplementationScheduleView.xib */,
+				425A5FA72466BEEE00C44104 /* HWMOpposedProgressHeadView.h */,
+				425A5FA82466BEEE00C44104 /* HWMOpposedProgressHeadView.m */,
+				425A5FAA2466BF0000C44104 /* HWMOpposedProgressHeadView.xib */,
+				4237AABE2468FBFE00DD8FAE /* HWMCommunityProposalScrollView.h */,
+				4237AABF2468FBFE00DD8FAE /* HWMCommunityProposalScrollView.m */,
+				4237AAC12468FC0B00DD8FAE /* HWMCommunityProposalScrollView.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		425A5F3B2463EC8400C44104 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				425A5F3C2463ECB000C44104 /* HWMSecureAuthenticationPasswordView.h */,
+				425A5F3D2463ECB000C44104 /* HWMSecureAuthenticationPasswordView.m */,
+				425A5F3F2463ECBC00C44104 /* HWMSecureAuthenticationPasswordView.xib */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		4264A73B221BDBBF008D5C7B /* languageTool */ = {
@@ -11235,7 +11496,7 @@
 			);
 			name = "elastos wallet";
 			productName = "elastos wallet";
-			productReference = 1D6058910D05DD3D006BFB54 /* ELA WalletTEST.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* ELA Wallet.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -11280,9 +11541,11 @@
 			files = (
 				42ED54AE23ACCDD900427318 /* HWMCreateDIDListTableViewCell.xib in Resources */,
 				424CA4D0242C737C0067C1CE /* 828_1792.png in Resources */,
+				425A5F4F24653A3700C44104 /* HWMCommunityProposalBaseTableViewCell.xib in Resources */,
 				4202CA3B21F6EF2A009E5932 /* FLTradeInfoView.xib in Resources */,
 				4250B3F62238D32700B6858F /* zbar-back.png in Resources */,
 				4202CA7921F6EF2B009E5932 /* HMWAddressListViewController.xib in Resources */,
+				425A5FA62466BCE000C44104 /* HWMProposalsAbolishViewController.xib in Resources */,
 				4253EE512369399E005B774A /* HWMDIDListNormalTableViewCell.xib in Resources */,
 				4202CA8F21F6EF2B009E5932 /* HMWExportTheMnemonicWordViewController.xib in Resources */,
 				42EAEFE4238BB60700D6A912 /* HWMVoteTheEditorialBoardTableViewCell.xib in Resources */,
@@ -11294,8 +11557,10 @@
 				423270CE244DA18900E98C26 /* HWMmessageWindowPopsView.xib in Resources */,
 				4202CA4021F6EF2A009E5932 /* FLCapitalView.xib in Resources */,
 				42EAEFF6238BB69C00D6A912 /* HWMImportTheMnemonicWordViewController.xib in Resources */,
+				425A5F4A246536A700C44104 /* HWMCommunityProposalBaseView.xib in Resources */,
 				426F0B0523E9380800115F87 /* HWMShowSocialAccountTableViewCell.xib in Resources */,
 				4202CA3021F6EF2A009E5932 /* HMWtheContactInformationViewController.xib in Resources */,
+				425A5F6324666FD200C44104 /* HWMCommentPerioDetailsHeadView.xib in Resources */,
 				4202CAC121F6EF2B009E5932 /* HMWvotingRulesView.xib in Resources */,
 				4202CA3221F6EF2A009E5932 /* FLSugarTableCell.xib in Resources */,
 				42B07E272421F6A600E1B920 /* HWMDIDAuthorizationTableViewCell.xib in Resources */,
@@ -11305,6 +11570,7 @@
 				4202CA7D21F6EF2B009E5932 /* HMWtransferViewController.xib in Resources */,
 				4202CA4821F6EF2A009E5932 /* FLVersionAlert.xib in Resources */,
 				42B7AD95221BAA61006959B8 /* Localizable.strings in Resources */,
+				425A5FAB2466BF0000C44104 /* HWMOpposedProgressHeadView.xib in Resources */,
 				4202CA9F21F6EF2B009E5932 /* HMWverifyTheMnemonicWordViewController.xib in Resources */,
 				4202CA6F21F6EF2B009E5932 /* HMWtransferTransactionDetailsFootView.xib in Resources */,
 				42EAEFFD238BB72D00D6A912 /* HWMAddThePrivateKeyTableViewCell.xib in Resources */,
@@ -11332,6 +11598,8 @@
 				42D105F523A3344D0063AADC /* MJRefresh.bundle in Resources */,
 				428B4D7822CAFCA9004AE7D0 /* HWMcreatListViewController.xib in Resources */,
 				4202CAD721F6EF2B009E5932 /* HMWsignUpForViewController.xib in Resources */,
+				425A5F7E2466849600C44104 /* HWMCommitteeMembersToVoteTableViewCell.xib in Resources */,
+				425A5F352463AAB500C44104 /* HWMSuggestionTableViewCell.xib in Resources */,
 				424D113B22E042D900C46640 /* HWMHowLongTradingQrCodeViewController.xib in Resources */,
 				42D126A822B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.xib in Resources */,
 				4202CA6821F6EF2B009E5932 /* HMWAssetDetailsTableViewCell.xib in Resources */,
@@ -11365,10 +11633,12 @@
 				428B4D8C22CB0D01004AE7D0 /* HWMSignThePurseHeadView.xib in Resources */,
 				4202CA9421F6EF2B009E5932 /* HMWModifyTheWalletPasswordViewController.xib in Resources */,
 				4202CA8E21F6EF2B009E5932 /* HMWCopyKeyStoreViewController.xib in Resources */,
+				425A5F682466776C00C44104 /* HWMCommitteeMembersToVoteView.xib in Resources */,
 				428B4D9122CB2B7E004AE7D0 /* HWMaddSignThePurseView.xib in Resources */,
 				4202CA9721F6EF2B009E5932 /* HMWImportTheWalletViewController.xib in Resources */,
 				4202CAC421F6EF2B009E5932 /* HMWmyVoteStatisticsTableViewCell.xib in Resources */,
 				4202CA3E21F6EF2A009E5932 /* FLNetErrorView.xib in Resources */,
+				425A5F452463FA9300C44104 /* HWMCommunityProposalViewController.xib in Resources */,
 				4224AE7D243CD43E0056606F /* README.md in Resources */,
 				CBD48D86221406F000BF3B11 /* FLJoinToChoseTransferInfoView.xib in Resources */,
 				4202CA5A21F6EF2A009E5932 /* FLItemCollectionCell.xib in Resources */,
@@ -11387,6 +11657,7 @@
 				4202CAA321F6EF2B009E5932 /* HMWImTheMnemonicWordView.xib in Resources */,
 				4202CA3821F6EF2A009E5932 /* FLticketProgressView.xib in Resources */,
 				4202CAC821F6EF2B009E5932 /* HMWVotingListCollectionViewCell.xib in Resources */,
+				425A5F882466AB2400C44104 /* HWMImplementationScheduleView.xib in Resources */,
 				4202CA9A21F6EF2B009E5932 /* FLSetMenmoryWordPassView.xib in Resources */,
 				42A7A852236ADC110034A900 /* HWMTheEditorDIDInfoViewController.xib in Resources */,
 				424CA4D2242C76EB0067C1CE /* Assets.xcassets in Resources */,
@@ -11395,6 +11666,7 @@
 				4202CAD821F6EF2B009E5932 /* FLSelectSuperPointVC.xib in Resources */,
 				4202CA8021F6EF2B009E5932 /* HMWTheWalletManagementTableViewCell.xib in Resources */,
 				4202CA7821F6EF2B009E5932 /* HMWcollectionViewController.xib in Resources */,
+				425A5F832466939C00C44104 /* HWMCRProposalConfirmView.xib in Resources */,
 				4202CA0721F6EF2A009E5932 /* SVProgressHUD.bundle in Resources */,
 				4253EE4C23692F93005B774A /* HWMDIDListAbnormalTableViewCell.xib in Resources */,
 				424CA4CF242C737C0067C1CE /* 1242_2688.png in Resources */,
@@ -11407,14 +11679,17 @@
 				4285732E2366F56500C0CF80 /* HWMDIDListViewController.xib in Resources */,
 				4202CA2021F6EF2A009E5932 /* HMWaddContactViewController.xib in Resources */,
 				4202CA8921F6EF2B009E5932 /* HMWTheWalletListViewController.xib in Resources */,
+				425A5FA12466BBA400C44104 /* HWMTheProposalPublicViewController.xib in Resources */,
 				42CC27AE244C805D00373504 /* HWMIPListTableViewCell.xib in Resources */,
 				428D971C238D0FF7005F1963 /* HWMCRCommitteeForAgreementView.xib in Resources */,
 				4202CA8121F6EF2B009E5932 /* HMWaddWalletListTableViewCell.xib in Resources */,
+				425A5F9C2466BA4D00C44104 /* HWMCollectionProposalPerformViewController.xib in Resources */,
 				4202CAA721F6EF2B009E5932 /* FLPrepareVC.xib in Resources */,
 				42A7679B2315293F005FC764 /* HWMCRRegisteredViewController.xib in Resources */,
 				42EAF01A238BB8C200D6A912 /* HWMDIDWalletListView.xib in Resources */,
 				428B4D8222CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.xib in Resources */,
 				4202CA2921F6EF2A009E5932 /* HMWNotAddContactTableViewCell.xib in Resources */,
+				425A5F8D2466AFCA00C44104 /* HWMSecretaryGeneralTableViewCell.xib in Resources */,
 				428573292366ED7C00C0CF80 /* HWMAddSocialAccountViewController.xib in Resources */,
 				4296F1082375429800B2CE7D /* HWMshowIntroductionInfoViewController.xib in Resources */,
 				4202CA4E21F6EF2A009E5932 /* FLQRVC.strings in Resources */,
@@ -11432,14 +11707,18 @@
 				4202CA2B21F6EF2A009E5932 /* HMWmyContactListTableViewCell.xib in Resources */,
 				4296F10D2375482900B2CE7D /* HWMShowSocialAccountViewController.xib in Resources */,
 				4202CAC221F6EF2B009E5932 /* HMWinputVotesPopupWindowView.xib in Resources */,
+				425A5F59246559D800C44104 /* HWMCRsearchViewController.xib in Resources */,
 				428573242366D6E100C0CF80 /* HWMAddPersonalProfileViewController.xib in Resources */,
 				428B4D9C22CB35C0004AE7D0 /* HWMaddSignThePursefootView.xib in Resources */,
 				42EAF018238BB8C200D6A912 /* HMWQrCodePopupWindowView.xib in Resources */,
 				424A5E20234C954B0077512E /* HWMTransactionDetailsView.xib in Resources */,
 				4230C7DB245203A100575C8D /* HMWTheLatestMessagetTableViewCell.xib in Resources */,
 				4223EB3223279C1200153DA9 /* HWMPublicKeyListTabHeadView.xib in Resources */,
+				425A5F2F2462DC4800C44104 /* HWMSuggestionViewController.xib in Resources */,
 				425CE7FE230D2669009C2979 /* HWMTheValidationWordMnemonicPassword.xib in Resources */,
+				425A5F402463ECBC00C44104 /* HWMSecureAuthenticationPasswordView.xib in Resources */,
 				42EAEFD6238BB54F00D6A912 /* AddressPickerView.xib in Resources */,
+				425A5F3A2463AACB00C44104 /* HWMSuggestionSionTableViewCell.xib in Resources */,
 				4202CA8421F6EF2B009E5932 /* HMWToDeleteTheWalletPopView.xib in Resources */,
 				4202CA7721F6EF2B009E5932 /* HMWTop_upPageForDetailsViewController.xib in Resources */,
 				4202CA5621F6EF2A009E5932 /* FLAssetManageTableCell.xib in Resources */,
@@ -11452,11 +11731,13 @@
 				422D609E21FC405A00DD07FF /* FLManageSelectPointNodeInformationVC.xib in Resources */,
 				42EAEFF5238BB69C00D6A912 /* HWMNewPrivateKeyViewController.xib in Resources */,
 				4202CA6B21F6EF2B009E5932 /* HMWSideChainAndTheContactTableViewCell.xib in Resources */,
+				4237AAC22468FC0B00DD8FAE /* HWMCommunityProposalScrollView.xib in Resources */,
 				42780241235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib in Resources */,
 				CBD25EFE221542F500EDA0F5 /* FLChangeVotedTicketsVC.xib in Resources */,
 				42E66286240E3D5B001220AA /* ElastosDIDConfig-debug.cmake in Resources */,
 				4250B3F52238D32700B6858F /* zbar-help.html in Resources */,
 				42D7DC5623F68008002F5A9A /* HWMHWMDIDShowInfoViewController.xib in Resources */,
+				425A5F5E246582D500C44104 /* HWMCommentPerioDetailsViewController.xib in Resources */,
 				4202CA4B21F6EF2A009E5932 /* FLCopyPrivateKeyView.xib in Resources */,
 				4261C2FD22C21563008C1532 /* showOwnerAddressTableViewCell.xib in Resources */,
 				423270C9244D8BD300E98C26 /* HWMAllNoView.xib in Resources */,
@@ -11540,7 +11821,9 @@
 				4228AA5D21F88C87002866B5 /* NSObject+YYAddForARC.m in Sources */,
 				4202CA7B21F6EF2B009E5932 /* HMWAssetDetailsViewController.mm in Sources */,
 				424910E92271BFCF00C41E50 /* UIImageView+HighlightedWebCache.m in Sources */,
+				425A5FA92466BEEE00C44104 /* HWMOpposedProgressHeadView.m in Sources */,
 				4202CAAF21F6EF2B009E5932 /* HMWaddFooterView.m in Sources */,
+				425A5F482465368F00C44104 /* HWMCommunityProposalBaseView.m in Sources */,
 				42B57AB622150C1C004CF089 /* NSObject+SelectorCrash.m in Sources */,
 				4202CA7321F6EF2B009E5932 /* HMWChooseSideChainViewController.m in Sources */,
 				4202CA3D21F6EF2A009E5932 /* FLShareVC.m in Sources */,
@@ -11550,6 +11833,8 @@
 				4202CA9321F6EF2B009E5932 /* HMWCopyKeyStoreViewController.m in Sources */,
 				4296F10C2375482900B2CE7D /* HWMShowSocialAccountViewController.m in Sources */,
 				424910E72271BFCF00C41E50 /* SDWebImageManager.m in Sources */,
+				425A5FA52466BCE000C44104 /* HWMProposalsAbolishViewController.m in Sources */,
+				4237AAC02468FBFE00DD8FAE /* HWMCommunityProposalScrollView.m in Sources */,
 				4202CA5D21F6EF2A009E5932 /* HMWpwdPopupView.m in Sources */,
 				42B57AB822150C1C004CF089 /* NSObject+NSNotificationCrash.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.mm in Sources */,
@@ -11570,6 +11855,7 @@
 				4230C7DA245203A100575C8D /* HMWTheLatestMessagetTableViewCell.m in Sources */,
 				4202CABD21F6EF2B009E5932 /* UIView+FL.m in Sources */,
 				424910F52271BFCF00C41E50 /* UIView+WebCacheOperation.m in Sources */,
+				425A5F442463FA9300C44104 /* HWMCommunityProposalViewController.m in Sources */,
 				4202CA1D21F6EF2A009E5932 /* FMResultSet.m in Sources */,
 				423F37C0244C9901000CDFE9 /* HWMTheMessageCenterViewController.m in Sources */,
 				422D609D21FC405A00DD07FF /* FLManageSelectPointNodeInformationVC.mm in Sources */,
@@ -11587,6 +11873,7 @@
 				CBD48D5E21FC36BA00BF3B11 /* AFNetworkReachabilityManager.m in Sources */,
 				42D1060323A3344D0063AADC /* MJRefreshHeader.m in Sources */,
 				4202CA9921F6EF2B009E5932 /* HMWImportTheWalletViewController.mm in Sources */,
+				425A5F5D246582D500C44104 /* HWMCommentPerioDetailsViewController.m in Sources */,
 				4202CAC621F6EF2B009E5932 /* HMWtheCandidateListTableViewCell.m in Sources */,
 				42A7A85B236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.m in Sources */,
 				4202CA0E21F6EF2A009E5932 /* WCQRCodeScanningVC.m in Sources */,
@@ -11594,6 +11881,7 @@
 				CBD48D5B21FC36BA00BF3B11 /* AFHTTPSessionManager.m in Sources */,
 				423461F92383F18900E4B135 /* NSArray+YRSafeCategory.m in Sources */,
 				4202CA5021F6EF2A009E5932 /* FLSearchContractTableCell.m in Sources */,
+				425A5F6124666FC400C44104 /* HWMCommentPerioDetailsHeadView.m in Sources */,
 				4228AA5421F88C87002866B5 /* UIFont+YYAdd.m in Sources */,
 				42B57ABE22150C1C004CF089 /* NSAttributedString+WOCrash.m in Sources */,
 				4202CA0B21F6EF2A009E5932 /* SGQRCodeScanningView.m in Sources */,
@@ -11602,6 +11890,7 @@
 				42B263B422DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewControlle.mm in Sources */,
 				42EAEFF7238BB69C00D6A912 /* HWMAddThePrivateKeyViewController.m in Sources */,
 				4202CA0D21F6EF2A009E5932 /* SGQRCodeGenerateManager.m in Sources */,
+				425A5F662466776100C44104 /* HWMCommitteeMembersToVoteView.m in Sources */,
 				CBD25EFD221542F500EDA0F5 /* FLChangeVotedTicketsVC.mm in Sources */,
 				4228AA5321F88C87002866B5 /* UIControl+YYAdd.m in Sources */,
 				4202CAA521F6EF2B009E5932 /* HMWImTheMnemonicWordView.m in Sources */,
@@ -11615,9 +11904,12 @@
 				4202CA4121F6EF2A009E5932 /* FLMeHeadView.m in Sources */,
 				4223EB2B2327999F00153DA9 /* HWMPublicKeyListHeadView.m in Sources */,
 				42A7A851236ADC110034A900 /* HWMTheEditorDIDInfoViewController.mm in Sources */,
+				4235803D246A5FB100A62615 /* HWMMemberReviewBaseViewController.m in Sources */,
 				42B07E262421F6A600E1B920 /* HWMDIDAuthorizationTableViewCell.m in Sources */,
 				4202CA3A21F6EF2A009E5932 /* FLTradeInfoView.m in Sources */,
 				4202CA6A21F6EF2B009E5932 /* HMWaddressListTableViewCell.m in Sources */,
+				425A5F3E2463ECB000C44104 /* HWMSecureAuthenticationPasswordView.m in Sources */,
+				4235804D246A80C100A62615 /* HWMCRSuggestionNetWorkManger.m in Sources */,
 				4202CAC521F6EF2B009E5932 /* HMWVotingListCollectionViewCell.m in Sources */,
 				4202CA3321F6EF2A009E5932 /* FLSugarTableCell.m in Sources */,
 				4202CACC21F6EF2B009E5932 /* HMWVotingListView.m in Sources */,
@@ -11634,6 +11926,7 @@
 				4202CA8321F6EF2B009E5932 /* HMWtheWalletListTableViewCell.m in Sources */,
 				4202CA2621F6EF2A009E5932 /* HMWClassificationOfLanguageTableViewCell.m in Sources */,
 				424910E82271BFCF00C41E50 /* SDWebImageDecoder.m in Sources */,
+				425A5F9B2466BA4D00C44104 /* HWMCollectionProposalPerformViewController.m in Sources */,
 				42D105FD23A3344D0063AADC /* MJRefreshAutoGifFooter.m in Sources */,
 				4202CA2321F6EF2A009E5932 /* HMWshowAddContactTextTableViewCell.m in Sources */,
 				4224AE76243CD43E0056606F /* DDContextFilterLogFormatter.m in Sources */,
@@ -11648,10 +11941,12 @@
 				4250B3F12238D32700B6858F /* UIColor+HEX.m in Sources */,
 				42B57AB522150C1C004CF089 /* NSTimer+Crash.m in Sources */,
 				4202CACE21F6EF2B009E5932 /* HMWsignUpForViewController.mm in Sources */,
+				42358043246A621A00A62615 /* HWMexecutionBaseViewController.m in Sources */,
 				424910F02271BFCF00C41E50 /* SDWebImageDownloaderOperation.m in Sources */,
 				4228AA4F21F88C87002866B5 /* UIView+YYAdd.m in Sources */,
 				427290522446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.m in Sources */,
 				423461F82383F18900E4B135 /* NSString+YRSafeCategory.m in Sources */,
+				425A5F8C2466AFCA00C44104 /* HWMSecretaryGeneralTableViewCell.m in Sources */,
 				4224AE77243CD43E0056606F /* DDDispatchQueueLogFormatter.m in Sources */,
 				42EAF01C238BB8C200D6A912 /* HWMDIDWalletListView.m in Sources */,
 				42EAEFE2238BB60700D6A912 /* HWMCRCCommitteeElectionCollectionViewCell.m in Sources */,
@@ -11680,15 +11975,19 @@
 				4202CA0A21F6EF2A009E5932 /* SGQRCodeHelperTool.m in Sources */,
 				42D7DC5523F68008002F5A9A /* HWMHWMDIDShowInfoViewController.m in Sources */,
 				CBD48D6321FC399700BF3B11 /* HttpUrl.m in Sources */,
+				42358049246A63C500A62615 /* HWMabolishedBaseViewController.m in Sources */,
 				4202CAA021F6EF2B009E5932 /* FLPastWordVC.mm in Sources */,
 				42B57AC022150C1C004CF089 /* NSMutableString+WOCrash.m in Sources */,
 				42B57AC122150C1C004CF089 /* NSDictionary+WOCrash.m in Sources */,
+				425A5F342463AAB500C44104 /* HWMSuggestionTableViewCell.m in Sources */,
+				425A5F7D2466849600C44104 /* HWMCommitteeMembersToVoteTableViewCell.m in Sources */,
 				4202CABB21F6EF2B009E5932 /* HMWFMDBManager.m in Sources */,
 				4202CA6421F6EF2A009E5932 /* HMWtransferTransactionMultipleAddressDetailsView.m in Sources */,
 				4202CA9621F6EF2B009E5932 /* FLCreatAcountVC.mm in Sources */,
 				4202CA1A21F6EF2A009E5932 /* FMDatabaseAdditions.m in Sources */,
 				42D105F223A3344D0063AADC /* UIScrollView+MJRefresh.m in Sources */,
 				4202CA1F21F6EF2A009E5932 /* HMWaddContactViewController.m in Sources */,
+				425A5F862466AB1600C44104 /* HWMImplementationScheduleView.m in Sources */,
 				421BABD4242963EA000FB026 /* HWMallDocumentsListTableViewCell.m in Sources */,
 				428B4D9A22CB35B6004AE7D0 /* HWMaddSignThePursefootView.m in Sources */,
 				4202CA4421F6EF2A009E5932 /* FLwalletSelectView.m in Sources */,
@@ -11718,10 +12017,12 @@
 				CBD48D5C21FC36BA00BF3B11 /* AFURLSessionManager.m in Sources */,
 				42EAEF85238BB43700D6A912 /* NSString+HWMNSTaggedPointerString.m in Sources */,
 				4202CA3421F6EF2A009E5932 /* FLFounderSugarVC.m in Sources */,
+				4237AAC9246934D600DD8FAE /* HWMBillListModel.m in Sources */,
 				4202CAD221F6EF2B009E5932 /* HMWnodeInformationViewController.m in Sources */,
 				423F37C9244C9D32000CDFE9 /* HWMMessageCenterModel.m in Sources */,
 				428573232366D6E100C0CF80 /* HWMAddPersonalProfileViewController.m in Sources */,
 				4253EE4B23692F93005B774A /* HWMDIDListAbnormalTableViewCell.m in Sources */,
+				42358040246A614500A62615 /* HWMpublicBaseViewController.m in Sources */,
 				4228AA4121F88C86002866B5 /* YYDiskCache.m in Sources */,
 				4210E855239F8A07001D82F3 /* ViewController+MASAdditions.m in Sources */,
 				423F37C5244C9B1D000CDFE9 /* HWMTheMessageCenterTableViewCell.m in Sources */,
@@ -11762,12 +12063,14 @@
 				CBD48D4A21FC341200BF3B11 /* FLCoinPointInfoModel.m in Sources */,
 				4202CA4721F6EF2A009E5932 /* FLGoToIdentyAlertView.m in Sources */,
 				42D105FF23A3344D0063AADC /* MJRefreshNormalHeader.m in Sources */,
+				425A5FA02466BBA400C44104 /* HWMTheProposalPublicViewController.m in Sources */,
 				4228AA5821F88C87002866B5 /* NSObject+YYAdd.m in Sources */,
 				4224AE7C243CD43E0056606F /* DDASLLogCapture.m in Sources */,
 				4222F6DA230A7C0C00C91493 /* HWMSingleSignReadOnlyWalletViewController.mm in Sources */,
 				4202CABA21F6EF2B009E5932 /* BaseNavigationVC.m in Sources */,
 				42B57ABB22150C1C004CF089 /* NSString+WOCrash.m in Sources */,
 				42B691A6242706E400E38993 /* HWMImportDocumentsTableViewCell.m in Sources */,
+				425A5F392463AACB00C44104 /* HWMSuggestionSionTableViewCell.m in Sources */,
 				42EAEFD7238BB54F00D6A912 /* AddressPickerView.m in Sources */,
 				42B57AC222150C1C004CF089 /* NSMutableArray+WOCrash.m in Sources */,
 				422C4645235DBB4B000523DB /* HWMCreateDIDListTableViewCell.m in Sources */,
@@ -11798,6 +12101,7 @@
 				4202CAD121F6EF2B009E5932 /* HMWMyVoteViewController.mm in Sources */,
 				4202CAC721F6EF2B009E5932 /* HMWmyVoteStatisticsTableViewCell.m in Sources */,
 				424910EB2271BFCF00C41E50 /* UIImage+GIF.m in Sources */,
+				425A5F58246559D800C44104 /* HWMCRsearchViewController.m in Sources */,
 				4202CAB721F6EF2B009E5932 /* FLQRVC.mm in Sources */,
 				4202CA6C21F6EF2B009E5932 /* HMWAssetDetailsTableViewCell.m in Sources */,
 				4228AA4A21F88C87002866B5 /* UIDevice+YYAdd.m in Sources */,
@@ -11811,6 +12115,7 @@
 				4202C9F921F6EF2A009E5932 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				4202CA5321F6EF2A009E5932 /* FLAssetTableCell.m in Sources */,
 				4202CA1C21F6EF2A009E5932 /* FMDatabasePool.m in Sources */,
+				4237AACC24693D6A00DD8FAE /* HWMBillListViewModel.m in Sources */,
 				422D60A921FC42D100DD07FF /* HMWfoundTableCell.m in Sources */,
 				42A201C5237D4E160028DEFA /* HWMDIDInfoModel.m in Sources */,
 				4202CA4A21F6EF2A009E5932 /* FLMenuView.m in Sources */,
@@ -11832,6 +12137,7 @@
 				7087D92F21BCDF1B00599316 /* MyUtil.m in Sources */,
 				4202CA4321F6EF2A009E5932 /* FLCapitalView.m in Sources */,
 				4228AA4621F88C87002866B5 /* YYClassInfo.m in Sources */,
+				425A5F812466938600C44104 /* HWMCRProposalConfirmView.m in Sources */,
 				42D1060023A3344D0063AADC /* MJRefreshStateHeader.m in Sources */,
 				422D609721FC405000DD07FF /* HMWChooseTheCountryAreasModel.m in Sources */,
 				42EAEFE3238BB60700D6A912 /* HWMVoteTheEditorialBoardTableViewCell.m in Sources */,
@@ -11843,6 +12149,7 @@
 				4202CAB521F6EF2B009E5932 /* FLAllAssetListVC.mm in Sources */,
 				423270C7244D8BC900E98C26 /* HWMAllNoView.m in Sources */,
 				42D105F923A3344D0063AADC /* MJRefreshBackGifFooter.m in Sources */,
+				425A5F2E2462DC4800C44104 /* HWMSuggestionViewController.m in Sources */,
 				424910F32271BFCF00C41E50 /* NSImage+WebCache.m in Sources */,
 				4250B3EE2238D32700B6858F /* QRView.m in Sources */,
 				428B4D9622CB2E98004AE7D0 /* HWMaddSignThePurseViewTableViewCell.m in Sources */,
@@ -11857,6 +12164,7 @@
 				4202CA2821F6EF2A009E5932 /* FLTableViewDefultCell.m in Sources */,
 				42D105F723A3344D0063AADC /* NSBundle+MJRefresh.m in Sources */,
 				4228AA5621F88C87002866B5 /* NSNumber+YYAdd.m in Sources */,
+				42358046246A632800A62615 /* HWMcompletedBaseViewController.m in Sources */,
 				42D1060423A3344D0063AADC /* MJRefreshBackFooter.m in Sources */,
 				42B07E1D2421BDDC00E1B920 /* HWMDIDAuthorizationHeadView.m in Sources */,
 				4202CA9E21F6EF2B009E5932 /* HMWverifyTheMnemonicWordViewController.mm in Sources */,
@@ -11876,6 +12184,7 @@
 				4202CAC321F6EF2B009E5932 /* HMWinputVotesPopupWindowView.m in Sources */,
 				4261CF3922A15D21006B1DDE /* NSMutableArray+Swizzling.m in Sources */,
 				4202CAB821F6EF2B009E5932 /* FLFLTabBarVC.m in Sources */,
+				4235803A246A58C000A62615 /* HWMallBaseViewController.m in Sources */,
 				424910EA2271BFCF00C41E50 /* SDWebImageDownloader.m in Sources */,
 				428B4D8F22CB2B74004AE7D0 /* HWMaddSignThePurseView.m in Sources */,
 				4228AA5221F88C87002866B5 /* UIImage+YYAdd.m in Sources */,
@@ -11887,6 +12196,7 @@
 				4202CABF21F6EF2B009E5932 /* UIViewController+FLVCExt.m in Sources */,
 				4228AA5E21F88C87002866B5 /* NSDate+YYAdd.m in Sources */,
 				CBD48D5D21FC36BA00BF3B11 /* AFURLRequestSerialization.m in Sources */,
+				425A5F4E24653A3700C44104 /* HWMCommunityProposalBaseTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11991,7 +12301,7 @@
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Masterdfex;
-				PRODUCT_NAME = "ELA WalletTEST";
+				PRODUCT_NAME = "ELA Wallet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -12068,8 +12378,8 @@
 				MARKETING_VERSION = "1.4 dev";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MasterdfexTEST;
-				PRODUCT_NAME = "ELA WalletTEST";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Masterdfex;
+				PRODUCT_NAME = "ELA Wallet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.0;
@@ -12191,8 +12501,8 @@
 				);
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MasterdfexTEST;
-				PRODUCT_NAME = "ELA WalletTEST";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Masterdfex;
+				PRODUCT_NAME = "ELA Wallet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -12316,8 +12626,8 @@
 				MARKETING_VERSION = "1.4 dev";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MasterdfexTEST;
-				PRODUCT_NAME = "ELA WalletTEST";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Masterdfex;
+				PRODUCT_NAME = "ELA Wallet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

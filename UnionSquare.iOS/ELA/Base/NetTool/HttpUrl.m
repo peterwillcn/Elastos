@@ -16,26 +16,26 @@ NSInteger timeOut = 60;
 
 +(AFHTTPSessionManager*)getManage{
     AFHTTPSessionManager *manage = [AFHTTPSessionManager manager];
-//    AFHTTPSessionManager *manage = [[AFHTTPSessionManager manager]initWithBaseURL:[NSURL URLWithString:Http_UpImage]];
+    //    AFHTTPSessionManager *manage = [[AFHTTPSessionManager manager]initWithBaseURL:[NSURL URLWithString:Http_UpImage]];
     manage.requestSerializer = [AFJSONRequestSerializer serializer];//请求
-
+    
     
     manage.requestSerializer.timeoutInterval = timeOut;
     manage.responseSerializer = [AFHTTPResponseSerializer serializer];//响应
     manage.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"application/x-www-form-urlencoded",@"text/html",nil];
-   // [manage.requestSerializer setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    // [manage.requestSerializer setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     
     // 1.初始化单例类
-
-//    // 2.设置证书模式
-//    NSString * cerPath = [[NSBundle mainBundle] pathForResource:@"server" ofType:@"cer"];
-//    NSData * cerData = [NSData dataWithContentsOfFile:cerPath];
-       AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone ];
+    
+    //    // 2.设置证书模式
+    //    NSString * cerPath = [[NSBundle mainBundle] pathForResource:@"server" ofType:@"cer"];
+    //    NSData * cerData = [NSData dataWithContentsOfFile:cerPath];
+    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone ];
     [securityPolicy setValidatesDomainName:NO];
-//
+    //
     securityPolicy.allowInvalidCertificates = YES;
-
-     manage.securityPolicy = securityPolicy;
+    
+    manage.securityPolicy = securityPolicy;
     
     return manage;
 }
@@ -47,8 +47,8 @@ NSInteger timeOut = 60;
     }else if([httpUrl isEqualToString:@"/api/dposnoderpc/check/jwtget"]){
         isSh=NO;
     }
-     if (show) {
-         [[FLTools share]showLoadingView];
+    if (show) {
+        [[FLTools share]showLoadingView];
         
     }
     AFHTTPSessionManager *manage = [self getManage];
@@ -56,12 +56,12 @@ NSInteger timeOut = 60;
     NSDictionary *dataDic = [self addOtherKey:param];
     NSString *stringUrl;
     if (httpUrl.length>0) {
-    stringUrl = [NSString stringWithFormat:@"%@%@",host,httpUrl];
+        stringUrl = [NSString stringWithFormat:@"%@%@",host,httpUrl];
     }else{
         stringUrl =host;
     }
     
-
+    
     [manage POST:stringUrl parameters:param headers:header progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -71,15 +71,15 @@ NSInteger timeOut = 60;
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         
         NSInteger code = [dic[@"code"] integerValue];
-      
+        
         if (code==0||code==200) {
             successBlock(dic);
         }else{
             NSString *errString=dic[@"exceptionMsg"];
             if (isSh) {
-                 [[FLTools share]showErrorInfo:errString];
+                [[FLTools share]showErrorInfo:errString];
             }
-           
+            
             FailBlock(dic);
             
         }
@@ -87,22 +87,22 @@ NSInteger timeOut = 60;
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (isSh) {
             [[FLTools share]showErrorInfo:errorString];
-    }
+        }
         FailBlock(error);
     }];
     
-   
+    
 }
 + (void)NetGETHost:(NSString*)host url:(NSString *)httpUrl header:(NSDictionary*)header body:(NSDictionary *)param showHUD:(BOOL)show WithSuccessBlock:(void(^)(id data))successBlock WithFailBlock:(void(^)(id data))FailBlock{
-
-
-
-  if (show) {
-  [[FLTools share] showLoadingView];
-
+    
+    
+    
+    if (show) {
+        [[FLTools share] showLoadingView];
+        
     }
     AFHTTPSessionManager *manage = [self getManage];
-
+    
     NSString *stringUrl = [NSString stringWithFormat:@"%@%@",host, httpUrl];
     NSDictionary *dataDic = [self addOtherKey:param];
     [manage GET:stringUrl parameters:dataDic headers:header progress:^(NSProgress * _Nonnull downloadProgress) {
@@ -113,30 +113,35 @@ NSInteger timeOut = 60;
             [SVProgressHUD dismiss];
         }
         NSInteger code = [dic[@"code"] integerValue];
-        if (code==0) {
+        if (code==0||code==1) {
             successBlock(dic);
         }else{
-            NSString *errString=dic[@"exceptionMsg"];
-           
+            NSString *errString;
+            if ([dic objectForKey:@"exceptionMsg"]) {
+                errString=dic[@"exceptionMsg"];
+                
+            }
+            if (errorString.length==0&&[dic objectForKey:@"message"]) {
+                errString=dic[@"message"];
+            }
             [[FLTools share]showErrorInfo:errString];
-            
             FailBlock(dic);
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (![httpUrl isEqualToString:@"/api/dposNodeRPC/getProducerNodesList"]) {
-              [[FLTools share]showErrorInfo:errorString];
+            [[FLTools share]showErrorInfo:errorString];
         }
         FailBlock(error);
         
     }];
-   
+    
 }
 
 #pragma mark 上传图片
 + (void)upLoadImage:(UIImage *)image showHUD:(BOOL)show WithSuccessBlock:(void(^)(id data))successBlock WithFailBlock:(void(^)(id data))FailBlock{
-     if (show) {
-         [[FLTools share] showLoadingView];
+    if (show) {
+        [[FLTools share] showLoadingView];
     }
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -146,9 +151,9 @@ NSInteger timeOut = 60;
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];//响应
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript", @"text/plain",@"text/html",nil];
     [manager.requestSerializer setValue:@"application/json;charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
-   
+    
     NSString *httpStr = [Http_IP stringByAppendingString:@"/api/attachment/upload"];
-   
+    
     [manager POST:httpStr parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> _Nonnull formData) {
         //对图片大小进行压缩--
         NSData *data=UIImageJPEGRepresentation(image, 1.0);
@@ -162,7 +167,7 @@ NSInteger timeOut = 60;
             }
         }
         
-
+        
         //上传的参数(上传图片，以文件流的格式)
         [formData appendPartWithFileData:data
                                     name:@"files"
@@ -171,24 +176,24 @@ NSInteger timeOut = 60;
         
     } progress:^(NSProgress *_Nonnull uploadProgress) {
         //打印下上传进度
-//        DLog(@"%@", uploadProgress);
+        //        DLog(@"%@", uploadProgress);
     } success:^(NSURLSessionDataTask *_Nonnull task, id _Nullable responseObject) {
-         if (show) {
-        [SVProgressHUD dismiss];
-    }
-//        DLog(@"上传结果:%@", responseObject);
+        if (show) {
+            [SVProgressHUD dismiss];
+        }
+        //        DLog(@"上传结果:%@", responseObject);
         //上传成功
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSInteger code = [dic[@"code"] integerValue];
         if (code==0) {
             successBlock(dic);
-         }else{
+        }else{
             NSString *errString=[NSString stringWithFormat:@"%@",dic[@"msg"]];
-          
+            
             [[FLTools share]showErrorInfo:errString];
         }
     } failure:^(NSURLSessionDataTask *_Nullable task, NSError * _Nonnull error) {
-//        DLog(@"%@", error);
+        //        DLog(@"%@", error);
         //上传失败
         [[FLTools share]showErrorInfo:errorString];
         FailBlock(nil);
@@ -197,20 +202,20 @@ NSInteger timeOut = 60;
 + (void)upLoadImage:(NSString*)host Url:(NSString*)url Param:(NSDictionary*)param Images:(NSArray *)images  showHUD:(BOOL)show WithSuccessBlock:(void(^)(id data))successBlock WithFailBlock:(void(^)(id data))FailBlock
 {
     
-     if (show) {
-         [[FLTools share]showLoadingView];
+    if (show) {
+        [[FLTools share]showLoadingView];
     }
-
+    
     AFHTTPSessionManager  *manager = [AFHTTPSessionManager manager];
     
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
-   [ manager.requestSerializer setValue:[FLTools share].user.loginToken forHTTPHeaderField:@"x-client-token"];
+    [ manager.requestSerializer setValue:[FLTools share].user.loginToken forHTTPHeaderField:@"x-client-token"];
     manager.requestSerializer.timeoutInterval = 30;
     NSString *httpStr = [host stringByAppendingString:url];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"yyyyMMddHHmmss";
-//    NSMutableURLRequest *re = [NSMutableURLRequest  ]
+    //    NSMutableURLRequest *re = [NSMutableURLRequest  ]
     
     [manager POST:httpStr parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         int i = 0;
@@ -227,7 +232,7 @@ NSInteger timeOut = 60;
                 }
             }
             //上传的参数(上传图片，以文件流的格式)
-             NSString *fileName = [NSString stringWithFormat:@"%@%d.jpg", [formatter stringFromDate:[NSDate date]],i];
+            NSString *fileName = [NSString stringWithFormat:@"%@%d.jpg", [formatter stringFromDate:[NSDate date]],i];
             [formData appendPartWithFileData:data
                                         name:@"files"
                                     fileName:fileName
@@ -239,39 +244,39 @@ NSInteger timeOut = 60;
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-         if (show) {
-        [SVProgressHUD dismiss];
-    }
+        if (show) {
+            [SVProgressHUD dismiss];
+        }
         NSDictionary *dic =responseObject;
         NSInteger code = [dic[@"code"] integerValue];
         if (code==0) {
             successBlock(dic);
-       
+            
         }else{
             NSString *errString=[NSString stringWithFormat:@"%@",dic[@"msg"]];
             
             [[FLTools share]showErrorInfo:errString];
             FailBlock(dic);
-
+            
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [[FLTools share]showErrorInfo:errorString];
         FailBlock(nil);
     }];
-
+    
 }
 +(NSDictionary*)addOtherKey:(NSDictionary *)dict{
     NSMutableDictionary *parm = [[NSMutableDictionary alloc]initWithDictionary:dict];
-  
+    
     [parm setValuesForKeysWithDictionary:dict];
     return parm;
 }
 
 +(void)loadDataWithUrl:(NSString*)urlString withIconName:(NSString*)iconName WithSuccessBlock:(void(^)(id data))successBlock WithFailBlock:(void(^)(id data))FailBlock{
     /* 创建网络下载对象 */
-     AFHTTPSessionManager *manager = [self getManage];
-
+    AFHTTPSessionManager *manager = [self getManage];
+    
     /* 下载地址 */
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -280,7 +285,7 @@ NSInteger timeOut = 60;
     NSString *filePath = [path stringByAppendingPathComponent:url.lastPathComponent];
     NSData *data =[NSData dataWithContentsOfFile:filePath];
     if (data.length>0) {
-         successBlock(url.lastPathComponent);
+        successBlock(url.lastPathComponent);
         return;
         
     }
@@ -302,8 +307,8 @@ NSInteger timeOut = 60;
     
 }
 +(void)canleURL{
-      AFHTTPSessionManager *manager = [self getManage];
- [manager.operationQueue cancelAllOperations];
+    AFHTTPSessionManager *manager = [self getManage];
+    [manager.operationQueue cancelAllOperations];
 }
 
 @end

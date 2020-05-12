@@ -13,6 +13,7 @@
 #import "IMainchainSubWallet.h"
 #import "HMWtheSuperNodeElectionViewController.h"
 #import "HMWCRCommitteeMemberListViewController.h"
+#import "HWMCommunityProposalViewController.h"
 @interface HMWfoundViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) UITableView *table;
@@ -44,7 +45,7 @@
     self.table.delegate = self;
     self.table.rowHeight = (AppWidth-60)/2;
     self.table.tableFooterView = [[UIView alloc] init];
-    self.dataSource =[[NSMutableArray alloc]initWithObjects:@"",@"",nil];
+    self.dataSource =[[NSMutableArray alloc]initWithObjects:@"",@"",@"",nil];
     [self.table registerNib:[UINib nibWithNibName:@"HMWfoundTableCell" bundle:nil] forCellReuseIdentifier:@"HMWfoundTableCell"];
     
 }
@@ -72,9 +73,13 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HMWfoundTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HMWfoundTableCell"];
-    if (indexPath.row==1) {
+    if (indexPath.row==2) {
         cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_crcvote", nil)];
-    }else{
+    }if (indexPath.row==1) {
+        cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_proposal", nil)];
+    }
+
+    else{
         cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_vote", nil)];
         
     }
@@ -101,6 +106,10 @@
         [self.navigationController pushViewController:theSuperNodeElectionVC animated:YES];
     }
     if (indexPath.row==1) {
+        HWMCommunityProposalViewController *CommunityProposalVC=[[HWMCommunityProposalViewController alloc]init];
+        [self.navigationController pushViewController:CommunityProposalVC animated:YES];
+    }
+    if (indexPath.row==2) {
         ELWalletManager *manager   =  [ELWalletManager share];
         IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
         nlohmann::json info = mainchainSubWallet->GetRegisteredCRInfo();

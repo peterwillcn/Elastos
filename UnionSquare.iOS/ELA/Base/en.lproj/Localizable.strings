@@ -331,10 +331,15 @@
 "提取报名押金"="Retrieve deposit";
 "found_card_crcvote"="eg_found_card_CR";
 "found_card_vote"="eg_found_card_vote";
+"found_card_proposal"="";
+
 "rules"="https://news.elastos.org/elastos-dpos-supernode-election-process/";
 "CRrules"="https://news.elastos.org/cr-council-election-rules/";
 "最多可选36个节点"="vote for maximum of 36 nodes";
 "超出投票选择上限，是否在已选列表中按排名顺序选择前36名？"="Exceeding the voting selection limit, did you select the top 36?";
+"签名"="";
+"发起建议"="";
+
 //国家
 "阿富汗"="Afghanistan";
 "阿尔巴尼亚"="Albania";

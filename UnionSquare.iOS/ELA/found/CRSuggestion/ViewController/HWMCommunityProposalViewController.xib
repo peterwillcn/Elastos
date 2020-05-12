@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HWMCommunityProposalViewController">
+            <connections>
+                <outlet property="baseScroView" destination="qur-c1-Oa6" id="pAa-uK-aKO"/>
+                <outlet property="scBGView" destination="Y5z-bi-MUp" id="bfz-Hg-LOD"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y5z-bi-MUp">
+                    <rect key="frame" x="0.0" y="44" width="414" height="50"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="N1k-2F-QVs"/>
+                    </constraints>
+                </view>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qur-c1-Oa6">
+                    <rect key="frame" x="0.0" y="94" width="414" height="768"/>
+                </scrollView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="qur-c1-Oa6" firstAttribute="trailing" secondItem="Q5M-cg-NOt" secondAttribute="trailing" id="2c1-y0-hYu"/>
+                <constraint firstItem="Y5z-bi-MUp" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="2oW-6D-YgR"/>
+                <constraint firstItem="qur-c1-Oa6" firstAttribute="top" secondItem="Y5z-bi-MUp" secondAttribute="bottom" id="FQc-Ci-vbW"/>
+                <constraint firstItem="qur-c1-Oa6" firstAttribute="bottom" secondItem="Q5M-cg-NOt" secondAttribute="bottom" id="OCq-99-z2y"/>
+                <constraint firstItem="qur-c1-Oa6" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="bT0-tE-4A5"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="Y5z-bi-MUp" secondAttribute="trailing" id="c92-fs-q1Q"/>
+                <constraint firstItem="Y5z-bi-MUp" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="fQ0-gH-0GI"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
+            <point key="canvasLocation" x="137.68115942028987" y="114.50892857142857"/>
+        </view>
+    </objects>
+</document>

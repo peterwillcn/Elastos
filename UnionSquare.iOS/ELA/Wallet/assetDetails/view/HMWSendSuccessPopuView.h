@@ -9,10 +9,13 @@
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSInteger, SendSuccessType) {
-   sendDealType,         // slow at beginning and end
-   saveSuccessType
+    sendDealType,         // slow at beginning and end
+    saveSuccessType,
+    SignatureSuccessType,
+    SignatureFailureType
     
-   
+    
+    
 };
 
 

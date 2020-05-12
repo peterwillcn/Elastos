@@ -166,7 +166,7 @@ We welcome contributions to the Elastos Trinity Project.
 
 ## Roadmap
 
-[Elastos Trinity Roadmap](ROADMAP.md)
+[Elastos Trinity Roadmap](https://developer.elastos.org/faq_roadmap/modules_status/)
 
 ## Acknowledgments
 

@@ -26,7 +26,7 @@ import SQLite
 /** Extension to the sqlite Connection to handle a user_version in order to manage database format upgrades. */
 extension Connection {
     public var userVersion: Int {
-        get { return (((try? scalar("PRAGMA user_version") as? Int) ?? 0)!) }
+        get { return Int(try! scalar("PRAGMA user_version") as? Int64 ?? 0) }
         set { try! run("PRAGMA user_version = \(newValue)") }
     }
 }

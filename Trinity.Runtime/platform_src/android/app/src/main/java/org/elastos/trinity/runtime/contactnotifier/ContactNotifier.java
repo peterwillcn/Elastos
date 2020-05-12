@@ -27,6 +27,8 @@ public class ContactNotifier {
     private static final String ONLINE_STATUS_MODE_PREF_KEY = "onlinestatusmode";
     private static final String INVITATION_REQUESTS_MODE_PREF_KEY = "invitationrequestsmode";
 
+    private static final String FRIENDS_APP_PACKAGE_ID = "org.elastos.trinity.dapp.friends";
+
     private static HashMap<String, ContactNotifier> instances = new HashMap<>(); // Sandbox DIDs - One did session = one instance
 
     private Context context;
@@ -285,7 +287,7 @@ public class ContactNotifier {
                                 dbAdapter.addContact(didSessionDID, did, carrierUserId);
                                 String targetUrl = "https://scheme.elastos.org/viewfriend?did="+did;
                                 // TODO: resolve DID document, find firstname if any, and adjust the notification to include the firstname
-                                sendLocalNotification(did,"newcontact-"+did, "Someone was just added as a new contact. Touch to view his/her profile.", targetUrl);
+                                sendLocalNotification(did,"newcontact-"+did, "Someone was just added as a new contact. Touch to view his/her profile.", targetUrl, FRIENDS_APP_PACKAGE_ID);
                             }
                         });
                     }
@@ -301,7 +303,7 @@ public class ContactNotifier {
                     long invitationID = dbAdapter.addReceivedInvitation(didSessionDID, did, carrierUserId);
                     String targetUrl = "https://scheme.elastos.org/viewfriendinvitation?did="+did+"&invitationid="+invitationID;
                     // TODO: resolve DID document, find firstname if any, and adjust the notification to include the firstname
-                    sendLocalNotification(did,"contactreq-"+did, "Someone wants to add you as a contact. Touch to view more details.", targetUrl);
+                    sendLocalNotification(did,"contactreq-"+did, "Someone wants to add you as a contact. Touch to view more details.", targetUrl, FRIENDS_APP_PACKAGE_ID);
                 }
             }
 
@@ -396,7 +398,7 @@ public class ContactNotifier {
 
         String targetUrl = "https://scheme.elastos.org/viewfrien?did="+invitation.did;
         // TODO: resolve DID document, find firstname if any, and adjust the notification to include the firstname
-        sendLocalNotification(invitation.did,"friendaccepted-"+invitation.did, "Your friend has accepted your invitation. Touch to view details.", targetUrl);
+        sendLocalNotification(invitation.did,"friendaccepted-"+invitation.did, "Your friend has accepted your invitation. Touch to view details.", targetUrl, FRIENDS_APP_PACKAGE_ID);
     }
 
     private void notifyOnlineStatusChanged(String friendId, ConnectionStatus status) {
@@ -441,6 +443,10 @@ public class ContactNotifier {
     }
 
     void sendLocalNotification(String relatedRemoteDID, String key, String title, String url) {
+        sendLocalNotification(relatedRemoteDID, key, title, url, "system");
+    }
+
+    void sendLocalNotification(String relatedRemoteDID, String key, String title, String url, String appId) {
         NotificationRequest testNotif = new NotificationRequest();
         testNotif.key = key;
         testNotif.title = title;

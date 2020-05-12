@@ -30,10 +30,14 @@ class Log {
     }
     
     static func i(_ tag: String, _ msg: String) {
-        print("\(tag)::\((#file as NSString).lastPathComponent)[\(#line)], \(#function): \(msg)")
+        print("INFO - \(tag)::\((#file as NSString).lastPathComponent)[\(#line)], \(#function): \(msg)")
     }
     
     static func w(_ tag: String, _ msg: String) {
-        print("\(tag)::\((#file as NSString).lastPathComponent)[\(#line)], \(#function): \(msg)")
+        print("WARN - \(tag)::\((#file as NSString).lastPathComponent)[\(#line)], \(#function): \(msg)")
+    }
+    
+    static func e(_ tag: String, _ msg: String) {
+        print("ERROR - \(tag)::\((#file as NSString).lastPathComponent)[\(#line)], \(#function): \(msg)")
     }
 }

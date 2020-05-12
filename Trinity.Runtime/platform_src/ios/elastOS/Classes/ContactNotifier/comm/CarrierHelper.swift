@@ -13,6 +13,7 @@ public class CarrierHelper {
     var carrierInstance: Carrier? = nil
     private var commandQueue = Array<CarrierCommand>() // List of commands to execute. We use a queue in case we have to wait for our carrier instance to be ready (a few seconds)
     private var onCarrierEventListener: OnCarrierEventListener? = nil
+    private var carrierDelegate: CarrierDelegate? = nil
 
     public typealias onCommandExecuted = (_ succeeded: Bool, _ reason: String?) -> Void
 
@@ -62,6 +63,10 @@ public class CarrierHelper {
                     // Invitation is not understood, forget it.
                     Log.w(ContactNotifier.LOG_TAG, "Invitation received from carrier userId \(userId) but hello string can't be understood: \(hello)")
                 }
+            }
+            
+            func didReceiveFriendInviteRequest(_ carrier: Carrier, _ from: String, _ data: String) {
+                Log.i(ContactNotifier.LOG_TAG, "Did receive friend invite request from: \(from)")
             }
             
             func newFriendAdded(_ carrier: Carrier, _ info: CarrierFriendInfo) {
@@ -131,8 +136,8 @@ public class CarrierHelper {
             }
         }
 
-        // Create or get an our carrier instance instance
-        carrierInstance = try Carrier.createInstance(options: options, delegate: CarrierHandler(helper: self))
+        carrierDelegate = CarrierHandler(helper: self) // Retain a reference on carrier delegate as carrier FWK does not, and this leads to a crash.
+        carrierInstance = try Carrier.createInstance(options: options, delegate: carrierDelegate!)
 
         // Start the service
         try carrierInstance!.start(iterateInterval: 5000) // Start carrier. Wait N milliseconds between each check of carrier status (polling)

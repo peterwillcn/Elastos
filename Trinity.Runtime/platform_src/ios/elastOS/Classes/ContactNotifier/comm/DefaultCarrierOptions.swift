@@ -8,7 +8,7 @@ public class DefaultCarrierOptions {
         options.hivebootstrapNodes = [HiveBootstrapNode]()
         options.udpEnabled = true
 
-        let dataPath = NSHomeDirectory() + "/Documents/data/"
+        let dataPath = NSHomeDirectory() + "/Documents/data"
         let dbPath = dataPath+"/contactnotifier/"+didSessionDID
         options.persistentLocation = dbPath
 

@@ -59,18 +59,6 @@ public class CarrierHelper {
                 Log.i(ContactNotifier.LOG_TAG, "Carrier connection status: " + status);
 
                 if(status == ConnectionStatus.Connected) {
-
-                    // TMP TEST NOTIF
-                    NotificationRequest testNotif = new NotificationRequest();
-                    testNotif.key = "testkey";
-                    testNotif.title = "Contact notifier is ready!";
-                    try {
-                        NotificationManager.getSharedInstance().sendNotification(testNotif, "org.elastos.trinity.dapp.did");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    // TMP TEST NOTIF END
-
                     // We are now connected to carrier network, we can start to send friend requests, or messages
                     checkRunQueuedCommands();
                 }

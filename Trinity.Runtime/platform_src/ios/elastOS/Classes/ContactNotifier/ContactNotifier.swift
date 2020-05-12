@@ -63,18 +63,12 @@ public class ContactNotifier {
      *
      * @param did The contact's DID.
      */
-    public func resolveContact(did: String?, completion: (_ contact: Contact?)->Void) {
+    public func resolveContact(did: String?) -> Contact? {
         guard did != nil else {
-            completion(nil)
-            return
+            return nil
         }
 
-        do {
-            try dbAdapter!.getContactByDID(didSessionDID: didSessionDID, contactDID: did!, completion: completion)
-        }
-        catch {
-            completion(nil)
-        }
+        return dbAdapter!.getContactByDID(didSessionDID: didSessionDID, contactDID: did!)
     }
 
     /**
@@ -84,17 +78,15 @@ public class ContactNotifier {
      * @param did DID of the contact to remove
      */
     public func removeContact(did: String) throws {
-        resolveContact(did: did) { contact in
-            guard contact != nil else {
-                Log.w(ContactNotifier.LOG_TAG, "No contact found with DID \(did)")
-                return
-            }
-            
+        if let contact = resolveContact(did: did) {
             // Remove from carrier
-            carrierHelper!.removeFriend(contactCarrierUserID: contact!.carrierUserID) { succeeded, reason in
+            carrierHelper!.removeFriend(contactCarrierUserID: contact.carrierUserID) { succeeded, reason in
                 // Remove from database
                 self.dbAdapter!.removeContact(didSessionDID: self.didSessionDID, contactDID: did)
             }
+        }
+        else {
+            Log.w(ContactNotifier.LOG_TAG, "No contact found with DID \(did)")
         }
     }
 
@@ -153,45 +145,35 @@ public class ContactNotifier {
      */
     public func acceptInvitation(invitationId: String, listener: OnInvitationAcceptedByUsListener) {
         // Retrieved the received invitation info from a given ID
-        dbAdapter!.getReceivedInvitationById(didSessionDID: didSessionDID, invitationID: invitationId) { invitation in
+        if let invitation = dbAdapter!.getReceivedInvitationById(didSessionDID: didSessionDID, invitationID: try? Int64(value: invitationId)) {
             
-            guard invitation != nil else {
-                // No such invitation exists.
-                listener.onNotExistingInvitation()
-                return
-            }
-
             // Accept the invitation on carrier
-            do {
-                carrierHelper!.acceptFriend(contactCarrierUserID: invitation!.carrierUserID) { succeeded, reason in
-                    if succeeded {
-                        // Add the contact to our database
-                        Log.d(ContactNotifier.LOG_TAG, "Accepting a friend invitation. Adding contact locally")
-                        do {
-                            try self.dbAdapter!.addContact(didSessionDID: self.didSessionDID, did: invitation!.did, carrierUserID: invitation!.carrierUserID) { contact in
-                                guard contact != nil else {
-                                    listener.onError(reason: "Contact could not be added")
-                                    return
-                                }
-                                
-                                // Delete the pending invitation request
-                                self.dbAdapter!.removeReceivedInvitation(didSessionDID: self.didSessionDID, invitationId: invitationId)
+            carrierHelper!.acceptFriend(contactCarrierUserID: invitation.carrierUserID) { succeeded, reason in
+                if succeeded {
+                    // Add the contact to our database
+                    Log.d(ContactNotifier.LOG_TAG, "Accepting a friend invitation. Adding contact locally")
+                    do {
+                        let contact = try self.dbAdapter!.addContact(didSessionDID: self.didSessionDID, did: invitation.did, carrierUserID: invitation.carrierUserID)
+                            
+                        // Delete the pending invitation request
+                        self.dbAdapter!.removeReceivedInvitation(didSessionDID: self.didSessionDID, invitationId: try? Int64(value: invitationId))
 
-                                listener.onInvitationAccepted(contact: contact!)
-                            }
-                        }
-                        catch (let error) {
-                            listener.onError(reason: error.localizedDescription)
-                        }
+                        listener.onInvitationAccepted(contact: contact)
                     }
-                    else {
-                        listener.onError(reason: reason)
+                    catch (let error) {
+                        Log.e(ContactNotifier.LOG_TAG, error.localizedDescription)
+                        listener.onError(reason: "Contact could not be added")
                     }
                 }
+                else {
+                    listener.onError(reason: reason)
+                }
             }
-            catch (let error) {
-                print(error)
-            }
+        }
+        else {
+            // No such invitation exists.
+            listener.onNotExistingInvitation()
+            return
         }
     }
 
@@ -203,19 +185,13 @@ public class ContactNotifier {
      */
     public func rejectInvitation(invitationId: String) {
         // Retrieved the received invitation info from a given ID
-        dbAdapter!.getReceivedInvitationById(didSessionDID: didSessionDID, invitationID: invitationId) { invitation in
-            guard invitation != nil else {
-                // No such invitation exists.
-                return
-            }
-
-            do {
-                // Delete the invitation
-                dbAdapter!.removeReceivedInvitation(didSessionDID: didSessionDID, invitationId: invitationId)
-            }
-            catch (let error) {
-                print(error)
-            }
+        if (dbAdapter!.getReceivedInvitationById(didSessionDID: didSessionDID, invitationID: try? Int64(value: invitationId)) != nil) {
+        
+            // Delete the invitation
+            dbAdapter!.removeReceivedInvitation(didSessionDID: didSessionDID, invitationId: try? Int64(value: invitationId))
+        }
+        else {
+            // No such invitation exists.
         }
     }
 
@@ -294,20 +270,20 @@ public class ContactNotifier {
                 if (notifier.getInvitationRequestsMode() == .AUTO_ACCEPT) {
                     Log.i(ContactNotifier.LOG_TAG, "Auto-accepting friend invitation")
 
-                    do {
-                        notifier.carrierHelper!.acceptFriend(contactCarrierUserID: carrierUserId) { succeeded, reason in
-                            if succeeded {
-                                Log.d(ContactNotifier.LOG_TAG, "Adding contact locally")
-                                try? self.notifier.dbAdapter!.addContact(didSessionDID: self.notifier.didSessionDID, did: did, carrierUserID: carrierUserId) { contact in
-                                    let targetUrl = "https://scheme.elastos.org/viewfriend?did=\(did)"
-                                    // TODO: resolve DID document, find firstname if any, and adjust the notification to include the firstname
-                                    self.notifier.sendLocalNotification(relatedRemoteDID: did,key: "newcontact-\(did)", title: "Someone was just added as a new contact. Touch to view his/her profile.", url: targetUrl)
-                                }
+                    notifier.carrierHelper!.acceptFriend(contactCarrierUserID: carrierUserId) { succeeded, reason in
+                        if succeeded {
+                            Log.d(ContactNotifier.LOG_TAG, "Adding contact locally")
+                            do {
+                                _ = try self.notifier.dbAdapter!.addContact(didSessionDID: self.notifier.didSessionDID, did: did, carrierUserID: carrierUserId)
+                                
+                                let targetUrl = "https://scheme.elastos.org/viewfriend?did=\(did)"
+                                // TODO: resolve DID document, find firstname if any, and adjust the notification to include the firstname
+                                self.notifier.sendLocalNotification(relatedRemoteDID: did,key: "newcontact-\(did)", title: "Someone was just added as a new contact. Touch to view his/her profile.", url: targetUrl)
+                            }
+                            catch (let error) {
+                                Log.e(ContactNotifier.LOG_TAG, error.localizedDescription)
                             }
                         }
-                    }
-                    catch (let error) {
-                        print(error)
                     }
                 }
                 else if (notifier.getInvitationRequestsMode() == InvitationRequestsMode.AUTO_REJECT) {
@@ -315,10 +291,15 @@ public class ContactNotifier {
                 }
                 else {
                     // MANUALLY_ACCEPT - Manual approval
-                    notifier.dbAdapter!.addReceivedInvitation(didSessionDID: notifier.didSessionDID, contactDID: did, contactCarrierUserId: carrierUserId) { invitationID in
-                        let targetUrl = "https://scheme.elastos.org/viewfriendinvitation?did=(did)&invitationid=\(invitationID)"
+                    do {
+                        let invitationID = try notifier.dbAdapter!.addReceivedInvitation(didSessionDID: notifier.didSessionDID, contactDID: did, contactCarrierUserId: carrierUserId)
+                        
+                        let targetUrl = "https://scheme.elastos.org/viewfriendinvitation?did=(did)&invitationid=\(String(describing: invitationID))"
                         // TODO: resolve DID document, find firstname if any, and adjust the notification to include the firstname
                         notifier.sendLocalNotification(relatedRemoteDID: did,key: "contactreq-\(did)", title: "Someone wants to add you as a contact. Touch to view more details.", url: targetUrl)
+                    }
+                    catch (let error) {
+                        Log.e(ContactNotifier.LOG_TAG, error.localizedDescription)
                     }
                 }
             }
@@ -333,19 +314,19 @@ public class ContactNotifier {
             
             func onRemoteNotification(_ friendId: String, _ remoteNotification: RemoteNotificationRequest) {
                 // Try to resolve this friend id as a contact
-                notifier.dbAdapter!.getContactByCarrierUserID(didSessionDID: notifier.didSessionDID, carrierUserID: friendId) { contact in
-                    if contact != nil {
-                        // Make sure this contact is not blocked by us
-                        if !contact!.notificationsBlocked {
-                            notifier.sendLocalNotification(relatedRemoteDID: contact!.did,key: remoteNotification.key!, title: remoteNotification.title!, url: remoteNotification.url)
-                        }
-                        else {
-                            Log.w(ContactNotifier.LOG_TAG, "Not delivering remote notification because contact is blocked")
-                        }
+                let contact = notifier.dbAdapter!.getContactByCarrierUserID(didSessionDID: notifier.didSessionDID, carrierUserID: friendId)
+                    
+                if contact != nil {
+                    // Make sure this contact is not blocked by us
+                    if !contact!.notificationsBlocked {
+                        notifier.sendLocalNotification(relatedRemoteDID: contact!.did,key: remoteNotification.key!, title: remoteNotification.title!, url: remoteNotification.url)
                     }
                     else {
-                        Log.w(ContactNotifier.LOG_TAG, "Remote notification received from unknown contact. Friend ID = \(friendId)")
+                        Log.w(ContactNotifier.LOG_TAG, "Not delivering remote notification because contact is blocked")
                     }
+                }
+                else {
+                    Log.w(ContactNotifier.LOG_TAG, "Remote notification received from unknown contact. Friend ID = \(friendId)")
                 }
             }
         }
@@ -355,55 +336,46 @@ public class ContactNotifier {
 
     private func updateFriendOnlineStatus(info: FriendInfo) {
         // Resolve the contact and make sure this friend wants to be seen.
-        dbAdapter!.getContactByCarrierUserID(didSessionDID: didSessionDID, carrierUserID: info.userId!) { contact in
-            if contact != nil {
-                if info.presence == .None {
-                    notifyOnlineStatusChanged(friendId: info.userId!, status: info.status)
-                }
-                else {
-                    // User doesn't want to be seen
-                    notifyOnlineStatusChanged(friendId: info.userId!, status: .Disconnected)
-                }
+        let contact = try dbAdapter!.getContactByCarrierUserID(didSessionDID: didSessionDID, carrierUserID: info.userId!)
+            
+        if contact != nil {
+            if info.presence == .None {
+                notifyOnlineStatusChanged(friendId: info.userId!, status: info.status)
             }
             else {
-                // If we receive an online status information from a friend but this friend is not in our contact list yet,
-                // AND this friend is in our sent invitations list, this means the friend has accepted our previous invitation.
-                // This is the only way to get this information from carrier. So in such case, we can add hims as a real contact
-                // now, and remove the sent invitation.
-                findSentInvitationByFriendId(friendId: info.userId!) { invitation in
-                    if invitation != nil {
-                        try? handleFriendInvitationAccepted(invitation: invitation!, friendId: info.userId!)
-                    }
-                }
+                // User doesn't want to be seen
+                notifyOnlineStatusChanged(friendId: info.userId!, status: .Disconnected)
             }
         }
-            
+        else {
+            // If we receive an online status information from a friend but this friend is not in our contact list yet,
+            // AND this friend is in our sent invitations list, this means the friend has accepted our previous invitation.
+            // This is the only way to get this information from carrier. So in such case, we can add hims as a real contact
+            // now, and remove the sent invitation.
+            if let invitation = findSentInvitationByFriendId(friendId: info.userId!) {
+                try? handleFriendInvitationAccepted(invitation: invitation, friendId: info.userId!)
+            }
+        }
     }
 
     /**
      * When a friend accepts our invitation, the only way to know it is to match all friends userIds with our pending
      * invitation carrier addresses manually. Not convenient, but that's the only way for now.
      */
-    private func findSentInvitationByFriendId(friendId: String, completion: ((SentInvitation?)->Void)) {
-        dbAdapter!.getAllSentInvitations(didSessionDID: didSessionDID) { invitations in
-            guard invitations != nil else {
-                completion(nil)
-                return
-            }
-            
-            for invitation in invitations! {
-                if invitation.carrierAddress != nil {
-                    // Resolve user id associated with the invitation carrier address to be able to compare it
-                    let invitationUserID = Carrier.getUserIdFromAddress(invitation.carrierAddress)
-                    if invitationUserID != nil && invitationUserID == friendId {
-                        // We found a pending invitation that matches the given friend.
-                        completion(invitation)
-                        return
-                    }
+    private func findSentInvitationByFriendId(friendId: String) -> SentInvitation? {
+        let invitations = dbAdapter!.getAllSentInvitations(didSessionDID: didSessionDID)
+        
+        for invitation in invitations {
+            if invitation.carrierAddress != "" {
+                // Resolve user id associated with the invitation carrier address to be able to compare it
+                let invitationUserID = Carrier.getUserIdFromAddress(invitation.carrierAddress)
+                if invitationUserID != nil && invitationUserID == friendId {
+                    // We found a pending invitation that matches the given friend.
+                    return invitation
                 }
             }
-            completion(nil)
         }
+        return nil
     }
 
     /**
@@ -414,17 +386,17 @@ public class ContactNotifier {
         Log.d(ContactNotifier.LOG_TAG, "Friend has accepted our invitation. Adding contact locally")
 
         // Add carrier friend as a contact
-        try dbAdapter!.addContact(didSessionDID: didSessionDID, did: invitation.did, carrierUserID: friendId) { contact in
-            // Delete the pending invitation request
-            dbAdapter!.removeSentInvitationByAddress(didSessionDID: didSessionDID, carrierAddress: invitation.carrierAddress)
+        let contact = try dbAdapter!.addContact(didSessionDID: didSessionDID, did: invitation.did, carrierUserID: friendId)
+        
+        // Delete the pending invitation request
+        dbAdapter!.removeSentInvitationByAddress(didSessionDID: didSessionDID, carrierAddress: invitation.carrierAddress)
 
-            // Notify the listeners
-            notifyInvitationAcceptedByFriend(contact: contact)
+        // Notify the listeners
+        notifyInvitationAcceptedByFriend(contact: contact)
 
-            let targetUrl = "https://scheme.elastos.org/viewfrien?did=\(invitation.did)"
-            // TODO: resolve DID document, find firstname if any, and adjust the notification to include the firstname
-            sendLocalNotification(relatedRemoteDID: invitation.did,key: "friendaccepted-"+invitation.did, title: "Your friend has accepted your invitation. Touch to view details.", url: targetUrl)
-        }
+        let targetUrl = "https://scheme.elastos.org/viewfrien?did=\(invitation.did)"
+        // TODO: resolve DID document, find firstname if any, and adjust the notification to include the firstname
+        sendLocalNotification(relatedRemoteDID: invitation.did,key: "friendaccepted-"+invitation.did, title: "Your friend has accepted your invitation. Touch to view details.", url: targetUrl)
     }
 
     private func notifyOnlineStatusChanged(friendId: String, status: CarrierConnectionStatus) {
@@ -433,11 +405,10 @@ public class ContactNotifier {
         }
 
         // Resolve contact from friend ID
-        dbAdapter!.getContactByCarrierUserID(didSessionDID: didSessionDID, carrierUserID: friendId) { contact in
-            if contact != nil {
-                for listener in onOnlineStatusChangedListeners {
-                    listener(contact!, onlineStatusFromCarrierStatus(status))
-                }
+        let contact = dbAdapter!.getContactByCarrierUserID(didSessionDID: didSessionDID, carrierUserID: friendId)
+        if contact != nil {
+            for listener in onOnlineStatusChangedListeners {
+                listener(contact!, onlineStatusFromCarrierStatus(status))
             }
         }
     }

@@ -28,6 +28,8 @@ public class CNDatabaseAdapter {
     
     // Tables
     let contacts = Table(CNDatabaseHelper.CONTACTS_TABLE)
+    let sentInvitations = Table(CNDatabaseHelper.SENT_INVITATIONS_TABLE)
+    let receivedInvitations = Table(CNDatabaseHelper.RECEIVED_INVITATIONS_TABLE)
 
     // Fields
     let tidField = Expression<Int64>(AppInfo.TID)
@@ -37,6 +39,8 @@ public class CNDatabaseAdapter {
     public let carrierUserIdField = Expression<String>(CNDatabaseHelper.CARRIER_USER_ID)
     public let notificationsBlockedField = Expression<Bool>(CNDatabaseHelper.NOTIFICATIONS_BLOCKED)
     public let addedDateField = Expression<Int64>(CNDatabaseHelper.ADDED_DATE)
+    public let sentDateField = Expression<Int64>(CNDatabaseHelper.SENT_DATE)
+    public let receivedDateField = Expression<Int64>(CNDatabaseHelper.RECEIVED_DATE)
     public let invitationIdField = Expression<Int64>(CNDatabaseHelper.INVITATION_ID)
     
     public init(notifier: ContactNotifier)
@@ -45,10 +49,10 @@ public class CNDatabaseAdapter {
         helper = CNDatabaseHelper()
     }
 
-    public func addContact(didSessionDID: String, did: String, carrierUserID: String, completion: (_ contact: Contact?)->Void) throws {
+    public func addContact(didSessionDID: String, did: String, carrierUserID: String) throws -> Contact {
         let db = try helper.getDatabase()
         
-        try! db.transaction {
+        try db.transaction {
             try db.run(contacts.insert(
                 didSessionDIDField <- didSessionDID,
                 didField <- did,
@@ -56,142 +60,194 @@ public class CNDatabaseAdapter {
                 notificationsBlockedField <- false,
                 addedDateField <- Int64(Date().timeIntervalSince1970)
             ))
-            
-            try! getContactByDID(didSessionDID: didSessionDID, contactDID: did) { contact in
-                completion(contact)
-            }
         }
+        
+        return getContactByDID(didSessionDID: didSessionDID, contactDID: did)!
      }
 
     public func updateContactNotificationsBlocked(didSessionDID: String, did: String, shouldBlockNotifications: Bool) {
-         /* TODO SQLiteDatabase db = helper.getWritableDatabase();
-
-         String where = DatabaseHelper.DID_SESSION_DID + "=? AND " + DatabaseHelper.DID + "=?";
-         String[] whereArgs = {didSessionDID, did};
-
-         ContentValues contentValues = new ContentValues();
-         contentValues.put(DatabaseHelper.NOTIFICATIONS_BLOCKED, shouldBlockNotifications);
-
-         db.update(DatabaseHelper.CONTACTS_TABLE, contentValues, where, whereArgs );*/
-     }
-
-    public func getContactByDID(didSessionDID: String, contactDID: String, completion: (_ contact: Contact?)->Void) throws {
-         /* TODO SQLiteDatabase db = helper.getWritableDatabase();
-
-         String where = DatabaseHelper.DID_SESSION_DID + "=? AND " + DatabaseHelper.DID + "=?";
-         String[] whereArgs = {didSessionDID, contactDID};
-         String[] columns = {DatabaseHelper.DID, DatabaseHelper.CARRIER_USER_ID, DatabaseHelper.NOTIFICATIONS_BLOCKED, DatabaseHelper.ADDED_DATE};
-
-         Cursor cursor = db.query(DatabaseHelper.CONTACTS_TABLE, columns, where, whereArgs,null,null,null);
-         if (cursor.moveToNext()) {
-             return Contact.fromDatabaseCursor(notifier, cursor);
-         }
-
-         return null;*/
         
-        let db = try helper.getDatabase()
-        try! db.transaction {
-            let query = contacts.select(*)
-                .filter(didSessionDIDField == didSessionDID && didField == contactDID)
-            let contactRows = try! db.prepare(query)
-            for row in contactRows {
-                completion(Contact.fromDatabaseRow(notifier: notifier, row: row))
+        do {
+            let db = try helper.getDatabase()
+            try db.transaction {
+                try db.run(contacts
+                    .filter(didSessionDIDField == didSessionDID && didField == did)
+                    .update(
+                        notificationsBlockedField <- shouldBlockNotifications
+                    ))
             }
+        }
+        catch (let error) {
+            print(error)
         }
      }
 
-    public func getContactByCarrierUserID(didSessionDID: String, carrierUserID: String, completion: (Contact?)->Void){
-         /* TODOSQLiteDatabase db = helper.getWritableDatabase();
+    public func getContactByDID(didSessionDID: String, contactDID: String) -> Contact? {
+        do {
+            let db = try helper.getDatabase()
+            var contact: Contact? = nil
+            try db.transaction {
+                let query = contacts.select(*)
+                    .filter(didSessionDIDField == didSessionDID && didField == contactDID)
+                let contactRows = try! db.prepare(query)
+                for row in contactRows {
+                    contact = Contact.fromDatabaseRow(notifier: notifier, row: row)
+                    break
+                }
+            }
+            
+            return contact
+        }
+        catch (let error) {
+            print(error)
+            return nil
+        }
+     }
 
-         String where = DatabaseHelper.DID_SESSION_DID + "=? AND " + DatabaseHelper.CARRIER_USER_ID + "=?";
-         String[] whereArgs = {didSessionDID, carrierUserID};
-         String[] columns = {DatabaseHelper.DID, DatabaseHelper.CARRIER_USER_ID, DatabaseHelper.NOTIFICATIONS_BLOCKED, DatabaseHelper.ADDED_DATE};
-
-         Cursor cursor = db.query(DatabaseHelper.CONTACTS_TABLE, columns, where, whereArgs,null,null,null);
-         if (cursor.moveToNext()) {
-             Contact contact = Contact.fromDatabaseCursor(notifier, cursor);
-             return contact;
-         }
-
-         return null;*/
+    public func getContactByCarrierUserID(didSessionDID: String, carrierUserID: String) -> Contact? {
+        do {
+            let db = try helper.getDatabase()
+            var contact: Contact? = nil
+            try db.transaction {
+                let query = contacts.select(*)
+                    .filter(didSessionDIDField == didSessionDID && carrierUserIdField == carrierUserID)
+                let contactRows = try! db.prepare(query)
+                for row in contactRows {
+                    contact = Contact.fromDatabaseRow(notifier: notifier, row: row)
+                    break
+                }
+            }
+            
+            return contact
+        }
+        catch (let error) {
+            print(error)
+            return nil
+        }
      }
 
     public func removeContact(didSessionDID: String, contactDID: String) {
-         /* TODOSQLiteDatabase db = helper.getWritableDatabase();
-
-         String where = DatabaseHelper.DID_SESSION_DID + "=? AND "+DatabaseHelper.DID + "=?";
-         String[] whereArgs = {didSessionDID, contactDID};
-         db.delete(DatabaseHelper.CONTACTS_TABLE, where, whereArgs);*/
+        do {
+            let db = try helper.getDatabase()
+            try db.transaction {
+                _ = contacts.filter(didSessionDIDField == didSessionDID && didField == contactDID).delete()
+            }
+        }
+        catch (let error) {
+            print(error)
+        }
      }
 
     public func addSentInvitation(didSessionDID: String, targetDID: String, targetCarrierAddress: String) {
-         /* TODOSQLiteDatabase db = helper.getWritableDatabase();
-
-         ContentValues contentValues = new ContentValues();
-         contentValues.put(DatabaseHelper.DID_SESSION_DID, didSessionDID);
-         contentValues.put(DatabaseHelper.DID, targetDID);
-         contentValues.put(DatabaseHelper.CARRIER_ADDRESS, targetCarrierAddress);
-         contentValues.put(DatabaseHelper.SENT_DATE, new Date().getTime()); // Unix timestamp
-
-         db.insertOrThrow(DatabaseHelper.SENT_INVITATIONS_TABLE, null, contentValues);*/
+        do {
+            let db = try helper.getDatabase()
+            
+            try db.transaction {
+                let insertedId = try db.run(sentInvitations.insert(
+                    didSessionDIDField <- didSessionDID,
+                    didField <- targetDID,
+                    carrierAddressField <- targetCarrierAddress,
+                    sentDateField <- Int64(Date().timeIntervalSince1970)
+                ))
+                
+                print("Created SENT invitation id: \(insertedId)")
+            }
+        }
+        catch (let error) {
+            print(error)
+        }
      }
 
     public func removeSentInvitationByAddress(didSessionDID: String, carrierAddress: String) {
-         /* TODOSQLiteDatabase db = helper.getWritableDatabase();
-
-         String where = DatabaseHelper.DID_SESSION_DID + "=? AND "+DatabaseHelper.CARRIER_ADDRESS + "=?";
-         String[] whereArgs = {didSessionDID, carrierAddress};
-         db.delete(DatabaseHelper.SENT_INVITATIONS_TABLE, where, whereArgs);*/
+        do {
+            let db = try helper.getDatabase()
+            try db.transaction {
+                _ = sentInvitations.filter(didSessionDIDField == didSessionDID && carrierAddressField == carrierAddress).delete()
+            }
+        }
+        catch (let error) {
+            print(error)
+        }
      }
 
-    public func getAllSentInvitations(didSessionDID: String, completion: (([SentInvitation]?)->Void)){
-         /* TODOSQLiteDatabase db = helper.getWritableDatabase();
-
-         String[] columns = {DatabaseHelper.DID, DatabaseHelper.CARRIER_ADDRESS, DatabaseHelper.SENT_DATE};
-
-         ArrayList<SentInvitation> invitations = new ArrayList<>();
-         Cursor cursor = db.query(DatabaseHelper.SENT_INVITATIONS_TABLE, columns, null, null,null,null,null);
-         if (cursor.moveToNext()) {
-             SentInvitation invitation = SentInvitation.fromDatabaseCursor(cursor);
-             invitations.add(invitation);
-         }
-
-         return invitations;*/
+    public func getAllSentInvitations(didSessionDID: String) -> Array<SentInvitation> {
+        var invitations = Array<SentInvitation>()
+        do {
+            let db = try helper.getDatabase()
+            try db.transaction {
+                let query = sentInvitations.select(*).filter(didSessionDIDField == didSessionDID)
+                let rows = try! db.prepare(query)
+                
+                for row in rows {
+                    let invitation = SentInvitation.fromDatabaseCursor(row: row)
+                    invitations.append(invitation)
+                }
+            }
+            
+            return invitations
+        }
+        catch (let error) {
+            print(error)
+            return invitations
+        }
      }
 
-    public func addReceivedInvitation(didSessionDID: String, contactDID: String, contactCarrierUserId: String, completion: (_ insertedId: Int)->Void) {
-         /* TODOSQLiteDatabase db = helper.getWritableDatabase();
-
-         ContentValues contentValues = new ContentValues();
-         contentValues.put(DatabaseHelper.DID_SESSION_DID, didSessionDID);
-         contentValues.put(DatabaseHelper.DID, contactDID);
-         contentValues.put(DatabaseHelper.CARRIER_USER_ID, contactCarrierUserId);
-         contentValues.put(DatabaseHelper.RECEIVED_DATE, new Date().getTime()); // Unix timestamp
-
-         return db.insertOrThrow(DatabaseHelper.RECEIVED_INVITATIONS_TABLE, null, contentValues);*/
+    public func addReceivedInvitation(didSessionDID: String, contactDID: String, contactCarrierUserId: String) throws -> Int64 {
+            
+        let db = try helper.getDatabase()
+            
+        var insertedId: Int64 = 0
+        try db.transaction {
+            insertedId = try db.run(receivedInvitations.insert(
+                didSessionDIDField <- didSessionDID,
+                didField <- contactDID,
+                carrierUserIdField <- contactCarrierUserId,
+                receivedDateField <- Int64(Date().timeIntervalSince1970)
+            ))
+        }
+        
+        return insertedId
      }
 
-    public func getReceivedInvitationById(didSessionDID: String, invitationID: String, completion:(ReceivedInvitation?)->Void) {
-         /* TODOSQLiteDatabase db = helper.getWritableDatabase();
-
-         String where = DatabaseHelper.DID_SESSION_DID + "=? AND " + DatabaseHelper.INVITATION_ID + "=?";
-         String[] whereArgs = {didSessionDID, invitationID};
-         String[] columns = {DatabaseHelper.DID, DatabaseHelper.CARRIER_USER_ID};
-
-         Cursor cursor = db.query(DatabaseHelper.RECEIVED_INVITATIONS_TABLE, columns, where, whereArgs,null,null,null);
-         if (cursor.moveToNext()) {
-             ReceivedInvitation invitation = ReceivedInvitation.fromDatabaseCursor(cursor);
-             return invitation;
-         }
-
-         return null;*/
+    public func getReceivedInvitationById(didSessionDID: String, invitationID: Int64?) -> ReceivedInvitation? {
+        guard invitationID != nil else {
+            return nil
+        }
+        
+        do {
+            let db = try helper.getDatabase()
+            var invitation: ReceivedInvitation? = nil
+            try db.transaction {
+                let query = receivedInvitations.select(*)
+                    .filter(didSessionDIDField == didSessionDID && invitationIdField == invitationID!)
+                let rows = try! db.prepare(query)
+                for row in rows {
+                    invitation = ReceivedInvitation.fromDatabaseCursor(row: row)
+                    break
+                }
+            }
+            return invitation
+        }
+        catch (let error) {
+            print(error)
+            return nil
+        }
      }
 
-    public func removeReceivedInvitation(didSessionDID: String, invitationId: String) {
-         /* TODOSQLiteDatabase db = helper.getWritableDatabase();
-
-         String where = DatabaseHelper.DID_SESSION_DID + "=? AND "+DatabaseHelper.INVITATION_ID + "=?";
-         String[] whereArgs = {didSessionDID, invitationId};
-         db.delete(DatabaseHelper.RECEIVED_INVITATIONS_TABLE, where, whereArgs);*/
+    public func removeReceivedInvitation(didSessionDID: String, invitationId: Int64?) {
+        guard invitationId != nil else {
+            print("removeReceivedInvitation: Invalid invitation ID \(String(describing: invitationId))")
+            return
+        }
+        
+        do {
+            let db = try helper.getDatabase()
+            try db.transaction {
+                _ = receivedInvitations.filter(didSessionDIDField == didSessionDID && invitationIdField == invitationId!).delete()
+            }
+        }
+        catch (let error) {
+            print(error)
+        }
      }
 }

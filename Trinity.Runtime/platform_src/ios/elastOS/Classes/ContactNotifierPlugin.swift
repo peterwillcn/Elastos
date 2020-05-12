@@ -71,16 +71,15 @@ class ContactNotifierPlugin : TrinityPlugin {
         do {
             let contactDID = command.arguments[0] as? String
 
-            try getNotifier().resolveContact(did: contactDID) { contact in
-                var result = Dictionary<String, Any>()
-                if contact != nil {
-                    result["contact"] = contact!.toJSONObject()
-                }
-                else {
-                    result["contact"] = nil
-                }
-                self.success(command, result)
+            var result = Dictionary<String, Any>()
+            if let contact = try getNotifier().resolveContact(did: contactDID) {
+                result["contact"] = contact.toJSONObject()
             }
+            else {
+                result["contact"] = nil
+            }
+                
+            self.success(command, result)
         }
         catch (let error) {
             print(error)
@@ -281,20 +280,18 @@ class ContactNotifierPlugin : TrinityPlugin {
             let contactAsJson = command.arguments[0] as! Dictionary<String, Any>
             let notificationAsJson = command.arguments[1] as! Dictionary<String, Any>
 
-            try getNotifier().resolveContact(did: contactDIDFromJSON(contactAsJson)) { contact in
-                guard contact != nil else {
-                    self.error(command, "contactSendRemoteNotification", "Invalid contact object")
-                    return
-                }
-                
+            if let contact = try getNotifier().resolveContact(did: contactDIDFromJSON(contactAsJson)) {
                 if let remoteNotificationRequest = RemoteNotificationRequest.fromJSONObject(notificationAsJson) {
                     
-                    contact!.sendRemoteNotification(notificationRequest: remoteNotificationRequest)
+                    contact.sendRemoteNotification(notificationRequest: remoteNotificationRequest)
                     self.success(command)
                 }
                 else {
                     self.error(command, "contactSendRemoteNotification", "Invalid notification object")
                 }
+            }
+            else {
+                self.error(command, "contactSendRemoteNotification", "Invalid contact object")
             }
         }
         catch (let error) {
@@ -308,15 +305,13 @@ class ContactNotifierPlugin : TrinityPlugin {
             let contactAsJson = command.arguments[0] as! Dictionary<String, Any>
             let allowNotifications = command.arguments[1] as! Bool
 
-            try getNotifier().resolveContact(did: contactDIDFromJSON(contactAsJson)) { contact in
-                guard contact != nil else {
-                    error(command, "contactSetAllowNotifications", "Invalid contact object")
-                    return
-                }
-                
-                contact!.setAllowNotifications(allowNotifications)
+            if let contact = try getNotifier().resolveContact(did: contactDIDFromJSON(contactAsJson)) {
+                contact.setAllowNotifications(allowNotifications)
 
                 self.success(command)
+            }
+            else {
+                error(command, "contactSetAllowNotifications", "Invalid contact object")
             }
         }
         catch (let error) {
@@ -329,17 +324,15 @@ class ContactNotifierPlugin : TrinityPlugin {
         do {
             let contactAsJson = command.arguments[0] as! Dictionary<String, Any>
 
-            try getNotifier().resolveContact(did: contactDIDFromJSON(contactAsJson)) { contact in
-                guard contact != nil else {
-                    self.error(command, "contactSetAllowNotifications", "Invalid contact object")
-                    return
-                }
-
-                let status = contact!.getOnlineStatus()
+            if let contact = try getNotifier().resolveContact(did: contactDIDFromJSON(contactAsJson)) {
+                let status = contact.getOnlineStatus()
 
                 var result = Dictionary<String, Any>()
                 result["onlineStatus"] = status.rawValue
                 self.success(command, result)
+            }
+            else {
+                self.error(command, "contactSetAllowNotifications", "Invalid contact object")
             }
         }
         catch (let error) {

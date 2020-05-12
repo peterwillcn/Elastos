@@ -330,6 +330,7 @@ static FLTools *tool;
     [SVProgressHUD setFont:[UIFont systemFontOfSize:14]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     info=NSLocalizedString(info, nil);
+    NSLog(@"错误提示信息---%@",info);
     [SVProgressHUD showImage:[UIImage imageNamed:@""] status:info];
 }
 -(CGFloat)gasETHwithGasPrice:(NSString*)gasPrice withLimetPrice:(NSString*)LimetPrice{
@@ -1386,15 +1387,6 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     
 }
 -(NSString*)http_IpFast{
-    
-    //    #ifdef DEBUG
-    //    return Http_IP;
-    //    #elif PrvNet
-    //     return Http_IP;
-    //     #elif TestNet
-    //    return Http_IP;
-    //    #else
-    //   @"RegTest",@"PrvNet",@"TestNet",@"MainNet"
     if ([SDKNET isEqualToString:@"RegTest"] ) {
         return Http_IP;
     }else if ([SDKNET isEqualToString:@"PrvNet"] ){
@@ -1408,15 +1400,13 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
         }
     }
     return  Http_IP;
-    //   #endif
-    
 }
 -(NSString *)http_ipString:(NSString *)sdknet{
     
     if ([sdknet isEqualToString:@"RegTest"] ) {
         return @"http://118.89.242.158";
     }else if ([sdknet isEqualToString:@"PrvNet"] ){
-        return @"http://node.longrunweather.com:18080";
+        return @"http://cen.longrunweather.com:18080";
         
     }else if ([sdknet isEqualToString:@"TestNet"] ){
         return @"http://123.207.167.100";
@@ -2060,6 +2050,34 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
                                   forDate:timeDate];
     NSUInteger numberOfDaysInMonth = range.length;
     return numberOfDaysInMonth;
+    
+}
+
+/*
+ * Calculate the width
+ */
+
+-(CGFloat)calculateRowWidth:(NSString*)string withTextFont:(NSInteger)font{
+    
+    NSDictionary *dic=@{NSFontAttributeName:[UIFont systemFontOfSize:font]};
+    
+    CGRect rect =[string boundingRectWithSize:CGSizeMake(0, 30) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dic context:nil];
+    
+    return rect.size.width;
+    
+}
+/*
+* alculateRowHeight
+*/
+- (CGFloat)calculateRowHeight:(NSString *)string fontSize:(NSInteger)fontSize withmargin:(CGFloat)margin{
+    
+    NSDictionary *dic = @{NSFontAttributeName:[UIFont systemFontOfSize:fontSize]};
+    
+    CGRect rect = [string boundingRectWithSize:CGSizeMake(AppWidth - margin*2, 0) options:NSStringDrawingUsesLineFragmentOrigin |
+                   
+     NSStringDrawingUsesFontLeading attributes:dic context:nil];
+    
+    return rect.size.height;
     
 }
 @end

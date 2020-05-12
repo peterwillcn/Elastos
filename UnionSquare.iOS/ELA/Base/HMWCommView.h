@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 +(instancetype)share;
 -(void)makeBordersWithView:(UIView*)view;
 -(void)makeTextFieldPlaceHoTextColorWithTextField:(UITextField*)textf withTxt:(NSString*)pText;
+-(void)makeBordersWithView:(UIView*)view withCRRound:(CGFloat)r;
 @end
 
 NS_ASSUME_NONNULL_END

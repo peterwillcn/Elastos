@@ -381,7 +381,7 @@ static uint64_t feePerKB = 10000;
     const char  *rootPath = [mRootPath UTF8String];
     try {
         if ([SDKNET isEqualToString:@"PrvNet"]){
-            String configString("{\"ELA\":{\"ChainParameters\":{\"StandardPort\":40086,\"DNSSeeds\":[\"139.198.0.59\"]}},\"IDChain\":{\"ChainParameters\":{\"StandardPort\":40087,\"DNSSeeds\":[\"139.198.0.59\"]}}}");
+            String configString("{\"ELA\":{\"ChainParameters\":{\"MagicNumber\":20200501,\"StandardPort\":40008,\"DNSSeeds\":[\"longrunweather.com\"],\"CheckPoints\":[[0,\"d8d33c8a0a632ecc418bd7f09cd315dfc46a7e3e98e48c50c70a253e6062c257\",1513936800,486801407]]}},\"IDChain\":{\"ChainParameters\":{\"MagicNumber\":20200503,\"StandardPort\":41008,\"DNSSeeds\":[\"longrunweather.com\"],\"CheckPoints\":[[0,\"56be936978c261b2e649d58dbfaf3f23d4a868274f5522cd2adb4308a955c4a3\",1530360000,486801407]]}}}");
             nlohmann::json netConfig = nlohmann::json::parse(configString);
             mMasterWalletManager = new MasterWalletManager(rootPath, [self cstringWithString:SDKNET],netConfig);
             
@@ -405,7 +405,7 @@ static uint64_t feePerKB = 10000;
     const char  *rootPath = [mRootPath UTF8String];
     
     if ([SDKNET isEqualToString:@"PrvNet"]){
-        String configString("{\"ELA\":{\"ChainParameters\":{\"StandardPort\":40086,\"DNSSeeds\":[\"139.198.0.59\"]}},\"IDChain\":{\"ChainParameters\":{\"StandardPort\":40087,\"DNSSeeds\":[\"139.198.0.59\"]}}}");
+        String configString("{\"ELA\":{\"ChainParameters\":{\"MagicNumber\":20200501,\"StandardPort\":40008,\"DNSSeeds\":[\"longrunweather.com\"],\"CheckPoints\":[[0,\"d8d33c8a0a632ecc418bd7f09cd315dfc46a7e3e98e48c50c70a253e6062c257\",1513936800,486801407]]}},\"IDChain\":{\"ChainParameters\":{\"MagicNumber\":20200503,\"StandardPort\":41008,\"DNSSeeds\":[\"longrunweather.com\"],\"CheckPoints\":[[0,\"56be936978c261b2e649d58dbfaf3f23d4a868274f5522cd2adb4308a955c4a3\",1530360000,486801407]]}}}");
         nlohmann::json netConfig = nlohmann::json::parse(configString);
         
         mMasterWalletManager = new MasterWalletManager(rootPath, [self cstringWithString:SDKNET],netConfig);

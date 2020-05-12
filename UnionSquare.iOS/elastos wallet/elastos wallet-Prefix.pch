@@ -29,6 +29,7 @@
 #define PongUrl [[FLTools share]http_PongUrl:SDKNET]
 #define ELAPort  @"22338"
 #define IDChainPort @"22608"
+#define CRProposalIP @"https://staging-api.cyberrepublic.org"
  #elif PrvNet
  #define SDKNET  @"PrvNet"
 #define ELAPort  @"18080"
@@ -37,7 +38,9 @@
 #define Http_IP [[FLTools share]http_ipString:SDKNET]
 #define transUrl [[FLTools share]http_transUrl:SDKNET]
 #define PongUrl [[FLTools share]http_PongUrl:SDKNET]
-#define didSDKNet @"http://api.elastos.io:20606"
+#define didSDKNet @"http://did1rpc.longrunweather.com:18080"
+#define CRProposalIP @"https://staging-api.cyberrepublic.org"
+
 #elif TestNet
 #define SDKNET  @"TestNet"
 #define Http_IP [[FLTools share]http_ipString:SDKNET]
@@ -47,6 +50,7 @@
 #define didSDKNet @"http://api.elastos.io:21606"
 #define ELAPort  @"21338"
 #define IDChainPort @"21608"
+#define CRProposalIP @"https://staging-api.cyberrepublic.org"
 #else
 //@"RegTest",@"PrvNet",@"TestNet",@"MainNet"
 #define SDKNET  @"MainNet"
@@ -56,6 +60,7 @@
 #define didSDKNet @"http://api.elastos.io:20606"
 #define ELAPort  @"20338"
 #define IDChainPort @"20608"
+#define CRProposalIP @"https://staging-api.cyberrepublic.org"
 #define DLog(...)
 
 #endif

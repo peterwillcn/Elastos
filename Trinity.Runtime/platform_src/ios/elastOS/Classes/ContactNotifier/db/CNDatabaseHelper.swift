@@ -47,41 +47,44 @@ public class CNDatabaseHelper : SQLiteOpenHelper {
     
     public init() {
         let dataPath = NSHomeDirectory() + "/Documents/data/"
-        super.init(dbFullPath: "\(dataPath)/\(DATABASE_NAME)", dbNewVersion: DATABASE_VERSION)
+        super.init(dbFullPath: "\(dataPath)/\(CNDatabaseHelper.DATABASE_NAME)", dbNewVersion: CNDatabaseHelper.DATABASE_VERSION)
     }
     
     public override func onCreate(db: Connection) {
         // CONTACTS
-        let contactsSQL = "create table " + CONTACTS_TABLE + "(cid integer primary key autoincrement, " +
-            DID_SESSION_DID + " varchar(128), " +
-            DID + " varchar(128), " +
-            CARRIER_USER_ID + " varchar(128), " + // Permanent friend user id to talk (notifications) to him
-            NOTIFICATIONS_BLOCKED + " integer(1), " + // Whether this contact can send notifications to current user or not
-            ADDED_DATE + " date)"
-        db.execute(contactsSQL)
+        let contactsSQL = "create table " +
+            CNDatabaseHelper.CONTACTS_TABLE + "(cid integer primary key autoincrement, " +
+            CNDatabaseHelper.DID_SESSION_DID + " varchar(128), " +
+            CNDatabaseHelper.DID + " varchar(128), " +
+            CNDatabaseHelper.CARRIER_USER_ID + " varchar(128), " + // Permanent friend user id to talk (notifications) to him
+            CNDatabaseHelper.NOTIFICATIONS_BLOCKED + " integer(1), " + // Whether this contact can send notifications to current user or not
+            CNDatabaseHelper.ADDED_DATE + " date)"
+        try! db.execute(contactsSQL)
         
         // SENT INVITATIONS
-        let sentInvitationsSQL = "create table " + SENT_INVITATIONS_TABLE + "(" +
-            INVITATION_ID + " integer primary key autoincrement, " +
-            DID_SESSION_DID + " varchar(128), " +
-            DID + " varchar(128), " +
-            CARRIER_ADDRESS + " varchar(128), " +
-            SENT_DATE + " date)"
-        db.execute(sentInvitationsSQL)
+        let sentInvitationsSQL = "create table " +
+            CNDatabaseHelper.SENT_INVITATIONS_TABLE + "(" +
+            CNDatabaseHelper.INVITATION_ID + " integer primary key autoincrement, " +
+            CNDatabaseHelper.DID_SESSION_DID + " varchar(128), " +
+            CNDatabaseHelper.DID + " varchar(128), " +
+            CNDatabaseHelper.CARRIER_ADDRESS + " varchar(128), " +
+            CNDatabaseHelper.SENT_DATE + " date)"
+        try! db.execute(sentInvitationsSQL)
         
         // RECEIVED INVITATIONS
-        let receivedInvitationsSQL = "create table " + RECEIVED_INVITATIONS_TABLE + "(" +
-            INVITATION_ID + " integer primary key autoincrement, " +
-            DID_SESSION_DID + " varchar(128), " +
-            DID + " varchar(128), " +
-            CARRIER_USER_ID + " varchar(128), " +
-            RECEIVED_DATE + " date)";
-        db.execute(receivedInvitationsSQL)
+        let receivedInvitationsSQL = "create table " +
+            CNDatabaseHelper.RECEIVED_INVITATIONS_TABLE + "(" +
+            CNDatabaseHelper.INVITATION_ID + " integer primary key autoincrement, " +
+            CNDatabaseHelper.DID_SESSION_DID + " varchar(128), " +
+            CNDatabaseHelper.DID + " varchar(128), " +
+            CNDatabaseHelper.CARRIER_USER_ID + " varchar(128), " +
+            CNDatabaseHelper.RECEIVED_DATE + " date)";
+        try! db.execute(receivedInvitationsSQL)
     }
     
-    public override func onUpgrade(connection: Connection, oldVersion: Int, newVersion: Int) {
+    public override func onUpgrade(db: Connection, oldVersion: Int, newVersion: Int) {
     }
     
-    public override func onDowngrade(connection: Connection, oldVersion: Int, newVersion: Int) {
+    public override func onDowngrade(db: Connection, oldVersion: Int, newVersion: Int) {
     }
 }

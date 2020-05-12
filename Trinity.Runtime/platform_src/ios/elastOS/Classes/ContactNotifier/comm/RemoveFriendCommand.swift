@@ -12,7 +12,7 @@ public class RemoveFriendCommand : CarrierCommand {
     public func executeCommand() {
         Log.i(ContactNotifier.LOG_TAG, "Executing remove friend command")
         do {
-            try helper.carrierInstance.removeFriend(contactCarrierUserID)
+            try helper.carrierInstance!.removeFriend(contactCarrierUserID)
 
             completionListener(true, nil)
         }

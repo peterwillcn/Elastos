@@ -9,18 +9,21 @@ public class RemoteNotificationRequest {
     /** Intent URL emitted when the notification is clicked. */
     public var url: String? = nil
 
-    public static func fromJSONObject(_ obj: Dictionary<String, Any>) -> RemoteNotificationRequest {
+    public static func fromJSONObject(_ obj: Dictionary<String, Any>) -> RemoteNotificationRequest? {
+        guard obj.keys.contains("key") && obj.keys.contains("title") else {
+            return nil
+        }
+        
         let notif = RemoteNotificationRequest()
         
-        if obj.keys.contains("key") {
-            notif.key = obj["key"] as? String
-        }
+        notif.key = obj["key"] as? String
+        
         if obj.keys.contains("appId") {
             notif.appId = obj["appId"] as? String
         }
-        if obj.keys.contains("title") {
-            notif.title = obj["title"] as? String
-        }
+        
+        notif.title = obj["title"] as? String
+        
         if obj.keys.contains("url") {
             notif.url = obj["url"] as? String
         }

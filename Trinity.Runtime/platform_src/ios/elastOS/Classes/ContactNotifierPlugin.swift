@@ -63,7 +63,7 @@ class ContactNotifierPlugin : TrinityPlugin {
         }
         catch (let error) {
             print(error)
-            self.error(command, method: "notifierGetCarrierAddress", error.localizedDescription)
+            self.error(command, "notifierGetCarrierAddress", error.localizedDescription)
         }
     }
 
@@ -71,16 +71,16 @@ class ContactNotifierPlugin : TrinityPlugin {
         do {
             let contactDID = command.arguments[0] as? String
 
-            let contact = try getNotifier().resolveContact(did: contactDID)
-
-            var result = Dictionary<String, Any>()
-            if (contact != nil) {
-                result["contact"] = contact.toJSONObject()
+            try getNotifier().resolveContact(did: contactDID) { contact in
+                var result = Dictionary<String, Any>()
+                if contact != nil {
+                    result["contact"] = contact!.toJSONObject()
+                }
+                else {
+                    result["contact"] = nil
+                }
+                self.success(command, result)
             }
-            else {
-                result["contact"] = nil
-            }
-            self.success(command, result)
         }
         catch (let error) {
             print(error)
@@ -90,11 +90,13 @@ class ContactNotifierPlugin : TrinityPlugin {
 
     @objc func notifierRemoveContact(_ command: CDVInvokedUrlCommand) {
         do {
-            let contactDID = command.arguments[0] as? String
-
-            try getNotifier().removeContact(did: contactDID)
-
-            self.success(command)
+            if let contactDID = command.arguments[0] as? String {
+                try getNotifier().removeContact(did: contactDID)
+                self.success(command)
+            }
+            else {
+                self.error(command, "notifierRemoveContact", "Invalid contact DID, make sure to use a DID string")
+            }
         }
         catch (let error) {
             print(error)
@@ -104,7 +106,7 @@ class ContactNotifierPlugin : TrinityPlugin {
 
     @objc func notifierSetOnlineStatusListener(_ command: CDVInvokedUrlCommand) {
         do {
-            getNotifier().addOnlineStatusListener() { contact, status in
+            try getNotifier().addOnlineStatusListener() { contact, status in
                 var listenerResult = Dictionary<String, Any>()
                 listenerResult["contact"] = contact.toJSONObject()
                 listenerResult["status"] = status.rawValue
@@ -193,8 +195,8 @@ class ContactNotifierPlugin : TrinityPlugin {
                     plugin.error(command, "notifierAcceptInvitation", "No pending invitation found for the given invitation ID");
                 }
                 
-                func onError(reason: String) {
-                    plugin.error(command, "notifierAcceptInvitation", reason)
+                func onError(reason: String?) {
+                    plugin.error(command, "notifierAcceptInvitation", reason ?? "")
                 }
             }
         }
@@ -223,7 +225,7 @@ class ContactNotifierPlugin : TrinityPlugin {
             // TODO IMPORTANT: when an app is closed, need to remove the listener heer otherwise this will retain a memory
             // reference on that app and things can't be deallocated! Ask Dongxiao how to get notified when an app closes
 
-            getNotifier().addOnInvitationAcceptedListener() { contact in
+            try getNotifier().addOnInvitationAcceptedListener() { contact in
                     var listenerResult = Dictionary<String, Any>()
                     listenerResult["contact"] = contact.toJSONObject()
 
@@ -246,11 +248,13 @@ class ContactNotifierPlugin : TrinityPlugin {
         do {
             let invitationRequestModeAsInt = command.arguments[0] as! Int
 
-            let mode = InvitationRequestsMode(rawValue: invitationRequestModeAsInt)
-
-            getNotifier().setInvitationRequestsMode(mode)
-
-            self.success(command)
+            if let mode = InvitationRequestsMode(rawValue: invitationRequestModeAsInt) {
+                try getNotifier().setInvitationRequestsMode(mode)
+                self.success(command)
+            }
+            else {
+                self.error(command, "notifierSetInvitationRequestsMode", "Invalid mode")
+            }
         }
         catch (let error) {
             print(error)
@@ -277,16 +281,21 @@ class ContactNotifierPlugin : TrinityPlugin {
             let contactAsJson = command.arguments[0] as! Dictionary<String, Any>
             let notificationAsJson = command.arguments[1] as! Dictionary<String, Any>
 
-            guard let contact = try getNotifier().resolveContact(did: contactDIDFromJSON(contactAsJson)) else {
-                error(command, "contactSendRemoteNotification", "Invalid contact object")
-                return
+            try getNotifier().resolveContact(did: contactDIDFromJSON(contactAsJson)) { contact in
+                guard contact != nil else {
+                    self.error(command, "contactSendRemoteNotification", "Invalid contact object")
+                    return
+                }
+                
+                if let remoteNotificationRequest = RemoteNotificationRequest.fromJSONObject(notificationAsJson) {
+                    
+                    contact!.sendRemoteNotification(notificationRequest: remoteNotificationRequest)
+                    self.success(command)
+                }
+                else {
+                    self.error(command, "contactSendRemoteNotification", "Invalid notification object")
+                }
             }
-
-            let remoteNotificationRequest = RemoteNotificationRequest.fromJSONObject(notificationAsJson)
-
-            contact.sendRemoteNotification(remoteNotificationRequest)
-
-            self.success(command)
         }
         catch (let error) {
             print(error)
@@ -299,14 +308,16 @@ class ContactNotifierPlugin : TrinityPlugin {
             let contactAsJson = command.arguments[0] as! Dictionary<String, Any>
             let allowNotifications = command.arguments[1] as! Bool
 
-            guard let contact = try getNotifier().resolveContact(did: contactDIDFromJSON(contactAsJson)) else {
-                error(command, "contactSetAllowNotifications", "Invalid contact object")
-                return
+            try getNotifier().resolveContact(did: contactDIDFromJSON(contactAsJson)) { contact in
+                guard contact != nil else {
+                    error(command, "contactSetAllowNotifications", "Invalid contact object")
+                    return
+                }
+                
+                contact!.setAllowNotifications(allowNotifications)
+
+                self.success(command)
             }
-
-            contact.setAllowNotifications(allowNotifications)
-
-            self.success(command)
         }
         catch (let error) {
             print(error)
@@ -318,16 +329,18 @@ class ContactNotifierPlugin : TrinityPlugin {
         do {
             let contactAsJson = command.arguments[0] as! Dictionary<String, Any>
 
-            guard let contact = try getNotifier().resolveContact(did: contactDIDFromJSON(contactAsJson)) else {
-                self.error(command, "contactSetAllowNotifications", "Invalid contact object")
-                return
+            try getNotifier().resolveContact(did: contactDIDFromJSON(contactAsJson)) { contact in
+                guard contact != nil else {
+                    self.error(command, "contactSetAllowNotifications", "Invalid contact object")
+                    return
+                }
+
+                let status = contact!.getOnlineStatus()
+
+                var result = Dictionary<String, Any>()
+                result["onlineStatus"] = status.rawValue
+                self.success(command, result)
             }
-
-            let status = contact.getOnlineStatus()
-
-            var result = Dictionary<String, Any>()
-            result["onlineStatus"] = status.rawValue
-            self.success(command, result)
         }
         catch (let error) {
             print(error)

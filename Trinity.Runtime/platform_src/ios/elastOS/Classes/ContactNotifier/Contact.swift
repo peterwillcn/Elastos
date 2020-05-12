@@ -1,7 +1,7 @@
 import SQLite
 
 public class Contact {
-    private var notifier: ContactNotifier
+    private var notifier: ContactNotifier? = nil
     
     private static let didSessionDIDField = Expression<String>(CNDatabaseHelper.DID_SESSION_DID)
     private static let didField = Expression<String>(CNDatabaseHelper.DID)
@@ -42,7 +42,7 @@ public class Contact {
      * @param notificationRequest The notification content.
      */
     public func sendRemoteNotification(notificationRequest: RemoteNotificationRequest) {
-        notifier.carrierHelper.sendRemoteNotification(carrierUserID, notificationRequest) { succeeded, reason in
+        notifier!.carrierHelper!.sendRemoteNotification(contactCarrierUserID: carrierUserID, notificationRequest: notificationRequest) { succeeded, reason in
             // Nothing to do here for now, no matter if succeeded or not.
         }
     }
@@ -52,15 +52,15 @@ public class Contact {
      *
      * @param allowNotifications True to receive notifications, false to reject them.
      */
-    public func setAllowNotifications(allowNotifications: Bool) {
+    public func setAllowNotifications(_ allowNotifications: Bool) {
         self.notificationsBlocked = !allowNotifications
-        notifier.dbAdapter.updateContactNotificationsBlocked(notifier.didSessionDID, did, notificationsBlocked)
+        notifier!.dbAdapter!.updateContactNotificationsBlocked(didSessionDID: notifier!.didSessionDID, did: did, shouldBlockNotifications: notificationsBlocked)
     }
 
     /**
      * Tells whether the contact is currently online or not.
      */
     public func getOnlineStatus() -> OnlineStatus {
-        return notifier.onlineStatusFromCarrierStatus(notifier.carrierHelper.getFriendOnlineStatus(carrierUserID))
+        return notifier!.onlineStatusFromCarrierStatus(notifier!.carrierHelper!.getFriendOnlineStatus(friendId: carrierUserID))
     }
 }

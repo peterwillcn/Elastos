@@ -33,9 +33,11 @@ public class CNDatabaseAdapter {
     let tidField = Expression<Int64>(AppInfo.TID)
     public let didSessionDIDField = Expression<String>(CNDatabaseHelper.DID_SESSION_DID)
     public let didField = Expression<String>(CNDatabaseHelper.DID)
+    public let carrierAddressField = Expression<String>(CNDatabaseHelper.CARRIER_ADDRESS)
     public let carrierUserIdField = Expression<String>(CNDatabaseHelper.CARRIER_USER_ID)
     public let notificationsBlockedField = Expression<Bool>(CNDatabaseHelper.NOTIFICATIONS_BLOCKED)
     public let addedDateField = Expression<Int64>(CNDatabaseHelper.ADDED_DATE)
+    public let invitationIdField = Expression<Int64>(CNDatabaseHelper.INVITATION_ID)
     
     public init(notifier: ContactNotifier)
     {
@@ -43,8 +45,8 @@ public class CNDatabaseAdapter {
         helper = CNDatabaseHelper()
     }
 
-    public func addContact(didSessionDID: String, did: String, carrierUserID: String, completion: (_ contact: Contact?)->Void) -> Contact {
-        let db = helper.getDatabase()
+    public func addContact(didSessionDID: String, did: String, carrierUserID: String, completion: (_ contact: Contact?)->Void) throws {
+        let db = try helper.getDatabase()
         
         try! db.transaction {
             try db.run(contacts.insert(
@@ -55,7 +57,7 @@ public class CNDatabaseAdapter {
                 addedDateField <- Int64(Date().timeIntervalSince1970)
             ))
             
-            getContactByDID(didSessionDID: didSessionDID, contactDID: did) { contact in
+            try! getContactByDID(didSessionDID: didSessionDID, contactDID: did) { contact in
                 completion(contact)
             }
         }
@@ -73,7 +75,7 @@ public class CNDatabaseAdapter {
          db.update(DatabaseHelper.CONTACTS_TABLE, contentValues, where, whereArgs );*/
      }
 
-    public func getContactByDID(didSessionDID: String, contactDID: String, completion: (_ contact: Contact?)->Void) {
+    public func getContactByDID(didSessionDID: String, contactDID: String, completion: (_ contact: Contact?)->Void) throws {
          /* TODO SQLiteDatabase db = helper.getWritableDatabase();
 
          String where = DatabaseHelper.DID_SESSION_DID + "=? AND " + DatabaseHelper.DID + "=?";
@@ -87,7 +89,7 @@ public class CNDatabaseAdapter {
 
          return null;*/
         
-        let db = helper.getDatabase()
+        let db = try helper.getDatabase()
         try! db.transaction {
             let query = contacts.select(*)
                 .filter(didSessionDIDField == didSessionDID && didField == contactDID)
@@ -98,7 +100,7 @@ public class CNDatabaseAdapter {
         }
      }
 
-    public func getContactByCarrierUserID(didSessionDID: String, carrierUserID: String) -> Contact{
+    public func getContactByCarrierUserID(didSessionDID: String, carrierUserID: String, completion: (Contact?)->Void){
          /* TODOSQLiteDatabase db = helper.getWritableDatabase();
 
          String where = DatabaseHelper.DID_SESSION_DID + "=? AND " + DatabaseHelper.CARRIER_USER_ID + "=?";
@@ -142,7 +144,7 @@ public class CNDatabaseAdapter {
          db.delete(DatabaseHelper.SENT_INVITATIONS_TABLE, where, whereArgs);*/
      }
 
-    public func getAllSentInvitations(didSessionDID: String) -> [SentInvitation] {
+    public func getAllSentInvitations(didSessionDID: String, completion: (([SentInvitation]?)->Void)){
          /* TODOSQLiteDatabase db = helper.getWritableDatabase();
 
          String[] columns = {DatabaseHelper.DID, DatabaseHelper.CARRIER_ADDRESS, DatabaseHelper.SENT_DATE};
@@ -157,7 +159,7 @@ public class CNDatabaseAdapter {
          return invitations;*/
      }
 
-    public func addReceivedInvitation(didSessionDID: String, contactDID: String, contactCarrierUserId: String) -> Int {
+    public func addReceivedInvitation(didSessionDID: String, contactDID: String, contactCarrierUserId: String, completion: (_ insertedId: Int)->Void) {
          /* TODOSQLiteDatabase db = helper.getWritableDatabase();
 
          ContentValues contentValues = new ContentValues();
@@ -169,7 +171,7 @@ public class CNDatabaseAdapter {
          return db.insertOrThrow(DatabaseHelper.RECEIVED_INVITATIONS_TABLE, null, contentValues);*/
      }
 
-    public func getReceivedInvitationById(didSessionDID: String, invitationID: String) -> ReceivedInvitation{
+    public func getReceivedInvitationById(didSessionDID: String, invitationID: String, completion:(ReceivedInvitation?)->Void) {
          /* TODOSQLiteDatabase db = helper.getWritableDatabase();
 
          String where = DatabaseHelper.DID_SESSION_DID + "=? AND " + DatabaseHelper.INVITATION_ID + "=?";

@@ -12,7 +12,7 @@ public class SetPresenceCommand : CarrierCommand {
     public func executeCommand() {
         Log.i(ContactNotifier.LOG_TAG, "Executing presence status command")
         do {
-            helper.carrierInstance.setSelfPresence(status)
+            try helper.carrierInstance!.setSelfPresence(status)
         }
         catch (let error) {
             print(error)

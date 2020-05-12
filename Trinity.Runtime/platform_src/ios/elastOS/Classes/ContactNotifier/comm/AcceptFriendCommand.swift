@@ -3,22 +3,22 @@ public class AcceptFriendCommand : CarrierCommand {
     private let contactCarrierUserID: String
     private let completionListener: CarrierHelper.onCommandExecuted
 
-    init(helper: CarrierHelper, contactCarrierUserID: String, completionListener: CarrierHelper.onCommandExecuted) {
+    init(helper: CarrierHelper, contactCarrierUserID: String, completionListener: @escaping CarrierHelper.onCommandExecuted) {
         self.helper = helper
         self.contactCarrierUserID = contactCarrierUserID
         self.completionListener = completionListener
     }
 
-    public override func executeCommand() {
+    public func executeCommand() {
         Log.i(ContactNotifier.LOG_TAG, "Executing accept friend command")
         do {
-            helper.carrierInstance.acceptFriend(contactCarrierUserID);
+            try helper.carrierInstance!.acceptFriend(with: contactCarrierUserID)
 
-            completionListener.onCommandExecuted(true, null);
+            completionListener(true, nil)
         }
         catch (let error) {
             print(error)
-            completionListener.onCommandExecuted(false, e.getLocalizedMessage());
+            completionListener(false, error.localizedDescription)
         }
     }
 }

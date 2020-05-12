@@ -25,8 +25,8 @@ import SQLite
 
 /** Extension to the sqlite Connection to handle a user_version in order to manage database format upgrades. */
 extension Connection {
-    public var userVersion: Int32 {
-        get { return Int32(try? scalar("PRAGMA user_version") as? Int64) ?? 0 }
+    public var userVersion: Int {
+        get { return (((try? scalar("PRAGMA user_version") as? Int) ?? 0)!) }
         set { try! run("PRAGMA user_version = \(newValue)") }
     }
 }
@@ -35,7 +35,7 @@ extension Connection {
  * Helper to initialize sqlite databases instead of directly dealing with the Connection class. SUpport database format upgrade.
  * Very basic version its Android cousin.
  */
-class SQLiteOpenHelper {
+public class SQLiteOpenHelper {
     private var db: Connection? = nil
     private let dbFullPath: String
     private let dbNewVersion: Int
@@ -45,14 +45,14 @@ class SQLiteOpenHelper {
         self.dbNewVersion = dbNewVersion
     }
     
-    public func getDatabase() -> Connection {
+    public func getDatabase() throws -> Connection {
         if db != nil {
-            return db
+            return db!
         }
         
         db = try! Connection(dbFullPath)
         guard let _db = db else {
-            return nil
+            throw "Unable to open database"
         }
         
         let version = _db.userVersion
@@ -60,24 +60,24 @@ class SQLiteOpenHelper {
         // Compare current disk DB version with code "new" version, to upgrade if necessary
         if version != dbNewVersion {
             if version == 0 {
-                onCreate(_db)
+                onCreate(db: _db)
             } else {
                 if (version > dbNewVersion) {
-                    onDowngrade(_db, version, dbNewVersion)
+                    onDowngrade(db: _db, oldVersion: version, newVersion: dbNewVersion)
                 } else {
-                    onUpgrade(_db, version, dbNewVersion)
+                    onUpgrade(db: _db, oldVersion: version, newVersion: dbNewVersion)
                 }
             }
             _db.userVersion = dbNewVersion
         }
         
-        onOpen(_db)
+        onOpen(db: _db)
         
         return _db
     }
     
-    public func onCreate(connection: Connection) {}
-    public func onOpen(connection: Connection) {}
-    public func onUpgrade(connection: Connection, oldVersion: Int, newVersion: Int) {}
-    public func onDowngrade(connection: Connection, oldVersion: Int, newVersion: Int) {}
+    public func onCreate(db: Connection) {}
+    public func onOpen(db: Connection) {}
+    public func onUpgrade(db: Connection, oldVersion: Int, newVersion: Int) {}
+    public func onDowngrade(db: Connection, oldVersion: Int, newVersion: Int) {}
 }

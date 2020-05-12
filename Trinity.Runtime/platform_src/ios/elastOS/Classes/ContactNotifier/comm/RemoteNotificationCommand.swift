@@ -25,9 +25,13 @@ public class RemoteNotificationCommand : CarrierCommand {
                 request["url"] = notificationRequest.url!
             }
 
-            helper.carrierInstance.sendFriendMessage(to: contactCarrierUserID, withString: request.toString())
-
-            completionListener(true, nil)
+            if let request = request.toString() {
+                try helper.carrierInstance!.sendFriendMessage(to: contactCarrierUserID, request)
+                completionListener(true, nil)
+            }
+            else {
+                completionListener(true, "Invalid request object")
+            }
         }
         catch (let error) {
             print(error)

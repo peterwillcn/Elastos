@@ -10,31 +10,36 @@ public protocol OnCarrierEventListener {
 public class CarrierHelper {
     var didSessionDID: String
     private var notifier: ContactNotifier
-    var carrierInstance: Carrier
+    var carrierInstance: Carrier? = nil
     private var commandQueue = Array<CarrierCommand>() // List of commands to execute. We use a queue in case we have to wait for our carrier instance to be ready (a few seconds)
-    private var onCarrierEventListener: OnCarrierEventListener
+    private var onCarrierEventListener: OnCarrierEventListener? = nil
 
     public typealias onCommandExecuted = (_ succeeded: Bool, _ reason: String?) -> Void
 
     public init(notifier: ContactNotifier, didSessionDID: String) throws {
         self.notifier = notifier
         self.didSessionDID = didSessionDID
-
+        
         try initialize()
     }
 
     private func initialize() throws {
         // Initial setup
-        let dataPath = NSHomeDirectory() + "/Documents/data/"
-        let options = DefaultCarrierOptions(path: dataPath+"/contactnotifier/"+didSessionDID)
+        let options = DefaultCarrierOptions.createOptions(didSessionDID: didSessionDID)
         
         class CarrierHandler : CarrierDelegate {
+            let helper: CarrierHelper
+            
+            init(helper: CarrierHelper) {
+                self.helper = helper
+            }
+            
             func connectionStatusDidChange(_ carrier: Carrier, _ status: CarrierConnectionStatus) {
                 Log.i(ContactNotifier.LOG_TAG, "Carrier connection status: \(status)")
 
                 if(status == .Connected) {
                     // We are now connected to carrier network, we can start to send friend requests, or messages
-                    self.checkRunQueuedCommands()
+                    helper.checkRunQueuedCommands()
                 }
             }
             
@@ -43,51 +48,38 @@ public class CarrierHelper {
 
                 // First make sure this is a elastOS contact notifier plugin request, and that we understand the data
                 // packaged in the hello string.
-                do {
-                    if let invitationRequest = hello.toDict() { // JSON stirng to JSON object
-                        let contactDID = invitationRequest["did"] as? String
-
+                if let invitationRequest = hello.toDict() { // JSON stirng to JSON object
+                    if let contactDID = invitationRequest["did"] as? String {
                         Log.i(ContactNotifier.LOG_TAG, "Received friend request from DID \(String(describing: contactDID)) with carrier userId: " + userId);
 
-                        onCarrierEventListener.onFriendRequest(contactDID, userId)
+                        helper.onCarrierEventListener?.onFriendRequest(contactDID, userId)
                     }
                     else {
-                        // Invitation is not understood, forget it.
-                        Log.w(ContactNotifier.LOG_TAG, "Invitation received from carrier userId \(userId) but hello string can't be understood: \(hello)")
+                        Log.w(ContactNotifier.LOG_TAG, "Invitation received from carrier userId \(userId) but no contact DID is given.")
                     }
                 }
-                catch (let error) {
+                else {
                     // Invitation is not understood, forget it.
                     Log.w(ContactNotifier.LOG_TAG, "Invitation received from carrier userId \(userId) but hello string can't be understood: \(hello)")
                 }
             }
             
             func newFriendAdded(_ carrier: Carrier, _ info: CarrierFriendInfo) {
-                Log.i(ContactNotifier.LOG_TAG, "Carrier friend added. Peer UserId: " + info.getUserId())
+                Log.i(ContactNotifier.LOG_TAG, "Carrier friend added. Peer UserId: \(String(describing: info.userId))")
             }
             
             func friendConnectionDidChange(_ carrier: Carrier, _ friendId: String, _ status: CarrierConnectionStatus) {
                 Log.i(ContactNotifier.LOG_TAG, "Carrier friend connection status changed - peer UserId: \(friendId)")
                 Log.i(ContactNotifier.LOG_TAG, "Friend status: \(status)")
 
-                do {
-                    let info = try? carrier.getFriendInfo(friendId)
-                    onCarrierEventListener.onFriendOnlineStatusChange(info)
-                }
-                catch (let error) {
-                    print(error)
-                    // Nothing
+                if let info = try? carrier.getFriendInfo(friendId) {
+                    helper.onCarrierEventListener?.onFriendOnlineStatusChange(info)
                 }
             }
             
             func friendPresenceDidChange(_ carrier: Carrier, _ friendId: String, _ newPresence: CarrierPresenceStatus) {
-                do {
-                    let info = try? carrier.getFriendInfo(friendId)
-                    onCarrierEventListener.onFriendPresenceStatusChange(info)
-                }
-                catch (let error) {
-                    print(error)
-                    // Nothing
+                if let info = try? carrier.getFriendInfo(friendId) {
+                    helper.onCarrierEventListener?.onFriendPresenceStatusChange(info)
                 }
             }
             
@@ -95,16 +87,14 @@ public class CarrierHelper {
                 let dataAsStr = String(data: data, encoding: .utf8)
                 
                 Log.i(ContactNotifier.LOG_TAG, "Message from userId: \(from)")
-                Log.i(ContactNotifier.LOG_TAG, "Message: \(String(describing: dataAsStr)))"
+                Log.i(ContactNotifier.LOG_TAG, "Message: \(String(describing: dataAsStr))")
 
                 // Try to read this as JSON. If not json, this is an invalid command
-                do {
-                    let request = dataAsStr?.toDict()
+                if let request = dataAsStr?.toDict() {
                     handleReceivedMessageCommand(friendId: from, request: request)
                 }
-                catch (let error) {
-                    Log.i(ContactNotifier.LOG_TAG, "Invalid command for the contact notifier")
-                    print(error)
+                else {
+                    Log.i(ContactNotifier.LOG_TAG, "Received friend message but unable to read it as json")
                 }
             }
             
@@ -121,7 +111,7 @@ public class CarrierHelper {
                         handleReceivedRemoteNotification(friendId: friendId, request: request)
                         break;
                     default:
-                        Log.w(ContactNotifier.LOG_TAG, "Unknown command: \(command)")
+                        Log.w(ContactNotifier.LOG_TAG, "Unknown command: \(String(describing: command))")
                 }
             }
 
@@ -137,54 +127,54 @@ public class CarrierHelper {
                     return
                 }
 
-                onCarrierEventListener.onRemoteNotification(friendId, remoteNotification)
+                helper.onCarrierEventListener?.onRemoteNotification(friendId, remoteNotification)
             }
         }
 
         // Create or get an our carrier instance instance
-        carrierInstance = Carrier.createInstance(options, CarrierHandler())
+        carrierInstance = try Carrier.createInstance(options: options, delegate: CarrierHandler(helper: self))
 
         // Start the service
-        carrierInstance.start(iterateInterval: 5000) // Start carrier. Wait N milliseconds between each check of carrier status (polling)
+        try carrierInstance!.start(iterateInterval: 5000) // Start carrier. Wait N milliseconds between each check of carrier status (polling)
     }
-
+    
     public func setCarrierEventListener(_ listener: OnCarrierEventListener) {
         self.onCarrierEventListener = listener
     }
 
     public func getOrCreateAddress() throws -> String{
-        return carrierInstance.getAddress()
+        return carrierInstance!.getAddress()
     }
 
-    public func sendInvitation(contactCarrierAddress: String, completionListener: onCommandExecuted) {
+    public func sendInvitation(contactCarrierAddress: String, completionListener: @escaping onCommandExecuted) {
         queueCommand(ContactInvitationCommand(helper: self, contactCarrierAddress: contactCarrierAddress, completionListener: completionListener))
     }
 
-    public func acceptFriend(contactCarrierUserID: String, completionListener: onCommandExecuted) {
+    public func acceptFriend(contactCarrierUserID: String, completionListener: @escaping onCommandExecuted) {
         queueCommand(AcceptFriendCommand(helper: self, contactCarrierUserID: contactCarrierUserID, completionListener: completionListener))
     }
 
-    public func sendRemoteNotification(contactCarrierUserID: String, notificationRequest: RemoteNotificationRequest, completionListener: onCommandExecuted) {
-        queueCommand(RemoteNotificationCommand(self, contactCarrierUserID, notificationRequest, completionListener))
+    public func sendRemoteNotification(contactCarrierUserID: String, notificationRequest: RemoteNotificationRequest, completionListener: @escaping onCommandExecuted) {
+        queueCommand(RemoteNotificationCommand(helper: self, contactCarrierUserID: contactCarrierUserID, notificationRequest: notificationRequest, completionListener: completionListener))
     }
 
     public func setOnlineStatusMode(_ onlineStatusMode: OnlineStatusMode) {
-        queueCommand(SetPresenceCommand(self, notifier.onlineStatusModeToPresenceStatus(onlineStatusMode)))
+        queueCommand(SetPresenceCommand(helper: self, status: notifier.onlineStatusModeToPresenceStatus(onlineStatusMode)))
     }
 
-    public func removeFriend(contactCarrierUserID: String, completionListener: onCommandExecuted) {
+    public func removeFriend(contactCarrierUserID: String, completionListener: @escaping onCommandExecuted) {
         queueCommand(RemoveFriendCommand(helper: self, contactCarrierUserID: contactCarrierUserID, completionListener: completionListener))
     }
 
     public func getFriendOnlineStatus(friendId: String) -> CarrierConnectionStatus {
         do {
-            if (!carrierInstance.isReady()) {
+            if (!carrierInstance!.isReady()) {
                 return .Disconnected
             }
 
-            return try carrierInstance.getFriendInfo(friendId).status
+            return try carrierInstance!.getFriendInfo(friendId).status
         }
-        catch (let error) {
+        catch {
             return .Disconnected
         }
     }
@@ -198,7 +188,7 @@ public class CarrierHelper {
      * Checks if we are connected to carrier and if so, sends the queued commands.
      */
     private func checkRunQueuedCommands() {
-        guard carrierInstance.isReady() else {
+        guard carrierInstance!.isReady() else {
             return
         }
 

@@ -42,7 +42,7 @@
     @objc static let API = 0;
     @objc static let JWT = 1;
     @objc static let URL = 2;
-
+    
     @objc static let REDIRECT_URL = "redirecturl";
     @objc static let CALLBACK_URL = "callbackurl";
     @objc static let REDIRECT_APP_URL = "redirectappurl";
@@ -61,6 +61,8 @@
     @objc dynamic var aud: String?;
     @objc dynamic var req: String?;
     @objc dynamic var type = API;
+    
+    var isDoingResponse = false;
 
     init(_ action: String, _ params: String?, _ fromId: String, _ toId: String?,
          _ intentId: Int64) {
@@ -236,7 +238,7 @@ class ShareIntentParams {
 
     public func removeAppFromIntentList(_ appId: String) throws {
         for (intentId, info) in intentContextList {
-            if (info.toId != nil && info.toId == appId) {
+            if (info.toId != nil && info.toId == appId && !info.isDoingResponse) {
                 if (info.type == IntentInfo.API) {
                     let viewController: TrinityViewController? = appManager.getViewControllerById(info.fromId);
                     if (viewController != nil) {
@@ -251,6 +253,15 @@ class ShareIntentParams {
                 intentContextList[intentId] = nil;
             }
         }
+    }
+    
+    public func setDoingResponse(_ intentId: Int64 ) throws {
+        let info = intentContextList[intentId];
+        if (info == nil) {
+            throw AppError.error(String(intentId) + " isn't exist!");
+        }
+        
+        info!.isDoingResponse = true;
     }
 
     func getIntentFilter(_ action: String) throws -> [String] {

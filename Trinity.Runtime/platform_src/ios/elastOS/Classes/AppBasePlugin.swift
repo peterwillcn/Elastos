@@ -166,6 +166,19 @@
 
         self.commandDelegate.send(result, callbackId: command.callbackId)
     }
+    
+    func sendCallback(_ command: CDVInvokedUrlCommand, _ status: CDVCommandStatus, _ keepCallback:Bool, _ retAsString: String?) {
+        var result: CDVPluginResult? = nil;
+        if (status != CDVCommandStatus_NO_RESULT) {
+            result = CDVPluginResult(status: status, messageAs: retAsString);
+        }
+        else {
+            result = CDVPluginResult(status: CDVCommandStatus_NO_RESULT);
+        }
+        result?.setKeepCallbackAs(keepCallback);
+
+        self.commandDelegate.send(result, callbackId: command.callbackId)
+    }
 
     @objc func getVersion(_ command: CDVInvokedUrlCommand) {
         let version = PreferenceManager.getShareInstance().getVersion();
@@ -533,14 +546,24 @@
         let result = command.arguments[1] as? String ?? "";
         let intentId = command.arguments[2] as? Int64 ?? -1
         
+        do {
+            try IntentManager.getShareInstance().setDoingResponse(intentId);
+        } catch AppError.error(let err) {
+            self.error(command, err);
+        } catch let error {
+            self.error(command, error.localizedDescription);
+        }
+        
+        self.sendCallback(command, CDVCommandStatus_NO_RESULT, true, nil);
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100), execute: {
             do {
                 try IntentManager.getShareInstance().sendIntentResponse(result, intentId, self.appId!);
-                self.success(command, "ok");
+                self.sendCallback(command, CDVCommandStatus_OK, false, "ok");
             } catch AppError.error(let err) {
-                self.error(command, err);
+                self.sendCallback(command, CDVCommandStatus_ERROR, false, err);
             } catch let error {
-                self.error(command, error.localizedDescription);
+                self.sendCallback(command, CDVCommandStatus_ERROR, false, error.localizedDescription);
             }
         })
     }

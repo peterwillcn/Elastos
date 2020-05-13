@@ -61,7 +61,7 @@ before_install:
 
 install:
   - nvm install ${NODEJS_VERSION}
-  - npm install -g cordova ionic
+  - npm install -g cordova @ionic/cli
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       gem install cocoapods;
     fi

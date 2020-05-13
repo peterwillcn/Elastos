@@ -43,6 +43,7 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
     @IBOutlet weak var coinListLabel: UILabel!
     @IBOutlet weak var listBgView: UIView!
     @IBOutlet weak var noticeBgView: UIView!
+    var showHint: Bool = false
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -53,6 +54,12 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
         NotificationCenter.default.addObserver(self, selector: #selector(walletSyncStart), name: syncStart, object: nil)
          NotificationCenter.default.addObserver(self, selector: #selector(showCreateWallet), name: createWallet, object: nil)
         commonInit()
+        // 测试代码
+        let syncVC = SyncViewController()
+        navi = UINavigationController.init(rootViewController: syncVC)
+        self.view.addSubview(navi!.view)
+
+        navi!.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -158,7 +165,7 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
     }
 
     override func onReceiveIntent(_ action: String, _ params: String?, _ fromId: String, _ intentId: Int64) {
-
+        showHint = true
         let syncVC = SyncViewController()
         navi = UINavigationController.init(rootViewController: syncVC)
         self.view.addSubview(navi!.view)

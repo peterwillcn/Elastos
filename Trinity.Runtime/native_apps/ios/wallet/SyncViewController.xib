@@ -28,6 +28,9 @@
                                 <constraint firstAttribute="height" constant="44" id="vx6-G5-7oF"/>
                                 <constraint firstAttribute="width" constant="60" id="w8p-cV-9sH"/>
                             </constraints>
+                            <connections>
+                                <action selector="backAction:" destination="-1" eventType="touchUpInside" id="szf-M4-tbV"/>
+                            </connections>
                         </button>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_back" translatesAutoresizingMaskIntoConstraints="NO" id="0tH-HC-22o">
                             <rect key="frame" x="22" y="12" width="16" height="20"/>

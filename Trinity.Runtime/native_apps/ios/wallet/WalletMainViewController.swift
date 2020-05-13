@@ -158,6 +158,13 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
     }
 
     override func onReceiveIntent(_ action: String, _ params: String?, _ fromId: String, _ intentId: Int64) {
+
+        let syncVC = SyncViewController()
+        navi = UINavigationController.init(rootViewController: syncVC)
+        self.view.addSubview(navi!.view)
+
+        navi!.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        /*
         let params = getParams(params);
         switch (action) {
         case "pay":
@@ -165,6 +172,7 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
         default:
             break;
         }
+         */
     }
 
     func setCAGradientLayer(_ view: UIView) {
@@ -220,7 +228,7 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
     }
 
     func onBlockSyncProgress(withProgressInfo info: [AnyHashable : Any]!) {
-        let info = JSON(info)
+        let info = JSON(info as Any)
         let lastBlockTime = info["LastBlockTime"].intValue
         let time = timeIntervalChangeToTimeStr(timeInterval: TimeInterval.init(lastBlockTime))
         let progress = info["Progress"].stringValue
@@ -251,7 +259,7 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
 
     func onTxPublishedHash(_ hashString: String!, result resultString: Dictionary<AnyHashable, Any>!) {
         DispatchQueue.main.async {
-            let result = JSON(resultString)
+            let result = JSON(resultString as Any)
             let code = result["Code"].intValue
             let reason = result["Reason"].stringValue
             if code != 0 {

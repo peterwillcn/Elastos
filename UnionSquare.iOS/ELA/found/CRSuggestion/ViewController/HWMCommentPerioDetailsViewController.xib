@@ -25,14 +25,14 @@
                     <rect key="frame" x="0.0" y="782" width="414" height="80"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="81H-Jr-Rfl">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
+                            <rect key="frame" x="0.0" y="-0.5" width="414" height="0.5"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="1" id="rzu-by-xEP"/>
+                                <constraint firstAttribute="height" constant="0.5" id="rzu-by-xEP"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dnp-ZV-gFc">
-                            <rect key="frame" x="63" y="21" width="288" height="39"/>
+                            <rect key="frame" x="63" y="20" width="288" height="40"/>
                             <color key="backgroundColor" red="0.1886295378" green="0.2587845922" blue="0.28620240089999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <state key="normal" title="Button">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -51,7 +51,6 @@
                         <constraint firstItem="Dnp-ZV-gFc" firstAttribute="centerX" secondItem="5fn-p9-hkG" secondAttribute="centerX" id="Nve-3l-G9f"/>
                         <constraint firstItem="Dnp-ZV-gFc" firstAttribute="top" secondItem="81H-Jr-Rfl" secondAttribute="bottom" constant="20" id="QaE-oG-I9z"/>
                         <constraint firstAttribute="bottom" secondItem="Dnp-ZV-gFc" secondAttribute="bottom" constant="20" id="iBl-c8-qll"/>
-                        <constraint firstItem="81H-Jr-Rfl" firstAttribute="top" secondItem="5fn-p9-hkG" secondAttribute="top" id="nzI-1h-BRO"/>
                         <constraint firstAttribute="trailing" secondItem="81H-Jr-Rfl" secondAttribute="trailing" id="qAm-cZ-4iJ"/>
                         <constraint firstAttribute="height" constant="80" id="s24-5j-X8W"/>
                     </constraints>

@@ -47,7 +47,16 @@
     return self;
 }
 - (IBAction)showOrHiddenEvent:(id)sender {
+    self.showOrHiddenButton.selected=!self.showOrHiddenButton.isSelected;
+    if ([self.delegate respondsToSelector:@selector(closeCommentPerioDetailsOrOpen:)]) {
+        [self.delegate closeCommentPerioDetailsOrOpen:self.showOrHiddenButton.isSelected];
+    }
 }
 
-
+-(void)setModel:(HWMBillListModel *)model{
+    self.titleLabel.text=model.title;
+    self.stateLabel.text=model.status;
+    self.timeLabel.text=model.baseInfoString;
+    _model=model;
+}
 @end

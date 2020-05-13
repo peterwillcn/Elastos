@@ -22,20 +22,10 @@
  */
 
 
-#import <UIKit/UIKit.h>
-#import "HWMBillListModel.h"
+#import "HWMDetailsProposalModel.h"
 
-@protocol HWMCommentPerioDetailsHeadViewDelegate <NSObject>
-
--(void)closeCommentPerioDetailsOrOpen:(BOOL)isOpen;
-
+@implementation HWMDetailsProposalModel
++ (NSDictionary *)modelCustomPropertyMapper {
+    return @{@"ID": @"id"};
+}
 @end
-NS_ASSUME_NONNULL_BEGIN
-
-@interface HWMCommentPerioDetailsHeadView : UIView
-@property(strong,nonatomic)HWMBillListModel *model;
-@property(weak,nonatomic)id<HWMCommentPerioDetailsHeadViewDelegate> delegate;
-
-@end
-
-NS_ASSUME_NONNULL_END

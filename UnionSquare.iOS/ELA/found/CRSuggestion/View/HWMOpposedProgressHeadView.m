@@ -35,6 +35,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *TheCurrentNumber;
 @property (weak, nonatomic) IBOutlet UILabel *VetoVoteLabel;
 @property (weak, nonatomic) IBOutlet UILabel *VetoVote;
+@property (weak, nonatomic) IBOutlet UILabel *OpposedProgressLabel;
 
 @end
 
@@ -49,10 +50,15 @@
          [self.showOrHiddenButton setImage:[UIImage imageNamed:@"setting_list_arrow_fold"] forState:UIControlStateSelected];
         self.TheCurrentNumberLabel.text=NSLocalizedString(@"当前票数", nil);
         self.VetoVoteLabel.text=NSLocalizedString(@"否决通过票数", nil);
+        self.OpposedProgressLabel.text=NSLocalizedString(@"反对进度", nil);
     }
     return self;
 }
 - (IBAction)showOrHiddenEvent:(id)sender {
+    self.showOrHiddenButton.selected=!self.showOrHiddenButton.isSelected;
+       if ([self.delegate respondsToSelector:@selector(closeOpposedProgressDetailsOrOpen:)]) {
+           [self.delegate closeOpposedProgressDetailsOrOpen:self.showOrHiddenButton.isSelected];
+       }
 }
 
 

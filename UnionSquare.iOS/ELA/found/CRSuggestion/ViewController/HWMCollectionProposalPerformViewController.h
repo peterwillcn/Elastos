@@ -23,11 +23,11 @@
 
 
 #import <UIKit/UIKit.h>
-
+#import "HWMBillListModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMCollectionProposalPerformViewController : UIViewController
-
+@property(strong,nonatomic)HWMBillListModel *model;
 @end
 
 NS_ASSUME_NONNULL_END

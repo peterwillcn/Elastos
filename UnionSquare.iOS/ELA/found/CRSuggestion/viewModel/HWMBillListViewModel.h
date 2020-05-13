@@ -28,6 +28,6 @@
 typedef void(^BillListBlock)(NSArray * _Nonnull dataArray);
 
 @interface HWMBillListViewModel : NSObject
--(void)BillListWithDataJosn:(id)json completion:(_Nonnull BillListBlock)completionBlock;
+-(void)BillListWithDataJosn:(id _Nonnull )json completion:(_Nonnull BillListBlock)completionBlock;
 @end
 

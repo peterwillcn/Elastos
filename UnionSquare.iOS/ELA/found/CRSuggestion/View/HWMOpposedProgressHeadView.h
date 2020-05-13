@@ -24,9 +24,16 @@
 
 #import <UIKit/UIKit.h>
 
+
+@protocol HWMOpposedProgressHeadViewDelegate <NSObject>
+
+-(void)closeOpposedProgressDetailsOrOpen:(BOOL)isOpen;
+
+@end
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMOpposedProgressHeadView : UIView
+@property(nonatomic,weak)id<HWMOpposedProgressHeadViewDelegate> delegate;
 
 @end
 

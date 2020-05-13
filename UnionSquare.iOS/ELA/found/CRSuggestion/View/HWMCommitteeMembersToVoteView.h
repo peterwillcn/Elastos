@@ -24,9 +24,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol HWMCommitteeMembersToVoteViewDelegate <NSObject>
+
+-(void)CommitteeMembersToVoteISopenOrClose:(BOOL)isClose;
+
+@end
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMCommitteeMembersToVoteView : UIView
+
+@property(weak,nonatomic)id<HWMCommitteeMembersToVoteViewDelegate>delegate;
 
 @end
 

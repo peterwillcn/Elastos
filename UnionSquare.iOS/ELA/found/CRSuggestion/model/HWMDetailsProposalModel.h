@@ -22,20 +22,30 @@
  */
 
 
-#import <UIKit/UIKit.h>
-#import "HWMBillListModel.h"
+#import <Foundation/Foundation.h>
 
-@protocol HWMCommentPerioDetailsHeadViewDelegate <NSObject>
-
--(void)closeCommentPerioDetailsOrOpen:(BOOL)isOpen;
-
-@end
 NS_ASSUME_NONNULL_BEGIN
-
-@interface HWMCommentPerioDetailsHeadView : UIView
-@property(strong,nonatomic)HWMBillListModel *model;
-@property(weak,nonatomic)id<HWMCommentPerioDetailsHeadViewDelegate> delegate;
-
+@interface HWMcommentModel : NSObject
+@property(copy,nonatomic)NSString *content;
+@property(copy,nonatomic)NSString *reason;
+@property(copy,nonatomic)NSString *votedBy;
+@end
+@interface HWMVoteResultModel : NSObject
+@property(copy,nonatomic)NSString *value;
+@property(copy,nonatomic)NSString *reason;
+@property(copy,nonatomic)NSString *votedBy;
+@property(copy,nonatomic)NSString *URLString;
+@property(strong,nonatomic)HWMcommentModel *comment;
+@end
+@interface HWMDetailsProposalModel : NSObject
+@property(copy,nonatomic)NSString *ID;
+@property(copy,nonatomic)NSString *abstract;
+@property(copy,nonatomic)NSString *address;
+@property(copy,nonatomic)NSString *duration;
+@property(copy,nonatomic)NSArray  *voteResult;
+@property(copy,nonatomic)NSArray  *tracking;
+@property(strong,nonatomic)NSArray *summary;
+@property(assign,nonatomic)CGFloat abstractCell;
 @end
 
 NS_ASSUME_NONNULL_END

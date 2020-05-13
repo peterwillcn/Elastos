@@ -54,12 +54,6 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
         NotificationCenter.default.addObserver(self, selector: #selector(walletSyncStart), name: syncStart, object: nil)
          NotificationCenter.default.addObserver(self, selector: #selector(showCreateWallet), name: createWallet, object: nil)
         commonInit()
-        // 测试代码
-        let syncVC = SyncViewController()
-        navi = UINavigationController.init(rootViewController: syncVC)
-        self.view.addSubview(navi!.view)
-
-        navi!.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
     }
 
     override func viewWillAppear(_ animated: Bool) {

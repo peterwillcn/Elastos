@@ -50,6 +50,7 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.titlebar?.setBackgroundColor("#191a2f");
 
         NotificationCenter.default.addObserver(self, selector: #selector(walletSyncStart), name: syncStart, object: nil)
          NotificationCenter.default.addObserver(self, selector: #selector(showCreateWallet), name: createWallet, object: nil)

@@ -25,12 +25,14 @@ import UIKit
 class NativeAppMainViewController: UIViewController {
     var appInfo: AppInfo?;
     var basePlugin: AppBasePlugin?;
+    var titlebar: TitleBarView?;
     var isReady = false;
 
-    required convenience init(_ appInfo: AppInfo, _ basePlugin: AppBasePlugin) {
+    required convenience init(_ appInfo: AppInfo, _ basePlugin: AppBasePlugin, _ titlebar: TitleBarView) {
         self.init();
         self.appInfo = appInfo;
         self.basePlugin = basePlugin;
+        self.titlebar = titlebar;
     }
 
     func setReady() {
@@ -40,7 +42,7 @@ class NativeAppMainViewController: UIViewController {
             self.basePlugin!.setIntentListener(onReceiveIntent);
         }
     }
-
+    
     func getParams(_ params: String?) -> [String: Any]? {
         if (params == nil) {
             return nil;

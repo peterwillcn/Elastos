@@ -25,19 +25,15 @@
  class NativeAppViewController : AppViewController {
     var mainView: UIView?;
     var mainViewController: NativeAppMainViewController?;
+    var vcClassName: String?;
     
     convenience init(_ appInfo: AppInfo, _ vcClassName: String) {
         self.init(appInfo);
-        
+        self.vcClassName = vcClassName;
         self.basePlugin = AppBasePlugin();
         self.basePlugin!.setWhitelist(self.whitelistFilter)
         self.basePlugin!.setInfo(self.appInfo);
         
-        let nameSpace = Bundle.main.infoDictionary!["CFBundleExecutable"] as! String;
-        let cls:AnyClass? = NSClassFromString(nameSpace + "." + vcClassName);
-        let clsType = cls as! NativeAppMainViewController.Type;
-        mainViewController = clsType.init(appInfo, basePlugin!);
-        mainView = mainViewController!.view;
     }
     
     override func setReady() {
@@ -50,7 +46,15 @@
     }
     
     func addControllerView(_ container: UIView) {
-        container.addSubview(mainView!);
+        if (mainViewController == nil) {
+            let nameSpace = Bundle.main.infoDictionary!["CFBundleExecutable"] as! String;
+            let cls:AnyClass? = NSClassFromString(nameSpace + "." + vcClassName!);
+            let clsType = cls as! NativeAppMainViewController.Type;
+            mainViewController = clsType.init(appInfo!, basePlugin!, titlebar);
+            mainView = mainViewController!.view;
+            
+            container.addSubview(mainView!);
+        }
         self.addMatchParentConstraints(view: mainView!, parent: container)
     }
 

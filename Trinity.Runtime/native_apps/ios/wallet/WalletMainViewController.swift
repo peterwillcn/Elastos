@@ -42,6 +42,7 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
     var balance: String = ""
     @IBOutlet weak var coinListLabel: UILabel!
     @IBOutlet weak var listBgView: UIView!
+    @IBOutlet weak var noticeBgView: UIView!
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -68,7 +69,8 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
     }
 
     func refreshUI() {
-        self.createWalletButton.isHidden = isHasWallet
+        createWalletButton.isHidden = isHasWallet
+        noticeBgView.isHidden = isHasWallet
         bgView.isHidden = !isHasWallet
         coinListLabel.isHidden = !isHasWallet
         listBgView.isHidden = !isHasWallet
@@ -133,14 +135,16 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
         userDefault.set(masterWalletName, forKey: masterWalletID)
         syncStartWalletInfo([masterWalletID])
     }
-    
-    override func onReceiveMessage(_ type: Int, _ msg: String, _ fromId: String) {
-        let data = msg.data(using: String.Encoding.utf8, allowLossyConversion: false)
-        let params = try? JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! [String: Any]
-        
+
+    override func setReady() {
+        super.setReady();
+    }
+
+    override func onReceiveMessage(_ type: Int, _ msg: String, _ fromId: String) {        let params = getParams(msg);
+
         switch (type) {
         case AppManager.MSG_TYPE_IN_REFRESH:
-            switch (params!["action"] as! String) {
+            switch (params?["action"] as! String) {
             case "currentLocaleChanged":
                 //                        setCurLang(params["data"]);
                 break;
@@ -153,10 +157,19 @@ class WalletMainViewController: NativeAppMainViewController, ElISubWalletDelegat
         }
     }
 
+    override func onReceiveIntent(_ action: String, _ params: String?, _ fromId: String, _ intentId: Int64) {
+        let params = getParams(params);
+        switch (action) {
+        case "pay":
+            try? self.basePlugin!.sendIntentResponse("Sorry, this feature is not yet available in this early version of the iOS wallet. This is going to be solved soon.", intentId);
+        default:
+            break;
+        }
+    }
+
     func setCAGradientLayer(_ view: UIView) {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = view.bounds
-        //        view.layer.addSublayer(gradientLayer) // 会遮挡子视图
         view.layer.insertSublayer(gradientLayer, at: 0)
         gradientLayer.colors = [UIColor(hex: "#7450fc")!.cgColor,
                                 UIColor(hex: "#ab4ed8")!.cgColor,

@@ -179,8 +179,8 @@ class SendViewController: UIViewController {
             let pendingBalance = summaryInfo["PendingBalance"].intValue
             let spendingBalance = summaryInfo["SpendingBalance"].intValue
             let depositBalance = summaryInfo["DepositBalance"].intValue
-//            let votedBalance = summaryInfo["VotedBalance"].intValue
-            let validBalance = String(sumBalance - lockedBalance - pendingBalance - spendingBalance - depositBalance)
+            let minFee = 10000
+            let validBalance = String(sumBalance - lockedBalance - pendingBalance - spendingBalance - depositBalance - minFee)
             let send = changeSEla(amountTextField.text!)
             if send >= validBalance {
                 let hud = SwiftProgressHUD.showHUDAddedTo(self.view, animated: true)
@@ -193,7 +193,6 @@ class SendViewController: UIViewController {
             print(error)
             return false
         }
-
         return true
     }
 

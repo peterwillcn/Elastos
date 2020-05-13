@@ -144,7 +144,7 @@ if args.target == "all" or args.target == "launcher" or args.target == "runtime"
     run_cmd("cordova prepare")
     add_firebase()
     # Remove ionic wallet app from built-in only for ios
-    run_cmd("cd platforms/ios/www/built-in/org.elastos.trinity.dapp.wallet && ls | grep -v 'assets' | xargs rm -rf")
+    run_cmd("cd platforms/ios/www/built-in/org.elastos.trinity.dapp.wallet && ls | grep -v 'assets' | xargs rm -rf", True)
     os.chdir(RUNTIME_DIR_PATH)
     if build_platform == "all" or build_platform == "android":
         run_cmd("cordova build android " + build_type)

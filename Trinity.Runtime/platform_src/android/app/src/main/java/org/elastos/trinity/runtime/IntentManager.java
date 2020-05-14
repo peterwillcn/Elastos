@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -36,6 +37,7 @@ import org.json.JSONTokener;
 
 public class IntentManager {
     public static final int MAX_INTENT_NUMBER = 20;
+    private static final String LOG_TAG = "IntentManager";
     //public static final String JWT_SECRET = "secret";
 
     private LinkedHashMap<String, ArrayList<IntentInfo>> intentList = new LinkedHashMap();
@@ -457,6 +459,7 @@ public class IntentManager {
         HttpResponse httpResponse = httpClient.execute(httpPost);
         if (httpResponse != null
                 && httpResponse.getStatusLine().getStatusCode() == 200) {
+            Log.d(LOG_TAG, "Intent callback url called and returned with success");
         }
         else {
             String err = "Send callbackurl error";
@@ -467,7 +470,6 @@ public class IntentManager {
 
             throw new Exception(err);
         }
-
     }
 
     private String getResultUrl(String url, String result) {

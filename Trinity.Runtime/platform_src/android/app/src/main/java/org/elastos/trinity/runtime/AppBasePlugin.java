@@ -469,13 +469,9 @@ public class AppBasePlugin extends TrinityPlugin {
         String action = args.getString(0);
         String result = args.getString(1);
         long intentId = args.getLong(2);
-        try {
-            IntentManager.getShareInstance().sendIntentResponse(this, result, intentId, this.appId);
-            callbackContext.success("ok");
-        }
-        catch (Exception e) {
-            callbackContext.error(e.getMessage());
-        }
+
+        IntentManager.getShareInstance().sendIntentResponse(this, result, intentId, this.appId);
+        callbackContext.success("ok");
     }
 
     protected void setIntentListener(CallbackContext callbackContext) throws Exception {

@@ -35,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HWMCommentPerioDetailsHeadView : UIView
 @property(strong,nonatomic)HWMBillListModel *model;
 @property(weak,nonatomic)id<HWMCommentPerioDetailsHeadViewDelegate> delegate;
+@property(assign,nonatomic)BOOL needMakeLine;
 
 @end
 

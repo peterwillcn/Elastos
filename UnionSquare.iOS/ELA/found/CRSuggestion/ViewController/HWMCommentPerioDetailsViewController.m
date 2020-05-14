@@ -55,9 +55,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     [self defultWhite];
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"社区提案", nil);//委员评议
-    [self.sweepYardsToVoteButton setTitle:NSLocalizedString(@"扫码投票", nil) forState:UIControlStateNormal];
     [[HMWCommView share]makeBordersWithView:self.sweepYardsToVoteButton];
-    self.headView.model=self.model;
     [self makeView];
     self.isOpen=YES;
     [self loadPerioDetailsWithID:self.model.ID];
@@ -67,7 +65,9 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         [[HWMDetailsProposalViewModel alloc]detailsProposalModelDataJosn:data[@"data"] completion:^(HWMDetailsProposalModel * _Nonnull model) {
             self.DetailsModel=model;
             [self.baseTable reloadData];
-            
+            if(self.type==CommentPerioNOTIFICATIONType){
+                self.OpposedProgressHeadV.DetailsProposalM=self.DetailsModel;
+            }
         }];
     }];
 }
@@ -77,12 +77,26 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     self.baseTable.backgroundColor=[UIColor clearColor];
     [self.baseTable registerNib:[UINib nibWithNibName:BaseTableViewCell bundle:nil] forCellReuseIdentifier:BaseTableViewCell];
     self.baseTable.separatorStyle = UITableViewCellSeparatorStyleNone;
-    UIView *headView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 90+self.model.cellHeight)];
-    [headView addSubview:self.headView];
-    [self.headView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.equalTo(headView);
-    }];
-    self.baseTable.tableHeaderView=headView;
+    if (self.type==CommentPerioVOTINGType) {
+        [self.sweepYardsToVoteButton setTitle:NSLocalizedString(@"扫码投票", nil) forState:UIControlStateNormal];
+        UIView *tableHeadView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 90+self.model.cellHeight)];
+        self.headView.model=self.model;
+        [tableHeadView addSubview:self.headView];
+        [self.headView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(tableHeadView);
+        }];
+        self.baseTable.tableHeaderView=tableHeadView;
+    }else if(self.type==CommentPerioNOTIFICATIONType){
+        [self.sweepYardsToVoteButton setTitle:NSLocalizedString(@"投票反对", nil) forState:UIControlStateNormal];
+        UIView *tableHeadView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 180+self.model.cellHeight)];
+        [tableHeadView addSubview:self.OpposedProgressHeadV];
+        [self.OpposedProgressHeadV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(tableHeadView);
+        }];
+        self.OpposedProgressHeadV.model=self.model;
+        self.baseTable.tableHeaderView=tableHeadView;
+    }
+    
     [self setTableViewFootViewWithHeight:300];
     
 }
@@ -96,14 +110,14 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     return 0.01;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
- 
+    
     return 0.01;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }
 -(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-  
+    
     return [[UIView alloc]initWithFrame:CGRectZero];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -241,17 +255,17 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     [self.foodView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(foodView);
     }];
-
+    
     self.baseTable.tableFooterView=foodView;
     
 }
 -(void)CommitteeMembersToVoteISopenOrClose:(BOOL)isClose{
-    self.isOpen=isClose;
+    
     if (isClose) {
-           [self setTableViewFootViewWithHeight:300];
-       }else{
-           [self setTableViewFootViewWithHeight:45];
-       }
+        [self setTableViewFootViewWithHeight:300];
+    }else{
+        [self setTableViewFootViewWithHeight:45];
+    }
 }
 -(HWMOpposedProgressHeadView *)OpposedProgressHeadV{
     if (!_OpposedProgressHeadV) {
@@ -262,11 +276,11 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     return _OpposedProgressHeadV;
 }
 -(void)closeOpposedProgressDetailsOrOpen:(BOOL)isOpen{
-    self.isOpen=isOpen;
-       if (isOpen) {
-              [self setTableViewFootViewWithHeight:300];
-          }else{
-              [self setTableViewFootViewWithHeight:45];
-          }
+    self.isOpen=!isOpen;
+    
+    [self.baseTable reloadData];
+}
+-(void)setType:(CommentPerioType)type{
+    _type=type;
 }
 @end

@@ -28,6 +28,7 @@
 #import "HWMBillListViewModel.h"
 #import "HWMCRSuggestionNetWorkManger.h"
 #import "HWMBillListModel.h"
+#import "HWMCollectionProposalPerformViewController.h"
 @interface HWMallBaseViewController ()<HWMCommunityProposalBaseViewDelegate>
 @property(strong,nonatomic)HWMCommunityProposalBaseView *allBaseView;
 @property(strong,nonatomic)HWMBillListViewModel*allBillListVM;
@@ -56,29 +57,29 @@
 -(void)didShowDetailsWithIndex:(NSInteger)index{
     
     HWMBillListModel *model=self.allBillListAarray[index];
-//    model.status=NSLocalizedString(@"委员评议",nil);
-//         }else if ([model.status isEqualToString:@"NOTIFICATION"]){
-//             model.status=NSLocalizedString(@"公示中",nil);
-//         }else if ([model.status isEqualToString:@"ACTIVE"]){
-//             model.status=NSLocalizedString(@"执行中",nil);
-//         }else if ([model.status isEqualToString:@"FINAL"]){
-//             model.status=NSLocalizedString(@"已完成",nil);
-//         }else if ([model.status isEqualToString:@"REJECTED"]){
-//             model.status=NSLocalizedString(@"已废止",nil);
     if ([model.status isEqualToString:NSLocalizedString(@"委员评议",nil)]) {
         HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
         CommentPerioDetailsVC.model=model;
-         [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
+        CommentPerioDetailsVC.type=CommentPerioNOTIFICATIONType;
+        //        CommentPerioDetailsVC.type=CommentPerioVOTINGType;
+        [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
     }else if ([model.status isEqualToString:NSLocalizedString(@"公示中",nil)]){
-        
+        HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
+        CommentPerioDetailsVC.model=model;
+        CommentPerioDetailsVC.type=CommentPerioNOTIFICATIONType;
+        [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
     }else if ([model.status isEqualToString:NSLocalizedString(@"执行中",nil)]){
-        
+        HWMCollectionProposalPerformViewController *CollectionProposalPerformVC=[[HWMCollectionProposalPerformViewController alloc]init];
+        CollectionProposalPerformVC.model=model;
+        [self.navigationController pushViewController:CollectionProposalPerformVC animated:YES];
     }else if ([model.status isEqualToString:NSLocalizedString(@"已完成",nil)]){
-        
+        HWMCollectionProposalPerformViewController *CollectionProposalPerformVC=[[HWMCollectionProposalPerformViewController alloc]init];
+        CollectionProposalPerformVC.model=model;
+        [self.navigationController pushViewController:CollectionProposalPerformVC animated:YES];
     }else if ([model.status isEqualToString:NSLocalizedString(@"已废止",nil)]){
         
     }
- 
+    
     
 }
 -(void)needUpdateDataSource{

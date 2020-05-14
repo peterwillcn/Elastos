@@ -23,7 +23,7 @@
 
 
 #import <UIKit/UIKit.h>
-
+#import "HWMDetailsProposalModel.h"
 @protocol HWMCommitteeMembersToVoteViewDelegate <NSObject>
 
 -(void)CommitteeMembersToVoteISopenOrClose:(BOOL)isClose;
@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HWMCommitteeMembersToVoteView : UIView
 
 @property(weak,nonatomic)id<HWMCommitteeMembersToVoteViewDelegate>delegate;
+@property(copy,nonatomic)NSArray*dataArray;
 
 @end
 

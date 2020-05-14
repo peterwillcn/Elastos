@@ -127,5 +127,5 @@
 #import "HWMQrCodeScanningResultsViewController.h"
 #import "YRClassSafeCategory.h"
 #import "YRClassSafeCategoryConfig.h"
-#import "YRClassSafeCategoryConfig.h"
+#import "YYKit.h"
 #endif

@@ -183,5 +183,7 @@
 /*
 * alculateRowHeight
 */
-- (CGFloat)calculateRowHeight:(NSString *)string fontSize:(NSInteger)fontSize withmargin:(CGFloat)margin;
+-(CGFloat)calculateRowHeight:(NSString *)string fontSize:(NSInteger)fontSize withmargin:(CGFloat)margin;
+-(NSString*)RemainingTimeFormatting:(NSString*)RemainingString;
+- (NSString*)isEmptyString:(NSString *)string;
 @end

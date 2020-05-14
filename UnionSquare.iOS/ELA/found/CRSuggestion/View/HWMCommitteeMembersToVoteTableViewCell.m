@@ -23,7 +23,7 @@
 
 
 #import "HWMCommitteeMembersToVoteTableViewCell.h"
-
+#import "UIImageView+WebCache.h"
 @interface HWMCommitteeMembersToVoteTableViewCell()
 @property (weak, nonatomic) IBOutlet UIImageView *headImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nickNamelLabel;
@@ -39,11 +39,12 @@
     [super awakeFromNib];
     [[HMWCommView share]makeBordersWithView:self.headImageView withCRRound:10.f];
 }
-
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
-
+-(void)setModel:(HWMVoteResultModel *)model{
+    [self.headImageView sd_setImageWithURL:[NSURL URLWithString:model.avatar]];
+    self.nickNamelLabel.text=@"测试";
+    self.contenInfoLabel.text=@"内容";
+}
 @end

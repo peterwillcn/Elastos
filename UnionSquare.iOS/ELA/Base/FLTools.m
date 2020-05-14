@@ -1102,13 +1102,7 @@ static FLTools *tool;
         contryString=NSLocalizedString(contryArray.firstObject, nil);
     }else{
         contryString=NSLocalizedString(@"未知", nil);
-        
     }
-    
-    
-    
-    
-    
     return contryString;
     
 }
@@ -2067,8 +2061,8 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     
 }
 /*
-* alculateRowHeight
-*/
+ * alculateRowHeight
+ */
 - (CGFloat)calculateRowHeight:(NSString *)string fontSize:(NSInteger)fontSize withmargin:(CGFloat)margin{
     
     NSDictionary *dic = @{NSFontAttributeName:[UIFont systemFontOfSize:fontSize]};
@@ -2078,6 +2072,34 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
      NSStringDrawingUsesFontLeading attributes:dic context:nil];
     
     return rect.size.height;
+    
+}
+-(NSString*)RemainingTimeFormatting:(NSString*)RemainingString{
+    NSString *showRemainingTimeTest;
+    NSInteger RemainingInt=[RemainingString integerValue];
+    NSInteger hourInt=3600;
+    NSInteger dayInt=3600*24;
+    if (RemainingInt<hourInt) {
+        showRemainingTimeTest=@"不足1小时";
+    }else if (RemainingInt<dayInt&&RemainingInt>hourInt){
+        showRemainingTimeTest=@"约23个小时";
+    }else if (RemainingInt>dayInt){
+        NSInteger dayNumber= RemainingInt/dayInt;
+        showRemainingTimeTest=[NSString stringWithFormat:@"约%ld天",dayNumber];
+    }
+    return showRemainingTimeTest;
+}
+- (NSString*)isEmptyString:(NSString *)string {
+    if (!string) {
+    return @"--";
+    }
+    if ([string isKindOfClass:[NSNull class]]) {
+     return @"--";
+    }
+    if (!string.length) {//字符串长度
+      return @"--";
+    }
+    return string;
     
 }
 @end

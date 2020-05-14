@@ -123,6 +123,7 @@
     if (self.searchTextField.text.length==0) {
         return;
     }
+    self.allBillListVM.searchString=self.searchTextField.text;
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]searchReloadCRSuggestionDataSourceWithType:0 withStartIndex:staIndex withNumbers:10 withSearchContent:self.searchTextField.text withComplete:^(id  _Nonnull data) {
         [self.allBillListVM BillListWithDataJosn:data[@"data"][@"list"]  completion:^(NSArray * _Nonnull dataArray) {
             if (dataArray.count>0) {

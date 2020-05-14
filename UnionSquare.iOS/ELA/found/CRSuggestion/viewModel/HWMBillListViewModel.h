@@ -28,6 +28,7 @@
 typedef void(^BillListBlock)(NSArray * _Nonnull dataArray);
 
 @interface HWMBillListViewModel : NSObject
+@property(copy,nonatomic)NSString *  _Nonnull searchString;
 -(void)BillListWithDataJosn:(id _Nonnull )json completion:(_Nonnull BillListBlock)completionBlock;
 @end
 

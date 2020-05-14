@@ -52,7 +52,7 @@
     NSArray *modeArray=[NSArray modelArrayWithClass:[HWMBillListModel class] json:json];
     NSMutableArray *AnalyticalArray=[[NSMutableArray alloc]init];
     for (HWMBillListModel *model in modeArray) {
-        model.baseInfoString=[NSString stringWithFormat:@"#%@ %@ %@",model.ID ,[[FLTools share]YMDHMSgetTimeFromTimesTamp:model.createAt],model.proposedBy];
+        model.baseInfoString=[NSString stringWithFormat:@"#%@ %@ %@",model.ID ,[[FLTools share]YMDHMSgetTimeFromTimesTamp:model.createdAt],model.proposedBy];
         
         if ([model.status isEqualToString:@"VOTING"]) {
             model.status=NSLocalizedString(@"委员评议",nil);

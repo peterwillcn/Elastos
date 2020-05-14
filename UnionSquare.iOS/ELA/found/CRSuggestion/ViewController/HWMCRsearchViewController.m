@@ -99,10 +99,8 @@
 -(void)didShowDetailsWithIndex:(NSInteger)index{
     HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
     [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
-    
 }
 -(void)needUpdateDataSource{
-    
     [self.allBillListAarray removeAllObjects];
     [self loadDataSourceWithIndex:1];
 }

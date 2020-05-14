@@ -87,4 +87,15 @@ return [[self alloc]init];
       }];
     
 }
+-(void)reloadCRSuggestionDetailsWithID:(NSString*)ID withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed{
+  
+    
+     NSString *bordyUrlString=[NSString stringWithFormat:@"/api/cvote/get_proposal/%@",ID];
+    
+      [HttpUrl NetGETHost:CRProposalIP url:bordyUrlString header:nil body:nil showHUD:YES WithSuccessBlock:^(id data) {
+          Completed(data);
+      } WithFailBlock:^(id data) {
+          Completed(data);
+      }];
+}
 @end

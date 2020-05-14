@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  *
  */
-@property(copy,nonatomic)NSString * createAt;
+@property(copy,nonatomic)NSString * createdAt;
 @property(copy,nonatomic)NSString * proposedBy;
 @property(copy,nonatomic)NSString * proposalHash;
 @property(assign,nonatomic)CGFloat cellHeight;

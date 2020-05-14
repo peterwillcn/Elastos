@@ -22,20 +22,13 @@
  */
 
 
-#import <UIKit/UIKit.h>
-#import "HWMBillListModel.h"
-
-@protocol HWMCommentPerioDetailsHeadViewDelegate <NSObject>
-
--(void)closeCommentPerioDetailsOrOpen:(BOOL)isOpen;
-
-@end
+#import <Foundation/Foundation.h>
+#import "HWMDetailsProposalModel.h"
+typedef void(^DetailsProposalBlock)(HWMDetailsProposalModel * _Nonnull model);
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HWMCommentPerioDetailsHeadView : UIView
-@property(strong,nonatomic)HWMBillListModel *model;
-@property(weak,nonatomic)id<HWMCommentPerioDetailsHeadViewDelegate> delegate;
-
+@interface HWMDetailsProposalViewModel : NSObject
+-(void)detailsProposalModelDataJosn:( _Nonnull  id)json completion:(_Nonnull DetailsProposalBlock)completionBlock;
 @end
 
 NS_ASSUME_NONNULL_END

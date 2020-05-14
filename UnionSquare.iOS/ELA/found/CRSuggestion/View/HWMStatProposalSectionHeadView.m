@@ -22,20 +22,16 @@
  */
 
 
-#import <UIKit/UIKit.h>
-#import "HWMBillListModel.h"
+#import "HWMStatProposalSectionHeadView.h"
 
-@protocol HWMCommentPerioDetailsHeadViewDelegate <NSObject>
+@implementation HWMStatProposalSectionHeadView
 
--(void)closeCommentPerioDetailsOrOpen:(BOOL)isOpen;
-
-@end
-NS_ASSUME_NONNULL_BEGIN
-
-@interface HWMCommentPerioDetailsHeadView : UIView
-@property(strong,nonatomic)HWMBillListModel *model;
-@property(weak,nonatomic)id<HWMCommentPerioDetailsHeadViewDelegate> delegate;
+/*
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect {
+    // Drawing code
+}
+*/
 
 @end
-
-NS_ASSUME_NONNULL_END

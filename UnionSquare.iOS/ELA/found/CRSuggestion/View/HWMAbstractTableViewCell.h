@@ -23,18 +23,12 @@
 
 
 #import <UIKit/UIKit.h>
-#import "HWMBillListModel.h"
 
-@protocol HWMCommentPerioDetailsHeadViewDelegate <NSObject>
-
--(void)closeCommentPerioDetailsOrOpen:(BOOL)isOpen;
-
-@end
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HWMCommentPerioDetailsHeadView : UIView
-@property(strong,nonatomic)HWMBillListModel *model;
-@property(weak,nonatomic)id<HWMCommentPerioDetailsHeadViewDelegate> delegate;
+@interface HWMAbstractTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *constLabel;
 
 @end
 

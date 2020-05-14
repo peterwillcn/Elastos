@@ -22,20 +22,26 @@
  */
 
 
-#import <UIKit/UIKit.h>
-#import "HWMBillListModel.h"
+#import "HWMAbstractTableViewCell.h"
 
-@protocol HWMCommentPerioDetailsHeadViewDelegate <NSObject>
+@implementation HWMAbstractTableViewCell
 
--(void)closeCommentPerioDetailsOrOpen:(BOOL)isOpen;
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    UITapGestureRecognizer *tag=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(copAddress)];
+    [self.constLabel addGestureRecognizer:tag];
+    
+}
+-(void)copAddress{
+    [[FLTools share]showErrorInfo:NSLocalizedString(@"复制成功", nil)];
+    [[FLTools share]copiedToTheClipboardWithString:self.constLabel.text];
+}
+
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
 
 @end
-NS_ASSUME_NONNULL_BEGIN
-
-@interface HWMCommentPerioDetailsHeadView : UIView
-@property(strong,nonatomic)HWMBillListModel *model;
-@property(weak,nonatomic)id<HWMCommentPerioDetailsHeadViewDelegate> delegate;
-
-@end
-
-NS_ASSUME_NONNULL_END

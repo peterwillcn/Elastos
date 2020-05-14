@@ -27,6 +27,7 @@
 #import "HWMCommentPerioDetailsViewController.h"
 #import "HWMBillListViewModel.h"
 #import "HWMCRSuggestionNetWorkManger.h"
+#import "HWMCommentPerioDetailsViewController.h"
 @interface HWMMemberReviewBaseViewController ()<HWMCommunityProposalBaseViewDelegate>
 @property(strong,nonatomic)HWMCommunityProposalBaseView *allBaseView;
 @property(strong,nonatomic)HWMBillListViewModel*allBillListVM;
@@ -53,6 +54,7 @@
 }
 -(void)didShowDetailsWithIndex:(NSInteger)index{
     HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
+    CommentPerioDetailsVC.model=self.allBillListAarray[index];
     [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
     
 }
@@ -86,7 +88,6 @@
                 id total=data[@"data"][@"total"];
                 self.allBaseView.allTotle=[total intValue];
             }
-            
         }];
         
     }];

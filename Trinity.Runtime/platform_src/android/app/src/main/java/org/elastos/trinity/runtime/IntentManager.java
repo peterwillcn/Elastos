@@ -19,6 +19,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -330,6 +332,7 @@ public class IntentManager {
             info.callbackurl = jwtPayload.getString(IntentInfo.CALLBACK_URL).toString();
         }
         info.type = IntentInfo.JWT;
+        info.originalJwtRequest = jwt;
     }
 
 
@@ -466,7 +469,18 @@ public class IntentManager {
             if (httpResponse != null) {
                 err += ": " + httpResponse.getStatusLine().getStatusCode();
             }
-            err += ".";
+            err += ". ";
+
+            // Try to get a more specific error message from the page body
+            {
+                int n;
+                char[] buffer = new char[1024 * 4];
+                InputStreamReader reader = new InputStreamReader(httpResponse.getEntity().getContent(), "utf8");
+                StringWriter writer = new StringWriter();
+                while (-1 != (n = reader.read(buffer))) writer.write(buffer, 0, n);
+
+                err += writer.toString();
+            }
 
             throw new Exception(err);
         }
@@ -554,8 +568,10 @@ public class IntentManager {
                 if (info.type == IntentInfo.JWT) {
                     // Request intent was a JWT payload. We send the response as a JWT payload too
                     String jwt;
-                    if (intentResult.isAlreadyJWT())
+                    if (intentResult.isAlreadyJWT()) {
                         jwt = intentResult.jwt;
+                        //System.out.println("DEBUG DELETE THIS - JWT TOKEN = "+jwt);
+                    }
                     else {
                         // App did not return a JWT, so we return an unsigned JWT instead
                         jwt = createUnsignedJWTResponse(info, result);

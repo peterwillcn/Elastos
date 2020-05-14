@@ -119,6 +119,15 @@
      // /////////////////
      NSURL* appURL = [self appUrl];
      __weak __typeof__(self) weakSelf = self;
+@@ -514,7 +514,7 @@
+     NSString* webViewEngineClass = [self.settings cordovaSettingForKey:@"CordovaWebViewEngine"];
+
+     if (!defaultWebViewEngineClass) {
+-        defaultWebViewEngineClass = @"CDVUIWebViewEngine";
++        defaultWebViewEngineClass = @"CDVWKWebViewEngine";
+     }
+     if (!webViewEngineClass) {
+         webViewEngineClass = defaultWebViewEngineClass;
 @@ -650,7 +650,7 @@
 
      id obj = [self.pluginObjects objectForKey:className];

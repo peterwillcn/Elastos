@@ -109,6 +109,9 @@ module.exports = function(ctx) {
       }
     }
 
+    //
+    // remove source files in the CDVUIWebViewEngine group
+    cordovaProj.removePbxGroup("CDVUIWebViewEngine");
 
     //
     // Write back the new XCode project

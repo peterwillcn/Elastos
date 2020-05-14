@@ -221,6 +221,18 @@
      }
 
 ===================================================================
+--- origin_platforms/ios/CordovaLib/Classes/Public/CDVWebViewEngineProtocol.h	null
++++ platforms/ios/CordovaLib/Classes/Public/CDVWebViewEngineProtocol.h	null
+@@ -20,7 +20,6 @@
+ #import <UIKit/UIKit.h>
+
+ #define kCDVWebViewEngineScriptMessageHandlers @"kCDVWebViewEngineScriptMessageHandlers"
+-#define kCDVWebViewEngineUIWebViewDelegate @"kCDVWebViewEngineUIWebViewDelegate"
+ #define kCDVWebViewEngineWKNavigationDelegate @"kCDVWebViewEngineWKNavigationDelegate"
+ #define kCDVWebViewEngineWKUIDelegate @"kCDVWebViewEngineWKUIDelegate"
+ #define kCDVWebViewEngineWebViewPreferences @"kCDVWebViewEngineWebViewPreferences"
+
+===================================================================
 --- origin_platforms/ios/elastOS/Bridging-Header.h	null
 +++ platforms/ios/elastOS/Bridging-Header.h	null
 @@ -26,3 +26,6 @@

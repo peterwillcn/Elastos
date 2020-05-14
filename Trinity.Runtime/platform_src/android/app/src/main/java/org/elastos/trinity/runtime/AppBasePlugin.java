@@ -161,6 +161,7 @@ public class AppBasePlugin extends TrinityPlugin {
             }
         }
         catch (Exception e) {
+            e.printStackTrace();
             callbackContext.error(e.getLocalizedMessage());
         }
         return true;
@@ -499,6 +500,7 @@ public class AppBasePlugin extends TrinityPlugin {
             ret.put("params", info.params);
             ret.put("from", info.fromId);
             ret.put("intentId", info.intentId);
+            ret.put("originalJwtRequest", info.originalJwtRequest);
             PluginResult result = new PluginResult(PluginResult.Status.OK, ret);
             result.setKeepCallback(true);
             mIntentContext.sendPluginResult(result);

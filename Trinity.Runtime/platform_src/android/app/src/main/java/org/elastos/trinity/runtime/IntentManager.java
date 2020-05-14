@@ -5,28 +5,22 @@ import android.content.res.AssetManager;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 
-import androidx.core.content.res.TypedArrayUtils;
-
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.zxing.common.StringUtils;
 
-import org.apache.commons.math3.stat.inference.TestUtils;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -40,13 +34,13 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 //import org.apache.tomcat.util.codec.binary.Base64;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.client.HttpClient;
 import org.json.JSONTokener;
 
 public class IntentManager {
     public static final int MAX_INTENT_NUMBER = 20;
-    public static final String JWT_SECRET = "secret";
+    private static final String LOG_TAG = "IntentManager";
+    //public static final String JWT_SECRET = "secret";
 
     private LinkedHashMap<String, ArrayList<IntentInfo>> intentList = new LinkedHashMap();
     private LinkedHashMap<Long, IntentInfo> intentContextList = new LinkedHashMap();
@@ -338,6 +332,7 @@ public class IntentManager {
             info.callbackurl = jwtPayload.getString(IntentInfo.CALLBACK_URL).toString();
         }
         info.type = IntentInfo.JWT;
+        info.originalJwtRequest = jwt;
     }
 
 
@@ -425,9 +420,7 @@ public class IntentManager {
     }
 
 
-    public String createJWTResponse(IntentInfo info, String result) throws Exception {
-        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-
+    public String createUnsignedJWTResponse(IntentInfo info, String result) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> claims = mapper.readValue(result, Map.class);
 
@@ -436,10 +429,8 @@ public class IntentManager {
                 .addClaims(claims)
                 .claim("req", info.req)
                 .claim("method", info.action)
-//                .setId(UUID.randomUUID())
                 .setIssuedAt(new Date())
-                .setAudience(info.aud)
-                .signWith(signatureAlgorithm, JWT_SECRET);
+                .setAudience(info.aud);
 
         return builder.compact();
     }
@@ -471,17 +462,28 @@ public class IntentManager {
         HttpResponse httpResponse = httpClient.execute(httpPost);
         if (httpResponse != null
                 && httpResponse.getStatusLine().getStatusCode() == 200) {
+            Log.d(LOG_TAG, "Intent callback url called and returned with success");
         }
         else {
             String err = "Send callbackurl error";
             if (httpResponse != null) {
                 err += ": " + httpResponse.getStatusLine().getStatusCode();
             }
-            err += ".";
+            err += ". ";
+
+            // Try to get a more specific error message from the page body
+            {
+                int n;
+                char[] buffer = new char[1024 * 4];
+                InputStreamReader reader = new InputStreamReader(httpResponse.getEntity().getContent(), "utf8");
+                StringWriter writer = new StringWriter();
+                while (-1 != (n = reader.read(buffer))) writer.write(buffer, 0, n);
+
+                err += writer.toString();
+            }
 
             throw new Exception(err);
         }
-
     }
 
     private String getResultUrl(String url, String result) {
@@ -492,11 +494,44 @@ public class IntentManager {
         return url + param + Uri.encode(result);
     }
 
+    /**
+     * Helper class to deal with app intent result types that can be either JSON objects with raw data,
+     * or JSON objects with "jwt" special field.
+     */
+    private class IntentResult {
+        String rawResult;
+        JSONObject payload;
+        String jwt = null;
+
+        IntentResult(String result) throws Exception {
+            this.rawResult = result;
+
+            JSONObject resultAsJson = new JSONObject(result);
+            if (resultAsJson.has("jwt")) {
+                // The result is a single field named "jwt", that contains an already encoded JWT token
+                jwt = resultAsJson.getString("jwt");
+                payload = parseJWT(jwt);
+            }
+            else {
+                // The result is a simple JSON object
+                payload = resultAsJson;
+            }
+        }
+
+        String payloadAsString() {
+            return payload.toString();
+        }
+
+        boolean isAlreadyJWT() {
+            return jwt != null;
+        }
+    }
 
     public void sendIntentResponse(AppBasePlugin basePlugin, String result, long intentId, String fromId) throws Exception {
+        // Retrieve intent context information for the given intent id
         IntentInfo info = intentContextList.get(intentId);
         if (info == null) {
-            throw new Exception(intentId + " isn't exist!");
+            throw new Exception("Intent information for intent ID "+intentId + " doesn't exist!");
         }
 
         WebViewFragment fragment = null;
@@ -507,9 +542,13 @@ public class IntentManager {
             }
         }
 
+        // The result object can be either a standard json object, or a {jwt:JWT} object.
+        IntentResult intentResult = new IntentResult(result);
+
         if (info.type == IntentInfo.API) {
+            // The intent was sent by a trinity dapp, inside trinity, so we call the intent response callback
             if (fragment != null) {
-                info.params = result;
+                info.params = intentResult.payloadAsString();
                 info.fromId = fromId;
                 fragment.basePlugin.onReceiveIntentResponse(info);
             }
@@ -524,13 +563,25 @@ public class IntentManager {
                 url = info.callbackurl;
             }
 
+            // If there is a provided URL callback for the intent, we want to send the intent response to that url
             if (url != null) {
                 if (info.type == IntentInfo.JWT) {
-                    String jwt = createJWTResponse(info, result);
+                    // Request intent was a JWT payload. We send the response as a JWT payload too
+                    String jwt;
+                    if (intentResult.isAlreadyJWT()) {
+                        jwt = intentResult.jwt;
+                        //System.out.println("DEBUG DELETE THIS - JWT TOKEN = "+jwt);
+                    }
+                    else {
+                        // App did not return a JWT, so we return an unsigned JWT instead
+                        jwt = createUnsignedJWTResponse(info, result);
+                    }
                     if (IntentManager.checkTrinityScheme(url)) {
+                        // Response url is a trinity url that we can handle internally
                         url = url + "/" + jwt;
                         sendIntentByUri(Uri.parse(url), info.fromId);
                     } else {
+                        // Response url can't be handled by trinity. So we either call an intent to open it, or HTTP POST data
                         if (info.redirecturl != null) {
                             url = info.redirecturl + "/" + jwt;
                             basePlugin.webView.showWebPage(url, true, false, null);
@@ -540,11 +591,14 @@ public class IntentManager {
                     }
                 }
                 else if (info.type == IntentInfo.URL){
-                    String ret = createUrlResponse(info, result);
+                    // Request intent was a raw url. We send the response as raw data, with decrypted JWT is the app returned a JWT
+                    String ret = createUrlResponse(info, intentResult.payloadAsString());
                     if (IntentManager.checkTrinityScheme(url)) {
+                        // Response url is a trinity url that we can handle internally
                         url = getResultUrl(url, ret);
                         sendIntentByUri(Uri.parse(url), info.fromId);
                     } else {
+                        // Response url can't be handled by trinity. So we either call an intent to open it, or HTTP POST data
                         if (info.redirecturl != null) {
                             url = getResultUrl(url, ret);
                             basePlugin.webView.showWebPage(url, true, false, null);
@@ -554,7 +608,6 @@ public class IntentManager {
                     }
                 }
             }
-
         }
 
         intentContextList.remove(intentId);

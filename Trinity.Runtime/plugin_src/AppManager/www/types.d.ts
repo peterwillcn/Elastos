@@ -229,6 +229,8 @@ declare namespace AppManagerPlugin {
         from: string;
         /** Unique intent ID that has to be sent back when sending the intent response. */
         intentId: Number;
+        /** In case the intent comes from outside elastOS and was received as a JWT, this JWT is provided here. */
+        originalJwtRequest?: String;
     }
 
     /**

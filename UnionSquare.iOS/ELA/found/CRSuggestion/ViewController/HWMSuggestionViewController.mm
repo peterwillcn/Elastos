@@ -182,6 +182,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 }
 -(void)makeSureWithPWD:(NSString*_Nonnull)PWDString{
     NSNumber *Type;
+    
     if ([self.PayLoadDic[@"data"][@"proposaltype"] isEqualToString:@"normal"]) {
         Type=@(0);
     }else{
@@ -190,10 +191,20 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     }
     NSMutableArray *BArray=[[NSMutableArray alloc]init];
     for (HWMBudgetsModel *model in self.BudgetsArray) {
-        NSDictionary *dic=@{@"Type":model.Type,@"Stage":model.Stage,@"type":model.Type};
+        NSNumber *Type;
+         
+         if ([model.Type isEqualToString:@"Imprest"]) {
+             Type=@(0);
+         }else if ([model.Type isEqualToString:@"NormalPayment"]) {
+             Type=@(1);
+             
+         }else{
+             Type=@(2);
+         }
+        NSDictionary *dic=@{@"Type":Type,@"Stage":Type,@"Amount":model.Amount};
         [BArray addObject:dic];
     }
-    NSDictionary *playLoadDic=@{@"Type":Type,@"CategoryData":@"",@"OwnerPublicKey":self.PayLoadDic[@"data"][@"ownerpublickey"],@"DraftHash":self.PayLoadDic[@"data"][@"drafthash"],@"Budgets":BArray,@"Recipient":self.PayLoadDic[@"data"][@"recipient"]};
+    NSDictionary *playLoadDic=@{@"Type":Type,@"CategoryData":self.PayLoadDic[@"data"][@"categorydata"],@"OwnerPublicKey":self.PayLoadDic[@"data"][@"ownerpublickey"],@"DraftHash":self.PayLoadDic[@"data"][@"drafthash"],@"Budgets":BArray,@"Recipient":self.PayLoadDic[@"data"][@"recipient"]};
     NSString *playloadDicString=[playLoadDic jsonStringEncoded];
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,playloadDicString] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"adviceTheSignature"];
     BOOL isSucc= [[ELWalletManager share]adviceTheSignature:mommand];

@@ -141,7 +141,8 @@ class AppManager: NSObject {
         saveLauncher();
 
         do {
-            try loadLauncher();
+            // TMP BPI try loadLauncher();
+            loadStartupScreen()
         }
         catch let error {
             print("loadLauncher error: \(error)");
@@ -550,9 +551,53 @@ class AppManager: NSObject {
         sendRefreshList("closed", info!);
     }
 
+    /**
+     * Closes all running apps, except the launcher app.
+     */
+    public func closeAll() throws {
+        for appId in getRunningList() {
+            try close(appId)
+        }
+    }
 
     func loadLauncher() throws {
         try start("launcher");
+    }
+    
+    public func launchStartupScreen() throws {
+        // Check if a there is a signed in DID. If so, directly start the launcher. If not,
+        // start the DID session dapp
+        DIDSessionManager.getSharedInstance().setAppManager(self)
+        if let signedInIdentity = try DIDSessionManager.getSharedInstance().getSignedInIdentity() {
+            // No DID signed in
+            loadLauncher() // TODO - IMPORTANT NOTE: for now because did session app crashes if launcher was not loaded, we also start the launcher FOR TEST. Later , launcher should NOT start if DID session starts
+            start("org.elastos.trinity.dapp.didsession")
+        }
+        else {
+            // A DID is signed in
+            loadLauncher()
+        }
+    }
+    
+    /**
+     * Signs in to a new DID session.
+     */
+    public func signIn() throws {
+        // Stop the did session app
+        try close("org.elastos.trinity.dapp.didsession")
+
+        // Start the launcher app
+        try launchStartupScreen()
+    }
+
+    /**
+     * Signs out from a DID session. All apps and services are closed, and launcher goes back to the DID session app prompt.
+     */
+    public func signOut() throws {
+        closeAll()
+
+        // Go back to the startup screen
+        launchStartupScreen()
     }
 
     private func installUri(_ uri: String, _ dev:Bool) {

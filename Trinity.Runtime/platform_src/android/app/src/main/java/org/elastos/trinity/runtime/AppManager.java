@@ -623,7 +623,7 @@ public class AppManager {
     }
 
     /**
-     * Closes all running apps, except the launch app.
+     * Closes all running apps, except the launcher app.
      */
     public void closeAll() throws Exception {
         for (String appId : getRunningList()) {

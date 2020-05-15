@@ -42,6 +42,11 @@
         "$user": {}
     },
     "passwordmanager": {
+        "AppManager": [
+            "getAppInfos",
+            "getAppList",
+            "getAppInfo"
+        ],
         "PasswordManagerPlugin": ["*"],
         "$user": {}
     },
@@ -94,6 +99,7 @@
         "Notification": ["*"],
         "QRScanner": ["*"],
         "SplashScreen": ["*"],
-        "FingerprintPlugin": ["*"]
+        "FingerprintPlugin": ["*"],
+        "CDVIonicKeyboard": ["*"]
     }
 }

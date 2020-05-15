@@ -17,6 +17,7 @@ public class PreferenceManager {
 
     private JSONObject defaultPreferences = new JSONObject();
     ManagerDBAdapter dbAdapter = null;
+    public boolean versionChanged = false;
 
     PreferenceManager() {
         dbAdapter = AppManager.getShareInstance().getDBAdapter();
@@ -28,7 +29,8 @@ public class PreferenceManager {
         PreferenceManager.preferenceManager = this;
 
         // Make some services ready
-        UIStyling.prepare(true); // TMP - USE MASTER BRANCH CODE NOT THIS
+        boolean darkMode = getBooleanValue("ui.darkmode", false);
+        prepareUIStyling(darkMode);
     }
 
     public static PreferenceManager getShareInstance() {
@@ -43,7 +45,7 @@ public class PreferenceManager {
         InputStream inputStream = manager.open("www/config/preferences.json");
 
         defaultPreferences = Utility.getJsonFromFile(inputStream);
-        defaultPreferences.put("version", getVersion());
+        defaultPreferences.put("version", getNativeSystemVersion());
     }
 
     private Object getDefaultValue(String key) throws Exception {
@@ -133,6 +135,10 @@ public class PreferenceManager {
 //            }
 //        }
 
+        if (key.equals("ui.darkmode")) {
+            prepareUIStyling((Boolean)value);
+        }
+
         JSONObject data = new JSONObject();
         data.put("key", key);
         data.put("value", value);
@@ -144,20 +150,7 @@ public class PreferenceManager {
     }
 
     public Boolean getDeveloperMode() {
-        JSONObject value = null;
-        Boolean ret = false;
-        try {
-            value = getPreference("developer.mode");
-            if (value != null ) {
-                ret = Boolean.getBoolean(value.getString("value"));
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-
-        return ret;
+        return getBooleanValue("developer.mode", false);
     }
 
     public void setDeveloperMode(Boolean value) {
@@ -187,34 +180,50 @@ public class PreferenceManager {
                 json.toString(), AppManager.LAUNCHER);
     }
 
-    public String getVersion() throws Exception {
+    public String getNativeSystemVersion() throws Exception {
         Context context = AppManager.getShareInstance().activity;
         PackageManager manager = context.getPackageManager();
         PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+
+        //check version
+        JSONObject json = dbAdapter.getPreference("version");
+        String version = null;
+        if (json != null) {
+            version = json.getString("value");
+        }
+
+        if (json == null || !info.versionName.equals(version)) {
+            dbAdapter.setPreference("version", info.versionName);
+            versionChanged = true;
+        }
+
         return info.versionName;
     }
 
+    public String getVersion() throws Exception {
+        String version = "";
+        if (defaultPreferences.has("version")) {
+            version = defaultPreferences.getString("version");
+        }
+        return version;
+    }
+
     public String getWalletNetworkType()  {
-        String value = null;
-        try {
-            JSONObject item = getPreference("chain.network.type");
-            value = item.getString("value");
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-        if (value == null) {
-            value = "MainNet";
-        }
-
-        return value;
+        return getStringValue("chain.network.type", "MainNet");
     }
 
     public String getWalletNetworkConfig()  {
+        return getStringValue("chain.network.config", "");
+    }
+
+    public String getDIDResolver()  {
+        return getStringValue("did.resolver", "http://api.elastos.io:20606");
+    }
+
+    public String getStringValue(String key, String defaultValue) {
         String value = null;
         try {
-            JSONObject item = getPreference("chain.network.config");
+            JSONObject item = getPreference(key);
             value = item.getString("value");
         }
         catch (Exception e){
@@ -222,26 +231,61 @@ public class PreferenceManager {
         }
 
         if (value == null) {
-            value = "";
+            value = defaultValue;
         }
 
         return value;
     }
 
-    public String getDIDResolver()  {
-        String value = null;
+    public boolean getBooleanValue(String key, boolean defaultValue) {
+        Boolean value = null;
         try {
-            JSONObject item = getPreference("did.resolver");
-            value = item.getString("value");
+            JSONObject item = getPreference(key);
+            value = item.getBoolean("value");
         }
         catch (Exception e){
             e.printStackTrace();
         }
 
         if (value == null) {
-            value = "http://api.elastos.io:20606";
+            value = defaultValue;
         }
 
         return value;
+    }
+
+    public String[] getStringArrayValue(String key, String[] defaultValue) {
+        String[] value = null;
+        try {
+            JSONObject item = getPreference(key);
+            JSONArray array =  item.getJSONArray("value");
+            if (array != null) {
+                value = new String[array.length()];
+                for (int i = 0; i < array.length(); i++) {
+                    value[i] = array.getString(i);
+                }
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if (value == null) {
+            value = defaultValue;
+        }
+
+        return value;
+    }
+
+    private void prepareUIStyling(boolean useDarkMode) {
+        UIStyling.prepare(useDarkMode);
+    }
+
+    public Boolean getDeveloperInstallVerify() {
+        if (getDeveloperMode()) {
+            return getBooleanValue("developer.install.verifyDigest", true);
+        }
+
+        return true;
     }
 }

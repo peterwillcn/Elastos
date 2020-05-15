@@ -206,7 +206,8 @@ public class AppManager {
         AppInfo installedInfo = getAppInfo(id);
         Boolean needInstall = true;
         if (installedInfo != null) {
-            if (builtInInfo.version_code > installedInfo.version_code) {
+            boolean versionChanged = PreferenceManager.getShareInstance().versionChanged;
+            if (versionChanged || builtInInfo.version_code > installedInfo.version_code) {
                 Log.d("AppManager", "built in version > installed version: uninstalling installed");
                 installer.unInstall(installedInfo, true);
             }
@@ -461,13 +462,15 @@ public class AppManager {
         AppInfo info = installer.install(url, update);
         if (info != null) {
             refreashInfos();
+
+            if (info.launcher == 1) {
+                sendRefreshList("launcher_upgraded", info);
+            }
+            else {
+                sendRefreshList("installed", info);
+            }
         }
-        if (info.launcher == 1) {
-            sendRefreshList("launcher_upgraded", info);
-        }
-        else {
-            sendRefreshList("installed", info);
-        }
+
         return info;
     }
 
@@ -601,6 +604,8 @@ public class AppManager {
             return;
         }
 
+        IntentManager.getShareInstance().removeAppFromIntentList(id);
+
         if (fragment == curFragment) {
             String id2 = lastList.get(1);
             WebViewFragment fragment2 = getFragmentById(id2);
@@ -672,17 +677,31 @@ public class AppManager {
         launchStartupScreen();
     }
 
-    private void installUri(String uri, boolean dev) {
-        if (dev && PreferenceManager.getShareInstance().getDeveloperMode()) {
-            try {
-                install(uri, true);
-            }
-            catch (Exception e) {
-                Utility.alertPrompt("Error", e.getLocalizedMessage(), this.activity);
+    public void checkInProtectList(String uri) throws Exception {
+        AppInfo info = installer.getInfoFromUrl(uri);
+        if (info != null && info.app_id != "" ) {
+            String[] protectList = ConfigManager.getShareInstance().getStringArrayValue(
+                    "dapp.protectList", new String[0]);
+            for (String item : protectList) {
+                if (item.equalsIgnoreCase(info.app_id)) {
+                    throw new Exception("Don't allow install '" + info.app_id + "' by the third party app.");
+                }
             }
         }
-        else {
-            sendInstallMsg(uri);
+    }
+
+    private void installUri(String uri, boolean dev) {
+        try {
+            if (dev && PreferenceManager.getShareInstance().getDeveloperMode()) {
+                install(uri, true);
+            }
+            else {
+                checkInProtectList(uri);
+                sendInstallMsg(uri);
+            }
+        }
+        catch (Exception e) {
+            Utility.alertPrompt("Install Error", e.getLocalizedMessage(), this.activity);
         }
     }
 

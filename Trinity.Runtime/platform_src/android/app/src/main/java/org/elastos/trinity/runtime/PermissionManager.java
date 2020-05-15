@@ -48,7 +48,7 @@ public class PermissionManager {
             JSONObject jgroup = json.getJSONObject(group);
             Iterator plugins = jgroup.keys();
             PermissionGroup permissionGroup = new PermissionGroup(group);
-            groupList.put(group, permissionGroup);
+                groupList.put(group, permissionGroup);
             while (plugins.hasNext()) {
                 String plugin = (String) plugins.next();
 

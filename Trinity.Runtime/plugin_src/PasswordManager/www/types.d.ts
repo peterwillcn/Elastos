@@ -87,6 +87,12 @@ declare namespace PasswordManagerPlugin {
          * List of any kind of app-specific additional information for this password entry.
          */
         custom?: Map<string, any>;
+
+        /**
+         * Package ID of the application/capsule that saved this password information.
+         * READ-ONLY
+         */
+        appID?: String;
     }
 
     /**

@@ -78,4 +78,20 @@ public class ConfigManager {
         }
     }
 
+    public boolean stringArrayContains(String key, String value) {
+        try {
+            JSONArray array = configPreferences.getJSONArray(key);
+            if (array != null) {
+                for (int i = 0; i < array.length(); i++) {
+                    if (value.equals(array.getString(i))) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }

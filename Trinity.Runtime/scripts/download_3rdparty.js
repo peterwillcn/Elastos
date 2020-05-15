@@ -3,15 +3,15 @@
 // CONFIGURE HERE
 const files_to_download  = [
   {
-    "url": "https://github.com/elastos/Elastos.NET.Carrier.Swift.SDK/releases/download/release-v5.5.0/ElastosCarrier-framework.zip",
+    "url": "https://github.com/elastos/Elastos.NET.Carrier.Swift.SDK/releases/download/release-v5.5.1/ElastosCarrier-framework.zip",
     "filename": "ElastosCarrier-framework.zip",
     "sourceDirs": [
       "ElastosCarrier-framework/ElastosCarrierSDK.framework"
     ],
     "targetDir": "../Plugins/Carrier/src/ios/libs",
-    "md5": "fe88bb42d8dc66beb480698f52c0cfa3"
+    "md5": "64456b4db7513e221e98eb43c5b4c3cd"
   },{
-    "url": "https://github.com/elastos/Elastos.NET.Hive.Swift.SDK/releases/download/release-v1.0.0/ElastosHiveSDK-framework-for-trinity.zip",
+    "url": "https://github.com/elastos/Elastos.NET.Hive.Swift.SDK/releases/download/release-v1.0.1/ElastosHiveSDK-framework-for-trinity.zip",
     "filename": "ElastosHiveSDK-framework-for-trinity.zip",
     "sourceDirs": [
       "ElastosHiveSDK-framework-for-trinity/Alamofire.framework",
@@ -20,7 +20,7 @@ const files_to_download  = [
       "ElastosHiveSDK-framework-for-trinity/Swifter.framework"
     ],
     "targetDir": "../Plugins/Hive/src/ios/libs",
-    "md5": "36063ddf4fe5973e91e36477749cdc21"
+    "md5": "c7740161c0541f1e23a994419b57c81f"
   },{
     "url": "https://github.com/elastos/Elastos.Trinity.Plugins.Wallet/releases/download/spvsdk-V0.5.0/libspvsdk.zip",
     "filename": "libspvsdk.zip",
@@ -30,22 +30,31 @@ const files_to_download  = [
     "targetDir": "../Plugins/Wallet/src/ios",
     "md5": "e5f32bd9be63883284ce67d5d756ae6e"
   },{
-    "url": "https://github.com/elastos/Elastos.DID.Swift.SDK/releases/download/internal_experimental_v0.0.8/ElastosDIDSDK.framework.zip",
+    "url": "https://github.com/elastos/Elastos.DID.Swift.SDK/releases/download/internal_experimental_v0.0.9/ElastosDIDSDK.framework.zip",
     "filename": "ElastosDIDSDK.framework.zip",
     "sourceDirs": [
       "ElastosDIDSDK.framework"
     ],
     "targetDir": "../Plugins/DID/src/ios/libs",
-    "md5": "90bbec03ba5609581b69bf836a818e18"
+    "md5": "981c6176f9febdb88bdc32f9c5fb0352"
   },
   {
-    "url": "https://github.com/elastos/Elastos.DID.Swift.SDK/releases/download/internal_experimental_v0.0.8/Antlr4.framework.zip",
+    "url": "https://github.com/elastos/Elastos.DID.Swift.SDK/releases/download/internal_experimental_v0.0.9/Antlr4.framework.zip",
     "filename": "Antlr4.framework.zip",
     "sourceDirs": [
       "Antlr4.framework"
     ],
     "targetDir": "../Plugins/DID/src/ios/libs",
-    "md5": "f2c7a01cf5c45d08049045f5ee411cbb"
+    "md5": "95d037997a00505b8434c8c54e637cd6"
+  },
+  {
+    "url": "https://github.com/elastos/Elastos.DID.Swift.SDK/releases/download/internal_experimental_v0.0.9/PromiseKit.framework.zip",
+    "filename": "PromiseKit.framework.zip",
+    "sourceDirs": [
+      "PromiseKit.framework"
+    ],
+    "targetDir": "../Plugins/DID/src/ios/libs",
+    "md5": "48ec30e3b0ac8da366f54d47e1ad336d"
   }
 ]
 // no need to configure below

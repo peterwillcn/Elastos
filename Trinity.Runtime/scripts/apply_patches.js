@@ -31,6 +31,12 @@ const patch_dirs = [
     "patch_dir": "patches/before_plugin_install_firebase"
   },
   {
+    "hook": "before_plugin_install",
+    "platform": "android",
+    "plugin_id": "cordova-plugin-network-information",
+    "patch_dir": "patches/before_plugin_install_networkstatus"
+  },
+  {
     "hook": "after_build",
     "platform": "android",
     "patch_dir": "patches/after_build_android"

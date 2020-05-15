@@ -40,13 +40,13 @@ public class AccountPasswordInfo extends PasswordInfo {
 
         // Fill specific fields
         if (jsonObject.has("identifier")) {
-            this.password = jsonObject.getString("identifier");
+            this.identifier = jsonObject.getString("identifier");
         }
         if (jsonObject.has("password")) {
             this.password = jsonObject.getString("password");
         }
         if (jsonObject.has("twoFactorKey")) {
-            this.password = jsonObject.getString("twoFactorKey");
+            this.twoFactorKey = jsonObject.getString("twoFactorKey");
         }
     }
 }

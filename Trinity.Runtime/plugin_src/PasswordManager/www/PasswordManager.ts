@@ -180,7 +180,7 @@ class PasswordManagerImpl implements PasswordManagerPlugin.PasswordManager {
             case NativeErrorCode.NATIVE_ERROR_CODE_CANCELLED: 
                 return new CancellationExceptionImpl();
             case NativeErrorCode.NATIVE_ERROR_CODE_UNSPECIFIED:
-                return new UnspecifiedExceptionImpl();
+                return new UnspecifiedExceptionImpl(nativeErr.reason);
             default:
                 return nativeErr;
         }

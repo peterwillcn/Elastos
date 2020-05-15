@@ -63,7 +63,9 @@ class IdentityEntry {
             name: jsonObj["name"] as! String)
 
         if jsonObj.keys.contains("avatar") {
-            identity.avatar = IdentityAvatar.fromJsonObject(jsonObj.getJSONObject("avatar"))
+            if let jsonAvatar = jsonObj["avatar"] as? Dictionary<String, Any> {
+                identity.avatar = IdentityAvatar.fromJsonObject(jsonAvatar)
+            }
         }
 
         return identity

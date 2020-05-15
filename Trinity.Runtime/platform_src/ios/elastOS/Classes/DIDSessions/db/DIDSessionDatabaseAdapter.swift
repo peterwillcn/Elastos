@@ -70,11 +70,11 @@ public class DIDSessionDatabaseAdapter {
         else {
             try db.transaction {
                 identityEntryId = try db.run(didSessions.insert(
-                        didStoreIDField <- entry.didStoreId,
-                        didStringField <- entry.didString,
-                        nameField <- entry.name,
-                        signedInField <- entry.signedIn
-                    ))
+                    didStoreIDField <- entry.didStoreId,
+                    didStringField <- entry.didString,
+                    nameField <- entry.name,
+                    signedInField <- false
+                ))
             }
         }
         

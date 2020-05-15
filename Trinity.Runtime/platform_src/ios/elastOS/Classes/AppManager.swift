@@ -144,7 +144,7 @@ class AppManager: NSObject {
 
         do {
             // TMP BPI try loadLauncher();
-            loadStartupScreen()
+            try launchStartupScreen()
         }
         catch let error {
             print("loadLauncher error: \(error)");
@@ -584,12 +584,12 @@ class AppManager: NSObject {
         DIDSessionManager.getSharedInstance().setAppManager(self)
         if let signedInIdentity = try DIDSessionManager.getSharedInstance().getSignedInIdentity() {
             // No DID signed in
-            loadLauncher() // TODO - IMPORTANT NOTE: for now because did session app crashes if launcher was not loaded, we also start the launcher FOR TEST. Later , launcher should NOT start if DID session starts
-            start("org.elastos.trinity.dapp.didsession")
+            try loadLauncher() // TODO - IMPORTANT NOTE: for now because did session app crashes if launcher was not loaded, we also start the launcher FOR TEST. Later , launcher should NOT start if DID session starts
+            try start("org.elastos.trinity.dapp.didsession")
         }
         else {
             // A DID is signed in
-            loadLauncher()
+            try loadLauncher()
         }
     }
     
@@ -608,10 +608,10 @@ class AppManager: NSObject {
      * Signs out from a DID session. All apps and services are closed, and launcher goes back to the DID session app prompt.
      */
     public func signOut() throws {
-        closeAll()
+        try closeAll()
 
         // Go back to the startup screen
-        launchStartupScreen()
+        try launchStartupScreen()
     }
 
    func checkInProtectList(_ uri: String) throws {

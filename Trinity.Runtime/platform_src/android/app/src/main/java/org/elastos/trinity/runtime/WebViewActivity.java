@@ -34,6 +34,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.core.content.ContextCompat;
 
 import org.apache.cordova.LOG;
+import org.elastos.trinity.runtime.didsessions.DIDSessionManager;
 import org.elastos.trinity.runtime.passwordmanager.PasswordManager;
 import org.json.JSONException;
 

@@ -24,6 +24,8 @@ package org.elastos.trinity.runtime;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
+import org.elastos.trinity.runtime.didsessions.DIDSessionManager;
+import org.elastos.trinity.runtime.didsessions.IdentityEntry;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,7 +77,7 @@ public class DIDSessionManagerPlugin extends TrinityPlugin {
 
         JSONObject identityEntryJson = args.getJSONObject(0);
 
-        DIDSessionManager.IdentityEntry identityEntry = DIDSessionManager.IdentityEntry.fromJsonObject(identityEntryJson);
+        IdentityEntry identityEntry = IdentityEntry.fromJsonObject(identityEntryJson);
         DIDSessionManager.getSharedInstance().addIdentityEntry(identityEntry);
 
         callbackContext.success();
@@ -100,11 +102,11 @@ public class DIDSessionManagerPlugin extends TrinityPlugin {
             return;
         }
 
-        ArrayList<DIDSessionManager.IdentityEntry> entries = DIDSessionManager.getSharedInstance().getIdentityEntries();
+        ArrayList<IdentityEntry> entries = DIDSessionManager.getSharedInstance().getIdentityEntries();
 
         JSONObject jsonObj = new JSONObject();
         JSONArray jsonEntries = new JSONArray();
-        for (DIDSessionManager.IdentityEntry entry : entries) {
+        for (IdentityEntry entry : entries) {
             jsonEntries.put(entry.asJsonObject());
         }
         jsonObj.put("entries", jsonEntries);
@@ -113,7 +115,7 @@ public class DIDSessionManagerPlugin extends TrinityPlugin {
     }
 
     private void getSignedInIdentity(JSONArray args, CallbackContext callbackContext) throws Exception {
-        DIDSessionManager.IdentityEntry signedInIdentity = DIDSessionManager.getSharedInstance().getSignedInIdentity();
+        IdentityEntry signedInIdentity = DIDSessionManager.getSharedInstance().getSignedInIdentity();
 
         if (signedInIdentity == null)
             callbackContext.success(); // Not signed in, no data to return
@@ -128,7 +130,7 @@ public class DIDSessionManagerPlugin extends TrinityPlugin {
         }
 
         JSONObject identityEntryJson = args.getJSONObject(0);
-        DIDSessionManager.IdentityEntry identityToSignIn = DIDSessionManager.IdentityEntry.fromJsonObject(identityEntryJson);
+        IdentityEntry identityToSignIn = IdentityEntry.fromJsonObject(identityEntryJson);
         DIDSessionManager.getSharedInstance().signIn(identityToSignIn);
 
         callbackContext.success();

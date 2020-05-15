@@ -44,17 +44,9 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
     public static final String PREFERENCE_TABLE = "preference";
     public static final String INTENT_FILTER_TABLE = "intent";
     public static final String APP_TABLE = "app";
-    public static final String DIDSESSIONS_TABLE = "didsessions";
 
     public static final String KEY = "key";
     public static final String VALUE = "value";
-
-    public static final String DIDSESSION_DIDSTOREID = "didstoreid";
-    public static final String DIDSESSION_DIDSTRING = "didstring";
-    public static final String DIDSESSION_NAME = "name";
-    public static final String DIDSESSION_SIGNEDIN = "signedin";
-    public static final String DIDSESSION_AVATAR_CONTENTTYPE = "avatar_contenttype";
-    public static final String DIDSESSION_AVATAR_DATA = "avatar_data";
 
     public ManagerDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -140,15 +132,6 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
              VALUE + " varchar(2048) NOT NULL)";
         db.execSQL(strSQL);
 
-        strSQL =  "create table " + DIDSESSIONS_TABLE + "(tid integer primary key autoincrement, " +
-                DIDSESSION_DIDSTOREID + " varchar(32) NOT NULL, " +
-                DIDSESSION_DIDSTRING + " varchar(128) NOT NULL, " +
-                DIDSESSION_NAME + " varchar(128), " +
-                DIDSESSION_SIGNEDIN + " integer, "+
-                DIDSESSION_AVATAR_CONTENTTYPE + " varchar(32), " +
-                DIDSESSION_AVATAR_DATA + " blob)";
-        db.execSQL(strSQL);
-
         strSQL = "create table " + APP_TABLE + "(tid integer primary key autoincrement, " +
                 AppInfo.APP_ID + " varchar(128) UNIQUE NOT NULL, " +
                 AppInfo.VERSION + " varchar(32) NOT NULL, " +
@@ -189,7 +172,6 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + SETTING_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + PREFERENCE_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + APP_TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + DIDSESSIONS_TABLE);
     }
 
     @Override
@@ -247,24 +229,8 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
         }
     }
 
-    // 20200407 - Added DID sessions
     // 20200409 - Added "api auth table"
     private void upgradeToV5(SQLiteDatabase db) {
-        try {
-            String strSQL =  "create table " + DIDSESSIONS_TABLE + "(tid integer primary key autoincrement, " +
-                    DIDSESSION_DIDSTOREID + " varchar(32) NOT NULL, " +
-                    DIDSESSION_DIDSTRING + " varchar(128) NOT NULL, " +
-                    DIDSESSION_NAME + " varchar(128), " +
-                    DIDSESSION_SIGNEDIN + " integer, " +
-                    DIDSESSION_AVATAR_CONTENTTYPE + " varchar(32), " +
-                    DIDSESSION_AVATAR_DATA + " blob)";
-            db.execSQL(strSQL);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Do nothing, intercept SQL errors - in case we try to apply an upgrade again after a strange downgrade from android
-            // (happened to KP many times - unknown reason - 2020.03)
-        }
-        
         try {
             String  strSQL =  "create table " + AUTH_API_TABLE + "(tid integer primary key autoincrement, " +
                     AppInfo.APP_ID + " varchar(128) NOT NULL, " +

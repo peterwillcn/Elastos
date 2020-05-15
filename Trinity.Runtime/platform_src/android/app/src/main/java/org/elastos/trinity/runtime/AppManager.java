@@ -36,6 +36,8 @@ import android.util.Log;
 import android.view.View;
 
 import org.apache.cordova.PluginManager;
+import org.elastos.trinity.runtime.didsessions.DIDSessionManager;
+import org.elastos.trinity.runtime.didsessions.IdentityEntry;
 import org.elastos.trinity.runtime.passwordmanager.PasswordManager;
 import org.json.JSONException;
 
@@ -644,7 +646,7 @@ public class AppManager {
         // Check if a there is a signed in DID. If so, directly start the launcher. If not,
         // start the DID session dapp
         DIDSessionManager.getSharedInstance().setAppManager(this);
-        DIDSessionManager.IdentityEntry signedInIdentity = DIDSessionManager.getSharedInstance().getSignedInIdentity();
+        IdentityEntry signedInIdentity = DIDSessionManager.getSharedInstance().getSignedInIdentity();
         if (signedInIdentity == null) {
             // No DID signed in
             loadLauncher(); // TODO - IMPORTANT NOTE: for now because did session app crashes if launcher was not loaded, we also start the launcher FOR TEST. Later , launcher should NOT start if DID session starts

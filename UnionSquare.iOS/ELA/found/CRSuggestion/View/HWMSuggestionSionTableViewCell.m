@@ -25,7 +25,6 @@
 #import "HWMSuggestionSionTableViewCell.h"
 
 @interface HWMSuggestionSionTableViewCell ()
-@property (weak, nonatomic) IBOutlet UILabel *titleLable;
 
 
 @end

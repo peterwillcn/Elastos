@@ -36,8 +36,8 @@
 #import "HWMDIDAuthorizationViewController.h"
 #import "HWMMessageCenterModel.h"
 #import "HMWtransferViewController.h"
-#import "HMWLocalNotice.h"
-#import "HMWLocalNotice.h"
+#import "HWMQrCodeSignatureManager.h"
+#import "HWMSuggestionViewController.h"
 @interface FirstViewController ()<FLCapitalViewDelegate,UITableViewDelegate,UITableViewDataSource,HMWaddFooterViewDelegate,HMWTheWalletListViewControllerDelegate,HMWpwdPopupViewDelegate>
 {
     FLWallet *_currentWallet;
@@ -121,7 +121,7 @@
     
     if ([SDKNET isEqualToString:@"MainNet"]) {
         [self loadNetWorkingPong];
-    }    
+    }
 }
 -(void)loadNetWorkingPong{
     [HttpUrl NetGETHost:PongUrl url:@"/api/dposNodeRPC/getProducerNodesList" header:nil body:nil showHUD:NO WithSuccessBlock:^(id data) {
@@ -428,10 +428,8 @@
     if (self.dataSoureArray.count>0) {
         [self.dataSoureArray removeAllObjects];
     }
-    
     int index=0;
     for (NSString *currencyName in arr) {
-        
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName,@2] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];
         PluginResult * result =[[ELWalletManager share]getBalance:mommand];
         
@@ -446,7 +444,6 @@
             model.thePercentageCurr=0.f;
             model.thePercentageMax=1.f;
             model.iconBlance=blanceString;
-            //            model.thePercentageCurr=[smodel.thePercentageCurr doubleValue];
             model.thePercentageMax=[smodel.thePercentageMax doubleValue];
             if ([smodel.sideChainNameTime isEqual: [NSNull null]]||smodel.sideChainNameTime==NULL||[smodel.sideChainNameTime isEqualToString:@"--:--"]) {
                 model.updateTime=[NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"已同步区块时间", nil),@"--:--"];
@@ -505,7 +502,7 @@
     WCQRCodeScanningVC *WCQRCode=[[WCQRCodeScanningVC alloc]init];
     WCQRCode.frVC=self;
     WCQRCode.scanBack=^(NSString *addr){
-        
+        NSLog(@"扫二维码 获取到的数据---%@",addr);
         [weakSelf SweepCodeProcessingResultsWithQRCodeString:addr];
         
     };
@@ -769,54 +766,38 @@
     [self startAnimationWithView:cell.linkImageView];
 }
 -(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString{
-    if ([QRCodeString containsString:@"elastos://credaccess/"]) {
-        [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:YES];
-        if (![[HWMDIDManager shareDIDManager]HasBeenOnTheChain]) {
-            [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID", nil)];
-            return;
-        }
-        
-        if (![[HWMDIDManager shareDIDManager]CheckDIDwhetherExpiredWithDIDString:self.currentWallet.didString WithmastWalletID:self.currentWallet.masterWalletID]) {
-            return;
-        }
-        NSDictionary *playInfoDic=[[HWMDIDManager shareDIDManager]jwtDecodeWithJwtStringInfo:QRCodeString];
-        if (playInfoDic){
-            [self ShowPlayInfoText:playInfoDic withJWTString:QRCodeString];
-        }
-    }
-    //    else if ([[ELWalletManager share]IsAddressValidWithMastID:self.currentWallet.masterWalletID WithAddress:QRCodeString]){
-    //       HMWtransferViewController *HMWtransferVC=[[HMWtransferViewController alloc]init];
-    //        HMWtransferVC.currentWallet=self.currentWallet;
-    //        assetsListModel *model=self.dataSoureArray[0];
-    //        HMWtransferVC.model=model;
-    //        HMWtransferVC.toAddressString=QRCodeString;
-    //        [self.navigationController pushViewController:HMWtransferVC animated:NO];
-    //
-    //    }
-    else{
-        [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
+    __weak __typeof__(self) weakSelf = self;
+    [[HWMQrCodeSignatureManager shareTools]QrCodeDataWithData:QRCodeString withDidString:self.currentWallet.didString withmastWalletID:self.currentWallet.masterWalletID withComplete:^(QrCodeSignatureType type, id  _Nonnull data) {
+     [weakSelf ParseTheQrCodeJumpEventWithType:type withData:data tsWithQRCodeString:QRCodeString];
+    }];
+}
+-(void)ParseTheQrCodeJumpEventWithType:(QrCodeSignatureType)type withData:(id)data tsWithQRCodeString:(NSString*)QRCodeString{
+    
+    switch (type) {
+        case credaccessQrCodeType:
+            [self ShowPlayInfoText:data withJWTString:QRCodeString];
+            break;
+        case suggestionQrCodeType:
+            [self showAdviceInfoText:data withJWTString:QRCodeString];
+            break;
+        case billQrCodeType:
+            
+            break;
+        case unknowQrCodeType:
+            [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
+            break;
+        default:
+            break;
     }
     
-    
-    
-    
-    //    if ([[FLTools share]SCanQRCodeWithDicCode:self.QRCoreDic] ) {
-    //        self.QRCoreDic=nil;
-    //    }
-    //    NSDictionary *dic =[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]QrCodeImageFromDic:QRCodeString fromVC:self oldQrCodeDic:self.QRCoreDic]];
-    //    self.QRCoreDic=[[NSMutableDictionary alloc]initWithDictionary:dic];
-    //    if (![self TypeJudgment:dic]){
-    //        HWMQrCodeScanningResultsViewController *QrCodeScanningResultsVC=[[HWMQrCodeScanningResultsViewController alloc]init];
-    //        QrCodeScanningResultsVC.resultString=QRCodeString;
-    //        [self.navigationController pushViewController:QrCodeScanningResultsVC animated:NO];
-    //        return;
-    //    }
-    //    if ([[FLTools share]SCanQRCodeWithDicCode:self.QRCoreDic]) {
-    //
-    //        if ([self QrCodepushVC:self.QRCoreDic WithCurrWallet:self.currentWallet]) {
-    //           [self GetTransactionSignedInfoWhereForm:NO];
-    //        }
-    //    }
+}
+-(void)showAdviceInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString{
+    HWMSuggestionViewController *SuggestionVC=[[HWMSuggestionViewController alloc]init];
+    SuggestionVC.VCType=SuggestionType;
+    SuggestionVC.PayLoadDic=PayLoadDic;
+    SuggestionVC.jwtString=jwtString;
+    SuggestionVC.currentWallet=self.currentWallet;
+    [self.navigationController pushViewController:SuggestionVC animated:YES];
 }
 -(void)ShowPlayInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString{
     

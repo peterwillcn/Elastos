@@ -22,26 +22,20 @@
  */
 
 
-#import <Foundation/Foundation.h>
+#import "HWMadviceViewModel.h"
 
+@implementation HWMadviceViewModel
+-(HWMadviceModel*)AnalyticalDataWithDicJosn:(id)json{
+    HWMadviceModel *model=[HWMadviceModel modelWithJSON:json];
+    model.baseInfoString=[NSString stringWithFormat:@"#%@ %@ %@",model.ID ,[[FLTools share]YMDHMSgetTimeFromTimesTamp:model.createdAt],model.didName];
+    model.baseInfoCell=[[FLTools share]calculateRowHeight:model.title fontSize:14 withmargin:30];
+    model.absCell=[[FLTools share]calculateRowHeight:model.abs fontSize:11 withmargin:30];
 
-typedef void(^CRSuggestionNetWorkComplete)(id _Nonnull data);
-typedef NS_ENUM(NSUInteger, CommunityProposalType) {
-    ALLType=0,
-    VOTINGType,
-    NOTIFICATIONType,
-    ACTIVEType,
-    FINALType,
-    REJECTEDType,
-};
-NS_ASSUME_NONNULL_BEGIN
-
-@interface HWMCRSuggestionNetWorkManger : NSObject;
-+(instancetype)shareCRSuggestionNetWorkManger;
--(void)reloadCRSuggestionDataSourceWithType:(CommunityProposalType)type withStartIndex:(NSInteger)startIndex withNumbers:(NSInteger)numer withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed;
--(void)searchReloadCRSuggestionDataSourceWithType:(CommunityProposalType)type withStartIndex:(NSInteger)startIndex withNumbers:(NSInteger)numer withSearchContent:(NSString*)searchString withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed;
--(void)reloadCRSuggestionDetailsWithID:(NSString*)ID withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed;
--(void)reloadCRAdviceDetailsWithID:(NSString*)ID withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed;
+    return model;
+}
+-(void)detailsProposalModelDataJosn:( _Nonnull  id)json completion:(_Nonnull adviceBlock)completionBlock{
+    
+    HWMadviceModel *model= [self AnalyticalDataWithDicJosn:json];
+    completionBlock(model);
+}
 @end
-
-NS_ASSUME_NONNULL_END

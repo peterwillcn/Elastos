@@ -41,19 +41,24 @@ static int _YYTextKeyboardViewFrameObserverKey;
 }
 
 - (void)removeFrameObserver {
-    [_keyboardView removeObserver:self forKeyPath:@"frame"];
-    [_keyboardView removeObserver:self forKeyPath:@"center"];
-    [_keyboardView removeObserver:self forKeyPath:@"bounds"];
-    [_keyboardView removeObserver:self forKeyPath:@"transform"];
-    _keyboardView = nil;
+    @try {
+//        [_keyboardView removeObserver:self forKeyPath:@"frame"];
+//        [_keyboardView removeObserver:self forKeyPath:@"center"];
+//        [_keyboardView removeObserver:self forKeyPath:@"bounds"];
+//        [_keyboardView removeObserver:self forKeyPath:@"transform"];
+        _keyboardView = nil;
+    }@catch(NSException *exception) {
+        
+    }
+    
 }
 
 - (void)addFrameObserver {
     if (!_keyboardView) return;
-    [_keyboardView addObserver:self forKeyPath:@"frame" options:kNilOptions context:NULL];
-    [_keyboardView addObserver:self forKeyPath:@"center" options:kNilOptions context:NULL];
-    [_keyboardView addObserver:self forKeyPath:@"bounds" options:kNilOptions context:NULL];
-    [_keyboardView addObserver:self forKeyPath:@"transform" options:kNilOptions context:NULL];
+//    [_keyboardView addObserver:self forKeyPath:@"frame" options:kNilOptions context:NULL];
+//    [_keyboardView addObserver:self forKeyPath:@"center" options:kNilOptions context:NULL];
+//    [_keyboardView addObserver:self forKeyPath:@"bounds" options:kNilOptions context:NULL];
+//    [_keyboardView addObserver:self forKeyPath:@"transform" options:kNilOptions context:NULL];
 }
 
 - (void)dealloc {
@@ -266,17 +271,17 @@ static int _YYTextKeyboardViewFrameObserverKey;
     /*
      iOS 6/7:
      UITextEffectsWindow
-        UIPeripheralHostView << keyboard
+     UIPeripheralHostView << keyboard
      
      iOS 8:
      UITextEffectsWindow
-        UIInputSetContainerView
-            UIInputSetHostView << keyboard
+     UIInputSetContainerView
+     UIInputSetHostView << keyboard
      
      iOS 9:
      UIRemoteKeyboardWindow
-        UIInputSetContainerView
-            UIInputSetHostView << keyboard
+     UIInputSetContainerView
+     UIInputSetHostView << keyboard
      */
     if (!window) return nil;
     

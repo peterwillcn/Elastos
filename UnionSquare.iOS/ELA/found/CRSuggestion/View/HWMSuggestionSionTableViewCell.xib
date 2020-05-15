@@ -19,7 +19,7 @@
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="flK-9i-BnU">
                         <rect key="frame" x="15" y="0.0" width="305" height="44"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -33,7 +33,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
-                <outlet property="titleLable" destination="flK-9i-BnU" id="57r-0q-cpW"/>
+                <outlet property="titleLable" destination="flK-9i-BnU" id="TbL-vE-ivx"/>
             </connections>
             <point key="canvasLocation" x="87" y="128"/>
         </tableViewCell>

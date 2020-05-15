@@ -27,7 +27,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMSuggestionSionTableViewCell : UITableViewCell
-
+@property (weak, nonatomic) IBOutlet UILabel *titleLable;
 @end
 
 NS_ASSUME_NONNULL_END

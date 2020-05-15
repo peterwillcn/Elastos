@@ -40,7 +40,7 @@ static HWMCRSuggestionNetWorkManger* _instatance;
     return _instatance;
 }
 +(instancetype)shareCRSuggestionNetWorkManger{
-return [[self alloc]init];
+    return [[self alloc]init];
 }
 -(id)copyWithZone:(NSZone *)zone
 {
@@ -56,7 +56,7 @@ return [[self alloc]init];
         numer=10;
     }
     NSString *bordyUrlString=[NSString stringWithFormat:@"/api/cvote/all_search?page=%ld&results=%ld&status=%@",startIndex,(long)numer,self.CommunityProposalTypeStringArray[type]];
-  
+    
     [HttpUrl NetGETHost:CRProposalIP url:bordyUrlString header:nil body:nil showHUD:YES WithSuccessBlock:^(id data) {
         Completed(data);
     } WithFailBlock:^(id data) {
@@ -72,30 +72,38 @@ return [[self alloc]init];
     return _CommunityProposalTypeStringArray;
 }
 -(void)searchReloadCRSuggestionDataSourceWithType:(CommunityProposalType)type withStartIndex:(NSInteger)startIndex withNumbers:(NSInteger)numer withSearchContent:(NSString*)searchString withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed{
-      if (numer<1) {
-          numer=10;
-      }
-
-    NSDictionary *parameter=@{@"page": @(startIndex),@"results": @(numer),@"status": self.CommunityProposalTypeStringArray[type],@"search":searchString};
-      NSString *bordyUrlString=@"/api/cvote/all_search";
+    if (numer<1) {
+        numer=10;
+    }
     
-      [HttpUrl NetGETHost:CRProposalIP url:bordyUrlString header:nil body:parameter showHUD:YES WithSuccessBlock:^(id data) {
-          Completed(data);
-      } WithFailBlock:^(id data) {
-          
-          Completed(data);
-      }];
+    NSDictionary *parameter=@{@"page": @(startIndex),@"results": @(numer),@"status": self.CommunityProposalTypeStringArray[type],@"search":searchString};
+    NSString *bordyUrlString=@"/api/cvote/all_search";
+    
+    [HttpUrl NetGETHost:CRProposalIP url:bordyUrlString header:nil body:parameter showHUD:YES WithSuccessBlock:^(id data) {
+        Completed(data);
+    } WithFailBlock:^(id data) {
+        
+        Completed(data);
+    }];
     
 }
 -(void)reloadCRSuggestionDetailsWithID:(NSString*)ID withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed{
-  
     
-     NSString *bordyUrlString=[NSString stringWithFormat:@"/api/cvote/get_proposal/%@",ID];
     
-      [HttpUrl NetGETHost:CRProposalIP url:bordyUrlString header:nil body:nil showHUD:YES WithSuccessBlock:^(id data) {
-          Completed(data);
-      } WithFailBlock:^(id data) {
-          Completed(data);
-      }];
+    NSString *bordyUrlString=[NSString stringWithFormat:@"/api/cvote/get_proposal/%@",ID];
+    
+    [HttpUrl NetGETHost:CRProposalIP url:bordyUrlString header:nil body:nil showHUD:YES WithSuccessBlock:^(id data) {
+        Completed(data);
+    } WithFailBlock:^(id data) {
+        Completed(data);
+    }];
+}
+-(void)reloadCRAdviceDetailsWithID:(NSString*)ID withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed{
+    NSString *bordyUrlString=[NSString stringWithFormat:@"/api/suggestion/get_suggestion/%@",ID];
+    [HttpUrl NetGETHost:CRProposalIP url:bordyUrlString header:nil body:nil showHUD:YES WithSuccessBlock:^(id data) {
+        Completed(data);
+    } WithFailBlock:^(id data) {
+        Completed(data);
+    }];
 }
 @end

@@ -403,7 +403,6 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
 }
 
 -(id)jwtDecodeWithJwtStringInfo:(NSString *)jwtStr {
-    jwtStr=[jwtStr stringByReplacingOccurrencesOfString:@"elastos://credaccess/" withString:@""];
     NSArray * manySecrets = [jwtStr componentsSeparatedByString:@"."];
     NSString *base=[NSString stringFromBase64UrlEncodedString:manySecrets[1]];
     NSDictionary * jsonDict = [NSJSONSerialization JSONObjectWithData:[base dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
@@ -419,8 +418,10 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     
     if ([self jwtSignatureWithDIDString:jsonDict[@"iss"] withSignature:manySecrets.lastObject withUnSignature:UnSignature]) {
         return jsonDict;
+    }else{
+         [[FLTools share]showErrorInfo:NSLocalizedString(@"钱包DID不匹配", nil)];
+        return @"1";
     }
-    
     
     return nil;
 }

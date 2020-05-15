@@ -2432,7 +2432,7 @@ static uint64_t feePerKB = 10000;
     
     try {
         if (subWallet) {
-            subWallet->SyncStart();            
+            subWallet->SyncStart();
         }
     } catch (const std:: exception &e) {
         
@@ -2695,6 +2695,57 @@ static uint64_t feePerKB = 10000;
     model.chainID=chainID;
     model.MessageType=[NSString stringWithFormat:@"%ld",(long)type];
     [[HMWFMDBManager sharedManagerType:transactionsType] addTransactionsWithModel:model];
+    
+}
+void *ReverseByteOrder(void *p, unsigned int len)
+{
+    unsigned int i;
+    unsigned char *bytes, temp;
+    
+    bytes = (unsigned char *)p;
+    for (i = 0; i < len / 2; i++)
+    {
+        temp = bytes[i];
+        bytes[i] = bytes[len - 1 - i];
+        bytes[len - 1 - i] = temp;
+    }
+    return p;
+}
+-(BOOL)adviceTheSignature:(invokedUrlCommand *)command{
+    NSArray *args = command.arguments;
+    int idx = 0;
+    NSString *masterWalletID =args[idx++];
+    String playStrig=[self cstringWithString:args[idx++]];
+    nlohmann::json payloadJson = nlohmann::json::parse(playStrig);
+    IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:masterWalletID];
+    try {
+        if (mainchainSubWallet) {
+            String jsonString= mainchainSubWallet->ProposalOwnerDigest(payloadJson);
+            NSString *resultString=[self stringWithCString:jsonString];
+             NSData *testData = [resultString dataUsingEncoding: NSUTF8StringEncoding];
+            
+            Byte *testByte = (Byte *)[testData bytes];
+            
+            for(int i=0;i<[testData length];i++){
+                
+                printf("testByte = %d\n",testByte[i]);
+                
+            };
+            ReverseByteOrder(testByte, (int)[testData length]);
+            for(int i=0;i<[testData length];i++){
+                printf("ReverseByteOrdertestByte = %d\n",testByte[i]);
+                
+            };
+        }
+    } catch (const std:: exception &e) {
+        NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
+        NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
+        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+        return NO;
+    }
+    return NO;
+}
+-(void)adviceTheSignatureStringTresyu:(NSString*)resultString{
     
 }
 @end

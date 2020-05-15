@@ -196,6 +196,8 @@ typedef int DIDStore_DIDsCallback(DID *did, void *context);
  */
 typedef int DIDStore_CredentialsCallback(DIDURL *id, void *context);
 
+typedef DIDDocument* DIDStore_MergeCallback(DIDDocument *chaincopy, DIDDocument *localcopy);
+
 struct DIDAdapter {
     const char* (*createIdTransaction) (DIDAdapter *adapter,
             const char *payload, const char *memo);
@@ -1402,22 +1404,30 @@ DID_API time_t DIDDocument_GetExpires(DIDDocument *document);
  * Sign data by DID.
  *
  * @param
- *      document                [in] The handle to DID Document.
+ *      document                 [in] The handle to DID Document.
  * @param
  *      keyid                    [in] Public key to sign.
  *                                   If key = NULL, sdk will get default key from
  *                                   DID Document.
  * @param
- *      storepass               [in] Pass word to sign.
+ *      storepass                [in] Pass word to sign.
  * @param
- *      sig                     [out] The buffer will receive signature data.
+ *      sig                      [out] The buffer will receive signature data.
  * @param
- *      count                   [in] The size of data list.
+ *      count                    [in] The size of data list.
  * @return
  *      0 on success, -1 if an error occurred.
  */
 DID_API int DIDDocument_Sign(DIDDocument *document, DIDURL *keyid, const char *storepass,
         char *sig, int count, ...);
+/**
+ * @param
+ *      digest                   [in] The digest to sign.
+  * @param
+ *      size                     [in] The length of digest array.
+ */
+DID_API int DIDDocument_SignDigest(DIDDocument *document, DIDURL *keyid,
+        const char *storepass, char *sig, uint8_t *digest, size_t size);
 
 /**
  * \~English
@@ -1433,11 +1443,23 @@ DID_API int DIDDocument_Sign(DIDDocument *document, DIDURL *keyid, const char *s
  *      sig                     [in] Signature data.
  * @param
  *      count                   [in] The size of data list.
+ * @param
+ *      digest                   [in] The digest to sign.
+  * @param
+ *      size                     [in] The length of digest array.
  * @return
  *      0 on success, -1 if an error occurred.
  */
 DID_API int DIDDocument_Verify(DIDDocument *document, DIDURL *keyid, char *sig,
         int count, ...);
+/**
+ * @param
+ *      digest                   [in] The digest to sign.
+  * @param
+ *      size                     [in] The length of digest array.
+ */
+DID_API int DIDDocument_VerifyDigest(DIDDocument *document, DIDURL *keyid,
+        char *sig, uint8_t *digest, size_t size);
 
 /**
  * \~English
@@ -2102,10 +2124,13 @@ DID_API int DIDStore_InitPrivateIdentityFromRootKey(DIDStore *store,
  *      store                  [in] THe handle to DIDStore.
  * @param
  *      storepass              [in] The pass word of DID holder.
+ * @param
+ *      callback               [in] The method to merge document.
  * @return
  *      0 on success, -1 if an error occurred.
  */
-DID_API int DIDStore_Synchronize(DIDStore *store, const char *storepass);
+DID_API int DIDStore_Synchronize(DIDStore *store, const char *storepass,
+        DIDStore_MergeCallback *callback);
 
 /**
  * \~English
@@ -2163,31 +2188,6 @@ DID_API int DIDStore_ExportMnemonic(DIDStore *store, const char *storepass,
 
 /**
  * \~English
- * Sign data by DID.
- *
- * @param
- *      store                   [in] The handle to DIDStore.
- * @param
- *      storepass               [in] Password for DIDStore.
- * @param
- *      did                     [in] The handle to DID.
- * @param
- *      key                     [in] Public key to sign.
- * @param
- *      sig                     [out] The buffer will receive signature data.
- * @param
- *      count                   [in] The size of data list.
- * @return
- *      0 on success, -1 if an error occurred.
- */
-DID_API int DIDStore_Sign(DIDStore *store, const char *storepass, DID *did,
-        DIDURL *key, char *sig, int count, ...);
-
-DID_API int DIDStore_Signv(DIDStore *store, const char *storepass, DID *did,
-        DIDURL *key, char *sig, int count, va_list inputs);
-
-/**
- * \~English
  * Store DID Document in DID Store.
  *
  * @param
@@ -2196,6 +2196,7 @@ DID_API int DIDStore_Signv(DIDStore *store, const char *storepass, DID *did,
  *      document                  [in] The handle to DID Document.
  * @param
  *      alias                     [in] The nickname of DID.
+ *                                 If alias == NULL, use the old alias in store.
  * @return
  *      0 on success, -1 if an error occurred.
  */
@@ -2826,7 +2827,7 @@ DID_API void DIDBackend_SetTTL(long ttl);
  * \~English
  * DID is deactivated.
  */
-#define DIDERR_DID_DEACTIVATED                      0x8D00000D   
+#define DIDERR_DID_DEACTIVATED                      0x8D00000D
 /**
  * \~English
  * DID is not genuine.
@@ -2841,7 +2842,7 @@ DID_API void DIDBackend_SetTTL(long ttl);
  * \~English
  * Error from DIDStore.
  */
-#define DIDERR_DIDSTORE_ERROR                       0x8D000010  
+#define DIDERR_DIDSTORE_ERROR                       0x8D000010
 /**
  * \~English
  * key is invalid.

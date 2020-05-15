@@ -23,7 +23,7 @@
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="NeU-Ll-h49">
                     <rect key="frame" x="0.0" y="44" width="414" height="738"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NIX-6D-cxp">
                     <rect key="frame" x="0.0" y="782" width="414" height="80"/>
@@ -34,7 +34,9 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="80V-m6-4GQ"/>
                             </constraints>
-                            <state key="normal" title="Button"/>
+                            <state key="normal" title="Button">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
                             <connections>
                                 <action selector="signatureEvent:" destination="-1" eventType="touchUpInside" id="Zd4-bZ-Zxv"/>
                             </connections>

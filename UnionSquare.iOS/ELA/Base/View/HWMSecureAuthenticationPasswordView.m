@@ -38,32 +38,35 @@
 -(instancetype)init{
     self =[super init];
     if (self) {
-        
         self =[[NSBundle mainBundle]loadNibNamed:@"HWMSecureAuthenticationPasswordView" owner:nil options:nil].firstObject;
         self.titleLabel.text=NSLocalizedString(@"安全验证", nil);
         self.pwdLabe.text=NSLocalizedString(@"密码", nil);
         [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.pwdTextField withTxt:NSLocalizedString(@"请输入钱包密码", nil)];
         [self.makeSureButton setTitle:NSLocalizedString(@"确认", nil) forState:UIControlStateNormal];
+        [[HMWCommView share]makeBordersWithView:self.makeSureButton];
     }
     return self;
 }
 - (IBAction)closeViewEvent:(id)sender {
-    self.makeSureButton.userInteractionEnabled=NO;
-    if (self.pwdTextField.text.length==0) {
-        self.makeSureButton.userInteractionEnabled=YES;
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"密码不能为空", nil)];
-        self.makeSureButton.userInteractionEnabled=YES;
-        return;
-    }
     if ([self.delegate respondsToSelector:@selector(closepwdView)]) {
         self.makeSureButton.userInteractionEnabled=YES;
         [self.delegate closepwdView];
     }
 }
 - (IBAction)makeSuereEvent:(id)sender {
-    
+    self.makeSureButton.userInteractionEnabled=NO;
+     if (self.pwdTextField.text.length==0) {
+         self.makeSureButton.userInteractionEnabled=YES;
+         [[FLTools share]showErrorInfo:NSLocalizedString(@"密码不能为空", nil)];
+         self.makeSureButton.userInteractionEnabled=YES;
+         return;
+     }
     if ([self.delegate respondsToSelector:@selector(makeSureWithPWD:)]) {
         [self.delegate makeSureWithPWD:self.pwdTextField.text];
     }
+     self.makeSureButton.userInteractionEnabled=YES;
+}
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self endEditing:YES];
 }
 @end

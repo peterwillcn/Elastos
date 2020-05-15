@@ -24,24 +24,31 @@
 
 #import <Foundation/Foundation.h>
 
-
-typedef void(^CRSuggestionNetWorkComplete)(id _Nonnull data);
-typedef NS_ENUM(NSUInteger, CommunityProposalType) {
-    ALLType=0,
-    VOTINGType,
-    NOTIFICATIONType,
-    ACTIVEType,
-    FINALType,
-    REJECTEDType,
-};
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HWMCRSuggestionNetWorkManger : NSObject;
-+(instancetype)shareCRSuggestionNetWorkManger;
--(void)reloadCRSuggestionDataSourceWithType:(CommunityProposalType)type withStartIndex:(NSInteger)startIndex withNumbers:(NSInteger)numer withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed;
--(void)searchReloadCRSuggestionDataSourceWithType:(CommunityProposalType)type withStartIndex:(NSInteger)startIndex withNumbers:(NSInteger)numer withSearchContent:(NSString*)searchString withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed;
--(void)reloadCRSuggestionDetailsWithID:(NSString*)ID withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed;
--(void)reloadCRAdviceDetailsWithID:(NSString*)ID withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed;
+@interface HWMadviceModel : NSObject
+/*
+ *
+ */
+@property(copy,nonatomic)NSString *ID;
+/*
+ *
+ */
+@property(copy,nonatomic)NSString * title;
+/*
+ *
+ */
+@property(copy,nonatomic)NSString * did;
+/*
+ *
+ */
+@property(copy,nonatomic)NSString * didName;
+@property(copy,nonatomic)NSString * abs;
+@property(copy,nonatomic)NSString * address;
+@property(assign,nonatomic)NSString * createdAt;
+@property(copy,nonatomic)NSString * baseInfoString;
+@property(assign,nonatomic)CGFloat  baseInfoCell;
+@property(assign,nonatomic)CGFloat  absCell;
 @end
 
 NS_ASSUME_NONNULL_END

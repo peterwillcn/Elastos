@@ -44,7 +44,7 @@
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
                 <outlet property="constLabel" destination="AFU-q7-I9b" id="6Qc-ab-DXp"/>
-                <outlet property="titleLabel" destination="lFa-70-1Ms" id="YLu-2G-csL"/>
+                <outlet property="titleLabel" destination="lFa-70-1Ms" id="idf-T3-hzj"/>
             </connections>
             <point key="canvasLocation" x="141" y="154"/>
         </tableViewCell>

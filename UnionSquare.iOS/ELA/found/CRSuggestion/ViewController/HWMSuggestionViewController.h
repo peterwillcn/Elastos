@@ -33,8 +33,13 @@ typedef enum : NSUInteger {
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMSuggestionViewController : UIViewController
-
+/*
+ *<# #>
+ */
+@property(strong,nonatomic)FLWallet *currentWallet;
 @property(assign,nonatomic)SuggestionVCType VCType;
+@property(copy,nonatomic)NSDictionary*PayLoadDic;
+@property(copy,nonatomic)NSString*jwtString;
 
 
 @end

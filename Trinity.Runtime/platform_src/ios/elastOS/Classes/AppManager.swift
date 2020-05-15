@@ -583,13 +583,13 @@ class AppManager: NSObject {
         // start the DID session dapp
         DIDSessionManager.getSharedInstance().setAppManager(self)
         if let signedInIdentity = try DIDSessionManager.getSharedInstance().getSignedInIdentity() {
+            // A DID is signed in
+            try loadLauncher()
+        }
+        else {
             // No DID signed in
             try loadLauncher() // TODO - IMPORTANT NOTE: for now because did session app crashes if launcher was not loaded, we also start the launcher FOR TEST. Later , launcher should NOT start if DID session starts
             try start("org.elastos.trinity.dapp.didsession")
-        }
-        else {
-            // A DID is signed in
-            try loadLauncher()
         }
     }
     

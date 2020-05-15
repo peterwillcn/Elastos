@@ -42,7 +42,7 @@
         self =[[NSBundle mainBundle]loadNibNamed:@"HWMCommentPerioDetailsHeadView" owner:nil options:nil].firstObject;
         self.typeInfoLabel.text=NSLocalizedString(@"提案信息", nil);
         [self.showOrHiddenButton setImage:[UIImage imageNamed:@"setting_list_arrow"] forState:UIControlStateNormal];
-         [self.showOrHiddenButton setImage:[UIImage imageNamed:@"setting_list_arrow_fold"] forState:UIControlStateSelected];
+        [self.showOrHiddenButton setImage:[UIImage imageNamed:@"setting_list_arrow_fold"] forState:UIControlStateSelected];
     }
     return self;
 }
@@ -57,6 +57,17 @@
     self.titleLabel.text=model.title;
     self.stateLabel.text=model.status;
     self.timeLabel.text=model.baseInfoString;
+    if (self.needMakeLine) {
+        [self makeLine];
+    }
     _model=model;
+}
+-(void)makeLine{
+    NSUInteger length = [self.titleLabel.text length];
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:self.titleLabel.text];
+    [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle)  range:NSMakeRange(0, length)];
+    [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, length)];
+    [self.titleLabel setAttributedText:attri];
+    
 }
 @end

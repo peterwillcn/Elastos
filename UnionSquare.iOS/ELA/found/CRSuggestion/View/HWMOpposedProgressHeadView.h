@@ -23,8 +23,8 @@
 
 
 #import <UIKit/UIKit.h>
-
-
+#import "HWMBillListModel.h"
+#import "HWMDetailsProposalModel.h"
 @protocol HWMOpposedProgressHeadViewDelegate <NSObject>
 
 -(void)closeOpposedProgressDetailsOrOpen:(BOOL)isOpen;
@@ -34,7 +34,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMOpposedProgressHeadView : UIView
 @property(nonatomic,weak)id<HWMOpposedProgressHeadViewDelegate> delegate;
+@property(nonatomic,strong)HWMBillListModel *model;
+@property(nonatomic,strong)HWMDetailsProposalModel *DetailsProposalM;
 
+@property(assign,nonatomic)BOOL needMakeLine;
 @end
 
 NS_ASSUME_NONNULL_END

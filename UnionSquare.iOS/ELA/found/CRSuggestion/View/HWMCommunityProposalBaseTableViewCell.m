@@ -24,6 +24,7 @@
 
 #import "HWMCommunityProposalBaseTableViewCell.h"
 
+
 @interface HWMCommunityProposalBaseTableViewCell ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
@@ -37,12 +38,12 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 -(void)setModel:(HWMBillListModel *)model{
@@ -50,6 +51,12 @@
     self.rightLabte.text=model.status;
     self.leftLabel.text=model.baseInfoString;
     _model=model;
+//    if (model.searchRanege.length>0) {
+//        [self setSearchTestColorString:model.searchRanege];
+//    }
+}
+-(void)setSearchTestColorString:(NSRange)searchRange{
+
     
 }
 @end

@@ -26,6 +26,6 @@
 
 @implementation HWMDetailsProposalModel
 + (NSDictionary *)modelCustomPropertyMapper {
-    return @{@"ID": @"id"};
+    return @{@"ID": @"id",@"abstract":@"abs"};
 }
 @end

@@ -24,6 +24,7 @@
 
 #import "HWMCommitteeMembersToVoteView.h"
 #import "HWMCommitteeMembersToVoteTableViewCell.h"
+#import "HWMDetailsProposalModel.h"
 
 static NSString *cellCommitteeMembersString=@"HWMCommitteeMembersToVoteTableViewCell";
 UINib *CommitteeMembersNib;
@@ -62,12 +63,10 @@ UINib *CommitteeMembersNib;
     self.baseTable.delegate=self;
     self.baseTable.dataSource=self;
     self.baseTable.rowHeight=44;
-    self.baseTable.separatorInset=UIEdgeInsetsMake(-0, 15, 0, 15);
     self.baseTable.backgroundColor=[UIColor clearColor];
     CommitteeMembersNib=[UINib nibWithNibName:cellCommitteeMembersString bundle:nil];
     [self.baseTable registerNib:CommitteeMembersNib forCellReuseIdentifier:cellCommitteeMembersString];
     self.baseTable.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.baseTable.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     [self allStateNormal];
     [self updateCommitteeMembersToVoteInfo];
     [self updateToalInfo];
@@ -75,19 +74,15 @@ UINib *CommitteeMembersNib;
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 100;
 }
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 0.01f;
-}
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 0.01;
-}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     HWMCommitteeMembersToVoteTableViewCell *cell=[CommitteeMembersNib instantiateWithOwner:nil options:nil].firstObject;
     cell.backgroundColor=[UIColor clearColor];
+  
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
+//    cell.model=self.dataArray[indexPath.row];
     return cell;
 }
 - (IBAction)showOrHiddenButtonEvent:(id)sender {
@@ -165,5 +160,14 @@ UINib *CommitteeMembersNib;
     self.WaiverLabel.alpha=al;
     self.WaiverButton.alpha=al;
     
+}
+-(void)setDataArray:(NSArray *)dataArray{
+    if (dataArray.count==0) {
+        self.noVioInfoLabel.alpha=1.f;
+    }else{
+        self.noVioInfoLabel.alpha=0.f;
+    }
+    _dataArray=dataArray;
+    [self.baseTable reloadData];
 }
 @end

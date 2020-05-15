@@ -1,4 +1,4 @@
 target 'elastos wallet' do
 pod 'JWT'
-#pod 'SVGKit'
+pod 'YYKit'
 end

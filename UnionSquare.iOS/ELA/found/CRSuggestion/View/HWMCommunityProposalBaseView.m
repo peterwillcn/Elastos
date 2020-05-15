@@ -77,7 +77,7 @@ UINib *_basenib;
     self.baseTabView.delegate=self;
     self.baseTabView.dataSource=self;
     [self.baseTabView reloadData];
-   
+    
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.dataSourceArray.count;
@@ -117,5 +117,8 @@ UINib *_basenib;
     }else{
         _allTotle=allTotle/10+1;
     }
+}
+-(void)setSearchString:(NSString *)searchString{
+    _searchString=searchString;
 }
 @end

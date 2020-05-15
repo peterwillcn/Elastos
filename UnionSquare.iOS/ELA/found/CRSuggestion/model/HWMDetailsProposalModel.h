@@ -29,12 +29,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy,nonatomic)NSString *content;
 @property(copy,nonatomic)NSString *reason;
 @property(copy,nonatomic)NSString *votedBy;
+@property(assign,nonatomic)CGFloat reasonCell;
 @end
 @interface HWMVoteResultModel : NSObject
 @property(copy,nonatomic)NSString *value;
 @property(copy,nonatomic)NSString *reason;
 @property(copy,nonatomic)NSString *votedBy;
-@property(copy,nonatomic)NSString *URLString;
+@property(copy,nonatomic)NSString *avatar;
+@property(assign,nonatomic)CGFloat reasonCell;
 @property(strong,nonatomic)HWMcommentModel *comment;
 @end
 @interface HWMDetailsProposalModel : NSObject
@@ -45,7 +47,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy,nonatomic)NSArray  *voteResult;
 @property(copy,nonatomic)NSArray  *tracking;
 @property(strong,nonatomic)NSArray *summary;
+@property(copy,nonatomic)NSString *rejectAmount;
+@property(copy,nonatomic)NSString *rejectHeight;
+@property(copy,nonatomic)NSString *rejectPercentage;
 @property(assign,nonatomic)CGFloat abstractCell;
+@property(assign,nonatomic)CGFloat rejectRatio;
+
 @end
 
 NS_ASSUME_NONNULL_END

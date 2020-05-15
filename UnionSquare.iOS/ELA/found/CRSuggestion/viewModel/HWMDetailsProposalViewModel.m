@@ -41,6 +41,9 @@
 -(HWMDetailsProposalModel*)AnalyticalDataWithDicJosn:(id)json{
     HWMDetailsProposalModel *Fmodel=[HWMDetailsProposalModel modelWithJSON:json];
     Fmodel.abstractCell=[[FLTools share]calculateRowHeight:Fmodel.abstract fontSize:11 withmargin:30];
+    Fmodel.duration=[[FLTools share]RemainingTimeFormatting:Fmodel.duration];
+    Fmodel.rejectHeight=[[FLTools share]isEmptyString:Fmodel.rejectHeight];
+    Fmodel.rejectAmount=[[FLTools share]isEmptyString:Fmodel.rejectAmount];
 //    if (Fmodel.tracking.count>0) {
 //        NSMutableArray *trackModel=[[NSMutableArray alloc]init];
 ////        for (HWMVoteResultModel *model in Fmodel.tracking) {

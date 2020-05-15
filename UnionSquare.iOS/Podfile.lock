@@ -2,19 +2,26 @@ PODS:
   - Base64 (1.1.2)
   - JWT (2.2.0):
     - Base64 (~> 1.1.2)
+  - YYKit (1.0.9):
+    - YYKit/no-arc (= 1.0.9)
+  - YYKit/no-arc (1.0.9)
 
 DEPENDENCIES:
   - JWT
+  - YYKit
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - Base64
     - JWT
+  trunk:
+    - YYKit
 
 SPEC CHECKSUMS:
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   JWT: cf73c0ab0dac762df3de8a3f1164352089d97780
+  YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 8ce1ac9e6983e3edc30c6eff9408b9d9a2afba65
+PODFILE CHECKSUM: 38866ff130d8d43bc466a7f1ac4c88e79999613d
 
-COCOAPODS: 1.6.0.beta.1
+COCOAPODS: 1.9.1

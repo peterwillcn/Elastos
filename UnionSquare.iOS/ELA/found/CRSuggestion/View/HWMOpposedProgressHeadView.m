@@ -23,6 +23,7 @@
 
 
 #import "HWMOpposedProgressHeadView.h"
+#import "HWMCircleProgressView.h"
 
 @interface HWMOpposedProgressHeadView ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -36,6 +37,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *VetoVoteLabel;
 @property (weak, nonatomic) IBOutlet UILabel *VetoVote;
 @property (weak, nonatomic) IBOutlet UILabel *OpposedProgressLabel;
+@property (weak, nonatomic) IBOutlet UILabel *OpposingVotesLabel;
+@property (strong, nonatomic)HWMCircleProgressView*CircleProgressV;
 
 @end
 
@@ -44,22 +47,61 @@
 -(instancetype)init{
     self=[super init];
     if (self) {
-        self =[[NSBundle mainBundle]loadNibNamed:@"HWMCommentPerioDetailsHeadView" owner:nil options:nil].firstObject;
+        self =[[NSBundle mainBundle]loadNibNamed:@"HWMOpposedProgressHeadView" owner:nil options:nil].firstObject;
         self.typeInfoLabel.text=NSLocalizedString(@"提案信息", nil);
         [self.showOrHiddenButton setImage:[UIImage imageNamed:@"setting_list_arrow"] forState:UIControlStateNormal];
-         [self.showOrHiddenButton setImage:[UIImage imageNamed:@"setting_list_arrow_fold"] forState:UIControlStateSelected];
+        [self.showOrHiddenButton setImage:[UIImage imageNamed:@"setting_list_arrow_fold"] forState:UIControlStateSelected];
         self.TheCurrentNumberLabel.text=NSLocalizedString(@"当前票数", nil);
         self.VetoVoteLabel.text=NSLocalizedString(@"否决通过票数", nil);
         self.OpposedProgressLabel.text=NSLocalizedString(@"反对进度", nil);
+        self.userInteractionEnabled=YES;
+        [self.OpposedProgressView addSubview:self.CircleProgressV];
+        [self.CircleProgressV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(self.OpposedProgressView);
+        }];
     }
     return self;
 }
 - (IBAction)showOrHiddenEvent:(id)sender {
     self.showOrHiddenButton.selected=!self.showOrHiddenButton.isSelected;
-       if ([self.delegate respondsToSelector:@selector(closeOpposedProgressDetailsOrOpen:)]) {
-           [self.delegate closeOpposedProgressDetailsOrOpen:self.showOrHiddenButton.isSelected];
-       }
+    if ([self.delegate respondsToSelector:@selector(closeOpposedProgressDetailsOrOpen:)]) {
+        [self.delegate closeOpposedProgressDetailsOrOpen:self.showOrHiddenButton.isSelected];
+    }
 }
-
-
+-(HWMCircleProgressView *)CircleProgressV{
+    if (!_CircleProgressV) {
+        _CircleProgressV =[[HWMCircleProgressView alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
+        [_CircleProgressV setBackgroundStrokeColor:RGB(111, 138, 140)];
+        [_CircleProgressV setProgressStrokeColor:[UIColor whiteColor]];
+        [_CircleProgressV setDigitTintColor:[UIColor whiteColor]];
+        [_CircleProgressV setProgressLineWidth:2];
+        [_CircleProgressV setBackgroundLineWidth:2];
+        [_CircleProgressV setProgress:0.00 animated:YES];
+    }
+    return _CircleProgressV;
+}
+-(void)setModel:(HWMBillListModel *)model{
+    self.titleLabel.text=model.title;
+    self.stateLabel.text=model.status;
+    self.timeLabel.text=model.baseInfoString;
+    //    if (self.needMakeLine) {
+    [self makeLine];
+    //    }
+    _model=model;
+}
+-(void)makeLine{
+    NSUInteger length = [self.titleLabel.text length];
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:self.titleLabel.text];
+    [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle)  range:NSMakeRange(0, length)];
+    [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, length)];
+    [self.titleLabel setAttributedText:attri];
+    
+}
+-(void)setDetailsProposalM:(HWMDetailsProposalModel *)DetailsProposalM{
+    self.OpposingVotesLabel.text=[NSString stringWithFormat:@"%@ ELA",DetailsProposalM.rejectAmount];
+    self.VetoVote.text=[NSString stringWithFormat:@"%@ ELA",DetailsProposalM.rejectHeight];
+    [self.CircleProgressV setProgress:DetailsProposalM.rejectRatio animated:YES];
+    
+    
+}
 @end

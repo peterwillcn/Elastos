@@ -53,7 +53,9 @@
     NSMutableArray *AnalyticalArray=[[NSMutableArray alloc]init];
     for (HWMBillListModel *model in modeArray) {
         model.baseInfoString=[NSString stringWithFormat:@"#%@ %@ %@",model.ID ,[[FLTools share]YMDHMSgetTimeFromTimesTamp:model.createdAt],model.proposedBy];
-        
+        if (self.searchString) {
+            model.searchRanege=[model.title localizedStandardRangeOfString:self.searchString];
+        }
         if ([model.status isEqualToString:@"VOTING"]) {
             model.status=NSLocalizedString(@"委员评议",nil);
         }else if ([model.status isEqualToString:@"NOTIFICATION"]){
@@ -66,7 +68,6 @@
             model.status=NSLocalizedString(@"已废止",nil);
         }
         model.cellHeight=[[FLTools share]calculateRowHeight:model.title fontSize:14 withmargin:30];
-        
         if (model.cellHeight>60) {
             model.cellHeight=60;
         }
@@ -74,4 +75,5 @@
     }
     return AnalyticalArray;
 }
+
 @end

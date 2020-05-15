@@ -23,11 +23,11 @@
 
 
 #import <UIKit/UIKit.h>
-
+#import "HWMDetailsProposalModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMCommitteeMembersToVoteTableViewCell : UITableViewCell
-
+@property(strong,nonatomic)HWMVoteResultModel *model;
 @end
 
 NS_ASSUME_NONNULL_END

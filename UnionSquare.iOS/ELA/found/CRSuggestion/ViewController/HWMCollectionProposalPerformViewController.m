@@ -62,6 +62,9 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     self.isSecOpen=YES;
     self.secHeight=330;
     [self loadPerioDetailsWithID:self.model.ID];
+    if (self.type==CommentPerioACTIVEType) {
+    }else if(self.type==CommentPerioFINALType){
+    }
 }
 -(void)loadPerioDetailsWithID:(NSString*)ID{
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadCRSuggestionDetailsWithID:ID withComplete:^(id  _Nonnull data) {
@@ -275,8 +278,11 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     if (self.isSecOpen) {
         self.secHeight=330;
     }else{
-        self.secHeight=65;
+        self.secHeight=70;
     }
     [self.baseTable reloadData];
+}
+-(void)setType:(CommentPerioType)type{
+    _type=type;
 }
 @end

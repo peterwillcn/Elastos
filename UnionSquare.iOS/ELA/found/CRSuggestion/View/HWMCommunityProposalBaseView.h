@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HWMCommunityProposalBaseView : UIView
 @property(strong,nonatomic)NSMutableArray *dataSourceArray;
 @property(assign,nonatomic)NSInteger allTotle;
-
+@property(copy,nonatomic)NSString * searchString;
 @property(weak,nonatomic)id<HWMCommunityProposalBaseViewDelegate> delegate;
 @end
 

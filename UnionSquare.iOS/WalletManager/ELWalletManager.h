@@ -221,7 +221,7 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(PluginResult *)SpvDidAdapter_CreateIdTransactionEXWith:(invokedUrlCommand *)command;
 -(void)RandomSwitchLink:(invokedUrlCommand *)command;
 -(BOOL)ManualInputIP:(invokedUrlCommand *)command;
--(BOOL)adviceTheSignature:(invokedUrlCommand *)command;
+-(NSString*)adviceTheSignature:(invokedUrlCommand *)command;
 @end
 
 

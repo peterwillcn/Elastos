@@ -34,6 +34,9 @@
 #import "HWMAbstractTableViewCell.h"
 #import "HWMBudgetsModel.h"
 #import "ELWalletManager.h"
+#import "HWMDIDManager.h"
+#import "JWTBase64Coder.h"
+
 
 static NSString *SuggestionCell=@"HWMSuggestionTableViewCell";
 static NSString *SuggestionSionCell=@"HWMSuggestionSionTableViewCell";
@@ -187,29 +190,74 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
         Type=@(0);
     }else{
         Type=@(1);
-        
     }
     NSMutableArray *BArray=[[NSMutableArray alloc]init];
     for (HWMBudgetsModel *model in self.BudgetsArray) {
         NSNumber *Type;
-         
-         if ([model.Type isEqualToString:@"Imprest"]) {
-             Type=@(0);
-         }else if ([model.Type isEqualToString:@"NormalPayment"]) {
-             Type=@(1);
-             
-         }else{
-             Type=@(2);
-         }
-        NSDictionary *dic=@{@"Type":Type,@"Stage":Type,@"Amount":model.Amount};
+        if ([model.Type isEqualToString:@"Imprest"]) {
+            Type=@(0);
+        }else if ([model.Type isEqualToString:@"NormalPayment"]) {
+            Type=@(1);
+        }else{
+            Type=@(2);
+        }
+        NSDictionary *dic=@{@"Type":Type,@"Stage":[model.Stage numberValue],@"Amount":model.Amount};
         [BArray addObject:dic];
     }
     NSDictionary *playLoadDic=@{@"Type":Type,@"CategoryData":self.PayLoadDic[@"data"][@"categorydata"],@"OwnerPublicKey":self.PayLoadDic[@"data"][@"ownerpublickey"],@"DraftHash":self.PayLoadDic[@"data"][@"drafthash"],@"Budgets":BArray,@"Recipient":self.PayLoadDic[@"data"][@"recipient"]};
     NSString *playloadDicString=[playLoadDic jsonStringEncoded];
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,playloadDicString,PWDString] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"adviceTheSignature"];
-    BOOL isSucc= [[ELWalletManager share]adviceTheSignature:mommand];
+    NSString*isSucc= [[ELWalletManager share]adviceTheSignature:mommand];
+    if(![isSucc isEqualToString:@"-1"]){
+        if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:PWDString withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO]){
+        NSString *playString=[[FLTools share]DicToString:[self GenerateTheRequestFileWithString:isSucc]];
+        NSString *jwtString=[self throuJWTStringWithplayString:playString];
+        NSString *REString= [[HWMDIDManager shareDIDManager] DIDSignatureWithString:jwtString];
+        if (![REString isEqualToString:@"-1"]) {
+            NSDictionary *dic=@{@"jwt":[NSString stringWithFormat:@"%@.%@",jwtString,REString]};
+            [self updaeJWTInfoWithDic:dic];
+        }else{
+             [self showSendSuccessOrFial:SignatureFailureType];
+        }
+        }else{
+             [self showSendSuccessOrFial:SignatureFailureType];
+        }
+    }else{
+         [self showSendSuccessOrFial:SignatureFailureType];
+    }
+}
+-(NSDictionary*)GenerateTheRequestFileWithString:(NSString*)String{
+    NSDictionary *FLDic=@{
+        @"type":@"credaccess",
+        @"iss":self.currentWallet.didString,
+        @"iat": self.PayLoadDic[@"iat"],
+        @"exp": self.PayLoadDic[@"exp"],
+        @"aud": self.PayLoadDic[@"iss"],
+        @"req": self.jwtString,
+        @"presentation":String};
+    return FLDic;
+}
+-(void)updaeJWTInfoWithDic:(NSDictionary*)pare{
+    
+    [HttpUrl NetPOSTHost:self.PayLoadDic[@"callbackurl"] url:@"" header:nil body:pare showHUD:NO WithSuccessBlock:^(id data) {
+        [self showSendSuccessOrFial:SignatureSuccessType];
+      
+    } WithFailBlock:^(id data) {
+        [self showSendSuccessOrFial:SignatureFailureType];
+        
+    }];
     
 }
+-(NSString*)throuJWTStringWithplayString:(NSString*)playString{
+    NSString *jwtString;
+    NSDictionary * headers = @{@"alg": @"ES256",@"typ": @"JWT"};
+    NSString *headerString=[[FLTools share]DicToString:headers];
+    headerString=[JWTBase64Coder base64UrlEncodedStringWithData:[headerString dataUsingEncoding:NSUTF8StringEncoding]];
+    playString=[JWTBase64Coder base64UrlEncodedStringWithData:[playString dataUsingEncoding:NSUTF8StringEncoding]];
+    return jwtString=[NSString stringWithFormat:@"%@.%@",headerString,playString];
+    
+}
+
 -(HWMTransactionDetailsView *)ShowPoPWDView{
     if (!_ShowPoPWDView) {
         _ShowPoPWDView=[[HWMTransactionDetailsView alloc]init];
@@ -221,6 +269,17 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 }
 -(void)pwdAndInfoWithPWD:(NSString*)pwd{
     
+}
+-(void)showSendSuccessOrFial:(SendSuccessType)type{
+    UIView *mainView=[self mainWindow];
+    self.sendSuccessPopuV.type=type;
+    [mainView addSubview:self.sendSuccessPopuV];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.pwdView removeAllSubviews];
+        self.pwdView=nil;
+        [self.sendSuccessPopuV removeAllSubviews];
+        self.sendSuccessPopuV=nil;
+    });
 }
 -(void)closeTransactionDetailsView{
     [self.ShowPoPWDView removeFromSuperview];

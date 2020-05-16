@@ -2698,7 +2698,7 @@ void *ReverseByteOrder(void *p, unsigned int len)
     }
     return p;
 }
--(BOOL)adviceTheSignature:(invokedUrlCommand *)command{
+-(NSString*)adviceTheSignature:(invokedUrlCommand *)command{
     NSArray *args = command.arguments;
     int idx = 0;
     NSString *masterWalletID =args[idx++];
@@ -2730,16 +2730,16 @@ void *ReverseByteOrder(void *p, unsigned int len)
             };
             NSLog(@"转换后----%s",testByte);
             //[self adviceTheSignatureStringwithDigestChar:ReverseChar withPwdString:pwdString];
-            [self adviceTheSignatureStringwithDigestChar:ReverseChar withPwdString:pwdString];
+           return [[HWMDIDManager shareDIDManager]adviceTheSignatureWithPWD:pwdString withDigestChar:ReverseChar];
             
         }
     } catch (const std:: exception &e) {
         NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
         NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
         [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
-        return NO;
+        return @"-1";
     }
-    return YES;
+    return @"-1";
 }
 -(NSString*)adviceTheSignatureStringwithDigestChar:(char*)DigestChar withPwdString:(NSString*)pwdString{
   return  [[HWMDIDManager shareDIDManager]adviceTheSignatureWithPWD:pwdString withDigestChar:DigestChar];

@@ -45,6 +45,7 @@ WithPrivatekeyString:(NSString*)privatekeyString
 -(NSArray*)shareJWTWithmastWalletID:(NSString*)walletID withFileName:(NSString*)fileName needDlea:(void(^)(BOOL de))needDleFile;
 -(BOOL)CertificateUpdateWithWalletID:(NSString*)walletID WithFileName:(NSString*)fileName;
 -(BOOL)HasBeenOnTheChain;
+-(NSString*)adviceTheSignatureWithPWD:(NSString*)pwdString withDigestChar:(char*)DigestChar;
 @end
 
 NS_ASSUME_NONNULL_END

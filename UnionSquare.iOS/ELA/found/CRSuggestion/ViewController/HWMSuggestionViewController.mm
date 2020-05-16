@@ -206,7 +206,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     }
     NSDictionary *playLoadDic=@{@"Type":Type,@"CategoryData":self.PayLoadDic[@"data"][@"categorydata"],@"OwnerPublicKey":self.PayLoadDic[@"data"][@"ownerpublickey"],@"DraftHash":self.PayLoadDic[@"data"][@"drafthash"],@"Budgets":BArray,@"Recipient":self.PayLoadDic[@"data"][@"recipient"]};
     NSString *playloadDicString=[playLoadDic jsonStringEncoded];
-    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,playloadDicString] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"adviceTheSignature"];
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,playloadDicString,PWDString] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"adviceTheSignature"];
     BOOL isSucc= [[ELWalletManager share]adviceTheSignature:mommand];
     
 }

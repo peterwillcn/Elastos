@@ -516,5 +516,25 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
 -(BOOL)HasBeenOnTheChain{
     return self.hasBen;
 }
+-(NSString*)adviceTheSignatureWithPWD:(NSString*)pwdString withDigestChar:(char*)DigestChar{
+    int r;
+    if (store==NULL) {//
+        return @"-1";
+    }
+    DIDDocument *doc=DIDStore_LoadDID(store, did);
+    if (doc==NULL) {
+        [[FLTools share]showErrorInfo:@"DID不存在"];
+        return @"-1";
+    }
+    char signature[SIGNATURE_BYTES * 2 + 16];
+    size_t     s=strlen(DigestChar);
+    uint8_t *digest = (uint8_t*)DigestChar;
+    r=DIDDocument_SignDigest(doc, NULL, [pwdString UTF8String],
+                       signature,digest,s);
+    if (r==0) {
+        return [self charToString:signature];
+    }
+    return @"-1";
+}
 @end
 

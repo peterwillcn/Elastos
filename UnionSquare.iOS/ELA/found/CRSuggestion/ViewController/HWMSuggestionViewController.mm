@@ -181,7 +181,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 }
 -(void)closepwdView{
     [self.pwdView removeFromSuperview];
-    self.pwdView.alpha=0.f;
+    self.pwdView=nil;
 }
 -(void)makeSureWithPWD:(NSString*_Nonnull)PWDString{
     NSNumber *Type;
@@ -228,18 +228,20 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 }
 -(NSDictionary*)GenerateTheRequestFileWithString:(NSString*)String{
     NSDictionary *FLDic=@{
-        @"type":@"credaccess",
+        @"command":@"createsuggestion",
+        @"type":@"signature",
         @"iss":self.currentWallet.didString,
         @"iat": self.PayLoadDic[@"iat"],
         @"exp": self.PayLoadDic[@"exp"],
         @"aud": self.PayLoadDic[@"iss"],
         @"req": self.jwtString,
-        @"presentation":String};
+        @"data":String};
     return FLDic;
 }
 -(void)updaeJWTInfoWithDic:(NSDictionary*)pare{
     
     [HttpUrl NetPOSTHost:self.PayLoadDic[@"callbackurl"] url:@"" header:nil body:pare showHUD:NO WithSuccessBlock:^(id data) {
+        NSLog(@"%@",data);
         [self showSendSuccessOrFial:SignatureSuccessType];
       
     } WithFailBlock:^(id data) {
@@ -273,10 +275,9 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 -(void)showSendSuccessOrFial:(SendSuccessType)type{
     UIView *mainView=[self mainWindow];
     self.sendSuccessPopuV.type=type;
-    [mainView addSubview:self.sendSuccessPopuV];
+    [self.view addSubview:self.sendSuccessPopuV];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.pwdView removeAllSubviews];
-        self.pwdView=nil;
+        [self closepwdView];
         [self.sendSuccessPopuV removeAllSubviews];
         self.sendSuccessPopuV=nil;
     });

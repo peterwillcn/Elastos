@@ -104,6 +104,8 @@ static HWMQrCodeSignatureManager * _instance;
             
             break;
         case billQrCodeType:
+            QRCodeString=[QRCodeString stringByReplacingOccurrencesOfString:@"elastos://credaccess/" withString:@""];
+                       return [[HWMDIDManager shareDIDManager]jwtDecodeWithJwtStringInfo:QRCodeString];
             return QRCodeString;
             break;
         case unknowQrCodeType:

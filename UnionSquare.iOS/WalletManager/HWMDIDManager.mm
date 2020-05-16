@@ -18,6 +18,7 @@
 
 //#import "ELAWallet-Swift.h"
 #define SIGNATURE_BYTES         64
+
 static HWMDIDManager *_instance;
 DIDStore *store;
 DID *did;
@@ -527,10 +528,10 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         return @"-1";
     }
     char signature[SIGNATURE_BYTES * 2 + 16];
-    size_t     s=strlen(DigestChar);
+
     uint8_t *digest = (uint8_t*)DigestChar;
     r=DIDDocument_SignDigest(doc, NULL, [pwdString UTF8String],
-                       signature,digest,s);
+                       signature,digest,DIGEST_LEN);
     if (r==0) {
         return [self charToString:signature];
     }

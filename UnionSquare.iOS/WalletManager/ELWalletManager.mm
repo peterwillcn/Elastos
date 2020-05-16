@@ -16,6 +16,7 @@
 static ELWalletManager *tool;
 static uint64_t feePerKB = 10000;
 
+
 #pragma mark - ELWalletManager
 @interface ELWalletManager ()
 /*
@@ -2709,22 +2710,26 @@ void *ReverseByteOrder(void *p, unsigned int len)
         if (mainchainSubWallet) {
             String jsonString= mainchainSubWallet->ProposalOwnerDigest(payloadJson);
             NSString *resultString=[self stringWithCString:jsonString];
-             NSData *testData =[NSData dataWithHexString:resultString];
+            NSData *testData =[NSData dataWithHexString:resultString];
 
             Byte *testByte = (Byte *)[testData bytes];
             NSLog(@"转换前----%s",testByte);
             for(int i=0;i<[testData length];i++){
                 
-                printf("testByte = %d\n",testByte[i]);
+                printf("testByte = %02x\n",testByte[i]);
                 
             };
+            
+            //
+            char ReverseChar[DIGEST_LEN];
             ReverseByteOrder(testByte, (int)[testData length]);
             for(int i=0;i<[testData length];i++){
-                printf("ReverseByteOrdertestByte = %d\n",testByte[i]);
+                printf("ReverseByteOrdertestByte = %02x\n",testByte[i]);
+                ReverseChar[i] = testByte[i];
                 
             };
             NSLog(@"转换后----%s",testByte);
-            char *ReverseChar=(char *)testByte;
+            //[self adviceTheSignatureStringwithDigestChar:ReverseChar withPwdString:pwdString];
             [self adviceTheSignatureStringwithDigestChar:ReverseChar withPwdString:pwdString];
             
         }
@@ -2734,7 +2739,7 @@ void *ReverseByteOrder(void *p, unsigned int len)
         [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
         return NO;
     }
-    return NO;
+    return YES;
 }
 -(NSString*)adviceTheSignatureStringwithDigestChar:(char*)DigestChar withPwdString:(NSString*)pwdString{
   return  [[HWMDIDManager shareDIDManager]adviceTheSignatureWithPWD:pwdString withDigestChar:DigestChar];

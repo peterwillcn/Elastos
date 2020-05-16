@@ -9,6 +9,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#define DIGEST_LEN 32
+
+
+
 @interface MyUtil : NSObject
 
 +(NSString *)getRootPath;

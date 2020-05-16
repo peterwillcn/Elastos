@@ -11,6 +11,7 @@
 #import "sideChainInfoModel.h"
 #import "HMWFMDBManager.h"
 #import "HWMMessageCenterModel.h"
+#import "HWMDIDManager.h"
 
 static ELWalletManager *tool;
 static uint64_t feePerKB = 10000;
@@ -1519,33 +1520,23 @@ static uint64_t feePerKB = 10000;
         IIdChainSubWallet *iidChainSubWallet=[self getIdChainSubWallet:[self cstringWithString:ELA]:"IDChain"];
         crPublicKey = iidChainSubWallet->GetAllPublicKeys(0, 1)["PublicKeys"][0];
         did = iidChainSubWallet->GetPublicKeyDID(crPublicKey);
-        
-        //               const std::string &crPublicKey,
-        //               const std::string &did,
-        //               const std::string &nickName,
-        //               const std::string &url,
-        //               uint64_t location) const = 0;
         nlohmann::json payload = mainchainSubWallet->GenerateCRInfoPayload(crPublicKey,[model.DIDString UTF8String],[self cstringWithString:model.nickName],[self cstringWithString:model.url],[model.contryCode intValue]);
         std::string digest = payload["Digest"].get<std::string>();
         std::string signature = iidChainSubWallet->SignDigest(did, digest,[self cstringWithString:model.pwd]);
         payload["Signature"] = signature;
-        
         nlohmann::json tx = mainchainSubWallet->CreateRegisterCRTransaction("", payload, acount,"");
         Json signedTx = mainchainSubWallet->SignTransaction(tx, [model.pwd UTF8String]);
-        
         Json result = mainchainSubWallet->PublishTransaction(signedTx);
         NSString *resultString=[self stringWithCString:result.dump()];
         NSDictionary *dic=  [self dictionaryWithJsonString:resultString];
         [self saveTradingWithhash:dic[@"TxHash"] withTradingType:33 withWalletID:self.currentWallet.walletID withChainID:@"ELA"];
         return [dic[@"Fee"] integerValue];
-        
     } catch (const std:: exception & e ) {
         NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
         NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
         [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
         return -1;
     }
-    
 }
 
 //参加投票
@@ -1555,12 +1546,9 @@ static uint64_t feePerKB = 10000;
     uint64_t fee;
     Json signedTx;
     Json result;
-    
     try {
         payload= ELA->GenerateProducerPayload([model.pubKey UTF8String], [model.nodePubKey UTF8String],[model.nickName UTF8String], [model.url UTF8String], [model.ipAddress UTF8String], [model.contryCode intValue] , [model.pwd UTF8String]);
-        
     } catch (const std:: exception & e ) {
-        
         NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
         NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
         [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
@@ -1598,8 +1586,6 @@ static uint64_t feePerKB = 10000;
     [self saveTradingWithhash:resultdic[@"TxHash"] withTradingType:9 withWalletID:self.currentWallet.walletID withChainID:@"ELA"];
     
     return [resultdic[@"Fee"] integerValue];
-    
-    
 }
 -(NSInteger)UpdateProducerWithMainchainSubWallet:(IMainchainSubWallet*)ELA With:(FLJoinVoteInfoModel*)model
 {
@@ -2689,7 +2675,7 @@ static uint64_t feePerKB = 10000;
 }
 -(void)saveTradingWithhash:(NSString*)Tradinghash withTradingType:(NSInteger)type withWalletID:(NSString*)walletID withChainID:(NSString*)chainID{
     HWMMessageCenterModel *model=[[HWMMessageCenterModel
-                                   alloc]init];
+alloc]init];
     model.typeHash=Tradinghash;
     model.walletID=walletID;
     model.chainID=chainID;
@@ -2716,16 +2702,17 @@ void *ReverseByteOrder(void *p, unsigned int len)
     int idx = 0;
     NSString *masterWalletID =args[idx++];
     String playStrig=[self cstringWithString:args[idx++]];
+    NSString *pwdString=args[idx++];
     nlohmann::json payloadJson = nlohmann::json::parse(playStrig);
     IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:masterWalletID];
     try {
         if (mainchainSubWallet) {
             String jsonString= mainchainSubWallet->ProposalOwnerDigest(payloadJson);
             NSString *resultString=[self stringWithCString:jsonString];
-             NSData *testData = [resultString dataUsingEncoding: NSUTF8StringEncoding];
-            
+             NSData *testData =[NSData dataWithHexString:resultString];
+
             Byte *testByte = (Byte *)[testData bytes];
-            
+            NSLog(@"转换前----%s",testByte);
             for(int i=0;i<[testData length];i++){
                 
                 printf("testByte = %d\n",testByte[i]);
@@ -2736,6 +2723,10 @@ void *ReverseByteOrder(void *p, unsigned int len)
                 printf("ReverseByteOrdertestByte = %d\n",testByte[i]);
                 
             };
+            NSLog(@"转换后----%s",testByte);
+            char *ReverseChar=(char *)testByte;
+            [self adviceTheSignatureStringwithDigestChar:ReverseChar withPwdString:pwdString];
+            
         }
     } catch (const std:: exception &e) {
         NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
@@ -2745,7 +2736,7 @@ void *ReverseByteOrder(void *p, unsigned int len)
     }
     return NO;
 }
--(void)adviceTheSignatureStringTresyu:(NSString*)resultString{
-    
+-(NSString*)adviceTheSignatureStringwithDigestChar:(char*)DigestChar withPwdString:(NSString*)pwdString{
+  return  [[HWMDIDManager shareDIDManager]adviceTheSignatureWithPWD:pwdString withDigestChar:DigestChar];
 }
 @end

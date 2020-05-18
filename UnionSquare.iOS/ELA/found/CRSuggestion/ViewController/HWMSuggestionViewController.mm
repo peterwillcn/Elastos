@@ -69,6 +69,9 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
         self.title=NSLocalizedString(@"发起建议", nil);
     }else if (self.VCType==TheProposalType){
         self.title=NSLocalizedString(@"发起提案", nil);
+    //xxl 2.2 flow
+    }else if (self.VCType == ReviewProposalType){
+        self.title=NSLocalizedString(@"审查提案", nil);
     }
     [[HMWCommView share]makeBordersWithView:self.signatureButton];
     [self.signatureButton setTitle:NSLocalizedString(@"签名", nil) forState:UIControlStateNormal];
@@ -130,6 +133,13 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
         [self.ShowPoPWDView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.top.bottom.equalTo(mainView);
         }];
+    }else if (self.VCType==ReviewProposalType){
+        //xxl 2.2 flow TODO for UI 
+        [mainView addSubview:self.ShowPoPWDView];
+        [self.ShowPoPWDView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(mainView);
+        }];
+        
     }
 }
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -317,7 +327,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
         
     }
     NSMutableArray *BArray=[[NSMutableArray alloc]init];
-    int index = 0;
+    
     for (HWMBudgetsModel *model in self.BudgetsArray) {
         NSNumber *Type;
         
@@ -381,6 +391,13 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     }
     
 }
+
+
+
+
+
+
+
 
 - (NSDictionary *)callBack:(NSString *)payString pwd:(NSString *)PWDString
 {

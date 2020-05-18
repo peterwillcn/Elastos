@@ -27,6 +27,8 @@
 typedef enum : NSUInteger {
     SuggestionType,
     TheProposalType,
+    //xxl 2.2 flow
+    ReviewProposalType,
     
 } SuggestionVCType;
 

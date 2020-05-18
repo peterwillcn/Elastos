@@ -800,6 +800,9 @@
         if(command && [command isEqualToString:@"createproposal"])
         {
             type = TheProposalType;
+        //xxl 2.2 flow
+        }else if(command && [command isEqualToString:@"reviewproposal"]){
+            type = ReviewProposalType;
         }
     }
     HWMSuggestionViewController *SuggestionVC=[[HWMSuggestionViewController alloc]init];

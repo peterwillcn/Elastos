@@ -46,6 +46,7 @@ WithPrivatekeyString:(NSString*)privatekeyString
 -(BOOL)CertificateUpdateWithWalletID:(NSString*)walletID WithFileName:(NSString*)fileName;
 -(BOOL)HasBeenOnTheChain;
 -(NSString*)adviceTheSignatureWithPWD:(NSString*)pwdString withDigestChar:(char*)DigestChar;
+-(NSString*)proposalTheSignatureWithPWD:(NSString*)pwdString withDigestChar:(char*)DigestChar;
 @end
 
 NS_ASSUME_NONNULL_END

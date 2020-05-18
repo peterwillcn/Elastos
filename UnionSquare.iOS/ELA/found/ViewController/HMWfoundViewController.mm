@@ -128,7 +128,7 @@
         CRSignUpForVC.nodeName= param[@"Info"][@"NickName"];
         CRSignUpForVC.CRnewDID=param[@"Info"][@"DID"];
         [self.navigationController pushViewController:CRSignUpForVC  animated:YES];
-    }
+        }
 //    else if (indexPath.row == 3)
 //    {
 //        ELACRCommitteeListViewController *vc = [[ELACRCommitteeListViewController alloc] init];

@@ -294,7 +294,6 @@ static uint64_t feePerKB = 10000;
 - (NSString *)stringWithJson:(Json)json
 {
     return [self stringWithCString:json.dump()];
-    
 }
 //String 转 NSString
 - (NSString *)stringWithCString:(String)string
@@ -2742,10 +2741,6 @@ void *ReverseByteOrder(void *p, unsigned int len)
     }
     return @"-1";
 }
--(NSString*)adviceTheSignatureStringwithDigestChar:(char*)DigestChar withPwdString:(NSString*)pwdString{
-  return  [[HWMDIDManager shareDIDManager]adviceTheSignatureWithPWD:pwdString withDigestChar:DigestChar];
-}
-
 #pragma mark - 提案 step
 
 - (NSString *)signDigest:(NSString *)passwd payLoad:(String)payLoad walletID:(NSString *)masterWalletID
@@ -2770,7 +2765,7 @@ void *ReverseByteOrder(void *p, unsigned int len)
                 ReverseChar[i] = resultByte[i];
                 
             };
-            signDigest = [self adviceTheSignatureStringwithDigestChar:ReverseChar withPwdString:passwd];
+            signDigest = [[HWMDIDManager shareDIDManager] proposalTheSignatureWithPWD:passwd withDigestChar:ReverseChar];
             return signDigest;
         }
     }
@@ -2805,7 +2800,7 @@ void *ReverseByteOrder(void *p, unsigned int len)
                 ReverseChar[i] = resultByte[i];
                 
             };
-            signDigest = [self adviceTheSignatureStringwithDigestChar:ReverseChar withPwdString:passwd];
+            signDigest = [[HWMDIDManager shareDIDManager] proposalTheSignatureWithPWD:passwd withDigestChar:ReverseChar];
             return signDigest;
         }
     }
@@ -2848,7 +2843,6 @@ void *ReverseByteOrder(void *p, unsigned int len)
 {
     try {
          NSString *payLoadStrig = [dic jsonStringEncoded];
-       // NSString *payLoadStrig = [self dicToJSONString:dic];
         String std = [self cstringWithString:payLoadStrig];
         Json payloadJson = nlohmann::json::parse(std);
         IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:masterWalletID];
@@ -2856,7 +2850,6 @@ void *ReverseByteOrder(void *p, unsigned int len)
         {
             Json json = mainchainSubWallet->CalculateProposalHash(payloadJson);
             NSString *resultString = [self stringWithJson:json];
-          //  NSString *resultString=[self stringWithCString:json.dump()];
             return resultString;
         }
     }
@@ -2978,5 +2971,6 @@ void *ReverseByteOrder(void *p, unsigned int len)
     
     return NULL;
 }
+
 
 @end

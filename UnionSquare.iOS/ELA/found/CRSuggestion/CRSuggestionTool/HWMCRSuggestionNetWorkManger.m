@@ -99,11 +99,12 @@ static HWMCRSuggestionNetWorkManger* _instatance;
     }];
 }
 -(void)reloadCRAdviceDetailsWithID:(NSString*)ID withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed{
+    [[FLTools share]showLoadingView];
     NSString *bordyUrlString=[NSString stringWithFormat:@"/api/suggestion/get_suggestion/%@",ID];
     [HttpUrl NetGETHost:CRProposalIP url:bordyUrlString header:nil body:nil showHUD:YES WithSuccessBlock:^(id data) {
         Completed(data);
+        [[FLTools share]hideLoadingView];
     } WithFailBlock:^(id data) {
-        Completed(data);
     }];
 }
 @end

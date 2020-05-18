@@ -53,8 +53,10 @@
     return _allBaseView;
 }
 -(void)didShowDetailsWithIndex:(NSInteger)index{
-   
-    
+    HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
+    CommentPerioDetailsVC.model=self.allBillListAarray[index];
+    CommentPerioDetailsVC.type=CommentPerioNOTIFICATIONType;
+    [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
 }
 -(void)needUpdateDataSource{
     [self.allBillListAarray removeAllObjects];

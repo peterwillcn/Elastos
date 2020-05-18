@@ -51,6 +51,9 @@
         self.opinionLabel.text=NSLocalizedString(@"投票意见", nil);
         self.feeTextLabel.text=NSLocalizedString(@"手续费", nil);
         [[HMWCommView share]makeBordersWithView:self.opinionStateLabel withCRRound:3.f];
+        [[HMWCommView share]makeBordersWithView:self.nextButton];
+        [self.nextButton setTitle:NSLocalizedString(@"确认", nil) forState:UIControlStateNormal];
+        [self setType:againstType];
         
     }
     return self;
@@ -64,18 +67,29 @@
     [self addSubview:self.pwdView];
 }
 -(void)setType:(opinionType)type{
+
     if (type== againstType) {
-        self.opinionStateLabel.text=NSLocalizedString(@" 反对 ", nil);
-        self.opinionLabel.backgroundColor=RGB(176, 65, 53);
+        self.opinionStateLabel.text=NSLocalizedString(@" 反对  ", nil);
+   self.opinionStateLabel.backgroundColor=RGB(176, 65, 53);
     }else if (type==NOPperatingType){
         self.opinionStateLabel.text=NSLocalizedString(@" 未操作 ", nil);
-        self.opinionLabel.backgroundColor=RGB(153, 153, 153);
+        self.opinionStateLabel.backgroundColor=RGB(153, 153, 153);
     }else if (type==WaiverType){
         self.opinionStateLabel.text=NSLocalizedString(@" 弃权 ", nil);
-        self.opinionLabel.backgroundColor=RGB(0,0,0);
+       self.opinionStateLabel.backgroundColor=RGB(0,0,0);
+       
+        self.opinionStateLabel.layer.borderWidth=0.5f;
+        self.opinionStateLabel.layer.borderColor=[UIColor whiteColor].CGColor;
+        self.opinionStateLabel.layer.masksToBounds=YES;
     }else if (type==favorType){
         self.opinionStateLabel.text=NSLocalizedString(@" 赞成 ", nil);
-        self.opinionLabel.backgroundColor=RGB(53, 176, 143);
+      self.opinionStateLabel.backgroundColor=RGB(53, 176, 143);
+        
+    }else if (type==favorType){
+        self.opinionLabel.text=NSLocalizedString(@"反对票数", nil);
+        self.opinionStateLabel.text=NSLocalizedString(@"ELA ", nil);
+        self.opinionStateLabel.backgroundColor=[UIColor clearColor];
+        [[HMWCommView share]makeBordersWithView:self.opinionStateLabel withCRRound:0.f];
         
     }
     

@@ -37,5 +37,8 @@
  *
  */
 @property(copy,nonatomic)NSString * Amount ;
-
+/*
+ *
+ */
+@property(copy,nonatomic)NSString * titleString ;
 @end

@@ -740,6 +740,10 @@
 "有效期至 "="Valid until ";
 "至"="to";
 "发布失败"="failed";
+
+
+"阶段"="failed";
+(@"第",nil ),model.Stage,NSLocalizedString(@"阶段",nil )]
 "不足1小时"="不足1小时";
 "约23个小时"="约23个小时";
 "约1天"="约1天";

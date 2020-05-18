@@ -768,7 +768,7 @@
 -(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString{
     __weak __typeof__(self) weakSelf = self;
     [[HWMQrCodeSignatureManager shareTools]QrCodeDataWithData:QRCodeString withDidString:self.currentWallet.didString withmastWalletID:self.currentWallet.masterWalletID withComplete:^(QrCodeSignatureType type, id  _Nonnull data) {
-     [weakSelf ParseTheQrCodeJumpEventWithType:type withData:data tsWithQRCodeString:QRCodeString];
+        [weakSelf ParseTheQrCodeJumpEventWithType:type withData:data tsWithQRCodeString:QRCodeString];
     }];
 }
 -(void)ParseTheQrCodeJumpEventWithType:(QrCodeSignatureType)type withData:(id)data tsWithQRCodeString:(NSString*)QRCodeString{
@@ -778,10 +778,10 @@
             [self ShowPlayInfoText:data withJWTString:QRCodeString];
             break;
         case suggestionQrCodeType:
-            [self showAdviceInfoText:data withJWTString:QRCodeString];
+            [self showAdviceInfoText:data withJWTString:QRCodeString WithType:type];
             break;
         case billQrCodeType:
-            
+            [self showAdviceInfoText:data withJWTString:QRCodeString WithType:type];
             break;
         case unknowQrCodeType:
             [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
@@ -791,22 +791,22 @@
     }
     
 }
--(void)showAdviceInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString
-{
-    SuggestionVCType type = SuggestionType;
-    if(PayLoadDic)
-    {
-        NSString *command = PayLoadDic[@"command"];
-        if(command && [command isEqualToString:@"createproposal"])
-        {
-            type = TheProposalType;
-        }
-    }
+-(void)showAdviceInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString WithType:(QrCodeSignatureType)type{
     HWMSuggestionViewController *SuggestionVC=[[HWMSuggestionViewController alloc]init];
-    SuggestionVC.VCType = type;
-    SuggestionVC.PayLoadDic = PayLoadDic;
-    SuggestionVC.jwtString = jwtString;
-    SuggestionVC.currentWallet = self.currentWallet;
+    switch (type) {
+        case suggestionQrCodeType:
+            SuggestionVC.VCType=SuggestionType;
+            break;
+        case billQrCodeType:
+            SuggestionVC.VCType=TheProposalType;
+            break;
+        default:
+            break;
+    }
+    
+    SuggestionVC.PayLoadDic=PayLoadDic;
+    SuggestionVC.jwtString=jwtString;
+    SuggestionVC.currentWallet=self.currentWallet;
     [self.navigationController pushViewController:SuggestionVC animated:YES];
 }
 -(void)ShowPlayInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString{

@@ -41,6 +41,7 @@
         self =[[NSBundle mainBundle]loadNibNamed:@"HWMSecureAuthenticationPasswordView" owner:nil options:nil].firstObject;
         self.titleLabel.text=NSLocalizedString(@"安全验证", nil);
         self.pwdLabe.text=NSLocalizedString(@"密码", nil);
+        self.pwdTextField.secureTextEntry=YES;
         [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.pwdTextField withTxt:NSLocalizedString(@"请输入钱包密码", nil)];
         [self.makeSureButton setTitle:NSLocalizedString(@"确认", nil) forState:UIControlStateNormal];
         [[HMWCommView share]makeBordersWithView:self.makeSureButton];

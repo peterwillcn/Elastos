@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum : NSUInteger {
+    VoteAgainsType,
+} VotesPopupType;
+
 NS_ASSUME_NONNULL_BEGIN
 @protocol VotesPopupViewDelegate <NSObject>
 
@@ -19,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,weak)id<VotesPopupViewDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UILabel *accountBalanceLab;
 @property(nonatomic,assign)double votes;
-
+@property(nonatomic,assign)VotesPopupType type;
 
 @end
 

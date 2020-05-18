@@ -18,7 +18,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D6S-Hr-z9X">
-                        <rect key="frame" x="15" y="0.0" width="305" height="44"/>
+                        <rect key="frame" x="15" y="0.0" width="116" height="44"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iHb-tv-OfB">
+                        <rect key="frame" x="131" y="0.0" width="174" height="44"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
@@ -27,14 +33,20 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="D6S-Hr-z9X" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="2E8-18-8LM"/>
-                    <constraint firstAttribute="trailing" secondItem="D6S-Hr-z9X" secondAttribute="trailing" id="Zlb-vO-Imb"/>
+                    <constraint firstItem="iHb-tv-OfB" firstAttribute="width" secondItem="D6S-Hr-z9X" secondAttribute="width" multiplier="6:4" id="2Nw-aA-74W"/>
+                    <constraint firstItem="iHb-tv-OfB" firstAttribute="leading" secondItem="D6S-Hr-z9X" secondAttribute="trailing" id="GZL-Uq-UKE"/>
+                    <constraint firstItem="iHb-tv-OfB" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="P7b-cw-Mks"/>
+                    <constraint firstAttribute="trailing" secondItem="iHb-tv-OfB" secondAttribute="trailing" constant="15" id="PU5-UG-ghA"/>
+                    <constraint firstAttribute="bottom" secondItem="iHb-tv-OfB" secondAttribute="bottom" id="R50-gg-ciG"/>
                     <constraint firstAttribute="bottom" secondItem="D6S-Hr-z9X" secondAttribute="bottom" id="fke-nE-PPj"/>
                     <constraint firstItem="D6S-Hr-z9X" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="zfH-Wp-d4R"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
-                <outlet property="contenLabel" destination="D6S-Hr-z9X" id="HPJ-D3-Yan"/>
+                <outlet property="contenLabel" destination="iHb-tv-OfB" id="dAM-GA-Y8B"/>
+                <outlet property="titleLabel" destination="D6S-Hr-z9X" id="Uka-Hl-j3H"/>
             </connections>
             <point key="canvasLocation" x="139" y="129"/>
         </tableViewCell>

@@ -791,12 +791,22 @@
     }
     
 }
--(void)showAdviceInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString{
+-(void)showAdviceInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString
+{
+    SuggestionVCType type = SuggestionType;
+    if(PayLoadDic)
+    {
+        NSString *command = PayLoadDic[@"command"];
+        if(command && [command isEqualToString:@"createproposal"])
+        {
+            type = TheProposalType;
+        }
+    }
     HWMSuggestionViewController *SuggestionVC=[[HWMSuggestionViewController alloc]init];
-    SuggestionVC.VCType=SuggestionType;
-    SuggestionVC.PayLoadDic=PayLoadDic;
-    SuggestionVC.jwtString=jwtString;
-    SuggestionVC.currentWallet=self.currentWallet;
+    SuggestionVC.VCType = type;
+    SuggestionVC.PayLoadDic = PayLoadDic;
+    SuggestionVC.jwtString = jwtString;
+    SuggestionVC.currentWallet = self.currentWallet;
     [self.navigationController pushViewController:SuggestionVC animated:YES];
 }
 -(void)ShowPlayInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString{

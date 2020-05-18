@@ -36,7 +36,7 @@
 #import "ELWalletManager.h"
 #import "HWMDIDManager.h"
 #import "JWTBase64Coder.h"
-
+//#import "ELAProposalPayloadModel.h"
 
 static NSString *SuggestionCell=@"HWMSuggestionTableViewCell";
 static NSString *SuggestionSionCell=@"HWMSuggestionSionTableViewCell";
@@ -181,6 +181,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 }
 -(void)closepwdView{
     [self.pwdView removeFromSuperview];
+    self.pwdView.alpha=0.f;
     self.pwdView=nil;
 }
 -(void)makeSureWithPWD:(NSString*_Nonnull)PWDString{
@@ -190,27 +191,34 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
         Type=@(0);
     }else{
         Type=@(1);
+        
     }
     NSMutableArray *BArray=[[NSMutableArray alloc]init];
     for (HWMBudgetsModel *model in self.BudgetsArray) {
         NSNumber *Type;
-        if ([model.Type isEqualToString:@"Imprest"]) {
-            Type=@(0);
-        }else if ([model.Type isEqualToString:@"NormalPayment"]) {
-            Type=@(1);
-        }else{
-            Type=@(2);
-        }
+         
+         if ([model.Type isEqualToString:@"Imprest"]) {
+             Type=@(0);
+         }else if ([model.Type isEqualToString:@"NormalPayment"]) {
+             Type=@(1);
+             
+         }else{
+             Type=@(2);
+         }
+        
         NSDictionary *dic=@{@"Type":Type,@"Stage":[model.Stage numberValue],@"Amount":model.Amount};
         [BArray addObject:dic];
     }
     NSDictionary *playLoadDic=@{@"Type":Type,@"CategoryData":self.PayLoadDic[@"data"][@"categorydata"],@"OwnerPublicKey":self.PayLoadDic[@"data"][@"ownerpublickey"],@"DraftHash":self.PayLoadDic[@"data"][@"drafthash"],@"Budgets":BArray,@"Recipient":self.PayLoadDic[@"data"][@"recipient"]};
-    NSString *playloadDicString=[playLoadDic jsonStringEncoded];
+    
+    NSString *playloadDicString = [playLoadDic jsonStringEncoded];
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,playloadDicString,PWDString] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"adviceTheSignature"];
+   
     NSString*isSucc= [[ELWalletManager share]adviceTheSignature:mommand];
     if(![isSucc isEqualToString:@"-1"]){
         if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:PWDString withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO]){
         NSString *playString=[[FLTools share]DicToString:[self GenerateTheRequestFileWithString:isSucc]];
+            
         NSString *jwtString=[self throuJWTStringWithplayString:playString];
         NSString *REString= [[HWMDIDManager shareDIDManager] DIDSignatureWithString:jwtString];
         if (![REString isEqualToString:@"-1"]) {
@@ -230,6 +238,20 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     NSDictionary *FLDic=@{
         @"command":@"createsuggestion",
         @"type":@"signature",
+        @"iss":self.currentWallet.didString,
+        @"iat": self.PayLoadDic[@"iat"],
+        @"exp": self.PayLoadDic[@"exp"],
+        @"aud": self.PayLoadDic[@"iss"],
+        @"req": self.jwtString,
+        @"data":String};
+    return FLDic;
+}
+-(NSDictionary*)proposalhashRequestFileWithString:(NSString*)String{
+    
+    String = [String stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    NSDictionary *FLDic=@{
+        @"command":@"createproposal",
+        @"type":@"proposalhash",
         @"iss":self.currentWallet.didString,
         @"iat": self.PayLoadDic[@"iat"],
         @"exp": self.PayLoadDic[@"exp"],
@@ -265,12 +287,123 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
         _ShowPoPWDView=[[HWMTransactionDetailsView alloc]init];
         _ShowPoPWDView.delegate=self;
         _ShowPoPWDView.DetailsType=didInfoType;
+        [_ShowPoPWDView  TransactionDetailsWithFee:@"0.0001" withTransactionDetailsAumont:nil];
         
     }
     return _ShowPoPWDView;
 }
 -(void)pwdAndInfoWithPWD:(NSString*)pwd{
     
+    invokedUrlCommand *mommand = [[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID, pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
+    
+    PluginResult *result = [[ELWalletManager share]VerifyPayPassword:mommand];
+    // NSString *status=[NSString stringWithFormat:@"%@",result.status];
+    NSNumber *number = result.status;
+    
+    if( [number intValue] != CommandStatus_OK)
+    {
+        
+        NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
+        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+        return;;
+    }
+    
+    NSNumber *Type;
+    
+    if ([self.PayLoadDic[@"data"][@"proposaltype"] isEqualToString:@"normal"]) {
+        Type=@(0);
+    }else{
+        Type=@(1);
+        
+    }
+    NSMutableArray *BArray=[[NSMutableArray alloc]init];
+    int index = 0;
+    for (HWMBudgetsModel *model in self.BudgetsArray) {
+        NSNumber *Type;
+        
+        if ([model.Type isEqualToString:@"Imprest"])
+        {
+            Type = [NSNumber numberWithInt:0];
+            
+        }
+        else if ([model.Type isEqualToString:@"NormalPayment"])
+        {
+            Type = [NSNumber numberWithInt:1];
+            
+        }
+        else if ([model.Type isEqualToString:@"FinalPayment"])
+        {
+            Type = [NSNumber numberWithInt:2];
+
+        }
+      
+        NSNumber *number = [NSNumber numberWithInt:[model.Stage intValue]];
+        NSDictionary *dic=@{@"Type":Type,@"Stage":number,@"Amount":model.Amount};
+        [BArray addObject:dic];
+    }
+//    did:did:elastos:iXoHtA7V25QSCwo8QpdWZBmMhSTEscoPU
+    
+    NSString *signature = self.PayLoadDic[@"data"][@"signature"];
+    NSString *CategoryData = self.PayLoadDic[@"data"][@"categoryData"];
+    if(!CategoryData)
+    {
+        CategoryData = @"";
+    }
+    
+    
+//    signature = [signature stringByReplacingOccurrencesOfString:@"-" withString:@""];
+//    signature = [signature stringByReplacingOccurrencesOfString:@"_" withString:@""];
+    NSString *didString = self.PayLoadDic[@"data"][@"did"];//[HWMDIDManager shareDIDManager].DIDString;
+    didString = [didString stringByReplacingOccurrencesOfString:@"did:elastos:" withString:@""];
+    NSDictionary *playLoadDic = @{@"Type":Type,@"CategoryData":CategoryData,@"OwnerPublicKey":self.PayLoadDic[@"data"][@"ownerpublickey"],@"DraftHash":self.PayLoadDic[@"data"][@"drafthash"],@"Budgets":BArray,@"Recipient":self.PayLoadDic[@"data"][@"recipient"], @"CRCouncilMemberDID":didString, @"Signature":signature};
+    
+//    ELAProposalPayloadModel *model = [ELAProposalPayloadModel mj_objectWithKeyValues:playLoadDic];
+//    NSDictionary *statusDict = model.keyValues;
+//    self.PayLoadDic[@"data"][@"categorydata"],
+//    NSString *playloadDicString = [playLoadDic jsonStringEncoded];
+    mommand = [[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,playLoadDic, pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"createProposalTransaction"];
+    
+    PluginResult *pluginResult = [[ELWalletManager share] proposaSignTransaction:mommand];
+    if(pluginResult)
+    {
+        NSDictionary *resultDic = pluginResult.message[@"success"];
+        NSString *signTransaction = resultDic[@"SignTransaction"];
+        NSString *calculateProposalHash = resultDic[@"calculateProposalHash"];
+        NSDictionary *callDic = [self callBack:calculateProposalHash pwd:pwd];
+        if(callDic)
+        {
+//            NSMutableDictionary *resultCallDic = [[NSMutableDictionary alloc] initWithDictionary:callDic];
+//            [resultCallDic setValue:calculateProposalHash forKey:@"data"];
+            [self closepwdView];
+            [self updaeJWTInfoWithDic:callDic];
+        }
+        
+    }
+    
+}
+
+- (NSDictionary *)callBack:(NSString *)payString pwd:(NSString *)PWDString
+{
+    if(payString && ![payString isEqualToString:@""])
+    {
+           if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:PWDString withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO]){
+           NSString *playString=[[FLTools share]DicToString:[self proposalhashRequestFileWithString:payString]];
+               
+           NSString *jwtString=[self throuJWTStringWithplayString:playString];
+           NSString *REString= [[HWMDIDManager shareDIDManager] DIDSignatureWithString:jwtString];
+           if (![REString isEqualToString:@"-1"]) {
+               NSDictionary *dic=@{@"jwt":[NSString stringWithFormat:@"%@.%@",jwtString,REString]};
+               return dic;
+           }else{
+                [self showSendSuccessOrFial:SignatureFailureType];
+           }
+           }else{
+                [self showSendSuccessOrFial:SignatureFailureType];
+           }
+       }else{
+            [self showSendSuccessOrFial:SignatureFailureType];
+       }
+    return nil;
 }
 -(void)showSendSuccessOrFial:(SendSuccessType)type{
     UIView *mainView=[self mainWindow];

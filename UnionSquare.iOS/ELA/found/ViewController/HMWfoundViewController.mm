@@ -14,6 +14,9 @@
 #import "HMWtheSuperNodeElectionViewController.h"
 #import "HMWCRCommitteeMemberListViewController.h"
 #import "HWMCommunityProposalViewController.h"
+//#import "ELACRCommitteeListViewController.h"
+//#import "ELAUtils.h"
+
 @interface HMWfoundViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) UITableView *table;
@@ -45,7 +48,7 @@
     self.table.delegate = self;
     self.table.rowHeight = (AppWidth-60)/2;
     self.table.tableFooterView = [[UIView alloc] init];
-    self.dataSource =[[NSMutableArray alloc]initWithObjects:@"",@"",@"",nil];
+    self.dataSource =[[NSMutableArray alloc]initWithObjects:@"",@"",@"", @"", nil];
     [self.table registerNib:[UINib nibWithNibName:@"HMWfoundTableCell" bundle:nil] forCellReuseIdentifier:@"HMWfoundTableCell"];
     
 }
@@ -126,6 +129,12 @@
         CRSignUpForVC.CRnewDID=param[@"Info"][@"DID"];
         [self.navigationController pushViewController:CRSignUpForVC  animated:YES];
     }
+//    else if (indexPath.row == 3)
+//    {
+//        ELACRCommitteeListViewController *vc = [[ELACRCommitteeListViewController alloc] init];
+//        vc.title = ELALocalizedString(@"CR委员会");
+//        [self.navigationController pushViewController:vc animated:YES];
+//    }
     
 }
 @end

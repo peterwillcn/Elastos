@@ -527,15 +527,25 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         [[FLTools share]showErrorInfo:@"DID不存在"];
         return @"-1";
     }
+
     char signature[SIGNATURE_BYTES * 2 + 16];
 
     uint8_t *digest = (uint8_t*)DigestChar;
     r=DIDDocument_SignDigest(doc, NULL, [pwdString UTF8String],
                        signature,digest,DIGEST_LEN);
+    
+    NSString *str = [self charToString:signature];
+    NSData *data = [JWTBase64Coder dataWithBase64UrlEncodedString:str];
+    NSString *hexString = data.hexString;
+    
     if (r==0) {
-        return [self charToString:signature];
+        return hexString;//[self charToString:signature];
+        
     }
     return @"-1";
+
+    
+    
 }
 @end
 

@@ -294,6 +294,7 @@ static uint64_t feePerKB = 10000;
 - (NSString *)stringWithJson:(Json)json
 {
     return [self stringWithCString:json.dump()];
+    
 }
 //String 转 NSString
 - (NSString *)stringWithCString:(String)string
@@ -2744,4 +2745,238 @@ void *ReverseByteOrder(void *p, unsigned int len)
 -(NSString*)adviceTheSignatureStringwithDigestChar:(char*)DigestChar withPwdString:(NSString*)pwdString{
   return  [[HWMDIDManager shareDIDManager]adviceTheSignatureWithPWD:pwdString withDigestChar:DigestChar];
 }
+
+#pragma mark - 提案 step
+
+- (NSString *)signDigest:(NSString *)passwd payLoad:(String)payLoad walletID:(NSString *)masterWalletID
+{
+    try {
+        NSString *signDigest = nil;
+        Json payloadJson = nlohmann::json::parse(payLoad);
+        IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:masterWalletID];
+        if (mainchainSubWallet)
+        {
+            String jsonString = mainchainSubWallet->ProposalOwnerDigest(payloadJson);
+            NSString *resultString = [self stringWithCString:jsonString];
+            NSData *resultData = [NSData dataWithHexString:resultString];
+            Byte *resultByte = (Byte *)[resultData bytes];
+            
+            char ReverseChar[DIGEST_LEN];
+            
+            ReverseByteOrder(resultByte, (int)[resultData length]);
+            
+            for(int i = 0; i < [resultData length]; i++)
+            {
+                ReverseChar[i] = resultByte[i];
+                
+            };
+            signDigest = [self adviceTheSignatureStringwithDigestChar:ReverseChar withPwdString:passwd];
+            return signDigest;
+        }
+    }
+    catch (const std:: exception &e) {
+        NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
+        NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
+        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+    }
+    return nil;
+}
+
+- (NSString *)proposalCRCouncilMemberDigest:(NSString *)passwd payLoad:(String)payLoad walletID:(NSString *)masterWalletID
+{
+    try {
+        NSString *signDigest = nil;
+        
+        Json payloadJson = nlohmann::json::parse(payLoad);
+        IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:masterWalletID];
+        if (mainchainSubWallet)
+        {
+            String jsonString = mainchainSubWallet->ProposalCRCouncilMemberDigest(payloadJson);
+            NSString *resultString = [self stringWithCString:jsonString];
+            NSData *resultData = [NSData dataWithHexString:resultString];
+            Byte *resultByte = (Byte *)[resultData bytes];
+            
+            char ReverseChar[DIGEST_LEN];
+            
+            ReverseByteOrder(resultByte, (int)[resultData length]);
+            
+            for(int i = 0; i < [resultData length]; i++)
+            {
+                ReverseChar[i] = resultByte[i];
+                
+            };
+            signDigest = [self adviceTheSignatureStringwithDigestChar:ReverseChar withPwdString:passwd];
+            return signDigest;
+        }
+    }
+    catch (const std:: exception &e) {
+        NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
+        NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
+        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+        return nil;
+    }
+    return nil;
+}
+
+- (NSString *)createProposalTransaction:(NSDictionary *)dic walletID:(NSString *)masterWalletID
+{
+
+    try {
+         NSString *payLoadStrig = [dic jsonStringEncoded];
+       // NSString *payLoadStrig = [self dicToJSONString:dic];
+        String std = [self cstringWithString:payLoadStrig];
+        Json payloadJson = nlohmann::json::parse(std);
+        IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:masterWalletID];
+        if (mainchainSubWallet)
+        {
+            Json json = mainchainSubWallet->CreateProposalTransaction(payloadJson, "");
+            NSString *resultString = [self stringWithJson:json];
+          //  NSString *resultString=[self stringWithCString:json.dump()];
+            return resultString;
+        }
+    }
+    catch (const std:: exception &e) {
+        NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
+        NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
+        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+        return nil;
+    }
+    
+    return nil;
+}
+- (NSString *)calculateProposalHash:(NSDictionary *)dic walletID:(NSString *)masterWalletID
+{
+    try {
+         NSString *payLoadStrig = [dic jsonStringEncoded];
+       // NSString *payLoadStrig = [self dicToJSONString:dic];
+        String std = [self cstringWithString:payLoadStrig];
+        Json payloadJson = nlohmann::json::parse(std);
+        IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:masterWalletID];
+        if (mainchainSubWallet)
+        {
+            Json json = mainchainSubWallet->CalculateProposalHash(payloadJson);
+            NSString *resultString = [self stringWithJson:json];
+          //  NSString *resultString=[self stringWithCString:json.dump()];
+            return resultString;
+        }
+    }
+    catch (const std:: exception &e) {
+        NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
+        NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
+        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+        return nil;
+    }
+    
+    return nil;
+}
+
+- (PluginResult *)proposaSignTransaction:(invokedUrlCommand *)command
+{
+    NSArray *args = command.arguments;
+    int idx = 0;
+    NSString *masterWalletID = args[idx++];
+    NSDictionary *payLoadDic = args[idx++];
+    NSString *pwdString = args[idx++];
+ 
+    NSString *playloadDicString = [payLoadDic jsonStringEncoded];
+    String paySLoadtrig = [self cstringWithString:playloadDicString];
+    String PWD = [self cstringWithString:pwdString];
+    
+    String walletID = [self cstringWithString:masterWalletID];
+    String chainID = "ELA";//暂时不知道
+
+    NSString *calculateProposalHash = @"";
+    ISubWallet *suWall = [self getSubWallet:walletID :chainID];
+    Json  josn;
+    try {
+        NSString *proposalCRCouncilMemberDigest = [self proposalCRCouncilMemberDigest:pwdString payLoad:paySLoadtrig walletID:masterWalletID];
+        
+        if(!proposalCRCouncilMemberDigest)
+        {
+            return nil;
+        }
+        NSMutableDictionary *dic = [[NSMutableDictionary alloc] initWithDictionary:payLoadDic];
+        [dic setValue:proposalCRCouncilMemberDigest forKey:@"CRCouncilMemberSignature"];
+    
+        NSDictionary *dataDic = [[NSDictionary alloc] initWithDictionary:dic];
+        NSString *payload  = [self createProposalTransaction:dataDic walletID:masterWalletID];
+        if(!payload)
+        {
+            return nil;
+        }
+        calculateProposalHash  = [self calculateProposalHash:dataDic walletID:masterWalletID];
+        
+        josn = [self jsonWithString:payload];
+    } catch (const std:: exception & e) {
+        return  [self errInfoToDic:e.what() with:command];
+    }
+       Json signedTx;
+       Json result;
+       NSString *resultString = @"";
+       NSMutableDictionary *resultDic = [[NSMutableDictionary alloc] init];
+       try {
+           signedTx =  suWall->SignTransaction(josn, PWD);
+           
+           resultString = [self stringWithJson:signedTx];
+           
+           [resultDic setValue:resultString forKey:@"SignTransaction"];
+           [resultDic setValue:calculateProposalHash forKey:@"calculateProposalHash"];
+           
+           
+       } catch (const std:: exception & e ) {
+           return  [self errInfoToDic:e.what() with:command];
+       }
+       try {
+           result = suWall->PublishTransaction(signedTx);
+           
+           return [self successProcess:command msg:resultDic];
+       } catch (const std:: exception & e ) {
+           return  [self errInfoToDic:e.what() with:command];
+       }
+    
+    //    NSArray *args = command.arguments;
+    //    int idx = 0;
+    //    String masterWalletID = [self cstringWithString:args[idx++]];
+    //    String chainID        = [self cstringWithString:args[idx++]];
+    //    String fromAddress = [self cstringWithString:args[idx++]];
+    //    String toAddress = [self cstringWithString:args[idx++]];
+    //    String amount = [self cstringWithString:args[idx++]];
+    //    String memo = [self cstringWithString:args[idx++]];
+    //    String remark = [self cstringWithString:args[idx++]];
+    //    String PWD = [self cstringWithString:args[idx++]];
+        
+    //    if ([self IsAddressValid:masterWalletID withAddres:toAddress]==NO) {
+    //        NSString *msg = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"收款人地址错误", nil),[self stringWithCString:toAddress]];
+    //        return [self errorProcess:command code:errCodeImportFromMnemonic msg:msg];
+    //    }
+        
+    
+//    NSArray *args = command.arguments;
+//    int idx = 0;
+//    NSString *masterWalletID = args[idx++];
+//    String payStrig = [self cstringWithString:args[idx++]];
+//    NSString *pwdString = args[idx++];
+    // NSDictionary *payLoadDic = args[idx++];
+
+//    try {
+//        NSString *payload  = [self createProposalTransaction:command];
+//        NSString *payLoadStrig = payload;//[self dicToJSONString:payLoadDic];
+//        Json payloadJson = [self jsonWithString:payLoadStrig];//nlohmann::json::parse(payLoadStrig);
+//        IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:masterWalletID];
+//        if (mainchainSubWallet)
+//        {
+//            String jsonString = mainchainSubWallet->SignTransaction(payloadJson, [self cstringWithString:pwdString]);
+//            NSString *resultString = [self stringWithCString:jsonString];
+//            return [self successProcess:command msg:resultString];
+//        }
+//    }
+//    catch (const std:: exception &e) {
+//        NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
+//        NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
+//        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+//    }
+    
+    return NULL;
+}
+
 @end

@@ -32,9 +32,11 @@
 #import "HWMDetailsProposalViewModel.h"
 #import "HWMAbstractTableViewCell.h"
 #import "HWMOpposedProgressHeadView.h"
+#import "WCQRCodeScanningVC.h"
+#import "HMWinputVotesPopupWindowView.h"
 
 static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
-@interface HWMCommentPerioDetailsViewController ()<UITableViewDelegate,UITableViewDataSource,HWMCRProposalConfirmViewDelgate,HWMCommentPerioDetailsHeadViewDelegate,HWMCommitteeMembersToVoteViewDelegate,HWMOpposedProgressHeadViewDelegate>
+@interface HWMCommentPerioDetailsViewController ()<UITableViewDelegate,UITableViewDataSource,HWMCRProposalConfirmViewDelgate,HWMCommentPerioDetailsHeadViewDelegate,HWMCommitteeMembersToVoteViewDelegate,HWMOpposedProgressHeadViewDelegate,VotesPopupViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *buttonBGView;
 @property (weak, nonatomic) IBOutlet UIButton *sweepYardsToVoteButton;
 @property (weak, nonatomic) IBOutlet UITableView *baseTable;
@@ -46,6 +48,8 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 @property(copy,nonatomic)NSArray*cellInfoArray;
 @property(assign,nonatomic)BOOL isOpen;
 @property(strong,nonatomic)HWMOpposedProgressHeadView*OpposedProgressHeadV;
+@property(strong,nonatomic)HMWinputVotesPopupWindowView*inputVoteTicketView;
+
 @end
 
 @implementation HWMCommentPerioDetailsViewController
@@ -173,6 +177,26 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     
 }
 - (IBAction)SweepYardsToVoteEvent:(id)sender {
+    [self ShowTradingDetailsWithType];
+    //    [self QrCode];
+}
+-(void)QrCode{
+    __weak __typeof__(self) weakSelf = self;
+    WCQRCodeScanningVC *WCQRCode=[[WCQRCodeScanningVC alloc]init];
+    WCQRCode.frVC=self;
+    WCQRCode.scanBack=^(NSString *addr){
+        NSLog(@"扫二维码 获取到的数据---%@",addr);
+        
+        
+    };
+    [self QRCodeScanVC:WCQRCode];
+}
+-(void)ShowTradingDetailsWithType{
+    if (self.type==CommentPerioVOTINGType) {//评议期
+        [self showCRProposalConfirmView];
+    }else if(self.type==CommentPerioNOTIFICATIONType){// 公示期
+        
+    }
 }
 -(HWMCRProposalConfirmView *)CRProposalConfirmV{
     if (!_CRProposalConfirmV) {
@@ -187,6 +211,8 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     self.CRProposalConfirmV=nil;
 }
 -(void)CRProposalConfirmWithPWD:(NSString*_Nonnull)PWD{
+    [self closeCRProposalConfirmView];
+    [self showSendSuccessViewWithType:3];
     
 }
 -(void)showCRProposalConfirmView{
@@ -209,6 +235,10 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
             self.sendSuccessPopuV.type=saveSuccessType;
             break;
         }
+        case 3:{
+            self.sendSuccessPopuV.type=sendDealType;
+            break;
+        }
             
         default:
             break;
@@ -226,7 +256,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         //
         //            }
         //        }
-        //        [self.navigationController popViewControllerAnimated:YES];
+        //                [self.navigationController popViewControllerAnimated:YES];
     });
     
 }
@@ -282,5 +312,19 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 }
 -(void)setType:(CommentPerioType)type{
     _type=type;
+}
+-(HMWinputVotesPopupWindowView *)inputVoteTicketView
+{
+    if (!_inputVoteTicketView ) {
+        _inputVoteTicketView = [[HMWinputVotesPopupWindowView alloc]init];
+        _inputVoteTicketView.frame = [UIScreen mainScreen].bounds;
+        _inputVoteTicketView.delegate = self;
+        _inputVoteTicketView.type=VoteAgainsType;
+    }
+    return _inputVoteTicketView;
+}
+-(void)didHadInputVoteTicket:(NSString*)ticketNumer WithIsMax:(BOOL)isMax{
+    self.CRProposalConfirmV.type=againstType;
+     [self showCRProposalConfirmView];
 }
 @end

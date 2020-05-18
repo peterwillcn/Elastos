@@ -39,7 +39,7 @@
     
     
     if (type==sendDealType) {
-        
+         self.showInfoLabel.text=NSLocalizedString(@"交易发送成功，\n 请耐心等待交易确认", nil);
     }else if (type==saveSuccessType){
          self.showInfoLabel.text=NSLocalizedString(@"保存成功", nil);
         

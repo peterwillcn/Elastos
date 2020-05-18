@@ -28,10 +28,10 @@
 //        self.userInteractionEnabled=YES;
 //        UITapGestureRecognizer *reTap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(giveUpTheInput)];
 //        [self addGestureRecognizer:reTap];
-        self.pwdTextField.secureTextEntry=YES;
         [self.determineThePasswordButton  setTitle:NSLocalizedString(@"确认", nil) forState:UIControlStateNormal] ;
         [self.cancelButton setTitle:NSLocalizedString(@"取消", nil) forState:UIControlStateNormal];
         self.securityTextLabel.text=NSLocalizedString(@"安全验证", nil);
+
     }
     
     return self;

@@ -35,6 +35,7 @@ typedef enum : NSUInteger {
     NOPperatingType,
     WaiverType,
    favorType,
+    OpposingVotesType
 } opinionType;
 
 NS_ASSUME_NONNULL_BEGIN

@@ -527,25 +527,44 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         [[FLTools share]showErrorInfo:@"DID不存在"];
         return @"-1";
     }
-
     char signature[SIGNATURE_BYTES * 2 + 16];
 
     uint8_t *digest = (uint8_t*)DigestChar;
     r=DIDDocument_SignDigest(doc, NULL, [pwdString UTF8String],
                        signature,digest,DIGEST_LEN);
     
+    //xxl 0.0.0 do not forget to
     NSString *str = [self charToString:signature];
     NSData *data = [JWTBase64Coder dataWithBase64UrlEncodedString:str];
     NSString *hexString = data.hexString;
-    
+
     if (r==0) {
-        return hexString;//[self charToString:signature];
-        
+        return hexString;
     }
     return @"-1";
-
-    
-    
 }
+-(NSString*)proposalTheSignatureWithPWD:(NSString*)pwdString withDigestChar:(char*)DigestChar{
+    int r;
+    if (store==NULL) {//
+        return @"-1";
+    }
+    DIDDocument *doc=DIDStore_LoadDID(store, did);
+    if (doc==NULL) {
+        [[FLTools share]showErrorInfo:@"DID不存在"];
+        return @"-1";
+    }
+    char signature[SIGNATURE_BYTES * 2 + 16];
+    uint8_t *digest = (uint8_t*)DigestChar;
+    r=DIDDocument_SignDigest(doc, NULL, [pwdString UTF8String],
+                       signature,digest,DIGEST_LEN);
+    NSString *str = [self charToString:signature];
+    NSData *data = [JWTBase64Coder dataWithBase64UrlEncodedString:str];
+    NSString *hexString = data.hexString;
+    if (r==0) {
+        return hexString;//[self charToString:signature];
+    }
+    return @"-1";
+}
+
 @end
 

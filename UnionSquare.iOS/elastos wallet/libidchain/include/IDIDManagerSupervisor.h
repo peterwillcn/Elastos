@@ -5,7 +5,7 @@
 #ifndef __ELASTOS_DID_IDIDMANAGERSUPERVISOR_H__
 #define __ELASTOS_DID_IDIDMANAGERSUPERVISOR_H__
 
-#include "IDidManager.h"
+#include "ididManager.h"
 #include "IMasterWallet.h"
 
 namespace Elastos {

@@ -80,12 +80,16 @@ static HWMQrCodeSignatureManager * _instance;
         return credaccessQrCodeType;
     }
     else if ([QRCodeString containsString:@"elastos://crproposal/"]){
-        return suggestionQrCodeType;
-    }
-    else if ([QRCodeString containsString:@"elastos://credaccess/"]){
+        NSDictionary * PayLoadDic=  [[HWMDIDManager shareDIDManager]CRInfoDecodeWithJwtStringInfo:QRCodeString];
+        NSString *command = PayLoadDic[@"command"];
+        if(command && [command isEqualToString:@"createsuggestion"]){
+            return suggestionQrCodeType;
+        }else if(command && [command isEqualToString:@"createproposal"]) {
+            return billQrCodeType;
+        }
+    }else if ([QRCodeString containsString:@"elastos://credaccess/"]){
         return billQrCodeType;
-    }
-    else{
+    }else{
         return unknowQrCodeType;
         
     }
@@ -105,7 +109,7 @@ static HWMQrCodeSignatureManager * _instance;
             break;
         case billQrCodeType:
             QRCodeString=[QRCodeString stringByReplacingOccurrencesOfString:@"elastos://credaccess/" withString:@""];
-                       return [[HWMDIDManager shareDIDManager]jwtDecodeWithJwtStringInfo:QRCodeString];
+            return [[HWMDIDManager shareDIDManager]CRInfoDecodeWithJwtStringInfo:QRCodeString];
             return QRCodeString;
             break;
         case unknowQrCodeType:

@@ -124,6 +124,9 @@ NSInteger timeOut = 60;
             if (errorString.length==0&&[dic objectForKey:@"message"]) {
                 errString=dic[@"message"];
             }
+            if (errorString.length==0&&[dic objectForKey:@"error"]) {
+                          errString=dic[@"error"];
+                      }
             [[FLTools share]showErrorInfo:errString];
             FailBlock(dic);
         }

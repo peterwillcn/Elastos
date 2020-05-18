@@ -675,7 +675,7 @@ static FLTools *tool;
     
     return tempStr;
     
-    
+
     
 }
 -(NSString*)elaScaleConversionWith:(NSString*)el{
@@ -2101,6 +2101,31 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     }
     return string;
     
+}
+-(NSString*)StageOfProcessing:(NSString*)Stage{
+   
+    NSString *languageString=[DAConfig userLanguage];
+   
+    if ([languageString  containsString:@"en"]) {
+         int StageInt=[Stage intValue];
+        if ([Stage isEqualToString:@"1"]) {
+//            第一 1st
+//            第二 2nd
+//            第三 3rd
+//            第四以上 1286th
+           
+            return [NSString stringWithFormat:@"1st%@", NSLocalizedString(@"阶段", nil)];
+        }else if ([Stage isEqualToString:@"2"]){
+             return [NSString stringWithFormat:@"2nd%@", NSLocalizedString(@"阶段", nil)];
+        }else if ([Stage isEqualToString:@"3"]){
+               return [NSString stringWithFormat:@"3rd%@", NSLocalizedString(@"阶段", nil)];
+        }else if (StageInt>3){
+            return [NSString stringWithFormat:@"ldth%d",StageInt, NSLocalizedString(@"阶段", nil)];
+        }
+    }else{
+        return  [NSString stringWithFormat:@"第%@阶段",Stage];
+    }
+   
 }
 //-(NSString *)returnJSONStringWithDictionary:(NSDictionary *)dictionary{
 //    

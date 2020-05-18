@@ -19,11 +19,13 @@
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="flK-9i-BnU">
                         <rect key="frame" x="15" y="0.0" width="305" height="44"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="flK-9i-BnU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="K0g-5K-2EY"/>
                     <constraint firstAttribute="trailing" secondItem="flK-9i-BnU" secondAttribute="trailing" id="aGm-jb-iuJ"/>
@@ -31,6 +33,7 @@
                     <constraint firstAttribute="bottom" secondItem="flK-9i-BnU" secondAttribute="bottom" id="qEo-UU-lXX"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
                 <outlet property="titleLable" destination="flK-9i-BnU" id="TbL-vE-ivx"/>

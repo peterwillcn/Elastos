@@ -281,8 +281,6 @@
 }
 -(void)pwdAndInfoWithPWD:(NSString *)pwd{
     
-  
-    
     if (self.type==sideChainTop_upType) {
             invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,self.fromModel.iconName,self.selectmModel.iconName,self.addressArray.firstObject,self.addressTextField.text,[[FLTools share]elsToSela:self.enterTheAmountTextField.text],self.noteTextField.text,self.noteTextField.text,pwd,@"1"] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"sideChainTop_Up"];
         

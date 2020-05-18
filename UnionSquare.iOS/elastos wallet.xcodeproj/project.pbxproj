@@ -586,6 +586,44 @@
 		42F794E723C5C23800FC20CD /* FirstViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C98F21F6EF29009E5932 /* FirstViewController.mm */; };
 		49B4D149B9AE9124C1AFA618 /* libPods-elastos wallet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A617C7524FD9A7B9523C8E48 /* libPods-elastos wallet.a */; };
 		7087D92F21BCDF1B00599316 /* MyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7087D92E21BCDF1B00599316 /* MyUtil.m */; };
+		70DE417724733AFC00E89F96 /* ELASecretaryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE411A24733AFB00E89F96 /* ELASecretaryDetailViewController.m */; };
+		70DE417824733AFC00E89F96 /* ELAUpdateSecretaryDidViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE411B24733AFB00E89F96 /* ELAUpdateSecretaryDidViewController.m */; };
+		70DE417924733AFC00E89F96 /* ELATUpdateSecretaryDidTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE411C24733AFB00E89F96 /* ELATUpdateSecretaryDidTableViewCell.m */; };
+		70DE417A24733AFC00E89F96 /* ELACRBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE411F24733AFB00E89F96 /* ELACRBaseViewController.m */; };
+		70DE417B24733AFC00E89F96 /* ELACommitteeInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE412224733AFB00E89F96 /* ELACommitteeInfoViewController.m */; };
+		70DE417C24733AFC00E89F96 /* ELACommitteeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE412324733AFB00E89F96 /* ELACommitteeDetailViewController.m */; };
+		70DE417D24733AFC00E89F96 /* ELACommitteeDutiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE412524733AFB00E89F96 /* ELACommitteeDutiesViewController.m */; };
+		70DE417E24733AFC00E89F96 /* ELACRCommitteeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE412824733AFB00E89F96 /* ELACRCommitteeViewController.m */; };
+		70DE417F24733AFC00E89F96 /* ELASecretaryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE412924733AFB00E89F96 /* ELASecretaryListViewController.m */; };
+		70DE418024733AFC00E89F96 /* ELACommitteeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE412A24733AFB00E89F96 /* ELACommitteeListViewController.m */; };
+		70DE418124733AFC00E89F96 /* ELACommitteeManageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE413024733AFB00E89F96 /* ELACommitteeManageViewController.m */; };
+		70DE418224733AFC00E89F96 /* ELACRCommitteeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE413424733AFB00E89F96 /* ELACRCommitteeListViewController.m */; };
+		70DE418324733AFC00E89F96 /* ELAUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE413624733AFB00E89F96 /* ELAUtils.m */; };
+		70DE418424733AFC00E89F96 /* MJPropertyType.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE413D24733AFB00E89F96 /* MJPropertyType.m */; };
+		70DE418524733AFC00E89F96 /* NSObject+MJKeyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE414024733AFB00E89F96 /* NSObject+MJKeyValue.m */; };
+		70DE418624733AFC00E89F96 /* MJProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE414124733AFB00E89F96 /* MJProperty.m */; };
+		70DE418724733AFC00E89F96 /* NSObject+MJCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE414324733AFB00E89F96 /* NSObject+MJCoding.m */; };
+		70DE418824733AFC00E89F96 /* MJExtensionConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE414524733AFB00E89F96 /* MJExtensionConst.m */; };
+		70DE418924733AFC00E89F96 /* NSObject+MJProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE414624733AFB00E89F96 /* NSObject+MJProperty.m */; };
+		70DE418A24733AFC00E89F96 /* NSObject+MJClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE414824733AFB00E89F96 /* NSObject+MJClass.m */; };
+		70DE418B24733AFC00E89F96 /* NSString+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE414924733AFB00E89F96 /* NSString+MJExtension.m */; };
+		70DE418C24733AFC00E89F96 /* MJPropertyKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE414A24733AFB00E89F96 /* MJPropertyKey.m */; };
+		70DE418D24733AFC00E89F96 /* MJFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE414E24733AFB00E89F96 /* MJFoundation.m */; };
+		70DE418E24733AFC00E89F96 /* UIView+Ext.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE415124733AFB00E89F96 /* UIView+Ext.m */; };
+		70DE418F24733AFC00E89F96 /* RPTaggedNavView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE415224733AFB00E89F96 /* RPTaggedNavView.m */; };
+		70DE419024733AFC00E89F96 /* ELATUpdateSecretaryDidModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE415724733AFB00E89F96 /* ELATUpdateSecretaryDidModel.m */; };
+		70DE419124733AFC00E89F96 /* ELABaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE415924733AFB00E89F96 /* ELABaseModel.m */; };
+		70DE419224733AFC00E89F96 /* ELAProposalPayloadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE415C24733AFB00E89F96 /* ELAProposalPayloadModel.m */; };
+		70DE419324733AFC00E89F96 /* ELACommitteeInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE415F24733AFB00E89F96 /* ELACommitteeInfoModel.m */; };
+		70DE419424733AFC00E89F96 /* ELAImpeachView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE416224733AFB00E89F96 /* ELAImpeachView.m */; };
+		70DE419524733AFC00E89F96 /* ELAPledgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE416624733AFB00E89F96 /* ELAPledgeView.m */; };
+		70DE419624733AFC00E89F96 /* SYPieProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE416824733AFB00E89F96 /* SYPieProgressView.m */; };
+		70DE419724733AFC00E89F96 /* SYProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE416924733AFB00E89F96 /* SYProgressView.m */; };
+		70DE419824733AFC00E89F96 /* SYLineProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE416B24733AFB00E89F96 /* SYLineProgressView.m */; };
+		70DE419924733AFC00E89F96 /* SYRingProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE416F24733AFB00E89F96 /* SYRingProgressView.m */; };
+		70DE419A24733AFC00E89F96 /* SYWaveProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE417124733AFB00E89F96 /* SYWaveProgressView.m */; };
+		70DE419B24733AFC00E89F96 /* ELANetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE417424733AFC00E89F96 /* ELANetworkManager.m */; };
+		70DE419C24733AFC00E89F96 /* ELANetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE417624733AFC00E89F96 /* ELANetwork.m */; };
 		70F8409621BEAA1B001C0BD6 /* ELWalletManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70F8409521BEAA1B001C0BD6 /* ELWalletManager.mm */; };
 		9FD0C828FEE9459B88FB6A2D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B5A24BEEA44AE9AD51A2C8 /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C45E4ED4237794B9003BB3BA /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ED0237794A1003BB3BA /* libboost_filesystem.a */; };
@@ -1789,6 +1827,83 @@
 		7087D92B21BCD85500599316 /* IIdManagerCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIdManagerCallback.h; sourceTree = "<group>"; };
 		7087D92D21BCDF1B00599316 /* MyUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyUtil.h; sourceTree = "<group>"; };
 		7087D92E21BCDF1B00599316 /* MyUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyUtil.m; sourceTree = "<group>"; };
+		70DE411924733AFB00E89F96 /* ELATUpdateSecretaryDidTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELATUpdateSecretaryDidTableViewCell.h; sourceTree = "<group>"; };
+		70DE411A24733AFB00E89F96 /* ELASecretaryDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELASecretaryDetailViewController.m; sourceTree = "<group>"; };
+		70DE411B24733AFB00E89F96 /* ELAUpdateSecretaryDidViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELAUpdateSecretaryDidViewController.m; sourceTree = "<group>"; };
+		70DE411C24733AFB00E89F96 /* ELATUpdateSecretaryDidTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELATUpdateSecretaryDidTableViewCell.m; sourceTree = "<group>"; };
+		70DE411D24733AFB00E89F96 /* ELASecretaryDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELASecretaryDetailViewController.h; sourceTree = "<group>"; };
+		70DE411E24733AFB00E89F96 /* ELAUpdateSecretaryDidViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELAUpdateSecretaryDidViewController.h; sourceTree = "<group>"; };
+		70DE411F24733AFB00E89F96 /* ELACRBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELACRBaseViewController.m; sourceTree = "<group>"; };
+		70DE412124733AFB00E89F96 /* ELACommitteeDutiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELACommitteeDutiesViewController.h; sourceTree = "<group>"; };
+		70DE412224733AFB00E89F96 /* ELACommitteeInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELACommitteeInfoViewController.m; sourceTree = "<group>"; };
+		70DE412324733AFB00E89F96 /* ELACommitteeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELACommitteeDetailViewController.m; sourceTree = "<group>"; };
+		70DE412424733AFB00E89F96 /* ELACommitteeInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELACommitteeInfoViewController.h; sourceTree = "<group>"; };
+		70DE412524733AFB00E89F96 /* ELACommitteeDutiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELACommitteeDutiesViewController.m; sourceTree = "<group>"; };
+		70DE412624733AFB00E89F96 /* ELACommitteeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELACommitteeDetailViewController.h; sourceTree = "<group>"; };
+		70DE412824733AFB00E89F96 /* ELACRCommitteeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELACRCommitteeViewController.m; sourceTree = "<group>"; };
+		70DE412924733AFB00E89F96 /* ELASecretaryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELASecretaryListViewController.m; sourceTree = "<group>"; };
+		70DE412A24733AFB00E89F96 /* ELACommitteeListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELACommitteeListViewController.m; sourceTree = "<group>"; };
+		70DE412B24733AFB00E89F96 /* ELASecretaryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELASecretaryListViewController.h; sourceTree = "<group>"; };
+		70DE412C24733AFB00E89F96 /* ELACRCommitteeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELACRCommitteeViewController.h; sourceTree = "<group>"; };
+		70DE412D24733AFB00E89F96 /* ELACommitteeListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELACommitteeListViewController.h; sourceTree = "<group>"; };
+		70DE412F24733AFB00E89F96 /* ELACommitteeManageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELACommitteeManageViewController.h; sourceTree = "<group>"; };
+		70DE413024733AFB00E89F96 /* ELACommitteeManageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELACommitteeManageViewController.m; sourceTree = "<group>"; };
+		70DE413124733AFB00E89F96 /* ELACRBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELACRBaseViewController.h; sourceTree = "<group>"; };
+		70DE413324733AFB00E89F96 /* ELACRCommitteeListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELACRCommitteeListViewController.h; sourceTree = "<group>"; };
+		70DE413424733AFB00E89F96 /* ELACRCommitteeListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELACRCommitteeListViewController.m; sourceTree = "<group>"; };
+		70DE413624733AFB00E89F96 /* ELAUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELAUtils.m; sourceTree = "<group>"; };
+		70DE413724733AFB00E89F96 /* ELAUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELAUtils.h; sourceTree = "<group>"; };
+		70DE413A24733AFB00E89F96 /* MJPropertyKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPropertyKey.h; sourceTree = "<group>"; };
+		70DE413B24733AFB00E89F96 /* NSObject+MJClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJClass.h"; sourceTree = "<group>"; };
+		70DE413C24733AFB00E89F96 /* NSString+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MJExtension.h"; sourceTree = "<group>"; };
+		70DE413D24733AFB00E89F96 /* MJPropertyType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPropertyType.m; sourceTree = "<group>"; };
+		70DE413E24733AFB00E89F96 /* NSObject+MJProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJProperty.h"; sourceTree = "<group>"; };
+		70DE413F24733AFB00E89F96 /* MJExtensionConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJExtensionConst.h; sourceTree = "<group>"; };
+		70DE414024733AFB00E89F96 /* NSObject+MJKeyValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJKeyValue.m"; sourceTree = "<group>"; };
+		70DE414124733AFB00E89F96 /* MJProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJProperty.m; sourceTree = "<group>"; };
+		70DE414224733AFB00E89F96 /* MJFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJFoundation.h; sourceTree = "<group>"; };
+		70DE414324733AFB00E89F96 /* NSObject+MJCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJCoding.m"; sourceTree = "<group>"; };
+		70DE414424733AFB00E89F96 /* MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJExtension.h; sourceTree = "<group>"; };
+		70DE414524733AFB00E89F96 /* MJExtensionConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJExtensionConst.m; sourceTree = "<group>"; };
+		70DE414624733AFB00E89F96 /* NSObject+MJProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJProperty.m"; sourceTree = "<group>"; };
+		70DE414724733AFB00E89F96 /* MJPropertyType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPropertyType.h; sourceTree = "<group>"; };
+		70DE414824733AFB00E89F96 /* NSObject+MJClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJClass.m"; sourceTree = "<group>"; };
+		70DE414924733AFB00E89F96 /* NSString+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MJExtension.m"; sourceTree = "<group>"; };
+		70DE414A24733AFB00E89F96 /* MJPropertyKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPropertyKey.m; sourceTree = "<group>"; };
+		70DE414B24733AFB00E89F96 /* MJProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJProperty.h; sourceTree = "<group>"; };
+		70DE414C24733AFB00E89F96 /* NSObject+MJKeyValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJKeyValue.h"; sourceTree = "<group>"; };
+		70DE414D24733AFB00E89F96 /* NSObject+MJCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJCoding.h"; sourceTree = "<group>"; };
+		70DE414E24733AFB00E89F96 /* MJFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJFoundation.m; sourceTree = "<group>"; };
+		70DE415024733AFB00E89F96 /* RPTaggedNavView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPTaggedNavView.h; sourceTree = "<group>"; };
+		70DE415124733AFB00E89F96 /* UIView+Ext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Ext.m"; sourceTree = "<group>"; };
+		70DE415224733AFB00E89F96 /* RPTaggedNavView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPTaggedNavView.m; sourceTree = "<group>"; };
+		70DE415324733AFB00E89F96 /* UIView+Ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Ext.h"; sourceTree = "<group>"; };
+		70DE415524733AFB00E89F96 /* ELABaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELABaseModel.h; sourceTree = "<group>"; };
+		70DE415724733AFB00E89F96 /* ELATUpdateSecretaryDidModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELATUpdateSecretaryDidModel.m; sourceTree = "<group>"; };
+		70DE415824733AFB00E89F96 /* ELATUpdateSecretaryDidModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELATUpdateSecretaryDidModel.h; sourceTree = "<group>"; };
+		70DE415924733AFB00E89F96 /* ELABaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELABaseModel.m; sourceTree = "<group>"; };
+		70DE415B24733AFB00E89F96 /* ELAProposalPayloadModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELAProposalPayloadModel.h; sourceTree = "<group>"; };
+		70DE415C24733AFB00E89F96 /* ELAProposalPayloadModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELAProposalPayloadModel.m; sourceTree = "<group>"; };
+		70DE415E24733AFB00E89F96 /* ELACommitteeInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELACommitteeInfoModel.h; sourceTree = "<group>"; };
+		70DE415F24733AFB00E89F96 /* ELACommitteeInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELACommitteeInfoModel.m; sourceTree = "<group>"; };
+		70DE416224733AFB00E89F96 /* ELAImpeachView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELAImpeachView.m; sourceTree = "<group>"; };
+		70DE416324733AFB00E89F96 /* ELAImpeachView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELAImpeachView.h; sourceTree = "<group>"; };
+		70DE416524733AFB00E89F96 /* ELAPledgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELAPledgeView.h; sourceTree = "<group>"; };
+		70DE416624733AFB00E89F96 /* ELAPledgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELAPledgeView.m; sourceTree = "<group>"; };
+		70DE416824733AFB00E89F96 /* SYPieProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPieProgressView.m; sourceTree = "<group>"; };
+		70DE416924733AFB00E89F96 /* SYProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYProgressView.m; sourceTree = "<group>"; };
+		70DE416A24733AFB00E89F96 /* SYRingProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYRingProgressView.h; sourceTree = "<group>"; };
+		70DE416B24733AFB00E89F96 /* SYLineProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYLineProgressView.m; sourceTree = "<group>"; };
+		70DE416C24733AFB00E89F96 /* SYWaveProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYWaveProgressView.h; sourceTree = "<group>"; };
+		70DE416D24733AFB00E89F96 /* SYPieProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPieProgressView.h; sourceTree = "<group>"; };
+		70DE416E24733AFB00E89F96 /* SYLineProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYLineProgressView.h; sourceTree = "<group>"; };
+		70DE416F24733AFB00E89F96 /* SYRingProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYRingProgressView.m; sourceTree = "<group>"; };
+		70DE417024733AFB00E89F96 /* SYProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYProgressView.h; sourceTree = "<group>"; };
+		70DE417124733AFB00E89F96 /* SYWaveProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYWaveProgressView.m; sourceTree = "<group>"; };
+		70DE417324733AFC00E89F96 /* ELANetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELANetwork.h; sourceTree = "<group>"; };
+		70DE417424733AFC00E89F96 /* ELANetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELANetworkManager.m; sourceTree = "<group>"; };
+		70DE417524733AFC00E89F96 /* ELANetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELANetworkManager.h; sourceTree = "<group>"; };
+		70DE417624733AFC00E89F96 /* ELANetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELANetwork.m; sourceTree = "<group>"; };
 		70F8409521BEAA1B001C0BD6 /* ELWalletManager.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = ELWalletManager.mm; sourceTree = "<group>"; };
 		7B32C86EE8DFCC3DDA2BBE00 /* Pods-elastos wallet.release(mainnet).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-elastos wallet.release(mainnet).xcconfig"; path = "Target Support Files/Pods-elastos wallet/Pods-elastos wallet.release(mainnet).xcconfig"; sourceTree = "<group>"; };
 		8FEFE2C15307426D819C2CA3 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -2427,6 +2542,7 @@
 		4202C8DF21F6EF29009E5932 /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
+				70DE411624733AFB00E89F96 /* CRCommtieeViewController */,
 				426B04F8246E44A500B6FAB9 /* Manager */,
 				4202C8E021F6EF29009E5932 /* FLQRVC.strings */,
 				4202C8E221F6EF29009E5932 /* cells */,
@@ -4095,6 +4211,242 @@
 			path = "elastos wallet/starter";
 			sourceTree = "<group>";
 		};
+		70DE411624733AFB00E89F96 /* CRCommtieeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				70DE411724733AFB00E89F96 /* ELAViewController */,
+				70DE413524733AFB00E89F96 /* ELAUtils */,
+				70DE413824733AFB00E89F96 /* Third */,
+				70DE414F24733AFB00E89F96 /* RPTaggedNavView */,
+				70DE415424733AFB00E89F96 /* Model */,
+				70DE416024733AFB00E89F96 /* View */,
+				70DE416724733AFB00E89F96 /* SYProgressView */,
+				70DE417224733AFC00E89F96 /* ELANetWork */,
+			);
+			path = CRCommtieeViewController;
+			sourceTree = "<group>";
+		};
+		70DE411724733AFB00E89F96 /* ELAViewController */ = {
+			isa = PBXGroup;
+			children = (
+				70DE413124733AFB00E89F96 /* ELACRBaseViewController.h */,
+				70DE411F24733AFB00E89F96 /* ELACRBaseViewController.m */,
+				70DE411824733AFB00E89F96 /* SecretaryMember */,
+				70DE412024733AFB00E89F96 /* CommitteeMember */,
+				70DE412724733AFB00E89F96 /* CRCommittee */,
+				70DE412E24733AFB00E89F96 /* CRCommitteeManage */,
+				70DE413224733AFB00E89F96 /* CRCommitteeList */,
+			);
+			path = ELAViewController;
+			sourceTree = "<group>";
+		};
+		70DE411824733AFB00E89F96 /* SecretaryMember */ = {
+			isa = PBXGroup;
+			children = (
+				70DE411924733AFB00E89F96 /* ELATUpdateSecretaryDidTableViewCell.h */,
+				70DE411A24733AFB00E89F96 /* ELASecretaryDetailViewController.m */,
+				70DE411B24733AFB00E89F96 /* ELAUpdateSecretaryDidViewController.m */,
+				70DE411C24733AFB00E89F96 /* ELATUpdateSecretaryDidTableViewCell.m */,
+				70DE411D24733AFB00E89F96 /* ELASecretaryDetailViewController.h */,
+				70DE411E24733AFB00E89F96 /* ELAUpdateSecretaryDidViewController.h */,
+			);
+			path = SecretaryMember;
+			sourceTree = "<group>";
+		};
+		70DE412024733AFB00E89F96 /* CommitteeMember */ = {
+			isa = PBXGroup;
+			children = (
+				70DE412624733AFB00E89F96 /* ELACommitteeDetailViewController.h */,
+				70DE412324733AFB00E89F96 /* ELACommitteeDetailViewController.m */,
+				70DE412424733AFB00E89F96 /* ELACommitteeInfoViewController.h */,
+				70DE412224733AFB00E89F96 /* ELACommitteeInfoViewController.m */,
+				70DE412124733AFB00E89F96 /* ELACommitteeDutiesViewController.h */,
+				70DE412524733AFB00E89F96 /* ELACommitteeDutiesViewController.m */,
+			);
+			path = CommitteeMember;
+			sourceTree = "<group>";
+		};
+		70DE412724733AFB00E89F96 /* CRCommittee */ = {
+			isa = PBXGroup;
+			children = (
+				70DE412C24733AFB00E89F96 /* ELACRCommitteeViewController.h */,
+				70DE412824733AFB00E89F96 /* ELACRCommitteeViewController.m */,
+				70DE412B24733AFB00E89F96 /* ELASecretaryListViewController.h */,
+				70DE412924733AFB00E89F96 /* ELASecretaryListViewController.m */,
+				70DE412D24733AFB00E89F96 /* ELACommitteeListViewController.h */,
+				70DE412A24733AFB00E89F96 /* ELACommitteeListViewController.m */,
+			);
+			path = CRCommittee;
+			sourceTree = "<group>";
+		};
+		70DE412E24733AFB00E89F96 /* CRCommitteeManage */ = {
+			isa = PBXGroup;
+			children = (
+				70DE412F24733AFB00E89F96 /* ELACommitteeManageViewController.h */,
+				70DE413024733AFB00E89F96 /* ELACommitteeManageViewController.m */,
+			);
+			path = CRCommitteeManage;
+			sourceTree = "<group>";
+		};
+		70DE413224733AFB00E89F96 /* CRCommitteeList */ = {
+			isa = PBXGroup;
+			children = (
+				70DE413324733AFB00E89F96 /* ELACRCommitteeListViewController.h */,
+				70DE413424733AFB00E89F96 /* ELACRCommitteeListViewController.m */,
+			);
+			path = CRCommitteeList;
+			sourceTree = "<group>";
+		};
+		70DE413524733AFB00E89F96 /* ELAUtils */ = {
+			isa = PBXGroup;
+			children = (
+				70DE413624733AFB00E89F96 /* ELAUtils.m */,
+				70DE413724733AFB00E89F96 /* ELAUtils.h */,
+			);
+			path = ELAUtils;
+			sourceTree = "<group>";
+		};
+		70DE413824733AFB00E89F96 /* Third */ = {
+			isa = PBXGroup;
+			children = (
+				70DE413924733AFB00E89F96 /* MJExtension */,
+			);
+			path = Third;
+			sourceTree = "<group>";
+		};
+		70DE413924733AFB00E89F96 /* MJExtension */ = {
+			isa = PBXGroup;
+			children = (
+				70DE413A24733AFB00E89F96 /* MJPropertyKey.h */,
+				70DE413B24733AFB00E89F96 /* NSObject+MJClass.h */,
+				70DE413C24733AFB00E89F96 /* NSString+MJExtension.h */,
+				70DE413D24733AFB00E89F96 /* MJPropertyType.m */,
+				70DE413E24733AFB00E89F96 /* NSObject+MJProperty.h */,
+				70DE413F24733AFB00E89F96 /* MJExtensionConst.h */,
+				70DE414024733AFB00E89F96 /* NSObject+MJKeyValue.m */,
+				70DE414124733AFB00E89F96 /* MJProperty.m */,
+				70DE414224733AFB00E89F96 /* MJFoundation.h */,
+				70DE414324733AFB00E89F96 /* NSObject+MJCoding.m */,
+				70DE414424733AFB00E89F96 /* MJExtension.h */,
+				70DE414524733AFB00E89F96 /* MJExtensionConst.m */,
+				70DE414624733AFB00E89F96 /* NSObject+MJProperty.m */,
+				70DE414724733AFB00E89F96 /* MJPropertyType.h */,
+				70DE414824733AFB00E89F96 /* NSObject+MJClass.m */,
+				70DE414924733AFB00E89F96 /* NSString+MJExtension.m */,
+				70DE414A24733AFB00E89F96 /* MJPropertyKey.m */,
+				70DE414B24733AFB00E89F96 /* MJProperty.h */,
+				70DE414C24733AFB00E89F96 /* NSObject+MJKeyValue.h */,
+				70DE414D24733AFB00E89F96 /* NSObject+MJCoding.h */,
+				70DE414E24733AFB00E89F96 /* MJFoundation.m */,
+			);
+			path = MJExtension;
+			sourceTree = "<group>";
+		};
+		70DE414F24733AFB00E89F96 /* RPTaggedNavView */ = {
+			isa = PBXGroup;
+			children = (
+				70DE415024733AFB00E89F96 /* RPTaggedNavView.h */,
+				70DE415124733AFB00E89F96 /* UIView+Ext.m */,
+				70DE415224733AFB00E89F96 /* RPTaggedNavView.m */,
+				70DE415324733AFB00E89F96 /* UIView+Ext.h */,
+			);
+			path = RPTaggedNavView;
+			sourceTree = "<group>";
+		};
+		70DE415424733AFB00E89F96 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				70DE415524733AFB00E89F96 /* ELABaseModel.h */,
+				70DE415624733AFB00E89F96 /* ELATUpdateSecretaryDidModel */,
+				70DE415924733AFB00E89F96 /* ELABaseModel.m */,
+				70DE415A24733AFB00E89F96 /* ELAPayload */,
+				70DE415D24733AFB00E89F96 /* CommitteeInfo */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		70DE415624733AFB00E89F96 /* ELATUpdateSecretaryDidModel */ = {
+			isa = PBXGroup;
+			children = (
+				70DE415724733AFB00E89F96 /* ELATUpdateSecretaryDidModel.m */,
+				70DE415824733AFB00E89F96 /* ELATUpdateSecretaryDidModel.h */,
+			);
+			path = ELATUpdateSecretaryDidModel;
+			sourceTree = "<group>";
+		};
+		70DE415A24733AFB00E89F96 /* ELAPayload */ = {
+			isa = PBXGroup;
+			children = (
+				70DE415B24733AFB00E89F96 /* ELAProposalPayloadModel.h */,
+				70DE415C24733AFB00E89F96 /* ELAProposalPayloadModel.m */,
+			);
+			path = ELAPayload;
+			sourceTree = "<group>";
+		};
+		70DE415D24733AFB00E89F96 /* CommitteeInfo */ = {
+			isa = PBXGroup;
+			children = (
+				70DE415E24733AFB00E89F96 /* ELACommitteeInfoModel.h */,
+				70DE415F24733AFB00E89F96 /* ELACommitteeInfoModel.m */,
+			);
+			path = CommitteeInfo;
+			sourceTree = "<group>";
+		};
+		70DE416024733AFB00E89F96 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				70DE416124733AFB00E89F96 /* ImpeachView */,
+				70DE416424733AFB00E89F96 /* PledgeView */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		70DE416124733AFB00E89F96 /* ImpeachView */ = {
+			isa = PBXGroup;
+			children = (
+				70DE416224733AFB00E89F96 /* ELAImpeachView.m */,
+				70DE416324733AFB00E89F96 /* ELAImpeachView.h */,
+			);
+			path = ImpeachView;
+			sourceTree = "<group>";
+		};
+		70DE416424733AFB00E89F96 /* PledgeView */ = {
+			isa = PBXGroup;
+			children = (
+				70DE416524733AFB00E89F96 /* ELAPledgeView.h */,
+				70DE416624733AFB00E89F96 /* ELAPledgeView.m */,
+			);
+			path = PledgeView;
+			sourceTree = "<group>";
+		};
+		70DE416724733AFB00E89F96 /* SYProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				70DE416824733AFB00E89F96 /* SYPieProgressView.m */,
+				70DE416924733AFB00E89F96 /* SYProgressView.m */,
+				70DE416A24733AFB00E89F96 /* SYRingProgressView.h */,
+				70DE416B24733AFB00E89F96 /* SYLineProgressView.m */,
+				70DE416C24733AFB00E89F96 /* SYWaveProgressView.h */,
+				70DE416D24733AFB00E89F96 /* SYPieProgressView.h */,
+				70DE416E24733AFB00E89F96 /* SYLineProgressView.h */,
+				70DE416F24733AFB00E89F96 /* SYRingProgressView.m */,
+				70DE417024733AFB00E89F96 /* SYProgressView.h */,
+				70DE417124733AFB00E89F96 /* SYWaveProgressView.m */,
+			);
+			path = SYProgressView;
+			sourceTree = "<group>";
+		};
+		70DE417224733AFC00E89F96 /* ELANetWork */ = {
+			isa = PBXGroup;
+			children = (
+				70DE417324733AFC00E89F96 /* ELANetwork.h */,
+				70DE417624733AFC00E89F96 /* ELANetwork.m */,
+				70DE417524733AFC00E89F96 /* ELANetworkManager.h */,
+				70DE417424733AFC00E89F96 /* ELANetworkManager.m */,
+			);
+			path = ELANetWork;
+			sourceTree = "<group>";
+		};
 		CBD48D4B21FC36BA00BF3B11 /* AFNetworking */ = {
 			isa = PBXGroup;
 			children = (
@@ -4178,7 +4530,6 @@
 				LastUpgradeCheck = 1140;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = VNP5LMNF24;
 						LastSwiftMigration = 1130;
 						ProvisioningStyle = Automatic;
 					};
@@ -4470,6 +4821,7 @@
 				42F794E723C5C23800FC20CD /* FirstViewController.mm in Sources */,
 				42ED54AD23ACC60300427318 /* HMWSendSuccessPopuView.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.mm in Sources */,
+				70DE419C24733AFC00E89F96 /* ELANetwork.m in Sources */,
 				4202CA7E21F6EF2B009E5932 /* HMWTheWalletManagementTableViewCell.m in Sources */,
 				422D60A821FC42D100DD07FF /* HMWChooseTheCountryAreasTableViewCell.m in Sources */,
 				42EAEFF4238BB69C00D6A912 /* HWMSignTheWalletListViewController.mm in Sources */,
@@ -4489,6 +4841,7 @@
 				4202CA7B21F6EF2B009E5932 /* HMWAssetDetailsViewController.mm in Sources */,
 				424910E92271BFCF00C41E50 /* UIImageView+HighlightedWebCache.m in Sources */,
 				425A5FA92466BEEE00C44104 /* HWMOpposedProgressHeadView.m in Sources */,
+				70DE419A24733AFC00E89F96 /* SYWaveProgressView.m in Sources */,
 				4202CAAF21F6EF2B009E5932 /* HMWaddFooterView.m in Sources */,
 				425A5F482465368F00C44104 /* HWMCommunityProposalBaseView.m in Sources */,
 				42B57AB622150C1C004CF089 /* NSObject+SelectorCrash.m in Sources */,
@@ -4500,6 +4853,7 @@
 				4202CA9321F6EF2B009E5932 /* HMWCopyKeyStoreViewController.m in Sources */,
 				4296F10C2375482900B2CE7D /* HWMShowSocialAccountViewController.m in Sources */,
 				424910E72271BFCF00C41E50 /* SDWebImageManager.m in Sources */,
+				70DE417924733AFC00E89F96 /* ELATUpdateSecretaryDidTableViewCell.m in Sources */,
 				425A5FA52466BCE000C44104 /* HWMProposalsAbolishViewController.m in Sources */,
 				4237AAC02468FBFE00DD8FAE /* HWMCommunityProposalScrollView.m in Sources */,
 				4202CA5D21F6EF2A009E5932 /* HMWpwdPopupView.m in Sources */,
@@ -4508,27 +4862,33 @@
 				4224AE78243CD43E0056606F /* DDMultiFormatter.m in Sources */,
 				4202CA8221F6EF2B009E5932 /* HMWaddWalletListTableViewCell.m in Sources */,
 				4253EE5E23697503005B774A /* HWMDIDInfoTableViewCell.m in Sources */,
+				70DE419524733AFC00E89F96 /* ELAPledgeView.m in Sources */,
 				42BD9195242C80C500FA7B9E /* HWMCrCommitteeInformationHeaderView.m in Sources */,
 				CBD25F082216DD8500EDA0F5 /* DrawBackVoteMoneyVC.mm in Sources */,
 				4202CAA621F6EF2B009E5932 /* FLPrepareVC.m in Sources */,
 				4202CA5121F6EF2A009E5932 /* FLtradeResultView.m in Sources */,
 				42D105F423A3344D0063AADC /* MJRefreshConfig.m in Sources */,
 				42EAEFD1238BB52800D6A912 /* HWMSignStatusModel.m in Sources */,
+				70DE419124733AFC00E89F96 /* ELABaseModel.m in Sources */,
 				424A5E1E234C95410077512E /* HWMTransactionDetailsView.m in Sources */,
 				4230C7D22451DA1800575C8D /* HMWLocalNotice.m in Sources */,
 				4202CA8721F6EF2B009E5932 /* HMWSecurityVerificationPopView.m in Sources */,
 				4230C7DA245203A100575C8D /* HMWTheLatestMessagetTableViewCell.m in Sources */,
 				4202CABD21F6EF2B009E5932 /* UIView+FL.m in Sources */,
 				424910F52271BFCF00C41E50 /* UIView+WebCacheOperation.m in Sources */,
+				70DE419624733AFC00E89F96 /* SYPieProgressView.m in Sources */,
 				425A5F442463FA9300C44104 /* HWMCommunityProposalViewController.m in Sources */,
 				4202CA1D21F6EF2A009E5932 /* FMResultSet.m in Sources */,
 				423F37C0244C9901000CDFE9 /* HWMTheMessageCenterViewController.m in Sources */,
 				422D609D21FC405A00DD07FF /* FLManageSelectPointNodeInformationVC.mm in Sources */,
 				42EAEFD2238BB52800D6A912 /* HWMQRModel.m in Sources */,
 				42B57ABA22150C1C004CF089 /* WOCrashProtectorManager.m in Sources */,
+				70DE417824733AFC00E89F96 /* ELAUpdateSecretaryDidViewController.m in Sources */,
+				70DE418A24733AFC00E89F96 /* NSObject+MJClass.m in Sources */,
 				4236B5F4239A41BE00C05B67 /* FLCurrencyOfWallerVC.m in Sources */,
 				4202CA6921F6EF2B009E5932 /* HMWtransferTransactionMultipleAddressDetailsTableViewCell.m in Sources */,
 				4202CA3721F6EF2A009E5932 /* FLChoseOrVoteVC.m in Sources */,
+				70DE418924733AFC00E89F96 /* NSObject+MJProperty.m in Sources */,
 				42D1060623A3344D0063AADC /* MJRefreshComponent.m in Sources */,
 				42186FE022BCADBB0063A28D /* AboutELAWalletViewController.mm in Sources */,
 				424910F12271BFCF00C41E50 /* NSData+ImageContentType.m in Sources */,
@@ -4555,11 +4915,14 @@
 				42B263B422DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewControlle.mm in Sources */,
 				42DFCC50246BF658006848B3 /* HWMStatProposalSectionHeadView.m in Sources */,
 				42EAEFF7238BB69C00D6A912 /* HWMAddThePrivateKeyViewController.m in Sources */,
+				70DE417C24733AFC00E89F96 /* ELACommitteeDetailViewController.m in Sources */,
 				4202CA0D21F6EF2A009E5932 /* SGQRCodeGenerateManager.m in Sources */,
 				425A5F662466776100C44104 /* HWMCommitteeMembersToVoteView.m in Sources */,
 				CBD25EFD221542F500EDA0F5 /* FLChangeVotedTicketsVC.mm in Sources */,
+				70DE419224733AFC00E89F96 /* ELAProposalPayloadModel.m in Sources */,
 				4202CAA521F6EF2B009E5932 /* HMWImTheMnemonicWordView.m in Sources */,
 				4202CA2121F6EF2A009E5932 /* HMWtheContactInformationViewController.m in Sources */,
+				70DE419924733AFC00E89F96 /* SYRingProgressView.m in Sources */,
 				4230217A22C0BB000004AB65 /* nodeInformationDetailsView.m in Sources */,
 				42A7679A2315293F005FC764 /* HWMCRRegisteredViewController.mm in Sources */,
 				42D1060F23A336240063AADC /* SimplePing.m in Sources */,
@@ -4582,6 +4945,7 @@
 				4202CA0F21F6EF2A009E5932 /* SGQRCodeAlbumManager.m in Sources */,
 				4223EB3023279BFA00153DA9 /* HWMPublicKeyListTabHeadView.m in Sources */,
 				4202CAAC21F6EF2B009E5932 /* AddTheCurrencyListModel.m in Sources */,
+				70DE418324733AFC00E89F96 /* ELAUtils.m in Sources */,
 				42ABE0B6241F1CB100294B64 /* HWMDIDAuthorizationViewController.mm in Sources */,
 				423461FB2383F18900E4B135 /* NSDictionary+YRSafeCategory.m in Sources */,
 				422D609F21FC405A00DD07FF /* HMWSelectCountriesOrRegionsViewController.m in Sources */,
@@ -4623,6 +4987,7 @@
 				42D7DC4A23F54675002F5A9A /* HWMDIDInfoListView.m in Sources */,
 				42D105FB23A3344D0063AADC /* MJRefreshBackNormalFooter.m in Sources */,
 				42EAF00E238BB84700D6A912 /* UIView+Banner.m in Sources */,
+				70DE419724733AFC00E89F96 /* SYProgressView.m in Sources */,
 				4202CAD421F6EF2B009E5932 /* FLSelectSuperPointVC.mm in Sources */,
 				4250B3EF2238D32700B6858F /* ScanQRCodeViewController.m in Sources */,
 				4218668622CDFF2200DC51CB /* HWMaddSignThePursefootTableViewCell.m in Sources */,
@@ -4637,15 +5002,19 @@
 				42358049246A63C500A62615 /* HWMabolishedBaseViewController.m in Sources */,
 				4202CAA021F6EF2B009E5932 /* FLPastWordVC.mm in Sources */,
 				42B57AC022150C1C004CF089 /* NSMutableString+WOCrash.m in Sources */,
+				70DE419B24733AFC00E89F96 /* ELANetworkManager.m in Sources */,
 				42B57AC122150C1C004CF089 /* NSDictionary+WOCrash.m in Sources */,
 				425A5F342463AAB500C44104 /* HWMSuggestionTableViewCell.m in Sources */,
 				425A5F7D2466849600C44104 /* HWMCommitteeMembersToVoteTableViewCell.m in Sources */,
 				4202CABB21F6EF2B009E5932 /* HMWFMDBManager.m in Sources */,
 				4202CA6421F6EF2A009E5932 /* HMWtransferTransactionMultipleAddressDetailsView.m in Sources */,
 				4202CA9621F6EF2B009E5932 /* FLCreatAcountVC.mm in Sources */,
+				70DE418B24733AFC00E89F96 /* NSString+MJExtension.m in Sources */,
 				4202CA1A21F6EF2A009E5932 /* FMDatabaseAdditions.m in Sources */,
 				42D105F223A3344D0063AADC /* UIScrollView+MJRefresh.m in Sources */,
 				4202CA1F21F6EF2A009E5932 /* HMWaddContactViewController.m in Sources */,
+				70DE418424733AFC00E89F96 /* MJPropertyType.m in Sources */,
+				70DE418524733AFC00E89F96 /* NSObject+MJKeyValue.m in Sources */,
 				425A5F862466AB1600C44104 /* HWMImplementationScheduleView.m in Sources */,
 				421BABD4242963EA000FB026 /* HWMallDocumentsListTableViewCell.m in Sources */,
 				428B4D9A22CB35B6004AE7D0 /* HWMaddSignThePursefootView.m in Sources */,
@@ -4654,9 +5023,12 @@
 				4224AE73243CD43E0056606F /* DDOSLogger.m in Sources */,
 				42CC27A7244C4C6100373504 /* HWMManuallyEnterView.m in Sources */,
 				42B57AB422150C1C004CF089 /* NSObject+KVOCrash.m in Sources */,
+				70DE418224733AFC00E89F96 /* ELACRCommitteeListViewController.m in Sources */,
 				42EA69442313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.m in Sources */,
 				4202CA8C21F6EF2B009E5932 /* HMWTheWalletListViewController.mm in Sources */,
+				70DE418824733AFC00E89F96 /* MJExtensionConst.m in Sources */,
 				424E0A49246B97E4003B40CF /* HWMDetailsProposalModel.m in Sources */,
+				70DE419024733AFC00E89F96 /* ELATUpdateSecretaryDidModel.m in Sources */,
 				42B57AB722150C1C004CF089 /* NSObject+WOSwizzle.m in Sources */,
 				428B4D8A22CB0CF7004AE7D0 /* HWMSignThePurseHeadView.m in Sources */,
 				4210E857239F8A07001D82F3 /* MASConstraintMaker.m in Sources */,
@@ -4665,6 +5037,7 @@
 				4202CA5C21F6EF2A009E5932 /* HMWtransferDetailsPopupView.m in Sources */,
 				42B05A66243F217500A38267 /* UIImage+SVGTool.m in Sources */,
 				CBD48D5F21FC36BA00BF3B11 /* AFSecurityPolicy.m in Sources */,
+				70DE419824733AFC00E89F96 /* SYLineProgressView.m in Sources */,
 				424910F42271BFCF00C41E50 /* SDImageCacheConfig.m in Sources */,
 				4202CA2221F6EF2A009E5932 /* HMWmyContactListTableViewCell.m in Sources */,
 				424910EF2271BFCF00C41E50 /* SDImageCache.m in Sources */,
@@ -4673,6 +5046,7 @@
 				425E0D68233B5B5E00D4C481 /* HWMCRListModel.m in Sources */,
 				424910EC2271BFCF00C41E50 /* UIImage+MultiFormat.m in Sources */,
 				4202CA3621F6EF2A009E5932 /* FLSugarModel.m in Sources */,
+				70DE417D24733AFC00E89F96 /* ELACommitteeDutiesViewController.m in Sources */,
 				42D7DC6423F68C1F002F5A9A /* HWMTheImportDocumentsViewController.mm in Sources */,
 				CBD48D5C21FC36BA00BF3B11 /* AFURLSessionManager.m in Sources */,
 				42EAEF85238BB43700D6A912 /* NSString+HWMNSTaggedPointerString.m in Sources */,
@@ -4682,6 +5056,7 @@
 				423F37C9244C9D32000CDFE9 /* HWMMessageCenterModel.m in Sources */,
 				428573232366D6E100C0CF80 /* HWMAddPersonalProfileViewController.m in Sources */,
 				4253EE4B23692F93005B774A /* HWMDIDListAbnormalTableViewCell.m in Sources */,
+				70DE418624733AFC00E89F96 /* MJProperty.m in Sources */,
 				42358040246A614500A62615 /* HWMpublicBaseViewController.m in Sources */,
 				4210E855239F8A07001D82F3 /* ViewController+MASAdditions.m in Sources */,
 				423F37C5244C9B1D000CDFE9 /* HWMTheMessageCenterTableViewCell.m in Sources */,
@@ -4714,8 +5089,10 @@
 				42EAF00D238BB84700D6A912 /* HW3DBannerView.m in Sources */,
 				4202CADB21F6EF2B009E5932 /* HMWfoundViewController.mm in Sources */,
 				4223EB362327A74500153DA9 /* HWMListMoreSignThePublicKeyTableViewCell.m in Sources */,
+				70DE418E24733AFC00E89F96 /* UIView+Ext.m in Sources */,
 				CBD48D4A21FC341200BF3B11 /* FLCoinPointInfoModel.m in Sources */,
 				4202CA4721F6EF2A009E5932 /* FLGoToIdentyAlertView.m in Sources */,
+				70DE417724733AFC00E89F96 /* ELASecretaryDetailViewController.m in Sources */,
 				42D105FF23A3344D0063AADC /* MJRefreshNormalHeader.m in Sources */,
 				425A5FA02466BBA400C44104 /* HWMTheProposalPublicViewController.m in Sources */,
 				4224AE7C243CD43E0056606F /* DDASLLogCapture.m in Sources */,
@@ -4735,6 +5112,7 @@
 				42A32057240FEF8100FABE6D /* JSON_private.m in Sources */,
 				4202CAA921F6EF2B009E5932 /* FLTradeModel.m in Sources */,
 				4202CA0621F6EF2A009E5932 /* SVIndefiniteAnimatedView.m in Sources */,
+				70DE418124733AFC00E89F96 /* ELACommitteeManageViewController.m in Sources */,
 				42211B482362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.m in Sources */,
 				428D971A238D0FE6005F1963 /* HWMCRCommitteeForAgreementView.m in Sources */,
 				424910F62271BFCF00C41E50 /* UIView+WebCache.m in Sources */,
@@ -4746,17 +5124,20 @@
 				42D105F623A3344D0063AADC /* UIScrollView+MJExtension.m in Sources */,
 				4202CAB221F6EF2B009E5932 /* HMWAddTheCurrencyListViewController.mm in Sources */,
 				42D105FA23A3344D0063AADC /* MJRefreshBackStateFooter.m in Sources */,
+				70DE419324733AFC00E89F96 /* ELACommitteeInfoModel.m in Sources */,
 				4202CA4D21F6EF2A009E5932 /* Foundation+Log.m in Sources */,
 				4202CA1921F6EF2A009E5932 /* FMDatabaseQueue.m in Sources */,
 				42780240235EDC350017F098 /* HWMDIDWalletListTableViewCell.m in Sources */,
 				4202CAD121F6EF2B009E5932 /* HMWMyVoteViewController.mm in Sources */,
 				4202CAC721F6EF2B009E5932 /* HMWmyVoteStatisticsTableViewCell.m in Sources */,
 				424910EB2271BFCF00C41E50 /* UIImage+GIF.m in Sources */,
+				70DE417E24733AFC00E89F96 /* ELACRCommitteeViewController.m in Sources */,
 				425A5F58246559D800C44104 /* HWMCRsearchViewController.m in Sources */,
 				4202CAB721F6EF2B009E5932 /* FLQRVC.mm in Sources */,
 				4202CA6C21F6EF2B009E5932 /* HMWAssetDetailsTableViewCell.m in Sources */,
 				4224AE74243CD43E0056606F /* DDASLLogger.m in Sources */,
 				42CC27A3244C2E1F00373504 /* HWMnodeConnectionSettingsDetailsTableViewCell.m in Sources */,
+				70DE417A24733AFC00E89F96 /* ELACRBaseViewController.m in Sources */,
 				4202CAD521F6EF2B009E5932 /* HMWtheCandidateListViewController.mm in Sources */,
 				4202CA5721F6EF2A009E5932 /* HMWAddTheCurrencyListTableViewCell.m in Sources */,
 				42211B3E2362D5CC00924029 /* HWMAddPersonalInformationViewController.mm in Sources */,
@@ -4778,11 +5159,13 @@
 				4202CA2C21F6EF2A009E5932 /* friendsModel.m in Sources */,
 				4224AE7B243CD43E0056606F /* DDFileLogger.m in Sources */,
 				42EAF01D238BB8C200D6A912 /* HMWQrCodePopupWindowView.m in Sources */,
+				70DE418D24733AFC00E89F96 /* MJFoundation.m in Sources */,
 				4223EB25232797F000153DA9 /* HWMListMoreSignThePublicKeyViewController.m in Sources */,
 				7087D92F21BCDF1B00599316 /* MyUtil.m in Sources */,
 				4202CA4321F6EF2A009E5932 /* FLCapitalView.m in Sources */,
 				425A5F812466938600C44104 /* HWMCRProposalConfirmView.m in Sources */,
 				42D1060023A3344D0063AADC /* MJRefreshStateHeader.m in Sources */,
+				70DE418724733AFC00E89F96 /* NSObject+MJCoding.m in Sources */,
 				422D609721FC405000DD07FF /* HMWChooseTheCountryAreasModel.m in Sources */,
 				42EAEFE3238BB60700D6A912 /* HWMVoteTheEditorialBoardTableViewCell.m in Sources */,
 				42A767952314FE50005FC764 /* HMWCRCommitteeMemberListViewController.mm in Sources */,
@@ -4791,6 +5174,7 @@
 				4202CAA121F6EF2B009E5932 /* FLdoubleWalletVC.mm in Sources */,
 				4202CACD21F6EF2B009E5932 /* HMWvotingRulesView.m in Sources */,
 				428BA726229B91190091618F /* PluginResult.m in Sources */,
+				70DE417F24733AFC00E89F96 /* ELASecretaryListViewController.m in Sources */,
 				4202CAB521F6EF2B009E5932 /* FLAllAssetListVC.mm in Sources */,
 				423270C7244D8BC900E98C26 /* HWMAllNoView.m in Sources */,
 				42D105F923A3344D0063AADC /* MJRefreshBackGifFooter.m in Sources */,
@@ -4805,10 +5189,13 @@
 				CBE7C2F122268890004F379D /* DC_DealTextViewController.m in Sources */,
 				4202CAB921F6EF2B009E5932 /* FLTools.m in Sources */,
 				4202CAD021F6EF2B009E5932 /* HMWtheSuperNodeElectionViewController.mm in Sources */,
+				70DE419424733AFC00E89F96 /* ELAImpeachView.m in Sources */,
 				4202CA2821F6EF2A009E5932 /* FLTableViewDefultCell.m in Sources */,
 				426B0506246E759300B6FAB9 /* HWMadviceViewModel.m in Sources */,
 				42D105F723A3344D0063AADC /* NSBundle+MJRefresh.m in Sources */,
 				42358046246A632800A62615 /* HWMcompletedBaseViewController.m in Sources */,
+				70DE418C24733AFC00E89F96 /* MJPropertyKey.m in Sources */,
+				70DE417B24733AFC00E89F96 /* ELACommitteeInfoViewController.m in Sources */,
 				42D1060423A3344D0063AADC /* MJRefreshBackFooter.m in Sources */,
 				42B07E1D2421BDDC00E1B920 /* HWMDIDAuthorizationHeadView.m in Sources */,
 				4202CA9E21F6EF2B009E5932 /* HMWverifyTheMnemonicWordViewController.mm in Sources */,
@@ -4816,6 +5203,8 @@
 				420131C42320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.mm in Sources */,
 				4202CA9B21F6EF2B009E5932 /* FLSetMenmoryWordPassView.m in Sources */,
 				4202CA0421F6EF2A009E5932 /* SVProgressAnimatedView.m in Sources */,
+				70DE418F24733AFC00E89F96 /* RPTaggedNavView.m in Sources */,
+				70DE418024733AFC00E89F96 /* ELACommitteeListViewController.m in Sources */,
 				4202CA9221F6EF2B009E5932 /* HMWModifyTheWalletNameViewController.m in Sources */,
 				4202CA0921F6EF2A009E5932 /* UIImage+SGImageSize.m in Sources */,
 				42D1060E23A336240063AADC /* NENSinglePinger.m in Sources */,
@@ -4891,7 +5280,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4971,7 +5360,7 @@
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5094,7 +5483,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5219,7 +5608,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

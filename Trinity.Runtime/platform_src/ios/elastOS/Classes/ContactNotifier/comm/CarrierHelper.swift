@@ -1,6 +1,6 @@
 import ElastosCarrierSDK
 
-public protocol OnCarrierEventListener {
+protocol OnCarrierEventListener {
     func onFriendRequest(_ did: String, _ userId: String)
     func onFriendOnlineStatusChange(_ info: FriendInfo)
     func onFriendPresenceStatusChange(_ info: FriendInfo)
@@ -143,7 +143,7 @@ public class CarrierHelper {
         try carrierInstance!.start(iterateInterval: 5000) // Start carrier. Wait N milliseconds between each check of carrier status (polling)
     }
     
-    public func setCarrierEventListener(_ listener: OnCarrierEventListener) {
+    func setCarrierEventListener(_ listener: OnCarrierEventListener) {
         self.onCarrierEventListener = listener
     }
 

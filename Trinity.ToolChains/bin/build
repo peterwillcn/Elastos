@@ -29,6 +29,8 @@ parser.add_argument('-p', '--path', dest='plugin_path', metavar='PATH', required
 parser.add_argument('-pf', '--platform', dest='platform', required=False,
                     help='Specify the build platform.')
 parser.add_argument('--release', action='store_true', help='build release')
+parser.add_argument('--buildarg', dest='buildarg', required=False,
+                    help='Specify the build arg.')
 args = parser.parse_args()
 if args.release:
     build_type='--release'
@@ -39,6 +41,11 @@ if args.platform:
     build_platform=args.platform
 else:
     build_platform='android'
+
+if args.buildarg:
+    build_arg=args.buildarg
+else:
+    build_arg=''
 
 SCRIPT_PATH=os.path.realpath(__file__)
 TOOLCHAINS_DIR_PATH=os.path.dirname(os.path.dirname(SCRIPT_PATH))
@@ -146,9 +153,9 @@ if args.target == "all" or args.target == "launcher" or args.target == "runtime"
     run_cmd("cd platforms/ios/www/built-in/org.elastos.trinity.dapp.wallet && ls | grep -v 'assets' | xargs rm -rf", True)
     os.chdir(RUNTIME_DIR_PATH)
     if build_platform == "all" or build_platform == "android":
-        run_cmd("cordova build android " + build_type)
+        run_cmd("cordova build android " + build_type + " " + build_arg)
     if build_platform == "all" or build_platform == "ios":
-        run_cmd("cordova build ios " + build_type)
+        run_cmd("cordova build ios " + build_type + " " + build_arg)
 
 elapsed = timeit.default_timer() - startTime
 minutes = elapsed / 60

@@ -465,9 +465,19 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     char *sig =(char *)[sigString UTF8String];
     r=DIDDocument_Sign(doc, NULL, [self.passWord UTF8String],
                        signature,1,sig,strlen(sig));
+    
+    //xxl 0.0.0 do not forget to
+    NSString *str = [self charToString:signature];
+    NSData *data = [JWTBase64Coder dataWithBase64UrlEncodedString:str];
+    NSString *hexString = data.hexString;
+    
     if (r==0) {
-        return [self charToString:signature];
+        return hexString;
     }
+    
+//    if (r==0) {
+//        return [self charToString:signature];
+//    }
     return @"-1";
 }
 -(BOOL)ImportLocalCredentialsWithModel:(HWMDIDInfoModel*)model{

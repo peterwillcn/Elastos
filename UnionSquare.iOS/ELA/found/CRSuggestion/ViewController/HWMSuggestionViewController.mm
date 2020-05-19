@@ -72,20 +72,32 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     self.signatureButton.userInteractionEnabled=NO;
     [[HMWCommView share]makeBordersWithView:self.signatureButton];
     [self.signatureButton setTitle:NSLocalizedString(@"签名", nil) forState:UIControlStateNormal];
-    [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadCRAdviceDetailsWithID:self.PayLoadDic[@"sid"] withComplete:^(id  _Nonnull data) {
-        HWMadviceViewModel*adviceViewM =[[HWMadviceViewModel alloc]init];
-        [adviceViewM detailsProposalModelDataJosn:data[@"data"] completion:^(HWMadviceModel * _Nonnull model) {
-            self.advicemodel=model;
-            self.table.alpha=1.f;
-            [self.table reloadData];
-            if (self.BudgetsArray.count==0) {
-                [self.suggestionArray addObject:self.defSendArray];
-            }else{
-                [self.suggestionArray addObject:self.defArray];
-            }
-            self. signatureButton.userInteractionEnabled=YES;
+    
+    
+    if(self.VCType != ReviewProposalType){
+        
+    
+        [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadCRAdviceDetailsWithID:self.PayLoadDic[@"sid"] withComplete:^(id  _Nonnull data) {
+            HWMadviceViewModel*adviceViewM =[[HWMadviceViewModel alloc]init];
+            [adviceViewM detailsProposalModelDataJosn:data[@"data"] completion:^(HWMadviceModel * _Nonnull model) {
+                self.advicemodel=model;
+                self.table.alpha=1.f;
+                [self.table reloadData];
+                if (self.BudgetsArray.count==0) {
+                    [self.suggestionArray addObject:self.defSendArray];
+                }else{
+                    [self.suggestionArray addObject:self.defArray];
+                }
+                self. signatureButton.userInteractionEnabled=YES;
+            }];
         }];
-    }];
+        
+        
+    }else{
+        self. signatureButton.userInteractionEnabled=YES;
+    }
+    
+    
     [self.suggestionArray addObjectsFromArray:self.defArray];
     [self makeUI];
 }
@@ -174,6 +186,8 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     }
 }
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    
+        
     NSString *typStirng=self.suggestionArray[indexPath.section];
     HWMAbstractTableViewCell*cell=[tableView dequeueReusableCellWithIdentifier:AbstractVCell];
     cell.titleLabel.text=typStirng;
@@ -295,6 +309,9 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 }
 -(NSDictionary*)proposalhashRequestFileWithString:(NSString*)String{
     
+    
+    NSLog(@"proposalhashRequestFileWithString rep %@",self.jwtString);
+    
     String = [String stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     NSDictionary *FLDic=@{
         @"command":@"createproposal",
@@ -308,11 +325,37 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     return FLDic;
 }
 
+-(NSDictionary*)proposalReivewhashRequestFileWithString:(NSString*)String{
+    
+    
+    NSLog(@"proposalReivewhashRequestFileWithString rep %@",self.jwtString);
+    
+    
+    String = [String stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    NSDictionary *FLDic=@{
+        @"command":@"reviewproposal",
+        @"type":@"txidproposalreview",
+        @"iss":self.currentWallet.didString,
+        @"iat": self.PayLoadDic[@"iat"],
+        @"exp": self.PayLoadDic[@"exp"],
+        @"aud": self.PayLoadDic[@"iss"],
+        @"req": self.jwtString,
+        @"data":String};
+    return FLDic;
+}
+
 -(void)updaeJWTInfoWithDic:(NSDictionary*)pare{
+    
+    
+    NSLog(@"calback url %@",self.PayLoadDic[@"callbackurl"]);
+    NSLog(@"pare %@",pare);
+    
     [HttpUrl NetPOSTHost:self.PayLoadDic[@"callbackurl"] url:@"" header:nil body:pare showHUD:NO WithSuccessBlock:^(id data) {
         
         [self showSendSuccessOrFial:SignatureSuccessType];
     } WithFailBlock:^(id data) {
+        
+        NSLog(@"error --- @%",data);
         [self showSendSuccessOrFial:SignatureFailureType];
     }];
 }
@@ -335,7 +378,24 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     }
     return _ShowPoPWDView;
 }
+
 -(void)pwdAndInfoWithPWD:(NSString*)pwd{
+    
+    if(self.VCType == TheProposalType){
+        
+        [self createProposal:pwd];
+        
+    }else if(self.VCType == ReviewProposalType){
+        
+        [self reviewProposal:pwd];
+        
+    }
+
+    
+}
+
+
+-(void)createProposal:(NSString*)pwd{
     
     [self showLoading];
     invokedUrlCommand *mommand = [[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID, pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
@@ -391,33 +451,101 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     didString = [didString stringByReplacingOccurrencesOfString:@"did:elastos:" withString:@""];
     NSDictionary *playLoadDic = @{@"Type":Type,@"CategoryData":CategoryData,@"OwnerPublicKey":self.PayLoadDic[@"data"][@"ownerpublickey"],@"DraftHash":self.PayLoadDic[@"data"][@"drafthash"],@"Budgets":BArray,@"Recipient":self.PayLoadDic[@"data"][@"recipient"], @"CRCouncilMemberDID":didString, @"Signature":signature};
     mommand = [[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,playLoadDic, pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"createProposalTransaction"];
+    
     PluginResult *pluginResult = [[ELWalletManager share] proposaSignTransaction:mommand];
     if(pluginResult){
         NSDictionary *resultDic = pluginResult.message[@"success"];
-        NSString *signTransaction = resultDic[@"SignTransaction"];
         NSString *calculateProposalHash = resultDic[@"calculateProposalHash"];
         NSDictionary *callDic = [self callBack:calculateProposalHash pwd:pwd];
         if(callDic)
         {
-            
             [self updaeJWTInfoWithDic:callDic];
         }else {
             [self showSendSuccessOrFial:SignatureFailureType];
         }
         
-        
     }else{
          [self showSendSuccessOrFial:SignatureFailureType];
     }
     
+    
 }
+
+-(void)reviewProposal:(NSString*)pwd{
+    
+    [self showLoading];
+    invokedUrlCommand *mommand = [[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID, pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
+    PluginResult *result = [[ELWalletManager share]VerifyPayPassword:mommand];
+    NSNumber *number = result.status;
+    
+    if( [number intValue] != CommandStatus_OK)
+    {
+        NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
+        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+        return;
+    }else{
+        [self showSendSuccessOrFial:SignatureFailureType];
+    }
+
+    NSNumber *NVoteResult;
+    
+    if ([self.PayLoadDic[@"data"][@"voteResult"] isEqualToString:@"approve"]) {
+        NVoteResult=@(0);
+    }else if([self.PayLoadDic[@"data"][@"voteResult"] isEqualToString:@"reject"]){
+        NVoteResult=@(1);
+    }else{
+        NVoteResult=@(2);
+    }
+    
+    NSDictionary *playLoadDic = @{
+        @"ProposalHash":self.PayLoadDic[@"data"][@"proposalHash"],
+        @"VoteResult":NVoteResult,
+        @"OpinionHash":self.PayLoadDic[@"data"][@"opinionHash"],
+        @"DID":[self.PayLoadDic[@"data"][@"did"] stringByReplacingOccurrencesOfString:@"did:elastos:" withString:@""]
+    };
+    
+    mommand = [[invokedUrlCommand alloc]initWithArguments:
+               @[self.currentWallet.masterWalletID,playLoadDic, pwd]
+               callbackId:self.currentWallet.walletID
+               className:@"Wallet"
+               methodName:@"createProposalReviewTransaction"];
+    
+   PluginResult *pluginResult = [[ELWalletManager share] proposalReviewTransaction:mommand];
+   
+   if(pluginResult){
+        NSDictionary *resultDic = pluginResult.message[@"success"];
+//        NSDictionary *txidDic = @{
+//           @"txid":resultDic[@"txid"]
+//        };
+       //[self updaeJWTInfoWithDic:txidDic];
+        NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:pwd];
+        if(callDic)
+        {
+            [self updaeJWTInfoWithDic:callDic];
+        }else {
+            [self showSendSuccessOrFial:SignatureFailureType];
+        }
+    }else{
+        [self showSendSuccessOrFial:SignatureFailureType];
+    }
+    
+    
+}
+
 
 - (NSDictionary *)callBack:(NSString *)payString pwd:(NSString *)PWDString
 {
     if(payString && ![payString isEqualToString:@""])
     {
         if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:PWDString withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO]){
-            NSString *playString=[[FLTools share]DicToString:[self proposalhashRequestFileWithString:payString]];
+            
+            NSString *playString = @"";
+            
+            if(self.VCType == TheProposalType){
+                playString=[[FLTools share]DicToString:[self proposalhashRequestFileWithString:payString]];
+            }else if(self.VCType == ReviewProposalType){
+                playString=[[FLTools share]DicToString:[self proposalReivewhashRequestFileWithString:payString]];
+            }
             
             NSString *jwtString=[self throuJWTStringWithplayString:playString];
             NSString *REString= [[HWMDIDManager shareDIDManager] DIDSignatureWithString:jwtString];

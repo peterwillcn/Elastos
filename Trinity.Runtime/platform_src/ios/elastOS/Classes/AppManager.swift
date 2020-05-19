@@ -333,8 +333,13 @@ class AppManager: NSObject {
         if (installedInfo != nil) {
             let versionChanged = PreferenceManager.getShareInstance().versionChanged;
             if (versionChanged || builtInInfo.version_code > installedInfo!.version_code) {
-                Log.d("AppManager", "built in version > installed version: uninstalling installed");
-                try installer.unInstall(installedInfo, true);
+                if versionChanged {
+                    Log.d("AppManager", "Trinity version has changed: uninstalling installed version of \(installedInfo!.app_id)");
+                }
+                else {
+                    Log.d("AppManager", "built in version \(builtInInfo.version_code) > installed version \(installedInfo!.version_code) for \(installedInfo!.app_id): uninstalling installed")
+                }
+                try installer.unInstall(installedInfo, true)
             }
             else {
                 Log.d("AppManager", "Built in version <= installed version, No need to install");

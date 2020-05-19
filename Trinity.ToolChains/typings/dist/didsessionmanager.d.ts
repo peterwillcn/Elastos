@@ -30,6 +30,13 @@
 */
 
 declare namespace DIDSessionManagerPlugin {
+    type IdentityAvatar = {
+        /** Picture content type: "image/jpeg" or "image/png" */
+        contentType: string;
+        /** Base64 encoded picture data */
+        base64ImageData: Blob
+    }
+
     type IdentityEntry = {
         /** ID of the DID store that containes this DID entry */
         didStoreId: string;
@@ -37,11 +44,16 @@ declare namespace DIDSessionManagerPlugin {
         didString: string;
         /** Identity entry display name, set by the user */
         name: string;
+        /** Optional profile picture for this identity */
+        avatar?: IdentityAvatar;
     }
 
     interface DIDSessionManager {
         /**
          * Inserts a new identity entry and saves it permanently.
+         * 
+         * In case an entry with the same DID store ID and DID string already exists, the existing 
+         * entry is updated.
          */
         addIdentityEntry(entry: IdentityEntry): Promise<void>;
 

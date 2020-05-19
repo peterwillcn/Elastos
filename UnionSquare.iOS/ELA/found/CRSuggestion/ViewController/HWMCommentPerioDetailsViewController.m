@@ -34,7 +34,7 @@
 #import "HWMOpposedProgressHeadView.h"
 #import "WCQRCodeScanningVC.h"
 #import "HMWinputVotesPopupWindowView.h"
-
+#import "HWMSecretaryGeneralAndMembersInfo.h"
 static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 @interface HWMCommentPerioDetailsViewController ()<UITableViewDelegate,UITableViewDataSource,HWMCRProposalConfirmViewDelgate,HWMCommentPerioDetailsHeadViewDelegate,HWMCommitteeMembersToVoteViewDelegate,HWMOpposedProgressHeadViewDelegate,VotesPopupViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *buttonBGView;
@@ -50,6 +50,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 @property(strong,nonatomic)HWMOpposedProgressHeadView*OpposedProgressHeadV;
 @property(strong,nonatomic)HMWinputVotesPopupWindowView*inputVoteTicketView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *BGButtonHeight;
+
 
 @end
 
@@ -83,6 +84,19 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     [self.baseTable registerNib:[UINib nibWithNibName:BaseTableViewCell bundle:nil] forCellReuseIdentifier:BaseTableViewCell];
     self.baseTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     if (self.type==CommentPerioVOTINGType) {
+        HWMSecretaryGeneralAndMembersDetailsModel* model=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
+        if (model) {
+            if (model.GMtype!= COUNCILType&&model.GMtype!=SECRETARIATType) {
+                self.buttonBGView.alpha=0.f;
+                self.BGButtonHeight.constant=0.f;
+            }
+        } else {
+            self.buttonBGView.alpha=0.f;
+            self.BGButtonHeight.constant=0.f;
+        }
+        
+        
+        
         [self.sweepYardsToVoteButton setTitle:NSLocalizedString(@"扫码投票", nil) forState:UIControlStateNormal];
         UIView *tableHeadView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 90+self.model.cellHeight)];
         self.headView.model=self.model;
@@ -92,6 +106,16 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         }];
         self.baseTable.tableHeaderView=tableHeadView;
     }else if(self.type==CommentPerioNOTIFICATIONType){
+        HWMSecretaryGeneralAndMembersDetailsModel* model=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
+        if (model) {
+            if (model.GMtype!= COUNCILType&&model.GMtype!=SECRETARIATType) {
+                self.buttonBGView.alpha=0.f;
+                self.BGButtonHeight.constant=0.f;
+            }
+        } else {
+            self.buttonBGView.alpha=0.f;
+            self.BGButtonHeight.constant=0.f;
+        }
         [self.sweepYardsToVoteButton setTitle:NSLocalizedString(@"投票反对", nil) forState:UIControlStateNormal];
         UIView *tableHeadView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 180+self.model.cellHeight)];
         [tableHeadView addSubview:self.OpposedProgressHeadV];

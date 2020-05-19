@@ -23,11 +23,46 @@
 
 
 #import <Foundation/Foundation.h>
-
+typedef enum : NSUInteger {
+    COUNCILType,
+    SECRETARIATType,
+   ordinaryType
+} GeneralAndMembersType;
 NS_ASSUME_NONNULL_BEGIN
+@interface HWMStermModel : NSObject
+@property (nonatomic, copy) NSString *status;
+@property (nonatomic, assign) NSInteger id;
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *didName;
+@property (nonatomic, copy) NSString *voteResult;
+@property (nonatomic, assign) NSInteger createdAt;
+
+@end
+
 
 @interface HWMSecretaryGeneralAndMembersDetailsModel : NSObject
-
+@property (nonatomic, copy) NSString *avatar;
+@property (nonatomic, copy) NSString *address;
+@property (nonatomic, copy) NSString *did;
+@property (nonatomic, copy) NSString *introduction;
+@property (nonatomic, assign) NSInteger impeachmentVotes;
+@property (nonatomic, assign) NSInteger impeachmentThroughAmount;
+@property (nonatomic, assign) NSInteger location;
+@property (nonatomic, copy) NSString *didName;
+@property (nonatomic, copy) NSString *type;
+@property (nonatomic, copy) NSString * status;
+@property (nonatomic, copy) NSString * birthday;
+@property (nonatomic, copy) NSString * email;
+@property (nonatomic, copy) NSString * wechat;
+@property (nonatomic, copy) NSString * weibo;
+@property (nonatomic, copy) NSString * facebook;
+@property (nonatomic, copy) NSString * microsoft;
+@property (nonatomic, copy) NSString * startDate;
+@property (nonatomic, copy) NSString * endDate;
+@property (nonatomic, copy) NSString * impeachmentThroughVotes;
+@property (nonatomic, copy) NSString *depositAmount;
+@property (nonatomic, assign)GeneralAndMembersType  GMtype;
+@property (nonatomic, copy) NSArray *term;
 @end
 
 NS_ASSUME_NONNULL_END

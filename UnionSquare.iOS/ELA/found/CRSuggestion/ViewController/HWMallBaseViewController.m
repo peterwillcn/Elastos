@@ -56,7 +56,6 @@
     return _allBaseView;
 }
 -(void)didShowDetailsWithIndex:(NSInteger)index{
-    
     HWMBillListModel *model=self.allBillListAarray[index];
     if ([model.status isEqualToString:NSLocalizedString(@"委员评议",nil)]) {
         HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
@@ -109,9 +108,7 @@
     return _allBillListVM;
 }
 -(void)loadDataSourceWithIndex:(NSInteger)staIndex{
-    
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadCRSuggestionDataSourceWithType:0 withStartIndex:staIndex withNumbers:10 withComplete:^(_Nonnull id data) {
-        
         [self.allBillListVM BillListWithDataJosn:data[@"data"][@"list"] completion:^(NSArray * _Nonnull dataArray) {
             if (dataArray.count>0) {
                 [self.allBillListAarray addObjectsFromArray:dataArray];

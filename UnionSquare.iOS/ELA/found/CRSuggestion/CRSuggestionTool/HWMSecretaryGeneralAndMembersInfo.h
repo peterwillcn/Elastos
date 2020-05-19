@@ -22,12 +22,14 @@
  */
 
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 #import "HWMSecretaryGeneralAndMembersDetailsModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HWMMemberReviewBaseViewController : UIViewController
-@property(strong,nonatomic)HWMSecretaryGeneralAndMembersDetailsModel *detailsModel;
+@interface HWMSecretaryGeneralAndMembersInfo : NSObject
++(instancetype)shareTools;
+-(HWMSecretaryGeneralAndMembersDetailsModel*)getDetailsModel;
+-(void)loadDataSource;
 @end
 
 NS_ASSUME_NONNULL_END

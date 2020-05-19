@@ -23,7 +23,7 @@
 
 
 #import "HWMSecretaryGeneralAndMembersDetailsModel.h"
-
+@implementation  HWMStermModel
+@end
 @implementation HWMSecretaryGeneralAndMembersDetailsModel
-
 @end

@@ -22,12 +22,18 @@
  */
 
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 #import "HWMSecretaryGeneralAndMembersDetailsModel.h"
+
+
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HWMMemberReviewBaseViewController : UIViewController
-@property(strong,nonatomic)HWMSecretaryGeneralAndMembersDetailsModel *detailsModel;
+@interface HWMSecretaryGeneralAndMembersDetailsViewModel : NSObject
+
+typedef void(^adviceBlock)(HWMSecretaryGeneralAndMembersDetailsModel * _Nonnull model);
+
+-(void)SecretaryGeneralAndMembersDetailsModelDataJosn:( _Nonnull id)json completion:(_Nonnull adviceBlock)completionBlock;
 @end
 
 NS_ASSUME_NONNULL_END

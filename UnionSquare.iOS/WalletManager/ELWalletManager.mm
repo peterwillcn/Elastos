@@ -2729,7 +2729,6 @@ void *ReverseByteOrder(void *p, unsigned int len)
                 
             };
             NSLog(@"转换后----%s",testByte);
-            //[self adviceTheSignatureStringwithDigestChar:ReverseChar withPwdString:pwdString];
            return [[HWMDIDManager shareDIDManager]adviceTheSignatureWithPWD:pwdString withDigestChar:ReverseChar];
             
         }
@@ -2755,15 +2754,11 @@ void *ReverseByteOrder(void *p, unsigned int len)
             NSString *resultString = [self stringWithCString:jsonString];
             NSData *resultData = [NSData dataWithHexString:resultString];
             Byte *resultByte = (Byte *)[resultData bytes];
-            
             char ReverseChar[DIGEST_LEN];
-            
             ReverseByteOrder(resultByte, (int)[resultData length]);
-            
             for(int i = 0; i < [resultData length]; i++)
             {
                 ReverseChar[i] = resultByte[i];
-                
             };
             signDigest = [[HWMDIDManager shareDIDManager] proposalTheSignatureWithPWD:passwd withDigestChar:ReverseChar];
             return signDigest;
@@ -2776,7 +2771,6 @@ void *ReverseByteOrder(void *p, unsigned int len)
     }
     return nil;
 }
-
 - (NSString *)proposalCRCouncilMemberDigest:(NSString *)passwd payLoad:(String)payLoad walletID:(NSString *)masterWalletID
 {
     try {

@@ -22,12 +22,24 @@
  */
 
 
-#import <UIKit/UIKit.h>
-#import "HWMSecretaryGeneralAndMembersDetailsModel.h"
-NS_ASSUME_NONNULL_BEGIN
+#import "HWMSecretaryGeneralAndMembersDetailsViewModel.h"
 
-@interface HWMMemberReviewBaseViewController : UIViewController
-@property(strong,nonatomic)HWMSecretaryGeneralAndMembersDetailsModel *detailsModel;
+@implementation HWMSecretaryGeneralAndMembersDetailsViewModel
+-(HWMSecretaryGeneralAndMembersDetailsModel*)AnalyticalDataWithDicJosn:(id)json{
+   HWMSecretaryGeneralAndMembersDetailsModel *model=[HWMSecretaryGeneralAndMembersDetailsModel modelWithJSON:json];
+    model.term=[NSArray modelArrayWithClass:[HWMStermModel class] json:json[@"term"]];
+    if ([model.type isEqualToString:@"COUNCIL"]) {
+         model.GMtype=COUNCILType;
+    }else if([model.type isEqualToString:@"SECRETARIAT"]){
+     model.GMtype=SECRETARIATType;
+    }else{
+        model.GMtype=ordinaryType;
+    }
+    return model;
+}
+-(void)SecretaryGeneralAndMembersDetailsModelDataJosn:( _Nonnull  id)json completion:(_Nonnull adviceBlock)completionBlock{
+    HWMSecretaryGeneralAndMembersDetailsModel *model= [self AnalyticalDataWithDicJosn:json];
+    completionBlock(model);
+}
+
 @end
-
-NS_ASSUME_NONNULL_END

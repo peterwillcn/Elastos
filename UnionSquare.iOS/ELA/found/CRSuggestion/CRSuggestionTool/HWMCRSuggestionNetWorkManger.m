@@ -108,6 +108,7 @@ static HWMCRSuggestionNetWorkManger* _instatance;
     }];
 }
 -(void)reloadSecretaryGeneralAndMembersDetailsWithID:(NSString*)ID withDIDString:(NSString*)didString withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed{
+    didString=[didString stringByReplacingOccurrencesOfString:@"did:elastos:" withString:@""];
       NSString *bordyUrlString=[NSString stringWithFormat:@"/api/council/information/%@",didString];
     if (ID.length>0) {
         [bordyUrlString stringByAppendingString:[NSString stringWithFormat:@"/%@",ID]];

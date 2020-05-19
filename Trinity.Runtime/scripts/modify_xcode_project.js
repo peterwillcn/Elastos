@@ -56,6 +56,7 @@ module.exports = function(ctx) {
     //
     runtimeProj.updateBuildProperty('SWIFT_OPTIMIZATION_LEVEL', '"-Onone"', 'Debug');
 
+
     //
     // Add and remove source files in the Classes group
     //
@@ -67,28 +68,35 @@ module.exports = function(ctx) {
     runtimeProj.removeSourceFile("MainViewController.m", {}, classesGroupKey);
     runtimeProj.removeSourceFile("MainViewController.xib", {}, classesGroupKey);
 
-    function addSourceFiles(classesPath) {
+    function addSourceFiles(classesPath, groupKey) {
       let files = fs.readdirSync(classesPath);
       files.forEach((filename, index) => {
           if (filename[0] != ".") {
               let pathname = path.join(classesPath, filename)
               let stat = fs.statSync(pathname);
               if (stat.isFile() === true) {
-                  runtimeProj.addSourceFile(pathname, {}, classesGroupKey);
+                  runtimeProj.addSourceFile(pathname, {}, groupKey);
               }
               else if (stat.isDirectory()) {
-                addSourceFiles(pathname);
+                let subGroupKey = runtimeProj.pbxCreateGroup(filename, pathname)
+                addSourceFiles(pathname, subGroupKey);
+                runtimeProj.addToPbxGroup(subGroupKey, groupKey);
               }
           }
       });
     }
 
     let classesPath = process.cwd() + "/platform_src/ios/elastOS/Classes/";
-    addSourceFiles(classesPath);
+    addSourceFiles(classesPath, classesGroupKey);
 
     //for native apps
-    classesPath = process.cwd() + "/native_apps/ios/";
-    addSourceFiles(classesPath);
+    let walletPath = process.cwd() + "/native_apps/ios/wallet";
+    let walletGroupKey = runtimeProj.pbxCreateGroup('Wallet', walletPath)
+    addSourceFiles(walletPath, walletGroupKey);
+
+    let customGroupKey = runtimeProj.findPBXGroupKeyAndType({ name: 'CustomTemplate' }, 'PBXGroup');
+    runtimeProj.addToPbxGroup(walletGroupKey, customGroupKey);
+
 
     //
     // Write back the new XCode project
@@ -108,10 +116,6 @@ module.exports = function(ctx) {
         file.settings =  { ATTRIBUTES: [ 'Public' ] };
       }
     }
-
-    //
-    // remove source files in the CDVUIWebViewEngine group
-    cordovaProj.removePbxGroup("CDVUIWebViewEngine");
 
     //
     // Write back the new XCode project

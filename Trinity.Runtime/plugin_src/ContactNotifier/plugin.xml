@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="elastos-trinity-plugins-contactnotifier" version="1.0.0" 
+    xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>ContactNotifier</name>
+    <js-module name="ContactNotifierPlugin" src="www/ContactNotifier.js">
+        <clobbers target="contactNotifier" />
+    </js-module>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="ContactNotifierPlugin">
+                <param name="android-package" value="org.elastos.trinity.runtime.ContactNotifierPlugin" />
+            </feature>
+        </config-file>
+    </platform>
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="ContactNotifierPlugin">
+                <param name="ios-package" value="ContactNotifierPlugin" />
+            </feature>
+        </config-file>
+    </platform>
+</plugin>

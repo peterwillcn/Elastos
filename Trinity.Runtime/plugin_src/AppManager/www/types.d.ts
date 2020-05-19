@@ -218,7 +218,7 @@ declare namespace AppManagerPlugin {
     }
 
     /**
-     * Object received when receiving an intent.
+     * Information about an intent request.
      */
     type ReceivedIntent = {
         /** The action requested from the receiving application. */
@@ -231,6 +231,24 @@ declare namespace AppManagerPlugin {
         intentId: Number;
         /** In case the intent comes from outside elastOS and was received as a JWT, this JWT is provided here. */
         originalJwtRequest?: String;
+    }
+
+    /**
+     * Information about a background service to be executed.
+     */
+    type ReceivedService = {
+        /** Name of the target service to be launched, as the same app can run various services. */
+        name: string;
+        /** App-specific object holding additional information. */
+        params: any;
+    }
+
+    /**
+     * Information about a widget to be started.
+     */
+    type ReceivedWidget = {
+        /** Widget identifier, as the same app can provide various widgets. */
+        key: string;
     }
 
     /**
@@ -344,7 +362,7 @@ declare namespace AppManagerPlugin {
         /**
          * Send a message by id.
          *
-         * @param id         The dapp id.
+         * @param id         The dapp id. If null, the message is sent to all active dApps.
          * @param type       The message type.
          * @param msg        The message content.
          * @param onSuccess  The function to call when success.
@@ -457,6 +475,8 @@ declare namespace AppManagerPlugin {
         sendUrlIntent(url: string, onSuccess: ()=>void, onError: (err:any)=>void);
 
         /**
+         * @deprecated Replaced by getStartIntent() but this keeps receiving the start intent for some time for compatibility.
+         * 
          * Set intent listener for message callback.
          *
          * @param callback   The function receive the intent.
@@ -475,6 +495,8 @@ declare namespace AppManagerPlugin {
         sendIntentResponse(action: string, result: any, intentId: Number, onSuccess?: (response: any)=>void, onError?: (err:any)=>void);
 
         /**
+         * @deprecated Replaced by getStartMode() == INTENT
+         * 
          * Check is there is a pending intent for the current application. A pending intent is an action
          * requested by a third party application, launching the current application to execute a specific
          * action. In such case, when hasPendingIntent() is true, we want to directly show the appropriate

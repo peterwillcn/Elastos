@@ -63,6 +63,14 @@ class MainViewController: UIViewController {
         didSessionManager = DIDSessionManager()
         passwordManager = PasswordManager(mainViewController: self)
         appManager = AppManager(self)
+        
+        do {
+            _ = try ContactNotifier.getSharedInstance(did: "didElastosFIXME") // TODO - FIXME! @dongxiao - should be first called when a DID session starts, with a real DID!
+        }
+        catch (let error) {
+            print("Unable to initialize contact notifier with error:")
+            print(error)
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {

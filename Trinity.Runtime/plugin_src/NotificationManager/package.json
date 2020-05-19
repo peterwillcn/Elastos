@@ -1,0 +1,24 @@
+{
+  "name": "notificationmanager",
+  "version": "1.0.0",
+  "description": "Elastos NotificationManager Plugin",
+  "cordova": {
+    "id": "elastos-trinity-plugins-notificationmanager",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "keywords": [
+    "cordova",
+    "notificationmanager",
+    "trinity",
+    "elastos",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "cordova-browser"
+  ],
+  "author": "Elastos Foundation",
+  "license": "MIT"
+}

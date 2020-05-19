@@ -12,6 +12,13 @@
             "getAppList",
             "getAppInfo"
         ],
+        "ContactNotifierPlugin": [
+            "notifierRemoveContact",
+            "notifierSendInvitation",
+            "contactSetAllowNotifications",
+            "notifierAcceptInvitation",
+            "notifierSetOnInvitationAcceptedListener"
+        ],
         "$user": {}
     },
     "settings": {
@@ -28,6 +35,12 @@
         "DIDSessionManagerPlugin": [
             "getSignedInIdentity",
             "signOut"
+        ],
+        "ContactNotifierPlugin": [
+            "notifierSetOnlineStatusMode",
+            "notifierGetOnlineStatusMode",
+            "notifierSetInvitationRequestsMode",
+            "notifierGetInvitationRequestsMode"
         ],
         "$user": {}
     },
@@ -78,7 +91,18 @@
             "deletePasswordInfo",
             "generateRandomPassword"
         ],
-        "TitleBarPlugin": ["*"],
+        "TitleBarPlugin": [
+            "setTitle",
+            "setBackgroundColor",
+            "setForegroundMode",
+            "setNavigationMode",
+            "setOnItemClickedListener",
+            "setIcon",
+            "setBadgeCount",
+            "setupMenuItems",
+            "showActivityIndicator",
+            "hideActivityIndicator"
+        ],
         "Accelerometer": ["*"],
         "Battery": ["*"],
         "Camera": ["*"],
@@ -100,6 +124,17 @@
         "QRScanner": ["*"],
         "SplashScreen": ["*"],
         "FingerprintPlugin": ["*"],
-        "CDVIonicKeyboard": ["*"]
+        "CDVIonicKeyboard": ["*"],
+        "ContactNotifierPlugin": [
+            "notifierGetCarrierAddress",
+            "notifierResolveContact",
+            "notifierSetOnlineStatusListener",
+            "contactSendRemoteNotification",
+            "contactGetOnlineStatus"
+        ],
+        "NotificationManagerPlugin": [
+            "getNotifications",
+            "sendNotification"
+        ]
     }
 }

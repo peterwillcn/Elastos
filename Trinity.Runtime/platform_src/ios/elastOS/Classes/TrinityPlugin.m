@@ -61,7 +61,7 @@
     self.configPath = [appManager getConfigPath ];
     self.tempPath = [appManager getTempPath:info.app_id];
     self.appId = info.app_id;
-    self.did = @"did:elastos:FIXME"; // TODO: FAKE DID FOR NOW
+    self.did = @"didElastosFIXME"; // TODO: FAKE DID FOR NOW
 }
 
 - (BOOL)isAllowAccess:(NSString *)url {

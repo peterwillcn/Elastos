@@ -1,5 +1,5 @@
  /*
-  * Copyright (c) 2018 Elastos Foundation
+  * Copyright (c) 2020 Elastos Foundation
   *
   * Permission is hereby granted, free of charge, to any person obtaining a copy
   * of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
   */
 
 import UIKit
+ import SwiftJWT
 
 @objc(TrinityViewController)
 class TrinityViewController : CDVViewController {

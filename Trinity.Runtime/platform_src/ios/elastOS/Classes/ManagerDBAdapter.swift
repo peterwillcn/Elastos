@@ -23,8 +23,7 @@
 import Foundation
 import SQLite
 
- class ManagerDBAdapter {
-
+class ManagerDBAdapter {
     @objc static let DATABASE_NAME = "manager.db";
     @objc static let VERSION = 1;
     @objc static let AUTH_PLUGIN_TABLE = "auth_plugin";

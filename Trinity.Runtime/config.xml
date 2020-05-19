@@ -29,6 +29,7 @@
         </edit-config>
     </platform>
     <platform name="ios">
+        <preference name="deployment-target" value="11.0" /> <!-- ios deployment target version -->
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
 
@@ -61,6 +62,8 @@
     <plugin name="elastos-trinity-plugins-titlebarmanager" spec="./plugin_src/TitleBarManager" />
     <plugin name="elastos-trinity-plugins-didsessionmanager" spec="./plugin_src/DIDSessionManager" />
     <plugin name="elastos-trinity-plugins-passwordmanager" spec="./plugin_src/PasswordManager" />
+    <plugin name="elastos-trinity-plugins-notificationmanager" spec="./plugin_src/NotificationManager" />
+    <plugin name="elastos-trinity-plugins-contactnotifier" spec="./plugin_src/ContactNotifier" />
     <plugin name="cordova-plugin-file" spec="../Plugins/File" />
     <plugin name="elastos-trinity-plugins-carrier" spec="../Plugins/Carrier" />
     <plugin name="elastos-trinity-plugins-did" spec="../Plugins/DID" />

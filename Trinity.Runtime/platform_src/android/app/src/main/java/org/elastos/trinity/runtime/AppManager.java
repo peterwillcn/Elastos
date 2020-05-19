@@ -38,6 +38,7 @@ import android.view.View;
 import org.apache.cordova.PluginManager;
 import org.elastos.trinity.runtime.didsessions.DIDSessionManager;
 import org.elastos.trinity.runtime.didsessions.IdentityEntry;
+import org.elastos.trinity.runtime.notificationmanager.NotificationManager;
 import org.elastos.trinity.runtime.passwordmanager.PasswordManager;
 import org.json.JSONException;
 
@@ -105,6 +106,7 @@ public class AppManager {
     private ArrayList<InstallInfo>  installUriList = new ArrayList<InstallInfo>();
     private ArrayList<Uri>          intentUriList = new ArrayList<Uri>();
     private PermissionManager permissionManager;
+    private NotificationManager notificationManager;
     private boolean launcherReady = false;
 
     final static String[] defaultPlugins = {
@@ -118,6 +120,7 @@ public class AppManager {
         AppManager.appManager = this;
         this.activity = activity;
         permissionManager = new PermissionManager(activity);
+        notificationManager = new NotificationManager(activity);
 
         appsPath = activity.getFilesDir() + "/apps/";
         dataPath = activity.getFilesDir() + "/data/";

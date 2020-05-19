@@ -26,6 +26,7 @@ import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaPreferences;
 import org.apache.cordova.CordovaWebView;
+import org.elastos.trinity.runtime.contactnotifier.ContactNotifier;
 
 import java.io.File;
 

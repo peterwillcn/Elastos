@@ -9,13 +9,12 @@
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
-    <ImageView
+    <org.elastos.trinity.runtime.titlebar.TitleBarIconView
         android:id="@+id/ivIcon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_margin="5dp"
-        android:layout_weight="0"
-        android:src="@drawable/ic_back" />
+        android:layout_weight="0" />
 
     <TextView
         android:id="@+id/tvTitle"

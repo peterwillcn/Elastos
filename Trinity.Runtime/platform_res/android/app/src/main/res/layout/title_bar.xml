@@ -10,129 +10,42 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:paddingBottom="4dp">
+        android:paddingBottom="4dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <org.elastos.trinity.runtime.titlebar.TitleBarIconView
+            android:id="@+id/btnOuterLeft"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0" />
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp">
-
-                <ImageButton
-                    android:id="@+id/btnLauncher"
-                    android:layout_width="40dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:background="#00FFFFFF"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:padding="12dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_back" />
-
-                <ImageButton
-                    android:id="@+id/btnBack"
-                    android:layout_width="40dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:background="#00FFFFFF"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:padding="12dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_back" />
-
-                <ImageButton
-                    android:id="@+id/btnClose"
-                    android:layout_width="40dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:background="#00FFFFFF"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:padding="12dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_close" />
-            </FrameLayout>
-
-            <ImageButton
-                android:id="@+id/btnFav"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:background="#00FFFFFF"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:padding="12dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_fav_off" />
-
-            <ImageButton
-                android:id="@+id/btnNotifs"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:background="#00FFFFFF"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:padding="12dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_notif" />
-
-            <ImageButton
-                android:id="@+id/btnRunning"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:background="#00FFFFFF"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:padding="12dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_running" />
-
-        </LinearLayout>
+        <org.elastos.trinity.runtime.titlebar.TitleBarIconView
+            android:id="@+id/btnInnerLeft"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0" />
 
         <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <ImageButton
-            android:id="@+id/btnMenu"
+        <org.elastos.trinity.runtime.titlebar.TitleBarIconView
+            android:id="@+id/btnInnerRight"
             android:layout_width="40dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:background="#00FFFFFF"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:padding="12dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_menu" />
+            android:layout_weight="0" />
 
-        <ImageButton
-            android:id="@+id/btnScan"
+        <org.elastos.trinity.runtime.titlebar.TitleBarIconView
+            android:id="@+id/btnOuterRight"
             android:layout_width="40dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_weight="0"
-            android:background="#00FFFFFF"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:padding="12dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_scan" />
-
-        <ImageButton
-            android:id="@+id/btnSettings"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="0"
-            android:background="#00FFFFFF"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:padding="12dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_settings" />
+            android:layout_weight="0" />
 
     </LinearLayout>
 
@@ -148,6 +61,17 @@
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         tools:text="In-app test title"></TextView>
+
+    <TextView
+        android:id="@+id/tvAnimationHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:alpha="0.7"
+        android:text="aph "
+        android:textColor="#FFFFFF"
+        android:textSize="9sp" />
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -30,6 +30,8 @@
 #import "UIView+Ext.h"
 #import "ELACommitteeInfoViewController.h"
 #import "ELACommitteeDutiesViewController.h"
+#import "ELANetwork.h"
+#import "ELAInformationDetail.h"
 
 @interface ELACommitteeDetailViewController ()<RPTaggedNavViewDelegate, UIScrollViewDelegate>
 
@@ -38,6 +40,7 @@
 @property (nonatomic, strong) UIScrollView * bgScroll;
 @property (nonatomic, strong) RPTaggedNavView *taggedNavView;
 
+@property (nonatomic, strong) ELAInformationDetail *model;
 @end
 
 
@@ -46,7 +49,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self creatView];
+    [self getNetworkData];
 }
 
 #pragma mark -- taggedNavViewDelegate
@@ -56,6 +59,38 @@
         self.bgScroll.contentOffset = CGPointMake(ScreenWidth * index, 0);
     }];
    
+}
+
+#pragma mark -- Network
+
+- (void)getNetworkData
+{
+    [self showLoadingView];
+    ELAWeakSelf;
+    [ELANetwork getInformation:_paramModel.did ID:_index block:^(id  _Nonnull data, NSError * _Nonnull error) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [weakSelf hideLoadingView];
+            if(error)
+            {
+                if(error.code == -999)
+                {
+                    //已取消
+                }
+                else
+                {
+                    [weakSelf showErrorInfo:error.localizedDescription];
+                }
+            }
+            else
+            {
+                weakSelf.model = data;
+                [weakSelf creatView];
+            }
+        });
+        
+    }];
 }
 
 #pragma mark -- scrollviewDelegate
@@ -168,7 +203,15 @@
     self.ringProgress.label.textColor = [UIColor whiteColor];
     self.ringProgress.label.hidden = NO;
     [self.ringProgress initializeProgress];
-    self.ringProgress.progress = 0.12;
+    if(_model.impeachmentVotes != 0)
+    {
+        self.ringProgress.progress =  _model.impeachmentThroughVotes / _model.impeachmentVotes;
+        
+    }
+    else
+    {
+        self.ringProgress.progress = 0;
+    }
     
     UILabel *currentNumLabel = [[UILabel alloc] init];
     currentNumLabel.text = ELALocalizedString(@"当前票数");
@@ -179,7 +222,7 @@
     [infoView addSubview:currentNumLabel];
     
     UILabel *currentNumValueLabel = [[UILabel alloc] init];
-    currentNumValueLabel.text = ELALocalizedString(@"2312 ELA");
+    currentNumValueLabel.text = [NSString stringWithFormat:@"%f", _model.impeachmentVotes];//ELALocalizedString(@"2312 ELA");
     currentNumValueLabel.textColor = [UIColor whiteColor];
     currentNumValueLabel.font = PingFangRegular(12);
     currentNumValueLabel.textAlignment = NSTextAlignmentCenter;
@@ -195,7 +238,8 @@
     [infoView addSubview:impeachmentNumLabel];
     
     UILabel *impeachmentNumValueLabel = [[UILabel alloc] init];
-    impeachmentNumValueLabel.text = ELALocalizedString(@"2312111 ELA");
+    impeachmentNumValueLabel.text = [NSString stringWithFormat:@"%f", _model.impeachmentThroughVotes];
+    //ELALocalizedString(@"2312111 ELA");
     impeachmentNumValueLabel.textColor = [UIColor whiteColor];
     impeachmentNumValueLabel.font = PingFangRegular(12);
     impeachmentNumValueLabel.textAlignment = NSTextAlignmentCenter;
@@ -261,18 +305,23 @@
 
 - (void)creatView
 {
+    if(!_model)
+    {
+        return;
+    }
     UIView *infoView = [[UIView alloc] init];
     [self.view addSubview:infoView];
     
     UIImageView *headImageView = [[UIImageView alloc] init];
-    headImageView.image = ImageNamed(@"point_information_img");
+//    headImageView.image = ImageNamed(@"point_information_img");
+    [headImageView sd_setImageWithURL:[NSURL URLWithString:_model.address] placeholderImage:nil];
     headImageView.layer.masksToBounds = YES;
     headImageView.layer.cornerRadius = 25;
     headImageView.contentMode = UIViewContentModeScaleAspectFit;
     [infoView addSubview:headImageView];
     
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = ELALocalizedString(@"Feng zhang");
+    titleLabel.text = ELALocalizedString(_model.didName);
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.font = PingFangRegular(14);
     titleLabel.textAlignment = NSTextAlignmentLeft;
@@ -286,14 +335,14 @@
     [infoView addSubview:bgView];
     
     UILabel *jobLabel = [[UILabel alloc] init];
-    jobLabel.text = @"已去职";
+    jobLabel.text = _model.status;
     jobLabel.textColor = [UIColor whiteColor];
     jobLabel.font = PingFangRegular(10);
     jobLabel.textAlignment = NSTextAlignmentCenter;
     [infoView addSubview:jobLabel];
     
     UILabel *subLabel = [[UILabel alloc] init];
-    subLabel.text = @"中国";
+    subLabel.text = [ELAUtils getNationality:_model.location];
     subLabel.textColor = [UIColor whiteColor];
     subLabel.font = PingFangRegular(12);
     subLabel.textAlignment = NSTextAlignmentLeft;

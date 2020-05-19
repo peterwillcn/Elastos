@@ -23,27 +23,39 @@
 
 
 #import <Foundation/Foundation.h>
+#import "ELABaseModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ELANetwork : NSObject
+@interface ELAInformationDetail : ELABaseModel
 
-
-/// 查询历届CR委员会相关信息 
-+ (NSURLSessionDataTask *)getCommitteeInfo:(void (^) (id data, NSError *error))block;
-
-/// 查询某届CR委员会委员列表
-/// @param _id  id  第几届
-/// @param block 回调
-+ (NSURLSessionDataTask *)getCouncilListInfo:(NSInteger)_id block:(void (^) (id data, NSError *error))block;
-
-
-/// 查询CR委员或秘书长详细信息
-/// @param did  委员DID
-/// @param _id 第几届 [默认当届]
-/// @param block 回调
-+ (NSURLSessionDataTask *)getInformation:(NSString *)did ID:(NSInteger)_id block:(void (^) (id data, NSError *error))block;
+@property (nonatomic, assign) double impeachmentThroughVotes;
+@property (nonatomic, assign) double impeachmentVotes;
+@property (nonatomic, strong) NSString *did;
+@property (nonatomic, strong) NSString *cid;
+@property (nonatomic, strong) NSString *didName;
+@property (nonatomic, strong) NSString *type;
+@property (nonatomic, strong) NSString *avatar;
+@property (nonatomic, assign) NSInteger location;
+@property (nonatomic, strong) NSString *address;
+@property (nonatomic, strong) NSArray *term;
+@property (nonatomic, strong) NSString *depositAmount;
+@property (nonatomic, strong) NSString *status;
+//@property (nonatomic, strong) NSString *startDate;
+//@property (nonatomic, strong) NSString *endDate;
 
 @end
 
+@interface ELATermModel : NSObject
+
+@property (nonatomic, strong) NSString *status;
+@property (nonatomic, assign) NSInteger ID;
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *voteResult;
+
+@property (nonatomic, assign) double createdAt;
+
+@end
+
+    
 NS_ASSUME_NONNULL_END

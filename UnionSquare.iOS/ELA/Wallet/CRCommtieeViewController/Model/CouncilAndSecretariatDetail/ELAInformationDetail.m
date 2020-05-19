@@ -22,28 +22,30 @@
  */
 
 
-#import <Foundation/Foundation.h>
-
-NS_ASSUME_NONNULL_BEGIN
-
-@interface ELANetwork : NSObject
+#import "ELAInformationDetail.h"
 
 
-/// 查询历届CR委员会相关信息 
-+ (NSURLSessionDataTask *)getCommitteeInfo:(void (^) (id data, NSError *error))block;
+@implementation ELAInformationDetail
 
-/// 查询某届CR委员会委员列表
-/// @param _id  id  第几届
-/// @param block 回调
-+ (NSURLSessionDataTask *)getCouncilListInfo:(NSInteger)_id block:(void (^) (id data, NSError *error))block;
-
-
-/// 查询CR委员或秘书长详细信息
-/// @param did  委员DID
-/// @param _id 第几届 [默认当届]
-/// @param block 回调
-+ (NSURLSessionDataTask *)getInformation:(NSString *)did ID:(NSInteger)_id block:(void (^) (id data, NSError *error))block;
-
++ (instancetype)mj_objectWithKeyValues:(id)keyValues
+{
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] initWithDictionary:keyValues];
+    NSDictionary *data = [keyValues objectForKey:@"data"];
+    [dic removeObjectForKey:@"data"];
+    [dic addEntriesFromDictionary:data];
+    return [self mj_objectWithKeyValues:dic context:nil];
+    
+}
++ (NSDictionary *)objectClassInArray
+{
+    return @{
+        @"term":[ELATermModel class]
+    };
+    
+}
 @end
 
-NS_ASSUME_NONNULL_END
+
+@implementation ELATermModel : NSObject
+
+@end

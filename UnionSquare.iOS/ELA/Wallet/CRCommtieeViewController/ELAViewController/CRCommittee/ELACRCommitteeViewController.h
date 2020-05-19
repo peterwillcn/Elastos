@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ELACRCommitteeViewController : ELACRBaseViewController
 
 
+@property (nonatomic, assign) NSInteger index;
 
 @end
 

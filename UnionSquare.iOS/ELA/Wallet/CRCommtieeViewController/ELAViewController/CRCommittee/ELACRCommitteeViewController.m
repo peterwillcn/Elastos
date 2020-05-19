@@ -15,11 +15,19 @@
 #import "ELACommitteeListViewController.h"
 #import "ELASecretaryListViewController.h"
 #import "ELANetwork.h"
+#import "ELACouncilAndSecretariatModel.h"
 
 @interface ELACRCommitteeViewController ()<UIScrollViewDelegate, RPTaggedNavViewDelegate>
 
 @property (nonatomic, strong) UIScrollView * bgScroll;
 @property (nonatomic, strong) RPTaggedNavView *taggedNavView;
+
+@property (nonatomic, strong) ELACouncilAndSecretariatModel *model;
+
+@property (nonatomic, strong) ELACommitteeListViewController *committeeVc;
+@property (nonatomic, strong) ELASecretaryListViewController *secretaryVc;
+
+ 
 @end
 
 @implementation ELACRCommitteeViewController
@@ -61,22 +69,29 @@
     
     ELACommitteeListViewController *committeeVc = [[ELACommitteeListViewController alloc] init];
     [committeeVc creatViewWithInitFrame:CGRectMake(0, 0, ScreenWidth, _bgScroll.height)];
+    committeeVc.index = _index;
     [self addChildViewController:committeeVc];
     [_bgScroll addSubview:committeeVc.view];
     
+    
     ELASecretaryListViewController *secretaryVc = [[ELASecretaryListViewController alloc] init];
     [secretaryVc creatViewWithInitFrame:CGRectMake(ScreenWidth, 0, ScreenWidth, _bgScroll.height)];
+    secretaryVc.index = _index;
     [self addChildViewController:secretaryVc];
     [_bgScroll addSubview:secretaryVc.view];
     
+    _committeeVc = committeeVc;
+    _secretaryVc = secretaryVc;
     [self getNetworkData];
 }
+
+#pragma mark -- Network
 
 - (void)getNetworkData
 {
     [self showLoadingView];
     ELAWeakSelf;
-    [ELANetwork getCouncilListInfo:1 block:^(id  _Nonnull data, NSError * _Nonnull error) {
+    [ELANetwork getCouncilListInfo:_index block:^(id  _Nonnull data, NSError * _Nonnull error) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
@@ -94,7 +109,11 @@
             }
             else
             {
-                NSDictionary *getData = data;
+                weakSelf.model = data;
+                weakSelf.committeeVc.infoModel = weakSelf.model;
+                weakSelf.secretaryVc.infoModel = weakSelf.model;
+                [weakSelf.committeeVc reloadTableView];
+                 [weakSelf.secretaryVc reloadTableView];
             }
         });
         

@@ -47,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString *)localizedString:(NSString *)key;
 + (UIColor *)colorWithHex:(long)hexColor alpha:(float)opacity;
++ (NSString *)getNationality:(NSInteger )location;
 + (NSString *)getTime:(NSString *)timeStr;
 
 

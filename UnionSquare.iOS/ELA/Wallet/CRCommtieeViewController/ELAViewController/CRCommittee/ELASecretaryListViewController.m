@@ -25,6 +25,11 @@
     // Do any additional setup after loading the view.
 }
 
+- (void)reloadTableView
+{
+    [_contentTableView reloadData];
+}
+
 #pragma mark - Action
 
 - (void)loadNewData
@@ -46,8 +51,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-   
-    return 10;
+    if(_infoModel)
+    {
+        if(_infoModel.secretariat)
+        {
+            return _infoModel.secretariat.count;
+        }
+    }
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -71,19 +82,37 @@
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
+    ELASecretariatModel *model = nil;
+    NSString *nameStr = @"";
+    NSString *headStr = @"";
+    NSInteger location = 0;
+    NSString *status = @"";
+    NSString *dateStr = @"";
+    if(_infoModel.secretariat)
+    {
+        model = [_infoModel.secretariat objectAtIndex:indexPath.row];
+        
+        nameStr = model.didName;
+        headStr = model.avatar;
+        status = model.status;
+        location = model.location;
+        dateStr = [NSString stringWithFormat:@"%@-%@", [ELAUtils getTime:model.startDate],
+        [ELAUtils getTime:model.endDate]];
+    }
+    
     UIView *infoView = [[UIView alloc] init];
     infoView.backgroundColor = [UIColor clearColor];
     [cell.contentView addSubview:infoView];
     
     UIImageView *headImageView = [[UIImageView alloc] init];
-    headImageView.image = ImageNamed(@"point_information_img");
+    [headImageView sd_setImageWithURL:[NSURL URLWithString:headStr] placeholderImage:nil];
     headImageView.layer.masksToBounds = YES;
     headImageView.layer.cornerRadius = 25;
     headImageView.contentMode = UIViewContentModeScaleAspectFit;
     [infoView addSubview:headImageView];
     
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = ELALocalizedString(@"Feng zhang");
+    titleLabel.text = ELALocalizedString(nameStr);
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.font = PingFangRegular(14);
     titleLabel.textAlignment = NSTextAlignmentLeft;
@@ -97,14 +126,14 @@
     [infoView addSubview:bgView];
     
     UILabel *jobLabel = [[UILabel alloc] init];
-    jobLabel.text = @"现任";
+    jobLabel.text = ELALocalizedString(status);
     jobLabel.textColor = [UIColor whiteColor];
     jobLabel.font = PingFangRegular(10);
     jobLabel.textAlignment = NSTextAlignmentCenter;
     [infoView addSubview:jobLabel];
     
     UILabel *subLabel = [[UILabel alloc] init];
-    subLabel.text = @"中国";
+    subLabel.text =  [ELAUtils getNationality:location];
     subLabel.textColor = [UIColor whiteColor];
     subLabel.font = PingFangRegular(12);
     subLabel.textAlignment = NSTextAlignmentLeft;
@@ -118,7 +147,7 @@
     [infoView addSubview:timeBgView];
     
     UILabel *timeLabel = [[UILabel alloc] init];
-    timeLabel.text = @"2019.12.01-2020.01.01";
+    timeLabel.text = dateStr;
     timeLabel.textColor = [UIColor whiteColor];
     timeLabel.font = PingFangRegular(10);
     timeLabel.textAlignment = NSTextAlignmentCenter;
@@ -233,12 +262,12 @@
         make.left.right.equalTo(self.view);
         make.top.bottom.equalTo(self.view);
     }];
-    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-    _contentTableView.mj_header = header;
-  
-    
-    MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-    _contentTableView.mj_footer = footer;
+//    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+//    _contentTableView.mj_header = header;
+//  
+//    
+//    MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+//    _contentTableView.mj_footer = footer;
     
 //   _contentTableView.mj_header  = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
 //

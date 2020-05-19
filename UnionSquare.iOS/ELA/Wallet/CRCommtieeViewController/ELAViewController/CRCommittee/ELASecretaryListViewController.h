@@ -7,13 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ELACouncilAndSecretariatModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ELASecretaryListViewController : UIViewController
 
-- (void)creatViewWithInitFrame:(CGRect)frame;
 
+@property (nonatomic, assign) NSInteger index;
+@property (nonatomic, strong) ELACouncilAndSecretariatModel *infoModel;
+
+- (void)creatViewWithInitFrame:(CGRect)frame;
+- (void)reloadTableView;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -22,12 +22,8 @@
  */
 
 
-#import <UIKit/UIKit.h>
 #import "HWMSecretaryGeneralAndMembersDetailsModel.h"
-NS_ASSUME_NONNULL_BEGIN
-
-@interface HWMMemberReviewBaseViewController : UIViewController
-@property(strong,nonatomic)HWMSecretaryGeneralAndMembersDetailsModel *detailsModel;
+@implementation  HWMStermModel
 @end
-
-NS_ASSUME_NONNULL_END
+@implementation HWMSecretaryGeneralAndMembersDetailsModel
+@end

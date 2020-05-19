@@ -23,10 +23,13 @@
 
 
 #import <UIKit/UIKit.h>
+#import "HWMSecretaryGeneralAndMembersDetailsModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMCommunityProposalViewController : UIViewController
+@property(strong,nonatomic)HWMSecretaryGeneralAndMembersDetailsModel *detailsModel;
+
 @end
 
 NS_ASSUME_NONNULL_END

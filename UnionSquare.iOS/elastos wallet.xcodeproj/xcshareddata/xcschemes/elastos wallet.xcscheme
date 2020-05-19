@@ -37,6 +37,16 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "428950BB24738A14007DF48D"
+               BuildableName = "elastoswalletUITests.xctest"
+               BlueprintName = "elastoswalletUITests"
+               ReferencedContainer = "container:elastos wallet.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

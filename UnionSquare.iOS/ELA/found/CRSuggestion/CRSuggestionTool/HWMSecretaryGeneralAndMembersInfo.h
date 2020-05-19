@@ -23,27 +23,13 @@
 
 
 #import <Foundation/Foundation.h>
-
-
-typedef void(^CRSuggestionNetWorkComplete)(id _Nonnull data);
-typedef NS_ENUM(NSUInteger, CommunityProposalType) {
-    ALLType=0,
-    VOTINGType,
-    NOTIFICATIONType,
-    ACTIVEType,
-    FINALType,
-    REJECTEDType,
-};
+#import "HWMSecretaryGeneralAndMembersDetailsModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HWMCRSuggestionNetWorkManger : NSObject;
-+(instancetype)shareCRSuggestionNetWorkManger;
--(void)reloadCRSuggestionDataSourceWithType:(CommunityProposalType)type withStartIndex:(NSInteger)startIndex withNumbers:(NSInteger)numer withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed;
--(void)searchReloadCRSuggestionDataSourceWithType:(CommunityProposalType)type withStartIndex:(NSInteger)startIndex withNumbers:(NSInteger)numer withSearchContent:(NSString*)searchString withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed;
--(void)reloadCRSuggestionDetailsWithID:(NSString*)ID withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed;
--(void)reloadCRAdviceDetailsWithID:(NSString*)ID withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed;
--(void)reloadSecretaryGeneralAndMembersDetailsWithID:(NSString*)ID withDIDString:(NSString*)didString withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed;
+@interface HWMSecretaryGeneralAndMembersInfo : NSObject
++(instancetype)shareTools;
+-(HWMSecretaryGeneralAndMembersDetailsModel*)getDetailsModel;
+-(void)loadDataSource;
 @end
-
 
 NS_ASSUME_NONNULL_END

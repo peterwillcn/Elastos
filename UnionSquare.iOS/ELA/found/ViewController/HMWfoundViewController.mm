@@ -18,7 +18,7 @@
 //#import "ELAUtils.h"
 #import "ELACRCommitteeListViewController.h"
 #import "ELAUtils.h"
-
+#import "HWMSecretaryGeneralAndMembersInfo.h"
 @interface HMWfoundViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) UITableView *table;
@@ -52,7 +52,7 @@
     self.table.tableFooterView = [[UIView alloc] init];
     self.dataSource =[[NSMutableArray alloc]initWithObjects:@"",@"",@"", @"", nil];
     [self.table registerNib:[UINib nibWithNibName:@"HMWfoundTableCell" bundle:nil] forCellReuseIdentifier:@"HMWfoundTableCell"];
-    
+    [[HWMSecretaryGeneralAndMembersInfo shareTools]loadDataSource];
 }
 -(void)loadElectionInfo{
     ELWalletManager *manager   =  [ELWalletManager share];

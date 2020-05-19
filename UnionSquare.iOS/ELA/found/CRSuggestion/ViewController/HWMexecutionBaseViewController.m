@@ -57,7 +57,6 @@
     HWMCollectionProposalPerformViewController *CollectionProposalPerformVC=[[HWMCollectionProposalPerformViewController alloc]init];
     CollectionProposalPerformVC.model=self.allBillListAarray[index];
     [self.navigationController pushViewController:CollectionProposalPerformVC animated:YES];
-    
 }
 -(void)needUpdateDataSource{
     [self.allBillListAarray removeAllObjects];

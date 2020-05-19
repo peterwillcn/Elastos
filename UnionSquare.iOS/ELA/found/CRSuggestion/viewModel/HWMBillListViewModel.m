@@ -66,6 +66,10 @@
             model.status=NSLocalizedString(@"已完成",nil);
         }else if ([model.status isEqualToString:@"REJECTED"]){
             model.status=NSLocalizedString(@"已废止",nil);
+        }else if ([model.status isEqualToString:@"REJECTED"]){
+            model.status=NSLocalizedString(@"未通过",nil);
+        }else if ([model.status isEqualToString:@"VETOED"]){
+            model.status=NSLocalizedString(@"已否决",nil);
         }
         model.cellHeight=[[FLTools share]calculateRowHeight:model.title fontSize:14 withmargin:30];
         if (model.cellHeight>60) {

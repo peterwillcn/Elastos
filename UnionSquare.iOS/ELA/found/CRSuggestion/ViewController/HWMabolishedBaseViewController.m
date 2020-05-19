@@ -52,8 +52,18 @@
     return _allBaseView;
 }
 -(void)didShowDetailsWithIndex:(NSInteger)index{
-    HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
-    [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
+    HWMBillListModel * model=self.allBillListAarray[index];
+    if ([model.status isEqualToString:NSLocalizedString(@"未通过",nil)]){
+        HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
+        CommentPerioDetailsVC.model=model;
+        CommentPerioDetailsVC.type=CommentPerioREJECTEDType;
+        [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
+    }else if ([model.status isEqualToString:NSLocalizedString(@"已否决",nil)]){
+        HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
+        CommentPerioDetailsVC.model=model;
+        CommentPerioDetailsVC.type=CommentPerioVETOEDType;
+        [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
+    }
     
 }
 -(void)needUpdateDataSource{

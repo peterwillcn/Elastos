@@ -278,7 +278,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     if (self.isSecOpen) {
         self.secHeight=330;
     }else{
-        self.secHeight=70;
+        self.secHeight=80;
     }
     [self.baseTable reloadData];
 }

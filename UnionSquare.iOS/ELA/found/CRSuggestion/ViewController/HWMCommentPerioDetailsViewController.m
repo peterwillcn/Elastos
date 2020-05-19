@@ -49,6 +49,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 @property(assign,nonatomic)BOOL isOpen;
 @property(strong,nonatomic)HWMOpposedProgressHeadView*OpposedProgressHeadV;
 @property(strong,nonatomic)HMWinputVotesPopupWindowView*inputVoteTicketView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *BGButtonHeight;
 
 @end
 
@@ -99,6 +100,40 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         }];
         self.OpposedProgressHeadV.model=self.model;
         self.baseTable.tableHeaderView=tableHeadView;
+    }else if (self.type== CommentPerioFINALType){
+        self.buttonBGView.alpha=0.f;
+        self.BGButtonHeight.constant=0.f;
+        UIView *tableHeadView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 90+self.model.cellHeight)];
+        self.headView.model=self.model;
+        [tableHeadView addSubview:self.headView];
+        [self.headView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(tableHeadView);
+        }];
+        self.baseTable.tableHeaderView=tableHeadView;
+    }else if (self.type==CommentPerioREJECTEDType){
+        self.buttonBGView.alpha=0.f;
+        self.BGButtonHeight.constant=0.f;
+        UIView *tableHeadView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 90+self.model.cellHeight)];
+        self.headView.model=self.model;
+        self.headView.needMakeLine=YES;
+        [tableHeadView addSubview:self.headView];
+        [self.headView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(tableHeadView);
+        }];
+        self.baseTable.tableHeaderView=tableHeadView;
+        
+    }else if (self.type==CommentPerioVETOEDType){
+        self.buttonBGView.alpha=0.f;
+        self.BGButtonHeight.constant=0.f;
+        self.OpposedProgressHeadV.needMakeLine=YES;
+        UIView *tableHeadView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 180+self.model.cellHeight)];
+        [tableHeadView addSubview:self.OpposedProgressHeadV];
+        [self.OpposedProgressHeadV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(tableHeadView);
+        }];
+        self.OpposedProgressHeadV.model=self.model;
+        self.baseTable.tableHeaderView=tableHeadView;
+        
     }
     
     [self setTableViewFootViewWithHeight:300];
@@ -177,15 +212,15 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     
 }
 - (IBAction)SweepYardsToVoteEvent:(id)sender {
-    [self ShowTradingDetailsWithType];
-    //    [self QrCode];
+    //    [self ShowTradingDetailsWithType];
+    [self QrCode];
 }
 -(void)QrCode{
     __weak __typeof__(self) weakSelf = self;
     WCQRCodeScanningVC *WCQRCode=[[WCQRCodeScanningVC alloc]init];
     WCQRCode.frVC=self;
     WCQRCode.scanBack=^(NSString *addr){
-        NSLog(@"扫二维码 获取到的数据---%@",addr);
+        
         
         
     };
@@ -325,6 +360,6 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 }
 -(void)didHadInputVoteTicket:(NSString*)ticketNumer WithIsMax:(BOOL)isMax{
     self.CRProposalConfirmV.type=againstType;
-     [self showCRProposalConfirmView];
+    [self showCRProposalConfirmView];
 }
 @end

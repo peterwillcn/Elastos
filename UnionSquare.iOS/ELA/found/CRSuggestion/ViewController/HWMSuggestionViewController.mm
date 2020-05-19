@@ -347,8 +347,6 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
         NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
         [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
         return;
-    }else{
-        [self showSendSuccessOrFial:SignatureFailureType];
     }
     NSNumber *Type;
     
@@ -399,15 +397,10 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
         NSDictionary *callDic = [self callBack:calculateProposalHash pwd:pwd];
         if(callDic)
         {
-            
             [self updaeJWTInfoWithDic:callDic];
-        }else {
+        }else{
             [self showSendSuccessOrFial:SignatureFailureType];
         }
-        
-        
-    }else{
-         [self showSendSuccessOrFial:SignatureFailureType];
     }
     
 }
@@ -424,21 +417,14 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
             if (![REString isEqualToString:@"-1"]) {
                 NSDictionary *dic=@{@"jwt":[NSString stringWithFormat:@"%@.%@",jwtString,REString]};
                 return dic;
-            }else{
-                [self showSendSuccessOrFial:SignatureFailureType];
             }
-        }else{
-            [self showSendSuccessOrFial:SignatureFailureType];
-        }
-    }else{
-        [self showSendSuccessOrFial:SignatureFailureType];
     }
     return nil;
 }
-
+}
 
 -(void)showSendSuccessOrFial:(SendSuccessType)type{
-    [self closepwdView];
+    [self closeTransactionDetailsView];
     [self closepwdView];
     [[FLTools share]hideLoadingView];
     self.sendSuccessPopuV.type=type;

@@ -57,6 +57,7 @@
     CommentPerioDetailsVC.model=self.allBillListAarray[index];
     CommentPerioDetailsVC.type=CommentPerioNOTIFICATIONType;
     [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
+    
 }
 -(void)needUpdateDataSource{
     [self.allBillListAarray removeAllObjects];

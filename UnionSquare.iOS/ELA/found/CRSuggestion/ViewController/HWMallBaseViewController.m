@@ -29,6 +29,7 @@
 #import "HWMCRSuggestionNetWorkManger.h"
 #import "HWMBillListModel.h"
 #import "HWMCollectionProposalPerformViewController.h"
+#import "HWMCommentPerioDetailsViewController.h"
 @interface HWMallBaseViewController ()<HWMCommunityProposalBaseViewDelegate>
 @property(strong,nonatomic)HWMCommunityProposalBaseView *allBaseView;
 @property(strong,nonatomic)HWMBillListViewModel*allBillListVM;
@@ -60,10 +61,10 @@
     if ([model.status isEqualToString:NSLocalizedString(@"委员评议",nil)]) {
         HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
         CommentPerioDetailsVC.model=model;
-        CommentPerioDetailsVC.type=CommentPerioNOTIFICATIONType;
-        //        CommentPerioDetailsVC.type=CommentPerioVOTINGType;
+        CommentPerioDetailsVC.type=CommentPerioVOTINGType;
         [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
     }else if ([model.status isEqualToString:NSLocalizedString(@"公示中",nil)]){
+        
         HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
         CommentPerioDetailsVC.model=model;
         CommentPerioDetailsVC.type=CommentPerioNOTIFICATIONType;
@@ -76,11 +77,17 @@
         HWMCollectionProposalPerformViewController *CollectionProposalPerformVC=[[HWMCollectionProposalPerformViewController alloc]init];
         CollectionProposalPerformVC.model=model;
         [self.navigationController pushViewController:CollectionProposalPerformVC animated:YES];
-    }else if ([model.status isEqualToString:NSLocalizedString(@"已废止",nil)]){
-        
+    }else if ([model.status isEqualToString:NSLocalizedString(@"未通过",nil)]){
+        HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
+        CommentPerioDetailsVC.model=model;
+        CommentPerioDetailsVC.type=CommentPerioREJECTEDType;
+        [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
+    }else if ([model.status isEqualToString:NSLocalizedString(@"已否决",nil)]){
+        HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
+        CommentPerioDetailsVC.model=model;
+        CommentPerioDetailsVC.type=CommentPerioVETOEDType;
+        [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
     }
-    
-    
 }
 -(void)needUpdateDataSource{
     [self.allBillListAarray removeAllObjects];

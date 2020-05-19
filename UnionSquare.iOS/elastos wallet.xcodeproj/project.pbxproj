@@ -432,6 +432,7 @@
 		4285732E2366F56500C0CF80 /* HWMDIDListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4285732C2366F56500C0CF80 /* HWMDIDListViewController.xib */; };
 		42885A562216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 42885A542216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.mm */; };
 		42885A572216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42885A552216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib */; };
+		428950CA2473A8DA007DF48D /* HWMSecretaryGeneralAndMembersDetailsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 428950C92473A8DA007DF48D /* HWMSecretaryGeneralAndMembersDetailsModel.m */; };
 		428B4D7722CAFCA9004AE7D0 /* HWMcreatListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 428B4D7522CAFCA9004AE7D0 /* HWMcreatListViewController.mm */; };
 		428B4D7822CAFCA9004AE7D0 /* HWMcreatListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 428B4D7622CAFCA9004AE7D0 /* HWMcreatListViewController.xib */; };
 		428B4D8122CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 428B4D7F22CAFD71004AE7D0 /* HWMHWMcreatWalletListlTableViewCell.m */; };
@@ -1558,6 +1559,8 @@
 		42885A532216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMTransactionDetailsURLViewController.h; sourceTree = "<group>"; };
 		42885A542216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HWMTransactionDetailsURLViewController.mm; sourceTree = "<group>"; };
 		42885A552216DF3800C9AD47 /* HWMTransactionDetailsURLViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMTransactionDetailsURLViewController.xib; sourceTree = "<group>"; };
+		428950C82473A8DA007DF48D /* HWMSecretaryGeneralAndMembersDetailsModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMSecretaryGeneralAndMembersDetailsModel.h; sourceTree = "<group>"; };
+		428950C92473A8DA007DF48D /* HWMSecretaryGeneralAndMembersDetailsModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMSecretaryGeneralAndMembersDetailsModel.m; sourceTree = "<group>"; };
 		428B4D7422CAFCA9004AE7D0 /* HWMcreatListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMcreatListViewController.h; sourceTree = "<group>"; };
 		428B4D7522CAFCA9004AE7D0 /* HWMcreatListViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HWMcreatListViewController.mm; sourceTree = "<group>"; };
 		428B4D7622CAFCA9004AE7D0 /* HWMcreatListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMcreatListViewController.xib; sourceTree = "<group>"; };
@@ -3353,6 +3356,8 @@
 				424E0A48246B97E4003B40CF /* HWMDetailsProposalModel.m */,
 				426B0507246E9FD700B6FAB9 /* HWMBudgetsModel.h */,
 				426B0508246E9FD700B6FAB9 /* HWMBudgetsModel.m */,
+				428950C82473A8DA007DF48D /* HWMSecretaryGeneralAndMembersDetailsModel.h */,
+				428950C92473A8DA007DF48D /* HWMSecretaryGeneralAndMembersDetailsModel.m */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -4530,6 +4535,7 @@
 				LastUpgradeCheck = 1140;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = VNP5LMNF24;
 						LastSwiftMigration = 1130;
 						ProvisioningStyle = Automatic;
 					};
@@ -5049,6 +5055,7 @@
 				70DE417D24733AFC00E89F96 /* ELACommitteeDutiesViewController.m in Sources */,
 				42D7DC6423F68C1F002F5A9A /* HWMTheImportDocumentsViewController.mm in Sources */,
 				CBD48D5C21FC36BA00BF3B11 /* AFURLSessionManager.m in Sources */,
+				428950CA2473A8DA007DF48D /* HWMSecretaryGeneralAndMembersDetailsModel.m in Sources */,
 				42EAEF85238BB43700D6A912 /* NSString+HWMNSTaggedPointerString.m in Sources */,
 				4202CA3421F6EF2A009E5932 /* FLFounderSugarVC.m in Sources */,
 				4237AAC9246934D600DD8FAE /* HWMBillListModel.m in Sources */,
@@ -5280,7 +5287,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = VNP5LMNF24;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5360,7 +5367,7 @@
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = VNP5LMNF24;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5483,7 +5490,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = VNP5LMNF24;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5608,7 +5615,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = VNP5LMNF24;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

@@ -525,18 +525,7 @@ public class TitleBar extends FrameLayout {
             tvAnimationHint.setText(text);
         }
     }
-
-    public void setDisplayMode(TitleBarDisplayMode displayMode) {
-        if (displayMode == TitleBarDisplayMode.DEFAULT || displayMode == TitleBarDisplayMode.SMALL) {
-            // Show the title bar
-            // TODO
-        }
-        else {
-            // Hide the title bar
-            // TODO
-        }
-    }
-
+    
     /**
      * Based on the counters for each activity, determines which activity type has the priority and plays the appropriate animation.
      * If no more animation, the animation is stopped

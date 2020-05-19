@@ -27,6 +27,7 @@
 #import "HWMCommentPerioDetailsViewController.h"
 #import "HWMBillListViewModel.h"
 #import "HWMCommunityProposalBaseView.h"
+#import "HWMCollectionProposalPerformViewController.h"
 @interface HWMCRsearchViewController ()<HWMCommunityProposalBaseViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *backVC;
 @property (weak, nonatomic) IBOutlet UITextField *searchTextField;
@@ -93,12 +94,42 @@
     if (!_allBaseView) {
         _allBaseView=[[HWMCommunityProposalBaseView alloc]init];
         _allBaseView.delegate=self;
+
     }
     return _allBaseView;
 }
 -(void)didShowDetailsWithIndex:(NSInteger)index{
-    HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
-    [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
+     HWMBillListModel *model=self.allBillListAarray[index];
+      if ([model.status isEqualToString:NSLocalizedString(@"委员评议",nil)]) {
+          HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
+          CommentPerioDetailsVC.model=model;
+          CommentPerioDetailsVC.type=CommentPerioVOTINGType;
+          [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
+      }else if ([model.status isEqualToString:NSLocalizedString(@"公示中",nil)]){
+          
+          HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
+          CommentPerioDetailsVC.model=model;
+          CommentPerioDetailsVC.type=CommentPerioNOTIFICATIONType;
+          [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
+      }else if ([model.status isEqualToString:NSLocalizedString(@"执行中",nil)]){
+          HWMCollectionProposalPerformViewController *CollectionProposalPerformVC=[[HWMCollectionProposalPerformViewController alloc]init];
+          CollectionProposalPerformVC.model=model;
+          [self.navigationController pushViewController:CollectionProposalPerformVC animated:YES];
+      }else if ([model.status isEqualToString:NSLocalizedString(@"已完成",nil)]){
+          HWMCollectionProposalPerformViewController *CollectionProposalPerformVC=[[HWMCollectionProposalPerformViewController alloc]init];
+          CollectionProposalPerformVC.model=model;
+          [self.navigationController pushViewController:CollectionProposalPerformVC animated:YES];
+      }else if ([model.status isEqualToString:NSLocalizedString(@"未通过",nil)]){
+          HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
+          CommentPerioDetailsVC.model=model;
+          CommentPerioDetailsVC.type=CommentPerioREJECTEDType;
+          [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
+      }else if ([model.status isEqualToString:NSLocalizedString(@"已否决",nil)]){
+          HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
+          CommentPerioDetailsVC.model=model;
+          CommentPerioDetailsVC.type=CommentPerioVETOEDType;
+          [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
+      }
 }
 -(void)needUpdateDataSource{
     [self.allBillListAarray removeAllObjects];
@@ -124,6 +155,7 @@
         return;
     }
     self.allBillListVM.searchString=self.searchTextField.text;
+    self.allBaseView.searchString=self.searchTextField.text;
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]searchReloadCRSuggestionDataSourceWithType:0 withStartIndex:staIndex withNumbers:10 withSearchContent:self.searchTextField.text withComplete:^(id  _Nonnull data) {
         [self.allBillListVM BillListWithDataJosn:data[@"data"][@"list"]  completion:^(NSArray * _Nonnull dataArray) {
             if (dataArray.count>0) {

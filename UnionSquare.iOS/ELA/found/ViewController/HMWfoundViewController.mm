@@ -16,6 +16,8 @@
 #import "HWMCommunityProposalViewController.h"
 //#import "ELACRCommitteeListViewController.h"
 //#import "ELAUtils.h"
+#import "ELACRCommitteeListViewController.h"
+#import "ELAUtils.h"
 
 @interface HMWfoundViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -135,6 +137,12 @@
 //        vc.title = ELALocalizedString(@"CR委员会");
 //        [self.navigationController pushViewController:vc animated:YES];
 //    }
+    else if (indexPath.row == 3)
+    {
+        ELACRCommitteeListViewController *vc = [[ELACRCommitteeListViewController alloc] init];
+        vc.title = ELALocalizedString(@"CR委员会");
+        [self.navigationController pushViewController:vc animated:YES];
+    }
     
 }
 @end

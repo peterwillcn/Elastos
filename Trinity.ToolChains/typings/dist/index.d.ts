@@ -8,6 +8,8 @@ import './wallet'
 import './did'
 import './hive'
 import './fingerprint'
+import './contactnotifier'
+import './notificationmanager'
 
 // CORDOVA
 import './cordova-plugin-battery-status'

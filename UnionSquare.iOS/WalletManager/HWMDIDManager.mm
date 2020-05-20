@@ -467,17 +467,17 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
                        signature,1,sig,strlen(sig));
     
     //xxl 0.0.0 do not forget to
-    NSString *str = [self charToString:signature];
-    NSData *data = [JWTBase64Coder dataWithBase64UrlEncodedString:str];
-    NSString *hexString = data.hexString;
-    
-    if (r==0) {
-        return hexString;
-    }
+//    NSString *str = [self charToString:signature];
+//    NSData *data = [JWTBase64Coder dataWithBase64UrlEncodedString:str];
+//    NSString *hexString = data.hexString;
     
 //    if (r==0) {
-//        return [self charToString:signature];
+//        return hexString;
 //    }
+    
+    if (r==0) {
+        return [self charToString:signature];
+    }
     return @"-1";
 }
 -(BOOL)ImportLocalCredentialsWithModel:(HWMDIDInfoModel*)model{
@@ -549,8 +549,12 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     NSString *hexString = data.hexString;
 
     if (r==0) {
-        return hexString;
+        return hexString;//[self charToString:signature];
     }
+    
+//    if (r==0) {
+//        return str;
+//    }
     return @"-1";
 }
 -(NSString*)proposalTheSignatureWithPWD:(NSString*)pwdString withDigestChar:(char*)DigestChar{

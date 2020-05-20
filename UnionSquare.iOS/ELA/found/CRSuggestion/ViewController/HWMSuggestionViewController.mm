@@ -553,7 +553,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
             }
     }
     return nil;
-}
+    }
 }
 
 -(void)showSendSuccessOrFial:(SendSuccessType)type{

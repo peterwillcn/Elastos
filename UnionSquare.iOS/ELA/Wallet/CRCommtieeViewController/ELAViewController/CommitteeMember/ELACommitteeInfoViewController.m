@@ -1,11 +1,25 @@
 //
-//  ELACommitteeInfoViewController.m
-//  YFFixedAssets
-//
-//  Created by xuhejun on 2020/5/12.
-//  Copyright © 2020 64. All rights reserved.
-//
-
+/*
+ * Copyright (c) 2020 Elastos Foundation
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 #import "ELACommitteeInfoViewController.h"
 #import "ELAUtils.h"
 #import "Masonry.h"
@@ -24,8 +38,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:@"委员 DID", @"委员网站", @"委员简介", nil];
-    _titlesArray = [NSArray arrayWithArray:array];
+    
+}
+
+- (void)setModel:(ELAInformationDetail *)model
+{
+    _model = model;
+    if(_model)
+    {
+        NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:ELALocalizedString(@"委员 DID"), ELALocalizedString(@"委员网站"), ELALocalizedString(@"委员简介"), nil];
+        _titlesArray = [NSArray arrayWithArray:array];
+    }
+    [_contentTableView reloadData];
 }
 
 #pragma mark - Action
@@ -87,17 +111,26 @@
     titleLabel.backgroundColor = [UIColor clearColor];
     [infoView addSubview:titleLabel];
 
+    NSString *subTitile = @"";
+    if(indexPath.row == 0)
+    {
+        subTitile = _model.did;
+    }
+    else if(indexPath.row == 1)
+    {
+        subTitile = _model.address;
+    }
+    else if(indexPath.row == 2)
+    {
+        subTitile = _model.introduction;
+    }
     UILabel *subLabel = [[UILabel alloc] init];
-    subLabel.text = @"https://www.baidu.com";
+    subLabel.text = subTitile;
     subLabel.textColor = [UIColor whiteColor];
     subLabel.font = PingFangRegular(12);
     subLabel.textAlignment = NSTextAlignmentLeft;
     subLabel.numberOfLines = 0;
     [infoView addSubview:subLabel];
-    if(indexPath.row == 2)
-    {
-        subLabel.text = @"简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介简介";
-    }
 
     [infoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(cell.contentView);

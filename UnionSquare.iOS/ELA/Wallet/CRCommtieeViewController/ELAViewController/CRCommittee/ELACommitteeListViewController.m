@@ -1,11 +1,25 @@
 //
-//  ELACommitteeListViewController.m
-//  YFFixedAssets
-//
-//  Created by xuhejun on 2020/5/12.
-//  Copyright © 2020 64. All rights reserved.
-//
-
+/*
+ * Copyright (c) 2020 Elastos Foundation
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 #import "ELACommitteeListViewController.h"
 #import "ELAUtils.h"
 #import "Masonry.h"
@@ -23,6 +37,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+- (void)reloadTableView
+{
+    [_contentTableView reloadData];
 }
 
 #pragma mark - Action
@@ -46,8 +65,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-   
-    return 10;
+    if(_infoModel)
+    {
+       if(_infoModel.council)
+       {
+           return _infoModel.council.count;
+       }
+    }
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -71,19 +96,35 @@
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
+    ELACouncilModel *model = nil;
+    NSString *nameStr = @"";
+    NSString *headStr = @"";
+    NSInteger location = 0;
+    NSString *status = @"";
+    
+    if(_infoModel.council)
+    {
+        model = [_infoModel.council objectAtIndex:indexPath.row];
+        
+        nameStr = model.didName;
+        headStr = model.avatar;
+        status = model.status;
+        location = model.location;
+    }
+    
     UIView *infoView = [[UIView alloc] init];
     infoView.backgroundColor = [UIColor clearColor];
     [cell.contentView addSubview:infoView];
     
     UIImageView *headImageView = [[UIImageView alloc] init];
-    headImageView.image = ImageNamed(@"point_information_img");
+    [headImageView sd_setImageWithURL:[NSURL URLWithString:headStr] placeholderImage:nil];
     headImageView.layer.masksToBounds = YES;
     headImageView.layer.cornerRadius = 25;
     headImageView.contentMode = UIViewContentModeScaleAspectFit;
     [infoView addSubview:headImageView];
     
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = ELALocalizedString(@"Feng zhang");
+    titleLabel.text = ELALocalizedString(nameStr);
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.font = PingFangRegular(14);
     titleLabel.textAlignment = NSTextAlignmentLeft;
@@ -97,14 +138,14 @@
     [infoView addSubview:bgView];
     
     UILabel *jobLabel = [[UILabel alloc] init];
-    jobLabel.text = @"已去职";
+    jobLabel.text = ELALocalizedString(status);
     jobLabel.textColor = [UIColor whiteColor];
     jobLabel.font = PingFangRegular(10);
     jobLabel.textAlignment = NSTextAlignmentCenter;
     [infoView addSubview:jobLabel];
     
     UILabel *subLabel = [[UILabel alloc] init];
-    subLabel.text = @"中国";
+    subLabel.text =   [ELAUtils getNationality:location]; 
     subLabel.textColor = [UIColor whiteColor];
     subLabel.font = PingFangRegular(12);
     subLabel.textAlignment = NSTextAlignmentLeft;
@@ -114,6 +155,22 @@
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.image = ImageNamed(@"asset_list_arrow");
     [infoView addSubview:imageView];
+    
+    //    状态 ['Elected', 'Impeached', 'Returned']
+    if([status isEqualToString:@"Elected"])
+    {
+        bgView.backgroundColor = ELARGB(40, 164, 124);//绿色
+    }
+    else if([status isEqualToString:@"Returned"])
+    {
+        bgView.backgroundColor = [UIColor grayColor];//灰色
+        
+    }
+    else if([status isEqualToString:@"Impeached"])
+    {
+        bgView.backgroundColor = ELARGB(160, 45, 37);//红色
+        
+    }
 
     [infoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(cell.contentView);
@@ -181,9 +238,17 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    ELACommitteeDetailViewController *vc = [[ELACommitteeDetailViewController alloc] init];
-    vc.title = @"委员详情";
-    [self.navigationController pushViewController:vc animated:YES];
+    
+    if(_infoModel.council)
+    {
+        ELACouncilModel *model = [_infoModel.council objectAtIndex:indexPath.row];
+        
+        ELACommitteeDetailViewController *vc = [[ELACommitteeDetailViewController alloc] init];
+        vc.title = ELALocalizedString(@"委员详情");
+        vc.paramModel = model;
+        vc.index = _index;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 
@@ -205,12 +270,12 @@
         make.left.right.equalTo(self.view);
         make.top.bottom.equalTo(self.view);
     }];
-    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-    _contentTableView.mj_header = header;
-  
-    
-    MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-    _contentTableView.mj_footer = footer;
+//    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+//    _contentTableView.mj_header = header;
+//
+//
+//    MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+//    _contentTableView.mj_footer = footer;
     
 //   _contentTableView.mj_header  = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
 //

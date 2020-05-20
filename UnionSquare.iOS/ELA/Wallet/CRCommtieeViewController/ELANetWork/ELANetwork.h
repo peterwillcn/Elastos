@@ -37,6 +37,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param block 回调
 + (NSURLSessionDataTask *)getCouncilListInfo:(NSInteger)_id block:(void (^) (id data, NSError *error))block;
 
+
+/// 查询CR委员或秘书长详细信息
+/// @param did  委员DID
+/// @param _id 第几届 [默认当届]
+/// @param block 回调
++ (NSURLSessionDataTask *)getInformation:(NSString *)did ID:(NSInteger)_id block:(void (^) (id data, NSError *error))block;
+
 @end
 
 NS_ASSUME_NONNULL_END

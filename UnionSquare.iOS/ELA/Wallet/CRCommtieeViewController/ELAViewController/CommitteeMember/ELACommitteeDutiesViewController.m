@@ -1,11 +1,25 @@
 //
-//  ELACommitteeDutiesViewController.m
-//  YFFixedAssets
-//
-//  Created by xuhejun on 2020/5/12.
-//  Copyright © 2020 64. All rights reserved.
-//
-
+/*
+ * Copyright (c) 2020 Elastos Foundation
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 #import "ELACommitteeDutiesViewController.h"
 #import "ELAUtils.h"
 #import "Masonry.h"
@@ -24,10 +38,32 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:@"马尔代夫联谊活动", @"马尔代夫联谊活动", @"马尔代夫联谊活动", nil];
-    _titlesArray = [NSArray arrayWithArray:array];
+//    NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:@"马尔代夫联谊活动", @"马尔代夫联谊活动", @"马尔代夫联谊活动", nil];
+    
+//    if(_model.term)
+//    {
+//        _titlesArray = [NSArray arrayWithArray:_model.term];
+//    }
+//    else
+//    {
+//        _titlesArray = [[NSArray alloc] init];
+//    }
 }
 
+- (void)setModel:(ELAInformationDetail *)model
+{
+    _model = model;
+    if(_model.term)
+    {
+        _titlesArray = [NSArray arrayWithArray:_model.term];
+    }
+    else
+    {
+        _titlesArray = [[NSArray alloc] init];
+    }
+    
+    [_contentTableView reloadData];
+}
 #pragma mark - Action
 
 - (void)loadNewData
@@ -78,17 +114,20 @@
     infoView.backgroundColor = [UIColor clearColor];
     [cell.contentView addSubview:infoView];
     
+    ELATermModel *termModel = [_titlesArray objectAtIndex:indexPath.row];
     
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = ELALocalizedString([_titlesArray objectAtIndex:indexPath.row]);
+    titleLabel.text = [NSString stringWithFormat:@"#%@", termModel.title];
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.font = PingFangRegular(14);
     titleLabel.textAlignment = NSTextAlignmentLeft;
     titleLabel.backgroundColor = [UIColor clearColor];
     [infoView addSubview:titleLabel];
-
+    NSString *date = [ELAUtils  getTimeWithNumber:termModel.createdAt];
+    NSString *subTitle = [NSString stringWithFormat:@"%ld %@ %@", (long)termModel.ID,  date, termModel.status];
+    
     UILabel *subLabel = [[UILabel alloc] init];
-    subLabel.text = @"#93 2019.05.22 Rwbacc Zhu 公示中";
+    subLabel.text = subTitle;
     subLabel.textColor = ELARGB(149, 159, 171);
     subLabel.font = PingFangRegular(12);
     subLabel.textAlignment = NSTextAlignmentLeft;
@@ -101,23 +140,40 @@
     bgView.layer.cornerRadius = 2;
     [infoView addSubview:bgView];
     
+    NSString *result = termModel.voteResult;
+    
     UILabel *agreeLabel = [[UILabel alloc] init];
-    agreeLabel.text = @"赞成";
+    agreeLabel.text = ELALocalizedString(@"support");
     agreeLabel.textColor = [UIColor whiteColor];
     agreeLabel.font = PingFangRegular(10);
     agreeLabel.textAlignment = NSTextAlignmentCenter;
     [infoView addSubview:agreeLabel];
     
-    if(indexPath.row == 1)
+    if([result isEqualToString:@"reject"])
     {
         bgView.backgroundColor = ELARGB(160, 45, 37);
-        agreeLabel.text = @"反对";
+        agreeLabel.text = ELALocalizedString(@"reject");
     }
-    else if(indexPath.row == 2)
+    else if([result isEqualToString:@"abstention"])
     {
         bgView.backgroundColor = [UIColor grayColor];
-        agreeLabel.text = @"弃权";
+        agreeLabel.text = ELALocalizedString(@"abstention");
     }
+    else if([result isEqualToString:@"undecided"])
+    {
+        bgView.backgroundColor = [UIColor grayColor];
+        agreeLabel.text = ELALocalizedString(@"undecided");
+    }
+//    if(indexPath.row == 1)
+//    {
+//        bgView.backgroundColor = ELARGB(160, 45, 37);
+//        agreeLabel.text = @"反对";
+//    }
+//    else if(indexPath.row == 2)
+//    {
+//        bgView.backgroundColor = [UIColor grayColor];
+//        agreeLabel.text = @"弃权";
+//    }
     
     [infoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(cell.contentView);

@@ -58,7 +58,7 @@
     {
         [manager.operationQueue cancelAllOperations];
     }
-        
+    [self hideLoadingView];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

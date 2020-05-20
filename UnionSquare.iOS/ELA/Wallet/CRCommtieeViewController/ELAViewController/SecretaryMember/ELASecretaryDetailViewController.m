@@ -1,11 +1,25 @@
 //
-//  ELASecretaryDetailViewController.m
-//  YFFixedAssets
-//
-//  Created by xuhejun on 2020/5/13.
-//  Copyright © 2020 64. All rights reserved.
-//
-
+/*
+ * Copyright (c) 2020 Elastos Foundation
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 #import "ELASecretaryDetailViewController.h"
 #import "ELAUtils.h"
 #import "Masonry.h"
@@ -13,11 +27,14 @@
 #import "RPTaggedNavView.h"
 #import "UIView+Ext.h"
 #import "ELAUpdateSecretaryDidViewController.h"
+#import "ELANetwork.h"
+#import "ELAInformationDetail.h"
 
 @interface ELASecretaryDetailViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *contentTableView;
-@property (nonatomic, strong) NSArray *titlesArray;
+@property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) ELAInformationDetail *model;
 
 @end
 
@@ -26,11 +43,108 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _dataArray= [[NSMutableArray alloc] init];
     
-    NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:@"秘书长 DID", @"在职时间", @"出生日期", @"邮箱", @"个人简介", nil];
-    _titlesArray = [NSArray arrayWithArray:array];
-    [self creatView];
+    [self getNetworkData];
 }
+- (void)formatData:(ELAInformationDetail *)data
+{
+    if(_model)
+    {
+        if(_model.did)
+        {
+            [self addData:ELALocalizedString(@"秘书长 DID")  other:_model.did];
+        }
+        else
+        {
+            [self addData:ELALocalizedString(@"秘书长 DID")  other:_model.did];
+        }
+        if(_model.startDate > 0)
+        {
+            NSString *date = [NSString stringWithFormat:@"%@-%@", [ELAUtils getTimeWithNumber:_model.startDate], [ELAUtils getTimeWithNumber:_model.endDate]];
+            [self addData:ELALocalizedString(@"在职时间")  other:date];
+        }
+        else
+        {
+            [self addData:ELALocalizedString(@"在职时间")  other:@""];
+        }
+        if(_model.birthday > 0)
+        {
+            [self addData:ELALocalizedString(@"出生日期")  other:[ELAUtils getTimeWithNumber:_model.birthday]];
+        }
+        if(ELAIsNoEmpty(_model.email))
+        {
+            [self addData:ELALocalizedString(@"邮箱")  other:_model.email];
+        }
+        if(ELAIsNoEmpty(_model.address))
+        {
+            [self addData:ELALocalizedString(@"个人主页")  other:_model.address];
+        }
+        if(ELAIsNoEmpty(_model.wechat))
+        {
+            [self addData:ELALocalizedString(@"微信账号")  other:_model.wechat];
+        }
+        if(ELAIsNoEmpty(_model.weibo))
+        {
+            [self addData:ELALocalizedString(@"微博账号")  other:_model.weibo];
+        }
+        if(ELAIsNoEmpty(_model.facebook))
+        {
+            [self addData:ELALocalizedString(@"Facebook 账号")  other:_model.facebook];
+        }
+        if(ELAIsNoEmpty(_model.microsoft))
+        {
+            [self addData:ELALocalizedString(@"微软账号")  other:_model.microsoft];
+        }
+        if(ELAIsNoEmpty(_model.introduction))
+        {
+            [self addData:ELALocalizedString(@"个人简介")  other:_model.introduction];
+        }
+        
+    }
+}
+- (void)addData:(id)value other:(NSString *)otherValue
+{
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    [dic setValue:value forKey:@"title"];
+    [dic setValue:otherValue forKey:@"value"];
+
+    [_dataArray addObject:dic];
+}
+
+#pragma mark -- Network
+
+- (void)getNetworkData
+{
+    [self showLoadingView];
+    ELAWeakSelf;
+    [ELANetwork getInformation:_paramModel.did ID:_index block:^(id  _Nonnull data, NSError * _Nonnull error) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [weakSelf hideLoadingView];
+            if(error)
+            {
+                if(error.code == -999)
+                {
+                    //已取消
+                }
+                else
+                {
+                    [weakSelf showErrorInfo:error.localizedDescription];
+                }
+            }
+            else
+            {
+                weakSelf.model = data;
+                [weakSelf formatData:data];
+                [weakSelf creatView];
+            }
+        });
+        
+    }];
+}
+#pragma mark - Action
 
 - (void)updateDidInfoButtonAction:(id)sender
 {
@@ -43,7 +157,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return _titlesArray.count;
+    return _dataArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -77,16 +191,26 @@
     infoView.backgroundColor = [UIColor clearColor];
     [cell.contentView addSubview:infoView];
     
+    NSDictionary *dic = [_dataArray objectAtIndex:indexPath.row];
+    
+    NSString *value = dic[@"value"];
     
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = ELALocalizedString(@"个人简介个人简介个人简介个人简介个人简介个人简介个人简介个人简介个人简介");
+    titleLabel.text = value;
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.font = PingFangRegular(14);
     titleLabel.textAlignment = NSTextAlignmentLeft;
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.numberOfLines = 0;
     [infoView addSubview:titleLabel];
-    
+    if(indexPath.section == 0)
+    {
+        titleLabel.text = _model.did;
+    }
+    else if(indexPath.section == 1)
+    {
+        titleLabel.text = [NSString stringWithFormat:@"%@-%@", [ELAUtils getTimeWithNumber:_model.startDate], [ELAUtils getTimeWithNumber:_model.endDate]];
+    }
     
     [infoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(cell.contentView);
@@ -115,8 +239,8 @@
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    NSString *title = [_titlesArray objectAtIndex:section];
-    
+    NSDictionary *dic = [_dataArray objectAtIndex:section];
+    NSString *title = dic[@"title"];
     
     UIView *_infoView = [[UIView alloc] init];
     [_infoView setFrame:CGRectMake(0, 0, ScreenWidth, 30)];
@@ -210,15 +334,16 @@
     UIView *infoView = [[UIView alloc] init];
     [self.view addSubview:infoView];
     
+//    {did:igCSy8ht7yDwV5qqcRzf5SGioMX8H9RXcj,status:CURRENT,didName:SecretaryGeneral-did,startDate:1589608108,type:SecretaryGeneral
     UIImageView *headImageView = [[UIImageView alloc] init];
-    headImageView.image = ImageNamed(@"point_information_img");
+    [headImageView sd_setImageWithURL:[NSURL URLWithString:_model.address] placeholderImage:nil];
     headImageView.layer.masksToBounds = YES;
     headImageView.layer.cornerRadius = 25;
     headImageView.contentMode = UIViewContentModeScaleAspectFit;
     [infoView addSubview:headImageView];
     
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = ELALocalizedString(@"Feng zhang");
+    titleLabel.text = _model.didName;
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.font = PingFangRegular(14);
     titleLabel.textAlignment = NSTextAlignmentLeft;
@@ -232,19 +357,29 @@
     [infoView addSubview:bgView];
     
     UILabel *jobLabel = [[UILabel alloc] init];
-    jobLabel.text = @"现任";
+    jobLabel.text = ELALocalizedString(_model.status);
     jobLabel.textColor = [UIColor whiteColor];
     jobLabel.font = PingFangRegular(10);
     jobLabel.textAlignment = NSTextAlignmentCenter;
     [infoView addSubview:jobLabel];
     
     UILabel *subLabel = [[UILabel alloc] init];
-    subLabel.text = @"中国";
+    subLabel.text = [ELAUtils getNationality:_model.location];
     subLabel.textColor = [UIColor whiteColor];
     subLabel.font = PingFangRegular(12);
     subLabel.textAlignment = NSTextAlignmentLeft;
     subLabel.alpha = 0.5;
     [infoView addSubview:subLabel];
+    
+    if([_model.status isEqualToString:@"CURRENT"])
+    {
+        bgView.backgroundColor = ELARGB(40, 164, 124);//绿色
+    }
+    else if([_model.status isEqualToString:@"NONCURRENT"])
+    {
+        bgView.backgroundColor = ELARGB(160, 45, 37);//红色
+        
+    }
     
     [infoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view);

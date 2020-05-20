@@ -782,7 +782,9 @@
         case credaccessQrCodeType:
             [self ShowPlayInfoText:data withJWTString:QRCodeString];
             break;
+        //xxl 2.2 flow TODO for go to the flow
         case suggestionQrCodeType:
+        case reviewPropalQrCodeType:
             [self showAdviceInfoText:data withJWTString:QRCodeString WithType:type];
             break;
         case billQrCodeType:
@@ -830,6 +832,9 @@
             break;
         case billQrCodeType:
             SuggestionVC.VCType=TheProposalType;
+            break;
+        case reviewPropalQrCodeType:
+            SuggestionVC.VCType=ReviewProposalType;
             break;
         default:
             break;

@@ -86,11 +86,9 @@
     
   self.theNextStepButton.userInteractionEnabled=YES;
     
-    
-    
-    
-    
 }
+
+
 -(void)makeSureWithPWD:(NSString*)pwd{
     if (pwd.length==0) {
         return;
@@ -101,6 +99,12 @@
     }
     
 }
+
+
+
+
+
+
 -(void)cancelThePWDPageView{
     [self.pwdPopupV removeFromSuperview];
     

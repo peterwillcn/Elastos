@@ -28,6 +28,7 @@ typedef NS_ENUM(NSUInteger, QrCodeSignatureType) {
     credaccessQrCodeType,
     suggestionQrCodeType,
     billQrCodeType,
+    reviewPropalQrCodeType, //xxl 2.2 flow 
     unknowQrCodeType,
     errQrCodeType
 };

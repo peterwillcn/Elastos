@@ -101,10 +101,10 @@
 -(void)didShowDetailsWithIndex:(NSInteger)index{
      HWMBillListModel *model=self.allBillListAarray[index];
       if ([model.status isEqualToString:NSLocalizedString(@"委员评议",nil)]) {
-          HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
+    HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
           CommentPerioDetailsVC.model=model;
           CommentPerioDetailsVC.type=CommentPerioVOTINGType;
-          [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
+    [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
       }else if ([model.status isEqualToString:NSLocalizedString(@"公示中",nil)]){
           
           HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];

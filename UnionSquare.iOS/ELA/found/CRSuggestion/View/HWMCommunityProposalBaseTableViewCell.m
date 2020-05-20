@@ -53,14 +53,14 @@
     _model=model;
     if (self.isSearch) {
         [self setSearchTestColorString];
-    }
+}
 }
 -(void)setSearchTestColorString{
-    
+
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:self.model.title];
     text.font = [UIFont boldSystemFontOfSize:14];
     text.color = [UIColor whiteColor];
-
+    
     [text setTextHighlightRange:self.model.searchRanege
                           color:RGBA(255, 255, 255, 0.2)
                 backgroundColor:[UIColor redColor]

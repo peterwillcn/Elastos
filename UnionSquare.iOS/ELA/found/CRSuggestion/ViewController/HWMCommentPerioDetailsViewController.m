@@ -35,6 +35,7 @@
 #import "WCQRCodeScanningVC.h"
 #import "HMWinputVotesPopupWindowView.h"
 #import "HWMSecretaryGeneralAndMembersInfo.h"
+#import "HWMQrCodeSignatureManager.h"
 static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 @interface HWMCommentPerioDetailsViewController ()<UITableViewDelegate,UITableViewDataSource,HWMCRProposalConfirmViewDelgate,HWMCommentPerioDetailsHeadViewDelegate,HWMCommitteeMembersToVoteViewDelegate,HWMOpposedProgressHeadViewDelegate,VotesPopupViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *buttonBGView;
@@ -94,9 +95,6 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
             self.buttonBGView.alpha=0.f;
             self.BGButtonHeight.constant=0.f;
         }
-        
-        
-        
         [self.sweepYardsToVoteButton setTitle:NSLocalizedString(@"扫码投票", nil) forState:UIControlStateNormal];
         UIView *tableHeadView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 90+self.model.cellHeight)];
         self.headView.model=self.model;
@@ -236,7 +234,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     
 }
 - (IBAction)SweepYardsToVoteEvent:(id)sender {
-    //    [self ShowTradingDetailsWithType];
+//    [self ShowTradingDetailsWithTypeWithData:@""];
     [self QrCode];
 }
 -(void)QrCode{
@@ -244,17 +242,25 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     WCQRCodeScanningVC *WCQRCode=[[WCQRCodeScanningVC alloc]init];
     WCQRCode.frVC=self;
     WCQRCode.scanBack=^(NSString *addr){
-        
-        
+        [weakSelf ShowTradingDetailsWithTypeWithData:addr];
         
     };
     [self QRCodeScanVC:WCQRCode];
 }
--(void)ShowTradingDetailsWithType{
+-(void)ShowTradingDetailsWithTypeWithData:(NSString*)qrString{
     if (self.type==CommentPerioVOTINGType) {//评议期
         [self showCRProposalConfirmView];
+       
+        [[HWMQrCodeSignatureManager shareTools] QrCodeDataWithData:qrString withDidString:[[HWMSecretaryGeneralAndMembersInfo shareTools] getDIDString] withmastWalletID: [[HWMSecretaryGeneralAndMembersInfo shareTools] getmasterWalletID] withComplete:^(QrCodeSignatureType type, id  _Nonnull data) {
+            
+        }];
+       
     }else if(self.type==CommentPerioNOTIFICATIONType){// 公示期
-        
+        UIView *mainView=[self mainWindow];
+          [mainView addSubview:self.inputVoteTicketView];
+          [self.inputVoteTicketView mas_makeConstraints:^(MASConstraintMaker *make) {
+              make.left.right.top.bottom.equalTo(mainView);
+          }];
     }
 }
 -(HWMCRProposalConfirmView *)CRProposalConfirmV{
@@ -383,7 +389,12 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     return _inputVoteTicketView;
 }
 -(void)didHadInputVoteTicket:(NSString*)ticketNumer WithIsMax:(BOOL)isMax{
-    self.CRProposalConfirmV.type=againstType;
+    [self.inputVoteTicketView removeFromSuperview];
+    self.inputVoteTicketView =nil;
+   
     [self showCRProposalConfirmView];
+     self.CRProposalConfirmV.type=favorType;
+    [self.CRProposalConfirmV postWithHash:@"hash" withVotes:ticketNumer withFee:@"0.2 ELA"];
 }
+
 @end

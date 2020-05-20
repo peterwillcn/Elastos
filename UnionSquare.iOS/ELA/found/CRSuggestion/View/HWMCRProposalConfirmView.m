@@ -86,13 +86,14 @@
       self.opinionStateLabel.backgroundColor=RGB(53, 176, 143);
         
     }else if (type==favorType){
-        self.opinionLabel.text=NSLocalizedString(@"反对票数", nil);
+        
+        self.hasTextInfoLable.text=NSLocalizedString(@"提案哈希", nil);
+              self.opinionLabel.text=NSLocalizedString(@"反对票数", nil);
         self.opinionStateLabel.text=NSLocalizedString(@"ELA ", nil);
         self.opinionStateLabel.backgroundColor=[UIColor clearColor];
         [[HMWCommView share]makeBordersWithView:self.opinionStateLabel withCRRound:0.f];
         
     }
-    
     _type=type;
     
 }
@@ -114,6 +115,16 @@
 -(void)cancelThePWDPageView{
     [self.pwdView removeFromSuperview];
     self.pwdView=nil;
+}
+-(void)postWithHash:(NSString*)hash withVotes:(NSString*)votes withFee:(NSString*)fee{
+    
+    self.hasTextInfoLable.text=NSLocalizedString(@"提案哈希", nil);
+                 self.opinionLabel.text=NSLocalizedString(@"反对票数", nil);
+           self.opinionStateLabel.backgroundColor=[UIColor clearColor];
+           [[HMWCommView share]makeBordersWithView:self.opinionStateLabel withCRRound:0.f];
+    self.hasLabel.text=hash;
+    self.opinionStateLabel.text=[votes stringByAppendingString:@" ELA"];
+    self.feeLabel.text=fee;
 }
 
 @end

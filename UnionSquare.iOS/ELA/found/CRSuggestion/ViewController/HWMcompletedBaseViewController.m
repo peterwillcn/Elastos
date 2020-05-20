@@ -27,6 +27,7 @@
 #import "HWMCommentPerioDetailsViewController.h"
 #import "HWMBillListViewModel.h"
 #import "HWMCRSuggestionNetWorkManger.h"
+#import "HWMCollectionProposalPerformViewController.h"
 @interface HWMcompletedBaseViewController ()<HWMCommunityProposalBaseViewDelegate>
 @property(strong,nonatomic)HWMCommunityProposalBaseView *allBaseView;
 @property(strong,nonatomic)HWMBillListViewModel*allBillListVM;
@@ -53,9 +54,9 @@
     return _allBaseView;
 }
 -(void)didShowDetailsWithIndex:(NSInteger)index{
-    HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
-    [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
-    
+    HWMCollectionProposalPerformViewController *CollectionProposalPerformVC=[[HWMCollectionProposalPerformViewController alloc]init];
+    CollectionProposalPerformVC.model=self.allBillListAarray[index];
+    [self.navigationController pushViewController:CollectionProposalPerformVC animated:YES];
 }
 -(void)needUpdateDataSource{
     [self.allBillListAarray removeAllObjects];

@@ -33,7 +33,11 @@
 #import "HWMexecutionBaseViewController.h"
 #import "HWMcompletedBaseViewController.h"
 #import "HWMabolishedBaseViewController.h"
-
+#import "HWMCRSuggestionNetWorkManger.h"
+#import "HWMSecretaryGeneralAndMembersDetailsViewModel.h"
+#import "FMDBWalletModel.h"
+#import "HMWFMDBManager.h"
+#import "HWMDIDManager.h"
 @interface HWMCommunityProposalViewController ()<UIScrollViewDelegate,HWMCommunityProposalScrollViewDelegate>
 @property(strong,nonatomic)UIImageView *placeHolferImage;
 @property (weak, nonatomic) IBOutlet UIScrollView *baseScroView;
@@ -56,7 +60,10 @@
     self.title=NSLocalizedString(@"社区提案", nil);
     self.selectIndex=0;
     [self makeUI];
+   
+    
 }
+
 -(HWMCommunityProposalScrollView *)CommunityProposalSV{
     if (!_CommunityProposalSV) {
         _CommunityProposalSV =[[HWMCommunityProposalScrollView alloc]init];
@@ -166,5 +173,8 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self hiddLoading];
+}
+-(void)setDetailsModel:(HWMSecretaryGeneralAndMembersDetailsModel *)detailsModel{
+    _detailsModel=detailsModel;
 }
 @end

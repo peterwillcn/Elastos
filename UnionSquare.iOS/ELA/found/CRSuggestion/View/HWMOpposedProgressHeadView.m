@@ -84,9 +84,9 @@
     self.titleLabel.text=model.title;
     self.stateLabel.text=model.status;
     self.timeLabel.text=model.baseInfoString;
-    //    if (self.needMakeLine) {
-    [self makeLine];
-    //    }
+        if (self.needMakeLine) {
+            [self makeLine];
+        }
     _model=model;
 }
 -(void)makeLine{

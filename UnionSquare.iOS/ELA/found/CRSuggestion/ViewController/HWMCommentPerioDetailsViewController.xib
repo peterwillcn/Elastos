@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HWMCommentPerioDetailsViewController">
             <connections>
+                <outlet property="BGButtonHeight" destination="s24-5j-X8W" id="bk8-55-Slo"/>
                 <outlet property="baseTable" destination="azv-TA-h5C" id="yyD-ln-xgq"/>
                 <outlet property="buttonBGView" destination="5fn-p9-hkG" id="OXo-3U-rxF"/>
                 <outlet property="sweepYardsToVoteButton" destination="Dnp-ZV-gFc" id="CAj-jT-tJD"/>

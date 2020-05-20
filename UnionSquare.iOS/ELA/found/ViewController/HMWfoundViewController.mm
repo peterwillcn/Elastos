@@ -16,7 +16,9 @@
 #import "HWMCommunityProposalViewController.h"
 //#import "ELACRCommitteeListViewController.h"
 //#import "ELAUtils.h"
-
+#import "ELACRCommitteeListViewController.h"
+#import "ELAUtils.h"
+#import "HWMSecretaryGeneralAndMembersInfo.h"
 @interface HMWfoundViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) UITableView *table;
@@ -50,7 +52,7 @@
     self.table.tableFooterView = [[UIView alloc] init];
     self.dataSource =[[NSMutableArray alloc]initWithObjects:@"",@"",@"", @"", nil];
     [self.table registerNib:[UINib nibWithNibName:@"HMWfoundTableCell" bundle:nil] forCellReuseIdentifier:@"HMWfoundTableCell"];
-    
+    [[HWMSecretaryGeneralAndMembersInfo shareTools]loadDataSource];
 }
 -(void)loadElectionInfo{
     ELWalletManager *manager   =  [ELWalletManager share];
@@ -135,6 +137,12 @@
 //        vc.title = ELALocalizedString(@"CR委员会");
 //        [self.navigationController pushViewController:vc animated:YES];
 //    }
+    else if (indexPath.row == 3)
+    {
+        ELACRCommitteeListViewController *vc = [[ELACRCommitteeListViewController alloc] init];
+        vc.title = ELALocalizedString(@"CR委员会");
+        [self.navigationController pushViewController:vc animated:YES];
+    }
     
 }
 @end

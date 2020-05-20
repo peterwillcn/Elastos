@@ -55,6 +55,7 @@
 -(void)didShowDetailsWithIndex:(NSInteger)index{
     HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
     CommentPerioDetailsVC.model=self.allBillListAarray[index];
+    CommentPerioDetailsVC.type=CommentPerioVOTINGType;
     [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
     
 }

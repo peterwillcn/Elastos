@@ -36,7 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,weak)id<HWMOpposedProgressHeadViewDelegate> delegate;
 @property(nonatomic,strong)HWMBillListModel *model;
 @property(nonatomic,strong)HWMDetailsProposalModel *DetailsProposalM;
-
 @property(assign,nonatomic)BOOL needMakeLine;
 @end
 

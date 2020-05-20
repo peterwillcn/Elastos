@@ -24,20 +24,21 @@
 
 #import <UIKit/UIKit.h>
 #import "HWMBillListModel.h"
-
+#import "HWMSecretaryGeneralAndMembersDetailsModel.h"
 typedef NS_ENUM(NSUInteger, CommentPerioType) {
     CommentPerioVOTINGType,
     CommentPerioNOTIFICATIONType,
     CommentPerioACTIVEType,
     CommentPerioFINALType,
     CommentPerioREJECTEDType,
+   CommentPerioVETOEDType,
 };
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMCommentPerioDetailsViewController : UIViewController
 @property(strong,nonatomic)HWMBillListModel *model;
-
+@property(strong,nonatomic)HWMSecretaryGeneralAndMembersDetailsModel *SecretaryGeneralAndModel;
 @property(assign,nonatomic)CommentPerioType type;
 @end
 

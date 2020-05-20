@@ -85,6 +85,7 @@ NSInteger timeOut = 60;
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+       
         if (isSh) {
             [[FLTools share]showErrorInfo:errorString];
         }
@@ -132,7 +133,7 @@ NSInteger timeOut = 60;
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        if (![httpUrl isEqualToString:@"/api/dposNodeRPC/getProducerNodesList"]) {
+        if (![httpUrl isEqualToString:@"/api/dposNodeRPC/getProducerNodesList"]&&![httpUrl containsString:@"/api/council/information"]) {
             [[FLTools share]showErrorInfo:errorString];
         }
         FailBlock(error);

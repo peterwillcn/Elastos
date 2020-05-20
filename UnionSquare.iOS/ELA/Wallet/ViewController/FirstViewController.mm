@@ -38,6 +38,7 @@
 #import "HMWtransferViewController.h"
 #import "HWMQrCodeSignatureManager.h"
 #import "HWMSuggestionViewController.h"
+
 @interface FirstViewController ()<FLCapitalViewDelegate,UITableViewDelegate,UITableViewDataSource,HMWaddFooterViewDelegate,HMWTheWalletListViewControllerDelegate,HMWpwdPopupViewDelegate>
 {
     FLWallet *_currentWallet;
@@ -389,6 +390,7 @@
     wallet.TypeW  = model.TypeW;
     wallet.didString=model.didString;
     self.currentWallet = wallet;
+  
     [self addAllCallBack];
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
     PluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];

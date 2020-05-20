@@ -1,3 +1,6 @@
+[submodule "DIDSession"]
+	path = Trinity/DIDSession
+	url = ../Elastos.Trinity.DApps.DIDSession.git
 [submodule "Launcher"]
 	path = Trinity/Launcher
 	url = ../Elastos.Trinity.DApps.Launcher.git
@@ -49,3 +52,4 @@
 [submodule "ToolChains"]
 	path = Trinity/ToolChains
 	url = ../Elastos.Trinity.ToolChains.git
+

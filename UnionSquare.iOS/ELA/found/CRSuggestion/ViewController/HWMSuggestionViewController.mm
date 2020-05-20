@@ -75,8 +75,6 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     
     
     if(self.VCType != ReviewProposalType){
-        
-        
         [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadCRAdviceDetailsWithID:self.PayLoadDic[@"sid"] withComplete:^(id  _Nonnull data) {
             HWMadviceViewModel*adviceViewM =[[HWMadviceViewModel alloc]init];
             [adviceViewM detailsProposalModelDataJosn:data[@"data"] completion:^(HWMadviceModel * _Nonnull model) {
@@ -186,8 +184,6 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     }
 }
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    
-    
     NSString *typStirng=self.suggestionArray[indexPath.section];
     HWMAbstractTableViewCell*cell=[tableView dequeueReusableCellWithIdentifier:AbstractVCell];
     cell.titleLabel.text=typStirng;
@@ -356,6 +352,8 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     [HttpUrl NetPOSTHost:self.PayLoadDic[@"callbackurl"] url:@"" header:nil body:pare showHUD:NO WithSuccessBlock:^(id data) {
         [self showSendSuccessOrFial:SignatureSuccessType];
     } WithFailBlock:^(id data) {
+        
+        NSLog(@"error --- @%",data);
         [self showSendSuccessOrFial:SignatureFailureType];
     }];
 }
@@ -385,6 +383,21 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     }else if(self.VCType == ReviewProposalType){
         [self reviewProposal:pwd];
     }
+    
+}
+
+-(void)createProposal:(NSString*)pwd{
+    
+    if(self.VCType == TheProposalType){
+        
+        [self createProposal:pwd];
+        
+    }else if(self.VCType == ReviewProposalType){
+        
+        [self reviewProposal:pwd];
+        
+    }
+
     
 }
 
@@ -504,6 +517,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
         }else {
             [self showSendSuccessOrFial:SignatureFailureType];
         }
+
     }else{
         [self showSendSuccessOrFial:SignatureFailureType];
     }
@@ -533,8 +547,8 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
                 return dic;
             }
         }
-        return nil;
     }
+   return nil;
 }
 
 -(void)showSendSuccessOrFial:(SendSuccessType)type{

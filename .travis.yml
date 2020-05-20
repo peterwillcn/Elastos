@@ -42,6 +42,7 @@ before_install:
 
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew cask uninstall java;
+      gem install cocoapods;
       wget -q https://dl.google.com/android/repository/sdk-tools-darwin-4333796.zip;
       sudo unzip -q sdk-tools-darwin-4333796.zip -d $TRAVIS_HOME/android-sdk/;
       export ANDROID_HOME=$TRAVIS_HOME/android-sdk;
@@ -62,9 +63,6 @@ before_install:
 install:
   - nvm install ${NODEJS_VERSION}
   - npm install -g cordova @ionic/cli
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      gem install cocoapods;
-    fi
   - if [[ "$TRAVIS_EVENT_TYPE" == "cron" && "$TRAVIS_BRANCH" == "master" && "$DEPLOY" != "" ]]; then
       .ci_scripts/checkCommit.sh;
       ret=$?;
@@ -85,7 +83,7 @@ install:
     fi
 
 script:
-  # osx:pod install too slow, so use travis_wait 30
+  # osx:pod install too slow, so use travis_wait 40
   # and if use cache, also slow
   # "| grep -v 'Applications\|export\|codesign'": just reduce the log size
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then
@@ -93,7 +91,7 @@ script:
       $TRAVIS_BUILD_DIR/ToolChains/bin/build $BUILD_TARGET -pf $BUILD_PLATFORM;
       ls -l $APK_PATH;
     else
-      travis_wait 30 $TRAVIS_BUILD_DIR/ToolChains/bin/build $BUILD_TARGET -pf $BUILD_PLATFORM --buildarg "| grep -v 'Applications\|export\|codesign'";
+      travis_wait 40 $TRAVIS_BUILD_DIR/ToolChains/bin/build $BUILD_TARGET -pf $BUILD_PLATFORM --buildarg "| grep -v 'Applications\|export\|codesign'";
     fi
 
 after_success:

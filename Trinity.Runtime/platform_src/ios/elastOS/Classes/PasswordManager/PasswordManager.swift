@@ -88,6 +88,7 @@ public class PasswordManager {
     private let mainViewController: MainViewController
     private var appManager: AppManager? = nil
     private var databasesInfo = Dictionary<String, PasswordDatabaseInfo>()
+    private var virtualDIDContext: String? = nil
 
     init(mainViewController: MainViewController) {
         self.mainViewController = mainViewController
@@ -114,6 +115,9 @@ public class PasswordManager {
                                 onPasswordInfoSet: @escaping ()->Void,
                                 onCancel: @escaping ()->Void,
                                 onError: @escaping (_ error: String)->Void) {
+        
+        let actualDID = try! getActualDIDContext(currentDIDContext: did)
+        
         // If the calling app is NOT the password manager, we can set password info only if the APPS password
         // strategy is LOCK_WITH_MASTER_PASSWORD.
         if (!appIsPasswordManager(appId: appID) && getAppsPasswordStrategy() == .DONT_USE_MASTER_PASSWORD) {
@@ -121,19 +125,25 @@ public class PasswordManager {
             return
         }
 
-        self.loadDatabase(did: did, onDatabaseLoaded: {
-            do {
-                try self.setPasswordInfoReal(info: info, did: did, appID: appID)
-                onPasswordInfoSet()
-            }
-            catch (let error) {
-                onError(error.localizedDescription)
-            }
+        checkMasterPasswordCreationRequired(did: actualDID, onMasterPasswordCreated: {
+            self.loadDatabase(did: actualDID, onDatabaseLoaded: {
+                do {
+                    try self.setPasswordInfoReal(info: info, did: actualDID, appID: appID)
+                    onPasswordInfoSet()
+                }
+                catch (let error) {
+                    onError(error.localizedDescription)
+                }
+            }, onCancel: {
+                onCancel()
+            }, onError: { error in
+                onError(error)
+            }, isPasswordRetry: false)
         }, onCancel: {
             onCancel()
         }, onError: { error in
             onError(error)
-        }, isPasswordRetry: false)
+        })
     }
 
     /**
@@ -150,18 +160,21 @@ public class PasswordManager {
                                 onPasswordInfoRetrieved: @escaping (_ password: PasswordInfo?)->Void,
                                 onCancel: @escaping ()->Void,
                                 onError: @escaping (_ error: String)->Void) throws {
+        
+        let actualDID = try! getActualDIDContext(currentDIDContext: did)
+        
         // If the calling app is NOT the password manager, we can get password info only if the APPS password
         // strategy is LOCK_WITH_MASTER_PASSWORD.
-    if (!appIsPasswordManager(appId: appID) && getAppsPasswordStrategy() == AppsPasswordStrategy.DONT_USE_MASTER_PASSWORD) {
+        if (!appIsPasswordManager(appId: appID) && getAppsPasswordStrategy() == AppsPasswordStrategy.DONT_USE_MASTER_PASSWORD) {
             // Force apps to prompt user password by themselves as we are not using a master password.
             onPasswordInfoRetrieved(nil)
             return
         }
 
-        checkMasterPasswordCreationRequired(did: did, onMasterPasswordCreated: {
-            self.loadDatabase(did: did, onDatabaseLoaded: {
+        checkMasterPasswordCreationRequired(did: actualDID, onMasterPasswordCreated: {
+            self.loadDatabase(did: actualDID, onDatabaseLoaded: {
                 do {
-                    let info = try self.getPasswordInfoReal(key: key, did: did, appID: appID)
+                    let info = try self.getPasswordInfoReal(key: key, did: actualDID, appID: appID)
                     onPasswordInfoRetrieved(info)
                 }
                 catch (let error) {
@@ -191,15 +204,17 @@ public class PasswordManager {
                                    onCancel: @escaping ()->Void,
                                    onError: @escaping (_ error: String)->Void) {
         
+        let actualDID = try! getActualDIDContext(currentDIDContext: did)
+        
         if (!appIsPasswordManager(appId: appID)) {
             onError("Only the password manager application can call this API")
             return
         }
 
         checkMasterPasswordCreationRequired(did: "", onMasterPasswordCreated: {
-            self.loadDatabase(did: did, onDatabaseLoaded: {
+            self.loadDatabase(did: actualDID, onDatabaseLoaded: {
                 do {
-                    let infos = try self.getAllPasswordInfoReal(did: did)
+                    let infos = try self.getAllPasswordInfoReal(did: actualDID)
                     onAllPasswordInfoRetrieved(infos)
                 }
                 catch (let error) {
@@ -226,15 +241,18 @@ public class PasswordManager {
                                    onPasswordInfoDeleted: @escaping ()->Void,
                                    onCancel: @escaping ()->Void,
                                    onError: @escaping (_ error: String)->Void) throws {
+        
+        let actualDID = try! getActualDIDContext(currentDIDContext: did)
+        
         // Only the password manager app can delete content that is not its own content.
         if (!appIsPasswordManager(appId: appID) && appID != targetAppID) {
             onError("Only the application manager application can delete password info that does not belong to it.")
             return
         }
 
-        loadDatabase(did: did, onDatabaseLoaded: {
+        loadDatabase(did: actualDID, onDatabaseLoaded: {
             do {
-                try self.deletePasswordInfoReal(key: key, did: did, targetAppID: targetAppID)
+                try self.deletePasswordInfoReal(key: key, did: actualDID, targetAppID: targetAppID)
                 onPasswordInfoDeleted()
             }
             catch (let error) {
@@ -274,12 +292,14 @@ public class PasswordManager {
                                      onCancel: @escaping ()->Void,
                                      onError: @escaping (_ error: String)->Void) throws {
         
+        let actualDID = try! getActualDIDContext(currentDIDContext: did)
+        
         if !appIsPasswordManager(appId: appID) {
             print("Only the password manager application can call this API")
             return
         }
 
-        loadDatabase(did: did, onDatabaseLoaded: {
+        loadDatabase(did: actualDID, onDatabaseLoaded: {
             let creatorController = MasterPasswordCreatorAlertController(nibName: "MasterPasswordCreator", bundle: Bundle.main)
             
             creatorController.setCanDisableMasterPasswordUse(false)
@@ -295,9 +315,9 @@ public class PasswordManager {
                 // Master password was provided and confirmed. Now we can use it.
 
                 do {
-                    if let dbInfo = self.databasesInfo[did] {
+                    if let dbInfo = self.databasesInfo[actualDID] {
                         // Changing the master password means re-encrypting the database with a different password
-                        try self.encryptAndSaveDatabase(did: did, masterPassword: password)
+                        try self.encryptAndSaveDatabase(did: actualDID, masterPassword: password)
 
                         // Remember the new password locally
                         dbInfo.activeMasterPassword = password
@@ -305,7 +325,7 @@ public class PasswordManager {
                         onMasterPasswordChanged()
                     }
                     else {
-                        throw "No active database for DID \(did)"
+                        throw "No active database for DID \(actualDID)"
                     }
                 }
                 catch (let error) {
@@ -326,12 +346,15 @@ public class PasswordManager {
      * manager will require user to provide his master password again.
      */
     public func lockMasterPassword(did: String, appID: String) {
+        
+        let actualDID = try! getActualDIDContext(currentDIDContext: did)
+        
         if (!appIsPasswordManager(appId: appID)) {
             print("Only the password manager application can call this API")
             return
         }
 
-        lockDatabase(did: did)
+        lockDatabase(did: actualDID)
     }
 
     /**
@@ -347,6 +370,8 @@ public class PasswordManager {
      * @param unlockMode Unlock strategy to use.
      */
     public func setUnlockMode(unlockMode: PasswordUnlockMode, did: String, appID: String) {
+        let actualDID = try! getActualDIDContext(currentDIDContext: did)
+        
         if (!appIsPasswordManager(appId: appID)) {
             print("Only the password manager application can call this API")
             return
@@ -356,7 +381,7 @@ public class PasswordManager {
 
         // if the mode becomes UNLOCK_EVERY_TIME, we lock the database
         if (getUnlockMode() != .UNLOCK_EVERY_TIME && unlockMode == PasswordUnlockMode.UNLOCK_EVERY_TIME) {
-            lockDatabase(did: did);
+            lockDatabase(did: actualDID);
         }
     }
 
@@ -381,6 +406,8 @@ public class PasswordManager {
      * @param strategy Strategy to use in order to save and get passwords in third party apps.
      */
     public func setAppsPasswordStrategy(strategy: AppsPasswordStrategy, did: String, appID: String?, forceSet: Bool) {
+        let actualDID = try! getActualDIDContext(currentDIDContext: did)
+        
         if (!forceSet && !appIsPasswordManager(appId: appID!)) {
             print("Only the password manager application can call this API")
             return
@@ -390,7 +417,7 @@ public class PasswordManager {
 
         // if the mode becomes DONT_USE_MASTER_PASSWORD, we lock the database
         if (getAppsPasswordStrategy() != .DONT_USE_MASTER_PASSWORD && strategy == .DONT_USE_MASTER_PASSWORD) {
-            lockDatabase(did: did)
+            lockDatabase(did: actualDID)
         }
     }
 
@@ -403,6 +430,33 @@ public class PasswordManager {
     public func getAppsPasswordStrategy() -> AppsPasswordStrategy {
         let savedPasswordStrategyAsInt = getPrefsInt(key: PasswordManager.PREF_KEY_APPS_PASSWORD_STRATEGY, defaultValue: AppsPasswordStrategy.LOCK_WITH_MASTER_PASSWORD.rawValue)
         return AppsPasswordStrategy(rawValue: savedPasswordStrategyAsInt) ?? AppsPasswordStrategy.LOCK_WITH_MASTER_PASSWORD
+    }
+    
+    /**
+     * RESTRICTED
+     *
+     * Used by the DID session application to toggle DID contexts and deal with DID creation, sign in,
+     * sign out. When a virtual context is set, api call such as getPasswordInfo() don't use the currently
+     * signed in DID, but they use this virtual DID instead.
+     *
+     * @param didString The DID context to use for all further api calls. Pass null to clear the virtual context.
+     */
+    public func setVirtualDIDContext(didString: String?) throws {
+        self.virtualDIDContext = didString
+    }
+    
+    private func getActualDIDContext(currentDIDContext: String?) throws -> String {
+        if virtualDIDContext != nil {
+            return virtualDIDContext!
+        }
+        else {
+            if currentDIDContext != nil {
+                return currentDIDContext!
+            }
+            else {
+                throw "No signed in DID or virtual DID context exist. Need at least one of them!"
+            }
+        }
     }
 
     private func appIsPasswordManager(appId: String) -> Bool {
@@ -651,6 +705,7 @@ public class PasswordManager {
     }
     
     private func getUserDefaults() -> UserDefaults {
+        // TODO: bug here? should be sandboxed for each DID ? IMPORTANT: Also resolve the virtual did context here
         return UserDefaults(suiteName: PasswordManager.SHARED_PREFS_KEY)!
     }
 

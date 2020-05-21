@@ -575,7 +575,9 @@ class AppManager: NSObject {
      */
     public func closeAll() throws {
         for appId in getRunningList() {
-            try close(appId)
+            if appId != AppManager.LAUNCHER {
+                try close(appId)
+            }
         }
     }
 

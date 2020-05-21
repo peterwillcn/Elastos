@@ -57,6 +57,7 @@ class PasswordManagerPlugin : TrinityPlugin {
     private func buildCancellationError() -> Dictionary<String, Any> {
         var result = Dictionary<String, Any>()
         result["code"] = PasswordManagerPlugin.NATIVE_ERROR_CODE_CANCELLED
+        result["reason"] = "MasterPasswordCancellation"
         return result
     }
 
@@ -279,5 +280,19 @@ class PasswordManagerPlugin : TrinityPlugin {
         var result = Dictionary<String, Any>()
         result["strategy"] = appsPasswordStrategy.rawValue
         self.success(command, result)
+    }
+    
+    @objc public func setVirtualDIDContext(_ command: CDVInvokedUrlCommand) {
+        let virtualDIDStringContext = command.arguments[0] as? String
+        
+        do {
+            try PasswordManager.getSharedInstance().setVirtualDIDContext(didString: virtualDIDStringContext)
+        
+            let result = Dictionary<String, Any>()
+            self.success(command, result)
+        }
+        catch let error {
+            self.error(command, error.localizedDescription)
+        }
     }
 }

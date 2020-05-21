@@ -46,6 +46,9 @@
     },
     "didsession": {
         "DIDSessionManagerPlugin": ["*"],
+        "PasswordManagerPlugin": [
+            "setVirtualDIDContext"
+        ],
         "$user": {}
     },
     "did": {

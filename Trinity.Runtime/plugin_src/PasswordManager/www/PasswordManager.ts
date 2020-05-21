@@ -163,6 +163,17 @@ class PasswordManagerImpl implements PasswordManagerPlugin.PasswordManager {
         });
     }
 
+    setVirtualDIDContext(didString: string): Promise<void> {
+        return new Promise((resolve, reject)=>{
+            exec(()=>{
+                resolve();
+            }, (err)=>{
+                console.error("Error while calling PasswordManagerPlugin.setVirtualDIDContext()", err);
+                reject(this.nativeToTSException(err));
+            }, 'PasswordManagerPlugin', 'setVirtualDIDContext', [didString]);    
+        });
+    }
+
     /**
      * Tries to convert a native error into a better TS error type for app convenience.
      */
@@ -178,7 +189,7 @@ class PasswordManagerImpl implements PasswordManagerPlugin.PasswordManager {
             case NativeErrorCode.NATIVE_ERROR_CODE_INVALID_PARAMETER: 
                 return new InvalidParameterExceptionImpl(nativeErr.reason);
             case NativeErrorCode.NATIVE_ERROR_CODE_CANCELLED: 
-                return new CancellationExceptionImpl();
+                return new CancellationExceptionImpl(nativeErr.reason);
             case NativeErrorCode.NATIVE_ERROR_CODE_UNSPECIFIED:
                 return new UnspecifiedExceptionImpl(nativeErr.reason);
             default:
@@ -187,39 +198,27 @@ class PasswordManagerImpl implements PasswordManagerPlugin.PasswordManager {
     }
 }
 
-class InvalidPasswordExceptionImpl implements PasswordManagerPlugin.InvalidPasswordException {
-    name: string;
-    message: string;
-
+class InvalidPasswordExceptionImpl extends Error implements PasswordManagerPlugin.InvalidPasswordException {
     constructor(message?: string) {
-        this.message = message;
+        super(message);
     }
 }
 
-class InvalidParameterExceptionImpl implements PasswordManagerPlugin.InvalidParameterException {
-    name: string;
-    message: string;
-
+class InvalidParameterExceptionImpl extends Error implements PasswordManagerPlugin.InvalidParameterException {
     constructor(message?: string) {
-        this.message = message;
+        super(message);
     }
 }
 
-class CancellationExceptionImpl implements PasswordManagerPlugin.CancellationException {
-    name: string;
-    message: string;
-
+class CancellationExceptionImpl extends Error implements PasswordManagerPlugin.CancellationException {
     constructor(message?: string) {
-        this.message = message;
+        super(message);
     }
 }
 
-class UnspecifiedExceptionImpl implements PasswordManagerPlugin.UnspecifiedException {
-    name: string;
-    message: string;
-
+class UnspecifiedExceptionImpl extends Error implements PasswordManagerPlugin.UnspecifiedException {
     constructor(message?: string) {
-        this.message = message;
+        super(message);
     }
 }
 

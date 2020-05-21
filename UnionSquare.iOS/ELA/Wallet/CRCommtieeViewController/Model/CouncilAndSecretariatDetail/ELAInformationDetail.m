@@ -48,4 +48,12 @@
 
 @implementation ELATermModel : NSObject
 
++ (NSDictionary *)replacedKeyFromPropertyName {
+
+     return @{
+             @"ID":@"id"
+             };
+
+}
+
 @end

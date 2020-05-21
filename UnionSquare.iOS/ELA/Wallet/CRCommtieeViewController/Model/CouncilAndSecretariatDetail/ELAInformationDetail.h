@@ -41,8 +41,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSArray *term;
 @property (nonatomic, strong) NSString *depositAmount;
 @property (nonatomic, strong) NSString *status;
-//@property (nonatomic, strong) NSString *startDate;
-//@property (nonatomic, strong) NSString *endDate;
+@property (nonatomic, strong) NSString *introduction;
+@property (nonatomic, assign) double birthday;
+@property (nonatomic, strong) NSString *email;
+@property (nonatomic, strong) NSString *wechat;
+@property (nonatomic, strong) NSString *weibo;
+@property (nonatomic, strong) NSString *facebook;
+@property (nonatomic, strong) NSString *microsoft;
+@property (nonatomic, assign) double startDate;
+@property (nonatomic, assign) double endDate;
+
 
 @end
 

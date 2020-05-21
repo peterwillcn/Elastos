@@ -1,0 +1,76 @@
+#!/usr/bin/env python
+
+import os
+import sys
+import subprocess
+import argparse
+import distutils.dir_util as dir_util
+import textwrap
+import timeit
+
+parser = argparse.ArgumentParser(description='Build the Elastor.Trinity project.',
+                                 formatter_class=argparse.RawTextHelpFormatter)
+parser.add_argument('target', metavar='TARGET', choices=['clobber','build', 'update', "updatetypes"],
+                    help=textwrap.dedent('''\
+                         Specify the target to build.
+                     '''))
+args = parser.parse_args()
+
+SCRIPT_PATH=os.path.dirname(os.path.realpath(__file__))
+
+def run_cmd(cmd, ignore_error=False):
+    print("Running: " + cmd)
+    ret = subprocess.call(cmd, shell=True)
+    if not ignore_error and ret != 0:
+        sys.exit(ret)
+
+def remove_tree(directory):
+    print("Removing: " + directory)
+    if os.path.isdir(directory):
+        dir_util.remove_tree(directory)
+
+def copy_tree(src, dst):
+    print("Copying " + src + " To " + dst)
+    dir_util.copy_tree(src, dst)
+
+startTime = timeit.default_timer()
+
+
+if args.target == "clobber":
+    dirs = os.listdir(SCRIPT_PATH)
+    for dir in dirs:
+        if not os.path.isfile(dir):
+            remove_tree(dir + "/www")
+            remove_tree(dir + "/node_modules")
+            run_cmd("rm " + dir + "/package-lock.json", True)
+
+if args.target == "build":
+    # os.chdir(DAPPS_DIR_PATH)
+    dirs = os.listdir(SCRIPT_PATH)
+    for dir in dirs:
+        dapp_dir = os.path.join(SCRIPT_PATH, dir)
+        if os.path.isdir(dapp_dir):
+            print("Building dapp: " + dir)
+            os.chdir(dapp_dir)
+            run_cmd("npm install")
+            run_cmd("ionic build --prod")
+
+if args.target == "update":
+    dirs = os.listdir(SCRIPT_PATH)
+    for dir in dirs:
+        if not os.path.isfile(dir):
+            run_cmd("git stash && git pull && git stash pop", True)
+
+if args.target == "updatetypes":
+    dirs = os.listdir(SCRIPT_PATH)
+    for dir in dirs:
+        dapp_dir = os.path.join(SCRIPT_PATH, dir)
+        print("<<<< Dapp:" + dapp_dir)
+        if not os.path.isfile(dapp_dir):
+            os.chdir(dapp_dir)
+            run_cmd("npm i @elastosfoundation/trinity-types", True)
+
+elapsed = timeit.default_timer() - startTime
+minutes = elapsed / 60
+seconds = elapsed % 60
+print('elapsed time [%d min %0.2fs]' % (minutes, seconds))

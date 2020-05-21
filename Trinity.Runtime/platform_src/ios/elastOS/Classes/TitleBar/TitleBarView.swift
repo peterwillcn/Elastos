@@ -441,6 +441,7 @@ class TitleBarView: UIView {
 
         // Navigation icon / Outer left
         if (currentNavigationIconIsVisible) {
+            btnOuterLeft.isHidden = false
             if (currentNavigationMode == TitleBarNavigationMode.CLOSE) {
                 btnOuterLeft.iconView.leftImageSrc = UIImage(named: "ic_close")
             } else {
@@ -451,7 +452,11 @@ class TitleBarView: UIView {
         else {
             // Navigation icon not visible - check if there is a configured outer icon
             if (outerLeftIcon != nil) {
+                btnOuterLeft.isHidden = false
                 setImageViewFromIcon(iv: btnOuterLeft, icon: outerLeftIcon!)
+            }
+            else {
+                btnOuterLeft.isHidden = true
             }
         }
 

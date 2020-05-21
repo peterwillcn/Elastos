@@ -30,6 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 +(instancetype)shareTools;
 -(HWMSecretaryGeneralAndMembersDetailsModel*)getDetailsModel;
 -(void)loadDataSource;
+-(NSString*)getDIDString;
+-(NSString*)getmasterWalletID;
 @end
 
 NS_ASSUME_NONNULL_END

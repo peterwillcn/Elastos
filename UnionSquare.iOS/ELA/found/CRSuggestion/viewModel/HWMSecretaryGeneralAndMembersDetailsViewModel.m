@@ -28,12 +28,12 @@
 -(HWMSecretaryGeneralAndMembersDetailsModel*)AnalyticalDataWithDicJosn:(id)json{
    HWMSecretaryGeneralAndMembersDetailsModel *model=[HWMSecretaryGeneralAndMembersDetailsModel modelWithJSON:json];
     model.term=[NSArray modelArrayWithClass:[HWMStermModel class] json:json[@"term"]];
-    if ([model.type isEqualToString:@"COUNCIL"]) {
+    if ([model.type isEqualToString:@"CouncilMember"]) {
          model.GMtype=COUNCILType;
-    }else if([model.type isEqualToString:@"SECRETARIAT"]){
+    }else if([model.type isEqualToString:@"SecretaryGeneral"]){
      model.GMtype=SECRETARIATType;
     }else{
-        model.GMtype=ordinaryType;
+        model.GMtype=ordinaryType;//
     }
     return model;
 }

@@ -63,7 +63,7 @@ static HWMSecretaryGeneralAndMembersInfo *_instance;
     return _instance;
 }
 -(void)loadDataSource{
-    NSString *didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
+    NSString *didString= [self getDIDString];
     __weak __typeof__(self)weakSelf=self;
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadSecretaryGeneralAndMembersDetailsWithID:@"" withDIDString:didString withComplete:^(id  _Nonnull data) {
         [weakSelf parsingModelWithData:data[@"data"]];
@@ -99,5 +99,11 @@ static HWMSecretaryGeneralAndMembersInfo *_instance;
         return self.detailsModel;
     }
     return nil;
+}
+-(NSString*)getDIDString{
+   return [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
+}
+-(NSString*)getmasterWalletID{
+    return self.currentWallet.masterWalletID;
 }
 @end

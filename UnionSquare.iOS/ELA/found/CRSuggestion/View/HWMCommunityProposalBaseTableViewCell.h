@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMCommunityProposalBaseTableViewCell : UITableViewCell
 @property(strong,nonatomic)HWMBillListModel *model;
+@property(assign,nonatomic)BOOL isSearch;
 @end
 
 NS_ASSUME_NONNULL_END

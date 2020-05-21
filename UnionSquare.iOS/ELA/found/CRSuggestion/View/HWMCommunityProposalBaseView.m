@@ -88,6 +88,9 @@ UINib *_basenib;
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     HWMCommunityProposalBaseTableViewCell *cell=  [_basenib instantiateWithOwner:nil options:nil][0];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    if (self.searchString.length>0) {
+        cell.isSearch=YES;
+    }
     cell.model=self.dataSourceArray[indexPath.row];
     return cell;
 }

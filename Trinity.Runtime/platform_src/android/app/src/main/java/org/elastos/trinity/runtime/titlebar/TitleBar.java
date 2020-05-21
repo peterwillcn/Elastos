@@ -352,7 +352,6 @@ public class TitleBar extends FrameLayout {
     }
 
     public void addOnItemClickedListener(String functionString, OnIconClickedListener listener) {
-//        this.onIconClickedListener = listener;
         this.onIconClickedListenerMap.put(functionString, listener);
     }
 
@@ -477,8 +476,6 @@ public class TitleBar extends FrameLayout {
     }
 
     private void handleIconClicked(TitleBarIcon icon) {
-//        if (onIconClickedListener != null)
-//            onIconClickedListener.onIconCLicked(icon);
         for(OnIconClickedListener listenr : this.onIconClickedListenerMap.values()){
             listenr.onIconCLicked(icon);
         }

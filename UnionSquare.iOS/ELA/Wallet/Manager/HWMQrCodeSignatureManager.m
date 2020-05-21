@@ -52,13 +52,9 @@ static HWMQrCodeSignatureManager * _instance;
     
     QrCodeSignatureType type=[self QrCodeStringtype:data];
     
-    if (type ==credaccessQrCodeType
-        ||type==suggestionQrCodeType
-        ||type==billQrCodeType
-        ||type==reviewPropalQrCodeType
-        ||type==voteforProposalQrCodeType) {
+    if (type ==credaccessQrCodeType||type==suggestionQrCodeType||type==billQrCodeType||type==reviewPropalQrCodeType) {
         if ([self detectionDidInfowithDidString:didString withmastWalletID:masterWalletID]==NO) {
-            return;
+            return   Complete(type,NULL) ;
         }
     }
     id QrCodeData=[self ParsingQrCodeDataWithQrCodeType:type withQrCodeString:data];
@@ -92,8 +88,6 @@ static HWMQrCodeSignatureManager * _instance;
             return billQrCodeType;
         }else if(command && [command isEqualToString:@"reviewproposal"]) {
             return reviewPropalQrCodeType;
-        }else if(command && [command isEqualToString:@"voteforproposal"]) {
-            return voteforProposalQrCodeType;
         }
     }else if ([QRCodeString containsString:@"elastos://credaccess/"]){
         return billQrCodeType;
@@ -111,6 +105,10 @@ static HWMQrCodeSignatureManager * _instance;
             return [[HWMDIDManager shareDIDManager]jwtDecodeWithJwtStringInfo:QRCodeString];
             break;
         case suggestionQrCodeType:
+            QRCodeString=[QRCodeString stringByReplacingOccurrencesOfString:@"elastos://crproposal/" withString:@""];
+            return [[HWMDIDManager shareDIDManager]jwtDecodeWithJwtStringInfo:QRCodeString];
+            
+            break;
         case reviewPropalQrCodeType:
             QRCodeString=[QRCodeString stringByReplacingOccurrencesOfString:@"elastos://crproposal/" withString:@""];
             return [[HWMDIDManager shareDIDManager]jwtDecodeWithJwtStringInfo:QRCodeString];
@@ -119,7 +117,7 @@ static HWMQrCodeSignatureManager * _instance;
         case billQrCodeType:
             QRCodeString=[QRCodeString stringByReplacingOccurrencesOfString:@"elastos://credaccess/" withString:@""];
             return [[HWMDIDManager shareDIDManager]CRInfoDecodeWithJwtStringInfo:QRCodeString];
-            return QRCodeString;
+            
             break;
         case unknowQrCodeType:
             return QRCodeString;

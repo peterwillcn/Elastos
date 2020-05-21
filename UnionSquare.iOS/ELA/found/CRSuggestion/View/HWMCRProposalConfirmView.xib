@@ -134,6 +134,15 @@
                                 <action selector="nextPWDEvent:" destination="iN0-l3-epB" eventType="touchUpInside" id="LIU-If-Stu"/>
                             </connections>
                         </button>
+                        <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3hS-wl-12X">
+                            <rect key="frame" x="318" y="110.5" width="35.5" height="25"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="25" id="zzR-tX-RyM"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" red="0.14900270099999999" green="0.14903038739999999" blue="0.14899668099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
@@ -161,11 +170,13 @@
                         <constraint firstItem="RCh-PO-9bb" firstAttribute="leading" secondItem="Q9A-VQ-eH4" secondAttribute="leading" constant="15" id="a5M-H5-9HS"/>
                         <constraint firstItem="7Q5-XI-EJe" firstAttribute="top" secondItem="RCh-PO-9bb" secondAttribute="bottom" id="bfr-04-khm"/>
                         <constraint firstAttribute="trailing" secondItem="4W7-8h-HdI" secondAttribute="trailing" constant="15" id="cME-98-dZ3"/>
+                        <constraint firstItem="4W7-8h-HdI" firstAttribute="leading" secondItem="3hS-wl-12X" secondAttribute="trailing" constant="10" id="cye-tg-DGn"/>
                         <constraint firstItem="2sZ-dd-yHd" firstAttribute="leading" secondItem="Q9A-VQ-eH4" secondAttribute="leading" constant="15" id="ef9-FC-BDB"/>
                         <constraint firstItem="RCh-PO-9bb" firstAttribute="top" secondItem="uh7-rt-l2u" secondAttribute="bottom" id="fUw-Yu-AMw"/>
                         <constraint firstAttribute="trailing" secondItem="lda-Sx-ji1" secondAttribute="trailing" constant="63" id="h4M-Tj-c4d"/>
                         <constraint firstAttribute="bottom" secondItem="lda-Sx-ji1" secondAttribute="bottom" constant="30" id="i5f-fj-8Hh"/>
                         <constraint firstAttribute="trailing" secondItem="uh7-rt-l2u" secondAttribute="trailing" constant="15" id="iC6-s7-H2w"/>
+                        <constraint firstItem="4W7-8h-HdI" firstAttribute="centerY" secondItem="3hS-wl-12X" secondAttribute="centerY" id="lqy-f7-c94"/>
                         <constraint firstItem="tdg-05-uYZ" firstAttribute="leading" secondItem="Q9A-VQ-eH4" secondAttribute="leading" id="r2p-0R-Vf8"/>
                         <constraint firstItem="lTG-cF-YaE" firstAttribute="leading" secondItem="7Q5-XI-EJe" secondAttribute="trailing" constant="5" id="r3i-O0-U9G"/>
                         <constraint firstItem="lTG-cF-YaE" firstAttribute="centerY" secondItem="7Q5-XI-EJe" secondAttribute="centerY" id="rJR-to-pwL"/>
@@ -186,12 +197,15 @@
                 <outlet property="feeTextLabel" destination="7Q5-XI-EJe" id="HJ2-4H-xBw"/>
                 <outlet property="hasLabel" destination="9Ob-LC-dpt" id="VIS-rM-cU2"/>
                 <outlet property="hasTextInfoLable" destination="2sZ-dd-yHd" id="myJ-3N-BWj"/>
+                <outlet property="makeLineF" destination="1nu-DJ-IPc" id="q2H-7B-Ki2"/>
+                <outlet property="makeLineT" destination="GUu-ht-Cls" id="ahE-k9-IXU"/>
                 <outlet property="nextButton" destination="lda-Sx-ji1" id="PcZ-Oc-z7y"/>
                 <outlet property="opinionLabel" destination="RCh-PO-9bb" id="QPx-5P-PVy"/>
                 <outlet property="opinionStateLabel" destination="4W7-8h-HdI" id="Dw4-CM-xeN"/>
+                <outlet property="throughLabel" destination="3hS-wl-12X" id="75S-Mm-VX1"/>
                 <outlet property="titileLabel" destination="qrE-DF-x8C" id="Aiu-6u-oEh"/>
             </connections>
-            <point key="canvasLocation" x="139" y="125"/>
+            <point key="canvasLocation" x="137.68115942028987" y="124.55357142857142"/>
         </view>
     </objects>
     <resources>

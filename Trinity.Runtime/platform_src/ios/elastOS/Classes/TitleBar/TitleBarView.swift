@@ -58,7 +58,7 @@ public class TitleBarIcon {
     var key: String = ""
     var iconPath: String? = nil
     var builtInIcon: BuiltInIcon? = nil
-    
+
     init() {}
 
     init(key: String, iconPath: String) {
@@ -109,16 +109,16 @@ public class TitleBarIcon {
 
 public class TitleBarMenuItem : TitleBarIcon {
     var title: String = ""
-    
+
     override init() {
         super.init()
     }
-    
+
     init(key: String, iconPath: String, title: String) {
         super.init(key: key, iconPath: iconPath)
         self.title = title
     }
-    
+
     public static func fromMenuItemJSONObject(jsonObject: NSDictionary?) -> TitleBarMenuItem? {
         if (jsonObject == nil) {
             return nil
@@ -135,7 +135,7 @@ public class TitleBarMenuItem : TitleBarIcon {
             return nil
         }
     }
-    
+
     override func fillJSONObject(_ jsonObject: NSMutableDictionary) throws {
         try super.fillJSONObject(jsonObject)
         jsonObject["title"] = title
@@ -158,41 +158,42 @@ class TitleBarView: UIView {
     var activityHintTexts = Dictionary<TitleBarActivityType, String?>()
     var customBackgroundUsed = false
     var menuItems: [TitleBarMenuItem] = []
-    var onIconClickedListener : ((TitleBarIcon)->Void)? = nil
+    // var onIconClickedListener : ((TitleBarIcon)->Void)? = nil
+    var onIconClickedListenerMap : [String: OnIconClickedListener] = [:]
     var currentNavigationIconIsVisible: Bool = true
     var currentNavigationMode = TitleBarNavigationMode.HOME
     var outerLeftIcon: TitleBarIcon? = nil
     var innerLeftIcon: TitleBarIcon? = nil
     var innerRightIcon: TitleBarIcon? = nil
     var outerRightIcon: TitleBarIcon? = nil
-    
+
     // UI
     @IBOutlet var rootView: UIView!
-    
+
     @IBOutlet weak var btnOuterLeft: TitleBarIconView!
     @IBOutlet weak var btnInnerLeft: TitleBarIconView!
     @IBOutlet weak var btnInnerRight: TitleBarIconView!
     @IBOutlet weak var btnOuterRight: TitleBarIconView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var animationHintLabel: UILabel!
-    
+
     @IBOutlet weak var progressBarBackground: UIView!
     @IBOutlet weak var progressBar: UIView!
-    
+
     var gradientLayer: CAGradientLayer? = nil
-    
+
     init(_ viewController: TrinityViewController, _ frame: CGRect, _ isLauncher: Bool, _ appId: String) {
         super.init(frame: frame)
-        
+
         self.viewController = viewController;
         self.isLauncher = isLauncher;
         self.appId = appId
 
         let view = loadViewFromNib();
-        
+
         addSubview(view)
         self.addMatchChildConstraints(child: view)
-        
+
         btnOuterLeft.setOnClickListener() {
             self.handleOuterLeftClicked()
         }
@@ -208,12 +209,12 @@ class TitleBarView: UIView {
         btnOuterRight.setOnClickListener() {
             self.handleOuterRightClicked()
         }
-        
+
         activityCounters[.LAUNCH] = 0
         activityCounters[.DOWNLOAD] = 0
         activityCounters[.UPLOAD] = 0
         activityCounters[.OTHER] = 0
-        
+
         activityHintTexts[.LAUNCH] = nil
         activityHintTexts[.DOWNLOAD] = nil
         activityHintTexts[.UPLOAD] = nil
@@ -226,38 +227,38 @@ class TitleBarView: UIView {
 
         updateIcons()
     }
-    
+
     override init(frame: CGRect) {
         self.viewController = nil
         self.appId = ""
         self.isLauncher = false
         super.init(frame: frame)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     /*func setHorizontalGradientBackground(from: String, to: String) {
         if gradientLayer == nil {
             gradientLayer = CAGradientLayer()
             layer.insertSublayer(gradientLayer!, at: 0)
         }
-        
+
         let fromColor = UIColor(hex: from)!
         let toColor = UIColor(hex: to)!
-        
+
         gradientLayer!.colors = [fromColor.cgColor, toColor.cgColor]
         gradientLayer!.startPoint = CGPoint(x: 0.0, y: 0.5)
         gradientLayer!.endPoint = CGPoint(x: 1.0, y: 0.5)
         gradientLayer!.locations = [0, 1]
         gradientLayer!.frame = bounds
     }*/
-    
+
     private func closeApp() {
         try? AppManager.getShareInstance().close(self.viewController!.appInfo!.app_id)
     }
-    
+
     private func goToLauncher() {
         do {
             if (!isLauncher) {
@@ -269,17 +270,17 @@ class TitleBarView: UIView {
             print(error)
         }
     }
-    
+
     private func toggleMenu() {
         let menuView = TitleBarMenuView(titleBar: self, frame: CGRect.null, appId: appId!, menuItems: menuItems)
-        
+
         menuView.setOnMenuItemClickedListened() { menuItem in
             self.onIconClickedListener?(menuItem)
         }
-        
+
         menuView.show(inRootView: self.viewController!.view)
     }
-    
+
     private func sendMessageToLauncher(message: String) {
         do {
             try AppManager.getShareInstance().sendLauncherMessage(AppManager.MSG_TYPE_INTERNAL, message, appId!)
@@ -318,12 +319,12 @@ class TitleBarView: UIView {
                 gradientLayer!.removeFromSuperlayer()
                 gradientLayer = nil
             }
-            
+
             // Set custom background color
             rootView.backgroundColor = color
-            
+
             customBackgroundUsed = true
-            
+
             return true
         }
         else {
@@ -340,7 +341,7 @@ class TitleBarView: UIView {
         else {
             color = UIColor.init(hex: "#FFFFFF")!
         }
-        
+
         titleLabel.textColor = color
         animationHintLabel.textColor = color
 
@@ -349,12 +350,12 @@ class TitleBarView: UIView {
         btnInnerRight.iconView.leftImageColor = color
         btnOuterRight.iconView.leftImageColor = color
     }
-    
+
     public func setNavigationMode(_ navigationMode: TitleBarNavigationMode) {
         currentNavigationMode = navigationMode
         updateIcons()
     }
-    
+
     public func setNavigationIconVisibility(visible: Bool) {
         currentNavigationIconIsVisible = visible
         setNavigationMode(currentNavigationMode)
@@ -378,7 +379,7 @@ class TitleBarView: UIView {
             // Nothing to do, wrong info received
             break
         }
-        
+
         updateIcons()
     }
 
@@ -406,15 +407,20 @@ class TitleBarView: UIView {
         }
     }
 
-    public func setOnItemClickedListener(_ listener: @escaping OnIconClickedListener) {
-        self.onIconClickedListener = listener
+    public func addOnItemClickedListener(functionString: String, _ listener: @escaping OnIconClickedListener) {
+        self.onIconClickedListenerMap[functionString] = listener
     }
-    
+
+
+    public func removeOnItemClickedListener(functionString: String) {
+        self.onIconClickedListenerMap[functionString] = nil
+    }
+
     public func setupMenuItems(menuItems: [TitleBarMenuItem]) {
         self.menuItems = menuItems
         updateIcons()
     }
-    
+
     /**
      * Updates all icons according to the overall configuration
      */
@@ -432,7 +438,7 @@ class TitleBarView: UIView {
         btnOuterRight.iconView.leftImageWidth = 20
         btnOuterRight.iconView.leftImageHeight = 20
         btnOuterRight.iconView.spacingLeading = 10
-        
+
         // Navigation icon / Outer left
         if (currentNavigationIconIsVisible) {
             if (currentNavigationMode == TitleBarNavigationMode.CLOSE) {
@@ -482,7 +488,7 @@ class TitleBarView: UIView {
             }
         }
     }
-    
+
     /** Tells if the progress bar has to be animated or not. */
     private func stillHasOnGoingProgressActivity() -> Bool {
         return
@@ -491,7 +497,7 @@ class TitleBarView: UIView {
             activityCounters[.UPLOAD]! > 0 ||
             activityCounters[.OTHER]! > 0
     }
-    
+
     private func onGoingProgressActivityCount() -> Int {
         return
             activityCounters[.LAUNCH]! +
@@ -499,7 +505,7 @@ class TitleBarView: UIView {
                 activityCounters[.UPLOAD]! +
                 activityCounters[.OTHER]!
     }
-    
+
     /**
         * Ths icon path can be a capsule-relative path such as "assets/icons/pic.png", or a built-in icon string
         * such as "close" or "settings".
@@ -508,7 +514,7 @@ class TitleBarView: UIView {
         guard icon.iconPath != nil else {
             return
         }
-        
+
         if icon.isBuiltInIcon() {
             // Use a built-in app icon
             switch icon.builtInIcon! {
@@ -553,20 +559,20 @@ class TitleBarView: UIView {
             let appInfo = AppManager.getShareInstance().getAppInfo(appId!)!
             appInfo.remote = false // TODO - DIRTY! FIND A BETTER WAY TO GET THE REAL IMAGE PATH FROM JS PATH !
             let iconPath = AppManager.getShareInstance().getAppPath(appInfo) + icon.iconPath!
-            
+
             // Icon
             if let image = UIImage(contentsOfFile: iconPath) {
                 iv.iconView.leftImageSrc = image
             }
         }
     }
-    
+
     private func handleIconClicked(icon: TitleBarIcon) {
         if (onIconClickedListener != nil) {
             onIconClickedListener?(icon)
         }
     }
-    
+
     private func handleOuterLeftClicked() {
         if (currentNavigationIconIsVisible) {
             // Action handled by runtime: minimize, or close
@@ -583,15 +589,15 @@ class TitleBarView: UIView {
             handleIconClicked(icon: outerLeftIcon!)
         }
     }
-    
+
     private func handleInnerLeftClicked() {
         handleIconClicked(icon: innerLeftIcon!)
     }
-    
+
     private func handleInnerRightClicked() {
         handleIconClicked(icon: innerRightIcon!)
     }
-    
+
     private func handleOuterRightClicked() {
         if (!emptyMenuItems()) {
             // Title bar has menu items, so we open the menu
@@ -602,11 +608,11 @@ class TitleBarView: UIView {
             handleIconClicked(icon: outerRightIcon!)
         }
     }
-    
+
     private func emptyMenuItems() -> Bool {
         return menuItems.count == 0
     }
-    
+
     private func setAnimationHintText(_ text: String?) {
         if (text == nil) {
             animationHintLabel.isHidden = true
@@ -616,7 +622,7 @@ class TitleBarView: UIView {
             animationHintLabel.text = text
         }
     }
-    
+
     /**
      * Based on the counters for each activity, determines which activity type has the priority and plays the appropriate animation.
      * If no more animation, the animation is stopped
@@ -676,7 +682,7 @@ class TitleBarView: UIView {
         let onGoingProgressAnimation = UIViewPropertyAnimator(duration: 1.0, curve: .easeOut, animations: {
             self.progressBar.alpha = 0.0
         })
-        
+
         onGoingProgressAnimation.addCompletion { _ in
             if self.stillHasOnGoingProgressActivity() {
                 self.animateProgressBarIn()

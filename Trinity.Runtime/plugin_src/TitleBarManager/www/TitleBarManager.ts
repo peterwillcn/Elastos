@@ -63,12 +63,18 @@ class TitleBarManagerImpl implements TitleBarPlugin.TitleBarManager {
         }, 'TitleBarPlugin', 'setNavigationIconVisibility', [visible]);
     }
 
-    setOnItemClickedListener(onItemClicked: (menuItem: TitleBarPlugin.TitleBarIcon) => void) {
+    addOnItemClickedListener(onItemClicked: (menuItem: TitleBarPlugin.TitleBarIcon) => void) {
         exec((menuItem: TitleBarPlugin.TitleBarIcon)=>{
             onItemClicked(menuItem);
         }, (err)=>{
-            console.error("Error while calling TitleBarPlugin.setOnItemClickedListener()", err);
-        }, 'TitleBarPlugin', 'setOnItemClickedListener', []);
+            console.error("Error while calling TitleBarPlugin.addOnItemClickedListener()", err);
+        }, 'TitleBarPlugin', 'addOnItemClickedListener', [onItemClicked.toString()]);
+    }
+
+    removeOnItemClickedListener(onItemClicked: (menuItem: TitleBarPlugin.TitleBarIcon) => void) {
+        exec(()=>{}, (err)=>{
+            console.error("Error while calling TitleBarPlugin.removeOnItemClickedListener()", err);
+        }, 'TitleBarPlugin', 'removeOnItemClickedListener', [onItemClicked.toString()]);
     }
 
     setIcon(iconSlot: TitleBarPlugin.TitleBarIconSlot, icon: TitleBarPlugin.TitleBarIcon) {
@@ -87,8 +93,8 @@ class TitleBarManagerImpl implements TitleBarPlugin.TitleBarManager {
         exec(()=>{}, (err)=>{
             console.error("Error while calling TitleBarPlugin.showActivityIndicator()", err);
         }, 'TitleBarPlugin', 'showActivityIndicator', [type, hintText]);
-    }    
-    
+    }
+
     hideActivityIndicator(type: TitleBarPlugin.TitleBarActivityType) {
         exec(()=>{}, (err)=>{
             console.error("Error while calling TitleBarPlugin.hideActivityIndicator()", err);

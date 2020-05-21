@@ -63,7 +63,7 @@ public class TitleBar extends FrameLayout {
     HashMap<TitleBarActivityType, Integer> activityCounters = new HashMap<TitleBarActivityType, Integer>();
     HashMap<TitleBarActivityType, String> activityHintTexts = new HashMap<TitleBarActivityType, String>();
     ArrayList<TitleBarMenuItem> menuItems = new ArrayList<>();
-    OnIconClickedListener onIconClickedListener = null;
+    HashMap<String, OnIconClickedListener> onIconClickedListenerMap = new HashMap<>();
     boolean currentNavigationIconIsVisible = true;
     TitleBarNavigationMode currentNavigationMode = TitleBarNavigationMode.HOME;
     TitleBarIcon outerLeftIcon = null;
@@ -351,8 +351,13 @@ public class TitleBar extends FrameLayout {
         }
     }
 
-    public void setOnItemClickedListener(OnIconClickedListener listener) {
-        this.onIconClickedListener = listener;
+    public void addOnItemClickedListener(String functionString, OnIconClickedListener listener) {
+//        this.onIconClickedListener = listener;
+        this.onIconClickedListenerMap.put(functionString, listener);
+    }
+
+    public void removeOnItemClickedListener(String functionString) {
+        this.onIconClickedListenerMap.remove(functionString);
     }
 
     public void setupMenuItems(ArrayList<TitleBarMenuItem> menuItems) {
@@ -472,8 +477,11 @@ public class TitleBar extends FrameLayout {
     }
 
     private void handleIconClicked(TitleBarIcon icon) {
-        if (onIconClickedListener != null)
-            onIconClickedListener.onIconCLicked(icon);
+//        if (onIconClickedListener != null)
+//            onIconClickedListener.onIconCLicked(icon);
+        for(OnIconClickedListener listenr : this.onIconClickedListenerMap.values()){
+            listenr.onIconCLicked(icon);
+        }
     }
 
     private void handleOuterLeftClicked() {
@@ -525,7 +533,7 @@ public class TitleBar extends FrameLayout {
             tvAnimationHint.setText(text);
         }
     }
-    
+
     /**
      * Based on the counters for each activity, determines which activity type has the priority and plays the appropriate animation.
      * If no more animation, the animation is stopped

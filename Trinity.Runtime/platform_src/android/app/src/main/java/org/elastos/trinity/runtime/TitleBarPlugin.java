@@ -58,8 +58,11 @@ public class TitleBarPlugin extends TrinityPlugin {
                 case "setNavigationIconVisibility":
                     this.setNavigationIconVisibility(args, callbackContext);
                     break;
-                case "setOnItemClickedListener":
-                    this.setOnItemClickedListener(args, callbackContext);
+                case "addOnItemClickedListener":
+                    this.addOnItemClickedListener(args, callbackContext);
+                    break;
+                case "removeOnItemClickedListener":
+                    this.removeOnItemClickedListener(args, callbackContext);
                     break;
                 case "setIcon":
                     this.setIcon(args, callbackContext);
@@ -161,8 +164,9 @@ public class TitleBarPlugin extends TrinityPlugin {
         callbackContext.success();
     }
 
-    private void setOnItemClickedListener(JSONArray args, CallbackContext callbackContext) throws Exception {
-        getTitleBar().setOnItemClickedListener((menuItem)->{
+    private void addOnItemClickedListener(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String functionString = args.getString(0);
+        getTitleBar().addOnItemClickedListener(functionString, (menuItem)->{
             try {
                 PluginResult res = new PluginResult(PluginResult.Status.OK, menuItem.toJSONObject());
                 res.setKeepCallback(true);
@@ -178,6 +182,13 @@ public class TitleBarPlugin extends TrinityPlugin {
         PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
         result.setKeepCallback(true);
         callbackContext.sendPluginResult(result);
+    }
+
+    private void removeOnItemClickedListener(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String functionString = args.getString(0);
+        getTitleBar().removeOnItemClickedListener(functionString);
+
+        callbackContext.success();
     }
 
     private void setIcon(JSONArray args, CallbackContext callbackContext) throws Exception {

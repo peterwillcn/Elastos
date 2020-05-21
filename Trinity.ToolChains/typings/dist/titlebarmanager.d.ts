@@ -107,13 +107,13 @@ declare namespace TitleBarPlugin {
 
     /**
      * Type used to configure icons on the title bar, with their respective actions.
-     * An icon "configuration" is made of an icon picture (custom, or predefined), and 
+     * An icon "configuration" is made of an icon picture (custom, or predefined), and
      * a unique key (to identify the action when clicked).
      */
     type TitleBarIcon = {
         /** Unique key to identify each item. */
         key: String,
-        /** 
+        /**
          * Path to an icon picture illustrating this menu item. Path can be either a built-in value to use
          * built-in icons, or a path to a custom icon (ex: "assets/...")
          */
@@ -157,30 +157,30 @@ declare namespace TitleBarPlugin {
         /**
          * Sets the main title bar title information. Pass null to clear the previous title.
          * Apps are responsible for managing this title from their internal screens.
-         * 
+         *
          * @param title Main title to show on the title bar. If title is not provided, the title bar shows the default title (the app name)
          */
         setTitle(title?: String);
 
         /**
          * Sets the status bar background color.
-         * 
+         *
          * @param hexColor Hex color code with format "#RRGGBB"
          */
         setBackgroundColor(hexColor: String);
 
         /**
-         * Sets the title bar foreground (title, icons) color. Use this API in coordination with 
+         * Sets the title bar foreground (title, icons) color. Use this API in coordination with
          * setBackgroundColor() in order to adjust foreground with background.
-         * 
+         *
          * @param foregroundMode A @TitleBarForegroundMode mode, LIGHT or DARK.
          */
         setForegroundMode(foregroundMode: TitleBarForegroundMode);
 
-        /**        
+        /**
          * Changes the top left icon appearance and behaviour. See @TitleBarNavigationMode for available
          * navigation modes.
-         * 
+         *
          * @param navigationMode See @TitleBarNavigationMode
          */
         setNavigationMode(navigationMode: TitleBarNavigationMode);
@@ -188,30 +188,37 @@ declare namespace TitleBarPlugin {
         /**
          * Shows or hide the top left navigation icon. That navigation icon is controlled by the runtime,
          * not by the application, so that users can always minimize or exit the application.
-         * 
+         *
          * This API is protected and usable only by some privileged apps. Other apps are not allowed to
          * hide the navigation icon.
-         * 
+         *
          * @param visible Whether to show the navigation icon or not.
          */
         setNavigationIconVisibility(visible: boolean);
 
         /**
-         * Adds a listener to be notified when an icon is clicked. This works for both flat icons 
-         * (setIcon()) and menu items (setupMenuItems()). Use the icon "key" field to know which 
+         * Adds a listener to be notified when an icon is clicked. This works for both flat icons
+         * (setIcon()) and menu items (setupMenuItems()). Use the icon "key" field to know which
          * icon was clicked.
-         * 
+         *
          * @param onItemClicked Callback called when an item is clicked.
          */
-        setOnItemClickedListener(onItemClicked: (icon: TitleBarIcon | TitleBarMenuItem)=>void)
- 
+        addOnItemClickedListener(onItemClicked: (icon: TitleBarIcon | TitleBarMenuItem)=>void)
+
+/**
+         * Remove a listener.
+         *
+         * @param onItemClicked Callback called when an item is clicked.
+         */
+        removeOnItemClickedListener(onItemClicked: (icon: TitleBarIcon | TitleBarMenuItem)=>void)
+
         /**
          * Configures icons displayed on the left or right of the main title.
-         * 
+         *
          * Only some privileged apps can configure the OUTER_LEFT slot. Other slots are accessible to all apps.
          * The OUTER_LEFT icon is visible only in case the navigation icon is hidden. Otherwise, the navigation
          * icon overwrites the OUTER_LEFT icon.
-         * 
+         *
          * @param iconSlot Location to configure.
          * @param icon Icon and action to be used at this slot. Use null to clear any existing configuration.
          */
@@ -221,18 +228,18 @@ declare namespace TitleBarPlugin {
          * Configures the menu popup that is opened when the top right menu icon is touched.
          * This menu popup mixes app-specific items (menuItems) and native system actions.
          * When a menu item is touched, the item click listener is called.
-         * 
+         *
          * In case this menu items is configured, it overwrites any icon configured on the OUTER_RIGHT
          * slot.
-         * 
+         *
          * @param menuItems List of app-specific menu entries @TitleBarMenuItem . Pass null to remove the existing menu.
          */
         setupMenuItems(menuItems: TitleBarMenuItem[]);
 
         /**
-         * Adds a badge marker on the top right of an icon slot. Used for example to shows that some 
+         * Adds a badge marker on the top right of an icon slot. Used for example to shows that some
          * notifications are available, unread messages, etc.
-         * 
+         *
          * @param badgeSlot Location to configure.
          * @param count Number to display as a badge over the icon. A value of 0 hides the badge.
          */
@@ -242,7 +249,7 @@ declare namespace TitleBarPlugin {
          * Shows an indicator on the title bar to indicate that something is busy.
          * Several dApps can interact with an activity indicator at the same time. As long as there
          * is at least one dApp setting an indicator active, that indicator remains shown.
-         * 
+         *
          * @param type Type of activity indicator to start showing.
          * @param hintText Optional text to display during the animation.
          */
@@ -251,7 +258,7 @@ declare namespace TitleBarPlugin {
         /**
          * Requests to hide a given activity indicator. In case other dApps are still busy using
          * this indicator, the activity indicator remains active, until the last dApp releases it.
-         * 
+         *
          * @param type Type of activity indicator to stop showing for the active dApp.
          */
         hideActivityIndicator(type: TitleBarActivityType);
@@ -259,12 +266,12 @@ declare namespace TitleBarPlugin {
 
 
         /*
-         * @deprecated 
-         * 
-         * Changes the overall behavior of the title bar. 
-         * 
+         * @deprecated
+         *
+         * Changes the overall behavior of the title bar.
+         *
          * Accessible only by the launcher app. Other apps use the DEFAULT behavior.
-         * 
+         *
          * @param behavior A @TitleBarBehavior behavior to globally configure the title bar.
          */
         setBehavior(behavior: TitleBarBehavior);

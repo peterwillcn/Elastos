@@ -52,7 +52,11 @@ static HWMQrCodeSignatureManager * _instance;
     
     QrCodeSignatureType type=[self QrCodeStringtype:data];
     
-    if (type ==credaccessQrCodeType||type==suggestionQrCodeType||type==billQrCodeType||type==reviewPropalQrCodeType) {
+    if (type ==credaccessQrCodeType
+        ||type==suggestionQrCodeType
+        ||type==billQrCodeType
+        ||type==reviewPropalQrCodeType
+        ||type==voteforProposalQrCodeType) {
         if ([self detectionDidInfowithDidString:didString withmastWalletID:masterWalletID]==NO) {
             return;
         }
@@ -88,6 +92,8 @@ static HWMQrCodeSignatureManager * _instance;
             return billQrCodeType;
         }else if(command && [command isEqualToString:@"reviewproposal"]) {
             return reviewPropalQrCodeType;
+        }else if(command && [command isEqualToString:@"voteforproposal"]) {
+            return voteforProposalQrCodeType;
         }
     }else if ([QRCodeString containsString:@"elastos://credaccess/"]){
         return billQrCodeType;

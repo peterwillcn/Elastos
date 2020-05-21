@@ -785,6 +785,7 @@
         //xxl 2.2 flow TODO for go to the flow
         case suggestionQrCodeType:
         case reviewPropalQrCodeType:
+        case voteforProposalQrCodeType:
             [self showAdviceInfoText:data withJWTString:QRCodeString WithType:type];
             break;
         case billQrCodeType:
@@ -833,8 +834,12 @@
         case billQrCodeType:
             SuggestionVC.VCType=TheProposalType;
             break;
+        //xxl 2.2
         case reviewPropalQrCodeType:
             SuggestionVC.VCType=ReviewProposalType;
+            break;
+        case voteforProposalQrCodeType:
+            SuggestionVC.VCType=VoteforProposalType;
             break;
         default:
             break;

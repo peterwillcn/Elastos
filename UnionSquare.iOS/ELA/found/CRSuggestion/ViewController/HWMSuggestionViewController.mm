@@ -67,6 +67,8 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     //xxl 2.2 flow
     }else if (self.VCType == ReviewProposalType){
         self.title=NSLocalizedString(@"审查提案", nil);
+    }else if (self.VCType == VoteforProposalType){
+        self.title=NSLocalizedString(@"公投提案", nil);
     }
     self.table.alpha=0.f;
     self.signatureButton.userInteractionEnabled=NO;

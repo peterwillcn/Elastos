@@ -20,21 +20,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-#import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^PledgeBlock)(void);
+#import "ELAInformationDetail.h"
 
-@interface ELAPledgeView : UIView
 
-@property (nonatomic, strong) NSString *title;
+@implementation ELAInformationDetail
 
-@property (nonatomic, copy) PledgeBlock block;
-
-- (void)showAlertView;
-
-- (void)hideAlertView;
++ (instancetype)mj_objectWithKeyValues:(id)keyValues
+{
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] initWithDictionary:keyValues];
+    NSDictionary *data = [keyValues objectForKey:@"data"];
+    [dic removeObjectForKey:@"data"];
+    [dic addEntriesFromDictionary:data];
+    return [self mj_objectWithKeyValues:dic context:nil];
+    
+}
++ (NSDictionary *)objectClassInArray
+{
+    return @{
+        @"term":[ELATermModel class]
+    };
+    
+}
 @end
 
-NS_ASSUME_NONNULL_END
+
+@implementation ELATermModel : NSObject
+
++ (NSDictionary *)replacedKeyFromPropertyName {
+
+     return @{
+             @"ID":@"id"
+             };
+
+}
+
+@end

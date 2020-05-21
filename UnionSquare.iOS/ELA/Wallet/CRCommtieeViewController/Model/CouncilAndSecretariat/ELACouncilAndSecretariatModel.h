@@ -20,21 +20,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-#import <UIKit/UIKit.h>
+
+
+#import <Foundation/Foundation.h>
+#import "ELABaseModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^PledgeBlock)(void);
+@interface ELACouncilAndSecretariatModel : ELABaseModel
 
-@interface ELAPledgeView : UIView
+@property (nonatomic, strong) NSArray *council;
+@property (nonatomic, strong) NSArray *secretariat;
 
-@property (nonatomic, strong) NSString *title;
+@end
 
-@property (nonatomic, copy) PledgeBlock block;
+@interface ELACouncilModel : ELABaseModel
 
-- (void)showAlertView;
+@property (nonatomic, strong) NSString *did;
+@property (nonatomic, strong) NSString *didName;
+@property (nonatomic, strong) NSString *avatar;
+@property (nonatomic, assign) NSInteger location;
+@property (nonatomic, strong) NSString *status;
 
-- (void)hideAlertView;
+@end
+
+@interface ELASecretariatModel : ELABaseModel
+
+@property (nonatomic, strong) NSString *did;
+@property (nonatomic, strong) NSString *didName;
+@property (nonatomic, strong) NSString *avatar;
+@property (nonatomic, assign) NSInteger location;
+@property (nonatomic, strong) NSString *status;
+@property (nonatomic, strong) NSString *startDate;
+@property (nonatomic, strong) NSString *endDate;
 @end
 
 NS_ASSUME_NONNULL_END

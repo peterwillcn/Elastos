@@ -1,11 +1,25 @@
 //
-//  ELACRCommitteeViewController.m
-//  YFFixedAssets
-//
-//  Created by xuhejun on 2020/5/11.
-//  Copyright © 2020 64. All rights reserved.
-//
-
+/*
+ * Copyright (c) 2020 Elastos Foundation
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 #import "ELACRCommitteeViewController.h"
 #import "UIViewController+FLVCExt.h"
 #import "RPTaggedNavView.h"
@@ -15,11 +29,19 @@
 #import "ELACommitteeListViewController.h"
 #import "ELASecretaryListViewController.h"
 #import "ELANetwork.h"
+#import "ELACouncilAndSecretariatModel.h"
 
 @interface ELACRCommitteeViewController ()<UIScrollViewDelegate, RPTaggedNavViewDelegate>
 
 @property (nonatomic, strong) UIScrollView * bgScroll;
 @property (nonatomic, strong) RPTaggedNavView *taggedNavView;
+
+@property (nonatomic, strong) ELACouncilAndSecretariatModel *model;
+
+@property (nonatomic, strong) ELACommitteeListViewController *committeeVc;
+@property (nonatomic, strong) ELASecretaryListViewController *secretaryVc;
+
+ 
 @end
 
 @implementation ELACRCommitteeViewController
@@ -61,22 +83,29 @@
     
     ELACommitteeListViewController *committeeVc = [[ELACommitteeListViewController alloc] init];
     [committeeVc creatViewWithInitFrame:CGRectMake(0, 0, ScreenWidth, _bgScroll.height)];
+    committeeVc.index = _index;
     [self addChildViewController:committeeVc];
     [_bgScroll addSubview:committeeVc.view];
     
+    
     ELASecretaryListViewController *secretaryVc = [[ELASecretaryListViewController alloc] init];
     [secretaryVc creatViewWithInitFrame:CGRectMake(ScreenWidth, 0, ScreenWidth, _bgScroll.height)];
+    secretaryVc.index = _index;
     [self addChildViewController:secretaryVc];
     [_bgScroll addSubview:secretaryVc.view];
     
+    _committeeVc = committeeVc;
+    _secretaryVc = secretaryVc;
     [self getNetworkData];
 }
+
+#pragma mark -- Network
 
 - (void)getNetworkData
 {
     [self showLoadingView];
     ELAWeakSelf;
-    [ELANetwork getCouncilListInfo:1 block:^(id  _Nonnull data, NSError * _Nonnull error) {
+    [ELANetwork getCouncilListInfo:_index block:^(id  _Nonnull data, NSError * _Nonnull error) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
@@ -94,7 +123,11 @@
             }
             else
             {
-                NSDictionary *getData = data;
+                weakSelf.model = data;
+                weakSelf.committeeVc.infoModel = weakSelf.model;
+                weakSelf.secretaryVc.infoModel = weakSelf.model;
+                [weakSelf.committeeVc reloadTableView];
+                 [weakSelf.secretaryVc reloadTableView];
             }
         });
         

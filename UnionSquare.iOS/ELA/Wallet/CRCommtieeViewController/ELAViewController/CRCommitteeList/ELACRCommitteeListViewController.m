@@ -55,7 +55,6 @@
     self.navigationItem.rightBarButtonItem = rightItem;
 
     [self creatView];
-    [self loadNewData];
     
 }
 - (void)getNetworkData
@@ -76,6 +75,7 @@
                 else
                 {
                     [weakSelf showErrorInfo:error.localizedDescription];
+                    [weakSelf.contentTableView.mj_header endRefreshing];
                 }
             }
             else
@@ -374,9 +374,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    ELACRCommitteeViewController *vc = [[ELACRCommitteeViewController alloc] init];
-    vc.title = @"CR委员会";
-    [self.navigationController pushViewController:vc animated:YES];
+    ELACommitteeInfoModel *model = nil;
+    if(_infoModel.data)
+    {
+        model = [_infoModel.data objectAtIndex:indexPath.section];
+        ELACRCommitteeViewController *vc = [[ELACRCommitteeViewController alloc] init];
+        vc.title = ELALocalizedString(@"CR委员会");
+        vc.index = model.index;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    
 }
 
 
@@ -400,7 +407,7 @@
     }];
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
     _contentTableView.mj_header = header;
-  
+    [_contentTableView.mj_header beginRefreshing];
     
 //    MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 //    _contentTableView.mj_footer = footer;

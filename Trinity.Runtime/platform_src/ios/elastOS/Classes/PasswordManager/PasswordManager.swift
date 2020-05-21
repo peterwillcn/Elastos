@@ -118,13 +118,6 @@ public class PasswordManager {
         
         let actualDID = try! getActualDIDContext(currentDIDContext: did)
         
-        // If the calling app is NOT the password manager, we can set password info only if the APPS password
-        // strategy is LOCK_WITH_MASTER_PASSWORD.
-        if (!appIsPasswordManager(appId: appID) && getAppsPasswordStrategy() == .DONT_USE_MASTER_PASSWORD) {
-            onError("Saving password info with a DONT_USE_MASTER_PASSWORD apps strategy is forbidden")
-            return
-        }
-
         checkMasterPasswordCreationRequired(did: actualDID, onMasterPasswordCreated: {
             self.loadDatabase(did: actualDID, onDatabaseLoaded: {
                 do {
@@ -162,14 +155,6 @@ public class PasswordManager {
                                 onError: @escaping (_ error: String)->Void) throws {
         
         let actualDID = try! getActualDIDContext(currentDIDContext: did)
-        
-        // If the calling app is NOT the password manager, we can get password info only if the APPS password
-        // strategy is LOCK_WITH_MASTER_PASSWORD.
-        if (!appIsPasswordManager(appId: appID) && getAppsPasswordStrategy() == AppsPasswordStrategy.DONT_USE_MASTER_PASSWORD) {
-            // Force apps to prompt user password by themselves as we are not using a master password.
-            onPasswordInfoRetrieved(nil)
-            return
-        }
 
         checkMasterPasswordCreationRequired(did: actualDID, onMasterPasswordCreated: {
             self.loadDatabase(did: actualDID, onDatabaseLoaded: {
@@ -390,48 +375,6 @@ public class PasswordManager {
         return PasswordUnlockMode(rawValue: unlockModeAsInt) ?? PasswordUnlockMode.UNLOCK_FOR_A_WHILE
     }
 
-    /**
-     * Sets the overall strategy for third party applications password management.
-     *
-     * Users can choose to lock all apps passwords using a single master password. They can also choose
-     * to not use this feature and instead, input their custom app password every time they need to.
-     *
-     * When strategy is set to DONT_USE_MASTER_PASSWORD, setPasswordInfo() always fails, and getPasswordInfo()
-     * always returns an empty content, therefore pushing apps to prompt user passwords every time.
-     *
-     * If the strategy was LOCK_WITH_MASTER_PASSWORD and becomes DONT_USE_MASTER_PASSWORD, existing password
-     * info is not deleted. The password manager application is responsible for clearing the existing content
-     * if user wishes to do that.
-     *
-     * @param strategy Strategy to use in order to save and get passwords in third party apps.
-     */
-    public func setAppsPasswordStrategy(strategy: AppsPasswordStrategy, did: String, appID: String?, forceSet: Bool) {
-        let actualDID = try! getActualDIDContext(currentDIDContext: did)
-        
-        if (!forceSet && !appIsPasswordManager(appId: appID!)) {
-            print("Only the password manager application can call this API")
-            return
-        }
-
-        saveToPrefs(key: PasswordManager.PREF_KEY_APPS_PASSWORD_STRATEGY, value: strategy.rawValue)
-
-        // if the mode becomes DONT_USE_MASTER_PASSWORD, we lock the database
-        if (getAppsPasswordStrategy() != .DONT_USE_MASTER_PASSWORD && strategy == .DONT_USE_MASTER_PASSWORD) {
-            lockDatabase(did: actualDID)
-        }
-    }
-
-    /**
-     * Returns the current apps password strategy. If nothing was et earlier, default value
-     * is LOCK_WITH_MASTER_PASSWORD.
-     *
-     * @returns The current apps password strategy
-     */
-    public func getAppsPasswordStrategy() -> AppsPasswordStrategy {
-        let savedPasswordStrategyAsInt = getPrefsInt(key: PasswordManager.PREF_KEY_APPS_PASSWORD_STRATEGY, defaultValue: AppsPasswordStrategy.LOCK_WITH_MASTER_PASSWORD.rawValue)
-        return AppsPasswordStrategy(rawValue: savedPasswordStrategyAsInt) ?? AppsPasswordStrategy.LOCK_WITH_MASTER_PASSWORD
-    }
-    
     /**
      * RESTRICTED
      *

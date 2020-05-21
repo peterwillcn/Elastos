@@ -590,6 +590,7 @@
 		49B4D149B9AE9124C1AFA618 /* libPods-elastos wallet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A617C7524FD9A7B9523C8E48 /* libPods-elastos wallet.a */; };
 		703D9E502475DAD200FFA4D3 /* ELACouncilAndSecretariatModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 703D9E4B2475DAD100FFA4D3 /* ELACouncilAndSecretariatModel.m */; };
 		703D9E512475DAD200FFA4D3 /* ELAInformationDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 703D9E4E2475DAD200FFA4D3 /* ELAInformationDetail.m */; };
+		706F291724741A33007B1797 /* ELACouncilAndSecretariatModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 706F291624741A33007B1797 /* ELACouncilAndSecretariatModel.m */; };
 		7087D92F21BCDF1B00599316 /* MyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7087D92E21BCDF1B00599316 /* MyUtil.m */; };
 		70DE417724733AFC00E89F96 /* ELASecretaryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE411A24733AFB00E89F96 /* ELASecretaryDetailViewController.m */; };
 		70DE417824733AFC00E89F96 /* ELAUpdateSecretaryDidViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE411B24733AFB00E89F96 /* ELAUpdateSecretaryDidViewController.m */; };
@@ -630,6 +631,7 @@
 		70DE419B24733AFC00E89F96 /* ELANetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE417424733AFC00E89F96 /* ELANetworkManager.m */; };
 		70DE419C24733AFC00E89F96 /* ELANetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DE417624733AFC00E89F96 /* ELANetwork.m */; };
 		70F8409621BEAA1B001C0BD6 /* ELWalletManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70F8409521BEAA1B001C0BD6 /* ELWalletManager.mm */; };
+		70FE6087247495BA0030AF85 /* ELAInformationDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE6086247495BA0030AF85 /* ELAInformationDetail.m */; };
 		9FD0C828FEE9459B88FB6A2D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B5A24BEEA44AE9AD51A2C8 /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C45E4ED4237794B9003BB3BA /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ED0237794A1003BB3BA /* libboost_filesystem.a */; };
 		C45E4ED5237794C7003BB3BA /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ED3237794A1003BB3BA /* libboost_system.a */; };
@@ -1835,6 +1837,8 @@
 		703D9E4E2475DAD200FFA4D3 /* ELAInformationDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELAInformationDetail.m; sourceTree = "<group>"; };
 		703D9E4F2475DAD200FFA4D3 /* ELAInformationDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELAInformationDetail.h; sourceTree = "<group>"; };
 		705D8C6C21BE86870062156D /* ELWalletManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELWalletManager.h; sourceTree = "<group>"; };
+		706F291524741A33007B1797 /* ELACouncilAndSecretariatModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELACouncilAndSecretariatModel.h; sourceTree = "<group>"; };
+		706F291624741A33007B1797 /* ELACouncilAndSecretariatModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ELACouncilAndSecretariatModel.m; sourceTree = "<group>"; };
 		7087D92721BCD85500599316 /* IDIDManagerSupervisor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDIDManagerSupervisor.h; sourceTree = "<group>"; };
 		7087D92821BCD85500599316 /* idid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = idid.h; sourceTree = "<group>"; };
 		7087D92921BCD85500599316 /* IDidManager.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = IDidManager.h; sourceTree = "<group>"; };
@@ -1920,6 +1924,8 @@
 		70DE417524733AFC00E89F96 /* ELANetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELANetworkManager.h; sourceTree = "<group>"; };
 		70DE417624733AFC00E89F96 /* ELANetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELANetwork.m; sourceTree = "<group>"; };
 		70F8409521BEAA1B001C0BD6 /* ELWalletManager.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = ELWalletManager.mm; sourceTree = "<group>"; };
+		70FE6085247495BA0030AF85 /* ELAInformationDetail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELAInformationDetail.h; sourceTree = "<group>"; };
+		70FE6086247495BA0030AF85 /* ELAInformationDetail.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ELAInformationDetail.m; sourceTree = "<group>"; };
 		7B32C86EE8DFCC3DDA2BBE00 /* Pods-elastos wallet.release(mainnet).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-elastos wallet.release(mainnet).xcconfig"; path = "Target Support Files/Pods-elastos wallet/Pods-elastos wallet.release(mainnet).xcconfig"; sourceTree = "<group>"; };
 		8FEFE2C15307426D819C2CA3 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		95B5A24BEEA44AE9AD51A2C8 /* WebKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -4219,6 +4225,15 @@
 			path = WalletManager;
 			sourceTree = "<group>";
 		};
+		706F291424741988007B1797 /* CouncilAndSecretariat */ = {
+			isa = PBXGroup;
+			children = (
+				706F291524741A33007B1797 /* ELACouncilAndSecretariatModel.h */,
+				706F291624741A33007B1797 /* ELACouncilAndSecretariatModel.m */,
+			);
+			path = CouncilAndSecretariat;
+			sourceTree = "<group>";
+		};
 		7087D92521BCD85500599316 /* libidchain */ = {
 			isa = PBXGroup;
 			children = (
@@ -4259,7 +4274,6 @@
 				70DE414F24733AFB00E89F96 /* RPTaggedNavView */,
 				70DE415424733AFB00E89F96 /* Model */,
 				70DE416024733AFB00E89F96 /* View */,
-				70DE416724733AFB00E89F96 /* SYProgressView */,
 				70DE417224733AFC00E89F96 /* ELANetWork */,
 			);
 			path = CRCommtieeViewController;
@@ -4286,6 +4300,10 @@
 				70DE411A24733AFB00E89F96 /* ELASecretaryDetailViewController.m */,
 				70DE411924733AFB00E89F96 /* ELATUpdateSecretaryDidTableViewCell.h */,
 				70DE411B24733AFB00E89F96 /* ELAUpdateSecretaryDidViewController.m */,
+				70DE411924733AFB00E89F96 /* ELATUpdateSecretaryDidTableViewCell.h */,
+				70DE411B24733AFB00E89F96 /* ELAUpdateSecretaryDidViewController.m */,
+				70DE411D24733AFB00E89F96 /* ELASecretaryDetailViewController.h */,
+				70DE411A24733AFB00E89F96 /* ELASecretaryDetailViewController.m */,
 				70DE411E24733AFB00E89F96 /* ELAUpdateSecretaryDidViewController.h */,
 				70DE411C24733AFB00E89F96 /* ELATUpdateSecretaryDidTableViewCell.m */,
 			);
@@ -4348,6 +4366,7 @@
 		70DE413824733AFB00E89F96 /* Third */ = {
 			isa = PBXGroup;
 			children = (
+				70DE416724733AFB00E89F96 /* SYProgressView */,
 				70DE413924733AFB00E89F96 /* MJExtension */,
 			);
 			path = Third;
@@ -4399,6 +4418,8 @@
 				70DE415924733AFB00E89F96 /* ELABaseModel.m */,
 				703D9E4A2475DAD100FFA4D3 /* CouncilAndSecretariat */,
 				703D9E4D2475DAD200FFA4D3 /* CouncilAndSecretariatDetail */,
+				70FE6084247495320030AF85 /* CouncilAndSecretariatDetail */,
+				706F291424741988007B1797 /* CouncilAndSecretariat */,
 				70DE415624733AFB00E89F96 /* ELATUpdateSecretaryDidModel */,
 				70DE415A24733AFB00E89F96 /* ELAPayload */,
 				70DE415D24733AFB00E89F96 /* CommitteeInfo */,
@@ -4488,6 +4509,15 @@
 			path = ELANetWork;
 			sourceTree = "<group>";
 		};
+		70FE6084247495320030AF85 /* CouncilAndSecretariatDetail */ = {
+			isa = PBXGroup;
+			children = (
+				70FE6085247495BA0030AF85 /* ELAInformationDetail.h */,
+				70FE6086247495BA0030AF85 /* ELAInformationDetail.m */,
+			);
+			path = CouncilAndSecretariatDetail;
+			sourceTree = "<group>";
+		};
 		CBD48D4B21FC36BA00BF3B11 /* AFNetworking */ = {
 			isa = PBXGroup;
 			children = (
@@ -4567,8 +4597,9 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				CLASSPREFIX = HWM;
+				CLASSPREFIX = "";
 				LastUpgradeCheck = 1140;
+				ORGANIZATIONNAME = aaaaa;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = WF4LNX869V;
@@ -4898,6 +4929,7 @@
 				70DE417924733AFC00E89F96 /* ELATUpdateSecretaryDidTableViewCell.m in Sources */,
 				425A5FA52466BCE000C44104 /* HWMProposalsAbolishViewController.m in Sources */,
 				4237AAC02468FBFE00DD8FAE /* HWMCommunityProposalScrollView.m in Sources */,
+				706F291724741A33007B1797 /* ELACouncilAndSecretariatModel.m in Sources */,
 				4202CA5D21F6EF2A009E5932 /* HMWpwdPopupView.m in Sources */,
 				42B57AB822150C1C004CF089 /* NSObject+NSNotificationCrash.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.mm in Sources */,
@@ -5269,6 +5301,7 @@
 				428B4D8F22CB2B74004AE7D0 /* HWMaddSignThePurseView.m in Sources */,
 				424D113A22E042D900C46640 /* HWMHowLongTradingQrCodeViewController.m in Sources */,
 				4202CA0321F6EF2A009E5932 /* SVRadialGradientLayer.m in Sources */,
+				70FE6087247495BA0030AF85 /* ELAInformationDetail.m in Sources */,
 				42EAF01B238BB8C200D6A912 /* HWMDIDDataListView.m in Sources */,
 				423461FA2383F18900E4B135 /* UITableView+YRSafeCategory.m in Sources */,
 				42D105F823A3344D0063AADC /* UIView+MJExtension.m in Sources */,

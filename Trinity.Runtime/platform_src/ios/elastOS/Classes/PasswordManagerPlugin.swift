@@ -257,31 +257,6 @@ class PasswordManagerPlugin : TrinityPlugin {
         self.success(command, result)
     }
     
-    @objc public func setAppsPasswordStrategy(_ command: CDVInvokedUrlCommand) {
-        guard let appsPasswordStrategyAsInt = command.arguments[0] as? Int else {
-            self.error(command, buildGenericError(message: "Apps password strategy must be provided"))
-            return
-        }
-        
-        if let appsPasswordStrategy = AppsPasswordStrategy(rawValue: appsPasswordStrategyAsInt) {
-            PasswordManager.getSharedInstance().setAppsPasswordStrategy(strategy: appsPasswordStrategy, did: did, appID: appId, forceSet: false)
-        }
-        else {
-            self.error(command, buildGenericError(message: "No known apps password strategy for value \(appsPasswordStrategyAsInt)"))
-        }
-
-        let result = Dictionary<String, Any>()
-        self.success(command, result)
-    }
-    
-    @objc public func getAppsPasswordStrategy(_ command: CDVInvokedUrlCommand) {
-        let appsPasswordStrategy = PasswordManager.getSharedInstance().getAppsPasswordStrategy()
-        
-        var result = Dictionary<String, Any>()
-        result["strategy"] = appsPasswordStrategy.rawValue
-        self.success(command, result)
-    }
-    
     @objc public func setVirtualDIDContext(_ command: CDVInvokedUrlCommand) {
         let virtualDIDStringContext = command.arguments[0] as? String
         

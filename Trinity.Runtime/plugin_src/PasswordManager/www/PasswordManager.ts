@@ -127,28 +127,6 @@ class PasswordManagerImpl implements PasswordManagerPlugin.PasswordManager {
         });
     }
 
-    setAppsPasswordStrategy(strategy: PasswordManagerPlugin.AppsPasswordStrategy) {
-        return new Promise((resolve, reject)=>{
-            exec(()=>{
-                resolve();
-            }, (err)=>{
-                console.error("Error while calling PasswordManagerPlugin.setAppsPasswordStrategy()", err);
-                reject(this.nativeToTSException(err));
-            }, 'PasswordManagerPlugin', 'setAppsPasswordStrategy', [strategy]);    
-        });
-    }
-
-    getAppsPasswordStrategy(): Promise<PasswordManagerPlugin.AppsPasswordStrategy> {
-        return new Promise((resolve, reject)=>{
-            exec((result: { strategy: PasswordManagerPlugin.AppsPasswordStrategy }) =>{
-                resolve(result.strategy);
-            }, (err)=>{
-                console.error("Error while calling PasswordManagerPlugin.getAppsPasswordStrategy()", err);
-                reject(this.nativeToTSException(err));
-            }, 'PasswordManagerPlugin', 'getAppsPasswordStrategy', []);    
-        });
-    }
-
     deleteAppPasswordInfo(targetAppId: string, key: string): Promise<PasswordManagerPlugin.BooleanWithReason> {
         return new Promise((resolve, reject)=>{
             exec((result: { couldDelete: boolean, reason?: string })=>{

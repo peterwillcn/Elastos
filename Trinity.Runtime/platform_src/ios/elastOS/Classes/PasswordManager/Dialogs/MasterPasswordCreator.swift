@@ -29,7 +29,6 @@ class MasterPasswordCreatorAlertController: UIViewController {
     @IBOutlet weak var contentBackground: UIView!
     @IBOutlet weak var etPassword: UITextField!
     @IBOutlet weak var etPasswordRepeat: UITextField!
-    @IBOutlet weak var lblDontUseMasterPassword: UILabel!
     @IBOutlet weak var btCancel: AdvancedButton!
     @IBOutlet weak var btNext: AdvancedButton!
     @IBOutlet weak var passwordUnderline: UIView!
@@ -50,7 +49,6 @@ class MasterPasswordCreatorAlertController: UIViewController {
         contentBackground.backgroundColor = UIStyling.popupSecondaryBackgroundColor
         lblTitle.textColor = UIStyling.popupMainTextColor
         lblIntroduction.textColor = UIStyling.popupMainTextColor
-        lblDontUseMasterPassword.textColor = UIStyling.popupMainTextColor
         btCancel.bgColor = UIStyling.popupSecondaryBackgroundColor
         btCancel.titleColor = UIStyling.popupMainTextColor
         btCancel.cornerRadius = 8
@@ -68,18 +66,6 @@ class MasterPasswordCreatorAlertController: UIViewController {
         etPasswordRepeat.attributedPlaceholder = NSAttributedString(string: "Repeat password",
                                                                     attributes: [NSAttributedString.Key.foregroundColor: UIStyling.popupInputHintTextColor])
         
-        // Don't use master password option
-        if !canDisableMasterPasswordUse {
-            // In case of password change mode, we can't disable using a master password here.
-            lblDontUseMasterPassword.isHidden = true
-        }
-        else {
-            lblDontUseMasterPassword.isUserInteractionEnabled = true
-            lblDontUseMasterPassword.addGestureRecognizer(UITapGestureRecognizer { recognizer in
-                self.onDontUseMasterPasswordListener?()
-            })
-        }
-        
         // Focus password field when entering, so we can start typing at once
         etPassword.becomeFirstResponder()
     }
@@ -94,10 +80,6 @@ class MasterPasswordCreatorAlertController: UIViewController {
 
     public func setOnPasswordCreatedListener(_ listener: @escaping (_ password: String)->Void) {
         self.onPasswordCreatedListener = listener
-    }
-
-    public func setOnDontUseMasterPasswordListener(_ listener: @escaping ()->Void) {
-        self.onDontUseMasterPasswordListener = listener
     }
 
     @IBAction func cancelClicked(_ sender: Any) {

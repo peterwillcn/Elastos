@@ -775,17 +775,6 @@ public class PasswordManager {
                 popup.dismiss()
                 onCancel()
             }
-            
-            creatorController.setOnDontUseMasterPasswordListener {
-                popup.dismiss()
-                
-                // User chose to not use a master password. He will have to use the password manager app
-                // to change this option.
-                self.setAppsPasswordStrategy(strategy: .DONT_USE_MASTER_PASSWORD, did: did, appID: nil, forceSet: true)
-
-                // Consider this as a cancellation for this app
-                onCancel()
-            }
         }
     }
 

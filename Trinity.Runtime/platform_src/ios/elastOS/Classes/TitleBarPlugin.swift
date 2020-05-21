@@ -110,8 +110,8 @@ class TitleBarPlugin : TrinityPlugin {
     }
 
     @objc func addOnItemClickedListener(_ command: CDVInvokedUrlCommand) {
-        let functionString = command.arguments[0] as? String
-        getTitleBar().setOnItemClickedListener(functionString) { selectedItem in
+        let functionString = (command.arguments[0] as? String)!
+        getTitleBar().addOnItemClickedListener(functionString: functionString) { selectedItem in
                 // An item of the menu was clicked by the user
                 let result = try! CDVPluginResult(status: CDVCommandStatus_OK, messageAs: selectedItem.toJSONObject() as? [AnyHashable : Any])
                 result!.setKeepCallbackAs(true)
@@ -124,8 +124,8 @@ class TitleBarPlugin : TrinityPlugin {
     }
 
     @objc func removeOnItemClickedListener(_ command: CDVInvokedUrlCommand) {
-        let functionString = command.arguments[0] as? String
-        getTitleBar().removeOnItemClickedListener(functionString)
+        let functionString = (command.arguments[0] as? String)!
+        getTitleBar().removeOnItemClickedListener(functionString: functionString)
 
         self.success(command)
     }

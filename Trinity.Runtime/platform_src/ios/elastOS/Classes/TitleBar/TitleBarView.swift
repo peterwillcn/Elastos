@@ -275,7 +275,7 @@ class TitleBarView: UIView {
         let menuView = TitleBarMenuView(titleBar: self, frame: CGRect.null, appId: appId!, menuItems: menuItems)
 
         menuView.setOnMenuItemClickedListened() { menuItem in
-            self.onIconClickedListener?(menuItem)
+            self.handleIconClicked(icon: menuItem)
         }
 
         menuView.show(inRootView: self.viewController!.view)
@@ -568,8 +568,8 @@ class TitleBarView: UIView {
     }
 
     private func handleIconClicked(icon: TitleBarIcon) {
-        if (onIconClickedListener != nil) {
-            onIconClickedListener?(icon)
+        for onIconClickedListener in onIconClickedListenerMap.values {
+            onIconClickedListener(icon)
         }
     }
 

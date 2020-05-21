@@ -49,6 +49,9 @@
         "PasswordManagerPlugin": [
             "setVirtualDIDContext"
         ],
+        "TitleBarPlugin": [
+            "setNavigationIconVisibility"
+        ],
         "$user": {}
     },
     "did": {

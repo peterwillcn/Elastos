@@ -24,10 +24,14 @@
 
 #import <UIKit/UIKit.h>
 #import "ELACRBaseViewController.h"
+#import "ELACouncilAndSecretariatModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ELACommitteeDetailViewController : ELACRBaseViewController
+
+@property (nonatomic, assign) NSInteger index;
+@property (nonatomic, strong) ELACouncilModel *paramModel;
 
 @end
 

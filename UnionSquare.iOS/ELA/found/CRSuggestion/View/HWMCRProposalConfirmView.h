@@ -44,6 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(assign,nonatomic)opinionType type;
 @property(weak,nonatomic)id<HWMCRProposalConfirmViewDelgate> delegate;
+-(void)postWithHash:(NSString*)hash withVotes:(NSString*)votes withFee:(NSString*)fee;
 @end
 
 NS_ASSUME_NONNULL_END

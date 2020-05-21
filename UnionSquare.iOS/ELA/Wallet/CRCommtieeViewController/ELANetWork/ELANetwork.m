@@ -26,6 +26,8 @@
 #import "ELANetworkManager.h"
 #import "ELAUtils.h"
 #import "ELACommitteeInfoModel.h"
+#import "ELACouncilAndSecretariatModel.h"
+#import "ELAInformationDetail.h"
 
 #define ERRORDESC (ELALocalizedString(@"获取数据失败"))
 
@@ -176,7 +178,8 @@
         else
         {
             
-            block(data, nil);
+            ELACouncilAndSecretariatModel *mode = [ELACouncilAndSecretariatModel mj_objectWithKeyValues:data];
+            block(mode, nil);
             
         }
         
@@ -184,5 +187,31 @@
     }];
     return task;
 }
+
++ (NSURLSessionDataTask *)getInformation:(NSString *)did ID:(NSInteger)_id block:(void (^) (id data, NSError *error))block
+{
+    NSString *host = CRProposalIP;
+    NSString *path = @"/api/council/information/";
+    NSString *url = [NSString stringWithFormat:@"%@%@%@/%ld", host, path, did, (long)_id];
+//    /api/council/information/5ebcf259c4a7fe0078148afc/1
+    NSURLSessionDataTask *task = [ELANetwork GET:url parameters:nil block:^(id data, NSError *error) {
+        
+        if(error)
+        {
+            block(nil, error);
+        }
+        else
+        {
+            
+            ELAInformationDetail *mode = [ELAInformationDetail mj_objectWithKeyValues:data];
+            block(mode, nil);
+
+        }
+        
+        
+    }];
+    return task;
+}
+
 
 @end

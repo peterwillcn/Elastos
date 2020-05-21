@@ -64,7 +64,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
         self.title=NSLocalizedString(@"发起建议", nil);
     }else if (self.VCType==TheProposalType){
         self.title=NSLocalizedString(@"发起提案", nil);
-    //xxl 2.2 flow
+        //xxl 2.2 flow
     }else if (self.VCType == ReviewProposalType){
         self.title=NSLocalizedString(@"审查提案", nil);
     }else if (self.VCType == VoteforProposalType){
@@ -77,8 +77,6 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     
     
     if(self.VCType != ReviewProposalType){
-        
-    
         [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadCRAdviceDetailsWithID:self.PayLoadDic[@"sid"] withComplete:^(id  _Nonnull data) {
             HWMadviceViewModel*adviceViewM =[[HWMadviceViewModel alloc]init];
             [adviceViewM detailsProposalModelDataJosn:data[@"data"] completion:^(HWMadviceModel * _Nonnull model) {
@@ -179,7 +177,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
             make.left.right.top.bottom.equalTo(mainView);
         }];
     }else if (self.VCType==ReviewProposalType){
-        //xxl 2.2 flow TODO for UI 
+        //xxl 2.2 flow TODO for UI
         [mainView addSubview:self.ShowPoPWDView];
         [self.ShowPoPWDView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.top.bottom.equalTo(mainView);
@@ -188,13 +186,12 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     }
 }
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    
-        
     NSString *typStirng=self.suggestionArray[indexPath.section];
     HWMAbstractTableViewCell*cell=[tableView dequeueReusableCellWithIdentifier:AbstractVCell];
     cell.titleLabel.text=typStirng;
     cell.titleLabel.textColor=[UIColor whiteColor];
     cell.constLabel.textColor=[UIColor whiteColor];
+    cell.selectionStyle= UITableViewCellSelectionStyleNone;
     if ([typStirng isEqualToString:NSLocalizedString(@"类型",nil)]) {
         if ([self.PayLoadDic[@"data"][@"proposaltype"] isEqualToString:@"normal"]) {
             cell.constLabel.text=NSLocalizedString(@"普通",nil);
@@ -211,10 +208,12 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     }else if ([typStirng isEqualToString:NSLocalizedString(@"提案经费额度",nil)]){
         if (indexPath.row==0) {
             HWMSuggestionSionTableViewCell *Sioncell=[tableView dequeueReusableCellWithIdentifier:SuggestionSionCell];
+            Sioncell.selectionStyle= UITableViewCellSelectionStyleNone;
             Sioncell.titleLable.text=typStirng;
             return Sioncell;
         }else{
             HWMSuggestionTableViewCell *SuggesCell=[tableView dequeueReusableCellWithIdentifier:SuggestionCell];
+            SuggesCell.selectionStyle= UITableViewCellSelectionStyleNone;
             HWMBudgetsModel *model=self.cellDataBudgetsArray[indexPath.row-1];
             SuggesCell.contenLabel.text=model.Amount;
             SuggesCell.titleLabel.text=model.titleString;
@@ -353,7 +352,6 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     NSLog(@"pare %@",pare);
     
     [HttpUrl NetPOSTHost:self.PayLoadDic[@"callbackurl"] url:@"" header:nil body:pare showHUD:NO WithSuccessBlock:^(id data) {
-        
         [self showSendSuccessOrFial:SignatureSuccessType];
     } WithFailBlock:^(id data) {
         
@@ -382,6 +380,15 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 }
 
 -(void)pwdAndInfoWithPWD:(NSString*)pwd{
+    if(self.VCType == TheProposalType){
+        [self createProposal:pwd];
+    }else if(self.VCType == ReviewProposalType){
+        [self reviewProposal:pwd];
+    }
+    
+}
+
+-(void)createProposal:(NSString*)pwd{
     
     if(self.VCType == TheProposalType){
         
@@ -456,37 +463,27 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
         NSDictionary *resultDic = pluginResult.message[@"success"];
         NSString *calculateProposalHash = resultDic[@"calculateProposalHash"];
         NSDictionary *callDic = [self callBack:calculateProposalHash pwd:pwd];
-        if(callDic)
-        {
+        if(callDic){
             [self updaeJWTInfoWithDic:callDic];
         }else{
             [self showSendSuccessOrFial:SignatureFailureType];
         }
-
-        
-    }else{
-         [self showSendSuccessOrFial:SignatureFailureType];
     }
     
     
 }
 
 -(void)reviewProposal:(NSString*)pwd{
-    
     [self showLoading];
     invokedUrlCommand *mommand = [[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID, pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
     PluginResult *result = [[ELWalletManager share]VerifyPayPassword:mommand];
     NSNumber *number = result.status;
     
-    if( [number intValue] != CommandStatus_OK)
-    {
+    if( [number intValue] != CommandStatus_OK){
         NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
         [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
         return;
-    }else{
-        [self showSendSuccessOrFial:SignatureFailureType];
     }
-
     NSNumber *NVoteResult;
     
     if ([self.PayLoadDic[@"data"][@"voteResult"] isEqualToString:@"approve"]) {
@@ -506,18 +503,15 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     
     mommand = [[invokedUrlCommand alloc]initWithArguments:
                @[self.currentWallet.masterWalletID,playLoadDic, pwd]
-               callbackId:self.currentWallet.walletID
-               className:@"Wallet"
-               methodName:@"createProposalReviewTransaction"];
+                                               callbackId:self.currentWallet.walletID
+                                                className:@"Wallet"
+                                               methodName:@"createProposalReviewTransaction"];
     
-   PluginResult *pluginResult = [[ELWalletManager share] proposalReviewTransaction:mommand];
-   
-   if(pluginResult){
+    PluginResult *pluginResult = [[ELWalletManager share] proposalReviewTransaction:mommand];
+    
+    if(pluginResult){
         NSDictionary *resultDic = pluginResult.message[@"success"];
-//        NSDictionary *txidDic = @{
-//           @"txid":resultDic[@"txid"]
-//        };
-       //[self updaeJWTInfoWithDic:txidDic];
+        //[self updaeJWTInfoWithDic:txidDic];
         NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:pwd];
         if(callDic)
         {
@@ -525,6 +519,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
         }else {
             [self showSendSuccessOrFial:SignatureFailureType];
         }
+
     }else{
         [self showSendSuccessOrFial:SignatureFailureType];
     }
@@ -553,9 +548,9 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
                 NSDictionary *dic=@{@"jwt":[NSString stringWithFormat:@"%@.%@",jwtString,REString]};
                 return dic;
             }
+        }
     }
-    return nil;
-    }
+   return nil;
 }
 
 -(void)showSendSuccessOrFial:(SendSuccessType)type{
@@ -628,6 +623,9 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    [self hiddLoading];
+}
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self hiddLoading];
 }
 @end

@@ -20,21 +20,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-#import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^PledgeBlock)(void);
+#import "ELACouncilAndSecretariatModel.h"
 
-@interface ELAPledgeView : UIView
+@implementation ELACouncilAndSecretariatModel
 
-@property (nonatomic, strong) NSString *title;
++ (instancetype)mj_objectWithKeyValues:(id)keyValues
+{
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] initWithDictionary:keyValues];
+    NSDictionary *data = [keyValues objectForKey:@"data"];
+    [dic removeObjectForKey:@"data"];
+    [dic addEntriesFromDictionary:data];
+    return [self mj_objectWithKeyValues:dic context:nil];
+    
+}
++ (NSDictionary *)objectClassInArray
+{
+    return @{
+        @"council":[ELACouncilModel class],
+        @"secretariat":[ELASecretariatModel class],
+    };
+    
+}
 
-@property (nonatomic, copy) PledgeBlock block;
-
-- (void)showAlertView;
-
-- (void)hideAlertView;
 @end
 
-NS_ASSUME_NONNULL_END
+@implementation ELACouncilModel
+
+@end
+
+@implementation ELASecretariatModel
+
+@end
+

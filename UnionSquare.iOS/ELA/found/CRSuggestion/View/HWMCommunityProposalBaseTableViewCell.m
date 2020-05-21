@@ -51,12 +51,21 @@
     self.rightLabte.text=model.status;
     self.leftLabel.text=model.baseInfoString;
     _model=model;
-//    if (model.searchRanege.length>0) {
-//        [self setSearchTestColorString:model.searchRanege];
-//    }
+    if (self.isSearch) {
+        [self setSearchTestColorString];
 }
--(void)setSearchTestColorString:(NSRange)searchRange{
+}
+-(void)setSearchTestColorString{
 
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:self.model.title];
+    text.font = [UIFont boldSystemFontOfSize:14];
+    text.color = [UIColor whiteColor];
     
+    [text setTextHighlightRange:self.model.searchRanege
+                          color:RGBA(255, 255, 255, 0.2)
+                backgroundColor:[UIColor redColor]
+                      tapAction:^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
+    }];
+    self.titleLabel .attributedText = text;
 }
 @end

@@ -52,7 +52,6 @@
     self.table.tableFooterView = [[UIView alloc] init];
     self.dataSource =[[NSMutableArray alloc]initWithObjects:@"",@"",@"", @"", nil];
     [self.table registerNib:[UINib nibWithNibName:@"HMWfoundTableCell" bundle:nil] forCellReuseIdentifier:@"HMWfoundTableCell"];
-    [[HWMSecretaryGeneralAndMembersInfo shareTools]loadDataSource];
 }
 -(void)loadElectionInfo{
     ELWalletManager *manager   =  [ELWalletManager share];
@@ -71,7 +70,7 @@
     [super viewWillAppear:animated];
     self.navigationItem.leftBarButtonItem=nil;
     [self.navigationController setNavigationBarHidden:NO];
-    
+    [[HWMSecretaryGeneralAndMembersInfo shareTools]loadDataSource];
     
 }
 

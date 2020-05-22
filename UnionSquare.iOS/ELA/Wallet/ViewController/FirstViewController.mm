@@ -38,6 +38,7 @@
 #import "HMWtransferViewController.h"
 #import "HWMQrCodeSignatureManager.h"
 #import "HWMSuggestionViewController.h"
+#import "HWMQrCodeInfoPasswordViewController.h"
 
 @interface FirstViewController ()<FLCapitalViewDelegate,UITableViewDelegate,UITableViewDataSource,HMWaddFooterViewDelegate,HMWTheWalletListViewControllerDelegate,HMWpwdPopupViewDelegate>
 {
@@ -104,19 +105,16 @@
     self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:self.leftView];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataWalletListInfo:) name:updataWallet object:nil];
-    
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(currentWalletAccountBalanceChanges:) name: AccountBalanceChanges object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataCreateWalletLoadWalletInfo) name:updataCreateWallet object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(AsnyConnectStatusChanged:) name:ConnectStatusChanged object:nil];
-    
     [self setView];
     NSInteger selectIndex=
     [[STANDARD_USER_DEFAULT valueForKey:selectIndexWallet] integerValue];
     if (selectIndex<0) {
         selectIndex=0;
     }
-    
     self.isScro=NO;
     [self loadTheWalletInformationWithIndex:selectIndex];
     
@@ -135,7 +133,6 @@
     
 }
 -(void)loadPingWithURLArray:(NSArray*)urlArray withHTTPArray:(NSArray*)arry{
-    
     self.pingManager = [[NENPingManager alloc] init];
     [self.pingManager getFatestAddress:urlArray completionHandler:^(NSString *hostName, NSArray *sortedAddress) {
         if (hostName.length>0){
@@ -174,8 +171,6 @@
         [leftButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.top.bottom.equalTo(_leftView);
         }];
-        
-        
     }
     return _leftView;
 }
@@ -207,21 +202,15 @@
 }
 
 -(void)addAllCallBack{
-    //    for (FMDBWalletModel *wallet in self.walletIDListArray) {
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
-    
     PluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]) {
-        
         NSArray  *array = [[FLTools share]stringToArray:result.message[@"success"]];
-        
         if (array.count>0) {
             [self RegisterToMonitor:array WithmasterWalletID:self.currentWallet.masterWalletID];
         }
-        
     }
-    //    }
 }
 -(void)RegisterToMonitor:(NSArray*)arr WithmasterWalletID:(NSString*)walletID{
     for (int i =0; i<arr.count; i++) {
@@ -256,7 +245,6 @@
     
 }
 -(void)currentWalletAccountBalanceChanges:(NSNotification *)notification{
-    
     NSDictionary *dic=[[NSDictionary alloc]initWithDictionary:notification.object];
     NSArray *infoArray=[[FLTools share]stringToArray:dic[@"callBackInfo"]];
     
@@ -267,7 +255,6 @@
         return;
     }
     NSString *  balance=dic[@"balance"];
-    
     assetsListModel *model=self.dataSoureArray[index];
     if ([model.iconName isEqualToString:chainID]&&[self.currentWallet.masterWalletID isEqualToString:walletID]){
         model.iconBlance=balance;
@@ -390,7 +377,7 @@
     wallet.TypeW  = model.TypeW;
     wallet.didString=model.didString;
     self.currentWallet = wallet;
-  
+    
     [self addAllCallBack];
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getAllSubWallets"];
     PluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
@@ -770,7 +757,10 @@
 -(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString{
     __weak __typeof__(self) weakSelf = self;
     [[HWMQrCodeSignatureManager shareTools]QrCodeDataWithData:QRCodeString withDidString:self.currentWallet.didString withmastWalletID:self.currentWallet.masterWalletID withComplete:^(QrCodeSignatureType type, id  _Nonnull data) {
-        [weakSelf ParseTheQrCodeJumpEventWithType:type withData:data tsWithQRCodeString:QRCodeString];
+        if (data !=NULL) {
+            [weakSelf ParseTheQrCodeJumpEventWithType:type withData:data tsWithQRCodeString:QRCodeString];
+        }
+        
     }];
 }
 -(void)ParseTheQrCodeJumpEventWithType:(QrCodeSignatureType)type withData:(id)data tsWithQRCodeString:(NSString*)QRCodeString{
@@ -782,10 +772,11 @@
         case credaccessQrCodeType:
             [self ShowPlayInfoText:data withJWTString:QRCodeString];
             break;
-        //xxl 2.2 flow TODO for go to the flow
+            //xxl 2.2 flow TODO for go to the flow
         case suggestionQrCodeType:
+            [self showAdviceInfoText:data withJWTString:QRCodeString WithType:type];
+            break;
         case reviewPropalQrCodeType:
-        case voteforProposalQrCodeType:
             [self showAdviceInfoText:data withJWTString:QRCodeString WithType:type];
             break;
         case billQrCodeType:
@@ -794,38 +785,29 @@
         case unknowQrCodeType:
             [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
             break;
+            
+        case ProposalLeaderType:
+            [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
+            break;
+        case SecretaryGeneralType:
+            [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
+            break;
+        case withdrawalsType:
+            [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
+            break;
         default:
             break;
     }
     
 }
-
-//-(void)showAdviceInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString
-//{
-//    SuggestionVCType type = SuggestionType;
-//    if(PayLoadDic)
-//    {
-//        NSString *command = PayLoadDic[@"command"];
-//        if(command && [command isEqualToString:@"createproposal"])
-//        {
-//            type = TheProposalType;
-//        //xxl 2.2 flow
-//        }else if(command && [command isEqualToString:@"reviewproposal"]){
-//            type = ReviewProposalType;
-//        }
-//    }
-//
-//    HWMSuggestionViewController *SuggestionVC=[[HWMSuggestionViewController alloc]init];
-//    SuggestionVC.VCType = type;
-//    SuggestionVC.PayLoadDic = PayLoadDic;
-//    SuggestionVC.jwtString = jwtString;
-//    SuggestionVC.currentWallet = self.currentWallet;
-//    [self.navigationController pushViewController:SuggestionVC animated:YES];
-//}
-
+-(void)QrCodeInfoPasswordViewInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString WithType:(QrCodeSignatureType)type{
+    HWMQrCodeInfoPasswordViewController *PasswordVC=[[HWMQrCodeInfoPasswordViewController alloc]init];
+    PasswordVC.type=type;
+    [self.navigationController pushViewController:PasswordVC animated:NO];
+}
 
 -(void)showAdviceInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString WithType:(QrCodeSignatureType)type{
-
+    
     HWMSuggestionViewController *SuggestionVC=[[HWMSuggestionViewController alloc]init];
     switch (type) {
         case suggestionQrCodeType:
@@ -834,17 +816,12 @@
         case billQrCodeType:
             SuggestionVC.VCType=TheProposalType;
             break;
-        //xxl 2.2
-        case reviewPropalQrCodeType:
-            SuggestionVC.VCType=ReviewProposalType;
-            break;
-        case voteforProposalQrCodeType:
-            SuggestionVC.VCType=VoteforProposalType;
-            break;
+            //        case reviewPropalQrCodeType:
+            //            SuggestionVC.VCType=ReviewProposalType;
+            //            break;
         default:
             break;
     }
-
 
     SuggestionVC.PayLoadDic=PayLoadDic;
     SuggestionVC.jwtString=jwtString;

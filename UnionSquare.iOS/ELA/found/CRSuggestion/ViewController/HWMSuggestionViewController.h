@@ -29,7 +29,7 @@ typedef enum : NSUInteger {
     TheProposalType,
     //xxl 2.2 flow
     ReviewProposalType,
-    VoteforProposalType,
+    VoteforProposalType
     
 } SuggestionVCType;
 

@@ -71,8 +71,6 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
         //xxl 2.2 flow
     }else if (self.VCType == ReviewProposalType){
         self.title=NSLocalizedString(@"审查提案", nil);
-    }else if (self.VCType == VoteforProposalType){
-        self.title=NSLocalizedString(@"公投提案", nil);
     }
     self.table.alpha=0.f;
     self.signatureButton.userInteractionEnabled=NO;
@@ -95,7 +93,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
             }];
         }];
         
-    }else if(self.VCType == VoteforProposalType){
+    }else if(self.VCType == TheProposalType){
         
         //xxl 2.3 TODO
         [self setVoteforProposalInfo];
@@ -462,7 +460,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 }
 
 -(void)createProposal:(NSString*)pwd{
-    
+
     [self showLoading];
     invokedUrlCommand *mommand = [[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID, pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
     PluginResult *result = [[ELWalletManager share]VerifyPayPassword:mommand];
@@ -529,7 +527,6 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     }
     
 }
-
 -(void)reviewProposal:(NSString*)pwd{
     [self showLoading];
     invokedUrlCommand *mommand = [[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID, pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
@@ -576,7 +573,6 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
         }else {
             [self showSendSuccessOrFial:SignatureFailureType];
         }
-
     }else{
         [self showSendSuccessOrFial:SignatureFailureType];
     }
@@ -606,8 +602,8 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
                 return dic;
             }
         }
+        return nil;
     }
-   return nil;
 }
 
 -(void)showSendSuccessOrFial:(SendSuccessType)type{

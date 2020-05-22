@@ -53,6 +53,7 @@ public class PasswordManager {
     private static PasswordManager instance;
     private AppManager appManager;
     private HashMap<String, PasswordDatabaseInfo> databasesInfo = new HashMap<>();
+    private String virtualDIDContext = null;
 
     private interface BasePasswordManagerListener {
         void onCancel();
@@ -116,24 +117,34 @@ public class PasswordManager {
      * Password info could fail to be saved in case user cancels the master password creation or enters
      * a wrong master password then cancels.
      */
-    public void setPasswordInfo(PasswordInfo info, String did, String appID, OnPasswordInfoSetListener listener) {
-        // If the calling app is NOT the password manager, we can set password info only if the APPS password
-        // strategy is LOCK_WITH_MASTER_PASSWORD.
-        if (!appIsPasswordManager(appID) && getAppsPasswordStrategy() == AppsPasswordStrategy.DONT_USE_MASTER_PASSWORD) {
-            listener.onError("Saving password info with a DONT_USE_MASTER_PASSWORD apps strategy is forbidden");
-            return;
-        }
+    public void setPasswordInfo(PasswordInfo info, String did, String appID, OnPasswordInfoSetListener listener) throws Exception {
+        String actualDID = getActualDIDContext(did);
 
-        loadDatabase(did, new OnDatabaseLoadedListener() {
+        checkMasterPasswordCreationRequired(actualDID, new OnMasterPasswordCreationListener() {
             @Override
-            public void onDatabaseLoaded() {
-                try {
-                    setPasswordInfoReal(info, did, appID);
-                    listener.onPasswordInfoSet();
-                }
-                catch (Exception e) {
-                    listener.onError(e.getMessage());
-                }
+            public void onMasterPasswordCreated() {
+                loadDatabase(actualDID, new OnDatabaseLoadedListener() {
+                    @Override
+                    public void onDatabaseLoaded() {
+                        try {
+                            setPasswordInfoReal(info, actualDID, appID);
+                            listener.onPasswordInfoSet();
+                        }
+                        catch (Exception e) {
+                            listener.onError(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        listener.onCancel();
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        listener.onError(error);
+                    }
+                }, false);
             }
 
             @Override
@@ -145,7 +156,7 @@ public class PasswordManager {
             public void onError(String error) {
                 listener.onError(error);
             }
-        }, false);
+        });
     }
 
     /**
@@ -159,22 +170,16 @@ public class PasswordManager {
      * @returns The password info, or null if nothing was found.
      */
     public void getPasswordInfo(String key, String did, String appID, OnPasswordInfoRetrievedListener listener) throws Exception {
-        // If the calling app is NOT the password manager, we can get password info only if the APPS password
-        // strategy is LOCK_WITH_MASTER_PASSWORD.
-        if (!appIsPasswordManager(appID) && getAppsPasswordStrategy() == AppsPasswordStrategy.DONT_USE_MASTER_PASSWORD) {
-            // Force apps to prompt user password by themselves as we are not using a master password.
-            listener.onPasswordInfoRetrieved(null);
-            return;
-        }
+        String actualDID = getActualDIDContext(did);
 
-        checkMasterPasswordCreationRequired(did, new OnMasterPasswordCreationListener() {
+        checkMasterPasswordCreationRequired(actualDID, new OnMasterPasswordCreationListener() {
             @Override
             public void onMasterPasswordCreated() {
-                loadDatabase(did, new OnDatabaseLoadedListener() {
+                loadDatabase(actualDID, new OnDatabaseLoadedListener() {
                     @Override
                     public void onDatabaseLoaded() {
                         try {
-                            PasswordInfo info = getPasswordInfoReal(key, did, appID);
+                            PasswordInfo info = getPasswordInfoReal(key, actualDID, appID);
                             listener.onPasswordInfoRetrieved(info);
                         }
                         catch (Exception e) {
@@ -213,20 +218,22 @@ public class PasswordManager {
      *
      * @returns The list of existing password information.
      */
-    public void getAllPasswordInfo(String did, String appID, OnAllPasswordInfoRetrievedListener listener) {
+    public void getAllPasswordInfo(String did, String appID, OnAllPasswordInfoRetrievedListener listener) throws Exception {
+        String actualDID = getActualDIDContext(did);
+
         if (!appIsPasswordManager(appID)) {
             listener.onError("Only the password manager application can call this API");
             return;
         }
 
-        checkMasterPasswordCreationRequired(did, new OnMasterPasswordCreationListener() {
+        checkMasterPasswordCreationRequired(actualDID, new OnMasterPasswordCreationListener() {
             @Override
             public void onMasterPasswordCreated() {
-                loadDatabase(did, new OnDatabaseLoadedListener() {
+                loadDatabase(actualDID, new OnDatabaseLoadedListener() {
                     @Override
                     public void onDatabaseLoaded() {
                         try {
-                            ArrayList<PasswordInfo> infos = getAllPasswordInfoReal(did);
+                            ArrayList<PasswordInfo> infos = getAllPasswordInfoReal(actualDID);
                             listener.onAllPasswordInfoRetrieved(infos);
                         }
                         catch (Exception e) {
@@ -267,17 +274,19 @@ public class PasswordManager {
      * @param key Unique identifier for the password info to delete.
      */
     public void deletePasswordInfo(String key, String did, String appID, String targetAppID, OnPasswordInfoDeletedListener listener) throws Exception {
+        String actualDID = getActualDIDContext(did);
+
         // Only the password manager app can delete content that is not its own content.
         if (!appIsPasswordManager(appID) && !appID.equals(targetAppID)) {
             listener.onError("Only the application manager application can delete password info that does not belong to it.");
             return;
         }
 
-        loadDatabase(did, new OnDatabaseLoadedListener() {
+        loadDatabase(actualDID, new OnDatabaseLoadedListener() {
             @Override
             public void onDatabaseLoaded() {
                 try {
-                    deletePasswordInfoReal(key, did, targetAppID);
+                    deletePasswordInfoReal(key, actualDID, targetAppID);
                     listener.onPasswordInfoDeleted();
                 }
                 catch (Exception e) {
@@ -331,25 +340,26 @@ public class PasswordManager {
      * Only the password manager application is allowed to call this API.
      */
     public void changeMasterPassword(String did, String appID, OnMasterPasswordChangeListener listener) throws Exception {
+        String actualDID = getActualDIDContext(did);
+
         if (!appIsPasswordManager(appID)) {
             Log.e(LOG_TAG, "Only the password manager application can call this API");
             return;
         }
 
-        loadDatabase(did, new OnDatabaseLoadedListener() {
+        loadDatabase(actualDID, new OnDatabaseLoadedListener() {
             @Override
             public void onDatabaseLoaded() {
                 // No database exists. Start the master password creation flow
                 new MasterPasswordCreator.Builder(activity, PasswordManager.this)
-                    .setCanDisableMasterPasswordUse(false)
                     .setOnNextClickedListener(password -> {
                         // Master password was provided and confirmed. Now we can use it.
 
                         try {
-                            PasswordDatabaseInfo dbInfo = databasesInfo.get(did);
+                            PasswordDatabaseInfo dbInfo = databasesInfo.get(actualDID);
 
                             // Changing the master password means re-encrypting the database with a different password
-                            encryptAndSaveDatabase(did, password);
+                            encryptAndSaveDatabase(actualDID, password);
 
                             // Remember the new password locally
                             dbInfo.activeMasterPassword = password;
@@ -382,13 +392,15 @@ public class PasswordManager {
      * This API re-locks the passwords database and further requests from applications to this password
      * manager will require user to provide his master password again.
      */
-    public void lockMasterPassword(String did, String appID) {
+    public void lockMasterPassword(String did, String appID) throws Exception{
+        String actualDID = getActualDIDContext(did);
+
         if (!appIsPasswordManager(appID)) {
             Log.e(LOG_TAG, "Only the password manager application can call this API");
             return;
         }
 
-        lockDatabase(did);
+        lockDatabase(actualDID);
     }
 
     /**
@@ -403,7 +415,9 @@ public class PasswordManager {
      *
      * @param unlockMode Unlock strategy to use.
      */
-    public void setUnlockMode(PasswordUnlockMode unlockMode, String did, String appID) {
+    public void setUnlockMode(PasswordUnlockMode unlockMode, String did, String appID) throws Exception {
+        String actualDID = getActualDIDContext(did);
+
         if (!appIsPasswordManager(appID)) {
             Log.e(LOG_TAG, "Only the password manager application can call this API");
             return;
@@ -413,7 +427,7 @@ public class PasswordManager {
 
         // if the mode becomes UNLOCK_EVERY_TIME, we lock the database
         if (getUnlockMode() != PasswordUnlockMode.UNLOCK_EVERY_TIME && unlockMode == PasswordUnlockMode.UNLOCK_EVERY_TIME) {
-            lockDatabase(did);
+            lockDatabase(actualDID);
         }
     }
 
@@ -423,43 +437,30 @@ public class PasswordManager {
     }
 
     /**
-     * Sets the overall strategy for third party applications password management.
+     * RESTRICTED
      *
-     * Users can choose to lock all apps passwords using a single master password. They can also choose
-     * to not use this feature and instead, input their custom app password every time they need to.
+     * Used by the DID session application to toggle DID contexts and deal with DID creation, sign in,
+     * sign out. When a virtual context is set, api call such as getPasswordInfo() don't use the currently
+     * signed in DID, but they use this virtual DID instead.
      *
-     * When strategy is set to DONT_USE_MASTER_PASSWORD, setPasswordInfo() always fails, and getPasswordInfo()
-     * always returns an empty content, therefore pushing apps to prompt user passwords every time.
-     *
-     * If the strategy was LOCK_WITH_MASTER_PASSWORD and becomes DONT_USE_MASTER_PASSWORD, existing password
-     * info is not deleted. The password manager application is responsible for clearing the existing content
-     * if user wishes to do that.
-     *
-     * @param strategy Strategy to use in order to save and get passwords in third party apps.
+     * @param didString The DID context to use for all further api calls. Pass null to clear the virtual context.
      */
-    public void setAppsPasswordStrategy(AppsPasswordStrategy strategy, String did, String appID, boolean forceSet) {
-        if (!forceSet && !appIsPasswordManager(appID)) {
-            Log.e(LOG_TAG, "Only the password manager application can call this API");
-            return;
-        }
-
-        getPrefs().edit().putInt(PREF_KEY_APPS_PASSWORD_STRATEGY, strategy.ordinal()).apply();
-
-        // if the mode becomes DONT_USE_MASTER_PASSWORD, we lock the database
-        if (getAppsPasswordStrategy() != AppsPasswordStrategy.DONT_USE_MASTER_PASSWORD && strategy == AppsPasswordStrategy.DONT_USE_MASTER_PASSWORD) {
-            lockDatabase(did);
-        }
+    public void setVirtualDIDContext(String didString) {
+        this.virtualDIDContext = didString;
     }
 
-    /**
-     * Returns the current apps password strategy. If nothing was et earlier, default value
-     * is LOCK_WITH_MASTER_PASSWORD.
-     *
-     * @returns The current apps password strategy
-     */
-    public AppsPasswordStrategy getAppsPasswordStrategy() {
-        int savedPasswordStrategyAsInt = getPrefs().getInt(PREF_KEY_APPS_PASSWORD_STRATEGY, AppsPasswordStrategy.LOCK_WITH_MASTER_PASSWORD.ordinal());
-        return AppsPasswordStrategy.fromValue(savedPasswordStrategyAsInt);
+    private String getActualDIDContext(String currentDIDContext) throws Exception {
+        if (virtualDIDContext != null) {
+            return virtualDIDContext;
+        }
+        else {
+            if (currentDIDContext != null) {
+                return currentDIDContext;
+            }
+            else {
+                throw new Exception("No signed in DID or virtual DID context exist. Need at least one of them!");
+            }
+        }
     }
 
     private boolean appIsPasswordManager(String appId) {
@@ -764,14 +765,6 @@ public class PasswordManager {
                     catch (Exception e) {
                         listener.onError(e.getMessage());
                     }
-                })
-                .setOnDontUseMasterPasswordListener(() -> {
-                    // User chose to not use a master password. He will have to use the password manager app
-                    // to change this option.
-                    setAppsPasswordStrategy(AppsPasswordStrategy.DONT_USE_MASTER_PASSWORD, did, null, true);
-
-                    // Consider this as a cancellation for this app
-                    listener.onCancel();
                 })
                 .setOnCancelClickedListener(listener::onCancel)
                 .setOnErrorListener(listener::onError)

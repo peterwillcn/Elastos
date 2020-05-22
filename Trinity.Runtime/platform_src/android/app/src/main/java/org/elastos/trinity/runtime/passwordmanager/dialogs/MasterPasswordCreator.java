@@ -46,9 +46,7 @@ public class MasterPasswordCreator extends AlertDialog {
         private AlertDialog alertDialog;
         private OnCancelClickedListener onCancelClickedListener;
         private OnNextClickedListener onNextClickedListener;
-        private OnDontUseMasterPasswordListener onDontUseMasterPasswordListener;
         private OnErrorListener onErrorListener;
-        private boolean canDisableMasterPasswordUse = true;
         private boolean shouldInitiateBiometry; // Whether biometry should be prompted to save password, or just used (previously saved)
 
         // UI items
@@ -58,7 +56,6 @@ public class MasterPasswordCreator extends AlertDialog {
         TextView lblIntro;
         EditText etPassword;
         EditText etPasswordRepeat;
-        TextView lblDontUseMasterPassword;
         Button btCancel;
         Button btNext;
         CardView cardDeny;
@@ -82,11 +79,6 @@ public class MasterPasswordCreator extends AlertDialog {
             return this;
         }
 
-        public Builder setOnDontUseMasterPasswordListener(OnDontUseMasterPasswordListener listener) {
-            this.onDontUseMasterPasswordListener = listener;
-            return this;
-        }
-
         public Builder setOnErrorListener(OnErrorListener listener) {
             this.onErrorListener = listener;
             return this;
@@ -102,7 +94,6 @@ public class MasterPasswordCreator extends AlertDialog {
             lblIntro = view.findViewById(R.id.lblIntro);
             etPassword = view.findViewById(R.id.etPassword);
             etPasswordRepeat = view.findViewById(R.id.etPasswordRepeat);
-            lblDontUseMasterPassword = view.findViewById(R.id.lblDontUseMasterPassword);
             btCancel = view.findViewById(R.id.btCancel);
             btNext = view.findViewById(R.id.btNext);
             cardDeny = view.findViewById(R.id.cardDeny);
@@ -121,7 +112,6 @@ public class MasterPasswordCreator extends AlertDialog {
             etPassword.setHintTextColor(UIStyling.popupInputHintTextColor);
             etPasswordRepeat.setTextColor(UIStyling.popupMainTextColor);
             etPasswordRepeat.setHintTextColor(UIStyling.popupInputHintTextColor);
-            lblDontUseMasterPassword.setTextColor(UIStyling.popupMainTextColor);
 
             btCancel.setOnClickListener(v -> {
                 alertDialog.dismiss();
@@ -139,26 +129,10 @@ public class MasterPasswordCreator extends AlertDialog {
                 }
             });
 
-            if (!canDisableMasterPasswordUse) {
-                // In case of password change mode, we can't disable using a master password here.
-                lblDontUseMasterPassword.setVisibility(View.GONE);
-            }
-            else {
-                lblDontUseMasterPassword.setOnClickListener(v -> {
-                    alertDialog.dismiss();
-                    onDontUseMasterPasswordListener.onDontUseMasterPassword();
-                });
-            }
-
             alertDialogBuilder.setView(view);
             alertDialog = alertDialogBuilder.create();
             alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
             alertDialog.show();
-        }
-
-        public Builder setCanDisableMasterPasswordUse(boolean canDisableMasterPasswordUse) {
-            this.canDisableMasterPasswordUse = canDisableMasterPasswordUse;
-            return this;
         }
     }
 

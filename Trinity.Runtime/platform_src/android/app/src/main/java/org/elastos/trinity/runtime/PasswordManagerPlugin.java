@@ -82,11 +82,8 @@ public class PasswordManagerPlugin extends TrinityPlugin {
                 case "setUnlockMode":
                     this.setUnlockMode(args, callbackContext);
                     break;
-                case "setAppsPasswordStrategy":
-                    this.setAppsPasswordStrategy(args, callbackContext);
-                    break;
-                case "getAppsPasswordStrategy":
-                    this.getAppsPasswordStrategy(args, callbackContext);
+                case "setVirtualDIDContext":
+                    this.setVirtualDIDContext(args, callbackContext);
                     break;
                 default:
                     return false;
@@ -283,7 +280,7 @@ public class PasswordManagerPlugin extends TrinityPlugin {
     }
 
     private void generateRandomPassword(JSONArray args, CallbackContext callbackContext) throws Exception {
-        JSONObject options = args.getJSONObject(0); // Currently unused
+        JSONObject options = args.isNull(0) ? null : args.getJSONObject(0); // Currently unused
 
         String password = PasswordManager.getSharedInstance().generateRandomPassword(null);
 
@@ -334,28 +331,15 @@ public class PasswordManagerPlugin extends TrinityPlugin {
         PasswordManager.getSharedInstance().setUnlockMode(unlockMode, did, appId);
 
         JSONObject result = new JSONObject();
-
         sendSuccess(callbackContext, result);
     }
 
-    private void setAppsPasswordStrategy(JSONArray args, CallbackContext callbackContext) throws Exception {
-        int appsPasswordStrategyAsInt = args.getInt(0);
+    private void setVirtualDIDContext(JSONArray args, CallbackContext callbackContext) throws Exception {
+        String virtualDIDStringContext = args.getString(0);
 
-        AppsPasswordStrategy appsPasswordStrategy = AppsPasswordStrategy.fromValue(appsPasswordStrategyAsInt);
-
-        PasswordManager.getSharedInstance().setAppsPasswordStrategy(appsPasswordStrategy, did, appId, false);
+        PasswordManager.getSharedInstance().setVirtualDIDContext(virtualDIDStringContext);
 
         JSONObject result = new JSONObject();
-
-        sendSuccess(callbackContext, result);
-    }
-
-    private void getAppsPasswordStrategy(JSONArray args, CallbackContext callbackContext) throws Exception {
-        AppsPasswordStrategy appsPasswordStrategy = PasswordManager.getSharedInstance().getAppsPasswordStrategy();
-
-        JSONObject result = new JSONObject();
-        result.put("strategy", appsPasswordStrategy.ordinal());
-
         sendSuccess(callbackContext, result);
     }
 }

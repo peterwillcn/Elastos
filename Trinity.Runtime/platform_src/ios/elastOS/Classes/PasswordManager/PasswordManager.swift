@@ -331,7 +331,6 @@ public class PasswordManager {
      * manager will require user to provide his master password again.
      */
     public func lockMasterPassword(did: String, appID: String) {
-        
         let actualDID = try! getActualDIDContext(currentDIDContext: did)
         
         if (!appIsPasswordManager(appId: appID)) {

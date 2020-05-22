@@ -87,7 +87,7 @@
 
      public ArrayList<IdentityEntry> getDIDSessionIdentityEntries() throws Exception {
          SQLiteDatabase db = helper.getWritableDatabase();
-         String[] columns = {DatabaseHelper.DIDSESSION_DIDSTOREID, DatabaseHelper.DIDSESSION_DIDSTRING, DatabaseHelper.DIDSESSION_NAME};
+         String[] columns = {DatabaseHelper.DIDSESSION_DIDSTOREID, DatabaseHelper.DIDSESSION_DIDSTRING, DatabaseHelper.DIDSESSION_NAME, DatabaseHelper.DIDSESSION_SIGNEDIN, DatabaseHelper.DIDSESSION_AVATAR_CONTENTTYPE, DatabaseHelper.DIDSESSION_AVATAR_DATA};
          Cursor cursor = db.query(DatabaseHelper.DIDSESSIONS_TABLE, columns, null, null,null,null,null);
 
          ArrayList<IdentityEntry> entries = new ArrayList();

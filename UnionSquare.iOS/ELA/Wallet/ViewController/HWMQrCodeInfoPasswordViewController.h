@@ -23,32 +23,13 @@
 
 
 #import <UIKit/UIKit.h>
+#import "HWMQrCodeSignatureManager.h"
 
-@protocol HWMCRProposalConfirmViewDelgate <NSObject>
-
--(void)closeCRProposalConfirmView;
--(void)CRProposalConfirmWithPWD:(NSString*_Nonnull)PWD;
-
-@end
-typedef enum : NSUInteger {
-    againstType,
-    NOPperatingType,
-    WaiverType,
-    favorType,
-    OpposingVotesType,
-    ProposalLeadType,
-    SecretaryGeneType,
-    withdrawaType
-    
-} opinionType;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HWMCRProposalConfirmView : UIView
-
-@property(assign,nonatomic)opinionType type;
-@property(weak,nonatomic)id<HWMCRProposalConfirmViewDelgate> delegate;
--(void)postWithHash:(NSString*)hash withVotes:(NSString*)votes withFee:(NSString*)fee;
+@interface HWMQrCodeInfoPasswordViewController : UIViewController
+@property(nonatomic,assign)QrCodeSignatureType type;
 @end
 
 NS_ASSUME_NONNULL_END

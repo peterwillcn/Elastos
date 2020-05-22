@@ -60,10 +60,7 @@
     self.title=NSLocalizedString(@"社区提案", nil);
     self.selectIndex=0;
     [self makeUI];
-   
-    
 }
-
 -(HWMCommunityProposalScrollView *)CommunityProposalSV{
     if (!_CommunityProposalSV) {
         _CommunityProposalSV =[[HWMCommunityProposalScrollView alloc]init];

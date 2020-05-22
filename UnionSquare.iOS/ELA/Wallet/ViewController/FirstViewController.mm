@@ -845,6 +845,7 @@
             break;
     }
 
+
     SuggestionVC.PayLoadDic=PayLoadDic;
     SuggestionVC.jwtString=jwtString;
     SuggestionVC.currentWallet=self.currentWallet;

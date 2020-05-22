@@ -98,6 +98,7 @@ static HWMCRSuggestionNetWorkManger* _instatance;
         Completed(data);
     }];
 }
+
 -(void)reloadCRAdviceDetailsWithID:(NSString*)ID withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed{
     [[FLTools share]showLoadingView];
     NSString *bordyUrlString=[NSString stringWithFormat:@"/api/suggestion/get_suggestion/%@",ID];

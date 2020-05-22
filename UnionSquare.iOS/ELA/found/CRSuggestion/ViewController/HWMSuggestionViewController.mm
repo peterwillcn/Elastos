@@ -52,6 +52,10 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 @property(strong,nonatomic)HWMadviceModel *advicemodel;
 @property(strong,nonatomic) NSMutableArray *BudgetsArray;
 @property(strong,nonatomic) NSMutableArray *cellDataBudgetsArray;
+
+
+//xxl 2.3
+@property(strong,nonatomic) NSMutableArray *VoteingProposalArray;
 @end
 
 @implementation HWMSuggestionViewController
@@ -75,8 +79,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     [[HMWCommView share]makeBordersWithView:self.signatureButton];
     [self.signatureButton setTitle:NSLocalizedString(@"签名", nil) forState:UIControlStateNormal];
     
-    
-    if(self.VCType != ReviewProposalType){
+    if(self.VCType == SuggestionType || self.VCType == TheProposalType){ //xxl 2.2
         [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadCRAdviceDetailsWithID:self.PayLoadDic[@"sid"] withComplete:^(id  _Nonnull data) {
             HWMadviceViewModel*adviceViewM =[[HWMadviceViewModel alloc]init];
             [adviceViewM detailsProposalModelDataJosn:data[@"data"] completion:^(HWMadviceModel * _Nonnull model) {
@@ -92,8 +95,14 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
             }];
         }];
         
+    }else if(self.VCType == VoteforProposalType){
         
-    }else{
+        //xxl 2.3 TODO
+        [self setVoteforProposalInfo];
+        self. signatureButton.userInteractionEnabled=YES;
+        
+    }
+    else{
         self. signatureButton.userInteractionEnabled=YES;
     }
     
@@ -101,6 +110,26 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     [self.suggestionArray addObjectsFromArray:self.defArray];
     [self makeUI];
 }
+
+//xxl 2.3
+-(void)setVoteforProposalInfo{
+    
+    //get proposal info from proposal hash
+    
+    [self.VoteingProposalArray removeAllObjects];
+    [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]searchReloadCRSuggestionDataSourceWithType:NOTIFICATIONType withStartIndex:0 withNumbers:100 withSearchContent:@"" withComplete:^(id  _Nonnull data) {
+        
+        
+        //get the voting list
+        NSLog(@"data is %@",data[@"data"][@"list"]);
+        self.VoteingProposalArray = data[@"data"][@"list"];
+    
+    }];
+    
+}
+
+
+
 -(HWMadviceModel *)advicemodel{
     if (!_advicemodel) {
         _advicemodel =[[HWMadviceModel alloc]init];
@@ -135,6 +164,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     }
     return _cellDataBudgetsArray;
 }
+
 -(void)makeUI{
     [self.table registerNib:[UINib nibWithNibName:SuggestionCell bundle:nil] forCellReuseIdentifier:SuggestionCell];
     [self.table registerNib:[UINib nibWithNibName:AbstractVCell bundle:nil] forCellReuseIdentifier:AbstractVCell];
@@ -176,7 +206,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
         [self.ShowPoPWDView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.top.bottom.equalTo(mainView);
         }];
-    }else if (self.VCType==ReviewProposalType){
+    }else if (self.VCType==ReviewProposalType || self.VCType==VoteforProposalType){ //xxl 2.3 todo UI
         //xxl 2.2 flow TODO for UI
         [mainView addSubview:self.ShowPoPWDView];
         [self.ShowPoPWDView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -380,26 +410,54 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 }
 
 -(void)pwdAndInfoWithPWD:(NSString*)pwd{
+    
     if(self.VCType == TheProposalType){
         [self createProposal:pwd];
     }else if(self.VCType == ReviewProposalType){
         [self reviewProposal:pwd];
+    }else if(self.VCType == VoteforProposalType){ //xxl 2.3 todo
+        //[self voteForProposal:pwd pwd:@"100000000" amount:@(0)];
+        [self voteForProposal:pwd pwd:@"100000000"];
+        //[self voteForProposal:pwd pwd:@"100000000",0];
     }
     
 }
 
--(void)createProposal:(NSString*)pwd{
+/***
+ *voteType  0 CRCProposal 1
+ 
+ */
+-(void)voteForProposal:(NSString*) pwd pwd:(NSString*)amount{
     
-    if(self.VCType == TheProposalType){
-        
-        [self createProposal:pwd];
-        
-    }else if(self.VCType == ReviewProposalType){
-        
-        [self reviewProposal:pwd];
-        
+    //
+    NSLog(@"voteForProposal is %@",self.PayLoadDic);
+    
+    [self showLoading];
+    invokedUrlCommand *mommand = [[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID, pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
+    PluginResult *result = [[ELWalletManager share]VerifyPayPassword:mommand];
+    NSNumber *number = result.status;
+    
+    if( [number intValue] != CommandStatus_OK){
+        NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
+        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+        return;
     }
 
+    NSDictionary *playLoadDic = @{
+        @"ProposalHash":self.PayLoadDic[@"data"][@"proposalHash"],
+        @"Amount":amount,
+        @"VotingProposal":self.VoteingProposalArray
+    };
+    
+    mommand = [[invokedUrlCommand alloc]initWithArguments:
+               @[self.currentWallet.masterWalletID,playLoadDic, pwd]
+                                               callbackId:self.currentWallet.walletID
+                                                className:@"Wallet"
+                                               methodName:@"createProposalForVoteTransaction"];
+    
+    PluginResult *pluginResult = [[ELWalletManager share] proposalVoteForTransaction:mommand];
+    
+    NSLog(@"pluginResult is %@",pluginResult);
     
 }
 
@@ -469,7 +527,6 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
             [self showSendSuccessOrFial:SignatureFailureType];
         }
     }
-    
     
 }
 

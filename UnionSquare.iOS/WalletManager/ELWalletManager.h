@@ -224,6 +224,7 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 -(NSString*)adviceTheSignature:(invokedUrlCommand *)command;
 - (PluginResult *)proposaSignTransaction:(invokedUrlCommand *)command;
 - (PluginResult *)proposalReviewTransaction:(invokedUrlCommand *)command;
+- (PluginResult *)proposalVoteForTransaction:(invokedUrlCommand *)command;
 @end
 
 

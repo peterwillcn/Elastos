@@ -111,7 +111,8 @@ static HWMQrCodeSignatureManager * _instance;
             return [[HWMDIDManager shareDIDManager]jwtDecodeWithJwtStringInfo:QRCodeString];
             break;
         case suggestionQrCodeType:
-        case reviewPropalQrCodeType:
+        case reviewPropalQrCodeType:    //xxl 2.2
+        case voteforProposalQrCodeType: //xxl 2.3
             QRCodeString=[QRCodeString stringByReplacingOccurrencesOfString:@"elastos://crproposal/" withString:@""];
             return [[HWMDIDManager shareDIDManager]jwtDecodeWithJwtStringInfo:QRCodeString];
             

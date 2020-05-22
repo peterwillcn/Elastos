@@ -133,10 +133,7 @@ static uint64_t feePerKB = 10000;
     try {
         
         json = masterWallet->GetBasicInfo();
-        
-        
-        
-        
+    
     } catch (const std:: exception & e ) {
         
         NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
@@ -2924,6 +2921,188 @@ void *ReverseByteOrder(void *p, unsigned int len)
  
     
     return NULL;
+}
+
+///-----
+//xxl 2.3
+- (PluginResult *)proposalVoteForTransaction:(invokedUrlCommand *)command
+{
+ 
+       NSArray *args = command.arguments;
+       int idx = 0;
+       NSString *masterWalletID = args[idx++];
+       NSDictionary *payLoadDic = args[idx++];
+       NSString *pwdString = args[idx++];
+    
+       NSString *playloadDicString = [payLoadDic jsonStringEncoded];
+       String paySLoadtrig = [self cstringWithString:playloadDicString];
+       String PWD = [self cstringWithString:pwdString];
+       
+       String walletID = [self cstringWithString:masterWalletID];
+       String chainID = "ELA";//暂时不知道
+
+       ISubWallet *suWall = [self getSubWallet:walletID :chainID];
+       Json  josn;
+       try {
+
+           NSString *payload  = [self createProposalForVoteTransaction:payLoadDic walletID:masterWalletID];
+           if(!payload)
+           {
+               return nil;
+           }
+           josn = [self jsonWithString:payload];
+       } catch (const std:: exception & e) {
+           return  [self errInfoToDic:e.what() with:command];
+       }
+          Json signedTx;
+          Json result;
+          NSString *resultString = @"";
+          NSMutableDictionary *resultDic = [[NSMutableDictionary alloc] init];
+          try {
+              signedTx =  suWall->SignTransaction(josn, PWD);
+              resultString = [self stringWithJson:signedTx];
+              
+              [resultDic setValue:resultString forKey:@"SignTransaction"];
+              
+          } catch (const std:: exception & e ) {
+              return  [self errInfoToDic:e.what() with:command];
+          }
+          try {
+              result = suWall->PublishTransaction(signedTx);
+              NSString *jsonString = [self stringWithCString:result.dump()];
+              NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
+              [resultDic setValue:dic[@"TxHash"] forKey:@"txid"];
+              
+              return [self successProcess:command msg:resultDic];
+          } catch (const std:: exception & e ) {
+              return  [self errInfoToDic:e.what() with:command];
+          }
+    
+       return NULL;
+    
+}
+
+
+
+//xxl 2.3 pro
+- (NSString *)createProposalForVoteTransaction:(NSDictionary *)dicPlayload walletID:(NSString *)masterWalletID
+{
+    try {
+        NSString *payLoadStrig = [dicPlayload jsonStringEncoded];
+        String std = [self cstringWithString:payLoadStrig];
+        Json payloadJson = nlohmann::json::parse(std);
+        IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:masterWalletID];
+        if (mainchainSubWallet)
+        {
+            //Vote info
+            Json json = mainchainSubWallet->GetVoteInfo("");
+            //logic of create the invalidJson
+            NSString *resultString = [self stringWithJson:json];
+            NSDictionary *dic;
+            if([resultString isEqualToString: @"null"]){
+                dic = @{};
+            }else{
+                dic=[self dictionaryWithJsonString:resultString];
+                NSLog(@"createProposalForVoteTransaction dis is %@",dic);
+            }
+
+            Json invalidJson;
+            Json votesJson;
+            
+            //vote
+            NSDictionary * votesDic = @{
+                 dicPlayload[@"ProposalHash"]: dicPlayload[@"Amount"]
+            };
+        
+            if([dic count] > 0){ //TODO
+                
+                //invalid
+                NSMutableArray *InvalidJson = [NSMutableArray array];
+                
+                for (id item in dic){
+                  //do something
+                  NSLog(@"item is %@",item);
+                   
+                  NSDictionary * votes = item[@"Votes"];
+                  NSLog(@"votes is %@",votes);
+                  
+                  
+                  NSMutableArray *InvalidateHashArray = [NSMutableArray array];
+                  for(id vote in votes){
+                        
+                      NSLog(@"11 vote is %@",vote);
+                      
+                      NSMutableArray *VotingProporal = dicPlayload[@"VotingProposal"];
+                      BOOL isVote = NO ;
+                      for (id proporalItem in VotingProporal){
+                          
+                          
+                          NSLog(@"11 proposalHash is %@",proporalItem[@"proposalHash"]);
+                          if([proporalItem[@"proposalHash"] isEqualToString: vote]){
+                              isVote = YES;
+                          }
+                      }
+        
+                      if(isVote == NO){
+                          [InvalidateHashArray addObject: vote];
+                      }
+                      
+//                      if([vote isEqualToString: dicPlayload[@"ProposalHash"]]){
+//                          [InvalidateHashArray addObject: vote];
+//                      }
+    
+                  }
+                  
+                  //Add by Invalid
+                  if([InvalidateHashArray count] > 0){
+                       
+                       NSDictionary* invalidateDic = @{
+                           @"Type": item[@"Type"],
+                           @"Candidates": InvalidateHashArray
+                       };
+                       [InvalidJson addObject: invalidateDic];
+                       
+                  }
+                    
+                  
+                    
+                }
+
+                NSString *invalidJsonStrig = [self arrayToJSONString:InvalidJson];
+                //NSString *invalidJsonStrig = [dic jsonStringEncoded];
+                String std = [self cstringWithString:invalidJsonStrig];
+                invalidJson = nlohmann::json::parse(std);
+                
+            }else{
+                
+                //invalid
+                NSArray *InvalidArr = @[];
+                NSString *invalidJsonStrig = [self arrayToJSONString:InvalidArr];
+                //NSString *invalidJsonStrig = [dic jsonStringEncoded];
+                String std = [self cstringWithString:invalidJsonStrig];
+                invalidJson = nlohmann::json::parse(std);
+                                
+            }
+            
+            NSString *voteLoadStrig = [votesDic jsonStringEncoded];
+            String strVote = [self cstringWithString:voteLoadStrig];
+            votesJson = nlohmann::json::parse(strVote);
+            
+            //Json jsonCreateTx ;
+            Json jsonCreateTx = mainchainSubWallet->CreateVoteCRCProposalTransaction("", votesJson,"",invalidJson);
+            
+            NSString *retString = [self stringWithJson:jsonCreateTx];
+            return retString;
+        }
+    }
+    catch (const std:: exception &e) {
+        NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
+        NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
+        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+        return nil;
+    }
+    
+    return nil;
 }
 
 //xxl 2.2 pro

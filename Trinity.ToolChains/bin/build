@@ -120,7 +120,8 @@ if args.target == "clobber":
 
 if args.target == "plugin":
     if args.plugin_path == None:
-        print("usage: build plugin -p pluginPath")
+        print("You can also specify the plugin path: build plugin -p pluginPath")
+        ela_plugin.plugin_prepare(True)
         exit(0)
     ela_plugin.re_install_plugin(os.path.join(PROJECT_DIR_PATH, args.plugin_path))
 

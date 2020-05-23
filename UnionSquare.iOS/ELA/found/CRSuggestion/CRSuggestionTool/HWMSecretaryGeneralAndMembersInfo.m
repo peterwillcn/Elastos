@@ -66,6 +66,7 @@ static HWMSecretaryGeneralAndMembersInfo *_instance;
     NSString *didString= [self getDIDString];
     __weak __typeof__(self)weakSelf=self;
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadSecretaryGeneralAndMembersDetailsWithID:@"" withDIDString:didString withComplete:^(id  _Nonnull data) {
+        NSLog(@"委员和秘书长个人信息---%@",data);
         [weakSelf parsingModelWithData:data[@"data"]];
      
         }];

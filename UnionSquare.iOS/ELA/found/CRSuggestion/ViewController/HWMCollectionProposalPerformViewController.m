@@ -64,6 +64,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     [self loadPerioDetailsWithID:self.model.ID];
     if (self.type==CommentPerioACTIVEType) {
     }else if(self.type==CommentPerioFINALType){
+        
     }
 }
 -(void)loadPerioDetailsWithID:(NSString*)ID{

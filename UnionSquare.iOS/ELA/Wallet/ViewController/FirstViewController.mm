@@ -754,6 +754,7 @@
     cell.progressLab.text=[NSString stringWithFormat:@"%.f%@", floor(cell.progress.progress*100),symbolString];
     [self startAnimationWithView:cell.linkImageView];
 }
+
 -(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString{
     __weak __typeof__(self) weakSelf = self;
     [[HWMQrCodeSignatureManager shareTools]QrCodeDataWithData:QRCodeString withDidString:self.currentWallet.didString withmastWalletID:self.currentWallet.masterWalletID withComplete:^(QrCodeSignatureType type, id  _Nonnull data) {
@@ -795,6 +796,12 @@
         case withdrawalsType:
             [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
             break;
+        case Updatemilestone:
+            [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
+            break;
+            case Reviewmilestone:
+            [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
+            break;
         default:
             break;
     }
@@ -802,7 +809,10 @@
 }
 -(void)QrCodeInfoPasswordViewInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString WithType:(QrCodeSignatureType)type{
     HWMQrCodeInfoPasswordViewController *PasswordVC=[[HWMQrCodeInfoPasswordViewController alloc]init];
-    PasswordVC.type=type;
+    PasswordVC.type = type;
+    PasswordVC.PayLoadDic = PayLoadDic;
+    PasswordVC.jwtString = jwtString;
+    PasswordVC.currentWallet = self.currentWallet;
     [self.navigationController pushViewController:PasswordVC animated:NO];
 }
 

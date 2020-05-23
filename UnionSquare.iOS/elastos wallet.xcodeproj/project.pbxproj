@@ -435,7 +435,7 @@
 		428950CA2473A8DA007DF48D /* HWMSecretaryGeneralAndMembersDetailsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 428950C92473A8DA007DF48D /* HWMSecretaryGeneralAndMembersDetailsModel.m */; };
 		428950CD2473CAFA007DF48D /* HWMSecretaryGeneralAndMembersDetailsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 428950CC2473CAFA007DF48D /* HWMSecretaryGeneralAndMembersDetailsViewModel.m */; };
 		428950D02473E5D8007DF48D /* HWMSecretaryGeneralAndMembersInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 428950CF2473E5D8007DF48D /* HWMSecretaryGeneralAndMembersInfo.m */; };
-		428A25DE2476744C00EFBD2B /* HWMQrCodeInfoPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428A25DC2476744C00EFBD2B /* HWMQrCodeInfoPasswordViewController.m */; };
+		428A25DE2476744C00EFBD2B /* HWMQrCodeInfoPasswordViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 428A25DC2476744C00EFBD2B /* HWMQrCodeInfoPasswordViewController.mm */; };
 		428A25DF2476744C00EFBD2B /* HWMQrCodeInfoPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 428A25DD2476744C00EFBD2B /* HWMQrCodeInfoPasswordViewController.xib */; };
 		428A26472476A90C00EFBD2B /* ELASecretaryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428A25E42476A90B00EFBD2B /* ELASecretaryDetailViewController.m */; };
 		428A26482476A90C00EFBD2B /* ELAUpdateSecretaryDidViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428A25E52476A90B00EFBD2B /* ELAUpdateSecretaryDidViewController.m */; };
@@ -1572,7 +1572,7 @@
 		428950CE2473E5D8007DF48D /* HWMSecretaryGeneralAndMembersInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMSecretaryGeneralAndMembersInfo.h; sourceTree = "<group>"; };
 		428950CF2473E5D8007DF48D /* HWMSecretaryGeneralAndMembersInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMSecretaryGeneralAndMembersInfo.m; sourceTree = "<group>"; };
 		428A25DB2476744C00EFBD2B /* HWMQrCodeInfoPasswordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMQrCodeInfoPasswordViewController.h; sourceTree = "<group>"; };
-		428A25DC2476744C00EFBD2B /* HWMQrCodeInfoPasswordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMQrCodeInfoPasswordViewController.m; sourceTree = "<group>"; };
+		428A25DC2476744C00EFBD2B /* HWMQrCodeInfoPasswordViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HWMQrCodeInfoPasswordViewController.mm; sourceTree = "<group>"; };
 		428A25DD2476744C00EFBD2B /* HWMQrCodeInfoPasswordViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMQrCodeInfoPasswordViewController.xib; sourceTree = "<group>"; };
 		428A25E32476A90B00EFBD2B /* ELATUpdateSecretaryDidTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELATUpdateSecretaryDidTableViewCell.h; sourceTree = "<group>"; };
 		428A25E42476A90B00EFBD2B /* ELASecretaryDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELASecretaryDetailViewController.m; sourceTree = "<group>"; };
@@ -2988,7 +2988,7 @@
 				42ABE0B4241F1CB100294B64 /* HWMDIDAuthorizationViewController.mm */,
 				42ABE0B5241F1CB100294B64 /* HWMDIDAuthorizationViewController.xib */,
 				428A25DB2476744C00EFBD2B /* HWMQrCodeInfoPasswordViewController.h */,
-				428A25DC2476744C00EFBD2B /* HWMQrCodeInfoPasswordViewController.m */,
+				428A25DC2476744C00EFBD2B /* HWMQrCodeInfoPasswordViewController.mm */,
 				428A25DD2476744C00EFBD2B /* HWMQrCodeInfoPasswordViewController.xib */,
 			);
 			path = ViewController;
@@ -4579,7 +4579,7 @@
 				LastUpgradeCheck = 1140;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = VNP5LMNF24;
+						DevelopmentTeam = WF4LNX869V;
 						LastSwiftMigration = 1130;
 						ProvisioningStyle = Automatic;
 					};
@@ -4966,7 +4966,7 @@
 				4202CA0D21F6EF2A009E5932 /* SGQRCodeGenerateManager.m in Sources */,
 				425A5F662466776100C44104 /* HWMCommitteeMembersToVoteView.m in Sources */,
 				CBD25EFD221542F500EDA0F5 /* FLChangeVotedTicketsVC.mm in Sources */,
-				428A25DE2476744C00EFBD2B /* HWMQrCodeInfoPasswordViewController.m in Sources */,
+				428A25DE2476744C00EFBD2B /* HWMQrCodeInfoPasswordViewController.mm in Sources */,
 				4202CAA521F6EF2B009E5932 /* HMWImTheMnemonicWordView.m in Sources */,
 				4202CA2121F6EF2A009E5932 /* HMWtheContactInformationViewController.m in Sources */,
 				428A26482476A90C00EFBD2B /* ELAUpdateSecretaryDidViewController.m in Sources */,
@@ -5337,7 +5337,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = WF4LNX869V;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5355,6 +5355,7 @@
 					"$(inherited)",
 				);
 				GCC_THUMB_SUPPORT = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "elastos wallet/elastos wallet-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -5389,7 +5390,7 @@
 				);
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MasterdfexPreNet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhongcheng.gdzc;
 				PRODUCT_NAME = "ELA WalletPreNet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -5417,7 +5418,7 @@
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = WF4LNX869V;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5433,6 +5434,7 @@
 					"$(inherited)",
 				);
 				GCC_THUMB_SUPPORT = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "elastos wallet/elastos wallet-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -5468,7 +5470,7 @@
 				MARKETING_VERSION = "1.4 dev";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MasterdfexPreNet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhongcheng.gdzc;
 				PRODUCT_NAME = "ELA WalletPreNet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -5540,7 +5542,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = WF4LNX869V;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5558,6 +5560,7 @@
 					"$(inherited)",
 				);
 				GCC_THUMB_SUPPORT = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "elastos wallet/elastos wallet-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -5592,7 +5595,7 @@
 				);
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MasterdfexPreNet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhongcheng.gdzc;
 				PRODUCT_NAME = "ELA WalletPreNet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -5665,7 +5668,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = WF4LNX869V;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5683,6 +5686,7 @@
 					"$(inherited)",
 				);
 				GCC_THUMB_SUPPORT = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "elastos wallet/elastos wallet-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -5718,7 +5722,7 @@
 				MARKETING_VERSION = "1.4 dev";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MasterdfexPreNet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhongcheng.gdzc;
 				PRODUCT_NAME = "ELA WalletPreNet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";

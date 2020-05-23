@@ -52,7 +52,8 @@ static HWMQrCodeSignatureManager * _instance;
     
     QrCodeSignatureType type=[self QrCodeStringtype:data];
     
-    if (type ==credaccessQrCodeType||type==suggestionQrCodeType||type==billQrCodeType||type==reviewPropalQrCodeType) {
+    if (type ==credaccessQrCodeType||type==suggestionQrCodeType||type==billQrCodeType||type==reviewPropalQrCodeType
+        || type == withdrawalsType || type == Updatemilestone || type == Reviewmilestone) {
         if ([self detectionDidInfowithDidString:didString withmastWalletID:masterWalletID]==NO) {
             return   Complete(type,NULL) ;
         }
@@ -89,6 +90,16 @@ static HWMQrCodeSignatureManager * _instance;
         }else if(command && [command isEqualToString:@"reviewproposal"]) {
             return reviewPropalQrCodeType;
         }
+        else if(command && [command isEqualToString:@"withdraw"]) {
+            return withdrawalsType;
+        }
+        else if(command && [command isEqualToString:@"updatemilestone"]) {
+                   return Updatemilestone;
+               }
+        else if(command && [command isEqualToString:@"reviewmilestone"]) {
+            return Reviewmilestone;
+        }
+        
     }else if ([QRCodeString containsString:@"elastos://credaccess/"]){
         return billQrCodeType;
     }else{
@@ -121,6 +132,19 @@ static HWMQrCodeSignatureManager * _instance;
         case unknowQrCodeType:
             return QRCodeString;
             break;
+        case withdrawalsType:
+          
+           return [[HWMDIDManager shareDIDManager] CRInfoDecodeWithJwtStringInfo:QRCodeString];
+            break;
+            case Updatemilestone:
+            
+             return [[HWMDIDManager shareDIDManager] CRInfoDecodeWithJwtStringInfo:QRCodeString];
+              break;
+            case Reviewmilestone:
+            
+             return [[HWMDIDManager shareDIDManager] CRInfoDecodeWithJwtStringInfo:QRCodeString];
+              break;
+            
         default:
             break;
     }

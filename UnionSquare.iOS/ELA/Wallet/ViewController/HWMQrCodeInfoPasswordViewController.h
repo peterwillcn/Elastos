@@ -30,6 +30,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMQrCodeInfoPasswordViewController : UIViewController
 @property(nonatomic,assign)QrCodeSignatureType type;
+
+@property(strong,nonatomic)FLWallet *currentWallet;
+@property(copy,nonatomic)NSDictionary*PayLoadDic;
+@property(copy,nonatomic)NSString*jwtString;
 @end
 
 NS_ASSUME_NONNULL_END

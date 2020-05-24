@@ -37,14 +37,17 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.timeLable.alpha=0.f;
     [[HMWCommView share]makeBordersWithView:self.headImageView withCRRound:10.f];
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }
 -(void)setModel:(HWMVoteResultModel *)model{
+    NSLog(@"%@---%@----%@",model.avatar,model.votedBy,model.reason);
     [self.headImageView sd_setImageWithURL:[NSURL URLWithString:model.avatar]];
-    self.nickNamelLabel.text=@"测试";
-    self.contenInfoLabel.text=@"内容";
+    self.nickNamelLabel.text=model.votedBy;
+    self.contenInfoLabel.text=model.reason;
+    
 }
 @end

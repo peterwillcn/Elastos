@@ -24,6 +24,7 @@
 
 #import "HWMQrCodeSignatureManager.h"
 #import "HWMDIDManager.h"
+#import "HWMSecretaryGeneralAndMembersInfo.h"
 static HWMQrCodeSignatureManager * _instance;
 
 @implementation HWMQrCodeSignatureManager
@@ -32,6 +33,7 @@ static HWMQrCodeSignatureManager * _instance;
     dispatch_once(&onceToken, ^{
         if (_instance==nil) {
             _instance=[super allocWithZone:zone];
+            
         }
     });
     return _instance;
@@ -49,10 +51,11 @@ static HWMQrCodeSignatureManager * _instance;
     return _instance;
 }
 -(void)QrCodeDataWithData:(NSString*)data withDidString:(NSString*)didString withmastWalletID:(NSString*)masterWalletID withComplete:(QrCodeSignatureTypeBlock)Complete{
-    
+    [[HWMSecretaryGeneralAndMembersInfo shareTools] getDetailsModel];
     QrCodeSignatureType type=[self QrCodeStringtype:data];
     
-    if (type ==credaccessQrCodeType||type==suggestionQrCodeType||type==billQrCodeType||type==reviewPropalQrCodeType) {
+    if (type ==credaccessQrCodeType||type==suggestionQrCodeType||type==billQrCodeType||type==reviewPropalQrCodeType
+        || type == withdrawalsType || type == Updatemilestone || type == Reviewmilestone) {
         if ([self detectionDidInfowithDidString:didString withmastWalletID:masterWalletID]==NO) {
             return   Complete(type,NULL) ;
         }
@@ -89,6 +92,19 @@ static HWMQrCodeSignatureManager * _instance;
         }else if(command && [command isEqualToString:@"reviewproposal"]) {
             return reviewPropalQrCodeType;
         }
+        else if(command && [command isEqualToString:@"withdraw"]) {
+            return withdrawalsType;
+        }
+        else if(command && [command isEqualToString:@"updatemilestone"]) {
+            return Updatemilestone;
+        }
+        else if(command && [command isEqualToString:@"reviewmilestone"]) {
+            return Reviewmilestone;
+        }else if (command && [command isEqualToString:@"voteforproposal"]){
+            
+            return voteforProposalQrCodeType;
+        }
+        
     }else if ([QRCodeString containsString:@"elastos://credaccess/"]){
         return billQrCodeType;
     }else{
@@ -105,14 +121,14 @@ static HWMQrCodeSignatureManager * _instance;
             return [[HWMDIDManager shareDIDManager]jwtDecodeWithJwtStringInfo:QRCodeString];
             break;
         case suggestionQrCodeType:
-
+            
         case reviewPropalQrCodeType:    //xxl 2.2
         case voteforProposalQrCodeType: //xxl 2.3
             QRCodeString=[QRCodeString stringByReplacingOccurrencesOfString:@"elastos://crproposal/" withString:@""];
             return [[HWMDIDManager shareDIDManager]jwtDecodeWithJwtStringInfo:QRCodeString];
             
             break;
-
+            
         case billQrCodeType:
             QRCodeString=[QRCodeString stringByReplacingOccurrencesOfString:@"elastos://credaccess/" withString:@""];
             return [[HWMDIDManager shareDIDManager]CRInfoDecodeWithJwtStringInfo:QRCodeString];
@@ -121,6 +137,19 @@ static HWMQrCodeSignatureManager * _instance;
         case unknowQrCodeType:
             return QRCodeString;
             break;
+        case withdrawalsType:
+            
+            return [[HWMDIDManager shareDIDManager] CRInfoDecodeWithJwtStringInfo:QRCodeString];
+            break;
+        case Updatemilestone:
+            
+            return [[HWMDIDManager shareDIDManager] CRInfoDecodeWithJwtStringInfo:QRCodeString];
+            break;
+        case Reviewmilestone:
+            
+            return [[HWMDIDManager shareDIDManager] CRInfoDecodeWithJwtStringInfo:QRCodeString];
+            break;
+            
         default:
             break;
     }

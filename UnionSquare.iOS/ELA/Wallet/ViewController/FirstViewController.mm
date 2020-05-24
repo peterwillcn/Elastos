@@ -754,6 +754,7 @@
     cell.progressLab.text=[NSString stringWithFormat:@"%.f%@", floor(cell.progress.progress*100),symbolString];
     [self startAnimationWithView:cell.linkImageView];
 }
+
 -(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString{
     __weak __typeof__(self) weakSelf = self;
     [[HWMQrCodeSignatureManager shareTools]QrCodeDataWithData:QRCodeString withDidString:self.currentWallet.didString withmastWalletID:self.currentWallet.masterWalletID withComplete:^(QrCodeSignatureType type, id  _Nonnull data) {
@@ -777,7 +778,7 @@
             [self showAdviceInfoText:data withJWTString:QRCodeString WithType:type];
             break;
         case reviewPropalQrCodeType:
-            [self showAdviceInfoText:data withJWTString:QRCodeString WithType:type];
+            [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
             break;
         case billQrCodeType:
             [self showAdviceInfoText:data withJWTString:QRCodeString WithType:type];
@@ -786,13 +787,19 @@
             [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
             break;
             
-        case ProposalLeaderType:
-            [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
-            break;
-        case SecretaryGeneralType:
-            [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
-            break;
+//        case ProposalLeaderType:
+//            [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
+//            break;
+//        case SecretaryGeneralType:
+//            [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
+//            break;
         case withdrawalsType:
+            [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
+            break;
+        case Updatemilestone:
+            [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
+            break;
+            case Reviewmilestone:
             [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
             break;
         default:
@@ -802,6 +809,9 @@
 }
 -(void)QrCodeInfoPasswordViewInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString WithType:(QrCodeSignatureType)type{
     HWMQrCodeInfoPasswordViewController *PasswordVC=[[HWMQrCodeInfoPasswordViewController alloc]init];
+    PasswordVC.PayLoadDic = PayLoadDic;
+    PasswordVC.jwtString = jwtString;
+    PasswordVC.currentWallet = self.currentWallet;
     PasswordVC.type=type;
     [self.navigationController pushViewController:PasswordVC animated:NO];
 }
@@ -816,13 +826,10 @@
         case billQrCodeType:
             SuggestionVC.VCType=TheProposalType;
             break;
-            //        case reviewPropalQrCodeType:
-            //            SuggestionVC.VCType=ReviewProposalType;
-            //            break;
         default:
             break;
     }
-
+    
     SuggestionVC.PayLoadDic=PayLoadDic;
     SuggestionVC.jwtString=jwtString;
     SuggestionVC.currentWallet=self.currentWallet;

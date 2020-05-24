@@ -82,6 +82,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
             HWMadviceViewModel*adviceViewM =[[HWMadviceViewModel alloc]init];
             [adviceViewM detailsProposalModelDataJosn:data[@"data"] completion:^(HWMadviceModel * _Nonnull model) {
                 self.advicemodel=model;
+                self.table.userInteractionEnabled=YES;
                 self.table.alpha=1.f;
                 [self.table reloadData];
                 if (self.BudgetsArray.count==0) {
@@ -250,9 +251,14 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     }else if ([typStirng isEqualToString:NSLocalizedString(@"摘要",nil)]){
         cell.constLabel.text=self.advicemodel.abs;
     }else if ([typStirng isEqualToString:NSLocalizedString(@"标题",nil)]){
-        cell.titleLabel.text=self.advicemodel.title;
+//        cell.titleLabel.text=self.advicemodel.title;
+        cell.userInteractionEnabled=YES;
+        cell.titleLabel.userInteractionEnabled=YES;
+             cell.titleLabel.lineBreakMode= NSLineBreakByTruncatingHead;
         cell.constLabel.text=self.advicemodel.baseInfoString;
         cell.constLabel.textColor=RGBA(255, 255, 255, 0.5);
+        [self labletextNumberLineWithLable:cell.titleLabel];
+       
     }
     return cell;
 }
@@ -460,7 +466,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 }
 
 -(void)createProposal:(NSString*)pwd{
-
+    
     [self showLoading];
     invokedUrlCommand *mommand = [[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID, pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
     PluginResult *result = [[ELWalletManager share]VerifyPayPassword:mommand];
@@ -681,4 +687,15 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self hiddLoading];
 }
+-(void)labletextNumberLineWithLable:(UILabel*)titleLabel{
+    NSNumber *count  = @((self.advicemodel.baseInfoCell) / titleLabel.font.lineHeight);
+    int lineNumber=[count intValue];
+    if ( lineNumber>3) {
+        titleLabel.numberOfLines=3;
+      
+    }
+
+    
+}
+
 @end

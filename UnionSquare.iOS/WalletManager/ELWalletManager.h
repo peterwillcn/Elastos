@@ -225,6 +225,10 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 - (PluginResult *)proposaSignTransaction:(invokedUrlCommand *)command;
 - (PluginResult *)proposalReviewTransaction:(invokedUrlCommand *)command;
 - (PluginResult *)proposalVoteForTransaction:(invokedUrlCommand *)command;
+- (PluginResult *)createProposalWithdrawTransaction:(invokedUrlCommand *)command;
+- (PluginResult *)proposalTrackingTransaction:(invokedUrlCommand *)command;
+- (PluginResult *)proposalTrackingTransactionWithSecretary:(invokedUrlCommand *)command;
+
 @end
 
 

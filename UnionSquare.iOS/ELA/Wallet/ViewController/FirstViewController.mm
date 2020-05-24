@@ -39,6 +39,7 @@
 #import "HWMQrCodeSignatureManager.h"
 #import "HWMSuggestionViewController.h"
 #import "HWMQrCodeInfoPasswordViewController.h"
+#import "HWMSecretaryGeneralAndMembersInfo.h"
 
 @interface FirstViewController ()<FLCapitalViewDelegate,UITableViewDelegate,UITableViewDataSource,HMWaddFooterViewDelegate,HMWTheWalletListViewControllerDelegate,HMWpwdPopupViewDelegate>
 {
@@ -514,6 +515,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [[HWMSecretaryGeneralAndMembersInfo shareTools]loadDataSource];
     [self firstNav];
 }
 -(void)viewDidAppear:(BOOL)animated{

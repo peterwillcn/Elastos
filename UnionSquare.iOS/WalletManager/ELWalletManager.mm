@@ -3603,4 +3603,123 @@ void *ReverseByteOrder(void *p, unsigned int len)
     return nil;
 }
 
+#pragma mark - 委员弹劾
+
+//用于显示余额
+- (id)getVoteBalance:(String)walletID :(NSString *)type
+{
+    String chainID = "ELA";//暂时不知道
+    
+    ISubWallet *subWallet = [self getSubWallet:walletID :chainID];
+    try {
+        Json balance = subWallet->GetBalanceInfo();
+        NSString *resultString = [self stringWithJson:balance];
+        NSArray *array = [resultString jsonValueDecoded];
+        if(array && array.count > 0)
+        {
+            NSDictionary *dic = array[0];//不知道逻辑 暂时取第一个
+            NSDictionary *balanceDic = dic[@"Summary"];
+            NSString *value = balanceDic[@"type"];//PendingBalance VotedBalance LockedBalance DepositBalance
+            if(value && [value isEqualToString:@""])
+            {
+                return value;
+            }
+        }
+        
+    } catch (const std:: exception &e) {
+        NSDictionary *errDic = [self dictionaryWithJsonString:[self stringWithCString:e.what()]];
+        NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
+        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+    }
+   return nil;
+    
+}
+
+- (PluginResult *)CreateImpeachmentCRCTransaction:(invokedUrlCommand *)command
+{
+    
+    NSArray *args = command.arguments;
+    int idx = 0;
+    NSString *masterWalletID = args[idx++];
+    NSString *pwdString = args[idx++];
+    NSDictionary *votesDic = args[idx++];
+    NSArray *InvalidArr = args[idx++];
+    
+    
+//    NSString *playloadDicString = [payLoadDic jsonStringEncoded];
+//    String paySLoadtrig = [self cstringWithString:playloadDicString];
+    String PWD = [self cstringWithString:pwdString];
+    
+    String walletID = [self cstringWithString:masterWalletID];
+    String chainID = "ELA";//暂时不知道
+    
+    ISubWallet *suWall = [self getSubWallet:walletID :chainID];
+    Json  josn;
+    
+    try {
+       
+        IMainchainSubWallet* mainchainSubWallet  = [self getWalletELASubWallet:masterWalletID];
+        if (mainchainSubWallet)
+        {
+            
+            NSString *voteLoadStrig = [votesDic jsonStringEncoded];
+            String strVote = [self cstringWithString:voteLoadStrig];
+            Json votesJson = nlohmann::json::parse(strVote);
+            
+            NSString *invalidJsonStrig = [self arrayToJSONString:InvalidArr];
+            //NSString *invalidJsonStrig = [dic jsonStringEncoded];
+            String std = [self cstringWithString:invalidJsonStrig];
+            Json invalidJson = nlohmann::json::parse(std);
+            
+            //Json jsonCreateTx ;
+            Json jsonCreateTx = mainchainSubWallet->CreateImpeachmentCRCTransaction("", votesJson,"",invalidJson);
+            
+            NSDictionary *resultDic = [self publishTransactionWithdraw:jsonCreateTx pwd:PWD suWall:suWall hash:nil];
+            if(resultDic)
+            {
+                return [self successProcess:command msg:resultDic];
+            }
+            
+//            NSString *retString = [self stringWithJson:jsonCreateTx];
+//            return retString;
+        }
+    }
+    catch (const std:: exception &e) {
+        NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
+        NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
+        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+        return nil;
+    }
+     
+     return nil;
+}
+
+- (NSArray *)getVoteInfoList:(NSString *)masterWalletID :(NSString *)typeStr
+{
+    try {
+            String wallId = [self cstringWithString:masterWalletID];
+            IMainchainSubWallet *mainchainSubWallet = [self getWalletELASubWallet:masterWalletID];
+            if (mainchainSubWallet)
+            {
+                String type = [self cstringWithString:typeStr];
+                //Vote info
+                Json json = mainchainSubWallet->GetVoteInfo(type);
+                //logic of create the invalidJson
+                NSString *resultString = [self stringWithJson:json];
+                NSArray *array = [[NSArray alloc] initWithArray: [resultString jsonValueDecoded]];
+                if(array && array.count > 0)
+                {
+                   return array;
+                }
+            }
+        }
+        catch (const std:: exception &e) {
+            NSDictionary *errDic = [self dictionaryWithJsonString:[self stringWithCString:e.what()]];
+            NSString *errCode = [NSString stringWithFormat:@"err%@",errDic[@"Code"]];
+            [[FLTools share] showErrorInfo:NSLocalizedString(errCode, nil)];
+            return nil;
+        }
+        return nil;
+}
+
 @end

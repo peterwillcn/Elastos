@@ -442,7 +442,7 @@
 		428A26492476A90C00EFBD2B /* ELATUpdateSecretaryDidTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 428A25E62476A90B00EFBD2B /* ELATUpdateSecretaryDidTableViewCell.m */; };
 		428A264A2476A90C00EFBD2B /* ELACRBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428A25E92476A90B00EFBD2B /* ELACRBaseViewController.m */; };
 		428A264B2476A90C00EFBD2B /* ELACommitteeInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428A25EC2476A90B00EFBD2B /* ELACommitteeInfoViewController.m */; };
-		428A264C2476A90C00EFBD2B /* ELACommitteeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428A25ED2476A90B00EFBD2B /* ELACommitteeDetailViewController.m */; };
+		428A264C2476A90C00EFBD2B /* ELACommitteeDetailViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 428A25ED2476A90B00EFBD2B /* ELACommitteeDetailViewController.mm */; };
 		428A264D2476A90C00EFBD2B /* ELACommitteeDutiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428A25EF2476A90B00EFBD2B /* ELACommitteeDutiesViewController.m */; };
 		428A264E2476A90C00EFBD2B /* ELACRCommitteeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428A25F22476A90B00EFBD2B /* ELACRCommitteeViewController.m */; };
 		428A264F2476A90C00EFBD2B /* ELASecretaryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 428A25F32476A90B00EFBD2B /* ELASecretaryListViewController.m */; };
@@ -631,6 +631,8 @@
 		42F794E723C5C23800FC20CD /* FirstViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C98F21F6EF29009E5932 /* FirstViewController.mm */; };
 		49B4D149B9AE9124C1AFA618 /* libPods-elastos wallet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A617C7524FD9A7B9523C8E48 /* libPods-elastos wallet.a */; };
 		7087D92F21BCDF1B00599316 /* MyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7087D92E21BCDF1B00599316 /* MyUtil.m */; };
+		70CF85AD247A78B1008E0F9D /* ELAPasswdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CF85AC247A78B1008E0F9D /* ELAPasswdView.m */; };
+		70CF85B0247A8776008E0F9D /* ELAVotingProcessUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70CF85AF247A8776008E0F9D /* ELAVotingProcessUtil.mm */; };
 		70F8409621BEAA1B001C0BD6 /* ELWalletManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70F8409521BEAA1B001C0BD6 /* ELWalletManager.mm */; };
 		9FD0C828FEE9459B88FB6A2D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B5A24BEEA44AE9AD51A2C8 /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C45E4ED4237794B9003BB3BA /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ED0237794A1003BB3BA /* libboost_filesystem.a */; };
@@ -1583,7 +1585,7 @@
 		428A25E92476A90B00EFBD2B /* ELACRBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELACRBaseViewController.m; sourceTree = "<group>"; };
 		428A25EB2476A90B00EFBD2B /* ELACommitteeDutiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELACommitteeDutiesViewController.h; sourceTree = "<group>"; };
 		428A25EC2476A90B00EFBD2B /* ELACommitteeInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELACommitteeInfoViewController.m; sourceTree = "<group>"; };
-		428A25ED2476A90B00EFBD2B /* ELACommitteeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELACommitteeDetailViewController.m; sourceTree = "<group>"; };
+		428A25ED2476A90B00EFBD2B /* ELACommitteeDetailViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ELACommitteeDetailViewController.mm; sourceTree = "<group>"; };
 		428A25EE2476A90B00EFBD2B /* ELACommitteeInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELACommitteeInfoViewController.h; sourceTree = "<group>"; };
 		428A25EF2476A90B00EFBD2B /* ELACommitteeDutiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELACommitteeDutiesViewController.m; sourceTree = "<group>"; };
 		428A25F02476A90B00EFBD2B /* ELACommitteeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELACommitteeDetailViewController.h; sourceTree = "<group>"; };
@@ -1924,6 +1926,10 @@
 		7087D92B21BCD85500599316 /* IIdManagerCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIdManagerCallback.h; sourceTree = "<group>"; };
 		7087D92D21BCDF1B00599316 /* MyUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyUtil.h; sourceTree = "<group>"; };
 		7087D92E21BCDF1B00599316 /* MyUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyUtil.m; sourceTree = "<group>"; };
+		70CF85AB247A78B1008E0F9D /* ELAPasswdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELAPasswdView.h; sourceTree = "<group>"; };
+		70CF85AC247A78B1008E0F9D /* ELAPasswdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ELAPasswdView.m; sourceTree = "<group>"; };
+		70CF85AE247A8776008E0F9D /* ELAVotingProcessUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELAVotingProcessUtil.h; sourceTree = "<group>"; };
+		70CF85AF247A8776008E0F9D /* ELAVotingProcessUtil.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ELAVotingProcessUtil.mm; sourceTree = "<group>"; };
 		70F8409521BEAA1B001C0BD6 /* ELWalletManager.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = ELWalletManager.mm; sourceTree = "<group>"; };
 		7B32C86EE8DFCC3DDA2BBE00 /* Pods-elastos wallet.release(mainnet).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-elastos wallet.release(mainnet).xcconfig"; path = "Target Support Files/Pods-elastos wallet/Pods-elastos wallet.release(mainnet).xcconfig"; sourceTree = "<group>"; };
 		8FEFE2C15307426D819C2CA3 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -3890,12 +3896,12 @@
 		428A25E12476A90B00EFBD2B /* ELAViewController */ = {
 			isa = PBXGroup;
 			children = (
-				428A25E22476A90B00EFBD2B /* SecretaryMember */,
+				428A25FB2476A90B00EFBD2B /* ELACRBaseViewController.h */,
 				428A25E92476A90B00EFBD2B /* ELACRBaseViewController.m */,
+				428A25E22476A90B00EFBD2B /* SecretaryMember */,
 				428A25EA2476A90B00EFBD2B /* CommitteeMember */,
 				428A25F12476A90B00EFBD2B /* CRCommittee */,
 				428A25F82476A90B00EFBD2B /* CRCommitteeManage */,
-				428A25FB2476A90B00EFBD2B /* ELACRBaseViewController.h */,
 				428A25FC2476A90B00EFBD2B /* CRCommitteeList */,
 			);
 			path = ELAViewController;
@@ -3917,12 +3923,12 @@
 		428A25EA2476A90B00EFBD2B /* CommitteeMember */ = {
 			isa = PBXGroup;
 			children = (
-				428A25EB2476A90B00EFBD2B /* ELACommitteeDutiesViewController.h */,
-				428A25EC2476A90B00EFBD2B /* ELACommitteeInfoViewController.m */,
-				428A25ED2476A90B00EFBD2B /* ELACommitteeDetailViewController.m */,
-				428A25EE2476A90B00EFBD2B /* ELACommitteeInfoViewController.h */,
-				428A25EF2476A90B00EFBD2B /* ELACommitteeDutiesViewController.m */,
 				428A25F02476A90B00EFBD2B /* ELACommitteeDetailViewController.h */,
+				428A25ED2476A90B00EFBD2B /* ELACommitteeDetailViewController.mm */,
+				428A25EE2476A90B00EFBD2B /* ELACommitteeInfoViewController.h */,
+				428A25EC2476A90B00EFBD2B /* ELACommitteeInfoViewController.m */,
+				428A25EF2476A90B00EFBD2B /* ELACommitteeDutiesViewController.m */,
+				428A25EB2476A90B00EFBD2B /* ELACommitteeDutiesViewController.h */,
 			);
 			path = CommitteeMember;
 			sourceTree = "<group>";
@@ -3930,12 +3936,12 @@
 		428A25F12476A90B00EFBD2B /* CRCommittee */ = {
 			isa = PBXGroup;
 			children = (
-				428A25F22476A90B00EFBD2B /* ELACRCommitteeViewController.m */,
-				428A25F32476A90B00EFBD2B /* ELASecretaryListViewController.m */,
+				428A25F72476A90B00EFBD2B /* ELACommitteeListViewController.h */,
 				428A25F42476A90B00EFBD2B /* ELACommitteeListViewController.m */,
 				428A25F52476A90B00EFBD2B /* ELASecretaryListViewController.h */,
+				428A25F32476A90B00EFBD2B /* ELASecretaryListViewController.m */,
 				428A25F62476A90B00EFBD2B /* ELACRCommitteeViewController.h */,
-				428A25F72476A90B00EFBD2B /* ELACommitteeListViewController.h */,
+				428A25F22476A90B00EFBD2B /* ELACRCommitteeViewController.m */,
 			);
 			path = CRCommittee;
 			sourceTree = "<group>";
@@ -3961,8 +3967,10 @@
 		428A25FF2476A90B00EFBD2B /* ELAUtils */ = {
 			isa = PBXGroup;
 			children = (
-				428A26002476A90B00EFBD2B /* ELAUtils.m */,
 				428A26012476A90B00EFBD2B /* ELAUtils.h */,
+				428A26002476A90B00EFBD2B /* ELAUtils.m */,
+				70CF85AE247A8776008E0F9D /* ELAVotingProcessUtil.h */,
+				70CF85AF247A8776008E0F9D /* ELAVotingProcessUtil.mm */,
 			);
 			path = ELAUtils;
 			sourceTree = "<group>";
@@ -4094,6 +4102,7 @@
 		428A263B2476A90B00EFBD2B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				70CF85AA247A7897008E0F9D /* PasswView */,
 				428A263C2476A90B00EFBD2B /* ImpeachView */,
 				428A263F2476A90B00EFBD2B /* PledgeView */,
 			);
@@ -4103,8 +4112,8 @@
 		428A263C2476A90B00EFBD2B /* ImpeachView */ = {
 			isa = PBXGroup;
 			children = (
-				428A263D2476A90B00EFBD2B /* ELAImpeachView.m */,
 				428A263E2476A90B00EFBD2B /* ELAImpeachView.h */,
+				428A263D2476A90B00EFBD2B /* ELAImpeachView.m */,
 			);
 			path = ImpeachView;
 			sourceTree = "<group>";
@@ -4122,9 +4131,9 @@
 			isa = PBXGroup;
 			children = (
 				428A26432476A90B00EFBD2B /* ELANetwork.h */,
-				428A26442476A90B00EFBD2B /* ELANetworkManager.m */,
-				428A26452476A90B00EFBD2B /* ELANetworkManager.h */,
 				428A26462476A90B00EFBD2B /* ELANetwork.m */,
+				428A26452476A90B00EFBD2B /* ELANetworkManager.h */,
+				428A26442476A90B00EFBD2B /* ELANetworkManager.m */,
 			);
 			path = ELANetWork;
 			sourceTree = "<group>";
@@ -4494,6 +4503,15 @@
 			);
 			name = starter;
 			path = "elastos wallet/starter";
+			sourceTree = "<group>";
+		};
+		70CF85AA247A7897008E0F9D /* PasswView */ = {
+			isa = PBXGroup;
+			children = (
+				70CF85AB247A78B1008E0F9D /* ELAPasswdView.h */,
+				70CF85AC247A78B1008E0F9D /* ELAPasswdView.m */,
+			);
+			path = PasswView;
 			sourceTree = "<group>";
 		};
 		CBD48D4B21FC36BA00BF3B11 /* AFNetworking */ = {
@@ -4948,6 +4966,7 @@
 				4202CA9921F6EF2B009E5932 /* HMWImportTheWalletViewController.mm in Sources */,
 				425A5F5D246582D500C44104 /* HWMCommentPerioDetailsViewController.mm in Sources */,
 				424E0A4C246BABC9003B40CF /* HWMDetailsProposalViewModel.m in Sources */,
+				70CF85AD247A78B1008E0F9D /* ELAPasswdView.m in Sources */,
 				4202CAC621F6EF2B009E5932 /* HMWtheCandidateListTableViewCell.m in Sources */,
 				42A7A85B236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.m in Sources */,
 				4202CA0E21F6EF2A009E5932 /* WCQRCodeScanningVC.m in Sources */,
@@ -5120,7 +5139,7 @@
 				42B57AB922150C1C004CF089 /* WOCrashLog.m in Sources */,
 				4202CA6621F6EF2B009E5932 /* HMWSideChainAndTheContactTableViewCell.m in Sources */,
 				CBD48D5A21FC36BA00BF3B11 /* AFURLResponseSerialization.m in Sources */,
-				428A264C2476A90C00EFBD2B /* ELACommitteeDetailViewController.m in Sources */,
+				428A264C2476A90C00EFBD2B /* ELACommitteeDetailViewController.mm in Sources */,
 				42D105FC23A3344D0063AADC /* MJRefreshAutoStateFooter.m in Sources */,
 				42D126A722B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.m in Sources */,
 				4202CA9D21F6EF2B009E5932 /* FLSelectWordView.m in Sources */,
@@ -5239,6 +5258,7 @@
 				424910F32271BFCF00C41E50 /* NSImage+WebCache.m in Sources */,
 				4250B3EE2238D32700B6858F /* QRView.m in Sources */,
 				428B4D9622CB2E98004AE7D0 /* HWMaddSignThePurseViewTableViewCell.m in Sources */,
+				70CF85B0247A8776008E0F9D /* ELAVotingProcessUtil.mm in Sources */,
 				4202CAC021F6EF2B009E5932 /* HMWnoCandidateNodesView.m in Sources */,
 				42B57ABF22150C1C004CF089 /* NSMutableAttributedString+WOCrash.m in Sources */,
 				421BABD92429923F000FB026 /* HWExportCertificateMViewController.m in Sources */,

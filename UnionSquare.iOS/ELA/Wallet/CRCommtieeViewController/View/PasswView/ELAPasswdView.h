@@ -21,20 +21,22 @@
  * SOFTWARE.
  */
 
+
 #import <UIKit/UIKit.h>
-#import "ELAPasswdView.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^ELAImpeachViewBlock)(NSString *value);
+typedef void(^ELAPasswdViewBlock)(NSString *value);
 
-@interface ELAImpeachView : UIView
+@interface ELAPasswdView : UIView
 
-@property (nonatomic, copy) ELAImpeachViewBlock valueBlock;
+@property (nonatomic, copy) ELAPasswdViewBlock valueBlock;
 
 - (void)showAlertView;
 
 - (void)hideAlertView;
+
 
 @end
 

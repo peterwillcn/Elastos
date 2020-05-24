@@ -23,37 +23,22 @@
 
 
 #import <Foundation/Foundation.h>
-#import "HWMCRSuggestionNetWorkManger.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^NetworkStateBlock)(BOOL networkState);
+typedef void(^GetImpeachmentBlock)(NSDictionary *votes, NSArray *invalidCandidates);
 
-@interface ELANetwork : NSObject
-
-
-/// 查询历届CR委员会相关信息 
-+ (NSURLSessionDataTask *)getCommitteeInfo:(void (^) (id data, NSError *error))block;
-
-/// 查询某届CR委员会委员列表
-/// @param _id  id  第几届
-/// @param block 回调
-+ (NSURLSessionDataTask *)getCouncilListInfo:(NSInteger)_id block:(void (^) (id data, NSError *error))block;
+@interface ELAVotingProcessUtil : NSObject
 
 
-/// 查询CR委员或秘书长详细信息
-/// @param did  委员DID
-/// @param _id 第几届 [默认当届]
-/// @param block 回调
-+ (NSURLSessionDataTask *)getInformation:(NSString *)did ID:(NSInteger)_id block:(void (^) (id data, NSError *error))block;
+@property (nonatomic, copy) GetImpeachmentBlock getImpeachmentBlock;
+@property (nonatomic, copy) NetworkStateBlock networkStateBlock;
 
-/// 2.1)dpos列表
-+ (NSURLSessionDataTask *)listproducer:(NSString *)state moreInfo:(NSInteger)moreInfo block:(void (^) (id data, NSError *error))block;
++ (ELAVotingProcessUtil *)shareVotingProcess;
+- (void)getVoteInfo;
+- (void)getImpeachmentWithNetworkState:(NSString *)hash amount:(NSString *)amount;
 
-///crc列表是否存在
-+ (NSURLSessionDataTask *)listcrcandidates:(NSString *)state  block:(void (^) (id data, NSError *error))block;
-
-///
-+ (NSURLSessionDataTask *)cvoteAllSearch:(NSString *)searchString  page:(NSInteger)page  results:(NSInteger)results type:(CommunityProposalType)type  block:(void (^) (id data, NSError *error))block;
 @end
 
 NS_ASSUME_NONNULL_END

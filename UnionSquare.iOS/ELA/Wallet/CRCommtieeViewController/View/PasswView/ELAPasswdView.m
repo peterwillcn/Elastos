@@ -21,12 +21,13 @@
  * SOFTWARE.
  */
 
-#import "ELAImpeachView.h"
+
+#import "ELAPasswdView.h"
 #import "ELAUtils.h"
 #import "Masonry.h"
 #import "UIView+Ext.h"
 
-@interface ELAImpeachView ()
+@interface ELAPasswdView ()
 
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) UIView *bgView;
@@ -35,21 +36,17 @@
 @property (nonatomic, strong) UIButton *bgButton;
 @property (nonatomic, strong) UIButton *sureButton;
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UILabel *subTitleLabel;
-@property (nonatomic, strong) UILabel *otherTitleLabel;
+
 @property (nonatomic, strong) UIView *line;
-@property (nonatomic, strong) UIView *subLine;
-@property (nonatomic, strong) UIView *otherLine;
+
 
 @property (nonatomic, strong) UITextField *textField;
-@property (nonatomic, strong) UITextField *otherTextField;
 
-@property (nonatomic, strong) UILabel *unitLabel;
-@property (nonatomic, strong) UILabel *othUnitLabel;
+
 
 @end
 
-@implementation ELAImpeachView
+@implementation ELAPasswdView
 
 - (instancetype)init
 {
@@ -84,12 +81,12 @@
     
     
     _closeButton = [[UIButton alloc] init];
-    [_closeButton setImage:ImageNamed(@"window_54_close") forState:(UIControlStateNormal)];
+    [_closeButton setImage:ImageNamed(@"back") forState:(UIControlStateNormal)];
     [_closeButton addTarget:self action:@selector(closeButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     [_showView addSubview:_closeButton];
 //
     _sureButton = [[UIButton alloc] init];
-    [_sureButton setTitle:ELALocalizedString(@"下一步") forState:UIControlStateNormal];
+    [_sureButton setTitle:ELALocalizedString(@"确定") forState:UIControlStateNormal];
     _sureButton.titleLabel.font = PingFangRegular(15);
     [_sureButton setBackgroundColor:ELARGB(54, 54, 54)];
     _sureButton.layer.cornerRadius = 5;
@@ -100,84 +97,31 @@
     [_showView addSubview:_sureButton];
 //
     _titleLabel = [[UILabel alloc] init];
-    _titleLabel.text = ELALocalizedString(@"弹劾");
+    _titleLabel.text = ELALocalizedString(@"输入密码");
     _titleLabel.numberOfLines = 0;
     _titleLabel.font = PingFangRegular(17);
     _titleLabel.textColor = [UIColor whiteColor];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
     [_showView addSubview:_titleLabel];
     
-    _subTitleLabel = [[UILabel alloc] init];
-    _subTitleLabel.text = ELALocalizedString(@"弹劾票数");
-    _subTitleLabel.numberOfLines = 0;
-    _subTitleLabel.font = PingFangRegular(15);
-    _subTitleLabel.textColor = [UIColor whiteColor];
-    _subTitleLabel.textAlignment = NSTextAlignmentCenter;
-    [_showView addSubview:_subTitleLabel];
-    
-    _otherTitleLabel = [[UILabel alloc] init];
-    _otherTitleLabel.text = ELALocalizedString(@"手续费");
-    _otherTitleLabel.numberOfLines = 0;
-    _otherTitleLabel.font = PingFangRegular(15);
-    _otherTitleLabel.textColor = [UIColor whiteColor];
-    _otherTitleLabel.textAlignment = NSTextAlignmentCenter;
-    [_showView addSubview:_otherTitleLabel];
-    
-    _unitLabel = [[UILabel alloc] init];
-    _unitLabel.text = ELALocalizedString(@"ELA");
-    _unitLabel.numberOfLines = 0;
-    _unitLabel.font = PingFangRegular(17);
-    _unitLabel.textColor = [UIColor whiteColor];
-    _unitLabel.textAlignment = NSTextAlignmentCenter;
-    [_showView addSubview:_unitLabel];
-    
-    _othUnitLabel = [[UILabel alloc] init];
-    _othUnitLabel.text = ELALocalizedString(@"ELA");
-    _othUnitLabel.numberOfLines = 0;
-    _othUnitLabel.font = PingFangRegular(15);
-    _othUnitLabel.textColor = [UIColor whiteColor];
-    _othUnitLabel.textAlignment = NSTextAlignmentCenter;
-    [_showView addSubview:_othUnitLabel];
-    
-    
+
     _textField = [[UITextField alloc] init];
     _textField.backgroundColor = [UIColor clearColor]; // 设置背景颜色
     _textField.textColor = [UIColor whiteColor]; // 设置文字的颜色
     _textField.clearsOnBeginEditing = YES;       // 当第二次输入的时候，清空上一次的内容
     _textField.font = PingFangRegular(15);// 设置字体的大小
-    _textField.textAlignment = NSTextAlignmentRight;// 设置文字的对其方式
-    _textField.keyboardType = UIKeyboardTypeDecimalPad;
-//    _textField.secureTextEntry = YES;
+    _textField.textAlignment = NSTextAlignmentLeft;// 设置文字的对其方式
+    _textField.keyboardType = UIKeyboardTypeDefault;
+    _textField.secureTextEntry = YES;
 //    _textField.delegate = self;
-    [self makeTextFieldPlaceHoTextColorWithTextField:_textField withTxt:@"XXL"];
+    [self makeTextFieldPlaceHoTextColorWithTextField:_textField withTxt:@"请输入钱包密码"];
     [_showView addSubview:_textField];
-    
-    _otherTextField = [[UITextField alloc] init];
-    _otherTextField.backgroundColor = [UIColor clearColor]; // 设置背景颜色
-    _otherTextField.textColor = [UIColor whiteColor]; // 设置文字的颜色
-    _otherTextField.clearsOnBeginEditing = YES;       // 当第二次输入的时候，清空上一次的内容
-    _otherTextField.font = PingFangRegular(15);// 设置字体的大小
-    _otherTextField.textAlignment = NSTextAlignmentRight;// 设置文字的对其方式
-    _otherTextField.keyboardType = UIKeyboardTypeDecimalPad;
-    _otherTextField.enabled = NO;
-    //    _textField.secureTextEntry = YES;
-    //    _textField.delegate = self;
-//    [self makeTextFieldPlaceHoTextColorWithTextField:_textField withTxt:@"XXL"];
-    _otherTextField.text = ELAFEE;
-    [_showView addSubview:_otherTextField];
+ 
     
     _line = [[UIView alloc] init];
     _line.backgroundColor = ELARGB(149, 159, 171);//[UIColor whiteColor];
     [_showView addSubview:_line];
-    
-    _subLine = [[UIView alloc] init];
-    _subLine.backgroundColor = ELARGB(149, 159, 171);//[UIColor whiteColor];
-    [_showView addSubview:_subLine];
-          
-    _otherLine = [[UIView alloc] init];
-    _otherLine.backgroundColor = ELARGB(149, 159, 171);//[UIColor whiteColor];
-    [_showView addSubview:_otherLine];
-    
+  
     [self setViewFrame];
 }
 
@@ -227,53 +171,13 @@
         make.height.equalTo(@(0.5));
     }];
     
-    [_subTitleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_showView).offset(15);
-        
-        make.top.equalTo(_line.mas_bottom).offset(20);
-    }];
-    
-    [_unitLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_showView).offset(-15);
-        make.centerY.equalTo(_subTitleLabel).offset(0);
-    }];
-    
-    [_othUnitLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_showView).offset(-15);
-        make.centerY.equalTo(_otherTitleLabel).offset(0);
-    }];
-    
+  
     [_textField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_unitLabel.mas_left).offset(-5);
-        make.width.equalTo(@(300));
-        make.centerY.equalTo(_subTitleLabel);
+        make.left.equalTo(_showView).offset(15);
+        make.right.equalTo(_showView).offset(-15);
+        make.top.equalTo(_line.mas_bottom).offset(25);
     }];
-    
-    [_otherTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(_othUnitLabel.mas_left).offset(-5);
-        make.width.equalTo(@(300));
-        make.centerY.equalTo(_otherTitleLabel);
-    }];
-    
-    [_subLine mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_subTitleLabel.mas_left);
-        make.top.equalTo(_subTitleLabel.mas_bottom).offset(20);
-        make.right.equalTo(_showView);
-        make.height.equalTo(@(0.5));
-    }];
-    
-    [_otherTitleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-          make.left.equalTo(_showView).offset(15);
-          make.top.equalTo(_subLine.mas_bottom).offset(20);
-      }];
-    
-    [_otherLine mas_makeConstraints:^(MASConstraintMaker *make) {
-           make.left.equalTo(_otherTitleLabel.mas_left);
-           make.top.equalTo(_otherTitleLabel.mas_bottom).offset(20);
-           make.right.equalTo(_showView);
-           make.height.equalTo(@(0.5));
-       }];
-    
+ 
     [_sureButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(_showView);
         make.bottom.equalTo(_showView).offset(-40);
@@ -337,3 +241,4 @@
 }
 
 @end
+

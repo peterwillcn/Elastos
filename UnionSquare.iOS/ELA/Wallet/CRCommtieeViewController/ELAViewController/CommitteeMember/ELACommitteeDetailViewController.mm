@@ -32,6 +32,10 @@
 #import "ELACommitteeDutiesViewController.h"
 #import "ELANetwork.h"
 #import "ELAInformationDetail.h"
+#import "ELWalletManager.h"
+#import "ELAImpeachView.h"
+#import "ELAPasswdView.h"
+#import "ELAVotingProcessUtil.h"
 
 @interface ELACommitteeDetailViewController ()<RPTaggedNavViewDelegate, UIScrollViewDelegate>
 
@@ -39,8 +43,15 @@
 @property (nonatomic, strong) SYRingProgressView *ringProgress;
 @property (nonatomic, strong) UIScrollView * bgScroll;
 @property (nonatomic, strong) RPTaggedNavView *taggedNavView;
-
+@property (nonatomic, strong) ELAImpeachView *impeachView;
+@property (nonatomic, strong) ELAPasswdView *passwdView;
 @property (nonatomic, strong) ELAInformationDetail *model;
+
+@property (nonatomic, strong) NSString *passwdValue;
+@property (nonatomic, strong) NSString *impeachValue;
+
+
+@property (nonatomic, strong) ELAVotingProcessUtil *votingProcessUtil;
 @end
 
 
@@ -51,8 +62,118 @@
     // Do any additional setup after loading the view.
     [self getNetworkData];
 }
+#pragma mark -
 
-#pragma mark -- taggedNavViewDelegate
+- (void)buttonAction:(id)sender
+{
+    
+    ELAWeakSelf;
+    _impeachView = [[ELAImpeachView alloc] init];
+    [_impeachView showAlertView];
+    
+    [_impeachView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(@(0));
+        make.width.equalTo(@(ScreenWidth));
+        make.height.equalTo(@(ScreenHeight));
+        make.top.bottom.equalTo(@(0));
+    }];
+    _impeachView.valueBlock = ^(NSString *value){
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            weakSelf.impeachValue = value;
+            [weakSelf showPasswdView];
+        });
+        
+    };
+       
+//    _passwdView = [[ELAPasswdView alloc] init];
+//    [_passwdView mas_remakeConstraints:^(MASConstraintMaker *make) {
+//        make.left.right.equalTo(@(0));
+//        make.width.equalTo(@(ScreenWidth));
+//        make.height.equalTo(@(ScreenHeight));
+//        make.top.bottom.equalTo(@(0));
+//    }];
+//    _passwdView.valueBlock = ^(NSString *value){
+//
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//
+//            [weakSelf impeachment];
+//        });
+//
+//    };
+//    FLWallet *wallet = [ELWalletManager share].currentWallet;
+    
+//    invokedUrlCommand *mommand = [[invokedUrlCommand alloc] initWithArguments:@[wallet.masterWalletID]
+//                                                            callbackId:wallet.walletID className:@"Wallet" methodName:@"createProposalWithdrawTransaction"];
+//     [[ELWalletManager share] getVoteInfoList:wallet.masterWalletID];
+
+    //get
+}
+- (void)showPasswdView
+{
+    ELAWeakSelf;
+    _passwdView = [[ELAPasswdView alloc] init];
+    [_passwdView showAlertView];
+       [_passwdView mas_remakeConstraints:^(MASConstraintMaker *make) {
+           make.left.right.equalTo(@(0));
+           make.width.equalTo(@(ScreenWidth));
+           make.height.equalTo(@(ScreenHeight));
+           make.top.bottom.equalTo(@(0));
+       }];
+       _passwdView.valueBlock = ^(NSString *value){
+
+           dispatch_async(dispatch_get_main_queue(), ^{
+
+               weakSelf.passwdValue = value;
+               [weakSelf impeachment];
+           });
+
+       };
+}
+- (void)impeachment
+{
+    [self showLoading];
+    NSString *amount = [[FLTools share] elsToSela:_impeachValue];
+    NSString *hash = _model.cid;
+    
+    ELAWeakSelf;
+   _votingProcessUtil = [ELAVotingProcessUtil shareVotingProcess];
+    _votingProcessUtil.networkStateBlock = ^(BOOL networkState){
+        if(networkState)//成功
+        {
+            [weakSelf.votingProcessUtil getImpeachmentWithNetworkState:hash amount:amount];
+        }
+    };
+    _votingProcessUtil.getImpeachmentBlock = ^(NSDictionary * _Nonnull votes, NSArray * _Nonnull invalidCandidates){
+        //获取数据
+        [weakSelf toImpeachment:votes :invalidCandidates];
+        
+    };
+    [_votingProcessUtil getVoteInfo];
+}
+
+- (void)toImpeachment:(NSDictionary *)votes :(NSArray *)invalidCandidates
+{
+    FLWallet *wallet = [ELWalletManager share].currentWallet;
+    
+    invokedUrlCommand *mommand = [[invokedUrlCommand alloc] initWithArguments:
+                                  @[wallet.masterWalletID,
+                                    _passwdValue,
+                                    votes,
+                                    invalidCandidates]
+                                                                   callbackId:wallet.walletID
+                                                                    className:@"Wallet" methodName:@"CreateImpeachmentCRCTransaction"];
+    PluginResult *pluginResult = [[ELWalletManager share] CreateImpeachmentCRCTransaction:mommand];
+    
+    if(pluginResult)
+    {
+        NSDictionary *resultDic = pluginResult.message[@"success"];
+    }
+    [self hiddLoading];
+    
+}
+#pragma mark - taggedNavViewDelegate
 - (void)haveSelectedIndex:(NSInteger)index
 {
     [UIView animateWithDuration:0.4 animations:^{
@@ -61,7 +182,7 @@
    
 }
 
-#pragma mark -- Network
+#pragma mark - Network
 
 - (void)getNetworkData
 {
@@ -93,7 +214,7 @@
     }];
 }
 
-#pragma mark -- scrollviewDelegate
+#pragma mark - scrollviewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     NSInteger selectedIndx = scrollView.contentOffset.x / ScreenWidth;
@@ -114,6 +235,7 @@
     button.titleLabel.textColor = [UIColor whiteColor];
     button.titleLabel.font = PingFangRegular(14);
     [button setTitle:ELALocalizedString(@"弹劾该委员") forState:(UIControlStateNormal)];
+    [button addTarget:self action:@selector(buttonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     [infoView addSubview:button];
     
     [infoView mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -31,6 +31,9 @@
 #import "ELACommitteeInfoModel.h"
 #import "ELANetwork.h"
 #import "ELANetworkManager.h"
+#import "HWMSecretaryGeneralAndMembersDetailsModel.h"
+#import "HWMSecretaryGeneralAndMembersInfo.h"
+#import "ELAVotingProcessUtil.h"
 
 @interface ELACRCommitteeListViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -47,12 +50,23 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    UIButton *rightBarButton = [[UIButton alloc]init];
-    [rightBarButton setImage:ImageNamed(@"asset_walllet_management") forState:(UIControlStateNormal)];
-    [rightBarButton addTarget:self action:@selector(rightButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    HWMSecretaryGeneralAndMembersDetailsModel *model = [[HWMSecretaryGeneralAndMembersInfo shareTools] getDetailsModel];
+       if (model)
+       {
+           if (model.GMtype == SECRETARIATType)
+           {
+               UIButton *rightBarButton = [[UIButton alloc]init];
+               [rightBarButton setImage:ImageNamed(@"asset_walllet_management") forState:(UIControlStateNormal)];
+               [rightBarButton addTarget:self action:@selector(rightButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightBarButton];
-    self.navigationItem.rightBarButtonItem = rightItem;
+               UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightBarButton];
+               self.navigationItem.rightBarButtonItem = rightItem;
+           }
+       }
+       else
+       {
+           
+       }
 
     [self creatView];
     
@@ -408,6 +422,7 @@
     MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
     _contentTableView.mj_header = header;
     [_contentTableView.mj_header beginRefreshing];
+    
     
 //    MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 //    _contentTableView.mj_footer = footer;

@@ -470,7 +470,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
 //    NSString *str = [self charToString:signature];
 //    NSData *data = [JWTBase64Coder dataWithBase64UrlEncodedString:str];
 //    NSString *hexString = data.hexString;
-    
+//
 //    if (r==0) {
 //        return hexString;
 //    }

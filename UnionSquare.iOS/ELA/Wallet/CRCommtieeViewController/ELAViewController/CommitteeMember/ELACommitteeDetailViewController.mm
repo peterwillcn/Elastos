@@ -170,7 +170,10 @@
     {
         NSDictionary *resultDic = pluginResult.message[@"success"];
     }
+    [_impeachView hideAlertView];
+    [_passwdView hideAlertView];
     [self hiddLoading];
+    
     
 }
 #pragma mark - taggedNavViewDelegate

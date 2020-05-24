@@ -38,4 +38,5 @@
     HWMadviceModel *model= [self AnalyticalDataWithDicJosn:json];
     completionBlock(model);
 }
+
 @end

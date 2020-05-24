@@ -47,44 +47,36 @@
     [self.view addSubview:self.CRProposalConfirmV];
     [self.CRProposalConfirmV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.top.equalTo(self.view);
-  
+        
     }];
 }
 -(void)setType:(QrCodeSignatureType)type{
     
+    
     switch (type) {
-        case ProposalLeaderType:
-            self.CRProposalConfirmV.type=ProposalLeadType;
-            [self.CRProposalConfirmV postWithHash:@"反馈哈希" withVotes:@"" withFee:@""];
-            break;
-        case SecretaryGeneralType:
-            self.CRProposalConfirmV.type=SecretaryGeneType;
-              [self.CRProposalConfirmV postWithHash:@"审核哈希" withVotes:@"" withFee:@"0.02 ELA"];
-            break;
         case withdrawalsType:
             self.CRProposalConfirmV.type=withdrawaType;
-              [self.CRProposalConfirmV postWithHash:@"收款地址" withVotes:@"xxxEAL" withFee:@"0.02 ELA"];
+            [self.CRProposalConfirmV postWithHash: self.PayLoadDic[@"data"][@"recipient"] withVotes:[[FLTools share]elaScaleConversionWith:self.PayLoadDic[@"data"][@"amount"]] withFee:@"0.001 ELA"];
             break;
         case Updatemilestone://提案追踪-负责人扫码
         {
-            [self closeCRProposalConfirmV];
-            
-            UIView *manView = [self mainWindow];
-            [manView addSubview:self.transactionDetailsView];
-            [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.right.top.bottom.equalTo(manView);
-            }];
+            self.CRProposalConfirmV.type=ProposalLeadType;
+            [self.CRProposalConfirmV postWithHash:self.PayLoadDic[@"data"][@"messagehash"] withVotes:@"" withFee:@""];
+            break;
             break;
         }
         case Reviewmilestone://提案追踪-秘书长扫码
         {
-            [self closeCRProposalConfirmV];
-            
-            UIView *manView = [self mainWindow];
-            [manView addSubview:self.transactionDetailsView];
-            [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.right.top.bottom.equalTo(manView);
-            }];
+//            progress和final分别对应阶段款合结算款，都表示同意；第三种是reject，表示秘书长拒绝提款申请。
+            NSString *result;
+            NSString *proposaltrackingtype = self.PayLoadDic[@"data"][@"proposaltrackingtype"];
+            if ([proposaltrackingtype isEqualToString:@"progress"]||[proposaltrackingtype isEqualToString:@"finalized"]) {
+              result=@"1";
+            }else if ([proposaltrackingtype isEqualToString:@"rejected"]){
+               result=@"0";
+            }
+            [self.CRProposalConfirmV postWithHash:self.PayLoadDic[@"data"][@"secretaryopinionhash"] withVotes:result withFee:@"0.001 ELA"];
+            break;
             break;
         }
         default:
@@ -93,45 +85,8 @@
     _type=type;
 }
 
--(HWMTransactionDetailsView *)transactionDetailsView{
-    
-    
-    if (!_transactionDetailsView) {
-        
-        _transactionDetailsView =[[HWMTransactionDetailsView alloc]init];
-        
-        _transactionDetailsView.popViewTitle=NSLocalizedString(@"交易详情", nil);
-        _transactionDetailsView.DetailsType=TransactionDetails;
-        _transactionDetailsView.delegate=self;
-        [_transactionDetailsView  TransactionDetailsWithFee:@"0.0002" withTransactionDetailsAumont:nil];
-        
-    }
-    
-    return _transactionDetailsView;
-    
-}
 
-#pragma mark ---------HWMTransactionDetailsView----------
 
--(void)closeTransactionDetailsView{
-    
-    [self.transactionDetailsView removeFromSuperview];
-    
-    self.transactionDetailsView=nil;
-    
-}
--(void)pwdAndInfoWithPWD:(NSString*)pwd
-{
-    pwd = @"xxl123456";
-    if(_type == Updatemilestone)//
-    {
-        [self proposalTracking:pwd];
-    }
-    else if(_type == Reviewmilestone)
-    {
-        [self proposalTrackingWithReview:pwd];
-    }
-}
 
 #pragma mark - 提案追踪-秘书长扫码
 
@@ -141,12 +96,12 @@
     if(_type == Reviewmilestone)
     {
         
-         
+        
         if (![[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO])
         {
             return;
         }
-
+        
         
         NSDictionary *dic = _PayLoadDic;
         NSDictionary *payLoadDic = @{@"ProposalHash":dic[@"data"][@"proposalhash"],
@@ -157,7 +112,7 @@
                                      @"OwnerSignature":dic[@"data"][@"ownersignature"],
                                      @"SecretaryGeneralOpinionHash":dic[@"data"][@"secretaryopinionhash"]//秘书长比负责人多个参数
         };
-         
+        
         NSString *proposaltrackingtype = dic[@"data"][@"proposaltrackingtype"];
         NSNumber *type;
         if([proposaltrackingtype isEqualToString:@"common"])
@@ -198,23 +153,23 @@
         }
         else
         {
-           [muDic setValue:@"" forKey:@"NewOwnerPublicKey"];
-           [muDic setValue:@"" forKey:@"NewOwnerSignature"];
+            [muDic setValue:@"" forKey:@"NewOwnerPublicKey"];
+            [muDic setValue:@"" forKey:@"NewOwnerSignature"];
         }
         
         invokedUrlCommand *mommand = [[invokedUrlCommand alloc] initWithArguments:
                                       @[self.currentWallet.masterWalletID,
                                         muDic,
                                         pwd]
-                                        callbackId:self.currentWallet.walletID
-                                        className:@"Wallet" methodName:@"proposalTracking"];
+                                                                       callbackId:self.currentWallet.walletID
+                                                                        className:@"Wallet" methodName:@"proposalTracking"];
         PluginResult *pluginResult = [[ELWalletManager share] proposalTrackingTransactionWithSecretary:mommand];
         
         if(pluginResult)
         {
             NSDictionary *resultDic = pluginResult.message[@"success"];
             NSString *txid = resultDic[@"txid"];
-
+            
             
             if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO])
             {
@@ -246,7 +201,7 @@
     if(_type == Updatemilestone)
     {
         
-         
+        
         if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO])
         {
             
@@ -292,8 +247,8 @@
                                       @[self.currentWallet.masterWalletID,
                                         muDic,
                                         pwd]
-                                        callbackId:self.currentWallet.walletID
-                                        className:@"Wallet" methodName:@"proposalTracking"];
+                                                                       callbackId:self.currentWallet.walletID
+                                                                        className:@"Wallet" methodName:@"proposalTracking"];
         PluginResult *pluginResult = [[ELWalletManager share] proposalTrackingTransaction:mommand];
         
         if(pluginResult)
@@ -315,8 +270,6 @@
             }else{
                 [self showSendSuccessOrFial:SignatureFailureType];
             }
-        }else{
-            [self showSendSuccessOrFial:SignatureFailureType];
         }
         
         [self hiddLoading];
@@ -381,8 +334,9 @@
     
     NSLog(@"calback url %@",self.PayLoadDic[@"callbackurl"]);
     NSLog(@"pare %@",pare);
-    
+    [self showLoading];
     [HttpUrl NetPOSTHost:self.PayLoadDic[@"callbackurl"] url:@"" header:nil body:pare showHUD:NO WithSuccessBlock:^(id data) {
+
         [self showSendSuccessOrFial:SignatureSuccessType];
     } WithFailBlock:^(id data) {
         
@@ -410,6 +364,12 @@
     if(_type == withdrawalsType)
     {
         [self createProposalWithdrawTransaction:PWD];
+    }else if(_type == Updatemilestone){
+        [self proposalTracking:PWD];
+    }
+    else if(_type == Reviewmilestone)
+    {
+        [self proposalTrackingWithReview:PWD];
     }
     
 }
@@ -418,13 +378,6 @@
     [self showLoading];
     if(_type == withdrawalsType)
     {
-        
-         pwd = @"xxl123456";
-        if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO])
-        {
-            
-        }
-        
         NSDictionary *dic = _PayLoadDic;
         NSDictionary *payLoadDic = @{@"ProposalHash":dic[@"data"][@"proposalhash"],
                                      @"OwnerPublicKey":dic[@"data"][@"ownerpublickey"]
@@ -454,21 +407,21 @@
                                         amount,
                                         utxosArray
                                       ]
-                                                                       callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"createProposalWithdrawTransaction"];
+         callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"createProposalWithdrawTransaction"];
         PluginResult *pluginResult = [[ELWalletManager share] createProposalWithdrawTransaction:mommand];
         
         if(pluginResult)
         {
             NSDictionary *resultDic = pluginResult.message[@"success"];
-            [self hiddLoading];
-
+            [self showSendSuccessOrFial:sendDealType];
+            
         }
     }
 }
 -(void)showSendSuccessOrFial:(SendSuccessType)type{
-   
+    
     [self closeCRProposalConfirmV];
-    [[FLTools share]hideLoadingView];
+    [self hiddLoading];
     self.sendSuccessPopuV.type=type;
     [self.view addSubview:self.sendSuccessPopuV];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -478,8 +431,8 @@
     });
 }
 -(void)closeCRProposalConfirmV{
-  [self.CRProposalConfirmV removeFromSuperview];
-     self.CRProposalConfirmV=nil;
+    [self.CRProposalConfirmV removeFromSuperview];
+    self.CRProposalConfirmV=nil;
 }
 -(HMWSendSuccessPopuView *)sendSuccessPopuV{
     if (!_sendSuccessPopuV) {

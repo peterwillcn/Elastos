@@ -23,8 +23,8 @@
 
 
 #import "HWMCommentPerioDetailsHeadView.h"
-
-
+#import "YYKit.h"
+#import <YYKit/NSAttributedString+YYText.h>
 @interface HWMCommentPerioDetailsHeadView ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
@@ -60,6 +60,9 @@
     if (self.needMakeLine) {
         [self makeLine];
     }
+//    if ([[self labletextNumberLine] intValue]>3) {
+//        NSLog(@"需要超过三行");
+//    }
     _model=model;
 }
 -(void)makeLine{
@@ -68,6 +71,36 @@
     [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle)  range:NSMakeRange(0, length)];
     [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, length)];
     [self.titleLabel setAttributedText:attri];
+    
+}
+- (void)addSeeMoreButtonInLabel:(YYLabel *)label {
+ 
+    label.attributedText = [[NSAttributedString alloc] initWithString:self.titleLabel.text attributes:@{NSFontAttributeName :self.titleLabel.font}];
+
+    NSString *moreString = @" 展开";
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"... %@", moreString]];
+
+    
+ 
+    [text setTextHighlightRange:NSMakeRange(text.length-2,2)
+                          color:[UIColor colorWithRed:0.093 green:0.492 blue:1.000 alpha:1.000]
+                backgroundColor:[UIColor redColor]
+                      tapAction:^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
+//                      [weakSelf setFrame:YES];
+                      }];
+    text.font =self.titleLabel.font;
+    
+    YYLabel *seeMore = [YYLabel new];
+    seeMore.attributedText = text;
+    [seeMore sizeToFit];
+    
+//    NSAttributedString *truncationToken = [NSAttributedString yy_attachmentStringWithContent:seeMore contentMode:UIViewContentModeCenter attachmentSize:seeMore.frame.size alignToFont:text.f alignment:YYTextVerticalAlignmentTop];
+//
+//    label.truncationToken = truncationToken;
+}
+-(NSNumber*)labletextNumberLine{
+    NSNumber *count  = @((self.model.cellHeight) / self.titleLabel.font.lineHeight);
+    return count;
     
 }
 @end

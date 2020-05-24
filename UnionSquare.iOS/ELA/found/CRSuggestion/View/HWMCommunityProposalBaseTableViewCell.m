@@ -56,16 +56,11 @@
 }
 }
 -(void)setSearchTestColorString{
-
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:self.model.title];
     text.font = [UIFont boldSystemFontOfSize:14];
     text.color = [UIColor whiteColor];
-    
-    [text setTextHighlightRange:self.model.searchRanege
-                          color:RGBA(255, 255, 255, 0.2)
-                backgroundColor:[UIColor redColor]
-                      tapAction:^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
-    }];
+    [text addAttribute:NSBackgroundColorAttributeName value:RGBA(255, 255, 255, 0.5)
+     range:self.model.searchRanege];
     self.titleLabel .attributedText = text;
 }
 @end

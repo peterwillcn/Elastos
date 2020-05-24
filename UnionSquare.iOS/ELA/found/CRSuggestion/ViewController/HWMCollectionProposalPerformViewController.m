@@ -64,14 +64,20 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     [self loadPerioDetailsWithID:self.model.ID];
     if (self.type==CommentPerioACTIVEType) {
     }else if(self.type==CommentPerioFINALType){
-        
     }
 }
 -(void)loadPerioDetailsWithID:(NSString*)ID{
+    self.baseTable.alpha=0.f;
+    [self showLoading];
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadCRSuggestionDetailsWithID:ID withComplete:^(id  _Nonnull data) {
+         [self hiddLoading];
         [[HWMDetailsProposalViewModel alloc]detailsProposalModelDataJosn:data[@"data"] completion:^(HWMDetailsProposalModel * _Nonnull model) {
+           
             self.DetailsModel=model;
+            self.foodView.DetailsProposalM=self.DetailsModel;
+      
             [self.baseTable reloadData];
+            self.baseTable.alpha=1.f;
         }];
     }];
 }
@@ -125,20 +131,25 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if ((self.isOpen==NO&&section==1)||(self.isOpen==YES&&section==4)){
-        return 3;
+        return self.DetailsModel.trackingResult.count;
     }
     return 1;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ((self.isOpen==NO&&indexPath.section==1)||(self.isOpen==YES&&indexPath.section==4)){
+        HWMVoteResultModel *model=self.DetailsModel.trackingResult[indexPath.row];
+        return model.reasonCell+50;
+       }
     if (indexPath.section==3||self.isOpen==NO) {
         return self.DetailsModel.abstractCell+50;
     }
-    return 60;
+    return 70;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if ((self.isOpen==NO&&indexPath.section==1)||(self.isOpen==YES&&indexPath.section==4)){
         HWMCommitteeMembersToVoteTableViewCell *cell=[ProposalPerform instantiateWithOwner:nil options:nil].firstObject;
         cell.backgroundColor=[UIColor clearColor];
+        cell.model=self.DetailsModel.trackingResult[indexPath.row];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
         return cell;
         

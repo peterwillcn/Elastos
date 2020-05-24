@@ -23,7 +23,12 @@
 
 
 #import "HWMDetailsProposalModel.h"
+@implementation HWMcommentModel 
 
+@end
+@implementation HWMVoteResultModel
+
+@end
 @implementation HWMDetailsProposalModel
 + (NSDictionary *)modelCustomPropertyMapper {
     return @{@"ID": @"id",@"abstract":@"abs"};

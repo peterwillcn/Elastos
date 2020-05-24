@@ -483,24 +483,24 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     NSMutableArray *BArray=[[NSMutableArray alloc]init];
     
     for (HWMBudgetsModel *model in self.BudgetsArray) {
-        NSNumber *Type;
+        NSNumber *TypeInterNal;
         
         if ([model.Type isEqualToString:@"Imprest"])
         {
-            Type = [NSNumber numberWithInt:0];
+            TypeInterNal = [NSNumber numberWithInt:0];
             
         }
         else if ([model.Type isEqualToString:@"NormalPayment"])
         {
-            Type = [NSNumber numberWithInt:1];
+            TypeInterNal = [NSNumber numberWithInt:1];
             
         }
         else if ([model.Type isEqualToString:@"FinalPayment"])
         {
-            Type = [NSNumber numberWithInt:2];
-            
+            TypeInterNal = [NSNumber numberWithInt:2];
+            	
         }
-        NSDictionary *dic=@{@"Type":Type,@"Stage":[model.Stage numberValue],@"Amount":model.Amount};
+        NSDictionary *dic=@{@"Type":TypeInterNal,@"Stage":[model.Stage numberValue],@"Amount":model.Amount};
         [BArray addObject:dic];
     }
     NSString *signature = self.PayLoadDic[@"data"][@"signature"];

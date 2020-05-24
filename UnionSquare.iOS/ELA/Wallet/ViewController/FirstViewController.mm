@@ -778,7 +778,7 @@
             [self showAdviceInfoText:data withJWTString:QRCodeString WithType:type];
             break;
         case reviewPropalQrCodeType:
-            [self showAdviceInfoText:data withJWTString:QRCodeString WithType:type];
+            [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
             break;
         case billQrCodeType:
             [self showAdviceInfoText:data withJWTString:QRCodeString WithType:type];
@@ -787,12 +787,12 @@
             [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
             break;
             
-        case ProposalLeaderType:
-            [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
-            break;
-        case SecretaryGeneralType:
-            [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
-            break;
+//        case ProposalLeaderType:
+//            [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
+//            break;
+//        case SecretaryGeneralType:
+//            [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
+//            break;
         case withdrawalsType:
             [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
             break;
@@ -809,10 +809,10 @@
 }
 -(void)QrCodeInfoPasswordViewInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString WithType:(QrCodeSignatureType)type{
     HWMQrCodeInfoPasswordViewController *PasswordVC=[[HWMQrCodeInfoPasswordViewController alloc]init];
-    PasswordVC.type = type;
     PasswordVC.PayLoadDic = PayLoadDic;
     PasswordVC.jwtString = jwtString;
     PasswordVC.currentWallet = self.currentWallet;
+    PasswordVC.type=type;
     [self.navigationController pushViewController:PasswordVC animated:NO];
 }
 
@@ -826,13 +826,10 @@
         case billQrCodeType:
             SuggestionVC.VCType=TheProposalType;
             break;
-            //        case reviewPropalQrCodeType:
-            //            SuggestionVC.VCType=ReviewProposalType;
-            //            break;
         default:
             break;
     }
-
+    
     SuggestionVC.PayLoadDic=PayLoadDic;
     SuggestionVC.jwtString=jwtString;
     SuggestionVC.currentWallet=self.currentWallet;

@@ -35,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(weak,nonatomic)id<HWMCommitteeMembersToVoteViewDelegate>delegate;
 @property(copy,nonatomic)NSArray*dataArray;
+@property(copy,nonatomic)HWMDetailsProposalModel*DetailsProposalM;
 
 @end
 

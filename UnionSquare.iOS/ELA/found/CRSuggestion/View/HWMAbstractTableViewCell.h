@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *constLabel;
 
+@property (assign, nonatomic) CGFloat titleCell;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -63,11 +63,13 @@ static HWMSecretaryGeneralAndMembersInfo *_instance;
     return _instance;
 }
 -(void)loadDataSource{
+    [[FLTools share]showLoadingView];
     NSString *didString= [self getDIDString];
     __weak __typeof__(self)weakSelf=self;
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadSecretaryGeneralAndMembersDetailsWithID:@"" withDIDString:didString withComplete:^(id  _Nonnull data) {
+        NSLog(@"委员信息获取成功---%@",data);
         [weakSelf parsingModelWithData:data[@"data"]];
-     
+      [[FLTools share]hideLoadingView];
         }];
 
 }
@@ -97,6 +99,8 @@ static HWMSecretaryGeneralAndMembersInfo *_instance;
 -(HWMSecretaryGeneralAndMembersDetailsModel*)getDetailsModel{
     if (self.detailsModel) {
         return self.detailsModel;
+    }else{
+        [self loadDataSource];
     }
     return nil;
 }

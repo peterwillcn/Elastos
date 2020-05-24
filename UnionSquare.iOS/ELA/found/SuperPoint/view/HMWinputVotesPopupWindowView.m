@@ -112,6 +112,7 @@
             self.maxButton.userInteractionEnabled=NO;
             [self.maxButton setTitle:@"ELA" forState:UIControlStateNormal];
             [self.maxButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+            self.accountBalanceLab.alpha=0.f;
             break;
             
         default:

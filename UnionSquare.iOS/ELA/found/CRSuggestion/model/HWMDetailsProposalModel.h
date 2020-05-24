@@ -52,7 +52,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy,nonatomic)NSString *rejectPercentage;
 @property(assign,nonatomic)CGFloat abstractCell;
 @property(assign,nonatomic)CGFloat rejectRatio;
-
+@property(strong,nonatomic)NSMutableArray  *agreeResult;
+@property(strong,nonatomic)NSMutableArray  *againstResult;
+@property(strong,nonatomic)NSMutableArray  *waiverResult;
+@property(strong,nonatomic)NSMutableArray *trackingResult;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -44,6 +44,8 @@ UINib *CommitteeMembersNib;
 @property (weak, nonatomic) IBOutlet UITableView *baseTable;
 @property (weak, nonatomic) IBOutlet UILabel *totalInfoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *noVioInfoLabel;
+@property (weak, nonatomic) IBOutlet UIView *makeLine;
+@property (weak, nonatomic) IBOutlet UIImageView *bgImageView;
 
 @end
 @implementation HWMCommitteeMembersToVoteView
@@ -62,7 +64,6 @@ UINib *CommitteeMembersNib;
     self.totalInfoLabel.alpha=0.f;
     self.baseTable.delegate=self;
     self.baseTable.dataSource=self;
-    self.baseTable.rowHeight=44;
     self.baseTable.backgroundColor=[UIColor clearColor];
     CommitteeMembersNib=[UINib nibWithNibName:cellCommitteeMembersString bundle:nil];
     [self.baseTable registerNib:CommitteeMembersNib forCellReuseIdentifier:cellCommitteeMembersString];
@@ -72,17 +73,21 @@ UINib *CommitteeMembersNib;
     [self updateToalInfo];
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 100;
+    return 1;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    HWMcommentModel *model=self.dataArray[indexPath.row];
+    return model.reasonCell+50;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 1;
+    return self.dataArray.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     HWMCommitteeMembersToVoteTableViewCell *cell=[CommitteeMembersNib instantiateWithOwner:nil options:nil].firstObject;
     cell.backgroundColor=[UIColor clearColor];
-  
+    
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-//    cell.model=self.dataArray[indexPath.row];
+    cell.model=self.dataArray[indexPath.row];
     return cell;
 }
 - (IBAction)showOrHiddenButtonEvent:(id)sender {
@@ -119,13 +124,13 @@ UINib *CommitteeMembersNib;
     TLabel.textColor=[UIColor whiteColor];
 }
 -(void)updateCommitteeMembersToVoteInfo{
-    self.InFavourLabel.text=[NSString stringWithFormat:@"%@(%@)",NSLocalizedString(@"赞成", nil),@"0"];
-    self.ObjectionLabel.text=[NSString stringWithFormat:@"%@(%@)",NSLocalizedString(@"反对", nil),@"0"];
-    self.WaiverLabel.text=[NSString stringWithFormat:@"%@(%@)",NSLocalizedString(@"弃权", nil),@"0"];
+    self.InFavourLabel.text=[NSString stringWithFormat:@"%@(%ld)",NSLocalizedString(@"赞成", nil),self.DetailsProposalM.agreeResult.count];
+    self.ObjectionLabel.text=[NSString stringWithFormat:@"%@(%ld)",NSLocalizedString(@"反对", nil),self.DetailsProposalM.againstResult.count];
+    self.WaiverLabel.text=[NSString stringWithFormat:@"%@(%ld)",NSLocalizedString(@"弃权", nil),self.DetailsProposalM.waiverResult.count];
 }
 -(void)updateToalInfo{
     
-    self.totalInfoLabel.text=[NSString stringWithFormat:@"%@%@  %@%@  %@%@",NSLocalizedString(@"赞成", nil),@"0",NSLocalizedString(@"反对", nil),@"0",NSLocalizedString(@"弃权", nil),@"0"];
+    self.totalInfoLabel.text=[NSString stringWithFormat:@"%@%ld  %@%ld  %@%ld",NSLocalizedString(@"赞成", nil),self.DetailsProposalM.agreeResult.count,NSLocalizedString(@"反对", nil),self.DetailsProposalM.againstResult.count,NSLocalizedString(@"弃权", nil),self.DetailsProposalM.waiverResult.count];
     
 }
 - (IBAction)ayeOrDeferOrnayEvent:(id)sender {
@@ -136,12 +141,15 @@ UINib *CommitteeMembersNib;
     switch (button.tag) {
         case 10:
             [self StateSelectWithBGView:self.InFavourImageView withImageName:@"cr_aye_selected" withTitleLabel:self.InFavourLabel];
+            self.dataArray=self.DetailsProposalM.agreeResult;
             break;
         case 11:
             [self StateSelectWithBGView:self.ObjectionImageView withImageName:@"cr_nay_selected" withTitleLabel:self.ObjectionLabel];
+            self.dataArray=self.DetailsProposalM.againstResult;
             break;
         case 12:
             [self StateSelectWithBGView:self.WaiverImageView withImageName:@"cr_defer_selected" withTitleLabel:self.WaiverLabel];
+            self.dataArray=self.DetailsProposalM.waiverResult;
             break;
         default:
             break;
@@ -162,12 +170,39 @@ UINib *CommitteeMembersNib;
     
 }
 -(void)setDataArray:(NSArray *)dataArray{
-    if (dataArray.count==0) {
-        self.noVioInfoLabel.alpha=1.f;
-    }else{
-        self.noVioInfoLabel.alpha=0.f;
-    }
+    
     _dataArray=dataArray;
     [self.baseTable reloadData];
+}
+-(void)setDetailsProposalM:(HWMDetailsProposalModel *)DetailsProposalM{
+    
+    _DetailsProposalM=DetailsProposalM;
+    [self updateCommitteeMembersToVoteInfo];
+    [self updateToalInfo];
+    if(DetailsProposalM.agreeResult.count==0&&DetailsProposalM.againstResult.count==0&&DetailsProposalM.waiverResult.count==0) {
+        self.noVioInfoLabel.alpha=1.f;
+        self.baseTable.alpha=0.f;
+        self.makeLine.alpha=0.f;
+        self.bgImageView.alpha=0.f;
+        [self suViewShowOrHidden:0.f];
+        self.showOrHiddenButton.alpha=0.f;
+    }else{
+        self.noVioInfoLabel.alpha=0.f;
+        
+    }
+    if (DetailsProposalM.agreeResult.count>0){
+        [self StateSelectWithBGView:self.InFavourImageView withImageName:@"cr_aye_selected" withTitleLabel:self.InFavourLabel];
+        self.dataArray=DetailsProposalM.agreeResult;
+        return;
+    }else if (DetailsProposalM.againstResult.count>0) {
+        [self StateSelectWithBGView:self.ObjectionImageView withImageName:@"cr_nay_selected" withTitleLabel:self.ObjectionLabel];
+        self.dataArray=DetailsProposalM.againstResult;
+        return;
+    }else if (DetailsProposalM.waiverResult.count>0){
+        [self StateSelectWithBGView:self.WaiverImageView withImageName:@"cr_defer_selected" withTitleLabel:self.WaiverLabel];
+        self.dataArray=DetailsProposalM.waiverResult;
+        return;
+    }
+    
 }
 @end

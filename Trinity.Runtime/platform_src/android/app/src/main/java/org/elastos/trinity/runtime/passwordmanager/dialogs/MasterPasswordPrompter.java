@@ -37,6 +37,7 @@ public class MasterPasswordPrompter extends AlertDialog {
 
     public static class Builder {
         private Activity activity;
+        private String did;
         private PasswordManager passwordManager;
         private AlertDialog.Builder alertDialogBuilder;
         private AlertDialog alertDialog;
@@ -60,8 +61,9 @@ public class MasterPasswordPrompter extends AlertDialog {
         LinearLayout llBiometric;
         TextView lblBiometricIntro;
 
-        public Builder(Activity activity, PasswordManager passwordManager) {
+        public Builder(Activity activity, String did, PasswordManager passwordManager) {
             this.activity = activity;
+            this.did = did;
             this.passwordManager = passwordManager;
             alertDialogBuilder = new android.app.AlertDialog.Builder(activity);
 
@@ -130,13 +132,13 @@ public class MasterPasswordPrompter extends AlertDialog {
 
                 // Disable biometric auth for next times if user doesn't want to use that any more
                 if (!swBiometric.isChecked()) {
-                    passwordManager.setBiometricAuthEnabled(false);
+                    passwordManager.setBiometricAuthEnabled(did, false);
                 }
 
                 boolean shouldSaveToBiometric = shouldInitiateBiometry && swBiometric.isChecked();
                 if (swBiometric.isChecked() && !shouldInitiateBiometry) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        FingerPrintAuthHelper fingerPrintAuthHelper = new FingerPrintAuthHelper(activity, PasswordManager.FAKE_PASSWORD_MANAGER_PLUGIN_APP_ID);
+                        FingerPrintAuthHelper fingerPrintAuthHelper = new FingerPrintAuthHelper(activity, did, PasswordManager.FAKE_PASSWORD_MANAGER_PLUGIN_APP_ID);
                         fingerPrintAuthHelper.init();
                         activity.runOnUiThread(() -> {
                             fingerPrintAuthHelper.authenticateAndGetPassword(PasswordManager.MASTER_PASSWORD_BIOMETRIC_KEY, new CancellationSignal(), new FingerPrintAuthHelper.GetPasswordAuthenticationCallback() {
@@ -170,10 +172,10 @@ public class MasterPasswordPrompter extends AlertDialog {
                 }
             });
 
-            swBiometric.setChecked(passwordManager.isBiometricAuthEnabled());
+            swBiometric.setChecked(passwordManager.isBiometricAuthEnabled(did));
 
             // If biometric auth is not enabled, we will follow the flow to initiate it during this prompter session.
-            shouldInitiateBiometry = !passwordManager.isBiometricAuthEnabled();
+            shouldInitiateBiometry = !passwordManager.isBiometricAuthEnabled(did);
 
             if (canUseBiometrictAuth()) {
                 if (shouldInitiateBiometry) {

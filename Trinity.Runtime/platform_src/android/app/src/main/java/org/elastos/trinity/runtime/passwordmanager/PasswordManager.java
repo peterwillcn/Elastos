@@ -433,16 +433,18 @@ public class PasswordManager {
             return;
         }
 
-        getPrefs().edit().putInt(PREF_KEY_UNLOCK_MODE, unlockMode.ordinal()).apply();
+        getPrefs(actualDID).edit().putInt(PREF_KEY_UNLOCK_MODE, unlockMode.ordinal()).apply();
 
         // if the mode becomes UNLOCK_EVERY_TIME, we lock the database
-        if (getUnlockMode() != PasswordUnlockMode.UNLOCK_EVERY_TIME && unlockMode == PasswordUnlockMode.UNLOCK_EVERY_TIME) {
+        if (getUnlockMode(actualDID) != PasswordUnlockMode.UNLOCK_EVERY_TIME && unlockMode == PasswordUnlockMode.UNLOCK_EVERY_TIME) {
             lockDatabase(actualDID);
         }
     }
 
-    private PasswordUnlockMode getUnlockMode() {
-        int savedUnlockModeAsInt = getPrefs().getInt(PREF_KEY_UNLOCK_MODE, PasswordUnlockMode.UNLOCK_FOR_A_WHILE.ordinal());
+    private PasswordUnlockMode getUnlockMode(String did) throws Exception {
+        String actualDID = getActualDIDContext(did);
+
+        int savedUnlockModeAsInt = getPrefs(actualDID).getInt(PREF_KEY_UNLOCK_MODE, PasswordUnlockMode.UNLOCK_FOR_A_WHILE.ordinal());
         return PasswordUnlockMode.fromValue(savedUnlockModeAsInt);
     }
 
@@ -487,73 +489,73 @@ public class PasswordManager {
     }
 
     private void loadDatabase(String did, OnDatabaseLoadedListener listener, boolean isPasswordRetry) {
-        if (isDatabaseLoaded(did) && !sessionExpired(did)) {
-            listener.onDatabaseLoaded();
-        }
-        else {
-            if (sessionExpired(did)) {
-                lockDatabase(did);
-            }
+        try {
+            if (isDatabaseLoaded(did) && !sessionExpired(did)) {
+                listener.onDatabaseLoaded();
+            } else {
+                if (sessionExpired(did)) {
+                    lockDatabase(did);
+                }
 
-            // Master password is locked - prompt it to user
-            new MasterPasswordPrompter.Builder(activity, this)
-                .setOnNextClickedListener((password, shouldSavePasswordToBiometric) -> {
-                    try {
-                        loadEncryptedDatabase(did, password);
-                        if (isDatabaseLoaded(did)) {
-                            // User chose to enable biometric authentication (was not enabled before). So we save the
-                            // master password to the biometric crypto space.
-                            if (shouldSavePasswordToBiometric) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                    activity.runOnUiThread(()->{
-                                        FingerPrintAuthHelper fingerPrintAuthHelper = new FingerPrintAuthHelper(activity, FAKE_PASSWORD_MANAGER_PLUGIN_APP_ID);
-                                        fingerPrintAuthHelper.init();
-                                        fingerPrintAuthHelper.authenticateAndSavePassword(MASTER_PASSWORD_BIOMETRIC_KEY, password, new CancellationSignal(), new FingerPrintAuthHelper.SimpleAuthenticationCallback() {
-                                            @Override
-                                            public void onSuccess() {
-                                                // Save user's choice to use biometric auth method next time
-                                                setBiometricAuthEnabled(true);
+                // Master password is locked - prompt it to user
+                new MasterPasswordPrompter.Builder(activity, did, this)
+                        .setOnNextClickedListener((password, shouldSavePasswordToBiometric) -> {
+                            try {
+                                loadEncryptedDatabase(did, password);
+                                if (isDatabaseLoaded(did)) {
+                                    // User chose to enable biometric authentication (was not enabled before). So we save the
+                                    // master password to the biometric crypto space.
+                                    if (shouldSavePasswordToBiometric) {
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                            activity.runOnUiThread(() -> {
+                                                FingerPrintAuthHelper fingerPrintAuthHelper = new FingerPrintAuthHelper(activity, did, FAKE_PASSWORD_MANAGER_PLUGIN_APP_ID);
+                                                fingerPrintAuthHelper.init();
+                                                fingerPrintAuthHelper.authenticateAndSavePassword(MASTER_PASSWORD_BIOMETRIC_KEY, password, new CancellationSignal(), new FingerPrintAuthHelper.SimpleAuthenticationCallback() {
+                                                    @Override
+                                                    public void onSuccess() {
+                                                        // Save user's choice to use biometric auth method next time
+                                                        setBiometricAuthEnabled(did, true);
 
-                                                listener.onDatabaseLoaded();
-                                            }
+                                                        listener.onDatabaseLoaded();
+                                                    }
 
-                                            @Override
-                                            public void onFailure(String message) {
-                                                // Biometric save failed, but we still could open the database, so we return a success here.
-                                                // Though, we don't save user's choice to enable biometric auth.
-                                                Log.e(LOG_TAG, "Biometric authentication failed to initiate");
-                                                Log.e(LOG_TAG, message);
-                                                listener.onDatabaseLoaded();
-                                            }
+                                                    @Override
+                                                    public void onFailure(String message) {
+                                                        // Biometric save failed, but we still could open the database, so we return a success here.
+                                                        // Though, we don't save user's choice to enable biometric auth.
+                                                        Log.e(LOG_TAG, "Biometric authentication failed to initiate");
+                                                        Log.e(LOG_TAG, message);
+                                                        listener.onDatabaseLoaded();
+                                                    }
 
-                                            @Override
-                                            public void onHelp(int helpCode, String helpString) {
-                                            }
-                                        });
-                                    });
+                                                    @Override
+                                                    public void onHelp(int helpCode, String helpString) {
+                                                    }
+                                                });
+                                            });
+                                        }
+                                    } else {
+                                        listener.onDatabaseLoaded();
+                                    }
+                                } else
+                                    listener.onError("Unknown error while trying to load the passwords database");
+                            } catch (Exception e) {
+                                // In case of wrong password exception, try again
+                                if (e.getMessage().contains("BAD_DECRYPT")) {
+                                    loadDatabase(did, listener, true);
+                                } else {
+                                    // Other exceptions are passed raw
+                                    listener.onError(e.getMessage());
                                 }
                             }
-                            else {
-                                listener.onDatabaseLoaded();
-                            }
-                        }
-                        else
-                            listener.onError("Unknown error while trying to load the passwords database");
-                    }
-                    catch (Exception e) {
-                        // In case of wrong password exception, try again
-                        if (e.getMessage().contains("BAD_DECRYPT")) {
-                            loadDatabase(did, listener, true);
-                        }
-                        else {
-                            // Other exceptions are passed raw
-                            listener.onError(e.getMessage());
-                        }
-                    }
-                })
-                .setOnCancelClickedListener(listener::onCancel)
-                .setOnErrorListener(listener::onError)
-                .prompt(isPasswordRetry);
+                        })
+                        .setOnCancelClickedListener(listener::onCancel)
+                        .setOnErrorListener(listener::onError)
+                        .prompt(isPasswordRetry);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -562,8 +564,8 @@ public class PasswordManager {
      * in case user wants to unlock the database every time, or in case it's been first unlocked a too long time ago (auto relock
      * for security).
      */
-    private boolean sessionExpired(String did) {
-        if (getUnlockMode() == PasswordUnlockMode.UNLOCK_EVERY_TIME)
+    private boolean sessionExpired(String did) throws Exception {
+        if (getUnlockMode(did) == PasswordUnlockMode.UNLOCK_EVERY_TIME)
             return true;
 
         PasswordDatabaseInfo dbInfo = databasesInfo.get(did);
@@ -754,8 +756,8 @@ public class PasswordManager {
         encryptAndSaveDatabase(did, dbInfo.activeMasterPassword);
     }
 
-    private SharedPreferences getPrefs() {
-        return activity.getSharedPreferences(SHARED_PREFS_KEY, Context.MODE_PRIVATE);
+    private SharedPreferences getPrefs(String did) {
+        return activity.getSharedPreferences(SHARED_PREFS_KEY+did, Context.MODE_PRIVATE);
     }
 
     /**
@@ -791,11 +793,11 @@ public class PasswordManager {
         }
     }
 
-    public boolean isBiometricAuthEnabled() {
-        return getPrefs().getBoolean("biometricauth", false);
+    public boolean isBiometricAuthEnabled(String did) {
+        return getPrefs(did).getBoolean("biometricauth", false);
     }
 
-    public void setBiometricAuthEnabled(boolean useBiometricAuth) {
-        getPrefs().edit().putBoolean("biometricauth", useBiometricAuth).apply();
+    public void setBiometricAuthEnabled(String did, boolean useBiometricAuth) {
+        getPrefs(did).edit().putBoolean("biometricauth", useBiometricAuth).apply();
     }
 }

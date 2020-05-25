@@ -76,17 +76,19 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //xxl UI
     HMWfoundTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HMWfoundTableCell"];
-    if (indexPath.row==2) {
-        cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_crcvote", nil)];
-    }if (indexPath.row==1) {
+    if (indexPath.row==1) {
         cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_proposal", nil)];
+    }else if(indexPath.row==2) {
+        //cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_crcvote", nil)];
+        cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_committee", nil)];
     }
-
-    else{
-        cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_vote", nil)];
-        
+    else if(indexPath.row==3){
+        cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_crcvote", nil)];
     }
+    
+    
     return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -112,8 +114,13 @@
     if (indexPath.row==1) {
         HWMCommunityProposalViewController *CommunityProposalVC=[[HWMCommunityProposalViewController alloc]init];
         [self.navigationController pushViewController:CommunityProposalVC animated:YES];
+    }else if (indexPath.row == 2)
+    {
+        ELACRCommitteeListViewController *vc = [[ELACRCommitteeListViewController alloc] init];
+        vc.title = ELALocalizedString(@"CR委员会");
+        [self.navigationController pushViewController:vc animated:YES];
     }
-    if (indexPath.row==2) {
+    else if (indexPath.row==3){
         ELWalletManager *manager   =  [ELWalletManager share];
         IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
         nlohmann::json info = mainchainSubWallet->GetRegisteredCRInfo();
@@ -136,12 +143,7 @@
 //        vc.title = ELALocalizedString(@"CR委员会");
 //        [self.navigationController pushViewController:vc animated:YES];
 //    }
-    else if (indexPath.row == 3)
-    {
-        ELACRCommitteeListViewController *vc = [[ELACRCommitteeListViewController alloc] init];
-        vc.title = ELALocalizedString(@"CR委员会");
-        [self.navigationController pushViewController:vc animated:YES];
-    }
+
     
 }
 @end

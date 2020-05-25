@@ -27,6 +27,7 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaPreferences;
 import org.apache.cordova.CordovaWebView;
 import org.elastos.trinity.runtime.contactnotifier.ContactNotifier;
+import org.elastos.trinity.runtime.didsessions.DIDSessionManager;
 
 import java.io.File;
 
@@ -53,8 +54,14 @@ public class TrinityPlugin extends CordovaPlugin {
         this.configPath = appManager.getConfigPath();
         this.tempPath = appManager.getTempPath(info.app_id);
         this.appId = info.app_id;
-        // TODO @dongxiao - handle the exception this.did = DIDSessionManager.getSharedInstance().getSignedInIdentity().didString;
-        this.did = "did:elastos:FIXME"; // TODO: FAKE DID FOR NOW
+
+        try {
+            // TODO @dongxiao - handle the exception this.did = DIDSessionManager.getSharedInstance().getSignedInIdentity().didString;
+            this.did = DIDSessionManager.getSharedInstance().getSignedInIdentity().didString; // TODO: FAKE DID FOR NOW
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean isAllowAccess(String url) {

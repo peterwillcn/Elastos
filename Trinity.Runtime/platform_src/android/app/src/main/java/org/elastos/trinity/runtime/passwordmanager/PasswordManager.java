@@ -42,6 +42,8 @@ public class PasswordManager {
     private static final String LOG_TAG = "PWDManager";
     private static final String SHARED_PREFS_KEY = "PWDMANAGERPREFS";
     private static final String PASSWORD_MANAGER_APP_ID = "org.elastos.trinity.dapp.passwordmanager";
+    private static final String DID_APPLICATION_APP_ID = "org.elastos.trinity.dapp.did";
+    private static final String DID_SESSION_APPLICATION_APP_ID = "org.elastos.trinity.dapp.didsession";
 
     public static final String FAKE_PASSWORD_MANAGER_PLUGIN_APP_ID = "fakemasterpasswordpluginappid";
     public static final String MASTER_PASSWORD_BIOMETRIC_KEY = "masterpasswordkey";
@@ -119,6 +121,7 @@ public class PasswordManager {
      */
     public void setPasswordInfo(PasswordInfo info, String did, String appID, OnPasswordInfoSetListener listener) throws Exception {
         String actualDID = getActualDIDContext(did);
+        String actualAppID = getActualAppID(appID);
 
         checkMasterPasswordCreationRequired(actualDID, new OnMasterPasswordCreationListener() {
             @Override
@@ -127,7 +130,7 @@ public class PasswordManager {
                     @Override
                     public void onDatabaseLoaded() {
                         try {
-                            setPasswordInfoReal(info, actualDID, appID);
+                            setPasswordInfoReal(info, actualDID, actualAppID);
                             listener.onPasswordInfoSet();
                         }
                         catch (Exception e) {
@@ -171,6 +174,7 @@ public class PasswordManager {
      */
     public void getPasswordInfo(String key, String did, String appID, OnPasswordInfoRetrievedListener listener) throws Exception {
         String actualDID = getActualDIDContext(did);
+        String actualAppID = getActualAppID(appID);
 
         checkMasterPasswordCreationRequired(actualDID, new OnMasterPasswordCreationListener() {
             @Override
@@ -179,7 +183,7 @@ public class PasswordManager {
                     @Override
                     public void onDatabaseLoaded() {
                         try {
-                            PasswordInfo info = getPasswordInfoReal(key, actualDID, appID);
+                            PasswordInfo info = getPasswordInfoReal(key, actualDID, actualAppID);
                             listener.onPasswordInfoRetrieved(info);
                         }
                         catch (Exception e) {
@@ -220,8 +224,9 @@ public class PasswordManager {
      */
     public void getAllPasswordInfo(String did, String appID, OnAllPasswordInfoRetrievedListener listener) throws Exception {
         String actualDID = getActualDIDContext(did);
+        String actualAppID = getActualAppID(appID);
 
-        if (!appIsPasswordManager(appID)) {
+        if (!appIsPasswordManager(actualAppID)) {
             listener.onError("Only the password manager application can call this API");
             return;
         }
@@ -275,9 +280,11 @@ public class PasswordManager {
      */
     public void deletePasswordInfo(String key, String did, String appID, String targetAppID, OnPasswordInfoDeletedListener listener) throws Exception {
         String actualDID = getActualDIDContext(did);
+        String actualAppID = getActualAppID(appID);
+        String actualTargetAppID = getActualAppID(targetAppID);
 
         // Only the password manager app can delete content that is not its own content.
-        if (!appIsPasswordManager(appID) && !appID.equals(targetAppID)) {
+        if (!appIsPasswordManager(actualAppID) && !actualAppID.equals(actualTargetAppID)) {
             listener.onError("Only the application manager application can delete password info that does not belong to it.");
             return;
         }
@@ -286,7 +293,7 @@ public class PasswordManager {
             @Override
             public void onDatabaseLoaded() {
                 try {
-                    deletePasswordInfoReal(key, actualDID, targetAppID);
+                    deletePasswordInfoReal(key, actualDID, actualTargetAppID);
                     listener.onPasswordInfoDeleted();
                 }
                 catch (Exception e) {
@@ -341,8 +348,9 @@ public class PasswordManager {
      */
     public void changeMasterPassword(String did, String appID, OnMasterPasswordChangeListener listener) throws Exception {
         String actualDID = getActualDIDContext(did);
+        String actualAppID = getActualAppID(appID);
 
-        if (!appIsPasswordManager(appID)) {
+        if (!appIsPasswordManager(actualAppID)) {
             Log.e(LOG_TAG, "Only the password manager application can call this API");
             return;
         }
@@ -394,8 +402,9 @@ public class PasswordManager {
      */
     public void lockMasterPassword(String did, String appID) throws Exception{
         String actualDID = getActualDIDContext(did);
+        String actualAppID = getActualAppID(appID);
 
-        if (!appIsPasswordManager(appID)) {
+        if (!appIsPasswordManager(actualAppID)) {
             Log.e(LOG_TAG, "Only the password manager application can call this API");
             return;
         }
@@ -417,8 +426,9 @@ public class PasswordManager {
      */
     public void setUnlockMode(PasswordUnlockMode unlockMode, String did, String appID) throws Exception {
         String actualDID = getActualDIDContext(did);
+        String actualAppID = getActualAppID(appID);
 
-        if (!appIsPasswordManager(appID)) {
+        if (!appIsPasswordManager(actualAppID)) {
             Log.e(LOG_TAG, "Only the password manager application can call this API");
             return;
         }
@@ -461,6 +471,15 @@ public class PasswordManager {
                 throw new Exception("No signed in DID or virtual DID context exist. Need at least one of them!");
             }
         }
+    }
+
+    private String getActualAppID(String baseAppID) {
+        // Share the same appid for did session and did apps, to be able to share passwords. Use a real app id, not a random
+        // string, for security reasons.
+        if (baseAppID.equals(DID_SESSION_APPLICATION_APP_ID)) {
+            return DID_APPLICATION_APP_ID;
+        }
+        return baseAppID;
     }
 
     private boolean appIsPasswordManager(String appId) {

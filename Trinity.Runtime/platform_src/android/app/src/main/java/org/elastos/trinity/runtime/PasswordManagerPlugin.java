@@ -111,6 +111,7 @@ public class PasswordManagerPlugin extends TrinityPlugin {
         try {
             JSONObject result = new JSONObject();
             result.put("code", NATIVE_ERROR_CODE_CANCELLED);
+            result.put("reason", "MasterPasswordCancellation");
             return result;
         }
         catch (Exception e) {
@@ -335,7 +336,7 @@ public class PasswordManagerPlugin extends TrinityPlugin {
     }
 
     private void setVirtualDIDContext(JSONArray args, CallbackContext callbackContext) throws Exception {
-        String virtualDIDStringContext = args.getString(0);
+        String virtualDIDStringContext = args.isNull(0) ? null : args.getString(0);
 
         PasswordManager.getSharedInstance().setVirtualDIDContext(virtualDIDStringContext);
 

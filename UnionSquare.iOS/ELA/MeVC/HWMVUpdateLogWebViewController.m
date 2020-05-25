@@ -88,17 +88,4 @@
   
 }
 
--(void)webViewDidFinishLoad:(WKWebView *)webView
-{
-
-//CGFloat height = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight"] floatValue];
-//    CGRect frame =self.view.frame;
-//    frame.size.height = height;
-//    [webView setFrame:frame];
-
-}
--(void)webView:(WKWebView *)webView didFailLoadWithError:(NSError *)error{
-    
-    
-}
 @end

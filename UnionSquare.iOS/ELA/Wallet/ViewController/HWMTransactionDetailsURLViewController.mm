@@ -36,7 +36,7 @@
     [webWiew loadRequest:request];
     
 }
-- (void)webViewDidFinishLoad:(WKWebView *)theWebView
+- (void)didFinishNavigation:(WKWebView *)theWebView
 {
     CGSize contentSize = theWebView.scrollView.contentSize;
     CGSize viewSize = self.view.bounds.size;
@@ -51,6 +51,8 @@
     //[theWebView stringByEvaluatingJavaScriptFromString:meta];
     [theWebView evaluateJavaScript:meta completionHandler:nil];
 }
+
+
 -(void)setUrlString:(NSString *)urlString{
     _urlString=urlString;
 }

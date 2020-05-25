@@ -371,6 +371,7 @@ public class TitleBar extends FrameLayout {
     private void updateIcons() {
         // Navigation icon / Outer left
         if (currentNavigationIconIsVisible) {
+            btnOuterLeft.setVisibility(View.VISIBLE);
             if (currentNavigationMode == TitleBarNavigationMode.CLOSE) {
                 btnOuterLeft.setImageResource(R.drawable.ic_close);
             } else {
@@ -381,7 +382,11 @@ public class TitleBar extends FrameLayout {
         else {
             // Navigation icon not visible - check if there is a configured outer icon
             if (outerLeftIcon != null) {
+                btnOuterLeft.setVisibility(View.VISIBLE);
                 setImageViewFromIcon(btnOuterLeft, outerLeftIcon);
+            }
+            else {
+                btnOuterLeft.setVisibility(View.GONE);
             }
         }
 

@@ -32,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)loadDataSource;
 -(NSString*)getDIDString;
 -(NSString*)getmasterWalletID;
+
+- (void)loadDataSourceWithNoShowHud;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -515,7 +515,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[HWMSecretaryGeneralAndMembersInfo shareTools]loadDataSource];
+//    [[HWMSecretaryGeneralAndMembersInfo shareTools]loadDataSource];
     [self firstNav];
 }
 -(void)viewDidAppear:(BOOL)animated{

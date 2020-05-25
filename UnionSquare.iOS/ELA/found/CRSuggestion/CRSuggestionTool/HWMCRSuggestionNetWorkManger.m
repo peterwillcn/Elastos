@@ -120,4 +120,18 @@ static HWMCRSuggestionNetWorkManger* _instatance;
     } WithFailBlock:^(id data) {
     }];
 }
+
+-(void)reloadSecretaryGeneralAndMembersDetailsWithIDAndNoShowHud:(NSString*)ID withDIDString:(NSString*)didString withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed
+{
+    didString=[didString stringByReplacingOccurrencesOfString:@"did:elastos:" withString:@""];
+      NSString *bordyUrlString=[NSString stringWithFormat:@"/api/council/information/%@",didString];
+    if (ID.length>0) {
+        [bordyUrlString stringByAppendingString:[NSString stringWithFormat:@"/%@",ID]];
+    }
+  
+    [HttpUrl NetGETHost:CRProposalIP url:bordyUrlString header:nil body:nil showHUD:NO WithSuccessBlock:^(id data) {
+        Completed(data);
+    } WithFailBlock:^(id data) {
+    }];
+}
 @end

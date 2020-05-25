@@ -70,7 +70,7 @@
     [super viewWillAppear:animated];
     self.navigationItem.leftBarButtonItem=nil;
     [self.navigationController setNavigationBarHidden:NO];
-    [[HWMSecretaryGeneralAndMembersInfo shareTools]loadDataSource];
+    [[HWMSecretaryGeneralAndMembersInfo shareTools]loadDataSourceWithNoShowHud];
     
 }
 

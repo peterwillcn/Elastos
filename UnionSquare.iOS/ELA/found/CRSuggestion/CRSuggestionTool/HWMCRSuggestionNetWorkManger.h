@@ -43,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)reloadCRSuggestionDetailsWithID:(NSString*)ID withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed;
 -(void)reloadCRAdviceDetailsWithID:(NSString*)ID withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed;
 -(void)reloadSecretaryGeneralAndMembersDetailsWithID:(NSString*)ID withDIDString:(NSString*)didString withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed;
+-(void)reloadSecretaryGeneralAndMembersDetailsWithIDAndNoShowHud:(NSString*)ID withDIDString:(NSString*)didString withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed;
 @end
 
 

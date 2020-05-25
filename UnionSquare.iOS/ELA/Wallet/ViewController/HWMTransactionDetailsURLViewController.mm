@@ -36,22 +36,23 @@
     [webWiew loadRequest:request];
     
 }
-- (void)didFinishNavigation:(WKWebView *)theWebView
-{
-    CGSize contentSize = theWebView.scrollView.contentSize;
-    CGSize viewSize = self.view.bounds.size;
-    
-    float rw = viewSize.width / contentSize.width;
-    
-    theWebView.scrollView.minimumZoomScale = rw;
-    theWebView.scrollView.maximumZoomScale = rw;
-    theWebView.scrollView.zoomScale = rw;
-    NSString *meta = [NSString stringWithFormat:@"var meta = document.createElement('meta');meta.content='width=device-width,initial-scale=1.0,minimum-scale=.5,maximum-scale=3';meta.name='viewport';document.getElementsByTagName('head')[0].appendChild(meta);"];
-    
-    //[theWebView stringByEvaluatingJavaScriptFromString:meta];
-    [theWebView evaluateJavaScript:meta completionHandler:nil];
-}
 
+- (void)webView:(WKWebView *)theWebView didFinishNavigation:(WKNavigation *)navigation {
+    
+        CGSize contentSize = theWebView.scrollView.contentSize;
+        CGSize viewSize = self.view.bounds.size;
+    
+        float rw = viewSize.width / contentSize.width;
+    
+        theWebView.scrollView.minimumZoomScale = rw;
+        theWebView.scrollView.maximumZoomScale = rw;
+        theWebView.scrollView.zoomScale = rw;
+        NSString *meta = [NSString stringWithFormat:@"var meta = document.createElement('meta');meta.content='width=device-width,initial-scale=1.0,minimum-scale=.5,maximum-scale=3';meta.name='viewport';document.getElementsByTagName('head')[0].appendChild(meta);"];
+    
+        //[theWebView stringByEvaluatingJavaScriptFromString:meta];
+        [theWebView evaluateJavaScript:meta completionHandler:nil];
+    
+}
 
 -(void)setUrlString:(NSString *)urlString{
     _urlString=urlString;

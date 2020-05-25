@@ -6,13 +6,15 @@
 //  Copyright (c) 2015年 Gaody. All rights reserved.
 //
 
+#import <WebKit/WebKit.h>
 #import "DC_DealTextViewController.h"
 
-@interface DC_DealTextViewController ()<UIWebViewDelegate>
+//xxl change for UIWebVew to WKWebView
+@interface DC_DealTextViewController ()<WKUIDelegate>
 /*
  *<# #>
  */
-@property(strong,nonatomic)UIWebView *webView;
+@property(strong,nonatomic)WKWebView *webView;
 /*
  *<# #>
  */
@@ -39,13 +41,22 @@
     [self.webView loadRequest:request];
     
 }
--(UIWebView *)webView{
+
+-(WKWebView *)webView{
     if (!_webView) {
-        _webView =[[UIWebView alloc]initWithFrame:self.view.frame];
+        
+        _webView =[[WKWebView alloc]initWithFrame:self.view.frame];
         _webView.backgroundColor=[UIColor whiteColor];
-        _webView.delegate = self;
-        _webView.dataDetectorTypes = UIDataDetectorTypeAll;
-        _webView.scalesPageToFit = YES;
+        
+        
+//        _webView.delegate = self;
+//        _webView.dataDetectorTypes = UIDataDetectorTypeAll;
+//        _webView.scalesPageToFit = YES;
+        
+        // UI代理
+        _webView.UIDelegate = self;
+        
+        
         [self.view addSubview:_webView];
         [_webView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.top.bottom.equalTo(self.view);

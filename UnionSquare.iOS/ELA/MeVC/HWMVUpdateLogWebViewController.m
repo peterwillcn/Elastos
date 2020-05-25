@@ -7,12 +7,14 @@
 
 #import "HWMVUpdateLogWebViewController.h"
 #import "DAConfig.h"
-@interface HWMVUpdateLogWebViewController ()<UIWebViewDelegate>
+#import <WebKit/WebKit.h>
+
+@interface HWMVUpdateLogWebViewController ()<WKUIDelegate>
 
 /*
  *<# #>
  */
-@property(strong,nonatomic)UIWebView *webView ;
+@property(strong,nonatomic)WKWebView *webView ;
 /*
  *<# #>
  */
@@ -59,11 +61,17 @@
     }
     return _backButton;
 }
--(UIWebView *)webView{
+-(WKWebView *)webView{
     if (!_webView) {
-        _webView =[[UIWebView alloc]initWithFrame:self.view.frame];
+        _webView =[[WKWebView alloc]initWithFrame:self.view.frame];
         _webView.backgroundColor=[UIColor clearColor];
-        _webView.delegate=self;
+        
+        //xxl uiweb to 
+        //_webView.delegate=self;
+        
+        _webView.UIDelegate =self;
+        
+        
         _webView.userInteractionEnabled=YES;
         
     }
@@ -80,7 +88,7 @@
   
 }
 
--(void)webViewDidFinishLoad:(UIWebView *)webView
+-(void)webViewDidFinishLoad:(WKWebView *)webView
 {
 
 //CGFloat height = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight"] floatValue];
@@ -89,7 +97,7 @@
 //    [webView setFrame:frame];
 
 }
--(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+-(void)webView:(WKWebView *)webView didFailLoadWithError:(NSError *)error{
     
     
 }

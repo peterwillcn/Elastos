@@ -1,12 +1,12 @@
-[submodule "DIDSession"]
-	path = Trinity/DIDSession
-	url = ../Elastos.Trinity.DApps.DIDSession.git
 [submodule "Launcher"]
 	path = Trinity/Launcher
 	url = ../Elastos.Trinity.DApps.Launcher.git
 [submodule "Dapps/Ionic/DID"]
 	path = Trinity/Dapps/Ionic/DID
 	url = ../Elastos.Trinity.DApps.DID.git
+[submodule "Dapps/Ionic/DIDSession"]
+	path = Trinity/Dapps/Ionic/DIDSession
+	url = ../Elastos.Trinity.DApps.DIDSession.git
 [submodule "Dapps/Ionic/Friends"]
 	path = Trinity/Dapps/Ionic/Friends
 	url = ../Elastos.Trinity.DApps.Friends.git
@@ -52,4 +52,3 @@
 [submodule "ToolChains"]
 	path = Trinity/ToolChains
 	url = ../Elastos.Trinity.ToolChains.git
-

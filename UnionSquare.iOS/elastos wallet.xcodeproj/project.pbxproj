@@ -421,7 +421,6 @@
 		4279CABD24796C3100B503A4 /* ELATUpdateSecretaryDidTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4279CA5A24796C3000B503A4 /* ELATUpdateSecretaryDidTableViewCell.m */; };
 		4279CABE24796C3100B503A4 /* ELACRBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4279CA5D24796C3000B503A4 /* ELACRBaseViewController.m */; };
 		4279CABF24796C3100B503A4 /* ELACommitteeInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4279CA6024796C3000B503A4 /* ELACommitteeInfoViewController.m */; };
-		4279CAC024796C3100B503A4 /* ELACommitteeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4279CA6124796C3000B503A4 /* ELACommitteeDetailViewController.m */; };
 		4279CAC124796C3100B503A4 /* ELACommitteeDutiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4279CA6324796C3000B503A4 /* ELACommitteeDutiesViewController.m */; };
 		4279CAC224796C3100B503A4 /* ELACRCommitteeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4279CA6624796C3000B503A4 /* ELACRCommitteeViewController.m */; };
 		4279CAC324796C3100B503A4 /* ELASecretaryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4279CA6724796C3000B503A4 /* ELASecretaryListViewController.m */; };
@@ -631,6 +630,9 @@
 		42F794E723C5C23800FC20CD /* FirstViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C98F21F6EF29009E5932 /* FirstViewController.mm */; };
 		49B4D149B9AE9124C1AFA618 /* libPods-elastos wallet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A617C7524FD9A7B9523C8E48 /* libPods-elastos wallet.a */; };
 		7087D92F21BCDF1B00599316 /* MyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7087D92E21BCDF1B00599316 /* MyUtil.m */; };
+		70E32D12247B3C7A00120817 /* ELAVotingProcessUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70E32D10247B3C7A00120817 /* ELAVotingProcessUtil.mm */; };
+		70E32D14247B3CC900120817 /* ELACommitteeDetailViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70E32D13247B3CC900120817 /* ELACommitteeDetailViewController.mm */; };
+		70E32D18247B3CE500120817 /* ELAPasswdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E32D16247B3CE500120817 /* ELAPasswdView.m */; };
 		70F8409621BEAA1B001C0BD6 /* ELWalletManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70F8409521BEAA1B001C0BD6 /* ELWalletManager.mm */; };
 		9FD0C828FEE9459B88FB6A2D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95B5A24BEEA44AE9AD51A2C8 /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C45E4ED4237794B9003BB3BA /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C45E4ED0237794A1003BB3BA /* libboost_filesystem.a */; };
@@ -1420,7 +1422,6 @@
 		4279CA5D24796C3000B503A4 /* ELACRBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELACRBaseViewController.m; sourceTree = "<group>"; };
 		4279CA5F24796C3000B503A4 /* ELACommitteeDutiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELACommitteeDutiesViewController.h; sourceTree = "<group>"; };
 		4279CA6024796C3000B503A4 /* ELACommitteeInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELACommitteeInfoViewController.m; sourceTree = "<group>"; };
-		4279CA6124796C3000B503A4 /* ELACommitteeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELACommitteeDetailViewController.m; sourceTree = "<group>"; };
 		4279CA6224796C3000B503A4 /* ELACommitteeInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELACommitteeInfoViewController.h; sourceTree = "<group>"; };
 		4279CA6324796C3000B503A4 /* ELACommitteeDutiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELACommitteeDutiesViewController.m; sourceTree = "<group>"; };
 		4279CA6424796C3000B503A4 /* ELACommitteeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELACommitteeDetailViewController.h; sourceTree = "<group>"; };
@@ -1924,6 +1925,11 @@
 		7087D92B21BCD85500599316 /* IIdManagerCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIdManagerCallback.h; sourceTree = "<group>"; };
 		7087D92D21BCDF1B00599316 /* MyUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyUtil.h; sourceTree = "<group>"; };
 		7087D92E21BCDF1B00599316 /* MyUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyUtil.m; sourceTree = "<group>"; };
+		70E32D10247B3C7A00120817 /* ELAVotingProcessUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ELAVotingProcessUtil.mm; sourceTree = "<group>"; };
+		70E32D11247B3C7A00120817 /* ELAVotingProcessUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELAVotingProcessUtil.h; sourceTree = "<group>"; };
+		70E32D13247B3CC900120817 /* ELACommitteeDetailViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ELACommitteeDetailViewController.mm; sourceTree = "<group>"; };
+		70E32D16247B3CE500120817 /* ELAPasswdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELAPasswdView.m; sourceTree = "<group>"; };
+		70E32D17247B3CE500120817 /* ELAPasswdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELAPasswdView.h; sourceTree = "<group>"; };
 		70F8409521BEAA1B001C0BD6 /* ELWalletManager.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp.preprocessed; fileEncoding = 4; path = ELWalletManager.mm; sourceTree = "<group>"; };
 		7B32C86EE8DFCC3DDA2BBE00 /* Pods-elastos wallet.release(mainnet).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-elastos wallet.release(mainnet).xcconfig"; path = "Target Support Files/Pods-elastos wallet/Pods-elastos wallet.release(mainnet).xcconfig"; sourceTree = "<group>"; };
 		8FEFE2C15307426D819C2CA3 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -3753,12 +3759,12 @@
 		4279CA5E24796C3000B503A4 /* CommitteeMember */ = {
 			isa = PBXGroup;
 			children = (
+				4279CA6424796C3000B503A4 /* ELACommitteeDetailViewController.h */,
+				70E32D13247B3CC900120817 /* ELACommitteeDetailViewController.mm */,
 				4279CA5F24796C3000B503A4 /* ELACommitteeDutiesViewController.h */,
 				4279CA6024796C3000B503A4 /* ELACommitteeInfoViewController.m */,
-				4279CA6124796C3000B503A4 /* ELACommitteeDetailViewController.m */,
 				4279CA6224796C3000B503A4 /* ELACommitteeInfoViewController.h */,
 				4279CA6324796C3000B503A4 /* ELACommitteeDutiesViewController.m */,
-				4279CA6424796C3000B503A4 /* ELACommitteeDetailViewController.h */,
 			);
 			path = CommitteeMember;
 			sourceTree = "<group>";
@@ -3797,6 +3803,8 @@
 		4279CA7324796C3100B503A4 /* ELAUtils */ = {
 			isa = PBXGroup;
 			children = (
+				70E32D11247B3C7A00120817 /* ELAVotingProcessUtil.h */,
+				70E32D10247B3C7A00120817 /* ELAVotingProcessUtil.mm */,
 				4279CA7424796C3100B503A4 /* ELAUtils.m */,
 				4279CA7524796C3100B503A4 /* ELAUtils.h */,
 			);
@@ -3930,6 +3938,7 @@
 		4279CAAF24796C3100B503A4 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				70E32D15247B3CE500120817 /* PasswView */,
 				4279CAB024796C3100B503A4 /* ImpeachView */,
 				4279CAB324796C3100B503A4 /* PledgeView */,
 			);
@@ -4496,6 +4505,15 @@
 			path = "elastos wallet/starter";
 			sourceTree = "<group>";
 		};
+		70E32D15247B3CE500120817 /* PasswView */ = {
+			isa = PBXGroup;
+			children = (
+				70E32D16247B3CE500120817 /* ELAPasswdView.m */,
+				70E32D17247B3CE500120817 /* ELAPasswdView.h */,
+			);
+			path = PasswView;
+			sourceTree = "<group>";
+		};
 		CBD48D4B21FC36BA00BF3B11 /* AFNetworking */ = {
 			isa = PBXGroup;
 			children = (
@@ -4579,7 +4597,7 @@
 				LastUpgradeCheck = 1140;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = VNP5LMNF24;
+						DevelopmentTeam = WF4LNX869V;
 						LastSwiftMigration = 1130;
 						ProvisioningStyle = Automatic;
 					};
@@ -4961,6 +4979,7 @@
 				4261C2FC22C21563008C1532 /* showOwnerAddressTableViewCell.m in Sources */,
 				4202CA0521F6EF2A009E5932 /* SVProgressHUD.m in Sources */,
 				42B263B422DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewControlle.mm in Sources */,
+				70E32D14247B3CC900120817 /* ELACommitteeDetailViewController.mm in Sources */,
 				42DFCC50246BF658006848B3 /* HWMStatProposalSectionHeadView.m in Sources */,
 				42EAEFF7238BB69C00D6A912 /* HWMAddThePrivateKeyViewController.m in Sources */,
 				4202CA0D21F6EF2A009E5932 /* SGQRCodeGenerateManager.m in Sources */,
@@ -5071,6 +5090,7 @@
 				42CC27A7244C4C6100373504 /* HWMManuallyEnterView.m in Sources */,
 				42B57AB422150C1C004CF089 /* NSObject+KVOCrash.m in Sources */,
 				42EA69442313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.m in Sources */,
+				70E32D12247B3C7A00120817 /* ELAVotingProcessUtil.mm in Sources */,
 				4202CA8C21F6EF2B009E5932 /* HMWTheWalletListViewController.mm in Sources */,
 				4279CAC824796C3100B503A4 /* MJPropertyType.m in Sources */,
 				424E0A49246B97E4003B40CF /* HWMDetailsProposalModel.m in Sources */,
@@ -5120,7 +5140,6 @@
 				42B57AB922150C1C004CF089 /* WOCrashLog.m in Sources */,
 				4202CA6621F6EF2B009E5932 /* HMWSideChainAndTheContactTableViewCell.m in Sources */,
 				CBD48D5A21FC36BA00BF3B11 /* AFURLResponseSerialization.m in Sources */,
-				4279CAC024796C3100B503A4 /* ELACommitteeDetailViewController.m in Sources */,
 				42D105FC23A3344D0063AADC /* MJRefreshAutoStateFooter.m in Sources */,
 				42D126A722B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.m in Sources */,
 				4202CA9D21F6EF2B009E5932 /* FLSelectWordView.m in Sources */,
@@ -5175,6 +5194,7 @@
 				4279CABE24796C3100B503A4 /* ELACRBaseViewController.m in Sources */,
 				426B04FB246E44DD00B6FAB9 /* HWMQrCodeSignatureManager.m in Sources */,
 				4210E856239F8A07001D82F3 /* MASCompositeConstraint.m in Sources */,
+				70E32D18247B3CE500120817 /* ELAPasswdView.m in Sources */,
 				42D105F623A3344D0063AADC /* UIScrollView+MJExtension.m in Sources */,
 				4202CAB221F6EF2B009E5932 /* HMWAddTheCurrencyListViewController.mm in Sources */,
 				4279CAC124796C3100B503A4 /* ELACommitteeDutiesViewController.m in Sources */,
@@ -5337,7 +5357,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = WF4LNX869V;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5389,7 +5409,7 @@
 				);
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MasterdfexPreNet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhongcheng.gdzc;
 				PRODUCT_NAME = "ELA WalletPreNet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -5417,7 +5437,7 @@
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = WF4LNX869V;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5468,7 +5488,7 @@
 				MARKETING_VERSION = "1.4 dev";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MasterdfexPreNet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhongcheng.gdzc;
 				PRODUCT_NAME = "ELA WalletPreNet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -5540,7 +5560,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = WF4LNX869V;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5592,7 +5612,7 @@
 				);
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MasterdfexPreNet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhongcheng.gdzc;
 				PRODUCT_NAME = "ELA WalletPreNet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -5665,7 +5685,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = WF4LNX869V;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5718,7 +5738,7 @@
 				MARKETING_VERSION = "1.4 dev";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.MasterdfexPreNet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhongcheng.gdzc;
 				PRODUCT_NAME = "ELA WalletPreNet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";

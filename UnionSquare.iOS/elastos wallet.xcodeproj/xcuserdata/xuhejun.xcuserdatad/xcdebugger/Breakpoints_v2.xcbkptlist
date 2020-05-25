@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Bucket
+   uuid = "866DA998-EA4A-41A6-A8EE-A85359CDB912"
    type = "1"
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            uuid = "C6D1A4C7-4E3C-4102-965C-BAF77A209F31"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "elastos wallet/Plugins/ElaJava2JSBridge/Java2JSBridge.m"
@@ -22,7 +24,8 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            uuid = "2DA5A7C0-6AD9-4A26-ABC2-E6F56292784E"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalletManager/ELWalletManager.mm"
@@ -31,24 +34,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "214"
             endingLineNumber = "214"
-            landmarkName = "-createMasterWallet:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalletManager/ELWalletManager.mm"
-            timestampString = "566146386.0048929"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "177"
-            endingLineNumber = "177"
-            landmarkName = "-print:"
-            landmarkType = "7">
+            landmarkName = "ELWalletManager"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

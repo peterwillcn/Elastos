@@ -58,7 +58,7 @@
     [_contentView addSubview:bgImgView];
     
     _showView = [[UIView alloc] init];
-    [self addSubview:_showView];
+    [_contentView addSubview:_showView];
     
     _bgView = [[UIView alloc] init];
     _bgView.backgroundColor = ELARGB(29, 29, 29);

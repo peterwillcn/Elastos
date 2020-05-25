@@ -28,6 +28,7 @@
 #import "ELACommitteeInfoModel.h"
 #import "ELACouncilAndSecretariatModel.h"
 #import "ELAInformationDetail.h"
+#import "HWMCRSuggestionNetWorkManger.h"
 
 #define ERRORDESC (ELALocalizedString(@"获取数据失败"))
 
@@ -213,5 +214,102 @@
     return task;
 }
 
++ (NSURLSessionDataTask *)listproducer:(NSString *)state moreInfo:(NSInteger)moreInfo block:(void (^) (id data, NSError *error))block
+{
+    NSString *url = @"https://unionsquare.elastos.org/api/dposnoderpc/check/listproducer";
 
+    NSMutableDictionary *paramsDic = [[NSMutableDictionary alloc] init];
+    [paramsDic setObject:[NSNumber numberWithLong:moreInfo] forKey:@"moreInfo"];
+    [paramsDic setObject:state  forKey:@"state"];
+    
+    NSURLSessionDataTask *task = [ELANetwork POST:url parameters:paramsDic block:^(id data, NSError *error) {
+        
+        if(error)
+        {
+            block(nil, error);
+        }
+        else
+        {
+            
+            block(data, nil);
+
+        }
+        
+        
+    }];
+    return task;
+}
+
+
++ (NSURLSessionDataTask *)listcrcandidates:(NSString *)state  block:(void (^) (id data, NSError *error))block
+{
+    NSString *url = @"https://unionsquare.elastos.org/api/dposnoderpc/check/listcrcandidates";
+
+    NSMutableDictionary *paramsDic = [[NSMutableDictionary alloc] init];
+    [paramsDic setObject:state  forKey:@"state"];
+    
+    NSURLSessionDataTask *task = [ELANetwork POST:url parameters:paramsDic block:^(id data, NSError *error) {
+        
+        if(error)
+        {
+            block(nil, error);
+        }
+        else
+        {
+            
+            block(data, nil);
+
+        }
+        
+        
+    }];
+    return task;
+}
+
+
+//NSDictionary *parameter=@{@"page": @(startIndex),@"results": @(numer),@"status": self.CommunityProposalTypeStringArray[type],@"search":searchString};
+//   NSString *bordyUrlString=@"/api/cvote/all_search";
+//
+//   [HttpUrl NetGETHost:CRProposalIP url:bordyUrlString header:nil body:parameter showHUD:YES WithSuccessBlock:^(id data) {
+//       Completed(data);
+//   } WithFailBlock:^(id data) {
+//
+//       Completed(data);
+//   }];
+
++ (NSURLSessionDataTask *)cvoteAllSearch:(NSString *)searchString  page:(NSInteger)page  results:(NSInteger)results type:(CommunityProposalType)type  block:(void (^) (id data, NSError *error))block
+{
+    NSArray *typeArray = @[@"ALL",@"VOTING",@"NOTIFICATION",@"ACTIVE",@"FINAL",@"REJECTED"];
+    
+    NSString *host = CRProposalIP;
+//    NSString *path = @"/api/cvote/all_search";
+    NSString *bordyUrlString =
+    [NSString stringWithFormat:@"/api/cvote/all_search?&status=%@", @"ALL"];
+
+    NSString *url = [NSString stringWithFormat:@"%@%@", host, bordyUrlString];
+    
+    NSMutableDictionary *paramsDic = [[NSMutableDictionary alloc] init];
+    [paramsDic setValue:typeArray[type]  forKey:@"status"];
+    [paramsDic setValue:[NSNumber numberWithLong:page]  forKey:@"page"];
+    [paramsDic setValue:[NSNumber numberWithLong:results]  forKey:@"results"];
+//    [paramsDic setValue:searchString forKey:@"search"];
+    
+    NSURLSessionDataTask *task = [ELANetwork GET:url parameters:nil block:^(id data, NSError *error) {
+        
+        if(error)
+        {
+            block(nil, error);
+        }
+        else
+        {
+            
+            
+            block(data, nil);
+
+        }
+        
+        
+    }];
+    return task;
+}
 @end

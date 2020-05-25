@@ -10,6 +10,9 @@
 [submodule "Dapps/Ionic/Friends"]
 	path = Trinity/Dapps/Ionic/Friends
 	url = ../Elastos.Trinity.DApps.Friends.git
+[submodule "Dapps/Ionic/PasswordManager"]
+	path = Trinity/Dapps/Ionic/PasswordManager
+	url = ../Elastos.Trinity.DApps.PasswordManager.git
 [submodule "Dapps/Ionic/Qrcodescanner"]
 	path = Trinity/Dapps/Ionic/Qrcodescanner
 	url = ../Elastos.Trinity.DApps.QRCodeScanner.git

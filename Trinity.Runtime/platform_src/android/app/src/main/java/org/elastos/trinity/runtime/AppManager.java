@@ -38,6 +38,7 @@ import android.view.View;
 import org.apache.cordova.PluginManager;
 import org.elastos.trinity.runtime.didsessions.DIDSessionManager;
 import org.elastos.trinity.runtime.didsessions.IdentityEntry;
+import org.elastos.trinity.runtime.titlebar.TitleBarActivityType;
 import org.json.JSONException;
 
 import java.io.File;
@@ -824,14 +825,27 @@ public class AppManager {
             }
 
             if (!getAppVisible(id)) {
+                showActivityIndicator(true);
                 hideFragment(fragment, id);
             }
         }
 
-
         if (getAppVisible(id)) {
             switchContent(fragment, id);
+            showActivityIndicator(false);
         }
+    }
+
+    private void showActivityIndicator(boolean show) {
+        activity.runOnUiThread((Runnable) () -> {
+            if (curFragment.titlebar != null) {
+                if (show) {
+                    curFragment.titlebar.showActivityIndicator(TitleBarActivityType.LAUNCH, "Starting");
+                } else {
+                    curFragment.titlebar.hideActivityIndicator(TitleBarActivityType.LAUNCH);
+                }
+            }
+        });
     }
 
     public void close(String id) throws Exception {

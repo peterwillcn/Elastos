@@ -2083,6 +2083,7 @@
 		4202C7D421F6EF28009E5932 /* ThirdSDK */ = {
 			isa = PBXGroup;
 			children = (
+				424FEAD7247D453E00B12851 /* YYKit */,
 				4284763A243F29E600EADFDE /* SVG */,
 				4224AE50243CD43E0056606F /* CocoaLumberjack */,
 				42D1060723A336240063AADC /* PingManager */,
@@ -3445,6 +3446,13 @@
 				424CA4CB242C737B0067C1CE /* 828_1792.png */,
 			);
 			path = lanchImageView;
+			sourceTree = "<group>";
+		};
+		424FEAD7247D453E00B12851 /* YYKit */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = YYKit;
 			sourceTree = "<group>";
 		};
 		425A5F292462DC1500C44104 /* CRSuggestion */ = {

@@ -197,7 +197,7 @@
     [_showView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(_contentView);
         make.left.right.equalTo(@(0));
-        make.height.equalTo(@(440));
+        make.height.equalTo(@(400));
         make.bottom.equalTo(@(0));
     }];
     

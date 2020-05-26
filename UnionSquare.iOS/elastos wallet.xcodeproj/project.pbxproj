@@ -3597,12 +3597,12 @@
 		4279CA5524796C3000B503A4 /* ELAViewController */ = {
 			isa = PBXGroup;
 			children = (
-				4279CA5624796C3000B503A4 /* SecretaryMember */,
+				4279CA6F24796C3100B503A4 /* ELACRBaseViewController.h */,
 				4279CA5D24796C3000B503A4 /* ELACRBaseViewController.m */,
+				4279CA5624796C3000B503A4 /* SecretaryMember */,
 				4279CA5E24796C3000B503A4 /* CommitteeMember */,
 				4279CA6524796C3000B503A4 /* CRCommittee */,
 				4279CA6C24796C3000B503A4 /* CRCommitteeManage */,
-				4279CA6F24796C3100B503A4 /* ELACRBaseViewController.h */,
 				4279CA7024796C3100B503A4 /* CRCommitteeList */,
 			);
 			path = ELAViewController;
@@ -3813,8 +3813,8 @@
 		4279CAB024796C3100B503A4 /* ImpeachView */ = {
 			isa = PBXGroup;
 			children = (
-				4279CAB124796C3100B503A4 /* ELAImpeachView.m */,
 				4279CAB224796C3100B503A4 /* ELAImpeachView.h */,
+				4279CAB124796C3100B503A4 /* ELAImpeachView.m */,
 			);
 			path = ImpeachView;
 			sourceTree = "<group>";
@@ -4373,8 +4373,8 @@
 		70E32D15247B3CE500120817 /* PasswView */ = {
 			isa = PBXGroup;
 			children = (
-				70E32D16247B3CE500120817 /* ELAPasswdView.m */,
 				70E32D17247B3CE500120817 /* ELAPasswdView.h */,
+				70E32D16247B3CE500120817 /* ELAPasswdView.m */,
 			);
 			path = PasswView;
 			sourceTree = "<group>";

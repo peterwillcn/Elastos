@@ -144,6 +144,11 @@
         {
             [weakSelf.votingProcessUtil getImpeachmentWithNetworkState:hash amount:amount];
         }
+        else
+        {
+            [weakSelf hiddLoading];
+            [[FLTools share]showErrorInfo:ELALocalizedString(@"发送请求失败")];
+        }
     };
     _votingProcessUtil.getImpeachmentBlock = ^(NSDictionary * _Nonnull votes, NSArray * _Nonnull invalidCandidates){
         //获取数据
@@ -166,15 +171,33 @@
                                                                     className:@"Wallet" methodName:@"CreateImpeachmentCRCTransaction"];
     PluginResult *pluginResult = [[ELWalletManager share] CreateImpeachmentCRCTransaction:mommand];
     
-    if(pluginResult)
-    {
-        NSDictionary *resultDic = pluginResult.message[@"success"];
-    }
     [_impeachView hideAlertView];
     [_passwdView hideAlertView];
     [self hiddLoading];
+    if(pluginResult)
+    {
+//        NSDictionary *resultDic = pluginResult.message[@"success"];
+        [self showSendSuccessPopuV];
+    }
+    else
+    {
+        [[FLTools share]showErrorInfo:ELALocalizedString(@"发送请求失败")];
+    }
     
-    
+}
+
+
+-(void)showSendSuccessPopuV
+{
+    HMWSendSuccessPopuView *_sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
+    UIView *manView = [self mainWindow];
+    [manView addSubview:_sendSuccessPopuV];
+    [_sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(manView);
+    }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [_sendSuccessPopuV removeFromSuperview];
+         });
 }
 #pragma mark - taggedNavViewDelegate
 - (void)haveSelectedIndex:(NSInteger)index
@@ -195,15 +218,16 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            [weakSelf hideLoadingView];
             if(error)
             {
                 if(error.code == -999)
                 {
+                    [weakSelf hideLoadingView];
                     //已取消
                 }
                 else
                 {
+                    [weakSelf hideLoadingView];
                     [weakSelf showErrorInfo:error.localizedDescription];
                 }
             }
@@ -265,6 +289,8 @@
         make.right.equalTo(infoView);
         make.height.equalTo(@(0.5));
     }];
+    
+    [self hideLoadingView];
 }
 
 - (void)creatTabView:(UIView *)view

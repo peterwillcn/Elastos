@@ -38,7 +38,7 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 
 @property (nonatomic, strong) UIView *line;
-
+@property (nonatomic, strong) UIView *othLine;
 
 @property (nonatomic, strong) UITextField *textField;
 
@@ -81,7 +81,7 @@
     
     
     _closeButton = [[UIButton alloc] init];
-    [_closeButton setImage:ImageNamed(@"back") forState:(UIControlStateNormal)];
+    [_closeButton setImage:ImageNamed(@"window_750_back") forState:(UIControlStateNormal)];
     [_closeButton addTarget:self action:@selector(closeButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     [_showView addSubview:_closeButton];
 //
@@ -121,6 +121,10 @@
     _line = [[UIView alloc] init];
     _line.backgroundColor = ELARGB(149, 159, 171);//[UIColor whiteColor];
     [_showView addSubview:_line];
+    
+    _othLine = [[UIView alloc] init];
+    _othLine.backgroundColor = ELARGB(149, 159, 171);//[UIColor whiteColor];
+    [_showView addSubview:_othLine];
   
     [self setViewFrame];
 }
@@ -141,7 +145,7 @@
     [_showView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(_contentView);
         make.left.right.equalTo(@(0));
-        make.height.equalTo(@(440));
+        make.height.equalTo(@(400));
         make.bottom.equalTo(@(0));
     }];
     
@@ -175,9 +179,16 @@
     [_textField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_showView).offset(15);
         make.right.equalTo(_showView).offset(-15);
-        make.top.equalTo(_line.mas_bottom).offset(25);
+        make.top.equalTo(_line.mas_bottom).offset(20);
     }];
  
+    [_othLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_showView).offset(15);
+        make.top.equalTo(_textField.mas_bottom).offset(20);
+        make.right.equalTo(_showView).offset(-15);
+        make.height.equalTo(@(0.5));
+    }];
+    
     [_sureButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(_showView);
         make.bottom.equalTo(_showView).offset(-40);

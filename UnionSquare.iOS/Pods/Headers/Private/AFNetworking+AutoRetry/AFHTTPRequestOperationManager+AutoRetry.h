@@ -1,1 +1,0 @@
-../../../AFNetworking+AutoRetry/AFHTTPRequestOperationManager+AutoRetry.h

@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "AFNetworking.h"
 #import "SVProgressHUD.h"
+#import <AFHTTPSessionManager-AutoRetry/AFHTTPSessionManager+AutoRetry.h>
 NSString *errorString = @"加载失败，请稍后再试";
 NSInteger timeOut = 60;
 @implementation HttpUrl
@@ -60,39 +61,31 @@ NSInteger timeOut = 60;
     }else{
         stringUrl =host;
     }
-    
-    
-    [manage POST:stringUrl parameters:param headers:header progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manage POST:stringUrl parameters:dataDic success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (show) {
-            [SVProgressHUD dismiss];
-        }
-        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        
-        NSInteger code = [dic[@"code"] integerValue];
-        
-        if (code==0||code==200) {
-            successBlock(dic);
-        }else{
-            NSString *errString=dic[@"exceptionMsg"];
-            if (isSh) {
-                [[FLTools share]showErrorInfo:errString];
-            }
-            
-            FailBlock(dic);
-            
-        }
-        
+                  [SVProgressHUD dismiss];
+              }
+              NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+              
+              NSInteger code = [dic[@"code"] integerValue];
+              
+              if (code==0||code==200) {
+                  successBlock(dic);
+              }else{
+                  NSString *errString=dic[@"exceptionMsg"];
+                  if (isSh) {
+                      [[FLTools share]showErrorInfo:errString];
+                  }
+                  
+                  FailBlock(dic);
+                  
+              }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-       
         if (isSh) {
-            [[FLTools share]showErrorInfo:errorString];
-        }
-        FailBlock(error);
-    }];
-    
-    
+                 [[FLTools share]showErrorInfo:errorString];
+             }
+             FailBlock(error);
+    }autoretry:3];
 }
 + (void)NetGETHost:(NSString*)host url:(NSString *)httpUrl header:(NSDictionary*)header body:(NSDictionary *)param showHUD:(BOOL)show WithSuccessBlock:(void(^)(id data))successBlock WithFailBlock:(void(^)(id data))FailBlock{
     
@@ -106,40 +99,35 @@ NSInteger timeOut = 60;
     
     NSString *stringUrl = [NSString stringWithFormat:@"%@%@",host, httpUrl];
     NSDictionary *dataDic = [self addOtherKey:param];
-    [manage GET:stringUrl parameters:dataDic headers:header progress:^(NSProgress * _Nonnull downloadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manage GET:stringUrl parameters:dataDic success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        if (show) {
-            [SVProgressHUD dismiss];
-        }
-        NSInteger code = [dic[@"code"] integerValue];
-        if (code==0||code==1) {
-            successBlock(dic);
-        }else{
-            NSString *errString;
-            if ([dic objectForKey:@"exceptionMsg"]) {
-                errString=dic[@"exceptionMsg"];
-                
-            }
-            if (errorString.length==0&&[dic objectForKey:@"message"]) {
-                errString=dic[@"message"];
-            }
-            if (errorString.length==0&&[dic objectForKey:@"error"]) {
-                          errString=dic[@"error"];
-                      }
-            [[FLTools share]showErrorInfo:errString];
-            FailBlock(dic);
-        }
-        
+               if (show) {
+                   [SVProgressHUD dismiss];
+               }
+               NSInteger code = [dic[@"code"] integerValue];
+               if (code==0||code==1) {
+                   successBlock(dic);
+               }else{
+                   NSString *errString;
+                   if ([dic objectForKey:@"exceptionMsg"]) {
+                       errString=dic[@"exceptionMsg"];
+                       
+                   }
+                   if (errorString.length==0&&[dic objectForKey:@"message"]) {
+                       errString=dic[@"message"];
+                   }
+                   if (errorString.length==0&&[dic objectForKey:@"error"]) {
+                                 errString=dic[@"error"];
+                             }
+                   [[FLTools share]showErrorInfo:errString];
+                   FailBlock(dic);
+               }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        if (![httpUrl isEqualToString:@"/api/dposNodeRPC/getProducerNodesList"]&&![httpUrl containsString:@"/api/council/information"]) {
-            [[FLTools share]showErrorInfo:errorString];
-        }
-        FailBlock(error);
-        
-    }];
-    
+    if (![httpUrl isEqualToString:@"/api/dposNodeRPC/getProducerNodesList"]&&![httpUrl containsString:@"/api/council/information"]) {
+        [[FLTools share]showErrorInfo:errorString];
+    }
+    FailBlock(error);
+    } autoretry:3];
 }
 
 #pragma mark 上传图片
@@ -157,50 +145,45 @@ NSInteger timeOut = 60;
     [manager.requestSerializer setValue:@"application/json;charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
     
     NSString *httpStr = [Http_IP stringByAppendingString:@"/api/attachment/upload"];
-    
-    [manager POST:httpStr parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> _Nonnull formData) {
-        //对图片大小进行压缩--
-        NSData *data=UIImageJPEGRepresentation(image, 1.0);
-        if (data.length>100*1024) {
-            if (data.length>1024*1024) {//1M以及以上
-                data=UIImageJPEGRepresentation(image, 0.1);
-            }else if (data.length>512*1024) {//0.5M-1M
-                data=UIImageJPEGRepresentation(image, 0.5);
-            }else if (data.length>200*1024) {//0.25M-0.5M
-                data=UIImageJPEGRepresentation(image, 0.9);
-            }
-        }
-        
-        
-        //上传的参数(上传图片，以文件流的格式)
-        [formData appendPartWithFileData:data
-                                    name:@"files"
-                                fileName:@"123.jpg"
-                                mimeType:@"image/jpeg"];
-        
-    } progress:^(NSProgress *_Nonnull uploadProgress) {
-        //打印下上传进度
-        //        DLog(@"%@", uploadProgress);
-    } success:^(NSURLSessionDataTask *_Nonnull task, id _Nullable responseObject) {
-        if (show) {
-            [SVProgressHUD dismiss];
-        }
-        //        DLog(@"上传结果:%@", responseObject);
-        //上传成功
-        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSInteger code = [dic[@"code"] integerValue];
-        if (code==0) {
-            successBlock(dic);
-        }else{
-            NSString *errString=[NSString stringWithFormat:@"%@",dic[@"msg"]];
-            
-            [[FLTools share]showErrorInfo:errString];
-        }
-    } failure:^(NSURLSessionDataTask *_Nullable task, NSError * _Nonnull error) {
-        //        DLog(@"%@", error);
-        //上传失败
-        [[FLTools share]showErrorInfo:errorString];
-        FailBlock(nil);
+    [manager POST:httpStr parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+         //对图片大小进行压缩--
+               NSData *data=UIImageJPEGRepresentation(image, 1.0);
+               if (data.length>100*1024) {
+                   if (data.length>1024*1024) {//1M以及以上
+                       data=UIImageJPEGRepresentation(image, 0.1);
+                   }else if (data.length>512*1024) {//0.5M-1M
+                       data=UIImageJPEGRepresentation(image, 0.5);
+                   }else if (data.length>200*1024) {//0.25M-0.5M
+                       data=UIImageJPEGRepresentation(image, 0.9);
+                   }
+               }
+               
+               
+               //上传的参数(上传图片，以文件流的格式)
+               [formData appendPartWithFileData:data
+                                           name:@"files"
+                                       fileName:@"123.jpg"
+                                       mimeType:@"image/jpeg"];
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+          if (show) {
+                  [SVProgressHUD dismiss];
+              }
+              //        DLog(@"上传结果:%@", responseObject);
+              //上传成功
+              NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+              NSInteger code = [dic[@"code"] integerValue];
+              if (code==0) {
+                  successBlock(dic);
+              }else{
+                  NSString *errString=[NSString stringWithFormat:@"%@",dic[@"msg"]];
+                  
+                  [[FLTools share]showErrorInfo:errString];
+              }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            //        DLog(@"%@", error);
+            //上传失败
+            [[FLTools share]showErrorInfo:errorString];
+            FailBlock(nil);
     }];
 }
 + (void)upLoadImage:(NSString*)host Url:(NSString*)url Param:(NSDictionary*)param Images:(NSArray *)images  showHUD:(BOOL)show WithSuccessBlock:(void(^)(id data))successBlock WithFailBlock:(void(^)(id data))FailBlock
@@ -220,33 +203,29 @@ NSInteger timeOut = 60;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"yyyyMMddHHmmss";
     //    NSMutableURLRequest *re = [NSMutableURLRequest  ]
-    
     [manager POST:httpStr parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        int i = 0;
-        for (UIImage *img in images) {
-            
-            NSData *data=UIImageJPEGRepresentation(img, 1.0);
-            if (data.length>100*1024) {
-                if (data.length>1024*1024) {//1M以及以上
-                    data=UIImageJPEGRepresentation(img, 0.1);
-                }else if (data.length>512*1024) {//0.5M-1M
-                    data=UIImageJPEGRepresentation(img, 0.5);
-                }else if (data.length>200*1024) {//0.25M-0.5M
-                    data=UIImageJPEGRepresentation(img, 0.9);
+            int i = 0;
+            for (UIImage *img in images) {
+                
+                NSData *data=UIImageJPEGRepresentation(img, 1.0);
+                if (data.length>100*1024) {
+                    if (data.length>1024*1024) {//1M以及以上
+                        data=UIImageJPEGRepresentation(img, 0.1);
+                    }else if (data.length>512*1024) {//0.5M-1M
+                        data=UIImageJPEGRepresentation(img, 0.5);
+                    }else if (data.length>200*1024) {//0.25M-0.5M
+                        data=UIImageJPEGRepresentation(img, 0.9);
+                    }
                 }
+                //上传的参数(上传图片，以文件流的格式)
+                NSString *fileName = [NSString stringWithFormat:@"%@%d.jpg", [formatter stringFromDate:[NSDate date]],i];
+                [formData appendPartWithFileData:data
+                                            name:@"files"
+                                        fileName:fileName
+                                        mimeType:@"image/jpeg"];
+                
+                i++;
             }
-            //上传的参数(上传图片，以文件流的格式)
-            NSString *fileName = [NSString stringWithFormat:@"%@%d.jpg", [formatter stringFromDate:[NSDate date]],i];
-            [formData appendPartWithFileData:data
-                                        name:@"files"
-                                    fileName:fileName
-                                    mimeType:@"image/jpeg"];
-            
-            i++;
-        }
-        
-    } progress:^(NSProgress * _Nonnull uploadProgress) {
-        
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (show) {
             [SVProgressHUD dismiss];
@@ -263,12 +242,10 @@ NSInteger timeOut = 60;
             FailBlock(dic);
             
         }
-        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [[FLTools share]showErrorInfo:errorString];
-        FailBlock(nil);
+         [[FLTools share]showErrorInfo:errorString];
+               FailBlock(nil);
     }];
-    
 }
 +(NSDictionary*)addOtherKey:(NSDictionary *)dict{
     NSMutableDictionary *parm = [[NSMutableDictionary alloc]initWithDictionary:dict];
@@ -278,36 +255,37 @@ NSInteger timeOut = 60;
 }
 
 +(void)loadDataWithUrl:(NSString*)urlString withIconName:(NSString*)iconName WithSuccessBlock:(void(^)(id data))successBlock WithFailBlock:(void(^)(id data))FailBlock{
-    /* 创建网络下载对象 */
-    AFHTTPSessionManager *manager = [self getManage];
-    
-    /* 下载地址 */
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    /* 下载路径 */
-    NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-    NSString *filePath = [path stringByAppendingPathComponent:url.lastPathComponent];
-    NSData *data =[NSData dataWithContentsOfFile:filePath];
-    if (data.length>0) {
-        successBlock(url.lastPathComponent);
-        return;
-        
-    }
-    
-    /* 开始请求下载 */
-    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
-        //NSLog(@"下载进度：%.0f％", downloadProgress.fractionCompleted * 100);
-        
-    } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
-        /* 设定下载到的位置 */
-        return [NSURL fileURLWithPath:filePath];
-        
-    } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
-        //NSLog(@"下载完成");
-        successBlock(url.lastPathComponent);
-        
-    }];
-    [downloadTask resume];
+//    /* 创建网络下载对象 */
+//    AFHTTPSessionManager *manager = [self getManage];
+//    
+//    /* 下载地址 */
+//    NSURL *url = [NSURL URLWithString:urlString];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+//    /* 下载路径 */
+//    NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+//    NSString *filePath = [path stringByAppendingPathComponent:url.lastPathComponent];
+//    NSData *data =[NSData dataWithContentsOfFile:filePath];
+//    if (data.length>0) {
+//        successBlock(url.lastPathComponent);
+//        return;
+//        
+//    }
+//    
+//    
+//    /* 开始请求下载 */
+//    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
+//        //NSLog(@"下载进度：%.0f％", downloadProgress.fractionCompleted * 100);
+//        
+//    } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+//        /* 设定下载到的位置 */
+//        return [NSURL fileURLWithPath:filePath];
+//        
+//    } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+//        //NSLog(@"下载完成");
+//        successBlock(url.lastPathComponent);
+//        
+//    }];
+//    [downloadTask resume];
     
 }
 +(void)canleURL{

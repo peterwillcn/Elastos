@@ -1,22 +1,25 @@
-import React from 'react';
-import { IonHeader, IonToolbar, IonPage, IonTitle, IonCard, IonContent, IonCardContent, IonCardTitle, IonCardHeader } from '@ionic/react';
+import React, { useEffect, useState } from 'react';
+import { IonPage,IonCard, IonContent, IonCardContent, IonCardTitle, IonCardHeader } from '@ionic/react';
 declare let appManager: AppManagerPlugin.AppManager;
 declare let titleBarManager:TitleBarPlugin.TitleBarManager;
+const Tab3Page: React.FC = () => {
+let str = localStorage.getItem("bgColor") || "lightBg";
+let [bgColor,setbgColor] = useState(str);
 let initTitle=()=>{
   titleBarManager.setupMenuItems([]);
+  titleBarManager.setBackgroundColor("#ff9f46");
+  titleBarManager.setForegroundMode(0);
+  titleBarManager.setNavigationMode(0);
   titleBarManager.setTitle("tab3");
   appManager.setVisible("show");
 }
-const Tab3Page: React.FC = () => {
-initTitle();
+useEffect(()=>{
+  initTitle();
+},[]);
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Contact</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+    <IonPage className='darkBg'>
       <IonContent>
+        <div className={bgColor}>
         <IonCard className="welcome-card">
           <IonCardHeader>
             <IonCardTitle>Follow us on Telegram</IonCardTitle>
@@ -25,6 +28,7 @@ initTitle();
             <p>https://t.me/elastosbrowser</p>
           </IonCardContent>
         </IonCard>
+        </div>
       </IonContent>
     </IonPage>
   );

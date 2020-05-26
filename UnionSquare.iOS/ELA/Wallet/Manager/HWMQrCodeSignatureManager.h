@@ -37,7 +37,12 @@ typedef NS_ENUM(NSUInteger, QrCodeSignatureType) {
     SecretaryGeneralType,
     withdrawalsType,
     Updatemilestone,
-    Reviewmilestone
+    Reviewmilestone,
+    ConformIdentityType,
+    CreadDIDType,
+    DIDTimePassType,
+    CommonIdentityType//普通人身份
+    
 };
 typedef void(^QrCodeSignatureTypeBlock)(QrCodeSignatureType type,id data);
 

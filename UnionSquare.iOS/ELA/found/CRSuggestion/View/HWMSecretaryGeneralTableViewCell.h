@@ -23,11 +23,13 @@
 
 
 #import <UIKit/UIKit.h>
+#import "HWMDetailsProposalModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMSecretaryGeneralTableViewCell : UITableViewCell
-
+@property (weak, nonatomic) IBOutlet UIView *makeLine;
+@property(strong,nonatomic)HWMVoteResultModel *performModel;
 @end
 
 NS_ASSUME_NONNULL_END

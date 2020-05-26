@@ -67,6 +67,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
+    self.buttonBGView.alpha=0.f;
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"社区提案", nil);//委员评议
     [[HMWCommView share]makeBordersWithView:self.sweepYardsToVoteButton];
@@ -74,6 +75,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     self.baseTable.alpha=0.f;
     self.isOpen=YES;
     [self loadPerioDetailsWithID:self.model.ID];
+    
 }
 -(NSMutableArray *)VoteingProposalArray{
     if (!_VoteingProposalArray) {
@@ -83,11 +85,9 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 }
 -(void)loadPerioDetailsWithID:(NSString*)ID{
     [self showLoading];
-    [[HWMSecretaryGeneralAndMembersInfo shareTools] loadDataSource];
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadCRSuggestionDetailsWithID:ID withComplete:^(id  _Nonnull data) {
         [[HWMDetailsProposalViewModel alloc]detailsProposalModelDataJosn:data[@"data"] completion:^(HWMDetailsProposalModel * _Nonnull model) {
-            self.SecretaryGeneralAndModel=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
-            self.baseTable.alpha=0.f;
+            self.baseTable.alpha=1.f;
             self.DetailsModel=model;
             [self.baseTable reloadData];
             if(self.type==CommentPerioNOTIFICATIONType){
@@ -105,16 +105,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     [self.baseTable registerNib:[UINib nibWithNibName:BaseTableViewCell bundle:nil] forCellReuseIdentifier:BaseTableViewCell];
     self.baseTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     if (self.type==CommentPerioVOTINGType) {
-        HWMSecretaryGeneralAndMembersDetailsModel* model=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
-        if (model) {
-            if (model.GMtype!= COUNCILType&&model.GMtype!=SECRETARIATType) {
-                self.buttonBGView.alpha=0.f;
-                self.BGButtonHeight.constant=0.f;
-            }
-        } else {
-            self.buttonBGView.alpha=0.f;
-            self.BGButtonHeight.constant=0.f;
-        }
+        [self updateMemberIdentity];
         [self.sweepYardsToVoteButton setTitle:NSLocalizedString(@"扫码投票", nil) forState:UIControlStateNormal];
         UIView *tableHeadView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 90+self.model.cellHeight)];
         self.headView.model=self.model;
@@ -124,16 +115,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         }];
         self.baseTable.tableHeaderView=tableHeadView;
     }else if(self.type==CommentPerioNOTIFICATIONType){
-        HWMSecretaryGeneralAndMembersDetailsModel* model=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
-        if (model) {
-            if (model.GMtype!= COUNCILType&&model.GMtype!=SECRETARIATType) {
-                self.buttonBGView.alpha=0.f;
-                self.BGButtonHeight.constant=0.f;
-            }
-        } else {
-            self.buttonBGView.alpha=0.f;
-            self.BGButtonHeight.constant=0.f;
-        }
+        [self updateMemberIdentity];
         [self.sweepYardsToVoteButton setTitle:NSLocalizedString(@"投票反对", nil) forState:UIControlStateNormal];
         UIView *tableHeadView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 180+self.model.cellHeight)];
         [tableHeadView addSubview:self.OpposedProgressHeadV];
@@ -201,7 +183,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     if (indexPath.section==3||self.isOpen==NO) {
         return self.DetailsModel.abstractCell+50;
     }
-    return 60;
+    return 70;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     HWMAbstractTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:BaseTableViewCell];
@@ -268,35 +250,35 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 -(void)parsingQRCodeDataWithType:(QrCodeSignatureType)type withDicData:(id)data withQRString:(NSString*)qrString{
     self.PayLoadDic=data;
     self.jwtString=qrString;
-
+    
     if (type==reviewPropalQrCodeType) {//扫码投票
         if (![self.model.proposalHash isEqualToString:data[@"data"][@"proposalHash"] ]) {
             [[FLTools share]showErrorInfo:@"不是当前提案"];
-      
+            
             return;
         }
-       [self showCRProposalConfirmView];
-       
+        [self showCRProposalConfirmView];
+        
         if ([data[@"data"][@"voteResult"] isEqualToString:@"approve"]) {
-             self.CRProposalConfirmV.type=favorType;
-               
-           
+            self.CRProposalConfirmV.type=favorType;
+            
+            
         }else if ([data[@"data"][@"voteResult"] isEqualToString:@"reject"]){
-             self.CRProposalConfirmV.type=againstType;
+            self.CRProposalConfirmV.type=againstType;
         }else if ([data[@"data"][@"voteResult"] isEqualToString:@"abstain"]){
-           self.CRProposalConfirmV.type=WaiverType;
+            self.CRProposalConfirmV.type=WaiverType;
         }else{
             self.CRProposalConfirmV.type=NOPperatingType;
         }
-       
-       [self.CRProposalConfirmV postWithHash: data[@"data"][@"proposalHash"] withVotes:@"" withFee:@"0.001 ELA"];
-     
+        
+        [self.CRProposalConfirmV postWithHash: data[@"data"][@"proposalHash"] withVotes:@"" withFee:@"0.001 ELA"];
+        
     }else if (type==voteforProposalQrCodeType){// 投票反对
         UIView *mainView=[self mainWindow];
-               [mainView addSubview:self.inputVoteTicketView];
-               [self.inputVoteTicketView mas_makeConstraints:^(MASConstraintMaker *make) {
-                   make.left.right.top.bottom.equalTo(mainView);
-               }];
+        [mainView addSubview:self.inputVoteTicketView];
+        [self.inputVoteTicketView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(mainView);
+        }];
     }else{
         [self QrCodeScanningResultsWithString:qrString withVC:self];
     }
@@ -314,16 +296,16 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     self.CRProposalConfirmV=nil;
 }
 -(void)CRProposalConfirmWithPWD:(NSString*_Nonnull)PWD{
-     [self closeCRProposalConfirmView];
+    [self closeCRProposalConfirmView];
     if (self.type==CommentPerioVOTINGType) {
-           [self reviewProposal:PWD];
+        [self reviewProposal:PWD];
     }else if (self.type==CommentPerioNOTIFICATIONType){// 投票反对
         [self voteForProposal:PWD];
         
     }
-   
-
- 
+    
+    
+    
     
 }
 -(void)voteForProposal:(NSString*)pwd{
@@ -337,11 +319,11 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     NSNumber *number = result.status;
     
     if( [number intValue] != CommandStatus_OK){
-//        NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
-//        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+        //        NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
+        //        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
         return;
     }
-
+    
     NSDictionary *playLoadDic = @{
         @"ProposalHash":self.PayLoadDic[@"data"][@"proposalHash"],
         @"Amount":[[FLTools share]elsToSela:self.votesString],
@@ -356,14 +338,14 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     
     PluginResult *pluginResult = [[ELWalletManager share] proposalVoteForTransaction:mommand];
     number =pluginResult.status;
-     if( [number intValue] != CommandStatus_OK){
-         NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
-         [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
-         return;
-     }else{
-         [self showSendSuccessOrFial:sendDealType];
-     }
-
+    if( [number intValue] != CommandStatus_OK){
+        NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
+        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+        return;
+    }else{
+        [self showSendSuccessOrFial:sendDealType];
+    }
+    
     
 }
 -(void)setVoteforProposalInfo{
@@ -373,7 +355,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]searchReloadCRSuggestionDataSourceWithType:NOTIFICATIONType withStartIndex:0 withNumbers:100 withSearchContent:@"" withComplete:^(id  _Nonnull data) {
         NSLog(@"data is %@",data[@"data"][@"list"]);
         self.VoteingProposalArray = data[@"data"][@"list"];
-    
+        
     }];
     
 }
@@ -531,7 +513,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     
     if(pluginResult){
         NSDictionary *resultDic = pluginResult.message[@"success"];
-
+        
         NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:pwd];
         if(callDic)
         {
@@ -559,17 +541,17 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 {
     if(payString && ![payString isEqualToString:@""])
     {
-          NSString * didString= [[HWMSecretaryGeneralAndMembersInfo shareTools] getDIDString];
-         NSString * masterWalletID= [[HWMSecretaryGeneralAndMembersInfo shareTools] getmasterWalletID];
+        NSString * didString= [[HWMSecretaryGeneralAndMembersInfo shareTools] getDIDString];
+        NSString * masterWalletID= [[HWMSecretaryGeneralAndMembersInfo shareTools] getmasterWalletID];
         if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:PWDString withDIDString:didString WithPrivatekeyString:@"" WithmastWalletID:masterWalletID needCreatDIDString:NO]){
             
             NSString *playString = @"";
             
-//            if(self.VCType == TheProposalType){
-//                playString=[[FLTools share]DicToString:[self proposalhashRequestFileWithString:payString]];
-//            }else if(self.VCType == ReviewProposalType){
-                playString=[[FLTools share]DicToString:[self proposalReivewhashRequestFileWithString:payString]];
-//            }
+            //            if(self.VCType == TheProposalType){
+            //                playString=[[FLTools share]DicToString:[self proposalhashRequestFileWithString:payString]];
+            //            }else if(self.VCType == ReviewProposalType){
+            playString=[[FLTools share]DicToString:[self proposalReivewhashRequestFileWithString:payString]];
+            //            }
             
             NSString *jwtString=[self throuJWTStringWithplayString:playString];
             [[HWMDIDManager shareDIDManager] setPassWord:PWDString];
@@ -595,7 +577,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     
     NSLog(@"proposalReivewhashRequestFileWithString rep %@",self.jwtString);
     
-     NSString * didString= [[HWMSecretaryGeneralAndMembersInfo shareTools] getDIDString];
+    NSString * didString= [[HWMSecretaryGeneralAndMembersInfo shareTools] getDIDString];
     String = [String stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     NSDictionary *FLDic=@{
         @"command":@"reviewproposal",
@@ -625,5 +607,21 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         [self.navigationController popViewControllerAnimated:YES];
     });
 }
-
+-(void)updateMemberIdentity{
+        self.SecretaryGeneralAndModel=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
+    HWMSecretaryGeneralAndMembersDetailsModel* model=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
+    if (model) {
+        if (model.GMtype== COUNCILType||model.GMtype==SECRETARIATType) {
+            self.buttonBGView.alpha=1.f;
+           
+        }
+    } else {
+        [[HWMSecretaryGeneralAndMembersInfo shareTools] loadDataSourceWithLoading:YES complete:^(HWMSecretaryGeneralAndMembersDetailsModel *model) {
+            if (model.GMtype== COUNCILType||model.GMtype==SECRETARIATType) {
+                self.buttonBGView.alpha=1.f;
+              
+            }
+        }];
+    }
+}
 @end

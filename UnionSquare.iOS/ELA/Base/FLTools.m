@@ -2057,6 +2057,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     
     CGRect rect =[string boundingRectWithSize:CGSizeMake(0, 30) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dic context:nil];
     
+    
     return rect.size.width;
     
 }
@@ -2064,14 +2065,21 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
  * alculateRowHeight
  */
 - (CGFloat)calculateRowHeight:(NSString *)string fontSize:(NSInteger)fontSize withmargin:(CGFloat)margin{
-    
-    NSDictionary *dic = @{NSFontAttributeName:[UIFont systemFontOfSize:fontSize]};
-    
-    CGRect rect = [string boundingRectWithSize:CGSizeMake(AppWidth - margin*2, 0) options:NSStringDrawingUsesLineFragmentOrigin |
-                   
-     NSStringDrawingUsesFontLeading attributes:dic context:nil];
-    
-    return rect.size.height;
+    CGSize constraintSize;
+    constraintSize.width = AppWidth - margin;
+    constraintSize.height = MAXFLOAT;
+    CGSize sizeFrame = [string boundingRectWithSize:constraintSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:fontSize],NSFontAttributeName, nil] context:nil].size;
+
+    //重新调整contentView.PenContent的高度
+    CGFloat high = sizeFrame.height+5.0;
+    return high;
+  
+//
+//    CGRect rect = [string boundingRectWithSize:CGSizeMake(AppWidth - margin*2,200) options:NSStringDrawingUsesLineFragmentOrigin |
+//
+//     NSStringDrawingUsesFontLeading attributes:dic context:nil];
+//
+//    return rect.size.height;
     
 }
 -(NSString*)RemainingTimeFormatting:(NSString*)RemainingString{
@@ -2103,7 +2111,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     
 }
 -(NSString*)StageOfProcessing:(NSString*)Stage{
-   
+    Stage=[NSString stringWithFormat:@"%@",Stage];
     NSString *languageString=[DAConfig userLanguage];
    
     if ([languageString  containsString:@"en"]) {

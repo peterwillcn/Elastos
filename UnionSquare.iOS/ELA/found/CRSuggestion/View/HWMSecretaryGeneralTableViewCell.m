@@ -29,6 +29,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *nickNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *identity;
+@property (weak, nonatomic) IBOutlet UIImageView *billHeadImageView;
+@property (weak, nonatomic) IBOutlet UILabel *billNickNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *billContentLabel;
+@property (weak, nonatomic) IBOutlet UILabel *billTime;
+@property (weak, nonatomic) IBOutlet UILabel *contLabel;
+@property (weak, nonatomic) IBOutlet UILabel *staLabel;
 
 @end
 
@@ -39,16 +45,44 @@
     [super awakeFromNib];
     self.identity.layer.cornerRadius=2.f;
     self.identity.layer.borderWidth=0.5f;
-    self.identity.layer.backgroundColor=RGBA(255, 255, 255, 0.5).CGColor;
+    self.identity.layer.borderColor=RGBA(255, 255, 255, 0.5).CGColor;
     self.identity.layer.masksToBounds=YES;
-    
-    // Initialization code
+    self.identity.text=NSLocalizedString(@" 秘书长 ", nil);
+    self.billHeadImageView.layer.cornerRadius=9.f;
+    self.billHeadImageView.layer.masksToBounds=YES;
+    [self.contLabel sizeToFit];
+    [self.billContentLabel sizeToFit];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
+-(void)setPerformModel:(HWMVoteResultModel *)performModel{
+    CGRect fream=[self frame];
+    [self.billHeadImageView sd_setImageWithURL:[NSURL URLWithString:performModel.avatar]];
+    self.billNickNameLabel.text=performModel.didName;
+    self.billContentLabel.text=performModel.content;
+    self.billTime.text=performModel.createdAt;
+    [self.headImageView sd_setImageWithURL:[NSURL URLWithString:performModel.commentModel.avatar]];
+    self.nickNameLabel.text=performModel.commentModel.createdBy;
+    self.contLabel.text=performModel.commentModel.commentContent;
+    self.timeLabel.text=performModel.commentModel.createdAt;
+    self.staLabel.text=[[FLTools share]StageOfProcessing:performModel.stage];
+    
+    CGFloat billHeight=[self labelHeightWithLabel:self.billContentLabel WithMar:30];
+    CGFloat contHeight=[self labelHeightWithLabel:self.contLabel WithMar:40];
+    fream.size.height=billHeight+contHeight+90;
+    
+    
+}
+-(CGFloat)labelHeightWithLabel:(UILabel*)label WithMar:(CGFloat)mar{
+    CGSize constraintSize;
+        constraintSize.width = AppWidth - mar;
+        constraintSize.height = MAXFLOAT;
+      CGSize sizeFrame = [self.billContentLabel.text boundingRectWithSize:constraintSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:label.font} context:nil].size;
+    return sizeFrame.height;
+}
 @end

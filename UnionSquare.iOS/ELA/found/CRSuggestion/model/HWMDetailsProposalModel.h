@@ -25,21 +25,31 @@
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
-@interface HWMcommentModel : NSObject
+@interface HWMcommentModel : NSObject<NSCoding>
 @property(copy,nonatomic)NSString *content;
 @property(copy,nonatomic)NSString *reason;
 @property(copy,nonatomic)NSString *votedBy;
+@property(copy,nonatomic)NSString *createdAt;
+@property(copy,nonatomic)NSString *opinion;
 @property(assign,nonatomic)CGFloat reasonCell;
+@property(copy,nonatomic)NSString *avatar;
+@property(copy,nonatomic)NSString *createdBy;
+@property(copy,nonatomic)NSString*commentContent;
 @end
-@interface HWMVoteResultModel : NSObject
+@interface HWMVoteResultModel : NSObject<NSCoding>
 @property(copy,nonatomic)NSString *value;
 @property(copy,nonatomic)NSString *reason;
 @property(copy,nonatomic)NSString *votedBy;
 @property(copy,nonatomic)NSString *avatar;
 @property(assign,nonatomic)CGFloat reasonCell;
-@property(strong,nonatomic)HWMcommentModel *comment;
+@property(copy,nonatomic)NSString *createdAt;
+@property(copy,nonatomic)NSString *didName;
+@property(copy,nonatomic)id  comment;
+@property(copy,nonatomic)NSString*  content;
+@property(copy,nonatomic)NSString* stage;
+@property(strong,nonatomic)HWMcommentModel *commentModel;
 @end
-@interface HWMDetailsProposalModel : NSObject
+@interface HWMDetailsProposalModel : NSObject<NSCoding>
 @property(copy,nonatomic)NSString *ID;
 @property(copy,nonatomic)NSString *abstract;
 @property(copy,nonatomic)NSString *address;

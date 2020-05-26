@@ -24,12 +24,14 @@
 
 #import <Foundation/Foundation.h>
 #import "HWMSecretaryGeneralAndMembersDetailsModel.h"
+
+typedef void(^DetailsModelBlock)(HWMSecretaryGeneralAndMembersDetailsModel*model);
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMSecretaryGeneralAndMembersInfo : NSObject
 +(instancetype)shareTools;
 -(HWMSecretaryGeneralAndMembersDetailsModel*)getDetailsModel;
--(void)loadDataSource;
+-(void)loadDataSourceWithLoading:(BOOL)isLoading complete:(DetailsModelBlock)com;
 -(NSString*)getDIDString;
 -(NSString*)getmasterWalletID;
 

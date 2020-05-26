@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMCommitteeMembersToVoteTableViewCell : UITableViewCell
 @property(strong,nonatomic)HWMVoteResultModel *model;
+@property (weak, nonatomic) IBOutlet UIView *makeLine;
+@property(strong,nonatomic)HWMVoteResultModel *performModel;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -77,7 +77,7 @@ UINib *CommitteeMembersNib;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     HWMcommentModel *model=self.dataArray[indexPath.row];
-    return model.reasonCell+50;
+    return model.reasonCell+40;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.dataArray.count;

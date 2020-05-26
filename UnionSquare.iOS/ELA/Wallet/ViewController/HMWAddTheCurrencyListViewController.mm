@@ -177,11 +177,9 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
         sideModel.sideChainNameTime=@"--:--";
         sideModel.thePercentageMax=@"100";
         sideModel.thePercentageCurr=@"0";
-        
         [[HMWFMDBManager sharedManagerType:sideChain] addsideChain:sideModel];
-        if (self.didType.length>0) {
             if (self.didType.length>0) {
-                if (self.delegate) {
+                if ([self.delegate respondsToSelector:@selector(openIDChainOfDIDAddWithWallet:)]) {
                     [self.navigationController popViewControllerAnimated:NO];
                     [self.delegate openIDChainOfDIDAddWithWallet:self.wallet.masterWalletID];
                 }
@@ -190,7 +188,7 @@ static NSString *cellString=@"HMWAddTheCurrencyListTableViewCell";
             }
             
         }
-    }
+    
     
     
     

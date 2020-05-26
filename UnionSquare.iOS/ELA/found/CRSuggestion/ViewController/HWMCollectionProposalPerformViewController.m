@@ -32,7 +32,10 @@
 #import "HWMDetailsProposalViewModel.h"
 #import "HWMAbstractTableViewCell.h"
 #import "HWMCommitteeMembersToVoteTableViewCell.h"
+#import "HWMSecretaryGeneralTableViewCell.h"
+
 static NSString *cellCommitteeMembersString=@"HWMCommitteeMembersToVoteTableViewCell";
+static NSString *cellSecretaryGeneral=@"HWMSecretaryGeneralTableViewCell";
 UINib *ProposalPerform;
 static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 @interface HWMCollectionProposalPerformViewController ()<UITableViewDelegate,UITableViewDataSource,HWMCRProposalConfirmViewDelgate,HWMCommentPerioDetailsHeadViewDelegate,HWMCommitteeMembersToVoteViewDelegate>
@@ -70,12 +73,10 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     self.baseTable.alpha=0.f;
     [self showLoading];
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadCRSuggestionDetailsWithID:ID withComplete:^(id  _Nonnull data) {
-         [self hiddLoading];
-        [[HWMDetailsProposalViewModel alloc]detailsProposalModelDataJosn:data[@"data"] completion:^(HWMDetailsProposalModel * _Nonnull model) {
-           
+        [self hiddLoading];
+        [[HWMDetailsProposalViewModel alloc]detailsProposalModelDataJosn:data[@"data"] completion:^(HWMDetailsProposalModel * _Nonnull model){
             self.DetailsModel=model;
             self.foodView.DetailsProposalM=self.DetailsModel;
-      
             [self.baseTable reloadData];
             self.baseTable.alpha=1.f;
         }];
@@ -87,6 +88,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     self.baseTable.backgroundColor=[UIColor clearColor];
     ProposalPerform =[UINib nibWithNibName:cellCommitteeMembersString bundle:nil];
     [self.baseTable registerNib:[UINib nibWithNibName:BaseTableViewCell bundle:nil] forCellReuseIdentifier:BaseTableViewCell];
+    [self.baseTable registerNib:[UINib nibWithNibName:cellSecretaryGeneral bundle:nil] forCellReuseIdentifier: cellSecretaryGeneral];
     [self.baseTable registerNib:ProposalPerform forCellReuseIdentifier:cellCommitteeMembersString];
     self.baseTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     UIView *headView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 90+self.model.cellHeight)];
@@ -138,8 +140,12 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if ((self.isOpen==NO&&indexPath.section==1)||(self.isOpen==YES&&indexPath.section==4)){
         HWMVoteResultModel *model=self.DetailsModel.trackingResult[indexPath.row];
+        if (model.commentModel) {
+         UITableViewCell *cell=[self tableView:tableView cellForRowAtIndexPath:indexPath];
+            return cell.frame.size.height;
+        }
         return model.reasonCell+50;
-       }
+    }
     if (indexPath.section==3||self.isOpen==NO) {
         return self.DetailsModel.abstractCell+50;
     }
@@ -147,11 +153,27 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if ((self.isOpen==NO&&indexPath.section==1)||(self.isOpen==YES&&indexPath.section==4)){
-        HWMCommitteeMembersToVoteTableViewCell *cell=[ProposalPerform instantiateWithOwner:nil options:nil].firstObject;
-        cell.backgroundColor=[UIColor clearColor];
-        cell.model=self.DetailsModel.trackingResult[indexPath.row];
-        cell.selectionStyle=UITableViewCellSelectionStyleNone;
-        return cell;
+        CGFloat isHid=0.f;
+        if (indexPath.row!=self.DetailsModel.trackingResult.count-1) {
+            isHid=1.f;
+        }
+        HWMVoteResultModel *model=self.DetailsModel.trackingResult[indexPath.row];
+        if (model.commentModel) {
+            HWMSecretaryGeneralTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellSecretaryGeneral];
+            cell.backgroundColor=[UIColor clearColor];
+            cell.performModel=model;
+            cell.makeLine.alpha=isHid;
+            cell.selectionStyle=UITableViewCellSelectionStyleNone;
+            return cell;
+        }else{
+            HWMCommitteeMembersToVoteTableViewCell *cell=[ProposalPerform instantiateWithOwner:nil options:nil].firstObject;
+            cell.backgroundColor=[UIColor clearColor];
+            cell.performModel=model;
+            cell.makeLine.alpha=isHid;
+            cell.selectionStyle=UITableViewCellSelectionStyleNone;
+            return cell;
+        }
+        
         
     }
     HWMAbstractTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:BaseTableViewCell];

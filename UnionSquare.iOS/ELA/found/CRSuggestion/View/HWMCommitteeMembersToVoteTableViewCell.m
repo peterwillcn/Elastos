@@ -30,6 +30,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *contenInfoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLable;
 
+@property (weak, nonatomic) IBOutlet UILabel *staLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topCons;
+
 
 @end
 
@@ -44,10 +47,19 @@
     [super setSelected:selected animated:animated];
 }
 -(void)setModel:(HWMVoteResultModel *)model{
-    NSLog(@"%@---%@----%@",model.avatar,model.votedBy,model.reason);
+    self.topCons.constant=15.f;
     [self.headImageView sd_setImageWithURL:[NSURL URLWithString:model.avatar]];
     self.nickNamelLabel.text=model.votedBy;
     self.contenInfoLabel.text=model.reason;
     
+}
+-(void)setPerformModel:(HWMVoteResultModel *)performModel{
+    self.staLabel.alpha=1.f;
+    self.topCons.constant=50.f;
+    [self.headImageView sd_setImageWithURL:[NSURL URLWithString:performModel.avatar]];
+    self.nickNamelLabel.text=performModel.didName;
+    self.contenInfoLabel.text=performModel.content;
+    self.timeLable.text=performModel.createdAt;
+    self.timeLable.alpha=1.f;
 }
 @end

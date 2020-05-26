@@ -87,28 +87,6 @@
         
     };
        
-//    _passwdView = [[ELAPasswdView alloc] init];
-//    [_passwdView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.equalTo(@(0));
-//        make.width.equalTo(@(ScreenWidth));
-//        make.height.equalTo(@(ScreenHeight));
-//        make.top.bottom.equalTo(@(0));
-//    }];
-//    _passwdView.valueBlock = ^(NSString *value){
-//
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//
-//            [weakSelf impeachment];
-//        });
-//
-//    };
-//    FLWallet *wallet = [ELWalletManager share].currentWallet;
-    
-//    invokedUrlCommand *mommand = [[invokedUrlCommand alloc] initWithArguments:@[wallet.masterWalletID]
-//                                                            callbackId:wallet.walletID className:@"Wallet" methodName:@"createProposalWithdrawTransaction"];
-//     [[ELWalletManager share] getVoteInfoList:wallet.masterWalletID];
-
-    //get
 }
 - (void)showPasswdView
 {
@@ -290,7 +268,7 @@
         make.height.equalTo(@(0.5));
     }];
     
-    [self hideLoadingView];
+    [self performSelector:@selector(hiddLoading) withObject:nil afterDelay:0.5];
 }
 
 - (void)creatTabView:(UIView *)view
@@ -379,7 +357,7 @@
     [infoView addSubview:currentNumLabel];
     
     UILabel *currentNumValueLabel = [[UILabel alloc] init];
-    currentNumValueLabel.text = [NSString stringWithFormat:@"%f", _model.impeachmentVotes];//ELALocalizedString(@"2312 ELA");
+    currentNumValueLabel.text = [NSString stringWithFormat:@"%ld", _model.impeachmentVotes];//ELALocalizedString(@"2312 ELA");
     currentNumValueLabel.textColor = [UIColor whiteColor];
     currentNumValueLabel.font = PingFangRegular(12);
     currentNumValueLabel.textAlignment = NSTextAlignmentCenter;
@@ -395,7 +373,7 @@
     [infoView addSubview:impeachmentNumLabel];
     
     UILabel *impeachmentNumValueLabel = [[UILabel alloc] init];
-    impeachmentNumValueLabel.text = [NSString stringWithFormat:@"%f", _model.impeachmentThroughVotes];
+    impeachmentNumValueLabel.text = [NSString stringWithFormat:@"%ld", _model.impeachmentThroughVotes];
     //ELALocalizedString(@"2312111 ELA");
     impeachmentNumValueLabel.textColor = [UIColor whiteColor];
     impeachmentNumValueLabel.font = PingFangRegular(12);
@@ -471,7 +449,10 @@
     
     UIImageView *headImageView = [[UIImageView alloc] init];
 //    headImageView.image = ImageNamed(@"point_information_img");
-    [headImageView sd_setImageWithURL:[NSURL URLWithString:_model.address] placeholderImage:nil];
+    if(_model.address && [_model.address isEqualToString:@""])
+    {
+        [headImageView sd_setImageWithURL:[NSURL URLWithString:_model.address] placeholderImage:nil];
+    }
     headImageView.layer.masksToBounds = YES;
     headImageView.layer.cornerRadius = 25;
     headImageView.contentMode = UIViewContentModeScaleAspectFit;

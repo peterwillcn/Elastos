@@ -3732,9 +3732,9 @@
 			isa = PBXGroup;
 			children = (
 				4279CA9E24796C3100B503A4 /* ELABaseModel.h */,
+				4279CAA524796C3100B503A4 /* ELABaseModel.m */,
 				4279CA9F24796C3100B503A4 /* CouncilAndSecretariat */,
 				4279CAA224796C3100B503A4 /* ELATUpdateSecretaryDidModel */,
-				4279CAA524796C3100B503A4 /* ELABaseModel.m */,
 				4279CAA624796C3100B503A4 /* ELAPayload */,
 				4279CAA924796C3100B503A4 /* CouncilAndSecretariatDetail */,
 				4279CAAC24796C3100B503A4 /* CommitteeInfo */,
@@ -3772,8 +3772,8 @@
 		4279CAA924796C3100B503A4 /* CouncilAndSecretariatDetail */ = {
 			isa = PBXGroup;
 			children = (
-				4279CAAA24796C3100B503A4 /* ELAInformationDetail.m */,
 				4279CAAB24796C3100B503A4 /* ELAInformationDetail.h */,
+				4279CAAA24796C3100B503A4 /* ELAInformationDetail.m */,
 			);
 			path = CouncilAndSecretariatDetail;
 			sourceTree = "<group>";
@@ -4428,7 +4428,7 @@
 				LastUpgradeCheck = 1140;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = VNP5LMNF24;
+						DevelopmentTeam = WF4LNX869V;
 						LastSwiftMigration = 1130;
 						ProvisioningStyle = Automatic;
 					};
@@ -5175,7 +5175,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = WF4LNX869V;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5255,7 +5255,7 @@
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = WF4LNX869V;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5378,7 +5378,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = WF4LNX869V;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5503,7 +5503,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = WF4LNX869V;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

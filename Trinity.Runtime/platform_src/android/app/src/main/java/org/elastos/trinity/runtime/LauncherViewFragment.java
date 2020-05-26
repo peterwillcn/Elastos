@@ -74,7 +74,9 @@ import java.util.Locale;
             getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
         }
 
-        LauncherViewFragment.allPluginEntries = pluginEntries;
+        if (LauncherViewFragment.allPluginEntries == null) {
+            LauncherViewFragment.allPluginEntries = pluginEntries;
+        }
 
 //        Config.parser = parser;
     }

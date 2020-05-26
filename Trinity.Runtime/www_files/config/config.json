@@ -1,6 +1,7 @@
 {
     "dapp.protectList": [
-        "org.elastos.trinity.dapp.wallet"
+        "org.elastos.trinity.dapp.wallet",
+        "org.elastos.trinity.dapp.didsession"
     ],
     "api.authority.whitelist": [
         "org.elastos.trinity.dapp.wallet",

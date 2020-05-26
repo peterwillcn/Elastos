@@ -54,14 +54,7 @@ public class TrinityPlugin extends CordovaPlugin {
         this.configPath = appManager.getConfigPath();
         this.tempPath = appManager.getTempPath(info.app_id);
         this.appId = info.app_id;
-
-        try {
-            // TODO @dongxiao - handle the exception this.did = DIDSessionManager.getSharedInstance().getSignedInIdentity().didString;
-            this.did = DIDSessionManager.getSharedInstance().getSignedInIdentity().didString; // TODO: FAKE DID FOR NOW
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.did = appManager.getDID();
     }
 
     public boolean isAllowAccess(String url) {

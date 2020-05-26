@@ -32,14 +32,20 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
- public class ManagerDBAdapter {
+public class ManagerDBAdapter {
     ManagerDBHelper helper;
     Context context;
+
+     public ManagerDBAdapter(Context context, String dbPath)
+     {
+         helper = new ManagerDBHelper(context, dbPath);
+         SQLiteDatabase db = helper.getWritableDatabase();
+         this.context = context;
+     }
+
     public ManagerDBAdapter(Context context)
     {
-        helper = new ManagerDBHelper(context);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        this.context = context;
+        this(context, "");
     }
 
     public void clean() {
@@ -253,7 +259,7 @@ import java.util.ArrayList;
     }
 
     public AppInfo getAppInfo(String id) {
-        String selection = AppInfo.APP_ID + "=? && " + AppInfo.LAUNCHER + "=0";
+        String selection = AppInfo.APP_ID + "=? AND " + AppInfo.LAUNCHER + "=0";
         String[] args = {String.valueOf(id)};
         AppInfo infos[] = getInfos(selection, args);
         if (infos.length > 0) {
@@ -265,7 +271,7 @@ import java.util.ArrayList;
     }
 
     public AppInfo[] getAppInfos() {
-        String selection = AppInfo.LAUNCHER + "=0";
+        String selection = AppInfo.LAUNCHER + "=0 AND " + AppInfo.APP_ID + "!=\"org.elastos.trinity.dapp.didsession\"";
         return getInfos(selection, null);
     }
 

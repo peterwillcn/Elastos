@@ -16,7 +16,7 @@ public class PreferenceManager {
     private static PreferenceManager preferenceManager;
 
     private JSONObject defaultPreferences = new JSONObject();
-    ManagerDBAdapter dbAdapter = null;
+    MergeDBAdapter dbAdapter = null;
     public boolean versionChanged = false;
 
     PreferenceManager() {

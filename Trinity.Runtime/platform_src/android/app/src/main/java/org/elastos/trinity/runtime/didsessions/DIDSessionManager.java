@@ -1,6 +1,7 @@
 package org.elastos.trinity.runtime.didsessions;
 
 import org.elastos.trinity.runtime.AppManager;
+import org.elastos.trinity.runtime.DIDVerifier;
 import org.elastos.trinity.runtime.WebViewActivity;
 import org.elastos.trinity.runtime.didsessions.db.DatabaseAdapter;
 
@@ -12,18 +13,23 @@ public class DIDSessionManager {
     private AppManager appManager;
     private DatabaseAdapter dbAdapter;
 
-    public DIDSessionManager(WebViewActivity activity) {
-        this.activity = activity;
-        dbAdapter = new DatabaseAdapter(activity);
-        DIDSessionManager.instance = this;
-    }
+    public DIDSessionManager() {
+        this.appManager = AppManager.getShareInstance();
+        this.activity = this.appManager.activity;
+        try {
+            DIDVerifier.initDidStore(appManager.getBaseDataPath());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-    public void setAppManager(AppManager appManager) {
-        this.appManager = appManager;
+        dbAdapter = new DatabaseAdapter(activity);
     }
 
     public static DIDSessionManager getSharedInstance() {
-        return instance;
+        if (DIDSessionManager.instance == null) {
+            DIDSessionManager.instance = new DIDSessionManager();
+        }
+        return DIDSessionManager.instance;
     }
 
     public void addIdentityEntry(IdentityEntry entry) throws Exception {
@@ -44,9 +50,11 @@ public class DIDSessionManager {
 
     public void signIn(IdentityEntry identityToSignIn) throws Exception {
         // Make sure there is no signed in identity already
-        IdentityEntry signedInIdentity = DIDSessionManager.getSharedInstance().getSignedInIdentity();
-        if (signedInIdentity != null)
-            throw new Exception("Unable to sign in. Please first sign out from the currently signed in identity");
+       IdentityEntry signedInIdentity = DIDSessionManager.getSharedInstance().getSignedInIdentity();
+       if (signedInIdentity != null) {
+           dbAdapter.setDIDSessionSignedInIdentity(null);
+       }
+//           throw new Exception("Unable to sign in. Please first sign out from the currently signed in identity");
 
         dbAdapter.setDIDSessionSignedInIdentity(identityToSignIn);
 

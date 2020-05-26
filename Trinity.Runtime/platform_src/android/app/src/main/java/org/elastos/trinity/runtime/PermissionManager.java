@@ -17,8 +17,8 @@ public class PermissionManager {
     protected LinkedHashMap<String, String> appList = new LinkedHashMap();
     private static PermissionManager permissionManager;
 
-    public PermissionManager(Context context) {
-        this.context = context;
+    public PermissionManager() {
+        this.context = AppManager.getShareInstance().activity;
         try {
             parsePermissionGroup();
             parseAppPermission();
@@ -29,6 +29,9 @@ public class PermissionManager {
     }
 
     public static PermissionManager getShareInstance() {
+        if (PermissionManager.permissionManager == null) {
+            PermissionManager.permissionManager = new PermissionManager();
+        }
         return PermissionManager.permissionManager;
     }
 

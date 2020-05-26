@@ -96,6 +96,7 @@
      public String category;
      public String key_words;
      public String start_visible;
+     public boolean share = true;
 
      public static final int AUTHORITY_NOEXIST = -1;
      public static final int AUTHORITY_NOINIT = 0;

@@ -64,12 +64,12 @@ public class AppInstaller {
     private String appPath = null;
     private String dataPath = null;
     private String tempPath = null;
-    private ManagerDBAdapter dbAdapter = null;
+    private MergeDBAdapter dbAdapter = null;
     private Context context = null;
 
     private Random random =new Random();
 
-    public boolean init(Context context, ManagerDBAdapter dbAdapter,
+    public boolean init(Context context, MergeDBAdapter dbAdapter,
                         String appPath, String dataPath, String tempPath) {
         this.context = context;
         this.appPath = appPath;
@@ -78,13 +78,6 @@ public class AppInstaller {
         this.dbAdapter = dbAdapter;
 
         random = new Random();
-
-        try {
-            DIDVerifier.initDidStore(dataPath);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
 
         return true;
     }
@@ -425,7 +418,7 @@ public class AppInstaller {
         if (oldInfo != null) {
             if (update) {
                 Log.d("AppInstaller", "install() - uninstalling "+info.app_id+" - update = true");
-                if (oldInfo.launcher != 1) {
+                if (oldInfo.launcher != 1 && !appManager.isDIDSession(oldInfo.app_id)) {
                     AppManager.getShareInstance().unInstall(info.app_id, true);
                     sendInstallingMessage("uninstalled_old", info.app_id, originUrl);
                 }
@@ -446,9 +439,12 @@ public class AppInstaller {
         if (oldInfo != null && oldInfo.launcher == 1) {
             renameFolder(from, appPath, AppManager.LAUNCHER);
         }
+        else if (oldInfo != null && appManager.isDIDSession(oldInfo.app_id)) {
+            renameFolder(from, appPath, AppManager.DIDSESSION);
+        }
         else {
             renameFolder(from, appPath, info.app_id);
-            dbAdapter.addAppInfo(info);
+            dbAdapter.addAppInfo(info, true);
         }
         deleteDAppPackage(downloadPkgPath);
         sendInstallingMessage("finish", info.app_id, originUrl);
@@ -490,7 +486,7 @@ public class AppInstaller {
 //        if (info.built_in == 1) {
 //            throw new Exception("App is a built in!");
 //        }
-        int count = dbAdapter.removeAppInfo(info);
+        int count = dbAdapter.removeAppInfo(info, true);
         if (count < 1) {
             throw new Exception("Databashe error!");
         }
@@ -751,13 +747,15 @@ public class AppInstaller {
         appInfo.install_time = System.currentTimeMillis() / 1000;
         appInfo.launcher = launcher;
 
-        File destDir = new File(dataPath + appInfo.app_id);
-        if (!destDir.exists()) {
-            destDir.mkdirs();
-        }
-        destDir = new File(tempPath + appInfo.app_id);
-        if (!destDir.exists()) {
-            destDir.mkdirs();
+        if (appInfo.built_in != 1) {
+            File destDir = new File(dataPath + appInfo.app_id);
+            if (!destDir.exists()) {
+                destDir.mkdirs();
+            }
+            destDir = new File(tempPath + appInfo.app_id);
+            if (!destDir.exists()) {
+                destDir.mkdirs();
+            }
         }
 
         return appInfo;

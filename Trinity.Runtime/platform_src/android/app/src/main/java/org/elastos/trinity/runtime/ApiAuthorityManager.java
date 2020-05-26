@@ -23,7 +23,7 @@ public class ApiAuthorityManager {
     private Activity activity = null;
     private static ApiAuthorityManager apiAuthorityManager;
     protected LinkedHashMap<String, ApiAuthorityInfo> infoList = new LinkedHashMap();
-    ManagerDBAdapter dbAdapter = null;;
+    MergeDBAdapter dbAdapter = null;;
 
     ApiAuthorityManager() {
         this.activity = AppManager.getShareInstance().activity;

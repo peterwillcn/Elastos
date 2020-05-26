@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.elastos.trinity.runtime.AppManager;
 import org.elastos.trinity.runtime.WebViewActivity;
 import org.elastos.trinity.runtime.notificationmanager.db.DatabaseAdapter;
 
@@ -25,17 +26,19 @@ public class NotificationManager {
         void onNotification(Notification notification);
     }
 
-    public NotificationManager(WebViewActivity activity) {
-        this.activity = activity;
+    public NotificationManager() {
+        this.activity = AppManager.getShareInstance().activity;
         this.dbAdapter = new DatabaseAdapter(this, activity.getBaseContext());
 
         Log.i(LOG_TAG, "Creating NotificationManager ");
 
-        NotificationManager.instance = this;
     }
 
     public static NotificationManager getSharedInstance() {
-        return instance;
+        if (NotificationManager.instance == null) {
+            NotificationManager.instance = new NotificationManager();
+        }
+        return NotificationManager.instance;
     }
 
     /**

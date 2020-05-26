@@ -83,7 +83,7 @@ public class WebViewFragment extends Fragment {
     protected String launchUrl;
 
     public TitleBar titlebar;
-    private SystemWebView webView = null;
+    protected SystemWebView webView = null;
 
     public static WebViewFragment newInstance(String id) {
         if (id != null) {

@@ -48,8 +48,8 @@ public class ManagerDBHelper extends SQLiteOpenHelper {
     public static final String KEY = "key";
     public static final String VALUE = "value";
 
-    public ManagerDBHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public ManagerDBHelper(Context context, String dbPath) {
+        super(context, dbPath + DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     public ManagerDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {

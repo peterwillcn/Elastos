@@ -38,8 +38,6 @@ import android.view.View;
 import org.apache.cordova.PluginManager;
 import org.elastos.trinity.runtime.didsessions.DIDSessionManager;
 import org.elastos.trinity.runtime.didsessions.IdentityEntry;
-import org.elastos.trinity.runtime.notificationmanager.NotificationManager;
-import org.elastos.trinity.runtime.passwordmanager.PasswordManager;
 import org.json.JSONException;
 
 import java.io.File;
@@ -72,18 +70,22 @@ public class AppManager {
 
 
     public static final String LAUNCHER = "launcher";
+    public static final String DIDSESSION = "didsession";
 
     private static AppManager appManager;
     public WebViewActivity activity;
     public WebViewFragment curFragment = null;
-    ManagerDBAdapter dbAdapter = null;
+    MergeDBAdapter dbAdapter = null;
 
-    public String appsPath = null;
-    public String dataPath = null;
-    public String configPath = null;
-    public String tempPath = null;
 
-    private AppInstaller installer;
+    private AppPathInfo basePathInfo = null;
+    private AppPathInfo pathInfo = null;
+
+//    private AppInfo didsessionAppInfo = null;
+    private Boolean isSignIning = true;
+    private String did = null;
+
+    private AppInstaller shareInstaller = new AppInstaller();
 
     protected LinkedHashMap<String, AppInfo> appInfos;
     private ArrayList<String> lastList = new ArrayList<String>();
@@ -105,8 +107,6 @@ public class AppManager {
 
     private ArrayList<InstallInfo>  installUriList = new ArrayList<InstallInfo>();
     private ArrayList<Uri>          intentUriList = new ArrayList<Uri>();
-    private PermissionManager permissionManager;
-    private NotificationManager notificationManager;
     private boolean launcherReady = false;
 
     final static String[] defaultPlugins = {
@@ -116,55 +116,75 @@ public class AppManager {
             "TitleBarPlugin"
     };
 
+    class AppPathInfo {
+        public String appsPath = null;
+        public String dataPath = null;
+        public String configPath = null;
+        public String tempPath = null;
+        public String databasePath = null;
+
+        AppPathInfo(String basePath) {
+            String baseDir = activity.getFilesDir().toString();
+            if (basePath != null) {
+                baseDir = baseDir + "/" + basePath;
+            }
+            appsPath = baseDir + "/apps/";
+            dataPath = baseDir + "/data/";
+            configPath = baseDir + "/config/";
+            tempPath = baseDir + "/temp/";
+            databasePath = baseDir + "/database/";
+
+            File destDir = new File(appsPath);
+            if (!destDir.exists()) {
+                destDir.mkdirs();
+            }
+            destDir = new File(dataPath);
+            if (!destDir.exists()) {
+                destDir.mkdirs();
+            }
+            destDir = new File(configPath);
+            if (!destDir.exists()) {
+                destDir.mkdirs();
+            }
+            destDir = new File(tempPath);
+            if (!destDir.exists()) {
+                destDir.mkdirs();
+            }
+            destDir = new File(databasePath);
+            if (!destDir.exists()) {
+                destDir.mkdirs();
+            }
+        }
+    }
+
     AppManager(WebViewActivity activity) {
+
         AppManager.appManager = this;
         this.activity = activity;
-        permissionManager = new PermissionManager(activity);
-        notificationManager = new NotificationManager(activity);
 
-        appsPath = activity.getFilesDir() + "/apps/";
-        dataPath = activity.getFilesDir() + "/data/";
-        configPath = activity.getFilesDir() + "/config/";
-        tempPath = activity.getFilesDir() + "/temp/";
+        basePathInfo = new AppPathInfo(null);
+        pathInfo = basePathInfo;
 
-        File destDir = new File(appsPath);
-        if (!destDir.exists()) {
-            destDir.mkdirs();
-        }
-        destDir = new File(dataPath);
-        if (!destDir.exists()) {
-            destDir.mkdirs();
-        }
-        destDir = new File(configPath);
-        if (!destDir.exists()) {
-            destDir.mkdirs();
-        }
-        destDir = new File(tempPath);
-        if (!destDir.exists()) {
-            destDir.mkdirs();
-        }
+        dbAdapter = new MergeDBAdapter(activity);
 
-        dbAdapter = new ManagerDBAdapter(activity);
-//        dbAdapter.clean();
+        shareInstaller.init(activity, dbAdapter, basePathInfo.appsPath, null, null);
 
-        installer = new AppInstaller();
-        installer.init(activity, dbAdapter, appsPath, dataPath, tempPath);
-
-        PasswordManager.getSharedInstance().setAppManager(this);
+//        didsessionAppInfo = saveDIDSessionApp();
 
         refreashInfos();
         getLauncherInfo();
         saveLauncher();
-        try {
-            // TMP BPI loadLauncher();
-            launchStartupScreen();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        checkAndUpateDIDSession();
         saveBuiltInApps();
         refreashInfos();
-        sendRefreshList("initiated", null);
+
+        startDIDSession();
+//        try {
+//            signIn();
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
 
         if (PreferenceManager.getShareInstance().getDeveloperMode()) {
 //            CLIService.getShareInstance().start();
@@ -176,7 +196,124 @@ public class AppManager {
         return AppManager.appManager;
     }
 
-    public ManagerDBAdapter getDBAdapter() {
+    public String getBaseDataPath() {
+        return basePathInfo.dataPath;
+    }
+
+    private void reInit() {
+        curFragment = null;
+
+        pathInfo = new AppPathInfo(getDIDDir());
+
+        dbAdapter.setUserDBAdapter(pathInfo.databasePath);
+
+        refreashInfos();
+        getLauncherInfo();
+        try {
+            loadLauncher();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        refreashInfos();
+        sendRefreshList("initiated", null);
+    }
+
+    private void closeAll() throws Exception {
+        for (String appId : getRunningList()) {
+            if (!isLauncher(appId)) {
+                close(appId);
+            }
+
+        }
+
+        FragmentManager manager = activity.getSupportFragmentManager();
+        for (Fragment fragment : manager.getFragments()) {
+            manager.beginTransaction().remove(fragment).commit();
+        }
+    }
+
+    private void clean() {
+        did = null;
+        pathInfo = null;
+        curFragment = null;
+        appList = null;
+        lastList = new ArrayList<String>();
+        runningList = new ArrayList<String>();
+        visibles = new LinkedHashMap<String, Boolean>();
+        dbAdapter.setUserDBAdapter(null);
+
+        pathInfo = basePathInfo;
+//        did = "";
+    }
+    /**
+     * Signs in to a new DID session.
+     */
+    public void signIn() throws Exception {
+        if (isSignIning) {
+            closeDIDSession();
+            reInit();
+            isSignIning = false;
+        }
+    }
+
+    /**
+     * Signs out from a DID session. All apps and services are closed, and launcher goes back to the DID session app prompt.
+     */
+    public void signOut() throws Exception {
+        if (!isSignIning) {
+            isSignIning = true;
+            closeAll();
+            clean();
+            startDIDSession();
+        }
+    }
+
+    public String getDidsessionId() {
+        return "org.elastos.trinity.dapp.didsession";
+    }
+    public boolean isDIDSession(String appId) {
+        return appId.equals("didsession") || appId.equals(getDidsessionId());
+    }
+
+    public AppInfo getDIDSessionAppInfo() {
+        return dbAdapter.getAppInfo(getDidsessionId());
+    }
+
+    public void startDIDSession() {
+        DIDSessionViewFragment fragment = new DIDSessionViewFragment();
+        activity.getSupportFragmentManager().beginTransaction()
+                .add(R.id.content, fragment, getDidsessionId())
+                .commit();
+    }
+
+    public void closeDIDSession() throws Exception {
+        DIDSessionViewFragment fragment = (DIDSessionViewFragment) getFragmentById(getDidsessionId());
+        if (fragment != null) {
+            activity.getSupportFragmentManager().beginTransaction()
+                    .remove(fragment)
+                    .commit();
+        }
+
+        IdentityEntry entry = DIDSessionManager.getSharedInstance().getSignedInIdentity();
+        did = entry.didString;
+
+        isSignIning = false;
+    }
+
+    public String getDID() {
+        return did;
+    }
+
+    public String getDIDDir() {
+        String did = getDID();
+        if (did != null) {
+            did = did.replace(":", "_");
+        }
+        return did;
+    }
+
+    public MergeDBAdapter getDBAdapter() {
         return dbAdapter;
     }
 
@@ -194,6 +331,56 @@ public class AppManager {
         return input;
     }
 
+//    private AppInfo saveDIDSessionApp() {
+//        String builtInPath = "www/didsession";
+//        String appPath = basePathInfo.appsPath + "didsession";
+//        File appFile = new File(appPath);
+//        AppInfo builtInInfo = null;
+//
+//        try {
+//            InputStream builtInInput =  getAssetsFile(builtInPath + "/assets/manifest.json");
+//            if (builtInInput == null) {
+//                Log.e("AppManager", "No manifest found, returning");
+//                return null;
+//            }
+//
+//            builtInInfo = shareInstaller.parseManifest(builtInInput, 1);
+//            Boolean needInstall = true;
+//
+//            InputStream appInput = null;
+//            if (appFile.exists()) {
+//                appInput = new FileInputStream(appPath + "/assets/manifest.json");
+//                AppInfo installedInfo = shareInstaller.parseManifest(appInput, 1);
+//                if (installedInfo != null) {
+//                    boolean versionChanged = PreferenceManager.getShareInstance().versionChanged;
+//                    if (versionChanged || builtInInfo.version_code > installedInfo.version_code) {
+//                        Log.d("AppManager", "built in version > installed version: uninstalling installed");
+//
+//                        File root = new File(appPath);
+//                        shareInstaller.deleteAllFiles(root);
+//                    }
+//                    else {
+//                        Log.d("AppManager", "Built in version <= installed version, No need to install");
+//                        needInstall = false;
+//                    }
+//                }
+//                else {
+//                    Log.d("AppManager", "No installed info found");
+//                }
+//            }
+//
+//            if (needInstall) {
+//                shareInstaller.copyAssetsFolder(builtInPath, appPath);
+//                builtInInfo.built_in = 1;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        builtInInfo.app_id = "didsession";
+//        return builtInInfo;
+//    }
+
     private void installBuiltInApp(String path, String id, int launcher) throws Exception {
         Log.d("AppManager", "Entering installBuiltInApp path="+path+" id="+id+" launcher="+launcher);
 
@@ -206,7 +393,7 @@ public class AppManager {
                 return;
             }
         }
-        AppInfo builtInInfo = installer.parseManifest(input, launcher);
+        AppInfo builtInInfo = shareInstaller.parseManifest(input, launcher);
 
         AppInfo installedInfo = getAppInfo(id);
         Boolean needInstall = true;
@@ -214,7 +401,7 @@ public class AppManager {
             boolean versionChanged = PreferenceManager.getShareInstance().versionChanged;
             if (versionChanged || builtInInfo.version_code > installedInfo.version_code) {
                 Log.d("AppManager", "built in version > installed version: uninstalling installed");
-                installer.unInstall(installedInfo, true);
+                shareInstaller.unInstall(installedInfo, true);
             }
             else {
                 Log.d("AppManager", "Built in version <= installed version, No need to install");
@@ -227,9 +414,9 @@ public class AppManager {
 
         if (needInstall) {
             Log.d("AppManager", "Needs install - copying assets and setting built-in to 1");
-            installer.copyAssetsFolder(path, appsPath + builtInInfo.app_id);
+            shareInstaller.copyAssetsFolder(path, basePathInfo.appsPath + builtInInfo.app_id);
             builtInInfo.built_in = 1;
-            dbAdapter.addAppInfo(builtInInfo);
+            dbAdapter.addAppInfo(builtInInfo, true);
             if (launcher == 1) {
                 launcherInfo = null;
                 getLauncherInfo();
@@ -239,28 +426,47 @@ public class AppManager {
 
     private void saveLauncher() {
         try {
-            installBuiltInApp("www/", "launcher", 1);
 
-            File launcher = new File(appsPath, AppManager.LAUNCHER);
+            File launcher = new File(basePathInfo.appsPath, AppManager.LAUNCHER);
             if (launcher.exists()) {
-                AppInfo info = installer.getInfoByManifest(appsPath + AppManager.LAUNCHER + "/", 1);
+                AppInfo info = shareInstaller.getInfoByManifest(basePathInfo.appsPath + AppManager.LAUNCHER + "/", 1);
                 info.built_in = 1;
-                int count = dbAdapter.removeAppInfo(launcherInfo);
+                int count = dbAdapter.removeAppInfo(launcherInfo, true);
                 if (count < 1) {
                     Log.e("AppManager", "Launcher upgrade -- Can't remove the older DB info.");
                     //TODO:: need remove the files? now, restart will try again.
                     return;
                 }
-                installer.renameFolder(launcher, appsPath, launcherInfo.app_id);
-                dbAdapter.addAppInfo(info);
+                shareInstaller.renameFolder(launcher, basePathInfo.appsPath, launcherInfo.app_id);
+                dbAdapter.addAppInfo(info, true);
                 launcherInfo = null;
                 getLauncherInfo();
             }
+
+            installBuiltInApp("www/", "launcher", 1);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    private void checkAndUpateDIDSession() {
+        try {
+            File didsession = new File(basePathInfo.appsPath, AppManager.DIDSESSION);
+            if (didsession.exists()) {
+                AppInfo info = shareInstaller.getInfoByManifest(basePathInfo.appsPath + AppManager.DIDSESSION + "/", 0);
+                info.built_in = 1;
+                int count = dbAdapter.removeAppInfo(getDIDSessionAppInfo(), true);
+                if (count < 1) {
+                    Log.e("AppManager", "Launcher upgrade -- Can't remove the older DB info.");
+                    return;
+                }
+                shareInstaller.renameFolder(didsession, basePathInfo.appsPath, getDidsessionId());
+                dbAdapter.addAppInfo(info, true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * USE CASES:
      *
@@ -335,6 +541,10 @@ public class AppManager {
     }
 
     public AppInfo getLauncherInfo() {
+        if (isSignIning) {
+            return getDIDSessionAppInfo();
+        }
+
         if (launcherInfo == null) {
             launcherInfo = dbAdapter.getLauncherInfo();
         }
@@ -367,7 +577,10 @@ public class AppManager {
     }
 
     public AppInfo getAppInfo(String id) {
-        if (isLauncher(id)) {
+        if (isDIDSession(id)) {
+            return getDIDSessionAppInfo();
+        }
+        else if (isLauncher(id)) {
             return getLauncherInfo();
         }
         else {
@@ -380,6 +593,10 @@ public class AppManager {
     }
 
     public String getStartPath(AppInfo info) {
+        if (info == null) {
+            return null;
+        }
+
         if (info.remote == 0) {
             return getAppUrl(info) + info.start_url;
         }
@@ -390,7 +607,11 @@ public class AppManager {
 
     public String getAppPath(AppInfo info) {
         if (info.remote == 0) {
-            return appsPath + info.app_id + "/";
+            String path = basePathInfo.appsPath;
+            if (!info.share) {
+                path = pathInfo.appsPath;
+            }
+            return path + info.app_id + "/";
         }
         else {
             return info.start_url.substring(0, info.start_url.lastIndexOf("/") + 1);
@@ -405,11 +626,24 @@ public class AppManager {
         return url;
     }
 
+    private String checkPath(String path) {
+        File destDir = new File(path);
+        if (!destDir.exists()) {
+            destDir.mkdirs();
+        }
+        return path;
+    }
+
     public String getDataPath(String id) {
+        if (id == null) {
+            return null;
+        }
+
         if (isLauncher(id)) {
             id = launcherInfo.app_id;
         }
-        return dataPath + id + "/";
+
+        return checkPath(pathInfo.dataPath + id + "/");
     }
 
     public String getDataUrl(String id) {
@@ -421,7 +655,7 @@ public class AppManager {
         if (isLauncher(id)) {
             id = launcherInfo.app_id;
         }
-        return tempPath + id + "/";
+        return checkPath(pathInfo.tempPath + id + "/");
     }
 
     public String getTempUrl(String id) {
@@ -429,14 +663,12 @@ public class AppManager {
     }
 
     public String getConfigPath() {
-        return configPath;
+        return pathInfo.configPath;
     }
-
-
 
     public String getIconUrl(AppInfo info) {
         if (info.type.equals("url")) {
-            return "file://" + appsPath + info.app_id + "/";
+            return "file://" + pathInfo.appsPath + info.app_id + "/";
         }
         else {
             return getAppUrl(info);
@@ -464,7 +696,7 @@ public class AppManager {
     }
 
     public AppInfo install(String url, boolean update) throws Exception  {
-        AppInfo info = installer.install(url, update);
+        AppInfo info = shareInstaller.install(url, update);
         if (info != null) {
             refreashInfos();
 
@@ -482,7 +714,7 @@ public class AppManager {
     public void unInstall(String id, boolean update) throws Exception {
         close(id);
         AppInfo info = appInfos.get(id);
-        installer.unInstall(info, update);
+        shareInstaller.unInstall(info, update);
         refreashInfos();
         if (!update) {
            if (info.built_in == 1) {
@@ -536,16 +768,16 @@ public class AppManager {
     }
 
     private void hideFragment(WebViewFragment fragment, String id) {
-            FragmentManager manager = activity.getSupportFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-            if (!fragment.isAdded()) {
-                transaction.add(R.id.content, fragment, id);
-            }
-            transaction.hide(fragment);
-            transaction.commit();
+        FragmentManager manager = activity.getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        if (!fragment.isAdded()) {
+            transaction.add(R.id.content, fragment, id);
+        }
+        transaction.hide(fragment);
+        transaction.commit();
 
-            runningList.add(0, id);
-            lastList.add(1, id);
+        runningList.add(0, id);
+        lastList.add(1, id);
     }
 
     Boolean isCurrentFragment(WebViewFragment fragment) {
@@ -568,6 +800,10 @@ public class AppManager {
     }
 
     public void start(String id) throws Exception {
+        if (isDIDSession(id)) {
+            return;
+        }
+
         AppInfo info = getAppInfo(id);
         if (info == null) {
             throw new Exception("No such app!");
@@ -592,8 +828,12 @@ public class AppManager {
     }
 
     public void close(String id) throws Exception {
+        if (isDIDSession(id)) {
+            return;
+        }
+
         if (isLauncher(id)) {
-            return; // TMP BPI TEST throw new Exception("Launcher can't close!");
+            throw new Exception("Launcher can't close!");
         }
 
         AppInfo info = appInfos.get(id);
@@ -632,58 +872,12 @@ public class AppManager {
         sendRefreshList("closed", info);
     }
 
-    /**
-     * Closes all running apps, except the launcher app.
-     */
-    public void closeAll() throws Exception {
-        for (String appId : getRunningList()) {
-            close(appId);
-        }
-    }
-
     public void loadLauncher() throws Exception {
         start(LAUNCHER);
     }
 
-    public void launchStartupScreen() throws Exception {
-        // Check if a there is a signed in DID. If so, directly start the launcher. If not,
-        // start the DID session dapp
-        DIDSessionManager.getSharedInstance().setAppManager(this);
-        IdentityEntry signedInIdentity = DIDSessionManager.getSharedInstance().getSignedInIdentity();
-        if (signedInIdentity == null) {
-            // No DID signed in
-            loadLauncher(); // TODO - IMPORTANT NOTE: for now because did session app crashes if launcher was not loaded, we also start the launcher FOR TEST. Later , launcher should NOT start if DID session starts
-            start("org.elastos.trinity.dapp.didsession");
-        }
-        else {
-            // A DID is signed in
-            loadLauncher();
-        }
-    }
-
-    /**
-     * Signs in to a new DID session.
-     */
-    public void signIn() throws Exception {
-        // Stop the did session app
-        close("org.elastos.trinity.dapp.didsession");
-
-        // Start the launcher app
-        launchStartupScreen();
-    }
-
-    /**
-     * Signs out from a DID session. All apps and services are closed, and launcher goes back to the DID session app prompt.
-     */
-    public void signOut() throws Exception {
-        closeAll();
-
-        // Go back to the startup screen
-        launchStartupScreen();
-    }
-
     public void checkInProtectList(String uri) throws Exception {
-        AppInfo info = installer.getInfoFromUrl(uri);
+        AppInfo info = shareInstaller.getInfoFromUrl(uri);
         if (info != null && info.app_id != "" ) {
             String[] protectList = ConfigManager.getShareInstance().getStringArrayValue(
                     "dapp.protectList", new String[0]);

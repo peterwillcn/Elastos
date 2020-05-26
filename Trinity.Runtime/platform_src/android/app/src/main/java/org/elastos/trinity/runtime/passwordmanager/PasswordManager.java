@@ -98,17 +98,16 @@ public class PasswordManager {
         void onPasswordInfoSet();
     }
 
-    public PasswordManager(WebViewActivity activity) {
-        this.activity = activity;
-        PasswordManager.instance = this;
-    }
-
-    public void setAppManager(AppManager appManager) {
-        this.appManager = appManager;
+    public PasswordManager() {
+        this.appManager = AppManager.getShareInstance();
+        this.activity = this.appManager.activity;
     }
 
     public static PasswordManager getSharedInstance() {
-        return instance;
+        if (PasswordManager.instance == null) {
+            PasswordManager.instance = new PasswordManager();
+        }
+        return PasswordManager.instance;
     }
 
     /**

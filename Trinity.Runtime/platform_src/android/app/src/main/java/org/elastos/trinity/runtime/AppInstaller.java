@@ -62,20 +62,19 @@ public class AppInstaller {
     };
 
     private String appPath = null;
-    private String dataPath = null;
     private String tempPath = null;
     private MergeDBAdapter dbAdapter = null;
     private Context context = null;
+    private AppManager appManager = null;
 
     private Random random =new Random();
 
-    public boolean init(Context context, MergeDBAdapter dbAdapter,
-                        String appPath, String dataPath, String tempPath) {
-        this.context = context;
+    public boolean init(String appPath, String tempPath) {
+        this.appManager = AppManager.getShareInstance();
+        this.context = appManager.activity;
+        this.dbAdapter = appManager.getDBAdapter();
         this.appPath = appPath;
-        this.dataPath = dataPath;
         this.tempPath = tempPath;
-        this.dbAdapter = dbAdapter;
 
         random = new Random();
 
@@ -495,9 +494,9 @@ public class AppInstaller {
         deleteAllFiles(root);
         if (!update) {
             Log.d("AppInstaller", "unInstall() - update = false - deleting all files");
-            root = new File(dataPath + info.app_id);
+            root = new File(appManager.getDataPath(info.app_id));
             deleteAllFiles(root);
-            root = new File(tempPath + info.app_id);
+            root = new File(appManager.getTempPath(info.app_id));
             deleteAllFiles(root);
         }
     }
@@ -746,17 +745,6 @@ public class AppInstaller {
 
         appInfo.install_time = System.currentTimeMillis() / 1000;
         appInfo.launcher = launcher;
-
-        if (appInfo.built_in != 1) {
-            File destDir = new File(dataPath + appInfo.app_id);
-            if (!destDir.exists()) {
-                destDir.mkdirs();
-            }
-            destDir = new File(tempPath + appInfo.app_id);
-            if (!destDir.exists()) {
-                destDir.mkdirs();
-            }
-        }
 
         return appInfo;
     }

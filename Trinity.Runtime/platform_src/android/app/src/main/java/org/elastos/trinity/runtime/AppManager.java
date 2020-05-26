@@ -167,7 +167,7 @@ public class AppManager {
 
         dbAdapter = new MergeDBAdapter(activity);
 
-        shareInstaller.init(activity, dbAdapter, basePathInfo.appsPath, null, null);
+        shareInstaller.init(basePathInfo.appsPath, basePathInfo.tempPath);
 
 //        didsessionAppInfo = saveDIDSessionApp();
 
@@ -178,13 +178,20 @@ public class AppManager {
         saveBuiltInApps();
         refreashInfos();
 
-        startDIDSession();
-//        try {
-//            signIn();
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
+        IdentityEntry entry = null;
+        try {
+            entry = DIDSessionManager.getSharedInstance().getSignedInIdentity();
+            if (entry != null) {
+                signIn();
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if (entry == null) {
+            startDIDSession();
+        }
 
         if (PreferenceManager.getShareInstance().getDeveloperMode()) {
 //            CLIService.getShareInstance().start();

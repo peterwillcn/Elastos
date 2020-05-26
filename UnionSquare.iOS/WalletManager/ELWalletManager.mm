@@ -3137,6 +3137,8 @@ void *ReverseByteOrder(void *p, unsigned int len)
     
         NSDictionary *dataDic = [[NSDictionary alloc] initWithDictionary:dic];
         NSString *payload  = [self createProposalReviewTransaction:dataDic walletID:masterWalletID];
+    
+        NSLog(@"xxl Payload is %@",payload);
         if(!payload)
         {
             return nil;

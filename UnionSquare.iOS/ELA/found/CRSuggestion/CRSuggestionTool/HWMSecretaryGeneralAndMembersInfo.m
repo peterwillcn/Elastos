@@ -62,35 +62,33 @@ static HWMSecretaryGeneralAndMembersInfo *_instance;
 {
     return _instance;
 }
--(void)loadDataSource{
-    [[FLTools share]showLoadingView];
+-(void)loadDataSourceWithLoading:(BOOL)isLoading complete:(DetailsModelBlock)com{
+    self.detailsModel=nil;
+    if (isLoading) {
+        [[FLTools share]showLoadingView];
+    }
+    
     NSString *didString= [self getDIDString];
     __weak __typeof__(self)weakSelf=self;
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadSecretaryGeneralAndMembersDetailsWithID:@"" withDIDString:didString withComplete:^(id  _Nonnull data) {
+         
         NSLog(@"委员信息获取成功---%@",data);
-        [weakSelf parsingModelWithData:data[@"data"]];
+        [self parsingModelWithData:data[@"data"] complete:^(HWMSecretaryGeneralAndMembersDetailsModel *model) {
+            [[FLTools share] hideLoadingView];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                  com(model);
+            });
+          
+        }];
       [[FLTools share]hideLoadingView];
         }];
 
 }
-- (void)loadDataSourceWithNoShowHud
-{
-//    [[FLTools share]showLoadingView];
-    NSString *didString= [self getDIDString];
-    __weak __typeof__(self)weakSelf=self;
-    [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadSecretaryGeneralAndMembersDetailsWithIDAndNoShowHud:@"" withDIDString:didString withComplete:^(id  _Nonnull data) {
-        NSLog(@"委员信息获取成功---%@",data);
-        [weakSelf parsingModelWithData:data[@"data"]];
-//      [[FLTools share]hideLoadingView];
-        }];
-
-}
-
--(void)parsingModelWithData:(id)data{
-
+-(void)parsingModelWithData:(id)data complete:(DetailsModelBlock)com{
     HWMSecretaryGeneralAndMembersDetailsViewModel  *DetailsViewMode=[[HWMSecretaryGeneralAndMembersDetailsViewModel alloc] init];
     [DetailsViewMode SecretaryGeneralAndMembersDetailsModelDataJosn:data completion:^(HWMSecretaryGeneralAndMembersDetailsModel * _Nonnull model) {
         self.detailsModel=model;
+        com(self.detailsModel);
     }];
 }
 -(FLWallet *)currentWallet{
@@ -112,8 +110,6 @@ static HWMSecretaryGeneralAndMembersInfo *_instance;
 -(HWMSecretaryGeneralAndMembersDetailsModel*)getDetailsModel{
     if (self.detailsModel) {
         return self.detailsModel;
-    }else{
-        [self loadDataSource];
     }
     return nil;
 }

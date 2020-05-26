@@ -49,7 +49,7 @@
     Fmodel.againstResult=[[NSMutableArray alloc]init];
     Fmodel.waiverResult=[[NSMutableArray alloc]init];
     for (HWMVoteResultModel *model in Fmodel.voteResult) {
-        model.reasonCell=[[FLTools share]calculateRowHeight:model.reason fontSize:14 withmargin:AppWidth-30];
+        model.reasonCell=[[FLTools share]calculateRowHeight:model.reason fontSize:14 withmargin:30];
         if ([model.value isEqualToString:@"support"]) {
             [Fmodel.agreeResult addObject:model];
         }else if([model.value isEqualToString:@"reject"]) {
@@ -60,23 +60,22 @@
     }
     if (Fmodel.tracking.count>0) {
         Fmodel.trackingResult=[[NSMutableArray alloc]init];
-      for (HWMVoteResultModel *model in Fmodel.tracking) {
-            model.reasonCell=[[FLTools share]calculateRowHeight:model.reason fontSize:14 withmargin:AppWidth-30];
-            if ([model.value isEqualToString:@"support"]) {
-                [Fmodel.agreeResult addObject:model];
-            }else if([model.value isEqualToString:@"reject"]) {
-                [Fmodel.againstResult addObject:model];
-            }else if([model.value isEqualToString:@"abstention"]){
-                [Fmodel.waiverResult addObject:model];
-            }
-          [Fmodel.trackingResult addObject:model];
-          
+        for (NSDictionary *dic in Fmodel.tracking) {
+            HWMVoteResultModel *VoteRModel=[HWMVoteResultModel modelWithJSON:dic];
+            VoteRModel.createdAt=[[FLTools share]YMDHMSgetTimeFromTimesTamp:VoteRModel.createdAt];
+            VoteRModel.commentModel=[HWMcommentModel  modelWithJSON:VoteRModel.comment];
+             VoteRModel.commentModel.createdAt=[[FLTools share]YMDHMSgetTimeFromTimesTamp: VoteRModel.commentModel.createdAt];
+            VoteRModel.commentModel.reasonCell=[[FLTools share]calculateRowHeight:VoteRModel.commentModel.content fontSize:14 withmargin:40];
+            VoteRModel.reasonCell=[[FLTools share]calculateRowHeight:VoteRModel.content fontSize:14 withmargin:30];
+            [Fmodel.trackingResult addObject:VoteRModel];
+            
+            
         }
         
     }
-//    if (model.summary.count>0) {
-////          model.summary=[HWMVoteResultModel modelWithJSON:[]]
-//    }
+    //    if (model.summary.count>0) {
+    ////          model.summary=[HWMVoteResultModel modelWithJSON:[]]
+    //    }
     return Fmodel;
 }
 -(void)detailsProposalModelDataJosn:( _Nonnull  id)json completion:(_Nonnull DetailsProposalBlock)completionBlock{

@@ -7,7 +7,6 @@
 
 #import "NSString+HWMNSTaggedPointerString.h"
 #import <objc/runtime.h>
-//#import <AppKit/AppKit.h>
 
 
 @implementation NSString (HWMNSTaggedPointerString)

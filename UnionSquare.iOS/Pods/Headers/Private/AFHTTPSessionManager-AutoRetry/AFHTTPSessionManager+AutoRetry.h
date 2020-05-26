@@ -1,0 +1,1 @@
+../../../AFHTTPSessionManager-AutoRetry/AFNeworkingAutoRetry/AFHTTPSessionManager+AutoRetry.h

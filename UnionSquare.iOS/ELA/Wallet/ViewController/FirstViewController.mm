@@ -781,6 +781,7 @@
             break;
         case reviewPropalQrCodeType:
             [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
+           // [self showAdviceInfoText:data withJWTString:QRCodeString WithType:type];
             break;
         case billQrCodeType:
             [self showAdviceInfoText:data withJWTString:QRCodeString WithType:type];

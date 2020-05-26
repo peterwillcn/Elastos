@@ -639,12 +639,6 @@
 		CBD25F082216DD8500EDA0F5 /* DrawBackVoteMoneyVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = CBD25F062216DD8500EDA0F5 /* DrawBackVoteMoneyVC.mm */; };
 		CBD25F092216DD8500EDA0F5 /* DrawBackVoteMoneyVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBD25F072216DD8500EDA0F5 /* DrawBackVoteMoneyVC.xib */; };
 		CBD48D4A21FC341200BF3B11 /* FLCoinPointInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD48D4921FC341200BF3B11 /* FLCoinPointInfoModel.m */; };
-		CBD48D5A21FC36BA00BF3B11 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD48D5021FC36BA00BF3B11 /* AFURLResponseSerialization.m */; };
-		CBD48D5B21FC36BA00BF3B11 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD48D5121FC36BA00BF3B11 /* AFHTTPSessionManager.m */; };
-		CBD48D5C21FC36BA00BF3B11 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD48D5321FC36BA00BF3B11 /* AFURLSessionManager.m */; };
-		CBD48D5D21FC36BA00BF3B11 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD48D5421FC36BA00BF3B11 /* AFURLRequestSerialization.m */; };
-		CBD48D5E21FC36BA00BF3B11 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD48D5621FC36BA00BF3B11 /* AFNetworkReachabilityManager.m */; };
-		CBD48D5F21FC36BA00BF3B11 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD48D5721FC36BA00BF3B11 /* AFSecurityPolicy.m */; };
 		CBD48D6321FC399700BF3B11 /* HttpUrl.m in Sources */ = {isa = PBXBuildFile; fileRef = CBD48D6221FC399700BF3B11 /* HttpUrl.m */; };
 		CBD48D6721FC634D00BF3B11 /* FLVoteTicketTransferVC.mm in Sources */ = {isa = PBXBuildFile; fileRef = CBD48D6521FC634D00BF3B11 /* FLVoteTicketTransferVC.mm */; };
 		CBD48D6821FC634D00BF3B11 /* FLVoteTicketTransferVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBD48D6621FC634D00BF3B11 /* FLVoteTicketTransferVC.xib */; };
@@ -1915,20 +1909,6 @@
 		CBD25F072216DD8500EDA0F5 /* DrawBackVoteMoneyVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DrawBackVoteMoneyVC.xib; sourceTree = "<group>"; };
 		CBD48D4821FC341200BF3B11 /* FLCoinPointInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLCoinPointInfoModel.h; sourceTree = "<group>"; };
 		CBD48D4921FC341200BF3B11 /* FLCoinPointInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLCoinPointInfoModel.m; sourceTree = "<group>"; };
-		CBD48D4C21FC36BA00BF3B11 /* AFSecurityPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFSecurityPolicy.h; sourceTree = "<group>"; };
-		CBD48D4D21FC36BA00BF3B11 /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
-		CBD48D4E21FC36BA00BF3B11 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
-		CBD48D4F21FC36BA00BF3B11 /* AFURLRequestSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLRequestSerialization.h; sourceTree = "<group>"; };
-		CBD48D5021FC36BA00BF3B11 /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
-		CBD48D5121FC36BA00BF3B11 /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
-		CBD48D5221FC36BA00BF3B11 /* AFURLResponseSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLResponseSerialization.h; sourceTree = "<group>"; };
-		CBD48D5321FC36BA00BF3B11 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
-		CBD48D5421FC36BA00BF3B11 /* AFURLRequestSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLRequestSerialization.m; sourceTree = "<group>"; };
-		CBD48D5521FC36BA00BF3B11 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
-		CBD48D5621FC36BA00BF3B11 /* AFNetworkReachabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkReachabilityManager.m; sourceTree = "<group>"; };
-		CBD48D5721FC36BA00BF3B11 /* AFSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFSecurityPolicy.m; sourceTree = "<group>"; };
-		CBD48D5821FC36BA00BF3B11 /* AFCompatibilityMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFCompatibilityMacros.h; sourceTree = "<group>"; };
-		CBD48D5921FC36BA00BF3B11 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
 		CBD48D6121FC399700BF3B11 /* HttpUrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpUrl.h; sourceTree = "<group>"; };
 		CBD48D6221FC399700BF3B11 /* HttpUrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpUrl.m; sourceTree = "<group>"; };
 		CBD48D6421FC634D00BF3B11 /* FLVoteTicketTransferVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLVoteTicketTransferVC.h; sourceTree = "<group>"; };
@@ -2083,6 +2063,7 @@
 		4202C7D421F6EF28009E5932 /* ThirdSDK */ = {
 			isa = PBXGroup;
 			children = (
+				424FEAD7247D453E00B12851 /* YYKit */,
 				4284763A243F29E600EADFDE /* SVG */,
 				4224AE50243CD43E0056606F /* CocoaLumberjack */,
 				42D1060723A336240063AADC /* PingManager */,
@@ -2091,7 +2072,6 @@
 				42EAF008238BB84700D6A912 /* HW3DBannerView */,
 				424910C22271BFCF00C41E50 /* SDWebImage */,
 				42B57A9322150C1C004CF089 /* WOCrashProtector */,
-				CBD48D4B21FC36BA00BF3B11 /* AFNetworking */,
 				4202C81B21F6EF28009E5932 /* Masonry */,
 				4202C83521F6EF28009E5932 /* SVProgressHUD */,
 				4202C84921F6EF28009E5932 /* SGQRCode */,
@@ -3447,6 +3427,13 @@
 			path = lanchImageView;
 			sourceTree = "<group>";
 		};
+		424FEAD7247D453E00B12851 /* YYKit */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = YYKit;
+			sourceTree = "<group>";
+		};
 		425A5F292462DC1500C44104 /* CRSuggestion */ = {
 			isa = PBXGroup;
 			children = (
@@ -4379,27 +4366,6 @@
 			path = PasswView;
 			sourceTree = "<group>";
 		};
-		CBD48D4B21FC36BA00BF3B11 /* AFNetworking */ = {
-			isa = PBXGroup;
-			children = (
-				CBD48D5821FC36BA00BF3B11 /* AFCompatibilityMacros.h */,
-				CBD48D5921FC36BA00BF3B11 /* AFHTTPSessionManager.h */,
-				CBD48D5121FC36BA00BF3B11 /* AFHTTPSessionManager.m */,
-				CBD48D5521FC36BA00BF3B11 /* AFNetworking.h */,
-				CBD48D4D21FC36BA00BF3B11 /* AFNetworkReachabilityManager.h */,
-				CBD48D5621FC36BA00BF3B11 /* AFNetworkReachabilityManager.m */,
-				CBD48D4C21FC36BA00BF3B11 /* AFSecurityPolicy.h */,
-				CBD48D5721FC36BA00BF3B11 /* AFSecurityPolicy.m */,
-				CBD48D4F21FC36BA00BF3B11 /* AFURLRequestSerialization.h */,
-				CBD48D5421FC36BA00BF3B11 /* AFURLRequestSerialization.m */,
-				CBD48D5221FC36BA00BF3B11 /* AFURLResponseSerialization.h */,
-				CBD48D5021FC36BA00BF3B11 /* AFURLResponseSerialization.m */,
-				CBD48D4E21FC36BA00BF3B11 /* AFURLSessionManager.h */,
-				CBD48D5321FC36BA00BF3B11 /* AFURLSessionManager.m */,
-			);
-			path = AFNetworking;
-			sourceTree = "<group>";
-		};
 		CBD48D6021FC396D00BF3B11 /* NetTool */ = {
 			isa = PBXGroup;
 			children = (
@@ -4462,7 +4428,7 @@
 				LastUpgradeCheck = 1140;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = WF4LNX869V;
+						DevelopmentTeam = VNP5LMNF24;
 						LastSwiftMigration = 1130;
 						ProvisioningStyle = Automatic;
 					};
@@ -4822,7 +4788,6 @@
 				42EA693F2313C23C00418328 /* HWMQrCodeScanningResultsViewController.m in Sources */,
 				42EAEFF3238BB69C00D6A912 /* HWMNewPrivateKeyViewController.mm in Sources */,
 				42CC279E244C2CE900373504 /* HWMnodeConnectionSettingsDetailsViewController.mm in Sources */,
-				CBD48D5E21FC36BA00BF3B11 /* AFNetworkReachabilityManager.m in Sources */,
 				42D1060323A3344D0063AADC /* MJRefreshHeader.m in Sources */,
 				4202CA9921F6EF2B009E5932 /* HMWImportTheWalletViewController.mm in Sources */,
 				425A5F5D246582D500C44104 /* HWMCommentPerioDetailsViewController.mm in Sources */,
@@ -4831,7 +4796,6 @@
 				42A7A85B236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.m in Sources */,
 				4202CA0E21F6EF2A009E5932 /* WCQRCodeScanningVC.m in Sources */,
 				CBD48D6D21FEA22400BF3B11 /* FLNotePointDBManager.m in Sources */,
-				CBD48D5B21FC36BA00BF3B11 /* AFHTTPSessionManager.m in Sources */,
 				423461F92383F18900E4B135 /* NSArray+YRSafeCategory.m in Sources */,
 				4202CA5021F6EF2A009E5932 /* FLSearchContractTableCell.m in Sources */,
 				425A5F6124666FC400C44104 /* HWMCommentPerioDetailsHeadView.m in Sources */,
@@ -4960,7 +4924,6 @@
 				42EAEFFC238BB72D00D6A912 /* HWMAddThePrivateKeyTableViewCell.m in Sources */,
 				4202CA5C21F6EF2A009E5932 /* HMWtransferDetailsPopupView.m in Sources */,
 				42B05A66243F217500A38267 /* UIImage+SVGTool.m in Sources */,
-				CBD48D5F21FC36BA00BF3B11 /* AFSecurityPolicy.m in Sources */,
 				4279CAE024796C3100B503A4 /* ELAPledgeView.m in Sources */,
 				424910F42271BFCF00C41E50 /* SDImageCacheConfig.m in Sources */,
 				4202CA2221F6EF2A009E5932 /* HMWmyContactListTableViewCell.m in Sources */,
@@ -4972,7 +4935,6 @@
 				4202CA3621F6EF2A009E5932 /* FLSugarModel.m in Sources */,
 				4279CAD024796C3100B503A4 /* MJPropertyKey.m in Sources */,
 				42D7DC6423F68C1F002F5A9A /* HWMTheImportDocumentsViewController.mm in Sources */,
-				CBD48D5C21FC36BA00BF3B11 /* AFURLSessionManager.m in Sources */,
 				428950CA2473A8DA007DF48D /* HWMSecretaryGeneralAndMembersDetailsModel.m in Sources */,
 				42EAEF85238BB43700D6A912 /* NSString+HWMNSTaggedPointerString.m in Sources */,
 				4202CA3421F6EF2A009E5932 /* FLFounderSugarVC.m in Sources */,
@@ -4998,7 +4960,6 @@
 				42D1060523A3344D0063AADC /* MJRefreshAutoFooter.m in Sources */,
 				42B57AB922150C1C004CF089 /* WOCrashLog.m in Sources */,
 				4202CA6621F6EF2B009E5932 /* HMWSideChainAndTheContactTableViewCell.m in Sources */,
-				CBD48D5A21FC36BA00BF3B11 /* AFURLResponseSerialization.m in Sources */,
 				42D105FC23A3344D0063AADC /* MJRefreshAutoStateFooter.m in Sources */,
 				42D126A722B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.m in Sources */,
 				4202CA9D21F6EF2B009E5932 /* FLSelectWordView.m in Sources */,
@@ -5159,7 +5120,6 @@
 				423461FA2383F18900E4B135 /* UITableView+YRSafeCategory.m in Sources */,
 				42D105F823A3344D0063AADC /* UIView+MJExtension.m in Sources */,
 				4202CABF21F6EF2B009E5932 /* UIViewController+FLVCExt.m in Sources */,
-				CBD48D5D21FC36BA00BF3B11 /* AFURLRequestSerialization.m in Sources */,
 				4279CAC424796C3100B503A4 /* ELACommitteeListViewController.m in Sources */,
 				425A5F4E24653A3700C44104 /* HWMCommunityProposalBaseTableViewCell.m in Sources */,
 				4279CACF24796C3100B503A4 /* NSString+MJExtension.m in Sources */,
@@ -5215,7 +5175,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = WF4LNX869V;
+				DEVELOPMENT_TEAM = VNP5LMNF24;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5295,7 +5255,7 @@
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = WF4LNX869V;
+				DEVELOPMENT_TEAM = VNP5LMNF24;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5418,7 +5378,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = WF4LNX869V;
+				DEVELOPMENT_TEAM = VNP5LMNF24;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5543,7 +5503,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = WF4LNX869V;
+				DEVELOPMENT_TEAM = VNP5LMNF24;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

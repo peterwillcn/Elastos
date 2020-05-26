@@ -23,14 +23,118 @@
 
 
 #import "HWMDetailsProposalModel.h"
-@implementation HWMcommentModel 
+@implementation HWMcommentModel
++ (NSDictionary *)modelCustomPropertyMapper {
+    return @{@"commentContent": @"content"};
+}
+
++ (void)goThroughAllProperty:(id)object propertyBlock:(void(^)(NSString *propertyName))propertyBlcok {
+  u_int count;
+  objc_property_t *propertyList = class_copyPropertyList([object class], &count);
+  for (int i = 0; i < count; i++) {
+    const char *propertyChar = property_getName(propertyList[i]);
+    NSString *propertyName = [NSString stringWithUTF8String:propertyChar];
+    if (propertyBlcok) {
+      propertyBlcok(propertyName);
+    }
+  }
+  free(propertyList);
+}
+
+- (void)encodeWithCoder:(nonnull NSCoder *)aCoder {
+  __weak __typeof__ (self) weakSelf = self;
+  [[self class] goThroughAllProperty:self propertyBlock:^(NSString *propertyName) {
+    id value = [weakSelf valueForKey:propertyName];
+    [aCoder encodeObject:value forKey:propertyName];
+  }];
+}
+
+- (nullable instancetype)initWithCoder:(nonnull NSCoder *)aDecoder {
+  self = [super init];
+  if (self) {
+    __weak __typeof__ (self) weakSelf = self;
+    [[self class] goThroughAllProperty:self propertyBlock:^(NSString *propertyName) {
+      id value = [aDecoder decodeObjectForKey:propertyName];
+      [weakSelf setValue:value forKey:propertyName];
+    }];
+  }
+  return self;
+}
 
 @end
 @implementation HWMVoteResultModel
++ (void)goThroughAllProperty:(id)object propertyBlock:(void(^)(NSString *propertyName))propertyBlcok {
+  u_int count;
+  objc_property_t *propertyList = class_copyPropertyList([object class], &count);
+  for (int i = 0; i < count; i++) {
+    const char *propertyChar = property_getName(propertyList[i]);
+    NSString *propertyName = [NSString stringWithUTF8String:propertyChar];
+    if (propertyBlcok) {
+      propertyBlcok(propertyName);
+    }
+  }
+  free(propertyList);
+}
+
+#pragma mark NSCoding protocol
+- (void)encodeWithCoder:(nonnull NSCoder *)aCoder {
+  __weak __typeof__ (self) weakSelf = self;
+  [[self class] goThroughAllProperty:self propertyBlock:^(NSString *propertyName) {
+    id value = [weakSelf valueForKey:propertyName];
+    [aCoder encodeObject:value forKey:propertyName];
+  }];
+}
+
+- (nullable instancetype)initWithCoder:(nonnull NSCoder *)aDecoder {
+  self = [super init];
+  if (self) {
+    __weak __typeof__ (self) weakSelf = self;
+    [[self class] goThroughAllProperty:self propertyBlock:^(NSString *propertyName) {
+      id value = [aDecoder decodeObjectForKey:propertyName];
+      [weakSelf setValue:value forKey:propertyName];
+    }];
+  }
+  return self;
+}
 
 @end
 @implementation HWMDetailsProposalModel
 + (NSDictionary *)modelCustomPropertyMapper {
     return @{@"ID": @"id",@"abstract":@"abs"};
 }
+
++ (void)goThroughAllProperty:(id)object propertyBlock:(void(^)(NSString *propertyName))propertyBlcok {
+  u_int count;
+  objc_property_t *propertyList = class_copyPropertyList([object class], &count);
+  for (int i = 0; i < count; i++) {
+    const char *propertyChar = property_getName(propertyList[i]);
+    NSString *propertyName = [NSString stringWithUTF8String:propertyChar];
+    if (propertyBlcok) {
+      propertyBlcok(propertyName);
+    }
+  }
+  free(propertyList);
+}
+
+#pragma mark NSCoding protocol
+- (void)encodeWithCoder:(nonnull NSCoder *)aCoder {
+  __weak __typeof__ (self) weakSelf = self;
+  [[self class] goThroughAllProperty:self propertyBlock:^(NSString *propertyName) {
+      id value = [weakSelf valueForKey:propertyName];
+    [aCoder encodeObject:value forKey:propertyName];
+  }];
+}
+
+- (nullable instancetype)initWithCoder:(nonnull NSCoder *)aDecoder {
+  self = [super init];
+  if (self) {
+    __weak __typeof__ (self) weakSelf = self;
+    [[self class] goThroughAllProperty:self propertyBlock:^(NSString *propertyName) {
+      id value = [aDecoder decodeObjectForKey:propertyName];
+      [weakSelf setValue:value forKey:propertyName];
+    }];
+  }
+  return self;
+}
+
 @end

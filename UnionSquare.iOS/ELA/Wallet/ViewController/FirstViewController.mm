@@ -40,8 +40,9 @@
 #import "HWMSuggestionViewController.h"
 #import "HWMQrCodeInfoPasswordViewController.h"
 #import "HWMSecretaryGeneralAndMembersInfo.h"
+#import "HMWToDeleteTheWalletPopView.h"
 
-@interface FirstViewController ()<FLCapitalViewDelegate,UITableViewDelegate,UITableViewDataSource,HMWaddFooterViewDelegate,HMWTheWalletListViewControllerDelegate,HMWpwdPopupViewDelegate>
+@interface FirstViewController ()<FLCapitalViewDelegate,UITableViewDelegate,UITableViewDataSource,HMWaddFooterViewDelegate,HMWTheWalletListViewControllerDelegate,HMWpwdPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate, HMWAddTheCurrencyListViewControllerDelegate,HMWAddTheCurrencyListViewControllerDelegate>
 {
     FLWallet *_currentWallet;
 }
@@ -96,6 +97,11 @@
  *<# #>
  */
 @property(strong,nonatomic)HMWSendSuccessPopuView *sendSuccessPopuV;
+@property(strong,nonatomic)HMWToDeleteTheWalletPopView *openIDChainView;
+@property(assign,nonatomic)QrCodeSignatureType QRType;
+@property(copy,nonatomic)NSString* QRCodeString;
+@property(strong,nonatomic)id QRCodeData;
+@property(assign,nonatomic) BOOL needOpen;
 @end
 
 @implementation FirstViewController
@@ -118,7 +124,6 @@
     }
     self.isScro=NO;
     [self loadTheWalletInformationWithIndex:selectIndex];
-    
     if ([SDKNET isEqualToString:@"MainNet"]) {
         [self loadNetWorkingPong];
     }
@@ -283,7 +288,6 @@
     assetsListModel *model;
     if ([self.currentWallet.masterWalletID isEqualToString:walletID]){
         if ([chainID isEqualToString:@"ELA"]) {
-            //            [ELWalletManager share].estimatedHeight=currentBlockHeight;
             model=self.dataSoureArray[0];
         }else{
             model=self.dataSoureArray[1];
@@ -352,6 +356,7 @@
     [ELWalletManager share].currentWallet = currentWallet;
 }
 -(void)loadTheWalletInformationWithIndex:(NSInteger)inde{
+    [self showLoading];
     if(self.walletIDListArray.count==0){
         self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
         if (self.walletIDListArray.count==0) {
@@ -368,6 +373,9 @@
     }
     [STANDARD_USER_DEFAULT setValue:[NSString stringWithFormat:@"%ld",(long)inde] forKey:selectIndexWallet];
     [STANDARD_USER_DEFAULT synchronize];
+    [[HWMSecretaryGeneralAndMembersInfo shareTools] loadDataSourceWithLoading:NO complete:^(HWMSecretaryGeneralAndMembersDetailsModel *model) {
+        
+    }];
     self.currentWalletIndex=inde;
     FMDBWalletModel *model=self.walletIDListArray[inde];
     FLWallet *wallet =[[FLWallet alloc]init];
@@ -412,12 +420,14 @@
         self.currentWallet.M=[baseDic[@"M"] integerValue];
         self.currentWallet.N=[baseDic[@"N"] integerValue];
         [self UpWalletType];
+        [self hiddLoading];
     }
 }
 -(void)getBalanceList:(NSArray*)arr{
     if (self.dataSoureArray.count>0) {
         [self.dataSoureArray removeAllObjects];
     }
+    
     int index=0;
     for (NSString *currencyName in arr) {
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName,@2] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];
@@ -451,6 +461,10 @@
     }
     [self.table reloadData];
     [self.table.mj_header endRefreshing];
+    if (self.needOpen&&arr.count>1) {
+        self.needOpen=NO;
+        [self ParseTheQrCodeJumpEventWithType:self.QRType withData:self.QRCodeData tsWithQRCodeString:self.QRCodeString];
+    }
     
 }
 -(void)setView{
@@ -515,8 +529,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    [[HWMSecretaryGeneralAndMembersInfo shareTools]loadDataSource];
     [self firstNav];
+    [self hiddLoading];
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -535,11 +549,13 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [self hiddLoading];
     //self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     self.isScro=YES;
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
+    
     
 }
 -(void)swichWallet{
@@ -761,17 +777,43 @@
     __weak __typeof__(self) weakSelf = self;
     [[HWMQrCodeSignatureManager shareTools]QrCodeDataWithData:QRCodeString withDidString:self.currentWallet.didString withmastWalletID:self.currentWallet.masterWalletID withComplete:^(QrCodeSignatureType type, id  _Nonnull data) {
         if (data !=NULL) {
-            [weakSelf ParseTheQrCodeJumpEventWithType:type withData:data tsWithQRCodeString:QRCodeString];
+            [self ParseTheQrCodeJumpEventWithType:type withData:data tsWithQRCodeString:QRCodeString];
         }
         
     }];
 }
 -(void)ParseTheQrCodeJumpEventWithType:(QrCodeSignatureType)type withData:(id)data tsWithQRCodeString:(NSString*)QRCodeString{
+    self.QRType=type;
+    self.QRCodeData=data;
+    self.QRCodeString=QRCodeString;
+    if (type!= CreadDIDType&&
+        type!=DIDTimePassType&&
+        type!=CommonIdentityType&&
+        type!=unknowQrCodeType) {
+        if (self.dataSoureArray.count<2) {
+            UIView *mainView =[self mainWindow];
+            self.openIDChainView.deleteType=openIDChainType;
+            [mainView addSubview:self.openIDChainView];
+            [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.top.bottom.equalTo(mainView);
+            }];
+            return;
+        }
+        
+    }
     
     
-    //NSLog(@"type is %@",type);
     
     switch (type) {
+        case CreadDIDType:
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID", nil)];
+            break;
+        case DIDTimePassType:
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"DID已过期", nil)];
+            break;
+        case CommonIdentityType:
+            [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
+            break;
         case credaccessQrCodeType:
             [self ShowPlayInfoText:data withJWTString:QRCodeString];
             break;
@@ -790,19 +832,19 @@
             [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
             break;
             
-//        case ProposalLeaderType:
-//            [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
-//            break;
-//        case SecretaryGeneralType:
-//            [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
-//            break;
+            //        case ProposalLeaderType:
+            //            [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
+            //            break;
+            //        case SecretaryGeneralType:
+            //            [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
+            //            break;
         case withdrawalsType:
             [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
             break;
         case Updatemilestone:
             [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
             break;
-            case Reviewmilestone:
+        case Reviewmilestone:
             [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
             break;
         default:
@@ -982,7 +1024,6 @@
         }else{
             SignatureTradingSingleQrCodeVC.type=SingleSignReadOnlyToBeSigned;
         }
-        
         NSDictionary *successDic=[[NSDictionary alloc]initWithDictionary:data]; SignatureTradingSingleQrCodeVC.QRCodeString =[[FLTools share]DicToString:successDic];
         SignatureTradingSingleQrCodeVC.currentWallet=self.currentWallet;
         SignatureTradingSingleQrCodeVC.QRCodeSignatureDic=data;
@@ -1013,6 +1054,31 @@
 -(void)hiddenSendSuccessPopuV{
     [self.sendSuccessPopuV removeFromSuperview];
     self.sendSuccessPopuV=nil;
+}
+-(HMWToDeleteTheWalletPopView *)openIDChainView{
+    if (!_openIDChainView) {
+        _openIDChainView =[[HMWToDeleteTheWalletPopView alloc]init];
+        _openIDChainView.delegate=self;
+    }
+    return _openIDChainView;
+}
+-(void)sureToDeleteViewWithPWD:(NSString*)pwd{
+    [self toCancelOrCloseDelegate];
+    HMWAddTheCurrencyListViewController *AddTheCurrencyListVC=[[HMWAddTheCurrencyListViewController alloc]init];
+    AddTheCurrencyListVC.wallet=self.currentWallet;
+    AddTheCurrencyListVC.didType=@"didType";
+    AddTheCurrencyListVC.delegate=self;
+    [self.navigationController pushViewController:AddTheCurrencyListVC animated:YES];
+}
+-(void)toCancelOrCloseDelegate{
+    [self.openIDChainView removeFromSuperview];
+    self.openIDChainView=nil;
+    
+}
+-(void)openIDChainOfDIDAddWithWallet:(NSString*)walletID{
+    self.needOpen=YES;
+    
+    //    [self ParseTheQrCodeJumpEventWithType:self.QRType withData:self.QRCodeData tsWithQRCodeString:self.QRCodeString];
 }
 
 

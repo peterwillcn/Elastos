@@ -13,9 +13,9 @@ const Tab2: React.FC = () => {
     titleBarManager.setTitle("tab2");
     appManager.setVisible("show");
   }
-  useEffect(()=>{
+  document.addEventListener("deviceready", ()=>{
     initTitle();
- },[]);
+  }, false);
   return (
     <IonPage>
       <IonContent>

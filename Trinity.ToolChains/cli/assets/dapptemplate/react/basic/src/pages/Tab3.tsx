@@ -13,9 +13,10 @@ let initTitle=()=>{
   titleBarManager.setTitle("tab3");
   appManager.setVisible("show");
 }
-useEffect(()=>{
+document.addEventListener("deviceready", ()=>{
   initTitle();
-},[]);
+}, false);
+
   return (
     <IonPage className='darkBg'>
       <IonContent>

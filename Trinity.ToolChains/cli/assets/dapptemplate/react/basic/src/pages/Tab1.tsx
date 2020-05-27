@@ -60,9 +60,9 @@ const Tab1:React.FC=()=>{
       }
      
     };
-    useEffect(()=>{
-       initTitle();
-    },[]);
+    document.addEventListener("deviceready", ()=>{
+      initTitle();
+    }, false);
     return (
       <IonPage>
       <IonContent>

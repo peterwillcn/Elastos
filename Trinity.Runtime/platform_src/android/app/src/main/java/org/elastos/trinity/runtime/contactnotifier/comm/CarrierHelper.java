@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 public class CarrierHelper {
@@ -123,7 +124,7 @@ public class CarrierHelper {
             }
 
             @Override
-            public void onFriendMessage(Carrier carrier, String from, byte[] message, boolean isOffline) {
+            public void onFriendMessage(Carrier carrier, String from, byte[] message, Date timestamp, boolean isOffline) {
                 Log.i(ContactNotifier.LOG_TAG, "Message from userId: " + from);
                 Log.i(ContactNotifier.LOG_TAG, "Message: " + new String(message));
 

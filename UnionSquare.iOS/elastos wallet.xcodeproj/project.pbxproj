@@ -3657,8 +3657,8 @@
 			children = (
 				70E32D11247B3C7A00120817 /* ELAVotingProcessUtil.h */,
 				70E32D10247B3C7A00120817 /* ELAVotingProcessUtil.mm */,
-				4279CA7424796C3100B503A4 /* ELAUtils.m */,
 				4279CA7524796C3100B503A4 /* ELAUtils.h */,
+				4279CA7424796C3100B503A4 /* ELAUtils.m */,
 			);
 			path = ELAUtils;
 			sourceTree = "<group>";

@@ -29,8 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ELAInformationDetail : ELABaseModel
 
-@property (nonatomic, assign) long impeachmentThroughVotes;
-@property (nonatomic, assign) long impeachmentVotes;
+@property (nonatomic, assign) NSInteger impeachmentThroughVotes;
+@property (nonatomic, assign) NSInteger impeachmentVotes;
 @property (nonatomic, strong) NSString *did;
 @property (nonatomic, strong) NSString *cid;
 @property (nonatomic, strong) NSString *didName;

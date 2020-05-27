@@ -19,6 +19,10 @@
 #import "ELACRCommitteeListViewController.h"
 #import "ELAUtils.h"
 #import "HWMSecretaryGeneralAndMembersInfo.h"
+
+#import "ELANetwork.h"
+#import "ELACommitteeInfoModel.h"
+
 @interface HMWfoundViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) UITableView *table;
@@ -42,7 +46,7 @@
     [self defultWhite];
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"社区", nil);
-    self.table = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    self.table = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, YYScreenSize().width, YYScreenSize().height - TabBarBottomHeight) style:UITableViewStylePlain];
     self.table.separatorStyle= UITableViewCellSeparatorStyleNone;
     self.table.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.table];
@@ -52,7 +56,76 @@
     self.table.tableFooterView = [[UIView alloc] init];
     self.dataSource =[[NSMutableArray alloc]initWithObjects:@"",@"",@"", @"", nil];
     [self.table registerNib:[UINib nibWithNibName:@"HMWfoundTableCell" bundle:nil] forCellReuseIdentifier:@"HMWfoundTableCell"];
+    self.table.hidden = YES;
 }
+
+#pragma mark - bug #937
+
+// xhj bug #937
+- (void)getNetworkData
+{
+    [[FLTools share]showLoadingView];
+    ELAWeakSelf;
+    [ELANetwork getCommitteeInfo:^(id  _Nonnull data, NSError * _Nonnull error) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            if(error)
+            {
+                if(error.code == -999)
+                {
+                    //已取消
+                }
+                else
+                {
+                    [[FLTools share] showErrorInfo:error.localizedDescription];
+                }
+            }
+            else
+            {
+                ELACommitteeInfoModel *model = data;
+                [weakSelf isVoting:model.data];
+                [[FLTools share]hideLoadingView];
+            }
+        });
+        
+    }];
+}
+// xhj bug #937
+- (void)isVoting:(NSArray *)data
+{
+    if(data && data.count > 0)
+    {
+        NSInteger index = 0;
+        for (ELACommitteeInfoModel *model in data)
+        {
+            if(model.index > index)
+            {
+                index = model.index;
+            }
+        }
+        ELACommitteeInfoModel *voteModel = [data objectAtIndex:index];
+        if(voteModel.status && [voteModel.status isEqualToString:@"VOTING"])
+        {
+            self.dataSource = [[NSMutableArray alloc]initWithObjects:@"",@"",@"", @"", nil];
+            [self.table reloadData];
+        }
+        else
+        {
+            self.dataSource = [[NSMutableArray alloc]initWithObjects:@"",@"",@"", nil];
+            [self.table reloadData];
+        }
+    }
+    else
+    {
+        self.dataSource = [[NSMutableArray alloc]initWithObjects:@"",@"",@"", nil];
+        [self.table reloadData];
+    }
+    self.table.hidden = NO;
+    
+}
+#pragma mark -
+
 -(void)loadElectionInfo{
     ELWalletManager *manager   =  [ELWalletManager share];
     
@@ -70,6 +143,10 @@
     [super viewWillAppear:animated];
     self.navigationItem.leftBarButtonItem=nil;
     [self.navigationController setNavigationBarHidden:NO];
+    self.table.hidden = YES;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self getNetworkData];
+    });
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

@@ -75,9 +75,13 @@ static HWMSecretaryGeneralAndMembersInfo *_instance;
         NSLog(@"委员信息获取成功---%@",data);
         [self parsingModelWithData:data[@"data"] complete:^(HWMSecretaryGeneralAndMembersDetailsModel *model) {
             [[FLTools share] hideLoadingView];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                  com(model);
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                com(model);
             });
+            //会卡主线程
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                  com(model);
+//            });
           
         }];
       [[FLTools share]hideLoadingView];

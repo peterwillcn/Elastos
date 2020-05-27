@@ -104,10 +104,30 @@
            dispatch_async(dispatch_get_main_queue(), ^{
 
                weakSelf.passwdValue = value;
-               [weakSelf impeachment];
+               BOOL result = [weakSelf toVerifyPayPassword:value];
+               if(result)
+               {
+                   [weakSelf impeachment];
+               }
            });
 
        };
+  
+}
+- (BOOL)toVerifyPayPassword:(NSString *)passwd
+{
+    FLWallet *wallet = [ELWalletManager share].currentWallet;
+    invokedUrlCommand *mommand = [[invokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID, passwd] callbackId:wallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
+    PluginResult *result = [[ELWalletManager share]VerifyPayPassword:mommand];
+    NSNumber *number = result.status;
+    
+    if( [number intValue] != CommandStatus_OK)
+    {
+        NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
+        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+        return NO;
+    }
+    return YES;
 }
 - (void)impeachment
 {
@@ -195,17 +215,16 @@
     [ELANetwork getInformation:_paramModel.did ID:_index block:^(id  _Nonnull data, NSError * _Nonnull error) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            [weakSelf hideLoadingView];
             if(error)
             {
                 if(error.code == -999)
                 {
-                    [weakSelf hideLoadingView];
+                    
                     //已取消
                 }
                 else
                 {
-                    [weakSelf hideLoadingView];
                     [weakSelf showErrorInfo:error.localizedDescription];
                 }
             }
@@ -267,6 +286,7 @@
         make.right.equalTo(infoView);
         make.height.equalTo(@(0.5));
     }];
+    [self.view layoutIfNeeded];
     
     [self performSelector:@selector(hiddLoading) withObject:nil afterDelay:0.5];
 }

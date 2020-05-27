@@ -66,7 +66,7 @@
     switch (type) {
         case withdrawalsType:
             self.CRProposalConfirmV.type=withdrawaType;
-            [self.CRProposalConfirmV postWithHash: self.PayLoadDic[@"data"][@"recipient"] withVotes:[[FLTools share]elaScaleConversionWith:self.PayLoadDic[@"data"][@"amount"]] withFee:@"0.001 ELA"];
+            [self.CRProposalConfirmV postWithHash: self.PayLoadDic[@"data"][@"recipient"] withVotes:[[FLTools share]elaScaleConversionWith:self.PayLoadDic[@"data"][@"amount"]] withFee:@"0.0001 ELA"];
             break;
         case Updatemilestone://提案追踪-负责人扫码
         {
@@ -77,6 +77,7 @@
         }
         case Reviewmilestone://提案追踪-秘书长扫码
         {
+            self.CRProposalConfirmV.type=SecretaryGeneType;
 //            progress和final分别对应阶段款合结算款，都表示同意；第三种是reject，表示秘书长拒绝提款申请。
             NSString *result;
             NSString *proposaltrackingtype = self.PayLoadDic[@"data"][@"proposaltrackingtype"];
@@ -85,7 +86,7 @@
             }else if ([proposaltrackingtype isEqualToString:@"rejected"]){
                result=@"0";
             }
-            [self.CRProposalConfirmV postWithHash:self.PayLoadDic[@"data"][@"secretaryopinionhash"] withVotes:result withFee:@"0.001 ELA"];
+            [self.CRProposalConfirmV postWithHash:self.PayLoadDic[@"data"][@"secretaryopinionhash"] withVotes:result withFee:@"0.0001 ELA"];
             break;
             break;
         }
@@ -436,6 +437,7 @@
         if(pluginResult)
         {
             NSDictionary *resultDic = pluginResult.message[@"success"];
+            
             [self showSendSuccessOrFial:sendDealType];
             
         }

@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #define ELAFEE @"0.0001"
 
-#define ELAWeakSelf __weak __typeof(self) weakSelf = self
+#define ELAWeakSelf __weak __typeof(self) weakSelf = self;
 
 #define ELAIsNoEmpty(string) ((string) != nil && (![(string) isEqualToString:@""]))
 

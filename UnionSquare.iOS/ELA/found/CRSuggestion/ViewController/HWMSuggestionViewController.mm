@@ -54,6 +54,11 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 @property(strong,nonatomic) NSMutableArray *cellDataBudgetsArray;
 
 
+//xxl #943
+@property(strong,nonatomic) PluginResult *pluginResult;
+@property(strong,nonatomic) NSString *strPWD;
+
+
 //xxl 2.3
 @property(strong,nonatomic) NSMutableArray *VoteingProposalArray;
 @end
@@ -108,6 +113,11 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     
     [self.suggestionArray addObjectsFromArray:self.defArray];
     [self makeUI];
+    
+    //xxl #943
+    [[NSNotificationCenter defaultCenter]addObserver:self
+        selector:@selector(onTxPublish:) name:OnTxPublishedResult object:nil];
+    
 }
 
 //xxl 2.3
@@ -533,7 +543,10 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     }
     
 }
+
+//xxl fix the bug for #943
 -(void)reviewProposal:(NSString*)pwd{
+    
     [self showLoading];
     invokedUrlCommand *mommand = [[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID, pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
     PluginResult *result = [[ELWalletManager share]VerifyPayPassword:mommand];
@@ -567,12 +580,24 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
                                                 className:@"Wallet"
                                                methodName:@"createProposalReviewTransaction"];
     
-    PluginResult *pluginResult = [[ELWalletManager share] proposalReviewTransaction:mommand];
+    _strPWD = pwd;
+    //xxl #943
+    _pluginResult = [[ELWalletManager share] proposalReviewTransaction:mommand];
     
-    if(pluginResult){
-        NSDictionary *resultDic = pluginResult.message[@"success"];
+
+    
+}
+
+//xxl #943
+-(void)onTxPublish:(NSNotification*)notice{
+
+    NSDictionary *param =notice.object;
+    NSLog(@"xxl 943 2 onTxPublish %@ 1",param);
+    
+    if(_pluginResult){
+        NSDictionary *resultDic = _pluginResult.message[@"success"];
         //[self updaeJWTInfoWithDic:txidDic];
-        NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:pwd];
+        NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:_strPWD];
         if(callDic)
         {
             [self updaeJWTInfoWithDic:callDic];
@@ -582,7 +607,6 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     }else{
         [self showSendSuccessOrFial:SignatureFailureType];
     }
-    
     
 }
 
@@ -681,8 +705,14 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     return _BudgetsArray;
 }
 -(void)viewWillDisappear:(BOOL)animated{
+    
+    //xxl #943
+    //[[NSNotificationCenter defaultCenter] removeObserver:OnTxPublishedResult];
+    
     [super viewWillDisappear:animated];
     [self hiddLoading];
+    
+    
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self hiddLoading];

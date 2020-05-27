@@ -34,9 +34,15 @@
 @property(nonatomic,strong)HWMCRProposalConfirmView *CRProposalConfirmV;
 @property(nonatomic,strong)HMWSendSuccessPopuView *sendSuccessPopuV;
 
+//xxl #943
+@property(strong,nonatomic) PluginResult *pluginResult;
+@property(strong,nonatomic) NSString *strPWD;
+
 @property(nonatomic,strong) HWMTransactionDetailsView *transactionDetailsView;
 
 @end
+
+
 
 @implementation HWMQrCodeInfoPasswordViewController
 
@@ -49,6 +55,10 @@
         make.left.right.bottom.top.equalTo(self.view);
         
     }];
+    
+    //xxl #943
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                               selector:@selector(onTxPublish:) name:OnTxPublishedResult object:nil];
 }
 -(void)setType:(QrCodeSignatureType)type{
     
@@ -192,6 +202,8 @@
         [self hiddLoading];
     }
 }
+
+
 #pragma mark - 提案追踪-负责人扫码
 
 //提案追踪-负责人扫码
@@ -249,31 +261,42 @@
                                         pwd]
                                                                        callbackId:self.currentWallet.walletID
                                                                         className:@"Wallet" methodName:@"proposalTracking"];
-        PluginResult *pluginResult = [[ELWalletManager share] proposalTrackingTransaction:mommand];
         
-        if(pluginResult)
-        {
-            NSDictionary *resultDic = pluginResult.message[@"success"];
-            NSString *signature = resultDic[@"Signature"];
-            
-            if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO])
-            {
-                NSString *playString = [[FLTools share]DicToString:[self proposalTrackingRequestFileWithString:signature]];
-                NSString *jwtString = [self throuJWTStringWithplayString:playString];
-                NSString *REString= [[HWMDIDManager shareDIDManager] DIDSignatureWithString:jwtString];
-                if (![REString isEqualToString:@"-1"]) {
-                    NSDictionary *dic=@{@"jwt":[NSString stringWithFormat:@"%@.%@",jwtString,REString]};
-                    [self updaeJWTInfoWithDic:dic];
-                }else{
-                    [self showSendSuccessOrFial:SignatureFailureType];
-                }
-            }else{
-                [self showSendSuccessOrFial:SignatureFailureType];
-            }
-        }
+        //xxl #943
+        _strPWD = pwd;
+        _pluginResult = [[ELWalletManager share] proposalTrackingTransaction:mommand];
         
         [self hiddLoading];
     }
+}
+
+//xxl #943
+-(void)onTxPublish:(NSNotification*)notice{
+
+    NSDictionary *param =notice.object;
+    NSLog(@"xxl 943 2 onTxPublish %@ 2",param);
+    
+    if(_pluginResult)
+    {
+        NSDictionary *resultDic = _pluginResult.message[@"success"];
+        NSString *signature = resultDic[@"Signature"];
+        
+        if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:_strPWD withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO])
+        {
+            NSString *playString = [[FLTools share]DicToString:[self proposalTrackingRequestFileWithString:signature]];
+            NSString *jwtString = [self throuJWTStringWithplayString:playString];
+            NSString *REString= [[HWMDIDManager shareDIDManager] DIDSignatureWithString:jwtString];
+            if (![REString isEqualToString:@"-1"]) {
+                NSDictionary *dic=@{@"jwt":[NSString stringWithFormat:@"%@.%@",jwtString,REString]};
+                [self updaeJWTInfoWithDic:dic];
+            }else{
+                [self showSendSuccessOrFial:SignatureFailureType];
+            }
+        }else{
+            [self showSendSuccessOrFial:SignatureFailureType];
+        }
+    }
+    
 }
 
 #pragma mark -
@@ -440,4 +463,13 @@
     }
     return _sendSuccessPopuV;
 }
+
+//xxl #943
+-(void)viewWillDisappear:(BOOL)animated{
+    
+   // [[NSNotificationCenter defaultCenter] removeObserver:OnTxPublishedResult];
+}
+
+
+
 @end

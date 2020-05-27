@@ -40,20 +40,22 @@ static int _YYTextKeyboardViewFrameObserverKey;
     objc_setAssociatedObject(keyboardView, &_YYTextKeyboardViewFrameObserverKey, self, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+//xxl for crash
 - (void)removeFrameObserver {
-    [_keyboardView removeObserver:self forKeyPath:@"frame"];
-    [_keyboardView removeObserver:self forKeyPath:@"center"];
-    [_keyboardView removeObserver:self forKeyPath:@"bounds"];
-    [_keyboardView removeObserver:self forKeyPath:@"transform"];
-    _keyboardView = nil;
+//    [_keyboardView removeObserver:self forKeyPath:@"frame"];
+//    [_keyboardView removeObserver:self forKeyPath:@"center"];
+//    [_keyboardView removeObserver:self forKeyPath:@"bounds"];
+//    [_keyboardView removeObserver:self forKeyPath:@"transform"];
+//    _keyboardView = nil;
 }
 
+//xxl for crash
 - (void)addFrameObserver {
-    if (!_keyboardView) return;
-    [_keyboardView addObserver:self forKeyPath:@"frame" options:kNilOptions context:NULL];
-    [_keyboardView addObserver:self forKeyPath:@"center" options:kNilOptions context:NULL];
-    [_keyboardView addObserver:self forKeyPath:@"bounds" options:kNilOptions context:NULL];
-    [_keyboardView addObserver:self forKeyPath:@"transform" options:kNilOptions context:NULL];
+//    if (!_keyboardView) return;
+//    [_keyboardView addObserver:self forKeyPath:@"frame" options:kNilOptions context:NULL];
+//    [_keyboardView addObserver:self forKeyPath:@"center" options:kNilOptions context:NULL];
+//    [_keyboardView addObserver:self forKeyPath:@"bounds" options:kNilOptions context:NULL];
+//    [_keyboardView addObserver:self forKeyPath:@"transform" options:kNilOptions context:NULL];
 }
 
 - (void)dealloc {

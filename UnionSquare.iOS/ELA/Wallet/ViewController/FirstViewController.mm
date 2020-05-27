@@ -777,6 +777,11 @@
     __weak __typeof__(self) weakSelf = self;
     [[HWMQrCodeSignatureManager shareTools]QrCodeDataWithData:QRCodeString withDidString:self.currentWallet.didString withmastWalletID:self.currentWallet.masterWalletID withComplete:^(QrCodeSignatureType type, id  _Nonnull data) {
         if (data !=NULL) {
+            
+            NSLog(@"data is %@",data);
+            
+            
+            
             [self ParseTheQrCodeJumpEventWithType:type withData:data tsWithQRCodeString:QRCodeString];
         }
         

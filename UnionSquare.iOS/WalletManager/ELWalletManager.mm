@@ -3143,8 +3143,9 @@ void *ReverseByteOrder(void *p, unsigned int len)
         {
             return nil;
         }
-        calculateProposalHash  = [self calculateProposalHash:dataDic walletID:masterWalletID];
         
+        //xxl fix the bug for #943
+        //calculateProposalHash  = [self calculateProposalHash:dataDic walletID:masterWalletID];
         josn = [self jsonWithString:payload];
     } catch (const std:: exception & e) {
         return  [self errInfoToDic:e.what() with:command];
@@ -3168,6 +3169,10 @@ void *ReverseByteOrder(void *p, unsigned int len)
        try {
            result = suWall->PublishTransaction(signedTx);
            NSString *jsonString = [self stringWithCString:result.dump()];
+           
+           //xxl #943
+           NSLog(@"xxl 943 0 proposalReviewTransaction %@",jsonString);
+           
            NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
            [resultDic setValue:dic[@"TxHash"] forKey:@"txid"];
            

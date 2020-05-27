@@ -55,6 +55,8 @@
 
 -(void)onTxPublish:(NSNotification*)notice{
     
+    
+    NSLog(@"xxl 943 2 onTxPublish 0 .");
     NSDictionary *param =notice.object;
     //    DLog(@"%@",param);
     

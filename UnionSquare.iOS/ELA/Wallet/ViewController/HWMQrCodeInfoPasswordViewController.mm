@@ -56,7 +56,7 @@
     switch (type) {
         case withdrawalsType:
             self.CRProposalConfirmV.type=withdrawaType;
-            [self.CRProposalConfirmV postWithHash: self.PayLoadDic[@"data"][@"recipient"] withVotes:[[FLTools share]elaScaleConversionWith:self.PayLoadDic[@"data"][@"amount"]] withFee:@"0.001 ELA"];
+            [self.CRProposalConfirmV postWithHash: self.PayLoadDic[@"data"][@"recipient"] withVotes:[[FLTools share]elaScaleConversionWith:self.PayLoadDic[@"data"][@"amount"]] withFee:@"0.0001 ELA"];
             break;
         case Updatemilestone://提案追踪-负责人扫码
         {
@@ -75,7 +75,7 @@
             }else if ([proposaltrackingtype isEqualToString:@"rejected"]){
                result=@"0";
             }
-            [self.CRProposalConfirmV postWithHash:self.PayLoadDic[@"data"][@"secretaryopinionhash"] withVotes:result withFee:@"0.001 ELA"];
+            [self.CRProposalConfirmV postWithHash:self.PayLoadDic[@"data"][@"secretaryopinionhash"] withVotes:result withFee:@"0.0001 ELA"];
             break;
             break;
         }
@@ -413,6 +413,7 @@
         if(pluginResult)
         {
             NSDictionary *resultDic = pluginResult.message[@"success"];
+            
             [self showSendSuccessOrFial:sendDealType];
             
         }

@@ -114,6 +114,7 @@ static HWMCRSuggestionNetWorkManger* _instatance;
     if (ID.length>0) {
         [bordyUrlString stringByAppendingString:[NSString stringWithFormat:@"/%@",ID]];
     }
+
   
     [HttpUrl NetGETHost:CRProposalIP url:bordyUrlString header:nil body:nil showHUD:YES WithSuccessBlock:^(id data) {
         Completed(data);

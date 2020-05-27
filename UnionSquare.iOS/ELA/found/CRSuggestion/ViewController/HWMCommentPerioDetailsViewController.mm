@@ -284,7 +284,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
             self.CRProposalConfirmV.type=NOPperatingType;
         }
         
-        [self.CRProposalConfirmV postWithHash: data[@"data"][@"proposalHash"] withVotes:@"" withFee:@"0.001 ELA"];
+        [self.CRProposalConfirmV postWithHash: data[@"data"][@"proposalHash"] withVotes:@"" withFee:@"0.0001 ELA"];
         
     }else if (type==voteforProposalQrCodeType){// 投票反对
         UIView *mainView=[self mainWindow];
@@ -484,7 +484,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     self.CRProposalConfirmV.type=OpposingVotesType;
     self.votesString=ticketNumer;
     
-    [self.CRProposalConfirmV postWithHash:self.PayLoadDic[@"data"][@"proposalHash"] withVotes:self.votesString withFee:@"0.001 ELA"];
+    [self.CRProposalConfirmV postWithHash:self.PayLoadDic[@"data"][@"proposalHash"] withVotes:self.votesString withFee:@"0.0001 ELA"];
     
 }
 -(void)reviewProposal:(NSString*)pwd{

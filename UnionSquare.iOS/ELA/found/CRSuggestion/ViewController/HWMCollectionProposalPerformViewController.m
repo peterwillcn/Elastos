@@ -321,7 +321,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     if (self.DetailsModel.trackingResult.count==0) {
         UILabel *noLabel=[[UILabel alloc]initWithFrame:CGRectMake(15,  CGRectGetMaxY(ImplementationScheduleLabel.frame), AppWidth-30, 50)];
         noLabel.text=NSLocalizedString(@"暂无执行进度", nil);
-        noLabel.font=[UIFont systemFontOfSize:14];
+        noLabel.font=[UIFont systemFontOfSize:12];
         noLabel.textColor=RGBA(255, 255, 255, 0.5);
         noLabel.textAlignment=NSTextAlignmentCenter;
         

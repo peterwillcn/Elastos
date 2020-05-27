@@ -176,18 +176,17 @@
     }else if (self.type==SecretaryGeneType){
         self.hasLabel.text=hash;
         self.feeLabel.text=fee;
+        if ([votes isEqualToString:@"1"]) {
+                
+                self.opinionStateLabel.text=NSLocalizedString(@"  通过   ", nil);
+                self.opinionStateLabel.backgroundColor=RGB(53, 176, 143);
+            }else{
+                self.opinionStateLabel.text=NSLocalizedString(@"  否决   ", nil);
+                self.opinionStateLabel.backgroundColor=RGB(176, 65, 53);
+            }
     }else if (self.type==withdrawaType){
         self.hasLabel.text=hash;
         self.opinionStateLabel.text=[votes stringByAppendingString:@" ELA"];
-        
-        if ([votes isEqualToString:@"1"]) {
-            
-            self.opinionStateLabel.text=NSLocalizedString(@"  通过   ", nil);
-            self.opinionStateLabel.backgroundColor=RGB(53, 176, 143);
-        }else{
-            self.opinionStateLabel.text=NSLocalizedString(@"  否决   ", nil);
-            self.opinionStateLabel.backgroundColor=RGB(176, 65, 53);
-        }
         self.feeLabel.text=fee;
     }else if (self.type==favorType){
         self.hasLabel.text=hash;
@@ -196,9 +195,6 @@
         self.hasLabel.text=hash;
         self.feeLabel.text=fee;
     }else if (self.type==NOPperatingType){
-        self.hasLabel.text=hash;
-        self.feeLabel.text=fee;
-    }else if (self.type==WaiverType){
         self.hasLabel.text=hash;
         self.feeLabel.text=fee;
     }else if (self.type==WaiverType){

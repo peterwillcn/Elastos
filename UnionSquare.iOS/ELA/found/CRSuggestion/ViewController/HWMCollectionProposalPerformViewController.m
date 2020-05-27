@@ -63,7 +63,11 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     [self makeView];
     self.isOpen=YES;
     self.isSecOpen=YES;
-    self.secHeight=330;
+    CGFloat showNw=0;
+    if (self.DetailsModel.trackingResult.count==0) {
+        showNw=100;
+    }
+    self.secHeight=330+showNw;
     [self loadPerioDetailsWithID:self.model.ID];
     if (self.type==CommentPerioACTIVEType) {
     }else if(self.type==CommentPerioFINALType){
@@ -138,10 +142,13 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     return 1;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section==0&&self.isOpen) {
+        return 0.01;
+    }
     if ((self.isOpen==NO&&indexPath.section==1)||(self.isOpen==YES&&indexPath.section==4)){
         HWMVoteResultModel *model=self.DetailsModel.trackingResult[indexPath.row];
         if (model.commentModel) {
-         UITableViewCell *cell=[self tableView:tableView cellForRowAtIndexPath:indexPath];
+            UITableViewCell *cell=[self tableView:tableView cellForRowAtIndexPath:indexPath];
             return cell.frame.size.height;
         }
         return model.reasonCell+50;
@@ -189,6 +196,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     switch (indexPath.section) {
         case 0:
             cell.constLabel.text=self.DetailsModel.duration;
+            cell.alpha=0.f;
             break;
         case 1:
             cell.constLabel.text=self.model.proposalHash;
@@ -293,26 +301,44 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     return _DetailsModel;
 }
 -(UIView*)setTableViewFootViewWithHeight:(CGFloat)height{
+    CGFloat botOff=40;
+    if (self.DetailsModel.trackingResult.count==0) {
+        botOff=140;
+    }
     UIView *foodView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, height)];
     [foodView addSubview:self.foodView];
     [self.foodView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.equalTo(foodView);
-        make.bottom.equalTo(foodView.mas_bottom).mas_offset(-30);
+        make.bottom.equalTo(foodView.mas_bottom).mas_offset(-botOff);
     }];
-    UILabel *ImplementationScheduleLabel=[[UILabel alloc]initWithFrame:CGRectMake(15, height-20, AppWidth-30, 20)];
+    self.foodView.makeLine.alpha=1.f;
+    UILabel *ImplementationScheduleLabel=[[UILabel alloc]initWithFrame:CGRectMake(15, height-botOff+20, AppWidth-30, 20)];
     ImplementationScheduleLabel.text=NSLocalizedString(@"执行进度", nil);
     ImplementationScheduleLabel.font=[UIFont systemFontOfSize:14];
     ImplementationScheduleLabel.textColor=[UIColor whiteColor];
     [foodView addSubview:ImplementationScheduleLabel];
-    
+ 
+    if (self.DetailsModel.trackingResult.count==0) {
+        UILabel *noLabel=[[UILabel alloc]initWithFrame:CGRectMake(15,  CGRectGetMaxY(ImplementationScheduleLabel.frame), AppWidth-30, 50)];
+        noLabel.text=NSLocalizedString(@"暂无执行进度", nil);
+        noLabel.font=[UIFont systemFontOfSize:14];
+        noLabel.textColor=RGBA(255, 255, 255, 0.5);
+        noLabel.textAlignment=NSTextAlignmentCenter;
+        
+        [foodView addSubview:noLabel];
+    }
     return foodView;
 }
 -(void)CommitteeMembersToVoteISopenOrClose:(BOOL)isClose{
     self.isSecOpen=isClose;
+    CGFloat showNw=0;
+    if (self.DetailsModel.trackingResult.count==0) {
+        showNw=100;
+    }
     if (self.isSecOpen) {
-        self.secHeight=330;
+        self.secHeight=330+showNw;
     }else{
-        self.secHeight=80;
+        self.secHeight=80+showNw;
     }
     [self.baseTable reloadData];
 }

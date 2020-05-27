@@ -98,9 +98,9 @@
     
 }
 -(void)setDetailsProposalM:(HWMDetailsProposalModel *)DetailsProposalM{
-    self.OpposingVotesLabel.text=[NSString stringWithFormat:@"%@ ELA",DetailsProposalM.rejectAmount];
-    self.VetoVote.text=[NSString stringWithFormat:@"%@ ELA",DetailsProposalM.rejectHeight];
-    [self.CircleProgressV setProgress:DetailsProposalM.rejectRatio animated:YES];
+    self.OpposingVotesLabel.text=[NSString stringWithFormat:@"%d ELA",[DetailsProposalM.rejectAmount intValue]];
+    self.VetoVote.text=[NSString stringWithFormat:@"%d ELA",[DetailsProposalM.rejectHeight intValue]];
+    [self.CircleProgressV setProgress:DetailsProposalM.rejectRatio animated:NO];
     
     
 }

@@ -170,7 +170,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
         self.topUpButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     }
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(currentWalletAccountBalanceChanges:) name: AccountBalanceChanges object:nil];
-     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(iconInfoUpdate:) name:progressBarcallBackInfo object:nil];
     
 }
 -(void)currentWalletAccountBalanceChanges:(NSNotification *)notification{
@@ -182,11 +182,11 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     NSString *chainID=infoArray[1];
     //    NSInteger index = [infoArray[2] integerValue];
     NSString *  balance=dic[@"balance"];
-     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-    if ([self.title isEqualToString:chainID]&&[self.currentWallet.masterWalletID isEqualToString:walletID]){
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if ([self.title isEqualToString:chainID]&&[self.currentWallet.masterWalletID isEqualToString:walletID]){
             self.balanceLabel.text=[NSString stringWithFormat:@"%@",[[FLTools share]elaScaleConversionWith: balance]];
             self.currencyNameLabel.text=@"ELA";
-    }});
+        }});
 }
 -(void)iconInfoUpdate:(NSNotification *)notification{
     
@@ -731,6 +731,18 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
             break;
         case 36:
             detailsM.Type=NSLocalizedString(@"提取CR质押金交易", nil);
+            break;
+        case 37:
+            detailsM.Type=NSLocalizedString(@"提案发起交易", nil);
+            break;
+        case 38:
+            detailsM.Type=NSLocalizedString(@"提案评议交易", nil);
+            break;
+        case 39:
+            detailsM.Type=NSLocalizedString(@"提案反馈交易", nil);
+            break;
+        case 41:
+            detailsM.Type=NSLocalizedString(@"提案资金提取交易", nil);
             break;
             
         default:

@@ -87,14 +87,18 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     [self showLoading];
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadCRSuggestionDetailsWithID:ID withComplete:^(id  _Nonnull data) {
         [[HWMDetailsProposalViewModel alloc]detailsProposalModelDataJosn:data[@"data"] completion:^(HWMDetailsProposalModel * _Nonnull model) {
-            self.baseTable.alpha=1.f;
+           
             self.DetailsModel=model;
             [self.baseTable reloadData];
             if(self.type==CommentPerioNOTIFICATIONType){
                 self.OpposedProgressHeadV.DetailsProposalM=self.DetailsModel;
             }
             self.foodView.DetailsProposalM=self.DetailsModel;
-            [self hiddLoading];
+            if(self.type==CommentPerioNOTIFICATIONType||self.type==CommentPerioVOTINGType){
+                [self updateMemberIdentity];
+            }else{
+                 self.baseTable.alpha=1.f;
+            }
         }];
     }];
 }
@@ -104,6 +108,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     self.baseTable.backgroundColor=[UIColor clearColor];
     [self.baseTable registerNib:[UINib nibWithNibName:BaseTableViewCell bundle:nil] forCellReuseIdentifier:BaseTableViewCell];
     self.baseTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+  
     if (self.type==CommentPerioVOTINGType) {
         [self updateMemberIdentity];
         [self.sweepYardsToVoteButton setTitle:NSLocalizedString(@"扫码投票", nil) forState:UIControlStateNormal];
@@ -180,6 +185,11 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     return [[UIView alloc]initWithFrame:CGRectZero];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ((self.isOpen==YES&&self.type==CommentPerioREJECTEDType)||(self.isOpen==YES&&self.type==CommentPerioVETOEDType)) {
+        if (indexPath.section==0) {
+             return 0.01;
+        }
+    }
     if (indexPath.section==3||self.isOpen==NO) {
         return self.DetailsModel.abstractCell+50;
     }
@@ -198,6 +208,9 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     switch (indexPath.section) {
         case 0:
             cell.constLabel.text=self.DetailsModel.duration;
+            if((self.isOpen==YES&&self.type==CommentPerioREJECTEDType)||(self.isOpen==YES&&self.type==CommentPerioVETOEDType)) {
+                cell.alpha=0.f;
+            }
             break;
         case 1:
             cell.constLabel.text=self.model.proposalHash;
@@ -608,18 +621,36 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     });
 }
 -(void)updateMemberIdentity{
-        self.SecretaryGeneralAndModel=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
+    self.SecretaryGeneralAndModel=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
     HWMSecretaryGeneralAndMembersDetailsModel* model=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
     if (model) {
+        [self hiddLoading];
         if (model.GMtype== COUNCILType||model.GMtype==SECRETARIATType) {
-            self.buttonBGView.alpha=1.f;
-           
+            if (self.DetailsModel) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    self.baseTable.alpha=1.f;
+                    self.buttonBGView.alpha=1.f;
+                    [self hiddLoading];
+                });
+                
+            }
+            
+            
         }
     } else {
-        [[HWMSecretaryGeneralAndMembersInfo shareTools] loadDataSourceWithLoading:YES complete:^(HWMSecretaryGeneralAndMembersDetailsModel *model) {
+        [[HWMSecretaryGeneralAndMembersInfo shareTools] loadDataSourceWithLoading:NO complete:^(HWMSecretaryGeneralAndMembersDetailsModel *model) {
+            
             if (model.GMtype== COUNCILType||model.GMtype==SECRETARIATType) {
-                self.buttonBGView.alpha=1.f;
-              
+                if (self.DetailsModel) {
+                    
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        self.baseTable.alpha=1.f;
+                        self.buttonBGView.alpha=1.f;
+                        [self hiddLoading];
+                    });
+                }
+                
+                
             }
         }];
     }

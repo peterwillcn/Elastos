@@ -44,7 +44,7 @@ UINib *CommitteeMembersNib;
 @property (weak, nonatomic) IBOutlet UITableView *baseTable;
 @property (weak, nonatomic) IBOutlet UILabel *totalInfoLabel;
 @property (weak, nonatomic) IBOutlet UILabel *noVioInfoLabel;
-@property (weak, nonatomic) IBOutlet UIView *makeLine;
+
 @property (weak, nonatomic) IBOutlet UIImageView *bgImageView;
 
 @end

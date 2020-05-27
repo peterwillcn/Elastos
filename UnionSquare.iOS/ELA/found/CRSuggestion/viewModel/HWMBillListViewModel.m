@@ -52,11 +52,8 @@
     NSArray *modeArray=[NSArray modelArrayWithClass:[HWMBillListModel class] json:json];
     NSMutableArray *AnalyticalArray=[[NSMutableArray alloc]init];
     for (HWMBillListModel *model in modeArray) {
-        
-        //xxl fix the bug #940
         NSString* proposedBy = [self nullToString:model.proposedBy];
-
-        model.baseInfoString=[NSString stringWithFormat:@"#%@ %@ %@",model.ID ,[[FLTools share]YMDHMSgetTimeFromTimesTamp:model.createdAt],proposedBy];
+        model.baseInfoString=[NSString stringWithFormat:@"#%@ %@ %@",model.ID ,[[FLTools share]TimeFormatConversionBirthday:model.createdAt],proposedBy]; 
         if (self.searchString) {
             model.searchRanege=[model.title localizedStandardRangeOfString:self.searchString];
         }
@@ -68,8 +65,6 @@
             model.status=NSLocalizedString(@"执行中",nil);
         }else if ([model.status isEqualToString:@"FINAL"]){
             model.status=NSLocalizedString(@"已完成",nil);
-        }else if ([model.status isEqualToString:@"REJECTED"]){
-            model.status=NSLocalizedString(@"已废止",nil);
         }else if ([model.status isEqualToString:@"REJECTED"]){
             model.status=NSLocalizedString(@"未通过",nil);
         }else if ([model.status isEqualToString:@"VETOED"]){

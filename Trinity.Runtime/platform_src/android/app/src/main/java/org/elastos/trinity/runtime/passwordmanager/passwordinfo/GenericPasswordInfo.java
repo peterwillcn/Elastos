@@ -4,7 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class GenericPasswordInfo extends PasswordInfo {
-    String password = null;
+    public String password = null;
 
     public static PasswordInfo fromJsonObject(JSONObject jsonObject) throws Exception {
         GenericPasswordInfo info = new GenericPasswordInfo();

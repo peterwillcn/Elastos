@@ -77,11 +77,19 @@ public class Utility {
 
     public static String getCustomHostname(String did, String appId) {
         String hostname = "";
-        if (did != null) {
-            hostname += did.replace(":", "-") + "-";
-        }
-        hostname += appId.replace(".", "-");
 
-        return hostname;
+        if (did != null) {
+            int index = did.lastIndexOf(":");
+            if (index < 0) {
+                index = 0;
+            }
+            else {
+                index++;
+            }
+            hostname += did.substring(index) + ".";
+        }
+        hostname += appId;
+
+        return Uri.encode(hostname.toLowerCase());
     }
 }

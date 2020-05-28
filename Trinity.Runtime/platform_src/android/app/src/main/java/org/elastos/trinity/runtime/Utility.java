@@ -74,4 +74,14 @@ public class Utility {
         }
         return false;
     }
+
+    public static String getCustomHostname(String did, String appId) {
+        String hostname = "";
+        if (did != null) {
+            hostname += did.replace(":", "-") + "-";
+        }
+        hostname += appId.replace(".", "-");
+
+        return hostname;
+    }
 }

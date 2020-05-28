@@ -165,18 +165,6 @@ public class WebViewFragment extends Fragment {
         return did;
     }
 
-    public String getCustomHostname() {
-        String hostname = "";
-        if (did != null) {
-            hostname += did.replace(":", "-") + "-";
-        }
-        hostname += id.replace(".", "-");
-
-        hostname = "localhost";
-
-        return hostname;
-    }
-
     public boolean isLauncher() {
         return false;
     }
@@ -185,6 +173,7 @@ public class WebViewFragment extends Fragment {
         appView = makeWebView();
         createViews();
         if (!appView.isInitialized()) {
+            preferences.set("Hostname", Utility.getCustomHostname(did, id));
             appView.init(cordovaInterface, pluginEntries, preferences);
         }
         cordovaInterface.onCordovaInit(appView.getPluginManager());
@@ -250,11 +239,7 @@ public class WebViewFragment extends Fragment {
     public String getLaunchUrl() {
         return this.launchUrl;
     }
-
-    public String getOriginUrl() {
-        return this.launchUrl;
-    }
-
+    
     /**
      * Called when the system is about to start resuming a previous activity.
      */

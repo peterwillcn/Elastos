@@ -748,6 +748,9 @@ public class AppBasePlugin extends TrinityPlugin {
 
     @Override
     public Boolean shouldAllowNavigation(String url) {
+        if (url.startsWith("http://" + Utility.getCustomHostname(did, appId))) {
+            return true;
+        }
         if (isInUrlWhitelist()) {
             return true;
         }

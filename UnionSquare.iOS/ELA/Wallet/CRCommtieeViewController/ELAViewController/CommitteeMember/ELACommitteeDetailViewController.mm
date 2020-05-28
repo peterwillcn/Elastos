@@ -336,7 +336,10 @@
     [self.ringProgress initializeProgress];
     if(_model.impeachmentVotes != 0)
     {
-        self.ringProgress.progress =  _model.impeachmentThroughVotes / _model.impeachmentVotes;
+        
+        //NSLog(@"xxl _model is @%",_model);
+        //xxl 957
+        self.ringProgress.progress =  _model.impeachmentRatio;
         
     }
     else
@@ -353,7 +356,7 @@
     [infoView addSubview:currentNumLabel];
     
     UILabel *currentNumValueLabel = [[UILabel alloc] init];
-    currentNumValueLabel.text = [NSString stringWithFormat:@"%f", _model.impeachmentVotes];//ELALocalizedString(@"2312 ELA");
+    currentNumValueLabel.text = [NSString stringWithFormat:@"%ld", lround(_model.impeachmentVotes)];//ELALocalizedString(@"2312 ELA");
     currentNumValueLabel.textColor = [UIColor whiteColor];
     currentNumValueLabel.font = PingFangRegular(12);
     currentNumValueLabel.textAlignment = NSTextAlignmentCenter;
@@ -369,7 +372,7 @@
     [infoView addSubview:impeachmentNumLabel];
     
     UILabel *impeachmentNumValueLabel = [[UILabel alloc] init];
-    impeachmentNumValueLabel.text = [NSString stringWithFormat:@"%f", _model.impeachmentThroughVotes];
+    impeachmentNumValueLabel.text = [NSString stringWithFormat:@"%ld", lround(_model.impeachmentThroughVotes)];
     //ELALocalizedString(@"2312111 ELA");
     impeachmentNumValueLabel.textColor = [UIColor whiteColor];
     impeachmentNumValueLabel.font = PingFangRegular(12);

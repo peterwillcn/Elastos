@@ -3374,7 +3374,9 @@ void *ReverseByteOrder(void *p, unsigned int len)
     NSString *resultString = @"";
     NSMutableDictionary *resultDic = [[NSMutableDictionary alloc] init];
     try {
-        signedTx = json;//suWall->SignTransaction(json, pwd);
+        //signedTx = json;//suWall->SignTransaction(json, pwd);
+        //xxl #958
+        signedTx = suWall->SignTransaction(json, pwd);
         
         resultString = [self stringWithJson:signedTx];
         
@@ -3385,7 +3387,7 @@ void *ReverseByteOrder(void *p, unsigned int len)
         }
         
         result = suWall->PublishTransaction(signedTx);
-       NSString *pubResult = [self stringWithJson:result];
+        NSString *pubResult = [self stringWithJson:result];
         return resultDic;
         
     } catch (const std:: exception & e ) {

@@ -106,6 +106,7 @@ static HWMCRSuggestionNetWorkManger* _instatance;
         Completed(data);
         [[FLTools share]hideLoadingView];
     } WithFailBlock:^(id data) {
+         Completed(data);
     }];
 }
 -(void)reloadSecretaryGeneralAndMembersDetailsWithID:(NSString*)ID withDIDString:(NSString*)didString withComplete:(_Nonnull CRSuggestionNetWorkComplete)Completed{
@@ -119,6 +120,7 @@ static HWMCRSuggestionNetWorkManger* _instatance;
     [HttpUrl NetGETHost:CRProposalIP url:bordyUrlString header:nil body:nil showHUD:YES WithSuccessBlock:^(id data) {
         Completed(data);
     } WithFailBlock:^(id data) {
+         Completed(data);
     }];
 }
 
@@ -133,6 +135,7 @@ static HWMCRSuggestionNetWorkManger* _instatance;
     [HttpUrl NetGETHost:CRProposalIP url:bordyUrlString header:nil body:nil showHUD:NO WithSuccessBlock:^(id data) {
         Completed(data);
     } WithFailBlock:^(id data) {
+         Completed(data);
     }];
 }
 @end

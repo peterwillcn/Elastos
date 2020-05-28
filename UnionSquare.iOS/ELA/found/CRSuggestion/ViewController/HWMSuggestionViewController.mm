@@ -505,7 +505,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     PluginResult *result = [[ELWalletManager share]VerifyPayPassword:mommand];
     NSNumber *number = result.status;
     
-    if( [number intValue] != CommandStatus_OK)
+    if( [number intValue] != 1)
     {
         NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
         [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
@@ -575,7 +575,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     PluginResult *result = [[ELWalletManager share]VerifyPayPassword:mommand];
     NSNumber *number = result.status;
     
-    if( [number intValue] != CommandStatus_OK){
+    if( [number intValue] != 1){
         NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
         [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
         return;

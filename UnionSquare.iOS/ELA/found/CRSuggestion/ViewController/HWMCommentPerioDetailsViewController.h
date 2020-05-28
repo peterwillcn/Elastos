@@ -20,26 +20,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-
 #import <UIKit/UIKit.h>
 #import "HWMBillListModel.h"
 #import "HWMSecretaryGeneralAndMembersDetailsModel.h"
+#import "HWMQrCodeSignatureManager.h"
+@protocol HWMCommentPerioDetailsViewControllerDelegate <NSObject>
+-(void)closeCommentPerioDetailsView;
+@end
 typedef NS_ENUM(NSUInteger, CommentPerioType) {
     CommentPerioVOTINGType,
     CommentPerioNOTIFICATIONType,
     CommentPerioACTIVEType,
     CommentPerioFINALType,
     CommentPerioREJECTEDType,
-   CommentPerioVETOEDType,
+    CommentPerioVETOEDType,
 };
-
 NS_ASSUME_NONNULL_BEGIN
-
 @interface HWMCommentPerioDetailsViewController : UIViewController
 @property(strong,nonatomic)HWMBillListModel *model;
 @property(strong,nonatomic)HWMSecretaryGeneralAndMembersDetailsModel *SecretaryGeneralAndModel;
 @property(assign,nonatomic)CommentPerioType type;
+@property(copy,nonatomic)NSString * whereFrome;
+@property(weak,nonatomic)id<HWMCommentPerioDetailsViewControllerDelegate> delegate;
+@property(assign,nonatomic)QrCodeSignatureType codeSignatureT;
+@property(strong,nonatomic)id DicData;
+@property(copy,nonatomic)NSString * qrString;
 @end
 
 NS_ASSUME_NONNULL_END

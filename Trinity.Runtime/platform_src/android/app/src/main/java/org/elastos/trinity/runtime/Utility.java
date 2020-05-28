@@ -79,14 +79,7 @@ public class Utility {
         String hostname = "";
 
         if (did != null) {
-            int index = did.lastIndexOf(":");
-            if (index < 0) {
-                index = 0;
-            }
-            else {
-                index++;
-            }
-            hostname += did.substring(index) + ".";
+            hostname += did.replace(":", ".") + ".";
         }
         hostname += appId;
 

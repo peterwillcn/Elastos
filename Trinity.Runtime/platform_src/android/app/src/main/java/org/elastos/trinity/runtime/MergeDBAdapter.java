@@ -69,6 +69,9 @@ public class MergeDBAdapter {
         }
         if (info == null) {
             info = baseDBAdapter.getAppInfo(id);
+            if (info != null && userDBAdapter != null) {
+                userDBAdapter.getAppAuthInfo(info);
+            }
         }
         else {
             info.share = false;
@@ -100,6 +103,9 @@ public class MergeDBAdapter {
             }
             if (needAdd) {
                 list.add(baseInfo);
+                if (userDBAdapter != null) {
+                    userDBAdapter.getAppAuthInfo(baseInfo);
+                }
             }
         }
 
@@ -115,7 +121,7 @@ public class MergeDBAdapter {
         return baseDBAdapter.changeBuiltInToNormal(appId);
     }
 
-    public int updatePluginAuth(long tid, String plugin, int authority) {
+    public long updatePluginAuth(long tid, String plugin, int authority) {
         if (userDBAdapter != null) {
             return userDBAdapter.updatePluginAuth(tid, plugin, authority);
         }
@@ -124,7 +130,7 @@ public class MergeDBAdapter {
         }
     }
 
-    public int updateURLAuth(long tid, String url, int authority) {
+    public long updateURLAuth(long tid, String url, int authority) {
         if (userDBAdapter != null) {
             return userDBAdapter.updateURLAuth(tid, url, authority);
         }
@@ -133,7 +139,7 @@ public class MergeDBAdapter {
         }
     }
 
-    public int updateIntentAuth(long tid, String url, int authority) {
+    public long updateIntentAuth(long tid, String url, int authority) {
         if (userDBAdapter != null) {
             return userDBAdapter.updateIntentAuth(tid, url, authority);
         }

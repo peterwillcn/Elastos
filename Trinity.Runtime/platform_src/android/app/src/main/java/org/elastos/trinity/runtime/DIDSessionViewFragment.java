@@ -40,6 +40,7 @@
 
          appInfo = AppManager.getShareInstance().getDIDSessionAppInfo();
          id = appInfo.app_id;
+         did = null;
 
          loadConfig();
 

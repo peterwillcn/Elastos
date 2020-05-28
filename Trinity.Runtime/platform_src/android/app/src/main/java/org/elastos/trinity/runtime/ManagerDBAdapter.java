@@ -270,9 +270,32 @@ public class ManagerDBAdapter {
         }
     }
 
+    public void getAppAuthInfo(AppInfo info) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        String[] args1 = {String.valueOf(info.tid)};
+        String[] columns2 = {AppInfo.PLUGIN, AppInfo.AUTHORITY};
+        Cursor cursor = db.query(ManagerDBHelper.AUTH_PLUGIN_TABLE, columns2, AppInfo.APP_TID + "=?", args1, null, null, null);
+        while (cursor.moveToNext()) {
+            info.addPlugin(cursor.getString(cursor.getColumnIndex(AppInfo.PLUGIN)), cursor.getInt(cursor.getColumnIndex(AppInfo.AUTHORITY)));
+        }
+
+        String[] columns3 = {AppInfo.URL, AppInfo.AUTHORITY};
+        cursor = db.query(ManagerDBHelper.AUTH_URL_TABLE, columns3, AppInfo.APP_TID + "=?", args1, null, null, null);
+        while (cursor.moveToNext()) {
+            info.addUrl(cursor.getString(cursor.getColumnIndex(AppInfo.URL)), cursor.getInt(cursor.getColumnIndex(AppInfo.AUTHORITY)));
+        }
+
+        String[] intent_columns = {AppInfo.URL, AppInfo.AUTHORITY};
+        cursor = db.query(ManagerDBHelper.AUTH_INTENT_TABLE, intent_columns, AppInfo.APP_TID + "=?", args1, null, null, null);
+        while (cursor.moveToNext()) {
+            info.addIntent(cursor.getString(cursor.getColumnIndex(AppInfo.URL)), cursor.getInt(cursor.getColumnIndex(AppInfo.AUTHORITY)));
+        }
+    }
+
     public AppInfo[] getAppInfos() {
-        String selection = AppInfo.LAUNCHER + "=0 AND " + AppInfo.APP_ID + "!=\"org.elastos.trinity.dapp.didsession\"";
-        return getInfos(selection, null);
+        String selection = AppInfo.LAUNCHER + "=0 AND " + AppInfo.APP_ID + "!=?";
+        String[] args = {AppManager.getShareInstance().getDIDSessionId()};
+        return getInfos(selection, args);
     }
 
     public AppInfo getLauncherInfo() {
@@ -296,33 +319,54 @@ public class ManagerDBAdapter {
         return count;
     }
 
-    public int updatePluginAuth(long tid, String plugin, int authority) {
+    public long updatePluginAuth(long tid, String plugin, int authority) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(AppInfo.AUTHORITY, authority);
         String where = AppInfo.APP_TID + "=? AND " + AppInfo.PLUGIN + "=?";
         String[] whereArgs= {String.valueOf(tid), plugin};
-        int count = db.update(ManagerDBHelper.AUTH_PLUGIN_TABLE, contentValues, where, whereArgs );
+        long count = db.update(ManagerDBHelper.AUTH_PLUGIN_TABLE, contentValues, where, whereArgs );
+        if (count < 1) {
+            contentValues = new ContentValues();
+            contentValues.put(AppInfo.APP_TID, tid);
+            contentValues.put(AppInfo.PLUGIN, plugin);
+            contentValues.put(AppInfo.AUTHORITY, authority);
+            db.insert(ManagerDBHelper.AUTH_PLUGIN_TABLE, null, contentValues);
+        }
         return count;
     }
 
-    public int updateURLAuth(long tid, String url, int authority) {
+    public long updateURLAuth(long tid, String url, int authority) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(AppInfo.AUTHORITY, authority);
         String where = AppInfo.APP_TID + "=? AND " + AppInfo.URL + "=?";
         String[] whereArgs= {String.valueOf(tid), url};
-        int count =db.update(ManagerDBHelper.AUTH_URL_TABLE, contentValues, where, whereArgs );
+        long count = db.update(ManagerDBHelper.AUTH_URL_TABLE, contentValues, where, whereArgs );
+        if (count < 1) {
+            contentValues = new ContentValues();
+            contentValues.put(AppInfo.APP_TID, tid);
+            contentValues.put(AppInfo.URL, url);
+            contentValues.put(AppInfo.AUTHORITY, authority);
+            count = db.insert(ManagerDBHelper.AUTH_URL_TABLE, null, contentValues);
+        }
         return count;
     }
 
-    public int updateIntentAuth(long tid, String url, int authority) {
+    public long updateIntentAuth(long tid, String url, int authority) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(AppInfo.AUTHORITY, authority);
         String where = AppInfo.APP_TID + "=? AND " + AppInfo.URL + "=?";
         String[] whereArgs= {String.valueOf(tid), url};
-        int count =db.update(ManagerDBHelper.AUTH_INTENT_TABLE, contentValues, where, whereArgs );
+        long count = db.update(ManagerDBHelper.AUTH_INTENT_TABLE, contentValues, where, whereArgs );
+        if (count < 1) {
+            contentValues = new ContentValues();
+            contentValues.put(AppInfo.APP_TID, tid);
+            contentValues.put(AppInfo.URL, url);
+            contentValues.put(AppInfo.AUTHORITY, authority);
+            db.insert(ManagerDBHelper.AUTH_INTENT_TABLE, null, contentValues);
+        }
         return count;
     }
 

@@ -78,6 +78,7 @@ public class WebViewFragment extends Fragment {
     protected TrinityCordovaInterfaceImpl cordovaInterface;
     protected AppBasePlugin basePlugin;
     protected String id;
+    protected String did;
 
     public AppInfo appInfo;
     protected String launchUrl;
@@ -124,6 +125,7 @@ public class WebViewFragment extends Fragment {
 
         id = getArguments().getString("id");
         appInfo = AppManager.getShareInstance().getAppInfo(id);
+        did = AppManager.getShareInstance().getDID();
 
         View rootView = inflater.inflate(R.layout.fragments_view, null);
         webView = rootView.findViewById(R.id.webView);
@@ -153,6 +155,26 @@ public class WebViewFragment extends Fragment {
 
     protected void loadConfig() {
 
+    }
+
+    public String getAppId() {
+        return id;
+    }
+
+    public String getDID() {
+        return did;
+    }
+
+    public String getCustomHostname() {
+        String hostname = "";
+        if (did != null) {
+            hostname += did.replace(":", "-") + "-";
+        }
+        hostname += id.replace(".", "-");
+
+        hostname = "localhost";
+
+        return hostname;
     }
 
     public boolean isLauncher() {
@@ -226,6 +248,10 @@ public class WebViewFragment extends Fragment {
     }
 
     public String getLaunchUrl() {
+        return this.launchUrl;
+    }
+
+    public String getOriginUrl() {
         return this.launchUrl;
     }
 

@@ -193,14 +193,33 @@
      }
 
      public void addPlugin(String plugin, int authority) {
+         for (PluginAuth pluginAuth : plugins) {
+             if (pluginAuth.plugin.equals(plugin)) {
+                 pluginAuth.authority = authority;
+                 return;
+             }
+         }
          plugins.add(new PluginAuth(plugin, authority));
      }
 
      public void addUrl(String url, int authority) {
+         for (UrlAuth urlAuth : urls) {
+             if (urlAuth.url.equals(url)) {
+                 urlAuth.authority = authority;
+                 return;
+             }
+         }
          urls.add(new UrlAuth(url, authority));
      }
 
      public void addIntent(String url, int authority) {
+         for (UrlAuth urlAuth : intents) {
+             if (urlAuth.url.equals(url)) {
+                 urlAuth.authority = authority;
+                 return;
+             }
+         }
+
          intents.add(new UrlAuth(url, authority));
      }
 

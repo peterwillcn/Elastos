@@ -277,26 +277,30 @@ public class AppManager {
         }
     }
 
-    public String getDidsessionId() {
+    public boolean isSignIning() {
+        return isSignIning;
+    }
+
+    public String getDIDSessionId() {
         return "org.elastos.trinity.dapp.didsession";
     }
     public boolean isDIDSession(String appId) {
-        return appId.equals("didsession") || appId.equals(getDidsessionId());
+        return appId.equals("didsession") || appId.equals(getDIDSessionId());
     }
 
     public AppInfo getDIDSessionAppInfo() {
-        return dbAdapter.getAppInfo(getDidsessionId());
+        return dbAdapter.getAppInfo(getDIDSessionId());
     }
 
     public void startDIDSession() {
         DIDSessionViewFragment fragment = new DIDSessionViewFragment();
         activity.getSupportFragmentManager().beginTransaction()
-                .add(R.id.content, fragment, getDidsessionId())
+                .add(R.id.content, fragment, getDIDSessionId())
                 .commit();
     }
 
     public void closeDIDSession() throws Exception {
-        DIDSessionViewFragment fragment = (DIDSessionViewFragment) getFragmentById(getDidsessionId());
+        DIDSessionViewFragment fragment = (DIDSessionViewFragment) getFragmentById(getDIDSessionId());
         if (fragment != null) {
             activity.getSupportFragmentManager().beginTransaction()
                     .remove(fragment)
@@ -338,56 +342,6 @@ public class AppManager {
 
         return input;
     }
-
-//    private AppInfo saveDIDSessionApp() {
-//        String builtInPath = "www/didsession";
-//        String appPath = basePathInfo.appsPath + "didsession";
-//        File appFile = new File(appPath);
-//        AppInfo builtInInfo = null;
-//
-//        try {
-//            InputStream builtInInput =  getAssetsFile(builtInPath + "/assets/manifest.json");
-//            if (builtInInput == null) {
-//                Log.e("AppManager", "No manifest found, returning");
-//                return null;
-//            }
-//
-//            builtInInfo = shareInstaller.parseManifest(builtInInput, 1);
-//            Boolean needInstall = true;
-//
-//            InputStream appInput = null;
-//            if (appFile.exists()) {
-//                appInput = new FileInputStream(appPath + "/assets/manifest.json");
-//                AppInfo installedInfo = shareInstaller.parseManifest(appInput, 1);
-//                if (installedInfo != null) {
-//                    boolean versionChanged = PreferenceManager.getShareInstance().versionChanged;
-//                    if (versionChanged || builtInInfo.version_code > installedInfo.version_code) {
-//                        Log.d("AppManager", "built in version > installed version: uninstalling installed");
-//
-//                        File root = new File(appPath);
-//                        shareInstaller.deleteAllFiles(root);
-//                    }
-//                    else {
-//                        Log.d("AppManager", "Built in version <= installed version, No need to install");
-//                        needInstall = false;
-//                    }
-//                }
-//                else {
-//                    Log.d("AppManager", "No installed info found");
-//                }
-//            }
-//
-//            if (needInstall) {
-//                shareInstaller.copyAssetsFolder(builtInPath, appPath);
-//                builtInInfo.built_in = 1;
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        builtInInfo.app_id = "didsession";
-//        return builtInInfo;
-//    }
 
     private void installBuiltInApp(String path, String id, int launcher) throws Exception {
         Log.d("AppManager", "Entering installBuiltInApp path="+path+" id="+id+" launcher="+launcher);
@@ -468,7 +422,7 @@ public class AppManager {
                     Log.e("AppManager", "Launcher upgrade -- Can't remove the older DB info.");
                     return;
                 }
-                shareInstaller.renameFolder(didsession, basePathInfo.appsPath, getDidsessionId());
+                shareInstaller.renameFolder(didsession, basePathInfo.appsPath, getDIDSessionId());
                 dbAdapter.addAppInfo(info, true);
             }
         } catch (Exception e) {
@@ -1001,6 +955,8 @@ public class AppManager {
     }
 
     public void sendMessage(String toId, int type, String msg, String fromId) throws Exception {
+        if (isSignIning) return;
+
         WebViewFragment fragment = getFragmentById(toId);
         if (fragment != null) {
             fragment.basePlugin.onReceive(msg, type, fromId);
@@ -1072,7 +1028,7 @@ public class AppManager {
 
         for (AppInfo.PluginAuth pluginAuth : info.plugins) {
             if (pluginAuth.plugin.equals(plugin)) {
-                int count = dbAdapter.updatePluginAuth(info.tid, plugin, authority);
+                long count = dbAdapter.updatePluginAuth(info.tid, plugin, authority);
                 if (count > 0) {
                     pluginAuth.authority = authority;
                     sendRefreshList("authorityChanged", info);
@@ -1091,7 +1047,7 @@ public class AppManager {
 
         for (AppInfo.UrlAuth urlAuth : info.urls) {
             if (urlAuth.url.equals(url)) {
-                int count = dbAdapter.updateURLAuth(info.tid, url, authority);
+                long count = dbAdapter.updateURLAuth(info.tid, url, authority);
                 if (count > 0) {
                     urlAuth.authority = authority;
                     sendRefreshList("authorityChanged", info);

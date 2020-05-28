@@ -58,6 +58,11 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 @property(copy,nonatomic)NSDictionary *PayLoadDic;
 @property(copy,nonatomic)NSString*jwtString;
 @property(copy,nonatomic)NSString*votesString;
+
+//xxl #943
+@property(strong,nonatomic) PluginResult *pluginResult;
+@property(strong,nonatomic) NSString *strPWD;
+
 @property(strong,nonatomic)NSMutableArray*VoteingProposalArray;
 
 @end
@@ -76,7 +81,35 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     self.isOpen=YES;
     [self loadPerioDetailsWithID:self.model.ID];
     
+    //xxl #943
+    [[NSNotificationCenter defaultCenter]addObserver:self
+            selector:@selector(onTxPublish:) name:OnTxPublishedResult object:nil];
+        
 }
+
+//xxl #943
+-(void)onTxPublish:(NSNotification*)notice{
+
+    NSDictionary *param =notice.object;
+    NSLog(@"xxl 943 2 onTxPublish %@ 1",param);
+    
+    if(_pluginResult){
+        NSDictionary *resultDic = _pluginResult.message[@"success"];
+        //[self updaeJWTInfoWithDic:txidDic];
+        NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:_strPWD];
+        if(callDic)
+        {
+            NSLog(@"xxl 943 2 onTxPublish post OK");
+            [self updaeJWTInfoWithDic:callDic];
+        }else {
+            [self showSendSuccessOrFial:SignatureFailureType];
+        }
+    }else{
+        [self showSendSuccessOrFial:SignatureFailureType];
+    }
+    
+}
+
 -(NSMutableArray *)VoteingProposalArray{
     if (!_VoteingProposalArray) {
         _VoteingProposalArray =[[NSMutableArray alloc]init];
@@ -522,20 +555,31 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
                                                 className:@"Wallet"
                                                methodName:@"createProposalReviewTransaction"];
     
-    PluginResult *pluginResult = [[ELWalletManager share] proposalReviewTransaction:mommand];
+    _strPWD = pwd;
+    _pluginResult = [[ELWalletManager share] proposalReviewTransaction:mommand];
     
-    if(pluginResult){
-        NSDictionary *resultDic = pluginResult.message[@"success"];
-        
-        NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:pwd];
-        if(callDic)
-        {
-            [self updaeJWTInfoWithDic:callDic];
-        }else {
-            [self showSendSuccessOrFial:SignatureFailureType];
-        }
-    }
+//    if(pluginResult){
+//        NSDictionary *resultDic = pluginResult.message[@"success"];
+//
+//        NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:pwd];
+//        if(callDic)
+//        {
+//            [self updaeJWTInfoWithDic:callDic];
+//        }else {
+//            [self showSendSuccessOrFial:SignatureFailureType];
+//        }
+//    }
 }
+
+//xxl 943
+
+
+
+
+
+
+
+
 -(void)updaeJWTInfoWithDic:(NSDictionary*)pare{
     
     

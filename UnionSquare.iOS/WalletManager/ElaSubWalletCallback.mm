@@ -105,7 +105,7 @@ void ElaSubWalletCallback::OnTxPublished(const std::string &hash, const nlohmann
             NSLog(@"xxl 943 1 OK ElaSubWalletCallback %@",dic);
             [[NSNotificationCenter defaultCenter] postNotificationName:OnTxPublishedResult object:dic];
 
-        }else{
+        }else if(code != 0){
             NSLog(@"xxl 943 1 error ElaSubWalletCallback %@",dic);
             
             NSString *walletInfo= [NSString stringWithCString:_callBackInfo.c_str() encoding:NSUTF8StringEncoding];

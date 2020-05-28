@@ -120,6 +120,29 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     
 }
 
+
+//xxl #943
+-(void)onTxPublish:(NSNotification*)notice{
+
+    NSDictionary *param =notice.object;
+    NSLog(@"xxl 943 2 onTxPublish %@ 1",param);
+    
+    if(_pluginResult){
+        NSDictionary *resultDic = _pluginResult.message[@"success"];
+        //[self updaeJWTInfoWithDic:txidDic];
+        NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:_strPWD];
+        if(callDic)
+        {
+            [self updaeJWTInfoWithDic:callDic];
+        }else {
+            [self showSendSuccessOrFial:SignatureFailureType];
+        }
+    }else{
+        [self showSendSuccessOrFial:SignatureFailureType];
+    }
+    
+}
+
 //xxl 2.3
 -(void)setVoteforProposalInfo{
     
@@ -588,27 +611,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     
 }
 
-//xxl #943
--(void)onTxPublish:(NSNotification*)notice{
 
-    NSDictionary *param =notice.object;
-    NSLog(@"xxl 943 2 onTxPublish %@ 1",param);
-    
-    if(_pluginResult){
-        NSDictionary *resultDic = _pluginResult.message[@"success"];
-        //[self updaeJWTInfoWithDic:txidDic];
-        NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:_strPWD];
-        if(callDic)
-        {
-            [self updaeJWTInfoWithDic:callDic];
-        }else {
-            [self showSendSuccessOrFial:SignatureFailureType];
-        }
-    }else{
-        [self showSendSuccessOrFial:SignatureFailureType];
-    }
-    
-}
 
 
 - (NSDictionary *)callBack:(NSString *)payString pwd:(NSString *)PWDString

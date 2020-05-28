@@ -60,6 +60,9 @@
     [[NSNotificationCenter defaultCenter]addObserver:self
                                                selector:@selector(onTxPublish:) name:OnTxPublishedResult object:nil];
 }
+
+
+
 -(void)setType:(QrCodeSignatureType)type{
     
     

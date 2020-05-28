@@ -44,8 +44,8 @@
     self.tabBar.selectionIndicatorImage = [self imageWithColor:RGBA(118, 143, 146,0.7) size:CGSizeMake(AppWidth/self.viewControllers.count, self.tabBar.frame.size.height+40)];
     self.tabBar.clipsToBounds = YES;
     
-    [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(onTxPublish:) name:OnTxPublishedResult object:nil];
+//    [[NSNotificationCenter defaultCenter]addObserver:self
+//                                            selector:@selector(onTxPublish:) name:OnTxPublishedResult object:nil];
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:RGBA(255, 255, 255, 0.25)} forState:UIControlStateNormal];
     
     //选中字体颜色
@@ -53,22 +53,23 @@
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:RGBA(255, 255, 255, 0.85)} forState:UIControlStateSelected];
 }
 
--(void)onTxPublish:(NSNotification*)notice{
-    
-    
-    NSLog(@"xxl 943 2 onTxPublish 0 .");
-    NSDictionary *param =notice.object;
-    //    DLog(@"%@",param);
-    
-    //    NSInteger code =[ param[@"result"][@"Code"] integerValue];
-    //    if (code == 0||code ==18) {
-    //        [[FLTools share]showErrorInfo:[NSString stringWithFormat:        NSLocalizedString(@"交易成功", nil)]];
-    //    }else{
-    //        [[FLTools share]showErrorInfo:[NSString stringWithFormat:        NSLocalizedString(@"交易失败", nil)]];
-    //    }
-    
-    
-}
+//-(void)onTxPublish:(NSNotification*)notice{
+//
+//
+//    NSLog(@"xxl 943 2 onTxPublish 0 .");
+//    NSDictionary *param =notice.object;
+//    //    DLog(@"%@",param);
+//
+//    //    NSInteger code =[ param[@"result"][@"Code"] integerValue];
+//    //    if (code == 0||code ==18) {
+//    //        [[FLTools share]showErrorInfo:[NSString stringWithFormat:        NSLocalizedString(@"交易成功", nil)]];
+//    //    }else{
+//    //        [[FLTools share]showErrorInfo:[NSString stringWithFormat:        NSLocalizedString(@"交易失败", nil)]];
+//    //    }
+//
+//
+//}
+
 -(UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size {
     
     if (!color || size.width <=0 || size.height <=0) return nil;

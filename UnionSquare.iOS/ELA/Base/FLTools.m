@@ -323,7 +323,8 @@ static FLTools *tool;
     
 }
 -(void)hideLoadingView{
-    [SVProgressHUD dismiss];
+ 
+    [SVProgressHUD popActivity];
 }
 -(void)showErrorInfo:(NSString*)info{
     [SVProgressHUD setBackgroundColor:RGB(100, 100, 100)];

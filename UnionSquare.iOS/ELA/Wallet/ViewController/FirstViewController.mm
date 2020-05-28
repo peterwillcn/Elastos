@@ -41,8 +41,9 @@
 #import "HWMQrCodeInfoPasswordViewController.h"
 #import "HWMSecretaryGeneralAndMembersInfo.h"
 #import "HMWToDeleteTheWalletPopView.h"
+#import "HWMCommentPerioDetailsViewController.h"
 
-@interface FirstViewController ()<FLCapitalViewDelegate,UITableViewDelegate,UITableViewDataSource,HMWaddFooterViewDelegate,HMWTheWalletListViewControllerDelegate,HMWpwdPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate, HMWAddTheCurrencyListViewControllerDelegate,HMWAddTheCurrencyListViewControllerDelegate>
+@interface FirstViewController ()<FLCapitalViewDelegate,UITableViewDelegate,UITableViewDataSource,HMWaddFooterViewDelegate,HMWTheWalletListViewControllerDelegate,HMWpwdPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate, HMWAddTheCurrencyListViewControllerDelegate,HMWAddTheCurrencyListViewControllerDelegate,HWMCommentPerioDetailsViewControllerDelegate>
 {
     FLWallet *_currentWallet;
 }
@@ -827,8 +828,8 @@
             [self showAdviceInfoText:data withJWTString:QRCodeString WithType:type];
             break;
         case reviewPropalQrCodeType:
-            [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
-           // [self showAdviceInfoText:data withJWTString:QRCodeString WithType:type];
+        case voteforProposalQrCodeType:
+            [self parsingQRCodeDataWithType:type withDicData:data withQRString:QRCodeString];
             break;
         case billQrCodeType:
             [self showAdviceInfoText:data withJWTString:QRCodeString WithType:type];
@@ -1085,6 +1086,18 @@
     
     //    [self ParseTheQrCodeJumpEventWithType:self.QRType withData:self.QRCodeData tsWithQRCodeString:self.QRCodeString];
 }
-
-
+-(void)parsingQRCodeDataWithType:(QrCodeSignatureType)type withDicData:(id)data withQRString:(NSString*)qrString{
+    HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
+    if (type==reviewPropalQrCodeType) {
+        CommentPerioDetailsVC.type=CommentPerioVOTINGType;
+    }else if (type==voteforProposalQrCodeType){
+          CommentPerioDetailsVC.type=CommentPerioNOTIFICATIONType;
+    }
+    CommentPerioDetailsVC.qrString=qrString;
+    CommentPerioDetailsVC.DicData=data;
+    CommentPerioDetailsVC.codeSignatureT=type;
+    
+    CommentPerioDetailsVC.whereFrome=@"FirstView";
+    [self.navigationController pushViewController:CommentPerioDetailsVC animated:NO];
+}
 @end

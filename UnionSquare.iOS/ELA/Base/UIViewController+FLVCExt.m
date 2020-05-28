@@ -614,7 +614,7 @@
     
 }
 -(void)hiddLoading{
-    [SVProgressHUD dismiss];
+   [[FLTools share] hideLoadingView];
 }
 -(void)showSendSuccessPopuVWithType:(SendSuccessType)suType withBackVC:(UIViewController*)VC{
     

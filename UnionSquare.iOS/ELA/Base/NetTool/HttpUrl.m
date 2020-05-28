@@ -63,7 +63,7 @@ NSInteger timeOut = 60;
     }
     [manage POST:stringUrl parameters:dataDic success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (show) {
-                  [SVProgressHUD dismiss];
+                  [[FLTools share] hideLoadingView];
               }
               NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
               
@@ -102,7 +102,7 @@ NSInteger timeOut = 60;
     [manage GET:stringUrl parameters:dataDic success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
                if (show) {
-                   [SVProgressHUD dismiss];
+                   [[FLTools share] hideLoadingView];
                }
                NSInteger code = [dic[@"code"] integerValue];
                if (code==0||code==1) {
@@ -166,7 +166,7 @@ NSInteger timeOut = 60;
                                        mimeType:@"image/jpeg"];
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
           if (show) {
-                  [SVProgressHUD dismiss];
+                  [[FLTools share] hideLoadingView];
               }
               //        DLog(@"上传结果:%@", responseObject);
               //上传成功
@@ -228,7 +228,7 @@ NSInteger timeOut = 60;
             }
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (show) {
-            [SVProgressHUD dismiss];
+            [[FLTools share] hideLoadingView];
         }
         NSDictionary *dic =responseObject;
         NSInteger code = [dic[@"code"] integerValue];

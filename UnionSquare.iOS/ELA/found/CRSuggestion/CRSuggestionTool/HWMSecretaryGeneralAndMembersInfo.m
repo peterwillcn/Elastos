@@ -74,7 +74,10 @@ static HWMSecretaryGeneralAndMembersInfo *_instance;
          
         NSLog(@"委员信息获取成功---%@",data);
         [self parsingModelWithData:data[@"data"] complete:^(HWMSecretaryGeneralAndMembersDetailsModel *model) {
-            [[FLTools share] hideLoadingView];
+            if (isLoading) {
+                   [[FLTools share] hideLoadingView];
+               }
+           
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                   com(model);
             });

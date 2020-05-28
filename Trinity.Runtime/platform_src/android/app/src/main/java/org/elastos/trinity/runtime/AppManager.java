@@ -1135,7 +1135,7 @@ public class AppManager {
     }
 
     public synchronized int runAlertUrlAuth(AppInfo info, String url, int originAuthority) {
-        try {
+        // TMP BPI try {
             synchronized (urlLock) {
                 urlLock.authority = getUrlAuthority(info.app_id, url);
                 if (urlLock.authority != originAuthority) {
@@ -1150,14 +1150,14 @@ public class AppManager {
                 });
 
                 if (urlLock.authority == originAuthority) {
-                    urlLock.wait();
+                   // TMP BPI  urlLock.wait();
                 }
             }
 
-        } catch (InterruptedException e) {
+        /* TMP BPI  } catch (InterruptedException e) {
             e.printStackTrace();
             return originAuthority;
-        }
+        }*/
         return urlLock.authority;
     }
 

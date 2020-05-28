@@ -64,6 +64,9 @@ class ContactImpl implements ContactNotifierPlugin.Contact {
     }
 
     static fromJson(jsonObj: any): ContactImpl {
+        if (!jsonObj)
+            return null;
+            
         let contact = new ContactImpl();
         Object.assign(contact, jsonObj);
         return contact;

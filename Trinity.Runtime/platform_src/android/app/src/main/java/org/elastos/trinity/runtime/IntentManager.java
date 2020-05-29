@@ -284,7 +284,7 @@ public class IntentManager {
         }
     }
 
-    public JSONObject parseJWT(String jwt) throws Exception {
+    public static JSONObject parseJWT(String jwt) throws Exception {
         // Remove the Signature from the received JWT for now, we don't handle this.
         // TODO: extract the JWT issuer field from the JWT, resolve its DID from the DID sidechain, and
         // verify the JWT using the public key. JWT will have to be signed by the app developer's DID's private key.

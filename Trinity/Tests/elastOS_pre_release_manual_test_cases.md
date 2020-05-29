@@ -112,3 +112,4 @@
 | ---- | -------- |
 | Create a new angular/tabs app from the cli (+build + run android/ios) | High |
 | Create an app DID from the CLI (without publishing) | Medium |
+| Be able to update built-in or not built-in apps using the CLI, including Launcher and DID session apps | High |

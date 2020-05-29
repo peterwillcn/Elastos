@@ -541,7 +541,7 @@ public class AppBasePlugin extends TrinityPlugin {
         }
 
         appManager.checkInProtectList(url);
-        AppInfo info = appManager.install(url, update);
+        AppInfo info = appManager.install(url, update, false);
         if (info != null) {
             callbackContext.success(jsonAppInfo(info));
         }

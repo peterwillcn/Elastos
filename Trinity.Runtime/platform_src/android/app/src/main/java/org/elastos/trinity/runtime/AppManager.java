@@ -224,7 +224,7 @@ public class AppManager {
             e.printStackTrace();
         }
         refreashInfos();
-        sendRefreshList("initiated", null);
+        sendRefreshList("initiated", null, false);
     }
 
     private void closeAll() throws Exception {
@@ -657,16 +657,19 @@ public class AppManager {
         return origin;
     }
 
-    public AppInfo install(String url, boolean update) throws Exception  {
+    /*
+     * debug: from CLI to debug dapp
+     */
+    public AppInfo install(String url, boolean update, boolean fromCLI) throws Exception  {
         AppInfo info = shareInstaller.install(url, update);
         if (info != null) {
             refreashInfos();
 
             if (info.launcher == 1) {
-                sendRefreshList("launcher_upgraded", info);
+                sendRefreshList("launcher_upgraded", info, fromCLI);
             }
             else {
-                sendRefreshList("installed", info);
+                sendRefreshList("installed", info, fromCLI);
             }
         }
 
@@ -683,7 +686,7 @@ public class AppManager {
                installBuiltInApp("www/built-in/", info.app_id, 0);
                refreashInfos();
            }
-           sendRefreshList("unInstalled", info);
+           sendRefreshList("unInstalled", info, false);
         }
     }
 
@@ -775,7 +778,7 @@ public class AppManager {
         if (fragment == null) {
             fragment = WebViewFragment.newInstance(id);
             if (!isLauncher(id)) {
-                sendRefreshList("started", info);
+                sendRefreshList("started", info, false);
             }
 
             if (!getAppVisible(id)) {
@@ -844,7 +847,7 @@ public class AppManager {
         lastList.remove(id);
         runningList.remove(id);
 
-        sendRefreshList("closed", info);
+        sendRefreshList("closed", info, false);
     }
 
     public void loadLauncher() throws Exception {
@@ -867,7 +870,7 @@ public class AppManager {
     private void installUri(String uri, boolean dev) {
         try {
             if (dev && PreferenceManager.getShareInstance().getDeveloperMode()) {
-                install(uri, true);
+                install(uri, true, dev);
             }
             else {
                 checkInProtectList(uri);
@@ -938,11 +941,11 @@ public class AppManager {
         }
     }
 
-    public void sendRefreshList(String action, AppInfo info) {
+    public void sendRefreshList(String action, AppInfo info, boolean fromCLI) {
         try {
             if (info != null) {
                 sendLauncherMessage(MSG_TYPE_IN_REFRESH,
-                        "{\"action\":\"" + action + "\", \"id\":\"" + info.app_id + "\" , \"name\":\"" + info.name + "\"}", "system");
+                        "{\"action\":\"" + action + "\", \"id\":\"" + info.app_id + "\" , \"name\":\"" + info.name + "\", \"debug\":" + fromCLI + "}", "system");
             }
             else {
                 sendLauncherMessage( MSG_TYPE_IN_REFRESH,
@@ -1031,7 +1034,7 @@ public class AppManager {
                 long count = dbAdapter.updatePluginAuth(info.tid, plugin, authority);
                 if (count > 0) {
                     pluginAuth.authority = authority;
-                    sendRefreshList("authorityChanged", info);
+                    sendRefreshList("authorityChanged", info, false);
                 }
                 return;
             }
@@ -1050,7 +1053,7 @@ public class AppManager {
                 long count = dbAdapter.updateURLAuth(info.tid, url, authority);
                 if (count > 0) {
                     urlAuth.authority = authority;
-                    sendRefreshList("authorityChanged", info);
+                    sendRefreshList("authorityChanged", info, false);
                 }
                 return ;
             }

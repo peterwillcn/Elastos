@@ -93,8 +93,6 @@ import java.util.ArrayList;
                 pluginEntries.add(new PluginEntry(entry.service, pluginClass, entry.onload, plugin));
             }
         }
-
-        AppManager.getShareInstance().getDBAdapter().updateURLAuth(appInfo.tid, "http://*", 0);
     }
 
     @Override

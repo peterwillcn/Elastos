@@ -126,20 +126,22 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 
     NSDictionary *param =notice.object;
     NSLog(@"xxl 943 2 onTxPublish %@ 1",param);
-    
-    if(_pluginResult){
-        NSDictionary *resultDic = _pluginResult.message[@"success"];
-        //[self updaeJWTInfoWithDic:txidDic];
-        NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:_strPWD];
-        if(callDic)
-        {
-            [self updaeJWTInfoWithDic:callDic];
-        }else {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if(_pluginResult){
+            NSDictionary *resultDic = _pluginResult.message[@"success"];
+            //[self updaeJWTInfoWithDic:txidDic];
+            NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:_strPWD];
+            if(callDic)
+            {
+                [self updaeJWTInfoWithDic:callDic];
+            }else {
+                [self showSendSuccessOrFial:SignatureFailureType];
+            }
+        }else{
             [self showSendSuccessOrFial:SignatureFailureType];
         }
-    }else{
-        [self showSendSuccessOrFial:SignatureFailureType];
-    }
+    });
+
     
 }
 
@@ -642,7 +644,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 -(void)showSendSuccessOrFial:(SendSuccessType)type{
     [self closeTransactionDetailsView];
     [self closepwdView];
-    [[FLTools share]hideLoadingView];
+    [self hiddLoading];
     self.sendSuccessPopuV.type=type;
     [self.view addSubview:self.sendSuccessPopuV];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

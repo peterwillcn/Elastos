@@ -323,7 +323,6 @@ static FLTools *tool;
     
 }
 -(void)hideLoadingView{
- 
     [SVProgressHUD popActivity];
 }
 -(void)showErrorInfo:(NSString*)info{

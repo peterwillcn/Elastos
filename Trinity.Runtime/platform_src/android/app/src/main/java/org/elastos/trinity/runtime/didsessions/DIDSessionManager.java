@@ -91,7 +91,7 @@ public class DIDSessionManager {
         appManager.signOut();
     }
 
-    public void authenticate(String realm, String nonce, OnAuthenticationListener listener) throws Exception {
+    public void authenticate(JSONObject payload, int expiresIn, OnAuthenticationListener listener) throws Exception {
         // Make sure there is a signed in user
         IdentityEntry signedInIdentity = DIDSessionManager.getSharedInstance().getSignedInIdentity();
         if (signedInIdentity == null)
@@ -129,8 +129,11 @@ public class DIDSessionManager {
                         else {
                             // Create the JWT payload
                             JSONObject jwtPayloadJson = new JSONObject();
-                            jwtPayloadJson.put("realm", realm);
-                            jwtPayloadJson.put("nonce", nonce);
+                            // Add a - useless - clear marker of this auth service so nobody can confuse this signed payload
+                            // with another document signed by a user (to make sure attackers don't use this method to sign any data)
+                            jwtPayloadJson.put("purpose", "authenticate");
+                            jwtPayloadJson.put("origin", "trinity");
+                            jwtPayloadJson.put("payload", payload);
 
                             // Sign as JWT
                             JwsHeader header = JwtBuilder.createJwsHeader();
@@ -139,7 +142,7 @@ public class DIDSessionManager {
                             Calendar cal = Calendar.getInstance();
                             cal.set(Calendar.MILLISECOND, 0);
                             Date iat = cal.getTime();
-                            cal.add(Calendar.MINUTE, 5); // Only valid 5 minutes
+                            cal.add(Calendar.MINUTE, expiresIn);
                             Date exp = cal.getTime();
 
                             Claims body = JwtBuilder.createClaims();

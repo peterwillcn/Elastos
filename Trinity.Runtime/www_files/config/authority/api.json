@@ -481,6 +481,19 @@
                 "zh": "此应用程序将能够删除您用于登录的一个或多个身份。",
                 "fr": "Cette capsule pourra supprimer l'une des identités qui vous sert actuellement à vous connecter à elastOS."
             }
+        },
+        "authenticate": {
+            "danger_level": "low",
+            "title": {
+                "en": "Authenticate to external services",
+                "zh": "Authenticate to external services",
+                "fr": "Authentification"
+            },
+            "description": {
+                "en": "This capsule will be able to use your identity to authenticate on external services. Authenticating only means your identity ID can be proven, but this can't do anything harmful.",
+                "zh": "This capsule will be able to use your identity to authenticate on external services. Authenticating only means your identity ID can be proven, but this can't do anything harmful.",
+                "fr": "Cette capsule utiliser votre identité pour vous authentifier sur des services tiers. Ceci sert uniquement à prouver votre identité, mais ne peut rien faire de dangereux."
+            }
         }
     },
     "Notification": {

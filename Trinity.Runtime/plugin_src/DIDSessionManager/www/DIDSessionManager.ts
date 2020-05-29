@@ -88,6 +88,20 @@ class DIDSessionManagerImpl implements DIDSessionManagerPlugin.DIDSessionManager
             }, 'DIDSessionManagerPlugin', 'signOut', []);
         });
     }
+
+    authenticate(payload: Object, expiresIn?: Number): Promise<String> {
+        return new Promise((resolve, reject) => {
+            exec((ret: { jwtToken: String } ) =>{
+                if (ret.jwtToken)
+                    resolve(ret.jwtToken);
+                else
+                    resolve(null);
+            }, err =>{
+                console.error("Error while calling DIDSessionManagerPlugin.authenticate()", err);
+                reject(err);
+            }, 'DIDSessionManagerPlugin', 'authenticate', [payload, expiresIn]);
+        });
+    }
 }
 
 export = new DIDSessionManagerImpl();

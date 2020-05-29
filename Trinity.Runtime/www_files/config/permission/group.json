@@ -121,6 +121,9 @@
         "Console": ["*"],
         "Device": ["*"],
         "DIDPlugin": ["*"],
+        "DIDSessionManagerPlugin": [
+            "authenticate"
+        ],
         "File": ["*"],
         "Flashlight": ["*"],
         "Geolocation": ["*"],

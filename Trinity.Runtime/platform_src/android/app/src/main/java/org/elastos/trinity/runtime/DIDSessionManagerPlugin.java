@@ -55,6 +55,9 @@ public class DIDSessionManagerPlugin extends TrinityPlugin {
                 case "signOut":
                     this.signOut(args, callbackContext);
                     break;
+                case "authenticate":
+                    this.authenticate(args, callbackContext);
+                    break;
                 default:
                     return false;
             }
@@ -139,5 +142,26 @@ public class DIDSessionManagerPlugin extends TrinityPlugin {
     private void signOut(JSONArray args, CallbackContext callbackContext) throws Exception {
         DIDSessionManager.getSharedInstance().signOut();
         callbackContext.success();
+    }
+
+    private void authenticate(JSONArray args, CallbackContext callbackContext) throws Exception {
+        JSONObject payload = args.isNull(0) ? null : args.getJSONObject(0);
+        if (payload == null) {
+            callbackContext.error("Payload can't be null");
+            return;
+        }
+
+        int expiresIn = args.isNull(1) ? 5 : args.getInt(1);
+
+        DIDSessionManager.getSharedInstance().authenticate(payload, expiresIn, jwtToken -> {
+            try {
+                JSONObject jsonObj = new JSONObject();
+                jsonObj.put("jwtToken", jwtToken);
+                sendSuccess(callbackContext, jsonObj);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                // Will never happen
+            }
+        });
     }
 }

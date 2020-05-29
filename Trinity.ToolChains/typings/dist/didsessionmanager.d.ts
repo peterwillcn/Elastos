@@ -87,5 +87,29 @@ declare namespace DIDSessionManagerPlugin {
          * Signs the active identity out. All opened dApps are closed as there is no more active DID session.
          */
         signOut(): Promise<void>;
+
+        /**
+         * Assists dApps during their DID-based authentication phase to remote services.
+         * 
+         * Traditional authentication mechanism usually require users to provide a username and password and
+         * in exchange, they get a JWT access token. 
+         * 
+         * Using DIDs, users need to proove that they own a DID sting first, so that all further communications
+         * with a backend service can be based on that DID. 
+         * 
+         * For this, the backend service may provide a random nonce and other custom data it needs, and this method uses the signed in user's DID
+         * to sign this data into a standadized payload, then returns a JWT. This JWT should be sent to the backend
+         * service, who can check its validity and confirm the DID.
+         * 
+         * After that phase, it's up to the backend sevrice to use its own way to secure communications. Usually,
+         * emitting a short-lived JWT access token to the user and using this token in for all exchanges is a 
+         * recommended way.
+         * 
+         * @param payload Custom JSON-encodable object that contains backend service's information.
+         * @param expiresIn Number of minutes after which the generated token will expire. Defaults to 5 minutes.
+         * 
+         * @returns A DID-signed JWT token that contains the given payload encapsulated in an auth-specific format (to NOT let apps automatically sign all kind of documents)
+         */
+        authenticate(payload: Object, expiresIn?: Number): Promise<String>;
     }
 }

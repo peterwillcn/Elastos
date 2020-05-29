@@ -49,6 +49,16 @@ declare namespace CarrierPlugin {
     type OnSessionRequestComplete = (session: Session, status: Number, reason: string, sdp: string)=>void;
 
     /**
+    * The callback function to process to friend message receipt notification
+    *
+    * @callback OnFriendMessageReceipt
+    *
+    * @param messageId  The message identifer
+    * @param state      The message receipt state
+    */
+    type OnFriendMessageReceipt = (messageId: number, state: Number)=>void;
+
+    /**
     * The callback function to process the friend invite response.
     *
     * @callback OnFriendInviteResponse
@@ -578,11 +588,13 @@ declare namespace CarrierPlugin {
         * @param carrier    Carrier node instance
         * @param from       The ID of who sends the message
         * @param message    The message content
+        * @param timestamp  The message sent time as the number of seconds
+        *                   since the Epoch, 1970-01-01 00:00:00 +0000 (UTC).
         * @param isOffline  Whether this message was sent as online message or
         *   offline message. The value of true means the message was sent as
         *   online message, otherwise as offline message.
         */
-        onFriendMessage?(carrier: Carrier, from: string, messate: string, isOffline: Boolean);
+        onFriendMessage?(carrier: Carrier, from: string, message: string, timestamp: Date, isOffline: Boolean);
 
         /**
         * The callback function to process the friend invite request.
@@ -765,15 +777,29 @@ declare namespace CarrierPlugin {
         sendFriendMessage(to: string, message: string, onSuccess:()=>void, onError?:(err: string)=>void);
 
         /**
+        * Send a message to a friend.
+        * The message length may not exceed MAX_APP_MESSAGE_LEN, and message itself
+        * should be text-formatted. Larger messages must be split by application
+        * and sent as separate messages. Other nodes can reassemble the fragments.
+        *
+        * @param onSuccess  The function to call when success.
+        * @param onError    The function to call when error, the param is a string. Or set to null.
+        * @param to         The target ID
+        * @param message    The message content defined by application
+        * @param handler    The handler to receive message receipt notification
+        */
+        sendFriendMessageWithReceipt(to: string, message: string, handler: OnFriendMessageReceipt, onSuccess:(messageId: number)=>void, onError?:(err: string)=>void);
+
+        /**
         * Send invite request to a friend.
         * Application can attach the application defined data with in the invite
         * request, and the data will be sent to target friend.
         *
-        * @param onSuccess   The function to call when success.
-        * @param onError     The function to call when error, the param is a string. Or set to null.
-        * @param to          The target ID
-        * @param data        The application defined data sent to target user
-        * @param handler     The handler to receive invite reponse
+        * @param onSuccess  The function to call when success.
+        * @param onError    The function to call when error, the param is a string. Or set to null.
+        * @param to         The target ID
+        * @param data       The application defined data sent to target user
+        * @param handler    The handler to receive invite reponse
         */
         inviteFriend(to: string, data: string, handler: OnFriendInviteResponse, onSuccess:()=>void, onError?:(err: string)=>void);
 
@@ -1227,6 +1253,21 @@ declare namespace CarrierPlugin {
         AWAY=1,
         /** Carrier node is being busy. */
         BUSY=2
+    }
+
+    /**
+    * @description
+    * Carrier message receipt state.
+    *
+    * @enum {number}
+    */
+   const enum ReceiptState {
+        /** Carrier message receipt by remote friend. */
+        ReceitptByFriend=0,
+        /** Carrier message delivered to offline message store. */
+        DeliveredAsOffline=1,
+        /** Carrier message delivere failed. */
+        Error=2
     }
 
     /**

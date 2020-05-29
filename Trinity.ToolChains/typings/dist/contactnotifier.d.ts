@@ -52,9 +52,7 @@
 declare namespace ContactNotifierPlugin {
     type RemoteNotificationRequest = {
         /** Identification key used to overwrite a previous notification if it has the same key. */
-        key: string,
-        /** Package ID of the sending app. */
-        appId: string,
+        key?: string,
         /** Title to be displayed as the main message on the notification. */
         title: string,
         /** Intent URL emitted when the notification is clicked. */

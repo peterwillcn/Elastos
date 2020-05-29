@@ -53,7 +53,9 @@ static HWMQrCodeSignatureManager * _instance;
 -(void)QrCodeDataWithData:(NSString*)data withDidString:(NSString*)didString withmastWalletID:(NSString*)masterWalletID withComplete:(QrCodeSignatureTypeBlock)Complete{
     QrCodeSignatureType type=[self QrCodeStringtype:data];
     
-    if (type ==credaccessQrCodeType||type==suggestionQrCodeType||type==billQrCodeType||type==reviewPropalQrCodeType
+    NSLog(@"xxl Type is %lu",(unsigned long)type);
+    //xxl fix the bug for suggestionQrCodeType
+    if (type ==credaccessQrCodeType||type==billQrCodeType||type==reviewPropalQrCodeType
         || type == withdrawalsType || type == Updatemilestone || type == Reviewmilestone) {
         
         HWMSecretaryGeneralAndMembersDetailsModel* model=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
@@ -81,6 +83,8 @@ static HWMQrCodeSignatureManager * _instance;
             return  ;
         }
     }
+    
+    
     id QrCodeData=[self ParsingQrCodeDataWithQrCodeType:type withQrCodeString:data];
     if (QrCodeData) {
         Complete(type,QrCodeData);
@@ -129,7 +133,7 @@ static HWMQrCodeSignatureManager * _instance;
             return voteforProposalQrCodeType;
         }
         
-    }else if ([QRCodeString containsString:@"elastos://credaccess/"]){
+	    }else if ([QRCodeString containsString:@"elastos://credaccess/"]){
         return billQrCodeType;
     }else{
         return unknowQrCodeType;

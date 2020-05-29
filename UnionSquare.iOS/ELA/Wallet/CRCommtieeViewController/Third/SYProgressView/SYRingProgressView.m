@@ -73,9 +73,10 @@
     if (_progress < 0.0) {
         _progress = 0.0;
     }
-    if (_progress > 1.0) {
-        _progress = 1.0;
-    }
+    //xxl 957
+//    if (_progress > 1.0) {
+//        _progress = 1.0;
+//    }
     
     self.label.text = [NSString stringWithFormat:@"%.2f%%", (_progress * 100.0)];
     [self setNeedsDisplay];

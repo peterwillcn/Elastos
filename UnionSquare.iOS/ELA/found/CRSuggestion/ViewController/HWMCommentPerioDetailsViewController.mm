@@ -35,7 +35,6 @@
 #import "WCQRCodeScanningVC.h"
 #import "HMWinputVotesPopupWindowView.h"
 #import "HWMSecretaryGeneralAndMembersInfo.h"
-#import "HWMQrCodeSignatureManager.h"
 #import "ELWalletManager.h"
 #import "HWMSecretaryGeneralAndMembersInfo.h"
 #import "HWMDIDManager.h"
@@ -58,6 +57,11 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 @property(copy,nonatomic)NSDictionary *PayLoadDic;
 @property(copy,nonatomic)NSString*jwtString;
 @property(copy,nonatomic)NSString*votesString;
+
+//xxl #943
+@property(strong,nonatomic) PluginResult *pluginResult;
+@property(strong,nonatomic) NSString *strPWD;
+
 @property(strong,nonatomic)NSMutableArray*VoteingProposalArray;
 
 @end
@@ -71,12 +75,49 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"社区提案", nil);//委员评议
     [[HMWCommView share]makeBordersWithView:self.sweepYardsToVoteButton];
-    [self makeView];
+    
     self.baseTable.alpha=0.f;
-    self.isOpen=YES;
-    [self loadPerioDetailsWithID:self.model.ID];
+    if (self.whereFrome.length==0) {
+        self.isOpen=YES;
+        [self makeView];
+        [self loadPerioDetailsWithID:self.model.ID];
+    }else{
+        [self parsingQRCodeDataWithType:self.codeSignatureT withDicData:self.DicData withQRString:self.qrString];
+    }
+    
+    
+    //xxl #943
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(onTxPublish:) name:OnTxPublishedResult object:nil];
     
 }
+
+//xxl #943
+-(void)onTxPublish:(NSNotification*)notice{
+    
+    NSDictionary *param =notice.object;
+    NSLog(@"xxl 943 2 onTxPublish %@ 1",param);
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        if(_pluginResult){
+            NSDictionary *resultDic = _pluginResult.message[@"success"];
+            //[self updaeJWTInfoWithDic:txidDic];
+            NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:_strPWD];
+            
+            if(callDic)
+            {
+                NSLog(@"xxl 943 2 onTxPublish post OK");
+                [self updaeJWTInfoWithDic:callDic];
+            }else {
+                [self showSendSuccessOrFial:SignatureFailureType];
+            }
+        }else{
+            [self showSendSuccessOrFial:SignatureFailureType];
+        }
+    });
+    
+}
+
 -(NSMutableArray *)VoteingProposalArray{
     if (!_VoteingProposalArray) {
         _VoteingProposalArray =[[NSMutableArray alloc]init];
@@ -87,7 +128,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     [self showLoading];
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadCRSuggestionDetailsWithID:ID withComplete:^(id  _Nonnull data) {
         [[HWMDetailsProposalViewModel alloc]detailsProposalModelDataJosn:data[@"data"] completion:^(HWMDetailsProposalModel * _Nonnull model) {
-           
+            
             self.DetailsModel=model;
             [self.baseTable reloadData];
             if(self.type==CommentPerioNOTIFICATIONType){
@@ -97,7 +138,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
             if(self.type==CommentPerioNOTIFICATIONType||self.type==CommentPerioVOTINGType){
                 [self updateMemberIdentity];
             }else{
-                 self.baseTable.alpha=1.f;
+                self.baseTable.alpha=1.f;
             }
         }];
     }];
@@ -108,7 +149,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     self.baseTable.backgroundColor=[UIColor clearColor];
     [self.baseTable registerNib:[UINib nibWithNibName:BaseTableViewCell bundle:nil] forCellReuseIdentifier:BaseTableViewCell];
     self.baseTable.separatorStyle = UITableViewCellSeparatorStyleNone;
-  
+    
     if (self.type==CommentPerioVOTINGType) {
         [self updateMemberIdentity];
         [self.sweepYardsToVoteButton setTitle:NSLocalizedString(@"扫码投票", nil) forState:UIControlStateNormal];
@@ -187,7 +228,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if ((self.isOpen==YES&&self.type==CommentPerioREJECTEDType)||(self.isOpen==YES&&self.type==CommentPerioVETOEDType)) {
         if (indexPath.section==0) {
-             return 0.01;
+            return 0.01;
         }
     }
     if (indexPath.section==3||self.isOpen==NO) {
@@ -243,7 +284,17 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     return _foodView;
 }
 - (IBAction)SweepYardsToVoteEvent:(id)sender {
-    [self QrCode];
+    if (self.type==CommentPerioVOTINGType) {
+        [self QrCode];
+    }else if (self.type==CommentPerioNOTIFICATIONType){// 投票反对
+        UIView *mainView=[self mainWindow];
+        [mainView addSubview:self.inputVoteTicketView];
+        [self.inputVoteTicketView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(mainView);
+        }];
+        
+    }
+    
 }
 -(void)QrCode{
     __weak __typeof__(self) weakSelf = self;
@@ -265,11 +316,11 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     self.jwtString=qrString;
     
     if (type==reviewPropalQrCodeType) {//扫码投票
-        if (![self.model.proposalHash isEqualToString:data[@"data"][@"proposalHash"] ]) {
-            [[FLTools share]showErrorInfo:@"不是当前提案"];
-            
-            return;
-        }
+        //        if (![self.model.proposalHash isEqualToString:data[@"data"][@"proposalHash"] ]) {
+        //            [[FLTools share]showErrorInfo:@"不是当前提案"];
+        //
+        //            return;
+        //        }
         [self showCRProposalConfirmView];
         
         if ([data[@"data"][@"voteResult"] isEqualToString:@"approve"]) {
@@ -307,9 +358,14 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 -(void)closeCRProposalConfirmView{
     [self.CRProposalConfirmV removeFromSuperview];
     self.CRProposalConfirmV=nil;
+    if (self.whereFrome.length>0) {
+        [self.navigationController popViewControllerAnimated:NO];
+    }
+    
 }
 -(void)CRProposalConfirmWithPWD:(NSString*_Nonnull)PWD{
-    [self closeCRProposalConfirmView];
+    [self.CRProposalConfirmV removeFromSuperview];
+    self.CRProposalConfirmV=nil;
     if (self.type==CommentPerioVOTINGType) {
         [self reviewProposal:PWD];
     }else if (self.type==CommentPerioNOTIFICATIONType){// 投票反对
@@ -331,14 +387,20 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     PluginResult *result = [[ELWalletManager share]VerifyPayPassword:mommand];
     NSNumber *number = result.status;
     
-    if( [number intValue] != CommandStatus_OK){
-        //        NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
-        //        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+    if( [number intValue] != 1){
+        NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
+        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
         return;
+    }
+    NSString *hash;
+    if (self.PayLoadDic) {
+        hash=self.PayLoadDic[@"data"][@"proposalHash"];
+    }else{
+        hash=self.model.proposalHash;
     }
     
     NSDictionary *playLoadDic = @{
-        @"ProposalHash":self.PayLoadDic[@"data"][@"proposalHash"],
+        @"ProposalHash":hash,
         @"Amount":[[FLTools share]elsToSela:self.votesString],
         @"VotingProposal":self.VoteingProposalArray
     };
@@ -351,9 +413,10 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     
     PluginResult *pluginResult = [[ELWalletManager share] proposalVoteForTransaction:mommand];
     number =pluginResult.status;
-    if( [number intValue] != CommandStatus_OK){
+    if( [number intValue] != 1){
         NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
         [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+        
         return;
     }else{
         [self showSendSuccessOrFial:sendDealType];
@@ -380,39 +443,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         make.left.right.top.bottom.equalTo(mainView);
     }];
 }
--(void)showSendSuccessViewWithType:(NSInteger)type{
-    self.sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
-    switch (type) {
-        case 0:
-        {
-            self.sendSuccessPopuV.type=sendDealType;
-            break;
-            
-        }
-        case 1:{
-            self.sendSuccessPopuV.type=saveSuccessType;
-            break;
-        }
-        case 3:{
-            self.sendSuccessPopuV.type=sendDealType;
-            break;
-        }
-            
-        default:
-            break;
-    }
-    
-    UIView *manView=[self mainWindow];
-    [manView addSubview:self.sendSuccessPopuV];
-    [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.equalTo(manView);
-    }];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.sendSuccessPopuV removeFromSuperview];
-        self.sendSuccessPopuV=nil;
-    });
-    
-}
+
 -(void)setModel:(HWMBillListModel *)model{
     _model=model;
 }
@@ -483,8 +514,13 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     [self showCRProposalConfirmView];
     self.CRProposalConfirmV.type=OpposingVotesType;
     self.votesString=ticketNumer;
-    
-    [self.CRProposalConfirmV postWithHash:self.PayLoadDic[@"data"][@"proposalHash"] withVotes:self.votesString withFee:@"0.0001 ELA"];
+    NSString *hash;
+    if (self.PayLoadDic) {
+        hash=self.PayLoadDic[@"data"][@"proposalHash"];
+    }else{
+        hash=self.model.proposalHash;
+    }
+    [self.CRProposalConfirmV postWithHash:hash withVotes:self.votesString withFee:@"0.0001 ELA"];
     
 }
 -(void)reviewProposal:(NSString*)pwd{
@@ -494,7 +530,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     PluginResult *result = [[ELWalletManager share]VerifyPayPassword:mommand];
     NSNumber *number = result.status;
     
-    if( [number intValue] != CommandStatus_OK){
+    if( [number intValue] != 1){
         NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
         [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
         return;
@@ -509,8 +545,15 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         NVoteResult=@(2);
     }
     
+    NSString *hash;
+    if (self.PayLoadDic) {
+        hash=self.PayLoadDic[@"data"][@"proposalHash"];
+    }else{
+        hash=self.model.proposalHash;
+    }
     NSDictionary *playLoadDic = @{
-        @"ProposalHash":self.PayLoadDic[@"data"][@"proposalHash"],
+        
+        @"ProposalHash":hash,
         @"VoteResult":NVoteResult,
         @"OpinionHash":self.PayLoadDic[@"data"][@"opinionHash"],
         @"DID":[self.PayLoadDic[@"data"][@"did"] stringByReplacingOccurrencesOfString:@"did:elastos:" withString:@""]
@@ -522,20 +565,31 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
                                                 className:@"Wallet"
                                                methodName:@"createProposalReviewTransaction"];
     
-    PluginResult *pluginResult = [[ELWalletManager share] proposalReviewTransaction:mommand];
+    _strPWD = pwd;
+    _pluginResult = [[ELWalletManager share] proposalReviewTransaction:mommand];
     
-    if(pluginResult){
-        NSDictionary *resultDic = pluginResult.message[@"success"];
-        
-        NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:pwd];
-        if(callDic)
-        {
-            [self updaeJWTInfoWithDic:callDic];
-        }else {
-            [self showSendSuccessOrFial:SignatureFailureType];
-        }
-    }
+    //    if(pluginResult){
+    //        NSDictionary *resultDic = pluginResult.message[@"success"];
+    //
+    //        NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:pwd];
+    //        if(callDic)
+    //        {
+    //            [self updaeJWTInfoWithDic:callDic];
+    //        }else {
+    //            [self showSendSuccessOrFial:SignatureFailureType];
+    //        }
+    //    }
 }
+
+//xxl 943
+
+
+
+
+
+
+
+
 -(void)updaeJWTInfoWithDic:(NSDictionary*)pare{
     
     
@@ -605,19 +659,22 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 }
 
 -(void)showSendSuccessOrFial:(SendSuccessType)type{
-    [self closeCRProposalConfirmView];
-    UIView *mainView=[self mainWindow];
-    [mainView addSubview:self.sendSuccessPopuV];
-    [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.equalTo(mainView);
-    }];
     [[FLTools share]hideLoadingView];
+    [self.CRProposalConfirmV removeFromSuperview];
+    self.CRProposalConfirmV=nil;
     self.sendSuccessPopuV.type=type;
-    [self.view addSubview:self.sendSuccessPopuV];
+   [self.view addSubview:self.sendSuccessPopuV];
+    [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(self.view);
+    }];
+    
+     
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.sendSuccessPopuV removeAllSubviews];
         self.sendSuccessPopuV=nil;
-        [self.navigationController popViewControllerAnimated:YES];
+        
+        [self.navigationController popViewControllerAnimated:NO];
     });
 }
 -(void)updateMemberIdentity{
@@ -654,5 +711,29 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
             }
         }];
     }
+}
+- (void)setWhereFrome:(NSString *)whereFrome{
+    self.baseTable.alpha=0.f;
+    _whereFrome=whereFrome;
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    if (self.whereFrome.length>0) {
+        [self.navigationController setNavigationBarHidden:NO];
+    }
+    
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if (self.whereFrome.length>0) {
+        [self.navigationController setNavigationBarHidden:YES];
+    }
+    
+}
+-(HMWSendSuccessPopuView *)sendSuccessPopuV{
+    if (!_sendSuccessPopuV) {
+        _sendSuccessPopuV=[[HMWSendSuccessPopuView alloc]init];
+    }
+    return _sendSuccessPopuV;
 }
 @end

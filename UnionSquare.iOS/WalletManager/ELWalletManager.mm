@@ -3143,8 +3143,9 @@ void *ReverseByteOrder(void *p, unsigned int len)
         {
             return nil;
         }
-        calculateProposalHash  = [self calculateProposalHash:dataDic walletID:masterWalletID];
         
+        //xxl fix the bug for #943
+        //calculateProposalHash  = [self calculateProposalHash:dataDic walletID:masterWalletID];
         josn = [self jsonWithString:payload];
     } catch (const std:: exception & e) {
         return  [self errInfoToDic:e.what() with:command];
@@ -3168,6 +3169,10 @@ void *ReverseByteOrder(void *p, unsigned int len)
        try {
            result = suWall->PublishTransaction(signedTx);
            NSString *jsonString = [self stringWithCString:result.dump()];
+           
+           //xxl #943
+           NSLog(@"xxl 943 0 proposalReviewTransaction %@",jsonString);
+           
            NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
            [resultDic setValue:dic[@"TxHash"] forKey:@"txid"];
            
@@ -3179,6 +3184,8 @@ void *ReverseByteOrder(void *p, unsigned int len)
     
     return NULL;
 }
+
+
 
 //xxl 2.2
 - (NSString *)ProposalReviewDigest:(NSString *)passwd payLoad:(String)payLoad walletID:(NSString *)masterWalletID
@@ -3367,7 +3374,9 @@ void *ReverseByteOrder(void *p, unsigned int len)
     NSString *resultString = @"";
     NSMutableDictionary *resultDic = [[NSMutableDictionary alloc] init];
     try {
-        signedTx = json;//suWall->SignTransaction(json, pwd);
+        //signedTx = json;//suWall->SignTransaction(json, pwd);
+        //xxl #958
+        signedTx = suWall->SignTransaction(json, pwd);
         
         resultString = [self stringWithJson:signedTx];
         
@@ -3378,7 +3387,7 @@ void *ReverseByteOrder(void *p, unsigned int len)
         }
         
         result = suWall->PublishTransaction(signedTx);
-       NSString *pubResult = [self stringWithJson:result];
+        NSString *pubResult = [self stringWithJson:result];
         return resultDic;
         
     } catch (const std:: exception & e ) {

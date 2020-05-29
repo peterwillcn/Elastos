@@ -176,7 +176,7 @@
             self.MQRCoreView.alpha=0.f;
             self.MBGQRCodeImageView.alpha=0.f;
             self.QRBGView.alpha=1.f;
-           self.QrCodeImageView.image =[[FLTools share] imageWithSize:1100.f andColorWithRed:3 Green:3 Blue:5 andQRDic:self.QRCodeSignatureDic];
+            self.QrCodeImageView.image =[[FLTools share] imageWithSize:1100.f andColorWithRed:3 Green:3 Blue:5 andQRDic:self.QRCodeSignatureDic];
             break;
             
         }

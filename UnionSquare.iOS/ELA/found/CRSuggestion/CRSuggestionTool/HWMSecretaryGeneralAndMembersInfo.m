@@ -71,23 +71,21 @@ static HWMSecretaryGeneralAndMembersInfo *_instance;
     NSString *didString= [self getDIDString];
     __weak __typeof__(self)weakSelf=self;
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadSecretaryGeneralAndMembersDetailsWithID:@"" withDIDString:didString withComplete:^(id  _Nonnull data) {
-         
+        
         NSLog(@"委员信息获取成功---%@",data);
         [self parsingModelWithData:data[@"data"] complete:^(HWMSecretaryGeneralAndMembersDetailsModel *model) {
             [[FLTools share] hideLoadingView];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 com(model);
-            });
-            //会卡主线程
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                  com(model);
-//            });
-          
+                if (isLoading) {
+                    [[FLTools share] hideLoadingView];
+                }
+                
+            }];
+                           });
+            
         }];
-      [[FLTools share]hideLoadingView];
-        }];
-
-}
+    }
 -(void)parsingModelWithData:(id)data complete:(DetailsModelBlock)com{
     HWMSecretaryGeneralAndMembersDetailsViewModel  *DetailsViewMode=[[HWMSecretaryGeneralAndMembersDetailsViewModel alloc] init];
     [DetailsViewMode SecretaryGeneralAndMembersDetailsModelDataJosn:data completion:^(HWMSecretaryGeneralAndMembersDetailsModel * _Nonnull model) {

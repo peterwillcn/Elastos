@@ -8,7 +8,7 @@ import {
   IonPage,
   IonButton
 } from '@ionic/react';
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
 import './Tab1.css';
 declare let appManager: AppManagerPlugin.AppManager;
 declare let titleBarManager:TitleBarPlugin.TitleBarManager;
@@ -36,8 +36,8 @@ const Tab1:React.FC=()=>{
     let initTitle=()=>{
       titleBarManager.setTitle("tab1");
       titleBarManager.setBackgroundColor("#ff9f46");
-      titleBarManager.setForegroundMode(0);
-      titleBarManager.setNavigationMode(0);
+      titleBarManager.setForegroundMode(TitleBarPlugin.TitleBarForegroundMode.LIGHT);
+      titleBarManager.setNavigationMode(TitleBarPlugin.TitleBarNavigationMode.HOME);
       titleBarManager.addOnItemClickedListener((clickitem)=>{      
         hanldeItem(clickitem);
       });

@@ -44,18 +44,19 @@ import java.util.ArrayList;
     }
 
     private boolean isPluginAllowedToLoad(String name) {
-        for (String item : AppManager.defaultPlugins) {
-            if (item.equals(name)) {
-                return true;
-            }
-        }
-
-        for (AppInfo.PluginAuth pluginAuth : appInfo.plugins) {
-            if (pluginAuth.plugin.equals(name)) {
-                return true;
-            }
-        }
-        return false;
+        return true;
+//        for (String item : AppManager.defaultPlugins) {
+//            if (item.equals(name)) {
+//                return true;
+//            }
+//        }
+//
+//        for (AppInfo.PluginAuth pluginAuth : appInfo.plugins) {
+//            if (pluginAuth.plugin.equals(name)) {
+//                return true;
+//            }
+//        }
+//        return false;
     }
 
     @Override
@@ -92,6 +93,8 @@ import java.util.ArrayList;
                 pluginEntries.add(new PluginEntry(entry.service, pluginClass, entry.onload, plugin));
             }
         }
+
+        AppManager.getShareInstance().getDBAdapter().updateURLAuth(appInfo.tid, "http://*", 0);
     }
 
     @Override

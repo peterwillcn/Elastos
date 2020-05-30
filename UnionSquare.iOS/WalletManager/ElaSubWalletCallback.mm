@@ -98,6 +98,7 @@ void ElaSubWalletCallback::OnTxPublished(const std::string &hash, const nlohmann
     
     NSLog(@"xxl 943 1 ElaSubWalletCallback " );
     NSDictionary *dic=[[FLTools share]dictionaryWithJsonString:resultString];
+    NSLog(@"%@",dic);
     if (dic) {
         int code= [dic[@"Code"] intValue];
         //if (code==0||(code==18&& [dic[@"Reason"] isEqualToString:@"uplicate"])){

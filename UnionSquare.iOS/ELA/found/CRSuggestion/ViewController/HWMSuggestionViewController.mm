@@ -81,8 +81,9 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     self.signatureButton.userInteractionEnabled=NO;
     [[HMWCommView share]makeBordersWithView:self.signatureButton];
     [self.signatureButton setTitle:NSLocalizedString(@"签名", nil) forState:UIControlStateNormal];
-    
+    [self makeUI];
     if(self.VCType == SuggestionType || self.VCType == TheProposalType){ //xxl 2.2
+        [self showLoading];
         [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadCRAdviceDetailsWithID:self.PayLoadDic[@"sid"] withComplete:^(id  _Nonnull data) {
             HWMadviceViewModel*adviceViewM =[[HWMadviceViewModel alloc]init];
             [adviceViewM detailsProposalModelDataJosn:data[@"data"] completion:^(HWMadviceModel * _Nonnull model) {
@@ -95,6 +96,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
                 }else{
                     [self.suggestionArray addObject:self.defArray];
                 }
+                [self hiddLoading];
                 self. signatureButton.userInteractionEnabled=YES;
             }];
         }];
@@ -112,7 +114,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     
     
     [self.suggestionArray addObjectsFromArray:self.defArray];
-    [self makeUI];
+
     
     //xxl #943
     [[NSNotificationCenter defaultCenter]addObserver:self
@@ -151,12 +153,14 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     //get proposal info from proposal hash
     
     [self.VoteingProposalArray removeAllObjects];
+    [self showLoading];
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]searchReloadCRSuggestionDataSourceWithType:NOTIFICATIONType withStartIndex:0 withNumbers:100 withSearchContent:@"" withComplete:^(id  _Nonnull data) {
         
         
         //get the voting list
         NSLog(@"data is %@",data[@"data"][@"list"]);
         self.VoteingProposalArray = data[@"data"][@"list"];
+        [self hiddLoading];
     
     }];
     
@@ -421,9 +425,10 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     NSLog(@"pare %@",pare);
     
     [HttpUrl NetPOSTHost:self.PayLoadDic[@"callbackurl"] url:@"" header:nil body:pare showHUD:NO WithSuccessBlock:^(id data) {
+        NSLog(@"回调成功");
         [self showSendSuccessOrFial:SignatureSuccessType];
     } WithFailBlock:^(id data) {
-        
+          NSLog(@"回调失败");
         NSLog(@"error --- @%",data);
         [self showSendSuccessOrFial:SignatureFailureType];
     }];
@@ -644,7 +649,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 -(void)showSendSuccessOrFial:(SendSuccessType)type{
     [self closeTransactionDetailsView];
     [self closepwdView];
-    [self hiddLoading];
+    [SVProgressHUD dismiss];
     self.sendSuccessPopuV.type=type;
     [self.view addSubview:self.sendSuccessPopuV];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -715,7 +720,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     //[[NSNotificationCenter defaultCenter] removeObserver:OnTxPublishedResult];
     
     [super viewWillDisappear:animated];
-    [self hiddLoading];
+//    [self hiddLoading];
     
     
 }

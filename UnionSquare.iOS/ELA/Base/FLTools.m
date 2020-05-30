@@ -318,20 +318,28 @@ static FLTools *tool;
     [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     [SVProgressHUD setMinimumSize:CGSizeMake(50, 50)];
-    [SVProgressHUD show];
-    
+    [SVProgressHUD setMinimumDismissTimeInterval:2];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [SVProgressHUD show];
+    });
     
 }
 -(void)hideLoadingView{
-    [SVProgressHUD popActivity];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [SVProgressHUD popActivity];
+    });
 }
+
 -(void)showErrorInfo:(NSString*)info{
     [SVProgressHUD setBackgroundColor:RGB(100, 100, 100)];
     [SVProgressHUD setFont:[UIFont systemFontOfSize:14]];
     [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
     info=NSLocalizedString(info, nil);
+    [SVProgressHUD setAnimationDuration:4];
     NSLog(@"错误提示信息---%@",info);
-    [SVProgressHUD showImage:[UIImage imageNamed:@""] status:info];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [SVProgressHUD showImage:[UIImage imageNamed:@""] status:info];
+    });
 }
 -(CGFloat)gasETHwithGasPrice:(NSString*)gasPrice withLimetPrice:(NSString*)LimetPrice{
     if ([[FLTools share]isBlankString:LimetPrice]) {
@@ -675,7 +683,7 @@ static FLTools *tool;
     
     return tempStr;
     
-
+    
     
 }
 -(NSString*)elaScaleConversionWith:(NSString*)el{
@@ -2069,17 +2077,17 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     constraintSize.width = AppWidth - margin;
     constraintSize.height = MAXFLOAT;
     CGSize sizeFrame = [string boundingRectWithSize:constraintSize options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:fontSize],NSFontAttributeName, nil] context:nil].size;
-
+    
     //重新调整contentView.PenContent的高度
     CGFloat high = sizeFrame.height+5.0;
     return high;
-  
-//
-//    CGRect rect = [string boundingRectWithSize:CGSizeMake(AppWidth - margin*2,200) options:NSStringDrawingUsesLineFragmentOrigin |
-//
-//     NSStringDrawingUsesFontLeading attributes:dic context:nil];
-//
-//    return rect.size.height;
+    
+    //
+    //    CGRect rect = [string boundingRectWithSize:CGSizeMake(AppWidth - margin*2,200) options:NSStringDrawingUsesLineFragmentOrigin |
+    //
+    //     NSStringDrawingUsesFontLeading attributes:dic context:nil];
+    //
+    //    return rect.size.height;
     
 }
 -(NSString*)RemainingTimeFormatting:(NSString*)RemainingString{
@@ -2093,19 +2101,20 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
         showRemainingTimeTest=@"约23个小时";
     }else if (RemainingInt>dayInt){
         NSInteger dayNumber= RemainingInt/dayInt;
-        showRemainingTimeTest=[NSString stringWithFormat:@"约%ld天",dayNumber];
+        
+        showRemainingTimeTest=[NSString stringWithFormat:@"约 %ld 天",dayNumber];
     }
     return showRemainingTimeTest;
 }
 - (NSString*)isEmptyString:(NSString *)string {
     if (!string) {
-    return @"--";
+        return @"--";
     }
     if ([string isKindOfClass:[NSNull class]]) {
-     return @"--";
+        return @"--";
     }
     if (!string.length) {//字符串长度
-      return @"--";
+        return @"--";
     }
     return string;
     
@@ -2113,27 +2122,27 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
 -(NSString*)StageOfProcessing:(NSString*)Stage{
     Stage=[NSString stringWithFormat:@"%@",Stage];
     NSString *languageString=[DAConfig userLanguage];
-   
+    
     if ([languageString  containsString:@"en"]) {
-         int StageInt=[Stage intValue];
+        int StageInt=[Stage intValue];
         if ([Stage isEqualToString:@"1"]) {
-//            第一 1st
-//            第二 2nd
-//            第三 3rd
-//            第四以上 1286th
-           
+            //            第一 1st
+            //            第二 2nd
+            //            第三 3rd
+            //            第四以上 1286th
+            
             return [NSString stringWithFormat:@"1st%@", NSLocalizedString(@"阶段", nil)];
         }else if ([Stage isEqualToString:@"2"]){
-             return [NSString stringWithFormat:@"2nd%@", NSLocalizedString(@"阶段", nil)];
+            return [NSString stringWithFormat:@"2nd%@", NSLocalizedString(@"阶段", nil)];
         }else if ([Stage isEqualToString:@"3"]){
-               return [NSString stringWithFormat:@"3rd%@", NSLocalizedString(@"阶段", nil)];
+            return [NSString stringWithFormat:@"3rd%@", NSLocalizedString(@"阶段", nil)];
         }else if (StageInt>3){
             return [NSString stringWithFormat:@"ldth%d",StageInt, NSLocalizedString(@"阶段", nil)];
         }
     }else{
         return  [NSString stringWithFormat:@"第%@阶段",Stage];
     }
-   
+    
 }
 //-(NSString *)returnJSONStringWithDictionary:(NSDictionary *)dictionary{
 //    

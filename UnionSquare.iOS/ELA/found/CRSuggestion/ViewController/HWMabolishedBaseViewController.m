@@ -43,6 +43,7 @@
     [self.allBaseView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.bottom.right.equalTo(self.view);
     }];
+    [self needUpdateDataSource];
 }
 -(HWMCommunityProposalBaseView *)allBaseView{
     if (!_allBaseView) {

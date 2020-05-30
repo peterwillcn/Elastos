@@ -42,7 +42,7 @@ static HWMSecretaryGeneralAndMembersInfo *_instance;
     dispatch_once(&onceToken, ^{
         if (_instance == nil) {
             _instance = [super allocWithZone:zone];
-        
+            
         }
     });
     return _instance;
@@ -64,6 +64,7 @@ static HWMSecretaryGeneralAndMembersInfo *_instance;
 }
 -(void)loadDataSourceWithLoading:(BOOL)isLoading complete:(DetailsModelBlock)com{
     self.detailsModel=nil;
+    self.currentWallet=nil;
     if (isLoading) {
         [[FLTools share]showLoadingView];
     }
@@ -71,21 +72,24 @@ static HWMSecretaryGeneralAndMembersInfo *_instance;
     NSString *didString= [self getDIDString];
     __weak __typeof__(self)weakSelf=self;
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadSecretaryGeneralAndMembersDetailsWithID:@"" withDIDString:didString withComplete:^(id  _Nonnull data) {
-         
+        
         NSLog(@"委员信息获取成功---%@",data);
         [self parsingModelWithData:data[@"data"] complete:^(HWMSecretaryGeneralAndMembersDetailsModel *model) {
             if (isLoading) {
-                   [[FLTools share] hideLoadingView];
-               }
-           
+                [[FLTools share] hideLoadingView];
+            }
+            
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                  com(model);
+                com(model);
             });
-          
+            
         }];
-      [[FLTools share]hideLoadingView];
-        }];
-
+        if (isLoading) {
+            [[FLTools share]hideLoadingView];
+        }
+        
+    }];
+    
 }
 -(void)parsingModelWithData:(id)data complete:(DetailsModelBlock)com{
     HWMSecretaryGeneralAndMembersDetailsViewModel  *DetailsViewMode=[[HWMSecretaryGeneralAndMembersDetailsViewModel alloc] init];
@@ -117,7 +121,7 @@ static HWMSecretaryGeneralAndMembersInfo *_instance;
     return nil;
 }
 -(NSString*)getDIDString{
-   return [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
+    return [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
 }
 -(NSString*)getmasterWalletID{
     return self.currentWallet.masterWalletID;

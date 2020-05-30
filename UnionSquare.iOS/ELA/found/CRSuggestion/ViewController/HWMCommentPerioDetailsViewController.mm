@@ -379,8 +379,8 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     
 }
 -(void)CRProposalConfirmWithPWD:(NSString*_Nonnull)PWD{
-    [self.CRProposalConfirmV removeFromSuperview];
-    self.CRProposalConfirmV=nil;
+//    [self.CRProposalConfirmV removeFromSuperview];
+//    self.CRProposalConfirmV=nil;
     [self showLoading];
     if (self.type==CommentPerioVOTINGType) {
         [self reviewProposal:PWD];
@@ -442,11 +442,12 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 }
 -(void)setVoteforProposalInfo{
     
-    
+    [self showLoading];
     [self.VoteingProposalArray removeAllObjects];
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]searchReloadCRSuggestionDataSourceWithType:NOTIFICATIONType withStartIndex:0 withNumbers:100 withSearchContent:@"" withComplete:^(id  _Nonnull data) {
         NSLog(@"data is %@",data[@"data"][@"list"]);
         self.VoteingProposalArray = data[@"data"][@"list"];
+        [self hiddLoading];
         
     }];
     
@@ -759,6 +760,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self hiddLoading];
     if (self.whereFrome.length>0) {
         [self.navigationController setNavigationBarHidden:YES];
     }
@@ -770,4 +772,5 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     }
     return _sendSuccessPopuV;
 }
+
 @end

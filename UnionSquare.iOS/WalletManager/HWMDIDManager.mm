@@ -198,13 +198,13 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
                 if (need) {
                     [[FLTools share]hideLoadingView];
                 }
-                 self.hasBen=NO;
+                self.hasBen=NO;
                 return self.DIDString;
             }else{
                 if (need) {
                     [[FLTools share]hideLoadingView];
                 }
-                 self.hasBen=NO;
+                self.hasBen=NO;
                 return @"";// 失败返回
             }
         }
@@ -217,7 +217,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         if (need) {
             [[FLTools share]hideLoadingView];
         }
-     
+        
         self.hasBen=NO;
         return self.DIDString;
         
@@ -282,7 +282,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     if ([reString isEqualToString:@"0"]) {
         return YES;
     }else{
-//        [[FLTools share]showErrorInfo:@"发布失败"];
+        //        [[FLTools share]showErrorInfo:@"发布失败"];
         return NO;
     }
 }
@@ -361,10 +361,10 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     if (model.didName.length==0) {
         model.didName=@"unknow";
     }
-//    if (model.did.length==0) {
-//        model.did=dic[@"DIDString"];
-//    }
-//    model.did=self.DIDString;
+    //    if (model.did.length==0) {
+    //        model.did=dic[@"DIDString"];
+    //    }
+    //    model.did=self.DIDString;
     
     DIDURL_Destroy(url);
     return model;
@@ -420,11 +420,42 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     if ([self jwtSignatureWithDIDString:jsonDict[@"iss"] withSignature:manySecrets.lastObject withUnSignature:UnSignature]) {
         return jsonDict;
     }else{
-         [[FLTools share]showErrorInfo:NSLocalizedString(@"钱包DID不匹配", nil)];
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"钱包DID不匹配", nil)];
         return @"1";
     }
     
     return nil;
+}
+-(BOOL)qrTimeWithString:(NSString*)jwtStr{
+    NSArray * manySecrets = [jwtStr componentsSeparatedByString:@"."];
+    NSString *base=[NSString stringFromBase64UrlEncodedString:manySecrets[1]];
+    NSDictionary * jsonDict = [NSJSONSerialization JSONObjectWithData:[base dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+    
+    NSString* UnSignature=[NSString stringWithFormat:@"%@.%@",[self removeSpaceAndNewline:manySecrets.firstObject],manySecrets[1]];
+    
+    UnSignature=[UnSignature stringByReplacingOccurrencesOfString:@"//n" withString:@""];
+    if ([jsonDict[@"exp"] intValue]<[[[FLTools share]getNowTimeTimestampS] intValue])  {
+        
+        YES;
+    }
+    return NO;
+    
+    
+}
+-(BOOL)AuthenticationWithString:(NSString*)jwtStr{
+    NSArray * manySecrets = [jwtStr componentsSeparatedByString:@"."];
+    NSString *base=[NSString stringFromBase64UrlEncodedString:manySecrets[1]];
+    NSDictionary * jsonDict = [NSJSONSerialization JSONObjectWithData:[base dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+    NSString* UnSignature=[NSString stringWithFormat:@"%@.%@",[self removeSpaceAndNewline:manySecrets.firstObject],manySecrets[1]];
+    UnSignature=[UnSignature stringByReplacingOccurrencesOfString:@"//n" withString:@""];
+    bool isDID=[self.DIDString isEqualToString:jsonDict[@"data"][@"did"]];
+    if (isDID){
+        return NO;
+    }else{
+        return YES;
+        
+    }
+    
 }
 -(id)CRInfoDecodeWithJwtStringInfo:(NSString *)jwtStr {
     
@@ -467,13 +498,13 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
                        signature,1,sig,strlen(sig));
     
     //xxl 0.0.0 do not forget to
-//    NSString *str = [self charToString:signature];
-//    NSData *data = [JWTBase64Coder dataWithBase64UrlEncodedString:str];
-//    NSString *hexString = data.hexString;
-//
-//    if (r==0) {
-//        return hexString;
-//    }
+    //    NSString *str = [self charToString:signature];
+    //    NSData *data = [JWTBase64Coder dataWithBase64UrlEncodedString:str];
+    //    NSString *hexString = data.hexString;
+    //
+    //    if (r==0) {
+    //        return hexString;
+    //    }
     
     if (r==0) {
         return [self charToString:signature];
@@ -538,23 +569,23 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         return @"-1";
     }
     char signature[SIGNATURE_BYTES * 2 + 16];
-
+    
     uint8_t *digest = (uint8_t*)DigestChar;
     r=DIDDocument_SignDigest(doc, NULL, [pwdString UTF8String],
-                       signature,digest,DIGEST_LEN);
+                             signature,digest,DIGEST_LEN);
     
     //xxl 0.0.0 do not forget to
     NSString *str = [self charToString:signature];
     NSData *data = [JWTBase64Coder dataWithBase64UrlEncodedString:str];
     NSString *hexString = data.hexString;
-
+    
     if (r==0) {
         return hexString;//[self charToString:signature];
     }
     
-//    if (r==0) {
-//        return str;
-//    }
+    //    if (r==0) {
+    //        return str;
+    //    }
     return @"-1";
 }
 -(NSString*)proposalTheSignatureWithPWD:(NSString*)pwdString withDigestChar:(char*)DigestChar{
@@ -570,7 +601,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     char signature[SIGNATURE_BYTES * 2 + 16];
     uint8_t *digest = (uint8_t*)DigestChar;
     r=DIDDocument_SignDigest(doc, NULL, [pwdString UTF8String],
-                       signature,digest,DIGEST_LEN);
+                             signature,digest,DIGEST_LEN);
     NSString *str = [self charToString:signature];
     NSData *data = [JWTBase64Coder dataWithBase64UrlEncodedString:str];
     NSString *hexString = data.hexString;

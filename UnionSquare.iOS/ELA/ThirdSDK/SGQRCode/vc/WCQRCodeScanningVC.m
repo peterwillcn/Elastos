@@ -155,11 +155,12 @@
 - (void)QRCodeScanManager:(SGQRCodeScanManager *)scanManager didOutputMetadataObjects:(NSArray *)metadataObjects {
     //NSLog(@"metadataObjects - - %@", metadataObjects);
     if (metadataObjects != nil && metadataObjects.count > 0) {
+        [self.navigationController popViewControllerAnimated:YES];
         [scanManager playSoundName:@"SGQRCode.bundle/sound.caf"];
         [scanManager stopRunning];
         [scanManager videoPreviewLayerRemoveFromSuperlayer];
         AVMetadataMachineReadableCodeObject *obj = metadataObjects[0];
-         [self.navigationController popViewControllerAnimated:YES];
+        
         if (self.scanBack) {
             self.scanBack([obj stringValue]);
         }

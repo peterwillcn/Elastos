@@ -79,7 +79,7 @@
     return _allBillListVM;
 }
 -(void)loadDataSourceWithIndex:(NSInteger)staIndex{
-    
+    [self showLoading];
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadCRSuggestionDataSourceWithType:2 withStartIndex:staIndex withNumbers:10 withComplete:^(_Nonnull id data) {
         
         [self.allBillListVM BillListWithDataJosn:data[@"data"][@"list"] completion:^(NSArray * _Nonnull dataArray) {
@@ -92,6 +92,7 @@
             
         }];
         
+        [self hiddLoading];
     }];
     
 }

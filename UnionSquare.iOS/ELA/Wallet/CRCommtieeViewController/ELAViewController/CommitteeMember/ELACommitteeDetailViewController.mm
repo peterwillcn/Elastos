@@ -68,8 +68,17 @@
 {
     
     ELAWeakSelf;
+    FLWallet *wallet = [ELWalletManager share].currentWallet;
+    NSString *balance = [[ELWalletManager share] getVoteBalance:wallet.masterWalletID];
+    NSString *str = @"";
+    if(balance && ![balance isEqualToString:@""])
+    {
+        double amount = [balance doubleValue];
+        str = [NSString stringWithFormat:@"%0.4f", amount / ELAUnitConversion];
+    }
     _impeachView = [[ELAImpeachView alloc] init];
-    [_impeachView showAlertView];
+    _impeachView.amount = str;
+    [_impeachView showAlertView:self.view];
     
     [_impeachView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(@(0));
@@ -81,6 +90,12 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
+            double douValue = [value doubleValue];
+            if(douValue <= 0)
+            {
+                [weakSelf showErrorInfo:ELALocalizedString(@"请正确输入数字")];
+                return;
+            }
             weakSelf.impeachValue = value;
             [weakSelf showPasswdView];
         });
@@ -92,7 +107,7 @@
 {
     ELAWeakSelf;
     _passwdView = [[ELAPasswdView alloc] init];
-    [_passwdView showAlertView];
+    [_passwdView showAlertView:self.view];
        [_passwdView mas_remakeConstraints:^(MASConstraintMaker *make) {
            make.left.right.equalTo(@(0));
            make.width.equalTo(@(ScreenWidth));
@@ -109,6 +124,7 @@
                {
                    [weakSelf impeachment];
                }
+               
            });
 
        };
@@ -215,9 +231,10 @@
     [ELANetwork getInformation:_paramModel.did ID:_index block:^(id  _Nonnull data, NSError * _Nonnull error) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf hideLoadingView];
+
             if(error)
             {
+                [weakSelf hideLoadingView];
                 if(error.code == -999)
                 {
                     
@@ -476,9 +493,9 @@
     
     UIImageView *headImageView = [[UIImageView alloc] init];
 //    headImageView.image = ImageNamed(@"point_information_img");
-    if(_model.address && [_model.address isEqualToString:@""])
+    if(_model.avatar && ![_model.avatar isEqualToString:@""])
     {
-        [headImageView sd_setImageWithURL:[NSURL URLWithString:_model.address] placeholderImage:nil];
+        [headImageView sd_setImageWithURL:[NSURL URLWithString:_model.avatar] placeholderImage:nil];
     }
     headImageView.layer.masksToBounds = YES;
     headImageView.layer.cornerRadius = 25;

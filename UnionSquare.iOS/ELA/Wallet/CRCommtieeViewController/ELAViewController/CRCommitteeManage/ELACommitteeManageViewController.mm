@@ -26,6 +26,10 @@
 #import "Masonry.h"
 #import "UIView+Ext.h"
 #import "ELAPledgeView.h"
+#import "HWMCRRegisteredViewController.h"
+#import "ELWalletManager.h"
+#import "HMWFMDBManager.h"
+#import "ELANetworkManager.h"
 
 @interface ELACommitteeManageViewController ()
 
@@ -41,6 +45,7 @@
     
     [self creatView];
 }
+
 
 - (void)setBg:(UIColor*)fclolr withToColor:(UIColor*)tcolor withView:(UIView*)view{
     CAGradientLayer *gl = [CAGradientLayer layer];
@@ -59,19 +64,43 @@
 
 - (void)updateInfoButtonAction:(id)sender
 {
-    _pledgeView = [[ELAPledgeView alloc] init];
-    //_pledgeView.title = ELALocalizedString(@"11");
-    [_pledgeView showAlertView];
-    _pledgeView.block = ^{
+    if(_type == 2)
+    {
+//        FLWallet *wallet = [ELWalletManager share].currentWallet;
+//        NSArray *localStore  = [[NSMutableArray alloc]initWithArray: [[HMWFMDBManager sharedManagerType:CRListType] allSelectCRWithWallID:wallet.masterWalletID]];
+//
+//            for (int j=0; j<localStore.count; j++)
+//            {
+//                HWMCRListModel *dataModel = localStore[j];
+////                ret =  [dataModel.did isEqualToString:_infoModel.did];
+////                if (ret)
+////                {
+////
+////                    curentmodel=model;
+////                }
+//            }
     
-        
-    };
-    [_pledgeView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(@(0));
-        make.width.equalTo(@(ScreenWidth));
-        make.height.equalTo(@(ScreenHeight));
-        make.top.bottom.equalTo(@(0));
-    }];
+            
+//        FLWallet *wallet = [ELWalletManager share].currentWallet;
+//        HWMCRRegisteredViewController *vc = [[ HWMCRRegisteredViewController alloc]init];
+////        vc.CRmodel=self.CRModel;
+//        vc.isUpdate=YES;
+//        vc.currentWallet = wallet;
+//        [self.navigationController pushViewController:vc animated:YES];
+    }
+//    _pledgeView = [[ELAPledgeView alloc] init];
+//    //_pledgeView.title = ELALocalizedString(@"11");
+//    [_pledgeView showAlertView];
+//    _pledgeView.block = ^{
+//
+//
+//    };
+//    [_pledgeView mas_remakeConstraints:^(MASConstraintMaker *make) {
+//        make.left.right.equalTo(@(0));
+//        make.width.equalTo(@(ScreenWidth));
+//        make.height.equalTo(@(ScreenHeight));
+//        make.top.bottom.equalTo(@(0));
+//    }];
 }
 
 #pragma mark - view
@@ -84,22 +113,24 @@
     infoView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:infoView];
 
-    UIImageView *bgView = [[UIImageView alloc]initWithFrame:CGRectMake(15, 0, ScreenWidth - 30, 400)];
+    UIImageView *bgView = [[UIImageView alloc]initWithFrame:CGRectMake(15, 0, ScreenWidth - 30, 360)];
     [self setBg:ELARGBA(28, 47, 47, 0.75) withToColor:ELARGBA(17, 32, 34, 0.75) withView:bgView];
     [infoView addSubview:bgView];
 
 
     UIImageView *headImageView = [[UIImageView alloc] init];
-    headImageView.image = ImageNamed(@"point_information_img");
+    
+    [headImageView sd_setImageWithURL:[NSURL URLWithString:_infoModel.avatar] placeholderImage:ImageNamed(@"point_information_img")];
+    
     headImageView.layer.masksToBounds = YES;
-    headImageView.layer.cornerRadius = 30;
+    headImageView.layer.cornerRadius = 40;
     headImageView.layer.borderColor = [UIColor whiteColor].CGColor;
     headImageView.layer.borderWidth = 0.5;
     headImageView.contentMode = UIViewContentModeScaleAspectFit;
     [infoView addSubview:headImageView];
 //
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = ELALocalizedString(@"委员名称");
+    titleLabel.text = _infoModel.didName;
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.font = PingFangRegular(16);
     titleLabel.textAlignment = NSTextAlignmentLeft;
@@ -108,7 +139,7 @@
 
 
     UILabel *subLabel = [[UILabel alloc] init];
-    subLabel.text = @"委员说明内容委员说明内容委员说明内容委员说明内容委员说明内容委员说明内容委员说明内容委员说明内容委员说明内容";
+    subLabel.text = @"";
     subLabel.textColor = [UIColor whiteColor];
     subLabel.font = PingFangRegular(14);
     subLabel.textAlignment = NSTextAlignmentLeft;
@@ -140,11 +171,65 @@
    // [button addTarget:self action:@selector(manageButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     [self.view addSubview:button];
 
+    if(_type == 1)
+    {
+        NSString *des = @"本轮竞选已经结束，很遗憾您此次未能当选。感谢您的参与，祝您好运！";
+        NSString *text = ELALocalizedString(des);
+        subLabel.text = text;
+        updateInfoButton.hidden = YES;
+        [button setTitle:ELALocalizedString(@"提取质押金") forState:(UIControlStateNormal)];
+    }
+    else if(_type == 2)
+    {
+        NSString *des = @"每位CR委员须运行一个默认当选的DPoS超级节点，享有该节点产生的所有收益，并有义务保证节点正常运行。";
+        NSString *text = ELALocalizedString(des);
+        subLabel.text = text;
+    }
+    else if(_type == 3)
+    {
+        double douValue = [_infoModel.depositAmount doubleValue];
+        NSString *des = ELALocalizedString(@"上届CR委员会任期已满，所有委员自动卸任离职。根据您的世界履职情况及CRC委员节点的运行情况，您的竞选押金返还额度为");
+        NSString *string = [NSString stringWithFormat:@"%@%0.4fELA", des, douValue / ELAUnitConversion];
+        subLabel.text = string;
+        updateInfoButton.hidden = YES;
+        [button setTitle:ELALocalizedString(@"提取质押金") forState:(UIControlStateNormal)];
+    }
+    else if(_type == 4)
+    {
+        double douValue = [_infoModel.depositAmount doubleValue];
+        NSString *des = ELALocalizedString(@"上届CR委员会任期已满，所有委员自动卸任离职。根据您的世界履职情况及CRC委员节点的运行情况，您的竞选押金返还额度为");
+        NSString *string = [NSString stringWithFormat:@"%@%0.4fELA", des, douValue / ELAUnitConversion];
+        NSString *text = string;
+        subLabel.text = text;
+        updateInfoButton.hidden = YES;
+        [button setTitle:ELALocalizedString(@"提取质押金") forState:(UIControlStateNormal)];
+    }
+    else if(_type == 5)
+    {
+        double douValue = [_infoModel.depositAmount doubleValue];
+        NSString *des = ELALocalizedString(@"由于对您的弹劾已通过。您的委员职务已被免职。根据您的世界履职情况及CRC委员节点的运行情况，您的竞选押金返还额度为");
+        NSString *string = [NSString stringWithFormat:@"%@%0.4fELA", des, douValue / ELAUnitConversion];
+        NSString *text = string;
+        subLabel.text = text;
+        updateInfoButton.hidden = YES;
+        [button setTitle:ELALocalizedString(@"提取质押金") forState:(UIControlStateNormal)];
+    }
+    else if(_type == 6)
+    {
+        double douValue = [_infoModel.depositAmount doubleValue];
+        NSString *des = ELALocalizedString(@"上届CR委员会因故解散，所有委员自动去职。根据您时机履职情况及CRC委员节点的运行情况，您的竞选押金返回金额为");
+        NSString *string = [NSString stringWithFormat:@"%@%0.4fELA", des, douValue / ELAUnitConversion];
+        NSString *text = string;
+        subLabel.text = text;
+        updateInfoButton.hidden = YES;
+        [button setTitle:ELALocalizedString(@"提取质押金") forState:(UIControlStateNormal)];
+    }
+    
     [infoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).offset(15);
         make.right.equalTo(self.view).offset(-15);
         make.top.equalTo(@(NavigitionBarHeight + 15));
-        make.height.equalTo(@(400));
+        make.height.equalTo(@(360));
     }];
 //
     [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -155,7 +240,7 @@
     [headImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(infoView);
         make.top.equalTo(infoView).offset(40);
-        make.width.height.equalTo(@(60));
+        make.width.height.equalTo(@(80));
 
     }];
 //

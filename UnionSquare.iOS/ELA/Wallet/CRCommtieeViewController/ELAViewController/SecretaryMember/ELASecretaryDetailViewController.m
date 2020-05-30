@@ -336,7 +336,7 @@
     
 //    {did:igCSy8ht7yDwV5qqcRzf5SGioMX8H9RXcj,status:CURRENT,didName:SecretaryGeneral-did,startDate:1589608108,type:SecretaryGeneral
     UIImageView *headImageView = [[UIImageView alloc] init];
-    [headImageView sd_setImageWithURL:[NSURL URLWithString:_model.address] placeholderImage:nil];
+    [headImageView sd_setImageWithURL:[NSURL URLWithString:_model.avatar] placeholderImage:nil];
     headImageView.layer.masksToBounds = YES;
     headImageView.layer.cornerRadius = 25;
     headImageView.contentMode = UIViewContentModeScaleAspectFit;

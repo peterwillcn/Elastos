@@ -74,18 +74,20 @@ static HWMSecretaryGeneralAndMembersInfo *_instance;
         
         NSLog(@"委员信息获取成功---%@",data);
         [self parsingModelWithData:data[@"data"] complete:^(HWMSecretaryGeneralAndMembersDetailsModel *model) {
-            [[FLTools share] hideLoadingView];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                com(model);
                 if (isLoading) {
-                    [[FLTools share] hideLoadingView];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        com(model);
+                        [[FLTools share] hideLoadingView];
+                        
+                    });
                 }
                 
-            }];
-                           });
+            });
             
         }];
-    }
+    }];
+}
 -(void)parsingModelWithData:(id)data complete:(DetailsModelBlock)com{
     HWMSecretaryGeneralAndMembersDetailsViewModel  *DetailsViewMode=[[HWMSecretaryGeneralAndMembersDetailsViewModel alloc] init];
     [DetailsViewMode SecretaryGeneralAndMembersDetailsModelDataJosn:data completion:^(HWMSecretaryGeneralAndMembersDetailsModel * _Nonnull model) {

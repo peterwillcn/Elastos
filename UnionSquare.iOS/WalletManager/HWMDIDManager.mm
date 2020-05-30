@@ -15,7 +15,7 @@
 #import "MF_Base64Additions.h"
 #import "NSObject+YYModel.h"
 #import "NSDictionary+YYAdd.h"
-
+#import "YYKit.h"
 //#import "ELAWallet-Swift.h"
 #define SIGNATURE_BYTES         64
 

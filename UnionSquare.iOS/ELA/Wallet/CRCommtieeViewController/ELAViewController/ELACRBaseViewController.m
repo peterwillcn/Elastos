@@ -27,6 +27,8 @@
 #import "UIViewController+FLVCExt.h"
 #import "FLTools.h"
 #import "ELANetworkManager.h"
+#import "IQKeyboardManager.h"
+#import "ELACommitteeDetailViewController.h"
 
 @interface ELACRBaseViewController ()
 
@@ -48,6 +50,14 @@
     [self.view insertSubview:bg atIndex:0];
   //  [self setBackgroundImg:@""];
     
+//    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
+//    manager.enable = YES;
+//    manager.shouldResignOnTouchOutside = YES;//这个是点击空白区域键盘收缩的开关
+//    manager.enableAutoToolbar = NO;
+//    manager.keyboardDistanceFromTextField = 44;
+//    
+//    [[IQKeyboardManager sharedManager].enabledToolbarClasses addObject:[ELACommitteeDetailViewController class]];
+//    [[IQKeyboardManager sharedManager].disabledToolbarClasses addObject:[ELACommitteeDetailViewController class]];
 }
 
 

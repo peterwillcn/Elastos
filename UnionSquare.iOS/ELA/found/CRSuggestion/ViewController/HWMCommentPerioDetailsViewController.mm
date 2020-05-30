@@ -39,6 +39,7 @@
 #import "HWMSecretaryGeneralAndMembersInfo.h"
 #import "HWMDIDManager.h"
 #import "JWT.h"
+#import "YYKit.h"
 static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 @interface HWMCommentPerioDetailsViewController ()<UITableViewDelegate,UITableViewDataSource,HWMCRProposalConfirmViewDelgate,HWMCommentPerioDetailsHeadViewDelegate,HWMCommitteeMembersToVoteViewDelegate,HWMOpposedProgressHeadViewDelegate,VotesPopupViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *buttonBGView;

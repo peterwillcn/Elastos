@@ -36,6 +36,7 @@
 #import "ELWalletManager.h"
 #import "HWMDIDManager.h"
 #import "JWTBase64Coder.h"
+#import "YYKit.h"
 static NSString *SuggestionCell=@"HWMSuggestionTableViewCell";
 static NSString *SuggestionSionCell=@"HWMSuggestionSionTableViewCell";
 static NSString *AbstractVCell=@"HWMAbstractTableViewCell";

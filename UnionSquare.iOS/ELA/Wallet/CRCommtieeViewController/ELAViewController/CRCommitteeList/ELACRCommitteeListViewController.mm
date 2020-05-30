@@ -36,6 +36,8 @@
 #import "ELAVotingProcessUtil.h"
 #import "ELWalletManager.h"
 #import "ELAInformationDetail.h"
+#import "ELASecretaryDetailViewController.h"
+#import "MJExtension.h"
 
 @interface ELACRCommitteeListViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -55,26 +57,23 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.title = @"";
     _committeeDic = [[NSMutableDictionary alloc] init];
     _committeeArray = [[NSMutableArray alloc] init];
     HWMSecretaryGeneralAndMembersDetailsModel *model = [[HWMSecretaryGeneralAndMembersInfo shareTools] getDetailsModel];
        if (model)
        {
-           if (model.GMtype == SECRETARIATType)
+           if ([model.type isEqualToString:@"SecretaryGeneral"])
            {
                UIButton *rightBarButton = [[UIButton alloc]init];
-               [rightBarButton setImage:ImageNamed(@"asset_walllet_management") forState:(UIControlStateNormal)];
+               [rightBarButton setImage:ImageNamed(@"vote_switch_list") forState:(UIControlStateNormal)];
                [rightBarButton addTarget:self action:@selector(rightButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-
+               
                UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightBarButton];
                self.navigationItem.rightBarButtonItem = rightItem;
            }
        }
-       else
-       {
-           
-       }
-
+       
     [self creatView];
     
 }
@@ -125,9 +124,6 @@
     {
         dispatch_group_enter(group);
         dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            
-            dispatch_group_leave(group);
             
             [ELANetwork getInformation:wallet.didString ID:model.index block:^(id  _Nonnull data, NSError * _Nonnull error) {
                   
@@ -189,20 +185,41 @@
 
 - (void)rightButtonAction:(id)sender
 {
+    FLWallet *wallet = [ELWalletManager share].currentWallet;
     
+    ELASecretariatModel *model = [[ELASecretariatModel alloc] init];
+    model.did = wallet.didString;
+    ELASecretaryDetailViewController *vc = [[ELASecretaryDetailViewController alloc] init];
+    vc.title = ELALocalizedString(@"秘书长详情");
+    vc.paramModel = model;
+    vc.index = -1;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)manageButtonAction:(id)sender
 {
+    UIButton *button  = sender;
+    NSString *key = [NSString stringWithFormat:@"%@%ld", @"info", button.tag];
+    ELAInformationDetail *detailModel = [_committeeDic valueForKey:key];
     
     ELACommitteeManageViewController *vc = [[ELACommitteeManageViewController alloc] init];
-    vc.title = ELALocalizedString(@"委员管理");
+    vc.infoModel = detailModel;
+    vc.type = 1;
+    vc.title = ELALocalizedString(@"选举管理");
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)electionButtonAction:(id)sender
 {
-
+    UIButton *button  = sender;
+    NSString *key = [NSString stringWithFormat:@"%@%ld", @"info", button.tag];
+    ELAInformationDetail *detailModel = [_committeeDic valueForKey:key];
+    
+    ELACommitteeManageViewController *vc = [[ELACommitteeManageViewController alloc] init];
+    vc.infoModel = detailModel;
+    vc.type = 2;
+    vc.title = ELALocalizedString(@"委员管理");
+    [self.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark -
 
@@ -266,28 +283,32 @@
         
         model = [_infoModel.data objectAtIndex:indexPath.section];;
 
-        NSString *key = [NSString stringWithFormat:@"%@%ld", @"info", model.index];
-//        ELAInformationDetail *model = data;
-//        [weakSelf.committeeDic setValue:model forKey:key];
-         //ELAInformationDetail *detailModel = [_committeeDic valueForKey:key];
         
+        NSString *key = [NSString stringWithFormat:@"%@%ld", @"info", model.index];
+        ELAInformationDetail *detailModel = [_committeeDic valueForKey:key];
         if(model.status && [model.status isEqualToString:@"HISTORY"])
         {
-//            model.status = ELALocalizedString(@"历史");
-            buttonStr = ELALocalizedString(@"委员管理");
-            type = 0;
+            if([detailModel.type isEqualToString:@"other"] && ![detailModel.depositAmount isEqualToString:@""])
+            {
+                buttonStr = ELALocalizedString(@"选举管理");
+                type = 1;
+            }
+
+                    
         }
         else if(model.status && [model.status isEqualToString:@"CURRENT"])
         {
-//            model.status = ELALocalizedString(@"当届");
-            buttonStr = ELALocalizedString(@"委员管理");
-            type = 0;
+            if([detailModel.type isEqualToString:@"CouncilMember"])
+            {
+                buttonStr = ELALocalizedString(@"委员管理");
+                type = 2;
+            }
         }
         else if(model.status && [model.status isEqualToString:@"VOTING"])
         {
 //            model.status = ELALocalizedString(@"选举中");
-            buttonStr = ELALocalizedString(@"选举管理");
-            type = 1;
+//            buttonStr = ELALocalizedString(@"选举管理");
+            type = 0;
         }
         titleStr = [NSString stringWithFormat:@"%@%ld%@(%@)", @"第", (long)model.index, @"届", model.status];
         dateStr = [NSString stringWithFormat:@"%@-%@", [ELAUtils getTime:model.startDate],
@@ -330,13 +351,18 @@
     button.titleLabel.textColor = [UIColor whiteColor];
     button.titleLabel.font = PingFangRegular(14);
     [button setTitle:buttonStr forState:(UIControlStateNormal)];
-    if(type == 0)
+    button.tag = model.index;
+    if(type == 1)
     {
         [button addTarget:self action:@selector(manageButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
-    else
+    else if(type == 2)
     {
         [button addTarget:self action:@selector(electionButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+    }
+    else
+    {
+        button.hidden = YES;
     }
     [infoView addSubview:button];
     

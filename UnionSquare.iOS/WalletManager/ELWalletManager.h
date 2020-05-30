@@ -231,7 +231,7 @@ typedef std::map<String, IDidManager*> DIDManagerMap;
 
 - (NSArray *)getVoteInfoList:(NSString *)masterWalletID :(NSString *)typeStr;
 
-- (NSString *)getVoteBalance:(String)walletID :(NSString *)type;
+- (id)getVoteBalance:(NSString *)masterWalletID;
 - (PluginResult *)CreateImpeachmentCRCTransaction:(invokedUrlCommand *)command;
 
 @end

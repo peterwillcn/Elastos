@@ -151,6 +151,32 @@
         else
         {
             ELACommitteeInfoModel *mode = [ELACommitteeInfoModel mj_objectWithKeyValues:data];
+            if(mode && mode.data.count > 0)
+            {
+                NSArray *sortedArray = [mode.data sortedArrayUsingComparator:^(ELACommitteeInfoModel *obj1, ELACommitteeInfoModel *obj2){
+                    if(obj1.index > obj2.index)
+                    {
+                        return NSOrderedAscending;
+                    }
+                    else
+                    {
+                        return NSOrderedDescending;
+                    }
+                }];
+                mode.data = sortedArray;
+            }
+//                                        　　//升序，key表示比较的关键字
+//                                        　　 if (obj1.key < obj1.key )
+//                                        　　{
+//                    　　　　 return NSOrderedAscending;
+//                    　　}
+//                                        　　else
+//                                        　　{
+//                    　　　　 return NSOrderedDescending;
+//                    　　}
+//                                        ｝
+//                                        }
+           
             block(mode, nil);
             
         }
@@ -193,8 +219,15 @@
 {
     NSString *host = CRProposalIP;
     NSString *path = @"/api/council/information/";
-    NSString *url = [NSString stringWithFormat:@"%@%@%@/%ld", host, path, did, (long)_id];
-//    /api/council/information/5ebcf259c4a7fe0078148afc/1
+    NSString *url = @"";
+    if(_id != -1)
+    {
+        url = [NSString stringWithFormat:@"%@%@%@/%ld", host, path, did, (long)_id];
+    }
+    else
+    {
+        url = [NSString stringWithFormat:@"%@%@%@/", host, path, did];
+    }
     NSURLSessionDataTask *task = [ELANetwork GET:url parameters:nil block:^(id data, NSError *error) {
         
         if(error)

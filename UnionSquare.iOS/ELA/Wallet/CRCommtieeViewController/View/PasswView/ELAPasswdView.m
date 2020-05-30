@@ -27,7 +27,7 @@
 #import "Masonry.h"
 #import "UIView+Ext.h"
 
-@interface ELAPasswdView ()
+@interface ELAPasswdView ()<UITextFieldDelegate>
 
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) UIView *bgView;
@@ -83,6 +83,7 @@
     _closeButton = [[UIButton alloc] init];
     [_closeButton setImage:ImageNamed(@"window_750_back") forState:(UIControlStateNormal)];
     [_closeButton addTarget:self action:@selector(closeButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+    _closeButton.contentMode = UIViewContentModeScaleAspectFit;
     [_showView addSubview:_closeButton];
 //
     _sureButton = [[UIButton alloc] init];
@@ -113,7 +114,8 @@
     _textField.textAlignment = NSTextAlignmentLeft;// 设置文字的对其方式
     _textField.keyboardType = UIKeyboardTypeDefault;
     _textField.secureTextEntry = YES;
-//    _textField.delegate = self;
+    _textField.returnKeyType = UIReturnKeyDone;
+    _textField.delegate = self;
     [self makeTextFieldPlaceHoTextColorWithTextField:_textField withTxt:@"请输入钱包密码"];
     [_showView addSubview:_textField];
  
@@ -145,7 +147,7 @@
     [_showView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(_contentView);
         make.left.right.equalTo(@(0));
-        make.height.equalTo(@(400));
+        make.height.equalTo(@(340));
         make.bottom.equalTo(@(0));
     }];
     
@@ -164,8 +166,8 @@
     [_closeButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_showView).offset(10);
         make.centerY.equalTo(_titleLabel).offset(0);
-        make.width.equalTo(@(17));
-        make.height.equalTo(@(17));
+        make.width.equalTo(@(34));
+        make.height.equalTo(@(34));
     }];
     
     [_line mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -180,6 +182,7 @@
         make.left.equalTo(_showView).offset(15);
         make.right.equalTo(_showView).offset(-15);
         make.top.equalTo(_line.mas_bottom).offset(20);
+        make.height.equalTo(@(30));
     }];
  
     [_othLine mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -219,10 +222,10 @@
   //  _title = title;
     [self setViewFrame];
 }
-- (void)showAlertView
+- (void)showAlertView:(UIView *)_view
 {
     UIView *view = self;
-    [[UIApplication sharedApplication].keyWindow addSubview:view];
+    [_view addSubview:view];
 }
 - (void)hideAlertView
 {
@@ -250,6 +253,14 @@
         [_textField resignFirstResponder];
     }
 }
+#pragma mark - delegate
 
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+
+    [textField resignFirstResponder];
+
+    return YES;
+
+}
 @end
 

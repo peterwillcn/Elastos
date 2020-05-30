@@ -36,6 +36,7 @@
 #import "ELWalletManager.h"
 #import "HWMDIDManager.h"
 #import "JWTBase64Coder.h"
+#import "ELAVotingProcessUtil.h"
 static NSString *SuggestionCell=@"HWMSuggestionTableViewCell";
 static NSString *SuggestionSionCell=@"HWMSuggestionSionTableViewCell";
 static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
@@ -57,7 +58,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 //xxl #943
 @property(strong,nonatomic) PluginResult *pluginResult;
 @property(strong,nonatomic) NSString *strPWD;
-
+@property (nonatomic, strong) ELAVotingProcessUtil *votingProcessUtil;
 
 //xxl 2.3
 @property(strong,nonatomic) NSMutableArray *VoteingProposalArray;
@@ -124,22 +125,40 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 //xxl #943
 -(void)onTxPublish:(NSNotification*)notice{
 
+    //xxl 943 createProposal
+    _votingProcessUtil = [ELAVotingProcessUtil shareVotingProcess];
+    NSMutableDictionary *resultDic = _votingProcessUtil.resultDic;
+    
     NSDictionary *param =notice.object;
-    NSLog(@"xxl 943 2 onTxPublish %@ 1",param);
+    NSLog(@"xxl 943 2 HWMSuggestionViewController onTxPublish %@ 1",param);
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if(_pluginResult){
-            NSDictionary *resultDic = _pluginResult.message[@"success"];
+        
+        NSLog(@"xxl 943 Code = %@",param[@"Code"]);
+        NSLog(@"xxl 943 _pluginResult = %@",resultDic);
+        NSLog(@"xxl 943 pwd = %@",resultDic[@"pwd"]);
+        NSLog(@"xxl 943 SignTransaction = %@",resultDic[@"SignTransaction"]);
+        NSLog(@"xxl 943 calculateProposalHash = %@",resultDic[@"calculateProposalHash"]);
+        
+    
+        if(resultDic != nil){
             //[self updaeJWTInfoWithDic:txidDic];
-            NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:_strPWD];
+            NSDictionary *callDic = [self callBack:resultDic[@"calculateProposalHash"] pwd:resultDic[@"pwd"]];
             if(callDic)
             {
                 [self updaeJWTInfoWithDic:callDic];
             }else {
+                
+                NSLog(@"xxl 943 2 HWMSuggestionViewController onTxPublish 2.1");
                 [self showSendSuccessOrFial:SignatureFailureType];
             }
+            
+            
         }else{
+            
+            NSLog(@"xxl 943 2 HWMSuggestionViewController onTxPublish 2.2");
             [self showSendSuccessOrFial:SignatureFailureType];
         }
+    
     });
 
     
@@ -555,17 +574,24 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     NSDictionary *playLoadDic = @{@"Type":Type,@"CategoryData":CategoryData,@"OwnerPublicKey":self.PayLoadDic[@"data"][@"ownerpublickey"],@"DraftHash":self.PayLoadDic[@"data"][@"drafthash"],@"Budgets":BArray,@"Recipient":self.PayLoadDic[@"data"][@"recipient"], @"CRCouncilMemberDID":didString, @"Signature":signature};
     mommand = [[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,playLoadDic, pwd] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"createProposalTransaction"];
     
+    //xxl 943 createProposal
+    _votingProcessUtil = [ELAVotingProcessUtil shareVotingProcess];
     PluginResult *pluginResult = [[ELWalletManager share] proposaSignTransaction:mommand];
-    if(pluginResult){
-        NSDictionary *resultDic = pluginResult.message[@"success"];
-        NSString *calculateProposalHash = resultDic[@"calculateProposalHash"];
-        NSDictionary *callDic = [self callBack:calculateProposalHash pwd:pwd];
-        if(callDic){
-            [self updaeJWTInfoWithDic:callDic];
-        }else{
-            [self showSendSuccessOrFial:SignatureFailureType];
-        }
-    }
+    _votingProcessUtil.resultDic = pluginResult.message[@"success"];
+    
+    NSLog(@"xxl 943 1  proposaSignTransaction %@",_votingProcessUtil.resultDic);
+    
+//    PluginResult *pluginResult = [[ELWalletManager share] proposaSignTransaction:mommand];
+//    if(pluginResult){
+//        NSDictionary *resultDic = pluginResult.message[@"success"];
+//        NSString *calculateProposalHash = resultDic[@"calculateProposalHash"];
+//        NSDictionary *callDic = [self callBack:calculateProposalHash pwd:pwd];
+//        if(callDic){
+//            [self updaeJWTInfoWithDic:callDic];
+//        }else{
+//            [self showSendSuccessOrFial:SignatureFailureType];
+//        }
+//    }
     
 }
 
@@ -610,7 +636,6 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     _pluginResult = [[ELWalletManager share] proposalReviewTransaction:mommand];
     
 
-    
 }
 
 
@@ -620,7 +645,11 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 {
     if(payString && ![payString isEqualToString:@""])
     {
-        if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:PWDString withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO]){
+        if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:PWDString
+                                            withDIDString:self.currentWallet.didString
+                                            WithPrivatekeyString:@""
+                                            WithmastWalletID:self.currentWallet.masterWalletID
+                                            needCreatDIDString:NO]){
             
             NSString *playString = @"";
             
@@ -712,8 +741,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 -(void)viewWillDisappear:(BOOL)animated{
     
     //xxl #943
-    //[[NSNotificationCenter defaultCenter] removeObserver:OnTxPublishedResult];
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:OnTxPublishedResult];
     [super viewWillDisappear:animated];
     [self hiddLoading];
     

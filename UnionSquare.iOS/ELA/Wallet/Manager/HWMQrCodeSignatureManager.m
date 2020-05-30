@@ -53,7 +53,6 @@ static HWMQrCodeSignatureManager * _instance;
 -(void)QrCodeDataWithData:(NSString*)data withDidString:(NSString*)didString withmastWalletID:(NSString*)masterWalletID withComplete:(QrCodeSignatureTypeBlock)Complete{
     QrCodeSignatureType type=[self QrCodeStringtype:data];
     
-    NSLog(@"xxl Type is %lu",(unsigned long)type);
     //xxl fix the bug for suggestionQrCodeType
     if (type ==credaccessQrCodeType||type==billQrCodeType||type==reviewPropalQrCodeType
         || type == withdrawalsType || type == Updatemilestone || type == Reviewmilestone) {

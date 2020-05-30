@@ -2855,6 +2855,7 @@ void *ReverseByteOrder(void *p, unsigned int len)
     return nil;
 }
 
+//xxl 943 createProposal
 - (PluginResult *)proposaSignTransaction:(invokedUrlCommand *)command
 {
     NSArray *args = command.arguments;
@@ -2906,6 +2907,7 @@ void *ReverseByteOrder(void *p, unsigned int len)
            
            [resultDic setValue:resultString forKey:@"SignTransaction"];
            [resultDic setValue:calculateProposalHash forKey:@"calculateProposalHash"];
+           [resultDic setValue:pwdString forKey:@"pwd"];
            
            
        } catch (const std:: exception & e ) {

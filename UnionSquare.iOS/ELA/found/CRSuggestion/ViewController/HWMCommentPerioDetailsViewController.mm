@@ -39,6 +39,8 @@
 #import "HWMSecretaryGeneralAndMembersInfo.h"
 #import "HWMDIDManager.h"
 #import "JWT.h"
+#import "ELAVotingProcessUtil.h"
+
 static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 @interface HWMCommentPerioDetailsViewController ()<UITableViewDelegate,UITableViewDataSource,HWMCRProposalConfirmViewDelgate,HWMCommentPerioDetailsHeadViewDelegate,HWMCommitteeMembersToVoteViewDelegate,HWMOpposedProgressHeadViewDelegate,VotesPopupViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *buttonBGView;
@@ -63,6 +65,8 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 @property(strong,nonatomic) NSString *strPWD;
 
 @property(strong,nonatomic)NSMutableArray*VoteingProposalArray;
+
+@property (nonatomic, strong) ELAVotingProcessUtil *votingProcessUtil;
 
 @end
 
@@ -95,25 +99,39 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 //xxl #943
 -(void)onTxPublish:(NSNotification*)notice{
     
+    //xxl 943 createProposal
+    _votingProcessUtil = [ELAVotingProcessUtil shareVotingProcess];
+    NSMutableDictionary *resultDic = _votingProcessUtil.resultDic;
+    
     NSDictionary *param =notice.object;
-    NSLog(@"xxl 943 2 onTxPublish %@ 1",param);
+    NSLog(@"xxl 943 2 HWMSuggestionViewController onTxPublish %@ 1",param);
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
-        if(_pluginResult){
-            NSDictionary *resultDic = _pluginResult.message[@"success"];
+        NSLog(@"xxl 943 Code = %@",param[@"Code"]);
+        NSLog(@"xxl 943 _pluginResult = %@",resultDic);
+        NSLog(@"xxl 943 pwd = %@",resultDic[@"pwd"]);
+        NSLog(@"xxl 943 SignTransaction = %@",resultDic[@"SignTransaction"]);
+        NSLog(@"xxl 943 calculateProposalHash = %@",resultDic[@"calculateProposalHash"]);
+        
+        if(resultDic != nil){
             //[self updaeJWTInfoWithDic:txidDic];
-            NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:_strPWD];
-            
+            NSDictionary *callDic = [self callBack:resultDic[@"calculateProposalHash"] pwd:resultDic[@"pwd"]];
             if(callDic)
             {
-                NSLog(@"xxl 943 2 onTxPublish post OK");
                 [self updaeJWTInfoWithDic:callDic];
             }else {
+                
+                NSLog(@"xxl 943 2 HWMSuggestionViewController onTxPublish 2.1");
                 [self showSendSuccessOrFial:SignatureFailureType];
             }
+            
+            
         }else{
+            
+            NSLog(@"xxl 943 2 HWMSuggestionViewController onTxPublish 2.2");
             [self showSendSuccessOrFial:SignatureFailureType];
         }
+    
     });
     
 }

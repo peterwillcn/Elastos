@@ -47,6 +47,8 @@ WithPrivatekeyString:(NSString*)privatekeyString
 -(BOOL)HasBeenOnTheChain;
 -(NSString*)adviceTheSignatureWithPWD:(NSString*)pwdString withDigestChar:(char*)DigestChar;
 -(NSString*)proposalTheSignatureWithPWD:(NSString*)pwdString withDigestChar:(char*)DigestChar;
+-(BOOL)qrTimeWithString:(NSString*)jwtStr;
+-(BOOL)AuthenticationWithString:(NSString*)jwtStr;
 @end
 
 NS_ASSUME_NONNULL_END

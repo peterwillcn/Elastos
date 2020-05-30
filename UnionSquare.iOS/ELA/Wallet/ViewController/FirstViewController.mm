@@ -166,6 +166,7 @@
     if ([SDKNET isEqualToString:@"MainNet"]) {
         [self loadNetWorkingPong];
     }
+    
 }
 -(void)loadNetWorkingPong{
     [HttpUrl NetGETHost:PongUrl url:@"/api/dposNodeRPC/getProducerNodesList" header:nil body:nil showHUD:NO WithSuccessBlock:^(id data) {
@@ -395,7 +396,7 @@
     [ELWalletManager share].currentWallet = currentWallet;
 }
 -(void)loadTheWalletInformationWithIndex:(NSInteger)inde{
-    [self showLoading];
+    //    [self showLoading];
     if(self.walletIDListArray.count==0){
         self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
         if (self.walletIDListArray.count==0) {
@@ -588,7 +589,7 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [self hiddLoading];
+    //    [self hiddLoading];
     //self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     self.isScro=YES;
 }
@@ -843,14 +844,10 @@
             }];
             return;
         }
-        
     }
-    
-    
-    
     switch (type) {
         case CreadDIDType:
-            [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID", nil)];
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"钱包DID不匹配", nil)];
             break;
         case DIDTimePassType:
             [[FLTools share]showErrorInfo:NSLocalizedString(@"DID已过期", nil)];
@@ -891,6 +888,12 @@
         case Reviewmilestone:
             [self QrCodeInfoPasswordViewInfoText:data withJWTString:QRCodeString WithType:type];
             break;
+        case  QRTimePassType:
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"二维码已过期", nil)];
+            break;
+        case AuthenticationDID:
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"钱包DID不匹配", nil)];
+            break;
         default:
             break;
     }
@@ -926,14 +929,12 @@
 }
 
 -(void)ShowPlayInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString{
-    
     HWMDIDAuthorizationViewController *DIDAuthorizationVC=[[HWMDIDAuthorizationViewController alloc]init];
     DIDAuthorizationVC.DIDString=self.currentWallet.didString;
     DIDAuthorizationVC.CRInfoDic=PayLoadDic;
     DIDAuthorizationVC.mastWalletID=self.currentWallet.masterWalletID;
     DIDAuthorizationVC.JWTString=jwtString;
     [self.navigationController pushViewController:DIDAuthorizationVC animated:NO];
-    
 }
 
 -(void)GetTransactionSignedInfoWhereForm:(BOOL)isPWD{
@@ -1129,7 +1130,7 @@
     if (type==reviewPropalQrCodeType) {
         CommentPerioDetailsVC.type=CommentPerioVOTINGType;
     }else if (type==voteforProposalQrCodeType){
-          CommentPerioDetailsVC.type=CommentPerioNOTIFICATIONType;
+        CommentPerioDetailsVC.type=CommentPerioNOTIFICATIONType;
     }
     CommentPerioDetailsVC.qrString=qrString;
     CommentPerioDetailsVC.DicData=data;

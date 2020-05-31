@@ -313,7 +313,7 @@
 //            buttonStr = ELALocalizedString(@"选举管理");
             type = 0;
         }
-        titleStr = [NSString stringWithFormat:@"%@%ld%@(%@)", @"第", (long)model.index, @"届", status];
+        titleStr = [NSString stringWithFormat:@"%@ %ld %@(%@)", ELALocalizedString(@"第"), (long)model.index, ELALocalizedString(@"届"), status];
         dateStr = [NSString stringWithFormat:@"%@-%@", [ELAUtils getTime:model.startDate],
                    [ELAUtils getTime:model.endDate]];
     }
@@ -508,7 +508,7 @@
     {
         model = [_infoModel.data objectAtIndex:indexPath.section];
         ELACRCommitteeViewController *vc = [[ELACRCommitteeViewController alloc] init];
-        NSString *str = [NSString stringWithFormat:@"第%ld届%@", (long)model.index, ELALocalizedString(@"CR委员会")];
+        NSString *str = [NSString stringWithFormat:@"%@ %ld %@ %@", ELALocalizedString(@"第"), (long)model.index, ELALocalizedString(@"届"),  ELALocalizedString(@"CR委员会")];
         vc.title = str;//ELALocalizedString(@"CR委员会");
         vc.index = model.index;
         [self.navigationController pushViewController:vc animated:YES];

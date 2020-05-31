@@ -361,8 +361,11 @@
 "CR委员会列表"="Council Member List";
 "本届"="Current Term";
 
+"第"="The";
+"届"="session";
+
 "选举中"="In Election";
-"委员管理"="Council Member Managemen";
+//"委员管理"="Council Member Managemen";
 "更新委员信息"="Update Member Profile";
 //"actmember">第%1$s届委员会"="";
 "委员详情"="Council Member Profile";
@@ -408,14 +411,19 @@
 "选举中"="In election";
 //"pastitemtitle">第%1$s届(%2$s)"="";
 //"amember">第%1$s届"="";
-"选举管理"="Election Management";
+//"选举管理"="Election Management";
+"选举管理"="Management";
+"委员管理"="Management";
  
 "更新委员信息"="Update Member Profile";
 //"actmember">第%1$s届委员会"="";
 "委员详情"="Council Member Profile";
 "弹劾进度"="Impeachment Progress";
 "当前票数"="Current Votes";
-"弹劾通过票数"="Minimum votes required for successful  impeachment";
+//"弹劾通过票数"="Minimum votes required for successful  impeachment";
+
+"弹劾通过票数"="Votes required to impeach";
+
 "委员信息"="ctinfo";
 "委员DID"="Council Member DID";
 "委员 DID"="Council Member DID";

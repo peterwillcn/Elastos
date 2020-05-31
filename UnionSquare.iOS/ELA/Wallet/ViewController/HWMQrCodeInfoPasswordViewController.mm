@@ -30,13 +30,15 @@
 #import "HWMDIDManager.h"
 #import "JWTBase64Coder.h"
 
+#import "ELAVotingProcessUtil.h"
+
+
 @interface HWMQrCodeInfoPasswordViewController ()<HWMCRProposalConfirmViewDelgate, HWMTransactionDetailsViewDelegate>
 @property(nonatomic,strong)HWMCRProposalConfirmView *CRProposalConfirmV;
 @property(nonatomic,strong)HMWSendSuccessPopuView *sendSuccessPopuV;
 
 //xxl #943
-@property(strong,nonatomic) PluginResult *pluginResult;
-@property(strong,nonatomic) NSString *strPWD;
+@property (nonatomic, strong) ELAVotingProcessUtil *votingProcessUtil;
 
 @property(nonatomic,strong) HWMTransactionDetailsView *transactionDetailsView;
 
@@ -267,8 +269,36 @@
                                                                         className:@"Wallet" methodName:@"proposalTracking"];
         
         //xxl #943
-        _strPWD = pwd;
-        _pluginResult = [[ELWalletManager share] proposalTrackingTransaction:mommand];
+        //_votingProcessUtil = [ELAVotingProcessUtil shareVotingProcess];
+        PluginResult *pluginResult = [[ELWalletManager share] proposalTrackingTransaction:mommand];
+        //_votingProcessUtil.resultDic = pluginResult.message[@"success"];
+        
+        if(pluginResult)
+        {
+         
+            NSDictionary *resultDic = pluginResult.message[@"success"];
+            NSString *signature = resultDic[@"Signature"];
+            if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd
+                                                withDIDString:self.currentWallet.didString
+                                                WithPrivatekeyString:@""
+                                                WithmastWalletID:self.currentWallet.masterWalletID
+                                                needCreatDIDString:NO])
+            {
+                NSString *playString = [[FLTools share]DicToString:[self proposalTrackingRequestFileWithString:signature]];
+                NSString *jwtString = [self throuJWTStringWithplayString:playString];
+                NSString *REString= [[HWMDIDManager shareDIDManager] DIDSignatureWithString:jwtString];
+                if (![REString isEqualToString:@"-1"]) {
+                    NSDictionary *dic=@{@"jwt":[NSString stringWithFormat:@"%@.%@",jwtString,REString]};
+                    [self updaeJWTInfoWithDic:dic];
+                }else{
+                    [self showSendSuccessOrFial:SignatureFailureType];
+                }
+            }else{
+                [self showSendSuccessOrFial:SignatureFailureType];
+            }
+        }
+        
+        
         
         [self hiddLoading];
     }
@@ -280,12 +310,21 @@
     NSDictionary *param =notice.object;
     NSLog(@"xxl 943 2 onTxPublish %@ 2",param);
     
-    if(_pluginResult)
+    //xxl 943 createProposal
+    _votingProcessUtil = [ELAVotingProcessUtil shareVotingProcess];
+    NSMutableDictionary *resultDic = _votingProcessUtil.resultDic;
+    
+    
+    
+    if(resultDic)
     {
-        NSDictionary *resultDic = _pluginResult.message[@"success"];
-        NSString *signature = resultDic[@"Signature"];
         
-        if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:_strPWD withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO])
+        NSString *signature = resultDic[@"Signature"];
+        if ([[HWMDIDManager shareDIDManager]hasDIDWithPWD:resultDic[@"pwd"]
+                                            withDIDString:self.currentWallet.didString
+                                            WithPrivatekeyString:@""
+                                            WithmastWalletID:self.currentWallet.masterWalletID
+                                            needCreatDIDString:NO])
         {
             NSString *playString = [[FLTools share]DicToString:[self proposalTrackingRequestFileWithString:signature]];
             NSString *jwtString = [self throuJWTStringWithplayString:playString];

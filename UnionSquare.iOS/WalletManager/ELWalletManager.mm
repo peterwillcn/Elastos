@@ -3464,7 +3464,12 @@ void *ReverseByteOrder(void *p, unsigned int len)
                 return nil;
             }
             ownerSignature = [self reverseChar:ownerSignature passwd:pwdString];
-            NSDictionary *resultDic = @{@"Signature" : ownerSignature};
+            NSMutableDictionary *resultDic = [[NSMutableDictionary alloc] init];
+        
+            //NSDictionary *resultDic = @{@"Signature" : ownerSignature};
+            [resultDic setValue:ownerSignature forKey:@"Signature"];
+            [resultDic setValue:pwdString forKey:@"pwd"];
+            
             if(resultDic)
             {
                 return [self successProcess:command msg:resultDic];

@@ -75,6 +75,10 @@ UINib *_nib;
         }else{
             _headView.infoDic=self.CRInfoDic;
         }
+        if(_nickNameString && ![_nickNameString isEqualToString:@""])
+        {
+            _headView.nickNameString = _nickNameString;
+        }
     }
     return _headView;
 }
@@ -122,7 +126,7 @@ UINib *_nib;
 
 - (IBAction)AgreedToEvent:(id)sender {
     
-    UIView *mainView =[self mainWindow];
+    UIView *mainView = [self mainWindow];
     [mainView addSubview:self.pwdPView];
     [self.pwdPView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(mainView);
@@ -429,4 +433,11 @@ UINib *_nib;
 -(void)setReadModel:(HWMDIDInfoModel *)readModel{
     _readModel=readModel;
 }
+
+- (void)setNickNameString:(NSString *)nickNameString
+{
+
+    _nickNameString = nickNameString;
+}
+
 @end

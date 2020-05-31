@@ -30,8 +30,16 @@
 #import "ELWalletManager.h"
 #import "HMWFMDBManager.h"
 #import "ELANetworkManager.h"
+#import "FLManageSelectPointNodeInformationVC.h"
+#import "HWMDIDManager.h"
+#import "HWMDIDAuthorizationViewController.h"
+#import "ELAVotingProcessUtil.h"
+#import "HWMCRRegisteredViewController.h"
+#import "HWMCRListModel.h"
+#import "HMWCRCommitteeMemberListViewController.h"
+#import "ELANetwork.h"
 
-@interface ELACommitteeManageViewController ()
+@interface ELACommitteeManageViewController ()<HWMDIDAuthorizationViewControllerDelegate>
 
 @property (nonatomic, strong) ELAPledgeView *pledgeView;
 
@@ -42,11 +50,39 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+//    [self getNetwork];
     [self creatView];
 }
 
+- (void)getNetwork
+{
+    ELAWeakSelf;
+    [ELANetwork listcrcandidates:@"all" block:^(id  _Nonnull data, NSError * _Nonnull error){
 
+        if(error)
+        {
+            if(error.code == -999)
+            {
+                //已取消
+            }
+            else
+            {
+            }
+        }
+        else
+        {
+            
+            NSDictionary *result = data[@"data"][@"result"];
+            if(result)
+            {
+                NSArray *array = result[@"crcandidatesinfo"];
+              //  [self CRC:CRC crcArray:array];
+            }
+        }
+        
+
+    }];
+}
 - (void)setBg:(UIColor*)fclolr withToColor:(UIColor*)tcolor withView:(UIView*)view{
     CAGradientLayer *gl = [CAGradientLayer layer];
     gl.frame = CGRectMake(0, 0, view.width, view.height);
@@ -59,13 +95,42 @@
 
 - (void)updateDIDButtonAction:(id)sender
 {
-    
+////    HWMCRListModel *crModel = [[HWMCRListModel alloc] init];
+////    crModel.did = _infoModel.did;
+////    crModel.location = _infoModel.location;
+////    crModel.nickname = _infoModel.didName;
+////    crModel.url =
+//     FLWallet *wallet = [ELWalletManager share].currentWallet;
+//            HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];
+//    //        vc.CRmodel = self.CRModel;
+//            vc.isUpdate=YES;
+//            vc.currentWallet = wallet;
+//
+    if(_type == 2)
+    {
+        [self updataDIDInfoEvent:sender];
+    }
 }
 
 - (void)updateInfoButtonAction:(id)sender
 {
-    if(_type == 2)
+    
+    if(_type == 1)
     {
+        FLWallet *wallet = [ELWalletManager share].currentWallet;
+        HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];
+//        vc.CRmodel = self.CRModel;
+        vc.isUpdate=YES;
+        vc.currentWallet = wallet;
+        [self.navigationController pushViewController:vc animated:YES];
+//        [self updataDIDInfoEvent:sender];
+//        FLWallet *wallet = [ELWalletManager share].currentWallet;
+//        FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
+//        vc.currentWallet = wallet;
+//        vc.CRModel = nil;
+//        //vc.lastArray=self.ActiveArray;
+//        vc.CRTypeString=@"CR";
+//        [self.navigationController pushViewController:vc animated:YES];
 //        FLWallet *wallet = [ELWalletManager share].currentWallet;
 //        NSArray *localStore  = [[NSMutableArray alloc]initWithArray: [[HMWFMDBManager sharedManagerType:CRListType] allSelectCRWithWallID:wallet.masterWalletID]];
 //
@@ -103,6 +168,43 @@
 //    }];
 }
 
+- (void)updataDIDInfoEvent:(id)sender
+{
+    FLWallet *wallet = [ELWalletManager share].currentWallet;
+    [self showLoading];
+    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:wallet.didString WithPrivatekeyString:@"" WithmastWalletID:wallet.masterWalletID needCreatDIDString:NO];
+       [self hiddLoading];
+    if (![[HWMDIDManager shareDIDManager]HasBeenOnTheChain]) {
+     
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID", nil)];
+        return;
+    }
+    
+    HWMDIDInfoModel  *readModel=[[HWMDIDManager shareDIDManager]readDIDCredential];
+    NSDictionary *dic =[[HWMDIDManager shareDIDManager]getDIDInfo];
+     NSString *endTime=dic[@"endTime"];
+    if ([endTime intValue]<[[[FLTools share]getNowTimeTimestampS] intValue])  {
+        
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"DID已失效", nil)];
+        return ;
+    }
+    readModel.endString=endTime;
+    readModel.did=dic[@"DIDString"];
+    readModel.didName=dic[@"nickName"];
+    HWMDIDAuthorizationViewController *DIDAuthorizationVC=[[HWMDIDAuthorizationViewController alloc]init];
+    DIDAuthorizationVC.readModel=readModel;
+    DIDAuthorizationVC.DIDString=wallet.didString;
+    DIDAuthorizationVC.mastWalletID=wallet.masterWalletID;
+    DIDAuthorizationVC.delegate=self;
+    DIDAuthorizationVC.MemberOfTheUpdate=YES;
+    DIDAuthorizationVC.nickNameString = readModel.didName;
+    [self.navigationController pushViewController:DIDAuthorizationVC animated:DIDAuthorizationVC];
+}
+
+-(void)needUploadJWTInfo
+{
+    [[FLTools share]showErrorInfo:@"更新成功"];
+}
 #pragma mark - view
 - (void)creatView
 {
@@ -171,12 +273,13 @@
    // [button addTarget:self action:@selector(manageButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     [self.view addSubview:button];
 
+    updateInfoButton.hidden = YES;
     if(_type == 1)
     {
         NSString *des = @"本轮竞选已经结束，很遗憾您此次未能当选。感谢您的参与，祝您好运！";
         NSString *text = ELALocalizedString(des);
         subLabel.text = text;
-        updateInfoButton.hidden = YES;
+//        updateInfoButton.hidden = YES;
         [button setTitle:ELALocalizedString(@"提取质押金") forState:(UIControlStateNormal)];
     }
     else if(_type == 2)
@@ -259,7 +362,7 @@
         make.centerX.equalTo(self.view);
         make.width.equalTo(@(250));
         make.height.equalTo(@(40));
-        make.bottom.equalTo(self.view.mas_bottom).offset(-BottomHeight - 20);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-BottomHeight - 40);
     }];
     
     [updateInfoButton mas_makeConstraints:^(MASConstraintMaker *make) {

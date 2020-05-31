@@ -292,7 +292,7 @@
             if(self.dataSoureArray.count > 0)
                 model=self.dataSoureArray[0];
         }else{
-            if(self.dataSoureArray.count > 0)
+            if(self.dataSoureArray.count > 1)
                 model=self.dataSoureArray[1];
         }
         model.thePercentageMax=[progress doubleValue];

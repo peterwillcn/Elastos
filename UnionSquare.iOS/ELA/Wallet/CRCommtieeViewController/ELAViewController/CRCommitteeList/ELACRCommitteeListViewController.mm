@@ -57,10 +57,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = @"";
     _committeeDic = [[NSMutableDictionary alloc] init];
     _committeeArray = [[NSMutableArray alloc] init];
-    HWMSecretaryGeneralAndMembersDetailsModel *model = [[HWMSecretaryGeneralAndMembersInfo shareTools] getDetailsModel];
+    
+    ELAInformationDetail *model = [ELAVotingProcessUtil shareVotingProcess].detailModel;
        if (model)
        {
            if ([model.type isEqualToString:@"SecretaryGeneral"])
@@ -75,7 +75,7 @@
        }
        
     [self creatView];
-    
+    [self getNetworkData];
 }
 - (void)getNetworkData
 {
@@ -288,7 +288,7 @@
         ELAInformationDetail *detailModel = [_committeeDic valueForKey:key];
         if(model.status && [model.status isEqualToString:@"HISTORY"])
         {
-            if([detailModel.type isEqualToString:@"other"] && ![detailModel.depositAmount isEqualToString:@""])
+            if([detailModel.type isEqualToString:@"UnelectedCouncilMember"] && ![detailModel.depositAmount isEqualToString:@""])
             {
                 buttonStr = ELALocalizedString(@"选举管理");
                 type = 1;
@@ -314,7 +314,6 @@
         dateStr = [NSString stringWithFormat:@"%@-%@", [ELAUtils getTime:model.startDate],
                    [ELAUtils getTime:model.endDate]];
     }
-    
     UIView *infoView = [[UIView alloc] init];
     infoView.backgroundColor = [UIColor clearColor];
     [cell.contentView addSubview:infoView];
@@ -494,7 +493,8 @@
     {
         model = [_infoModel.data objectAtIndex:indexPath.section];
         ELACRCommitteeViewController *vc = [[ELACRCommitteeViewController alloc] init];
-        vc.title = ELALocalizedString(@"CR委员会");
+        NSString *str = [NSString stringWithFormat:@"第%ld届%@", (long)model.index, ELALocalizedString(@"CR委员会")];
+        vc.title = str;//ELALocalizedString(@"CR委员会");
         vc.index = model.index;
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -520,9 +520,9 @@
         make.top.mas_equalTo(NavigitionBarHeight);
         make.bottom.mas_equalTo(0);
     }];
-    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-    _contentTableView.mj_header = header;
-    [_contentTableView.mj_header beginRefreshing];
+//    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+//    _contentTableView.mj_header = header;
+//    [_contentTableView.mj_header beginRefreshing];
     
     
 //    MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];

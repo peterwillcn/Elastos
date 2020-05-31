@@ -77,4 +77,10 @@
         [[FLTools share]copiedToTheClipboardWithString:self.didStringLabel.text];
     }
 }
+
+- (void)setNickNameString:(NSString *)nickNameString
+{
+    _nickNameString = nickNameString;
+    self.nickNameLabel.text = nickNameString;
+}
 @end

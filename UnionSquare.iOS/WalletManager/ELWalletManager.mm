@@ -2582,6 +2582,10 @@ static uint64_t feePerKB = 10000;
     IIdChainSubWallet *iidChainSubWallet=[self getIdChainSubWallet:[self cstringWithString:masterWalletID]:chainID];
     std::string crPublicKey,did,cid;
     try {
+        if(iidChainSubWallet == NULL)
+        {
+            return nil;
+        }
         crPublicKey = iidChainSubWallet->GetAllPublicKeys(0, 1)["PublicKeys"][0];
         did = iidChainSubWallet->GetPublicKeyDID(crPublicKey);
         cid=iidChainSubWallet->GetPublicKeyCID(crPublicKey);

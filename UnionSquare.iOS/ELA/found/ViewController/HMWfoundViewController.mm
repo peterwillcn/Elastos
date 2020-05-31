@@ -27,6 +27,7 @@
 #import "ELACommitteeManageViewController.h"
 #import "ELAPledgeView.h"
 #import "HWMDIDManager.h"
+#import "ELAVotingProcessUtil.h"
 
 @interface HMWfoundViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -66,6 +67,8 @@
     [self.table registerNib:[UINib nibWithNibName:@"HMWfoundTableCell" bundle:nil] forCellReuseIdentifier:@"HMWfoundTableCell"];
     //xhj bug #937
     self.table.hidden = YES;
+    
+    
 }
 
 #pragma mark - bug #937
@@ -213,14 +216,15 @@
             [[FLTools share]showLoadingView];
             [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadSecretaryGeneralAndMembersDetailsWithID:@"" withDIDString:did withComplete:^(id  _Nonnull data) {
                 ELAInformationDetail *detailModel = [ELAInformationDetail mj_objectWithKeyValues:data];
+                [ELAVotingProcessUtil shareVotingProcess].detailModel = detailModel;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[FLTools share]hideLoadingView];
-                    if(![self toELACommitteeManageViewController:detailModel])
-                    {
+//                    if(![self toELACommitteeManageViewController:detailModel])
+//                    {
                         ELACRCommitteeListViewController *vc = [[ELACRCommitteeListViewController alloc] init];
                         vc.title = ELALocalizedString(@"CR委员会列表");
                         [self.navigationController pushViewController:vc animated:YES];
-                    }
+//                    }
                 });
             }];
         }
@@ -228,12 +232,13 @@
         {
             NSDictionary*dic = [model mj_keyValues];
             ELAInformationDetail *detailModel = [ELAInformationDetail mj_objectWithKeyValues:dic];
-            if(![self toELACommitteeManageViewController:detailModel])
-            {
+            [ELAVotingProcessUtil shareVotingProcess].detailModel = detailModel;
+//            if(![self toELACommitteeManageViewController:detailModel])
+//            {
                 ELACRCommitteeListViewController *vc = [[ELACRCommitteeListViewController alloc] init];
                 vc.title = ELALocalizedString(@"CR委员会列表");
                 [self.navigationController pushViewController:vc animated:YES];
-            }
+//            }
         }
         
     }

@@ -408,7 +408,7 @@
 		427290532446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427290512446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.xib */; };
 		42780240235EDC350017F098 /* HWMDIDWalletListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4278023E235EDC350017F098 /* HWMDIDWalletListTableViewCell.m */; };
 		42780241235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4278023F235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib */; };
-		4279CABB24796C3100B503A4 /* ELASecretaryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4279CA5824796C3000B503A4 /* ELASecretaryDetailViewController.m */; };
+		4279CABB24796C3100B503A4 /* ELASecretaryDetailViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4279CA5824796C3000B503A4 /* ELASecretaryDetailViewController.mm */; };
 		4279CABC24796C3100B503A4 /* ELAUpdateSecretaryDidViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4279CA5924796C3000B503A4 /* ELAUpdateSecretaryDidViewController.m */; };
 		4279CABD24796C3100B503A4 /* ELATUpdateSecretaryDidTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4279CA5A24796C3000B503A4 /* ELATUpdateSecretaryDidTableViewCell.m */; };
 		4279CABE24796C3100B503A4 /* ELACRBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4279CA5D24796C3000B503A4 /* ELACRBaseViewController.m */; };
@@ -1382,7 +1382,7 @@
 		4278023E235EDC350017F098 /* HWMDIDWalletListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMDIDWalletListTableViewCell.m; sourceTree = "<group>"; };
 		4278023F235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMDIDWalletListTableViewCell.xib; sourceTree = "<group>"; };
 		4279CA5724796C3000B503A4 /* ELATUpdateSecretaryDidTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELATUpdateSecretaryDidTableViewCell.h; sourceTree = "<group>"; };
-		4279CA5824796C3000B503A4 /* ELASecretaryDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELASecretaryDetailViewController.m; sourceTree = "<group>"; };
+		4279CA5824796C3000B503A4 /* ELASecretaryDetailViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ELASecretaryDetailViewController.mm; sourceTree = "<group>"; };
 		4279CA5924796C3000B503A4 /* ELAUpdateSecretaryDidViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELAUpdateSecretaryDidViewController.m; sourceTree = "<group>"; };
 		4279CA5A24796C3000B503A4 /* ELATUpdateSecretaryDidTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELATUpdateSecretaryDidTableViewCell.m; sourceTree = "<group>"; };
 		4279CA5B24796C3000B503A4 /* ELASecretaryDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELASecretaryDetailViewController.h; sourceTree = "<group>"; };
@@ -3644,7 +3644,7 @@
 				4279CA5C24796C3000B503A4 /* ELAUpdateSecretaryDidViewController.h */,
 				4279CA5924796C3000B503A4 /* ELAUpdateSecretaryDidViewController.m */,
 				4279CA5B24796C3000B503A4 /* ELASecretaryDetailViewController.h */,
-				4279CA5824796C3000B503A4 /* ELASecretaryDetailViewController.m */,
+				4279CA5824796C3000B503A4 /* ELASecretaryDetailViewController.mm */,
 			);
 			path = SecretaryMember;
 			sourceTree = "<group>";
@@ -4941,7 +4941,7 @@
 				42B07E262421F6A600E1B920 /* HWMDIDAuthorizationTableViewCell.m in Sources */,
 				4202CA3A21F6EF2A009E5932 /* FLTradeInfoView.m in Sources */,
 				4202CA6A21F6EF2B009E5932 /* HMWaddressListTableViewCell.m in Sources */,
-				4279CABB24796C3100B503A4 /* ELASecretaryDetailViewController.m in Sources */,
+				4279CABB24796C3100B503A4 /* ELASecretaryDetailViewController.mm in Sources */,
 				425A5F3E2463ECB000C44104 /* HWMSecureAuthenticationPasswordView.m in Sources */,
 				4235804D246A80C100A62615 /* HWMCRSuggestionNetWorkManger.m in Sources */,
 				4202CAC521F6EF2B009E5932 /* HMWVotingListCollectionViewCell.m in Sources */,
@@ -5349,6 +5349,7 @@
 					"$(PROJECT_DIR)/ELA/ThirdSDK/SVG",
 				);
 				MARKETING_VERSION = "1.4 dev";
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhongcheng.gdzc;
 				PRODUCT_NAME = "ELA WalletPreNet";
@@ -5428,6 +5429,7 @@
 				);
 				MARKETING_VERSION = "1.4 dev";
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhongcheng.gdzc;
 				PRODUCT_NAME = "ELA WalletPreNet";
@@ -5552,6 +5554,7 @@
 					"$(PROJECT_DIR)/ELA/ThirdSDK/SVG",
 				);
 				MARKETING_VERSION = "1.4 dev";
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhongcheng.gdzc;
 				PRODUCT_NAME = "ELA WalletPreNet";
@@ -5678,6 +5681,7 @@
 				);
 				MARKETING_VERSION = "1.4 dev";
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhongcheng.gdzc;
 				PRODUCT_NAME = "ELA WalletPreNet";

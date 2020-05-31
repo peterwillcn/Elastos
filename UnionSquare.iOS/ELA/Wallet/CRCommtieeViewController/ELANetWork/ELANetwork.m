@@ -217,16 +217,17 @@
 
 + (NSURLSessionDataTask *)getInformation:(NSString *)did ID:(NSInteger)_id block:(void (^) (id data, NSError *error))block
 {
+    NSString *didString = [did stringByReplacingOccurrencesOfString:@"did:elastos:" withString:@""];
     NSString *host = CRProposalIP;
     NSString *path = @"/api/council/information/";
     NSString *url = @"";
     if(_id != -1)
     {
-        url = [NSString stringWithFormat:@"%@%@%@/%ld", host, path, did, (long)_id];
+        url = [NSString stringWithFormat:@"%@%@%@/%ld", host, path, didString, (long)_id];
     }
     else
     {
-        url = [NSString stringWithFormat:@"%@%@%@/", host, path, did];
+        url = [NSString stringWithFormat:@"%@%@%@/", host, path, didString];
     }
     NSURLSessionDataTask *task = [ELANetwork GET:url parameters:nil block:^(id data, NSError *error) {
         
@@ -249,7 +250,11 @@
 
 + (NSURLSessionDataTask *)listproducer:(NSString *)state moreInfo:(NSInteger)moreInfo block:(void (^) (id data, NSError *error))block
 {
-    NSString *url = @"https://unionsquare.elastos.org/api/dposnoderpc/check/listproducer";
+    
+    NSString *httpIP = [[FLTools share]http_IpFast];
+    NSString *path = @"/api/dposnoderpc/check/listproducer";
+    NSString *url = [NSString stringWithFormat:@"%@%@", httpIP, path];
+    //@"https://unionsquare.elastos.org/api/dposnoderpc/check/listproducer";
 
     NSMutableDictionary *paramsDic = [[NSMutableDictionary alloc] init];
     [paramsDic setObject:[NSNumber numberWithLong:moreInfo] forKey:@"moreInfo"];
@@ -276,7 +281,10 @@
 
 + (NSURLSessionDataTask *)listcrcandidates:(NSString *)state  block:(void (^) (id data, NSError *error))block
 {
-    NSString *url = @"https://unionsquare.elastos.org/api/dposnoderpc/check/listcrcandidates";
+    NSString *httpIP = [[FLTools share]http_IpFast];
+    NSString *path = @"/api/dposnoderpc/check/listcrcandidates";
+    NSString *url = [NSString stringWithFormat:@"%@%@", httpIP, path];
+//    NSString *url = @"https://unionsquare.elastos.org/api/dposnoderpc/check/listcrcandidates";
 
     NSMutableDictionary *paramsDic = [[NSMutableDictionary alloc] init];
     [paramsDic setObject:state  forKey:@"state"];

@@ -23,6 +23,7 @@
 
 
 #import <Foundation/Foundation.h>
+#import "ELAInformationDetail.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -31,7 +32,7 @@ typedef void(^GetImpeachmentBlock)(NSDictionary *votes, NSArray *invalidCandidat
 
 @interface ELAVotingProcessUtil : NSObject
 
-
+@property (nonatomic, strong) ELAInformationDetail *detailModel;
 @property (nonatomic, copy) GetImpeachmentBlock getImpeachmentBlock;
 @property (nonatomic, copy) NetworkStateBlock networkStateBlock;
 

@@ -279,6 +279,7 @@
     [button addTarget:self action:@selector(buttonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     [infoView addSubview:button];
     
+    button.hidden = YES;
     [infoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
@@ -327,7 +328,8 @@
     self.taggedNavView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.taggedNavView];
     
-    self.bgScroll = [[UIScrollView alloc]initWithFrame:CGRectMake(0, self.taggedNavView.bottomY, ScreenWidth, ScreenHeight - self.taggedNavView.bottomY - BottomHeight - 90)];
+//    self.bgScroll = [[UIScrollView alloc]initWithFrame:CGRectMake(0, self.taggedNavView.bottomY, ScreenWidth, ScreenHeight - self.taggedNavView.bottomY - BottomHeight - 90)];
+    self.bgScroll = [[UIScrollView alloc]initWithFrame:CGRectMake(0, self.taggedNavView.bottomY, ScreenWidth, ScreenHeight - self.taggedNavView.bottomY - BottomHeight)];
     self.bgScroll.contentSize = CGSizeMake(ScreenWidth * 2, 0);
     self.bgScroll.delegate = self;
     self.bgScroll.pagingEnabled = YES;

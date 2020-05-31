@@ -37,6 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(weak,nonatomic)id<HWMCommentPerioDetailsHeadViewDelegate> delegate;
 @property(assign,nonatomic)BOOL needMakeLine;
 
+-(void)needClose;
+
 @end
 
 NS_ASSUME_NONNULL_END

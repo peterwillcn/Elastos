@@ -103,4 +103,7 @@
     return count;
     
 }
+-(void)needClose{
+   self.showOrHiddenButton.selected=!self.showOrHiddenButton.isSelected;
+}
 @end

@@ -314,27 +314,27 @@ static FLTools *tool;
 
 -(void)showLoadingView{
     
-    dispatch_async(dispatch_get_main_queue(), ^{
+//    dispatch_async(dispatch_get_main_queue(), ^{
         [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];
         [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
         [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
         [SVProgressHUD setMinimumSize:CGSizeMake(50, 50)];
         [SVProgressHUD setMinimumDismissTimeInterval:2];
-        //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        //        [SVProgressHUD show];
-        //    });
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [SVProgressHUD show];
+            });
         
-        [SVProgressHUD show];
-    });
+//        [SVProgressHUD show];
+//    });
     
 }
 -(void)hideLoadingView{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [SVProgressHUD popActivity];
-    });
-    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-    //        [SVProgressHUD popActivity];
-    //    });
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [SVProgressHUD popActivity];
+//    });
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [SVProgressHUD popActivity];
+        });
 }
 
 -(void)showErrorInfo:(NSString*)info{

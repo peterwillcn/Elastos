@@ -523,6 +523,30 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     }
     return YES;
 }
+-(BOOL)ComparedWithThePublicKeyWithmastWalletID:(NSString*)walletID withStringInfo:(NSString *)jwtStr{
+    invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[walletID,@"ELA",@"0",@"100"] callbackId:walletID className:@"Wallet" methodName:@"getAllSubWallets"];
+    PluginResult *re=[[ELWalletManager share]getAllPublicKeys:mommand];
+    NSString *pubKey;
+    if ([re.status isEqualToNumber:@(1)]) {
+        NSArray *pubA=re.message[@"success"][@"PublicKeys"];
+        pubKey=pubA.firstObject;
+    }else{
+        return false;
+    }
+    NSArray * manySecrets = [jwtStr componentsSeparatedByString:@"."];
+       NSString *base=[NSString stringFromBase64UrlEncodedString:manySecrets[1]];
+       NSDictionary * jsonDict = [NSJSONSerialization JSONObjectWithData:[base dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+       NSString* UnSignature=[NSString stringWithFormat:@"%@.%@",[self removeSpaceAndNewline:manySecrets.firstObject],manySecrets[1]];
+       UnSignature=[UnSignature stringByReplacingOccurrencesOfString:@"//n" withString:@""];
+       bool isDID=[pubKey isEqualToString:jsonDict[@"data"][@"ownerpubkey"]];
+       if (isDID){
+           return NO;
+       }else{
+           return YES;
+           
+       }
+    return YES;
+}
 -(BOOL)GenerateLocalCredentialsWithFielNameWithFielName:(NSString*)FielName{
     NSString *jwtString= [self generateDIDCredentialString];
     return  [MyUtil saveDIDPathWithWalletID:self.mastWalletID withString:jwtString WithFielName:FielName];

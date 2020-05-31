@@ -80,7 +80,9 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 
     self.baseTable.alpha=0.f;
     if (self.whereFrome.length==0) {
-        self.isOpen=YES;
+        if (self.type==CommentPerioVETOEDType||self.type==CommentPerioREJECTEDType) {
+          self.isOpen=NO;
+        }
         [self makeView];
         [self loadPerioDetailsWithID:self.model.ID];
     }else{
@@ -300,6 +302,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         _headView.delegate=self;
         if (self.type==CommentPerioVETOEDType||self.type==CommentPerioREJECTEDType) {
             _headView.needMakeLine=YES;
+            [_headView needClose];
         }
     }
     return _headView;
@@ -344,6 +347,12 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     self.jwtString=qrString;
     
     if (type==reviewPropalQrCodeType) {//扫码投票
+        if (self.model.proposalHash.length>0) {
+            if (![self.model.proposalHash isEqualToString:data[@"data"][@"proposalHash"] ]) {
+              [[FLTools share]showErrorInfo:@"信息格式错误"];
+                return;
+            }
+        }
         //        if (![self.model.proposalHash isEqualToString:data[@"data"][@"proposalHash"] ]) {
         //            [[FLTools share]showErrorInfo:@"不是当前提案"];
         //
@@ -372,7 +381,8 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
             make.left.right.top.bottom.equalTo(mainView);
         }];
     }else{
-        [self QrCodeScanningResultsWithString:qrString withVC:self];
+        [[FLTools share]showErrorInfo:@"信息格式错误"];
+//        [self QrCodeScanningResultsWithString:qrString withVC:self];
     }
 }
 -(HWMCRProposalConfirmView *)CRProposalConfirmV{
@@ -396,8 +406,12 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 //    self.CRProposalConfirmV=nil;
     [self showLoading];
     if (self.type==CommentPerioVOTINGType) {
+//            [self.CRProposalConfirmV removeFromSuperview];
+//            self.CRProposalConfirmV=nil;
         [self reviewProposal:PWD];
     }else if (self.type==CommentPerioNOTIFICATIONType){// 投票反对
+        //            [self.CRProposalConfirmV removeFromSuperview];
+        //            self.CRProposalConfirmV=nil;
         [self voteForProposal:PWD];
         
     }
@@ -517,6 +531,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         _OpposedProgressHeadV.delegate=self;
         if (self.type==CommentPerioVETOEDType||self.type==CommentPerioREJECTEDType) {
             _OpposedProgressHeadV.needMakeLine=YES;
+            [_OpposedProgressHeadV needClose];
         }
         
         
@@ -555,6 +570,12 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         hash=self.model.proposalHash;
     }
     [self.CRProposalConfirmV postWithHash:hash withVotes:self.votesString withFee:@"0.0001 ELA"];
+    
+}
+-(void)closeInView{
+    if (self.whereFrome.length>0) {
+        [self.navigationController popViewControllerAnimated:NO];
+    }
     
 }
 -(void)reviewProposal:(NSString*)pwd{
@@ -768,9 +789,10 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     }
     
 }
+
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self hiddLoading];
+//    [self hiddLoading];
     if (self.whereFrome.length>0) {
         [self.navigationController setNavigationBarHidden:YES];
     }

@@ -111,7 +111,6 @@
 @implementation FirstViewController
 
 - (void)viewDidLoad {
-        
     [super viewDidLoad];
     [self setBackgroundImg:@""];
     self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
@@ -802,7 +801,7 @@
     if (type!= CreadDIDType&&
         type!=DIDTimePassType&&
         type!=CommonIdentityType&&
-        type!=unknowQrCodeType) {
+        type!=unknowQrCodeType&&type!=QRTimePassType&&type!= AuthenticationDID) {
         if (self.dataSoureArray.count<2) {
             UIView *mainView =[self mainWindow];
             self.openIDChainView.deleteType=openIDChainType;

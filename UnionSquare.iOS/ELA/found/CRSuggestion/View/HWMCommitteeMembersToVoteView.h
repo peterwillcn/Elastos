@@ -37,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy,nonatomic)NSArray*dataArray;
 @property(copy,nonatomic)HWMDetailsProposalModel*DetailsProposalM;
 @property (weak, nonatomic) IBOutlet UIView *makeLine;
+-(void)closHidd;
 
 @end
 

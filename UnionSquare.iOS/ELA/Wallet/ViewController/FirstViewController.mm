@@ -43,10 +43,6 @@
 #import "HMWToDeleteTheWalletPopView.h"
 #import "HWMCommentPerioDetailsViewController.h"
 
-//xxl just for test
-#import "ELAVotingProcessUtil.h"
-//
-
 @interface FirstViewController ()<FLCapitalViewDelegate,UITableViewDelegate,UITableViewDataSource,HMWaddFooterViewDelegate,HMWTheWalletListViewControllerDelegate,HMWpwdPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate, HMWAddTheCurrencyListViewControllerDelegate,HMWAddTheCurrencyListViewControllerDelegate,HWMCommentPerioDetailsViewControllerDelegate>
 {
     FLWallet *_currentWallet;
@@ -109,43 +105,13 @@
 @property(assign,nonatomic) BOOL needOpen;
 
 
-@property (nonatomic, strong) ELAVotingProcessUtil *votingProcessUtil;
-
-
 @end
-
-
-
 
 
 @implementation FirstViewController
 
 - (void)viewDidLoad {
-    
-    //xxl just for test start ....
-    _votingProcessUtil = [ELAVotingProcessUtil shareVotingProcess];
-    
-    NSMutableDictionary *resultDic = [[NSMutableDictionary alloc] init];
-    
-    [resultDic setValue:@"abc" forKey:@"a1"];
-    [resultDic setValue:@"efg" forKey:@"b1"];
-    
-    PluginResult* pluginResult = nil;
-    pluginResult = [PluginResult resultWithStatus:CommandStatus_OK messageAsDictionary:resultDic];
-    NSLog(@"xxl pluginResult is %@",pluginResult);
-    
-    _votingProcessUtil.getPluginResult = pluginResult;
-    NSLog(@"xxl getPluginResult is 0 %@",_votingProcessUtil.getPluginResult);
-    
-    
-    _votingProcessUtil.testStr = @"test";
-    NSLog(@"xxl getPluginResult is 1 %@",_votingProcessUtil.testStr);
-    
-    
-    _votingProcessUtil.resultDic = resultDic;
-    NSLog(@"xxl getPluginResult is 2 %@",_votingProcessUtil.resultDic);
-    //xxl just for test
-    
+        
     [super viewDidLoad];
     [self setBackgroundImg:@""];
     self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];

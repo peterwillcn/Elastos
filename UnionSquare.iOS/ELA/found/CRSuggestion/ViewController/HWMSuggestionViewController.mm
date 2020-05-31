@@ -56,8 +56,6 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 
 
 //xxl #943
-@property(strong,nonatomic) PluginResult *pluginResult;
-@property(strong,nonatomic) NSString *strPWD;
 @property (nonatomic, strong) ELAVotingProcessUtil *votingProcessUtil;
 
 //xxl 2.3
@@ -635,11 +633,23 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
                                                callbackId:self.currentWallet.walletID
                                                 className:@"Wallet"
                                                methodName:@"createProposalReviewTransaction"];
-    
-    _strPWD = pwd;
+
     //xxl #943
-    _pluginResult = [[ELWalletManager share] proposalReviewTransaction:mommand];
+    PluginResult *pluginResult = [[ELWalletManager share] proposalReviewTransaction:mommand];
+    _votingProcessUtil.resultDic = pluginResult.message[@"success"];
     
+    
+    //    if(pluginResult){
+    //        NSDictionary *resultDic = pluginResult.message[@"success"];
+    //
+    //        NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:pwd];
+    //        if(callDic)
+    //        {
+    //            [self updaeJWTInfoWithDic:callDic];
+    //        }else {
+    //            [self showSendSuccessOrFial:SignatureFailureType];
+    //        }
+    //    }
 
 }
 

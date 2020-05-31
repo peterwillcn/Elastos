@@ -61,12 +61,9 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 @property(copy,nonatomic)NSString*votesString;
 
 //xxl #943
-@property(strong,nonatomic) PluginResult *pluginResult;
-@property(strong,nonatomic) NSString *strPWD;
-
+@property (nonatomic, strong) ELAVotingProcessUtil *votingProcessUtil;
 @property(strong,nonatomic)NSMutableArray*VoteingProposalArray;
 
-@property (nonatomic, strong) ELAVotingProcessUtil *votingProcessUtil;
 
 @end
 
@@ -92,43 +89,40 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     
     //xxl #943
     [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(onTxPublish:) name:OnTxPublishedResult object:nil];
+                                            selector:@selector(onTxPublish:)
+                                            name:OnTxPublishedResult
+                                            object:nil];
     
 }
 
 //xxl #943
 -(void)onTxPublish:(NSNotification*)notice{
     
-    //xxl 943 createProposal
+    //xxl voteforproposal
     _votingProcessUtil = [ELAVotingProcessUtil shareVotingProcess];
     NSMutableDictionary *resultDic = _votingProcessUtil.resultDic;
     
     NSDictionary *param =notice.object;
-    NSLog(@"xxl 943 2 HWMSuggestionViewController onTxPublish %@ 1",param);
+    NSLog(@"xxl 943 2 HWMCommentPerioDetailsViewController onTxPublish %@ 1",param);
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
-        NSLog(@"xxl 943 Code = %@",param[@"Code"]);
-        NSLog(@"xxl 943 _pluginResult = %@",resultDic);
+        NSLog(@"xxl 943 resultDic = %@",resultDic);
+        NSLog(@"xxl 943 txid = %@",resultDic[@"txid"]);
         NSLog(@"xxl 943 pwd = %@",resultDic[@"pwd"]);
-        NSLog(@"xxl 943 SignTransaction = %@",resultDic[@"SignTransaction"]);
-        NSLog(@"xxl 943 calculateProposalHash = %@",resultDic[@"calculateProposalHash"]);
-        
         if(resultDic != nil){
             //[self updaeJWTInfoWithDic:txidDic];
-            NSDictionary *callDic = [self callBack:resultDic[@"calculateProposalHash"] pwd:resultDic[@"pwd"]];
+            NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:resultDic[@"pwd"]];
             if(callDic)
             {
                 [self updaeJWTInfoWithDic:callDic];
             }else {
                 
-                NSLog(@"xxl 943 2 HWMSuggestionViewController onTxPublish 2.1");
+                NSLog(@"xxl 943 2 HWMCommentPerioDetailsViewController onTxPublish 2.1");
                 [self showSendSuccessOrFial:SignatureFailureType];
             }
             
-            
         }else{
-            
-            NSLog(@"xxl 943 2 HWMSuggestionViewController onTxPublish 2.2");
+            NSLog(@"xxl 943 2 HWMCommentPerioDetailsViewController onTxPublish 2.2");
             [self showSendSuccessOrFial:SignatureFailureType];
         }
     
@@ -605,8 +599,12 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
                                                 className:@"Wallet"
                                                methodName:@"createProposalReviewTransaction"];
     
-    _strPWD = pwd;
-    _pluginResult = [[ELWalletManager share] proposalReviewTransaction:mommand];
+    
+    //xxl reviewProposal
+    PluginResult *pluginResult = [[ELWalletManager share] proposalReviewTransaction:mommand];
+    _votingProcessUtil = [ELAVotingProcessUtil shareVotingProcess];
+    _votingProcessUtil.resultDic = pluginResult.message[@"success"];
+    NSLog(@"xxl 943 resultDic %@",_votingProcessUtil.resultDic);
     
     //    if(pluginResult){
     //        NSDictionary *resultDic = pluginResult.message[@"success"];
@@ -622,14 +620,6 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 }
 
 //xxl 943
-
-
-
-
-
-
-
-
 -(void)updaeJWTInfoWithDic:(NSDictionary*)pare{
     
     
@@ -671,6 +661,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         return nil;
     }
 }
+
 -(NSString*)throuJWTStringWithplayString:(NSString*)playString{
     NSString *jwtString;
     NSDictionary * headers = @{@"alg": @"ES256",@"typ": @"JWT"};

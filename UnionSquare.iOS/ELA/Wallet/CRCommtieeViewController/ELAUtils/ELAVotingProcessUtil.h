@@ -35,8 +35,6 @@ typedef void(^GetImpeachmentBlock)(NSDictionary *votes, NSArray *invalidCandidat
 @interface ELAVotingProcessUtil : NSObject
 
 //xxl 943
-@property (nonatomic, copy) PluginResult *getPluginResult;
-@property (nonatomic, copy) NSString *testStr;
 @property (nonatomic, copy) NSMutableDictionary *resultDic;
 
 

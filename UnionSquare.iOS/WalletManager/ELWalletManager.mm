@@ -3162,7 +3162,7 @@ void *ReverseByteOrder(void *p, unsigned int len)
            resultString = [self stringWithJson:signedTx];
            
            [resultDic setValue:resultString forKey:@"SignTransaction"];
-           
+           [resultDic setValue:pwdString forKey:@"pwd"];
            
            
        } catch (const std:: exception & e ) {

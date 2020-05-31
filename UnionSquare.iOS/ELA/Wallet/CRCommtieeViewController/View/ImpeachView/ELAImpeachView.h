@@ -30,9 +30,10 @@ typedef void(^ELAImpeachViewBlock)(NSString *value);
 
 @interface ELAImpeachView : UIView
 
+@property (nonatomic, strong) NSString *amount;
 @property (nonatomic, copy) ELAImpeachViewBlock valueBlock;
 
-- (void)showAlertView;
+- (void)showAlertView:(UIView *)_view;
 
 - (void)hideAlertView;
 

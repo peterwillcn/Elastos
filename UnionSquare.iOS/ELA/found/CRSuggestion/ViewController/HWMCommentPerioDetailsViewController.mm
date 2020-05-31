@@ -39,6 +39,7 @@
 #import "HWMSecretaryGeneralAndMembersInfo.h"
 #import "HWMDIDManager.h"
 #import "JWT.h"
+#import "YYKit.h"
 #import "ELAVotingProcessUtil.h"
 
 static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";

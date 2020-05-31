@@ -34,6 +34,10 @@
 #import "HWMSecretaryGeneralAndMembersDetailsModel.h"
 #import "HWMSecretaryGeneralAndMembersInfo.h"
 #import "ELAVotingProcessUtil.h"
+#import "ELWalletManager.h"
+#import "ELAInformationDetail.h"
+#import "ELASecretaryDetailViewController.h"
+#import "MJExtension.h"
 
 @interface ELACRCommitteeListViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -41,6 +45,9 @@
 
 @property (nonatomic, strong) ELACommitteeInfoModel *infoModel;
 @property (nonatomic, strong) NSURLSessionDataTask *task;
+@property (nonatomic, strong) NSMutableDictionary *committeeDic;
+
+@property (nonatomic, strong) NSMutableArray *committeeArray;
 @end
 
 
@@ -50,26 +57,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    HWMSecretaryGeneralAndMembersDetailsModel *model = [[HWMSecretaryGeneralAndMembersInfo shareTools] getDetailsModel];
-       if (model)
-       {
-           if (model.GMtype == SECRETARIATType)
-           {
-               UIButton *rightBarButton = [[UIButton alloc]init];
-               [rightBarButton setImage:ImageNamed(@"asset_walllet_management") forState:(UIControlStateNormal)];
-               [rightBarButton addTarget:self action:@selector(rightButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-
-               UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightBarButton];
-               self.navigationItem.rightBarButtonItem = rightItem;
-           }
-       }
-       else
-       {
-           
-       }
-
-    [self creatView];
+    _committeeDic = [[NSMutableDictionary alloc] init];
+    _committeeArray = [[NSMutableArray alloc] init];
     
+       
+    [self creatView];
+    [self getNetworkData];
 }
 - (void)getNetworkData
 {
@@ -79,15 +72,18 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            [weakSelf hideLoadingView];
+            
             if(error)
             {
                 if(error.code == -999)
                 {
+                    [weakSelf hideLoadingView];
+                    [weakSelf.contentTableView.mj_header endRefreshing];
                     //已取消
                 }
                 else
                 {
+                    [weakSelf hideLoadingView];
                     [weakSelf showErrorInfo:error.localizedDescription];
                     [weakSelf.contentTableView.mj_header endRefreshing];
                 }
@@ -96,12 +92,81 @@
             {
                 ELACommitteeInfoModel *model = data;
                 weakSelf.infoModel = model;
-                [weakSelf.contentTableView reloadData];
-                [weakSelf.contentTableView.mj_header endRefreshing];
+                [weakSelf getCouncilListInfo];
+//                [weakSelf.contentTableView reloadData];
+//                [weakSelf.contentTableView.mj_header endRefreshing];
             }
         });
         
     }];
+}
+
+- (void)getCouncilListInfo
+{
+    FLWallet *wallet = [ELWalletManager share].currentWallet;
+
+    ELAWeakSelf;
+    dispatch_group_t group = dispatch_group_create();
+    for (ELACommitteeInfoModel *model in _infoModel.data)
+    {
+        dispatch_group_enter(group);
+        dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
+            [ELANetwork getInformation:wallet.didString ID:model.index block:^(id  _Nonnull data, NSError * _Nonnull error) {
+                  
+                NSInteger _index = model.index;
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                      
+                      [weakSelf hideLoadingView];
+                      if(error)
+                      {
+                          if(error.code == -999)
+                          {
+                              //已取消
+                          }
+                          else
+                          {
+                              [weakSelf showErrorInfo:error.localizedDescription];
+                          }
+                      }
+                      else
+                      {
+                          NSString *key = [NSString stringWithFormat:@"%@%ld", @"info", (long)_index];
+                          ELAInformationDetail *model = data;
+                          if(model)
+                              [weakSelf.committeeDic setValue:model forKey:key];
+                      }
+                  });
+                  dispatch_group_leave(group);
+              }];
+        });
+    }
+          
+        
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [weakSelf hideLoadingView];
+            [weakSelf.contentTableView reloadData];
+            [weakSelf.contentTableView.mj_header endRefreshing];
+            ELAInformationDetail *model = [ELAVotingProcessUtil shareVotingProcess].detailModel;
+            if (model)
+            {
+                if ([model.type isEqualToString:@"SecretaryGeneral"])
+                {
+                    UIButton *rightBarButton = [[UIButton alloc]init];
+                    [rightBarButton setImage:ImageNamed(@"cr_sg_icon") forState:(UIControlStateNormal)];
+                    [rightBarButton addTarget:self action:@selector(rightButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+                    
+                    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightBarButton];
+                    self.navigationItem.rightBarButtonItem = rightItem;
+                }
+            }
+        });
+    });
+    
 }
 #pragma mark - Action
 
@@ -120,20 +185,41 @@
 
 - (void)rightButtonAction:(id)sender
 {
+    FLWallet *wallet = [ELWalletManager share].currentWallet;
     
+    ELASecretariatModel *model = [[ELASecretariatModel alloc] init];
+    model.did = wallet.didString;
+    ELASecretaryDetailViewController *vc = [[ELASecretaryDetailViewController alloc] init];
+    vc.title = ELALocalizedString(@"秘书长详情");
+    vc.paramModel = model;
+    vc.index = -1;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)manageButtonAction:(id)sender
 {
+    UIButton *button  = sender;
+    NSString *key = [NSString stringWithFormat:@"%@%ld", @"info", button.tag];
+    ELAInformationDetail *detailModel = [_committeeDic valueForKey:key];
     
     ELACommitteeManageViewController *vc = [[ELACommitteeManageViewController alloc] init];
-    vc.title = ELALocalizedString(@"委员管理");
+    vc.infoModel = detailModel;
+    vc.type = 1;
+    vc.title = ELALocalizedString(@"选举管理");
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)electionButtonAction:(id)sender
 {
-
+    UIButton *button  = sender;
+    NSString *key = [NSString stringWithFormat:@"%@%ld", @"info", button.tag];
+    ELAInformationDetail *detailModel = [_committeeDic valueForKey:key];
+    
+    ELACommitteeManageViewController *vc = [[ELACommitteeManageViewController alloc] init];
+    vc.infoModel = detailModel;
+    vc.type = 2;
+    vc.title = ELALocalizedString(@"委员管理");
+    [self.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark -
 
@@ -194,31 +280,40 @@
     int type = 0;
     if(_infoModel.data)
     {
-        model = [_infoModel.data objectAtIndex:indexPath.section];;
         
+        model = [_infoModel.data objectAtIndex:indexPath.section];;
+
+        
+        NSString *key = [NSString stringWithFormat:@"%@%ld", @"info", model.index];
+        ELAInformationDetail *detailModel = [_committeeDic valueForKey:key];
         if(model.status && [model.status isEqualToString:@"HISTORY"])
         {
-//            model.status = ELALocalizedString(@"历史");
-            buttonStr = ELALocalizedString(@"委员管理");
-            type = 0;
+            if([detailModel.type isEqualToString:@"UnelectedCouncilMember"] && ![detailModel.depositAmount isEqualToString:@""])
+            {
+                buttonStr = ELALocalizedString(@"选举管理");
+                type = 1;
+            }
+
+                    
         }
         else if(model.status && [model.status isEqualToString:@"CURRENT"])
         {
-//            model.status = ELALocalizedString(@"当届");
-            buttonStr = ELALocalizedString(@"委员管理");
-            type = 0;
+            if([detailModel.type isEqualToString:@"CouncilMember"])
+            {
+                buttonStr = ELALocalizedString(@"委员管理");
+                type = 2;
+            }
         }
         else if(model.status && [model.status isEqualToString:@"VOTING"])
         {
 //            model.status = ELALocalizedString(@"选举中");
-            buttonStr = ELALocalizedString(@"选举管理");
-            type = 1;
+//            buttonStr = ELALocalizedString(@"选举管理");
+            type = 0;
         }
         titleStr = [NSString stringWithFormat:@"%@%ld%@(%@)", @"第", (long)model.index, @"届", model.status];
         dateStr = [NSString stringWithFormat:@"%@-%@", [ELAUtils getTime:model.startDate],
                    [ELAUtils getTime:model.endDate]];
     }
-    
     UIView *infoView = [[UIView alloc] init];
     infoView.backgroundColor = [UIColor clearColor];
     [cell.contentView addSubview:infoView];
@@ -255,13 +350,18 @@
     button.titleLabel.textColor = [UIColor whiteColor];
     button.titleLabel.font = PingFangRegular(14);
     [button setTitle:buttonStr forState:(UIControlStateNormal)];
-    if(type == 0)
+    button.tag = model.index;
+    if(type == 1)
     {
         [button addTarget:self action:@selector(manageButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
-    else
+    else if(type == 2)
     {
         [button addTarget:self action:@selector(electionButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+    }
+    else
+    {
+        button.hidden = YES;
     }
     [infoView addSubview:button];
     
@@ -393,7 +493,8 @@
     {
         model = [_infoModel.data objectAtIndex:indexPath.section];
         ELACRCommitteeViewController *vc = [[ELACRCommitteeViewController alloc] init];
-        vc.title = ELALocalizedString(@"CR委员会");
+        NSString *str = [NSString stringWithFormat:@"第%ld届%@", (long)model.index, ELALocalizedString(@"CR委员会")];
+        vc.title = str;//ELALocalizedString(@"CR委员会");
         vc.index = model.index;
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -419,9 +520,9 @@
         make.top.mas_equalTo(NavigitionBarHeight);
         make.bottom.mas_equalTo(0);
     }];
-    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-    _contentTableView.mj_header = header;
-    [_contentTableView.mj_header beginRefreshing];
+//    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+//    _contentTableView.mj_header = header;
+//    [_contentTableView.mj_header beginRefreshing];
     
     
 //    MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];

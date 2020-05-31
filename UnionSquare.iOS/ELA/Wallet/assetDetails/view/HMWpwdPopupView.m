@@ -25,6 +25,8 @@
         [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.pwdTextField withTxt:NSLocalizedString(@"请输入您的钱包密码", nil)];
         [[HMWCommView share]makeBordersWithView:self.makeSureButton];
         self.pwdTextField.secureTextEntry=YES;
+        self.pwdTextField.returnKeyType = UIReturnKeyDone;
+        self.pwdTextField.delegate = self;
         [self.makeSureButton setTitle:NSLocalizedString(@"确定", nil) forState:UIControlStateNormal];
         self.pwdTextLabel.text=NSLocalizedString(@"输入密码", nil);
     }
@@ -32,6 +34,16 @@
     
     
 }
+#pragma mark - delegate
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+
+    [textField resignFirstResponder];
+
+    return YES;
+
+}
+
 //-(void)giveUpTheInput{
 //
 //

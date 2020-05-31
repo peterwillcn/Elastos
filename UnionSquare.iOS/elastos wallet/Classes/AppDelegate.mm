@@ -38,6 +38,8 @@
 #import "MyUtil.h"
 #define KYRect  [UIScreen mainScreen].bounds
 #import <UserNotifications/UserNotifications.h>
+#import "IQKeyboardManager.h"
+
 @interface AppDelegate ()<UNUserNotificationCenterDelegate>
 
 @end
@@ -135,6 +137,12 @@
 #endif
         }
     }
+    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
+    manager.enable = YES;
+    manager.shouldResignOnTouchOutside = YES;//这个是点击空白区域键盘收缩的开关
+    manager.enableAutoToolbar = NO;
+    manager.keyboardDistanceFromTextField = 44;
+
     
     return YES;
     

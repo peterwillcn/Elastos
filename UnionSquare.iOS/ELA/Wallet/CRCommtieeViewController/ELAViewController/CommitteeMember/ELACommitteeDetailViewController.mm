@@ -68,8 +68,17 @@
 {
     
     ELAWeakSelf;
+    FLWallet *wallet = [ELWalletManager share].currentWallet;
+    NSString *balance = [[ELWalletManager share] getVoteBalance:wallet.masterWalletID];
+    NSString *str = @"";
+    if(balance && ![balance isEqualToString:@""])
+    {
+        double amount = [balance doubleValue];
+        str = [NSString stringWithFormat:@"%0.4f", amount / ELAUnitConversion];
+    }
     _impeachView = [[ELAImpeachView alloc] init];
-    [_impeachView showAlertView];
+    _impeachView.amount = str;
+    [_impeachView showAlertView:self.view];
     
     [_impeachView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(@(0));
@@ -81,40 +90,24 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
+            double douValue = [value doubleValue];
+            if(douValue <= 0)
+            {
+                [weakSelf showErrorInfo:ELALocalizedString(@"请正确输入数字")];
+                return;
+            }
             weakSelf.impeachValue = value;
             [weakSelf showPasswdView];
         });
         
     };
        
-//    _passwdView = [[ELAPasswdView alloc] init];
-//    [_passwdView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.equalTo(@(0));
-//        make.width.equalTo(@(ScreenWidth));
-//        make.height.equalTo(@(ScreenHeight));
-//        make.top.bottom.equalTo(@(0));
-//    }];
-//    _passwdView.valueBlock = ^(NSString *value){
-//
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//
-//            [weakSelf impeachment];
-//        });
-//
-//    };
-//    FLWallet *wallet = [ELWalletManager share].currentWallet;
-    
-//    invokedUrlCommand *mommand = [[invokedUrlCommand alloc] initWithArguments:@[wallet.masterWalletID]
-//                                                            callbackId:wallet.walletID className:@"Wallet" methodName:@"createProposalWithdrawTransaction"];
-//     [[ELWalletManager share] getVoteInfoList:wallet.masterWalletID];
-
-    //get
 }
 - (void)showPasswdView
 {
     ELAWeakSelf;
     _passwdView = [[ELAPasswdView alloc] init];
-    [_passwdView showAlertView];
+    [_passwdView showAlertView:self.view];
        [_passwdView mas_remakeConstraints:^(MASConstraintMaker *make) {
            make.left.right.equalTo(@(0));
            make.width.equalTo(@(ScreenWidth));
@@ -126,10 +119,31 @@
            dispatch_async(dispatch_get_main_queue(), ^{
 
                weakSelf.passwdValue = value;
-               [weakSelf impeachment];
+               BOOL result = [weakSelf toVerifyPayPassword:value];
+               if(result)
+               {
+                   [weakSelf impeachment];
+               }
+               
            });
 
        };
+  
+}
+- (BOOL)toVerifyPayPassword:(NSString *)passwd
+{
+    FLWallet *wallet = [ELWalletManager share].currentWallet;
+    invokedUrlCommand *mommand = [[invokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID, passwd] callbackId:wallet.walletID className:@"Wallet" methodName:@"exportWalletWithMnemonic"];
+    PluginResult *result = [[ELWalletManager share]VerifyPayPassword:mommand];
+    NSNumber *number = result.status;
+    
+    if( [number intValue] != CommandStatus_OK)
+    {
+        NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
+        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+        return NO;
+    }
+    return YES;
 }
 - (void)impeachment
 {
@@ -143,6 +157,11 @@
         if(networkState)//成功
         {
             [weakSelf.votingProcessUtil getImpeachmentWithNetworkState:hash amount:amount];
+        }
+        else
+        {
+            [weakSelf hiddLoading];
+            [[FLTools share]showErrorInfo:ELALocalizedString(@"发送请求失败")];
         }
     };
     _votingProcessUtil.getImpeachmentBlock = ^(NSDictionary * _Nonnull votes, NSArray * _Nonnull invalidCandidates){
@@ -166,15 +185,33 @@
                                                                     className:@"Wallet" methodName:@"CreateImpeachmentCRCTransaction"];
     PluginResult *pluginResult = [[ELWalletManager share] CreateImpeachmentCRCTransaction:mommand];
     
-    if(pluginResult)
-    {
-        NSDictionary *resultDic = pluginResult.message[@"success"];
-    }
     [_impeachView hideAlertView];
     [_passwdView hideAlertView];
     [self hiddLoading];
+    if(pluginResult)
+    {
+//        NSDictionary *resultDic = pluginResult.message[@"success"];
+        [self showSendSuccessPopuV];
+    }
+    else
+    {
+        [[FLTools share]showErrorInfo:ELALocalizedString(@"发送请求失败")];
+    }
     
-    
+}
+
+
+-(void)showSendSuccessPopuV
+{
+    HMWSendSuccessPopuView *_sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
+    UIView *manView = [self mainWindow];
+    [manView addSubview:_sendSuccessPopuV];
+    [_sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(manView);
+    }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [_sendSuccessPopuV removeFromSuperview];
+         });
 }
 #pragma mark - taggedNavViewDelegate
 - (void)haveSelectedIndex:(NSInteger)index
@@ -194,12 +231,13 @@
     [ELANetwork getInformation:_paramModel.did ID:_index block:^(id  _Nonnull data, NSError * _Nonnull error) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-            [weakSelf hideLoadingView];
+
             if(error)
             {
+                [weakSelf hideLoadingView];
                 if(error.code == -999)
                 {
+                    
                     //已取消
                 }
                 else
@@ -241,6 +279,7 @@
     [button addTarget:self action:@selector(buttonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     [infoView addSubview:button];
     
+    button.hidden = YES;
     [infoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
@@ -265,6 +304,9 @@
         make.right.equalTo(infoView);
         make.height.equalTo(@(0.5));
     }];
+    [self.view layoutIfNeeded];
+    
+    [self performSelector:@selector(hiddLoading) withObject:nil afterDelay:0.5];
 }
 
 - (void)creatTabView:(UIView *)view
@@ -286,7 +328,8 @@
     self.taggedNavView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.taggedNavView];
     
-    self.bgScroll = [[UIScrollView alloc]initWithFrame:CGRectMake(0, self.taggedNavView.bottomY, ScreenWidth, ScreenHeight - self.taggedNavView.bottomY - BottomHeight - 90)];
+//    self.bgScroll = [[UIScrollView alloc]initWithFrame:CGRectMake(0, self.taggedNavView.bottomY, ScreenWidth, ScreenHeight - self.taggedNavView.bottomY - BottomHeight - 90)];
+    self.bgScroll = [[UIScrollView alloc]initWithFrame:CGRectMake(0, self.taggedNavView.bottomY, ScreenWidth, ScreenHeight - self.taggedNavView.bottomY - BottomHeight)];
     self.bgScroll.contentSize = CGSizeMake(ScreenWidth * 2, 0);
     self.bgScroll.delegate = self;
     self.bgScroll.pagingEnabled = YES;
@@ -356,7 +399,9 @@
     [infoView addSubview:currentNumLabel];
     
     UILabel *currentNumValueLabel = [[UILabel alloc] init];
+
     currentNumValueLabel.text = [NSString stringWithFormat:@"%ld", lround(_model.impeachmentVotes)];//ELALocalizedString(@"2312 ELA");
+
     currentNumValueLabel.textColor = [UIColor whiteColor];
     currentNumValueLabel.font = PingFangRegular(12);
     currentNumValueLabel.textAlignment = NSTextAlignmentCenter;
@@ -372,7 +417,9 @@
     [infoView addSubview:impeachmentNumLabel];
     
     UILabel *impeachmentNumValueLabel = [[UILabel alloc] init];
+
     impeachmentNumValueLabel.text = [NSString stringWithFormat:@"%ld", lround(_model.impeachmentThroughVotes)];
+
     //ELALocalizedString(@"2312111 ELA");
     impeachmentNumValueLabel.textColor = [UIColor whiteColor];
     impeachmentNumValueLabel.font = PingFangRegular(12);
@@ -448,7 +495,10 @@
     
     UIImageView *headImageView = [[UIImageView alloc] init];
 //    headImageView.image = ImageNamed(@"point_information_img");
-    [headImageView sd_setImageWithURL:[NSURL URLWithString:_model.address] placeholderImage:nil];
+    if(_model.avatar && ![_model.avatar isEqualToString:@""])
+    {
+        [headImageView sd_setImageWithURL:[NSURL URLWithString:_model.avatar] placeholderImage:nil];
+    }
     headImageView.layer.masksToBounds = YES;
     headImageView.layer.cornerRadius = 25;
     headImageView.contentMode = UIViewContentModeScaleAspectFit;

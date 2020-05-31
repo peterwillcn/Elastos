@@ -25,11 +25,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define ELAUnitConversion 10000000
+#define ELAUnitConversion 100000000.0
 
 #define ELAFEE @"0.0001"
 
-#define ELAWeakSelf __weak __typeof(self) weakSelf = self
+#define ELAWeakSelf __weak __typeof(self) weakSelf = self;
 
 #define ELAIsNoEmpty(string) ((string) != nil && (![(string) isEqualToString:@""]))
 

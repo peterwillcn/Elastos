@@ -12,7 +12,7 @@
 #import "HMWFMDBManager.h"
 #import "HWMMessageCenterModel.h"
 #import "HWMDIDManager.h"
-
+#import "YYKit.h"
 static ELWalletManager *tool;
 static uint64_t feePerKB = 10000;
 
@@ -2582,6 +2582,10 @@ static uint64_t feePerKB = 10000;
     IIdChainSubWallet *iidChainSubWallet=[self getIdChainSubWallet:[self cstringWithString:masterWalletID]:chainID];
     std::string crPublicKey,did,cid;
     try {
+        if(iidChainSubWallet == NULL)
+        {
+            return nil;
+        }
         crPublicKey = iidChainSubWallet->GetAllPublicKeys(0, 1)["PublicKeys"][0];
         did = iidChainSubWallet->GetPublicKeyDID(crPublicKey);
         cid=iidChainSubWallet->GetPublicKeyCID(crPublicKey);
@@ -3619,8 +3623,9 @@ void *ReverseByteOrder(void *p, unsigned int len)
 #pragma mark - 委员弹劾
 
 //用于显示余额
-- (id)getVoteBalance:(String)walletID :(NSString *)type
+- (id)getVoteBalance:(NSString *)masterWalletID
 {
+    String walletID = [self cstringWithString:masterWalletID];
     String chainID = "ELA";//暂时不知道
     
     ISubWallet *subWallet = [self getSubWallet:walletID :chainID];
@@ -3630,10 +3635,10 @@ void *ReverseByteOrder(void *p, unsigned int len)
         NSArray *array = [resultString jsonValueDecoded];
         if(array && array.count > 0)
         {
-            NSDictionary *dic = array[0];//不知道逻辑 暂时取第一个
+            NSDictionary *dic = array[0];
             NSDictionary *balanceDic = dic[@"Summary"];
-            NSString *value = balanceDic[@"type"];//PendingBalance VotedBalance LockedBalance DepositBalance
-            if(value && [value isEqualToString:@""])
+            NSString *value = balanceDic[@"Balance"];
+            if(value && ![value isEqualToString:@""])
             {
                 return value;
             }

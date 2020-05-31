@@ -33,7 +33,7 @@ typedef void(^ELAPasswdViewBlock)(NSString *value);
 
 @property (nonatomic, copy) ELAPasswdViewBlock valueBlock;
 
-- (void)showAlertView;
+- (void)showAlertView:(UIView *)_view;
 
 - (void)hideAlertView;
 

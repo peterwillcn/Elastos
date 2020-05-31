@@ -29,8 +29,12 @@
 #import "ELAUpdateSecretaryDidViewController.h"
 #import "ELANetwork.h"
 #import "ELAInformationDetail.h"
+#import "HWMDIDManager.h"
+#import "HWMDIDAuthorizationViewController.h"
+#import "ELWalletManager.h"
+#import "ELAVotingProcessUtil.h"
 
-@interface ELASecretaryDetailViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface ELASecretaryDetailViewController ()<UITableViewDelegate, UITableViewDataSource, HWMDIDAuthorizationViewControllerDelegate>
 
 @property (nonatomic, strong) UITableView *contentTableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
@@ -45,7 +49,16 @@
     // Do any additional setup after loading the view.
     _dataArray= [[NSMutableArray alloc] init];
     
-    [self getNetworkData];
+    if(_index == -1)
+    {
+        _model = [ELAVotingProcessUtil shareVotingProcess].detailModel;
+        [self formatData:_model];
+        [self creatView];
+    }
+    else
+    {
+        [self getNetworkData];
+    }
 }
 - (void)formatData:(ELAInformationDetail *)data
 {
@@ -148,9 +161,48 @@
 
 - (void)updateDidInfoButtonAction:(id)sender
 {
-    ELAUpdateSecretaryDidViewController *vc = [[ELAUpdateSecretaryDidViewController alloc] init];
-//    vc.title = ELALocalizedString(@"")
-    [self.navigationController pushViewController:vc animated:YES];
+//    ELAUpdateSecretaryDidViewController *vc = [[ELAUpdateSecretaryDidViewController alloc] init];
+////    vc.title = ELALocalizedString(@"")
+//    [self.navigationController pushViewController:vc animated:YES];
+    [self updataDIDInfoEvent:sender];
+}
+
+- (void)updataDIDInfoEvent:(id)sender
+{
+    FLWallet *wallet = [ELWalletManager share].currentWallet;
+    [self showLoading];
+    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:wallet.didString WithPrivatekeyString:@"" WithmastWalletID:wallet.masterWalletID needCreatDIDString:NO];
+       [self hiddLoading];
+    if (![[HWMDIDManager shareDIDManager]HasBeenOnTheChain]) {
+     
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID", nil)];
+        return;
+    }
+    
+    HWMDIDInfoModel  *readModel=[[HWMDIDManager shareDIDManager]readDIDCredential];
+    NSDictionary *dic =[[HWMDIDManager shareDIDManager]getDIDInfo];
+     NSString *endTime=dic[@"endTime"];
+    if ([endTime intValue]<[[[FLTools share]getNowTimeTimestampS] intValue])  {
+        
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"DID已失效", nil)];
+        return ;
+    }
+    readModel.endString=endTime;
+    readModel.did=dic[@"DIDString"];
+    readModel.didName=dic[@"nickName"];
+    HWMDIDAuthorizationViewController *DIDAuthorizationVC=[[HWMDIDAuthorizationViewController alloc]init];
+    DIDAuthorizationVC.readModel=readModel;
+    DIDAuthorizationVC.DIDString=wallet.didString;
+    DIDAuthorizationVC.mastWalletID=wallet.masterWalletID;
+    DIDAuthorizationVC.delegate=self;
+    DIDAuthorizationVC.MemberOfTheUpdate=YES;
+    DIDAuthorizationVC.nickNameString = readModel.didName;
+    [self.navigationController pushViewController:DIDAuthorizationVC animated:DIDAuthorizationVC];
+}
+
+-(void)needUploadJWTInfo
+{
+    [[FLTools share]showErrorInfo:@"更新成功"];
 }
 
 #pragma mark - UITableViewDataSource
@@ -303,6 +355,16 @@
     [button addTarget:self action:@selector(updateDidInfoButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     [infoView addSubview:button];
     
+       
+       if(_index == -1)
+       {
+           
+       }
+       else
+       {
+           button.hidden = YES;
+       }
+    
     [infoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
@@ -336,7 +398,7 @@
     
 //    {did:igCSy8ht7yDwV5qqcRzf5SGioMX8H9RXcj,status:CURRENT,didName:SecretaryGeneral-did,startDate:1589608108,type:SecretaryGeneral
     UIImageView *headImageView = [[UIImageView alloc] init];
-    [headImageView sd_setImageWithURL:[NSURL URLWithString:_model.address] placeholderImage:nil];
+    [headImageView sd_setImageWithURL:[NSURL URLWithString:_model.avatar] placeholderImage:nil];
     headImageView.layer.masksToBounds = YES;
     headImageView.layer.cornerRadius = 25;
     headImageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -428,12 +490,25 @@
     _contentTableView.estimatedRowHeight = 44;
     [self.view addSubview:_contentTableView];
     
-    [_contentTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.view);
-        make.top.equalTo(infoView.mas_bottom);
-        make.bottom.mas_equalTo( -BottomHeight - 90);
-        
-    }];
+    
+    if(_index == -1)
+    {
+        [_contentTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.equalTo(self.view);
+            make.top.equalTo(infoView.mas_bottom);
+            make.bottom.mas_equalTo( -BottomHeight - 90);
+            
+        }];
+    }
+    else
+    {
+        [_contentTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.equalTo(self.view);
+            make.top.equalTo(infoView.mas_bottom);
+            make.bottom.mas_equalTo( -BottomHeight);
+            
+        }];
+    }
     [self.view layoutIfNeeded];
     [self creatButtonView:_contentTableView];
 }

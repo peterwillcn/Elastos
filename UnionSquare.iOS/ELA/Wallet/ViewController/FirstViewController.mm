@@ -294,9 +294,11 @@
     assetsListModel *model;
     if ([self.currentWallet.masterWalletID isEqualToString:walletID]){
         if ([chainID isEqualToString:@"ELA"]) {
-            model=self.dataSoureArray[0];
+            if(self.dataSoureArray.count > 0)
+                model=self.dataSoureArray[0];
         }else{
-            model=self.dataSoureArray[1];
+            if(self.dataSoureArray.count > 1)
+                model=self.dataSoureArray[1];
         }
         model.thePercentageMax=[progress doubleValue];
         //    model.thePercentageCurr=[currentBlockHeight floatValue];

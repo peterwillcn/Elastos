@@ -314,32 +314,42 @@ static FLTools *tool;
 
 -(void)showLoadingView{
     
-    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];
-    [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setMinimumSize:CGSizeMake(50, 50)];
-    [SVProgressHUD setMinimumDismissTimeInterval:2];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];
+        [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
+        [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+        [SVProgressHUD setMinimumSize:CGSizeMake(50, 50)];
+        [SVProgressHUD setMinimumDismissTimeInterval:2];
+        //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        //        [SVProgressHUD show];
+        //    });
+        
         [SVProgressHUD show];
     });
     
 }
 -(void)hideLoadingView{
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         [SVProgressHUD popActivity];
     });
+    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    //        [SVProgressHUD popActivity];
+    //    });
 }
 
 -(void)showErrorInfo:(NSString*)info{
-    [SVProgressHUD setBackgroundColor:RGB(100, 100, 100)];
-    [SVProgressHUD setFont:[UIFont systemFontOfSize:14]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    info=NSLocalizedString(info, nil);
-    [SVProgressHUD setAnimationDuration:4];
-    NSLog(@"错误提示信息---%@",info);
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [SVProgressHUD showImage:[UIImage imageNamed:@""] status:info];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVProgressHUD setBackgroundColor:RGB(100, 100, 100)];
+        [SVProgressHUD setFont:[UIFont systemFontOfSize:14]];
+        [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+        NSString *str = NSLocalizedString(info, nil);
+        [SVProgressHUD setAnimationDuration:4];
+        [SVProgressHUD showImage:[UIImage imageNamed:@""] status:str];
     });
+    NSLog(@"错误提示信息---%@",info);
+    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    //        [SVProgressHUD showImage:[UIImage imageNamed:@""] status:info];
+    //    });
 }
 -(CGFloat)gasETHwithGasPrice:(NSString*)gasPrice withLimetPrice:(NSString*)LimetPrice{
     if ([[FLTools share]isBlankString:LimetPrice]) {

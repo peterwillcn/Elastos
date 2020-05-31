@@ -27,7 +27,7 @@
 #import "Masonry.h"
 #import "UIView+Ext.h"
 
-@interface ELAPasswdView ()
+@interface ELAPasswdView ()<UITextFieldDelegate>
 
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) UIView *bgView;
@@ -38,7 +38,7 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 
 @property (nonatomic, strong) UIView *line;
-
+@property (nonatomic, strong) UIView *othLine;
 
 @property (nonatomic, strong) UITextField *textField;
 
@@ -81,8 +81,9 @@
     
     
     _closeButton = [[UIButton alloc] init];
-    [_closeButton setImage:ImageNamed(@"back") forState:(UIControlStateNormal)];
+    [_closeButton setImage:ImageNamed(@"window_750_back") forState:(UIControlStateNormal)];
     [_closeButton addTarget:self action:@selector(closeButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+    _closeButton.contentMode = UIViewContentModeScaleAspectFit;
     [_showView addSubview:_closeButton];
 //
     _sureButton = [[UIButton alloc] init];
@@ -113,7 +114,8 @@
     _textField.textAlignment = NSTextAlignmentLeft;// 设置文字的对其方式
     _textField.keyboardType = UIKeyboardTypeDefault;
     _textField.secureTextEntry = YES;
-//    _textField.delegate = self;
+    _textField.returnKeyType = UIReturnKeyDone;
+    _textField.delegate = self;
     [self makeTextFieldPlaceHoTextColorWithTextField:_textField withTxt:@"请输入钱包密码"];
     [_showView addSubview:_textField];
  
@@ -121,6 +123,10 @@
     _line = [[UIView alloc] init];
     _line.backgroundColor = ELARGB(149, 159, 171);//[UIColor whiteColor];
     [_showView addSubview:_line];
+    
+    _othLine = [[UIView alloc] init];
+    _othLine.backgroundColor = ELARGB(149, 159, 171);//[UIColor whiteColor];
+    [_showView addSubview:_othLine];
   
     [self setViewFrame];
 }
@@ -141,7 +147,7 @@
     [_showView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(_contentView);
         make.left.right.equalTo(@(0));
-        make.height.equalTo(@(440));
+        make.height.equalTo(@(340));
         make.bottom.equalTo(@(0));
     }];
     
@@ -160,8 +166,8 @@
     [_closeButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_showView).offset(10);
         make.centerY.equalTo(_titleLabel).offset(0);
-        make.width.equalTo(@(17));
-        make.height.equalTo(@(17));
+        make.width.equalTo(@(34));
+        make.height.equalTo(@(34));
     }];
     
     [_line mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -175,9 +181,17 @@
     [_textField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_showView).offset(15);
         make.right.equalTo(_showView).offset(-15);
-        make.top.equalTo(_line.mas_bottom).offset(25);
+        make.top.equalTo(_line.mas_bottom).offset(20);
+        make.height.equalTo(@(30));
     }];
  
+    [_othLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_showView).offset(15);
+        make.top.equalTo(_textField.mas_bottom).offset(20);
+        make.right.equalTo(_showView).offset(-15);
+        make.height.equalTo(@(0.5));
+    }];
+    
     [_sureButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(_showView);
         make.bottom.equalTo(_showView).offset(-40);
@@ -208,10 +222,10 @@
   //  _title = title;
     [self setViewFrame];
 }
-- (void)showAlertView
+- (void)showAlertView:(UIView *)_view
 {
     UIView *view = self;
-    [[UIApplication sharedApplication].keyWindow addSubview:view];
+    [_view addSubview:view];
 }
 - (void)hideAlertView
 {
@@ -239,6 +253,14 @@
         [_textField resignFirstResponder];
     }
 }
+#pragma mark - delegate
 
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+
+    [textField resignFirstResponder];
+
+    return YES;
+
+}
 @end
 

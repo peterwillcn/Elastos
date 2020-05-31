@@ -23,7 +23,7 @@
 
 
 #import "HWMCommunityProposalBaseTableViewCell.h"
-
+#import "YYKit.h"
 
 @interface HWMCommunityProposalBaseTableViewCell ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;

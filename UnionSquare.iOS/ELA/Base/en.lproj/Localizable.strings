@@ -361,8 +361,11 @@
 "CR委员会列表"="Council Member List";
 "本届"="Current Term";
 
+"第"="The";
+"届"="session";
+
 "选举中"="In Election";
-"委员管理"="Council Member Managemen";
+//"委员管理"="Council Member Managemen";
 "更新委员信息"="Update Member Profile";
 //"actmember">第%1$s届委员会"="";
 "委员详情"="Council Member Profile";
@@ -375,6 +378,7 @@
 "委员简介"="Council Member Introduction";
 //"performancerecord">履职记录(%1$s)"="";
 "暂无履职记录"="Performance Record not available";
+"履职记录"="Performance Record";
 "弹劾该委员"="Impeach Council Member";
 "弹劾票数"="Impeachment Votes";
 "弹劾"="Impeach";
@@ -394,28 +398,35 @@
 "秘书长详情"="Secretary General’s Profile";
 "现任"="Current";
 "秘书长DID"="Secretary General’s DID";
+"秘书长 DID"="Secretary General’s DID";
 "在职时间"="Term of Office";
 "微博帐号"="Weibo Account";
 "申请使用您的DID信息（包括但不限于存储、展示等用途）:"="Request to use your DID information (including but not limited to storage, display, etc.";
 //"headportrait">- 头像"="";
 //"personalprofilewithline">- 个人简介"="";
 //"wechataccountwithline">- 微信帐号"="";
-
+"CR委员会"="CR Council";
 "CR委员会列表"="CR Council Member List";
 "本届"="Current Term";
 "选举中"="In election";
 //"pastitemtitle">第%1$s届(%2$s)"="";
 //"amember">第%1$s届"="";
-"选举管理"="Election Management";
-
+//"选举管理"="Election Management";
+"选举管理"="Management";
+"委员管理"="Management";
+ 
 "更新委员信息"="Update Member Profile";
 //"actmember">第%1$s届委员会"="";
 "委员详情"="Council Member Profile";
 "弹劾进度"="Impeachment Progress";
 "当前票数"="Current Votes";
-"弹劾通过票数"="Minimum votes required for successful  impeachment";
+//"弹劾通过票数"="Minimum votes required for successful  impeachment";
+
+"弹劾通过票数"="Votes required to impeach";
+
 "委员信息"="ctinfo";
 "委员DID"="Council Member DID";
+"委员 DID"="Council Member DID";
 "委员网站"="Council Member URL";
 "委员简介"="Council Member Introduction";
 //"performancerecord">履职记录(%1$s)"="";
@@ -824,6 +835,7 @@
 "有效期至 "="Valid until ";
 "至"="to";
 "发布失败"="failed";
+
 
 
 "阶段"="failed";

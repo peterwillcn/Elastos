@@ -29,6 +29,7 @@
 #import "ELWalletManager.h"
 #import "HWMDIDManager.h"
 #import "JWTBase64Coder.h"
+#import "YYKit.h"
 
 #import "ELAVotingProcessUtil.h"
 

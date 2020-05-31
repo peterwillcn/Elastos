@@ -36,6 +36,7 @@
 #import "ELWalletManager.h"
 #import "HWMDIDManager.h"
 #import "JWTBase64Coder.h"
+#import "YYKit.h"
 #import "ELAVotingProcessUtil.h"
 static NSString *SuggestionCell=@"HWMSuggestionTableViewCell";
 static NSString *SuggestionSionCell=@"HWMSuggestionSionTableViewCell";

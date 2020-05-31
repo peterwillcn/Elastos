@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(assign,nonatomic)BOOL MemberOfTheUpdate;
 @property(strong,nonatomic)HWMDIDInfoModel *readModel;
 @property(weak,nonatomic)id<HWMDIDAuthorizationViewControllerDelegate> delegate;
+
+@property(strong,nonatomic) NSString *nickNameString;
 @end
 
 NS_ASSUME_NONNULL_END

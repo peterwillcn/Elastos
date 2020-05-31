@@ -110,6 +110,7 @@
         nameStr = model.didName;
         headStr = model.avatar;
         status = model.status;
+        
         location = model.location;
         dateStr = [NSString stringWithFormat:@"%@-%@", [ELAUtils getTime:model.startDate],
         [ELAUtils getTime:model.endDate]];
@@ -268,7 +269,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
      ELASecretaryDetailViewController *vc = [[ELASecretaryDetailViewController alloc] init];
      vc.title = ELALocalizedString(@"秘书长详情");
-    vc.paramModel = model;
+     vc.paramModel = model;
+     vc.index = _index;
      [self.navigationController pushViewController:vc animated:YES];
 }
 

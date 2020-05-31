@@ -26,7 +26,7 @@
 #import "Masonry.h"
 #import "UIView+Ext.h"
 
-@interface ELAImpeachView ()
+@interface ELAImpeachView ()<UITextFieldDelegate>
 
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) UIView *bgView;
@@ -86,6 +86,7 @@
     _closeButton = [[UIButton alloc] init];
     [_closeButton setImage:ImageNamed(@"window_54_close") forState:(UIControlStateNormal)];
     [_closeButton addTarget:self action:@selector(closeButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+    _closeButton.contentMode = UIViewContentModeScaleAspectFit;
     [_showView addSubview:_closeButton];
 //
     _sureButton = [[UIButton alloc] init];
@@ -146,9 +147,10 @@
     _textField.clearsOnBeginEditing = YES;       // 当第二次输入的时候，清空上一次的内容
     _textField.font = PingFangRegular(15);// 设置字体的大小
     _textField.textAlignment = NSTextAlignmentRight;// 设置文字的对其方式
-    _textField.keyboardType = UIKeyboardTypeDecimalPad;
+    _textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+    _textField.returnKeyType = UIReturnKeyDone;
 //    _textField.secureTextEntry = YES;
-//    _textField.delegate = self;
+    _textField.delegate = self;
     [self makeTextFieldPlaceHoTextColorWithTextField:_textField withTxt:@"XXL"];
     [_showView addSubview:_textField];
     
@@ -181,6 +183,7 @@
     [self setViewFrame];
 }
 
+
 - (void)setViewFrame
 {
 
@@ -197,7 +200,7 @@
     [_showView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(_contentView);
         make.left.right.equalTo(@(0));
-        make.height.equalTo(@(440));
+        make.height.equalTo(@(340));
         make.bottom.equalTo(@(0));
     }];
     
@@ -216,8 +219,8 @@
     [_closeButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_showView).offset(10);
         make.centerY.equalTo(_titleLabel).offset(0);
-        make.width.equalTo(@(17));
-        make.height.equalTo(@(17));
+        make.width.equalTo(@(34));
+        make.height.equalTo(@(34));
     }];
     
     [_line mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -247,6 +250,7 @@
         make.right.equalTo(_unitLabel.mas_left).offset(-5);
         make.width.equalTo(@(300));
         make.centerY.equalTo(_subTitleLabel);
+        make.height.equalTo(@(30));
     }];
     
     [_otherTextField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -283,6 +287,11 @@
     }];
 }
 
+- (void)setAmount:(NSString *)amount
+{
+    _amount = amount;
+    [self makeTextFieldPlaceHoTextColorWithTextField:_textField withTxt:_amount];
+}
 - (void)makeTextFieldPlaceHoTextColorWithTextField:(UITextField *)textf withTxt:(NSString *)pText
 {
     NSMutableAttributedString *placeholderString = [[NSMutableAttributedString alloc] initWithString:pText attributes:@{NSForegroundColorAttributeName : RGBA(255, 255, 255, 0.5)}];
@@ -304,10 +313,11 @@
   //  _title = title;
     [self setViewFrame];
 }
-- (void)showAlertView
+- (void)showAlertView:(UIView *)_view
 {
     UIView *view = self;
-    [[UIApplication sharedApplication].keyWindow addSubview:view];
+    [_view addSubview:view];
+   // [[UIApplication sharedApplication].keyWindow addSubview:view];
 }
 - (void)hideAlertView
 {
@@ -334,6 +344,16 @@
     {
         [_textField resignFirstResponder];
     }
+}
+
+#pragma mark - delegate
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+
+    [textField resignFirstResponder];
+
+    return YES;
+
 }
 
 @end

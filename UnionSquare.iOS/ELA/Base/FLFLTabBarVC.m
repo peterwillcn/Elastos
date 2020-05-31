@@ -34,7 +34,7 @@
     NSArray *Vc =@[@"FirstViewController",@"HMWfoundViewController",@"FLMyVC"];
     
     
-    NSMutableArray*vcArrary = [NSMutableArray array];
+    NSMutableArray*vcArrary = [[NSMutableArray alloc] init];
     
     for (int i=0 ;i<titles.count ; i++) {
         BaseNavigationVC*nv = [self setVC:Vc[i] setTitle:titles[i] normalImage:normalImage[i] selectIamge:selectImage[i]];

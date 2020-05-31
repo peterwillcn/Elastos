@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ELACRBaseViewController : UIViewController
 
+- (void)goBack;
 - (void)showLoadingView;
 - (void)hideLoadingView;
 - (void)showErrorInfo:(NSString *)errorString;

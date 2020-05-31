@@ -80,7 +80,9 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 
     self.baseTable.alpha=0.f;
     if (self.whereFrome.length==0) {
-        self.isOpen=YES;
+        if (self.type==CommentPerioVETOEDType||self.type==CommentPerioREJECTEDType) {
+          self.isOpen=NO;
+        }
         [self makeView];
         [self loadPerioDetailsWithID:self.model.ID];
     }else{
@@ -300,6 +302,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         _headView.delegate=self;
         if (self.type==CommentPerioVETOEDType||self.type==CommentPerioREJECTEDType) {
             _headView.needMakeLine=YES;
+            [_headView needClose];
         }
     }
     return _headView;
@@ -344,6 +347,12 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     self.jwtString=qrString;
     
     if (type==reviewPropalQrCodeType) {//扫码投票
+        if (self.model.proposalHash.length>0) {
+            if (![self.model.proposalHash isEqualToString:data[@"data"][@"proposalHash"] ]) {
+              [[FLTools share]showErrorInfo:@"信息格式错误"];
+                return;
+            }
+        }
         //        if (![self.model.proposalHash isEqualToString:data[@"data"][@"proposalHash"] ]) {
         //            [[FLTools share]showErrorInfo:@"不是当前提案"];
         //
@@ -372,7 +381,8 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
             make.left.right.top.bottom.equalTo(mainView);
         }];
     }else{
-        [self QrCodeScanningResultsWithString:qrString withVC:self];
+        [[FLTools share]showErrorInfo:@"信息格式错误"];
+//        [self QrCodeScanningResultsWithString:qrString withVC:self];
     }
 }
 -(HWMCRProposalConfirmView *)CRProposalConfirmV{

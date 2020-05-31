@@ -286,6 +286,7 @@
         
         NSString *key = [NSString stringWithFormat:@"%@%ld", @"info", model.index];
         ELAInformationDetail *detailModel = [_committeeDic valueForKey:key];
+        NSString *status = @"";
         if(model.status && [model.status isEqualToString:@"HISTORY"])
         {
             if([detailModel.type isEqualToString:@"UnelectedCouncilMember"] && ![detailModel.depositAmount isEqualToString:@""])
@@ -298,6 +299,7 @@
         }
         else if(model.status && [model.status isEqualToString:@"CURRENT"])
         {
+            status = ELALocalizedString(@"本届");
             if([detailModel.type isEqualToString:@"CouncilMember"])
             {
                 buttonStr = ELALocalizedString(@"委员管理");
@@ -306,11 +308,12 @@
         }
         else if(model.status && [model.status isEqualToString:@"VOTING"])
         {
+            status = ELALocalizedString(@"选举中");
 //            model.status = ELALocalizedString(@"选举中");
 //            buttonStr = ELALocalizedString(@"选举管理");
             type = 0;
         }
-        titleStr = [NSString stringWithFormat:@"%@%ld%@(%@)", @"第", (long)model.index, @"届", model.status];
+        titleStr = [NSString stringWithFormat:@"%@%ld%@(%@)", @"第", (long)model.index, @"届", status];
         dateStr = [NSString stringWithFormat:@"%@-%@", [ELAUtils getTime:model.startDate],
                    [ELAUtils getTime:model.endDate]];
     }
@@ -341,14 +344,18 @@
     subLabel.alpha = 0.5;
     [infoView addSubview:subLabel];
 
+    UIView *buttonBg = [[UIView alloc] init];
+    buttonBg.layer.masksToBounds = YES;
+    buttonBg.layer.cornerRadius = 5;
+    buttonBg.layer.borderColor = [UIColor whiteColor].CGColor;
+    buttonBg.layer.borderWidth = 1;
+    buttonBg.backgroundColor = ELARGB(83, 136, 136);
+    [infoView addSubview:buttonBg];
+    
     UIButton *button = [[UIButton alloc] init];
-    button.layer.masksToBounds = YES;
-    button.layer.cornerRadius = 5;
-    button.layer.borderColor = [UIColor whiteColor].CGColor;
-    button.layer.borderWidth = 1;
-    button.backgroundColor = ELARGB(83, 136, 136);
     button.titleLabel.textColor = [UIColor whiteColor];
     button.titleLabel.font = PingFangRegular(14);
+    button.backgroundColor = [UIColor clearColor];
     [button setTitle:buttonStr forState:(UIControlStateNormal)];
     button.tag = model.index;
     if(type == 1)
@@ -405,14 +412,21 @@
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(imageView);
             make.centerY.equalTo(subLabel);
-            make.width.equalTo(@(90));
+//            make.width.equalTo(@(90));
             make.height.equalTo(@(30));
+        }];
+        
+        [buttonBg mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(button.mas_right).offset(5);
+            make.centerY.equalTo(subLabel);
+            make.left.equalTo(button.mas_left).offset(-5);
+            make.height.equalTo(button);
         }];
     }
     else
     {
         bgView.alpha = 0;
-        titleLabel.text = ELALocalizedString(@"第10届");
+       // titleLabel.text = titleStr;//ELALocalizedString(@"第10届");
         
         [infoView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(cell.contentView);
@@ -449,10 +463,11 @@
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(imageView);
             make.centerY.equalTo(subLabel);
-            make.width.equalTo(@(90));
+         //   make.width.equalTo(@(90));
             make.height.equalTo(@(30));
         }];
         button.hidden = YES;
+        buttonBg.hidden = YES;
         
         UIView *_line = [[UIView alloc] init];
         _line.backgroundColor = ELARGB(149, 159, 171);//[UIColor whiteColor];

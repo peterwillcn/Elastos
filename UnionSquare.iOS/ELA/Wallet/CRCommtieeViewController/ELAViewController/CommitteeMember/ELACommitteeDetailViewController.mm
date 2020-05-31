@@ -459,23 +459,24 @@
     }];
     
     [currentNumValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(progressView.mas_right).offset(40);
+        make.centerX.equalTo(currentNumLabel);
         make.top.equalTo(progressView.mas_centerY).offset(5);
     }];
     
     [lineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(progressView);
-        make.left.equalTo(currentNumLabel.mas_right).offset(60);
+        make.left.equalTo(currentNumLabel.mas_right).offset(30);
         make.height.equalTo(@(80));
     }];
     
     [impeachmentNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(lineLabel.mas_right).offset(40);
+     //   make.right.equalTo(infoView).offset(-15);
+        make.left.equalTo(currentNumLabel.mas_right).offset(70);
         make.centerY.equalTo(currentNumLabel);
     }];
     
     [impeachmentNumValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(impeachmentNumLabel);
+//        make.left.equalTo(impeachmentNumLabel);
         make.centerX.equalTo(impeachmentNumLabel);
          make.centerY.equalTo(currentNumValueLabel);
     }];

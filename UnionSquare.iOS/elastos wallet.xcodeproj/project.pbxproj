@@ -3654,9 +3654,9 @@
 			children = (
 				4279CA6424796C3000B503A4 /* ELACommitteeDetailViewController.h */,
 				70E32D13247B3CC900120817 /* ELACommitteeDetailViewController.mm */,
-				4279CA5F24796C3000B503A4 /* ELACommitteeDutiesViewController.h */,
-				4279CA6024796C3000B503A4 /* ELACommitteeInfoViewController.m */,
 				4279CA6224796C3000B503A4 /* ELACommitteeInfoViewController.h */,
+				4279CA6024796C3000B503A4 /* ELACommitteeInfoViewController.m */,
+				4279CA5F24796C3000B503A4 /* ELACommitteeDutiesViewController.h */,
 				4279CA6324796C3000B503A4 /* ELACommitteeDutiesViewController.m */,
 			);
 			path = CommitteeMember;
@@ -4537,7 +4537,6 @@
 				LastUpgradeCheck = 1140;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = WF4LNX869V;
 						DevelopmentTeam = VNP5LMNF24;
 						LastSwiftMigration = 1130;
 						ProvisioningStyle = Automatic;
@@ -5299,7 +5298,6 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = WF4LNX869V;
 				DEVELOPMENT_TEAM = VNP5LMNF24;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5381,7 +5379,6 @@
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = WF4LNX869V;
 				DEVELOPMENT_TEAM = VNP5LMNF24;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5507,7 +5504,6 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = WF4LNX869V;
 				DEVELOPMENT_TEAM = VNP5LMNF24;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

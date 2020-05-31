@@ -30,11 +30,21 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void(^NetworkStateBlock)(BOOL networkState);
 typedef void(^GetImpeachmentBlock)(NSDictionary *votes, NSArray *invalidCandidates);
 
+//xxl 943
+//typedef void(^GetPluginResult)(PluginResult *pluginResult);
+
 @interface ELAVotingProcessUtil : NSObject
 
 @property (nonatomic, strong) ELAInformationDetail *detailModel;
+//xxl 943
+@property (nonatomic, copy) NSMutableDictionary *resultDic;
+
+
 @property (nonatomic, copy) GetImpeachmentBlock getImpeachmentBlock;
 @property (nonatomic, copy) NetworkStateBlock networkStateBlock;
+
+
+
 
 + (ELAVotingProcessUtil *)shareVotingProcess;
 - (void)getVoteInfo;

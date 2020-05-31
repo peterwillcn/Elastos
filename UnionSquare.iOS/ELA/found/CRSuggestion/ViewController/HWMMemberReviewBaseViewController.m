@@ -79,7 +79,7 @@
     return _allBillListVM;
 }
 -(void)loadDataSourceWithIndex:(NSInteger)staIndex{
-    
+    [self showLoading];
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadCRSuggestionDataSourceWithType:1 withStartIndex:staIndex withNumbers:10 withComplete:^(_Nonnull id data) {
         
         [self.allBillListVM BillListWithDataJosn:data[@"data"][@"list"] completion:^(NSArray * _Nonnull dataArray) {
@@ -89,6 +89,7 @@
                 id total=data[@"data"][@"total"];
                 self.allBaseView.allTotle=[total intValue];
             }
+            [self hiddLoading];
         }];
         
     }];

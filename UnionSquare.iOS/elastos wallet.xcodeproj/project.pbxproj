@@ -4538,6 +4538,7 @@
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = WF4LNX869V;
+						DevelopmentTeam = VNP5LMNF24;
 						LastSwiftMigration = 1130;
 						ProvisioningStyle = Automatic;
 					};
@@ -5299,6 +5300,7 @@
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = WF4LNX869V;
+				DEVELOPMENT_TEAM = VNP5LMNF24;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5380,6 +5382,7 @@
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = WF4LNX869V;
+				DEVELOPMENT_TEAM = VNP5LMNF24;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5388,6 +5391,7 @@
 					"$(PROJECT_DIR)/ELA/ThirdSDK/YYKit/Vendor",
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
+				"GCC_OPTIMIZATION_LEVEL[arch=*]" = s;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "elastos wallet/elastos wallet-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -5504,6 +5508,7 @@
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = WF4LNX869V;
+				DEVELOPMENT_TEAM = VNP5LMNF24;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

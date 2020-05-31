@@ -73,6 +73,9 @@
     UIBarButtonItem *ClickMorenButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"cr_search_icon"] style:UIBarButtonItemStyleDone target:self action:@selector(searchVC)];
     self.navigationItem.rightBarButtonItem=ClickMorenButton;
     [self.scBGView addSubview:self.CommunityProposalSV];
+    [self.CommunityProposalSV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(self.scBGView);
+    }];
     self.baseScroView.showsVerticalScrollIndicator = NO;
     self.baseScroView.showsHorizontalScrollIndicator = NO;
     self.baseScroView.pagingEnabled = YES;
@@ -167,9 +170,10 @@
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO];
 }
+
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [self hiddLoading];
+//    [self hiddLoading];
 }
 -(void)setDetailsModel:(HWMSecretaryGeneralAndMembersDetailsModel *)detailsModel{
     _detailsModel=detailsModel;

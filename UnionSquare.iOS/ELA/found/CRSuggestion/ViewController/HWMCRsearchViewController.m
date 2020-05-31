@@ -57,6 +57,7 @@
     [self.allBaseView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.bottom.right.equalTo(self.searchResultsView);
     }];
+    [self.searchButton setTitle:NSLocalizedString(@"搜索", nil) forState:UIControlStateNormal];
     self.searchResultsView.alpha=0.f;
     
 }
@@ -94,42 +95,42 @@
     if (!_allBaseView) {
         _allBaseView=[[HWMCommunityProposalBaseView alloc]init];
         _allBaseView.delegate=self;
-
+        
     }
     return _allBaseView;
 }
 -(void)didShowDetailsWithIndex:(NSInteger)index{
-     HWMBillListModel *model=self.allBillListAarray[index];
-      if ([model.status isEqualToString:NSLocalizedString(@"委员评议",nil)]) {
-    HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
-          CommentPerioDetailsVC.model=model;
-          CommentPerioDetailsVC.type=CommentPerioVOTINGType;
-    [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
-      }else if ([model.status isEqualToString:NSLocalizedString(@"公示中",nil)]){
-          
-          HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
-          CommentPerioDetailsVC.model=model;
-          CommentPerioDetailsVC.type=CommentPerioNOTIFICATIONType;
-          [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
-      }else if ([model.status isEqualToString:NSLocalizedString(@"执行中",nil)]){
-          HWMCollectionProposalPerformViewController *CollectionProposalPerformVC=[[HWMCollectionProposalPerformViewController alloc]init];
-          CollectionProposalPerformVC.model=model;
-          [self.navigationController pushViewController:CollectionProposalPerformVC animated:YES];
-      }else if ([model.status isEqualToString:NSLocalizedString(@"已完成",nil)]){
-          HWMCollectionProposalPerformViewController *CollectionProposalPerformVC=[[HWMCollectionProposalPerformViewController alloc]init];
-          CollectionProposalPerformVC.model=model;
-          [self.navigationController pushViewController:CollectionProposalPerformVC animated:YES];
-      }else if ([model.status isEqualToString:NSLocalizedString(@"未通过",nil)]){
-          HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
-          CommentPerioDetailsVC.model=model;
-          CommentPerioDetailsVC.type=CommentPerioREJECTEDType;
-          [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
-      }else if ([model.status isEqualToString:NSLocalizedString(@"已否决",nil)]){
-          HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
-          CommentPerioDetailsVC.model=model;
-          CommentPerioDetailsVC.type=CommentPerioVETOEDType;
-          [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
-      }
+    HWMBillListModel *model=self.allBillListAarray[index];
+    if ([model.status isEqualToString:NSLocalizedString(@"委员评议",nil)]) {
+        HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
+        CommentPerioDetailsVC.model=model;
+        CommentPerioDetailsVC.type=CommentPerioVOTINGType;
+        [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
+    }else if ([model.status isEqualToString:NSLocalizedString(@"公示中",nil)]){
+        
+        HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
+        CommentPerioDetailsVC.model=model;
+        CommentPerioDetailsVC.type=CommentPerioNOTIFICATIONType;
+        [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
+    }else if ([model.status isEqualToString:NSLocalizedString(@"执行中",nil)]){
+        HWMCollectionProposalPerformViewController *CollectionProposalPerformVC=[[HWMCollectionProposalPerformViewController alloc]init];
+        CollectionProposalPerformVC.model=model;
+        [self.navigationController pushViewController:CollectionProposalPerformVC animated:YES];
+    }else if ([model.status isEqualToString:NSLocalizedString(@"已完成",nil)]){
+        HWMCollectionProposalPerformViewController *CollectionProposalPerformVC=[[HWMCollectionProposalPerformViewController alloc]init];
+        CollectionProposalPerformVC.model=model;
+        [self.navigationController pushViewController:CollectionProposalPerformVC animated:YES];
+    }else if ([model.status isEqualToString:NSLocalizedString(@"未通过",nil)]){
+        HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
+        CommentPerioDetailsVC.model=model;
+        CommentPerioDetailsVC.type=CommentPerioREJECTEDType;
+        [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
+    }else if ([model.status isEqualToString:NSLocalizedString(@"已否决",nil)]){
+        HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
+        CommentPerioDetailsVC.model=model;
+        CommentPerioDetailsVC.type=CommentPerioVETOEDType;
+        [self.navigationController pushViewController:CommentPerioDetailsVC animated:YES];
+    }
 }
 -(void)needUpdateDataSource{
     [self.allBillListAarray removeAllObjects];
@@ -154,23 +155,28 @@
     if (self.searchTextField.text.length==0) {
         return;
     }
+    [self showLoading];
     self.allBillListVM.searchString=self.searchTextField.text;
     self.allBaseView.searchString=self.searchTextField.text;
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]searchReloadCRSuggestionDataSourceWithType:0 withStartIndex:staIndex withNumbers:10 withSearchContent:self.searchTextField.text withComplete:^(id  _Nonnull data) {
         [self.allBillListVM BillListWithDataJosn:data[@"data"][@"list"]  completion:^(NSArray * _Nonnull dataArray) {
             if (dataArray.count>0) {
                 [self.allBillListAarray addObjectsFromArray:dataArray];
-                self.allBaseView.dataSourceArray=self.allBillListAarray;
-                id total=data[@"data"][@"total"];
-                self.allBaseView.allTotle=[total intValue];
+                //                self.allBaseView.dataSourceArray=self.allBillListAarray;
             }
             if (self.allBillListAarray.count>0) {
                 self.searchResultsView.alpha=1.f;
                 self.NoSearchLbael.alpha=0.f;
+                self.searchResultsView.userInteractionEnabled=YES;
             }else{
-                self.searchResultsView.alpha=0.f;
+                self.searchResultsView.alpha=1.f;
+                self.searchResultsView.userInteractionEnabled=NO;
                 self.NoSearchLbael.alpha=1.f;
             }
+            self.allBaseView.dataSourceArray=self.allBillListAarray;
+            id total=data[@"data"][@"total"];
+            self.allBaseView.allTotle=[total intValue];
+            [self hiddLoading];
         }];
         
     }];

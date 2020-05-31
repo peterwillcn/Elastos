@@ -177,6 +177,10 @@
     }
     else if(indexPath.row==3){
         cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_crcvote", nil)];
+    }else if(indexPath.row==0){
+        
+
+        cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_vote", nil)];
     }
     
     

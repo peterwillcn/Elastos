@@ -40,6 +40,8 @@
 #import "HWMDIDManager.h"
 #import "JWT.h"
 #import "YYKit.h"
+#import "ELAVotingProcessUtil.h"
+
 static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 @interface HWMCommentPerioDetailsViewController ()<UITableViewDelegate,UITableViewDataSource,HWMCRProposalConfirmViewDelgate,HWMCommentPerioDetailsHeadViewDelegate,HWMCommitteeMembersToVoteViewDelegate,HWMOpposedProgressHeadViewDelegate,VotesPopupViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *buttonBGView;
@@ -60,10 +62,9 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 @property(copy,nonatomic)NSString*votesString;
 
 //xxl #943
-@property(strong,nonatomic) PluginResult *pluginResult;
-@property(strong,nonatomic) NSString *strPWD;
-
+@property (nonatomic, strong) ELAVotingProcessUtil *votingProcessUtil;
 @property(strong,nonatomic)NSMutableArray*VoteingProposalArray;
+
 
 @end
 
@@ -76,7 +77,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"社区提案", nil);//委员评议
     [[HMWCommView share]makeBordersWithView:self.sweepYardsToVoteButton];
-    
+
     self.baseTable.alpha=0.f;
     if (self.whereFrome.length==0) {
         self.isOpen=YES;
@@ -89,32 +90,43 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     
     //xxl #943
     [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(onTxPublish:) name:OnTxPublishedResult object:nil];
+                                            selector:@selector(onTxPublish:)
+                                            name:OnTxPublishedResult
+                                            object:nil];
     
 }
 
 //xxl #943
 -(void)onTxPublish:(NSNotification*)notice{
     
+    //xxl voteforproposal
+    _votingProcessUtil = [ELAVotingProcessUtil shareVotingProcess];
+    NSMutableDictionary *resultDic = _votingProcessUtil.resultDic;
+    
     NSDictionary *param =notice.object;
-    NSLog(@"xxl 943 2 onTxPublish %@ 1",param);
+    NSLog(@"xxl 943 2 HWMCommentPerioDetailsViewController onTxPublish %@ 1",param);
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
-        if(_pluginResult){
-            NSDictionary *resultDic = _pluginResult.message[@"success"];
+        NSLog(@"xxl 943 resultDic = %@",resultDic);
+        NSLog(@"xxl 943 txid = %@",resultDic[@"txid"]);
+        NSLog(@"xxl 943 pwd = %@",resultDic[@"pwd"]);
+        if(resultDic != nil){
             //[self updaeJWTInfoWithDic:txidDic];
-            NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:_strPWD];
-            
+            NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:resultDic[@"pwd"]];
             if(callDic)
             {
-                NSLog(@"xxl 943 2 onTxPublish post OK");
                 [self updaeJWTInfoWithDic:callDic];
             }else {
+                
+                NSLog(@"xxl 943 2 HWMCommentPerioDetailsViewController onTxPublish 2.1");
                 [self showSendSuccessOrFial:SignatureFailureType];
             }
+            
         }else{
+            NSLog(@"xxl 943 2 HWMCommentPerioDetailsViewController onTxPublish 2.2");
             [self showSendSuccessOrFial:SignatureFailureType];
         }
+    
     });
     
 }
@@ -134,12 +146,15 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
             [self.baseTable reloadData];
             if(self.type==CommentPerioNOTIFICATIONType){
                 self.OpposedProgressHeadV.DetailsProposalM=self.DetailsModel;
+                [self hiddLoading];
             }
             self.foodView.DetailsProposalM=self.DetailsModel;
             if(self.type==CommentPerioNOTIFICATIONType||self.type==CommentPerioVOTINGType){
                 [self updateMemberIdentity];
+                //                 [self hiddLoading];
             }else{
                 self.baseTable.alpha=1.f;
+                [self hiddLoading];
             }
         }];
     }];
@@ -149,7 +164,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     self.baseTable.dataSource=self;
     self.baseTable.backgroundColor=[UIColor clearColor];
     [self.baseTable registerNib:[UINib nibWithNibName:BaseTableViewCell bundle:nil] forCellReuseIdentifier:BaseTableViewCell];
-    self.baseTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    //    self.baseTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     if (self.type==CommentPerioVOTINGType) {
         [self updateMemberIdentity];
@@ -226,6 +241,9 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 -(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     return [[UIView alloc]initWithFrame:CGRectZero];
 }
+-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    return [[UIView alloc]initWithFrame:CGRectZero];
+}
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if ((self.isOpen==YES&&self.type==CommentPerioREJECTEDType)||(self.isOpen==YES&&self.type==CommentPerioVETOEDType)) {
         if (indexPath.section==0) {
@@ -234,6 +252,9 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     }
     if (indexPath.section==3||self.isOpen==NO) {
         return self.DetailsModel.abstractCell+50;
+    }
+    if ([self.cellInfoArray[indexPath.section] isEqualToString:NSLocalizedString(@"提案哈希", nil)]) {
+        return 90;
     }
     return 70;
 }
@@ -268,12 +289,18 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         default:
             break;
     }
+    if ([self.cellInfoArray[indexPath.section] isEqualToString:NSLocalizedString(@"提案哈希", nil)]) {
+        cell.constLabel.text=self.model.proposalHash;
+    }
     return cell;
 }
 -(HWMCommentPerioDetailsHeadView *)headView{
     if (!_headView) {
         _headView =[[HWMCommentPerioDetailsHeadView alloc]init];
         _headView.delegate=self;
+        if (self.type==CommentPerioVETOEDType||self.type==CommentPerioREJECTEDType) {
+            _headView.needMakeLine=YES;
+        }
     }
     return _headView;
 }
@@ -365,8 +392,9 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     
 }
 -(void)CRProposalConfirmWithPWD:(NSString*_Nonnull)PWD{
-    [self.CRProposalConfirmV removeFromSuperview];
-    self.CRProposalConfirmV=nil;
+//    [self.CRProposalConfirmV removeFromSuperview];
+//    self.CRProposalConfirmV=nil;
+    [self showLoading];
     if (self.type==CommentPerioVOTINGType) {
         [self reviewProposal:PWD];
     }else if (self.type==CommentPerioNOTIFICATIONType){// 投票反对
@@ -427,11 +455,12 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 }
 -(void)setVoteforProposalInfo{
     
-    
+    [self showLoading];
     [self.VoteingProposalArray removeAllObjects];
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]searchReloadCRSuggestionDataSourceWithType:NOTIFICATIONType withStartIndex:0 withNumbers:100 withSearchContent:@"" withComplete:^(id  _Nonnull data) {
         NSLog(@"data is %@",data[@"data"][@"list"]);
         self.VoteingProposalArray = data[@"data"][@"list"];
+        [self hiddLoading];
         
     }];
     
@@ -486,6 +515,10 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     if (!_OpposedProgressHeadV) {
         _OpposedProgressHeadV =[[HWMOpposedProgressHeadView alloc]init];
         _OpposedProgressHeadV.delegate=self;
+        if (self.type==CommentPerioVETOEDType||self.type==CommentPerioREJECTEDType) {
+            _OpposedProgressHeadV.needMakeLine=YES;
+        }
+        
         
     }
     return _OpposedProgressHeadV;
@@ -532,6 +565,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     NSNumber *number = result.status;
     
     if( [number intValue] != 1){
+        
         NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
         [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
         return;
@@ -566,8 +600,12 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
                                                 className:@"Wallet"
                                                methodName:@"createProposalReviewTransaction"];
     
-    _strPWD = pwd;
-    _pluginResult = [[ELWalletManager share] proposalReviewTransaction:mommand];
+    
+    //xxl reviewProposal
+    PluginResult *pluginResult = [[ELWalletManager share] proposalReviewTransaction:mommand];
+    _votingProcessUtil = [ELAVotingProcessUtil shareVotingProcess];
+    _votingProcessUtil.resultDic = pluginResult.message[@"success"];
+    NSLog(@"xxl 943 resultDic %@",_votingProcessUtil.resultDic);
     
     //    if(pluginResult){
     //        NSDictionary *resultDic = pluginResult.message[@"success"];
@@ -583,14 +621,6 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 }
 
 //xxl 943
-
-
-
-
-
-
-
-
 -(void)updaeJWTInfoWithDic:(NSDictionary*)pare{
     
     
@@ -632,6 +662,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         return nil;
     }
 }
+
 -(NSString*)throuJWTStringWithplayString:(NSString*)playString{
     NSString *jwtString;
     NSDictionary * headers = @{@"alg": @"ES256",@"typ": @"JWT"};
@@ -664,12 +695,12 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     [self.CRProposalConfirmV removeFromSuperview];
     self.CRProposalConfirmV=nil;
     self.sendSuccessPopuV.type=type;
-   [self.view addSubview:self.sendSuccessPopuV];
+    [self.view addSubview:self.sendSuccessPopuV];
     [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(self.view);
     }];
     
-     
+    
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.sendSuccessPopuV removeAllSubviews];
@@ -682,24 +713,29 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     self.SecretaryGeneralAndModel=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
     HWMSecretaryGeneralAndMembersDetailsModel* model=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
     if (model) {
-        [self hiddLoading];
         if (model.GMtype== COUNCILType||model.GMtype==SECRETARIATType) {
-            if (self.DetailsModel) {
+            if (self.DetailsModel.ID.length>0) {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     self.baseTable.alpha=1.f;
                     self.buttonBGView.alpha=1.f;
                     [self hiddLoading];
                 });
-                
             }
             
-            
+        }else{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                if (self.DetailsModel.ID.length>0) {
+                    self.baseTable.alpha=1.f;
+                     self.BGButtonHeight.constant=0.f;
+                    [self hiddLoading];}
+            });
         }
+        
     } else {
         [[HWMSecretaryGeneralAndMembersInfo shareTools] loadDataSourceWithLoading:NO complete:^(HWMSecretaryGeneralAndMembersDetailsModel *model) {
             
             if (model.GMtype== COUNCILType||model.GMtype==SECRETARIATType) {
-                if (self.DetailsModel) {
+                if (self.DetailsModel.ID.length>0) {
                     
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                         self.baseTable.alpha=1.f;
@@ -709,9 +745,17 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
                 }
                 
                 
+            }else{
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    if (self.DetailsModel.ID.length>0) {
+                        self.baseTable.alpha=1.f;
+                         self.BGButtonHeight.constant=0.f;
+                        [self hiddLoading];}
+                });
             }
         }];
     }
+    
 }
 - (void)setWhereFrome:(NSString *)whereFrome{
     self.baseTable.alpha=0.f;
@@ -726,6 +770,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self hiddLoading];
     if (self.whereFrome.length>0) {
         [self.navigationController setNavigationBarHidden:YES];
     }
@@ -737,4 +782,5 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     }
     return _sendSuccessPopuV;
 }
+
 @end

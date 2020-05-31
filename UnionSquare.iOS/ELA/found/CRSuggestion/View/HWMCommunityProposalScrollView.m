@@ -51,7 +51,9 @@
         self.buttonScrollV.delegate=self;
         self.buttonScrollV.userInteractionEnabled=YES;
         self.buttonScrollV.showsHorizontalScrollIndicator = NO;
+        self.buttonScrollV.alwaysBounceVertical=NO;
         [self makeUI];
+        
     }
     return self;
 }
@@ -63,7 +65,7 @@
     [self allButtonWithTag:14 withTitle:NSLocalizedString(@"已完成", nil)];
     [self allButtonWithTag:15 withTitle:NSLocalizedString(@"已废止", nil)];
     self.buttonScrollV.frame=CGRectMake(0, 0, AppWidth, 60);
-    self.buttonScrollV.contentSize = CGSizeMake(self.scConWidth,60);
+    self.buttonScrollV.contentSize = CGSizeMake(self.scConWidth,0);
     [self StateSelectedWithButton:self.allButton withNormalView:self.allView];
 }
 -(IBAction)buttonChangeEvent:(id)sender {

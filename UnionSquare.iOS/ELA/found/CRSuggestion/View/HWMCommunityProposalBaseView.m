@@ -45,6 +45,7 @@ UINib *_basenib;
         [self makeView];
         self.allTotle=1;
         self.index=1;
+        self.placeBGvew.alpha=0.f;
         self.textLable.text=NSLocalizedString(@"暂无提案", nil);
     }
     return self;
@@ -106,7 +107,10 @@ UINib *_basenib;
 -(void)setDataSourceArray:(NSMutableArray *)dataSourceArray{
     _dataSourceArray=dataSourceArray;
     if (dataSourceArray.count==0) {
-        self.placeBGvew.alpha=1.f;
+        if (self.searchString.length==0) {
+           self.placeBGvew.alpha=1.f;
+        }
+       
     }else{
         self.placeBGvew.alpha=0.f;
     }

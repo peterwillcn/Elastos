@@ -156,6 +156,9 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     if (indexPath.section==3||self.isOpen==NO) {
         return self.DetailsModel.abstractCell+50;
     }
+    if ([self.cellInfoArray[indexPath.section] isEqualToString:NSLocalizedString(@"提案哈希", nil)]) {
+           return 90;
+       }
     return 70;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

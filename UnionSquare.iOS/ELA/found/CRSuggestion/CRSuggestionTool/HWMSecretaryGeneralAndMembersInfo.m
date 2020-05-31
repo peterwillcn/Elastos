@@ -42,7 +42,7 @@ static HWMSecretaryGeneralAndMembersInfo *_instance;
     dispatch_once(&onceToken, ^{
         if (_instance == nil) {
             _instance = [super allocWithZone:zone];
-        
+            
         }
     });
     return _instance;
@@ -64,6 +64,7 @@ static HWMSecretaryGeneralAndMembersInfo *_instance;
 }
 -(void)loadDataSourceWithLoading:(BOOL)isLoading complete:(DetailsModelBlock)com{
     self.detailsModel=nil;
+    self.currentWallet=nil;
     if (isLoading) {
         [[FLTools share]showLoadingView];
     }
@@ -75,9 +76,9 @@ static HWMSecretaryGeneralAndMembersInfo *_instance;
         NSLog(@"委员信息获取成功---%@",data);
         [self parsingModelWithData:data[@"data"] complete:^(HWMSecretaryGeneralAndMembersDetailsModel *model) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                com(model);
                 if (isLoading) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        com(model);
                         [[FLTools share] hideLoadingView];
                         
                     });
@@ -118,7 +119,7 @@ static HWMSecretaryGeneralAndMembersInfo *_instance;
     return nil;
 }
 -(NSString*)getDIDString{
-   return [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
+    return [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
 }
 -(NSString*)getmasterWalletID{
     return self.currentWallet.masterWalletID;

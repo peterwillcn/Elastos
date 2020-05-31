@@ -473,7 +473,7 @@
 //xxl #943
 -(void)viewWillDisappear:(BOOL)animated{
     
-   // [[NSNotificationCenter defaultCenter] removeObserver:OnTxPublishedResult];
+    [[NSNotificationCenter defaultCenter] removeObserver:OnTxPublishedResult];
 }
 
 

@@ -51,36 +51,46 @@ static HWMQrCodeSignatureManager * _instance;
     return _instance;
 }
 -(void)QrCodeDataWithData:(NSString*)data withDidString:(NSString*)didString withmastWalletID:(NSString*)masterWalletID withComplete:(QrCodeSignatureTypeBlock)Complete{
+    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:didString WithPrivatekeyString:@"" WithmastWalletID:masterWalletID needCreatDIDString:NO];
     QrCodeSignatureType type=[self QrCodeStringtype:data];
+
     
+    //xxl fix the bug for suggestionQrCodeType
     if (type ==credaccessQrCodeType||type==suggestionQrCodeType||type==billQrCodeType||type==reviewPropalQrCodeType
         || type == withdrawalsType || type == Updatemilestone || type == Reviewmilestone) {
-        
+        if ([[HWMDIDManager shareDIDManager] qrTimeWithString:data]) {
+            Complete(QRTimePassType,data) ;
+            return  ;
+        }
+        if (type==reviewPropalQrCodeType) {
+            BOOL isDID=[[HWMDIDManager shareDIDManager]AuthenticationWithString:data];
+            if (isDID) {
+                Complete(AuthenticationDID,data);
+                return;
+            }
+        }
         HWMSecretaryGeneralAndMembersDetailsModel* model=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
         if (model) {
             if (model.GMtype!= COUNCILType&&model.GMtype!=SECRETARIATType) {
                 Complete(CommonIdentityType,data) ;
                 return  ;
-                
             }
         }else {
             [[HWMSecretaryGeneralAndMembersInfo shareTools] loadDataSourceWithLoading:YES complete:^(HWMSecretaryGeneralAndMembersDetailsModel *model) {
                 if (model.GMtype!= COUNCILType&&model.GMtype!=SECRETARIATType) {
                     Complete(CommonIdentityType,data) ;
                     return  ;
-                    
                 }
             }];
         }
-        
-        
         if ([self detectionDidInfowithDidString:didString withmastWalletID:masterWalletID]!=ConformIdentityType) {
-            
             type=[self detectionDidInfowithDidString:didString withmastWalletID:masterWalletID];
-         Complete(type,data) ;
+            Complete(type,data) ;
             return  ;
         }
     }
+    
+    
     id QrCodeData=[self ParsingQrCodeDataWithQrCodeType:type withQrCodeString:data];
     if (QrCodeData) {
         Complete(type,QrCodeData);
@@ -88,13 +98,15 @@ static HWMQrCodeSignatureManager * _instance;
     
 }
 -(QrCodeSignatureType)detectionDidInfowithDidString:(NSString*)didString withmastWalletID:(NSString*)masterWalletID{
-    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:didString WithPrivatekeyString:@"" WithmastWalletID:masterWalletID needCreatDIDString:YES];
-//    needCreadDIDType,
-//    DIDTimePassType,
-//    CommonIdentityType
+    
+    
+    [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:didString WithPrivatekeyString:@"" WithmastWalletID:masterWalletID needCreatDIDString:NO];
+    //    needCreadDIDType,
+    //    DIDTimePassType,
+    //    CommonIdentityType
     if (![[HWMDIDManager shareDIDManager]HasBeenOnTheChain]) {
         [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID", nil)];
-          return  CreadDIDType;
+        return  CreadDIDType;
     }
     if (![[HWMDIDManager shareDIDManager]CheckDIDwhetherExpiredWithDIDString:didString WithmastWalletID:masterWalletID]) {
         return  DIDTimePassType;
@@ -129,7 +141,7 @@ static HWMQrCodeSignatureManager * _instance;
             return voteforProposalQrCodeType;
         }
         
-    }else if ([QRCodeString containsString:@"elastos://credaccess/"]){
+	    }else if ([QRCodeString containsString:@"elastos://credaccess/"]){
         return billQrCodeType;
     }else{
         return unknowQrCodeType;
@@ -145,7 +157,6 @@ static HWMQrCodeSignatureManager * _instance;
             return [[HWMDIDManager shareDIDManager]jwtDecodeWithJwtStringInfo:QRCodeString];
             break;
         case suggestionQrCodeType:
-            
         case reviewPropalQrCodeType:    //xxl 2.2
         case voteforProposalQrCodeType: //xxl 2.3
             QRCodeString=[QRCodeString stringByReplacingOccurrencesOfString:@"elastos://crproposal/" withString:@""];
@@ -183,5 +194,6 @@ static HWMQrCodeSignatureManager * _instance;
     
     return NO;
 }
+
 
 @end

@@ -60,19 +60,6 @@
     _committeeDic = [[NSMutableDictionary alloc] init];
     _committeeArray = [[NSMutableArray alloc] init];
     
-    ELAInformationDetail *model = [ELAVotingProcessUtil shareVotingProcess].detailModel;
-       if (model)
-       {
-           if ([model.type isEqualToString:@"SecretaryGeneral"])
-           {
-               UIButton *rightBarButton = [[UIButton alloc]init];
-               [rightBarButton setImage:ImageNamed(@"vote_switch_list") forState:(UIControlStateNormal)];
-               [rightBarButton addTarget:self action:@selector(rightButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-               
-               UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightBarButton];
-               self.navigationItem.rightBarButtonItem = rightItem;
-           }
-       }
        
     [self creatView];
     [self getNetworkData];
@@ -164,6 +151,19 @@
             [weakSelf hideLoadingView];
             [weakSelf.contentTableView reloadData];
             [weakSelf.contentTableView.mj_header endRefreshing];
+            ELAInformationDetail *model = [ELAVotingProcessUtil shareVotingProcess].detailModel;
+            if (model)
+            {
+                if ([model.type isEqualToString:@"SecretaryGeneral"])
+                {
+                    UIButton *rightBarButton = [[UIButton alloc]init];
+                    [rightBarButton setImage:ImageNamed(@"cr_sg_icon") forState:(UIControlStateNormal)];
+                    [rightBarButton addTarget:self action:@selector(rightButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+                    
+                    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightBarButton];
+                    self.navigationItem.rightBarButtonItem = rightItem;
+                }
+            }
         });
     });
     

@@ -157,7 +157,7 @@ UINib *_nib;
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.mastWalletID,pwd] callbackId:self.mastWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
     NSString *PrivateKeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
     if (PrivateKeyString.length==0) {
-        [self hiddLoading];
+//        [self hiddLoading];
         return;
     }
     if (self.MemberOfTheUpdate) {

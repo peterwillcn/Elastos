@@ -53,11 +53,11 @@ static HWMQrCodeSignatureManager * _instance;
 -(void)QrCodeDataWithData:(NSString*)data withDidString:(NSString*)didString withmastWalletID:(NSString*)masterWalletID withComplete:(QrCodeSignatureTypeBlock)Complete{
     [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:didString WithPrivatekeyString:@"" WithmastWalletID:masterWalletID needCreatDIDString:NO];
     QrCodeSignatureType type=[self QrCodeStringtype:data];
-
-
-
-
-
+    
+    
+    
+    
+    
     //xxl fix the bug for suggestionQrCodeType
     if (type ==credaccessQrCodeType||type==suggestionQrCodeType||type==billQrCodeType||type==reviewPropalQrCodeType
         || type == withdrawalsType || type == Updatemilestone || type == Reviewmilestone||type==voteforProposalQrCodeType) {
@@ -80,12 +80,13 @@ static HWMQrCodeSignatureManager * _instance;
         }
         if (type==Updatemilestone) {
             BOOL isDID=[[HWMDIDManager shareDIDManager]ComparedWithThePublicKeyWithmastWalletID:masterWalletID withStringInfo:data];
-                      if (isDID) {
-                          Complete(AuthenticationDID,data);
-                          return;
-                      }
-         
+            if (isDID) {
+                Complete(AuthenticationDID,data);
+                return;
+            }
+            
         }
+    
         HWMSecretaryGeneralAndMembersDetailsModel* model=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
         
         
@@ -102,6 +103,11 @@ static HWMQrCodeSignatureManager * _instance;
                 }
             }];
         }
+        
+//        if (type==Reviewmilestone&&model.GMtype!=SECRETARIATType) {
+//                Complete(AuthenticationDID,data);
+//                              return;
+//            }
         if ([self detectionDidInfowithDidString:didString withmastWalletID:masterWalletID]!=ConformIdentityType) {
             type=[self detectionDidInfowithDidString:didString withmastWalletID:masterWalletID];
             Complete(type,data) ;
@@ -160,7 +166,7 @@ static HWMQrCodeSignatureManager * _instance;
             return voteforProposalQrCodeType;
         }
         
-	    }else if ([QRCodeString containsString:@"elastos://credaccess/"]){
+    }else if ([QRCodeString containsString:@"elastos://credaccess/"]){
         return billQrCodeType;
     }else{
         return unknowQrCodeType;

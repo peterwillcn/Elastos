@@ -196,17 +196,20 @@
                 if (![REString isEqualToString:@"-1"]) {
                     NSDictionary *dic=@{@"jwt":[NSString stringWithFormat:@"%@.%@",jwtString,REString]};
                     [self updaeJWTInfoWithDic:dic];
-                }else{
-                    [self showSendSuccessOrFial:SignatureFailureType];
                 }
-            }else{
-                [self showSendSuccessOrFial:SignatureFailureType];
+                else{
+                  [self hiddLoading];
+                }
             }
-        }else{
-            [self showSendSuccessOrFial:SignatureFailureType];
+            else{
+               [self hiddLoading];
+            }
+        }
+        else{
+          [self hiddLoading];
         }
         
-        [self hiddLoading];
+      
     }
 }
 

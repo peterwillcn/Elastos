@@ -110,6 +110,7 @@
         nameStr = model.didName;
         headStr = model.avatar;
         status = model.status;
+        
         location = model.location;
         dateStr = [NSString stringWithFormat:@"%@-%@", [ELAUtils getTime:model.startDate],
         [ELAUtils getTime:model.endDate]];

@@ -331,8 +331,8 @@
 "提取报名押金"="Retrieve deposit";
 "found_card_crcvote"="eg_found_card_CR";
 "found_card_vote"="eg_found_card_vote";
-"found_card_proposal"="eg_found_card_cr_council";
-//"found_card_committee"="eg_found_card_cr_council";
+"found_card_proposal"="eg_found_card_proposal";
+"found_card_committee"="eg_found_card_committee";
 
 "rules"="https://news.elastos.org/elastos-dpos-supernode-election-process/";
 "CRrules"="https://news.elastos.org/cr-council-election-rules/";

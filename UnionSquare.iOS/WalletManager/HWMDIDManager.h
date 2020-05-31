@@ -49,6 +49,7 @@ WithPrivatekeyString:(NSString*)privatekeyString
 -(NSString*)proposalTheSignatureWithPWD:(NSString*)pwdString withDigestChar:(char*)DigestChar;
 -(BOOL)qrTimeWithString:(NSString*)jwtStr;
 -(BOOL)AuthenticationWithString:(NSString*)jwtStr;
+-(BOOL)ComparedWithThePublicKeyWithmastWalletID:(NSString*)walletID withStringInfo:(NSString *)jwtStr;
 @end
 
 NS_ASSUME_NONNULL_END

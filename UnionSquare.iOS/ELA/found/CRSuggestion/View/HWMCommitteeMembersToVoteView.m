@@ -134,22 +134,39 @@ UINib *CommitteeMembersNib;
     
 }
 - (IBAction)ayeOrDeferOrnayEvent:(id)sender {
-    
-    [self StateNormalWithBGView:self.WaiverImageView withImageName:@"cr_nay_unselected" withTitleLabel:self.WaiverLabel];
-    [self allStateNormal];
     UIButton *button=sender;
     switch (button.tag) {
         case 10:
+            if (self.DetailsProposalM.agreeResult.count==0) {
+                
+                break;
+            }
+            [self StateNormalWithBGView:self.WaiverImageView withImageName:@"cr_nay_unselected" withTitleLabel:self.WaiverLabel];
+            [self allStateNormal];
             [self StateSelectWithBGView:self.InFavourImageView withImageName:@"cr_aye_selected" withTitleLabel:self.InFavourLabel];
             self.dataArray=self.DetailsProposalM.agreeResult;
+            
             break;
         case 11:
+            if (self.DetailsProposalM.againstResult.count==0) {
+                
+                break;
+            }
+            [self StateNormalWithBGView:self.WaiverImageView withImageName:@"cr_nay_unselected" withTitleLabel:self.WaiverLabel];
+            [self allStateNormal];
             [self StateSelectWithBGView:self.ObjectionImageView withImageName:@"cr_nay_selected" withTitleLabel:self.ObjectionLabel];
             self.dataArray=self.DetailsProposalM.againstResult;
             break;
         case 12:
+            if (self.DetailsProposalM.waiverResult.count==0) {
+                
+                break;
+            }
+            [self StateNormalWithBGView:self.WaiverImageView withImageName:@"cr_nay_unselected" withTitleLabel:self.WaiverLabel];
+            [self allStateNormal];
             [self StateSelectWithBGView:self.WaiverImageView withImageName:@"cr_defer_selected" withTitleLabel:self.WaiverLabel];
             self.dataArray=self.DetailsProposalM.waiverResult;
+            
             break;
         default:
             break;
@@ -203,6 +220,20 @@ UINib *CommitteeMembersNib;
         self.dataArray=DetailsProposalM.waiverResult;
         return;
     }
+    
+}
+-(void)closHidd{
+      self.showOrHiddenButton.selected=!self.showOrHiddenButton.selected;
+
+        self.totalInfoLabel.alpha=1.f;
+        [self suViewShowOrHidden:0.f];
+        [self.showOrHiddenButton setImage:[UIImage imageNamed:@"setting_list_arrow_fold"] forState:UIControlStateNormal];
+        
+    if ([self.delegate respondsToSelector:@selector(CommitteeMembersToVoteISopenOrClose:)]) {
+        [self.delegate CommitteeMembersToVoteISopenOrClose:self.showOrHiddenButton.selected];
+    }
+    
+    
     
 }
 @end

@@ -202,6 +202,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
             cell.alpha=0.f;
             break;
         case 1:
+            cell.constLabel.numberOfLines=0.f;
             cell.constLabel.text=self.model.proposalHash;
             break;
         case 2:
@@ -341,7 +342,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     if (self.isSecOpen) {
         self.secHeight=330+showNw;
     }else{
-        self.secHeight=80+showNw;
+        self.secHeight=90+showNw;
     }
     [self.baseTable reloadData];
 }

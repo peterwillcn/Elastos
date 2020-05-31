@@ -54,14 +54,23 @@ static HWMQrCodeSignatureManager * _instance;
     [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:didString WithPrivatekeyString:@"" WithmastWalletID:masterWalletID needCreatDIDString:NO];
     QrCodeSignatureType type=[self QrCodeStringtype:data];
 
-    
+
+
+
+
     //xxl fix the bug for suggestionQrCodeType
     if (type ==credaccessQrCodeType||type==suggestionQrCodeType||type==billQrCodeType||type==reviewPropalQrCodeType
-        || type == withdrawalsType || type == Updatemilestone || type == Reviewmilestone) {
+        || type == withdrawalsType || type == Updatemilestone || type == Reviewmilestone||type==voteforProposalQrCodeType) {
+        
+        
+        
         if ([[HWMDIDManager shareDIDManager] qrTimeWithString:data]) {
+            
+            
             Complete(QRTimePassType,data) ;
             return  ;
         }
+        
         if (type==reviewPropalQrCodeType) {
             BOOL isDID=[[HWMDIDManager shareDIDManager]AuthenticationWithString:data];
             if (isDID) {
@@ -69,7 +78,17 @@ static HWMQrCodeSignatureManager * _instance;
                 return;
             }
         }
+        if (type==Updatemilestone) {
+            BOOL isDID=[[HWMDIDManager shareDIDManager]ComparedWithThePublicKeyWithmastWalletID:masterWalletID withStringInfo:data];
+                      if (isDID) {
+                          Complete(AuthenticationDID,data);
+                          return;
+                      }
+         
+        }
         HWMSecretaryGeneralAndMembersDetailsModel* model=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
+        
+        
         if (model) {
             if (model.GMtype!= COUNCILType&&model.GMtype!=SECRETARIATType) {
                 Complete(CommonIdentityType,data) ;

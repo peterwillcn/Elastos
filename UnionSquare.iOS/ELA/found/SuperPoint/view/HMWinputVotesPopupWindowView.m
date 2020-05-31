@@ -55,6 +55,9 @@
 - (IBAction)shutDownViewEvent:(id)sender {
     [self endEditing:YES];
     [self removeFromSuperview];
+    if ([self.delegate respondsToSelector:@selector(closeInView)]) {
+        [self.delegate closeInView];
+    }
 }
 - (IBAction)maxEvent:(id)sender {
     self.isMax=YES;

@@ -301,7 +301,7 @@
         
         
         
-        [self hiddLoading];
+//        [self hiddLoading];
     }
 }
 

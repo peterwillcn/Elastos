@@ -406,8 +406,12 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 //    self.CRProposalConfirmV=nil;
     [self showLoading];
     if (self.type==CommentPerioVOTINGType) {
+//            [self.CRProposalConfirmV removeFromSuperview];
+//            self.CRProposalConfirmV=nil;
         [self reviewProposal:PWD];
     }else if (self.type==CommentPerioNOTIFICATIONType){// 投票反对
+        //            [self.CRProposalConfirmV removeFromSuperview];
+        //            self.CRProposalConfirmV=nil;
         [self voteForProposal:PWD];
         
     }
@@ -527,6 +531,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         _OpposedProgressHeadV.delegate=self;
         if (self.type==CommentPerioVETOEDType||self.type==CommentPerioREJECTEDType) {
             _OpposedProgressHeadV.needMakeLine=YES;
+            [_OpposedProgressHeadV needClose];
         }
         
         
@@ -565,6 +570,12 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         hash=self.model.proposalHash;
     }
     [self.CRProposalConfirmV postWithHash:hash withVotes:self.votesString withFee:@"0.0001 ELA"];
+    
+}
+-(void)closeInView{
+    if (self.whereFrome.length>0) {
+        [self.navigationController popViewControllerAnimated:NO];
+    }
     
 }
 -(void)reviewProposal:(NSString*)pwd{
@@ -778,9 +789,10 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     }
     
 }
+
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self hiddLoading];
+//    [self hiddLoading];
     if (self.whereFrome.length>0) {
         [self.navigationController setNavigationBarHidden:YES];
     }

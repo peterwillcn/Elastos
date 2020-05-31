@@ -88,6 +88,12 @@
                 self.allBaseView.dataSourceArray=self.allBillListAarray;
                 id total=data[@"data"][@"total"];
                 self.allBaseView.allTotle=[total intValue];
+               [self hiddLoading];
+            }else{
+               self.allBaseView.dataSourceArray=self.allBillListAarray;
+                id total=data[@"data"][@"total"];
+                self.allBaseView.allTotle=[total intValue];
+                 [self hiddLoading];
             }
             
         }];

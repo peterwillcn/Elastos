@@ -37,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,strong)HWMBillListModel *model;
 @property(nonatomic,strong)HWMDetailsProposalModel *DetailsProposalM;
 @property(assign,nonatomic)BOOL needMakeLine;
+-(void)needClose;
 @end
 
 NS_ASSUME_NONNULL_END

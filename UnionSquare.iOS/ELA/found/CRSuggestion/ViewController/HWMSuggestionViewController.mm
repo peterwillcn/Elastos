@@ -290,7 +290,6 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
         cell.constLabel.text=self.PayLoadDic[@"iss"];
     }else if ([typStirng isEqualToString:NSLocalizedString(@"提案经费账户",nil)]){
         cell.constLabel.text=self.PayLoadDic[@"data"][@"recipient"];
-        
     }else if ([typStirng isEqualToString:NSLocalizedString(@"提案经费额度",nil)]){
         if (indexPath.row==0) {
             HWMSuggestionSionTableViewCell *Sioncell=[tableView dequeueReusableCellWithIdentifier:SuggestionSionCell];
@@ -308,13 +307,15 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     }else if ([typStirng isEqualToString:NSLocalizedString(@"摘要",nil)]){
         cell.constLabel.text=self.advicemodel.abs;
     }else if ([typStirng isEqualToString:NSLocalizedString(@"标题",nil)]){
-//        cell.titleLabel.text=self.advicemodel.title;
-        cell.userInteractionEnabled=YES;
+        cell.titleLabel.text=self.advicemodel.title;
+//        cell.titleLabel.backgroundColor=[UIColor redColor];
+//        cell.titleLabel.numberOfLines=0;
+//        cell.userInteractionEnabled=YES;
         cell.titleLabel.userInteractionEnabled=YES;
-             cell.titleLabel.lineBreakMode= NSLineBreakByTruncatingHead;
+//             cell.titleLabel.lineBreakMode= NSLineBreakByTruncatingMiddle;
         cell.constLabel.text=self.advicemodel.baseInfoString;
         cell.constLabel.textColor=RGBA(255, 255, 255, 0.5);
-        [self labletextNumberLineWithLable:cell.titleLabel];
+//        [self labletextNumberLineWithLable:cell.titleLabel];
        
     }
     return cell;
@@ -666,15 +667,12 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
                                             WithPrivatekeyString:@""
                                             WithmastWalletID:self.currentWallet.masterWalletID
                                             needCreatDIDString:NO]){
-            
             NSString *playString = @"";
-            
             if(self.VCType == TheProposalType){
                 playString=[[FLTools share]DicToString:[self proposalhashRequestFileWithString:payString]];
             }else if(self.VCType == ReviewProposalType){
                 playString=[[FLTools share]DicToString:[self proposalReivewhashRequestFileWithString:payString]];
             }
-            
             NSString *jwtString=[self throuJWTStringWithplayString:playString];
             NSString *REString= [[HWMDIDManager shareDIDManager] DIDSignatureWithString:jwtString];
             if (![REString isEqualToString:@"-1"]) {
@@ -709,7 +707,6 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     return _sendSuccessPopuV;
 }
 -(void)setPayLoadDic:(NSDictionary *)PayLoadDic{
-    
     NSArray *bArray=PayLoadDic[@"data"][@"budgets"];
     id json=[bArray jsonStringEncoded];
     bArray=[NSArray modelArrayWithClass:[HWMBudgetsModel class] json:json];

@@ -83,13 +83,18 @@
     [[HWMCRSuggestionNetWorkManger shareCRSuggestionNetWorkManger]reloadCRSuggestionDataSourceWithType:1 withStartIndex:staIndex withNumbers:10 withComplete:^(_Nonnull id data) {
         
         [self.allBillListVM BillListWithDataJosn:data[@"data"][@"list"] completion:^(NSArray * _Nonnull dataArray) {
-            if (dataArray.count>0) {
+           if (dataArray.count>0) {
                 [self.allBillListAarray addObjectsFromArray:dataArray];
                 self.allBaseView.dataSourceArray=self.allBillListAarray;
                 id total=data[@"data"][@"total"];
                 self.allBaseView.allTotle=[total intValue];
+               [self hiddLoading];
+            }else{
+               self.allBaseView.dataSourceArray=self.allBillListAarray;
+                id total=data[@"data"][@"total"];
+                self.allBaseView.allTotle=[total intValue];
+                 [self hiddLoading];
             }
-            [self hiddLoading];
         }];
         
     }];

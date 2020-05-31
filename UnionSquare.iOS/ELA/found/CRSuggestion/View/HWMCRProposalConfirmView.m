@@ -39,6 +39,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *makeLineT;
 @property (weak, nonatomic) IBOutlet UILabel *throughLabel;
+@property (weak, nonatomic) IBOutlet UIView *BGView;
 
 @end
 
@@ -48,7 +49,7 @@
     self=[super init];
     if (self) {
         self =[[NSBundle mainBundle]loadNibNamed:@"HWMCRProposalConfirmView" owner:nil options:nil].firstObject;
-        
+
         self.titileLabel.text=NSLocalizedString(@"确认信息", nil);
         self.hasTextInfoLable.text=NSLocalizedString(@"评议哈希", nil);
         self.opinionLabel.text=NSLocalizedString(@"投票意见", nil);
@@ -69,6 +70,7 @@
 }
 - (IBAction)nextPWDEvent:(id)sender {
     [self addSubview:self.pwdView];
+    self.pwdView.BGHeight.constant=400;
     [self.pwdView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(self);
     }];

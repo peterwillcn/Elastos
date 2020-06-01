@@ -97,7 +97,7 @@ UINib *_basenib;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     HWMBillListModel *model=self.dataSourceArray[indexPath.row];
-    return model.cellHeight+BillListCellHeight;
+    return model.lastCellHeight+BillListCellHeight;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if ([self.delegate respondsToSelector:@selector(didShowDetailsWithIndex:)]) {

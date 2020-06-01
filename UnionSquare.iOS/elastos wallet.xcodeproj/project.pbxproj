@@ -5361,7 +5361,7 @@
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zhongcheng.gdzc;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhon;
 				PRODUCT_NAME = "ELA WalletPreNet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";

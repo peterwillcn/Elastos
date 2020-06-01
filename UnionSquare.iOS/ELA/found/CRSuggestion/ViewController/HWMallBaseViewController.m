@@ -24,10 +24,10 @@
 
 #import "HWMallBaseViewController.h"
 #import "HWMCommunityProposalBaseView.h"
-#import "HWMCommentPerioDetailsViewController.h"
 #import "HWMBillListViewModel.h"
 #import "HWMCRSuggestionNetWorkManger.h"
 #import "HWMBillListModel.h"
+
 #import "HWMCollectionProposalPerformViewController.h"
 #import "HWMCommentPerioDetailsViewController.h"
 @interface HWMallBaseViewController ()<HWMCommunityProposalBaseViewDelegate>

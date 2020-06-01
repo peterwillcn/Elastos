@@ -20,6 +20,7 @@
 #import "HMWFMDBManager.h"
 #import "DrawBackVoteMoneyVC.h"
 #import "ELWalletManager.h"
+#import "HMWToDeleteTheWalletPopView.h"
 @interface HMWtheSuperNodeElectionViewController ()<HMWvotingRulesViewDelegate,HMWVotingListViewDelegate,HMWsignUpForViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *tagMyVotedLab;
@@ -481,4 +482,5 @@
          self.votingListV.typeString=self.typeString;
     }
 }
+
 @end

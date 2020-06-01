@@ -14,8 +14,10 @@
 #import "HWMCRListModel.h"
 #import "HWMCRCCommitteeElectionListViewController.h"
 #import "HMWtheCandidateListViewController.h"
+#import "HMWToDeleteTheWalletPopView.h"
+#import "FLNotePointDBManager.h"
 static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
-@interface HMWMyVoteViewController ()<UITableViewDelegate,UITableViewDataSource,HWMCRCCommitteeElectionListViewControllerDelegate>
+@interface HMWMyVoteViewController ()<UITableViewDelegate,UITableViewDataSource,HWMCRCCommitteeElectionListViewControllerDelegate,HMWToDeleteTheWalletPopViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *BGView;
 @property (weak, nonatomic) IBOutlet UILabel *nameOfTheWalletLabel;
 @property (weak, nonatomic) IBOutlet UILabel *theWalletAddressLabel;
@@ -33,7 +35,7 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
 @property (weak, nonatomic) IBOutlet UILabel *lastVoteLab;
 
 @property(nonatomic,strong)NSArray *dataSource;
-
+@property(nonatomic,strong)HMWToDeleteTheWalletPopView *votePopView;
 @end
 
 @implementation HMWMyVoteViewController
@@ -101,7 +103,7 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
        [showlistdata addObjectsFromArray:NActive];
        self.dataSource = showlistdata;
        if (self.dataSource.count==0) {
-           self.changeVotesButton.alpha=0.f;
+//           self.changeVotesButton.alpha=0.f;
            self.largeStateImageView.image=[UIImage imageNamed:@"found_my_go_on"];
        }else{
             self.changeVotesButton.alpha=1.f;
@@ -232,21 +234,17 @@ if (self.dataSource.count==0) {
     return _placeHolderLab;
 }
 - (IBAction)changeVote:(id)sender {
-    if (self.VoteType==MyVoteNodeElectioType) {
+//    if (self.ActivData.count>0) {
+//        UIView *mainView =[self mainWindow];
+//        [mainView addSubview:self.votePopView];
+//        [self.votePopView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.right.top.bottom.equalTo(mainView);
+//        }];
+//    }else{
+        [self needUpdataLocaInfo];
         
-        HMWtheCandidateListViewController * vc = [[HMWtheCandidateListViewController alloc]init];
-           vc.persent = self.persent ;
-           vc.lastTimeArray=self.listData;
-           [self.navigationController pushViewController:vc animated:YES];
-     }else if (self.VoteType==MyVoteCRType){
-         HWMCRCCommitteeElectionListViewController *vc=[[HWMCRCCommitteeElectionListViewController alloc]init];
-         vc.lastArray=self.listData;
-         vc.delegate=self;
-         vc.totalvotes=self.totalvotes;
-         [self.navigationController pushViewController:vc animated:YES];
-         
-     }
-  ;
+//    }
+
 }
 -(void)setVoteType:(MyVoteVotingListType)VoteType{
     _VoteType=VoteType;
@@ -265,15 +263,87 @@ if (self.dataSource.count==0) {
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     if (self.VoteType==MyVoteNodeElectioType) {
-     [self getDataFromData];
+    [self getDataFromData];
     }else if (self.VoteType==MyVoteCRType){
-        [self getCRData];
+    [self getCRData];
     }
-    
 }
 -(void)needUpdataSta{
-    if (self.delegate) {
+    if (self.delegate){
         [self.delegate updateDataSource];
     }
+}
+
+-(HMWToDeleteTheWalletPopView *)votePopView{
+    if (!_votePopView) {
+        _votePopView=[[HMWToDeleteTheWalletPopView alloc]init];
+        _votePopView.delegate=self;
+        _votePopView.deleteType=CoverCommitteeMembersListType;
+    }
+    return _votePopView;
+}
+-(void)sureToDeleteViewWithPWD:(NSString*)pwd{
+    [self needUpdataLocaInfo];
+}
+-(void)CancelEvent{
+    
+    if (self.VoteType==MyVoteNodeElectioType) {
+       HMWtheCandidateListViewController * vc = [[HMWtheCandidateListViewController alloc]init];
+       vc.persent = self.persent ;
+       vc.lastTimeArray=self.listData;
+       [self.navigationController pushViewController:vc animated:YES];
+    }else if (self.VoteType==MyVoteCRType){
+        HWMCRCCommitteeElectionListViewController *vc=[[HWMCRCCommitteeElectionListViewController alloc]init];
+        vc.lastArray=self.listData;
+        vc.delegate=self;
+        vc.totalvotes=self.totalvotes;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }
+}
+-(void)toCancelOrCloseDelegate{
+    [self.votePopView removeFromSuperview];
+    self.votePopView=nil;
+}
+-(void)needUpdataLocaInfo{// 需要更新本地数据
+
+//    [self showLoading];
+//    FLWallet *waller = [ELWalletManager share].currentWallet;
+//       if (self.VoteType==MyVoteNodeElectioType) {
+//           [[FLNotePointDBManager defultWithWalletID:waller.walletID]delectAllWithWalletID:waller.walletID];
+//           for (FLCoinPointInfoModel *model in self.dataSource) {
+//               if ([model.state isEqualToString:@"Active"]) {
+//                 [[FLNotePointDBManager defultWithWalletID:waller.walletID]addRecord:model];
+//               }
+//
+//           }
+//
+//    }else if (self.VoteType==MyVoteCRType){
+//        for (FLCoinPointInfoModel *model in self.dataSource) {
+//                    if ([model.state isEqualToString:@"Active"]) {
+//
+//                    }
+//
+//                }
+//
+//    }
+//    [self hiddLoading];
+//    [self CancelEvent];
+    
+    if (self.VoteType==MyVoteNodeElectioType) {
+       HMWtheCandidateListViewController * vc = [[HMWtheCandidateListViewController alloc]init];
+       vc.persent = self.persent ;
+       vc.lastTimeArray=self.listData;
+       [self.navigationController pushViewController:vc animated:YES];
+    }else if (self.VoteType==MyVoteCRType){
+        HWMCRCCommitteeElectionListViewController *vc=[[HWMCRCCommitteeElectionListViewController alloc]init];
+        vc.lastArray=self.listData;
+        vc.delegate=self;
+        vc.totalvotes=self.totalvotes;
+        [self.navigationController pushViewController:vc animated:YES];
+
+    }
+    
+    
 }
 @end

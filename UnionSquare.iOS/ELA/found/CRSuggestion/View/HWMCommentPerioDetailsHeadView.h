@@ -38,6 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(assign,nonatomic)BOOL needMakeLine;
 
 -(void)needClose;
+-(void)showInfo;
 
 @end
 

@@ -93,14 +93,24 @@ UINib *CommitteeMembersNib;
 - (IBAction)showOrHiddenButtonEvent:(id)sender {
     self.showOrHiddenButton.selected=!self.showOrHiddenButton.selected;
     if (self.showOrHiddenButton.selected==NO) {
-        self.totalInfoLabel.alpha=1.f;
+        if (self.noVioInfoLabel.alpha==1) {
+            self.totalInfoLabel.alpha=0.f;
+        }else{
+            self.totalInfoLabel.alpha=1.f;
+        }
         [self suViewShowOrHidden:0.f];
         [self.showOrHiddenButton setImage:[UIImage imageNamed:@"setting_list_arrow_fold"] forState:UIControlStateNormal];
         
         
     }else{
+        
         self.totalInfoLabel.alpha=0.f;
-        [self suViewShowOrHidden:1.f];
+        if (self.noVioInfoLabel.alpha==1) {
+            [self suViewShowOrHidden:0.f];
+        }else{
+            [self suViewShowOrHidden:1.f];
+        }
+        
         [self.showOrHiddenButton setImage:[UIImage imageNamed:@"setting_list_arrow"] forState:UIControlStateNormal];
     }
     if ([self.delegate respondsToSelector:@selector(CommitteeMembersToVoteISopenOrClose:)]) {
@@ -185,6 +195,7 @@ UINib *CommitteeMembersNib;
     self.WaiverLabel.alpha=al;
     self.WaiverButton.alpha=al;
     
+    
 }
 -(void)setDataArray:(NSArray *)dataArray{
     
@@ -222,18 +233,12 @@ UINib *CommitteeMembersNib;
     }
     
 }
--(void)closHidd{
-      self.showOrHiddenButton.selected=!self.showOrHiddenButton.selected;
-
-        self.totalInfoLabel.alpha=1.f;
-        [self suViewShowOrHidden:0.f];
-        [self.showOrHiddenButton setImage:[UIImage imageNamed:@"setting_list_arrow_fold"] forState:UIControlStateNormal];
-        
-    if ([self.delegate respondsToSelector:@selector(CommitteeMembersToVoteISopenOrClose:)]) {
-        [self.delegate CommitteeMembersToVoteISopenOrClose:self.showOrHiddenButton.selected];
-    }
-    
-    
-    
+-(void)closInfo{
+    self.showOrHiddenButton.selected=YES;//close
+    [self showOrHiddenButtonEvent:nil];
+}
+-(void)showInfo{//open
+    self.showOrHiddenButton.selected=NO;
+    [self showOrHiddenButtonEvent:nil];
 }
 @end

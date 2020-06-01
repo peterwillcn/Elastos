@@ -136,6 +136,17 @@ NSString *WalletIDString;
         return NO;
     }
 }
+-(BOOL)delectAllWithWalletID:(NSString*)walletID{
+     NSString *sql =[NSString stringWithFormat: @"delete from %@" ,walletID];
+        if ([manager executeUpdate:sql]) {
+            
+            return YES;
+    //        DLog(@"删除完成!");
+        }else{
+    //        DLog(@"删除失败!");
+            return NO;
+        }
+}
 //改
 -(BOOL)updateRecord:(FLCoinPointInfoModel *)person{
     BOOL re=YES;

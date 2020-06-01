@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void)sureToDeleteViewWithPWD:(NSString*)pwd;
 -(void)toCancelOrCloseDelegate;
+-(void)CancelEvent;
     
 
 @end
@@ -37,7 +38,8 @@ typedef NS_ENUM(NSInteger, HMWToDeleteType) {
     needCreadDIDType,
     deleteHasSaveInfoType,
     documentsCoveringType,
-    CloseChainIDType
+    CloseChainIDType,
+    CoverCommitteeMembersListType
     
 };
 

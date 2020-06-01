@@ -408,6 +408,8 @@
 		427290532446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 427290512446B128000B6B6D /* HWMNodeConnectionSettingsTableViewCell.xib */; };
 		42780240235EDC350017F098 /* HWMDIDWalletListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4278023E235EDC350017F098 /* HWMDIDWalletListTableViewCell.m */; };
 		42780241235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4278023F235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib */; };
+		427975102484C61000559DD0 /* HWMOpenSourceStatementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4279750E2484C61000559DD0 /* HWMOpenSourceStatementViewController.m */; };
+		427975112484C61000559DD0 /* HWMOpenSourceStatementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4279750F2484C61000559DD0 /* HWMOpenSourceStatementViewController.xib */; };
 		4279CABB24796C3100B503A4 /* ELASecretaryDetailViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4279CA5824796C3000B503A4 /* ELASecretaryDetailViewController.mm */; };
 		4279CABC24796C3100B503A4 /* ELAUpdateSecretaryDidViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4279CA5924796C3000B503A4 /* ELAUpdateSecretaryDidViewController.m */; };
 		4279CABD24796C3100B503A4 /* ELATUpdateSecretaryDidTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4279CA5A24796C3000B503A4 /* ELATUpdateSecretaryDidTableViewCell.m */; };
@@ -1381,6 +1383,9 @@
 		4278023D235EDC350017F098 /* HWMDIDWalletListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMDIDWalletListTableViewCell.h; sourceTree = "<group>"; };
 		4278023E235EDC350017F098 /* HWMDIDWalletListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMDIDWalletListTableViewCell.m; sourceTree = "<group>"; };
 		4278023F235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMDIDWalletListTableViewCell.xib; sourceTree = "<group>"; };
+		4279750D2484C61000559DD0 /* HWMOpenSourceStatementViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMOpenSourceStatementViewController.h; sourceTree = "<group>"; };
+		4279750E2484C61000559DD0 /* HWMOpenSourceStatementViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWMOpenSourceStatementViewController.m; sourceTree = "<group>"; };
+		4279750F2484C61000559DD0 /* HWMOpenSourceStatementViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMOpenSourceStatementViewController.xib; sourceTree = "<group>"; };
 		4279CA5724796C3000B503A4 /* ELATUpdateSecretaryDidTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELATUpdateSecretaryDidTableViewCell.h; sourceTree = "<group>"; };
 		4279CA5824796C3000B503A4 /* ELASecretaryDetailViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ELASecretaryDetailViewController.mm; sourceTree = "<group>"; };
 		4279CA5924796C3000B503A4 /* ELAUpdateSecretaryDidViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELAUpdateSecretaryDidViewController.m; sourceTree = "<group>"; };
@@ -2285,6 +2290,9 @@
 				423F37BF244C9901000CDFE9 /* HWMTheMessageCenterViewController.xib */,
 				427D8DD8244FE73B00B167F5 /* HWMTheMessageSettingViewController.h */,
 				427D8DD9244FE74500B167F5 /* HWMTheMessageSettingViewController.m */,
+				4279750D2484C61000559DD0 /* HWMOpenSourceStatementViewController.h */,
+				4279750E2484C61000559DD0 /* HWMOpenSourceStatementViewController.m */,
+				4279750F2484C61000559DD0 /* HWMOpenSourceStatementViewController.xib */,
 				4202C89721F6EF28009E5932 /* model */,
 				4202C89A21F6EF28009E5932 /* view */,
 			);
@@ -4680,6 +4688,7 @@
 				4202CA5421F6EF2A009E5932 /* FLSearchContractTableCell.xib in Resources */,
 				428A25DF2476744C00EFBD2B /* HWMQrCodeInfoPasswordViewController.xib in Resources */,
 				4202CA4221F6EF2A009E5932 /* FLwalletSelectView.xib in Resources */,
+				427975112484C61000559DD0 /* HWMOpenSourceStatementViewController.xib in Resources */,
 				4202CACB21F6EF2B009E5932 /* HMWVotingListView.xib in Resources */,
 				42A7A857236AE3BD0034A900 /* HWMConfidentialInformationViewController.xib in Resources */,
 				4202CAA321F6EF2B009E5932 /* HMWImTheMnemonicWordView.xib in Resources */,
@@ -4841,6 +4850,7 @@
 				4202CA3521F6EF2A009E5932 /* FLSugerBannerModel.m in Sources */,
 				4279CAD324796C3100B503A4 /* SYProgressView.m in Sources */,
 				4202CAAA21F6EF2B009E5932 /* FLAllKindBi.m in Sources */,
+				427975102484C61000559DD0 /* HWMOpenSourceStatementViewController.m in Sources */,
 				4202CA0C21F6EF2A009E5932 /* SGQRCodeScanManager.m in Sources */,
 				424910EE2271BFCF00C41E50 /* SDWebImagePrefetcher.m in Sources */,
 				4279CAD824796C3100B503A4 /* RPTaggedNavView.m in Sources */,

@@ -15,7 +15,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MLf-K2-KZf">
-                    <rect key="frame" x="0.0" y="364" width="375" height="303"/>
+                    <rect key="frame" x="0.0" y="267" width="375" height="400"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ri2-6A-Aar">
                             <rect key="frame" x="0.0" y="0.0" width="47" height="47"/>
@@ -61,7 +61,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DU0-Yh-COR">
-                            <rect key="frame" x="63" y="225" width="249" height="40"/>
+                            <rect key="frame" x="63" y="322" width="249" height="40"/>
                             <color key="backgroundColor" red="0.27447697519999997" green="0.2745291889" blue="0.2744696438" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="4w1-oY-1lP"/>
@@ -80,7 +80,7 @@
                         <constraint firstItem="DU0-Yh-COR" firstAttribute="leading" secondItem="MLf-K2-KZf" secondAttribute="leading" constant="63" id="36O-tf-Yaa"/>
                         <constraint firstItem="Ite-lD-2oe" firstAttribute="top" secondItem="GUO-Kw-Cwk" secondAttribute="bottom" id="4qm-2z-Pyn"/>
                         <constraint firstAttribute="trailing" secondItem="DU0-Yh-COR" secondAttribute="trailing" constant="63" id="7Dy-O7-ju2"/>
-                        <constraint firstAttribute="height" constant="303" id="822-TW-jGN"/>
+                        <constraint firstAttribute="height" constant="400" id="822-TW-jGN"/>
                         <constraint firstAttribute="trailing" secondItem="Ite-lD-2oe" secondAttribute="trailing" constant="15" id="A9h-hz-Qh4"/>
                         <constraint firstItem="ri2-6A-Aar" firstAttribute="top" secondItem="MLf-K2-KZf" secondAttribute="top" id="CEo-nG-qzb"/>
                         <constraint firstItem="GUO-Kw-Cwk" firstAttribute="top" secondItem="9Yh-4C-Peg" secondAttribute="bottom" id="DbD-6x-x7P"/>

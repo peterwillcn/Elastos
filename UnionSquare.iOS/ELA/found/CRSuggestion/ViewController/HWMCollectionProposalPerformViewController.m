@@ -61,17 +61,18 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     self.title=NSLocalizedString(@"社区提案", nil);//执行中
     self.headView.model=self.model;
     [self makeView];
-    self.isOpen=YES;
-    self.isSecOpen=YES;
-    CGFloat showNw=0;
-    if (self.DetailsModel.trackingResult.count==0) {
-        showNw=100;
-    }
-    self.secHeight=330+showNw;
+    self.isOpen=NO;
+    self.isSecOpen=NO;
+//    CGFloat showNw=0;
+//    if (self.DetailsModel.trackingResult.count==0) {
+//        showNw=100;
+//    }
+//    self.secHeight=330+showNw;
     [self loadPerioDetailsWithID:self.model.ID];
     if (self.type==CommentPerioACTIVEType) {
     }else if(self.type==CommentPerioFINALType){
     }
+
 }
 -(void)loadPerioDetailsWithID:(NSString*)ID{
     self.baseTable.alpha=0.f;
@@ -81,8 +82,10 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         [[HWMDetailsProposalViewModel alloc]detailsProposalModelDataJosn:data[@"data"] completion:^(HWMDetailsProposalModel * _Nonnull model){
             self.DetailsModel=model;
             self.foodView.DetailsProposalM=self.DetailsModel;
-            [self.baseTable reloadData];
+//            [self.baseTable reloadData];
             self.baseTable.alpha=1.f;
+            [self.headView needClose];
+            [self.foodView closInfo];
         }];
     }];
 }

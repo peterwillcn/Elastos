@@ -80,9 +80,6 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 
     self.baseTable.alpha=0.f;
     if (self.whereFrome.length==0) {
-        if (self.type==CommentPerioVETOEDType||self.type==CommentPerioREJECTEDType) {
-          self.isOpen=NO;
-        }
         [self makeView];
         [self loadPerioDetailsWithID:self.model.ID];
     }else{
@@ -95,6 +92,8 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
                                             selector:@selector(onTxPublish:)
                                             name:OnTxPublishedResult
                                             object:nil];
+
+    
     
 }
 
@@ -145,7 +144,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         [[HWMDetailsProposalViewModel alloc]detailsProposalModelDataJosn:data[@"data"] completion:^(HWMDetailsProposalModel * _Nonnull model) {
             
             self.DetailsModel=model;
-            [self.baseTable reloadData];
+       
             if(self.type==CommentPerioNOTIFICATIONType){
                 self.OpposedProgressHeadV.DetailsProposalM=self.DetailsModel;
                 [self hiddLoading];
@@ -153,11 +152,27 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
             self.foodView.DetailsProposalM=self.DetailsModel;
             if(self.type==CommentPerioNOTIFICATIONType||self.type==CommentPerioVOTINGType){
                 [self updateMemberIdentity];
-                //                 [self hiddLoading];
+    
             }else{
                 self.baseTable.alpha=1.f;
                 [self hiddLoading];
             }
+            if (self.type==CommentPerioNOTIFICATIONType) {//公示中
+                [self.OpposedProgressHeadV needClose];
+                [self.foodView showInfo];
+            }else if (self.type==CommentPerioVOTINGType){//委员评议
+
+                [self.headView showInfo];
+                [self.foodView showInfo];
+
+            }else if (self.type==CommentPerioREJECTEDType){// 未通过
+                [self.OpposedProgressHeadV needClose];
+                [self.foodView showInfo];
+                
+            }else if (self.type==CommentPerioREJECTEDType)//已否决
+                [self.headView needClose];
+                [self.foodView showInfo];
+            
         }];
     }];
 }
@@ -302,7 +317,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         _headView.delegate=self;
         if (self.type==CommentPerioVETOEDType||self.type==CommentPerioREJECTEDType) {
             _headView.needMakeLine=YES;
-            [_headView needClose];
+//            [_headView needClose];
         }
     }
     return _headView;
@@ -531,7 +546,6 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         _OpposedProgressHeadV.delegate=self;
         if (self.type==CommentPerioVETOEDType||self.type==CommentPerioREJECTEDType) {
             _OpposedProgressHeadV.needMakeLine=YES;
-            [_OpposedProgressHeadV needClose];
         }
         
         

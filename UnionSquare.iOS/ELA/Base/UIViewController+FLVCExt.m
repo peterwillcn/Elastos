@@ -383,16 +383,16 @@
     delegate.window.rootViewController = vc;
 }
 -(UIWindow *)mainWindow{
-    return self.view;
-//    UIApplication *app = [UIApplication sharedApplication];
-//
-//    if ([app.delegate respondsToSelector:@selector(window)]){
-//        return [app.delegate window];
-//    }
-//    else
-//    {
-//        return [app keyWindow];
-//    }
+//    return self.view;
+    UIApplication *app = [UIApplication sharedApplication];
+
+    if ([app.delegate respondsToSelector:@selector(window)]){
+        return [app.delegate window];
+    }
+    else
+    {
+        return [app keyWindow];
+    }
 }
 /* 获取本地时间 */
 - (NSString *)getLeftNowTimeWithEndTime:(NSString*)endTime {

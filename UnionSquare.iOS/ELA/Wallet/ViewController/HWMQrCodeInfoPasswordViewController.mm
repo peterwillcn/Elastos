@@ -477,7 +477,7 @@
                                         amount,
                                         utxosArray
                                       ]
-         callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"createProposalWithdrawTransaction"];
+        callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"createProposalWithdrawTransaction"];
         PluginResult *pluginResult = [[ELWalletManager share] createProposalWithdrawTransaction:mommand];
         
         if(pluginResult)
@@ -489,6 +489,7 @@
         }
     }
 }
+
 -(void)showSendSuccessOrFial:(SendSuccessType)type{
     
     [self closeCRProposalConfirmV];
@@ -501,6 +502,8 @@
         [self.navigationController popViewControllerAnimated:NO];
     });
 }
+
+
 -(void)closeCRProposalConfirmV{
     [self.CRProposalConfirmV removeFromSuperview];
     self.CRProposalConfirmV=nil;

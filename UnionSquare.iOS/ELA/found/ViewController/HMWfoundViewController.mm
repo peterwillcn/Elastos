@@ -108,7 +108,7 @@
 {
     if(data && data.count > 0)
     {
-   
+
         ELACommitteeInfoModel *voteModel = [data objectAtIndex:0];
         if(voteModel.status && [voteModel.status isEqualToString:@"VOTING"])
         {
@@ -172,7 +172,6 @@
     if (indexPath.row==1) {
         cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_proposal", nil)];
     }else if(indexPath.row==2) {
-        //cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_crcvote", nil)];
         cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_committee", nil)];
     }
     else if(indexPath.row==3){

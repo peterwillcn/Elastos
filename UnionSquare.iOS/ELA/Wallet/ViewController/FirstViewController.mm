@@ -499,7 +499,8 @@
     //        self.navigationItem.rightBarButtonItem=ClickMorenButton;
     __weak __typeof(self) weakSelf = self;
     MJRefreshNormalHeader  *header = [MJRefreshNormalHeader  headerWithRefreshingBlock:^{
-        for (assetsListModel *model in self.dataSoureArray) {
+        NSMutableArray *dataArray= [NSMutableArray arrayWithArray:weakSelf.dataSoureArray];
+        for (assetsListModel *model in dataArray) {
             invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[weakSelf.currentWallet.masterWalletID,model.iconName] callbackId:weakSelf.currentWallet.masterWalletID className:@"Wallet" methodName:@"SyncStart"];
             [[ELWalletManager share]SyncStart:mommand];
         }

@@ -456,6 +456,18 @@ static HMWFMDBManager * _manager =nil;
     }
     return allRecords;
 }
+-(BOOL)delectAllCRWithWallID:(NSString*)walletID{
+  
+    
+ 
+        if ( [self executeUpdate:@"DELETE FROM RMList"]) {
+            return YES;
+    //        DLog(@"删除完成!");
+        }else{
+    //        DLog(@"删除失败!");
+            return NO;
+        }
+}
 
 //增加
 -(BOOL)addCR:(HWMCRListModel*)CRModel withWallID:(NSString*)walletID{

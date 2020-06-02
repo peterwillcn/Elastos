@@ -16,6 +16,7 @@
 #import "HMWtheCandidateListViewController.h"
 #import "HMWToDeleteTheWalletPopView.h"
 #import "FLNotePointDBManager.h"
+#import "HMWFMDBManager.h"
 static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
 @interface HMWMyVoteViewController ()<UITableViewDelegate,UITableViewDataSource,HWMCRCCommitteeElectionListViewControllerDelegate,HMWToDeleteTheWalletPopViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *BGView;
@@ -61,57 +62,57 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
 }
 -(void)getCRData{
     FLWallet *waller = [ELWalletManager share].currentWallet;
-       IMainchainSubWallet *subWallet = [[ELWalletManager share]getWalletELASubWallet:waller.masterWalletID];
-       Json cArray = subWallet->GetVotedCRList();
-       NSString *dataStr = [NSString stringWithUTF8String:cArray.dump().c_str()];
-       NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-       NSMutableArray *showlistdata = [NSMutableArray array];
+    IMainchainSubWallet *subWallet = [[ELWalletManager share]getWalletELASubWallet:waller.masterWalletID];
+    Json cArray = subWallet->GetVotedCRList();
+    NSString *dataStr = [NSString stringWithUTF8String:cArray.dump().c_str()];
+    NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+    NSMutableArray *showlistdata = [NSMutableArray array];
     NSMutableArray *NActive = [NSMutableArray array];
-       NSInteger total =0;
-       for (int i=0; i<self.listData.count; i++) {
-          HWMCRListModel *model = self.listData[i];
-           for (int j = 0;j<param.allKeys.count; j++) {
-               
-                NSString *itemKey = param.allKeys[j];
-               if ([model.did isEqualToString:itemKey]) {
-                   double sinceVd=[param[itemKey] doubleValue];
-                   model.SinceVotes = @(sinceVd/unitNumber).stringValue;
-        
-                   total+=[param[itemKey] integerValue];
-                   if ([model.state isEqualToString:@"Active"]) {
+    NSInteger total =0;
+    for (int i=0; i<self.listData.count; i++) {
+        HWMCRListModel *model = self.listData[i];
+        for (int j = 0;j<param.allKeys.count; j++) {
+            
+            NSString *itemKey = param.allKeys[j];
+            if ([model.did isEqualToString:itemKey]) {
+                double sinceVd=[param[itemKey] doubleValue];
+                model.SinceVotes = @(sinceVd/unitNumber).stringValue;
+                
+                total+=[param[itemKey] integerValue];
+                if ([model.state isEqualToString:@"Active"]) {
                     [showlistdata addObject:model];
-                    }else{
-                        [NActive addObject:model];
-                    }
-                   
-                   
-               }
-           }
-           
-       }
+                }else{
+                    [NActive addObject:model];
+                }
+                
+                
+            }
+        }
+        
+    }
     
-
-
+    
+    
     
     if (total==0) {
         self.voteInTotalLabel.alpha=0.f;
     }else{
         self.voteInTotalLabel.text =[NSString stringWithFormat:@"%@%@%@",NSLocalizedString(@"共",nil),[[FLTools share]CRVotingTheAverageDistribution:[NSString stringWithFormat:@"%ld",(long)total] withCRMermVoting:[NSString stringWithFormat:@"%d",unitNumber] ],NSLocalizedString(@"票",nil)] ;
     }
-  
-            self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_unlocked"];
-       [showlistdata addObjectsFromArray:NActive];
-       self.dataSource = showlistdata;
-       if (self.dataSource.count==0) {
-//           self.changeVotesButton.alpha=0.f;
-           self.largeStateImageView.image=[UIImage imageNamed:@"found_my_go_on"];
-       }else{
-            self.changeVotesButton.alpha=1.f;
-                   self.largeStateImageView.image=[UIImage imageNamed:@"found_vote_lock"];
-       }
     
-       [self.baseTableView reloadData];
-       self.placeHolderLab.hidden  = self.dataSource.count==0? NO: YES;
+    self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_unlocked"];
+    [showlistdata addObjectsFromArray:NActive];
+    self.dataSource = showlistdata;
+    if (self.dataSource.count==0) {
+        //           self.changeVotesButton.alpha=0.f;
+        self.largeStateImageView.image=[UIImage imageNamed:@"found_my_go_on"];
+    }else{
+        self.changeVotesButton.alpha=1.f;
+        self.largeStateImageView.image=[UIImage imageNamed:@"found_vote_lock"];
+    }
+    
+    [self.baseTableView reloadData];
+    self.placeHolderLab.hidden  = self.dataSource.count==0? NO: YES;
     
     
 }
@@ -122,23 +123,23 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     NSString *dataStr = [NSString stringWithUTF8String:cArray.dump().c_str()];
     
     NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-
+    
     NSMutableArray *showlistdata = [NSMutableArray array];
     NSMutableArray *NActive=[NSMutableArray array];
     NSInteger total =0;
     for (int i=0; i<self.listData.count; i++) {
-          FLCoinPointInfoModel *model = self.listData[i];
-
+        FLCoinPointInfoModel *model = self.listData[i];
+        
         for (int j = 0;j<param.allKeys.count; j++) {
-                  NSString *itemKey = param.allKeys[j];
+            NSString *itemKey = param.allKeys[j];
             if ([model.ownerpublickey isEqualToString:itemKey]) {
                 model.hadVotedNumber = [param[itemKey] integerValue];
                 if ([model.state isEqualToString:@"Active"]) {
-                [showlistdata addObject:model];
+                    [showlistdata addObject:model];
                 }else{
                     [NActive addObject:model];
                 }
-               
+                
                 total=[param[itemKey] integerValue];
             }
         }
@@ -147,14 +148,14 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     [showlistdata addObjectsFromArray:NActive];
     self.voteInTotalLabel.text = @(total/unitNumber).stringValue;
     self.dataSource = showlistdata;
-    self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_unlocked"];  
-if (self.dataSource.count==0) {
-    self.changeVotesButton.alpha=0.f;
-    self.largeStateImageView.image=[UIImage imageNamed:@"found_my_go_on"];
-}else{
-     self.changeVotesButton.alpha=1.f;
-            self.largeStateImageView.image=[UIImage imageNamed:@"found_vote_lock"];
-}
+    self.stateIconImageView.image=[UIImage imageNamed:@"my_vote_unlocked"];
+    if (self.dataSource.count==0) {
+        self.changeVotesButton.alpha=0.f;
+        self.largeStateImageView.image=[UIImage imageNamed:@"found_my_go_on"];
+    }else{
+        self.changeVotesButton.alpha=1.f;
+        self.largeStateImageView.image=[UIImage imageNamed:@"found_vote_lock"];
+    }
     [self.baseTableView reloadData];
     self.placeHolderLab.hidden  = self.dataSource.count==0? NO: YES;
     
@@ -163,7 +164,7 @@ if (self.dataSource.count==0) {
     self.baseTableView.delegate=self;
     self.baseTableView.dataSource=self;
     self.baseTableView.rowHeight=60;
-   self.baseTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+    self.baseTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     [self.baseTableView registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
     self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     self.baseTableView.bounces = NO;
@@ -180,7 +181,7 @@ if (self.dataSource.count==0) {
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     
-   HMWmyVoteStatisticsTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
+    HMWmyVoteStatisticsTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellString];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     cell.backgroundColor=[UIColor clearColor];
     if (self.VoteType==MyVoteNodeElectioType) {
@@ -190,36 +191,36 @@ if (self.dataSource.count==0) {
             cell.leftLab.text = model.nickname;
             cell.rightLab.text =[NSString stringWithFormat:@"NO.%ld",model.index+1];
         }else{
-          cell.rightLab.text=@"--";
+            cell.rightLab.text=@"--";
             cell.leftLab.text=NSLocalizedString(@"候选节点已经失效", nil);
             cell.leftLab.textColor=RGBA(255,255,255,0.5);
-             cell.rightLab.textColor=RGBA(255,255,255,0.5);
+            cell.rightLab.textColor=RGBA(255,255,255,0.5);
         }
         
-
-       }else if (self.VoteType==MyVoteCRType){
-          HWMCRListModel *model = self.dataSource[indexPath.row];
-           if ([model.state isEqualToString:@"Active"]) {
-               cell.leftLab.text =[NSString stringWithFormat:@"NO.%@",model.index];
-                        cell.middleLabel.text=model.nickname;
-               NSInteger number=[model.SinceVotes intValue];
-               if (number<1) {
-                     cell.rightLab.text =[NSString stringWithFormat:@"%@ ",@"<1",NSLocalizedString(@"票", nil)];
-               }else{
-                   cell.rightLab.text =[NSString stringWithFormat:@"%d %@",[model.SinceVotes intValue],NSLocalizedString(@"票", nil)];
-                   
-               }
-               cell.leftLab.textColor=[UIColor whiteColor];
-               cell.middleLabel.textColor=[UIColor whiteColor];
-           }else{
-               
-               cell.leftLab.text=@"--";
-               cell.middleLabel.text=NSLocalizedString(@"候选节点已经失效", nil);
-               cell.leftLab.textColor=RGBA(255,255,255,0.5);
-               cell.middleLabel.textColor=RGBA(255,255,255,0.5);
-               cell.rightLab.text =[NSString stringWithFormat:@"%d %@",[model.SinceVotes intValue],NSLocalizedString(@"票", nil)];
-           }
-       }
+        
+    }else if (self.VoteType==MyVoteCRType){
+        HWMCRListModel *model = self.dataSource[indexPath.row];
+        if ([model.state isEqualToString:@"Active"]) {
+            cell.leftLab.text =[NSString stringWithFormat:@"NO.%@",model.index];
+            cell.middleLabel.text=model.nickname;
+            NSInteger number=[model.SinceVotes intValue];
+            if (number<1) {
+                cell.rightLab.text =[NSString stringWithFormat:@"%@ ",@"<1",NSLocalizedString(@"票", nil)];
+            }else{
+                cell.rightLab.text =[NSString stringWithFormat:@"%d %@",[model.SinceVotes intValue],NSLocalizedString(@"票", nil)];
+                
+            }
+            cell.leftLab.textColor=[UIColor whiteColor];
+            cell.middleLabel.textColor=[UIColor whiteColor];
+        }else{
+            
+            cell.leftLab.text=@"--";
+            cell.middleLabel.text=NSLocalizedString(@"候选节点已经失效", nil);
+            cell.leftLab.textColor=RGBA(255,255,255,0.5);
+            cell.middleLabel.textColor=RGBA(255,255,255,0.5);
+            cell.rightLab.text =[NSString stringWithFormat:@"%d %@",[model.SinceVotes intValue],NSLocalizedString(@"票", nil)];
+        }
+    }
     
     return cell;
     
@@ -234,17 +235,25 @@ if (self.dataSource.count==0) {
     return _placeHolderLab;
 }
 - (IBAction)changeVote:(id)sender {
-//    if (self.ActivData.count>0) {
+//    NSMutableArray *loacaAarray=[[NSMutableArray alloc]init];
+//    FLWallet *waller = [ELWalletManager share].currentWallet;
+//    if (self.VoteType==MyVoteNodeElectioType) {
+//        [loacaAarray addObjectsFromArray: [[FLNotePointDBManager defultWithWalletID:waller.masterWalletID] allRecord]];
+//    }else if (self.VoteType==MyVoteCRType){
+//    [loacaAarray addObjectsFromArray: [[HMWFMDBManager sharedManagerType:CRListType] allSelectCRWithWallID:waller.masterWalletID ]];
+//    }
+//    if (loacaAarray.count>0) {
 //        UIView *mainView =[self mainWindow];
 //        [mainView addSubview:self.votePopView];
 //        [self.votePopView mas_makeConstraints:^(MASConstraintMaker *make) {
 //            make.left.right.top.bottom.equalTo(mainView);
 //        }];
 //    }else{
-        [self needUpdataLocaInfo];
+//        [self needUpdataLocaInfo];
         
 //    }
-
+    [self CancelEvent];
+    
 }
 -(void)setVoteType:(MyVoteVotingListType)VoteType{
     _VoteType=VoteType;
@@ -263,9 +272,9 @@ if (self.dataSource.count==0) {
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     if (self.VoteType==MyVoteNodeElectioType) {
-    [self getDataFromData];
+        [self getDataFromData];
     }else if (self.VoteType==MyVoteCRType){
-    [self getCRData];
+        [self getCRData];
     }
 }
 -(void)needUpdataSta{
@@ -286,12 +295,12 @@ if (self.dataSource.count==0) {
     [self needUpdataLocaInfo];
 }
 -(void)CancelEvent{
-    
+    [self toCancelOrCloseDelegate];
     if (self.VoteType==MyVoteNodeElectioType) {
-       HMWtheCandidateListViewController * vc = [[HMWtheCandidateListViewController alloc]init];
-       vc.persent = self.persent ;
-       vc.lastTimeArray=self.listData;
-       [self.navigationController pushViewController:vc animated:YES];
+        HMWtheCandidateListViewController * vc = [[HMWtheCandidateListViewController alloc]init];
+        vc.persent = self.persent ;
+        vc.lastTimeArray=self.listData;
+        [self.navigationController pushViewController:vc animated:YES];
     }else if (self.VoteType==MyVoteCRType){
         HWMCRCCommitteeElectionListViewController *vc=[[HWMCRCCommitteeElectionListViewController alloc]init];
         vc.lastArray=self.listData;
@@ -306,44 +315,29 @@ if (self.dataSource.count==0) {
     self.votePopView=nil;
 }
 -(void)needUpdataLocaInfo{// 需要更新本地数据
-
-//    [self showLoading];
-//    FLWallet *waller = [ELWalletManager share].currentWallet;
-//       if (self.VoteType==MyVoteNodeElectioType) {
-//           [[FLNotePointDBManager defultWithWalletID:waller.walletID]delectAllWithWalletID:waller.walletID];
-//           for (FLCoinPointInfoModel *model in self.dataSource) {
-//               if ([model.state isEqualToString:@"Active"]) {
-//                 [[FLNotePointDBManager defultWithWalletID:waller.walletID]addRecord:model];
-//               }
-//
-//           }
-//
-//    }else if (self.VoteType==MyVoteCRType){
-//        for (FLCoinPointInfoModel *model in self.dataSource) {
-//                    if ([model.state isEqualToString:@"Active"]) {
-//
-//                    }
-//
-//                }
-//
-//    }
-//    [self hiddLoading];
-//    [self CancelEvent];
     
+    [self showLoading];
+    FLWallet *waller = [ELWalletManager share].currentWallet;
     if (self.VoteType==MyVoteNodeElectioType) {
-       HMWtheCandidateListViewController * vc = [[HMWtheCandidateListViewController alloc]init];
-       vc.persent = self.persent ;
-       vc.lastTimeArray=self.listData;
-       [self.navigationController pushViewController:vc animated:YES];
+        [[FLNotePointDBManager defultWithWalletID:waller.masterWalletID]delectAllWithWalletID];
+        for (FLCoinPointInfoModel *model in self.dataSource) {
+            if ([model.state isEqualToString:@"Active"]) {
+                [[FLNotePointDBManager defultWithWalletID:waller.masterWalletID]addRecord:model];
+            }
+            
+        }
+        
     }else if (self.VoteType==MyVoteCRType){
-        HWMCRCCommitteeElectionListViewController *vc=[[HWMCRCCommitteeElectionListViewController alloc]init];
-        vc.lastArray=self.listData;
-        vc.delegate=self;
-        vc.totalvotes=self.totalvotes;
-        [self.navigationController pushViewController:vc animated:YES];
-
+        for (HWMCRListModel *model in self.dataSource) {
+            [[HMWFMDBManager sharedManagerType:CRListType] delectAllCRWithWallID:waller.masterWalletID];
+            if ([model.state isEqualToString:@"Active"]) {
+                [[HMWFMDBManager sharedManagerType:CRListType] addCR:model withWallID:waller.masterWalletID];
+            }
+            
+        }
+        
     }
-    
-    
+    [self hiddLoading];
+    [self CancelEvent];
 }
 @end

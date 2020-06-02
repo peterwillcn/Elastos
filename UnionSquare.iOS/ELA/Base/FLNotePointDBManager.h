@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 //改
 -(BOOL)updateRecord:(FLCoinPointInfoModel*)person;
--(BOOL)delectAllWithWalletID:(NSString*)walletID;
+-(BOOL)delectAllWithWalletID;
 
 @end
 

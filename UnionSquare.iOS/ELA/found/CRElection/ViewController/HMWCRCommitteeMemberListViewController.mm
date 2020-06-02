@@ -764,14 +764,10 @@
 //        }];
         return NO;
     }
-    
     if ([[HWMDIDManager shareDIDManager]CheckDIDwhetherExpiredWithDIDString:self.wallet.didString WithmastWalletID:self.wallet.masterWalletID]) {
         return YES;
     }
-    
     return NO;
-    
-    
 }
 
 @end

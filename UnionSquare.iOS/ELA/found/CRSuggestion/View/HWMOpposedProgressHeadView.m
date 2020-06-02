@@ -104,7 +104,12 @@
     
     
 }
+-(void)showInfo{
+    self.showOrHiddenButton.selected=YES;
+       [self showOrHiddenEvent:nil];
+}
 -(void)needClose{
-   self.showOrHiddenButton.selected=!self.showOrHiddenButton.isSelected;
+    self.showOrHiddenButton.selected=NO;
+    [self showOrHiddenEvent:nil];
 }
 @end

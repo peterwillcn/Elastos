@@ -22,24 +22,38 @@
  */
 
 
-#import <UIKit/UIKit.h>
-#import "HWMBillListModel.h"
+#import "HWMOpenSourceStatementViewController.h"
 
-@protocol HWMCommentPerioDetailsHeadViewDelegate <NSObject>
-
--(void)closeCommentPerioDetailsOrOpen:(BOOL)isOpen;
-
-@end
-NS_ASSUME_NONNULL_BEGIN
-
-@interface HWMCommentPerioDetailsHeadView : UIView
-@property(strong,nonatomic)HWMBillListModel *model;
-@property(weak,nonatomic)id<HWMCommentPerioDetailsHeadViewDelegate> delegate;
-@property(assign,nonatomic)BOOL needMakeLine;
-
--(void)needClose;
--(void)showInfo;
+@interface HWMOpenSourceStatementViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *contentLabel;
 
 @end
 
-NS_ASSUME_NONNULL_END
+@implementation HWMOpenSourceStatementViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+   [self defultWhite];
+       [self setBackgroundImg:@""];
+    self.titleLabel.text=NSLocalizedString(@"codeTitle",nil);
+    self.contentLabel.text=NSLocalizedString(@"codeContent",nil);
+}
+- (IBAction)closeView:(id)sender {
+    [self.navigationController popViewControllerAnimated:NO];
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+- (void)viewWillAppear:(BOOL)animated{
+    [self.navigationController setNavigationBarHidden:YES];
+}
+
+@end

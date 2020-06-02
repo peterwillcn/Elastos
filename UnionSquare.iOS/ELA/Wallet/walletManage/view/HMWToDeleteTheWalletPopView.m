@@ -55,8 +55,16 @@
 }
 - (IBAction)cancelViewEvent:(id)sender {
     [self takeOutOrShutDown];
+    if (self.deleteType==CoverCommitteeMembersListType) {
+        if ([self.delegate respondsToSelector:@selector(CancelEvent)]) {
+            [self.delegate CancelEvent];
+        }
+        
+    }else{
     if ([self.delegate respondsToSelector:@selector(toCancelOrCloseDelegate)]) {
         [self.delegate toCancelOrCloseDelegate];
+    }
+        
     }
 }
 
@@ -128,13 +136,15 @@
     }else if (self.deleteType== documentsCoveringType){
         if(self.delegate){
             [self.delegate sureToDeleteViewWithPWD:@""];
-            
         }
     }else if (self.deleteType==CloseChainIDType){
         if(self.delegate){
             [self.delegate sureToDeleteViewWithPWD:@""];
-            
         }
+    }else if (self.deleteType==CoverCommitteeMembersListType){
+         if(self.delegate){
+              [self.delegate sureToDeleteViewWithPWD:@""];
+          }
     }
     
 }
@@ -205,6 +215,8 @@
         
     }else if (deleteType==CloseChainIDType){
         self.titlePopLabel.text= NSLocalizedString(@"关闭ID侧链将无法使用DID功能，\n是否立即关闭？", nil);
+    }else if (deleteType==CoverCommitteeMembersListType){
+          self.titlePopLabel.text= NSLocalizedString(@"是否覆盖现有候选列表？", nil);
     }
     _deleteType=deleteType;
 }

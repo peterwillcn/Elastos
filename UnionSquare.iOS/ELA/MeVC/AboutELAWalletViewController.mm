@@ -8,6 +8,7 @@
 #import "AboutELAWalletViewController.h"
 #import "HWMVUpdateLogWebViewController.h"
 #import "ELWalletManager.h"
+#import "HWMOpenSourceStatementViewController.h"
 
 @interface AboutELAWalletViewController ()< UIDocumentInteractionControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *appTheVersionNumberLabel;
@@ -25,6 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
+
     [self setBackgroundImg:@""];
     NSString *appTheVersionNumberString=NSLocalizedString(@"当前版本号", nil);
     self.appTheVersionNumberLabel.text=[NSString stringWithFormat:@"%@ %@",appTheVersionNumberString, [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
@@ -36,8 +38,8 @@
     [self.RunLogButton setTitle:NSLocalizedString(@"运行日志", nil) forState:UIControlStateNormal];
     
     self.sdkTheVersionNumberLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"当前sdk版本号", nil),[[ELWalletManager share] EMWMGetVersion]];
-    [self.TheCodeStatementButton setTitle:NSLocalizedString(@"《ELA Wallet开源代码程序声明》", nil) forState:UIControlStateNormal];
-    self.TheCodeStatementButton.alpha=0.f;
+    [self.TheCodeStatementButton setTitle:NSLocalizedString(@"codeTitle",nil) forState:UIControlStateNormal];
+//    self.TheCodeStatementButton.alpha=0.f;
     self.functionalSpecificationsLabel.text=NSLocalizedString(@"主要功能： \n· 亦来云全生态数字资产支持 \n· 亦来云 DID 数字身份认证 \n· 亦来云 DPoS 选举 \n· CR 社区委员选举 \n· CR 社区提案&投票等", nil);
 }
 - (IBAction)seeTheLogAction:(id)sender {
@@ -108,6 +110,8 @@
     
 }
 - (IBAction)LookUpURLEvent:(id)sender {
+    HWMOpenSourceStatementViewController *OpenSourceStatementVC=[[ HWMOpenSourceStatementViewController alloc]init];
+    [self.navigationController pushViewController:OpenSourceStatementVC animated:NO];
 }
 
 @end

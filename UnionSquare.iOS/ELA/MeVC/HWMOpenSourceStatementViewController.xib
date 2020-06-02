@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HWMOpenSourceStatementViewController">
+            <connections>
+                <outlet property="contentLabel" destination="DPP-Ao-kEj" id="lu2-Uy-WoD"/>
+                <outlet property="titleLabel" destination="RUc-ae-UDT" id="afs-tM-uaX"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Neq-Js-fzd">
+                    <rect key="frame" x="0.0" y="44" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="eSN-5w-hHh"/>
+                        <constraint firstAttribute="height" constant="50" id="v8J-9i-MAZ"/>
+                    </constraints>
+                    <state key="normal" image="window_54_close"/>
+                    <connections>
+                        <action selector="closeView:" destination="-1" eventType="touchUpInside" id="xnE-5J-Ks0"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ELA Wallet open source code  program statement" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RUc-ae-UDT">
+                    <rect key="frame" x="76" y="114" width="262" height="38.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DPP-Ao-kEj">
+                    <rect key="frame" x="15" y="172.5" width="384" height="229.5"/>
+                    <mutableString key="text">1. This program is an open source code App that provides corresponding derivative functions based on the base code of the open source project Elastos, and follows the open source MIT agreement.
+
+2. The use of this program shall be deemed to be fully understood, and capable of bearing any relevant risks -  technical and  otherwise -that may exist.
+
+3. Due to the nature of the distributed node network, the development team is not responsible for the risks and consequences caused by any situation in which node services cannot be accessed due to poor network conditions or communication lines, code security defects, or any hacking or regulatory requirements originating in the country or region where the distributed network node is located.</mutableString>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="DPP-Ao-kEj" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="15" id="0uo-f1-cw0"/>
+                <constraint firstItem="RUc-ae-UDT" firstAttribute="top" secondItem="Neq-Js-fzd" secondAttribute="bottom" constant="20" id="5he-Cm-Udy"/>
+                <constraint firstItem="Neq-Js-fzd" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="7Yp-7b-QlV"/>
+                <constraint firstAttribute="trailing" secondItem="DPP-Ao-kEj" secondAttribute="trailing" constant="15" id="L8z-Z8-xrT"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="RUc-ae-UDT" secondAttribute="trailing" constant="76" id="Lkm-wX-oOO"/>
+                <constraint firstItem="DPP-Ao-kEj" firstAttribute="top" secondItem="RUc-ae-UDT" secondAttribute="bottom" constant="20" id="XnO-9O-7Mv"/>
+                <constraint firstItem="Neq-Js-fzd" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="eKd-Ol-bhP"/>
+                <constraint firstItem="RUc-ae-UDT" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="76" id="mgT-vA-VKl"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
+            <point key="canvasLocation" x="139" y="125"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="window_54_close" width="16" height="16"/>
+    </resources>
+</document>

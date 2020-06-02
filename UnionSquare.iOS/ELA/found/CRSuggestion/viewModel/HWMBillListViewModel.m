@@ -72,7 +72,9 @@
         }
         model.cellHeight=[[FLTools share]calculateRowHeight:model.title fontSize:14 withmargin:30];
         if (model.cellHeight>60) {
-            model.cellHeight=60;
+            model.lastCellHeight=60;
+        }else{
+            model.lastCellHeight=model.cellHeight;
         }
         [AnalyticalArray addObject:model];
     }

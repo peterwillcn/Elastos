@@ -73,37 +73,42 @@
     [self.titleLabel setAttributedText:attri];
     
 }
-- (void)addSeeMoreButtonInLabel:(YYLabel *)label {
- 
-    label.attributedText = [[NSAttributedString alloc] initWithString:self.titleLabel.text attributes:@{NSFontAttributeName :self.titleLabel.font}];
-
-    NSString *moreString = @" 展开";
-    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"... %@", moreString]];
-
-    
- 
-    [text setTextHighlightRange:NSMakeRange(text.length-2,2)
-                          color:[UIColor colorWithRed:0.093 green:0.492 blue:1.000 alpha:1.000]
-                backgroundColor:[UIColor redColor]
-                      tapAction:^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
-//                      [weakSelf setFrame:YES];
-                      }];
-    text.font =self.titleLabel.font;
-    
-    YYLabel *seeMore = [YYLabel new];
-    seeMore.attributedText = text;
-    [seeMore sizeToFit];
-    
-//    NSAttributedString *truncationToken = [NSAttributedString yy_attachmentStringWithContent:seeMore contentMode:UIViewContentModeCenter attachmentSize:seeMore.frame.size alignToFont:text.f alignment:YYTextVerticalAlignmentTop];
+//- (void)addSeeMoreButtonInLabel:(YYLabel *)label {
+// 
+//    label.attributedText = [[NSAttributedString alloc] initWithString:self.titleLabel.text attributes:@{NSFontAttributeName :self.titleLabel.font}];
 //
-//    label.truncationToken = truncationToken;
-}
--(NSNumber*)labletextNumberLine{
-    NSNumber *count  = @((self.model.cellHeight) / self.titleLabel.font.lineHeight);
-    return count;
-    
-}
+//    NSString *moreString = @" 展开";
+//    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"... %@", moreString]];
+//
+//    
+// 
+//    [text setTextHighlightRange:NSMakeRange(text.length-2,2)
+//                          color:[UIColor colorWithRed:0.093 green:0.492 blue:1.000 alpha:1.000]
+//                backgroundColor:[UIColor redColor]
+//                      tapAction:^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
+////                      [weakSelf setFrame:YES];
+//                      }];
+//    text.font =self.titleLabel.font;
+//    
+//    YYLabel *seeMore = [YYLabel new];
+//    seeMore.attributedText = text;
+//    [seeMore sizeToFit];
+//    
+////    NSAttributedString *truncationToken = [NSAttributedString yy_attachmentStringWithContent:seeMore contentMode:UIViewContentModeCenter attachmentSize:seeMore.frame.size alignToFont:text.f alignment:YYTextVerticalAlignmentTop];
+////
+////    label.truncationToken = truncationToken;
+//}
+//-(NSNumber*)labletextNumberLine{
+//    NSNumber *count  = @((self.model.cellHeight) / self.titleLabel.font.lineHeight);
+//    return count;
+//
+//}
 -(void)needClose{
-   self.showOrHiddenButton.selected=!self.showOrHiddenButton.isSelected;
+    self.showOrHiddenButton.selected=NO;
+    [self showOrHiddenEvent:nil];
+}
+-(void)showInfo{
+    self.showOrHiddenButton.selected=YES;
+       [self showOrHiddenEvent:nil];
 }
 @end

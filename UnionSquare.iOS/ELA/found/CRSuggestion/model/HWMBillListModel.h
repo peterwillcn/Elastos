@@ -48,6 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(assign,nonatomic)CGFloat cellHeight;
 @property(copy,nonatomic)NSString * baseInfoString;
 @property(assign,nonatomic)NSRange  searchRanege;
+@property(assign,nonatomic)CGFloat lastCellHeight;
 @end
 
 NS_ASSUME_NONNULL_END

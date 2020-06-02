@@ -136,10 +136,12 @@ NSString *WalletIDString;
         return NO;
     }
 }
--(BOOL)delectAllWithWalletID:(NSString*)walletID{
-     NSString *sql =[NSString stringWithFormat: @"delete from %@" ,walletID];
-        if ([manager executeUpdate:sql]) {
-            
+-(BOOL)delectAllWithWalletID{
+  
+    
+ 
+        if ( [manager executeUpdate:[NSString stringWithFormat:@"DELETE FROM %@",WalletIDString]]) {
+//            [self allRecord];
             return YES;
     //        DLog(@"删除完成!");
         }else{

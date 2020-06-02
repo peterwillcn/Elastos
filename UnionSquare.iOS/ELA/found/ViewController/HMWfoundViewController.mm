@@ -106,26 +106,26 @@
 // xhj bug #937
 - (void)isVoting:(NSArray *)data
 {
-    if(data && data.count > 0)
-    {
-   
-        ELACommitteeInfoModel *voteModel = [data objectAtIndex:0];
-        if(voteModel.status && [voteModel.status isEqualToString:@"VOTING"])
-        {
+//    if(data && data.count > 0)
+//    {
+//
+//        ELACommitteeInfoModel *voteModel = [data objectAtIndex:0];
+//        if(voteModel.status && [voteModel.status isEqualToString:@"VOTING"])
+//        {
             self.dataSource = [[NSMutableArray alloc]initWithObjects:@"",@"",@"", @"", nil];
             [self.table reloadData];
-        }
-        else
-        {
-            self.dataSource = [[NSMutableArray alloc]initWithObjects:@"",@"",@"", nil];
-            [self.table reloadData];
-        }
-    }
-    else
-    {
-        self.dataSource = [[NSMutableArray alloc]initWithObjects:@"",@"",@"", nil];
-        [self.table reloadData];
-    }
+//        }
+//        else
+//        {
+//            self.dataSource = [[NSMutableArray alloc]initWithObjects:@"",@"",@"", nil];
+//            [self.table reloadData];
+//        }
+//    }
+//    else
+//    {
+//        self.dataSource = [[NSMutableArray alloc]initWithObjects:@"",@"",@"", nil];
+//        [self.table reloadData];
+//    }
     [[FLTools share]hideLoadingView];
     self.table.hidden = NO;
     
@@ -172,7 +172,6 @@
     if (indexPath.row==1) {
         cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_proposal", nil)];
     }else if(indexPath.row==2) {
-        //cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_crcvote", nil)];
         cell.img.image = [UIImage imageNamed:NSLocalizedString(@"found_card_committee", nil)];
     }
     else if(indexPath.row==3){

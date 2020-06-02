@@ -61,17 +61,12 @@ static HWMQrCodeSignatureManager * _instance;
     //xxl fix the bug for suggestionQrCodeType
     if (type ==credaccessQrCodeType||type==suggestionQrCodeType||type==billQrCodeType||type==reviewPropalQrCodeType
         || type == withdrawalsType || type == Updatemilestone || type == Reviewmilestone||type==voteforProposalQrCodeType) {
-        
-        
-        
         if ([[HWMDIDManager shareDIDManager] qrTimeWithString:data]) {
-            
-            
             Complete(QRTimePassType,data) ;
             return  ;
         }
         
-        if (type==reviewPropalQrCodeType) {
+        if (type==reviewPropalQrCodeType||type==billQrCodeType) {
             BOOL isDID=[[HWMDIDManager shareDIDManager]AuthenticationWithString:data];
             if (isDID) {
                 Complete(AuthenticationDID,data);
@@ -86,28 +81,35 @@ static HWMQrCodeSignatureManager * _instance;
             }
             
         }
-    
-        HWMSecretaryGeneralAndMembersDetailsModel* model=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
-        
-        
-        if (model) {
-            if (model.GMtype!= COUNCILType&&model.GMtype!=SECRETARIATType) {
-                Complete(CommonIdentityType,data) ;
-                return  ;
-            }
-        }else {
-            [[HWMSecretaryGeneralAndMembersInfo shareTools] loadDataSourceWithLoading:YES complete:^(HWMSecretaryGeneralAndMembersDetailsModel *model) {
+        if (type==suggestionQrCodeType||type==withdrawalsType) {
+            BOOL isDID=[[HWMDIDManager shareDIDManager]adviceComparedWithThePublicKeyWithmastWalletID:masterWalletID withStringInfo:data];
+                     if (isDID) {
+                         Complete(AuthenticationDID,data);
+                         return;
+                     }
+        }
+        if (type!=credaccessQrCodeType&&type!=suggestionQrCodeType) {
+            HWMSecretaryGeneralAndMembersDetailsModel* model=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
+            if (model) {
                 if (model.GMtype!= COUNCILType&&model.GMtype!=SECRETARIATType) {
                     Complete(CommonIdentityType,data) ;
                     return  ;
                 }
-            }];
+            }else {
+                [[HWMSecretaryGeneralAndMembersInfo shareTools] loadDataSourceWithLoading:YES complete:^(HWMSecretaryGeneralAndMembersDetailsModel *model) {
+                    if (model.GMtype!= COUNCILType&&model.GMtype!=SECRETARIATType) {
+                        Complete(CommonIdentityType,data) ;
+                        return  ;
+                    }
+                }];
+            }
+            
+            if (type==Reviewmilestone&&model.GMtype!=SECRETARIATType) {
+                    Complete(AuthenticationDID,data);
+                                  return;
+                }
         }
-        
-//        if (type==Reviewmilestone&&model.GMtype!=SECRETARIATType) {
-//                Complete(AuthenticationDID,data);
-//                              return;
-//            }
+
         if ([self detectionDidInfowithDidString:didString withmastWalletID:masterWalletID]!=ConformIdentityType) {
             type=[self detectionDidInfowithDidString:didString withmastWalletID:masterWalletID];
             Complete(type,data) ;

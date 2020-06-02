@@ -112,6 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(HWMMessageCenterModel*)selectTransactionsWithModel:(HWMMessageCenterModel*)model;
 -(HWMMessageCenterModel*)selectAllTransactionsWithModel;
 -(NSInteger)allMessageCount;
+-(BOOL)delectAllCRWithWallID:(NSString*)walletID;
 
 @end
 

@@ -141,7 +141,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
         NSLog(@"xxl 943 calculateProposalHash = %@",resultDic[@"calculateProposalHash"]);
         
     
-        if(resultDic != nil){
+        if(resultDic != nil && [[resultDic allKeys] containsObject:@"calculateProposalHash"]){
             //[self updaeJWTInfoWithDic:txidDic];
             NSDictionary *callDic = [self callBack:resultDic[@"calculateProposalHash"] pwd:resultDic[@"pwd"]];
             if(callDic)

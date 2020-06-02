@@ -3179,7 +3179,12 @@ void *ReverseByteOrder(void *p, unsigned int len)
            //xxl #943
            NSLog(@"xxl 943 0 proposalReviewTransaction %@",jsonString);
            
+           
            NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
+           
+           NSLog(@"xxl 943 1 txid %@",dic[@"TxHash"]);
+           
+           
            [resultDic setValue:dic[@"TxHash"] forKey:@"txid"];
            
            return [self successProcess:command msg:resultDic];

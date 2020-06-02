@@ -112,7 +112,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         NSLog(@"xxl 943 resultDic = %@",resultDic);
         NSLog(@"xxl 943 txid = %@",resultDic[@"txid"]);
         NSLog(@"xxl 943 pwd = %@",resultDic[@"pwd"]);
-        if(resultDic != nil){
+        if(resultDic != nil && [[resultDic allKeys] containsObject:@"txid"]){
             //[self updaeJWTInfoWithDic:txidDic];
             NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:resultDic[@"pwd"]];
             if(callDic)
@@ -782,20 +782,32 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     self.baseTable.alpha=0.f;
     _whereFrome=whereFrome;
 }
+
 -(void)viewWillDisappear:(BOOL)animated{
+    
+    //xxl #943
+    [[NSNotificationCenter defaultCenter] removeObserver:OnTxPublishedResult];
+    
     [super viewWillDisappear:animated];
     if (self.whereFrome.length>0) {
         [self.navigationController setNavigationBarHidden:NO];
     }
     
+
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    
+    
     [super viewWillAppear:animated];
 //    [self hiddLoading];
     if (self.whereFrome.length>0) {
         [self.navigationController setNavigationBarHidden:YES];
     }
+    
+    
+    
     
 }
 -(HMWSendSuccessPopuView *)sendSuccessPopuV{

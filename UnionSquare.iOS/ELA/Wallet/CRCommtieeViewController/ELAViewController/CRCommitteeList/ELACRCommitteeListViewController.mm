@@ -369,6 +369,7 @@
     else
     {
         button.hidden = YES;
+        buttonBg.hidden = YES;
     }
     [infoView addSubview:button];
     

@@ -50,6 +50,7 @@ WithPrivatekeyString:(NSString*)privatekeyString
 -(BOOL)qrTimeWithString:(NSString*)jwtStr;
 -(BOOL)AuthenticationWithString:(NSString*)jwtStr;
 -(BOOL)ComparedWithThePublicKeyWithmastWalletID:(NSString*)walletID withStringInfo:(NSString *)jwtStr;
+-(BOOL)adviceComparedWithThePublicKeyWithmastWalletID:(NSString*)walletID withStringInfo:(NSString *)jwtStr;
 @end
 
 NS_ASSUME_NONNULL_END

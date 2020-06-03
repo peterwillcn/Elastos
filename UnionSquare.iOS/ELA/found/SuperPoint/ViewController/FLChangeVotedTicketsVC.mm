@@ -347,9 +347,6 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     [self.voteArray removeAllObjects];
     [self updataBottomBtn];
     [self.baseTableView reloadData];
-
-    
-    
 }
 
 

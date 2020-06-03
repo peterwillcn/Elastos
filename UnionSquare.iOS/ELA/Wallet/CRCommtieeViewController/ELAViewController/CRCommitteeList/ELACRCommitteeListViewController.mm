@@ -274,6 +274,34 @@
 //    }
 //    return NO;
 }
+
+- (void)getCrc:(NSArray *)crcArray
+{
+//    FLWallet *wallet = [ELWalletManager share].currentWallet;
+//    NSString *key = wallet.didString;
+//    if(crcArray && crcArray.count > 0)
+//    {
+//        for (NSDictionary *dic in crcArray)//网路数组获取每个字典
+//        {
+//            NSString *cid = dic[@"cid"];//取字典中cid
+//            NSString *state = dic[@"code"];//取字典中code
+//            if([key isEqualToString:cid])//key 与 cid 相同
+//            {
+//                if([state isEqualToString:@"Active"])//有效
+//                {
+//                    return YES;;
+//                }
+//                else
+//                {
+//                    return NO;
+//                }
+//                break;
+//            }
+//        }
+//
+//    }
+    
+}
 #pragma mark - Action
 
 //- (void)goBack
@@ -304,7 +332,7 @@
 
 - (void)manageButtonAction:(id)sender
 {
-//    [self getCRInfo];
+//    [self votingElectionButtonAction:sender];
     UIButton *button  = sender;
     NSString *key = [NSString stringWithFormat:@"%@%ld", @"info", button.tag];
     ELAInformationDetail *detailModel = [_committeeDic valueForKey:key];
@@ -331,15 +359,66 @@
 
 - (void)votingElectionButtonAction:(id)sender //选举管理 voting
 {
-    [self getCRInfo];
+    [self getNetCoinPointArray];
 }
--(void)getCRInfo
+-(void)getNetCoinPointArray
 {
-    ELAWeakSelf
     [self showLoading];
+    ELAWeakSelf;
     FLWallet *wallet = [ELWalletManager share].currentWallet;
     NSString *httpIP=[[FLTools share]http_IpFast];
-    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtget" header:@{} body:@{@"did":[NSString stringWithFormat:@"%@",wallet.didString]} showHUD:NO WithSuccessBlock:^(id data) {
+    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listcrcandidates" header:@{} body:@{@"state":@"all"} showHUD:NO WithSuccessBlock:^(id data) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self hiddLoading];
+            NSDictionary *param = data[@"data"];
+            NSArray *dataArray =[NSArray modelArrayWithClass:HWMCRListModel.class json:param[@"result"][@"crcandidatesinfo"]];
+            for (int i= 0; i<dataArray.count; i++)
+            {
+                
+                HWMCRListModel *model = dataArray[i];
+                
+                NSString *did1 = [model.did stringByReplacingOccurrencesOfString:@"did:elastos:" withString:@""];
+                NSString *did2 = [wallet.didString stringByReplacingOccurrencesOfString:@"did:elastos:" withString:@""];
+                if([did1 isEqualToString:did2])
+                {
+                    if ([model.state isEqualToString:@"Active"])
+                    {
+                        weakSelf.CRModel = model;
+                        if ([[FLTools share]isBlankString:model.url])
+                        {
+                            weakSelf.CRModel.url = @" ";
+                        }
+                        //                        [weakSelf getCRInfo:weakSelf.CRModel];
+                        FLWallet *wallet = [ELWalletManager share].currentWallet;
+                        FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
+                        vc.currentWallet = wallet;
+                        vc.CRTypeString = @"CR";
+                        
+                        vc.CRModel = weakSelf.CRModel;
+                        [self.navigationController pushViewController:vc animated:YES];
+                        
+                    }
+                    break;
+                }
+                
+            }
+        });
+
+    } WithFailBlock:^(id data) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+             [weakSelf hiddLoading];
+            [weakSelf showErrorInfo:ERRORDESC];
+        });
+        
+    }];
+}
+
+-(void)getCRInfo:(HWMCRListModel *)model
+{
+    ELAWeakSelf
+    NSString *httpIP=[[FLTools share]http_IpFast];
+    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtget" header:@{} body:@{@"did":[NSString stringWithFormat:@"did:elastos:%@",model.cid]} showHUD:NO WithSuccessBlock:^(id data) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf hiddLoading];
@@ -358,98 +437,22 @@
                 vc.currentWallet = wallet;
                 vc.CRTypeString = @"CR";
                 
+                weakSelf.CRModel.didIndoModel = weakSelf.DIDmodel;
                 vc.CRModel = weakSelf.CRModel;
-                //    vc.lastArray=self.ActiveArray;
                 [self.navigationController pushViewController:vc animated:YES];
             }
         });
         
     } WithFailBlock:^(id data) {
         dispatch_async(dispatch_get_main_queue(), ^{
+             [weakSelf hiddLoading];
             [weakSelf showErrorInfo:ERRORDESC];
         });
     }];
 }
 
 
-//-(void)getNetCoinPointArray{
-//    NSString *httpIP=[[FLTools share]http_IpFast];
-//    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listcrcandidates" header:@{} body:@{@"state":@"all"} showHUD:NO WithSuccessBlock:^(id data) {
-//        NSDictionary *param = data[@"data"];
-//        NSArray *dataArray =[NSArray modelArrayWithClass:HWMCRListModel.class json:param[@"result"][@"crcandidatesinfo"]];
-//        self.memberListDataSource= [NSMutableArray arrayWithArray:dataArray];
-//        self.totalvotes=[NSString stringWithFormat:@"%@",param[@"result"][@"totalvotes"]];
-//        [self UpdataLocalOwerlist];
-//    } WithFailBlock:^(id data) {
-//
-//    }];
-//}
-//-(void)UpdataLocalOwerlist{
-//    [self.ActiveArray removeAllObjects];
-//    NSArray *localStore  = [[NSMutableArray alloc]initWithArray: [[HMWFMDBManager sharedManagerType:CRListType] allSelectCRWithWallID:self.wallet.masterWalletID]];
-//
-//    for (int i= 0; i<self.memberListDataSource.count; i++) {
-//        HWMCRListModel* model=self.memberListDataSource[i];
-//        model.voterate=[[FLTools share]CRVotingPercentageWithAllCount:self.totalvotes withCRMermVoting:model.votes];
-//        HWMCRListModel *curentmodel = nil;
-//        model.isCellSelected=NO;
-//        model.isNewCellSelected=NO;
-//        BOOL ret = NO;
-//        for (int j=0; j<localStore.count; j++) {
-//            HWMCRListModel *dataModel = localStore[j];
-//            ret =  [dataModel.did isEqualToString:model.did];
-//            if (ret) {
-//                model.isCellSelected=YES;
-//                curentmodel=model;
-//            }
-//        }
-//
-//
-//        if ([model.did isEqualToString:self.CROwnerDID]) {
-//            if ([model.state isEqualToString:@"Active"]) {
-//                model.index=[NSString stringWithFormat:@"%lu",self.ActiveArray.count+1];
-//                if (curentmodel) {
-//                    curentmodel.index=model.index;
-//                }
-//                if (self.all_selectedButton.isSelected&&model.isCellSelected) {
-//                    self.all_selectedButton.selected=YES;
-//                }else{
-//                    self.all_selectedButton.selected=NO;
-//                }
-//                [self.ActiveArray insertObject:model atIndex:0];
-//            }
-//            self.selfModel=model;
-//            if ([[FLTools share]isBlankString:model.url]) {
-//                self.selfModel.url=@" ";
-//            }
-//
-//        }else{
-//            if ([model.state isEqualToString:@"Active"]) {
-//                model.index=[NSString stringWithFormat:@"%lu",self.ActiveArray.count+1];
-//                if (curentmodel) {
-//                    curentmodel.index=model.index;
-//                }
-//
-//                [self.ActiveArray addObject:model];
-//            }
-//
-//
-//        }
-//        if (curentmodel){
-//            [[HMWFMDBManager sharedManagerType:CRListType]updateSelectCR:model WithWalletID:self.wallet.walletID];
-//            continue;
-//        }else{
-//            [[HMWFMDBManager sharedManagerType:CRListType]delectSelectCR:model WithWalletID:self.wallet.walletID];
-//        }
-//    }
-//    self.votingListV.dataSource=self.ActiveArray;
-//    [self loadAllImageInfo:self.ActiveArray];
-//
-//    //    if (self.selfModel) {
-//    [self updateInfoSelf];
-//    //    }
-//
-//}
+
 #pragma mark -
 
 - (void)loadNewData

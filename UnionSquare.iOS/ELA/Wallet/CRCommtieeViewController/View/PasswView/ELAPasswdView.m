@@ -253,6 +253,11 @@
         [_textField resignFirstResponder];
     }
 }
+- (void)setButtonTitle:(NSString *)buttonTitle
+{
+    _buttonTitle = buttonTitle;
+    [_sureButton setTitle:ELALocalizedString(_buttonTitle) forState:UIControlStateNormal];
+}
 #pragma mark - delegate
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{

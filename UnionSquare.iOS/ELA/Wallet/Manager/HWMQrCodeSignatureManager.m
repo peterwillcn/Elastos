@@ -88,7 +88,7 @@ static HWMQrCodeSignatureManager * _instance;
                          return;
                      }
         }
-        if (type!=credaccessQrCodeType&&type!=suggestionQrCodeType) {
+        if (type!=credaccessQrCodeType&&type!=suggestionQrCodeType&&type!=voteforProposalQrCodeType) {
             HWMSecretaryGeneralAndMembersDetailsModel* model=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
             if (model) {
                 if (model.GMtype!= COUNCILType&&model.GMtype!=SECRETARIATType) {
@@ -109,6 +109,13 @@ static HWMQrCodeSignatureManager * _instance;
                                   return;
                 }
         }
+//        if (type==voteforProposalQrCodeType) {
+//            BOOL isDID=[[HWMDIDManager shareDIDManager]voteforProposalQrCodeTypeWithString:data];
+//                            if (isDID) {
+//                                Complete(AuthenticationDID,data);
+//                                return;
+//                            }
+//        }
 
         if ([self detectionDidInfowithDidString:didString withmastWalletID:masterWalletID]!=ConformIdentityType) {
             type=[self detectionDidInfowithDidString:didString withmastWalletID:masterWalletID];

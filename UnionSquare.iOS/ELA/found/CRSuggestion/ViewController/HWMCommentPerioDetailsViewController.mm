@@ -148,9 +148,10 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
             if(self.type==CommentPerioNOTIFICATIONType){
                 self.OpposedProgressHeadV.DetailsProposalM=self.DetailsModel;
                 [self hiddLoading];
+                self.buttonBGView.alpha=1.f;
             }
             self.foodView.DetailsProposalM=self.DetailsModel;
-            if(self.type==CommentPerioNOTIFICATIONType||self.type==CommentPerioVOTINGType){
+            if(self.type==CommentPerioVOTINGType){
                 [self updateMemberIdentity];
     
             }else{
@@ -194,7 +195,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         }];
         self.baseTable.tableHeaderView=tableHeadView;
     }else if(self.type==CommentPerioNOTIFICATIONType){
-        [self updateMemberIdentity];
+//        [self updateMemberIdentity];
         [self.sweepYardsToVoteButton setTitle:NSLocalizedString(@"投票反对", nil) forState:UIControlStateNormal];
         UIView *tableHeadView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 180+self.model.cellHeight)];
         [tableHeadView addSubview:self.OpposedProgressHeadV];
@@ -473,10 +474,11 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     number =pluginResult.status;
     if( [number intValue] != 1){
         NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
-        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+//        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
         
         return;
     }else{
+//        [self showLoading];
         [self showSendSuccessOrFial:sendDealType];
     }
     

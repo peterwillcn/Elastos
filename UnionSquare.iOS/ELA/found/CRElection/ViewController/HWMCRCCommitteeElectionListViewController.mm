@@ -990,11 +990,9 @@ UINib *_cellCRNib;
         for (int j = 0;j<param.allKeys.count; j++) {
             NSString *itemKey = param.allKeys[j];
             if ([model.nodepublickey isEqualToString:itemKey]) {
-                
                 if (![model.state isEqualToString:@"Active"]) {
-                    [showlistdata addObject:model.nodepublickey];
+                    [showlistdata addObject:model.ownerpublickey];
                 }
-                
             }
         }
     }

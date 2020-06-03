@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 #import "HWMCRSuggestionNetWorkManger.h"
 
+#define ERRORDESC (ELALocalizedString(@"Unknown Error"))
+
 NS_ASSUME_NONNULL_BEGIN
 
 

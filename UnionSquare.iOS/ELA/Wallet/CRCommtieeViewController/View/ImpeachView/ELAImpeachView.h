@@ -32,6 +32,10 @@ typedef void(^ELAImpeachViewBlock)(NSString *value);
 
 @property (nonatomic, strong) NSString *amount;
 @property (nonatomic, copy) ELAImpeachViewBlock valueBlock;
+@property (nonatomic, strong) NSString *fee;
+@property (nonatomic, strong) NSString *buttonTitle;
+
+@property (nonatomic, assign) int type;
 
 - (void)showAlertView:(UIView *)_view;
 

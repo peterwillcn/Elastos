@@ -306,7 +306,19 @@
     [view.layer addSublayer:gl];
 
 }
-
+- (void)setType:(int)type
+{
+    _type = type;
+    if(_type == 1)//提取质押金
+    {
+        _textField.enabled = NO;
+        _textField.text = _amount;
+        _titleLabel.text =  ELALocalizedString(@"质押金");
+        _subTitleLabel.text = ELALocalizedString(@"质押金");
+        _otherTextField.text = _fee;
+        
+    }
+}
 - (void)setTitle:(NSString *)title
 {
     _titleLabel.text = ELALocalizedString(title);
@@ -344,6 +356,11 @@
     {
         [_textField resignFirstResponder];
     }
+}
+- (void)setButtonTitle:(NSString *)buttonTitle
+{
+    _buttonTitle = buttonTitle;
+    [_sureButton setTitle:ELALocalizedString(_buttonTitle) forState:UIControlStateNormal];
 }
 
 #pragma mark - delegate

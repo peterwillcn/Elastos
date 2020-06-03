@@ -38,6 +38,12 @@
 #import "ELAInformationDetail.h"
 #import "ELASecretaryDetailViewController.h"
 #import "MJExtension.h"
+#import "FLManageSelectPointNodeInformationVC.h"
+#import "HMWFMDBManager.h"
+#import "HWMDIDManager.h"
+#import "HWMCRListModel.h"
+#import "HWMDIDInfoModel.h"
+#import "ELANetwork.h"
 
 @interface ELACRCommitteeListViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -48,6 +54,10 @@
 @property (nonatomic, strong) NSMutableDictionary *committeeDic;
 
 @property (nonatomic, strong) NSMutableArray *committeeArray;
+
+@property(strong,nonatomic)HWMDIDInfoModel *DIDmodel;
+@property(strong,nonatomic)HWMCRListModel*CRModel;
+
 @end
 
 
@@ -109,37 +119,91 @@
     dispatch_group_t group = dispatch_group_create();
     for (ELACommitteeInfoModel *model in _infoModel.data)
     {
-        dispatch_group_enter(group);
-        dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            [ELANetwork getInformation:wallet.didString ID:model.index block:^(id  _Nonnull data, NSError * _Nonnull error) {
-                  
-                NSInteger _index = model.index;
-                  dispatch_async(dispatch_get_main_queue(), ^{
-                      
-                      [weakSelf hideLoadingView];
-                      if(error)
-                      {
-                          if(error.code == -999)
-                          {
-                              //已取消
-                          }
-                          else
-                          {
-                              [weakSelf showErrorInfo:error.localizedDescription];
-                          }
-                      }
-                      else
-                      {
-                          NSString *key = [NSString stringWithFormat:@"%@%ld", @"info", (long)_index];
-                          ELAInformationDetail *model = data;
-                          if(model)
-                              [weakSelf.committeeDic setValue:model forKey:key];
-                      }
-                  });
-                  dispatch_group_leave(group);
-              }];
-        });
+        if([model.status isEqualToString:@"VOTING"])
+        {
+            NSInteger _index = model.index;
+            dispatch_group_enter(group);
+            BOOL result = [self getRegisteredCRInfo];
+            if(result)
+            {
+                NSString *key = [NSString stringWithFormat:@"%@%ld", @"info", (long)_index];
+                ELAInformationDetail *model = [[ELAInformationDetail alloc] init];
+                model.type = @"Registered_key";
+                if(model)
+                    [weakSelf.committeeDic setValue:model forKey:key];
+            }
+            else
+            {
+                NSString *key = [NSString stringWithFormat:@"%@%ld", @"info", (long)_index];
+                ELAInformationDetail *model = [[ELAInformationDetail alloc] init];
+                model.type = @"URegistered_key";
+                if(model)
+                    [weakSelf.committeeDic setValue:model forKey:key];
+            }
+            dispatch_group_leave(group);
+//            [ELANetwork listcrcandidates:@"all" block:^(id  _Nonnull data, NSError * _Nonnull error){
+//                NSInteger _index = model.index;
+//                if(error)
+//                {
+//                    if(error.code == -999)
+//                    {
+//                        //已取消
+//                    }
+//                    else
+//                    {
+//                    }
+//                }
+//                else
+//                {
+//
+//                    NSDictionary *result = data[@"data"][@"result"];
+//                    if(result)
+//                    {
+//                        NSArray *array = result[@"crcandidatesinfo"];
+////                    NSString *key = [NSString stringWithFormat:@"%@%ld", @"info", (long)_index];
+////                    ELAInformationDetail *model = data;
+//                    [self CRC:array];
+//                    }
+//                }
+//                dispatch_group_leave(group);
+//
+//
+//            }];
+        }
+        else
+        {
+            dispatch_group_enter(group);
+            dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                
+                [ELANetwork getInformation:wallet.didString ID:model.index block:^(id  _Nonnull data, NSError * _Nonnull error) {
+                    
+                    NSInteger _index = model.index;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+//                        [weakSelf hideLoadingView];
+                        if(error)
+                        {
+                            if(error.code == -999)
+                            {
+                                //已取消
+                            }
+                            else
+                            {
+                                [weakSelf showErrorInfo:error.localizedDescription];
+                            }
+                        }
+                        else
+                        {
+                            NSString *key = [NSString stringWithFormat:@"%@%ld", @"info", (long)_index];
+                            ELAInformationDetail *model = data;
+                            if(model)
+                                [weakSelf.committeeDic setValue:model forKey:key];
+                        }
+                    });
+                    dispatch_group_leave(group);
+                }];
+            });
+        }
     }
           
         
@@ -166,6 +230,76 @@
             }
         });
     });
+    
+}
+
+- (BOOL)getRegisteredCRInfo
+{
+    ELWalletManager *manager   =  [ELWalletManager share];
+    IMainchainSubWallet *mainchainSubWallet = [manager getWalletELASubWallet:manager.currentWallet.masterWalletID];
+    nlohmann::json info = mainchainSubWallet->GetRegisteredCRInfo();
+    NSString *dataStr = [NSString stringWithUTF8String:info.dump().c_str()];
+    if(dataStr && ![dataStr isEqualToString:@""])
+    {
+        NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+        NSString *status = param[@"Status"];
+        if(status && [status isEqualToString:@"Registered"])
+        {
+            return YES;
+        }
+    }
+    return NO;
+//    FLWallet *wallet = [ELWalletManager share].currentWallet;
+//    NSString *key = wallet.didString;
+//    if(crcArray && crcArray.count > 0)
+//    {
+//        for (NSDictionary *dic in crcArray)//网路数组获取每个字典
+//        {
+//            NSString *cid = dic[@"cid"];//取字典中cid
+//            NSString *state = dic[@"code"];//取字典中code
+//            if([key isEqualToString:cid])//key 与 cid 相同
+//            {
+//                if([state isEqualToString:@"Active"])//有效
+//                {
+//                    return YES;;
+//                }
+//                else
+//                {
+//                    return NO;
+//                }
+//                break;
+//            }
+//        }
+//
+//    }
+//    return NO;
+}
+
+- (void)getCrc:(NSArray *)crcArray
+{
+//    FLWallet *wallet = [ELWalletManager share].currentWallet;
+//    NSString *key = wallet.didString;
+//    if(crcArray && crcArray.count > 0)
+//    {
+//        for (NSDictionary *dic in crcArray)//网路数组获取每个字典
+//        {
+//            NSString *cid = dic[@"cid"];//取字典中cid
+//            NSString *state = dic[@"code"];//取字典中code
+//            if([key isEqualToString:cid])//key 与 cid 相同
+//            {
+//                if([state isEqualToString:@"Active"])//有效
+//                {
+//                    return YES;;
+//                }
+//                else
+//                {
+//                    return NO;
+//                }
+//                break;
+//            }
+//        }
+//
+//    }
     
 }
 #pragma mark - Action
@@ -198,10 +332,11 @@
 
 - (void)manageButtonAction:(id)sender
 {
+//    [self votingElectionButtonAction:sender];
     UIButton *button  = sender;
     NSString *key = [NSString stringWithFormat:@"%@%ld", @"info", button.tag];
     ELAInformationDetail *detailModel = [_committeeDic valueForKey:key];
-    
+
     ELACommitteeManageViewController *vc = [[ELACommitteeManageViewController alloc] init];
     vc.infoModel = detailModel;
     vc.type = 1;
@@ -221,6 +356,103 @@
     vc.title = ELALocalizedString(@"委员管理");
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+- (void)votingElectionButtonAction:(id)sender //选举管理 voting
+{
+    [self getNetCoinPointArray];
+}
+-(void)getNetCoinPointArray
+{
+    [self showLoading];
+    ELAWeakSelf;
+    FLWallet *wallet = [ELWalletManager share].currentWallet;
+    NSString *httpIP=[[FLTools share]http_IpFast];
+    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listcrcandidates" header:@{} body:@{@"state":@"all"} showHUD:NO WithSuccessBlock:^(id data) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self hiddLoading];
+            NSDictionary *param = data[@"data"];
+            NSArray *dataArray =[NSArray modelArrayWithClass:HWMCRListModel.class json:param[@"result"][@"crcandidatesinfo"]];
+            for (int i= 0; i<dataArray.count; i++)
+            {
+                
+                HWMCRListModel *model = dataArray[i];
+                
+                NSString *did1 = [model.did stringByReplacingOccurrencesOfString:@"did:elastos:" withString:@""];
+                NSString *did2 = [wallet.didString stringByReplacingOccurrencesOfString:@"did:elastos:" withString:@""];
+                if([did1 isEqualToString:did2])
+                {
+                    if ([model.state isEqualToString:@"Active"])
+                    {
+                        weakSelf.CRModel = model;
+                        if ([[FLTools share]isBlankString:model.url])
+                        {
+                            weakSelf.CRModel.url = @" ";
+                        }
+                        //                        [weakSelf getCRInfo:weakSelf.CRModel];
+                        FLWallet *wallet = [ELWalletManager share].currentWallet;
+                        FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
+                        vc.currentWallet = wallet;
+                        vc.CRTypeString = @"CR";
+                        
+                        vc.CRModel = weakSelf.CRModel;
+                        [self.navigationController pushViewController:vc animated:YES];
+                        
+                    }
+                    break;
+                }
+                
+            }
+        });
+
+    } WithFailBlock:^(id data) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+             [weakSelf hiddLoading];
+            [weakSelf showErrorInfo:ERRORDESC];
+        });
+        
+    }];
+}
+
+-(void)getCRInfo:(HWMCRListModel *)model
+{
+    ELAWeakSelf
+    NSString *httpIP=[[FLTools share]http_IpFast];
+    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtget" header:@{} body:@{@"did":[NSString stringWithFormat:@"did:elastos:%@",model.cid]} showHUD:NO WithSuccessBlock:^(id data) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf hiddLoading];
+            NSString *jwtString=data[@"data"][@"jwt"];
+            if(jwtString && ![jwtString isEqualToString:@""])
+            {
+                NSDictionary *playInfoDic=[[HWMDIDManager shareDIDManager]CRInfoDecodeWithJwtStringInfo:jwtString];
+                weakSelf.DIDmodel=[HWMDIDInfoModel modelWithJSON:playInfoDic[@"credentialSubject"]];
+                
+                weakSelf.CRModel.iconImageUrl=weakSelf.DIDmodel.avatar;
+                weakSelf.CRModel.infoEN=weakSelf.DIDmodel.introduction;
+                weakSelf.CRModel.infoZH=weakSelf.DIDmodel.introduction;
+                
+                FLWallet *wallet = [ELWalletManager share].currentWallet;
+                FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
+                vc.currentWallet = wallet;
+                vc.CRTypeString = @"CR";
+                
+                weakSelf.CRModel.didIndoModel = weakSelf.DIDmodel;
+                vc.CRModel = weakSelf.CRModel;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        });
+        
+    } WithFailBlock:^(id data) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+             [weakSelf hiddLoading];
+            [weakSelf showErrorInfo:ERRORDESC];
+        });
+    }];
+}
+
+
+
 #pragma mark -
 
 - (void)loadNewData
@@ -305,13 +537,25 @@
                 buttonStr = ELALocalizedString(@"委员管理");
                 type = 2;
             }
+            else if([detailModel.type isEqualToString:@"UnelectedCouncilMember"] && ![detailModel.depositAmount isEqualToString:@""])
+            {
+                buttonStr = ELALocalizedString(@"选举管理");
+                type = 1;
+            }
         }
         else if(model.status && [model.status isEqualToString:@"VOTING"])
         {
             status = ELALocalizedString(@"选举中");
-//            model.status = ELALocalizedString(@"选举中");
-//            buttonStr = ELALocalizedString(@"选举管理");
-            type = 0;
+            if([detailModel.type isEqualToString:@"Registered_key"])
+            {
+                buttonStr = ELALocalizedString(@"选举管理");
+                type = 3;
+            }
+            else if([detailModel.type isEqualToString:@"URegistered_key"])
+            {
+//                buttonStr = ELALocalizedString(@"选举管理");
+                type = 0;
+            }
         }
         titleStr = [NSString stringWithFormat:@"%@ %ld %@(%@)", ELALocalizedString(@"第"), (long)model.index, ELALocalizedString(@"届"), status];
         dateStr = [NSString stringWithFormat:@"%@-%@", [ELAUtils getTime:model.startDate],
@@ -365,6 +609,10 @@
     else if(type == 2)
     {
         [button addTarget:self action:@selector(electionButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
+    }
+    else if(type == 3)
+    {
+        [button addTarget:self action:@selector(votingElectionButtonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     }
     else
     {

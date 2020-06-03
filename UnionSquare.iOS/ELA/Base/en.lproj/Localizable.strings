@@ -747,6 +747,7 @@
 "委员DID"="DID";
 "委员昵称不能为空"="Enter Nickname of Council member";
 "该钱包尚未开启ID侧链，是否 \n 立即开启"="The wallet has not opened the ID Sidechain.Open it now?";
+"该钱包尚未开启ID侧链"="The wallet has not opened!";
 "    退出参选72小时后，方可提取质押金"="The deposit is not available for withdrawal for 72 hours after quitting";
 "DID信息"="DID information";
 "DID名称"="DID name";

@@ -43,6 +43,7 @@
 #import "HWMDIDManager.h"
 #import "HWMCRListModel.h"
 #import "HWMDIDInfoModel.h"
+#import "ELANetwork.h"
 
 @interface ELACRCommitteeListViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -328,7 +329,7 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)votingElectionButtonAction:(id)sender
+- (void)votingElectionButtonAction:(id)sender //选举管理 voting
 {
     [self getCRInfo];
 }
@@ -338,29 +339,35 @@
     [self showLoading];
     FLWallet *wallet = [ELWalletManager share].currentWallet;
     NSString *httpIP=[[FLTools share]http_IpFast];
-    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtget" header:@{} body:@{@"did":[NSString stringWithFormat:@"did:elastos:%@",wallet.didString]} showHUD:NO WithSuccessBlock:^(id data) {
+    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/jwtget" header:@{} body:@{@"did":[NSString stringWithFormat:@"%@",wallet.didString]} showHUD:NO WithSuccessBlock:^(id data) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf hiddLoading];
             NSString *jwtString=data[@"data"][@"jwt"];
-            NSDictionary *playInfoDic=[[HWMDIDManager shareDIDManager]CRInfoDecodeWithJwtStringInfo:jwtString];
-            weakSelf.DIDmodel=[HWMDIDInfoModel modelWithJSON:playInfoDic[@"credentialSubject"]];
-            
-            weakSelf.CRModel.iconImageUrl=weakSelf.DIDmodel.avatar;
-            weakSelf.CRModel.infoEN=weakSelf.DIDmodel.introduction;
-            weakSelf.CRModel.infoZH=weakSelf.DIDmodel.introduction;
-            
-            FLWallet *wallet = [ELWalletManager share].currentWallet;
-            FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
-            vc.currentWallet = wallet;
-            vc.CRTypeString = @"CR";
-            
-            vc.CRModel = weakSelf.CRModel;
-            //    vc.lastArray=self.ActiveArray;
-            [self.navigationController pushViewController:vc animated:YES];
+            if(jwtString && ![jwtString isEqualToString:@""])
+            {
+                NSDictionary *playInfoDic=[[HWMDIDManager shareDIDManager]CRInfoDecodeWithJwtStringInfo:jwtString];
+                weakSelf.DIDmodel=[HWMDIDInfoModel modelWithJSON:playInfoDic[@"credentialSubject"]];
+                
+                weakSelf.CRModel.iconImageUrl=weakSelf.DIDmodel.avatar;
+                weakSelf.CRModel.infoEN=weakSelf.DIDmodel.introduction;
+                weakSelf.CRModel.infoZH=weakSelf.DIDmodel.introduction;
+                
+                FLWallet *wallet = [ELWalletManager share].currentWallet;
+                FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
+                vc.currentWallet = wallet;
+                vc.CRTypeString = @"CR";
+                
+                vc.CRModel = weakSelf.CRModel;
+                //    vc.lastArray=self.ActiveArray;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
         });
-    } WithFailBlock:^(id data) {
         
+    } WithFailBlock:^(id data) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf showErrorInfo:ERRORDESC];
+        });
     }];
 }
 

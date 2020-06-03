@@ -30,7 +30,6 @@
 #import "ELAInformationDetail.h"
 #import "HWMCRSuggestionNetWorkManger.h"
 
-#define ERRORDESC (ELALocalizedString(@"Unknown Error"))
 
 @implementation ELANetwork
 

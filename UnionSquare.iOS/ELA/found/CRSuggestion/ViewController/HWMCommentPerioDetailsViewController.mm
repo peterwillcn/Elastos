@@ -388,7 +388,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
             self.CRProposalConfirmV.type=NOPperatingType;
         }
         
-        [self.CRProposalConfirmV postWithHash: data[@"data"][@"proposalHash"] withVotes:@"" withFee:@"0.0001 ELA"];
+        [self.CRProposalConfirmV postWithHash: data[@"data"][@"opinionHash"] withVotes:@"" withFee:@"0.0001 ELA"];
         
     }else if (type==voteforProposalQrCodeType){// 投票反对
         UIView *mainView=[self mainWindow];
@@ -396,7 +396,10 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         [self.inputVoteTicketView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.top.bottom.equalTo(mainView);
         }];
-    }else{
+    }else if(type==AuthenticationDID){
+          [[FLTools share]showErrorInfo:NSLocalizedString(@"钱包DID不匹配", nil)];
+    }
+    else{
         [[FLTools share]showErrorInfo:@"信息格式错误"];
 //        [self QrCodeScanningResultsWithString:qrString withVC:self];
     }

@@ -797,22 +797,13 @@ UINib *_cellCRNib;
             [CRDic addEntriesFromDictionary:dic];
         }
     }
-    
     if (CRDic==NULL) {
-        
         return;
     }
-    
     NSDictionary *dic =[[ELWalletManager share]CRVoteFeeCRMainchainSubWallet:self.wallet.masterWalletID ToVote:CRDic tickets: 0 withInvalidIDArray:self.invalidDopsArray];
-    
-    
     self.fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",dic[@"fee"]]];
-    
-    
     self.jsonString=dic[@"JSON"];
-    
     NSArray *DorpVotes=dic[@"DorpVotes"];
-    
     if ([self.fee doubleValue]<0) {
         [self closeTransactionDetailsView];
         return;

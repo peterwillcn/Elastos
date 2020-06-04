@@ -797,22 +797,13 @@ UINib *_cellCRNib;
             [CRDic addEntriesFromDictionary:dic];
         }
     }
-    
     if (CRDic==NULL) {
-        
         return;
     }
-    
     NSDictionary *dic =[[ELWalletManager share]CRVoteFeeCRMainchainSubWallet:self.wallet.masterWalletID ToVote:CRDic tickets: 0 withInvalidIDArray:self.invalidDopsArray];
-    
-    
     self.fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",dic[@"fee"]]];
-    
-    
     self.jsonString=dic[@"JSON"];
-    
     NSArray *DorpVotes=dic[@"DorpVotes"];
-    
     if ([self.fee doubleValue]<0) {
         [self closeTransactionDetailsView];
         return;
@@ -999,11 +990,9 @@ UINib *_cellCRNib;
         for (int j = 0;j<param.allKeys.count; j++) {
             NSString *itemKey = param.allKeys[j];
             if ([model.nodepublickey isEqualToString:itemKey]) {
-                
                 if (![model.state isEqualToString:@"Active"]) {
-                    [showlistdata addObject:model.nodepublickey];
+                    [showlistdata addObject:model.ownerpublickey];
                 }
-                
             }
         }
     }

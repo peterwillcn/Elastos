@@ -161,9 +161,10 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
             if(self.type==CommentPerioNOTIFICATIONType){
                 self.OpposedProgressHeadV.DetailsProposalM=self.DetailsModel;
                 [self hiddLoading];
+                self.buttonBGView.alpha=1.f;
             }
             self.foodView.DetailsProposalM=self.DetailsModel;
-            if(self.type==CommentPerioNOTIFICATIONType||self.type==CommentPerioVOTINGType){
+            if(self.type==CommentPerioVOTINGType){
                 [self updateMemberIdentity];
     
             }else{
@@ -207,7 +208,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         }];
         self.baseTable.tableHeaderView=tableHeadView;
     }else if(self.type==CommentPerioNOTIFICATIONType){
-        [self updateMemberIdentity];
+//        [self updateMemberIdentity];
         [self.sweepYardsToVoteButton setTitle:NSLocalizedString(@"投票反对", nil) forState:UIControlStateNormal];
         UIView *tableHeadView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, AppWidth, 180+self.model.cellHeight)];
         [tableHeadView addSubview:self.OpposedProgressHeadV];
@@ -400,7 +401,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
             self.CRProposalConfirmV.type=NOPperatingType;
         }
         
-        [self.CRProposalConfirmV postWithHash: data[@"data"][@"proposalHash"] withVotes:@"" withFee:@"0.0001 ELA"];
+        [self.CRProposalConfirmV postWithHash: data[@"data"][@"opinionHash"] withVotes:@"" withFee:@"0.0001 ELA"];
         
     }else if (type==voteforProposalQrCodeType){// 投票反对
         UIView *mainView=[self mainWindow];
@@ -408,7 +409,10 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         [self.inputVoteTicketView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.top.bottom.equalTo(mainView);
         }];
-    }else{
+    }else if(type==AuthenticationDID){
+          [[FLTools share]showErrorInfo:NSLocalizedString(@"钱包DID不匹配", nil)];
+    }
+    else{
         [[FLTools share]showErrorInfo:@"信息格式错误"];
 //        [self QrCodeScanningResultsWithString:qrString withVC:self];
     }
@@ -486,10 +490,11 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     number =pluginResult.status;
     if( [number intValue] != 1){
         NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
-        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+//        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
         
         return;
     }else{
+//        [self showLoading];
         [self showSendSuccessOrFial:sendDealType];
     }
     

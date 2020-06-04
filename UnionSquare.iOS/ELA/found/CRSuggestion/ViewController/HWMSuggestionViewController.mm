@@ -320,7 +320,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     }else if ([typStirng isEqualToString:NSLocalizedString(@"建议哈希",nil)]){
         cell.constLabel.text=self.PayLoadDic[@"data"][@"drafthash"];
     }else if ([typStirng isEqualToString:NSLocalizedString(@"发起人DID",nil)]){
-        cell.constLabel.text=self.PayLoadDic[@"iss"];
+        cell.constLabel.text=self.advicemodel.did;
     }else if ([typStirng isEqualToString:NSLocalizedString(@"提案经费账户",nil)]){
         cell.constLabel.text=self.PayLoadDic[@"data"][@"recipient"];
     }else if ([typStirng isEqualToString:NSLocalizedString(@"提案经费额度",nil)]){

@@ -572,6 +572,23 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
        }
     return YES;
 }
+
+
+-(BOOL)voteforProposalQrCodeTypeWithString:(NSString*)jwtStr{
+    NSArray * manySecrets = [jwtStr componentsSeparatedByString:@"."];
+    NSString *base=[NSString stringFromBase64UrlEncodedString:manySecrets[1]];
+    NSDictionary * jsonDict = [NSJSONSerialization JSONObjectWithData:[base dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+    NSString* UnSignature=[NSString stringWithFormat:@"%@.%@",[self removeSpaceAndNewline:manySecrets.firstObject],manySecrets[1]];
+    UnSignature=[UnSignature stringByReplacingOccurrencesOfString:@"//n" withString:@""];
+    bool isDID=[self.DIDString isEqualToString:jsonDict[@"iss"]];
+    if (isDID){
+        return NO;
+    }else{
+        return YES;
+        
+    }
+    
+}
 -(BOOL)GenerateLocalCredentialsWithFielNameWithFielName:(NSString*)FielName{
     NSString *jwtString= [self generateDIDCredentialString];
     return  [MyUtil saveDIDPathWithWalletID:self.mastWalletID withString:jwtString WithFielName:FielName];

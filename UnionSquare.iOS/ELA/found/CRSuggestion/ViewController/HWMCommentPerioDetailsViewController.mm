@@ -65,6 +65,8 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 @property (nonatomic, strong) ELAVotingProcessUtil *votingProcessUtil;
 @property(strong,nonatomic)NSMutableArray*VoteingProposalArray;
 
+@property(strong,nonatomic) NSTimer *timer;
+@property(assign,nonatomic)BOOL isCallBackOK;
 
 @end
 
@@ -127,6 +129,21 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
            && resultDic[@"txid"] != nil ){
             //[self updaeJWTInfoWithDic:txidDic];
             NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:resultDic[@"pwd"]];
+            
+            self->_isCallBackOK = NO;
+            
+            //xxl 995
+            self->_timer = [NSTimer timerWithTimeInterval:10
+                                    target:self
+                                    selector:@selector(timerAction:)
+                                    userInfo:callDic
+                                    repeats:YES
+                              ];
+            [[NSRunLoop mainRunLoop] addTimer:self->_timer forMode:NSDefaultRunLoopMode];
+            
+            
+            //xxl resultDic is
+            NSLog(@"xxl 943 callDic = %@",callDic);
             if(callDic)
             {
                 [self updaeJWTInfoWithDic:callDic];
@@ -144,6 +161,25 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     });
     
 }
+
+-(void)timerAction: (NSTimer *)timer{
+    
+    NSLog(@"xxl timerAction ");
+    NSLog(@"xxl _isCallBackOK %d",self->_isCallBackOK);
+    NSDictionary *callDic = [timer userInfo];
+    if(self->_isCallBackOK  == NO){
+        
+         NSLog(@"xxl call updaeJWTInfoWithDic ");
+         [self updaeJWTInfoWithDic:callDic];
+    }else{
+        
+         [timer invalidate];
+         timer = nil;
+    }
+    
+}
+
+
 
 -(NSMutableArray *)VoteingProposalArray{
     if (!_VoteingProposalArray) {
@@ -677,14 +713,17 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 -(void)updaeJWTInfoWithDic:(NSDictionary*)pare{
     
     
-    NSLog(@"calback url %@",self.PayLoadDic[@"callbackurl"]);
-    NSLog(@"pare %@",pare);
+    NSLog(@"xxl calback url %@",self.PayLoadDic[@"callbackurl"]);
+    NSLog(@"xxl pare %@",pare);
     
     [HttpUrl NetPOSTHost:self.PayLoadDic[@"callbackurl"] url:@"" header:nil body:pare showHUD:NO WithSuccessBlock:^(id data) {
+        
+        NSLog(@"xxl callback OK ");
+        self->_isCallBackOK = YES;
         [self showSendSuccessOrFial:SignatureSuccessType];
     } WithFailBlock:^(id data) {
         
-        NSLog(@"error --- @%",data);
+        NSLog(@"xxl error --- @%",data);
         [self showSendSuccessOrFial:SignatureFailureType];
     }];
 }
@@ -746,6 +785,11 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 }
 
 -(void)showSendSuccessOrFial:(SendSuccessType)type{
+    
+    
+    NSLog(@"xxl comet to showSendSuccessOrFial ");
+    [SVProgressHUD dismiss];
+    
     [[FLTools share]hideLoadingView];
     [self.CRProposalConfirmV removeFromSuperview];
     self.CRProposalConfirmV=nil;
@@ -755,15 +799,26 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         make.left.right.top.bottom.equalTo(self.view);
     }];
     
-    
-    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.sendSuccessPopuV removeAllSubviews];
-        self.sendSuccessPopuV=nil;
+        
+        NSLog(@"xxl comet to dispatch_after ");
+        
+        if(self.sendSuccessPopuV != nil){
+            
+            [self.sendSuccessPopuV removeAllSubviews];
+            self.sendSuccessPopuV=nil;
+        }
+
         
         [self.navigationController popViewControllerAnimated:NO];
     });
 }
+
+
+
+
+
+
 -(void)updateMemberIdentity{
     self.SecretaryGeneralAndModel=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
     HWMSecretaryGeneralAndMembersDetailsModel* model=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];

@@ -2106,13 +2106,13 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     NSInteger hourInt=3600;
     NSInteger dayInt=3600*24;
     if (RemainingInt<hourInt) {
-        showRemainingTimeTest=@"不足1小时";
+        showRemainingTimeTest=NSLocalizedString(@"不足1小时", nil);
     }else if (RemainingInt<dayInt&&RemainingInt>hourInt){
-        showRemainingTimeTest=@"约23个小时";
+        showRemainingTimeTest=NSLocalizedString(@"约23个小时", nil);
     }else if (RemainingInt>dayInt){
         NSInteger dayNumber= RemainingInt/dayInt;
-        
-        showRemainingTimeTest=[NSString stringWithFormat:@"约 %ld 天",dayNumber];
+       
+        showRemainingTimeTest=[NSString stringWithFormat:@"%@ %ld %@", NSLocalizedString(@"约", nil),dayNumber,NSLocalizedString(@"天", nil)];
     }
     return showRemainingTimeTest;
 }
@@ -2141,13 +2141,13 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
             //            第三 3rd
             //            第四以上 1286th
             
-            return [NSString stringWithFormat:@"1st%@", NSLocalizedString(@"阶段", nil)];
+            return [NSString stringWithFormat:@"1st %@", NSLocalizedString(@"阶段", nil)];
         }else if ([Stage isEqualToString:@"2"]){
-            return [NSString stringWithFormat:@"2nd%@", NSLocalizedString(@"阶段", nil)];
+            return [NSString stringWithFormat:@"2nd %@", NSLocalizedString(@"阶段", nil)];
         }else if ([Stage isEqualToString:@"3"]){
-            return [NSString stringWithFormat:@"3rd%@", NSLocalizedString(@"阶段", nil)];
+            return [NSString stringWithFormat:@"3rd %@", NSLocalizedString(@"阶段", nil)];
         }else if (StageInt>3){
-            return [NSString stringWithFormat:@"ldth%d",StageInt, NSLocalizedString(@"阶段", nil)];
+            return [NSString stringWithFormat:@"ldth %d",StageInt, NSLocalizedString(@"阶段", nil)];
         }
     }else{
         return  [NSString stringWithFormat:@"第%@阶段",Stage];

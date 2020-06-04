@@ -287,6 +287,7 @@
         NSString *key = [NSString stringWithFormat:@"%@%ld", @"info", model.index];
         ELAInformationDetail *detailModel = [_committeeDic valueForKey:key];
         NSString *status = @"";
+        
         if(model.status && [model.status isEqualToString:@"HISTORY"])
         {
             if([detailModel.type isEqualToString:@"UnelectedCouncilMember"] && ![detailModel.depositAmount isEqualToString:@""])

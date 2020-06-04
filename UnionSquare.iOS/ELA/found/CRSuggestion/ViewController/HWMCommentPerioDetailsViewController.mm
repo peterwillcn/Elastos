@@ -104,6 +104,15 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     _votingProcessUtil = [ELAVotingProcessUtil shareVotingProcess];
     NSMutableDictionary *resultDic = _votingProcessUtil.resultDic;
     
+    if([[resultDic allKeys] containsObject:@"txid"]){
+        
+        if(resultDic[@"txid"] == _votingProcessUtil.curTxid){
+            return;
+        }else{
+            _votingProcessUtil.curTxid = resultDic[@"txid"];
+        }
+    }
+    
     NSDictionary *param =notice.object;
     NSLog(@"xxl 943 2 HWMCommentPerioDetailsViewController onTxPublish %@ 1",param);
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -111,7 +120,11 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         NSLog(@"xxl 943 resultDic = %@",resultDic);
         NSLog(@"xxl 943 txid = %@",resultDic[@"txid"]);
         NSLog(@"xxl 943 pwd = %@",resultDic[@"pwd"]);
-        if(resultDic != nil && [[resultDic allKeys] containsObject:@"txid"]){
+        
+        
+        if(resultDic != nil
+           && [[resultDic allKeys] containsObject:@"txid"]
+           && resultDic[@"txid"] != nil ){
             //[self updaeJWTInfoWithDic:txidDic];
             NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:resultDic[@"pwd"]];
             if(callDic)
@@ -672,6 +685,8 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 }
 - (NSDictionary *)callBack:(NSString *)payString pwd:(NSString *)PWDString
 {
+    NSLog(@"xxl for callBack ExportxPrivateKey");
+    
     if(payString && ![payString isEqualToString:@""])
     {
         NSString * didString= [[HWMSecretaryGeneralAndMembersInfo shareTools] getDIDString];

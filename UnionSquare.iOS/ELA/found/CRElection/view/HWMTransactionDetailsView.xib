@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,7 +15,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GHT-IL-cBn">
-                    <rect key="frame" x="0.0" y="465" width="414" height="397"/>
+                    <rect key="frame" x="0.0" y="502" width="414" height="360"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VwP-40-Mxh">
                             <rect key="frame" x="0.0" y="47" width="414" height="1"/>
@@ -38,7 +38,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="We9-Od-CZh">
-                            <rect key="frame" x="63" y="257" width="288" height="40"/>
+                            <rect key="frame" x="63" y="220" width="288" height="40"/>
                             <color key="backgroundColor" red="0.27447697519999997" green="0.2745291889" blue="0.2744696438" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="suS-Yb-o1J"/>
@@ -137,7 +137,6 @@
                         <constraint firstAttribute="trailing" secondItem="We9-Od-CZh" secondAttribute="trailing" constant="63" id="Vih-ay-J25"/>
                         <constraint firstItem="glM-XW-nIe" firstAttribute="leading" secondItem="GHT-IL-cBn" secondAttribute="leading" id="Yaf-Fx-wSu"/>
                         <constraint firstItem="4oh-q1-u6w" firstAttribute="top" secondItem="VwP-40-Mxh" secondAttribute="bottom" constant="19" id="Yei-q7-1Hk"/>
-                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="450" id="ady-bo-wbJ"/>
                         <constraint firstItem="QDl-UP-otc" firstAttribute="centerY" secondItem="4oh-q1-u6w" secondAttribute="centerY" id="aza-XJ-zbt"/>
                         <constraint firstItem="gDE-hm-9Dp" firstAttribute="leading" secondItem="GHT-IL-cBn" secondAttribute="leading" constant="15" id="bdB-jh-fTH"/>
                         <constraint firstItem="glM-XW-nIe" firstAttribute="top" secondItem="GHT-IL-cBn" secondAttribute="top" id="elp-hS-jpn"/>
@@ -146,7 +145,7 @@
                         <constraint firstItem="skn-09-LPG" firstAttribute="top" secondItem="GHT-IL-cBn" secondAttribute="top" constant="18" id="hWf-vy-HsV"/>
                         <constraint firstItem="zS3-cD-whf" firstAttribute="leading" secondItem="GHT-IL-cBn" secondAttribute="leading" constant="15" id="jrU-pz-WOa"/>
                         <constraint firstItem="4oh-q1-u6w" firstAttribute="top" secondItem="VwP-40-Mxh" secondAttribute="bottom" constant="19" id="k6f-Qj-6Un"/>
-                        <constraint firstAttribute="height" constant="397" id="nx4-Md-xjV"/>
+                        <constraint firstAttribute="height" constant="360" id="nx4-Md-xjV"/>
                         <constraint firstItem="VwP-40-Mxh" firstAttribute="top" secondItem="glM-XW-nIe" secondAttribute="bottom" id="ru0-pK-tw7"/>
                         <constraint firstItem="gDE-hm-9Dp" firstAttribute="top" secondItem="4oh-q1-u6w" secondAttribute="bottom" constant="17" id="sc5-sT-Wac"/>
                         <constraint firstAttribute="trailing" secondItem="VwP-40-Mxh" secondAttribute="trailing" id="sf3-cr-Zp0"/>

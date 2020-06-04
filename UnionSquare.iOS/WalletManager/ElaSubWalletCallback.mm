@@ -120,6 +120,8 @@ void ElaSubWalletCallback::OnTxPublished(const std::string &hash, const nlohmann
             model.typeHash=hashString;
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [[FLTools share]showNeMessageWith:model];
+                
+                [SVProgressHUD dismiss];
             });
         }
 

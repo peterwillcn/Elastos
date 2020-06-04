@@ -38,6 +38,7 @@ typedef void(^GetImpeachmentBlock)(NSDictionary *votes, NSArray *invalidCandidat
 @property (nonatomic, strong) ELAInformationDetail *detailModel;
 //xxl 943
 @property (nonatomic, copy) NSMutableDictionary *resultDic;
+@property (nonatomic, copy) NSString *curTxid;
 
 
 @property (nonatomic, copy) GetImpeachmentBlock getImpeachmentBlock;

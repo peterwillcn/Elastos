@@ -33,11 +33,13 @@
     self =[[NSBundle mainBundle]loadNibNamed:@"HWMTransactionDetailsView" owner:nil options:nil].firstObject;
 
    
-        [[HMWCommView share]makeBordersWithView:self.theNextStepButton];
+    [[HMWCommView share]makeBordersWithView:self.theNextStepButton];
     self.titleLab.text =NSLocalizedString(@"交易详情", nil);
     [self.theNextStepButton setTitle:NSLocalizedString(@"下一步", nil) forState:UIControlStateNormal];
     self.feeTextLab.text=NSLocalizedString(@"手续费", nil);
     self.amountTextLab.text=NSLocalizedString(@"金额", nil);
+    
+    
     return self;
 }
 
@@ -82,18 +84,17 @@
         self.amountLab.text= [NSString stringWithFormat:@"%@ ELA",fee];
         self.makeLine.alpha=0;
     }else{
-    self.feeLab.text=[NSString stringWithFormat:@"%@ ELA",fee];
-    if (aumont.length==0) {
-        self.amountLab.text=[NSString stringWithFormat:@"%@ ELA",fee];
-        self.amountTextLab.text=NSLocalizedString(@"手续费", nil);
-        self.feeLab.alpha=0;
-        self.feeTextLab.alpha=0;
-        self.makeLine.alpha=0;
-    }else{
-        self.amountLab.text=[NSString stringWithFormat:@"%@ ELA",aumont];
-          self.feeLab.text=[NSString stringWithFormat:@"%@ ELA",fee];
-          
-    }
+        self.feeLab.text=[NSString stringWithFormat:@"%@ ELA",fee];
+        if (aumont.length==0) {
+            self.amountLab.text=[NSString stringWithFormat:@"%@ ELA",fee];
+            self.amountTextLab.text=NSLocalizedString(@"手续费", nil);
+            self.feeLab.alpha=0;
+            self.feeTextLab.alpha=0;
+            self.makeLine.alpha=0;
+        }else{
+            self.amountLab.text=[NSString stringWithFormat:@"%@ ELA",aumont];
+            self.feeLab.text=[NSString stringWithFormat:@"%@ ELA",fee];
+        }
     }
     
 }

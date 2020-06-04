@@ -2359,6 +2359,10 @@ static uint64_t feePerKB = 10000;
 }
 
 -(NSString *)ExportxPrivateKey:(invokedUrlCommand *)command{
+    
+    
+    NSLog(@"xxl for ExportxPrivateKey");
+    
     NSArray *args = command.arguments;
     int idx = 0;
     String masterWalletID = [self cstringWithString:args[idx++]];

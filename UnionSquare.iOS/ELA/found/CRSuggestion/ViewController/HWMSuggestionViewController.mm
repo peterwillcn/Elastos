@@ -54,8 +54,9 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 @property(strong,nonatomic)HWMadviceModel *advicemodel;
 @property(strong,nonatomic) NSMutableArray *BudgetsArray;
 @property(strong,nonatomic) NSMutableArray *cellDataBudgetsArray;
+@property(strong,nonatomic) NSTimer *timer;
 
-
+@property(assign,nonatomic)BOOL isCallBackOK;
 //xxl #943
 @property (nonatomic, strong) ELAVotingProcessUtil *votingProcessUtil;
 
@@ -141,11 +142,23 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
         NSLog(@"xxl 943 calculateProposalHash = %@",resultDic[@"calculateProposalHash"]);
         
     
-        if(resultDic != nil && [[resultDic allKeys] containsObject:@"calculateProposalHash"]){
+        if(resultDic != nil
+           && [[resultDic allKeys] containsObject:@"calculateProposalHash"]
+           && resultDic[@"calculateProposalHash"] != nil){
             //[self updaeJWTInfoWithDic:txidDic];
             NSDictionary *callDic = [self callBack:resultDic[@"calculateProposalHash"] pwd:resultDic[@"pwd"]];
             if(callDic)
             {
+                self->_isCallBackOK = false;
+                //xxl 995
+                self->_timer = [NSTimer timerWithTimeInterval:10
+                                        target:self
+                                        selector:@selector(timerAction:)
+                                        userInfo:callDic
+                                        repeats:YES
+                                  ];
+                [[NSRunLoop mainRunLoop] addTimer:self->_timer forMode:NSDefaultRunLoopMode];
+                
                 [self updaeJWTInfoWithDic:callDic];
             }else {
                 
@@ -163,6 +176,26 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     });
 
     
+}
+
+-(void)timerAction: (NSTimer *)timer{
+    
+    NSLog(@"xxl timerAction ");
+    NSDictionary *callDic = [timer userInfo];
+    if(self->_isCallBackOK  == false){
+        
+         NSLog(@"xxl call updaeJWTInfoWithDic ");
+         [self updaeJWTInfoWithDic:callDic];
+    }else{
+        
+         [timer invalidate];
+         timer = nil;
+    }
+    
+    
+    //取消定时器
+//    [timer invalidate];
+//    timer = nil;
 }
 
 //xxl 2.3
@@ -440,14 +473,16 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 -(void)updaeJWTInfoWithDic:(NSDictionary*)pare{
     
     
-    NSLog(@"calback url %@",self.PayLoadDic[@"callbackurl"]);
-    NSLog(@"pare %@",pare);
+    NSLog(@"xxl calback url %@",self.PayLoadDic[@"callbackurl"]);
+    NSLog(@"xxl pare %@",pare);
     
     [HttpUrl NetPOSTHost:self.PayLoadDic[@"callbackurl"] url:@"" header:nil body:pare showHUD:NO WithSuccessBlock:^(id data) {
-        NSLog(@"回调成功");
+        
+        NSLog(@"xxl 回调成功");
+        self->_isCallBackOK = true;
         [self showSendSuccessOrFial:SignatureSuccessType];
     } WithFailBlock:^(id data) {
-          NSLog(@"回调失败");
+        NSLog(@"xxl 回调失败");
         NSLog(@"error --- @%",data);
         [self showSendSuccessOrFial:SignatureFailureType];
     }];

@@ -93,7 +93,7 @@
             double douValue = [value doubleValue];
             if(douValue <= 0)
             {
-                [weakSelf showErrorInfo:ELALocalizedString(@"请正确输入数字")];
+                [weakSelf showErrorInfo:ELALocalizedString(@"err20001")];
                 return;
             }
             weakSelf.impeachValue = value;

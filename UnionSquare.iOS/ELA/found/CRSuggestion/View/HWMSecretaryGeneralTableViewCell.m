@@ -23,7 +23,7 @@
 
 
 #import "HWMSecretaryGeneralTableViewCell.h"
-
+#import "YYKit.h"
 @interface HWMSecretaryGeneralTableViewCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *headImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nickNameLabel;
@@ -61,6 +61,7 @@
 }
 
 -(void)setPerformModel:(HWMVoteResultModel *)performModel{
+    _performModel=performModel;
     CGRect fream=[self frame];
     [self.billHeadImageView sd_setImageWithURL:[NSURL URLWithString:performModel.avatar]];
     self.billNickNameLabel.text=performModel.didName;
@@ -76,8 +77,33 @@
     CGFloat contHeight=[self labelHeightWithLabel:self.contLabel WithMar:40];
     fream.size.height=billHeight+contHeight+90;
     
+    [self setColorString];
     
 }
+
+
+-(void)setColorString{
+//     跟踪审核意见
+//    [赞同: 'APPROVED',
+//    反对: 'REJECTED']
+    NSString *opinionString;
+    UIColor *bgC;
+    if ([self.performModel.commentModel.opinion isEqualToString:@"APPROVED"]) {
+        opinionString=NSLocalizedString(@"通过",nil);
+        bgC=RGB(53, 176, 143);
+    }else{
+         opinionString=NSLocalizedString(@"否决",nil);
+         bgC=RGB(176, 65, 53);
+        
+    }
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@",opinionString,self.performModel.commentModel.commentContent]];
+    text.font = [UIFont boldSystemFontOfSize:10];
+    text.color = [UIColor whiteColor];
+    [text addAttribute:NSBackgroundColorAttributeName value:bgC
+                 range:NSMakeRange(0, opinionString.length)];
+  self.contLabel.attributedText = text;
+}
+
 -(CGFloat)labelHeightWithLabel:(UILabel*)label WithMar:(CGFloat)mar{
     CGSize constraintSize;
         constraintSize.width = AppWidth - mar;

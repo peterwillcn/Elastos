@@ -754,13 +754,13 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *typStirng=self.suggestionArray[indexPath.section];
     if ([typStirng isEqualToString:NSLocalizedString(@"类型",nil)]) {
-        return 50;
+        return 60;
     }else if ([typStirng isEqualToString:NSLocalizedString(@"建议哈希",nil)]){
         return 50+30;
     }else if ([typStirng isEqualToString:NSLocalizedString(@"发起人DID",nil)]){
         return 80;
     }else if ([typStirng isEqualToString:NSLocalizedString(@"提案经费账户",nil)]){
-        return 50;
+        return 60;
     }else if ([typStirng isEqualToString:NSLocalizedString(@"提案经费额度",nil)]){
         if (indexPath.row==0) {
             return 50;

@@ -349,6 +349,9 @@
 "委员投票"="Council Member’s Vote";
 "赞成"="Yes";
 "反对"="NO";
+" 弃权 "="Abstain";
+" 赞成 "="Yes";
+" 反对  "="NO";
 "弃权"="Abstain";
 "扫码投票"="Scan QR Code and Vote";
 "暂无投票"="No vote";
@@ -356,7 +359,6 @@
 "达成否决票数"="Votes required to reject a Proposal";
 "投票反对"="Vote Against";
 "执行进度"="Schedule";
-"秘书长"="Secretary General";
 "found_card_vote"="eg_found_card_supernode";
 "CR委员会列表"="Council Member List";
 "本届"="Current Term";
@@ -392,7 +394,6 @@
 //"dimissofficehint">上届CR委员会因故解散，所有委员自动去职。根据您时机履职情况及CRC委员节点的运行情况，您的竞选押金返回金额为%1$sELA。"="";
 "上届CR委员会因故解散，所有委员自动去职。"="The last CR Council has been disbanded, and all council members will automatically resign from office.";
 "提取质押金"="Withdraw Deposit";
-
 "委员列表"="Council Member List";
 "秘书长列表"="Secretary General List";
 "秘书长详情"="Secretary General’s Profile";
@@ -838,17 +839,9 @@
 "发布失败"="failed";
 
 
-
-"阶段"="failed";
-//(@"第",nil ),model.Stage,NSLocalizedString(@"阶段",nil )]
-"不足1小时"="不足1小时";
-"约23个小时"="约23个小时";
-"约1天"="约1天";
-"钱包DID不匹配"="钱包DID不匹配";
-//"普通"="";
-//不是当前提案
+// 1st／2nd／3rd／4+th payment
+"阶段"="payment";
 "社区提案"="Community Proposal";
-
 "复制扫描结果"="Copy Content";
 "请选择失效日期"="Select an expiration date";
 "暂无"="N/A";
@@ -983,7 +976,49 @@
 "err20061"="The last vote transaction is pending";
 "err29999"="Other error";
 
-//"是否覆盖现有候选列表？"
+"是否覆盖现有候选列表？"="Overwrite Current Candidate List?";
+"提案评议"="Proposal Comments";
+"反对票数"="Negative Votes Number";
+"确认信息"="Confirm Information";
+" 通过   "=" Pass   ";
+"通过"="Pass";
+"否决"="Reject";
+"提案哈希不匹配"="Proposal hash doesn’t match";
+"反馈哈希"="Feedback Hash";
+"审核哈希"="Review Hash";
 
-
-
+"发起建议"= "Submit a Suggestion";
+"建议哈希"="Comment Hash";
+"类型"="Type";
+"普通"="Normal";
+"发起人DID"="Proposer DID";
+"提案经费账户"="Fund Account of the Proposal";
+"提案经费额度"="Fund usage plan";
+"合计"="Total";
+"预付款"="Advance Payments";
+"尾款"="End Payments";
+"签名"="Signature";
+"社区提案"="Proposal";
+"未通过"="Rejected";
+"已否决"="Rejected";
+"投票金额"="Voting Amount";
+" 否决   "=" Reject  ";
+"提案发起交易"="Proposal Nomination Transaction";
+"提案评议交易"="Review Proposal Transaction";
+"提取地址"="Withdrawal Address";
+"本轮竞选已经结束，很遗憾您此次未能当选。感谢您的参与，祝您好运！"="This election is over. Unfortunately, you have not been elected this time. Thank you for your participation";
+"提案反馈交易"="Proposal Tracking Transaction";
+"提案资金提取交易"="Proposal Withdraw Transaction";
+"约"="About";
+"天"="Days";
+"发起提案"="Nominate Proposal";
+"发起提案"="Nominate Proposal";
+"钱包DID不匹配"="Wallet DID doesn’t match";
+"暂无提案"="No Proposal";
+"评议哈希"="Comment Hash";
+"投票意见"="Opinion";
+"秘书长"="Secretary Genera";
+" 秘书长 "=" SG ";
+"签名发送成功"="Signature sent successfully";
+"约23个小时"="About 23 Hours";
+"不足1小时"="Less Than 1 Hour";

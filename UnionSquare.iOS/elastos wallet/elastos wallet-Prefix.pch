@@ -60,7 +60,7 @@
 #define didSDKNet @"http://api.elastos.io:20606"
 #define ELAPort  @"20338"
 #define IDChainPort @"20608"
-#define CRProposalIP @"https://staging-api.cyberrepublic.org"
+#define CRProposalIP @"https://api.cyberrepublic.org"
 #define DLog(...)
 
 #endif

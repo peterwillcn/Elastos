@@ -52,7 +52,7 @@
         [self.showOrHiddenButton setImage:[UIImage imageNamed:@"setting_list_arrow"] forState:UIControlStateNormal];
         [self.showOrHiddenButton setImage:[UIImage imageNamed:@"setting_list_arrow_fold"] forState:UIControlStateSelected];
         self.TheCurrentNumberLabel.text=NSLocalizedString(@"当前票数", nil);
-        self.VetoVoteLabel.text=NSLocalizedString(@"否决通过票数", nil);
+        self.VetoVoteLabel.text=NSLocalizedString(@"达成否决票数", nil);
         self.OpposedProgressLabel.text=NSLocalizedString(@"反对进度", nil);
         self.userInteractionEnabled=YES;
         [self.OpposedProgressView addSubview:self.CircleProgressV];
@@ -99,7 +99,7 @@
 }
 -(void)setDetailsProposalM:(HWMDetailsProposalModel *)DetailsProposalM{
     self.OpposingVotesLabel.text=[NSString stringWithFormat:@"%d ELA",[DetailsProposalM.rejectAmount intValue]];
-    self.VetoVote.text=[NSString stringWithFormat:@"%d ELA",[DetailsProposalM.rejectHeight intValue]];
+    self.VetoVote.text=[NSString stringWithFormat:@"%d ELA",[DetailsProposalM.rejectThroughAmount intValue]];
     [self.CircleProgressV setProgress:DetailsProposalM.rejectRatio animated:NO];
     
     

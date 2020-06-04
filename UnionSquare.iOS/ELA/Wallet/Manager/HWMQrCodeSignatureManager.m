@@ -88,7 +88,7 @@ static HWMQrCodeSignatureManager * _instance;
                          return;
                      }
         }
-        if (type!=credaccessQrCodeType&&type!=suggestionQrCodeType&&type!=voteforProposalQrCodeType) {
+        if (type!=credaccessQrCodeType&&type!=suggestionQrCodeType&&type!=voteforProposalQrCodeType&&type!=withdrawalsType&&type!=Updatemilestone) {
             HWMSecretaryGeneralAndMembersDetailsModel* model=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
             if (model) {
                 if (model.GMtype!= COUNCILType&&model.GMtype!=SECRETARIATType) {

@@ -127,19 +127,18 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         if(resultDic != nil
            && [[resultDic allKeys] containsObject:@"txid"]
            && resultDic[@"txid"] != nil ){
-            //[self updaeJWTInfoWithDic:txidDic];
             NSDictionary *callDic = [self callBack:resultDic[@"txid"] pwd:resultDic[@"pwd"]];
             
             self->_isCallBackOK = NO;
             
             //xxl 995
-            self->_timer = [NSTimer timerWithTimeInterval:10
-                                    target:self
-                                    selector:@selector(timerAction:)
-                                    userInfo:callDic
-                                    repeats:YES
-                              ];
-            [[NSRunLoop mainRunLoop] addTimer:self->_timer forMode:NSDefaultRunLoopMode];
+//            self->_timer = [NSTimer timerWithTimeInterval:10
+//                                    target:self
+//                                    selector:@selector(timerAction:)
+////                                    userInfo:callDic
+//                                    repeats:YES
+//                              ];
+//            [[NSRunLoop mainRunLoop] addTimer:self->_timer forMode:NSDefaultRunLoopMode];
             
             
             //xxl resultDic is

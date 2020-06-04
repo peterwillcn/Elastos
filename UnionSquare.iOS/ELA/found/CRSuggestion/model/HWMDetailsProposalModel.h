@@ -66,6 +66,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(strong,nonatomic)NSMutableArray  *againstResult;
 @property(strong,nonatomic)NSMutableArray  *waiverResult;
 @property(strong,nonatomic)NSMutableArray *trackingResult;
+@property(copy,nonatomic)NSString *rejectThroughAmount;
+
 @end
 
 NS_ASSUME_NONNULL_END

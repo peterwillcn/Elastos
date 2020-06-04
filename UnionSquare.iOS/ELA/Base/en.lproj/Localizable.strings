@@ -356,7 +356,7 @@
 "扫码投票"="Scan QR Code and Vote";
 "暂无投票"="No vote";
 "反对进度"="Veto Progress";
-"达成否决票数"="Votes required to reject a Proposal";
+"达成否决票数"="Votes required to \n reject a Proposal";
 "投票反对"="Vote Against";
 "执行进度"="Schedule";
 "found_card_vote"="eg_found_card_supernode";

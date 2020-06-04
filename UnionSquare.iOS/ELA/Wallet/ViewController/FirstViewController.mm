@@ -1095,6 +1095,10 @@
 }
 -(void)parsingQRCodeDataWithType:(QrCodeSignatureType)type withDicData:(id)data withQRString:(NSString*)qrString{
     HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];
+    
+    //NSLog(@"xxl 943 create CommentPerioDetailsVC %@",CommentPerioDetailsVC.view);
+    
+    
     if (type==reviewPropalQrCodeType) {
         CommentPerioDetailsVC.type=CommentPerioVOTINGType;
     }else if (type==voteforProposalQrCodeType){

@@ -88,7 +88,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         [self parsingQRCodeDataWithType:self.codeSignatureT withDicData:self.DicData withQRString:self.qrString];
     }
     
-    
+    NSLog(@"xxl viewDidLoad %@",self.view);
     //xxl #943
     [[NSNotificationCenter defaultCenter]addObserver:self
                                             selector:@selector(onTxPublish:)
@@ -132,17 +132,17 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
             self->_isCallBackOK = NO;
             
             //xxl 995
-//            self->_timer = [NSTimer timerWithTimeInterval:10
-//                                    target:self
-//                                    selector:@selector(timerAction:)
-////                                    userInfo:callDic
-//                                    repeats:YES
-//                              ];
-//            [[NSRunLoop mainRunLoop] addTimer:self->_timer forMode:NSDefaultRunLoopMode];
+            self->_timer = [NSTimer timerWithTimeInterval:10
+                                    target:self
+                                    selector:@selector(timerAction:)
+                                    userInfo:callDic
+                                    repeats:YES
+                              ];
+            [[NSRunLoop mainRunLoop] addTimer:self->_timer forMode:NSDefaultRunLoopMode];
             
             
             //xxl resultDic is
-            NSLog(@"xxl 943 callDic = %@",callDic);
+            //NSLog(@"xxl 943 callDic = %@",callDic);
             if(callDic)
             {
                 [self updaeJWTInfoWithDic:callDic];
@@ -713,7 +713,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     
     
     NSLog(@"xxl calback url %@",self.PayLoadDic[@"callbackurl"]);
-    NSLog(@"xxl pare %@",pare);
+    //NSLog(@"xxl pare %@",pare);
     
     [HttpUrl NetPOSTHost:self.PayLoadDic[@"callbackurl"] url:@"" header:nil body:pare showHUD:NO WithSuccessBlock:^(id data) {
         
@@ -787,7 +787,10 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     
     
     NSLog(@"xxl comet to showSendSuccessOrFial ");
-    [SVProgressHUD dismiss];
+    NSLog(@"xxl comet to self.CRProposalConfirmV %@",self.CRProposalConfirmV);
+    NSLog(@"xxl comet to self.sendSuccessPopuV %@ ",self.sendSuccessPopuV);
+    NSLog(@"xxl comet to self.view %@ ",self.view);
+    //[SVProgressHUD dismiss];
     
     [[FLTools share]hideLoadingView];
     [self.CRProposalConfirmV removeFromSuperview];
@@ -873,14 +876,20 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 
 -(void)viewWillDisappear:(BOOL)animated{
     
+    
+    NSLog(@"xxl viewWillDisappear %@ start ",self.view);
     //xxl #943
-    [[NSNotificationCenter defaultCenter] removeObserver:OnTxPublishedResult];
+    //[[NSNotificationCenter defaultCenter] removeObserver:OnTxPublishedResult];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name: OnTxPublishedResult object:nil];
+    
     
     [super viewWillDisappear:animated];
     if (self.whereFrome.length>0) {
         [self.navigationController setNavigationBarHidden:NO];
     }
     
+    
+    NSLog(@"xxl viewWillDisappear %@ end",self.view);
 
     
 }

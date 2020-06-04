@@ -785,7 +785,8 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 -(void)viewWillDisappear:(BOOL)animated{
     
     //xxl #943
-    [[NSNotificationCenter defaultCenter] removeObserver:OnTxPublishedResult];
+    //[[NSNotificationCenter defaultCenter] removeObserver:OnTxPublishedResult];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name: OnTxPublishedResult object:nil];
     [super viewWillDisappear:animated];
 //    [self hiddLoading];
     

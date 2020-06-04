@@ -27,7 +27,7 @@
 @implementation HWMadviceViewModel
 -(HWMadviceModel*)AnalyticalDataWithDicJosn:(id)json{
     HWMadviceModel *model=[HWMadviceModel modelWithJSON:json];
-    model.baseInfoString=[NSString stringWithFormat:@"#%@ %@ %@",model.ID ,[[FLTools share]YMDHMSgetTimeFromTimesTamp:model.createdAt],model.didName];
+    model.baseInfoString=[NSString stringWithFormat:@"#%@ %@ %@",model.ID ,[[FLTools share]TimeFormatConversionBirthday:model.createdAt],model.didName];
     model.baseInfoCell=[[FLTools share]calculateRowHeight:model.title fontSize:14 withmargin:30];
     model.absCell=[[FLTools share]calculateRowHeight:model.abs fontSize:11 withmargin:30];
 

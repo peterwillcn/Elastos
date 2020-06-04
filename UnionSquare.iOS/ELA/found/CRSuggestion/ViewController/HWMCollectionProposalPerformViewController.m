@@ -150,7 +150,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     }
     if ((self.isOpen==NO&&indexPath.section==1)||(self.isOpen==YES&&indexPath.section==4)){
         HWMVoteResultModel *model=self.DetailsModel.trackingResult[indexPath.row];
-        if (model.commentModel.votedBy) {
+        if (model.commentModel.createdBy) {
             UITableViewCell *cell=[self tableView:tableView cellForRowAtIndexPath:indexPath];
             return cell.frame.size.height;
         }
@@ -171,7 +171,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
             isHid=1.f;
         }
         HWMVoteResultModel *model=self.DetailsModel.trackingResult[indexPath.row];
-        if (model.commentModel.votedBy) {
+        if (model.commentModel.createdBy) {
             HWMSecretaryGeneralTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellSecretaryGeneral];
             cell.backgroundColor=[UIColor clearColor];
             cell.performModel=model;

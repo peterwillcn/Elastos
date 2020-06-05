@@ -799,10 +799,10 @@
 "消息中心"="Message center";
 "红点开关"="Red dot switch";
 "信息推送"="Message push";
-"全部"="Total";
-"委员评议"="all Member review";
-"公示中"="Council review Publishing";
-"执行中"="Community review";
+"全部"="All";
+"委员评议"="Council Review";
+"公示中"="Community Review";
+"执行中"="Executing";
 "已完成"="Completed";
 "已废止"="Aborted";
 "区号"="District\nNumber";

@@ -60,7 +60,7 @@
 -(void)makeUI{
     [self allButtonWithTag:10  withTitle:NSLocalizedString(@"全部", nil)];
     [self allButtonWithTag:11 withTitle:NSLocalizedString(@"委员评议", nil)];
-    [self allButtonWithTag:12 withTitle:NSLocalizedString(@"公示中1", nil)];
+    [self allButtonWithTag:12 withTitle:NSLocalizedString(@"公示中", nil)];
     [self allButtonWithTag:13 withTitle:NSLocalizedString(@"执行中", nil)];
     [self allButtonWithTag:14 withTitle:NSLocalizedString(@"已完成", nil)];
     [self allButtonWithTag:15 withTitle:NSLocalizedString(@"已废止", nil)];

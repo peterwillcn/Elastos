@@ -801,13 +801,13 @@
 "信息推送"="Message push";
 "全部"="Total";
 "委员评议"="all Member review";
-"公示中"="Publishing";
-"执行中"="Executing";
+"公示中"="Council review Publishing";
+"执行中"="Community review";
 "已完成"="Completed";
 "已废止"="Aborted";
 "区号"="District\nNumber";
 "手机号"="Cellphone\nnumber";
-"公示中1"="Council review Publishing ";
+//"公示中1"="Council review Publishing ";
 "账户余额不足，将使之前的投票结果失效。是否继续交易？"="Previous vote is invalid due to insufficient balance. Continue?";
 "交易完成"="Transaction successful";
 "申请使用您的DID信息（包括但不限于存储、展示等用途）："="Apply for your DID information(Including but not limited to storage, display, etc.)：";
@@ -1022,3 +1022,4 @@
 "签名发送成功"="Signature sent successfully";
 "约23个小时"="About 23 Hours";
 "不足1小时"="Less Than 1 Hour";
+"提款地址"="Withdrawal Address";

@@ -249,34 +249,65 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     nlohmann::json info;
     const String stringC;
     NSString *dataStr;
+    NSDictionary *CRparam;
     try {
         info = mainchainSubWallet->GetRegisteredProducerInfo();
         const String stringC = info.dump();
         dataStr = [NSString stringWithCString:stringC.c_str() encoding:NSUTF8StringEncoding];
+        nlohmann::json CRinfo = mainchainSubWallet->GetRegisteredCRInfo();
+         NSString *CRdataStr = [NSString stringWithUTF8String:CRinfo.dump().c_str()];
+    CRparam = [NSJSONSerialization JSONObjectWithData:[CRdataStr   dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
     } catch (const std:: exception & e ){
     }
     NSDictionary *param = [NSJSONSerialization JSONObjectWithData:[dataStr  dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
     NSString *Status = param[@"Status"];
-    if ([Status isEqualToString:@"Registered"]){
-        [self loadGetOwnerAddress];
+ 
+//    if (self.EarningsRecordButton.alpha==0) {
+ 
         
-    }else if([Status isEqualToString:@"Canceled"]){
-        [self loadGetOwnerAddress];
+    NSString *CRStatus = CRparam[@"Status"];
         
-    }else if([Status isEqualToString:@"Unregistered"]){
+//
+//        if ([Status isEqualToString:@"Registered"]){
+//             [self loadGetOwnerAddress];
+//
+//         }else if([Status isEqualToString:@"Canceled"]){
+//             [self loadGetOwnerAddress];
+//
+//         }else if([Status isEqualToString:@"Unregistered"]){
+//             self.EarningsRecordButton.alpha=0.f;
+//
+//             self.enMoneyWidthOffSet.constant=-AppWidth+30;
+//             //        self.toUpMoneyButtonWidthdOff.constant=200;
+//
+//         }else if ([Status isEqualToString:@"ReturnDeposit"]){
+//
+//             [self loadGetOwnerAddress];
+//
+//         }
+//    if ([CRStatus isEqualToString:@"Registered"]){
+//        [self loadGetOwnerAddress];
+//    }else if([CRStatus isEqualToString:@"Canceled"]){
+//        [self loadGetOwnerAddress];
+//
+//    }else
+        if([CRStatus isEqualToString:@"Unregistered"]&&[Status isEqualToString:@"Unregistered"]){
         self.EarningsRecordButton.alpha=0.f;
-        
         self.enMoneyWidthOffSet.constant=-AppWidth+30;
-        //        self.toUpMoneyButtonWidthdOff.constant=200;
-        
-    }else if ([Status isEqualToString:@"ReturnDeposit"]){
+        }else{
         
         [self loadGetOwnerAddress];
         
     }
+        
+//    }
+    
+          
+    
     
 }
 -(void)loadGetOwnerAddress{
+
     self.OwnerAddressString=[[ELWalletManager share]GetOwnerAddressWithID:self.currentWallet.masterWalletID];
     [self.NodeReturnsMutableArray addObject:self.OwnerAddressString];
     
@@ -318,7 +349,6 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
     NSInteger a=[result.message[@"success"][@"MaxCount"] integerValue];
     self.NodeReturnsAllTotal=a;
     NSArray *tranList=[NSArray modelArrayWithClass:assetDetailsModel.class json:result.message[@"success"][@"Transactions"]];
-    //    self.NodeReturnsCurrentIndex=self.currentIndex+tranList.count;
     [self.NodeReturnsMutableArray addObjectsFromArray:tranList];
     self.NodeReturnsCurrentIndex=self.NodeReturnsMutableArray.count-1;
     if (self.NodeReturnsMutableArray.count==1) {

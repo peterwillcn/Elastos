@@ -799,15 +799,15 @@
 "消息中心"="Message center";
 "红点开关"="Red dot switch";
 "信息推送"="Message push";
-"全部"="Total";
-"委员评议"="Member review";
-"公示中"="Publishing";
+"全部"="All";
+"委员评议"="Council Review";
+"公示中"="Community Review";
 "执行中"="Executing";
 "已完成"="Completed";
 "已废止"="Aborted";
 "区号"="District\nNumber";
 "手机号"="Cellphone\nnumber";
-
+//"公示中1"="Council review Publishing ";
 "账户余额不足，将使之前的投票结果失效。是否继续交易？"="Previous vote is invalid due to insufficient balance. Continue?";
 "交易完成"="Transaction successful";
 "申请使用您的DID信息（包括但不限于存储、展示等用途）："="Apply for your DID information(Including but not limited to storage, display, etc.)：";
@@ -978,7 +978,7 @@
 
 "是否覆盖现有候选列表？"="Overwrite Current Candidate List?";
 "提案评议"="Proposal Comments";
-"反对票数"="Negative Votes Number";
+"反对票数"="Negative Vote Count";
 "确认信息"="Confirm Information";
 " 通过   "=" Pass   ";
 "通过"="Pass";
@@ -993,7 +993,7 @@
 "普通"="Normal";
 "发起人DID"="Proposer DID";
 "提案经费账户"="Fund Account of the Proposal";
-"提案经费额度"="Fund usage plan";
+"提案经费额度"="Fund Usage Plan";
 "合计"="Total";
 "预付款"="Advance Payments";
 "尾款"="End Payments";
@@ -1001,19 +1001,19 @@
 "社区提案"="Proposal";
 "未通过"="Rejected";
 "已否决"="Rejected";
-"投票金额"="Voting Amount";
+"投票金额"="Vote Count";
 " 否决   "=" Reject  ";
-"提案发起交易"="Proposal Nomination Transaction";
+"提案发起交易"="New Proposal Transaction";
 "提案评议交易"="Review Proposal Transaction";
 "提取地址"="Withdrawal Address";
 "本轮竞选已经结束，很遗憾您此次未能当选。感谢您的参与，祝您好运！"="This election is over. Unfortunately, you have not been elected this time. Thank you for your participation";
 "提案反馈交易"="Proposal Tracking Transaction";
-"提案资金提取交易"="Proposal Withdraw Transaction";
+"提案资金提取交易"="Proposal Fund Withdrawal Transaction";
 "约"="About";
 "天"="Days";
 "发起提案"="Nominate Proposal";
 "发起提案"="Nominate Proposal";
-"钱包DID不匹配"="Wallet DID doesn’t match";
+"钱包DID不匹配"="Wallet DID Doesn’t Match";
 "暂无提案"="No Proposal";
 "评议哈希"="Comment Hash";
 "投票意见"="Opinion";
@@ -1022,3 +1022,4 @@
 "签名发送成功"="Signature sent successfully";
 "约23个小时"="About 23 Hours";
 "不足1小时"="Less Than 1 Hour";
+"提款地址"="Withdrawal Address";

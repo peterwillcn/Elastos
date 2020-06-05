@@ -37,10 +37,12 @@ UINib *_nib;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //[self defultWhite];
     [self defultWhite];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"vote_rule_close"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(goBack)];
     [self setBackgroundImg:@""];
     [self makeUI];
+    
     
 }
 -(void)makeUI{
@@ -177,17 +179,26 @@ UINib *_nib;
     }
 }
 -(void)updaeJWTInfoWithDic:(NSDictionary*)pare{
+    
     [HttpUrl NetPOSTHost:self.CRInfoDic[@"callbackurl"] url:@"" header:nil body:pare showHUD:NO WithSuccessBlock:^(id data) {
+        
         [self hiddLoading];
         [self cancelThePWDPageView];
         [self goBack];
-        [[FLTools share]showErrorInfo:@"授权成功"];
+    
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+             [[FLTools share]showAuthInfo:@"授权成功"];
+        });
     } WithFailBlock:^(id data) {
         
         
     }];
     
 }
+
+
+
 -(void)POSTJWTInfoWithDic{
     NSString *infoString=[[HWMDIDManager shareDIDManager]generateDIDCredentialString];
     NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]dictionaryWithJsonString:infoString]];

@@ -93,6 +93,7 @@
 - (NSString *)CNTOYMDHMSgetTimeFromTimesTamp:(NSString *)timeStr;
 -(void)showLoadingView;
 -(void)showErrorInfo:(NSString*)info;
+-(void)showAuthInfo:(NSString*)info;
 -(CGFloat)gasETHwithGasPrice:(NSString*)gasPrice withLimetPrice:(NSString*)LimetPrice;
 -(BOOL)isNineKeyBoard:(NSString *)string;
 - (BOOL)hasEmoji:(NSString*)string;

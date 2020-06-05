@@ -351,6 +351,29 @@ static FLTools *tool;
     //        [SVProgressHUD showImage:[UIImage imageNamed:@""] status:info];
     //    });
 }
+
+
+-(void)showAuthInfo:(NSString*)info{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVProgressHUD setBackgroundColor:[UIColor blackColor]];
+        [SVProgressHUD setBackgroundLayerColor:[UIColor blackColor]];
+        [SVProgressHUD setFont:[UIFont systemFontOfSize:14]];
+        [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+        //[SVProgressHUD setForegroundColor:RGB(0, 0, 0)];
+        NSString *str = NSLocalizedString(info, nil);
+        [SVProgressHUD setAnimationDuration:4];
+        [SVProgressHUD showImage:[UIImage imageNamed:@""] status:str];
+    });
+    //NSLog(@"错误提示信息---%@",info);
+    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    //        [SVProgressHUD showImage:[UIImage imageNamed:@""] status:info];
+    //    });
+}
+
+
+
+
+
 -(CGFloat)gasETHwithGasPrice:(NSString*)gasPrice withLimetPrice:(NSString*)LimetPrice{
     if ([[FLTools share]isBlankString:LimetPrice]) {
         LimetPrice=@"0";

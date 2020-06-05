@@ -2170,7 +2170,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
         }else if ([Stage isEqualToString:@"3"]){
             return [NSString stringWithFormat:@"3rd %@", NSLocalizedString(@"阶段", nil)];
         }else if (StageInt>3){
-            return [NSString stringWithFormat:@"ldth %d",StageInt, NSLocalizedString(@"阶段", nil)];
+            return [NSString stringWithFormat:@"%dth %@",StageInt, NSLocalizedString(@"阶段", nil)];
         }
     }else{
         return  [NSString stringWithFormat:@"第%@阶段",Stage];

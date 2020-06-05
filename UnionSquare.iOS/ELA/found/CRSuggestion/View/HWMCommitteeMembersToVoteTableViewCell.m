@@ -55,11 +55,23 @@
 }
 -(void)setPerformModel:(HWMVoteResultModel *)performModel{
     self.staLabel.alpha=1.f;
+    CGRect fream=[self frame];
     self.topCons.constant=50.f;
     [self.headImageView sd_setImageWithURL:[NSURL URLWithString:performModel.avatar]];
     self.nickNamelLabel.text=performModel.didName;
     self.contenInfoLabel.text=performModel.content;
     self.timeLable.text=performModel.createdAt;
     self.timeLable.alpha=1.f;
+     self.staLabel.text=[[FLTools share]StageOfProcessing:performModel.stage];
+
+    CGFloat contHeight=[self labelHeightWithLabel:self.contenInfoLabel WithMar:40];
+    fream.size.height=contHeight+40;
+}
+-(CGFloat)labelHeightWithLabel:(UILabel*)label WithMar:(CGFloat)mar{
+    CGSize constraintSize;
+        constraintSize.width = AppWidth - mar;
+        constraintSize.height = MAXFLOAT;
+      CGSize sizeFrame = [self.contenInfoLabel.text boundingRectWithSize:constraintSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:label.font} context:nil].size;
+    return sizeFrame.height;
 }
 @end

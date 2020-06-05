@@ -154,7 +154,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
             UITableViewCell *cell=[self tableView:tableView cellForRowAtIndexPath:indexPath];
             return cell.frame.size.height;
         }
-        return model.reasonCell+50;
+        return model.reasonCell+70;
     }
     if (indexPath.section==3||self.isOpen==NO) {
         return self.DetailsModel.abstractCell+50;

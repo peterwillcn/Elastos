@@ -116,7 +116,7 @@
     _textField.secureTextEntry = YES;
     _textField.returnKeyType = UIReturnKeyDone;
     _textField.delegate = self;
-    [self makeTextFieldPlaceHoTextColorWithTextField:_textField withTxt:@"请输入钱包密码"];
+    [self makeTextFieldPlaceHoTextColorWithTextField:_textField withTxt:NSLocalizedString(@"请输入钱包密码", nil)];
     [_showView addSubview:_textField];
  
     

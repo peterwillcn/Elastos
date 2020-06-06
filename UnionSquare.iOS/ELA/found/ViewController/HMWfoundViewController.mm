@@ -109,23 +109,23 @@
     if(data && data.count > 0)
     {
 
-        ELACommitteeInfoModel *voteModel = [data objectAtIndex:0];
-        if(voteModel.status && [voteModel.status isEqualToString:@"VOTING"])
+        for(int i = 0; i < data.count; i++)
         {
-            self.dataSource = [[NSMutableArray alloc]initWithObjects:@"",@"",@"", @"", nil];
-            [self.table reloadData];
-        }
-        else
-        {
-            self.dataSource = [[NSMutableArray alloc]initWithObjects:@"",@"",@"", nil];
-            [self.table reloadData];
+            ELACommitteeInfoModel *voteModel = [data objectAtIndex:i];
+            
+            if(voteModel.status && [voteModel.status isEqualToString:@"VOTING"])
+            {
+                self.dataSource = [[NSMutableArray alloc]initWithObjects:@"",@"",@"", @"", nil];
+                [self.table reloadData];
+                [[FLTools share]hideLoadingView];
+                self.table.hidden = NO;
+                return;
+            }
         }
     }
-    else
-    {
-        self.dataSource = [[NSMutableArray alloc]initWithObjects:@"",@"",@"", nil];
-        [self.table reloadData];
-    }
+    self.dataSource = [[NSMutableArray alloc]initWithObjects:@"",@"",@"", nil];
+    [self.table reloadData];
+    
     [[FLTools share]hideLoadingView];
     self.table.hidden = NO;
     

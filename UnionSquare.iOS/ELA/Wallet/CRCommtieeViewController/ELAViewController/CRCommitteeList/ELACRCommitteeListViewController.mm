@@ -522,7 +522,8 @@
         
         if(model.status && [model.status isEqualToString:@"HISTORY"])
         {
-            if([detailModel.type isEqualToString:@"UnelectedCouncilMember"] && ![detailModel.depositAmount isEqualToString:@""])
+            if([detailModel.type isEqualToString:@"UnelectedCouncilMember"] && ![detailModel.depositAmount isEqualToString:@""]
+               && ![detailModel.depositAmount isEqualToString:@"0"])
             {
                 buttonStr = ELALocalizedString(@"选举管理");
                 type = 1;
@@ -538,7 +539,8 @@
                 buttonStr = ELALocalizedString(@"委员管理");
                 type = 2;
             }
-            else if([detailModel.type isEqualToString:@"UnelectedCouncilMember"] && ![detailModel.depositAmount isEqualToString:@""])
+            else if([detailModel.type isEqualToString:@"UnelectedCouncilMember"] && ![detailModel.depositAmount isEqualToString:@""]
+                    && ![detailModel.depositAmount isEqualToString:@"0"])
             {
                 buttonStr = ELALocalizedString(@"选举管理");
                 type = 1;

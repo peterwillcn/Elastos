@@ -70,6 +70,7 @@
     
     UIImageView *bgImgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
     [self setBg:ELARGB(83, 136, 136) withToColor:ELARGB(16, 47, 58) withView:bgImgView];
+    bgImgView.alpha = 0.5;
     [_contentView addSubview:bgImgView];
     
     _showView = [[UIView alloc] init];

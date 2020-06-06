@@ -40,8 +40,11 @@
 #import "ELANetwork.h"
 #import "ELAImpeachView.h"
 #import "ELAPasswdView.h"
+#import "HMWToDeleteTheWalletPopView.h"
+#import "HWMTransactionDetailsView.h"
+#import "HMWAddTheCurrencyListViewController.h"
 
-@interface ELACommitteeManageViewController ()<HWMDIDAuthorizationViewControllerDelegate>
+@interface ELACommitteeManageViewController ()<HWMDIDAuthorizationViewControllerDelegate, HMWToDeleteTheWalletPopViewDelegate, HMWAddTheCurrencyListViewControllerDelegate, HWMTransactionDetailsViewDelegate>
 
 @property (nonatomic, strong) ELAPledgeView *pledgeView;
 
@@ -50,6 +53,9 @@
 
 @property (nonatomic, strong) NSString *passwdValue;
 @property (nonatomic, strong) NSString *impeachValue;
+
+@property(strong,nonatomic)HMWToDeleteTheWalletPopView *openIDChainView;
+@property(strong,nonatomic)HWMTransactionDetailsView *ShowPoPWDView;
 
 @end
 
@@ -114,7 +120,7 @@
 //            vc.isUpdate=YES;
 //            vc.currentWallet = wallet;
 //
-    ELAWeakSelf;
+//    ELAWeakSelf;
     if(_type == 2)
     {
         [self updataDIDInfoEvent:sender];
@@ -122,7 +128,8 @@
     else if(_type == 1)
     {
 //        ELAWeakSelf;
-        [self showPasswdView];
+        
+        [self toRetrieveCRDepositTransactionFee];
        
     }
 }
@@ -134,53 +141,10 @@
     {
         FLWallet *wallet = [ELWalletManager share].currentWallet;
         HWMCRRegisteredViewController *vc=[[ HWMCRRegisteredViewController alloc]init];
-//        vc.CRmodel = self.CRModel;
         vc.isUpdate=YES;
         vc.currentWallet = wallet;
         [self.navigationController pushViewController:vc animated:YES];
-//        [self updataDIDInfoEvent:sender];
-//        FLWallet *wallet = [ELWalletManager share].currentWallet;
-//        FLManageSelectPointNodeInformationVC *vc= [[FLManageSelectPointNodeInformationVC alloc]init];
-//        vc.currentWallet = wallet;
-//        vc.CRModel = nil;
-//        //vc.lastArray=self.ActiveArray;
-//        vc.CRTypeString=@"CR";
-//        [self.navigationController pushViewController:vc animated:YES];
-//        FLWallet *wallet = [ELWalletManager share].currentWallet;
-//        NSArray *localStore  = [[NSMutableArray alloc]initWithArray: [[HMWFMDBManager sharedManagerType:CRListType] allSelectCRWithWallID:wallet.masterWalletID]];
-//
-//            for (int j=0; j<localStore.count; j++)
-//            {
-//                HWMCRListModel *dataModel = localStore[j];
-////                ret =  [dataModel.did isEqualToString:_infoModel.did];
-////                if (ret)
-////                {
-////
-////                    curentmodel=model;
-////                }
-//            }
-    
-            
-//        FLWallet *wallet = [ELWalletManager share].currentWallet;
-//        HWMCRRegisteredViewController *vc = [[ HWMCRRegisteredViewController alloc]init];
-////        vc.CRmodel=self.CRModel;
-//        vc.isUpdate=YES;
-//        vc.currentWallet = wallet;
-//        [self.navigationController pushViewController:vc animated:YES];
     }
-//    _pledgeView = [[ELAPledgeView alloc] init];
-//    //_pledgeView.title = ELALocalizedString(@"11");
-//    [_pledgeView showAlertView];
-//    _pledgeView.block = ^{
-//
-//
-//    };
-//    [_pledgeView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.equalTo(@(0));
-//        make.width.equalTo(@(ScreenWidth));
-//        make.height.equalTo(@(ScreenHeight));
-//        make.top.bottom.equalTo(@(0));
-//    }];
 }
 
 - (void)updataDIDInfoEvent:(id)sender
@@ -227,7 +191,7 @@
 - (void)showImpeachView:(NSString *)fee json:(NSString *)jsonString
 {
     ELAWeakSelf;
-    FLWallet *wallet = [ELWalletManager share].currentWallet;
+//    FLWallet *wallet = [ELWalletManager share].currentWallet;
     NSString *balance = _infoModel.depositAmount; //[[ELWalletManager share] getVoteBalance:wallet.masterWalletID];
     NSString *str = @"";
     if(balance && ![balance isEqualToString:@""])
@@ -247,32 +211,21 @@
     }];
     _impeachView.fee = fee;
     _impeachView.type = 1;
-    _impeachView.buttonTitle = @"确定";
+//    _impeachView.buttonTitle = @"下一步";
     _impeachView.valueBlock = ^(NSString *value){
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            double douValue = [value doubleValue];
-            if(douValue <= 0)
-            {
-                //                    [weakSelf showErrorInfo:ELALocalizedString(@"请正确输入数字")];
-                [weakSelf showErrorInfo:ELALocalizedString(@"err20001")];
-                return;
-            }
+//            double douValue = [value doubleValue];
+//            if(douValue <= 0)
+//            {
+//                //                    [weakSelf showErrorInfo:ELALocalizedString(@"请正确输入数字")];
+//                [weakSelf showErrorInfo:ELALocalizedString(@"err20001")];
+//                return;
+//            }
             weakSelf.impeachValue = value;
+            [weakSelf showPasswdView:jsonString];
 
-            double amountVa = [value doubleValue] * ELAUnitConversion;
-            [weakSelf showLoading];
-            ELWalletManager *manager = [ELWalletManager share];
-            NSString *walletId =  manager.currentWallet.masterWalletID;
-            BOOL ret = [manager  RetrieveCRDepositTransaction:walletId acount:amountVa  Pwd:weakSelf.passwdValue withJSONString:jsonString];
-            [weakSelf hiddLoading];
-            [weakSelf.impeachView hideAlertView];
-            [weakSelf.passwdView hideAlertView];
-            if (ret)
-            {
-                [weakSelf showSendSuccessPopuV];
-            }
         });
         
     };
@@ -292,33 +245,41 @@
                        
 - (void)toRetrieveCRDepositTransactionFee
 {
-     ELWalletManager *manager = [ELWalletManager share];
-    NSString *walletId =  manager.currentWallet.masterWalletID;
-    NSDictionary *dic = [manager RetrieveCRDepositTransactionFee:walletId acount:_infoModel.depositAmount Pwd:@""];
-   NSString *fee = [[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@", dic[@"fee"]]];
-   if ([dic[@"fee"] doubleValue] > -1)
-   {
-       NSString *jsonString = dic[@"JSON"];
-       
-       [self showImpeachView:fee json:jsonString];
-       
-   }
-    
-}
-
-- (void)showPasswdView
-{
-    BOOL res = [self loadTheCurrencyList];
+    BOOL res = [self isOpenIDChain];
     if(!res)
     {
         
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"该钱包尚未开启ID侧链", nil)];
+        //        [[FLTools share]showErrorInfo:NSLocalizedString(@"该钱包尚未开启ID侧链", nil)];
+        UIView *mainView =[self view];
+        self.openIDChainView.deleteType=openIDChainType;
+        [mainView addSubview:self.openIDChainView];
+        [self.openIDChainView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(mainView);
+        }];
+        
         return;
     }
+    ELWalletManager *manager = [ELWalletManager share];
+    NSString *walletId =  manager.currentWallet.masterWalletID;
+    NSDictionary *dic = [manager RetrieveCRDepositTransactionFee:walletId acount:_infoModel.depositAmount Pwd:@""];
+    NSString *fee = [[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@", dic[@"fee"]]];
+    if ([dic[@"fee"] doubleValue] > -1)
+    {
+        NSString *jsonString = dic[@"JSON"];
+        
+        [self showImpeachView:fee json:jsonString];
+        
+    }
+    
+}
+#pragma mark -
+- (void)showPasswdView:(NSString *)jsonString
+{
+   
     ELAWeakSelf;
     _passwdView = [[ELAPasswdView alloc] init];
     [_passwdView showAlertView:self.view];
-    _passwdView.buttonTitle = @"下一步";
+//    _passwdView.buttonTitle = @"下一步";
        [_passwdView mas_remakeConstraints:^(MASConstraintMaker *make) {
            make.left.right.equalTo(@(0));
            make.width.equalTo(@(ScreenWidth));
@@ -333,7 +294,18 @@
                BOOL result = [weakSelf toVerifyPayPassword:value];
                if(result)
                {
-                   [weakSelf toRetrieveCRDepositTransactionFee];
+                   double amountVa = [weakSelf.impeachValue doubleValue] * ELAUnitConversion;
+                   [weakSelf showLoading];
+                   ELWalletManager *manager = [ELWalletManager share];
+                   NSString *walletId =  manager.currentWallet.masterWalletID;
+                   BOOL ret = [manager  RetrieveCRDepositTransaction:walletId acount:amountVa  Pwd:weakSelf.passwdValue withJSONString:jsonString];
+                   [weakSelf hiddLoading];
+                   [weakSelf.impeachView hideAlertView];
+                   [weakSelf.passwdView hideAlertView];
+                   if (ret)
+                   {
+                       [weakSelf showSendSuccessPopuV];
+                   }
                    
                }
                
@@ -358,37 +330,92 @@
     return YES;
 }
 
--(BOOL)loadTheCurrencyList
+- (BOOL)isOpenIDChain
 {
-    FLWallet *wallet = [ELWalletManager share].currentWallet;
-    invokedUrlCommand * cmommand=[[invokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID] callbackId:wallet.walletID className:@"Wallet" methodName:@"getSupportedChains"];
-    PluginResult *result=
-    [[ELWalletManager share]getSupportedChains:cmommand];
-    NSArray *arr=[NSArray arrayWithArray:result.message[@"success"]];
-    for (int i=0; i<arr.count; i++)
-    {
-        NSString *iconName = arr[i];
-//        AddTheCurrencyListModel *listModel=[[AddTheCurrencyListModel alloc]init];
-//        listModel.nameIcon=iconName;
-//        listModel.isAdd=NO;
-//        for (assetsListModel *model in self.openedTheSubstringArrayList) {
-//            if ([model.iconName isEqualToString:iconName]){
-//                listModel.isAdd=YES;
-//            }
-//        }
-        if ([iconName isEqualToString:@"ELA"])
-        {
-            
+     FLWallet *wallet = [ELWalletManager share].currentWallet;
+      invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[wallet.masterWalletID] callbackId:wallet.masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
+    
+    PluginResult * result =[[ELWalletManager share]getAllSubWallets:mommand];
+    NSString *status=[NSString stringWithFormat:@"%@",result.status];
+    if ([status isEqualToString:@"1"]) {
+        NSArray  *array = [[FLTools share]stringToArray:result.message[@"success"]];
+        for (NSString *str in array) {
+            if([str isEqualToString:@"IDChain"])
+            {
+                return YES;
+            }
         }
-        if([iconName isEqualToString:@"IDChain"])
-        {
-            return YES;
-        }
+
     }
-    return NO;
+   return NO;
     
 }
 
+
+#pragma mark -
+-(HMWToDeleteTheWalletPopView *)openIDChainView{
+    if (!_openIDChainView) {
+        _openIDChainView =[[HMWToDeleteTheWalletPopView alloc]init];
+        _openIDChainView.delegate=self;
+    }
+    return _openIDChainView;
+}
+
+-(void)openIDChainOfDIDAddWithWallet:(NSString*)walletID
+{
+//    FLWallet *wallet = [ELWalletManager share].currentWallet;
+//    if (walletID.length > 0 && [walletID isEqualToString:wallet.masterWalletID])
+//    {
+////        [self showPWDView];
+//    }
+}
+
+#pragma mark - --------HMWToDeleteTheWalletPopViewDelegate-----------
+-(void)sureToDeleteViewWithPWD:(NSString*)pwd
+{
+    [self toCancelOrCloseDelegate];
+    ELAWeakSelf;
+    _passwdView = [[ELAPasswdView alloc] init];
+    [_passwdView showAlertView:self.view];
+//    _passwdView.buttonTitle = @"下一步";
+    [_passwdView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(@(0));
+        make.width.equalTo(@(ScreenWidth));
+        make.height.equalTo(@(ScreenHeight));
+        make.top.bottom.equalTo(@(0));
+    }];
+    _passwdView.valueBlock = ^(NSString *value){
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            weakSelf.passwdValue = value;
+            BOOL result = [weakSelf toVerifyPayPassword:value];
+            if(result)
+            {
+                [weakSelf.passwdView hideAlertView];
+                FLWallet *wallet = [ELWalletManager share].currentWallet;
+                
+                HMWAddTheCurrencyListViewController *AddTheCurrencyListVC=[[HMWAddTheCurrencyListViewController alloc]init];
+                AddTheCurrencyListVC.wallet=wallet;
+                AddTheCurrencyListVC.didType=@"didType";
+                AddTheCurrencyListVC.delegate = weakSelf;
+                
+                [weakSelf.navigationController pushViewController:AddTheCurrencyListVC animated:YES];
+                
+                
+                
+            }
+            
+        });
+        
+    };
+    
+}
+
+-(void)toCancelOrCloseDelegate{
+    [self.openIDChainView removeFromSuperview];
+    self.openIDChainView=nil;
+}
 
 #pragma mark - view
 - (void)creatView

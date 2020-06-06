@@ -73,6 +73,7 @@
     
     UIImageView *bgImgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
     [self setBg:ELARGB(83, 136, 136) withToColor:ELARGB(16, 47, 58) withView:bgImgView];
+    bgImgView.alpha = 0.5;
     [_contentView addSubview:bgImgView];
     
     _showView = [[UIView alloc] init];
@@ -313,8 +314,8 @@
     {
         _textField.enabled = NO;
         _textField.text = _amount;
-        _titleLabel.text =  ELALocalizedString(@"质押金");
-        _subTitleLabel.text = ELALocalizedString(@"质押金");
+        _titleLabel.text =  ELALocalizedString(@"交易详情");
+        _subTitleLabel.text = ELALocalizedString(@"金额");
         _otherTextField.text = _fee;
         
     }

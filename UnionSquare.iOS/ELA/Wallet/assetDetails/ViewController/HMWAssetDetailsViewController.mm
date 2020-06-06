@@ -308,7 +308,8 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 }
 -(void)loadGetOwnerAddress{
 
-    self.OwnerAddressString=[[ELWalletManager share]GetOwnerAddressWithID:self.currentWallet.masterWalletID];
+    self.OwnerAddressString=self.allAddressAaary.firstObject;
+//    [[ELWalletManager share]GetOwnerAddressWithID:self.currentWallet.masterWalletID];
     [self.NodeReturnsMutableArray addObject:self.OwnerAddressString];
     
     

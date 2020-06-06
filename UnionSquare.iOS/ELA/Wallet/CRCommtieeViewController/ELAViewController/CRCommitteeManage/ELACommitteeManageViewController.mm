@@ -127,8 +127,6 @@
     }
     else if(_type == 1)
     {
-//        ELAWeakSelf;
-        
         [self toRetrieveCRDepositTransactionFee];
        
     }
@@ -232,14 +230,19 @@
 }
 - (void)showSendSuccessPopuV
 {
-    HMWSendSuccessPopuView *_sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
-    UIView *manView = [self mainWindow];
-    [manView addSubview:_sendSuccessPopuV];
-    [_sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.equalTo(manView);
-    }];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [_sendSuccessPopuV removeFromSuperview];
+    ELAWeakSelf
+    dispatch_async(dispatch_get_main_queue(), ^{
+        HMWSendSuccessPopuView *_sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
+        UIView *manView = [weakSelf mainWindow];
+        [manView addSubview:_sendSuccessPopuV];
+        [_sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(manView);
+        }];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [_sendSuccessPopuV removeFromSuperview];
+            [weakSelf goBack];
+        });
     });
 }
                        

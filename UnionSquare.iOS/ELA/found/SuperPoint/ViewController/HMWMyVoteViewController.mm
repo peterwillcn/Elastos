@@ -235,24 +235,22 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
     return _placeHolderLab;
 }
 - (IBAction)changeVote:(id)sender {
-//    NSMutableArray *loacaAarray=[[NSMutableArray alloc]init];
-//    FLWallet *waller = [ELWalletManager share].currentWallet;
-//    if (self.VoteType==MyVoteNodeElectioType) {
-//        [loacaAarray addObjectsFromArray: [[FLNotePointDBManager defultWithWalletID:waller.masterWalletID] allRecord]];
-//    }else if (self.VoteType==MyVoteCRType){
-//    [loacaAarray addObjectsFromArray: [[HMWFMDBManager sharedManagerType:CRListType] allSelectCRWithWallID:waller.masterWalletID ]];
-//    }
-//    if (loacaAarray.count>0) {
-//        UIView *mainView =[self mainWindow];
-//        [mainView addSubview:self.votePopView];
-//        [self.votePopView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.right.top.bottom.equalTo(mainView);
-//        }];
-//    }else{
-//        [self needUpdataLocaInfo];
-        
-//    }
-    [self CancelEvent];
+    NSMutableArray *loacaAarray=[[NSMutableArray alloc]init];
+    FLWallet *waller = [ELWalletManager share].currentWallet;
+    if (self.VoteType==MyVoteNodeElectioType) {
+        [loacaAarray addObjectsFromArray: [[FLNotePointDBManager defultWithWalletID:waller.masterWalletID] allRecord]];
+    }else if (self.VoteType==MyVoteCRType){
+    [loacaAarray addObjectsFromArray: [[HMWFMDBManager sharedManagerType:CRListType] allSelectCRWithWallID:waller.masterWalletID ]];
+    }
+    if (loacaAarray.count>0) {
+        UIView *mainView =[self mainWindow];
+        [mainView addSubview:self.votePopView];
+        [self.votePopView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.top.bottom.equalTo(mainView);
+        }];
+    }else{
+        [self needUpdataLocaInfo];
+    }
     
 }
 -(void)setVoteType:(MyVoteVotingListType)VoteType{

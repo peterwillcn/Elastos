@@ -250,7 +250,6 @@ static NSString *cellString=@"HMWmyVoteStatisticsTableViewCell";
 //        }];
 //    }else{
 //        [self needUpdataLocaInfo];
-        
 //    }
     [self CancelEvent];
     

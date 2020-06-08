@@ -1172,9 +1172,9 @@ static FLTools *tool;
         jsonType=@"crinfo.json";
     }
     if ([urlLaString isEqualToString:@"/"] ) {
-        urlString= [NSString stringWithFormat:@"%@%@",jsonType,urlString];
+        urlString= [NSString stringWithFormat:@"%@%@",urlString,jsonType];
     }else{
-        urlString= [NSString stringWithFormat:@"%@/%@",jsonType,urlString];
+        urlString= [NSString stringWithFormat:@"%@/%@",urlString,jsonType];
     }
     NSURL *url=  [NSURL URLWithString:urlString];
     NSData *data=[NSData dataWithContentsOfURL:url];

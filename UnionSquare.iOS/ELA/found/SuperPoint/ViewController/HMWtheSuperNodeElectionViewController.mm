@@ -225,17 +225,18 @@
     for (int i=0; i<allListInfoArray.count; i++) {
         FLCoinPointInfoModel *model =allListInfoArray[i];
         NSString *httpIP=[[FLTools share]http_IpFast];
+        
         if (model.url.length>0) {
             NSDictionary *infoDic=[[FLTools share] getImageViewURLWithURL:model.url withCRString:@""];
                            model.iconImageUrl= infoDic[@"url"];
                            model.infoEN=infoDic[@"infoEN"];
                            model.infoZH=infoDic[@"infoZH"];
-                           
+            NSLog(@"超级节点----%@",infoDic);
               
                 if (model.iconImageUrl.length>0) {
                     [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/getimage" header:@{} body:@{@"imageurl":model.iconImageUrl} showHUD:NO WithSuccessBlock:^(id data) {
                                                         NSString *param = data[@"data"];
-                                                       model.iconImageUrl=[NSString stringWithFormat:@"%@%@",httpIP,param];
+                                                       model.iconImageUrl=[NSString stringWithFormat:@"%@/%@",httpIP,param];
                                                        allListInfoArray[i]=model;
                         
                                                     } WithFailBlock:^(id data) {

@@ -255,37 +255,37 @@ NSInteger timeOut = 60;
 }
 
 +(void)loadDataWithUrl:(NSString*)urlString withIconName:(NSString*)iconName WithSuccessBlock:(void(^)(id data))successBlock WithFailBlock:(void(^)(id data))FailBlock{
-//    /* 创建网络下载对象 */
-//    AFHTTPSessionManager *manager = [self getManage];
-//    
-//    /* 下载地址 */
-//    NSURL *url = [NSURL URLWithString:urlString];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-//    /* 下载路径 */
-//    NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-//    NSString *filePath = [path stringByAppendingPathComponent:url.lastPathComponent];
-//    NSData *data =[NSData dataWithContentsOfFile:filePath];
-//    if (data.length>0) {
-//        successBlock(url.lastPathComponent);
-//        return;
-//        
-//    }
-//    
-//    
-//    /* 开始请求下载 */
-//    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
-//        //NSLog(@"下载进度：%.0f％", downloadProgress.fractionCompleted * 100);
-//        
-//    } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
-//        /* 设定下载到的位置 */
-//        return [NSURL fileURLWithPath:filePath];
-//        
-//    } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
-//        //NSLog(@"下载完成");
-//        successBlock(url.lastPathComponent);
-//        
-//    }];
-//    [downloadTask resume];
+    /* 创建网络下载对象 */
+    AFHTTPSessionManager *manager = [self getManage];
+    
+    /* 下载地址 */
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    /* 下载路径 */
+    NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSString *filePath = [path stringByAppendingPathComponent:url.lastPathComponent];
+    NSData *data =[NSData dataWithContentsOfFile:filePath];
+    if (data.length>0) {
+        successBlock(url.lastPathComponent);
+        return;
+        
+    }
+    
+    
+    /* 开始请求下载 */
+    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
+        //NSLog(@"下载进度：%.0f％", downloadProgress.fractionCompleted * 100);
+        
+    } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+        /* 设定下载到的位置 */
+        return [NSURL fileURLWithPath:filePath];
+        
+    } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+        //NSLog(@"下载完成");
+        successBlock(url.lastPathComponent);
+        
+    }];
+    [downloadTask resume];
     
 }
 +(void)canleURL{

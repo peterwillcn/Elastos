@@ -709,18 +709,18 @@
 "参选公钥"="Public key for election";
 "请输入参选昵称（必填）"="Please enter nickname (required)";
 "参选押金"="Deposit";
-"m1"="Jan";
-"m2"="Feb";
-"m3"="Mar";
-"m4"="Apr";
-"m5"="May";
-"m6"="Jun";
-"m7"="Jul";
-"m8"="Aug";
-"m9"="Sept";
-"m10"="Oct";
-"m11"="Nov";
-"m12"="Dec";
+"m1"="Jan.";
+"m2"="Feb.";
+"m3"="Mar.";
+"m4"="Apr.";
+"m5"="May.";
+"m6"="Jun.";
+"m7"="Jul.";
+"m8"="Aug.";
+"m9"="Sept.";
+"m10"="Oct.";
+"m11"="Nov.";
+"m12"="Dec.";
 "信息格式错误"="Did not identify";
 "小于"="Less than";
 "是否覆盖当前凭证信息？"="Overwrite current credential?";
@@ -893,7 +893,7 @@
 "交易错误，无法上链"="Transaction error. Unable to publish on-chain";
 "由于交易金额不足,您的超级节点选举投票已失效"="Your super node election votes have expired due to insufficient transaction amount";
 "由于交易金额不足,您的CR委员选举投票已失效"="Your CR Council Election votes have expired due to insufficient transaction amount";
-"codeTitle"="《Ela Wallet open source code program statement》";
+"codeTitle"="ELA Wallet open source code program statement";
 "codeContent"="1. This program is an open source code App that provides corresponding derivative functions based on the base code of the open source project Elastos, and follows the open source MIT agreement.\n
 2. The use of this program shall be deemed to be fully understood, and capable of bearing any relevant risks -  technical and  otherwise -that may exist.\n
 3. Due to the nature of the distributed node network, the development team is not responsible for the risks and consequences caused by any situation in which node services cannot be accessed due to poor network conditions or communication lines, code security defects, or any hacking or regulatory requirements originating in the country or region where the distributed network node is located.";

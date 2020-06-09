@@ -38,7 +38,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="We9-Od-CZh">
-                            <rect key="frame" x="63" y="220" width="288" height="40"/>
+                            <rect key="frame" x="63" y="282" width="288" height="40"/>
                             <color key="backgroundColor" red="0.27447697519999997" green="0.2745291889" blue="0.2744696438" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="suS-Yb-o1J"/>
@@ -131,7 +131,7 @@
                         <constraint firstItem="skn-09-LPG" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="glM-XW-nIe" secondAttribute="trailing" constant="30" id="EUd-oY-iDg"/>
                         <constraint firstItem="zS3-cD-whf" firstAttribute="top" secondItem="gDE-hm-9Dp" secondAttribute="bottom" constant="50" id="GyB-Ad-CtP"/>
                         <constraint firstItem="4oh-q1-u6w" firstAttribute="leading" secondItem="GHT-IL-cBn" secondAttribute="leading" constant="15" id="LAC-rP-qsd"/>
-                        <constraint firstAttribute="bottom" secondItem="We9-Od-CZh" secondAttribute="bottom" constant="100" id="NV4-S8-bXK"/>
+                        <constraint firstAttribute="bottom" secondItem="We9-Od-CZh" secondAttribute="bottom" constant="38" id="NV4-S8-bXK"/>
                         <constraint firstAttribute="trailing" secondItem="gDE-hm-9Dp" secondAttribute="trailing" constant="15" id="Pno-MD-lJC"/>
                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="skn-09-LPG" secondAttribute="trailing" constant="30" id="QUM-SF-vBr"/>
                         <constraint firstAttribute="trailing" secondItem="We9-Od-CZh" secondAttribute="trailing" constant="63" id="Vih-ay-J25"/>

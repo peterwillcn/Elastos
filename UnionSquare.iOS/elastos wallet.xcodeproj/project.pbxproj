@@ -623,6 +623,7 @@
 		42F794E723C5C23800FC20CD /* FirstViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4202C98F21F6EF29009E5932 /* FirstViewController.mm */; };
 		49B4D149B9AE9124C1AFA618 /* libPods-elastos wallet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A617C7524FD9A7B9523C8E48 /* libPods-elastos wallet.a */; };
 		7087D92F21BCDF1B00599316 /* MyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7087D92E21BCDF1B00599316 /* MyUtil.m */; };
+		709D65F3248FC6500053EC0B /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 709D65F1248FC6500053EC0B /* MBProgressHUD.m */; };
 		70D801E5248127B400C9E192 /* ELACRCommitteeListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 70D801E4248127B400C9E192 /* ELACRCommitteeListViewController.mm */; };
 		70D8023E2481584D00C9E192 /* IQTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D8021F2481584D00C9E192 /* IQTextView.m */; };
 		70D8023F2481584D00C9E192 /* IQToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D802232481584D00C9E192 /* IQToolbar.m */; };
@@ -1897,6 +1898,8 @@
 		7087D92B21BCD85500599316 /* IIdManagerCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIdManagerCallback.h; sourceTree = "<group>"; };
 		7087D92D21BCDF1B00599316 /* MyUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyUtil.h; sourceTree = "<group>"; };
 		7087D92E21BCDF1B00599316 /* MyUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyUtil.m; sourceTree = "<group>"; };
+		709D65F1248FC6500053EC0B /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		709D65F2248FC6500053EC0B /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		70D801E4248127B400C9E192 /* ELACRCommitteeListViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ELACRCommitteeListViewController.mm; sourceTree = "<group>"; };
 		70D8021F2481584D00C9E192 /* IQTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTextView.m; sourceTree = "<group>"; };
 		70D802202481584D00C9E192 /* IQTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTextView.h; sourceTree = "<group>"; };
@@ -3715,6 +3718,7 @@
 		4279CA7624796C3100B503A4 /* Third */ = {
 			isa = PBXGroup;
 			children = (
+				709D65F0248FC6500053EC0B /* MBProgressHUD */,
 				70D8021D2481584D00C9E192 /* IQKeyboardManager */,
 				4279CA7724796C3100B503A4 /* MJExtension */,
 				4279CA8D24796C3100B503A4 /* SYProgressView */,
@@ -4407,6 +4411,15 @@
 			path = "elastos wallet/starter";
 			sourceTree = "<group>";
 		};
+		709D65F0248FC6500053EC0B /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				709D65F1248FC6500053EC0B /* MBProgressHUD.m */,
+				709D65F2248FC6500053EC0B /* MBProgressHUD.h */,
+			);
+			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
 		70D8021D2481584D00C9E192 /* IQKeyboardManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -4544,7 +4557,7 @@
 				LastUpgradeCheck = 1140;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = VNP5LMNF24;
+						DevelopmentTeam = WF4LNX869V;
 						LastSwiftMigration = 1130;
 						ProvisioningStyle = Automatic;
 					};
@@ -4997,6 +5010,7 @@
 				4202CABE21F6EF2B009E5932 /* HMWCommView.m in Sources */,
 				4202CA0A21F6EF2A009E5932 /* SGQRCodeHelperTool.m in Sources */,
 				42D7DC5523F68008002F5A9A /* HWMHWMDIDShowInfoViewController.m in Sources */,
+				709D65F3248FC6500053EC0B /* MBProgressHUD.m in Sources */,
 				CBD48D6321FC399700BF3B11 /* HttpUrl.m in Sources */,
 				42358049246A63C500A62615 /* HWMabolishedBaseViewController.m in Sources */,
 				4202CAA021F6EF2B009E5932 /* FLPastWordVC.mm in Sources */,
@@ -5289,7 +5303,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = WF4LNX869V;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5342,7 +5356,7 @@
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.zhon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhongcheng.gdzc;
 				PRODUCT_NAME = "ELA WalletPreNet";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -5370,7 +5384,7 @@
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = WF4LNX869V;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5495,7 +5509,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = WF4LNX869V;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5621,7 +5635,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20191226;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = VNP5LMNF24;
+				DEVELOPMENT_TEAM = WF4LNX869V;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5631,7 +5645,7 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "elastos wallet/elastos wallet-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (

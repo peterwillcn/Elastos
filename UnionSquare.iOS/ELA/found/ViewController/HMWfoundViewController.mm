@@ -63,10 +63,11 @@
     self.table.delegate = self;
     self.table.rowHeight = (AppWidth-60)/2;
     self.table.tableFooterView = [[UIView alloc] init];
-    self.dataSource =[[NSMutableArray alloc]initWithObjects:@"",@"",@"", @"", nil];
+    self.dataSource =[[NSMutableArray alloc]initWithObjects:@"",@"",@"", nil];
     [self.table registerNib:[UINib nibWithNibName:@"HMWfoundTableCell" bundle:nil] forCellReuseIdentifier:@"HMWfoundTableCell"];
+    [self.table reloadData];
     //xhj bug #937
-    self.table.hidden = YES;
+//    self.table.hidden = YES;
     
     
 }
@@ -158,7 +159,7 @@
     [super viewWillAppear:animated];
     self.navigationItem.leftBarButtonItem=nil;
     [self.navigationController setNavigationBarHidden:NO];
-    self.table.hidden = YES;
+  //  self.table.hidden = YES;
     //xhj bug #937
     dispatch_async(dispatch_get_main_queue(), ^{
         [self getNetworkData];

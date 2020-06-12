@@ -147,7 +147,7 @@
 }
 - (void)impeachment
 {
-    [self showLoading];
+    [self showLoadingView];
     NSString *amount = [[FLTools share] elsToSela:_impeachValue];
     NSString *hash = _model.cid;
     
@@ -160,7 +160,7 @@
         }
         else
         {
-            [weakSelf hiddLoading];
+            [weakSelf hideLoadingView];
             [[FLTools share]showErrorInfo:ELALocalizedString(@"发送请求失败")];
         }
     };
@@ -187,7 +187,7 @@
     
     [_impeachView hideAlertView];
     [_passwdView hideAlertView];
-    [self hiddLoading];
+    [self hideLoadingView];
     if(pluginResult)
     {
 //        NSDictionary *resultDic = pluginResult.message[@"success"];
@@ -231,7 +231,7 @@
     [ELANetwork getInformation:_paramModel.did ID:_index block:^(id  _Nonnull data, NSError * _Nonnull error) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
-
+            [weakSelf hideLoadingView];
             if(error)
             {
                 [weakSelf hideLoadingView];
@@ -305,8 +305,8 @@
         make.height.equalTo(@(0.5));
     }];
     [self.view layoutIfNeeded];
-    
-    [self performSelector:@selector(hiddLoading) withObject:nil afterDelay:0.5];
+    [self hideLoadingView];
+//    [self performSelector:@selector(hiddLoading) withObject:nil afterDelay:0.5];
 }
 
 - (void)creatTabView:(UIView *)view
@@ -435,51 +435,103 @@
     lineLabel.backgroundColor = [UIColor clearColor];
     [infoView addSubview:lineLabel];
     
-    [infoView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view);
-        make.right.equalTo(self.view);
-        make.top.equalTo(view.mas_bottom).offset(20);
-    }];
+    if(iPhoneX)
+    {
+        [infoView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self.view);
+                make.right.equalTo(self.view);
+                make.top.equalTo(view.mas_bottom).offset(20);
+            }];
+            
+            [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(infoView).offset(15);
+                make.top.equalTo(infoView);
+            }];
+            
+            [progressView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self.view).offset(20);
+                make.top.equalTo(titleLabel.mas_bottom).offset(20);
+                make.width.height.equalTo(@(80));
+                make.bottom.equalTo(infoView.mas_bottom).offset(-20);
+            }];
+            
+            [currentNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(progressView.mas_right).offset(20);
+                make.bottom.equalTo(progressView.mas_centerY).offset(-5);
+            }];
+            
+            [currentNumValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerX.equalTo(currentNumLabel);
+                make.top.equalTo(progressView.mas_centerY).offset(5);
+            }];
+            
+            [lineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(progressView);
+                make.left.equalTo(currentNumLabel.mas_right).offset(20);
+                make.height.equalTo(@(80));
+            }];
+            
+            [impeachmentNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+             //   make.right.equalTo(infoView).offset(-15);
+                make.left.equalTo(currentNumLabel.mas_right).offset(50);
+                make.centerY.equalTo(currentNumLabel);
+            }];
+            
+            [impeachmentNumValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        //        make.left.equalTo(impeachmentNumLabel);
+                make.centerX.equalTo(impeachmentNumLabel);
+                 make.centerY.equalTo(currentNumValueLabel);
+            }];
+    }
+    else
+    {
+        [infoView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self.view);
+                make.right.equalTo(self.view);
+                make.top.equalTo(view.mas_bottom).offset(20);
+            }];
+            
+            [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(infoView).offset(15);
+                make.top.equalTo(infoView);
+            }];
+            
+            [progressView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self.view).offset(20);
+                make.top.equalTo(titleLabel.mas_bottom).offset(20);
+                make.width.height.equalTo(@(80));
+                make.bottom.equalTo(infoView.mas_bottom).offset(-20);
+            }];
+            
+            [currentNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(progressView.mas_right).offset(40);
+                make.bottom.equalTo(progressView.mas_centerY).offset(-5);
+            }];
+            
+            [currentNumValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerX.equalTo(currentNumLabel);
+                make.top.equalTo(progressView.mas_centerY).offset(5);
+            }];
+            
+            [lineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(progressView);
+                make.left.equalTo(currentNumLabel.mas_right).offset(30);
+                make.height.equalTo(@(80));
+            }];
+            
+            [impeachmentNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+             //   make.right.equalTo(infoView).offset(-15);
+                make.left.equalTo(currentNumLabel.mas_right).offset(70);
+                make.centerY.equalTo(currentNumLabel);
+            }];
+            
+            [impeachmentNumValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        //        make.left.equalTo(impeachmentNumLabel);
+                make.centerX.equalTo(impeachmentNumLabel);
+                 make.centerY.equalTo(currentNumValueLabel);
+            }];
+    }
     
-    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(infoView).offset(15);
-        make.top.equalTo(infoView);
-    }];
-    
-    [progressView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view).offset(20);
-        make.top.equalTo(titleLabel.mas_bottom).offset(20);
-        make.width.height.equalTo(@(80));
-        make.bottom.equalTo(infoView.mas_bottom).offset(-20);
-    }];
-    
-    [currentNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(progressView.mas_right).offset(40);
-        make.bottom.equalTo(progressView.mas_centerY).offset(-5);
-    }];
-    
-    [currentNumValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(currentNumLabel);
-        make.top.equalTo(progressView.mas_centerY).offset(5);
-    }];
-    
-    [lineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(progressView);
-        make.left.equalTo(currentNumLabel.mas_right).offset(30);
-        make.height.equalTo(@(80));
-    }];
-    
-    [impeachmentNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-     //   make.right.equalTo(infoView).offset(-15);
-        make.left.equalTo(currentNumLabel.mas_right).offset(70);
-        make.centerY.equalTo(currentNumLabel);
-    }];
-    
-    [impeachmentNumValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.equalTo(impeachmentNumLabel);
-        make.centerX.equalTo(impeachmentNumLabel);
-         make.centerY.equalTo(currentNumValueLabel);
-    }];
     [self.view layoutIfNeeded];
     [self creatTabView:infoView];
     

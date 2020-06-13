@@ -10,6 +10,23 @@
 		0377F67DC70B4CEFBD787502 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FEFE2C15307426D819C2CA3 /* libz.tbd */; };
 		1D3623260D0F684500981E51 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.mm */; };
 		1D60589B0D05DD56006BFB54 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.mm */; };
+		38FAB659249472DE003E7C58 /* mz_strm_os_posix.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB638249472DD003E7C58 /* mz_strm_os_posix.c */; };
+		38FAB65A249472DE003E7C58 /* mz_strm_pkcrypt.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB639249472DD003E7C58 /* mz_strm_pkcrypt.c */; };
+		38FAB65B249472DE003E7C58 /* mz_strm_zlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB63C249472DD003E7C58 /* mz_strm_zlib.c */; };
+		38FAB65C249472DE003E7C58 /* mz_zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB63D249472DD003E7C58 /* mz_zip.c */; };
+		38FAB65D249472DE003E7C58 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 38FAB63F249472DD003E7C58 /* LICENSE */; };
+		38FAB65E249472DE003E7C58 /* mz_zip_rw.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB640249472DD003E7C58 /* mz_zip_rw.c */; };
+		38FAB65F249472DE003E7C58 /* mz_crypt_apple.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB643249472DD003E7C58 /* mz_crypt_apple.c */; };
+		38FAB660249472DE003E7C58 /* mz_strm_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB645249472DD003E7C58 /* mz_strm_mem.c */; };
+		38FAB661249472DE003E7C58 /* mz_crypt.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB646249472DD003E7C58 /* mz_crypt.c */; };
+		38FAB662249472DE003E7C58 /* mz_strm_wzaes.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB647249472DD003E7C58 /* mz_strm_wzaes.c */; };
+		38FAB663249472DE003E7C58 /* mz_compat.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB649249472DD003E7C58 /* mz_compat.c */; };
+		38FAB664249472DE003E7C58 /* mz_os.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB64C249472DD003E7C58 /* mz_os.c */; };
+		38FAB665249472DE003E7C58 /* mz_os_posix.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB64E249472DD003E7C58 /* mz_os_posix.c */; };
+		38FAB666249472DE003E7C58 /* mz_strm_buf.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB650249472DD003E7C58 /* mz_strm_buf.c */; };
+		38FAB667249472DE003E7C58 /* mz_strm_split.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB651249472DD003E7C58 /* mz_strm_split.c */; };
+		38FAB668249472DE003E7C58 /* mz_strm.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB654249472DD003E7C58 /* mz_strm.c */; };
+		38FAB669249472DE003E7C58 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB658249472DD003E7C58 /* SSZipArchive.m */; };
 		420131C42320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 420131C22320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.mm */; };
 		420131C52320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 420131C32320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.xib */; };
 		4202C9F921F6EF2A009E5932 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4202C81D21F6EF28009E5932 /* NSLayoutConstraint+MASDebugAdditions.m */; };
@@ -683,6 +700,40 @@
 		1D6058910D05DD3D006BFB54 /* ELA WalletPreNet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ELA WalletPreNet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B97316FDCFA39411CA2CEA /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* elastos wallet-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "elastos wallet-Prefix.pch"; sourceTree = "<group>"; };
+		38FAB636249472DD003E7C58 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
+		38FAB638249472DD003E7C58 /* mz_strm_os_posix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_strm_os_posix.c; sourceTree = "<group>"; };
+		38FAB639249472DD003E7C58 /* mz_strm_pkcrypt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_strm_pkcrypt.c; sourceTree = "<group>"; };
+		38FAB63A249472DD003E7C58 /* mz_strm_wzaes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mz_strm_wzaes.h; sourceTree = "<group>"; };
+		38FAB63B249472DD003E7C58 /* mz_compat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mz_compat.h; sourceTree = "<group>"; };
+		38FAB63C249472DD003E7C58 /* mz_strm_zlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_strm_zlib.c; sourceTree = "<group>"; };
+		38FAB63D249472DD003E7C58 /* mz_zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_zip.c; sourceTree = "<group>"; };
+		38FAB63E249472DD003E7C58 /* mz_os.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mz_os.h; sourceTree = "<group>"; };
+		38FAB63F249472DD003E7C58 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		38FAB640249472DD003E7C58 /* mz_zip_rw.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_zip_rw.c; sourceTree = "<group>"; };
+		38FAB641249472DD003E7C58 /* mz_strm_split.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mz_strm_split.h; sourceTree = "<group>"; };
+		38FAB642249472DD003E7C58 /* mz_strm_buf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mz_strm_buf.h; sourceTree = "<group>"; };
+		38FAB643249472DD003E7C58 /* mz_crypt_apple.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_crypt_apple.c; sourceTree = "<group>"; };
+		38FAB644249472DD003E7C58 /* mz_strm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mz_strm.h; sourceTree = "<group>"; };
+		38FAB645249472DD003E7C58 /* mz_strm_mem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_strm_mem.c; sourceTree = "<group>"; };
+		38FAB646249472DD003E7C58 /* mz_crypt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_crypt.c; sourceTree = "<group>"; };
+		38FAB647249472DD003E7C58 /* mz_strm_wzaes.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_strm_wzaes.c; sourceTree = "<group>"; };
+		38FAB648249472DD003E7C58 /* mz_strm_zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mz_strm_zlib.h; sourceTree = "<group>"; };
+		38FAB649249472DD003E7C58 /* mz_compat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_compat.c; sourceTree = "<group>"; };
+		38FAB64A249472DD003E7C58 /* mz_strm_pkcrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mz_strm_pkcrypt.h; sourceTree = "<group>"; };
+		38FAB64B249472DD003E7C58 /* mz_zip_rw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mz_zip_rw.h; sourceTree = "<group>"; };
+		38FAB64C249472DD003E7C58 /* mz_os.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_os.c; sourceTree = "<group>"; };
+		38FAB64D249472DD003E7C58 /* mz_zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mz_zip.h; sourceTree = "<group>"; };
+		38FAB64E249472DD003E7C58 /* mz_os_posix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_os_posix.c; sourceTree = "<group>"; };
+		38FAB64F249472DD003E7C58 /* mz.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mz.h; sourceTree = "<group>"; };
+		38FAB650249472DD003E7C58 /* mz_strm_buf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_strm_buf.c; sourceTree = "<group>"; };
+		38FAB651249472DD003E7C58 /* mz_strm_split.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_strm_split.c; sourceTree = "<group>"; };
+		38FAB652249472DD003E7C58 /* mz_crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mz_crypt.h; sourceTree = "<group>"; };
+		38FAB653249472DD003E7C58 /* mz_strm_mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mz_strm_mem.h; sourceTree = "<group>"; };
+		38FAB654249472DD003E7C58 /* mz_strm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_strm.c; sourceTree = "<group>"; };
+		38FAB655249472DD003E7C58 /* mz_strm_os.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mz_strm_os.h; sourceTree = "<group>"; };
+		38FAB656249472DD003E7C58 /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSZipArchive.h; sourceTree = "<group>"; };
+		38FAB657249472DD003E7C58 /* SSZipCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSZipCommon.h; sourceTree = "<group>"; };
+		38FAB658249472DD003E7C58 /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSZipArchive.m; sourceTree = "<group>"; };
 		420131C12320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWMCRCCommitteeElectionListViewController.h; sourceTree = "<group>"; };
 		420131C22320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = HWMCRCCommitteeElectionListViewController.mm; sourceTree = "<group>"; };
 		420131C32320F0C40093FC88 /* HWMCRCCommitteeElectionListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HWMCRCCommitteeElectionListViewController.xib; sourceTree = "<group>"; };
@@ -2094,6 +2145,55 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		38FAB635249472DD003E7C58 /* SSZipArchive */ = {
+			isa = PBXGroup;
+			children = (
+				38FAB636249472DD003E7C58 /* ZipArchive.h */,
+				38FAB637249472DD003E7C58 /* minizip */,
+				38FAB656249472DD003E7C58 /* SSZipArchive.h */,
+				38FAB657249472DD003E7C58 /* SSZipCommon.h */,
+				38FAB658249472DD003E7C58 /* SSZipArchive.m */,
+			);
+			path = SSZipArchive;
+			sourceTree = "<group>";
+		};
+		38FAB637249472DD003E7C58 /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				38FAB638249472DD003E7C58 /* mz_strm_os_posix.c */,
+				38FAB639249472DD003E7C58 /* mz_strm_pkcrypt.c */,
+				38FAB63A249472DD003E7C58 /* mz_strm_wzaes.h */,
+				38FAB63B249472DD003E7C58 /* mz_compat.h */,
+				38FAB63C249472DD003E7C58 /* mz_strm_zlib.c */,
+				38FAB63D249472DD003E7C58 /* mz_zip.c */,
+				38FAB63E249472DD003E7C58 /* mz_os.h */,
+				38FAB63F249472DD003E7C58 /* LICENSE */,
+				38FAB640249472DD003E7C58 /* mz_zip_rw.c */,
+				38FAB641249472DD003E7C58 /* mz_strm_split.h */,
+				38FAB642249472DD003E7C58 /* mz_strm_buf.h */,
+				38FAB643249472DD003E7C58 /* mz_crypt_apple.c */,
+				38FAB644249472DD003E7C58 /* mz_strm.h */,
+				38FAB645249472DD003E7C58 /* mz_strm_mem.c */,
+				38FAB646249472DD003E7C58 /* mz_crypt.c */,
+				38FAB647249472DD003E7C58 /* mz_strm_wzaes.c */,
+				38FAB648249472DD003E7C58 /* mz_strm_zlib.h */,
+				38FAB649249472DD003E7C58 /* mz_compat.c */,
+				38FAB64A249472DD003E7C58 /* mz_strm_pkcrypt.h */,
+				38FAB64B249472DD003E7C58 /* mz_zip_rw.h */,
+				38FAB64C249472DD003E7C58 /* mz_os.c */,
+				38FAB64D249472DD003E7C58 /* mz_zip.h */,
+				38FAB64E249472DD003E7C58 /* mz_os_posix.c */,
+				38FAB64F249472DD003E7C58 /* mz.h */,
+				38FAB650249472DD003E7C58 /* mz_strm_buf.c */,
+				38FAB651249472DD003E7C58 /* mz_strm_split.c */,
+				38FAB652249472DD003E7C58 /* mz_crypt.h */,
+				38FAB653249472DD003E7C58 /* mz_strm_mem.h */,
+				38FAB654249472DD003E7C58 /* mz_strm.c */,
+				38FAB655249472DD003E7C58 /* mz_strm_os.h */,
+			);
+			path = minizip;
+			sourceTree = "<group>";
+		};
 		4202C7D321F6EF28009E5932 /* ELA */ = {
 			isa = PBXGroup;
 			children = (
@@ -2112,6 +2212,7 @@
 		4202C7D421F6EF28009E5932 /* ThirdSDK */ = {
 			isa = PBXGroup;
 			children = (
+				38FAB635249472DD003E7C58 /* SSZipArchive */,
 				424FEAD7247D453E00B12851 /* YYKit */,
 				4284763A243F29E600EADFDE /* SVG */,
 				4224AE50243CD43E0056606F /* CocoaLumberjack */,
@@ -4782,6 +4883,7 @@
 				4202CA6B21F6EF2B009E5932 /* HMWSideChainAndTheContactTableViewCell.xib in Resources */,
 				4237AAC22468FC0B00DD8FAE /* HWMCommunityProposalScrollView.xib in Resources */,
 				42780241235EDC350017F098 /* HWMDIDWalletListTableViewCell.xib in Resources */,
+				38FAB65D249472DE003E7C58 /* LICENSE in Resources */,
 				CBD25EFE221542F500EDA0F5 /* FLChangeVotedTicketsVC.xib in Resources */,
 				42D7DC5623F68008002F5A9A /* HWMHWMDIDShowInfoViewController.xib in Resources */,
 				425A5F5E246582D500C44104 /* HWMCommentPerioDetailsViewController.xib in Resources */,
@@ -4845,6 +4947,7 @@
 				4279CAD324796C3100B503A4 /* SYProgressView.m in Sources */,
 				4202CAAA21F6EF2B009E5932 /* FLAllKindBi.m in Sources */,
 				427975102484C61000559DD0 /* HWMOpenSourceStatementViewController.m in Sources */,
+				38FAB660249472DE003E7C58 /* mz_strm_mem.c in Sources */,
 				4202CA0C21F6EF2A009E5932 /* SGQRCodeScanManager.m in Sources */,
 				424910EE2271BFCF00C41E50 /* SDWebImagePrefetcher.m in Sources */,
 				4279CAD824796C3100B503A4 /* RPTaggedNavView.m in Sources */,
@@ -4854,6 +4957,7 @@
 				424910E92271BFCF00C41E50 /* UIImageView+HighlightedWebCache.m in Sources */,
 				425A5FA92466BEEE00C44104 /* HWMOpposedProgressHeadView.m in Sources */,
 				4202CAAF21F6EF2B009E5932 /* HMWaddFooterView.m in Sources */,
+				38FAB65B249472DE003E7C58 /* mz_strm_zlib.c in Sources */,
 				425A5F482465368F00C44104 /* HWMCommunityProposalBaseView.m in Sources */,
 				4279CAC924796C3100B503A4 /* NSObject+MJKeyValue.m in Sources */,
 				42B57AB622150C1C004CF089 /* NSObject+SelectorCrash.m in Sources */,
@@ -4900,6 +5004,7 @@
 				4202CA6921F6EF2B009E5932 /* HMWtransferTransactionMultipleAddressDetailsTableViewCell.m in Sources */,
 				70D802492481584D00C9E192 /* IQUIViewController+Additions.m in Sources */,
 				4202CA3721F6EF2A009E5932 /* FLChoseOrVoteVC.m in Sources */,
+				38FAB665249472DE003E7C58 /* mz_os_posix.c in Sources */,
 				42D1060623A3344D0063AADC /* MJRefreshComponent.m in Sources */,
 				42186FE022BCADBB0063A28D /* AboutELAWalletViewController.mm in Sources */,
 				424910F12271BFCF00C41E50 /* NSData+ImageContentType.m in Sources */,
@@ -4910,6 +5015,7 @@
 				4202CA9921F6EF2B009E5932 /* HMWImportTheWalletViewController.mm in Sources */,
 				425A5F5D246582D500C44104 /* HWMCommentPerioDetailsViewController.mm in Sources */,
 				424E0A4C246BABC9003B40CF /* HWMDetailsProposalViewModel.m in Sources */,
+				38FAB662249472DE003E7C58 /* mz_strm_wzaes.c in Sources */,
 				4202CAC621F6EF2B009E5932 /* HMWtheCandidateListTableViewCell.m in Sources */,
 				42A7A85B236AE8F00034A900 /* HWMAccordingPersonalInformationViewController.m in Sources */,
 				4202CA0E21F6EF2A009E5932 /* WCQRCodeScanningVC.m in Sources */,
@@ -4921,9 +5027,11 @@
 				4202CA0B21F6EF2A009E5932 /* SGQRCodeScanningView.m in Sources */,
 				4261C2FC22C21563008C1532 /* showOwnerAddressTableViewCell.m in Sources */,
 				4202CA0521F6EF2A009E5932 /* SVProgressHUD.m in Sources */,
+				38FAB666249472DE003E7C58 /* mz_strm_buf.c in Sources */,
 				42B263B422DD741800B19F2C /* HWMSignatureTradingSingleQrCodeViewControlle.mm in Sources */,
 				70E32D14247B3CC900120817 /* ELACommitteeDetailViewController.mm in Sources */,
 				42DFCC50246BF658006848B3 /* HWMStatProposalSectionHeadView.m in Sources */,
+				38FAB667249472DE003E7C58 /* mz_strm_split.c in Sources */,
 				42EAEFF7238BB69C00D6A912 /* HWMAddThePrivateKeyViewController.m in Sources */,
 				4202CA0D21F6EF2A009E5932 /* SGQRCodeGenerateManager.m in Sources */,
 				425A5F662466776100C44104 /* HWMCommitteeMembersToVoteView.m in Sources */,
@@ -5022,6 +5130,7 @@
 				4202CA6421F6EF2A009E5932 /* HMWtransferTransactionMultipleAddressDetailsView.m in Sources */,
 				4202CA9621F6EF2B009E5932 /* FLCreatAcountVC.mm in Sources */,
 				4202CA1A21F6EF2A009E5932 /* FMDatabaseAdditions.m in Sources */,
+				38FAB669249472DE003E7C58 /* SSZipArchive.m in Sources */,
 				42D105F223A3344D0063AADC /* UIScrollView+MJRefresh.m in Sources */,
 				4202CA1F21F6EF2A009E5932 /* HMWaddContactViewController.m in Sources */,
 				425A5F862466AB1600C44104 /* HWMImplementationScheduleView.m in Sources */,
@@ -5034,6 +5143,7 @@
 				42B57AB422150C1C004CF089 /* NSObject+KVOCrash.m in Sources */,
 				42EA69442313DD5400418328 /* HWMQrCodeTransferAndAddBuddyViewController.m in Sources */,
 				70E32D12247B3C7A00120817 /* ELAVotingProcessUtil.mm in Sources */,
+				38FAB668249472DE003E7C58 /* mz_strm.c in Sources */,
 				4202CA8C21F6EF2B009E5932 /* HMWTheWalletListViewController.mm in Sources */,
 				4279CAC824796C3100B503A4 /* MJPropertyType.m in Sources */,
 				424E0A49246B97E4003B40CF /* HWMDetailsProposalModel.m in Sources */,
@@ -5074,11 +5184,13 @@
 				4279CABF24796C3100B503A4 /* ELACommitteeInfoViewController.m in Sources */,
 				4202CA4C21F6EF2A009E5932 /* FLCopyPrivateKeyView.m in Sources */,
 				4279CAC524796C3100B503A4 /* ELACommitteeManageViewController.mm in Sources */,
+				38FAB65F249472DE003E7C58 /* mz_crypt_apple.c in Sources */,
 				70D802482481584D00C9E192 /* IQUIView+Hierarchy.m in Sources */,
 				4202CA2F21F6EF2A009E5932 /* FLMyVC.mm in Sources */,
 				4202CA7C21F6EF2B009E5932 /* HMWAddressListViewController.m in Sources */,
 				70D802442481584D00C9E192 /* IQKeyboardManager.m in Sources */,
 				42D1060123A3344D0063AADC /* MJRefreshGifHeader.m in Sources */,
+				38FAB65A249472DE003E7C58 /* mz_strm_pkcrypt.c in Sources */,
 				4279CADD24796C3100B503A4 /* ELAInformationDetail.m in Sources */,
 				42D1060523A3344D0063AADC /* MJRefreshAutoFooter.m in Sources */,
 				42B57AB922150C1C004CF089 /* WOCrashLog.m in Sources */,
@@ -5086,6 +5198,7 @@
 				42D105FC23A3344D0063AADC /* MJRefreshAutoStateFooter.m in Sources */,
 				70D8024A2481584D00C9E192 /* IQKeyboardReturnKeyHandler.m in Sources */,
 				42D126A722B78060000A286C /* HMWVotingListTypeCrossCollectionViewCell.m in Sources */,
+				38FAB659249472DE003E7C58 /* mz_strm_os_posix.c in Sources */,
 				4202CA9D21F6EF2B009E5932 /* FLSelectWordView.m in Sources */,
 				4296F1072375429800B2CE7D /* HWMshowIntroductionInfoViewController.m in Sources */,
 				70D8023F2481584D00C9E192 /* IQToolbar.m in Sources */,
@@ -5174,6 +5287,7 @@
 				4202CA6121F6EF2A009E5932 /* HMWtransferTransactionSingleAddressDetailsView.m in Sources */,
 				4272904D2446AFD3000B6B6D /* HWMNodeConnectionSettingsViewController.mm in Sources */,
 				4279CAD624796C3100B503A4 /* SYWaveProgressView.m in Sources */,
+				38FAB65E249472DE003E7C58 /* mz_zip_rw.c in Sources */,
 				422672A722C9E0CD00179D66 /* HWMVUpdateLogWebViewController.m in Sources */,
 				4253EE5923696C88005B774A /* HWMDIDInfoViewController.mm in Sources */,
 				4202CA3F21F6EF2A009E5932 /* FLNetErrorView.m in Sources */,
@@ -5203,6 +5317,7 @@
 				423270C7244D8BC900E98C26 /* HWMAllNoView.m in Sources */,
 				4279CADE24796C3100B503A4 /* ELACommitteeInfoModel.m in Sources */,
 				42D105F923A3344D0063AADC /* MJRefreshBackGifFooter.m in Sources */,
+				38FAB65C249472DE003E7C58 /* mz_zip.c in Sources */,
 				425A5F2E2462DC4800C44104 /* HWMSuggestionViewController.mm in Sources */,
 				424910F32271BFCF00C41E50 /* NSImage+WebCache.m in Sources */,
 				428B4D9622CB2E98004AE7D0 /* HWMaddSignThePurseViewTableViewCell.m in Sources */,
@@ -5244,13 +5359,16 @@
 				428B4D8F22CB2B74004AE7D0 /* HWMaddSignThePurseView.m in Sources */,
 				424D113A22E042D900C46640 /* HWMHowLongTradingQrCodeViewController.m in Sources */,
 				4202CA0321F6EF2A009E5932 /* SVRadialGradientLayer.m in Sources */,
+				38FAB664249472DE003E7C58 /* mz_os.c in Sources */,
 				42EAF01B238BB8C200D6A912 /* HWMDIDDataListView.m in Sources */,
 				423461FA2383F18900E4B135 /* UITableView+YRSafeCategory.m in Sources */,
 				42D105F823A3344D0063AADC /* UIView+MJExtension.m in Sources */,
 				4202CABF21F6EF2B009E5932 /* UIViewController+FLVCExt.m in Sources */,
+				38FAB663249472DE003E7C58 /* mz_compat.c in Sources */,
 				4279CAC424796C3100B503A4 /* ELACommitteeListViewController.m in Sources */,
 				425A5F4E24653A3700C44104 /* HWMCommunityProposalBaseTableViewCell.m in Sources */,
 				4279CACF24796C3100B503A4 /* NSString+MJExtension.m in Sources */,
+				38FAB661249472DE003E7C58 /* mz_crypt.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5317,8 +5435,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "elastos wallet/elastos wallet-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					DEBUG,
 					"$(inherited)",
+					HAVE_WZAES,
+					HAVE_STDINT_H,
+					HAVE_PKCRYPT,
+					HAVE_INTTYPES_H,
+					HAVE_ZLIB,
 				);
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
@@ -5397,8 +5519,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "elastos wallet/elastos wallet-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					MainNet,
 					"$(inherited)",
+					HAVE_WZAES,
+					HAVE_STDINT_H,
+					HAVE_PKCRYPT,
+					HAVE_INTTYPES_H,
+					HAVE_ZLIB,
 				);
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
@@ -5523,8 +5649,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "elastos wallet/elastos wallet-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					TestNet,
 					"$(inherited)",
+					HAVE_WZAES,
+					HAVE_STDINT_H,
+					HAVE_PKCRYPT,
+					HAVE_INTTYPES_H,
+					HAVE_ZLIB,
 				);
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
@@ -5649,8 +5779,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "elastos wallet/elastos wallet-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					PrvNet,
 					"$(inherited)",
+					HAVE_WZAES,
+					HAVE_STDINT_H,
+					HAVE_PKCRYPT,
+					HAVE_INTTYPES_H,
+					HAVE_ZLIB,
 				);
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";

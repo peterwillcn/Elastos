@@ -39,21 +39,26 @@
     [self.RunLogButton setTitle:NSLocalizedString(@"运行日志", nil) forState:UIControlStateNormal];
     
     self.sdkTheVersionNumberLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"当前sdk版本号", nil),[[ELWalletManager share] EMWMGetVersion]];
-    //    [self.TheCodeStatementButton setTitle:NSLocalizedString(@"codeTitle",nil) forState:UIControlStateNormal];
-    
+<<<<<<< HEAD
+//    [self.TheCodeStatementButton setTitle:NSLocalizedString(@"codeTitle",nil) forState:UIControlStateNormal];
+
     NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"codeTitle",nil)];
     [attributeString addAttribute:NSUnderlineStyleAttributeName
-                            value:@(NSUnderlineStyleSingle)
-                            range:(NSRange){0,[attributeString length]}];
-    
+                      value:@(NSUnderlineStyleSingle)
+                      range:(NSRange){0,[attributeString length]}];
+   
     [attributeString addAttribute:NSForegroundColorAttributeName value:RGB(69,121,251)  range:NSMakeRange(0,[attributeString length])];
-    
+
     [attributeString addAttribute:NSUnderlineColorAttributeName value:RGB(69,121,251) range:(NSRange){0,[attributeString length]}];
     [self.TheCodeStatementButton  setAttributedTitle:attributeString forState:UIControlStateNormal];
     
     
     
+//    self.TheCodeStatementButton.alpha=0.f;
+=======
+    [self.TheCodeStatementButton setTitle:NSLocalizedString(@"codeTitle",nil) forState:UIControlStateNormal];
     //    self.TheCodeStatementButton.alpha=0.f;
+>>>>>>> 8c861315... zip log file before sharing
     self.functionalSpecificationsLabel.text=NSLocalizedString(@"主要功能： \n· 亦来云全生态数字资产支持 \n· 亦来云 DID 数字身份认证 \n· 亦来云 DPoS 选举 \n· CR 社区委员选举 \n· CR 社区提案&投票等", nil);
 }
 - (IBAction)seeTheLogAction:(id)sender {

@@ -278,8 +278,15 @@
     [button setTitle:ELALocalizedString(@"弹劾该委员") forState:(UIControlStateNormal)];
     [button addTarget:self action:@selector(buttonAction:) forControlEvents:(UIControlEventTouchUpInside)];
     [infoView addSubview:button];
-    
-    button.hidden = YES;
+    if([_model.status isEqualToString:@"Elected"])
+    {
+        button.hidden = NO;
+    }
+    else
+    {
+        button.hidden = YES;
+    }
+
     [infoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
@@ -290,7 +297,7 @@
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
         make.width.equalTo(@(250));
-        make.top.equalTo(infoView).offset(25);
+        make.bottom.equalTo(infoView).offset(-25);
         make.height.equalTo(@(40));
     }];
     
@@ -328,8 +335,16 @@
     self.taggedNavView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.taggedNavView];
     
+    if([_model.status isEqualToString:@"Elected"])
+    {
+        self.bgScroll = [[UIScrollView alloc]initWithFrame:CGRectMake(0, self.taggedNavView.bottomY, ScreenWidth, ScreenHeight - self.taggedNavView.bottomY - BottomHeight - 90 - 25)];
+    }
+    else
+    {
+        self.bgScroll = [[UIScrollView alloc]initWithFrame:CGRectMake(0, self.taggedNavView.bottomY, ScreenWidth, ScreenHeight - self.taggedNavView.bottomY - BottomHeight)];
+    }
 //    self.bgScroll = [[UIScrollView alloc]initWithFrame:CGRectMake(0, self.taggedNavView.bottomY, ScreenWidth, ScreenHeight - self.taggedNavView.bottomY - BottomHeight - 90)];
-    self.bgScroll = [[UIScrollView alloc]initWithFrame:CGRectMake(0, self.taggedNavView.bottomY, ScreenWidth, ScreenHeight - self.taggedNavView.bottomY - BottomHeight)];
+//    self.bgScroll = [[UIScrollView alloc]initWithFrame:CGRectMake(0, self.taggedNavView.bottomY, ScreenWidth, ScreenHeight - self.taggedNavView.bottomY - BottomHeight - 90 - 25)];
     self.bgScroll.contentSize = CGSizeMake(ScreenWidth * 2, 0);
     self.bgScroll.delegate = self;
     self.bgScroll.pagingEnabled = YES;

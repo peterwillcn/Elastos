@@ -223,12 +223,12 @@
                 [ELAVotingProcessUtil shareVotingProcess].detailModel = detailModel;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[FLTools share]hideLoadingView];
-//                    if(![self toELACommitteeManageViewController:detailModel])
-//                    {
+                    if(![self toELACommitteeManageViewController:detailModel])
+                    {
                         ELACRCommitteeListViewController *vc = [[ELACRCommitteeListViewController alloc] init];
                         vc.title = ELALocalizedString(@"CR委员会列表");
                         [self.navigationController pushViewController:vc animated:YES];
-//                    }
+                    }
                 });
             }];
         }
@@ -237,12 +237,12 @@
             NSDictionary*dic = [model mj_keyValues];
             ELAInformationDetail *detailModel = [ELAInformationDetail mj_objectWithKeyValues:dic];
             [ELAVotingProcessUtil shareVotingProcess].detailModel = detailModel;
-//            if(![self toELACommitteeManageViewController:detailModel])
-//            {
+            if(![self toELACommitteeManageViewController:detailModel])
+            {
                 ELACRCommitteeListViewController *vc = [[ELACRCommitteeListViewController alloc] init];
                 vc.title = ELALocalizedString(@"CR委员会列表");
                 [self.navigationController pushViewController:vc animated:YES];
-//            }
+            }
         }
         
     }
@@ -287,18 +287,18 @@
         {
             if([model.status isEqualToString:@"Returned"])//去职
             {
-                [self setELACommitteeManageViewController:3 :detailModel];
+//                [self setELACommitteeManageViewController:3 :detailModel];
                
             }
-            else if([model.status isEqualToString:@"Terminated"])//任满
+            else if([model.status isEqualToString:@"Terminated"] && ![model.depositAmount isEqualToString:@""] && ![model.depositAmount isEqualToString:@"0"])//任满
             {
                 [self setELACommitteeManageViewController:4 :detailModel];
-                
+                return YES;
             }
-            else if([model.status isEqualToString:@"Impeached"])//弹劾
+            else if([model.status isEqualToString:@"Impeached"] && ![model.depositAmount isEqualToString:@""] && ![model.depositAmount isEqualToString:@"0"])//弹劾
             {
                 [self setELACommitteeManageViewController:5 :detailModel];
-                
+                return YES;
                 
             }
             //                else if([model.status isEqualToString:@"Impeached"])//解散 还未判断
@@ -307,7 +307,7 @@
             //                    return;
             //
             //                }
-            return YES;;
+            
         }
     }
     return NO;

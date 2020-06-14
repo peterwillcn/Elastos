@@ -130,6 +130,16 @@
         [self toRetrieveCRDepositTransactionFee];
        
     }
+    else if(_type == 4)//4 任期已满
+    {
+        [self toRetrieveCRDepositTransactionFee];
+       
+    }
+    else if(_type == 5)//5 弹劾去职
+    {
+        [self toRetrieveCRDepositTransactionFee];
+       
+    }
 }
 
 - (void)updateInfoButtonAction:(id)sender

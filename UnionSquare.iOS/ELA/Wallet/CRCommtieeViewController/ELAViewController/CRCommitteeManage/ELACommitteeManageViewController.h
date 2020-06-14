@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ELACommitteeManageViewController : ELACRBaseViewController
 
-@property (nonatomic, assign) int type;//1 选举管理 2 委员管理 3 去职委员 4 任期已满 5 弹劾去职 6 解散
+@property (nonatomic, assign) int type;//1 选举管理 2 委员管理 3 去职委员 4 任期已满 5 弹劾去职 6 解散 //去职 和 解散 不知道如何判断
 @property (nonatomic, strong) ELAInformationDetail *infoModel;
 @end
 

@@ -380,9 +380,11 @@
     }
     [STANDARD_USER_DEFAULT setValue:[NSString stringWithFormat:@"%ld",(long)inde] forKey:selectIndexWallet];
     [STANDARD_USER_DEFAULT synchronize];
-    [[HWMSecretaryGeneralAndMembersInfo shareTools] loadDataSourceWithLoading:NO complete:^(HWMSecretaryGeneralAndMembersDetailsModel *model) {
-        
-    }];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [[HWMSecretaryGeneralAndMembersInfo shareTools] loadDataSourceWithLoading:NO complete:^(HWMSecretaryGeneralAndMembersDetailsModel *model) {
+            
+        }];
+    });
     self.currentWalletIndex=inde;
     FMDBWalletModel *model=self.walletIDListArray[inde];
     FLWallet *wallet =[[FLWallet alloc]init];

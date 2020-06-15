@@ -10,6 +10,7 @@
 		0377F67DC70B4CEFBD787502 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FEFE2C15307426D819C2CA3 /* libz.tbd */; };
 		1D3623260D0F684500981E51 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.mm */; };
 		1D60589B0D05DD56006BFB54 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.mm */; };
+		383EFE2B249727D00087BA01 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 383EFE2A249727B50087BA01 /* libresolv.tbd */; };
 		38FAB659249472DE003E7C58 /* mz_strm_os_posix.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB638249472DD003E7C58 /* mz_strm_os_posix.c */; };
 		38FAB65A249472DE003E7C58 /* mz_strm_pkcrypt.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB639249472DD003E7C58 /* mz_strm_pkcrypt.c */; };
 		38FAB65B249472DE003E7C58 /* mz_strm_zlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB63C249472DD003E7C58 /* mz_strm_zlib.c */; };
@@ -700,6 +701,7 @@
 		1D6058910D05DD3D006BFB54 /* ELA WalletPreNet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ELA WalletPreNet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		29B97316FDCFA39411CA2CEA /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* elastos wallet-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "elastos wallet-Prefix.pch"; sourceTree = "<group>"; };
+		383EFE2A249727B50087BA01 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		38FAB636249472DD003E7C58 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
 		38FAB638249472DD003E7C58 /* mz_strm_os_posix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_strm_os_posix.c; sourceTree = "<group>"; };
 		38FAB639249472DD003E7C58 /* mz_strm_pkcrypt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_strm_pkcrypt.c; sourceTree = "<group>"; };
@@ -2030,6 +2032,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				383EFE2B249727D00087BA01 /* libresolv.tbd in Frameworks */,
 				428476CF243F2A2C00EADFDE /* UIKit.framework in Frameworks */,
 				428476CD243F2A2300EADFDE /* CoreGraphics.framework in Frameworks */,
 				428476CB243F2A1B00EADFDE /* QuartzCore.framework in Frameworks */,
@@ -2117,6 +2120,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				383EFE2A249727B50087BA01 /* libresolv.tbd */,
 				428476CE243F2A2C00EADFDE /* UIKit.framework */,
 				428476CC243F2A2300EADFDE /* CoreGraphics.framework */,
 				428476CA243F2A1B00EADFDE /* QuartzCore.framework */,

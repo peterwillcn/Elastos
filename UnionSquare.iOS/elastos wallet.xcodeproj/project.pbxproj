@@ -11,6 +11,10 @@
 		1D3623260D0F684500981E51 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.mm */; };
 		1D60589B0D05DD56006BFB54 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.mm */; };
 		383EFE2B249727D00087BA01 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 383EFE2A249727B50087BA01 /* libresolv.tbd */; };
+		383EFE2F249736FA0087BA01 /* WYResyncChainDataViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 383EFE2D249736FA0087BA01 /* WYResyncChainDataViewController.mm */; };
+		383EFE30249736FA0087BA01 /* WYResyncChainDataViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 383EFE2E249736FA0087BA01 /* WYResyncChainDataViewController.xib */; };
+		383EFE3424975C8C0087BA01 /* WYResyncChainDataTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 383EFE3224975C8C0087BA01 /* WYResyncChainDataTableViewCell.m */; };
+		383EFE3524975C8C0087BA01 /* WYResyncChainDataTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 383EFE3324975C8C0087BA01 /* WYResyncChainDataTableViewCell.xib */; };
 		38FAB659249472DE003E7C58 /* mz_strm_os_posix.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB638249472DD003E7C58 /* mz_strm_os_posix.c */; };
 		38FAB65A249472DE003E7C58 /* mz_strm_pkcrypt.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB639249472DD003E7C58 /* mz_strm_pkcrypt.c */; };
 		38FAB65B249472DE003E7C58 /* mz_strm_zlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB63C249472DD003E7C58 /* mz_strm_zlib.c */; };
@@ -702,6 +706,12 @@
 		29B97316FDCFA39411CA2CEA /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* elastos wallet-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "elastos wallet-Prefix.pch"; sourceTree = "<group>"; };
 		383EFE2A249727B50087BA01 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		383EFE2C249736FA0087BA01 /* WYResyncChainDataViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYResyncChainDataViewController.h; sourceTree = "<group>"; };
+		383EFE2D249736FA0087BA01 /* WYResyncChainDataViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WYResyncChainDataViewController.mm; sourceTree = "<group>"; };
+		383EFE2E249736FA0087BA01 /* WYResyncChainDataViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WYResyncChainDataViewController.xib; sourceTree = "<group>"; };
+		383EFE3124975C8C0087BA01 /* WYResyncChainDataTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYResyncChainDataTableViewCell.h; sourceTree = "<group>"; };
+		383EFE3224975C8C0087BA01 /* WYResyncChainDataTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYResyncChainDataTableViewCell.m; sourceTree = "<group>"; };
+		383EFE3324975C8C0087BA01 /* WYResyncChainDataTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WYResyncChainDataTableViewCell.xib; sourceTree = "<group>"; };
 		38FAB636249472DD003E7C58 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
 		38FAB638249472DD003E7C58 /* mz_strm_os_posix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_strm_os_posix.c; sourceTree = "<group>"; };
 		38FAB639249472DD003E7C58 /* mz_strm_pkcrypt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_strm_pkcrypt.c; sourceTree = "<group>"; };
@@ -2875,6 +2885,9 @@
 				42CC27AA244C805D00373504 /* HWMIPListTableViewCell.h */,
 				42CC27AB244C805D00373504 /* HWMIPListTableViewCell.m */,
 				42CC27AC244C805D00373504 /* HWMIPListTableViewCell.xib */,
+				383EFE3124975C8C0087BA01 /* WYResyncChainDataTableViewCell.h */,
+				383EFE3224975C8C0087BA01 /* WYResyncChainDataTableViewCell.m */,
+				383EFE3324975C8C0087BA01 /* WYResyncChainDataTableViewCell.xib */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -2912,6 +2925,9 @@
 				42CC279B244C2CE900373504 /* HWMnodeConnectionSettingsDetailsViewController.h */,
 				42CC279C244C2CE900373504 /* HWMnodeConnectionSettingsDetailsViewController.mm */,
 				42CC279D244C2CE900373504 /* HWMnodeConnectionSettingsDetailsViewController.xib */,
+				383EFE2C249736FA0087BA01 /* WYResyncChainDataViewController.h */,
+				383EFE2D249736FA0087BA01 /* WYResyncChainDataViewController.mm */,
+				383EFE2E249736FA0087BA01 /* WYResyncChainDataViewController.xib */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -4658,7 +4674,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				CLASSPREFIX = HWM;
+				CLASSPREFIX = WY;
 				LastUpgradeCheck = 1140;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
@@ -4825,6 +4841,7 @@
 				4253EE4C23692F93005B774A /* HWMDIDListAbnormalTableViewCell.xib in Resources */,
 				424CA4CF242C737C0067C1CE /* 1242_2688.png in Resources */,
 				42211B492362EF1800924029 /* HWMTheAreaCodeAndPhonenumberTableViewCell.xib in Resources */,
+				383EFE30249736FA0087BA01 /* WYResyncChainDataViewController.xib in Resources */,
 				424CA4CC242C737C0067C1CE /* InfoPlist.strings in Resources */,
 				4202CA5E21F6EF2A009E5932 /* HMWtransferTransactionMultipleAddressDetailsView.xib in Resources */,
 				4202CA6521F6EF2A009E5932 /* HMWaddressListTableViewCell.xib in Resources */,
@@ -4881,6 +4898,7 @@
 				4202CACA21F6EF2B009E5932 /* HMWnoCandidateNodesView.xib in Resources */,
 				420A48B8231F9FDD001D67C0 /* HWMCRVotingListCollectionViewCell.xib in Resources */,
 				422D60AA21FC42D100DD07FF /* HMWfoundTableCell.xib in Resources */,
+				383EFE3524975C8C0087BA01 /* WYResyncChainDataTableViewCell.xib in Resources */,
 				4202CAA821F6EF2B009E5932 /* FLdoubleWalletVC.xib in Resources */,
 				422D609E21FC405A00DD07FF /* FLManageSelectPointNodeInformationVC.xib in Resources */,
 				42EAEFF5238BB69C00D6A912 /* HWMNewPrivateKeyViewController.xib in Resources */,
@@ -5209,6 +5227,7 @@
 				70F8409621BEAA1B001C0BD6 /* ELWalletManager.mm in Sources */,
 				42A7A856236AE3BD0034A900 /* HWMConfidentialInformationViewController.m in Sources */,
 				4279CAD524796C3100B503A4 /* SYRingProgressView.m in Sources */,
+				383EFE3424975C8C0087BA01 /* WYResyncChainDataTableViewCell.m in Sources */,
 				42D126A122B7754F000A286C /* runningNodeListView.m in Sources */,
 				70D802432481584D00C9E192 /* IQPreviousNextView.m in Sources */,
 				4202CA1B21F6EF2A009E5932 /* FMDatabase.m in Sources */,
@@ -5335,6 +5354,7 @@
 				4202CAD021F6EF2B009E5932 /* HMWtheSuperNodeElectionViewController.mm in Sources */,
 				4202CA2821F6EF2A009E5932 /* FLTableViewDefultCell.m in Sources */,
 				426B0506246E759300B6FAB9 /* HWMadviceViewModel.m in Sources */,
+				383EFE2F249736FA0087BA01 /* WYResyncChainDataViewController.mm in Sources */,
 				42D105F723A3344D0063AADC /* NSBundle+MJRefresh.m in Sources */,
 				42358046246A632800A62615 /* HWMcompletedBaseViewController.m in Sources */,
 				42D1060423A3344D0063AADC /* MJRefreshBackFooter.m in Sources */,

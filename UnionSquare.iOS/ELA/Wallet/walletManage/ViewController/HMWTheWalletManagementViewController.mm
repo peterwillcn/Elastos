@@ -30,6 +30,7 @@
 #import "ELWalletManager.h"
 #import "HWMDIDManager.h"
 #import "HWMNodeConnectionSettingsViewController.h"
+#import "WYResyncChainDataViewController.h"
 
 
 
@@ -80,7 +81,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
     [self.toDeleteTheWalletButton addGestureRecognizer:delTap];
     [self.view addSubview:self.toDeleteTheWalletButton];
     [self.toDeleteTheWalletButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view.mas_bottom).offset(-80);
+        make.top.equalTo(self.baseTableView.mas_bottom).offset(-42);
         make.left.equalTo(self.view.mas_left).offset(63);
         make.right.equalTo(self.view.mas_right).offset(-63);
         make.height.equalTo(@40);
@@ -168,6 +169,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
                     @{@"title":NSLocalizedString(@"修改钱包密码",nil),@"name":@"",@"type":@"2"},
                     @{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"},
                     @{@"title":NSLocalizedString(@"导出助记词",nil),@"name":@"",@"type":@"1"},
+                    @{@"title":NSLocalizedString(@"重置同步数据",nil),@"name":@"",@"type":@"1"},
                     @{@"title":NSLocalizedString(@"节点连接设置",nil),@"name":@"",@"type":@"1"}
                     //,
                     //                                  @{@"title":NSLocalizedString(@"导出只读钱包",nil),@"name":@"",@"type":@"1"},
@@ -325,6 +327,10 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
                 make.left.right.top.bottom.equalTo(mainView);
             }];
         }
+        
+    }else if([title isEqualToString:NSLocalizedString(@"重置同步数据",nil)]){
+        WYResyncChainDataViewController *resyncChainDataVC=[[WYResyncChainDataViewController alloc]init];
+        [self.navigationController pushViewController:resyncChainDataVC animated:YES];
         
     }else if([title isEqualToString:NSLocalizedString(@"节点连接设置",nil)]){
         HWMNodeConnectionSettingsViewController *NodeConnectionSettingsVC=[[HWMNodeConnectionSettingsViewController alloc]init];

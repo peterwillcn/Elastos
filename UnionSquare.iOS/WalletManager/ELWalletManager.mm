@@ -3753,6 +3753,19 @@ void *ReverseByteOrder(void *p, unsigned int len)
         return nil;
 }
 
-
+- (void)resyncChainData:(NSString *)masterWalletID withSubWalletID:(NSString *)subWalletID
+{
+    String walletID = [self cstringWithString:masterWalletID];
+    String chainID = [self cstringWithString:subWalletID];
+    
+    ISubWallet *subWallet = [self getSubWallet:walletID :chainID];
+    try {
+        subWallet->Resync();
+    } catch (const std:: exception &e) {
+        NSDictionary *errDic = [self dictionaryWithJsonString:[self stringWithCString:e.what()]];
+        NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
+        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+    }
+}
 
 @end

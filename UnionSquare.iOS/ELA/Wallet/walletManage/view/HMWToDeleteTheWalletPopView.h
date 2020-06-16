@@ -39,7 +39,8 @@ typedef NS_ENUM(NSInteger, HMWToDeleteType) {
     deleteHasSaveInfoType,
     documentsCoveringType,
     CloseChainIDType,
-    CoverCommitteeMembersListType
+    CoverCommitteeMembersListType,
+    ResyncChainDataType
     
 };
 

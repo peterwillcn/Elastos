@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -92,7 +90,8 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="cancelButton" destination="zLy-gd-T3X" id="F35-Nv-GAB"/>
-                <outlet property="sureToDeleteButton" destination="3cU-PG-b4e" id="7Da-ql-Gl2"/>
+                <outlet property="cancelButtonWidth" destination="b0g-Fx-kzv" id="QbV-YO-wYe"/>
+                <outlet property="sureToDeleteButton" destination="3cU-PG-b4e" id="nbW-sN-8RL"/>
                 <outlet property="titleButtonConB" destination="TXy-IB-N0g" id="Xew-HD-s2c"/>
                 <outlet property="titlePopLabel" destination="1Ik-e4-Kzt" id="7hF-Wd-7zp"/>
                 <outlet property="viewHeight" destination="9WS-Dx-b7e" id="aMv-y6-X1Y"/>

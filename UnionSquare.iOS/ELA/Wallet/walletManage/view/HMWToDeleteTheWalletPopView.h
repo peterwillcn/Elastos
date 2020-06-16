@@ -40,8 +40,8 @@ typedef NS_ENUM(NSInteger, HMWToDeleteType) {
     documentsCoveringType,
     CloseChainIDType,
     CoverCommitteeMembersListType,
-    ResyncChainDataType
-    
+    ResyncChainDataType,
+    ResyncChainDataPromptType
 };
 
 
@@ -60,6 +60,7 @@ typedef NS_ENUM(NSInteger, HMWToDeleteType) {
  *<# #>
  */
 @property(copy,nonatomic)NSString  * UtxosString;
+
 @end
 
 NS_ASSUME_NONNULL_END

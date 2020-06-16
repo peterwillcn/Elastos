@@ -55,6 +55,17 @@ NSString *cellString = @"WYResyncChainDataTableViewCell";
 
 - (IBAction)buttonPressed:(id)sender {
     UIView *mainWindow = [self mainWindow];
+    int count = 0;
+    for (int i = 0; i < self.walletArr.count; i++) {
+        if ([self.walletArr[i] isAdd]) {
+            count++;
+        }
+    }
+    if (count) {
+        self.resyncPopView.deleteType = ResyncChainDataType;
+    } else {
+        self.resyncPopView.deleteType = ResyncChainDataPromptType;
+    }
     [mainWindow addSubview:self.resyncPopView];
     [self.resyncPopView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(mainWindow);

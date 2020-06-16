@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *cancelButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *viewHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *titleButtonConB;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *cancelButtonWidth;
 
 @end
 @implementation HMWToDeleteTheWalletPopView
@@ -149,6 +150,10 @@
          if(self.delegate){
               [self.delegate sureToDeleteViewWithPWD:@""];
           }
+    }else if (self.deleteType==ResyncChainDataPromptType){
+         if(self.delegate){
+              [self.delegate sureToDeleteViewWithPWD:@""];
+          }
     }
     
 }
@@ -170,6 +175,8 @@
     
 }
 -(void)setDeleteType:(HMWToDeleteType)deleteType{
+    self.cancelButtonWidth.active = NO;
+    self.cancelButtonWidth = [self.cancelButton.widthAnchor constraintEqualToAnchor:self.sureToDeleteButton.widthAnchor multiplier:1.f];
     if (deleteType==deleteTheWallet) {
         self.titlePopLabel.text=NSLocalizedString(@"是否删除当前钱包？", nil);
         
@@ -223,8 +230,12 @@
           self.titlePopLabel.text= NSLocalizedString(@"是否覆盖现有候选列表？", nil);
     }else if (deleteType==ResyncChainDataType){
           self.titlePopLabel.text= NSLocalizedString(@"是否清除并重新同步数据？", nil);
+    }else if (deleteType==ResyncChainDataPromptType){
+          self.titlePopLabel.text= NSLocalizedString(@"请选择重置范围", nil);
+        self.cancelButtonWidth = [self.cancelButton.widthAnchor constraintEqualToConstant:0.f];
     }
     _deleteType=deleteType;
+    self.cancelButtonWidth.active = YES;
 }
 -(void)setUtxosString:(NSString *)UtxosString{
     _UtxosString=UtxosString;

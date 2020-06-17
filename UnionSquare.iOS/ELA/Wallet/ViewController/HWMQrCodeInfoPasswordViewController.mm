@@ -400,19 +400,22 @@
 
 - (void)updaeJWTInfoWithDic:(NSDictionary*)pare
 {
-    
-    
-    NSLog(@"calback url %@",self.PayLoadDic[@"callbackurl"]);
-    NSLog(@"pare %@",pare);
-    [self showLoading];
-    [HttpUrl NetPOSTHost:self.PayLoadDic[@"callbackurl"] url:@"" header:nil body:pare showHUD:NO WithSuccessBlock:^(id data) {
-
+    NSLog(@"xxl %s pare %@", __func__, pare);
+    if(_type == Reviewmilestone) {
         [self showSendSuccessOrFial:SignatureSuccessType];
-    } WithFailBlock:^(id data) {
+    } else {
+        NSLog(@"calback url %@",self.PayLoadDic[@"callbackurl"]);
         
-        NSLog(@"error --- @%",data);
-        [self showSendSuccessOrFial:SignatureFailureType];
-    }];
+        [self showLoading];
+        [HttpUrl NetPOSTHost:self.PayLoadDic[@"callbackurl"] url:@"" header:nil body:pare showHUD:NO WithSuccessBlock:^(id data) {
+            
+            [self showSendSuccessOrFial:SignatureSuccessType];
+        } WithFailBlock:^(id data) {
+            
+            NSLog(@"error --- %@",data);
+            [self showSendSuccessOrFial:SignatureFailureType];
+        }];
+    }
 }
 
 #pragma mark -----

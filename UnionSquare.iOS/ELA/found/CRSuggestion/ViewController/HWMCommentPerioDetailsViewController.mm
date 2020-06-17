@@ -712,20 +712,27 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
 //xxl 943
 -(void)updaeJWTInfoWithDic:(NSDictionary*)pare{
     
+    NSLog(@"xxl %s pare %@", __func__, pare);
     
-    NSLog(@"xxl calback url %@",self.PayLoadDic[@"callbackurl"]);
-    //NSLog(@"xxl pare %@",pare);
-    
-    [HttpUrl NetPOSTHost:self.PayLoadDic[@"callbackurl"] url:@"" header:nil body:pare showHUD:NO WithSuccessBlock:^(id data) {
+    if(self.type==CommentPerioVOTINGType){
         
-        NSLog(@"xxl callback OK ");
-        self->_isCallBackOK = YES;
         [self showSendSuccessOrFial:SignatureSuccessType];
-    } WithFailBlock:^(id data) {
         
-        NSLog(@"xxl error --- %@",data);
-        [self showSendSuccessOrFial:SignatureFailureType];
-    }];
+    } else {
+        
+        NSLog(@"xxl calback url %@",self.PayLoadDic[@"callbackurl"]);
+        
+        [HttpUrl NetPOSTHost:self.PayLoadDic[@"callbackurl"] url:@"" header:nil body:pare showHUD:NO WithSuccessBlock:^(id data) {
+            
+            NSLog(@"xxl callback OK ");
+            self->_isCallBackOK = YES;
+            [self showSendSuccessOrFial:SignatureSuccessType];
+        } WithFailBlock:^(id data) {
+            
+            NSLog(@"xxl error --- %@",data);
+            [self showSendSuccessOrFial:SignatureFailureType];
+        }];
+    }
 }
 - (NSDictionary *)callBack:(NSString *)payString pwd:(NSString *)PWDString
 {

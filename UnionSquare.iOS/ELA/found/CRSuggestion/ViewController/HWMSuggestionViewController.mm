@@ -467,21 +467,25 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 }
 
 -(void)updaeJWTInfoWithDic:(NSDictionary*)pare{
+    NSLog(@"xxl %s pare %@", __func__ ,pare);
     
-    
-    NSLog(@"xxl calback url %@",self.PayLoadDic[@"callbackurl"]);
-    NSLog(@"xxl pare %@",pare);
-    
-    [HttpUrl NetPOSTHost:self.PayLoadDic[@"callbackurl"] url:@"" header:nil body:pare showHUD:NO WithSuccessBlock:^(id data) {
-        
-        NSLog(@"xxl 回调成功");
-        self->_isCallBackOK = YES;
+    if (self.VCType==SuggestionType) {
         [self showSendSuccessOrFial:SignatureSuccessType];
-    } WithFailBlock:^(id data) {
-        NSLog(@"xxl 回调失败");
-        NSLog(@"error --- @%",data);
-        [self showSendSuccessOrFial:SignatureFailureType];
-    }];
+    } else {
+        
+        NSLog(@"xxl calback url %@",self.PayLoadDic[@"callbackurl"]);
+        
+        [HttpUrl NetPOSTHost:self.PayLoadDic[@"callbackurl"] url:@"" header:nil body:pare showHUD:NO WithSuccessBlock:^(id data) {
+            
+            NSLog(@"xxl 回调成功");
+            self->_isCallBackOK = YES;
+            [self showSendSuccessOrFial:SignatureSuccessType];
+        } WithFailBlock:^(id data) {
+            NSLog(@"xxl 回调失败");
+            NSLog(@"error --- %@",data);
+            [self showSendSuccessOrFial:SignatureFailureType];
+        }];
+    }
 }
 -(NSString*)throuJWTStringWithplayString:(NSString*)playString{
     NSString *jwtString;

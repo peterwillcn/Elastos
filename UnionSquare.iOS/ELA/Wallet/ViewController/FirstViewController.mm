@@ -540,7 +540,7 @@
 {
     [super viewWillAppear:animated];
     [self firstNav];
-    [self hiddLoading];
+//    [self hiddLoading];
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];

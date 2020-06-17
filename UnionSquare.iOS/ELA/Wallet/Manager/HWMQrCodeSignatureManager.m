@@ -139,7 +139,7 @@ static HWMQrCodeSignatureManager * _instance;
     //    DIDTimePassType,
     //    CommonIdentityType
     if (![[HWMDIDManager shareDIDManager]HasBeenOnTheChain]) {
-        [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID", nil)];
+//        [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID", nil)];
         return  CreadDIDType;
     }
     if (![[HWMDIDManager shareDIDManager]CheckDIDwhetherExpiredWithDIDString:didString WithmastWalletID:masterWalletID]) {

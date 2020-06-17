@@ -525,6 +525,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     number =pluginResult.status;
     if( [number intValue] != 1){
         NSString *errCode=[NSString stringWithFormat:@"%@", result.message[@"error"][@"message"]];
+        NSLog(@"errCode: %@", errCode);
 //        [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
         
         return;
@@ -722,7 +723,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         [self showSendSuccessOrFial:SignatureSuccessType];
     } WithFailBlock:^(id data) {
         
-        NSLog(@"xxl error --- @%",data);
+        NSLog(@"xxl error --- %@",data);
         [self showSendSuccessOrFial:SignatureFailureType];
     }];
 }
@@ -754,6 +755,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
         }
         return nil;
     }
+    return nil;
 }
 
 -(NSString*)throuJWTStringWithplayString:(NSString*)playString{
@@ -825,7 +827,8 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     self.SecretaryGeneralAndModel=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
     HWMSecretaryGeneralAndMembersDetailsModel* model=[[HWMSecretaryGeneralAndMembersInfo shareTools]getDetailsModel];
     if (model) {
-        if (model.GMtype== COUNCILType||model.GMtype==SECRETARIATType) {
+//        if (model.GMtype== COUNCILType||model.GMtype==SECRETARIATType) {
+        if (model.GMtype== COUNCILType) {
             if (self.DetailsModel.ID.length>0) {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     self.baseTable.alpha=1.f;

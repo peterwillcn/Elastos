@@ -31,7 +31,7 @@
 }
 - (IBAction)selectChiness:(id)sender {
 
-  [DAConfig setUserLanguage:@"zh"];
+  [DAConfig setUserLanguage:@"zh-Hans"];
   [DAConfig resetSystemLanguage];
     
 }

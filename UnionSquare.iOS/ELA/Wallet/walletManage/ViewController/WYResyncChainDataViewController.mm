@@ -74,17 +74,20 @@ NSString *cellString = @"WYResyncChainDataTableViewCell";
 
 -(void)loadTheCurrencyList{
     NSString *masterWalletID = [[HWMSecretaryGeneralAndMembersInfo shareTools] getmasterWalletID];
-    invokedUrlCommand * cmommand=[[invokedUrlCommand alloc]initWithArguments:@[masterWalletID] callbackId:masterWalletID className:@"Wallet" methodName:@"getSupportedChains"];
+    invokedUrlCommand * cmommand=[[invokedUrlCommand alloc]initWithArguments:@[masterWalletID] callbackId:masterWalletID className:@"Wallet" methodName:@"getAllSubWallets"];
     PluginResult *result=
-    [[ELWalletManager share]getSupportedChains:cmommand];
-    NSArray *arr=[NSArray arrayWithArray:result.message[@"success"]];
-    for (int i=0; i<arr.count; i++) {
-        NSString *iconName = arr[i];
-        AddTheCurrencyListModel *listModel=[[AddTheCurrencyListModel alloc]init];
-        listModel.nameIcon=iconName;
-        listModel.isAdd=NO;
-        if ([listModel.nameIcon isEqualToString:@"ELA"]||[listModel.nameIcon isEqualToString:@"IDChain"]) {
-            [self.walletArr addObject:listModel];
+    [[ELWalletManager share]getAllSubWallets:cmommand];
+    NSString *status=[NSString stringWithFormat:@"%@",result.status];
+    if ([status isEqualToString:@"1"]) {
+        NSArray *arr=[[FLTools share]stringToArray:result.message[@"success"]];
+        for (int i=0; i<arr.count; i++) {
+            NSString *iconName = arr[i];
+            AddTheCurrencyListModel *listModel=[[AddTheCurrencyListModel alloc]init];
+            listModel.nameIcon=iconName;
+            listModel.isAdd=NO;
+            if ([listModel.nameIcon isEqualToString:@"ELA"]||[listModel.nameIcon isEqualToString:@"IDChain"]) {
+                [self.walletArr addObject:listModel];
+            }
         }
     }
     [self.baseTableView reloadData];
@@ -158,13 +161,13 @@ NSString *cellString = @"WYResyncChainDataTableViewCell";
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

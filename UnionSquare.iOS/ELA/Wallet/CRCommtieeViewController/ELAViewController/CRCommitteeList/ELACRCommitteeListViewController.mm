@@ -560,7 +560,13 @@
                 type = 0;
             }
         }
-        titleStr = [NSString stringWithFormat:@"%@ %ld %@(%@)", ELALocalizedString(@"第"), (long)model.index, ELALocalizedString(@"届"), status];
+        
+        NSString *termNo = [NSNumberFormatter localizedStringFromNumber:@(model.index) numberStyle:NSNumberFormatterOrdinalStyle];
+        NSLog(@" === localized Term number: %@ === ", termNo);
+        if ([termNo hasPrefix:@"第"])
+            termNo = [termNo substringFromIndex:1];
+
+        titleStr = [NSString stringWithFormat:@"%@ %@ %@ (%@)", ELALocalizedString(@"第"), termNo, ELALocalizedString(@"届"), status];
         dateStr = [NSString stringWithFormat:@"%@-%@", [ELAUtils getTime:model.startDate],
                    [ELAUtils getTime:model.endDate]];
     }
@@ -760,7 +766,13 @@
     {
         model = [_infoModel.data objectAtIndex:indexPath.section];
         ELACRCommitteeViewController *vc = [[ELACRCommitteeViewController alloc] init];
-        NSString *str = [NSString stringWithFormat:@"%@ %ld %@ %@", ELALocalizedString(@"第"), (long)model.index, ELALocalizedString(@"届"),  ELALocalizedString(@"CR委员会")];
+        
+        NSString *termNo = [NSNumberFormatter localizedStringFromNumber:@(model.index) numberStyle:NSNumberFormatterOrdinalStyle];
+        NSLog(@" === localized Term number: %@ === ", termNo);
+        if ([termNo hasPrefix:@"第"])
+            termNo = [termNo substringFromIndex:1];
+        
+        NSString *str = [NSString stringWithFormat:@"%@ %@ %@ %@", ELALocalizedString(@"第"), termNo, ELALocalizedString(@"届"),  ELALocalizedString(@"CR委员会")];
         vc.title = str;//ELALocalizedString(@"CR委员会");
         vc.index = model.index;
         [self.navigationController pushViewController:vc animated:YES];

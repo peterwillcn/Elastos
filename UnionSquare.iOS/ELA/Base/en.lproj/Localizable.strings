@@ -364,7 +364,7 @@
 "本届"="Current Term";
 
 "第"="The";
-"届"="session";
+"届"="Term";
 
 "选举中"="In Election";
 //"委员管理"="Council Member Managemen";
@@ -990,6 +990,10 @@
 
 "是否覆盖现有候选列表？"="Overwrite Current Candidate List?";
 "提案评议"="Proposal Comments";
+"提案公示"="Public Referendum";
+"提案执行"="Implementation";
+"提案完成"="Termination";
+"提案废止"="Cancellation";
 "反对票数"="Negative Vote Count";
 "确认信息"="Confirm Information";
 " 通过   "=" Pass   ";
@@ -1010,7 +1014,7 @@
 "预付款"="Advance Payments";
 "尾款"="End Payments";
 "签名"="Signature";
-"社区提案"="Proposal";
+// "社区提案"="Proposal";
 "未通过"="Rejected";
 "已否决"="Rejected";
 "投票金额"="Vote Count";

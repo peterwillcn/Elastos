@@ -77,7 +77,29 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     [self defultWhite];
     self.buttonBGView.alpha=0.f;
     [self setBackgroundImg:@""];
-    self.title=NSLocalizedString(@"社区提案", nil);//委员评议
+    self.title=NSLocalizedString(@"提案评议", nil);//委员评议
+    
+    switch (self.type) {
+        case CommentPerioVOTINGType:
+            self.title=NSLocalizedString(@"提案评议", nil);
+            break;
+        case CommentPerioNOTIFICATIONType:
+            self.title=NSLocalizedString(@"提案公示", nil);
+            break;
+        case CommentPerioACTIVEType:
+            self.title=NSLocalizedString(@"提案执行", nil);
+            break;
+        case CommentPerioFINALType:
+            self.title=NSLocalizedString(@"提案完成", nil);
+            break;
+        case CommentPerioREJECTEDType:
+        case CommentPerioVETOEDType:
+            self.title=NSLocalizedString(@"提案废止", nil);
+            break;
+        default:
+            self.title=NSLocalizedString(@"社区提案", nil);
+    }
+    
     [[HMWCommView share]makeBordersWithView:self.sweepYardsToVoteButton];
 
     self.baseTable.alpha=0.f;

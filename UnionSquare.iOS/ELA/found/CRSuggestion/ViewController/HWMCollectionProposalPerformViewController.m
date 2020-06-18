@@ -58,7 +58,29 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     [self defultWhite];
     [self defultWhite];
     [self setBackgroundImg:@""];
-    self.title=NSLocalizedString(@"社区提案", nil);//执行中
+    self.title=NSLocalizedString(@"提案执行", nil);//执行中
+    
+    switch (self.type) {
+        case CommentPerioVOTINGType:
+            self.title=NSLocalizedString(@"提案评议", nil);
+            break;
+        case CommentPerioNOTIFICATIONType:
+            self.title=NSLocalizedString(@"提案公示", nil);
+            break;
+        case CommentPerioACTIVEType:
+            self.title=NSLocalizedString(@"提案执行", nil);
+            break;
+        case CommentPerioFINALType:
+            self.title=NSLocalizedString(@"提案完成", nil);
+            break;
+        case CommentPerioREJECTEDType:
+        case CommentPerioVETOEDType:
+            self.title=NSLocalizedString(@"提案废止", nil);
+            break;
+        default:
+            self.title=NSLocalizedString(@"社区提案", nil);
+    }
+    
     self.headView.model=self.model;
     [self makeView];
     self.isOpen=NO;

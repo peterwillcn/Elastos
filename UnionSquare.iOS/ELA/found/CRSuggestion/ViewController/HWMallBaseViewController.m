@@ -71,10 +71,12 @@
     }else if ([model.status isEqualToString:NSLocalizedString(@"执行中",nil)]){
         HWMCollectionProposalPerformViewController *CollectionProposalPerformVC=[[HWMCollectionProposalPerformViewController alloc]init];
         CollectionProposalPerformVC.model=model;
+        CollectionProposalPerformVC.type=CommentPerioACTIVEType;
         [self.navigationController pushViewController:CollectionProposalPerformVC animated:YES];
     }else if ([model.status isEqualToString:NSLocalizedString(@"已完成",nil)]){
         HWMCollectionProposalPerformViewController *CollectionProposalPerformVC=[[HWMCollectionProposalPerformViewController alloc]init];
         CollectionProposalPerformVC.model=model;
+        CollectionProposalPerformVC.type=CommentPerioFINALType;
         [self.navigationController pushViewController:CollectionProposalPerformVC animated:YES];
     }else if ([model.status isEqualToString:NSLocalizedString(@"未通过",nil)]){
         HWMCommentPerioDetailsViewController *CommentPerioDetailsVC=[[HWMCommentPerioDetailsViewController alloc]init];

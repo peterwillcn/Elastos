@@ -33,7 +33,7 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G7B-cN-8nV">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G7B-cN-8nV">
                         <rect key="frame" x="45" y="71.5" width="252" height="13.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <color key="textColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -54,7 +54,7 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view alpha="0.0" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fxo-1H-wz9">
+                    <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fxo-1H-wz9">
                         <rect key="frame" x="30" y="57" width="275" height="0.5"/>
                         <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -64,6 +64,7 @@
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
+                    <constraint firstItem="G7B-cN-8nV" firstAttribute="top" secondItem="fxo-1H-wz9" secondAttribute="bottom" constant="14" id="5Qq-F6-knA"/>
                     <constraint firstItem="zDn-C5-U1N" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="50" id="Dqa-fA-hdv"/>
                     <constraint firstItem="mPS-nW-6jG" firstAttribute="centerY" secondItem="2LN-bJ-rsc" secondAttribute="centerY" id="FeO-yz-X1R"/>
                     <constraint firstItem="2LN-bJ-rsc" firstAttribute="leading" secondItem="zDn-C5-U1N" secondAttribute="trailing" constant="10" id="Fw0-87-eg7"/>

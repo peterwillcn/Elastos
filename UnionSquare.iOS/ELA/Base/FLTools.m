@@ -17,6 +17,7 @@
 #import "HWMTheMessageCenterViewController.h"
 #import "MBProgressHUD.h"
 #import "ELAUtils.h"
+#import "WYLocalizedOrdinalNumber.h"
 
 static NSString *MseeagPush=@"MseeagPush";
 static NSString *MseeagPRead=@"MseeagPRead";
@@ -2200,28 +2201,35 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     
 }
 -(NSString*)StageOfProcessing:(NSString*)Stage{
-    Stage=[NSString stringWithFormat:@"%@",Stage];
-    NSString *languageString=[DAConfig userLanguage];
+//    Stage=[NSString stringWithFormat:@"%@",Stage];
+//    NSString *languageString=[DAConfig userLanguage];
     
-    if ([languageString  containsString:@"en"]) {
-        int StageInt=[Stage intValue];
-        if ([Stage isEqualToString:@"1"]) {
-            //            第一 1st
-            //            第二 2nd
-            //            第三 3rd
-            //            第四以上 1286th
-            
-            return [NSString stringWithFormat:@"1st %@", NSLocalizedString(@"阶段", nil)];
-        }else if ([Stage isEqualToString:@"2"]){
-            return [NSString stringWithFormat:@"2nd %@", NSLocalizedString(@"阶段", nil)];
-        }else if ([Stage isEqualToString:@"3"]){
-            return [NSString stringWithFormat:@"3rd %@", NSLocalizedString(@"阶段", nil)];
-        }else if (StageInt>3){
-            return [NSString stringWithFormat:@"%dth %@",StageInt, NSLocalizedString(@"阶段", nil)];
-        }
-    }else{
-        return  [NSString stringWithFormat:@"第%@阶段",Stage];
+    int StageInt=[Stage intValue];
+    NSString *stageNo = [WYLocalizedOrdinalNumber stringFromNumber:@(StageInt)];
+    if (![stageNo hasPrefix:@"第"]) {
+        stageNo = [NSString stringWithFormat:@"%@ ", stageNo];
     }
+    return [NSString stringWithFormat:@"%@%@", stageNo, NSLocalizedString(@"阶段", nil)];
+    
+//    if ([languageString  containsString:@"en"]) {
+//        int StageInt=[Stage intValue];
+//        if ([Stage isEqualToString:@"1"]) {
+//            //            第一 1st
+//            //            第二 2nd
+//            //            第三 3rd
+//            //            第四以上 1286th
+//
+//            return [NSString stringWithFormat:@"1st %@", NSLocalizedString(@"阶段", nil)];
+//        }else if ([Stage isEqualToString:@"2"]){
+//            return [NSString stringWithFormat:@"2nd %@", NSLocalizedString(@"阶段", nil)];
+//        }else if ([Stage isEqualToString:@"3"]){
+//            return [NSString stringWithFormat:@"3rd %@", NSLocalizedString(@"阶段", nil)];
+//        }else if (StageInt>3){
+//            return [NSString stringWithFormat:@"%dth %@",StageInt, NSLocalizedString(@"阶段", nil)];
+//        }
+//    }else{
+//        return  [NSString stringWithFormat:@"第%@阶段",Stage];
+//    }
     
 }
 //-(NSString *)returnJSONStringWithDictionary:(NSDictionary *)dictionary{

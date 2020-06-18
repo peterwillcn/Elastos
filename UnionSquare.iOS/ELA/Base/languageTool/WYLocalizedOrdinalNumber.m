@@ -22,12 +22,26 @@
  */
 
 
-#import <UIKit/UIKit.h>
+#import "WYLocalizedOrdinalNumber.h"
 
-NS_ASSUME_NONNULL_BEGIN
+static NSNumberFormatter *wyOrdinalNumberFormatter;
 
-@interface WYResyncChainDataViewController : UIViewController
+@implementation WYLocalizedOrdinalNumber
+
++ (NSNumberFormatter *)sharedNumberFormatter {
+    if (!wyOrdinalNumberFormatter) {
+        wyOrdinalNumberFormatter = [[NSNumberFormatter alloc] init];
+        wyOrdinalNumberFormatter.numberStyle = NSNumberFormatterOrdinalStyle;
+    }
+    return wyOrdinalNumberFormatter;
+}
+
++ (void)setLocale:(NSLocale *)loc {
+    [WYLocalizedOrdinalNumber sharedNumberFormatter].locale = loc;
+}
+
++ (NSString *)stringFromNumber:(NSNumber *)num {
+    return [[WYLocalizedOrdinalNumber sharedNumberFormatter] stringFromNumber:num];
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

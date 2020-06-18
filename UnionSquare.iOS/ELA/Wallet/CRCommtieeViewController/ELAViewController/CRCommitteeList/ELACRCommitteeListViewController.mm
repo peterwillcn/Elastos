@@ -44,6 +44,7 @@
 #import "HWMCRListModel.h"
 #import "HWMDIDInfoModel.h"
 #import "ELANetwork.h"
+#import "WYLocalizedOrdinalNumber.h"
 
 @interface ELACRCommitteeListViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -561,10 +562,11 @@
             }
         }
         
-        NSString *termNo = [NSNumberFormatter localizedStringFromNumber:@(model.index) numberStyle:NSNumberFormatterOrdinalStyle];
-        NSLog(@" === localized Term number: %@ === ", termNo);
-        if ([termNo hasPrefix:@"第"])
+        NSString *termNo = [WYLocalizedOrdinalNumber stringFromNumber:@(model.index)];
+//        NSLog(@" === localized Term number: %@ === ", termNo);
+        if ([termNo hasPrefix:@"第"]) {
             termNo = [termNo substringFromIndex:1];
+        }
 
         titleStr = [NSString stringWithFormat:@"%@ %@ %@ (%@)", ELALocalizedString(@"第"), termNo, ELALocalizedString(@"届"), status];
         dateStr = [NSString stringWithFormat:@"%@-%@", [ELAUtils getTime:model.startDate],
@@ -767,10 +769,11 @@
         model = [_infoModel.data objectAtIndex:indexPath.section];
         ELACRCommitteeViewController *vc = [[ELACRCommitteeViewController alloc] init];
         
-        NSString *termNo = [NSNumberFormatter localizedStringFromNumber:@(model.index) numberStyle:NSNumberFormatterOrdinalStyle];
-        NSLog(@" === localized Term number: %@ === ", termNo);
-        if ([termNo hasPrefix:@"第"])
+        NSString *termNo = [WYLocalizedOrdinalNumber stringFromNumber:@(model.index)];
+//        NSLog(@" === localized Term number: %@ === ", termNo);
+        if ([termNo hasPrefix:@"第"]) {
             termNo = [termNo substringFromIndex:1];
+        }
         
         NSString *str = [NSString stringWithFormat:@"%@ %@ %@ %@", ELALocalizedString(@"第"), termNo, ELALocalizedString(@"届"),  ELALocalizedString(@"CR委员会")];
         vc.title = str;//ELALocalizedString(@"CR委员会");

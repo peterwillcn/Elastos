@@ -5,6 +5,7 @@
 
 #import "HMWClassificationOfLanguageTableViewCell.h"
 #import "DAConfig.h"
+#import "WYLocalizedOrdinalNumber.h"
 
 
 @interface HMWClassificationOfLanguageTableViewCell ()
@@ -18,27 +19,29 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     [[HMWCommView share]makeBordersWithView:self.ChineseButton];
-        [[HMWCommView share]makeBordersWithView:self.EnglishButton];
+    [[HMWCommView share]makeBordersWithView:self.EnglishButton];
     
-  
+    
     
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 - (IBAction)selectChiness:(id)sender {
-
-  [DAConfig setUserLanguage:@"zh-Hans"];
-  [DAConfig resetSystemLanguage];
+    
+    [DAConfig setUserLanguage:@"zh-Hans"];
+    [WYLocalizedOrdinalNumber setLocale:[NSLocale localeWithLocaleIdentifier:@("zh_Hans")]];
+    [DAConfig resetSystemLanguage];
     
 }
 - (IBAction)selectEnglish:(id)sender {
-
-  [DAConfig setUserLanguage:@"en"];
-  [DAConfig resetSystemLanguage];
+    
+    [DAConfig setUserLanguage:@"en"];
+    [WYLocalizedOrdinalNumber setLocale:[NSLocale localeWithLocaleIdentifier:@("en_US")]];
+    [DAConfig resetSystemLanguage];
 }
 -(void)selectChinssStatBG{
     
@@ -53,7 +56,7 @@
 }
 -(void)layoutSubviews{
     
-
+    
     NSString *languageString=[DAConfig userLanguage];
     if ([languageString  containsString:@"en"]) {
         [self selectEnglishStatBG];

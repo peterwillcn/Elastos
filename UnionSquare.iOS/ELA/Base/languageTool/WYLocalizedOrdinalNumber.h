@@ -22,11 +22,15 @@
  */
 
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYResyncChainDataViewController : UIViewController
+@interface WYLocalizedOrdinalNumber : NSObject
+
++ (NSNumberFormatter *)sharedNumberFormatter;
++ (void)setLocale:(NSLocale *)loc;
++ (NSString *)stringFromNumber:(NSNumber *)num;
 
 @end
 

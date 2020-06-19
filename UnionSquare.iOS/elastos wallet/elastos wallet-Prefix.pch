@@ -39,7 +39,7 @@
 #define transUrl [[FLTools share]http_transUrl:SDKNET]
 #define PongUrl [[FLTools share]http_PongUrl:SDKNET]
 #define didSDKNet @"http://did1rpc.longrunweather.com:18080"
-#define CRProposalIP @"https://staging-api.cyberrepublic.org"
+#define CRProposalIP @"http://crapi.longrunweather.com:18080"
 
 #elif TestNet
 #define SDKNET  @"TestNet"

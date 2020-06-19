@@ -2201,7 +2201,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     
 }
 -(NSString*)StageOfProcessing:(NSString*)Stage{
-//    Stage=[NSString stringWithFormat:@"%@",Stage];
+    Stage=[NSString stringWithFormat:@"%@",Stage];
 //    NSString *languageString=[DAConfig userLanguage];
     
     int StageInt=[Stage intValue];

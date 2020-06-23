@@ -342,9 +342,12 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     if (isMax==NO) {
         if ([ticketNumer doubleValue]>(self.maxBlance-0.01)) {
             [[FLTools share]showErrorInfo:NSLocalizedString(@"余额不足", nil)];
+            NSLog(@"%s : insufficient balance", __func__);
             return;
         }
         if ([[FLTools share]isBlankString:ticketNumer]) {
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"投票数为空", nil)];
+            NSLog(@"%s : ticket number empty", __func__);
             return;
         }
     }else{
@@ -373,10 +376,13 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
                 if(error.code == -999)
                 {
                     //已取消
+                    [[FLTools share] showErrorInfo:error.localizedDescription];
+                    NSLog(@"%s : getCommitteeInfo failed with error code %ld", __func__, error.code);
                 }
                 else
                 {
                     [[FLTools share] showErrorInfo:error.localizedDescription];
+                    NSLog(@"%s : getCommitteeInfo failed with error code %ld", __func__, error.code);
                 }
             }
             else
@@ -391,6 +397,8 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
                     
                     if ([self.fee doubleValue]<0) {
                         [self closeTransactionDetailsView];
+                        [[FLTools share] showErrorInfo:NSLocalizedString(@"计算手续费失败", nil)];
+                        NSLog(@"%s : Fee less than zero", __func__);
                         return;
                     }
                     UIView *mainView =[self mainWindow];
@@ -451,6 +459,8 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
                         
                         if ([self.fee doubleValue]<0) {
                             [self closeTransactionDetailsView];
+                            [[FLTools share] showErrorInfo:NSLocalizedString(@"计算手续费失败", nil)];
+                            NSLog(@"%s : Fee less than zero", __func__);
                             return;
                         }
                         UIView *mainView =[self mainWindow];
@@ -481,6 +491,9 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
                             
                             
                         }
+                    } else {
+                        [[FLTools share] showErrorInfo:NSLocalizedString(@"无有效信息", nil)];
+                        NSLog(@"%s : no valid CRC", __func__);
                     }
 
                 }

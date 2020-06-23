@@ -370,7 +370,7 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
     _task = [ELANetwork getCommitteeInfo:^(id  _Nonnull data, NSError * _Nonnull error) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
-             [[FLTools share]hideLoadingView];
+            [[FLTools share]hideLoadingView];
             if(error)
             {
                 if(error.code == -999)
@@ -435,67 +435,64 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
                     //获取 非选举期 cr候选人
                     FLWallet *wallet = [ELWalletManager share].currentWallet;
                     NSArray *CRC = [[ELWalletManager share] getVoteInfoList:wallet.masterWalletID :@"CRC"];
+                    NSMutableArray *candidatesArray = [[NSMutableArray alloc] init];
                     if(CRC.count > 0)
                     {
                         NSDictionary *crcDic = CRC[0];
-                        NSMutableArray *candidatesArray = [[NSMutableArray alloc] init];
-
+                        
                         NSDictionary *votes = crcDic[@"Votes"];
                         for (NSString *key in votes)//用key取值
                         {
-
+                            
                             if(![key isEqualToString:@""])
                             {
                                 [candidatesArray addObject:key];
                             }
                             
                         }
-
-                        NSArray *invalidCRArray = @[@{@"Type":@"CRC",
-                                                      @"Candidates":candidatesArray}];// 将cr候选人加入无效列表里
-                        NSDictionary *dic =[[ELWalletManager share]DopsVoteFeeCRMainchainSubWallet:self.wallet.masterWalletID ToVote:stringArray tickets:ticket withInvalidIDArray:invalidCRArray];
-                        self.fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",dic[@"fee"]]];
-                        NSArray *DorpVotes=dic[@"DorpVotes"];
-                        
-                        if ([self.fee doubleValue]<0) {
-                            [self closeTransactionDetailsView];
-                            [[FLTools share] showErrorInfo:NSLocalizedString(@"计算手续费失败", nil)];
-                            NSLog(@"%s : Fee less than zero", __func__);
-                            return;
-                        }
-                        UIView *mainView =[self mainWindow];
-                        if (DorpVotes.count>0) {
-                            [mainView addSubview:self.moreThan36View];
-                            self.moreThan36View.deleteType=voteInvalidType;
-                            [self.moreThan36View mas_makeConstraints:^(MASConstraintMaker *make) {
-                                make.left.top.right.bottom.equalTo(mainView);
-                            }];
-                            
-                        }else{
-                            self.jsonString=dic[@"JSON"];
-                            
-                            
-                            if (isMax) {
-                                self.alltickNumer=@"MAX";
-                                
-                            }
-                            else{
-                                self.alltickNumer=  [[FLTools share]CRVotingDecimalNumberByMultiplying:ticketNumer withCRMermVoting:[NSString stringWithFormat:@"%d",1] ];
-                            }
-                            self.ticket=ticketNumer.doubleValue;
-                            [mainView addSubview:self.transactionDetailsView];
-                            [self.transactionDetailsView TransactionDetailsWithFee:self.fee withTransactionDetailsAumont:self.alltickNumer];
-                            [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
-                                make.left.top.right.bottom.equalTo(mainView);
-                            }];
-                            
-                            
-                        }
-                    } else {
-                        [[FLTools share] showErrorInfo:NSLocalizedString(@"无有效信息", nil)];
-                        NSLog(@"%s : no valid CRC", __func__);
                     }
-
+                    
+                    NSArray *invalidCRArray = @[@{@"Type":@"CRC",
+                                                  @"Candidates":candidatesArray}];// 将cr候选人加入无效列表里
+                    NSDictionary *dic =[[ELWalletManager share]DopsVoteFeeCRMainchainSubWallet:self.wallet.masterWalletID ToVote:stringArray tickets:ticket withInvalidIDArray:invalidCRArray];
+                    self.fee=[[FLTools share]elaScaleConversionWith:[NSString stringWithFormat:@"%@",dic[@"fee"]]];
+                    NSArray *DorpVotes=dic[@"DorpVotes"];
+                    
+                    if ([self.fee doubleValue]<0) {
+                        [self closeTransactionDetailsView];
+                        [[FLTools share] showErrorInfo:NSLocalizedString(@"计算手续费失败", nil)];
+                        NSLog(@"%s : Fee less than zero", __func__);
+                        return;
+                    }
+                    UIView *mainView =[self mainWindow];
+                    if (DorpVotes.count>0) {
+                        [mainView addSubview:self.moreThan36View];
+                        self.moreThan36View.deleteType=voteInvalidType;
+                        [self.moreThan36View mas_makeConstraints:^(MASConstraintMaker *make) {
+                            make.left.top.right.bottom.equalTo(mainView);
+                        }];
+                        
+                    }else{
+                        self.jsonString=dic[@"JSON"];
+                        
+                        
+                        if (isMax) {
+                            self.alltickNumer=@"MAX";
+                            
+                        }
+                        else{
+                            self.alltickNumer=  [[FLTools share]CRVotingDecimalNumberByMultiplying:ticketNumer withCRMermVoting:[NSString stringWithFormat:@"%d",1] ];
+                        }
+                        self.ticket=ticketNumer.doubleValue;
+                        [mainView addSubview:self.transactionDetailsView];
+                        [self.transactionDetailsView TransactionDetailsWithFee:self.fee withTransactionDetailsAumont:self.alltickNumer];
+                        [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
+                            make.left.top.right.bottom.equalTo(mainView);
+                        }];
+                        
+                        
+                    }
+                    
                 }
                 
             }
@@ -736,15 +733,15 @@ static NSString *cellString=@"HMWtheCandidateListTableViewCell";
 {
     if(data && data.count > 0)
     {
-
+        
         for(int i = 0; i < data.count; i++)
         {
             ELACommitteeInfoModel *voteModel = [data objectAtIndex:i];
             
             if(voteModel.status && [voteModel.status isEqualToString:@"VOTING"])
             {
-        
-
+                
+                
                 return YES;
             }
         }

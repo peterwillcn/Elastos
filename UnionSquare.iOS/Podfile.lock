@@ -24,9 +24,10 @@ PODS:
   - YYKit/no-arc (1.0.9)
 
 DEPENDENCIES:
-  - AFHTTPSessionManager-AutoRetry
-  - JWT
-  - YYKit
+  - AFHTTPSessionManager-AutoRetry (~> 0.0.3)
+  - AFNetworking (~> 3.2.1)
+  - JWT (~> 2.2.0)
+  - YYKit (~> 1.0.9)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -43,6 +44,6 @@ SPEC CHECKSUMS:
   JWT: cf73c0ab0dac762df3de8a3f1164352089d97780
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 8688305d7e7fae573cedcb7e344e2a2dbc9ddd3d
+PODFILE CHECKSUM: 26a5199c3b9668ec9f3e481ad5a54487e7bf0fc4
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1

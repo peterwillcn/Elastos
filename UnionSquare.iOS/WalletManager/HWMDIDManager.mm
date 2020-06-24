@@ -420,6 +420,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     if ([self jwtSignatureWithDIDString:jsonDict[@"iss"] withSignature:manySecrets.lastObject withUnSignature:UnSignature]) {
         return jsonDict;
     }else{
+        NSLog(@"%s : wallet did invalid Manager", __func__);
         [[FLTools share]showErrorInfo:NSLocalizedString(@"钱包DID不匹配", nil)];
         return @"1";
     }

@@ -541,7 +541,11 @@
     [super viewWillAppear:animated];
     [self firstNav];
 //    [self hiddLoading];
+    [self performSelector:@selector(hiddLoading) withObject:nil afterDelay:2.0f];
 }
+
+
+
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     if (self.isScro){
@@ -817,6 +821,7 @@
     }
     switch (type) {
         case CreadDIDType:
+            NSLog(@"%s : wallet did invalid 1st CDID", __func__);
             [[FLTools share]showErrorInfo:NSLocalizedString(@"钱包DID不匹配", nil)];
             break;
         case DIDTimePassType:
@@ -862,6 +867,7 @@
             [[FLTools share]showErrorInfo:NSLocalizedString(@"二维码已过期", nil)];
             break;
         case AuthenticationDID:
+            NSLog(@"%s : wallet did invalid 1st ADID", __func__);
             [[FLTools share]showErrorInfo:NSLocalizedString(@"钱包DID不匹配", nil)];
             break;
         default:

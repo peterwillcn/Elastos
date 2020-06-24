@@ -342,80 +342,80 @@ static FLTools *tool;
 }
 -(void)showLoadingView{
   
-    ELAWeakSelf;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [weakSelf showMBProgressHUD];
-    });
-////    dispatch_async(dispatch_get_main_queue(), ^{
-//        [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];
-//        [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
-//        [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-//        [SVProgressHUD setMinimumSize:CGSizeMake(50, 50)];
-//        [SVProgressHUD setMinimumDismissTimeInterval:2];
-//
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                [SVProgressHUD show];
-//            });
-//
-////        [SVProgressHUD show];
-////    });
+//    ELAWeakSelf;
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [weakSelf showMBProgressHUD];
+//    });
+//    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];
+        [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
+        [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+        [SVProgressHUD setMinimumSize:CGSizeMake(50, 50)];
+        [SVProgressHUD setMinimumDismissTimeInterval:2];
+
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [SVProgressHUD show];
+            });
+
+//        [SVProgressHUD show];
+//    });
     
 }
 -(void)hideLoadingView{
-    ELAWeakSelf;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [weakSelf hideMBProgressHUD];
-    });
+//    ELAWeakSelf;
 //    dispatch_async(dispatch_get_main_queue(), ^{
-//        [SVProgressHUD popActivity];
+//        [weakSelf hideMBProgressHUD];
 //    });
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            [SVProgressHUD popActivity];
-//        });
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVProgressHUD popActivity];
+    });
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [SVProgressHUD popActivity];
+        });
 }
 
 -(void)showErrorInfo:(NSString*)info
 {
-    ELAWeakSelf;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [weakSelf showMBProgressHUDWithString:NSLocalizedString(info, nil)];
-    });
+//    ELAWeakSelf;
 //    dispatch_async(dispatch_get_main_queue(), ^{
-//        [SVProgressHUD setBackgroundColor:RGB(100, 100, 100)];
-//        [SVProgressHUD setFont:[UIFont systemFontOfSize:14]];
-//        [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-//        NSString *str = NSLocalizedString(info, nil);
-//        [SVProgressHUD setAnimationDuration:4];
-//        [SVProgressHUD showImage:[UIImage imageNamed:@""] status:str];
+//        [weakSelf showMBProgressHUDWithString:NSLocalizedString(info, nil)];
 //    });
-//    NSLog(@"错误提示信息---%@",info);
-    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-    //        [SVProgressHUD showImage:[UIImage imageNamed:@""] status:info];
-    //    });
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVProgressHUD setBackgroundColor:RGB(100, 100, 100)];
+        [SVProgressHUD setFont:[UIFont systemFontOfSize:14]];
+        [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+        NSString *str = NSLocalizedString(info, nil);
+        [SVProgressHUD setAnimationDuration:4];
+        [SVProgressHUD showImage:[UIImage imageNamed:@""] status:str];
+    });
+    NSLog(@"错误提示信息---%@",info);
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [SVProgressHUD showImage:[UIImage imageNamed:@""] status:info];
+        });
 }
 
 
 -(void)showAuthInfo:(NSString*)info
 {
-    ELAWeakSelf;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [weakSelf showMBProgressHUDWithString:NSLocalizedString(info, nil)];
-    });
-    
+//    ELAWeakSelf;
 //    dispatch_async(dispatch_get_main_queue(), ^{
-//        [SVProgressHUD setBackgroundColor:[UIColor blackColor]];
-//        [SVProgressHUD setBackgroundLayerColor:[UIColor blackColor]];
-//        [SVProgressHUD setFont:[UIFont systemFontOfSize:14]];
-//        [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-//        //[SVProgressHUD setForegroundColor:RGB(0, 0, 0)];
-//        NSString *str = NSLocalizedString(info, nil);
-//        [SVProgressHUD setAnimationDuration:4];
-//        [SVProgressHUD showImage:[UIImage imageNamed:@""] status:str];
+//        [weakSelf showMBProgressHUDWithString:NSLocalizedString(info, nil)];
 //    });
-    //NSLog(@"错误提示信息---%@",info);
-    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-    //        [SVProgressHUD showImage:[UIImage imageNamed:@""] status:info];
-    //    });
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVProgressHUD setBackgroundColor:[UIColor blackColor]];
+        [SVProgressHUD setBackgroundLayerColor:[UIColor blackColor]];
+        [SVProgressHUD setFont:[UIFont systemFontOfSize:14]];
+        [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+        //[SVProgressHUD setForegroundColor:RGB(0, 0, 0)];
+        NSString *str = NSLocalizedString(info, nil);
+        [SVProgressHUD setAnimationDuration:4];
+        [SVProgressHUD showImage:[UIImage imageNamed:@""] status:str];
+    });
+    NSLog(@"错误提示信息---%@",info);
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [SVProgressHUD showImage:[UIImage imageNamed:@""] status:info];
+        });
 }
 
 

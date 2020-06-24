@@ -467,6 +467,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
             make.left.right.top.bottom.equalTo(mainView);
         }];
     }else if(type==AuthenticationDID){
+        NSLog(@"%s : wallet did invalid QR ADID", __func__);
           [[FLTools share]showErrorInfo:NSLocalizedString(@"钱包DID不匹配", nil)];
     }
     else{
@@ -736,7 +737,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     
     NSLog(@"xxl %s pare %@", __func__, pare);
     
-    if(self.type==CommentPerioVOTINGType){
+    if(self.type >= 0){
         
         [self showSendSuccessOrFial:SignatureSuccessType];
         

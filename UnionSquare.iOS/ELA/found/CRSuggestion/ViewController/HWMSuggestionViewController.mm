@@ -469,7 +469,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
 -(void)updaeJWTInfoWithDic:(NSDictionary*)pare{
     NSLog(@"xxl %s pare %@", __func__ ,pare);
     
-    if (self.VCType==SuggestionType) {
+    if (self.VCType != SuggestionType) {
         [self showSendSuccessOrFial:SignatureSuccessType];
     } else {
         

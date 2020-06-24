@@ -401,7 +401,7 @@
 - (void)updaeJWTInfoWithDic:(NSDictionary*)pare
 {
     NSLog(@"xxl %s pare %@", __func__, pare);
-    if(_type == Reviewmilestone) {
+    if(_type != suggestionQrCodeType && _type != withdrawalsType && _type != AuthenticationDID) {
         [self showSendSuccessOrFial:SignatureSuccessType];
     } else {
         NSLog(@"calback url %@",self.PayLoadDic[@"callbackurl"]);

@@ -61,7 +61,7 @@ NSInteger timeOut = 60;
     }else{
         stringUrl =host;
     }
-    [manage POST:stringUrl parameters:dataDic success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manage POST:stringUrl parameters:dataDic progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (show) {
                   [[FLTools share] hideLoadingView];
               }
@@ -99,7 +99,7 @@ NSInteger timeOut = 60;
     
     NSString *stringUrl = [NSString stringWithFormat:@"%@%@",host, httpUrl];
     NSDictionary *dataDic = [self addOtherKey:param];
-    [manage GET:stringUrl parameters:dataDic success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manage GET:stringUrl parameters:dataDic progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
                if (show) {
                    [[FLTools share] hideLoadingView];
@@ -145,7 +145,7 @@ NSInteger timeOut = 60;
     [manager.requestSerializer setValue:@"application/json;charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
     
     NSString *httpStr = [Http_IP stringByAppendingString:@"/api/attachment/upload"];
-    [manager POST:httpStr parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    [manager POST:httpStr parameters:nil headers:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
          //对图片大小进行压缩--
                NSData *data=UIImageJPEGRepresentation(image, 1.0);
                if (data.length>100*1024) {
@@ -164,7 +164,7 @@ NSInteger timeOut = 60;
                                            name:@"files"
                                        fileName:@"123.jpg"
                                        mimeType:@"image/jpeg"];
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
           if (show) {
                   [[FLTools share] hideLoadingView];
               }
@@ -203,7 +203,7 @@ NSInteger timeOut = 60;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"yyyyMMddHHmmss";
     //    NSMutableURLRequest *re = [NSMutableURLRequest  ]
-    [manager POST:httpStr parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    [manager POST:httpStr parameters:param headers:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
             int i = 0;
             for (UIImage *img in images) {
                 
@@ -226,7 +226,7 @@ NSInteger timeOut = 60;
                 
                 i++;
             }
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (show) {
             [[FLTools share] hideLoadingView];
         }

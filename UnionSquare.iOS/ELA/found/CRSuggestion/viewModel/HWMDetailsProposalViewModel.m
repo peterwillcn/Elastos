@@ -49,7 +49,7 @@
     Fmodel.againstResult=[[NSMutableArray alloc]init];
     Fmodel.waiverResult=[[NSMutableArray alloc]init];
     for (HWMVoteResultModel *model in Fmodel.voteResult) {
-        model.reasonCell=[[FLTools share]calculateRowHeight:model.reason fontSize:14 withmargin:30];
+        model.reasonCell=[[FLTools share]calculateRowHeight:model.reason fontSize:11 withmargin:30];
         if ([model.value isEqualToString:@"support"]) {
             [Fmodel.agreeResult addObject:model];
         }else if([model.value isEqualToString:@"reject"]) {
@@ -65,8 +65,8 @@
             VoteRModel.createdAt=[[FLTools share]YMDHMSgetTimeFromTimesTamp:VoteRModel.createdAt];
             VoteRModel.commentModel=[HWMcommentModel  modelWithJSON:VoteRModel.comment];
              VoteRModel.commentModel.createdAt=[[FLTools share]YMDHMSgetTimeFromTimesTamp: VoteRModel.commentModel.createdAt];
-            VoteRModel.commentModel.reasonCell=[[FLTools share]calculateRowHeight:VoteRModel.commentModel.content fontSize:14 withmargin:40];
-            VoteRModel.reasonCell=[[FLTools share]calculateRowHeight:VoteRModel.content fontSize:14 withmargin:30];
+            VoteRModel.commentModel.reasonCell=[[FLTools share]calculateRowHeight:VoteRModel.commentModel.content fontSize:11 withmargin:40];
+            VoteRModel.reasonCell=[[FLTools share]calculateRowHeight:VoteRModel.content fontSize:11 withmargin:30];
             [Fmodel.trackingResult addObject:VoteRModel];
             
             

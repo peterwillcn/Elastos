@@ -10,7 +10,6 @@
 #import "AppDelegate.h"
 #import "AFNetworking.h"
 #import "SVProgressHUD.h"
-#import <AFHTTPSessionManager-AutoRetry/AFHTTPSessionManager+AutoRetry.h>
 NSString *errorString = @"加载失败，请稍后再试";
 NSInteger timeOut = 60;
 @implementation HttpUrl
@@ -61,7 +60,7 @@ NSInteger timeOut = 60;
     }else{
         stringUrl =host;
     }
-    [manage POST:stringUrl parameters:dataDic progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manage POST:stringUrl parameters:dataDic headers:header progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (show) {
                   [[FLTools share] hideLoadingView];
               }
@@ -85,11 +84,10 @@ NSInteger timeOut = 60;
                  [[FLTools share]showErrorInfo:errorString];
              }
              FailBlock(error);
-    }autoretry:3];
+    }];
 }
 + (void)NetGETHost:(NSString*)host url:(NSString *)httpUrl header:(NSDictionary*)header body:(NSDictionary *)param showHUD:(BOOL)show WithSuccessBlock:(void(^)(id data))successBlock WithFailBlock:(void(^)(id data))FailBlock{
-    
-    
+        
     
     if (show) {
         [[FLTools share] showLoadingView];
@@ -99,7 +97,8 @@ NSInteger timeOut = 60;
     
     NSString *stringUrl = [NSString stringWithFormat:@"%@%@",host, httpUrl];
     NSDictionary *dataDic = [self addOtherKey:param];
-    [manage GET:stringUrl parameters:dataDic progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    
+    [manage GET:stringUrl parameters:dataDic headers:header progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
                if (show) {
                    [[FLTools share] hideLoadingView];
@@ -127,7 +126,7 @@ NSInteger timeOut = 60;
         [[FLTools share]showErrorInfo:errorString];
     }
     FailBlock(error);
-    } autoretry:3];
+    }];
 }
 
 #pragma mark 上传图片

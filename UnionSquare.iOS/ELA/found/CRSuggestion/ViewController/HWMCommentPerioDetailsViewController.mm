@@ -739,7 +739,7 @@ static NSString *BaseTableViewCell=@"HWMAbstractTableViewCell";
     
     if(self.type >= 0){
         
-        [self showSendSuccessOrFial:SignatureSuccessType];
+        [self showSendSuccessOrFial:sendDealType];
         
     } else {
         

@@ -470,7 +470,7 @@ static NSString *AbstractVCell=@"HWMAbstractTableViewCell";
     NSLog(@"xxl %s pare %@", __func__ ,pare);
     
     if (self.VCType != SuggestionType) {
-        [self showSendSuccessOrFial:SignatureSuccessType];
+        [self showSendSuccessOrFial:sendDealType];
     } else {
         
         NSLog(@"xxl calback url %@",self.PayLoadDic[@"callbackurl"]);

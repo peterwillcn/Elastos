@@ -395,7 +395,9 @@
 //        NSDictionary *voteDic = _producers[@"votes"];
         NSDictionary *candidatesDic = _producers[@"inCandidates"];
         
-        [invalidCandidates addObject:candidatesDic];
+        if ([candidatesDic count] > 0) {
+            [invalidCandidates addObject:candidatesDic];
+        }
         
     }
     else
@@ -408,7 +410,9 @@
         
 //        NSDictionary *voteDic = _CRCValueDic[@"votes"];
         NSDictionary *candidatesDic = _CRCValueDic[@"inCandidates"];
+        if ([candidatesDic count] > 0) {
         [invalidCandidates addObject:candidatesDic];
+        }
         
     }
     else
@@ -421,7 +425,9 @@
         
 //        NSDictionary *voteDic = _ProposalValueDic[@"votes"];
         NSDictionary *candidatesDic = _ProposalValueDic[@"inCandidates"];
+        if ([candidatesDic count] > 0) {
         [invalidCandidates addObject:candidatesDic];
+        }
         
     }
     else
@@ -432,7 +438,9 @@
     {
         NSDictionary *voteDic = _CRCImpeachmentDic[@"votes"];
         NSDictionary *candidatesDic = _CRCImpeachmentDic[@"inCandidates"];
+        if ([candidatesDic count] > 0) {
         [invalidCandidates addObject:candidatesDic];
+        }
         [votes addEntriesFromDictionary:voteDic];
         
         [votes setValue:amount forKey:hash];

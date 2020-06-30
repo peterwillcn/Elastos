@@ -3713,7 +3713,7 @@ void *ReverseByteOrder(void *p, unsigned int len)
             NSMutableDictionary *resultDic = [[NSMutableDictionary alloc] init];
             
             try {
-                signedTx =  suWall->SignTransaction(josn, PWD);
+                signedTx =  suWall->SignTransaction(jsonCreateTx, PWD);
                 resultString = [self stringWithJson:signedTx];
                 
                 [resultDic setValue:resultString forKey:@"SignTransaction"];

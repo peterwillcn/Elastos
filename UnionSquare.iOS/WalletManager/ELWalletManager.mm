@@ -3402,6 +3402,8 @@ void *ReverseByteOrder(void *p, unsigned int len)
         
         result = suWall->PublishTransaction(signedTx);
         NSString *pubResult = [self stringWithJson:result];
+        NSDictionary *dic=[self dictionaryWithJsonString:pubResult];
+        [resultDic setValue:dic[@"TxHash"] forKey:@"txid"];
         return resultDic;
         
     } catch (const std:: exception & e ) {
@@ -3705,7 +3707,31 @@ void *ReverseByteOrder(void *p, unsigned int len)
             //Json jsonCreateTx ;
             Json jsonCreateTx = mainchainSubWallet->CreateImpeachmentCRCTransaction("", votesJson,"",invalidJson);
             
-            NSDictionary *resultDic = [self publishTransactionWithdraw:jsonCreateTx pwd:PWD suWall:suWall hash:nil];
+            Json signedTx;
+            Json result;
+            NSString *resultString = @"";
+            NSMutableDictionary *resultDic = [[NSMutableDictionary alloc] init];
+            
+            try {
+                signedTx =  suWall->SignTransaction(josn, PWD);
+                resultString = [self stringWithJson:signedTx];
+                
+                [resultDic setValue:resultString forKey:@"SignTransaction"];
+                
+                result = suWall->PublishTransaction(signedTx);
+                NSString *pubResult = [self stringWithJson:result];
+                NSDictionary *dic=[self dictionaryWithJsonString:pubResult];
+                [resultDic setValue:dic[@"TxHash"] forKey:@"txid"];
+                
+            } catch (const std:: exception & e ) {
+                NSDictionary *errDic=[self dictionaryWithJsonString:[self stringWithCString:e.what()]];
+                NSString *errCode=[NSString stringWithFormat:@"err%@",errDic[@"Code"]];
+                [[FLTools share]showErrorInfo:NSLocalizedString(errCode, nil)];
+                resultDic = nil;
+            }
+            
+//            NSDictionary *resultDic = [self publishTransactionWithdraw:jsonCreateTx pwd:PWD suWall:suWall hash:nil];
+            
             if(resultDic)
             {
                 return [self successProcess:command msg:resultDic];

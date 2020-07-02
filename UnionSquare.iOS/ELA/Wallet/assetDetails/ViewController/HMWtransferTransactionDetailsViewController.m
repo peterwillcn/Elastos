@@ -209,13 +209,13 @@ UINib *_cellNib;
         }
          return 40;
     }
-    if (self.type == rotationToVoteType&&section==4&&self.InputsArray.count>2) {
+    if (self.type == rotationToVoteType&&section==3&&self.InputsArray.count>2) {
         if (self.inputsISOpen) {
             return 80;
         }
         return 40;
     }
-    if (self.type == rotationToVoteType &&section==5&&self.OutputsArray.count>2) {
+    if (self.type == rotationToVoteType &&section==4&&self.OutputsArray.count>2) {
         if (self.outputsISOpen) {
             return 80;
         }
@@ -242,10 +242,10 @@ UINib *_cellNib;
     if (self.type == transactionMultipleIntoType &&section==2) {
         return self.outputsISOpenCount;
     }
-    if (self.type == rotationToVoteType &&section==4) {
+    if (self.type == rotationToVoteType &&section==3) {
         return self.inputsISOpenCount;
     }
-    if (self.type == rotationToVoteType &&section==5) {
+    if (self.type == rotationToVoteType &&section==4) {
         return self.outputsISOpenCount;
     }
     
@@ -324,7 +324,7 @@ UINib *_cellNib;
        return  openOrCloseButton;
     }
     
-    if (self.type == rotationToVoteType&&section==4&&self.InputsArray.count>2) {
+    if (self.type == rotationToVoteType&&section==3&&self.InputsArray.count>2) {
         if (self.inputsISOpen) {
             imageString=@"asset_list_unfold";
             
@@ -336,7 +336,7 @@ UINib *_cellNib;
         
         return  openOrCloseButton;
     }
-    if (self.type == rotationToVoteType &&section==5&&self.OutputsArray.count>2) {
+    if (self.type == rotationToVoteType &&section==4&&self.OutputsArray.count>2) {
         if (self.outputsISOpen) {
             imageString=@"asset_list_unfold";
         }else{

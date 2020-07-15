@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="nodeInformationDetailsView">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="285"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xNn-Rd-k2t">
+                    <rect key="frame" x="0.0" y="0.0" width="207" height="52"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="52" id="reu-ca-zVZ"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <state key="normal" title="参选信息">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="IntroductionOfNodeAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="A0m-Kj-oO7"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C7g-NE-jli">
+                    <rect key="frame" x="207" y="0.0" width="207" height="52"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="52" id="LOU-5b-9t4"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <state key="normal" title="节点简介">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="ForInformationAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="VuJ-2D-APJ"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DId-Pz-0RZ">
+                    <rect key="frame" x="270.5" y="0.0" width="80" height="1"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="JfO-2s-q7T"/>
+                        <constraint firstAttribute="width" constant="80" id="myo-Ml-Ppf"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x7D-A5-NLW">
+                    <rect key="frame" x="63.5" y="0.0" width="80" height="1"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="2w3-TB-ata"/>
+                        <constraint firstAttribute="height" constant="1" id="GGd-GF-bch"/>
+                    </constraints>
+                </view>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wU2-RQ-IiB">
+                    <rect key="frame" x="15" y="52" width="384" height="233"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="xNn-Rd-k2t" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Awb-Nr-UVU"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="wU2-RQ-IiB" secondAttribute="bottom" id="DCr-2Y-lMU"/>
+                <constraint firstItem="DId-Pz-0RZ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="HlF-DF-VIX"/>
+                <constraint firstItem="C7g-NE-jli" firstAttribute="width" secondItem="xNn-Rd-k2t" secondAttribute="width" id="IrR-zY-i5p"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="wU2-RQ-IiB" secondAttribute="trailing" constant="15" id="LKd-OB-lyz"/>
+                <constraint firstItem="C7g-NE-jli" firstAttribute="leading" secondItem="xNn-Rd-k2t" secondAttribute="trailing" id="QFX-av-5mw"/>
+                <constraint firstItem="xNn-Rd-k2t" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Qte-1H-W7a"/>
+                <constraint firstItem="DId-Pz-0RZ" firstAttribute="centerX" secondItem="C7g-NE-jli" secondAttribute="centerX" id="cs1-y3-M4K"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="C7g-NE-jli" secondAttribute="trailing" id="fYj-y2-TcB"/>
+                <constraint firstItem="C7g-NE-jli" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="gCR-Y6-1pc"/>
+                <constraint firstItem="wU2-RQ-IiB" firstAttribute="top" secondItem="xNn-Rd-k2t" secondAttribute="bottom" id="msU-ah-4Rb"/>
+                <constraint firstItem="wU2-RQ-IiB" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="oLA-PO-X5V"/>
+                <constraint firstItem="x7D-A5-NLW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="vpQ-R3-rM6"/>
+                <constraint firstItem="x7D-A5-NLW" firstAttribute="centerX" secondItem="xNn-Rd-k2t" secondAttribute="centerX" id="wrf-tb-DnJ"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="ForInformationButton" destination="xNn-Rd-k2t" id="mGF-nw-BLg"/>
+                <outlet property="ForInformationView" destination="DId-Pz-0RZ" id="Rba-DM-kT9"/>
+                <outlet property="IntroductionOfNodeButton" destination="C7g-NE-jli" id="r2I-iF-Kcd"/>
+                <outlet property="IntroductionOfNodeView" destination="x7D-A5-NLW" id="uYA-Lf-KaB"/>
+                <outlet property="infoTextView" destination="wU2-RQ-IiB" id="2gg-dc-hRN"/>
+            </connections>
+            <point key="canvasLocation" x="124.6376811594203" y="35.825892857142854"/>
+        </view>
+    </objects>
+</document>

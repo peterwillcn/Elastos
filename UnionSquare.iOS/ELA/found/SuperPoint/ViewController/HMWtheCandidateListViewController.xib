@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HMWtheCandidateListViewController">
+            <connections>
+                <outlet property="TagtatolVoteLab" destination="hvY-28-VYF" id="c4P-jN-fzH"/>
+                <outlet property="baseTableView" destination="yrj-35-AkD" id="Ydc-K8-kPj"/>
+                <outlet property="hasSelectNumber" destination="0Gg-gb-hQX" id="O84-hj-Emk"/>
+                <outlet property="immediatelyToVoteButton" destination="kQD-yB-2ux" id="iFK-sR-gBM"/>
+                <outlet property="persentLab" destination="Mem-Hf-rqo" id="t9w-qO-RNu"/>
+                <outlet property="progress" destination="zim-P8-Uha" id="bIk-qO-j4j"/>
+                <outlet property="selectAllBtn" destination="wGY-5S-jsl" id="ENQ-Of-UeQ"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8mR-p3-new">
+                    <rect key="frame" x="15" y="20" width="345" height="46"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100.02%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mem-Hf-rqo">
+                            <rect key="frame" x="283.5" y="8" width="53.5" height="13"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="13" id="pre-2t-9th"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="全网投票占比：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hvY-28-VYF">
+                            <rect key="frame" x="8" y="8" width="93" height="13"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="13" id="x8Z-7x-Vgv"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="zim-P8-Uha">
+                            <rect key="frame" x="8" y="36" width="329" height="2"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="2" id="1lE-Z7-IaX"/>
+                            </constraints>
+                            <color key="progressTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="trackTintColor" red="1" green="1" blue="1" alpha="0.15306454613095238" colorSpace="custom" customColorSpace="sRGB"/>
+                        </progressView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="zim-P8-Uha" secondAttribute="trailing" constant="8" id="1ei-Qs-rUt"/>
+                        <constraint firstItem="hvY-28-VYF" firstAttribute="top" secondItem="8mR-p3-new" secondAttribute="top" constant="8" id="7Uy-cP-MTl"/>
+                        <constraint firstAttribute="trailing" secondItem="Mem-Hf-rqo" secondAttribute="trailing" constant="8" id="9Hp-tW-H0q"/>
+                        <constraint firstItem="hvY-28-VYF" firstAttribute="leading" secondItem="8mR-p3-new" secondAttribute="leading" constant="8" id="GvM-9B-LXF"/>
+                        <constraint firstItem="zim-P8-Uha" firstAttribute="leading" secondItem="8mR-p3-new" secondAttribute="leading" constant="8" id="I9N-KB-7Sy"/>
+                        <constraint firstAttribute="height" constant="46" id="K9k-91-ti5"/>
+                        <constraint firstItem="Mem-Hf-rqo" firstAttribute="top" secondItem="8mR-p3-new" secondAttribute="top" constant="8" id="Rnj-GI-R4z"/>
+                        <constraint firstAttribute="bottom" secondItem="zim-P8-Uha" secondAttribute="bottom" constant="8" id="khp-qE-AVl"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wGY-5S-jsl">
+                    <rect key="frame" x="0.0" y="617" width="125" height="50"/>
+                    <color key="backgroundColor" red="0.051640547811985016" green="0.13327953219413757" blue="0.16464591026306152" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="cNT-xg-dWB"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <inset key="imageEdgeInsets" minX="-8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" title="全选" image="found_vote_border">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="selectAllAction:" destination="-1" eventType="touchUpInside" id="0uU-yu-oMf"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kQD-yB-2ux">
+                    <rect key="frame" x="250" y="617" width="125" height="50"/>
+                    <color key="backgroundColor" red="0.32654017210000003" green="0.5333263278" blue="0.53324335810000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="3et-II-er3"/>
+                    </constraints>
+                    <state key="normal" title="立即投票">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="actAction:" destination="-1" eventType="touchUpInside" id="eYJ-OY-zf7"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 已选择" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Gg-gb-hQX">
+                    <rect key="frame" x="125" y="617" width="125" height="50"/>
+                    <color key="backgroundColor" red="0.051640547811985016" green="0.13327953219413757" blue="0.16464591026306152" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="zhY-It-U8Y"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yrj-35-AkD">
+                    <rect key="frame" x="15" y="70" width="345" height="532"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="wGY-5S-jsl" firstAttribute="top" secondItem="yrj-35-AkD" secondAttribute="bottom" constant="15" id="7Wd-iG-utG"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="kQD-yB-2ux" secondAttribute="trailing" id="FPX-u9-mg4"/>
+                <constraint firstItem="kQD-yB-2ux" firstAttribute="leading" secondItem="0Gg-gb-hQX" secondAttribute="trailing" id="GWI-NA-voW"/>
+                <constraint firstItem="8mR-p3-new" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="HiO-tS-weq"/>
+                <constraint firstItem="0Gg-gb-hQX" firstAttribute="leading" secondItem="wGY-5S-jsl" secondAttribute="trailing" id="HlU-i5-ASA"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="yrj-35-AkD" secondAttribute="trailing" constant="15" id="Jdp-3s-rO8"/>
+                <constraint firstItem="yrj-35-AkD" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="15" id="Oo0-ek-Z8K"/>
+                <constraint firstAttribute="trailing" secondItem="8mR-p3-new" secondAttribute="trailing" constant="15" id="QAh-xd-rUK"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="kQD-yB-2ux" secondAttribute="bottom" id="eS0-ZM-7Ob"/>
+                <constraint firstItem="yrj-35-AkD" firstAttribute="top" secondItem="8mR-p3-new" secondAttribute="bottom" constant="4" id="hPd-Ia-U6J"/>
+                <constraint firstItem="wGY-5S-jsl" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="mH8-PM-AcD"/>
+                <constraint firstItem="8mR-p3-new" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="nKi-oV-ucB"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="0Gg-gb-hQX" secondAttribute="bottom" id="oaj-uY-SLz"/>
+                <constraint firstItem="0Gg-gb-hQX" firstAttribute="width" secondItem="wGY-5S-jsl" secondAttribute="width" id="wBO-i8-PiO"/>
+                <constraint firstItem="kQD-yB-2ux" firstAttribute="width" secondItem="wGY-5S-jsl" secondAttribute="width" id="ye4-GA-hZq"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="wGY-5S-jsl" secondAttribute="bottom" id="yjF-b1-bQG"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
+            <point key="canvasLocation" x="40.799999999999997" y="103.89805097451276"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="found_vote_border" width="11" height="11"/>
+    </resources>
+</document>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="runningNodeListView">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P2m-1X-kcE">
+                    <rect key="frame" x="4" y="17.5" width="4" height="15"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="15" id="OSL-PE-t76"/>
+                        <constraint firstAttribute="width" constant="4" id="aN8-gG-kd1"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="参选节点列表" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KZQ-YN-5IP">
+                    <rect key="frame" x="16" y="16.5" width="86" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="npQ-AI-wwL">
+                    <rect key="frame" x="364" y="0.0" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="q4R-P0-SGe"/>
+                    </constraints>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="npQ-AI-wwL" secondAttribute="bottom" id="17f-Sv-lZz"/>
+                <constraint firstItem="P2m-1X-kcE" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="4UX-kz-T7B"/>
+                <constraint firstItem="npQ-AI-wwL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Qbf-CP-apU"/>
+                <constraint firstItem="P2m-1X-kcE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="4" id="WEe-6I-umz"/>
+                <constraint firstItem="KZQ-YN-5IP" firstAttribute="leading" secondItem="P2m-1X-kcE" secondAttribute="trailing" constant="8" id="gc5-35-wgu"/>
+                <constraint firstItem="KZQ-YN-5IP" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="qUz-Wn-1m0"/>
+                <constraint firstItem="npQ-AI-wwL" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="yft-9F-N8m"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="modifyTheListModeButton" destination="npQ-AI-wwL" id="dsM-20-5wm"/>
+                <outlet property="runningNodeListTextLabel" destination="KZQ-YN-5IP" id="3zA-Fj-jC8"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="55.580357142857139"/>
+        </view>
+    </objects>
+</document>

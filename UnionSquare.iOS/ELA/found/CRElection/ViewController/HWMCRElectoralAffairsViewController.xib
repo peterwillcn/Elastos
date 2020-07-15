@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HWMCRElectoralAffairsViewController">
+            <connections>
+                <outlet property="BGView" destination="fIW-T7-z4G" id="51t-51-wrs"/>
+                <outlet property="JoinTheCandidateListButton" destination="bLs-ms-KXK" id="8C9-uP-Iah"/>
+                <outlet property="LooKTheCandidateListButton" destination="gvP-Ct-Jlx" id="rXk-wB-xbY"/>
+                <outlet property="iconImageView" destination="KpY-rT-ax2" id="yyT-vi-y6W"/>
+                <outlet property="nickNameLabel" destination="sFD-Zf-JSg" id="qD6-BV-aWZ"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fIW-T7-z4G">
+                    <rect key="frame" x="15" y="35" width="345" height="445"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KpY-rT-ax2">
+                            <rect key="frame" x="137.5" y="30" width="70" height="70"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="70" id="gWe-q4-K66"/>
+                                <constraint firstAttribute="width" constant="70" id="mph-IY-4UF"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="节点名称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sFD-Zf-JSg">
+                            <rect key="frame" x="143.5" y="118" width="58" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.14556661248207092" green="0.239207923412323" blue="0.2430889904499054" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="KpY-rT-ax2" firstAttribute="top" secondItem="fIW-T7-z4G" secondAttribute="top" constant="30" id="0RV-aD-RQk"/>
+                        <constraint firstAttribute="height" constant="445" id="5se-HE-JsV"/>
+                        <constraint firstItem="sFD-Zf-JSg" firstAttribute="top" secondItem="KpY-rT-ax2" secondAttribute="bottom" constant="18" id="LuZ-Yk-QI2"/>
+                        <constraint firstItem="KpY-rT-ax2" firstAttribute="centerX" secondItem="fIW-T7-z4G" secondAttribute="centerX" id="hR5-H7-eQc"/>
+                        <constraint firstItem="sFD-Zf-JSg" firstAttribute="centerX" secondItem="fIW-T7-z4G" secondAttribute="centerX" id="oJo-fQ-UrF"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gvP-Ct-Jlx">
+                    <rect key="frame" x="63" y="577" width="249" height="40"/>
+                    <color key="backgroundColor" red="0.21239003539085388" green="0.31759294867515564" blue="0.35285100340843201" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="nyq-GC-8uW"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <state key="normal" title="查看候选列表">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="LooKTheCandidateListEvent:" destination="-1" eventType="touchUpInside" id="dZh-YX-ghM"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bLs-ms-KXK">
+                    <rect key="frame" x="63" y="517" width="249" height="40"/>
+                    <color key="backgroundColor" red="0.21239003540000001" green="0.31759294869999999" blue="0.35285100339999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="Jgt-fu-Fiy"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <state key="normal" title="加入候选列表">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="JoinTheCandidateListEvent:" destination="-1" eventType="touchUpInside" id="QwK-rZ-JQ2"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="gvP-Ct-Jlx" secondAttribute="trailing" constant="63" id="BnV-ON-gJZ"/>
+                <constraint firstItem="gvP-Ct-Jlx" firstAttribute="top" secondItem="bLs-ms-KXK" secondAttribute="bottom" constant="20" id="Eyd-Gc-USq"/>
+                <constraint firstItem="gvP-Ct-Jlx" firstAttribute="centerX" secondItem="bLs-ms-KXK" secondAttribute="centerX" id="Kn0-ky-oQE"/>
+                <constraint firstItem="fIW-T7-z4G" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="15" id="QF9-Ym-HGS"/>
+                <constraint firstItem="gvP-Ct-Jlx" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="63" id="e7i-yk-uCq"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="fIW-T7-z4G" secondAttribute="trailing" constant="15" id="rK7-mh-XoM"/>
+                <constraint firstItem="gvP-Ct-Jlx" firstAttribute="width" secondItem="bLs-ms-KXK" secondAttribute="width" id="tLk-hb-c8N"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="gvP-Ct-Jlx" secondAttribute="bottom" constant="50" id="wbu-js-0Qh"/>
+                <constraint firstItem="fIW-T7-z4G" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="15" id="xVd-RV-Zmx"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
+        </view>
+    </objects>
+</document>

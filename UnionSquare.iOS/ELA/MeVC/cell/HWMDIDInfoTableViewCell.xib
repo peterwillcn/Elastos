@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="HWMDIDInfoTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="55"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="55"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qHK-GS-FUY">
+                        <rect key="frame" x="15" y="0.0" width="35.5" height="55"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.9999127984046936" green="1" blue="0.99988144636154175" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mine_did_list_copy" translatesAutoresizingMaskIntoConstraints="NO" id="zNy-38-fxV">
+                        <rect key="frame" x="283" y="16.5" width="22" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="22" id="eY7-c9-SRG"/>
+                            <constraint firstAttribute="height" constant="22" id="et7-iC-d9r"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2GV-lQ-9h1">
+                        <rect key="frame" x="70" y="0.0" width="200" height="55"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="190" id="Q1Q-vi-mNs"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="33n-NA-5Q6">
+                        <rect key="frame" x="270" y="0.0" width="50" height="55"/>
+                        <connections>
+                            <action selector="copyEvent:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="SQm-Gt-3z5"/>
+                        </connections>
+                    </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Izx-7A-FkO">
+                        <rect key="frame" x="15" y="54" width="290" height="1"/>
+                        <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="lb5-uC-2z8"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="zNy-38-fxV" secondAttribute="trailing" constant="15" id="Bds-ox-abg"/>
+                    <constraint firstItem="qHK-GS-FUY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Byj-z4-1Sx"/>
+                    <constraint firstItem="zNy-38-fxV" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="IVE-gz-ao8"/>
+                    <constraint firstItem="qHK-GS-FUY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="IqY-DM-sq4"/>
+                    <constraint firstItem="33n-NA-5Q6" firstAttribute="leading" secondItem="2GV-lQ-9h1" secondAttribute="trailing" id="LGd-Ut-NPy"/>
+                    <constraint firstItem="2GV-lQ-9h1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="OWe-HD-8q3"/>
+                    <constraint firstAttribute="trailing" secondItem="Izx-7A-FkO" secondAttribute="trailing" constant="15" id="P0o-7N-Jc4"/>
+                    <constraint firstItem="2GV-lQ-9h1" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="RqM-Fr-9MV"/>
+                    <constraint firstAttribute="bottom" secondItem="Izx-7A-FkO" secondAttribute="bottom" id="UF9-Um-nDO"/>
+                    <constraint firstAttribute="trailing" secondItem="2GV-lQ-9h1" secondAttribute="trailing" constant="50" id="haS-DN-ycB"/>
+                    <constraint firstItem="Izx-7A-FkO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="lhy-9l-4Qk"/>
+                    <constraint firstAttribute="trailing" secondItem="33n-NA-5Q6" secondAttribute="trailing" id="nWt-r0-UgM"/>
+                    <constraint firstItem="33n-NA-5Q6" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="oHG-t7-LAB"/>
+                    <constraint firstAttribute="bottom" secondItem="33n-NA-5Q6" secondAttribute="bottom" id="uQr-IN-b96"/>
+                    <constraint firstItem="qHK-GS-FUY" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="vDQ-SL-sWk"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
+            <connections>
+                <outlet property="arrImageView" destination="zNy-38-fxV" id="jHt-Ye-O4O"/>
+                <outlet property="infoLabel" destination="2GV-lQ-9h1" id="fXX-yF-LpG"/>
+                <outlet property="leftTextLabel" destination="qHK-GS-FUY" id="k42-Ga-kub"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="122.87946428571428"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="mine_did_list_copy" width="22" height="22"/>
+    </resources>
+</document>

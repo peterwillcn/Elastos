@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nTa-9s-oiH">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="IWH-dn-Jre">
+            <objects>
+                <viewController id="nTa-9s-oiH" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fkV-sV-D5q">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LimageEN" translatesAutoresizingMaskIntoConstraints="NO" id="TcG-au-TAC">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="TcG-au-TAC" firstAttribute="top" secondItem="fkV-sV-D5q" secondAttribute="top" id="5Tw-o2-B9d"/>
+                            <constraint firstItem="TcG-au-TAC" firstAttribute="leading" secondItem="fkV-sV-D5q" secondAttribute="leading" id="BPf-dO-Q6i"/>
+                            <constraint firstAttribute="bottom" secondItem="TcG-au-TAC" secondAttribute="bottom" id="WdU-Ud-5jm"/>
+                            <constraint firstAttribute="trailing" secondItem="TcG-au-TAC" secondAttribute="trailing" id="naw-oP-cj0"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Clj-od-Ct7"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NIa-il-sSB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="153" y="-1"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="LimageEN" width="621" height="1104"/>
+    </resources>
+</document>

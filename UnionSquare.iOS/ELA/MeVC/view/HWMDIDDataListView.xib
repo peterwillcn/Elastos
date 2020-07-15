@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="HWMDIDDataListView">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ef-Np-rAr">
+                    <rect key="frame" x="0.0" y="652" width="414" height="210"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请选择失效日期" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ivI-m5-9gT">
+                            <rect key="frame" x="30" y="15" width="114.5" height="19.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <color key="textColor" red="0.59994590282440186" green="0.60003471374511719" blue="0.5999264121055603" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="确认" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hrM-0a-JJ9">
+                            <rect key="frame" x="351" y="15" width="33" height="19.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Im-0G-0F2">
+                            <rect key="frame" x="297" y="0.0" width="117" height="51"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="51" id="wk4-tK-05W"/>
+                                <constraint firstAttribute="width" constant="117" id="yX1-TE-cNg"/>
+                            </constraints>
+                            <connections>
+                                <action selector="makeSureEvent:" destination="iN0-l3-epB" eventType="touchUpInside" id="GsV-vS-dAI"/>
+                            </connections>
+                        </button>
+                        <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PwY-yA-8ef">
+                            <rect key="frame" x="30" y="51" width="354" height="159"/>
+                        </pickerView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.14900270104408264" green="0.14903038740158081" blue="0.14899668097496033" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="hrM-0a-JJ9" secondAttribute="trailing" constant="30" id="6BP-oF-w6b"/>
+                        <constraint firstItem="ivI-m5-9gT" firstAttribute="top" secondItem="0ef-Np-rAr" secondAttribute="top" constant="15" id="9zh-Vo-iUO"/>
+                        <constraint firstAttribute="bottom" secondItem="PwY-yA-8ef" secondAttribute="bottom" id="Ftk-oj-ypi"/>
+                        <constraint firstAttribute="trailing" secondItem="1Im-0G-0F2" secondAttribute="trailing" id="GAk-3x-r6r"/>
+                        <constraint firstItem="1Im-0G-0F2" firstAttribute="top" secondItem="0ef-Np-rAr" secondAttribute="top" id="Ipd-J4-3Fb"/>
+                        <constraint firstAttribute="height" constant="210" id="Of3-kc-Rbt"/>
+                        <constraint firstItem="ivI-m5-9gT" firstAttribute="leading" secondItem="0ef-Np-rAr" secondAttribute="leading" constant="30" id="S3E-hv-K7l"/>
+                        <constraint firstItem="PwY-yA-8ef" firstAttribute="top" secondItem="1Im-0G-0F2" secondAttribute="bottom" id="Vuj-wY-QZi"/>
+                        <constraint firstItem="PwY-yA-8ef" firstAttribute="leading" secondItem="0ef-Np-rAr" secondAttribute="leading" constant="30" id="jdj-YU-Rwr"/>
+                        <constraint firstAttribute="trailing" secondItem="PwY-yA-8ef" secondAttribute="trailing" constant="30" id="r1B-4i-nFq"/>
+                        <constraint firstItem="hrM-0a-JJ9" firstAttribute="centerY" secondItem="ivI-m5-9gT" secondAttribute="centerY" id="w89-CQ-kcs"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="0ef-Np-rAr" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="5tA-L5-veM"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="0ef-Np-rAr" secondAttribute="trailing" id="XN4-Ez-Av7"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="0ef-Np-rAr" secondAttribute="bottom" id="sz8-7i-UJ6"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="dataPickerView" destination="PwY-yA-8ef" id="gxG-tq-bec"/>
+                <outlet property="makeSureTextLabel" destination="hrM-0a-JJ9" id="rLx-9Y-VgG"/>
+                <outlet property="selectDataTextLabel" destination="ivI-m5-9gT" id="UI2-4a-pSo"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="153.34821428571428"/>
+        </view>
+    </objects>
+</document>

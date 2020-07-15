@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HWMCreateDIDViewController">
+            <connections>
+                <outlet property="nextButton" destination="f1c-d0-F0M" id="kLu-Kq-IdC"/>
+                <outlet property="table" destination="oe3-fC-vhz" id="kXr-Hg-8n7"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="oe3-fC-vhz">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                </tableView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f1c-d0-F0M">
+                    <rect key="frame" x="63" y="705" width="288" height="40"/>
+                    <color key="backgroundColor" red="0.1928445399" green="0.32548019290000002" blue="0.32934954760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="OXP-g4-z4Y"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                    <color key="tintColor" red="0.1928445399" green="0.32548019290000002" blue="0.32934954760000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <state key="normal" title="下一步">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="nextButtonEvent:" destination="-1" eventType="touchUpInside" id="jRc-tC-Yk2"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="f1c-d0-F0M" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="63" id="6LO-hS-mih"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="f1c-d0-F0M" secondAttribute="bottom" constant="117" id="LX6-07-u8Z"/>
+                <constraint firstItem="oe3-fC-vhz" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="LgN-94-ofO"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="oe3-fC-vhz" secondAttribute="trailing" id="aMs-mo-wUb"/>
+                <constraint firstItem="oe3-fC-vhz" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="c6a-hT-Sv6"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="f1c-d0-F0M" secondAttribute="trailing" constant="63" id="mwZ-ig-W3q"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="oe3-fC-vhz" secondAttribute="bottom" id="vgX-6g-oTM"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
+            <point key="canvasLocation" x="132" y="119"/>
+        </view>
+    </objects>
+</document>

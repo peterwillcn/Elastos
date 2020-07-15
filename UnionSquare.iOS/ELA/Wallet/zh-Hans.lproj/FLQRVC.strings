@@ -1,0 +1,9 @@
+
+/* Class = "UILabel"; text = "---"; ObjectID = "35T-la-JYB"; */
+"35T-la-JYB.text" = "---";
+
+/* Class = "UIButton"; normalTitle = "复制地址"; ObjectID = "fgJ-rl-Bap"; */
+"fgJ-rl-Bap.normalTitle" = "复制地址";
+
+/* Class = "UIButton"; normalTitle = "复制收款地址"; ObjectID = "ypX-6j-bUX"; */
+"ypX-6j-bUX.normalTitle" = "复制收款地址";

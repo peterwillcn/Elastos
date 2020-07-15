@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HMWcollectionViewController">
+            <connections>
+                <outlet property="CopyTheAddressButton" destination="FN8-eT-dlT" id="Xtm-A8-acf"/>
+                <outlet property="QRViewImage" destination="Ng0-k3-B1H" id="OTz-0E-xSz"/>
+                <outlet property="addressLabel" destination="cAo-ys-DDN" id="JwW-mV-rZv"/>
+                <outlet property="addressListButton" destination="7j2-dd-QwI" id="rSF-Sp-eWb"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="asset_code_border" translatesAutoresizingMaskIntoConstraints="NO" id="87Z-Z8-Bx2">
+                    <rect key="frame" x="27.5" y="80" width="320" height="320"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="320" id="GtW-29-xRc"/>
+                        <constraint firstAttribute="height" constant="320" id="ItQ-Cp-hMs"/>
+                    </constraints>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BVX-ty-sCR">
+                    <rect key="frame" x="37.5" y="90" width="300" height="300"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="300" id="1GM-3E-XvW"/>
+                        <constraint firstAttribute="width" constant="300" id="qqN-i9-EK8"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cAo-ys-DDN">
+                    <rect key="frame" x="30" y="429" width="315" height="30"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.14855375744047619" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="l1E-3H-gIZ"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FN8-eT-dlT">
+                    <rect key="frame" x="83" y="539" width="209" height="40"/>
+                    <color key="backgroundColor" red="0.32654017210000003" green="0.5333263278" blue="0.53324335810000001" alpha="0.55887276789999996" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="9z5-6n-Wqc"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                    <state key="normal" title="复制收款地址">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="CopyTheAddressEvent:" destination="-1" eventType="touchUpInside" id="N3h-sS-V4P"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7j2-dd-QwI">
+                    <rect key="frame" x="83" y="596" width="209" height="40"/>
+                    <color key="backgroundColor" red="0.32654017210000003" green="0.5333263278" blue="0.53324335810000001" alpha="0.55887276789999996" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="YvD-wA-DgH"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                    <state key="normal" title="进入地址列表">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="addressListEvent:" destination="-1" eventType="touchUpInside" id="Zl8-3X-gOR"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ng0-k3-B1H">
+                    <rect key="frame" x="42.5" y="95" width="290" height="290"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="290" id="Ray-qg-YHu"/>
+                        <constraint firstAttribute="height" constant="290" id="bl9-tD-WsY"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="BVX-ty-sCR" firstAttribute="centerY" secondItem="87Z-Z8-Bx2" secondAttribute="centerY" id="4G3-gy-AJ0"/>
+                <constraint firstItem="7j2-dd-QwI" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="83" id="Ip1-7h-YcV"/>
+                <constraint firstItem="BVX-ty-sCR" firstAttribute="centerX" secondItem="87Z-Z8-Bx2" secondAttribute="centerX" id="NaV-dU-ttb"/>
+                <constraint firstItem="87Z-Z8-Bx2" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="O37-6u-t2U"/>
+                <constraint firstItem="cAo-ys-DDN" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="30" id="P3Z-dy-vfS"/>
+                <constraint firstItem="Ng0-k3-B1H" firstAttribute="centerY" secondItem="87Z-Z8-Bx2" secondAttribute="centerY" id="QHx-MX-CW0"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="FN8-eT-dlT" secondAttribute="trailing" constant="83" id="U2m-Cf-yoK"/>
+                <constraint firstItem="FN8-eT-dlT" firstAttribute="top" secondItem="cAo-ys-DDN" secondAttribute="bottom" constant="80" id="W8H-72-oQp"/>
+                <constraint firstItem="87Z-Z8-Bx2" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="80" id="Yoq-KM-4kJ"/>
+                <constraint firstItem="FN8-eT-dlT" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="83" id="aXW-re-ABW"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="cAo-ys-DDN" secondAttribute="trailing" constant="30" id="azO-qr-j74"/>
+                <constraint firstItem="7j2-dd-QwI" firstAttribute="top" secondItem="FN8-eT-dlT" secondAttribute="bottom" constant="17" id="h4w-Us-fA7"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="7j2-dd-QwI" secondAttribute="trailing" constant="83" id="hg4-6o-vdd"/>
+                <constraint firstItem="cAo-ys-DDN" firstAttribute="top" secondItem="87Z-Z8-Bx2" secondAttribute="bottom" constant="29" id="lfl-Jl-umJ"/>
+                <constraint firstItem="Ng0-k3-B1H" firstAttribute="centerX" secondItem="87Z-Z8-Bx2" secondAttribute="centerX" id="oT9-ed-bJv"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
+            <point key="canvasLocation" x="53.600000000000001" y="48.125937031484263"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="asset_code_border" width="140" height="140"/>
+    </resources>
+</document>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="HMWmyContactListTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="69.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uRS-9y-OJO">
+                        <rect key="frame" x="30" y="5" width="260" height="59.5"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="setting_list_arrow_fold" translatesAutoresizingMaskIntoConstraints="NO" id="CqD-4A-9Ax">
+                                <rect key="frame" x="228" y="19" width="22" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="DlI-JF-G8f"/>
+                                    <constraint firstAttribute="width" constant="22" id="VNQ-bq-SU6"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ig-KJ-XQg">
+                                <rect key="frame" x="15" y="0.0" width="34" height="59.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.30126953125" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="0ig-KJ-XQg" firstAttribute="top" secondItem="uRS-9y-OJO" secondAttribute="top" id="MVw-cp-ZCz"/>
+                            <constraint firstAttribute="trailing" secondItem="CqD-4A-9Ax" secondAttribute="trailing" constant="10" id="Pfh-CU-gAg"/>
+                            <constraint firstItem="0ig-KJ-XQg" firstAttribute="leading" secondItem="uRS-9y-OJO" secondAttribute="leading" constant="15" id="oCj-MV-GHu"/>
+                            <constraint firstAttribute="bottom" secondItem="0ig-KJ-XQg" secondAttribute="bottom" id="ti2-Mn-lQg"/>
+                            <constraint firstItem="CqD-4A-9Ax" firstAttribute="centerY" secondItem="uRS-9y-OJO" secondAttribute="centerY" id="vI9-y1-93x"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="uRS-9y-OJO" secondAttribute="trailing" constant="30" id="4IQ-nQ-4h7"/>
+                    <constraint firstItem="uRS-9y-OJO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="30" id="MsH-ZO-RuZ"/>
+                    <constraint firstAttribute="bottom" secondItem="uRS-9y-OJO" secondAttribute="bottom" constant="5" id="ZgE-Ub-ZAk"/>
+                    <constraint firstItem="uRS-9y-OJO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="uRg-1q-uMt"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
+            <connections>
+                <outlet property="BGView" destination="uRS-9y-OJO" id="6If-Eh-7P4"/>
+                <outlet property="nickNameLabel" destination="0ig-KJ-XQg" id="lw4-Cs-FyM"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="setting_list_arrow_fold" width="22" height="22"/>
+    </resources>
+</document>

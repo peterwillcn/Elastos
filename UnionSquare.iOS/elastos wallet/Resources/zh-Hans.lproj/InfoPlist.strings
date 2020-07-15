@@ -1,0 +1,11 @@
+/* 
+  InfoPlist.strings
+  elastos wallet
+
+  Created by  on 2019/3/20.
+  
+*/
+"UILaunchStoryboardName"="LaunchScreen-English";
+"NSPhotoLibraryUsageDescription"= "App扫二维码功能需要您同意访问相册,才能使用!";
+"NSCameraUsageDescription"= "App扫二维码功能需要您同意访问相机,才能使用!";
+"NSAppleMusicUsageDescription"= "App扫二维码功能需要您同意访问相机,才能使用!";

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FLSelectSuperPointVC">
+            <connections>
+                <outlet property="goingToVoteButton" destination="yrI-xn-1ga" id="Jlp-oE-fug"/>
+                <outlet property="manageVoteBtn" destination="YCb-AJ-Qeq" id="XG6-3R-gto"/>
+                <outlet property="signUpForButton" destination="D3H-w1-yGE" id="nav-1p-sAD"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wallet_ela_logo" translatesAutoresizingMaskIntoConstraints="NO" id="NdI-9u-bbc">
+                    <rect key="frame" x="126.5" y="75" width="122" height="153"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D3H-w1-yGE">
+                    <rect key="frame" x="63" y="444" width="249" height="50"/>
+                    <color key="backgroundColor" red="0.32654017210000003" green="0.5333263278" blue="0.53324335810000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="2J9-Cn-ZB1"/>
+                    </constraints>
+                    <state key="normal" title="报名参选"/>
+                    <connections>
+                        <action selector="signUpForButton:" destination="-1" eventType="touchUpInside" id="Tft-Bw-bNx"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yrI-xn-1ga">
+                    <rect key="frame" x="63" y="514" width="249" height="50"/>
+                    <color key="backgroundColor" red="0.32654017210000003" green="0.5333263278" blue="0.53324335810000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="7kr-Kq-elN"/>
+                    </constraints>
+                    <state key="normal" title="我要投票"/>
+                    <connections>
+                        <action selector="goingToVoteEvent:" destination="-1" eventType="touchUpInside" id="HnX-uf-yKj"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YCb-AJ-Qeq">
+                    <rect key="frame" x="63" y="384" width="249" height="50"/>
+                    <color key="backgroundColor" red="0.32654017210000003" green="0.5333263278" blue="0.53324335810000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="ZPX-Rc-TML"/>
+                    </constraints>
+                    <state key="normal" title="选举管理"/>
+                    <connections>
+                        <action selector="DrawBackVote:" destination="-1" eventType="touchUpInside" id="ud2-zt-eWk"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="NdI-9u-bbc" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="18d-9u-x6K"/>
+                <constraint firstItem="D3H-w1-yGE" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="2qp-QH-h0Z"/>
+                <constraint firstItem="yrI-xn-1ga" firstAttribute="centerX" secondItem="D3H-w1-yGE" secondAttribute="centerX" id="90L-1N-v9b"/>
+                <constraint firstItem="yrI-xn-1ga" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="63" id="IXK-MQ-mfG"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="yrI-xn-1ga" secondAttribute="trailing" constant="63" id="Iga-1d-zCj"/>
+                <constraint firstItem="D3H-w1-yGE" firstAttribute="width" secondItem="YCb-AJ-Qeq" secondAttribute="width" id="IwH-6U-cYt"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="D3H-w1-yGE" secondAttribute="trailing" constant="63" id="Pgv-VW-Frc"/>
+                <constraint firstItem="D3H-w1-yGE" firstAttribute="top" secondItem="YCb-AJ-Qeq" secondAttribute="bottom" constant="10" id="SAg-9v-zOa"/>
+                <constraint firstItem="D3H-w1-yGE" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="63" id="XJs-yy-wnE"/>
+                <constraint firstItem="NdI-9u-bbc" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="55" id="nYk-1U-E6E"/>
+                <constraint firstItem="yrI-xn-1ga" firstAttribute="top" secondItem="D3H-w1-yGE" secondAttribute="bottom" constant="20" id="rf0-aD-9so"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="yrI-xn-1ga" secondAttribute="bottom" constant="103" id="tRa-vs-llB"/>
+                <constraint firstItem="D3H-w1-yGE" firstAttribute="centerX" secondItem="YCb-AJ-Qeq" secondAttribute="centerX" id="zRm-Pc-uEn"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="wallet_ela_logo" width="122.5" height="153"/>
+    </resources>
+</document>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HMWtheSuperNodeElectionViewController">
+            <connections>
+                <outlet property="found_vote_rule" destination="izR-8v-6Ou" id="QrU-19-32J"/>
+                <outlet property="myVoteButton" destination="iHA-DO-aoE" id="hXM-1a-DN4"/>
+                <outlet property="tagMyVotedLab" destination="Sbm-1r-SlD" id="El3-ZW-CSE"/>
+                <outlet property="tagVoteRuleLab" destination="tL0-uh-7MS" id="xZ4-9j-au9"/>
+                <outlet property="toVoteButton" destination="YeH-l1-2u0" id="1W4-Tl-Zf1"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="votingRulesButton" destination="5sf-bu-fLg" id="JgP-6x-5Ae"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vt0-4p-faG">
+                    <rect key="frame" x="0.0" y="617" width="125" height="50"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="found_vote_my_vote" translatesAutoresizingMaskIntoConstraints="NO" id="XeH-eQ-o97">
+                            <rect key="frame" x="49" y="2" width="27" height="27"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我的投票" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sbm-1r-SlD">
+                            <rect key="frame" x="0.0" y="34" width="125" height="9"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="9" id="cmB-Nc-TXs"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iHA-DO-aoE">
+                            <rect key="frame" x="0.0" y="0.0" width="125" height="50"/>
+                            <connections>
+                                <action selector="myVoteEvent:" destination="-1" eventType="touchUpInside" id="SBf-QT-efX"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.11643937975168228" green="0.16756013035774231" blue="0.23900625109672546" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="Sbm-1r-SlD" firstAttribute="leading" secondItem="Vt0-4p-faG" secondAttribute="leading" id="AEG-48-tmi"/>
+                        <constraint firstAttribute="trailing" secondItem="Sbm-1r-SlD" secondAttribute="trailing" id="Bwx-87-hal"/>
+                        <constraint firstAttribute="bottom" secondItem="Sbm-1r-SlD" secondAttribute="bottom" constant="7" id="PNH-n8-nFZ"/>
+                        <constraint firstAttribute="height" constant="50" id="dQH-Eg-Pca"/>
+                        <constraint firstItem="iHA-DO-aoE" firstAttribute="leading" secondItem="Vt0-4p-faG" secondAttribute="leading" id="g8c-LV-igm"/>
+                        <constraint firstItem="XeH-eQ-o97" firstAttribute="centerX" secondItem="Vt0-4p-faG" secondAttribute="centerX" id="jbs-PK-Vvr"/>
+                        <constraint firstItem="Sbm-1r-SlD" firstAttribute="top" secondItem="XeH-eQ-o97" secondAttribute="bottom" constant="5" id="oTV-z3-eAP"/>
+                        <constraint firstAttribute="bottom" secondItem="iHA-DO-aoE" secondAttribute="bottom" id="rna-nW-vNc"/>
+                        <constraint firstAttribute="trailing" secondItem="iHA-DO-aoE" secondAttribute="trailing" id="uhf-9H-Oks"/>
+                        <constraint firstItem="iHA-DO-aoE" firstAttribute="top" secondItem="Vt0-4p-faG" secondAttribute="top" id="xVQ-IB-hVU"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c4x-hb-IAg">
+                    <rect key="frame" x="125" y="617" width="125" height="50"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="found_vote_rule" translatesAutoresizingMaskIntoConstraints="NO" id="izR-8v-6Ou">
+                            <rect key="frame" x="49" y="2" width="27" height="27"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="投票规则" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tL0-uh-7MS">
+                            <rect key="frame" x="0.0" y="34" width="125" height="9"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="9" id="2kj-Fg-lvt"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5sf-bu-fLg">
+                            <rect key="frame" x="0.0" y="0.0" width="125" height="50"/>
+                            <connections>
+                                <action selector="NodeRegisteredState:" destination="-1" eventType="touchUpInside" id="6oP-9G-ZUH"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.11643937975168228" green="0.16756013035774231" blue="0.23900625109672546" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="tL0-uh-7MS" firstAttribute="top" secondItem="izR-8v-6Ou" secondAttribute="bottom" constant="5" id="2xx-WW-LJa"/>
+                        <constraint firstItem="izR-8v-6Ou" firstAttribute="centerX" secondItem="c4x-hb-IAg" secondAttribute="centerX" id="5h0-QY-w1T"/>
+                        <constraint firstItem="5sf-bu-fLg" firstAttribute="top" secondItem="c4x-hb-IAg" secondAttribute="top" id="6mG-ox-Vn5"/>
+                        <constraint firstAttribute="bottom" secondItem="5sf-bu-fLg" secondAttribute="bottom" id="7re-Ce-uQl"/>
+                        <constraint firstItem="tL0-uh-7MS" firstAttribute="leading" secondItem="c4x-hb-IAg" secondAttribute="leading" id="AfE-du-chq"/>
+                        <constraint firstItem="tL0-uh-7MS" firstAttribute="top" secondItem="izR-8v-6Ou" secondAttribute="bottom" constant="5" id="Izp-kh-vs6"/>
+                        <constraint firstAttribute="trailing" secondItem="5sf-bu-fLg" secondAttribute="trailing" id="Ohw-qJ-Tgt"/>
+                        <constraint firstAttribute="trailing" secondItem="tL0-uh-7MS" secondAttribute="trailing" id="gen-4b-ozN"/>
+                        <constraint firstAttribute="bottom" secondItem="tL0-uh-7MS" secondAttribute="bottom" constant="7" id="mC5-fZ-6Xw"/>
+                        <constraint firstItem="5sf-bu-fLg" firstAttribute="leading" secondItem="c4x-hb-IAg" secondAttribute="leading" id="t7F-Rd-qCE"/>
+                        <constraint firstAttribute="height" constant="50" id="wBf-z7-xH2"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m0Y-77-Vkb">
+                    <rect key="frame" x="250" y="617" width="125" height="50"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YeH-l1-2u0">
+                            <rect key="frame" x="15" y="15" width="88" height="22"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.32654017210000003" green="0.5333263278" blue="0.53324335810000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <inset key="imageEdgeInsets" minX="-3" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="我要投票" image="found_vote_to_vote"/>
+                            <connections>
+                                <action selector="myVoteButton:" destination="-1" eventType="touchUpInside" id="vwm-FB-s8F"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.32654017210000003" green="0.5333263278" blue="0.53324335810000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="C6M-IR-084"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="m0Y-77-Vkb" secondAttribute="bottom" id="0YP-W6-99h"/>
+                <constraint firstItem="Vt0-4p-faG" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="XnR-sy-o7i"/>
+                <constraint firstItem="Vt0-4p-faG" firstAttribute="bottom" secondItem="Q5M-cg-NOt" secondAttribute="bottom" id="bpc-83-nnm"/>
+                <constraint firstItem="c4x-hb-IAg" firstAttribute="leading" secondItem="Vt0-4p-faG" secondAttribute="trailing" id="jbq-S3-m0A"/>
+                <constraint firstItem="m0Y-77-Vkb" firstAttribute="width" secondItem="Vt0-4p-faG" secondAttribute="width" id="l35-IS-zaf"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="m0Y-77-Vkb" secondAttribute="trailing" id="uBy-OX-Bn2"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="c4x-hb-IAg" secondAttribute="bottom" id="ua4-yy-Nu6"/>
+                <constraint firstItem="c4x-hb-IAg" firstAttribute="width" secondItem="Vt0-4p-faG" secondAttribute="width" id="v1L-tr-OPW"/>
+                <constraint firstItem="m0Y-77-Vkb" firstAttribute="leading" secondItem="c4x-hb-IAg" secondAttribute="trailing" id="zYh-wB-Kp2"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
+            <point key="canvasLocation" x="317.60000000000002" y="138.0809595202399"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="found_vote_my_vote" width="27" height="27"/>
+        <image name="found_vote_rule" width="27" height="27"/>
+        <image name="found_vote_to_vote" width="22" height="22"/>
+    </resources>
+</document>

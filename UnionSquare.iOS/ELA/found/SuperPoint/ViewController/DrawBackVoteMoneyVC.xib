@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DrawBackVoteMoneyVC">
+            <connections>
+                <outlet property="drawBtn" destination="sG1-Q4-Ybc" id="YLs-rq-4V0"/>
+                <outlet property="iconImageView" destination="dun-hj-Ghe" id="Dz7-ML-eAI"/>
+                <outlet property="tagNodeNameLab" destination="Ocf-mT-7Jd" id="3Zo-XK-vAH"/>
+                <outlet property="tagNote" destination="J9c-9a-TZN" id="M6V-Gh-3ih"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GeF-y6-cHR">
+                    <rect key="frame" x="15" y="10" width="345" height="390"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="found_vote_initial" translatesAutoresizingMaskIntoConstraints="NO" id="dun-hj-Ghe">
+                            <rect key="frame" x="145" y="26" width="55" height="55"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="55" id="1dd-p8-IxK"/>
+                                <constraint firstAttribute="width" constant="55" id="NsT-00-R6E"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="节点名称" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ocf-mT-7Jd">
+                            <rect key="frame" x="15" y="122" width="315" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="注销报名72小时后，方可提取质押金。" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J9c-9a-TZN">
+                            <rect key="frame" x="40" y="169" width="265" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="Ocf-mT-7Jd" secondAttribute="trailing" constant="15" id="9hl-sL-avI"/>
+                        <constraint firstAttribute="trailing" secondItem="J9c-9a-TZN" secondAttribute="trailing" constant="40" id="BUp-nE-G6M"/>
+                        <constraint firstItem="dun-hj-Ghe" firstAttribute="top" secondItem="GeF-y6-cHR" secondAttribute="top" constant="26" id="DZr-x7-IAn"/>
+                        <constraint firstItem="dun-hj-Ghe" firstAttribute="centerX" secondItem="GeF-y6-cHR" secondAttribute="centerX" id="F0v-Cj-OFC"/>
+                        <constraint firstAttribute="trailing" secondItem="Ocf-mT-7Jd" secondAttribute="trailing" constant="15" id="IAb-ak-vgV"/>
+                        <constraint firstItem="Ocf-mT-7Jd" firstAttribute="leading" secondItem="GeF-y6-cHR" secondAttribute="leading" constant="144" id="Izw-qn-9v1"/>
+                        <constraint firstItem="J9c-9a-TZN" firstAttribute="leading" secondItem="GeF-y6-cHR" secondAttribute="leading" constant="40" id="Np5-hf-7K8"/>
+                        <constraint firstAttribute="height" constant="390" id="TPN-DP-34g"/>
+                        <constraint firstItem="J9c-9a-TZN" firstAttribute="centerX" secondItem="Ocf-mT-7Jd" secondAttribute="centerX" id="XCO-mE-f2O"/>
+                        <constraint firstItem="Ocf-mT-7Jd" firstAttribute="leading" secondItem="GeF-y6-cHR" secondAttribute="leading" constant="15" id="cZN-GX-edj"/>
+                        <constraint firstItem="J9c-9a-TZN" firstAttribute="top" secondItem="Ocf-mT-7Jd" secondAttribute="bottom" constant="30" id="fYL-3F-fve"/>
+                        <constraint firstItem="Ocf-mT-7Jd" firstAttribute="top" secondItem="dun-hj-Ghe" secondAttribute="bottom" constant="41" id="qgG-1e-lmU"/>
+                        <constraint firstItem="dun-hj-Ghe" firstAttribute="centerX" secondItem="Ocf-mT-7Jd" secondAttribute="centerX" id="vRK-qW-lCH"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sG1-Q4-Ybc">
+                    <rect key="frame" x="50" y="567" width="275" height="50"/>
+                    <color key="backgroundColor" red="0.32654017210000003" green="0.5333263278" blue="0.53324335810000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="cZe-ri-BJN"/>
+                    </constraints>
+                    <state key="normal" title="提取报名押金">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <state key="disabled">
+                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="drawBackAction:" destination="-1" eventType="touchUpInside" id="scZ-Zx-P4h"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="sG1-Q4-Ybc" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="CT7-S4-52e"/>
+                <constraint firstItem="GeF-y6-cHR" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="10" id="K89-c9-Hmd"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="sG1-Q4-Ybc" secondAttribute="trailing" constant="50" id="Ocj-eM-x3X"/>
+                <constraint firstItem="sG1-Q4-Ybc" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="50" id="Z1U-GE-Rjd"/>
+                <constraint firstAttribute="trailing" secondItem="GeF-y6-cHR" secondAttribute="trailing" constant="15" id="bcy-NS-Y69"/>
+                <constraint firstItem="GeF-y6-cHR" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="15" id="fwV-Uo-hk3"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="sG1-Q4-Ybc" secondAttribute="bottom" constant="50" id="rJX-zS-68l"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
+            <point key="canvasLocation" x="140" y="154"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="found_vote_initial" width="45" height="45"/>
+    </resources>
+</document>

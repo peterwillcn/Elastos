@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="c36-Jp-iRf">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="6se-W9-Rcq">
+            <objects>
+                <viewController id="c36-Jp-iRf" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleAspectFill" id="Gh3-Oo-Ki7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LimageEN" translatesAutoresizingMaskIntoConstraints="NO" id="dFa-cu-2Mw">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="dFa-cu-2Mw" firstAttribute="top" secondItem="Gh3-Oo-Ki7" secondAttribute="top" id="J4e-vM-jDK"/>
+                            <constraint firstAttribute="trailing" secondItem="dFa-cu-2Mw" secondAttribute="trailing" id="Z9S-Uj-IwZ"/>
+                            <constraint firstItem="dFa-cu-2Mw" firstAttribute="leading" secondItem="Gh3-Oo-Ki7" secondAttribute="leading" id="w4s-Pj-dkV"/>
+                            <constraint firstAttribute="bottom" secondItem="dFa-cu-2Mw" secondAttribute="bottom" id="w8k-c4-FEY"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="kxh-MU-hnQ"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8hu-Bw-naL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="121" y="112"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="LimageEN" width="621" height="1104"/>
+    </resources>
+</document>

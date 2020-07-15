@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="FLticketProgressView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eMa-dM-Bfy">
+                    <rect key="frame" x="67.5" y="213.5" width="240" height="240"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="waiting" translatesAutoresizingMaskIntoConstraints="NO" id="XDC-Mq-9yU">
+                            <rect key="frame" x="100" y="41.5" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="A5J-wm-F1n"/>
+                                <constraint firstAttribute="width" secondItem="XDC-Mq-9yU" secondAttribute="height" multiplier="1:1" id="uEu-Hf-kkX"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="提币成功" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7AC-a2-0oR">
+                            <rect key="frame" x="91.5" y="101.5" width="57.5" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xg5-f2-DeC">
+                            <rect key="frame" x="60" y="184" width="120" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="4PV-WK-KLw"/>
+                                <constraint firstAttribute="width" constant="120" id="iY9-ot-3Lk"/>
+                            </constraints>
+                            <state key="normal" title="返回首页" backgroundImage="gold-btn">
+                                <color key="titleColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="clickBack:" destination="iN0-l3-epB" eventType="touchUpInside" id="tbU-Ji-xWQ"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="提币成功" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YFN-Yr-Np1">
+                            <rect key="frame" x="36" y="134.5" width="168" height="13.5"/>
+                            <color key="backgroundColor" red="0.95686274509803926" green="0.95294117647058818" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="240" id="3UH-Rm-Wdj"/>
+                        <constraint firstItem="YFN-Yr-Np1" firstAttribute="centerX" secondItem="eMa-dM-Bfy" secondAttribute="centerX" id="5jb-Sf-U1Q"/>
+                        <constraint firstItem="7AC-a2-0oR" firstAttribute="centerY" secondItem="eMa-dM-Bfy" secondAttribute="centerY" constant="-10" id="G5C-44-49F"/>
+                        <constraint firstAttribute="bottom" secondItem="Xg5-f2-DeC" secondAttribute="bottom" constant="16" id="G6L-7n-tAC"/>
+                        <constraint firstItem="XDC-Mq-9yU" firstAttribute="centerX" secondItem="eMa-dM-Bfy" secondAttribute="centerX" id="JhA-ro-7HV"/>
+                        <constraint firstItem="Xg5-f2-DeC" firstAttribute="centerX" secondItem="eMa-dM-Bfy" secondAttribute="centerX" id="Tv9-yr-Q76"/>
+                        <constraint firstAttribute="trailing" secondItem="YFN-Yr-Np1" secondAttribute="trailing" constant="36" id="UOy-f1-xA7"/>
+                        <constraint firstItem="7AC-a2-0oR" firstAttribute="top" secondItem="XDC-Mq-9yU" secondAttribute="bottom" constant="20" id="cQB-Wg-RUe"/>
+                        <constraint firstItem="YFN-Yr-Np1" firstAttribute="top" secondItem="7AC-a2-0oR" secondAttribute="bottom" constant="16" id="kwH-3T-b22"/>
+                        <constraint firstItem="YFN-Yr-Np1" firstAttribute="leading" secondItem="eMa-dM-Bfy" secondAttribute="leading" constant="36" id="oSW-jq-cN9"/>
+                        <constraint firstAttribute="height" constant="240" id="xux-oL-17N"/>
+                        <constraint firstItem="7AC-a2-0oR" firstAttribute="centerX" secondItem="eMa-dM-Bfy" secondAttribute="centerX" id="ySw-Wb-lFP"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9zh-lC-9Ya">
+                    <rect key="frame" x="172.5" y="473.5" width="30" height="30"/>
+                    <state key="normal" image="Close"/>
+                    <connections>
+                        <action selector="removeView:" destination="iN0-l3-epB" eventType="touchUpInside" id="PU7-qM-xST"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.71165272887323938" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="9zh-lC-9Ya" firstAttribute="centerX" secondItem="eMa-dM-Bfy" secondAttribute="centerX" id="9zh-Vp-6iZ"/>
+                <constraint firstItem="9zh-lC-9Ya" firstAttribute="top" secondItem="eMa-dM-Bfy" secondAttribute="bottom" constant="20" id="N9e-6e-cF5"/>
+                <constraint firstItem="eMa-dM-Bfy" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="RPi-jW-6aj"/>
+                <constraint firstItem="eMa-dM-Bfy" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="fIk-WY-X5g"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="alertText" destination="7AC-a2-0oR" id="IDK-l0-e9t"/>
+                <outlet property="btn" destination="Xg5-f2-DeC" id="3SC-AW-I1P"/>
+                <outlet property="contenView" destination="eMa-dM-Bfy" id="oed-JH-7dt"/>
+                <outlet property="contentHeight" destination="xux-oL-17N" id="CQG-aW-SRv"/>
+                <outlet property="img" destination="XDC-Mq-9yU" id="sWk-oN-tF6"/>
+                <outlet property="subText" destination="YFN-Yr-Np1" id="1Dj-KC-mgO"/>
+            </connections>
+            <point key="canvasLocation" x="138.40000000000001" y="153.37331334332833"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Close" width="30" height="30"/>
+        <image name="gold-btn" width="40" height="40"/>
+        <image name="waiting" width="70" height="70"/>
+    </resources>
+</document>

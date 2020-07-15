@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HWMSuggestionViewController">
+            <connections>
+                <outlet property="bgView" destination="NIX-6D-cxp" id="9mV-A1-taT"/>
+                <outlet property="signatureButton" destination="yy9-yy-kvG" id="evv-zQ-ZcV"/>
+                <outlet property="table" destination="NeU-Ll-h49" id="Fq2-T5-655"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="NeU-Ll-h49">
+                    <rect key="frame" x="0.0" y="44" width="414" height="738"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NIX-6D-cxp">
+                    <rect key="frame" x="0.0" y="782" width="414" height="80"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yy9-yy-kvG">
+                            <rect key="frame" x="63" y="20" width="288" height="40"/>
+                            <color key="backgroundColor" red="0.19255679849999999" green="0.26663362979999999" blue="0.2901264429" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="80V-m6-4GQ"/>
+                            </constraints>
+                            <state key="normal" title="Button">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="signatureEvent:" destination="-1" eventType="touchUpInside" id="Zd4-bZ-Zxv"/>
+                            </connections>
+                        </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9JX-bO-0hk">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="0.5"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="0.5" id="8Jl-Ce-nRS"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" red="0.051690310240000002" green="0.14112898709999999" blue="0.16856944560000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="9JX-bO-0hk" firstAttribute="leading" secondItem="NIX-6D-cxp" secondAttribute="leading" id="3r6-3o-sd9"/>
+                        <constraint firstItem="yy9-yy-kvG" firstAttribute="leading" secondItem="NIX-6D-cxp" secondAttribute="leading" constant="63" id="E55-zt-i8n"/>
+                        <constraint firstAttribute="height" constant="80" id="bEu-MO-nCb"/>
+                        <constraint firstAttribute="trailing" secondItem="yy9-yy-kvG" secondAttribute="trailing" constant="63" id="eAl-yf-T1D"/>
+                        <constraint firstItem="9JX-bO-0hk" firstAttribute="top" secondItem="NIX-6D-cxp" secondAttribute="top" id="flW-eT-2vN"/>
+                        <constraint firstItem="yy9-yy-kvG" firstAttribute="centerX" secondItem="NIX-6D-cxp" secondAttribute="centerX" id="gRR-B0-gUR"/>
+                        <constraint firstAttribute="trailing" secondItem="9JX-bO-0hk" secondAttribute="trailing" id="kpG-eY-b2I"/>
+                        <constraint firstItem="yy9-yy-kvG" firstAttribute="centerY" secondItem="NIX-6D-cxp" secondAttribute="centerY" id="qES-tX-RBx"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="NIX-6D-cxp" secondAttribute="trailing" id="7pa-To-ign"/>
+                <constraint firstItem="NeU-Ll-h49" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="F6t-yA-bKI"/>
+                <constraint firstItem="NIX-6D-cxp" firstAttribute="top" secondItem="NeU-Ll-h49" secondAttribute="bottom" id="Nze-e6-cwH"/>
+                <constraint firstItem="NeU-Ll-h49" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="RZg-wv-d49"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="NeU-Ll-h49" secondAttribute="trailing" id="vKH-42-TXI"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="NIX-6D-cxp" secondAttribute="bottom" id="vh4-nX-GSv"/>
+                <constraint firstItem="NIX-6D-cxp" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="vhc-d1-WuI"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
+            <point key="canvasLocation" x="139" y="129"/>
+        </view>
+    </objects>
+</document>

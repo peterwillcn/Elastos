@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HWMTheImportDocumentsViewController">
+            <connections>
+                <outlet property="selectFlieButton" destination="dqC-8k-oNG" id="1FE-jX-pph"/>
+                <outlet property="table" destination="YVZ-Xw-O8C" id="5AM-tV-hhC"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YVZ-Xw-O8C">
+                    <rect key="frame" x="0.0" y="44" width="414" height="748"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D76-e4-X7l">
+                    <rect key="frame" x="0.0" y="792" width="414" height="104"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dqC-8k-oNG">
+                            <rect key="frame" x="40" y="15" width="334" height="74"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <color key="tintColor" red="0.17281374335289001" green="0.22350433468818665" blue="0.24307903647422791" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <state key="normal" title="选择文件">
+                                <color key="titleColor" red="0.99991279840000002" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="selectFlieEvent:" destination="-1" eventType="touchUpInside" id="Rsj-Xm-9vI"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.035710852593183517" green="0.094078071415424347" blue="0.11760111898183823" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="dqC-8k-oNG" firstAttribute="leading" secondItem="D76-e4-X7l" secondAttribute="leading" constant="40" id="1yh-oW-KVN"/>
+                        <constraint firstItem="dqC-8k-oNG" firstAttribute="top" secondItem="D76-e4-X7l" secondAttribute="top" constant="15" id="8FA-0K-fQt"/>
+                        <constraint firstAttribute="bottom" secondItem="dqC-8k-oNG" secondAttribute="bottom" constant="15" id="IVC-qc-7F5"/>
+                        <constraint firstAttribute="trailing" secondItem="dqC-8k-oNG" secondAttribute="trailing" constant="40" id="liG-NO-iZZ"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="YVZ-Xw-O8C" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="5H9-st-6i3"/>
+                <constraint firstItem="YVZ-Xw-O8C" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="Azt-UJ-pTN"/>
+                <constraint firstItem="D76-e4-X7l" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="Fhg-qe-4eV"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="D76-e4-X7l" secondAttribute="trailing" id="PJt-Qi-ShB"/>
+                <constraint firstItem="D76-e4-X7l" firstAttribute="top" secondItem="YVZ-Xw-O8C" secondAttribute="bottom" id="Q0p-Fz-Qwh"/>
+                <constraint firstAttribute="bottom" secondItem="D76-e4-X7l" secondAttribute="bottom" id="cYA-Oi-kJd"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="YVZ-Xw-O8C" secondAttribute="bottom" constant="70" id="ktq-FY-Vme"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="YVZ-Xw-O8C" secondAttribute="trailing" id="ras-Pt-lmF"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
+            <point key="canvasLocation" x="137.68115942028987" y="114.50892857142857"/>
+        </view>
+    </objects>
+</document>

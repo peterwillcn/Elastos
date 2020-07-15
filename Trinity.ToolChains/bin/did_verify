@@ -1,0 +1,135 @@
+#!/usr/bin/env python
+from __future__ import print_function
+
+import os
+import sys
+import zipfile
+import argparse
+import hashlib
+import getpass
+
+sys.path.append(os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + '/../lib'))
+import ela_did
+
+did_api = ela_did.getElaDIDAPI()
+
+parser = argparse.ArgumentParser(description='Verify an Elastos DApp EPK file.')
+parser.add_argument('epk_file', metavar='EPK_FILE',
+                    help='specify the EPK file to be verified')
+parser.add_argument('-r', '--root', dest='did_store_root', metavar='PATH', required=True,
+                    help='Specify the root path of DID store.')
+
+args = parser.parse_args()
+
+sign_folder_prefix = "EPK-SIGN/"
+manifest_name = "manifest.json"
+
+try:
+    zip2read = zipfile.ZipFile(args.epk_file, 'r', zipfile.ZIP_DEFLATED)
+
+    filelist = zip2read.namelist()
+
+    if not any(filename == manifest_name for filename in filelist):
+        raise RuntimeError('Could not find "' + manifest_name + '". Not an EPK file?')
+
+    if not any(filename.startswith(sign_folder_prefix) for filename in filelist):
+        raise RuntimeError("The EPK file hasn't been signed.")
+
+    for filename in [ "FILELIST.INF", "FILELIST.SHA", "FILELIST.SIGN", "SIGN.PUB", "SIGN.DIDURL" ]:
+        if not any(filepath == (sign_folder_prefix + filename) for filepath in filelist):
+            raise RuntimeError("The file {} not found in the EPK.".format(sign_folder_prefix + filename))
+
+    # Filter out directories
+    filelist = filter( lambda f: not f.endswith('/'), filelist )
+    # Filter out the signature directory
+    filelist = list(filter( lambda f: not f.startswith(sign_folder_prefix), filelist ))
+    filelist.sort()
+
+    filelist_dict = {}
+    with zip2read.open(sign_folder_prefix + "FILELIST.INF") as myfile:
+        line = myfile.readline().decode('utf8')
+        while line:
+            file_sha = line.split()
+            filename = ' '.join(file_sha[1:]) # Recompose filename (possibly with spaces)
+            filelist_dict[filename] = file_sha[0]
+            line = myfile.readline().decode('utf8')
+    # print(filelist_dict)
+
+    filelist_sha = ""
+    max_length = len(max(filelist, key=len))
+    for filename in filelist:
+        with zip2read.open(filename) as myfile:
+            file_sha = hashlib.sha256()
+            file_buffer = myfile.read()
+            print("Computing digest " + filename.ljust(max_length + 2), end=" ")
+            file_sha.update(file_buffer)
+            filelist_sha += file_sha.hexdigest() + " " + filename + "\n"
+            if (filename not in filelist_dict):
+                print("")
+                raise RuntimeError("The file {} not in the FILELIST.INF.".format(filename))
+            if (filelist_dict[filename] != file_sha.hexdigest()):
+                print("")
+                raise RuntimeError("Digest not matched.")
+            print("Verified")
+
+    # print(filelist_sha)
+
+    for filename in filelist_dict:
+        if filename not in filelist:
+            raise RuntimeError("The file {} not found.".format(filename))
+
+    epk_sha = hashlib.sha256()
+    epk_sha.update(filelist_sha.encode('utf-8'))
+
+    # print("The SHA-265 digest of the EPK content is:\n    " + epk_sha.hexdigest())
+
+    with zip2read.open(sign_folder_prefix + "FILELIST.SHA") as myfile:
+        epk_sha_str = myfile.read()
+        if epk_sha_str != epk_sha.hexdigest().encode('utf-8'):
+            raise RuntimeError("The EPK digest not match FILELIST.SHA.")
+
+    with zip2read.open(sign_folder_prefix + "FILELIST.SIGN") as myfile:
+        epk_signature = myfile.read()
+    with zip2read.open(sign_folder_prefix + "SIGN.PUB") as myfile:
+        epk_pubkey = myfile.read()
+    with zip2read.open(sign_folder_prefix + "SIGN.DIDURL") as myfile:
+        epk_didurl = myfile.read()
+
+    print("Verifying EPK signature...".ljust(max_length + 19)),
+
+    ret = did_api.DIDStore_Open(args.did_store_root.encode('utf-8'))
+    if ret != 0:
+        raise RuntimeError("ERROR: Failed to open DID store.")
+
+    didurl = did_api.DIDURL_FromString(epk_didurl)
+    if didurl == None:
+        raise RuntimeError("ERROR: Failed to get DID URL from string.")
+
+    did = did_api.DIDURL_GetDid(didurl)
+    if did == None:
+        raise RuntimeError("ERROR: Failed to get DID from DID URL.")
+
+    diddoc = did_api.DIDStore_LoadDID(did)
+    if diddoc == None:
+        diddoc = did_api.DIDStore_Resolve(did)
+        if diddoc == None:
+            raise RuntimeError("ERROR: Failed to resolve DID Document from chain.")
+
+    ret = did_api.DIDDocument_Verify(diddoc, didurl, epk_signature, 1, epk_sha_str, len(epk_sha_str))
+    if ret != 0:
+        raise RuntimeError("EPK not signed properly.")
+
+    zip2read.close()
+    print("Done")
+    print("The signer's DID URL is: " + epk_didurl.decode('utf-8'))
+    print("The signer's public key is: " + epk_pubkey.decode('utf-8'))
+except RuntimeError as err:
+    print("Error: " + err.args[0])
+    exit(2)
+except Exception as err:
+    print("Error: " + str(err))
+    exc_type, exc_obj, exc_tb = sys.exc_info()
+    print("Unexpected error: ", exc_type)
+    print(' File "' + exc_tb.tb_frame.f_code.co_filename + '", line ' + str(exc_tb.tb_lineno))
+    exit(3)
+

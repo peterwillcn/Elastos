@@ -1,0 +1,22 @@
+<ion-content>
+  <div>
+    <ion-card class="ion-no-margin" color="dark">
+      <ion-card-title class="ion-padding ion-text-center">Scoreboard</ion-card-title>
+      <ion-card-content>
+        <ion-list class="ion-no-padding" color="dark">
+          <ion-item color="dark" *ngFor="let score of fixScores().slice(0,10)" lines="none">
+            <ion-label>{{ fixTime(score.time) }}</ion-label>
+            <p><span>{{ score.ela }}</span>  ELA</p>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <ion-fab vertical="top" horizontal="end" slot="fixed" class="ion-padding-bottom ion-padding-end">
+    <ion-fab-button routerLink="/game" color="dark">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

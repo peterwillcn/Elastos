@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import argparse
+import textwrap
+import ctypes
+import json
+
+sys.path.append(os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + '/../lib'))
+import ela_did
+
+try:
+    unicode
+except NameError:
+    # Define `unicode` for Python3
+    def unicode(s, *_):
+        return s
+
+if __name__ == "__main__":
+    def adapter_createIdTransactionCallback(adapter, payload, memo):
+        print(payload)
+        return 0 # Success
+
+    def adapter_resolveCallback(adapter, did):
+        return None # Don't resolve any existing DID from sidechain from this tool
+
+    try:
+        did_api = ela_did.getElaDIDAPI()
+        parser = argparse.ArgumentParser(description='Create an Elastos DID.', formatter_class=argparse.RawTextHelpFormatter)
+        parser.add_argument('-r', '--root', dest='did_store_root', metavar='PATH', required=True,
+                            help='Specify the root path of DID store.')
+        parser.add_argument('-m', '--mnemonic', dest='mnemonic', type=lambda s: unicode(s, 'utf8'),
+                            help='Mnemonic for generate key. Default: randomly generated.')
+        parser.add_argument('-l', '--language', dest='language', metavar='N', type=int, default=0, choices=range(0, 6),
+                            help=textwrap.dedent('''\
+                                 The language for DID. default: 0
+                                     '0: English; 1: French; 2: Spanish;
+                                     '3: Chinese_simplified;
+                                     '4: Chinese_traditional;
+                                     '5: Japanese.
+                                 '''))
+        parser.add_argument('-p', '--passphrase', dest='passphrase', default="",
+                            help='The password to generate private identity.')
+        parser.add_argument('-s', '--storepass', dest='storepass', default="",
+                            help='The password of DID holder.')
+        parser.add_argument('--hint', dest='hint', default="",
+                            help='The nickname of DID.')
+
+        args = parser.parse_args()
+
+        # Create an adapter for resolve() and createIdTransaction().
+        adapter = ela_did.DIDAdapter(ela_did.CREATE_ID_TRANSACTION_FUNC(adapter_createIdTransactionCallback), ela_did.RESOLVE_FUNC(adapter_resolveCallback))
+
+        # Initialize a DID Store
+        didStore = did_api.DIDStore_Initialize(args.did_store_root.encode('utf-8'), ctypes.pointer(adapter))
+        if didStore == None:
+            raise RuntimeError("ERROR: Failed to open DID store.")
+
+        # Use or generate mnemonics
+        if args.mnemonic == None:
+            mnemonic = did_api.Mnemonic_Generate(args.language)
+        else:
+            mnemonic = args.mnemonic.encode('utf-8')
+
+        ret = did_api.DIDStore_InitPrivateIdentity(didStore, mnemonic, args.passphrase.encode('utf-8'), args.storepass.encode('utf-8'), args.language, True)
+        if ret != 0:
+            raise RuntimeError("ERROR: Failed to initialize private identity for DID.")
+
+        did_doc = did_api.DIDStore_NewDID(didStore, args.storepass.encode('utf-8'), args.hint.encode('utf-8'))
+        didurl = did_api.DIDDocument_GetDefaultPublicKey(did_doc)
+        didurl_buf = ctypes.create_string_buffer(did_api.MAX_DIDURL)
+        didurl_str = did_api.DIDURL_ToString(didurl, didurl_buf, did_api.MAX_DIDURL, False)
+
+        # did = did_api.DIDURL_GetDid(didurl)
+        # did_buf = ctypes.create_string_buffer(did_api.MAX_DID)
+        # did_str = did_api.DID_ToString(did, did_buf, did_api.MAX_DID)
+
+        public_key = did_api.DIDDocument_GetPublicKey(did_doc, didurl)
+        public_key_base58 = did_api.PublicKey_GetPublicKeyBase58(public_key)
+
+        ret_obj = {}
+        ret_obj['status'] = 'success'
+        ret_obj['id'] = didurl_str.decode('utf-8')
+        ret_obj['publicKeyBase58'] = public_key_base58.decode('utf-8')
+        ret_obj['mnemonic'] = mnemonic.decode('utf-8')
+        print(json.dumps(ret_obj, indent=4, sort_keys=True, ensure_ascii=False))
+
+    except RuntimeError as err:
+        ret_obj = {}
+        ret_obj['status'] = 'error'
+        ret_obj['message'] = err.args[0]
+        print(json.dumps(ret_obj, indent=4, sort_keys=True, ensure_ascii=False))
+        exit(2)
+    except Exception as err:
+        message = "Error: " + str(err) + "\n"
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        message += "Unexpected error: " + str(exc_type) + "\n"
+        message += ' File "' + exc_tb.tb_frame.f_code.co_filename + '", line ' + str(exc_tb.tb_lineno) + "\n"
+
+        ret_obj = {}
+        ret_obj['status'] = 'error'
+        ret_obj['message'] = message
+        print(json.dumps(ret_obj, indent=4, sort_keys=True, ensure_ascii=False))
+        exit(3)
+

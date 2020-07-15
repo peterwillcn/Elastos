@@ -1,0 +1,26 @@
+<ion-content>
+  <ion-grid class="container">
+    <ion-card>
+      <ion-card-title>App Manager</ion-card-title>
+      <ion-card-content>
+        App Manager is a plugin that provides developers the methods to manage their app relating to the elastOS ecosystem.
+      </ion-card-content>
+    </ion-card>
+
+    <h1>How to Setup</h1>
+    <p>To use App Manager, just simply add the line of code below to any typescript file that needs its service.</p>
+    <img src="assets/appmanager/declare.png"/>
+
+    <h1>How to Use</h1>
+    <p>With App Manager declared, you can now use its methods such as sending intents or closing this application.</p>
+    <img src="assets/appmanager/sample.png"/>
+
+    <h1>App Manager Options</h1>
+    <ion-row class="type">
+      <ion-col size="5.9" *ngFor="let manager of appManagerService.managers" (click)="appManagerService.openManager(manager)">
+        <ion-label>{{ manager.type }}</ion-label>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>

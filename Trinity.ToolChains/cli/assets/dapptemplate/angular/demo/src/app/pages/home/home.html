@@ -1,0 +1,62 @@
+<ion-content>
+  <ion-grid class="container">
+
+    <ion-row class="section">
+      <ion-col size="12" [routerLink]="['/appmanager']">
+        <h1>App Manager</h1>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="type">
+      <ion-col size="5.9" *ngFor="let manager of appManagerService.managers" (click)="appManagerService.openManager(manager)">
+        <ion-label>{{ manager.type }}</ion-label>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="section">
+      <ion-col size="12" [routerLink]="['/titlebar']">
+        <h1>Titlebar Manager</h1>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="type">
+      <ion-col size="5.9" *ngFor="let manager of titlebarService.managers" (click)="titlebarService.openManager(manager)">
+        <ion-label>{{ manager.type }}</ion-label>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="section">
+      <ion-col size="12" [routerLink]="['/intent']">
+        <h1>Intents</h1>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="type">
+      <ion-col size="5.9" *ngFor="let intent of intentService.intents" (click)="intentService.openIntent(intent)">
+        <ion-label>{{ intent.type }}</ion-label>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="section">
+      <ion-col size="12" [routerLink]="['/core']">
+        <h1>Core Demos</h1>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="type">
+      <ion-col size="5.9" (click)="intentService.browse('org.elastos.trinity.dapp.diddemo')">
+        <ion-label>Identity</ion-label>
+      </ion-col>
+      <ion-col size="5.9" (click)="intentService.browse('org.elastos.trinity.dapp.carrierdemo')">
+        <ion-label>Carrier</ion-label>
+      </ion-col>
+      <ion-col size="5.9" (click)="intentService.browse('elastos.trinity.dApps.demo.hive')">
+        <ion-label>Hive</ion-label>
+      </ion-col>
+      <ion-col size="5.9" class="disable">
+        <ion-label>Smart Contracts</ion-label>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>

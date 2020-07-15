@@ -1,0 +1,12 @@
+
+<ion-content>
+  <ion-grid class="container">
+    <ion-card>
+      <ion-card-title>{{ manager.title }}</ion-card-title>
+      <ion-card-subtitle>method: <span>{{ manager.method }}</span></ion-card-subtitle>
+    </ion-card>
+    <h3>{{ manager.message }}</h3>
+    <img [src]="manager.example"/>
+    <h4 *ngIf="manager.message2">{{ manager.message2 }}</h4>
+  </ion-grid>
+</ion-content>

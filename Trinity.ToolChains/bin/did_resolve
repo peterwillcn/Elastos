@@ -1,0 +1,116 @@
+#!/usr/bin/env python3
+
+# Script that resolves a DIDDocument from the DID sidechain, from a given DID string.
+
+import os
+import sys
+
+if sys.version_info[0] < 3:
+    print("Python version: " + sys.version_info[0])
+    raise Exception("Python 3 or a more recent version is required.")
+
+import zipfile
+import argparse
+import hashlib
+import getpass
+import ctypes
+import time
+import json
+from urllib import request, parse, error
+
+import warnings
+warnings.filterwarnings("ignore")
+
+sys.path.append(os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + '/../lib'))
+import ela_did
+
+did_api = ela_did.getElaDIDAPI()
+
+parser = argparse.ArgumentParser(description='Resolve a DIDDocument from the DID sidechain for a given did string.')
+parser.add_argument('-r', '--root', dest='did_store_root', metavar='PATH', required=True,
+                    help='Specify the root path of DID store.')
+parser.add_argument('-d', '--didurl', dest='didurl_str', required=True,
+                    help='DID string to resolve. Ex: did:elastos:abcdef')
+
+args = parser.parse_args()
+
+try:
+    def adapter_createIdTransactionCallback(adapter, payload, memo):
+        return 0 # Success
+
+    def adapter_resolveCallback(adapter, did):
+        did = "did:elastos:"+did.decode('utf-8')
+        
+        #print("Resolving DID")
+        #print(did)
+
+        #resolverUrl = "http://api.elastos.io:21606" # testnet
+        resolverUrl = "http://api.elastos.io:20606" # mainnet
+
+        data = {"id": 1, "method": "resolvedid","params": {"did": did, "all": False}}
+        # Dict to Json
+        data = json.dumps(data)
+        # Convert to String
+        data = str(data)
+        #print("DATA = "+data)
+        # Convert string to byte
+        data = data.encode('utf-8')
+
+        try:
+            req = request.Request(resolverUrl, data=data)
+            req.add_header("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11")
+            req.add_header("Content-Type", "application/json")
+            req.add_header("Accept", "application/json")
+            response = request.urlopen(req)
+
+            #print("Response code: " + str(response.code))
+
+            if response.code != 200:
+                return None
+
+            didDocument = response.read()
+            #print(didDocument.decode('utf-8'))
+
+            return didDocument
+        except error.HTTPError as err:
+            #print(err) 
+            #print(err.msg)
+            #print(err.strerror)
+            #print(err.read())
+            return None
+
+    # Create an adapter for resolve() and createIdTransaction().
+    adapter = ela_did.DIDAdapter(ela_did.CREATE_ID_TRANSACTION_FUNC(adapter_createIdTransactionCallback), ela_did.RESOLVE_FUNC(adapter_resolveCallback))
+
+    didStore = did_api.DIDStore_Initialize(args.did_store_root.encode('utf-8'), ctypes.pointer(adapter))
+    if didStore == None:
+        raise RuntimeError("Failed to open DID store.")
+
+    didurl = did_api.DIDURL_FromString(args.didurl_str.encode('utf-8'), None)
+    if didurl == None:
+        raise RuntimeError("Failed to get DID URL from string.")
+
+    did = did_api.DIDURL_GetDid(didurl)
+    if did == None:
+        raise RuntimeError("Failed to get DID from DID URL.")
+
+    # Force resolving from chain
+    diddoc = did_api.DIDStore_ResolveDID(didStore, did, True)
+
+    ret_obj = {}
+
+    if diddoc != None:
+        ret_obj['status'] = 'success'
+        ret_obj['diddoc'] = diddoc
+    else:
+        ret_obj['status'] = 'empty'
+    
+    print(json.dumps(ret_obj, indent=4, sort_keys=True, ensure_ascii=False))
+
+except Exception as err:
+    print(err)
+    ret_obj = {}
+    ret_obj['status'] = 'error'
+    print(json.dumps(ret_obj, indent=4, sort_keys=True, ensure_ascii=False))
+    exit(3)
+

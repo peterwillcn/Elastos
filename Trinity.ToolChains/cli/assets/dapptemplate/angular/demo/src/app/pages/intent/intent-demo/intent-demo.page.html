@@ -1,0 +1,18 @@
+
+<ion-content>
+  <ion-grid class="container">
+    <ion-card>
+      <ion-card-title>{{ intent.title }}</ion-card-title>
+      <ion-card-subtitle>intent: <span>{{ intent.intent }}</span></ion-card-subtitle>
+    </ion-card>
+    <h3>{{ intent.message }}</h3>
+    <img [src]="intent.example"/>
+    <h4>{{ intent.message2 }}</h4>
+    <h5 *ngIf="intent.message3">{{ intent.message3 }}</h5>
+    <ion-row class="btn-row" (click)="testIntent()">
+      <ion-button color="primary">
+        <ion-label>Test Intent</ion-label>
+      </ion-button>
+    </ion-row>
+  </ion-grid>
+</ion-content>

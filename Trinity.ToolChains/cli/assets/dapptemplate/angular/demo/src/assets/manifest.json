@@ -1,0 +1,44 @@
+{
+  "id": "org.elastos.trinity.dapp.demotemplate",
+  "version": "1.0.2",
+  "version_code": 3,
+  "name": "dApp Demo Template",
+  "short_name": "dApp Demo Template",
+  "short_description": "Demo Template",
+  "description": "Template that demonstrates all the tools provided by elastOS to create your own dApp",
+  "start_url": "index.html",
+  "type": "app",
+  "start_visible": "hide",
+  "category": "techdemo",
+  "icons": [
+    {
+      "src": "assets/images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/images/logo.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    }
+  ],
+  "author": {
+    "name": "Trinity Tech Co., Ltd.",
+    "email": "contact@trinity-tech.io",
+    "website": "https://www.trinity-tech.io"
+  },
+  "default_locale": "en",
+  "plugins": [
+    "Device",
+    "NetworkStatus",
+    "DIDPlugin",
+    "HivePlugin",
+    "File"
+  ],
+  "urls": [
+    "http://*"
+  ],
+  "background_color": "#4e8ef7",
+  "theme_display": "show",
+  "theme_color": "#4e8ef7"
+}

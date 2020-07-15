@@ -1,0 +1,164 @@
+#!/usr/bin/env python
+
+import os
+import sys
+import subprocess
+import argparse
+import distutils.dir_util as dir_util
+import textwrap
+import timeit
+
+sys.path.append(os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + '/../lib'))
+import ela_plugin
+
+parser = argparse.ArgumentParser(description='Build the Elastor.Trinity project.',
+                                 formatter_class=argparse.RawTextHelpFormatter)
+parser.add_argument('target', metavar='TARGET', choices=['all', 'clean', 'clobber','dapp', 'launcher', "plugin", "runtime"],
+                    help=textwrap.dedent('''\
+                         Specify the target to build.
+                         all: build all module: launcher, dapp, runtime;
+                         dapp: build dapp;
+                         launcher: build launcher, runtime;
+                         runtime: build runtime;
+                         clean: delete runtime platforms;
+                         clobber: delete all build files;
+                         plugin: reintall the specify plugin.
+                     '''))
+parser.add_argument('-p', '--path', dest='plugin_path', metavar='PATH', required=False,
+                    help='Specify the path of plugin.')
+parser.add_argument('-pf', '--platform', dest='platform', required=False,
+                    help='Specify the build platform.')
+parser.add_argument('--release', action='store_true', help='build release')
+parser.add_argument('--buildarg', dest='buildarg', required=False,
+                    help='Specify the build arg.')
+args = parser.parse_args()
+if args.release:
+    build_type='--release'
+else:
+    build_type=''
+
+if args.platform:
+    build_platform=args.platform
+else:
+    build_platform='android'
+
+if args.buildarg:
+    build_arg=args.buildarg
+else:
+    build_arg=''
+
+SCRIPT_PATH=os.path.realpath(__file__)
+TOOLCHAINS_DIR_PATH=os.path.dirname(os.path.dirname(SCRIPT_PATH))
+TOOLCHAINS_DIR_NAME=os.path.basename(TOOLCHAINS_DIR_PATH)
+PROJECT_DIR_PATH=os.path.join(TOOLCHAINS_DIR_PATH, "..")
+RUNTIME_DIR_PATH=os.path.join(PROJECT_DIR_PATH, "Runtime")
+LAUNCHER_DIR_PATH=os.path.join(PROJECT_DIR_PATH, "Launcher")
+DAPPS_DIR_PATH=os.path.join(PROJECT_DIR_PATH, "Dapps")
+IONIC_DIR_PATH=os.path.join(DAPPS_DIR_PATH, "Ionic")
+BUILD_IN_DIR_PATH=os.path.join(RUNTIME_DIR_PATH, "www/built-in")
+PLUGIN_DIR_PATH=os.path.join(PROJECT_DIR_PATH, "Plugins")
+
+def run_cmd(cmd, ignore_error=False):
+    print("Running: " + cmd)
+    ret = subprocess.call(cmd, shell=True)
+    if not ignore_error and ret != 0:
+        sys.exit(ret)
+
+def remove_tree(directory):
+    print("Removing: " + directory)
+    if os.path.isdir(directory):
+        dir_util.remove_tree(directory)
+
+def copy_tree(src, dst):
+    print("Copying " + src + " To " + dst)
+    dir_util.copy_tree(src, dst)
+
+def add_firebase():
+    if not os.path.isfile(os.path.join(RUNTIME_DIR_PATH + '/GoogleService-Info.plist')):
+        print("Can not find GoogleService-Info.plist!")
+        return
+    if not os.path.isfile(os.path.join(RUNTIME_DIR_PATH + '/google-services.json')):
+        print("Can not find google-services.json!")
+        return
+
+    cmd="cordova plugin add cordova-plugin-firebasex"
+    run_cmd(cmd)
+
+startTime = timeit.default_timer()
+
+if TOOLCHAINS_DIR_NAME != "ToolChains" or \
+   not os.path.isdir(RUNTIME_DIR_PATH) or \
+   not os.path.isdir(LAUNCHER_DIR_PATH):
+    print('Error: You should "git clone" the "Elastos.Trinity" project with "--recurse-submodules" option.')
+    print('       And run the script within the "ToolChains/bin" directory of the project.')
+    sys.exit(1)
+
+if args.target == "clean":
+    os.chdir(PROJECT_DIR_PATH)
+    remove_tree("Runtime/platforms")
+    remove_tree("Runtime/plugins")
+
+if args.target == "clobber":
+    os.chdir(PROJECT_DIR_PATH)
+    remove_tree("Launcher/www")
+    remove_tree("Launcher/node_modules")
+    run_cmd("rm Launcher/package-lock.json", True)
+    remove_tree("Runtime/node_modules")
+    remove_tree("Runtime/origin_platforms")
+    remove_tree("Runtime/origin_plugins")
+    remove_tree("Runtime/platforms")
+    remove_tree("Runtime/plugins")
+    remove_tree("Runtime/www")
+
+    os.chdir(IONIC_DIR_PATH)
+    dirs = os.listdir(IONIC_DIR_PATH)
+    for dir in dirs:
+        if not os.path.isfile(dir):
+            remove_tree(dir + "/www")
+            remove_tree(dir + "/node_modules")
+            run_cmd("rm " + dir + "/package-lock.json", True)
+
+if args.target == "plugin":
+    if args.plugin_path == None:
+        print("You can also specify the plugin path: build plugin -p pluginPath")
+        ela_plugin.plugin_prepare(True)
+        exit(0)
+    ela_plugin.re_install_plugin(os.path.join(PROJECT_DIR_PATH, args.plugin_path))
+
+if args.target == "all" or args.target == "launcher":
+    os.chdir(LAUNCHER_DIR_PATH)
+    run_cmd("npm install")
+    run_cmd("ionic build --prod")
+    copy_tree("www", RUNTIME_DIR_PATH + "/www/launcher/")
+
+if args.target == "all" or args.target == "dapp":
+    os.chdir(DAPPS_DIR_PATH)
+    dirs = os.listdir(IONIC_DIR_PATH)
+    for dir in dirs:
+        dapp_dir = os.path.join(IONIC_DIR_PATH, dir)
+        if os.path.isdir(dapp_dir):
+            print("Building dapp: " + dir)
+            os.chdir(dapp_dir)
+            run_cmd("npm install")
+            run_cmd("ionic build --prod")
+            copy_tree("www", BUILD_IN_DIR_PATH + "/org.elastos.trinity.dapp." + dir.lower())
+
+if args.target == "all" or args.target == "launcher" or args.target == "runtime":
+    os.chdir(RUNTIME_DIR_PATH)
+    copy_tree("www_files", "www")
+    ela_plugin.plugin_prepare(True)
+    run_cmd("npm install")
+    run_cmd("cordova prepare")
+    add_firebase()
+    # Remove ionic wallet app from built-in only for ios
+    run_cmd("cd platforms/ios/www/built-in/org.elastos.trinity.dapp.wallet && ls | grep -v 'assets' | xargs rm -rf", True)
+    os.chdir(RUNTIME_DIR_PATH)
+    if build_platform == "all" or build_platform == "android":
+        run_cmd("cordova build android " + build_type + " " + build_arg)
+    if build_platform == "all" or build_platform == "ios":
+        run_cmd("cordova build ios " + build_type + " " + build_arg)
+
+elapsed = timeit.default_timer() - startTime
+minutes = elapsed / 60
+seconds = elapsed % 60
+print('elapsed time [%d min %0.2fs]' % (minutes, seconds))

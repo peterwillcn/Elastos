@@ -1,0 +1,129 @@
+#!/usr/bin/env python
+
+import os
+import sys
+import zipfile
+import argparse
+import hashlib
+import getpass
+import ctypes
+from ctypes.util import find_library
+
+def loadEpkSignerLibrary():
+    script_path = os.path.dirname(os.path.abspath(__file__))
+    try:
+        if sys.platform.startswith("darwin"):
+            dll_name = "libepksign.dylib"
+        else:
+            dll_name = "libepksign.so"
+        dll_path = os.path.abspath(os.path.join(script_path, '../lib', dll_name))
+        epksign = ctypes.CDLL(dll_path, ctypes.RTLD_GLOBAL)
+        assert epksign
+    except:
+        print('Failed to load "' + dll_name + '" library at ' + os.path.dirname(dll_path))
+        exit(1)
+    return epksign
+
+epksigner = loadEpkSignerLibrary()
+epksigner.ela_sign_message.restype = ctypes.c_char_p
+epksigner.ela_get_pubkey.restype = ctypes.c_char_p
+
+
+parser = argparse.ArgumentParser(description='Sign an EPK file with given keystore for Elastos DApp.')
+parser.add_argument('epk_file', metavar='EPK_FILE',
+                    help='specify the EPK file to be signed')
+parser.add_argument('-k', '--keystore', dest='keystore_file', metavar='KEYSTORE_FILE',
+                    type=argparse.FileType('r'), required=True,
+                    help='specify the Elastos wallet backup keystore file for EPK signing.')
+parser.add_argument('-p', '--password', dest='password', metavar='PASSWORD',
+                    help='specify the backup password for the keystore file.')
+parser.add_argument('-o', '--output', dest='output_file', metavar='OUTPUT_FILE',
+                    help='Optional output file. Default to in place sign the input file.')
+
+args = parser.parse_args()
+
+sign_folder_prefix = "EPK-SIGN/"
+manifest_name = "manifest.json"
+
+try:
+    if args.output_file:
+        zip2read = zipfile.ZipFile(args.epk_file, 'r', zipfile.ZIP_DEFLATED)
+        zip2write = zipfile.ZipFile(args.output_file, 'w', zipfile.ZIP_DEFLATED)
+    else:
+        zip2read = zipfile.ZipFile(args.epk_file, 'a', zipfile.ZIP_DEFLATED)
+        zip2write = zip2read
+
+    filelist = zip2read.namelist()
+
+    if not any(filename == manifest_name for filename in filelist):
+        raise RuntimeError('Could not find "' + manifest_name + '". Not an EPK file?')
+
+    if any(filename.startswith(sign_folder_prefix) for filename in filelist):
+        raise RuntimeError('The EPK file already signed.')
+
+    if not args.password:
+        password = getpass.getpass("Keystore backup password: ")
+    else:
+        password = args.password
+
+    # Filter out directories
+    filelist = list(filter( lambda f: not f.endswith('/'), filelist ))
+    filelist.sort()
+
+    filelist_sha = ""
+    for filename in filelist:
+        with zip2read.open(filename) as myfile:
+            file_sha = hashlib.sha256()
+            file_buffer = myfile.read()
+            print("Computing digest " + filename)
+            file_sha.update(file_buffer)
+            filelist_sha += file_sha.hexdigest() + " " + filename + "\n"
+            if zip2read != zip2write:
+                zip2write.writestr(filename, file_buffer)
+
+    # print(filelist_sha)
+    zip2write.writestr(sign_folder_prefix + "FILELIST.INF", filelist_sha)
+
+    epk_sha = hashlib.sha256()
+    epk_sha.update(filelist_sha.encode('utf-8'))
+
+    zip2write.writestr(sign_folder_prefix + "FILELIST.SHA", epk_sha.hexdigest())
+
+    # print("The SHA-265 digest of the EPK content is:\n    " + epk_sha.hexdigest())
+
+    # Signing
+    print("Signing EPK file")
+    c_message = ctypes.c_char_p(epk_sha.hexdigest().encode('utf-8'))
+    c_keystore = ctypes.c_char_p(args.keystore_file.read().encode('utf-8'))
+    c_passwd = ctypes.c_char_p(password.encode('utf-8'))
+
+    epksigner.ela_init_verifier()
+    signature = epksigner.ela_sign_message(c_message, c_keystore, c_passwd)
+    if not signature:
+        raise RuntimeError("Failed to sign EPK.")
+    zip2write.writestr(sign_folder_prefix + "FILELIST.SIGN", signature)
+
+    pubkey = epksigner.ela_get_pubkey(c_keystore, c_passwd)
+    if not pubkey:
+        raise RuntimeError("Failed to get public key from the keystore file.")
+    zip2write.writestr(sign_folder_prefix + "SIGN.PUB", pubkey)
+
+    zip2read.close()
+    if zip2read != zip2write:
+        zip2write.close()
+
+    print("Done")
+except RuntimeError as err:
+    print("Error: " + err.args[0])
+    if args.output_file and os.path.exists(args.output_file):
+        os.remove(args.output_file)
+    exit(2)
+except Exception as err:
+    print("Error: " + str(err))
+    exc_type, exc_obj, exc_tb = sys.exc_info()
+    print("Unexpected error: ", exc_type)
+    print(' File "' + exc_tb.tb_frame.f_code.co_filename + '", line ' + str(exc_tb.tb_lineno))
+    if args.output_file and os.path.exists(args.output_file):
+        os.remove(args.output_file)
+    exit(3)
+

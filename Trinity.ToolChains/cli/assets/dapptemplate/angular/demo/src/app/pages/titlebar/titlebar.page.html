@@ -1,0 +1,27 @@
+<ion-content>
+  <ion-grid class="container">
+    <ion-card>
+      <ion-card-title>Titlebar Manager</ion-card-title>
+      <ion-card-content>
+        Just like a web browser, elastOS applications have a titlebar that can be managed by developers such as changing the title and color or setting up navigation and menu items.
+      </ion-card-content>
+    </ion-card>
+
+    <h1>How to Setup</h1>
+    <p>To use Titlebar Manager, just simply add the line of code below to any typescript file that needs its service.</p>
+    <img src="assets/titlebar/declare.png"/>
+
+    <h1>How to Use</h1>
+    <p>With Titlebar Manager declared, it's best used under a page life cycle or under app's initial load.</p>
+    <img src="assets/titlebar/sample.png"/>
+
+    <h1>Titlebar Options</h1>
+    <ion-row class="type">
+      <ion-col size="5.9" *ngFor="let manager of titlebarService.managers" (click)="titlebarService.openManager(manager)">
+        <ion-label>{{ manager.type }}</ion-label>
+      </ion-col>
+    </ion-row>
+
+
+  </ion-grid>
+</ion-content>

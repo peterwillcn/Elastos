@@ -1,0 +1,6 @@
+appdid/
+assets/
+node_modules/
+org.*/
+scripts/
+src/

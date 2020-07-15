@@ -1,0 +1,80 @@
+{
+  "name": "@elastosfoundation/trinity-cli",
+  "version": "1.1.31",
+  "description": "Command line tool to manage Elastos Trinity DApps",
+  "main": "./bin/trinity",
+  "bin": "./bin/trinity",
+  "scripts": {
+    "clean": "rm -rf bin/assets",
+    "build": "cross-env BABEL_ENV=production babel src --out-dir bin",
+    "rename": "mv bin/trinity.js bin/trinity",
+    "copyassets": "mkdir -p bin/assets && cp -rf assets bin/",
+    "getnativedid": "./scripts/getnativedid.sh",
+    "copytoolchain": "mkdir -p bin/toolchain && cp ../bin/* bin/toolchain && mkdir -p bin/lib && cp ../lib/* bin/lib",
+    "prepublish": "npm run devprepare && npm run getnativedid",
+    "devprepare": "npm run clean && npm run copytoolchain && npm run copyassets && npm run build && npm run rename"
+  },
+  "files": [
+    "bin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elastos/Elastos.Trinity.ToolChains.git"
+  },
+  "keywords": [
+    "trinity",
+    "elastos",
+    "tool",
+    "command line"
+  ],
+  "author": "Elastos Foundation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/elastos/Elastos.Trinity.ToolChains/issues"
+  },
+  "homepage": "https://www.elastos.org",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "10.0.3",
+    "babel-plugin-add-module-exports": "^1.0.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-minify": "^0.5.0",
+    "chai": "^4.1.2",
+    "cross-env": "^5.1.3",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
+    "mocha": "^6.1.3",
+    "nyc": "^13.3.0",
+    "rimraf": "^2.6.2"
+  },
+  "directories": {
+    "bin": "bin"
+  },
+  "dependencies": {
+    "await-sleep": "0.0.1",
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "bonjour": "^3.5.0",
+    "cli-spinner": "^0.2.10",
+    "colors": "^1.3.3",
+    "cors": "^2.8.5",
+    "edit-json-file": "^1.3.1",
+    "express": "^4.17.1",
+    "form-data": "^2.5.1",
+    "fs-extra": "^8.1.0",
+    "hasbin": "^1.2.3",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.15",
+    "open": "^7.0.0",
+    "prompts": "^2.2.1",
+    "qrcode": "^1.4.4",
+    "sharp": "^0.23.1",
+    "tempy": "^0.3.0",
+    "validator": "^12.0.0",
+    "yargs": "^13.3.0"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "@elastosfoundation/trinity-types",
+  "version": "1.1.71",
+  "description": "Typescript types for Trinity plugins",
+  "types":"index.d.ts",
+  "scripts": {
+    "build": "./bin/gen_all.sh"
+  },
+  "files": [
+    "*.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elastos/Elastos.Trinity.ToolChains.git"
+  },
+  "keywords": [
+    "trinity",
+    "elastos",
+    "typescript",
+    "plugins"
+  ],
+  "author": "Elastos Foundation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/elastos/Elastos.Trinity.ToolChains/issues"
+  },
+  "homepage": "https://www.elastos.org",
+  "devDependencies": {
+  },
+  "dependencies": {
+  }
+}

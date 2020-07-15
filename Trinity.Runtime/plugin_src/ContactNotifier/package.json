@@ -1,0 +1,24 @@
+{
+  "name": "contactnotifier",
+  "version": "1.0.0",
+  "description": "Elastos ContactNotifier Plugin",
+  "cordova": {
+    "id": "elastos-trinity-plugins-contactnotifier",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "keywords": [
+    "cordova",
+    "contactnotifier",
+    "trinity",
+    "elastos",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "cordova-browser"
+  ],
+  "author": "Elastos Foundation",
+  "license": "MIT"
+}

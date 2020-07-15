@@ -1,0 +1,24 @@
+{
+  "name": "passwordmanager",
+  "version": "1.0.0",
+  "description": "Elastos Password Manager Plugin",
+  "cordova": {
+    "id": "elastos-trinity-plugins-passwordmanager",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "keywords": [
+    "cordova",
+    "passwordmanager",
+    "trinity",
+    "elastos",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "cordova-browser"
+  ],
+  "author": "Elastos Foundation",
+  "license": "MIT"
+}

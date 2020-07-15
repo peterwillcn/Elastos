@@ -1,0 +1,13 @@
+diff -ruNb origin_plugins/cordova-plugin-dialogs/www/notification.js plugins/cordova-plugin-dialogs/www/notification.js
+--- origin_plugins/cordova-plugin-dialogs/www/notification.js	null
++++ plugins/cordova-plugin-dialogs/www/notification.js	null
+@@ -26,6 +26,9 @@
+  * Provides access to notifications on the device.
+  */
+
++/**
++* @exports Notification
++*/
+ module.exports = {
+
+     /**

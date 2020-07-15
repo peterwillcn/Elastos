@@ -1,0 +1,151 @@
+{
+    "admin": {
+        "*":[]
+    },
+    "wallet": {
+        "Wallet": ["*"],
+        "$user": {}
+    },
+    "friends": {
+        "AppManager": [
+            "getAppInfos",
+            "getAppList",
+            "getAppInfo"
+        ],
+        "ContactNotifierPlugin": [
+            "notifierRemoveContact",
+            "notifierSendInvitation",
+            "contactSetAllowNotifications",
+            "notifierAcceptInvitation",
+            "notifierSetOnInvitationAcceptedListener"
+        ],
+        "$user": {}
+    },
+    "settings": {
+        "AppManager": [
+            "getAppInfos",
+            "getAppList",
+            "getAppInfo",
+            "setCurrentLocale",
+            "setPreference",
+            "resetPreferences",
+            "broadcastMessage",
+            "unInstall"
+        ],
+        "DIDSessionManagerPlugin": [
+            "getSignedInIdentity",
+            "signOut"
+        ],
+        "ContactNotifierPlugin": [
+            "notifierSetOnlineStatusMode",
+            "notifierGetOnlineStatusMode",
+            "notifierSetInvitationRequestsMode",
+            "notifierGetInvitationRequestsMode"
+        ],
+        "$user": {}
+    },
+    "didsession": {
+        "DIDSessionManagerPlugin": ["*"],
+        "PasswordManagerPlugin": [
+            "setVirtualDIDContext"
+        ],
+        "TitleBarPlugin": [
+            "setNavigationIconVisibility"
+        ],
+        "$user": {}
+    },
+    "did": {
+        "DIDSessionManagerPlugin": [
+            "getSignedInIdentity",
+            "addIdentityEntry"
+        ],
+        "$user": {}
+    },
+    "passwordmanager": {
+        "AppManager": [
+            "getAppInfos",
+            "getAppList",
+            "getAppInfo"
+        ],
+        "PasswordManagerPlugin": ["*"],
+        "$user": {}
+    },
+    "user": {
+        "AppManager": [
+            "getVersion",
+            "setVisible",
+            "getLocale",
+            "getInfo",
+            "launcher",
+            "start",
+            "close",
+            "sendMessage",
+            "setListener",
+            "sendIntent",
+            "sendUrlIntent",
+            "setIntentListener",
+            "sendIntentResponse",
+            "hasPendingIntent",
+            "getSetting",
+            "getSettings",
+            "setSetting",
+            "getPreference",
+            "getPreferences"
+        ],
+        "PasswordManagerPlugin": [
+            "setPasswordInfo",
+            "getPasswordInfo",
+            "deletePasswordInfo",
+            "generateRandomPassword"
+        ],
+        "TitleBarPlugin": [
+            "setTitle",
+            "setBackgroundColor",
+            "setForegroundMode",
+            "setNavigationMode",
+            "addOnItemClickedListener",
+            "removeOnItemClickedListener",
+            "setIcon",
+            "setBadgeCount",
+            "setupMenuItems",
+            "showActivityIndicator",
+            "hideActivityIndicator"
+        ],
+        "Accelerometer": ["*"],
+        "Battery": ["*"],
+        "Camera": ["*"],
+        "Capture": ["*"],
+        "CarrierPlugin": ["*"],
+        "CDVOrientation": ["*"],
+        "Clipboard": ["*"],
+        "Console": ["*"],
+        "Device": ["*"],
+        "DIDPlugin": ["*"],
+        "DIDSessionManagerPlugin": [
+            "authenticate"
+        ],
+        "File": ["*"],
+        "Flashlight": ["*"],
+        "Geolocation": ["*"],
+        "HivePlugin": ["*"],
+        "InAppBrowser": ["*"],
+        "Media": ["*"],
+        "NetworkStatus": ["*"],
+        "Notification": ["*"],
+        "QRScanner": ["*"],
+        "SplashScreen": ["*"],
+        "FingerprintPlugin": ["*"],
+        "CDVIonicKeyboard": ["*"],
+        "ContactNotifierPlugin": [
+            "notifierGetCarrierAddress",
+            "notifierResolveContact",
+            "notifierSetOnlineStatusListener",
+            "contactSendRemoteNotification",
+            "contactGetOnlineStatus"
+        ],
+        "NotificationManagerPlugin": [
+            "getNotifications",
+            "sendNotification"
+        ]
+    }
+}

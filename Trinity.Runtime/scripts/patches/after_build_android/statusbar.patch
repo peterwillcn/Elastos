@@ -1,0 +1,88 @@
+diff -ruNb origin_plugins/cordova-plugin-statusbar/www/statusbar.js plugins/cordova-plugin-statusbar/www/statusbar.js
+--- origin_plugins/cordova-plugin-statusbar/www/statusbar.js	null
++++ plugins/cordova-plugin-statusbar/www/statusbar.js	null
+@@ -23,6 +23,10 @@
+
+ var exec = require('cordova/exec');
+
++/**
++  * StatusBar.NameColors
++  * @enum {string}
++  */
+ var namedColors = {
+     "black": "#000000",
+     "darkGray": "#A9A9A9",
+@@ -40,38 +44,50 @@
+     "brown": "#A52A2A"
+ };
+
++/**
++  * @exports StatusBar
++  */
+ var StatusBar = {
+-
++    /** @property {boolean} isVisible*/
+     isVisible: true,
+-
++    /**
++      * @function
++      * @param {boolean} doOverlay
++      */
+     overlaysWebView: function (doOverlay) {
+         exec(null, null, "StatusBar", "overlaysWebView", [doOverlay]);
+     },
+-
++    /** @function */
+     styleDefault: function () {
+         // dark text ( to be used on a light background )
+         exec(null, null, "StatusBar", "styleDefault", []);
+     },
+-
++    /** @function */
+     styleLightContent: function () {
+         // light text ( to be used on a dark background )
+         exec(null, null, "StatusBar", "styleLightContent", []);
+     },
+-
++    /** @function */
+     styleBlackTranslucent: function () {
+         // #88000000 ? Apple says to use lightContent instead
+         exec(null, null, "StatusBar", "styleBlackTranslucent", []);
+     },
+-
++    /** @function */
+     styleBlackOpaque: function () {
+         // #FF000000 ? Apple says to use lightContent instead
+         exec(null, null, "StatusBar", "styleBlackOpaque", []);
+     },
+-
++    /**
++      * @function
++      * @param {boolean} colorname
++      */
+     backgroundColorByName: function (colorname) {
+         return StatusBar.backgroundColorByHexString(namedColors[colorname]);
+     },
+-
++    /**
++      * @function
++      * @param {boolean} hexString
++      */
+     backgroundColorByHexString: function (hexString) {
+         if (hexString.charAt(0) !== "#") {
+             hexString = "#" + hexString;
+@@ -84,12 +100,12 @@
+
+         exec(null, null, "StatusBar", "backgroundColorByHexString", [hexString]);
+     },
+-
++    /** @function */
+     hide: function () {
+         exec(null, null, "StatusBar", "hide", []);
+         StatusBar.isVisible = false;
+     },
+-
++    /** @function */
+     show: function () {
+         exec(null, null, "StatusBar", "show", []);
+         StatusBar.isVisible = true;

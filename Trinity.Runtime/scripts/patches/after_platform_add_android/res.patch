@@ -1,0 +1,20 @@
+--- origin_platforms/android/app/src/main/res/layout/fragment_intent_action_chooser.xml	null
++++ platforms/android/app/src/main/res/layout/fragment_intent_action_chooser.xml	null
+@@ -19,7 +19,7 @@
+         android:textAllCaps="false"
+         android:textColor="#555555" />
+
+-    <android.support.v7.widget.RecyclerView
++    <androidx.recyclerview.widget.RecyclerView
+         android:id="@+id/rvApps"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+@@ -27,6 +27,6 @@
+         android:hapticFeedbackEnabled="false"
+         android:padding="20dp">
+
+-    </android.support.v7.widget.RecyclerView>
++    </androidx.recyclerview.widget.RecyclerView>
+
+ </LinearLayout>
+\ No newline at end of file

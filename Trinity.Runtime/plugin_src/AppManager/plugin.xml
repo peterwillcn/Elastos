@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="elastos-trinity-plugins-appmanager" version="1.0.0"
+    xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>AppManager</name>
+    <js-module name="AppManager" src="www/AppManager.js">
+        <clobbers target="appManager" />
+    </js-module>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="AppManager">
+                <param name="android-package" value="org.elastos.trinity.runtime.AppBasePlugin" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+    </platform>
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="AppManager">
+                <param name="ios-package" value="AppBasePlugin" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+
+        <podspec>
+            <config>
+                <source url="https://cdn.cocoapods.org/"/>
+            </config>
+            <pods use-frameworks="true">
+                <pod name="SwiftJWT" spec="~> 3.5.3" swift-version="4"/>
+                <pod name="AnyCodable-FlightSchool" spec='~> 0.2.3'/>
+                <pod name="SSZipArchive" spec="~> 2.1.4"/>
+                <pod name="SQLite.swift" spec="~> 0.11.6" swift-version="4.2"/>
+                <pod name="PopupDialog" spec="~> 1.1"/>
+                <pod name="RNCryptor" spec="~> 5.0"/>
+            </pods>
+        </podspec>
+
+        <config-file target="*-Info.plist" parent="CFBundleURLTypes">
+            <array>
+                <dict>
+                    <key>CFBundleTypeRole</key>
+                    <string>Editor</string>
+                    <key>CFBundleURLSchemes</key>
+                    <array>
+                        <string>elastos</string>
+                    </array>
+                </dict>
+            </array>
+        </config-file>
+
+        <config-file target="*-Info.plist" parent="CFBundleDocumentTypes">
+            <array>
+                <dict>
+                    <key>CFBundleTypeExtensions</key>
+                    <array>
+                        <string>epk</string>
+                    </array>
+                    <key>CFBundleTypeName</key>
+                    <string>Elastos trinity dapp package</string>
+                    <key>CFBundleTypeRole</key>
+                    <string>Viewer</string>
+                    <key>LSHandlerRank</key>
+                    <string>Owner</string>
+                    <key>LSItemContentTypes</key>
+                    <array>
+                        <string>org.elastos.trinity.dapp</string>
+                    </array>
+                </dict>
+            </array>
+        </config-file>
+        <config-file target="*-Info.plist" parent="UTExportedTypeDeclarations">
+            <array>
+                <dict>
+                    <key>UTTypeDescription</key>
+                    <string>Elastos trinity dapp package</string>
+                    <key>UTTypeIdentifier</key>
+                    <string>org.elastos.trinity.dapp</string>
+                    <key>UTTypeTagSpecification</key>
+                    <dict>
+                        <key>public.filename-extension</key>
+                        <string>epk</string>
+                        <key>public.mime-type</key>
+                        <string>application/TrinityDapp</string>
+                    </dict>
+                </dict>
+            </array>
+        </config-file>
+
+        <config-file parent="com.apple.developer.associated-domains" target="*-Debug.plist">
+            <array>
+                <string>applinks:scheme.elastos.org</string>
+            </array>
+        </config-file>
+        <config-file parent="com.apple.developer.associated-domains" target="*-Release.plist">
+            <array>
+                <string>applinks:scheme.elastos.org</string>
+            </array>
+        </config-file>
+
+    </platform>
+</plugin>

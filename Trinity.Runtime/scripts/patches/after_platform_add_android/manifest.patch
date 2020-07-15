@@ -1,0 +1,30 @@
+===================================================================
+--- origin_platforms/android/app/src/main/AndroidManifest.xml	null
++++ platforms/android/app/src/main/AndroidManifest.xml	null
+@@ -8,6 +8,26 @@
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
++            <intent-filter>
++                <action android:name="android.intent.action.VIEW" />
++                <category android:name="android.intent.category.DEFAULT" />
++                <category android:name="android.intent.category.TEST" />
++                <data android:host="*" android:mimeType="*/*" android:pathPattern=".*\\.epk" android:scheme="file" />
++                <data android:host="*" android:mimeType="*/*" android:pathPattern=".*\\.epk" android:scheme="content" />
++            </intent-filter>
++            <intent-filter>
++                <action android:name="android.intent.action.VIEW" />
++                <category android:name="android.intent.category.DEFAULT" />
++                <category android:name="android.intent.category.BROWSABLE" />
++                <data android:scheme="elastos" />
++            </intent-filter>
++            <intent-filter>
++                <action android:name="android.intent.action.VIEW" />
++                <category android:name="android.intent.category.DEFAULT" />
++                <category android:name="android.intent.category.BROWSABLE" />
++                <data android:host="scheme.elastos.org" android:scheme="https" />
++            </intent-filter>
+         </activity>
++    <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+     </application>
+ </manifest>

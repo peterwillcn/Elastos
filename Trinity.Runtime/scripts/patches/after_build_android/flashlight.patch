@@ -1,0 +1,49 @@
+diff -ruNb origin_plugins/cordova-plugin-flashlight/www/Flashlight.js plugins/cordova-plugin-flashlight/www/Flashlight.js
+--- origin_plugins/cordova-plugin-flashlight/www/Flashlight.js	null
++++ plugins/cordova-plugin-flashlight/www/Flashlight.js	null
+@@ -1,27 +1,32 @@
++
++/**
++* @exports Flashlight
++*/
++
+ function Flashlight() {
+   // track flashlight state
+   this._isSwitchedOn = false;
+ }
+
+ Flashlight.prototype = {
+-
++  /** @function */
+   available: function (callback) {
+     cordova.exec(function (avail) {
+       callback(avail ? true : false);
+     }, function() { callback(false); }, "Flashlight", "available", []);
+   },
+-
++  /** @function */
+   switchOn: function (successCallback, errorCallback, options) {
+     var opts = options || {};
+     this._isSwitchedOn = true;
+     cordova.exec(successCallback, errorCallback, "Flashlight", "switchOn", [opts]);
+   },
+-
++  /** @function */
+   switchOff: function (successCallback, errorCallback) {
+     this._isSwitchedOn = false;
+     cordova.exec(successCallback, errorCallback, "Flashlight", "switchOff", []);
+   },
+-
++  /** @function */
+   toggle: function (successCallback, errorCallback, options) {
+     if (this._isSwitchedOn) {
+       this.switchOff(successCallback, errorCallback);
+@@ -29,7 +34,7 @@
+       this.switchOn(successCallback, errorCallback, options);
+     }
+   },
+-
++  /** @function */
+   isSwitchedOn: function () {
+     return this._isSwitchedOn;
+   }

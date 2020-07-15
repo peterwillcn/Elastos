@@ -1,0 +1,46 @@
+===================================================================
+--- origin_platforms/android/cordova/lib/prepare.js	null
++++ platforms/android/cordova/lib/prepare.js	null
+@@ -200,9 +200,15 @@
+         .write();
+
+     // Java file paths shouldn't be hard coded
+-    var javaPattern = path.join(locations.javaSrc, manifestId.replace(/\./g, '/'), '*.java');
++    if (path.sep !== '/') {
++        java_src = locations.javaSrc.replace(/\\platforms\\/, '\\platform_src\\');
++    }
++    else {
++        java_src = locations.javaSrc.replace(/\/platforms\//, '/platform_src/');
++    }
++    var javaPattern = path.join(java_src, manifestId.replace(/\./g, '/'), '*.java');
+     var java_files = shell.ls(javaPattern).filter(function (f) {
+-        return shell.grep(/extends\s+CordovaActivity/g, f);
++        return shell.grep(/extends\s+WebViewActivity/g, f);
+     });
+
+     if (java_files.length === 0) {
+@@ -211,7 +217,14 @@
+         events.emit('log', 'Multiple candidate Java files that extend CordovaActivity found. Guessing at the first one, ' + java_files[0]);
+     }
+
+-    var destFile = path.join(locations.root, 'app', 'src', 'main', 'java', androidPkgName.replace(/\./g, '/'), path.basename(java_files[0]));
++    var locations_root;
++    if (path.sep !== '/') {
++        locations_root = locations.root.replace(/\\platforms\\/, '\\platform_src\\');
++    }
++    else {
++        locations_root = locations.root.replace(/\/platforms\//, '/platform_src/');
++    }
++    var destFile = path.join(locations_root, 'app', 'src', 'main', 'java', androidPkgName.replace(/\./g, '/'), path.basename(java_files[0]));
+     shell.mkdir('-p', path.dirname(destFile));
+     shell.sed(/package [\w\.]*;/, 'package ' + androidPkgName + ';', java_files[0]).to(destFile);
+     events.emit('verbose', 'Wrote out Android package name "' + androidPkgName + '" to ' + destFile);
+@@ -225,7 +238,7 @@
+         shell.rm('-Rf', java_files[0]);
+         // remove any empty directories
+         var currentDir = path.dirname(java_files[0]);
+-        var sourcesRoot = path.resolve(locations.root, 'src');
++        var sourcesRoot = path.resolve(locations_root, 'src');
+         while (currentDir !== sourcesRoot) {
+             if (fs.existsSync(currentDir) && fs.readdirSync(currentDir).length === 0) {
+                 fs.rmdirSync(currentDir);

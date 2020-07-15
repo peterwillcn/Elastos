@@ -1,0 +1,15 @@
+diff -ruNb origin_plugins/cordova-plugin-splashscreen/www/splashscreen.js plugins/cordova-plugin-splashscreen/www/splashscreen.js
+--- origin_plugins/cordova-plugin-splashscreen/www/splashscreen.js	null
++++ plugins/cordova-plugin-splashscreen/www/splashscreen.js	null
+@@ -30,4 +30,11 @@
+     }
+ };
+
++/**
++ * @exports Splashscreen
++ * @example
++ * navigator.splashscreen.hide();
++ * or
++ * navigator.splashscreen.show();
++ */
+ module.exports = splashscreen;

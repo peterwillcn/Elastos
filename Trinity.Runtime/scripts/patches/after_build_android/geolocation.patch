@@ -1,0 +1,55 @@
+diff -ruNb origin_plugins/cordova-plugin-geolocation/www/Position.js plugins/cordova-plugin-geolocation/www/Position.js
+--- origin_plugins/cordova-plugin-geolocation/www/Position.js	null
++++ plugins/cordova-plugin-geolocation/www/Position.js	null
+@@ -19,6 +19,10 @@
+  *
+ */
+
++/**
++* @exports Position
++*/
++
+ var Coordinates = require('./Coordinates');
+
+ var Position = function (coords, timestamp) {
+diff -ruNb origin_plugins/cordova-plugin-geolocation/www/geolocation.js plugins/cordova-plugin-geolocation/www/geolocation.js
+--- origin_plugins/cordova-plugin-geolocation/www/geolocation.js	null
++++ plugins/cordova-plugin-geolocation/www/geolocation.js	null
+@@ -19,6 +19,10 @@
+  *
+ */
+
++/**
++* @exports Geolocation
++*/
++
+ var argscheck = require('cordova/argscheck');
+ var utils = require('cordova/utils');
+ var exec = require('cordova/exec');
+@@ -70,6 +74,8 @@
+ var geolocation = {
+     lastPosition: null, // reference to last known (cached) position returned
+     /**
++   * @function  getCurrentPosition
++   * @description
+    * Asynchronously acquires the current position.
+    *
+    * @param {Function} successCallback    The function to call when the position data is available
+@@ -144,6 +150,8 @@
+         return timeoutTimer;
+     },
+     /**
++     * @function  watchPosition
++     * @description
+      * Asynchronously watches the geolocation for changes to geolocation.  When a change occurs,
+      * the successCallback is called with the new location.
+      *
+@@ -195,6 +203,8 @@
+         return id;
+     },
+     /**
++     * @function  clearWatch
++     * @description
+      * Clears the specified heading watch.
+      *
+      * @param {String} id       The ID of the watch returned from #watchPosition

@@ -1,0 +1,10 @@
+{
+    "locale.language": "native system",
+    "developer.mode": false,
+    "developer.install.verifyDigest": false,
+    "ui.darkmode": true,
+    "chain.network.type": "MainNet",
+    "chain.network.config": "",
+    "chain.network.configurl": "",
+    "did.resolver": "http://api.elastos.io:20606"
+}

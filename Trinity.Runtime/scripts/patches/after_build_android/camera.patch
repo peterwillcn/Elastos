@@ -1,0 +1,232 @@
+diff -ruNb origin_plugins/cordova-plugin-camera/types/index.d.ts plugins/cordova-plugin-camera/types/index.d.ts
+--- origin_plugins/cordova-plugin-camera/types/index.d.ts	null
++++ plugins/cordova-plugin-camera/types/index.d.ts	null
+@@ -6,17 +6,28 @@
+ // Copyright (c) Microsoft Open Technologies Inc
+ // Licensed under the MIT license.
+
+-interface Navigator {
+-    /**
+-     * This plugin provides an API for taking pictures and for choosing images from the system's image library.
+-     */
+-    camera: Camera;
+-}
+-
+ /**
+  * This plugin provides an API for taking pictures and for choosing images from the system's image library.
++ * <br><br>
++ * Please use 'Camera' as the plugin name in the manifest.json if you want to use
++ * this facility.
++ * <br><br>
++ * Usage:
++ * <br>
++ * navigator.camera.getPicture((data)=>{<br>
++ *     this.zone.run(()=>{<br>
++ *        let base64Img = "data:image/png;base64," + data<br>
++ *     })<br>
++ * }, (err)=>{<br>
++ *     console.log(err);<br>
++ * }, {<br>
++ *    destinationType: CordovaCameraPlugin.Camera.DestinationType.DATA_URL,<br>
++ *    sourceType: CordovaCameraPlugin.Camera.PictureSourceType.PHOTOLIBRARY<br>
++ * });<br>
+  */
+-interface Camera {
++
++declare namespace CordovaCameraPlugin {
++    interface Camera {
+     /**
+      * Removes intermediate photos taken by the camera from temporary storage.
+      * @param onSuccess Success callback, that called when cleanup succeeds.
+@@ -41,9 +52,9 @@
+     //    cameraSuccess: (data: string) => void,
+     //    cameraError: (message: string) => void,
+     //    cameraOptions?: CameraOptions): CameraPopoverHandle;
+-}
++    }
+
+-interface CameraOptions {
++    interface CameraOptions {
+     /** Picture quality in range 0-100. Default is 50 */
+     quality?: number;
+     /**
+@@ -104,24 +115,24 @@
+     cameraDirection?: number;
+     /** iOS-only options that specify popover location in iPad. Defined in CameraPopoverOptions. */
+     popoverOptions?: CameraPopoverOptions;
+-}
++    }
+
+-/**
++    /**
+  * A handle to the popover dialog created by navigator.camera.getPicture. Used on iOS only.
+  */
+-interface CameraPopoverHandle {
++    interface CameraPopoverHandle {
+     /**
+      * Set the position of the popover.
+      * @param popoverOptions the CameraPopoverOptions that specify the new position.
+      */
+     setPosition(popoverOptions: CameraPopoverOptions): void;
+-}
++    }
+
+-/**
++    /**
+  * iOS-only parameters that specify the anchor element location and arrow direction
+  * of the popover when selecting images from an iPad's library or album.
+  */
+-interface CameraPopoverOptions {
++    interface CameraPopoverOptions {
+     x: number;
+     y: number;
+     width: number;
+@@ -135,16 +146,16 @@
+      *      ARROW_RIGHT : 8,
+      *      ARROW_ANY : 15
+      */
+-    arrowDir : number;
++        arrowDir: number;
+     popoverWidth: number;
+     popoverHeight: number;
+-}
++    }
+
+-declare class CameraPopoverOptions implements CameraPopoverOptions {
++    class CameraPopoverOptions implements CameraPopoverOptions {
+     constructor(x?: number, y?: number, width?: number, height?: number, arrowDir?: number);
+-}
++    }
+
+-declare var Camera: {
++    let Camera: {
+     // Camera constants, defined in Camera plugin
+     DestinationType: {
+         DATA_URL: number;
+@@ -177,4 +188,12 @@
+         ARROW_RIGHT: number;
+         ARROW_ANY: number;
+     }
+-};
++    };
++}
++
++interface Navigator {
++    /**
++     * This plugin provides an API for taking pictures and for choosing images from the system's image library.
++     */
++    camera: CordovaCameraPlugin.Camera;
++}
+\ No newline at end of file
+diff -ruNb origin_plugins/cordova-plugin-camera/www/Camera.js plugins/cordova-plugin-camera/www/Camera.js
+--- origin_plugins/cordova-plugin-camera/www/Camera.js	null
++++ plugins/cordova-plugin-camera/www/Camera.js	null
+@@ -26,11 +26,7 @@
+ // CameraPopoverHandle = require('./CameraPopoverHandle');
+
+ /**
+- * @namespace navigator
+- */
+-
+-/**
+- * @exports camera
++ * @exports Camera
+  */
+ var cameraExport = {};
+
+@@ -41,13 +37,13 @@
+
+ /**
+  * Callback function that provides an error message.
+- * @callback module:camera.onError
++ * @callback module:Camera.onError
+  * @param {string} message - The message is provided by the device's native code.
+  */
+
+ /**
+  * Callback function that provides the image data.
+- * @callback module:camera.onSuccess
++ * @callback module:Camera.onSuccess
+  * @param {string} imageData - Base64 encoding of the image data, _or_ the image file URI, depending on [`cameraOptions`]{@link module:camera.CameraOptions} in effect.
+  * @example
+  * // Show image
+@@ -61,7 +57,7 @@
+ /**
+  * Optional parameters to customize the camera settings.
+  * * [Quirks](#CameraOptions-quirks)
+- * @typedef module:camera.CameraOptions
++ * @typedef module:Camera.CameraOptions
+  * @type {Object}
+  * @property {number} [quality=50] - Quality of the saved image, expressed as a range of 0-100, where 100 is typically full resolution with no loss from file compression. (Note that information about the camera's resolution is unavailable.)
+  * @property {module:Camera.DestinationType} [destinationType=FILE_URI] - Choose the format of the return value.
+@@ -91,7 +87,7 @@
+  * `Camera.PictureSourceType.SAVEDPHOTOALBUM`, then a dialog displays
+  * that allows users to select an existing image.
+  *
+- * The return value is sent to the [`cameraSuccess`]{@link module:camera.onSuccess} callback function, in
++ * The return value is sent to the [`cameraSuccess`]{@link module:Camera.onSuccess} callback function, in
+  * one of the following formats, depending on the specified
+  * `cameraOptions`:
+  *
+@@ -127,9 +123,9 @@
+  *
+  * @example
+  * navigator.camera.getPicture(cameraSuccess, cameraError, cameraOptions);
+- * @param {module:camera.onSuccess} successCallback
+- * @param {module:camera.onError} errorCallback
+- * @param {module:camera.CameraOptions} options CameraOptions
++ * @param {module:Camera.onSuccess} successCallback
++ * @param {module:Camera.onError} errorCallback
++ * @param {module:Camera.CameraOptions} options CameraOptions
+  */
+ cameraExport.getPicture = function (successCallback, errorCallback, options) {
+     argscheck.checkArgs('fFO', 'Camera.getPicture', arguments);
+@@ -159,7 +155,7 @@
+
+ /**
+  * Removes intermediate image files that are kept in temporary storage
+- * after calling [`camera.getPicture`]{@link module:camera.getPicture}. Applies only when the value of
++ * after calling [`camera.getPicture`]{@link module:Camera.getPicture}. Applies only when the value of
+  * `Camera.sourceType` equals `Camera.PictureSourceType.CAMERA` and the
+  * `Camera.destinationType` equals `Camera.DestinationType.FILE_URI`.
+  *
+diff -ruNb origin_plugins/cordova-plugin-camera/www/CameraConstants.js plugins/cordova-plugin-camera/www/CameraConstants.js
+--- origin_plugins/cordova-plugin-camera/www/CameraConstants.js	null
++++ plugins/cordova-plugin-camera/www/CameraConstants.js	null
+@@ -20,7 +20,7 @@
+ */
+
+ /**
+- * @module Camera
++ * @module CameraConstants
+  */
+ module.exports = {
+     /**
+diff -ruNb origin_plugins/cordova-plugin-camera/www/CameraPopoverOptions.js plugins/cordova-plugin-camera/www/CameraPopoverOptions.js
+--- origin_plugins/cordova-plugin-camera/www/CameraPopoverOptions.js	null
++++ plugins/cordova-plugin-camera/www/CameraPopoverOptions.js	null
+@@ -22,10 +22,6 @@
+ var Camera = require('./Camera');
+
+ /**
+- * @namespace navigator
+- */
+-
+-/**
+  * iOS-only parameters that specify the anchor element location and arrow
+  * direction of the popover when selecting images from an iPad's library
+  * or album.
+diff -ruNb origin_plugins/cordova-plugin-camera/www/ios/CameraPopoverHandle.js plugins/cordova-plugin-camera/www/ios/CameraPopoverHandle.js
+--- origin_plugins/cordova-plugin-camera/www/ios/CameraPopoverHandle.js	null
++++ plugins/cordova-plugin-camera/www/ios/CameraPopoverHandle.js	null
+@@ -22,10 +22,6 @@
+ var exec = require('cordova/exec');
+
+ /**
+- * @namespace navigator
+- */
+-
+-/**
+  * A handle to an image picker popover.
+  *
+  * __Supported Platforms__

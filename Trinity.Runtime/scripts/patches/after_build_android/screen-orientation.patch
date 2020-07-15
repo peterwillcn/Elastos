@@ -1,0 +1,11 @@
+diff -ruNb origin_plugins/cordova-plugin-screen-orientation/www/screenorientation.js plugins/cordova-plugin-screen-orientation/www/screenorientation.js
+--- origin_plugins/cordova-plugin-screen-orientation/www/screenorientation.js	null
++++ plugins/cordova-plugin-screen-orientation/www/screenorientation.js	null
+@@ -151,4 +151,7 @@
+ }
+ window.addEventListener("orientationchange", orientationchange, true);
+
++/**
++ * @exports ScreenOrientation
++ */
+ module.exports = screenOrientation;

@@ -1,0 +1,73 @@
+===================================================================
+--- origin_platforms/android/CordovaLib/src/org/apache/cordova/PluginEntry.java	null
++++ platforms/android/CordovaLib/src/org/apache/cordova/PluginEntry.java	null
+@@ -61,7 +61,7 @@
+         this(service, pluginClass, onload, null);
+     }
+
+-    private PluginEntry(String service, String pluginClass, boolean onload, CordovaPlugin plugin) {
++    public PluginEntry(String service, String pluginClass, boolean onload, CordovaPlugin plugin) {
+         this.service = service;
+         this.pluginClass = pluginClass;
+         this.onload = onload;
+===================================================================
+--- origin_platforms/android/CordovaLib/src/org/apache/cordova/Whitelist.java	null
++++ platforms/android/CordovaLib/src/org/apache/cordova/Whitelist.java	null
+@@ -29,7 +29,7 @@
+ import android.net.Uri;
+
+ public class Whitelist {
+-    private static class URLPattern {
++    protected static class URLPattern {
+         public Pattern scheme;
+         public Pattern host;
+         public Integer port;
+===================================================================
+--- origin_platforms/android/CordovaLib/src/org/apache/cordova/CordovaPlugin.java	null
++++ platforms/android/CordovaLib/src/org/apache/cordova/CordovaPlugin.java	null
+@@ -48,7 +48,8 @@
+      * Call this after constructing to initialize the plugin.
+      * Final because we want to be able to change args without breaking plugins.
+      */
+-    public final void privateInitialize(String serviceName, CordovaInterface cordova, CordovaWebView webView, CordovaPreferences preferences) {
++    public void privateInitialize(String serviceName, CordovaInterface cordova,
++                                  CordovaWebView webView, CordovaPreferences preferences) {
+         assert this.cordova == null;
+         this.serviceName = serviceName;
+         this.cordova = cordova;
+===================================================================
+--- origin_platforms/android/CordovaLib/src/org/apache/cordova/PluginManager.java	null
++++ platforms/android/CordovaLib/src/org/apache/cordova/PluginManager.java	null
+@@ -194,10 +194,11 @@
+      */
+     public void addService(PluginEntry entry) {
+         this.entryMap.put(entry.service, entry);
+-        if (entry.plugin != null) {
+-            entry.plugin.privateInitialize(entry.service, ctx, app, app.getPreferences());
+-            pluginMap.put(entry.service, entry.plugin);
+-        }
++//Trinity::
++//        if (entry.plugin != null) {
++//            entry.plugin.privateInitialize(entry.service, ctx, app, app.getPreferences());
++//            pluginMap.put(entry.service, entry.plugin);
++//        }
+     }
+===================================================================
+--- origin_platforms/android/CordovaLib/src/org/apache/cordova/CordovaWebViewImpl.java	null
++++ platforms/android/CordovaLib/src/org/apache/cordova/CordovaWebViewImpl.java	null
+@@ -236,9 +236,15 @@
+             } else {
+                 intent.setData(uri);
+             }
++            if (intent.resolveActivity(cordova.getActivity().getPackageManager()) != null) {
+             cordova.getActivity().startActivity(intent);
++            } else {
++                LOG.e(TAG, "showWebPage: Error loading url " + url + " no activity found");
++                throw new android.content.ActivityNotFoundException("Error loading url " + url + " no activity found");
++            }
+         } catch (android.content.ActivityNotFoundException e) {
+             LOG.e(TAG, "Error loading url " + url, e);
++            throw new android.content.ActivityNotFoundException("Error loading url " + url + " no activity found");
+         }
+     }
+

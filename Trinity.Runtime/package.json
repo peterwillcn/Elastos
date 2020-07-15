@@ -1,0 +1,108 @@
+{
+  "name": "org.elastos.trinity.runtime",
+  "displayName": "elastOS",
+  "version": "1.0.0",
+  "description": "The elastOS dApp browser",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Elastos Trinity Team",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "appmanager": "file:./plugin_src/AppManager",
+    "titlebarmanager": "file:./plugin_src/TitleBarManager",
+    "didsessionmanager": "file:./plugin_src/DIDSessionManager",
+    "passwordmanager": "file:./plugin_src/PasswordManager",
+    "notificationmanager": "file:./plugin_src/NotificationManager",
+    "contactnotifier": "file:./plugin_src/ContactNotifier",
+    "cordova-android": "8.1.0",
+    "cordova-clipboard": "1.2.1",
+    "cordova-ios": "5.1.1",
+    "cordova-plugin-add-swift-support": "^2.0.2",
+    "cordova-plugin-battery-status": "^2.0.3",
+    "cordova-plugin-camera": "^4.1.0",
+    "cordova-plugin-device": "^2.0.3",
+    "cordova-plugin-device-motion": "^2.0.1",
+    "cordova-plugin-dialogs": "^2.0.2",
+    "cordova-plugin-file": "file:../Plugins/File",
+    "cordova-plugin-flashlight": "^3.2.0",
+    "cordova-plugin-geolocation": "^4.0.2",
+    "cordova-plugin-inappbrowser": "^3.1.0",
+    "cordova-plugin-ionic-keyboard": "^2.1.3",
+    "cordova-plugin-media-capture": "^3.0.3",
+    "cordova-plugin-network-information": "^2.0.2",
+    "cordova-plugin-screen-orientation": "^3.0.2",
+    "cordova-plugin-splashscreen": "^5.0.3",
+    "cordova-plugin-statusbar": "^2.4.3",
+    "cordova-plugin-vibration": "^3.1.1",
+    "cordova-plugin-whitelist": "^1.3.3",
+    "did": "file:../Plugins/DID",
+    "diff": "^3.5.0",
+    "elastos-trinity-plugins-carrier": "file:../Plugins/Carrier",
+    "elastos-trinity-plugins-fingerprint": "file:../Plugins/Fingerprint",
+    "elastos-trinity-plugins-hive": "file:../Plugins/Hive",
+    "elastos-trinity-plugins-ionicwebview": "file:../Plugins/IonicWebView",
+    "elastos-trinity-plugins-media": "file:../Plugins/Media",
+    "elastos-trinity-plugins-qrscanner": "file:../Plugins/QRScanner",
+    "es6-promise-plugin": "^4.2.2",
+    "fs": "0.0.1-security",
+    "md5-file": "^4.0.0",
+    "mkdirp": "^0.5.1",
+    "node-wget-promise": "^0.1.6",
+    "path": "^0.12.7",
+    "wallet": "file:../Plugins/Wallet",
+    "xcode": "^1.1.0",
+    "yauzl": "^2.10.0"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-file": {},
+      "elastos-trinity-plugins-ionicwebview": {
+        "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
+      },
+      "elastos-trinity-plugins-media": {
+        "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO"
+      },
+      "cordova-plugin-ionic-keyboard": {},
+      "cordova-plugin-camera": {
+        "ANDROID_SUPPORT_V4_VERSION": "27.+"
+      },
+      "cordova-clipboard": {},
+      "cordova-plugin-battery-status": {},
+      "cordova-plugin-device": {},
+      "cordova-plugin-dialogs": {},
+      "cordova-plugin-device-motion": {},
+      "cordova-plugin-flashlight": {},
+      "cordova-plugin-inappbrowser": {},
+      "elastos-trinity-plugins-qrscanner": {},
+      "cordova-plugin-media-capture": {},
+      "cordova-plugin-network-information": {},
+      "cordova-plugin-geolocation": {},
+      "cordova-plugin-screen-orientation": {},
+      "cordova-plugin-splashscreen": {},
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-vibration": {},
+      "elastos-trinity-plugins-carrier": {},
+      "elastos-trinity-plugins-hive": {},
+      "elastos-trinity-plugins-wallet": {},
+      "elastos-trinity-plugins-did": {},
+      "elastos-trinity-plugins-appmanager": {
+        "ANDROID_SUPPORT_V4_VERSION": "27.+"
+      },
+      "elastos-trinity-plugins-fingerprint": {
+        "FACEID_USAGE_DESCRIPTION": " "
+      },
+      "elastos-trinity-plugins-titlebarmanager": {},
+      "elastos-trinity-plugins-didsessionmanager": {},
+      "elastos-trinity-plugins-passwordmanager": {},
+      "elastos-trinity-plugins-notificationmanager": {},
+      "elastos-trinity-plugins-contactnotifier": {}
+    },
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  }
+}

@@ -1,0 +1,194 @@
+diff -ruNb origin_plugins/cordova-plugin-media-capture/types/index.d.ts plugins/cordova-plugin-media-capture/types/index.d.ts
+--- origin_plugins/cordova-plugin-media-capture/types/index.d.ts	null
++++ plugins/cordova-plugin-media-capture/types/index.d.ts	null
+@@ -6,16 +6,23 @@
+ // Copyright (c) Microsoft Open Technologies Inc
+ // Licensed under the MIT license
+ 
+-interface Navigator {
+-    device: Device;
+-}
++/**
++ * This plugin provides access to the device's audio, image, and video capture capabilities.
++ * <br><br>
++ * Please use 'Capture' as the plugin name in the manifest.json if you want to use
++ * this facility.
++ * <br><br>
++ * Usage:
++ * <br>
++ * navigator.device.capture.captureImage(success, error, {limit:2});
++ */
+ 
+-interface Device {
++declare namespace CordovaMediaCapturePlugin {
++    interface Device {
+     capture: Capture;
+-}
++    }
+ 
+-/** This plugin provides access to the device's audio, image, and video capture capabilities. */
+-interface Capture {
++    interface Capture {
+     /**
+      * Start the audio recorder application and return information about captured audio clip files.
+      * @param onSuccess Executes when the capture operation finishes with an array
+@@ -27,7 +34,7 @@
+     captureAudio(
+             onSuccess: (mediaFiles: MediaFile[]) => void,
+             onError: (error: CaptureError) => void,
+-            options?: AudioOptions): void ;
++            options?: AudioOptions): void;
+     /**
+      * Start the camera application and return information about captured image files.
+      * @param onSuccess Executes when the capture operation finishes with an array
+@@ -39,7 +46,7 @@
+     captureImage(
+             onSuccess: (mediaFiles: MediaFile[]) => void,
+             onError: (error: CaptureError) => void,
+-            options?: ImageOptions): void ;
++            options?: ImageOptions): void;
+     /**
+      * Start the video recorder application and return information about captured video clip files.
+      * @param onSuccess Executes when the capture operation finishes with an array
+@@ -51,17 +58,17 @@
+     captureVideo(
+             onSuccess: (mediaFiles: MediaFile[]) => void,
+             onError: (error: CaptureError) => void,
+-            options?: VideoOptions): void ;
++            options?: VideoOptions): void;
+     /** The audio recording formats supported by the device. */
+     supportedAudioModes: ConfigurationData[];
+     /** The recording image sizes and formats supported by the device. */
+     supportedImageModes: ConfigurationData[];
+     /** The recording video resolutions and formats supported by the device. */
+     supportedVideoModes: ConfigurationData[];
+-}
++    }
+ 
+-/** Encapsulates properties of a media capture file. */
+-interface MediaFile {
++    /** Encapsulates properties of a media capture file. */
++    interface MediaFile {
+     /** The name of the file, without path information. */
+     name: string;
+     /** The full path of the file, including the name. */
+@@ -80,10 +87,10 @@
+     getFormatData(
+         successCallback: (data: MediaFileData) => void,
+         errorCallback?: () => void): void;
+-}
++    }
+ 
+-/** Encapsulates format information about a media file. */
+-interface MediaFileData {
++    /** Encapsulates format information about a media file. */
++    interface MediaFileData {
+     /** The actual format of the audio and video content. */
+     codecs: string;
+     /** The average bitrate of the content. The value is zero for images. */
+@@ -94,10 +101,10 @@
+     width: number;
+     /** The length of the video or sound clip in seconds. The value is zero for images. */
+     duration: number;
+-}
++    }
+ 
+-/** Encapsulates the error code resulting from a failed media capture operation. */
+-interface CaptureError {
++    /** Encapsulates the error code resulting from a failed media capture operation. */
++    interface CaptureError {
+     /**
+      * One of the pre-defined error codes listed below.
+      *     CaptureError.CAPTURE_INTERNAL_ERR
+@@ -113,21 +120,21 @@
+      */
+     code: number;
+     message: string;
+-}
++    }
+ 
+-declare var CaptureError: {
++    let CaptureError: {
+     /** Constructor for CaptureError  */
+-    new (code: number, message: string): CaptureError;
++        new(code: number, message: string): CaptureError;
+     CAPTURE_INTERNAL_ERR: number;
+     CAPTURE_APPLICATION_BUSY: number;
+     CAPTURE_INVALID_ARGUMENT: number;
+     CAPTURE_NO_MEDIA_FILES: number;
+     CAPTURE_NOT_SUPPORTED: number;
+     CAPTURE_PERMISSION_DENIED: number;
+-}
++    }
+ 
+-/** Encapsulates audio capture configuration options. */
+-interface AudioOptions {
++    /** Encapsulates audio capture configuration options. */
++    interface AudioOptions {
+     /**
+      * The maximum number of audio clips the device's user can capture in a single
+      * capture operation. The value must be greater than or equal to 1.
+@@ -135,19 +142,19 @@
+     limit?: number;
+     /** The maximum duration of a audio clip, in seconds. */
+     duration?: number;
+-}
++    }
+ 
+-/** Encapsulates image capture configuration options. */
+-interface ImageOptions {
++    /** Encapsulates image capture configuration options. */
++    interface ImageOptions {
+     /**
+      * The maximum number of images the user can capture in a single capture operation.
+      * The value must be greater than or equal to 1 (defaults to 1).
+      */
+     limit?: number;
+-}
++    }
+ 
+-/** Encapsulates video capture configuration options. */
+-interface VideoOptions {
++    /** Encapsulates video capture configuration options. */
++    interface VideoOptions {
+     /**
+      * The maximum number of video clips the device's user can capture in a single
+      * capture operation. The value must be greater than or equal to 1.
+@@ -155,14 +162,19 @@
+     limit?: number;
+     /** The maximum duration of a video clip, in seconds. */
+     duration?: number;
+-}
++    }
+ 
+-/** Encapsulates a set of media capture parameters that a device supports. */
+-interface ConfigurationData {
++    /** Encapsulates a set of media capture parameters that a device supports. */
++    interface ConfigurationData {
+     /** The ASCII-encoded lowercase string representing the media type. */
+     type: string;
+     /** The height of the image or video in pixels. The value is zero for sound clips. */
+     height: number;
+     /** The width of the image or video in pixels. The value is zero for sound clips. */
+     width: number;
++    }
++}
++
++interface Navigator {
++    device: CordovaMediaCapturePlugin.Device;
+ }
+\ No newline at end of file
+diff -ruNb origin_plugins/cordova-plugin-media-capture/www/capture.js plugins/cordova-plugin-media-capture/www/capture.js
+--- origin_plugins/cordova-plugin-media-capture/www/capture.js	null
++++ plugins/cordova-plugin-media-capture/www/capture.js	null
+@@ -19,6 +19,10 @@
+  *
+ */
+ 
++/**
++ * @exports Capture
++ */
++
+ var exec = require('cordova/exec');
+ var helpers = require('./helpers');
+ 

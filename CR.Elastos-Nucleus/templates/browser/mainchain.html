@@ -1,0 +1,26 @@
+{% extends "browser.html" %} 
+{% load static %}
+{% load mathfilters %}
+
+{% block title %}
+<title>Mainchain Browser - Elastos Nucleus</title>
+{% endblock title %} 
+
+{% block browsertitle %}
+<h5 class="card-header">Mainchain Browser</h5>
+{% endblock browsertitle %} 
+
+{% block browser %}
+    <form  class="form-group" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Switch</button>
+    </form>
+    <p>Current Height: {{ current_height }}</p>
+    <p>Previous Block Hash: {{ current_block_info.previousblockhash }}</p>
+    <p>Current Block Hash: {{ current_block_info.hash }}</p>
+    <p>Current Miner: {{ current_block_info.minerinfo }}</p>
+    <p>Current Validator: {{ current_block_confirm.sponsor }}</p>
+    <p>Current Difficulty: {{ current_mining_info.difficulty }}</p>
+    <p>Current Hash Rate: {{ current_mining_info.networkhashps|floatformat|div:1000000000000000000 }} EH/s</p>
+{% endblock browser %}
